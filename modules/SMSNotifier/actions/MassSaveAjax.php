@@ -20,7 +20,8 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 	public function checkPermission(\App\Request $request)
 	{
 		$sourceModule = $request->get('source_module');
-		if (!\App\Privilege::isPermitted($sourceModule, 'CreateView') || !\App\Privilege::isPermitted($sourceModule, 'MassSendSMS') || !SMSNotifier_Module_Model::checkServer()) {
+		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'CreateView') || !$currentUserPriviligesModel->hasModuleActionPermission($sourceModule, 'MassSendSMS') || !SMSNotifier_Module_Model::checkServer()) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}

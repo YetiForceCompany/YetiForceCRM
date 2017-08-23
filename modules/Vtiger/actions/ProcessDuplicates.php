@@ -12,16 +12,21 @@
 class Vtiger_ProcessDuplicates_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * Check Permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$module = $request->getModule();
-		$records = $request->get('records');
-		if ($records) {
-			foreach ($records as $record) {
-				$recordPermission = Users_Privileges_Model::isPermitted($module, 'EditView', $record);
-				if (!$recordPermission) {
-					throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
-				}
+		$moduleName = $request->getModule();
+		if (!\App\Privilege::isPermitted($moduleName, 'DuplicatesHandling', $request->getInteger('primaryRecord'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
+		$records = $request->getArray('records');
+		foreach ($records as $record) {
+			if (!\App\Privilege::isPermitted($moduleName, 'EditView', $record)) {
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 			}
 		}
 	}
@@ -30,8 +35,8 @@ class Vtiger_ProcessDuplicates_Action extends Vtiger_Action_Controller
 	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$records = $request->get('records');
-		$primaryRecord = $request->get('primaryRecord');
+		$records = $request->getArray('records');
+		$primaryRecord = $request->getInteger('primaryRecord');
 		$primaryRecordModel = Vtiger_Record_Model::getInstanceById($primaryRecord, $moduleName);
 
 		$fields = $moduleModel->getFields();

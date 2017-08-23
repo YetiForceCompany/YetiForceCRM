@@ -47,15 +47,14 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 	/**
 	 * Function to display the UI for advance search on any of the module
 	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function showAdvancedSearch(\App\Request $request)
 	{
 		//Modules for which search is excluded
 		$excludedModuleForSearch = array('Vtiger', 'Reports');
-
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-
 		if ($request->get('source_module')) {
 			$moduleName = $request->get('source_module');
 		}
@@ -75,6 +74,9 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		$customViewModel = new CustomView_Record_Model();
 		$customViewModel->setModule($moduleName);
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($moduleName)) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		}
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 
 		$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
@@ -100,13 +102,16 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 	/**
 	 * Function to display the Search Results
 	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function showSearchResults(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$advFilterList = $request->get('advfilterlist');
-
+		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($moduleName)) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		}
 		//used to show the save modify filter option
 		$isAdvanceSearch = false;
 		$matchingRecords = [];

@@ -38,9 +38,7 @@ class Settings_CronTasks_Module_Model extends Settings_Vtiger_Module_Model
 			$caseSequence .= ' WHEN ' . $db->quoteColumnName('id') . ' = ' . $db->quoteValue($recordId) . ' THEN ' . $db->quoteValue($sequence);
 		}
 		$caseSequence .= ' END';
-		$db->createCommand()
-			->update('vtiger_cron_task', ['sequence' => new yii\db\Expression($caseSequence)])
-			->execute();
+		$db->createCommand()->update('vtiger_cron_task', ['sequence' => new yii\db\Expression($caseSequence)])->execute();
 	}
 
 	public function hasCreatePermissions()

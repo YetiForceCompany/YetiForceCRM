@@ -43,15 +43,20 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$this->exposeMethod('showOpenStreetMap');
 	}
 
+	/**
+	 * Check Permission
+	 * @param \App\Request $request
+	 * @return boolean
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
-		if (!is_numeric($recordId)) {
+		$recordId = $request->getInteger('record');
+		if (!$recordId) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordId);
-		if (!$recordPermission) {
+		if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		return true;
@@ -62,7 +67,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		parent::preProcess($request, false);
 
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		if (!$this->record) {
 			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		}
@@ -198,7 +203,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			echo $this->invokeExposedMethod($mode, $request);
 			return;
 		}
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 		if (!$this->record) {
 			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
@@ -218,7 +223,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 	public function postProcess(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 		if (!$this->record) {
 			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
@@ -283,7 +288,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 */
 	public function showModuleDetailView(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 
 		if (!$this->record) {
@@ -311,7 +316,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 	public function showModuleSummaryView(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 
 		if (!$this->record) {
@@ -342,7 +347,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 */
 	public function showModuleBasicView(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 
 		if (!$this->record) {
@@ -382,20 +387,23 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	/**
 	 * Function returns recent changes made on the record
 	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function showRecentActivities(\App\Request $request)
 	{
+		if (!\App\Privilege::isPermitted('ModComments')) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
 		$type = 'changes';
-		$parentRecordId = $request->get('record');
-		$pageNumber = $request->get('page');
-		$limit = $request->get('limit');
+		$parentRecordId = $request->getInteger('record');
+		$pageNumber = $request->getInteger('page');
+		$limit = $request->getInteger('limit');
 		$whereCondition = $request->get('whereCondition');
 		$moduleName = $request->getModule();
 
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
 		}
-
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 		if (!empty($limit)) {
@@ -415,7 +423,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		} else {
 			$pagingModel->set('nextPageExists', true);
 		}
-		if ($type == 'changes') {
+		if ($type === 'changes') {
 			$newChange = $request->has('newChange') ? $request->get('newChange') : ModTracker_Record_Model::isNewChange($parentRecordId);
 		}
 		$viewer = $this->getViewer($request);
@@ -444,18 +452,20 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * Function returns latest comments
 	 * @param \App\Request $request
 	 * @return <type>
+	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function showRecentComments(\App\Request $request)
 	{
-		$parentId = $request->get('record');
-		$pageNumber = $request->get('page');
-		$limit = $request->get('limit');
+		if (!\App\Privilege::isPermitted('ModComments')) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
+		$parentId = $request->getInteger('record');
+		$pageNumber = $request->getInteger('page');
+		$limit = $request->getInteger('limit');
 		$moduleName = $request->getModule();
-
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
 		}
-
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 		if (!empty($limit)) {
@@ -481,13 +491,16 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * Function returns related records
 	 * @param \App\Request $request
 	 * @return <type>
+	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function showRelatedList(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->get('relatedModule');
 		$targetControllerClass = null;
-
+		if (!\App\Privilege::isPermitted($relatedModuleName)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
 		// Added to support related list view from the related module, rather than the base module.
 		if (!$targetControllerClass = Vtiger_Loader::getComponentClassName('View', 'In' . $moduleName . 'Relation', $relatedModuleName, false)) {
 			// If any module wants to have same view for all the relation, then invoke this.
@@ -506,10 +519,14 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * Function sends the child comments for a comment
 	 * @param \App\Request $request
 	 * @return mixed
+	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function showChildComments(\App\Request $request)
 	{
-		$parentCommentId = $request->get('commentid');
+		if (!\App\Privilege::isPermitted('ModComments')) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
+		$parentCommentId = $request->getInteger('commentid');
 		$parentCommentModel = Vtiger_Record_Model::getInstanceById($parentCommentId);
 		$childComments = $parentCommentModel->getChildComments();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -528,11 +545,15 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * Function send all the comments in thead
 	 * @param \App\Request $request
 	 * @return mixed
+	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function showThreadComments(\App\Request $request)
 	{
-		$parentRecordId = $request->get('record');
-		$commentRecordId = $request->get('commentid');
+		if (!\App\Privilege::isPermitted('ModComments')) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
+		$parentRecordId = $request->getInteger('record');
+		$commentRecordId = $request->getInteger('commentid');
 		$moduleName = $request->getModule();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$parentCommentModels = ModComments_Record_Model::getAllParentComments($parentRecordId);
@@ -550,11 +571,15 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * Function sends all the comments for a parent(Accounts, Contacts etc)
 	 * @param \App\Request $request
 	 * @return mixed
+	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function showAllComments(\App\Request $request)
 	{
-		$parentRecordId = $request->get('record');
-		$commentRecordId = $request->get('commentid');
+		if (!\App\Privilege::isPermitted('ModComments')) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
+		$parentRecordId = $request->getInteger('record');
+		$commentRecordId = $request->getInteger('commentid');
 		$hierarchy = [];
 		if ($request->has('hierarchy')) {
 			$hierarchy = explode(',', $request->get('hierarchy'));
@@ -604,80 +629,85 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * Function to get activities
 	 * @param \App\Request $request
 	 * @return <List of activity models>
+	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function getActivities(\App\Request $request)
 	{
 		$moduleName = 'Calendar';
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if ($currentUserPriviligesModel->hasModulePermission($moduleName)) {
-			$moduleName = $request->getModule();
-			$recordId = $request->get('record');
-			$pageNumber = $request->get('page');
-			$pageLimit = $request->get('limit');
-			$sortOrder = $request->get('sortorder');
-			$orderBy = $request->get('orderby');
-			$type = $request->get('type');
-			if (empty($pageNumber)) {
-				$pageNumber = 1;
-			}
-			$pagingModel = new Vtiger_Paging_Model();
-			$pagingModel->set('page', $pageNumber);
-			$pagingModel->set('orderby', $orderBy);
-			$pagingModel->set('sortorder', $sortOrder);
-			if (!$request->isEmpty('totalCount')) {
-				$pagingModel->set('totalCount', $request->get('totalCount'));
-			}
-			if (!empty($pageLimit)) {
-				$pagingModel->set('limit', $pageLimit);
-			} else {
-				$pagingModel->set('limit', 10);
-			}
-			if (!$this->record) {
-				$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
-			}
-			$recordModel = $this->record->getRecord();
-			$moduleModel = $recordModel->getModule();
-
-			$relatedActivities = $moduleModel->getCalendarActivities($type, $pagingModel, 'all', $recordId);
-
-			$colorList = [];
-			foreach ($relatedActivities as $activityModel) {
-				$colorList[$activityModel->getId()] = Settings_DataAccess_Module_Model::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
-			}
-			$viewer = $this->getViewer($request);
-			$viewer->assign('RECORD', $recordModel);
-			$viewer->assign('COLOR_LIST', $colorList);
-			$viewer->assign('MODULE_NAME', $moduleName);
-			$viewer->assign('PAGING_MODEL', $pagingModel);
-			$viewer->assign('PAGE_NUMBER', $pageNumber);
-			$viewer->assign('ACTIVITIES', $relatedActivities);
-			$viewer->assign('DATA_TYPE', $type);
-			$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
-			return $viewer->view('RelatedActivities.tpl', $moduleName, true);
+		if (!$currentUserPriviligesModel->hasModulePermission($moduleName)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
+		$moduleName = $request->getModule();
+		$recordId = $request->getInteger('record');
+		$pageNumber = $request->getInteger('page');
+		$pageLimit = $request->getInteger('limit');
+		$sortOrder = $request->get('sortorder');
+		$orderBy = $request->get('orderby');
+		$type = $request->get('type');
+		if (empty($pageNumber)) {
+			$pageNumber = 1;
+		}
+		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel->set('page', $pageNumber);
+		$pagingModel->set('orderby', $orderBy);
+		$pagingModel->set('sortorder', $sortOrder);
+		if (!$request->isEmpty('totalCount')) {
+			$pagingModel->set('totalCount', $request->getInteger('totalCount'));
+		}
+		if (!empty($pageLimit)) {
+			$pagingModel->set('limit', $pageLimit);
+		} else {
+			$pagingModel->set('limit', 10);
+		}
+		if (!$this->record) {
+			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+		}
+		$recordModel = $this->record->getRecord();
+		$moduleModel = $recordModel->getModule();
+
+		$relatedActivities = $moduleModel->getCalendarActivities($type, $pagingModel, 'all', $recordId);
+
+		$colorList = [];
+		foreach ($relatedActivities as $activityModel) {
+			$colorList[$activityModel->getId()] = Settings_DataAccess_Module_Model::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
+		}
+		$viewer = $this->getViewer($request);
+		$viewer->assign('RECORD', $recordModel);
+		$viewer->assign('COLOR_LIST', $colorList);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('PAGING_MODEL', $pagingModel);
+		$viewer->assign('PAGE_NUMBER', $pageNumber);
+		$viewer->assign('ACTIVITIES', $relatedActivities);
+		$viewer->assign('DATA_TYPE', $type);
+		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+		return $viewer->view('RelatedActivities.tpl', $moduleName, true);
 	}
 
 	/**
 	 * Function returns related records based on related moduleName
 	 * @param \App\Request $request
 	 * @return <type>
+	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function showRelatedRecords(\App\Request $request)
 	{
-		$parentId = $request->get('record');
-		$pageNumber = $request->get('page');
-		$limit = $request->get('limit');
+		$parentId = $request->getInteger('record');
+		$pageNumber = $request->getInteger('page');
+		$limit = $request->getInteger('limit');
 		$searchParams = $request->get('search_params');
 		$relatedModuleName = $request->get('relatedModule');
 		$orderBy = $request->get('orderby');
 		$sortOrder = $request->get('sortorder');
 		$columns = $request->get('col');
 		$moduleName = $request->getModule();
-		$totalCount = $request->get('totalCount');
+		$totalCount = $request->getInteger('totalCount');
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
 		}
-
+		if (!\App\Privilege::isPermitted($relatedModuleName)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 		if (!empty($limit)) {
@@ -776,9 +806,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	public function showRelatedTree(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$parentId = $request->get('record');
+		$parentId = $request->getInteger('record');
 		$relatedModuleName = $request->get('relatedModule');
-
+		if (!\App\Privilege::isPermitted($relatedModuleName)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
 		$relationModel = $relationListView->getRelationModel();
@@ -801,9 +833,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 	public function showRelatedProductsServices(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
-
 		if (!$this->record) {
 			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		}
@@ -841,8 +872,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 */
 	public function showRecentRelation(\App\Request $request)
 	{
-		$pageNumber = $request->get('page');
-		$limitPage = $request->get('limit');
+		$pageNumber = $request->getInteger('page');
+		$limitPage = $request->getInteger('limit');
 		$moduleName = $request->getModule();
 
 		if (empty($pageNumber)) {
@@ -858,7 +889,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$histories = Vtiger_HistoryRelation_Widget::getHistory($request, $pagingModel);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('RECORD_ID', $request->get('record'));
+		$viewer->assign('RECORD_ID', $request->getInteger('record'));
 		$viewer->assign('HISTORIES', $histories);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('POPUP', $config['popup']);
@@ -870,8 +901,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 	public function showOpenStreetMap($request)
 	{
+		if (!\App\Privilege::isPermitted('OpenStreetMap')) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$coordinateModel = OpenStreetMap_Coordinate_Model::getInstance();
 		$coordinates = $coordinateModel->readCoordinates($recordId);
 		$viewer = $this->getViewer($request);
