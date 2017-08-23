@@ -16,15 +16,9 @@ class LowTasks
 	public function process($instance)
 	{
 
-		\App\Log::trace("Entering LowTasks::process() method ...");
-		$adb = PearDatabase::getInstance();
-		$query = 'SELECT COUNT(projecttaskid) as count 
-				FROM vtiger_projecttask
-						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_projecttask.projecttaskid
-						WHERE vtiger_projecttask.projectid = ? && vtiger_projecttask.projecttaskpriority = ? && vtiger_crmentity.deleted=0';
-		$result = $adb->pquery($query, array($instance->getId(), 'low'));
-		$count = $adb->query_result($result, 0, 'count');
-		\App\Log::trace("Exiting LowTasks::process() method ...");
+		\App\Log::trace('Entering LowTasks::process() method ...');
+		$count = (new App\Db\Query())->from('vtiger_projecttask')->innerJoin('vtiger_crmentity', 'vtiger_projecttask.projecttaskid = vtiger_crmentity.crmid')->where(['vtiger_projecttask.projectid' => $instance->getId(), 'vtiger_projecttask.projecttaskpriority' => 'low', 'vtiger_crmentity.deleted' => 0])->count();
+		\App\Log::trace('Exiting LowTasks::process() method ...');
 		return $count;
 	}
 }
