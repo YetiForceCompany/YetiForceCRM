@@ -41,7 +41,7 @@ class OSSMailView_MassDelete_Action extends Vtiger_Mass_Action
 		foreach ($recordIds as $recordId) {
 			if (Users_Privileges_Model::isPermitted($moduleName, 'Delete', $recordId)) {
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName); // YTfixme: not 100% sure thats whats expected
-				$recordModel->delete_rel($recordId);
+				$recordModel->deleteRel($recordId);
 				$recordModel->delete();
 			} else {
 				$permission = false;

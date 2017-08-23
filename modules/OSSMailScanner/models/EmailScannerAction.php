@@ -22,10 +22,10 @@ class OSSMailScanner_EmailScannerAction_Model
 		$crmidsCcaddress = $mail->findEmailAdress('ccaddress', $moduleName, true);
 		$crmidsBccaddress = $mail->findEmailAdress('bccaddress', $moduleName, true);
 		$crmidsReplyToaddress = $mail->findEmailAdress('reply_toaddress', $moduleName, true);
-		$crmIds = OSSMailScanner_Record_Model::_merge_array($crmIds, $crmidsToaddress);
-		$crmIds = OSSMailScanner_Record_Model::_merge_array($crmIds, $crmidsCcaddress);
-		$crmIds = OSSMailScanner_Record_Model::_merge_array($crmIds, $crmidsBccaddress);
-		$crmIds = OSSMailScanner_Record_Model::_merge_array($crmIds, $crmidsReplyToaddress);
+		$crmIds = OSSMailScanner_Record_Model::mergeArray($crmIds, $crmidsToaddress);
+		$crmIds = OSSMailScanner_Record_Model::mergeArray($crmIds, $crmidsCcaddress);
+		$crmIds = OSSMailScanner_Record_Model::mergeArray($crmIds, $crmidsBccaddress);
+		$crmIds = OSSMailScanner_Record_Model::mergeArray($crmIds, $crmidsReplyToaddress);
 		$returnIds = [];
 
 		if (!empty($crmIds)) {

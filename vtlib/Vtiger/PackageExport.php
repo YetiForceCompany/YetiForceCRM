@@ -243,15 +243,15 @@ class PackageExport
 	public function exportDependencies($moduleInstance)
 	{
 		$adb = \PearDatabase::getInstance();
-		$moduleid = $moduleInstance->id;
+		$moduleId = $moduleInstance->id;
 
-		$sqlresult = $adb->pquery("SELECT * FROM vtiger_tab_info WHERE tabid = ?", array($moduleid));
+		$sqlResult = $adb->pquery('SELECT * FROM vtiger_tab_info WHERE tabid = ?', array($moduleId));
 		$minVersion = \App\Version::get();
 		$maxVersion = false;
-		$noOfPreferences = $adb->num_rows($sqlresult);
+		$noOfPreferences = $adb->num_rows($sqlResult);
 		for ($i = 0; $i < $noOfPreferences; ++$i) {
-			$prefName = $adb->query_result($sqlresult, $i, 'prefname');
-			$prefValue = $adb->query_result($sqlresult, $i, 'prefvalue');
+			$prefName = $adb->query_result($sqlResult, $i, 'prefname');
+			$prefValue = $adb->query_result($sqlResult, $i, 'prefvalue');
 			if ($prefName == 'vtiger_min_version') {
 				$minVersion = $prefValue;
 			}
@@ -274,9 +274,9 @@ class PackageExport
 	{
 		$adb = \PearDatabase::getInstance();
 
-		$moduleid = $this->moduleInstance->id;
+		$moduleId = $this->moduleInstance->id;
 
-		$sqlresult = $adb->pquery('SELECT * FROM vtiger_tab WHERE tabid = ?', [$moduleid]);
+		$sqlresult = $adb->pquery('SELECT * FROM vtiger_tab WHERE tabid = ?', [$moduleId]);
 		$tabInfo = $adb->getRow($sqlresult);
 
 		$tabname = $tabInfo['name'];

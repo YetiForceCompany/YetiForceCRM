@@ -28,7 +28,7 @@ class IStorages_Module_Model extends Vtiger_Module_Model
 		}
 	}
 
-	public static function RecalculateStock($moduleName = false, $data = false, $storageId = false, $action = false)
+	public static function recalculateStock($moduleName = false, $data = false, $storageId = false, $action = false)
 	{
 		if ($moduleName === false) {
 			self::setQtyInStocks(self::getAllQtyInStocks());
