@@ -116,7 +116,7 @@ class Owner
 	}
 
 	/**
-	 * Get access ible
+	 * Get accessible
 	 * @param string $private
 	 * @param boolean $fieldType
 	 * @param boolean $translate
