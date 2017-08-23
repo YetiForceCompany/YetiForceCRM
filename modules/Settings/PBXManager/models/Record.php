@@ -67,7 +67,7 @@ class Settings_PBXManager_Record_Model extends Settings_Vtiger_Record_Model
 	public function save()
 	{
 		$db = App\Db::getInstance();
-		$parameters = '';
+		$parameters = [];
 		$selectedGateway = $this->get('gateway');
 		foreach (PBXManager_PBXManager_Connector::getSettingsParameters() as $field => $type) {
 			$parameters[$field] = $this->get($field);
