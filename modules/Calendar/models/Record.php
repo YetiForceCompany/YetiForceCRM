@@ -77,7 +77,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	public function setActivityReminder($reminderSent = 0, $recurId = '', $reminderMode = '')
 	{
 		$moduleInstance = CRMEntity::getInstance($this->getModuleName());
-		$moduleInstance->activity_reminder($this->getId(), $this->get('reminder_time'), $reminderSent, $recurId, $reminderMode);
+		$moduleInstance->activityReminder($this->getId(), $this->get('reminder_time'), $reminderSent, $recurId, $reminderMode);
 	}
 
 	/**

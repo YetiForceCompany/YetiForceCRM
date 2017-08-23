@@ -181,7 +181,7 @@ class CurrencyField
 		}
 
 		if ($skipFormatting === false) {
-			$value = $this->_formatCurrencyValue($value);
+			$value = $this->formatCurrencyValue($value);
 		}
 		return $this->currencyDecimalFormat($value, $user);
 	}
@@ -226,7 +226,7 @@ class CurrencyField
 	 * @param Number $value
 	 * @return Formatted Currency
 	 */
-	private function _formatCurrencyValue($value)
+	private function formatCurrencyValue($value)
 	{
 
 		$currencyPattern = $this->currencyFormat;
