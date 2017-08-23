@@ -706,7 +706,7 @@ class Vtiger_Relation_Model extends \App\Base
 	 */
 	public static function updateRelationPresence($relationId, $status)
 	{
-		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['presence' => $status === '0' ? 1 : 0], ['relation_id' => $relationId])->execute();
+		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['presence' => $status === 0 ? 1 : 0], ['relation_id' => $relationId])->execute();
 	}
 
 	public static function removeRelationById($relationId)

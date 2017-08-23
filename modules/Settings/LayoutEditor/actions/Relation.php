@@ -24,8 +24,8 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 
 	public function changeStatusRelation(\App\Request $request)
 	{
-		$relationId = $request->get('relationId');
-		$status = $request->get('status');
+		$relationId = $request->getInteger('relationId');
+		$status = $request->getInteger('status');
 		$response = new Vtiger_Response();
 		try {
 			Vtiger_Relation_Model::updateRelationPresence($relationId, $status);
@@ -52,7 +52,7 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 	public function updateSelectedFields(\App\Request $request)
 	{
 		$fields = $request->get('fields');
-		$relationId = $request->get('relationId');
+		$relationId = $request->getInteger('relationId');
 		$isInventory = $request->get('inventory');
 		$response = new Vtiger_Response();
 		try {
