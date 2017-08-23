@@ -339,7 +339,7 @@ class Functions
 		return $string;
 	}
 
-	public static function fromHTML_Popup($string, $encode = true)
+	public static function fromHtmlPopup($string, $encode = true)
 	{
 		$popup_toHtml = array(
 			'"' => '&quot;',
@@ -682,10 +682,10 @@ class Functions
 	 * Takes no value as input
 	 * returns the query result set object
 	 */
-	public static function get_group_options()
+	public static function getGroupOptions()
 	{
 		$adb = \PearDatabase::getInstance();
-		$sql = "select groupname,groupid from vtiger_groups";
+		$sql = 'select groupname,groupid from vtiger_groups';
 		$result = $adb->pquery($sql, []);
 		return $result;
 	}

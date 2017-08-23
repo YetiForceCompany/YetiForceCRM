@@ -224,11 +224,6 @@ class iCalendar_parameter
 				break;
 		}
 	}
-
-	public function undo_value_formatting($parameter, $value)
-	{
-		
-	}
 }
 
 ?>

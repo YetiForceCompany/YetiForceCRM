@@ -169,8 +169,8 @@ class WorkFlowScheduler
 				if ($operation === 'has changed')
 					continue;
 				$value = $condition['value'];
-				if (in_array($operation, $this->_specialDateTimeOperator())) {
-					$value = $this->_parseValueForDate($condition);
+				if (in_array($operation, $this->specialDateTimeOperator())) {
+					$value = $this->parseValueForDate($condition);
 				}
 				$groupJoin = $condition['groupjoin'];
 				$operator = $conditionMapping[$operation];
@@ -200,7 +200,7 @@ class WorkFlowScheduler
 	 * Special Date functions
 	 * @return array
 	 */
-	public function _specialDateTimeOperator()
+	public function specialDateTimeOperator()
 	{
 		return array('less than days ago', 'more than days ago', 'in less than', 'in more than', 'days ago', 'days later',
 			'less than hours before', 'less than hours later', 'more than hours later', 'more than hours before', 'is today');
@@ -211,7 +211,7 @@ class WorkFlowScheduler
 	 * @param array $condition
 	 * @return string
 	 */
-	public function _parseValueForDate($condition)
+	public function parseValueForDate($condition)
 	{
 		$value = $condition['value'];
 		$operation = $condition['operation'];
