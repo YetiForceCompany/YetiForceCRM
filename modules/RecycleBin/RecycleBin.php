@@ -13,28 +13,25 @@ class RecycleBin
 
 	/**
 	 * Invoked when special actions are performed on the module.
-	 * @param String Module name
-	 * @param String Event Type
+	 * @param string $moduleName Module name
+	 * @param string $eventType Event Type
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-
 		require_once('include/utils/utils.php');
-		$adb = PearDatabase::getInstance();
-
-		if ($eventType == 'module.postinstall') {
+		if ($eventType === 'module.postinstall') {
 			// Mark the module as Standard module
-			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($moduleName));
-		} else if ($eventType == 'module.disabled') {
-			
-		} else if ($eventType == 'module.enabled') {
-			
-		} else if ($eventType == 'module.preuninstall') {
-			
-		} else if ($eventType == 'module.preupdate') {
-			
-		} else if ($eventType == 'module.postupdate') {
-			
+			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
+		} else if ($eventType === 'module.disabled') {
+
+		} else if ($eventType === 'module.enabled') {
+
+		} else if ($eventType === 'module.preuninstall') {
+
+		} else if ($eventType === 'module.preupdate') {
+
+		} else if ($eventType === 'module.postupdate') {
+
 		}
 	}
 }
