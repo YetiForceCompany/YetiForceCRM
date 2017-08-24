@@ -405,46 +405,46 @@ class CustomView extends CRMEntity
 	 */
 	public function getCvColumnListSQL($cvid)
 	{
-		$columnslist = $this->getColumnsListByCvid($cvid);
-		if (isset($columnslist)) {
-			foreach ($columnslist as $columnname => $value) {
-				$tablefield = "";
-				if ($value != "") {
-					$list = explode(":", $value);
+		$columnsList = $this->getColumnsListByCvid($cvid);
+		if (isset($columnsList)) {
+			foreach ($columnsList as $columnName => $value) {
+				$tableField = '';
+				if ($value != '') {
+					$list = explode(':', $value);
 
 					//Added For getting status for Activities -Jaguar
-					$sqllist_column = $list[0] . "." . $list[1];
-					if ($this->customviewmodule == "Calendar") {
-						if ($list[1] == "status" || $list[1] == "activitystatus") {
-							$sqllist_column = "vtiger_activity.status as activitystatus";
+					$sqlListColumn = $list[0] . '.' . $list[1];
+					if ($this->customviewmodule == 'Calendar') {
+						if ($list[1] == 'status' || $list[1] == 'activitystatus') {
+							$sqlListColumn = 'vtiger_activity.status as activitystatus';
 						}
 					}
 					//Added for assigned to sorting
-					if ($list[1] == "smownerid") {
+					if ($list[1] == 'smownerid') {
 						$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
 								'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-						$sqllist_column = "case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name";
+						$sqlListColumn = "case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name";
 					}
-					if ($list[0] == "vtiger_contactdetails" && $list[1] == "lastname")
-						$sqllist_column = "vtiger_contactdetails.lastname,vtiger_contactdetails.firstname";
-					$sqllist[] = $sqllist_column;
+					if ($list[0] == 'vtiger_contactdetails' && $list[1] == 'lastname')
+						$sqlListColumn = 'vtiger_contactdetails.lastname,vtiger_contactdetails.firstname';
+					$sqlList[] = $sqlListColumn;
 					//Ends
 
-					$tablefield[$list[0]] = $list[1];
+					$tableField[$list[0]] = $list[1];
 
 					//Changed as the replace of module name may replace the string if the fieldname has module name in it -- Jeri
-					$fieldinfo = explode('_', $list[3], 2);
-					$fieldlabel = $fieldinfo[1];
-					$fieldlabel = str_replace("_", " ", $fieldlabel);
+					$fieldInfo = explode('_', $list[3], 2);
+					$fieldLabel = $fieldInfo[1];
+					$fieldLabel = str_replace('_', ' ', $fieldLabel);
 
 					if ($this->isFieldPresentByColumnTable($list[1], $list[0])) {
 
-						$this->list_fields[$fieldlabel] = $tablefield;
-						$this->list_fields_name[$fieldlabel] = $list[2];
+						$this->list_fields[$fieldLabel] = $tableField;
+						$this->list_fields_name[$fieldLabel] = $list[2];
 					}
 				}
 			}
-			$returnsql = implode(",", $sqllist);
+			$returnsql = implode(',', $sqlList);
 		}
 		return $returnsql;
 	}
