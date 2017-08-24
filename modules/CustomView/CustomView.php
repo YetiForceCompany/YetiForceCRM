@@ -425,7 +425,7 @@ class CustomView extends CRMEntity
 								'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 						$sqlListColumn = "case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name";
 					}
-					if ($list[0] == 'vtiger_contactdetails' && $list[1] === 'lastname')
+					if ($list[0] === 'vtiger_contactdetails' && $list[1] === 'lastname')
 						$sqlListColumn = 'vtiger_contactdetails.lastname,vtiger_contactdetails.firstname';
 					$sqlList[] = $sqlListColumn;
 					//Ends
