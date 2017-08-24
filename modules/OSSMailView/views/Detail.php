@@ -27,5 +27,3 @@ class OSSMailView_Detail_View extends Vtiger_Detail_View
 		$viewer->assign('RECORD', $record);
 	}
 }
-
-?>

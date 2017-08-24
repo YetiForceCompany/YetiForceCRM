@@ -19,15 +19,15 @@ class PriceBooks_Popup_View extends Vtiger_Popup_View
 	{
 		$moduleName = $this->getModule($request);
 		$cvId = $request->get('cvid');
-		$pageNumber = $request->get('page');
+		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->get('orderby');
 		$sortOrder = $request->get('sortorder');
 		$sourceModule = $request->get('src_module');
 		$sourceField = $request->get('src_field');
-		$sourceRecord = $request->get('src_record');
+		$sourceRecord = $request->getInteger('src_record');
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
-		$currencyId = $request->get('currency_id');
+		$currencyId = $request->getInteger('currency_id');
 		$filterFields = $request->get('filterFields');
 
 		//To handle special operation when selecting record from Popup

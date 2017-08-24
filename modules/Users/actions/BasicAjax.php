@@ -11,6 +11,11 @@
 class Users_BasicAjax_Action extends Vtiger_BasicAjax_Action
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -23,8 +28,7 @@ class Users_BasicAjax_Action extends Vtiger_BasicAjax_Action
 	{
 		$searchValue = $request->get('search_value');
 		$searchModule = $request->get('search_module');
-
-		$parentRecordId = $request->get('parent_id');
+		$parentRecordId = $request->getInteger('parent_id');
 		$parentModuleName = $request->get('parent_module');
 
 		$searchModuleModel = Users_Module_Model::getInstance($searchModule);

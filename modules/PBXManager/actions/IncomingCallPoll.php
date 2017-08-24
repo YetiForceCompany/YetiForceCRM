@@ -32,12 +32,15 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 		}
 	}
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
-
-		if (!$permission) {
+		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -106,6 +109,10 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 	{
 		$user = Users_Record_Model::getCurrentUserModel();
 		$moduleName = $request->get('modulename');
+		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'CreateView')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		}
 		$name = explode("@", $request->get('email'));
 		$element['lastname'] = $name[0];
 		$element['email'] = $request->get('email');

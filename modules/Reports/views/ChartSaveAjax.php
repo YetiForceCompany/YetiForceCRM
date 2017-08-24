@@ -14,7 +14,7 @@ class Reports_ChartSaveAjax_View extends Vtiger_IndexAjax_View
 
 	public function checkPermission(\App\Request $request)
 	{
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		if (!$record) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}

@@ -13,7 +13,7 @@ class OSSMailScanner_SaveCRMuser_Action extends Vtiger_Action_Controller
 {
 
 	/**
-	 * Check permission
+	 * Function to check permission
 	 * @param \App\Request $request
 	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */

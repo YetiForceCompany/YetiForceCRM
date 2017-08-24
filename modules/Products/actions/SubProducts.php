@@ -11,21 +11,25 @@
 class Products_SubProducts_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
-
-		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordId);
-		if (!$recordPermission) {
+		$recordId = $request->getInteger('record');
+		if (!$recordId) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		return true;
+		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
 	}
 
 	public function process(\App\Request $request)
 	{
-		$productId = $request->get('record');
+		$productId = $request->getInteger('record');
 		$values = [];
 		if (isRecordExists($productId)) {
 			$productModel = Vtiger_Record_Model::getInstanceById($productId);

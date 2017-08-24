@@ -12,6 +12,11 @@
 class Reports_CheckDuplicate_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -24,7 +29,7 @@ class Reports_CheckDuplicate_Action extends Vtiger_Action_Controller
 	{
 		$moduleName = $request->getModule();
 		$reportName = $request->get('reportname');
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 
 		if ($record) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);

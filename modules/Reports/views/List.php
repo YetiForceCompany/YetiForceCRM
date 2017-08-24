@@ -16,14 +16,6 @@ class Reports_List_View extends Vtiger_Index_View
 	protected $listViewEntries = false;
 	protected $listViewCount = false;
 
-	public function checkPermission(\App\Request $request)
-	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
-		}
-	}
-
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);

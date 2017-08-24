@@ -21,8 +21,11 @@ class Products_SummaryWidget_Model
 	public function getProductsServices(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$fromModule = $request->get('fromModule');
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$mod = $request->get('mod');
+		if (!\App\Privilege::isPermitted($fromModule, 'DetailView', $record) || !\App\Privilege::isPermitted($mod)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
 		if (!in_array($mod, self::MODULES)) {
 			throw new \App\Exceptions\AppException('Not supported Module');
 		}

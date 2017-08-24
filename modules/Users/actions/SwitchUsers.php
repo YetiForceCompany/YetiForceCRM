@@ -17,7 +17,7 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$userId = $request->get('id');
+		$userId = $request->getInteger('id');
 		require('user_privileges/switchUsers.php');
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$baseUserId = $currentUserModel->getRealId();

@@ -13,7 +13,10 @@ class Portal_DeleteAjax_Action extends Vtiger_DeleteAjax_Action
 
 	public function checkPermission(\App\Request $request)
 	{
-		return true;
+		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		}
 	}
 
 	public function process(\App\Request $request)

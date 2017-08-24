@@ -18,7 +18,7 @@ Class OSSMailView_widget_View extends Vtiger_Edit_View
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
-		$srecord = $request->get('srecord');
+		$srecord = $request->getInteger('srecord');
 		$smodule = $request->get('smodule');
 
 		$recordPermission = Users_Privileges_Model::isPermitted($smodule, 'DetailView', $srecord);

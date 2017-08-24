@@ -11,6 +11,11 @@
 class Reports_DeleteAjax_Action extends Vtiger_DeleteAjax_Action
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
@@ -22,7 +27,7 @@ class Reports_DeleteAjax_Action extends Vtiger_DeleteAjax_Action
 	{
 		$moduleName = $request->getModule();
 		$response = new Vtiger_Response();
-		$recordModel = Reports_Record_Model::getInstanceById($request->get('record'), $moduleName);
+		$recordModel = Reports_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 		if (!$recordModel->isDefault() && $recordModel->isEditable()) {
 			$recordModel->delete();
 			$response->setResult([App\Language::translate('LBL_REPORTS_DELETED_SUCCESSFULLY', $moduleName)]);

@@ -21,7 +21,7 @@ class ModComments_MassSaveAjax_Action extends Vtiger_Mass_Action
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Save')) {
+		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'CreateView')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 		$sourceModule = $request->get('source_module');

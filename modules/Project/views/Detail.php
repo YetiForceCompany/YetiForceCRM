@@ -21,7 +21,7 @@ class Project_Detail_View extends Vtiger_Detail_View
 
 	public function showCharts(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 
 		$viewer = $this->getViewer($request);
@@ -36,7 +36,7 @@ class Project_Detail_View extends Vtiger_Detail_View
 
 	public function showGantt(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 
 		$viewer = $this->getViewer($request);

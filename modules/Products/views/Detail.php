@@ -14,7 +14,7 @@ class Products_Detail_View extends Vtiger_Detail_View
 
 	public function showModuleDetailView(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);

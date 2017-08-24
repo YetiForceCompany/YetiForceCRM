@@ -11,18 +11,23 @@
 class Products_MoreCurrenciesList_View extends Vtiger_IndexAjax_View
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$lockEdit = false;
-		if (empty($record) || $request->get('isDuplicate') == 'true') {
+		if (empty($record) || $request->getBoolean('isDuplicate')) {
 			$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'CreateView');
 		} else {
 			$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'EditView', $record);
 			$lockEdit = Users_Privileges_Model::checkLockEdit($moduleName, Vtiger_Record_Model::getInstanceById($record, $moduleName));
 		}
-		if (!$recordPermission || ($lockEdit && $request->get('isDuplicate') != 'true')) {
+		if (!$recordPermission || ($lockEdit && !$request->getBoolean('isDuplicate'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
@@ -30,7 +35,7 @@ class Products_MoreCurrenciesList_View extends Vtiger_IndexAjax_View
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$currencyName = $request->get('currency');
 
 		if (!empty($recordId)) {

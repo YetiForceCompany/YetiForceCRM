@@ -14,7 +14,7 @@ class Rss_MakeDefaultAjax_Action extends Vtiger_Action_Controller
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->isPermitted($moduleName, 'ListView', $record)) {

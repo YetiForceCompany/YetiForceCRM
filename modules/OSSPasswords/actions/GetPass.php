@@ -18,7 +18,7 @@ class OSSPasswords_GetPass_Action extends Vtiger_Action_Controller
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		if ($record) {
 			$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $record);
 			if (!$recordPermission) {
@@ -30,7 +30,7 @@ class OSSPasswords_GetPass_Action extends Vtiger_Action_Controller
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 
 		if ($record) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);

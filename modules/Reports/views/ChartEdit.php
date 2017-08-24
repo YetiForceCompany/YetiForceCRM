@@ -27,7 +27,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		if ($record) {
 			$reportModel = Reports_Record_Model::getCleanInstance($record);
 			if (!$reportModel->isEditable()) {

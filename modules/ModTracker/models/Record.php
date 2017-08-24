@@ -115,10 +115,6 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$userId = $currentUser->getId();
 		}
-
-		if (!is_array($recordsId)) {
-			$recordsId = [$recordsId];
-		}
 		$query = (new \App\Db\Query())->select('crmid, last_reviewed_users AS u')->from('vtiger_modtracker_basic')
 			->where(['crmid' => $recordsId])
 			->andWhere(['<>', 'status', self::DISPLAYED]);

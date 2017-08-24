@@ -21,10 +21,10 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 	{
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->get('relatedModule');
-		$parentId = $request->get('record');
+		$parentId = $request->getInteger('record');
 		$label = $request->get('tab_label');
 
-		$pageNumber = $request->get('page');
+		$pageNumber = $request->getInteger('page');
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
 		}

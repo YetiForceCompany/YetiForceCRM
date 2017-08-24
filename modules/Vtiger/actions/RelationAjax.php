@@ -33,6 +33,15 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		if (!$userPrivilegesModel->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
+		if ($request->getInteger('src_record') && !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('src_record'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
+		if ($request->get('related_module') && !$userPrivilegesModel->hasModulePermission($request->get('related_module'))) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		}
+		if ($request->get('relatedModule') && !$userPrivilegesModel->hasModulePermission($request->get('relatedModule'))) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		}
 	}
 
 	public function preProcess(\App\Request $request)
@@ -63,9 +72,6 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	{
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->getInteger('src_record');
-		if (!\App\Privilege::isPermitted($sourceModule, 'DetailView', $sourceRecordId)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
-		}
 		$relatedModule = $request->get('related_module');
 		if (is_numeric($relatedModule)) {
 			$relatedModule = vtlib\Functions::getModuleName($relatedModule);
@@ -97,9 +103,6 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	{
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->getInteger('src_record');
-		if (!\App\Privilege::isPermitted($sourceModule, 'DetailView', $sourceRecordId)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
-		}
 		$relatedModule = $request->get('related_module');
 		$relatedRecordIdList = $request->get('related_record_list');
 
@@ -130,9 +133,6 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	{
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->getInteger('src_record');
-		if (!\App\Privilege::isPermitted($sourceModule, 'DetailView', $sourceRecordId)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
-		}
 		$relatedModule = $request->get('related_module');
 		$recordsToRemove = $request->get('recordsToRemove');
 		$recordsToAdd = $request->get('recordsToAdd');

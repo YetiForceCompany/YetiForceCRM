@@ -17,7 +17,7 @@ class OSSTimeControl_GetTCInfo_Action extends Vtiger_Action_Controller
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
-		$srecord = $request->get('id');
+		$srecord = $request->getInteger('id');
 		$smodule = $request->get('sourceModule');
 
 		$recordPermission = Users_Privileges_Model::isPermitted($smodule, 'DetailView', $srecord);
@@ -30,7 +30,7 @@ class OSSTimeControl_GetTCInfo_Action extends Vtiger_Action_Controller
 	{
 		$moduleName = $request->getModule();
 
-		$id = $request->get('id');
+		$id = $request->getInteger('id');
 		$sourceModule = $request->get('sourceModule');
 
 		$sourceData = [];

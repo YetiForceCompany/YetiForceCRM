@@ -20,10 +20,14 @@ class Reports_ExportReport_View extends Vtiger_View_Controller
 		$this->exposeMethod('GetCSV');
 	}
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
+		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModuleActionPermission($request->getModule(), 'Export')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -58,7 +62,7 @@ class Reports_ExportReport_View extends Vtiger_View_Controller
 	 */
 	public function GetXLS(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$reportModel = Reports_Record_Model::getInstanceById($recordId);
 		$reportModel->set('advancedFilter', $request->get('advanced_filter'));
 		$reportModel->getReportXLS();
@@ -70,7 +74,7 @@ class Reports_ExportReport_View extends Vtiger_View_Controller
 	 */
 	public function GetCSV(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$reportModel = Reports_Record_Model::getInstanceById($recordId);
 		$reportModel->set('advancedFilter', $request->get('advanced_filter'));
 		$reportModel->getReportCSV();
@@ -85,7 +89,7 @@ class Reports_ExportReport_View extends Vtiger_View_Controller
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$reportModel = Reports_Record_Model::getInstanceById($recordId);
 		$reportModel->set('advancedFilter', $request->get('advanced_filter'));
 		$printData = $reportModel->getReportPrint();

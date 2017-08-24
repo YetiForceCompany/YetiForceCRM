@@ -20,9 +20,19 @@ class RecycleBin_RecycleBinAjax_Action extends Vtiger_Mass_Action
 		$this->exposeMethod('deleteRecords');
 	}
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @return boolean
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
-		if ($request->get('mode') == 'emptyRecycleBin') {
+		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		}
+		if ($request->get('mode') === 'emptyRecycleBin') {
 			//we dont check for permissions since recylebin axis will not be there for non admin users
 			return true;
 		}
