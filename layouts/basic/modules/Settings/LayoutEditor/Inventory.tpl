@@ -21,7 +21,7 @@
 					<li>
 						<div class="opacity editFields border1px"  data-id="{$FIELD_MODEL->get('id')}" data-column="{$FIELD_MODEL->get('columnname')}" data-sequence="{$FIELD_MODEL->get('sequence')}" data-name="{$FIELD_MODEL->getName()}">
 							<a>
-								<img src="{vimage_path('drag.png')}" border="0" title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+								<img src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 							</a>&nbsp;&nbsp;
 							<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}</span>
 							<span class="btn-group pull-right actions">
@@ -58,7 +58,7 @@
 					<li>
 						<div class="opacity editFields border1px"  data-id="{$FIELD_MODEL->get('id')}" data-column="{$FIELD_MODEL->get('columnname')}" data-sequence="{$FIELD_MODEL->get('sequence')}" data-name="{$FIELD_MODEL->getName()}">
 							<a>
-								<img src="{vimage_path('drag.png')}" border="0" title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+								<img src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 							</a>&nbsp;&nbsp;
 							<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}</span>
 							<span class="btn-group pull-right actions">
@@ -95,7 +95,7 @@
 					<li>
 						<div class="opacity editFields border1px"  data-id="{$FIELD_MODEL->get('id')}" data-column="{$FIELD_MODEL->get('columnname')}" data-sequence="{$FIELD_MODEL->get('sequence')}" data-name="{$FIELD_MODEL->getName()}">
 							<a>
-								<img src="{vimage_path('drag.png')}" border="0" title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+								<img src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 							</a>&nbsp;&nbsp;
 							<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}</span>
 							<span class="btn-group pull-right actions">
@@ -114,7 +114,7 @@
 <li class="hide newLiElement">
 	<div class="opacity editFields border1px" data-column="" data-id="" data-sequence="" data-name="">
 		<a>
-			<img src="{vimage_path('drag.png')}" border="0" title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+			<img src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 		</a>&nbsp;&nbsp;
 		<span class="fieldLabel"></span>
 		<span class="btn-group pull-right actions">

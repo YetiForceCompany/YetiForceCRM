@@ -27,7 +27,7 @@
 			<input type="hidden" value="{$ORDER_BY}" id="orderBy">
 			<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
 			<div class="listViewLoadingImageBlock hide modal noprint" id="loadingListViewModal">
-				<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}"/>
+				<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}"/>
 				<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 			</div>
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}

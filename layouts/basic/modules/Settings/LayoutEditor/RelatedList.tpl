@@ -75,7 +75,7 @@
 			                        </div>
 									<h4 class="panel-title">
 										<div class="relatedModuleLabel mainBlockTableLabel">
-											<a><img src="{vimage_path('drag.png')}" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/></a>
+											<a><img src="{\App\Layout::getImagePath('drag.png')}" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/></a>
 											<strong>{\App\Language::translate($MODULE_MODEL->get('label'), $RELATED_MODULE_NAME)}</strong>
 										</div>
 									</h4>

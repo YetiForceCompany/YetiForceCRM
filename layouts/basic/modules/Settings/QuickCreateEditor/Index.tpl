@@ -74,7 +74,7 @@ padding: 0 20px 20px 20px;
                                                             <div class="col-sm-1 col-xs-2 col-md-2">&nbsp;
                                                                 {if $FIELD_MODEL->isEditable()}
                                                                     <a>
-                                                                        <img src="{vimage_path('drag.png')}" border="0" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+                                                                        <img src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
                                                                     </a>
                                                                 {/if}
                                                             </div>
@@ -99,7 +99,7 @@ padding: 0 20px 20px 20px;
 															<span class="col-sm-1 col-xs-2 col-md-2">&nbsp;
 																{if $FIELD_MODEL->isEditable()}
 																	<a>
-																		<img src="{vimage_path('drag.png')}" border="0" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+																		<img src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 																	</a>
 																{/if}
 															</span>

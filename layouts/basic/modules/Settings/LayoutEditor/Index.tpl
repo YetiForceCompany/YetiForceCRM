@@ -68,7 +68,7 @@
                                 <div class="row layoutBlockHeader no-margin">
                                     <div class="blockLabel col-md-6 col-sm-6 padding10 marginLeftZero">
                                         {if $IS_BLOCK_SORTABLE}
-											<img class="alignMiddle" src="{vimage_path('drag.png')}" alt=""/>&nbsp;&nbsp;
+											<img class="alignMiddle" src="{\App\Layout::getImagePath('drag.png')}" alt=""/>&nbsp;&nbsp;
 										{/if}
                                         <strong>{App\Language::translate($BLOCK_LABEL_KEY, $SELECTED_MODULE_NAME)}</strong>
                                     </div>
@@ -118,7 +118,7 @@
                                                             <div class="col-xs-2 col-sm-2">&nbsp;
                                                                 {if $FIELD_MODEL->isEditable()}
                                                                     <a>
-                                                                        <img src="{vimage_path('drag.png')}" border="0" alt="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+                                                                        <img src="{\App\Layout::getImagePath('drag.png')}" border="0" alt="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
                                                                     </a>
                                                                 {/if}
                                                             </div>
@@ -161,7 +161,7 @@
 															<div class="col-xs-2 col-sm-2">&nbsp;
 																{if $FIELD_MODEL->isEditable()}
 																	<a>
-																		<img src="{vimage_path('drag.png')}" border="0" alt="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+																		<img src="{\App\Layout::getImagePath('drag.png')}" border="0" alt="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 																	</a>
 																{/if}
 															</div>

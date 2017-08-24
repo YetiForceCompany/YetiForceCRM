@@ -14,7 +14,7 @@
     {assign var="dateFormat" value=$USER_MODEL->get('date_format')}
 	<div class="navbar-form navbar-right">
 		<div class="dropdown quickActions">
-			<a class="dropdown-toggle" data-toggle="dropdown" href="#"><img id="menubar_quickCreate" src="{vimage_path('plus.png')}" class="alignMiddle" alt="{\App\Language::translate('LBL_QUICK_CREATE',$MODULE)}" title="{\App\Language::translate('LBL_QUICK_CREATE',$MODULE)}" /></a>
+			<a class="dropdown-toggle" data-toggle="dropdown" href="#"><img id="menubar_quickCreate" src="{\App\Layout::getImagePath('plus.png')}" class="alignMiddle" alt="{\App\Language::translate('LBL_QUICK_CREATE',$MODULE)}" title="{\App\Language::translate('LBL_QUICK_CREATE',$MODULE)}" /></a>
 			<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
 				<li id="quickCreateModules">
 					<div class="panel-default">

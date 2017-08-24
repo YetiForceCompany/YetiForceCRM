@@ -9,7 +9,7 @@
 		<tr class="inventoryRow" numrow="{$ROW_NO}">
 			<td>
 				<span class="glyphicon glyphicon-trash deleteRow cursorPointer {if !$IS_OPTIONAL_ITEMS && $KEY == 0 }hide{/if}" title="{\App\Language::translate('LBL_DELETE',$MODULE)}"></span>
-				&nbsp;&nbsp;<a class="dragHandle"><img src="{vimage_path('drag.png')}" border="0" alt="{\App\Language::translate('LBL_DRAG',$MODULE)}"/></a>
+				&nbsp;&nbsp;<a class="dragHandle"><img src="{\App\Layout::getImagePath('drag.png')}" border="0" alt="{\App\Language::translate('LBL_DRAG',$MODULE)}"/></a>
 				<input name="seq{$ROW_NO}" type="hidden" value="{$ROW_NO}" class="sequence" />
 				{if $COUNT_FIELDS2 > 0}
 					<br /><br />
