@@ -27,7 +27,7 @@
 	{/if}
 </div>
 {* javascript files *}
-{include file='JSResources.tpl'|@vtemplate_path}
+{include file='JSResources.tpl'|@\App\Layout::getTemplatePath}
 </body>
 </html>
 {/strip}

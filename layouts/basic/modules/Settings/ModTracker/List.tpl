@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<div id="modTrackerContainer">		
-		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}			    
+		{include file='BreadCrumbs.tpl'|@\App\Layout::getTemplatePath:$MODULE}			    
 		{\App\Language::translate('LBL_MODTRACKER_SETTINGS_DESCRIPTION', $QUALIFIED_MODULE)}		
 		<hr>
 		<div class="contents">

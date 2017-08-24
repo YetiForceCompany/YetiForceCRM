@@ -19,7 +19,7 @@
 							{\App\Language::translate('LBL_'|cat:strtoupper($MENU_TYPE), $QUALIFIED_MODULE)}
 						</div>
 					</div>
-					{include file='types/'|cat:$MENU_TYPE|cat:'.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+					{include file='types/'|cat:$MENU_TYPE|cat:'.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}
 				</form>
 			</div>
 			<div class="modal-footer">

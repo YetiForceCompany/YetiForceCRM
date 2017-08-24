@@ -3,7 +3,7 @@
 	<div class=" usersAuth">
 		<div class="widget_header row">
 			<div class="col-md-12">
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{include file='BreadCrumbs.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 				{\App\Language::translate('LBL_AUTHORIZATION_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
 		</div>

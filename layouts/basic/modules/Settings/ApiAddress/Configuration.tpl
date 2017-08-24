@@ -12,7 +12,7 @@
 <div id="menuEditorContainer">
     <div class="widget_header row">
         <div class="col-md-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file='BreadCrumbs.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 			{\App\Language::translate('LBL_API_ADDRESS_DESCRIPTION', $MODULENAME)}
 		</div>
     </div>
@@ -75,7 +75,7 @@
 				{foreach from=$CONFIG item=item key=key}
 					{if $key neq 'global'}
 						<div class="apiContainer col-xs-12 paddingLRZero {if !$item["key"]}hide{/if} api_row {$key}">
-							{include file=vtemplate_path($key|cat:'.tpl', $MODULENAME) API_INFO=$item API_NAME=$key}
+							{include file=\App\Layout::getTemplatePath($key|cat:'.tpl', $MODULENAME) API_INFO=$item API_NAME=$key}
 						{/if}
 					</div>
 				{/foreach}

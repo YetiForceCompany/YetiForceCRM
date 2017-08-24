@@ -36,7 +36,7 @@
 								<div class="textAlignCenter">{\App\Language::translate('LBL_PLEASE_SELECT_MODULE',$MODULE)}</div>
 							{else}
 								<input type="hidden" name="labelFields" data-value='{\App\Json::encode($SOURCE_MODULE_MODEL->getNameFields())}' />
-								{include file='AdvanceFilter.tpl'|@vtemplate_path}
+								{include file='AdvanceFilter.tpl'|@\App\Layout::getTemplatePath}
 							{/if}	
 						</form>
 					</div>

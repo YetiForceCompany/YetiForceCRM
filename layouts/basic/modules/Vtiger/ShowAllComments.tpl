@@ -53,7 +53,7 @@
 {/if}	
 <div class="commentContainer">
 	<div class="commentsList commentsBody  col-md-12 paddingLRZero">
-	{include file='CommentsList.tpl'|@vtemplate_path COMMENT_MODULE_MODEL=$COMMENTS_MODULE_MODEL}
+	{include file='CommentsList.tpl'|@\App\Layout::getTemplatePath COMMENT_MODULE_MODEL=$COMMENTS_MODULE_MODEL}
 	</div>
 	<div class="hide basicAddCommentBlock marginTop10 marginBottom10px">
 		<div class="row">

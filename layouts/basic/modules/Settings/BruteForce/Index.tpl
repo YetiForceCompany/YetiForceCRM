@@ -3,7 +3,7 @@
 	<div>
 		<div class="widget_header row">
 			<div class="col-md-12">
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+				{include file='BreadCrumbs.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}
 				&nbsp;{\App\Language::translate('LBL_BRUTEFORCE_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
 		</div>

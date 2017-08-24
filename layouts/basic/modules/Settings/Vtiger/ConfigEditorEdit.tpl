@@ -14,7 +14,7 @@
 			<form id="ConfigEditorForm" class="form-horizontal" data-detail-url="{$MODEL->getDetailViewUrl()}" method="POST">
 				<div class="row widget_header">
 					<div class="col-md-8">
-						{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+						{include file='BreadCrumbs.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 						{\App\Language::translate('LBL_CONFIG_DESCRIPTION', $QUALIFIED_MODULE)}
 					</div>
 					<div class="col-md-4 btn-toolbar no-margin">

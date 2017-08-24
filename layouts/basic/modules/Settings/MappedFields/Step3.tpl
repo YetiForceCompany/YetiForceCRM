@@ -12,7 +12,7 @@
 			<div class="col-md-12 paddingLRZero">
 				<div class="panel panel-default">
 					<div class="panel-body padding0">
-						{include file='AdvanceFilterExpressions.tpl'|@vtemplate_path}
+						{include file='AdvanceFilterExpressions.tpl'|@\App\Layout::getTemplatePath}
 					</div>
 					<div class="panel-footer clearfix">
 						<div class="btn-toolbar pull-right">

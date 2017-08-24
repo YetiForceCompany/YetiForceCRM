@@ -4,7 +4,7 @@
 <div class="" id="inventory">
 	<div class="widget_header row">
 		<div class="col-xs-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file='BreadCrumbs.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 			{\App\Language::translate($PAGE_LABELS.description,$QUALIFIED_MODULE)}
 		</div>
 	</div>

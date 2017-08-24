@@ -75,7 +75,7 @@
 				{assign var=ROW_VAL value=1}
 				{foreach key=SELECTED_SORT_FIELD_KEY item=SELECTED_SORT_FIELD_VALUE from=$SELECTED_SORT_FIELDS}
 					<div class="paddingTop20 col-xs-12 marginBottom10px paddingLRZero sortFieldRow">
-						{include file='RelatedFields.tpl'|@vtemplate_path:$MODULE ROW_VAL=$ROW_VAL}
+						{include file='RelatedFields.tpl'|@\App\Layout::getTemplatePath:$MODULE ROW_VAL=$ROW_VAL}
 						{assign var=ROW_VAL value=($ROW_VAL+1)}
 					</div>
 				{/foreach}
@@ -83,7 +83,7 @@
 				{assign var=SELECTED_SORT_FIELDS_COUNT value=count($SELECTED_SORT_FEILDS_ARRAY)}
 				{while $SELECTED_SORT_FIELDS_COUNT lt 3 }
 					<div class="col-xs-12 marginBottom10px paddingLRZero sortFieldRow">
-						{include file='RelatedFields.tpl'|@vtemplate_path:$MODULE ROW_VAL=$ROW_VAL}
+						{include file='RelatedFields.tpl'|@\App\Layout::getTemplatePath:$MODULE ROW_VAL=$ROW_VAL}
 						{assign var=ROW_VAL value=($ROW_VAL+1)}
 						{assign var=SELECTED_SORT_FIELDS_COUNT value=($SELECTED_SORT_FIELDS_COUNT+1)}
 					</div>

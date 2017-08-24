@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <div>
-	<div class="listViewTopMenuDiv">{include file='ListViewHeader.tpl'|@vtemplate_path:$QUALIFIED_MODULE}</div>
-	<div class="listViewContentDiv listViewPageDiv" id="listViewContents"><br />{include file='ListViewContents.tpl'|@vtemplate_path:$QUALIFIED_MODULE}</div>
+	<div class="listViewTopMenuDiv">{include file='ListViewHeader.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}</div>
+	<div class="listViewContentDiv listViewPageDiv" id="listViewContents"><br />{include file='ListViewContents.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}</div>
 </div>
 {/strip}

@@ -10,7 +10,7 @@
 			<input type="hidden" name="record" value="{$RECORDID}" />
 			<input type="hidden" name="conditions" id="advanced_filter" value='' />
 
-			{include file='AdvanceFilterExpressions.tpl'|@vtemplate_path}
+			{include file='AdvanceFilterExpressions.tpl'|@\App\Layout::getTemplatePath}
 			<br />
 			<div class="pull-right">
 				<button class="btn btn-danger backStep" type="button"><strong>{\App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;

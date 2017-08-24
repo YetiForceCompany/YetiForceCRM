@@ -54,7 +54,7 @@
 					</div>	
 				</div>		
 				<div id="createViewContents" class="hide">
-					{include file="CreateView.tpl"|@vtemplate_path:$QUALIFIED_MODULE}
+					{include file="CreateView.tpl"|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}
 				</div>
 			</div>
 			{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}

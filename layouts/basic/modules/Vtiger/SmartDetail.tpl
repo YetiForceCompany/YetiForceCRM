@@ -8,7 +8,7 @@
 				<h3 class="modal-title">{\App\Language::translate('LBL_VIEW_DETAIL', $MODULE)} - {$RECORD->getName()}</h3>
 			</div>
 			<div class="modal-body">
-				{include file='DetailViewBlockView.tpl'|@vtemplate_path:$MODULE_NAME RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
+				{include file='DetailViewBlockView.tpl'|@\App\Layout::getTemplatePath:$MODULE_NAME RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
 			</div>
 			<div class="modal-footer">
 				<div class="pull-right cancelLinkContainer" style="margin-top:0px;">

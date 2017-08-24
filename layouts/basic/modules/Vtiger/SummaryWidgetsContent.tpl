@@ -31,7 +31,7 @@
 					{/if}>
 					{if !$IS_READ_ONLY}
 						<td class="{$WIDTHTYPE} noWrap leftRecordActions">
-							{include file=vtemplate_path('RelatedListLeftSide.tpl',$RELATED_MODULE_NAME)}
+							{include file=\App\Layout::getTemplatePath('RelatedListLeftSide.tpl',$RELATED_MODULE_NAME)}
 						</td>
 					{/if}
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}

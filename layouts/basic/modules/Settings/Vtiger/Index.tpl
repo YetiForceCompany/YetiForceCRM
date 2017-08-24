@@ -106,7 +106,7 @@
 			<div id="settingsShortCutsContainer" class="col-md-11">
 				<div  class="row">
 					{foreach item=SETTINGS_SHORTCUT from=$SETTINGS_SHORTCUTS name=shortcuts}
-						{include file='SettingsShortCut.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+						{include file='SettingsShortCut.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}
 					{if $SPAN_COUNT==3}</div>{$SPAN_COUNT=1}{if not $smarty.foreach.shortcuts.last}<div class="row">{/if}{continue}{/if}
 					{$SPAN_COUNT=$SPAN_COUNT+1}
 				{/foreach}

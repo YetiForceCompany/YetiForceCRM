@@ -5,7 +5,7 @@
 		<form id="PassForm" class="form-horizontal">
 			<div class="widget_header row">
 				<div class="col-md-12">
-				    {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				    {include file='BreadCrumbs.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 				    &nbsp;{\App\Language::translate('LBL_PASSWORD_DESCRIPTION', $QUALIFIED_MODULE)}</div>
 			</div>
 			<table class="table table-bordered table-condensed themeTableColor">

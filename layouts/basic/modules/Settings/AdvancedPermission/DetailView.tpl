@@ -2,7 +2,7 @@
 	{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 	<div class="widget_header row">
 		<div class="col-md-8">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file='BreadCrumbs.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 			{if isset($SELECTED_PAGE)}
 				{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
 			{/if}

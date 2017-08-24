@@ -21,10 +21,10 @@
 <div class="rowContent paddingLRZero col-xs-12">
 	<div class="widget_header row marginbottomZero marginRightMinus20">
 		<div class="pull-left paddingLeftMd">
-			{include file='ButtonViewLinks.tpl'|@vtemplate_path LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions pull-left paddingLeftMd'}
+			{include file='ButtonViewLinks.tpl'|@\App\Layout::getTemplatePath LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions pull-left paddingLeftMd'}
 		</div>
 		<div class="col-xs-10">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE_NAME}
+			{include file='BreadCrumbs.tpl'|@\App\Layout::getTemplatePath:$MODULE_NAME}
 		</div>
 	</div>
 	<div class="bottom_margin paddingRight15">

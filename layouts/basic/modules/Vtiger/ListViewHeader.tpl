@@ -14,7 +14,7 @@
 		<div class="listViewTopMenuDiv noprint">
 			<div class="listViewActionsDiv row">
 				<div class="btn-toolbar col-md-4 col-sm-6 col-xs-12">
-					{include file='ButtonViewLinks.tpl'|@vtemplate_path LINKS=$QUICK_LINKS['SIDEBARLINK']}
+					{include file='ButtonViewLinks.tpl'|@\App\Layout::getTemplatePath LINKS=$QUICK_LINKS['SIDEBARLINK']}
 					<div class="btn-group listViewMassActions">
 						{if count($LISTVIEW_MASSACTIONS) gt 0 || $LISTVIEW_LINKS['LISTVIEW']|@count gt 0}
 							<button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><strong>{\App\Language::translate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
@@ -49,7 +49,7 @@
 						{/if}
 					</div>
 					{foreach item=LINK from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
-						{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='listView'}
+						{include file='ButtonLink.tpl'|@\App\Layout::getTemplatePath:$MODULE BUTTON_VIEW='listView'}
 					{/foreach}
 				</div>
 				<div class="btn-toolbar col-md-3 col-sm-5 col-xs-12 pull-right-sm pull-left-xs">
@@ -91,7 +91,7 @@
 					</div>
 				</div>
 				<div class="col-xs-12 col-md-5 btn-toolbar paddingRightZero">
-					{include file='ListViewActions.tpl'|@vtemplate_path}
+					{include file='ListViewActions.tpl'|@\App\Layout::getTemplatePath}
 				</div>
 				<span class="hide filterActionImages pull-right">
 					<span title="{\App\Language::translate('LBL_DENY', $MODULE)}" data-value="deny" class="glyphicon glyphicon-exclamation-sign alignMiddle denyFilter filterActionImage pull-right"></span>

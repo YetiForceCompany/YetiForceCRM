@@ -5,7 +5,7 @@
 			<strong>{\App\Language::translate('LBL_NEW_ACTION', $QUALIFIED_MODULE)}</strong>
 		</a>
 		<h5 class="padding-bottom1per"><strong>{\App\Language::translate('LBL_CHOOSE_ACTIONS',$QUALIFIED_MODULE)}</strong></h5>
-		{include file='ListAction.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+		{include file='ListAction.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}
 		<br />
 		<div class="pull-right">
 			<a class="btn btn-danger backStep" href="index.php?module=DataAccess&parent=Settings&view=Step2&tpl_id={$TPL_ID}&base_module={$BASE_MODULE}"><strong>{\App\Language::translate('BACK', $QUALIFIED_MODULE)}</strong></a>

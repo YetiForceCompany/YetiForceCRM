@@ -16,7 +16,7 @@
 				
 				
 			</a>
-			{include file='menu/SubMenu.tpl'|@vtemplate_path:$MODULE}
+			{include file='menu/SubMenu.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 		</li>
 	{/if}
 {/strip}

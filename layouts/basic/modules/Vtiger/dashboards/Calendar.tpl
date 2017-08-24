@@ -16,7 +16,7 @@
 						<span class='glyphicon glyphicon-plus' border='0' title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
 					</a>
 				{/if}
-				{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME}
+				{include file="dashboards/DashboardHeaderIcons.tpl"|@\App\Layout::getTemplatePath:$MODULE_NAME}
 			</div>
 		</div>
 	</div>
@@ -46,7 +46,7 @@
 			{/if}
 		</div>
 		<div class="col-sm-6">
-			{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
+			{include file="dashboards/SelectAccessibleTemplate.tpl"|@\App\Layout::getTemplatePath:$MODULE_NAME}
 		</div>
 	</div>
 	<div class="row marginTop2">
@@ -64,6 +64,6 @@
 	</div>
 </div>
 <div class="dashboardWidgetContent dashboardWidgetCalendar">
-	{include file="dashboards/CalendarContents.tpl"|@vtemplate_path:$MODULE_NAME WIDGET=$WIDGET}
+	{include file="dashboards/CalendarContents.tpl"|@\App\Layout::getTemplatePath:$MODULE_NAME WIDGET=$WIDGET}
 </div>
 {/strip}

@@ -23,7 +23,7 @@
             </ul>
         </div>
         <div id="taskListContainer">
-            {include file='TasksList.tpl'|@vtemplate_path:$QUALIFIED_MODULE}	
+            {include file='TasksList.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}	
         </div>
         <br />
         <div class="pull-right">

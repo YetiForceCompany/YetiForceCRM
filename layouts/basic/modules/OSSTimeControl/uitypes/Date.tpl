@@ -10,14 +10,14 @@
 	{if $TIME_FIELD}
 		<div class="dateTimeField">
 			<div class="col-xs-7 paddingLRZero">
-				{include file=vtemplate_path('uitypes/Date.tpl','Vtiger') BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$FIELD_MODEL}
+				{include file=\App\Layout::getTemplatePath('uitypes/Date.tpl','Vtiger') BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$FIELD_MODEL}
 			</div>
 			<div class="col-xs-5 paddingLRZero">
-				{include file=vtemplate_path('uitypes/Time.tpl',$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$TIME_FIELD SKIP=true}
+				{include file=\App\Layout::getTemplatePath('uitypes/Time.tpl',$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$TIME_FIELD SKIP=true}
 			</div>
 		</div>
 		{assign var=BLOCK_FIELDS value=false}
 	{else}
-		{include file=vtemplate_path('uitypes/Date.tpl','Vtiger') BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$FIELD_MODEL}
+		{include file=\App\Layout::getTemplatePath('uitypes/Date.tpl','Vtiger') BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$FIELD_MODEL}
 	{/if}
 {/strip}

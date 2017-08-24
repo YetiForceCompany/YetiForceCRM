@@ -19,7 +19,7 @@
 				</label>
 				<div class="col-sm-5 col-md-4 controls">
 					<div class="input-group fieldContainer" data-name="{$FIELD_MODEL->getName()}" data-dbname="{$FIELD_NAME}">
-						{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(), $SOURCE_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$SOURCE_MODULE}
+						{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $SOURCE_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$SOURCE_MODULE}
 						<div class="input-group-btn" id="basic-addon">
 							<button type="button" class="btn btn-success saveValue" id="saveValue" title="{\App\Language::translate('BTN_ADD', $QUALIFIED_MODULE)}">
 								<span>{\App\Language::translate('BTN_SAVE', $QUALIFIED_MODULE)}</span>
@@ -49,7 +49,7 @@
 					</label>
 					<div class="col-md-5 col-lg-4">
 						<div class="input-group fieldContainer" data-name="{$FIELD_MODEL->getName()}" data-dbname="{$FIELD_NAME}">
-							{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(), $SOURCE_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$SOURCE_MODULE}
+							{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $SOURCE_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$SOURCE_MODULE}
 							<div class="input-group-btn" id="basic-addon">
 								<button type="button" class="btn btn-success saveValue" id="saveValue" title="{\App\Language::translate('BTN_ADD', $QUALIFIED_MODULE)}">
 									<span>{\App\Language::translate('BTN_SAVE', $QUALIFIED_MODULE)}</span>
@@ -78,7 +78,7 @@
 							<div class="filterConditionsDiv">
 								<div class="row">
 									<span class="col-md-12">
-										{include file='AdvanceFilter.tpl'|@vtemplate_path}
+										{include file='AdvanceFilter.tpl'|@\App\Layout::getTemplatePath}
 									</span>
 								</div>
 							</div>
@@ -101,7 +101,7 @@
 									<strong>{\App\Language::translate($LABEL, $QUALIFIED_MODULE)}</strong>
 									<div class="col-xs-8 pull-right controls">
 										<div class="input-group col-xs-12 fieldContainer" data-name="{$FIELD_MODEL->getName()}" data-dbname="{$FIELD_NAME}">
-											{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getListSearchTemplateName(), $SOURCE_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$SOURCE_MODULE}
+											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getListSearchTemplateName(), $SOURCE_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$SOURCE_MODULE}
 											<div class="input-group-btn" id="basic-addon">
 												<button type="button" class="btn btn-success saveValue" id="saveValue" title="{\App\Language::translate('BTN_ADD', $QUALIFIED_MODULE)}">
 													<span class="glyphicon glyphicon-plus"></span>

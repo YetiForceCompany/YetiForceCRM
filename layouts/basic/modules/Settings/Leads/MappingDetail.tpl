@@ -12,7 +12,7 @@
 {strip}
 	<div class="row widget_header">
 		<div class="col-md-8">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file='BreadCrumbs.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 		</div>
 		<div class="col-md-4 btn-toolbar marginLeftZero">
 			<div class="pull-right">

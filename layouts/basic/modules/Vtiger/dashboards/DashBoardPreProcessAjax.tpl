@@ -18,6 +18,6 @@
 			</ul>
 		{/if}
 	</div>
-	{include file='dashboards/DashBoardButtons.tpl'|@vtemplate_path:$MODULE}
+	{include file='dashboards/DashBoardButtons.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 	<div class="col-xs-12 paddingLRZero">
 {/strip}

@@ -69,6 +69,6 @@
 		</div><br />
 	</div>
 	<div id="addCreateEntityContainer">
-		{include file="CreateEntity.tpl"|@vtemplate_path:$QUALIFIED_MODULE}
+		{include file="CreateEntity.tpl"|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}
 	</div>
 {/strip}

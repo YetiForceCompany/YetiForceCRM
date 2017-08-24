@@ -20,9 +20,9 @@
 							<label class="col-md-4 control-label">{\App\Language::translate('LBL_NAME_FIELD', $QUALIFIED_MODULE)}:</label>
 							<div class="col-md-7 form-control-static">{\App\Language::translate($FIELD_INSTANCE->getName(), $QUALIFIED_MODULE)}</div>
 						</div>
-						{include file='inventoryTypes/'|cat:{$FIELD_INSTANCE->getName()}|cat:'.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+						{include file='inventoryTypes/'|cat:{$FIELD_INSTANCE->getName()}|cat:'.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}
 					</div>
-					{include file='ModalFooter.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+					{include file='ModalFooter.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}
 				</form>
 			</div>
 		</div>

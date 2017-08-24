@@ -14,10 +14,10 @@
 <ul class="liStyleNone">
 	{foreach item=COMMENT from=$CHILD_COMMENTS_MODEL}
 		<li class="commentDetails">
-		{include file='CommentThreadList.tpl'|@vtemplate_path COMMENT=$COMMENT}
+		{include file='CommentThreadList.tpl'|@\App\Layout::getTemplatePath COMMENT=$COMMENT}
 		{assign var=CHILD_COMMENTS value=$COMMENT->getChildComments()}
 		{if !empty($CHILD_COMMENTS)}
-			{include file='CommentsListIteration.tpl'|@vtemplate_path CHILD_COMMENTS_MODEL=$COMMENT->getChildComments()}
+			{include file='CommentsListIteration.tpl'|@\App\Layout::getTemplatePath CHILD_COMMENTS_MODEL=$COMMENT->getChildComments()}
 		{/if}
 		</li>
 		<br />
