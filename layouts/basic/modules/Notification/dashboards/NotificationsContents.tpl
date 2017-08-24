@@ -4,7 +4,7 @@
 		{if $NOTIFICATIONS neq false}
 			<div class="notificationEntries">
 				{foreach item=ROW from=$NOTIFICATIONS}
-					{include file='NotificationsItem.tpl'|@vtemplate_path:$MODULE_NAME}
+					{include file='NotificationsItem.tpl'|@\App\Layout::getTemplatePath:$MODULE_NAME}
 				{/foreach}
 			</div>
 		{else}

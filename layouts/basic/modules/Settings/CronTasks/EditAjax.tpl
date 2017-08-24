@@ -72,7 +72,7 @@
 						<div class="alert alert-info">{\App\Language::translate($RECORD_MODEL->get('description'),$QUALIFIED_MODULE)}</div>
 					{/if}
 				</div>
-				{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
+				{include file='ModalFooter.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 			</form>
 		</div>		
 	</div>		

@@ -10,8 +10,8 @@
  ********************************************************************************/
 -->*}
 {strip}
-{include file="Header.tpl"|vtemplate_path:$MODULE}
+{include file="Header.tpl"|\App\Layout::getTemplatePath:$MODULE}
 <div class="bodyContents">
 	<div class="mainContainer">
-			{include file="UserViewHeader.tpl"|vtemplate_path:$MODULE}
+			{include file="UserViewHeader.tpl"|\App\Layout::getTemplatePath:$MODULE}
 {/strip}

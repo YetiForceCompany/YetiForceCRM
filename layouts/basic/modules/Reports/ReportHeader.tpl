@@ -13,7 +13,7 @@
     <div>
 		<div class="widget_header row marginBottom10px">
 			<div class="col-sm-6">
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{include file='BreadCrumbs.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 			</div>
 			<div class="col-sm-6">
 				<div class="btn-toolbar pull-right">
@@ -87,7 +87,7 @@
 							{$RECORD_STRUCTURE[$key] = $BLOCK_FIELDS}
 						{/foreach}
 					{/foreach}
-					{include file='AdvanceFilter.tpl'|@vtemplate_path RECORD_STRUCTURE=$RECORD_STRUCTURE ADVANCE_CRITERIA=$SELECTED_ADVANCED_FILTER_FIELDS COLUMNNAME_API=getReportFilterColumnName}
+					{include file='AdvanceFilter.tpl'|@\App\Layout::getTemplatePath RECORD_STRUCTURE=$RECORD_STRUCTURE ADVANCE_CRITERIA=$SELECTED_ADVANCED_FILTER_FIELDS COLUMNNAME_API=getReportFilterColumnName}
 					<div class="row">
 						<div class="textAlignCenter">
 							<button class="btn generateReport btn-primary" data-mode="generate" value="{\App\Language::translate('LBL_GENERATE_NOW',$MODULE)}"/>

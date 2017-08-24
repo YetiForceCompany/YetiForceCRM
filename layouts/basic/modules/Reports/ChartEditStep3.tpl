@@ -91,7 +91,7 @@
 						</div>
 					</div>
 					<div class='hide'>
-						{include file="chartReportHiddenContents.tpl"|vtemplate_path:$MODULE}
+						{include file="chartReportHiddenContents.tpl"|\App\Layout::getTemplatePath:$MODULE}
 					</div>
 				</div>
 			</div>

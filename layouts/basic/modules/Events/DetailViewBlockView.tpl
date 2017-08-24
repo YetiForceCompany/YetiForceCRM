@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-    {include file='DetailViewBlockView.tpl'|@vtemplate_path:'Vtiger' RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
+    {include file='DetailViewBlockView.tpl'|@\App\Layout::getTemplatePath:'Vtiger' RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
 
     {assign var="IS_HIDDEN" value=false}
 	<div class="detailViewTable">

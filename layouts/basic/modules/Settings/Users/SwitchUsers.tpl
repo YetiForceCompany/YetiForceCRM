@@ -5,7 +5,7 @@
 	{assign var="ROLES" value=Settings_Roles_Record_Model::getAll()}
 	<div class="widget_header row">
 		<div class="col-md-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file='BreadCrumbs.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 		</div>
 	</div>
 	<span style="font-size:12px;color: black;">{\App\Language::translate('LBL_SWITCH_USERS_DESCRIPTION', $QUALIFIED_MODULE)}</span>
@@ -22,7 +22,7 @@
 				</thead>
 				<tbody>
 					{foreach item=SUSERS key=ID from=$MODULE_MODEL->getSwitchUsers()}
-						{include file='SwitchUsersItem.tpl'|@vtemplate_path:$QUALIFIED_MODULE SELECT=true}
+						{include file='SwitchUsersItem.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE SELECT=true}
 					{/foreach}
 				</tbody>
 			</table>
@@ -35,7 +35,7 @@
 		<br />
 		<table class="table table-bordered cloneItem hide">
 			{assign var="SUSERS" value=[]}
-			{include file='SwitchUsersItem.tpl'|@vtemplate_path:$QUALIFIED_MODULE SELECT=false}
+			{include file='SwitchUsersItem.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE SELECT=false}
 		</table>
 	</div>
 {/strip}

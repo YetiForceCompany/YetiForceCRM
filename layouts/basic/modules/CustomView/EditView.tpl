@@ -27,7 +27,7 @@
 				{else}
 					{assign var=BREADCRUMB_TITLE value=$CUSTOMVIEW_MODEL->get('viewname')}
 				{/if}
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{include file='BreadCrumbs.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 			</div>
 			<div class="col-sm-7 col-xs-12 btn-toolbar" role="toolbar">
 				<div class="btn-group filterActions pull-right">
@@ -145,7 +145,7 @@
 					<div class="filterConditionsDiv">
 						<div class="row">
 							<span class="col-md-12">
-								{include file='AdvanceFilter.tpl'|@vtemplate_path}
+								{include file='AdvanceFilter.tpl'|@\App\Layout::getTemplatePath}
 							</span>
 						</div>
 					</div>

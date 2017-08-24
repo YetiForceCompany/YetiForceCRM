@@ -102,7 +102,7 @@
 	</div>
 </div>
 {* javascript files *}
-{include file='JSResources.tpl'|@vtemplate_path}
+{include file='JSResources.tpl'|@\App\Layout::getTemplatePath}
 {if \App\Debuger::isDebugBar()}
 	{\App\Debuger::getDebugBar()->getJavascriptRenderer()->render()}
 {/if}

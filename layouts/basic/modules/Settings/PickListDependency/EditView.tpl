@@ -13,7 +13,7 @@
 	<div class="">
 		<div class='widget_header row '>
 			<div class="col-xs-12">
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{include file='BreadCrumbs.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 			</div>
 		</div>
 		<div class="contents">
@@ -82,7 +82,7 @@
 				</div>
 				<div id="dependencyGraph">
 					{if $DEPENDENCY_GRAPH}
-						{include file='DependencyGraph.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+						{include file='DependencyGraph.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}
 					{/if}
 				</div>
 			</form>

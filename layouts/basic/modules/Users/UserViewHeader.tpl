@@ -16,7 +16,7 @@
         <div class="detailViewTitle" id="userPageHeader">
             <div class="widget_header row">
                 <div class="col-md-8">
-                    {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+                    {include file='BreadCrumbs.tpl'|@\App\Layout::getTemplatePath:$MODULE}
                 </div>
                 <div class="col-md-4">
                     <div class="pull-right detailViewButtoncontainer">

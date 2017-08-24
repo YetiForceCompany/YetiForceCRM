@@ -8,6 +8,6 @@
 				{\App\Language::translate($MENU['name'],'Menu')}
 			</span>
 		</a>
-		{include file='menu/SubMenu.tpl'|@vtemplate_path:$MODULE}
+		{include file='menu/SubMenu.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 	</li>
 {/strip}

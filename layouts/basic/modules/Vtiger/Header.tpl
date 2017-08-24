@@ -65,9 +65,9 @@
 			<div id="page">
 				{assign var="ANNOUNCEMENTS" value=Vtiger_Module_Model::getInstance('Announcements')}
 				{if $ANNOUNCEMENTS->checkActive()}
-					{include file='Announcement.tpl'|@vtemplate_path:$MODULE}
+					{include file='Announcement.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 				{/if}
 				{if $SHOW_BODY_HEADER}
-					{include file='Body.tpl'|@vtemplate_path:$MODULE}
+					{include file='Body.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 				{/if}
 			{/strip}

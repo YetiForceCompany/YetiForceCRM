@@ -11,7 +11,7 @@
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 
-	{include file=vtemplate_path('ListViewAlphabet.tpl',$MODULE_NAME)}
+	{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl',$MODULE_NAME)}
 	<div class="clearfix"></div>
 	<div id="selectAllMsgDiv" class="alert-block msgDiv noprint">
 		<strong><a id="selectAllMsg">{\App\Language::translate('LBL_SELECT_ALL',$MODULE)}&nbsp;{\App\Language::translate($MODULE ,$MODULE)}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
@@ -63,7 +63,7 @@
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							<td>
 								{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
-								{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE_NAME)
+								{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE_NAME)
                     FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$USER_MODEL}
 							</td>
 						{/foreach}
@@ -82,7 +82,7 @@
 							{$PASS_ID="{$LISTVIEW_ENTRY->get('id')}"}
 						{/if}
 						<td class="{$WIDTHTYPE} noWrap leftRecordActions">
-							{include file=vtemplate_path('ListViewLeftSide.tpl',$MODULE_NAME)}
+							{include file=\App\Layout::getTemplatePath('ListViewLeftSide.tpl',$MODULE_NAME)}
 						</td>
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=listHeaderForeach}
 							{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}

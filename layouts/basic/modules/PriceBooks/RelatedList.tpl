@@ -37,7 +37,7 @@
 				</div>
 				<div class="col-md-6">
 					<div class="paginationDiv pull-right">
-						{include file='Pagination.tpl'|@vtemplate_path:$MODULE VIEWNAME='related'}
+						{include file='Pagination.tpl'|@\App\Layout::getTemplatePath:$MODULE VIEWNAME='related'}
 					</div>
 				</div>
 			</div>

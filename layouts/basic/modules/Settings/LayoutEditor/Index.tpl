@@ -14,7 +14,7 @@
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
         <div class="widget_header row">
 			<div class="col-md-6">
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+				{include file='BreadCrumbs.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}
 				{if isset($SELECTED_PAGE)}
 					{App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
 				{/if}
@@ -199,15 +199,15 @@
 						{/foreach}
 					</div>
 					<input type="hidden" class="inActiveFieldsArray" value='{\App\Json::encode($IN_ACTIVE_FIELDS)}' />
-					{include file='NewCustomBlock.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
-					{include file='NewCustomField.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
-					{include file='AddBlockModal.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
-					{include file='CreateFieldModal.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
-					{include file='InactiveFieldModal.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+					{include file='NewCustomBlock.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}
+					{include file='NewCustomField.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}
+					{include file='AddBlockModal.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}
+					{include file='CreateFieldModal.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}
+					{include file='InactiveFieldModal.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}
 				</div>
 				{if $IS_INVENTORY}
 					<div class="tab-pane" id="inventoryViewLayout">
-						{include file='Inventory.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+						{include file='Inventory.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}
 					</div>	
 				{/if}
 			</div>

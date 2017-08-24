@@ -26,7 +26,7 @@
 						{assign var="CALENDAR_MODULE_MODEL" value=$QUICK_CREATE_CONTENTS['Calendar']['moduleModel']}
 						<div class="quickCreateActions pull-right pullRight">
 							{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
-								{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='quickcreateViewHeader'}
+								{include file='ButtonLink.tpl'|@\App\Layout::getTemplatePath:$MODULE BUTTON_VIEW='quickcreateViewHeader'}
 								&nbsp;&nbsp;
 							{/foreach}
 							{if $MODULE_NAME eq 'Calendar'}
@@ -99,7 +99,7 @@
 												</label>
 											</div>
 											<div class="fieldValue col-xs-12 col-sm-7 " >
-												{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE_NAME)}
+												{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE_NAME)}
 											</div>
 										</div>
 									{/foreach}

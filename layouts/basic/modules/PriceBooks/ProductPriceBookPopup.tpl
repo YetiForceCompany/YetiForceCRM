@@ -11,9 +11,9 @@
 -->*}
 {strip}
     <div id="popupPageContainer" class="contentsDiv">
-        <div class="paddingLeftRight10px">{include file='PopupSearch.tpl'|@vtemplate_path:$MODULE_NAME}
+        <div class="paddingLeftRight10px">{include file='PopupSearch.tpl'|@\App\Layout::getTemplatePath:$MODULE_NAME}
             <form id="popupPage" action="javascript:void(0)">
-                <div id="popupContents">{include file='ProductPriceBookPopupContents.tpl'|@vtemplate_path:$PARENT_MODULE}</div>
+                <div id="popupContents">{include file='ProductPriceBookPopupContents.tpl'|@\App\Layout::getTemplatePath:$PARENT_MODULE}</div>
             </form>
         </div>
         <input type="hidden" class="triggerEventName" value="{$TRIGGER_EVENT_NAME}"/>

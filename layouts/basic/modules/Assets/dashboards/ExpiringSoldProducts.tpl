@@ -32,5 +32,5 @@
 	</div>
 </div>
 <div class="dashboardWidgetContent">
-	{include file="dashboards/ExpiringSoldProductsContents.tpl"|@vtemplate_path:$MODULE_NAME}
+	{include file="dashboards/ExpiringSoldProductsContents.tpl"|@\App\Layout::getTemplatePath:$MODULE_NAME}
 </div>

@@ -5,15 +5,15 @@
 			<div class="listViewActionsDiv row">
 				<div class="col-md-8 tn-toolbar">
 					{foreach item=LINK from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
-						{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='listViewBasic'}
+						{include file='ButtonLink.tpl'|@\App\Layout::getTemplatePath:$MODULE BUTTON_VIEW='listViewBasic'}
 					{/foreach}
 				</div>
 				<div class="col-md-4">
-					{include file='ListViewActions.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+					{include file='ListViewActions.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}
 				</div>
 			</div>
 			<div class="listViewContentDiv listViewPageDiv" id="listViewContents">
-				{include file='ListViewContents.tpl'|@vtemplate_path:'Settings:Vtiger'}
+				{include file='ListViewContents.tpl'|@\App\Layout::getTemplatePath:'Settings:Vtiger'}
 			</div>
 		</div>
 	</div>

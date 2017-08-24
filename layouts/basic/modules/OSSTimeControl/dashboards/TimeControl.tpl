@@ -104,5 +104,5 @@
 	</div>
 </div>
 <div class="dashboardWidgetContent">
-	{include file="dashboards/TimeControlContents.tpl"|@vtemplate_path:$MODULE_NAME}
+	{include file="dashboards/TimeControlContents.tpl"|@\App\Layout::getTemplatePath:$MODULE_NAME}
 </div>

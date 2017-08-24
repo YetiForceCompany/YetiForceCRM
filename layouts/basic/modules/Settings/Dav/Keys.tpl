@@ -3,7 +3,7 @@
 	<div class="" id="DavKeysContainer">
 		<div class="widget_header row">
 			<div class="col-md-8">
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{include file='BreadCrumbs.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 				{\App\Language::translate('LBL_DAV_KEYS_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
 			<div class="col-md-4"><button class="btn btn-primary addKey pull-right marginTop20">{\App\Language::translate('LBL_ADD_KEY',$QUALIFIED_MODULE)}</button></div>
@@ -95,7 +95,7 @@
 								</div>	
 							</form>
 						</div>
-						{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
+						{include file='ModalFooter.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 					</div>
 				</div>
 			</div>

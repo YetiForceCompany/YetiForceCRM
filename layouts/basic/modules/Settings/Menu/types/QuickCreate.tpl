@@ -16,7 +16,7 @@
 		</select>
 	</div>
 </div>
-{include file='fields/Hotkey.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+{include file='fields/Hotkey.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}
 <div class="form-group">
 	<label class="col-md-4 control-label">{\App\Language::translate('LBL_ICON_NAME', $QUALIFIED_MODULE)}:</label>
 	<div class="col-md-7">

@@ -2,7 +2,7 @@
 	{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 	<div class="row widget_header">
 		<div class="col-xs-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file='BreadCrumbs.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 			{if $RECORD_ID}
 				{App\Language::translate('LBL_MAILSMTP_EDIT', $QUALIFIED_MODULE)}
 			{/if}

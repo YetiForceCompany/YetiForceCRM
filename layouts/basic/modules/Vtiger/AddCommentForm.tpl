@@ -36,7 +36,7 @@
 				<div class="modal-body tabbable">
 					<textarea class="input-lg form-control" name="commentcontent" id="commentcontent" title="{\App\Language::translate('LBL_WRITE_YOUR_COMMENT_HERE', $MODULE)}" rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" placeholder="{\App\Language::translate('LBL_WRITE_YOUR_COMMENT_HERE', $MODULE)}..."></textarea>
 				</div>
-				{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
+				{include file='ModalFooter.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 			</form>
 		</div>
 	</div>

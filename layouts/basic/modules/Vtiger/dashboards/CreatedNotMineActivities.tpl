@@ -10,7 +10,7 @@
 		</div>
 		<div class="col-md-4">
 			<div class="box pull-right">
-				{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME}
+				{include file="dashboards/DashboardHeaderIcons.tpl"|@\App\Layout::getTemplatePath:$MODULE_NAME}
 			</div>
 		</div>
 	</div>
@@ -23,12 +23,12 @@
 				</button>
 			</div>
 			<div class="col-sm-6 pull-right">
-				{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
+				{include file="dashboards/SelectAccessibleTemplate.tpl"|@\App\Layout::getTemplatePath:$MODULE_NAME}
 			</div>
 		</div>
 	</div>
 </div>
 <div name="history" class="dashboardWidgetContent">
-	{include file="dashboards/CalendarActivitiesContents.tpl"|@vtemplate_path:$MODULE_NAME WIDGET=$WIDGET}
+	{include file="dashboards/CalendarActivitiesContents.tpl"|@\App\Layout::getTemplatePath:$MODULE_NAME WIDGET=$WIDGET}
 </div>
 {/strip}

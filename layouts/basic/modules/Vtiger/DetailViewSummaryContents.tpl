@@ -10,5 +10,5 @@
 *
 ********************************************************************************/
 -->*}
-	{include file="DetailViewFullContents.tpl"|vtemplate_path:$MODULE}
+	{include file="DetailViewFullContents.tpl"|\App\Layout::getTemplatePath:$MODULE}
 {/strip}

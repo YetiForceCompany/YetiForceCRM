@@ -13,7 +13,7 @@
 	<div class="listViewPageDiv">
 		<div class="widget_header row">
 			<div class="col-xs-12">
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{include file='BreadCrumbs.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 			</div>
 		</div>
 		<div class="listViewContentDiv" id="listViewContents" style="padding: 1%;">
@@ -32,12 +32,12 @@
 				</div>
 			</div><br />
 			<div id="modulePickListContainer">
-				{include file="ModulePickListDetail.tpl"|@vtemplate_path:$QUALIFIED_MODULE}
+				{include file="ModulePickListDetail.tpl"|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}
 			</div>
 
 			<div id="modulePickListValuesContainer">
                 {if empty($NO_PICKLIST_FIELDS)}
-                {include file="PickListValueDetail.tpl"|@vtemplate_path:$QUALIFIED_MODULE}
+                {include file="PickListValueDetail.tpl"|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}
                 {/if}
             </div>
 		</div>

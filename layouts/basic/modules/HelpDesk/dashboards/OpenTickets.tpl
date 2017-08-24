@@ -11,9 +11,9 @@
 -->*}
 {strip}
 <div class="dashboardWidgetHeader">
-	{include file="dashboards/WidgetHeader.tpl"|@vtemplate_path:$MODULE_NAME}
+	{include file="dashboards/WidgetHeader.tpl"|@\App\Layout::getTemplatePath:$MODULE_NAME}
 </div>
 <div class="dashboardWidgetContent">
-	{include file="dashboards/DashBoardWidgetContents.tpl"|@vtemplate_path:$MODULE_NAME}
+	{include file="dashboards/DashBoardWidgetContents.tpl"|@\App\Layout::getTemplatePath:$MODULE_NAME}
 </div>
 {/strip}

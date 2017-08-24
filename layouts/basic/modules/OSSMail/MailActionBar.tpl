@@ -56,7 +56,7 @@
 							<div class="col">
 								{foreach key=MODULE item=ITEM from=$MODULES_LEVEL_0}
 									{foreach item=RELATED from=$RELATED_RECORDS[$MODULE]}
-										{include file='MailActionBarRow.tpl'|@vtemplate_path:$MODULE_NAME}
+										{include file='MailActionBarRow.tpl'|@\App\Layout::getTemplatePath:$MODULE_NAME}
 									{/foreach}
 								{/foreach}
 							</div>
@@ -100,7 +100,7 @@
 							<div class="col">
 								{foreach key=MODULE item=ITEM from=$MODULES_LEVEL_1}
 									{foreach item=RELATED from=$RELATED_RECORDS[$MODULE]}
-										{include file='MailActionBarRow.tpl'|@vtemplate_path:$MODULE_NAME}
+										{include file='MailActionBarRow.tpl'|@\App\Layout::getTemplatePath:$MODULE_NAME}
 									{/foreach}
 								{/foreach}
 							</div>
@@ -151,7 +151,7 @@
 							<div class="col">
 								{foreach key=MODULE item=ITEM from=$MODULES_LEVEL_2}
 									{foreach item=RELATED from=$RELATED_RECORDS[$MODULE]}
-										{include file='MailActionBarRow.tpl'|@vtemplate_path:$MODULE_NAME}
+										{include file='MailActionBarRow.tpl'|@\App\Layout::getTemplatePath:$MODULE_NAME}
 									{/foreach}
 								{/foreach}
 							</div>

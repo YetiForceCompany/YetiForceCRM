@@ -14,7 +14,7 @@
 	<div class="listViewTopMenuDiv">
         <div class="widget_header row">
             <div class="col-md-6">
-                {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+                {include file='BreadCrumbs.tpl'|@\App\Layout::getTemplatePath:$MODULE}
             </div>
             <div class="col-md-6">
                 <b class="pull-right paddingTop10">
@@ -63,7 +63,7 @@
 				</select>
 			</div>
 			<div class="col-md-5 ">
-				{include file='ListViewActions.tpl'|@vtemplate_path}
+				{include file='ListViewActions.tpl'|@\App\Layout::getTemplatePath}
 			</div>
 		</div>
 	</div>

@@ -51,9 +51,9 @@
 					{/if}
 				{/foreach}
 			</span>
-			<span class="foldersContainer btn-toolbar col-md-4">{include file='ListViewFolders.tpl'|@vtemplate_path:$MODULE}</span>
+			<span class="foldersContainer btn-toolbar col-md-4">{include file='ListViewFolders.tpl'|@\App\Layout::getTemplatePath:$MODULE}</span>
 			<span class="col-md-4 btn-toolbar">
-				{include file='ListViewActions.tpl'|@vtemplate_path:$MODULE}
+				{include file='ListViewActions.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 			</span>
 		</div>
 	</div>

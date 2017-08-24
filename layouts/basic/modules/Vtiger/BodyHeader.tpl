@@ -63,7 +63,7 @@
 										<h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>&nbsp;&nbsp;{\App\Language::translate('Chat','Chat')}</h4>
 									</div>
 									<div class="modal-body">
-										{include file="Items.tpl"|@vtemplate_path:'Chat'}
+										{include file="Items.tpl"|@\App\Layout::getTemplatePath:'Chat'}
 									</div>
 									<div class="modal-footer pinToDown">
                                         <input type="text" class="form-control message" /><br />
@@ -83,7 +83,7 @@
 						<a class="btn btn-default btn-sm showHistoryBtn popoverTooltip dropdownMenu hidden-xs hidden-sm" data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#">
 							<i class="fa fa-history" aria-hidden="true"></i>
 						</a>
-						{include file='BrowsingHistory.tpl'|@vtemplate_path:$MODULE}
+						{include file='BrowsingHistory.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 					{/if}
 					{foreach key=index item=obj from=$MENU_HEADER_LINKS}
 						{if $obj->linktype == 'HEADERLINK'}

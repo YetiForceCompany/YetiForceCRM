@@ -30,7 +30,7 @@
 							<textarea type="text" name="notePadContent" class="form-control" style="resize: none;"/>
 						</div>
 					</div>
-						{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
+						{include file='ModalFooter.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 				</form>
 			</div>
 		</div>

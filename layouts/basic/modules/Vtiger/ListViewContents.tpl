@@ -21,7 +21,7 @@
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 
-	{include file=vtemplate_path('ListViewAlphabet.tpl',$MODULE_NAME)}
+	{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl',$MODULE_NAME)}
 	<div class="clearfix"></div>
 	<div id="selectAllMsgDiv" class="alert-block msgDiv noprint">
 		<strong><a id="selectAllMsg">{\App\Language::translate('LBL_SELECT_ALL',$MODULE)}&nbsp;{\App\Language::translate($MODULE ,$MODULE)}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
@@ -79,7 +79,7 @@
 								{else}
 									{assign var=SEARCH_INFO value=[]}
 								{/if}
-								{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE_NAME)
+								{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE_NAME)
                     FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL}
 							</td>
 						{/foreach}
@@ -95,7 +95,7 @@
 					{assign var="RECORD_ID" value=$LISTVIEW_ENTRY->getId()}
 					<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}" {if $LISTVIEW_ENTRY->colorList}style="background-color: {$LISTVIEW_ENTRY->colorList['background']};color: {$LISTVIEW_ENTRY->colorList['text']};"{/if}>
 						<td class="{$WIDTHTYPE} noWrap leftRecordActions">
-							{include file=vtemplate_path('ListViewLeftSide.tpl',$MODULE_NAME)}
+							{include file=\App\Layout::getTemplatePath('ListViewLeftSide.tpl',$MODULE_NAME)}
 						</td>
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=listHeaderForeach}
 							{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
@@ -110,7 +110,7 @@
 							</td>
 						{/foreach}
 						<td class="{$WIDTHTYPE} noWrap rightRecordActions">
-							{include file=vtemplate_path('ListViewRightSide.tpl',$MODULE_NAME)}
+							{include file=\App\Layout::getTemplatePath('ListViewRightSide.tpl',$MODULE_NAME)}
 						</td>
 					</tr>
 				{/foreach}

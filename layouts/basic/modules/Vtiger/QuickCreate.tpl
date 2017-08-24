@@ -25,7 +25,7 @@
 						<div class="pull-right quickCreateActions pullRight">
 							{assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
 							{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
-								{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='quickcreateViewHeader'}
+								{include file='ButtonLink.tpl'|@\App\Layout::getTemplatePath:$MODULE BUTTON_VIEW='quickcreateViewHeader'}
 								&nbsp;&nbsp;
 							{/foreach}
 							<button class="btn btn-default goToFullFormOne" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{\App\Language::translate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>&nbsp;
@@ -68,7 +68,7 @@
 													</label>
 												</div>
 												<div class="fieldValue col-xs-12 col-sm-7" >
-													{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE)}
+													{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE)}
 												</div>
 											</div>
 											{/foreach}

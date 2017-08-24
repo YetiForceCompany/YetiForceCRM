@@ -7,16 +7,16 @@
 					<span class="caret"></span>
 				{/if}
 				{assign var=LEFTPANELHIDE value=$USER_MODEL->get('leftpanelhide')}	
-				{include file='BodyHeaderMobile.tpl'|@vtemplate_path:$MODULE}
+				{include file='BodyHeaderMobile.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 				<div class="mobileLeftPanel noSpaces">
-					{include file='BodyLeft.tpl'|@vtemplate_path:$MODULE DEVICE=Mobile}
+					{include file='BodyLeft.tpl'|@\App\Layout::getTemplatePath:$MODULE DEVICE=Mobile}
 				</div>
 				<div class="leftPanel noSpaces">
-					{include file='BodyLeft.tpl'|@vtemplate_path:$MODULE DEVICE=Desktop}
+					{include file='BodyLeft.tpl'|@\App\Layout::getTemplatePath:$MODULE DEVICE=Desktop}
 				</div>
-				{include file='BodyHeader.tpl'|@vtemplate_path:$MODULE}
+				{include file='BodyHeader.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 				<div class="basePanel noSpaces {if $LEFTPANELHIDE} menuOpen{/if}">
 					<div class="mainBody">
-					{include file='BodyContent.tpl'|@vtemplate_path:$MODULE}
+					{include file='BodyContent.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 				{/if}
 			{/strip}

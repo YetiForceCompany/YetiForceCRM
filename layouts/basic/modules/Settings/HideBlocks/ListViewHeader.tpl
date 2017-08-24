@@ -3,7 +3,7 @@
 <div class="">
 	<div class="widget_header row">
 		<div class="col-xs-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file='BreadCrumbs.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 			{\App\Language::translate('LBL_HIDEBLOCKS_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	</div>
@@ -17,7 +17,7 @@
 			{/foreach}
 		</div>
 		<div class="pull-right btn-toolbar">
-			{include file='ListViewActions.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+			{include file='ListViewActions.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}
 		</div>
 		<div class="clearfix"></div>
 	</div>

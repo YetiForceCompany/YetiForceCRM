@@ -49,7 +49,7 @@
 							<th {if !$FIELD->isEditable()}class="hide"{/if}>
 								<span class="inventoryLineItemHeader">{\App\Language::translate($FIELD->get('label'), $MODULE)}</span>&nbsp;&nbsp;
 								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
-								{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE ITEM_VALUE=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
+								{include file=$FIELD_TPL_NAME|@\App\Layout::getTemplatePath:$MODULE ITEM_VALUE=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
 							</th>
 						{/foreach}
 					</tr>
@@ -73,11 +73,11 @@
 				<tbody>
 					{foreach key=KEY item=ITEM_DATA from=$INVENTORY_ROWS}
 						{assign var="ROW_NO" value=$KEY+1}
-						{include file='EditViewInventoryItem.tpl'|@vtemplate_path:$MODULE}
+						{include file='EditViewInventoryItem.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 					{foreachelse}
 						{if !$IS_OPTIONAL_ITEMS}
 							{assign var="ROW_NO" value=1}
-							{include file='EditViewInventoryItem.tpl'|@vtemplate_path:$MODULE}
+							{include file='EditViewInventoryItem.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 						{/if}
 					{/foreach}
 				</tbody>
@@ -103,12 +103,12 @@
 				</tfoot>
 			</table>
 		</div>
-		{include file='EditViewInventorySummary.tpl'|@vtemplate_path:$MODULE}
+		{include file='EditViewInventorySummary.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 		{assign var="ITEM_DATA" value=$RECORD->getInventoryDefaultDataFields()}
 		<table id="blackIthemTable" class="noValidate hide">
 			<tbody>
 				{assign var="ROW_NO" value='_NUM_'}
-				{include file='EditViewInventoryItem.tpl'|@vtemplate_path:$MODULE}
+				{include file='EditViewInventoryItem.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 			</tbody>
 		</table>
 		<br />

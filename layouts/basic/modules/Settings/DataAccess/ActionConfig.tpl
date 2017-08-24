@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 <div class="editContainer">
-	{include file='Header.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+	{include file='Header.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}
 	<div id="step">
 		<form name="condition" action="index.php" method="post" id="ActionConfig" class="form-horizontal" >
 			<input type="hidden" name="module" value="{$MODULE_NAME}" />
@@ -16,7 +16,7 @@
 				{assign var="TPL" value="data_access/$ACTION.tpl"}
 				<h4 class="padding-bottom1per"><strong>{\App\Language::translate('LBL_CONFIG_ACTION',$QUALIFIED_MODULE)}: {Settings_DataAccess_Module_Model::getActionName($ACTIONNAME,true)}</strong></h4>
 				<div class="alert alert-info">{Settings_DataAccess_Module_Model::getActionName($ACTIONNAME,false)}</div>
-				{include file=$TPL|@vtemplate_path:$ACTIONMOD}
+				{include file=$TPL|@\App\Layout::getTemplatePath:$ACTIONMOD}
 				<br /><br />
 				<div class="pull-right paddingTop20 paddingBottom20">
 					<a class="btn btn-danger backStep" type="button" href="index.php?module={$MODULE_NAME}&parent=Settings&view=Step3&tpl_id={$TPL_ID}&base_module={$BASE_MODULE}&s=false">{\App\Language::translate('BACK', $QUALIFIED_MODULE)}</a>&nbsp;&nbsp;

@@ -11,7 +11,7 @@
 				{/if}
 				<span class="menuName">{Vtiger_Menu_Model::vtranslateMenu($MENU['name'],$MENU_MODULE)}</span>
 			</a>
-			{include file='menu/SubMenu.tpl'|@vtemplate_path:$MODULE}
+			{include file='menu/SubMenu.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 		</li>
 	{/if}
 {/strip}

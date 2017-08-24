@@ -20,7 +20,7 @@
 						{else}
 							{assign var=HASCHILDS value='false'}
 						{/if}
-						{include file='menu/'|cat:$MENU.type|cat:'.tpl'|@vtemplate_path:$MODULE DEVICE=$DEVICE}
+						{include file='menu/'|cat:$MENU.type|cat:'.tpl'|@\App\Layout::getTemplatePath:$MODULE DEVICE=$DEVICE}
 					{/foreach}
 					{if $DEVICE == 'Mobile'}
 					</ul>

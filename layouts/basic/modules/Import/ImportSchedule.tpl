@@ -37,7 +37,7 @@
             <td align="right" colspan="2">
                 <a type="button" name="cancel" value="{\App\Language::translate('LBL_CANCEL_IMPORT', $MODULE)}" class="crmButton small delete"
                    onclick="location.href = 'index.php?module={$FOR_MODULE}&view=Import&mode=cancelImport&import_id={$IMPORT_ID}'">{\App\Language::translate('LBL_CANCEL_IMPORT', $MODULE)}</a>
-                {include file='Import_Done_Buttons.tpl'|@vtemplate_path:'Import'}
+                {include file='Import_Done_Buttons.tpl'|@\App\Layout::getTemplatePath:'Import'}
             </td>
         </tr>
     </table>

@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-{include file="Header.tpl"|vtemplate_path:$MODULE}
+{include file="Header.tpl"|\App\Layout::getTemplatePath:$MODULE}
 <div class="bodyContents">
 	<div class="mainContainer">
 		<div class="contentsDiv col-md-12 marginLeftZero" id="centerPanel" style="min-height:550px;">

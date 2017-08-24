@@ -52,7 +52,7 @@ class Settings_Workflows_TaskType_Model extends \App\Base
 	 */
 	public function getTemplatePath()
 	{
-		return vtemplate_path('Tasks/' . $this->getName() . '.tpl', 'Settings:Workflows');
+		return \App\Layout::getTemplatePath('Tasks/' . $this->getName() . '.tpl', 'Settings:Workflows');
 	}
 
 	/**

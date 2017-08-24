@@ -3,7 +3,7 @@
 <div class=" LangManagement">
 	<div class="widget_header row">
 		<div class="col-md-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file='BreadCrumbs.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 			&nbsp;{\App\Language::translate('LBL_Module_desc', $QUALIFIED_MODULE)}
 		</div>
 	</div>
@@ -42,17 +42,17 @@
             </ul>
 			<div class="tab-content layoutContent padding10 themeTableColor overflowVisible">
 				<div class="tab-pane active" id="lang_list">
-					{include file='LangList.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+					{include file='LangList.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}
 				</div>
 				<div class="tab-pane" id="edit_lang" data-mode="editLang"></div>
 				<div class="tab-pane" id="editHelpIcon" data-mode="editHelpIcon"></div>
 				<div class="tab-pane" id="lang_stats">
-					{include file='Stats.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+					{include file='Stats.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="clearfix"></div>
-	{include file='AddLanguage.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
-	{include file='AddTranslation.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+	{include file='AddLanguage.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}
+	{include file='AddTranslation.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}
 {/strip}

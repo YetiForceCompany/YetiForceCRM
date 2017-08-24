@@ -132,7 +132,7 @@
 					<span style="position:relative;"></span>
 				</td>
 				<td class="widgeticons col-md-4" align="right">
-					{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME SETTING_EXIST=true}
+					{include file="dashboards/DashboardHeaderIcons.tpl"|@\App\Layout::getTemplatePath:$MODULE_NAME SETTING_EXIST=true}
 				</td>
 			</tr>
 		</tbody>
@@ -152,5 +152,5 @@
 </div>
 
 <div class="dashboardWidgetContent" style="padding-top:0px;">
-	{include file="dashboards/DashBoardWidgetContents.tpl"|@vtemplate_path:$MODULE_NAME}
+	{include file="dashboards/DashBoardWidgetContents.tpl"|@\App\Layout::getTemplatePath:$MODULE_NAME}
 </div>

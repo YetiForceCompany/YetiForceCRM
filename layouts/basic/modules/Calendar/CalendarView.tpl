@@ -28,10 +28,10 @@
 <div class="calendarViewContainer rowContent col-md-12 paddingLefttZero col-xs-12">
 	<div class="widget_header row marginbottomZero marginRightMinus20">
 		<div class="pull-left paddingLeftMd">
-			{include file='ButtonViewLinks.tpl'|@vtemplate_path LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions pull-left paddingLeftMd'}
+			{include file='ButtonViewLinks.tpl'|@\App\Layout::getTemplatePath LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions pull-left paddingLeftMd'}
 		</div>
 		<div class="col-xs-9 col-sm-6">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE_NAME}
+			{include file='BreadCrumbs.tpl'|@\App\Layout::getTemplatePath:$MODULE_NAME}
 		</div>
 		<div class="pull-right col-xs-1 col-sm-1">
 			<button class="pull-right btn btn-default btn-sm addButton marginRight10">

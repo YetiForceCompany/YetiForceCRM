@@ -11,7 +11,7 @@
 <div class="processesContainer">
 	<div class="widget_header row">
 		<div class="col-xs-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file='BreadCrumbs.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 			<h5>{\App\Language::translate('LBL_TIMECONTROL_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}</h5>
 		</div>
 	</div>

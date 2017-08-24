@@ -69,7 +69,7 @@
 								</tbody>
 							</table>
 						</div>
-						{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
+						{include file='ModalFooter.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 					</form>
 				</div>
 			</div>

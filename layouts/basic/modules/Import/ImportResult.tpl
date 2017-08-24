@@ -12,7 +12,7 @@
 {strip}
 <div class='widget_header row '>
 	<div class="col-xs-12">
-		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		{include file='BreadCrumbs.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 	</div>
 </div>
 <div>
@@ -32,12 +32,12 @@
         {/if}
         <tr>
             <td valign="top">
-                {include file="Import_Result_Details.tpl"|@vtemplate_path:'Import'}
+                {include file="Import_Result_Details.tpl"|@\App\Layout::getTemplatePath:'Import'}
             </td>
         </tr>
         <tr>
             <td align="right" colspan="2">
-                {include file='Import_Finish_Buttons.tpl'|@vtemplate_path:'Import'}
+                {include file='Import_Finish_Buttons.tpl'|@\App\Layout::getTemplatePath:'Import'}
             </td>
         </tr>
     </table>

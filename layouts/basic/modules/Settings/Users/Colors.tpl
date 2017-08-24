@@ -3,7 +3,7 @@
 <div class="UserColors">
 	<div class="widget_header row">
 		<div class="col-md-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file='BreadCrumbs.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 			{\App\Language::translate('LBL_COLORS_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>		
 	</div>
@@ -162,7 +162,7 @@
 						</div>
 					</form>
 				</div>
-				{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
+				{include file='ModalFooter.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 			</div>
 		</div>
 	</div>

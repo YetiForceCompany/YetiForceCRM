@@ -60,7 +60,7 @@
 				<h4><strong>{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS',$MODULE)}</strong></h4>
 				<br />
 				<div class="col-md-10">
-					{include file='AdvanceFilter.tpl'|@vtemplate_path RECORD_STRUCTURE=$RECORD_STRUCTURE ADVANCE_CRITERIA=$SELECTED_ADVANCED_FILTER_FIELDS COLUMNNAME_API=getReportFilterColumnName}
+					{include file='AdvanceFilter.tpl'|@\App\Layout::getTemplatePath RECORD_STRUCTURE=$RECORD_STRUCTURE ADVANCE_CRITERIA=$SELECTED_ADVANCED_FILTER_FIELDS COLUMNNAME_API=getReportFilterColumnName}
 				</div>
 				<div class="col-md-10">
 					<div class="pull-right">

@@ -67,7 +67,7 @@
 																	{\App\Language::translate($FIELD_MODEL->get('label'), $MODULE)}:
 																</label>
 																<div class="fieldValue col-md-6">
-																	{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) VIEW = 'MassEdit'}
+																	{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) VIEW = 'MassEdit'}
 																</div>
 															</div>
 														</div>
@@ -80,7 +80,7 @@
 							</div>
 						</div>
 					</div>
-					{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
+					{include file='ModalFooter.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 				</form>
 			</div>
 		</div>

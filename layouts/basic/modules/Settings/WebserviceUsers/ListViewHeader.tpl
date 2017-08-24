@@ -2,7 +2,7 @@
 {strip}
 	<div class='widget_header row '>
 		<div class="col-xs-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+			{include file='BreadCrumbs.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}
 		</div>
 	</div>
 	<div class="row no-margin">

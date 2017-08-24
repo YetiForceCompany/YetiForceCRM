@@ -44,7 +44,7 @@
 						</div>
 					{/if}
 				</div>
-				{include file='ModalFooter.tpl'|@vtemplate_path:$qualifiedName}
+				{include file='ModalFooter.tpl'|@\App\Layout::getTemplatePath:$qualifiedName}
 			</form>
 		</div>
 	</div>

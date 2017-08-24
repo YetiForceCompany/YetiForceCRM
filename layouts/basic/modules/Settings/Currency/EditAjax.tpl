@@ -91,7 +91,7 @@
 				</div>
 			</div>
 					</div>
-					{include file='ModalFooter.tpl'|@vtemplate_path:'Vtiger'}
+					{include file='ModalFooter.tpl'|@\App\Layout::getTemplatePath:'Vtiger'}
 				</form>
 			</div>
 		</div>

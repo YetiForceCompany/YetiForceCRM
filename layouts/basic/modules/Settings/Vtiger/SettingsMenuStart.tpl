@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	{include file="Header.tpl"|vtemplate_path:$MODULE}
+	{include file="Header.tpl"|\App\Layout::getTemplatePath:$MODULE}
     <div class="bodyContents">
         <div class="mainContainer">
 			<div class="contentsDiv">

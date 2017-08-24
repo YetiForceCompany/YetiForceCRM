@@ -20,7 +20,7 @@
 			{assign 'MODULE_NAME' $MODULE_MODEL->getName()}
 			{assign var=DATA value=Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($TYPE, $MODULE_NAME)}
 			{if $DATA}
-				{include file='AddPanel.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+				{include file='AddPanel.tpl'|@\App\Layout::getTemplatePath:$QUALIFIED_MODULE}
 			{/if}
 		{/foreach}
 	</div>

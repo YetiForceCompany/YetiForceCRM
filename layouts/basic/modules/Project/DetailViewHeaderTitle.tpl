@@ -37,6 +37,6 @@
 				</div>
 			</div>
 		</div>
-		{include file='DetailViewHeaderFields.tpl'|@vtemplate_path:$MODULE_NAME}
+		{include file='DetailViewHeaderFields.tpl'|@\App\Layout::getTemplatePath:$MODULE_NAME}
 	</div>
 {/strip}

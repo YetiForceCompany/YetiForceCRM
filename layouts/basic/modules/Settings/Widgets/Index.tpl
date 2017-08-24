@@ -7,7 +7,7 @@
 	<input type="hidden" name="tabid" value="{$SOURCE}">
 	<div class="widget_header row">
 		<div class="col-md-8">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file='BreadCrumbs.tpl'|@\App\Layout::getTemplatePath:$MODULE}
 			{\App\Language::translate('LBL_MODULE_DESC', $QUALIFIED_MODULE)}
 		</div>
 		<div class="pull-right col-md-4 h3">

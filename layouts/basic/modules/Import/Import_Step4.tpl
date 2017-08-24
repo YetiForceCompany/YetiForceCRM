@@ -20,7 +20,7 @@
 		</td>
 		<td>
             <div id="savedMapsContainer" class="textAlignRight pull-right">
-				{include file="Import_Saved_Maps.tpl"|@vtemplate_path:'Import'}
+				{include file="Import_Saved_Maps.tpl"|@\App\Layout::getTemplatePath:'Import'}
 			</div>
         </td>
 	</tr>
@@ -110,4 +110,4 @@
 		</td>
 	</tr>
 </table>
-{include file="Import_Default_Values_Widget.tpl"|@vtemplate_path:'Import'}
+{include file="Import_Default_Values_Widget.tpl"|@\App\Layout::getTemplatePath:'Import'}

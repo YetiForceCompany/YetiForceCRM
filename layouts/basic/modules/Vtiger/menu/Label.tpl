@@ -15,10 +15,10 @@
 			</div>
 		</a>
 		{if $DEVICE == 'Desktop'}
-			{include file='menu/SubMenu.tpl'|@vtemplate_path:$MODULE DEVICE=$DEVICE}
+			{include file='menu/SubMenu.tpl'|@\App\Layout::getTemplatePath:$MODULE DEVICE=$DEVICE}
 		{/if}
 	</li>
 	{if $DEVICE == 'Mobile'}
-		{include file='menu/SubMenu.tpl'|@vtemplate_path:$MODULE DEVICE=$DEVICE}
+		{include file='menu/SubMenu.tpl'|@\App\Layout::getTemplatePath:$MODULE DEVICE=$DEVICE}
 	{/if}
 {/strip}
