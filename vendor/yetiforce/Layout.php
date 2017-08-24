@@ -93,4 +93,28 @@ class Layout
 		$args = func_get_args();
 		return call_user_func_array(array('Vtiger_Theme', 'getImagePath'), $args);
 	}
+
+	/**
+	 * The function gets the default image path
+	 * @param string $imageName
+	 * @param string $defaultImageName
+	 * @return array
+	 */
+	public static function getDefaultImgPath($imageName, $defaultImageName)
+	{
+		$args = func_get_args();
+		return call_user_func_array(array('Vtiger_Theme', 'getOrignOrDefaultImgPath'), $args);
+	}
+
+	/**
+	 * Function takes a template path
+	 * @param string $templateName
+	 * @param string $moduleName
+	 * @return array
+	 */
+	public static function getTemplatePath($templateName, $moduleName = '')
+	{
+		$viewerInstance = Vtiger_Viewer::getInstance();
+		return $viewerInstance->getTemplatePath($templateName, $moduleName);
+	}
 }
