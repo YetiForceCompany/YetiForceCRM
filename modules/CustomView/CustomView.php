@@ -409,23 +409,23 @@ class CustomView extends CRMEntity
 		if (isset($columnsList)) {
 			foreach ($columnsList as $columnName => $value) {
 				$tableField = '';
-				if ($value != '') {
+				if ($value !== '') {
 					$list = explode(':', $value);
 
 					//Added For getting status for Activities -Jaguar
 					$sqlListColumn = $list[0] . '.' . $list[1];
 					if ($this->customviewmodule == 'Calendar') {
-						if ($list[1] == 'status' || $list[1] == 'activitystatus') {
+						if ($list[1] === 'status' || $list[1] === 'activitystatus') {
 							$sqlListColumn = 'vtiger_activity.status as activitystatus';
 						}
 					}
 					//Added for assigned to sorting
-					if ($list[1] == 'smownerid') {
+					if ($list[1] === 'smownerid') {
 						$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
 								'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 						$sqlListColumn = "case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name";
 					}
-					if ($list[0] == 'vtiger_contactdetails' && $list[1] == 'lastname')
+					if ($list[0] == 'vtiger_contactdetails' && $list[1] === 'lastname')
 						$sqlListColumn = 'vtiger_contactdetails.lastname,vtiger_contactdetails.firstname';
 					$sqlList[] = $sqlListColumn;
 					//Ends
