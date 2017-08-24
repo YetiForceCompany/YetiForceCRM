@@ -414,7 +414,7 @@ class CustomView extends CRMEntity
 
 					//Added For getting status for Activities -Jaguar
 					$sqlListColumn = $list[0] . '.' . $list[1];
-					if ($this->customviewmodule == 'Calendar') {
+					if ($this->customviewmodule === 'Calendar') {
 						if ($list[1] === 'status' || $list[1] === 'activitystatus') {
 							$sqlListColumn = 'vtiger_activity.status as activitystatus';
 						}
