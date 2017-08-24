@@ -528,7 +528,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$image = $this->getImageDetails();
 		$image = reset($image);
 		if (empty($image) || empty($image['path'])) {
-			$imagePath = 'public_html/' . vimage_path('DefaultUserIcon.png');
+			$imagePath = 'public_html/' . getImagePath('DefaultUserIcon.png');
 		} else {
 			$imagePath = $image['path'];
 		}

@@ -82,4 +82,15 @@ class Layout
 		}
 		return $basePath . $name;
 	}
+
+	/**
+	 * The function get path  to the image
+	 * @param string $imageName
+	 * @return array
+	 */
+	function getImagePath($imageName)
+	{
+		$args = func_get_args();
+		return call_user_func_array(array('Vtiger_Theme', 'getImagePath'), $args);
+	}
 }

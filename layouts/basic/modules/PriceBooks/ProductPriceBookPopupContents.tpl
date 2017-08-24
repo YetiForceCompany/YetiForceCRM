@@ -33,7 +33,7 @@
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 					<th class="{$WIDTHTYPE}">
 						<a class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $ORDER_BY eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('column')}">{\App\Language::translate($LISTVIEW_HEADER->get('label'), $MODULE_NAME)}
-							{if $ORDER_BY eq $LISTVIEW_HEADER->get('column')}<img class="sortImage" src="{vimage_path( $SORT_IMAGE, $MODULE_NAME)}">{else}<img class="hide sortingImage" src="{vimage_path( 'downArrowSmall.png', $MODULE_NAME)}">{/if}</a>
+							{if $ORDER_BY eq $LISTVIEW_HEADER->get('column')}<img class="sortImage" src="{getImagePath( $SORT_IMAGE, $MODULE_NAME)}">{else}<img class="hide sortingImage" src="{getImagePath( 'downArrowSmall.png', $MODULE_NAME)}">{/if}</a>
 					</th>
 					{/foreach}
 					<th class="listViewHeaderValues noSorting {$WIDTHTYPE}">{\App\Language::translate('LBL_UNIT_PRICE',$MODULE_NAME)}</th>

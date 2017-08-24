@@ -5,7 +5,7 @@
 			<div class="col-md-4">
 				<div class="panel panel-default inventorySummaryContainer inventorySummaryDiscounts">
 					<div class="panel-heading">
-						<img src="{vimage_path('Discount24.png')}" alt="{\App\Language::translate('LBL_DISCOUNT', $MODULE)}" />&nbsp;&nbsp;
+						<img src="{getImagePath('Discount24.png')}" alt="{\App\Language::translate('LBL_DISCOUNT', $MODULE)}" />&nbsp;&nbsp;
 						<strong>{\App\Language::translate('LBL_DISCOUNTS_SUMMARY',$MODULE)}</strong>
 						<span class="pull-right groupDiscount changeDiscount {if isset($INVENTORY_ROWS[0]) && $INVENTORY_ROWS[0]['discountmode'] == '1'}hide{/if}">
 							<button type="button" class="btn btn-primary btn-xs">{\App\Language::translate('LBL_SET_GLOBAL_TAX', $MODULE)}</button>
@@ -28,7 +28,7 @@
 			<div class="col-md-4">
 				<div class="panel panel-default inventorySummaryContainer inventorySummaryTaxes">
 					<div class="panel-heading">
-						<img src="{vimage_path('Tax24.png')}" alt="{\App\Language::translate('LBL_TAX', $MODULE)}" />&nbsp;&nbsp;
+						<img src="{getImagePath('Tax24.png')}" alt="{\App\Language::translate('LBL_TAX', $MODULE)}" />&nbsp;&nbsp;
 						<strong>{\App\Language::translate('LBL_TAX_SUMMARY',$MODULE)}</strong>
 						<span class="pull-right groupTax changeTax {if isset($INVENTORY_ROWS[0]) && $INVENTORY_ROWS[0]['taxmode'] == '1'}hide{/if}">
 							<button type="button" class="btn btn-primary btn-xs">{\App\Language::translate('LBL_SET_GLOBAL_DISCOUNT', $MODULE)}</button>

@@ -16,7 +16,7 @@
 			<div class="commentInfoHeader row no-margin" data-commentid="{$COMMENT->getId()}" data-parentcommentid="{$COMMENT->get('parent_comments')}">
 				<div class="pull-left">
 					{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
-					<img class="alignMiddle pull-left" alt="" width="48px" src="{if !empty($IMAGE_PATH)}{$IMAGE_PATH}{else}{vimage_path('DefaultUserIcon.png')}{/if}">
+					<img class="alignMiddle pull-left" alt="" width="48px" src="{if !empty($IMAGE_PATH)}{$IMAGE_PATH}{else}{getImagePath('DefaultUserIcon.png')}{/if}">
 				</div>
 				<div class="commentTitle row no-margin" id="{$COMMENT->getId()}">
 					{assign var=PARENT_COMMENT_MODEL value=$COMMENT->getParentCommentModel()}
@@ -98,7 +98,7 @@
 							<span class="hide hideThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
 								<a class="cursorPointer hideThread">
 									<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
-									<img class="alignMiddle" src="{vimage_path('downArrowSmall.png')}" />
+									<img class="alignMiddle" src="{getImagePath('downArrowSmall.png')}" />
 								</a>
 							</span>
 						{elseif $CHILD_COMMENTS neq null and ($CHILDS_ROOT_PARENT_ID eq $PARENT_COMMENT_ID)}
@@ -111,7 +111,7 @@
 							<span class="hideThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
 								<a class="cursorPointer hideThread">
 									<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
-									<img class="alignMiddle" src="{vimage_path('downArrowSmall.png')}" />
+									<img class="alignMiddle" src="{getImagePath('downArrowSmall.png')}" />
 								</a>
 							</span>
 						{/if}

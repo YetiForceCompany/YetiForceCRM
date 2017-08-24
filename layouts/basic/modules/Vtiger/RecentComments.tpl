@@ -44,7 +44,7 @@
 										<div class="row">
 											<div class="paddingLeftMd">
 												{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
-												<img class="alignMiddle pull-left" width="48" alt="" src="{if !empty($IMAGE_PATH)}{$IMAGE_PATH}{else}{vimage_path('DefaultUserIcon.png')}{/if}">
+												<img class="alignMiddle pull-left" width="48" alt="" src="{if !empty($IMAGE_PATH)}{$IMAGE_PATH}{else}{getImagePath('DefaultUserIcon.png')}{/if}">
 											</div>
 											<div class="col-xs-8 commentorInfo">
 												{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}

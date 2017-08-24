@@ -40,7 +40,7 @@
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							<th class="{$WIDTHTYPE}">
 								<a href="javascript:void(0);" class="listViewHeaderValues {if $LISTVIEW_HEADER->get('name') eq 'listprice' || !$LISTVIEW_HEADER->isListviewSortable()} noSorting {/if}" data-nextsortorderval="{if $ORDER_BY eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('column')}">{\App\Language::translate($LISTVIEW_HEADER->get('label'), $MODULE_NAME)}
-									{if $ORDER_BY eq $LISTVIEW_HEADER->get('column')}<img class="sortImage" alt="{\App\Language::translate('LBL_SORT_ASCENDING')}" src="{vimage_path( $SORT_IMAGE, $MODULE_NAME)}">{else}<img class="hide sortingImage" alt="{\App\Language::translate('LBL_SORT_DESCENDING')}" src="{vimage_path( 'downArrowSmall.png', $MODULE_NAME)}">{/if}</a>
+									{if $ORDER_BY eq $LISTVIEW_HEADER->get('column')}<img class="sortImage" alt="{\App\Language::translate('LBL_SORT_ASCENDING')}" src="{getImagePath( $SORT_IMAGE, $MODULE_NAME)}">{else}<img class="hide sortingImage" alt="{\App\Language::translate('LBL_SORT_DESCENDING')}" src="{getImagePath( 'downArrowSmall.png', $MODULE_NAME)}">{/if}</a>
 							</th>
 						{/foreach}
 						<th class="{$WIDTHTYPE}"></th>

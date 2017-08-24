@@ -32,8 +32,8 @@
 					<span name="description" id="description"><strong>{$RECORD_MODEL->getDescription()}</strong></span>
 				</div>
 			</div><br />
-            {assign var="ENABLE_IMAGE_PATH" value="{vimage_path('Enable.png')}"}
-            {assign var="DISABLE_IMAGE_PATH" value="{vimage_path('Disable.png')}"}
+            {assign var="ENABLE_IMAGE_PATH" value="{getImagePath('Enable.png')}"}
+            {assign var="DISABLE_IMAGE_PATH" value="{getImagePath('Disable.png')}"}
             <div class="summaryWidgetContainer">
                 <div class="row">
                     <div class="col-md-3 row">
