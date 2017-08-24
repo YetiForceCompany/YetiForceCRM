@@ -17,17 +17,12 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getConfig($type)
 	{
-		$db = PearDatabase::getInstance();
-
-		$result = $db->pquery('SELECT * FROM yetiforce_auth WHERE type = ?;', [$type]);
-		if ($db->num_rows($result) == 0) {
-			return [];
-		}
+		$query = (new App\Db\Query())->from('yetiforce_auth')->where(['type' => $type]);
 		$config = [];
-		$numRowsCount = $db->num_rows($result);
-		for ($i = 0; $i < $numRowsCount; ++$i) {
-			$param = $db->query_result_raw($result, $i, 'param');
-			$value = $db->query_result_raw($result, $i, 'value');
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$param = $row['param'];
+			$value = $row['value'];
 			if ($param == 'users') {
 				$config[$param] = $value == '' ? [] : explode(',', $value);
 			} else {
@@ -80,8 +75,8 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 			$switchUsers[$user] = $usersForSort;
 		}
 		$content = '<?php' . PHP_EOL .
-				'$switchUsersRaw = ' . \vtlib\Functions::varExportMin($switchUsersRaw) . ';' . PHP_EOL .
-				'$switchUsers = ' . \vtlib\Functions::varExportMin($switchUsers) . ';' . PHP_EOL;
+			'$switchUsersRaw = ' . \vtlib\Functions::varExportMin($switchUsersRaw) . ';' . PHP_EOL .
+			'$switchUsers = ' . \vtlib\Functions::varExportMin($switchUsers) . ';' . PHP_EOL;
 		file_put_contents('user_privileges/switchUsers.php', $content);
 	}
 
@@ -104,10 +99,10 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		if (substr($data, 0, 1) === 'H') {
 			$return = (new \App\Db\Query())->select(['userid'])
-					->from('vtiger_user2role')
-					->innerJoin('vtiger_users', 'vtiger_users.id = vtiger_user2role.userid')
-					->where(['and', ['roleid' => $data], ['<>', 'status', 'Inactive']])
-					->column();
+				->from('vtiger_user2role')
+				->innerJoin('vtiger_users', 'vtiger_users.id = vtiger_user2role.userid')
+				->where(['and', ['roleid' => $data], ['<>', 'status', 'Inactive']])
+				->column();
 		} else {
 			$return = [(int) $data];
 		}
@@ -164,8 +159,8 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 			$switchUsers [$user] = $usersForSort;
 		}
 		$content = '<?php' . PHP_EOL .
-				'$switchUsersRaw = ' . \vtlib\Functions::varExportMin($switchUsersRaw) . ';' . PHP_EOL .
-				'$switchUsers = ' . \vtlib\Functions::varExportMin($switchUsers) . ';' . PHP_EOL;
+			'$switchUsersRaw = ' . \vtlib\Functions::varExportMin($switchUsersRaw) . ';' . PHP_EOL .
+			'$switchUsers = ' . \vtlib\Functions::varExportMin($switchUsers) . ';' . PHP_EOL;
 		file_put_contents('user_privileges/switchUsers.php', $content);
 	}
 
@@ -222,8 +217,8 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 			}
 		}
 		$content = '<?php' . PHP_EOL .
-				'$locksRaw = ' . \vtlib\Functions::varExportMin($toSave) . ';' . PHP_EOL .
-				'$locks = ' . \vtlib\Functions::varExportMin($map) . ';';
+			'$locksRaw = ' . \vtlib\Functions::varExportMin($toSave) . ';' . PHP_EOL .
+			'$locks = ' . \vtlib\Functions::varExportMin($map) . ';';
 		file_put_contents('user_privileges/locks.php', $content);
 		$newValues = $this->getLocks();
 		$difference = vtlib\Functions::arrayDiffAssocRecursive($newValues, $oldValues);

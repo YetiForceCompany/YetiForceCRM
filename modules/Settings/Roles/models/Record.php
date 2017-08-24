@@ -152,22 +152,12 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function returns profiles related to the current role
-	 * @return <Array> - profile ids
+	 * @return array - profile ids
 	 */
 	public function getProfileIdList()
 	{
 
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT profileid FROM vtiger_role2profile WHERE roleid=?';
-
-		$result = $db->pquery($query, array($this->getId()));
-		$num_rows = $db->num_rows($result);
-
-		$profilesList = [];
-		for ($i = 0; $i < $num_rows; $i++) {
-			$profilesList[] = $db->query_result($result, $i, 'profileid');
-		}
-		return $profilesList;
+		return (new App\Db\Query())->select(['profileid'])->from('vtiger_role2profile')->where(['roleid' => $this->getId()])->column();
 	}
 
 	/**
