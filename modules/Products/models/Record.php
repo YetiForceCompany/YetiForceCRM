@@ -326,7 +326,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 		} else {
 			if ($available === 'available') { // Create View
 				$userCurrencyId = \App\User::getCurrentUserModel()->getDetail('currency_id');
-				$query = (new App\Db\Query())->select(['vtiger_currency_info.*'])->from('vtiger_currency_info')->where(['vtiger_currency_info.currency_status' => 'Active', 'vtiger_currency_info.deleted' => 0]);
+				$query = (new App\Db\Query())->from('vtiger_currency_info')->where(['vtiger_currency_info.currency_status' => 'Active', 'vtiger_currency_info.deleted' => 0]);
 
 				$dataReader = $query->createCommand()->query();
 				$i = 0;
