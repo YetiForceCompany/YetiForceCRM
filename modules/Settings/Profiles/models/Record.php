@@ -514,7 +514,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		$profilePermissions[$eventModule->getId()]['fields'] = $eventFieldsPermissions;
 
 		$isProfileDirectlyRelatedToRole = 0;
-		$isNewProfile = false;
 		if ($this->has('directly_related_to_role')) {
 			$isProfileDirectlyRelatedToRole = $this->get('directly_related_to_role');
 		}
@@ -527,7 +526,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			])->execute();
 			$profileId = $db->getLastInsertID('vtiger_profile_profileid_seq');
 			$this->setId($profileId);
-			$isNewProfile = true;
 		} else {
 			$db->createCommand()->update('vtiger_profile', [
 				'profilename' => $profileName,
@@ -578,9 +576,6 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 					$this->saveModulePermissions($moduleModel, $permissions);
 				}
 			}
-		}
-		if ($isNewProfile) {
-			$this->saveUserAccessbleFieldsIntoProfile2Field();
 		}
 
 		$this->recalculate();
@@ -921,62 +916,5 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			$query->andWhere(['vtiger_role2profile.profileid' => $profileId]);
 		}
 		return $query->column();
-	}
-
-	/**
-	 * Function to save user fields in vtiger_profile2field table
-	 * We need user field values to generating the Email Templates variable valuues.
-	 */
-	public function saveUserAccessbleFieldsIntoProfile2Field()
-	{
-		$profileId = $this->getId();
-		if (!empty($profileId)) {
-			$dbCommand = \App\Db::getInstance()->createCommand();
-			$userRecordModel = Users_Record_Model::getCurrentUserModel();
-			$module = $userRecordModel->getModuleName();
-			$tabId = \App\Module::getModuleId($module);
-			$userModuleModel = Users_Module_Model::getInstance($module);
-			$moduleFields = $userModuleModel->getFields();
-
-			$userAccessbleFields = [];
-			$skipFields = array(98, 115, 116, 31, 32);
-			foreach ($moduleFields as $fieldName => $fieldModel) {
-				if ($fieldModel->getFieldDataType() == 'string' || $fieldModel->getFieldDataType() == 'email' || $fieldModel->getFieldDataType() == 'phone') {
-					if (!in_array($fieldModel->get('uitype'), $skipFields) && $fieldName != 'asterisk_extension') {
-						if (!isset($userAccessbleFields[$fieldModel->get('id')])) {
-							$userAccessbleFields[$fieldModel->get('id')] = $fieldName;
-						} else {
-							$userAccessbleFields[$fieldModel->get('id')] .= $fieldName;
-						}
-					}
-				}
-			}
-
-			//Added user fields into vtiger_profile2field and vtiger_def_org_field
-			//We are using this field information in Email Templates.
-			foreach ($userAccessbleFields as $fieldId => $fieldName) {
-				$dbCommand->insert('vtiger_profile2field', [
-					'profileid' => $profileId,
-					'tabid' => $tabId,
-					'fieldid' => $fieldId,
-					'visible' => Settings_Profiles_Module_Model::FIELD_ACTIVE,
-					'readonly' => Settings_Profiles_Module_Model::FIELD_READWRITE
-				])->execute();
-			}
-			$defOrgFields = (new \App\Db\Query())
-					->select(['fieldid'])
-					->from('vtiger_def_org_field')
-					->where(['tabid' => $tabId])->column();
-			foreach ($userAccessbleFields as $fieldId => $fieldName) {
-				if (!in_array($fieldId, $defOrgFields)) {
-					$dbCommand->insert('vtiger_def_org_field', [
-						'tabid' => $tabId,
-						'fieldid' => $fieldId,
-						'visible' => 0,
-						'readonly' => 0
-					])->execute();
-				}
-			}
-		}
 	}
 }
