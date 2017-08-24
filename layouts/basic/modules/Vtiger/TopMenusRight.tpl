@@ -3,7 +3,7 @@
 		<ul class="settingIcons nav navbar-nav navbar-right">
 			<li class="dropdown">
 				<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-					<img src="{vimage_path('theme_brush.png')}" alt="theme roller" title="Theme Roller" />
+					<img src="{\App\Layout::getImagePath('theme_brush.png')}" alt="theme roller" title="Theme Roller" />
 				</a>
 				<ul class="dropdown-menu themeMenuContainer">
 					<div id="themeContainer">
@@ -87,7 +87,7 @@
 	{if isset($CHAT_ENTRIES)}
 		<ul class="headerLinksContainer headerLinksChat nav navbar-nav navbar-right">
 			<li>
-				<a class="ChatIcon" href="#" title="{\App\Language::translate('LBL_CHAT', $MODULE)}"><img src="{vimage_path('chat.png')}" alt="chat_icon"/></a>
+				<a class="ChatIcon" href="#" title="{\App\Language::translate('LBL_CHAT', $MODULE)}"><img src="{\App\Layout::getImagePath('chat.png')}" alt="chat_icon"/></a>
 			</li>
 		</ul>
 	{/if}

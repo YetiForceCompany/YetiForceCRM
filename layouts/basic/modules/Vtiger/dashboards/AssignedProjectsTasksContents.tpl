@@ -9,7 +9,7 @@ font-size: 75%;
 	{foreach from=$PROJECTSTASKS key=INDEX item=TASKS}
 	<div>
 		<div class='pull-left'>
-			<image style="margin-left: 4px;" alt="{\App\Language::translate('ProjectTask')}" src="{vimage_path('ProjectTask.png')}" width="24px" />&nbsp;&nbsp;
+			<image style="margin-left: 4px;" alt="{\App\Language::translate('ProjectTask')}" src="{\App\Layout::getImagePath('ProjectTask.png')}" width="24px" />&nbsp;&nbsp;
 		</div>
 		<div>
 			<div class='pull-left'>

@@ -166,12 +166,6 @@ class Vtiger_Theme extends Vtiger_Viewer
 	}
 }
 
-function vimage_path($imageName)
-{
-	$args = func_get_args();
-	return call_user_func_array(array('Vtiger_Theme', 'getImagePath'), $args);
-}
-
 function vimage_path_default($imageName, $defaultImageName)
 {
 	$args = func_get_args();

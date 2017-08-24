@@ -14,7 +14,7 @@
 	<div class="row">
 		<div class="col-md-6">
 			<div class="logo">
-				<img src="{vimage_path('vt1.png')}" alt="Vtiger Logo"/>
+				<img src="{\App\Layout::getImagePath('vt1.png')}" alt="Vtiger Logo"/>
 			</div>
 		</div>
 		<div class="col-md-6">
@@ -29,7 +29,7 @@
 				<div id="running" class="alignCenter">
 					<br /><br /><br /><br /><br />
 					<h4> {\App\Language::translate('LBL_WAIT',$MODULE)} </h4><br />
-						<img src="{vimage_path('migration_loading.gif')}"/>
+						<img src="{\App\Layout::getImagePath('migration_loading.gif')}"/>
 					<h5> {\App\Language::translate('LBL_INPROGRESS',$MODULE)} </h5>
 				</div>
 				<div id="success" class="hide">
