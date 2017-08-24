@@ -13,7 +13,7 @@
 								{if !$HISTORY['isGroup']}
 									<img class="userImage img-circle" src="{$HISTORY['userModel']->getImagePath()}">
 								{else}
-									<img class="userImage img-circle" src="{vimage_path('DefaultUserIcon.png')}">
+									<img class="userImage img-circle" src="{getImagePath('DefaultUserIcon.png')}">
 								{/if}
 							</div>
 							<div class="timeline-body row no-margin">

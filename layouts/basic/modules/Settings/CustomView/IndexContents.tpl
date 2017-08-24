@@ -19,7 +19,7 @@
 				{foreach from=$MODULE_MODEL->getCustomViews($SOURCE_MODULE_ID) item=item key=key}
 					<tr data-cvid="{$key}" data-mod="{$item['entitytype']}">
 						<td>
-							<img src="{vimage_path('drag.png')}" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+							<img src="{getImagePath('drag.png')}" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 						</td>
 						{if $item['viewname'] eq 'All'}
 							<td>{\App\Language::translate('All',$item['entitytype'])}</td>

@@ -28,7 +28,7 @@
 					<button class="btn btn-success btn-xs pull-right showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}">
 						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 					</button>
-					<img class="activityTypeIcon" src="{vimage_path($RECORD->getActivityTypeIcon())}" />&nbsp;
+					<img class="activityTypeIcon" src="{getImagePath($RECORD->getActivityTypeIcon())}" />&nbsp;
 					<a target="_blank" href="index.php?module=Calendar&view=Detail&record={$RECORD_ID}">
 						{$RECORD->get('subject')}
 					</a>

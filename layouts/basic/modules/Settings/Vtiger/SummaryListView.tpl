@@ -19,7 +19,7 @@
 			{foreach item=MENU_ITEM from=$MENU_ITEMS}
 				<div class="row item">
 					<div class="col-md-1">
-						<img src="{vimage_path($MENU_ITEM->get('iconpath'))}" />
+						<img src="{getImagePath($MENU_ITEM->get('iconpath'))}" />
 					</div>
 					<div class="col-md-10">
 						<h4>

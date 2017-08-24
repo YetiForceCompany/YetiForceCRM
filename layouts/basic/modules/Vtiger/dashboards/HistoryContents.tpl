@@ -31,8 +31,8 @@
 			{if $PROCEED}
 				<div class="row">
 					<div class='col-md-1'>
-						{if vimage_path($MOD_NAME|cat:'.png')}
-							<img width='24px' src="{vimage_path($MOD_NAME|cat:'.png')}" alt="{$TRANSLATED_MODULE_NAME}" title="{$TRANSLATED_MODULE_NAME}" />&nbsp;&nbsp;
+						{if getImagePath($MOD_NAME|cat:'.png')}
+							<img width='24px' src="{getImagePath($MOD_NAME|cat:'.png')}" alt="{$TRANSLATED_MODULE_NAME}" title="{$TRANSLATED_MODULE_NAME}" />&nbsp;&nbsp;
 						{else}
 							<span class="glyphicon glyphicon-menu-hamburger icon-in-history-widget" title="{$TRANSLATED_MODULE_NAME}"></span>
 						{/if}
@@ -127,7 +127,7 @@
 			{assign var=TRANSLATED_MODULE_NAME value = \App\Language::translate('SINGLE_ModComments' ,'ModComments')}
 			<div class="row">
 				<div class="col-md-1">
-					<img width='24px' src="{vimage_path('ModComments.png')}" alt="{$TRANSLATED_MODULE_NAME}" title="{$TRANSLATED_MODULE_NAME}" />&nbsp;&nbsp;
+					<img width='24px' src="{getImagePath('ModComments.png')}" alt="{$TRANSLATED_MODULE_NAME}" title="{$TRANSLATED_MODULE_NAME}" />&nbsp;&nbsp;
 				</div>
 				<div class="col-md-11">
 					{assign var=COMMENT_TIME value=$HISTORY->getCommentedTime()}

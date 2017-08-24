@@ -13,7 +13,7 @@
 	<div class="newCustomBlockCopy hide marginBottom10px border1px {if $IS_BLOCK_SORTABLE}blockSortable {/if}" data-block-id="" data-sequence="" style="border-radius: 4px; background: white;">
 		<div class="row layoutBlockHeader no-margin">
 			<div class="col-md-6 blockLabel padding10">
-				<img class="alignMiddle" src="{vimage_path('drag.png')}" alt="" />&nbsp;&nbsp;
+				<img class="alignMiddle" src="{getImagePath('drag.png')}" alt="" />&nbsp;&nbsp;
 			</div>
 			<div class="col-md-6 marginLeftZero">
 				<div class="pull-right btn-toolbar blockActions" style="margin: 4px;">

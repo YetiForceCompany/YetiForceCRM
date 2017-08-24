@@ -35,25 +35,25 @@
 							<ul class="nav nav-tabs" name="charttab" style="text-align:center;font-size:14px;font-weight: bold;margin:0 3%;border:0px">
 								<li class="active marginRight5px" >
 									<a data-type="pieChart" data-toggle="tab">
-										<div><img src="{vimage_path('pie.png')}" alt="{\App\Language::translate('LBL_PIE_CHART', $MODULE)}" style="border:1px solid #ccc;"/></div><br />
+										<div><img src="{getImagePath('pie.png')}" alt="{\App\Language::translate('LBL_PIE_CHART', $MODULE)}" style="border:1px solid #ccc;"/></div><br />
 										<div>{\App\Language::translate('LBL_PIE_CHART', $MODULE)}</div>
 									</a>
 								</li>
 								<li class="marginRight5px">
 									<a data-type="verticalbarChart" data-toggle="tab">
-										<div><img src="{vimage_path('vbar.png')}" alt="{\App\Language::translate('LBL_VERTICAL_BAR_CHART', $MODULE)}" style="border:1px solid #ccc;"/></div><br />
+										<div><img src="{getImagePath('vbar.png')}" alt="{\App\Language::translate('LBL_VERTICAL_BAR_CHART', $MODULE)}" style="border:1px solid #ccc;"/></div><br />
 										<div>{\App\Language::translate('LBL_VERTICAL_BAR_CHART', $MODULE)}</div>
 									</a>
 								</li>
 								<li class="marginRight5px">
 									<a data-type="horizontalbarChart" data-toggle="tab">
-										<div><img src="{vimage_path('hbar.png')}" alt="{\App\Language::translate('LBL_HORIZONTAL_BAR_CHART', $MODULE)}" style="border:1px solid #ccc;"/></div><br />
+										<div><img src="{getImagePath('hbar.png')}" alt="{\App\Language::translate('LBL_HORIZONTAL_BAR_CHART', $MODULE)}" style="border:1px solid #ccc;"/></div><br />
 										<div>{\App\Language::translate('LBL_HORIZONTAL_BAR_CHART', $MODULE)}</div>
 									</a>
 								</li>
 								<li class="marginRight5px" >
 									<a data-type="lineChart" data-toggle="tab">
-										<div><img src="{vimage_path('line.png')}" alt="{\App\Language::translate('LBL_LINE_CHART', $MODULE)}" style="border:1px solid #ccc;"/></div><br />
+										<div><img src="{getImagePath('line.png')}" alt="{\App\Language::translate('LBL_LINE_CHART', $MODULE)}" style="border:1px solid #ccc;"/></div><br />
 										<div>{\App\Language::translate('LBL_LINE_CHART', $MODULE)}</div>
 									</a>
 								</li>
