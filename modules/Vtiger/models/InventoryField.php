@@ -63,11 +63,11 @@ class Vtiger_InventoryField_Model extends App\Base
 			$fields = [];
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				if ($viewType != 'Settings' && !$this->isActiveField($row)) {
+				if ($viewType !== 'Settings' && !$this->isActiveField($row)) {
 					continue;
 				}
 				$inventoryFieldInstance = $this->getInventoryFieldInstance($row);
-				if ($viewType == 'Detail' && !$inventoryFieldInstance->isVisible()) {
+				if ($viewType === 'Detail' && !$inventoryFieldInstance->isVisible()) {
 					continue;
 				}
 				if ($returnInBlock) {

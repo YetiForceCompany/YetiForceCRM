@@ -38,6 +38,9 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 				$recordModel->set($fieldName, $fieldValue);
 			}
 		}
+		if ($type === 'Discounts') {
+			$recordModel->set('value', CurrencyField::convertToDBFormat($recordModel->get('value')));
+		}
 		$recordModel->setType($type);
 
 		$response = new Vtiger_Response();

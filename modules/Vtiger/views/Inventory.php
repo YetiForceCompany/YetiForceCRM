@@ -24,7 +24,7 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 		$currency = $request->get('currency');
 		$relatedRecord = $request->getInteger('relatedRecord');
 		$totalPrice = $request->get('totalPrice');
-		if (!\App\Privilege::isPermitted($moduleName, 'EditView', $relatedRecord)) {
+		if (!\App\Privilege::isPermitted($moduleName, 'EditView')) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		$inventoryModel = Vtiger_Inventory_Model::getInstance($moduleName);
@@ -58,7 +58,7 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 		$sourceRecord = $request->getInteger('sourceRecord');
 		$taxType = $request->get('taxType');
 		$totalPrice = $request->get('totalPrice');
-		if (!\App\Privilege::isPermitted($moduleName, 'EditView', $sourceRecord)) {
+		if (!\App\Privilege::isPermitted($moduleName, 'EditView')) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		$inventoryModel = Vtiger_Inventory_Model::getInstance($moduleName);

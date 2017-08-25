@@ -283,7 +283,6 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		discountParams = JSON.parse(discountParams);
 		var valuePrices = this.getTotalPrice(row);
 		var discountRate = 0;
-
 		var types = discountParams.aggregationType;
 		if (typeof types == 'string') {
 			types = [types];
@@ -794,7 +793,11 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 					info[param] = modal.find('[name="' + param + '"]:checked').val();
 				}
 			} else {
-				info[param] = modal.find('[name="' + param + '"]').val();
+				var value = modal.find('[name="' + param + '"]').val()
+				if(param === 'individualDiscount'){
+					value = app.parseNumberToFloat(modal.find('[name="' + param + '"]').val());
+				}
+				info[param] = value;
 			}
 		});
 		thisInstance.setDiscountParam($('#blackIthemTable'), info);
@@ -1246,7 +1249,6 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			}
 		});
 		modal.on('change', '.activeCheckbox, .globalDiscount,.individualDiscountValue,.individualDiscountType,.groupCheckbox', function (e) {
-			var element = $(e.currentTarget);
 			thisInstance.calculateDiscount(parentRow, modal);
 		});
 		modal.on('click', '.saveDiscount', function (e) {
