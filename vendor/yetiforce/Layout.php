@@ -93,4 +93,15 @@ class Layout
 		$args = func_get_args();
 		return call_user_func_array(array('Vtiger_Theme', 'getImagePath'), $args);
 	}
+
+	/**
+	 * Function takes a template path
+	 * @param string $templateName
+	 * @param string $moduleName
+	 * @return array
+	 */
+	public static function getTemplatePath($templateName, $moduleName = '')
+	{
+		return \Vtiger_Viewer::getInstance()->getTemplatePath($templateName, $moduleName);
+	}
 }

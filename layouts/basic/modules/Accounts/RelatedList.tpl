@@ -57,7 +57,7 @@
 		<div class="relatedContents contents-bottomscroll">
 			<div class="bottomscroll-div">
 				{assign var=FILENAME value="RelatedListContents.tpl"}
-				{include file=$FILENAME|vtemplate_path:$RELATED_MODULE->get('name')}
+				{include file=\App\Layout::getTemplatePath($FILENAME, $RELATED_MODULE->get('name'))}
 			</div>
 		</div>
 	</div>

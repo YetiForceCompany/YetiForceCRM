@@ -31,7 +31,7 @@
 			{include file='ButtonViewLinks.tpl'|@vtemplate_path LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions pull-left paddingLeftMd'}
 		</div>
 		<div class="col-xs-9 col-sm-6">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE_NAME}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
 		<div class="pull-right col-xs-1 col-sm-1">
 			<button class="pull-right btn btn-default btn-sm addButton marginRight10">
