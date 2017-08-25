@@ -35,7 +35,7 @@ class Vtiger_QuickDetailModal_View extends Vtiger_BasicModal_View
 	{
 		$this->preProcess($request);
 		$moduleName = $request->getModule();
-		$detailModel = Vtiger_DetailView_Model::getInstance($moduleName, $request->get('record'));
+		$detailModel = Vtiger_DetailView_Model::getInstance($moduleName, $request->getInteger('record'));
 		$recordModel = $detailModel->getRecord();
 		$detailModel->getWidgets();
 		$handlerClass = Vtiger_Loader::getComponentClassName('View', 'Detail', $moduleName);
