@@ -77,6 +77,6 @@
 				{/if}
 			</div>
 		</div>
-		{include file='DetailViewHeaderFields.tpl'|@vtemplate_path:$MODULE_NAME}
+		{include file=\App\Layout::getTemplatePath('DetailViewHeaderFields.tpl', $MODULE_NAME)}
 	</div>
 {/strip}
