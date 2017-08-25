@@ -76,7 +76,7 @@
 					</div>
 					<div class="col-md-4">
 						<div class="paginationDiv pull-right">
-							{include file='Pagination.tpl'|@vtemplate_path:$MODULE VIEWNAME='related'}
+							{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE) VIEWNAME='related'}
 						</div>
 					</div>
 				</div>
@@ -92,7 +92,7 @@
 					&nbsp;
 				</div>
 			</div>
-			{include file=vtemplate_path('ListViewAlphabet.tpl',$RELATED_MODULE_NAME) MODULE_MODEL=$RELATED_MODULE}
+			{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $RELATED_MODULE_NAME) MODULE_MODEL=$RELATED_MODULE}
 			<div class="relatedContents contents-bottomscroll">
 				<div class="bottomscroll-div">
 					{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
@@ -135,7 +135,7 @@
 										{else}
 											{assign var=SEARCH_INFO value=[]}
 										{/if}
-										{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$RELATED_MODULE_NAME)
+										{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $RELATED_MODULE_NAME)}
 							FIELD_MODEL=$HEADER_FIELD SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL MODULE_MODEL=$RELATED_MODULE}
 									</td>
 								{/foreach}
@@ -208,6 +208,6 @@
 			</div>
 		</div>
 	{else}
-		{include file='RelatedList.tpl'|@vtemplate_path}
+		{include file=\App\Layout::getTemplatePath('RelatedList.tpl')}
 	{/if}
 {/strip}
