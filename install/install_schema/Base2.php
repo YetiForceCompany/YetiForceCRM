@@ -6331,7 +6331,6 @@ class Base2 extends \App\Db\Importers\Base
 					[29, 692, 'dayoftheweek', 'vtiger_users', 1, 16, 'dayoftheweek', 'Starting Day of the week', 1, 2, 'Monday', 100, 7, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 693, 'callduration', 'vtiger_users', 1, 16, 'callduration', 'Default Call Duration', 1, 2, '30', 100, 10, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 694, 'othereventduration', 'vtiger_users', 1, 16, 'othereventduration', 'Other Event Duration', 1, 2, '30', 100, 8, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[29, 699, 'calendarsharedtype', 'vtiger_users', 1, 16, 'calendarsharedtype', 'Calendar Shared Type', 1, 2, 'Public', 100, 13, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[6, 700, 'isconvertedfromlead', 'vtiger_account', 1, 56, 'isconvertedfromlead', 'Is Converted From Lead', 1, 2, 'no', 100, 1, 196, 2, 'C~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[4, 701, 'isconvertedfromlead', 'vtiger_contactdetails', 1, 56, 'isconvertedfromlead', 'Is Converted From Lead', 1, 2, 'no', 100, 5, 5, 2, 'C~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 703, 'default_record_view', 'vtiger_users', 1, 16, 'default_record_view', 'Default Record View', 1, 2, 'Summary', 100, 19, 79, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
