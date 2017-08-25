@@ -282,14 +282,11 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_import_locks' => [
 				'columns' => [
-					'vtiger_import_lock_id' => $this->integer(10)->notNull(),
+					'vtiger_import_lock_id' => $this->primaryKey(10)->unsigned(),
 					'userid' => $this->integer(10)->notNull(),
 					'tabid' => $this->smallInteger(5)->notNull(),
 					'importid' => $this->integer(10)->notNull(),
 					'locked_since' => $this->dateTime(),
-				],
-				'primaryKeys' => [
-					['import_locks_pk', 'vtiger_import_lock_id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'

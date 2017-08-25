@@ -397,37 +397,6 @@ class Vtiger_Util_Helper
 		}
 		return $advFilterConditionFormat;
 	}
-	/*	 * *
-	 * Function to set the default calendar activity types for new user
-	 * @param <Integer> $userId - id of the user
-	 */
-
-	public static function setCalendarDefaultActivityTypesForUser($userId)
-	{
-		$db = PearDatabase::getInstance();
-		$userEntries = $db->pquery('SELECT 1 FROM vtiger_calendar_user_activitytypes WHERE userid=?', array($userId));
-		$activityIds = [];
-		if ($db->num_rows($userEntries) <= 0) {
-			$queryResult = $db->pquery('SELECT id, defaultcolor FROM vtiger_calendar_default_activitytypes', []);
-			$numRows = $db->num_rows($queryResult);
-			for ($i = 0; $i < $numRows; $i++) {
-				$row = $db->query_result_rowdata($queryResult, $i);
-				$activityIds[$row['id']] = $row['defaultcolor'];
-			}
-			$db = \App\Db::getInstance();
-			foreach ($activityIds as $activityId => $color) {
-				$columns = [
-					'defaultid' => $activityId,
-					'userid' => $userId,
-					'color' => $color,
-				];
-				if (in_array($activityId, array(1, 2))) {
-					$columns['visible'] = 1;
-				}
-				$db->createCommand()->insert('vtiger_calendar_user_activitytypes', $columns)->execute();
-			}
-		}
-	}
 
 	public static function getAllSkins()
 	{

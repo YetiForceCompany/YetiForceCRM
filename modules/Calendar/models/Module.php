@@ -95,13 +95,6 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				'linkurl' => $this->getCalendarViewUrl(),
 				'linkicon' => '',
 			],
-			/*
-			  array(
-			  'linktype' => 'SIDEBARLINK',
-			  'linklabel' => 'LBL_SHARED_CALENDAR',
-			  'linkurl' => $this->getSharedCalendarViewUrl(),
-			  'linkicon' => '',
-			  ), */
 			[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
@@ -144,16 +137,6 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				'linkicon' => ''
 			);
 		}
-
-		if (isset($linkParams['ACTION']) && $linkParams['ACTION'] == 'SharedCalendar') {
-			$quickWidgets[] = array(
-				'linktype' => 'SIDEBARWIDGET',
-				'linklabel' => 'LBL_ADDED_CALENDARS',
-				'linkurl' => 'module=' . $this->get('name') . '&view=ViewTypes&mode=getSharedUsersList',
-				'linkicon' => ''
-			);
-		}
-
 		$quickWidgets[] = array(
 			'linktype' => 'SIDEBARWIDGET',
 			'linklabel' => 'LBL_RECENTLY_MODIFIED',
@@ -270,73 +253,6 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		}
 
 		return $sharedids[$id] = $userIds;
-	}
-
-	/**
-	 * To get the lists of sharedids and colors
-	 * @param $id --  user id
-	 * @returns <Array> $sharedUsers
-	 */
-	public static function getSharedUsersInfoOfCurrentUser($id)
-	{
-		$db = PearDatabase::getInstance();
-
-		$query = "SELECT shareduserid,color,visible FROM vtiger_shareduserinfo where userid = ?";
-		$result = $db->pquery($query, array($id));
-		$rows = $db->num_rows($result);
-
-		$sharedUsers = [];
-		for ($i = 0; $i < $rows; $i++) {
-			$sharedUserId = $db->query_result($result, $i, 'shareduserid');
-			$color = $db->query_result($result, $i, 'color');
-			$visible = $db->query_result($result, $i, 'visible');
-			$sharedUsers[$sharedUserId] = array('visible' => $visible, 'color' => $color);
-		}
-
-		return $sharedUsers;
-	}
-
-	/**
-	 * To get the lists of sharedids and colors
-	 * @param $id --  user id
-	 * @returns <Array> $sharedUsers
-	 */
-	public static function getCalendarViewTypes($id)
-	{
-		$db = PearDatabase::getInstance();
-
-		$query = "SELECT * FROM vtiger_calendar_user_activitytypes 
-			INNER JOIN vtiger_calendar_default_activitytypes on vtiger_calendar_default_activitytypes.id=vtiger_calendar_user_activitytypes.defaultid 
-			WHERE vtiger_calendar_user_activitytypes.userid=? && vtiger_calendar_default_activitytypes.active = ?";
-		$result = $db->pquery($query, array($id, 1));
-		$rows = $db->num_rows($result);
-
-		$calendarViewTypes = [];
-		for ($i = 0; $i < $rows; $i++) {
-			$activityTypes = $db->query_result_rowdata($result, $i);
-			$moduleInstance = vtlib\Module::getInstance($activityTypes['module']);
-			$fieldInstance = vtlib\Field::getInstance($activityTypes['fieldname'], $moduleInstance);
-			if ($fieldInstance) {
-				$fieldLabel = $fieldInstance->label;
-			} else {
-				$fieldLabel = $activityTypes['fieldname'];
-			}
-			if ($activityTypes['visible'] == '1') {
-				$calendarViewTypes['visible'][] = array('module' => $activityTypes['module'], 'fieldname' => $activityTypes['fieldname'], 'fieldlabel' => $fieldLabel, 'visible' => $activityTypes['visible'], 'color' => $activityTypes['color']);
-			} else {
-				$calendarViewTypes['invisible'][] = array('module' => $activityTypes['module'], 'fieldname' => $activityTypes['fieldname'], 'fieldlabel' => $fieldLabel, 'visible' => $activityTypes['visible'], 'color' => $activityTypes['color']);
-			}
-		}
-		return $calendarViewTypes;
-	}
-
-	/**
-	 *  Function returns the url for Shared Calendar view
-	 * @return string
-	 */
-	public function getSharedCalendarViewUrl()
-	{
-		return 'index.php?module=' . $this->get('name') . '&view=SharedCalendar';
 	}
 
 	/**

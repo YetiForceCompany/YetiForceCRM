@@ -16,10 +16,7 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 		$recordId = $request->getInteger('src_record');
-		if (!$recordId) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
-		}
-		if (!\App\Privilege::isPermitted($request->get('src_module'), 'DetailView', $recordId)) {
+		if ($recordId && !\App\Privilege::isPermitted($request->get('src_module'), 'DetailView', $recordId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
