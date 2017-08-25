@@ -64,7 +64,7 @@ class PrivilegeAdvanced
 	 * Check advanced permissions
 	 * @param int $record
 	 * @param string $moduleName
-	 * @return boolean
+	 * @return boolean|int
 	 */
 	public static function checkPermissions($record, $moduleName, $userId)
 	{
@@ -83,7 +83,7 @@ class PrivilegeAdvanced
 			static::$webservice = true;
 			if ($test) {
 				Log::trace("Check advanced permissions test OK,action: {$privilege['action']},id: $id");
-				return $privilege['action'] === 0 ? true : false;
+				return $privilege['action'] === 0 ? 1 : 0;
 			} else {
 				Log::trace("Check advanced permissions test FALSE , id: $id");
 			}
