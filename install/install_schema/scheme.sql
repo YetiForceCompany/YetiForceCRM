@@ -3849,45 +3849,6 @@ CREATE TABLE `vtiger_calendar_config` (
   `value` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_calendar_default_activitytypes` */
-
-CREATE TABLE `vtiger_calendar_default_activitytypes` (
-  `id` int(10) NOT NULL,
-  `module` varchar(50) DEFAULT NULL,
-  `fieldname` varchar(50) DEFAULT NULL,
-  `defaultcolor` varchar(50) DEFAULT NULL,
-  `active` tinyint(1) DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_calendar_default_activitytypes_seq` */
-
-CREATE TABLE `vtiger_calendar_default_activitytypes_seq` (
-  `id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_calendar_user_activitytypes` */
-
-CREATE TABLE `vtiger_calendar_user_activitytypes` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `defaultid` int(10) DEFAULT NULL,
-  `userid` int(10) DEFAULT NULL,
-  `color` varchar(50) DEFAULT NULL,
-  `visible` int(10) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `userid` (`userid`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_calendarsharedtype` */
-
-CREATE TABLE `vtiger_calendarsharedtype` (
-  `calendarsharedtypeid` int(10) NOT NULL AUTO_INCREMENT,
-  `calendarsharedtype` varchar(200) NOT NULL,
-  `sortorderid` int(10) DEFAULT NULL,
-  `presence` int(10) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`calendarsharedtypeid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_calendarsharedtype_seq` */
 
 CREATE TABLE `vtiger_calendarsharedtype_seq` (
@@ -5196,7 +5157,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2608 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2609 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -8218,15 +8179,6 @@ CREATE TABLE `vtiger_sharedcalendar` (
   PRIMARY KEY (`userid`,`sharedid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_shareduserinfo` */
-
-CREATE TABLE `vtiger_shareduserinfo` (
-  `userid` int(10) NOT NULL DEFAULT '0',
-  `shareduserid` int(10) NOT NULL DEFAULT '0',
-  `color` varchar(50) DEFAULT NULL,
-  `visible` int(10) DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_shorturls` */
 
 CREATE TABLE `vtiger_shorturls` (
@@ -8942,7 +8894,6 @@ CREATE TABLE `vtiger_users` (
   `dayoftheweek` varchar(100) DEFAULT NULL,
   `callduration` smallint(3) unsigned DEFAULT NULL,
   `othereventduration` smallint(3) unsigned DEFAULT NULL,
-  `calendarsharedtype` varchar(100) DEFAULT NULL,
   `default_record_view` varchar(10) DEFAULT NULL,
   `leftpanelhide` tinyint(3) unsigned DEFAULT NULL,
   `rowheight` varchar(10) DEFAULT NULL,

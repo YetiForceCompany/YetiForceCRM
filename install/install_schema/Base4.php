@@ -801,16 +801,6 @@ class Base4 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_shareduserinfo' => [
-				'columns' => [
-					'userid' => $this->integer(10)->notNull()->defaultValue(0),
-					'shareduserid' => $this->integer(10)->notNull()->defaultValue(0),
-					'color' => $this->stringType(50),
-					'visible' => $this->integer(10)->defaultValue(1),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_shorturls' => [
 				'columns' => [
 					'id' => $this->primaryKey(10),
@@ -1631,7 +1621,6 @@ class Base4 extends \App\Db\Importers\Base
 					'dayoftheweek' => $this->stringType(100),
 					'callduration' => $this->smallInteger(3)->unsigned(),
 					'othereventduration' => $this->smallInteger(3)->unsigned(),
-					'calendarsharedtype' => $this->stringType(100),
 					'default_record_view' => $this->stringType(10),
 					'leftpanelhide' => $this->smallInteger(3)->unsigned(),
 					'rowheight' => $this->stringType(10),
@@ -8542,7 +8531,6 @@ class Base4 extends \App\Db\Importers\Base
 					[62, 7, 'LBL_BRUTEFORCE', 'adminIcon-brute-force', 'LBL_BRUTEFORCE_DESCRIPTION', 'index.php?module=BruteForce&parent=Settings&view=Index', 2, 0, 0, NULL],
 					[63, 14, 'LBL_UPDATES_HISTORY', 'adminIcon-server-updates', 'LBL_UPDATES_HISTORY_DESCRIPTION', 'index.php?parent=Settings&module=Updates&view=Index', 2, 0, 0, NULL],
 					[65, 14, 'LBL_CONFREPORT', 'adminIcon-server-configuration', 'LBL_CONFREPORT_DESCRIPTION', 'index.php?parent=Settings&module=ConfReport&view=Index', 1, 0, 0, NULL],
-					[66, 12, 'LBL_ACTIVITY_TYPES', 'adminIcon-calendar-types', 'LBL_ACTIVITY_TYPES_DESCRIPTION', 'index.php?parent=Settings&module=Calendar&view=ActivityTypes', 1, 0, 0, NULL],
 					[67, 2, 'LBL_WIDGETS_MANAGEMENT', 'adminIcon-widgets-configuration', 'LBL_WIDGETS_MANAGEMENT_DESCRIPTION', 'index.php?module=WidgetsManagement&parent=Settings&view=Configuration', 15, 0, 0, NULL],
 					[70, 2, 'LBL_TREES_MANAGER', 'adminIcon-field-folders', 'LBL_TREES_MANAGER_DESCRIPTION', 'index.php?module=TreesManager&parent=Settings&view=List', 11, 0, 0, NULL],
 					[71, 2, 'LBL_MODTRACKER_SETTINGS', 'adminIcon-modules-track-chanegs', 'LBL_MODTRACKER_SETTINGS_DESCRIPTION', 'index.php?module=ModTracker&parent=Settings&view=List', 5, 0, 0, NULL],

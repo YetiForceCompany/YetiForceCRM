@@ -573,54 +573,6 @@ class Base2 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_calendar_default_activitytypes' => [
-				'columns' => [
-					'id' => $this->integer(10)->notNull(),
-					'module' => $this->stringType(50),
-					'fieldname' => $this->stringType(50),
-					'defaultcolor' => $this->stringType(50),
-					'active' => $this->smallInteger(1)->defaultValue(0),
-				],
-				'columns_mysql' => [
-					'active' => $this->tinyInteger(1)->defaultValue(0),
-				],
-				'primaryKeys' => [
-					['calendar_default_activitytypes_pk', 'id']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_calendar_default_activitytypes_seq' => [
-				'columns' => [
-					'id' => $this->integer(10)->notNull(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_calendar_user_activitytypes' => [
-				'columns' => [
-					'id' => $this->primaryKey(10),
-					'defaultid' => $this->integer(10),
-					'userid' => $this->integer(10),
-					'color' => $this->stringType(50),
-					'visible' => $this->integer(10)->defaultValue(0),
-				],
-				'index' => [
-					['userid', 'userid'],
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_calendarsharedtype' => [
-				'columns' => [
-					'calendarsharedtypeid' => $this->primaryKey(10),
-					'calendarsharedtype' => $this->stringType(200)->notNull(),
-					'sortorderid' => $this->integer(10),
-					'presence' => $this->integer(10)->notNull()->defaultValue(1),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_calendarsharedtype_seq' => [
 				'columns' => [
 					'id' => $this->integer(10)->notNull(),
@@ -2915,42 +2867,6 @@ class Base2 extends \App\Db\Importers\Base
 					['colors', 'Task', 'Task', '#00d4f5'],
 					['reminder', 'update_event', 'LBL_UPDATE_EVENT', '0'],
 					['info', 'notworkingdays', 'LBL_NOTWORKING_DAYS', NULL],
-				]
-			],
-			'vtiger_calendar_default_activitytypes' => [
-				'columns' => ['id', 'module', 'fieldname', 'defaultcolor', 'active'],
-				'values' => [
-					[1, 'Events', 'Events', '#17309A', 1],
-					[2, 'Calendar', 'Tasks', '#3A87AD', 1],
-					[4, 'Contacts', 'End of support for contact', '#953B39', 1],
-					[5, 'Contacts', 'Birthdays of contacts', '#545252', 1],
-					[7, 'Project', 'Project', '#C71585', 1],
-					[8, 'ProjectTask', 'Project Task', '#006400', 1],
-				]
-			],
-			'vtiger_calendar_default_activitytypes_seq' => [
-				'columns' => ['id'],
-				'values' => [
-					[8],
-				]
-			],
-			'vtiger_calendar_user_activitytypes' => [
-				'columns' => ['id', 'defaultid', 'userid', 'color', 'visible'],
-				'values' => [
-					[1, 1, 1, '#00ff0d', 1],
-					[2, 2, 1, '#0810ff', 1],
-					[4, 4, 1, '#953B39', 0],
-					[5, 5, 1, '#545252', 0],
-					[7, 7, 1, '#C71585', 0],
-					[8, 8, 1, '#006400', 0],
-				]
-			],
-			'vtiger_calendarsharedtype' => [
-				'columns' => ['calendarsharedtypeid', 'calendarsharedtype', 'sortorderid', 'presence'],
-				'values' => [
-					[1, 'public', 1, 1],
-					[2, 'private', 2, 1],
-					[3, 'seletedusers', 3, 1],
 				]
 			],
 			'vtiger_calendarsharedtype_seq' => [
