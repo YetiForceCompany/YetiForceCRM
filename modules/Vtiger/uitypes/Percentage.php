@@ -19,4 +19,17 @@ class Vtiger_Percentage_UIType extends Vtiger_Base_UIType
 	{
 		return 'uitypes/Percentage.tpl';
 	}
+
+	/**
+	 * Function to get the Display Value, for the current field type with given DB Insert Value
+	 * @param string $value
+	 * @param int $record
+	 * @param Vtiger_Record_Model $recordInstance
+	 * @param bool $rawText
+	 * @return string
+	 */
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	{
+		return CurrencyField::convertToUserFormat($value) . '%';
+	}
 }

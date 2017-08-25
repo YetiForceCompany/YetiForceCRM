@@ -25,8 +25,11 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
-	 * @return <Object>
+	 * @param string $value
+	 * @param int $record
+	 * @param Vtiger_Record_Model $recordInstance
+	 * @param bool $rawText
+	 * @return string
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{

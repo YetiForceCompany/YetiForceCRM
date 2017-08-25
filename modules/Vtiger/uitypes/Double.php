@@ -17,17 +17,30 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 	 */
 	public function getTemplateName()
 	{
-		return 'uitypes/Number.tpl';
+		return 'uitypes/Double.tpl';
 	}
 
 	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
-	 * @return <Object>
+	 * @param string $value
+	 * @param int $record
+	 * @param Vtiger_Record_Model $recordInstance
+	 * @param bool $rawText
+	 * @return string
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		return \vtlib\Functions::formatDecimal($value);
+		return CurrencyField::convertToUserFormat($value);
+	}
+
+	/**
+	 * Function to get the display value in edit view
+	 * @param string $value
+	 * @return string
+	 */
+	public function getEditViewDisplayValue($value, $record = false)
+	{
+		return CurrencyField::convertToUserFormat($value);
 	}
 
 	/**
@@ -41,6 +54,6 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 		if ($value === '') {
 			return 0;
 		}
-		return str_replace(',', '', $value);
+		return CurrencyField::convertToDBFormat($value);
 	}
 }
