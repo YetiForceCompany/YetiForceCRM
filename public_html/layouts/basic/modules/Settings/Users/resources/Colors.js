@@ -16,11 +16,11 @@ var Colors_Js = {
 		var callBackFunction = function (data) {
 			data.find('.editColorContainer').removeClass('hide').show();
 			var selectedColor = data.find('.selectedColor');
-			selectedColor.val($('#calendarColorPreview' + target.data('id')).data('color'));
+			selectedColor.val($('#calendarColorPreview' + target.data('type') + target.data('id')).data('color'));
 			//register color picker
 			var params = {
 				flat: true,
-				color: $('#calendarColorPreview' + target.data('id')).data('color'),
+				color: $('#calendarColorPreview' + target.data('type') + target.data('id')).data('color'),
 				onChange: function (hsb, hex, rgb) {
 					selectedColor.val('#' + hex);
 				}
@@ -45,7 +45,7 @@ var Colors_Js = {
 					'table': closestTrElement.data('table'),
 					'field': closestTableElement.data('fieldname'),
 				});
-				$('#calendarColorPreview' + target.data('id')).css('background', selectedColor.val());
+				$('#calendarColorPreview' + target.data('type') + target.data('id')).css('background', selectedColor.val());
 				target.data('color', selectedColor.val());
 				progress.progressIndicator({'mode': 'hide'});
 				app.hideModalWindow();
@@ -59,17 +59,16 @@ var Colors_Js = {
 	},
 	generateColor: function (e) {
 		var target = $(e.currentTarget);
-		var closestTrElement = target.closest('tr');
 		var closestTableElement = target.closest('table');
 		var metod = target.data('metod');
-
 		var params = {
 			module: app.getModuleName(),
 			//	parent: app.getParentModuleName(),
 			action: 'SaveAjax',
 			mode: 'generateColor',
 			params: {id: target.data('id'),
-				table: closestTrElement.data('table'),
+				color: $('#calendarColorPreview' + target.data('type') + target.data('id')).data('color'),
+				table: target.data('table'),
 				field: closestTableElement.data('fieldname'),
 				mode: metod,
 			}
@@ -82,11 +81,10 @@ var Colors_Js = {
 						animation: 'show',
 						type: 'success'
 					};
-					$('#calendarColorPreview' + target.data('id')).css('background', response.color);
-					$('#calendarColorPreview' + target.data('id')).data('color', response.color);
+					$('#calendarColorPreview' + target.data('type') + target.data('id')).css('background', response.color);
+					$('#calendarColorPreview' + target.data('type') + target.data('id')).data('color', response.color);
 
 					Vtiger_Helper_Js.showPnotify(params);
-
 				},
 				function (data, err) {
 				}
@@ -120,7 +118,6 @@ var Colors_Js = {
 	},
 	activeColor: function (e) {
 		var target = $(e.currentTarget);
-		var closestTrElement = target.closest('tr');
 		var params = {}
 		params.data = {
 			module: app.getModuleName(),
@@ -128,7 +125,7 @@ var Colors_Js = {
 			mode: 'activeColor',
 			params: {
 				'status': target.is(':checked'),
-				'color': $('#calendarColorPreview' + target.data('id')).data('color'),
+				'color': $('#calendarColorPreview' + target.data('type') + target.data('id')).data('color'),
 				'id': target.data('id')
 			}
 		}
@@ -143,8 +140,8 @@ var Colors_Js = {
 						type: 'success'
 					};
 					Vtiger_Helper_Js.showPnotify(params);
-					$('#calendarColorPreview' + target.data('id')).css('background', response.color);
-					$('#calendarColorPreview' + target.data('id')).data('color', response.color);
+					$('#calendarColorPreview' + target.data('type') + target.data('id')).css('background', response.color);
+					$('#calendarColorPreview' + target.data('type') + target.data('id')).data('color', response.color);
 
 				}
 		);

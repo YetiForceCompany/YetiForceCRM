@@ -34,10 +34,10 @@
 								<tr>
 									<td>{$item.first}</td>
 									<td>{$item.last}</td>
-									<td id="calendarColorPreview{$item.id}" data-color="{$item.color}" class="calendarColor" style="background: {$item.color};"></td>
+									<td id="calendarColorPreviewUser{$item.id}" data-color="{$item.color}" class="calendarColor" style="background: {$item.color};"></td>
 									<td>
-										<button data-id="{$item.id}" class="btn btn-sm btn-primary marginLeft10 updateColor" data-metod="updateUserColor">{\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-										<button data-id="{$item.id}" class="btn btn-sm btn-info generateColor" data-metod="generateUserColor">{\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
+										<button data-id="{$item.id}" data-type="User" class="btn btn-sm btn-primary marginLeft10 updateColor" data-metod="updateUserColor">{\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+										<button data-id="{$item.id}" data-type="User" class="btn btn-sm btn-info generateColor" data-metod="generateUserColor">{\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
 									</td>
 								</tr>
 							{/foreach}
@@ -57,10 +57,10 @@
 							{foreach from=Users_Colors_Model::getGroupColors() item=item key=key}
 								<tr>
 									<td>{$item.groupname}</td>
-									<td id="calendarColorPreview{$item.id}"data-color="{$item.color}" class="calendarColor" style="background: {$item.color};"></td>
+									<td id="calendarColorPreviewGroup{$item.id}"data-color="{$item.color}" class="calendarColor" style="background: {$item.color};"></td>
 									<td>
-										<button data-id="{$item.id}" class="btn btn-sm btn-primary marginLeft10 updateColor" data-metod="updateGroupColor">{\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-										<button data-id="{$item.id}" class="btn btn-sm btn-info generateColor" data-metod="generateGroupColor">{\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
+										<button data-id="{$item.id}" data-type="Group" class="btn btn-sm btn-primary marginLeft10 updateColor" data-metod="updateGroupColor">{\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+										<button data-id="{$item.id}" data-type="Group" class="btn btn-sm btn-info generateColor" data-metod="generateGroupColor">{\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
 									</td>
 								</tr>
 							{/foreach}
@@ -82,12 +82,12 @@
 								<tr data-id="{$item.id}" data-color="{$item.color}">
 									<td>{\App\Language::translate($item.module,$item.module)}</td>
 									<td>
-										<input class="activeColor" type="checkbox" name="active" value="1" {if $item.active}checked=""{/if}>
+										<input data-id="{$item.id}" data-type="Module" class="activeColor" type="checkbox" name="active" value="1" {if $item.active}checked=""{/if}>
 									</td>
-									<td id="calendarColorPreview{$item.id}" data-color="{$item.color}" class="calendarColor" style="background: {$item.color};"></td>
+									<td id="calendarColorPreviewModule{$item.id}" data-color="{$item.color}" class="calendarColor" style="background: {$item.color};"></td>
 									<td>
-										<button data-id="{$item.id}" class="btn btn-sm btn-primary marginLeft10 updateColor" data-metod="updateModuleColor">{\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-										<button data-id="{$item.id}" class="btn btn-sm btn-info generateColor" data-metod="generateModuleColor">{\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
+										<button data-id="{$item.id}" data-type="Module" class="btn btn-sm btn-primary marginLeft10 updateColor" data-metod="updateModuleColor">{\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+										<button data-id="{$item.id}" data-type="Module" class="btn btn-sm btn-info generateColor" data-metod="generateModuleColor">{\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
 									</td>
 								</tr>
 							{/foreach}
@@ -126,10 +126,10 @@
 													{foreach from=$FIELD item=INNER_ITEM key=INNER_KEY}
 														<tr data-table="{$TABLE}" data-id="{$INNER_ITEM['id']}" data-color="{$INNER_ITEM['color']}">
 															<td>{\App\Language::translate($INNER_ITEM['value'], $MODULE_NAME)}</td>
-															<td class="calendarColor" style="background: {$INNER_ITEM['color']};"></td>
+															<td id="calendarColorPreview{$TABLE}{$INNER_ITEM['id']}" data-color="{$INNER_ITEM['color']}"  class="calendarColor" style="background: {$INNER_ITEM['color']};"></td>
 															<td>
-																<button class="btn btn-sm marginLeft10 btn-primary updateColor" data-metod="updateColorForProcesses">{\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-																<button class="btn btn-sm btn-info generateColor" data-metod="generateColorForProcesses">{\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
+																<button data-table="{$TABLE}" data-id="{$INNER_ITEM['id']}" data-type="{$TABLE}" class="btn btn-sm marginLeft10 btn-primary updateColor" data-metod="updateColorForProcesses">{\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+																<button data-table="{$TABLE}" data-id="{$INNER_ITEM['id']}" data-type="{$TABLE}" class="btn btn-sm btn-info generateColor" data-metod="generateColorForProcesses">{\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
 															</td>
 														</tr>
 													{/foreach}
