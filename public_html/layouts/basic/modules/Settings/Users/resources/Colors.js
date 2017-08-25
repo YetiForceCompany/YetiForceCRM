@@ -23,6 +23,7 @@ var Colors_Js = {
 				color: colorPreview.data('color'),
 				onChange: function (hsb, hex, rgb) {
 					selectedColor.val('#' + hex);
+					colorPreview.data('color', '#' + hex);
 				}
 			};
 			if (typeof customParams != 'undefined') {

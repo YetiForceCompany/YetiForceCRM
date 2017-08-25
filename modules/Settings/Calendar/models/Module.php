@@ -8,7 +8,6 @@
  */
 class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 {
-
 	public static function getUserColors()
 	{
 		$instance = new \App\Fields\Owner();
@@ -61,6 +60,7 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 			\App\Db::getInstance()->createCommand()->update('vtiger_calendar_config', ['value' => $params['color']], ['name' => $params['id']]
 			)->execute();
 		}
+		\App\Colors::generate('calendar');
 	}
 
 	public static function updateNotWorkingDays($params)

@@ -31,22 +31,22 @@ abstract class Vtiger_Controller
 
 	public function validateRequest(\App\Request $request)
 	{
-		
+
 	}
 
 	public function preProcessAjax(\App\Request $request)
 	{
-		
+
 	}
 
 	public function preProcess(\App\Request $request)
 	{
-		
+
 	}
 
 	public function postProcess(\App\Request $request)
 	{
-		
+
 	}
 
 	// Control the exposure of methods to be invoked from client (kind-of RPC)
@@ -161,7 +161,7 @@ abstract class Vtiger_Action_Controller extends Vtiger_Controller
 
 	protected function preProcessDisplay(\App\Request $request)
 	{
-		
+
 	}
 
 	protected function preProcessTplName(\App\Request $request)
@@ -347,6 +347,8 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/footable/css/footable.core.css',
 			'~libraries/jquery/timepicker/jquery.timepicker.css',
 			'~libraries/jquery/clockpicker/bootstrap-clockpicker.css',
+			'~layouts/resources/colors/calendar.css',
+			'~layouts/resources/colors/users.css',
 		];
 		$headerCssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		return $headerCssInstances;
