@@ -1,5 +1,7 @@
 RedirectMatch 403 (?i).*\.log$
-SetEnv HTACCESS_TEST on
+<IfModule mod_env.c>
+	SetEnv HTACCESS_TEST on
+</IfModule>
 <IfModule mod_autoindex.c>
 	Options -Indexes -MultiViews
 </ifModule>
@@ -79,17 +81,17 @@ SetEnv HTACCESS_TEST on
 	php_value	session.gc_probability		1
 </IfModule>
 <IfModule mod_headers.c>
-  <IfModule mod_env.c>
 	Header unset Server
 	Header unset X-Powered-By
-    SetEnv modHeadersAvailable true
-  </IfModule>
+	<IfModule mod_env.c>
+		SetEnv modHeadersAvailable true
+	</IfModule>
 </IfModule>
 <ifModule ModSecurity.c>
-  SecServerSignature ''
+	SecServerSignature ''
 </ifModule>
 <IfModule mod_dir.c>
-  DirectoryIndex index.php
+	DirectoryIndex index.php
 </IfModule>
 ########################
 # <FilesMatch "\.(inc|php|php3|php4|php5|php6|phtml|phps)$">
