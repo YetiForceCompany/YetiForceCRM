@@ -22,9 +22,6 @@ class Settings_QuickCreateEditor_Module_Model extends Vtiger_Module_Model
 			$fieldIdList[] = $newFieldSequence['fieldid'];
 		}
 		$caseExpression .= ' END';
-		$db->createCommand()
-			->update('vtiger_field', [
-				'quickcreatesequence' => new \yii\db\Expression($caseExpression),
-				], ['fieldid' => $fieldIdList])->execute();
+		$db->createCommand()->update('vtiger_field', ['quickcreatesequence' => new \yii\db\Expression($caseExpression)], ['fieldid' => $fieldIdList])->execute();
 	}
 }

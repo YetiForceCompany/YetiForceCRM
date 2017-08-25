@@ -43,8 +43,7 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		$query = new \App\Db\Query();
 		$query->select([
 				'count' => new \yii\db\Expression('COUNT(*)'),
-				'industryvalue' => new \yii\db\Expression("CASE WHEN vtiger_account.industry IS NULL OR vtiger_account.industry = '' THEN '' 
-						ELSE vtiger_account.industry END")])
+				'industryvalue' => new \yii\db\Expression("CASE WHEN vtiger_account.industry IS NULL OR vtiger_account.industry = '' THEN '' ELSE vtiger_account.industry END")])
 			->from('vtiger_account')
 			->innerJoin('vtiger_crmentity', 'vtiger_account.accountid = vtiger_crmentity.crmid')
 			->innerJoin('vtiger_industry', 'vtiger_account.industry = vtiger_industry.industry')
