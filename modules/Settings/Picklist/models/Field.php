@@ -6,16 +6,22 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * ********************************************************************************** */
 
 class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 {
 
+	/**
+	 * Function to check whether the current field is editable 
+	 * @return boolean
+	 */
 	public function isEditable()
 	{
-		$nonEditablePickListValues = array('duration_minutes', 'payment_duration', 'recurring_frequency', 'visibility');
-		if (in_array($this->getName(), $nonEditablePickListValues))
+		$nonEditablePickListValues = ['duration_minutes', 'payment_duration', 'recurring_frequency', 'visibility'];
+		if ((!in_array($this->get('displaytype'), [1, 10]) && $this->getName() !== 'salutationtype') || !in_array($this->get('presence'), [0, 2]) || in_array($this->getName(), $nonEditablePickListValues) || ($this->getFieldDataType() !== 'picklist' && $this->getFieldDataType() !== 'multipicklist') || $this->getModuleName() === 'Users') {
 			return false;
+		}
 		return true;
 	}
 

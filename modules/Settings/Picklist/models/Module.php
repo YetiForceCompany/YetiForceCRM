@@ -20,17 +20,20 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		return 'vtiger_' . $fieldName;
 	}
 
+	/**
+	 * Function gives fields based on the type
+	 * @param string|string[] $type - field type
+	 * @return Settings_Picklist_Field_Model[] - list of field models
+	 */
 	public function getFieldsByType($type)
 	{
-		$presence = array('0', '2');
-
 		$fieldModels = parent::getFieldsByType($type);
 		$fields = [];
 		foreach ($fieldModels as $fieldName => $fieldModel) {
-			if ((!in_array($fieldModel->get('displaytype'), [1, 10]) && $fieldName != 'salutationtype') || !in_array($fieldModel->get('presence'), $presence)) {
-				continue;
+			$field = Settings_Picklist_Field_Model::getInstanceFromFieldObject($fieldModel);
+			if ($field->isEditable()) {
+				$fields[$fieldName] = $field;
 			}
-			$fields[$fieldName] = Settings_Picklist_Field_Model::getInstanceFromFieldObject($fieldModel);
 		}
 		return $fields;
 	}
@@ -83,34 +86,42 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		return ['picklistValueId' => $picklistValueId, 'id' => $id];
 	}
 
-	public function renamePickListValues($pickListFieldName, $oldValue, $newValue, $moduleName, $id)
+	/**
+	 * Rename picklist value
+	 * @param Settings_Picklist_Field_Model $fieldModel
+	 * @param string $oldValue
+	 * @param string $newValue
+	 * @param int $id
+	 * @return boolean
+	 */
+	public function renamePickListValues($fieldModel, $oldValue, $newValue, $id)
 	{
 		$db = App\Db::getInstance();
-		$dataReader = (new \App\Db\Query())->select(['tablename', 'columnname'])
-				->from('vtiger_field')
-				->where(['fieldname' => $pickListFieldName, 'presence' => [0, 2]])
-				->createCommand()->query();
-		//As older look utf8 characters are pushed as html-entities,and in new utf8 characters are pushed to database
-		//so we are checking for both the values
+		$pickListFieldName = $fieldModel->getName();
 		$primaryKey = App\Fields\Picklist::getPickListId($pickListFieldName);
-		$db->createCommand()->update($this->getPickListTableName($pickListFieldName), [$pickListFieldName => $newValue], [$primaryKey => $id])
-			->execute();
-		while ($row = $dataReader->read()) {
-			$columnName = $row['columnname'];
-			$db->createCommand()->update($row['tablename'], [$columnName => $newValue], [$columnName => $oldValue])->execute();
+		$result = $db->createCommand()->update($this->getPickListTableName($pickListFieldName), [$pickListFieldName => $newValue], [$primaryKey => $id])->execute();
+		if ($result) {
+			$dataReader = (new \App\Db\Query())->select(['tablename', 'columnname', 'tabid'])
+					->from('vtiger_field')
+					->where(['and', ['fieldname' => $pickListFieldName], ['presence' => [0, 2]], ['or', ['uitype' => [15, 16, 33]], ['and', ['uitype' => [55]], ['fieldname' => 'salutationtype']]]])
+					->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				$columnName = $row['columnname'];
+				$db->createCommand()->update($row['tablename'], [$columnName => $newValue], [$columnName => $oldValue])->execute();
+				$db->createCommand()->update('vtiger_field', ['defaultvalue' => $newValue], ['defaultvalue' => $oldValue, 'columnname' => $columnName, 'tabid' => $row['tabid']])->execute();
+				$db->createCommand()->update('vtiger_picklist_dependency', ['sourcevalue' => $newValue], ['sourcevalue' => $oldValue, 'sourcefield' => $pickListFieldName, 'tabid' => $row['tabid']])->execute();
+			}
+			$eventHandler = new App\EventHandler();
+			$eventHandler->setParams([
+				'fieldname' => $pickListFieldName,
+				'oldvalue' => $oldValue,
+				'newvalue' => $newValue,
+				'module' => $fieldModel->getModuleName(),
+				'id' => $id,
+			]);
+			$eventHandler->trigger('PicklistAfterRename');
 		}
-		$db->createCommand()->update('vtiger_field', ['defaultvalue' => $newValue], ['defaultvalue' => $oldValue, 'columnname' => $columnName])->execute();
-		$db->createCommand()->update('vtiger_picklist_dependency', ['sourcevalue' => $newValue], ['sourcevalue' => $oldValue, 'sourcefield' => $pickListFieldName])->execute();
-		$eventHandler = new App\EventHandler();
-		$eventHandler->setParams([
-			'fieldname' => $pickListFieldName,
-			'oldvalue' => $oldValue,
-			'newvalue' => $newValue,
-			'module' => $moduleName,
-			'id' => $id,
-		]);
-		$eventHandler->trigger('PicklistAfterRename');
-		return true;
+		return !empty($result);
 	}
 
 	public function remove($pickListFieldName, $valueToDeleteId, $replaceValueId, $moduleName)
@@ -242,11 +253,11 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 				->innerJoin('vtiger_field', 'vtiger_tab.tabid = vtiger_field.tabid')
 				->where([
 					'and',
-					['uitype' => [15, 33, 16]],
-					['NOT IN', 'vtiger_field.tabid', [29, 10]],
-					['<>', 'vtiger_tab.presence', 1],
-					['vtiger_field.presence' => [0, 2]],
-					['<>', 'vtiger_field.columnname', 'taxtype']
+						['uitype' => [15, 33, 16]],
+						['NOT IN', 'vtiger_field.tabid', [29, 10]],
+						['<>', 'vtiger_tab.presence', 1],
+						['vtiger_field.presence' => [0, 2]],
+						['<>', 'vtiger_field.columnname', 'taxtype']
 				])->orderBy(['vtiger_tab.tabid' => SORT_ASC])
 				->distinct()
 				->createCommand()->query();

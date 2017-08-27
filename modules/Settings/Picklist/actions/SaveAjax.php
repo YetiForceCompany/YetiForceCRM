@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * ********************************************************************************** */
 
 class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
@@ -90,6 +91,10 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
+	/**
+	 * Rename picklist value
+	 * @param \App\Request $request
+	 */
 	public function rename(\App\Request $request)
 	{
 		$moduleName = $request->get('source_module');
@@ -97,16 +102,19 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$pickListFieldName = $request->getForSql('picklistName');
 		$oldValue = $request->get('oldValue');
 		$id = $request->get('id');
-		if ($moduleName === 'Events' && ($pickListFieldName === 'activitytype' || $pickListFieldName === 'activitystatus')) {
-			$this->updateDefaultPicklistValues($pickListFieldName, $oldValue, $newValue);
-		}
-		$moduleModel = new Settings_Picklist_Module_Model();
+		$moduleModel = Settings_Picklist_Module_Model::getInstance($moduleName);
+		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickListFieldName, $moduleModel);
 		$response = new Vtiger_Response();
-		try {
-			$status = $moduleModel->renamePickListValues($pickListFieldName, $oldValue, $newValue, $moduleName, $id);
-			$response->setResult(array('success', $status));
-		} catch (Exception $e) {
-			$response->setError($e->getCode(), $e->getMessage());
+		if ($fieldModel->isEditable()) {
+			try {
+				if ($moduleName === 'Events' && ($pickListFieldName === 'activitytype' || $pickListFieldName === 'activitystatus')) {
+					$this->updateDefaultPicklistValues($pickListFieldName, $oldValue, $newValue);
+				}
+				$status = $moduleModel->renamePickListValues($fieldModel, $oldValue, $newValue, $id);
+				$response->setResult(['success', $status]);
+			} catch (Exception $e) {
+				$response->setError($e->getCode(), $e->getMessage());
+			}
 		}
 		$response->emit();
 	}
