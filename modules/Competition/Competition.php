@@ -209,18 +209,19 @@ class Competition extends Vtiger_CRMEntity
 
 	/**
 	 * Function to get the relation tables for related modules
-	 * @param string $secmodule secondary module name
+	 * @param boolean|string $secModule secondary module name
 	 * @return array with table names and fieldnames storing relations between module and this module
 	 */
-	public function setRelationTables($secmodule = false)
+	public function setRelationTables($secModule = false)
 	{
 		$relTables = [
 			'Campaigns' => ['vtiger_campaign_records' => ['crmid', 'campaignid'], 'u_yf_competition' => 'competitionid'],
+			'OSSMailView' => ['vtiger_ossmailview_relation' => ['crmid', 'ossmailviewid'], 'u_yf_competition' => 'competitionid'],
 		];
-		if ($secmodule === false) {
+		if ($secModule === false) {
 			return $relTables;
 		}
-		return $relTables[$secmodule];
+		return $relTables[$secModule];
 	}
 
 	/**

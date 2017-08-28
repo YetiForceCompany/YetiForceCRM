@@ -209,23 +209,23 @@ class Vendors extends CRMEntity
 		}
 		return $query;
 	}
-	/*
-	 * Function to get the relation tables for related modules
-	 * @param - $secmodule secondary module name
-	 * returns the array with table names and fieldnames storing relations between module and this module
-	 */
 
-	public function setRelationTables($secmodule = false)
+	/**
+	 * Function to get the relation tables for related modules
+	 * @param boolean|string $secModule secondary module name
+	 * @return array with table names and fieldnames storing relations between module and this module
+	 */
+	public function setRelationTables($secModule = false)
 	{
-		$relTables = array(
-			'Products' => array('vtiger_products' => array('vendor_id', 'productid'), 'vtiger_vendor' => 'vendorid'),
-			'Contacts' => array('vtiger_vendorcontactrel' => array('vendorid', 'contactid'), 'vtiger_vendor' => 'vendorid'),
+		$relTables = [
+			'Products' => ['vtiger_products' => ['vendor_id', 'productid'], 'vtiger_vendor' => 'vendorid'],
+			'Contacts' => ['vtiger_vendorcontactrel' => ['vendorid', 'contactid'], 'vtiger_vendor' => 'vendorid'],
 			'Campaigns' => ['vtiger_campaign_records' => ['crmid', 'campaignid'], 'vtiger_vendor' => 'vendorid'],
-		);
-		if ($secmodule === false) {
+		];
+		if ($secModule === false) {
 			return $relTables;
 		}
-		return $relTables[$secmodule];
+		return $relTables[$secModule];
 	}
 
 	/**

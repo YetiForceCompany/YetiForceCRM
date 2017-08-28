@@ -99,13 +99,13 @@ class Partners extends Vtiger_CRMEntity
 			}
 			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\App\Module::getModuleId($moduleName));
 		} else if ($eventType === 'module.disabled') {
-
+			
 		} else if ($eventType === 'module.preuninstall') {
-
+			
 		} else if ($eventType === 'module.preupdate') {
-
+			
 		} else if ($eventType === 'module.postupdate') {
-
+			
 		}
 	}
 
@@ -137,21 +137,22 @@ class Partners extends Vtiger_CRMEntity
 		}
 		\App\Log::trace('Exiting transferRelatedRecords...');
 	}
-	/*
-	 * Function to get the relation tables for related modules
-	 * @param - $secmodule secondary module name
-	 * returns the array with table names and fieldnames storing relations between module and this module
-	 */
 
-	public function setRelationTables($secmodule = false)
+	/**
+	 * Function to get the relation tables for related modules
+	 * @param boolean|string $secModule secondary module name
+	 * @return array with table names and fieldnames storing relations between module and this module
+	 */
+	public function setRelationTables($secModule = false)
 	{
 		$relTables = [
 			'Campaigns' => ['vtiger_campaign_records' => ['crmid', 'campaignid'], 'u_yf_partners' => 'partnersid'],
+			'OSSMailView' => ['vtiger_ossmailview_relation' => ['crmid', 'ossmailviewid'], 'u_yf_partners' => 'partnersid']
 		];
-		if ($secmodule === false) {
+		if ($secModule === false) {
 			return $relTables;
 		}
-		return $relTables[$secmodule];
+		return $relTables[$secModule];
 	}
 
 	// Function to unlink an entity with given Id from another entity

@@ -117,27 +117,28 @@ class Accounts extends CRMEntity
 		\App\Log::trace('Exiting createExportQuery method ...');
 		return $query;
 	}
-	/*
-	 * Function to get the relation tables for related modules
-	 * @param - $secmodule secondary module name
-	 * returns the array with table names and fieldnames storing relations between module and this module
-	 */
 
-	public function setRelationTables($secmodule = false)
+	/**
+	 * Function to get the relation tables for related modules
+	 * @param boolean|string $secModule secondary module name
+	 * @return array with table names and fieldnames storing relations between module and this module
+	 */
+	public function setRelationTables($secModule = false)
 	{
-		$relTables = array(
-			'Contacts' => array('vtiger_contactdetails' => array('parentid', 'contactid'), 'vtiger_account' => 'accountid'),
-			'HelpDesk' => array('vtiger_troubletickets' => array('parent_id', 'ticketid'), 'vtiger_account' => 'accountid'),
-			'Products' => array('vtiger_seproductsrel' => array('crmid', 'productid'), 'vtiger_account' => 'accountid'),
-			'Documents' => array('vtiger_senotesrel' => array('crmid', 'notesid'), 'vtiger_account' => 'accountid'),
-			'Campaigns' => array('vtiger_campaign_records' => array('crmid', 'campaignid'), 'vtiger_account' => 'accountid'),
-			'Assets' => array('vtiger_assets' => array('parent_id', 'assetsid'), 'vtiger_account' => 'accountid'),
-			'Project' => array('vtiger_project' => array('linktoaccountscontacts', 'projectid'), 'vtiger_account' => 'accountid'),
-		);
-		if ($secmodule === false) {
+		$relTables = [
+			'Contacts' => ['vtiger_contactdetails' => ['parentid', 'contactid'], 'vtiger_account' => 'accountid'],
+			'HelpDesk' => ['vtiger_troubletickets' => ['parent_id', 'ticketid'], 'vtiger_account' => 'accountid'],
+			'Products' => ['vtiger_seproductsrel' => ['crmid', 'productid'], 'vtiger_account' => 'accountid'],
+			'Documents' => ['vtiger_senotesrel' => ['crmid', 'notesid'], 'vtiger_account' => 'accountid'],
+			'Campaigns' => ['vtiger_campaign_records' => ['crmid', 'campaignid'], 'vtiger_account' => 'accountid'],
+			'Assets' => ['vtiger_assets' => ['parent_id', 'assetsid'], 'vtiger_account' => 'accountid'],
+			'Project' => ['vtiger_project' => ['linktoaccountscontacts', 'projectid'], 'vtiger_account' => 'accountid'],
+			'OSSMailView' => ['vtiger_ossmailview_relation' => ['crmid', 'ossmailviewid'], 'vtiger_account' => 'accountid']
+		];
+		if ($secModule === false) {
 			return $relTables;
 		}
-		return $relTables[$secmodule];
+		return $relTables[$secModule];
 	}
 	/*
 	 * Function to get the secondary query part of a report

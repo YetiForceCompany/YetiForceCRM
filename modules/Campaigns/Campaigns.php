@@ -107,27 +107,28 @@ class Campaigns extends CRMEntity
 		}
 		return $query;
 	}
-	/*
-	 * Function to get the relation tables for related modules
-	 * @param - $secmodule secondary module name
-	 * returns the array with table names and fieldnames storing relations between module and this module
-	 */
 
-	public function setRelationTables($secmodule = false)
+	/**
+	 * Function to get the relation tables for related modules
+	 * @param boolean|string $secModule secondary module name
+	 * @return array with table names and fieldnames storing relations between module and this module
+	 */
+	public function setRelationTables($secModule = false)
 	{
-		$relTables = array(
-			'Contacts' => array('vtiger_campaign_records' => array('campaignid', 'crmid'), 'vtiger_campaign' => 'campaignid'),
-			'Leads' => array('vtiger_campaign_records' => array('campaignid', 'crmid'), 'vtiger_campaign' => 'campaignid'),
-			'Accounts' => array('vtiger_campaign_records' => array('campaignid', 'crmid'), 'vtiger_campaign' => 'campaignid'),
-			'Vendors' => array('vtiger_campaign_records' => array('campaignid', 'crmid'), 'vtiger_campaign' => 'campaignid'),
-			'Partners' => array('vtiger_campaign_records' => array('campaignid', 'crmid'), 'vtiger_campaign' => 'campaignid'),
-			'Competition' => array('vtiger_campaign_records' => array('campaignid', 'crmid'), 'vtiger_campaign' => 'campaignid'),
-			'Products' => array('vtiger_campaign' => array('campaignid', 'product_id')),
-		);
-		if ($secmodule === false) {
+		$relTables = [
+			'Contacts' => ['vtiger_campaign_records' => ['campaignid', 'crmid'], 'vtiger_campaign' => 'campaignid'],
+			'Leads' => ['vtiger_campaign_records' => ['campaignid', 'crmid'], 'vtiger_campaign' => 'campaignid'],
+			'Accounts' => ['vtiger_campaign_records' => ['campaignid', 'crmid'], 'vtiger_campaign' => 'campaignid'],
+			'Vendors' => ['vtiger_campaign_records' => ['campaignid', 'crmid'], 'vtiger_campaign' => 'campaignid'],
+			'Partners' => ['vtiger_campaign_records' => ['campaignid', 'crmid'], 'vtiger_campaign' => 'campaignid'],
+			'Competition' => ['vtiger_campaign_records' => ['campaignid', 'crmid'], 'vtiger_campaign' => 'campaignid'],
+			'OSSMailView' => ['vtiger_ossmailview_relation' => ['crmid', 'ossmailviewid'], 'vtiger_campaign' => 'campaignid'],
+			'Products' => ['vtiger_campaign' => ['campaignid', 'product_id']],
+		];
+		if ($secModule === false) {
 			return $relTables;
 		}
-		return $relTables[$secmodule];
+		return $relTables[$secModule];
 	}
 
 	// Function to unlink an entity with given Id from another entity
