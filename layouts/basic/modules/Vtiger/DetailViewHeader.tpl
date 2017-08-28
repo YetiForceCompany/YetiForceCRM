@@ -41,7 +41,7 @@
 											{if $DETAILVIEW_LINKS['DETAILVIEW']|@count gt 0}
 												<span class="btn-group">
 													{foreach item=LINK from=$DETAILVIEW_LINKS['DETAILVIEW']}
-														{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE)BUTTON_VIEW='detailView'}
+														{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailView'}
 													{/foreach}
 												</span>
 											{/if}
