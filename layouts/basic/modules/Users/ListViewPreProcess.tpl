@@ -10,5 +10,5 @@
  ********************************************************************************/
 -->*}
 {strip}
-	{include file="ListViewHeader.tpl"|vtemplate_path:'Vtiger'}
+	{include file=\App\Layout::getTemplatePath('ListViewHeader.tpl', 'Vtiger')}
 {/strip}

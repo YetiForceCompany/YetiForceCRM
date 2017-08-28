@@ -13,7 +13,7 @@
 <div class=" listViewPageDiv">
 	<div class='widget_header row '>
 		<div class="col-xs-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
 	</div>
 	<div class="listViewActionsDiv row" style="margin-bottom: 2px;">
@@ -51,7 +51,7 @@
             </select>
         </div>
 		<div class="col-md-4">
-			{include file='ListViewActions.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+			{include file=\App\Layout::getTemplatePath('ListViewActions.tpl', $QUALIFIED_MODULE)}
 		</div>	
 	</div>
 	<div class="listViewContentDiv" id="listViewContents">
