@@ -189,7 +189,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		if ($moduleModel->isPermitted('DuplicatesHandling')) {
+		if (!$moduleModel->isPermitted('DuplicatesHandling')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 		$fields = $moduleModel->getFields();
