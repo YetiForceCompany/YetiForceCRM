@@ -36,7 +36,7 @@
 				<div class="col-xs-12">
 					{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
 					<span class="pull-left">
-						{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 					</span>
 					<span class="pull-right">
 						<button class="btn btn-success" type="submit" id="saveBtn1"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
@@ -92,7 +92,7 @@
 									<div class="fieldValue {$WIDTHTYPE} {if $FIELD_MODEL->get('uitype') eq '300'} col-md-12 {assign var=COUNTER value=$COUNTER+1} {else} col-md-9  {/if} ">
 										<div class="row">
 											<div class="col-md-12">
-												{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
+												{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
 											</div>
 										</div>
 									</div>
