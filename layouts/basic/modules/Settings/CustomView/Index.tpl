@@ -3,7 +3,7 @@
 	<div class="customViewList">
 		<div class="widget_header row">
 			<div class="col-md-12">
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				{App\Language::translate('LBL_'|cat:$MODULE|upper|cat:'_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>		
 		</div>
@@ -28,7 +28,7 @@
 			</div>
 			<div class="panel-body padding5">
 				<div class="indexContents">
-					{include file='IndexContents.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+					{include file=\App\Layout::getTemplatePath('IndexContents.tpl', $QUALIFIED_MODULE)}
 				</div>
 			</div>
 		</div>

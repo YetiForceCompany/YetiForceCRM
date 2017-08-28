@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 <div class="editContainer">
-	{include file='Header.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+	{include file=\App\Layout::getTemplatePath('Header.tpl', $QUALIFIED_MODULE)}
 	<div id="step">
 		<form name="condition" action="index.php" method="post" id="ActionConfig" class="form-horizontal" >
 			<input type="hidden" name="module" value="{$MODULE_NAME}" />

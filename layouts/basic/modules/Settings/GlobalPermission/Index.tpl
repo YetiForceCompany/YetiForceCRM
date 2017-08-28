@@ -3,7 +3,7 @@
 <div class=" LangManagement">
 	<div class="widget_header row">
 		<div class="col-md-10">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
 		<div class="col-md-2"></div>
 	</div>

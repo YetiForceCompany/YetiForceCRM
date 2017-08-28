@@ -73,7 +73,7 @@
 			</div>
 		{/if}
 		<div class="listViewActions pull-right paginationDiv paddingLeft5px">
-			{include file='Pagination.tpl'|@vtemplate_path}
+			{include file=\App\Layout::getTemplatePath('Pagination.tpl')}
 		</div>
 		<div class="col-sm-4 pull-right">
 			{if $GITHUB_CLIENT_MODEL->isAuthorized()}

@@ -2,7 +2,7 @@
 <div class="" id="menuEditorContainer">
     <div class="widget_header row">
         <div class="col-md-12">
-	    {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 	</div>
     </div>
     <div id="my-tab-content" class="tab-content" style="margin: 0 20px;" >
