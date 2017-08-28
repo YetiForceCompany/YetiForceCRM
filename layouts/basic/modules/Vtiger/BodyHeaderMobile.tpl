@@ -11,7 +11,7 @@
 						<a data-placement="left" data-toggle="dropdown" class="btn btn-default btn-sm showHistoryBtn" title="{\App\Language::translate('LBL_PAGES_HISTORY')}" aria-expanded="false" href="#">
 							<span class="fa fa-history" aria-hidden="true"></span>
 						</a>
-						{include file='BrowsingHistory.tpl'|@vtemplate_path:$MODULE}
+						{include file=\App\Layout::getTemplatePath('BrowsingHistory.tpl', $MODULE)}
 					</div>
 				</div>
 			</div>

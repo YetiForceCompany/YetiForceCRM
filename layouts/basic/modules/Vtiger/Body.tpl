@@ -3,15 +3,15 @@
 	<div class="container-fluid container-fluid-main">
 		<div class="baseContainer {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
 			{assign var=LEFTPANELHIDE value=$USER_MODEL->get('leftpanelhide')}	
-			{include file='BodyHeaderMobile.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BodyHeaderMobile.tpl', $MODULE)}
 			<div class="mobileLeftPanel noSpaces">
-				{include file='BodyLeft.tpl'|@vtemplate_path:$MODULE DEVICE=Mobile}
+				{include file=\App\Layout::getTemplatePath('BodyLeft.tpl', $MODULE) DEVICE=Mobile}
 			</div>
 			<div class="leftPanel noSpaces">
-				{include file='BodyLeft.tpl'|@vtemplate_path:$MODULE DEVICE=Desktop}
+				{include file=\App\Layout::getTemplatePath('BodyLeft.tpl', $MODULE) DEVICE=Desktop}
 			</div>
-			{include file='BodyHeader.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BodyHeader.tpl', $MODULE)}
 			<div class="basePanel noSpaces {if $LEFTPANELHIDE} menuOpen{/if} {$MODULE}_{$VIEW}">
 				<div class="mainBody {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
-				{include file='BodyContent.tpl'|@vtemplate_path:$MODULE}
+				{include file=\App\Layout::getTemplatePath('BodyContent.tpl', $MODULE)}
 {/strip}

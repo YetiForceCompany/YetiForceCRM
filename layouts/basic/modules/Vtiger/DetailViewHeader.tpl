@@ -19,7 +19,7 @@
 					<div class="col-md-12 marginBottom5px widget_header row no-margin">
 						<div class="">
 							<div class="col-md-6 paddingLRZero">
-								{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+								{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 							</div>
 							<div class="col-md-6 col-xs-12 paddingLRZero">
 								<div class="col-xs-12 detailViewToolbar paddingLRZero" style="text-align: right;">
@@ -35,13 +35,13 @@
 										<div class="btn-toolbar">
 											<span class="btn-group ">
 												{foreach item=LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}	
-													{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='detailViewBasic'}
+													{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewBasic'}
 												{/foreach}
 											</span>
 											{if $DETAILVIEW_LINKS['DETAILVIEW']|@count gt 0}
 												<span class="btn-group">
 													{foreach item=LINK from=$DETAILVIEW_LINKS['DETAILVIEW']}
-														{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='detailView'}
+														{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE)BUTTON_VIEW='detailView'}
 													{/foreach}
 												</span>
 											{/if}
@@ -60,10 +60,10 @@
 					</div>
 				{/foreach}
 			{/if}
-			{include file="DetailViewHeaderTitle.tpl"|vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('DetailViewHeaderTitle.tpl', $MODULE)}
 		</div>
 		<div class="detailViewInfo row">
-			{include file="RelatedListButtons.tpl"|vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('RelatedListButtons.tpl', $MODULE)}
 			<div class="col-md-12 {if !empty($DETAILVIEW_LINKS['DETAILVIEWTAB']) || !empty($DETAILVIEW_LINKS['DETAILVIEWRELATED']) } details {/if}">
 				<form id="detailView" data-name-fields='{\App\Json::encode($MODULE_MODEL->getNameFields())}' method="POST">
 					{if !empty($PICKLIST_DEPENDENCY_DATASOURCE)} 

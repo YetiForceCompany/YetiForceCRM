@@ -21,7 +21,7 @@
 		</div>
 	</div>
 	<div class="menuContainer {if $DEVICE == 'Desktop'}slimScrollMenu{/if}">
-		{include file='Menu.tpl'|@vtemplate_path:$MODULE DEVICE=$DEVICE}
+		{include file=\App\Layout::getTemplatePath('Menu.tpl', $MODULE) DEVICE=$DEVICE}
 	</div>
 {/strip}
 
