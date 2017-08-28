@@ -5,7 +5,7 @@
 	<div class="SearchFieldsEdit">
 		<div class="widget_header row">
 			<div class="col-md-12">
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				{\App\Language::translate('LBL_Module_desc', $QUALIFIED_MODULE)}
 			</div>
 		</div>

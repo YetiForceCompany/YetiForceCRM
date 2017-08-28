@@ -3,7 +3,7 @@
  <div class=" supportProcessesContainer">
  	<div class="widget_header row">
 		<div class="col-xs-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
 	</div>	
 	<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
