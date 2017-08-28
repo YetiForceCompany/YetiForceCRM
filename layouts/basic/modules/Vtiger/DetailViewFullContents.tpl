@@ -10,8 +10,8 @@
 *
 ********************************************************************************/
 -->*}
-	{include file='DetailViewBlockView.tpl'|@vtemplate_path:$MODULE_NAME RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
+	{include file=\App\Layout::getTemplatePath('DetailViewBlockView.tpl', $MODULE_NAME) RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
 	{if $MODULE_TYPE == '1'}
-		{include file='DetailViewInventoryView.tpl'|@vtemplate_path:$MODULE_NAME MODULE_NAME=$MODULE_NAME}
+		{include file=\App\Layout::getTemplatePath('DetailViewInventoryView.tpl', $MODULE_NAME) MODULE_NAME=$MODULE_NAME}
 	{/if}
 {/strip}

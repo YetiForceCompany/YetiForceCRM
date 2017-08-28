@@ -50,7 +50,7 @@
 			{/foreach}
 			<div class='widget_header row'>
 				<div class="col-md-8">
-					{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				</div>
 				<div class="col-md-4">
 					<div class="contentHeader">
@@ -61,7 +61,7 @@
 						</span>
 						<span class="pull-right">
 							{foreach item=LINK from=$EDITVIEW_LINKS['EDIT_VIEW_HEADER']}
-								{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='editViewHeader'}
+								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='editViewHeader'}
 								&nbsp;&nbsp;
 							{/foreach}
 						</span>
@@ -97,7 +97,7 @@
 									</div>
 								{/if}
 								<div class="{if $APIADDRESFIELD}col-md-8{else}col-md-12{/if} text-center">
-									{include file=vtemplate_path('BlockHeader.tpl',$MODULE)}
+									{include file=\App\Layout::getTemplatePath('BlockHeader.tpl', $MODULE)}
 								</div>
 							</div>
 						{/if}
@@ -133,7 +133,7 @@
 									<div class="{$WIDTHTYPE} {if $FIELD_MODEL->get('uitype') neq "300"}col-md-9{/if} fieldValue" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->get('uitype') eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
 										<div class="row">
 											<div class="">						    
-												{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
+												{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
 											</div>
 										</div>
 									</div>

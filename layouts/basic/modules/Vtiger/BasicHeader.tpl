@@ -20,9 +20,9 @@
 			</button>
 			{*<a href="#" class="navbar-brand">Brand</a>*}
 		</div>
-		{include file='MenuBar.tpl'|@vtemplate_path}
+		{include file=\App\Layout::getTemplatePath('MenuBar.tpl')}
 		<div class="collapse navbar-collapse actionsContainer">
-			{include file='CommonActions.tpl'|@vtemplate_path}
+			{include file=\App\Layout::getTemplatePath('CommonActions.tpl')}
 		</div>
 	</nav>
 {/strip}

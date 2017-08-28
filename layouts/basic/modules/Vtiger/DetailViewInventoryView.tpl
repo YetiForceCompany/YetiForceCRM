@@ -28,7 +28,7 @@
 							<th>
 								<span class="inventoryLineItemHeader">{\App\Language::translate($FIELD->get('label'), $MODULE_NAME)}:</span>&nbsp;
 								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$MODULE_NAME)}
-								{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE_NAME ITEM_VALUE=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
+								{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME) ITEM_VALUE=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
 							</th>
 						{/foreach}
 					</tr>
@@ -56,7 +56,7 @@
 						{foreach item=FIELD from=$FIELDS[1]}
 							<td {if in_array($FIELD->getName(), $FIELDS_TEXT_ALIGN_RIGHT)}class="textAlignRight"{/if}>
 								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$MODULE_NAME)}
-								{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE_NAME ITEM_VALUE=$INVENTORY_ROW[$FIELD->get('columnname')]}
+								{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME) ITEM_VALUE=$INVENTORY_ROW[$FIELD->get('columnname')]}
 							</td>
 						{/foreach}
 					</tr>
@@ -75,6 +75,6 @@
 				</tr>
 			</tfoot>
 		</table>
-		{include file='DetailViewInventorySummary.tpl'|@vtemplate_path:$MODULE_NAME}
+		{include file=\App\Layout::getTemplatePath('DetailViewInventorySummary.tpl', $MODULE_NAME)}
 	{/if}
 {/strip}
