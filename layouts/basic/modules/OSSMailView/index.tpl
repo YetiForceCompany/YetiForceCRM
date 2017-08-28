@@ -3,7 +3,7 @@
 	<div class="clearfix treeView">
 		<div class="widget_header row">
 			<div class="col-md-8">
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
 		</div>
 		<form>

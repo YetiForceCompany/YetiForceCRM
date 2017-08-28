@@ -76,7 +76,7 @@
 						{continue}
 					{/if}
 					{assign var=CONVERT value=false}
-					{assign var=VALUE value={include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}}
+					{assign var=VALUE value={include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}}
 					<div class="form-group">
 						<label class="col-sm-4 control-label">{\App\Language::translate($FIELD_MODEL->get('label'),$MODULE_NAME)} 
 							{if in_array($FIELD_MODEL->get('uitype'),['300','19']) && $VALUE}

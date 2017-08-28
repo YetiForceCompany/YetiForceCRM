@@ -17,7 +17,7 @@
 					</div>
 					<div class="pull-right quickCreateActions pullRight">
 						{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
-							{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='quickcreateViewHeader'}
+							{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader'}
 							&nbsp;&nbsp;
 						{/foreach}
 						{assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
@@ -65,7 +65,7 @@
 										</label>
 									</div>
 									<div class="fieldValue col-xs-12 col-sm-7" >
-										{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE)}
+										{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE)}
 									</div>
 								</div>
 							{/foreach}

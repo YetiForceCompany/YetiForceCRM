@@ -161,7 +161,7 @@
 		</div>
 	{/if}
 	{if !$NOLOADLIBS}
-		{include file='JSResources.tpl'|vtemplate_path}
+		{include file=\App\Layout::getTemplatePath('JSResources.tpl')}
 	{/if}
 {/strip}
 {if !$ISMODAL}
