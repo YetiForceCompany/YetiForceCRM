@@ -4,7 +4,7 @@
 		<div class="listViewTopMenuDiv">
 			<div class="row widget_header">
 				<div class="col-xs-12">
-					{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 					{\App\Language::translate('LBL_PDF_DESCRIPTION', $QUALIFIED_MODULE)}
 				</div>
 			</div>
@@ -41,7 +41,7 @@
 					</select>
 				</div>
 				<div class="col-md-4 btn-toolbar">
-					{include file='ListViewActions.tpl'|@vtemplate_path}
+					{include file=\App\Layout::getTemplatePath('ListViewActions.tpl')}
 				</div>
 			</div>
 		</div>
