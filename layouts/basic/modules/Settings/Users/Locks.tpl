@@ -5,7 +5,7 @@
 	{assign var="ROLES" value=Settings_Roles_Record_Model::getAll()}
 	<div class="widget_header row">
 		<div class="col-md-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
 	</div>
 	<span>{\App\Language::translate('LBL_LOCKS_DESCRIPTION', $QUALIFIED_MODULE)}</span>
@@ -22,7 +22,7 @@
 				</thead>
 				<tbody>
 					{foreach item=LOCK key=ID from=$LOCKS}
-						{include file='LocksItem.tpl'|@vtemplate_path:$QUALIFIED_MODULE SELECT=true}
+						{include file=\App\Layout::getTemplatePath('LocksItem.tpl', $QUALIFIED_MODULE) SELECT=true}
 					{/foreach}
 				</tbody>
 			</table>
@@ -35,7 +35,7 @@
 		<br />
 		<table class="table table-bordered cloneItem hide">
 			{assign var="LOCK" value=[]}
-			{include file='LocksItem.tpl'|@vtemplate_path:$QUALIFIED_MODULE SELECT=false}
+			{include file=\App\Layout::getTemplatePath('LocksItem.tpl', $QUALIFIED_MODULE) SELECT=false}
 		</table>
 	</div>
 {/strip}

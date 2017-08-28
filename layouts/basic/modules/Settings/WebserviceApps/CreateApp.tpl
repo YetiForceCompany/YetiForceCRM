@@ -105,6 +105,6 @@
 				</div>
 			</div>
 		</form>
-		{include file='ModalFooter.tpl'|@vtemplate_path}
+		{include file=\App\Layout::getTemplatePath('ModalFooter.tpl')}
 	</div>
 {/strip}
