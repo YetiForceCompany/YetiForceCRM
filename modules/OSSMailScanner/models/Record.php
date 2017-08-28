@@ -137,19 +137,19 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Return mailscanner config
-	 * @param string|bool $conf_type
+	 * @param string|bool $confType
 	 * @return array
 	 */
-	public static function getConfig($conf_type)
+	public static function getConfig($confType)
 	{
 		$query = (new \App\Db\Query())->from('vtiger_ossmailscanner_config');
-		if ($conf_type !== '' || $conf_type !== false) {
-			$query->where(['conf_type' => $conf_type]);
+		if ($conf_type !== false) {
+			$query->where(['conf_type' => $confType]);
 		}
 		$query->orderBy(['parameter' => SORT_DESC]);
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			if ($conf_type !== '' || $conf_type !== false) {
+			if ($confType !== false) {
 				$return[$row['parameter']] = $row['value'];
 			} else {
 				$return[$row['conf_type']][$row['parameter']] = $row['value'];

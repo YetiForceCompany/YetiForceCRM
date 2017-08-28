@@ -9,6 +9,10 @@
 class Settings_OSSMailScanner_logs_View extends Settings_Vtiger_Index_View
 {
 
+	/**
+	 * Process function
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -18,7 +22,7 @@ class Settings_OSSMailScanner_logs_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RecordModel', $ossMailScannerRecordModel);
 		$viewer->assign('MODULENAME', $moduleName);
-		$viewer->assign('WIDGET_CFG', $ossMailScannerRecordModel->getConfig(''));
+		$viewer->assign('WIDGET_CFG', $ossMailScannerRecordModel->getConfig(false));
 		$viewer->assign('HISTORYACTIONLIST', $cronHistoryActionList);
 		$viewer->assign('HISTORYACTIONLIST_NUM', $this->getNumLog());
 
