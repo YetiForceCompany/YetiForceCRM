@@ -39,7 +39,7 @@
 				</p>
 			</div>
 		{/foreach}
-		{include file="FieldExpressions.tpl"|@vtemplate_path:$QUALIFIED_MODULE}
+		{include file=\App\Layout::getTemplatePath('FieldExpressions.tpl', $QUALIFIED_MODULE)}
 	</div><br />
 	<div class="row basicAddFieldContainer hide padding-bottom1per">
 		<span class="col-md-4">
