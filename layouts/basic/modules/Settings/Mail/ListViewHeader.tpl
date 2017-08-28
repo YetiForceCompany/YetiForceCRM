@@ -3,7 +3,7 @@
 	<div class="">
 		<div class='widget_header row '>
 			<div class="col-xs-12">
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 				{App\Language::translate('LBL_EMAILS_TO_SEND_DESCRIPTION',$QUALIFIED_MODULE)}
 			</div>
 		</div>
@@ -33,7 +33,7 @@
 				{/foreach}
 			</div>
 			<div class="col-md-4">
-				{include file='ListViewActions.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+				{include file=\App\Layout::getTemplatePath('ListViewActions.tpl', $QUALIFIED_MODULE)}
 			</div>
 		</div>
 		<div class="clearfix"></div>

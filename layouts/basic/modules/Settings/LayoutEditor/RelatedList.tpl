@@ -15,7 +15,7 @@
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
         <div class="widget_header row">
             <div class="col-md-7">
-                {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
             </div>
             <div class="col-md-5">
 				<div class="btn-toolbar">
