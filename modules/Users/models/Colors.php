@@ -75,6 +75,8 @@ class Users_Colors_Model extends Vtiger_Record_Model
 			self::updateColor($params);
 		elseif ('generateModuleColor' == $params['mode'])
 			self::updateModuleColor($params);
+		elseif ('generatePicklistItemColor' == $params['mode'])
+			self::updatePicklistItemColor($params);
 		else
 			self::updateUserColor($params);
 		return $color;
@@ -161,5 +163,49 @@ class Users_Colors_Model extends Vtiger_Record_Model
 	public static function updateModuleColor($params)
 	{
 		\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['color' => str_replace('#', '', $params['color'])], ['tabid' => $params['id']])->execute();
+	}
+
+	/**
+	 * Function to update color for picklist item
+	 * @param array $params
+	 */
+	public static function updatePicklistItemColor($params)
+	{
+		$table = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['fieldid' => $params['picklistId']])->scalar();
+		\App\Db::getInstance()->createCommand()->update('vtiger_' . $table, ['color' => str_replace('#', '', $params['color'])], ['picklist_valueid' => $params['picklistItemId']])->execute();
+	}
+
+	/**
+	 * Function to update color for picklist item
+	 * @param array $params
+	 */
+	public static function updatePicklistColorColumn($params)
+	{
+		$table = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['fieldid' => $params['picklistId']])->scalar();
+		\App\Db::getInstance()->createCommand()->addColumn('vtiger_' . $table, 'color', 'string(25)')->execute();
+	}
+
+	/**
+	 * Function which will give the picklist values for a field
+	 * @param string $fieldName -- string
+	 * @return array -- array of values
+	 */
+	public static function getPickListItems($fieldName)
+	{
+		if (\App\Cache::has('getPickListValues', $fieldName)) {
+			return \App\Cache::get('getPickListValues', $fieldName);
+		}
+		$primaryKey = \App\Fields\Picklist::getPickListId($fieldName);
+		$dataReader = (new \App\Db\Query())
+				->from("vtiger_$fieldName")
+				->orderBy('sortorderid')
+				->createCommand()->query();
+		$values = [];
+		while ($row = $dataReader->read()) {
+			$values[$row[$primaryKey]] = $row;
+			$values[$row[$primaryKey]]['picklistValue'] = \App\Purifier::decodeHtml(\App\Purifier::decodeHtml($row[$fieldName]));
+		}
+		\App\Cache::save('getPickListValues', $fieldName, $values);
+		return $values;
 	}
 }

@@ -15,11 +15,14 @@ class Settings_Users_Colors_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleModel = Settings_Calendar_Module_Model::getInstance($qualifiedModuleName);
+		$pickListSupportedModules = Settings_Users_Module_Model::getPicklistSupportedModules();
+
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('TABLES_ALL', $tablesAll);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('PICKLIST_MODULES', $pickListSupportedModules);
 		$viewer->view('Colors.tpl', $qualifiedModuleName);
 	}
 
