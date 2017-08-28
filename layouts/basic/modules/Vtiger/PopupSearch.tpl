@@ -26,7 +26,7 @@
 				<input class="col-md-2" type="hidden" id="searchvalue"/>
 			</form>
 		</div>
-		{include file='PopupSearchActions.tpl'|vtemplate_path:$MODULE_NAME}
+		{include file=\App\Layout::getTemplatePath('PopupSearchActions.tpl', $MODULE_NAME)}
 		<div class="col-md-4 form-group pull-right">
 			{if $SOURCE_MODULE neq 'PriceBooks' && $SOURCE_FIELD neq 'productsRelatedList'}
 				<div class="popupPaging">

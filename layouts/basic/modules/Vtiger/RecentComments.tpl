@@ -114,7 +114,7 @@
 					</div>
 				{/foreach}
 			{else}
-				{include file="NoComments.tpl"|@vtemplate_path}
+				{include file=\App\Layout::getTemplatePath('NoComments.tpl')}
 			{/if}
 		</div>
 		{if !$IS_READ_ONLY && $PAGING_MODEL->isNextPageExists()}

@@ -14,7 +14,7 @@
 			<div class="col-md-{$span}">
 				{foreach key=key item=WIDGET from=$WIDGETCOLUMN}
 					{assign var=FILE value='widgets/'|cat:$WIDGET['tpl']}
-					{include file=$FILE|@vtemplate_path:$MODULE_NAME}
+					{include file=\App\Layout::getTemplatePath($FILE, $MODULE_NAME)}
 				{/foreach}
 			</div>
 		{/foreach}
