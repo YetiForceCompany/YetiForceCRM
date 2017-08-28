@@ -2,7 +2,7 @@
 {strip}
 	<div class="widget_header row">
 		<div class="col-xs-12 col-sm-12 col-md-9">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 		</div>
 		<div class="col-xs-12 col-sm-6 col-sm-offset-6 col-md-3 col-md-offset-0">
 			<select class="chzn-select form-control" name="supportedModule" id="supportedModule">
