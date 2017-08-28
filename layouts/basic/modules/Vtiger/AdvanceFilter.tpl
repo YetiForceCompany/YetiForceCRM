@@ -34,11 +34,11 @@
 		<div class="contents">
 			<div class="conditionList">
 			 {foreach item=CONDITION_INFO from=$ALL_CONDITION_CRITERIA['columns']}
-				{include file='AdvanceFilterCondition.tpl'|@vtemplate_path:$QUALIFIED_MODULE RECORD_STRUCTURE=$RECORD_STRUCTURE CONDITION_INFO=$CONDITION_INFO MODULE=$MODULE}
-			{/foreach}
+				{include file=\App\Layout::getTemplatePath('AdvanceFilterCondition.tpl', $QUALIFIED_MODULE) RECORD_STRUCTURE=$RECORD_STRUCTURE CONDITION_INFO=$CONDITION_INFO MODULE=$MODULE}
+			 {/foreach}
 			</div>
 			<div class="hide basic">
-				{include file='AdvanceFilterCondition.tpl'|@vtemplate_path:$QUALIFIED_MODULE RECORD_STRUCTURE=$RECORD_STRUCTURE CONDITION_INFO=[] MODULE=$MODULE NOCHOSEN=true}
+				{include file=\App\Layout::getTemplatePath('AdvanceFilterCondition.tpl', $QUALIFIED_MODULE) RECORD_STRUCTURE=$RECORD_STRUCTURE CONDITION_INFO=[] MODULE=$MODULE NOCHOSEN=true}
 			</div>
 			<div class="addCondition">
 				<button type="button" class="btn btn-default pushDown"><strong>{\App\Language::translate('LBL_ADD_CONDITION',$MODULE)}</strong></button>
@@ -61,11 +61,11 @@
 		<div class="contents">
 			<div class="conditionList">
 			{foreach item=CONDITION_INFO from=$ANY_CONDITION_CRITERIA['columns']}
-				{include file='AdvanceFilterCondition.tpl'|@vtemplate_path:$QUALIFIED_MODULE RECORD_STRUCTURE=$RECORD_STRUCTURE CONDITION_INFO=$CONDITION_INFO MODULE=$MODULE CONDITION="or"}
+				{include file=\App\Layout::getTemplatePath('AdvanceFilterCondition.tpl', $QUALIFIED_MODULE) RECORD_STRUCTURE=$RECORD_STRUCTURE CONDITION_INFO=$CONDITION_INFO MODULE=$MODULE CONDITION="or"}
 			{/foreach}
 			</div>
 			<div class="hide basic">
-				{include file='AdvanceFilterCondition.tpl'|@vtemplate_path:$QUALIFIED_MODULE RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE=$MODULE CONDITION_INFO=[] CONDITION="or" NOCHOSEN=true}
+				{include file=\App\Layout::getTemplatePath('AdvanceFilterCondition.tpl', $QUALIFIED_MODULE) RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE=$MODULE CONDITION_INFO=[] CONDITION="or" NOCHOSEN=true}
 			</div>
 			<div class="addCondition">
 				<button type="button" class="btn btn-default pushDown"><strong>{\App\Language::translate('LBL_ADD_CONDITION',$MODULE)}</strong></button>

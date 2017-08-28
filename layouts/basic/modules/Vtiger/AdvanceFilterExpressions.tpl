@@ -23,9 +23,9 @@
 		<div id="advanceFilterContainer" class="row conditionsContainer padding1per">
 			<h5 class="padding-bottom1per col-md-10"><strong>{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS',$MODULE)}</strong></h5>
 			<div class="col-md-10" >
-				{include file='AdvanceFilter.tpl'|@vtemplate_path}
+				{include file=\App\Layout::getTemplatePath('AdvanceFilter.tpl')}
 			</div>
-			{include file="FieldExpressions.tpl"|@vtemplate_path}
+			{include file=\App\Layout::getTemplatePath('FieldExpressions.tpl')}
 		</div>
 	</div>
 {/strip}
