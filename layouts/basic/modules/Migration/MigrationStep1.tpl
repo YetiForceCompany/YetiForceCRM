@@ -9,7 +9,7 @@
 *************************************************************************************/
 -->*}
 {strip}
-{include file="Header.tpl"|vtemplate_path:$MODULE}
+{include file=\App\Layout::getTemplatePath('Header.tpl', $MODULE)}
 <div class=" page-container">
 	<div class="row">
 		<div class="col-md-6">

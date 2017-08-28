@@ -54,7 +54,7 @@
 														</label>
 													</td>
 													<td class="fieldValue col-xs-7">
-														{include file=$FIELD_MODEL->getUITypeModel()->getTemplateName()|@vtemplate_path}
+														{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName())}
 													</td>
 												</tr>
 											{/foreach}
@@ -74,14 +74,14 @@
 										</td>
 										<td class="fieldValue col-xs-7">
 											{if $FIELD_MODEL->get('uitype') eq '53'}
-												{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE_NAME)}
+												{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME)}
 											{/if}
 										</td>
 									</tr>
 								</table>
 							</div>
 						</div>
-						{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
+						{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $MODULE)}
 					</form>
 				{/if}
 			</div>
