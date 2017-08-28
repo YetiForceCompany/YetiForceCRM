@@ -21,6 +21,11 @@ $languageStrings = [
 	'LBL_USERS_COLORS' => 'Kolory użytkowników',
 	'LBL_GROUP_NAME' => 'Nazwa grupy',
 	'LBL_PRIORITY' => 'Priorytet',
+	'LBL_PICKLISTS' => 'Słowniki',
+	'LBL_WARNING' => 'Uwaga',
+	'LBL_PICKLIST_COLOR_COL_NOT_FOUND' => 'Funkcjonalność kolorów nie została aktywowana dla tego słownika',
+	'LBL_UPDATE_COLOR_COLUMN' => 'Aktywuj',
+	'LBL_ITEM' => 'Wartość',
 	'LBL_MODULE' => 'Moduł',
 	'LBL_LDAP_RECOMMENDED_INFO' => 'Nie zaleca sie aby wybierać do autoryzacji użytkowników o uprawnieniach administratora. W razie problmeów z autoryzacją LDAP musi być dostępny użytkownik, który ma możliwości logowania się bez integracji LDAP.',
 	//Auth

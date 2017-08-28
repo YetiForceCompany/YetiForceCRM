@@ -12,11 +12,7 @@
 				<li class="active"><a data-toggle="tab" href="#userColors"><strong>{\App\Language::translate('LBL_USERS_COLORS', $QUALIFIED_MODULE)}</strong></a></li>
 				<li ><a data-toggle="tab" href="#groupsColors"><strong>{\App\Language::translate('LBL_GROUPS_COLORS', $QUALIFIED_MODULE)}</strong></a></li>
 				<li ><a data-toggle="tab" href="#modulesColors"><strong>{\App\Language::translate('LBL_MODULES', $QUALIFIED_MODULE)}</strong></a></li>
-				<li ><a data-toggle="tab" href="#marketing"><strong>{\App\Language::translate('LBL_MARKETING_PROCESSES', $QUALIFIED_MODULE)}</strong></a></li>
-				<li ><a data-toggle="tab" href="#financial"><strong>{\App\Language::translate('LBL_SALES_PROCESSES', $QUALIFIED_MODULE)}</strong></a></li>
-				<li ><a data-toggle="tab" href="#realization"><strong>{\App\Language::translate('LBL_REALIZATION_PROCESSES', $QUALIFIED_MODULE)}</strong></a></li>
-				<li ><a data-toggle="tab" href="#support"><strong>{\App\Language::translate('LBL_SUPPORT_PROCESSES', $QUALIFIED_MODULE)}</strong></a></li>
-				<li ><a data-toggle="tab" href="#timecontrol"><strong>{\App\Language::translate('LBL_TIMECONTROL_PROCESSES', $QUALIFIED_MODULE)}</strong></a></li>
+				<li ><a data-toggle="tab" href="#picklistsColors" id="picklistsColorsTab"><strong>{\App\Language::translate('LBL_PICKLISTS', $QUALIFIED_MODULE)}</strong></a></li>
 			</ul>
 			<div class="tab-content layoutContent" style="padding-top: 10px;">
 				<div class="tab-pane active" id="userColors">
@@ -94,54 +90,12 @@
 						</tbody>
 					</table>
 				</div>
-				{foreach from=$TABLES_ALL item=ELEMENTS key=PROCESS}
-					<div class="tab-pane" id="{$PROCESS}">
-						<div class="accordion">
-							{foreach from=$ELEMENTS item=ITEM name=ELEMENT}
-								{if $ITEM eq ''}
-									{continue}
-								{/if}
-								<div class="accordion-group">
-									<div class="accordion-heading">
-										{assign var=TABLE value='vtiger_'|cat:$ITEM.fieldname}
-										<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#{$TABLE}">
-											{assign var=MODULE_NAME value=vtlib\Functions::getModuleName($ITEM.tabid)}
-											{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}
-											:&ensp;
-											{\App\Language::translate($ITEM.fieldlabel, $MODULE_NAME)}
-										</a>
-									</div>
-									<div id="{$TABLE}" class="accordion-body collapse {if	$smarty.foreach.ELEMENT.index eq 0 } in {/if}">
-										<div class="accordion-inner">
-											<table class="table customTableRWD table-bordered table-condensed listViewEntriesTable" data-fieldname="{$ITEM.fieldname}">
-												<thead>
-													<tr class="blockHeader">
-														<th><strong>{\App\Language::translate($ITEM.fieldlabel, $MODULE_NAME)}</strong></th>
-														<th><strong>{\App\Language::translate('LBL_COLOR',$QUALIFIED_MODULE)}</strong></th>
-														<th data-hide='phone'><strong>{\App\Language::translate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></th>
-													</tr>
-												</thead>
-												<tbody>
-													{assign var=FIELD value=Users_Colors_Model::getValuesFromField($ITEM.fieldname)}
-													{foreach from=$FIELD item=INNER_ITEM key=INNER_KEY}
-														<tr data-table="{$TABLE}" data-id="{$INNER_ITEM['id']}" data-color="{$INNER_ITEM['color']}">
-															<td>{\App\Language::translate($INNER_ITEM['value'], $MODULE_NAME)}</td>
-															<td id="calendarColorPreview{$TABLE}{$INNER_ITEM['id']}" data-color="{$INNER_ITEM['color']}"  class="calendarColor" style="background: {$INNER_ITEM['color']};"></td>
-															<td>
-																<button data-table="{$TABLE}" data-id="{$INNER_ITEM['id']}" data-type="{$TABLE}" class="btn btn-sm marginLeft10 btn-primary updateColor" data-metod="updateColorForProcesses">{\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-																<button data-table="{$TABLE}" data-id="{$INNER_ITEM['id']}" data-type="{$TABLE}" class="btn btn-sm btn-info generateColor" data-metod="generateColorForProcesses">{\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
-															</td>
-														</tr>
-													{/foreach}
-												</tbody>
-											</table>
-										</div>
-									</div>
-								</div>
-							{/foreach}
-						</div>
+				<div class="tab-pane" id="picklistsColors">
+					<div class="listViewContentDiv" id="PicklistViewContentDiv" style="padding: 1%;">
+
 					</div>
-				{/foreach}
+				</div>
+
 			</div>
 		</div>
 		<div class="modal editColorContainer fade" tabindex="-1">
