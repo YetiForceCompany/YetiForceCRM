@@ -32,7 +32,7 @@
 			{/foreach}
 			<div class="widget_header row">
 				<div class="col-md-8">
-					{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				</div>
 				<div class="col-md-4">
 					<div class="pull-right">
@@ -88,7 +88,7 @@
 										{if $FIELD_MODEL->get('uitype') eq "300"}
 											<label class="muted">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{\App\Language::translate($FIELD_MODEL->get('label'), $MODULE)}</label>
 										{/if}
-										{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
+										{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
 									</div>
 								</div>
 							{/foreach}
