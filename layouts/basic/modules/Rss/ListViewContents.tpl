@@ -39,7 +39,7 @@
 					</div>
 				</div>
 				<div class="feedListContainer pushDown" style="overflow: auto;"> 
-					{include file='RssFeedContents.tpl'|@vtemplate_path:$MODULE}
+					{include file=\App\Layout::getTemplatePath('RssFeedContents.tpl', $MODULE)}
 				</div>
 			{else}
 				<table class="emptyRecordsDiv">

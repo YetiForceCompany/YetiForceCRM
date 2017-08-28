@@ -26,6 +26,6 @@
 </div>
 
 <div class="dashboardWidgetContent">
-	{include file="dashboards/ChartsContents.tpl"|@vtemplate_path:$MODULE_NAME}
+	{include file=\App\Layout::getTemplatePath('dashboards/ChartsContents.tpl', $MODULE_NAME)}
 </div>
 

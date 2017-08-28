@@ -14,7 +14,7 @@
 		<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($DATE_FILTERS))}' />
 		<div class="widget_header row marginBottom10px">
 			<div class="col-sm-8">
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
 			<div class="col-sm-4">
 				<div class="btn-toolbar pull-right">
@@ -91,7 +91,7 @@
 							<br />
 
 							<div class='hide'>
-								{include file="chartReportHiddenContents.tpl"|vtemplate_path:$MODULE}
+								{include file=\App\Layout::getTemplatePath('chartReportHiddenContents.tpl', $MODULE)}
 							</div>
 						</div>
 						<div class="clearfix">
@@ -103,7 +103,7 @@
 								</button>
 							</div>
 							<div id='filterContainer' class='form-group '{if $filterConditionNotExists eq true} style="display: none"{/if}>
-								{include file='AdvanceFilter.tpl'|@vtemplate_path RECORD_STRUCTURE=$RECORD_STRUCTURE ADVANCE_CRITERIA=$SELECTED_ADVANCED_FILTER_FIELDS COLUMNNAME_API=getReportFilterColumnName}
+								{include file=\App\Layout::getTemplatePath('AdvanceFilter.tpl') RECORD_STRUCTURE=$RECORD_STRUCTURE ADVANCE_CRITERIA=$SELECTED_ADVANCED_FILTER_FIELDS COLUMNNAME_API=getReportFilterColumnName}
 							</div>
 						</div>
 					</div>
