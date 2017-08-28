@@ -16,8 +16,8 @@
 		<input name="label" class="form-control" type="text" value="{if $RECORD}{$RECORD->get('label')}{/if}" />
 	</div>
 </div>
-{include file='fields/Newwindow.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
-{include file='fields/Hotkey.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+{include file=\App\Layout::getTemplatePath('fields/Newwindow.tpl', $QUALIFIED_MODULE)}
+{include file=\App\Layout::getTemplatePath('fields/Hotkey.tpl', $QUALIFIED_MODULE)}
 {assign var=FILTERS value=explode(',',$RECORD->get('filters'))}
 <div class="form-group">
 	<label class="col-md-4 control-label">{\App\Language::translate('LBL_AVAILABLE_FILTERS', $QUALIFIED_MODULE)}:</label>
