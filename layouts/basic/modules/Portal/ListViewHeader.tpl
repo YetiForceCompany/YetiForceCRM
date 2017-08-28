@@ -12,7 +12,7 @@
 {strip}
 		<div class='widget_header row '>
 			<div class="col-xs-12">
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
 		</div>
     	<div class="listViewPageDiv" id="portalListViewPage">
@@ -32,7 +32,7 @@
 				<div class="col-md-6 btn-toolbar row">
 					<div class="listViewActions pull-right">
 						<div class="paginationDiv pull-right">
-							{include file='Pagination.tpl'|@vtemplate_path:$MODULE}
+							{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE)}
 						</div>
 					</div>
 				</div>
