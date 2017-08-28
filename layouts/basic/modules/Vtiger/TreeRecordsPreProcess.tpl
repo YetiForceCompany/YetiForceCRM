@@ -5,11 +5,11 @@
 			<div class="widget_header row paddingTop10">
 				<div class="pull-left paddingLeftMd">
 					<div class="btn-toolbar">
-						{include file='ButtonViewLinks.tpl'|@vtemplate_path LINKS=$QUICK_LINKS['SIDEBARLINK']}
+						{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK']}
 					</div>
 				</div>
 				<div class="col-md-10">
-					{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				</div>
 			</div>
 			<div class="row">

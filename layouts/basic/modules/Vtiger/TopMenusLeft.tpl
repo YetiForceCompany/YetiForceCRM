@@ -12,7 +12,7 @@
 			{assign var=HASPOPUP value='false'}
 		{/if}
 		<ul class="nav modulesList  navbar-nav navbar-left">
-			{include file='menu/'|cat:$MENU.type|cat:'.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('menu/'|cat:$MENU.type|cat:'.tpl', $MODULE)}
 		</ul>
 	{/foreach}
 {/strip}
