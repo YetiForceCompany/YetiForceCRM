@@ -272,7 +272,8 @@ class Contacts extends CRMEntity
 		$relTables = [
 			'Products' => ['vtiger_seproductsrel' => ['crmid', 'productid'], 'vtiger_contactdetails' => 'contactid'],
 			'Campaigns' => ['vtiger_campaign_records' => ['crmid', 'campaignid'], 'vtiger_contactdetails' => 'contactid'],
-			'Documents' => ['vtiger_senotesrel' => ['crmid', 'notesid'], 'vtiger_contactdetails' => 'contactid']
+			'Documents' => ['vtiger_senotesrel' => ['crmid', 'notesid'], 'vtiger_contactdetails' => 'contactid'],
+			'OSSMailView' => ['vtiger_ossmailview' => ['crmid', 'ossmailviewid'], 'vtiger_contactdetails' => 'contactid']
 		];
 		if ($secmodule === false) {
 			return $relTables;
