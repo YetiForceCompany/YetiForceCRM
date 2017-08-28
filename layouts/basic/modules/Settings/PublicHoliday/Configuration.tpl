@@ -3,7 +3,7 @@
 <div class="" id="widgetsManagementEditorContainer">
 	<div class="widget_header row">
 		<div class="col-md-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			{\App\Language::translate('LBL_PUBLIC_HOLIDAY_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	</div>

@@ -15,7 +15,7 @@ padding: 0 20px 20px 20px;
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
         <div class="widget_header row">
 		<div class="col-md-8">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE}
 			{\App\Language::translate('LBL_QUICK_CREATE_EDITOR_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 		<div class="pull-right col-md-4 h3">

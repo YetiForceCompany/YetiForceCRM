@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	{include file="ProviderEditFields.tpl"|@vtemplate_path:$QUALIFIED_MODULE_NAME}
+	{include file=\App\Layout::getTemplatePath('ProviderEditFields.tpl', $QUALIFIED_MODULE_NAME)}
 	<div class="alert-info alert">
 		<div>
 			In the Originator field, enter one of the following:<br /><br />

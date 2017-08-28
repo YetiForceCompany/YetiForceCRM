@@ -10,7 +10,7 @@
 			
 				<div class="widget_header row">
 					<div class="col-md-8">
-					    {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 					</div>
 					<div class="col-md-4">
 						<button class="btn btn-success pull-right hide" type="submit" name="saveButton"><strong>{\App\Language::translate('LBL_APPLY_NEW_SHARING_RULES', $QUALIFIED_MODULE)}</strong></button>
