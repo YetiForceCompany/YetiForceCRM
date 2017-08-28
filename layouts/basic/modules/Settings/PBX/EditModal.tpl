@@ -9,7 +9,7 @@
 						{if $FIELD_MODEL->isMandatory()}<span class="redColor"> *</span>{/if}:
 					</label>
 					<div class="col-md-8 fieldValue">
-						{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(), $QUALIFIED_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$QUALIFIED_MODULE}
+						{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $QUALIFIED_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$QUALIFIED_MODULE}
 					</div>
 				</div>
 			{/foreach}
@@ -34,7 +34,7 @@
 								{if $FIELD_MODEL->isMandatory()}<span class="redColor"> *</span>{/if}:
 							</label>
 							<div class="col-md-8 fieldValue">
-								{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(), $QUALIFIED_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$QUALIFIED_MODULE}
+								{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $QUALIFIED_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$QUALIFIED_MODULE}
 							</div>
 						</div>
 					{/foreach}
@@ -46,7 +46,7 @@
 									{if $FIELD_MODEL->isMandatory()}<span class="redColor"> *</span>{/if}:
 								</label>
 								<div class="col-md-8 fieldValue">
-									{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(), $QUALIFIED_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$QUALIFIED_MODULE}
+									{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $QUALIFIED_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$QUALIFIED_MODULE}
 								</div>
 							</div>
 						{/foreach}
@@ -54,7 +54,7 @@
 					<div class="editModalContent"></div>
 				</div>
 			</div>
-			{include file=vtemplate_path('ModalFooter.tpl', $QUALIFIED_MODULE)}
+			{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $QUALIFIED_MODULE)}
 		</form>
 	{/if}
 {/strip}

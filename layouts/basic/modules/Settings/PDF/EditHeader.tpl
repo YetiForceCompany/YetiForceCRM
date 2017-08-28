@@ -2,7 +2,7 @@
 {strip}
 	<div class="row widget_header">
 		<div class="col-xs-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			{\App\Language::translate('LBL_PDF_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	</div>
