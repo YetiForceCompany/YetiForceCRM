@@ -60,7 +60,7 @@
 						{/if}
 					</div>
 				</div>
-				{include file='ModalFooter.tpl'|@vtemplate_path:'Vtiger'}
+				{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', 'Vtiger')}
 			</form>
 		</div>
 	</div>

@@ -62,7 +62,7 @@
 									<div class="actions">
 										<div class="pull-right">
 											{foreach from=$LINKS item=LINK}
-												{include file='ButtonLink.tpl'|@vtemplate_path:$QUALIFIED_MODULE BUTTON_VIEW='listViewBasic' MODULE=$QUALIFIED_MODULE}
+												{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $QUALIFIED_MODULE) BUTTON_VIEW='listViewBasic' MODULE=$QUALIFIED_MODULE}
 											{/foreach}
 										</div>
 									</div>
