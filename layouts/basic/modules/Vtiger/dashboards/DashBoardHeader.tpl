@@ -13,9 +13,9 @@
 	<div class="widget_header row">
 		<div class="col-xs-9 col-sm-4 col-md-6">
 			<div class="btn-group listViewMassActions modOn_{$MODULE} pull-left paddingRight10">
-				{include file='ButtonViewLinks.tpl'|@vtemplate_path LINKS=$QUICK_LINKS['SIDEBARLINK'] BTN_GROUP=false}
+				{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl', $MODULE_NAME) LINKS=$QUICK_LINKS['SIDEBARLINK'] BTN_GROUP=false}
 			</div>
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
 	</div>
 {/strip}

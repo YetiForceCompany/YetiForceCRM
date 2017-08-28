@@ -8,9 +8,9 @@
  *************************************************************************************}
  {strip}
 <div class="dashboardWidgetHeader">
-	{include file="dashboards/WidgetHeader.tpl"|@vtemplate_path:$MODULE_NAME}
+	{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeader.tpl', $MODULE_NAME)}
 </div>
 <div class="dashboardWidgetContent" style='padding:5px'>
-	{include file="dashboards/KeyMetricsContents.tpl"|@vtemplate_path:$MODULE_NAME}
+	{include file=\App\Layout::getTemplatePath('dashboards/KeyMetricsContents.tpl', $MODULE_NAME)}
 </div>
 {/strip}

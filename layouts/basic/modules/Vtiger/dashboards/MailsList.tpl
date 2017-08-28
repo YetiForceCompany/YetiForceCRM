@@ -37,6 +37,6 @@
 	</div>
 </div>
 <div class="dashboardWidgetContent">
-	{include file="dashboards/MailsListContents.tpl"|@vtemplate_path:$MODULE_NAME}
+	{include file=\App\Layout::getTemplatePath('dashboards/MailsListContents.tpl', $MODULE_NAME)}
 </div>
 {/strip}
