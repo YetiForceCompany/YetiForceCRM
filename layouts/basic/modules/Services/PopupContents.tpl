@@ -6,5 +6,5 @@
 			{\App\Language::translate('LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO', $MODULE)}
 		</div>
 	{/if}
-	{include file=vtemplate_path('PopupContents.tpl','Vtiger')}
+	{include file=\App\Layout::getTemplatePath('PopupContents.tpl', 'Vtiger')}
 {/strip}

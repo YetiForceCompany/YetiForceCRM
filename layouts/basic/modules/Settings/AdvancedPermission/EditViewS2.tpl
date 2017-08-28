@@ -2,7 +2,7 @@
 	{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 	<div class="row widget_header">
 		<div class="col-xs-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 			{\App\Language::translate('LBL_ADVANCED_PERMISSION_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	</div>
@@ -14,7 +14,7 @@
 			<input type="hidden" name="mode" value="step2">
 			<input type="hidden" name="record" value="{$RECORD_ID}">
 			<input type="hidden" name="conditions" id="advanced_filter"/>
-			{include file='AdvanceFilterExpressions.tpl'|@vtemplate_path}
+			{include file=\App\Layout::getTemplatePath('AdvanceFilterExpressions.tpl')}
 			<div class="row">
 				<div class="col-md-5 pull-right">
 					<span class="pull-right">
