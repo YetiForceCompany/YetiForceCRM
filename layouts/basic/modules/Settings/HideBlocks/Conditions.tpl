@@ -3,7 +3,7 @@
 <div class="targetFieldsTableContainer">
 	<div class="widget_header row">
 		<div class="col-xs-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			{\App\Language::translate('LBL_HIDEBLOCKS_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	</div>
@@ -28,7 +28,7 @@
 			<input type="hidden" name="conditions" class="advanced_filter" value="{$ENABLED}"/>
 			<div class="listViewEntriesDiv contents-bottomscroll" style="overflow-x: visible !important;">
 				<div class="bottomscroll-div">
-					{include file='AdvanceFilter.tpl'|@vtemplate_path RECORD_STRUCTURE=$RECORD_STRUCTURE}
+					{include file=\App\Layout::getTemplatePath('AdvanceFilter.tpl') RECORD_STRUCTURE=$RECORD_STRUCTURE}
 				</div>
 			</div>
 			<br />	

@@ -17,7 +17,7 @@
 
 			<div class="widget_header row">
 				<div class="col-xs-12">
-					{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 					{if isset($SELECTED_PAGE)}
 						{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
 					{/if}
