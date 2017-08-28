@@ -6,7 +6,7 @@
 		<div class="actions">
 			<div class=" {if $ONLY_ONE}pull-right{else}hide actionImages{/if}">
 				{foreach from=$LINKS item=LINK}
-					{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='listViewBasic'}
+					{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewBasic'}
 				{/foreach}
 			</div>
 			{if !$ONLY_ONE}

@@ -13,7 +13,7 @@
 <div class='listViewPageDiv'>
 	<div class="widget_header row">
 		<div class="col-xs-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
 	</div>
 	<div class="row  listViewActionsDiv pushDown">
@@ -28,7 +28,7 @@
 		</div>
 		<div class='col-xs-4'><div class="textAlignCenter"><h3 style='margin-top:2px'>{\App\Language::translate('LBL_DUPLICATE')}  {\App\Language::translate($MODULE, $MODULE)}</h3></div></div>
 		<div class="col-xs-12 col-sm-4 btn-toolbar">
-			{include file='ListViewActions.tpl'|@vtemplate_path}
+			{include file=\App\Layout::getTemplatePath('ListViewActions.tpl')}
 		</div>
 	</div>
 	<div id="listViewContents" class="listViewContentDiv">

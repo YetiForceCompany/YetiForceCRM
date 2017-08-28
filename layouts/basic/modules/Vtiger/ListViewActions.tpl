@@ -13,7 +13,7 @@
 	<div class="listViewActions pull-right paginationDiv paddingLeft5px">
         {if (method_exists($MODULE_MODEL,'isPagingSupported') && ($MODULE_MODEL->isPagingSupported()  eq true)) || !method_exists($MODULE_MODEL,'isPagingSupported')}
 			<div class="">
-				{include file='Pagination.tpl'|@vtemplate_path:$MODULE}
+				{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE)}
 			</div>
         {/if}
 

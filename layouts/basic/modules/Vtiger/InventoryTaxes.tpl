@@ -12,7 +12,7 @@
 					<input type="hidden" class="taxsType" value="{$AGGREGATION_TYPE}" />
 					{foreach item=TAXID from=$CONFIG['taxs']}
 						{assign var="TAX_TYPE_TPL" value="InventoryTaxesType"|cat:$TAXID|cat:".tpl"}
-						{include file=$TAX_TYPE_TPL|@vtemplate_path:$MODULE}
+						{include file=\App\Layout::getTemplatePath($TAX_TYPE_TPL, $MODULE)}
 					{/foreach}
 					<hr/>
 					<div class="row">
