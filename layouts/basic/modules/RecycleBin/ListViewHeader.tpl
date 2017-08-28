@@ -49,7 +49,7 @@
 				</span>
 			</span>
 			<span class="col-md-4 btn-toolbar">
-				{include file='ListViewActions.tpl'|@vtemplate_path}
+				{include file=\App\Layout::getTemplatePath('ListViewActions.tpl')}
 			</span>
 		</div>
 		</div>
