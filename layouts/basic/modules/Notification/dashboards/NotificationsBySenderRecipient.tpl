@@ -7,7 +7,7 @@
 			</div>
 			<div class="col-md-4">
 				<div class="box pull-right">
-					{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME}
+					{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
 				</div>
 			</div>
 		</div>
@@ -22,6 +22,6 @@
 		</div>
 	</div>
 	<div class="dashboardWidgetContent">
-		{include file="dashboards/DashBoardWidgetContents.tpl"|@vtemplate_path:$MODULE_NAME}
+		{include file=\App\Layout::getTemplatePath('dashboards/DashBoardWidgetContents.tpl', $MODULE_NAME)}
 	</div>
 {/strip}
