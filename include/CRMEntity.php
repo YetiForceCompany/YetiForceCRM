@@ -1249,23 +1249,27 @@ class CRMEntity
 	}
 	/*
 	 * Function to get the relation tables for related modules
-	 * @param String $secmodule - $secmodule secondary module name
-	 * @return Array returns the array with table names and fieldnames storing relations
+	 * @param string $secModule - $secmodule secondary module name
+	 * @return array returns the array with table names and fieldnames storing relations
 	 * between module and this module
 	 */
 
-	public function setRelationTables($secmodule = false)
+	public function setRelationTables($secModule = false)
 	{
 		$relTables = [
 			'Documents' => [
 				'vtiger_senotesrel' => ['crmid', 'notesid'],
 				$this->table_name => $this->table_index
+			],
+			'OSSMailView' => [
+				'vtiger_ossmailview_relation' => ['crmid', 'ossmailviewid'],
+				$this->table_name => $this->table_index
 			]
 		];
-		if ($secmodule === false) {
+		if ($secModule === false) {
 			return $relTables;
 		}
-		return $relTables[$secmodule];
+		return $relTables[$secModule];
 	}
 
 	/**
