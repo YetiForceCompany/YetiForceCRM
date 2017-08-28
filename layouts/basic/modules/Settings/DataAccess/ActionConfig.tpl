@@ -16,7 +16,7 @@
 				{assign var="TPL" value="data_access/$ACTION.tpl"}
 				<h4 class="padding-bottom1per"><strong>{\App\Language::translate('LBL_CONFIG_ACTION',$QUALIFIED_MODULE)}: {Settings_DataAccess_Module_Model::getActionName($ACTIONNAME,true)}</strong></h4>
 				<div class="alert alert-info">{Settings_DataAccess_Module_Model::getActionName($ACTIONNAME,false)}</div>
-				{include file=$TPL|@vtemplate_path:$ACTIONMOD}
+				{include file=\App\Layout::getTemplatePath($TPL, $ACTIONMOD)}
 				<br /><br />
 				<div class="pull-right paddingTop20 paddingBottom20">
 					<a class="btn btn-danger backStep" type="button" href="index.php?module={$MODULE_NAME}&parent=Settings&view=Step3&tpl_id={$TPL_ID}&base_module={$BASE_MODULE}&s=false">{\App\Language::translate('BACK', $QUALIFIED_MODULE)}</a>&nbsp;&nbsp;

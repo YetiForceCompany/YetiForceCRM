@@ -10,10 +10,10 @@
  ********************************************************************************/
 -->*}
 {strip}
-{include file="Header.tpl"|vtemplate_path:$MODULE}
+{include file=\App\Layout::getTemplatePath('Header.tpl', $MODULE)}
 <div class="bodyContents">
 	<div class="mainContainer">
 		<div class="contentsDiv col-md-12 marginLeftZero" id="centerPanel" style="min-height:550px;">
-			{include file="FindDuplicateHeader.tpl"|vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('FindDuplicateHeader.tpl', $MODULE)}
 
 {/strip}
