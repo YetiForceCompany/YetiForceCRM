@@ -91,7 +91,7 @@
 					</table>
 				</div>
 				<div class="tab-pane" id="picklistsColors">
-					<div class="listViewContentDiv" id="PicklistViewContentDiv" style="padding: 1%;">
+					<div class="listViewContentDiv" id="PicklistViewContentDiv">
 
 					</div>
 				</div>

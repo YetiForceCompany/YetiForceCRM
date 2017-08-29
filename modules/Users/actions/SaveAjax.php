@@ -24,7 +24,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$this->exposeMethod('updateGroupColor');
 		$this->exposeMethod('updateModuleColor');
 		$this->exposeMethod('updatePicklistItemColor');
-		$this->exposeMethod('updatePicklistColorColumn');
+		$this->exposeMethod('addPicklistColorColumn');
 		$this->exposeMethod('updateColorForProcesses');
 		$this->exposeMethod('generateColor');
 		$this->exposeMethod('activeColor');
@@ -238,7 +238,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	public function updatePicklistItemColor(\App\Request $request)
 	{
 		$params = $request->get('params');
-		Users_Colors_Model::updatePicklistItemColor($params);
+		\App\Colors::updatePicklistValueColor($params);
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
@@ -247,10 +247,10 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$response->emit();
 	}
 
-	public function updatePicklistColorColumn(\App\Request $request)
+	public function addPicklistColorColumn(\App\Request $request)
 	{
 		$params = $request->get('params');
-		Users_Colors_Model::updatePicklistColorColumn($params);
+		\App\Colors::addPicklistColorColumn($params);
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,

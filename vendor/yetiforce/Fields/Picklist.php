@@ -135,12 +135,11 @@ class Picklist
 	 * It gets the picklist modules and return in an array in the following format
 	 * $modules = Array($tabid=>$tablabel,$tabid1=>$tablabel1,$tabid2=>$tablabel2,-------------,$tabidn=>$tablabeln)
 	 */
-	public static function getPickListModules()
+	public static function getModules()
 	{
-		return (new App\Db\Query())->select(['vtiger_tab.tablabel', 'vtiger_tab.name as tabname'])->from('vtiger_field')
-				->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')->where(['uitype' => [15, 33], 'vtiger_field.presence' => [0, 2]])
-				->andWhere((['<>', 'vtiger_field.tabid', 29]))
-				->andWhere((['<>', 'vtiger_tab.presence', 1]))->distinct('vtiger_field.fieldname')->orderBy(['vtiger_field.tabid' => SORT_ASC])->createCommand()->queryAllByGroup(0);
+		return (new \App\Db\Query())->select(['vtiger_tab.tabid', 'vtiger_tab.tablabel', 'tabname' => 'vtiger_tab.name'])->from('vtiger_field')
+				->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')->where(['uitype' => [15, 16, 33], 'vtiger_field.presence' => [0, 2]])
+				->andWhere((['<>', 'vtiger_tab.presence', 1]))->distinct('vtiger_field.fieldname')->orderBy(['vtiger_field.tabid' => SORT_ASC])->createCommand()->queryAllByGroup(1);
 	}
 
 	/**
