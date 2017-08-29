@@ -4,7 +4,7 @@ var Colors_Js = {
 		$('.UserColors .updateColor').click(Colors_Js.updateColor);
 		$('.UserColors .generateColor').click(Colors_Js.generateColor);
 		$('.UserColors .activeColor').click(Colors_Js.activeColor);
-		$('.UserColors .updateColorColumn').click(Colors_Js.updateColorColumn);
+		$('.UserColors .addColorColumn').click(Colors_Js.addColorColumn);
 	},
 	updateColor: function (e) {
 		var target = $(e.currentTarget);
@@ -16,7 +16,7 @@ var Colors_Js = {
 		if (target.data('type') != 'PicklistItem') {
 			var colorPreview = $('#calendarColorPreview' + target.data('type') + target.data('id'));
 		} else {
-			var colorPreview = $('#calendarColorPreview' + target.data('type') + target.data('picklistitemid'));
+			var colorPreview = $('#calendarColorPreview' + target.data('type') + target.data('picklistvalueid'));
 		}
 		var callBackFunction = function (data) {
 			data.find('.editColorContainer').removeClass('hide').show();
@@ -48,7 +48,7 @@ var Colors_Js = {
 					'color': selectedColor.val(),
 					'id': target.data('id'),
 					'picklistId': target.data('picklistid'),
-					'picklistItemId': target.data('picklistitemid'),
+					'picklistValueId': target.data('picklistvalueid'),
 					'table': closestTrElement.data('table'),
 					'field': closestTableElement.data('fieldname'),
 				});
@@ -71,7 +71,7 @@ var Colors_Js = {
 		if (target.data('type') != 'PicklistItem') {
 			var colorPreview = $('#calendarColorPreview' + target.data('type') + target.data('id'));
 		} else {
-			var colorPreview = $('#calendarColorPreview' + target.data('type') + target.data('picklistitemid'));
+			var colorPreview = $('#calendarColorPreview' + target.data('type') + target.data('picklistvalueid'));
 		}
 		var params = {
 			module: app.getModuleName(),
@@ -79,7 +79,7 @@ var Colors_Js = {
 			mode: 'generateColor',
 			params: {id: target.data('id'),
 				picklistId: target.data('picklistid'),
-				picklistItemId: target.data('picklistitemid'),
+				picklistValueId: target.data('picklistvalueid'),
 				color: colorPreview.data('color'),
 				table: target.data('table'),
 				field: closestTableElement.data('fieldname'),
@@ -250,7 +250,7 @@ var Colors_Js = {
 		Colors_Js.registerModulePickListChangeEvent();
 		Colors_Js.initEvants();
 	},
-	updateColorColumn: function (e) {
+	addColorColumn: function (e) {
 		var target = $(e.currentTarget);
 		var params = {}
 		params.data = {

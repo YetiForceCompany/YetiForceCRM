@@ -1,10 +1,12 @@
 <?php
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
+/**
+ * ColorsAjax class
+ * @package YetiForce.Users
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @author Sławomir Kłos <s.klos@yetiforce.com>
+ */
 class Settings_Users_ColorsAjax_View extends Settings_Vtiger_IndexAjax_View
 {
 
@@ -12,7 +14,6 @@ class Settings_Users_ColorsAjax_View extends Settings_Vtiger_IndexAjax_View
 	{
 		parent::__construct();
 		$this->exposeMethod('getPickListView');
-		$this->exposeMethod('getPickListValueForField');
 	}
 
 	public function process(\App\Request $request)
@@ -26,33 +27,28 @@ class Settings_Users_ColorsAjax_View extends Settings_Vtiger_IndexAjax_View
 	public function getPickListView(\App\Request $request)
 	{
 		$sourceModule = $request->get('source_module');
-		$pickFieldId = $request->get('pickListFieldId');
-		$pickListSupportedModules = Settings_Users_Module_Model::getPicklistSupportedModules();
+		$pickFieldId = $request->getInteger('pickListFieldId');
 		if ($sourceModule) {
 			$moduleModel = Settings_Picklist_Module_Model::getInstance($sourceModule);
-			$pickListFields = $moduleModel->getFieldsByType(array('picklist', 'multipicklist'));
+			$pickListFields = $moduleModel->getFieldsByType(['picklist', 'multipicklist']);
 		}
+		$noColumn = false;
 		if (!empty($pickFieldId)) {
 			$fieldModel = Settings_Picklist_Field_Model::getInstance($pickFieldId);
-			$selectedFieldAllPickListValues = Users_Colors_Model::getPickListItems($fieldModel->getName());
-			if (count($selectedFieldAllPickListValues)) {
-				$firstRow = reset($selectedFieldAllPickListValues);
-				if (!key_exists('color', $firstRow)) {
-					$noColumn = true;
-				} else {
-					$noColumn = false;
+			if (key_exists($fieldModel->getName(), $pickListFields) && $fieldModel->getModuleName() == $sourceModule) {
+				$selectedFieldAllPickListValues = \App\Colors::getPickListFieldValues($fieldModel->getName());
+				if (count($selectedFieldAllPickListValues)) {
+					$firstRow = reset($selectedFieldAllPickListValues);
+					if (!key_exists('color', $firstRow)) {
+						$noColumn = true;
+					}
 				}
-			} else {
-				$noColumn = false;
 			}
-		} else {
-			$noColumn = false;
 		}
 		$qualifiedName = $request->getModule(false);
 
 		$viewer = $this->getViewer($request);
-		$viewer->assign('PICKLIST_MODULES', $pickListSupportedModules);
-		$viewer->assign('PICKLIST_NO_COLUMN', $noColumn);
+		$viewer->assign('COLOR_NO_COLUMN', $noColumn);
 		$viewer->assign('PICKLIST_FIELDS', $pickListFields);
 		$viewer->assign('SELECTED_PICKLIST_FIELDMODEL', $fieldModel);
 		$viewer->assign('SELECTED_PICKLIST_FIELD_ID', $pickFieldId);

@@ -260,29 +260,4 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 			}
 		}
 	}
-
-	public static function getPicklistSupportedModules()
-	{
-		$dataReader = (new App\Db\Query())->select(['vtiger_tab.tabid', 'vtiger_tab.tablabel', 'tabname' => 'vtiger_tab.name'])
-				->from('vtiger_tab')
-				->innerJoin('vtiger_field', 'vtiger_tab.tabid = vtiger_field.tabid')
-				->where([
-					'and',
-					['uitype' => [15, 33, 16]],
-					['<>', 'vtiger_tab.presence', 1],
-					['vtiger_field.presence' => [0, 2]]
-				])->orderBy(['vtiger_tab.tabid' => SORT_ASC])
-				->distinct()
-				->createCommand()->query();
-		$modulesModelsList = [];
-		while ($row = $dataReader->read()) {
-			$moduleLabel = $row['tablabel'];
-			$moduleName = $row['tabname'];
-			$instance = Settings_Picklist_Module_Model::getCleanInstance($moduleName);
-			$instance->name = $moduleName;
-			$instance->label = $moduleLabel;
-			$modulesModelsList[] = $instance;
-		}
-		return $modulesModelsList;
-	}
 }
