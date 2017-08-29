@@ -154,7 +154,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 
 	public function findEmail($record, $module)
 	{
-		if (!isRecordExists($record))
+		if (!\App\Record::isExists($record))
 			return false;
 		$returnEmail = '';
 		if (in_array($module, ['HelpDesk', 'Project', 'SSalesProcesses'])) {
@@ -171,7 +171,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 					$accountId = $recordModel->get('related_to');
 					break;
 			}
-			if (isRecordExists($accountId)) {
+			if (\App\Record::isExists($accountId)) {
 				$setype = vtlib\Functions::getCRMRecordType($accountId);
 				$returnEmail = $this->findEmail($accountId, $setype);
 			}
