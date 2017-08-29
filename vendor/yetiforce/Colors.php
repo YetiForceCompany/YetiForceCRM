@@ -112,9 +112,9 @@ class Colors
 	 * Function to add color column in picklist table
 	 * @param array $params
 	 */
-	public static function addPicklistColorColumn($params)
+	public static function addPicklistColorColumn($fieldId)
 	{
-		$table = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['fieldid' => $params['picklistId']])->scalar();
+		$table = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['fieldid' => $fieldId])->scalar();
 		\App\Db::getInstance()->createCommand()->addColumn('vtiger_' . $table, 'color', 'string(25)')->execute();
 	}
 }

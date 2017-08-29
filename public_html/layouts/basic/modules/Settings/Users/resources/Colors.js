@@ -252,14 +252,13 @@ var Colors_Js = {
 		var target = $(e.currentTarget);
 		var params = {}
 		params.data = {
-			module: app.getModuleName(),
+			module: 'Picklist',
+			parent: 'Settings',
 			action: 'SaveAjax',
-			mode: target.data('metod'),
-			params: {
-				'picklistModule': target.data('picklistmodule'),
-				'picklistId': target.data('picklistid')
-			}
-		}
+			mode: 'addPicklistColorColumn',
+			picklistModule: target.data('picklistmodule'),
+			picklistId: target.data('picklistid')
+		};
 		params.async = false;
 		params.dataType = 'json';
 		AppConnector.request(params).done(
