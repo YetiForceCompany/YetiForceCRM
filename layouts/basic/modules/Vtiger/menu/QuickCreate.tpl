@@ -26,11 +26,11 @@
 				</div>
 			</a>
 			{if $DEVICE == 'Desktop'}
-				{include file='menu/SubMenu.tpl'|@vtemplate_path:$MODULE DEVICE=$DEVICE}
+				{include file=\App\Layout::getTemplatePath('menu/SubMenu.tpl', $MODULE) DEVICE=$DEVICE}
 			{/if}
 		</li>
 		{if $DEVICE == 'Mobile'}
-			{include file='menu/SubMenu.tpl'|@vtemplate_path:$MODULE DEVICE=$DEVICE}
+			{include file=\App\Layout::getTemplatePath('menu/SubMenu.tpl', $MODULE) DEVICE=$DEVICE}
 		{/if}
 	{/if}
 {/strip}
