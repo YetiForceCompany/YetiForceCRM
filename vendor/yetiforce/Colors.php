@@ -102,10 +102,10 @@ class Colors
 	 * Function to update color for picklist value
 	 * @param array $params
 	 */
-	public static function updatePicklistValueColor($params)
+	public static function updatePicklistValueColor($picklistId, $picklistValueId, $color)
 	{
-		$table = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['fieldid' => $params['picklistId']])->scalar();
-		\App\Db::getInstance()->createCommand()->update('vtiger_' . $table, ['color' => str_replace('#', '', $params['color'])], ['picklist_valueid' => $params['picklistValueId']])->execute();
+		$table = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['fieldid' => $picklistId])->scalar();
+		\App\Db::getInstance()->createCommand()->update('vtiger_' . $table, ['color' => str_replace('#', '', $color)], ['picklist_valueid' => $picklistValueId])->execute();
 	}
 
 	/**

@@ -20,6 +20,8 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$this->exposeMethod('assignValueToRole');
 		$this->exposeMethod('saveOrder');
 		$this->exposeMethod('enableOrDisable');
+		$this->exposeMethod('updatePicklistValueColor');
+		$this->exposeMethod('addPicklistColorColumn');
 	}
 
 	public function process(\App\Request $request)
@@ -198,5 +200,33 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
+	}
+
+	public function updatePicklistValueColor(\App\Request $request)
+	{
+		$color = $request->get('color');
+		if (!$color) {
+			$color = \App\Colors::getRandomColor();
+		}
+		\App\Colors::updatePicklistValueColor($request->getInteger('picklistId'), $request->getInteger('picklistValueId'), $color);
+		$response = new Vtiger_Response();
+		$response->setResult(array(
+			'success' => true,
+			'color' => $color,
+			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
+		));
+		$response->emit();
+	}
+
+	public function addPicklistColorColumn(\App\Request $request)
+	{
+		$params = $request->get('params');
+		\App\Colors::addPicklistColorColumn($params);
+		$response = new Vtiger_Response();
+		$response->setResult(array(
+			'success' => true,
+			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
+		));
+		$response->emit();
 	}
 }
