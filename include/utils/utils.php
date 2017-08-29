@@ -352,16 +352,6 @@ function relateEntities(CRMEntity $focus, $sourceModule, $sourceRecordId, $desti
 	\App\Log::trace("Exiting relateEntities method ...");
 }
 
-/**
- * Function to check if a given record exists (not deleted)
- * @param integer $recordId - record id
- */
-function isRecordExists($recordId, $cache = true)
-{
-	$recordMetaData = vtlib\Functions::getCRMRecordMetadata($recordId);
-	return (isset($recordMetaData) && $recordMetaData['deleted'] == 0 ) ? true : false;
-}
-
 /** Function to set date values compatible to database (YY_MM_DD)
  * @param $value -- value :: Type string
  * @returns $insert_date -- insert_date :: Type string

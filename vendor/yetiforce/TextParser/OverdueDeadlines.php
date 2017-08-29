@@ -68,7 +68,7 @@ class OverdueDeadlines extends Base
 				$fieldModel = $fields[$column];
 				if ($column == 'link') {
 					$linkId = $recordModel->get('link');
-					if (!empty($linkId) && isRecordExists($linkId)) {
+					if (!empty($linkId) && \App\Record::isExists($linkId)) {
 						$processRecordModel = \Vtiger_Record_Model::getInstanceById($linkId);
 						$value = $processRecordModel->getName();
 					} else {
