@@ -37,26 +37,34 @@ class Accounts extends CRMEntity
 	public $column_fields = [];
 	// This is the list of vtiger_fields that are in the lists.
 	public $list_fields = Array(
-		'Account Name' => Array('vtiger_account' => 'accountname'),
-		'Website' => Array('vtiger_account' => 'website'),
-		'Phone' => Array('vtiger_account' => 'phone'),
-		'Assigned To' => Array('vtiger_crmentity' => 'smownerid')
+		'Account Name' => ['vtiger_account' => 'accountname'],
+		'Assigned To' => ['vtiger_crmentity' => 'smownerid'],
+		'FL_STATUS' => ['vtiger_account' => 'accounts_status'],
+		'Type' => ['vtiger_account' => 'accounttype'],
+		'Vat ID' => ['vtiger_account' => 'vat_id'],
 	);
-	public $list_fields_name = Array(
-		'Account Name' => 'accountname',
-		'Website' => 'website',
-		'Phone' => 'phone',
-		'Assigned To' => 'assigned_user_id'
-	);
-	public $list_link_field = 'accountname';
-	public $search_fields = Array(
-		'Account Name' => Array('vtiger_account' => 'accountname'),
-		'Assigned To' => Array('vtiger_crmentity' => 'smownerid'),
-	);
-	public $search_fields_name = Array(
+	public $list_fields_name = [
 		'Account Name' => 'accountname',
 		'Assigned To' => 'assigned_user_id',
-	);
+		'FL_STATUS' => 'accounts_status',
+		'Type' => 'accounttype',
+		'Vat ID' => 'vat_id',
+	];
+	public $list_link_field = 'accountname';
+	public $search_fields = [
+		'Account Name' => ['vtiger_account' => 'accountname'],
+		'Assigned To' => ['vtiger_crmentity' => 'smownerid'],
+		'FL_STATUS' => ['vtiger_account' => 'accounts_status'],
+		'Type' => ['vtiger_account' => 'accounttype'],
+		'Vat ID' => ['vtiger_account' => 'vat_id'],
+	];
+	public $search_fields_name = [
+		'Account Name' => 'accountname',
+		'Assigned To' => 'assigned_user_id',
+		'FL_STATUS' => 'accounts_status',
+		'Type' => 'accounttype',
+		'Vat ID' => 'vat_id',
+	];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
