@@ -203,7 +203,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		}
 		if (in_array('Comments', $relModules)) {
 			$totalCount = ModComments_Record_Model::getCommentsCount($parentId);
-		} elseif ($relatedModuleName === 'Updates') {
+		} elseif ($relatedModuleName === 'ModTracker') {
 			$count = (int) ($unreviewed = current(ModTracker_Record_Model::getUnreviewed($parentId, false, true))) ? array_sum($unreviewed) : '';
 			$totalCount = $count ? $count : '';
 		} else {

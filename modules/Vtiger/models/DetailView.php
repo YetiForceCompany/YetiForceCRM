@@ -276,7 +276,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				'linklabel' => 'LBL_UPDATES',
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRecentActivities&page=1',
 				'linkicon' => '',
-				'related' => 'Updates',
+				'related' => 'ModTracker',
 				'countRelated' => AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $parentModuleModel->isPermitted('ReviewingUpdates'),
 				'badgeClass' => 'bgDanger'
 			];
