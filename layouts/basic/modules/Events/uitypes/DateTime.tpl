@@ -39,6 +39,6 @@
 	{include file=\App\Layout::getTemplatePath('uitypes/Date.tpl', $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$DATE_FIELD}
 	</div>
 	<div class="col-xs-5 paddingLRZero">
-		{include file=\App\Layout::getTemplatePath('uitypes/Time.tpl', $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$DATE_FIELD}
+		{include file=\App\Layout::getTemplatePath('uitypes/Time.tpl', $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$TIME_FIELD}
 	</div>
 </div>
