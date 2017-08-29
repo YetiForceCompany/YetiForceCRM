@@ -312,11 +312,9 @@ var Colors_Js = {
 					parent: 'Settings',
 					action: 'SaveAjax',
 					mode: 'updatePicklistValueColor',
-					params: {
-						'color': selectedColor.val(),
-						'picklistId': target.data('picklistid'),
-						'picklistValueId': target.data('picklistvalueid'),
-					}
+					color: selectedColor.val(),
+					picklistId: target.data('picklistid'),
+					picklistValueId: target.data('picklistvalueid'),
 				}
 				request.async = false;
 				request.dataType = 'json';
