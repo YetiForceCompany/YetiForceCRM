@@ -161,9 +161,9 @@ class DataAccess_Conditions
 				->where(['crmid' => $record])
 				->createCommand()->query();
 		while ($ID = $dataReader->readColumn(0)) {
-			if (isRecordExists($ID)) {
+			if (\App\Record::isExists($ID)) {
 				$documentModel = Vtiger_Record_Model::getInstanceById($ID);
-				if ($docName == $documentModel->get('notes_title') && $folder == $documentModel->get('folderid')) {
+				if ($docName === $documentModel->get('notes_title') && $folder == $documentModel->get('folderid')) {
 					return true;
 				}
 			}
@@ -179,9 +179,9 @@ class DataAccess_Conditions
 				->where(['crmid' => $record])
 				->createCommand()->query();
 		while ($ID = $dataReader->readColumn(0)) {
-			if (isRecordExists($ID)) {
+			if (\App\Record::isExists($ID)) {
 				$documentModel = Vtiger_Record_Model::getInstanceById($ID);
-				if ($docName == $documentModel->get('notes_title') && $folder == $documentModel->get('folderid')) {
+				if ($docName === $documentModel->get('notes_title') && $folder == $documentModel->get('folderid')) {
 					return $documentModel->get('ossdc_status');
 				}
 			}

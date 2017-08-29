@@ -55,7 +55,7 @@ class Vtiger_GenerateRecords_Action extends Vtiger_Action_Controller
 							continue;
 						}
 						$recordModel->save();
-						if (isRecordExists($recordModel->getId())) {
+						if (\App\Record::isExists($recordModel->getId())) {
 							$success[] = $recordId;
 						}
 					} else {

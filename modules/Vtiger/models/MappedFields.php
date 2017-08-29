@@ -71,7 +71,7 @@ class Vtiger_MappedFields_Model extends \App\Base
 	{
 
 		\App\Log::trace('Entering ' . __METHOD__ . '(' . $recordId . ',' . $view . ',' . $moduleName . ') method ...');
-		if (!isRecordExists($recordId)) {
+		if (!\App\Record::isExists($recordId)) {
 			\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 			return [];
 		}

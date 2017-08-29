@@ -160,7 +160,7 @@ class Vtiger_PDF_Model extends \App\Base
 	public function getActiveTemplatesForRecord($recordId, $view, $moduleName = false)
 	{
 
-		if (!isRecordExists($recordId)) {
+		if (!\App\Record::isExists($recordId)) {
 			return [];
 		}
 		if (!$moduleName) {
