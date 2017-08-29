@@ -35,7 +35,7 @@ class OSSTimeControl_GetTCInfo_Action extends Vtiger_Action_Controller
 
 		$sourceData = [];
 
-		if (isRecordExists($id)) {
+		if (\App\Record::isExists($id)) {
 			$record = Vtiger_Record_Model::getInstanceById($id, $sourceModule);
 			$entity = $record->getEntity();
 			$sourceData = $entity->column_fields;

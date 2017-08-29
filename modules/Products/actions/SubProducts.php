@@ -31,7 +31,7 @@ class Products_SubProducts_Action extends Vtiger_Action_Controller
 	{
 		$productId = $request->getInteger('record');
 		$values = [];
-		if (isRecordExists($productId)) {
+		if (\App\Record::isExists($productId)) {
 			$productModel = Vtiger_Record_Model::getInstanceById($productId);
 			$subProducts = $productModel->getSubProducts();
 
