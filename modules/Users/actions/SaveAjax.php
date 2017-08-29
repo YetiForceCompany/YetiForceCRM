@@ -23,8 +23,6 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$this->exposeMethod('updateUserColor');
 		$this->exposeMethod('updateGroupColor');
 		$this->exposeMethod('updateModuleColor');
-		$this->exposeMethod('updatePicklistItemColor');
-		$this->exposeMethod('addPicklistColorColumn');
 		$this->exposeMethod('updateColorForProcesses');
 		$this->exposeMethod('generateColor');
 		$this->exposeMethod('activeColor');
