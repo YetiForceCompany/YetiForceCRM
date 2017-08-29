@@ -36,7 +36,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 		$this->Calendar($request, 'Calendar');
 	}
 
-	public function Events($request, $moduleName)
+	public function Events(\App\Request $request, $moduleName)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
@@ -137,7 +137,12 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 		$viewer->view('EditView.tpl', $moduleName);
 	}
 
-	public function Calendar($request, $moduleName)
+	/**
+	 * Calendar
+	 * @param \App\Request $request
+	 * @param string $moduleName
+	 */
+	public function Calendar(\App\Request $request, $moduleName)
 	{
 		parent::process($request);
 	}

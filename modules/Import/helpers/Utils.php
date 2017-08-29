@@ -133,7 +133,12 @@ class Import_Utils_Helper
 		return false;
 	}
 
-	public static function validateFileUpload($request)
+	/**
+	 * Validates uploads file
+	 * @param \App\Request $request
+	 * @return boolean
+	 */
+	public static function validateFileUpload(\App\Request $request)
 	{
 		$current_user = Users_Record_Model::getCurrentUserModel();
 

@@ -36,7 +36,12 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 		return;
 	}
 
-	public static function add($request, $user)
+	/**
+	 * Adds status to the database
+	 * @param \App\Request $request
+	 * @param string $user
+	 */
+	public static function add(\App\Request $request, $user)
 	{
 		if ($request->get('is_scheduled')) {
 			$temp_status = self::$IMPORT_STATUS_SCHEDULED;
