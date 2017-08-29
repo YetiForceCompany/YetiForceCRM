@@ -8,7 +8,7 @@
 				<optgroup>
 					<option value="">{\App\Language::translate('LBL_SELECT_OPTION',$QUALIFIED_MODULE)}</option>
 					{foreach key=PICKLIST_MODULE_ID item=PICKLIST_MODULE from=\App\Fields\Picklist::getModules()}
-						<option {if $SELECTED_MODULE_NAME eq $PICKLIST_MODULE.tabname} selected="" {/if} value="{$PICKLIST_MODULE.tabname}">{\App\Language::translate($PICKLIST_MODULE.tablabel,$PICKLIST_MODULE.tabname)}</option>
+						<option {if $SELECTED_MODULE_NAME eq $PICKLIST_MODULE['tabname']} selected="" {/if} value="{$PICKLIST_MODULE['tabname']}">{\App\Language::translate($PICKLIST_MODULE['tablabel'],$PICKLIST_MODULE['tabname'])}</option>
 					{/foreach}
 				</optgroup>
 			</select>
@@ -50,11 +50,11 @@
 							{assign var=PICKLIST_VALUES value=$SELECTED_PICKLISTFIELD_ALL_VALUES}
 							{foreach key=PICKLIST_KEY item=PICKLIST_VALUE from=$PICKLIST_VALUES}
 								<tr class="pickListValue">
-									<td class="textOverflowEllipsis">{\App\Language::translate($PICKLIST_VALUE.picklistValue,$SELECTED_MODULE_NAME)}</td>
-									<td id="calendarColorPreviewPicklistItem{$PICKLIST_VALUE.picklist_valueid}" data-picklistId="{$SELECTED_PICKLIST_FIELD_ID}" data-picklistValueId="{$PICKLIST_VALUE.picklist_valueid}" data-color="{$PICKLIST_VALUE.color}" class="calendarColor" style="background: #{$PICKLIST_VALUE.color} !important;"></td>
+									<td class="textOverflowEllipsis">{\App\Language::translate($PICKLIST_VALUE['picklistValue'],$SELECTED_MODULE_NAME)}</td>
+									<td id="calendarColorPreviewPicklistItem{$PICKLIST_VALUE['picklist_valueid']}" data-picklistId="{$SELECTED_PICKLIST_FIELD_ID}" data-picklistValueId="{$PICKLIST_VALUE['picklist_valueid']}" data-color="{$PICKLIST_VALUE['color']}" class="calendarColor" style="background: #{$PICKLIST_VALUE['color']} !important;"></td>
 									<td>
-										<button data-picklistId="{$SELECTED_PICKLIST_FIELD_ID}" data-picklistValueId="{$PICKLIST_VALUE.picklist_valueid}" data-type="PicklistItem" class="btn btn-sm btn-primary marginLeft10 updateColor" data-metod="updatePicklistItemColor">{\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-										<button data-picklistId="{$SELECTED_PICKLIST_FIELD_ID}" data-picklistValueId="{$PICKLIST_VALUE.picklist_valueid}" data-type="PicklistItem" class="btn btn-sm btn-info generateColor" data-metod="generatePicklistItemColor">{\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
+										<button data-picklistId="{$SELECTED_PICKLIST_FIELD_ID}" data-picklistValueId="{$PICKLIST_VALUE['picklist_valueid']}" data-type="PicklistItem" class="btn btn-sm btn-primary marginLeft10 updateColor" data-metod="updatePicklistItemColor">{\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+										<button data-picklistId="{$SELECTED_PICKLIST_FIELD_ID}" data-picklistValueId="{$PICKLIST_VALUE['picklist_valueid']}" data-type="PicklistItem" class="btn btn-sm btn-info generateColor" data-metod="generatePicklistItemColor">{\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
 									</td>
 								</tr>
 							{/foreach}
