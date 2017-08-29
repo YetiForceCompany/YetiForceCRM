@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
-	{assign var="MODULESENTITY" value=$MODULE_MODEL->getModulesEntity(false, true)}
-	{assign var="FIELDS_MODULES" value=$MODULE_MODEL->getFieldFromModule()}
+	{assign var="MODULESENTITY" value=Settings_Search_Module_Model::getModulesEntity(false, true)}
+	{assign var="FIELDS_MODULES" value=Settings_Search_Module_Model::getFieldFromModule()}
 	<div class="SearchFieldsEdit">
 		<div class="widget_header row">
 			<div class="col-md-12">
@@ -33,7 +33,7 @@
 						<tr data-tabid="{$KEY}">
 							<td class="alignMiddle widthMin noWrap"><span>&nbsp;
 									<a>
-										<img src="{\Vtiger_Theme::getImagePath('drag.png')}" border="0" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+										<img src="{\Vtiger_Theme::getImagePath('drag.png')}" alt="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 									</a>&nbsp;
 								</span>
 								<strong>{\App\Language::translate($item['modulename'],$item['modulename'])}</strong>
@@ -48,13 +48,11 @@
 								</div>
 								<div class="hide elementEdit{$KEY}">
 									<select multiple class="form-control fieldname" name="fieldname" data-tabid="{$KEY}">
-										<optgroup>
-											{foreach from=$FIELDS item=fieldTab}
-												<option value="{$fieldTab['columnname']}" {if in_array($fieldTab['columnname'],$VALUE)}selected{/if}>
-													{\App\Language::translate($fieldTab['fieldlabel'],$item['modulename'])}
-												</option>
-											{/foreach}
-										</optgroup>
+										{foreach from=$FIELDS item=fieldTab}
+											<option value="{$fieldTab['columnname']}" {if in_array($fieldTab['columnname'],$VALUE)}selected{/if}>
+												{\App\Language::translate($fieldTab['fieldlabel'],$item['modulename'])}
+											</option>
+										{/foreach}
 									</select>
 								</div>
 							</td>
@@ -68,13 +66,11 @@
 								</div>
 								<div class="hide elementEdit{$KEY}">
 									<select multiple class="form-control searchcolumn" name="searchcolumn" data-tabid="{$KEY}">
-										<optgroup>
-											{foreach from=$FIELDS item=fieldTab }
-												<option value="{$fieldTab['columnname']}" {if in_array($fieldTab['columnname'],$VALUE)}selected{/if}>
-													{\App\Language::translate($fieldTab['fieldlabel'],$item['modulename'])}
-												</option>
-											{/foreach}
-										</optgroup>
+										{foreach from=$FIELDS item=fieldTab }
+											<option value="{$fieldTab['columnname']}" {if in_array($fieldTab['columnname'],$VALUE)}selected{/if}>
+												{\App\Language::translate($fieldTab['fieldlabel'],$item['modulename'])}
+											</option>
+										{/foreach}
 									</select>
 								</div>
 							</td>
@@ -85,7 +81,7 @@
 								<button class="btn updateLabels btn-info noWrap" data-tabid="{$KEY}">{\App\Language::translate('Update labels',$QUALIFIED_MODULE)}</button>
 							</td>
 							<td class="alignMiddle widthMin">
-								<button name="turn_off" class="noWrap btn turn_off {if $item['turn_off'] eq 1}btn-danger{else}btn-success{/if}" value="{$item['turn_off']}" >{if $item['turn_off'] eq 1}{\App\Language::translate('LBL_TURN_OFF',$QUALIFIED_MODULE)}{else}{\App\Language::translate('LBL_TURN_ON',$QUALIFIED_MODULE)}{/if}</button>
+								<button name="turn_off" class="noWrap btn turn_off {if $item['turn_off'] eq 1}btn-danger{else}btn-success{/if}" value="{$item['turn_off']}" data-tabid="{$KEY}">{if $item['turn_off'] eq 1}{\App\Language::translate('LBL_TURN_OFF',$QUALIFIED_MODULE)}{else}{\App\Language::translate('LBL_TURN_ON',$QUALIFIED_MODULE)}{/if}</button>
 							</td>
 						</tr>
 					{/foreach}

@@ -24,7 +24,7 @@ var Settings_Index_Js = {
 		if(!closestTrElement.hasClass('ui-sortable-handle')){
 			closestTrElement = closestTrElement.prev();
 		}
-		Settings_Index_Js.registerSaveEvent('UpdateLabels', {
+		Settings_Index_Js.registerSaveEvent('updateLabels', {
 			'tabid': closestTrElement.data('tabid'),
 		});
 	},
@@ -38,7 +38,7 @@ var Settings_Index_Js = {
 	},
 	save: function (e) {
 		var target = $(e.currentTarget);
-		Settings_Index_Js.registerSaveEvent('Save', {
+		Settings_Index_Js.registerSaveEvent('save', {
 			name: target.attr('name'),
 			value: target.val(),
 			tabid: target.data('tabid'),
@@ -144,7 +144,7 @@ var Settings_Index_Js = {
 		params['module'] = app.getModuleName();
 		params['parent'] = app.getParentModuleName();
 		params['action'] = 'SaveAjax';
-		params['mode'] = 'SaveSequenceNumber';
+		params['mode'] = 'saveSequenceNumber';
 		params['updatedFields'] = thisInstance.updatedBlockFieldsList;
 
 		AppConnector.request(params).then(
