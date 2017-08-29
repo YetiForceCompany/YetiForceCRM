@@ -97,7 +97,7 @@ class API_CardDAV_Model
 				//Creating
 				$this->createRecord('Contacts', $card);
 				$create++;
-			} elseif (!isRecordExists($card['crmid']) || !Users_Privileges_Model::isPermitted($card['setype'], 'DetailView', $card['crmid'])) {
+			} elseif (!\App\Record::isExists($card['crmid']) || !Users_Privileges_Model::isPermitted($card['setype'], 'DetailView', $card['crmid'])) {
 				// Deleting
 				$this->deletedCard($card);
 				$deletes++;
