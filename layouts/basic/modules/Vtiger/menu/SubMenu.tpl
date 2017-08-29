@@ -16,7 +16,7 @@
 			{else}
 				{assign var=HASCHILDS value='false'}
 			{/if}
-			{include file='menu/'|cat:$MENU.type|cat:'.tpl'|@vtemplate_path:$MODULE DEVICE=$DEVICE}
+			{include file=\App\Layout::getTemplatePath('menu/'|cat:$MENU.type|cat:'.tpl', $MODULE) DEVICE=$DEVICE}
 		{/foreach}
 	{if $DEVICE == 'Desktop'}
 		</ul>

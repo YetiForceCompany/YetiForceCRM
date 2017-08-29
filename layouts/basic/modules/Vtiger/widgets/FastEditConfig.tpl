@@ -46,7 +46,7 @@
 						</div>
 					</div>
 				</div>
-				{include file='ModalFooter.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+				{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $QUALIFIED_MODULE)}
 			</form>
 		</div>
 	</div>
