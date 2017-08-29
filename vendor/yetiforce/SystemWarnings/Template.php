@@ -128,7 +128,7 @@ abstract class Template
 		}
 		$refClass = new \ReflectionClass($this);
 		$className = $refClass->getShortName();
-		$path = vtemplate_path("{$this->getFolder(false)}/{$className}.tpl", 'Settings:SystemWarnings');
+		$path = \App\Layout::getTemplatePath("{$this->getFolder(false)}/{$className}.tpl", 'Settings:SystemWarnings');
 		$this->tpl = $path;
 		return $path;
 	}
