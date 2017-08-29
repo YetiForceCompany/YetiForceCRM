@@ -93,7 +93,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 	 * @param array $dataReader
 	 * @param Vtiger_Module_Model $moduleModel
 	 */
-	public function outputData($request, $dataReader, $moduleModel, $fileName, $toFile = false)
+	public function outputData(\App\Request $request, $dataReader, $moduleModel, $fileName, $toFile = false)
 	{
 		$timeZone = new iCalendar_timezone;
 		$timeZoneId = explode('/', date_default_timezone_get());

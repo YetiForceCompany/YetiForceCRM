@@ -17,7 +17,12 @@ class Campaigns_Detail_View extends Vtiger_Detail_View
 		$this->exposeMethod('showCountRecords');
 	}
 
-	public function showCountRecords($request)
+	/**
+	 * Shows quantity of records
+	 * @param \App\Request $request
+	 * @return string
+	 */
+	public function showCountRecords(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
