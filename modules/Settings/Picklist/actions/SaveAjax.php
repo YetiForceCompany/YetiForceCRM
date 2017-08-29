@@ -220,8 +220,8 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 
 	public function addPicklistColorColumn(\App\Request $request)
 	{
-		$params = $request->get('params');
-		\App\Colors::addPicklistColorColumn($params);
+		$fieldId = $request->getInteger('picklistId');
+		\App\Colors::addPicklistColorColumn($fieldId);
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
