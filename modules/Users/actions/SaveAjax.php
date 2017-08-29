@@ -235,30 +235,6 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$response->emit();
 	}
 
-	public function updatePicklistItemColor(\App\Request $request)
-	{
-		$params = $request->get('params');
-		\App\Colors::updatePicklistValueColor($params);
-		$response = new Vtiger_Response();
-		$response->setResult(array(
-			'success' => true,
-			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
-		));
-		$response->emit();
-	}
-
-	public function addPicklistColorColumn(\App\Request $request)
-	{
-		$params = $request->get('params');
-		\App\Colors::addPicklistColorColumn($params);
-		$response = new Vtiger_Response();
-		$response->setResult(array(
-			'success' => true,
-			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
-		));
-		$response->emit();
-	}
-
 	public function generateColor(\App\Request $request)
 	{
 		$params = $request->get('params');
