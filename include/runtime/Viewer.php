@@ -214,9 +214,3 @@ class Vtiger_Viewer extends SmartyBC
 		return $instance;
 	}
 }
-
-function vtemplate_path($templateName, $moduleName = '')
-{
-	$viewerInstance = Vtiger_Viewer::getInstance();
-	return $viewerInstance->getTemplatePath($templateName, $moduleName);
-}
