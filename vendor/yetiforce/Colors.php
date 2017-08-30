@@ -99,4 +99,27 @@ class Colors
 		$table = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['fieldid' => $fieldId])->scalar();
 		\App\Db::getInstance()->createCommand()->addColumn('vtiger_' . $table, 'color', 'string(25)')->execute();
 	}
+
+	/**
+	 * Function gives fields based on the module
+	 * @param Vtiger_Module_Model $moduleModel
+	 * @return Vtiger_Field_Model[] - list of field models
+	 */
+	public static function getPicklistFieldsByModule($moduleModel)
+	{
+		$moduleBlockFields = \Vtiger_Field_Model::getAllForModule($moduleModel);
+		$type = ['picklist', 'multipicklist'];
+		$fieldList = [];
+
+		foreach ($moduleBlockFields as $moduleFields) {
+			foreach ($moduleFields as $moduleField) {
+				$block = $moduleField->get('block');
+				if (!$block || !in_array($moduleField->getFieldDataType(), $type)) {
+					continue;
+				}
+				$fieldList[$moduleField->get('name')] = $moduleField;
+			}
+		}
+		return $fieldList;
+	}
 }

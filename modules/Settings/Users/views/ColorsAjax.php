@@ -43,12 +43,12 @@ class Settings_Users_ColorsAjax_View extends Settings_Vtiger_IndexAjax_View
 		$sourceModule = $request->get('source_module');
 		$pickFieldId = $request->getInteger('pickListFieldId');
 		if ($sourceModule) {
-			$moduleModel = Settings_Picklist_Module_Model::getInstance($sourceModule);
-			$pickListFields = $moduleModel->getFieldsByType(['picklist', 'multipicklist']);
+			$moduleModel = Vtiger_Module_Model::getInstance($sourceModule);
+			$pickListFields = \App\Colors::getPicklistFieldsByModule($moduleModel);
 		}
 		$noColumn = false;
 		if ($pickFieldId) {
-			$fieldModel = Settings_Picklist_Field_Model::getInstance($pickFieldId);
+			$fieldModel = Vtiger_Field_Model::getInstance($pickFieldId);
 			if (key_exists($fieldModel->getName(), $pickListFields) && $fieldModel->getModuleName() === $sourceModule) {
 				$selectedFieldAllPickListValues = \App\Fields\Picklist::getPickListFieldValuesRows($fieldModel->getName());
 				if ($selectedFieldAllPickListValues) {
