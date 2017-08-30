@@ -750,6 +750,8 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	 */
 	public static function accontDelete($id)
 	{
-		\App\Db::getInstance()->createCommand()->delete('roundcube_users', ['user_id' => $id])->execute();
+		$db = App\Db::getInstance();
+		$db->createCommand()->delete('roundcube_users', ['user_id' => $id])->execute();
+		$db->createCommand()->delete('vtiger_ossmailscanner_folders_uid', ['user_id' => $id])->execute();
 	}
 }
