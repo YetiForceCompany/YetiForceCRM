@@ -1,6 +1,6 @@
 <?php
 /**
- * Colors Ajax requests handler class
+ * Colors ajax requests handler class
  * @package YetiForce.Users
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
@@ -50,7 +50,7 @@ class Settings_Users_ColorsAjax_View extends Settings_Vtiger_IndexAjax_View
 		if ($pickFieldId) {
 			$fieldModel = Settings_Picklist_Field_Model::getInstance($pickFieldId);
 			if (key_exists($fieldModel->getName(), $pickListFields) && $fieldModel->getModuleName() === $sourceModule) {
-				$selectedFieldAllPickListValues = \App\Colors::getPickListFieldValues($fieldModel->getName());
+				$selectedFieldAllPickListValues = \App\Fields\Picklist::getPickListFieldValuesRows($fieldModel->getName());
 				if ($selectedFieldAllPickListValues) {
 					$firstRow = reset($selectedFieldAllPickListValues);
 					if (!key_exists('color', $firstRow)) {

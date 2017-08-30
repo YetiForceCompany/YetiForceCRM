@@ -23,6 +23,7 @@ $languageStrings = [
 	'LBL_PRIORITY' => 'Priorytet',
 	'LBL_PICKLISTS' => 'Słowniki',
 	'LBL_WARNING' => 'Uwaga',
+	'LBL_SELECT_PICKLIST' => 'Wybierz słownik',
 	'LBL_PICKLIST_COLOR_COL_NOT_FOUND' => 'Funkcjonalność kolorów nie została aktywowana dla tego słownika',
 	'LBL_UPDATE_COLOR_COLUMN' => 'Aktywuj',
 	'LBL_ITEM' => 'Wartość',
