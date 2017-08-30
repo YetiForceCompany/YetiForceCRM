@@ -257,6 +257,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				\App\Log::trace('End action');
 			}
 		}
+		$mail->postProcess();
 		\App\Log::trace('End execute actions');
 		return $mail->getActionResult();
 	}

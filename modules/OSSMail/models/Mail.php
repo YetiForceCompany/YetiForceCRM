@@ -331,5 +331,14 @@ class OSSMail_Mail_Model extends \App\Base
 				'attachmentsid' => $file['attachmentsId']
 			])->execute();
 		}
+		return $files;
+	}
+
+	/**
+	 * Post process function
+	 */
+	public function postProcess()
+	{
+		
 	}
 }
