@@ -223,4 +223,28 @@ class Picklist
 		\App\Cache::save('getPicklistDependencyDatasource', $module, $picklistDependencyDatasource);
 		return $picklistDependencyDatasource;
 	}
+
+	/**
+	 * Function which will give the picklist values rows for a field
+	 * @param string $fieldName -- string
+	 * @return array -- array of values
+	 */
+	public static function getPickListFieldValuesRows($fieldName)
+	{
+		if (\App\Cache::has('getPickListValues', $fieldName)) {
+			return \App\Cache::get('getPickListValues', $fieldName);
+		}
+		$primaryKey = \App\Fields\Picklist::getPickListId($fieldName);
+		$dataReader = (new \App\Db\Query())
+				->from("vtiger_$fieldName")
+				->orderBy('sortorderid')
+				->createCommand()->query();
+		$values = [];
+		while ($row = $dataReader->read()) {
+			$values[$row[$primaryKey]] = $row;
+			$values[$row[$primaryKey]]['picklistValue'] = \App\Purifier::decodeHtml(\App\Purifier::decodeHtml($row[$fieldName]));
+		}
+		\App\Cache::save('getPickListValues', $fieldName, $values);
+		return $values;
+	}
 }

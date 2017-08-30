@@ -69,30 +69,6 @@ class Colors
 	}
 
 	/**
-	 * Function which will give the picklist values for a field
-	 * @param string $fieldName -- string
-	 * @return array -- array of values
-	 */
-	public static function getPickListFieldValues($fieldName)
-	{
-		if (\App\Cache::has('getPickListValues', $fieldName)) {
-			return \App\Cache::get('getPickListValues', $fieldName);
-		}
-		$primaryKey = \App\Fields\Picklist::getPickListId($fieldName);
-		$dataReader = (new \App\Db\Query())
-				->from("vtiger_$fieldName")
-				->orderBy('sortorderid')
-				->createCommand()->query();
-		$values = [];
-		while ($row = $dataReader->read()) {
-			$values[$row[$primaryKey]] = $row;
-			$values[$row[$primaryKey]]['picklistValue'] = \App\Purifier::decodeHtml(\App\Purifier::decodeHtml($row[$fieldName]));
-		}
-		\App\Cache::save('getPickListValues', $fieldName, $values);
-		return $values;
-	}
-
-	/**
 	 * Get random color code
 	 * @return string
 	 */
@@ -104,7 +80,9 @@ class Colors
 
 	/**
 	 * Function to update color for picklist value
-	 * @param array $params
+	 * @param int $picklistId
+	 * @param int $picklistValueId
+	 * @param string $color
 	 */
 	public static function updatePicklistValueColor($picklistId, $picklistValueId, $color)
 	{
@@ -114,7 +92,7 @@ class Colors
 
 	/**
 	 * Function to add color column in picklist table
-	 * @param array $params
+	 * @param int $fieldId
 	 */
 	public static function addPicklistColorColumn($fieldId)
 	{
