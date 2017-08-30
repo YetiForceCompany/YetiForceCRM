@@ -180,21 +180,12 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	 */
 	public function getFilterSelect()
 	{
-		\App\Log::trace('Entering Settings_WidgetsManagement_Module_Model::getFilterSelect() method ...');
-		$filterSelect = ['LBL_MINE' => 'mine', 'LBL_ALL' => 'all', 'LBL_USERS' => 'users', 'LBL_GROUPS' => 'groups'];
-		\App\Log::trace('Exiting Settings_WidgetsManagement_Module_Model::getFilterSelect() method ...');
-		return $filterSelect;
+		return ['LBL_MINE' => 'mine', 'LBL_ALL' => 'all', 'LBL_USERS' => 'users', 'LBL_GROUPS' => 'groups'];
 	}
 
 	public function getFilterSelectDefault()
 	{
-
-		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::getFilterSelectDefault() method ...");
-
-		$filterSelectDefault = ['LBL_MINE' => 'mine', 'LBL_ALL' => 'all'];
-
-		\App\Log::trace("Exiting Settings_WidgetsManagement_Module_Model::getFilterSelectDefault() method ...");
-		return $filterSelectDefault;
+		return ['LBL_MINE' => 'mine', 'LBL_ALL' => 'all'];
 	}
 
 	public static function getWidgetsWithDate()
