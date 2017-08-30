@@ -1,20 +1,33 @@
 <?php
-
 /**
  * Settings users module model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
+
+/**
+ * Settings users module model class
+ */
 class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 {
 
+	/**
+	 * Get instance
+	 * @param string $name
+	 * @return \self
+	 */
 	public static function getInstance($name = 'Settings:Vtiger')
 	{
 		$instance = new self();
 		return $instance;
 	}
 
+	/**
+	 * Get config
+	 * @param string $type
+	 * @return array
+	 */
 	public static function getConfig($type)
 	{
 		$query = (new App\Db\Query())->from('yetiforce_auth')->where(['type' => $type]);
@@ -32,6 +45,11 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 		return $config;
 	}
 
+	/**
+	 * Set config type, parameter value pair
+	 * @param array $param
+	 * @return boolean
+	 */
 	public static function setConfig($param)
 	{
 		$value = $param['val'];
@@ -90,8 +108,17 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 		return $switchUsersRaw;
 	}
 
+	/**
+	 * Users id
+	 * @var array
+	 */
 	public static $usersID = [];
 
+	/**
+	 * Get user id
+	 * @param string $data
+	 * @return int
+	 */
 	public function getUserID($data)
 	{
 		if (key_exists($data, self::$usersID)) {
@@ -110,8 +137,17 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 		return $return;
 	}
 
+	/**
+	 * Users array
+	 * @var array
+	 */
 	public static $users = [];
 
+	/**
+	 * Get user name by id
+	 * @param int $id
+	 * @return string
+	 */
 	public function getUserName($id)
 	{
 		if (key_exists($id, self::$users)) {
@@ -259,30 +295,5 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 				Settings_Vtiger_Tracker_Model::addDetail($prev, $post);
 			}
 		}
-	}
-
-	public static function getPicklistSupportedModules()
-	{
-		$dataReader = (new App\Db\Query())->select(['vtiger_tab.tabid', 'vtiger_tab.tablabel', 'tabname' => 'vtiger_tab.name'])
-				->from('vtiger_tab')
-				->innerJoin('vtiger_field', 'vtiger_tab.tabid = vtiger_field.tabid')
-				->where([
-					'and',
-					['uitype' => [15, 33, 16]],
-					['<>', 'vtiger_tab.presence', 1],
-					['vtiger_field.presence' => [0, 2]]
-				])->orderBy(['vtiger_tab.tabid' => SORT_ASC])
-				->distinct()
-				->createCommand()->query();
-		$modulesModelsList = [];
-		while ($row = $dataReader->read()) {
-			$moduleLabel = $row['tablabel'];
-			$moduleName = $row['tabname'];
-			$instance = Settings_Picklist_Module_Model::getCleanInstance($moduleName);
-			$instance->name = $moduleName;
-			$instance->label = $moduleLabel;
-			$modulesModelsList[] = $instance;
-		}
-		return $modulesModelsList;
 	}
 }

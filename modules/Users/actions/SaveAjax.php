@@ -23,8 +23,6 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$this->exposeMethod('updateUserColor');
 		$this->exposeMethod('updateGroupColor');
 		$this->exposeMethod('updateModuleColor');
-		$this->exposeMethod('updatePicklistItemColor');
-		$this->exposeMethod('updatePicklistColorColumn');
 		$this->exposeMethod('updateColorForProcesses');
 		$this->exposeMethod('generateColor');
 		$this->exposeMethod('activeColor');
@@ -227,30 +225,6 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	{
 		$params = $request->get('params');
 		Users_Colors_Model::updateModuleColor($params);
-		$response = new Vtiger_Response();
-		$response->setResult(array(
-			'success' => true,
-			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
-		));
-		$response->emit();
-	}
-
-	public function updatePicklistItemColor(\App\Request $request)
-	{
-		$params = $request->get('params');
-		Users_Colors_Model::updatePicklistItemColor($params);
-		$response = new Vtiger_Response();
-		$response->setResult(array(
-			'success' => true,
-			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
-		));
-		$response->emit();
-	}
-
-	public function updatePicklistColorColumn(\App\Request $request)
-	{
-		$params = $request->get('params');
-		Users_Colors_Model::updatePicklistColorColumn($params);
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,

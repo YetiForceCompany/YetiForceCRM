@@ -23,6 +23,7 @@ $languageStrings = [
 	'LBL_PRIORITY' => 'Priorytet',
 	'LBL_PICKLISTS' => 'Słowniki',
 	'LBL_WARNING' => 'Uwaga',
+	'LBL_SELECT_PICKLIST' => 'Wybierz słownik',
 	'LBL_PICKLIST_COLOR_COL_NOT_FOUND' => 'Funkcjonalność kolorów nie została aktywowana dla tego słownika',
 	'LBL_UPDATE_COLOR_COLUMN' => 'Aktywuj',
 	'LBL_ITEM' => 'Wartość',
@@ -56,6 +57,7 @@ $languageStrings = [
 ];
 $jsLanguageStrings = [
 	'JS_USER_MAIL_EXIST' => 'Użytkownik o podanym adresie email już istnieje',
+	'JS_PLEASE_SELECT_MODULE' => 'Proszę wybrać moduł',
 	'JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME' => 'Separator dziesiętny i grupowania nie mogą być takie same',
 	'Changed password successfully' => 'Hasło zmienione poprawnie',
 ];

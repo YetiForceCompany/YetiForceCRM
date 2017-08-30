@@ -955,14 +955,18 @@ class Vtiger_Module_Model extends \vtlib\Module
 		return $searchableModules;
 	}
 
+	/**
+	 * Get modules with picklists
+	 * @return \self[]
+	 */
 	public static function getPicklistSupportedModules()
 	{
-		$modules = App\Fields\Picklist::getPickListModules();
+		$modules = App\Fields\Picklist::getModules();
 		$modulesModelsList = [];
-		foreach ($modules as $moduleLabel => $moduleName) {
+		foreach ($modules as $moduleData) {
 			$instance = new self();
-			$instance->name = $moduleName;
-			$instance->label = $moduleLabel;
+			$instance->name = $moduleData['tablabel'];
+			$instance->label = $moduleData['tabname'];
 			$modulesModelsList[] = $instance;
 		}
 		return $modulesModelsList;
