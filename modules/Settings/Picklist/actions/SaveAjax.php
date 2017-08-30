@@ -215,6 +215,16 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function updatePicklistValueColor(\App\Request $request)
 	{
+		$field = \Vtiger_Field_Model::getInstanceFromFieldObject(vtlib\Field::getInstance($request->getInteger('picklistId')));
+		$type = ['picklist', 'multipicklist'];
+		if (!$field || !in_array($field->getFieldDataType(), $type)) {
+			$response = new Vtiger_Response();
+			$response->setResult(array(
+				'success' => false,
+				'message' => \App\Language::translate('LBL_FIELD_NOT_FOUND', $request->getModule(false))
+			));
+			return $response->emit();
+		}
 		$color = $request->get('color');
 		if (!$color) {
 			$color = \App\Colors::getRandomColor();
@@ -235,6 +245,16 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function addPicklistColorColumn(\App\Request $request)
 	{
+		$field = \Vtiger_Field_Model::getInstanceFromFieldObject(vtlib\Field::getInstance($request->getInteger('picklistId')));
+		$type = ['picklist', 'multipicklist'];
+		if (!$field || !in_array($field->getFieldDataType(), $type)) {
+			$response = new Vtiger_Response();
+			$response->setResult(array(
+				'success' => false,
+				'message' => \App\Language::translate('LBL_FIELD_NOT_FOUND', $request->getModule(false))
+			));
+			return $response->emit();
+		}
 		$fieldId = $request->getInteger('picklistId');
 		\App\Colors::addPicklistColorColumn($fieldId);
 		$response = new Vtiger_Response();
