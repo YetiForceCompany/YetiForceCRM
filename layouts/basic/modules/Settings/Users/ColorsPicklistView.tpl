@@ -35,7 +35,7 @@
 						<strong>{\App\Language::translate('LBL_WARNING',$QUALIFIED_MODULE)}!</strong> {\App\Language::translate('LBL_PICKLIST_COLOR_COL_NOT_FOUND',$QUALIFIED_MODULE)}
 						<br>
 						<br>
-						<button data-picklistModule="{$SELECTED_MODULE_NAME}" data-picklistId="{$SELECTED_PICKLIST_FIELD_ID}" data-type="PicklistColumn" class="btn btn-sm btn-primary marginLeft10 addPicklistColorColumn" data-metod="addPicklistColorColumn">{\App\Language::translate('LBL_UPDATE_COLOR_COLUMN',$QUALIFIED_MODULE)}</button>
+						<button data-picklistModule="{$SELECTED_MODULE_NAME}" data-picklistId="{$SELECTED_PICKLIST_FIELD_ID}" class="btn btn-sm btn-primary marginLeft10 addPicklistColorColumn">{\App\Language::translate('LBL_UPDATE_COLOR_COLUMN',$QUALIFIED_MODULE)}</button>
 					</div>
 				{else}
 					<table id="pickListValuesTable" class="table table-bordered">
