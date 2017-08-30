@@ -102,11 +102,12 @@ class Colors
 
 	/**
 	 * Function gives fields based on the module
-	 * @param Vtiger_Module_Model $moduleModel
+	 * @param string $moduleName
 	 * @return Vtiger_Field_Model[] - list of field models
 	 */
-	public static function getPicklistFieldsByModule($moduleModel)
+	public static function getPicklistFieldsByModule($moduleName)
 	{
+		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
 		$moduleBlockFields = \Vtiger_Field_Model::getAllForModule($moduleModel);
 		$type = ['picklist', 'multipicklist'];
 		$fieldList = [];

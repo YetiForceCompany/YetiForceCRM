@@ -961,7 +961,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public static function getPicklistSupportedModules()
 	{
-		$modules = App\Fields\Picklist::getPickListModules();
+		$modules = App\Fields\Picklist::getModules();
 		$modulesModelsList = [];
 		foreach ($modules as $moduleData) {
 			$instance = new self();
