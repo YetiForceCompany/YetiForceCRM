@@ -165,16 +165,18 @@ var Colors_Js = {
 				}
 			});
 			AppConnector.request(params).then(function (data) {
-				jQuery('#PicklistViewContentDiv').html(data);
+				var container = jQuery('.picklistViewContentDiv');
+				container.html(data);
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				app.changeSelectElementView(jQuery('.pickListModulesSelectContainer'));
 				Colors_Js.registerModuleChangeEvent();
-				jQuery('#modulePickList').trigger('change');
+				container.find('.modulePickList').trigger('change');
 			});
 		});
 	},
 	registerModuleChangeEvent: function () {
-		jQuery('#pickListModules').on('change', function (e) {
+		var container = jQuery('.picklistViewContentDiv');
+		container.find('.pickListModules').on('change', function (e) {
 			var selectedModule = jQuery(e.currentTarget).val();
 			if (selectedModule.length <= 0) {
 				Settings_Vtiger_Index_Js.showMessage({'type': 'error', 'text': app.vtranslate('JS_PLEASE_SELECT_MODULE')});
@@ -193,7 +195,7 @@ var Colors_Js = {
 				}
 			});
 			AppConnector.request(params).then(function (data) {
-				jQuery('#PicklistViewContentDiv').html(data);
+				container.html(data);
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				app.changeSelectElementView(jQuery('.pickListModulesSelectContainer'));
 				app.changeSelectElementView(jQuery('.pickListModulesPicklistSelectContainer'));
@@ -204,7 +206,8 @@ var Colors_Js = {
 		});
 	},
 	registerModulePickListChangeEvent: function () {
-		jQuery('#modulePickList').on('change', function (e) {
+		var container = jQuery('.picklistViewContentDiv');
+		container.find('.modulePickList').on('change', function (e) {
 			var params = {
 				module: 'Users',
 				parent: app.getParentModuleName(),
@@ -220,7 +223,7 @@ var Colors_Js = {
 				}
 			});
 			AppConnector.request(params).then(function (data) {
-				jQuery('#PicklistViewContentDiv').html(data);
+				container.html(data);
 				app.changeSelectElementView(jQuery('.pickListModulesSelectContainer'));
 				app.changeSelectElementView(jQuery('.pickListModulesPicklistSelectContainer'));
 				Colors_Js.registerModuleChangeEvent();
@@ -238,6 +241,7 @@ var Colors_Js = {
 		Colors_Js.initEvants();
 	},
 	addPicklistColorColumn: function (e) {
+		var container = jQuery('.picklistViewContentDiv');
 		var target = $(e.currentTarget);
 		var params = {};
 		params.data = {
@@ -259,7 +263,7 @@ var Colors_Js = {
 						type: 'success'
 					};
 					Vtiger_Helper_Js.showPnotify(params);
-					jQuery('#modulePickList').trigger('change');
+					container.find('.modulePickList').trigger('change');
 				}
 		);
 	},

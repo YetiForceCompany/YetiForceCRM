@@ -4,7 +4,7 @@
 	<div class="row">
 		<label class="fieldLabel col-md-2"><strong>{\App\Language::translate('LBL_SELECT_MODULE',$QUALIFIED_MODULE)} </strong></label>
 		<div class="col-md-4 fieldValue pickListModulesSelectContainer">
-			<select class="chzn-select form-control" id="pickListModules">
+			<select class="chzn-select form-control pickListModules" id="pickListModules">
 				<optgroup>
 					<option value="">{\App\Language::translate('LBL_SELECT_OPTION',$QUALIFIED_MODULE)}</option>
 					{foreach key=PICKLIST_MODULE_ID item=PICKLIST_MODULE from=\App\Fields\Picklist::getModules()}
@@ -16,7 +16,7 @@
 		{if $SELECTED_MODULE_NAME}
 			<label class="fieldLabel col-md-2"><strong>{\App\Language::translate('LBL_SELECT_PICKLIST',$QUALIFIED_MODULE)}</strong></label>
 			<div class="col-md-4 fieldValue pickListModulesPicklistSelectContainer">
-				<select class="chzn-select form-control" id="modulePickList">
+				<select class="chzn-select form-control modulePickList" id="modulePickList">
 					<optgroup>
 						{foreach key=PICKLIST_FIELD item=FIELD_MODEL from=$PICKLIST_FIELDS}
 							<option {if $SELECTED_PICKLIST_FIELD_ID eq $FIELD_MODEL->getId()} selected="" {/if}  value="{$FIELD_MODEL->getId()}">{\App\Language::translate($FIELD_MODEL->get('label'),$SELECTED_MODULE_NAME)}</option>
