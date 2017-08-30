@@ -40,20 +40,6 @@ function vtlib_prefetchModuleActiveInfo($force = true)
 }
 
 /**
- * Recreate user privileges files.
- */
-function vtlib_RecreateUserPrivilegeFiles()
-{
-	$adb = PearDatabase::getInstance();
-	$userres = $adb->query('SELECT id FROM vtiger_users WHERE deleted = 0');
-	if ($userres && $adb->num_rows($userres)) {
-		while ($userrow = $adb->fetch_array($userres)) {
-			createUserPrivilegesfile($userrow['id']);
-		}
-	}
-}
-
-/**
  * Setup mandatory (requried) module variable values in the module class.
  */
 function vtlib_setup_modulevars($module, $focus)

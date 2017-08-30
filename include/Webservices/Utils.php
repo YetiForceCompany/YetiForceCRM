@@ -22,25 +22,6 @@ require_once 'include/utils/VtlibUtils.php';
 require_once 'include/Webservices/WebserviceEntityOperation.php';
 require_once 'include/Webservices/PreserveGlobal.php';
 
-/* Function to return all the users in the groups that this user is part of.
- * @param $id - id of the user
- * returns Array:UserIds userid of all the users in the groups that this user is part of.
- */
-
-function vtws_getUsersInTheSameGroup($id)
-{
-	$allUsers = [];
-	foreach (App\PrivilegeUtil::getAllGroupsByUser($id) as $group) {
-		$usersInGroup = App\PrivilegeUtil::getUsersByGroup($group);
-		foreach ($usersInGroup as $user) {
-			if ($user !== $id) {
-				$allUsers[$user] = \App\Fields\Owner::getUserLabel($user);
-			}
-		}
-	}
-	return $allUsers;
-}
-
 function vtws_generateRandomAccessKey($length = 10)
 {
 	$source = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -78,52 +59,12 @@ function vtws_getUserAccessibleGroups($moduleId, $user)
 	return $groups;
 }
 
-function vtws_getWebserviceGroupFromGroups($groups)
-{
-	$adb = PearDatabase::getInstance();
-	$webserviceObject = VtigerWebserviceObject::fromName($adb, 'Groups');
-	foreach ($groups as $index => $group) {
-		$groups[$index]['id'] = vtws_getId($webserviceObject->getEntityId(), $group['id']);
-	}
-	return $groups;
-}
-
-function vtws_getUserWebservicesGroups($tabId, $user)
-{
-	$groups = vtws_getUserAccessibleGroups($tabId, $user);
-	return vtws_getWebserviceGroupFromGroups($groups);
-}
-
 function vtws_getIdComponents($elementid)
 {
 	if (strpos($elementid, 'x') !== false) {
 		return explode('x', $elementid);
 	}
 	App\Log::warning('Incorrect ID');
-}
-
-function vtws_getId($objId, $elemId)
-{
-	return $objId . "x" . $elemId;
-}
-
-function vtws_getEntityNameFields($moduleName)
-{
-
-	$adb = PearDatabase::getInstance();
-	$query = "select fieldname,tablename,entityidfield from vtiger_entityname where modulename = ?";
-	$result = $adb->pquery($query, array($moduleName));
-	$rowCount = $adb->num_rows($result);
-	$nameFields = [];
-	if ($rowCount > 0) {
-		$fieldsname = $adb->query_result($result, 0, 'fieldname');
-		if (!(strpos($fieldsname, ',') === false)) {
-			$nameFields = explode(',', $fieldsname);
-		} else {
-			array_push($nameFields, $fieldsname);
-		}
-	}
-	return $nameFields;
 }
 
 /** function to get the module List to which are crm entities.

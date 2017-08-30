@@ -180,24 +180,6 @@ class Vtiger_ModuleMeta_Model extends \App\Base
 	}
 
 	/**
-	 * Function returns Entity Name fields
-	 * @return <Array of vtlib\Field>
-	 */
-	public function getEntityFields()
-	{
-		$moduleFields = $this->getAccessibleFields();
-		$entityColumnNames = vtws_getEntityNameFields($this->moduleName);
-		$entityNameFields = [];
-		foreach ($moduleFields as $fieldName => $fieldInstance) {
-			$fieldColumnName = $fieldInstance->getColumnName();
-			if (in_array($fieldColumnName, $entityColumnNames)) {
-				$entityNameFields[$fieldName] = $fieldInstance;
-			}
-		}
-		return $entityNameFields;
-	}
-
-	/**
 	 * Function checks if the field is editable
 	 * @param type $fieldInstance
 	 * @return boolean
