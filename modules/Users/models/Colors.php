@@ -9,32 +9,6 @@
 class Users_Colors_Model extends Vtiger_Record_Model
 {
 
-	public static function getAllField()
-	{
-		$modulesFields['marketing'][] = ['module' => 'Leads', 'nameField' => 'leadstatus'];
-		$modulesFields['support'][] = ['module' => 'HelpDesk', 'nameField' => 'ticketpriorities'];
-		$modulesFields['support'][] = ['module' => 'HelpDesk', 'nameField' => 'ticketstatus'];
-		$modulesFields['realization'][] = ['module' => 'Project', 'nameField' => 'projectstatus'];
-		$modulesFields['financial'][] = [];
-		$modulesFields['timecontrol'][] = ['module' => 'OSSTimeControl', 'nameField' => 'timecontrol_type'];
-		return $modulesFields;
-	}
-
-	/**
-	 * Get tab info
-	 * @return null|array
-	 */
-	public static function getTablesAll()
-	{
-		$modulesFields = self::getAllField();
-		foreach ($modulesFields AS $key => $fields) {
-			foreach ($fields AS $field) {
-				$instance[$key][] = \App\Field::getFieldInfo($field['nameField'], $field['module']);
-			}
-		}
-		return $instance;
-	}
-
 	public static function getUserColors()
 	{
 		$adb = PearDatabase::getInstance();
@@ -72,9 +46,6 @@ class Users_Colors_Model extends Vtiger_Record_Model
 				break;
 			case 'generateModuleColor':
 				self::updateModuleColor($params);
-				break;
-			case 'generatePicklistItemColor':
-				\App\Colors::updatePicklistValueColor($params);
 				break;
 			default:
 				self::updateUserColor($params);

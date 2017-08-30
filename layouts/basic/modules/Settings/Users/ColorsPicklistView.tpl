@@ -41,9 +41,9 @@
 					<table id="pickListValuesTable" class="table table-bordered">
 						<thead>
 							<tr class="listViewHeaders">
-								<th class="col-lg-6">{\App\Language::translate('LBL_ITEM',$QUALIFIED_MODULE)}</th>
-								<th class="col-lg-2">{\App\Language::translate('LBL_COLOR',$QUALIFIED_MODULE)}</th>
-								<th class="col-lg-4">{\App\Language::translate('LBL_ACTIONS',$QUALIFIED_MODULE)}</th>
+								<th class="col-md-6 col-lg-6">{\App\Language::translate('LBL_ITEM',$QUALIFIED_MODULE)}</th>
+								<th class="col-md-2 col-lg-2">{\App\Language::translate('LBL_COLOR',$QUALIFIED_MODULE)}</th>
+								<th class="col-md-4 col-lg-4">{\App\Language::translate('LBL_ACTIONS',$QUALIFIED_MODULE)}</th>
 							</tr>
 						</thead>
 						<tbody>
