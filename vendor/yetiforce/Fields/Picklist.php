@@ -231,8 +231,8 @@ class Picklist
 	 */
 	public static function getPickListFieldValuesRows($fieldName)
 	{
-		if (\App\Cache::has('getPickListValues', $fieldName)) {
-			return \App\Cache::get('getPickListValues', $fieldName);
+		if (\App\Cache::has('getPickListFieldValuesRows', $fieldName)) {
+			return \App\Cache::get('getPickListFieldValuesRows', $fieldName);
 		}
 		$primaryKey = \App\Fields\Picklist::getPickListId($fieldName);
 		$dataReader = (new \App\Db\Query())
@@ -241,10 +241,10 @@ class Picklist
 				->createCommand()->query();
 		$values = [];
 		while ($row = $dataReader->read()) {
+			$row['picklistValue'] = \App\Purifier::decodeHtml(\App\Purifier::decodeHtml($row[$fieldName]));
 			$values[$row[$primaryKey]] = $row;
-			$values[$row[$primaryKey]]['picklistValue'] = \App\Purifier::decodeHtml(\App\Purifier::decodeHtml($row[$fieldName]));
 		}
-		\App\Cache::save('getPickListValues', $fieldName, $values);
+		\App\Cache::save('getPickListFieldValuesRows', $fieldName, $values);
 		return $values;
 	}
 }

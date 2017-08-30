@@ -41,14 +41,13 @@ class Settings_Users_ColorsAjax_View extends Settings_Vtiger_IndexAjax_View
 	public function getPickListView(\App\Request $request)
 	{
 		$sourceModule = $request->get('source_module');
-		$pickFieldId = $request->getInteger('pickListFieldId');
+		$fieldId = $request->getInteger('fieldId');
 		if ($sourceModule) {
-			$moduleModel = Vtiger_Module_Model::getInstance($sourceModule);
-			$pickListFields = \App\Colors::getPicklistFieldsByModule($moduleModel);
+			$pickListFields = \App\Colors::getPicklistFieldsByModule($sourceModule);
 		}
 		$noColumn = false;
-		if ($pickFieldId) {
-			$fieldModel = Vtiger_Field_Model::getInstance($pickFieldId);
+		if ($fieldId) {
+			$fieldModel = Vtiger_Field_Model::getInstance($fieldId);
 			if (key_exists($fieldModel->getName(), $pickListFields) && $fieldModel->getModuleName() === $sourceModule) {
 				$selectedFieldAllPickListValues = \App\Fields\Picklist::getPickListFieldValuesRows($fieldModel->getName());
 				if ($selectedFieldAllPickListValues) {
@@ -65,7 +64,7 @@ class Settings_Users_ColorsAjax_View extends Settings_Vtiger_IndexAjax_View
 		$viewer->assign('COLOR_NO_COLUMN', $noColumn);
 		$viewer->assign('PICKLIST_FIELDS', $pickListFields);
 		$viewer->assign('SELECTED_PICKLIST_FIELDMODEL', $fieldModel);
-		$viewer->assign('SELECTED_PICKLIST_FIELD_ID', $pickFieldId);
+		$viewer->assign('SELECTED_PICKLIST_FIELD_ID', $fieldId);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedName);
 		$viewer->assign('SELECTED_PICKLISTFIELD_ALL_VALUES', $selectedFieldAllPickListValues);

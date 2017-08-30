@@ -215,21 +215,15 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function updatePicklistValueColor(\App\Request $request)
 	{
-		$field = \Vtiger_Field_Model::getInstanceFromFieldObject(vtlib\Field::getInstance($request->getInteger('picklistId')));
-		$type = ['picklist', 'multipicklist'];
-		if (!$field || !in_array($field->getFieldDataType(), $type)) {
-			$response = new Vtiger_Response();
-			$response->setResult(array(
-				'success' => false,
-				'message' => \App\Language::translate('LBL_FIELD_NOT_FOUND', $request->getModule(false))
-			));
-			return $response->emit();
+		$field = \Vtiger_Field_Model::getInstanceFromFieldId($request->getInteger('fieldId'));
+		if (!$field || !in_array($field->getFieldDataType(), ['picklist', 'multipicklist'])) {
+			throw new \App\Exceptions\AppException('LBL_FIELD_NOT_FOUND');
 		}
 		$color = $request->get('color');
 		if (!$color) {
 			$color = \App\Colors::getRandomColor();
 		}
-		\App\Colors::updatePicklistValueColor($request->getInteger('picklistId'), $request->getInteger('picklistValueId'), $color);
+		\App\Colors::updatePicklistValueColor($request->getInteger('fieldId'), $request->getInteger('fieldValueId'), $color);
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
@@ -245,17 +239,11 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function addPicklistColorColumn(\App\Request $request)
 	{
-		$field = \Vtiger_Field_Model::getInstanceFromFieldObject(vtlib\Field::getInstance($request->getInteger('picklistId')));
-		$type = ['picklist', 'multipicklist'];
-		if (!$field || !in_array($field->getFieldDataType(), $type)) {
-			$response = new Vtiger_Response();
-			$response->setResult(array(
-				'success' => false,
-				'message' => \App\Language::translate('LBL_FIELD_NOT_FOUND', $request->getModule(false))
-			));
-			return $response->emit();
+		$field = \Vtiger_Field_Model::getInstanceFromFieldId($request->getInteger('fieldId'));
+		if (!$field || !in_array($field->getFieldDataType(), ['picklist', 'multipicklist'])) {
+			throw new \App\Exceptions\AppException('LBL_FIELD_NOT_FOUND');
 		}
-		$fieldId = $request->getInteger('picklistId');
+		$fieldId = $request->getInteger('fieldId');
 		\App\Colors::addPicklistColorColumn($fieldId);
 		$response = new Vtiger_Response();
 		$response->setResult(array(
