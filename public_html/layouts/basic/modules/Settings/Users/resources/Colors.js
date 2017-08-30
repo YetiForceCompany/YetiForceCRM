@@ -15,11 +15,7 @@ var Colors_Js = {
 		var editColorModal = jQuery('.UserColors .editColorContainer');
 		var clonedContainer = editColorModal.clone(true, true);
 		var metod = target.data('metod');
-		if (target.data('type') != 'PicklistItem') {
-			var colorPreview = $('#calendarColorPreview' + target.data('type') + target.data('id'));
-		} else {
-			var colorPreview = $('#calendarColorPreview' + target.data('type') + target.data('picklistvalueid'));
-		}
+		var colorPreview = $('#calendarColorPreview' + target.data('type') + target.data('id'));
 		var callBackFunction = function (data) {
 			data.find('.editColorContainer').removeClass('hide').show();
 			var selectedColor = data.find('.selectedColor');
@@ -188,7 +184,6 @@ var Colors_Js = {
 			var selectedModule = jQuery(e.currentTarget).val();
 			if (selectedModule.length <= 0) {
 				Settings_Vtiger_Index_Js.showMessage({'type': 'error', 'text': app.vtranslate('JS_PLEASE_SELECT_MODULE')});
-				//return;
 			}
 			var params = {
 				module: 'Users',

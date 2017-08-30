@@ -963,7 +963,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	{
 		$modules = App\Fields\Picklist::getPickListModules();
 		$modulesModelsList = [];
-		foreach ($modules as $moduleId => $moduleData) {
+		foreach ($modules as $moduleData) {
 			$instance = new self();
 			$instance->name = $moduleData['tablabel'];
 			$instance->label = $moduleData['tabname'];
