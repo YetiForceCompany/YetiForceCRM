@@ -12,6 +12,9 @@
 class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
 
+	/**
+	 * Constructor
+	 */
 	public function __construct()
 	{
 		$this->exposeMethod('add');
@@ -24,6 +27,10 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$this->exposeMethod('addPicklistColorColumn');
 	}
 
+	/**
+	 * Process request
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$mode = $request->get('mode');
@@ -202,6 +209,10 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$request->validateWriteAccess();
 	}
 
+	/**
+	 * Update picklist value color
+	 * @param \App\Request $request
+	 */
 	public function updatePicklistValueColor(\App\Request $request)
 	{
 		$color = $request->get('color');
@@ -218,6 +229,10 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
+	/**
+	 * Add picklist color column in db table
+	 * @param \App\Request $request
+	 */
 	public function addPicklistColorColumn(\App\Request $request)
 	{
 		$fieldId = $request->getInteger('picklistId');
