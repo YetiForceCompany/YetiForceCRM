@@ -57,15 +57,16 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			$record->setHandlerExceptions([]);
 			if ($id = $record->getId()) {
 				$mail->setMailCrmId($id);
-				$mail->saveAttachments();
+				$attachments = $mail->saveAttachments();
 				App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', [
 					'date' => $mail->get('udate_formated'),
 					'cid' => $mail->getUniqueId()
 					], ['ossmailviewid' => $id]
 				)->execute();
+				return ['mailViewId' => $id, 'attachments' => $attachments];
 			}
 		}
-		return $id;
+		return false;
 	}
 
 	/**

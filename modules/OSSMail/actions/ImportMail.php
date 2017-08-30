@@ -27,7 +27,7 @@ class OSSMail_ImportMail_Action extends Vtiger_Action_Controller
 		$mailScanMail = $scannerModel->manualScanMail($request->get('params'));
 		$return = false;
 		if ($mailScanMail['CreatedEmail']) {
-			$return = $mailScanMail['CreatedEmail'];
+			$return = $mailScanMail['CreatedEmail']['mailViewId'];
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($return);
