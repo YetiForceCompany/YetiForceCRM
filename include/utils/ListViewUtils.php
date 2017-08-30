@@ -304,33 +304,3 @@ function popup_decode_html($str)
 	$slashes_str = htmlspecialchars($slashes_str, ENT_QUOTES, $defaultCharset);
 	return decode_html(\vtlib\Functions::br2nl($slashes_str));
 }
-
-/**
- * this function accepts a modulename and a fieldname and returns the first related module for it
- * it expects the uitype of the field to be 10
- * @param string $module - the modulename
- * @param string $fieldname - the field name
- * @return string $data - the first related module
- */
-function getFirstModule($module, $fieldname)
-{
-	$adb = PearDatabase::getInstance();
-	$sql = "select fieldid, uitype from vtiger_field where tabid=? and fieldname=?";
-	$result = $adb->pquery($sql, array(\App\Module::getModuleId($module), $fieldname));
-
-	if ($adb->num_rows($result) > 0) {
-		$uitype = $adb->query_result($result, 0, "uitype");
-
-		if ($uitype == 10) {
-			$fieldid = $adb->query_result($result, 0, "fieldid");
-			$sql = "select * from vtiger_fieldmodulerel where fieldid=?";
-			$result = $adb->pquery($sql, array($fieldid));
-			$count = $adb->num_rows($result);
-
-			if ($count > 0) {
-				$data = $adb->query_result($result, 0, "relmodule");
-			}
-		}
-	}
-	return $data;
-}
