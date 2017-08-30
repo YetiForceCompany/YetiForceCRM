@@ -36,7 +36,7 @@ var Colors_Js = {
 			//save the user calendar with color
 			data.find('[name="saveButton"]').click(function (e) {
 				var progress = $.progressIndicator({
-					'message': app.vtranslate('Update labels'),
+					'message': app.vtranslate('JS_LOADING_PLEASE_WAIT'),
 					'blockInfo': {
 						'enabled': true
 					}
@@ -229,7 +229,6 @@ var Colors_Js = {
 				Colors_Js.registerModuleChangeEvent();
 				Colors_Js.registerModulePickListChangeEvent();
 				Colors_Js.initEvants();
-				//Colors_Js.registerItemActions();
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			});
 		});
@@ -268,10 +267,11 @@ var Colors_Js = {
 		);
 	},
 	updatePicklistValueColor: function (e) {
+		var container = jQuery('.picklistViewContentDiv');
 		var target = $(e.currentTarget);
 		var editColorModal = jQuery('.UserColors .editColorContainer');
 		var clonedContainer = editColorModal.clone(true, true);
-		var colorPreview = $('#calendarColorPreviewPicklistValue' + target.data('picklistvalueid'));
+		var colorPreview = container.find('#calendarColorPreviewPicklistValue' + target.data('picklistvalueid'));
 		var callBackFunction = function (data) {
 			data.find('.editColorContainer').removeClass('hide').show();
 			var selectedColor = data.find('.selectedColor');
@@ -292,7 +292,7 @@ var Colors_Js = {
 			//save the user calendar with color
 			data.find('[name="saveButton"]').click(function (e) {
 				var progress = $.progressIndicator({
-					'message': app.vtranslate('Update labels'),
+					'message': app.vtranslate('JS_LOADING_PLEASE_WAIT'),
 					'blockInfo': {
 						'enabled': true
 					}
@@ -337,10 +337,11 @@ var Colors_Js = {
 		}, {'width': '1000px'});
 	},
 	generatePicklistValueColor: function (e) {
+		var container = jQuery('.picklistViewContentDiv');
 		var target = $(e.currentTarget);
-		var colorPreview = $('#calendarColorPreviewPicklistValue' + target.data('picklistvalueid'));
+		var colorPreview = container.find('#calendarColorPreviewPicklistValue' + target.data('picklistvalueid'));
 		var progress = $.progressIndicator({
-			'message': app.vtranslate('Update labels'),
+			'message': app.vtranslate('JS_LOADING_PLEASE_WAIT'),
 			'blockInfo': {
 				'enabled': true
 			}
