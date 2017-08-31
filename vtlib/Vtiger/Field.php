@@ -22,7 +22,7 @@ class Field extends FieldBasic
 	 */
 	public function getPicklistValues()
 	{
-		return \App\Fields\Picklist::getPickListValues($this->name);
+		return \App\Fields\Picklist::getValuesName($this->name);
 	}
 
 	/**

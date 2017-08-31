@@ -379,7 +379,7 @@ class Vtiger_Field_Model extends vtlib\Field
 				$userModel = Users_Record_Model::getCurrentUserModel();
 				$picklistValues = \App\Fields\Picklist::getRoleBasedPicklistValues($this->getName(), $userModel->get('roleid'));
 			} else {
-				$picklistValues = App\Fields\Picklist::getPickListValues($this->getName());
+				$picklistValues = App\Fields\Picklist::getValuesName($this->getName());
 			}
 
 			// Protection against deleting a value that does not exist on the list
@@ -498,7 +498,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
-	 * Function to check whether the current field is writable 
+	 * Function to check whether the current field is writable
 	 * @return boolean
 	 */
 	public function isWritable()
@@ -514,7 +514,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
-	 * Function to check whether the current field is editable 
+	 * Function to check whether the current field is editable
 	 * @return boolean
 	 */
 	public function isEditable()
@@ -884,10 +884,10 @@ class Vtiger_Field_Model extends vtlib\Field
 	{
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery("SELECT `tree`,`name` FROM
-				`vtiger_trees_templates_data` 
-			INNER JOIN `vtiger_field` 
-				ON `vtiger_trees_templates_data`.`templateid` = `vtiger_field`.`fieldparams` 
-			WHERE `vtiger_field`.`columnname` = ? 
+				`vtiger_trees_templates_data`
+			INNER JOIN `vtiger_field`
+				ON `vtiger_trees_templates_data`.`templateid` = `vtiger_field`.`fieldparams`
+			WHERE `vtiger_field`.`columnname` = ?
 				AND `vtiger_field`.`tablename` = ?;", array('folderid', 'vtiger_notes'));
 		$rows = $adb->num_rows($result);
 		$folders = [];

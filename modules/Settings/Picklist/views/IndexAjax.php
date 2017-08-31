@@ -107,7 +107,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 
 		if (!empty($pickFieldId)) {
 			$fieldModel = Settings_Picklist_Field_Model::getInstance($pickFieldId);
-			$selectedFieldAllPickListValues = App\Fields\Picklist::getPickListValues($fieldModel->getName());
+			$selectedFieldAllPickListValues = App\Fields\Picklist::getValuesName($fieldModel->getName());
 		}
 
 		$viewer = $this->getViewer($request);
@@ -132,7 +132,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 
 		$pickListValuesForRole = $fieldModel->getPicklistValuesForRole([$userSelectedRoleId], 'CONJUNCTION');
 		$pickListValuesForRole = array_map('Vtiger_Util_Helper::toSafeHTML', $pickListValuesForRole);
-		$allPickListValues = App\Fields\Picklist::getPickListValues($fieldModel->getName());
+		$allPickListValues = App\Fields\Picklist::getValuesName($fieldModel->getName());
 		$allPickListValues = array_map('Vtiger_Util_Helper::toSafeHTML', $allPickListValues);
 
 		$viewer = $this->getViewer($request);
@@ -158,7 +158,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 		$qualifiedName = $request->getModule(false);
 
-		$selectedFieldAllPickListValues = App\Fields\Picklist::getPickListValues($fieldModel->getName());
+		$selectedFieldAllPickListValues = App\Fields\Picklist::getValuesName($fieldModel->getName());
 		$selectedFieldAllPickListValues = array_map('Vtiger_Util_Helper::toSafeHTML', $selectedFieldAllPickListValues);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SELECTED_PICKLIST_FIELDMODEL', $fieldModel);

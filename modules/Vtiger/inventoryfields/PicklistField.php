@@ -47,7 +47,7 @@ class Vtiger_PicklistField_InventoryField extends Vtiger_Basic_InventoryField
 		}
 		$values = [];
 		foreach ($modules as $module => $field) {
-			foreach (App\Fields\Picklist::getPickListValues($field) as $value) {
+			foreach (App\Fields\Picklist::getValuesName($field) as $value) {
 				$values[] = [
 					'module' => $module,
 					'value' => $value,

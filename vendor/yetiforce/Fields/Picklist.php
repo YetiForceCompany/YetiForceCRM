@@ -44,10 +44,10 @@ class Picklist
 	 * @param string $fieldName -- string
 	 * @return array -- array of values
 	 */
-	public static function getPickListValues($fieldName)
+	public static function getValuesName($fieldName)
 	{
-		if (\App\Cache::has('getPickListValues', $fieldName)) {
-			return \App\Cache::get('getPickListValues', $fieldName);
+		if (\App\Cache::has('getValuesName', $fieldName)) {
+			return \App\Cache::get('getValuesName', $fieldName);
 		}
 		$primaryKey = static::getPickListId($fieldName);
 		$dataReader = (new \App\Db\Query())->select([$primaryKey, $fieldName])
@@ -58,7 +58,7 @@ class Picklist
 		while ($row = $dataReader->read()) {
 			$values[$row[$primaryKey]] = \App\Purifier::decodeHtml(\App\Purifier::decodeHtml($row[$fieldName]));
 		}
-		\App\Cache::save('getPickListValues', $fieldName, $values);
+		\App\Cache::save('getValuesName', $fieldName, $values);
 		return $values;
 	}
 
@@ -69,7 +69,7 @@ class Picklist
 	 */
 	public static function getEditablePicklistValues($fieldName)
 	{
-		$values = static::getPickListValues($fieldName);
+		$values = static::getValuesName($fieldName);
 		$nonEditableValues = static::getNonEditablePicklistValues($fieldName);
 		foreach ($values as $key => &$value) {
 			if ($value === '--None--' || isset($nonEditableValues[$key])) {
@@ -214,7 +214,7 @@ class Picklist
 				$picklistDependencyDatasource[$sourceField][$sourceValue][$targetField] = $unserializedTargetValues;
 			}
 			if (empty($picklistDependencyDatasource[$sourceField]['__DEFAULT__'][$targetField])) {
-				foreach (self::getPickListValues($targetField) as $picklistValue) {
+				foreach (self::getValuesName($targetField) as $picklistValue) {
 					$pickArray[] = \App\Purifier::decodeHtml($picklistValue);
 				}
 				$picklistDependencyDatasource[$sourceField]['__DEFAULT__'][$targetField] = $pickArray;

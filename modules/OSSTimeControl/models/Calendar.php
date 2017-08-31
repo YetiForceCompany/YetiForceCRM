@@ -101,6 +101,6 @@ class OSSTimeControl_Calendar_Model extends App\Base
 	 */
 	public static function getCalendarTypes()
 	{
-		return \App\Fields\Picklist::getPickListValues('timecontrol_type');
+		return \App\Fields\Picklist::getValuesName('timecontrol_type');
 	}
 }
