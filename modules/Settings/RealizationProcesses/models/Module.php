@@ -10,13 +10,13 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 {
 
 	/**
-	 * Gets Project status 
+	 * Gets Project status
 	 * @return - array of Project status
 	 */
 	public static function getProjectStatus()
 	{
 		\App\Log::trace('Entering Settings_RealizationProcesses_Module_Model::getProjectStatus() method ...');
-		$return = \App\Fields\Picklist::getPickListValues('projectstatus');
+		$return = \App\Fields\Picklist::getValuesName('projectstatus');
 		\App\Log::trace('Exiting Settings_RealizationProcesses_Module_Model::getProjectStatus() method ...');
 		return $return;
 	}

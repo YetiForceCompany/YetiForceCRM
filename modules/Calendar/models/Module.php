@@ -385,7 +385,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			if (in_array($fieldType, $type)) {
 				$fieldName = $field->getName();
 				if ($fieldType == 'picklist' && in_array($fieldName, $restrictedField[$fieldType])) {
-					
+
 				} else {
 					$fieldList[$fieldName] = $field;
 				}
@@ -435,7 +435,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	public static function getCalendarTypes()
 	{
 		$calendarConfig = ['Task'];
-		$eventConfig = App\Fields\Picklist::getPickListValues('activitytype');
+		$eventConfig = App\Fields\Picklist::getValuesName('activitytype');
 		if (is_array($eventConfig)) {
 			$calendarConfig = array_merge($calendarConfig, $eventConfig);
 		}
@@ -480,13 +480,13 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * The function gets the labels for a given status field 
+	 * The function gets the labels for a given status field
 	 * @param string $key
-	 * @return <Array> 
+	 * @return <Array>
 	 */
 	public static function getComponentActivityStateLabel($key = '')
 	{
-		$pickListValues = App\Fields\Picklist::getPickListValues('activitystatus');
+		$pickListValues = App\Fields\Picklist::getValuesName('activitystatus');
 		if (!is_array($pickListValues)) {
 			return [];
 		}

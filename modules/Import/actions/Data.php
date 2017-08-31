@@ -349,7 +349,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 					$type = $fieldObject->getFieldDataType();
 					switch ($type) {
 						case 'picklist':
-							$picklist = $fieldObject->getPicklistValues();
+							$picklist = $fieldObject->getValuesName();
 							if (in_array($value, $picklist)) {
 								$value = array_search($value, $picklist);
 							} elseif (array_key_exists($value, $picklist)) {
