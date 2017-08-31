@@ -23,14 +23,14 @@ class Colors
 	{
 		switch ($type) {
 			case 'user':
-				self::generateUsers();
+				self::generateOwners();
 				break;
 			case 'calendar':
 				self::generateCalendar();
 				break;
 			default:
 				self::generateCalendar();
-				self::generateUsers();
+				self::generateOwners();
 				break;
 		}
 	}
@@ -38,7 +38,7 @@ class Colors
 	/**
 	 * Generate users colors stylesheet
 	 */
-	private static function generateUsers()
+	private static function generateOwners()
 	{
 		$css = '';
 		foreach (\Settings_Calendar_Module_Model::getUserColors('colors') as $item) {
@@ -122,5 +122,25 @@ class Colors
 			}
 		}
 		return $fieldList;
+	}
+
+	/**
+	 * Update user color code and generate stylesheet file
+	 * @param int $id
+	 * @param string $color
+	 */
+	public static function updateUserColor($id, $color)
+	{
+		\App\Db::getInstance()->createCommand()->update('vtiger_users', ['cal_color' => $color,], ['id' => $id])->execute();
+		\App\Colors::generate('user');
+	}
+
+	/**
+	 * Get all users colors
+	 * @return array
+	 */
+	public static function getAllUserColor()
+	{
+		return (new Db\Query())->select(['id', 'first' => 'first_name', 'last' => 'last_name', 'color' => 'cal_color'])->from('vtiger_users')->all();
 	}
 }

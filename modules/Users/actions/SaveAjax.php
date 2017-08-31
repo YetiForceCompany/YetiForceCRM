@@ -197,18 +197,6 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$response->emit();
 	}
 
-	public function updateUserColor(\App\Request $request)
-	{
-		$params = $request->get('params');
-		Users_Colors_Model::updateUserColor($params);
-		$response = new Vtiger_Response();
-		$response->setResult(array(
-			'success' => true,
-			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
-		));
-		$response->emit();
-	}
-
 	public function updateGroupColor(\App\Request $request)
 	{
 		$params = $request->get('params');

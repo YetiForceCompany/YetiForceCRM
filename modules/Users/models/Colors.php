@@ -9,30 +9,6 @@
 class Users_Colors_Model extends Vtiger_Record_Model
 {
 
-	public static function getUserColors()
-	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->query('SELECT * FROM vtiger_users');
-
-		$userColors = [];
-		while ($activityTypes = $adb->getRow($result)) {
-			$userColors[] = array(
-				'id' => $activityTypes['id'],
-				'first' => $activityTypes['first_name'],
-				'last' => $activityTypes['last_name'],
-				'color' => $activityTypes['cal_color']
-			);
-		}
-		return $userColors;
-	}
-
-	public static function updateUserColor($params)
-	{
-		$adb = PearDatabase::getInstance();
-		$adb->pquery('UPDATE vtiger_users SET cal_color = ? WHERE id = ?;', array($params['color'], $params['id']));
-		\App\Colors::generate('user');
-	}
-
 	public static function generateColor($params)
 	{
 		$color = \App\Colors::getRandomColor();
@@ -46,9 +22,6 @@ class Users_Colors_Model extends Vtiger_Record_Model
 				break;
 			case 'generateModuleColor':
 				self::updateModuleColor($params);
-				break;
-			default:
-				self::updateUserColor($params);
 				break;
 		}
 		return $color;

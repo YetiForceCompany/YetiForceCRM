@@ -1,22 +1,20 @@
 /* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
 var Colors_Js = {
 	initEvants: function () {
-		$('.UserColors .updateColor').click(Colors_Js.updateColor);
-		$('.UserColors .generateColor').click(Colors_Js.generateColor);
+		$('.UserColors .updateUserColor').click(Colors_Js.updateUserColor);
+		$('.UserColors .generateUserColor').click(Colors_Js.generateUserColor);
+		$('.UserColors .removeUserColor').click(Colors_Js.removeUserColor);
 		$('.UserColors .activeColor').click(Colors_Js.activeColor);
 		$('.UserColors .addPicklistColorColumn').click(Colors_Js.addPicklistColorColumn);
 		$('.UserColors .updatePicklistValueColor').click(Colors_Js.updatePicklistValueColor);
 		$('.UserColors .generatePicklistValueColor').click(Colors_Js.generatePicklistValueColor);
 		$('.UserColors .removePicklistValueColor').click(Colors_Js.removePicklistValueColor);
 	},
-	updateColor: function (e) {
+	updateUserColor: function (e) {
 		var target = $(e.currentTarget);
-		var closestTrElement = target.closest('tr');
-		var closestTableElement = target.closest('table');
 		var editColorModal = jQuery('.UserColors .editColorContainer');
 		var clonedContainer = editColorModal.clone(true, true);
-		var metod = target.data('metod');
-		var colorPreview = $('#calendarColorPreview' + target.data('type') + target.data('id'));
+		var colorPreview = $('#calendarColorPreviewUser' + target.data('id'));
 		var callBackFunction = function (data) {
 			data.find('.editColorContainer').removeClass('hide').show();
 			var selectedColor = data.find('.selectedColor');
@@ -42,14 +40,27 @@ var Colors_Js = {
 						'enabled': true
 					}
 				});
-				Colors_Js.registerSaveEvent(metod, {
+				AppConnector.request({
+					'module': 'Users',
+					'parent': 'Settings',
+					'action': 'SaveAjax',
+					'mode': 'updateColor',
 					'color': selectedColor.val(),
-					'id': target.data('id'),
-					'fieldId': target.data('fieldid'),
-					'fieldValueId': target.data('fieldvalueid'),
-					'table': closestTrElement.data('table'),
-					'field': closestTableElement.data('fieldname')
-				});
+					'id': target.data('id')
+				}).then(
+						function (data) {
+							var response = data['result'];
+							var params = {
+								text: response['message'],
+								animation: 'show',
+								type: 'success'
+							};
+							Vtiger_Helper_Js.showPnotify(params);
+							return response;
+						},
+						function (data, err) {
+						}
+				);
 				colorPreview.css('background', selectedColor.val());
 				target.data('color', selectedColor.val());
 				progress.progressIndicator({'mode': 'hide'});
@@ -62,25 +73,16 @@ var Colors_Js = {
 			}
 		}, {'width': '1000px'});
 	},
-	generateColor: function (e) {
+	generateUserColor: function (e) {
 		var target = $(e.currentTarget);
-		var closestTableElement = target.closest('table');
-		var metod = target.data('metod');
-		var colorPreview = $('#calendarColorPreview' + target.data('type') + target.data('id'));
-		var params = {
+		var colorPreview = $('#calendarColorPreviewUser' + target.data('id'));
+		AppConnector.request({
 			module: app.getModuleName(),
+			parent: 'Settings',
 			action: 'SaveAjax',
-			mode: 'generateColor',
-			params: {id: target.data('id'),
-				fieldId: target.data('fieldid'),
-				fieldValueId: target.data('fieldvalueid'),
-				color: colorPreview.data('color'),
-				table: target.data('table'),
-				field: closestTableElement.data('fieldname'),
-				mode: metod
-			}
-		};
-		AppConnector.request(params).then(
+			mode: 'updateColor',
+			id: target.data('id')
+		}).then(
 				function (data) {
 					var response = data['result'];
 					var params = {
@@ -95,6 +97,33 @@ var Colors_Js = {
 				function (data, err) {
 				}
 		);
+	},
+	removeUserColor: function (e) {
+		var target = $(e.currentTarget);
+		var colorPreview = $('#calendarColorPreviewUser' + target.data('id'));
+		AppConnector.request({
+			module: app.getModuleName(),
+			parent: 'Settings',
+			action: 'SaveAjax',
+			mode: 'removeColor',
+			id: target.data('id')
+		}).then(
+				function (data) {
+					var response = data['result'];
+					var params = {
+						text: response['message'],
+						animation: 'show',
+						type: 'success'
+					};
+					colorPreview.css('background', '');
+					colorPreview.data('color', '');
+					Vtiger_Helper_Js.showPnotify(params);
+				},
+				function (data, err) {
+				}
+		);
+		progress.progressIndicator({'mode': 'hide'});
+		app.hideModalWindow();
 	},
 	registerSaveEvent: function (mode, data) {
 		var params = {};
