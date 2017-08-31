@@ -18,7 +18,7 @@ class HelpDesk_ConvertFAQ_Action extends Vtiger_Action_Controller
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		if (!Users_Privileges_Model::isPermitted('Faq', 'CreateView')) {
+		if (!\App\Privilege::isPermitted('Faq', 'CreateView')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}

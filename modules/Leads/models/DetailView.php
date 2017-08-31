@@ -39,7 +39,7 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model
 			$index++;
 		}
 
-		if (Users_Privileges_Model::isPermitted($moduleModel->getName(), 'ConvertLead', $recordModel->getId()) && Users_Privileges_Model::isPermitted($moduleModel->getName(), 'EditView', $recordModel->getId())) {
+		if (\App\Privilege::isPermitted($moduleModel->getName(), 'ConvertLead', $recordModel->getId()) && \App\Privilege::isPermitted($moduleModel->getName(), 'EditView', $recordModel->getId())) {
 			$convert = !Leads_Module_Model::checkIfAllowedToConvert($recordModel->get('leadstatus')) ? 'hide' : '';
 			$basicActionLink = [
 				'linktype' => 'DETAILVIEWBASIC',

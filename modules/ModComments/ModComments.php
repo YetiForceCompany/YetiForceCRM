@@ -31,7 +31,7 @@ class ModComments extends ModCommentsCore
 			// Mark the module as Standard module
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0,], ['name' => $moduleName])->execute();
 		} elseif ($eventType === 'module.postupdate') {
-
+			
 		}
 	}
 
@@ -47,11 +47,13 @@ class ModComments extends ModCommentsCore
 
 	/**
 	 * Get widget instance by name
+	 * @param string $name
+	 * @return boolean
 	 */
 	public static function getWidget($name)
 	{
-		if ($name == 'DetailViewBlockCommentWidget' &&
-			isPermitted('ModComments', 'DetailView') == 'yes') {
+		if ($name === 'DetailViewBlockCommentWidget' &&
+			\App\Privilege::isPermitted('ModComments', 'DetailView') == 'yes') {
 			require_once dirname(__FILE__) . '/widgets/DetailViewBlockComment.php';
 			return (new ModComments_DetailViewBlockCommentWidget());
 		}

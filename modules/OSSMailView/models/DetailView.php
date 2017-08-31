@@ -78,7 +78,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 				];
 			}
 
-			if (Users_Privileges_Model::isPermitted('OSSMailView', 'PrintMail')) {
+			if (\App\Privilege::isPermitted('OSSMailView', 'PrintMail')) {
 				$detailViewLinks[] = [
 					'linktype' => 'DETAILVIEWBASIC',
 					'linklabel' => '',

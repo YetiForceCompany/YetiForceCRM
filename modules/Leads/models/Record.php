@@ -33,7 +33,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 		$accountsFields = [];
 		$moduleName = 'Accounts';
 
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'EditView')) {
+		if (!\App\Privilege::isPermitted($moduleName, 'EditView')) {
 			return;
 		}
 
