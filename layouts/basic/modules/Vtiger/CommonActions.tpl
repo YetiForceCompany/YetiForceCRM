@@ -27,7 +27,7 @@
 								{assign var='singularLabel' value=$MODULEMODEL->getSingularLabelKey()}
 								{if $singularLabel == 'SINGLE_Calendar'}
 									{assign var='singularLabel' value='LBL_EVENT_OR_TASK'}
-								{/if}	
+								{/if}
 								{if $quickCreateModule == '1'}
 									{if $count % 3 == 0}
 										<div class="">
@@ -46,13 +46,13 @@
 					</div>
 				</li>
 			</ul>
-		</div>	
+		</div>
 	</div>
 	<div class="navbar-form navbar-left">
 		<div class="quickActions">
 			<a id="companyLogo-container" class="" href="#"><img src="{$COMPANY_LOGO->get('imageUrl')}" title="{$COMPANY_LOGO->get('title')}" alt="{$COMPANY_LOGO->get('alt')}"/></a>
-		</div>	
-	</div>	
+		</div>
+	</div>
 	<div class="select-search navbar-form navbar-left " style="width: 216px;">
 		<select class="chzn-select col-md-5" title="{\App\Language::translate('LBL_SEARCH_MODULE', $MODULE_NAME)}" id="basicSearchModulesList" >
 			<option value="" class="globalSearch_module_All">{\App\Language::translate('LBL_ALL_RECORDS', $MODULE_NAME)}</option>
@@ -80,21 +80,21 @@
 				</div>
 			{/if}
 		</div>
-	</div>	
+	</div>
 	{*{assign var="BREADCRUMBS" value=Vtiger_Menu_Model::getBreadcrumbs()}
 	{if $BREADCRUMBS}
-		<div class="breadcrumbsContainer col-md-12" style="display: none;">
-			<div class="breadcrumbsLinks">
-				{foreach key=key item=item from=$BREADCRUMBS}
-					{if $key != 0}
-						<span class="separator">&nbsp;{vglobal('breadcrumbs_separator')}&nbsp;</span>
-					{/if}
-					<span>{$item['name']}</span>
-				{/foreach}
-			</div>
-		</div>
+	<div class="breadcrumbsContainer col-md-12" style="display: none;">
+	<div class="breadcrumbsLinks">
+	{foreach key=key item=item from=$BREADCRUMBS}
+	{if $key != 0}
+	<span class="separator">&nbsp;{vglobal('breadcrumbs_separator')}&nbsp;</span>
+	{/if}
+	<span>{$item['name']}</span>
+	{/foreach}
+	</div>
+	</div>
 	{/if}*}
-	{assign var="MENUSCOLOR" value=Users_Colors_Model::getModulesColors(true)}
+	{assign var="MENUSCOLOR" value=\App\Colors::getAllModuleColor(true)}
 	{if $MENUSCOLOR}
 		<div class="menusColorContainer" style="display: none;">
 			<style>
@@ -103,7 +103,7 @@
 						color: {$item.color} !important;
 					}
 					{*.moduleIcon{$item.module}{
-						background: {$item.color} !important;
+					background: {$item.color} !important;
 					}*}
 				{/foreach}
 			</style>
