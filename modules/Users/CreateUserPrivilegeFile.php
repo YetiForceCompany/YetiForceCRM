@@ -194,7 +194,7 @@ function getRelatedModuleSharingArray($par_mod, $share_mod, $mod_sharingrule_mem
 										$share_role_users = $mod_share_write_per['ROLE'][$shareEntId];
 									} else {
 
-										$share_role_users = getRoleUserIds($shareEntId);
+										$share_role_users = \App\PrivilegeUtil::getUsersByRole($shareEntId);
 									}
 
 									$role_read_per[$shareEntId] = $share_role_users;
@@ -207,7 +207,7 @@ function getRelatedModuleSharingArray($par_mod, $share_mod, $mod_sharingrule_mem
 									$share_role_users = $mod_share_write_per['ROLE'][$shareEntId];
 								} else {
 
-									$share_role_users = getRoleUserIds($shareEntId);
+									$share_role_users = \App\PrivilegeUtil::getUsersByRole($shareEntId);
 								}
 
 								$role_write_per[$shareEntId] = $share_role_users;
@@ -220,7 +220,7 @@ function getRelatedModuleSharingArray($par_mod, $share_mod, $mod_sharingrule_mem
 									$share_role_users = $mod_share_write_per['ROLE'][$shareEntId];
 								} else {
 
-									$share_role_users = getRoleUserIds($shareEntId);
+									$share_role_users = \App\PrivilegeUtil::getUsersByRole($shareEntId);
 								}
 
 								$role_read_per[$shareEntId] = $share_role_users;
