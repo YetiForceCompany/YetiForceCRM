@@ -22,7 +22,7 @@
 		</div>
 	{/if}
 	<div>
-		{if in_array($MODULE, AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && $MODULE_MODEL->\App\Privilege::isPermitted('TimeLineList')}
+		{if in_array($MODULE, AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && $MODULE_MODEL->isPermitted('TimeLineList')}
 			<a type="button" data-url="{$LISTVIEW_ENTRY->getTimeLineUrl()}" class="timeLineIconList hide">
 				<span class="glyphicon" aria-hidden="true"></span>
 			</a>
