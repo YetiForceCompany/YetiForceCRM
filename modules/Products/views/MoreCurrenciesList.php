@@ -22,9 +22,9 @@ class Products_MoreCurrenciesList_View extends Vtiger_IndexAjax_View
 		$record = $request->getInteger('record');
 		$lockEdit = false;
 		if (empty($record) || $request->getBoolean('isDuplicate')) {
-			$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'CreateView');
+			$recordPermission = \App\Privilege::isPermitted($moduleName, 'CreateView');
 		} else {
-			$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'EditView', $record);
+			$recordPermission = \App\Privilege::isPermitted($moduleName, 'EditView', $record);
 			$lockEdit = Users_Privileges_Model::checkLockEdit($moduleName, Vtiger_Record_Model::getInstanceById($record, $moduleName));
 		}
 		if (!$recordPermission || ($lockEdit && !$request->getBoolean('isDuplicate'))) {

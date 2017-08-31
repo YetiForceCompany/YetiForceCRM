@@ -46,7 +46,7 @@ class PBXManager_Server_Model extends \App\Base
 			return $permission ? true : false;
 		}
 		Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$permission = Users_Privileges_Model::isPermitted('PBXManager', 'MakeOutgoingCalls');
+		$permission = \App\Privilege::isPermitted('PBXManager', 'MakeOutgoingCalls');
 
 		$serverModel = PBXManager_Server_Model::getInstance();
 		$gateway = $serverModel->get('gateway');

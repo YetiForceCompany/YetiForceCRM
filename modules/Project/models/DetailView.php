@@ -18,7 +18,7 @@ class Project_DetailView_Model extends Vtiger_DetailView_Model
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$recordId = $recordModel->getId();
 
-		if (Users_Privileges_Model::isPermitted('ProjectTask', 'EditView')) {
+		if (\App\Privilege::isPermitted('ProjectTask', 'EditView')) {
 			$viewLinks = [
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'Add Project Task',
@@ -28,7 +28,7 @@ class Project_DetailView_Model extends Vtiger_DetailView_Model
 			];
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($viewLinks);
 		}
-		if (Users_Privileges_Model::isPermitted('Documents', 'EditView')) {
+		if (\App\Privilege::isPermitted('Documents', 'EditView')) {
 			$viewLinks = [
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'Add Note',

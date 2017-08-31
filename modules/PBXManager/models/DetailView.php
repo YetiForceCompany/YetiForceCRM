@@ -29,7 +29,7 @@ class PBXManager_DetailView_Model extends Vtiger_DetailView_Model
 		$detailViewBasiclinks = $linkModelListDetails['DETAILVIEWBASIC'];
 		unset($linkModelListDetails['DETAILVIEWBASIC']);
 
-		if (Users_Privileges_Model::isPermitted($moduleName, 'Delete', $recordId)) {
+		if (\App\Privilege::isPermitted($moduleName, 'Delete', $recordId)) {
 			$deletelinkModel = array(
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_DELETE_RECORD',

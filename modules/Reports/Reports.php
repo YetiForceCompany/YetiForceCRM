@@ -250,7 +250,7 @@ class Reports extends CRMEntity
 
 							$rel_mod = [];
 							foreach ($oldRelatedModules[$module] as $key => $name) {
-								if (\App\Module::isModuleActive($name) && isPermitted($name, 'index', '')) {
+								if (\App\Module::isModuleActive($name) && \App\Privilege::isPermitted($name, 'index', '')) {
 									$rel_mod[] = $name;
 								}
 							}
@@ -353,14 +353,16 @@ class Reports extends CRMEntity
 				$report_details ['reportname'] = $report["reportname"];
 				$report_details ['sharingtype'] = $report["sharingtype"];
 				$report_details['folderid'] = $report["folderid"];
-				if ($is_admin === true)
+				if ($is_admin === true) {
 					$report_details ['editable'] = 'true';
-				else
+				} else {
 					$report_details['editable'] = 'false';
+				}
 
-				if (isPermitted($report["primarymodule"], 'index') == "yes")
+				if (\App\Privilege::isPermitted($report['primarymodule'], 'index') == 'yes') {
 					$returndata[] = $report_details;
-			}while ($report = $adb->fetch_array($result));
+				}
+			} while ($report = $adb->fetch_array($result));
 		}
 		\App\Log::trace("Reports :: ListView->Successfully returned vtiger_report details HTML");
 		return $returndata;
@@ -436,14 +438,16 @@ class Reports extends CRMEntity
 				$report_details['reportname'] = $report["reportname"];
 				$report_details['reporttype'] = $report["reporttype"];
 				$report_details['sharingtype'] = $report["sharingtype"];
-				if ($is_admin === true || in_array($report["owner"], $subordinate_users) || $report["owner"] == $currentUser->getId())
+				if ($is_admin === true || in_array($report["owner"], $subordinate_users) || $report["owner"] == $currentUser->getId()) {
 					$report_details['editable'] = 'true';
-				else
+				} else {
 					$report_details['editable'] = 'false';
+				}
 
-				if (isPermitted($report["primarymodule"], 'index') == "yes")
-					$returndata [$report["folderid"]][] = $report_details;
-			}while ($report = $adb->fetch_array($result));
+				if (\App\Privilege::isPermitted($report['primarymodule'], 'index') == 'yes') {
+					$returndata [$report['folderid']][] = $report_details;
+				}
+			} while ($report = $adb->fetch_array($result));
 		}
 
 		if ($rpt_fldr_id !== false) {
@@ -1121,7 +1125,7 @@ function getReportsModuleList($focus)
 {
 	$modules = [];
 	foreach ($focus->module_list as $key => $value) {
-		if (isPermitted($key, 'index') == "yes") {
+		if (\App\Privilege::isPermitted($key, 'index') == 'yes') {
 			$modules [$key] = \App\Language::translate($key, $key);
 		}
 	}
@@ -1139,7 +1143,7 @@ function getReportRelatedModules($module, $focus)
 	if (\App\Module::isModuleActive($module)) {
 		if (!empty($focus->related_modules[$module])) {
 			foreach ($focus->related_modules[$module] as $rel_modules) {
-				if (isPermitted($rel_modules, 'index') == "yes") {
+				if (\App\Privilege::isPermitted($rel_modules, 'index') == 'yes') {
 					$optionhtml [] = $rel_modules;
 				}
 			}
