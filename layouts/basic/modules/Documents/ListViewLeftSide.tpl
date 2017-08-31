@@ -22,12 +22,12 @@
 		</div>
 	{/if}
 	<div>
-		{if in_array($MODULE, AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && $MODULE_MODEL->isPermitted('TimeLineList')}
+		{if in_array($MODULE, AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && $MODULE_MODEL->\App\Privilege::isPermitted('TimeLineList')}
 			<a type="button" data-url="{$LISTVIEW_ENTRY->getTimeLineUrl()}" class="timeLineIconList hide">
 				<span class="glyphicon" aria-hidden="true"></span>
 			</a>
 		{/if}
-		{if AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $MODULE_MODEL->isPermitted('ReviewingUpdates') && $MODULE_MODEL->isTrackingEnabled() && $LISTVIEW_ENTRY->isViewable()}
+		{if AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $MODULE_MODEL->\App\Privilege::isPermitted('ReviewingUpdates') && $MODULE_MODEL->isTrackingEnabled() && $LISTVIEW_ENTRY->isViewable()}
 			<a href="{$LISTVIEW_ENTRY->getUpdatesUrl()}" class="unreviewed">
 				<span class="badge bgDanger all" title="{\App\Language::translate('LBL_NUMBER_UNREAD_CHANGES', 'ModTracker')}"></span>
 				<span class="badge bgBlue mail noLeftRadius noRightRadius" title="{\App\Language::translate('LBL_NUMBER_UNREAD_MAILS', 'ModTracker')}"></span>
