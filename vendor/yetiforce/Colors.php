@@ -143,4 +143,45 @@ class Colors
 	{
 		return (new Db\Query())->select(['id', 'first' => 'first_name', 'last' => 'last_name', 'color' => 'cal_color'])->from('vtiger_users')->all();
 	}
+
+	/**
+	 * Update group color code and generate stylesheet file
+	 * @param int $id
+	 * @param string $color
+	 */
+	public static function updateGroupColor($id, $color)
+	{
+		\App\Db::getInstance()->createCommand()->update('vtiger_groups', ['color' => $color,], ['groupid' => $id])->execute();
+		\App\Colors::generate('group');
+	}
+
+	public static function getAllGroupColor()
+	{
+		return (new Db\Query())->select(['id' => 'groupid', 'groupname', 'color'])->from('vtiger_groups')->all();
+	}
+
+	public static function getAllModuleColor($active = false)
+	{
+		$allModules = \vtlib\Functions::getAllModules(false, false, false, $active);
+
+		$modules = [];
+		foreach ($allModules as $tabid => $module) {
+			$modules[] = array(
+				'id' => $tabid,
+				'module' => $module['name'],
+				'color' => $module['color'] != '' ? '#' . $module['color'] : '',
+				'active' => $module['coloractive'],
+			);
+		}
+		return $modules;
+	}
+
+	/**
+	 * Function to update color for module
+	 * @param array $params
+	 */
+	public static function updateModuleColor($id, $color)
+	{
+		\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['color' => str_replace('#', '', $color)], ['tabid' => $id])->execute();
+	}
 }

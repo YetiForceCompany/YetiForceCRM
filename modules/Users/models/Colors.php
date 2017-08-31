@@ -14,39 +14,11 @@ class Users_Colors_Model extends Vtiger_Record_Model
 		$color = \App\Colors::getRandomColor();
 		$params['color'] = $color;
 		switch ($params['mode']) {
-			case 'generateGroupColor':
-				self::updateGroupColor($params);
-				break;
 			case 'generateColorForProcesses':
 				self::updateColor($params);
 				break;
-			case 'generateModuleColor':
-				self::updateModuleColor($params);
-				break;
 		}
 		return $color;
-	}
-
-	public static function getGroupColors()
-	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->query('SELECT * FROM vtiger_groups');
-
-		$groupColors = [];
-		while ($activityTypes = $adb->getRow($result)) {
-			$groupColors[] = array(
-				'id' => $activityTypes['groupid'],
-				'groupname' => $activityTypes['groupname'],
-				'color' => $activityTypes['color']
-			);
-		}
-		return $groupColors;
-	}
-
-	public static function updateGroupColor($params)
-	{
-		$adb = PearDatabase::getInstance();
-		$adb->pquery('UPDATE vtiger_groups SET color = ? WHERE groupid = ?;', array($params['color'], $params['id']));
 	}
 
 	public static function updateColor($params)
@@ -72,22 +44,6 @@ class Users_Colors_Model extends Vtiger_Record_Model
 		return $groupColors;
 	}
 
-	public static function getModulesColors($active = false)
-	{
-		$allModules = \vtlib\Functions::getAllModules(false, false, false, $active);
-
-		$modules = [];
-		foreach ($allModules as $tabid => $module) {
-			$modules[] = array(
-				'id' => $tabid,
-				'module' => $module['name'],
-				'color' => $module['color'] != '' ? '#' . $module['color'] : '',
-				'active' => $module['coloractive'],
-			);
-		}
-		return $modules;
-	}
-
 	public static function activeColor($params)
 	{
 		$colorActive = $params['status'] == 'true' ? 1 : 0;
@@ -99,14 +55,5 @@ class Users_Colors_Model extends Vtiger_Record_Model
 		}
 		\App\Db::getInstance()->createCommand()->update('vtiger_tab', $set, ['tabid' => $params['id']])->execute();
 		return $color;
-	}
-
-	/**
-	 * Function to update color for module
-	 * @param array $params
-	 */
-	public static function updateModuleColor($params)
-	{
-		\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['color' => str_replace('#', '', $params['color'])], ['tabid' => $params['id']])->execute();
 	}
 }

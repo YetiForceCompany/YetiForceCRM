@@ -31,7 +31,7 @@
 					</h2>
 				</div>
 			{/if}
-			{assign var="MENUSCOLOR" value=Users_Colors_Model::getModulesColors(true)}
+			{assign var="MENUSCOLOR" value=\App\Colors::getAllModuleColor(true)}
 			{if $MENUSCOLOR}
 				<div class="menusColorContainer">
 					<style>

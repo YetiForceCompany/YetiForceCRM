@@ -4,6 +4,12 @@ var Colors_Js = {
 		$('.UserColors .updateUserColor').click(Colors_Js.updateUserColor);
 		$('.UserColors .generateUserColor').click(Colors_Js.generateUserColor);
 		$('.UserColors .removeUserColor').click(Colors_Js.removeUserColor);
+		$('.UserColors .updateGroupColor').click(Colors_Js.updateGroupColor);
+		$('.UserColors .generateGroupColor').click(Colors_Js.generateGroupColor);
+		$('.UserColors .removeGroupColor').click(Colors_Js.removeGroupColor);
+		$('.UserColors .updateModuleColor').click(Colors_Js.updateModuleColor);
+		$('.UserColors .generateModuleColor').click(Colors_Js.generateModuleColor);
+		$('.UserColors .removeModuleColor').click(Colors_Js.removeModuleColor);
 		$('.UserColors .activeColor').click(Colors_Js.activeColor);
 		$('.UserColors .addPicklistColorColumn').click(Colors_Js.addPicklistColorColumn);
 		$('.UserColors .updatePicklistValueColor').click(Colors_Js.updatePicklistValueColor);
@@ -122,8 +128,232 @@ var Colors_Js = {
 				function (data, err) {
 				}
 		);
-		progress.progressIndicator({'mode': 'hide'});
-		app.hideModalWindow();
+	},
+	updateGroupColor: function (e) {
+		var target = $(e.currentTarget);
+		var editColorModal = jQuery('.UserColors .editColorContainer');
+		var clonedContainer = editColorModal.clone(true, true);
+		var colorPreview = $('#calendarColorPreviewGroup' + target.data('id'));
+		var callBackFunction = function (data) {
+			data.find('.editColorContainer').removeClass('hide').show();
+			var selectedColor = data.find('.selectedColor');
+			selectedColor.val(colorPreview.data('color'));
+			//register color picker
+			var params = {
+				flat: true,
+				color: colorPreview.data('color'),
+				onChange: function (hsb, hex, rgb) {
+					selectedColor.val('#' + hex);
+					colorPreview.data('color', '#' + hex);
+				}
+			};
+			if (typeof customParams != 'undefined') {
+				params = jQuery.extend(params, customParams);
+			}
+			data.find('.calendarColorPicker').ColorPicker(params);
+			//save the user calendar with color
+			data.find('[name="saveButton"]').click(function (e) {
+				var progress = $.progressIndicator({
+					'message': app.vtranslate('JS_LOADING_PLEASE_WAIT'),
+					'blockInfo': {
+						'enabled': true
+					}
+				});
+				AppConnector.request({
+					'module': 'Groups',
+					'parent': 'Settings',
+					'action': 'EditAjax',
+					'mode': 'updateColor',
+					'color': selectedColor.val(),
+					'id': target.data('id')
+				}).then(
+						function (data) {
+							var response = data['result'];
+							var params = {
+								text: response['message'],
+								animation: 'show',
+								type: 'success'
+							};
+							Vtiger_Helper_Js.showPnotify(params);
+							return response;
+						},
+						function (data, err) {
+						}
+				);
+				colorPreview.css('background', selectedColor.val());
+				target.data('color', selectedColor.val());
+				progress.progressIndicator({'mode': 'hide'});
+				app.hideModalWindow();
+			});
+		};
+		app.showModalWindow(clonedContainer, function (data) {
+			if (typeof callBackFunction == 'function') {
+				callBackFunction(data);
+			}
+		}, {'width': '1000px'});
+	},
+	generateGroupColor: function (e) {
+		var target = $(e.currentTarget);
+		var colorPreview = $('#calendarColorPreviewGroup' + target.data('id'));
+		AppConnector.request({
+			module: 'Groups',
+			parent: 'Settings',
+			action: 'EditAjax',
+			mode: 'updateColor',
+			id: target.data('id')
+		}).then(
+				function (data) {
+					var response = data['result'];
+					var params = {
+						text: response['message'],
+						animation: 'show',
+						type: 'success'
+					};
+					colorPreview.css('background', response.color);
+					colorPreview.data('color', response.color);
+					Vtiger_Helper_Js.showPnotify(params);
+				},
+				function (data, err) {
+				}
+		);
+	},
+	removeGroupColor: function (e) {
+		var target = $(e.currentTarget);
+		var colorPreview = $('#calendarColorPreviewGroup' + target.data('id'));
+		AppConnector.request({
+			module: 'Groups',
+			parent: 'Settings',
+			action: 'EditAjax',
+			mode: 'removeColor',
+			id: target.data('id')
+		}).then(
+				function (data) {
+					var response = data['result'];
+					var params = {
+						text: response['message'],
+						animation: 'show',
+						type: 'success'
+					};
+					colorPreview.css('background', '');
+					colorPreview.data('color', '');
+					Vtiger_Helper_Js.showPnotify(params);
+				},
+				function (data, err) {
+				}
+		);
+	},
+	updateModuleColor: function (e) {
+		var target = $(e.currentTarget);
+		var editColorModal = jQuery('.UserColors .editColorContainer');
+		var clonedContainer = editColorModal.clone(true, true);
+		var colorPreview = $('#calendarColorPreviewModule' + target.data('id'));
+		var callBackFunction = function (data) {
+			data.find('.editColorContainer').removeClass('hide').show();
+			var selectedColor = data.find('.selectedColor');
+			selectedColor.val(colorPreview.data('color'));
+			//register color picker
+			var params = {
+				flat: true,
+				color: colorPreview.data('color'),
+				onChange: function (hsb, hex, rgb) {
+					selectedColor.val('#' + hex);
+					colorPreview.data('color', '#' + hex);
+				}
+			};
+			if (typeof customParams != 'undefined') {
+				params = jQuery.extend(params, customParams);
+			}
+			data.find('.calendarColorPicker').ColorPicker(params);
+			//save the user calendar with color
+			data.find('[name="saveButton"]').click(function (e) {
+				var progress = $.progressIndicator({
+					'message': app.vtranslate('JS_LOADING_PLEASE_WAIT'),
+					'blockInfo': {
+						'enabled': true
+					}
+				});
+				AppConnector.request({
+					'module': 'ModuleManager',
+					'parent': 'Settings',
+					'action': 'Basic',
+					'mode': 'updateColor',
+					'color': selectedColor.val(),
+					'id': target.data('id')
+				}).then(
+						function (data) {
+							var response = data['result'];
+							var params = {
+								text: response['message'],
+								animation: 'show',
+								type: 'success'
+							};
+							Vtiger_Helper_Js.showPnotify(params);
+							return response;
+						},
+						function (data, err) {
+						}
+				);
+				colorPreview.css('background', selectedColor.val());
+				target.data('color', selectedColor.val());
+				progress.progressIndicator({'mode': 'hide'});
+				app.hideModalWindow();
+			});
+		};
+		app.showModalWindow(clonedContainer, function (data) {
+			if (typeof callBackFunction == 'function') {
+				callBackFunction(data);
+			}
+		}, {'width': '1000px'});
+	},
+	generateModuleColor: function (e) {
+		var target = $(e.currentTarget);
+		var colorPreview = $('#calendarColorPreviewModule' + target.data('id'));
+		AppConnector.request({
+			module: 'ModuleManager',
+			parent: 'Settings',
+			action: 'Basic',
+			mode: 'updateColor',
+			id: target.data('id')
+		}).then(
+				function (data) {
+					var response = data['result'];
+					var params = {
+						text: response['message'],
+						animation: 'show',
+						type: 'success'
+					};
+					colorPreview.css('background', response.color);
+					colorPreview.data('color', response.color);
+					Vtiger_Helper_Js.showPnotify(params);
+				},
+				function (data, err) {
+				}
+		);
+	},
+	removeModuleColor: function (e) {
+		var target = $(e.currentTarget);
+		var colorPreview = $('#calendarColorPreviewModule' + target.data('id'));
+		AppConnector.request({
+			module: 'ModuleManager',
+			parent: 'Settings',
+			action: 'Basic',
+			mode: 'removeColor',
+			id: target.data('id')
+		}).then(
+				function (data) {
+					var response = data['result'];
+					var params = {
+						text: response['message'],
+						animation: 'show',
+						type: 'success'
+					};
+					colorPreview.css('background', '');
+					colorPreview.data('color', '');
+					Vtiger_Helper_Js.showPnotify(params);
+				},
+				function (data, err) {
+				}
+		);
 	},
 	registerSaveEvent: function (mode, data) {
 		var params = {};
@@ -255,7 +485,10 @@ var Colors_Js = {
 				app.changeSelectElementView(jQuery('.pickListModulesPicklistSelectContainer'));
 				Colors_Js.registerModuleChangeEvent();
 				Colors_Js.registerModulePickListChangeEvent();
-				Colors_Js.initEvants();
+				$('.UserColors .addPicklistColorColumn').click(Colors_Js.addPicklistColorColumn);
+				$('.UserColors .updatePicklistValueColor').click(Colors_Js.updatePicklistValueColor);
+				$('.UserColors .generatePicklistValueColor').click(Colors_Js.generatePicklistValueColor);
+				$('.UserColors .removePicklistValueColor').click(Colors_Js.removePicklistValueColor);
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 			});
 		});
