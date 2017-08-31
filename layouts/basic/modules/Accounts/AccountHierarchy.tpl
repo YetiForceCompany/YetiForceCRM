@@ -31,7 +31,7 @@
 									<tr {if $smarty.foreach.hierarchyEntries.first} class="bgAzure" {/if} data-id="{$RECORD_ID}">
 										{foreach item=LISTFIELDS from=$ENTRIES}
 											<td>
-												{if $LISTFIELDS['fieldname'] == 'active' && \App\Privilege::isPermitted($MODULE, 'EditView', $RECORD_ID)}
+												{if $LISTFIELDS['fieldname'] === 'active' && \App\Privilege::isPermitted($MODULE, 'EditView', $RECORD_ID)}
 													<button class="btn{if !empty($LISTFIELDS['rawData'])} btn-success {else} btn-warning {if isset($LAST_MODIFIED[$RECORD_ID])} popoverTooltip {/if}{/if}btn-xs toChangeBtn" data-record-id="{$RECORD_ID}"
 															data-fieldname="{$LISTFIELDS['fieldname']}"
 															{if empty($LISTFIELDS['rawData']) && isset($LAST_MODIFIED[$RECORD_ID])}
