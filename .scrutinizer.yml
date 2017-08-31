@@ -10,6 +10,7 @@ filter:
         - '*.min.*.js'
 checks:
     php:
+        verify_property_names: true
         simplify_boolean_return: true
         return_doc_comments: true
         return_doc_comment_if_not_inferrable: true
@@ -66,8 +67,10 @@ coding_style:
         spaces:
             around_operators:
                 concatenation: true
+                
 tools:
     sensiolabs_security_checker: true
+    
 build:
     nodes:
         tests: true
