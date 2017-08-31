@@ -642,16 +642,6 @@ function getAllRoleDetails()
 	return $role_det;
 }
 
-/** Function to get the vtiger_role related user ids
- * @param $roleid -- RoleId :: Type varchar
- * @returns $roleUserIds-- Role Related User Array in the following format:
- *       $roleUserIds=Array($userId1,$userId2,........,$userIdn);
- */
-function getRoleUserIds($roleId)
-{
-	return \App\PrivilegeUtil::getUsersByRole($roleId);
-}
-
 /** Function to get the vtiger_role and subordinate vtiger_users
  * @param $roleid -- RoleId :: Type varchar
  * @returns $roleSubUsers-- Role and Subordinates Related Users Array in the following format:
