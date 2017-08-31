@@ -19,7 +19,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 	{
 		$basicLinks = [];
 		$moduleModel = $this->getModule();
-		$createPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'CreateView');
+		$createPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'CreateView');
 		if ($createPermission) {
 			$basicLinks[] = [
 				'linktype' => 'LISTVIEWBASIC',
@@ -48,9 +48,9 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 	public function getAdvancedLinks()
 	{
 		$moduleModel = $this->getModule();
-		$createPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'CreateView') && Users_Privileges_Model::isPermitted($moduleModel->getName(), 'EditView');
+		$createPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'CreateView') && \App\Privilege::isPermitted($moduleModel->getName(), 'EditView');
 		$advancedLinks = [];
-		$importPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Import');
+		$importPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'Import');
 		if ($importPermission && $createPermission) {
 			$advancedLinks[] = array(
 				'linktype' => 'LISTVIEW',
@@ -60,7 +60,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 			);
 		}
 
-		$exportPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Export');
+		$exportPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'Export');
 		if ($exportPermission) {
 			$advancedLinks[] = array(
 				'linktype' => 'LISTVIEW',

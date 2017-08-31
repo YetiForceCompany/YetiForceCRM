@@ -118,7 +118,7 @@ Class DataAccess_unique_account
 			}
 		}
 		if ($save === false) {
-			$permission = Users_Privileges_Model::isPermitted($moduleName, 'DuplicateRecord');
+			$permission = \App\Privilege::isPermitted($moduleName, 'DuplicateRecord');
 			$text = '<div class="marginLeft10">' . \App\Language::translate('LBL_DUPLICATED_FOUND', 'DataAccess') . ': <br/ >' . trim($fieldlabel, ',') . '</div>';
 
 			if ($permission) {

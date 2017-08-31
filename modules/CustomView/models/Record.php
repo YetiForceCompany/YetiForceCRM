@@ -228,7 +228,7 @@ class CustomView_Record_Model extends \App\Base
 
 		$moduleModel = $this->getModule();
 		$moduleName = $moduleModel->get('name');
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'CreateCustomFilter')) {
+		if (!\App\Privilege::isPermitted($moduleName, 'CreateCustomFilter')) {
 			return false;
 		}
 
