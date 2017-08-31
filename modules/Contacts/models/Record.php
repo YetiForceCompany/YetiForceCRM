@@ -144,7 +144,7 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 				->innerJoin('vtiger_attachments', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
 				->leftJoin('vtiger_contactdetails', 'vtiger_contactdetails.contactid = vtiger_seattachmentsrel.crmid')
 				->where(['vtiger_seattachmentsrel.crmid' => $id])->scalar();
-		$imageName = decode_html($imageName);
+		$imageName = \App\Purifier::decodeHtml($imageName);
 		//Inserting image information of record into base table
 		$db->createCommand()->update('vtiger_contactdetails', ['imagename' => $imageName], ['contactid' => $id])
 			->execute();

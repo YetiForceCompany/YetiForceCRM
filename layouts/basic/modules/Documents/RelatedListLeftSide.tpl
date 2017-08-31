@@ -14,7 +14,7 @@
 	<div class="actions">
 		<span class="glyphicon glyphicon-wrench toolsAction alignMiddle"></span>
 		<span class="actionImages hide">
-			{if $RELATED_MODULE->isPermitted('WatchingRecords') && $RELATED_RECORD->isViewable()}
+			{if $RELATED_MODULE->\App\Privilege::isPermitted('WatchingRecords') && $RELATED_RECORD->isViewable()}
 				{assign var=WATCHING_STATE value=(!$RELATED_RECORD->isWatchingRecord())|intval}
 				<a href="#" onclick="Vtiger_Index_Js.changeWatching(this)" title="{\App\Language::translate('BTN_WATCHING_RECORD', $MODULE)}" data-record="{$RELATED_RECORD->getId()}" data-value="{$WATCHING_STATE}" class="noLinkBtn{if !$WATCHING_STATE} info-color{/if}" data-on="info-color" data-off="" data-icon-on="glyphicon-eye-open" data-icon-off="glyphicon-eye-close" data-module="{$RELATED_MODULE_NAME}">
 					<span class="glyphicon {if $WATCHING_STATE}glyphicon-eye-close{else}glyphicon-eye-open{/if} alignMiddle"></span>
@@ -70,7 +70,7 @@
 			{/if}
 		</span>
 	</div>
-	{if AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $RELATED_MODULE->isPermitted('ReviewingUpdates') && $RELATED_MODULE->isTrackingEnabled() && $RELATED_RECORD->isViewable()}
+	{if AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $RELATED_MODULE->\App\Privilege::isPermitted('ReviewingUpdates') && $RELATED_MODULE->isTrackingEnabled() && $RELATED_RECORD->isViewable()}
 		<div>
 			<a href="{$RELATED_RECORD->getUpdatesUrl()}" class="unreviewed alignMiddle">
 				<span class="badge bgDanger all" title="{\App\Language::translate('LBL_NUMBER_UNREAD_CHANGES', 'ModTracker')}"></span>

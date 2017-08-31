@@ -34,9 +34,9 @@
 				</div>
 				<div class="clearfix"></div>
 			</div>
-			{assign var=ACTIVITYPOSTPONED value=isPermitted('Calendar', 'ActivityPostponed', $ID)}
-			{assign var=ACTIVITYCANCEL value=isPermitted('Calendar', 'ActivityCancel', $ID)}
-			{assign var=ACTIVITYCOMPLETE value=isPermitted('Calendar', 'ActivityComplete', $ID)}
+			{assign var=ACTIVITYPOSTPONED value=\App\Privilege::isPermitted('Calendar', 'ActivityPostponed', $ID)}
+			{assign var=ACTIVITYCANCEL value=\App\Privilege::isPermitted('Calendar', 'ActivityCancel', $ID)}
+			{assign var=ACTIVITYCOMPLETE value=\App\Privilege::isPermitted('Calendar', 'ActivityComplete', $ID)}
 			{assign var=ACTIVITY_STATE_LABEL value=Calendar_Module_Model::getComponentActivityStateLabel()}
 			{assign var=ACTIVITY_STATE value=$RECORD->get('activitystatus')}
 			{assign var=EMPTY value=!in_array($ACTIVITY_STATE, [$ACTIVITY_STATE_LABEL.cancelled,$ACTIVITY_STATE_LABEL.completed])}

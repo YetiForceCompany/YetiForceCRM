@@ -8,12 +8,12 @@
 			</span>
 		</a>
 		<div class="pull-right rowActions">
-			{if Users_Privileges_Model::isPermitted('Calendar','CreateView')}
+			{if \App\Privilege::isPermitted('Calendar','CreateView')}
 				<button class="addRelatedRecord" data-module="Calendar" title="{\App\Language::translate('LBL_ADD_CALENDAR',$MODULE_NAME)}">
 					<span class="userIcon-Calendar" aria-hidden="true"></span>
 				</button>
 			{/if}
-			{if Users_Privileges_Model::isPermitted('ModComments','CreateView')}
+			{if \App\Privilege::isPermitted('ModComments','CreateView')}
 				<button class="addRelatedRecord" data-module="ModComments" title="{\App\Language::translate('LBL_ADD_MODCOMMENTS',$MODULE_NAME)}">
 					<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
 				</button>
