@@ -256,7 +256,7 @@ class PBXManager_PBXManager_Connector
 		if (self::$NUMBERS) {
 
 			foreach (self::$NUMBERS as $userId => $number) {
-				$callPermission = Users_Privileges_Model::isPermitted('PBXManager', 'ReceiveIncomingCalls');
+				$callPermission = \App\Privilege::isPermitted('PBXManager', 'ReceiveIncomingCalls');
 
 				if ($number != $details->get('callerIdNumber') && $callPermission) {
 					if (preg_match("/sip/", $number) || preg_match("/@/", $number)) {

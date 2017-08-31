@@ -52,7 +52,7 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 		$view = $request->get('view');
 		Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		foreach ($modules as $module) {
-			if (Users_Privileges_Model::isPermitted($module, $view)) {
+			if (\App\Privilege::isPermitted($module, $view)) {
 				$result['modules'][$module] = true;
 			} else {
 				$result['modules'][$module] = false;
@@ -78,7 +78,7 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 				$callerid = $recordModel->get('customer');
 				if ($callerid) {
 					$moduleName = $recordModel->get('customertype');
-					if (!Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $callerid)) {
+					if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $callerid)) {
 						$name = $recordModel->get('customernumber') . \App\Language::translate('LBL_HIDDEN', 'PBXManager');
 						$recordModel->set('callername', $name);
 					} else {
@@ -169,7 +169,7 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 	public function checkPermissionForPolling(\App\Request $request)
 	{
 		Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$callPermission = Users_Privileges_Model::isPermitted('PBXManager', 'ReceiveIncomingCalls');
+		$callPermission = \App\Privilege::isPermitted('PBXManager', 'ReceiveIncomingCalls');
 
 		$serverModel = PBXManager_Server_Model::getInstance();
 		$gateway = $serverModel->get("gateway");
