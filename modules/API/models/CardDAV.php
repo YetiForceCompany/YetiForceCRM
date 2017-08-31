@@ -55,7 +55,7 @@ class API_CardDAV_Model
 				$currentUser = vglobal('current_user');
 				vglobal('current_user', $user);
 
-				if (Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $record['crmid'])) {
+				if (\App\Privilege::isPermitted($moduleName, 'DetailView', $record['crmid'])) {
 					$card = $this->getCardDetail($record['crmid']);
 					if ($card === false) {
 						//Creating
@@ -97,7 +97,7 @@ class API_CardDAV_Model
 				//Creating
 				$this->createRecord('Contacts', $card);
 				$create++;
-			} elseif (!\App\Record::isExists($card['crmid']) || !Users_Privileges_Model::isPermitted($card['setype'], 'DetailView', $card['crmid'])) {
+			} elseif (!\App\Record::isExists($card['crmid']) || !\App\Privilege::isPermitted($card['setype'], 'DetailView', $card['crmid'])) {
 				// Deleting
 				$this->deletedCard($card);
 				$deletes++;
