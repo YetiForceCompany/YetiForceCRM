@@ -23,6 +23,12 @@ $languageStrings = [
 	'LBL_GROUP_NAME' => 'Nom du Groupe ',
 	'LBL_COLORS' => 'Couleurs',
 	'LBL_PRIORITY' => 'Priorité',
+	'LBL_PICKLISTS' => 'Picklists',
+	'LBL_WARNING' => 'Warning',
+	'LBL_SELECT_PICKLIST' => 'Select picklist',
+	'LBL_PICKLIST_COLOR_COL_NOT_FOUND' => 'Color functionality has not been activated for this picklist',
+	'LBL_UPDATE_COLOR_COLUMN' => 'Activate',
+	'LBL_ITEM' => 'Value',
 	'LBL_MODULE' => 'Module',
 	//Auth
 	'LBL_AUTHORIZATION' => 'LDAP',
@@ -52,6 +58,7 @@ $languageStrings = [
 ];
 $jsLanguageStrings = [
 	'JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME' => 'Le séparateur des décimales et des milliers ne peuvent être identiques',
+	'JS_PLEASE_SELECT_MODULE' => 'Please select module',
 	'JS_USER_MAIL_EXIST' => 'Un utilisateur avec cette adresse email existe déjà',
 	'JS_DECIMAL_SEPERATOR_AND_GROUPING_SEPERATOR_CANT_BE_SAME' => 'Le séparateur des décimales et des milliers ne peuvent être identiques',
 	'Changed password successfully' => 'Mot de passe modifié avec succès',
