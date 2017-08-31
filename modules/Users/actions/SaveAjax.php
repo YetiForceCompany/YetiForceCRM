@@ -20,9 +20,6 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$this->exposeMethod('savePassword');
 		$this->exposeMethod('restoreUser');
 		$this->exposeMethod('editPasswords');
-		$this->exposeMethod('updateColorForProcesses');
-		$this->exposeMethod('generateColor');
-		$this->exposeMethod('activeColor');
 		$this->exposeMethod('changeAccessKey');
 	}
 
@@ -191,44 +188,6 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 
 		$response = new Vtiger_Response();
 		$response->setResult(array('message' => \App\Language::translate('LBL_USER_RESTORED_SUCCESSFULLY', $moduleName), 'listViewUrl' => $listViewUrl));
-		$response->emit();
-	}
-
-	public function generateColor(\App\Request $request)
-	{
-		$params = $request->get('params');
-
-		$response = new Vtiger_Response();
-		$response->setResult([
-			'success' => true,
-			'color' => Users_Colors_Model::generateColor($params),
-			'message' => App\Language::translate('LBL_GENERATED_COLOR', $request->getModule(false))
-		]);
-		$response->emit();
-	}
-
-	public function updateColorForProcesses(\App\Request $request)
-	{
-		$params = $request->get('params');
-		Users_Colors_Model::updateColor($params);
-		$response = new Vtiger_Response();
-		$response->setResult(array(
-			'success' => true,
-			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
-		));
-		$response->emit();
-	}
-
-	public function activeColor(\App\Request $request)
-	{
-		$params = $request->get('params');
-		$color = Users_Colors_Model::activeColor($params);
-		$response = new Vtiger_Response();
-		$response->setResult(array(
-			'success' => true,
-			'color' => $color,
-			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
-		));
 		$response->emit();
 	}
 

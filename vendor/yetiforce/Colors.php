@@ -184,4 +184,17 @@ class Colors
 	{
 		\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['color' => str_replace('#', '', $color)], ['tabid' => $id])->execute();
 	}
+
+	public static function activeModuleColor($id, $status, $color)
+	{
+		$colorActive = $status == 'true' ? 1 : 0;
+		if ($color === '') {
+			$color = \App\Colors::getRandomColor();
+			$set = ['color' => str_replace("#", "", $color), 'coloractive' => $colorActive];
+		} else {
+			$set = ['coloractive' => $colorActive];
+		}
+		\App\Db::getInstance()->createCommand()->update('vtiger_tab', $set, ['tabid' => $id])->execute();
+		return $color;
+	}
 }

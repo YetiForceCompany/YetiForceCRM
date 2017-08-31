@@ -9,26 +9,6 @@
 class Users_Colors_Model extends Vtiger_Record_Model
 {
 
-	public static function generateColor($params)
-	{
-		$color = \App\Colors::getRandomColor();
-		$params['color'] = $color;
-		switch ($params['mode']) {
-			case 'generateColorForProcesses':
-				self::updateColor($params);
-				break;
-		}
-		return $color;
-	}
-
-	public static function updateColor($params)
-	{
-		$primaryKey = App\Fields\Picklist::getPickListId($params['field']);
-		App\Db::getInstance()->createCommand()
-			->update($params['table'], ['color' => $params['color']], [$primaryKey => $params['id']])
-			->execute();
-	}
-
 	public static function getValuesFromField($fieldName)
 	{
 		$primaryKey = App\Fields\Picklist::getPickListId($fieldName);
@@ -42,18 +22,5 @@ class Users_Colors_Model extends Vtiger_Record_Model
 			];
 		}
 		return $groupColors;
-	}
-
-	public static function activeColor($params)
-	{
-		$colorActive = $params['status'] == 'true' ? 1 : 0;
-		if ($params['color'] === '') {
-			$color = \App\Colors::getRandomColor();
-			$set = ['color' => str_replace("#", "", $color), 'coloractive' => $colorActive];
-		} else {
-			$set = ['coloractive' => $colorActive];
-		}
-		\App\Db::getInstance()->createCommand()->update('vtiger_tab', $set, ['tabid' => $params['id']])->execute();
-		return $color;
 	}
 }

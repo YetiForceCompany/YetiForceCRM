@@ -10,7 +10,7 @@ var Colors_Js = {
 		$('.UserColors .updateModuleColor').click(Colors_Js.updateModuleColor);
 		$('.UserColors .generateModuleColor').click(Colors_Js.generateModuleColor);
 		$('.UserColors .removeModuleColor').click(Colors_Js.removeModuleColor);
-		$('.UserColors .activeColor').click(Colors_Js.activeColor);
+		$('.UserColors .activeModuleColor').click(Colors_Js.activeModuleColor);
 		$('.UserColors .addPicklistColorColumn').click(Colors_Js.addPicklistColorColumn);
 		$('.UserColors .updatePicklistValueColor').click(Colors_Js.updatePicklistValueColor);
 		$('.UserColors .generatePicklistValueColor').click(Colors_Js.generatePicklistValueColor);
@@ -380,19 +380,18 @@ var Colors_Js = {
 				}
 		);
 	},
-	activeColor: function (e) {
+	activeModuleColor: function (e) {
 		var target = $(e.currentTarget);
-		var colorPreview = $('#calendarColorPreview' + target.data('type') + target.data('id'));
+		var colorPreview = $('#calendarColorPreviewModule' + target.data('id'));
 		var params = {};
 		params.data = {
-			module: app.getModuleName(),
-			action: 'SaveAjax',
+			module: 'ModuleManager',
+			parent: 'Settings',
+			action: 'Basic',
 			mode: 'activeColor',
-			params: {
-				'status': target.is(':checked'),
-				'color': colorPreview.data('color'),
-				'id': target.data('id')
-			}
+			status: target.is(':checked'),
+			color: colorPreview.data('color'),
+			id: target.data('id')
 		};
 		params.async = false;
 		params.dataType = 'json';

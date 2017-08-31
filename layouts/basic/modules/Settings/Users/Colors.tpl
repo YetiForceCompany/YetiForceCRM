@@ -80,7 +80,7 @@
 								<tr data-id="{$item.id}" data-color="{$item.color}">
 									<td>{\App\Language::translate($item.module,$item.module)}</td>
 									<td>
-										<input data-id="{$item.id}" class="activeColor" type="checkbox" name="active" value="1" {if $item.active}checked=""{/if}>
+										<input data-id="{$item.id}" class="activeModuleColor" type="checkbox" name="active" value="1" {if $item.active}checked=""{/if}>
 									</td>
 									<td id="calendarColorPreviewModule{$item.id}" data-color="{$item.color}" class="calendarColor" style="background: {$item.color};"></td>
 									<td>
