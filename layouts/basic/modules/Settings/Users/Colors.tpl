@@ -26,14 +26,15 @@
 							</tr>
 						</thead>
 						<tbody>
-							{foreach from=Users_Colors_Model::getUserColors() item=item key=key}
+							{foreach from=\App\Colors::getAllUserColor() item=item key=key}
 								<tr>
 									<td>{$item.first}</td>
 									<td>{$item.last}</td>
 									<td id="calendarColorPreviewUser{$item.id}" data-color="{$item.color}" class="calendarColor" style="background: {$item.color};"></td>
 									<td>
-										<button data-id="{$item.id}" data-type="User" class="btn btn-sm btn-primary marginLeft10 updateColor" data-metod="updateUserColor">{\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-										<button data-id="{$item.id}" data-type="User" class="btn btn-sm btn-info generateColor" data-metod="generateUserColor">{\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
+										<button data-id="{$item.id}" class="btn btn-sm btn-danger marginLeft10 removeUserColor"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> {\App\Language::translate('LBL_REMOVE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+										<button data-id="{$item.id}" class="btn btn-sm btn-primary marginLeft10 updateUserColor">{\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+										<button data-id="{$item.id}" class="btn btn-sm btn-info generateUserColor">{\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
 									</td>
 								</tr>
 							{/foreach}
