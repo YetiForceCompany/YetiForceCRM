@@ -23,6 +23,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('deleteModule');
 		$this->exposeMethod('updateColor');
 		$this->exposeMethod('removeColor');
+		$this->exposeMethod('activeColor');
 	}
 
 	public function process(\App\Request $request)
@@ -201,6 +202,18 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 			'success' => true,
 			'color' => $color,
 			'message' => \App\Language::translate('LBL_REMOVED_COLOR', $request->getModule(false))
+		));
+		$response->emit();
+	}
+
+	public function activeColor(\App\Request $request)
+	{
+		$color = \App\Colors::activeModuleColor($request->getInteger('id'), $request->get('status'), $request->get('color'));
+		$response = new Vtiger_Response();
+		$response->setResult(array(
+			'success' => true,
+			'color' => $color,
+			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
 		));
 		$response->emit();
 	}
