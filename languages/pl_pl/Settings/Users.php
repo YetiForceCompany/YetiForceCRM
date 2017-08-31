@@ -11,6 +11,7 @@ $languageStrings = [
 	'LBL_COLORS' => 'Kolory',
 	'LBL_COLORS_DESCRIPTION' => '',
 	'LBL_UPDATE_COLOR' => 'Zmień kolor',
+	'LBL_REMOVE_COLOR' => 'Usuń kolor',
 	'LBL_COLOR' => 'Kolor',
 	'LBL_GENERATE_COLOR' => 'Generuj losowy kolor',
 	'LBL_GENERATED_COLOR' => 'Wygenerowano kolor',
