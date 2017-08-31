@@ -198,7 +198,7 @@ class Vtiger_Export_Model extends \App\Base
 	 * @param array $headers - output file header
 	 * @param array $entries - outfput file data
 	 */
-	public function output($request, $headers, $entries)
+	public function output(\App\Request $request, $headers, $entries)
 	{
 		$moduleName = $request->get('source_module');
 		$fileName = str_replace(' ', '_', \App\Purifier::decodeHtml(\App\Language::translate($moduleName, $moduleName))) . '.csv';

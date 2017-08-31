@@ -113,7 +113,13 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 		}
 	}
 
-	public function showError($request, $exception = false, $message = '')
+	/**
+	 * This function shows an error
+	 * @param \App\Request $request
+	 * @param boolean $exception
+	 * @param string $message
+	 */
+	public function showError(\App\Request $request, $exception = false, $message = '')
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
