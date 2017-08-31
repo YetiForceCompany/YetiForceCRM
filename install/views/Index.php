@@ -25,7 +25,12 @@ class Install_Index_view extends Vtiger_View_Controller
 		return false;
 	}
 
-	public function setLanguage($request)
+	/**
+	 * Set language
+	 * @param \App\Request $request
+	 * @return \App\Request
+	 */
+	public function setLanguage(\App\Request $request)
 	{
 		if (!$request->get('lang')) {
 

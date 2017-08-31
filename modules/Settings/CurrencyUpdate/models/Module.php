@@ -170,7 +170,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 	 * @return <Array> - array containing currency rates
 	 */
 
-	public function getRatesHistory($bankId, $dateCur, $request)
+	public function getRatesHistory($bankId, $dateCur, \App\Request $request)
 	{
 		$query = new App\Db\Query();
 		$query->select(['exchange', 'currency_name', 'currency_code', 'currency_symbol', 'fetch_date', 'exchange_date'])

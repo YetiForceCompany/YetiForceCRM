@@ -143,7 +143,12 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	public function updateCustomerInPhoneCalls($customer, $request)
+	/**
+	 * Updates the customer in phone call
+	 * @param int $customer
+	 * @param \App\Request $request
+	 */
+	public function updateCustomerInPhoneCalls($customer, \App\Request $request)
 	{
 		$id = vtws_getIdComponents($customer['id']);
 		$sourceuuid = $request->get('callid');
