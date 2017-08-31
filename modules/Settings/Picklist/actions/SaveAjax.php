@@ -24,6 +24,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$this->exposeMethod('saveOrder');
 		$this->exposeMethod('enableOrDisable');
 		$this->exposeMethod('updatePicklistValueColor');
+		$this->exposeMethod('removePicklistValueColor');
 		$this->exposeMethod('addPicklistColorColumn');
 	}
 
@@ -229,6 +230,26 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			'success' => true,
 			'color' => $color,
 			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
+		));
+		$response->emit();
+	}
+
+	/**
+	 * Remove picklist value color
+	 * @param \App\Request $request
+	 */
+	public function removePicklistValueColor(\App\Request $request)
+	{
+		$field = \Vtiger_Field_Model::getInstanceFromFieldId($request->getInteger('fieldId'));
+		if (!$field || !in_array($field->getFieldDataType(), ['picklist', 'multipicklist'])) {
+			throw new \App\Exceptions\AppException('LBL_FIELD_NOT_FOUND');
+		}
+		\App\Colors::updatePicklistValueColor($request->getInteger('fieldId'), $request->getInteger('fieldValueId'), '');
+		$response = new Vtiger_Response();
+		$response->setResult(array(
+			'success' => true,
+			'color' => $color,
+			'message' => \App\Language::translate('LBL_REMOVED_COLOR', $request->getModule(false))
 		));
 		$response->emit();
 	}
