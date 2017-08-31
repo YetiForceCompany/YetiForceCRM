@@ -42,7 +42,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 		$dataReader = $query->createCommand()->query();
 		$comments = [];
 		while ($row = $dataReader->read()) {
-			if (Users_Privileges_Model::isPermitted($row['setype'], 'DetailView', $row['related_to'])) {
+			if (\App\Privilege::isPermitted($row['setype'], 'DetailView', $row['related_to'])) {
 				$commentModel = Vtiger_Record_Model::getCleanInstance('ModComments');
 				$commentModel->setData($row);
 				$time = $commentModel->get('createdtime');
@@ -276,7 +276,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 			while ($row = $dataReader->read()) {
 				$moduleName = $row['module'];
 				$recordId = $row['crmid'];
-				if (Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordId)) {
+				if (\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
 					$modTrackerRecorModel = new ModTracker_Record_Model();
 					$modTrackerRecorModel->setData($row)->setParent($recordId, $moduleName);
 					$time = $modTrackerRecorModel->get('changedon');

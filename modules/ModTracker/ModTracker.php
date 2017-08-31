@@ -58,11 +58,11 @@ class ModTracker
 		} else if ($eventType === 'module.enabled') {
 			\App\EventHandler::setActive('ModTracker_ModTrackerHandler_Handler');
 		} else if ($eventType === 'module.preuninstall') {
-
+			
 		} else if ($eventType === 'module.preupdate') {
-
+			
 		} else if ($eventType === 'module.postupdate') {
-
+			
 		}
 	}
 
@@ -307,7 +307,7 @@ class ModTracker
 	{
 		$moduleName = $linkData->getModule();
 		$recordId = $linkData->getInputParameter('record');
-		if (isPermitted($moduleName, 'DetailView', $recordId) == 'yes') {
+		if (\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId) == 'yes') {
 			return true;
 		}
 		return false;
