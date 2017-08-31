@@ -1,32 +1,32 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<div class="addRelatedRecordBtn">
-		{if $RELATED_MODULE eq 'Products' && Users_Privileges_Model::isPermitted('Assets')}
+		{if $RELATED_MODULE eq 'Products' && \App\Privilege::isPermitted('Assets')}
 			<button class="btn btn-xs btn-default showModal" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}" type="button" data-url="index.php?module=Products&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
 				<span class="glyphicon glyphicon-zoom-in"></span>
 			</button>
 		{/if}
-		{if $RELATED_MODULE eq 'OutsourcedProducts' && Users_Privileges_Model::isPermitted('Assets')}
+		{if $RELATED_MODULE eq 'OutsourcedProducts' && \App\Privilege::isPermitted('Assets')}
 			<button class="btn btn-xs btn-default showModal" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}" type="button" data-module="OutsourcedProducts" data-url="index.php?module=OutsourcedProducts&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
 				<span class="glyphicon glyphicon-zoom-in" ></span>
 			</button>
 		{/if}
-		{if $RELATED_MODULE eq 'Assets' && Users_Privileges_Model::isPermitted('Assets', 'CreateView')}
+		{if $RELATED_MODULE eq 'Assets' && \App\Privilege::isPermitted('Assets', 'CreateView')}
 			<button class="btn btn-xs btn-default" type="button" title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)}" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Assets')">
 				<span class="glyphicon glyphicon-plus-sign" ></span>
 			</button>
 		{/if}
-		{if $RELATED_MODULE eq 'Services' && Users_Privileges_Model::isPermitted('Assets')}
+		{if $RELATED_MODULE eq 'Services' && \App\Privilege::isPermitted('Assets')}
 			<button class="btn btn-xs btn-default showModal" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}" type="button" data-url="index.php?module=Services&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
 				<span class="glyphicon glyphicon-zoom-in"></span>
 			</button>
 		{/if}
-		{if $RELATED_MODULE eq 'OSSOutsourcedServices' && Users_Privileges_Model::isPermitted('Assets')}
+		{if $RELATED_MODULE eq 'OSSOutsourcedServices' && \App\Privilege::isPermitted('Assets')}
 			<button class="btn btn-xs btn-default showModal" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}" type="button" data-module="OSSOutsourcedServices" data-url="index.php?module=OSSOutsourcedServices&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
 				<span class="glyphicon glyphicon-zoom-in" ></span>
 			</button>
 		{/if}
-		{if $RELATED_MODULE eq 'OSSSoldServices' && Users_Privileges_Model::isPermitted('OSSSoldServices', 'CreateView')}
+		{if $RELATED_MODULE eq 'OSSSoldServices' && \App\Privilege::isPermitted('OSSSoldServices', 'CreateView')}
 			<button class="btn btn-xs btn-default" type="button" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('OSSSoldServices')">
 				<span class="glyphicon glyphicon-plus-sign" ></span>
 			</button>

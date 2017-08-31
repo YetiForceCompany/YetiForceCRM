@@ -138,7 +138,7 @@
 												{/if}&nbsp;
 											</span>
 											<span>
-												{if Users_Privileges_Model::isPermitted($RELATION->getLinkedRecord()->getModuleName(), 'DetailView', $RELATION->getLinkedRecord()->getId())}
+												{if \App\Privilege::isPermitted($RELATION->getLinkedRecord()->getModuleName(), 'DetailView', $RELATION->getLinkedRecord()->getId())}
 													<strong class="moreContent">
 														<span class="teaserContent">
 															{Vtiger_Util_Helper::toVtiger6SafeHTML($RELATION->getValue())}

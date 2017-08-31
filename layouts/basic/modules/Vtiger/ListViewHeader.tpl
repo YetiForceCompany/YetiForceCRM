@@ -76,7 +76,7 @@
 									</optgroup>
 								{/if}
 							</select>
-							{if Users_Privileges_Model::isPermitted($MODULE, 'CreateCustomFilter')}
+							{if \App\Privilege::isPermitted($MODULE, 'CreateCustomFilter')}
 								<div class="filterActionsDiv hide">
 									<hr>
 									<ul class="filterActions">

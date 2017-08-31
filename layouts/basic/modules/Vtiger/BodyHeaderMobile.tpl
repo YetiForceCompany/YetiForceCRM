@@ -45,7 +45,7 @@
 				</div>
 			</div>
 		{/if}
-		{if Users_Privileges_Model::isPermitted('Notification', 'DetailView')}
+		{if \App\Privilege::isPermitted('Notification', 'DetailView')}
 			<div class="row">
 				<div class="isBadge notificationsNotice popoverTooltip quickAction{if AppConfig::module('Home', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
 					<div class="pull-left">
