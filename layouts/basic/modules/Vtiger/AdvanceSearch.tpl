@@ -49,7 +49,7 @@
 						<button class="btn hide btn-success pull-right" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceSave">
 							<strong>{\App\Language::translate('LBL_SAVE_FILTER', $MODULE)}</strong>
 						</button>
-						{if \App\Privilege::::isPermitted($SOURCE_MODULE, 'CreateCustomFilter')}
+						{if \App\Privilege::isPermitted($SOURCE_MODULE, 'CreateCustomFilter')}
 							<button class="btn btn-success pull-right" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceIntiateSave">
 								<strong>{\App\Language::translate('LBL_SAVE_AS_FILTER', $MODULE)}</strong>
 							</button>
