@@ -49,7 +49,7 @@ class Settings_Colors_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		if ($fieldId) {
 			$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldId);
 			if (key_exists($fieldModel->getName(), $pickListFields) && $fieldModel->getModuleName() === $sourceModule) {
-				$picklistValuesName = \App\Fields\Picklist::getPickListFieldValuesRows($fieldModel->getName());
+				$picklistValuesName = \App\Fields\Picklist::getValues($fieldModel->getName());
 				if ($picklistValuesName) {
 					$firstRow = reset($picklistValuesName);
 					if (!key_exists('color', $firstRow)) {

@@ -10,6 +10,10 @@
 class Settings_Colors_Index_View extends Settings_Vtiger_Index_View
 {
 
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -23,6 +27,11 @@ class Settings_Colors_Index_View extends Settings_Vtiger_Index_View
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 
+	/**
+	 * Get header css
+	 * @param \App\Request $request
+	 * @return array
+	 */
 	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
@@ -34,6 +43,11 @@ class Settings_Colors_Index_View extends Settings_Vtiger_Index_View
 		return $headerCssInstances;
 	}
 
+	/**
+	 * Get footer scripts
+	 * @param \App\Request $request
+	 * @return array
+	 */
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);

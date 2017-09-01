@@ -229,7 +229,7 @@ class Picklist
 	 * @param string $fieldName -- string
 	 * @return array -- array of values
 	 */
-	public static function getPickListFieldValuesRows($fieldName)
+	public static function getValues($fieldName)
 	{
 		if (\App\Cache::has('getPickListFieldValuesRows', $fieldName)) {
 			return \App\Cache::get('getPickListFieldValuesRows', $fieldName);
