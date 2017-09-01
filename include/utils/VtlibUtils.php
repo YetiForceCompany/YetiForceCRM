@@ -251,28 +251,6 @@ function vtlib_getPicklistValues_AccessibleToAll($fieldColumnname)
 }
 
 /**
- * Get all picklist values for a non-standard picklist type.
- */
-function vtlib_getPicklistValues($columnname)
-{
-	$adb = PearDatabase::getInstance();
-
-	$tablename = "vtiger_$columnname";
-	$tablename = $adb->quote($tablename, false);
-
-	$picklistres = $adb->query("SELECT $columnname as pickvalue FROM $tablename");
-	$picklistresCount = $adb->num_rows($picklistres);
-
-	$picklistvalues = [];
-	if ($picklistresCount) {
-		for ($index = 0; $index < $picklistresCount; ++$index) {
-			$picklistvalues[] = $adb->query_result($picklistres, $index, 'pickvalue');
-		}
-	}
-	return $picklistvalues;
-}
-
-/**
  * Check if give path is writeable.
  */
 function vtlib_isWriteable($path)
