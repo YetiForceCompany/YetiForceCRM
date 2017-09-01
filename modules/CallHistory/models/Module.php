@@ -29,10 +29,11 @@ class CallHistory_Module_Model extends Vtiger_Module_Model
 	 */
 	public function isPermitted($actionName)
 	{
-		if ($actionName == 'EditView' || $actionName == 'Edit' || $actionName == 'CreateView')
+		if ($actionName === 'EditView' || $actionName === 'Edit' || $actionName === 'CreateView') {
 			return false;
-		else
-			return ($this->isActive() && Users_Privileges_Model::isPermitted($this->getName(), $actionName));
+		} else {
+			return ($this->isActive() && \App\Privilege::isPermitted($this->getName(), $actionName));
+		}
 	}
 
 	/**

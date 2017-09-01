@@ -64,7 +64,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		$type = $request->get('type');
 
 		$return = [];
-		if (!empty($record) && \App\Record::isExists($record) && Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $record)) {
+		if (!empty($record) && \App\Record::isExists($record) && \App\Privilege::isPermitted($moduleName, 'DetailView', $record)) {
 			$recordModel_OSSMailView = Vtiger_Record_Model::getCleanInstance('OSSMailView');
 			$email = $recordModel_OSSMailView->findEmail($record, $moduleName);
 			if (!empty($email)) {
@@ -147,7 +147,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 	public static function getExternalUrl($moduleName = false, $record = false, $view = false, $type = false)
 	{
 		$url = 'mailto:';
-		if (!empty($record) && \App\Record::isExists($record) && Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $record)) {
+		if (!empty($record) && \App\Record::isExists($record) && \App\Privilege::isPermitted($moduleName, 'DetailView', $record)) {
 			$recordModel_OSSMailView = Vtiger_Record_Model::getCleanInstance('OSSMailView');
 			$email = $recordModel_OSSMailView->findEmail($record, $moduleName);
 			if (!empty($email)) {
