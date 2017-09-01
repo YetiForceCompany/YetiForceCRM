@@ -61,7 +61,7 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 		$status = $recordModel->get('activitystatus');
 		$statusActivity = Calendar_Module_Model::getComponentActivityStateLabel('current');
 
-		if ($recordModel->isEditable() && $this->getModule()->isPermitted('DetailView') && \App\Privilege::isPermitted($moduleName, 'ActivityComplete', $recordId) == 'yes' && \App\Privilege::isPermitted($moduleName, 'ActivityCancel', $recordId) == 'yes' && \App\Privilege::isPermitted($moduleName, 'ActivityPostponed', $recordId) == 'yes' && in_array($status, $statusActivity)) {
+		if ($recordModel->isEditable() && $this->getModule()->isPermitted('DetailView') && \App\Privilege::isPermitted($moduleName, 'ActivityComplete', $recordId) && \App\Privilege::isPermitted($moduleName, 'ActivityCancel', $recordId) && \App\Privilege::isPermitted($moduleName, 'ActivityPostponed', $recordId) && in_array($status, $statusActivity)) {
 			$basicActionLink = [
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_SET_RECORD_STATUS',
