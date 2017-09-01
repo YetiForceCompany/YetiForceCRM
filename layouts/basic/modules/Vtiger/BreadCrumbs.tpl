@@ -31,18 +31,6 @@
 					</h2>
 				</div>
 			{/if}
-			{assign var="MENUSCOLOR" value=\App\Colors::getAllModuleColor(true)}
-			{if $MENUSCOLOR}
-				<div class="menusColorContainer">
-					<style>
-						{foreach item=item from=$MENUSCOLOR}
-							.moduleColor_{$item.module}{
-								color: {$item.color} !important;
-							}
-						{/foreach}
-					</style>
-				</div>
-			{/if}
 		</div>
 	{/if}
 {/strip}

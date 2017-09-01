@@ -7,7 +7,7 @@
 			</div>
 			<div class="paddingLeft5px pull-left">
 				<h4 style="color: #1560bd;" class="recordLabel textOverflowEllipsis pushDown marginbottomZero" title="{$RECORD->getName()}">
-					<span class="moduleColor_{$MODULE_NAME}">{$RECORD->getName()}</span>
+					<span class="modColorText_{$MODULE_NAME}">{$RECORD->getName()}</span>
 				</h4>
 				<span class="muted">
 					<small><em>{\App\Language::translate('Sent','OSSMailView')}</em></small>

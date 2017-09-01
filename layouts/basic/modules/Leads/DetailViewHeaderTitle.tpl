@@ -18,12 +18,12 @@
 			</div>
 			<div class="paddingLeft5px">
 				<h4 class="recordLabel textOverflowEllipsis pushDown marginbottomZero" title="{$RECORD->getName()}">
-					<span class="moduleColor_{$MODULE_NAME}">{$RECORD->getName()}</span>
+					<span class="modColorText_{$MODULE_NAME}">{$RECORD->getName()}</span>
 				</h4>
 				<div class="paddingLeft5px">
 					<span class="designation_label">{$RECORD->getDisplayValue('designation')}</span>
 					{if $RECORD->getDisplayValue('designation') && $RECORD->getDisplayValue('company')}
-						&nbsp;{\App\Language::translate('LBL_AT')}&nbsp;     
+						&nbsp;{\App\Language::translate('LBL_AT')}&nbsp;
 					{/if}
 					<span class="company_label">{$RECORD->get('company')}</span>
 				</div>

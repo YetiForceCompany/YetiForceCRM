@@ -16,7 +16,7 @@
 			<span class="text-right">
 				<a href="javascript:HelpDesk_Detail_Js.setAccountsReference();">
 					<strong> [ <span class="glyphicon glyphicon-search" aria-hidden="true"></span> ]</strong>
-				</a>		
+				</a>
 			</span>
 		</div>
 	{elseif AppConfig::module('HelpDesk','CHECK_SERVICE_CONTRACTS_EXISTS') && Vtiger_Module_Model::getInstance('ServiceContracts')->isActive() && $RECORD->get('servicecontractsid') == 0}
@@ -43,7 +43,7 @@
 			</div>
 			<div class="paddingLeft5px detailViewHeaderFieldInformation">
 				<h4 class="recordLabel margin0px textOverflowEllipsis" title="{$RECORD->getName()}">
-					<span class="moduleColor_{$MODULE_NAME}">{$RECORD->getName()}</span>
+					<span class="modColorText_{$MODULE_NAME}">{$RECORD->getName()}</span>
 				</h4>
 				{assign var=RELATED_TO value=$RECORD->get('parent_id')}
 				{if !empty($RELATED_TO)}

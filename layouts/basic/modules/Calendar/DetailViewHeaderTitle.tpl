@@ -17,7 +17,7 @@
 			</div>
 			<div class="paddingLeft5px">
 				<h4 class="recordLabel textOverflowEllipsis pushDown marginbottomZero" title="{$RECORD->getName()}">
-					<span class="moduleColor_{$MODULE_NAME}">{$RECORD->getName()}</span>
+					<span class="modColorText_{$MODULE_NAME}">{$RECORD->getName()}</span>
 				</h4>
 				{assign var=LINK value=$RECORD->get('link')}
 				{if !empty($LINK)}

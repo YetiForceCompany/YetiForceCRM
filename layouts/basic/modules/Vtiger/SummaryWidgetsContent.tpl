@@ -6,8 +6,8 @@
 				<tr class="">
 					{if !$IS_READ_ONLY}
 						<th class="noWrap listViewSearchTd">&nbsp;</th>
-					{/if}
-					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
+						{/if}
+						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 						<th nowrap>
 							{\App\Language::translate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}
 						</th>
@@ -38,7 +38,7 @@
 						{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->get('name')}
 						<td class="{$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap>
 							{if ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->get('uitype') eq '4') && $RELATED_RECORD->isViewable()}
-								<a class="moduleColor_{$RELATED_MODULE_NAME}" title="{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}" href="{$RELATED_RECORD->getDetailViewUrl()}">
+								<a class="modColorText_{$RELATED_MODULE_NAME}" title="{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}" href="{$RELATED_RECORD->getDetailViewUrl()}">
 									{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}
 								</a>
 							{else}
@@ -56,7 +56,7 @@
 								<a class="popoverTooltip" data-placement="top" data-content="{$RELATED_RECORD->get('rel_comment')}">
 									{vtlib\Functions::textLength($RELATED_RECORD->get('rel_comment'), AppConfig::relation('COMMENT_MAX_LENGTH'))}
 								</a>
-							{else}	
+							{else}
 								{$RELATED_RECORD->get('rel_comment')}
 							{/if}&nbsp;&nbsp;
 							<span class="actionImages">

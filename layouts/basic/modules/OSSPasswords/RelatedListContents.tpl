@@ -8,7 +8,7 @@
 				<tr class="listViewHeaders">
 					{assign var=COUNT value=0}
 					<th class="noWrap"></th>
-					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
+						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 							{if !empty($COLUMNS) && $COUNT == $COLUMNS }
 								{break}
 							{/if}
@@ -27,10 +27,10 @@
 					{if $SHOW_CREATOR_DETAIL}
 						<th>{\App\Language::translate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE->get('name'))}</th>
 						<th>{\App\Language::translate('LBL_RELATION_CREATED_USER', $RELATED_MODULE->get('name'))}</th>
-					{/if}
-					{if $SHOW_COMMENT}
+						{/if}
+						{if $SHOW_COMMENT}
 						<th>{\App\Language::translate('LBL_RELATION_COMMENT', $RELATED_MODULE->get('name'))}</th>
-					{/if}
+						{/if}
 				</tr>
 			</thead>
 			{if $RELATED_MODULE->isQuickSearchEnabled()}
@@ -59,7 +59,7 @@
 			{/if}
 			{assign var="RELATED_HEADER_COUNT" value=count($RELATED_HEADERS)}
 			{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
-				<tr class="listViewEntries" data-id='{$RELATED_RECORD->getId()}' 
+				<tr class="listViewEntries" data-id='{$RELATED_RECORD->getId()}'
 					{if $RELATED_RECORD->isViewable()}
 						data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'
 					{/if}
@@ -68,7 +68,7 @@
 					{/if}>
 					{assign var=COUNT value=0}
 					{* create id for possword *}
-					{if array_key_exists('password',$RELATED_HEADERS)} 
+					{if array_key_exists('password',$RELATED_HEADERS)}
 						{assign var=PASS_ID value=$RELATED_RECORD->get('id')}
 					{/if}
 					<td class="{$WIDTHTYPE} noWrap leftRecordActions">
@@ -84,7 +84,7 @@
 							{if $RELATED_HEADERNAME eq 'password'}
 								{str_repeat('*', 10)}
 							{elseif ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->get('uitype') eq '4') && $RELATED_RECORD->isViewable()}
-								<a class="moduleColor_{$RELATED_MODULE_NAME}" title="" href="{$RELATED_RECORD->getDetailViewUrl()}">{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}</a>
+								<a class="modColorText_{$RELATED_MODULE_NAME}" title="" href="{$RELATED_RECORD->getDetailViewUrl()}">{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}</a>
 							{elseif $HEADER_FIELD->get('fromOutsideList') eq true}
 								{$HEADER_FIELD->getDisplayValue($RELATED_RECORD->get($RELATED_HEADERNAME))}
 							{else}

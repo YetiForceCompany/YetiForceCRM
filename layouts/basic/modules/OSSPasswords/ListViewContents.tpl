@@ -42,9 +42,9 @@
 								<a href="javascript:void(0);" class="listViewHeaderValues pull-left" {if $LISTVIEW_HEADER->isListviewSortable()}data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}"{/if} data-columnname="{$LISTVIEW_HEADER->get('column')}">{\App\Language::translate($LISTVIEW_HEADER->get('label'), $MODULE)}
 									&nbsp;&nbsp;{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('column')}<span class="{$SORT_IMAGE}"></span>{/if}</a>
 									{if $LISTVIEW_HEADER->getFieldDataType() eq 'tree' || $LISTVIEW_HEADER->getFieldDataType() eq 'categoryMultipicklist'}
-									{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
+										{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
 									<div class='pull-left'>
-										<span class="pull-right popoverTooltip delay0"  data-placement="top" data-original-title="{\App\Language::translate($LISTVIEW_HEADER->get('label'), $MODULE)}" 
+										<span class="pull-right popoverTooltip delay0"  data-placement="top" data-original-title="{\App\Language::translate($LISTVIEW_HEADER->get('label'), $MODULE)}"
 											  data-content="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}">
 											<span class="glyphicon glyphicon-info-sign"></span>
 										</span>
@@ -88,7 +88,7 @@
 							{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 							<td class="listViewEntryValue noWrap {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}" {if $LISTVIEW_HEADERNAME eq 'password'} id="{$PASS_ID}" {/if} {if $smarty.foreach.listHeaderForeach.iteration eq $LISTVIEW_HEADER_COUNT}colspan="2"{/if} data-raw-value="{Vtiger_Util_Helper::toSafeHTML($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}">
 								{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4') && $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true && $LISTVIEW_ENTRY->isViewable()}
-									<a {if $LISTVIEW_HEADER->isNameField() eq true}class="moduleColor_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
+									<a {if $LISTVIEW_HEADER->isNameField() eq true}class="modColorText_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
 										{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)}
 									</a>
 								{else}

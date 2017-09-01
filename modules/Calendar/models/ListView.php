@@ -25,7 +25,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => 'LBL_ADD_EVENT',
 				'linkurl' => $this->getModule()->getCreateEventRecordUrl(),
-				'linkclass' => 'moduleColor_' . $moduleModel->getName(),
+				'linkclass' => 'modColorText_' . $moduleModel->getName(),
 				'linkicon' => '',
 				'showLabel' => 1,
 			];
@@ -33,7 +33,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => 'LBL_ADD_TASK',
 				'linkurl' => $this->getModule()->getCreateTaskRecordUrl(),
-				'linkclass' => 'moduleColor_' . $moduleModel->getName(),
+				'linkclass' => 'modColorText_' . $moduleModel->getName(),
 				'linkicon' => '',
 				'showLabel' => 1,
 			];
