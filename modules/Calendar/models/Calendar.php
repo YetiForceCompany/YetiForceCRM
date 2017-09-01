@@ -218,6 +218,7 @@ class Calendar_Calendar_Model extends App\Base
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 			$endDateFormated = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 
+			$item['start_date'] = $record['date_start'];
 			$item['start'] = $startDateFormated . ' ' . $startTimeFormated;
 			$item['end'] = $endDateFormated . ' ' . $endTimeFormated;
 

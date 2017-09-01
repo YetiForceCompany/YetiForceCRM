@@ -253,9 +253,15 @@ class DateTimeField
 		return $userDate;
 	}
 
-	public static function getDayFromDate($date)
+	/**
+	 * Function to get day of week as string
+	 * @param string $date
+	 * @param boolean $shortName
+	 * @return string
+	 */
+	public static function getDayFromDate($date, $shortName = false)
 	{
-		return date('l', strtotime($date));
+		return date($shortName ? 'D' : 'l', strtotime($date));
 	}
 
 	/**

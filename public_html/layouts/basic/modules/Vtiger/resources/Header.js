@@ -206,139 +206,34 @@ jQuery.Class("Vtiger_Header_Js", {
 		}
 		return false;
 	},
-	getNearCalendarEvent: function (data, module) {
-		var showCompanies = $('[name="showCompanies"]').val();
-		var daysWork = app.getMainParams('hiddenDays', true);
+	getNearCalendarEvent: function (container, module) {
 		var thisInstance = this;
-		var typeActive = data.find('ul li.active a').data('tab-name');
-		var user = data.find('[name="assigned_user_id"]');
-		var dateStartEl = data.find('[name="date_start"]');
-		var dateStartVal = dateStartEl.val();
-		var dateStartFormat = dateStartEl.data('date-format');
-		if (typeof dateStartVal == 'undefined' || !data.find('.eventsTable').length) {
+		var dateStartVal = container.find('[name="date_start"]').val();
+		if (typeof dateStartVal == 'undefined' || dateStartVal === '') {
 			return;
 		}
-		var days = [];
-		var countDaysToEnd = 7 + 2 * daysWork.length;
-		var dayStart = -1;
-		while (days.length < 3) {
-			var day = Vtiger_Helper_Js.convertToDateString(dateStartVal, dateStartFormat, dayStart, ' ');
-			if (jQuery.inArray(Vtiger_Helper_Js.getDay(day), daysWork) == -1) {
-				days.push(day);
-			}
-			dayStart--;
-		}
-		days.reverse();
-		dayStart = 1;
-		days.push(Vtiger_Helper_Js.convertToDateString(dateStartVal, dateStartFormat, 0, ' '));
-		while (days.length < 7) {
-			var day = Vtiger_Helper_Js.convertToDateString(dateStartVal, dateStartFormat, dayStart, ' ');
-			if (jQuery.inArray(Vtiger_Helper_Js.getDay(day), daysWork) == -1) {
-				days.push(day);
-			}
-			dayStart++;
-		}
-		var firstDay = days[0];
-		var secondDay = days[1];
-		var thirdDay = days[2];
-		var currentDay = days[3];
-		var fifthDay = days[4];
-		var sixthDay = days[5];
-		var seventhDay = days[6];
-		var dateEnd = Vtiger_Helper_Js.convertToDateString(dateStartVal, dateStartFormat, dayStart, ' ');
-		var firstDayWeek = Vtiger_Helper_Js.getDay(firstDay);
-		var secondDayWeek = Vtiger_Helper_Js.getDay(secondDay);
-		var thirdDayWeek = Vtiger_Helper_Js.getDay(thirdDay);
-		var currentDayWeek = Vtiger_Helper_Js.getDay(currentDay);
-		var fifthDayWeek = Vtiger_Helper_Js.getDay(fifthDay);
-		var sixthDayWeek = Vtiger_Helper_Js.getDay(sixthDay);
-		var seventhDayWeek = Vtiger_Helper_Js.getDay(seventhDay);
-		dateStartFormat = dateStartFormat.toUpperCase();
 		var params = {
-			module: 'Calendar',
-			action: 'Calendar',
-			mode: 'getEvents',
-			start: moment(firstDay).format(dateStartFormat),
-			end:  moment(dateEnd).format(dateStartFormat),
-			user: user.val(),
-			time: 'current'
+			module: module,
+			view: 'QuickCreateEvents',
+			currentDate: dateStartVal,
+			user: container.find('[name="assigned_user_id"]').val(),
 		}
-		AppConnector.request(params).then(function (events) {
-			if (typeof events.result != 'undefined' && events.result.length > 0) {
-				events = events.result;
-				data.find('.modal-body').css({'max-height': '500px', 'overflow-y': 'auto'});
-				for (var ev in events) {
-					var icon = 'glyphicon glyphicon-calendar';
-					var linkHtml = '';
-					var hidden = '';
-					var helpIcon = '';
-					if (events[ev]['set'] == 'Task') {
-						icon = 'glyphicon glyphicon-tasks';
-					}
-					if (showCompanies) {
-						if (events[ev]['linkl']) {
-							linkHtml = '<div class="cut-string"><i class="calIcon modIcon_' + events[ev]['linkm'] + '"></i> ' + events[ev]['linkl'] + '</div>';
-						}
-					}
-					helpIcon = '<div><label> ' + app.vtranslate('JS_START_DATE') + ': &nbsp</label>' + events[ev]['start_display'] + ' </div>\n\
-								<div><label> ' + app.vtranslate('JS_END_DATE') + ': &nbsp</label>' + events[ev]['end_display'] + ' </div>\n\
-								<div class=' + 'textOverflowEllipsis' + '><label> ' + app.vtranslate('JS_SUBJECT') + ': &nbsp</label>' + events[ev]['title'] + '</div>\n\
-								<div><label> ' + app.vtranslate('JS_STATE') + ': &nbsp</label>' + events[ev]['labels']['state'] + ' </div>\n\
-								<div><label> ' + app.vtranslate('JS_STATUS') + ': &nbsp</label>' + events[ev]['labels']['sta'] + ' </div>\n\
-								<div><label> ' + app.vtranslate('JS_PRIORITY') + ': &nbsp</label>' + events[ev]['labels']['pri'] + ' </div>\n';
-					helpIcon += events[ev]['link'] != 0 && events[ev]['link'] != null ? '<div><label>' + app.vtranslate('JS_RELATION') + '</label>:' + events[ev]['linkl'] : '';
-					helpIcon += events[ev]['process'] != 0 && events[ev]['process'] != null ? '<div><label>' + app.vtranslate('JS_PROCESS') + '</label>:' + events[ev]['procl'] : '';
-					helpIcon += events[ev]['subprocess'] != 0 && events[ev]['subprocess'] != null ? '<div><label>' + app.vtranslate('JS_SUB_PROCESS') + '</label>:' + events[ev]['subprocl'] : '';
-
-					if (events[ev]['start'].indexOf(firstDay) > -1) {
-						data.find('#threeDaysAgo .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent" ><td colspan="2"><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span><strong> ' + events[ev]['hour_start'] + '</strong></span><span> ' + events[ev]['title'].substring(0, 16) + ' </span><span style="margin-left: 5px;margin-top: 2px;"  class="HelpInfoPopover " title="" data-placement="top" data-content="' + helpIcon + '"><i class="pull-right glyphicon glyphicon-info-sign"></i></span</div></a>' + linkHtml + '</td></tr>');
-					} else if (events[ev]['start'].indexOf(secondDay) > -1) {
-						data.find('#twoDaysAgo .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent" ><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span><strong> ' + events[ev]['hour_start'] + '</strong></span><span> ' + events[ev]['title'].substring(0, 16) + ' </span><span style="margin-left: 5px;margin-top: 2px;"  class="HelpInfoPopover " title="" data-placement="top" data-content="' + helpIcon + '"><i class="pull-right glyphicon glyphicon-info-sign"></i></span></div></a>' + linkHtml + '</td></tr>');
-					} else if (events[ev]['start'].indexOf(thirdDay) > -1) {
-
-						data.find('#oneDaysAgo .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent" ><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span><strong> ' + events[ev]['hour_start'] + '</strong></span><span> ' + events[ev]['title'].substring(0, 16) + ' </span><span style="margin-left: 5px;margin-top: 2px;"  class="HelpInfoPopover " title="" data-placement="top" data-content="' + helpIcon + '"><i class="pull-right glyphicon glyphicon-info-sign"></i></span></div></a>' + linkHtml + '</td></tr>');
-					} else if (events[ev]['start'].indexOf(currentDay) > -1) {
-						data.find('#cur_events .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent"><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span><strong> ' + events[ev]['hour_start'] + '</strong></span><span> ' + events[ev]['title'].substring(0, 16) + ' </span><span style="margin-left: 5px;margin-top: 2px;"  class="HelpInfoPopover " title="" data-placement="top" data-content="' + helpIcon + '"><i class="pull-right glyphicon glyphicon-info-sign"></i></span</div></a>' + linkHtml + '</td></tr>');
-					} else if (events[ev]['start'].indexOf(fifthDay) > -1) {
-						data.find('#oneDaysLater .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent"><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span><strong> ' + events[ev]['hour_start'] + '</strong></span><span> ' + events[ev]['title'].substring(0, 16) + ' </span><span style="margin-left: 5px;margin-top: 2px;"  class="HelpInfoPopover " title="" data-placement="top" data-content="' + helpIcon + '"><i class="pull-right glyphicon glyphicon-info-sign"></i></span</div></a>' + linkHtml + '</td></tr>');
-					} else if (events[ev]['start'].indexOf(sixthDay) > -1) {
-						data.find('#twoDaysLater .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent"><td><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span><strong> ' + events[ev]['hour_start'] + '</strong></span><span> ' + events[ev]['title'].substring(0, 16) + ' </span><span style="margin-left: 5px;margin-top: 2px;"  class="HelpInfoPopover " title="" data-placement="top" data-content="' + helpIcon + '"><i class="pull-right glyphicon glyphicon-info-sign"></i></span</div></a>' + linkHtml + '</td></tr>');
-					} else if (events[ev]['start'].indexOf(seventhDay) > -1) {
-						data.find('#threeDaysLater .table').append('<tr class="mode_' + events[ev]['set'] + ' ' + hidden + ' addedNearCalendarEvent"><td colspan="2"><a target="_blank" href="' + events[ev]['url'] + '"><div class="cut-string"><i class="' + icon + '" style="vertical-align:middle; margin-bottom:4px;"></i><span><strong> ' + events[ev]['hour_start'] + '</strong></span><span> ' + events[ev]['title'].substring(0, 16) + ' </span><span style="margin-left: 5px;margin-top: 2px;"  class="HelpInfoPopover " title="" data-placement="top" data-content="' + helpIcon + '"><i class="pull-right glyphicon glyphicon-info-sign"></i></span</div></a>' + linkHtml + '</td></tr>');
-					}
-				}
-				var quickCreateForm;
-				thisInstance.registerHelpInfo(quickCreateForm);
-			} else {
-				data.find('.modal-body').css({'max-height': '', 'overflow-y': ''});
+		var progressIndicatorElement = jQuery.progressIndicator({
+			position: 'html',
+			blockInfo: {
+				enabled: true,
+				elementToBlock: container.find('.eventsTable')
 			}
 		});
-		var day1 = moment(firstDay).format(dateStartFormat);
-		var day2 = moment(secondDay).format(dateStartFormat);
-		var day3 = moment(thirdDay).format(dateStartFormat);
-		var day4 = moment(currentDay).format(dateStartFormat);
-		var day5 = moment(fifthDay).format(dateStartFormat);
-		var day6 = moment(sixthDay).format(dateStartFormat);
-		var day7 = moment(seventhDay).format(dateStartFormat);
-
-		data.find('.taskPrevThreeDaysAgo').html('<span class="cursorPointer dateBtn">' + day1 + '</span> (' + Vtiger_Helper_Js.getLabelDayFromDate(firstDayWeek) + ')');
-		data.find('.taskPrevTwoDaysAgo').html('<span class="cursorPointer dateBtn">' + day2 + '</span> (' + Vtiger_Helper_Js.getLabelDayFromDate(secondDayWeek) + ')');
-		data.find('.taskPrevOneDayAgo').html('<span class="cursorPointer dateBtn">' + day3 + '</span> (' + Vtiger_Helper_Js.getLabelDayFromDate(thirdDayWeek) + ')');
-		data.find('.taskCur').html('<span class="cursorPointer dateBtn">' + day4 + '</span> (' + Vtiger_Helper_Js.getLabelDayFromDate(currentDayWeek) + ')');
-		data.find('.taskNextOneDayLater').html('<span class="cursorPointer dateBtn">' + day5 + '</span> (' + Vtiger_Helper_Js.getLabelDayFromDate(fifthDayWeek) + ')');
-		data.find('.taskNextTwoDaysLater').html('<span class="cursorPointer dateBtn">' + day6 + '</span> (' + Vtiger_Helper_Js.getLabelDayFromDate(sixthDayWeek) + ')');
-		data.find('.taskNextThreeDaysLater').html('<span class="cursorPointer dateBtn">' + day7 + '</span> (' + Vtiger_Helper_Js.getLabelDayFromDate(seventhDayWeek) + ')');
-
-		data.find('.dateBtn').on('click', function (e) {
-			var element = jQuery(e.currentTarget);
-			dateStartEl.val(element.html());
-			data.find('[name="due_date"]').val(element.html());
-			data.find('[name="date_start"]').trigger('change');
+		AppConnector.request(params).then(function (events) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			container.find('.eventsTable').html(events);
+			thisInstance.registerHelpInfo(container);
 		});
 	},
 	registerChangeNearCalendarEvent: function (data, module) {
 		var thisInstance = this;
-		if (!data || module != 'Calendar' || typeof module == 'undefined') {
+		if (!data || module != 'Calendar' || typeof module == 'undefined' || !data.find('.eventsTable').length) {
 			return;
 		}
 		var user = data.find('[name="assigned_user_id"]');
@@ -347,13 +242,11 @@ jQuery.Class("Vtiger_Header_Js", {
 		user.on('change', function (e) {
 			var element = jQuery(e.currentTarget);
 			var data = element.closest('form');
-			data.find('.addedNearCalendarEvent').remove();
 			thisInstance.getNearCalendarEvent(data, module);
 		});
 		dateStartEl.on('change', function (e) {
 			var element = jQuery(e.currentTarget);
 			var data = element.closest('form');
-			data.find('.addedNearCalendarEvent').remove();
 			thisInstance.getNearCalendarEvent(data, module);
 		});
 		data.find('ul li a').on('click', function (e) {
@@ -362,29 +255,31 @@ jQuery.Class("Vtiger_Header_Js", {
 			data.find('.addedNearCalendarEvent').remove();
 			thisInstance.getNearCalendarEvent(data, module);
 		});
-		data.find('.nextDayBtn').on('click', function () {
+		data.on('click', '.nextDayBtn', function () {
 			var dateStartEl = data.find('[name="date_start"]')
 			var startDay = dateStartEl.val();
 			var dateStartFormat = dateStartEl.data('date-format');
 			startDay = moment(Vtiger_Helper_Js.convertToDateString(startDay, dateStartFormat, '+7', ' ')).format(dateStartFormat.toUpperCase());
 			dateStartEl.val(startDay);
 			dateEnd.val(startDay);
-			data.find('.addedNearCalendarEvent').remove();
 			thisInstance.getNearCalendarEvent(data, module);
 		});
-		data.find('.previousDayBtn').on('click', function () {
+		data.on('click', '.previousDayBtn', function () {
 			var dateStartEl = data.find('[name="date_start"]')
 			var startDay = dateStartEl.val();
 			var dateStartFormat = dateStartEl.data('date-format');
 			startDay = moment(Vtiger_Helper_Js.convertToDateString(startDay, dateStartFormat, '-7', ' ')).format(dateStartFormat.toUpperCase());
 			dateStartEl.val(startDay);
 			dateEnd.val(startDay);
-			data.find('.addedNearCalendarEvent').remove();
 			thisInstance.getNearCalendarEvent(data, module);
 		});
-
+		data.on('click', '.dateBtn', function (e) {
+			var element = jQuery(e.currentTarget);
+			dateStartEl.val(element.data('date'));
+			data.find('[name="due_date"]').val(element.data('date'));
+			data.find('[name="date_start"]').trigger('change');
+		});
 		thisInstance.getNearCalendarEvent(data, module);
-		thisInstance.registerHelpInfo();
 	},
 	registerQuickCreatePostLoadEvents: function (form, params) {
 		var thisInstance = this;
