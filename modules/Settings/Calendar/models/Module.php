@@ -8,6 +8,7 @@
  */
 class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 {
+
 	public static function getUserColors()
 	{
 		$instance = new \App\Fields\Owner();
@@ -101,11 +102,14 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 		$keys = ['name', 'label', 'value', 'table', 'field'];
 		$calendarConfig = [];
 		foreach (self::getCalendarColorPicklist() as $picklistName) {
-			$picklistValues = Users_Colors_Model::getValuesFromField($picklistName);
-			foreach ($picklistValues as $picklistValue) {
-				$picklistValue['table'] = 'vtiger_' . $picklistName;
-				$picklistValue['field'] = $picklistName;
-				$calendarConfig[] = array_combine($keys, $picklistValue);
+			$picklistValues = \App\Fields\Picklist::getValues($picklistName);
+			foreach ($picklistValues as $picklistValueId => $picklistValue) {
+				$calendarConfig[] = array_combine($keys, [
+					'id' => $picklistValueId,
+					'value' => $picklistValue[$picklistName],
+					'color' => $picklistValue['color'],
+					'table' => 'vtiger_' . $picklistName,
+					'field' => $picklistName]);
 			}
 		}
 		return $calendarConfig;
