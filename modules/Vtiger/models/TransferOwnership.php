@@ -128,7 +128,7 @@ class Vtiger_TransferOwnership_Model extends \App\Base
 			if ($fieldModel->isReferenceField()) {
 				$referenceList = $fieldModel->getReferenceList();
 				foreach ($referenceList as $relation) {
-					if (Users_Privileges_Model::isPermitted($relation, 'EditView')) {
+					if (\App\Privilege::isPermitted($relation, 'EditView')) {
 						$relatedModules[] = ['name' => $relation, 'field' => $fieldName];
 					}
 				}
@@ -145,7 +145,7 @@ class Vtiger_TransferOwnership_Model extends \App\Base
 		$relations = $moduleModel->getRelations();
 		foreach ($relations as $relation) {
 			$relationModule = $relation->getRelationModuleName();
-			if (Users_Privileges_Model::isPermitted($relationModule, 'EditView')) {
+			if (\App\Privilege::isPermitted($relationModule, 'EditView')) {
 				$relatedModules[] = [
 					'name' => $relationModule,
 					'type' => $relation->getRelationType(),

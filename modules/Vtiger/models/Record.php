@@ -580,7 +580,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function isViewable()
 	{
 		if (!isset($this->privileges['isViewable'])) {
-			$this->privileges['isViewable'] = Users_Privileges_Model::isPermitted($this->getModuleName(), 'DetailView', $this->getId());
+			$this->privileges['isViewable'] = \App\Privilege::isPermitted($this->getModuleName(), 'DetailView', $this->getId());
 		}
 		return $this->privileges['isViewable'];
 	}
@@ -599,7 +599,7 @@ class Vtiger_Record_Model extends \App\Base
 			$moduleName = $this->getModuleName();
 			$recordId = $this->getId();
 
-			$isPermitted = Users_Privileges_Model::isPermitted($moduleName, 'EditView', $recordId);
+			$isPermitted = \App\Privilege::isPermitted($moduleName, 'EditView', $recordId);
 			$checkLockEdit = Users_Privileges_Model::checkLockEdit($moduleName, $this);
 
 			$this->privileges['isEditable'] = $isPermitted && $this->checkLockFields() && $checkLockEdit === false;
@@ -668,7 +668,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function isDeletable()
 	{
 		if (!isset($this->privileges['isDeletable'])) {
-			$this->privileges['isDeletable'] = Users_Privileges_Model::isPermitted($this->getModuleName(), 'Delete', $this->getId()) && $this->checkLockFields();
+			$this->privileges['isDeletable'] = \App\Privilege::isPermitted($this->getModuleName(), 'Delete', $this->getId()) && $this->checkLockFields();
 		}
 		return $this->privileges['isDeletable'];
 	}
@@ -1023,7 +1023,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function editFieldByModalPermission($profileAction = false)
 	{
 		if (isset($this->privileges['editFieldByModal']) && $this->privileges['editFieldByModal'] === true && $profileAction) {
-			return Users_Privileges_Model::isPermitted($this->getModuleName(), 'OpenRecord', $this->getId());
+			return \App\Privilege::isPermitted($this->getModuleName(), 'OpenRecord', $this->getId());
 		}
 		return isset($this->privileges['editFieldByModal']) ? (bool) $this->privileges['editFieldByModal'] : false;
 	}
