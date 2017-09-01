@@ -1,12 +1,13 @@
 <?php
 
 /**
- * Settings users colors view class
+ * Settings colors index view class
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @author Sławomir Kłos <s.klos@yetiforce.com>
  */
-class Settings_Users_Colors_View extends Settings_Vtiger_Index_View
+class Settings_Colors_Index_View extends Settings_Vtiger_Index_View
 {
 
 	public function process(\App\Request $request)
@@ -19,7 +20,18 @@ class Settings_Users_Colors_View extends Settings_Vtiger_Index_View
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->view('Colors.tpl', $qualifiedModuleName);
+		$viewer->view('Index.tpl', $qualifiedModuleName);
+	}
+
+	public function getHeaderCss(\App\Request $request)
+	{
+		$headerCssInstances = parent::getHeaderCss($request);
+		$cssFileNames = array(
+			'~libraries/jquery/colorpicker/css/colorpicker.css'
+		);
+		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
+		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
+		return $headerCssInstances;
 	}
 
 	public function getFooterScripts(\App\Request $request)
@@ -33,16 +45,5 @@ class Settings_Users_Colors_View extends Settings_Vtiger_Index_View
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
-	}
-
-	public function getHeaderCss(\App\Request $request)
-	{
-		$headerCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = array(
-			'~libraries/jquery/colorpicker/css/colorpicker.css'
-		);
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
-		return $headerCssInstances;
 	}
 }

@@ -10,7 +10,7 @@
 /**
  * Colors Ajax requests handler class
  */
-class Settings_Users_ColorsAjax_View extends Settings_Vtiger_IndexAjax_View
+class Settings_Colors_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 {
 
 	/**
@@ -68,6 +68,6 @@ class Settings_Users_ColorsAjax_View extends Settings_Vtiger_IndexAjax_View
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedName);
 		$viewer->assign('SELECTED_PICKLISTFIELD_ALL_VALUES', $picklistValuesName);
-		$viewer->view('ColorsPickListView.tpl', $qualifiedName);
+		$viewer->view('PickListView.tpl', $qualifiedName);
 	}
 }
