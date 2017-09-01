@@ -359,7 +359,7 @@ class Reports extends CRMEntity
 					$report_details['editable'] = 'false';
 				}
 
-				if (\App\Privilege::isPermitted($report['primarymodule'], 'index') == 'yes') {
+				if (\App\Privilege::isPermitted($report['primarymodule'], 'index')) {
 					$returndata[] = $report_details;
 				}
 			} while ($report = $adb->fetch_array($result));
@@ -444,7 +444,7 @@ class Reports extends CRMEntity
 					$report_details['editable'] = 'false';
 				}
 
-				if (\App\Privilege::isPermitted($report['primarymodule'], 'index') == 'yes') {
+				if (\App\Privilege::isPermitted($report['primarymodule'], 'index')) {
 					$returndata [$report['folderid']][] = $report_details;
 				}
 			} while ($report = $adb->fetch_array($result));
@@ -1125,7 +1125,7 @@ function getReportsModuleList($focus)
 {
 	$modules = [];
 	foreach ($focus->module_list as $key => $value) {
-		if (\App\Privilege::isPermitted($key, 'index') == 'yes') {
+		if (\App\Privilege::isPermitted($key, 'index')) {
 			$modules [$key] = \App\Language::translate($key, $key);
 		}
 	}
@@ -1143,7 +1143,7 @@ function getReportRelatedModules($module, $focus)
 	if (\App\Module::isModuleActive($module)) {
 		if (!empty($focus->related_modules[$module])) {
 			foreach ($focus->related_modules[$module] as $rel_modules) {
-				if (\App\Privilege::isPermitted($rel_modules, 'index') == 'yes') {
+				if (\App\Privilege::isPermitted($rel_modules, 'index')) {
 					$optionhtml [] = $rel_modules;
 				}
 			}
