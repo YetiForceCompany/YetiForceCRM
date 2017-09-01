@@ -15,8 +15,6 @@ Class Settings_Groups_EditAjax_Action extends Settings_Vtiger_Basic_Action
 	{
 		parent::__construct();
 		$this->exposeMethod('checkDuplicate');
-		$this->exposeMethod('updateColor');
-		$this->exposeMethod('removeColor');
 	}
 
 	public function process(\App\Request $request)
@@ -41,34 +39,6 @@ Class Settings_Groups_EditAjax_Action extends Settings_Vtiger_Basic_Action
 		} else {
 			$response->setResult(array('success' => false));
 		}
-		$response->emit();
-	}
-
-	public function updateColor(\App\Request $request)
-	{
-		$color = $request->get('color');
-		if (!$color) {
-			$color = \App\Colors::getRandomColor();
-		}
-		\App\Colors::updateGroupColor($request->getInteger('id'), $color);
-		$response = new Vtiger_Response();
-		$response->setResult([
-			'success' => true,
-			'color' => $color,
-			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
-		]);
-		$response->emit();
-	}
-
-	public function removeColor(\App\Request $request)
-	{
-		\App\Colors::updateGroupColor($request->getInteger('id'), '');
-		$response = new Vtiger_Response();
-		$response->setResult(array(
-			'success' => true,
-			'color' => $color,
-			'message' => \App\Language::translate('LBL_REMOVED_COLOR', $request->getModule(false))
-		));
 		$response->emit();
 	}
 }

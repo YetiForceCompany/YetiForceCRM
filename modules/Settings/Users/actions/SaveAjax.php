@@ -16,8 +16,6 @@ class Settings_Users_SaveAjax_Action extends Settings_Vtiger_Save_Action
 		$this->exposeMethod('updateConfig');
 		$this->exposeMethod('saveSwitchUsers');
 		$this->exposeMethod('saveLocks');
-		$this->exposeMethod('updateColor');
-		$this->exposeMethod('removeColor');
 	}
 
 	public function updateConfig(\App\Request $request)
@@ -57,35 +55,6 @@ class Settings_Users_SaveAjax_Action extends Settings_Vtiger_Save_Action
 		$response->setResult([
 			'message' => \App\Language::translate('LBL_SAVE_CONFIG', $request->getModule(false))
 		]);
-		$response->emit();
-	}
-
-	public function updateColor(\App\Request $request)
-	{
-		$id = $request->getInteger('id');
-		$color = $request->get('color');
-		if (!$color) {
-			$color = \App\Colors::getRandomColor();
-		}
-		\App\Colors::updateUserColor($id, $color);
-		$response = new Vtiger_Response();
-		$response->setResult([
-			'success' => true,
-			'color' => $color,
-			'message' => App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
-		]);
-		$response->emit();
-	}
-
-	public function removeColor(\App\Request $request)
-	{
-		\App\Colors::updateUserColor($request->getInteger('id'), '');
-		$response = new Vtiger_Response();
-		$response->setResult(array(
-			'success' => true,
-			'color' => $color,
-			'message' => \App\Language::translate('LBL_REMOVED_COLOR', $request->getModule(false))
-		));
 		$response->emit();
 	}
 }

@@ -47,10 +47,10 @@ var Colors_Js = {
 					}
 				});
 				AppConnector.request({
-					'module': 'Users',
+					'module': 'Colors',
 					'parent': 'Settings',
 					'action': 'SaveAjax',
-					'mode': 'updateColor',
+					'mode': 'updateUserColor',
 					'color': selectedColor.val(),
 					'id': target.data('id')
 				}).then(
@@ -83,10 +83,10 @@ var Colors_Js = {
 		var target = $(e.currentTarget);
 		var colorPreview = $('#calendarColorPreviewUser' + target.data('id'));
 		AppConnector.request({
-			module: app.getModuleName(),
+			module: 'Colors',
 			parent: 'Settings',
 			action: 'SaveAjax',
-			mode: 'updateColor',
+			mode: 'updateUserColor',
 			id: target.data('id')
 		}).then(
 				function (data) {
@@ -108,10 +108,10 @@ var Colors_Js = {
 		var target = $(e.currentTarget);
 		var colorPreview = $('#calendarColorPreviewUser' + target.data('id'));
 		AppConnector.request({
-			module: app.getModuleName(),
+			module: 'Colors',
 			parent: 'Settings',
 			action: 'SaveAjax',
-			mode: 'removeColor',
+			mode: 'removeUserColor',
 			id: target.data('id')
 		}).then(
 				function (data) {
@@ -160,10 +160,10 @@ var Colors_Js = {
 					}
 				});
 				AppConnector.request({
-					'module': 'Groups',
+					'module': 'Colors',
 					'parent': 'Settings',
-					'action': 'EditAjax',
-					'mode': 'updateColor',
+					'action': 'SaveAjax',
+					'mode': 'updateGroupColor',
 					'color': selectedColor.val(),
 					'id': target.data('id')
 				}).then(
@@ -196,10 +196,10 @@ var Colors_Js = {
 		var target = $(e.currentTarget);
 		var colorPreview = $('#calendarColorPreviewGroup' + target.data('id'));
 		AppConnector.request({
-			module: 'Groups',
+			module: 'Colors',
 			parent: 'Settings',
-			action: 'EditAjax',
-			mode: 'updateColor',
+			action: 'SaveAjax',
+			mode: 'updateGroupColor',
 			id: target.data('id')
 		}).then(
 				function (data) {
@@ -221,10 +221,10 @@ var Colors_Js = {
 		var target = $(e.currentTarget);
 		var colorPreview = $('#calendarColorPreviewGroup' + target.data('id'));
 		AppConnector.request({
-			module: 'Groups',
+			module: 'Colors',
 			parent: 'Settings',
-			action: 'EditAjax',
-			mode: 'removeColor',
+			action: 'SaveAjax',
+			mode: 'removeGroupColor',
 			id: target.data('id')
 		}).then(
 				function (data) {
@@ -273,10 +273,10 @@ var Colors_Js = {
 					}
 				});
 				AppConnector.request({
-					'module': 'ModuleManager',
+					'module': 'Colors',
 					'parent': 'Settings',
-					'action': 'Basic',
-					'mode': 'updateColor',
+					'action': 'SaveAjax',
+					'mode': 'updateModuleColor',
 					'color': selectedColor.val(),
 					'id': target.data('id')
 				}).then(
@@ -309,10 +309,10 @@ var Colors_Js = {
 		var target = $(e.currentTarget);
 		var colorPreview = $('#calendarColorPreviewModule' + target.data('id'));
 		AppConnector.request({
-			module: 'ModuleManager',
+			module: 'Colors',
 			parent: 'Settings',
-			action: 'Basic',
-			mode: 'updateColor',
+			action: 'SaveAjax',
+			mode: 'updateModuleColor',
 			id: target.data('id')
 		}).then(
 				function (data) {
@@ -334,10 +334,10 @@ var Colors_Js = {
 		var target = $(e.currentTarget);
 		var colorPreview = $('#calendarColorPreviewModule' + target.data('id'));
 		AppConnector.request({
-			module: 'ModuleManager',
+			module: 'Colors',
 			parent: 'Settings',
-			action: 'Basic',
-			mode: 'removeColor',
+			action: 'SaveAjax',
+			mode: 'removeModuleColor',
 			id: target.data('id')
 		}).then(
 				function (data) {
@@ -385,10 +385,10 @@ var Colors_Js = {
 		var colorPreview = $('#calendarColorPreviewModule' + target.data('id'));
 		var params = {};
 		params.data = {
-			module: 'ModuleManager',
+			module: 'Colors',
 			parent: 'Settings',
-			action: 'Basic',
-			mode: 'activeColor',
+			action: 'SaveAjax',
+			mode: 'activeModuleColor',
 			status: target.is(':checked'),
 			color: colorPreview.data('color'),
 			id: target.data('id')
@@ -418,9 +418,9 @@ var Colors_Js = {
 				}
 			});
 			AppConnector.request({
-				module: 'Users',
+				module: 'Colors',
 				parent: app.getParentModuleName(),
-				view: 'ColorsAjax',
+				view: 'IndexAjax',
 				mode: 'getPickListView'
 			}).then(function (data) {
 				var container = jQuery('.picklistViewContentDiv');
@@ -446,10 +446,10 @@ var Colors_Js = {
 				}
 			});
 			AppConnector.request({
-				module: 'Users',
+				module: 'Colors',
 				parent: app.getParentModuleName(),
 				source_module: selectedModule,
-				view: 'ColorsAjax',
+				view: 'IndexAjax',
 				mode: 'getPickListView'
 			}).then(function (data) {
 				container.html(data);
@@ -472,10 +472,10 @@ var Colors_Js = {
 				}
 			});
 			AppConnector.request({
-				module: 'Users',
+				module: 'Colors',
 				parent: app.getParentModuleName(),
 				source_module: jQuery('#pickListModules').val(),
-				view: 'ColorsAjax',
+				view: 'IndexAjax',
 				mode: 'getPickListView',
 				fieldId: jQuery(e.currentTarget).val()
 			}).then(function (data) {
@@ -502,7 +502,7 @@ var Colors_Js = {
 		var container = jQuery('.picklistViewContentDiv');
 		var target = $(e.currentTarget);
 		AppConnector.request({
-			module: 'Picklist',
+			module: 'Colors',
 			parent: 'Settings',
 			action: 'SaveAjax',
 			mode: 'addPicklistColorColumn',
@@ -554,7 +554,7 @@ var Colors_Js = {
 				});
 
 				AppConnector.request({
-					module: 'Picklist',
+					module: 'Colors',
 					parent: 'Settings',
 					action: 'SaveAjax',
 					mode: 'updatePicklistValueColor',
@@ -598,7 +598,7 @@ var Colors_Js = {
 			}
 		});
 		AppConnector.request({
-			module: 'Picklist',
+			module: 'Colors',
 			parent: 'Settings',
 			action: 'SaveAjax',
 			mode: 'updatePicklistValueColor',
@@ -633,7 +633,7 @@ var Colors_Js = {
 			}
 		});
 		AppConnector.request({
-			module: 'Picklist',
+			module: 'Colors',
 			parent: 'Settings',
 			action: 'SaveAjax',
 			mode: 'removePicklistValueColor',
