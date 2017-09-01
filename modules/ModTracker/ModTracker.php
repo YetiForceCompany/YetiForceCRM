@@ -307,7 +307,7 @@ class ModTracker
 	{
 		$moduleName = $linkData->getModule();
 		$recordId = $linkData->getInputParameter('record');
-		if (\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId) == 'yes') {
+		if (\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
 			return true;
 		}
 		return false;

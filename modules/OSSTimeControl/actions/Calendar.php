@@ -55,7 +55,7 @@ class OSSTimeControl_Calendar_Action extends Vtiger_Action_Controller
 		$date_start = date('Y-m-d', strtotime($request->get('start')));
 		$time_start = date('H:i:s', strtotime($request->get('start')));
 		$succes = false;
-		if (\App\Privilege::isPermitted($moduleName, 'EditView', $recordId) === 'no') {
+		if (!\App\Privilege::isPermitted($moduleName, 'EditView', $recordId)) {
 			$succes = false;
 		} else {
 			if (!empty($recordId)) {
