@@ -12,6 +12,7 @@ $languageStrings = [
 	'LBL_USERS_COLORS' => 'Benutzerfarben',
 	'LBL_USERS_COLORS_DESCRIPTION' => ' ',
 	'LBL_UPDATE_COLOR' => 'Farbe ändern',
+	'LBL_REMOVE_COLOR' => 'Remove color',
 	'LBL_COLOR' => 'Farbe',
 	'LBL_GENERATE_COLOR' => 'Zufällige Farbe ermitteln',
 	'LBL_GENERATED_COLOR' => 'Farbe generiert',
