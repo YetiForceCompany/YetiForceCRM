@@ -355,31 +355,6 @@ var Colors_Js = {
 				}
 		);
 	},
-	registerSaveEvent: function (mode, data) {
-		var params = {};
-		params.data = {
-			module: app.getModuleName(),
-			action: 'SaveAjax',
-			mode: mode,
-			params: data
-		};
-		params.async = false;
-		params.dataType = 'json';
-		AppConnector.request(params).done(
-				function (data) {
-					var response = data['result'];
-					var params = {
-						text: response['message'],
-						animation: 'show',
-						type: 'success'
-					};
-					Vtiger_Helper_Js.showPnotify(params);
-					return response;
-				},
-				function (data, err) {
-				}
-		);
-	},
 	activeModuleColor: function (e) {
 		var target = $(e.currentTarget);
 		var colorPreview = $('#calendarColorPreviewModule' + target.data('id'));
