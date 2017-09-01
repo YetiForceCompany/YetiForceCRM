@@ -81,7 +81,7 @@ class Vtiger_MappedFields_Model extends \App\Base
 
 		$templates = $this->getTemplatesByModule($moduleName);
 		foreach ($templates as $id => &$template) {
-			if (!$template->checkFiltersForRecord($recordId) || !$template->checkUserPermissions() || !Users_Privileges_Model::isPermitted($template->getRelatedName(), 'EditView')) {
+			if (!$template->checkFiltersForRecord($recordId) || !$template->checkUserPermissions() || !\App\Privilege::isPermitted($template->getRelatedName(), 'EditView')) {
 				unset($templates[$id]);
 			}
 		}

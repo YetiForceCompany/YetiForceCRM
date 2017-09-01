@@ -16,7 +16,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 	{
 		$moduleModel = $this->getModule();
 		$advancedLinks = [];
-		$exportPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Export');
+		$exportPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'Export');
 		if ($exportPermission) {
 			$advancedLinks[] = array(
 				'linktype' => 'LISTVIEW',
@@ -26,7 +26,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 			);
 		}
 
-		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && Users_Privileges_Model::isPermitted($moduleModel->getName(), 'ExportPdf')) {
+		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && \App\Privilege::isPermitted($moduleModel->getName(), 'ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
@@ -41,7 +41,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 			}
 		}
 
-		$quickExportToExcelPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'QuickExportToExcel');
+		$quickExportToExcelPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'QuickExportToExcel');
 		if ($quickExportToExcelPermission && !Settings_ModuleManager_Library_Model::checkLibrary('PHPExcel')) {
 			$advancedLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
@@ -61,7 +61,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 	{
 		$basicLinks = [];
 		$moduleModel = $this->getModule();
-		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && Users_Privileges_Model::isPermitted($moduleModel->getName(), 'ExportPdf')) {
+		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && \App\Privilege::isPermitted($moduleModel->getName(), 'ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');

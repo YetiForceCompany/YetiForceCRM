@@ -41,7 +41,7 @@ class Reports_DetailView_Model extends Vtiger_DetailView_Model
 		$moduleName = $moduleModel->getName();
 
 		$detailViewLinks = [];
-		$printPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Print');
+		$printPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'Print');
 		if ($printPermission) {
 			$detailViewLinks[] = array(
 				'linklabel' => \App\Language::translate('LBL_REPORT_PRINT', $moduleName),
@@ -50,7 +50,7 @@ class Reports_DetailView_Model extends Vtiger_DetailView_Model
 			);
 		}
 
-		$exportPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Export');
+		$exportPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'Export');
 		if ($exportPermission) {
 			$detailViewLinks[] = array(
 				'linklabel' => \App\Language::translate('LBL_REPORT_CSV', $moduleName),

@@ -321,7 +321,7 @@ class Reports_Folder_Model extends \App\Base
 		for ($i = 0; $i < $noOfRows; $i++) {
 			$primaryModule = $db->query_result($result, $i, 'primarymodule');
 			$reportid = $db->query_result($result, $i, 'reportmodulesid');
-			if (isPermitted($primaryModule, 'index') == "yes") {
+			if (\App\Privilege::isPermitted($primaryModule, 'index')) {
 				$allowedReportIds[] = $reportid;
 			}
 		}

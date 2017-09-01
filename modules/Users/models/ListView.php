@@ -146,9 +146,9 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 	public function getAdvancedLinks()
 	{
 		$moduleModel = $this->getModule();
-		$createPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'CreateView');
+		$createPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'CreateView');
 		$advancedLinks = [];
-		$importPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Import');
+		$importPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'Import');
 		if ($importPermission && $createPermission) {
 			$advancedLinks[] = array(
 				'linktype' => 'LISTVIEW',

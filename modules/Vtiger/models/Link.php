@@ -360,7 +360,7 @@ class Vtiger_Link_Model extends vtlib\Link
 		foreach ($links as $linkType => $linkObjects) {
 			foreach ($linkObjects as $linkObject) {
 				$queryParams = vtlib\Functions::getQueryParams($linkObject->linkurl);
-				if (($type === false || in_array($linkType, $type)) && !(isset($queryParams['module']) && !Users_Privileges_Model::isPermitted($queryParams['module']))) {
+				if (($type === false || in_array($linkType, $type)) && !(isset($queryParams['module']) && !\App\Privilege::isPermitted($queryParams['module']))) {
 					$linkModels[$linkType][] = self::getInstanceFromLinkObject($linkObject);
 				}
 			}

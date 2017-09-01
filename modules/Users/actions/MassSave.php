@@ -25,7 +25,7 @@ class Users_MassSave_Action extends Vtiger_MassSave_Action
 		$moduleName = $request->getModule();
 		$recordModels = $this->getRecordModelsFromRequest($request);
 		foreach ($recordModels as $recordId => $recordModel) {
-			if (Users_Privileges_Model::isPermitted($moduleName, 'Save', $recordId)) {
+			if (\App\Privilege::isPermitted($moduleName, 'Save', $recordId)) {
 				$recordModel->save();
 			}
 		}
