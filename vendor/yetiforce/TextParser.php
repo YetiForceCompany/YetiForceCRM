@@ -469,7 +469,7 @@ class TextParser
 	{
 		list($fieldName, $relatedField, $relatedModule) = explode('|', $params);
 		if (!isset($this->recordModel) ||
-			!\Users_Privileges_Model::isPermitted($this->moduleName, 'DetailView', $this->record) ||
+			!Privilege::isPermitted($this->moduleName, 'DetailView', $this->record) ||
 			$this->recordModel->isEmpty($fieldName)) {
 			return '';
 		}
@@ -530,7 +530,7 @@ class TextParser
 	 */
 	protected function sourceRecord($fieldName)
 	{
-		if (empty($this->sourceRecordModel) || !\Users_Privileges_Model::isPermitted($this->sourceRecordModel->getModuleName(), 'DetailView', $this->sourceRecordModel->getId())) {
+		if (empty($this->sourceRecordModel) || !Privilege::isPermitted($this->sourceRecordModel->getModuleName(), 'DetailView', $this->sourceRecordModel->getId())) {
 			return '';
 		}
 		$instance = static::getInstanceByModel($this->sourceRecordModel);

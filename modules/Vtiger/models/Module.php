@@ -52,7 +52,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function isQuickCreateSupported()
 	{
-		return $this->isEntityModule() && !$this->isInventory() && Users_Privileges_Model::isPermitted($this->getName(), 'CreateView');
+		return $this->isEntityModule() && !$this->isInventory() && \App\Privilege::isPermitted($this->getName(), 'CreateView');
 	}
 
 	/**
@@ -1126,7 +1126,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$numRowsCount = $db->num_rows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
 			$row = $db->query_result_rowdata($result, $i);
-			if (Users_Privileges_Model::isPermitted($row['module'], 'DetailView', $row['crmid'])) {
+			if (\App\Privilege::isPermitted($row['module'], 'DetailView', $row['crmid'])) {
 				$modTrackerRecorModel = new ModTracker_Record_Model();
 				$modTrackerRecorModel->setData($row)->setParent($row['crmid'], $row['module']);
 				$time = $modTrackerRecorModel->get('changedon');
