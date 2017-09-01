@@ -8384,6 +8384,7 @@ CREATE TABLE `vtiger_status` (
   `status` varchar(200) NOT NULL,
   `presence` int(1) NOT NULL DEFAULT '1',
   `picklist_valueid` int(10) NOT NULL DEFAULT '0',
+  `sortorderid` int(10) DEFAULT '0',
   PRIMARY KEY (`statusid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 

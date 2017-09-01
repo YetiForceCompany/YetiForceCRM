@@ -34,6 +34,9 @@ class Colors
 			case 'module':
 				self::generateModules();
 				break;
+			case 'picklist':
+				self::generatePicklists();
+				break;
 			case 'calendar':
 				self::generateCalendar();
 				break;
@@ -41,6 +44,7 @@ class Colors
 				self::generateCalendar();
 				self::generateOwners();
 				self::generateModules();
+				self::generatePicklists();
 				break;
 		}
 	}
@@ -105,6 +109,46 @@ class Colors
 	}
 
 	/**
+	 * Generate picklists colors stylesheet
+	 */
+	private static function generatePicklists()
+	{
+		$css = '';
+		foreach (\App\Fields\Picklist::getModules() as $module) {
+			$fields = \App\Colors::getPicklistFieldsByModule($module['tabname']);
+			foreach ($fields as $field) {
+				$fieldModel = \Vtiger_Field_Model::getInstanceFromFieldId($field->getId());
+				if (key_exists($fieldModel->getName(), $fields) && $fieldModel->getModuleName() === $module['tabname']) {
+					$values = \App\Fields\Picklist::getValues($fieldModel->getName());
+					if ($values) {
+						$firstRow = reset($values);
+						if (key_exists('color', $firstRow)) {
+							foreach ($values as $item) {
+								if (ltrim($item['color'], '#')) {
+									if (strpos($item['color'], '#') === false) {
+										$item['color'] = '#' . $item['color'];
+									}
+									$css .= '.picklistColorBorder_' . $module['tabname'] . '_' . $fieldModel->getName() . ' {' . "\r\n"
+										. '	border-color: ' . $item['color'] . ';' . "\r\n"
+										. '}' . "\r\n";
+									$css .= '.picklistColorBg_' . $module['tabname'] . '_' . $fieldModel->getName() . ' {' . "\r\n"
+										. '	background: ' . $item['color'] . ';' . "\r\n"
+										. '}' . "\r\n";
+									$css .= '.picklistColorText_' . $module['tabname'] . '_' . $fieldModel->getName() . ' {' . "\r\n"
+										. '	color: ' . $item['color'] . ';' . "\r\n"
+										. '}' . "\r\n";
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		$file = ROOT_DIRECTORY . '/public_html/layouts/resources/colors/picklists.css';
+		file_put_contents($file, $css);
+	}
+
+	/**
 	 * Generate calendar colors stylesheet
 	 */
 	private static function generateCalendar()
@@ -144,6 +188,7 @@ class Colors
 	{
 		$table = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['fieldid' => $picklistId])->scalar();
 		\App\Db::getInstance()->createCommand()->update('vtiger_' . $table, ['color' => ltrim($color, '#')], ['picklist_valueid' => $picklistValueId])->execute();
+		\App\Colors::generate('picklist');
 	}
 
 	/**
@@ -154,6 +199,7 @@ class Colors
 	{
 		$table = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['fieldid' => $fieldId])->scalar();
 		\App\Db::getInstance()->createCommand()->addColumn('vtiger_' . $table, 'color', 'string(25)')->execute();
+		\App\Colors::generate('picklist');
 	}
 
 	/**
