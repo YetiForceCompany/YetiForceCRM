@@ -8,7 +8,7 @@
 				<tr class="listViewHeaders">
 					{assign var=COUNT value=0}
 					<th class="noWrap"></th>
-					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
+						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 							{if !empty($COLUMNS) && $COUNT == $COLUMNS }
 								{break}
 							{/if}
@@ -26,10 +26,10 @@
 					{if $SHOW_CREATOR_DETAIL}
 						<th>{\App\Language::translate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE->get('name'))}</th>
 						<th>{\App\Language::translate('LBL_RELATION_CREATED_USER', $RELATED_MODULE->get('name'))}</th>
-					{/if}
-					{if $SHOW_COMMENT}
+						{/if}
+						{if $SHOW_COMMENT}
 						<th>{\App\Language::translate('LBL_RELATION_COMMENT', $RELATED_MODULE->get('name'))}</th>
-					{/if}
+						{/if}
 				</tr>
 			</thead>
 			{if $RELATED_MODULE->isQuickSearchEnabled()}
@@ -58,7 +58,7 @@
 			{/if}
 			{assign var="RELATED_HEADER_COUNT" value=count($RELATED_HEADERS)}
 			{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
-				<tr class="listViewEntries" data-id='{$RELATED_RECORD->getId()}' 
+				<tr class="listViewEntries" data-id='{$RELATED_RECORD->getId()}'
 					{if $RELATED_RECORD->isViewable()}
 						data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'
 					{/if}
@@ -78,7 +78,7 @@
 						{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->get('name')}
 						<td class="{$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap  {if $smarty.foreach.listHeaderForeach.iteration eq $RELATED_HEADER_COUNT}colspan="2"{/if}>
 							{if ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->get('uitype') eq '4') && $RELATED_RECORD->isViewable()}
-								<a class="moduleColor_{$RELATED_MODULE_NAME}" title="" href="{$RELATED_RECORD->getDetailViewUrl()}">
+								<a class="modColorText_{$RELATED_MODULE_NAME}" title="" href="{$RELATED_RECORD->getDetailViewUrl()}">
 									{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}
 								</a>
 							{elseif $HEADER_FIELD->get('fromOutsideList') eq true}
@@ -111,7 +111,7 @@
 									<tr>
 										{foreach from=$INVENTORY_FIELDS item=FIELD key=NAME}
 											<th class="medium" nowrap>{\App\Language::translate($FIELD->get('label'),$RELATED_MODULE_NAME)}</th>
-										{/foreach}
+											{/foreach}
 									</tr>
 								</thead>
 								<tbody>
@@ -122,7 +122,7 @@
 											{/if}
 											{foreach from=$INVENTORY_FIELDS item=FIELD key=NAME}
 												{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$RELATED_MODULE_NAME)}
-												<td>		
+												<td>
 													{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $RELATED_MODULE_NAME) ITEM_VALUE=$ROWDATA[$FIELD->get('columnname')]}
 												</td>
 											{/foreach}

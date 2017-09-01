@@ -6,7 +6,7 @@
 				<input type="hidden" name="relatedModule" value="{$WIDGET['data']['relatedmodule']}" />
 				<div class="widgetTitle row">
 					<div class="col-xs-7">
-						<h4 class="moduleColor_{$WIDGET['label']}">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4>
+						<h4 class="modColorText_{$WIDGET['label']}">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4>
 					</div>
 					<div class="col-xs-5">
 						<div class="pull-right">

@@ -34,7 +34,7 @@
                                 {assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
                                 {assign var=IS_SEND_EMAIL_BUTTON value={$RELATED_LINK->get('_sendEmail')}}
                                 <button type="button" class="btn btn-default addButton
-										{if $IS_SELECT_BUTTON eq true} selectRelation {/if} moduleColor_{$RELATED_MODULE->get('name')} {if $RELATED_LINK->linkqcs eq true}quickCreateSupported{/if}"
+										{if $IS_SELECT_BUTTON eq true} selectRelation {/if} modColorText_{$RELATED_MODULE->get('name')} {if $RELATED_LINK->linkqcs eq true}quickCreateSupported{/if}"
 										{if $IS_SELECT_BUTTON eq true} data-moduleName='{$RELATED_LINK->get('_module')->get('name')}' {/if}
 										{if $RELATION_FIELD} data-name="{$RELATION_FIELD->getName()}" {/if}
 										{if $IS_SEND_EMAIL_BUTTON eq true}	onclick="{$RELATED_LINK->getUrl()}" {else} data-url="{$RELATED_LINK->getUrl()}"{/if}
@@ -179,13 +179,13 @@
 										<span class="statusValue dropdown-toggle" data-toggle="dropdown">{\App\Language::translate($RELATED_RECORD->get('status'),$MODULE)}</span>
 										<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="icon-arrow-down alignMiddle editRelatedStatus"></span>
 										<ul class="dropdown-menu pull-right" style="left: -2px; position: relative;">
-											{foreach key=STATUS_ID item=STATUS from=$STATUS_VALUES}
-												<li id="{$STATUS_ID}" data-status="{\App\Language::translate($STATUS, $MODULE)}">
-													<a>{\App\Language::translate($STATUS, $MODULE)}</a>
-												</li>
-											{/foreach}
-										</ul>
-									</span>
+									{foreach key=STATUS_ID item=STATUS from=$STATUS_VALUES}
+										<li id="{$STATUS_ID}" data-status="{\App\Language::translate($STATUS, $MODULE)}">
+											<a>{\App\Language::translate($STATUS, $MODULE)}</a>
+										</li>
+									{/foreach}
+								</ul>
+							</span>
 									-->
 								</td>
 								<td nowrap class="{$WIDTHTYPE}">

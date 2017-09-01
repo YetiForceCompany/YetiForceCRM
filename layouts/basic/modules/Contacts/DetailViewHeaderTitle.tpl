@@ -29,7 +29,7 @@
 					{if $RECORD->getDisplayValue('salutationtype')}
 						<span class="salutation">{$RECORD->getDisplayValue('salutationtype')}</span>&nbsp;
 					{/if}
-					<span class="moduleColor_{$MODULE_NAME}">{$RECORD->getName()}</span>
+					<span class="modColorText_{$MODULE_NAME}">{$RECORD->getName()}</span>
 				</h4>
 			</div>
 			<div class="paddingLeft5px">
