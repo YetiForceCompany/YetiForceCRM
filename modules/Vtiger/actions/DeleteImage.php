@@ -16,7 +16,7 @@ class Vtiger_DeleteImage_Action extends Vtiger_Action_Controller
 		$moduleName = $request->getModule();
 		$record = $request->get('id');
 
-		if (!(Users_Privileges_Model::isPermitted($moduleName, 'EditView', $record) && Users_Privileges_Model::isPermitted($moduleName, 'Delete', $record))) {
+		if (!(\App\Privilege::isPermitted($moduleName, 'EditView', $record) && \App\Privilege::isPermitted($moduleName, 'Delete', $record))) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
