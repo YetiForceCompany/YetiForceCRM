@@ -18,17 +18,17 @@
 					<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
 				</button>
 			{/if}
-			{if in_array($RELATED['module'], ['HelpDesk','Project']) &&  Users_Privileges_Model::isPermitted('HelpDesk','CreateView')}
+			{if in_array($RELATED['module'], ['HelpDesk','Project']) &&  \App\Privilege::isPermitted('HelpDesk','CreateView')}
 				<button class="addRelatedRecord" data-module="HelpDesk" title="{\App\Language::translate('LBL_ADD_HELPDESK',$MODULE_NAME)}">
 					<span class="userIcon-HelpDesk" aria-hidden="true"></span>
 				</button>
 			{/if}
-			{if in_array($RELATED['module'], ['Accounts','Contacts','Leads']) && Users_Privileges_Model::isPermitted('Products','DetailView')}
+			{if in_array($RELATED['module'], ['Accounts','Contacts','Leads']) && \App\Privilege::isPermitted('Products','DetailView')}
 				<button class="selectRecord" data-type="1" data-module="Products" title="{\App\Language::translate('LBL_ADD_PRODUCTS',$MODULE_NAME)}">
 					<span class="userIcon-Products" aria-hidden="true"></span>
 				</button>
 			{/if}
-			{if in_array($RELATED['module'], ['Accounts','Contacts','Leads']) &&  Users_Privileges_Model::isPermitted('Services','DetailView')}
+			{if in_array($RELATED['module'], ['Accounts','Contacts','Leads']) &&  \App\Privilege::isPermitted('Services','DetailView')}
 				<button class="selectRecord" data-type="1" data-module="Services" title="{\App\Language::translate('LBL_ADD_SERVICES',$MODULE_NAME)}">
 					<span class="userIcon-Services" aria-hidden="true"></span>
 				</button>

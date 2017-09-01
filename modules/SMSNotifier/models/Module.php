@@ -41,7 +41,7 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 		if ($actionName === 'EditView') {
 			return false;
 		}
-		return Users_Privileges_Model::isPermitted($this->getName(), $actionName);
+		return \App\Privilege::isPermitted($this->getName(), $actionName);
 	}
 
 	/**

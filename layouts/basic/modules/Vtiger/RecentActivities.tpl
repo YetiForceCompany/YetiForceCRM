@@ -102,7 +102,7 @@
 													{\App\Language::translate('LBL_REMOVED', $MODULE_NAME)}
 												{/if} </span><span>
 												{if $RELATION->getLinkedRecord()->getModuleName() eq 'Calendar'}
-													{if isPermitted('Calendar', 'DetailView', $RELATION->getLinkedRecord()->getId()) eq 'yes'} <strong>{$RELATION->getLinkedRecord()->getName()}</strong> {else} {/if}
+													{if \App\Privilege::isPermitted('Calendar', 'DetailView', $RELATION->getLinkedRecord()->getId())} <strong>{$RELATION->getLinkedRecord()->getName()}</strong> {else} {/if}
 												{else} <strong>{$RELATION->getLinkedRecord()->getName()}</strong> {/if}</span>
 										(<span>{\App\Language::translate($RELATION->getLinkedRecord()->getModuleName(), $RELATION->getLinkedRecord()->getModuleName())}</span>)
 										<span class="pull-right"><p class="muted no-margin"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($RELATION->get('changedon'))}">{Vtiger_Util_Helper::formatDateDiffInStrings($RELATION->get('changedon'))}</small></p></span>

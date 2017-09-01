@@ -147,7 +147,7 @@ class Notification_Record_Model extends Vtiger_Record_Model
 			\App\Log::trace('Exiting ' . __METHOD__ . ' - return true');
 			return false;
 		}
-		if ($notificationType !== 'PLL_USERS' && !Users_Privileges_Model::isPermitted($relatedModule, 'DetailView', $relatedId)) {
+		if ($notificationType !== 'PLL_USERS' && !\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedId)) {
 			\App\Log::error('User ' . vtlib\Functions::getOwnerRecordLabel($this->get('assigned_user_id')) .
 				' does not have permission for this record ' . $relatedId);
 			\App\Log::trace('Exiting ' . __METHOD__ . ' - return true');

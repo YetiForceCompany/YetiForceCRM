@@ -34,7 +34,7 @@ class PBXManager_Module_Model extends Vtiger_Module_Model
 		if ($actionName == 'EditView' || $actionName == 'CreateView')
 			return false;
 		else
-			return ($this->isActive() && Users_Privileges_Model::isPermitted($this->getName(), $actionName));
+			return ($this->isActive() && \App\Privilege::isPermitted($this->getName(), $actionName));
 	}
 
 	/**

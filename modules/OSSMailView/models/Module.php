@@ -28,10 +28,10 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 
 	public function isPermitted($actionName)
 	{
-		if ($actionName == 'EditView' || $actionName == 'CreateView') {
+		if ($actionName === 'EditView' || $actionName === 'CreateView') {
 			return false;
 		} else {
-			return ($this->isActive() && Users_Privileges_Model::isPermitted($this->getName(), $actionName));
+			return ($this->isActive() && \App\Privilege::isPermitted($this->getName(), $actionName));
 		}
 	}
 
