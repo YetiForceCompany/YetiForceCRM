@@ -1,20 +1,21 @@
 /* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
 var Colors_Js = {
 	initEvants: function () {
-		$('.UserColors .updateUserColor').click(Colors_Js.updateUserColor);
-		$('.UserColors .generateUserColor').click(Colors_Js.generateUserColor);
-		$('.UserColors .removeUserColor').click(Colors_Js.removeUserColor);
-		$('.UserColors .updateGroupColor').click(Colors_Js.updateGroupColor);
-		$('.UserColors .generateGroupColor').click(Colors_Js.generateGroupColor);
-		$('.UserColors .removeGroupColor').click(Colors_Js.removeGroupColor);
-		$('.UserColors .updateModuleColor').click(Colors_Js.updateModuleColor);
-		$('.UserColors .generateModuleColor').click(Colors_Js.generateModuleColor);
-		$('.UserColors .removeModuleColor').click(Colors_Js.removeModuleColor);
-		$('.UserColors .activeModuleColor').click(Colors_Js.activeModuleColor);
-		$('.UserColors .addPicklistColorColumn').click(Colors_Js.addPicklistColorColumn);
-		$('.UserColors .updatePicklistValueColor').click(Colors_Js.updatePicklistValueColor);
-		$('.UserColors .generatePicklistValueColor').click(Colors_Js.generatePicklistValueColor);
-		$('.UserColors .removePicklistValueColor').click(Colors_Js.removePicklistValueColor);
+		var container = $('.UserColors');
+		container.find('.updateUserColor').click(Colors_Js.updateUserColor);
+		container.find('.generateUserColor').click(Colors_Js.generateUserColor);
+		container.find('.removeUserColor').click(Colors_Js.removeUserColor);
+		container.find('.updateGroupColor').click(Colors_Js.updateGroupColor);
+		container.find('.generateGroupColor').click(Colors_Js.generateGroupColor);
+		container.find('.removeGroupColor').click(Colors_Js.removeGroupColor);
+		container.find('.updateModuleColor').click(Colors_Js.updateModuleColor);
+		container.find('.generateModuleColor').click(Colors_Js.generateModuleColor);
+		container.find('.removeModuleColor').click(Colors_Js.removeModuleColor);
+		container.find('.activeModuleColor').click(Colors_Js.activeModuleColor);
+		container.find('.addPicklistColorColumn').click(Colors_Js.addPicklistColorColumn);
+		container.find('.updatePicklistValueColor').click(Colors_Js.updatePicklistValueColor);
+		container.find('.generatePicklistValueColor').click(Colors_Js.generatePicklistValueColor);
+		container.find('.removePicklistValueColor').click(Colors_Js.removePicklistValueColor);
 	},
 	updateUserColor: function (e) {
 		var target = $(e.currentTarget);
@@ -55,16 +56,12 @@ var Colors_Js = {
 					'id': target.data('id')
 				}).then(
 						function (data) {
-							var response = data['result'];
-							var params = {
-								text: response['message'],
+							Vtiger_Helper_Js.showPnotify({
+								text: data['result']['message'],
 								animation: 'show',
 								type: 'success'
-							};
-							Vtiger_Helper_Js.showPnotify(params);
-							return response;
-						},
-						function (data, err) {
+							});
+							return data['result'];
 						}
 				);
 				colorPreview.css('background', selectedColor.val());
@@ -90,17 +87,13 @@ var Colors_Js = {
 			id: target.data('id')
 		}).then(
 				function (data) {
-					var response = data['result'];
-					var params = {
-						text: response['message'],
+					colorPreview.css('background', data['result'].color);
+					colorPreview.data('color', data['result'].color);
+					Vtiger_Helper_Js.showPnotify({
+						text: data['result']['message'],
 						animation: 'show',
 						type: 'success'
-					};
-					colorPreview.css('background', response.color);
-					colorPreview.data('color', response.color);
-					Vtiger_Helper_Js.showPnotify(params);
-				},
-				function (data, err) {
+					});
 				}
 		);
 	},
@@ -115,17 +108,13 @@ var Colors_Js = {
 			id: target.data('id')
 		}).then(
 				function (data) {
-					var response = data['result'];
-					var params = {
-						text: response['message'],
-						animation: 'show',
-						type: 'success'
-					};
 					colorPreview.css('background', '');
 					colorPreview.data('color', '');
-					Vtiger_Helper_Js.showPnotify(params);
-				},
-				function (data, err) {
+					Vtiger_Helper_Js.showPnotify({
+						text: data['result']['message'],
+						animation: 'show',
+						type: 'success'
+					});
 				}
 		);
 	},
@@ -168,16 +157,12 @@ var Colors_Js = {
 					'id': target.data('id')
 				}).then(
 						function (data) {
-							var response = data['result'];
-							var params = {
-								text: response['message'],
+							Vtiger_Helper_Js.showPnotify({
+								text: data['result']['message'],
 								animation: 'show',
 								type: 'success'
-							};
-							Vtiger_Helper_Js.showPnotify(params);
-							return response;
-						},
-						function (data, err) {
+							});
+							return data['result'];
 						}
 				);
 				colorPreview.css('background', selectedColor.val());
@@ -203,17 +188,13 @@ var Colors_Js = {
 			id: target.data('id')
 		}).then(
 				function (data) {
-					var response = data['result'];
-					var params = {
-						text: response['message'],
+					colorPreview.css('background', data['result'].color);
+					colorPreview.data('color', data['result'].color);
+					Vtiger_Helper_Js.showPnotify({
+						text: data['result']['message'],
 						animation: 'show',
 						type: 'success'
-					};
-					colorPreview.css('background', response.color);
-					colorPreview.data('color', response.color);
-					Vtiger_Helper_Js.showPnotify(params);
-				},
-				function (data, err) {
+					});
 				}
 		);
 	},
@@ -228,17 +209,13 @@ var Colors_Js = {
 			id: target.data('id')
 		}).then(
 				function (data) {
-					var response = data['result'];
-					var params = {
-						text: response['message'],
-						animation: 'show',
-						type: 'success'
-					};
 					colorPreview.css('background', '');
 					colorPreview.data('color', '');
-					Vtiger_Helper_Js.showPnotify(params);
-				},
-				function (data, err) {
+					Vtiger_Helper_Js.showPnotify({
+						text: data['result']['message'],
+						animation: 'show',
+						type: 'success'
+					});
 				}
 		);
 	},
@@ -281,16 +258,12 @@ var Colors_Js = {
 					'id': target.data('id')
 				}).then(
 						function (data) {
-							var response = data['result'];
-							var params = {
-								text: response['message'],
+							Vtiger_Helper_Js.showPnotify({
+								text: data['result']['message'],
 								animation: 'show',
 								type: 'success'
-							};
-							Vtiger_Helper_Js.showPnotify(params);
-							return response;
-						},
-						function (data, err) {
+							});
+							return data['result'];
 						}
 				);
 				colorPreview.css('background', selectedColor.val());
@@ -316,17 +289,13 @@ var Colors_Js = {
 			id: target.data('id')
 		}).then(
 				function (data) {
-					var response = data['result'];
-					var params = {
-						text: response['message'],
+					colorPreview.css('background', data['result'].color);
+					colorPreview.data('color', data['result'].color);
+					Vtiger_Helper_Js.showPnotify({
+						text: data['result']['message'],
 						animation: 'show',
 						type: 'success'
-					};
-					colorPreview.css('background', response.color);
-					colorPreview.data('color', response.color);
-					Vtiger_Helper_Js.showPnotify(params);
-				},
-				function (data, err) {
+					});
 				}
 		);
 	},
@@ -341,25 +310,20 @@ var Colors_Js = {
 			id: target.data('id')
 		}).then(
 				function (data) {
-					var response = data['result'];
-					var params = {
-						text: response['message'],
-						animation: 'show',
-						type: 'success'
-					};
 					colorPreview.css('background', '');
 					colorPreview.data('color', '');
-					Vtiger_Helper_Js.showPnotify(params);
-				},
-				function (data, err) {
+					Vtiger_Helper_Js.showPnotify({
+						text: data['result']['message'],
+						animation: 'show',
+						type: 'success'
+					});
 				}
 		);
 	},
 	activeModuleColor: function (e) {
 		var target = $(e.currentTarget);
 		var colorPreview = $('#calendarColorPreviewModule' + target.data('id'));
-		var params = {};
-		params.data = {
+		AppConnector.request({
 			module: 'Colors',
 			parent: 'Settings',
 			action: 'SaveAjax',
@@ -367,20 +331,15 @@ var Colors_Js = {
 			status: target.is(':checked'),
 			color: colorPreview.data('color'),
 			id: target.data('id')
-		};
-		params.async = false;
-		params.dataType = 'json';
-		AppConnector.request(params).done(
+		}).then(
 				function (data) {
-					var response = data['result'];
-					var params = {
-						text: response['message'],
+					Vtiger_Helper_Js.showPnotify({
+						text: data['result']['message'],
 						animation: 'show',
 						type: 'success'
-					};
-					Vtiger_Helper_Js.showPnotify(params);
-					colorPreview.css('background', response.color);
-					colorPreview.data('color', response.color);
+					});
+					colorPreview.css('background', data['result'].color);
+					colorPreview.data('color', data['result'].color);
 				}
 		);
 	},
@@ -485,13 +444,11 @@ var Colors_Js = {
 			fieldId: target.data('fieldid')
 		}).then(
 				function (data) {
-					var response = data['result'];
-					var params = {
-						text: response['message'],
+					Vtiger_Helper_Js.showPnotify({
+						text: data['result']['message'],
 						animation: 'show',
 						type: 'success'
-					};
-					Vtiger_Helper_Js.showPnotify(params);
+					});
 					container.find('.modulePickList').trigger('change');
 				}
 		);
@@ -538,16 +495,12 @@ var Colors_Js = {
 					fieldValueId: target.data('fieldvalueid')
 				}).then(
 						function (data) {
-							var response = data['result'];
-							var params = {
-								text: response['message'],
+							Vtiger_Helper_Js.showPnotify({
+								text: data['result']['message'],
 								animation: 'show',
 								type: 'success'
-							};
-							Vtiger_Helper_Js.showPnotify(params);
-							return response;
-						},
-						function (data, err) {
+							});
+							return data['result'];
 						}
 				);
 				colorPreview.css('background', selectedColor.val());
@@ -581,17 +534,13 @@ var Colors_Js = {
 			fieldValueId: target.data('fieldvalueid')
 		}).then(
 				function (data) {
-					var response = data['result'];
-					var params = {
-						text: response['message'],
+					colorPreview.css('background', data['result'].color);
+					colorPreview.data('color', data['result'].color);
+					Vtiger_Helper_Js.showPnotify({
+						text: data['result']['message'],
 						animation: 'show',
 						type: 'success'
-					};
-					colorPreview.css('background', response.color);
-					colorPreview.data('color', response.color);
-					Vtiger_Helper_Js.showPnotify(params);
-				},
-				function (data, err) {
+					});
 				}
 		);
 		progress.progressIndicator({'mode': 'hide'});
@@ -616,17 +565,13 @@ var Colors_Js = {
 			fieldValueId: target.data('fieldvalueid')
 		}).then(
 				function (data) {
-					var response = data['result'];
-					var params = {
-						text: response['message'],
-						animation: 'show',
-						type: 'success'
-					};
 					colorPreview.css('background', '');
 					colorPreview.data('color', '');
-					Vtiger_Helper_Js.showPnotify(params);
-				},
-				function (data, err) {
+					Vtiger_Helper_Js.showPnotify({
+						text: data['result']['message'],
+						animation: 'show',
+						type: 'success'
+					});
 				}
 		);
 		progress.progressIndicator({'mode': 'hide'});

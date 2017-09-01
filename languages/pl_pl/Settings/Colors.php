@@ -24,4 +24,7 @@ $languageStrings = [
 	'LBL_PICKLIST_COLOR_COL_NOT_FOUND' => 'Funkcjonalność kolorów nie została aktywowana dla tego słownika',
 	'LBL_UPDATE_COLOR_COLUMN' => 'Aktywuj',
 	'LBL_WARNING' => 'Uwaga',
+	'LBL_ITEM' => 'Wartość',
+	'LBL_MODULE' => 'Moduł',
+	'LBL_GROUP_NAME' => 'Grupa'
 ];
