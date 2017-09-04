@@ -48,7 +48,7 @@ class Settings_Colors_Index_View extends Settings_Vtiger_Index_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		$jsFileNames = [
-			"modules.Settings.$request->getModule().resources.Colors",
+			'modules.Settings'.$request->getModule().'resources.Colors',
 			'~libraries/jquery/colorpicker/js/colorpicker.js'
 		];
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
