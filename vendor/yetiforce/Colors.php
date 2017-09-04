@@ -93,21 +93,18 @@ class Colors
 		foreach (\App\Fields\Picklist::getModules() as $module) {
 			$fields = \App\Colors::getPicklistFieldsByModule($module['tabname']);
 			foreach ($fields as $field) {
-				$fieldModel = \Vtiger_Field_Model::getInstanceFromFieldId($field->getId());
-				if (key_exists($fieldModel->getName(), $fields) && $fieldModel->getModuleName() === $module['tabname']) {
-					$values = \App\Fields\Picklist::getValues($fieldModel->getName());
-					if ($values) {
-						$firstRow = reset($values);
-						if (key_exists('color', $firstRow)) {
-							foreach ($values as $item) {
-								if (ltrim($item['color'], '#')) {
-									if (strpos($item['color'], '#') === false) {
-										$item['color'] = '#' . $item['color'];
-									}
-									$css .= '.picklistColorBorder_' . $module['tabname'] . '_' . $fieldModel->getName() . ' {' . PHP_EOL . '	border-color: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
-									$css .= '.picklistColorBg_' . $module['tabname'] . '_' . $fieldModel->getName() . ' {' . PHP_EOL . '	background: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
-									$css .= '.picklistColorText_' . $module['tabname'] . '_' . $fieldModel->getName() . ' {' . PHP_EOL . '	color: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
+				$values = \App\Fields\Picklist::getValues($field->getName());
+				if ($values) {
+					$firstRow = reset($values);
+					if (key_exists('color', $firstRow)) {
+						foreach ($values as $item) {
+							if (ltrim($item['color'], '#')) {
+								if (strpos($item['color'], '#') === false) {
+									$item['color'] = '#' . $item['color'];
 								}
+								$css .= '.picklistColorBorder_' . $module['tabname'] . '_' . $field->getName() . ' {' . PHP_EOL . '	border-color: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
+								$css .= '.picklistColorBg_' . $module['tabname'] . '_' . $field->getName() . ' {' . PHP_EOL . '	background: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
+								$css .= '.picklistColorText_' . $module['tabname'] . '_' . $field->getName() . ' {' . PHP_EOL . '	color: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
 							}
 						}
 					}
@@ -163,7 +160,6 @@ class Colors
 	{
 		$table = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['fieldid' => $fieldId])->scalar();
 		\App\Db::getInstance()->createCommand()->addColumn('vtiger_' . $table, 'color', 'string(25)')->execute();
-		\App\Colors::generate('picklist');
 	}
 
 	/**
