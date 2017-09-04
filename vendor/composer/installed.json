@@ -712,67 +712,6 @@
 		]
 	},
 	{
-		"name": "symfony/polyfill-mbstring",
-		"version": "v1.4.0",
-		"version_normalized": "1.4.0.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/symfony/polyfill-mbstring.git",
-			"reference": "f29dca382a6485c3cbe6379f0c61230167681937"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/f29dca382a6485c3cbe6379f0c61230167681937",
-			"reference": "f29dca382a6485c3cbe6379f0c61230167681937",
-			"shasum": ""
-		},
-		"require": {
-			"php": ">=5.3.3"
-		},
-		"suggest": {
-			"ext-mbstring": "For best performance"
-		},
-		"time": "2017-06-09T14:24:12+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "1.4-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-4": {
-				"Symfony\\Polyfill\\Mbstring\\": ""
-			},
-			"files": [
-				"bootstrap.php"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"MIT"
-		],
-		"authors": [
-			{
-				"name": "Nicolas Grekas",
-				"email": "p@tchwork.com"
-			},
-			{
-				"name": "Symfony Community",
-				"homepage": "https://symfony.com/contributors"
-			}
-		],
-		"description": "Symfony polyfill for the Mbstring extension",
-		"homepage": "https://symfony.com",
-		"keywords": [
-			"compatibility",
-			"mbstring",
-			"polyfill",
-			"portable",
-			"shim"
-		]
-	},
-	{
 		"name": "symfony/var-dumper",
 		"version": "v3.3.5",
 		"version_normalized": "3.3.5.0",
@@ -1017,135 +956,6 @@
 		]
 	},
 	{
-		"name": "symfony/debug",
-		"version": "v3.3.5",
-		"version_normalized": "3.3.5.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/symfony/debug.git",
-			"reference": "63b85a968486d95ff9542228dc2e4247f16f9743"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/symfony/debug/zipball/63b85a968486d95ff9542228dc2e4247f16f9743",
-			"reference": "63b85a968486d95ff9542228dc2e4247f16f9743",
-			"shasum": ""
-		},
-		"require": {
-			"php": ">=5.5.9",
-			"psr/log": "~1.0"
-		},
-		"conflict": {
-			"symfony/http-kernel": ">=2.3,<2.3.24|~2.4.0|>=2.5,<2.5.9|>=2.6,<2.6.2"
-		},
-		"require-dev": {
-			"symfony/http-kernel": "~2.8|~3.0"
-		},
-		"time": "2017-07-05T13:02:37+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "3.3-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-4": {
-				"Symfony\\Component\\Debug\\": ""
-			},
-			"exclude-from-classmap": [
-				"/Tests/"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"MIT"
-		],
-		"authors": [
-			{
-				"name": "Fabien Potencier",
-				"email": "fabien@symfony.com"
-			},
-			{
-				"name": "Symfony Community",
-				"homepage": "https://symfony.com/contributors"
-			}
-		],
-		"description": "Symfony Debug Component",
-		"homepage": "https://symfony.com"
-	},
-	{
-		"name": "symfony/console",
-		"version": "v3.3.5",
-		"version_normalized": "3.3.5.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/symfony/console.git",
-			"reference": "a97e45d98c59510f085fa05225a1acb74dfe0546"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/symfony/console/zipball/a97e45d98c59510f085fa05225a1acb74dfe0546",
-			"reference": "a97e45d98c59510f085fa05225a1acb74dfe0546",
-			"shasum": ""
-		},
-		"require": {
-			"php": ">=5.5.9",
-			"symfony/debug": "~2.8|~3.0",
-			"symfony/polyfill-mbstring": "~1.0"
-		},
-		"conflict": {
-			"symfony/dependency-injection": "<3.3"
-		},
-		"require-dev": {
-			"psr/log": "~1.0",
-			"symfony/config": "~3.3",
-			"symfony/dependency-injection": "~3.3",
-			"symfony/event-dispatcher": "~2.8|~3.0",
-			"symfony/filesystem": "~2.8|~3.0",
-			"symfony/http-kernel": "~2.8|~3.0",
-			"symfony/process": "~2.8|~3.0"
-		},
-		"suggest": {
-			"psr/log": "For using the console logger",
-			"symfony/event-dispatcher": "",
-			"symfony/filesystem": "",
-			"symfony/process": ""
-		},
-		"time": "2017-07-03T13:19:36+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "3.3-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-4": {
-				"Symfony\\Component\\Console\\": ""
-			},
-			"exclude-from-classmap": [
-				"/Tests/"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"MIT"
-		],
-		"authors": [
-			{
-				"name": "Fabien Potencier",
-				"email": "fabien@symfony.com"
-			},
-			{
-				"name": "Symfony Community",
-				"homepage": "https://symfony.com/contributors"
-			}
-		],
-		"description": "Symfony Console Component",
-		"homepage": "https://symfony.com"
-	},
-	{
 		"name": "sensiolabs/security-checker",
 		"version": "v4.0.4",
 		"version_normalized": "4.0.4.0",
@@ -1191,5 +1001,194 @@
 			}
 		],
 		"description": "A security checker for your composer.lock"
+	},
+	{
+		"name": "symfony/debug",
+		"version": "v3.3.8",
+		"version_normalized": "3.3.8.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/symfony/debug.git",
+			"reference": "084d804fe35808eb2ef596ec83d85d9768aa6c9d"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/symfony/debug/zipball/084d804fe35808eb2ef596ec83d85d9768aa6c9d",
+			"reference": "084d804fe35808eb2ef596ec83d85d9768aa6c9d",
+			"shasum": ""
+		},
+		"require": {
+			"php": "^5.5.9|>=7.0.8",
+			"psr/log": "~1.0"
+		},
+		"conflict": {
+			"symfony/http-kernel": ">=2.3,<2.3.24|~2.4.0|>=2.5,<2.5.9|>=2.6,<2.6.2"
+		},
+		"require-dev": {
+			"symfony/http-kernel": "~2.8|~3.0"
+		},
+		"time": "2017-08-27T14:52:21+00:00",
+		"type": "library",
+		"extra": {
+			"branch-alias": {
+				"dev-master": "3.3-dev"
+			}
+		},
+		"installation-source": "dist",
+		"autoload": {
+			"psr-4": {
+				"Symfony\\Component\\Debug\\": ""
+			},
+			"exclude-from-classmap": [
+				"/Tests/"
+			]
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"MIT"
+		],
+		"authors": [
+			{
+				"name": "Fabien Potencier",
+				"email": "fabien@symfony.com"
+			},
+			{
+				"name": "Symfony Community",
+				"homepage": "https://symfony.com/contributors"
+			}
+		],
+		"description": "Symfony Debug Component",
+		"homepage": "https://symfony.com"
+	},
+	{
+		"name": "symfony/polyfill-mbstring",
+		"version": "v1.5.0",
+		"version_normalized": "1.5.0.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/symfony/polyfill-mbstring.git",
+			"reference": "7c8fae0ac1d216eb54349e6a8baa57d515fe8803"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/7c8fae0ac1d216eb54349e6a8baa57d515fe8803",
+			"reference": "7c8fae0ac1d216eb54349e6a8baa57d515fe8803",
+			"shasum": ""
+		},
+		"require": {
+			"php": ">=5.3.3"
+		},
+		"suggest": {
+			"ext-mbstring": "For best performance"
+		},
+		"time": "2017-06-14T15:44:48+00:00",
+		"type": "library",
+		"extra": {
+			"branch-alias": {
+				"dev-master": "1.5-dev"
+			}
+		},
+		"installation-source": "dist",
+		"autoload": {
+			"psr-4": {
+				"Symfony\\Polyfill\\Mbstring\\": ""
+			},
+			"files": [
+				"bootstrap.php"
+			]
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"MIT"
+		],
+		"authors": [
+			{
+				"name": "Nicolas Grekas",
+				"email": "p@tchwork.com"
+			},
+			{
+				"name": "Symfony Community",
+				"homepage": "https://symfony.com/contributors"
+			}
+		],
+		"description": "Symfony polyfill for the Mbstring extension",
+		"homepage": "https://symfony.com",
+		"keywords": [
+			"compatibility",
+			"mbstring",
+			"polyfill",
+			"portable",
+			"shim"
+		]
+	},
+	{
+		"name": "symfony/console",
+		"version": "v3.3.8",
+		"version_normalized": "3.3.8.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/symfony/console.git",
+			"reference": "d6596cb5022b6a0bd940eae54a1de78646a5fda6"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/symfony/console/zipball/d6596cb5022b6a0bd940eae54a1de78646a5fda6",
+			"reference": "d6596cb5022b6a0bd940eae54a1de78646a5fda6",
+			"shasum": ""
+		},
+		"require": {
+			"php": "^5.5.9|>=7.0.8",
+			"symfony/debug": "~2.8|~3.0",
+			"symfony/polyfill-mbstring": "~1.0"
+		},
+		"conflict": {
+			"symfony/dependency-injection": "<3.3"
+		},
+		"require-dev": {
+			"psr/log": "~1.0",
+			"symfony/config": "~3.3",
+			"symfony/dependency-injection": "~3.3",
+			"symfony/event-dispatcher": "~2.8|~3.0",
+			"symfony/filesystem": "~2.8|~3.0",
+			"symfony/process": "~2.8|~3.0"
+		},
+		"suggest": {
+			"psr/log": "For using the console logger",
+			"symfony/event-dispatcher": "",
+			"symfony/filesystem": "",
+			"symfony/process": ""
+		},
+		"time": "2017-08-27T14:52:21+00:00",
+		"type": "library",
+		"extra": {
+			"branch-alias": {
+				"dev-master": "3.3-dev"
+			}
+		},
+		"installation-source": "dist",
+		"autoload": {
+			"psr-4": {
+				"Symfony\\Component\\Console\\": ""
+			},
+			"exclude-from-classmap": [
+				"/Tests/"
+			]
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"MIT"
+		],
+		"authors": [
+			{
+				"name": "Fabien Potencier",
+				"email": "fabien@symfony.com"
+			},
+			{
+				"name": "Symfony Community",
+				"homepage": "https://symfony.com/contributors"
+			}
+		],
+		"description": "Symfony Console Component",
+		"homepage": "https://symfony.com"
 	}
 ]

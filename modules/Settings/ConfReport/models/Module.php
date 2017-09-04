@@ -89,7 +89,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getStabilityConf($instalMode = false, $onlyError = false)
 	{
 		$directiveValues = [
-			'PHP' => ['prefer' => '5.5.0'],
+			'PHP' => ['prefer' => '7.0.0'],
 			'error_reporting' => ['prefer' => 'E_ALL & ~E_NOTICE'],
 			'output_buffering' => ['prefer' => 'On'],
 			'max_execution_time' => ['prefer' => '600'],
@@ -204,7 +204,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		$directiveValues['max_input_vars']['current'] = ini_get('max_input_vars');
 
-		if (version_compare(PHP_VERSION, '5.5.0', '<')) {
+		if (version_compare(PHP_VERSION, '7.0.0', '<')) {
 			$directiveValues['PHP']['status'] = true;
 		}
 		$directiveValues['PHP']['current'] = PHP_VERSION;

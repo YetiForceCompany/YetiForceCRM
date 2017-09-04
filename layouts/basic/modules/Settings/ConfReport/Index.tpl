@@ -185,7 +185,7 @@
 
         </div>
 		{* check config module *}
-		{if \App\Module::isModuleActive('OSSMail')}
+		{if \App\Module::isModuleActive('OSSMail') && Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission('OSSMail')}
 			<div class='editViewContainer tab-pane' id="check_config">
 				<iframe id="roundcube_interface" style="width: 100%; min-height: 590px;" src="index.php?module=OSSMail&view=CheckConfig" frameborder="0"> </iframe>
 			</div>
