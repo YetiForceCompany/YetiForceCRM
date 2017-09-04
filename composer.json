@@ -18,7 +18,7 @@
 		}
 	],
 	"require": {
-		"php": ">=7.0.0",
+		"php": ">=5.6.0",
 		"ext-imap": "*",
 		"ext-openssl": "*",
 		"ext-mbstring": "*",
