@@ -53,16 +53,16 @@ class Colors
 		$css = '';
 		foreach (\App\Colors::getAllUserColor() as $item) {
 			if (ltrim($item['color'], '#')) {
-				$css .= '.ownerColorBg_' . $item['id'] . ' {' . PHP_EOL . '	background: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
-				$css .= '.ownerColorText_' . $item['id'] . ' {' . PHP_EOL . '	color: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
-				$css .= '.ownerColorBorder_' . $item['id'] . ' {' . PHP_EOL . '	border-color: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
+				$css .= '.ownerColorBg_' . $item['id'] . ' { background: ' . $item['color'] . '; }' . PHP_EOL;
+				$css .= '.ownerColorText_' . $item['id'] . ' { color: ' . $item['color'] . '; }' . PHP_EOL;
+				$css .= '.ownerColorBorder_' . $item['id'] . ' { border-color: ' . $item['color'] . '; }' . PHP_EOL;
 			}
 		}
 		foreach (\App\Colors::getAllGroupColor() as $item) {
 			if (ltrim($item['color'], '#')) {
-				$css .= '.ownerColorBg_' . $item['id'] . ' {' . PHP_EOL . '	background: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
-				$css .= '.ownerColorText_' . $item['id'] . ' {' . PHP_EOL . '	color: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
-				$css .= '.ownerColorBorder_' . $item['id'] . ' {' . PHP_EOL . '	border-color: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
+				$css .= '.ownerColorBg_' . $item['id'] . ' { background: ' . $item['color'] . '; }' . PHP_EOL;
+				$css .= '.ownerColorText_' . $item['id'] . ' { color: ' . $item['color'] . '; }' . PHP_EOL;
+				$css .= '.ownerColorBorder_' . $item['id'] . ' { border-color: ' . $item['color'] . '; }' . PHP_EOL;
 			}
 		}
 		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/owners.css', $css);
@@ -76,9 +76,9 @@ class Colors
 		$css = '';
 		foreach (\App\Colors::getAllModuleColor() as $item) {
 			if (ltrim($item['color'], '#')) {
-				$css .= '.modColorBorder_' . $item['module'] . ' {' . PHP_EOL . '	border-color: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
-				$css .= '.modColorBg_' . $item['module'] . ' {' . PHP_EOL . '	background: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
-				$css .= '.modColorText_' . $item['module'] . ' {' . PHP_EOL . '	color: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
+				$css .= '.modColorBorder_' . $item['module'] . ' { border-color: ' . $item['color'] . '; }' . PHP_EOL;
+				$css .= '.modColorBg_' . $item['module'] . ' { background: ' . $item['color'] . '; }' . PHP_EOL;
+				$css .= '.modColorText_' . $item['module'] . ' { color: ' . $item['color'] . '; }' . PHP_EOL;
 			}
 		}
 		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/modules.css', $css);
@@ -102,9 +102,9 @@ class Colors
 								if (strpos($item['color'], '#') === false) {
 									$item['color'] = '#' . $item['color'];
 								}
-								$css .= '.picklistColorBorder_' . $module['tabname'] . '_' . $field->getName() . ' {' . PHP_EOL . '	border-color: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
-								$css .= '.picklistColorBg_' . $module['tabname'] . '_' . $field->getName() . ' {' . PHP_EOL . '	background: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
-								$css .= '.picklistColorText_' . $module['tabname'] . '_' . $field->getName() . ' {' . PHP_EOL . '	color: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
+								$css .= '.picklistColorBorder_' . $module['tabname'] . '_' . $field->getName() . ' { border-color: ' . $item['color'] . '; }' . PHP_EOL;
+								$css .= '.picklistColorBg_' . $module['tabname'] . '_' . $field->getName() . ' { background: ' . $item['color'] . '; }' . PHP_EOL;
+								$css .= '.picklistColorText_' . $module['tabname'] . '_' . $field->getName() . ' { color: ' . $item['color'] . '; }' . PHP_EOL;
 							}
 						}
 					}
@@ -122,8 +122,8 @@ class Colors
 		$css = '';
 		foreach (\Settings_Calendar_Module_Model::getCalendarConfig('colors') as $item) {
 			if (ltrim($item['value'], '#')) {
-				$css .= '.calCol_' . $item['label'] . ' {' . PHP_EOL . '	border: 1px solid ' . $item['value'] . ' !important;' . PHP_EOL . '}' . PHP_EOL;
-				$css .= '.listCol_' . $item['label'] . ' {' . PHP_EOL . '	background: ' . $item['value'] . ' !important;' . PHP_EOL . '}' . PHP_EOL;
+				$css .= '.calCol_' . $item['label'] . ' { border: 1px solid ' . $item['value'] . '; }' . PHP_EOL;
+				$css .= '.listCol_' . $item['label'] . ' { background: ' . $item['value'] . '; }' . PHP_EOL;
 			}
 		}
 		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/calendar.css', $css);
