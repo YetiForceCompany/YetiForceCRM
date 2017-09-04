@@ -216,11 +216,20 @@ class Colors
 		\App\Colors::generate('group');
 	}
 
+	/**
+	 * Get all group color
+	 * @return array
+	 */
 	public static function getAllGroupColor()
 	{
 		return (new Db\Query())->select(['id' => 'groupid', 'groupname', 'color'])->from('vtiger_groups')->all();
 	}
 
+	/**
+	 * Get all module color
+	 * @param bool $active
+	 * @return array
+	 */
 	public static function getAllModuleColor($active = false)
 	{
 		$allModules = \vtlib\Functions::getAllModules(false, false, false, $active);
