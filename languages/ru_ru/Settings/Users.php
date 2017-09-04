@@ -6,22 +6,9 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-	'LBL_COLORS_DESCRIPTION' => 'Настройка цветов пользователей',
 	'Users' => 'Пользователи',
 	'USER_MAIL_EXIST' => 'Пользователь с такой электронной почтой уже существует',
-	'LBL_USERS_COLORS' => 'Цвет пользователей',
-	'LBL_USERS_COLORS_DESCRIPTION' => 'Настройка цвета пользователя',
-	'LBL_UPDATE_COLOR' => 'Изменить цвет',
-	'LBL_REMOVE_COLOR' => 'Remove color',
-	'LBL_COLOR' => 'Цвет',
-	'LBL_GENERATE_COLOR' => 'Генерировать случайный цвет',
-	'LBL_GENERATED_COLOR' => 'Генератор цветов',
-	'LBL_EDIT_COLOR' => 'Редактировать цвет',
-	'LBL_SELECT_COLOR' => 'Выберите цвет:',
-	'LBL_SAVE_COLOR' => 'Сохранить цвет',
-	'LBL_GROUPS_COLORS' => 'Группа цветов',
 	'LBL_GROUP_NAME' => 'Название группы',
-	'LBL_COLORS' => 'Цвета',
 	'LBL_PRIORITY' => 'Приоритет',
 	'LBL_PICKLISTS' => 'Picklists',
 	'LBL_WARNING' => 'Warning',
