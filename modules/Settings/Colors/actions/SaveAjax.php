@@ -110,12 +110,12 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function updateModuleColor(\App\Request $request)
 	{
-		$id = $request->getInteger('record');
+		$recordId = $request->getInteger('record');
 		$color = $request->get('color');
 		if (!$color) {
 			$color = \App\Colors::getRandomColor();
 		}
-		\App\Colors::updateModuleColor($id, $color);
+		\App\Colors::updateModuleColor($recordId, $color);
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
