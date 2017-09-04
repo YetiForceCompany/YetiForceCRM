@@ -21,7 +21,7 @@ var Colors_Js = {
 		var target = $(e.currentTarget);
 		var editColorModal = jQuery('.UserColors .editColorContainer');
 		var clonedContainer = editColorModal.clone(true, true);
-		var colorPreview = $('#calendarColorPreviewUser' + target.data('id'));
+		var colorPreview = $('#calendarColorPreviewUser' + target.data('record'));
 		var callBackFunction = function (data) {
 			data.find('.editColorContainer').removeClass('hide').show();
 			var selectedColor = data.find('.selectedColor');
@@ -53,7 +53,7 @@ var Colors_Js = {
 					'action': 'SaveAjax',
 					'mode': 'updateUserColor',
 					'color': selectedColor.val(),
-					'id': target.data('id')
+					'record': target.data('record')
 				}).then(
 						function (data) {
 							Vtiger_Helper_Js.showPnotify({
@@ -78,13 +78,13 @@ var Colors_Js = {
 	},
 	generateUserColor: function (e) {
 		var target = $(e.currentTarget);
-		var colorPreview = $('#calendarColorPreviewUser' + target.data('id'));
+		var colorPreview = $('#calendarColorPreviewUser' + target.data('record'));
 		AppConnector.request({
 			module: 'Colors',
 			parent: 'Settings',
 			action: 'SaveAjax',
 			mode: 'updateUserColor',
-			id: target.data('id')
+			record: target.data('record')
 		}).then(
 				function (data) {
 					colorPreview.css('background', data['result'].color);
@@ -99,13 +99,13 @@ var Colors_Js = {
 	},
 	removeUserColor: function (e) {
 		var target = $(e.currentTarget);
-		var colorPreview = $('#calendarColorPreviewUser' + target.data('id'));
+		var colorPreview = $('#calendarColorPreviewUser' + target.data('record'));
 		AppConnector.request({
 			module: 'Colors',
 			parent: 'Settings',
 			action: 'SaveAjax',
 			mode: 'removeUserColor',
-			id: target.data('id')
+			record: target.data('record')
 		}).then(
 				function (data) {
 					colorPreview.css('background', '');
@@ -122,7 +122,7 @@ var Colors_Js = {
 		var target = $(e.currentTarget);
 		var editColorModal = jQuery('.UserColors .editColorContainer');
 		var clonedContainer = editColorModal.clone(true, true);
-		var colorPreview = $('#calendarColorPreviewGroup' + target.data('id'));
+		var colorPreview = $('#calendarColorPreviewGroup' + target.data('record'));
 		var callBackFunction = function (data) {
 			data.find('.editColorContainer').removeClass('hide').show();
 			var selectedColor = data.find('.selectedColor');
@@ -154,7 +154,7 @@ var Colors_Js = {
 					'action': 'SaveAjax',
 					'mode': 'updateGroupColor',
 					'color': selectedColor.val(),
-					'id': target.data('id')
+					'record': target.data('record')
 				}).then(
 						function (data) {
 							Vtiger_Helper_Js.showPnotify({
@@ -179,13 +179,13 @@ var Colors_Js = {
 	},
 	generateGroupColor: function (e) {
 		var target = $(e.currentTarget);
-		var colorPreview = $('#calendarColorPreviewGroup' + target.data('id'));
+		var colorPreview = $('#calendarColorPreviewGroup' + target.data('record'));
 		AppConnector.request({
 			module: 'Colors',
 			parent: 'Settings',
 			action: 'SaveAjax',
 			mode: 'updateGroupColor',
-			id: target.data('id')
+			record: target.data('record')
 		}).then(
 				function (data) {
 					colorPreview.css('background', data['result'].color);
@@ -200,13 +200,13 @@ var Colors_Js = {
 	},
 	removeGroupColor: function (e) {
 		var target = $(e.currentTarget);
-		var colorPreview = $('#calendarColorPreviewGroup' + target.data('id'));
+		var colorPreview = $('#calendarColorPreviewGroup' + target.data('record'));
 		AppConnector.request({
 			module: 'Colors',
 			parent: 'Settings',
 			action: 'SaveAjax',
 			mode: 'removeGroupColor',
-			id: target.data('id')
+			record: target.data('record')
 		}).then(
 				function (data) {
 					colorPreview.css('background', '');
@@ -223,7 +223,7 @@ var Colors_Js = {
 		var target = $(e.currentTarget);
 		var editColorModal = jQuery('.UserColors .editColorContainer');
 		var clonedContainer = editColorModal.clone(true, true);
-		var colorPreview = $('#calendarColorPreviewModule' + target.data('id'));
+		var colorPreview = $('#calendarColorPreviewModule' + target.data('record'));
 		var callBackFunction = function (data) {
 			data.find('.editColorContainer').removeClass('hide').show();
 			var selectedColor = data.find('.selectedColor');
@@ -255,7 +255,7 @@ var Colors_Js = {
 					'action': 'SaveAjax',
 					'mode': 'updateModuleColor',
 					'color': selectedColor.val(),
-					'id': target.data('id')
+					'record': target.data('record')
 				}).then(
 						function (data) {
 							Vtiger_Helper_Js.showPnotify({
@@ -280,13 +280,13 @@ var Colors_Js = {
 	},
 	generateModuleColor: function (e) {
 		var target = $(e.currentTarget);
-		var colorPreview = $('#calendarColorPreviewModule' + target.data('id'));
+		var colorPreview = $('#calendarColorPreviewModule' + target.data('record'));
 		AppConnector.request({
 			module: 'Colors',
 			parent: 'Settings',
 			action: 'SaveAjax',
 			mode: 'updateModuleColor',
-			id: target.data('id')
+			record: target.data('record')
 		}).then(
 				function (data) {
 					colorPreview.css('background', data['result'].color);
@@ -301,13 +301,13 @@ var Colors_Js = {
 	},
 	removeModuleColor: function (e) {
 		var target = $(e.currentTarget);
-		var colorPreview = $('#calendarColorPreviewModule' + target.data('id'));
+		var colorPreview = $('#calendarColorPreviewModule' + target.data('record'));
 		AppConnector.request({
 			module: 'Colors',
 			parent: 'Settings',
 			action: 'SaveAjax',
 			mode: 'removeModuleColor',
-			id: target.data('id')
+			record: target.data('record')
 		}).then(
 				function (data) {
 					colorPreview.css('background', '');
@@ -322,7 +322,7 @@ var Colors_Js = {
 	},
 	activeModuleColor: function (e) {
 		var target = $(e.currentTarget);
-		var colorPreview = $('#calendarColorPreviewModule' + target.data('id'));
+		var colorPreview = $('#calendarColorPreviewModule' + target.data('record'));
 		AppConnector.request({
 			module: 'Colors',
 			parent: 'Settings',
@@ -330,7 +330,7 @@ var Colors_Js = {
 			mode: 'activeModuleColor',
 			status: target.is(':checked'),
 			color: colorPreview.data('color'),
-			id: target.data('id')
+			record: target.data('record')
 		}).then(
 				function (data) {
 					Vtiger_Helper_Js.showPnotify({
