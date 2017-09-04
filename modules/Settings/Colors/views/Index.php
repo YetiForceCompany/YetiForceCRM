@@ -34,13 +34,10 @@ class Settings_Colors_Index_View extends Settings_Vtiger_Index_View
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
-		$headerCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = array(
+		$cssFileNames = [
 			'~libraries/jquery/colorpicker/css/colorpicker.css'
-		);
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
-		return $headerCssInstances;
+		];
+		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($cssFileNames));
 	}
 
 	/**
@@ -50,14 +47,10 @@ class Settings_Colors_Index_View extends Settings_Vtiger_Index_View
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-		$jsFileNames = array(
-			"modules.Settings.$moduleName.resources.Colors",
+		$jsFileNames = [
+			"modules.Settings.$request->getModule().resources.Colors",
 			'~libraries/jquery/colorpicker/js/colorpicker.js'
-		);
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
+		];
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 }

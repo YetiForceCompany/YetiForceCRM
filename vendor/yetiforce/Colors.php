@@ -81,8 +81,7 @@ class Colors
 					. '}' . "\r\n";
 			}
 		}
-		$file = ROOT_DIRECTORY . '/public_html/layouts/resources/colors/owners.css';
-		file_put_contents($file, $css);
+		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/owners.css', $css);
 	}
 
 	/**
@@ -104,8 +103,7 @@ class Colors
 					. '}' . "\r\n";
 			}
 		}
-		$file = ROOT_DIRECTORY . '/public_html/layouts/resources/colors/modules.css';
-		file_put_contents($file, $css);
+		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/modules.css', $css);
 	}
 
 	/**
@@ -144,8 +142,7 @@ class Colors
 				}
 			}
 		}
-		$file = ROOT_DIRECTORY . '/public_html/layouts/resources/colors/picklists.css';
-		file_put_contents($file, $css);
+		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/picklists.css', $css);
 	}
 
 	/**
@@ -164,8 +161,7 @@ class Colors
 					. '}' . "\r\n";
 			}
 		}
-		$file = ROOT_DIRECTORY . '/public_html/layouts/resources/colors/calendar.css';
-		file_put_contents($file, $css);
+		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/calendar.css', $css);
 	}
 
 	/**

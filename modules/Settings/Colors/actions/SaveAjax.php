@@ -1,6 +1,6 @@
 <?php
 /**
- * Basic Colors Action Class
+ * Basic colors action class
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
@@ -10,7 +10,7 @@
 /**
  * Ajax save actions handler class
  */
-class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Save_Action
+class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
 
 	/**
@@ -37,12 +37,12 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Save_Action
 	 */
 	public function updateUserColor(\App\Request $request)
 	{
-		$id = $request->getInteger('id');
+		$recordId = $request->getInteger('record');
 		$color = $request->get('color');
 		if (!$color) {
 			$color = \App\Colors::getRandomColor();
 		}
-		\App\Colors::updateUserColor($id, $color);
+		\App\Colors::updateUserColor($recordId, $color);
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
@@ -58,11 +58,11 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Save_Action
 	 */
 	public function removeUserColor(\App\Request $request)
 	{
-		\App\Colors::updateUserColor($request->getInteger('id'), '');
+		\App\Colors::updateUserColor($request->getInteger('record'), '');
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'color' => $color,
+			'color' => '',
 			'message' => \App\Language::translate('LBL_REMOVED_COLOR', $request->getModule(false))
 		]);
 		$response->emit();
@@ -78,7 +78,7 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Save_Action
 		if (!$color) {
 			$color = \App\Colors::getRandomColor();
 		}
-		\App\Colors::updateGroupColor($request->getInteger('id'), $color);
+		\App\Colors::updateGroupColor($request->getInteger('record'), $color);
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
@@ -94,11 +94,11 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Save_Action
 	 */
 	public function removeGroupColor(\App\Request $request)
 	{
-		\App\Colors::updateGroupColor($request->getInteger('id'), '');
+		\App\Colors::updateGroupColor($request->getInteger('record'), '');
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'color' => $color,
+			'color' => '',
 			'message' => \App\Language::translate('LBL_REMOVED_COLOR', $request->getModule(false))
 		]);
 		$response->emit();
@@ -110,7 +110,7 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Save_Action
 	 */
 	public function updateModuleColor(\App\Request $request)
 	{
-		$id = $request->getInteger('id');
+		$id = $request->getInteger('record');
 		$color = $request->get('color');
 		if (!$color) {
 			$color = \App\Colors::getRandomColor();
@@ -131,11 +131,11 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Save_Action
 	 */
 	public function removeModuleColor(\App\Request $request)
 	{
-		\App\Colors::updateModuleColor($request->getInteger('id'), '');
+		\App\Colors::updateModuleColor($request->getInteger('record'), '');
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'color' => $color,
+			'color' => '',
 			'message' => \App\Language::translate('LBL_REMOVED_COLOR', $request->getModule(false))
 		]);
 		$response->emit();
@@ -147,7 +147,7 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Save_Action
 	 */
 	public function activeModuleColor(\App\Request $request)
 	{
-		$color = \App\Colors::activeModuleColor($request->getInteger('id'), $request->get('status'), $request->get('color'));
+		$color = \App\Colors::activeModuleColor($request->getInteger('record'), $request->get('status'), $request->get('color'));
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
@@ -195,7 +195,7 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Save_Action
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
-			'color' => $color,
+			'color' => '',
 			'message' => \App\Language::translate('LBL_REMOVED_COLOR', $request->getModule(false))
 		]);
 		$response->emit();
