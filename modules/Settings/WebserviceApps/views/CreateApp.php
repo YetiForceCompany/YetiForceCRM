@@ -10,14 +10,6 @@
 class Settings_WebserviceApps_CreateApp_View extends Settings_Vtiger_BasicModal_View
 {
 
-	public function checkPermission(\App\Request $request)
-	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (!$currentUserModel->isAdminUser()) {
-			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
-		}
-	}
-
 	public function getSize(\App\Request $request)
 	{
 		return 'modal-lg';

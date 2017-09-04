@@ -11,19 +11,6 @@ class Settings_Mail_SendManuallyAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 {
 
 	/**
-	 * Checking permission 
-	 * @param \App\Request $request
-	 * @throws \App\Exceptions\NoPermittedForAdmin
-	 */
-	public function checkPermission(\App\Request $request)
-	{
-		$currentUserModel = \App\User::getCurrentUserModel();
-		if (!$currentUserModel->isAdmin()) {
-			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
-		}
-	}
-
-	/**
 	 * Process
 	 * @param \App\Request $request
 	 */

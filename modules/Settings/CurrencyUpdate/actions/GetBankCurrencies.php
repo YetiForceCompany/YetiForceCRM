@@ -6,13 +6,8 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
-class Settings_CurrencyUpdate_GetBankCurrencies_Action extends Vtiger_Action_Controller
+class Settings_CurrencyUpdate_GetBankCurrencies_Action extends Settings_Vtiger_Basic_Action
 {
-
-	public function checkPermission(\App\Request $request)
-	{
-		return true;
-	}
 
 	public function process(\App\Request $request)
 	{

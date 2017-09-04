@@ -15,14 +15,6 @@ class Settings_GlobalPermission_Save_Action extends Settings_Vtiger_Save_Action
 		parent::__construct();
 	}
 
-	public function checkPermission(\App\Request $request)
-	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		if (!$currentUser->isAdminUser()) {
-			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
-		}
-	}
-
 	public function process(\App\Request $request)
 	{
 		$profileID = $request->get('profileID');

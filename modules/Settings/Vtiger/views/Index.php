@@ -30,10 +30,14 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$this->exposeMethod('security');
 	}
 
+	/**
+	 * Checking permissions
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermittedForAdmin
+	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (!$currentUserModel->isAdminUser()) {
+		if (!Users_Record_Model::getCurrentUserModel()->isAdminUser()) {
 			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}

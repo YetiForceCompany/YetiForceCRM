@@ -45,5 +45,3 @@ class Settings_OSSMailScanner_logs_View extends Settings_Vtiger_Index_View
 		return ceil($numRecord / $limit);
 	}
 }
-
-?>

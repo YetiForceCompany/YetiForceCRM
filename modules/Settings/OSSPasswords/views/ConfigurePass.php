@@ -9,14 +9,6 @@
 class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_View
 {
 
-	public function checkPermission(\App\Request $request)
-	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (!$currentUserModel->isAdminUser()) {
-			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
-		}
-	}
-
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Request $request

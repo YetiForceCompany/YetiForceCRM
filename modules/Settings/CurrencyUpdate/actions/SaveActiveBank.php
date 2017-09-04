@@ -6,23 +6,19 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
-class Settings_CurrencyUpdate_SaveActiveBank_Action extends Vtiger_Action_Controller
+class Settings_CurrencyUpdate_SaveActiveBank_Action extends Settings_Vtiger_Basic_Action
 {
-
-	public function checkPermission(\App\Request $request)
-	{
-		return true;
-	}
 
 	public function process(\App\Request $request)
 	{
 		$id = $request->get('id');
+		$qualifiedModule = $request->getModule(false);
 		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
 
 		if (!$moduleModel->setActiveBankById($id)) {
-			$return = array('success' => false, 'message' => \App\Language::translate('LBL_SET_BANK_ERROR', 'Settings:CurrencyUpdate'));
+			$return = array('success' => false, 'message' => \App\Language::translate('LBL_SET_BANK_ERROR', $qualifiedModule));
 		} else {
-			$return = array('success' => true, 'message' => \App\Language::translate('LBL_SET_BANK_OK', 'Settings:CurrencyUpdate'));
+			$return = array('success' => true, 'message' => \App\Language::translate('LBL_SET_BANK_OK', $qualifiedModule));
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($return);
