@@ -21,7 +21,6 @@ $languageStrings = [
 	'LBL_SAVE_CONFIG' => 'Zapisano konfigurację',
 	'LBL_LDAP_DOMAIN' => 'Domena (automatycznie dodawana do loginu)',
 	'LBL_VIEW_AUTH' => 'Autoryzacja',
-	'LBL_VIEW_COLORS' => 'Kolory',
 	'LBL_SWITCH_USERS' => 'Przełączanie użytkowników',
 	'LBL_SWITCH_USERS_DESCRIPTION' => 'Narzędzie umożliwiające przełączanie się pomiędzy użytkownikami w systemie.',
 	'LBL_SU_BASE_ACCESS' => 'Użytkownik',

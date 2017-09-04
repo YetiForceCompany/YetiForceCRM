@@ -352,8 +352,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~layouts/resources/colors/modules.css',
 			'~layouts/resources/colors/picklists.css',
 		];
-		$headerCssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		return $headerCssInstances;
+		return $this->checkAndConvertCssStyles($cssFileNames);
 	}
 
 	/**
@@ -367,8 +366,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'libraries.jquery.jquery',
 			'libraries.jquery.jquery-migrate'
 		];
-		$jsScriptInstances = $this->checkAndConvertJsScripts($headerScriptInstances);
-		return $jsScriptInstances;
+		return $this->checkAndConvertJsScripts($headerScriptInstances);
 	}
 
 	public function getFooterScripts(\App\Request $request)
@@ -409,8 +407,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			$fileName = "~libraries/jquery/posabsolute-jQuery-Validation-Engine/js/languages/jquery.validationEngine-en.js";
 		}
 		$jsFileNames[] = $fileName;
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		return $jsScriptInstances;
+		return $this->checkAndConvertJsScripts($jsFileNames);
 	}
 
 	public function checkAndConvertJsScripts($jsFileNames)
