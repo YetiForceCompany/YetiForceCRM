@@ -379,12 +379,12 @@ class Vtiger_InventoryField_Model extends App\Base
 
 	/**
 	 * Get the value to save
-	 * @param \App\Request $request
+	 * @param \App\Request|\App\Base $request
 	 * @param string $field Field name
 	 * @param int $i Sequence number
 	 * @return string
 	 */
-	public function getValueForSave(\App\Request $request, $field, $i)
+	public function getValueForSave($request, $field, $i)
 	{
 		$value = '';
 		if ($request->has($field . $i)) {
@@ -567,7 +567,7 @@ class Vtiger_InventoryField_Model extends App\Base
 	}
 
 	/**
-	 * 
+	 *
 	 * @param Vtiger_Record_Model $recordModel
 	 * @return float
 	 */
