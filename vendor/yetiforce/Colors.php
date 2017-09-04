@@ -23,11 +23,7 @@ class Colors
 	{
 		switch ($type) {
 			case 'user':
-				self::generateOwners();
-				break;
 			case 'group':
-				self::generateOwners();
-				break;
 			case 'owner':
 				self::generateOwners();
 				break;
@@ -57,28 +53,16 @@ class Colors
 		$css = '';
 		foreach (\App\Colors::getAllUserColor() as $item) {
 			if (ltrim($item['color'], '#')) {
-				$css .= '.ownerColorBg_' . $item['id'] . ' {' . "\r\n"
-					. '	background: ' . $item['color'] . ';' . "\r\n"
-					. '}' . "\r\n";
-				$css .= '.ownerColorText_' . $item['id'] . ' {' . "\r\n"
-					. '	color: ' . $item['color'] . ';' . "\r\n"
-					. '}' . "\r\n";
-				$css .= '.ownerColorBorder_' . $item['id'] . ' {' . "\r\n"
-					. '	border-color: ' . $item['color'] . ';' . "\r\n"
-					. '}' . "\r\n";
+				$css .= '.ownerColorBg_' . $item['id'] . ' {' . PHP_EOL . '	background: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
+				$css .= '.ownerColorText_' . $item['id'] . ' {' . PHP_EOL . '	color: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
+				$css .= '.ownerColorBorder_' . $item['id'] . ' {' . PHP_EOL . '	border-color: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
 			}
 		}
 		foreach (\App\Colors::getAllGroupColor() as $item) {
 			if (ltrim($item['color'], '#')) {
-				$css .= '.ownerColorBg_' . $item['id'] . ' {' . "\r\n"
-					. '	background: ' . $item['color'] . ';' . "\r\n"
-					. '}' . "\r\n";
-				$css .= '.ownerColorText_' . $item['id'] . ' {' . "\r\n"
-					. '	color: ' . $item['color'] . ';' . "\r\n"
-					. '}' . "\r\n";
-				$css .= '.ownerColorBorder_' . $item['id'] . ' {' . "\r\n"
-					. '	border-color: ' . $item['color'] . ';' . "\r\n"
-					. '}' . "\r\n";
+				$css .= '.ownerColorBg_' . $item['id'] . ' {' . PHP_EOL . '	background: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
+				$css .= '.ownerColorText_' . $item['id'] . ' {' . PHP_EOL . '	color: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
+				$css .= '.ownerColorBorder_' . $item['id'] . ' {' . PHP_EOL . '	border-color: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
 			}
 		}
 		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/owners.css', $css);
@@ -92,15 +76,9 @@ class Colors
 		$css = '';
 		foreach (\App\Colors::getAllModuleColor() as $item) {
 			if (ltrim($item['color'], '#')) {
-				$css .= '.modColorBorder_' . $item['module'] . ' {' . "\r\n"
-					. '	border-color: ' . $item['color'] . ';' . "\r\n"
-					. '}' . "\r\n";
-				$css .= '.modColorBg_' . $item['module'] . ' {' . "\r\n"
-					. '	background: ' . $item['color'] . ';' . "\r\n"
-					. '}' . "\r\n";
-				$css .= '.modColorText_' . $item['module'] . ' {' . "\r\n"
-					. '	color: ' . $item['color'] . ';' . "\r\n"
-					. '}' . "\r\n";
+				$css .= '.modColorBorder_' . $item['module'] . ' {' . PHP_EOL . '	border-color: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
+				$css .= '.modColorBg_' . $item['module'] . ' {' . PHP_EOL . '	background: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
+				$css .= '.modColorText_' . $item['module'] . ' {' . PHP_EOL . '	color: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
 			}
 		}
 		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/modules.css', $css);
@@ -126,15 +104,9 @@ class Colors
 									if (strpos($item['color'], '#') === false) {
 										$item['color'] = '#' . $item['color'];
 									}
-									$css .= '.picklistColorBorder_' . $module['tabname'] . '_' . $fieldModel->getName() . ' {' . "\r\n"
-										. '	border-color: ' . $item['color'] . ';' . "\r\n"
-										. '}' . "\r\n";
-									$css .= '.picklistColorBg_' . $module['tabname'] . '_' . $fieldModel->getName() . ' {' . "\r\n"
-										. '	background: ' . $item['color'] . ';' . "\r\n"
-										. '}' . "\r\n";
-									$css .= '.picklistColorText_' . $module['tabname'] . '_' . $fieldModel->getName() . ' {' . "\r\n"
-										. '	color: ' . $item['color'] . ';' . "\r\n"
-										. '}' . "\r\n";
+									$css .= '.picklistColorBorder_' . $module['tabname'] . '_' . $fieldModel->getName() . ' {' . PHP_EOL . '	border-color: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
+									$css .= '.picklistColorBg_' . $module['tabname'] . '_' . $fieldModel->getName() . ' {' . PHP_EOL . '	background: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
+									$css .= '.picklistColorText_' . $module['tabname'] . '_' . $fieldModel->getName() . ' {' . PHP_EOL . '	color: ' . $item['color'] . ';' . PHP_EOL . '}' . PHP_EOL;
 								}
 							}
 						}
@@ -153,12 +125,8 @@ class Colors
 		$css = '';
 		foreach (\Settings_Calendar_Module_Model::getCalendarConfig('colors') as $item) {
 			if (ltrim($item['value'], '#')) {
-				$css .= '.calCol_' . $item['label'] . ' {' . "\r\n"
-					. '	border: 1px solid ' . $item['value'] . ' !important;' . "\r\n"
-					. '}' . "\r\n";
-				$css .= '.listCol_' . $item['label'] . ' {' . "\r\n"
-					. '	background: ' . $item['value'] . ' !important;' . "\r\n"
-					. '}' . "\r\n";
+				$css .= '.calCol_' . $item['label'] . ' {' . PHP_EOL . '	border: 1px solid ' . $item['value'] . ' !important;' . PHP_EOL . '}' . PHP_EOL;
+				$css .= '.listCol_' . $item['label'] . ' {' . PHP_EOL . '	background: ' . $item['value'] . ' !important;' . PHP_EOL . '}' . PHP_EOL;
 			}
 		}
 		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/calendar.css', $css);
@@ -209,7 +177,6 @@ class Colors
 		$moduleBlockFields = \Vtiger_Field_Model::getAllForModule($moduleModel);
 		$type = ['picklist', 'multipicklist'];
 		$fieldList = [];
-
 		foreach ($moduleBlockFields as $moduleFields) {
 			foreach ($moduleFields as $moduleField) {
 				$block = $moduleField->get('block');
@@ -261,15 +228,9 @@ class Colors
 	public static function getAllModuleColor($active = false)
 	{
 		$allModules = \vtlib\Functions::getAllModules(false, false, false, $active);
-
 		$modules = [];
 		foreach ($allModules as $tabid => $module) {
-			$modules[] = [
-				'id' => $tabid,
-				'module' => $module['name'],
-				'color' => $module['color'] !== '' ? '#' . $module['color'] : '',
-				'active' => $module['coloractive'],
-			];
+			$modules[] = ['id' => $tabid, 'module' => $module['name'], 'color' => $module['color'] !== '' ? '#' . $module['color'] : '', 'active' => $module['coloractive']];
 		}
 		return $modules;
 	}
