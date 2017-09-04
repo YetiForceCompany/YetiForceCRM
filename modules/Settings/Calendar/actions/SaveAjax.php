@@ -17,13 +17,17 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('generateColor');
 	}
 
+	/**
+	 * Generate random color
+	 * @param \App\Request $request
+	 */
 	public function generateColor(\App\Request $request)
 	{
 		$params = $request->get('param');
-		$color = Settings_Calendar_Module_Model::generateColor();
+		$color = \App\Colors::getRandomColor();
 		$params['color'] = $color;
 		if (isset($params['viewtypesid']) && $params['viewtypesid']) {
-			
+
 		} else {
 			Settings_Calendar_Module_Model::updateCalendarConfig($params);
 		}
