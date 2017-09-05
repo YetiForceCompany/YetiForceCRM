@@ -51,7 +51,7 @@
 
 							{if $RECORDID}
 								{assign var=MODULE value=$RECORD->get('customertype')}
-								{assign var=ENTITY_NAMES value=getEntityName($MODULE, array($RECORDID))}
+								{assign var=ENTITY_NAMES value=\App\Fields\Owner::getUserLabel($RECORDID)}
 								{assign var=CALLERNAME value=$ENTITY_NAMES[$RECORDID]}
 							{else}
 								{assign var=CALLERNAME value=$RECORD->get("customernumber")}
