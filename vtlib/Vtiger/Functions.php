@@ -237,12 +237,6 @@ class Functions
 		return $multimode ? $result : array_shift($result);
 	}
 
-	public static function getCRMRecordType($id)
-	{
-		$metadata = self::getCRMRecordMetadata($id);
-		return $metadata ? $metadata['setype'] : NULL;
-	}
-
 	public static function getCRMRecordLabel($id, $default = '')
 	{
 		$label = \App\Record::getLabel($id);
@@ -401,12 +395,17 @@ class Functions
 		return (new \App\Db\Query())->select([$fieldName])->from($tableName)->where([$idName => $id])->scalar();
 	}
 
+	/**
+	 * Gets the comment number
+	 * @param int $ticketid
+	 * @return string
+	 */
 	public static function getTicketComments($ticketid)
 	{
 		$adb = \PearDatabase::getInstance();
-		$moduleName = self::getCRMRecordType($ticketid);
+		$moduleName = \App\Record::getType($ticketid);
 		$commentlist = '';
-		$sql = "SELECT commentcontent FROM vtiger_modcomments WHERE related_to = ?";
+		$sql = 'SELECT commentcontent FROM vtiger_modcomments WHERE related_to = ?';
 		$result = $adb->pquery($sql, array($ticketid));
 		$countResult = $adb->num_rows($result);
 		for ($i = 0; $i < $countResult; $i++) {
@@ -416,7 +415,7 @@ class Functions
 			}
 		}
 		if ($commentlist != '')
-			$commentlist = '<br /><br />' . \App\Language::translate("The comments are", $moduleName) . ' : ' . $commentlist;
+			$commentlist = '<br /><br />' . \App\Language::translate('The comments are', $moduleName) . ' : ' . $commentlist;
 		return $commentlist;
 	}
 

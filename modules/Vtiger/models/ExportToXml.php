@@ -73,7 +73,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 			if (in_array($field->getName(), ['Name', 'Reference'])) {
 				$value = trim($value);
 				if (!empty($value)) {
-					$recordModule = \vtlib\Functions::getCRMRecordType($value);
+					$recordModule = \App\Record::getType($value);
 					$displayValue = \App\Record::getLabel($value);
 					if (!empty($recordModule) && !empty($displayValue)) {
 						$value = $recordModule . '::::' . $displayValue;
