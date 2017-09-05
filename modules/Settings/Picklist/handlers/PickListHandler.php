@@ -354,5 +354,3 @@ class Settings_Picklist_PickListHandler_Handler
 		}
 	}
 }
-
-?>

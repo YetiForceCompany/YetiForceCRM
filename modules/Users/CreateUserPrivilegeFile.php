@@ -703,5 +703,3 @@ function populateRelatedSharingPrivileges($enttype, $userid, $module, $relmodule
 		}
 	}
 }
-
-?>
