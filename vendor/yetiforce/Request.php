@@ -93,7 +93,7 @@ class Request
 			$value = $this->rawValues[$key];
 			switch ($type) {
 				case 1: // only word
-					$value = preg_match("/^[a-zA-Z]+$/", $value) ? $value : false;
+					$value = preg_match("/^[_a-zA-Z]+$/", $value) ? $value : false;
 					break;
 				default:
 					$value = Purifier::purify($value);
