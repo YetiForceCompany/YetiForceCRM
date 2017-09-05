@@ -3591,5 +3591,3 @@ class ReportRun extends CRMEntity
 		return $columnsSqlList;
 	}
 }
-
-?>

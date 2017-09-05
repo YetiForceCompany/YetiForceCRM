@@ -376,5 +376,3 @@ class VTScheduledReport extends Reports
 		$util->revertUser();
 	}
 }
-
-?>
