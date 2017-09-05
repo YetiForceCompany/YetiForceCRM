@@ -189,5 +189,3 @@ class Vtiger_DependencyPicklist
 		return $modules;
 	}
 }
-
-?>

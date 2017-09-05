@@ -47,5 +47,3 @@ $languageStrings = [
 	'PLL_NOT_APPLICABLE' => 'Non applicable',
 	'LBL_SET_RENEWAL' => 'Configurer le renouvellement',
 ];
-
-?>

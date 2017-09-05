@@ -797,5 +797,3 @@ function rfc2445_guid()
 
 	return $random;
 }
-
-?>

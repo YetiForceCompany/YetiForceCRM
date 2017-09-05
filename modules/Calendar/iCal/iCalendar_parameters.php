@@ -225,5 +225,3 @@ class iCalendar_parameter
 		}
 	}
 }
-
-?>
