@@ -158,17 +158,9 @@ class Users_Privileges_Model extends Users_Record_Model
 	}
 
 	/**
-	 * Function to check permission for a Module/Action/Record
-	 * @param string $moduleName
-	 * @param string $actionName
-	 * @param <Number> $record
-	 * @return Boolean
+	 * Gets the last access to the registry
+	 * @return string
 	 */
-	public static function isPermitted($moduleName, $actionName = null, $record = false)
-	{
-		return \App\Privilege::isPermitted($moduleName, $actionName, $record);
-	}
-
 	public static function getLastPermittedAccessLog()
 	{
 		return vglobal('isPermittedLog');
