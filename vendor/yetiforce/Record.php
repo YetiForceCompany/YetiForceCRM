@@ -16,11 +16,10 @@ class Record
 
 	/**
 	 * Get label
-	 * @param mixed $mixedId
-	 * @param boll|string $moduleName
+	 * @param mixed $mixedId	 
 	 * @return mixed
 	 */
-	public static function getLabel($mixedId, $moduleName = false)
+	public static function getLabel($mixedId)
 	{
 		$multiMode = is_array($mixedId);
 		$ids = $multiMode ? $mixedId : [$mixedId];
