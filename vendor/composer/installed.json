@@ -584,85 +584,6 @@
 		]
 	},
 	{
-		"name": "phpmailer/phpmailer",
-		"version": "v5.2.24",
-		"version_normalized": "5.2.24.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/PHPMailer/PHPMailer.git",
-			"reference": "22d04c6a58145a244696f3f254c1875aa653b26a"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/22d04c6a58145a244696f3f254c1875aa653b26a",
-			"reference": "22d04c6a58145a244696f3f254c1875aa653b26a",
-			"shasum": ""
-		},
-		"require": {
-			"ext-ctype": "*",
-			"php": ">=5.0.0"
-		},
-		"require-dev": {
-			"doctrine/annotations": "1.2.*",
-			"jms/serializer": "0.16.*",
-			"phpdocumentor/phpdocumentor": "2.*",
-			"phpunit/phpunit": "4.8.*",
-			"symfony/debug": "2.8.*",
-			"symfony/filesystem": "2.8.*",
-			"symfony/translation": "2.8.*",
-			"symfony/yaml": "2.8.*",
-			"zendframework/zend-cache": "2.5.1",
-			"zendframework/zend-config": "2.5.1",
-			"zendframework/zend-eventmanager": "2.5.1",
-			"zendframework/zend-filter": "2.5.1",
-			"zendframework/zend-i18n": "2.5.1",
-			"zendframework/zend-json": "2.5.1",
-			"zendframework/zend-math": "2.5.1",
-			"zendframework/zend-serializer": "2.5.*",
-			"zendframework/zend-servicemanager": "2.5.*",
-			"zendframework/zend-stdlib": "2.5.1"
-		},
-		"suggest": {
-			"league/oauth2-google": "Needed for Google XOAUTH2 authentication"
-		},
-		"time": "2017-07-26T21:00:20+00:00",
-		"type": "library",
-		"installation-source": "dist",
-		"autoload": {
-			"classmap": [
-				"class.phpmailer.php",
-				"class.phpmaileroauth.php",
-				"class.phpmaileroauthgoogle.php",
-				"class.smtp.php",
-				"class.pop3.php",
-				"extras/EasyPeasyICS.php",
-				"extras/ntlm_sasl_client.php"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"LGPL-2.1"
-		],
-		"authors": [
-			{
-				"name": "Jim Jagielski",
-				"email": "jimjag@gmail.com"
-			},
-			{
-				"name": "Marcus Bointon",
-				"email": "phpmailer@synchromedia.co.uk"
-			},
-			{
-				"name": "Andy Prevost",
-				"email": "codeworxtech@users.sourceforge.net"
-			},
-			{
-				"name": "Brent R. Matzelle"
-			}
-		],
-		"description": "PHPMailer is a full-featured email creation and transfer class for PHP"
-	},
-	{
 		"name": "ezyang/htmlpurifier",
 		"version": "v4.9.3",
 		"version_normalized": "4.9.3.0",
@@ -709,76 +630,6 @@
 		"homepage": "http://htmlpurifier.org/",
 		"keywords": [
 			"html"
-		]
-	},
-	{
-		"name": "symfony/var-dumper",
-		"version": "v3.3.5",
-		"version_normalized": "3.3.5.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/symfony/var-dumper.git",
-			"reference": "0f32b62d21991700250fed5109b092949007c5b3"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/symfony/var-dumper/zipball/0f32b62d21991700250fed5109b092949007c5b3",
-			"reference": "0f32b62d21991700250fed5109b092949007c5b3",
-			"shasum": ""
-		},
-		"require": {
-			"php": ">=5.5.9",
-			"symfony/polyfill-mbstring": "~1.0"
-		},
-		"conflict": {
-			"phpunit/phpunit": "<4.8.35|<5.4.3,>=5.0"
-		},
-		"require-dev": {
-			"ext-iconv": "*",
-			"twig/twig": "~1.34|~2.4"
-		},
-		"suggest": {
-			"ext-iconv": "To convert non-UTF-8 strings to UTF-8 (or symfony/polyfill-iconv in case ext-iconv cannot be used).",
-			"ext-symfony_debug": ""
-		},
-		"time": "2017-07-10T14:18:27+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "3.3-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"files": [
-				"Resources/functions/dump.php"
-			],
-			"psr-4": {
-				"Symfony\\Component\\VarDumper\\": ""
-			},
-			"exclude-from-classmap": [
-				"/Tests/"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"MIT"
-		],
-		"authors": [
-			{
-				"name": "Nicolas Grekas",
-				"email": "p@tchwork.com"
-			},
-			{
-				"name": "Symfony Community",
-				"homepage": "https://symfony.com/contributors"
-			}
-		],
-		"description": "Symfony mechanism for exploring and dumping PHP variables",
-		"homepage": "https://symfony.com",
-		"keywords": [
-			"debug",
-			"dump"
 		]
 	},
 	{
@@ -851,62 +702,6 @@
 		]
 	},
 	{
-		"name": "simshaun/recurr",
-		"version": "v3.0.1",
-		"version_normalized": "3.0.1.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/simshaun/recurr.git",
-			"reference": "5c57048a613d119127be31b162b3bbf510f0e308"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/simshaun/recurr/zipball/5c57048a613d119127be31b162b3bbf510f0e308",
-			"reference": "5c57048a613d119127be31b162b3bbf510f0e308",
-			"shasum": ""
-		},
-		"require": {
-			"doctrine/collections": "~1.3",
-			"php": ">=5.5.0"
-		},
-		"require-dev": {
-			"phpunit/phpunit": "~4.5"
-		},
-		"time": "2017-07-18T22:11:04+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "0.x-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-0": {
-				"Recurr": "src/"
-			}
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"MIT"
-		],
-		"authors": [
-			{
-				"name": "Shaun Simmons",
-				"email": "shaun@envysphere.com",
-				"homepage": "http://envysphere.com"
-			}
-		],
-		"description": "PHP library for working with recurrence rules",
-		"homepage": "https://github.com/simshaun/recurr",
-		"keywords": [
-			"dates",
-			"events",
-			"recurrence",
-			"recurring",
-			"rrule"
-		]
-	},
-	{
 		"name": "psr/log",
 		"version": "1.0.2",
 		"version_normalized": "1.0.2.0",
@@ -954,111 +749,6 @@
 			"psr",
 			"psr-3"
 		]
-	},
-	{
-		"name": "sensiolabs/security-checker",
-		"version": "v4.0.4",
-		"version_normalized": "4.0.4.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/sensiolabs/security-checker.git",
-			"reference": "9e69eddf3bc49d1ee5c7908564da3141796d4bbc"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/9e69eddf3bc49d1ee5c7908564da3141796d4bbc",
-			"reference": "9e69eddf3bc49d1ee5c7908564da3141796d4bbc",
-			"shasum": ""
-		},
-		"require": {
-			"composer/ca-bundle": "^1.0",
-			"symfony/console": "~2.7|~3.0"
-		},
-		"time": "2017-03-31T14:50:32+00:00",
-		"bin": [
-			"security-checker"
-		],
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "4.0-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-0": {
-				"SensioLabs\\Security": ""
-			}
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"MIT"
-		],
-		"authors": [
-			{
-				"name": "Fabien Potencier",
-				"email": "fabien.potencier@gmail.com"
-			}
-		],
-		"description": "A security checker for your composer.lock"
-	},
-	{
-		"name": "symfony/debug",
-		"version": "v3.3.8",
-		"version_normalized": "3.3.8.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/symfony/debug.git",
-			"reference": "084d804fe35808eb2ef596ec83d85d9768aa6c9d"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/symfony/debug/zipball/084d804fe35808eb2ef596ec83d85d9768aa6c9d",
-			"reference": "084d804fe35808eb2ef596ec83d85d9768aa6c9d",
-			"shasum": ""
-		},
-		"require": {
-			"php": "^5.5.9|>=7.0.8",
-			"psr/log": "~1.0"
-		},
-		"conflict": {
-			"symfony/http-kernel": ">=2.3,<2.3.24|~2.4.0|>=2.5,<2.5.9|>=2.6,<2.6.2"
-		},
-		"require-dev": {
-			"symfony/http-kernel": "~2.8|~3.0"
-		},
-		"time": "2017-08-27T14:52:21+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "3.3-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-4": {
-				"Symfony\\Component\\Debug\\": ""
-			},
-			"exclude-from-classmap": [
-				"/Tests/"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"MIT"
-		],
-		"authors": [
-			{
-				"name": "Fabien Potencier",
-				"email": "fabien@symfony.com"
-			},
-			{
-				"name": "Symfony Community",
-				"homepage": "https://symfony.com/contributors"
-			}
-		],
-		"description": "Symfony Debug Component",
-		"homepage": "https://symfony.com"
 	},
 	{
 		"name": "symfony/polyfill-mbstring",
@@ -1122,22 +812,215 @@
 		]
 	},
 	{
-		"name": "symfony/console",
-		"version": "v3.3.8",
-		"version_normalized": "3.3.8.0",
+		"name": "phpmailer/phpmailer",
+		"version": "v5.2.25",
+		"version_normalized": "5.2.25.0",
 		"source": {
 			"type": "git",
-			"url": "https://github.com/symfony/console.git",
-			"reference": "d6596cb5022b6a0bd940eae54a1de78646a5fda6"
+			"url": "https://github.com/PHPMailer/PHPMailer.git",
+			"reference": "2baf20b01690fba8cf720c1ebcf9b988eda50915"
 		},
 		"dist": {
 			"type": "zip",
-			"url": "https://api.github.com/repos/symfony/console/zipball/d6596cb5022b6a0bd940eae54a1de78646a5fda6",
-			"reference": "d6596cb5022b6a0bd940eae54a1de78646a5fda6",
+			"url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/2baf20b01690fba8cf720c1ebcf9b988eda50915",
+			"reference": "2baf20b01690fba8cf720c1ebcf9b988eda50915",
 			"shasum": ""
 		},
 		"require": {
-			"php": "^5.5.9|>=7.0.8",
+			"ext-ctype": "*",
+			"php": ">=5.0.0"
+		},
+		"require-dev": {
+			"doctrine/annotations": "1.2.*",
+			"jms/serializer": "0.16.*",
+			"phpdocumentor/phpdocumentor": "2.*",
+			"phpunit/phpunit": "4.8.*",
+			"symfony/debug": "2.8.*",
+			"symfony/filesystem": "2.8.*",
+			"symfony/translation": "2.8.*",
+			"symfony/yaml": "2.8.*",
+			"zendframework/zend-cache": "2.5.1",
+			"zendframework/zend-config": "2.5.1",
+			"zendframework/zend-eventmanager": "2.5.1",
+			"zendframework/zend-filter": "2.5.1",
+			"zendframework/zend-i18n": "2.5.1",
+			"zendframework/zend-json": "2.5.1",
+			"zendframework/zend-math": "2.5.1",
+			"zendframework/zend-serializer": "2.5.*",
+			"zendframework/zend-servicemanager": "2.5.*",
+			"zendframework/zend-stdlib": "2.5.1"
+		},
+		"suggest": {
+			"league/oauth2-google": "Needed for Google XOAUTH2 authentication"
+		},
+		"time": "2017-08-28T11:12:07+00:00",
+		"type": "library",
+		"installation-source": "dist",
+		"autoload": {
+			"classmap": [
+				"class.phpmailer.php",
+				"class.phpmaileroauth.php",
+				"class.phpmaileroauthgoogle.php",
+				"class.smtp.php",
+				"class.pop3.php",
+				"extras/EasyPeasyICS.php",
+				"extras/ntlm_sasl_client.php"
+			]
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"LGPL-2.1"
+		],
+		"authors": [
+			{
+				"name": "Jim Jagielski",
+				"email": "jimjag@gmail.com"
+			},
+			{
+				"name": "Marcus Bointon",
+				"email": "phpmailer@synchromedia.co.uk"
+			},
+			{
+				"name": "Andy Prevost",
+				"email": "codeworxtech@users.sourceforge.net"
+			},
+			{
+				"name": "Brent R. Matzelle"
+			}
+		],
+		"description": "PHPMailer is a full-featured email creation and transfer class for PHP"
+	},
+	{
+		"name": "simshaun/recurr",
+		"version": "v3.0.2",
+		"version_normalized": "3.0.2.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/simshaun/recurr.git",
+			"reference": "7d0e8942cb1d00d4bc11d5eb87fa990d77b0de61"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/simshaun/recurr/zipball/7d0e8942cb1d00d4bc11d5eb87fa990d77b0de61",
+			"reference": "7d0e8942cb1d00d4bc11d5eb87fa990d77b0de61",
+			"shasum": ""
+		},
+		"require": {
+			"doctrine/collections": "~1.3",
+			"php": ">=5.5.0"
+		},
+		"require-dev": {
+			"phpunit/phpunit": "~4.5"
+		},
+		"time": "2017-08-03T23:25:58+00:00",
+		"type": "library",
+		"extra": {
+			"branch-alias": {
+				"dev-master": "0.x-dev"
+			}
+		},
+		"installation-source": "dist",
+		"autoload": {
+			"psr-0": {
+				"Recurr": "src/"
+			}
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"MIT"
+		],
+		"authors": [
+			{
+				"name": "Shaun Simmons",
+				"email": "shaun@envysphere.com",
+				"homepage": "http://envysphere.com"
+			}
+		],
+		"description": "PHP library for working with recurrence rules",
+		"homepage": "https://github.com/simshaun/recurr",
+		"keywords": [
+			"dates",
+			"events",
+			"recurrence",
+			"recurring",
+			"rrule"
+		]
+	},
+	{
+		"name": "symfony/debug",
+		"version": "v3.3.6",
+		"version_normalized": "3.3.6.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/symfony/debug.git",
+			"reference": "7c13ae8ce1e2adbbd574fc39de7be498e1284e13"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/symfony/debug/zipball/7c13ae8ce1e2adbbd574fc39de7be498e1284e13",
+			"reference": "7c13ae8ce1e2adbbd574fc39de7be498e1284e13",
+			"shasum": ""
+		},
+		"require": {
+			"php": ">=5.5.9",
+			"psr/log": "~1.0"
+		},
+		"conflict": {
+			"symfony/http-kernel": ">=2.3,<2.3.24|~2.4.0|>=2.5,<2.5.9|>=2.6,<2.6.2"
+		},
+		"require-dev": {
+			"symfony/http-kernel": "~2.8|~3.0"
+		},
+		"time": "2017-07-28T15:27:31+00:00",
+		"type": "library",
+		"extra": {
+			"branch-alias": {
+				"dev-master": "3.3-dev"
+			}
+		},
+		"installation-source": "dist",
+		"autoload": {
+			"psr-4": {
+				"Symfony\\Component\\Debug\\": ""
+			},
+			"exclude-from-classmap": [
+				"/Tests/"
+			]
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"MIT"
+		],
+		"authors": [
+			{
+				"name": "Fabien Potencier",
+				"email": "fabien@symfony.com"
+			},
+			{
+				"name": "Symfony Community",
+				"homepage": "https://symfony.com/contributors"
+			}
+		],
+		"description": "Symfony Debug Component",
+		"homepage": "https://symfony.com"
+	},
+	{
+		"name": "symfony/console",
+		"version": "v3.3.6",
+		"version_normalized": "3.3.6.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/symfony/console.git",
+			"reference": "b0878233cb5c4391347e5495089c7af11b8e6201"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/symfony/console/zipball/b0878233cb5c4391347e5495089c7af11b8e6201",
+			"reference": "b0878233cb5c4391347e5495089c7af11b8e6201",
+			"shasum": ""
+		},
+		"require": {
+			"php": ">=5.5.9",
 			"symfony/debug": "~2.8|~3.0",
 			"symfony/polyfill-mbstring": "~1.0"
 		},
@@ -1150,6 +1033,7 @@
 			"symfony/dependency-injection": "~3.3",
 			"symfony/event-dispatcher": "~2.8|~3.0",
 			"symfony/filesystem": "~2.8|~3.0",
+			"symfony/http-kernel": "~2.8|~3.0",
 			"symfony/process": "~2.8|~3.0"
 		},
 		"suggest": {
@@ -1158,7 +1042,7 @@
 			"symfony/filesystem": "",
 			"symfony/process": ""
 		},
-		"time": "2017-08-27T14:52:21+00:00",
+		"time": "2017-07-29T21:27:59+00:00",
 		"type": "library",
 		"extra": {
 			"branch-alias": {
@@ -1190,5 +1074,122 @@
 		],
 		"description": "Symfony Console Component",
 		"homepage": "https://symfony.com"
+	},
+	{
+		"name": "sensiolabs/security-checker",
+		"version": "v4.1.5",
+		"version_normalized": "4.1.5.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/sensiolabs/security-checker.git",
+			"reference": "55553c3ad6ae2121c1b1475d4c880d71b31b8f68"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/55553c3ad6ae2121c1b1475d4c880d71b31b8f68",
+			"reference": "55553c3ad6ae2121c1b1475d4c880d71b31b8f68",
+			"shasum": ""
+		},
+		"require": {
+			"composer/ca-bundle": "^1.0",
+			"symfony/console": "~2.7|~3.0"
+		},
+		"time": "2017-08-22T22:18:16+00:00",
+		"bin": [
+			"security-checker"
+		],
+		"type": "library",
+		"extra": {
+			"branch-alias": {
+				"dev-master": "4.1-dev"
+			}
+		},
+		"installation-source": "dist",
+		"autoload": {
+			"psr-0": {
+				"SensioLabs\\Security": ""
+			}
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"MIT"
+		],
+		"authors": [
+			{
+				"name": "Fabien Potencier",
+				"email": "fabien.potencier@gmail.com"
+			}
+		],
+		"description": "A security checker for your composer.lock"
+	},
+	{
+		"name": "symfony/var-dumper",
+		"version": "v3.3.6",
+		"version_normalized": "3.3.6.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/symfony/var-dumper.git",
+			"reference": "b2623bccb969ad595c2090f9be498b74670d0663"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/symfony/var-dumper/zipball/b2623bccb969ad595c2090f9be498b74670d0663",
+			"reference": "b2623bccb969ad595c2090f9be498b74670d0663",
+			"shasum": ""
+		},
+		"require": {
+			"php": ">=5.5.9",
+			"symfony/polyfill-mbstring": "~1.0"
+		},
+		"conflict": {
+			"phpunit/phpunit": "<4.8.35|<5.4.3,>=5.0"
+		},
+		"require-dev": {
+			"ext-iconv": "*",
+			"twig/twig": "~1.34|~2.4"
+		},
+		"suggest": {
+			"ext-iconv": "To convert non-UTF-8 strings to UTF-8 (or symfony/polyfill-iconv in case ext-iconv cannot be used).",
+			"ext-symfony_debug": ""
+		},
+		"time": "2017-07-28T06:06:09+00:00",
+		"type": "library",
+		"extra": {
+			"branch-alias": {
+				"dev-master": "3.3-dev"
+			}
+		},
+		"installation-source": "dist",
+		"autoload": {
+			"files": [
+				"Resources/functions/dump.php"
+			],
+			"psr-4": {
+				"Symfony\\Component\\VarDumper\\": ""
+			},
+			"exclude-from-classmap": [
+				"/Tests/"
+			]
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"MIT"
+		],
+		"authors": [
+			{
+				"name": "Nicolas Grekas",
+				"email": "p@tchwork.com"
+			},
+			{
+				"name": "Symfony Community",
+				"homepage": "https://symfony.com/contributors"
+			}
+		],
+		"description": "Symfony mechanism for exploring and dumping PHP variables",
+		"homepage": "https://symfony.com",
+		"keywords": [
+			"debug",
+			"dump"
+		]
 	}
 ]
