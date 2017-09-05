@@ -546,5 +546,3 @@ class vt_DateTime
 		return $datetimevalue;
 	}
 }
-
-?>

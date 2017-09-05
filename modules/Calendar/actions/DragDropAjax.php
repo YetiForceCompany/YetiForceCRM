@@ -119,5 +119,3 @@ class Calendar_DragDropAjax_Action extends Calendar_SaveAjax_Action
 		return $formatDate;
 	}
 }
-
-?>

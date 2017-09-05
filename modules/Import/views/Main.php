@@ -230,5 +230,3 @@ class Import_Main_View extends Vtiger_View_Controller
 		$viewer->view('Import_Saved_Maps.tpl', 'Import');
 	}
 }
-
-?>

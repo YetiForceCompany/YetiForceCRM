@@ -30,5 +30,3 @@ class Products_MassEditRecordStructure_Model extends Vtiger_MassEditRecordStruct
 		}
 	}
 }
-
-?>

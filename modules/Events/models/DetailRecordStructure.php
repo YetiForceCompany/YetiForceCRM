@@ -15,5 +15,3 @@ class Events_DetailRecordStructure_Model extends Calendar_DetailRecordStructure_
 {
 	
 }
-
-?>

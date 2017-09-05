@@ -94,5 +94,3 @@ class iCalLastImport
 		}
 	}
 }
-
-?>
