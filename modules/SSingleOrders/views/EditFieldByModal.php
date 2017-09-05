@@ -14,6 +14,6 @@ class SSingleOrders_EditFieldByModal_View extends Vtiger_EditFieldByModal_View
 
 	public function getConditionToRestricts($moduleName, $ID)
 	{
-		return Users_Privileges_Model::isPermitted($moduleName, 'CloseRecord', $ID);
+		return \App\Privilege::isPermitted($moduleName, 'CloseRecord', $ID);
 	}
 }
