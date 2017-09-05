@@ -289,18 +289,10 @@ function getListQuery($module, $where = '')
 	return $query;
 }
 
-/**
- * To remove
- */
-function decode_html($string)
-{
-	return App\Purifier::decodeHtml($string);
-}
-
 function popup_decode_html($str)
 {
 	$defaultCharset = AppConfig::main('default_charset');
 	$slashes_str = \vtlib\Functions::fromHtmlPopup($str);
 	$slashes_str = htmlspecialchars($slashes_str, ENT_QUOTES, $defaultCharset);
-	return decode_html(\vtlib\Functions::br2nl($slashes_str));
+	return \App\Purifier::decodeHtml(\vtlib\Functions::br2nl($slashes_str));
 }
