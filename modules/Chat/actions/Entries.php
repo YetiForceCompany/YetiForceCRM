@@ -48,7 +48,7 @@ class Chat_Entries_Action extends Vtiger_Action_Controller
 	 */
 	public function add(\App\Request $request)
 	{
-		Chat_Module_Model::add($request->getRaw('message'));
+		Chat_Module_Model::add($request->get('message'));
 		$view = new Chat_Entries_View();
 		$view->get($request);
 	}
