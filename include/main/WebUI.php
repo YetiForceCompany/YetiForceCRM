@@ -70,7 +70,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 
 		if (empty($moduleModel)) {
-			throw new \App\Exceptions\AppException($moduleName . ' ' . 'LBL_HANDLER_NOT_FOUND');
+			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
 		}
 
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
