@@ -33,8 +33,8 @@
 									<td id="calendarColorPreviewUser{$item.id}" data-color="{$item.color}" class="calendarColor" style="background: {$item.color};"></td>
 									<td>
 										<button data-record="{$item.id}" class="btn btn-sm btn-danger marginLeft10 removeUserColor"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> {\App\Language::translate('LBL_REMOVE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-										<button data-record="{$item.id}" class="btn btn-sm btn-primary marginLeft10 updateUserColor">{\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-										<button data-record="{$item.id}" class="btn btn-sm btn-info generateUserColor">{\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+										<button data-record="{$item.id}" class="btn btn-sm btn-primary marginLeft10 updateUserColor"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> {\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+										<button data-record="{$item.id}" class="btn btn-sm btn-warning generateUserColor"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> {\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
 									</td>
 								</tr>
 							{/foreach}
@@ -57,8 +57,8 @@
 									<td id="calendarColorPreviewGroup{$item.id}" data-color="{$item.color}" class="calendarColor" style="background: {$item.color};"></td>
 									<td>
 										<button data-record="{$item.id}" class="btn btn-sm btn-danger marginLeft10 removeGroupColor"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> {\App\Language::translate('LBL_REMOVE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-										<button data-record="{$item.id}" class="btn btn-sm btn-primary marginLeft10 updateGroupColor">{\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-										<button data-record="{$item.id}" class="btn btn-sm btn-info generateGroupColor">{\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
+										<button data-record="{$item.id}" class="btn btn-sm btn-primary marginLeft10 updateGroupColor"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> {\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+										<button data-record="{$item.id}" class="btn btn-sm btn-warning generateGroupColor"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> {\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
 									</td>
 								</tr>
 							{/foreach}
@@ -85,8 +85,8 @@
 									<td id="calendarColorPreviewModule{$item.id}" data-color="{$item.color}" class="calendarColor" style="background: {$item.color};"></td>
 									<td>
 										<button data-record="{$item.id}" class="btn btn-sm btn-danger marginLeft10 removeModuleColor"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> {\App\Language::translate('LBL_REMOVE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-										<button data-record="{$item.id}" class="btn btn-sm btn-primary marginLeft10 updateModuleColor">{\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-										<button data-record="{$item.id}" class="btn btn-sm btn-info generateModuleColor">{\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
+										<button data-record="{$item.id}" class="btn btn-sm btn-primary marginLeft10 updateModuleColor"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> {\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+										<button data-record="{$item.id}" class="btn btn-sm btn-warning generateModuleColor"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> {\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
 									</td>
 								</tr>
 							{/foreach}
