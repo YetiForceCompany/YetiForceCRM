@@ -22,7 +22,7 @@ class Settings_Vtiger_CustomRecordNumbering_View extends Settings_Vtiger_Index_V
 		$qualifiedModuleName = $request->getModule(false);
 		$supportedModules = Settings_Vtiger_CustomRecordNumberingModule_Model::getSupportedModules();
 
-		$sourceModule = $request->get('sourceModule');
+		$sourceModule = $request->getByType('sourceModule', 1);
 		if ($sourceModule) {
 			$defaultModuleModel = $supportedModules[\App\Module::getModuleId($sourceModule)];
 		} else {

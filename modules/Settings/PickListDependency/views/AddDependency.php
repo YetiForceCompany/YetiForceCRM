@@ -39,7 +39,7 @@ class Settings_PickListDependency_AddDependency_View extends Settings_Vtiger_Ind
 	 */
 	public function GetPickListFields(\App\Request $request)
 	{
-		$module = $request->get('sourceModule');
+		$module = $request->getByType('sourceModule', 1);
 
 		$fieldList = Settings_PickListDependency_Module_Model::getAvailablePicklists($module);
 

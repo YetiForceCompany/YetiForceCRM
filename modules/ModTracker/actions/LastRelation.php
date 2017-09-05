@@ -17,7 +17,7 @@ class ModTracker_LastRelation_Action extends Vtiger_Action_Controller
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$sourceModule = $request->get('sourceModule');
+		$sourceModule = $request->getByType('sourceModule', 1);
 		$records = $request->get('recordsId');
 		if ($sourceModule) {
 			if (!in_array($sourceModule, AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) || !\App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
@@ -40,7 +40,7 @@ class ModTracker_LastRelation_Action extends Vtiger_Action_Controller
 	public function process(\App\Request $request)
 	{
 		$records = $request->get('recordsId');
-		$result = ModTracker_Record_Model::getLastRelation($records, $request->get('sourceModule'));
+		$result = ModTracker_Record_Model::getLastRelation($records, $request->getByType('sourceModule', 1));
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

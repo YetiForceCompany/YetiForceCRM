@@ -41,7 +41,7 @@ class Settings_Vtiger_ListAjax_Action extends Settings_Vtiger_ListAjax_View
 	public function getListViewCount(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$sourceModule = $request->get('sourceModule');
+		$sourceModule = $request->getByType('sourceModule', 1);
 
 		$listViewModel = Settings_Vtiger_ListView_Model::getInstance($qualifiedModuleName);
 

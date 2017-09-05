@@ -14,7 +14,7 @@ class Settings_CustomView_Sorting_View extends Settings_Vtiger_BasicModal_View
 	{
 		$moduleName = $request->getModule(false);
 		$moduleModel = Settings_LangManagement_Module_Model::getInstance($moduleName);
-		$sourceModuleId = $request->get('sourceModule');
+		$sourceModuleId = $request->getByType('sourceModule', 1);
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModuleId);
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($sourceModuleModel);
 		$recordStructure = $recordStructureInstance->getStructure();

@@ -94,7 +94,7 @@ class Users_Save_Action extends Vtiger_Save_Action
 				}
 			}
 			if ($request->get('relationOperation')) {
-				$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->get('sourceRecord'), $request->get('sourceModule'));
+				$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->get('sourceRecord'), $request->getByType('sourceModule', 1));
 				$loadUrl = $parentRecordModel->getDetailViewUrl();
 			} else if ($request->get('isPreference')) {
 				$loadUrl = $recordModel->getPreferenceDetailViewUrl();

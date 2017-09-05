@@ -18,7 +18,7 @@ class Settings_CustomView_Index_View extends Settings_Vtiger_Index_View
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$supportedModule = $request->get('sourceModule');
+		$supportedModule = $request->getByType('sourceModule', 1);
 		if(empty($supportedModule)) {
 			$supportedModules = Settings_CustomView_Module_Model::getSupportedModules();
 			$supportedModule = reset($supportedModules);

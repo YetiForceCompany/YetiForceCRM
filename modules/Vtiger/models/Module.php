@@ -1536,7 +1536,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if (!$moduleName) {
 			$moduleName = $request->getModule();
 		}
-		$sourceModule = $request->get('sourceModule');
+		$sourceModule = $request->getByType('sourceModule', 1);
 		$sourceRecord = $request->get('sourceRecord');
 		$sourceRecordData = $request->get('sourceRecordData');
 

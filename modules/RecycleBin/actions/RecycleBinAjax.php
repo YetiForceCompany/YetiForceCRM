@@ -70,7 +70,7 @@ class RecycleBin_RecycleBinAjax_Action extends Vtiger_Mass_Action
 	 */
 	public function restoreRecords(\App\Request $request)
 	{
-		$sourceModule = $request->get('sourceModule');
+		$sourceModule = $request->getByType('sourceModule', 1);
 		$recordIds = $this->getRecordsListFromRequest($request);
 		$recycleBinModule = new RecycleBin_Module_Model();
 

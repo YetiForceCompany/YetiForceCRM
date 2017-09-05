@@ -57,7 +57,7 @@ class RecycleBin_List_View extends Vtiger_Index_View
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
-		$sourceModule = $request->get('sourceModule');
+		$sourceModule = $request->getByType('sourceModule', 1);
 
 		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->getForSql('orderby');
@@ -171,7 +171,7 @@ class RecycleBin_List_View extends Vtiger_Index_View
 	public function getPageCount(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$sourceModule = $request->get('sourceModule');
+		$sourceModule = $request->getByType('sourceModule', 1);
 		$listViewModel = RecycleBin_ListView_Model::getInstance($moduleName, $sourceModule);
 
 		$listViewCount = $listViewModel->getListViewCount($request);
@@ -197,7 +197,7 @@ class RecycleBin_List_View extends Vtiger_Index_View
 	public function getRecordsCount(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$sourceModule = $request->get('sourceModule');
+		$sourceModule = $request->getByType('sourceModule', 1);
 		$listViewModel = RecycleBin_ListView_Model::getInstance($moduleName, $sourceModule);
 
 		$count = $listViewModel->getListViewCount();

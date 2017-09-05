@@ -13,7 +13,7 @@ class Settings_PickListDependency_SaveAjax_Action extends Settings_Vtiger_Index_
 
 	public function process(\App\Request $request)
 	{
-		$sourceModule = $request->get('sourceModule');
+		$sourceModule = $request->getByType('sourceModule', 1);
 		$sourceField = $request->get('sourceField');
 		$targetField = $request->get('targetField');
 		$recordModel = Settings_PickListDependency_Record_Model::getInstance($sourceModule, $sourceField, $targetField);

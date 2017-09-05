@@ -19,7 +19,7 @@ class RecycleBin_Pagination_View extends Vtiger_IndexAjax_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$sourceModule = $request->get('sourceModule');
+		$sourceModule = $request->getByType('sourceModule', 1);
 
 		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->getForSql('orderby');

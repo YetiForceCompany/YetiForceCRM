@@ -25,7 +25,7 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 
 		$viewer = $this->getViewer($request);
 		$this->initializeListViewContents($request, $viewer);
-		$sourceModule = $request->get('sourceModule');
+		$sourceModule = $request->getByType('sourceModule', 1);
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->view('ListViewHeader.tpl', $request->getModule(false));
 	}
@@ -46,7 +46,7 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
-		$sourceModule = $request->get('sourceModule');
+		$sourceModule = $request->getByType('sourceModule', 1);
 		$forModule = $request->get('formodule');
 		$searchParams = $request->get('searchParams');
 		$searchKey = $request->get('search_key');

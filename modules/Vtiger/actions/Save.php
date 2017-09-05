@@ -40,7 +40,7 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 				throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			}
 		}
-		if ($request->get('relationOperation') && !\App\Privilege::isPermitted($request->get('sourceModule'), 'DetailView', $request->getInteger('sourceRecord'))) {
+		if ($request->get('relationOperation') && !\App\Privilege::isPermitted($request->getByType('sourceModule', 1), 'DetailView', $request->getInteger('sourceRecord'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
@@ -73,7 +73,7 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 	{
 		$recordModel = $this->saveRecord($request);
 		if ($request->get('relationOperation')) {
-			$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $request->get('sourceModule'));
+			$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $request->getByType('sourceModule', 1));
 			$loadUrl = $parentRecordModel->getDetailViewUrl();
 		} else if ($request->get('returnToList')) {
 			$loadUrl = $recordModel->getModule()->getListViewUrl();
@@ -93,7 +93,7 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 		$recordModel = $this->getRecordModelFromRequest($request);
 		$recordModel->save();
 		if ($request->get('relationOperation')) {
-			$parentModuleModel = Vtiger_Module_Model::getInstance($request->get('sourceModule'));
+			$parentModuleModel = Vtiger_Module_Model::getInstance($request->getByType('sourceModule', 1));
 			$relatedModule = $recordModel->getModule();
 			$relatedRecordId = $recordModel->getId();
 			$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);

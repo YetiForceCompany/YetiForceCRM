@@ -65,7 +65,7 @@ class Vtiger_IndexAjax_View extends Vtiger_Index_View
 			}
 		}
 		if (!empty($cvId) && $cvId == 'undefined') {
-			$sourceModule = $request->get('sourceModule');
+			$sourceModule = $request->getByType('sourceModule', 1);
 			$cvId = CustomView_Record_Model::getAllFilterByModule($sourceModule)->getId();
 		}
 

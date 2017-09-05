@@ -20,7 +20,7 @@ class Settings_LangManagement_GetLabels_View extends Settings_Vtiger_BasicModal_
 		$qualifiedModuleName = $request->getModule(false);
 		$langBase = $request->get('langBase');
 		$lang = $request->get('lang');
-		$sourceModule = $request->get('sourceModule');
+		$sourceModule = $request->getByType('sourceModule', 1);
 		$data = [];
 		if (!empty($lang) && $lang !== $langBase && !empty($sourceModule)) {
 			$moduleModel = Settings_LangManagement_Module_Model::getInstance($qualifiedModuleName);
