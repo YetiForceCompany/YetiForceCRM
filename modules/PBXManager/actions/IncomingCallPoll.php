@@ -82,7 +82,7 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 						$name = $recordModel->get('customernumber') . \App\Language::translate('LBL_HIDDEN', 'PBXManager');
 						$recordModel->set('callername', $name);
 					} else {
-						$entityNames = getEntityName($moduleName, array($callerid));
+						$entityNames = \App\Record::getLabel($callerid, $moduleName);
 						$callerName = $entityNames[$callerid];
 						$recordModel->set('callername', $callerName);
 					}
@@ -92,7 +92,7 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 				if ($direction == 'inbound') {
 					$userid = $recordModel->get('user');
 					if ($userid) {
-						$entityNames = getEntityName('Users', array($userid));
+						$entityNames = \App\Fields\Owner::getUserLabel($userid);
 						$userName = $entityNames[$userid];
 						$recordModel->set('answeredby', $userName);
 					}
