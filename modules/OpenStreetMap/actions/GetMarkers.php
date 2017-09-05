@@ -39,7 +39,7 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 		$coordinatesModel->set('excludedIds', $request->get('excluded_ids'));
 		$coordinatesModel->set('searchKey', $request->get('search_key'));
 		$coordinatesModel->set('operator', $request->getByType('operator', 1));
-		$coordinatesModel->set('groupBy', $request->get('groupBy'));
+		$coordinatesModel->set('groupBy', $request->getByType('groupBy', 1));
 		$coordinatesModel->set('searchValue', $request->get('searchValue'));
 		$coordinatesModel->set('search_value', $request->get('search_value'));
 		$coordinatesModel->set('lon', $request->get('lon'));
