@@ -32,7 +32,7 @@ class Install_Index_view extends Vtiger_View_Controller
 	 */
 	public function setLanguage(\App\Request $request)
 	{
-		if (!$request->get('lang')) {
+		if (!$request->getByType('lang', 1)) {
 
 			$lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
 
@@ -79,13 +79,13 @@ class Install_Index_view extends Vtiger_View_Controller
 			$defaultView = $defaultModuleInstance->getDefaultViewName();
 			header('Location:../index.php?module=' . $defaultModule . '&view=' . $defaultView);
 		}
-		$_SESSION['default_language'] = $defaultLanguage = ($request->get('lang')) ? $request->get('lang') : 'en_us';
+		$_SESSION['default_language'] = $defaultLanguage = ($request->getByType('lang', 1)) ? $request->getByType('lang', 1) : 'en_us';
 		vglobal('default_language', $defaultLanguage);
 
 		$this->viewer = new Vtiger_Viewer();
 		$this->viewer->setTemplateDir('install/tpl/');
 		$this->viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
-		$this->viewer->assign('LANG', $request->get('lang'));
+		$this->viewer->assign('LANG', $request->getByType('lang', 1));
 		$this->viewer->assign('HTMLLANG', substr($defaultLanguage, 0, 2));
 		$this->viewer->assign('LANGUAGE', $defaultLanguage);
 		$this->viewer->assign('STYLES', $this->getHeaderCss($request));
@@ -169,7 +169,7 @@ class Install_Index_view extends Vtiger_View_Controller
 		foreach ($requestData as $name => $value) {
 			$_SESSION['config_file_info'][$name] = $value;
 		}
-		$_SESSION['default_language'] = $request->get('lang');
+		$_SESSION['default_language'] = $request->getByType('lang', 1);
 		$_SESSION['timezone'] = $request->get('timezone');
 		$authKey = $_SESSION['config_file_info']['authentication_key'] = sha1(microtime());
 
