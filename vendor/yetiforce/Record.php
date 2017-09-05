@@ -17,9 +17,10 @@ class Record
 	/**
 	 * Get label
 	 * @param mixed $mixedId
+	 * @param bool|string $moduleName
 	 * @return mixed
 	 */
-	public static function getLabel($mixedId)
+	public static function getLabel($mixedId, $moduleName = false)
 	{
 		$multiMode = is_array($mixedId);
 		$ids = $multiMode ? $mixedId : [$mixedId];
