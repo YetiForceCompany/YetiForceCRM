@@ -39,7 +39,7 @@ class Reports_SaveAjax_View extends Vtiger_IndexAjax_View
 
 		$reportModel->set('advancedFilter', $request->get('advanced_filter'));
 
-		$page = $request->get('page');
+		$page = $request->getInteger('page');
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', Reports_Detail_View::REPORT_LIMIT);

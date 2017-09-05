@@ -20,9 +20,9 @@ class Portal_Pagination_View extends Vtiger_IndexAjax_View
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$pageNumber = $request->get('page');
-		$orderBy = $request->get('orderby');
-		$sortOrder = $request->get('sortorder');
+		$pageNumber = $request->getInteger('page');
+		$orderBy = $request->getForSql('orderby');
+		$sortOrder = $request->getForSql('sortorder');
 		$searchValue = $request->get('search_value');
 
 		if ($sortOrder == "ASC") {

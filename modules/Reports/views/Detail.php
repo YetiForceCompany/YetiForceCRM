@@ -36,7 +36,7 @@ class Reports_Detail_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
-		$page = $request->get('page');
+		$page = $request->getInteger('page');
 
 		$detailViewModel = Reports_DetailView_Model::getInstance($moduleName, $recordId);
 		$reportModel = $detailViewModel->getRecord();
@@ -144,7 +144,7 @@ class Reports_Detail_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 
 		$record = $request->get('record');
-		$page = $request->get('page');
+		$page = $request->getInteger('page');
 
 		$data = $this->reportData;
 		$calculation = $this->calculationFields;

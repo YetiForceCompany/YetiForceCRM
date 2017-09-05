@@ -25,10 +25,10 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 
 		$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel();
 
-		$page = $request->get('page');
+		$page = $request->getInteger('page');
 		$linkId = $request->get('linkid');
-		$sortOrder = $request->get('sortorder');
-		$orderBy = $request->get('orderby');
+		$sortOrder = $request->getForSql('sortorder');
+		$orderBy = $request->getForSql('orderby');
 
 		$params = ['status' => [
 				$stateActivityLabels['not_started'],

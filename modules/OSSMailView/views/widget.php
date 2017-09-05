@@ -44,7 +44,7 @@ Class OSSMailView_widget_View extends Vtiger_Edit_View
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		$config = OSSMail_Module_Model::getComposeParameters();
 		if ($request->has('limit')) {
-			$config['widget_limit'] = $request->get('limit');
+			$config['widget_limit'] = $request->getInteger('limit');
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECOLDLIST', $recordModel->$mode($srecord, $smodule, $config, $type, $mailFilter));

@@ -16,7 +16,7 @@ class Vtiger_Calendar_Dashboard extends Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 		$data = $request->getAll();
 
-		$page = $request->get('page');
+		$page = $request->getInteger('page');
 		$linkId = $request->get('linkid');
 
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());

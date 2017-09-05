@@ -50,8 +50,8 @@ class PriceBooks_ProductPriceBookPopup_View extends Vtiger_Popup_View
 		$moduleName = $request->getModule();
 		$cvId = $request->get('cvid');
 		$pageNumber = $request->getInteger('page');
-		$orderBy = $request->get('orderby');
-		$sortOrder = $request->get('sortorder');
+		$orderBy = $request->getForSql('orderby');
+		$sortOrder = $request->getForSql('sortorder');
 		$sourceModule = $request->get('src_module');
 		$sourceField = $request->get('src_field');
 		$sourceRecord = $request->getInteger('src_record');

@@ -121,7 +121,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$clientModel = Settings_Github_Client_Model::getInstance();
 		$isAuthor = $request->get('author');
 		$isAuthor = $isAuthor == 'true' ? true : false;
-		$pageNumber = $request->get('page');
+		$pageNumber = $request->getInteger('page');
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
 		}

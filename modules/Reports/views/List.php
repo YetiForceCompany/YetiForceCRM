@@ -32,15 +32,15 @@ class Reports_List_View extends Vtiger_Index_View
 		if (empty($folderId) || $folderId == 'undefined') {
 			$folderId = 'All';
 		}
-		$sortBy = $request->get('sortorder');
-		$orderBy = $request->get('orderby');
+		$sortBy = $request->getForSql('sortorder');
+		$orderBy = $request->getForSql('orderby');
 
 		$listViewModel->set('folderid', $folderId);
 		$listViewModel->set('orderby', $orderBy);
 		$listViewModel->set('sortorder', $sortBy);
 
 		$linkModels = $listViewModel->getListViewLinks(false);
-		$pageNumber = $request->get('page');
+		$pageNumber = $request->getInteger('page');
 		$listViewMassActionModels = $listViewModel->getListViewMassActions(false);
 
 		if (empty($pageNumber)) {
@@ -98,10 +98,10 @@ class Reports_List_View extends Vtiger_Index_View
 		if (empty($folderId) || $folderId == 'undefined') {
 			$folderId = 'All';
 		}
-		$pageNumber = $request->get('page');
-		$orderBy = $request->get('orderby');
+		$pageNumber = $request->getInteger('page');
+		$orderBy = $request->getForSql('orderby');
 
-		$sortOrder = $request->get('sortorder');
+		$sortOrder = $request->getForSql('sortorder');
 		if ($sortOrder == "ASC") {
 			$nextSortOrder = "DESC";
 			$sortImage = "glyphicon glyphicon-chevron-down";

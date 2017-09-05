@@ -54,9 +54,9 @@ class Import_List_View extends Vtiger_Popup_View
 	{
 		$moduleName = $request->get('for_module');
 		$cvId = $request->get('viewname');
-		$pageNumber = $request->get('page');
-		$orderBy = $request->get('orderby');
-		$sortOrder = $request->get('sortorder');
+		$pageNumber = $request->getInteger('page');
+		$orderBy = $request->getForSql('orderby');
+		$sortOrder = $request->getForSql('sortorder');
 		if (empty($orderBy) && empty($sortOrder)) {
 			$moduleInstance = CRMEntity::getInstance($moduleName);
 			$orderBy = $moduleInstance->default_order_by;

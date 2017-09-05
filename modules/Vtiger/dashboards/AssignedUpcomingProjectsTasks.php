@@ -15,7 +15,7 @@ class Vtiger_AssignedUpcomingProjectsTasks_Dashboard extends Vtiger_IndexAjax_Vi
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
-		$page = $request->get('page');
+		$page = $request->getInteger('page');
 		$linkId = $request->get('linkid');
 		$data = $request->getAll();
 

@@ -643,8 +643,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$recordId = $request->getInteger('record');
 		$pageNumber = $request->getInteger('page');
 		$pageLimit = $request->getInteger('limit');
-		$sortOrder = $request->get('sortorder');
-		$orderBy = $request->get('orderby');
+		$sortOrder = $request->getForSql('sortorder');
+		$orderBy = $request->getForSql('orderby');
 		$type = $request->get('type');
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
@@ -698,8 +698,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$limit = $request->getInteger('limit');
 		$searchParams = $request->get('search_params');
 		$relatedModuleName = $request->get('relatedModule');
-		$orderBy = $request->get('orderby');
-		$sortOrder = $request->get('sortorder');
+		$orderBy = $request->getForSql('orderby');
+		$sortOrder = $request->getForSql('sortorder');
 		$columns = $request->get('col');
 		$moduleName = $request->getModule();
 		$totalCount = $request->getInteger('totalCount');
@@ -767,7 +767,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('COLOR_LIST', $colorList);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('LIMIT', $request->get('limit'));
+		$viewer->assign('LIMIT', $request->getInteger('limit'));
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('RELATED_HEADERS', $header);
 		$viewer->assign('RELATED_MODULE', $relatedModuleModel);

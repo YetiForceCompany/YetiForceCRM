@@ -34,8 +34,8 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
-		$orderBy = $request->get('orderby');
-		$sortOrder = $request->get('sortorder');
+		$orderBy = $request->getForSql('orderby');
+		$sortOrder = $request->getForSql('sortorder');
 		if (empty($orderBy) && empty($sortOrder)) {
 			$moduleInstance = CRMEntity::getInstance($relatedModuleName);
 			$orderBy = $moduleInstance->default_order_by;

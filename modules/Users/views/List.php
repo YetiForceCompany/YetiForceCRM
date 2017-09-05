@@ -46,9 +46,9 @@ class Users_List_View extends Settings_Vtiger_List_View
 	{
 		$moduleName = $request->getModule();
 		$cvId = $request->get('viewname');
-		$pageNumber = $request->get('page');
-		$orderBy = $request->get('orderby');
-		$sortOrder = $request->get('sortorder');
+		$pageNumber = $request->getInteger('page');
+		$orderBy = $request->getForSql('orderby');
+		$sortOrder = $request->getForSql('sortorder');
 		$searchResult = $request->get('searchResult');
 		if (empty($orderBy) && empty($sortOrder)) {
 			$moduleInstance = CRMEntity::getInstance($moduleName);

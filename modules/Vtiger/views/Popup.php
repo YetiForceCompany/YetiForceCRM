@@ -102,9 +102,9 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 	{
 		$moduleName = $this->getModule($request);
 		$cvId = $request->get('cvid');
-		$pageNumber = $request->get('page');
-		$orderBy = $request->get('orderby');
-		$sortOrder = $request->get('sortorder');
+		$pageNumber = $request->getInteger('page');
+		$orderBy = $request->getForSql('orderby');
+		$sortOrder = $request->getForSql('sortorder');
 		$sourceModule = $request->get('src_module');
 		$sourceField = $request->get('src_field');
 		$sourceRecord = $request->getInteger('src_record');
@@ -289,8 +289,8 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		$sourceModule = $request->get('src_module');
 		$sourceField = $request->get('src_field');
 		$sourceRecord = $request->getInteger('src_record');
-		$orderBy = $request->get('orderby');
-		$sortOrder = $request->get('sortorder');
+		$orderBy = $request->getForSql('orderby');
+		$sortOrder = $request->getForSql('sortorder');
 		$currencyId = $request->get('currency_id');
 
 		$searchKey = $request->get('search_key');

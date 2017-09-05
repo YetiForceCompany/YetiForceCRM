@@ -17,7 +17,7 @@ class Vtiger_History_Dashboard extends Vtiger_IndexAjax_View
 		$data = $request->getAll();
 		$moduleName = $request->getModule();
 		$type = $request->get('type');
-		$page = $request->get('page');
+		$page = $request->getInteger('page');
 		$linkId = $request->get('linkid');
 		$widget = Vtiger_Widget_Model::getInstance($linkId, \App\User::getCurrentUserId());
 		$limit = (int) $widget->get('limit');

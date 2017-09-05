@@ -131,7 +131,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$viewer->assign('SEARCH_MODULE', $moduleName);
 		} else {
 			$searchKey = $request->get('value');
-			$limit = $request->get('limit') != 'false' ? $request->get('limit') : false;
+			$limit = $request->getInteger('limit') != 'false' ? $request->getInteger('limit') : false;
 			$operator = (!$request->isEmpty('operator') ) ? $request->get('operator') : false;
 			$searchModule = false;
 			if ($request->get('searchModule')) {

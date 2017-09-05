@@ -14,10 +14,10 @@ Class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
 		$moduleName = $request->getModule();
-		$page = $request->get('page');
+		$page = $request->getInteger('page');
 		$linkId = $request->get('linkid');
-		$sortOrder = $request->get('sortorder');
-		$orderBy = $request->get('orderby');
+		$sortOrder = $request->getForSql('sortorder');
+		$orderBy = $request->getForSql('orderby');
 		$data = $request->getAll();
 
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());

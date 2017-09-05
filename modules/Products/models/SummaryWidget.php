@@ -30,8 +30,8 @@ class Products_SummaryWidget_Model
 			throw new \App\Exceptions\AppException('Not supported Module');
 		}
 		$limit = 10;
-		if (!empty($request->get('limit'))) {
-			$limit = $request->get('limit');
+		if (!empty($request->getInteger('limit'))) {
+			$limit = $request->getInteger('limit');
 		}
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', 0);

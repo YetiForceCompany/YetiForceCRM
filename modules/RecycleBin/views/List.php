@@ -59,9 +59,9 @@ class RecycleBin_List_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$sourceModule = $request->get('sourceModule');
 
-		$pageNumber = $request->get('page');
-		$orderBy = $request->get('orderby');
-		$sortOrder = $request->get('sortorder');
+		$pageNumber = $request->getInteger('page');
+		$orderBy = $request->getForSql('orderby');
+		$sortOrder = $request->getForSql('sortorder');
 		if ($sortOrder == "ASC") {
 			$nextSortOrder = "DESC";
 			$sortImage = "glyphicon glyphicon-chevron-down";

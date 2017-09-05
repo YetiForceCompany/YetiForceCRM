@@ -61,7 +61,7 @@ class Accounts_NeglectedAccounts_Dashboard extends Vtiger_IndexAjax_View
 		if ($user == 'all') {
 			$user = array_keys($accessibleUsers);
 		}
-		$page = $request->get('page');
+		$page = $request->getInteger('page');
 		if (empty($page)) {
 			$page = 1;
 		}

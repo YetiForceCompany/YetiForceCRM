@@ -151,7 +151,7 @@ class Vtiger_Export_Model extends \App\Base
 			case 'ExportCurrentPage' :
 				$pagingModel = new Vtiger_Paging_Model();
 				$limit = $pagingModel->getPageLimit();
-				$currentPage = $request->get('page');
+				$currentPage = $request->getInteger('page');
 				if (empty($currentPage)) {
 					$currentPage = 1;
 				}

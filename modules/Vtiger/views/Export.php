@@ -34,7 +34,7 @@ class Vtiger_Export_View extends Vtiger_Index_View
 		$selectedIds = $request->get('selected_ids');
 		$excludedIds = $request->get('excluded_ids');
 
-		$page = $request->get('page');
+		$page = $request->getInteger('page');
 
 		$viewer->assign('SELECTED_IDS', $selectedIds);
 		$viewer->assign('EXCLUDED_IDS', $excludedIds);

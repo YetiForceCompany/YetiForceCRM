@@ -85,7 +85,7 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View
 		$massActionLinks[] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
 		$viewer->assign('LISTVIEW_LINKS', $massActionLinks);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
-		$pageNumber = $request->get('page');
+		$pageNumber = $request->getInteger('page');
 		if (empty($pageNumber)) {
 			$pageNumber = '1';
 		}

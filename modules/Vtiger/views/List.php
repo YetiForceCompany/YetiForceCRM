@@ -118,7 +118,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 			} else {
 				App\CustomView::setDefaultSortOrderBy($moduleName);
 				if ($request->has('page')) {
-					App\CustomView::setCurrentPage($moduleName, $this->viewName, $request->get('page'));
+					App\CustomView::setCurrentPage($moduleName, $this->viewName, $request->getInteger('page'));
 				}
 			}
 			$this->initializeListViewContents($request, $viewer);
@@ -189,8 +189,8 @@ class Vtiger_List_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$pageNumber = $request->getInteger('page');
-		$orderBy = $request->get('orderby');
-		$sortOrder = $request->get('sortorder');
+		$orderBy = $request->getForSql('orderby');
+		$sortOrder = $request->getForSql('sortorder');
 		$searchResult = $request->get('searchResult');
 		if (empty($orderBy) && empty($sortOrder)) {
 			$orderBy = App\CustomView::getSortby($moduleName);

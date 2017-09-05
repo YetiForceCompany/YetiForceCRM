@@ -18,7 +18,7 @@ class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 	public function getPagination(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$pageNumber = $request->get('page');
+		$pageNumber = $request->getInteger('page');
 		$searchResult = $request->get('searchResult');
 		$qualifiedModuleName = $request->getModule(false);
 		$sourceModule = $request->get('sourceModule');

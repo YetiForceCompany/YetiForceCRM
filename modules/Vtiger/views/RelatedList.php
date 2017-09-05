@@ -55,8 +55,8 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		}
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
-		$orderBy = $request->get('orderby');
-		$sortOrder = $request->get('sortorder');
+		$orderBy = $request->getForSql('orderby');
+		$sortOrder = $request->getForSql('sortorder');
 		if ($sortOrder == 'ASC') {
 			$nextSortOrder = 'DESC';
 			$sortImage = 'glyphicon glyphicon-chevron-down';

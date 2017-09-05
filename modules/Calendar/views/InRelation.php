@@ -17,7 +17,7 @@ class Calendar_InRelation_View extends Vtiger_RelatedList_View
 		$relatedModuleName = $request->get('relatedModule');
 		$parentId = $request->getInteger('record');
 		$label = $request->get('tab_label');
-		$pageNumber = $request->get('page');
+		$pageNumber = $request->getInteger('page');
 		$time = $request->get('time');
 		$totalCount = $request->get('totalCount');
 		if (empty($pageNumber)) {
@@ -32,8 +32,8 @@ class Calendar_InRelation_View extends Vtiger_RelatedList_View
 
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
-		$orderBy = $request->get('orderby');
-		$sortOrder = $request->get('sortorder');
+		$orderBy = $request->getForSql('orderby');
+		$sortOrder = $request->getForSql('sortorder');
 		if ($sortOrder == 'ASC') {
 			$nextSortOrder = 'DESC';
 			$sortImage = 'glyphicon glyphicon-chevron-down';

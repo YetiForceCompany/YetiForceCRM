@@ -31,15 +31,15 @@ class Reports_Pagination_View extends Vtiger_IndexAjax_View
 		if (empty($folderId) || $folderId == 'undefined') {
 			$folderId = 'All';
 		}
-		$sortBy = $request->get('sortorder');
-		$orderBy = $request->get('orderby');
+		$sortBy = $request->getForSql('sortorder');
+		$orderBy = $request->getForSql('orderby');
 
 		$listViewModel->set('folderid', $folderId);
 		$listViewModel->set('orderby', $orderBy);
 		$listViewModel->set('sortorder', $sortBy);
 
 		$linkModels = $listViewModel->getListViewLinks(false);
-		$pageNumber = $request->get('page');
+		$pageNumber = $request->getInteger('page');
 		$listViewMassActionModels = $listViewModel->getListViewMassActions(false);
 
 		if (empty($pageNumber)) {
