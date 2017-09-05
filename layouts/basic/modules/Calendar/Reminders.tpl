@@ -50,12 +50,12 @@
 							{\App\Language::translate('FL_RELATION',$MODULE_NAME)}: <strong>{$RECORD->getDisplayValue('link')}</strong>
 							{if $PERMISSION_TO_SENDE_MAIL}
 								{if $USER_MODEL->get('internal_mailer') == 1}
-									{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(vtlib\Functions::getCRMRecordType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
+									{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(\App\Record::getType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
 									<a target="_blank" class="pull-right btn btn-default btn-xs actionIcon" href="{$COMPOSE_URL}" title="{\App\Language::translate('LBL_SEND_EMAIL')}">
 										<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
 									</a>
 								{else}
-									{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl(vtlib\Functions::getCRMRecordType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
+									{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl(\App\Record::getType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
 									{if $URLDATA && $URLDATA != 'mailto:?'}
 										<a class="pull-right btn btn-default btn-xs actionIcon" href="{$URLDATA}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
 											<span class="glyphicon glyphicon-envelope" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>

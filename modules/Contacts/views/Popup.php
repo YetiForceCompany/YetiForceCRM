@@ -27,7 +27,7 @@ class Contacts_Popup_View extends Vtiger_Popup_View
 		if ($moduleName === 'Contacts' && $sourceModule === 'HelpDesk' && \App\Record::isExists($sourceRecord) && strpos($_SERVER['QUERY_STRING'], 'module=Contacts&src_module=HelpDesk') === 0) {
 			$helpDeskRecord = Vtiger_Record_Model::getInstanceById($sourceRecord, 'HelpDesk');
 			$relId = $helpDeskRecord->get('parent_id');
-			if (\vtlib\Functions::getCRMRecordType($relId) === $relParentModule) {
+			if (\App\Record::getType($relId) === $relParentModule) {
 				$request->set('related_parent_module', $relParentModule);
 				$request->set('related_parent_id', $relId);
 				$viewer->assign('SWITCH', true);
@@ -37,7 +37,7 @@ class Contacts_Popup_View extends Vtiger_Popup_View
 		if ($moduleName === 'Contacts' && $sourceModule === 'SSalesProcesses' && \App\Record::isExists($sourceRecord) && strpos($_SERVER['QUERY_STRING'], 'module=Contacts&src_module=SSalesProcesses') === 0) {
 			$moduleRecord = Vtiger_Record_Model::getInstanceById($sourceRecord, 'SSalesProcesses');
 			$relId = $moduleRecord->get('related_to');
-			if (\vtlib\Functions::getCRMRecordType($relId) === $relParentModule) {
+			if (\App\Record::getType($relId) === $relParentModule) {
 				$request->set('related_parent_module', $relParentModule);
 				$request->set('related_parent_id', $relId);
 				$viewer->assign('SWITCH', true);
@@ -47,7 +47,7 @@ class Contacts_Popup_View extends Vtiger_Popup_View
 		if ($moduleName === 'Contacts' && $sourceModule === 'Project' && \App\Record::isExists($sourceRecord) && strpos($_SERVER['QUERY_STRING'], 'module=Contacts&src_module=Project') === 0) {
 			$moduleRecord = Vtiger_Record_Model::getInstanceById($sourceRecord, 'Project');
 			$relId = $moduleRecord->get('linktoaccountscontacts');
-			if (\vtlib\Functions::getCRMRecordType($relId) === $relParentModule) {
+			if (\App\Record::getType($relId) === $relParentModule) {
 				$request->set('related_parent_module', $relParentModule);
 				$request->set('related_parent_id', $relId);
 				$viewer->assign('SWITCH', true);

@@ -172,7 +172,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 					break;
 			}
 			if (\App\Record::isExists($accountId)) {
-				$setype = vtlib\Functions::getCRMRecordType($accountId);
+				$setype = \App\Record::getType($accountId);
 				$returnEmail = $this->findEmail($accountId, $setype);
 			}
 		} else {

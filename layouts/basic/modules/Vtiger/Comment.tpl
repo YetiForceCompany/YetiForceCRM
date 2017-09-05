@@ -27,7 +27,7 @@
 								{if $HIERARCHY}
 									{assign var=RELATED_TO value=$COMMENT->get('related_to')}
 							<input hidden="" class="related_to" name="related_to" value="{$RELATED_TO}"  />
-							{assign var=RELATED_MODULE value=vtlib\Functions::getCRMRecordType($RELATED_TO)}
+							{assign var=RELATED_MODULE value=\App\Record::getType($RELATED_TO)}
 							<a href="index.php?module={$RELATED_MODULE}&view=Detail&record={$RELATED_TO}">
 								<strong>
 									{\App\Language::translate($RELATED_MODULE,$RELATED_MODULE)}: 

@@ -78,7 +78,7 @@ function HelpDeskNewCommentAccount(Vtiger_Record_Model $recordModel)
 {
 	\App\Log::trace('Entering HelpDeskNewCommentAccount');
 	$relatedToId = $recordModel->get('related_to');
-	$moduleName = vtlib\Functions::getCRMRecordType($relatedToId);
+	$moduleName = \App\Record::getType($relatedToId);
 	$mail = false;
 	if (!empty($relatedToId) && $moduleName === 'HelpDesk') {
 		$mail = (new \App\Db\Query())->select(['vtiger_account.email1'])->from('vtiger_account')->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_account.accountid')->innerJoin('vtiger_troubletickets', 'vtiger_troubletickets.parent_id = vtiger_account.accountid')->where(['vtiger_crmentity.deleted' => 0, 'vtiger_troubletickets.ticketid' => $relatedToId, 'vtiger_account.emailoptout' => 1])->scalar();

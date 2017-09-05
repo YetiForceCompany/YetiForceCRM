@@ -143,7 +143,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 						$account_depth = str_repeat(" .. ", $account_info['depth'] * 2);
 						$data = $account_depth . $data;
 					} else if ($colname == 'parentid' || $colname == 'projectid' || $colname == 'ticketid' || $colname == 'relategid') {
-						$data = '<a href="index.php?module=' . vtlib\Functions::getCRMRecordType($data) . '&action=DetailView&record=' . $data . '">' . vtlib\Functions::getCRMRecordLabel($data) . '</a>';
+						$data = '<a href="index.php?module=' . \App\Record::getType($data) . '&action=DetailView&record=' . $data . '">' . vtlib\Functions::getCRMRecordLabel($data) . '</a>';
 					}
 					$account_info_data[] = $data;
 				}

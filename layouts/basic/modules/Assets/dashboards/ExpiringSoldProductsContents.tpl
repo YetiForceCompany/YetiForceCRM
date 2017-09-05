@@ -13,7 +13,7 @@
 					<div class="col-md-4">{DateTimeField::convertToUserFormat($ROW.dateinservice)}</div>
 					<div class="col-md-3">
 						{if $ROW.parent_id gt 0 }
-							{assign var="CRMTYPE" value=vtlib\Functions::getCRMRecordType($ROW.parent_id)}
+							{assign var="CRMTYPE" value=\App\Record::getType($ROW.parent_id)}
 							<a class="modColorText_{$CRMTYPE}" href="index.php?module={$CRMTYPE}&view=Detail&record={$ROW.parent_id}" title="{\App\Language::translate($CRMTYPE, $CRMTYPE)}">{vtlib\Functions::getCRMRecordLabel($ROW.parent_id)}</a>
 						{/if}
 					</div>
