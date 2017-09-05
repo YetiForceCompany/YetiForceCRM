@@ -28,7 +28,7 @@ class OSSPasswords_Popup_View extends Vtiger_Popup_View
 			$relParentModule = 'Accounts';
 			$record = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule);
 			$relId = $record->get($filterField[$sourceModule]);
-			if (\vtlib\Functions::getCRMRecordType($relId) === $relParentModule) {
+			if (\App\Record::getType($relId) === $relParentModule) {
 				$request->set('related_parent_module', $relParentModule);
 				$request->set('related_parent_id', $relId);
 				$viewer->assign('SWITCH', true);

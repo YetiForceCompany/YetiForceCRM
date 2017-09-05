@@ -281,7 +281,7 @@ class Vtiger_Export_Model extends \App\Base
 			} elseif ($type === 'reference') {
 				$value = trim($value);
 				if (!empty($value)) {
-					$recordModule = \vtlib\Functions::getCRMRecordType($value);
+					$recordModule = \App\Record::getType($value);
 					$displayValueArray = \App\Record::computeLabels($recordModule, $value);
 					if (!empty($displayValueArray)) {
 						foreach ($displayValueArray as $k => $v) {
@@ -316,7 +316,7 @@ class Vtiger_Export_Model extends \App\Base
 			if (in_array($field->getName(), ['Name', 'Reference'])) {
 				$value = trim($value);
 				if (!empty($value)) {
-					$recordModule = \vtlib\Functions::getCRMRecordType($value);
+					$recordModule = \App\Record::getType($value);
 					$displayValue = \App\Record::getLabel($value);
 					if (!empty($recordModule) && !empty($displayValue)) {
 						$value = $recordModule . '::::' . $displayValue;

@@ -164,7 +164,7 @@ class Vtiger_PDF_Model extends \App\Base
 			return [];
 		}
 		if (!$moduleName) {
-			$moduleName = vtlib\Functions::getCRMRecordType($recordId);
+			$moduleName = \App\Record::getType($recordId);
 		}
 
 		$templates = $this->getTemplatesByModule($moduleName);
