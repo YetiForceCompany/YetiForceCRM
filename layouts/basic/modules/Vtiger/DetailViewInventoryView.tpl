@@ -50,7 +50,7 @@
 				{foreach key=KEY item=INVENTORY_ROW from=$INVENTORY_ROWS}
 					{assign var="ROW_NO" value=$KEY+1}
 					{if $INVENTORY_ROW['name']}
-						{assign var="ROW_MODULE" value=vtlib\Functions::getCRMRecordType($INVENTORY_ROW['name'])}
+						{assign var="ROW_MODULE" value=\App\Record::getType($INVENTORY_ROW['name'])}
 					{/if}
 					<tr>
 						{foreach item=FIELD from=$FIELDS[1]}

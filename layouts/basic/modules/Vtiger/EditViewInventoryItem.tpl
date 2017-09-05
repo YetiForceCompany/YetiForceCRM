@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	{if !empty($ITEM_DATA['name'])}
-		{assign var="REFERENCE_MODULE" value=vtlib\Functions::getCRMRecordType($ITEM_DATA['name'])}
+		{assign var="REFERENCE_MODULE" value=\App\Record::getType($ITEM_DATA['name'])}
 	{elseif $MAIN_PARAMS}
 		{assign var="REFERENCE_MODULE" value=$INVENTORY_FIELD->getDefaultModule($MAIN_PARAMS)}
 	{/if}

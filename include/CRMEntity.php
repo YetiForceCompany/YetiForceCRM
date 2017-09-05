@@ -335,7 +335,7 @@ class CRMEntity
 	/** Function to delete an entity with given Id */
 	public function trash($moduleName, $id)
 	{
-		if (vtlib\Functions::getCRMRecordType($id) !== $moduleName) {
+		if (\App\Record::getType($id) !== $moduleName) {
 			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 		$this->markDeleted($id);
