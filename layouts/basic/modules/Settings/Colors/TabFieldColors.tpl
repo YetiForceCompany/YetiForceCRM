@@ -53,8 +53,8 @@
 									<td class="textOverflowEllipsis">{\App\Language::translate($PICKLIST_VALUE['picklistValue'],$SELECTED_MODULE_NAME)}</td>
 									<td id="calendarColorPreviewPicklistValue{$PICKLIST_VALUE['picklist_valueid']}" data-fieldId="{$SELECTED_PICKLIST_FIELD_ID}" data-fieldValueId="{$PICKLIST_VALUE['picklist_valueid']}" data-color="{$PICKLIST_VALUE['color']}" class="calendarColor" style="background: #{$PICKLIST_VALUE['color']} !important;"></td>
 									<td>
-										<button data-fieldId="{$SELECTED_PICKLIST_FIELD_ID}" data-fieldValueId="{$PICKLIST_VALUE['picklist_valueid']}" data-type="PicklistItem" class="btn btn-sm btn-primary marginLeft10 updatePicklistValueColor">{\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-										<button data-fieldId="{$SELECTED_PICKLIST_FIELD_ID}" data-fieldValueId="{$PICKLIST_VALUE['picklist_valueid']}" data-type="PicklistItem" class="btn btn-sm btn-info generatePicklistValueColor">{\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+										<button data-fieldId="{$SELECTED_PICKLIST_FIELD_ID}" data-fieldValueId="{$PICKLIST_VALUE['picklist_valueid']}" data-type="PicklistItem" class="btn btn-sm btn-warning marginLeft10 generatePicklistValueColor"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> {\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+										<button data-fieldId="{$SELECTED_PICKLIST_FIELD_ID}" data-fieldValueId="{$PICKLIST_VALUE['picklist_valueid']}" data-type="PicklistItem" class="btn btn-sm btn-primary marginLeft10 updatePicklistValueColor"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> {\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
 										<button data-fieldId="{$SELECTED_PICKLIST_FIELD_ID}" data-fieldValueId="{$PICKLIST_VALUE['picklist_valueid']}" data-type="PicklistItem" class="btn btn-sm btn-danger removePicklistValueColor"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> {\App\Language::translate('LBL_REMOVE_COLOR',$QUALIFIED_MODULE)}</button>
 									</td>
 								</tr>
