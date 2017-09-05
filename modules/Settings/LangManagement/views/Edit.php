@@ -28,7 +28,7 @@ class Settings_LangManagement_Edit_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
-		$lang = $request->getByType('lang', 1);
+		$lang = $request->get('lang', 1);
 		$mod = $request->getByType('mod', 1);
 		$tpl = $request->getByType('tpl', 1);
 		$showDifferences = $request->get('sd');
