@@ -507,7 +507,7 @@ function getActivityRelatedContacts($activityId)
 	$contactsList = [];
 	for ($i = 0; $i < $noOfContacts; ++$i) {
 		$contactId = $adb->query_result($result, $i, 'link');
-		$displayValueArray = getEntityName('Contacts', $contactId);
+		$displayValueArray = \App\Record::getLabel($contactId, 'Contacts');
 		if (!empty($displayValueArray)) {
 			foreach ($displayValueArray as $key => $field_value) {
 				$contact_name = $field_value;
