@@ -63,7 +63,7 @@ class Import_Main_View extends Vtiger_View_Controller
 		if (!$batchImport) {
 			if (!$importDataController->initializeImport()) {
 				Import_Utils_Helper::showErrorPage(\App\Language::translate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
-				throw new \App\Exceptions\AppException(\App\Language::translate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
+				throw new \App\Exceptions\AppException('ERR_FAILED_TO_LOCK_MODULE', 'Import');
 			}
 		}
 
@@ -84,7 +84,7 @@ class Import_Main_View extends Vtiger_View_Controller
 	{
 		if (empty($importInfo)) {
 			Import_Utils_Helper::showErrorPage(\App\Language::translate('ERR_IMPORT_INTERRUPTED', 'Import'));
-			throw new \App\Exceptions\AppException(\App\Language::translate('ERR_IMPORT_INTERRUPTED', 'Import'));
+			throw new \App\Exceptions\AppException('ERR_IMPORT_INTERRUPTED', 'Import');
 		}
 		$importDataController = new Import_Data_Action($importInfo, $user);
 		if ($importInfo['temp_status'] === Import_Queue_Action::$IMPORT_STATUS_HALTED ||

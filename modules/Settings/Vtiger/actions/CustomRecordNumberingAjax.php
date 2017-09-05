@@ -26,7 +26,7 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 		$sourceModule = $request->get('sourceModule');
 
 		if (!$sourceModule) {
-			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_PERMISSION_DENIED', $qualifiedModuleName));
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED', $qualifiedModuleName);
 		}
 	}
 
