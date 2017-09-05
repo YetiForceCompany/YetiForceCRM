@@ -16,7 +16,7 @@ class Record
 
 	/**
 	 * Get label
-	 * @param mixed $mixedId	 
+	 * @param mixed $mixedId
 	 * @return mixed
 	 */
 	public static function getLabel($mixedId)
