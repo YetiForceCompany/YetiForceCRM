@@ -17,7 +17,7 @@ class Users_ExportData_Action extends Vtiger_ExportData_Action
 	 */
 	public function ExportData(\App\Request $request)
 	{
-		$moduleName = $request->get('source_module');
+		$moduleName = $request->getByType('source_module', 1);
 
 		$this->moduleInstance = Vtiger_Module_Model::getInstance($moduleName);
 		$this->moduleFieldInstances = $this->moduleInstance->getFields();
@@ -40,7 +40,7 @@ class Users_ExportData_Action extends Vtiger_ExportData_Action
 	public function getExportQuery(\App\Request $request)
 	{
 		$cvId = $request->get('viewname');
-		$queryGenerator = new \App\QueryGenerator($request->get('source_module'));
+		$queryGenerator = new \App\QueryGenerator($request->getByType('source_module', 1));
 		if (!empty($cvId)) {
 			$queryGenerator->initForCustomViewById($cvId);
 		}

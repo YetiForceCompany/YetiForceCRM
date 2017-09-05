@@ -39,7 +39,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		if ($request->get('related_module') && !$userPrivilegesModel->hasModulePermission($request->get('related_module'))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
-		if ($request->get('relatedModule') && !$userPrivilegesModel->hasModulePermission($request->get('relatedModule'))) {
+		if ($request->getByType('relatedModule', 1) && !$userPrivilegesModel->hasModulePermission($request->getByType('relatedModule', 1))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -186,7 +186,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	public function getRelatedListPageCount(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$relModules = $relatedModuleName = $request->get('relatedModule');
+		$relModules = $relatedModuleName = $request->getByType('relatedModule', 1);
 		$parentId = $request->getInteger('record');
 		if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $parentId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
@@ -245,7 +245,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	public function updateFavoriteForRecord(\App\Request $request)
 	{
 		$sourceModule = $request->getModule();
-		$relatedModule = $request->get('relatedModule');
+		$relatedModule = $request->getByType('relatedModule', 1);
 		$actionMode = $request->get('actionMode');
 
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);

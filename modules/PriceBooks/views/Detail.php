@@ -20,7 +20,7 @@ class PriceBooks_Detail_View extends Vtiger_Detail_View
 	public function showRelatedList(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$relatedModuleName = $request->get('relatedModule');
+		$relatedModuleName = $request->getByType('relatedModule', 1);
 		$parentId = $request->getInteger('record');
 		$label = $request->get('tab_label');
 

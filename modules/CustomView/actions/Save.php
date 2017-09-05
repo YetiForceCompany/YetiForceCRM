@@ -19,7 +19,7 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		if (!App\Privilege::isPermitted($request->get('source_module'), 'CreateCustomFilter')) {
+		if (!App\Privilege::isPermitted($request->getByType('source_module', 1), 'CreateCustomFilter')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -30,7 +30,7 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 	 */
 	public function process(\App\Request $request)
 	{
-		$moduleModel = Vtiger_Module_Model::getInstance($request->get('source_module'));
+		$moduleModel = Vtiger_Module_Model::getInstance($request->getByType('source_module', 1));
 		$customViewModel = $this->getCVModelFromRequest($request);
 		$response = new Vtiger_Response();
 
@@ -59,7 +59,7 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 			$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
 		} else {
 			$customViewModel = CustomView_Record_Model::getCleanInstance();
-			$customViewModel->setModule($request->get('source_module'));
+			$customViewModel->setModule($request->getByType('source_module', 1));
 		}
 		$setmetrics = empty($request->get('setmetrics')) ? 0 : $request->get('setmetrics');
 		$customViewData = array(
@@ -74,10 +74,10 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 		);
 		$selectedColumnsList = $request->get('columnslist');
 		if (empty($selectedColumnsList)) {
-			$moduleModel = Vtiger_Module_Model::getInstance($request->get('source_module'));
+			$moduleModel = Vtiger_Module_Model::getInstance($request->getByType('source_module', 1));
 			$cvIdDefault = $moduleModel->getAllFilterCvidForModule();
 			if ($cvIdDefault === false) {
-				$cvId = App\CustomView::getInstance($request->get('source_module'))->getDefaultCvId();
+				$cvId = App\CustomView::getInstance($request->getByType('source_module', 1))->getDefaultCvId();
 			}
 			$defaultCustomViewModel = CustomView_Record_Model::getInstanceById($cvIdDefault);
 			$selectedColumnsList = $defaultCustomViewModel->getSelectedFields();

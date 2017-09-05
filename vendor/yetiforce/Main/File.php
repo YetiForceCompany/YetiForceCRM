@@ -26,7 +26,7 @@ class File
 		\App\Session::init();
 		$this->getLogin();
 		$moduleName = $request->getModule();
-		$action = $request->get('action');
+		$action = $request->getByType('action', 1);
 		if (!$moduleName || !$action) {
 			throw new \App\Exceptions\NoPermitted('Method Not Allowed', 405);
 		}

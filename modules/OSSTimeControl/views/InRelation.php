@@ -12,7 +12,7 @@ class OSSTimeControl_InRelation_View extends Vtiger_RelatedList_View
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$relatedModuleName = $request->get('relatedModule');
+		$relatedModuleName = $request->getByType('relatedModule', 1);
 		$parentId = $request->getInteger('record');
 		$label = $request->get('tab_label');
 		$totalCount = $request->getInteger('totalCount');
@@ -28,7 +28,7 @@ class OSSTimeControl_InRelation_View extends Vtiger_RelatedList_View
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
-		if ($sortOrder == 'ASC') {
+		if ($sortOrder === 'ASC') {
 			$nextSortOrder = 'DESC';
 			$sortImage = 'icon-chevron-down';
 		} else {
@@ -109,7 +109,7 @@ class OSSTimeControl_InRelation_View extends Vtiger_RelatedList_View
 		$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
-		$viewer->assign('VIEW', $request->get('view'));
+		$viewer->assign('VIEW', $request->getByType('view', 1));
 		return $viewer->view('RelatedList.tpl', $moduleName, 'true');
 	}
 }

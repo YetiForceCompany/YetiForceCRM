@@ -20,12 +20,12 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 	 */
 	public function getExportQuery(\App\Request $request)
 	{
-		$moduleName = $request->get('source_module');
+		$moduleName = $request->getByType('source_module', 1);
 		$cvId = $request->get('viewname');
 		$listInstance = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
-		$operator = $request->get('operator');
+		$operator = $request->getByType('operator', 1);
 		if (!empty($operator)) {
 			$listInstance->set('operator', $operator);
 		}
@@ -77,7 +77,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 	 */
 	public function exportData(\App\Request $request)
 	{
-		$moduleName = $request->get('source_module');
+		$moduleName = $request->getByType('source_module', 1);
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$moduleModel->setEventFieldsForExport();
 		$moduleModel->setTodoFieldsForExport();

@@ -73,7 +73,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
-		$operator = $request->get('operator');
+		$operator = $request->getByType('operator', 1);
 		if (!empty($operator)) {
 			$viewer->assign('OPERATOR', $operator);
 			$viewer->assign('ALPHABET_VALUE', $searchValue);
@@ -115,7 +115,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
-		$operator = $request->get('operator');
+		$operator = $request->getByType('operator', 1);
 		if (!empty($operator)) {
 			$viewer->assign('OPERATOR', $operator);
 			$viewer->assign('ALPHABET_VALUE', $searchValue);
@@ -165,7 +165,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
-		$operator = $request->get('operator');
+		$operator = $request->getByType('operator', 1);
 		if (!empty($operator)) {
 			$viewer->assign('OPERATOR', $operator);
 			$viewer->assign('ALPHABET_VALUE', $searchValue);

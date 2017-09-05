@@ -20,7 +20,7 @@ class RecycleBin_List_View extends Vtiger_Index_View
 
 		$moduleModel = RecycleBin_Module_Model::getInstance($moduleName);
 
-		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
+		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1));
 
 		$quickLinkModels = $moduleModel->getSideBarLinks($linkParams);
 
@@ -71,7 +71,7 @@ class RecycleBin_List_View extends Vtiger_Index_View
 		}
 
 		if (empty($pageNumber)) {
-			$pageNumber = '1';
+			$pageNumber = 1;
 		}
 
 		$moduleModel = RecycleBin_Module_Model::getInstance($moduleName);
@@ -84,7 +84,7 @@ class RecycleBin_List_View extends Vtiger_Index_View
 		}
 		$listViewModel = RecycleBin_ListView_Model::getInstance($moduleName, $sourceModule);
 
-		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
+		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1));
 		$linkModels = $moduleModel->getListViewMassActions($linkParams);
 
 		$pagingModel = new Vtiger_Paging_Model();

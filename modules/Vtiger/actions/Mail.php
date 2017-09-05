@@ -130,7 +130,7 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 		}
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
-		$operator = $request->get('operator');
+		$operator = $request->getByType('operator', 1);
 		if (!empty($searchKey) && !empty($searchValue)) {
 			$listView->set('operator', $operator);
 			$listView->set('search_key', $searchKey);

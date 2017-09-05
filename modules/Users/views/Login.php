@@ -31,7 +31,7 @@ class Users_Login_View extends Vtiger_View_Controller
 		$viewer->assign('MODULE', $selectedModule);
 		$viewer->assign('MODULE_NAME', $selectedModule);
 		$viewer->assign('QUALIFIED_MODULE', $selectedModule);
-		$viewer->assign('VIEW', $request->get('view'));
+		$viewer->assign('VIEW', $request->getByType('view', 1));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		if ($display) {
 			$this->preProcessDisplay($request);

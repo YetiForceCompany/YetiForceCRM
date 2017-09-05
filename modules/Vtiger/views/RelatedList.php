@@ -27,7 +27,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPrivilegesModel->hasModulePermission($request->get('relatedModule'))) {
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->getByType('relatedModule', 1))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -40,7 +40,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$relatedModuleName = $request->get('relatedModule');
+		$relatedModuleName = $request->getByType('relatedModule', 1);
 		$parentId = $request->getInteger('record');
 		$label = $request->get('tab_label');
 		$pageNumber = $request->getInteger('page');
@@ -57,7 +57,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
-		if ($sortOrder == 'ASC') {
+		if ($sortOrder === 'ASC') {
 			$nextSortOrder = 'DESC';
 			$sortImage = 'glyphicon glyphicon-chevron-down';
 		} else {
@@ -75,7 +75,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		}
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
-		$operator = $request->get('operator');
+		$operator = $request->getByType('operator', 1);
 		if (!empty($operator)) {
 			$relationListView->set('operator', $operator);
 		}
@@ -157,7 +157,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
-		$viewer->assign('VIEW', $request->get('view'));
+		$viewer->assign('VIEW', $request->getByType('view', 1));
 		return $viewer->view('RelatedList.tpl', $moduleName, 'true');
 	}
 }

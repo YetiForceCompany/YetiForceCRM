@@ -40,7 +40,7 @@ class Settings_Colors_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 	 */
 	public function getPickListView(\App\Request $request)
 	{
-		$sourceModule = $request->get('source_module');
+		$sourceModule = $request->getByType('source_module', 1);
 		$fieldId = $request->getInteger('fieldId');
 		if ($sourceModule) {
 			$pickListFields = \App\Colors::getPicklistFieldsByModule($sourceModule);

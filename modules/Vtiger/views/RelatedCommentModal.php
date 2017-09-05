@@ -31,7 +31,7 @@ class Vtiger_RelatedCommentModal_View extends Vtiger_BasicModal_View
 	{
 		$moduleName = $request->getModule();
 		$record = $request->getInteger('record');
-		$relatedRecord = $request->get('relid');
+		$relatedRecord = $request->getInteger('relid');
 		$relatedModuleName = $request->get('relmodule');
 
 		$relatedCommentModal = Vtiger_RelatedCommentModal_Model::getInstance($record, $moduleName, $relatedRecord, $relatedModuleName);

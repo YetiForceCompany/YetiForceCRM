@@ -42,7 +42,7 @@ class Vtiger_Calendar_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('DATA', $data);
 		$viewer->assign('DEFAULTDATE', $defaultDate);
 		$viewer->assign('OWNER', $owner);
-		$viewer->assign('VIEW', $request->get('view'));
+		$viewer->assign('VIEW', $request->getByType('view', 1));
 
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$viewer->assign('CURRENT_USER', $currentUserModel);

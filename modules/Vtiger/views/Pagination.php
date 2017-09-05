@@ -28,7 +28,7 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('noOfEntries', $request->getInteger('noOfEntries'));
-		$relatedModuleName = $request->get('relatedModule');
+		$relatedModuleName = $request->getByType('relatedModule', 1);
 		$parentId = $request->getInteger('record');
 
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
@@ -71,7 +71,7 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 			$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
 			$searchKey = $request->get('search_key');
 			$searchValue = $request->get('search_value');
-			$operator = $request->get('operator');
+			$operator = $request->getByType('operator', 1);
 			if (!empty($operator)) {
 				$listViewModel->set('operator', $operator);
 			}

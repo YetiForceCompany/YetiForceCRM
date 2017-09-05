@@ -64,7 +64,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 		}
 
 		if (empty($pageNumber)) {
-			$pageNumber = '1';
+			$pageNumber = 1;
 		}
 
 		$status = $request->get('status');
@@ -75,7 +75,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 			$this->listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
 		}
 
-		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'), 'CVID' => $cvId);
+		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1), 'CVID' => $cvId);
 		$linkModels = $this->listViewModel->getListViewMassActions($linkParams);
 		$this->listViewModel->set('status', $status);
 
@@ -90,7 +90,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
-		$operator = $request->get('operator');
+		$operator = $request->getByType('operator', 1);
 		if (!empty($operator)) {
 			$this->listViewModel->set('operator', $operator);
 		}
@@ -203,7 +203,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
 		$searchParmams = $request->get('search_params');
-		$operator = $request->get('operator');
+		$operator = $request->getByType('operator', 1);
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
 
 		if (empty($searchParmams) || !is_array($searchParmams)) {

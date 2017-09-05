@@ -52,7 +52,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 			$viewer->assign('MODE', 'edit');
 		} else {
 			$workflowModel = Settings_Workflows_Record_Model::getCleanInstance($moduleName);
-			$selectedModule = $request->get('source_module');
+			$selectedModule = $request->getByType('source_module', 1);
 			if (!empty($selectedModule)) {
 				$viewer->assign('SELECTED_MODULE', $selectedModule);
 			}

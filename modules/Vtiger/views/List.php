@@ -71,7 +71,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$mid = $request->get('mid');
 		}
 
-		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
+		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1));
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName, $mid));
 		$this->viewName = App\CustomView::getInstance($moduleName)->getViewId();
 		if ($request->isEmpty('viewname') && App\CustomView::hasViewChanged($moduleName, $this->viewName)) {
@@ -127,7 +127,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$viewer->assign('MODULE_MODEL', Vtiger_Module_Model::getInstance($moduleName));
 			$viewer->assign('VIEWID', $this->viewName);
 		}
-		$viewer->assign('VIEW', $request->get('view'));
+		$viewer->assign('VIEW', $request->getByType('view', 1));
 		$viewer->view('ListViewContents.tpl', $moduleName);
 	}
 
@@ -217,7 +217,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		if (!empty($searchResult)) {
 			$this->listViewModel->set('searchResult', $searchResult);
 		}
-		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'), 'CVID' => $this->viewName);
+		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1), 'CVID' => $this->viewName);
 		$linkModels = $this->listViewModel->getListViewMassActions($linkParams);
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
@@ -228,7 +228,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		}
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
-		$operator = $request->get('operator');
+		$operator = $request->getByType('operator', 1);
 		if (!empty($operator)) {
 			$this->listViewModel->set('operator', $operator);
 		}

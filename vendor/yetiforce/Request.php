@@ -76,6 +76,35 @@ class Request
 	}
 
 	/**
+	 * Purify by data type
+	 * 
+	 * Type list:
+	 * 1 - only words
+	 * @param string $key Key name
+	 * @param mixed $type Data type that is only acceptable
+	 * @return boolean|mixed
+	 */
+	public function getByType($key, $type)
+	{
+		if (isset($this->parseValues[$key])) {
+			return $this->parseValues[$key];
+		}
+		if (isset($this->rawValues[$key])) {
+			$value = $this->rawValues[$key];
+			switch ($type) {
+				case 1: // only word
+					$value = preg_match("/^[a-zA-Z]+$/", $value) ? $value : false;
+					break;
+				default:
+					$value = Purifier::purify($value);
+					break;
+			}
+			return $this->parseValues[$key] = $value;
+		}
+		return false;
+	}
+
+	/**
 	 * Function to get the boolean value for a given key
 	 * @param string $key
 	 * @param mixed $defaultValue Default value
@@ -320,7 +349,7 @@ class Request
 	 */
 	public function getModule($raw = true)
 	{
-		$moduleName = $this->get('module');
+		$moduleName = $this->getByType('module', 1);
 		if (!$raw) {
 			$parentModule = $this->get('parent');
 			if ($parentModule === 'Settings') {

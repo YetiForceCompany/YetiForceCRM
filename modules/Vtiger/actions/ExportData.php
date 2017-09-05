@@ -19,7 +19,7 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$moduleName = $request->get('source_module');
+		$moduleName = $request->getByType('source_module', 1);
 		if (empty($moduleName)) {
 			$moduleName = $request->getModule();
 		}

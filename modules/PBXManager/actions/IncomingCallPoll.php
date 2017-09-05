@@ -49,7 +49,7 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 	{
 		$response = new Vtiger_Response();
 		$modules = array('Contacts', 'Leads');
-		$view = $request->get('view');
+		$view = $request->getByType('view', 1);
 		Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		foreach ($modules as $module) {
 			if (\App\Privilege::isPermitted($module, $view)) {

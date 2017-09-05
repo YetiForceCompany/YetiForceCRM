@@ -13,7 +13,7 @@ class OSSSoldServices_EditFieldByModal_View extends Assets_EditFieldByModal_View
 	public function getModalScripts(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$viewName = $request->get('view');
+		$viewName = $request->getByType('view', 1);
 
 		$scripts = [
 			"modules.Vtiger.resources.$viewName",

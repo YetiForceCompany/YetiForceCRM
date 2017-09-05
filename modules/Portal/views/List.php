@@ -45,7 +45,7 @@ class Portal_List_View extends Vtiger_Index_View
 		}
 
 		if (empty($pageNumber)) {
-			$pageNumber = '1';
+			$pageNumber = 1;
 		}
 
 		$pagingModel = new Vtiger_Paging_Model();

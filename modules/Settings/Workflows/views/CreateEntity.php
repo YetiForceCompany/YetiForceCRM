@@ -20,7 +20,7 @@ class Settings_Workflows_CreateEntity_View extends Settings_Vtiger_Index_View
 		$workflowId = $request->get('for_workflow');
 		$workflowModel = Settings_Workflows_Record_Model::getInstance($workflowId);
 
-		$relatedModule = $request->get('relatedModule');
+		$relatedModule = $request->getByType('relatedModule', 1);
 		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
 
 		$workflowModuleModel = $workflowModel->getModule();

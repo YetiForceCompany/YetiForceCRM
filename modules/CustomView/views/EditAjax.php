@@ -15,7 +15,7 @@ Class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$moduleName = $request->get('source_module');
+		$moduleName = $request->getByType('source_module', 1);
 		$module = $request->getModule();
 		$record = $request->get('record');
 		$duplicate = $request->get('duplicate');

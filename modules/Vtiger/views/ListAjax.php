@@ -97,7 +97,7 @@ class Vtiger_ListAjax_View extends Vtiger_List_View
 		}
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
-		$operator = $request->get('operator');
+		$operator = $request->getByType('operator', 1);
 		if (!empty($operator)) {
 			$this->listViewModel->set('operator', $operator);
 		}

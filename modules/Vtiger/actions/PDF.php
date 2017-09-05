@@ -239,7 +239,7 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 	{
 		$recordId = $request->getInteger('record');
 		$moduleName = $request->get('modulename');
-		$view = $request->get('view');
+		$view = $request->getByType('view', 1);
 		if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
