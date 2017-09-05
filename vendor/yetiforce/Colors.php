@@ -149,6 +149,7 @@ class Colors
 	{
 		$table = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['fieldid' => $picklistId])->scalar();
 		\App\Db::getInstance()->createCommand()->update('vtiger_' . $table, ['color' => ltrim($color, '#')], ['picklist_valueid' => $picklistValueId])->execute();
+		\App\Cache::clear();
 		\App\Colors::generate('picklist');
 	}
 
@@ -247,6 +248,7 @@ class Colors
 	public static function updateModuleColor($id, $color)
 	{
 		\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['color' => ltrim($color, '#')], ['tabid' => $id])->execute();
+		\App\Cache::clear();
 		\App\Colors::generate('module');
 	}
 
@@ -267,6 +269,7 @@ class Colors
 			$set = ['coloractive' => $colorActive];
 		}
 		\App\Db::getInstance()->createCommand()->update('vtiger_tab', $set, ['tabid' => $id])->execute();
+		\App\Cache::clear();
 		\App\Colors::generate('module');
 		return $color;
 	}
