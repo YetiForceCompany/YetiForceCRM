@@ -130,7 +130,7 @@ function getReportFieldValue(ReportRun $report, $picklistArray, $dbField, $value
 			$fieldvalue = \App\Language::translate($value, 'Currency');
 		}
 	} elseif (in_array($dbField->name, $report->ui101_fields) && !empty($value)) {
-		$entityNames = getEntityName('Users', $value);
+		$entityNames = \App\Fields\Owner::getUserLabel($value);
 		$fieldvalue = $entityNames[$value];
 	} elseif ($fieldType === 'date' && !empty($value)) {
 		if ($module === 'Calendar' && $field->getFieldName() === 'due_date') {
