@@ -112,13 +112,13 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 					$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 
 					$config = ["encode" => ['key' => "$newPassword"]];
-					$recordModel->write_php_ini($config, "modules/OSSPasswords/config.ini.php");
+					$recordModel->writePhpIni($config, 'modules/OSSPasswords/config.ini.php');
 
 					// start transaction
 					$adb->startTransaction();
 
 					// now encrypt all osspasswords with given key
-					$sql = "UPDATE `vtiger_osspasswords` SET `password` = AES_ENCRYPT( `password`, ? );";
+					$sql = 'UPDATE `vtiger_osspasswords` SET `password` = AES_ENCRYPT( `password`, ? );';
 					$result = $adb->pquery($sql, array($newPassword), true);
 
 					$success = 'Encryption password has been successfully saved!';
@@ -163,7 +163,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 						// at end we are saving new password key
 						$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 						$config = array('encode' => array('key' => "$newKey"));
-						$recordModel->write_php_ini($config, 'modules/OSSPasswords/config.ini.php');
+						$recordModel->writePhpIni($config, 'modules/OSSPasswords/config.ini.php');
 						$success = 'Your key has been changed correctly.';
 					} else {
 						\App\Log::error('Changing password encryption keys was unsuccessfull!');

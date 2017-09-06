@@ -48,7 +48,7 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
 	 * @return - true/false
 	 */
 
-	public function write_php_ini($array, $file)
+	public function writePhpIni($array, $file)
 	{
 		$res = [];
 		$res[] = ';<?php exit;';

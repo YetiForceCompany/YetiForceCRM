@@ -31,7 +31,7 @@
 									<td>{\App\Language::translate($item.label,$QUALIFIED_MODULE)}</td>
 									<td class="calendarColor" style="background: {$item.value};"></td>
 									<td>
-										<button class="btn btn-primary marginLeftZero updateColor" data-metod="UpdateCalendarConfig">{\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+										<button class="btn btn-primary marginLeftZero updateColor" data-metod="updateCalendarConfig">{\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
 										<button class="btn btn-info generateColor">{\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
 									</td>
 								</tr>
@@ -46,7 +46,7 @@
 								<tr data-id="{$item.name}" data-color="{$item.value}">
 									<td class="col-md-3"><p class="paddingTop10">{\App\Language::translate($item.label,$QUALIFIED_MODULE)}</p></td>
 									<td class="col-md-9">
-										<input class="marginTop10" type="checkbox" id="update_event" name="update_event" data-metod="UpdateCalendarConfig" value=1 {if $item.value eq 1} checked{/if}/>
+										<input class="marginTop10" type="checkbox" id="update_event" name="update_event" data-metod="updateCalendarConfig" value=1 {if $item.value eq 1} checked{/if}/>
 									</td>
 								</tr>
 							{/foreach}
