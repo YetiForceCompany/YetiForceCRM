@@ -51,13 +51,13 @@ class Install_Index_view extends Vtiger_View_Controller
 	{
 		parent::__construct();
 		//Install
-		$this->exposeMethod('Step1');
-		$this->exposeMethod('Step2');
-		$this->exposeMethod('Step3');
-		$this->exposeMethod('Step4');
-		$this->exposeMethod('Step5');
-		$this->exposeMethod('Step6');
-		$this->exposeMethod('Step7');
+		$this->exposeMethod('step1');
+		$this->exposeMethod('step2');
+		$this->exposeMethod('step3');
+		$this->exposeMethod('step4');
+		$this->exposeMethod('step5');
+		$this->exposeMethod('step6');
+		$this->exposeMethod('step7');
 		//Migrate
 		$this->exposeMethod('mStep0');
 		$this->exposeMethod('mStep1');
