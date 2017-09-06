@@ -28,13 +28,16 @@ class Settings_LangManagement_Edit_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
-		$lang = $request->get('lang', 1);
+		$lang = $request->getByType('lang', 1);
+		if (empty($lang)) {
+			$lang = [];
+		}
 		$mod = $request->getByType('mod', 1);
 		$tpl = $request->getByType('tpl', 1);
-		$showDifferences = $request->get('sd');
+		$showDifferences = $request->getInteger('sd');
 		$moduleModel = Settings_LangManagement_Module_Model::getInstance($qualifiedModuleName);
 		$data = null;
-		if ($lang !== '' && $mod !== '') {
+		if (!empty($lang) && !empty($mod)) {
 			if ($tpl === 'editLang') {
 				$data = $moduleModel->loadLangTranslation($lang, $mod, $showDifferences);
 			} else {
@@ -45,7 +48,7 @@ class Settings_LangManagement_Edit_View extends Settings_Vtiger_Index_View
 		unset($mods['mods']['HelpInfo']);
 		$viewer->assign('MODS', $mods);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
-		$viewer->assign('SELECTED_LANGS', array_filter(explode(',', $lang)));
+		$viewer->assign('SELECTED_LANGS', $lang);
 		$viewer->assign('SELECTED_MODE', $mod);
 		$viewer->assign('LANGS', App\Language::getAll());
 		$viewer->assign('DATA', $data);

@@ -33,20 +33,24 @@ var Settings_Index_Js = {
 				'enabled': true
 			}
 		});
-		var url = '';
+		var param = {
+			module: 'LangManagement',
+			parent: app.getParentModuleName(),
+			view: 'Edit'
+		};
 		if ($(".LangManagement " + position + " #langs_list").val() != undefined) {
-			url += '&lang=' + $(".LangManagement " + position + " #langs_list").val();
+			param.lang = $(".LangManagement " + position + " #langs_list").val();
 		}
 		if ($(".LangManagement #mods_list").val() != undefined) {
-			url += '&mod=' + $(".LangManagement " + position + " #mods_list").val();
+			param.mod = $(".LangManagement " + position + " #mods_list").val();
 		}
 		if (document.showDiff == true) {
-			url += '&sd=1';
+			param.sd = 1;
 		}
 		if (typeof tpl != 'undefined') {
-			url += '&tpl=' + tpl;
+			param.tpl = tpl;
 		}
-		$.get("index.php?module=LangManagement&parent=Settings&view=Edit" + url, function (data) {
+		AppConnector.request(param).then(function (data) {
 			jQuery(position).html(data);
 			Settings_Index_Js.initEditLang(tpl, position);
 			progress.progressIndicator({'mode': 'hide'});
@@ -398,7 +402,7 @@ var Settings_Index_Js = {
 				parent: app.getParentModuleName(),
 				action: 'GetChart',
 				langBase: jQuery('[name="langs_basic"]').val(),
-				langs: jQuery.isArray(langs) ? langs.join(',') : langs
+				langs: langs
 			}
 			AppConnector.request(params).then(
 					function (data) {
