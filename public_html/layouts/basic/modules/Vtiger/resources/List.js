@@ -173,7 +173,7 @@ jQuery.Class("Vtiger_List_Js", {
 			var form = $('<form method="POST" action="' + massActionUrl + '">');
 			form.append($('<input />', {name: "module", value: module}));
 			form.append($('<input />', {name: "action", value: "QuickExport"}));
-			form.append($('<input />', {name: "mode", value: "ExportToExcel"}));
+			form.append($('<input />', {name: "mode", value: "exportToExcel"}));
 			if (typeof csrfMagicName !== 'undefined') {
 				form.append($('<input />', {name: csrfMagicName, value: csrfMagicToken}));
 			}

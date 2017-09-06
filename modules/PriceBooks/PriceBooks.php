@@ -50,36 +50,6 @@ class PriceBooks extends CRMEntity
 	// For Alphabetical search
 	public $def_basicsearch_col = 'bookname';
 
-	/** function used to get whether the pricebook has related with a product or not
-	 * 	@param int $id - product id
-	 * 	@return true or false - if there are no pricebooks available or associated pricebooks for the product is equal to total number of pricebooks then return false, else return true
-	 */
-	public function get_pricebook_noproduct($id)
-	{
-
-		\App\Log::trace('Entering getPricebookNoProduct(' . $id . ') method ...');
-
-		$query = 'select vtiger_crmentity.crmid, vtiger_pricebook.* from vtiger_pricebook inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_pricebook.pricebookid where vtiger_crmentity.deleted=0';
-		$result = $this->db->pquery($query, []);
-		$no_count = $this->db->num_rows($result);
-		if ($no_count != 0) {
-			$pb_query = 'select vtiger_crmentity.crmid, vtiger_pricebook.pricebookid,vtiger_pricebookproductrel.productid from vtiger_pricebook inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_pricebook.pricebookid inner join vtiger_pricebookproductrel on vtiger_pricebookproductrel.pricebookid=vtiger_pricebook.pricebookid where vtiger_crmentity.deleted=0 and vtiger_pricebookproductrel.productid=?';
-			$result_pb = $this->db->pquery($pb_query, array($id));
-			if ($no_count == $this->db->num_rows($result_pb)) {
-				\App\Log::trace('Exiting getPricebookNoProduct method ...');
-				return false;
-			} elseif ($this->db->num_rows($result_pb) == 0) {
-				\App\Log::trace('Exiting getPricebookNoProduct method ...');
-				return true;
-			} elseif ($this->db->num_rows($result_pb) < $no_count) {
-				\App\Log::trace('Exiting getPricebookNoProduct method ...');
-				return true;
-			}
-		} else {
-			\App\Log::trace('Exiting getPricebookNoProduct method ...');
-			return false;
-		}
-	}
 	/*
 	 * Function to get the primary query part of a report
 	 * @param - $module Primary module name

@@ -14,7 +14,6 @@ class Settings_PickListDependency_AddDependency_View extends Settings_Vtiger_Ind
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('GetPickListFields');
 	}
 
 	public function process(\App\Request $request)
@@ -31,25 +30,5 @@ class Settings_PickListDependency_AddDependency_View extends Settings_Vtiger_Ind
 
 		$viewer->assign('MODULES', $moduleModels);
 		echo $viewer->view('AddDependency.tpl', $qualifiedModule);
-	}
-
-	/**
-	 * Function returns the picklist field for a module
-	 * @param \App\Request $request
-	 */
-	public function GetPickListFields(\App\Request $request)
-	{
-		$module = $request->getByType('sourceModule', 1);
-
-		$fieldList = Settings_PickListDependency_Module_Model::getAvailablePicklists($module);
-
-		$response = new Vtiger_Response();
-		$response->setResult($fieldList);
-		$response->emit();
-	}
-
-	public function CheckCyclicDependency()
-	{
-		
 	}
 }

@@ -24,7 +24,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 
 	public function __construct()
 	{
-		$this->exposeMethod('ExportToExcel');
+		$this->exposeMethod('exportToExcel');
 	}
 
 	public function process(\App\Request $request)
@@ -36,7 +36,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		}
 	}
 
-	public function ExportToExcel(\App\Request $request)
+	public function exportToExcel(\App\Request $request)
 	{
 		Vtiger_Loader::includeOnce('libraries.PHPExcel.PHPExcel');
 		$module = $request->getModule(false); //this is the type of things in the current view
