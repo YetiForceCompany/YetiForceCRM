@@ -233,15 +233,6 @@ class vt_DateTime
 	}
 
 	/**
-	 * function to get month name in short
-	 * return string $this->month_inshort  - month name (eg: Jan)
-	 */
-	public function getmonthName_inshort()
-	{
-		return $this->month_inshort;
-	}
-
-	/**
 	 * function to get month
 	 * return string $this->month  - month name
 	 */
@@ -264,33 +255,6 @@ class vt_DateTime
 	public function getDaysInMonth()
 	{
 		return $this->daysinmonth;
-	}
-
-	/**
-	 * function to get month name
-	 * return string $this->month_inlong  - month name
-	 */
-	public function getmonthName()
-	{
-		return $this->month_inlong;
-	}
-
-	/**
-	 * function to get day of week
-	 * return string $this->dayofweek_inlong  - day of week
-	 */
-	public function getdayofWeek()
-	{
-		return $this->dayofweek_inlong;
-	}
-
-	/**
-	 * function to get day of week in short
-	 * return string $this->dayofweek_inshort  - day of week (eg: Mon)
-	 */
-	public function getdayofWeek_inshort()
-	{
-		return $this->dayofweek_inshort;
 	}
 
 	/**
