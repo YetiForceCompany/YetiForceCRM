@@ -242,6 +242,7 @@ class Picklist
 		$values = [];
 		while ($row = $dataReader->read()) {
 			$row['picklistValue'] = \App\Purifier::decodeHtml(\App\Purifier::decodeHtml($row[$fieldName]));
+			$row['picklistValueId'] = $row[\App\Fields\Picklist::getPickListId($fieldName)];
 			$values[$row[$primaryKey]] = $row;
 		}
 		\App\Cache::save('getPickListFieldValuesRows', $fieldName, $values);

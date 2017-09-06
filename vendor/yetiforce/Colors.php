@@ -102,9 +102,9 @@ class Colors
 								if (strpos($item['color'], '#') === false) {
 									$item['color'] = '#' . $item['color'];
 								}
-								$css .= '.picklistCBr_' . $module['tabname'] . '_' . $this->sanitizeValue($field->getName()) . '_' . $this->sanitizeValue($item['picklistValue']) . ' { border-color: ' . $item['color'] . '; }' . PHP_EOL;
-								$css .= '.picklistCBg_' . $module['tabname'] . '_' . $this->sanitizeValue($field->getName()) . '_' . $this->sanitizeValue($item['picklistValue']) . ' { background: ' . $item['color'] . '; }' . PHP_EOL;
-								$css .= '.picklistCT_' . $module['tabname'] . '_' . $this->sanitizeValue($field->getName()) . '_' . $this->sanitizeValue($item['picklistValue']) . ' { color: ' . $item['color'] . '; }' . PHP_EOL;
+								$css .= '.picklistCBr_' . $module['tabname'] . '_' . self::sanitizeValue($field->getName()) . '_' . self::sanitizeValue($item['picklistValue']) . ' { border-color: ' . $item['color'] . '; }' . PHP_EOL;
+								$css .= '.picklistCBg_' . $module['tabname'] . '_' . self::sanitizeValue($field->getName()) . '_' . self::sanitizeValue($item['picklistValue']) . ' { background: ' . $item['color'] . '; }' . PHP_EOL;
+								$css .= '.picklistCT_' . $module['tabname'] . '_' . self::sanitizeValue($field->getName()) . '_' . self::sanitizeValue($item['picklistValue']) . ' { color: ' . $item['color'] . '; }' . PHP_EOL;
 							}
 						}
 					}
@@ -118,7 +118,7 @@ class Colors
 	 * Sanitize value for use in css class name
 	 * @param string $value
 	 */
-	private function sanitizeValue($value)
+	private static function sanitizeValue($value)
 	{
 		return rtrim(preg_replace("/[^[:alnum:]]/u", '_', $value), '_');
 	}
@@ -157,7 +157,7 @@ class Colors
 	public static function updatePicklistValueColor($picklistId, $picklistValueId, $color)
 	{
 		$table = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['fieldid' => $picklistId])->scalar();
-		\App\Db::getInstance()->createCommand()->update('vtiger_' . $table, ['color' => ltrim($color, '#')], ['picklist_valueid' => $picklistValueId])->execute();
+		\App\Db::getInstance()->createCommand()->update('vtiger_' . $table, ['color' => ltrim($color, '#')], [\App\Fields\Picklist::getPickListId($table) => $picklistValueId])->execute();
 		\App\Cache::clear();
 		\App\Colors::generate('picklist');
 	}
