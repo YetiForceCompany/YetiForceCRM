@@ -33,7 +33,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			if (file_exists($fileName)) {
 				$fileContent = file($fileName);
 				foreach ($fileContent as $key => $file_row) {
-					if (self::parse_data("'$langkey'", $file_row)) {
+					if (self::parseData("'$langkey'", $file_row)) {
 						unset($fileContent[$key]);
 						$edit = $change = true;
 					}
@@ -101,10 +101,10 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 				$to_replase = '$jsLanguageStrings = [';
 			}
 			$new_translation = "'$langkey' => '$val',";
-			if (self::parse_data($to_replase, $fileContent)) {
+			if (self::parseData($to_replase, $fileContent)) {
 				$fileContent = str_ireplace($to_replase, $to_replase . PHP_EOL . '	' . $new_translation, $fileContent);
 			} else {
-				if (self::parse_data('?>', $fileContent)) {
+				if (self::parseData('?>', $fileContent)) {
 					$fileContent = str_replace('?>', '', $fileContent);
 				}
 				$fileContent = $fileContent . PHP_EOL . $to_replase . PHP_EOL . '	' . $new_translation . PHP_EOL . '];';
@@ -291,14 +291,14 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 				$files[$key] = $val;
 			}
 		}
-		return self::SettingsTranslate($files);
+		return self::settingsTranslate($files);
 	}
 
-	public function SettingsTranslate($langs)
+	public function settingsTranslate($langs)
 	{
 		$settings = [];
 		foreach ($langs as $key => $lang) {
-			if (self::parse_data('|', $lang)) {
+			if (self::parseData('|', $lang)) {
 				$langArray = explode("|", $lang);
 				unset($langs[$key]);
 				$settings[$key] = \App\Language::translate($langArray[1], 'Settings:' . $langArray[1]);
@@ -360,7 +360,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$dir = 'languages/' . $params['prefix'];
 		if (file_exists($dir)) {
-			self::DeleteDir($dir);
+			self::deleteDir($dir);
 		}
 		\App\Db::getInstance()->createCommand()
 			->delete('vtiger_language', ['prefix' => $params['prefix']])
@@ -374,7 +374,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	 * @param string $b
 	 * @return boolean
 	 */
-	public static function parse_data($a, $b)
+	public static function parseData($a, $b)
 	{
 		$resp = false;
 		if ($b != '' && stristr($b, $a) !== false) {
@@ -383,16 +383,21 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		return $resp;
 	}
 
-	public function DeleteDir($dir)
+	/**
+	 * Dedlete dir
+	 * @param string $dir
+	 * @return boolean
+	 */
+	public static function deleteDir($dir)
 	{
 		$fd = opendir($dir);
 		if (!$fd)
 			return false;
 		while (($file = readdir($fd)) !== false) {
-			if ($file == "." || $file == "..")
+			if ($file === '.' || $file === '..')
 				continue;
-			if (is_dir($dir . "/" . $file)) {
-				self::DeleteDir($dir . "/" . $file);
+			if (is_dir($dir . '/' . $file)) {
+				self::deleteDir($dir . '/' . $file);
 			} else {
 				unlink("$dir/$file");
 			}

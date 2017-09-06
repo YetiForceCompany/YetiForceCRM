@@ -57,7 +57,7 @@ class PriceBooks extends CRMEntity
 	public function get_pricebook_noproduct($id)
 	{
 
-		\App\Log::trace('Entering get_pricebook_noproduct(' . $id . ') method ...');
+		\App\Log::trace('Entering getPricebookNoProduct(' . $id . ') method ...');
 
 		$query = 'select vtiger_crmentity.crmid, vtiger_pricebook.* from vtiger_pricebook inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_pricebook.pricebookid where vtiger_crmentity.deleted=0';
 		$result = $this->db->pquery($query, []);
@@ -66,17 +66,17 @@ class PriceBooks extends CRMEntity
 			$pb_query = 'select vtiger_crmentity.crmid, vtiger_pricebook.pricebookid,vtiger_pricebookproductrel.productid from vtiger_pricebook inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_pricebook.pricebookid inner join vtiger_pricebookproductrel on vtiger_pricebookproductrel.pricebookid=vtiger_pricebook.pricebookid where vtiger_crmentity.deleted=0 and vtiger_pricebookproductrel.productid=?';
 			$result_pb = $this->db->pquery($pb_query, array($id));
 			if ($no_count == $this->db->num_rows($result_pb)) {
-				\App\Log::trace('Exiting get_pricebook_noproduct method ...');
+				\App\Log::trace('Exiting getPricebookNoProduct method ...');
 				return false;
 			} elseif ($this->db->num_rows($result_pb) == 0) {
-				\App\Log::trace('Exiting get_pricebook_noproduct method ...');
+				\App\Log::trace('Exiting getPricebookNoProduct method ...');
 				return true;
 			} elseif ($this->db->num_rows($result_pb) < $no_count) {
-				\App\Log::trace('Exiting get_pricebook_noproduct method ...');
+				\App\Log::trace('Exiting getPricebookNoProduct method ...');
 				return true;
 			}
 		} else {
-			\App\Log::trace('Exiting get_pricebook_noproduct method ...');
+			\App\Log::trace('Exiting getPricebookNoProduct method ...');
 			return false;
 		}
 	}

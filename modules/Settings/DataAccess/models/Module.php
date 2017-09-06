@@ -267,7 +267,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		return $actionObject->getConfig($tpl_id, $actionsName, $baseModule);
 	}
 
-	public function parse_data($a, $b)
+	public function parseData($a, $b)
 	{
 		$resp = false;
 		if ($b != '' && strstr($b, $a) !== false) {
