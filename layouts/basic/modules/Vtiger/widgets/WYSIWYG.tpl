@@ -1,7 +1,7 @@
 {strip}
 	<div class="summaryWidgetContainer">
 		<div class="widget_header row">
-			<span class="col-md-5 margin0px"><h4>{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4></span>
+			<span class="col-md-10 margin0px"><h4>{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4></span>
 		</div>
 		<div class="defaultMarginP">
 			{assign var=FULL_TEXT value=\App\Purifier::decodeHtml($RECORD->get($WIDGET['data']['field_name']))}

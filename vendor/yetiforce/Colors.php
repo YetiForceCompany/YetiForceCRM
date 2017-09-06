@@ -213,7 +213,7 @@ class Colors
 	 */
 	public static function updateGroupColor($id, $color)
 	{
-		\App\Db::getInstance()->createCommand()->update('vtiger_groups', ['color' => $color,], ['groupid' => $id])->execute();
+		\App\Db::getInstance()->createCommand()->update('vtiger_groups', ['color' => $color], ['groupid' => $id])->execute();
 		\App\Colors::generate('group');
 	}
 
@@ -236,7 +236,12 @@ class Colors
 		$allModules = \vtlib\Functions::getAllModules(false, false, false, $active);
 		$modules = [];
 		foreach ($allModules as $tabid => $module) {
-			$modules[] = ['id' => $tabid, 'module' => $module['name'], 'color' => $module['color'] !== '' ? '#' . $module['color'] : '', 'active' => $module['coloractive']];
+			$modules[] = [
+				'id' => $tabid,
+				'module' => $module['name'],
+				'color' => $module['color'] !== '' ? '#' . $module['color'] : '',
+				'active' => $module['coloractive']
+			];
 		}
 		return $modules;
 	}
