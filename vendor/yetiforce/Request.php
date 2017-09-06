@@ -90,16 +90,7 @@ class Request
 			return $this->parseValues[$key];
 		}
 		if (isset($this->rawValues[$key])) {
-			$value = $this->rawValues[$key];
-			switch ($type) {
-				case 1: // only word
-					$value = preg_match("/^[_a-zA-Z]+$/", $value) ? $value : false;
-					break;
-				default:
-					$value = Purifier::purify($value);
-					break;
-			}
-			return $this->parseValues[$key] = $value;
+			return $this->parseValues[$key] = Purifier::purifyByType($this->rawValues[$key], $type);
 		}
 		return false;
 	}

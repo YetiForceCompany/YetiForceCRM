@@ -248,6 +248,35 @@ class Purifier
 	}
 
 	/**
+	 * Purify by data type
+	 * 
+	 * Type list:
+	 * 1 - only words
+	 * @param mixed $input
+	 * @param string $type Data type that is only acceptable
+	 * @return mixed
+	 */
+	public static function purifyByType($input, $type)
+	{
+		if (is_array($input)) {
+			$value = [];
+			foreach ($input as $k => $v) {
+				$value[$k] = static::purifyByType($v, $type);
+			}
+		} else {
+			switch ($type) {
+				case 1: // only word
+					$value = preg_match("/^[_a-zA-Z]+$/", $input) ? $input : false;
+					break;
+				default:
+					$value = Purifier::purify($value);
+					break;
+			}
+		}
+		return $value;
+	}
+
+	/**
 	 * Function to convert the given string to html
 	 * @param string $string
 	 * @param boolean $encode
