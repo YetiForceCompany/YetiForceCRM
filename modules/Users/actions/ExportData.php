@@ -15,7 +15,7 @@ class Users_ExportData_Action extends Vtiger_ExportData_Action
 	 * Function exports the data based on the mode
 	 * @param \App\Request $request
 	 */
-	public function ExportData(\App\Request $request)
+	public function exportData(\App\Request $request)
 	{
 		$moduleName = $request->getByType('source_module', 1);
 

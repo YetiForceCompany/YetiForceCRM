@@ -45,7 +45,7 @@ class LayoutImport extends LayoutExport
 		$this->initImport($zipfile, $overwrite);
 
 		// Call module import function
-		$this->import_Layout($zipfile);
+		$this->importLayout($zipfile);
 	}
 
 	/**
@@ -63,7 +63,7 @@ class LayoutImport extends LayoutExport
 	 * Import Layout
 	 * @access private
 	 */
-	public function import_Layout($zipfile)
+	public function importLayout($zipfile)
 	{
 		$name = $this->_modulexml->name;
 		$label = $this->_modulexml->label;
