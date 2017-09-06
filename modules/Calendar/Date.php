@@ -365,7 +365,7 @@ class vt_DateTime
 	 * function to get mysql formatted date
 	 * return formatted date in string format
 	 */
-	public function get_formatted_date()
+	public function getFormattedDate()
 	{
 		$date = $this->year . "-" . $this->z_month . "-" . $this->z_day;
 		return DateTimeField::convertToUserFormat($date);
