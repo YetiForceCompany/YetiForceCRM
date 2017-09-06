@@ -326,7 +326,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'Header: Referrer-Policy' => ['prefer' => 'no-referrer', 'current' => '?'],
 			'Header: Expect-CT' => ['prefer' => 'enforce; max-age=3600', 'current' => '?'],
 			'Header: Referrer-Policy' => ['prefer' => 'same-origin', 'current' => '?'],
-			'Header: Strict-Transport-Security' => ['prefer' => 'max-age=15768000; includeSubDomains; preload', 'current' => '?'],
+			'Header: Strict-Transport-Security' => ['prefer' => 'max-age=31536000; includeSubDomains; preload', 'current' => '?'],
 		];
 		if (IS_PUBLIC_DIR === true) {
 			$directiveValues['public_html']['current'] = static::getFlag(true);
@@ -384,7 +384,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['Header: Referrer-Policy']['current'] = $headers['REFERRER-POLICY'];
 			$directiveValues['Header: Expect-CT']['status'] = strtolower($headers['EXPECT-CT']) !== 'enforce; max-age=3600';
 			$directiveValues['Header: Expect-CT']['current'] = $headers['EXPECT-CT'];
-			$directiveValues['Header: Strict-Transport-Security']['status'] = strtolower($headers['STRICT-TRANSPORT-SECURITY']) !== 'max-age=15768000; includesubdomains; preload';
+			$directiveValues['Header: Strict-Transport-Security']['status'] = strtolower($headers['STRICT-TRANSPORT-SECURITY']) !== 'max-age=31536000; includesubdomains; preload';
 			$directiveValues['Header: Strict-Transport-Security']['current'] = $headers['STRICT-TRANSPORT-SECURITY'];
 		}
 		if ($onlyError) {
