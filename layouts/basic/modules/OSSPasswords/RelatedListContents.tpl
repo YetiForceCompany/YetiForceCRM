@@ -84,7 +84,7 @@
 							{if $RELATED_HEADERNAME eq 'password'}
 								{str_repeat('*', 10)}
 							{elseif ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->get('uitype') eq '4') && $RELATED_RECORD->isViewable()}
-								<a class="modColorText_{$RELATED_MODULE_NAME}" title="" href="{$RELATED_RECORD->getDetailViewUrl()}">{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}</a>
+								<a class="modCT_{$RELATED_MODULE_NAME}" title="" href="{$RELATED_RECORD->getDetailViewUrl()}">{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}</a>
 							{elseif $HEADER_FIELD->get('fromOutsideList') eq true}
 								{$HEADER_FIELD->getDisplayValue($RELATED_RECORD->get($RELATED_HEADERNAME))}
 							{else}

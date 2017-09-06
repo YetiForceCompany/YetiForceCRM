@@ -51,7 +51,7 @@
 								{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->get('name')}
 								<td class="{$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap>
 									{if ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->get('uitype') eq '4') && $RELATED_RECORD->isViewable()}
-										<a class="modColorText_{$RELATED_MODULE_NAME}" title="{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}" href="{$RELATED_RECORD->getDetailViewUrl()}">{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}</a>
+										<a class="modCT_{$RELATED_MODULE_NAME}" title="{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}" href="{$RELATED_RECORD->getDetailViewUrl()}">{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}</a>
 									{elseif $RELATED_HEADERNAME eq 'access_count'}
 										{$RELATED_RECORD->getAccessCountValue($PARENT_RECORD->getId())}
 									{elseif $RELATED_HEADERNAME eq 'time_start'}

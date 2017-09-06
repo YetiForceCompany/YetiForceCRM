@@ -5,7 +5,7 @@
 			<div class="widget_header">
 				<div class="widgetTitle row">
 					<div class="col-xs-4">
-						<h4 class="modColorText_{$WIDGET['label']}">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4>
+						<h4 class="modCT_{$WIDGET['label']}">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4>
 					</div>
 					<div class="col-xs-7">
 						<select class="select2 relatedHistoryTypes" multiple>

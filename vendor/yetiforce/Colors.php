@@ -53,16 +53,16 @@ class Colors
 		$css = '';
 		foreach (\App\Colors::getAllUserColor() as $item) {
 			if (ltrim($item['color'], '#')) {
-				$css .= '.ownerColorBg_' . $item['id'] . ' { background: ' . $item['color'] . '; }' . PHP_EOL;
-				$css .= '.ownerColorText_' . $item['id'] . ' { color: ' . $item['color'] . '; }' . PHP_EOL;
-				$css .= '.ownerColorBorder_' . $item['id'] . ' { border-color: ' . $item['color'] . '; }' . PHP_EOL;
+				$css .= '.ownerCBg_' . $item['id'] . ' { background: ' . $item['color'] . '; }' . PHP_EOL;
+				$css .= '.ownerCT_' . $item['id'] . ' { color: ' . $item['color'] . '; }' . PHP_EOL;
+				$css .= '.ownerCBr_' . $item['id'] . ' { border-color: ' . $item['color'] . '; }' . PHP_EOL;
 			}
 		}
 		foreach (\App\Colors::getAllGroupColor() as $item) {
 			if (ltrim($item['color'], '#')) {
-				$css .= '.ownerColorBg_' . $item['id'] . ' { background: ' . $item['color'] . '; }' . PHP_EOL;
-				$css .= '.ownerColorText_' . $item['id'] . ' { color: ' . $item['color'] . '; }' . PHP_EOL;
-				$css .= '.ownerColorBorder_' . $item['id'] . ' { border-color: ' . $item['color'] . '; }' . PHP_EOL;
+				$css .= '.ownerCBg_' . $item['id'] . ' { background: ' . $item['color'] . '; }' . PHP_EOL;
+				$css .= '.ownerCT_' . $item['id'] . ' { color: ' . $item['color'] . '; }' . PHP_EOL;
+				$css .= '.ownerCBr_' . $item['id'] . ' { border-color: ' . $item['color'] . '; }' . PHP_EOL;
 			}
 		}
 		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/owners.css', $css);
@@ -76,9 +76,9 @@ class Colors
 		$css = '';
 		foreach (\App\Colors::getAllModuleColor() as $item) {
 			if (ltrim($item['color'], '#')) {
-				$css .= '.modColorBorder_' . $item['module'] . ' { border-color: ' . $item['color'] . '; }' . PHP_EOL;
-				$css .= '.modColorBg_' . $item['module'] . ' { background: ' . $item['color'] . '; }' . PHP_EOL;
-				$css .= '.modColorText_' . $item['module'] . ' { color: ' . $item['color'] . '; }' . PHP_EOL;
+				$css .= '.modCrBr_' . $item['module'] . ' { border-color: ' . $item['color'] . '; }' . PHP_EOL;
+				$css .= '.modCBg_' . $item['module'] . ' { background: ' . $item['color'] . '; }' . PHP_EOL;
+				$css .= '.modCT_' . $item['module'] . ' { color: ' . $item['color'] . '; }' . PHP_EOL;
 			}
 		}
 		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/modules.css', $css);
@@ -102,9 +102,9 @@ class Colors
 								if (strpos($item['color'], '#') === false) {
 									$item['color'] = '#' . $item['color'];
 								}
-								$css .= '.picklistColorBorder_' . $module['tabname'] . '_' . $field->getName() . ' { border-color: ' . $item['color'] . '; }' . PHP_EOL;
-								$css .= '.picklistColorBg_' . $module['tabname'] . '_' . $field->getName() . ' { background: ' . $item['color'] . '; }' . PHP_EOL;
-								$css .= '.picklistColorText_' . $module['tabname'] . '_' . $field->getName() . ' { color: ' . $item['color'] . '; }' . PHP_EOL;
+								$css .= '.picklistCBr_' . $module['tabname'] . '_' . $this->sanitizeValue($field->getName()) . '_' . $this->sanitizeValue($item['picklistValue']) . ' { border-color: ' . $item['color'] . '; }' . PHP_EOL;
+								$css .= '.picklistCBg_' . $module['tabname'] . '_' . $this->sanitizeValue($field->getName()) . '_' . $this->sanitizeValue($item['picklistValue']) . ' { background: ' . $item['color'] . '; }' . PHP_EOL;
+								$css .= '.picklistCT_' . $module['tabname'] . '_' . $this->sanitizeValue($field->getName()) . '_' . $this->sanitizeValue($item['picklistValue']) . ' { color: ' . $item['color'] . '; }' . PHP_EOL;
 							}
 						}
 					}
@@ -112,6 +112,15 @@ class Colors
 			}
 		}
 		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/picklists.css', $css);
+	}
+
+	/**
+	 * Sanitize value for use in css class name
+	 * @param string $value
+	 */
+	private function sanitizeValue($value)
+	{
+		return rtrim(preg_replace("/[^[:alnum:]]/u", '_', $value), '_');
 	}
 
 	/**

@@ -27,7 +27,7 @@
                         <div class="btn-group paddingRight10">
                             {assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
                             <button type="button" class="btn btn-default
-									{if $IS_SELECT_BUTTON eq true} selectRelation {/if} modColorText_{$RELATED_MODULE->get('name')} {if $RELATED_LINK->linkqcs eq true}quickCreateSupported{/if}"
+									{if $IS_SELECT_BUTTON eq true} selectRelation {/if} modCT_{$RELATED_MODULE->get('name')} {if $RELATED_LINK->linkqcs eq true}quickCreateSupported{/if}"
 									{if $IS_SELECT_BUTTON eq true} data-moduleName={$RELATED_LINK->get('_module')->get('name')} {/if}
 									{if $RELATED_LINK->isPageLoadLink()}onclick="window.location.href='{$RELATED_LINK->getUrl()}'"{/if}
 									>{if $IS_SELECT_BUTTON eq false}<span class="glyphicon glyphicon-plus"></span>{/if}&nbsp;<strong>{$RELATED_LINK->getLabel()}</strong></button>

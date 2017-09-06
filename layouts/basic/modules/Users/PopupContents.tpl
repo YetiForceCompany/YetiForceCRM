@@ -56,7 +56,7 @@
 							{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 							<td class="listViewEntryValue {$WIDTHTYPE}">
 								{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4') && $LISTVIEW_ENTRY->isViewable()}
-									<a {if $LISTVIEW_HEADER->isNameField() eq true}class="modColorText_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
+									<a {if $LISTVIEW_HEADER->isNameField() eq true}class="modCT_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
 										{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)}
 									</a>
 								{else}

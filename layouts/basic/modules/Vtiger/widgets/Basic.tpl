@@ -6,7 +6,7 @@
 				<div class="row">
 					<div class="col-xs-9 col-md-5 col-sm-6">
 						<div class="widgetTitle textOverflowEllipsis">
-							<h4 class="modColorText_{$WIDGET['label']}">
+							<h4 class="modCT_{$WIDGET['label']}">
 								{if $WIDGET['label'] eq ''}
 									{\App\Language::translate(vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule']),vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule']))}
 								{else}
