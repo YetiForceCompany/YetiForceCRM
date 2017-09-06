@@ -10,7 +10,7 @@
 jQuery.Class('Install_Index_Js', {}, {
 	registerEventForStep1: function () {
 		jQuery('.bt_install').on('click', function (e) {
-			jQuery('input[name="mode"]').val('Step2');
+			jQuery('input[name="mode"]').val('step2');
 			jQuery('form[name="step1"]').submit();
 		});
 		jQuery('.bt_migrate').on('click', function (e) {
