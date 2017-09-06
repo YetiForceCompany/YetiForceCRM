@@ -136,19 +136,19 @@ class Calendar
 			$mode = 'decrment';
 		switch ($this->view) {
 			case 'day':
-				$day = $this->date_time->get_changed_day($mode);
+				$day = $this->date_time->getChangedDay($mode);
 				break;
 			case 'week':
-				$day = $this->date_time->get_first_day_of_changed_week($mode);
+				$day = $this->date_time->getFirstDayOfChangedWeek($mode);
 				break;
 			case 'month':
-				$day = $this->date_time->get_first_day_of_changed_month($mode);
+				$day = $this->date_time->getFirstDayOfChangedMonth($mode);
 				break;
 			case 'year':
-				$day = $this->date_time->get_first_day_of_changed_year($mode);
+				$day = $this->date_time->getFirstDayOfChangedYear($mode);
 				break;
 			default:
-				return "view is not supported";
+				return 'view is not supported';
 		}
 		return $day->get_date_str();
 	}
