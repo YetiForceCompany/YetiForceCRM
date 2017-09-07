@@ -150,7 +150,7 @@ class PearDatabase
 		}
 		if ($this->dieOnError || $dieOnError) {
 			$backtrace = false;
-			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
+			if (AppConfig::debug('DISPLAY_EXCEPTION_BACKTRACE')) {
 				$backtrace = \App\Debuger::getBacktrace();
 			}
 			$message = [

@@ -66,6 +66,7 @@ class Purifier
 			if (!static::$purifyInstanceCache) {
 				$config = \HTMLPurifier_Config::createDefault();
 				$config->set('Core.Encoding', static::$defaultCharset);
+				$config->set('Cache.SerializerPermissions', 0775);
 				$config->set('Cache.SerializerPath', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib');
 				$config->set('HTML.Allowed', '');
 				static::$purifyInstanceCache = new \HTMLPurifier($config);
@@ -120,6 +121,7 @@ class Purifier
 			if (!static::$purifyHtmlInstanceCache) {
 				$config = \HTMLPurifier_Config::createDefault();
 				$config->set('Core.Encoding', static::$defaultCharset);
+				$config->set('Cache.SerializerPermissions', 0775);
 				$config->set('Cache.SerializerPath', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib');
 				$config->set('HTML.Doctype', 'HTML 4.01 Transitional');
 				$config->set('CSS.AllowTricky', true);
@@ -271,6 +273,10 @@ class Purifier
 				default:
 					$value = Purifier::purify($value);
 					break;
+			}
+			if ($value === false) {
+				\App\Log::error('purifyByType: ' . $input, 'BadRequest');
+				throw new \App\Exceptions\BadRequest('LBL_NOT_ALLOWED_VALUE');
 			}
 		}
 		return $value;

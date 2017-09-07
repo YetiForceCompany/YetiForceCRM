@@ -27,8 +27,6 @@ $DEBUG_CONFIG = [
 	'DEBUG_CONSOLE_ALLOWED_IPS' => false,
 	// Stop the running process of the system if there is and error in sql query
 	'SQL_DIE_ON_ERROR' => false,
-	// Displays information about the tracking code when an error occurs. Available only with the active SQL_DIE_ON_ERROR = true
-	'DISPLAY_DEBUG_BACKTRACE' => false,
 	// Debug Viewer => cache/logs/viewer-debug.log
 	'DEBUG_VIEWER' => false,
 	// Display Smarty Debug Console
@@ -40,6 +38,11 @@ $DEBUG_CONFIG = [
 	/* +***************************************************************
 	 * Configure a user-defined error handler function
 	 * ************************************************************** */
+	// Displays information about the tracking code when an error occurs. Available only with the active SQL_DIE_ON_ERROR = true
+	'DISPLAY_EXCEPTION_BACKTRACE' => false,
+	// Display logs when error exception occurs
+	'DISPLAY_EXCEPTION_LOGS' => false,
+	// Turn on the error handler
 	'EXCEPTION_ERROR_HANDLER' => false,
 	// Save logs to file (cache/logs/errors.log)
 	'EXCEPTION_ERROR_TO_FILE' => false,
@@ -49,7 +52,7 @@ $DEBUG_CONFIG = [
 	// https://secure.php.net/manual/en/errorfunc.configuration.php#ini.error-reporting
 	// All errors - E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED
 	// Critical errors - E_ERROR | E_WARNING | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR
-	'EXCEPTION_ERROR_LEVEL' => E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED,
+	'EXCEPTION_ERROR_LEVEL' => E_ALL & ~E_NOTICE,
 	/* +***************************************************************
 	 * 	API 
 	 * ************************************************************** */

@@ -200,5 +200,5 @@ if (!defined('IS_PUBLIC_DIR')) {
 	define('IS_PUBLIC_DIR', false);
 }
 if (\AppConfig::debug('EXCEPTION_ERROR_HANDLER')) {
-	\App\Exceptions\ErrorHandler::init();
+	\App\ErrorHandler::init();
 }

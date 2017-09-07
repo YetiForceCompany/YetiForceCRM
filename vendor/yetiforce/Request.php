@@ -121,11 +121,14 @@ class Request
 		if (isset($this->parseValues[$key])) {
 			return $this->parseValues[$key];
 		}
-		if (isset($this->rawValues[$key])) {
-			$value = $this->rawValues[$key];
+		if (!isset($this->rawValues[$key])) {
+			return $value;
 		}
-		settype($value, 'integer');
-		return $this->parseValues[$key] = $value;
+		if ($value = filter_var($this->rawValues[$key], FILTER_VALIDATE_INT)) {
+			return $this->parseValues[$key] = $value;
+		}
+		\App\Log::error('getInteger: ' . $this->rawValues[$key], 'BadRequest');
+		throw new \App\Exceptions\BadRequest('LBL_NOT_ALLOWED_VALUE');
 	}
 
 	/**

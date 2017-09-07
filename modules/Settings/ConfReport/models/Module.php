@@ -172,7 +172,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		$directiveValues['mbstring.func_overload']['current'] = static::getFlag(ini_get('mbstring.func_overload'));
 
-		$errorReporting = stripos(ini_get('error_reporting'), '_') === false ? \App\Exceptions\ErrorHandler::error2string(ini_get('error_reporting')) : ini_get('error_reporting');
+		$errorReporting = stripos(ini_get('error_reporting'), '_') === false ? \App\ErrorHandler::error2string(ini_get('error_reporting')) : ini_get('error_reporting');
 		if (in_array('E_NOTICE', $errorReporting)) {
 			$directiveValues['error_reporting']['status'] = true;
 		}
