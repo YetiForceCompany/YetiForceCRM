@@ -18,8 +18,8 @@ class OSSPasswords_Popup_View extends Vtiger_Popup_View
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $this->getModule($request);
-		$sourceModule = $request->get('src_module');
-		$sourceRecord = $request->get('src_record');
+		$sourceModule = $request->getByType('src_module', 1);
+		$sourceRecord = $request->getInteger('src_record');
 
 		$showFilter = (in_array($sourceModule, ['HelpDesk', 'Project', 'SSalesProcesses']) && $moduleName == 'OSSPasswords') ? true : false;
 		//list of records is narrowed to contacts related to help desks account, only in Help Desk Contacts relation view

@@ -29,7 +29,7 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 		if (!\App\Privilege::isPermitted($sourceModule, 'DetailView', $sourceRecordId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		$relatedModuleName = $request->get('relatedModule');
+		$relatedModuleName = $request->getByType('relatedModule', 1);
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($relatedModuleName)) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
@@ -65,7 +65,7 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	 */
 	public function updateStatus(\App\Request $request)
 	{
-		$relatedModuleName = $request->get('relatedModule');
+		$relatedModuleName = $request->getByType('relatedModule', 1);
 		$relatedRecordId = $request->getInteger('relatedRecord');
 		$status = $request->get('status');
 		$response = new Vtiger_Response();

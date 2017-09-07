@@ -13,7 +13,7 @@ class Settings_CustomView_FilterPermissions_View extends Settings_Vtiger_BasicMo
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule(false);
-		$sourceModuleId = $request->get('sourceModule');
+		$sourceModuleId = $request->getByType('sourceModule', 1);
 		$moduleModel = Settings_LangManagement_Module_Model::getInstance($moduleName);
 
 		$viewer = $this->getViewer($request);

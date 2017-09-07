@@ -55,29 +55,6 @@ class Vtiger_DependencyPicklist
 		return $dependentPicklists;
 	}
 
-	public static function getAvailablePicklists($module)
-	{
-		$adb = PearDatabase::getInstance();
-
-		$tabId = \App\Module::getModuleId($module);
-
-		$query = "select vtiger_field.fieldlabel,vtiger_field.fieldname" .
-			" FROM vtiger_field inner join vtiger_picklist on vtiger_field.fieldname = vtiger_picklist.name" .
-			" where displaytype=1 and vtiger_field.tabid=? and vtiger_field.uitype in ('15','16') " .
-			" and vtiger_field.presence in (0,2) ORDER BY vtiger_picklist.picklistid ASC";
-
-		$result = $adb->pquery($query, array($tabId));
-		$noofrows = $adb->num_rows($result);
-
-		$fieldlist = [];
-		if ($noofrows > 0) {
-			for ($i = 0; $i < $noofrows; ++$i) {
-				$fieldlist[$adb->query_result($result, $i, "fieldname")] = $adb->query_result($result, $i, "fieldlabel");
-			}
-		}
-		return $fieldlist;
-	}
-
 	public static function savePickListDependencies($module, $dependencyMap)
 	{
 		$db = App\Db::getInstance();
@@ -189,5 +166,3 @@ class Vtiger_DependencyPicklist
 		return $modules;
 	}
 }
-
-?>

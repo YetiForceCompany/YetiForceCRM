@@ -72,12 +72,12 @@ class Calendar
 				for ($i = -1; $i <= 23; $i++) {
 					if ($i == -1) {
 						$layout = new Layout('hour', $this->date_time->getTodayDatetimebyIndex(0));
-						$this->day_slice[$layout->start_time->get_formatted_date() . ':notime'] = $layout;
-						$this->slices['notime'] = $layout->start_time->get_formatted_date() . ":notime";
+						$this->day_slice[$layout->start_time->getFormattedDate() . ':notime'] = $layout;
+						$this->slices['notime'] = $layout->start_time->getFormattedDate() . ":notime";
 					} else {
 						$layout = new Layout('hour', $this->date_time->getTodayDatetimebyIndex($i));
-						$this->day_slice[$layout->start_time->get_formatted_date() . ':' . $layout->start_time->z_hour] = $layout;
-						array_push($this->slices, $layout->start_time->get_formatted_date() . ":" . $layout->start_time->z_hour);
+						$this->day_slice[$layout->start_time->getFormattedDate() . ':' . $layout->start_time->z_hour] = $layout;
+						array_push($this->slices, $layout->start_time->getFormattedDate() . ":" . $layout->start_time->z_hour);
 					}
 				}
 				break;
@@ -85,20 +85,20 @@ class Calendar
 				$weekview_days = 7;
 				for ($i = 1; $i <= $weekview_days; $i++) {
 					$layout = new Layout('day', $this->date_time->getThisweekDaysbyIndex($i));
-					$this->week_array[$layout->start_time->get_formatted_date()] = $layout;
+					$this->week_array[$layout->start_time->getFormattedDate()] = $layout;
 
 					for ($h = -1; $h <= 23; $h++) {
 						if ($h == -1) {
 							$hour_list = new Layout('hour', $this->date_time->getTodayDatetimebyIndex(0, $layout->start_time->day, $layout->start_time->month, $layout->start_time->year));
-							$this->week_slice[$layout->start_time->get_formatted_date() . ':notime'] = $hour_list;
-							$this->week_hour_slices['notime'] = $layout->start_time->get_formatted_date() . ":notime";
+							$this->week_slice[$layout->start_time->getFormattedDate() . ':notime'] = $hour_list;
+							$this->week_hour_slices['notime'] = $layout->start_time->getFormattedDate() . ":notime";
 						} else {
 							$hour_list = new Layout('hour', $this->date_time->getTodayDatetimebyIndex($h, $layout->start_time->day, $layout->start_time->month, $layout->start_time->year));
-							$this->week_slice[$layout->start_time->get_formatted_date() . ':' . $hour_list->start_time->z_hour] = $hour_list;
-							array_push($this->week_hour_slices, $layout->start_time->get_formatted_date() . ":" . $hour_list->start_time->z_hour);
+							$this->week_slice[$layout->start_time->getFormattedDate() . ':' . $hour_list->start_time->z_hour] = $hour_list;
+							array_push($this->week_hour_slices, $layout->start_time->getFormattedDate() . ":" . $hour_list->start_time->z_hour);
 						}
 					}
-					array_push($this->slices, $layout->start_time->get_formatted_date());
+					array_push($this->slices, $layout->start_time->getFormattedDate());
 				}
 				break;
 			case 'month':
@@ -136,19 +136,19 @@ class Calendar
 			$mode = 'decrment';
 		switch ($this->view) {
 			case 'day':
-				$day = $this->date_time->get_changed_day($mode);
+				$day = $this->date_time->getChangedDay($mode);
 				break;
 			case 'week':
-				$day = $this->date_time->get_first_day_of_changed_week($mode);
+				$day = $this->date_time->getFirstDayOfChangedWeek($mode);
 				break;
 			case 'month':
-				$day = $this->date_time->get_first_day_of_changed_month($mode);
+				$day = $this->date_time->getFirstDayOfChangedMonth($mode);
 				break;
 			case 'year':
-				$day = $this->date_time->get_first_day_of_changed_year($mode);
+				$day = $this->date_time->getFirstDayOfChangedYear($mode);
 				break;
 			default:
-				return "view is not supported";
+				return 'view is not supported';
 		}
 		return $day->get_date_str();
 	}
@@ -207,7 +207,7 @@ function getCalendarDaysInMonth($date_time)
 		$pd = $date_time->getThisMonthsDayByIndex($i);
 
 		$layout = new Layout('day', $pd);
-		$date = $layout->start_time->get_formatted_date();
+		$date = $layout->start_time->getFormattedDate();
 		$month_array[$date] = $layout;
 		array_push($slices, $date);
 	}

@@ -52,7 +52,7 @@ class LanguageImport extends LanguageExport
 		$this->initImport($zipfile, $overwrite);
 
 		// Call module import function
-		$this->import_Language($zipfile);
+		$this->importLanguage($zipfile);
 	}
 
 	/**
@@ -70,7 +70,7 @@ class LanguageImport extends LanguageExport
 	 * Import Module
 	 * @access private
 	 */
-	public function import_Language($zipfile)
+	public function importLanguage($zipfile)
 	{
 		$name = $this->_modulexml->name;
 		$prefix = $this->_modulexml->prefix;

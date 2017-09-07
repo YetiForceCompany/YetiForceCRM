@@ -66,7 +66,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 			];
 		}
 		if ($userModel->isAdminUser()) {
-			if ($request->get('parent') != 'Settings') {
+			if ($request->getByType('parent', 1) !== 'Settings') {
 				$headerLinks[] = [
 					'linktype' => 'HEADERLINK',
 					'linklabel' => 'LBL_SYSTEM_SETTINGS',

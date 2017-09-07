@@ -14,7 +14,7 @@ class Settings_Widgets_Index_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$source = $request->get('source');
-		$sourceModule = $request->get('sourceModule');
+		$sourceModule = $request->getByType('sourceModule', 1);
 		if ($sourceModule !== '') {
 			$source = vtlib\Functions::getModuleId($sourceModule);
 		}

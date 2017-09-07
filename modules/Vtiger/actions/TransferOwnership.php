@@ -77,7 +77,7 @@ class Vtiger_TransferOwnership_Action extends Vtiger_Action_Controller
 			if ($customViewModel) {
 				$searchKey = $request->get('search_key');
 				$searchValue = $request->get('search_value');
-				$operator = $request->get('operator');
+				$operator = $request->getByType('operator', 1);
 				if (!empty($operator)) {
 					$customViewModel->set('operator', $operator);
 					$customViewModel->set('search_key', $searchKey);

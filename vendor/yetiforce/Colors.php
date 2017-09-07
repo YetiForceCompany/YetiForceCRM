@@ -51,18 +51,18 @@ class Colors
 	private static function generateOwners()
 	{
 		$css = '';
-		foreach (\App\Colors::getAllUserColor() as $item) {
+		foreach (Colors::getAllUserColor() as $item) {
 			if (ltrim($item['color'], '#')) {
-				$css .= '.ownerColorBg_' . $item['id'] . ' { background: ' . $item['color'] . '; }' . PHP_EOL;
-				$css .= '.ownerColorText_' . $item['id'] . ' { color: ' . $item['color'] . '; }' . PHP_EOL;
-				$css .= '.ownerColorBorder_' . $item['id'] . ' { border-color: ' . $item['color'] . '; }' . PHP_EOL;
+				$css .= '.ownerCBg_' . $item['id'] . ' { background: ' . $item['color'] . ' !important; }' . PHP_EOL;
+				$css .= '.ownerCT_' . $item['id'] . ' { color: ' . $item['color'] . ' !important; }' . PHP_EOL;
+				$css .= '.ownerCBr_' . $item['id'] . ' { border-color: ' . $item['color'] . ' !important; }' . PHP_EOL;
 			}
 		}
-		foreach (\App\Colors::getAllGroupColor() as $item) {
+		foreach (Colors::getAllGroupColor() as $item) {
 			if (ltrim($item['color'], '#')) {
-				$css .= '.ownerColorBg_' . $item['id'] . ' { background: ' . $item['color'] . '; }' . PHP_EOL;
-				$css .= '.ownerColorText_' . $item['id'] . ' { color: ' . $item['color'] . '; }' . PHP_EOL;
-				$css .= '.ownerColorBorder_' . $item['id'] . ' { border-color: ' . $item['color'] . '; }' . PHP_EOL;
+				$css .= '.ownerCBg_' . $item['id'] . ' { background: ' . $item['color'] . ' !important; }' . PHP_EOL;
+				$css .= '.ownerCT_' . $item['id'] . ' { color: ' . $item['color'] . ' !important; }' . PHP_EOL;
+				$css .= '.ownerCBr_' . $item['id'] . ' { border-color: ' . $item['color'] . ' !important; }' . PHP_EOL;
 			}
 		}
 		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/owners.css', $css);
@@ -74,11 +74,11 @@ class Colors
 	private static function generateModules()
 	{
 		$css = '';
-		foreach (\App\Colors::getAllModuleColor() as $item) {
+		foreach (Colors::getAllModuleColor() as $item) {
 			if (ltrim($item['color'], '#')) {
-				$css .= '.modColorBorder_' . $item['module'] . ' { border-color: ' . $item['color'] . '; }' . PHP_EOL;
-				$css .= '.modColorBg_' . $item['module'] . ' { background: ' . $item['color'] . '; }' . PHP_EOL;
-				$css .= '.modColorText_' . $item['module'] . ' { color: ' . $item['color'] . '; }' . PHP_EOL;
+				$css .= '.modCrBr_' . $item['module'] . ' { border-color: ' . $item['color'] . '; }' . PHP_EOL;
+				$css .= '.modCBg_' . $item['module'] . ' { background: ' . $item['color'] . '; }' . PHP_EOL;
+				$css .= '.modCT_' . $item['module'] . ' { color: ' . $item['color'] . '; }' . PHP_EOL;
 			}
 		}
 		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/modules.css', $css);
@@ -90,8 +90,8 @@ class Colors
 	private static function generatePicklists()
 	{
 		$css = '';
-		foreach (\App\Fields\Picklist::getModules() as $module) {
-			$fields = \App\Colors::getPicklistFieldsByModule($module['tabname']);
+		foreach (Fields\Picklist::getModules() as $module) {
+			$fields = Colors::getPicklistFieldsByModule($module['tabname']);
 			foreach ($fields as $field) {
 				$values = \App\Fields\Picklist::getValues($field->getName());
 				if ($values) {
@@ -102,9 +102,9 @@ class Colors
 								if (strpos($item['color'], '#') === false) {
 									$item['color'] = '#' . $item['color'];
 								}
-								$css .= '.picklistColorBorder_' . $module['tabname'] . '_' . $field->getName() . ' { border-color: ' . $item['color'] . '; }' . PHP_EOL;
-								$css .= '.picklistColorBg_' . $module['tabname'] . '_' . $field->getName() . ' { background: ' . $item['color'] . '; }' . PHP_EOL;
-								$css .= '.picklistColorText_' . $module['tabname'] . '_' . $field->getName() . ' { color: ' . $item['color'] . '; }' . PHP_EOL;
+								$css .= '.picklistCBr_' . $module['tabname'] . '_' . self::sanitizeValue($field->getName()) . '_' . self::sanitizeValue($item['picklistValue']) . ' { border-color: ' . $item['color'] . ' !important; }' . PHP_EOL;
+								$css .= '.picklistCBg_' . $module['tabname'] . '_' . self::sanitizeValue($field->getName()) . '_' . self::sanitizeValue($item['picklistValue']) . ' { background: ' . $item['color'] . ' !important; }' . PHP_EOL;
+								$css .= '.picklistCT_' . $module['tabname'] . '_' . self::sanitizeValue($field->getName()) . '_' . self::sanitizeValue($item['picklistValue']) . ' { color: ' . $item['color'] . ' !important; }' . PHP_EOL;
 							}
 						}
 					}
@@ -115,6 +115,15 @@ class Colors
 	}
 
 	/**
+	 * Sanitize value for use in css class name
+	 * @param string $value
+	 */
+	private static function sanitizeValue($value)
+	{
+		return str_replace([' ', '-', '=', '+', '@', '*', '!', '#', '$', '%', '^', '&', '(', ')', '[', ']', '{', '}', ';', ':', "\'", '"', ',', '<', '.', '>', '/', '?', '\\', '|'], '_', $value);
+	}
+
+	/**
 	 * Generate calendar colors stylesheet
 	 */
 	private static function generateCalendar()
@@ -122,7 +131,6 @@ class Colors
 		$css = '';
 		foreach (\Settings_Calendar_Module_Model::getCalendarConfig('colors') as $item) {
 			if (ltrim($item['value'], '#')) {
-				$css .= '.calCol_' . $item['label'] . ' { border: 1px solid ' . $item['value'] . '; }' . PHP_EOL;
 				$css .= '.listCol_' . $item['label'] . ' { background: ' . $item['value'] . '; }' . PHP_EOL;
 			}
 		}
@@ -147,9 +155,10 @@ class Colors
 	 */
 	public static function updatePicklistValueColor($picklistId, $picklistValueId, $color)
 	{
-		$table = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['fieldid' => $picklistId])->scalar();
-		\App\Db::getInstance()->createCommand()->update('vtiger_' . $table, ['color' => ltrim($color, '#')], ['picklist_valueid' => $picklistValueId])->execute();
-		\App\Colors::generate('picklist');
+		$table = (new Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['fieldid' => $picklistId])->scalar();
+		Db::getInstance()->createCommand()->update('vtiger_' . $table, ['color' => ltrim($color, '#')], [Fields\Picklist::getPickListId($table) => $picklistValueId])->execute();
+		Cache::clear();
+		Colors::generate('picklist');
 	}
 
 	/**
@@ -158,8 +167,8 @@ class Colors
 	 */
 	public static function addPicklistColorColumn($fieldId)
 	{
-		$table = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['fieldid' => $fieldId])->scalar();
-		\App\Db::getInstance()->createCommand()->addColumn('vtiger_' . $table, 'color', 'string(25)')->execute();
+		$table = (new Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['fieldid' => $fieldId])->scalar();
+		Db::getInstance()->createCommand()->addColumn('vtiger_' . $table, 'color', 'string(25)')->execute();
 	}
 
 	/**
@@ -192,8 +201,8 @@ class Colors
 	 */
 	public static function updateUserColor($id, $color)
 	{
-		\App\Db::getInstance()->createCommand()->update('vtiger_users', ['cal_color' => $color,], ['id' => $id])->execute();
-		\App\Colors::generate('user');
+		Db::getInstance()->createCommand()->update('vtiger_users', ['cal_color' => $color,], ['id' => $id])->execute();
+		self::generate('user');
 	}
 
 	/**
@@ -212,8 +221,8 @@ class Colors
 	 */
 	public static function updateGroupColor($id, $color)
 	{
-		\App\Db::getInstance()->createCommand()->update('vtiger_groups', ['color' => $color,], ['groupid' => $id])->execute();
-		\App\Colors::generate('group');
+		Db::getInstance()->createCommand()->update('vtiger_groups', ['color' => $color,], ['groupid' => $id])->execute();
+		Colors::generate('group');
 	}
 
 	/**
@@ -235,7 +244,12 @@ class Colors
 		$allModules = \vtlib\Functions::getAllModules(false, false, false, $active);
 		$modules = [];
 		foreach ($allModules as $tabid => $module) {
-			$modules[] = ['id' => $tabid, 'module' => $module['name'], 'color' => $module['color'] !== '' ? '#' . $module['color'] : '', 'active' => $module['coloractive']];
+			$modules[] = [
+				'id' => $tabid,
+				'module' => $module['name'],
+				'color' => $module['color'] !== '' ? '#' . $module['color'] : '',
+				'active' => $module['coloractive']
+			];
 		}
 		return $modules;
 	}
@@ -246,8 +260,9 @@ class Colors
 	 */
 	public static function updateModuleColor($id, $color)
 	{
-		\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['color' => ltrim($color, '#')], ['tabid' => $id])->execute();
-		\App\Colors::generate('module');
+		Db::getInstance()->createCommand()->update('vtiger_tab', ['color' => ltrim($color, '#')], ['tabid' => $id])->execute();
+		Cache::clear();
+		Colors::generate('module');
 	}
 
 	/**
@@ -261,13 +276,14 @@ class Colors
 	{
 		$colorActive = $status == 'true' ? 1 : 0;
 		if ($color === '') {
-			$color = \App\Colors::getRandomColor();
+			$color = Colors::getRandomColor();
 			$set = ['color' => ltrim($color, '#'), 'coloractive' => $colorActive];
 		} else {
 			$set = ['coloractive' => $colorActive];
 		}
-		\App\Db::getInstance()->createCommand()->update('vtiger_tab', $set, ['tabid' => $id])->execute();
-		\App\Colors::generate('module');
+		Db::getInstance()->createCommand()->update('vtiger_tab', $set, ['tabid' => $id])->execute();
+		Cache::clear();
+		Colors::generate('module');
 		return $color;
 	}
 }

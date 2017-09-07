@@ -34,7 +34,7 @@ class Portal_Pagination_View extends Vtiger_IndexAjax_View
 		}
 
 		if (empty($pageNumber)) {
-			$pageNumber = '1';
+			$pageNumber = 1;
 		}
 
 		$pagingModel = new Vtiger_Paging_Model();

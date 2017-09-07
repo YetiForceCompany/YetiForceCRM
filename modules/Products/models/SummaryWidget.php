@@ -22,7 +22,7 @@ class Products_SummaryWidget_Model
 	{
 		$fromModule = $request->get('fromModule');
 		$record = $request->getInteger('record');
-		$mod = $request->get('mod');
+		$mod = $request->getByType('mod', 1);
 		if (!\App\Privilege::isPermitted($fromModule, 'DetailView', $record) || !\App\Privilege::isPermitted($mod)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}

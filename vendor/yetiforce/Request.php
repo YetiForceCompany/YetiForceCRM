@@ -76,6 +76,26 @@ class Request
 	}
 
 	/**
+	 * Purify by data type
+	 * 
+	 * Type list:
+	 * 1 - only words
+	 * @param string $key Key name
+	 * @param mixed $type Data type that is only acceptable
+	 * @return boolean|mixed
+	 */
+	public function getByType($key, $type)
+	{
+		if (isset($this->parseValues[$key])) {
+			return $this->parseValues[$key];
+		}
+		if (isset($this->rawValues[$key])) {
+			return $this->parseValues[$key] = Purifier::purifyByType($this->rawValues[$key], $type);
+		}
+		return false;
+	}
+
+	/**
 	 * Function to get the boolean value for a given key
 	 * @param string $key
 	 * @param mixed $defaultValue Default value
@@ -101,11 +121,14 @@ class Request
 		if (isset($this->parseValues[$key])) {
 			return $this->parseValues[$key];
 		}
-		if (isset($this->rawValues[$key])) {
-			$value = $this->rawValues[$key];
+		if (!isset($this->rawValues[$key])) {
+			return $value;
 		}
-		settype($value, 'integer');
-		return $this->parseValues[$key] = $value;
+		if ($value = filter_var($this->rawValues[$key], FILTER_VALIDATE_INT)) {
+			return $this->parseValues[$key] = $value;
+		}
+		\App\Log::error('getInteger: ' . $this->rawValues[$key], 'BadRequest');
+		throw new \App\Exceptions\BadRequest('LBL_NOT_ALLOWED_VALUE');
 	}
 
 	/**
@@ -320,7 +343,7 @@ class Request
 	 */
 	public function getModule($raw = true)
 	{
-		$moduleName = $this->get('module');
+		$moduleName = $this->getByType('module', 1);
 		if (!$raw) {
 			$parentModule = $this->get('parent');
 			if ($parentModule === 'Settings') {

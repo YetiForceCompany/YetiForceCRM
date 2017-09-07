@@ -87,7 +87,7 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$pageNumber = $request->getInteger('page');
 		if (empty($pageNumber)) {
-			$pageNumber = '1';
+			$pageNumber = 1;
 		}
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);

@@ -33,7 +33,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			if (file_exists($fileName)) {
 				$fileContent = file($fileName);
 				foreach ($fileContent as $key => $file_row) {
-					if (self::parse_data("'$langkey'", $file_row)) {
+					if (self::parseData("'$langkey'", $file_row)) {
 						unset($fileContent[$key]);
 						$edit = $change = true;
 					}
@@ -101,10 +101,10 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 				$to_replase = '$jsLanguageStrings = [';
 			}
 			$new_translation = "'$langkey' => '$val',";
-			if (self::parse_data($to_replase, $fileContent)) {
+			if (self::parseData($to_replase, $fileContent)) {
 				$fileContent = str_ireplace($to_replase, $to_replase . PHP_EOL . '	' . $new_translation, $fileContent);
 			} else {
-				if (self::parse_data('?>', $fileContent)) {
+				if (self::parseData('?>', $fileContent)) {
 					$fileContent = str_replace('?>', '', $fileContent);
 				}
 				$fileContent = $fileContent . PHP_EOL . $to_replase . PHP_EOL . '	' . $new_translation . PHP_EOL . '];';
@@ -213,19 +213,17 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function gets translations
-	 * @param string[] $lang
+	 * @param string[] $langs
 	 * @param string $mod
 	 * @param type $ShowDifferences
 	 * @return type
 	 */
-	public function loadLangTranslation($lang, $mod, $ShowDifferences = 0)
+	public function loadLangTranslation($langs, $mod, $ShowDifferences = 0)
 	{
-		$keysPhp = $keysJs = $langs = $langTab = $respPhp = $respJs = [];
+		$keysPhp = $keysJs = $langTab = $respPhp = $respJs = [];
 		$mod = str_replace(self::url_separator, '/', $mod);
-		if (self::parse_data(',', $lang)) {
-			$langs = explode(',', $lang);
-		} else {
-			$langs[] = $lang;
+		if (!is_array($langs)) {
+			$langs = [$langs];
 		}
 		foreach ($langs as $lang) {
 			$langData = Vtiger_Language_Handler::getModuleStringsFromFile($lang, $mod);
@@ -251,16 +249,10 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		return ['php' => $respPhp, 'js' => $respJs, 'langs' => $langs, 'keys' => $keys];
 	}
 
-	public function loadAllFieldsFromModule($lang, $mod, $showDifferences = 0)
+	public function loadAllFieldsFromModule($langs, $mod, $showDifferences = 0)
 	{
-		$variablesFromFile = $this->loadLangTranslation($lang, 'HelpInfo', $showDifferences);
-		$output = [];
-		if (self::parse_data(',', $lang)) {
-			$langs = explode(",", $lang);
-		} else {
-			$langs[] = $lang;
-		}
-		$output['langs'] = $langs;
+		$variablesFromFile = $this->loadLangTranslation($langs, 'HelpInfo', $showDifferences);
+		$output = ['langs' => $langs];
 		$dataReader = (new \App\Db\Query())
 				->from('vtiger_field')
 				->where(['tabid' => \App\Module::getModuleId($mod), 'presence' => [0, 2]])
@@ -277,16 +269,13 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getModFromLang($lang)
 	{
-		if ($lang == '' || $lang === null) {
+		if (empty($lang)) {
 			$lang = 'en_us';
 		} else {
-			if (self::parse_data(',', $lang)) {
-				$langA = explode(",", $lang);
-				$lang = $langA[0];
-			}
+			$lang = is_array($lang) ? reset($lang) : $lang;
 		}
 		$dir = "languages/$lang";
-		if (!file_exists($dir)) {
+		if (!is_dir($dir)) {
 			return false;
 		}
 		$files = [];
@@ -302,14 +291,14 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 				$files[$key] = $val;
 			}
 		}
-		return self::SettingsTranslate($files);
+		return self::settingsTranslate($files);
 	}
 
-	public function SettingsTranslate($langs)
+	public function settingsTranslate($langs)
 	{
 		$settings = [];
 		foreach ($langs as $key => $lang) {
-			if (self::parse_data('|', $lang)) {
+			if (self::parseData('|', $lang)) {
 				$langArray = explode("|", $lang);
 				unset($langs[$key]);
 				$settings[$key] = \App\Language::translate($langArray[1], 'Settings:' . $langArray[1]);
@@ -371,7 +360,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$dir = 'languages/' . $params['prefix'];
 		if (file_exists($dir)) {
-			self::DeleteDir($dir);
+			self::deleteDir($dir);
 		}
 		\App\Db::getInstance()->createCommand()
 			->delete('vtiger_language', ['prefix' => $params['prefix']])
@@ -385,7 +374,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	 * @param string $b
 	 * @return boolean
 	 */
-	public static function parse_data($a, $b)
+	public static function parseData($a, $b)
 	{
 		$resp = false;
 		if ($b != '' && stristr($b, $a) !== false) {
@@ -394,16 +383,21 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		return $resp;
 	}
 
-	public function DeleteDir($dir)
+	/**
+	 * Dedlete dir
+	 * @param string $dir
+	 * @return boolean
+	 */
+	public static function deleteDir($dir)
 	{
 		$fd = opendir($dir);
 		if (!$fd)
 			return false;
 		while (($file = readdir($fd)) !== false) {
-			if ($file == "." || $file == "..")
+			if ($file === '.' || $file === '..')
 				continue;
-			if (is_dir($dir . "/" . $file)) {
-				self::DeleteDir($dir . "/" . $file);
+			if (is_dir($dir . '/' . $file)) {
+				self::deleteDir($dir . '/' . $file);
 			} else {
 				unlink("$dir/$file");
 			}
@@ -448,8 +442,9 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	public function getStatsData($langBase, $langs, $byModule = false)
 	{
 		$filesName = $this->getModFromLang($langBase);
-		if (strpos($langs, $langBase) === false) {
-			$langs .= ',' . $langBase;
+		settype($langs, 'array');
+		if (!in_array($langBase, $langs)) {
+			$langs[] = $langBase;
 		}
 		$data = [];
 		foreach ($filesName as $gropu) {

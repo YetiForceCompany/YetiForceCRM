@@ -9,12 +9,12 @@
 			</div>
 			{foreach item=ROW from=$DATA}
 				<div class="row">
-					<div class="col-md-4"><a class="modColorText_{$RELATED_MODULE}" href="index.php?module={$RELATED_MODULE}&view=Detail&record={$ROW.assetsid}">{$ROW.assetname}</a></div>
+					<div class="col-md-4"><a class="modCT_{$RELATED_MODULE}" href="index.php?module={$RELATED_MODULE}&view=Detail&record={$ROW.assetsid}">{$ROW.assetname}</a></div>
 					<div class="col-md-4">{DateTimeField::convertToUserFormat($ROW.dateinservice)}</div>
 					<div class="col-md-3">
 						{if $ROW.parent_id gt 0 }
 							{assign var="CRMTYPE" value=\App\Record::getType($ROW.parent_id)}
-							<a class="modColorText_{$CRMTYPE}" href="index.php?module={$CRMTYPE}&view=Detail&record={$ROW.parent_id}" title="{\App\Language::translate($CRMTYPE, $CRMTYPE)}">{vtlib\Functions::getCRMRecordLabel($ROW.parent_id)}</a>
+							<a class="modCT_{$CRMTYPE}" href="index.php?module={$CRMTYPE}&view=Detail&record={$ROW.parent_id}" title="{\App\Language::translate($CRMTYPE, $CRMTYPE)}">{vtlib\Functions::getCRMRecordLabel($ROW.parent_id)}</a>
 						{/if}
 					</div>
 				</div>

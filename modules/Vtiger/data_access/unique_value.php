@@ -77,7 +77,7 @@ Class DataAccess_unique_value
 					if ($where[0] != 'vtiger_crmentity')
 						$searchTrash = ['query' => " INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $where[0].$index ", 'params' => ' AND vtiger_crmentity.deleted = 0 '];
 					else {
-						$searchTrash = ['query' => '', 'params' => ' vtiger_crmentity.delete = 0 '];
+						$searchTrash = ['query' => '', 'params' => ' vtiger_crmentity.deleted = 0 '];
 					}
 				}
 				if ($DestModuleName === 'Leads') {
@@ -124,7 +124,7 @@ Class DataAccess_unique_value
 					if ($where[0] != 'vtiger_crmentity')
 						$searchTrash = ['query' => " INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $where[0].$index ", 'params' => ' && vtiger_crmentity.deleted = 0 '];
 					else {
-						$searchTrash = ['query' => '', 'params' => ' vtiger_crmentity.delete = 0 '];
+						$searchTrash = ['query' => '', 'params' => ' vtiger_crmentity.deleted = 0 '];
 					}
 				}
 				$result = $db->pquery("SELECT $index FROM {$where[0]} " . $searchTrash['query'] . " WHERE {$where[1]} = ? $sql_ext " . $searchTrash['params'] . ";", $sql_param, true);

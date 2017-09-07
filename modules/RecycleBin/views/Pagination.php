@@ -19,12 +19,12 @@ class RecycleBin_Pagination_View extends Vtiger_IndexAjax_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$sourceModule = $request->get('sourceModule');
+		$sourceModule = $request->getByType('sourceModule', 1);
 
 		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
-		if ($sortOrder == 'ASC') {
+		if ($sortOrder === 'ASC') {
 			$nextSortOrder = 'DESC';
 			$sortImage = 'glyphicon glyphicon-chevron-down';
 		} else {
@@ -33,7 +33,7 @@ class RecycleBin_Pagination_View extends Vtiger_IndexAjax_View
 		}
 
 		if (empty($pageNumber)) {
-			$pageNumber = '1';
+			$pageNumber = 1;
 		}
 
 		$moduleModel = RecycleBin_Module_Model::getInstance($moduleName);
@@ -46,7 +46,7 @@ class RecycleBin_Pagination_View extends Vtiger_IndexAjax_View
 		}
 		$listViewModel = RecycleBin_ListView_Model::getInstance($moduleName, $sourceModule);
 
-		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
+		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1));
 		$linkModels = $moduleModel->getListViewMassActions($linkParams);
 
 		$pagingModel = new Vtiger_Paging_Model();

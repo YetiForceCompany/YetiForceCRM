@@ -229,7 +229,7 @@ class Calendar_Calendar_Model extends App\Base
 			$hours = vtlib\Functions::getDateTimeHoursDiff($item['start'], $item['end']);
 			$item['hours'] = vtlib\Functions::decimalTimeFormat($hours)['short'];
 			$item['allDay'] = $record['allday'] == 1 ? true : false;
-			$item['className'] = ' userCol_' . $record['smownerid'] . ' calCol_' . $activitytype;
+			$item['className'] = ' ownerCBg_' . $record['smownerid'] . ' picklistCBr_Calendar_activitytype_' . $activitytype;
 			$return[] = $item;
 		}
 		return $return;
@@ -271,7 +271,7 @@ class Calendar_Calendar_Model extends App\Base
 					$return[$date]['start'] = $date;
 					$return[$date]['date'] = $date;
 					$return[$date]['event'][$activitytype]['count'] += 1;
-					$return[$date]['event'][$activitytype]['className'] = '  fc-draggable calCol_' . $activitytype;
+					$return[$date]['event'][$activitytype]['className'] = '  fc-draggable picklistCBg_OSSTimeControl_timecontrol_type_' . $activitytype;
 					$return[$date]['event'][$activitytype]['label'] = \App\Language::translate($activitytype, $this->getModuleName());
 					$return[$date]['type'] = 'widget';
 				}

@@ -22,7 +22,6 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	{
 		Settings_Vtiger_Tracker_Model::addBasic('view');
 		parent::__construct();
-		$this->exposeMethod('DonateUs');
 		$this->exposeMethod('index');
 		$this->exposeMethod('github');
 		$this->exposeMethod('systemWarnings');
@@ -148,13 +147,6 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer->assign('GITHUB_ISSUES', $issues);
 		$viewer->assign('GITHUB_CLIENT_MODEL', $clientModel);
 		$viewer->view('Github.tpl', $qualifiedModuleName);
-	}
-
-	public function DonateUs(\App\Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$qualifiedModuleName = $request->getModule(false);
-		$viewer->view('DonateUs.tpl', $qualifiedModuleName);
 	}
 
 	/**

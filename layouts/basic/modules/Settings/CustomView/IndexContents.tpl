@@ -44,7 +44,7 @@
 						</td>
 						<td>{vtlib\Functions::getOwnerRecordLabel($item['userid'])}</td>
 						<td>
-							<button class="btn btn-primary marginLeftZero btn-sm update" data-cvid="{$key}" data-editurl="{$MODULE_MODEL->GetUrlToEdit($item['entitytype'],$key)}">{\App\Language::translate('Edit',$QUALIFIED_MODULE)}</button>
+							<button class="btn btn-primary marginLeftZero btn-sm update" data-cvid="{$key}" data-editurl="{$MODULE_MODEL->getUrlToEdit($item['entitytype'],$key)}">{\App\Language::translate('Edit',$QUALIFIED_MODULE)}</button>
 							{if $item['presence'] eq 1}
 								<button class="btn btn-danger marginLeftZero btn-sm delete marginRight10" data-cvid="{$key}">{\App\Language::translate('Delete',$QUALIFIED_MODULE)}</button>
 							{/if}

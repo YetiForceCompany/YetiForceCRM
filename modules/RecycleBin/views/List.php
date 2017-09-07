@@ -20,7 +20,7 @@ class RecycleBin_List_View extends Vtiger_Index_View
 
 		$moduleModel = RecycleBin_Module_Model::getInstance($moduleName);
 
-		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
+		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1));
 
 		$quickLinkModels = $moduleModel->getSideBarLinks($linkParams);
 
@@ -57,7 +57,7 @@ class RecycleBin_List_View extends Vtiger_Index_View
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
-		$sourceModule = $request->get('sourceModule');
+		$sourceModule = $request->getByType('sourceModule', 1);
 
 		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->getForSql('orderby');
@@ -71,7 +71,7 @@ class RecycleBin_List_View extends Vtiger_Index_View
 		}
 
 		if (empty($pageNumber)) {
-			$pageNumber = '1';
+			$pageNumber = 1;
 		}
 
 		$moduleModel = RecycleBin_Module_Model::getInstance($moduleName);
@@ -84,7 +84,7 @@ class RecycleBin_List_View extends Vtiger_Index_View
 		}
 		$listViewModel = RecycleBin_ListView_Model::getInstance($moduleName, $sourceModule);
 
-		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
+		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1));
 		$linkModels = $moduleModel->getListViewMassActions($linkParams);
 
 		$pagingModel = new Vtiger_Paging_Model();
@@ -171,7 +171,7 @@ class RecycleBin_List_View extends Vtiger_Index_View
 	public function getPageCount(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$sourceModule = $request->get('sourceModule');
+		$sourceModule = $request->getByType('sourceModule', 1);
 		$listViewModel = RecycleBin_ListView_Model::getInstance($moduleName, $sourceModule);
 
 		$listViewCount = $listViewModel->getListViewCount($request);
@@ -197,7 +197,7 @@ class RecycleBin_List_View extends Vtiger_Index_View
 	public function getRecordsCount(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$sourceModule = $request->get('sourceModule');
+		$sourceModule = $request->getByType('sourceModule', 1);
 		$listViewModel = RecycleBin_ListView_Model::getInstance($moduleName, $sourceModule);
 
 		$count = $listViewModel->getListViewCount();

@@ -103,7 +103,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 		//if it is relation edit
 		$viewer->assign('IS_RELATION_OPERATION', $isRelationOperation);
 		if ($isRelationOperation) {
-			$sourceModule = $request->get('sourceModule');
+			$sourceModule = $request->getByType('sourceModule', 1);
 			$sourceRecord = $request->get('sourceRecord');
 
 			$viewer->assign('SOURCE_MODULE', $sourceModule);

@@ -53,7 +53,7 @@ class ThemeExport extends Package
 		$this->__initExport($layoutName, $themeName);
 
 		// Call layout export function
-		$this->export_Theme($layoutName, $themeName);
+		$this->exportTheme($layoutName, $themeName);
 
 		$this->__finishExport();
 
@@ -87,7 +87,7 @@ class ThemeExport extends Package
 	 * Export Language Handler
 	 * @access private
 	 */
-	public function export_Theme($layoutName, $themeName)
+	public function exportTheme($layoutName, $themeName)
 	{
 		$adb = \PearDatabase::getInstance();
 

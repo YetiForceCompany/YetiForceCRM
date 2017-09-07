@@ -59,7 +59,7 @@ class Rss_List_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $module);
 		$viewer->assign('RECORD', $recordInstance);
-		$linkParams = array('MODULE' => $module, 'ACTION' => $request->get('view'));
+		$linkParams = array('MODULE' => $module, 'ACTION' => $request->getByType('view', 1));
 		$viewer->assign('QUICK_LINKS', $moduleModel->getSideBarLinks($linkParams));
 		$viewer->assign('LISTVIEW_HEADERS', $this->getListViewRssHeaders($module));
 	}

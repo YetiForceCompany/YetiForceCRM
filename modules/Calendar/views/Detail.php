@@ -89,7 +89,7 @@ class Calendar_Detail_View extends Vtiger_Detail_View
 		$viewer->assign('IS_EDITABLE', $this->record->getRecord()->isEditable($moduleName));
 		$viewer->assign('IS_DELETABLE', $this->record->getRecord()->isDeletable($moduleName));
 
-		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
+		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1));
 		$linkModels = $this->record->getSideBarLinks($linkParams);
 
 		$viewer->assign('QUICK_LINKS', $linkModels);
@@ -124,7 +124,7 @@ class Calendar_Detail_View extends Vtiger_Detail_View
 		$moduleModel = $recordModel->getModule();
 
 		$viewer = $this->getViewer($request);
-		$viewer->assign('VIEW', $request->get('view'));
+		$viewer->assign('VIEW', $request->getByType('view', 1));
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());

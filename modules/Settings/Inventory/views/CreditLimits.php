@@ -42,7 +42,7 @@ class Settings_Inventory_CreditLimits_View extends Settings_Vtiger_Index_View
 		if ($request->get('type')) {
 			$view = $request->get('type');
 		} else {
-			$view = $request->get('view');
+			$view = $request->getByType('view', 1);
 		}
 		$translations = [];
 		$translations['title'] = 'LBL_' . strtoupper($view);

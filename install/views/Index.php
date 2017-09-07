@@ -32,7 +32,7 @@ class Install_Index_view extends Vtiger_View_Controller
 	 */
 	public function setLanguage(\App\Request $request)
 	{
-		if (!$request->get('lang')) {
+		if (!$request->getByType('lang', 1)) {
 
 			$lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
 
@@ -51,13 +51,13 @@ class Install_Index_view extends Vtiger_View_Controller
 	{
 		parent::__construct();
 		//Install
-		$this->exposeMethod('Step1');
-		$this->exposeMethod('Step2');
-		$this->exposeMethod('Step3');
-		$this->exposeMethod('Step4');
-		$this->exposeMethod('Step5');
-		$this->exposeMethod('Step6');
-		$this->exposeMethod('Step7');
+		$this->exposeMethod('step1');
+		$this->exposeMethod('step2');
+		$this->exposeMethod('step3');
+		$this->exposeMethod('step4');
+		$this->exposeMethod('step5');
+		$this->exposeMethod('step6');
+		$this->exposeMethod('step7');
 		//Migrate
 		$this->exposeMethod('mStep0');
 		$this->exposeMethod('mStep1');
@@ -73,19 +73,19 @@ class Install_Index_view extends Vtiger_View_Controller
 		$request = $this->setLanguage($request);
 
 		$configFileName = 'config/config.inc.php';
-		if ($request->getMode() !== 'Step7' && is_file($configFileName) && filesize($configFileName) > 10) {
+		if ($request->getMode() !== 'step7' && is_file($configFileName) && filesize($configFileName) > 10) {
 			$defaultModule = vglobal('default_module');
 			$defaultModuleInstance = Vtiger_Module_Model::getInstance($defaultModule);
 			$defaultView = $defaultModuleInstance->getDefaultViewName();
 			header('Location:../index.php?module=' . $defaultModule . '&view=' . $defaultView);
 		}
-		$_SESSION['default_language'] = $defaultLanguage = ($request->get('lang')) ? $request->get('lang') : 'en_us';
+		$_SESSION['default_language'] = $defaultLanguage = ($request->getByType('lang', 1)) ? $request->getByType('lang', 1) : 'en_us';
 		vglobal('default_language', $defaultLanguage);
 
 		$this->viewer = new Vtiger_Viewer();
 		$this->viewer->setTemplateDir('install/tpl/');
 		$this->viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
-		$this->viewer->assign('LANG', $request->get('lang'));
+		$this->viewer->assign('LANG', $request->getByType('lang', 1));
 		$this->viewer->assign('HTMLLANG', substr($defaultLanguage, 0, 2));
 		$this->viewer->assign('LANGUAGE', $defaultLanguage);
 		$this->viewer->assign('STYLES', $this->getHeaderCss($request));
@@ -106,19 +106,19 @@ class Install_Index_view extends Vtiger_View_Controller
 		if (!empty($mode) && $this->isMethodExposed($mode)) {
 			return $this->$mode($request);
 		}
-		$this->Step1($request);
+		$this->step1($request);
 	}
 
 	public function postProcess(\App\Request $request)
 	{
 		$this->viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
 		echo $this->viewer->fetch('InstallPostProcess.tpl');
-		if ($request->getMode() === 'Step7') {
+		if ($request->getMode() === 'step7') {
 			$this->cleanInstallationFiles();
 		}
 	}
 
-	public function Step1(\App\Request $request)
+	public function step1(\App\Request $request)
 	{
 		$isMigrate = false;
 		if (is_dir('install/migrate_schema/')) {
@@ -132,18 +132,18 @@ class Install_Index_view extends Vtiger_View_Controller
 		echo $this->viewer->fetch('Step1.tpl');
 	}
 
-	public function Step2(\App\Request $request)
+	public function step2(\App\Request $request)
 	{
 		echo $this->viewer->fetch('Step2.tpl');
 	}
 
-	public function Step3(\App\Request $request)
+	public function step3(\App\Request $request)
 	{
 		$this->viewer->assign('FAILED_FILE_PERMISSIONS', Settings_ConfReport_Module_Model::getPermissionsFiles(true));
 		echo $this->viewer->fetch('Step3.tpl');
 	}
 
-	public function Step4(\App\Request $request)
+	public function step4(\App\Request $request)
 	{
 		$this->viewer->assign('CURRENCIES', Install_Utils_Model::getCurrencyList());
 		require_once 'modules/Users/UserTimeZonesArray.php';
@@ -162,14 +162,14 @@ class Install_Index_view extends Vtiger_View_Controller
 		echo $this->viewer->fetch('Step4.tpl');
 	}
 
-	public function Step5(\App\Request $request)
+	public function step5(\App\Request $request)
 	{
 		set_time_limit(60); // Override default limit to let install complete.
 		$requestData = $request->getAll();
 		foreach ($requestData as $name => $value) {
 			$_SESSION['config_file_info'][$name] = $value;
 		}
-		$_SESSION['default_language'] = $request->get('lang');
+		$_SESSION['default_language'] = $request->getByType('lang', 1);
 		$_SESSION['timezone'] = $request->get('timezone');
 		$authKey = $_SESSION['config_file_info']['authentication_key'] = sha1(microtime());
 
@@ -200,7 +200,7 @@ class Install_Index_view extends Vtiger_View_Controller
 		echo $this->viewer->fetch('Step5.tpl');
 	}
 
-	public function Step6(\App\Request $request)
+	public function step6(\App\Request $request)
 	{
 		// Create configuration file
 		$configFile = new Install_ConfigFileUtils_Model($_SESSION['config_file_info']);
@@ -210,7 +210,7 @@ class Install_Index_view extends Vtiger_View_Controller
 		echo $this->viewer->fetch('Step6.tpl');
 	}
 
-	public function Step7(\App\Request $request)
+	public function step7(\App\Request $request)
 	{
 		AppConfig::iniSet('display_errors', 'On');
 		AppConfig::iniSet('max_execution_time', 0);
@@ -383,7 +383,7 @@ class Install_Index_view extends Vtiger_View_Controller
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		if ($request->getMode() === 'Step7') {
+		if ($request->getMode() === 'step7') {
 			return [];
 		}
 		$headerScriptInstances = parent::getFooterScripts($request);

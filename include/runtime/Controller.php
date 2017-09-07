@@ -31,22 +31,22 @@ abstract class Vtiger_Controller
 
 	public function validateRequest(\App\Request $request)
 	{
-
+		
 	}
 
 	public function preProcessAjax(\App\Request $request)
 	{
-
+		
 	}
 
 	public function preProcess(\App\Request $request)
 	{
-
+		
 	}
 
 	public function postProcess(\App\Request $request)
 	{
-
+		
 	}
 
 	// Control the exposure of methods to be invoked from client (kind-of RPC)
@@ -114,7 +114,7 @@ abstract class Vtiger_Controller
 		header('X-XSS-Protection: 1; mode=block');
 		header('X-Content-Type-Options: nosniff');
 		header('Referrer-Policy: no-referrer');
-		header('Strict-Transport-Security: max-age=15768000; includeSubDomains; preload');
+		header('Strict-Transport-Security: max-age=31536000; includeSubDomains; preload');
 		header('Expect-CT: enforce; max-age=3600');
 		header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 		header('X-Robots-Tag: none');
@@ -161,7 +161,7 @@ abstract class Vtiger_Action_Controller extends Vtiger_Controller
 
 	protected function preProcessDisplay(\App\Request $request)
 	{
-
+		
 	}
 
 	protected function preProcessTplName(\App\Request $request)
@@ -213,7 +213,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			$viewer->assign('MODULE_NAME', $request->getModule());
 			if ($request->isAjax()) {
 				$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-				if ($request->get('parent') === 'Settings') {
+				if ($request->getByType('parent', 1) === 'Settings') {
 					$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 				}
 			}
@@ -280,9 +280,9 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('VIEW', $request->get('view'));
+		$viewer->assign('VIEW', $request->getByType('view', 1));
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('PARENT_MODULE', $request->get('parent'));
+		$viewer->assign('PARENT_MODULE', $request->getByType('parent', 1));
 		$companyDetails = App\Company::getInstanceById();
 		$viewer->assign('COMPANY_DETAILS', $companyDetails);
 		$viewer->assign('COMPANY_LOGO', $companyDetails->getLogo(false, false));

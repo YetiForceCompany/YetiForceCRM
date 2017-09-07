@@ -32,5 +32,3 @@ class Import_ICSReader_Reader extends iCal
 		return true;
 	}
 }
-
-?>

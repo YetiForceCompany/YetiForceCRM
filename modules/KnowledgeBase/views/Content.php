@@ -38,7 +38,7 @@ class KnowledgeBase_Content_View extends Vtiger_IndexAjax_View
 			$headers = $listViewModel->getListViewHeaders();
 
 			$viewer = $this->getViewer($request);
-			$viewer->assign('VIEW', $request->get('view'));
+			$viewer->assign('VIEW', $request->getByType('view', 1));
 			$viewer->assign('ENTRIES', $listEntries);
 			$viewer->assign('HEADERS', $headers);
 			$viewer->assign('MODULE_NAME', $moduleName);

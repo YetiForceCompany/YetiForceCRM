@@ -9,7 +9,7 @@
 Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 {
 
-	const recalculateStatus = 'Accepted';
+	const RECALCULATE_STATUS = 'Accepted';
 
 	public static $referenceFieldsToTime = ['link', 'process', 'subprocess'];
 
@@ -17,7 +17,7 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 	{
 		$sumTime = (new App\Db\Query())->from('vtiger_osstimecontrol')
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_osstimecontrol.osstimecontrolid')
-			->where(['vtiger_crmentity.deleted' => 0, 'osstimecontrol_status' => self::recalculateStatus, $name => $id])
+			->where(['vtiger_crmentity.deleted' => 0, 'osstimecontrol_status' => self::RECALCULATE_STATUS, $name => $id])
 			->sum('sum_time');
 		$sumTime = number_format($sumTime, 2);
 		$metaData = vtlib\Functions::getCRMRecordMetadata($id);

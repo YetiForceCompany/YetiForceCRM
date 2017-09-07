@@ -24,7 +24,7 @@
 				</div>
 			</div>
 		</div>
-		{if $MODE === 'Step7'}
+		{if $MODE === 'step7'}
 			<div id="progressIndicator" class="row main-container">
 				<div class="inner-container">
 					<div class="inner-container">

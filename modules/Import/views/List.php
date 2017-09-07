@@ -71,7 +71,7 @@ class Import_List_View extends Vtiger_Popup_View
 		}
 
 		if (empty($pageNumber)) {
-			$pageNumber = '1';
+			$pageNumber = 1;
 		}
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);

@@ -1420,5 +1420,3 @@ class iCalendar_property_tzid extends iCalendar_property
 		);
 	}
 }
-
-?>

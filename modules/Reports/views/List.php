@@ -44,7 +44,7 @@ class Reports_List_View extends Vtiger_Index_View
 		$listViewMassActionModels = $listViewModel->getListViewMassActions(false);
 
 		if (empty($pageNumber)) {
-			$pageNumber = '1';
+			$pageNumber = 1;
 		}
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
@@ -120,7 +120,7 @@ class Reports_List_View extends Vtiger_Index_View
 		}
 		$listViewMassActionModels = $listViewModel->getListViewMassActions(false);
 		if (empty($pageNumber)) {
-			$pageNumber = '1';
+			$pageNumber = 1;
 		}
 		$viewer->assign('MODULE', $moduleName);
 		$pagingModel = new Vtiger_Paging_Model();

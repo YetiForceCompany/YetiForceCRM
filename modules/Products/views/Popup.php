@@ -20,13 +20,13 @@ class Products_Popup_View extends Vtiger_Popup_View
 		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
-		$sourceModule = $request->get('src_module');
+		$sourceModule = $request->getByType('src_module', 1);
 		$sourceField = $request->get('src_field');
 		$sourceRecord = $request->getInteger('src_record');
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
 		$currencyId = $request->get('currency_id');
-		$relatedParentModule = $request->get('related_parent_module');
+		$relatedParentModule = $request->getByType('related_parent_module', 1);
 		$relatedParentId = $request->getInteger('related_parent_id');
 		$filterFields = $request->get('filterFields');
 
@@ -43,7 +43,7 @@ class Products_Popup_View extends Vtiger_Popup_View
 			$cvId = '0';
 		}
 		if (empty($pageNumber)) {
-			$pageNumber = '1';
+			$pageNumber = 1;
 		}
 
 		$pagingModel = new Vtiger_Paging_Model();

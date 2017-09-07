@@ -22,7 +22,7 @@ class PriceBooks_Popup_View extends Vtiger_Popup_View
 		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
-		$sourceModule = $request->get('src_module');
+		$sourceModule = $request->getByType('src_module', 1);
 		$sourceField = $request->get('src_field');
 		$sourceRecord = $request->getInteger('src_record');
 		$searchKey = $request->get('search_key');
@@ -47,7 +47,7 @@ class PriceBooks_Popup_View extends Vtiger_Popup_View
 			$cvId = '0';
 		}
 		if (empty($pageNumber)) {
-			$pageNumber = '1';
+			$pageNumber = 1;
 		}
 
 		$pagingModel = new Vtiger_Paging_Model();

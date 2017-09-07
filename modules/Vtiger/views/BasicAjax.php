@@ -55,8 +55,8 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		$excludedModuleForSearch = array('Vtiger', 'Reports');
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		if ($request->get('source_module')) {
-			$moduleName = $request->get('source_module');
+		if ($request->getByType('source_module', 1)) {
+			$moduleName = $request->getByType('source_module', 1);
 		}
 
 		$saveFilterPermitted = true;
@@ -131,11 +131,11 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$viewer->assign('SEARCH_MODULE', $moduleName);
 		} else {
 			$searchKey = $request->get('value');
-			$limit = $request->getInteger('limit') != 'false' ? $request->getInteger('limit') : false;
-			$operator = (!$request->isEmpty('operator') ) ? $request->get('operator') : false;
+			$limit = $request->getInteger('limit') !== 0 ? $request->getInteger('limit') : false;
+			$operator = (!$request->isEmpty('operator') ) ? $request->getByType('operator', 1) : false;
 			$searchModule = false;
-			if ($request->get('searchModule')) {
-				$searchModule = $request->get('searchModule');
+			if ($request->getByType('searchModule', 1)) {
+				$searchModule = $request->getByType('searchModule', 1);
 			}
 			$viewer->assign('SEARCH_KEY', $searchKey);
 			$viewer->assign('SEARCH_MODULE', $searchModule);
@@ -150,7 +150,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 				$matchingRecords = $matchingRecordsList;
 			}
 		}
-		$curentModule = $request->get('curentModule');
+		$curentModule = $request->getByType('curentModule', 1);
 		if (AppConfig::search('GLOBAL_SEARCH_CURRENT_MODULE_TO_TOP') && isset($matchingRecords[$curentModule])) {
 			$pushTop = $matchingRecords[$curentModule];
 			unset($matchingRecords[$curentModule]);

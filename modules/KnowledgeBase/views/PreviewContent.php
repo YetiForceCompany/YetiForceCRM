@@ -46,7 +46,7 @@ class KnowledgeBase_PreviewContent_View extends Vtiger_Index_View
 		$viewer->assign('TEMPLATE', $template);
 		$viewer->assign('CONTENT', $content);
 		$viewer->assign('RECORD', $recordModel);
-		$viewer->assign('VIEW', $request->get('view'));
+		$viewer->assign('VIEW', $request->getByType('view', 1));
 		$viewer->assign('MODULE_NAME', $moduleName);
 		if ($display) {
 			$viewer->view('ContentsView.tpl', $moduleName);

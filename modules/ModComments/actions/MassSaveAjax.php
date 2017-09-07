@@ -24,7 +24,7 @@ class ModComments_MassSaveAjax_Action extends Vtiger_Mass_Action
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'CreateView')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
-		$sourceModule = $request->get('source_module');
+		$sourceModule = $request->getByType('source_module', 1);
 		$moduleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		if (!$moduleModel->isCommentEnabled() || !$currentUserPriviligesModel->hasModuleActionPermission($sourceModule, 'MassAddComment')) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
@@ -38,7 +38,7 @@ class ModComments_MassSaveAjax_Action extends Vtiger_Mass_Action
 	public function process(\App\Request $request)
 	{
 		$recordModels = $this->getRecordModelsFromRequest($request);
-		$relationModel = Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance($request->get('source_module')), Vtiger_Module_Model::getInstance($request->getModule()));
+		$relationModel = Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance($request->getByType('source_module', 1)), Vtiger_Module_Model::getInstance($request->getModule()));
 		foreach ($recordModels as $relatedRecordId => &$recordModel) {
 			$recordModel->save();
 			$relationModel->addRelation($relatedRecordId, $recordModel->getId());

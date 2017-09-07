@@ -26,7 +26,7 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			return;
 		}
 		$id = $request->get('id');
-		$type = $request->get('view');
+		$type = $request->getByType('view', 1);
 		if (empty($id)) {
 			$recordModel = new Settings_Inventory_Record_Model();
 		} else {
@@ -59,7 +59,7 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$qualifiedModuleName = $request->getModule(false);
 		$id = $request->get('id');
 		$name = $request->get('name');
-		$type = $request->get('view');
+		$type = $request->getByType('view', 1);
 
 		$exists = Settings_Inventory_Record_Model::checkDuplicate($name, $id, $type);
 

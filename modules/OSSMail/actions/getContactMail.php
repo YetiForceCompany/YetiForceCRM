@@ -24,7 +24,7 @@ class OSSMail_getContactMail_Action extends Vtiger_Action_Controller
 		if (!$recordId) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		if (!\App\Privilege::isPermitted($request->get('mod'), 'DetailView', $recordId)) {
+		if (!\App\Privilege::isPermitted($request->getByType('mod', 1), 'DetailView', $recordId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
@@ -32,7 +32,7 @@ class OSSMail_getContactMail_Action extends Vtiger_Action_Controller
 	public function process(\App\Request $request)
 	{
 		$ids = $request->get('ids');
-		$mod = $request->get('mod');
+		$mod = $request->getByType('mod', 1);
 		$emailFields = [];
 		$searchList = OSSMailScanner_Record_Model::getEmailSearch($mod);
 		$recordModel = Vtiger_Record_Model::getInstanceById($ids, $mod);

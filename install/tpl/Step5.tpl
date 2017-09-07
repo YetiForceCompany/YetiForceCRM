@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<form class="form-horizontal" name="step5" method="post" action="Install.php">
-		<input type="hidden" name="mode" value="Step6" />
+		<input type="hidden" name="mode" value="step6" />
 		<input type="hidden" name="auth_key" value="{$AUTH_KEY}" />
 		<input type="hidden" name="lang" value="{$LANG}" />
 		<div class="row main-container">

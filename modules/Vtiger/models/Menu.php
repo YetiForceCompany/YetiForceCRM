@@ -56,8 +56,8 @@ class Vtiger_Menu_Model
 			require('user_privileges/menu_0.php');
 		}
 		$moduleName = $request->getModule();
-		$view = $request->get('view');
-		$parent = $request->get('parent');
+		$view = $request->getByType('view', 1);
+		$parent = $request->getByType('parent', 1);
 		if ($parent !== 'Settings') {
 			if (empty($parent)) {
 				foreach ($parentList as &$parentItem) {

@@ -21,7 +21,7 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 		if (!$recordId) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		if (!\App\Privilege::isPermitted($request->get('src_module'), 'DetailView', $recordId)) {
+		if (!\App\Privilege::isPermitted($request->getByType('src_module', 1), 'DetailView', $recordId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -42,7 +42,7 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$srcRecord = $request->getInteger('src_record');
-		$srcModule = $request->get('src_module');
+		$srcModule = $request->getByType('src_module', 1);
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$treeCategoryModel = Vtiger_TreeCategoryModal_Model::getInstance($moduleModel);

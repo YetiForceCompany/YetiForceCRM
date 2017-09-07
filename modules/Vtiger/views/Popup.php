@@ -27,16 +27,16 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
-		if (!$request->isEmpty('related_parent_module') && !$currentUserPrivilegesModel->hasModulePermission($request->get('related_parent_module'))) {
+		if (!$request->isEmpty('related_parent_module') && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('related_parent_module', 1))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
-		if (!$request->isEmpty('src_module') && !$currentUserPrivilegesModel->hasModulePermission($request->get('src_module'))) {
+		if (!$request->isEmpty('src_module') && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('src_module', 1))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
-		if (!$request->isEmpty('related_parent_id') && !\App\Privilege::isPermitted($request->get('related_parent_module'), 'DetailView', $request->getInteger('related_parent_id'))) {
+		if (!$request->isEmpty('related_parent_id') && !\App\Privilege::isPermitted($request->getByType('related_parent_module', 1), 'DetailView', $request->getInteger('related_parent_id'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		if (!$request->isEmpty('src_record') && !\App\Privilege::isPermitted($request->get('src_module'), 'DetailView', $request->getInteger('src_record'))) {
+		if (!$request->isEmpty('src_record') && !\App\Privilege::isPermitted($request->getByType('src_module', 1), 'DetailView', $request->getInteger('src_record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
@@ -105,13 +105,13 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
-		$sourceModule = $request->get('src_module');
+		$sourceModule = $request->getByType('src_module', 1);
 		$sourceField = $request->get('src_field');
 		$sourceRecord = $request->getInteger('src_record');
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
 		$currencyId = $request->get('currency_id');
-		$relatedParentModule = $request->get('related_parent_module');
+		$relatedParentModule = $request->getByType('related_parent_module', 1);
 		$relatedParentId = $request->getInteger('related_parent_id');
 		$filterFields = $request->get('filterFields');
 
@@ -128,7 +128,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 			$cvId = '0';
 		}
 		if (empty($pageNumber)) {
-			$pageNumber = '1';
+			$pageNumber = 1;
 		}
 
 		$pagingModel = new Vtiger_Paging_Model();
@@ -222,7 +222,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		if (empty($sortOrder)) {
 			$sortOrder = 'ASC';
 		}
-		if ($sortOrder == 'ASC') {
+		if ($sortOrder === 'ASC') {
 			$nextSortOrder = 'DESC';
 			$sortImage = 'downArrowSmall.png';
 		} else {
@@ -285,9 +285,9 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 	 */
 	public function getListViewCount(\App\Request $request)
 	{
-		$moduleName = $this->getModule($request);
-		$sourceModule = $request->get('src_module');
-		$sourceField = $request->get('src_field');
+		$moduleName = $request->getModule();
+		$sourceModule = $request->getByType('src_module', 1);
+		$sourceField = $request->getByType('src_field', 1);
 		$sourceRecord = $request->getInteger('src_record');
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
@@ -296,7 +296,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
 
-		$relatedParentModule = $request->get('related_parent_module');
+		$relatedParentModule = $request->getByType('related_parent_module', 1);
 		$relatedParentId = $request->getInteger('related_parent_id');
 
 		if (!empty($relatedParentModule) && !empty($relatedParentId)) {

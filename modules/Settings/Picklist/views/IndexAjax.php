@@ -33,7 +33,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 
 	public function showEditView(\App\Request $request)
 	{
-		$module = $request->get('source_module');
+		$module = $request->getByType('source_module', 1);
 		$pickListFieldId = $request->get('pickListFieldId');
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickListFieldId);
 		$valueToEdit = $request->getRaw('fieldValue');
@@ -56,7 +56,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 
 	public function showDeleteView(\App\Request $request)
 	{
-		$module = $request->get('source_module');
+		$module = $request->getByType('source_module', 1);
 		$pickListFieldId = $request->get('pickListFieldId');
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickListFieldId);
 		$valueToDelete = $request->get('fieldValue');
@@ -85,7 +85,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 
 	public function getPickListDetailsForModule(\App\Request $request)
 	{
-		$sourceModule = $request->get('source_module');
+		$sourceModule = $request->getByType('source_module', 1);
 		$moduleModel = Settings_Picklist_Module_Model::getInstance($sourceModule);
 		$pickListFields = $moduleModel->getFieldsByType(array('picklist', 'multipicklist'));
 
@@ -100,7 +100,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 
 	public function getPickListValueForField(\App\Request $request)
 	{
-		$sourceModule = $request->get('source_module');
+		$sourceModule = $request->getByType('source_module', 1);
 		$pickFieldId = $request->get('pickListFieldId');
 		$moduleName = $request->getModule();
 		$qualifiedName = $request->getModule(false);
@@ -122,7 +122,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 
 	public function getPickListValueByRole(\App\Request $request)
 	{
-		$sourceModule = $request->get('sourceModule');
+		$sourceModule = $request->getByType('sourceModule', 1);
 		$pickFieldId = $request->get('pickListFieldId');
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickFieldId);
 		$moduleName = $request->getModule();
@@ -151,7 +151,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 	 */
 	public function showAssignValueToRoleView(\App\Request $request)
 	{
-		$sourceModule = $request->get('source_module');
+		$sourceModule = $request->getByType('source_module', 1);
 		$pickFieldId = $request->get('pickListFieldId');
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickFieldId);
 

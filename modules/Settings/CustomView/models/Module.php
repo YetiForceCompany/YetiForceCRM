@@ -132,7 +132,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 		return $db->createCommand()->update('vtiger_customview', ['sequence' => new yii\db\Expression($caseSequence)], ['cvid' => $params])->execute();
 	}
 
-	public function GetUrlToEdit($module, $record)
+	public function getUrlToEdit($module, $record)
 	{
 		return "module=CustomView&view=EditAjax&source_module=$module&record=$record";
 	}

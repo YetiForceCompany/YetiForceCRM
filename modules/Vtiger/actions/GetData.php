@@ -35,7 +35,7 @@ class Vtiger_GetData_Action extends Vtiger_IndexAjax_View
 	public function process(\App\Request $request)
 	{
 		$record = $request->getInteger('record');
-		$sourceModule = $request->get('source_module');
+		$sourceModule = $request->getByType('source_module', 1);
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, $sourceModule);
 		$labels = $data = $display = [];
 		foreach ($recordModel->getModule()->getFields() as $fieldName => $fieldModel) {

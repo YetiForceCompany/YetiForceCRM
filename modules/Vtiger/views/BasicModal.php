@@ -19,7 +19,7 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
-		$viewName = $request->get('view');
+		$viewName = $request->getByType('view', 1);
 		echo '<div class="modal fade modal' . $moduleName . '' . $viewName . '" id="modal' . $viewName . '"><div class="modal-dialog ' . $this->getSize($request) . '"><div class="modal-content">';
 		foreach ($this->getModalCss($request) as $style) {
 			echo '<link rel="stylesheet" href="' . $style->getHref() . '">';
@@ -44,7 +44,7 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 	public function getModalScripts(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$viewName = $request->get('view');
+		$viewName = $request->getByType('view', 1);
 
 		$scripts = array(
 			"modules.Vtiger.resources.$viewName",
@@ -58,7 +58,7 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 	public function getModalCss(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$viewName = $request->get('view');
+		$viewName = $request->getByType('view', 1);
 		$cssFileNames = [
 			"modules.$moduleName.$viewName",
 			"modules.Vtiger.$viewName",
