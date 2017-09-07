@@ -11,7 +11,7 @@
 class PBXManager_Server_Model extends \App\Base
 {
 
-	const tableName = 'vtiger_pbxmanager_gateway';
+	const TABLE_NAME = 'vtiger_pbxmanager_gateway';
 
 	public static function getCleanInstance()
 	{
@@ -26,7 +26,7 @@ class PBXManager_Server_Model extends \App\Base
 	public static function getInstance()
 	{
 		$serverModel = new self();
-		$row = (new \App\Db\Query())->from(self::tableName)->one();
+		$row = (new \App\Db\Query())->from(self::TABLE_NAME)->one();
 		if ($row !== false) {
 			$serverModel->set('gateway', $row['gateway']);
 			$serverModel->set('id', $row['id']);

@@ -15,9 +15,9 @@ class Reports_ExportReport_View extends Vtiger_View_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('GetPrintReport');
-		$this->exposeMethod('GetXLS');
-		$this->exposeMethod('GetCSV');
+		$this->exposeMethod('getPrintReport');
+		$this->exposeMethod('getXls');
+		$this->exposeMethod('getCsv');
 	}
 
 	/**
@@ -60,7 +60,7 @@ class Reports_ExportReport_View extends Vtiger_View_Controller
 	 * Function exports the report in a Excel sheet
 	 * @param \App\Request $request
 	 */
-	public function GetXLS(\App\Request $request)
+	public function getXls(\App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
 		$reportModel = Reports_Record_Model::getInstanceById($recordId);
@@ -72,7 +72,7 @@ class Reports_ExportReport_View extends Vtiger_View_Controller
 	 * Function exports report in a CSV file
 	 * @param \App\Request $request
 	 */
-	public function GetCSV(\App\Request $request)
+	public function getCsv(\App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
 		$reportModel = Reports_Record_Model::getInstanceById($recordId);
@@ -84,7 +84,7 @@ class Reports_ExportReport_View extends Vtiger_View_Controller
 	 * Function displays the report in printable format
 	 * @param \App\Request $request
 	 */
-	public function GetPrintReport(\App\Request $request)
+	public function getPrintReport(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

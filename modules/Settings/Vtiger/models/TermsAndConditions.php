@@ -12,7 +12,7 @@
 class Settings_Vtiger_TermsAndConditions_Model extends \App\Base
 {
 
-	const tableName = 'vtiger_inventory_tandc';
+	const TABLE_NAME = 'vtiger_inventory_tandc';
 
 	public function getText()
 	{
@@ -31,18 +31,18 @@ class Settings_Vtiger_TermsAndConditions_Model extends \App\Base
 
 	public function save()
 	{
-		$isExists = (new \App\Db\Query())->from(self::tableName)->exists();
+		$isExists = (new \App\Db\Query())->from(self::TABLE_NAME)->exists();
 		if ($isExists) {
-			\App\Db::getInstance()->createCommand()->update(self::tableName, ['tandc' => $this->getText()])->execute();
+			\App\Db::getInstance()->createCommand()->update(self::TABLE_NAME, ['tandc' => $this->getText()])->execute();
 		} else {
-			\App\Db::getInstance()->createCommand()->insert(self::tableName, ['type' => $this->getType(),
+			\App\Db::getInstance()->createCommand()->insert(self::TABLE_NAME, ['type' => $this->getType(),
 				'tandc' => $this->getText()])->execute();
 		}
 	}
 
 	public static function getInstance()
 	{
-		$row = (new App\Db\Query())->select(['tandc'])->from(self::tableName)->scalar();
+		$row = (new App\Db\Query())->select(['tandc'])->from(self::TABLE_NAME)->scalar();
 		$instance = new self();
 		if ($row) {
 			$instance->setText($row);

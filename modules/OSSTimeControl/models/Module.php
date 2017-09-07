@@ -106,7 +106,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 					'vtiger_crmentity.smownerid',
 					'time' => new \yii\db\Expression('SUM(vtiger_osstimecontrol.sum_time)')
 				])->from('vtiger_osstimecontrol')->innerJoin('vtiger_crmentity', 'vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid')
-				->where(['vtiger_crmentity.deleted' => 0, "vtiger_osstimecontrol.$fieldName" => $id, 'vtiger_osstimecontrol.osstimecontrol_status' => OSSTimeControl_Record_Model::recalculateStatus])
+				->where(['vtiger_crmentity.deleted' => 0, "vtiger_osstimecontrol.$fieldName" => $id, 'vtiger_osstimecontrol.osstimecontrol_status' => OSSTimeControl_Record_Model::RECALCULATE_STATUS])
 				->groupBy('smownerid');
 			App\PrivilegeQuery::getConditions($query, $this->getName());
 			$dataReader = $query->createCommand()->query();
