@@ -29,6 +29,8 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$this->exposeMethod('updatePicklistValueColor');
 		$this->exposeMethod('removePicklistValueColor');
 		$this->exposeMethod('addPicklistColorColumn');
+		$this->exposeMethod('updateCalendarColor');
+		$this->exposeMethod('removeCalendarColor');
 	}
 
 	/**
@@ -218,6 +220,39 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			'success' => true,
 			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
 		]);
+		$response->emit();
+	}
+
+	public function updateCalendarColor(\App\Request $request)
+	{
+		$params = [];
+		$params['id'] = $request->get('id');
+		$params['color'] = $request->get('color');
+		if (!$params['color']) {
+			$params['color'] = \App\Colors::getRandomColor();
+		}
+		Settings_Calendar_Module_Model::updateCalendarConfig($params);
+		$response = new Vtiger_Response();
+		$response->setResult(array(
+			'success' => true,
+			'color' => $params['color'],
+			'message' => \App\Language::translate('LBL_SAVE_CHANGES', $request->getModule(false))
+		));
+		$response->emit();
+	}
+
+	public function removeCalendarColor(\App\Request $request)
+	{
+		$params = [];
+		$params['id'] = $request->get('id');
+		$params['color'] = '';
+		Settings_Calendar_Module_Model::updateCalendarConfig($params);
+		$response = new Vtiger_Response();
+		$response->setResult(array(
+			'success' => true,
+			'color' => $params['color'],
+			'message' => \App\Language::translate('LBL_SAVE_CHANGES', $request->getModule(false))
+		));
 		$response->emit();
 	}
 }
