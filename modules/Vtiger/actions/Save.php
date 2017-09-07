@@ -24,9 +24,9 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
-		if ($recordId) {
+		if (!$request->isEmpty('record')) {
+			$recordId = $request->getInteger('record');
 			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
 				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 			}
