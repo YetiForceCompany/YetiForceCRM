@@ -32,7 +32,7 @@ class RecycleBin_RecycleBinAjax_Action extends Vtiger_Mass_Action
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
-		if ($request->get('mode') === 'emptyRecycleBin') {
+		if ($request->getMode() === 'emptyRecycleBin') {
 			//we dont check for permissions since recylebin axis will not be there for non admin users
 			return true;
 		}
@@ -55,7 +55,7 @@ class RecycleBin_RecycleBinAjax_Action extends Vtiger_Mass_Action
 
 	public function process(\App\Request $request)
 	{
-		$mode = $request->get('mode');
+		$mode = $request->getMode();
 
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);

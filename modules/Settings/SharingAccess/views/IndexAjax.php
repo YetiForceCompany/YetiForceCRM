@@ -20,7 +20,7 @@ Class Settings_SharingAccess_IndexAjax_View extends Settings_Vtiger_IndexAjax_Vi
 
 	public function process(\App\Request $request)
 	{
-		$mode = $request->get('mode');
+		$mode = $request->getMode();
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
 			return;

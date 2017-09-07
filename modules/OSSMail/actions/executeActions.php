@@ -24,7 +24,7 @@ class OSSMail_executeActions_Action extends Vtiger_Action_Controller
 
 	public function process(\App\Request $request)
 	{
-		$mode = $request->get('mode');
+		$mode = $request->getMode();
 		$params = $request->get('params');
 		$instance = Vtiger_Record_Model::getCleanInstance('OSSMailView');
 

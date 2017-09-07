@@ -13,7 +13,7 @@ class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action
 
 	public function process(\App\Request $request)
 	{
-		$mode = $request->get('mode');
+		$mode = $request->getMode();
 		if (!empty($mode) && method_exists($this, "$mode")) {
 			$this->$mode($request);
 			return;

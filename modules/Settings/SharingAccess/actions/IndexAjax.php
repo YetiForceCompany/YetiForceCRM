@@ -19,7 +19,7 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Actio
 
 	public function process(\App\Request $request)
 	{
-		$mode = $request->get('mode');
+		$mode = $request->getMode();
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
 			return;
