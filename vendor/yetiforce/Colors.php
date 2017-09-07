@@ -51,14 +51,14 @@ class Colors
 	private static function generateOwners()
 	{
 		$css = '';
-		foreach (\App\Colors::getAllUserColor() as $item) {
+		foreach (Colors::getAllUserColor() as $item) {
 			if (ltrim($item['color'], '#')) {
 				$css .= '.ownerCBg_' . $item['id'] . ' { background: ' . $item['color'] . ' !important; }' . PHP_EOL;
 				$css .= '.ownerCT_' . $item['id'] . ' { color: ' . $item['color'] . ' !important; }' . PHP_EOL;
 				$css .= '.ownerCBr_' . $item['id'] . ' { border-color: ' . $item['color'] . ' !important; }' . PHP_EOL;
 			}
 		}
-		foreach (\App\Colors::getAllGroupColor() as $item) {
+		foreach (Colors::getAllGroupColor() as $item) {
 			if (ltrim($item['color'], '#')) {
 				$css .= '.ownerCBg_' . $item['id'] . ' { background: ' . $item['color'] . ' !important; }' . PHP_EOL;
 				$css .= '.ownerCT_' . $item['id'] . ' { color: ' . $item['color'] . ' !important; }' . PHP_EOL;
@@ -74,7 +74,7 @@ class Colors
 	private static function generateModules()
 	{
 		$css = '';
-		foreach (\App\Colors::getAllModuleColor() as $item) {
+		foreach (Colors::getAllModuleColor() as $item) {
 			if (ltrim($item['color'], '#')) {
 				$css .= '.modCrBr_' . $item['module'] . ' { border-color: ' . $item['color'] . '; }' . PHP_EOL;
 				$css .= '.modCBg_' . $item['module'] . ' { background: ' . $item['color'] . '; }' . PHP_EOL;
@@ -90,8 +90,8 @@ class Colors
 	private static function generatePicklists()
 	{
 		$css = '';
-		foreach (\App\Fields\Picklist::getModules() as $module) {
-			$fields = \App\Colors::getPicklistFieldsByModule($module['tabname']);
+		foreach (Fields\Picklist::getModules() as $module) {
+			$fields = Colors::getPicklistFieldsByModule($module['tabname']);
 			foreach ($fields as $field) {
 				$values = \App\Fields\Picklist::getValues($field->getName());
 				if ($values) {
@@ -120,7 +120,7 @@ class Colors
 	 */
 	private static function sanitizeValue($value)
 	{
-		return rtrim(preg_replace("/[^[:alnum:]]/u", '_', $value), '_');
+		return str_replace([' ', '-', '=', '+', '@', '*', '!', '#', '$', '%', '^', '&', '(', ')', '[', ']', '{', '}', ';', ':', "\'", '"', ',', '<', '.', '>', '/', '?', '\\', '|'], '_', $value);
 	}
 
 	/**
@@ -155,10 +155,10 @@ class Colors
 	 */
 	public static function updatePicklistValueColor($picklistId, $picklistValueId, $color)
 	{
-		$table = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['fieldid' => $picklistId])->scalar();
-		\App\Db::getInstance()->createCommand()->update('vtiger_' . $table, ['color' => ltrim($color, '#')], [\App\Fields\Picklist::getPickListId($table) => $picklistValueId])->execute();
-		\App\Cache::clear();
-		\App\Colors::generate('picklist');
+		$table = (new Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['fieldid' => $picklistId])->scalar();
+		Db::getInstance()->createCommand()->update('vtiger_' . $table, ['color' => ltrim($color, '#')], [Fields\Picklist::getPickListId($table) => $picklistValueId])->execute();
+		Cache::clear();
+		Colors::generate('picklist');
 	}
 
 	/**
@@ -167,8 +167,8 @@ class Colors
 	 */
 	public static function addPicklistColorColumn($fieldId)
 	{
-		$table = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['fieldid' => $fieldId])->scalar();
-		\App\Db::getInstance()->createCommand()->addColumn('vtiger_' . $table, 'color', 'string(25)')->execute();
+		$table = (new Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['fieldid' => $fieldId])->scalar();
+		Db::getInstance()->createCommand()->addColumn('vtiger_' . $table, 'color', 'string(25)')->execute();
 	}
 
 	/**
@@ -201,8 +201,8 @@ class Colors
 	 */
 	public static function updateUserColor($id, $color)
 	{
-		\App\Db::getInstance()->createCommand()->update('vtiger_users', ['cal_color' => $color,], ['id' => $id])->execute();
-		\App\Colors::generate('user');
+		Db::getInstance()->createCommand()->update('vtiger_users', ['cal_color' => $color,], ['id' => $id])->execute();
+		self::generate('user');
 	}
 
 	/**
@@ -221,8 +221,8 @@ class Colors
 	 */
 	public static function updateGroupColor($id, $color)
 	{
-		\App\Db::getInstance()->createCommand()->update('vtiger_groups', ['color' => $color,], ['groupid' => $id])->execute();
-		\App\Colors::generate('group');
+		Db::getInstance()->createCommand()->update('vtiger_groups', ['color' => $color,], ['groupid' => $id])->execute();
+		Colors::generate('group');
 	}
 
 	/**
@@ -255,9 +255,9 @@ class Colors
 	 */
 	public static function updateModuleColor($id, $color)
 	{
-		\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['color' => ltrim($color, '#')], ['tabid' => $id])->execute();
-		\App\Cache::clear();
-		\App\Colors::generate('module');
+		Db::getInstance()->createCommand()->update('vtiger_tab', ['color' => ltrim($color, '#')], ['tabid' => $id])->execute();
+		Cache::clear();
+		Colors::generate('module');
 	}
 
 	/**
@@ -271,14 +271,14 @@ class Colors
 	{
 		$colorActive = $status == 'true' ? 1 : 0;
 		if ($color === '') {
-			$color = \App\Colors::getRandomColor();
+			$color = Colors::getRandomColor();
 			$set = ['color' => ltrim($color, '#'), 'coloractive' => $colorActive];
 		} else {
 			$set = ['coloractive' => $colorActive];
 		}
-		\App\Db::getInstance()->createCommand()->update('vtiger_tab', $set, ['tabid' => $id])->execute();
-		\App\Cache::clear();
-		\App\Colors::generate('module');
+		Db::getInstance()->createCommand()->update('vtiger_tab', $set, ['tabid' => $id])->execute();
+		Cache::clear();
+		Colors::generate('module');
 		return $color;
 	}
 }
