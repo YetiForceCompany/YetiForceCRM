@@ -158,12 +158,6 @@ class Functions
 		return $moduleInfo ? $moduleInfo['tabid'] : NULL;
 	}
 
-	public static function getModuleName($id)
-	{
-		$moduleInfo = self::getModuleData($id);
-		return $moduleInfo ? $moduleInfo['name'] : NULL;
-	}
-
 	public static function getModuleOwner($name)
 	{
 		$moduleInfo = self::getModuleData($name);

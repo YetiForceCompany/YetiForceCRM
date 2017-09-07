@@ -13,6 +13,21 @@ class Module
 
 	protected static $moduleEntityCacheById = [];
 
+	/**
+	 * Cache for tabdata.php
+	 * @var array 
+	 */
+	protected static $tabdataCache;
+
+	/**
+	 * Init tabdataCache
+	 */
+	static public function init()
+	{
+		static::$tabdataCache = require 'user_privileges/tabdata.php';
+		static::$tabdataCache['tabName'] = array_flip(static::$tabdataCache['tabId']);
+	}
+
 	static public function getEntityInfo($mixed = false)
 	{
 		$entity = false;
@@ -79,32 +94,30 @@ class Module
 			static::$isModuleActiveCache[$moduleName] = true;
 			return true;
 		}
-		$tabPresence = static::getTabData('tabPresence');
 		$moduleId = static::getModuleId($moduleName);
-		$isActive = (isset($tabPresence[$moduleId]) && $tabPresence[$moduleId] == 0) ? true : false;
+		$isActive = (isset(static::$tabdataCache['tabPresence'][$moduleId]) && static::$tabdataCache['tabPresence'][$moduleId] == 0) ? true : false;
 		static::$isModuleActiveCache[$moduleName] = $isActive;
 		return $isActive;
 	}
 
-	protected static $tabdataCache = false;
-
-	static public function getTabData($type)
-	{
-		if (static::$tabdataCache === false) {
-			static::$tabdataCache = require 'user_privileges/tabdata.php';
-		}
-		return isset(static::$tabdataCache[$type]) ? static::$tabdataCache[$type] : false;
-	}
-
+	/**
+	 * Get module id by module name
+	 * @param string $name
+	 * @return int|bool
+	 */
 	public static function getModuleId($name)
 	{
-		$tabId = static::getTabData('tabId');
-		return isset($tabId[$name]) ? $tabId[$name] : false;
+		return isset(static::$tabdataCache['tabId'][$name]) ? static::$tabdataCache['tabId'][$name] : false;
 	}
 
+	/**
+	 * Get module nane by module id
+	 * @param int $tabId
+	 * @return string|bool
+	 */
 	public static function getModuleName($tabId)
 	{
-		return \vtlib\Functions::getModuleName($tabId);
+		return isset(static::$tabdataCache['tabName'][$tabId]) ? static::$tabdataCache['tabName'][$tabId] : false;
 	}
 
 	/**
@@ -170,7 +183,7 @@ class Module
 		if (Cache::has('getActionId', $action)) {
 			return Cache::get('getActionId', $action);
 		}
-		$actionIds = Module::getTabData('actionId');
+		$actionIds = static::$tabdataCache['actionId'];
 		if (isset($actionIds[$action])) {
 			$actionId = $actionIds[$action];
 		}
@@ -181,3 +194,5 @@ class Module
 		return $actionId;
 	}
 }
+
+Module::init();
