@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+	<input type="hidden" name="relatedModule" value="Calendar" />
 	{assign var=MODULE_NAME value="Calendar"}
 	{if count($ACTIVITIES) neq '0'}
 		{if $PAGE_NUMBER eq 1}

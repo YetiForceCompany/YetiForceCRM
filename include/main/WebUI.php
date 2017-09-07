@@ -165,7 +165,8 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$handlerClass = Vtiger_Loader::getComponentClassName($componentType, $componentName, $qualifiedModuleName);
 			$handler = new $handlerClass();
 			if (!$handler) {
-				throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
+				\App\Log::error("HandlerClass: $handlerClass", 'Loader');
+				throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND', 405);
 			}
 			vglobal('currentModule', $module);
 			if (AppConfig::main('csrfProtection') && AppConfig::main('systemMode') !== 'demo') { // Ensure handler validates the request
@@ -230,14 +231,16 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		if (empty($moduleModel)) {
-			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
+			\App\Log::error("HandlerModule: $moduleName", 'Loader');
+			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND', 405);
 		}
 		$this->userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if ($this->userPrivilegesModel->hasModulePermission($moduleName)) {
 			$handler->checkPermission($request);
 			return true;
 		}
-		throw new \App\Exceptions\NoPermitted('LBL_NOT_ACCESSIBLE');
+		\App\Log::error("No permissions to the module: $moduleName", 'NoPermitted');
+		throw new \App\Exceptions\NoPermitted('LBL_NOT_ACCESSIBLE', 403);
 	}
 
 	/**

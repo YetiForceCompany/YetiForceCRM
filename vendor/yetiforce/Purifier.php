@@ -268,7 +268,7 @@ class Purifier
 		} else {
 			switch ($type) {
 				case 1: // only word
-					$value = preg_match("/^[_a-zA-Z]+$/", $input) ? $input : false;
+					$value = preg_match('/^[_a-zA-Z]+$/', $input) ? $input : false;
 					break;
 				default:
 					$value = Purifier::purify($value);
