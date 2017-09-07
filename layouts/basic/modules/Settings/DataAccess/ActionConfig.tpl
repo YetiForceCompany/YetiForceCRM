@@ -19,7 +19,7 @@
 				{include file=\App\Layout::getTemplatePath($TPL, $ACTIONMOD)}
 				<br /><br />
 				<div class="pull-right paddingTop20 paddingBottom20">
-					<a class="btn btn-danger backStep" type="button" href="index.php?module={$MODULE_NAME}&parent=Settings&view=StepThird&tpl_id={$TPL_ID}&base_module={$BASE_MODULE}&s=false">{\App\Language::translate('BACK', $QUALIFIED_MODULE)}</a>&nbsp;&nbsp;
+					<a class="btn btn-danger backStep" type="button" href="index.php?module={$MODULE_NAME}&parent=Settings&view=Step3&tpl_id={$TPL_ID}&base_module={$BASE_MODULE}&s=false">{\App\Language::translate('BACK', $QUALIFIED_MODULE)}</a>&nbsp;&nbsp;
 					<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('NEXT', $QUALIFIED_MODULE)}</strong></button>
 					<a class="cancelLink btn btn-warning" type="reset" href="index.php?module=DataAccess&parent=Settings&view=Index">{\App\Language::translate('CANCEL', $QUALIFIED_MODULE)}</a>
 				</div>

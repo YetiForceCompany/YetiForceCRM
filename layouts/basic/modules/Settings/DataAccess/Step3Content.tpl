@@ -8,7 +8,7 @@
 		{include file=\App\Layout::getTemplatePath('ListAction.tpl', $QUALIFIED_MODULE)}
 		<br />
 		<div class="pull-right">
-			<a class="btn btn-danger backStep" href="index.php?module=DataAccess&parent=Settings&view=StepSecond&tpl_id={$TPL_ID}&base_module={$BASE_MODULE}"><strong>{\App\Language::translate('BACK', $QUALIFIED_MODULE)}</strong></a>
+			<a class="btn btn-danger backStep" href="index.php?module=DataAccess&parent=Settings&view=Step2&tpl_id={$TPL_ID}&base_module={$BASE_MODULE}"><strong>{\App\Language::translate('BACK', $QUALIFIED_MODULE)}</strong></a>
 			<a class="btn btn-success" href="index.php?module=DataAccess&parent=Settings&view=Index">{\App\Language::translate('NEXT', $QUALIFIED_MODULE)}</a>
 			<a class="cancelLink btn btn-warning" href="index.php?module=DataAccess&parent=Settings&view=Index">{\App\Language::translate('CANCEL', $QUALIFIED_MODULE)}</a>
 		</div>

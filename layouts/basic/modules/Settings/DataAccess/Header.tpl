@@ -6,19 +6,19 @@
 </div>
 <div id="breadcrumb">
 	<ul class="crumbs marginLeftZero">
-		<li class="first step {if $STEP eq '1'}active{/if}" style="z-index:9" id="StepFirst">
+		<li class="first step {if $STEP eq '1'}active{/if}" style="z-index:9" id="Step1">
 			<a>
 				<span class="stepNum">1</span>
 				<span class="stepText">{\App\Language::translate('LBL_FILL_BASE_DATA',$QUALIFIED_MODULE)}</span>
 			</a>
 		</li>
-		<li style="z-index:8" class="step {if $STEP eq '2'}active{/if}" id="StepSecond">
+		<li style="z-index:8" class="step {if $STEP eq '2'}active{/if}" id="Step2">
 			<a>
 				<span class="stepNum">2</span>
 				<span class="stepText">{\App\Language::translate('ADD_CONDITIONS',$QUALIFIED_MODULE)}</span>
 			</a>
 		</li>
-		<li style="z-index:8" class="step {if $STEP eq '3'}active{/if}" id="StepThird">
+		<li style="z-index:8" class="step {if $STEP eq '3'}active{/if}" id="Step3">
 			<a>
 				<span class="stepNum">3</span>
 				<span class="stepText">{\App\Language::translate('ADD_ACTIONS',$QUALIFIED_MODULE)}</span>

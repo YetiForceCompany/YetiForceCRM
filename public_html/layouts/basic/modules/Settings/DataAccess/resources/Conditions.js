@@ -13,9 +13,9 @@ function DataAccessConditions() {
 
 				Vtiger_Helper_Js.showPnotify(params);
 			} else if (jQuery('[name="base_module"]').val() == 'All') {
-				jQuery('[name="view"]').val('StepThird');
+				jQuery('[name="view"]').val('Step3');
 			} else
-				jQuery('[name="view"]').val('StepSecond');
+				jQuery('[name="view"]').val('Step2');
 		});
 	};
 	this.addCondiion = function () {

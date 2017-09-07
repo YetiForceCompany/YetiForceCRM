@@ -5,7 +5,7 @@
         <div id="step">
 			{include file=\App\Layout::getTemplatePath('Step2Content.tpl', $QUALIFIED_MODULE)}
         </div>
-        <input type="hidden" name="next_step" value="StepThird" />
+        <input type="hidden" name="next_step" value="Step3" />
         <div class="clearfix"></div>
     </div>
 {/strip}
