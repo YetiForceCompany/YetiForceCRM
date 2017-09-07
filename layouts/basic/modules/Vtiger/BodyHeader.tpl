@@ -29,7 +29,7 @@
 													{/if}
 													<div class="col-xs-4{if $count % 3 != 2} paddingRightZero{/if}">
 														<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{\App\Language::translate($singularLabel,$NAME)}">
-															<span class="userIcon-{$NAME}"></span><span>{\App\Language::translate($singularLabel,$NAME)}</span>
+															<span class="modCT_{$NAME} userIcon-{$NAME}"></span><span>{\App\Language::translate($singularLabel,$NAME)}</span>
 														</a>
 													</div>
 													{if $count % 3 == 2}
