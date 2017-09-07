@@ -227,7 +227,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		$params = $field->getFieldParams();
 		$fieldInfo = \App\Field::getFieldInfo($params['field']);
 		if (in_array($fieldInfo['uitype'], [15, 16, 33])) {
-			$relModuleName = \vtlib\Functions::getModuleName($fieldInfo['tabid']);
+			$relModuleName = \App\Module::getModuleName($fieldInfo['tabid']);
 			$values = array_filter(explode(self::COMMA, $value));
 			foreach ($values as &$value) {
 				$value = \App\Language::translate($value, $relModuleName);

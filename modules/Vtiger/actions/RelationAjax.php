@@ -74,7 +74,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		$sourceRecordId = $request->getInteger('src_record');
 		$relatedModule = $request->get('related_module');
 		if (is_numeric($relatedModule)) {
-			$relatedModule = vtlib\Functions::getModuleName($relatedModule);
+			$relatedModule = \App\Module::getModuleName($relatedModule);
 		}
 		$relatedRecordIdList = $request->get('related_record_list');
 

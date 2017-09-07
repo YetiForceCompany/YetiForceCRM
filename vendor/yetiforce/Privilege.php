@@ -371,7 +371,7 @@ class Privilege
 			foreach ($relatedModuleArray as $parModId) {
 				$parRecordOwner = PrivilegeUtil::getParentRecordOwner($tabId, $parModId, $recordId);
 				if (sizeof($parRecordOwner) > 0) {
-					$parModName = \vtlib\Functions::getModuleName($parModId);
+					$parModName = Module::getModuleName($parModId);
 					if (isset($sharingPrivileges['permission'][$parModName . '_' . $moduleName])) {
 						$readRelated = $sharingPrivileges['permission'][$parModName . '_' . $moduleName]['read'];
 
@@ -458,7 +458,7 @@ class Privilege
 			foreach ($relatedModuleArray as $parModId) {
 				$parRecordOwner = PrivilegeUtil::getParentRecordOwner($tabId, $parModId, $recordId);
 				if (!empty($parRecordOwner)) {
-					$parModName = \vtlib\Functions::getModuleName($parModId);
+					$parModName = Module::getModuleName($parModId);
 					if (isset($sharingPrivileges['permission'][$parModName . '_' . $moduleName])) {
 						$writeRelated = $sharingPrivileges['permission'][$parModName . '_' . $moduleName]['write'];
 						$relOwnerType = '';
