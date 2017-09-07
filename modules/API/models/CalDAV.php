@@ -676,13 +676,8 @@ class API_CalDAV_Model
 	protected function addChange($objectUri, $operation)
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
-		$selectQuery = (new \App\Db\Query())->select([$objectUri, 'synctoken', $operation])->from('dav_calendars')->where(['id' => $this->calendarId]);
-		$insertData = [];
-		$dataReader = $selectQuery->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$insertData[] = [$row[$objectUri], $row['synctoken'], $this->calendarId, $row[$operation]];
-		}
-		$dbCommand->batchInsert('dav_calendarchanges', ['uri', 'synctoken', 'calendarid', 'operation'], $insertData)->execute();
+		$syncToken = (new \App\Db\Query())->select(['synctoken'])->from('dav_calendars')->where(['id' => $this->calendarId])->scalar();
+		$dbCommand->insert('dav_calendarchanges', ['uri' => $objectUri, 'synctoken' => $syncToken, 'calendarid' => $this->calendarId, 'operation' => $operation])->execute();
 		$dbCommand->update('dav_calendars', ['synctoken' => new \yii\db\Expression('synctoken + 1')], ['id' => $this->calendarId])->execute();
 	}
 
