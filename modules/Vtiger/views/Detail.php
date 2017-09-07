@@ -718,7 +718,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$sortImage = 'glyphicon glyphicon-chevron-up';
 		}
 		if (is_numeric($relatedModuleName)) {
-			$relatedModuleName = vtlib\Functions::getModuleName($relatedModuleName);
+			$relatedModuleName = \App\Module::getModuleName($relatedModuleName);
 		}
 		if (empty($orderBy) && empty($sortOrder)) {
 			$relatedInstance = CRMEntity::getInstance($relatedModuleName);

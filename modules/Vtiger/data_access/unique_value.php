@@ -61,7 +61,7 @@ Class DataAccess_unique_value
 		if ($value1 != '') {
 			foreach ($wheres1 as $where) {
 				$where = explode('=', $where);
-				$DestModuleName = vtlib\Functions::getModuleName($where[2]);
+				$DestModuleName = \App\Module::getModuleName($where[2]);
 				$ModuleInstance = CRMEntity::getInstance($DestModuleName);
 				$tab_name_index = $ModuleInstance->tab_name_index;
 				$index = $tab_name_index[$where[0]];
@@ -102,7 +102,7 @@ Class DataAccess_unique_value
 		if ($value2 != '') {
 			foreach ($wheres2 as $where) {
 				$where = explode('=', $where);
-				$DestModuleName = vtlib\Functions::getModuleName($where[2]);
+				$DestModuleName = \App\Module::getModuleName($where[2]);
 				$ModuleInstance = CRMEntity::getInstance($DestModuleName);
 				$tab_name_index = $ModuleInstance->tab_name_index;
 				$index = $tab_name_index[$where[0]];

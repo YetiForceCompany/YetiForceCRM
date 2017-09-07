@@ -21,8 +21,8 @@ class PrivilegeUtil
 	{
 		\App\Log::trace("Entering getParentRecordOwner($tabid,$parModId,$recordId) method ...");
 		$parentRecOwner = [];
-		$parentTabName = \vtlib\Functions::getModuleName($parModId);
-		$relTabName = \vtlib\Functions::getModuleName($tabid);
+		$parentTabName = Module::getModuleName($parModId);
+		$relTabName = Module::getModuleName($tabid);
 		$fnName = 'get' . $relTabName . 'Related' . $parentTabName;
 		$entId = static::$fnName($recordId);
 		if ($entId != '') {

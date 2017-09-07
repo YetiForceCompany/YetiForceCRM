@@ -208,7 +208,7 @@ class Vtiger_DashBoard_Model extends \App\Base
 		while ($row = $dataReader->read()) {
 			$tabId = $row['module'] ? $row['module'] : $row['tabid'];
 			if (!isset($modules[$tabId])) {
-				$modules[$tabId] = vtlib\Functions::getModuleName($tabId);
+				$modules[$tabId] = \App\Module::getModuleName($tabId);
 			}
 		}
 		ksort($modules);

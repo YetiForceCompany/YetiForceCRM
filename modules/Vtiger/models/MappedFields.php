@@ -141,7 +141,7 @@ class Vtiger_MappedFields_Model extends \App\Base
 			return false;
 		}
 
-		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', \vtlib\Functions::getModuleName($tabId));
+		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', \App\Module::getModuleName($tabId));
 		$mf = new $handlerClass();
 		$mf->setData($row);
 		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
@@ -226,12 +226,12 @@ class Vtiger_MappedFields_Model extends \App\Base
 
 	public function getName()
 	{
-		return vtlib\Functions::getModuleName($this->get('tabid'));
+		return \App\Module::getModuleName($this->get('tabid'));
 	}
 
 	public function getRelatedName()
 	{
-		return vtlib\Functions::getModuleName($this->get('reltabid'));
+		return \App\Module::getModuleName($this->get('reltabid'));
 	}
 
 	/**
