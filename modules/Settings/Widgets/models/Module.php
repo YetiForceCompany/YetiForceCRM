@@ -69,7 +69,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getType($module = false)
 	{
-		$moduleName = vtlib\Functions::getModuleName($module);
+		$moduleName = \App\Module::getModuleName($module);
 
 		$dir = 'modules/Vtiger/widgets/';
 		$moduleModel = Vtiger_Module_Model::getInstance($module);

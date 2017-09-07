@@ -38,7 +38,7 @@ class Settings_MappedFields_ExportTemplate_Action extends Settings_Vtiger_Index_
 				$name->appendChild($xml->createCDATASection(html_entity_decode($moduleInstance->getRecord()->getRaw($field))));
 			} else {
 				if (in_array($field, $changeNames)) {
-					$value = vtlib\Functions::getModuleName($moduleInstance->get($field));
+					$value = \App\Module::getModuleName($moduleInstance->get($field));
 				} else {
 					$value = $moduleInstance->get($field);
 				}

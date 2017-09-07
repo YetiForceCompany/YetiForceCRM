@@ -9,7 +9,7 @@
 						<div class="widgetTitle textOverflowEllipsis">
 							<h4 class="modCT_{$WIDGET['label']}">
 								{if $WIDGET['label'] eq ''}
-									{\App\Language::translate($RELATED_MODULE_NAME,$RELATED_MODULE_NAME)}
+                  {\App\Language::translate($RELATED_MODULE_NAME,$RELATED_MODULE_NAME)}
 								{else}
 									{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}
 								{/if}

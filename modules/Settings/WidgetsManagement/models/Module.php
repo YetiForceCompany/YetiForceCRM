@@ -391,7 +391,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		while ($row = $dataReader->read()) {
 			$blockId = $row['id'];
 			$tabId = $row['tabid'];
-			$moduleName = vtlib\Functions::getModuleName($tabId);
+			$moduleName = \App\Module::getModuleName($tabId);
 			$data[$moduleName][$blockId]['name'] = $row['rolename'];
 			$data[$moduleName][$blockId]['code'] = $row['authorized'];
 		}
