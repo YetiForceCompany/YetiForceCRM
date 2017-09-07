@@ -108,13 +108,13 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			vglobal('current_language', $currentLanguage);
 			$module = $request->getModule();
 			$qualifiedModuleName = $request->getModule(false);
-			if ($currentUser && $qualifiedModuleName) {
-				$moduleLanguageStrings = Vtiger_Language_Handler::getModuleStringsFromFile($currentLanguage, $qualifiedModuleName);
-				if (isset($moduleLanguageStrings['languageStrings'])) {
-					vglobal('mod_strings', $moduleLanguageStrings['languageStrings']);
-				}
-			}
 			if ($currentUser) {
+				if ($qualifiedModuleName) {
+					$moduleLanguageStrings = Vtiger_Language_Handler::getModuleStringsFromFile($currentLanguage, $qualifiedModuleName);
+					if (isset($moduleLanguageStrings['languageStrings'])) {
+						vglobal('mod_strings', $moduleLanguageStrings['languageStrings']);
+					}
+				}
 				$moduleLanguageStrings = Vtiger_Language_Handler::getModuleStringsFromFile($currentLanguage);
 				if (isset($moduleLanguageStrings['languageStrings'])) {
 					vglobal('app_strings', $moduleLanguageStrings['languageStrings']);
@@ -157,17 +157,20 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				}
 				$componentName = $view;
 			}
+
 			\App\Config::$processName = $componentName;
 			\App\Config::$processType = $componentType;
-			if ($qualifiedModuleName && stripos($qualifiedModuleName, 'Settings') === 0 && empty($currentUser)) {
+			if ($qualifiedModuleName && stripos($qualifiedModuleName, 'Settings') === 0 && empty($this->userModel)) {
 				header('Location: ' . AppConfig::main('site_URL'), true);
 			}
+
 			$handlerClass = Vtiger_Loader::getComponentClassName($componentType, $componentName, $qualifiedModuleName);
 			$handler = new $handlerClass();
 			if (!$handler) {
 				\App\Log::error("HandlerClass: $handlerClass", 'Loader');
 				throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND', 405);
 			}
+
 			vglobal('currentModule', $module);
 			if (AppConfig::main('csrfProtection') && AppConfig::main('systemMode') !== 'demo') { // Ensure handler validates the request
 				$handler->validateRequest($request);
