@@ -237,7 +237,6 @@ class Vtiger_DetailView_Model extends \App\Base
 		$parentModuleModel = $this->getModule();
 		$this->getWidgets();
 		$relatedLinks = [];
-
 		if ($parentModuleModel->isSummaryViewSupported() && $this->widgetsList) {
 			$relatedLinks = array(array(
 					'linktype' => 'DETAILVIEWTAB',
@@ -257,7 +256,6 @@ class Vtiger_DetailView_Model extends \App\Base
 			'linkicon' => '',
 			'related' => 'Details'
 		);
-
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
 		if ($parentModuleModel->isCommentEnabled() && $modCommentsModel->isPermitted('DetailView')) {
 			$relatedLinks[] = array(
@@ -269,7 +267,6 @@ class Vtiger_DetailView_Model extends \App\Base
 				'countRelated' => AppConfig::relation('SHOW_RECORDS_COUNT')
 			);
 		}
-
 		if ($parentModuleModel->isTrackingEnabled()) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
@@ -281,9 +278,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				'badgeClass' => 'bgDanger'
 			];
 		}
-
 		$relationModels = $parentModuleModel->getRelations();
-
 		foreach ($relationModels as $relation) {
 			$link = array(
 				'linktype' => 'DETAILVIEWRELATED',
