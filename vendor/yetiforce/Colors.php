@@ -53,16 +53,16 @@ class Colors
 		$css = '';
 		foreach (\App\Colors::getAllUserColor() as $item) {
 			if (ltrim($item['color'], '#')) {
-				$css .= '.ownerCBg_' . $item['id'] . ' { background: ' . $item['color'] . '; }' . PHP_EOL;
-				$css .= '.ownerCT_' . $item['id'] . ' { color: ' . $item['color'] . '; }' . PHP_EOL;
-				$css .= '.ownerCBr_' . $item['id'] . ' { border-color: ' . $item['color'] . '; }' . PHP_EOL;
+				$css .= '.ownerCBg_' . $item['id'] . ' { background: ' . $item['color'] . ' !important; }' . PHP_EOL;
+				$css .= '.ownerCT_' . $item['id'] . ' { color: ' . $item['color'] . ' !important; }' . PHP_EOL;
+				$css .= '.ownerCBr_' . $item['id'] . ' { border-color: ' . $item['color'] . ' !important; }' . PHP_EOL;
 			}
 		}
 		foreach (\App\Colors::getAllGroupColor() as $item) {
 			if (ltrim($item['color'], '#')) {
-				$css .= '.ownerCBg_' . $item['id'] . ' { background: ' . $item['color'] . '; }' . PHP_EOL;
-				$css .= '.ownerCT_' . $item['id'] . ' { color: ' . $item['color'] . '; }' . PHP_EOL;
-				$css .= '.ownerCBr_' . $item['id'] . ' { border-color: ' . $item['color'] . '; }' . PHP_EOL;
+				$css .= '.ownerCBg_' . $item['id'] . ' { background: ' . $item['color'] . ' !important; }' . PHP_EOL;
+				$css .= '.ownerCT_' . $item['id'] . ' { color: ' . $item['color'] . ' !important; }' . PHP_EOL;
+				$css .= '.ownerCBr_' . $item['id'] . ' { border-color: ' . $item['color'] . ' !important; }' . PHP_EOL;
 			}
 		}
 		file_put_contents(ROOT_DIRECTORY . '/public_html/layouts/resources/colors/owners.css', $css);
@@ -102,9 +102,9 @@ class Colors
 								if (strpos($item['color'], '#') === false) {
 									$item['color'] = '#' . $item['color'];
 								}
-								$css .= '.picklistCBr_' . $module['tabname'] . '_' . self::sanitizeValue($field->getName()) . '_' . self::sanitizeValue($item['picklistValue']) . ' { border-color: ' . $item['color'] . '; }' . PHP_EOL;
-								$css .= '.picklistCBg_' . $module['tabname'] . '_' . self::sanitizeValue($field->getName()) . '_' . self::sanitizeValue($item['picklistValue']) . ' { background: ' . $item['color'] . '; }' . PHP_EOL;
-								$css .= '.picklistCT_' . $module['tabname'] . '_' . self::sanitizeValue($field->getName()) . '_' . self::sanitizeValue($item['picklistValue']) . ' { color: ' . $item['color'] . '; }' . PHP_EOL;
+								$css .= '.picklistCBr_' . $module['tabname'] . '_' . self::sanitizeValue($field->getName()) . '_' . self::sanitizeValue($item['picklistValue']) . ' { border-color: ' . $item['color'] . ' !important; }' . PHP_EOL;
+								$css .= '.picklistCBg_' . $module['tabname'] . '_' . self::sanitizeValue($field->getName()) . '_' . self::sanitizeValue($item['picklistValue']) . ' { background: ' . $item['color'] . ' !important; }' . PHP_EOL;
+								$css .= '.picklistCT_' . $module['tabname'] . '_' . self::sanitizeValue($field->getName()) . '_' . self::sanitizeValue($item['picklistValue']) . ' { color: ' . $item['color'] . ' !important; }' . PHP_EOL;
 							}
 						}
 					}
@@ -131,7 +131,6 @@ class Colors
 		$css = '';
 		foreach (\Settings_Calendar_Module_Model::getCalendarConfig('colors') as $item) {
 			if (ltrim($item['value'], '#')) {
-				$css .= '.calCol_' . $item['label'] . ' { border: 1px solid ' . $item['value'] . '; }' . PHP_EOL;
 				$css .= '.listCol_' . $item['label'] . ' { background: ' . $item['value'] . '; }' . PHP_EOL;
 			}
 		}

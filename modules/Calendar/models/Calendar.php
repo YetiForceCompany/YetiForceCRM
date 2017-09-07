@@ -229,7 +229,7 @@ class Calendar_Calendar_Model extends App\Base
 			$hours = vtlib\Functions::getDateTimeHoursDiff($item['start'], $item['end']);
 			$item['hours'] = vtlib\Functions::decimalTimeFormat($hours)['short'];
 			$item['allDay'] = $record['allday'] == 1 ? true : false;
-			$item['className'] = ' ownerCBg_' . $record['smownerid'] . ' picklistCBg_OSSTimeControl_timecontrol_type_' . $activitytype;
+			$item['className'] = ' ownerCBg_' . $record['smownerid'] . ' picklistCBr_Calendar_activitytype_' . $activitytype;
 			$return[] = $item;
 		}
 		return $return;

@@ -411,7 +411,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		eventObject.state = calendarDetails.state.value;
 		eventObject.vis = calendarDetails.visibility.value;
 		eventObject.sta = calendarDetails.activitystatus.value;
-		eventObject.className = 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBg_OSSTimeControl_timecontrol_type_' + calendarDetails.activitytype.value;
+		eventObject.className = 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBr_Calendar_activitytype_' + calendarDetails.activitytype.value;
 		this.getCalendarView().fullCalendar('renderEvent', eventObject);
 	},
 	getCalendarCreateView: function () {
