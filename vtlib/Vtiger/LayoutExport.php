@@ -53,7 +53,7 @@ class LayoutExport extends Package
 		$this->__initExport($layoutName);
 
 		// Call layout export function
-		$this->export_Layout($layoutName);
+		$this->exportLayout($layoutName);
 
 		$this->__finishExport();
 
@@ -87,7 +87,7 @@ class LayoutExport extends Package
 	 * Export Layout Handler
 	 * @access private
 	 */
-	public function export_Layout($layoutName)
+	public function exportLayout($layoutName)
 	{
 		$adb = \PearDatabase::getInstance();
 		$query = sprintf('SELECT * FROM %s WHERE name = ?', self::TABLENAME);

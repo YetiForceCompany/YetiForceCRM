@@ -8,7 +8,7 @@ namespace App\Exceptions;
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class NoPermittedToApi extends \Exception
+class NoPermittedToApi extends Security
 {
 
 	public function __construct($message = '', $code = 0, Exception $previous = null)

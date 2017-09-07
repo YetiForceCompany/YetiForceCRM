@@ -233,15 +233,6 @@ class vt_DateTime
 	}
 
 	/**
-	 * function to get month name in short
-	 * return string $this->month_inshort  - month name (eg: Jan)
-	 */
-	public function getmonthName_inshort()
-	{
-		return $this->month_inshort;
-	}
-
-	/**
 	 * function to get month
 	 * return string $this->month  - month name
 	 */
@@ -264,33 +255,6 @@ class vt_DateTime
 	public function getDaysInMonth()
 	{
 		return $this->daysinmonth;
-	}
-
-	/**
-	 * function to get month name
-	 * return string $this->month_inlong  - month name
-	 */
-	public function getmonthName()
-	{
-		return $this->month_inlong;
-	}
-
-	/**
-	 * function to get day of week
-	 * return string $this->dayofweek_inlong  - day of week
-	 */
-	public function getdayofWeek()
-	{
-		return $this->dayofweek_inlong;
-	}
-
-	/**
-	 * function to get day of week in short
-	 * return string $this->dayofweek_inshort  - day of week (eg: Mon)
-	 */
-	public function getdayofWeek_inshort()
-	{
-		return $this->dayofweek_inshort;
 	}
 
 	/**
@@ -365,44 +329,10 @@ class vt_DateTime
 	 * function to get mysql formatted date
 	 * return formatted date in string format
 	 */
-	public function get_formatted_date()
+	public function getFormattedDate()
 	{
 		$date = $this->year . "-" . $this->z_month . "-" . $this->z_day;
 		return DateTimeField::convertToUserFormat($date);
-	}
-
-	/**
-	 * Function to get formatted date in users time zone
-	 * @return <Date>
-	 */
-	public function get_userTimezone_formatted_date()
-	{
-		$dateTimeInUserFormat = DateTimeField::convertToUserTimeZone($this->get_DB_formatted_date() . ' ' . $this->get_formatted_time());
-		return $dateTimeInUserFormat->format('Y-m-d');
-	}
-
-	/**
-	 *
-	 * @return Date
-	 */
-	public function get_DB_formatted_date()
-	{
-		return $this->year . "-" . $this->z_month . "-" . $this->z_day;
-	}
-
-	/**
-	 * function to get mysql formatted time
-	 * return formatted time in string format
-	 */
-	public function get_formatted_time()
-	{
-		$hour = $this->z_hour;
-		$min = $this->minute;
-		if (empty($hour))
-			$hour = '00';
-		if (empty($min))
-			$min = '00';
-		return $hour . ':' . $min;
 	}
 
 	/**
@@ -410,9 +340,9 @@ class vt_DateTime
 	 * @param string $mode  - 'increment' or 'decrement'
 	 * return vt_DateTime obj
 	 */
-	public function get_changed_day($mode)
+	public function getChangedDay($mode)
 	{
-		if ($mode == 'increment')
+		if ($mode === 'increment')
 			$day = $this->day + 1;
 		else
 			$day = $this->day - 1;
@@ -428,10 +358,10 @@ class vt_DateTime
 	 * @param string $mode  - 'increment' or 'decrement'
 	 * return vt_DateTime obj
 	 */
-	public function get_first_day_of_changed_week($mode)
+	public function getFirstDayOfChangedWeek($mode)
 	{
 		$first_day = $this->getThisweekDaysbyIndex(1);
-		if ($mode == 'increment')
+		if ($mode === 'increment')
 			$day = $first_day->day + 7;
 		else
 			$day = $first_day->day - 7;
@@ -447,7 +377,7 @@ class vt_DateTime
 	 * @param string $mode  - 'increment' or 'decrement'
 	 * return vt_DateTime obj
 	 */
-	public function get_first_day_of_changed_month($mode)
+	public function getFirstDayOfChangedMonth($mode)
 	{
 		$tmpDate['day'] = $this->day;
 		$tmpDate['month'] = $this->month;
@@ -459,7 +389,7 @@ class vt_DateTime
 			$tmpDate['day'] = $arr[2];
 		}
 
-		if ($mode == 'increment') {
+		if ($mode === 'increment') {
 			$month = $tmpDate['month'] + 1;
 			$year = $tmpDate['year'];
 		} else {
@@ -485,9 +415,9 @@ class vt_DateTime
 	 * @param string $mode  - 'increment' or 'decrement'
 	 * return vt_DateTime obj
 	 */
-	public function get_first_day_of_changed_year($mode)
+	public function getFirstDayOfChangedYear($mode)
 	{
-		if ($mode == 'increment') {
+		if ($mode === 'increment') {
 			$year = $this->year + 1;
 		} else {
 			$year = $this->year - 1;
@@ -503,22 +433,22 @@ class vt_DateTime
 	 * function to get date string
 	 * return date string
 	 */
-	public function get_date_str()
+	public function getDateStr()
 	{
 		$array = [];
 		if (isset($this->hour) && $this->hour != '') {
-			array_push($array, "hour=" . $this->hour);
+			array_push($array, 'hour=' . $this->hour);
 		}
 		if (isset($this->day) && $this->day != '') {
-			array_push($array, "day=" . $this->day);
+			array_push($array, 'day=' . $this->day);
 		}
 		if (isset($this->month) && $this->month) {
-			array_push($array, "month=" . $this->month);
+			array_push($array, 'month=' . $this->month);
 		}
 		if (isset($this->year) && $this->year != '') {
-			array_push($array, "year=" . $this->year);
+			array_push($array, 'year=' . $this->year);
 		}
-		return ("&" . implode('&', $array));
+		return ('&' . implode('&', $array));
 	}
 
 	/**

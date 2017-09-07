@@ -64,25 +64,6 @@ class Products extends CRMEntity
 	// Josh added for importing and exporting -added in patch2
 	public $unit_price;
 
-	/** 	function used to get the number of vendors which are related to the product
-	 * 	@param int $id - product id
-	 * 	@return int number of rows - return the number of products which do not have relationship with vendor
-	 */
-	public function product_novendor()
-	{
-
-		\App\Log::trace("Entering product_novendor() method ...");
-		$query = "SELECT vtiger_products.productname, vtiger_crmentity.deleted
-			FROM vtiger_products
-			INNER JOIN vtiger_crmentity
-				ON vtiger_crmentity.crmid = vtiger_products.productid
-			WHERE vtiger_crmentity.deleted = 0
-			AND vtiger_products.vendor_id is NULL";
-		$result = $this->db->pquery($query, []);
-		\App\Log::trace("Exiting product_novendor method ...");
-		return $this->db->num_rows($result);
-	}
-
 	/** 	function used to get the export query for product
 	 * 	@param reference $where - reference of the where variable which will be added with the query
 	 * 	@return string $query - return the query which will give the list of products to export
@@ -119,26 +100,6 @@ class Products extends CRMEntity
 
 		\App\Log::trace("Exiting create_export_query method ...");
 		return $query;
-	}
-
-	/** Function to check if the product is parent of any other product
-	 */
-	public function isparent_check()
-	{
-		$adb = PearDatabase::getInstance();
-		$isparent_query = $adb->pquery(getListQuery("Products") . " && (vtiger_products.productid IN (SELECT productid from vtiger_seproductsrel WHERE vtiger_seproductsrel.productid = ? && vtiger_seproductsrel.setype='Products'))", array($this->id));
-		$isparent = $adb->num_rows($isparent_query);
-		return $isparent;
-	}
-
-	/** Function to check if the product is member of other product
-	 */
-	public function ismember_check()
-	{
-		$adb = PearDatabase::getInstance();
-		$ismember_query = $adb->pquery(getListQuery("Products") . " && (vtiger_products.productid IN (SELECT crmid from vtiger_seproductsrel WHERE vtiger_seproductsrel.crmid = ? && vtiger_seproductsrel.setype='Products'))", array($this->id));
-		$ismember = $adb->num_rows($ismember_query);
-		return $ismember;
 	}
 
 	/**

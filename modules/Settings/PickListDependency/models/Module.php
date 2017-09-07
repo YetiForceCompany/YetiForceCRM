@@ -40,11 +40,6 @@ class Settings_PickListDependency_Module_Model extends Settings_Vtiger_Module_Mo
 		return false;
 	}
 
-	public static function getAvailablePicklists($module)
-	{
-		return Vtiger_DependencyPicklist::getAvailablePicklists($module);
-	}
-
 	public static function getPicklistSupportedModules()
 	{
 		$query = (new \App\Db\Query)->select(['vtiger_field.tabid', 'vtiger_tab.tablabel', 'tabname' => 'vtiger_tab.name'])->from('vtiger_field')

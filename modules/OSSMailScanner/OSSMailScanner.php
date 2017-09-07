@@ -21,7 +21,7 @@ class OSSMailScanner
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		if ($eventType === 'module.postinstall') {
-			$this->turn_on($moduleName);
+			$this->turnOn($moduleName);
 			$dbCommand->update('vtiger_tab', ['customized' => 0], ['name' => 'OSSMailScanner'])->execute();
 			$dbCommand->insert('vtiger_ossmailscanner_config', ['conf_type' => 'folders', 'parameter' => 'Received'])->execute();
 			$dbCommand->insert('vtiger_ossmailscanner_config', ['conf_type' => 'folders', 'parameter' => 'Sent'])->execute();
@@ -39,19 +39,19 @@ class OSSMailScanner
 			$userId = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_InstallModule', 'info' => $moduleName . ' ' . $Module->version, 'user' => $userId])->execute();
 		} else if ($eventType === 'module.disabled') {
-			$this->turn_off($moduleName);
+			$this->turnOff($moduleName);
 			$dbCommand->update('vtiger_cron_task', ['status' => 0], ['module' => 'OSSMailScanner'])->execute();
 			$userId = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_DisabledModule', 'info' => $moduleName, 'user' => $userId, 'start_time' => date('Y-m-d H:i:s')])->execute();
 		} else if ($eventType === 'module.enabled') {
 			$dbCommand->update('vtiger_cron_task', ['status' => 1], ['module' => 'OSSMailScanner'])->execute();
-			$this->turn_on($moduleName);
+			$this->turnOn($moduleName);
 			$userId = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_EnabledModule', 'info' => $moduleName, 'user' => $userId, 'start_time' => date('Y-m-d H:i:s')])->execute();
 		} else if ($eventType === 'module.preuninstall') {
-
+			
 		} else if ($eventType === 'module.preupdate') {
-
+			
 		} else if ($eventType === 'module.postupdate') {
 			$Module = vtlib\Module::getInstance($moduleName);
 			if (version_compare($Module->version, '1.21', '>')) {
@@ -65,7 +65,7 @@ class OSSMailScanner
 	 * Turn on
 	 * @param string $moduleName
 	 */
-	public function turn_on($moduleName)
+	public function turnOn($moduleName)
 	{
 		Settings_Vtiger_Module_Model::addSettingsField('LBL_MAIL', [
 			'name' => 'Mail Scanner',
@@ -85,7 +85,7 @@ class OSSMailScanner
 	 * Turn off
 	 * @param string $moduleName
 	 */
-	public function turn_off($moduleName)
+	public function turnOff($moduleName)
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		$dbCommand->delete('vtiger_settings_field', ['name' => 'Mail Scanner'])->execute();

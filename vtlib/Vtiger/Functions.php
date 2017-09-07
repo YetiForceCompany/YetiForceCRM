@@ -639,7 +639,7 @@ class Functions
 			$response = new \Vtiger_Response();
 			$response->setEmitType(\Vtiger_Response::$EMIT_JSON);
 			$trace = '';
-			if (\AppConfig::debug('DISPLAY_DEBUG_BACKTRACE') && is_object($e)) {
+			if (\AppConfig::debug('DISPLAY_EXCEPTION_BACKTRACE') && is_object($e)) {
 				$trace = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
 			}
 			if (is_object($e)) {

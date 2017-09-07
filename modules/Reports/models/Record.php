@@ -107,7 +107,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getReportExcelURL()
 	{
-		return 'index.php?module=' . $this->getModuleName() . '&view=ExportReport&mode=GetXLS&record=' . $this->getId();
+		return 'index.php?module=' . $this->getModuleName() . '&view=ExportReport&mode=getXls&record=' . $this->getId();
 	}
 
 	/**
@@ -116,7 +116,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getReportCSVURL()
 	{
-		return 'index.php?module=' . $this->getModuleName() . '&view=ExportReport&mode=GetCSV&record=' . $this->getId();
+		return 'index.php?module=' . $this->getModuleName() . '&view=ExportReport&mode=getCsv&record=' . $this->getId();
 	}
 
 	/**
@@ -125,7 +125,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getReportPrintURL()
 	{
-		return 'index.php?module=' . $this->getModuleName() . '&view=ExportReport&mode=GetPrintReport&record=' . $this->getId();
+		return 'index.php?module=' . $this->getModuleName() . '&view=ExportReport&mode=getPrintReport&record=' . $this->getId();
 	}
 
 	/**

@@ -267,7 +267,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		return $actionObject->getConfig($tpl_id, $actionsName, $baseModule);
 	}
 
-	public function parse_data($a, $b)
+	public function parseData($a, $b)
 	{
 		$resp = false;
 		if ($b != '' && strstr($b, $a) !== false) {
@@ -363,21 +363,6 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 			}
 		}
 		return array('success' => $save_record, 'data' => $output);
-	}
-
-	public static function compare_vale($actions, $item)
-	{
-		if (strpos($actions, ',')) {
-			$actionsTab = explode(",", $actions);
-			if (in_array($item, $actionsTab)) {
-				$return = true;
-			} else {
-				$return = false;
-			}
-		} else {
-			$return = $actions == $item ? true : false;
-		}
-		return $return;
 	}
 
 	protected static $colorListCache = [];

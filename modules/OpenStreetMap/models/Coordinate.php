@@ -10,7 +10,7 @@
 class OpenStreetMap_Coordinate_Model extends \App\Base
 {
 
-	const earthRadius = 6378137;
+	const EARTH_RADIUS = 6378137;
 
 	/**
 	 * Function to get instance
@@ -44,7 +44,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 	 */
 	private function getMargins($coordinates, $radius)
 	{
-		$earthRadius = static::earthRadius;
+		$earthRadius = static::EARTH_RADIUS;
 		$lat = $coordinates['lat'];
 		$long = $coordinates['lon'];
 		$radius *= 1000;

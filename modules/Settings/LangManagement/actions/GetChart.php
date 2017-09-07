@@ -14,7 +14,7 @@ class Settings_LangManagement_GetChart_Action extends Settings_Vtiger_Basic_Acti
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$langBase = $request->getByType('langBase', 1);
-		$langs = $request->get('langs');
+		$langs = $request->getByType('langs', 1);
 		$modules = [];
 		$data = [];
 		if (!empty($langs) && $langs !== $langBase) {

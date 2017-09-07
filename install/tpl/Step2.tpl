@@ -14,7 +14,7 @@
 		<div class="inner-container">
 			<h2>{\App\Language::translate('LBL_LICENSE', 'Install')}</h2>
 			<form class="form-horizontal" name="step2" method="post" action="Install.php">
-				<input type="hidden" name="mode" value="Step3" />
+				<input type="hidden" name="mode" value="step3" />
 				<input type="hidden" name="lang" value="{$LANG}" />
 				<div class="row">
 					<div class="span12">

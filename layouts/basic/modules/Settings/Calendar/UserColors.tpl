@@ -10,12 +10,10 @@
 		<hr>
 		<div class="">
 			<div class="contents tabbable">
-
 				<ul class="nav nav-tabs layoutTabs massEditTabs">
 					<li class="active"><a data-toggle="tab" href="#calendarConfig"><strong>{\App\Language::translate('LBL_CALENDAR_CONFIG', $QUALIFIED_MODULE)}</strong></a></li>
 					<li><a data-toggle="tab" href="#workingDays"><strong>{\App\Language::translate('LBL_NOTWORKING_DAYS', $QUALIFIED_MODULE)}</strong></a></li>
 				</ul>
-
 				<div class="tab-content layoutContent" style="padding-top: 10px;">
 					<div class="tab-pane paddingTop20" id="calendarConfig">
 						<table class="table table-bordered table-condensed listViewEntriesTable">

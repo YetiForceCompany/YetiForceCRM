@@ -244,7 +244,12 @@ class Colors
 		$allModules = \vtlib\Functions::getAllModules(false, false, false, $active);
 		$modules = [];
 		foreach ($allModules as $tabid => $module) {
-			$modules[] = ['id' => $tabid, 'module' => $module['name'], 'color' => $module['color'] !== '' ? '#' . $module['color'] : '', 'active' => $module['coloractive']];
+			$modules[] = [
+				'id' => $tabid,
+				'module' => $module['name'],
+				'color' => $module['color'] !== '' ? '#' . $module['color'] : '',
+				'active' => $module['coloractive']
+			];
 		}
 		return $modules;
 	}

@@ -12,11 +12,11 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('UpdateCalendarConfig');
+		$this->exposeMethod('updateCalendarConfig');
 		$this->exposeMethod('updateNotWorkingDays');
 	}
 
-	public function UpdateCalendarConfig(\App\Request $request)
+	public function updateCalendarConfig(\App\Request $request)
 	{
 		$params = $request->get('params');
 		Settings_Calendar_Module_Model::updateCalendarConfig($params);
