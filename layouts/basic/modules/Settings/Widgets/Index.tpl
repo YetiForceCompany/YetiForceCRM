@@ -40,7 +40,7 @@
 								</div>
 								<div class="col-md-5">
 									{if $WIDGET['label'] eq '' && isset($WIDGET['data']['relatedmodule'])}
-										{\App\Language::translate(vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule']),vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule']))}
+										{\App\Language::translate(\App\Module::getModuleName($WIDGET['data']['relatedmodule']),\App\Module::getModuleName($WIDGET['data']['relatedmodule']))}
 									{else}	
 										{\App\Language::translate($WIDGET['label'], $SOURCEMODULE)}&nbsp;
 									{/if}									

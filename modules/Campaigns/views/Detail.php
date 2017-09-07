@@ -29,7 +29,7 @@ class Campaigns_Detail_View extends Vtiger_Detail_View
 		$relatedModules = $request->get('relatedModules');
 		$relatedModulesNames = [];
 		foreach ($relatedModules as $tabId) {
-			$relatedModulesNames[$tabId] = vtlib\Functions::getModuleName($tabId);
+			$relatedModulesNames[$tabId] = \App\Module::getModuleName($tabId);
 		}
 		$countRecords = Vtiger_CountRecords_Widget::getCountRecords($relatedModulesNames, $recordId);
 		$viewer = $this->getViewer($request);

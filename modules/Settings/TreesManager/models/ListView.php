@@ -59,7 +59,7 @@ class Settings_TreesManager_ListView_Model extends Settings_Vtiger_ListView_Mode
 			$record = new $recordModelClass();
 			$record->setData($row);
 
-			$recordModule = vtlib\Functions::getModuleName($row['module']);
+			$recordModule = \App\Module::getModuleName($row['module']);
 			$record->set('module', \App\Language::translate($recordModule, $recordModule));
 
 			if (method_exists($record, 'getModule') && method_exists($record, 'setModule')) {

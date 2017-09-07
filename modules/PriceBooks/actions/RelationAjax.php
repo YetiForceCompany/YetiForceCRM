@@ -53,7 +53,7 @@ class PriceBooks_RelationAjax_Action extends Vtiger_RelationAjax_Action
 		$sourceRecordId = $request->getInteger('src_record');
 		$relatedModule = $request->get('related_module');
 		if (is_numeric($relatedModule)) {
-			$relatedModule = vtlib\Functions::getModuleName($relatedModule);
+			$relatedModule = \App\Module::getModuleName($relatedModule);
 		}
 		$relatedRecordIdList = $request->get('related_record_list');
 		if (!\App\Privilege::isPermitted($sourceModule, 'DetailView', $sourceRecordId)) {

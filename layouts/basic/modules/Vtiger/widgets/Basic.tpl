@@ -8,7 +8,7 @@
 						<div class="widgetTitle textOverflowEllipsis">
 							<h4 class="modColorText_{$WIDGET['label']}">
 								{if $WIDGET['label'] eq ''}
-									{\App\Language::translate(vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule']),vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule']))}
+									{\App\Language::translate(\App\Module::getModuleName($WIDGET['data']['relatedmodule']),\App\Module::getModuleName($WIDGET['data']['relatedmodule']))}
 								{else}
 									{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}
 								{/if}

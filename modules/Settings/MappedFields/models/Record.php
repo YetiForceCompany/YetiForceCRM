@@ -17,7 +17,7 @@ class Settings_MappedFields_Record_Model extends Settings_Vtiger_Record_Model
 
 	public function getName()
 	{
-		return vtlib\Functions::getModuleName($this->get('tabid'));
+		return \App\Module::getModuleName($this->get('tabid'));
 	}
 
 	public function getEditViewUrl()
@@ -46,19 +46,19 @@ class Settings_MappedFields_Record_Model extends Settings_Vtiger_Record_Model
 		$links = [];
 
 		$recordLinks = [
-				[
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
 				'linkicon' => 'glyphicon glyphicon-pencil'
 			],
-				[
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EXPORT_RECORD',
 				'linkurl' => 'index.php?module=MappedFields&parent=Settings&action=ExportTemplate&id=' . $this->getId(),
 				'linkicon' => 'glyphicon glyphicon-export'
 			],
-				[
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'class' => 'deleteMap',
