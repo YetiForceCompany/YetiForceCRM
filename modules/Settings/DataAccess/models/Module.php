@@ -365,21 +365,6 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 		return array('success' => $save_record, 'data' => $output);
 	}
 
-	public static function compare_vale($actions, $item)
-	{
-		if (strpos($actions, ',')) {
-			$actionsTab = explode(",", $actions);
-			if (in_array($item, $actionsTab)) {
-				$return = true;
-			} else {
-				$return = false;
-			}
-		} else {
-			$return = $actions == $item ? true : false;
-		}
-		return $return;
-	}
-
 	protected static $colorListCache = [];
 
 	public static function executeColorListHandlers($moduleName, $record, Vtiger_Record_Model $recordModel)
