@@ -169,6 +169,7 @@ class Colors
 	{
 		$table = (new Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['fieldid' => $fieldId])->scalar();
 		Db::getInstance()->createCommand()->addColumn('vtiger_' . $table, 'color', 'string(25)')->execute();
+		Cache::clear();
 	}
 
 	/**
