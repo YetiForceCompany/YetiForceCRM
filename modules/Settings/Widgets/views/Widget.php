@@ -19,10 +19,14 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 		}
 	}
 
+	/**
+	 * Create widget - first step
+	 * @param \App\Request $request
+	 */
 	public function createStep1(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$sourceModule = $request->getByType('mod', 1);
+		$sourceModule = $request->getInteger('mod');
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleModel = Settings_Widgets_Module_Model::getInstance($qualifiedModuleName);

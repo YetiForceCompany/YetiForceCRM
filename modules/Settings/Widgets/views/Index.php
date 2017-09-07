@@ -9,17 +9,17 @@
 class Settings_Widgets_Index_View extends Settings_Vtiger_Index_View
 {
 
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$source = $request->get('source');
-		$sourceModule = $request->getByType('sourceModule', 1);
-		if ($sourceModule !== '') {
-			$source = vtlib\Functions::getModuleId($sourceModule);
-		}
-		if ($source === '') {
-			$source = App\Module::getModuleId('Accounts');
+		$source = $request->getInteger('source');
+		if (empty($source)) {
+			$source = \App\Module::getModuleId('Accounts');
 		}
 		$moduleModel = Settings_Widgets_Module_Model::getInstance($qualifiedModuleName);
 		$relatedModule = $moduleModel->getRelatedModule($source);
