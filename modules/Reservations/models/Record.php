@@ -9,7 +9,7 @@
 Class Reservations_Record_Model extends Vtiger_Record_Model
 {
 
-	const recalculateStatus = 'Accepted';
+	const RECALCULATE_STATUS = 'Accepted';
 
 	public function checkID($ID)
 	{
