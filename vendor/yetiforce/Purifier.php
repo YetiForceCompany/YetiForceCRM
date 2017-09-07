@@ -270,6 +270,9 @@ class Purifier
 				case 1: // only word
 					$value = preg_match('/^[_a-zA-Z]+$/', $input) ? $input : false;
 					break;
+				case 2: // word and int
+					$value = preg_match('/^[[:alnum:]]+$/', $input) ? $input : false;
+					break;
 				default:
 					$value = Purifier::purify($value);
 					break;
