@@ -292,7 +292,7 @@ jQuery.Class("Reservations_Calendar_Js", {
 		var assignedUserId = calendarDetails.assigned_user_id.value;
 		eventObject.end = endDate.toString();
 		eventObject.url = 'index.php?module=Reservations&view=Detail&record=' + calendarDetails._recordId;
-		eventObject.className = 'userCol_' + calendarDetails.assigned_user_id.value + ' calCol_' + calendarDetails.type.value;
+		eventObject.className = 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBg_OSSTimeControl_timecontrol_type_' + calendarDetails.type.value;
 		this.getCalendarView().fullCalendar('renderEvent', eventObject);
 	},
 	getCalendarCreateView: function () {

@@ -1,72 +1,7 @@
 /* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
 var Settings_UserColors_Js = {
 	initEvants: function () {
-		$('.UserColors .updateColor').click(Settings_UserColors_Js.updateColor);
 		$('.UserColors #update_event').click(Settings_UserColors_Js.updateEvent);
-		$('.UserColors .generateColor').click(Settings_UserColors_Js.generateColor);
-	},
-	generateColor: function (e) {
-		var target = $(e.currentTarget);
-		var closestTrElement = target.closest('tr');
-		var params = {
-			'id': closestTrElement.data('id'),
-			'table': closestTrElement.data('table'),
-			'field': closestTrElement.data('field'),
-		}
-		app.saveAjax('generateColor', params).then(function (data) {
-			Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
-			closestTrElement.find('.calendarColor').css('background', data.result.color);
-			closestTrElement.data('color', data.result.color);
-		});
-	},
-	updateColor: function (e) {
-		var target = $(e.currentTarget);
-		var closestTrElement = target.closest('tr');
-		var editColorModal = jQuery('.UserColors .editColorContainer');
-		var clonedContainer = editColorModal.clone(true, true);
-		var metod = target.data('metod');
-
-		var callBackFunction = function (data) {
-			data.find('.editColorContainer').removeClass('hide').show();
-			var selectedColor = data.find('.selectedColor');
-			selectedColor.val(closestTrElement.data('color'));
-			//register color picker
-			var params = {
-				flat: true,
-				color: closestTrElement.data('color'),
-				onChange: function (hsb, hex, rgb) {
-					selectedColor.val('#' + hex);
-				}
-			};
-			if (typeof customParams != 'undefined') {
-				params = jQuery.extend(params, customParams);
-			}
-			data.find('.calendarColorPicker').ColorPicker(params);
-
-			//save the user calendar with color
-			data.find('[name="saveButton"]').click(function (e) {
-				var progress = $.progressIndicator({
-					'message': app.vtranslate('Update labels'),
-					'blockInfo': {
-						'enabled': true
-					}
-				});
-				Settings_UserColors_Js.registerSaveEvent(metod, {
-					'color': selectedColor.val(),
-					'id': closestTrElement.data('id'),
-					'table': closestTrElement.data('table'),
-					'field': closestTrElement.data('field'),
-				});
-				closestTrElement.find('.calendarColor').css('background', selectedColor.val());
-				closestTrElement.data('color', selectedColor.val());
-				progress.progressIndicator({'mode': 'hide'});
-			});
-		}
-		app.showModalWindow(clonedContainer, function (data) {
-			if (typeof callBackFunction == 'function') {
-				callBackFunction(data);
-			}
-		}, {'width': '1000px'});
 	},
 	updateEvent: function (e) {
 		var progress = $.progressIndicator({

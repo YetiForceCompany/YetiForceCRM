@@ -11,7 +11,8 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 
 	public function getUrl()
 	{
-		$url = 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showRelatedRecords&relatedModule=' . $this->Data['relatedmodule'] . '&page=1&limit=' . $this->Data['limit'] . '&col=' . $this->Data['columns'];
+		$moduleName = is_numeric($this->Data['relatedmodule']) ? App\Module::getModuleName($this->Data['relatedmodule']) : $this->Data['relatedmodule'];
+		$url = 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showRelatedRecords&relatedModule=' . $moduleName . '&page=1&limit=' . $this->Data['limit'] . '&col=' . $this->Data['columns'];
 		if (isset($this->Data['no_result_text'])) {
 			$url .= '&r=' . $this->Data['no_result_text'];
 		}

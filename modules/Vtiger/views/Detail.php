@@ -55,10 +55,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	public function checkPermission(\App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
-		if (!$recordId) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
-		}
-		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId)) {
+		if (!$recordId || !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}

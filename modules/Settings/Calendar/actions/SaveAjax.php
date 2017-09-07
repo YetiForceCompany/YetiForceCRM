@@ -14,30 +14,6 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		parent::__construct();
 		$this->exposeMethod('updateCalendarConfig');
 		$this->exposeMethod('updateNotWorkingDays');
-		$this->exposeMethod('generateColor');
-	}
-
-	/**
-	 * Generate random color
-	 * @param \App\Request $request
-	 */
-	public function generateColor(\App\Request $request)
-	{
-		$params = $request->get('param');
-		$color = \App\Colors::getRandomColor();
-		$params['color'] = $color;
-		if (isset($params['viewtypesid']) && $params['viewtypesid']) {
-			
-		} else {
-			Settings_Calendar_Module_Model::updateCalendarConfig($params);
-		}
-		$response = new Vtiger_Response();
-		$response->setResult(array(
-			'success' => true,
-			'color' => $color,
-			'message' => \App\Language::translate('LBL_GENERATED_COLOR', $request->getModule(false))
-		));
-		$response->emit();
 	}
 
 	public function updateCalendarConfig(\App\Request $request)

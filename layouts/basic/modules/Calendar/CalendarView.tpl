@@ -15,7 +15,6 @@
 	<input type="hidden" id="activityStateLabels" value="{Vtiger_Util_Helper::toSafeHTML($ACTIVITY_STATE_LABELS)}" />
 	<style>
 		{foreach from=Settings_Calendar_Module_Model::getCalendarConfig('colors') item=ITEM}
-			.calCol_{$ITEM.label}{ border: 1px solid {$ITEM.value}!important; }
 			.listCol_{$ITEM.label}{ background: {$ITEM.value}!important; }
 		{/foreach}
 		{foreach from=Vtiger_Module_Model::getAll() item=MODULE}

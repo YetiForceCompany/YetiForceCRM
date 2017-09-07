@@ -11,7 +11,7 @@
 class Settings_Currency_Module_Model extends Settings_Vtiger_Module_Model
 {
 
-	const tableName = 'vtiger_currency_info';
+	const TABLE_NAME = 'vtiger_currency_info';
 
 	public $listFields = array('currency_name' => 'Currency Name', 'currency_code' => 'Currency Code', 'currency_symbol' => 'Symbol',
 		'conversion_rate' => 'Conversion Rate', 'currency_status' => 'Status');
@@ -29,12 +29,12 @@ class Settings_Currency_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function getBaseTable()
 	{
-		return self::tableName;
+		return self::TABLE_NAME;
 	}
 
 	public static function delete($recordId)
 	{
-		\App\Db::getInstance()->createCommand()->update(self::tableName, ['deleted' => 1], ['id' => $recordId])->execute();
+		\App\Db::getInstance()->createCommand()->update(self::TABLE_NAME, ['deleted' => 1], ['id' => $recordId])->execute();
 		Settings_Currency_Record_Model::clearCache();
 	}
 }

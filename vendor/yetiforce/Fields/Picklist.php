@@ -234,7 +234,7 @@ class Picklist
 		if (\App\Cache::has('getPickListFieldValuesRows', $fieldName)) {
 			return \App\Cache::get('getPickListFieldValuesRows', $fieldName);
 		}
-		$primaryKey = \App\Fields\Picklist::getPickListId($fieldName);
+		$primaryKey = static::getPickListId($fieldName);
 		$dataReader = (new \App\Db\Query())
 				->from("vtiger_$fieldName")
 				->orderBy('sortorderid')
@@ -242,6 +242,7 @@ class Picklist
 		$values = [];
 		while ($row = $dataReader->read()) {
 			$row['picklistValue'] = \App\Purifier::decodeHtml(\App\Purifier::decodeHtml($row[$fieldName]));
+			$row['picklistValueId'] = $row[static::getPickListId($fieldName)];
 			$values[$row[$primaryKey]] = $row;
 		}
 		\App\Cache::save('getPickListFieldValuesRows', $fieldName, $values);

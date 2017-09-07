@@ -157,4 +157,21 @@ class Log extends Logger
 			return $query->all($db);
 		}
 	}
+
+	/**
+	 * Get last logs
+	 * @return string
+	 */
+	public static function getlastLogs()
+	{
+		$content = '';
+		$i = 0;
+		foreach (\Yii::getLogger()->messages as $message) {
+			$level = \yii\log\Logger::getLevelName($message[1]);
+			$category = $message[2];
+			$content .= "#$i [$level] {$message[0]} || $category" . PHP_EOL;
+			$i++;
+		}
+		return $content;
+	}
 }
