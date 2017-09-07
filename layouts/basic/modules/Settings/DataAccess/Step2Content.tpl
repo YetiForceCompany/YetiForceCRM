@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 <form name="condition" action="index.php" method="post" id="workflow_step2" class="form-horizontal" >
-	<input type="hidden" name="view" value="Step3" />
+	<input type="hidden" name="view" value="StepThird" />
 	<input type="hidden" name="module" value="{$MODULE_NAME}" />
 	<input type="hidden" name="parent" value="Settings" />
 	<input type="hidden" name="base_module" value="{$BASE_MODULE}" />

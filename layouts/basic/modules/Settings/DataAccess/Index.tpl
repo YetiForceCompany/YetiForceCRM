@@ -9,7 +9,7 @@
         <div class='editViewContainer' id="tpl" style="min-height:300px">
             <div class="row">
                 <div class="col-md-4 paddingLRZero btn-toolbar">
-                    <a class="btn btn-default addButton" href="index.php?module={$MODULE_NAME}&parent=Settings&view=Step1">
+                    <a class="btn btn-default addButton" href="index.php?module={$MODULE_NAME}&parent=Settings&view=StepFirst">
                         <strong>{\App\Language::translate('LBL_NEW_TPL', $QUALIFIED_MODULE)}</strong>
                     </a>
                 </div>
@@ -37,9 +37,9 @@
                     <tbody>
                         {foreach from=$DOC_TPL_LIST item=item key=key}
                         <tr class="listViewEntries" data-id="{$item.id}">
-                                <td onclick="location.href = jQuery(this).data('url')" data-url="index.php?module={$MODULE_NAME}&parent=Settings&view=Step1&tpl_id={$item.id}">{\App\Language::translate($item.module, $item.module)}</td>
-                                <td onclick="location.href = jQuery(this).data('url')" data-url="index.php?module={$MODULE_NAME}&parent=Settings&view=Step1&tpl_id={$item.id}"> {\App\Language::translate($item.summary, $QUALIFIED_MODULE)}</td>
-                                <td><a class="pull-right edit_tpl" href="index.php?module={$MODULE_NAME}&parent=Settings&view=Step1&tpl_id={$item.id}"><!--<span title="{\App\Language::translate('LBL_EDIT')}" class="glyphicon glyphicon-pencil alignMiddle"></span>--></a>
+                                <td onclick="location.href = jQuery(this).data('url')" data-url="index.php?module={$MODULE_NAME}&parent=Settings&view=StepFirst&tpl_id={$item.id}">{\App\Language::translate($item.module, $item.module)}</td>
+                                <td onclick="location.href = jQuery(this).data('url')" data-url="index.php?module={$MODULE_NAME}&parent=Settings&view=StepFirst&tpl_id={$item.id}"> {\App\Language::translate($item.summary, $QUALIFIED_MODULE)}</td>
+                                <td><a class="pull-right edit_tpl" href="index.php?module={$MODULE_NAME}&parent=Settings&view=StepFirst&tpl_id={$item.id}"><!--<span title="{\App\Language::translate('LBL_EDIT')}" class="glyphicon glyphicon-pencil alignMiddle"></span>--></a>
                                     <a href='index.php?module={$MODULE_NAME}&parent=Settings&action=DeleteTemplate&tpl_id={$item.id}' class="pull-right marginRight10px">
                                         <span type="{\App\Language::translate('REMOVE_TPL', $QUALIFIED_MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
                                 </td>

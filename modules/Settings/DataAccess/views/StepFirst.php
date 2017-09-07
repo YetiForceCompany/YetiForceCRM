@@ -6,7 +6,7 @@
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
-Class Settings_DataAccess_Step1_View extends Settings_Vtiger_Index_View
+Class Settings_DataAccess_StepFirst_View extends Settings_Vtiger_Index_View
 {
 
 	public function preProcess(\App\Request $request, $display = true)

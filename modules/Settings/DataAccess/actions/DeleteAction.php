@@ -15,6 +15,6 @@ class Settings_DataAccess_DeleteAction_Action extends Settings_Vtiger_Index_Acti
 		$aid = $request->get('a');
 		$baseModule = $request->get('m');
 		Settings_DataAccess_Module_Model::deleteAction($id, $aid);
-		header("Location: index.php?module=DataAccess&parent=Settings&view=Step3&tpl_id=$id&base_module=$baseModule&s=false");
+		header("Location: index.php?module=DataAccess&parent=Settings&view=StepThird&tpl_id=$id&base_module=$baseModule&s=false");
 	}
 }
