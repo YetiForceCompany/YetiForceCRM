@@ -570,6 +570,7 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 				closestTrElement.find('.calendarColor').css('background', selectedColor.val());
 				closestTrElement.data('color', selectedColor.val());
 				progress.progressIndicator({'mode': 'hide'});
+				app.hideModalWindow();
 			});
 		}
 		app.showModalWindow(clonedContainer, function (data) {

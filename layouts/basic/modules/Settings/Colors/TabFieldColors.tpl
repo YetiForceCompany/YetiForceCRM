@@ -38,12 +38,12 @@
 						<button data-module="{$SELECTED_MODULE_NAME}" data-fieldId="{$SELECTED_PICKLIST_FIELD_ID}" class="btn btn-sm btn-primary marginLeft10 addPicklistColorColumn">{\App\Language::translate('LBL_UPDATE_COLOR_COLUMN',$QUALIFIED_MODULE)}</button>
 					</div>
 				{else}
-					<table id="pickListValuesTable" class="table table-bordered">
+					<table id="pickListValuesTable" class="table customTableRWD table-bordered table-condensed listViewEntriesTable">
 						<thead>
 							<tr class="listViewHeaders">
-								<th class="col-md-6 col-lg-6">{\App\Language::translate('LBL_ITEM',$QUALIFIED_MODULE)}</th>
-								<th class="col-md-2 col-lg-2">{\App\Language::translate('LBL_COLOR',$QUALIFIED_MODULE)}</th>
-								<th class="col-md-4 col-lg-4">{\App\Language::translate('LBL_ACTIONS',$QUALIFIED_MODULE)}</th>
+								<th><strong>{\App\Language::translate('LBL_ITEM',$QUALIFIED_MODULE)}</strong></th>
+								<th><strong>{\App\Language::translate('LBL_COLOR',$QUALIFIED_MODULE)}</strong></th>
+								<th><strong>{\App\Language::translate('LBL_ACTIONS',$QUALIFIED_MODULE)}</strong></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -53,9 +53,9 @@
 									<td class="textOverflowEllipsis">{\App\Language::translate($PICKLIST_VALUE['picklistValue'],$SELECTED_MODULE_NAME)}</td>
 									<td id="calendarColorPreviewPicklistValue{$PICKLIST_VALUE['picklistValueId']}" data-fieldId="{$SELECTED_PICKLIST_FIELD_ID}" data-fieldValueId="{$PICKLIST_VALUE['picklist_valueid']}" data-color="{$PICKLIST_VALUE['color']}" class="calendarColor" style="background: #{$PICKLIST_VALUE['color']} !important;"></td>
 									<td>
-										<button data-fieldId="{$SELECTED_PICKLIST_FIELD_ID}" data-fieldValueId="{$PICKLIST_VALUE['picklistValueId']}" data-type="PicklistItem" class="btn btn-sm btn-warning marginLeft10 generatePicklistValueColor"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> {\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+										<button data-fieldId="{$SELECTED_PICKLIST_FIELD_ID}" data-fieldValueId="{$PICKLIST_VALUE['picklistValueId']}" data-type="PicklistItem" class="btn btn-sm btn-danger marginLeft10 removePicklistValueColor"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> {\App\Language::translate('LBL_REMOVE_COLOR',$QUALIFIED_MODULE)}</button>
 										<button data-fieldId="{$SELECTED_PICKLIST_FIELD_ID}" data-fieldValueId="{$PICKLIST_VALUE['picklistValueId']}" data-type="PicklistItem" class="btn btn-sm btn-primary marginLeft10 updatePicklistValueColor"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> {\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-										<button data-fieldId="{$SELECTED_PICKLIST_FIELD_ID}" data-fieldValueId="{$PICKLIST_VALUE['picklistValueId']}" data-type="PicklistItem" class="btn btn-sm btn-danger removePicklistValueColor"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> {\App\Language::translate('LBL_REMOVE_COLOR',$QUALIFIED_MODULE)}</button>
+										<button data-fieldId="{$SELECTED_PICKLIST_FIELD_ID}" data-fieldValueId="{$PICKLIST_VALUE['picklistValueId']}" data-type="PicklistItem" class="btn btn-sm btn-warning generatePicklistValueColor"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> {\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
 									</td>
 								</tr>
 							{/foreach}

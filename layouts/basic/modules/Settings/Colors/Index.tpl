@@ -27,13 +27,13 @@
 						</thead>
 						<tbody>
 							{foreach from=\Settings_Calendar_Module_Model::getCalendarConfig('colors') item=item key=key}
-								<tr data-id="{$item.name}" data-color="{$item.value}" data-table="{$item.table}" data-field="{$item.field}">
+								<tr data-id="{$item.name}" data-color="{$item.value}" data-type="config">
 									<td>{\App\Language::translate($item.label,$QUALIFIED_MODULE)}</td>
 									<td id="calendarColorPreviewCalendar{$item.name}"  class="calendarColor" style="background: {$item.value};"></td>
 									<td>
 										<button data-record="{$item.name}" class="btn btn-sm btn-danger marginLeft10 removeCalendarColor"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> {\App\Language::translate('LBL_REMOVE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-										<button class="btn btn-primary marginLeft10 updateColor" data-metod="UpdateCalendarConfig"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> {\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-										<button class="btn btn-warning generateColor"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> {\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
+										<button data-record="{$item.name}" class="btn btn-sm btn-primary marginLeft10 updateColor" data-metod="UpdateCalendarConfig"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> {\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+										<button data-record="{$item.name}" class="btn btn-sm btn-warning generateColor"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> {\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>
 									</td>
 								</tr>
 							{/foreach}
