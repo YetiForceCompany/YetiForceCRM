@@ -9,11 +9,6 @@
 	<input type="hidden" id="eventLimit" value="{$EVENT_LIMIT}" />
 	<input type="hidden" id="weekView" value="{$WEEK_VIEW}" />
 	<input type="hidden" id="dayView" value="{$DAY_VIEW}" />
-	<style>
-		{*{foreach from=Users_Colors_Model::getValuesFromField('timecontrol_type') item=ITEM}
-		.listCol_{$ITEM['value']}{ background: {$ITEM['color']}!important; }
-		{/foreach}*}
-	</style>
 	<div class="rowContent paddingLRZero col-xs-12">
 		<div class="widget_header row marginbottomZero marginRightMinus20">
 			<div class="pull-left paddingLeftMd">

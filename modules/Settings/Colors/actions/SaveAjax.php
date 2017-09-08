@@ -231,7 +231,14 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		if (!$params['color']) {
 			$params['color'] = \App\Colors::getRandomColor();
 		}
-		Settings_Calendar_Module_Model::updateCalendarConfig($params);
+		if (!is_numeric($params['id'])) {
+			Settings_Calendar_Module_Model::updateCalendarConfig($params);
+		} else {
+
+			$moduleInstance = vtlib\Module::getInstance('Calendar');
+			$field = \Vtiger_Field_Model::getInstance(Settings_Calendar_Module_Model::getCalendarColorPicklist()[0], $moduleInstance);
+			\App\Colors::updatePicklistValueColor($field->getId(), $request->getInteger('id'), $params['color']);
+		}
 		$response = new Vtiger_Response();
 		$response->setResult(array(
 			'success' => true,
