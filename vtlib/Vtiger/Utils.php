@@ -256,7 +256,7 @@ class Utils
 		if (ALLOW_MODULE_LOGGING) {
 			$date = date('Y-m-d H:i:s');
 			$log = array(\AppConfig::main('site_URL'), $module, $date);
-			if ($mixed instanceof Exception) {
+			if ($mixed instanceof \Exception) {
 				array_push($log, $mixed->getMessage());
 				array_push($log, $mixed->getTraceAsString());
 			} else {
