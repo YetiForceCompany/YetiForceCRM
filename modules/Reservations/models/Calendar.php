@@ -66,6 +66,9 @@ class Reservations_Calendar_Model extends \App\Base
 			$crmid = $record['reservationsid'];
 			$item['id'] = $crmid;
 			$item['title'] = $record['title'];
+			$item['status'] = $record['reservations_status'];
+			$item['isPrivate'] = $record['private'];
+			$item['smownerid'] = \App\User::getUserModel($record['smownerid'])->getName();
 			$item['url'] = 'index.php?module=Reservations&view=Detail&record=' . $crmid;
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
 			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
