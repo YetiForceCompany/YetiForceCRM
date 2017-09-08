@@ -193,6 +193,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 				$.each(mappingRelatedField, function (key, value) {
 					if (response[value[0]] != 0 && !thisInstance.getMappingValuesFromUrl(key)) {
 						var mapFieldElement = formElement.find('[name="' + key + '"]');
+						var fieldinfo = mapFieldElement.data('fieldinfo');
 						if (mapFieldElement.is('select')) {
 							if (mapFieldElement.find('option[value="' + response[value[0]] + '"]').length) {
 								mapFieldElement.val(response[value[0]]).trigger("chosen:updated").change();
@@ -204,15 +205,17 @@ jQuery.Class("Vtiger_Edit_Js", {
 						}
 						var mapFieldDisplayElement = formElement.find('input[name="' + key + '_display"]');
 						if (mapFieldDisplayElement.length > 0) {
-							mapFieldDisplayElement.val(data['displayData'][value[0]]).attr('readonly', true);
-							var referenceModulesList = formElement.find('#' + thisInstance.moduleName + '_editView_fieldName_' + key + '_dropDown');
-							if (referenceModulesList.length > 0 && value[1]) {
-								referenceModulesList.val(value[1]).change().trigger("chosen:updated");
+							mapFieldDisplayElement.val(data['result']['displayData'][value[0]]).attr('readonly', true);
+							if (fieldinfo.type !== 'tree') {
+								var referenceModulesList = formElement.find('#' + thisInstance.moduleName + '_editView_fieldName_' + key + '_dropDown');
+								if (referenceModulesList.length > 0 && value[1]) {
+									referenceModulesList.val(value[1]).change().trigger("chosen:updated");
+								}
+								thisInstance.setReferenceFieldValue(mapFieldDisplayElement.closest('.fieldValue'), {
+									name: data['result']['displayData'][value[0]],
+									id: response[value[0]]
+								});
 							}
-							thisInstance.setReferenceFieldValue(mapFieldDisplayElement.closest('.fieldValue'), {
-								name: data['displayData'][value[0]],
-								id: response[value[0]]
-							});
 						}
 					}
 				});
