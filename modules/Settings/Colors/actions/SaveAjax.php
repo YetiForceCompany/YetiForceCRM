@@ -223,6 +223,10 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
+	/**
+	 * Update calendar event type color
+	 * @param \App\Request $request
+	 */
 	public function updateCalendarColor(\App\Request $request)
 	{
 		$params = [];
@@ -248,6 +252,10 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
+	/**
+	 * Remove calendar event type color
+	 * @param \App\Request $request
+	 */
 	public function removeCalendarColor(\App\Request $request)
 	{
 		$params = [];
