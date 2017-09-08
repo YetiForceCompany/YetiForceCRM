@@ -145,7 +145,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			},
 			eventRender: function (event, element) {
 				app.showPopoverElementView(element.find('.fc-content'), {
-					title: event.title + '<a href="index.php?module=' + event.module + '&view=Detail&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-th-list"></span></a>',
+					title: event.title + '<a href="index.php?module=' + event.module + '&view=Edit&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-pencil"></span></a>' + '<a href="index.php?module=' + event.module + '&view=Detail&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-th-list"></span></a>',
 					container: 'body',
 					html: true,
 					placement: 'auto',
