@@ -39,17 +39,11 @@ class Users_Module_Model extends Vtiger_Module_Model
 	public function searchRecord($searchValue, $parentId = false, $parentModule = false, $relatedModule = false)
 	{
 		if (!empty($searchValue)) {
-			$db = PearDatabase::getInstance();
-
-			$query = 'SELECT * FROM vtiger_users WHERE (first_name LIKE ? || last_name LIKE ?) && status = ?';
-			$params = array("%$searchValue%", "%$searchValue%", 'Active');
-
-			$result = $db->pquery($query, $params);
-			$noOfRows = $db->num_rows($result);
-
+			$dataReader = (new App\Db\Query())->from('vtiger_users')
+					->where(['and', ['or', ['like', 'first_name', $searchValue], ['like', 'last_name', $searchValue]], ['status' => 'Active']])
+					->createCommand()->query();
 			$matchingRecords = [];
-			for ($i = 0; $i < $noOfRows; ++$i) {
-				$row = $db->query_result_rowdata($result, $i);
+			while ($row = $dataReader->read()) {
 				$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', 'Users');
 				$recordInstance = new $modelClassName();
 				$matchingRecords['Users'][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($this);
