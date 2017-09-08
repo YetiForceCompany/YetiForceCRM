@@ -236,7 +236,7 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->setResult(array(
 			'success' => true,
 			'color' => $params['color'],
-			'message' => \App\Language::translate('LBL_SAVE_CHANGES', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
 		));
 		$response->emit();
 	}
@@ -251,7 +251,7 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->setResult(array(
 			'success' => true,
 			'color' => $params['color'],
-			'message' => \App\Language::translate('LBL_SAVE_CHANGES', $request->getModule(false))
+			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
 		));
 		$response->emit();
 	}
