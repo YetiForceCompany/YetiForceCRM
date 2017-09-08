@@ -375,7 +375,7 @@ class Users extends CRMEntity
 		return true;
 	}
 
-	public function is_authenticated()
+	public function isAuthenticated()
 	{
 		return $this->authenticated;
 	}
@@ -384,7 +384,7 @@ class Users extends CRMEntity
 	 * @param $user_name -- user name:: Type varchar
 	 * @returns user id
 	 */
-	public function retrieve_user_id($userName)
+	public function retrieveUserId($userName)
 	{
 		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
 			$users = \App\PrivilegeFile::getUser('userName');
