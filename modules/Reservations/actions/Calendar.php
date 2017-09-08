@@ -46,7 +46,6 @@ class Reservations_Calendar_Action extends Vtiger_Action_Controller
 			$record->set('end', $request->get('end'));
 		}
 		$entity = $record->getEntity();
-
 		$response = new Vtiger_Response();
 		$response->setResult($entity);
 		$response->emit();
