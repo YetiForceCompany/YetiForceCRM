@@ -311,7 +311,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		$moduleName = $request->getModule();
 		$sourceModule = $request->getByType('src_module', 1);
 		$sourceField = $request->get('src_field', 1);
-		$sourceRecord = $request->getInteger('src_record');
+		$sourceRecord = $request->get('src_record');
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
 		$currencyId = $request->get('currency_id');

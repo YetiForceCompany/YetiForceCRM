@@ -21,7 +21,7 @@ class Contacts_Popup_View extends Vtiger_Popup_View
 	{
 		$moduleName = $this->getModule($request);
 		$sourceModule = $request->getByType('src_module', 1);
-		$sourceRecord = $request->getInteger('src_record');
+		$sourceRecord = $request->get('src_record');
 		$relParentModule = 'Accounts';
 		//list of records is narrowed to contacts related to help desks account, only in Help Desk Contacts relation view
 		if ($sourceRecord && $moduleName === 'Contacts' && $sourceModule === 'HelpDesk' && \App\Record::isExists($sourceRecord) && strpos($_SERVER['QUERY_STRING'], 'module=Contacts&src_module=HelpDesk') === 0) {
