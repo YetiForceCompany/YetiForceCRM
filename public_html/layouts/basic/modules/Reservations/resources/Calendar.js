@@ -110,7 +110,6 @@ jQuery.Class("Reservations_Calendar_Js", {
 				thisInstance.updateEvent(event, delta, revertFunc);
 			},
 			eventRender: function (event, element) {
-				console.log(event);
 				app.showPopoverElementView(element.find('.fc-content'), {
 					title: event.title + '<a href="index.php?module=Reservations&view=Edit&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-pencil"></span></a>' + '<a href="index.php?module=Reservations&view=Detail&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-th-list"></span></a>',
 					container: 'body',
