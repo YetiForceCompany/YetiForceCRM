@@ -9,14 +9,6 @@
 class Reservations_Calendar_Model extends \App\Base
 {
 
-	private function getLabel($labels, $key)
-	{
-		if (isset($labels[$key])) {
-			return $labels[$key];
-		}
-		return '';
-	}
-
 	/**
 	 * Function to get records
 	 * @return array
@@ -78,7 +70,7 @@ class Reservations_Calendar_Model extends \App\Base
 			$item['type'] = $fieldType->getDisplayValue($record['type']);
 			$item['status'] = $record['reservations_status'];
 			$item['totalTime'] = vtlib\Functions::decimalTimeFormat($record['sum_time'])['short'];
-			$item['smownerid'] = vtlib\Functions::getOwnerRecordLabel($record['smownerid']);
+			$item['smownerid'] = \App\Fields\Owner::getLabel($record['smownerid']);
 			if ($record['relatedida']) {
 				$item['company'] = \App\Record::getLabel($record['relatedida']);
 			}

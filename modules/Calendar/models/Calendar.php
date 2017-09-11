@@ -150,7 +150,7 @@ class Calendar_Calendar_Model extends App\Base
 			$item['sta'] = $record['status'];
 			$item['vis'] = $record['visibility'];
 			$item['state'] = $record['state'];
-			$item['smownerid'] = vtlib\Functions::getOwnerRecordLabel($record['smownerid']);
+			$item['smownerid'] = \App\Fields\Owner::getLabel($record['smownerid']);
 
 			//translate
 			$item['labels']['sta'] = \App\Language::translate($record['status'], $this->getModuleName());
