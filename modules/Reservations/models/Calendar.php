@@ -66,6 +66,8 @@ class Reservations_Calendar_Model extends \App\Base
 			$crmid = $record['reservationsid'];
 			$item['id'] = $crmid;
 			$item['title'] = $record['title'];
+			$fieldType = Vtiger_Field_Model::getInstance('type', Vtiger_Module_Model::getInstance('Reservations'));
+			$item['type'] = $fieldType->getDisplayValue($record['type']);
 			$item['status'] = $record['reservations_status'];
 			$item['isPrivate'] = $record['private'];
 			$item['smownerid'] = \App\User::getUserModel($record['smownerid'])->getName();

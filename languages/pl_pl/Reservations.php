@@ -45,6 +45,7 @@ $jsLanguageStrings = [
 	'PLL_CANCELLED' => 'Anulowano',
 	'JS_IS_PRIVATE' => 'Prywatny',
 	'JS_ASSIGNED_TO' => 'Właściciel rekordu',
+	'JS_TYPE' => 'Typ',
 	'JS_YES' => 'Tak',
 	'JS_NO' => 'Nie',
 ];
