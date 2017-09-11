@@ -7,7 +7,12 @@ class CalculationsAccepted
 	public $sequence = 1;
 	public $reference = 'SCalculations';
 
-	public function process($instance)
+	/**
+	 * Process function
+	 * @param Vtiger_Record_Model $instance
+	 * @return int
+	 */
+	public function process(Vtiger_Record_Model $instance)
 	{
 		return (int) (new \App\Db\Query())->from('u_#__scalculations')
 				->innerJoin('vtiger_crmentity', 'u_#__scalculations.scalculationsid = vtiger_crmentity.crmid')
