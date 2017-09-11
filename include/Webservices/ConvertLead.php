@@ -180,11 +180,11 @@ function vtws_populateConvertLeadEntities($entityvalue, $entity, $recordModel, $
 /**
  * Validate convert lead entity mandatory values
  * @param string $entity
- * @param Vtiger_Field_Model $targetModuleModel
+ * @param Vtiger_Module_Model $targetModuleModel
  * @param string $module
  * @return string
  */
-function vtws_validateConvertLeadEntityMandatoryValues($entity, Vtiger_Field_Model $targetModuleModel, $module)
+function vtws_validateConvertLeadEntityMandatoryValues($entity, Vtiger_Module_Model $targetModuleModel, $module)
 {
 
 	$mandatoryFields = $targetModuleModel->getMandatoryFieldModels();
