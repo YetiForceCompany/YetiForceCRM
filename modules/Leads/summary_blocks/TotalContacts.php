@@ -36,7 +36,7 @@ class TotalContacts
 	 * @param Vtiger_Record_Model $instance
 	 * @return int
 	 */
-	public function process($instance)
+	public function process(Vtiger_Record_Model $instance)
 	{
 
 		\App\Log::trace("Entering TotalContacts::process() method ...");

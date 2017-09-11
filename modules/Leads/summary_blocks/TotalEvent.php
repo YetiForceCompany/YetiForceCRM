@@ -13,7 +13,12 @@ class TotalEvent
 	public $sequence = 3;
 	public $reference = 'Calendar';
 
-	public function process($instance)
+	/**
+	 * Process
+	 * @param Vtiger_Record_Model $instance
+	 * @return int
+	 */
+	public function process(Vtiger_Record_Model $instance)
 	{
 
 		\App\Log::trace("Entering TotalEvent::process() method ...");
