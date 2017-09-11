@@ -69,7 +69,6 @@ class Reservations_Calendar_Model extends \App\Base
 			$fieldType = Vtiger_Field_Model::getInstance('type', Vtiger_Module_Model::getInstance('Reservations'));
 			$item['type'] = $fieldType->getDisplayValue($record['type']);
 			$item['status'] = $record['reservations_status'];
-			$item['isPrivate'] = $record['private'];
 			$item['smownerid'] = \App\User::getUserModel($record['smownerid'])->getName();
 			$item['url'] = 'index.php?module=Reservations&view=Detail&record=' . $crmid;
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
