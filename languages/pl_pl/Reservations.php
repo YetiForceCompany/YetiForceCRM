@@ -43,7 +43,6 @@ $jsLanguageStrings = [
 	'PLL_TO_APPROVAL' => 'Zaakceptowano',
 	'PLL_DRAFT' => 'Wersja robocza',
 	'PLL_CANCELLED' => 'Anulowano',
-	'JS_IS_PRIVATE' => 'Prywatny',
 	'JS_ASSIGNED_TO' => 'Właściciel rekordu',
 	'JS_TYPE' => 'Typ',
 	'JS_YES' => 'Tak',
