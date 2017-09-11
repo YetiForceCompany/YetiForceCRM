@@ -13,7 +13,12 @@ class TasksOpen
 	public $sequence = 2;
 	public $reference = 'ProjectTask';
 
-	public function process($instance)
+	/**
+	 * Process
+	 * @param Vtiger_Record_Model $instance
+	 * @return int
+	 */
+	public function process(Vtiger_Record_Model $instance)
 	{
 
 		\App\Log::trace('Entering TasksOpen::process() method ...');

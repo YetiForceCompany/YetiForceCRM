@@ -13,7 +13,12 @@ class Progress
 	public $sequence = 5;
 	public $reference = 'Details';
 
-	public function process($instance)
+	/**
+	 * Process
+	 * @param Vtiger_Record_Model $instance
+	 * @return string
+	 */
+	public function process(Vtiger_Record_Model $instance)
 	{
 		return $instance->get('progress');
 	}
