@@ -194,11 +194,6 @@ class Users extends CRMEntity
 		}
 	}
 
-	public function get_user_hash($input)
-	{
-		return strtolower(md5($input));
-	}
-
 	/**
 	 * @return string encrypted password for storage in DB and comparison against DB password.
 	 * @param string $user_name - Must be non null and at least 2 characters
@@ -229,39 +224,6 @@ class Users extends CRMEntity
 			$salt = '$1$' . str_pad($salt, 9, '0');
 		}
 		return crypt($user_password, $salt);
-	}
-
-	/** Function for validation check
-	 *
-	 */
-	public function validation_check($validate, $md5, $alt = '')
-	{
-		$validate = base64_decode($validate);
-		if (file_exists($validate) && $handle = fopen($validate, 'rb', true)) {
-			$buffer = fread($handle, filesize($validate));
-			if (md5($buffer) == $md5 || (!empty($alt) && md5($buffer) == $alt)) {
-				return 1;
-			}
-			return -1;
-		} else {
-			return -1;
-		}
-	}
-
-	/** Function for authorization check
-	 *
-	 */
-	public function authorization_check($validate, $authkey, $i)
-	{
-		$validate = base64_decode($validate);
-		$authkey = base64_decode($authkey);
-		if (file_exists($validate) && $handle = fopen($validate, 'rb', true)) {
-			$buffer = fread($handle, filesize($validate));
-			if (substr_count($buffer, $authkey) < $i)
-				return -1;
-		}else {
-			return -1;
-		}
 	}
 
 	/**
@@ -413,7 +375,7 @@ class Users extends CRMEntity
 		return true;
 	}
 
-	public function is_authenticated()
+	public function isAuthenticated()
 	{
 		return $this->authenticated;
 	}
@@ -422,7 +384,7 @@ class Users extends CRMEntity
 	 * @param $user_name -- user name:: Type varchar
 	 * @returns user id
 	 */
-	public function retrieve_user_id($userName)
+	public function retrieveUserId($userName)
 	{
 		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
 			$users = \App\PrivilegeFile::getUser('userName');

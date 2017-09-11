@@ -30,7 +30,7 @@ Class Users_EditAjax_View extends Vtiger_IndexAjax_View
 
 	public function process(\App\Request $request)
 	{
-		$mode = $request->get('mode');
+		$mode = $request->getMode();
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
 			return;

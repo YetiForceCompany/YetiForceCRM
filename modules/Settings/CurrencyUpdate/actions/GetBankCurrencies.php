@@ -11,7 +11,7 @@ class Settings_CurrencyUpdate_GetBankCurrencies_Action extends Settings_Vtiger_B
 
 	public function process(\App\Request $request)
 	{
-		$mode = $request->get('mode');
+		$mode = $request->getMode();
 		$name = 'Settings_CurrencyUpdate_models_' . $request->get('name') . '_BankModel';
 		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
 		$response = new Vtiger_Response();

@@ -35,7 +35,7 @@ class Import_List_View extends Vtiger_Popup_View
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$mode = $request->get('mode');
+		$mode = $request->getMode();
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
 		} else {

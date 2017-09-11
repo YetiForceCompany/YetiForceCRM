@@ -237,7 +237,7 @@ class Request
 	 */
 	public function getMode()
 	{
-		return $this->get('mode');
+		return $this->getByType('mode', 2);
 	}
 
 	/**

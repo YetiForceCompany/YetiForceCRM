@@ -37,7 +37,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 
 	public function process(\App\Request $request)
 	{
-		$mode = $request->get('mode');
+		$mode = $request->getMode();
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
 		}

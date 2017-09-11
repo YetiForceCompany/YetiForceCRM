@@ -86,7 +86,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 				}
 			}
 
-			if ($fieldModel->isEditable() || $specialField) {
+			if ($fieldModel->isWritable() || $specialField) {
 				$recordModel->set($fieldName, $fieldModel->getDBValue($fieldValue));
 			}
 		}

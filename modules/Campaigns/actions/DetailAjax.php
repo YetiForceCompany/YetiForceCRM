@@ -20,7 +20,7 @@ class Campaigns_DetailAjax_Action extends Vtiger_RelatedList_View
 
 	public function process(\App\Request $request)
 	{
-		$mode = $request->get('mode');
+		$mode = $request->getMode();
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
 			return;

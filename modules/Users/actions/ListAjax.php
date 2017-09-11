@@ -28,7 +28,7 @@ class Users_ListAjax_Action extends Vtiger_BasicAjax_Action
 
 	public function process(\App\Request $request)
 	{
-		$mode = $request->get('mode');
+		$mode = $request->getMode();
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
 			return;

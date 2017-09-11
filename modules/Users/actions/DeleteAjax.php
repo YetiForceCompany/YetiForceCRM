@@ -26,7 +26,7 @@ class Users_DeleteAjax_Action extends Vtiger_Delete_Action
 		$moduleName = $request->getModule();
 		$ownerId = $request->get('userid');
 		$newOwnerId = $request->get('transfer_user_id');
-		if ($request->get('mode') === 'permanent') {
+		if ($request->getMode() === 'permanent') {
 			Users_Record_Model::deleteUserPermanently($ownerId, $newOwnerId);
 		} else {
 			$userId = vtws_getWebserviceEntityId($moduleName, $ownerId);

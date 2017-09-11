@@ -13,7 +13,7 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_IndexAj
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$mode = $request->get('mode');
+		$mode = $request->getMode();
 		if ($mode === 'delete' && !$currentUserModel->isAdminUser()) {
 			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}

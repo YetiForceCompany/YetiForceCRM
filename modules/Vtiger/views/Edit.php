@@ -116,7 +116,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 				list($startDate, $startTime) = explode(' ', $startDateTime);
 				$fieldValue = Vtiger_Date_UIType::getDisplayDateValue($startDate);
 			}
-			if ($fieldModel->isEditable() || $specialField) {
+			if ($fieldModel->isWritable() || $specialField) {
 				$recordModel->set($fieldName, $fieldModel->getDBValue($fieldValue));
 			}
 		}

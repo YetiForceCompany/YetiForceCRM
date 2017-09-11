@@ -31,7 +31,7 @@ class Users_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 
 		foreach ($requestFieldList as $fieldName => $fieldValue) {
 			$fieldModel = $fieldList[$fieldName];
-			if ($fieldModel->isEditable()) {
+			if ($fieldModel->isWritable()) {
 				$recordModel->set($fieldName, $fieldModel->getDBValue($fieldValue));
 			}
 		}

@@ -25,7 +25,7 @@ class Vtiger_Notebook_Dashboard extends Vtiger_IndexAjax_View
 
 		$widget = Vtiger_Notebook_Model::getUserInstance($widgetId);
 
-		$mode = $request->get('mode');
+		$mode = $request->getMode();
 		if ($mode == 'save') {
 			$widget->save($request);
 		}

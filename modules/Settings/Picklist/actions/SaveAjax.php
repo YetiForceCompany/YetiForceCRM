@@ -31,7 +31,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function process(\App\Request $request)
 	{
-		$mode = $request->get('mode');
+		$mode = $request->getMode();
 		$this->invokeExposedMethod($mode, $request);
 	}
 	/*

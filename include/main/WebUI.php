@@ -98,7 +98,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			App\Session::init();
 			// Better place this here as session get initiated
 			//skipping the csrf checking for the forgot(reset) password
-			if (AppConfig::main('csrfProtection') && $request->get('mode') !== 'reset' && $request->getByType('action', 1) !== 'Login' && AppConfig::main('systemMode') !== 'demo') {
+			if (AppConfig::main('csrfProtection') && $request->getMode() !== 'reset' && $request->getByType('action', 1) !== 'Login' && AppConfig::main('systemMode') !== 'demo') {
 				require_once('config/csrf_config.php');
 				require_once('libraries/csrf-magic/csrf-magic.php');
 			}
@@ -106,7 +106,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$currentUser = $this->getLogin();
 			$currentLanguage = \App\Language::getLanguage();
 			vglobal('current_language', $currentLanguage);
-			$module = $request->getModule();
+			$moduleName = $request->getModule();
 			$qualifiedModuleName = $request->getModule(false);
 			if ($currentUser) {
 				if ($qualifiedModuleName) {
@@ -120,31 +120,30 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 					vglobal('app_strings', $moduleLanguageStrings['languageStrings']);
 				}
 			}
-			$view = $request->getByType('view', 1);
-			$action = $request->getByType('action', 1);
+			$view = $request->getByType('view', 2);
+			$action = $request->getByType('action', 2);
 			$response = false;
-
-			if (empty($module)) {
+			if (empty($moduleName)) {
 				if ($this->hasLogin()) {
 					$defaultModule = AppConfig::main('default_module');
 					if (!empty($defaultModule) && $defaultModule !== 'Home') {
-						$module = $defaultModule;
+						$moduleName = $defaultModule;
 						$qualifiedModuleName = $defaultModule;
 						$view = 'List';
-						if ($module === 'Calendar') {
+						if ($moduleName === 'Calendar') {
 							$view = 'Calendar';
 						}
 					} else {
-						$module = 'Home';
+						$moduleName = 'Home';
 						$qualifiedModuleName = 'Home';
 						$view = 'DashBoard';
 					}
 				} else {
-					$module = 'Users';
-					$qualifiedModuleName = $module;
+					$moduleName = 'Users';
+					$qualifiedModuleName = $moduleName;
 					$view = 'Login';
 				}
-				$request->set('module', $module);
+				$request->set('module', $moduleName);
 				$request->set('view', $view);
 			}
 			if (!empty($action)) {
@@ -171,7 +170,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND', 405);
 			}
 
-			vglobal('currentModule', $module);
+			vglobal('currentModule', $moduleName);
 			if (AppConfig::main('csrfProtection') && AppConfig::main('systemMode') !== 'demo') { // Ensure handler validates the request
 				$handler->validateRequest($request);
 			}
@@ -179,14 +178,14 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				$this->checkLogin($request);
 			}
 			$skipList = ['Users', 'Home', 'CustomView', 'Import', 'Export', 'Vtiger', 'Install', 'ModTracker'];
-			if (!in_array($module, $skipList) && stripos($qualifiedModuleName, 'Settings') === false) {
+			if (!in_array($moduleName, $skipList) && stripos($qualifiedModuleName, 'Settings') === false) {
 				$this->triggerCheckPermission($handler, $request);
 			}
 			// Every settings page handler should implement this method
-			if (stripos($qualifiedModuleName, 'Settings') === 0 || $module === 'Users') {
+			if (stripos($qualifiedModuleName, 'Settings') === 0 || $moduleName === 'Users') {
 				$handler->checkPermission($request);
 			}
-			if ($module === 'ModComments' && $view === 'List') {
+			if ($moduleName === 'ModComments' && $view === 'List') {
 				header('Location:index.php?module=Home&view=DashBoard');
 			}
 			$this->triggerPreProcess($handler, $request);

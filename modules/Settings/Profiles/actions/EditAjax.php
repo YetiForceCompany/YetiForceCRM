@@ -19,7 +19,7 @@ Class Settings_Profiles_EditAjax_Action extends Settings_Vtiger_IndexAjax_View
 
 	public function process(\App\Request $request)
 	{
-		$mode = $request->get('mode');
+		$mode = $request->getMode();
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
 			return;

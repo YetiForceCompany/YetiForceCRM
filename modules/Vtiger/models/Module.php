@@ -1379,24 +1379,24 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function returns query for module record's search
-	 * @param string $searchValue - part of record name (label column of crmentity table)
-	 * @param <Integer> $parentId - parent record id
-	 * @param string $parentModule - parent module name
-	 * @return string - query
+	 * @param string $searchValue part of record name (label column of crmentity table)
+	 * @param integer $parentId parent record id
+	 * @param string $parentModule parent module name
+	 * @return App\Db\Query
 	 */
 	public function getSearchRecordsQuery($searchValue, $parentId = false, $parentModule = false)
 	{
-		$currentUser = \Users_Record_Model::getCurrentUserModel();
-		return sprintf('SELECT `crmid`,`setype`,`searchlabel` FROM `u_yf_crmentity_search_label` WHERE `userid` LIKE \'%s\' && `searchlabel` LIKE \'%s\'', '%,' . $currentUser->getId() . ',%', "%$searchValue%");
+		return (new App\Db\Query())->select(['crmid', 'setype', 'searchlabel'])
+			->from('u_#__crmentity_search_label')->where(['and', ['like', 'userid', ',' . App\User::getCurrentUserId() . ','], ['like', 'searchlabel', $searchValue]]);
 	}
 
 	/**
 	 * Function searches the records in the module, if parentId & parentModule
 	 * is given then searches only those records related to them.
-	 * @param string $searchValue - Search value
-	 * @param <Integer> $parentId - parent recordId
-	 * @param string $parentModule - parent module name
-	 * @return <Array of Vtiger_Record_Model>
+	 * @param string $searchValue Search value
+	 * @param integer $parentId parent recordId
+	 * @param string $parentModule parent module name
+	 * @return Vtiger_Record_Model[]
 	 */
 	public function searchRecord($searchValue, $parentId = false, $parentModule = false, $relatedModule = false)
 	{
@@ -1406,14 +1406,14 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if (empty($parentId) || empty($parentModule)) {
 			$matchingRecords = Vtiger_Record_Model::getSearchResult($searchValue, $this->getName());
 		} else if ($parentId && $parentModule) {
-			$adb = PearDatabase::getInstance();
-			$result = $adb->query($this->getSearchRecordsQuery($searchValue, $parentId, $parentModule));
-
-			while ($row = $adb->getRow($result)) {
+			$dataReader = $this->getSearchRecordsQuery($searchValue, $parentId, $parentModule)
+					->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				$recordMeta = \vtlib\Functions::getCRMRecordMetadata($row['crmid']);
 				$row['id'] = $row['crmid'];
 				$row['smownerid'] = $recordMeta['smownerid'];
 				$row['createdtime'] = $recordMeta['createdtime'];
+				$moduleName = $recordMeta['setype'];
 				$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 				$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
 				$recordInstance = new $modelClassName();

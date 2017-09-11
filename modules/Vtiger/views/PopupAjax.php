@@ -32,7 +32,7 @@ class Vtiger_PopupAjax_View extends Vtiger_Popup_View
 
 	public function process(\App\Request $request)
 	{
-		$mode = $request->get('mode');
+		$mode = $request->getMode();
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
 			return;

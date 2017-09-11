@@ -33,7 +33,7 @@ Class OSSMailView_MailsPreview_View extends Vtiger_IndexAjax_View
 		$srecord = $request->get('srecord');
 		$smodule = $request->get('smodule');
 		$type = $request->get('type');
-		$mode = $request->get('mode');
+		$mode = $request->getMode();
 		$record = $request->get('record');
 		$mailFilter = $request->get('mailFilter');
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
