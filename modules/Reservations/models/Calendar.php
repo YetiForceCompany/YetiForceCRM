@@ -68,13 +68,13 @@ class Reservations_Calendar_Model extends \App\Base
 		}
 		\App\PrivilegeQuery::getConditions($query, $module);
 		$query->orderBy(['date_start' => SORT_ASC, 'time_start' => SORT_ASC]);
+		$fieldType = Vtiger_Field_Model::getInstance('type', Vtiger_Module_Model::getInstance('Reservations'));
 		$dataReader = $query->createCommand()->query();
 		$result = [];
 		while ($record = $dataReader->read()) {
 			$crmid = $record['reservationsid'];
 			$item['id'] = $crmid;
 			$item['title'] = $record['title'];
-			$fieldType = Vtiger_Field_Model::getInstance('type', Vtiger_Module_Model::getInstance('Reservations'));
 			$item['type'] = $fieldType->getDisplayValue($record['type']);
 			$item['status'] = $record['reservations_status'];
 			$item['totalTime'] = $record['sum_time'];
