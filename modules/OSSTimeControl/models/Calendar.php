@@ -82,7 +82,7 @@ class OSSTimeControl_Calendar_Model extends App\Base
 				$item['subprocm'] = \App\Record::getType($record['subprocess']);
 			}
 			$item['totalTime'] = vtlib\Functions::decimalTimeFormat($record['sum_time'])['short'];
-			$item['smownerid'] = vtlib\Functions::getOwnerRecordLabel($record['assigned_user_id']);
+			$item['smownerid'] = \App\Fields\Owner::getLabel($record['assigned_user_id']);
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
 			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
 			$dateTimeComponents = explode(' ', $userDateTimeString);
