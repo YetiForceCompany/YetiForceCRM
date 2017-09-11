@@ -6,7 +6,7 @@
  *   The Initial Developer of the Original Code is vtiger.
  *   Portions created by vtiger are Copyright (C) vtiger.
  *   All Rights Reserved.
- * 
+ *
  * ******************************************************************************* */
 
 /**
@@ -19,10 +19,12 @@
  * @param String $oldPassword
  * @param String $newPassword
  * @param String $confirmPassword
- * @param Users $user 
- * 
+ * @param Users $user
+ * @param bool $validateOldPassword
+ * @param Users $user
+ *
  */
-function vtws_changePassword($id, $oldPassword, $newPassword, $confirmPassword, Users $user)
+function vtws_changePassword($id, $oldPassword, $newPassword, $confirmPassword, Users $user, $validateOldPassword = true)
 {
 	vtws_preserveGlobal('current_user', $user);
 	$idComponents = vtws_getIdComponents($id);
@@ -40,7 +42,7 @@ function vtws_changePassword($id, $oldPassword, $newPassword, $confirmPassword, 
 			}
 		}
 		if (strcmp($newPassword, $confirmPassword) === 0) {
-			$success = $newUser->changePassword($oldPassword, $newPassword);
+			$success = $newUser->changePassword($oldPassword, $newPassword, true, $validateOldPassword);
 			$error = $newUser->db->hasFailedTransaction();
 			if ($error) {
 				throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, vtws_getWebserviceTranslatedString('LBL_' .
