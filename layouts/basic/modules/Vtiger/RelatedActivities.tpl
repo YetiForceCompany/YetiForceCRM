@@ -112,7 +112,7 @@
 							</span>
 						{/if}
 						<span class="pull-right popoverTooltip delay0" data-placement="top" data-original-title="{\App\Language::translate($RECORD->get('activitytype'),$MODULE_NAME)}: {$RECORD->get('subject')}" 
-							  data-content="{\App\Language::translate('Status',$MODULE_NAME)}: {\App\Language::translate($STATUS,$MODULE_NAME)}<br />{\App\Language::translate('Start Time','Calendar')}: {$START_DATE} {$START_TIME}<br />{\App\Language::translate('End Time','Calendar')}: {$END_DATE} {$END_TIME}<hr />{\App\Language::translate('Created By',$MODULE_NAME)}: {vtlib\Functions::getOwnerRecordLabel( $RECORD->get('smcreatorid') )}<br />{\App\Language::translate('Assigned To',$MODULE_NAME)}: {vtlib\Functions::getOwnerRecordLabel( $RECORD->get('smownerid') )}
+							  data-content="{\App\Language::translate('Status',$MODULE_NAME)}: {\App\Language::translate($STATUS,$MODULE_NAME)}<br />{\App\Language::translate('Start Time','Calendar')}: {$START_DATE} {$START_TIME}<br />{\App\Language::translate('End Time','Calendar')}: {$END_DATE} {$END_TIME}<hr />{\App\Language::translate('Created By',$MODULE_NAME)}: {\App\Fields\Owner::getLabel( $RECORD->get('smcreatorid') )}<br />{\App\Language::translate('Assigned To',$MODULE_NAME)}: {\App\Fields\Owner::getLabel( $RECORD->get('smownerid') )}
 							  {if $SHAREDOWNER}<div> 
 								  {\App\Language::translate('Share with users',$MODULE_NAME)}:&nbsp;
 								  {foreach $SHAREDOWNER item=SOWNERID name=sowner}
@@ -127,7 +127,7 @@
 								  {if count($RECORD->get('selectedusers')) > 0}
 									  <br />{\App\Language::translate('LBL_INVITE_RECORDS',$MODULE_NAME)}: 
 									  {foreach item=USER key=KEY from=$RECORD->get('selectedusers')}
-									  {if $USER}{vtlib\Functions::getOwnerRecordLabel( $USER )}{/if}
+									  {if $USER}{\App\Fields\Owner::getLabel( $USER )}{/if}
 								  {/foreach}
 							  {/if}
 						{/if}

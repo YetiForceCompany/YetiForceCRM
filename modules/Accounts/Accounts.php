@@ -348,7 +348,7 @@ class Accounts extends CRMEntity
 				} elseif ($fieldName == 'shownerid') {
 					$sharedOwners = Vtiger_SharedOwner_UIType::getSharedOwners($row['accountid']);
 					if (!empty($sharedOwners)) {
-						$sharedOwners = implode(',', array_map('vtlib\Functions::getOwnerRecordLabel', $sharedOwners));
+						$sharedOwners = implode(',', array_map('\App\Fields\Owner::getLabel', $sharedOwners));
 						$parent_account_info[$fieldName] = $sharedOwners;
 					}
 				} else {
@@ -404,7 +404,7 @@ class Accounts extends CRMEntity
 					} elseif ($fieldName == 'shownerid') {
 						$sharedOwners = Vtiger_SharedOwner_UIType::getSharedOwners($child_acc_id);
 						if (!empty($sharedOwners)) {
-							$sharedOwners = implode(',', array_map('vtlib\Functions::getOwnerRecordLabel', $sharedOwners));
+							$sharedOwners = implode(',', array_map('\App\Fields\Owner::getLabel', $sharedOwners));
 							$child_account_info[$fieldName] = $sharedOwners;
 						}
 					} else {

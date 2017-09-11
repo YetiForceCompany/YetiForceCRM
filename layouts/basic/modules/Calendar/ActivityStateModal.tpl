@@ -105,12 +105,12 @@
 					<div class="form-group">
 						<label class="col-sm-4 control-label">{\App\Language::translate('Created By',$MODULE_NAME)}: </label>
 						<div class="col-sm-8 textOverflowEllipsis">
-							{vtlib\Functions::getOwnerRecordLabel( $RECORD->get('created_user_id') )}
+							{\App\Fields\Owner::getLabel( $RECORD->get('created_user_id') )}
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-4 control-label">{\App\Language::translate('Assigned To',$MODULE_NAME)}: </label>
-						<div class="col-sm-8 textOverflowEllipsis">{vtlib\Functions::getOwnerRecordLabel( $RECORD->get('assigned_user_id') )}</div>
+						<div class="col-sm-8 textOverflowEllipsis">{\App\Fields\Owner::getLabel( $RECORD->get('assigned_user_id') )}</div>
 					</div>
 					{if $RECORD->get('shownerid')}
 						<div class="form-group">

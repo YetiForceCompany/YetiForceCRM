@@ -21,7 +21,7 @@
 				{/if}>
 			{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')} 
 				{foreach item=USER from=$FIELD_VALUE}
-					{assign var=OWNER_NAME value=vtlib\Functions::getOwnerRecordLabel($USER)}
+					{assign var=OWNER_NAME value=\App\Fields\Owner::getLabel($USER)}
 					<option value="{$USER}" data-picklistvalue="{$OWNER_NAME}" selected="selected">
 						{$OWNER_NAME}
 					</option>
