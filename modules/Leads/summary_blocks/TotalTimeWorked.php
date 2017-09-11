@@ -13,7 +13,12 @@ class TotalTimeWorked
 	public $sequence = 5;
 	public $reference = 'OSSTimeControl';
 
-	public function process($instance)
+	/**
+	 * Process
+	 * @param Vtiger_Record_Model $instance
+	 * @return int
+	 */
+	public function process(Vtiger_Record_Model $instance)
 	{
 
 		\App\Log::trace("Entering TotalTimeWorked::process() method ...");

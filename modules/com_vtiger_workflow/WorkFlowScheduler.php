@@ -123,7 +123,7 @@ class WorkFlowScheduler
 	 * @param \App\QueryGenerator $queryGenerator
 	 * @param array $conditions
 	 */
-	public function addWorkflowConditionsToQueryGenerator($queryGenerator, $conditions)
+	public function addWorkflowConditionsToQueryGenerator(\App\QueryGenerator $queryGenerator, $conditions)
 	{
 		$conditionMapping = [
 			'equal to' => 'e',
