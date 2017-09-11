@@ -320,13 +320,15 @@ class Users extends CRMEntity
 	 * @param string $user name - Must be non null and at least 1 character.
 	 * @param string $userPassword - Must be non null and at least 1 character.
 	 * @param string $newPassword - Must be non null and at least 1 character.
+	 * @param bool $dieOnError Die on error
+	 * @param bool $validateOldPassword Check if old password is correct
 	 * @return boolean - If passwords pass verification and query succeeds, return true, else return false.
 	 * @desc Verify that the current password is correct and write the new password to the DB.
 	 * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc..
 	 * All Rights Reserved..
 	 * Contributor(s): Contributor(s): YetiForce.com
 	 */
-	public function changePassword($userPassword, $newPassword, $dieOnError = true)
+	public function changePassword($userPassword, $newPassword, $dieOnError = true, $validateOldPassword = true)
 	{
 		$userName = $this->column_fields['user_name'];
 		$currentUser = \App\User::getCurrentUserModel();
@@ -336,7 +338,7 @@ class Users extends CRMEntity
 			$this->error_string = \App\Language::translate('ERR_PASSWORD_CHANGE_FAILED_1') . $userName . \App\Language::translate('ERR_PASSWORD_CHANGE_FAILED_2');
 			return false;
 		}
-		if (!$currentUser->isAdmin()) {
+		if (!$currentUser->isAdmin() && $validateOldPassword) {
 			if (!$this->verifyPassword($userPassword)) {
 				\App\Log::warning('Incorrect old password for ' . $userName);
 				$this->error_string = \App\Language::translate('ERR_PASSWORD_INCORRECT_OLD');
@@ -540,7 +542,7 @@ class Users extends CRMEntity
 
 	public function filterInactiveFields($module)
 	{
-		
+
 	}
 
 	public function deleteImage()

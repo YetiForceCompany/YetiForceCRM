@@ -39,7 +39,7 @@ class Users_ForgotPassword_Action
 			$userId = getUserId_Ol($userName);
 			$user = Users::getActiveAdminUser();
 			$wsUserId = vtws_getWebserviceEntityId('Users', $userId);
-			vtws_changePassword($wsUserId, '', $newPassword, $confirmPassword, $user);
+			vtws_changePassword($wsUserId, '', $newPassword, $confirmPassword, $user, false);
 		} else {
 			$viewer->assign('ERROR', true);
 		}
