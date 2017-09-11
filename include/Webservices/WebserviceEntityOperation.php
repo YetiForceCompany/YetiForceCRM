@@ -70,7 +70,12 @@ abstract class WebserviceEntityOperation
 		throw new WebServiceException(WebServiceErrorCode::$OPERATIONNOTSUPPORTED, "Operation relatedIds is not supported for this entity");
 	}
 
-	public function getFieldTypeDetails($webserviceField)
+	/**
+	 * Get details and field type
+	 * @param Settings_MappedFields_Field_Model $webserviceField
+	 * @return array
+	 */
+	public function getFieldTypeDetails(Settings_MappedFields_Field_Model $webserviceField)
 	{
 		$uploadMaxsize = vglobal('upload_maxsize');
 		$typeDetails = [];
@@ -78,8 +83,8 @@ abstract class WebserviceEntityOperation
 			case 'reference': $typeDetails['refersTo'] = $webserviceField->getReferenceList();
 				break;
 			case 'multipicklist':
-			case 'picklist': $typeDetails["picklistValues"] = $webserviceField->getPicklistDetails($webserviceField);
-				$typeDetails['defaultValue'] = $typeDetails["picklistValues"][0]['value'];
+			case 'picklist': $typeDetails['picklistValues'] = $webserviceField->getPicklistDetails($webserviceField);
+				$typeDetails['defaultValue'] = $typeDetails['picklistValues'][0]['value'];
 				break;
 			case 'file': $maxUploadSize = 0;
 				$maxUploadSize = ini_get('upload_max_filesize');
