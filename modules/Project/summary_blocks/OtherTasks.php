@@ -15,14 +15,14 @@ class OtherTasks
 
 	/**
 	 * Process
-	 * @param Vtiger_Record_Model $instance
+	 * @param Vtiger_Record_Model $recordModel
 	 * @return int
 	 */
-	public function process(Vtiger_Record_Model $instance)
+	public function process(Vtiger_Record_Model $recordModel)
 	{
 
 		\App\Log::trace('Entering OtherTasks::process() method ...');
-		$count = (new App\Db\Query())->from('vtiger_projecttask')->innerJoin('vtiger_crmentity', 'vtiger_projecttask.projecttaskid = vtiger_crmentity.crmid')->where(['vtiger_projecttask.projectid' => $instance->getId(), 'vtiger_crmentity.deleted' => 0])->andWhere(['not in', 'vtiger_projecttask.projecttaskpriority', ['high', 'low', 'normal']])->count();
+		$count = (new App\Db\Query())->from('vtiger_projecttask')->innerJoin('vtiger_crmentity', 'vtiger_projecttask.projecttaskid = vtiger_crmentity.crmid')->where(['vtiger_projecttask.projectid' => $recordModel->getId(), 'vtiger_crmentity.deleted' => 0])->andWhere(['not in', 'vtiger_projecttask.projecttaskpriority', ['high', 'low', 'normal']])->count();
 		\App\Log::trace('Exiting OtherTasks::process() method ...');
 		return $count;
 	}

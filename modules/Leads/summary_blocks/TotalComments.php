@@ -32,15 +32,15 @@ class TotalComments
 
 	/**
 	 * Process
-	 * @param Vtiger_Record_Model $instance
+	 * @param Vtiger_Record_Model $recordModel
 	 * @return int
 	 */
-	public function process(Vtiger_Record_Model $instance)
+	public function process(Vtiger_Record_Model $recordModel)
 	{
 
-		\App\Log::trace("Entering TotalComments::process() method ...");
-		$count = (new \App\Db\Query())->from('vtiger_modcomments')->where(['vtiger_modcomments.related_to' => $instance->getId()])->count();
-		\App\Log::trace("Exiting TotalComments::process() method ...");
+		\App\Log::trace('Entering TotalComments::process() method ...');
+		$count = (new \App\Db\Query())->from('vtiger_modcomments')->where(['vtiger_modcomments.related_to' => $recordModel->getId()])->count();
+		\App\Log::trace('Exiting TotalComments::process() method ...');
 		return $count;
 	}
 }

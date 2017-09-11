@@ -15,13 +15,13 @@ class SumTimeProject
 
 	/**
 	 * Process
-	 * @param Vtiger_Record_Model $instance
+	 * @param Vtiger_Record_Model $recordModel
 	 * @return string
 	 */
-	public function process(Vtiger_Record_Model $instance)
+	public function process(Vtiger_Record_Model $recordModel)
 	{
 		\App\Log::trace('Entering SumTimeProject::process() method ...');
-		$sum_time = vtlib\Functions::decimalTimeFormat($instance->get('sum_time'));
+		$sum_time = vtlib\Functions::decimalTimeFormat($recordModel->get('sum_time'));
 		\App\Log::trace('Exiting SumTimeProject::process() method ...');
 		return $sum_time['short'];
 	}
