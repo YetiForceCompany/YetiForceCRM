@@ -182,7 +182,7 @@ function vtws_populateConvertLeadEntities($entityvalue, $entity, Vtiger_Record_M
 }
 
 /**
- * Validate convert lead entity andatory values
+ * Validate convert lead entity mandatory values
  * @param string $entity
  * @param Vtiger_Module_Model $targetModuleModel
  * @param string $module
