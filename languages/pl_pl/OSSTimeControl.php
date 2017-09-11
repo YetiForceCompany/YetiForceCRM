@@ -110,4 +110,6 @@ $jsLanguageStrings = [
 	'JS_END_DATE' => 'Czas zakończenia',
 	'JS_TOTAL_TIME' => 'Łączny czas',
 	'JS_ASSIGNED_TO' => 'Właściciel rekordu',
+	'JS_TYPE' => 'Typ',
+	'JS_NUMBER' => 'Numer',
 ];
