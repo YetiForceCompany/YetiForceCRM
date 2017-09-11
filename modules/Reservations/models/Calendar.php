@@ -9,6 +9,14 @@
 class Reservations_Calendar_Model extends \App\Base
 {
 
+	private function getLabel($labels, $key)
+	{
+		if (isset($labels[$key])) {
+			return $labels[$key];
+		}
+		return '';
+	}
+
 	/**
 	 * Function to get records
 	 * @return array
@@ -70,6 +78,17 @@ class Reservations_Calendar_Model extends \App\Base
 			$item['type'] = $fieldType->getDisplayValue($record['type']);
 			$item['status'] = $record['reservations_status'];
 			$item['smownerid'] = \App\User::getUserModel($record['smownerid'])->getName();
+			if ($record['relatedida']) {
+				$companyRecord = Vtiger_Record_Model::getInstanceById($record['relatedida']);
+				$item['company'] = $companyRecord->getDisplayName();
+			}
+			if ($record['relatedidb']) {
+				$processRecord = Vtiger_Record_Model::getInstanceById($record['relatedidb']);
+				$item['process'] = $processRecord->getDisplayName();
+				$item['processId'] = $processRecord->getId();
+				$item['processType'] = $processRecord->getModuleName();
+				$item['processLabel'] = \App\Language::translate($processRecord->getModuleName());
+			}
 			$item['url'] = 'index.php?module=Reservations&view=Detail&record=' . $crmid;
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
 			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);

@@ -39,6 +39,7 @@ $jsLanguageStrings = [
 	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'Czas pracy nie może przekraczać 24 godzin',
 	'JS_START_DATE' => 'Czas rozpoczęcia',
 	'JS_END_DATE' => 'Czas zakończenia',
+	'JS_COMPANY' => 'Firma',
 	'PLL_ACCEPTED' => 'Do akceptacji',
 	'PLL_TO_APPROVAL' => 'Zaakceptowano',
 	'PLL_DRAFT' => 'Wersja robocza',
