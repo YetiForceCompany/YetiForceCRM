@@ -107,4 +107,6 @@ $jsLanguageStrings = [
 	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'O tempo de trabalho não pode execeder 24 horas',
 	'JS_START_DATE' => 'Data Inicial',
 	'JS_END_DATE' => 'Data Final',
+	'JS_TOTAL_TIME' => 'Total time',
+ 	'JS_ASSIGNED_TO' => 'Assigned to',
 ];
