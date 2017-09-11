@@ -78,17 +78,15 @@ class Reservations_Calendar_Model extends \App\Base
 			$item['type'] = $fieldType->getDisplayValue($record['type']);
 			$item['status'] = $record['reservations_status'];
 			$item['totalTime'] = $record['sum_time'];
-			$item['smownerid'] = \App\User::getUserModel($record['smownerid'])->getName();
+			$item['smownerid'] = vtlib\Functions::getOwnerRecordLabel($record['smownerid']);
 			if ($record['relatedida']) {
-				$companyRecord = Vtiger_Record_Model::getInstanceById($record['relatedida']);
-				$item['company'] = $companyRecord->getDisplayName();
+				$item['company'] = \App\Record::getLabel($record['relatedida']);
 			}
 			if ($record['relatedidb']) {
-				$processRecord = Vtiger_Record_Model::getInstanceById($record['relatedidb']);
-				$item['process'] = $processRecord->getDisplayName();
-				$item['processId'] = $processRecord->getId();
-				$item['processType'] = $processRecord->getModuleName();
-				$item['processLabel'] = \App\Language::translate($processRecord->getModuleName());
+				$item['process'] = \App\Record::getLabel($record['relatedidb']);
+				$item['processId'] = $record['relatedidb'];
+				$item['processType'] = \App\Record::getType($record['relatedidb']);
+				$item['processLabel'] = \App\Language::translate(\App\Record::getType($record['relatedidb']));
 			}
 			$item['url'] = 'index.php?module=Reservations&view=Detail&record=' . $crmid;
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);

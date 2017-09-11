@@ -55,53 +55,34 @@ class OSSTimeControl_Calendar_Model extends App\Base
 		$dataReader = $query->createCommand()->query();
 
 		while ($record = $dataReader->read()) {
-			$records[] = $record;
-			if (!empty($record['link'])) {
-				$ids[] = $record['link'];
-			}
-			if (!empty($record['process'])) {
-				$ids[] = $record['process'];
-			}
-			if (!empty($record['subprocess'])) {
-				$ids[] = $record['subprocess'];
-			}
-		}
-		$labels = \App\Record::getLabel($ids);
-		$result = [];
-		foreach ($records as &$record) {
 			$item = [];
 			$item['id'] = $record['id'];
 			$item['title'] = $record['name'];
 			$item['url'] = 'index.php?module=OSSTimeControl&view=Detail&record=' . $record['id'];
-			$fieldStatus = Vtiger_Field_Model::getInstance('osstimecontrol_status', Vtiger_Module_Model::getInstance('OSSTimeControl'));
-			$item['status'] = $fieldStatus->getDisplayValue($record['osstimecontrol_status']);
-			$fieldType = Vtiger_Field_Model::getInstance('timecontrol_type', Vtiger_Module_Model::getInstance('OSSTimeControl'));
-			$item['type'] = $fieldType->getDisplayValue($record['timecontrol_type']);
+			$item['status'] = \App\Language::translate($record['osstimecontrol_status'], 'OSSTimeControl');
+			$item['type'] = \App\Language::translate($record['timecontrol_type'], 'OSSTimeControl');
 			$item['number'] = $record['osstimecontrol_no'];
 			//Relation
 			if ($record['link']) {
-				$relationRecord = Vtiger_Record_Model::getInstanceById($record['link']);
 				$item['link'] = $record['link'];
-				$item['linkl'] = $this->getLabel($labels, $record['link']);
+				$item['linkl'] = \App\Record::getLabel($record['link']);
 				// / migoi
-				$item['linkm'] = $relationRecord->getModuleName();
+				$item['linkm'] = \App\Record::getType($record['link']);
 			}
 			//Process
 			if ($record['process']) {
-				$processRecord = Vtiger_Record_Model::getInstanceById($record['process']);
 				$item['process'] = $record['process'];
-				$item['procl'] = vtlib\Functions::textLength($this->getLabel($labels, $record['process']));
-				$item['procm'] = $processRecord->getModuleName();
+				$item['procl'] = \App\Record::getLabel($record['process']);
+				$item['procm'] = \App\Record::getType($record['process']);
 			}
 			//Subprocess
 			if ($record['subprocess']) {
-				$subProcessRecord = Vtiger_Record_Model::getInstanceById($record['subprocess']);
 				$item['subprocess'] = $record['subprocess'];
-				$item['subprocl'] = vtlib\Functions::textLength($this->getLabel($labels, $record['subprocess']));
-				$item['subprocm'] = $subProcessRecord->getModuleName();
+				$item['subprocl'] = \App\Record::getLabel($record['subprocess']);
+				$item['subprocm'] = \App\Record::getType($record['subprocess']);
 			}
 			$item['totalTime'] = $record['sum_time'];
-			$item['smownerid'] = \App\User::getUserModel($record['assigned_user_id'])->getName();
+			$item['smownerid'] = vtlib\Functions::getOwnerRecordLabel($record['assigned_user_id']);
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
 			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
 			$dateTimeComponents = explode(' ', $userDateTimeString);
@@ -120,20 +101,6 @@ class OSSTimeControl_Calendar_Model extends App\Base
 			$result[] = $item;
 		}
 		return $result;
-	}
-
-	/**
-	 * Get label
-	 * @param array $labels
-	 * @param string $key
-	 * @return string
-	 */
-	private function getLabel($labels, $key)
-	{
-		if (isset($labels[$key])) {
-			return $labels[$key];
-		}
-		return '';
 	}
 
 	/**
