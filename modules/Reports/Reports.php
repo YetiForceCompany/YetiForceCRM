@@ -1117,11 +1117,13 @@ class Reports extends CRMEntity
 	}
 }
 
-/** Function to get the primary module list in vtiger_reports
- *  This function generates the list of primary modules in vtiger_reports
- *  and returns an array of permitted modules
+/**
+ * Function to get the primary module list in vtiger_reports
+ * This function generates the list of primary modules in vtiger_reports
+ * @param \App\Privilege $focus
+ * @return array
  */
-function getReportsModuleList($focus)
+function getReportsModuleList(\App\Privilege $focus)
 {
 	$modules = [];
 	foreach ($focus->module_list as $key => $value) {
@@ -1133,11 +1135,14 @@ function getReportsModuleList($focus)
 	return $modules;
 }
 
-/** Function to get the Related module list in vtiger_reports
- *  This function generates the list of secondary modules in vtiger_reports
- *  and returns the related module as an Array
+/**
+ * Function to get the Related module list in vtiger_reports
+ * This function generates the list of secondary modules in vtiger_reports
+ * @param string $module
+ * @param \App\Privilege $focus
+ * @return array
  */
-function getReportRelatedModules($module, $focus)
+function getReportRelatedModules($module, \App\Privilege $focus)
 {
 	$optionhtml = [];
 	if (\App\Module::isModuleActive($module)) {
