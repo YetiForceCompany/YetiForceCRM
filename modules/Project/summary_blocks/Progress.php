@@ -15,11 +15,11 @@ class Progress
 
 	/**
 	 * Process
-	 * @param Vtiger_Record_Model $instance
+	 * @param Vtiger_Record_Model $recordModel
 	 * @return string
 	 */
-	public function process(Vtiger_Record_Model $instance)
+	public function process(Vtiger_Record_Model $recordModel)
 	{
-		return $instance->get('progress');
+		return $recordModel->get('progress');
 	}
 }
