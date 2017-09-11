@@ -56,7 +56,7 @@
 				{elseif isset($ALL_ACTIVEGROUP_LIST[$FIELD_VALUE])}
 					{assign var=OWNER_NAME value=$ALL_ACTIVEGROUP_LIST[$FIELD_VALUE]}
 				{else}
-					{assign var=OWNER_NAME value=vtlib\Functions::getOwnerRecordLabel($FIELD_VALUE)}
+					{assign var=OWNER_NAME value=\App\Fields\Owner::getLabel($FIELD_VALUE)}
 				{/if}
 				<option value="{$FIELD_VALUE}" selected data-picklistvalue="{$OWNER_NAME}" selected data-userId="{$CURRENT_USER_ID}">
 					{$OWNER_NAME}

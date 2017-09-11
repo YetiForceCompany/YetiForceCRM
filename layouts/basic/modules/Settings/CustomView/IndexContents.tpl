@@ -42,7 +42,7 @@
 						<td>
 							<button type="button" id="sort" name="sort" class="btn btn-default btn-sm showModal" data-url="{$MODULE_MODEL->getSortingFilterUrl($SOURCE_MODULE_ID,$key)}"><span class="glyphicon glyphicon-sort"></span></button>
 						</td>
-						<td>{vtlib\Functions::getOwnerRecordLabel($item['userid'])}</td>
+						<td>{\App\Fields\Owner::getLabel($item['userid'])}</td>
 						<td>
 							<button class="btn btn-primary marginLeftZero btn-sm update" data-cvid="{$key}" data-editurl="{$MODULE_MODEL->getUrlToEdit($item['entitytype'],$key)}">{\App\Language::translate('Edit',$QUALIFIED_MODULE)}</button>
 							{if $item['presence'] eq 1}
