@@ -279,7 +279,12 @@ class VTFieldExpressionEvaluater
 		}
 	}
 
-	public function env($sym)
+	/**
+	 * Gets an environment variable from available sources
+	 * @param VTExpressionSymbol $sym
+	 * @return string
+	 */
+	public function env(VTExpressionSymbol $sym)
 	{
 		if ($this->env) {
 			return $this->env->get($sym->value);
