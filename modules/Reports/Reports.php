@@ -1117,48 +1117,6 @@ class Reports extends CRMEntity
 	}
 }
 
-/**
- * Function to get the primary module list in vtiger_reports
- * This function generates the list of primary modules in vtiger_reports
- * @param \App\Privilege $focus
- * @return array
- */
-function getReportsModuleList(\App\Privilege $focus)
-{
-	$modules = [];
-	foreach ($focus->module_list as $key => $value) {
-		if (\App\Privilege::isPermitted($key, 'index')) {
-			$modules [$key] = \App\Language::translate($key, $key);
-		}
-	}
-	asort($modules);
-	return $modules;
-}
-
-/**
- * Function to get the Related module list in vtiger_reports
- * This function generates the list of secondary modules in vtiger_reports
- * @param string $module
- * @param \App\Privilege $focus
- * @return array
- */
-function getReportRelatedModules($module, \App\Privilege $focus)
-{
-	$optionhtml = [];
-	if (\App\Module::isModuleActive($module)) {
-		if (!empty($focus->related_modules[$module])) {
-			foreach ($focus->related_modules[$module] as $rel_modules) {
-				if (\App\Privilege::isPermitted($rel_modules, 'index')) {
-					$optionhtml [] = $rel_modules;
-				}
-			}
-		}
-	}
-
-
-	return $optionhtml;
-}
-
 function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_groups)
 {
 
