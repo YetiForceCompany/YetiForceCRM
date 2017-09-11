@@ -77,7 +77,7 @@ class Reservations_Calendar_Model extends \App\Base
 			$item['title'] = $record['title'];
 			$item['type'] = $fieldType->getDisplayValue($record['type']);
 			$item['status'] = $record['reservations_status'];
-			$item['totalTime'] = $record['sum_time'];
+			$item['totalTime'] = vtlib\Functions::decimalTimeFormat($record['sum_time'])['short'];
 			$item['smownerid'] = vtlib\Functions::getOwnerRecordLabel($record['smownerid']);
 			if ($record['relatedida']) {
 				$item['company'] = \App\Record::getLabel($record['relatedida']);
