@@ -7,6 +7,9 @@
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 require_once 'include/main/WebUI.php';
+
+$markAsRead = false;
+
 $notifications = new Cron_Notification();
 $query = (new \App\Db\Query())->from('u_#__watchdog_schedule');
 
@@ -15,7 +18,9 @@ $dataReader = $query->createCommand()->query();
 while ($row = $dataReader->read()) {
 	$notifications->executeScheduled($row);
 }
-$notifications->markAsRead();
+if ($markAsRead) {
+	$notifications->markAsRead();
+}
 
 class Cron_Notification
 {
