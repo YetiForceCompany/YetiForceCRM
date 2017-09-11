@@ -18,7 +18,7 @@ class OSSTimeControl_Calendar_Model extends App\Base
 		$moduleName = 'OSSTimeControl';
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$queryGenerator = new App\QueryGenerator($moduleName);
-		$queryGenerator->setFields(['id', 'date_start', 'time_start', 'time_end', 'due_date', 'timecontrol_type', 'name', 'assigned_user_id', 'osstimecontrol_status', 'sum_time']);
+		$queryGenerator->setFields(['id', 'date_start', 'time_start', 'time_end', 'due_date', 'timecontrol_type', 'name', 'assigned_user_id', 'osstimecontrol_status', 'sum_time', 'osstimecontrol_no']);
 		$query = $queryGenerator->createQuery();
 		if ($this->get('start') && $this->get('end')) {
 			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'), null, false);
@@ -61,6 +61,9 @@ class OSSTimeControl_Calendar_Model extends App\Base
 			$item['url'] = 'index.php?module=OSSTimeControl&view=Detail&record=' . $record['id'];
 			$fieldStatus = Vtiger_Field_Model::getInstance('osstimecontrol_status', Vtiger_Module_Model::getInstance('OSSTimeControl'));
 			$item['status'] = $fieldStatus->getDisplayValue($record['osstimecontrol_status']);
+			$fieldType = Vtiger_Field_Model::getInstance('timecontrol_type', Vtiger_Module_Model::getInstance('OSSTimeControl'));
+			$item['type'] = $fieldType->getDisplayValue($record['timecontrol_type']);
+			$item['number'] = $record['osstimecontrol_no'];
 			$item['totalTime'] = $record['sum_time'];
 			$item['smownerid'] = \App\User::getUserModel($record['assigned_user_id'])->getName();
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
