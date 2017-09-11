@@ -77,6 +77,7 @@ class Reservations_Calendar_Model extends \App\Base
 			$fieldType = Vtiger_Field_Model::getInstance('type', Vtiger_Module_Model::getInstance('Reservations'));
 			$item['type'] = $fieldType->getDisplayValue($record['type']);
 			$item['status'] = $record['reservations_status'];
+			$item['totalTime'] = $record['sum_time'];
 			$item['smownerid'] = \App\User::getUserModel($record['smownerid'])->getName();
 			if ($record['relatedida']) {
 				$companyRecord = Vtiger_Record_Model::getInstanceById($record['relatedida']);
