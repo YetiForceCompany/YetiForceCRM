@@ -40,6 +40,7 @@ $jsLanguageStrings = [
 	'JS_START_DATE' => 'Czas rozpoczęcia',
 	'JS_END_DATE' => 'Czas zakończenia',
 	'JS_COMPANY' => 'Firma',
+	'JS_TOTAL_TIME' => 'Łączny czas',
 	'PLL_ACCEPTED' => 'Do akceptacji',
 	'PLL_TO_APPROVAL' => 'Zaakceptowano',
 	'PLL_DRAFT' => 'Wersja robocza',
