@@ -13,7 +13,12 @@ class TaskCompleted
 	public $sequence = 1;
 	public $reference = 'ProjectTask';
 
-	public function process($instance)
+	/**
+	 * Process
+	 * @param Vtiger_Record_Model $instance
+	 * @return int
+	 */
+	public function process(Vtiger_Record_Model $instance)
 	{
 
 		\App\Log::trace('Entering TaskCompleted::process() method ...');
