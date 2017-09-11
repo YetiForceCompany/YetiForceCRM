@@ -104,19 +104,6 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$response->emit();
 	}
 
-	public function save(\App\Request $request)
-	{
-		$params = $request->get('params');
-		$saveResp = Settings_LangManagement_Module_Model::save($params);
-		$response = new Vtiger_Response();
-		if ($saveResp) {
-			$response->setResult(array('success' => true, 'message' => \App\Language::translate('LBL_SaveDataOK', $request->getModule(false))));
-		} else {
-			$response->setResult(array('success' => false));
-		}
-		$response->emit();
-	}
-
 	public function delete(\App\Request $request)
 	{
 		$params = $request->get('params');

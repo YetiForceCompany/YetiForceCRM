@@ -253,7 +253,6 @@ var Settings_Index_Js = {
 		Settings_Index_Js.LoadEditLang(e);
 	},
 	initEvant: function (element) {
-		element.find('input[type=checkbox]').change(Settings_Index_Js.CheckboxChange);
 		var options = {
 			title: app.vtranslate('LBL_AreYouSure'),
 			trigger: 'manual',
@@ -288,11 +287,6 @@ var Settings_Index_Js = {
 				$(e.currentTarget).popover('hide');
 			});
 		});
-	},
-	CheckboxChange: function (e) {
-		var target = $(e.currentTarget);
-		var closestTrElement = target.closest('tr');
-		Settings_Index_Js.registerSaveEvent('save', {'type': 'Checkbox', 'name': target.data('name'), 'prefix': closestTrElement.data('prefix'), 'val': target.is(':checked')});
 	},
 	ShowLangMondal: function (e) {
 		var target = $(e.currentTarget);
