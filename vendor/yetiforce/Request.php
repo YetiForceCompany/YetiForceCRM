@@ -272,9 +272,6 @@ class Request
 		if (isset($this->rawValues[$key])) {
 			return $this->rawValues[$key];
 		}
-		if (isset($this->parseValues[$key])) {
-			return $this->parseValues[$key];
-		}
 		return $defaultValue;
 	}
 
@@ -368,12 +365,13 @@ class Request
 	 * @param string $key
 	 * @return boolean
 	 */
-	public function isEmpty($key)
+	public function isEmpty($key, $emptyFunction = false)
 	{
-		if (isset($this->parseValues[$key])) {
-			return $this->parseValues[$key] === '';
+		if ($emptyFunction) {
+			return empty($this->rawValues[$key]);
+		} else {
+			return !isset($this->rawValues[$key]) || $this->rawValues[$key] === '';
 		}
-		return $this->get($key, '') === '';
 	}
 
 	/**

@@ -31,8 +31,7 @@ class OSSPasswords_Popup_View extends Vtiger_Popup_View
 			if (\App\Record::getType($relId) === $relParentModule) {
 				$request->set('related_parent_module', $relParentModule);
 				$request->set('related_parent_id', $relId);
-				$viewer->assign('SWITCH', true);
-				$viewer->assign('POPUP_SWITCH_ON_TEXT', \App\Language::translateSingularModuleName($relParentModule));
+				$request->set('showSwitch', 1);
 			}
 		}
 		parent::initializeListViewContents($request, $viewer);

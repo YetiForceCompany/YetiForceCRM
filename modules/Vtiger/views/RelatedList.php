@@ -44,7 +44,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$parentId = $request->getInteger('record');
 		$label = $request->get('tab_label');
 		$pageNumber = $request->getInteger('page');
-		$totalCount = $request->getInteger('totalCount');
+		$totalCount = $request->get('totalCount');
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
 		}

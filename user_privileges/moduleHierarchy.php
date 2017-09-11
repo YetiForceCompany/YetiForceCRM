@@ -76,6 +76,12 @@ return [
 	'modulesMap1M' => [// Base => Parent
 		'Contacts' => ['Accounts'],
 		'HelpDesk' => ['Accounts', 'Vendors'],
+		'SSalesProcesses' => ['Accounts'],
+		'SQuotes' => ['SSalesProcesses'],
+		'FInvoice' => ['Accounts'],
+		'SSingleOrders' => ['SSalesProcesses'],
+		'SRecurringOrders' => ['SSalesProcesses', 'SQuotes'],
+		'FBookkeeping' => ['Accounts'],
 		'Project' => ['Accounts'],
 		'ProjectTask' => ['Project'],
 		'ProjectMilestone' => ['Project'],
