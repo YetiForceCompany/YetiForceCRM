@@ -18,7 +18,7 @@ class OSSTimeControl_Calendar_Model extends App\Base
 		$moduleName = 'OSSTimeControl';
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$queryGenerator = new App\QueryGenerator($moduleName);
-		$queryGenerator->setFields(['id', 'date_start', 'time_start', 'time_end', 'due_date', 'timecontrol_type', 'name', 'assigned_user_id', 'osstimecontrol_status', 'sum_time', 'osstimecontrol_no']);
+		$queryGenerator->setFields(['id', 'date_start', 'time_start', 'time_end', 'due_date', 'timecontrol_type', 'name', 'assigned_user_id', 'osstimecontrol_status', 'sum_time', 'osstimecontrol_no', 'process', 'link', 'subprocess']);
 		$query = $queryGenerator->createQuery();
 		if ($this->get('start') && $this->get('end')) {
 			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'), null, false);
@@ -53,8 +53,22 @@ class OSSTimeControl_Calendar_Model extends App\Base
 			$query->andWhere(['vtiger_crmentity.smownerid' => $this->get('user')]);
 		}
 		$dataReader = $query->createCommand()->query();
-		$result = [];
+
 		while ($record = $dataReader->read()) {
+			$records[] = $record;
+			if (!empty($record['link'])) {
+				$ids[] = $record['link'];
+			}
+			if (!empty($record['process'])) {
+				$ids[] = $record['process'];
+			}
+			if (!empty($record['subprocess'])) {
+				$ids[] = $record['subprocess'];
+			}
+		}
+		$labels = \App\Record::getLabel($ids);
+		$result = [];
+		foreach ($records as &$record) {
 			$item = [];
 			$item['id'] = $record['id'];
 			$item['title'] = $record['name'];
@@ -64,6 +78,28 @@ class OSSTimeControl_Calendar_Model extends App\Base
 			$fieldType = Vtiger_Field_Model::getInstance('timecontrol_type', Vtiger_Module_Model::getInstance('OSSTimeControl'));
 			$item['type'] = $fieldType->getDisplayValue($record['timecontrol_type']);
 			$item['number'] = $record['osstimecontrol_no'];
+			//Relation
+			if ($record['link']) {
+				$relationRecord = Vtiger_Record_Model::getInstanceById($record['link']);
+				$item['link'] = $record['link'];
+				$item['linkl'] = $this->getLabel($labels, $record['link']);
+				// / migoi
+				$item['linkm'] = $relationRecord->getModuleName();
+			}
+			//Process
+			if ($record['process']) {
+				$processRecord = Vtiger_Record_Model::getInstanceById($record['process']);
+				$item['process'] = $record['process'];
+				$item['procl'] = vtlib\Functions::textLength($this->getLabel($labels, $record['process']));
+				$item['procm'] = $processRecord->getModuleName();
+			}
+			//Subprocess
+			if ($record['subprocess']) {
+				$subProcessRecord = Vtiger_Record_Model::getInstanceById($record['subprocess']);
+				$item['subprocess'] = $record['subprocess'];
+				$item['subprocl'] = vtlib\Functions::textLength($this->getLabel($labels, $record['subprocess']));
+				$item['subprocm'] = $subProcessRecord->getModuleName();
+			}
 			$item['totalTime'] = $record['sum_time'];
 			$item['smownerid'] = \App\User::getUserModel($record['assigned_user_id'])->getName();
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
@@ -84,6 +120,20 @@ class OSSTimeControl_Calendar_Model extends App\Base
 			$result[] = $item;
 		}
 		return $result;
+	}
+
+	/**
+	 * Get label
+	 * @param array $labels
+	 * @param string $key
+	 * @return string
+	 */
+	private function getLabel($labels, $key)
+	{
+		if (isset($labels[$key])) {
+			return $labels[$key];
+		}
+		return '';
 	}
 
 	/**
