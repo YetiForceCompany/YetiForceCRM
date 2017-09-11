@@ -13,7 +13,11 @@ class Vtiger_Kpi_Helper
 	public $service = false;
 	public $type = false;
 
-	public function __construct($request)
+	/**
+	 * Construct
+	 * @param \App\Request $request
+	 */
+	public function __construct(\App\Request $request)
 	{
 		$this->time = $request->get('time');
 		$this->service = $request->get('service');
