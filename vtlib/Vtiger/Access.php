@@ -165,6 +165,6 @@ class Access
 	public static function deleteTools(\ModuleBasic $moduleInstance)
 	{
 		\App\Db::getInstance()->createCommand()->delete('vtiger_profile2utility', ['tabid' => $moduleInstance->id])->execute();
-		self::log("Deleting tools ... DONE");
+		self::log('Deleting tools ... DONE');
 	}
 }
