@@ -71,41 +71,6 @@ abstract class WebserviceEntityOperation
 	}
 
 	/**
-	 * Get details and field type
-	 * @param Settings_MappedFields_Field_Model $webserviceField
-	 * @return array
-	 */
-	public function getFieldTypeDetails(Settings_MappedFields_Field_Model $webserviceField)
-	{
-		$uploadMaxsize = vglobal('upload_maxsize');
-		$typeDetails = [];
-		switch ($webserviceField->getFieldDataType()) {
-			case 'reference': $typeDetails['refersTo'] = $webserviceField->getReferenceList();
-				break;
-			case 'multipicklist':
-			case 'picklist': $typeDetails['picklistValues'] = $webserviceField->getPicklistDetails($webserviceField);
-				$typeDetails['defaultValue'] = $typeDetails['picklistValues'][0]['value'];
-				break;
-			case 'file': $maxUploadSize = 0;
-				$maxUploadSize = ini_get('upload_max_filesize');
-				$maxUploadSize = strtolower($maxUploadSize);
-				$maxUploadSize = explode('m', $maxUploadSize);
-				$maxUploadSize = $maxUploadSize[0];
-				if (!is_numeric($maxUploadSize)) {
-					$maxUploadSize = 0;
-				}
-				$maxUploadSize = $maxUploadSize * 1000000;
-				if ($uploadMaxsize > $maxUploadSize) {
-					$maxUploadSize = $uploadMaxsize;
-				}
-				$typeDetails['maxUploadFileSize'] = $maxUploadSize;
-				break;
-			case 'date': $typeDetails['format'] = $this->user->date_format;
-		}
-		return $typeDetails;
-	}
-
-	/**
 	 * Checks whether fields are editable
 	 * @param Settings_MappedFields_Field_Model $webserviceField
 	 * @return boolean
