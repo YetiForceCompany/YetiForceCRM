@@ -33,15 +33,15 @@ class TotalContacts
 
 	/**
 	 * Process
-	 * @param Vtiger_Record_Model $instance
+	 * @param Vtiger_Record_Model $recordModel
 	 * @return int
 	 */
-	public function process($instance)
+	public function process(Vtiger_Record_Model $recordModel)
 	{
 
-		\App\Log::trace("Entering TotalContacts::process() method ...");
-		$count = (new \App\Db\Query())->from('vtiger_contactdetails')->innerJoin('vtiger_crmentity', 'vtiger_contactdetails.contactid = vtiger_crmentity.crmid')->where(['vtiger_crmentity.deleted' => 0, 'vtiger_contactdetails.parentid' => $instance->getId()])->count();
-		\App\Log::trace("Exiting TotalContacts::process() method ...");
+		\App\Log::trace('Entering TotalContacts::process() method ...');
+		$count = (new \App\Db\Query())->from('vtiger_contactdetails')->innerJoin('vtiger_crmentity', 'vtiger_contactdetails.contactid = vtiger_crmentity.crmid')->where(['vtiger_crmentity.deleted' => 0, 'vtiger_contactdetails.parentid' => $recordModel->getId()])->count();
+		\App\Log::trace('Exiting TotalContacts::process() method ...');
 		return $count;
 	}
 }

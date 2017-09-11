@@ -121,18 +121,22 @@ function vtws_convertlead($entityvalues, Users_Record_Model $user)
 	\App\Log::trace('End ' . __METHOD__);
 	return $entityIds;
 }
-/*
- * populate the entity fields with the lead info.
- * if mandatory field is not provided populate with '????'
- * returns the entity array.
- */
 
-function vtws_populateConvertLeadEntities($entityvalue, $entity, $recordModel, $leadinfo)
+/**
+ * Populate the entity fields with the lead info.
+ * If mandatory field is not provided populate with '????'
+ * @param string $entityvalue
+ * @param string $entity
+ * @param Vtiger_Record_Model $recordModel
+ * @param string $leadinfo
+ * @return entity array
+ */
+function vtws_populateConvertLeadEntities($entityvalue, $entity, Vtiger_Record_Model $recordModel, $leadinfo)
 {
 	$targetModuleModel = Vtiger_Module_Model::getInstance($entityvalue['name']);
 	$adb = PearDatabase::getInstance();
 	$entityName = $entityvalue['name'];
-	$sql = "SELECT * FROM vtiger_convertleadmapping";
+	$sql = 'SELECT * FROM vtiger_convertleadmapping';
 	$result = $adb->pquery($sql, []);
 	if ($adb->num_rows($result)) {
 		switch ($entityName) {
@@ -177,7 +181,14 @@ function vtws_populateConvertLeadEntities($entityvalue, $entity, $recordModel, $
 	return $entity;
 }
 
-function vtws_validateConvertLeadEntityMandatoryValues($entity, $targetModuleModel, $module)
+/**
+ * Validate convert lead entity mandatory values
+ * @param string $entity
+ * @param Vtiger_Module_Model $targetModuleModel
+ * @param string $module
+ * @return string
+ */
+function vtws_validateConvertLeadEntityMandatoryValues($entity, Vtiger_Module_Model $targetModuleModel, $module)
 {
 
 	$mandatoryFields = $targetModuleModel->getMandatoryFieldModels();

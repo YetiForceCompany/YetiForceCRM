@@ -25,7 +25,7 @@ class Settings_Roles_Popup_View extends Vtiger_Footer_View
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
-		$sourceRecord = $request->getInteger('src_record');
+		$sourceRecord = $request->get('src_record');
 
 		$sourceRole = Settings_Roles_Record_Model::getInstanceById($sourceRecord);
 		$rootRole = Settings_Roles_Record_Model::getBaseRole();

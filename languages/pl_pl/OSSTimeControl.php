@@ -108,4 +108,8 @@ $jsLanguageStrings = [
 	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'Czas pracy nie może przekraczać 24 godzin',
 	'JS_START_DATE' => 'Czas rozpoczęcia',
 	'JS_END_DATE' => 'Czas zakończenia',
+	'JS_TOTAL_TIME' => 'Łączny czas',
+	'JS_ASSIGNED_TO' => 'Właściciel rekordu',
+	'JS_TYPE' => 'Typ',
+	'JS_NUMBER' => 'Numer',
 ];

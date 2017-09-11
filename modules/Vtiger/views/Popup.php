@@ -33,10 +33,10 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		if (!$request->isEmpty('src_module') && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('src_module', 1))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
-		if (!$request->isEmpty('related_parent_id') && !\App\Privilege::isPermitted($request->getByType('related_parent_module', 1), 'DetailView', $request->getInteger('related_parent_id'))) {
+		if (!$request->isEmpty('related_parent_id', true) && !\App\Privilege::isPermitted($request->getByType('related_parent_module', 1), 'DetailView', $request->getInteger('related_parent_id'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		if (!$request->isEmpty('src_record') && !\App\Privilege::isPermitted($request->getByType('src_module', 1), 'DetailView', $request->getInteger('src_record'))) {
+		if (!$request->isEmpty('src_record', true) && !\App\Privilege::isPermitted($request->getByType('src_module', 1), 'DetailView', $request->getInteger('src_record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
@@ -101,50 +101,73 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $this->getModule($request);
-		$cvId = $request->get('cvid');
 		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
 		$sourceModule = $request->getByType('src_module', 1);
 		$sourceField = $request->get('src_field');
-		$sourceRecord = $request->getInteger('src_record');
+		$sourceRecord = $request->get('src_record');
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
 		$currencyId = $request->get('currency_id');
 		$relatedParentModule = $request->getByType('related_parent_module', 1);
-		$relatedParentId = $request->getInteger('related_parent_id');
+		$relatedParentId = $request->get('related_parent_id');
 		$filterFields = $request->get('filterFields');
-
+		$showSwitch = $request->getInteger('showSwitch');
 		//To handle special operation when selecting record from Popup
 		$getUrl = $request->get('get_url');
-
 		//Check whether the request is in multi select mode
 		$multiSelectMode = $request->get('multi_select');
 		if (empty($multiSelectMode)) {
 			$multiSelectMode = false;
 		}
-
-		if (empty($cvId)) {
-			$cvId = '0';
-		}
-		if (empty($pageNumber)) {
-			$pageNumber = 1;
-		}
-
 		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('page', $pageNumber);
-		if (vglobal('popupAjax'))
+		$pagingModel->set('page', empty($pageNumber) ? 1 : $pageNumber);
+		if (vglobal('popupAjax')) {
 			$pagingModel->set('noLimit', true);
-
+		}
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
-
+		if (!$request->isEmpty('process', true) || !$request->isEmpty('link', true)) {
+			if (!$request->isEmpty('process', true) && in_array($moduleName, array_keys(\App\ModuleHierarchy::getModulesByLevel(2)))) {
+				$processRecord = $request->getInteger('process');
+				$processModule = \App\Record::getType($processRecord);
+				if (in_array($moduleName, \App\ModuleHierarchy::getChildModules($processModule)) && in_array($processModule, \App\ModuleHierarchy::getModulesMap1M($moduleName))) {
+					$showSwitch = true;
+					$relatedParentModule = $processModule;
+					$relatedParentId = $processRecord;
+				} elseif (!$request->isEmpty('link', true)) {
+					$linkRecord = $request->getInteger('link');
+					$linkModule = \App\Record::getType($linkRecord);
+					if (in_array($linkModule, \App\ModuleHierarchy::getModulesMap1M($moduleName))) {
+						$showSwitch = true;
+						$relatedParentModule = $linkModule;
+						$relatedParentId = $linkRecord;
+					}
+				}
+			} elseif (!$request->isEmpty('link', true)) {
+				$linkRecord = $request->getInteger('link');
+				$linkModule = \App\Record::getType($linkRecord);
+				if (in_array($linkModule, \App\ModuleHierarchy::getModulesMap1M($moduleName))) {
+					$showSwitch = true;
+					$relatedParentModule = $linkModule;
+					$relatedParentId = $linkRecord;
+				}
+			}
+		}
+		if ($showSwitch) {
+			$viewer->assign('SWITCH', true);
+			$viewer->assign('POPUP_SWITCH_ON_TEXT', \App\Language::translateSingularModuleName($relatedParentModule));
+		}
 		if (!\App\Record::isExists($relatedParentId)) {
 			$relatedParentModule = '';
 			$relatedParentId = '';
 		}
 		if (!empty($relatedParentModule) && !empty($relatedParentId)) {
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($relatedParentId, $relatedParentModule);
+			if (!$parentRecordModel->isViewable()) {
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			}
 			$listViewModel = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName);
 		} else {
 			$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName, $sourceModule);
@@ -287,32 +310,27 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 	{
 		$moduleName = $request->getModule();
 		$sourceModule = $request->getByType('src_module', 1);
-		$sourceField = $request->getByType('src_field', 1);
-		$sourceRecord = $request->getInteger('src_record');
+		$sourceField = $request->get('src_field', 1);
+		$sourceRecord = $request->get('src_record');
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
 		$currencyId = $request->get('currency_id');
-
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
-
 		$relatedParentModule = $request->getByType('related_parent_module', 1);
-		$relatedParentId = $request->getInteger('related_parent_id');
-
+		$relatedParentId = $request->get('related_parent_id');
 		if (!empty($relatedParentModule) && !empty($relatedParentId)) {
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($relatedParentId, $relatedParentModule);
 			$listViewModel = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName);
 		} else {
 			$listViewModel = Vtiger_ListView_Model::getInstanceForPopup($moduleName, $sourceModule);
 		}
-
 		if (!empty($sourceModule)) {
 			$listViewModel->set('src_module', $sourceModule);
 			$listViewModel->set('src_field', $sourceField);
 			$listViewModel->set('src_record', $sourceRecord);
 			$listViewModel->set('currency_id', $currencyId);
 		}
-
 		if (!empty($orderBy)) {
 			$listViewModel->set('orderby', $orderBy);
 			$listViewModel->set('sortorder', $sortOrder);

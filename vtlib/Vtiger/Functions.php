@@ -237,11 +237,6 @@ class Functions
 		return empty($label) ? $default : $label;
 	}
 
-	public static function getOwnerRecordLabel($id)
-	{
-		return \App\Fields\Owner::getLabel($id);
-	}
-
 	protected static $userIdNameCache = [];
 
 	public static function getUserName($id)

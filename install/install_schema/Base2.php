@@ -2861,9 +2861,6 @@ class Base2 extends \App\Db\Importers\Base
 			'vtiger_calendar_config' => [
 				'columns' => ['type', 'name', 'label', 'value'],
 				'values' => [
-					['colors', 'break', 'PLL_BREAK_TIME', '#ffd000'],
-					['colors', 'holiday', 'PLL_HOLIDAY_TIME', '#00d4f5'],
-					['colors', 'work', 'PLL_WORKING_TIME', '#FFD500'],
 					['colors', 'Task', 'Task', '#00d4f5'],
 					['reminder', 'update_event', 'LBL_UPDATE_EVENT', '0'],
 					['info', 'notworkingdays', 'LBL_NOTWORKING_DAYS', NULL],

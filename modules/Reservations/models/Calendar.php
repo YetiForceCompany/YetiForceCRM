@@ -60,12 +60,26 @@ class Reservations_Calendar_Model extends \App\Base
 		}
 		\App\PrivilegeQuery::getConditions($query, $module);
 		$query->orderBy(['date_start' => SORT_ASC, 'time_start' => SORT_ASC]);
+		$fieldType = Vtiger_Field_Model::getInstance('type', Vtiger_Module_Model::getInstance('Reservations'));
 		$dataReader = $query->createCommand()->query();
 		$result = [];
 		while ($record = $dataReader->read()) {
 			$crmid = $record['reservationsid'];
 			$item['id'] = $crmid;
 			$item['title'] = $record['title'];
+			$item['type'] = $fieldType->getDisplayValue($record['type']);
+			$item['status'] = $record['reservations_status'];
+			$item['totalTime'] = vtlib\Functions::decimalTimeFormat($record['sum_time'])['short'];
+			$item['smownerid'] = \App\Fields\Owner::getLabel($record['smownerid']);
+			if ($record['relatedida']) {
+				$item['company'] = \App\Record::getLabel($record['relatedida']);
+			}
+			if ($record['relatedidb']) {
+				$item['process'] = \App\Record::getLabel($record['relatedidb']);
+				$item['processId'] = $record['relatedidb'];
+				$item['processType'] = \App\Record::getType($record['relatedidb']);
+				$item['processLabel'] = \App\Language::translate(\App\Record::getType($record['relatedidb']));
+			}
 			$item['url'] = 'index.php?module=Reservations&view=Detail&record=' . $crmid;
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
 			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);

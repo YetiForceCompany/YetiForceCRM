@@ -692,7 +692,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	{
 		$parentId = $request->getInteger('record');
 		$pageNumber = $request->getInteger('page');
-		$limit = $request->getInteger('limit');
+		$limit = (int) $request->get('limit');
 		$searchParams = $request->get('search_params');
 		$relatedModuleName = $request->getByType('relatedModule', 1);
 		$orderBy = $request->getForSql('orderby');
@@ -705,7 +705,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
-		if (!empty($limit)) {
+		if ($limit) {
 			$pagingModel->set('limit', $limit);
 		} else {
 			$pagingModel->set('limit', 10);
@@ -764,14 +764,13 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('COLOR_LIST', $colorList);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('LIMIT', $request->getInteger('limit'));
+		$viewer->assign('LIMIT', $limit);
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('RELATED_HEADERS', $header);
 		$viewer->assign('RELATED_MODULE', $relatedModuleModel);
 		$viewer->assign('RELATED_MODULE_NAME', $relatedModuleName);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-
 		$viewer->assign('PARENT_RECORD', $parentRecordModel);
 		$viewer->assign('RELATED_LIST_LINKS', $links);
 		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);

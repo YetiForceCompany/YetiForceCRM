@@ -54,7 +54,7 @@ class PriceBooks_ProductPriceBookPopup_View extends Vtiger_Popup_View
 		$sortOrder = $request->getForSql('sortorder');
 		$sourceModule = $request->getByType('src_module', 1);
 		$sourceField = $request->get('src_field');
-		$sourceRecord = $request->getInteger('src_record');
+		$sourceRecord = $request->get('src_record');
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
 

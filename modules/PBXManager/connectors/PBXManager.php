@@ -99,7 +99,13 @@ class PBXManager_PBXManager_Connector
 		return self::$SETTINGS_REQUIRED_PARAMETERS;
 	}
 
-	protected function prepareParameters($details, $type)
+	/**
+	 * Function prepares parameters
+	 * @param \App\Request $details
+	 * @param string $type
+	 * @return string
+	 */
+	protected function prepareParameters(\App\Request $details, $type)
 	{
 		switch ($type) {
 			case 'ringing':

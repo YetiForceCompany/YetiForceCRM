@@ -19,7 +19,7 @@ class OSSPasswords_Popup_View extends Vtiger_Popup_View
 	{
 		$moduleName = $this->getModule($request);
 		$sourceModule = $request->getByType('src_module', 1);
-		$sourceRecord = $request->getInteger('src_record');
+		$sourceRecord = $request->get('src_record');
 
 		$showFilter = (in_array($sourceModule, ['HelpDesk', 'Project', 'SSalesProcesses']) && $moduleName == 'OSSPasswords') ? true : false;
 		//list of records is narrowed to contacts related to help desks account, only in Help Desk Contacts relation view
@@ -31,8 +31,7 @@ class OSSPasswords_Popup_View extends Vtiger_Popup_View
 			if (\App\Record::getType($relId) === $relParentModule) {
 				$request->set('related_parent_module', $relParentModule);
 				$request->set('related_parent_id', $relId);
-				$viewer->assign('SWITCH', true);
-				$viewer->assign('POPUP_SWITCH_ON_TEXT', \App\Language::translateSingularModuleName($relParentModule));
+				$request->set('showSwitch', 1);
 			}
 		}
 		parent::initializeListViewContents($request, $viewer);

@@ -29,28 +29,25 @@ class ModuleHierarchy
 
 	public static function getModulesHierarchy()
 	{
-		static::init();
+
 		return static::$hierarchy['modulesHierarchy'];
 	}
 
 	public static function getModuleLevel($moduleName)
 	{
-		static::init();
 		return isset(static::$hierarchy['modulesHierarchy'][$moduleName]) ? static::$hierarchy['modulesHierarchy'][$moduleName]['level'] : false;
 	}
 
 	public static function getModulesMap1M($moduleName)
 	{
-		static::init();
 		if (isset(static::$hierarchy['modulesMap1M'][$moduleName])) {
 			return static::$hierarchy['modulesMap1M'][$moduleName];
 		}
-		return false;
+		return [];
 	}
 
 	public static function getModulesMapMMBase()
 	{
-		static::init();
 		if (isset(static::$hierarchy['modulesMapMMBase'])) {
 			return static::$hierarchy['modulesMapMMBase'];
 		}
@@ -59,7 +56,6 @@ class ModuleHierarchy
 
 	public static function getModulesMapMMCustom($moduleName)
 	{
-		static::init();
 		if (isset(static::$hierarchy['modulesMapMMCustom'][$moduleName])) {
 			return static::$hierarchy['modulesMapMMCustom'][$moduleName];
 		}
@@ -68,7 +64,6 @@ class ModuleHierarchy
 
 	public static function getModulesByLevel($level = 0)
 	{
-		static::init();
 		if (isset(static::$modulesByLevels[$level])) {
 			return static::$modulesByLevels[$level];
 		}
@@ -95,7 +90,6 @@ class ModuleHierarchy
 
 	public static function accessModulesByLevel($level = 0, $actionName = 'EditView')
 	{
-		static::init();
 		$modules = [];
 		if (isset(static::$modulesByLevels[$level])) {
 			foreach (static::$modulesByLevels[$level] as $module => &$details) {
@@ -109,7 +103,6 @@ class ModuleHierarchy
 
 	public static function accessModulesByParent($parent, $actionName = 'EditView')
 	{
-		static::init();
 		$modules = [];
 		foreach (static::$hierarchy['modulesHierarchy'] as $module => &$details) {
 			if (Privilege::isPermitted($module, $actionName)) {
@@ -135,7 +128,6 @@ class ModuleHierarchy
 
 	public static function getRelationFieldByHierarchy($moduleName, $field = false)
 	{
-		static::init();
 		if ($field != false && isset(static::$hierarchy['modulesMapRelatedFields'][$moduleName][$field])) {
 			return static::$hierarchy['modulesMapRelatedFields'][$moduleName][$field];
 		}
@@ -160,7 +152,6 @@ class ModuleHierarchy
 
 	public static function getChildModules($moduleName)
 	{
-		static::init();
 		$modules = [];
 		switch (static::getModuleLevel($moduleName)) {
 			case 0:
@@ -215,3 +206,5 @@ class ModuleHierarchy
 		return $queryGenerator->createQuery()->column();
 	}
 }
+
+ModuleHierarchy::init();

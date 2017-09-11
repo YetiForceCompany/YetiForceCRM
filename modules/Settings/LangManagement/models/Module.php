@@ -319,7 +319,8 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		if (isset(App\Language::getAll(false)[$params['prefix']])) {
 			return ['success' => false, 'data' => 'LBL_LangExist'];
 		}
-		$destiny = 'languages/' . $params['prefix'] . '/';
+		$prefix = \App\Purifier::purifyByType($params['prefix'], 1);
+		$destiny = 'languages/' . $prefix . '/';
 		mkdir($destiny);
 		vtlib\Functions::recurseCopy('languages/en_us/', $destiny);
 		$db = \App\Db::getInstance();
@@ -330,18 +331,6 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			'label' => $params['label'],
 		])->execute();
 		return ['success' => true, 'data' => 'LBL_AddDataOK'];
-	}
-
-	public function save($params)
-	{
-		if ($params['type'] == 'Checkbox') {
-			$val = $params['val'] == 'true' ? 1 : 0;
-			\App\Db::getInstance()->createCommand()
-				->update('vtiger_language', [$params['name'] => $val], ['prefix' => $params['prefix']])
-				->execute();
-			return true;
-		}
-		return false;
 	}
 
 	public function saveView($params)
@@ -358,12 +347,13 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function delete($params)
 	{
-		$dir = 'languages/' . $params['prefix'];
+		$prefix = \App\Purifier::purifyByType($params['prefix'], 1);
+		$dir = 'languages/' . $prefix;
 		if (file_exists($dir)) {
 			self::deleteDir($dir);
 		}
 		\App\Db::getInstance()->createCommand()
-			->delete('vtiger_language', ['prefix' => $params['prefix']])
+			->delete('vtiger_language', ['prefix' => $prefix])
 			->execute();
 		return true;
 	}

@@ -303,7 +303,12 @@ class ModTracker
 		return $fields;
 	}
 
-	public static function isViewPermitted($linkData)
+	/**
+	 * This function checks access to the view
+	 * @param \vtlib\LinkData $linkData
+	 * @return boolean
+	 */
+	public static function isViewPermitted(\vtlib\LinkData $linkData)
 	{
 		$moduleName = $linkData->getModule();
 		$recordId = $linkData->getInputParameter('record');

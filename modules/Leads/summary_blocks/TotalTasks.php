@@ -32,14 +32,14 @@ class TotalTasks
 
 	/**
 	 * Process
-	 * @param Vtiger_Record_Model $instance
+	 * @param Vtiger_Record_Model $recordModel
 	 * @return int
 	 */
-	public function process($instance)
+	public function process(Vtiger_Record_Model $recordModel)
 	{
 
 		\App\Log::trace('Entering TotalTasks::process() method ...');
-		$count = (new \App\Db\Query())->from('vtiger_activity')->innerJoin('vtiger_crmentity', 'vtiger_activity.activityid = vtiger_crmentity.crmid')->where(['vtiger_activity.link' => $instance->getId(), 'vtiger_crmentity.deleted' => 0, 'vtiger_activity.activitytype' => 'Task'])->count();
+		$count = (new \App\Db\Query())->from('vtiger_activity')->innerJoin('vtiger_crmentity', 'vtiger_activity.activityid = vtiger_crmentity.crmid')->where(['vtiger_activity.link' => $recordModel->getId(), 'vtiger_crmentity.deleted' => 0, 'vtiger_activity.activitytype' => 'Task'])->count();
 		\App\Log::trace('Exiting TotalTasks::process() method ...');
 		return $count;
 	}

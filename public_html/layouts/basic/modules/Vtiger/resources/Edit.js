@@ -75,7 +75,6 @@ jQuery.Class("Vtiger_Edit_Js", {
 		return this;
 	},
 	getPopUpParams: function (container) {
-		var params = {};
 		var sourceModule = app.getModuleName();
 		var popupReferenceModule = jQuery('input[name="popupReferenceModule"]', container).val();
 		var sourceFieldElement = jQuery('input[class="sourceField"]', container);
@@ -85,7 +84,6 @@ jQuery.Class("Vtiger_Edit_Js", {
 		if (sourceRecordElement.length > 0) {
 			sourceRecordId = sourceRecordElement.val();
 		}
-
 		var isMultiple = false;
 		if (sourceFieldElement.data('multiple') == true) {
 			isMultiple = true;
@@ -110,7 +108,13 @@ jQuery.Class("Vtiger_Edit_Js", {
 			src_record: sourceRecordId,
 			filterFields: filterFields,
 		}
+		$.each(['link','process'], function (index, value) {
+			var fieldElement = formElement.find('[name="' + value + '"]');
+			if (fieldElement.length && fieldElement.val() != '' && fieldElement.val() != 0) {
+				params[value] = fieldElement.val();
+			}
 
+		});
 		if (isMultiple) {
 			params.multi_select = true;
 		}

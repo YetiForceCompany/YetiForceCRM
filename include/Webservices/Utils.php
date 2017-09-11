@@ -515,7 +515,7 @@ function vtws_saveLeadRelations($leadId, $relatedId, $setype)
  * @param Vtiger_Module_Model $moduleModel
  * @return null|Vtiger_Field_Model
  */
-function vtws_getFieldfromFieldId($fieldId, $moduleModel)
+function vtws_getFieldfromFieldId($fieldId, Vtiger_Module_Model $moduleModel)
 {
 	foreach ($moduleModel->getFields() as $field) {
 		if ($fieldId == $field->getId()) {

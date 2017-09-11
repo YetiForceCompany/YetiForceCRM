@@ -131,6 +131,9 @@ class Colors
 		$css = '';
 		foreach (\Settings_Calendar_Module_Model::getCalendarConfig('colors') as $item) {
 			if (ltrim($item['value'], '#')) {
+				if ($item['label'] == 'Task') {
+					$css .= '.picklistCBr_Calendar_activitytype_Task { border-color: ' . $item['value'] . ' !important; }' . PHP_EOL . '.picklistCBg_Calendar_activitytype_Task { background: ' . $item['value'] . ' !important; }' . PHP_EOL . '.picklistCT_Calendar_activitytype_Task { color: ' . $item['value'] . ' !important; }';
+				}
 				$css .= '.listCol_' . $item['label'] . ' { background: ' . $item['value'] . '; }' . PHP_EOL;
 			}
 		}
@@ -169,6 +172,7 @@ class Colors
 	{
 		$table = (new Db\Query())->select(['fieldname'])->from('vtiger_field')->where(['fieldid' => $fieldId])->scalar();
 		Db::getInstance()->createCommand()->addColumn('vtiger_' . $table, 'color', 'string(25)')->execute();
+		Cache::clear();
 	}
 
 	/**
