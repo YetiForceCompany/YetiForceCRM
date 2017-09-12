@@ -171,10 +171,10 @@ class Profile
 
 	/**
 	 * Delete profile setup of the module
-	 * @param Module Instance of module
+	 * @param ModuleBasic $moduleInstance
 	 * @access private
 	 */
-	public static function deleteForModule($moduleInstance)
+	public static function deleteForModule(ModuleBasic $moduleInstance)
 	{
 		$db = \App\Db::getInstance();
 		$db->createCommand()->delete('vtiger_def_org_field', ['tabid' => $moduleInstance->id])->execute();

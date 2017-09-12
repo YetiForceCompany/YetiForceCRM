@@ -212,10 +212,10 @@ class Block
 
 	/**
 	 * Delete all blocks associated with module
-	 * @param \Module Module Instnace of module to use
+	 * @param ModuleBasic $moduleInstance
 	 * @param boolean true to delete associated fields, false otherwise
 	 */
-	public static function deleteForModule($moduleInstance, $recursive = true)
+	public static function deleteForModule(ModuleBasic $moduleInstance, $recursive = true)
 	{
 		$db = \App\Db::getInstance();
 		if ($recursive) {

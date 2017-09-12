@@ -412,6 +412,15 @@ class ModuleBasic
 	}
 
 	/**
+	 * Function to get the Module/Tab id
+	 * @return int
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
+
+	/**
 	 * Get all the fields of the module or block
 	 * @param vtlib\Block Instance of block to use to get fields, false to get all the block fields
 	 */

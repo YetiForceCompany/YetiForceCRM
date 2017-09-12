@@ -292,9 +292,9 @@ class Filter
 
 	/**
 	 * Delete filter associated for module
-	 * @param Module Instance of module
+	 * @param ModuleBasic $moduleInstance
 	 */
-	public static function deleteForModule($moduleInstance)
+	public static function deleteForModule(ModuleBasic $moduleInstance)
 	{
 		$cvids = (new \App\Db\Query())->from('vtiger_customview')
 			->where(['entitytype' => $moduleInstance->name])

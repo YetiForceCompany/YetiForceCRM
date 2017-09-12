@@ -57,9 +57,9 @@ class Menu
 
 	/**
 	 * Delete all menus associated with module
-	 * @param Module Instnace of module to use
+	 * @param ModuleBasic $moduleInstance
 	 */
-	public static function deleteForModule($moduleInstance)
+	public static function deleteForModule(ModuleBasic $moduleInstance)
 	{
 		$id = (new \App\Db\Query)->select('id')->from('yetiforce_menu')->where(['module' => $moduleInstance->id])->scalar();
 		if ($id) {

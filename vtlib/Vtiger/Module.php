@@ -18,15 +18,6 @@ class Module extends ModuleBasic
 {
 
 	/**
-	 * Function to get the Module/Tab id
-	 * @return int
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
-
-	/**
 	 * Get related list sequence to use
 	 * @return int
 	 */
