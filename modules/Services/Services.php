@@ -352,14 +352,15 @@ class Services extends CRMEntity
 		}
 		return $query;
 	}
-	/*
-	 * Function to get the secondary query part of a report
-	 * @param - $module primary module name
-	 * @param - $secmodule secondary module name
-	 * returns the query string formed on fetching the related data for report for secondary module
-	 */
 
-	public function generateReportsSecQuery($module, $secmodule, $queryPlanner)
+	/**
+	 * Function to get the secondary query part of a report
+	 * @param string $module
+	 * @param string $secmodule
+	 * @param ReportRunQueryPlanner $queryPlanner
+	 * @return string
+	 */
+	public function generateReportsSecQuery($module, $secmodule, ReportRunQueryPlanner $queryPlanner)
 	{
 		$current_user = vglobal('current_user');
 		$matrix = $queryPlanner->newDependencyMatrix();
@@ -368,36 +369,36 @@ class Services extends CRMEntity
 		if (!$queryPlanner->requireTable("vtiger_service", $matrix)) {
 			return '';
 		}
-		$query = $this->getRelationQuery($module, $secmodule, "vtiger_service", "serviceid", $queryPlanner);
-		if ($queryPlanner->requireTable("innerService")) {
-			$query .= " LEFT JOIN (
+		$query = $this->getRelationQuery($module, $secmodule, 'vtiger_service', 'serviceid', $queryPlanner);
+		if ($queryPlanner->requireTable('innerService')) {
+			$query .= ' LEFT JOIN (
 			SELECT vtiger_service.serviceid,
-			(CASE WHEN (vtiger_service.currency_id = " . $current_user->currency_id . " ) THEN vtiger_service.unit_price
+			(CASE WHEN (vtiger_service.currency_id = ' . $current_user->currency_id . ' ) THEN vtiger_service.unit_price
 			WHEN (vtiger_productcurrencyrel.actual_price IS NOT NULL) THEN vtiger_productcurrencyrel.actual_price
-			ELSE (vtiger_service.unit_price / vtiger_currency_info.conversion_rate) * " . $current_user->conv_rate . " END
+			ELSE (vtiger_service.unit_price / vtiger_currency_info.conversion_rate) * ' . $current_user->conv_rate . ' END
 			) AS actual_unit_price FROM vtiger_service
             LEFT JOIN vtiger_currency_info ON vtiger_service.currency_id = vtiger_currency_info.id
             LEFT JOIN vtiger_productcurrencyrel ON vtiger_service.serviceid = vtiger_productcurrencyrel.productid
-			AND vtiger_productcurrencyrel.currencyid = " . $current_user->currency_id . ")
-            AS innerService ON innerService.serviceid = vtiger_service.serviceid";
+			AND vtiger_productcurrencyrel.currencyid = ' . $current_user->currency_id . ')
+            AS innerService ON innerService.serviceid = vtiger_service.serviceid';
 		}
-		if ($queryPlanner->requireTable("vtiger_crmentityServices", $matrix)) {
-			$query .= " left join vtiger_crmentity as vtiger_crmentityServices on vtiger_crmentityServices.crmid=vtiger_service.serviceid and vtiger_crmentityServices.deleted=0";
+		if ($queryPlanner->requireTable('vtiger_crmentityServices', $matrix)) {
+			$query .= ' left join vtiger_crmentity as vtiger_crmentityServices on vtiger_crmentityServices.crmid=vtiger_service.serviceid and vtiger_crmentityServices.deleted=0';
 		}
-		if ($queryPlanner->requireTable("vtiger_servicecf")) {
-			$query .= " left join vtiger_servicecf on vtiger_service.serviceid = vtiger_servicecf.serviceid";
+		if ($queryPlanner->requireTable('vtiger_servicecf')) {
+			$query .= ' left join vtiger_servicecf on vtiger_service.serviceid = vtiger_servicecf.serviceid';
 		}
-		if ($queryPlanner->requireTable("vtiger_usersServices")) {
-			$query .= " left join vtiger_users as vtiger_usersServices on vtiger_usersServices.id = vtiger_crmentityServices.smownerid";
+		if ($queryPlanner->requireTable('vtiger_usersServices')) {
+			$query .= ' left join vtiger_users as vtiger_usersServices on vtiger_usersServices.id = vtiger_crmentityServices.smownerid';
 		}
-		if ($queryPlanner->requireTable("vtiger_groupsServices")) {
-			$query .= " left join vtiger_groups as vtiger_groupsServices on vtiger_groupsServices.groupid = vtiger_crmentityServices.smownerid";
+		if ($queryPlanner->requireTable('vtiger_groupsServices')) {
+			$query .= ' left join vtiger_groups as vtiger_groupsServices on vtiger_groupsServices.groupid = vtiger_crmentityServices.smownerid';
 		}
-		if ($queryPlanner->requireTable("vtiger_lastModifiedByServices")) {
-			$query .= " left join vtiger_users as vtiger_lastModifiedByServices on vtiger_lastModifiedByServices.id = vtiger_crmentityServices.modifiedby ";
+		if ($queryPlanner->requireTable('vtiger_lastModifiedByServices')) {
+			$query .= ' left join vtiger_users as vtiger_lastModifiedByServices on vtiger_lastModifiedByServices.id = vtiger_crmentityServices.modifiedby ';
 		}
-		if ($queryPlanner->requireTable("vtiger_createdbyServices")) {
-			$query .= " left join vtiger_users as vtiger_createdbyServices on vtiger_createdbyServices.id = vtiger_crmentityServices.smcreatorid ";
+		if ($queryPlanner->requireTable('vtiger_createdbyServices')) {
+			$query .= ' left join vtiger_users as vtiger_createdbyServices on vtiger_createdbyServices.id = vtiger_crmentityServices.smcreatorid ';
 		}
 		return $query;
 	}
