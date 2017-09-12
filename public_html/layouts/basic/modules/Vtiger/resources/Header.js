@@ -796,9 +796,9 @@ jQuery.Class("Vtiger_Header_Js", {
 			if (window.outerWidth <= 1024) {
 				//$('.headerLinksContainer').css('margin-right', '8px');
 			}
-			thisInstance.registerReminderNotice();
-			thisInstance.registerReminderNotification();
 		}
+		thisInstance.registerReminderNotice();
+		thisInstance.registerReminderNotification();
 	},
 });
 jQuery(document).ready(function () {
