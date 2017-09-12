@@ -15,7 +15,9 @@ $dataReader = $query->createCommand()->query();
 while ($row = $dataReader->read()) {
 	$notifications->executeScheduled($row);
 }
-$notifications->markAsRead();
+if (\AppConfig::module('Notification', 'AUTO_MARK_NOTIFICATIONS_READ_AFTER_EMAIL_SEND')) {
+	$notifications->markAsRead();
+}
 
 class Cron_Notification
 {
