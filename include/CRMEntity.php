@@ -720,13 +720,14 @@ class CRMEntity
 		}
 		\App\Log::trace('Exiting transferRelatedRecords...');
 	}
-	/*
-	 * Function to get the primary query part of a report for which generateReportsQuery Doesnt exist in module
-	 * @param - $module Primary module name
-	 * returns the query string formed on fetching the related data for report for primary module
-	 */
 
-	public function generateReportsQuery($module, $queryPlanner)
+	/**
+	 * Function to get the primary query part of a report for which generateReportsQuery Doesnt exist in module
+	 * @param string $module
+	 * @param ReportRunQueryPlanner $queryPlanner
+	 * @return string
+	 */
+	public function generateReportsQuery($module, ReportRunQueryPlanner $queryPlanner)
 	{
 		$adb = PearDatabase::getInstance();
 		$primary = CRMEntity::getInstance($module);
@@ -843,14 +844,15 @@ class CRMEntity
 
 		return $query;
 	}
-	/*
-	 * Function to get the secondary query part of a report for which generateReportsSecQuery Doesnt exist in module
-	 * @param - $module primary module name
-	 * @param - $secmodule secondary module name
-	 * returns the query string formed on fetching the related data for report for secondary module
-	 */
 
-	public function generateReportsSecQuery($module, $secmodule, $queryPlanner)
+	/**
+	 * Function to get the secondary query part of a report for which generateReportsSecQuery Doesnt exist in module
+	 * @param string $module
+	 * @param string $secmodule
+	 * @param ReportRunQueryPlanner $queryPlanner
+	 * @return string
+	 */
+	public function generateReportsSecQuery($module, $secmodule, ReportRunQueryPlanner $queryPlanner)
 	{
 		$adb = PearDatabase::getInstance();
 		$secondary = CRMEntity::getInstance($secmodule);
@@ -871,7 +873,7 @@ class CRMEntity
 		$relquery = '';
 		$matrix = $queryPlanner->newDependencyMatrix();
 
-		$fields_query = $adb->pquery("SELECT vtiger_field.fieldname,vtiger_field.tablename,vtiger_field.fieldid from vtiger_field INNER JOIN vtiger_tab on vtiger_tab.name = ? WHERE vtiger_tab.tabid=vtiger_field.tabid && vtiger_field.uitype IN (10) and vtiger_field.presence in (0,2)", array($secmodule));
+		$fields_query = $adb->pquery('SELECT vtiger_field.fieldname,vtiger_field.tablename,vtiger_field.fieldid from vtiger_field INNER JOIN vtiger_tab on vtiger_tab.name = ? WHERE vtiger_tab.tabid=vtiger_field.tabid && vtiger_field.uitype IN (10) and vtiger_field.presence in (0,2)', array($secmodule));
 
 		if ($adb->num_rows($fields_query) > 0) {
 			$countFieldsQuery = $adb->num_rows($fields_query);
@@ -990,14 +992,17 @@ class CRMEntity
 		}
 		return $sec_query;
 	}
-	/*
-	 * Function to get the relation query part of a report
-	 * @param - $module primary module name
-	 * @param - $secmodule secondary module name
-	 * returns the query string formed on relating the primary module and secondary module
-	 */
 
-	public function getRelationQuery($module, $secmodule, $table_name, $column_name, $queryPlanner)
+	/**
+	 * Function to get the relation query part of a report
+	 * @param string $module
+	 * @param string $secmodule
+	 * @param string $table_name
+	 * @param string $column_name
+	 * @param ReportRunQueryPlanner $queryPlanner
+	 * @return string
+	 */
+	public function getRelationQuery($module, $secmodule, $table_name, $column_name, ReportRunQueryPlanner $queryPlanner)
 	{
 		$tab = getRelationTables($module, $secmodule);
 
