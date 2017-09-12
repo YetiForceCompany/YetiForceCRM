@@ -76,7 +76,7 @@ class Access
 
 	/**
 	 * Delete sharing access setup for module
-	 * @param ModuleBasic$moduleInstance
+	 * @param ModuleBasic $moduleInstance
 	 * @access private
 	 * @internal This method is called from Module during deletion.
 	 */
