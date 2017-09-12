@@ -139,10 +139,10 @@ class Profile
 
 	/**
 	 * Initialize profile setup for the module
-	 * @param Module Instance of module
+	 * @param ModuleBasic $moduleInstance
 	 * @access private
 	 */
-	public static function initForModule($moduleInstance)
+	public static function initForModule(ModuleBasic $moduleInstance)
 	{
 		$db = \App\Db::getInstance();
 		$actionids = (new \App\Db\Query())->select(['actionid'])->from('vtiger_actionmapping')
