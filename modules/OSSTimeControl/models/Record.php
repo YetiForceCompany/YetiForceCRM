@@ -19,12 +19,11 @@ Class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_osstimecontrol.osstimecontrolid')
 			->where(['vtiger_crmentity.deleted' => 0, 'osstimecontrol_status' => self::RECALCULATE_STATUS, $name => $id])
 			->sum('sum_time');
-		$sumTime = number_format($sumTime, 2);
 		$metaData = vtlib\Functions::getCRMRecordMetadata($id);
 		$moduleModel = Vtiger_Module_Model::getInstance($metaData['setype']);
 		$focus = $moduleModel->getEntityInstance();
 		if ($moduleModel->getFieldByColumn('sum_time')) {
-			App\Db::getInstance()->createCommand()->update($focus->table_name, ['sum_time' => $sumTime], [$focus->table_index => $id])->execute();
+			App\Db::getInstance()->createCommand()->update($focus->table_name, ['sum_time' => number_format($sumTime, 2)], [$focus->table_index => $id])->execute();
 		}
 	}
 

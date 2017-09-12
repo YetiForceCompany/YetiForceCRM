@@ -363,6 +363,7 @@ class Request
 	/**
 	 * Function to check if the key is empty.
 	 * @param string $key
+	 * @param boolean $emptyFunction
 	 * @return boolean
 	 */
 	public function isEmpty($key, $emptyFunction = false)
