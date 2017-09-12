@@ -25,6 +25,7 @@
 			#container{
 				min-width:280px;
 				width:50%;
+				margin: auto;
 				margin-top:2%;
 			}
 			#content{
@@ -74,7 +75,7 @@
 	<body>
 		<div id="container">
 			<div class="logo">
-				<img  src="{$LOGOURL}" alt="{$TITLE}" style="height: 4em;width: 12em;"><br /><br /><br />
+				<img  src="{$LOGOURL}" alt="{$TITLE}" style="max-width: 150px;margin: auto;display: block;"><br /><br /><br />
 			</div>
 			<div>
 				{if $LINK_EXPIRED neq 'true'}   

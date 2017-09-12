@@ -329,14 +329,12 @@ class Users extends CRMEntity
 	public function changePassword($userPassword, $newPassword, $dieOnError = true)
 	{
 		$userName = $this->column_fields['user_name'];
-		$currentUser = \App\User::getCurrentUserModel();
 		\App\Log::trace('Starting password change for ' . $userName);
-
 		if (empty($newPassword)) {
 			$this->error_string = \App\Language::translate('ERR_PASSWORD_CHANGE_FAILED_1') . $userName . \App\Language::translate('ERR_PASSWORD_CHANGE_FAILED_2');
 			return false;
 		}
-		if (!$currentUser->isAdmin()) {
+		if (empty($this->column_fields['is_admin']) && $userPassword) {
 			if (!$this->verifyPassword($userPassword)) {
 				\App\Log::warning('Incorrect old password for ' . $userName);
 				$this->error_string = \App\Language::translate('ERR_PASSWORD_INCORRECT_OLD');
@@ -352,7 +350,6 @@ class Users extends CRMEntity
 			'confirm_password' => $encryptedNewPassword,
 			'crypt_type' => $crypt_type,
 			], ['id' => $this->id])->execute();
-
 		$this->column_fields['user_password'] = $encryptedNewPassword;
 		$this->column_fields['confirm_password'] = $encryptedNewPassword;
 
