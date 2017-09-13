@@ -9,7 +9,7 @@
 $limit = AppConfig::performance('CRON_MAX_NUMBERS_RECORD_PRIVILEGES_UPDATER');
 $dataReader = (new \App\Db\Query())->select('crmid, setype')
 		->from('vtiger_crmentity')
-		->where(['users' => null])
+		->where(['or', ['users' => ''], ['users' => null]])
 		->limit($limit)
 		->createCommand()->query();
 while ($row = $dataReader->read()) {
@@ -21,7 +21,7 @@ while ($row = $dataReader->read()) {
 }
 $dataReader = (new \App\Db\Query())
 		->from('u_#__crmentity_search_label')
-		->where(['userid' => ''])
+		->where(['or', ['userid' => ''], ['userid' => null]])
 		->limit($limit)
 		->createCommand()->query();
 while ($row = $dataReader->read()) {
