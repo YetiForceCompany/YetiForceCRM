@@ -274,9 +274,10 @@ class Filter
 
 	/**
 	 * Get all instances of filter for the module
-	 * @param Module Instance of module
+	 * @param ModuleBasic $moduleInstance
+	 * @return self
 	 */
-	public static function getAllForModule($moduleInstance)
+	public static function getAllForModule(ModuleBasic $moduleInstance)
 	{
 		$instances = false;
 		$dataReader = (new \App\Db\Query())->from('vtiger_customview')

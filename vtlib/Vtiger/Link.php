@@ -303,7 +303,7 @@ class Link
 	 * @param vtlib\LinkData $linkData
 	 * @return Boolean
 	 */
-	public static function isAdmin($linkData)
+	public static function isAdmin(LinkData $linkData)
 	{
 		$user = $linkData->getUser();
 		return $user->is_admin == 'on' || $user->column_fields['is_admin'] == 'on';

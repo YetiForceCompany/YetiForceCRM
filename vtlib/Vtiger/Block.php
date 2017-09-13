@@ -188,9 +188,9 @@ class Block
 
 	/**
 	 * Get all block instances associated with the module
-	 * @param \Module Module Instance of the module
+	 * @param ModuleBasic $moduleInstance
 	 */
-	public static function getAllForModule($moduleInstance)
+	public static function getAllForModule(ModuleBasic $moduleInstance)
 	{
 		if (\App\Cache::has('BlocksForModule', $moduleInstance->id)) {
 			$blocks = \App\Cache::get('BlocksForModule', $moduleInstance->id);
