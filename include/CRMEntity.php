@@ -1142,19 +1142,19 @@ class CRMEntity
 	/**
 	 * The function retrieves access to queries for users without administrator rights
 	 * @param Users $user
-	 * @param <type> $parentRole
+	 * @param string $parentRole
 	 * @param array $userGroups
 	 * @return string
 	 */
 	public function getNonAdminUserAccessQuery(Users $user, $parentRole, $userGroups)
 	{
 		$query = "(SELECT $user->id as id) UNION (SELECT vtiger_user2role.userid AS userid FROM " .
-			"vtiger_user2role INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid " .
-			"INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE " .
+			'vtiger_user2role INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid ' .
+			'INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE ' .
 			"vtiger_role.parentrole like '$parentRole::%')";
 		if (count($userGroups) > 0) {
-			$query .= " UNION (SELECT groupid FROM vtiger_groups where" .
-				" groupid in (" . implode(",", $userGroups) . "))";
+			$query .= ' UNION (SELECT groupid FROM vtiger_groups where' .
+				' groupid in (' . implode(',', $userGroups) . '))';
 		}
 		return $query;
 	}
