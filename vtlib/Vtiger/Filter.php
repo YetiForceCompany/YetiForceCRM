@@ -137,10 +137,10 @@ class Filter
 
 	/**
 	 * Add the field to this filer instance
-	 * @param Field Instance of the field
+	 * @param FieldBasic $fieldInstance
 	 * @param Integer Index count to use
 	 */
-	public function addField($fieldInstance, $index = 0)
+	public function addField(FieldBasic $fieldInstance, $index = 0)
 	{
 		$cvcolvalue = $this->__getColumnValue($fieldInstance);
 		$db = \App\Db::getInstance();
@@ -156,13 +156,13 @@ class Filter
 
 	/**
 	 * Add rule to this filter instance
-	 * @param Field Instance of the field
+	 * @param FieldBasic $fieldInstance
 	 * @param String One of [EQUALS, NOT_EQUALS, STARTS_WITH, ENDS_WITH, CONTAINS, DOES_NOT_CONTAINS, LESS_THAN, 
 	 *                       GREATER_THAN, LESS_OR_EQUAL, GREATER_OR_EQUAL]
 	 * @param String Value to use for comparision
 	 * @param Integer Index count to use
 	 */
-	public function addRule($fieldInstance, $comparator, $comparevalue, $index = 0, $group = 1, $condition = 'and')
+	public function addRule(FieldBasic $fieldInstance, $comparator, $comparevalue, $index = 0, $group = 1, $condition = 'and')
 	{
 		if (empty($comparator))
 			return $this;
