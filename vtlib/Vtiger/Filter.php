@@ -138,7 +138,8 @@ class Filter
 	/**
 	 * Add the field to this filer instance
 	 * @param FieldBasic $fieldInstance
-	 * @param Integer Index count to use
+	 * @param int $index
+	 * @return $this
 	 */
 	public function addField(FieldBasic $fieldInstance, $index = 0)
 	{
@@ -161,6 +162,7 @@ class Filter
 	 *                       GREATER_THAN, LESS_OR_EQUAL, GREATER_OR_EQUAL]
 	 * @param String Value to use for comparision
 	 * @param Integer Index count to use
+	 * @return $this
 	 */
 	public function addRule(FieldBasic $fieldInstance, $comparator, $comparevalue, $index = 0, $group = 1, $condition = 'and')
 	{

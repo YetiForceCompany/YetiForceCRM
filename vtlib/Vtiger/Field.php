@@ -238,6 +238,7 @@ class Field extends FieldBasic
 	/**
 	 * Get Field instances related to module
 	 * @param ModuleBasic $moduleInstance
+	 * @return self
 	 */
 	public static function getAllForModule(ModuleBasic $moduleInstance)
 	{

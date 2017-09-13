@@ -189,6 +189,7 @@ class Block
 	/**
 	 * Get all block instances associated with the module
 	 * @param ModuleBasic $moduleInstance
+	 * @return self
 	 */
 	public static function getAllForModule(ModuleBasic $moduleInstance)
 	{
