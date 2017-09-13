@@ -56,7 +56,12 @@ class Import_Utils_Helper
 		return $importDir;
 	}
 
-	public static function getImportFilePath($user)
+	/**
+	 * The function takes the path of the file to be imported
+	 * @param Users $user
+	 * @return string
+	 */
+	public static function getImportFilePath(Users $user)
 	{
 		$importDirectory = self::getImportDirectory();
 		return $importDirectory . "IMPORT_" . $user->id;

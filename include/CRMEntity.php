@@ -1140,12 +1140,13 @@ class CRMEntity
 	}
 
 	/**
-	 *
-	 * @param <type> $user
+	 * The function retrieves access to queries for users without administrator rights
+	 * @param Users $user
 	 * @param <type> $parentRole
-	 * @param <type> $userGroups
+	 * @param array $userGroups
+	 * @return string
 	 */
-	public function getNonAdminUserAccessQuery($user, $parentRole, $userGroups)
+	public function getNonAdminUserAccessQuery(Users $user, $parentRole, $userGroups)
 	{
 		$query = "(SELECT $user->id as id) UNION (SELECT vtiger_user2role.userid AS userid FROM " .
 			"vtiger_user2role INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid " .
@@ -1159,11 +1160,12 @@ class CRMEntity
 	}
 
 	/**
-	 *
-	 * @param <type> $module
-	 * @param <type> $user
+	 * This function takes access to the module for users without administrator privileges
+	 * @param string $module
+	 * @param Users $user
+	 * @return string
 	 */
-	public function getNonAdminModuleAccessQuery($module, $user)
+	public function getNonAdminModuleAccessQuery($module, Users $user)
 	{
 		require('user_privileges/sharing_privileges_' . $user->id . '.php');
 		$tabId = \App\Module::getModuleId($module);
@@ -1205,12 +1207,13 @@ class CRMEntity
 	}
 
 	/**
-	 *
-	 * @param String $module - module name for which query needs to be generated.
+	 * The function takes control access for users without administrator rights
+	 * @param string $module - module name for which query needs to be generated.
 	 * @param Users $user - user for which query needs to be generated.
-	 * @return String Access control Query for the user.
+	 * @param string $scope
+	 * @return string - access control query for the user.
 	 */
-	public function getNonAdminAccessControlQuery($module, $user, $scope = '')
+	public function getNonAdminAccessControlQuery($module, Users $user, $scope = '')
 	{
 		require('user_privileges/user_privileges_' . $user->id . '.php');
 		require('user_privileges/sharing_privileges_' . $user->id . '.php');
