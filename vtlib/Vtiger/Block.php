@@ -138,10 +138,10 @@ class Block
 
 	/**
 	 * Add field to this block
-	 * @param Field Instance of field to add to this block.
+	 * @param FieldBasic $fieldInstance
 	 * @return Reference to this block instance
 	 */
-	public function addField($fieldInstance)
+	public function addField(FieldBasic $fieldInstance)
 	{
 		$fieldInstance->save($this);
 		return $this;
