@@ -238,9 +238,10 @@ class PackageExport
 
 	/**
 	 * Export vtiger dependencies
+	 * @param ModuleBasic $moduleInstance
 	 * @access private
 	 */
-	public function exportDependencies($moduleInstance)
+	public function exportDependencies(ModuleBasic $moduleInstance)
 	{
 		$adb = \PearDatabase::getInstance();
 		$moduleId = $moduleInstance->id;
@@ -366,9 +367,10 @@ class PackageExport
 
 	/**
 	 * Export module blocks with its related fields
+	 * @param ModuleBasic $moduleInstance
 	 * @access private
 	 */
-	public function exportBlocks($moduleInstance)
+	public function exportBlocks(ModuleBasic $moduleInstance)
 	{
 		$adb = \PearDatabase::getInstance();
 		$sqlresult = $adb->pquery('SELECT * FROM vtiger_blocks WHERE tabid = ?', Array($moduleInstance->id));
@@ -412,9 +414,10 @@ class PackageExport
 
 	/**
 	 * Export fields related to a module block
+	 * @param ModuleBasic $moduleInstance
 	 * @access private
 	 */
-	public function exportFields($moduleInstance, $blockid)
+	public function exportFields(ModuleBasic $moduleInstance, $blockid)
 	{
 		$adb = \PearDatabase::getInstance();
 
@@ -530,9 +533,10 @@ class PackageExport
 
 	/**
 	 * Export Custom views of the module
+	 * @param ModuleBasic $moduleInstance
 	 * @access private
 	 */
-	public function exportCustomViews($moduleInstance)
+	public function exportCustomViews(ModuleBasic $moduleInstance)
 	{
 		$db = \PearDatabase::getInstance();
 
@@ -589,9 +593,10 @@ class PackageExport
 
 	/**
 	 * Export Sharing Access of the module
+	 * @param ModuleBasic $moduleInstance
 	 * @access private
 	 */
-	public function exportSharingAccess($moduleInstance)
+	public function exportSharingAccess(ModuleBasic $moduleInstance)
 	{
 		$adb = \PearDatabase::getInstance();
 
@@ -621,7 +626,11 @@ class PackageExport
 		$this->closeNode('sharingaccess');
 	}
 
-	public function exportActions($moduleInstance)
+	/**
+	 * Export actions
+	 * @param ModuleBasic $moduleInstance
+	 */
+	public function exportActions(ModuleBasic $moduleInstance)
 	{
 
 		if (!$moduleInstance->isentitytype)
@@ -645,9 +654,10 @@ class PackageExport
 
 	/**
 	 * Export related lists associated with module.
+	 * @param ModuleBasic $moduleInstance
 	 * @access private
 	 */
-	public function exportRelatedLists($moduleInstance)
+	public function exportRelatedLists(ModuleBasic $moduleInstance)
 	{
 
 		if (!$moduleInstance->isentitytype)
@@ -719,9 +729,10 @@ class PackageExport
 
 	/**
 	 * Export custom links of the module.
+	 * @param ModuleBasic $moduleInstance
 	 * @access private
 	 */
-	public function exportCustomLinks($moduleInstance)
+	public function exportCustomLinks(ModuleBasic $moduleInstance)
 	{
 		$customlinks = $moduleInstance->getLinksForExport();
 		if (!empty($customlinks)) {
@@ -744,9 +755,10 @@ class PackageExport
 
 	/**
 	 * Export cron tasks for the module.
+	 * @param ModuleBasic $moduleInstance
 	 * @access private
 	 */
-	public function exportCronTasks($moduleInstance)
+	public function exportCronTasks(ModuleBasic $moduleInstance)
 	{
 		$cronTasks = Cron::listAllInstancesByModule($moduleInstance->name);
 		$this->openNode('crons');
