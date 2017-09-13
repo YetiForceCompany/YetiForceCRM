@@ -1,39 +1,39 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 <style type="text/css">
-.fieldDetailsForm .zeroOpacity{
-display: none;
-}
-.visibility{
-visibility: hidden;
-}
-.paddingNoTop20{
-padding: 0 20px 20px 20px;
-}
+	.fieldDetailsForm .zeroOpacity{
+		display: none;
+	}
+	.visibility{
+		visibility: hidden;
+	}
+	.paddingNoTop20{
+		padding: 0 20px 20px 20px;
+	}
 </style>
 {strip}
     <div class="" id="quickCreateEditorContainer">
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
         <div class="widget_header row">
-		<div class="col-md-8">
-			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE}
-			{\App\Language::translate('LBL_QUICK_CREATE_EDITOR_DESCRIPTION', $QUALIFIED_MODULE)}
-		</div>
-		<div class="pull-right col-md-4 h3">
-			<select class="select2 form-control" name="quickCreateEditorModules">
-				{foreach key=mouleName item=moduleModel from=$SUPPORTED_MODULES}
-					{if $moduleModel->isPermitted('EditView')}
-						{assign var='quickCreateModule' value=$moduleModel->isQuickCreateSupported()}
-						{assign var='singularLabel' value=$moduleModel->getSingularLabelKey()}
-						{if $singularLabel == 'SINGLE_Calendar'}
-							{assign var='singularLabel' value='LBL_EVENT_OR_TASK'}
+			<div class="col-md-8">
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
+				{\App\Language::translate('LBL_QUICK_CREATE_EDITOR_DESCRIPTION', $QUALIFIED_MODULE)}
+			</div>
+			<div class="pull-right col-md-4 h3">
+				<select class="select2 form-control" name="quickCreateEditorModules">
+					{foreach key=mouleName item=moduleModel from=$SUPPORTED_MODULES}
+						{if $moduleModel->isPermitted('EditView')}
+							{assign var='quickCreateModule' value=$moduleModel->isQuickCreateSupported()}
+							{assign var='singularLabel' value=$moduleModel->getSingularLabelKey()}
+							{if $singularLabel == 'SINGLE_Calendar'}
+								{assign var='singularLabel' value='LBL_EVENT_OR_TASK'}
+							{/if}
+							{if $quickCreateModule == '1'}
+								<option value="{$mouleName}" {if $mouleName eq $SELECTED_MODULE_NAME} selected {/if}>{\App\Language::translate($singularLabel, $mouleName)}</option>
+							{/if}
 						{/if}
-						{if $quickCreateModule == '1'}
-							<option value="{$mouleName}" {if $mouleName eq $SELECTED_MODULE_NAME} selected {/if}>{\App\Language::translate($singularLabel, $mouleName)}</option>
-						{/if}
-					{/if}
-				{/foreach}
-			</select>
-		</div>
+					{/foreach}
+				</select>
+			</div>
         </div>
         <div class="contents tabbable">
             <ul class="nav nav-tabs layoutTabs massEditTabs">
@@ -80,7 +80,7 @@ padding: 0 20px 20px 20px;
                                                             </div>
                                                             <div class="col-sm-11 col-xs-10 col-md-10 marginLeftZero" style="word-wrap: break-word;">
                                                                 <span class="fieldLabel">{\App\Language::translate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}&nbsp;
-                                                                {if $IS_MANDATORY}<span class="redColor">*</span>{/if}</span>
+																	{if $IS_MANDATORY}<span class="redColor">*</span>{/if}</span>
 															</div>
 														</div>
 													</div>
@@ -110,10 +110,10 @@ padding: 0 20px 20px 20px;
 																	{/if}
 																	{\App\Language::translate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}&nbsp;
 																</span>
-																
+
 															</div>
 														</div>
-													</div>	
+													</div>
 												</li>
 											{/if}
 										{/foreach}
@@ -125,4 +125,4 @@ padding: 0 20px 20px 20px;
 				</div>
 			</div>
 		</div>
-{/strip}
+	{/strip}
