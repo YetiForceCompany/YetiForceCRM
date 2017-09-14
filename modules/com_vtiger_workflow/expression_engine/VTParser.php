@@ -83,7 +83,7 @@ class VTExpressionParser
 		$this->consume('SYMBOL', new VTExpressionSymbol($sym));
 	}
 
-	public function check($token, $label, $value)
+	public function check(HTMLPurifier_Token $token, $label, $value)
 	{
 		return $token->label == $label && $token->value == $value;
 	}
