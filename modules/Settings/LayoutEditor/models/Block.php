@@ -97,7 +97,7 @@ class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model
 	 * @param <type> $moduleModel - module instance
 	 * @return <array> - list of Vtiger_Block_Model
 	 */
-	public static function getAllForModule($moduleModel)
+	public static function getAllForModule(vtlib\ModuleBasic $moduleModel)
 	{
 		$blockObjects = parent::getAllForModule($moduleModel);
 		$blockModelList = [];
