@@ -101,9 +101,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 	 */
 	public function getEmployeeHierarchy($id)
 	{
-		$adb = PearDatabase::getInstance();
 		\App\Log::trace("Entering getEmployeeHierarchy(" . $id . ") method ...");
-		require('user_privileges/user_privileges_' . \App\User::getCurrentUserId() . '.php');
 
 		$listview_header = [];
 		$listview_entries = [];
@@ -115,13 +113,13 @@ class OSSEmployees extends Vtiger_CRMEntity
 		}
 
 		$rows_list = [];
-		$encountered_accounts = array($id);
+		$encountered_accounts = [$id];
 		$rows_list = $this->__getParentEmployees($id, $rows_list, $encountered_accounts);
 		$rows_list = $this->__getChildEmployees($id, $rows_list, $rows_list[$id]['depth']);
 		foreach ($rows_list as $employees_id => $account_info) {
 			$account_info_data = [];
 
-			$hasRecordViewAccess = \App\User::getCurrentUserModel()->isAdmin() || (isPermitted('OSSEmployees', 'DetailView', $employees_id) == 'yes');
+			$hasRecordViewAccess = \App\Privilege::isPermitted('OSSEmployees', 'DetailView', $employees_id);
 			foreach ($this->list_fields_name as $fieldname => $colname) {
 				if (!$hasRecordViewAccess && $colname != 'name') {
 					$account_info_data[] = '';
@@ -147,7 +145,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 			}
 			$listview_entries[$employees_id] = $account_info_data;
 		}
-		$hierarchy = array('header' => $listview_header, 'entries' => $listview_entries);
+		$hierarchy = ['header' => $listview_header, 'entries' => $listview_entries];
 		\App\Log::trace("Exiting getEmployeeHierarchy method ...");
 		return $hierarchy;
 	}
