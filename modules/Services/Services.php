@@ -284,7 +284,7 @@ class Services extends CRMEntity
 				$res_cnt = $adb->numRows($sel_result);
 				if ($res_cnt > 0) {
 					for ($i = 0; $i < $res_cnt; $i++) {
-						$id_field_value = $adb->query_result($sel_result, $i, $id_field);
+						$id_field_value = $adb->queryResult($sel_result, $i, $id_field);
 						$adb->pquery("update $rel_table set $entity_id_field=? where $entity_id_field=? and $id_field=?", array($entityId, $transferId, $id_field_value));
 					}
 				}

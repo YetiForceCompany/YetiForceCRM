@@ -118,7 +118,7 @@ function getUserId_Ol($username)
 		$result = $adb->pquery($sql, array($username));
 		$numRows = $adb->numRows($result);
 		if ($numRows > 0) {
-			$userId = $adb->query_result($result, 0, 'id');
+			$userId = $adb->queryResult($result, 0, 'id');
 		} else {
 			$userId = 0;
 		}
@@ -260,8 +260,8 @@ function getRelationTables($module, $secmodule)
 
 	$ui10_query = $adb->pquery("SELECT vtiger_field.tabid AS tabid,vtiger_field.tablename AS tablename, vtiger_field.columnname AS columnname FROM vtiger_field INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid WHERE (vtiger_fieldmodulerel.module=? && vtiger_fieldmodulerel.relmodule=?) || (vtiger_fieldmodulerel.module=? && vtiger_fieldmodulerel.relmodule=?)", array($module, $secmodule, $secmodule, $module));
 	if ($adb->numRows($ui10_query) > 0) {
-		$ui10_tablename = $adb->query_result($ui10_query, 0, 'tablename');
-		$ui10_columnname = $adb->query_result($ui10_query, 0, 'columnname');
+		$ui10_tablename = $adb->queryResult($ui10_query, 0, 'tablename');
+		$ui10_columnname = $adb->queryResult($ui10_query, 0, 'columnname');
 
 		if ($primary_obj->table_name == $ui10_tablename) {
 			$reltables = array($ui10_tablename => array("" . $primary_obj->table_index . "", "$ui10_columnname"));
@@ -432,7 +432,7 @@ function getBlockName($blockId)
 	if (!empty($blockId) && $blockName === false) {
 		$blockRes = $adb->pquery('SELECT blocklabel FROM vtiger_blocks WHERE blockid = ?', array($blockId));
 		if ($adb->numRows($blockRes)) {
-			$blockName = $adb->query_result($blockRes, 0, 'blocklabel');
+			$blockName = $adb->queryResult($blockRes, 0, 'blocklabel');
 		} else {
 			$blockName = '';
 		}
@@ -501,12 +501,12 @@ function getActivityRelatedContacts($activityId)
 	$adb = PearDatabase::getInstance();
 
 	$query = 'SELECT link FROM vtiger_activity WHERE activityid=?';
-	$result = $adb->pquery($query, array($activityId));
+	$result = $adb->pquery($query, [$activityId]);
 
 	$noOfContacts = $adb->numRows($result);
 	$contactsList = [];
 	for ($i = 0; $i < $noOfContacts; ++$i) {
-		$contactId = $adb->query_result($result, $i, 'link');
+		$contactId = $adb->queryResult($result, $i, 'link');
 		$displayValueArray = \App\Record::getLabel($contactId, 'Contacts');
 		if (!empty($displayValueArray)) {
 			foreach ($displayValueArray as $key => $fieldValue) {

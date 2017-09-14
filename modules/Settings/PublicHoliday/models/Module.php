@@ -126,9 +126,9 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 		$params = array($date);
 
 		$result = $db->pquery($sql, $params);
-		$num = $db->query_result($result, 0, 'num');
+		$num = $db->queryResult($result, 0, 'num');
 
-		\App\Log::trace("Exiting Settings_PublicHoliday_Module_Model::checkIfHoliday() method ...");
+		\App\Log::trace('Exiting Settings_PublicHoliday_Module_Model::checkIfHoliday() method ...');
 
 		if ($num > 0)
 			return true;

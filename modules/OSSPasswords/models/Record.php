@@ -35,9 +35,9 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
 		$result = $db->pquery($sql, $params, true);
 
 		if ($db->numRows($result) == 1)
-			return $db->query_result($result, 0, 'password');
+			return $db->queryResult($result, 0, 'password');
 		else if ($db->numRows($result) == 0)
-			return $db->query_result($result, 0, '');
+			return $db->queryResult($result, 0, '');
 
 		return false;
 	}

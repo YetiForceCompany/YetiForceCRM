@@ -34,14 +34,14 @@ function getTabsUtilityActionPermission($profileid)
 	$result1 = $adb->pquery($sql1, array($profileid));
 	$numRows1 = $adb->numRows($result1);
 	for ($i = 0; $i < $numRows1; $i++) {
-		$tab_id = $adb->query_result($result1, $i, 'tabid');
+		$tab_id = $adb->queryResult($result1, $i, 'tabid');
 		if (!in_array($tab_id, $temp_tabid)) {
 			$temp_tabid[] = $tab_id;
 			$access = [];
 		}
 
-		$action_id = $adb->query_result($result1, $i, 'activityid');
-		$per_id = $adb->query_result($result1, $i, 'permission');
+		$action_id = $adb->queryResult($result1, $i, 'activityid');
+		$per_id = $adb->queryResult($result1, $i, 'permission');
 		$access[$action_id] = $per_id;
 		$check[$tab_id] = $access;
 	}
@@ -328,14 +328,14 @@ function getProfileActionPermission($profileid)
 	$result1 = $adb->pquery($sql1, array($profileid));
 	$numRows1 = $adb->numRows($result1);
 	for ($i = 0; $i < $numRows1; $i++) {
-		$tab_id = $adb->query_result($result1, $i, 'tabid');
+		$tab_id = $adb->queryResult($result1, $i, 'tabid');
 		if (!in_array($tab_id, $temp_tabid)) {
 			$temp_tabid[] = $tab_id;
 			$access = [];
 		}
 
-		$action_id = $adb->query_result($result1, $i, 'operation');
-		$per_id = $adb->query_result($result1, $i, 'permissions');
+		$action_id = $adb->queryResult($result1, $i, 'operation');
+		$per_id = $adb->queryResult($result1, $i, 'permissions');
 		$access[$action_id] = $per_id;
 		$check[$tab_id] = $access;
 	}
@@ -384,11 +384,11 @@ function getAllRoleDetails()
 	$numRows = $adb->numRows($result);
 	for ($i = 0; $i < $numRows; $i++) {
 		$eachRoleDet = [];
-		$roleId = $adb->query_result($result, $i, 'roleid');
-		$roleName = $adb->query_result($result, $i, 'rolename');
-		$roleDepth = $adb->query_result($result, $i, 'depth');
+		$roleId = $adb->queryResult($result, $i, 'roleid');
+		$roleName = $adb->queryResult($result, $i, 'rolename');
+		$roleDepth = $adb->queryResult($result, $i, 'depth');
 		$subRoleDepth = $roleDepth + 1;
-		$parentRole = $adb->query_result($result, $i, 'parentrole');
+		$parentRole = $adb->queryResult($result, $i, 'parentrole');
 		$subRole = '';
 
 		//getting the immediate subordinates
@@ -398,9 +398,9 @@ function getAllRoleDetails()
 		if ($numRoles > 0) {
 			for ($j = 0; $j < $numRoles; $j++) {
 				if ($j == 0) {
-					$subRole .= $adb->query_result($res1, $j, 'roleid');
+					$subRole .= $adb->queryResult($res1, $j, 'roleid');
 				} else {
-					$subRole .= ',' . $adb->query_result($res1, $j, 'roleid');
+					$subRole .= ',' . $adb->queryResult($res1, $j, 'roleid');
 				}
 			}
 		}
@@ -432,7 +432,7 @@ function getRoleAndSubordinateUsers($roleId)
 	$numRows = $adb->numRows($result);
 	$roleRelatedUsers = [];
 	for ($i = 0; $i < $numRows; $i++) {
-		$roleRelatedUsers[$adb->query_result($result, $i, 'userid')] = $adb->query_result($result, $i, 'user_name');
+		$roleRelatedUsers[$adb->queryResult($result, $i, 'userid')] = $adb->queryResult($result, $i, 'user_name');
 	}
 	\App\Log::trace("Exiting getRoleAndSubordinateUsers method ...");
 	return $roleRelatedUsers;
@@ -456,14 +456,14 @@ function getRoleAndSubordinatesInformation($roleId)
 	$roleParentSeq = $roleDetails['parentrole'];
 
 	$query = "select * from vtiger_role where parentrole like ? order by parentrole asc";
-	$result = $adb->pquery($query, array($roleParentSeq . "%"));
+	$result = $adb->pquery($query, [$roleParentSeq . "%"]);
 	$numRows = $adb->numRows($result);
 	$roleInfo = [];
 	for ($i = 0; $i < $numRows; $i++) {
-		$roleid = $adb->query_result($result, $i, 'roleid');
-		$rolename = $adb->query_result($result, $i, 'rolename');
-		$roledepth = $adb->query_result($result, $i, 'depth');
-		$parentrole = $adb->query_result($result, $i, 'parentrole');
+		$roleid = $adb->queryResult($result, $i, 'roleid');
+		$rolename = $adb->queryResult($result, $i, 'rolename');
+		$roledepth = $adb->queryResult($result, $i, 'depth');
+		$parentrole = $adb->queryResult($result, $i, 'parentrole');
 		$roleDet = [];
 		$roleDet[] = $rolename;
 		$roleDet[] = $parentrole;
@@ -493,7 +493,7 @@ function getRoleAndSubordinatesRoleIds($roleId)
 	$numRows = $adb->numRows($result);
 	$roleInfo = [];
 	for ($i = 0; $i < $numRows; $i++) {
-		$roleid = $adb->query_result($result, $i, 'roleid');
+		$roleid = $adb->queryResult($result, $i, 'roleid');
 		$roleInfo[] = $roleid;
 	}
 	\App\Log::trace("Exiting getRoleAndSubordinatesRoleIds method ...");
@@ -569,7 +569,7 @@ function deleteGroupRelatedSharingRules($grpId)
 		$result = $adb->pquery($query, $params);
 		$numRows = $adb->numRows($result);
 		for ($i = 0; $i < $numRows; $i++) {
-			$shareid = $adb->query_result($result, $i, 'shareid');
+			$shareid = $adb->queryResult($result, $i, 'shareid');
 			deleteSharingRule($shareid);
 		}
 	}
@@ -605,7 +605,7 @@ function deleteUserRelatedSharingRules($usId)
 		$result = $adb->pquery($query, $params);
 		$numRows = $adb->numRows($result);
 		for ($i = 0; $i < $numRows; $i++) {
-			$shareid = $adb->query_result($result, $i, 'shareid');
+			$shareid = $adb->queryResult($result, $i, 'shareid');
 			deleteSharingRule($shareid);
 		}
 	}
@@ -626,7 +626,7 @@ function getAllUserName()
 	$numRows = $adb->numRows($result);
 	$userDetails = [];
 	for ($i = 0; $i < $numRows; $i++) {
-		$userId = $adb->query_result($result, $i, 'id');
+		$userId = $adb->queryResult($result, $i, 'id');
 		$userName = \vtlib\Deprecated::getFullNameFromQResult($result, $i, 'Users');
 		$userDetails[$userId] = $userName;
 	}
@@ -648,8 +648,8 @@ function getAllGroupName()
 	$numRows = $adb->numRows($result);
 	$groupDetails = [];
 	for ($i = 0; $i < $numRows; $i++) {
-		$grpId = $adb->query_result($result, $i, 'groupid');
-		$grpName = $adb->query_result($result, $i, 'groupname');
+		$grpId = $adb->queryResult($result, $i, 'groupid');
+		$grpName = $adb->queryResult($result, $i, 'groupname');
 		$groupDetails[$grpId] = $grpName;
 	}
 	\App\Log::trace("Exiting getAllGroupName method ...");
@@ -667,7 +667,7 @@ function deleteSharingRule($shareid)
 	$adb = PearDatabase::getInstance();
 	$query2 = "select * from vtiger_datashare_module_rel where shareid=?";
 	$res = $adb->pquery($query2, array($shareid));
-	$typestr = $adb->query_result($res, 0, 'relationtype');
+	$typestr = $adb->queryResult($res, 0, 'relationtype');
 	$tabname = getDSTableNameForType($typestr);
 	$query3 = "delete from $tabname where shareid=?";
 	$adb->pquery($query3, array($shareid));
@@ -822,7 +822,7 @@ function getWriteSharingGroupsList($module)
 	$result = $adb->pquery($query, array($currentUser->id, $tabId));
 	$numRows = $adb->numRows($result);
 	for ($i = 0; $i < $numRows; $i++) {
-		$grpId = $adb->query_result($result, $i, 'sharedgroupid');
+		$grpId = $adb->queryResult($result, $i, 'sharedgroupid');
 		$grpArray[] = $grpId;
 	}
 	$shareGrpList = constructList($grpArray, 'INTEGER');

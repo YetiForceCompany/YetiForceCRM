@@ -299,7 +299,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		$selectedColumns = [];
 		$numRowsCount = $db->numRows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
-			$column = $db->query_result($result, $i, 'columnname');
+			$column = $db->queryResult($result, $i, 'columnname');
 			list($tableName, $columnName, $moduleFieldLabel, $fieldName, $type) = explode(':', $column);
 			$fieldLabel = explode('__', $moduleFieldLabel);
 			$module = $fieldLabel[0];
@@ -325,7 +325,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		$columns = [];
 		$numRowsCount = $db->numRows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
-			$columns[] = $db->query_result($result, $i, 'columnname');
+			$columns[] = $db->queryResult($result, $i, 'columnname');
 		}
 		return $columns;
 	}
@@ -345,8 +345,8 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		$sortColumns = [];
 		$numRowsCount = $db->numRows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
-			$column = $db->query_result($result, $i, 'columnname');
-			$order = $db->query_result($result, $i, 'sortorder');
+			$column = $db->queryResult($result, $i, 'columnname');
+			$order = $db->queryResult($result, $i, 'sortorder');
 			$sortColumns[App\Purifier::decodeHtml($column)] = $order;
 		}
 		return $sortColumns;
@@ -363,10 +363,10 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		$result = $db->pquery('SELECT * FROM vtiger_reportdatefilter WHERE datefilterid = ? && startdate != ? && enddate != ?', array($this->getId(), '0000-00-00', '0000-00-00'));
 		$standardFieldInfo = [];
 		if ($db->numRows($result)) {
-			$standardFieldInfo['columnname'] = $db->query_result($result, 0, 'datecolumnname');
-			$standardFieldInfo['type'] = $db->query_result($result, 0, 'datefilter');
-			$standardFieldInfo['startdate'] = $db->query_result($result, 0, 'startdate');
-			$standardFieldInfo['enddate'] = $db->query_result($result, 0, 'enddate');
+			$standardFieldInfo['columnname'] = $db->queryResult($result, 0, 'datecolumnname');
+			$standardFieldInfo['type'] = $db->queryResult($result, 0, 'datefilter');
+			$standardFieldInfo['startdate'] = $db->queryResult($result, 0, 'startdate');
+			$standardFieldInfo['enddate'] = $db->queryResult($result, 0, 'enddate');
 
 			if ($standardFieldInfo['type'] == "custom" || $standardFieldInfo['type'] == "") {
 				if ($standardFieldInfo["startdate"] != "0000-00-00" && $standardFieldInfo["startdate"] != "") {
@@ -734,7 +734,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		$count = 0;
 		$result = $adb->query($query, []);
 		if ($adb->numRows($result) > 0) {
-			$count = $adb->query_result($result, 0, 'count');
+			$count = $adb->queryResult($result, 0, 'count');
 		}
 		return $count;
 	}
@@ -1162,7 +1162,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 
 		$dataFields = '';
 		if ($db->numRows($result) > 0) {
-			$dataFields = $db->query_result($result, 0, 'data');
+			$dataFields = $db->queryResult($result, 0, 'data');
 		}
 		return $dataFields;
 	}

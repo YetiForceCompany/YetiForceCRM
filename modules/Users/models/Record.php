@@ -568,7 +568,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 
 		$checkResult = $db->pquery('SELECT smid FROM vtiger_salesmanattachmentsrel WHERE attachmentsid = ?', array($imageId));
-		$smId = $db->query_result($checkResult, 0, 'smid');
+		$smId = $db->queryResult($checkResult, 0, 'smid');
 
 		if ($this->getId() === $smId) {
 			$db->pquery('DELETE FROM vtiger_attachments WHERE attachmentsid = ?', array($imageId));
@@ -683,7 +683,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$result = $db->pquery('SELECT id FROM vtiger_users WHERE user_name = ?', array($userName));
 
 		if ($db->numRows($result)) {
-			return Users_Record_Model::getInstanceById($db->query_result($result, 0, 'id'), 'Users');
+			return Users_Record_Model::getInstanceById($db->queryResult($result, 0, 'id'), 'Users');
 		}
 		return false;
 	}
@@ -719,7 +719,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		if ($noOfUsers > 0) {
 			$focus = new Users();
 			for ($i = 0; $i < $noOfUsers; ++$i) {
-				$userId = $db->query_result($result, $i, 'id');
+				$userId = $db->queryResult($result, $i, 'id');
 				$focus->id = $userId;
 				$focus->retrieveEntityInfo($userId, 'Users');
 

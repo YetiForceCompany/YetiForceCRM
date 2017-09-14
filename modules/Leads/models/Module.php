@@ -213,7 +213,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 				return false;
 			} elseif ($num == 1) {
 				\App\Log::trace('End ' . __METHOD__);
-				return (int) $db->query_result($result, 0, 'accountid');
+				return (int) $db->queryResult($result, 0, 'accountid');
 			}
 		}
 		\App\Log::trace('End ' . __METHOD__);

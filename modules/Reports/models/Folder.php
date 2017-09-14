@@ -59,7 +59,7 @@ class Reports_Folder_Model extends \App\Base
 			$db->pquery('UPDATE vtiger_reportfolder SET foldername = ?, description = ? WHERE folderid = ?', array($this->getName(), $this->getDescription(), $folderId));
 		} else {
 			$result = $db->pquery('SELECT MAX(folderid) AS folderid FROM vtiger_reportfolder', []);
-			$folderId = (int) ($db->query_result($result, 0, 'folderid')) + 1;
+			$folderId = (int) ($db->queryResult($result, 0, 'folderid')) + 1;
 
 			$db->pquery('INSERT INTO vtiger_reportfolder(folderid, foldername, description, state) VALUES(?, ?, ?, ?)', array($folderId, $this->getName(), $this->getDescription(), 'CUSTOMIZED'));
 			$this->set('folderid', $folderId);
@@ -319,8 +319,8 @@ class Reports_Folder_Model extends \App\Base
 		$noOfRows = $db->numRows($result);
 		$allowedReportIds = [];
 		for ($i = 0; $i < $noOfRows; $i++) {
-			$primaryModule = $db->query_result($result, $i, 'primarymodule');
-			$reportid = $db->query_result($result, $i, 'reportmodulesid');
+			$primaryModule = $db->queryResult($result, $i, 'primarymodule');
+			$reportid = $db->queryResult($result, $i, 'reportmodulesid');
 			if (\App\Privilege::isPermitted($primaryModule, 'index')) {
 				$allowedReportIds[] = $reportid;
 			}
@@ -360,7 +360,7 @@ class Reports_Folder_Model extends \App\Base
 				array_push($params, $currentUserId, $currentUserId, $parentRoleSeq);
 			}
 			$result = $db->pquery($sql, $params);
-			return $db->query_result($result, 0, 'count');
+			return $db->queryResult($result, 0, 'count');
 		}
 		return 0;
 	}
@@ -408,7 +408,7 @@ class Reports_Folder_Model extends \App\Base
 		$noOfRecords = $db->numRows($result);
 		$recordIds = [];
 		for ($i = 0; $i < $noOfRecords; ++$i) {
-			$recordIds[] = $db->query_result($result, $i, $baseTableId);
+			$recordIds[] = $db->queryResult($result, $i, $baseTableId);
 		}
 		return $recordIds;
 	}

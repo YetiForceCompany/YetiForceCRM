@@ -27,7 +27,7 @@ class TotalTimeWorked
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_osstimecontrol.osstimecontrolid
 			WHERE vtiger_crmentity.deleted=0 &&  vtiger_osstimecontrol.link = ?';
 		$result_timecontrol = $adb->pquery($timecontrol, array($recordModel->getId()));
-		$decimalTimeFormat = vtlib\Functions::decimalTimeFormat($adb->query_result($result_timecontrol, 0, 'sum'));
+		$decimalTimeFormat = vtlib\Functions::decimalTimeFormat($adb->queryResult($result_timecontrol, 0, 'sum'));
 		\App\Log::trace('Exiting TotalTimeWorked::process() method ...');
 		return $decimalTimeFormat['short'];
 	}

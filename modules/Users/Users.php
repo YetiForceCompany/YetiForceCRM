@@ -545,7 +545,7 @@ class Users extends CRMEntity
 		$sql1 = 'SELECT attachmentsid FROM vtiger_salesmanattachmentsrel WHERE smid = ?';
 		$res1 = $this->db->pquery($sql1, array($this->id));
 		if ($this->db->numRows($res1) > 0) {
-			$attachmentId = $this->db->query_result($res1, 0, 'attachmentsid');
+			$attachmentId = $this->db->queryResult($res1, 0, 'attachmentsid');
 
 			$sql2 = "DELETE FROM vtiger_crmentity WHERE crmid=? && setype='Users Attachments'";
 			$this->db->pquery($sql2, array($attachmentId));

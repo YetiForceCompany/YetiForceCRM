@@ -118,10 +118,10 @@ class CRMEntity
 		$result = $adb->pquery($query1, array($notesId));
 		$noOfRows = $adb->numRows($result);
 		if ($noOfRows != 0)
-			$attachmentId = $adb->query_result($result, 0, 'attachmentsid');
+			$attachmentId = $adb->queryResult($result, 0, 'attachmentsid');
 		if ($attachmentId != '') {
 			$query2 = "select * from vtiger_attachments where attachmentsid=?";
-			$fileName = $adb->query_result($adb->pquery($query2, array($attachmentId)), 0, 'name');
+			$fileName = $adb->queryResult($adb->pquery($query2, array($attachmentId)), 0, 'name');
 		}
 		return $fileName;
 	}
@@ -284,22 +284,22 @@ class CRMEntity
 	 * function to construct the query to fetch the custom vtiger_fields
 	 * return the query to fetch the custom vtiger_fields
 	 */
-	public function constructCustomQueryAddendum($tablename, $module)
+	public function constructCustomQueryAddendum($tableName, $module)
 	{
 		$adb = PearDatabase::getInstance();
-		$tabid = \App\Module::getModuleId($module);
+		$tabId = \App\Module::getModuleId($module);
 		$sql1 = "select columnname,fieldlabel from vtiger_field where generatedtype=2 and tabid=? and vtiger_field.presence in (0,2)";
-		$result = $adb->pquery($sql1, array($tabid));
+		$result = $adb->pquery($sql1, [$tabId]);
 		$numRows = $adb->numRows($result);
 		$sql3 = "select ";
 		for ($i = 0; $i < $numRows; $i++) {
-			$columnName = $adb->query_result($result, $i, "columnname");
-			$fieldlabel = $adb->query_result($result, $i, "fieldlabel");
+			$columnName = $adb->queryResult($result, $i, "columnname");
+			$fieldLabel = $adb->queryResult($result, $i, "fieldlabel");
 			//construct query as below
 			if ($i == 0) {
-				$sql3 .= $tablename . "." . $columnName . " '" . $fieldlabel . "'";
+				$sql3 .= $tableName . "." . $columnName . " '" . $fieldLabel . "'";
 			} else {
-				$sql3 .= ", " . $tablename . "." . $columnName . " '" . $fieldlabel . "'";
+				$sql3 .= ", " . $tableName . "." . $columnName . " '" . $fieldLabel . "'";
 			}
 		}
 		if ($numRows > 0) {
@@ -327,7 +327,7 @@ class CRMEntity
 		$result = $adb->pquery($sql, array($tabid));
 		$numRows = $adb->numRows($result);
 		for ($i = 0; $i < $numRows; $i++) {
-			$fieldName = $adb->query_result($result, $i, "fieldname");
+			$fieldName = $adb->queryResult($result, $i, "fieldname");
 			$this->required_fields[$fieldName] = 1;
 		}
 	}
@@ -761,9 +761,9 @@ class CRMEntity
 		if ($adb->numRows($fields_query) > 0) {
 			$rows_fields_query = $adb->numRows($fields_query);
 			for ($i = 0; $i < $rows_fields_query; $i++) {
-				$field_name = $adb->query_result($fields_query, $i, 'fieldname');
-				$field_id = $adb->query_result($fields_query, $i, 'fieldid');
-				$tab_name = $adb->query_result($fields_query, $i, 'tablename');
+				$field_name = $adb->queryResult($fields_query, $i, 'fieldname');
+				$field_id = $adb->queryResult($fields_query, $i, 'fieldid');
+				$tab_name = $adb->queryResult($fields_query, $i, 'tablename');
 				$ui10_modules_query = $adb->pquery("SELECT relmodule FROM vtiger_fieldmodulerel WHERE fieldid=?", [$field_id]);
 
 				if ($adb->numRows($ui10_modules_query) > 0) {
@@ -774,7 +774,7 @@ class CRMEntity
 					$crmentityRelModuleFieldTableDeps = [];
 					$countNumRows = $adb->numRows($ui10_modules_query);
 					for ($j = 0; $j < $countNumRows; $j++) {
-						$rel_mod = $adb->query_result($ui10_modules_query, $j, 'relmodule');
+						$rel_mod = $adb->queryResult($ui10_modules_query, $j, 'relmodule');
 						$rel_obj = CRMEntity::getInstance($rel_mod);
 						vtlib_setup_modulevars($rel_mod, $rel_obj);
 
@@ -792,7 +792,7 @@ class CRMEntity
 
 					$countNumRows = $adb->numRows($ui10_modules_query);
 					for ($j = 0; $j < $countNumRows; $j++) {
-						$rel_mod = $adb->query_result($ui10_modules_query, $j, 'relmodule');
+						$rel_mod = $adb->queryResult($ui10_modules_query, $j, 'relmodule');
 						$rel_obj = CRMEntity::getInstance($rel_mod);
 						vtlib_setup_modulevars($rel_mod, $rel_obj);
 
@@ -878,9 +878,9 @@ class CRMEntity
 		if ($adb->numRows($fields_query) > 0) {
 			$countFieldsQuery = $adb->numRows($fields_query);
 			for ($i = 0; $i < $countFieldsQuery; $i++) {
-				$field_name = $adb->query_result($fields_query, $i, 'fieldname');
-				$field_id = $adb->query_result($fields_query, $i, 'fieldid');
-				$tab_name = $adb->query_result($fields_query, $i, 'tablename');
+				$field_name = $adb->queryResult($fields_query, $i, 'fieldname');
+				$field_id = $adb->queryResult($fields_query, $i, 'fieldid');
+				$tab_name = $adb->queryResult($fields_query, $i, 'tablename');
 				$ui10_modules_query = $adb->pquery("SELECT relmodule FROM vtiger_fieldmodulerel WHERE fieldid=?", array($field_id));
 
 				if ($adb->numRows($ui10_modules_query) > 0) {
@@ -890,7 +890,7 @@ class CRMEntity
 					$crmentityRelSecModuleTableDeps = [];
 					$rows_ui10_modules_query = $adb->numRows($ui10_modules_query);
 					for ($j = 0; $j < $rows_ui10_modules_query; $j++) {
-						$rel_mod = $adb->query_result($ui10_modules_query, $j, 'relmodule');
+						$rel_mod = $adb->queryResult($ui10_modules_query, $j, 'relmodule');
 						$rel_obj = CRMEntity::getInstance($rel_mod);
 						vtlib_setup_modulevars($rel_mod, $rel_obj);
 
@@ -907,7 +907,7 @@ class CRMEntity
 					}
 					$countNumRows = $adb->numRows($ui10_modules_query);
 					for ($j = 0; $j < $countNumRows; $j++) {
-						$rel_mod = $adb->query_result($ui10_modules_query, $j, 'relmodule');
+						$rel_mod = $adb->queryResult($ui10_modules_query, $j, 'relmodule');
 						$rel_obj = CRMEntity::getInstance($rel_mod);
 						vtlib_setup_modulevars($rel_mod, $rel_obj);
 

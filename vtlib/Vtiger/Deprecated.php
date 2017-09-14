@@ -72,7 +72,7 @@ class Deprecated
 
 		$blockId = '';
 		if ($noOfRows == 1) {
-			$blockId = $adb->query_result($result, 0, "blockid");
+			$blockId = $adb->queryResult($result, 0, "blockid");
 		}
 		return $blockId;
 	}
@@ -166,7 +166,7 @@ class Deprecated
 		static $cvidCache = [];
 		if (!isset($cvidCache[$module])) {
 			$qry_res = $adb->pquery("select cvid from vtiger_customview where viewname='All' and entitytype=?", array($module));
-			$cvid = $adb->query_result($qry_res, 0, "cvid");
+			$cvid = $adb->queryResult($qry_res, 0, "cvid");
 			$cvidCache[$module] = $cvid;
 		}
 		return isset($cvidCache[$module]) ? $cvidCache[$module] : '0';
@@ -289,7 +289,7 @@ class Deprecated
 		$result = $adb->pquery($query, array($label));
 		$noOfRows = $adb->numRows($result);
 		if ($noOfRows == 1) {
-			$blockId = $adb->query_result($result, 0, "blockid");
+			$blockId = $adb->queryResult($result, 0, "blockid");
 		}
 		return $blockId;
 	}

@@ -89,19 +89,19 @@ class CustomView extends CRMEntity
 		}
 		$result = $adb->pquery($ssql, $sparams);
 
-		$usercv_result = $adb->pquery("select default_cvid from vtiger_user_module_preferences where userid = ? and tabid = ?", array($current_user->id, $tabid));
-		$def_cvid = $adb->query_result($usercv_result, 0, 'default_cvid');
+		$usercv_result = $adb->pquery("select default_cvid from vtiger_user_module_preferences where userid = ? and tabid = ?", [$current_user->id, $tabid]);
+		$def_cvid = $adb->queryResult($usercv_result, 0, 'default_cvid');
 
 		while ($cvrow = $adb->fetchArray($result)) {
-			$customviewlist["viewname"] = $cvrow["viewname"];
+			$customviewlist['viewname'] = $cvrow['viewname'];
 			if ((isset($def_cvid) || $def_cvid != '') && $def_cvid == $cvid) {
-				$customviewlist["setdefault"] = 1;
+				$customviewlist['setdefault'] = 1;
 			} else {
-				$customviewlist["setdefault"] = $cvrow["setdefault"];
+				$customviewlist['setdefault'] = $cvrow['setdefault'];
 			}
-			$customviewlist["setmetrics"] = $cvrow["setmetrics"];
-			$customviewlist["userid"] = $cvrow["userid"];
-			$customviewlist["status"] = $cvrow["status"];
+			$customviewlist['setmetrics'] = $cvrow['setmetrics'];
+			$customviewlist['userid'] = $cvrow['userid'];
+			$customviewlist['status'] = $cvrow['status'];
 		}
 		return $customviewlist;
 	}
@@ -727,7 +727,7 @@ class CustomView extends CRMEntity
 		$res = $adb->query($sql);
 		$rows = $adb->numRows($res);
 		for ($s = 0; $s < $rows; $s++) {
-			$modulename = $adb->query_result($res, $s, "setype");
+			$modulename = $adb->queryResult($res, $s, "setype");
 			if ($modulename == 'Vendors') {
 				continue;
 			}

@@ -138,9 +138,9 @@ class SMSNotifier extends Vtiger_CRMEntity
 		$linkedFieldsCount = $this->db->numRows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
-			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
-			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
-			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
+			$related_module = $this->db->queryResult($linkedModulesQuery, $i, 'relmodule');
+			$fieldname = $this->db->queryResult($linkedModulesQuery, $i, 'fieldname');
+			$columnname = $this->db->queryResult($linkedModulesQuery, $i, 'columnname');
 
 			\vtlib\Deprecated::checkFileAccessForInclusion("modules/$related_module/$related_module.php");
 			require_once("modules/$related_module/$related_module.php");
@@ -235,9 +235,9 @@ class SMSNotifier extends Vtiger_CRMEntity
 		$linkedFieldsCount = $this->db->numRows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
-			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
-			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
-			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
+			$related_module = $this->db->queryResult($linkedModulesQuery, $i, 'relmodule');
+			$fieldname = $this->db->queryResult($linkedModulesQuery, $i, 'fieldname');
+			$columnname = $this->db->queryResult($linkedModulesQuery, $i, 'columnname');
 
 			\vtlib\Deprecated::checkFileAccessForInclusion("modules/$related_module/$related_module.php");
 			require_once("modules/$related_module/$related_module.php");

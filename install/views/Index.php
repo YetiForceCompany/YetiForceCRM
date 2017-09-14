@@ -290,7 +290,7 @@ class Install_Index_view extends Vtiger_View_Controller
 			$query = "SELECT crypt_type, user_name FROM vtiger_users WHERE user_name=?";
 			$result = $adb->requirePsSingleResult($query, array($username), true);
 			if ($adb->numRows($result) > 0) {
-				$crypt_type = $adb->query_result($result, 0, 'crypt_type');
+				$crypt_type = $adb->queryResult($result, 0, 'crypt_type');
 				$salt = substr($username, 0, 2);
 				if ($crypt_type == 'MD5') {
 					$salt = '$1$' . $salt . '$';

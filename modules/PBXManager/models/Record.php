@@ -209,8 +209,8 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 		$query = PBXManager_Record_Model::buildSearchQueryWithUIType(11, $number, 'Users');
 		$result = $db->pquery($query, []);
 		if ($db->numRows($result) > 0) {
-			$user['id'] = $db->query_result($result, 0, 'id');
-			$user['name'] = $db->query_result($result, 0, 'name');
+			$user['id'] = $db->queryResult($result, 0, 'id');
+			$user['name'] = $db->queryResult($result, 0, 'name');
 			$user['setype'] = 'Users';
 			return $user;
 		}
@@ -272,8 +272,8 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 		$result = $db->pquery($query, []);
 		$count = $db->numRows($result);
 		for ($i = 0; $i < $count; $i++) {
-			$number = $db->query_result($result, $i, 'phone_crm_extension');
-			$userId = $db->query_result($result, $i, 'id');
+			$number = $db->queryResult($result, $i, 'phone_crm_extension');
+			$userId = $db->queryResult($result, $i, 'id');
 			if ($number)
 				$numbers[$userId] = $number;
 		}
