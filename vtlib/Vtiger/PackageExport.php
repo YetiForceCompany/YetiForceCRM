@@ -507,19 +507,19 @@ class PackageExport
 				$this->openNode('tree_template');
 				$trees = $adb->pquery('SELECT * FROM vtiger_trees_templates WHERE templateid=?;', Array($fieldresultrow['fieldparams']));
 				if ($adb->numRows($trees) > 0) {
-					$this->outputNode($adb->query_result_raw($trees, 0, 'name'), 'name');
-					$this->outputNode($adb->query_result_raw($trees, 0, 'access'), 'access');
+					$this->outputNode($adb->queryResultRaw($trees, 0, 'name'), 'name');
+					$this->outputNode($adb->queryResultRaw($trees, 0, 'access'), 'access');
 					$treesData = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid=?;', Array($fieldresultrow['fieldparams']));
 					$this->openNode('tree_values');
 					$countTreesData = $adb->numRows($treesData);
 					for ($i = 0; $i < $countTreesData; $i++) {
 						$this->openNode('tree_value');
-						$this->outputNode($adb->query_result_raw($treesData, $i, 'name'), 'name');
-						$this->outputNode($adb->query_result_raw($treesData, $i, 'tree'), 'tree');
-						$this->outputNode($adb->query_result_raw($treesData, $i, 'parenttrre'), 'parenttrre');
-						$this->outputNode($adb->query_result_raw($treesData, $i, 'depth'), 'depth');
-						$this->outputNode($adb->query_result_raw($treesData, $i, 'label'), 'label');
-						$this->outputNode($adb->query_result_raw($treesData, $i, 'state'), 'state');
+						$this->outputNode($adb->queryResultRaw($treesData, $i, 'name'), 'name');
+						$this->outputNode($adb->queryResultRaw($treesData, $i, 'tree'), 'tree');
+						$this->outputNode($adb->queryResultRaw($treesData, $i, 'parenttrre'), 'parenttrre');
+						$this->outputNode($adb->queryResultRaw($treesData, $i, 'depth'), 'depth');
+						$this->outputNode($adb->queryResultRaw($treesData, $i, 'label'), 'label');
+						$this->outputNode($adb->queryResultRaw($treesData, $i, 'state'), 'state');
 						$this->closeNode('tree_value');
 					}
 					$this->closeNode('tree_values');

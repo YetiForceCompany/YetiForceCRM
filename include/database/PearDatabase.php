@@ -454,10 +454,10 @@ class PearDatabase
 
 	public function queryResult(&$result, $row, $col = 0)
 	{
-		return $this->query_result_raw($result, $row, $col);
+		return $this->queryResultRaw($result, $row, $col);
 	}
 
-	public function query_result_raw(&$result, $row, $col = 0)
+	public function queryResultRaw(&$result, $row, $col = 0)
 	{
 		if (!is_object($result)) {
 			\App\Log::error('Result is not an object');
@@ -474,9 +474,9 @@ class PearDatabase
 	}
 
 	// Function to get particular row from the query result
-	public function query_result_rowdata(&$result, $row = 0)
+	public function queryResultRowData(&$result, $row = 0)
 	{
-		return $this->raw_query_result_rowdata($result, $row);
+		return $this->rawQueryResultRowData($result, $row);
 	}
 
 	/**
@@ -491,7 +491,7 @@ class PearDatabase
 	 * @param $row The row number to fetch. It's default value is 0
 	 *
 	 */
-	public function raw_query_result_rowdata(&$result, $row = 0)
+	public function rawQueryResultRowData(&$result, $row = 0)
 	{
 		if (!is_object($result)) {
 			\App\Log::error('Result is not an object');
@@ -589,7 +589,7 @@ class PearDatabase
 			return $row;
 		}
 		if ($this->getRowCount($result) > $rowNum) {
-			$row = $this->raw_query_result_rowdata($result, $rowNum);
+			$row = $this->rawQueryResultRowData($result, $rowNum);
 		}
 		return $row;
 	}

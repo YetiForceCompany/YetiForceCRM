@@ -314,7 +314,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$noOfRows = $db->numRows($result);
 		$recentRecords = [];
 		for ($i = 0; $i < $noOfRows; ++$i) {
-			$row = $db->query_result_rowdata($result, $i);
+			$row = $db->queryResultRowData($result, $i);
 			$row['id'] = $row['crmid'];
 			$recentRecords[$row['id']] = $this->getRecordFromArray($row);
 		}

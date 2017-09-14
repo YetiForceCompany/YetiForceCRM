@@ -33,7 +33,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 		$recordModels = [];
 		$rowCount = $db->numRows($result);
 		for ($i = 0; $i < $rowCount; $i++) {
-			$rowData = $db->query_result_rowdata($result, $i);
+			$rowData = $db->queryResultRowData($result, $i);
 
 			$record = new self();
 			$record->setData($rowData);

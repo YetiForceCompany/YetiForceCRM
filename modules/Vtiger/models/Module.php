@@ -1083,7 +1083,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$result = $db->pquery($query, [$this->getName(), $pagingModel->getStartIndex(), $pagingModel->getPageLimit()]);
 		$numRowsCount = $db->numRows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+			$row = $db->queryResultRowData($result, $i);
 			$commentModel = Vtiger_Record_Model::getCleanInstance('ModComments');
 			$commentModel->setData($row);
 			$time = $commentModel->get('createdtime');
@@ -1125,7 +1125,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$activites = [];
 		$numRowsCount = $db->numRows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+			$row = $db->queryResultRowData($result, $i);
 			if (\App\Privilege::isPermitted($row['module'], 'DetailView', $row['crmid'])) {
 				$modTrackerRecorModel = new ModTracker_Record_Model();
 				$modTrackerRecorModel->setData($row)->setParent($row['crmid'], $row['module']);

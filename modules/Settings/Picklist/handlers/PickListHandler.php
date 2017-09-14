@@ -42,7 +42,7 @@ class Settings_Picklist_PickListHandler_Handler
 		$result = $db->pquery($query, array($pickListFieldName, $tabId));
 		$numRows = $db->numRows($result);
 		for ($i = 0; $i < $numRows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+			$row = $db->queryResultRowData($result, $i);
 			$value = App\Purifier::decodeHtml($row['targetvalues']);
 			$explodedValueArray = \App\Json::decode($value);
 			$arrayKey = array_search($oldValue, $explodedValueArray);
@@ -62,7 +62,7 @@ class Settings_Picklist_PickListHandler_Handler
 		$result = $db->pquery($query, array($advFiltercolumnName));
 		$numRows = $db->numRows($result);
 		for ($i = 0; $i < $numRows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+			$row = $db->queryResultRowData($result, $i);
 			$value = $row['value'];
 			$explodedValueArray = explode(',', $value);
 			$arrayKey = array_search($oldValue, $explodedValueArray);
@@ -79,7 +79,7 @@ class Settings_Picklist_PickListHandler_Handler
 		$result = $db->pquery($query, array($reportFilterColumnName));
 		$numRows = $db->numRows($result);
 		for ($i = 0; $i < $numRows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+			$row = $db->queryResultRowData($result, $i);
 			$value = $row['value'];
 			$explodedValueArray = explode(',', $value);
 			$arrayKey = array_search($oldValue, $explodedValueArray);
@@ -130,7 +130,7 @@ class Settings_Picklist_PickListHandler_Handler
 		$numRows = $db->numRows($result);
 
 		for ($i = 0; $i < $numRows; $i++) {
-			$row = $db->raw_query_result_rowdata($result, $i);
+			$row = $db->rawQueryResultRowData($result, $i);
 			$task = $row['task'];
 			$taskComponents = explode(':', $task);
 			$classNameWithDoubleQuotes = $taskComponents[2];
@@ -213,7 +213,7 @@ class Settings_Picklist_PickListHandler_Handler
 		$result = $db->pquery($query, array($advFiltercolumnName));
 		$numRows = $db->numRows($result);
 		for ($i = 0; $i < $numRows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+			$row = $db->queryResultRowData($result, $i);
 			$value = $row['value'];
 			$explodedValueArray = explode(',', $value);
 			foreach ($valueToDelete as $value) {
@@ -232,7 +232,7 @@ class Settings_Picklist_PickListHandler_Handler
 		$result = $db->pquery($query, array($reportFilterColumnName));
 		$numRows = $db->numRows($result);
 		for ($i = 0; $i < $numRows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+			$row = $db->queryResultRowData($result, $i);
 			$value = $row['value'];
 			$explodedValueArray = explode(',', $value);
 			foreach ($valueToDelete as $value) {

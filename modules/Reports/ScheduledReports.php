@@ -46,7 +46,7 @@ class VTScheduledReport extends Reports
 				$result = $adb->pquery('SELECT * FROM vtiger_scheduled_reports WHERE reportid=?', array($this->id));
 
 				if ($adb->numRows($result) > 0) {
-					$reportScheduleInfo = $adb->raw_query_result_rowdata($result, 0);
+					$reportScheduleInfo = $adb->rawQueryResultRowData($result, 0);
 
 					$scheduledInterval = (!empty($reportScheduleInfo['schedule'])) ? \App\Json::decode($reportScheduleInfo['schedule']) : [];
 					$scheduledRecipients = (!empty($reportScheduleInfo['recipients'])) ? \App\Json::decode($reportScheduleInfo['recipients']) : [];
@@ -338,7 +338,7 @@ class VTScheduledReport extends Reports
 		$scheduledReports = [];
 		$noOfScheduledReports = $adb->numRows($result);
 		for ($i = 0; $i < $noOfScheduledReports; ++$i) {
-			$reportScheduleInfo = $adb->raw_query_result_rowdata($result, $i);
+			$reportScheduleInfo = $adb->rawQueryResultRowData($result, $i);
 
 			$scheduledInterval = (!empty($reportScheduleInfo['schedule'])) ? \App\Json::decode($reportScheduleInfo['schedule']) : [];
 			$scheduledRecipients = (!empty($reportScheduleInfo['recipients'])) ? \App\Json::decode($reportScheduleInfo['recipients']) : [];

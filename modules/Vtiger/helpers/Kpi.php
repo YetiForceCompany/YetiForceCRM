@@ -33,7 +33,7 @@ class Vtiger_Kpi_Helper
 		$result = $adb->pquery($sql, $params, true);
 		$countResult = $adb->numRows($result);
 		for ($i = 0; $i < $countResult; $i++) {
-			$list[$adb->query_result_raw($result, $i, 'id')] = $adb->query_result_raw($result, $i, 'name');
+			$list[$adb->queryResultRaw($result, $i, 'id')] = $adb->queryResultRaw($result, $i, 'name');
 		}
 		return $list;
 	}
@@ -77,7 +77,7 @@ class Vtiger_Kpi_Helper
 		$accepted = 0;
 		$countResult = $adb->numRows($result);
 		for ($i = 0; $i < $countResult; $i++) {
-			if ($adb->query_result_raw($result, $i, 'ordertime') < $reference) {
+			if ($adb->queryResultRaw($result, $i, 'ordertime') < $reference) {
 				$accepted++;
 			}
 			$all++;
@@ -115,7 +115,7 @@ class Vtiger_Kpi_Helper
 		$sum = 0;
 		$countResult = $adb->numRows($result);
 		for ($i = 0; $i < $countResult; $i++) {
-			$sum += $adb->query_result_raw($result, $i, 'ordertime');
+			$sum += $adb->queryResultRaw($result, $i, 'ordertime');
 			$all++;
 		}
 		if ($all == 0) {
@@ -152,7 +152,7 @@ class Vtiger_Kpi_Helper
 		$accepted = 0;
 		$countResult = $adb->numRows($result);
 		for ($i = 0; $i < $countResult; $i++) {
-			if ($adb->query_result_raw($result, $i, 'ordertime') < $reference) {
+			if ($adb->queryResultRaw($result, $i, 'ordertime') < $reference) {
 				$accepted++;
 			}
 			$all++;
@@ -191,7 +191,7 @@ class Vtiger_Kpi_Helper
 		$accepted = 0;
 		$countResult = $adb->numRows($result);
 		for ($i = 0; $i < $countResult; $i++) {
-			$sum += $adb->query_result_raw($result, $i, 'ordertime');
+			$sum += $adb->queryResultRaw($result, $i, 'ordertime');
 			$all++;
 		}
 		if ($all == 0) {
@@ -227,7 +227,7 @@ class Vtiger_Kpi_Helper
 		$accepted = 0;
 		$countResult = $adb->numRows($result);
 		for ($i = 0; $i < $countResult; $i++) {
-			$sum += $adb->query_result_raw($result, $i, 'ordertime');
+			$sum += $adb->queryResultRaw($result, $i, 'ordertime');
 			$all++;
 		}
 		if ($all == 0) {
@@ -267,7 +267,7 @@ class Vtiger_Kpi_Helper
 		$accepted = 0;
 		$countResult = $adb->numRows($result);
 		for ($i = 0; $i < $countResult; $i++) {
-			$sum += $adb->query_result_raw($result, $i, 'ordertime');
+			$sum += $adb->queryResultRaw($result, $i, 'ordertime');
 			$all++;
 		}
 		if ($all == 0) {
