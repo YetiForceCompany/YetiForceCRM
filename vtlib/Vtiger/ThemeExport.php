@@ -181,7 +181,7 @@ class ThemeExport extends Package
 		$query = sprintf('SELECT * FROM %s WHERE name = ?', self::TABLENAME);
 		$checkres = $adb->pquery($query, [$name]);
 		$datetime = date('Y-m-d H:i:s');
-		if ($adb->num_rows($checkres)) {
+		if ($adb->numRows($checkres)) {
 			$adb->update(self::TABLENAME, [
 				'label' => $label,
 				'name' => $name,

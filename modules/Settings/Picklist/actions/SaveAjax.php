@@ -59,7 +59,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			$queryToGetId .= '"' . $oldValue . '")';
 		}
 		$result = $db->pquery($queryToGetId, []);
-		$rowCount = $db->num_rows($result);
+		$rowCount = $db->numRows($result);
 		for ($i = 0; $i < $rowCount; $i++) {
 			$recordId = $db->query_result_rowdata($result, $i);
 			$recordId = $recordId['id'];

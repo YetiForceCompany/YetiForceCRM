@@ -25,11 +25,11 @@ class Vtiger_Processes_Model
 		}
 
 		$result = $db->pquery(sprintf('SELECT * FROM %s WHERE type = ?;', $processList[$process]), [$type]);
-		if ($db->num_rows($result) == 0) {
+		if ($db->numRows($result) == 0) {
 			return [];
 		}
 		$config = [];
-		$numRowsCount = $db->num_rows($result);
+		$numRowsCount = $db->numRows($result);
 		for ($i = 0; $i < $numRowsCount; ++$i) {
 			$param = $db->query_result_raw($result, $i, 'param');
 			$value = $db->query_result_raw($result, $i, 'value');

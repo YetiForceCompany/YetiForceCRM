@@ -98,7 +98,7 @@ class Reports extends CRMEntity
 				VTCacheUtils::updateReportSubordinateUsers($reportid, $subordinate_users);
 
 				$result = $adb->pquery($ssql, $params);
-				if ($result && $adb->num_rows($result)) {
+				if ($result && $adb->numRows($result)) {
 					$reportmodulesrow = $adb->fetch_array($result);
 
 					// Update information in cache now
@@ -141,7 +141,7 @@ class Reports extends CRMEntity
 		}
 		$sql = sprintf('SELECT blockid, blocklabel FROM vtiger_blocks WHERE tabid IN (%s)', generateQuestionMarks($tabid));
 		$res = $adb->pquery($sql, [$tabid]);
-		$noOfRows = $adb->num_rows($res);
+		$noOfRows = $adb->numRows($res);
 		if ($noOfRows <= 0)
 			return;
 		for ($index = 0; $index < $noOfRows; ++$index) {
@@ -197,7 +197,7 @@ class Reports extends CRMEntity
 				$query = sprintf('SELECT blockid, blocklabel, tabid FROM vtiger_blocks WHERE tabid IN (%s)', generateQuestionMarks($moduleids));
 				$reportblocks = $adb->pquery($query, [$moduleids]);
 				$prev_block_label = '';
-				if ($adb->num_rows($reportblocks)) {
+				if ($adb->numRows($reportblocks)) {
 					while ($resultrow = $adb->fetch_array($reportblocks)) {
 						$blockid = $resultrow['blockid'];
 						$blocklabel = $resultrow['blocklabel'];
@@ -233,7 +233,7 @@ class Reports extends CRMEntity
 					AND vtiger_tab.name NOT IN(%s)
 					AND vtiger_tab.presence = 0", generateQuestionMarks($restricted_modules), generateQuestionMarks($restricted_modules));
 				$relatedmodules = $adb->pquery($query, [$restricted_modules, $restricted_modules]);
-				if ($adb->num_rows($relatedmodules)) {
+				if ($adb->numRows($relatedmodules)) {
 					while ($resultrow = $adb->fetch_array($relatedmodules)) {
 						$module = $this->module_id[$resultrow['tabid']];
 
@@ -587,7 +587,7 @@ class Reports extends CRMEntity
 		array_push($params, $skipTalbes);
 
 		$result = $adb->pquery($sql, $params);
-		$noofrows = $adb->num_rows($result);
+		$noofrows = $adb->numRows($result);
 		for ($i = 0; $i < $noofrows; $i++) {
 			$fieldtablename = $adb->query_result($result, $i, "tablename");
 			$fieldcolname = $adb->query_result($result, $i, "columnname");
@@ -765,7 +765,7 @@ class Reports extends CRMEntity
 		$sreportsortsql .= " where vtiger_report.reportid =? order by vtiger_reportsortcol.sortcolid";
 
 		$result = $adb->pquery($sreportsortsql, array($reportid));
-		$noofrows = $adb->num_rows($result);
+		$noofrows = $adb->numRows($result);
 
 		for ($i = 0; $i < $noofrows; $i++) {
 			$fieldcolname = $adb->query_result($result, $i, "columnname");
@@ -863,7 +863,7 @@ class Reports extends CRMEntity
 			$ssql .= " where vtiger_report.reportid = ? && vtiger_relcriteria.groupid = ? order by vtiger_relcriteria.columnindex";
 
 			$result = $adb->pquery($ssql, array($reportid, $groupId));
-			$noOfColumns = $adb->num_rows($result);
+			$noOfColumns = $adb->numRows($result);
 			if ($noOfColumns <= 0)
 				continue;
 

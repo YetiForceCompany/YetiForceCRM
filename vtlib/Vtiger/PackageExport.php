@@ -249,7 +249,7 @@ class PackageExport
 		$sqlResult = $adb->pquery('SELECT * FROM vtiger_tab_info WHERE tabid = ?', array($moduleId));
 		$minVersion = \App\Version::get();
 		$maxVersion = false;
-		$noOfPreferences = $adb->num_rows($sqlResult);
+		$noOfPreferences = $adb->numRows($sqlResult);
 		for ($i = 0; $i < $noOfPreferences; ++$i) {
 			$prefName = $adb->query_result($sqlResult, $i, 'prefname');
 			$prefValue = $adb->query_result($sqlResult, $i, 'prefvalue');
@@ -374,7 +374,7 @@ class PackageExport
 	{
 		$adb = \PearDatabase::getInstance();
 		$sqlresult = $adb->pquery('SELECT * FROM vtiger_blocks WHERE tabid = ?', Array($moduleInstance->id));
-		$resultrows = $adb->num_rows($sqlresult);
+		$resultrows = $adb->numRows($sqlresult);
 
 		if (empty($resultrows))
 			return;
@@ -422,7 +422,7 @@ class PackageExport
 		$adb = \PearDatabase::getInstance();
 
 		$fieldresult = $adb->pquery('SELECT * FROM vtiger_field WHERE tabid=? && block=?', Array($moduleInstance->id, $blockid));
-		$fieldcount = $adb->num_rows($fieldresult);
+		$fieldcount = $adb->numRows($fieldresult);
 
 		if (empty($fieldcount))
 			return;
@@ -493,7 +493,7 @@ class PackageExport
 			// Export field to module relations
 			if ($uitype == '10') {
 				$relatedmodres = $adb->pquery("SELECT * FROM vtiger_fieldmodulerel WHERE fieldid=?", Array($fieldid));
-				$relatedmodcount = $adb->num_rows($relatedmodres);
+				$relatedmodcount = $adb->numRows($relatedmodres);
 				if ($relatedmodcount) {
 					$this->openNode('relatedmodules');
 					for ($relmodidx = 0; $relmodidx < $relatedmodcount; ++$relmodidx) {
@@ -506,12 +506,12 @@ class PackageExport
 				$this->outputNode('', 'fieldparams');
 				$this->openNode('tree_template');
 				$trees = $adb->pquery('SELECT * FROM vtiger_trees_templates WHERE templateid=?;', Array($fieldresultrow['fieldparams']));
-				if ($adb->num_rows($trees) > 0) {
+				if ($adb->numRows($trees) > 0) {
 					$this->outputNode($adb->query_result_raw($trees, 0, 'name'), 'name');
 					$this->outputNode($adb->query_result_raw($trees, 0, 'access'), 'access');
 					$treesData = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid=?;', Array($fieldresultrow['fieldparams']));
 					$this->openNode('tree_values');
-					$countTreesData = $adb->num_rows($treesData);
+					$countTreesData = $adb->numRows($treesData);
 					for ($i = 0; $i < $countTreesData; $i++) {
 						$this->openNode('tree_value');
 						$this->outputNode($adb->query_result_raw($treesData, $i, 'name'), 'name');
@@ -601,7 +601,7 @@ class PackageExport
 		$adb = \PearDatabase::getInstance();
 
 		$deforgshare = $adb->pquery('SELECT * FROM vtiger_def_org_share WHERE tabid=?', Array($moduleInstance->id));
-		$deforgshareCount = $adb->num_rows($deforgshare);
+		$deforgshareCount = $adb->numRows($deforgshare);
 
 		if (empty($deforgshareCount))
 			return;
@@ -640,7 +640,7 @@ class PackageExport
 		$result = $adb->pquery('SELECT distinct(actionname) FROM vtiger_profile2utility, vtiger_actionmapping
 			WHERE vtiger_profile2utility.activityid=vtiger_actionmapping.actionid and tabid=?', Array($moduleInstance->id));
 
-		if ($adb->num_rows($result)) {
+		if ($adb->numRows($result)) {
 			$this->openNode('actions');
 			while ($resultrow = $adb->fetch_array($result)) {
 				$this->openNode('action');
@@ -665,10 +665,10 @@ class PackageExport
 
 		$adb = \PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT * FROM vtiger_relatedlists WHERE tabid = ?', Array($moduleInstance->id));
-		if ($adb->num_rows($result)) {
+		if ($adb->numRows($result)) {
 			$this->openNode('relatedlists');
 
-			$countResult = $adb->num_rows($result);
+			$countResult = $adb->numRows($result);
 			for ($index = 0; $index < $countResult; ++$index) {
 				$row = $adb->fetch_array($result);
 				$this->openNode('relatedlist');
@@ -697,10 +697,10 @@ class PackageExport
 
 		// Relations in the opposite direction
 		$result = $adb->pquery("SELECT * FROM vtiger_relatedlists WHERE related_tabid = ?", Array($moduleInstance->id));
-		if ($adb->num_rows($result)) {
+		if ($adb->numRows($result)) {
 			$this->openNode('inrelatedlists');
 
-			$countResult = $adb->num_rows($result);
+			$countResult = $adb->numRows($result);
 			for ($index = 0; $index < $countResult; ++$index) {
 				$row = $adb->fetch_array($result);
 				$this->openNode('inrelatedlist');

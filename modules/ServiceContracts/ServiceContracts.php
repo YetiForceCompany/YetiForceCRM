@@ -137,7 +137,7 @@ class ServiceContracts extends CRMEntity
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
 			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($module));
-		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
+		$linkedFieldsCount = $this->db->numRows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
 			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
@@ -276,7 +276,7 @@ class ServiceContracts extends CRMEntity
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
 			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($thismodule));
-		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
+		$linkedFieldsCount = $this->db->numRows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
 			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
@@ -382,11 +382,11 @@ class ServiceContracts extends CRMEntity
 		} else if ($eventType == 'module.enabled') {
 			App\EventHandler::setActive('ServiceContracts_ServiceContractsHandler_Handler');
 		} else if ($eventType == 'module.preuninstall') {
-			
+
 		} else if ($eventType == 'module.preupdate') {
-			
+
 		} else if ($eventType == 'module.postupdate') {
-			
+
 		}
 	}
 
@@ -420,7 +420,7 @@ class ServiceContracts extends CRMEntity
 								WHERE (parent_id IS NULL || parent_id = 0)
 									AND ticketid IN (%s)', generateQuestionMarks($entityIds));
 		$selectTicketsResult = $this->db->pquery($selectTicketsQuery, [$entityIds]);
-		$noOfTickets = $this->db->num_rows($selectTicketsResult);
+		$noOfTickets = $this->db->numRows($selectTicketsResult);
 		for ($i = 0; $i < $noOfTickets; ++$i) {
 			$ticketId = $this->db->query_result($selectTicketsResult, $i, 'ticketid');
 			$serviceContractsRelateToTypeResult = $this->db->pquery('SELECT setype FROM vtiger_crmentity WHERE crmid =
@@ -454,7 +454,7 @@ class ServiceContracts extends CRMEntity
 														WHERE relmodule = 'ServiceContracts'
 														AND module = 'HelpDesk' AND relcrmid = ?", array($focusId, $focusId));
 
-		$noOfTickets = $this->db->num_rows($contractTicketsResult);
+		$noOfTickets = $this->db->numRows($contractTicketsResult);
 		$ticketFocus = CRMEntity::getInstance('HelpDesk');
 		$totalUsedUnits = 0;
 		for ($i = 0; $i < $noOfTickets; ++$i) {
@@ -622,7 +622,7 @@ class ServiceContracts extends CRMEntity
 				// IN clause to avoid duplicate entries
 				$sel_result = $adb->pquery("select $id_field from $rel_table where $entity_id_field=? " .
 					" and $id_field not in (select $id_field from $rel_table where $entity_id_field=?)", array($transferId, $entityId));
-				$res_cnt = $adb->num_rows($sel_result);
+				$res_cnt = $adb->numRows($sel_result);
 				if ($res_cnt > 0) {
 					for ($i = 0; $i < $res_cnt; $i++) {
 						$id_field_value = $adb->query_result($sel_result, $i, $id_field);

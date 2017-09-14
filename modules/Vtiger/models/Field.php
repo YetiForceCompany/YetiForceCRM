@@ -889,7 +889,7 @@ class Vtiger_Field_Model extends vtlib\Field
 				ON `vtiger_trees_templates_data`.`templateid` = `vtiger_field`.`fieldparams`
 			WHERE `vtiger_field`.`columnname` = ?
 				AND `vtiger_field`.`tablename` = ?;", array('folderid', 'vtiger_notes'));
-		$rows = $adb->num_rows($result);
+		$rows = $adb->numRows($result);
 		$folders = [];
 		for ($i = 0; $i < $rows; $i++) {
 			$folderId = $adb->query_result($result, $i, 'tree');

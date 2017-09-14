@@ -31,7 +31,7 @@ class Vtiger_Kpi_Helper
 		$sql = "SELECT serviceid as id, servicename as name FROM vtiger_service INNER JOIN vtiger_crmentity ON vtiger_service.serviceid = vtiger_crmentity.crmid WHERE vtiger_crmentity.deleted = ? && discontinued = ?;";
 		$params = array(0, 1);
 		$result = $adb->pquery($sql, $params, true);
-		$countResult = $adb->num_rows($result);
+		$countResult = $adb->numRows($result);
 		for ($i = 0; $i < $countResult; $i++) {
 			$list[$adb->query_result_raw($result, $i, 'id')] = $adb->query_result_raw($result, $i, 'name');
 		}
@@ -67,15 +67,15 @@ class Vtiger_Kpi_Helper
 		$maxValue = 100;
 		$adb = PearDatabase::getInstance();
 
-		$sql = "SELECT ordertime 
-			FROM vtiger_osssoldservices 
-			INNER JOIN vtiger_crmentity ON vtiger_osssoldservices.osssoldservicesid = vtiger_crmentity.crmid 
+		$sql = "SELECT ordertime
+			FROM vtiger_osssoldservices
+			INNER JOIN vtiger_crmentity ON vtiger_osssoldservices.osssoldservicesid = vtiger_crmentity.crmid
 			WHERE vtiger_crmentity.deleted = ? && serviceid = ? && vtiger_crmentity.createdtime BETWEEN ? AND ?;";
 		$params = array(0, $this->service, $this->time['start'], $this->time['end']);
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
 		$accepted = 0;
-		$countResult = $adb->num_rows($result);
+		$countResult = $adb->numRows($result);
 		for ($i = 0; $i < $countResult; $i++) {
 			if ($adb->query_result_raw($result, $i, 'ordertime') < $reference) {
 				$accepted++;
@@ -105,15 +105,15 @@ class Vtiger_Kpi_Helper
 		$tolerance = '1 dzień';
 		$adb = PearDatabase::getInstance();
 
-		$sql = "SELECT ordertime 
-			FROM vtiger_osssoldservices 
-			INNER JOIN vtiger_crmentity ON vtiger_osssoldservices.osssoldservicesid = vtiger_crmentity.crmid 
+		$sql = "SELECT ordertime
+			FROM vtiger_osssoldservices
+			INNER JOIN vtiger_crmentity ON vtiger_osssoldservices.osssoldservicesid = vtiger_crmentity.crmid
 			WHERE vtiger_crmentity.deleted = ? && serviceid = ? && vtiger_crmentity.createdtime BETWEEN ? AND ?;";
 		$params = array(0, $this->service, $this->time['start'], $this->time['end']);
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
 		$sum = 0;
-		$countResult = $adb->num_rows($result);
+		$countResult = $adb->numRows($result);
 		for ($i = 0; $i < $countResult; $i++) {
 			$sum += $adb->query_result_raw($result, $i, 'ordertime');
 			$all++;
@@ -142,15 +142,15 @@ class Vtiger_Kpi_Helper
 		$maxValue = 100;
 		$adb = PearDatabase::getInstance();
 
-		$sql = "SELECT ordertime 
-			FROM vtiger_troubletickets 
-			INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid 
+		$sql = "SELECT ordertime
+			FROM vtiger_troubletickets
+			INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid
 			WHERE vtiger_crmentity.deleted = ? && product_id = ? && vtiger_crmentity.createdtime BETWEEN ? AND ?;";
 		$params = array(0, $this->service, $this->time['start'], $this->time['end']);
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
 		$accepted = 0;
-		$countResult = $adb->num_rows($result);
+		$countResult = $adb->numRows($result);
 		for ($i = 0; $i < $countResult; $i++) {
 			if ($adb->query_result_raw($result, $i, 'ordertime') < $reference) {
 				$accepted++;
@@ -181,15 +181,15 @@ class Vtiger_Kpi_Helper
 		$maxValue = 100;
 		$adb = PearDatabase::getInstance();
 
-		$sql = "SELECT ordertime 
-			FROM vtiger_troubletickets 
-			INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid 
+		$sql = "SELECT ordertime
+			FROM vtiger_troubletickets
+			INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid
 			WHERE vtiger_crmentity.deleted = ? && product_id = ? && priority IN ('High','Urgent') && vtiger_crmentity.createdtime BETWEEN ? AND ?;";
 		$params = array(0, $this->service, $this->time['start'], $this->time['end']);
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
 		$accepted = 0;
-		$countResult = $adb->num_rows($result);
+		$countResult = $adb->numRows($result);
 		for ($i = 0; $i < $countResult; $i++) {
 			$sum += $adb->query_result_raw($result, $i, 'ordertime');
 			$all++;
@@ -217,15 +217,15 @@ class Vtiger_Kpi_Helper
 		$tolerance = '2 godziny';
 		$adb = PearDatabase::getInstance();
 
-		$sql = "SELECT ordertime 
-			FROM vtiger_troubletickets 
-			INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid 
+		$sql = "SELECT ordertime
+			FROM vtiger_troubletickets
+			INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid
 			WHERE vtiger_crmentity.deleted = ? && product_id = ? && priority IN ('Normal','Low') && vtiger_crmentity.createdtime BETWEEN ? AND ?;";
 		$params = array(0, $this->service, $this->time['start'], $this->time['end']);
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
 		$accepted = 0;
-		$countResult = $adb->num_rows($result);
+		$countResult = $adb->numRows($result);
 		for ($i = 0; $i < $countResult; $i++) {
 			$sum += $adb->query_result_raw($result, $i, 'ordertime');
 			$all++;
@@ -253,19 +253,19 @@ class Vtiger_Kpi_Helper
 		$tolerance = '0';
 		$adb = PearDatabase::getInstance();
 
-		$sql = "SELECT COUNT(ticketid) 
-			FROM vtiger_troubletickets 
-			INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid 
-			WHERE vtiger_crmentity.deleted = ? && status = 'Closed' && pssold_id = IN 
-				(SELECT osssoldservicesid FROM vtiger_osssoldservices 
-				INNER JOIN vtiger_crmentity ON vtiger_osssoldservices.osssoldservicesid = vtiger_crmentity.crmid 
-				WHERE vtiger_crmentity.deleted = ? && serviceid = ? ORDER BY vtiger_crmentity.createdtime DESC LIMIT 100) 
+		$sql = "SELECT COUNT(ticketid)
+			FROM vtiger_troubletickets
+			INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid
+			WHERE vtiger_crmentity.deleted = ? && status = 'Closed' && pssold_id = IN
+				(SELECT osssoldservicesid FROM vtiger_osssoldservices
+				INNER JOIN vtiger_crmentity ON vtiger_osssoldservices.osssoldservicesid = vtiger_crmentity.crmid
+				WHERE vtiger_crmentity.deleted = ? && serviceid = ? ORDER BY vtiger_crmentity.createdtime DESC LIMIT 100)
 			AND vtiger_crmentity.createdtime BETWEEN ? AND ?;";
 		$params = array(0, 0, $this->service, $this->time['start'], $this->time['end']);
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
 		$accepted = 0;
-		$countResult = $adb->num_rows($result);
+		$countResult = $adb->numRows($result);
 		for ($i = 0; $i < $countResult; $i++) {
 			$sum += $adb->query_result_raw($result, $i, 'ordertime');
 			$all++;

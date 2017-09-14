@@ -87,7 +87,7 @@ Class DataAccess_unique_value
 					}
 				}
 				$result = $db->pquery("SELECT $index FROM {$where[0]} $sqlSpecial " . $searchTrash['query'] . " WHERE {$where[1]} = ? $sql_ext $spacialCondition " . $searchTrash['params'] . ";", $sql_param, true);
-				$num = $db->num_rows($result);
+				$num = $db->numRows($result);
 				for ($i = 0; $i < $num; $i++) {
 					$id = $db->query_result_raw($result, $i, $index);
 					$metadata = vtlib\Functions::getCRMRecordMetadata($id);
@@ -128,7 +128,7 @@ Class DataAccess_unique_value
 					}
 				}
 				$result = $db->pquery("SELECT $index FROM {$where[0]} " . $searchTrash['query'] . " WHERE {$where[1]} = ? $sql_ext " . $searchTrash['params'] . ";", $sql_param, true);
-				$num = $db->num_rows($result);
+				$num = $db->numRows($result);
 				for ($i = 0; $i < $num; $i++) {
 					$id = $db->query_result_raw($result, $i, $index);
 					$metadata = vtlib\Functions::getCRMRecordMetadata($id);

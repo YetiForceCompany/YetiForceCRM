@@ -682,7 +682,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT id FROM vtiger_users WHERE user_name = ?', array($userName));
 
-		if ($db->num_rows($result)) {
+		if ($db->numRows($result)) {
 			return Users_Record_Model::getInstanceById($db->query_result($result, 0, 'id'), 'Users');
 		}
 		return false;
@@ -714,7 +714,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$sql = 'SELECT id FROM vtiger_users WHERE status=? && is_admin=?';
 		$result = $db->pquery($sql, array('ACTIVE', 'on'));
 
-		$noOfUsers = $db->num_rows($result);
+		$noOfUsers = $db->numRows($result);
 		$users = [];
 		if ($noOfUsers > 0) {
 			$focus = new Users();

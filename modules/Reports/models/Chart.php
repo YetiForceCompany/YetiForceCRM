@@ -464,7 +464,7 @@ class PieChart extends Base_Chart
 		$values = [];
 		$chartSQL = $this->getQuery();
 		$result = $db->pquery($chartSQL, []);
-		$rows = $db->num_rows($result);
+		$rows = $db->numRows($result);
 
 		$queryColumnsByFieldModel = $this->getQueryColumnsByFieldModel();
 		if (is_array($queryColumnsByFieldModel)) {
@@ -549,7 +549,7 @@ class VerticalbarChart extends Base_Chart
 		$chartSQL = $this->getQuery();
 
 		$result = $db->pquery($chartSQL, []);
-		$rows = $db->num_rows($result);
+		$rows = $db->numRows($result);
 		$values = [];
 
 		$queryColumnsByFieldModel = $this->getQueryColumnsByFieldModel();
@@ -647,10 +647,10 @@ class VerticalbarChart extends Base_Chart
 
 class HorizontalbarChart extends VerticalbarChart
 {
-	
+
 }
 
 class LineChart extends VerticalbarChart
 {
-	
+
 }

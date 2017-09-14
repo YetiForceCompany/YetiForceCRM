@@ -60,7 +60,7 @@ class Vtiger_Report_Model extends Reports
 
 				$result = $db->pquery($ssql, $params);
 
-				if ($result && $db->num_rows($result)) {
+				if ($result && $db->numRows($result)) {
 					$reportModulesRow = $db->fetch_array($result);
 
 					// Update information in cache now
@@ -76,7 +76,7 @@ class Vtiger_Report_Model extends Reports
 									INNER JOIN vtiger_role ON vtiger_role.roleid = vtiger_user2role.roleid
 									WHERE vtiger_role.parentrole LIKE '$current_user_parent_role_seq::%'", []);
 
-				$numOfSubRows = $db->num_rows($subResult);
+				$numOfSubRows = $db->numRows($subResult);
 
 				for ($i = 0; $i < $numOfSubRows; $i++) {
 					$subOrdinateUsers[] = $db->query_result($subResult, $i, 'userid');

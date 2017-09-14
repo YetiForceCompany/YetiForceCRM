@@ -136,8 +136,8 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$pickListValues = [];
 		$valuesOfDeleteIds = "SELECT $pickListFieldName FROM " . $this->getPickListTableName($pickListFieldName) . " WHERE $primaryKey IN (" . generateQuestionMarks($valueToDeleteId) . ")";
 		$pickListValuesResult = $db->pquery($valuesOfDeleteIds, array($valueToDeleteId));
-		$num_rows = $db->num_rows($pickListValuesResult);
-		for ($i = 0; $i < $num_rows; $i++) {
+		$numRows = $db->numRows($pickListValuesResult);
+		for ($i = 0; $i < $numRows; $i++) {
 			$pickListValues[] = App\Purifier::decodeHtml($db->query_result($pickListValuesResult, $i, $pickListFieldName));
 		}
 
@@ -153,8 +153,8 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			$picklistValueIdToDelete = [];
 			$query = sprintf('SELECT picklist_valueid FROM %s WHERE %s IN (%s)', $this->getPickListTableName($pickListFieldName), $primaryKey, generateQuestionMarks($valueToDeleteId));
 			$result = $db->pquery($query, $valueToDeleteId);
-			$num_rows = $db->num_rows($result);
-			for ($i = 0; $i < $num_rows; $i++) {
+			$numRows = $db->numRows($result);
+			for ($i = 0; $i < $numRows; $i++) {
 				$picklistValueIdToDelete[] = $db->query_result($result, $i, 'picklist_valueid');
 			}
 			$db->delete('vtiger_role2picklist', 'picklistvalueid IN (' . generateQuestionMarks($picklistValueIdToDelete) . ')', $picklistValueIdToDelete);
@@ -253,11 +253,11 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 				->innerJoin('vtiger_field', 'vtiger_tab.tabid = vtiger_field.tabid')
 				->where([
 					'and',
-						['uitype' => [15, 33, 16]],
-						['NOT IN', 'vtiger_field.tabid', [29, 10]],
-						['<>', 'vtiger_tab.presence', 1],
-						['vtiger_field.presence' => [0, 2]],
-						['<>', 'vtiger_field.columnname', 'taxtype']
+					['uitype' => [15, 33, 16]],
+					['NOT IN', 'vtiger_field.tabid', [29, 10]],
+					['<>', 'vtiger_tab.presence', 1],
+					['vtiger_field.presence' => [0, 2]],
+					['<>', 'vtiger_field.columnname', 'taxtype']
 				])->orderBy(['vtiger_tab.tabid' => SORT_ASC])
 				->distinct()
 				->createCommand()->query();

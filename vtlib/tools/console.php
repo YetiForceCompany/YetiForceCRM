@@ -29,7 +29,7 @@ class Vtiger_Tools_Console_Controller
 
 	protected function __construct()
 	{
-		
+
 	}
 
 	public function setArguments($args, $interactive)
@@ -484,7 +484,7 @@ class Vtiger_Tools_Console_LanguageController extends Vtiger_Tools_Console_Contr
 
 		$db = PearDatabase::getInstance();
 		$check = $db->pquery('SELECT 1 FROM vtiger_language WHERE prefix=?', $languageInformation['prefix']);
-		if ($check && $db->num_rows($check)) {
+		if ($check && $db->numRows($check)) {
 			;
 		} else {
 			$db->pquery('INSERT INTO vtiger_language (id,name,prefix,label,lastupdated,isdefault,active) VALUES(?,?,?,?,?,?,?)', array($db->getUniqueId('vtiger_language'), $languageInformation['label'], $languageInformation['prefix'],

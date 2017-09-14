@@ -342,7 +342,7 @@ class Vtiger_Util_Helper
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$result = $db->pquery('SELECT * FROM vtiger_currency_info WHERE id = ?', array($currentUser->get('currency_id')));
-		if ($db->num_rows($result))
+		if ($db->numRows($result))
 			return $db->query_result_rowdata($result, 0);
 	}
 
@@ -407,7 +407,7 @@ class Vtiger_Util_Helper
 	{
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT deleted FROM vtiger_users WHERE id = ? && (status=? || deleted=?)', array($userid, 'Inactive', 1));
-		$count = $db->num_rows($result);
+		$count = $db->numRows($result);
 		if ($count > 0)
 			return true;
 
