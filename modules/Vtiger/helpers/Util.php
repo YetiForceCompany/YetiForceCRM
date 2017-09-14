@@ -358,7 +358,7 @@ class Vtiger_Util_Helper
 			if (empty($groupInfo)) {
 				continue;
 			}
-			$groupColumnsInfo = $groupConditionInfo = [];
+			$groupColumnsInfo = [];
 			foreach ($groupInfo as &$fieldSearchInfo) {
 				list ($fieldName, $operator, $fieldValue, $specialOption) = $fieldSearchInfo;
 				if ($field->getFieldDataType() === 'tree' && $specialOption) {

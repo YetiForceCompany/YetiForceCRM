@@ -122,7 +122,6 @@ class Vtiger_MappedFields_Model extends \App\Base
 		\App\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ',' . $view . ') method ...');
 		$templates = $this->getTemplatesByModule($moduleName);
 		foreach ($templates as $id => &$template) {
-			$active = true;
 			if (!$template->checkUserPermissions()) {
 				unset($templates[$id]);
 			}

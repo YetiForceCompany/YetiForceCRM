@@ -23,7 +23,7 @@ class Settings_Workflows_FilterRecordStructure_Model extends Settings_Workflows_
 		$recordModel = $this->getWorkFlowModel();
 		$recordId = $recordModel->getId();
 		$values = [];
-		$baseModuleModel = $moduleModel = $this->getModule();
+		$moduleModel = $this->getModule();
 		$blockModelList = $moduleModel->getBlocks();
 		foreach ($blockModelList as $blockLabel => $blockModel) {
 			$fieldModelList = $blockModel->getFields();
