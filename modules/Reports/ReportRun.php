@@ -1561,7 +1561,7 @@ class ReportRun extends CRMEntity
 				if (stripos($selectedfields[1], 'cf_') == 0 && stristr($selectedfields[1], 'cf_') === true) {
 					//In sql queries forward slash(/) is treated as query terminator,so to avoid this problem
 					//the column names are enclosed within ('[]'),which will treat this as part of column name
-					$sqlvalue = "`" . $adb->sql_escape_string(App\Purifier::decodeHtml($selectedfields[2])) . "` " . $sortorder;
+					$sqlvalue = "`" . $adb->sqlEscapeString(App\Purifier::decodeHtml($selectedfields[2])) . "` " . $sortorder;
 				} else {
 					$sqlvalue = "`" . self::replaceSpecialChar($selectedfields[2]) . "` " . $sortorder;
 				}

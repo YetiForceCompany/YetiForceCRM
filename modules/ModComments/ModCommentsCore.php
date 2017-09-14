@@ -90,7 +90,7 @@ class ModCommentsCore extends CRMEntity
 
 		$sortorder = $this->default_sort_order;
 		if (!\App\Request::_isEmpty('sorder'))
-			$sortorder = $this->db->sql_escape_string(\App\Request::_get('sorder'));
+			$sortorder = $this->db->sqlEscapeString(\App\Request::_get('sorder'));
 		else if ($_SESSION[$currentModule . '_Sort_Order'])
 			$sortorder = $_SESSION[$currentModule . '_Sort_Order'];
 
@@ -108,7 +108,7 @@ class ModCommentsCore extends CRMEntity
 
 		$orderby = $use_default_order_by;
 		if (!\App\Request::_isEmpty('order_by'))
-			$orderby = $this->db->sql_escape_string(\App\Request::_get('order_by'));
+			$orderby = $this->db->sqlEscapeString(\App\Request::_get('order_by'));
 		else if ($_SESSION[$currentModule . '_Order_By'])
 			$orderby = $_SESSION[$currentModule . '_Order_By'];
 		return $orderby;

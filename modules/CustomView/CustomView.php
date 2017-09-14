@@ -723,7 +723,7 @@ class CustomView extends CRMEntity
 
 		$adv_chk_value = $value;
 		$value = '(';
-		$sql = sprintf('select distinct(setype) from vtiger_crmentity c INNER JOIN %s t ON t.%s = c.crmid', $adb->sql_escape_string($tablename), $adb->sql_escape_string($fieldname));
+		$sql = sprintf('select distinct(setype) from vtiger_crmentity c INNER JOIN %s t ON t.%s = c.crmid', $adb->sqlEscapeString($tablename), $adb->sqlEscapeString($fieldname));
 		$res = $adb->query($sql);
 		$rows = $adb->numRows($res);
 		for ($s = 0; $s < $rows; $s++) {
@@ -790,7 +790,7 @@ class CustomView extends CRMEntity
 
 		$adb = vglobal('ab');
 		$value = html_entity_decode(trim($value), ENT_QUOTES, vglobal('default_charset'));
-		$value = $adb->sql_escape_string($value);
+		$value = $adb->sqlEscapeString($value);
 
 		if ($comparator == "e") {
 			if (trim($value) == "NULL") {

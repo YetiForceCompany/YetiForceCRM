@@ -72,7 +72,7 @@ class Documents extends CRMEntity
 
 		\App\Log::trace('Entering getSortOrder() method ...');
 		if (\App\Request::_has('sorder'))
-			$sorder = $this->db->sql_escape_string(\App\Request::_get('sorder'));
+			$sorder = $this->db->sqlEscapeString(\App\Request::_get('sorder'));
 		else
 			$sorder = (($_SESSION['NOTES_SORT_ORDER'] != '') ? ($_SESSION['NOTES_SORT_ORDER']) : ($this->default_sort_order));
 		\App\Log::trace('Exiting getSortOrder() method ...');
@@ -93,7 +93,7 @@ class Documents extends CRMEntity
 		}
 
 		if (\App\Request::_has('order_by'))
-			$order_by = $this->db->sql_escape_string(\App\Request::_get('order_by'));
+			$order_by = $this->db->sqlEscapeString(\App\Request::_get('order_by'));
 		else
 			$order_by = (($_SESSION['NOTES_ORDER_BY'] != '') ? ($_SESSION['NOTES_ORDER_BY']) : ($use_default_order_by));
 		\App\Log::trace('Exiting getOrderBy method ...');
@@ -107,7 +107,7 @@ class Documents extends CRMEntity
 	public function getSortOrderForFolder($folderId)
 	{
 		if (\App\Request::_has('sorder') && \App\Request::_get('folderid') == $folderId) {
-			$sorder = $this->db->sql_escape_string(\App\Request::_get('sorder'));
+			$sorder = $this->db->sqlEscapeString(\App\Request::_get('sorder'));
 		} elseif (is_array($_SESSION['NOTES_FOLDER_SORT_ORDER']) &&
 			!empty($_SESSION['NOTES_FOLDER_SORT_ORDER'][$folderId])) {
 			$sorder = $_SESSION['NOTES_FOLDER_SORT_ORDER'][$folderId];
@@ -128,7 +128,7 @@ class Documents extends CRMEntity
 			$use_default_order_by = $this->default_order_by;
 		}
 		if (\App\Request::_has('order_by') && \App\Request::_get('folderid') == $folderId) {
-			$order_by = $this->db->sql_escape_string(\App\Request::_get('order_by'));
+			$order_by = $this->db->sqlEscapeString(\App\Request::_get('order_by'));
 		} elseif (is_array($_SESSION['NOTES_FOLDER_ORDER_BY']) &&
 			!empty($_SESSION['NOTES_FOLDER_ORDER_BY'][$folderId])) {
 			$order_by = $_SESSION['NOTES_FOLDER_ORDER_BY'][$folderId];

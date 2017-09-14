@@ -98,7 +98,7 @@ class Import_Map_Model extends \App\Base
 			$table = self::$tableName;
 			$column = 'content';
 			$val = $this->getStringifiedContent();
-			$where = 'name=' . $db->sql_escape_string($this->getValue('name')) . ' && module=' . $db->sql_escape_string($this->getValue('module'));
+			$where = 'name=' . $db->sqlEscapeString($this->getValue('name')) . ' && module=' . $db->sqlEscapeString($this->getValue('module'));
 			$db->updateBlob($table, $column, $val, $where);
 		}
 	}
