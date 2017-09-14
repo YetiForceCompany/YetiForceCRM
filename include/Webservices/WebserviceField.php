@@ -384,11 +384,11 @@ class WebserviceField
 		$options = [];
 		$sql = 'select * from vtiger_picklist where name=?';
 		$result = $db->pquery($sql, array($fieldName));
-		$numRows = $db->num_rows($result);
+		$numRows = $db->numRows($result);
 		if ($numRows == 0) {
 			$sql = "select * from vtiger_$fieldName";
 			$result = $db->pquery($sql, []);
-			$numRows = $db->num_rows($result);
+			$numRows = $db->numRows($result);
 			for ($i = 0; $i < $numRows; ++$i) {
 				$elem = [];
 				$picklistValue = $db->query_result($result, $i, $fieldName);

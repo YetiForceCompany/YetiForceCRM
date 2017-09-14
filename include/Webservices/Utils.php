@@ -92,7 +92,7 @@ function vtws_getCalendarEntityType($id)
 	$result = $adb->pquery($sql, [$id]);
 	$seType = 'Calendar';
 	if ($result !== null && isset($result)) {
-		if ($adb->num_rows($result) > 0) {
+		if ($adb->numRows($result) > 0) {
 			$activityType = $adb->query_result($result, 0, 'activitytype');
 			if ($activityType !== 'Task') {
 				$seType = 'Events';
@@ -327,7 +327,7 @@ function vtws_getActorEntityNameById($entityId, $idList)
 	$query = "select * from vtiger_ws_entity_name where entity_id = ?";
 	$result = $db->pquery($query, array($entityId));
 	if (is_object($result)) {
-		$rowCount = $db->num_rows($result);
+		$rowCount = $db->numRows($result);
 		if ($rowCount > 0) {
 			$nameFields = $db->query_result($result, 0, 'name_fields');
 			$tableName = $db->query_result($result, 0, 'table_name');
@@ -344,7 +344,7 @@ function vtws_getActorEntityNameById($entityId, $idList)
 			$params1 = array($idList);
 			$result = $db->pquery($query1, $params1);
 			if (is_object($result)) {
-				$rowCount = $db->num_rows($result);
+				$rowCount = $db->numRows($result);
 				for ($i = 0; $i < $rowCount; $i++) {
 					$id = $db->query_result($result, $i, $indexField);
 					$nameList[$id] = $db->query_result($result, $i, 'entityname');
@@ -361,7 +361,7 @@ function vtws_isRoleBasedPicklist($name)
 	$db = PearDatabase::getInstance();
 	$sql = "select picklistid from vtiger_picklist where name = ?";
 	$result = $db->pquery($sql, array($name));
-	return ($db->num_rows($result) > 0);
+	return ($db->numRows($result) > 0);
 }
 
 function vtws_getConvertLeadFieldMapping()
@@ -373,7 +373,7 @@ function vtws_getConvertLeadFieldMapping()
 		return null;
 	}
 	$mapping = [];
-	$rowCount = $adb->num_rows($result);
+	$rowCount = $adb->numRows($result);
 	for ($i = 0; $i < $rowCount; ++$i) {
 		$row = $adb->query_result_rowdata($result, $i);
 		$mapping[$row['leadfid']] = array('Accounts' => $row['accountfid'], 'Contacts' => $row['contactfid']);
