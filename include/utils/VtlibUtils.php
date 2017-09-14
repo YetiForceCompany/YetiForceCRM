@@ -215,7 +215,7 @@ function vtlib_getPicklistValues_AccessibleToAll($fieldColumnname)
 	$tablename = 'vtiger_' . $fieldColumnname;
 	// Gather all the roles (except H1 which is organization role)
 	$roleres = $adb->query("SELECT roleid FROM vtiger_role WHERE roleid != 'H1'");
-	$roleresCount = $adb->num_rows($roleres);
+	$roleresCount = $adb->numRows($roleres);
 	$allroles = [];
 	if ($roleresCount) {
 		for ($index = 0; $index < $roleresCount; ++$index)
@@ -229,7 +229,7 @@ function vtlib_getPicklistValues_AccessibleToAll($fieldColumnname)
 		INNER JOIN vtiger_role2picklist ON $tablename.picklist_valueid=vtiger_role2picklist.picklistvalueid
 		WHERE roleid != 'H1'");
 
-	$picklistresCount = $adb->num_rows($picklistres);
+	$picklistresCount = $adb->numRows($picklistres);
 
 	$picklistval_roles = [];
 	if ($picklistresCount) {

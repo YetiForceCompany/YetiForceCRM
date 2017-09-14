@@ -243,7 +243,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			FROM vtiger_sharedcalendar RIGHT JOIN vtiger_users ON vtiger_sharedcalendar.userid=vtiger_users.id and status= 'Active'
 			WHERE sharedid=? || (vtiger_users.status='Active' && vtiger_users.calendarsharedtype='public' && vtiger_users.id <> ?);";
 		$result = $db->pquery($query, array($id, $id));
-		$rows = $db->num_rows($result);
+		$rows = $db->numRows($result);
 
 		$userIds = [];
 		for ($i = 0; $i < $rows; $i++) {
@@ -311,7 +311,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$params = [$this->getName(), $currentUserModel->id, $limit];
 		$query = sprintf($query, $deletedCondition);
 		$result = $db->pquery($query, $params);
-		$noOfRows = $db->num_rows($result);
+		$noOfRows = $db->numRows($result);
 		$recentRecords = [];
 		for ($i = 0; $i < $noOfRows; ++$i) {
 			$row = $db->query_result_rowdata($result, $i);
@@ -385,7 +385,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			if (in_array($fieldType, $type)) {
 				$fieldName = $field->getName();
 				if ($fieldType == 'picklist' && in_array($fieldName, $restrictedField[$fieldType])) {
-					
+
 				} else {
 					$fieldList[$fieldName] = $field;
 				}

@@ -17,7 +17,7 @@
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
  * All Rights Reserved.
  * Contributor(s): ______________________________________..
- * ****************************************************************************** 
+ * ******************************************************************************
  * Contributor(s): YetiForce.com
  */
 require_once('modules/Calendar/CalendarCommon.php');
@@ -360,24 +360,23 @@ class Activity extends CRMEntity
 		return false;
 	}
 
-	protected function getListViewAccessibleUsers($sharedid)
+	protected function getListViewAccessibleUsers($sharedId)
 	{
 		$db = PearDatabase::getInstance();
-		;
 		$query = "SELECT vtiger_users.id as userid FROM vtiger_sharedcalendar
 					RIGHT JOIN vtiger_users ON vtiger_sharedcalendar.userid=vtiger_users.id and status= 'Active'
 					WHERE sharedid=? || (vtiger_users.status='Active' && vtiger_users.calendarsharedtype='public' && vtiger_users.id <> ?);";
-		$result = $db->pquery($query, array($sharedid, $sharedid));
-		$numberOfRows = $db->num_rows($result);
+		$result = $db->pquery($query, array($sharedId, $sharedId));
+		$numberOfRows = $db->numRows($result);
 		if ($numberOfRows !== 0) {
 			for ($j = 0; $j < $numberOfRows; $j++) {
-				$userid[] = $db->query_result($result, $j, 'userid');
+				$userId[] = $db->query_result($result, $j, 'userid');
 			}
-			$shared_ids = implode(',', $userid);
+			$sharedIds = implode(',', $useryd);
 		}
-		$userid[] = $sharedid;
-		$shared_ids = implode(',', $userid);
-		return $shared_ids;
+		$userId[] = $sharedId;
+		$sharedIds = implode(',', $userId);
+		return $sharedIds;
 	}
 
 	public function deleteRelatedDependent($module, $crmid, $withModule, $withCrmid)
