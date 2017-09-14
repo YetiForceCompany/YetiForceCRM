@@ -43,16 +43,15 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 
 	/**
 	 * Function to get the list of Mass actions for the module
-	 * @param <Array> $linkParams
-	 * @return <Array> - Associative array of Link type to List of  Vtiger_Link_Model instances for Mass Actions
+	 * @param array $linkParams
+	 * @return array - Associative array of Link type to List of  Vtiger_Link_Model instances for Mass Actions
 	 */
 	public function getListViewMassActions($linkParams)
 	{
 		$links = parent::getListViewMassActions($linkParams);
-		$privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$massActionLinks = [];
-		if ($linkParams['MODULE'] == 'Users' && $linkParams['ACTION'] == 'List' && vtlib\Functions::userIsAdministrator($privilegesModel)) {
+		if ($linkParams['MODULE'] == 'Users' && $linkParams['ACTION'] === 'List' && \App\User::getCurrentUserModel()->isAdmin()) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_PWD_EDIT',
