@@ -2385,7 +2385,7 @@ class ReportRun extends CRMEntity
 				}
 				// END
 
-				$noofrows = $adb->num_rows($result);
+				$noofrows = $adb->numRows($result);
 				$custom_field_values = $adb->fetch_array($result);
 				$groupslist = $this->getGroupingList($this->reportid);
 
@@ -2538,7 +2538,7 @@ class ReportRun extends CRMEntity
 
 			if ($result) {
 				$y = $adb->getFieldsCount($result);
-				$noofrows = $adb->num_rows($result);
+				$noofrows = $adb->numRows($result);
 				$custom_field_values = $adb->fetch_array($result);
 
 				do {
@@ -2585,7 +2585,7 @@ class ReportRun extends CRMEntity
 					foreach ($this->totallist as $key => $value) {
 						$fieldlist = explode(":", $key);
 						$mod_query = $adb->pquery("SELECT distinct(tabid) as tabid, uitype as uitype from vtiger_field where tablename = ? and columnname=?", array($fieldlist[1], $fieldlist[2]));
-						if ($adb->num_rows($mod_query) > 0) {
+						if ($adb->numRows($mod_query) > 0) {
 							$module_name = \App\Module::getModuleName($adb->query_result($mod_query, 0, 'tabid'));
 							$fieldlabel = trim(str_replace($escapedchars, " ", $fieldlist[3]));
 							$fieldlabel = str_replace("__", " ", $fieldlabel);
@@ -2695,7 +2695,7 @@ class ReportRun extends CRMEntity
 						$cachekey = $fieldlist[1] . ":" . $fieldlist[2];
 						if (!isset($modulename_cache[$cachekey])) {
 							$mod_query = $adb->pquery("SELECT distinct(tabid) as tabid, uitype as uitype from vtiger_field where tablename = ? and columnname=?", array($fieldlist[1], $fieldlist[2]));
-							if ($adb->num_rows($mod_query) > 0) {
+							if ($adb->numRows($mod_query) > 0) {
 								$module_name = \App\Module::getModuleName($adb->query_result($mod_query, 0, 'tabid'));
 								$modulename_cache[$cachekey] = $module_name;
 							}
@@ -2811,7 +2811,7 @@ class ReportRun extends CRMEntity
 					$headerLabel = $this->getHeaderToRaport($adb, $fld, $modules_selected);
 					$header .= "<th>" . $headerLabel . "</th>";
 				}
-				$noofrows = $adb->num_rows($result);
+				$noofrows = $adb->numRows($result);
 				$custom_field_values = $adb->fetch_array($result);
 				$groupslist = $this->getGroupingList($this->reportid);
 
@@ -2902,7 +2902,7 @@ class ReportRun extends CRMEntity
 					foreach ($this->totallist as $key => $value) {
 						$fieldlist = explode(":", $key);
 						$mod_query = $adb->pquery("SELECT distinct(tabid) as tabid, uitype as uitype from vtiger_field where tablename = ? and columnname=?", array($fieldlist[1], $fieldlist[2]));
-						if ($adb->num_rows($mod_query) > 0) {
+						if ($adb->numRows($mod_query) > 0) {
 							$module_name = \App\Module::getModuleName($adb->query_result($mod_query, 0, 'tabid'));
 							$fieldlabel = trim(str_replace($escapedchars, " ", $fieldlist[3]));
 							$fieldlabel = str_replace("__", " ", $fieldlabel);
@@ -3032,7 +3032,7 @@ class ReportRun extends CRMEntity
 				$cachekey = $field_tablename . ":" . $field_columnname;
 				if (!isset($modulename_cache[$cachekey])) {
 					$mod_query = $adb->pquery("SELECT distinct(tabid) as tabid from vtiger_field where tablename = ? and columnname=?", array($fieldlist[1], $fieldlist[2]));
-					if ($adb->num_rows($mod_query) > 0) {
+					if ($adb->numRows($mod_query) > 0) {
 						$module_name = \App\Module::getModuleName($adb->query_result($mod_query, 0, 'tabid'));
 						$modulename_cache[$cachekey] = $module_name;
 					}
@@ -3150,7 +3150,7 @@ class ReportRun extends CRMEntity
 		$sreportstdfiltersql .= " where vtiger_report.reportid =?";
 
 		$result = $adb->pquery($sreportstdfiltersql, array($reportid));
-		$noofrows = $adb->num_rows($result);
+		$noofrows = $adb->numRows($result);
 
 		for ($i = 0; $i < $noofrows; $i++) {
 			$fieldcolname = $adb->query_result($result, $i, "columnname");
@@ -3233,7 +3233,7 @@ class ReportRun extends CRMEntity
 		}
 
 		$temp_status = [];
-		$countResult = $adb->num_rows($result);
+		$countResult = $adb->numRows($result);
 		for ($i = 0; $i < $countResult; $i++) {
 			$fieldname = $adb->query_result($result, $i, "fieldname");
 			$fieldlabel = $adb->query_result($result, $i, "fieldlabel");
@@ -3250,7 +3250,7 @@ class ReportRun extends CRMEntity
 			}
 			if ($fieldname != 'firstname')
 				$mulselresult = $adb->query($mulsel);
-			$countMulSelResult = $adb->num_rows($mulselresult);
+			$countMulSelResult = $adb->numRows($mulselresult);
 			for ($j = 0; $j < $countMulSelResult; $j++) {
 				$fldvalue = $adb->query_result($mulselresult, $j, $fieldname);
 				if (in_array($fldvalue, $fieldvalues))
@@ -3398,8 +3398,8 @@ class ReportRun extends CRMEntity
 		$adb = PearDatabase::getInstance();
 		$groupByTimeQuery = "SELECT * FROM vtiger_reportgroupbycolumn WHERE reportid=?";
 		$groupByTimeRes = $adb->pquery($groupByTimeQuery, array($reportId));
-		$num_rows = $adb->num_rows($groupByTimeRes);
-		for ($i = 0; $i < $num_rows; $i++) {
+		$numRows = $adb->numRows($groupByTimeRes);
+		for ($i = 0; $i < $numRows; $i++) {
 			$sortColName = $adb->query_result($groupByTimeRes, $i, 'sortcolname');
 			list($tablename, $colname, $module_field, $fieldname, $single) = explode(':', $sortColName);
 			$groupField = $module_field;
@@ -3438,7 +3438,7 @@ class ReportRun extends CRMEntity
                             WHERE columnname!='none' and vtiger_reportsortcol.reportid=? ORDER By sortcolid";
 		$sortFieldResult = $adb->pquery($sortFieldQuery, array($reportid));
 		$inventoryModules = getInventoryModules();
-		if ($adb->num_rows($sortFieldResult) > 0) {
+		if ($adb->numRows($sortFieldResult) > 0) {
 			$fieldcolname = $adb->query_result($sortFieldResult, 0, 'columnname');
 			list($tablename, $colname, $module_field, $fieldname, $typeOfData) = explode(":", $fieldcolname);
 			list($modulename, $fieldlabel) = explode('__', $module_field, 2);

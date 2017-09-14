@@ -82,7 +82,7 @@ class Reports_Module_Model extends Vtiger_Module_Model
 		$db = PearDatabase::getInstance();
 
 		$result = $db->pquery('SELECT * FROM vtiger_report ORDER BY reportid DESC LIMIT ?', array($limit));
-		$rows = $db->num_rows($result);
+		$rows = $db->numRows($result);
 
 		$recentRecords = [];
 		for ($i = 0; $i < $rows; ++$i) {

@@ -140,7 +140,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 
 		$self = new self();
 		$reportResult = $db->pquery('SELECT * FROM vtiger_report WHERE reportid = ?', array($recordId));
-		if ($db->num_rows($reportResult)) {
+		if ($db->numRows($reportResult)) {
 			$values = $db->query_result_rowdata($reportResult, 0);
 			$module = Vtiger_Module_Model::getInstance('Reports');
 			$self->setData($values)->setId($values['reportid'])->setModuleFromInstance($module);
@@ -297,7 +297,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 					WHERE vtiger_report.reportid = ? ORDER BY vtiger_selectcolumn.columnindex", array($this->getId()));
 
 		$selectedColumns = [];
-		$numRowsCount = $db->num_rows($result);
+		$numRowsCount = $db->numRows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
 			$column = $db->query_result($result, $i, 'columnname');
 			list($tableName, $columnName, $moduleFieldLabel, $fieldName, $type) = explode(':', $column);
@@ -323,7 +323,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 					WHERE vtiger_report.reportid=?', array($this->getId()));
 
 		$columns = [];
-		$numRowsCount = $db->num_rows($result);
+		$numRowsCount = $db->numRows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
 			$columns[] = $db->query_result($result, $i, 'columnname');
 		}
@@ -343,7 +343,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 					WHERE vtiger_report.reportid = ? ORDER BY vtiger_reportsortcol.sortcolid', array($this->getId()));
 
 		$sortColumns = [];
-		$numRowsCount = $db->num_rows($result);
+		$numRowsCount = $db->numRows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
 			$column = $db->query_result($result, $i, 'columnname');
 			$order = $db->query_result($result, $i, 'sortorder');
@@ -362,7 +362,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 
 		$result = $db->pquery('SELECT * FROM vtiger_reportdatefilter WHERE datefilterid = ? && startdate != ? && enddate != ?', array($this->getId(), '0000-00-00', '0000-00-00'));
 		$standardFieldInfo = [];
-		if ($db->num_rows($result)) {
+		if ($db->numRows($result)) {
 			$standardFieldInfo['columnname'] = $db->query_result($result, 0, 'datecolumnname');
 			$standardFieldInfo['type'] = $db->query_result($result, 0, 'datefilter');
 			$standardFieldInfo['startdate'] = $db->query_result($result, 0, 'startdate');
@@ -733,7 +733,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		$adb = PearDatabase::getInstance();
 		$count = 0;
 		$result = $adb->query($query, []);
-		if ($adb->num_rows($result) > 0) {
+		if ($adb->numRows($result) > 0) {
 			$count = $adb->query_result($result, 0, 'count');
 		}
 		return $count;
@@ -1055,7 +1055,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 			return false;
 		}
 		$result = $db->pquery($query, $params);
-		if ($db->num_rows($result)) {
+		if ($db->numRows($result)) {
 			return true;
 		}
 		return false;
@@ -1161,7 +1161,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		$result = $db->pquery("SELECT data FROM vtiger_reporttype WHERE reportid = ?", array($this->getId()));
 
 		$dataFields = '';
-		if ($db->num_rows($result) > 0) {
+		if ($db->numRows($result) > 0) {
 			$dataFields = $db->query_result($result, 0, 'data');
 		}
 		return $dataFields;

@@ -63,18 +63,18 @@ class Deprecated
 		return '';
 	}
 
-	public static function getBlockId($tabid, $label)
+	public static function getBlockId($tabId, $label)
 	{
 		$adb = \PearDatabase::getInstance();
 		$query = "select blockid from vtiger_blocks where tabid=? and blocklabel = ?";
-		$result = $adb->pquery($query, array($tabid, $label));
-		$noofrows = $adb->num_rows($result);
+		$result = $adb->pquery($query, array($tabId, $label));
+		$noOfRows = $adb->numRows($result);
 
-		$blockid = '';
-		if ($noofrows == 1) {
-			$blockid = $adb->query_result($result, 0, "blockid");
+		$blockId = '';
+		if ($noOfRows == 1) {
+			$blockId = $adb->query_result($result, 0, "blockid");
 		}
-		return $blockid;
+		return $blockId;
 	}
 
 	public static function createModuleMetaFile()
@@ -278,20 +278,20 @@ class Deprecated
 
 	/**
 	 * This function is used to get the blockid of the settings block for a given label.
-	 * @param $label - settings label
+	 * @param string $label - settings label
 	 * @return string type value
 	 */
 	public static function getSettingsBlockId($label)
 	{
 		$adb = \PearDatabase::getInstance();
-		$blockid = '';
+		$blockId = '';
 		$query = "select blockid from vtiger_settings_blocks where label = ?";
 		$result = $adb->pquery($query, array($label));
-		$noofrows = $adb->num_rows($result);
-		if ($noofrows == 1) {
-			$blockid = $adb->query_result($result, 0, "blockid");
+		$noOfRows = $adb->numRows($result);
+		if ($noOfRows == 1) {
+			$blockId = $adb->query_result($result, 0, "blockid");
 		}
-		return $blockid;
+		return $blockId;
 	}
 
 	public static function getSqlForNameInDisplayFormat($input, $module, $glue = ' ')

@@ -244,7 +244,7 @@ class PearDatabase
 		return 0;
 	}
 
-	public function num_rows(PDOStatement $result)
+	public function numRows(PDOStatement $result)
 	{
 		return $result->rowCount();
 	}

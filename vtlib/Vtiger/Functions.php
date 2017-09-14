@@ -401,7 +401,7 @@ class Functions
 		$commentlist = '';
 		$sql = 'SELECT commentcontent FROM vtiger_modcomments WHERE related_to = ?';
 		$result = $adb->pquery($sql, array($ticketid));
-		$countResult = $adb->num_rows($result);
+		$countResult = $adb->numRows($result);
 		for ($i = 0; $i < $countResult; $i++) {
 			$comment = $adb->query_result($result, $i, 'commentcontent');
 			if ($comment != '') {

@@ -309,7 +309,7 @@ class Users extends CRMEntity
 			$qcrypt_sql = "SELECT crypt_type from $this->table_name where user_name=?";
 			$crypt_res = $this->db->pquery($qcrypt_sql, array($this->column_fields["user_name"]));
 		}
-		if ($crypt_res && $this->db->num_rows($crypt_res)) {
+		if ($crypt_res && $this->db->numRows($crypt_res)) {
 			$crypt_row = $this->db->fetchByAssoc($crypt_res);
 			$crypt_type = $crypt_row['crypt_type'];
 		}
@@ -537,14 +537,14 @@ class Users extends CRMEntity
 
 	public function filterInactiveFields($module)
 	{
-		
+
 	}
 
 	public function deleteImage()
 	{
 		$sql1 = 'SELECT attachmentsid FROM vtiger_salesmanattachmentsrel WHERE smid = ?';
 		$res1 = $this->db->pquery($sql1, array($this->id));
-		if ($this->db->num_rows($res1) > 0) {
+		if ($this->db->numRows($res1) > 0) {
 			$attachmentId = $this->db->query_result($res1, 0, 'attachmentsid');
 
 			$sql2 = "DELETE FROM vtiger_crmentity WHERE crmid=? && setype='Users Attachments'";

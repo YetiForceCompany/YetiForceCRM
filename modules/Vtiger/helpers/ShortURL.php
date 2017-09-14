@@ -61,7 +61,7 @@ class Vtiger_ShortURL_Helper
 		$db = PearDatabase::getInstance();
 
 		$rs = $db->pquery('SELECT * FROM vtiger_shorturls WHERE uid=?', array($uid));
-		if ($rs && $db->num_rows($rs)) {
+		if ($rs && $db->numRows($rs)) {
 			$record = $db->fetch_array($rs);
 			$handlerPath = App\Purifier::decodeHtml($record['handler_path']);
 			$handlerClass = App\Purifier::decodeHtml($record['handler_class']);
@@ -83,7 +83,7 @@ class Vtiger_ShortURL_Helper
 	}
 
 	/**
-	 * Function will send tracker image of 1X1 pixel transparent Image 
+	 * Function will send tracker image of 1X1 pixel transparent Image
 	 */
 	public static function sendTrackerImage()
 	{

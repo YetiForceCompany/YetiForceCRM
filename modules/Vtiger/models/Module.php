@@ -1056,7 +1056,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$db = PearDatabase::getInstance();
 
 		$result = $db->pquery("SELECT cvid FROM vtiger_customview WHERE setdefault = 1 && entitytype = ?", array($this->getName()));
-		if ($db->num_rows($result)) {
+		if ($db->numRows($result)) {
 			return $db->query_result($result, 0, 'cvid');
 		}
 		return false;
@@ -1081,7 +1081,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 			WHERE vtiger_crmentity.deleted = 0 && crmentity2.deleted = 0 && crmentity2.setype = ? %s
 			ORDER BY vtiger_crmentity.createdtime DESC LIMIT ?, ?', $accessConditions);
 		$result = $db->pquery($query, [$this->getName(), $pagingModel->getStartIndex(), $pagingModel->getPageLimit()]);
-		$numRowsCount = $db->num_rows($result);
+		$numRowsCount = $db->numRows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
 			$row = $db->query_result_rowdata($result, $i);
 			$commentModel = Vtiger_Record_Model::getCleanInstance('ModComments');
@@ -1123,7 +1123,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 								ORDER BY vtiger_modtracker_basic.id DESC LIMIT ?, ?', array($this->getName(), $pagingModel->getStartIndex(), $pagingModel->getPageLimit()));
 
 		$activites = [];
-		$numRowsCount = $db->num_rows($result);
+		$numRowsCount = $db->numRows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
 			$row = $db->query_result_rowdata($result, $i);
 			if (\App\Privilege::isPermitted($row['module'], 'DetailView', $row['crmid'])) {
@@ -1387,7 +1387,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	public function getSearchRecordsQuery($searchValue, $parentId = false, $parentModule = false)
 	{
 		return (new App\Db\Query())->select(['crmid', 'setype', 'searchlabel'])
-			->from('u_#__crmentity_search_label')->where(['and', ['like', 'userid', ',' . App\User::getCurrentUserId() . ','], ['like', 'searchlabel', $searchValue]]);
+				->from('u_#__crmentity_search_label')->where(['and', ['like', 'userid', ',' . App\User::getCurrentUserId() . ','], ['like', 'searchlabel', $searchValue]]);
 	}
 
 	/**

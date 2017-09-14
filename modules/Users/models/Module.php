@@ -76,7 +76,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 		$query = 'SELECT user_name FROM vtiger_users WHERE user_name = ?';
 		$result = $db->pquery($query, array($userName));
-		if ($db->num_rows($result) > 0) {
+		if ($db->numRows($result) > 0) {
 			return true;
 		}
 		return false;
@@ -110,8 +110,8 @@ class Users_Module_Model extends Vtiger_Module_Model
 	{
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT currency_code, currency_symbol FROM vtiger_currencies WHERE currency_name = ?', array($currencyName));
-		$num_rows = $db->num_rows($result);
-		if ($num_rows > 0) {
+		$numRows = $db->numRows($result);
+		if ($numRows > 0) {
 			$currency_code = App\Purifier::decodeHtml($db->query_result($result, 0, 'currency_code'));
 			$currency_symbol = App\Purifier::decodeHtml($db->query_result($result, 0, 'currency_symbol'));
 		}
@@ -193,8 +193,8 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 		$currency_query = 'SELECT currency_name, currency_code, currency_symbol FROM vtiger_currencies ORDER BY currency_name';
 		$result = $adb->pquery($currency_query, []);
-		$num_rows = $adb->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
+		$numRows = $adb->numRows($result);
+		for ($i = 0; $i < $numRows; $i++) {
 			$currencyname = App\Purifier::decodeHtml($adb->query_result($result, $i, 'currency_name'));
 			$currencycode = App\Purifier::decodeHtml($adb->query_result($result, $i, 'currency_code'));
 			$currencysymbol = App\Purifier::decodeHtml($adb->query_result($result, $i, 'currency_symbol'));
@@ -212,8 +212,8 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 		$timezone_query = 'SELECT time_zone FROM vtiger_time_zone';
 		$result = $adb->pquery($timezone_query, []);
-		$num_rows = $adb->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
+		$numRows = $adb->numRows($result);
+		for ($i = 0; $i < $numRows; $i++) {
 			$time_zone = App\Purifier::decodeHtml($adb->query_result($result, $i, 'time_zone'));
 			$time_zones_list[$time_zone] = $time_zone;
 		}
@@ -238,8 +238,8 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 		$language_query = 'SELECT prefix, label FROM vtiger_language';
 		$result = $adb->query($language_query);
-		$num_rows = $adb->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
+		$numRows = $adb->numRows($result);
+		for ($i = 0; $i < $numRows; $i++) {
 			$lang_prefix = App\Purifier::decodeHtml($adb->query_result($result, $i, 'prefix'));
 			$label = App\Purifier::decodeHtml($adb->query_result($result, $i, 'label'));
 			$languages[$lang_prefix] = $label;

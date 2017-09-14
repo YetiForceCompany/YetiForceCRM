@@ -58,7 +58,7 @@ class Users_ForgotPassword_Action
 		$adb = PearDatabase::getInstance();
 		$username = App\Purifier::purify($request->get('user_name'));
 		$result = $adb->pquery('select id,email1 from vtiger_users where user_name = ? ', array($username));
-		if ($adb->num_rows($result) > 0) {
+		if ($adb->numRows($result) > 0) {
 			$email = $adb->query_result($result, 0, 'email1');
 		}
 		if (strcasecmp($request->get('emailId'), $email) === 0) {
