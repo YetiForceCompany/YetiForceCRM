@@ -6,32 +6,37 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Users_Save_Action extends Vtiger_Save_Action
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$record = $request->getInteger('record');
-		$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		if (!$request->isEmpty('record', true)) {
+			$record = $request->getInteger('record');
+			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			$currentUserModel = Users_Record_Model::getCurrentUserModel();
 
-		// Check for operation access.
-		$allowed = \App\Privilege::isPermitted($moduleName, 'Save', $record);
-		if ($allowed) {
-			// Deny access if not administrator or account-owner or self
-			if (!$currentUserModel->isAdminUser()) {
-				if (empty($record)) {
-					$allowed = false;
-				} else if (AppConfig::security('SHOW_MY_PREFERENCES') && ((int) $currentUserModel->get('id') !== $recordModel->getId())) {
-					$allowed = false;
-				}
+			$allowed = \App\Privilege::isPermitted($moduleName, 'Save', $record);
+			if ($allowed && !$currentUserModel->isAdminUser() && AppConfig::security('SHOW_MY_PREFERENCES') && ((int) $currentUserModel->get('id') !== $recordModel->getId())) {
+				$allowed = false;
 			}
-		}
-		if (!$allowed) {
-			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
+			if (!$allowed) {
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+			}
+		} else {
+			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+			if (!$recordModel->isCreateable()) {
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+			}
 		}
 	}
 
