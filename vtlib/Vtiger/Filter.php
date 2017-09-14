@@ -124,10 +124,11 @@ class Filter
 
 	/**
 	 * Get the column value to use in custom view tables.
-	 * @param Field Instance of the field
+	 * @param FieldBasic $fieldInstance
+	 * @return string
 	 * @access private
 	 */
-	public function __getColumnValue($fieldInstance)
+	public function __getColumnValue(FieldBasic $fieldInstance)
 	{
 		$tod = explode('~', $fieldInstance->typeofdata);
 		$displayinfo = $fieldInstance->getModuleName() . '_' . str_replace(' ', '_', $fieldInstance->label) . ':' . $tod[0];

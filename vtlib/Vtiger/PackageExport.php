@@ -207,7 +207,7 @@ class PackageExport
 	 * @param <vtlib\Zip> $zip
 	 * @param string $module
 	 */
-	public function __copyLanguageFiles($zip, $module)
+	public function __copyLanguageFiles(Zip $zip, $module)
 	{
 		$languageFolder = 'languages';
 		if ($dir = @opendir($languageFolder)) {  // open languages folder
