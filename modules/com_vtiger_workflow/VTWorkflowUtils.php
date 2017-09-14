@@ -105,23 +105,6 @@ class VTWorkflowUtils
 	}
 
 	/**
-	 * The webservice entity type of an EntityData object
-	 */
-	public function toWSModuleName($entityData)
-	{
-		$moduleName = $entityData->getModuleName();
-		if ($moduleName == 'Activity') {
-			$arr = array('Task' => 'Calendar');
-			$type = \vtlib\Functions::getActivityType($entityData->getId());
-			$moduleName = $arr[$type];
-			if ($moduleName === null) {
-				$moduleName = 'Events';
-			}
-		}
-		return $moduleName;
-	}
-
-	/**
 	 * Insert redirection script
 	 * @param string $to
 	 * @param string $message

@@ -33,32 +33,6 @@ function vtws_generateRandomAccessKey($length = 10)
 	return $accesskey;
 }
 
-function vtws_getUserAccessibleGroups($moduleId, $user)
-{
-	$adb = PearDatabase::getInstance();
-	require('user_privileges/user_privileges_' . $user->id . '.php');
-	require('user_privileges/sharing_privileges_' . $user->id . '.php');
-	$tabName = \App\Module::getModuleName($moduleId);
-	if ($is_admin === false && $profileGlobalPermission[2] == 1 &&
-		($defaultOrgSharingPermission[$moduleId] == 3 || $defaultOrgSharingPermission[$moduleId] == 0)) {
-		$result = get_current_user_access_groups($tabName);
-	} else {
-		$result = \vtlib\Functions::getGroupOptions();
-	}
-
-	$groups = [];
-	if ($result !== null && $result !== '' && is_object($result)) {
-		$rowCount = $adb->num_rows($result);
-		for ($i = 0; $i < $rowCount; $i++) {
-			$nameArray = $adb->query_result_rowdata($result, $i);
-			$groupId = $nameArray["groupid"];
-			$groupName = $nameArray["groupname"];
-			$groups[] = array('id' => $groupId, 'name' => $groupName);
-		}
-	}
-	return $groups;
-}
-
 function vtws_getIdComponents($elementid)
 {
 	if (strpos($elementid, 'x') !== false) {
