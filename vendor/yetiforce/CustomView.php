@@ -665,10 +665,13 @@ class CustomView
 		if (!\App\Session::has('lvs')) {
 			return true;
 		}
-		$lvs = \App\Session::get('lvs');
 		if ($moduleName) {
-			unset($lvs[$moduleName]);
-			return \App\Session::set('lvs', $lvs);
+			$lvs = \App\Session::get('lvs');
+			if (isset($lvs[$moduleName])) {
+				unset($lvs[$moduleName]);
+				return \App\Session::set('lvs', $lvs);
+			}
+			return true;
 		} else {
 			return \App\Session::set('lvs', []);
 		}
