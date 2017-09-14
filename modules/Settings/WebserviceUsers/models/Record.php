@@ -43,7 +43,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	public function getModule()
 	{
 		if (!$this->module) {
-			$this->module = $moduleInstance = Settings_Vtiger_Module_Model::getInstance('Settings:WebserviceUsers');
+			$this->module = Settings_Vtiger_Module_Model::getInstance('Settings:WebserviceUsers');
 		}
 		return $this->module;
 	}
@@ -241,7 +241,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$links = [];
 		$recordLinks = [
-				[
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getModule()->getEditViewUrl() . '&record=' . $this->getId(),
@@ -249,7 +249,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 				'linkclass' => 'btn btn-sm btn-primary',
 				'modalView' => true
 			],
-				[
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => 'javascript:Vtiger_List_Js.deleteRecord(' . $this->getId() . ');',
