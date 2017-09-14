@@ -83,7 +83,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 			$queueResult = $db->pquery('SELECT * FROM vtiger_import_queue WHERE userid=? LIMIT 1', array($user->id));
 
 			if ($queueResult && $db->numRows($queueResult) > 0) {
-				$rowData = $db->raw_query_result_rowdata($queueResult, 0);
+				$rowData = $db->rawQueryResultRowData($queueResult, 0);
 				return self::getImportInfoFromResult($rowData);
 			}
 		}
@@ -113,7 +113,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 			$queueResult = $db->pquery('SELECT * FROM vtiger_import_queue WHERE importid=?', array($importId));
 
 			if ($queueResult && $db->numRows($queueResult) > 0) {
-				$rowData = $db->raw_query_result_rowdata($queueResult, 0);
+				$rowData = $db->rawQueryResultRowData($queueResult, 0);
 				return self::getImportInfoFromResult($rowData);
 			}
 		}
@@ -135,7 +135,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 		$noOfImports = $db->numRows($result);
 		$scheduledImports = [];
 		for ($i = 0; $i < $noOfImports; ++$i) {
-			$rowData = $db->raw_query_result_rowdata($result, $i);
+			$rowData = $db->rawQueryResultRowData($result, $i);
 			$scheduledImports[$rowData['importid']] = self::getImportInfoFromResult($rowData);
 		}
 		return $scheduledImports;

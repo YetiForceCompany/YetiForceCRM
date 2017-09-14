@@ -182,7 +182,7 @@ class Reports_Folder_Model extends \App\Base
 			$result = $db->pquery("SELECT * FROM vtiger_reportfolder WHERE folderid = ?", array($folderId));
 
 			if ($db->numRows($result) > 0) {
-				$values = $db->query_result_rowdata($result, 0);
+				$values = $db->queryResultRowData($result, 0);
 				$folderModel->setData($values);
 			}
 			Vtiger_Cache::set('reportsFolder', $folderId, $folderModel);
@@ -205,7 +205,7 @@ class Reports_Folder_Model extends \App\Base
 			if ($noOfFolders > 0) {
 				for ($i = 0; $i < $noOfFolders; $i++) {
 					$folderModel = Reports_Folder_Model::getInstance();
-					$values = $db->query_result_rowdata($result, $i);
+					$values = $db->queryResultRowData($result, $i);
 					$folders[$values['folderid']] = $folderModel->setData($values);
 					Vtiger_Cache::set('reportsFolder', $values['folderid'], $folderModel);
 				}

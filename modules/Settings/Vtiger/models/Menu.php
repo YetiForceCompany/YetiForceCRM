@@ -148,7 +148,7 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 		$result = $db->pquery($sql, $params);
 
 		if ($db->numRows($result) > 0) {
-			$rowData = $db->query_result_rowdata($result, 0);
+			$rowData = $db->queryResultRowData($result, 0);
 			return Settings_Vtiger_Menu_Model::getInstanceFromArray($rowData);
 		}
 		return false;

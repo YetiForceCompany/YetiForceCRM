@@ -375,7 +375,7 @@ function vtws_getConvertLeadFieldMapping()
 	$mapping = [];
 	$rowCount = $adb->numRows($result);
 	for ($i = 0; $i < $rowCount; ++$i) {
-		$row = $adb->query_result_rowdata($result, $i);
+		$row = $adb->queryResultRowData($result, $i);
 		$mapping[$row['leadfid']] = array('Accounts' => $row['accountfid'], 'Contacts' => $row['contactfid']);
 	}
 	return $mapping;

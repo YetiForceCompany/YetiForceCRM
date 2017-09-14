@@ -50,7 +50,7 @@ class Vtiger_Notebook_Model extends Vtiger_Widget_Model
 			WHERE linktype = ? AND vtiger_module_dashboard_widgets.id = ? AND vtiger_module_dashboard_widgets.userid = ?', ['DASHBOARDWIDGET', $widgetId, \App\User::getCurrentUserId()]);
 		$self = new self();
 		if ($db->numRows($result)) {
-			$row = $db->query_result_rowdata($result, 0);
+			$row = $db->queryResultRowData($result, 0);
 			$self->setData($row);
 		}
 		return $self;

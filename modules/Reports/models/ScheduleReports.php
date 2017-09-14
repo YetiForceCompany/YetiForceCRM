@@ -36,7 +36,7 @@ class Reports_ScheduleReports_Model extends \App\Base
 		if (!empty($recordId)) {
 			$scheduledReportResult = $db->pquery('SELECT * FROM vtiger_schedulereports WHERE reportid = ?', array($recordId));
 			if ($db->numRows($scheduledReportResult) > 0) {
-				$reportScheduleInfo = $db->query_result_rowdata($scheduledReportResult, 0);
+				$reportScheduleInfo = $db->queryResultRowData($scheduledReportResult, 0);
 				$reportScheduleInfo['schdate'] = App\Purifier::decodeHtml($reportScheduleInfo['schdate']);
 				$reportScheduleInfo['schdayoftheweek'] = App\Purifier::decodeHtml($reportScheduleInfo['schdayoftheweek']);
 				$reportScheduleInfo['schdayofthemonth'] = App\Purifier::decodeHtml($reportScheduleInfo['schdayofthemonth']);

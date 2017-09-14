@@ -89,7 +89,7 @@ Class DataAccess_unique_value
 				$result = $db->pquery("SELECT $index FROM {$where[0]} $sqlSpecial " . $searchTrash['query'] . " WHERE {$where[1]} = ? $sql_ext $spacialCondition " . $searchTrash['params'] . ";", $sql_param, true);
 				$num = $db->numRows($result);
 				for ($i = 0; $i < $num; $i++) {
-					$id = $db->query_result_raw($result, $i, $index);
+					$id = $db->queryResultRaw($result, $i, $index);
 					$metadata = vtlib\Functions::getCRMRecordMetadata($id);
 					if ($metadata['setype'] == $DestModuleName) {
 						$save_record1 = false;
@@ -130,7 +130,7 @@ Class DataAccess_unique_value
 				$result = $db->pquery("SELECT $index FROM {$where[0]} " . $searchTrash['query'] . " WHERE {$where[1]} = ? $sql_ext " . $searchTrash['params'] . ";", $sql_param, true);
 				$num = $db->numRows($result);
 				for ($i = 0; $i < $num; $i++) {
-					$id = $db->query_result_raw($result, $i, $index);
+					$id = $db->queryResultRaw($result, $i, $index);
 					$metadata = vtlib\Functions::getCRMRecordMetadata($id);
 					if ($metadata['setype'] == $DestModuleName) {
 						$save_record2 = false;

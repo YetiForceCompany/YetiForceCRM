@@ -86,7 +86,7 @@ class Reports_Module_Model extends Vtiger_Module_Model
 
 		$recentRecords = [];
 		for ($i = 0; $i < $rows; ++$i) {
-			$row = $db->query_result_rowdata($result, $i);
+			$row = $db->queryResultRowData($result, $i);
 			$recentRecords[$row['reportid']] = $this->getRecordFromArray($row);
 		}
 		return $recentRecords;

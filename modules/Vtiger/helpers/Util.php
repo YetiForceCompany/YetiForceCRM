@@ -343,7 +343,7 @@ class Vtiger_Util_Helper
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$result = $db->pquery('SELECT * FROM vtiger_currency_info WHERE id = ?', array($currentUser->get('currency_id')));
 		if ($db->numRows($result))
-			return $db->query_result_rowdata($result, 0);
+			return $db->queryResultRowData($result, 0);
 	}
 
 	public static function transferListSearchParamsToFilterCondition($searchParams, $moduleModel)

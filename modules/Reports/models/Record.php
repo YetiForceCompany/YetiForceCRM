@@ -141,7 +141,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		$self = new self();
 		$reportResult = $db->pquery('SELECT * FROM vtiger_report WHERE reportid = ?', array($recordId));
 		if ($db->numRows($reportResult)) {
-			$values = $db->query_result_rowdata($reportResult, 0);
+			$values = $db->queryResultRowData($reportResult, 0);
 			$module = Vtiger_Module_Model::getInstance('Reports');
 			$self->setData($values)->setId($values['reportid'])->setModuleFromInstance($module);
 			$self->initialize();

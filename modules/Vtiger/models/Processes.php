@@ -31,8 +31,8 @@ class Vtiger_Processes_Model
 		$config = [];
 		$numRowsCount = $db->numRows($result);
 		for ($i = 0; $i < $numRowsCount; ++$i) {
-			$param = $db->query_result_raw($result, $i, 'param');
-			$value = $db->query_result_raw($result, $i, 'value');
+			$param = $db->queryResultRaw($result, $i, 'param');
+			$value = $db->queryResultRaw($result, $i, 'value');
 			if ($param == 'users') {
 				$config[$param] = $value == '' ? [] : explode(',', $value);
 			} else {

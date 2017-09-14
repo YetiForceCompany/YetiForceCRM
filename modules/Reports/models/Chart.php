@@ -491,7 +491,7 @@ class PieChart extends Base_Chart
 		$currencyRateAndSymbol = \vtlib\Functions::getCurrencySymbolandRate($currentUserModel->currency_id);
 
 		for ($i = 0; $i < $rows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+			$row = $db->queryResultRowData($result, $i);
 			$value = (float) $row[$sector];
 			if (!$this->isRecordCount()) {
 				if ($sectorField) {
@@ -566,7 +566,7 @@ class VerticalbarChart extends Base_Chart
 		$links = [];
 
 		for ($i = 0; $i < $rows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+			$row = $db->queryResultRowData($result, $i);
 
 			if ($recordCountLabel) {
 				$values[$i][] = (int) $row[$recordCountLabel];

@@ -19,7 +19,7 @@ class Deprecated
 	public static function getFullNameFromQResult($result, $row_count, $module)
 	{
 		$adb = \PearDatabase::getInstance();
-		$rowdata = $adb->query_result_rowdata($result, $row_count);
+		$rowdata = $adb->queryResultRowData($result, $row_count);
 		$entity_field_info = \App\Module::getEntityInfo($module);
 		$fieldsName = $entity_field_info['fieldname'];
 		$name = '';
