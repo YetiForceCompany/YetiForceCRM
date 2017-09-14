@@ -12,6 +12,9 @@
 Class Calendar_Edit_View extends Vtiger_Edit_View
 {
 
+	/**
+	 * Constructor
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -19,13 +22,18 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 		$this->exposeMethod('Calendar');
 	}
 
+	/**
+	 * Process request
+	 * @param \App\Request $request
+	 * @return null
+	 */
 	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
 
 		$recordId = $request->get('record');
 		if (!empty($recordId)) {
-			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record);
+			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($recordId);
 			$mode = $recordModel->getType();
 		}
 

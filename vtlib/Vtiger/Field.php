@@ -237,9 +237,10 @@ class Field extends FieldBasic
 
 	/**
 	 * Get Field instances related to module
-	 * @param Module Instance of module to use
+	 * @param ModuleBasic $moduleInstance
+	 * @return self
 	 */
-	public static function getAllForModule($moduleInstance)
+	public static function getAllForModule(ModuleBasic $moduleInstance)
 	{
 		$moduleId = $moduleInstance->id;
 		if (\App\Cache::has('AllFieldForModule', $moduleId)) {

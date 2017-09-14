@@ -150,14 +150,6 @@ class Module extends ModuleBasic
 	}
 
 	/**
-	 * Get all the custom links related to this module for exporting.
-	 */
-	public function getLinksForExport()
-	{
-		return Link::getAllForExport($this->id);
-	}
-
-	/**
 	 * Initialize webservice setup for this module instance.
 	 */
 	public function initWebservice()

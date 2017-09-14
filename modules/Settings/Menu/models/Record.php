@@ -76,9 +76,13 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		$params = [];
 		$sqlCol = '';
 		$role = 0;
+		$editFields = $settingsModel->getEditFields();
 		if ($edit) {
 			$data = $this->getData();
 			foreach ($data as $key => $item) {
+				if (!in_array($key, $editFields)) {
+					throw new \App\Exceptions\BadRequest('LBL_NOT_ALLOWED_VALUE');
+				}
 				if (is_array($item)) {
 					$item = implode(',', $item);
 				}
@@ -95,6 +99,9 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 			$db->createCommand()->update('yetiforce_menu', $params, ['id' => $this->getId()])->execute();
 		} else {
 			foreach ($this->getData() as $key => $item) {
+				if (!in_array($key, $editFields)) {
+					throw new \App\Exceptions\BadRequest('LBL_NOT_ALLOWED_VALUE');
+				}
 				if (is_array($item)) {
 					$item = implode(',', $item);
 				}
