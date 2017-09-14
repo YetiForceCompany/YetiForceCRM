@@ -713,7 +713,7 @@ class QueryGenerator
 		if ($this->deletedCondition) {
 			$this->query->andWhere($this->getDeletedCondition());
 		}
-		$this->query->andWhere(['or', array_merge(['and'], $this->conditionsAnd), array_merge(['or'], $this->conditionsOr)]);
+		$this->query->andWhere(['and', array_merge(['and'], $this->conditionsAnd), array_merge(['or'], $this->conditionsOr)]);
 		if ($this->permissions) {
 			if (\AppConfig::security('CACHING_PERMISSION_TO_RECORD') && $this->moduleName !== 'Users') {
 				$userId = $this->user->getId();
