@@ -89,7 +89,7 @@ class LanguageExport extends Package
 	{
 		$db = \PearDatabase::getInstance();
 		$sqlresult = $db->pquery('SELECT * FROM vtiger_language WHERE prefix = ?', array($prefix));
-		$languageresultrow = $db->fetch_array($sqlresult);
+		$languageresultrow = $db->fetchArray($sqlresult);
 		$langname = \App\Purifier::decodeHtml($languageresultrow['name']);
 		$langlabel = \App\Purifier::decodeHtml($languageresultrow['label']);
 		$this->openNode('module');

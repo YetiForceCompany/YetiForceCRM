@@ -436,7 +436,7 @@ class WebserviceField
 		$moduleName = \App\Module::getModuleName($module);
 
 		$result = $db->pquery('SELECT tree,label FROM vtiger_trees_templates_data WHERE templateid = ?', [$this->getFieldParams()]);
-		while ($row = $db->fetch_array($result)) {
+		while ($row = $db->fetchArray($result)) {
 			self::$treeDetails[$row['tree']] = \App\Language::translate($row['label'], $moduleName);
 		}
 		return self::$treeDetails;

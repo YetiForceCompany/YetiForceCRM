@@ -61,7 +61,7 @@ class Vtiger_Report_Model extends Reports
 				$result = $db->pquery($ssql, $params);
 
 				if ($result && $db->numRows($result)) {
-					$reportModulesRow = $db->fetch_array($result);
+					$reportModulesRow = $db->fetchArray($result);
 
 					// Update information in cache now
 					VTCacheUtils::updateReportInfo(

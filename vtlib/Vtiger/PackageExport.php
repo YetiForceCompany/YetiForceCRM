@@ -642,7 +642,7 @@ class PackageExport
 
 		if ($adb->numRows($result)) {
 			$this->openNode('actions');
-			while ($resultrow = $adb->fetch_array($result)) {
+			while ($resultrow = $adb->fetchArray($result)) {
 				$this->openNode('action');
 				$this->outputNode('<![CDATA[' . $resultrow['actionname'] . ']]>', 'name');
 				$this->outputNode('enabled', 'status');
@@ -670,7 +670,7 @@ class PackageExport
 
 			$countResult = $adb->numRows($result);
 			for ($index = 0; $index < $countResult; ++$index) {
-				$row = $adb->fetch_array($result);
+				$row = $adb->fetchArray($result);
 				$this->openNode('relatedlist');
 
 				$relModuleInstance = Module::getInstance($row['related_tabid']);
@@ -702,7 +702,7 @@ class PackageExport
 
 			$countResult = $adb->numRows($result);
 			for ($index = 0; $index < $countResult; ++$index) {
-				$row = $adb->fetch_array($result);
+				$row = $adb->fetchArray($result);
 				$this->openNode('inrelatedlist');
 
 				$relModuleInstance = Module::getInstance($row['tabid']);

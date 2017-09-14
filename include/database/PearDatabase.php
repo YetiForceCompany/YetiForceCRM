@@ -254,7 +254,7 @@ class PearDatabase
 		return $result->columnCount();
 	}
 
-	public function fetch_array(PDOStatement $result)
+	public function fetchArray(PDOStatement $result)
 	{
 		return $result->fetch(PDO::FETCH_ASSOC);
 	}

@@ -249,7 +249,7 @@ class Functions
 		$adb = \PearDatabase::getInstance();
 		if (!self::$userIdNameCache[$id]) {
 			$result = $adb->pquery('SELECT id, user_name FROM vtiger_users');
-			while ($row = $adb->fetch_array($result)) {
+			while ($row = $adb->fetchArray($result)) {
 				self::$userIdNameCache[$row['id']] = $row['user_name'];
 			}
 		}

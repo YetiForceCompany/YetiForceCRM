@@ -92,7 +92,7 @@ class ThemeExport extends Package
 		$adb = \PearDatabase::getInstance();
 
 		$sqlresult = $adb->pquery("SELECT * FROM vtiger_layoutskins WHERE name = ?", array($themeName));
-		$layoutresultrow = $adb->fetch_array($sqlresult);
+		$layoutresultrow = $adb->fetchArray($sqlresult);
 
 		$resultThemename = \App\Purifier::decodeHtml($layoutresultrow['name']);
 		$resultThemelabel = \App\Purifier::decodeHtml($layoutresultrow['label']);
