@@ -457,9 +457,9 @@ function getRoleAndSubordinatesInformation($roleId)
 
 	$query = "select * from vtiger_role where parentrole like ? order by parentrole asc";
 	$result = $adb->pquery($query, array($roleParentSeq . "%"));
-	$num_rows = $adb->numRows($result);
+	$numRows = $adb->numRows($result);
 	$roleInfo = [];
-	for ($i = 0; $i < $num_rows; $i++) {
+	for ($i = 0; $i < $numRows; $i++) {
 		$roleid = $adb->query_result($result, $i, 'roleid');
 		$rolename = $adb->query_result($result, $i, 'rolename');
 		$roledepth = $adb->query_result($result, $i, 'depth');
@@ -567,8 +567,8 @@ function deleteGroupRelatedSharingRules($grpId)
 		}
 
 		$result = $adb->pquery($query, $params);
-		$num_rows = $adb->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
+		$numRows = $adb->numRows($result);
+		for ($i = 0; $i < $numRows; $i++) {
 			$shareid = $adb->query_result($result, $i, 'shareid');
 			deleteSharingRule($shareid);
 		}
@@ -593,9 +593,9 @@ function deleteUserRelatedSharingRules($usId)
 	];
 
 
-	foreach ($dataShareTableColArr as $tablename => $colname) {
-		$colNameArr = explode('::', $colname);
-		$query = sprintf("SELECT shareid FROM %s WHERE %s = ?", $tablename, $colNameArr[0]);
+	foreach ($dataShareTableColArr as $tableName => $colName) {
+		$colNameArr = explode('::', $colName);
+		$query = sprintf("SELECT shareid FROM %s WHERE %s = ?", $tableName, $colNameArr[0]);
 		$params = array($grpId);
 		if (sizeof($colNameArr) > 1) {
 			$query .= " or " . $colNameArr[1] . "=?";
@@ -603,8 +603,8 @@ function deleteUserRelatedSharingRules($usId)
 		}
 
 		$result = $adb->pquery($query, $params);
-		$num_rows = $adb->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
+		$numRows = $adb->numRows($result);
+		for ($i = 0; $i < $numRows; $i++) {
 			$shareid = $adb->query_result($result, $i, 'shareid');
 			deleteSharingRule($shareid);
 		}
@@ -623,15 +623,15 @@ function getAllUserName()
 	$adb = PearDatabase::getInstance();
 	$query = "select * from vtiger_users where deleted=0";
 	$result = $adb->pquery($query, []);
-	$num_rows = $adb->num_rows($result);
-	$user_details = [];
-	for ($i = 0; $i < $num_rows; $i++) {
-		$userid = $adb->query_result($result, $i, 'id');
-		$username = \vtlib\Deprecated::getFullNameFromQResult($result, $i, 'Users');
-		$user_details[$userid] = $username;
+	$numRows = $adb->numRows($result);
+	$userDetails = [];
+	for ($i = 0; $i < $numRows; $i++) {
+		$userId = $adb->query_result($result, $i, 'id');
+		$userName = \vtlib\Deprecated::getFullNameFromQResult($result, $i, 'Users');
+		$userDetails[$userId] = $userName;
 	}
 	\App\Log::trace("Exiting getAllUserName method ...");
-	return $user_details;
+	return $userDetails;
 }
 
 /** Function to get groupid and groupname of all vtiger_groups
@@ -645,15 +645,15 @@ function getAllGroupName()
 	$adb = PearDatabase::getInstance();
 	$query = "select * from vtiger_groups";
 	$result = $adb->pquery($query, []);
-	$num_rows = $adb->num_rows($result);
-	$group_details = [];
-	for ($i = 0; $i < $num_rows; $i++) {
-		$grpid = $adb->query_result($result, $i, 'groupid');
-		$grpname = $adb->query_result($result, $i, 'groupname');
-		$group_details[$grpid] = $grpname;
+	$numRows = $adb->numRows($result);
+	$groupDetails = [];
+	for ($i = 0; $i < $numRows; $i++) {
+		$grpId = $adb->query_result($result, $i, 'groupid');
+		$grpName = $adb->query_result($result, $i, 'groupname');
+		$groupDetails[$grpId] = $grpName;
 	}
 	\App\Log::trace("Exiting getAllGroupName method ...");
-	return $group_details;
+	return $groupDetails;
 }
 
 /** This function is to delete the organisation level sharing rule
@@ -815,17 +815,17 @@ function getWriteSharingGroupsList($module)
 
 	\App\Log::trace("Entering getWriteSharingGroupsList(" . $module . ") method ...");
 	$adb = PearDatabase::getInstance();
-	$current_user = vglobal('current_user');
-	$grp_array = [];
-	$tabid = \App\Module::getModuleId($module);
+	$currentUser = vglobal('current_user');
+	$grpArray = [];
+	$tabId = \App\Module::getModuleId($module);
 	$query = "select sharedgroupid from vtiger_tmp_write_group_sharing_per where userid=? and tabid=?";
-	$result = $adb->pquery($query, array($current_user->id, $tabid));
-	$num_rows = $adb->num_rows($result);
-	for ($i = 0; $i < $num_rows; $i++) {
-		$grp_id = $adb->query_result($result, $i, 'sharedgroupid');
-		$grp_array[] = $grp_id;
+	$result = $adb->pquery($query, array($currentUser->id, $tabId));
+	$numRows = $adb->numRows($result);
+	for ($i = 0; $i < $numRows; $i++) {
+		$grpId = $adb->query_result($result, $i, 'sharedgroupid');
+		$grpArray[] = $grpId;
 	}
-	$shareGrpList = constructList($grp_array, 'INTEGER');
+	$shareGrpList = constructList($grpArray, 'INTEGER');
 	\App\Log::trace("Exiting getWriteSharingGroupsList method ...");
 	return $shareGrpList;
 }

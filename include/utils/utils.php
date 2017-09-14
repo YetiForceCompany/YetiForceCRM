@@ -116,15 +116,15 @@ function getUserId_Ol($username)
 		$adb = PearDatabase::getInstance();
 		$sql = 'select id from vtiger_users where user_name=?';
 		$result = $adb->pquery($sql, array($username));
-		$num_rows = $adb->num_rows($result);
-		if ($num_rows > 0) {
-			$user_id = $adb->query_result($result, 0, 'id');
+		$numRows = $adb->numRows($result);
+		if ($numRows > 0) {
+			$userId = $adb->query_result($result, 0, 'id');
 		} else {
-			$user_id = 0;
+			$userId = 0;
 		}
 		\App\Log::trace('Exiting getUserId_Ol method ...');
-		$cache->setUserId($username, $user_id);
-		return $user_id;
+		$cache->setUserId($username, $userId);
+		return $userId;
 	}
 }
 
@@ -259,7 +259,7 @@ function getRelationTables($module, $secmodule)
 	$secondary_obj = CRMEntity::getInstance($secmodule);
 
 	$ui10_query = $adb->pquery("SELECT vtiger_field.tabid AS tabid,vtiger_field.tablename AS tablename, vtiger_field.columnname AS columnname FROM vtiger_field INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid WHERE (vtiger_fieldmodulerel.module=? && vtiger_fieldmodulerel.relmodule=?) || (vtiger_fieldmodulerel.module=? && vtiger_fieldmodulerel.relmodule=?)", array($module, $secmodule, $secmodule, $module));
-	if ($adb->num_rows($ui10_query) > 0) {
+	if ($adb->numRows($ui10_query) > 0) {
 		$ui10_tablename = $adb->query_result($ui10_query, 0, 'tablename');
 		$ui10_columnname = $adb->query_result($ui10_query, 0, 'columnname');
 
@@ -420,25 +420,25 @@ function getValidDBInsertDateTimeValue($value)
 }
 
 /** Function to return block name
- * @param Integer -- $blockid
- * @return String - Block Name
+ * @param integer $blockId
+ * @return string Block Name
  */
-function getBlockName($blockid)
+function getBlockName($blockId)
 {
 	$adb = PearDatabase::getInstance();
 
-	$blockname = VTCacheUtils::lookupBlockLabelWithId($blockid);
+	$blockName = VTCacheUtils::lookupBlockLabelWithId($blockId);
 
-	if (!empty($blockid) && $blockname === false) {
-		$block_res = $adb->pquery('SELECT blocklabel FROM vtiger_blocks WHERE blockid = ?', array($blockid));
-		if ($adb->num_rows($block_res)) {
-			$blockname = $adb->query_result($block_res, 0, 'blocklabel');
+	if (!empty($blockId) && $blockName === false) {
+		$blockRes = $adb->pquery('SELECT blocklabel FROM vtiger_blocks WHERE blockid = ?', array($blockId));
+		if ($adb->numRows($blockRes)) {
+			$blockName = $adb->query_result($blockRes, 0, 'blocklabel');
 		} else {
-			$blockname = '';
+			$blockName = '';
 		}
-		VTCacheUtils::updateBlockLabelWithId($blockname, $blockid);
+		VTCacheUtils::updateBlockLabelWithId($blockName, $blockId);
 	}
-	return $blockname;
+	return $blockName;
 }
 
 /**
@@ -503,19 +503,19 @@ function getActivityRelatedContacts($activityId)
 	$query = 'SELECT link FROM vtiger_activity WHERE activityid=?';
 	$result = $adb->pquery($query, array($activityId));
 
-	$noOfContacts = $adb->num_rows($result);
+	$noOfContacts = $adb->numRows($result);
 	$contactsList = [];
 	for ($i = 0; $i < $noOfContacts; ++$i) {
 		$contactId = $adb->query_result($result, $i, 'link');
 		$displayValueArray = \App\Record::getLabel($contactId, 'Contacts');
 		if (!empty($displayValueArray)) {
-			foreach ($displayValueArray as $key => $field_value) {
-				$contact_name = $field_value;
+			foreach ($displayValueArray as $key => $fieldValue) {
+				$contactName = $fieldValue;
 			}
 		} else {
-			$contact_name = '';
+			$contactName = '';
 		}
-		$contactsList[$contactId] = $contact_name;
+		$contactsList[$contactId] = $contactName;
 	}
 	return $contactsList;
 }
