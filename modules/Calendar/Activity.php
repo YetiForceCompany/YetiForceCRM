@@ -294,7 +294,7 @@ class Activity extends CRMEntity
 		return $query;
 	}
 
-	public function getNonAdminAccessControlQuery($module, $user, $scope = '')
+	public function getNonAdminAccessControlQuery($module, Users $user, $scope = '')
 	{
 		require('user_privileges/user_privileges_' . $user->id . '.php');
 		require('user_privileges/sharing_privileges_' . $user->id . '.php');

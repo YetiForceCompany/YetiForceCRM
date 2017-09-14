@@ -1054,7 +1054,7 @@ function RecalculateSharingRules()
  * @param Users $user - user for which query needs to be generated.
  * @return String Access control Query for the user.
  */
-function getNonAdminAccessControlQuery($module, $user, $scope = '')
+function getNonAdminAccessControlQuery($module, Users $user, $scope = '')
 {
 	$instance = CRMEntity::getInstance($module);
 	return $instance->getNonAdminAccessControlQuery($module, $user, $scope);

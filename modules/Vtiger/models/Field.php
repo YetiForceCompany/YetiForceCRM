@@ -826,7 +826,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 * @param Vtiger_Module_Model $blockModel - block instance
 	 * @return <array> List of field model
 	 */
-	public static function getAllForModule($moduleModel)
+	public static function getAllForModule(vtlib\ModuleBasic $moduleModel)
 	{
 		$fieldModelList = Vtiger_Cache::get('ModuleFields', $moduleModel->id);
 		if (!$fieldModelList) {
