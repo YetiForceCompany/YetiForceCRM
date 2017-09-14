@@ -656,24 +656,21 @@ class CustomView
 	}
 
 	/**
-	 * Reset views configuration in session
+	 * Reset current views configuration in session
 	 * @param type $moduleName
-	 * @return bool
 	 */
-	public static function resetSessionViews($moduleName = false)
+	public static function resetCurrentView($moduleName = false)
 	{
-		if (!\App\Session::has('lvs')) {
-			return true;
-		}
-		if ($moduleName) {
-			$lvs = \App\Session::get('lvs');
-			if (isset($lvs[$moduleName])) {
-				unset($lvs[$moduleName]);
-				return \App\Session::set('lvs', $lvs);
+		if (\App\Session::has('lvs')) {
+			if ($moduleName) {
+				$lvs = \App\Session::get('lvs');
+				if (isset($lvs[$moduleName])) {
+					unset($lvs[$moduleName]);
+					\App\Session::set('lvs', $lvs);
+				}
+			} else {
+				\App\Session::set('lvs', []);
 			}
-			return true;
-		} else {
-			return \App\Session::set('lvs', []);
 		}
 	}
 }
