@@ -6,18 +6,36 @@
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_Pagination_Action extends Vtiger_BasicAjax_Action
 {
+
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
+	public function checkPermission(\App\Request $request)
+	{
+		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		}
+	}
 
 	public function __construct()
 	{
 		$this->exposeMethod('getTotalCount');
 	}
 
-	public function validateRequest(\App\Request $request)
+	public function process(\App\Request $request)
 	{
-		$request->validateWriteAccess();
+		$mode = $request->getMode();
+		if (!empty($mode)) {
+			$this->invokeExposedMethod($mode, $request);
+			return;
+		}
 	}
 
 	public function getTotalCount(\App\Request $request)
@@ -39,12 +57,8 @@ class Vtiger_Pagination_Action extends Vtiger_BasicAjax_Action
 		$response->emit();
 	}
 
-	public function process(\App\Request $request)
+	public function validateRequest(\App\Request $request)
 	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
+		$request->validateWriteAccess();
 	}
 }
