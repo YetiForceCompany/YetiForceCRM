@@ -119,7 +119,7 @@ class OSSPasswords extends CRMEntity
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
 			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($module));
-		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
+		$linkedFieldsCount = $this->db->numRows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
 			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
@@ -294,7 +294,7 @@ class OSSPasswords extends CRMEntity
 		$addModTracker = false;
 
 		if ($eventType == 'module.postinstall') {
-			
+
 		} else if ($eventType == 'module.disabled') {
 			$registerLink = false;
 			App\EventHandler::setInActive('OSSPasswords_Secure_Handler');
@@ -308,9 +308,9 @@ class OSSPasswords extends CRMEntity
 
 			header('Location: index.php?module=Vtiger&parent=Settings&view=Index');
 		} else if ($eventType == 'module.preupdate') {
-			
+
 		} else if ($eventType == 'module.postupdate') {
-			
+
 		}
 
 		$displayLabel = 'OSSPassword Configuration';

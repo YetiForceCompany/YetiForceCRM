@@ -24,7 +24,7 @@ class Vtiger_DependencyPicklist
 			$tabId = \App\Module::getModuleId($module);
 			$result = $adb->pquery('SELECT DISTINCT sourcefield, targetfield, tabid FROM vtiger_picklist_dependency WHERE tabid=?', array($tabId));
 		}
-		$noofrows = $adb->num_rows($result);
+		$noofrows = $adb->numRows($result);
 
 		$dependentPicklists = [];
 		if ($noofrows > 0) {

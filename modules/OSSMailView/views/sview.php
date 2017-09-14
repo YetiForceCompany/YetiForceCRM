@@ -49,7 +49,7 @@ class OSSMailView_sview_View extends Vtiger_Index_View
 				LEFT JOIN vtiger_ossmailview_files ON vtiger_ossmailview_files.documentsid =vtiger_notes.notesid
 				WHERE vtiger_ossmailview_files.ossmailviewid = ?";
 		$result = $db->pquery($query, [$record], true);
-		$num = $db->num_rows($result);
+		$num = $db->numRows($result);
 
 		$attachments = [];
 		for ($i = 0; $i < $num; $i++) {

@@ -22,21 +22,21 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
 		// check if passwords are encrypted
 		if (file_exists('modules/OSSPasswords/config.ini.php')) {
 			$config = parse_ini_file('modules/OSSPasswords/config.ini.php');
-			$sql = "SELECT AES_DECRYPT(`password`, '{$config['key']}') AS `password` 
-                FROM `vtiger_osspasswords` 
+			$sql = "SELECT AES_DECRYPT(`password`, '{$config['key']}') AS `password`
+                FROM `vtiger_osspasswords`
                 WHERE `osspasswordsid` = ? LIMIT 1;";
 		} else {
-			$sql = "SELECT `password` 
-                FROM `vtiger_osspasswords` 
+			$sql = "SELECT `password`
+                FROM `vtiger_osspasswords`
                 WHERE `osspasswordsid` = ? LIMIT 1;";
 		}
 
 		$params = array($recordId);
 		$result = $db->pquery($sql, $params, true);
 
-		if ($db->num_rows($result) == 1)
+		if ($db->numRows($result) == 1)
 			return $db->query_result($result, 0, 'password');
-		else if ($db->num_rows($result) == 0)
+		else if ($db->numRows($result) == 0)
 			return $db->query_result($result, 0, '');
 
 		return false;

@@ -637,7 +637,7 @@ class ReportRun extends CRMEntity
 		$ssql .= " order by vtiger_selectcolumn.columnindex";
 
 		$result = $adb->pquery($ssql, array($reportid));
-		$noofrows = $adb->num_rows($result);
+		$noofrows = $adb->numRows($result);
 
 		if ($this->orderbylistsql != "") {
 			$sSQL .= $this->orderbylistsql . ", ";
@@ -836,7 +836,7 @@ class ReportRun extends CRMEntity
 			$ssql .= " where vtiger_report.reportid = ? && vtiger_relcriteria.groupid = ? order by vtiger_relcriteria.columnindex";
 
 			$result = $adb->pquery($ssql, array($reportid, $groupId));
-			$noOfColumns = $adb->num_rows($result);
+			$noOfColumns = $adb->numRows($result);
 			if ($noOfColumns <= 0)
 				continue;
 
@@ -1459,7 +1459,7 @@ class ReportRun extends CRMEntity
 		$sreportstdfiltersql .= " where vtiger_report.reportid = ?";
 
 		$result = $adb->pquery($sreportstdfiltersql, array($reportid));
-		$noofrows = $adb->num_rows($result);
+		$noofrows = $adb->numRows($result);
 
 		for ($i = 0; $i < $noofrows; $i++) {
 			$fieldcolname = $adb->query_result($result, $i, "datecolumnname");
@@ -1515,7 +1515,7 @@ class ReportRun extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT 1 FROM vtiger_reportsortcol WHERE reportid=? and columnname <> "none"', array($this->reportid));
-		return ($result && $adb->num_rows($result)) ? true : false;
+		return ($result && $adb->numRows($result)) ? true : false;
 	}
 
 	/** Function to get getGroupingList for the given reportid
@@ -1626,7 +1626,7 @@ class ReportRun extends CRMEntity
 		$sreportsortsql .= " where vtiger_report.reportid =? order by vtiger_reportsortcol.sortcolid";
 
 		$result = $adb->pquery($sreportsortsql, array($reportid));
-		$noofrows = $adb->num_rows($result);
+		$noofrows = $adb->numRows($result);
 
 		for ($i = 0; $i < $noofrows; $i++) {
 			$fieldcolname = $adb->query_result($result, $i, 'columnname');
@@ -1732,7 +1732,7 @@ class ReportRun extends CRMEntity
 
 				$db = PearDatabase::getInstance();
 				$result = $db->pquery($query, []);
-				$rows = $db->num_rows($result);
+				$rows = $db->numRows($result);
 				for ($i = 0; $i < $rows; $i++) {
 					$ids[] = $db->query_result($result, $i, 'id');
 				}
