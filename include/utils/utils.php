@@ -222,7 +222,7 @@ function formatForSqlLike($str, $flag = 0, $is_field = false)
 			}
 		}
 	}
-	return $adb->sql_escape_string($str);
+	return $adb->sqlEscapeString($str);
 }
 
 /** Function to get on clause criteria for duplicate check queries */

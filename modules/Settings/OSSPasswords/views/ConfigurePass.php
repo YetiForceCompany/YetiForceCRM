@@ -87,7 +87,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 				App\Db::getInstance()->createCommand()->update('vtiger_passwords_config', [
 					'pass_length_min' => $post_min,
 					'pass_length_max' => $post_max,
-					'pass_allow_chars' => $adb->sql_escape_string($aChars),
+					'pass_allow_chars' => $adb->sqlEscapeString($aChars),
 					'register_changes' => $rChanges,
 				])->execute();
 				// update variables

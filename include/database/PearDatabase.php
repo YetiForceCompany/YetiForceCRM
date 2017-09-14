@@ -320,7 +320,7 @@ class PearDatabase
 	{
 		$this->stmt = false;
 		$sqlStartTime = microtime(true);
-		$params = $this->flatten_array($params);
+		$params = $this->flattenArray($params);
 		if (empty($params)) {
 			return $this->query($query, $dieOnError, $msg);
 		}
@@ -509,7 +509,7 @@ class PearDatabase
 	 * $input = array(10, 20, array(30, 40), array('key1' => '50', 'key2'=>array(60), 70));
 	 * returns array(10, 20, 30, 40, 50, 60, 70);
 	 */
-	public function flatten_array($input, $output = null)
+	public function flattenArray($input, $output = null)
 	{
 		if (empty($input))
 			return null;
@@ -517,7 +517,7 @@ class PearDatabase
 			$output = [];
 		foreach ($input as $value) {
 			if (is_array($value)) {
-				$output = $this->flatten_array($value, $output);
+				$output = $this->flattenArray($value, $output);
 			} else {
 				array_push($output, $value);
 			}
@@ -595,7 +595,7 @@ class PearDatabase
 	}
 
 	//To get a function name with respect to the database type which escapes strings in given text
-	public function sql_escape_string($str, $type = false)
+	public function sqlEscapeString($str, $type = false)
 	{
 		if ($type) {
 			$search = ["\\", "\0", "\n", "\r", "\x1a", "'", '"'];
@@ -632,7 +632,7 @@ class PearDatabase
 		$dieOnError = $this->dieOnError;
 		$this->dieOnError = false;
 
-		$tablename = $this->sql_escape_string($tableName);
+		$tablename = $this->sqlEscapeString($tableName);
 		$tableCheck = $this->query("SHOW TABLES LIKE $tablename");
 		$tablePresent = 1;
 		if (empty($tableCheck) || $this->getRowCount($tableCheck) === 0) {

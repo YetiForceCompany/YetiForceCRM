@@ -269,7 +269,7 @@ class CRMEntity
 	public function checkIfCustomTableExists($tablename)
 	{
 		$adb = PearDatabase::getInstance();
-		$query = sprintf("SELECT * FROM %s", $adb->sql_escape_string($tablename));
+		$query = sprintf("SELECT * FROM %s", $adb->sqlEscapeString($tablename));
 		$result = $this->db->pquery($query, []);
 		$testrow = $this->db->getFieldsCount($result);
 		if ($testrow > 1) {
@@ -440,7 +440,7 @@ class CRMEntity
 	public function checkModuleSeqNumber($table, $column, $no)
 	{
 		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery(sprintf("SELECT %s FROM *s WHERE %s = ?", $adb->sql_escape_string($column), $adb->sql_escape_string($table), $adb->sql_escape_string($column)), [$no]);
+		$result = $adb->pquery(sprintf("SELECT %s FROM *s WHERE %s = ?", $adb->sqlEscapeString($column), $adb->sqlEscapeString($table), $adb->sqlEscapeString($column)), [$no]);
 		$numRows = $adb->numRows($result);
 		if ($numRows > 0)
 			return true;
@@ -1309,7 +1309,7 @@ class CRMEntity
 		$currentModule = vglobal('currentModule');
 		\App\Log::trace("Entering getSortOrder() method ...");
 		if (\App\Request::_has('sorder'))
-			$sorder = $this->db->sql_escape_string(App\Request::_getForSql('sorder'));
+			$sorder = $this->db->sqlEscapeString(App\Request::_getForSql('sorder'));
 		else
 			$sorder = (($_SESSION[$currentModule . '_Sort_Order'] != '') ? ($_SESSION[$currentModule . '_Sort_Order']) : ($this->default_sort_order));
 		\App\Log::trace("Exiting getSortOrder() method ...");
@@ -1332,7 +1332,7 @@ class CRMEntity
 		}
 
 		if (\App\Request::_has('order_by'))
-			$order_by = $this->db->sql_escape_string(App\Request::_getForSql('order_by'));
+			$order_by = $this->db->sqlEscapeString(App\Request::_getForSql('order_by'));
 		else
 			$order_by = (($_SESSION[$currentModule . '_Order_By'] != '') ? ($_SESSION[$currentModule . '_Order_By']) : ($use_default_order_by));
 		\App\Log::trace("Exiting getOrderBy method ...");
