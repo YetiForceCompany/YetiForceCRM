@@ -77,7 +77,7 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 			'agent' => $_SERVER['HTTP_USER_AGENT'],
 			'status' => $status,
 		])->execute();
-
+		\App\CustomView::resetSessionViews();
 		header('Location: index.php');
 	}
 }

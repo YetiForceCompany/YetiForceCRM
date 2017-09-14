@@ -51,7 +51,7 @@ class CustomView
 	];
 
 	/**
-	 * Data filter list 
+	 * Data filter list
 	 */
 	const DATE_FILTER_CONDITIONS = [
 		'custom' => ['label' => 'LBL_CUSTOM'],
@@ -653,5 +653,24 @@ class CustomView
 		}
 		Cache::save('CustomViewInfo', $mixed, $info);
 		return $info;
+	}
+
+	/**
+	 * Reset views configuration in session
+	 * @param type $moduleName
+	 * @return bool
+	 */
+	public static function resetSessionViews($moduleName = false)
+	{
+		if (!\App\Session::has('lvs')) {
+			return true;
+		}
+		$lvs = \App\Session::get('lvs');
+		if ($moduleName) {
+			unset($lvs[$moduleName]);
+			return \App\Session::set('lvs', $lvs);
+		} else {
+			return \App\Session::set('lvs', []);
+		}
 	}
 }
