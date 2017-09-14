@@ -254,12 +254,10 @@ class Accounts extends CRMEntity
 	 */
 	public function getHierarchyData($id, $accountInfoBase, $accountId, &$listviewEntries)
 	{
-
 		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $accountId . ') method ...');
-		$currentUser = vglobal('current_user');
-		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
+		require('user_privileges/user_privileges_' . \App\User::getCurrentUserId() . '.php');
 
-		$hasRecordViewAccess = (vtlib\Functions::userIsAdministrator($currentUser)) || (\App\Privilege::isPermitted('Accounts', 'DetailView', $accountId));
+		$hasRecordViewAccess = \App\User::getCurrentUserModel()->isAdmin() || (\App\Privilege::isPermitted('Accounts', 'DetailView', $accountId));
 		foreach ($this->hierarchyFields as &$field) {
 			$fieldName = $field['fieldname'];
 			$rawData = '';

@@ -102,11 +102,8 @@ class OSSEmployees extends Vtiger_CRMEntity
 	public function getEmployeeHierarchy($id)
 	{
 		$adb = PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
-
-
 		\App\Log::trace("Entering getEmployeeHierarchy(" . $id . ") method ...");
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+		require('user_privileges/user_privileges_' . \App\User::getCurrentUserId() . '.php');
 
 		$listview_header = [];
 		$listview_entries = [];
@@ -124,7 +121,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 		foreach ($rows_list as $employees_id => $account_info) {
 			$account_info_data = [];
 
-			$hasRecordViewAccess = (vtlib\Functions::userIsAdministrator($current_user)) || (isPermitted('OSSEmployees', 'DetailView', $employees_id) == 'yes');
+			$hasRecordViewAccess = \App\User::getCurrentUserModel()->isAdmin() || (isPermitted('OSSEmployees', 'DetailView', $employees_id) == 'yes');
 			foreach ($this->list_fields_name as $fieldname => $colname) {
 				if (!$hasRecordViewAccess && $colname != 'name') {
 					$account_info_data[] = '';
@@ -267,15 +264,15 @@ class OSSEmployees extends Vtiger_CRMEntity
 					ModComments::addWidgetTo(array('OSSEmployees'));
 			}
 		} else if ($event_type == 'module.disabled') {
-
+			
 		} else if ($event_type == 'module.enabled') {
-
+			
 		} else if ($event_type == 'module.preuninstall') {
-
+			
 		} else if ($event_type == 'module.preupdate') {
-
+			
 		} else if ($event_type == 'module.postupdate') {
-
+			
 		}
 	}
 }

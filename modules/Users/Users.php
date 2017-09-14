@@ -377,6 +377,15 @@ class Users extends CRMEntity
 		return $this->authenticated;
 	}
 
+	/**
+	 * Function to check whether the user is an Admin user
+	 * @return boolean true/false
+	 */
+	public function isAdminUser()
+	{
+		return (isset($this->is_admin) && $this->is_admin === 'on');
+	}
+
 	/** gives the user id for the specified user name
 	 * @param $user_name -- user name:: Type varchar
 	 * @returns user id
@@ -537,7 +546,7 @@ class Users extends CRMEntity
 
 	public function filterInactiveFields($module)
 	{
-
+		
 	}
 
 	public function deleteImage()

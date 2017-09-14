@@ -26,10 +26,10 @@ function vtws_changePassword($id, $oldPassword, $newPassword, $confirmPassword, 
 {
 	vtws_preserveGlobal('current_user', $user);
 	$idComponents = vtws_getIdComponents($id);
-	if ($idComponents[1] == $user->id || \vtlib\Functions::userIsAdministrator($user)) {
+	if ($idComponents[1] == $user->id || $user->isAdminUser()) {
 		$newUser = new Users();
 		$newUser->retrieveEntityInfo($idComponents[1], 'Users');
-		if (!\vtlib\Functions::userIsAdministrator($user)) {
+		if (!$user->isAdminUser()) {
 			if (empty($oldPassword)) {
 				throw new WebServiceException(WebServiceErrorCode::$INVALIDOLDPASSWORD, vtws_getWebserviceTranslatedString('LBL_' .
 					WebServiceErrorCode::$INVALIDOLDPASSWORD));

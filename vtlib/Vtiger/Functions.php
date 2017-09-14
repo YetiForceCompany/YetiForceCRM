@@ -13,16 +13,6 @@ namespace vtlib;
 class Functions
 {
 
-	/**
-	 * User is administrator
-	 * @param \Users $user
-	 * @return string
-	 */
-	public static function userIsAdministrator(\Users $user)
-	{
-		return (isset($user->is_admin) && $user->is_admin == 'on');
-	}
-
 	public static function currentUserDisplayDateNew()
 	{
 		$current_user = vglobal('current_user');

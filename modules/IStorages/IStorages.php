@@ -149,12 +149,10 @@ class IStorages extends Vtiger_CRMEntity
 	 */
 	public function getHierarchyData($id, $iStorageInfoBase, $iStorageId, $listviewEntries, $getRawData = false, $getLinks = true)
 	{
-
 		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $iStorageId . ') method ...');
-		$currentUser = vglobal('current_user');
-		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
+		require('user_privileges/user_privileges_' . \App\User::getCurrentUserId() . '.php');
 
-		$hasRecordViewAccess = (vtlib\Functions::userIsAdministrator($currentUser)) || (isPermitted('IStorages', 'DetailView', $iStorageId) == 'yes');
+		$hasRecordViewAccess = \App\User::getCurrentUserModel()->isAdmin() || (isPermitted('IStorages', 'DetailView', $iStorageId) == 'yes');
 		$listColumns = AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
 
 		if (empty($listColumns)) {
