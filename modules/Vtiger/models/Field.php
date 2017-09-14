@@ -892,8 +892,8 @@ class Vtiger_Field_Model extends vtlib\Field
 		$rows = $adb->numRows($result);
 		$folders = [];
 		for ($i = 0; $i < $rows; $i++) {
-			$folderId = $adb->query_result($result, $i, 'tree');
-			$folderName = $adb->query_result($result, $i, 'name');
+			$folderId = $adb->queryResult($result, $i, 'tree');
+			$folderName = $adb->queryResult($result, $i, 'name');
 			$folders[$folderId] = $folderName;
 		}
 		return $folders;

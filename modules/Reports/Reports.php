@@ -145,10 +145,10 @@ class Reports extends CRMEntity
 		if ($noOfRows <= 0)
 			return;
 		for ($index = 0; $index < $noOfRows; ++$index) {
-			$blockid = $adb->query_result($res, $index, 'blockid');
+			$blockid = $adb->queryResult($res, $index, 'blockid');
 			if (in_array($blockid, $this->module_list[$module]))
 				continue;
-			$blocklabel = $adb->query_result($res, $index, 'blocklabel');
+			$blocklabel = $adb->queryResult($res, $index, 'blocklabel');
 			$this->module_list[$module][$blocklabel] = $blockid;
 		}
 	}
@@ -589,14 +589,14 @@ class Reports extends CRMEntity
 		$result = $adb->pquery($sql, $params);
 		$noofrows = $adb->numRows($result);
 		for ($i = 0; $i < $noofrows; $i++) {
-			$fieldtablename = $adb->query_result($result, $i, "tablename");
-			$fieldcolname = $adb->query_result($result, $i, "columnname");
-			$fieldname = $adb->query_result($result, $i, "fieldname");
-			$fieldtype = $adb->query_result($result, $i, "typeofdata");
-			$uitype = $adb->query_result($result, $i, "uitype");
-			$fieldtype = explode("~", $fieldtype);
+			$fieldtablename = $adb->queryResult($result, $i, "tablename");
+			$fieldcolname = $adb->queryResult($result, $i, "columnname");
+			$fieldname = $adb->queryResult($result, $i, "fieldname");
+			$fieldtype = $adb->queryResult($result, $i, "typeofdata");
+			$uitype = $adb->queryResult($result, $i, "uitype");
+			$fieldtype = explode('~', $fieldtype);
 			$fieldtypeofdata = $fieldtype[0];
-			$blockid = $adb->query_result($result, $i, "block");
+			$blockid = $adb->queryResult($result, $i, "block");
 
 			//Here we Changing the displaytype of the field. So that its criteria will be displayed correctly in Reports Advance Filter.
 			$fieldtypeofdata = \vtlib\Functions::transformFieldTypeOfData($fieldtablename, $fieldcolname, $fieldtypeofdata);
@@ -604,22 +604,22 @@ class Reports extends CRMEntity
 			if ($uitype == 68 || $uitype == 59) {
 				$fieldtypeofdata = 'V';
 			}
-			if ($fieldtablename == "vtiger_crmentity") {
+			if ($fieldtablename == 'vtiger_crmentity') {
 				$fieldtablename = $fieldtablename . $module;
 			}
-			if ($fieldname == "assigned_user_id") {
-				$fieldtablename = "vtiger_users" . $module;
-				$fieldcolname = "user_name";
+			if ($fieldname == 'assigned_user_id') {
+				$fieldtablename = 'vtiger_users' . $module;
+				$fieldcolname = 'user_name';
 			}
-			if ($fieldname == "assigned_user_id1") {
-				$fieldtablename = "vtiger_usersRel1";
-				$fieldcolname = "user_name";
+			if ($fieldname == 'assigned_user_id1') {
+				$fieldtablename = 'vtiger_usersRel1';
+				$fieldcolname = 'user_name';
 			}
-			$fieldlabel = $adb->query_result($result, $i, "fieldlabel");
-			$fieldlabel1 = str_replace(" ", "__", $fieldlabel);
-			$optionvalue = $fieldtablename . ":" . $fieldcolname . ":" . $module . "__" . $fieldlabel1 . ":" . $fieldname . ":" . $fieldtypeofdata;
+			$fieldlabel = $adb->queryResult($result, $i, "fieldlabel");
+			$fieldlabel1 = str_replace(' ', '__', $fieldlabel);
+			$optionvalue = $fieldtablename . ':' . $fieldcolname . ':' . $module . '__' . $fieldlabel1 . ':' . $fieldname . ':' . $fieldtypeofdata;
 
-			$adv_rel_field_tod_value = '$' . $module . '#' . $fieldname . '$' . "::" . \App\Language::translate($module, $module) . " " . \App\Language::translate($fieldlabel, $module);
+			$adv_rel_field_tod_value = '$' . $module . '#' . $fieldname . '$' . '::' . \App\Language::translate($module, $module) . ' ' . \App\Language::translate($fieldlabel, $module);
 			if (!is_array($this->adv_rel_fields[$fieldtypeofdata]) ||
 				!in_array($adv_rel_field_tod_value, $this->adv_rel_fields[$fieldtypeofdata])) {
 				$this->adv_rel_fields[$fieldtypeofdata][] = $adv_rel_field_tod_value;
@@ -768,13 +768,13 @@ class Reports extends CRMEntity
 		$noofrows = $adb->numRows($result);
 
 		for ($i = 0; $i < $noofrows; $i++) {
-			$fieldcolname = $adb->query_result($result, $i, "columnname");
-			$sort_values = $adb->query_result($result, $i, "sortorder");
+			$fieldcolname = $adb->queryResult($result, $i, "columnname");
+			$sort_values = $adb->queryResult($result, $i, "sortorder");
 			$this->ascdescorder[] = $sort_values;
 			$array_list[] = $fieldcolname;
 		}
 
-		\App\Log::trace("Reports :: Successfully returned getSelctedSortingColumns");
+		\App\Log::trace('Reports :: Successfully returned getSelctedSortingColumns');
 		return $array_list;
 	}
 

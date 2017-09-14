@@ -26,7 +26,7 @@ function getPermittedBlocks($module, $disp_view)
 	$noofrows = $adb->numRows($result);
 	$blockid_list = '(';
 	for ($i = 0; $i < $noofrows; $i++) {
-		$blockid = $adb->query_result($result, $i, "blockid");
+		$blockid = $adb->queryResult($result, $i, "blockid");
 		if ($i != 0)
 			$blockid_list .= ', ';
 		$blockid_list .= $blockid;
@@ -75,9 +75,9 @@ function getFieldsListFromQuery($query)
 	$numRows = $adb->numRows($result);
 
 	for ($i = 0; $i < $numRows; $i++) {
-		$columnName = $adb->query_result($result, $i, "columnname");
-		$fieldlabel = $adb->query_result($result, $i, "fieldlabel");
-		$tablename = $adb->query_result($result, $i, "tablename");
+		$columnName = $adb->queryResult($result, $i, "columnname");
+		$fieldlabel = $adb->queryResult($result, $i, "fieldlabel");
+		$tablename = $adb->queryResult($result, $i, "tablename");
 
 		//HANDLE HERE - Mismatch fieldname-tablename in field table, in future we have to avoid these if elses
 		if ($columnName == 'smownerid') {//for all assigned to user name

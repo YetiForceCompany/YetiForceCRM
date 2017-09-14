@@ -79,7 +79,7 @@ class Vtiger_Report_Model extends Reports
 				$numOfSubRows = $db->numRows($subResult);
 
 				for ($i = 0; $i < $numOfSubRows; $i++) {
-					$subOrdinateUsers[] = $db->query_result($subResult, $i, 'userid');
+					$subOrdinateUsers[] = $db->queryResult($subResult, $i, 'userid');
 				}
 
 				// Update subordinate user information for re-use

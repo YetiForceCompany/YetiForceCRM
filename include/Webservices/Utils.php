@@ -93,7 +93,7 @@ function vtws_getCalendarEntityType($id)
 	$seType = 'Calendar';
 	if ($result !== null && isset($result)) {
 		if ($adb->numRows($result) > 0) {
-			$activityType = $adb->query_result($result, 0, 'activitytype');
+			$activityType = $adb->queryResult($result, 0, 'activitytype');
 			if ($activityType !== 'Task') {
 				$seType = 'Events';
 			}
@@ -329,9 +329,9 @@ function vtws_getActorEntityNameById($entityId, $idList)
 	if (is_object($result)) {
 		$rowCount = $db->numRows($result);
 		if ($rowCount > 0) {
-			$nameFields = $db->query_result($result, 0, 'name_fields');
-			$tableName = $db->query_result($result, 0, 'table_name');
-			$indexField = $db->query_result($result, 0, 'index_field');
+			$nameFields = $db->queryResult($result, 0, 'name_fields');
+			$tableName = $db->queryResult($result, 0, 'table_name');
+			$indexField = $db->queryResult($result, 0, 'index_field');
 			if (!(strpos($nameFields, ',') === false)) {
 				$fieldList = explode(',', $nameFields);
 				$nameFields = "concat(";
@@ -346,8 +346,8 @@ function vtws_getActorEntityNameById($entityId, $idList)
 			if (is_object($result)) {
 				$rowCount = $db->numRows($result);
 				for ($i = 0; $i < $rowCount; $i++) {
-					$id = $db->query_result($result, $i, $indexField);
-					$nameList[$id] = $db->query_result($result, $i, 'entityname');
+					$id = $db->queryResult($result, $i, $indexField);
+					$nameList[$id] = $db->queryResult($result, $i, 'entityname');
 				}
 				return $nameList;
 			}

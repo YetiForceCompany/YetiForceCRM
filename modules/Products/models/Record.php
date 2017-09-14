@@ -54,7 +54,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 
 		$numRowsCount = $db->numRows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
-			$subProductId = $db->query_result($result, $i, 'productid');
+			$subProductId = $db->queryResult($result, $i, 'productid');
 			$subProductList[] = Vtiger_Record_Model::getInstanceById($subProductId, 'Products');
 		}
 

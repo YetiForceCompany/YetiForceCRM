@@ -17,7 +17,7 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 
 		// czy to 'password'????
 		$isPassword = $request->get('field') == 'password' ? true : false;
-		// check if password was added thrue related module view        
+		// check if password was added thrue related module view
 		$isRelatedPassword = $request->get('password') != '' && $request->get('password') != '**********' ? true : false;
 
 		// check if encryption is enabled
@@ -40,12 +40,12 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 					\App\Log::trace('Get encrypted password.');
 					$sql = sprintf("SELECT AES_DECRYPT(`password`, '%s') AS pass FROM `vtiger_osspasswords` WHERE `osspasswordsid` = ?;", $config['key']);
 					$result = $db->pquery($sql, [$recordId], true);
-					$properPassword = $db->query_result($result, 0, 'pass');
+					$properPassword = $db->queryResult($result, 0, 'pass');
 				} else {  // encryption mode is off
 					\App\Log::trace('Get plain text password.');
 					$sql = "SELECT `password` AS pass FROM `vtiger_osspasswords` WHERE `osspasswordsid` = ?;";
 					$result = $db->pquery($sql, array($recordId), true);
-					$properPassword = $db->query_result($result, 0, 'pass');
+					$properPassword = $db->queryResult($result, 0, 'pass');
 					\App\Log::trace('Plain text pass: ' . $properPassword);
 				}
 			}

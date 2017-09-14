@@ -57,7 +57,7 @@ class Users_MassSave_Action extends Vtiger_MassSave_Action
 			if ($uNum > 0) {
 				$recordIds = [];
 				for ($i = 0; $i < $uNum; $i++) {
-					$recordIds[] = $db->query_result($result, $i, 'id');
+					$recordIds[] = $db->queryResult($result, $i, 'id');
 				}
 			}
 		}

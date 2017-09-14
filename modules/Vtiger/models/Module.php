@@ -1057,7 +1057,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 		$result = $db->pquery("SELECT cvid FROM vtiger_customview WHERE setdefault = 1 && entitytype = ?", array($this->getName()));
 		if ($db->numRows($result)) {
-			return $db->query_result($result, 0, 'cvid');
+			return $db->queryResult($result, 0, 'cvid');
 		}
 		return false;
 	}

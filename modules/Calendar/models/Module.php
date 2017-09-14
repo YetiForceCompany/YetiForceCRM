@@ -247,8 +247,8 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 
 		$userIds = [];
 		for ($i = 0; $i < $rows; $i++) {
-			$id = $db->query_result($result, $i, 'userid');
-			$userName = $db->query_result($result, $i, 'first_name') . ' ' . $db->query_result($result, $i, 'last_name');
+			$id = $db->queryResult($result, $i, 'userid');
+			$userName = $db->queryResult($result, $i, 'first_name') . ' ' . $db->queryResult($result, $i, 'last_name');
 			$userIds[$id] = $userName;
 		}
 

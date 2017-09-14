@@ -452,7 +452,7 @@ class PearDatabase
 		return $this->stmt->rowCount();
 	}
 
-	public function query_result(&$result, $row, $col = 0)
+	public function queryResult(&$result, $row, $col = 0)
 	{
 		return $this->query_result_raw($result, $row, $col);
 	}

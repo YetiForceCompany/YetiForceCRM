@@ -14,25 +14,25 @@ class Vtiger_RelationListView_Model extends \App\Base
 
 	/**
 	 * Relation model instance
-	 * @var Vtiger_Relation_Model 
+	 * @var Vtiger_Relation_Model
 	 */
 	protected $relationModel;
 
 	/**
 	 * Parent record model instance
-	 * @var Vtiger_Record_Model 
+	 * @var Vtiger_Record_Model
 	 */
 	protected $parentRecordModel;
 
 	/**
 	 * Related module model instance
-	 * @var Vtiger_Module_Model 
+	 * @var Vtiger_Module_Model
 	 */
 	protected $relatedModuleModel;
 
 	/**
 	 * Mandatory columns
-	 * @var array 
+	 * @var array
 	 */
 	protected $mandatoryColumns = [];
 
@@ -222,7 +222,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 	 */
 	public function getEntryExtend(Vtiger_Record_Model $recordModel)
 	{
-		
+
 	}
 
 	/**
@@ -517,7 +517,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 				$query .= "SELECT currency_id FROM vtiger_service WHERE serviceid = ?)";
 
 			$result = $db->pquery($query, array($recordId));
-			return $db->query_result($result, 0, 'currency_symbol');
+			return $db->queryResult($result, 0, 'currency_symbol');
 		} else {
 			$fieldInfo = $fieldModel->getFieldInfo();
 			return $fieldInfo['currency_symbol'];

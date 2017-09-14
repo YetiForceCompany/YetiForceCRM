@@ -370,9 +370,9 @@ class Activity extends CRMEntity
 		$numberOfRows = $db->numRows($result);
 		if ($numberOfRows !== 0) {
 			for ($j = 0; $j < $numberOfRows; $j++) {
-				$userId[] = $db->query_result($result, $j, 'userid');
+				$userId[] = $db->queryResult($result, $j, 'userid');
 			}
-			$sharedIds = implode(',', $useryd);
+			$sharedIds = implode(',', $userId);
 		}
 		$userId[] = $sharedId;
 		$sharedIds = implode(',', $userId);

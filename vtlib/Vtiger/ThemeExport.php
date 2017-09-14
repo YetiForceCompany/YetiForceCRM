@@ -189,7 +189,7 @@ class ThemeExport extends Package
 				'lastupdated' => $datetime,
 				'isdefault' => $useisdefault,
 				'active' => $useisactive,
-				], 'id=?', [$adb->query_result($checkres, 0, 'id')]
+				], 'id=?', [$adb->queryResult($checkres, 0, 'id')]
 			);
 		} else {
 			$adb->insert(self::TABLENAME, [

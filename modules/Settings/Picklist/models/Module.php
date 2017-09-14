@@ -138,11 +138,11 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$pickListValuesResult = $db->pquery($valuesOfDeleteIds, array($valueToDeleteId));
 		$numRows = $db->numRows($pickListValuesResult);
 		for ($i = 0; $i < $numRows; $i++) {
-			$pickListValues[] = App\Purifier::decodeHtml($db->query_result($pickListValuesResult, $i, $pickListFieldName));
+			$pickListValues[] = App\Purifier::decodeHtml($db->queryResult($pickListValuesResult, $i, $pickListFieldName));
 		}
 
 		$replaceValueQuery = $db->pquery("SELECT $pickListFieldName FROM " . $this->getPickListTableName($pickListFieldName) . " WHERE $primaryKey IN (" . generateQuestionMarks($replaceValueId) . ")", array($replaceValueId));
-		$replaceValue = App\Purifier::decodeHtml($db->query_result($replaceValueQuery, 0, $pickListFieldName));
+		$replaceValue = App\Purifier::decodeHtml($db->queryResult($replaceValueQuery, 0, $pickListFieldName));
 
 		//As older look utf8 characters are pushed as html-entities,and in new utf8 characters are pushed to database
 		//so we are checking for both the values
@@ -155,7 +155,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			$result = $db->pquery($query, $valueToDeleteId);
 			$numRows = $db->numRows($result);
 			for ($i = 0; $i < $numRows; $i++) {
-				$picklistValueIdToDelete[] = $db->query_result($result, $i, 'picklist_valueid');
+				$picklistValueIdToDelete[] = $db->queryResult($result, $i, 'picklist_valueid');
 			}
 			$db->delete('vtiger_role2picklist', 'picklistvalueid IN (' . generateQuestionMarks($picklistValueIdToDelete) . ')', $picklistValueIdToDelete);
 		}

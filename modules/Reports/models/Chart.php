@@ -16,7 +16,7 @@ class Reports_Chart_Model extends \App\Base
 		$self = new self();
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM vtiger_reporttype WHERE reportid = ?', array($reportModel->getId()));
-		$data = $db->query_result($result, 0, 'data');
+		$data = $db->queryResult($result, 0, 'data');
 		if (!empty($data)) {
 			$decodeData = \App\Json::decode(App\Purifier::decodeHtml($data));
 			$self->setData($decodeData);

@@ -357,7 +357,7 @@ class Functions
 		$adb = \PearDatabase::getInstance();
 		$sql = "select tandc from vtiger_inventory_tandc";
 		$result = $adb->pquery($sql, []);
-		$tandc = $adb->query_result($result, 0, "tandc");
+		$tandc = $adb->queryResult($result, 0, "tandc");
 		return $tandc;
 	}
 
@@ -403,7 +403,7 @@ class Functions
 		$result = $adb->pquery($sql, array($ticketid));
 		$countResult = $adb->numRows($result);
 		for ($i = 0; $i < $countResult; $i++) {
-			$comment = $adb->query_result($result, $i, 'commentcontent');
+			$comment = $adb->queryResult($result, $i, 'commentcontent');
 			if ($comment != '') {
 				$commentlist .= '<br /><br />' . $comment;
 			}
@@ -496,8 +496,8 @@ class Functions
 	{
 		$adb = \PearDatabase::getInstance();
 		$query = "select activitytype from vtiger_activity where activityid=?";
-		$res = $adb->pquery($query, array($id));
-		$activity_type = $adb->query_result($res, 0, "activitytype");
+		$res = $adb->pquery($query, [$id]);
+		$activity_type = $adb->queryResult($res, 0, "activitytype");
 		return $activity_type;
 	}
 
@@ -535,7 +535,7 @@ class Functions
 			$query = "select unit_price from vtiger_products where productid=?";
 		}
 		$result = $adb->pquery($query, array($productid));
-		$unitpice = $adb->query_result($result, 0, 'unit_price');
+		$unitpice = $adb->queryResult($result, 0, 'unit_price');
 		return $unitpice;
 	}
 

@@ -166,10 +166,10 @@ class OSSEmployees extends Vtiger_CRMEntity
 		$params = array($id);
 		$res = $adb->pquery($query, $params);
 		if ($adb->numRows($res) > 0 &&
-			$adb->query_result($res, 0, 'parentid') != '' && $adb->query_result($res, 0, 'parentid') != 0 &&
-			!in_array($adb->query_result($res, 0, 'parentid'), $encountered_accounts)) {
+			$adb->queryResult($res, 0, 'parentid') != '' && $adb->queryResult($res, 0, 'parentid') != 0 &&
+			!in_array($adb->queryResult($res, 0, 'parentid'), $encountered_accounts)) {
 
-			$parentid = $adb->query_result($res, 0, 'parentid');
+			$parentid = $adb->queryResult($res, 0, 'parentid');
 			$encountered_accounts[] = $parentid;
 			$this->__getParentEmployees($parentid, $parent_accounts, $encountered_accounts);
 		}
@@ -189,16 +189,16 @@ class OSSEmployees extends Vtiger_CRMEntity
 		$res = $adb->pquery($query, $params);
 		$parent_account_info = [];
 		$depth = 0;
-		$immediate_parentid = $adb->query_result($res, 0, 'parentid');
+		$immediate_parentid = $adb->queryResult($res, 0, 'parentid');
 		if (isset($parent_accounts[$immediate_parentid])) {
 			$depth = $parent_accounts[$immediate_parentid]['depth'] + 1;
 		}
 		$parent_account_info['depth'] = $depth;
 		foreach ($this->list_fields_name as $fieldname => $columnname) {
 			if ($columnname == 'assigned_user_id') {
-				$parent_account_info[$columnname] = $adb->query_result($res, 0, 'user_name');
+				$parent_account_info[$columnname] = $adb->queryResult($res, 0, 'user_name');
 			} else {
-				$parent_account_info[$columnname] = $adb->query_result($res, 0, $columnname);
+				$parent_account_info[$columnname] = $adb->queryResult($res, 0, $columnname);
 			}
 		}
 		$parent_accounts[$id] = $parent_account_info;
@@ -229,7 +229,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 		if ($numRows > 0) {
 			$depth = $depth + 1;
 			for ($i = 0; $i < $numRows; $i++) {
-				$child_acc_id = $adb->query_result($res, $i, 'ossemployeesid');
+				$child_acc_id = $adb->queryResult($res, $i, 'ossemployeesid');
 				if (array_key_exists($child_acc_id, $child_accounts)) {
 					continue;
 				}
@@ -237,9 +237,9 @@ class OSSEmployees extends Vtiger_CRMEntity
 				$child_account_info['depth'] = $depth;
 				foreach ($this->list_fields_name as $fieldname => $columnname) {
 					if ($columnname == 'assigned_user_id') {
-						$child_account_info[$columnname] = $adb->query_result($res, $i, 'user_name');
+						$child_account_info[$columnname] = $adb->queryResult($res, $i, 'user_name');
 					} else {
-						$child_account_info[$columnname] = $adb->query_result($res, $i, $columnname);
+						$child_account_info[$columnname] = $adb->queryResult($res, $i, $columnname);
 					}
 				}
 				$child_accounts[$child_acc_id] = $child_account_info;

@@ -251,8 +251,8 @@ class PackageExport
 		$maxVersion = false;
 		$noOfPreferences = $adb->numRows($sqlResult);
 		for ($i = 0; $i < $noOfPreferences; ++$i) {
-			$prefName = $adb->query_result($sqlResult, $i, 'prefname');
-			$prefValue = $adb->query_result($sqlResult, $i, 'prefvalue');
+			$prefName = $adb->queryResult($sqlResult, $i, 'prefname');
+			$prefValue = $adb->queryResult($sqlResult, $i, 'prefvalue');
 			if ($prefName == 'vtiger_min_version') {
 				$minVersion = $prefValue;
 			}
@@ -381,17 +381,17 @@ class PackageExport
 
 		$this->openNode('blocks');
 		for ($index = 0; $index < $resultrows; ++$index) {
-			$blockid = $adb->query_result($sqlresult, $index, 'blockid');
-			$blocklabel = $adb->query_result($sqlresult, $index, 'blocklabel');
-			$block_sequence = $adb->query_result($sqlresult, $index, 'sequence');
-			$block_show_title = $adb->query_result($sqlresult, $index, 'show_title');
-			$block_visible = $adb->query_result($sqlresult, $index, 'visible');
-			$block_create_view = $adb->query_result($sqlresult, $index, 'create_view');
-			$block_edit_view = $adb->query_result($sqlresult, $index, 'edit_view');
-			$block_detail_view = $adb->query_result($sqlresult, $index, 'detail_view');
-			$block_display_status = $adb->query_result($sqlresult, $index, 'display_status');
-			$block_iscustom = $adb->query_result($sqlresult, $index, 'iscustom');
-			$block_islist = $adb->query_result($sqlresult, $index, 'islist');
+			$blockid = $adb->queryResult($sqlresult, $index, 'blockid');
+			$blocklabel = $adb->queryResult($sqlresult, $index, 'blocklabel');
+			$block_sequence = $adb->queryResult($sqlresult, $index, 'sequence');
+			$block_show_title = $adb->queryResult($sqlresult, $index, 'show_title');
+			$block_visible = $adb->queryResult($sqlresult, $index, 'visible');
+			$block_create_view = $adb->queryResult($sqlresult, $index, 'create_view');
+			$block_edit_view = $adb->queryResult($sqlresult, $index, 'edit_view');
+			$block_detail_view = $adb->queryResult($sqlresult, $index, 'detail_view');
+			$block_display_status = $adb->queryResult($sqlresult, $index, 'display_status');
+			$block_iscustom = $adb->queryResult($sqlresult, $index, 'iscustom');
+			$block_islist = $adb->queryResult($sqlresult, $index, 'islist');
 
 			$this->openNode('block');
 			$this->outputNode($blocklabel, 'label');
@@ -428,7 +428,7 @@ class PackageExport
 			return;
 
 		$entityresult = $adb->pquery("SELECT * FROM vtiger_entityname WHERE tabid=?", Array($moduleInstance->id));
-		$entity_fieldname = $adb->query_result($entityresult, 0, 'fieldname');
+		$entity_fieldname = $adb->queryResult($entityresult, 0, 'fieldname');
 
 		$this->openNode('fields');
 		for ($index = 0; $index < $fieldcount; ++$index) {
@@ -471,8 +471,8 @@ class PackageExport
 			// Export Entity Identifier Information
 			if ($fieldname == $entity_fieldname) {
 				$this->openNode('entityidentifier');
-				$this->outputNode($adb->query_result($entityresult, 0, 'entityidfield'), 'entityidfield');
-				$this->outputNode($adb->query_result($entityresult, 0, 'entityidcolumn'), 'entityidcolumn');
+				$this->outputNode($adb->queryResult($entityresult, 0, 'entityidfield'), 'entityidfield');
+				$this->outputNode($adb->queryResult($entityresult, 0, 'entityidcolumn'), 'entityidcolumn');
 				$this->closeNode('entityidentifier');
 			}
 
@@ -497,7 +497,7 @@ class PackageExport
 				if ($relatedmodcount) {
 					$this->openNode('relatedmodules');
 					for ($relmodidx = 0; $relmodidx < $relatedmodcount; ++$relmodidx) {
-						$this->outputNode($adb->query_result($relatedmodres, $relmodidx, 'relmodule'), 'relatedmodule');
+						$this->outputNode($adb->queryResult($relatedmodres, $relmodidx, 'relmodule'), 'relatedmodule');
 					}
 					$this->closeNode('relatedmodules');
 				}
@@ -609,7 +609,7 @@ class PackageExport
 		$this->openNode('sharingaccess');
 		if ($deforgshareCount) {
 			for ($index = 0; $index < $deforgshareCount; ++$index) {
-				$permission = $adb->query_result($deforgshare, $index, 'permission');
+				$permission = $adb->queryResult($deforgshare, $index, 'permission');
 				$permissiontext = '';
 				if ($permission == '0')
 					$permissiontext = 'public_readonly';

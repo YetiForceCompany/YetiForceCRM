@@ -207,13 +207,13 @@ class ModTracker
 		$rows = $adb->numRows($result);
 
 		for ($i = 0; $i < $rows; $i++) {
-			$status = $adb->query_result($result, $i, 'status');
+			$status = $adb->queryResult($result, $i, 'status');
 
-			$record['uniqueid'] = $adb->query_result($result, $i, 'id');
-			$record['modifiedtime'] = $adb->query_result($result, $i, 'modifiedtime');
-			$record['module'] = $adb->query_result($result, $i, 'module');
-			$record['crmid'] = $adb->query_result($result, $i, 'crmid');
-			$record['assigneduserid'] = $adb->query_result($result, $i, 'smownerid');
+			$record['uniqueid'] = $adb->queryResult($result, $i, 'id');
+			$record['modifiedtime'] = $adb->queryResult($result, $i, 'modifiedtime');
+			$record['module'] = $adb->queryResult($result, $i, 'module');
+			$record['crmid'] = $adb->queryResult($result, $i, 'crmid');
+			$record['assigneduserid'] = $adb->queryResult($result, $i, 'smownerid');
 
 			if ($status == ModTracker::$DELETED) {
 				$deletedRecords[] = $record;
@@ -287,13 +287,13 @@ class ModTracker
                         WHERE crmid = ? && changedon >= ?', array($crmid, $date));
 		$countFieldResult = $adb->numRows($fieldResult);
 		for ($i = 0; $i < $countFieldResult; $i++) {
-			$fieldName = $adb->query_result($fieldResult, $i, 'fieldname');
+			$fieldName = $adb->queryResult($fieldResult, $i, 'fieldname');
 			if ($fieldName == 'record_id' || $fieldName == 'record_module' ||
 				$fieldName == 'createdtime')
 				continue;
 
-			$field['postvalue'] = $adb->query_result($fieldResult, $i, 'postvalue');
-			$field['prevalue'] = $adb->query_result($fieldResult, $i, 'prevalue');
+			$field['postvalue'] = $adb->queryResult($fieldResult, $i, 'postvalue');
+			$field['prevalue'] = $adb->queryResult($fieldResult, $i, 'prevalue');
 			if ($decodeHTML) {
 				$field['postvalue'] = App\Purifier::decodeHtml($field['postvalue']);
 				$field['prevalue'] = App\Purifier::decodeHtml($field['prevalue']);

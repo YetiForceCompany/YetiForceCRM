@@ -391,7 +391,7 @@ class WebserviceField
 			$numRows = $db->numRows($result);
 			for ($i = 0; $i < $numRows; ++$i) {
 				$elem = [];
-				$picklistValue = $db->query_result($result, $i, $fieldName);
+				$picklistValue = $db->queryResult($result, $i, $fieldName);
 				$picklistValue = App\Purifier::decodeHtml($picklistValue);
 				$moduleName = \App\Module::getModuleName($this->getTabId());
 				if ($moduleName == 'Events')

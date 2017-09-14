@@ -219,7 +219,7 @@ function vtlib_getPicklistValues_AccessibleToAll($fieldColumnname)
 	$allroles = [];
 	if ($roleresCount) {
 		for ($index = 0; $index < $roleresCount; ++$index)
-			$allroles[] = $adb->query_result($roleres, $index, 'roleid');
+			$allroles[] = $adb->queryResult($roleres, $index, 'roleid');
 	}
 	sort($allroles);
 
