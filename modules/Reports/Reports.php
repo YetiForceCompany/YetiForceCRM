@@ -99,7 +99,7 @@ class Reports extends CRMEntity
 
 				$result = $adb->pquery($ssql, $params);
 				if ($result && $adb->numRows($result)) {
-					$reportmodulesrow = $adb->fetch_array($result);
+					$reportmodulesrow = $adb->fetchArray($result);
 
 					// Update information in cache now
 					VTCacheUtils::updateReportInfo(
@@ -198,7 +198,7 @@ class Reports extends CRMEntity
 				$reportblocks = $adb->pquery($query, [$moduleids]);
 				$prev_block_label = '';
 				if ($adb->numRows($reportblocks)) {
-					while ($resultrow = $adb->fetch_array($reportblocks)) {
+					while ($resultrow = $adb->fetchArray($reportblocks)) {
 						$blockid = $resultrow['blockid'];
 						$blocklabel = $resultrow['blocklabel'];
 						$module = $this->module_id[$resultrow['tabid']];
@@ -234,7 +234,7 @@ class Reports extends CRMEntity
 					AND vtiger_tab.presence = 0", generateQuestionMarks($restricted_modules), generateQuestionMarks($restricted_modules));
 				$relatedmodules = $adb->pquery($query, [$restricted_modules, $restricted_modules]);
 				if ($adb->numRows($relatedmodules)) {
-					while ($resultrow = $adb->fetch_array($relatedmodules)) {
+					while ($resultrow = $adb->fetchArray($relatedmodules)) {
 						$module = $this->module_id[$resultrow['tabid']];
 
 						if (!isset($this->related_modules[$module])) {
@@ -282,7 +282,7 @@ class Reports extends CRMEntity
 		$returndata = [];
 		$sql = "select * from vtiger_reportfolder order by folderid";
 		$result = $adb->pquery($sql, []);
-		$reportfldrow = $adb->fetch_array($result);
+		$reportfldrow = $adb->fetchArray($result);
 		if ($mode != '') {
 			// Fetch detials of all reports of folder at once
 			$reportsInAllFolders = $this->sgetRptsforFldr(false);
@@ -299,7 +299,7 @@ class Reports extends CRMEntity
 					$details['details'] = $reportsInAllFolders[$reportfldrow["folderid"]];
 					$returndata[] = $details;
 				}
-			} while ($reportfldrow = $adb->fetch_array($result));
+			} while ($reportfldrow = $adb->fetchArray($result));
 		} else {
 			do {
 				$details = [];
@@ -310,7 +310,7 @@ class Reports extends CRMEntity
 				$details['fname'] = popup_decode_html($details['name']);
 				$details['fdescription'] = popup_decode_html($reportfldrow["description"]);
 				$returndata[] = $details;
-			} while ($reportfldrow = $adb->fetch_array($result));
+			} while ($reportfldrow = $adb->fetchArray($result));
 		}
 
 		\App\Log::trace("Reports :: ListView->Successfully returned vtiger_report folder HTML");
@@ -340,7 +340,7 @@ class Reports extends CRMEntity
 			$sql .= " LIMIT " . ($pageLimit + 1) . ' OFFSET ' . $startIndex;
 		}
 		$result = $adb->pquery($sql, $params);
-		$report = $adb->fetch_array($result);
+		$report = $adb->fetchArray($result);
 		if (count($report) > 0) {
 			do {
 				$report_details = [];
@@ -362,7 +362,7 @@ class Reports extends CRMEntity
 				if (\App\Privilege::isPermitted($report['primarymodule'], 'index')) {
 					$returndata[] = $report_details;
 				}
-			} while ($report = $adb->fetch_array($result));
+			} while ($report = $adb->fetchArray($result));
 		}
 		\App\Log::trace("Reports :: ListView->Successfully returned vtiger_report details HTML");
 		return $returndata;
@@ -424,7 +424,7 @@ class Reports extends CRMEntity
 		}
 		$result = $adb->pquery($sql, $params);
 
-		$report = $adb->fetch_array($result);
+		$report = $adb->fetchArray($result);
 		$numRows = $adb->getRowCount($result);
 		if ($numRows) {
 			do {
@@ -447,7 +447,7 @@ class Reports extends CRMEntity
 				if (\App\Privilege::isPermitted($report['primarymodule'], 'index')) {
 					$returndata [$report['folderid']][] = $report_details;
 				}
-			} while ($report = $adb->fetch_array($result));
+			} while ($report = $adb->fetchArray($result));
 		}
 
 		if ($rpt_fldr_id !== false) {
@@ -647,7 +647,7 @@ class Reports extends CRMEntity
 		$adb = PearDatabase::getInstance();
 		$sSQL = "select vtiger_reportdatefilter.* from vtiger_reportdatefilter inner join vtiger_report on vtiger_report.reportid = vtiger_reportdatefilter.datefilterid where vtiger_report.reportid=?";
 		$result = $adb->pquery($sSQL, array($reportid));
-		$selectedstdfilter = $adb->fetch_array($result);
+		$selectedstdfilter = $adb->fetchArray($result);
 
 		$this->stdselectedcolumn = $selectedstdfilter["datecolumnname"];
 		$this->stdselectedfilter = $selectedstdfilter["datefilter"];
@@ -742,7 +742,7 @@ class Reports extends CRMEntity
 		$result = $adb->pquery($query, $params);
 
 
-		while ($collistrow = $adb->fetch_array($result)) {
+		while ($collistrow = $adb->fetchArray($result)) {
 			$access_fields[] = $collistrow["fieldname"];
 		}
 		return $access_fields;
@@ -800,7 +800,7 @@ class Reports extends CRMEntity
 		array_push($selected_mod, $this->primodule);
 
 		$inventoryModules = getInventoryModules();
-		while ($columnslistrow = $adb->fetch_array($result)) {
+		while ($columnslistrow = $adb->fetchArray($result)) {
 			$fieldname = '';
 			$fieldcolname = $columnslistrow['columnname'];
 
@@ -852,7 +852,7 @@ class Reports extends CRMEntity
 
 		$i = 1;
 		$j = 0;
-		while ($relcriteriagroup = $adb->fetch_array($groupsresult)) {
+		while ($relcriteriagroup = $adb->fetchArray($groupsresult)) {
 			$groupId = $relcriteriagroup["groupid"];
 			$groupCondition = $relcriteriagroup["group_condition"];
 
@@ -867,7 +867,7 @@ class Reports extends CRMEntity
 			if ($noOfColumns <= 0)
 				continue;
 
-			while ($relcriteriarow = $adb->fetch_array($result)) {
+			while ($relcriteriarow = $adb->fetchArray($result)) {
 				$criteria = [];
 				$criteria['columnname'] = $relcriteriarow["columnname"];
 				$criteria['comparator'] = $relcriteriarow["comparator"];
@@ -941,10 +941,10 @@ class Reports extends CRMEntity
 
 		$sql = "select * from vtiger_reportfolder order by folderid";
 		$result = $adb->pquery($sql, []);
-		$reportfldrow = $adb->fetch_array($result);
+		$reportfldrow = $adb->fetchArray($result);
 		do {
 			$shtml .= "<option value='" . $reportfldrow['folderid'] . "'>" . $reportfldrow['foldername'] . "</option>";
-		} while ($reportfldrow = $adb->fetch_array($result));
+		} while ($reportfldrow = $adb->fetchArray($result));
 
 		\App\Log::trace("Reports :: Successfully returned sgetRptFldrSaveReport");
 		return $shtml;
@@ -982,11 +982,11 @@ class Reports extends CRMEntity
 			$ssql = "select vtiger_reportsummary.* from vtiger_reportsummary inner join vtiger_report on vtiger_report.reportid = vtiger_reportsummary.reportsummaryid where vtiger_report.reportid=?";
 			$result = $adb->pquery($ssql, array($reportid));
 			if ($result) {
-				$reportsummaryrow = $adb->fetch_array($result);
+				$reportsummaryrow = $adb->fetchArray($result);
 
 				do {
 					$this->columnssummary[] = $reportsummaryrow["columnname"];
-				} while ($reportsummaryrow = $adb->fetch_array($result));
+				} while ($reportsummaryrow = $adb->fetchArray($result));
 			}
 		}
 		$options [] = $this->sgetColumnstoTotalHTML($primarymodule, 0);
@@ -1050,7 +1050,7 @@ class Reports extends CRMEntity
 		$ssql .= " order by sequence";
 
 		$result = $adb->pquery($ssql, $sparams);
-		$columntototalrow = $adb->fetch_array($result);
+		$columntototalrow = $adb->fetchArray($result);
 		$options_list = [];
 		do {
 			$typeofdata = explode("~", $columntototalrow["typeofdata"]);
@@ -1110,7 +1110,7 @@ class Reports extends CRMEntity
 				}
 				$options_list [] = $options;
 			}
-		} while ($columntototalrow = $adb->fetch_array($result));
+		} while ($columntototalrow = $adb->fetchArray($result));
 
 		\App\Log::trace("Reports :: Successfully returned sgetColumnstoTotalHTML");
 		return $options_list;

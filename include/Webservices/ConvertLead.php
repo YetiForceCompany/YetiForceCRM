@@ -147,7 +147,7 @@ function vtws_populateConvertLeadEntities($entityvalue, $entity, Vtiger_Record_M
 			default:$column = 'leadfid';
 				break;
 		}
-		$row = $adb->fetch_array($result);
+		$row = $adb->fetchArray($result);
 		$count = 1;
 		foreach ($targetModuleModel->getFields() as $fieldname => $field) {
 			$defaultvalue = $field->getDefaultFieldValue();
@@ -168,7 +168,7 @@ function vtws_populateConvertLeadEntities($entityvalue, $entity, Vtiger_Record_M
 			$entityFieldName = $entityField->getFieldName();
 			$entity[$entityFieldName] = $leadinfo[$leadFieldName];
 			$count++;
-		} while ($row = $adb->fetch_array($result));
+		} while ($row = $adb->fetchArray($result));
 
 		foreach ($entityvalue as $fieldname => $fieldvalue) {
 			if (!empty($fieldvalue)) {

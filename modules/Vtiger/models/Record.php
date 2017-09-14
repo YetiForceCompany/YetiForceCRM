@@ -951,7 +951,7 @@ class Vtiger_Record_Model extends \App\Base
 		$table = $inventoryField->getTableName('data');
 		$result = $db->pquery(sprintf('SELECT * FROM %s WHERE id = ? ORDER BY seq', $table), [$ID]);
 		$fields = [];
-		while ($row = $db->fetch_array($result)) {
+		while ($row = $db->fetchArray($result)) {
 			$fields[] = $row;
 		}
 		return $fields;

@@ -28,7 +28,7 @@ function vtlib_prefetchModuleActiveInfo($force = true)
 		$tabres = $adb->query("SELECT * FROM vtiger_tab");
 		$tabrows = [];
 		if ($tabres) {
-			while ($tabresrow = $adb->fetch_array($tabres)) {
+			while ($tabresrow = $adb->fetchArray($tabres)) {
 				$tabrows[] = $tabresrow;
 			}
 			// Update cache for further re-use

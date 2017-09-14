@@ -300,7 +300,7 @@ class ReportRun extends CRMEntity
 		$result = $adb->pquery($ssql, array($reportid));
 		$permitted_fields = [];
 
-		while ($columnslistrow = $adb->fetch_array($result)) {
+		while ($columnslistrow = $adb->fetchArray($result)) {
 			$fieldname = '';
 			$fieldcolname = $columnslistrow['columnname'];
 			list($tablename, $colname, $module_field, $fieldname, $single) = explode(':', $fieldcolname);
@@ -580,7 +580,7 @@ class ReportRun extends CRMEntity
 		}
 		$result = $adb->pquery($query, $params);
 
-		while ($collistrow = $adb->fetch_array($result)) {
+		while ($collistrow = $adb->fetchArray($result)) {
 			$access_fields[] = $collistrow["fieldname"];
 		}
 		//added to include ticketid for Reports module in select columnlist for all users
@@ -825,9 +825,9 @@ class ReportRun extends CRMEntity
 
 		$i = 1;
 		$j = 0;
-		while ($relcriteriagroup = $adb->fetch_array($groupsresult)) {
-			$groupId = $relcriteriagroup["groupid"];
-			$groupCondition = $relcriteriagroup["group_condition"];
+		while ($relcriteriagroup = $adb->fetchArray($groupsresult)) {
+			$groupId = $relcriteriagroup['groupid'];
+			$groupCondition = $relcriteriagroup['group_condition'];
 
 			$ssql = 'select vtiger_relcriteria.* from vtiger_report
 						inner join vtiger_relcriteria on vtiger_relcriteria.queryid = vtiger_report.queryid
@@ -840,7 +840,7 @@ class ReportRun extends CRMEntity
 			if ($noOfColumns <= 0)
 				continue;
 
-			while ($relcriteriarow = $adb->fetch_array($result)) {
+			while ($relcriteriarow = $adb->fetchArray($result)) {
 				$criteria = [];
 				$criteria['columnname'] = html_entity_decode($relcriteriarow["columnname"]);
 				$criteria['comparator'] = $relcriteriarow["comparator"];
@@ -1288,7 +1288,7 @@ class ReportRun extends CRMEntity
 		$stdfiltersql .= " where vtiger_report.reportid = ?";
 
 		$result = $adb->pquery($stdfiltersql, array($reportid));
-		$stdfilterrow = $adb->fetch_array($result);
+		$stdfilterrow = $adb->fetchArray($result);
 		if (isset($stdfilterrow)) {
 			$fieldcolname = $stdfilterrow["datecolumnname"];
 			$datefilter = $stdfilterrow["datefilter"];
@@ -1543,7 +1543,7 @@ class ReportRun extends CRMEntity
 		$grouplist = [];
 
 		$inventoryModules = getInventoryModules();
-		while ($reportsortrow = $adb->fetch_array($result)) {
+		while ($reportsortrow = $adb->fetchArray($result)) {
 			$fieldcolname = $reportsortrow["columnname"];
 			list($tablename, $colname, $module_field, $fieldname, $single) = explode(':', $fieldcolname);
 			$sortorder = $reportsortrow["sortorder"];
@@ -2386,7 +2386,7 @@ class ReportRun extends CRMEntity
 				// END
 
 				$noofrows = $adb->numRows($result);
-				$custom_field_values = $adb->fetch_array($result);
+				$custom_field_values = $adb->fetchArray($result);
 				$groupslist = $this->getGroupingList($this->reportid);
 
 				do {
@@ -2480,7 +2480,7 @@ class ReportRun extends CRMEntity
 					$thirdvalue = $tnewvalue;
 					$arr_val[] = $arraylists;
 					set_time_limit($php_max_execution_time);
-				} while ($custom_field_values = $adb->fetch_array($result));
+				} while ($custom_field_values = $adb->fetchArray($result));
 
 				// Performance Optimization: Provide feedback on export option if required
 				// NOTE: We should make sure to pull at-least 1 row more than max-limit for this to work.
@@ -2539,7 +2539,7 @@ class ReportRun extends CRMEntity
 			if ($result) {
 				$y = $adb->getFieldsCount($result);
 				$noofrows = $adb->numRows($result);
-				$custom_field_values = $adb->fetch_array($result);
+				$custom_field_values = $adb->fetchArray($result);
 
 				do {
 					$arraylists = [];
@@ -2566,7 +2566,7 @@ class ReportRun extends CRMEntity
 					}
 					$arr_val[] = $arraylists;
 					set_time_limit($php_max_execution_time);
-				} while ($custom_field_values = $adb->fetch_array($result));
+				} while ($custom_field_values = $adb->fetchArray($result));
 
 				$data['data'] = $arr_val;
 				$data['count'] = $noofrows;
@@ -2580,7 +2580,7 @@ class ReportRun extends CRMEntity
 				if ($sSQL != "") {
 					$result = $adb->query($sSQL);
 					$y = $adb->getFieldsCount($result);
-					$custom_field_values = $adb->fetch_array($result);
+					$custom_field_values = $adb->fetchArray($result);
 
 					foreach ($this->totallist as $key => $value) {
 						$fieldlist = explode(":", $key);
@@ -2678,7 +2678,7 @@ class ReportRun extends CRMEntity
 				if ($sSQL != "") {
 					$result = $adb->query($sSQL);
 					$y = $adb->getFieldsCount($result);
-					$custom_field_values = $adb->fetch_array($result);
+					$custom_field_values = $adb->fetchArray($result);
 					$coltotalhtml .= "<table align='center' width='60%' cellpadding='3' cellspacing='0' border='0' class='rptTable'><tr><td class='rptCellLabel'>" . $mod_strings[Totals] . "</td><td class='rptCellLabel'>" . $mod_strings[SUM] . "</td><td class='rptCellLabel'>" . $mod_strings[AVG] . "</td><td class='rptCellLabel'>" . $mod_strings[MIN] . "</td><td class='rptCellLabel'>" . $mod_strings[MAX] . "</td></tr>";
 
 					// Performation Optimization: If Direct output is desired
@@ -2812,7 +2812,7 @@ class ReportRun extends CRMEntity
 					$header .= "<th>" . $headerLabel . "</th>";
 				}
 				$noofrows = $adb->numRows($result);
-				$custom_field_values = $adb->fetch_array($result);
+				$custom_field_values = $adb->fetchArray($result);
 				$groupslist = $this->getGroupingList($this->reportid);
 
 				do {
@@ -2874,7 +2874,7 @@ class ReportRun extends CRMEntity
 					$thirdvalue = $tnewvalue;
 					$arr_val[] = $arraylists;
 					set_time_limit($php_max_execution_time);
-				} while ($custom_field_values = $adb->fetch_array($result));
+				} while ($custom_field_values = $adb->fetchArray($result));
 
 				$sHTML = '<tr>' . $header . '</tr>' . $valtemplate;
 				$return_data[] = $sHTML;
@@ -2888,7 +2888,7 @@ class ReportRun extends CRMEntity
 				if ($sSQL != "") {
 					$result = $adb->query($sSQL);
 					$y = $adb->getFieldsCount($result);
-					$custom_field_values = $adb->fetch_array($result);
+					$custom_field_values = $adb->fetchArray($result);
 
 					$coltotalhtml .= "<br /><table align='center' width='60%' cellpadding='3' cellspacing='0' border='1' class='printReport'><tr><td class='rptCellLabel'>" . $mod_strings['Totals'] . "</td><td><b>" . $mod_strings['SUM'] . "</b></td><td><b>" . $mod_strings['AVG'] . "</b></td><td><b>" . $mod_strings['MIN'] . "</b></td><td><b>" . $mod_strings['MAX'] . "</b></td></tr>";
 
@@ -3013,7 +3013,7 @@ class ReportRun extends CRMEntity
 
 		$query = "select * from vtiger_reportmodules where reportmodulesid =?";
 		$res = $adb->pquery($query, array($reportid));
-		$modrow = $adb->fetch_array($res);
+		$modrow = $adb->fetchArray($res);
 		$premod = $modrow["primarymodule"];
 		$secmod = $modrow["secondarymodules"];
 		$coltotalsql = "select vtiger_reportsummary.* from vtiger_report";
@@ -3022,7 +3022,7 @@ class ReportRun extends CRMEntity
 
 		$result = $adb->pquery($coltotalsql, array($reportid));
 
-		while ($coltotalrow = $adb->fetch_array($result)) {
+		while ($coltotalrow = $adb->fetchArray($result)) {
 			$fieldcolname = $coltotalrow["columnname"];
 			if ($fieldcolname != "none") {
 				$fieldlist = explode(":", $fieldcolname);

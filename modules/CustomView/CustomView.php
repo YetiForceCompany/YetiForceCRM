@@ -92,7 +92,7 @@ class CustomView extends CRMEntity
 		$usercv_result = $adb->pquery("select default_cvid from vtiger_user_module_preferences where userid = ? and tabid = ?", array($current_user->id, $tabid));
 		$def_cvid = $adb->query_result($usercv_result, 0, 'default_cvid');
 
-		while ($cvrow = $adb->fetch_array($result)) {
+		while ($cvrow = $adb->fetchArray($result)) {
 			$customviewlist["viewname"] = $cvrow["viewname"];
 			if ((isset($def_cvid) || $def_cvid != '') && $def_cvid == $cvid) {
 				$customviewlist["setdefault"] = 1;
@@ -139,7 +139,7 @@ class CustomView extends CRMEntity
 		}
 		$ssql .= " ORDER BY viewname";
 		$result = $adb->pquery($ssql, $sparams);
-		while ($cvrow = $adb->fetch_array($result)) {
+		while ($cvrow = $adb->fetchArray($result)) {
 			if ($cvrow['viewname'] == 'All') {
 				$cvrow['viewname'] = \App\Language::translate('COMBO_ALL');
 			}
@@ -225,7 +225,7 @@ class CustomView extends CRMEntity
 				throw new \App\Exceptions\AppException('LBL_NO_FOUND_VIEW');
 			}
 		} else {
-			while ($columnrow = $adb->fetch_array($result)) {
+			while ($columnrow = $adb->fetchArray($result)) {
 				$columnlist[$columnrow['columnindex']] = $columnrow['columnname'];
 			}
 		}
@@ -466,7 +466,7 @@ class CustomView extends CRMEntity
 		$sSQL .= " where vtiger_cvstdfilter.cvid=?";
 
 		$result = $adb->pquery($sSQL, array($cvid));
-		$stdfilterrow = $adb->fetch_array($result);
+		$stdfilterrow = $adb->fetchArray($result);
 
 		$stdfilterlist = [];
 		$stdfilterlist["columnname"] = $stdfilterrow["columnname"];

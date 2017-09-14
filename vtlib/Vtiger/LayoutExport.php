@@ -92,7 +92,7 @@ class LayoutExport extends Package
 		$adb = \PearDatabase::getInstance();
 		$query = sprintf('SELECT * FROM %s WHERE name = ?', self::TABLENAME);
 		$sqlresult = $adb->pquery($query, [$layoutName]);
-		$layoutresultrow = $adb->fetch_array($sqlresult);
+		$layoutresultrow = $adb->fetchArray($sqlresult);
 
 		$layoutname = \App\Purifier::decodeHtml($layoutresultrow['name']);
 		$layoutlabel = \App\Purifier::decodeHtml($layoutresultrow['label']);

@@ -508,8 +508,8 @@ class CRMEntity
 		}
 		if ($crmid) {
 			$adb = PearDatabase::getInstance();
-			$result = $adb->pquery("SELECT viewedtime,modifiedtime,smcreatorid,smownerid,modifiedby FROM vtiger_crmentity WHERE crmid=?", Array($crmid));
-			$resinfo = $adb->fetch_array($result);
+			$result = $adb->pquery("SELECT viewedtime,modifiedtime,smcreatorid,smownerid,modifiedby FROM vtiger_crmentity WHERE crmid=?", [$crmid]);
+			$resinfo = $adb->fetchArray($result);
 
 			$lastviewed = $resinfo['viewedtime'];
 			$modifiedon = $resinfo['modifiedtime'];

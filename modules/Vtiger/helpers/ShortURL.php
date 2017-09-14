@@ -62,7 +62,7 @@ class Vtiger_ShortURL_Helper
 
 		$rs = $db->pquery('SELECT * FROM vtiger_shorturls WHERE uid=?', array($uid));
 		if ($rs && $db->numRows($rs)) {
-			$record = $db->fetch_array($rs);
+			$record = $db->fetchArray($rs);
 			$handlerPath = App\Purifier::decodeHtml($record['handler_path']);
 			$handlerClass = App\Purifier::decodeHtml($record['handler_class']);
 			$handlerFn = App\Purifier::decodeHtml($record['handler_function']);

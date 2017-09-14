@@ -159,7 +159,7 @@ class Vtiger_DependencyPicklist
 					GROUP BY vtiger_field.tabid HAVING count(*) > 1';
 		// END
 		$result = $adb->pquery($query, []);
-		while ($row = $adb->fetch_array($result)) {
+		while ($row = $adb->fetchArray($result)) {
 			$modules[$row['tablabel']] = $row['tabname'];
 		}
 		ksort($modules);
