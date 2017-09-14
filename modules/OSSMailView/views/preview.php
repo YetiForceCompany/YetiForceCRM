@@ -60,7 +60,7 @@ Class OSSMailView_preview_View extends Vtiger_Index_View
 				WHERE vtiger_ossmailview_files.ossmailviewid = ?";
 		$params = array($record);
 		$result = $db->pquery($query, $params, true);
-		$num = $db->num_rows($result);
+		$num = $db->numRows($result);
 
 		$attachments = [];
 		for ($i = 0; $i < $num; $i++) {

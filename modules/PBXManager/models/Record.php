@@ -31,7 +31,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 		$query = sprintf('SELECT * FROM %s AS module_table INNER JOIN %s AS entity_table  WHERE module_table.callstatus IN(?,?) && module_table.direction=? && module_table.pbxmanagerid=entity_table.crmid && entity_table.deleted=0', self::MODULE_TABLE_NAME, self::ENTITY_TABLE_NAME);
 		$result = $db->pquery($query, ['ringing', 'in-progress', 'inbound']);
 		$recordModels = [];
-		$rowCount = $db->num_rows($result);
+		$rowCount = $db->numRows($result);
 		for ($i = 0; $i < $rowCount; $i++) {
 			$rowData = $db->query_result_rowdata($result, $i);
 
@@ -178,12 +178,12 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 		$rnumber = strrev($fnumber);
 		$query = sprintf('SELECT crmid, fieldname FROM %s WHERE fnumber LIKE "%s" || rnumber LIKE "%s" ', self::LOOKUP_TABLE_NAME, "$fnumber%", "$rnumber%");
 		$result = $db->query($query);
-		if ($db->num_rows($result)) {
+		if ($db->numRows($result)) {
 			$row = $db->getRow($result);
 			$crmid = $row['crmid'];
 			$fieldname = $row['fieldname'];
 			$contact = $db->pquery('SELECT setype FROM vtiger_crmentity WHERE crmid = ? && deleted=0', [$crmid]);
-			if ($db->num_rows($contact)) {
+			if ($db->numRows($contact)) {
 				$rowCrm = $db->getRow($contact);
 				$data['id'] = $crmid;
 				$data['name'] = \App\Record::getLabel($crmid);
@@ -208,7 +208,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 		}
 		$query = PBXManager_Record_Model::buildSearchQueryWithUIType(11, $number, 'Users');
 		$result = $db->pquery($query, []);
-		if ($db->num_rows($result) > 0) {
+		if ($db->numRows($result) > 0) {
 			$user['id'] = $db->query_result($result, 0, 'id');
 			$user['name'] = $db->query_result($result, 0, 'name');
 			$user['setype'] = 'Users';
@@ -270,7 +270,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 		$query = 'SELECT id, phone_crm_extension FROM vtiger_users';
 		$result = $db->pquery($query, []);
-		$count = $db->num_rows($result);
+		$count = $db->numRows($result);
 		for ($i = 0; $i < $count; $i++) {
 			$number = $db->query_result($result, $i, 'phone_crm_extension');
 			$userId = $db->query_result($result, $i, 'id');

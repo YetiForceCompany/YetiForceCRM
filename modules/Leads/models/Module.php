@@ -37,7 +37,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
                 WHERE setype=? && ' . $deletedCondition . ' && modifiedby = ? ORDER BY modifiedtime DESC LIMIT ?';
 		$params = array($this->get('name'), $currentUserModel->id, $limit);
 		$result = $db->pquery($query, $params);
-		$noOfRows = $db->num_rows($result);
+		$noOfRows = $db->numRows($result);
 
 		$recentRecords = [];
 		for ($i = 0; $i < $noOfRows; ++$i) {
@@ -207,7 +207,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 				$params[] = $recordModel->get(key($fields));
 			}
 			$result = $db->pquery($sql, $params);
-			$num = $db->num_rows($result);
+			$num = $db->numRows($result);
 			if ($num > 1) {
 				\App\Log::trace('End ' . __METHOD__);
 				return false;

@@ -165,7 +165,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 			" WHERE vtiger_crmentity.deleted = 0 and vtiger_ossemployees.ossemployeesid = ?";
 		$params = array($id);
 		$res = $adb->pquery($query, $params);
-		if ($adb->num_rows($res) > 0 &&
+		if ($adb->numRows($res) > 0 &&
 			$adb->query_result($res, 0, 'parentid') != '' && $adb->query_result($res, 0, 'parentid') != 0 &&
 			!in_array($adb->query_result($res, 0, 'parentid'), $encountered_accounts)) {
 
@@ -225,10 +225,10 @@ class OSSEmployees extends Vtiger_CRMEntity
 			" WHERE vtiger_crmentity.deleted = 0 and parentid = ?";
 		$params = array($id);
 		$res = $adb->pquery($query, $params);
-		$num_rows = $adb->num_rows($res);
-		if ($num_rows > 0) {
+		$numRows = $adb->numRows($res);
+		if ($numRows > 0) {
 			$depth = $depth + 1;
-			for ($i = 0; $i < $num_rows; $i++) {
+			for ($i = 0; $i < $numRows; $i++) {
 				$child_acc_id = $adb->query_result($res, $i, 'ossemployeesid');
 				if (array_key_exists($child_acc_id, $child_accounts)) {
 					continue;
@@ -267,15 +267,15 @@ class OSSEmployees extends Vtiger_CRMEntity
 					ModComments::addWidgetTo(array('OSSEmployees'));
 			}
 		} else if ($event_type == 'module.disabled') {
-			
+
 		} else if ($event_type == 'module.enabled') {
-			
+
 		} else if ($event_type == 'module.preuninstall') {
-			
+
 		} else if ($event_type == 'module.preupdate') {
-			
+
 		} else if ($event_type == 'module.postupdate') {
-			
+
 		}
 	}
 }
