@@ -38,7 +38,7 @@ function vtws_convertlead($entityvalues, Users_Record_Model $user)
 		throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, vtws_getWebserviceTranslatedString('LBL_' .
 			WebServiceErrorCode::$DATABASEQUERYERROR));
 	}
-	$rowCount = $adb->num_rows($result);
+	$rowCount = $adb->numRows($result);
 	if ($rowCount > 0) {
 		\App\Log::error('Error converting a lead: ' . vtws_getWebserviceTranslatedString('LBL_' . WebServiceErrorCode::$LEAD_ALREADY_CONVERTED));
 		throw new WebServiceException(WebServiceErrorCode::$LEAD_ALREADY_CONVERTED, vtws_getWebserviceTranslatedString('LBL_' . WebServiceErrorCode::$LEAD_ALREADY_CONVERTED));
@@ -138,7 +138,7 @@ function vtws_populateConvertLeadEntities($entityvalue, $entity, Vtiger_Record_M
 	$entityName = $entityvalue['name'];
 	$sql = 'SELECT * FROM vtiger_convertleadmapping';
 	$result = $adb->pquery($sql, []);
-	if ($adb->num_rows($result)) {
+	if ($adb->numRows($result)) {
 		switch ($entityName) {
 			case 'Accounts':$column = 'accountfid';
 				break;

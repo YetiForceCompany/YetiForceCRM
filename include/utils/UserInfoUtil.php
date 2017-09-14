@@ -32,8 +32,8 @@ function getTabsUtilityActionPermission($profileid)
 	$temp_tabid = [];
 	$sql1 = "select * from vtiger_profile2utility where profileid=? order by(tabid)";
 	$result1 = $adb->pquery($sql1, array($profileid));
-	$num_rows1 = $adb->num_rows($result1);
-	for ($i = 0; $i < $num_rows1; $i++) {
+	$numRows1 = $adb->numRows($result1);
+	for ($i = 0; $i < $numRows1; $i++) {
 		$tab_id = $adb->query_result($result1, $i, 'tabid');
 		if (!in_array($tab_id, $temp_tabid)) {
 			$temp_tabid[] = $tab_id;
@@ -326,8 +326,8 @@ function getProfileActionPermission($profileid)
 	$temp_tabid = [];
 	$sql1 = "select * from vtiger_profile2standardpermissions where profileid=?";
 	$result1 = $adb->pquery($sql1, array($profileid));
-	$num_rows1 = $adb->num_rows($result1);
-	for ($i = 0; $i < $num_rows1; $i++) {
+	$numRows1 = $adb->numRows($result1);
+	for ($i = 0; $i < $numRows1; $i++) {
 		$tab_id = $adb->query_result($result1, $i, 'tabid');
 		if (!in_array($tab_id, $temp_tabid)) {
 			$temp_tabid[] = $tab_id;
@@ -378,41 +378,41 @@ function getAllRoleDetails()
 
 	\App\Log::trace('Entering getAllRoleDetails() method ...');
 	$adb = PearDatabase::getInstance();
-	$role_det = [];
+	$roleDet = [];
 	$query = "select * from vtiger_role";
 	$result = $adb->pquery($query, []);
-	$num_rows = $adb->num_rows($result);
-	for ($i = 0; $i < $num_rows; $i++) {
-		$each_role_det = [];
-		$roleid = $adb->query_result($result, $i, 'roleid');
-		$rolename = $adb->query_result($result, $i, 'rolename');
-		$roledepth = $adb->query_result($result, $i, 'depth');
-		$sub_roledepth = $roledepth + 1;
-		$parentrole = $adb->query_result($result, $i, 'parentrole');
-		$sub_role = '';
+	$numRows = $adb->numRows($result);
+	for ($i = 0; $i < $numRows; $i++) {
+		$eachRoleDet = [];
+		$roleId = $adb->query_result($result, $i, 'roleid');
+		$roleName = $adb->query_result($result, $i, 'rolename');
+		$roleDepth = $adb->query_result($result, $i, 'depth');
+		$subRoleDepth = $roleDepth + 1;
+		$parentRole = $adb->query_result($result, $i, 'parentrole');
+		$subRole = '';
 
 		//getting the immediate subordinates
 		$query1 = "select * from vtiger_role where parentrole like ? and depth=?";
-		$res1 = $adb->pquery($query1, array($parentrole . "::%", $sub_roledepth));
-		$num_roles = $adb->num_rows($res1);
-		if ($num_roles > 0) {
-			for ($j = 0; $j < $num_roles; $j++) {
+		$res1 = $adb->pquery($query1, array($parentRole . "::%", $subRoleDepth));
+		$numRoles = $adb->numRows($res1);
+		if ($numRoles > 0) {
+			for ($j = 0; $j < $numRoles; $j++) {
 				if ($j == 0) {
-					$sub_role .= $adb->query_result($res1, $j, 'roleid');
+					$subRole .= $adb->query_result($res1, $j, 'roleid');
 				} else {
-					$sub_role .= ',' . $adb->query_result($res1, $j, 'roleid');
+					$subRole .= ',' . $adb->query_result($res1, $j, 'roleid');
 				}
 			}
 		}
 
 
-		$each_role_det[] = $rolename;
-		$each_role_det[] = $roledepth;
-		$each_role_det[] = $sub_role;
-		$role_det[$roleid] = $each_role_det;
+		$eachRoleDet[] = $roleName;
+		$eachRoleDet[] = $roleDepth;
+		$eachRoleDet[] = $subRole;
+		$roleDet[$roleId] = $eachRoleDet;
 	}
 	\App\Log::trace('Exiting getAllRoleDetails method ...');
-	return $role_det;
+	return $roleDet;
 }
 
 /** Function to get the vtiger_role and subordinate vtiger_users
@@ -429,9 +429,9 @@ function getRoleAndSubordinateUsers($roleId)
 	$parentRole = $roleInfoArr['parentrole'];
 	$query = "select vtiger_user2role.*,vtiger_users.user_name from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like ?";
 	$result = $adb->pquery($query, array($parentRole . "%"));
-	$num_rows = $adb->num_rows($result);
+	$numRows = $adb->numRows($result);
 	$roleRelatedUsers = [];
-	for ($i = 0; $i < $num_rows; $i++) {
+	for ($i = 0; $i < $numRows; $i++) {
 		$roleRelatedUsers[$adb->query_result($result, $i, 'userid')] = $adb->query_result($result, $i, 'user_name');
 	}
 	\App\Log::trace("Exiting getRoleAndSubordinateUsers method ...");
@@ -457,7 +457,7 @@ function getRoleAndSubordinatesInformation($roleId)
 
 	$query = "select * from vtiger_role where parentrole like ? order by parentrole asc";
 	$result = $adb->pquery($query, array($roleParentSeq . "%"));
-	$num_rows = $adb->num_rows($result);
+	$num_rows = $adb->numRows($result);
 	$roleInfo = [];
 	for ($i = 0; $i < $num_rows; $i++) {
 		$roleid = $adb->query_result($result, $i, 'roleid');
@@ -490,9 +490,9 @@ function getRoleAndSubordinatesRoleIds($roleId)
 
 	$query = "select * from vtiger_role where parentrole like ? order by parentrole asc";
 	$result = $adb->pquery($query, array($roleParentSeq . "%"));
-	$num_rows = $adb->num_rows($result);
+	$numRows = $adb->numRows($result);
 	$roleInfo = [];
-	for ($i = 0; $i < $num_rows; $i++) {
+	for ($i = 0; $i < $numRows; $i++) {
 		$roleid = $adb->query_result($result, $i, 'roleid');
 		$roleInfo[] = $roleid;
 	}

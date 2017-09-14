@@ -94,7 +94,7 @@ class PearDatabase
 
 	public function connect()
 	{
-		// Set DSN 
+		// Set DSN
 		$dsn = $this->dbType . ':host=' . $this->dbHostName . ';dbname=' . $this->dbName . ';port=' . $this->port;
 
 		// Set options
@@ -163,7 +163,7 @@ class PearDatabase
 		}
 	}
 
-	public function ErrorMsg()
+	public function errorMsg()
 	{
 		$error = $this->database->errorInfo();
 		return $error[2];

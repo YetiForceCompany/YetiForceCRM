@@ -92,15 +92,15 @@ class CRMEntity
 	 * @param $table_name -- table name:: Type varchar
 	 * The function will delete a record .The id is obtained from the class variable $this->id and the columnname got from $this->tab_name_index[$table_name]
 	 */
-	public function deleteRelation($table_name)
+	public function deleteRelation($tableName)
 	{
 		$adb = PearDatabase::getInstance();
-		$check_query = "select * from $table_name where " . $this->tab_name_index[$table_name] . "=?";
-		$check_result = $adb->pquery($check_query, array($this->id));
-		$num_rows = $adb->num_rows($check_result);
+		$checkQuery = "select * from $tableName where " . $this->tab_name_index[$tableName] . "=?";
+		$checkResult = $adb->pquery($checkQuery, array($this->id));
+		$numRows = $adb->numRows($checkResult);
 
-		if ($num_rows == 1) {
-			$adb->delete($table_name, $this->tab_name_index[$table_name] . ' = ?', [$this->id]);
+		if ($numRows == 1) {
+			$adb->delete($tableName, $this->tab_name_index[$tableName] . ' = ?', [$this->id]);
 		}
 	}
 
@@ -109,21 +109,21 @@ class CRMEntity
 	 * The function will get the attachmentsid for the given entityid from vtiger_seattachmentsrel table and get the attachmentsname from vtiger_attachments table
 	 * returns the 'filename'
 	 */
-	public function getOldFileName($notesid)
+	public function getOldFileName($notesId)
 	{
 
-		\App\Log::trace("in getOldFileName  " . $notesid);
+		\App\Log::trace("in getOldFileName  " . $notesId);
 		$adb = PearDatabase::getInstance();
 		$query1 = "select * from vtiger_seattachmentsrel where crmid=?";
-		$result = $adb->pquery($query1, array($notesid));
-		$noofrows = $adb->num_rows($result);
-		if ($noofrows != 0)
-			$attachmentid = $adb->query_result($result, 0, 'attachmentsid');
-		if ($attachmentid != '') {
+		$result = $adb->pquery($query1, array($notesId));
+		$noOfRows = $adb->numRows($result);
+		if ($noOfRows != 0)
+			$attachmentId = $adb->query_result($result, 0, 'attachmentsid');
+		if ($attachmentId != '') {
 			$query2 = "select * from vtiger_attachments where attachmentsid=?";
-			$filename = $adb->query_result($adb->pquery($query2, array($attachmentid)), 0, 'name');
+			$fileName = $adb->query_result($adb->pquery($query2, array($attachmentId)), 0, 'name');
 		}
-		return $filename;
+		return $fileName;
 	}
 
 	/**
@@ -290,7 +290,7 @@ class CRMEntity
 		$tabid = \App\Module::getModuleId($module);
 		$sql1 = "select columnname,fieldlabel from vtiger_field where generatedtype=2 and tabid=? and vtiger_field.presence in (0,2)";
 		$result = $adb->pquery($sql1, array($tabid));
-		$numRows = $adb->num_rows($result);
+		$numRows = $adb->numRows($result);
 		$sql3 = "select ";
 		for ($i = 0; $i < $numRows; $i++) {
 			$columnName = $adb->query_result($result, $i, "columnname");
@@ -325,7 +325,7 @@ class CRMEntity
 		$tabid = \App\Module::getModuleId($module);
 		$sql = "select * from vtiger_field where tabid= ? and typeofdata like '%M%' and uitype not in ('53','70') and vtiger_field.presence in (0,2)";
 		$result = $adb->pquery($sql, array($tabid));
-		$numRows = $adb->num_rows($result);
+		$numRows = $adb->numRows($result);
 		for ($i = 0; $i < $numRows; $i++) {
 			$fieldName = $adb->query_result($result, $i, "fieldname");
 			$this->required_fields[$fieldName] = 1;
@@ -348,7 +348,7 @@ class CRMEntity
 	 */
 	public function deletePerminently($moduleName, $recordId)
 	{
-		
+
 	}
 
 	/** Function to unlink an entity with given Id from another entity */
@@ -441,8 +441,8 @@ class CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$result = $adb->pquery(sprintf("SELECT %s FROM *s WHERE %s = ?", $adb->sql_escape_string($column), $adb->sql_escape_string($table), $adb->sql_escape_string($column)), [$no]);
-		$num_rows = $adb->num_rows($result);
-		if ($num_rows > 0)
+		$numRows = $adb->numRows($result);
+		if ($numRows > 0)
 			return true;
 		else
 			return false;
@@ -758,21 +758,21 @@ class CRMEntity
 
 		$fields_query = $adb->pquery("SELECT vtiger_field.fieldname,vtiger_field.tablename,vtiger_field.fieldid from vtiger_field INNER JOIN vtiger_tab on vtiger_tab.name = ? WHERE vtiger_tab.tabid=vtiger_field.tabid && vtiger_field.uitype IN (10) and vtiger_field.presence in (0,2)", [$module]);
 
-		if ($adb->num_rows($fields_query) > 0) {
-			$rows_fields_query = $adb->num_rows($fields_query);
+		if ($adb->numRows($fields_query) > 0) {
+			$rows_fields_query = $adb->numRows($fields_query);
 			for ($i = 0; $i < $rows_fields_query; $i++) {
 				$field_name = $adb->query_result($fields_query, $i, 'fieldname');
 				$field_id = $adb->query_result($fields_query, $i, 'fieldid');
 				$tab_name = $adb->query_result($fields_query, $i, 'tablename');
 				$ui10_modules_query = $adb->pquery("SELECT relmodule FROM vtiger_fieldmodulerel WHERE fieldid=?", [$field_id]);
 
-				if ($adb->num_rows($ui10_modules_query) > 0) {
+				if ($adb->numRows($ui10_modules_query) > 0) {
 
 					// Capture the forward table dependencies due to dynamic related-field
 					$crmentityRelModuleFieldTable = "vtiger_crmentityRel$module$field_id";
 
 					$crmentityRelModuleFieldTableDeps = [];
-					$countNumRows = $adb->num_rows($ui10_modules_query);
+					$countNumRows = $adb->numRows($ui10_modules_query);
 					for ($j = 0; $j < $countNumRows; $j++) {
 						$rel_mod = $adb->query_result($ui10_modules_query, $j, 'relmodule');
 						$rel_obj = CRMEntity::getInstance($rel_mod);
@@ -790,7 +790,7 @@ class CRMEntity
 						$relquery .= " left join vtiger_crmentity as $crmentityRelModuleFieldTable on $crmentityRelModuleFieldTable.crmid = $tab_name.$field_name and vtiger_crmentityRel$module$field_id.deleted=0";
 					}
 
-					$countNumRows = $adb->num_rows($ui10_modules_query);
+					$countNumRows = $adb->numRows($ui10_modules_query);
 					for ($j = 0; $j < $countNumRows; $j++) {
 						$rel_mod = $adb->query_result($ui10_modules_query, $j, 'relmodule');
 						$rel_obj = CRMEntity::getInstance($rel_mod);
@@ -875,20 +875,20 @@ class CRMEntity
 
 		$fields_query = $adb->pquery('SELECT vtiger_field.fieldname,vtiger_field.tablename,vtiger_field.fieldid from vtiger_field INNER JOIN vtiger_tab on vtiger_tab.name = ? WHERE vtiger_tab.tabid=vtiger_field.tabid && vtiger_field.uitype IN (10) and vtiger_field.presence in (0,2)', array($secmodule));
 
-		if ($adb->num_rows($fields_query) > 0) {
-			$countFieldsQuery = $adb->num_rows($fields_query);
+		if ($adb->numRows($fields_query) > 0) {
+			$countFieldsQuery = $adb->numRows($fields_query);
 			for ($i = 0; $i < $countFieldsQuery; $i++) {
 				$field_name = $adb->query_result($fields_query, $i, 'fieldname');
 				$field_id = $adb->query_result($fields_query, $i, 'fieldid');
 				$tab_name = $adb->query_result($fields_query, $i, 'tablename');
 				$ui10_modules_query = $adb->pquery("SELECT relmodule FROM vtiger_fieldmodulerel WHERE fieldid=?", array($field_id));
 
-				if ($adb->num_rows($ui10_modules_query) > 0) {
+				if ($adb->numRows($ui10_modules_query) > 0) {
 					// Capture the forward table dependencies due to dynamic related-field
 					$crmentityRelSecModuleTable = "vtiger_crmentityRel$secmodule$field_id";
 
 					$crmentityRelSecModuleTableDeps = [];
-					$rows_ui10_modules_query = $adb->num_rows($ui10_modules_query);
+					$rows_ui10_modules_query = $adb->numRows($ui10_modules_query);
 					for ($j = 0; $j < $rows_ui10_modules_query; $j++) {
 						$rel_mod = $adb->query_result($ui10_modules_query, $j, 'relmodule');
 						$rel_obj = CRMEntity::getInstance($rel_mod);
@@ -905,7 +905,7 @@ class CRMEntity
 					if ($queryPlanner->requireTable($crmentityRelSecModuleTable, $matrix)) {
 						$relquery .= " left join vtiger_crmentity as $crmentityRelSecModuleTable on $crmentityRelSecModuleTable.crmid = $tab_name.$field_name and $crmentityRelSecModuleTable.deleted=0";
 					}
-					$countNumRows = $adb->num_rows($ui10_modules_query);
+					$countNumRows = $adb->numRows($ui10_modules_query);
 					for ($j = 0; $j < $countNumRows; $j++) {
 						$rel_mod = $adb->query_result($ui10_modules_query, $j, 'relmodule');
 						$rel_obj = CRMEntity::getInstance($rel_mod);
@@ -1365,6 +1365,6 @@ class CRMEntity
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		
+
 	}
 }

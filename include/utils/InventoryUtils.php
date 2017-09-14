@@ -70,7 +70,7 @@ function getPriceDetailsForProduct($productid, $unit_price, $available = 'availa
 		}
 
 		$res = $adb->pquery($query, $params);
-		$rows_res = $adb->num_rows($res);
+		$rows_res = $adb->numRows($res);
 		for ($i = 0; $i < $rows_res; $i++) {
 			$price_details[$i]['productid'] = $productid;
 			$price_details[$i]['currencylabel'] = $adb->query_result($res, $i, 'currency_name');
@@ -112,7 +112,7 @@ function getPriceDetailsForProduct($productid, $unit_price, $available = 'availa
 			$params = [];
 
 			$res = $adb->pquery($query, $params);
-			$rows = $adb->num_rows($res);
+			$rows = $adb->numRows($res);
 			for ($i = 0; $i < $rows; $i++) {
 				$price_details[$i]['currencylabel'] = $adb->query_result($res, $i, 'currency_name');
 				$price_details[$i]['currencycode'] = $adb->query_result($res, $i, 'currency_code');
