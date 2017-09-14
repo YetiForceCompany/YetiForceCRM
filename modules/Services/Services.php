@@ -297,10 +297,11 @@ class Services extends CRMEntity
 	/*
 	 * Function to get the primary query part of a report
 	 * @param - $module primary module name
+	 * @param ReportRunQueryPlanner $queryPlanner
 	 * returns the query string formed on fetching the related data for report for secondary module
 	 */
 
-	public function generateReportsQuery($module, $queryPlanner)
+	public function generateReportsQuery($module, ReportRunQueryPlanner $queryPlanner)
 	{
 		$current_user = vglobal('current_user');
 

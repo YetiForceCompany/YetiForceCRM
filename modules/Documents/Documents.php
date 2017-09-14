@@ -177,10 +177,11 @@ class Documents extends CRMEntity
 	/*
 	 * Function to get the primary query part of a report
 	 * @param - $module Primary module name
+	 * @param ReportRunQueryPlanner $queryplanner
 	 * returns the query string formed on fetching the related data for report for primary module
 	 */
 
-	public function generateReportsQuery($module, $queryplanner)
+	public function generateReportsQuery($module, ReportRunQueryPlanner $queryplanner)
 	{
 		$moduletable = $this->table_name;
 		$moduleindex = $this->tab_name_index[$moduletable];

@@ -145,10 +145,11 @@ class Vendors extends CRMEntity
 	/*
 	 * Function to get the primary query part of a report
 	 * @param - $module Primary module name
+	 * @param ReportRunQueryPlanner $queryPlanner
 	 * returns the query string formed on fetching the related data for report for primary module
 	 */
 
-	public function generateReportsQuery($module, $queryPlanner)
+	public function generateReportsQuery($module, ReportRunQueryPlanner $queryPlanner)
 	{
 		$moduletable = $this->table_name;
 		$moduleindex = $this->table_index;

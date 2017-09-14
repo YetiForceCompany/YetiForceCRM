@@ -195,5 +195,5 @@ class VTWorkflowTemplateManager
 
 class VTWorkflowTemplate
 {
-
+	
 }
