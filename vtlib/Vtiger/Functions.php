@@ -13,7 +13,12 @@ namespace vtlib;
 class Functions
 {
 
-	public static function userIsAdministrator($user)
+	/**
+	 * User is administrator
+	 * @param \Users $user
+	 * @return string
+	 */
+	public static function userIsAdministrator(\Users $user)
 	{
 		return (isset($user->is_admin) && $user->is_admin == 'on');
 	}
