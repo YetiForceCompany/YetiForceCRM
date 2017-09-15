@@ -35,7 +35,7 @@ class Leads_ConvertLead_View extends Vtiger_Index_View
 		if (!$this->record->isEditable()) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		if (!$this->record->isPermitted('ConvertLead')) {
+		if (!\App\Privilege::isPermitted($moduleName, 'ConvertLead')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 		if (!Leads_Module_Model::checkIfAllowedToConvert($this->record->get('leadstatus'))) {

@@ -24,7 +24,6 @@
  */
 function vtws_changePassword($userId, $oldPassword, $newPassword, $confirmPassword, Users $user)
 {
-	vtws_preserveGlobal('current_user', $user);
 	if ($userId == $user->id || $user->isAdminUser()) {
 		$newUser = new Users();
 		$newUser->retrieveEntityInfo($userId, 'Users');
@@ -53,7 +52,6 @@ function vtws_changePassword($userId, $oldPassword, $newPassword, $confirmPasswo
 			throw new WebServiceException(WebServiceErrorCode::$CHANGEPASSWORDFAILURE, vtws_getWebserviceTranslatedString('LBL_' .
 				WebServiceErrorCode::$CHANGEPASSWORDFAILURE));
 		}
-		VTWS_PreserveGlobal::flush();
 		return array('message' => 'Changed password successfully');
 	}
 }

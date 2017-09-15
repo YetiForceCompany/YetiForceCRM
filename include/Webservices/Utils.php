@@ -153,11 +153,6 @@ function vtws_addActorTypeName($entityId, $fieldNames, $indexColumn, $tableName)
 		])->execute();
 }
 
-function vtws_preserveGlobal($name, $value)
-{
-	return VTWS_PreserveGlobal::preserveGlobal($name, $value);
-}
-
 /**
  * Takes the details of a webservices and exposes it over http.
  * @param $name name of the webservice to be added with namespace.
