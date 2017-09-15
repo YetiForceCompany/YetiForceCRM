@@ -527,12 +527,10 @@ class Users_Record_Model extends Vtiger_Record_Model
 	{
 		$image = $this->getImageDetails();
 		$image = reset($image);
-		if (empty($image) || empty($image['path'])) {
-			$imagePath = \App\Layout::getImagePath('DefaultUserIcon.png');
-		} else {
-			$imagePath = $image['path'];
+		if (!empty($image['path'])) {
+			return $image['path'];
 		}
-		return $imagePath;
+		return false;
 	}
 
 	/**
