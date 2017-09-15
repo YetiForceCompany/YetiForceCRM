@@ -75,7 +75,7 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 
 	public function getPreviewViewUrl($id)
 	{
-		return 'index.php?module=' . $this->get('name') . '&view=preview&record=' . $id;
+		return 'index.php?module=' . $this->get('name') . '&view=Preview&record=' . $id;
 	}
 
 	public function isQuickCreateSupported()

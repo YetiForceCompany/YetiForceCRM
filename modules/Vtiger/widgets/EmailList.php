@@ -13,7 +13,7 @@ class Vtiger_EmailList_Widget extends Vtiger_Basic_Widget
 
 	public function getUrl()
 	{
-		return 'module=OSSMailView&view=widget&smodule=' . $this->Module . '&srecord=' . $this->Record . '&mode=showEmailsList&type=All&mailFilter=All&limit=' . $this->Data['limit'];
+		return 'module=OSSMailView&view=Widget&smodule=' . $this->Module . '&srecord=' . $this->Record . '&mode=showEmailsList&type=All&mailFilter=All&limit=' . $this->Data['limit'];
 	}
 
 	public function getConfigTplName()

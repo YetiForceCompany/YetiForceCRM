@@ -87,7 +87,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			$to = ($to && $to !== '') ? $to : $row['to_email'];
 			$content = vtlib\Functions::getHtmlOrPlainText($row['content']);
 			if (\App\Privilege::isPermitted('OSSMailView', 'DetailView', $row['ossmailviewid'])) {
-				$subject = '<a href="index.php?module=OSSMailView&view=preview&record=' . $row['ossmailviewid'] . '" target="' . $config['target'] . '"> ' . $row['subject'] . '</a>';
+				$subject = '<a href="index.php?module=OSSMailView&view=Preview&record=' . $row['ossmailviewid'] . '" target="' . $config['target'] . '"> ' . $row['subject'] . '</a>';
 			} else {
 				$subject = $row['subject'];
 			}
@@ -103,7 +103,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 				'toRaw' => $row['to_email'],
 				'ccRaw' => $row['cc_email'],
 				'to' => $to,
-				'url' => "index.php?module=OSSMailView&view=preview&record={$row['ossmailviewid']}&srecord=$srecord&smodule=$smodule",
+				'url' => "index.php?module=OSSMailView&view=Preview&record={$row['ossmailviewid']}&srecord=$srecord&smodule=$smodule",
 				'type' => $row['type'],
 				'teaser' => vtlib\Functions::textLength(trim(preg_replace('/[ \t]+/', ' ', strip_tags($content))), 100),
 				'body' => $content,
