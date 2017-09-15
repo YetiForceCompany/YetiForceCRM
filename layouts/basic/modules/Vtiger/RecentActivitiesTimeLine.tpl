@@ -28,41 +28,51 @@
 									<span class="glyphicon glyphicon-plus bgGreen"></span>
 									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if}">
 										<div class="pull-left paddingRight15 imageContainer">
-											<img class="userImage img-circle" src="data:image/jpg;base64,{base64_encode(file_get_contents($RECENT_ACTIVITY->getModifiedBy()->getImagePath()))}" >
+											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
+											{if $IMAGE}
+												<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
+											{else}	
+												<span class="glyphicon glyphicon-user userImage" aria-hidden="true"></span>
+											{/if}
 										</div>
 										<div class="timeline-body row no-margin">
 											<span class="time pull-right">
 												<span title="{$RECENT_ACTIVITY->getDisplayActivityTime()}">{Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getParent()->get('createdtime'))}</span>
 											</span>
 											<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong> 
-												&nbsp;{\App\Language::translate('LBL_CREATED', $MODULE_NAME)}
-												{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
-													{if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}
-														<div class='font-x-small updateInfoContainer'>
-															<span>{\App\Language::translate($FIELDMODEL->getName(),$MODULE_NAME)}</span>:&nbsp;
-															{if $FIELDMODEL->get('postvalue') neq ''}
-																<strong class="moreContent">
-																	<span class="teaserContent">
-																		{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getNewValue())}
+											&nbsp;{\App\Language::translate('LBL_CREATED', $MODULE_NAME)}
+											{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
+												{if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}
+													<div class='font-x-small updateInfoContainer'>
+														<span>{\App\Language::translate($FIELDMODEL->getName(),$MODULE_NAME)}</span>:&nbsp;
+														{if $FIELDMODEL->get('postvalue') neq ''}
+															<strong class="moreContent">
+																<span class="teaserContent">
+																	{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getNewValue())}
+																</span>
+																{if $FIELDMODEL->has('fullPostValue')}
+																	<span class="fullContent hide">
+																		{$FIELDMODEL->get('fullPostValue')}
 																	</span>
-																	{if $FIELDMODEL->has('fullPostValue')}
-																		<span class="fullContent hide">
-																			{$FIELDMODEL->get('fullPostValue')}
-																		</span>
-																		<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
-																	{/if}
-																</strong>
-															{/if}
-														</div>
-													{/if}
-												{/foreach}
+																	<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
+																{/if}
+															</strong>
+														{/if}
+													</div>
+												{/if}
+											{/foreach}
 										</div>
 									</div>
 								{else if $RECENT_ACTIVITY->isUpdate()}
 									<span class="glyphicon glyphicon-pencil bgDarkBlue"></span>
 									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if}">
 										<div class="pull-left paddingRight15 imageContainer">
-											<img class="userImage img-circle" src="data:image/jpg;base64,{base64_encode(file_get_contents($RECENT_ACTIVITY->getModifiedBy()->getImagePath()))}" >
+											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
+											{if $IMAGE}
+												<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
+											{else}	
+												<span class="glyphicon glyphicon-user userImage" aria-hidden="true"></span>
+											{/if}
 										</div>
 										<div class="timeline-body row no-margin">
 											<span class="time pull-right">
@@ -118,7 +128,12 @@
 									<span class="glyphicon glyphicon-link bgOrange"></span>
 									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if}">
 										<div class="pull-left paddingRight15 imageContainer">
-											<img class="userImage img-circle" src="data:image/jpg;base64,{base64_encode(file_get_contents($RECENT_ACTIVITY->getModifiedBy()->getImagePath()))}" >
+											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
+											{if $IMAGE}
+												<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
+											{else}	
+												<span class="glyphicon glyphicon-user userImage" aria-hidden="true"></span>
+											{/if}
 										</div>
 										<div class="timeline-body row no-margin">
 											<div class="pull-right">
@@ -161,7 +176,12 @@
 									<span class="glyphicon glyphicon-transfer bgAzure"></span>
 									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if}">
 										<div class="pull-left paddingRight15 imageContainer">
-											<img class="userImage img-circle" src="data:image/jpg;base64,{base64_encode(file_get_contents($RECENT_ACTIVITY->getModifiedBy()->getImagePath()))}" >
+											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
+											{if $IMAGE}
+												<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
+											{else}	
+												<span class="glyphicon glyphicon-user userImage" aria-hidden="true"></span>
+											{/if}
 										</div>
 										<div class="timeline-body row no-margin">
 											<span class="time pull-right">
@@ -176,7 +196,12 @@
 									<span class="glyphicon glyphicon-th-list bgAzure"></span>
 									<div class="timeline-item">
 										<div class="pull-left paddingRight15 imageContainer">
-											<img class="userImage img-circle" src="data:image/jpg;base64,{base64_encode(file_get_contents($RECENT_ACTIVITY->getModifiedBy()->getImagePath()))}" >
+											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
+											{if $IMAGE}
+												<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
+											{else}	
+												<span class="glyphicon glyphicon-user userImage" aria-hidden="true"></span>
+											{/if}
 										</div>
 										<div class="timeline-body row no-margin">
 											<span class="time pull-right">

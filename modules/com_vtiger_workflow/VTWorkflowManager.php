@@ -756,7 +756,7 @@ class Workflow
 				foreach ($scheduledDaysOfMonth as $day) {
 					if ($day == $currentDayOfMonth) {
 						$currentTime = time();
-						$schTime = strtotime($date = date('Y') . '-' . date('m') . '-' . $day . ' ' . $scheduledTime);
+						$schTime = strtotime(date('Y') . '-' . date('m') . '-' . $day . ' ' . $scheduledTime);
 						if ($schTime > $currentTime) {
 							$nextTriggerDay = $day;
 							break;

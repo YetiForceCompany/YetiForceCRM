@@ -92,7 +92,6 @@ function getReportFieldValue(ReportRun $report, $picklistArray, $dbField, $value
 {
 	$defaultCharset = vglobal('default_charset');
 
-	$db = PearDatabase::getInstance();
 	$value = $valueArray[$fieldName];
 	$fld_type = $dbField->type;
 	list($module, $fieldLabel) = explode('__', $dbField->name, 2);
