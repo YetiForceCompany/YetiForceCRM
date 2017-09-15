@@ -42,6 +42,7 @@ $languageStrings = [
 	'LBL_PASSWORD_MISMATCH' => 'Merci de resaisir le mot de passe.  Le \"Mot de passe\" and \"Vérifier le mot de passe\" ne concordent pas.',
 	'LBL_PHP_CONFIGURATION' => 'Configuration PHP',
 	'LBL_PHP_RECOMMENDED_SETTINGS' => 'Paramètres PHP recommandés',
+	'LBL_SECURITY_RECOMMENDED_SETTINGS' => 'Recommended security settings',
 	'LBL_PHP_VERSION' => 'Version PHP',
 	'LBL_PLEASE_WAIT' => 'Veuillez patienter',
 	'LBL_PRESENT_VALUE' => 'Valeurs actuelles',
