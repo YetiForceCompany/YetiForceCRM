@@ -66,7 +66,7 @@ class OSSMailView_Sview_View extends Vtiger_Index_View
 		$viewer->assign('CC', $recordModel->getForHtml('cc_email'));
 		$viewer->assign('BCC', $recordModel->getForHtml('bcc_email'));
 		$viewer->assign('SUBJECT', $recordModel->getForHtml('subject'));
-		$viewer->assign('URL', "index.php?module=$moduleName&view=mbody&record=$record");
+		$viewer->assign('URL', "index.php?module=$moduleName&view=Mbody&record=$record");
 		$viewer->assign('OWNER', $recordModel->get('assigned_user_id'));
 		$viewer->assign('SENT', $recordModel->get('createdtime'));
 		$viewer->assign('ATTACHMENTS', $attachments);

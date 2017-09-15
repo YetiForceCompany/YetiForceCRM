@@ -77,7 +77,7 @@ Class OSSMailView_Preview_View extends Vtiger_Index_View
 		$viewer->assign('CC', $cc);
 		$viewer->assign('BCC', $bcc);
 		$viewer->assign('SUBJECT', $subject);
-		$viewer->assign('URL', "index.php?module=$moduleName&view=mbody&record=$record");
+		$viewer->assign('URL', "index.php?module=$moduleName&view=Mbody&record=$record");
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('SENT', $sent);
 		$viewer->assign('ATTACHMENTS', $attachments);
