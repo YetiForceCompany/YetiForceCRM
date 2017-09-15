@@ -58,10 +58,10 @@ class Import_Utils_Helper
 
 	/**
 	 * The function takes the path of the file to be imported
-	 * @param Users $user
+	 * @param Users_Record_Model $user
 	 * @return string
 	 */
-	public static function getImportFilePath(Users $user)
+	public static function getImportFilePath(Users_Record_Model $user)
 	{
 		$importDirectory = self::getImportDirectory();
 		return $importDirectory . "IMPORT_" . $user->id;
