@@ -15,8 +15,8 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('Delete');
-		$this->exposeMethod('ChangeStatus');
+		$this->exposeMethod('delete');
+		$this->exposeMethod('changeStatus');
 		$this->exposeMethod('changeStatusAllTasks');
 		$this->exposeMethod('save');
 	}
@@ -30,7 +30,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 		}
 	}
 
-	public function Delete(\App\Request $request)
+	public function delete(\App\Request $request)
 	{
 		$record = $request->get('task_id');
 		if (!empty($record)) {
@@ -42,7 +42,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 		}
 	}
 
-	public function ChangeStatus(\App\Request $request)
+	public function changeStatus(\App\Request $request)
 	{
 		$record = $request->get('task_id');
 		if (!empty($record)) {

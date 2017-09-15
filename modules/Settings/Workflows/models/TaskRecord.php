@@ -104,7 +104,7 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getDeleteActionUrl()
 	{
-		return 'index.php?module=Workflows&parent=Settings&action=TaskAjax&mode=Delete&task_id=' . $this->getId();
+		return 'index.php?module=Workflows&parent=Settings&action=TaskAjax&mode=delete&task_id=' . $this->getId();
 	}
 
 	/**
@@ -113,7 +113,7 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getChangeStatusUrl()
 	{
-		return 'index.php?module=Workflows&parent=Settings&action=TaskAjax&mode=ChangeStatus&task_id=' . $this->getId();
+		return 'index.php?module=Workflows&parent=Settings&action=TaskAjax&mode=changeStatus&task_id=' . $this->getId();
 	}
 
 	/**
