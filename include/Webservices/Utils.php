@@ -146,7 +146,7 @@ function vtws_addDefaultActorTypeEntity($actorName, $actorNameDetails, $withName
 	if ($withName === true) {
 		vtws_addActorTypeWebserviceEntityWithName($actorName, $actorHandler['file'], $actorHandler['class'], $actorNameDetails);
 	} else {
-		vtws_addActorTypeWebserviceEntityWithoutName($actorName, $actorHandler['file'], $actorHandler['class'], $actorNameDetails);
+		vtws_addActorTypeWebserviceEntityWithoutName($actorName, $actorHandler['file'], $actorHandler['class']);
 	}
 }
 
@@ -163,7 +163,7 @@ function vtws_addActorTypeWebserviceEntityWithName($moduleName, $filePath, $clas
 	vtws_addActorTypeName($db->getLastInsertID('vtiger_ws_entity_seq'), $actorNameDetails['fieldNames'], $actorNameDetails['indexField'], $actorNameDetails['tableName']);
 }
 
-function vtws_addActorTypeWebserviceEntityWithoutName($moduleName, $filePath, $className, $actorNameDetails)
+function vtws_addActorTypeWebserviceEntityWithoutName($moduleName, $filePath, $className)
 {
 	\App\Db::getInstance()->createCommand()
 		->insert('vtiger_ws_entity', [
@@ -525,10 +525,9 @@ function vtws_getRelatedActivities($leadId, $accountId, $contactId, $relatedId)
  * Function used to save the lead related Campaigns with Contact
  * @param $leadid - leadid
  * @param $relatedid - related entity id (contactid/accountid)
- * @param $setype - related module(Accounts/Contacts)
  * @return Boolean true on success, false otherwise.
  */
-function vtws_saveLeadRelatedCampaigns($leadId, $relatedId, $seType)
+function vtws_saveLeadRelatedCampaigns($leadId, $relatedId)
 {
 	$db = \App\Db::getInstance();
 	$rowCount = $db->createCommand()->update('vtiger_campaign_records', [
@@ -556,7 +555,7 @@ function vtws_transferLeadRelatedRecords($leadId, $relatedId, $seType)
 	vtws_getRelatedNotesAttachments($leadId, $relatedId);
 	vtws_saveLeadRelatedProducts($leadId, $relatedId, $seType);
 	vtws_saveLeadRelations($leadId, $relatedId, $seType);
-	vtws_saveLeadRelatedCampaigns($leadId, $relatedId, $seType);
+	vtws_saveLeadRelatedCampaigns($leadId, $relatedId);
 	vtws_transferComments($leadId, $relatedId);
 	vtws_transferRelatedRecords($leadId, $relatedId);
 }

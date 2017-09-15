@@ -438,7 +438,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	 */
 	protected static function uuDecode($input)
 	{
-		$attachments = $parts = [];
+		$attachments = [];
 		$uu_regexp_begin = '/begin [0-7]{3,4} ([^\r\n]+)\r?\n/s';
 		$uu_regexp_end = '/`\r?\nend((\r?\n)|($))/s';
 
