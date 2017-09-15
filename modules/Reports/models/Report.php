@@ -15,10 +15,10 @@ class Vtiger_Report_Model extends Reports
 	public static function getInstance($reportId = '')
 	{
 		$self = new self();
-		return $self->Reports($reportId);
+		return $self->reports($reportId);
 	}
 
-	public function Reports($reportId = '')
+	public function reports($reportId = '')
 	{
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
