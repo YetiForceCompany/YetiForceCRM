@@ -66,7 +66,6 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->getInteger('id');
-		$actionname = 'EditView';
 		if (!\App\Privilege::isPermitted($moduleName, 'EditView', $recordId)) {
 			$succes = false;
 		} else {
