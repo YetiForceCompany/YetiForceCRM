@@ -18,7 +18,6 @@ class Vtiger_Field_Model extends vtlib\Field
 	protected $fieldType;
 	protected $fieldDataTypeShort;
 	protected $uitype_instance;
-	public $webserviceField = false;
 	public static $referenceTypes = ['reference', 'referenceLink', 'referenceProcess', 'referenceSubProcess'];
 
 	const REFERENCE_TYPE = 'reference';
@@ -168,36 +167,6 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
-	 * Function to get the Webservice Field Object for the current Field Object
-	 * @return WebserviceField instance
-	 */
-	public function getWebserviceFieldObject()
-	{
-		if ($this->webserviceField === false) {
-			$db = PearDatabase::getInstance();
-
-			$row = [];
-			$row['uitype'] = $this->get('uitype');
-			$row['block'] = $this->get('block');
-			$row['tablename'] = $this->get('table');
-			$row['columnname'] = $this->get('column');
-			$row['fieldname'] = $this->get('name');
-			$row['fieldlabel'] = $this->get('label');
-			$row['displaytype'] = $this->get('displaytype');
-			$row['masseditable'] = $this->get('masseditable');
-			$row['typeofdata'] = $this->get('typeofdata');
-			$row['presence'] = $this->get('presence');
-			$row['tabid'] = $this->getModuleId();
-			$row['fieldid'] = $this->get('id');
-			$row['readonly'] = !$this->getProfileReadWritePermission();
-			$row['defaultvalue'] = $this->get('defaultvalue');
-			$row['fieldparams'] = $this->get('fieldparams');
-			$this->webserviceField = WebserviceField::fromArray($db, $row);
-		}
-		return $this->webserviceField;
-	}
-
-	/**
 	 * Function to get the Webservice Field data type
 	 * @return string Data type of the field
 	 */
@@ -266,8 +235,32 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 311: $fieldDataType = 'multiImage';
 						break;
 					default:
-						$webserviceField = $this->getWebserviceFieldObject();
-						$fieldDataType = $webserviceField->getFieldDataType();
+						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
+						if (isset($fieldsDataType[$uiType])) {
+							$fieldDataType = $fieldsDataType[$uiType]['fieldtype'];
+						} else {
+							$fieldType = explode('~', $this->get('typeofdata'));
+							switch ($fieldType[0]) {
+								case 'T': $fieldDataType = 'time';
+									break;
+								case 'D': $fieldDataType = 'date';
+									break;
+								case 'DT': $fieldDataType = 'datetime';
+									break;
+								case 'E': $fieldDataType = 'email';
+									break;
+								case 'N':
+								case 'NN': $fieldDataType = 'double';
+									break;
+								case 'P': $fieldDataType = 'password';
+									break;
+								case 'I': $fieldDataType = 'integer';
+									break;
+								case 'V':
+								default: $fieldDataType = 'string';
+									break;
+							}
+						}
 						break;
 				}
 				App\Cache::save('FieldDataType', $cacheName, $fieldDataType);

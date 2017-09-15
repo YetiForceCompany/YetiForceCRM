@@ -9,14 +9,8 @@
  * *********************************************************************************** */
 
 require_once 'include/Webservices/Utils.php';
-require_once 'include/Webservices/WebserviceField.php';
-require_once 'include/Webservices/EntityMeta.php';
-require_once 'include/Webservices/VtigerWebserviceObject.php';
 require_once("include/Webservices/WebServiceError.php");
-require_once 'include/Webservices/ModuleTypes.php';
 require_once 'include/utils/VtlibUtils.php';
-require_once 'include/Webservices/WebserviceEntityOperation.php';
-require_once 'include/Webservices/Retrieve.php';
 require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
 require_once 'modules/com_vtiger_workflow/include.php';
 require_once 'modules/com_vtiger_workflow/WorkFlowScheduler.php';

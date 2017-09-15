@@ -27,8 +27,6 @@ class CustomView extends CRMEntity
 	// Information as defined for this instance in the database table.
 	protected $_status = false;
 	protected $_userid = false;
-	protected $meta;
-	protected $moduleMetaInfo;
 
 	/** This function sets the currentuser id to the class variable smownerid,
 	 * modulename to the class variable customviewmodule
@@ -42,25 +40,6 @@ class CustomView extends CRMEntity
 		$this->escapemodule[] = $module . '_';
 		$this->escapemodule[] = '_';
 		$this->smownerid = $currentUser->id;
-		$this->moduleMetaInfo = [];
-		if ($module != '' && $module != 'Calendar') {
-			$this->meta = $this->getMeta($module, $currentUser);
-		}
-	}
-
-	/**
-	 *
-	 * @param String:ModuleName $module
-	 * @return EntityMeta
-	 */
-	public function getMeta($module, $user)
-	{
-		if (empty($this->moduleMetaInfo[$module])) {
-			$handler = vtws_getModuleHandlerFromName($module, $user);
-			$meta = $handler->getMeta();
-			$this->moduleMetaInfo[$module] = $meta;
-		}
-		return $this->moduleMetaInfo[$module];
 	}
 
 	// return type array

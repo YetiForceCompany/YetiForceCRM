@@ -966,36 +966,6 @@ function get_current_user_access_groups($module)
 	return $result;
 }
 
-/** Function to get the permitted module name Array with presence as 0
- * @returns permitted module name Array :: Type Array
- *
- */
-function getPermittedModuleNames()
-{
-
-	\App\Log::trace("Entering getPermittedModuleNames() method ...");
-	$current_user = vglobal('current_user');
-	$permittedModules = [];
-	require('user_privileges/user_privileges_' . $current_user->id . '.php');
-	include('user_privileges/tabdata.php');
-
-	if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1) {
-		foreach ($tab_seq_array as $tabid => $seq_value) {
-			if ($seq_value === 0 && $profileTabsPermission[$tabid] === 0) {
-				$permittedModules[] = \App\Module::getModuleName($tabid);
-			}
-		}
-	} else {
-		foreach ($tab_seq_array as $tabid => $seq_value) {
-			if ($seq_value === 0) {
-				$permittedModules[] = \App\Module::getModuleName($tabid);
-			}
-		}
-	}
-	\App\Log::trace("Exiting getPermittedModuleNames method ...");
-	return $permittedModules;
-}
-
 /**
  * Function to get the permitted module id Array with presence as 0
  * @global Users $current_user

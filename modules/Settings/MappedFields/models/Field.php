@@ -19,18 +19,9 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 	public function getUIType()
 	{
 		if (!$this->get('uitype')) {
-			$this->uitype = $this->getWebserviceFieldObject()->getUIType();
+			$this->uitype = parent::getUIType();
 		}
 		return $this->uitype;
-	}
-
-	/**
-	 * Function to get field picklist
-	 * @return <Array> picklist
-	 */
-	public function getPicklistDetails()
-	{
-		return $this->getWebserviceFieldObject()->getPicklistDetails();
 	}
 
 	/**

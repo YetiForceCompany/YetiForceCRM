@@ -11,15 +11,10 @@
 
 require_once('include/database/PearDatabase.php');
 require_once("modules/Users/Users.php");
-require_once 'include/Webservices/WebserviceField.php';
-require_once 'include/Webservices/EntityMeta.php';
-require_once 'include/Webservices/VtigerWebserviceObject.php';
 require_once("include/Webservices/WebServiceError.php");
 require_once 'include/utils/utils.php';
 require_once 'include/utils/UserInfoUtil.php';
-require_once 'include/Webservices/ModuleTypes.php';
 require_once 'include/utils/VtlibUtils.php';
-require_once 'include/Webservices/WebserviceEntityOperation.php';
 require_once 'include/Webservices/PreserveGlobal.php';
 
 function vtws_generateRandomAccessKey($length = 10)
@@ -106,33 +101,6 @@ function vtws_getCalendarEntityType($id)
  * Get the webservice reference Id given the entity's id and it's type name
  */
 
-function vtws_getWebserviceEntityId($entityName, $id)
-{
-	$adb = PearDatabase::getInstance();
-	$webserviceObject = VtigerWebserviceObject::fromName($adb, $entityName);
-	return $webserviceObject->getEntityId() . 'x' . $id;
-}
-
-function vtws_addDefaultModuleTypeEntity($moduleName)
-{
-	$moduleHandler = array('file' => 'include/Webservices/VtigerModuleOperation.php', 'class' => 'VtigerModuleOperation');
-	return vtws_addModuleTypeWebserviceEntity($moduleName, $moduleHandler['file'], $moduleHandler['class'], 1);
-}
-
-function vtws_addModuleTypeWebserviceEntity($moduleName, $filePath, $className, $isModule = 1)
-{
-	$isExists = (new \App\Db\Query())->from('vtiger_ws_entity')->where(['name' => $moduleName, 'handler_class' => $className, 'handler_path' => $filePath])->exists();
-	if (!$isExists) {
-		\App\Db::getInstance()->createCommand()
-			->insert('vtiger_ws_entity', [
-				'name' => $moduleName,
-				'handler_path' => $filePath,
-				'handler_class' => $className,
-				'ismodule' => $isModule,
-			])->execute();
-	}
-}
-
 function vtws_deleteWebserviceEntity($moduleName)
 {
 	\App\Db::getInstance()->createCommand()
@@ -183,22 +151,6 @@ function vtws_addActorTypeName($entityId, $fieldNames, $indexColumn, $tableName)
 			'index_field' => $indexColumn,
 			'table_name' => $tableName,
 		])->execute();
-}
-
-function vtws_getName($id, $user)
-{
-	$adb = PearDatabase::getInstance();
-
-
-	$webserviceObject = VtigerWebserviceObject::fromId($adb, $id);
-	$handlerPath = $webserviceObject->getHandlerPath();
-	$handlerClass = $webserviceObject->getHandlerClass();
-
-	require_once $handlerPath;
-
-	$handler = new $handlerClass($webserviceObject, $user, $adb, $log);
-	$meta = $handler->getMeta();
-	return $meta->getName($id);
 }
 
 function vtws_preserveGlobal($name, $value)
@@ -267,93 +219,6 @@ function vtws_addWebserviceOperationParam($operationId, $paramName, $paramType, 
 		values (?,?,?,?);";
 	$result = $adb->pquery($createOperationParamsQuery, array($operationId, $paramName, $paramType, $sequence));
 	return ($result !== false);
-}
-
-/**
- *
- * @global PearDatabase $adb
- * @global <type> $log
- * @param <type> $name
- * @param <type> $user
- * @return WebserviceEntityOperation
- */
-function vtws_getModuleHandlerFromName($name, $user)
-{
-	$adb = PearDatabase::getInstance();
-
-	$webserviceObject = VtigerWebserviceObject::fromName($adb, $name);
-	$handlerPath = $webserviceObject->getHandlerPath();
-	$handlerClass = $webserviceObject->getHandlerClass();
-
-	$log = null; // not used
-
-	require_once $handlerPath;
-
-	$handler = new $handlerClass($webserviceObject, $user, $adb, $log);
-	return $handler;
-}
-
-function vtws_getModuleHandlerFromId($id, $user)
-{
-	$adb = PearDatabase::getInstance();
-
-	$webserviceObject = VtigerWebserviceObject::fromId($adb, $id);
-	$handlerPath = $webserviceObject->getHandlerPath();
-	$handlerClass = $webserviceObject->getHandlerClass();
-
-	require_once $handlerPath;
-
-	$handler = new $handlerClass($webserviceObject, $user, $adb, $log);
-	return $handler;
-}
-
-function vtws_getActorEntityName($name, $idList)
-{
-	$db = PearDatabase::getInstance();
-	if (!is_array($idList) && count($idList) == 0) {
-		return [];
-	}
-	$entity = VtigerWebserviceObject::fromName($db, $name);
-	return vtws_getActorEntityNameById($entity->getEntityId(), $idList);
-}
-
-function vtws_getActorEntityNameById($entityId, $idList)
-{
-	$db = PearDatabase::getInstance();
-	if (!is_array($idList) && count($idList) == 0) {
-		return [];
-	}
-	$nameList = [];
-	$query = "select * from vtiger_ws_entity_name where entity_id = ?";
-	$result = $db->pquery($query, array($entityId));
-	if (is_object($result)) {
-		$rowCount = $db->numRows($result);
-		if ($rowCount > 0) {
-			$nameFields = $db->queryResult($result, 0, 'name_fields');
-			$tableName = $db->queryResult($result, 0, 'table_name');
-			$indexField = $db->queryResult($result, 0, 'index_field');
-			if (!(strpos($nameFields, ',') === false)) {
-				$fieldList = explode(',', $nameFields);
-				$nameFields = "concat(";
-				$nameFields = $nameFields . implode(",' ',", $fieldList);
-				$nameFields = $nameFields . ")";
-			}
-
-			$query1 = "select $nameFields as entityname, $indexField from $tableName where " .
-				"$indexField in (" . generateQuestionMarks($idList) . ")";
-			$params1 = array($idList);
-			$result = $db->pquery($query1, $params1);
-			if (is_object($result)) {
-				$rowCount = $db->numRows($result);
-				for ($i = 0; $i < $rowCount; $i++) {
-					$id = $db->queryResult($result, $i, $indexField);
-					$nameList[$id] = $db->queryResult($result, $i, 'entityname');
-				}
-				return $nameList;
-			}
-		}
-	}
-	return [];
 }
 
 function vtws_isRoleBasedPicklist($name)

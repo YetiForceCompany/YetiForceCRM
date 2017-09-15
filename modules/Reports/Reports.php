@@ -880,13 +880,13 @@ class Reports extends CRMEntity
 				$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
 				$fieldType = null;
 				if (!empty($fieldInfo)) {
-					$field = WebserviceField::fromArray($adb, $fieldInfo);
-					$fieldType = $field->getFieldDataType();
+					$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldInfo['fieldid']);
+					$fieldType = $fieldModel->getFieldDataType();
 				}
-				if ($fieldType == 'currency') {
-					if ($field->getUIType() == '71') {
+				if ($fieldType === 'currency') {
+					if ($fieldModel->getUIType() == '71') {
 						$advfilterval = CurrencyField::convertToUserFormat($advfilterval, $current_user);
-					} else if ($field->getUIType() == '72') {
+					} else if ($fieldModel->getUIType() == '72') {
 						$advfilterval = CurrencyField::convertToUserFormat($advfilterval, $current_user, true);
 					}
 				}
@@ -1147,12 +1147,12 @@ function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_grou
 		$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
 		$fieldType = null;
 		if (!empty($fieldInfo)) {
-			$field = WebserviceField::fromArray($adb, $fieldInfo);
-			$fieldType = $field->getFieldDataType();
+			$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldInfo['fieldid']);
+			$fieldType = $fieldModel->getFieldDataType();
 		}
 		if ($fieldType == 'currency') {
 			// Some of the currency fields like Unit Price, Total, Sub-total etc of Inventory modules, do not need currency conversion
-			if ($field->getUIType() == '72') {
+			if ($fieldModel->getUIType() == '72') {
 				$adv_filter_value = CurrencyField::convertToDBFormat($adv_filter_value, null, true);
 			} else {
 				$adv_filter_value = CurrencyField::convertToDBFormat($adv_filter_value);

@@ -38,9 +38,8 @@ class Users_ForgotPassword_Action
 		if ($valid) {
 			$userId = getUserId_Ol($userName);
 			$user = Users::getActiveAdminUser();
-			$wsUserId = vtws_getWebserviceEntityId('Users', $userId);
 			try {
-				vtws_changePassword($wsUserId, '', $newPassword, $confirmPassword, $user);
+				vtws_changePassword($userId, '', $newPassword, $confirmPassword, $user);
 			} catch (Exception $exc) {
 				$viewer->assign('ERROR', true);
 			}

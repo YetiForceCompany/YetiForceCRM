@@ -181,14 +181,10 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 */
 	public function setEventFieldsForExport()
 	{
-		$moduleFields = array_flip($this->getColumnFieldMapping());
-
 		$keysToReplace = array('taskpriority');
 		$keysValuesToReplace = array('taskpriority' => 'priority');
-
-		foreach ($moduleFields as $fieldName => $fieldValue) {
-			$fieldModel = Vtiger_Field_Model::getInstance($fieldName, $this);
-			if ($fieldName != 'id' && $fieldModel->getPermissions()) {
+		foreach ($this->getFields() as $fieldName => $fieldModel) {
+			if ($fieldModel->getPermissions()) {
 				if (!in_array($fieldName, $keysToReplace)) {
 					$eventFields[$fieldName] = 'yes';
 				} else {
@@ -204,14 +200,10 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 */
 	public function setTodoFieldsForExport()
 	{
-		$moduleFields = array_flip($this->getColumnFieldMapping());
-
 		$keysToReplace = array('taskpriority', 'activitystatus');
 		$keysValuesToReplace = array('taskpriority' => 'priority', 'activitystatus' => 'status');
-
-		foreach ($moduleFields as $fieldName => $fieldValue) {
-			$fieldModel = Vtiger_Field_Model::getInstance($fieldName, $this);
-			if ($fieldName != 'id' && $fieldModel->getPermissions()) {
+		foreach ($this->getFields() as $fieldName => $fieldModel) {
+			if ($fieldModel->getPermissions()) {
 				if (!in_array($fieldName, $keysToReplace)) {
 					$todoFields[$fieldName] = 'yes';
 				} else {
@@ -385,7 +377,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			if (in_array($fieldType, $type)) {
 				$fieldName = $field->getName();
 				if ($fieldType == 'picklist' && in_array($fieldName, $restrictedField[$fieldType])) {
-
+					
 				} else {
 					$fieldList[$fieldName] = $field;
 				}

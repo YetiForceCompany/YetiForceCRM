@@ -39,7 +39,7 @@
 										{$FIELD_INFO['picklistvalues']['Task'] = \App\Language::translate('Task', 'Calendar')}
 									{/if}
 									{if $FIELD_MODEL->getFieldDataType() eq 'reference'}
-										{assign var=referenceList value=$FIELD_MODEL->getWebserviceFieldObject()->getReferenceList()}
+										{assign var=referenceList value=$FIELD_MODEL->getReferenceList()}
 										{if is_array($referenceList) && in_array('Users', $referenceList)}
 											{assign var=USERSLIST value=[]}
 											{assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
@@ -80,7 +80,7 @@
 										selected="selected"
 									{/if}
 									{if $FIELD_MODEL->getFieldDataType() eq 'reference'}
-										{assign var=referenceList value=$FIELD_MODEL->getWebserviceFieldObject()->getReferenceList()}
+										{assign var=referenceList value=$FIELD_MODEL->getReferenceList()}
 										{if is_array($referenceList) && in_array('Users', $referenceList)}
 											{assign var=USERSLIST value=[]}
 											{assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}

@@ -24,20 +24,16 @@ class Users_DeleteAjax_Action extends Vtiger_Delete_Action
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$ownerId = $request->get('userid');
-		$newOwnerId = $request->get('transfer_user_id');
+		$userId = $request->getInteger('userid');
+		$transformUserId = $request->getInteger('transfer_user_id');
 		if ($request->getMode() === 'permanent') {
-			Users_Record_Model::deleteUserPermanently($ownerId, $newOwnerId);
+			Users_Record_Model::deleteUserPermanently($userId, $transformUserId);
 		} else {
-			$userId = vtws_getWebserviceEntityId($moduleName, $ownerId);
-			$transformUserId = vtws_getWebserviceEntityId($moduleName, $newOwnerId);
-
-			$userModel = Users_Record_Model::getCurrentUserModel();
-
-			vtws_deleteUser($userId, $transformUserId, $userModel);
-
-			if ($request->get('permanent') === '1')
+			$userObj = new Users();
+			$userObj->transformOwnerShipAndDelete($userId, $transformUserId);
+			if ($request->get('permanent') === '1') {
 				Users_Record_Model::deleteUserPermanently($ownerId, $newOwnerId);
+			}
 		}
 		$userModuleModel = Users_Module_Model::getInstance($moduleName);
 		$listViewUrl = $userModuleModel->getListViewUrl();

@@ -599,12 +599,12 @@ class Reports_Record_Model extends Vtiger_Record_Model
 					$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
 					$fieldType = null;
 					if (!empty($fieldInfo)) {
-						$field = WebserviceField::fromArray($db, $fieldInfo);
-						$fieldType = $field->getFieldDataType();
+						$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldInfo['fieldid']);
+						$fieldType = $fieldModel->getFieldDataType();
 					}
 
 					if ($fieldType === 'currency') {
-						if ($field->getUIType() == '72') {
+						if ($fieldModel->getUIType() == '72') {
 							// Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
 							$advFilterValue = Vtiger_Currency_UIType::convertToDBFormat($advFilterValue, null, true);
 						} else {

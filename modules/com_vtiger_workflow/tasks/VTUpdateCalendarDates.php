@@ -75,7 +75,7 @@ class VTUpdateCalendarDates extends VTTask
 			if (count($timeEnd) < 2) {
 				$userId = $rowRecordModel->get('assigned_user_id');
 				if ($userId === null) {
-					$userId = vtws_getWebserviceEntityId('Users', 1);
+					$userId = 1;
 				}
 				$result = (new \App\Db\Query())->select(['end_hour'])->from('vtiger_users')->where(['id' => $userId])->scalar();
 				if ($result) {

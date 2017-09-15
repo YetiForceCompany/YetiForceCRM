@@ -255,4 +255,18 @@ class Field
 		}
 		return $fieldInfo;
 	}
+
+	/**
+	 * Get fields type from uitype
+	 * @return array
+	 */
+	public static function getFieldsTypeFromUIType()
+	{
+		if (Cache::has('getFieldsTypeFromUIType', $mixed)) {
+			return Cache::get('getFieldsTypeFromUIType', $mixed);
+		}
+		$fieldTypeMapping = (new Db\Query())->from('vtiger_ws_fieldtype')->indexBy('uitype')->all();
+		Cache::save('getFieldsTypeFromUIType', '', $fieldTypeMapping, Cache::LONG);
+		return $fieldTypeMapping;
+	}
 }

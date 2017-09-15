@@ -192,7 +192,6 @@ class Users_Privileges_Model extends Users_Record_Model
 		}
 		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
 		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
-		Vtiger_Loader::includeOnce('~~include/Webservices/Retrieve.php');
 		$workflows = (new VTWorkflowManager())->getWorkflowsForModule($moduleName, VTWorkflowManager::$BLOCK_EDIT);
 		if (count($workflows)) {
 			foreach ($workflows as &$workflow) {

@@ -2,7 +2,6 @@
 namespace App;
 
 \Vtiger_Loader::includeOnce('~/modules/com_vtiger_workflow/VTJsonCondition.php');
-\Vtiger_Loader::includeOnce('~/include/Webservices/Retrieve.php');
 
 /**
  * Advanced privilege class

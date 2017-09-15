@@ -9,12 +9,6 @@
  * ********************************************************************************** */
 require_once('include/Webservices/Utils.php');
 require_once("include/Webservices/WebServiceError.php");
-require_once 'include/Webservices/ModuleTypes.php';
-require_once('include/Webservices/Create.php');
-require_once 'include/Webservices/DescribeObject.php';
-require_once 'include/Webservices/WebserviceField.php';
-require_once 'include/Webservices/EntityMeta.php';
-require_once 'include/Webservices/VtigerWebserviceObject.php';
 require_once("modules/Users/Users.php");
 
 class VTCreateEventTask extends VTTask

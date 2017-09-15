@@ -11,8 +11,6 @@
 require_once 'config/config.php';
 require_once 'config/debug.php';
 require_once 'config/performance.php';
-require_once 'include/Webservices/Delete.php';
-require_once 'include/Webservices/DescribeObject.php';
 require_once 'include/Loader.php';
 require_once('include/ConfigUtils.php');
 Vtiger_Loader::includeOnce('include.runtime.Globals');
@@ -190,30 +188,17 @@ function vtws_populateConvertLeadEntities($entityvalue, $entity, Vtiger_Record_M
  */
 function vtws_validateConvertLeadEntityMandatoryValues($entity, Vtiger_Module_Model $targetModuleModel, $module)
 {
-
 	$mandatoryFields = $targetModuleModel->getMandatoryFieldModels();
 	foreach ($mandatoryFields as $field => $fieldModel) {
 		if (empty($entity[$field])) {
-			$fieldInfo = vtws_getConvertLeadFieldInfo($module, $field);
-			if (($fieldInfo['type']['name'] === 'picklist' || $fieldInfo['type']['name'] === 'multipicklist' || $fieldInfo['type']['name'] === 'date' || $fieldInfo['type']['name'] === 'datetime') && ($fieldInfo['editable'] === true)) {
-				$entity[$field] = $fieldInfo['default'];
+			if (($fieldModel->getFieldDataType() === 'picklist' || $fieldModel->getFieldDataType() === 'multipicklist' || $fieldModel->getFieldDataType() === 'date' || $fieldModel->getFieldDataType() === 'datetime') && $fieldModel->isEditable()) {
+				$entity[$field] = $fieldModel->getDefaultFieldValue();
 			} else {
 				$entity[$field] = '????';
 			}
 		}
 	}
 	return $entity;
-}
-
-function vtws_getConvertLeadFieldInfo($module, $fieldname)
-{
-	$describe = vtws_describe($module, vglobal('current_user'));
-	foreach ($describe['fields'] as $index => $fieldInfo) {
-		if ($fieldInfo['name'] == $fieldname) {
-			return $fieldInfo;
-		}
-	}
-	return false;
 }
 
 //function to handle the transferring of related records for lead

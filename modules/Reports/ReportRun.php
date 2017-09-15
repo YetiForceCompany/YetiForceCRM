@@ -1386,10 +1386,9 @@ class ReportRun extends CRMEntity
 				$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
 				$fieldType = null;
 				if (!empty($fieldInfo)) {
-					$field = WebserviceField::fromArray($adb, $fieldInfo);
-					$fieldType = $field->getFieldDataType();
+					$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldInfo['fieldid']);
+					$fieldType = $fieldModel->getFieldDataType();
 				}
-
 				if ($fieldType == 'currency') {
 					// Some of the currency fields like Unit Price, Total, Sub-total etc of Inventory modules, do not need currency conversion
 					if ($field->getUIType() == '72') {
@@ -2238,10 +2237,8 @@ class ReportRun extends CRMEntity
 		list($module, $fieldLabel) = explode('__', $fld->name, 2);
 		$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
 		if (!empty($fieldInfo)) {
-			$field = WebserviceField::fromArray($adb, $fieldInfo);
-		}
-		if (!empty($fieldInfo)) {
-			$translatedLabel = \App\Language::translate($field->getFieldLabelKey(), $module);
+			$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldInfo['fieldid']);
+			$translatedLabel = \App\Language::translate($fieldModel->getFieldLabel(), $module);
 		} else {
 			$fieldLabel = str_replace("__", " ", $fieldLabel);
 			$translatedLabel = \App\Language::translate($fieldLabel, $module);
@@ -3466,12 +3463,9 @@ class ReportRun extends CRMEntity
 
 	public function getReferenceFieldColumnList($moduleName, $fieldInfo)
 	{
-		$adb = PearDatabase::getInstance();
-
 		$columnsSqlList = [];
-
-		$fieldInstance = WebserviceField::fromArray($adb, $fieldInfo);
-		$referenceModuleList = $fieldInstance->getReferenceList();
+		$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldInfo['fieldid']);
+		$referenceModuleList = $fieldModel->getReferenceList();
 		$reportSecondaryModules = explode(':', $this->secondarymodule);
 
 		if ($moduleName != $this->primarymodule && in_array($this->primarymodule, $referenceModuleList)) {
@@ -3531,30 +3525,30 @@ class ReportRun extends CRMEntity
 					$referenceTableName = 'vtiger_vendorRelProducts';
 				} elseif ($moduleName == 'ModComments' && $referenceModule == 'Users') {
 					$referenceTableName = 'vtiger_usersModComments';
-				} elseif (in_array($referenceModule, $reportSecondaryModules) && $moduleName != \App\Module::getModuleName($fieldInstance->getTabId())) {
+				} elseif (in_array($referenceModule, $reportSecondaryModules) && $moduleName != $fieldModel->getModuleName()) {
 					$referenceTableName = "{$entityTableName}Rel$referenceModule";
-					$dependentTableName = "vtiger_crmentityRel{$referenceModule}{$fieldInstance->getFieldId()}";
+					$dependentTableName = "vtiger_crmentityRel{$referenceModule}{$fieldModel->getId()}";
 				} elseif (in_array($moduleName, $reportSecondaryModules)) {
 					$referenceTableName = "{$entityTableName}Rel$moduleName";
-					$dependentTableName = "vtiger_crmentityRel{$moduleName}{$fieldInstance->getFieldId()}";
-				} elseif ($fieldInstance->getUIType() === 66 || $fieldInstance->getUIType() === 67 || $fieldInstance->getUIType() === 68) {
+					$dependentTableName = "vtiger_crmentityRel{$moduleName}{$fieldModel->getId()}";
+				} elseif ($fieldModel->getUIType() === 66 || $fieldModel->getUIType() === 67 || $fieldModel->getUIType() === 68) {
 					$referenceTableName = $entityTableFieldNames['tablename'];
 					$this->queryPlanner->addCustomTable(
 						[
 							'reference' => $referenceTableName,
-							'field' => $fieldInstance->getColumnName(),
+							'field' => $fieldModel->getColumnName(),
 							'table' => $fieldInfo['tablename'],
 							'refTable' => $referenceTableName,
 							'refIndex' => $entityTableFieldNames['entityidfield']
 						]
 					);
 				} else {
-					$referenceTableName = "{$entityTableName}Rel{$moduleName}{$fieldInstance->getFieldId()}";
-					$dependentTableName = "vtiger_crmentityRel{$moduleName}{$fieldInstance->getFieldId()}";
+					$referenceTableName = "{$entityTableName}Rel{$moduleName}{$fieldModel->getId()}";
+					$dependentTableName = "vtiger_crmentityRel{$moduleName}{$fieldModel->getId()}";
 					$this->queryPlanner->addCustomTable(
 						array(
 							'reference' => $referenceTableName,
-							'field' => $fieldInstance->getColumnName(),
+							'field' => $fieldModel->getColumnName(),
 							'table' => $fieldInfo['tablename'],
 							'refTable' => $entityTableFieldNames['tablename'],
 							'refIndex' => $entityTableFieldNames['entityidfield']
@@ -3581,7 +3575,7 @@ class ReportRun extends CRMEntity
 					$columnSql = implode('', $columnList);
 				}
 
-				if ($referenceModule == 'Currency' && $fieldInstance->getFieldName() == 'currency_id') {
+				if ($referenceModule === 'Currency' && $fieldModel->getFieldName() === 'currency_id') {
 					$columnSql = "vtiger_currency_info$moduleName.currency_name";
 					$this->queryPlanner->addTable("vtiger_currency_info$moduleName");
 				}

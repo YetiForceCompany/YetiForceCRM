@@ -14,12 +14,8 @@ class Reservations_Time_UIType extends Vtiger_Time_UIType
 		if (!empty($value)) {
 			return parent::getEditViewDisplayValue($value, $record);
 		}
-
 		$specialTimeFields = array('time_start', 'time_end');
-
-		$fieldInstance = $this->get('field')->getWebserviceFieldObject();
-		$fieldName = $fieldInstance->getFieldName();
-
+		$fieldName = $this->get('field')->getFieldName();
 		if (!in_array($fieldName, $specialTimeFields)) {
 			return parent::getEditViewDisplayValue($value, $record);
 		} else {

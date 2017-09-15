@@ -309,10 +309,4 @@ class Deprecated
 		$sqlString = "CONCAT(" . $formattedNameListString . ")";
 		return $sqlString;
 	}
-
-	public static function returnAppListStringsLanguage($language, $module = 'Vtiger')
-	{
-		$strings = \Vtiger_Language_Handler::getModuleStringsFromFile($language, $module);
-		return $strings['languageStrings'];
-	}
 }

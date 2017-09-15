@@ -16,10 +16,7 @@ class OSSTimeControl_Time_UIType extends Vtiger_Time_UIType
 		}
 
 		$specialTimeFields = array('time_start', 'time_end');
-
-		$fieldInstance = $this->get('field')->getWebserviceFieldObject();
-		$fieldName = $fieldInstance->getFieldName();
-
+		$fieldName = $this->get('field')->getFieldName();
 		if (!in_array($fieldName, $specialTimeFields)) {
 			return parent::getEditViewDisplayValue($value, $record);
 		} else {
@@ -37,7 +34,7 @@ class OSSTimeControl_Time_UIType extends Vtiger_Time_UIType
 	{
 		$date = new DateTime($value);
 
-		if ($fieldName == 'time_end' && empty($value)) {
+		if ($fieldName === 'time_end' && empty($value)) {
 			$date->modify("+15 minutes");
 		}
 

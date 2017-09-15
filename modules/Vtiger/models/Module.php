@@ -289,35 +289,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Function to get the module meta information
-	 * @param <type> $userModel - user model
-	 */
-	public function getModuleMeta($userModel = false)
-	{
-		if (empty($this->moduleMeta)) {
-			if (empty($userModel)) {
-				$userModel = Users_Record_Model::getCurrentUserModel();
-			}
-			$this->moduleMeta = Vtiger_ModuleMeta_Model::getInstance($this->get('name'), $userModel);
-		}
-		return $this->moduleMeta;
-	}
-	//Note : This api is using only in RelationListview - for getting columnfields of Related Module
-	//Need to review........
-
-	/**
-	 * Function to get the module field mapping
-	 * @return <array>
-	 */
-	public function getColumnFieldMapping()
-	{
-		$moduleMeta = $this->getModuleMeta();
-		$meta = $moduleMeta->getMeta();
-		$fieldColumnMapping = $meta->getFieldColumnMapping();
-		return array_flip($fieldColumnMapping);
-	}
-
-	/**
 	 * Function to get the ListView Component Name
 	 * @return string
 	 */

@@ -22,13 +22,12 @@
  * @param Users $user 
  * 
  */
-function vtws_changePassword($id, $oldPassword, $newPassword, $confirmPassword, Users $user)
+function vtws_changePassword($userId, $oldPassword, $newPassword, $confirmPassword, Users $user)
 {
 	vtws_preserveGlobal('current_user', $user);
-	$idComponents = vtws_getIdComponents($id);
-	if ($idComponents[1] == $user->id || $user->isAdminUser()) {
+	if ($userId == $user->id || $user->isAdminUser()) {
 		$newUser = new Users();
-		$newUser->retrieveEntityInfo($idComponents[1], 'Users');
+		$newUser->retrieveEntityInfo($userId, 'Users');
 		if (!$user->isAdminUser()) {
 			if (empty($oldPassword)) {
 				throw new WebServiceException(WebServiceErrorCode::$INVALIDOLDPASSWORD, vtws_getWebserviceTranslatedString('LBL_' .
