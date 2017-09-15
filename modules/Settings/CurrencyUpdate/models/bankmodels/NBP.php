@@ -9,7 +9,7 @@
 /**
  * Class for connection to Narodowy Bank Polski currency exchange rates
  */
-class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpdate_AbstractBank_Model
+class Settings_CurrencyUpdate_Models_NBP_BankModel extends Settings_CurrencyUpdate_AbstractBank_Model
 {
 	/*
 	 * Returns bank name
@@ -90,7 +90,7 @@ class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpda
 		return $supportedCurrencies;
 	}
 	/*
-	 * Returns banks main currency 
+	 * Returns banks main currency
 	 */
 
 	public function getMainCurrencyCode()
@@ -101,7 +101,7 @@ class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpda
 	 * Fetch exchange rates
 	 * @param <Array> $currencies - list of systems active currencies
 	 * @param <Date> $date - date for which exchange is fetched
-	 * @param boolean $cron - if true then it is fired by server and crms currency conversion rates are updated 
+	 * @param boolean $cron - if true then it is fired by server and crms currency conversion rates are updated
 	 */
 
 	public function getRates($otherCurrencyCode, $dateParam, $cron = false)

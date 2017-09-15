@@ -59,7 +59,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 		$numToConvert = $dataReader->count();
 		if ($numToConvert >= 1) {
 			$selectBankId = $this->getActiveBankId();
-			$activeBankName = 'Settings_CurrencyUpdate_models_' . $this->getActiveBankName() . '_BankModel';
+			$activeBankName = 'Settings_CurrencyUpdate_Models_' . $this->getActiveBankName() . '_BankModel';
 			$currIds = [];
 			$otherCurrencyCode = [];
 			while ($row = $dataReader->read()) {
@@ -199,7 +199,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 	public function getSupportedCurrencies($bankName = null)
 	{
 		if (!$bankName) {
-			$bankName = 'Settings_CurrencyUpdate_models_' . $this->getActiveBankName() . '_BankModel';
+			$bankName = 'Settings_CurrencyUpdate_Models_' . $this->getActiveBankName() . '_BankModel';
 		}
 		$bank = new $bankName();
 
@@ -214,7 +214,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 	public function getUnSupportedCurrencies($bankName = null)
 	{
 		if (!$bankName) {
-			$bankName = 'Settings_CurrencyUpdate_models_' . $this->getActiveBankName() . '_BankModel';
+			$bankName = 'Settings_CurrencyUpdate_Models_' . $this->getActiveBankName() . '_BankModel';
 		}
 		$bank = new $bankName();
 		$supported = $bank->getSupportedCurrencies($bankName);
