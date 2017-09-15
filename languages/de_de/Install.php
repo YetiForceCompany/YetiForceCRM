@@ -44,6 +44,7 @@ $languageStrings = [
 	'LBL_PASSWORD_MISMATCH' => 'Bitte geben Sie erneut die Passwörter ein. Die beiden Passwörter stimmen nicht überein.',
 	'LBL_PHP_CONFIGURATION' => 'PHP Konfiguration',
 	'LBL_PHP_RECOMMENDED_SETTINGS' => 'Empfohlene PHP-Einstellungen',
+	'LBL_SECURITY_RECOMMENDED_SETTINGS' => 'Recommended security settings',
 	'LBL_PHP_VERSION' => 'PHP Version',
 	'LBL_PLEASE_WAIT' => 'Bitte warten',
 	'LBL_PRESENT_VALUE' => 'Aktueller Wert',
