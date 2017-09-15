@@ -738,7 +738,11 @@ class Vtiger_Module_Model extends \vtlib\Module
 	public function getNameFields()
 	{
 		$entityInfo = App\Module::getEntityInfo($this->getId());
-		return $entityInfo['fieldnameArr'];
+		$fieldsName = [];
+		foreach ($entityInfo['fieldnameArr'] as $columnName) {
+			$fieldsName[] = $this->getFieldByColumn($columnName)->getFieldName();
+		}
+		return $fieldsName;
 	}
 
 	/**
