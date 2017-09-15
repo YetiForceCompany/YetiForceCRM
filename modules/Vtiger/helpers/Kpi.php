@@ -41,18 +41,18 @@ class Vtiger_Kpi_Helper
 	public function getKpiTypes()
 	{
 		$types = [];
-		$types['tdu'] = 'Terminowość dostarczania usługi';
-		$types['cdu'] = 'Czas dostarczania usługi';
-		$types['tuatd'] = 'Terminowość usuwania awarii';
-		$types['cukapu'] = 'Czas usuniecia każdej awarii priorytetowej dla usługi dzierżawy';
-		$types['cukazu'] = 'Czas usuniecia każdej awarii zwykłej dla usługi dzierżawy';
-		$types['la100u'] = 'Liczba awarii na 100 usuługi dzierżawy';
+		$types['Tdu'] = 'Terminowość dostarczania usługi';
+		$types['Cdu'] = 'Czas dostarczania usługi';
+		$types['Tuatd'] = 'Terminowość usuwania awarii';
+		$types['Cukapu'] = 'Czas usuniecia każdej awarii priorytetowej dla usługi dzierżawy';
+		$types['Cukazu'] = 'Czas usuniecia każdej awarii zwykłej dla usługi dzierżawy';
+		$types['La100u'] = 'Liczba awarii na 100 usuługi dzierżawy';
 		return $types;
 	}
 
 	public function getData()
 	{
-		$type = 'get_' . $this->type;
+		$type = 'get' . $this->type;
 		if ($this->type == '' || !method_exists('Vtiger_Kpi_Helper', $type)) {
 			return;
 		}
@@ -60,7 +60,7 @@ class Vtiger_Kpi_Helper
 	}
 
 	// Data KPI
-	public function get_tdu()
+	public function getTdu()
 	{
 		$reference = 30;
 		$tolerance = '1.00%';
@@ -99,7 +99,7 @@ class Vtiger_Kpi_Helper
 		}
 	}
 
-	public function get_cdu()
+	public function getCdu()
 	{
 		$reference = 30;
 		$tolerance = '1 dzień';
@@ -135,7 +135,7 @@ class Vtiger_Kpi_Helper
 		}
 	}
 
-	public function get_tuatd()
+	public function getTuatd()
 	{
 		$reference = 12;
 		$tolerance = '2.00%';
@@ -174,7 +174,7 @@ class Vtiger_Kpi_Helper
 		}
 	}
 
-	public function get_cukapu()
+	public function getCukapu()
 	{
 		$reference = 12;
 		$tolerance = '2 godziny';
@@ -211,7 +211,7 @@ class Vtiger_Kpi_Helper
 		}
 	}
 
-	public function get_cukazu()
+	public function getCukazu()
 	{
 		$reference = 12;
 		$tolerance = '2 godziny';
@@ -247,7 +247,7 @@ class Vtiger_Kpi_Helper
 		}
 	}
 
-	public function get_la100u()
+	public function getLa100u()
 	{
 		$reference = 2;
 		$tolerance = '0';
