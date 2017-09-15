@@ -42,6 +42,7 @@ $languageStrings = [
 	'LBL_PASSWORD_MISMATCH' => 'Please re-enter passwords.  The \"Password\" and \"Re-type password\" values do not match.',
 	'LBL_PHP_CONFIGURATION' => 'PHP configuration',
 	'LBL_PHP_RECOMMENDED_SETTINGS' => 'Recommended PHP settings',
+	'LBL_SECURITY_RECOMMENDED_SETTINGS' => 'Recommended security settings',
 	'LBL_PHP_VERSION' => 'PHP version',
 	'LBL_PLEASE_WAIT' => 'Please wait',
 	'LBL_PRESENT_VALUE' => 'Present values',
