@@ -18,7 +18,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('Delete');
 		$this->exposeMethod('ChangeStatus');
 		$this->exposeMethod('changeStatusAllTasks');
-		$this->exposeMethod('Save');
+		$this->exposeMethod('save');
 	}
 
 	public function process(\App\Request $request)
@@ -81,7 +81,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 		}
 	}
 
-	public function Save(\App\Request $request)
+	public function save(\App\Request $request)
 	{
 
 		$workflowId = $request->get('for_workflow');
