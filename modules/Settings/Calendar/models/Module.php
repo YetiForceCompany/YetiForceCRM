@@ -84,7 +84,7 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function getCalendarColorPicklist()
 	{
-		return $fields = ['activitytype'];
+		return ['activitytype'];
 	}
 
 	/**

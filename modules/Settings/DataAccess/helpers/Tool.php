@@ -80,7 +80,7 @@ class Oss_Tool
 			if ($fieldName) {
 				$field->name = strtolower($fieldName);
 			} else {
-				$field->name = Oss_Tool::generateFieldName();
+				$field->name = self::generateFieldName();
 			}
 
 			if (!$fieldName) {
@@ -132,7 +132,7 @@ class Oss_Tool
 			if ($fieldName) {
 				$field->name = strtolower($fieldName);
 			} else {
-				$field->name = Oss_Tool::generateFieldName();
+				$field->name = self::generateFieldName();
 			}
 
 			if ($fieldLabel) {

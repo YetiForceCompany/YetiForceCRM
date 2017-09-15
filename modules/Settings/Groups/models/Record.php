@@ -231,7 +231,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getUsersList($nonAdmin = false)
 	{
-		$userIdsList = $usersList = [];
+		$userIdsList = [];
 		$members = $this->getMembers();
 
 		if (isset($members['Users'])) {
