@@ -258,7 +258,7 @@ class Vtiger_Export_Model extends \App\Base
 			$type = $this->fieldDataTypeCache[$fieldName];
 			if ($fieldname !== 'hdnTaxType' && ($uitype === 15 || $uitype === 16 || $uitype === 33)) {
 				if (empty($this->picklistValues[$fieldname])) {
-					$this->picklistValues[$fieldname] = $this->fieldArray[$fieldname]->getValuesName();
+					$this->picklistValues[$fieldname] = $this->fieldArray[$fieldname]->getPicklistValues();
 				}
 				// If the value being exported is accessible to current user
 				// or the picklist is multiselect type.
