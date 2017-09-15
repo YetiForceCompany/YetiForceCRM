@@ -106,7 +106,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit8_Js", {}, {
 			var xhr = new XMLHttpRequest();
 
 			// Open the connection.
-			xhr.open('POST', 'index.php?module=PDF&parent=Settings&action=Watermark&mode=Upload', true);
+			xhr.open('POST', 'index.php?module=PDF&parent=Settings&action=Watermark&mode=upload', true);
 
 			// Set up a handler for when the request finishes.
 			xhr.onload = function () {
@@ -134,7 +134,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit8_Js", {}, {
 				parent: app.getParentModuleName(),
 				module: app.getModuleName(),
 				action: 'Watermark',
-				mode: 'Delete',
+				mode: 'delete',
 				id: form.find('[name="record"]').val()
 			};
 			params.dataType = 'json';
