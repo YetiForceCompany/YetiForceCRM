@@ -130,7 +130,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->view('Step2.tpl', $qualifiedModuleName);
 	}
 
-	public function Step3(\App\Request $request)
+	public function step3(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
