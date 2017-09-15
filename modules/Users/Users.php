@@ -621,7 +621,6 @@ class Users extends CRMEntity
 	 */
 	public static function getActiveAdminId()
 	{
-		$db = PearDatabase::getInstance();
 		$cache = Vtiger_Cache::getInstance();
 		if ($cache->getAdminUserId()) {
 			return $cache->getAdminUserId();

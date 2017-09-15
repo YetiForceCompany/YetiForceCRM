@@ -69,33 +69,6 @@ class DataAccess_Conditions
 		}
 	}
 
-	private function getListConditions($module)
-	{
-		$dataReader = (new \App\Db\Query())->select([
-					self::$tab . '.dataaccessid',
-					'fieldname',
-					'comparator',
-					'field_type',
-					'val',
-					'required'
-				])->from(self::$tab)
-				->leftJoin(self::$tab_cnd, self::$tab_cnd . '.dataaccessid = ' . self::$tab . '.dataaccessid')
-				->where(['module_name' => $module])
-				->createCommand()->query();
-		$output = [];
-		$i = 0;
-		while ($row = $dataReader->read()) {
-			$id = $row['dataaccessid'];
-			$output[$id][$i]['fieldname'] = $row['fieldname'];
-			$output[$id][$i]['comparator'] = $row['comparator'];
-			$output[$id][$i]['field_type'] = $row['field_type'];
-			$output[$id][$i]['val'] = $row['val'];
-			$output[$id][$i]['cnd_required'] = $row['required'];
-			$i++;
-		}
-		return $output;
-	}
-
 	private function getListConditionsById($ID)
 	{
 		$dataReader = (new \App\Db\Query())->select([
