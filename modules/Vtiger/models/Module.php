@@ -1455,7 +1455,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$mandatoryFields = [];
 		if ($fields) {
 			foreach ($fields as $field) {
-				if ($field->isMandatory()) {
+				if ($field->isActiveField() && $field->isMandatory()) {
 					$mandatoryFields[$field->getName()] = $field;
 				}
 			}

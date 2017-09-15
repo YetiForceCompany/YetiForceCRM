@@ -131,16 +131,19 @@ class Vtiger_Import_View extends Vtiger_Index_View
 
 			$moduleName = $request->getModule();
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-			$moduleMeta = $moduleModel->getModuleMeta();
-
 			$viewer->assign('DATE_FORMAT', $user->date_format);
 			$viewer->assign('FOR_MODULE', $moduleName);
 			$viewer->assign('MODULE', 'Import');
-
 			$viewer->assign('HAS_HEADER', $hasHeader);
 			$viewer->assign('ROW_1_DATA', ($rowData && $rowData['LBL_STANDARD_FIELDS']) ? $rowData : ['LBL_STANDARD_FIELDS' => $rowData]);
 			$viewer->assign('USER_INPUT', $request);
 
+			$mandatoryFields = [];
+			foreach ($moduleModel->getMandatoryFieldModels() as $fieldName => $fieldModel) {
+				if ($fieldModel->isEditable()) {
+					$mandatoryFields[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
+				}
+			}
 			if ($moduleModel->isInventory()) {
 				$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($moduleName);
 				$inventoryFields = $inventoryFieldModel->getFields(true);
@@ -154,7 +157,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 			}
 			$importModule = Vtiger_Module_Model::getInstance('Import')->setImportModule($moduleName);
 			$viewer->assign('AVAILABLE_BLOCKS', $importModule->getFieldsByBlocks());
-			$viewer->assign('ENCODED_MANDATORY_FIELDS', \App\Json::encode($moduleMeta->getMandatoryFields()));
+			$viewer->assign('ENCODED_MANDATORY_FIELDS', \App\Json::encode($mandatoryFields));
 			$viewer->assign('SAVED_MAPS', Import_Map_Model::getAllByModule($moduleName));
 			$viewer->assign('USERS_LIST', Import_Utils_Helper::getAssignedToUserList($moduleName));
 			$viewer->assign('GROUPS_LIST', Import_Utils_Helper::getAssignedToGroupList($moduleName));

@@ -27,9 +27,7 @@
 		<input type="hidden" name="delimiter" value='{$USER_INPUT->get('delimiter')}' />
 		<input type="hidden" name="merge_type" value='{$USER_INPUT->get('merge_type')}' />
 		<input type="hidden" name="merge_fields" value='{$MERGE_FIELDS}' />
-
 		<input type="hidden" id="mandatory_fields" name="mandatory_fields" value='{$ENCODED_MANDATORY_FIELDS}' />
-
 		<table  class="searchUIBasic col-xs-12 no-margin paddingLRZero">
 			{if $ERROR_MESSAGE neq ''}
 			<tr>
