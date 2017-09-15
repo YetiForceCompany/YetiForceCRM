@@ -15,7 +15,6 @@ require_once("include/Webservices/WebServiceError.php");
 require_once 'include/utils/utils.php';
 require_once 'include/utils/UserInfoUtil.php';
 require_once 'include/utils/VtlibUtils.php';
-require_once 'include/Webservices/PreserveGlobal.php';
 
 function vtws_generateRandomAccessKey($length = 10)
 {
