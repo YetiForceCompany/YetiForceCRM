@@ -145,7 +145,7 @@ class CSRF
 	 * Rewrites <form> on the fly to add CSRF tokens to them. This can also
 	 * inject our JavaScript library.
 	 */
-	public static function obHandler($buffer, $flags)
+	public static function obHandler($buffer)
 	{
 		if (!static::$isHtml) {
 			// not HTML until proven otherwise
@@ -445,7 +445,7 @@ class CSRF
 	/**
 	 * Generates a random string as the hash of time, microtime, and mt_rand.
 	 */
-	public static function generateSecret($len = 32)
+	public static function generateSecret()
 	{
 		$r = '';
 		for ($i = 0; $i < 32; $i++) {
