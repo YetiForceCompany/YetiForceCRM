@@ -53,7 +53,7 @@ before_script:
   
 script:
 - cd tests
-- /usr/local/bin/phpunit --debug --verbose --coverage-text --coverage-clover=coverage.clover
+- /usr/local/bin/phpunit --debug --verbose --coverage-text --coverage-clover=coverage.xml
     
 after_script:
 - cd ..
@@ -67,5 +67,5 @@ after_script:
 - cat cache/logs/phpError.log
 - cat cache/logs/system.log
 - cat cache/logs/Importer.log
-- php ocular code-coverage:upload --format=php-clover coverage.clover
+- php ocular code-coverage:upload --format=php-clover coverage.xml
 - bash <(curl -s https://codecov.io/bash) 
