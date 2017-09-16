@@ -11,6 +11,11 @@
 			<directory suffix=".php">./phpunit/</directory>
 		</testsuite>
 	</testsuites>
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">./</directory>
+		</whitelist>
+	</filter>
 	<listeners>
 		<listener class="Times" file="./times.php" />
 	</listeners>
