@@ -391,41 +391,21 @@ class Reports_Folder_Model extends \App\Base
 	/**
 	 * Function which provides the records for the current view
 	 * @param boolean $skipRecords - List of the RecordIds to be skipped
-	 * @return <Array> List of RecordsIds
+	 * @return int[] List of RecordsIds
 	 */
-	public function getRecordIds($skipRecords = false, $module)
+	public function getRecordIds($skipRecords = false)
 	{
-		$db = PearDatabase::getInstance();
-		$baseTableName = "vtiger_report";
-		$baseTableId = "reportid";
 		$folderId = $this->getId();
-		$listQuery = $this->getListViewQuery($folderId);
-
+		$query = (new App\Db\Query())->select(['vtiger_report.reportid'])
+			->from('vtiger_report')
+			->innerJoin('vtiger_reportfolder', 'vtiger_reportfolder.folderid = vtiger_report.folderid')
+			->innerJoin('vtiger_reportmodules', 'vtiger_reportmodules.reportmodulesid = vtiger_report.reportid');
+		if ($folderId !== 'All') {
+			$query->where(['vtiger_reportfolder.folderid' => $folderId]);
+		}
 		if ($skipRecords && !empty($skipRecords) && is_array($skipRecords) && count($skipRecords) > 0) {
-			$listQuery .= ' AND ' . $baseTableName . '.' . $baseTableId . ' NOT IN (' . implode(',', $skipRecords) . ')';
+			$query->andWhere(['not in', 'vtiger_report.reportid', $skipRecords]);
 		}
-		$result = $db->query($listQuery);
-		$noOfRecords = $db->numRows($result);
-		$recordIds = [];
-		for ($i = 0; $i < $noOfRecords; ++$i) {
-			$recordIds[] = $db->queryResult($result, $i, $baseTableId);
-		}
-		return $recordIds;
-	}
-
-	/**
-	 * Function returns Report Models for the folder
-	 * @return <Reports_Record_Model>
-	 */
-	public function getListViewQuery($folderId)
-	{
-		$sql = "select vtiger_report.*, vtiger_reportmodules.*, vtiger_reportfolder.folderid from vtiger_report
-                inner join vtiger_reportfolder on vtiger_reportfolder.folderid = vtiger_report.folderid
-                inner join vtiger_reportmodules on vtiger_reportmodules.reportmodulesid = vtiger_report.reportid ";
-
-		if ($folderId != "All") {
-			$sql = $sql . " where vtiger_reportfolder.folderid = " . $folderId;
-		}
-		return $sql;
+		return $query->column();
 	}
 }

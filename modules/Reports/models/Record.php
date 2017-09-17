@@ -1092,24 +1092,24 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		return Reports_ScheduleReports_Model::getInstanceById($this->getId());
 	}
 
+	/**
+	 * Function to get ids for selected records
+	 * @param \App\Request $request
+	 * @return int[]
+	 */
 	public static function getRecordsListFromRequest(\App\Request $request)
 	{
 		$folderId = $request->get('viewname');
-		$module = $request->get('module');
 		$selectedIds = $request->get('selected_ids');
 		$excludedIds = $request->get('excluded_ids');
-
 		if (!empty($selectedIds) && $selectedIds != 'all') {
 			if (!empty($selectedIds) && count($selectedIds) > 0) {
 				return $selectedIds;
 			}
 		}
-
 		$reportFolderModel = Reports_Folder_Model::getInstance();
 		$reportFolderModel->set('folderid', $folderId);
-		if ($reportFolderModel) {
-			return $reportFolderModel->getRecordIds($excludedIds, $module);
-		}
+		return $reportFolderModel->getRecordIds($excludedIds);
 	}
 
 	public function getModuleCalculationFieldsForReport()

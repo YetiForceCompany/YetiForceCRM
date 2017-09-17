@@ -234,8 +234,6 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function importTaskMethod(array &$method, array &$messages)
 	{
-		$db = PearDatabase::getInstance();
-
 		if (!file_exists($method['function_path'])) {
 			$scriptData = base64_decode($method['script_content']);
 			if (file_put_contents($method['function_path'], $scriptData) === false) {
