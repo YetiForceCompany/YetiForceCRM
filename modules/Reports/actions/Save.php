@@ -33,7 +33,7 @@ class Reports_Save_Action extends Vtiger_Save_Action
 
 	public function process(\App\Request $request)
 	{
-		$record = $request->getInteger('record');
+		$record = $request->get('record');
 		$reportModel = Reports_Record_Model::getCleanInstance();
 		$reportModel->setModule('Reports');
 		if (!empty($record) && !$request->get('isDuplicate')) {

@@ -1102,7 +1102,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		$folderId = $request->get('viewname');
 		$selectedIds = $request->get('selected_ids');
 		$excludedIds = $request->get('excluded_ids');
-		if (!empty($selectedIds) && $selectedIds != 'all') {
+		if (!empty($selectedIds) && $selectedIds != '"all"' && $selectedIds != 'all') {
 			if (!empty($selectedIds) && count($selectedIds) > 0) {
 				return $selectedIds;
 			}
