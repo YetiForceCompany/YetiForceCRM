@@ -27,7 +27,7 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 		if (!empty($matches[0])) {
 			$value = '<a class="urlField cursorPointer" title="' . $value . '" href="' . $value . '" target="_blank">' . \vtlib\Functions::textLength($value) . '</a>';
 		} else {
-			$value = '<a class="urlField cursorPointer" title="' . $value . '" href="http://' . $value . '" target="_blank">' . \vtlib\Functions::textLength($value) . '</a>';
+			$value = '<a class="urlField cursorPointer" title="' . $value . '" href="http://' . $value . '" target="_blank" rel="noreferrer">' . \vtlib\Functions::textLength($value) . '</a>';
 		}
 		return $value;
 	}
@@ -39,7 +39,7 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 		if (!empty($matches[0])) {
 			$value = '<a class="urlField cursorPointer" title="' . $value . '" href="' . $value . '" target="_blank">' . \vtlib\Functions::textLength($value, $this->get('field')->get('maxlengthtext')) . '</a>';
 		} else {
-			$value = '<a class="urlField cursorPointer" title="' . $value . '" href="http://' . $value . '" target="_blank">' . \vtlib\Functions::textLength($value, $this->get('field')->get('maxlengthtext')) . '</a>';
+			$value = '<a class="urlField cursorPointer" title="' . $value . '" href="http://' . $value . '" target="_blank" rel="noreferrer">' . \vtlib\Functions::textLength($value, $this->get('field')->get('maxlengthtext')) . '</a>';
 		}
 		return $value;
 	}

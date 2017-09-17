@@ -44,9 +44,9 @@
 								{\App\Language::translate('LBL_TALK_TO_US_AT_FORUMS', $MODULE)}<br />
 								{\App\Language::translate('LBL_DISCUSS_WITH_US_AT_BLOGS', $MODULE)}<br /><br />
 								Connect with us &nbsp;&nbsp;
-								<a href="https://www.facebook.com/vtiger" target="_blank"><img src="{\App\Layout::getImagePath('facebook.png')}"></a> 
-	                            &nbsp;&nbsp;<a href="https://twitter.com/vtigercrm" target="_blank"><img src="{\App\Layout::getImagePath('twitter.png')}"></a> 
-	                            &nbsp;&nbsp;<a href="//www.vtiger.com/products/crm/privacy_policy.html" target="_blank"><img src="{\App\Layout::getImagePath('linkedin.png')}"></a> 
+								<a href="https://www.facebook.com/vtiger" target="_blank" rel="noreferrer"><img src="{\App\Layout::getImagePath('facebook.png')}"></a> 
+	                            &nbsp;&nbsp;<a href="https://twitter.com/vtigercrm" target="_blank" rel="noreferrer"><img src="{\App\Layout::getImagePath('twitter.png')}"></a> 
+	                            &nbsp;&nbsp;<a href="//www.vtiger.com/products/crm/privacy_policy.html" target="_blank" rel="noreferrer"><img src="{\App\Layout::getImagePath('linkedin.png')}"></a> 
 								<br /><br />
 							<div class="button-container">
 								<input type="button" onclick="window.location.href='index.php'" class="btn btn-lg btn-primary" value="Finish"/>

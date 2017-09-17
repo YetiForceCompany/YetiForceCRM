@@ -14,7 +14,7 @@
 		<input name="key" type="text" class="api form-control" placeholder="{\App\Language::translate('LBL_ENTER_KEY_APPLICATION', $MODULENAME)}">
 	</div>
 	<div class="col-xs-6">
-		<a class="btn btn-primary" href="https://developer.opencagedata.com/" target="_blank">{\App\Language::translate('OpenCage Geocoder', $MODULENAME)}</a>
+		<a class="btn btn-primary" href="https://developer.opencagedata.com/" target="_blank" rel="noreferrer">{\App\Language::translate('OpenCage Geocoder', $MODULENAME)}</a>
 		<button type="button" class="btn btn-success save" id="save">{\App\Language::translate('LBL_SAVE', $MODULENAME)}</button>
 	</div>
 {/if}

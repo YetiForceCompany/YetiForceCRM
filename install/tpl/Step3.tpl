@@ -17,7 +17,7 @@
 		<div class="row main-container">
 			<div class="inner-container">
 				<div class="pull-right">
-					<a class="helpBtn" href="https://yetiforce.com/en/implementer/installation-updates/103-web-server-requirements.html" target="_blank">
+					<a class="helpBtn" href="https://yetiforce.com/en/implementer/installation-updates/103-web-server-requirements.html" target="_blank" rel="noreferrer">
 						<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
 					</a>
 				</div>
