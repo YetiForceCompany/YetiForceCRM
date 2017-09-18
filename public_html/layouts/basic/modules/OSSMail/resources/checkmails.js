@@ -26,7 +26,7 @@ function registerUserList() {
 						if (app.getModuleName() == 'OSSMail') {
 							location.reload();
 						} else {
-							window.location.href = "index.php?module=OSSMail&view=index";
+							window.location.href = "index.php?module=OSSMail&view=Index";
 						}
 					}
 			);
