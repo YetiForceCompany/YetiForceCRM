@@ -304,7 +304,7 @@ class ReportRun extends CRMEntity
 			$fieldname = '';
 			$fieldcolname = $columnslistrow['columnname'];
 			list($tablename, $colname, $module_field, $fieldname, $single) = explode(':', $fieldcolname);
-			list($module, $field) = explode('__', $module_field, 2);
+			list($module) = explode('__', $module_field, 2);
 			$inventory_fields = array('serviceid');
 			$inventory_modules = getInventoryModules();
 			require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -1363,8 +1363,6 @@ class ReportRun extends CRMEntity
 	 */
 	public function runTimeAdvFilter($advft_criteria, $advft_criteria_groups)
 	{
-		$adb = PearDatabase::getInstance();
-
 		$advfilterlist = [];
 		$advfiltersql = '';
 		if (!empty($advft_criteria)) {

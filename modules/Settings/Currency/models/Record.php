@@ -159,7 +159,6 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		$query = (new \App\Db\Query())->select(['vtiger_currencies.*'])->from('vtiger_currencies')->leftJoin('vtiger_currency_info', 'vtiger_currency_info.currency_name = vtiger_currencies.currency_name')->where(['or', ['vtiger_currency_info.currency_name' => null], ['vtiger_currency_info.deleted' => 1]]);
 		if (!empty($includedIds)) {
-			$params = $includedIds;
 			$query->orWhere(['vtiger_currency_info.id' => $includedIds]);
 		}
 		$currencyModelList = [];
