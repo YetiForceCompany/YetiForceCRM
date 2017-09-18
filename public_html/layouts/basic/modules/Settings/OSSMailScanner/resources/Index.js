@@ -302,7 +302,7 @@ jQuery.Class("Settings_OSSMailScanner_Index_Js", {}, {
 	saveEmailSearchList: function (vale) {
 		var params = {
 			'module': 'OSSMailScanner',
-			'action': "saveEmailSearchList",
+			'action': "SaveEmailSearchList",
 			'vale': vale
 		}
 		AppConnector.request(params).then(
