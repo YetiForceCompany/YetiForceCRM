@@ -118,7 +118,7 @@
 				Vtiger_Helper_Js.showPnotify(paramsInfo);
 				jQuery('#run_cron').attr('disabled', true);
 				var ajaxParams = {};
-				ajaxParams.data = {module: 'OSSMailScanner', action: "cron"},
+				ajaxParams.data = {module: 'OSSMailScanner', action: "Cron"},
 						ajaxParams.async = true;
 				AppConnector.request(ajaxParams).then(
 						function (data) {
@@ -207,7 +207,7 @@
 										+ '<td>';
 
 								if (data.result[i]['status'] == 'In progress') {
-								html += '<button type="button" class="b	tn btn-danger" id="manula_stop_cron"';
+									html += '<button type="button" class="b	tn btn-danger" id="manula_stop_cron"';
 
 									if (!{/literal}{$STOP_BUTTON_STATUS}{literal}) {
 										html += 'disabled';
