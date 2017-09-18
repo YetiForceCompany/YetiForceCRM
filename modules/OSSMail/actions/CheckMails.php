@@ -1,12 +1,12 @@
 <?php
 
 /**
- * OSSMail executeActions action class
+ * OSSMail CheckMails action class
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
-class OSSMail_executeActions_Action extends Vtiger_Action_Controller
+class OSSMail_CheckMails_Action extends Vtiger_Action_Controller
 {
 
 	/**
@@ -24,19 +24,14 @@ class OSSMail_executeActions_Action extends Vtiger_Action_Controller
 
 	public function process(\App\Request $request)
 	{
-		$mode = $request->getMode();
-		$params = $request->get('params');
-		$instance = Vtiger_Record_Model::getCleanInstance('OSSMailView');
-
-		if ($mode == 'addRelated')
-			$data = $instance->addRelated($params);
-
-		if ($mode == 'removeRelated')
-			$data = $instance->removeRelated($params);
-
-		$result = array('success' => true, 'data' => $data);
+		$users = $request->get('users');
+		$output = [];
+		if (count($users) > 0) {
+			OSSMail_Record_Model::updateMailBoxmsgInfo($users);
+			$output = OSSMail_Record_Model::getMailBoxmsgInfo($users);
+		}
 		$response = new Vtiger_Response();
-		$response->setResult($result);
+		$response->setResult($output);
 		$response->emit();
 	}
 }
