@@ -86,7 +86,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$db = \App\Db::getInstance();
 		$id = $this->getId();
-		$tableName = Settings_Currency_Module_Model::tableName;
+		$tableName = Settings_Currency_Module_Model::TABLE_NAME;
 		if (!empty($id)) {
 			$db->createCommand()->update($tableName, [
 				'currency_name' => $this->get('currency_name'),
@@ -129,7 +129,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getInstance($id)
 	{
-		$db = (new App\Db\Query())->from(Settings_Currency_Module_Model::tableName);
+		$db = (new App\Db\Query())->from(Settings_Currency_Module_Model::TABLE_NAME);
 		if (vtlib\Utils::isNumber($id)) {
 			$query = $db->where(['id' => $id]);
 		} else {
@@ -178,7 +178,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getAll($excludedIds = [])
 	{
-		$query = (new App\Db\Query())->from(Settings_Currency_Module_Model::tableName)
+		$query = (new App\Db\Query())->from(Settings_Currency_Module_Model::TABLE_NAME)
 			->where(['deleted' => 0, 'currency_status' => 'Active']);
 		if (!empty($excludedIds)) {
 			$query->andWhere(['<>', 'id', $excludedIds]);
