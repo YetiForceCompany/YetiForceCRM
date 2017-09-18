@@ -126,7 +126,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		if (ini_get('file_uploads') != '1' && stripos(ini_get('file_uploads'), 'Off') !== false)
 			$directiveValues['file_uploads']['status'] = true;
 		$directiveValues['file_uploads']['current'] = static::getFlag(ini_get('file_uploads'));
-
 		if (ini_get('output_buffering') !== 'On') {
 			$directiveValues['output_buffering']['status'] = true;
 		}
@@ -313,6 +312,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			],
 			'session_regenerate_id' => [
 				'prefer' => 'On',
+				'help' => 'SESSION_REGENERATE_HELP_TEXT',
 				'current' => static::getFlag(AppConfig::main('session_regenerate_id')),
 				'status' => AppConfig::main('session_regenerate_id') !== null && !AppConfig::main('session_regenerate_id')
 			],
