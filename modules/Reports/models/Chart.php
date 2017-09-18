@@ -482,7 +482,7 @@ class PieChart extends Base_Chart
 
 		if (is_array($groupByColumnsByFieldModel)) {
 			foreach ($groupByColumnsByFieldModel as $groupField) {
-				$legend = $groupByColumns[] = $groupField->get('reportlabel');
+				$legend = $groupField->get('reportlabel');
 				$legendField = $groupField;
 			}
 		}
@@ -647,10 +647,10 @@ class VerticalbarChart extends Base_Chart
 
 class HorizontalbarChart extends VerticalbarChart
 {
-
+	
 }
 
 class LineChart extends VerticalbarChart
 {
-
+	
 }
