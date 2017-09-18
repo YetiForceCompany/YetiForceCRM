@@ -1319,6 +1319,8 @@ $languageStrings = [
 	'BTN_ADD_FILE' => 'Datei hinzufügen',
 	'BTN_SUBMIT' => 'Ausführen',
 	'LBL_PHONE_CALL_SUCCESS' => 'Anruf wird eingeleitet',
+	'LBL_BAD_REQUEST' => 'Incorrect request',
+	'LBL_NOT_ALLOWED_VALUE' => 'Incorrect value detected, please contact your administrator',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',
