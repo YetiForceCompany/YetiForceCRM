@@ -349,7 +349,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, 'Calendar');
 				$link = $recordModel->get('link');
 				if ($link && $permissionToSendEmail) {
-					$url = 'index.php?module=OSSMail&view=compose&mod=' . \App\Record::getType($link) . "&record=$link";
+					$url = 'index.php?module=OSSMail&view=Compose&mod=' . \App\Record::getType($link) . "&record=$link";
 					$recordModel->set('mailUrl', "<a href='$url' class='btn btn-info' target='_blank'><span class='glyphicon glyphicon-envelope icon-white'></span>&nbsp;&nbsp;" . \App\Language::translate('LBL_SEND_MAIL') . "</a>");
 				}
 				$recordModels[] = $recordModel;
@@ -377,7 +377,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			if (in_array($fieldType, $type)) {
 				$fieldName = $field->getName();
 				if ($fieldType == 'picklist' && in_array($fieldName, $restrictedField[$fieldType])) {
-					
+
 				} else {
 					$fieldList[$fieldName] = $field;
 				}

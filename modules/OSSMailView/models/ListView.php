@@ -18,7 +18,7 @@ class OSSMailView_ListView_Model extends Vtiger_ListView_Model
 			$basicLinks[] = array(
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => 'LBL_CREATEMAIL',
-				'linkurl' => "javascript:window.location='index.php?module=OSSMail&view=compose'",
+				'linkurl' => "javascript:window.location='index.php?module=OSSMail&view=Compose'",
 				'linkclass' => 'modCT_' . $moduleModel->getName(),
 				'linkicon' => 'glyphicon glyphicon-plus',
 				'showLabel' => 1,
