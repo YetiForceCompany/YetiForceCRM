@@ -89,18 +89,13 @@ class CRMEntity
 	}
 
 	/** Function to delete a record in the specifed table
-	 * @param $table_name -- table name:: Type varchar
-	 * The function will delete a record .The id is obtained from the class variable $this->id and the columnname got from $this->tab_name_index[$table_name]
+	 * @param string $tableName -- table name:: Type varchar
+	 * The function will delete a record. The id is obtained from the class variable $this->id and the columnname got from $this->tab_name_index[$table_name]
 	 */
 	public function deleteRelation($tableName)
 	{
-		$adb = PearDatabase::getInstance();
-		$checkQuery = "select * from $tableName where " . $this->tab_name_index[$tableName] . "=?";
-		$checkResult = $adb->pquery($checkQuery, array($this->id));
-		$numRows = $adb->numRows($checkResult);
-
-		if ($numRows == 1) {
-			$adb->delete($tableName, $this->tab_name_index[$tableName] . ' = ?', [$this->id]);
+		if ((new App\Db\Query())->from($tableName)->where([$this->tab_name_index[$tableName] => $this->id])->exists()) {
+			\App\Db::getInstance()->createCommand()->delete($tableName, [$this->tab_name_index[$tableName] => $this->id])->execute();
 		}
 	}
 
