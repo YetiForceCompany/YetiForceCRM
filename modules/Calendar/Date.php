@@ -227,7 +227,7 @@ class vt_DateTime
 	 * function to get day of week
 	 * return string $this->day  - day (eg: Monday)
 	 */
-	public function get_Date()
+	public function getDate()
 	{
 		return $this->day;
 	}
