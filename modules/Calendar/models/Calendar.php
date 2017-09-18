@@ -271,7 +271,7 @@ class Calendar_Calendar_Model extends App\Base
 					$return[$date]['start'] = $date;
 					$return[$date]['date'] = $date;
 					$return[$date]['event'][$activitytype]['count'] += 1;
-					$return[$date]['event'][$activitytype]['className'] = '  fc-draggable picklistCBg_OSSTimeControl_timecontrol_type_' . $activitytype;
+					$return[$date]['event'][$activitytype]['className'] = '  fc-draggable picklistCBg_Calendar_activitytype_' . $activitytype;
 					$return[$date]['event'][$activitytype]['label'] = \App\Language::translate($activitytype, $this->getModuleName());
 					$return[$date]['type'] = 'widget';
 				}

@@ -1324,7 +1324,8 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 					var status = parent.find('.widgetFilterSwitch').data();
 					url += '["activitystatus","e","' + status[params.time] + '"],';
 				}
-				window.location.href = url + '["activitytype","e","' + $(this).data('type') + '"],["date_start","ir","' + $(this).data('date') + '"]]]';
+				var date = moment($(this).data('date')).format(thisInstance.getUserDateFormat().toUpperCase())
+				window.location.href = url + '["activitytype","e","' + $(this).data('type') + '"],["date_start","bw","' + date + ',' + date + '"]]]';
 			});
 		});
 	},
