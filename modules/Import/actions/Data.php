@@ -332,7 +332,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	{
 		if (!empty($value)) {
 			if ($this->currentInventoryRawData['name']) {
-				list($entityName, $recordId) = $this->transformInventoryReference($this->currentInventoryRawData['name'], true);
+				list($entityName) = $this->transformInventoryReference($this->currentInventoryRawData['name'], true);
 			}
 			if ($entityName) {
 				if ($this->inventoryFieldMapData[$mapData['field']] && $this->inventoryFieldMapData[$mapData['field']][$entityName]) {

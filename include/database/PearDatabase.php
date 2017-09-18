@@ -582,7 +582,7 @@ class PearDatabase
 		return 'null';
 	}
 
-	public function fetchByAssoc(&$result, $rowNum = -1, $encode = true)
+	public function fetchByAssoc(&$result, $rowNum = -1)
 	{
 		if (isset($result) && $rowNum < 0) {
 			$row = $this->getRow($result);
@@ -742,19 +742,6 @@ class PearDatabase
 		$rows = $result->rowCount();
 		return $rows;
 	}
-
-	public function requireSingleResult($sql, $dieOnError = false, $msg = '', $encode = true)
-	{
-		$result = $this->query($sql, $dieOnError, $msg);
-
-		if ($this->getRowCount($result) == 1)
-			return $result;
-		\App\Log::error('Rows Returned:' . $this->getRowCount($result) . ' More than 1 row returned for ' . $sql);
-		$this->checkError('Rows Returned:' . $this->getRowCount($result) . ' More than 1 row returned for ' . $sql, $dieOnError);
-		return '';
-	}
-	/* function which extends requireSingleResult api to execute prepared statment
-	 */
 
 	public function requirePsSingleResult($sql, $params, $dieOnError = false, $msg = '', $encode = true)
 	{
