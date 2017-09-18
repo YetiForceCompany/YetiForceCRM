@@ -15,13 +15,8 @@ class Home_DashBoard_View extends Vtiger_DashBoard_View
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-		$moduleName = $request->getModule();
-		$currentDashboard = $request->get('dashboardId');
-		if (empty($currentDashboard)) {
-			$currentDashboard = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
-		}
 		$viewer = $this->getViewer($request);
-		$modulesWithWidget = Vtiger_DashBoard_Model::getModulesWithWidgets($moduleName, $currentDashboard);
+		$modulesWithWidget = Vtiger_DashBoard_Model::getModulesWithWidgets($request->getModule(), $this->getDashboardId($request));
 		$viewer->assign('MODULES_WITH_WIDGET', $modulesWithWidget);
 		$this->preProcessDisplay($request);
 	}

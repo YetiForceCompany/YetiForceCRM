@@ -33,10 +33,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		if (empty($sourceModule)) {
 			$sourceModule = $moduleName;
 		}
-		$currentDashboard = $request->get('dashboardId');
-		if (empty($currentDashboard)) {
-			$currentDashboard = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
-		}
+		$currentDashboard = $this->getDashboardId($request);
 		$dashBoardModel = Vtiger_DashBoard_Model::getInstance($moduleName);
 		$dashBoardModel->set('dashboardId', $currentDashboard);
 		//check profile permissions for Dashboards
@@ -67,10 +64,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$currentDashboard = $request->get('dashboardId');
-		if (empty($currentDashboard)) {
-			$currentDashboard = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
-		}
+		$currentDashboard = $this->getDashboardId($request);
 		$dashBoardModel = Vtiger_DashBoard_Model::getInstance($moduleName);
 		$dashBoardModel->set('dashboardId', $currentDashboard);
 		//check profile permissions for Dashboards
@@ -105,10 +99,8 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$currentDashboard = $request->get('dashboardId');
-		if (empty($currentDashboard)) {
-			$currentDashboard = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
-		}
+		$currentDashboard = $this->getDashboardId($request);
+		\App\Session::set($request->getModule() . 'LastDashBoardId', $currentDashboard);
 		$dashBoardModel = Vtiger_DashBoard_Model::getInstance($moduleName);
 		$dashBoardModel->set('dashboardId', $currentDashboard);
 		//check profile permissions for Dashboards
@@ -119,7 +111,6 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		} else {
 			return;
 		}
-
 		$viewer->assign('WIDGETS', $widgets);
 		$viewer->view('dashboards/DashBoardContents.tpl', $moduleName);
 	}
@@ -127,6 +118,26 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 	public function postProcess(\App\Request $request)
 	{
 		parent::postProcess($request);
+	}
+
+	/**
+	 * Get dashboard id
+	 * @param \App\Request $request
+	 * @return int
+	 */
+	public function getDashboardId(\App\Request $request)
+	{
+		$dashboardId = false;
+		if (!$request->isEmpty('dashboardId', true)) {
+			$dashboardId = $request->getInteger('dashboardId');
+		} elseif (\App\Session::has($request->getModule() . 'LastDashBoardId')) {
+			$dashboardId = \App\Session::get($request->getModule() . 'LastDashBoardId');
+		}
+		if (!$dashboardId) {
+			$dashboardId = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
+		}
+		$request->set('dashboardId', $dashboardId);
+		return $dashboardId;
 	}
 
 	/**
