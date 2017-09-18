@@ -13,7 +13,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 
 	public function getDefaultViewName()
 	{
-		return 'index';
+		return 'Index';
 	}
 
 	public function getSettingLinks()
