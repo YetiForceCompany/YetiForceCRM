@@ -13,10 +13,8 @@ class Settings_Profiles_Save_Action extends Settings_Vtiger_Basic_Action
 
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->get('record');
-
-		if (!empty($recordId)) {
-			$recordModel = Settings_Profiles_Record_Model::getInstanceById($recordId);
+		if (!$request->isEmpty('record', true)) {
+			$recordModel = Settings_Profiles_Record_Model::getInstanceById($request->getInteger('record'));
 		} else {
 			$recordModel = new Settings_Profiles_Record_Model();
 		}
@@ -30,7 +28,7 @@ class Settings_Profiles_Save_Action extends Settings_Vtiger_Basic_Action
 		}
 
 		$redirectUrl = $recordModel->getDetailViewUrl();
-		header("Location: $redirectUrl");
+		header('Location: ' . $redirectUrl);
 	}
 
 	public function validateRequest(\App\Request $request)

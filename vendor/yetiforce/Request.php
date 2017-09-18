@@ -237,7 +237,9 @@ class Request
 	 */
 	public function getMode()
 	{
-		return $this->getByType('mode', 2);
+		if (!$this->isEmpty('mode', true)) {
+			return $this->getByType('mode', 2);
+		}
 	}
 
 	/**
