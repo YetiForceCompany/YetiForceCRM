@@ -483,7 +483,7 @@ class Vtiger_PDF_Model extends \App\Base
 	 */
 	public static function attachToEmail($salt)
 	{
-		header('Location: index.php?module=OSSMail&view=compose&pdf_path=' . $salt);
+		header('Location: index.php?module=OSSMail&view=Compose&pdf_path=' . $salt);
 	}
 
 	/**
