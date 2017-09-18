@@ -82,7 +82,7 @@ function startCheckMails() {
 function checkMails(users) {
 	var params = {
 		'module': 'OSSMail',
-		'action': "checkMails",
+		'action': "CheckMails",
 		'users': users,
 	};
 	var reloadSelect = false;
