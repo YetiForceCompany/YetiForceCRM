@@ -1326,6 +1326,8 @@ $languageStrings = [
 	'LBL_MASS_SEND_EMAIL_INFO' => 'Todos los correos electrónicos se colocan en la cola y se envían en CRON.',
 	'ERR_NO_DEFAULT_SMTP' => 'No hay buzón predeterminado para enviar correos electrónicos',
 	'LBL_PHONE_CALL_SUCCESS' => 'Dialling in progress',
+	'LBL_BAD_REQUEST' => 'Incorrect request',
+	'LBL_NOT_ALLOWED_VALUE' => 'Incorrect value detected, please contact your administrator',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Resumen',
