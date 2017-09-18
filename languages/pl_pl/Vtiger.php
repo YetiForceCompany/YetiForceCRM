@@ -1315,7 +1315,7 @@ $languageStrings = [
 	'BTN_SUBMIT' => 'Prześlij',
 	'LBL_PHONE_CALL_SUCCESS' => 'Trwa wybieranie numeru',
 	'LBL_BAD_REQUEST' => 'Nieprawidłowe zapytanie',
-	'LBL_NOT_ALLOWED_VALUE' => 'Wkryto niedozwoloną wartość, prosmimy o kontakt z administratorem',
+	'LBL_NOT_ALLOWED_VALUE' => 'Wykryto niedozwoloną wartość, prosimy o kontakt z administratorem',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
