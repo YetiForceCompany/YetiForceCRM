@@ -1,12 +1,12 @@
 <?php
 
 /**
- * OSSMailScanner restartCron action class
- * @package YetiForce.Action 
+ * OSSMailScanner RestartCron action class
+ * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
-class OSSMailScanner_restartCron_Action extends Vtiger_Action_Controller
+class OSSMailScanner_RestartCron_Action extends Vtiger_Action_Controller
 {
 
 	/**
