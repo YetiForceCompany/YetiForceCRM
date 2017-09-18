@@ -27,8 +27,8 @@
 			<input type="hidden" name="action" value="Save" />
 			<input type="hidden" name="parent" value="Settings" />
 			{assign var=RECORD_ID value=$RECORD_MODEL->getId()}
-			<input type="hidden" name="record" value="{$RECORD_ID}" />
-			<input type="hidden" name="mode" value="{$MODE}" />
+			{if $RECORD_ID}<input type="hidden" name="record" value="{$RECORD_ID}" />{/if}
+			{if $MODE}<input type="hidden" name="mode" value="{$MODE}" />{/if}
 			<input type="hidden" name="viewall" {if $RECORD_MODEL->hasGlobalReadPermission()}value="1"{else}value="0"{/if}  />
 			<input type="hidden" name="editall" {if $RECORD_MODEL->hasGlobalWritePermission()}value="1"{else}value="0"{/if} />
 			<div class="">
