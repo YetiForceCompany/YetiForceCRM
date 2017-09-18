@@ -27,7 +27,6 @@ RedirectMatch 403 (?i).*\.log$
 	php_flag	display_errors				Off
 	php_value	error_log					cache/logs/phpError.log
 	php_value	memory_limit				512M
-	php_flag	output_buffering			On
 	php_flag    zlib.output_compression		Off
 	php_flag	file_uploads				On
 	php_value   upload_max_filesize			100M
@@ -57,7 +56,6 @@ RedirectMatch 403 (?i).*\.log$
 	php_flag	display_errors				Off
 	php_value	error_log					cache/logs/phpError.log
 	php_value	memory_limit				512M
-	php_flag	output_buffering			On
 	php_flag    zlib.output_compression		Off
 	php_flag	file_uploads				On
 	php_value   upload_max_filesize			100M
