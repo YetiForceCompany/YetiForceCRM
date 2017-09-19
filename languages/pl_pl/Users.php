@@ -316,6 +316,11 @@ $languageStrings = [
 	'LBL_CHANGE_ACCESS_KEY' => 'Zmień Access Key',
 	'LBL_ACCESS_KEY_UPDATED_SUCCESSFULLY' => 'Klucz pomyślnie zaktualizowane',
 	'LBL_FAILED_TO_UPDATE_ACCESS_KEY' => 'Nie udało się zaktualizować klucza',
+	'LBL_USER_MAIL_EXIST' => 'Użytkownik o podanym adresie email już istnieje',
+	'LBL_INVALID_USERNAME' => 'Nieprawidłowa nazwa uzytkownika',
+	'LBL_USER_NAME_EXISTS' => 'Użytkownik o takiej nazwie już istnieje',
+	'LBL_USER_NAME_HAS_ALREADY_BEEN_USED' => 'Nazwa użytkownika była już wykorzystana, system nie pozwala na użycie tej samej nawy powtórnie.',
+	'LBL_FORBIDDEN_USERNAMES' => 'Nazwa użytkownika znajduje się na liście niebezpiecznych nazw.',
 ];
 
 $jsLanguageStrings = [
@@ -329,7 +334,6 @@ $jsLanguageStrings = [
 	'JS_PASSWORD_CHANGE_FAILED_2' => ' niepowodzenie. Nowe hasło musi zostać ustawione.',
 	'JS_PASSWORD_INCORRECT_OLD' => 'Podano niepoprawne stare hasło. Wpisz ponownie.',
 	'JS_REENTER_PASSWORDS' => 'Wpisz hasła ponownie. Nowe hasło i potwierdzenie hasła nie są identyczne.',
-	'JS_USER_MAIL_EXIST' => 'Użytkownik o podanym adresie email już istnieje',
 	'JS_NEW_ACCESS_KEY_REQUESTED' => 'Wprowadź nowy klucz dostępu',
 	'JS_CHANGE_ACCESS_KEY_CONFIRMATION' => 'Zażądano nowego klucza dostępowego. Z nowego przepisu klucz dostępu, trzeba zastąpić stary klucz dostępu z nową we wszystkich zainstalowanych rozszerzeń. chcesz kontynuować?',
 ];
