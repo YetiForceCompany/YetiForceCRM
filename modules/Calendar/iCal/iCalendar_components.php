@@ -2,7 +2,7 @@
 // $Id: iCalendar_components.php,v 1.8 2005/07/21 22:31:44 defacer Exp $
 require_once('include/utils/utils.php');
 
-class iCalendar_component
+class IcalendarComponent
 {
 
 	public $name = NULL;
@@ -117,7 +117,7 @@ class iCalendar_component
 	{
 
 		// With the detailed interface, you can add only components with this function
-		if (!is_object($component) || !is_subclass_of($component, 'iCalendar_component')) {
+		if (!is_object($component) || !is_subclass_of($component, 'IcalendarComponent')) {
 			return false;
 		}
 
@@ -134,7 +134,7 @@ class iCalendar_component
 		return true;
 	}
 
-	public function get_property_list($name)
+	public function getPropertyList($name)
 	{
 
 	}
@@ -377,7 +377,7 @@ class iCalendar_component
 	}
 }
 
-class iCalendar extends iCalendar_component
+class iCalendar extends IcalendarComponent
 {
 
 	public $name = 'VCALENDAR';
@@ -399,7 +399,7 @@ class iCalendar extends iCalendar_component
 	}
 }
 
-class iCalendar_event extends iCalendar_component
+class iCalendar_event extends IcalendarComponent
 {
 
 	public $name = 'VEVENT';
@@ -551,7 +551,7 @@ class iCalendar_event extends iCalendar_component
 	}
 }
 
-class iCalendar_todo extends iCalendar_component
+class iCalendar_todo extends IcalendarComponent
 {
 
 	public $name = 'VTODO';
@@ -642,17 +642,17 @@ class iCalendar_todo extends iCalendar_component
 	}
 }
 
-class iCalendar_journal extends iCalendar_component
+class iCalendar_journal extends IcalendarComponent
 {
 
 }
 
-class iCalendar_freebusy extends iCalendar_component
+class iCalendar_freebusy extends IcalendarComponent
 {
 
 }
 
-class iCalendar_alarm extends iCalendar_component
+class iCalendar_alarm extends IcalendarComponent
 {
 
 	public $name = 'VALARM';
@@ -692,7 +692,7 @@ class iCalendar_alarm extends iCalendar_component
 	}
 }
 
-class iCalendar_timezone extends iCalendar_component
+class iCalendar_timezone extends IcalendarComponent
 {
 
 	public $name = 'VTIMEZONE';
