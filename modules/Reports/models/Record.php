@@ -291,16 +291,19 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery("SELECT vtiger_selectcolumn.columnname FROM vtiger_report
+		$result = $db->pquery('SELECT vtiger_selectcolumn.columnname FROM vtiger_report
 					INNER JOIN vtiger_selectquery ON vtiger_selectquery.queryid = vtiger_report.queryid
 					INNER JOIN vtiger_selectcolumn ON vtiger_selectcolumn.queryid = vtiger_selectquery.queryid
-					WHERE vtiger_report.reportid = ? ORDER BY vtiger_selectcolumn.columnindex", array($this->getId()));
+					WHERE vtiger_report.reportid = ? ORDER BY vtiger_selectcolumn.columnindex', array($this->getId()));
 
 		$selectedColumns = [];
 		$numRowsCount = $db->numRows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
 			$column = $db->queryResult($result, $i, 'columnname');
-			list($tableName, $columnName, $moduleFieldLabel, $fieldName) = explode(':', $column);
+			$columnExpode = explode(':', $column);
+			$columnName = $columnExpode[1];
+			$moduleFieldLabel = $columnExpode[2];
+			$fieldName = $columnExpode[3];
 			$fieldLabel = explode('__', $moduleFieldLabel);
 			$module = $fieldLabel[0];
 			if (\App\Field::getFieldPermission($module, $fieldName) && $columnName !== 'crmid') {
