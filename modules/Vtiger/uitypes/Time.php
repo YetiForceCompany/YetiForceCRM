@@ -40,7 +40,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	public static function getTimeValueInAMorPM($time)
 	{
 		if ($time) {
-			list($hours, $minutes, $seconds) = explode(':', $time);
+			list($hours, $minutes) = explode(':', $time);
 			$format = \App\Language::translate('PM');
 
 			if ($hours > 12) {

@@ -300,7 +300,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		$numRowsCount = $db->numRows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
 			$column = $db->queryResult($result, $i, 'columnname');
-			list($tableName, $columnName, $moduleFieldLabel, $fieldName, $type) = explode(':', $column);
+			list($tableName, $columnName, $moduleFieldLabel, $fieldName) = explode(':', $column);
 			$fieldLabel = explode('__', $moduleFieldLabel);
 			$module = $fieldLabel[0];
 			if (\App\Field::getFieldPermission($module, $fieldName) && $columnName !== 'crmid') {

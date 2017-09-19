@@ -150,7 +150,7 @@ class LanguageExport extends Package
 		$checkres = $adb->pquery(sprintf('SELECT id FROM %s WHERE prefix = ?', self::TABLENAME), [$prefix]);
 		$datetime = date('Y-m-d H:i:s');
 		if ($adb->numRows($checkres)) {
-			$id = $adb->queryResult($checkres, 0, 'id');
+			$adb->queryResult($checkres, 0, 'id');
 			$adb->update(self::TABLENAME, [
 				'label' => $label,
 				'name' => $name,

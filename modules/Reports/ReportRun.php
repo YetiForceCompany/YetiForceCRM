@@ -383,7 +383,7 @@ class ReportRun extends CRMEntity
 	{
 		$header_label = $selectedfields[2]; // Header label to be displayed in the reports table
 
-		list($module, $field) = explode('__', $selectedfields[2]);
+		list($module) = explode('__', $selectedfields[2]);
 		$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => $selectedfields[0] . '.first_name', 'last_name' => $selectedfields[0] . '.last_name'), 'Users');
 		$moduleInstance = CRMEntity::getInstance($module);
 		$this->queryPlanner->addTable($moduleInstance->table_name);
@@ -895,8 +895,8 @@ class ReportRun extends CRMEntity
 									list($startDate, $endDate) = $this->getStandarFiltersStartAndEndDate($comparator);
 								} else {
 									list($startDateTime, $endDateTime) = explode(',', $value);
-									list($startDate, $startTime) = explode(' ', $startDateTime);
-									list($endDate, $endTime) = explode(' ', $endDateTime);
+									list($startDate) = explode(' ', $startDateTime);
+									list($endDate) = explode(' ', $endDateTime);
 								}
 
 								$type = $selectedFields[4];
@@ -1304,7 +1304,7 @@ class ReportRun extends CRMEntity
 				list($moduleName, $fieldLabel) = explode('__', $moduleFieldLabel, 2);
 				$fieldInfo = getFieldByReportLabel($moduleName, $fieldLabel);
 				$typeOfData = $fieldInfo['typeofdata'];
-				list($type, $typeOtherInfo) = explode('~', $typeOfData, 2);
+				list($type) = explode('~', $typeOfData, 2);
 
 				if ($datefilter != "custom") {
 					$startenddate = $this->getStandarFiltersStartAndEndDate($datefilter);
@@ -1542,7 +1542,7 @@ class ReportRun extends CRMEntity
 		$inventoryModules = getInventoryModules();
 		while ($reportsortrow = $adb->fetchArray($result)) {
 			$fieldcolname = $reportsortrow["columnname"];
-			list($tablename, $colname, $module_field, $fieldname, $single) = explode(':', $fieldcolname);
+			list($tablename, $colname, $module_field, $fieldname) = explode(':', $fieldcolname);
 			$sortorder = $reportsortrow["sortorder"];
 
 			if ($sortorder == "Ascending") {
@@ -3436,7 +3436,7 @@ class ReportRun extends CRMEntity
 		if ($adb->numRows($sortFieldResult) > 0) {
 			$fieldcolname = $adb->queryResult($sortFieldResult, 0, 'columnname');
 			list($tablename, $colname, $module_field, $fieldname, $typeOfData) = explode(":", $fieldcolname);
-			list($modulename, $fieldlabel) = explode('__', $module_field, 2);
+			list($modulename) = explode('__', $module_field, 2);
 			$groupByField = $module_field;
 			if ($typeOfData == "D") {
 				$groupCriteria = $adb->queryResult($sortFieldResult, 0, 'dategroupbycriteria');

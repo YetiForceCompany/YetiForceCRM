@@ -27,7 +27,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	protected function checkFileUriInRelocatedMouldesFolder($fileuri)
 	{
 		if (strpos($fileuri, '?') !== false) {
-			list ($filename, $query) = explode('?', $fileuri);
+			list ($filename) = explode('?', $fileuri);
 		} else {
 			$filename = $fileuri;
 		}
