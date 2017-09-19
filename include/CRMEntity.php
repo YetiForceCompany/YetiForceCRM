@@ -343,7 +343,7 @@ class CRMEntity
 	 */
 	public function deletePerminently($moduleName, $recordId)
 	{
-
+		
 	}
 
 	/** Function to unlink an entity with given Id from another entity */
@@ -1239,7 +1239,12 @@ class CRMEntity
 		return $query;
 	}
 
-	public function listQueryNonAdminChange($query, $scope = '')
+	/**
+	 * Returns the terms of non-administrator changes
+	 * @param string $query
+	 * @return string
+	 */
+	public function listQueryNonAdminChange($query)
 	{
 		//make the module base table as left hand side table for the joins,
 		//as mysql query optimizer puts crmentity on the left side and considerably slow down
@@ -1360,6 +1365,6 @@ class CRMEntity
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-
+		
 	}
 }
