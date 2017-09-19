@@ -1,7 +1,7 @@
 <?php
 
 /**
- * OSSMailScanner RestartCron action class
+ * OSSMailScanner restart cron action class
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
