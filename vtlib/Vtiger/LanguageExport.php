@@ -149,8 +149,7 @@ class LanguageExport extends Package
 		$adb = \PearDatabase::getInstance();
 		$checkres = $adb->pquery(sprintf('SELECT id FROM %s WHERE prefix = ?', self::TABLENAME), [$prefix]);
 		$datetime = date('Y-m-d H:i:s');
-		if ($adb->numRows($checkres)) {
-			$adb->queryResult($checkres, 0, 'id');
+		if ($adb->numRows($checkres)) {			
 			$adb->update(self::TABLENAME, [
 				'label' => $label,
 				'name' => $name,
