@@ -1541,17 +1541,17 @@ class ReportRun extends CRMEntity
 
 		$inventoryModules = getInventoryModules();
 		while ($reportsortrow = $adb->fetchArray($result)) {
-			$fieldcolname = $reportsortrow["columnname"];
+			$fieldcolname = $reportsortrow['columnname'];
 			$fieldcolnameExplode = explode(':', $fieldcolname);
 			$tablename = $fieldcolnameExplode[0];
 			$module_field = $fieldcolnameExplode[2];
 			$fieldname = $fieldcolnameExplode[3];
-			$sortorder = $reportsortrow["sortorder"];
+			$sortorder = $reportsortrow['sortorder'];
 
-			if ($sortorder == "Ascending") {
-				$sortorder = "ASC";
-			} elseif ($sortorder == "Descending") {
-				$sortorder = "DESC";
+			if ($sortorder === 'Ascending') {
+				$sortorder = 'ASC';
+			} elseif ($sortorder === 'Descending') {
+				$sortorder = 'ESC';
 			}
 
 			if ($fieldcolname != "none") {
