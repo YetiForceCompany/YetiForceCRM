@@ -29,7 +29,7 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 		$qualifiedModuleName = $request->getModule(false);
 		$record = $request->get('record');
 		$mailDetail = OSSMail_Record_Model::getMailAccountDetail($record);
-		$mailModuleActive = vtlib\Functions::getModuleId('OSSMail');
+		$mailModuleActive = \App\Module::getModuleId('OSSMail');
 		$folders = [];
 		if ($mailModuleActive) {
 			$mailRecordModel = Vtiger_Record_Model::getCleanInstance('OSSMail');

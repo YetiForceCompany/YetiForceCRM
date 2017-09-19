@@ -328,7 +328,7 @@ class OSSPasswords extends CRMEntity
 
 		// register modtracker history updates
 		if ($addModTracker) {
-			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(vtlib\Functions::getModuleId($moduleName));
+			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\App\Module::getModuleId($moduleName));
 		}
 	}
 }

@@ -25,7 +25,7 @@ Class DataAccess_unique_value
 	public function process($moduleName, $ID, $record_form, $config)
 	{
 		$db = PearDatabase::getInstance();
-		$moduleNameID = vtlib\Functions::getModuleId($moduleName);
+		$moduleNameID = \App\Module::getModuleId($moduleName);
 		$fieldlabel = $sql_ext = '';
 		$save_record1 = true;
 		$save_record2 = true;

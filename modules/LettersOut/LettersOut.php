@@ -313,7 +313,7 @@ class LettersOut extends CRMEntity
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(['LettersOut']);
 			}
-			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(vtlib\Functions::getModuleId($moduleName));
+			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\App\Module::getModuleId($moduleName));
 			$dbCommand = \App\Db::getInstance()->createCommand();
 			$dbCommand->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
 			$dbCommand->update('vtiger_field', ['summaryfield' => 1], ['tablename' => 'vtiger_lettersout', 'columnname' => 'title'])->execute();

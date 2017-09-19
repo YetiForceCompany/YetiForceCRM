@@ -212,7 +212,7 @@ class Vtiger_DashBoard_Model extends \App\Base
 			}
 		}
 		ksort($modules);
-		if ($moduleName && ($tabId = vtlib\Functions::getModuleId($moduleName))) {
+		if ($moduleName && ($tabId = \App\Module::getModuleId($moduleName))) {
 			unset($modules[$tabId]);
 			$modules = array_merge([$tabId => $moduleName], $modules);
 		}

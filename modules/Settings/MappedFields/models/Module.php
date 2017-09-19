@@ -56,7 +56,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getId()
 	{
-		return vtlib\Functions::getModuleId($this->getName());
+		return \App\Module::getModuleId($this->getName());
 	}
 
 	public static function getFieldsByStep($step = 1)
@@ -359,7 +359,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 		$xml = simplexml_load_file($uploadedXml);
 		foreach ($xml as $fieldsKey => $fieldsValue) {
 			if (array_key_exists($fieldsKey, $combine)) {
-				$value = (int) vtlib\Functions::getModuleId((string) $fieldsValue);
+				$value = (int) \App\Module::getModuleId((string) $fieldsValue);
 				if (empty($value)) {
 					break;
 				}

@@ -147,12 +147,6 @@ class Functions
 		return $id ? \App\Cache::get('moduleTabById', $id) : NULL;
 	}
 
-	public static function getModuleId($name)
-	{
-		$moduleInfo = self::getModuleData($name);
-		return $moduleInfo ? $moduleInfo['tabid'] : NULL;
-	}
-
 	public static function getModuleOwner($name)
 	{
 		$moduleInfo = self::getModuleData($name);
@@ -230,20 +224,6 @@ class Functions
 	{
 		$label = \App\Record::getLabel($id);
 		return empty($label) ? $default : $label;
-	}
-
-	protected static $userIdNameCache = [];
-
-	public static function getUserName($id)
-	{
-		$adb = \PearDatabase::getInstance();
-		if (!self::$userIdNameCache[$id]) {
-			$result = $adb->pquery('SELECT id, user_name FROM vtiger_users');
-			while ($row = $adb->fetchArray($result)) {
-				self::$userIdNameCache[$row['id']] = $row['user_name'];
-			}
-		}
-		return (isset(self::$userIdNameCache[$id])) ? self::$userIdNameCache[$id] : NULL;
 	}
 
 	/**
@@ -342,31 +322,6 @@ class Functions
 		return preg_replace(array('/</', '/>/', '/"/'), array('&lt;', '&gt;', '&quot;'), $string);
 	}
 
-	public static function getInventoryTermsAndCondition()
-	{
-		$adb = \PearDatabase::getInstance();
-		$sql = "select tandc from vtiger_inventory_tandc";
-		$result = $adb->pquery($sql, []);
-		$tandc = $adb->queryResult($result, 0, "tandc");
-		return $tandc;
-	}
-
-	public static function getMergedDescriptionCustomVars($fields, $description)
-	{
-		foreach ($fields['custom'] as $columnname) {
-			$token_data = '$custom-' . $columnname . '$';
-			$token_value = '';
-			switch ($columnname) {
-				case 'currentdate': $token_value = date("F j, Y");
-					break;
-				case 'currenttime': $token_value = date("G:i:s T");
-					break;
-			}
-			$description = str_replace($token_data, $token_value, $description);
-		}
-		return $description;
-	}
-
 	/** 	Function used to retrieve a single field value from database
 	 * 	@param string $tableName - tablename from which we will retrieve the field value
 	 * 	@param string $fieldName - fieldname to which we want to get the value from database
@@ -377,30 +332,6 @@ class Functions
 	public static function getSingleFieldValue($tableName, $fieldName, $idName, $id)
 	{
 		return (new \App\Db\Query())->select([$fieldName])->from($tableName)->where([$idName => $id])->scalar();
-	}
-
-	/**
-	 * Gets the comment number
-	 * @param int $ticketid
-	 * @return string
-	 */
-	public static function getTicketComments($ticketid)
-	{
-		$adb = \PearDatabase::getInstance();
-		$moduleName = \App\Record::getType($ticketid);
-		$commentlist = '';
-		$sql = 'SELECT commentcontent FROM vtiger_modcomments WHERE related_to = ?';
-		$result = $adb->pquery($sql, array($ticketid));
-		$countResult = $adb->numRows($result);
-		for ($i = 0; $i < $countResult; $i++) {
-			$comment = $adb->queryResult($result, $i, 'commentcontent');
-			if ($comment != '') {
-				$commentlist .= '<br /><br />' . $comment;
-			}
-		}
-		if ($commentlist != '')
-			$commentlist = '<br /><br />' . \App\Language::translate('The comments are', $moduleName) . ' : ' . $commentlist;
-		return $commentlist;
 	}
 
 	/**     function used to change the Type of Data for advanced filters in custom view and Reports

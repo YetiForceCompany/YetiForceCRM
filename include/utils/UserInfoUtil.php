@@ -792,24 +792,6 @@ function getSubordinateRoleAndUsers($roleId)
 	return $subRoleAndUsers;
 }
 
-function getCurrentUserGroupList()
-{
-
-	\App\Log::trace("Entering getCurrentUserGroupList() method ...");
-	$current_user = vglobal('current_user');
-	require('user_privileges/user_privileges_' . $current_user->id . '.php');
-	$grpList = [];
-	if (sizeof($current_user_groups) > 0) {
-		$i = 0;
-		foreach ($current_user_groups as $grpid) {
-			array_push($grpList, $grpid);
-			$i++;
-		}
-	}
-	\App\Log::trace("Exiting getCurrentUserGroupList method ...");
-	return $grpList;
-}
-
 function getWriteSharingGroupsList($module)
 {
 
