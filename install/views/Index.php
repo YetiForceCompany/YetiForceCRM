@@ -17,7 +17,7 @@ class Install_Index_view extends Vtiger_View_Controller
 
 	public function checkPermission(\App\Request $request)
 	{
-
+		
 	}
 
 	public function loginRequired()
@@ -225,6 +225,7 @@ class Install_Index_view extends Vtiger_View_Controller
 			$initSchema->initialize();
 			$initSchema->setCompanyDetails($request);
 
+			$this->viewer->assign('USER_NAME', $_SESSION['config_file_info']['user_name']);
 			$this->viewer->assign('PASSWORD', $_SESSION['config_file_info']['password']);
 			$this->viewer->assign('APPUNIQUEKEY', $this->retrieveConfiguredAppUniqueKey());
 			$this->viewer->assign('CURRENT_VERSION', \App\Version::get());
@@ -333,7 +334,7 @@ class Install_Index_view extends Vtiger_View_Controller
 
 	protected function preProcessDisplay(\App\Request $request)
 	{
-
+		
 	}
 
 	public function validateRequest(\App\Request $request)

@@ -80,6 +80,7 @@ class Install_InitSchema_Model
 	{
 		$adminPassword = $_SESSION['config_file_info']['password'];
 		$this->db->update('vtiger_users', [
+			'user_name' => $_SESSION['config_file_info']['user_name'],
 			'date_format' => $_SESSION['config_file_info']['dateformat'],
 			'time_zone' => $_SESSION['config_file_info']['timezone'],
 			'first_name' => $_SESSION['config_file_info']['firstname'],

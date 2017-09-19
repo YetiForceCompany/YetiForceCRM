@@ -84,7 +84,7 @@
 							</thead>
 							<tbody>
 								<tr><td>{\App\Language::translate('LBL_USERNAME', 'Install')}</td>
-									<td>admin<input type="hidden" class="form-control" name="{$ADMIN_NAME}" value="admin" /></td>
+									<td><input type="text" class="form-control" value="{$ADMIN_NAME}" name="user_name" /></td>
 								</tr>
 								<tr><td>{\App\Language::translate('LBL_PASSWORD', 'Install')}<span class="no">*</span></td>
 									<td><input type="password" class="form-control" value="{$ADMIN_PASSWORD}" name="password" /></td>

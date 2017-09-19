@@ -104,7 +104,7 @@
 									{\App\Language::translate('LBL_USERNAME','Install')}
 								</td>
 								<td>
-									{$INFORMATION['admin']}
+									{$INFORMATION['user_name']}
 								</td>
 							</tr>
 							<tr>
