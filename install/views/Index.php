@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-class Install_Index_view extends Vtiger_View_Controller
+class Install_Index_View extends Vtiger_View_Controller
 {
 
 	protected $debug = false;
