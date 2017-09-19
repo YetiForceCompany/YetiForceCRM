@@ -21,12 +21,31 @@ class Utils
 	{
 		if (is_array($variable)) {
 			$toImplode = [];
-			foreach ($variable as $key => $value) {
-				$toImplode[] = var_export($key, true) . '=>' . static::varExport($value);
+			if (static::isAssoc($variable)) {
+				foreach ($variable as $key => $value) {
+					$toImplode[] = var_export($key, true) . '=>' . static::varExport($value);
+				}
+			} else {
+				foreach ($variable as $value) {
+					$toImplode[] = static::varExport($value);
+				}
 			}
 			return '[' . implode(',', $toImplode) . ']';
 		} else {
 			return var_export($variable, true);
 		}
+	}
+
+	/**
+	 * Check if array is associative
+	 * @param array $arr
+	 * @return boolean
+	 */
+	public static function isAssoc(array $arr)
+	{
+		if (empty($arr)) {
+			return false;
+		}
+		return array_keys($arr) !== range(0, count($arr) - 1);
 	}
 }

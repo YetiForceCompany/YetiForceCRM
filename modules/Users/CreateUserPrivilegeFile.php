@@ -51,14 +51,14 @@ function createUserPrivilegesfile($userid)
 			$parentRoles = \App\PrivilegeUtil::getParentRole($user_role);
 			$newbuf .= "\$current_user_roles='" . $user_role . "';\n";
 			$newbuf .= "\$current_user_parent_role_seq='" . $user_role_parent . "';\n";
-			$newbuf .= "\$current_user_profiles=" . constructSingleArray(\App\PrivilegeUtil::getProfilesByRole($user_role)) . ";\n";
-			$newbuf .= "\$profileGlobalPermission=" . constructArray($globalPermissionArr) . ";\n";
-			$newbuf .= "\$profileTabsPermission=" . constructArray($tabsPermissionArr) . ";\n";
-			$newbuf .= "\$profileActionPermission=" . constructTwoDimensionalArray($actionPermissionArr) . ";\n";
-			$newbuf .= "\$current_user_groups=" . constructSingleArray(\App\PrivilegeUtil::getAllGroupsByUser($userid)) . ";\n";
-			$newbuf .= "\$subordinate_roles=" . constructSingleCharArray($subRoles) . ";\n";
-			$newbuf .= "\$parent_roles=" . constructSingleCharArray($parentRoles) . ";\n";
-			$newbuf .= "\$subordinate_roles_users=" . constructTwoDimensionalCharIntSingleArray($subRoleAndUsers) . ";\n";
+			$newbuf .= "\$current_user_profiles=" . \App\Utils::varExport(\App\PrivilegeUtil::getProfilesByRole($user_role)) . ";\n";
+			$newbuf .= "\$profileGlobalPermission=" . \App\Utils::varExport($globalPermissionArr) . ";\n";
+			$newbuf .= "\$profileTabsPermission=" . \App\Utils::varExport($tabsPermissionArr) . ";\n";
+			$newbuf .= "\$profileActionPermission=" . \App\Utils::varExport($actionPermissionArr) . ";\n";
+			$newbuf .= "\$current_user_groups=" . \App\Utils::varExport(\App\PrivilegeUtil::getAllGroupsByUser($userid)) . ";\n";
+			$newbuf .= "\$subordinate_roles=" . \App\Utils::varExport($subRoles) . ";\n";
+			$newbuf .= "\$parent_roles=" . \App\Utils::varExport($parentRoles) . ";\n";
+			$newbuf .= "\$subordinate_roles_users=" . \App\Utils::varExport($subRoleAndUsers) . ";\n";
 			$newbuf .= "\$user_info=" . \App\Utils::varExport($userInfo) . ";\n";
 		}
 		fputs($handle, $newbuf);
@@ -91,31 +91,31 @@ function createUserSharingPrivilegesfile($userid)
 			$sharingPrivileges = [];
 			//Constructig the Default Org Share Array
 			$def_org_share = \App\PrivilegeUtil::getAllDefaultSharingAction();
-			$newbuf .= "\$defaultOrgSharingPermission=" . constructArray($def_org_share) . ";\n";
+			$newbuf .= "\$defaultOrgSharingPermission=" . \App\Utils::varExport($def_org_share) . ";\n";
 			$sharingPrivileges['defOrgShare'] = $def_org_share;
 
 			$relatedModuleShare = \App\PrivilegeUtil::getDatashareRelatedModules();
-			$newbuf .= "\$related_module_share=" . constructTwoDimensionalValueArray($relatedModuleShare) . ";\n";
+			$newbuf .= "\$related_module_share=" . \App\Utils::varExport($relatedModuleShare) . ";\n";
 			$sharingPrivileges['relatedModuleShare'] = $relatedModuleShare;
 			//Constructing Account Sharing Rules
 			$account_share_per_array = App\PrivilegeUtil::getUserModuleSharingObjects('Accounts', $userid, $def_org_share, $current_user_roles, $parent_roles, $current_user_groups);
 			$account_share_read_per = $account_share_per_array['read'];
 			$account_share_write_per = $account_share_per_array['write'];
 			$account_sharingrule_members = $account_share_per_array['sharingrules'];
-			$newbuf .= "\$Accounts_share_read_permission=array('ROLE'=>" . constructTwoDimensionalCharIntSingleValueArray($account_share_read_per['ROLE']) . ",'GROUP'=>" . constructTwoDimensionalValueArray($account_share_read_per['GROUP']) . ");\n";
-			$newbuf .= "\$Accounts_share_write_permission=array('ROLE'=>" . constructTwoDimensionalCharIntSingleValueArray($account_share_write_per['ROLE']) . ",'GROUP'=>" . constructTwoDimensionalValueArray($account_share_write_per['GROUP']) . ");\n";
+			$newbuf .= "\$Accounts_share_read_permission=array('ROLE'=>" . \App\Utils::varExport($account_share_read_per['ROLE']) . ",'GROUP'=>" . \App\Utils::varExport($account_share_read_per['GROUP']) . ");\n";
+			$newbuf .= "\$Accounts_share_write_permission=array('ROLE'=>" . \App\Utils::varExport($account_share_write_per['ROLE']) . ",'GROUP'=>" . \App\Utils::varExport($account_share_write_per['GROUP']) . ");\n";
 			$sharingPrivileges['permission']['Accounts'] = ['read' => $account_share_read_per, 'write' => $account_share_write_per];
 			//Constructing Contact Sharing Rules
-			$newbuf .= "\$Contacts_share_read_permission=array('ROLE'=>" . constructTwoDimensionalCharIntSingleValueArray($account_share_read_per['ROLE']) . ",'GROUP'=>" . constructTwoDimensionalValueArray($account_share_read_per['GROUP']) . ");\n";
-			$newbuf .= "\$Contacts_share_write_permission=array('ROLE'=>" . constructTwoDimensionalCharIntSingleValueArray($account_share_write_per['ROLE']) . ",'GROUP'=>" . constructTwoDimensionalValueArray($account_share_write_per['GROUP']) . ");\n";
+			$newbuf .= "\$Contacts_share_read_permission=array('ROLE'=>" . \App\Utils::varExport($account_share_read_per['ROLE']) . ",'GROUP'=>" . \App\Utils::varExport($account_share_read_per['GROUP']) . ");\n";
+			$newbuf .= "\$Contacts_share_write_permission=array('ROLE'=>" . \App\Utils::varExport($account_share_write_per['ROLE']) . ",'GROUP'=>" . \App\Utils::varExport($account_share_write_per['GROUP']) . ");\n";
 			$sharingPrivileges['permission']['Contacts'] = ['read' => $account_share_read_per, 'write' => $account_share_write_per];
 
 			//Constructing the Account Ticket Related Module Sharing Array
 			$acct_related_tkt = getRelatedModuleSharingArray('Accounts', 'HelpDesk', $account_sharingrule_members, $account_share_read_per, $account_share_write_per, $def_org_share);
 			$acc_tkt_share_read_per = $acct_related_tkt['read'];
 			$acc_tkt_share_write_per = $acct_related_tkt['write'];
-			$newbuf .= "\$Accounts_HelpDesk_share_read_permission=array('ROLE'=>" . constructTwoDimensionalCharIntSingleValueArray($acc_tkt_share_read_per['ROLE']) . ",'GROUP'=>" . constructTwoDimensionalValueArray($acc_tkt_share_read_per['GROUP']) . ");\n";
-			$newbuf .= "\$Accounts_HelpDesk_share_write_permission=array('ROLE'=>" . constructTwoDimensionalCharIntSingleValueArray($acc_tkt_share_write_per['ROLE']) . ",'GROUP'=>" . constructTwoDimensionalValueArray($acc_tkt_share_write_per['GROUP']) . ");\n";
+			$newbuf .= "\$Accounts_HelpDesk_share_read_permission=array('ROLE'=>" . \App\Utils::varExport($acc_tkt_share_read_per['ROLE']) . ",'GROUP'=>" . \App\Utils::varExport($acc_tkt_share_read_per['GROUP']) . ");\n";
+			$newbuf .= "\$Accounts_HelpDesk_share_write_permission=array('ROLE'=>" . \App\Utils::varExport($acc_tkt_share_write_per['ROLE']) . ",'GROUP'=>" . \App\Utils::varExport($acc_tkt_share_write_per['GROUP']) . ");\n";
 			$sharingPrivileges['permission']['Accounts_HelpDesk'] = ['read' => $acc_tkt_share_read_per, 'write' => $acc_tkt_share_write_per];
 
 			$custom_modules = \App\Module::getSharingModuleList(['Accounts', 'Contacts']);
@@ -125,11 +125,11 @@ function createUserSharingPrivilegesfile($userid)
 				$mod_share_read_perm = $mod_share_perm_array['read'];
 				$mod_share_write_perm = $mod_share_perm_array['write'];
 				$newbuf .= '$' . $module_name . "_share_read_permission=['ROLE'=>" .
-					constructTwoDimensionalCharIntSingleValueArray($mod_share_read_perm['ROLE']) . ",'GROUP'=>" .
-					constructTwoDimensionalArray($mod_share_read_perm['GROUP']) . "];\n";
+					\App\Utils::varExport($mod_share_read_perm['ROLE']) . ",'GROUP'=>" .
+					\App\Utils::varExport($mod_share_read_perm['GROUP']) . "];\n";
 				$newbuf .= '$' . $module_name . "_share_write_permission=['ROLE'=>" .
-					constructTwoDimensionalCharIntSingleValueArray($mod_share_write_perm['ROLE']) . ",'GROUP'=>" .
-					constructTwoDimensionalArray($mod_share_write_perm['GROUP']) . "];\n";
+					\App\Utils::varExport($mod_share_write_perm['ROLE']) . ",'GROUP'=>" .
+					\App\Utils::varExport($mod_share_write_perm['GROUP']) . "];\n";
 
 				$sharingPrivileges['permission'][$module_name] = ['read' => $mod_share_read_perm, 'write' => $mod_share_write_perm];
 			}
@@ -298,209 +298,6 @@ function getRelatedModuleSharingArray($par_mod, $share_mod, $mod_sharingrule_mem
 	$related_mod_sharing_permission['read'] = $mod_share_read_permission;
 	$related_mod_sharing_permission['write'] = $mod_share_write_permission;
 	return $related_mod_sharing_permission;
-}
-
-/** Converts the input array  to a single string to facilitate the writing of the input array in a flat file
-
- * @param $var -- input array:: Type array
- * @returns $code -- contains the whole array in a single string:: Type array
- */
-function constructArray($var)
-{
-	if (is_array($var)) {
-		$code = '[';
-		foreach ($var as $key => $value) {
-			$code .= "'" . $key . "'=>" . $value . ',';
-		}
-		$code .= ']';
-		return $code;
-	} else {
-		return '[]';
-	}
-}
-
-/** Converts the input array  to a single string to facilitate the writing of the input array in a flat file
-
- * @param $var -- input array:: Type array
- * @returns $code -- contains the whole array in a single string:: Type array
- */
-function constructSingleStringValueArray($var)
-{
-
-	$size = sizeof($var);
-	$i = 1;
-	if (is_array($var)) {
-		$code = '[';
-		foreach ($var as $key => $value) {
-			if ($i < $size) {
-				$code .= $key . "=>'" . $value . "',";
-			} else {
-				$code .= $key . "=>'" . $value . "'";
-			}
-			$i++;
-		}
-		$code .= ']';
-		return $code;
-	} else {
-		return '[]';
-	}
-}
-
-/** Converts the input array  to a single string to facilitate the writing of the input array in a flat file
-
- * @param $var -- input array:: Type array
- * @returns $code -- contains the whole array in a single string:: Type array
- */
-function constructSingleStringKeyAndValueArray($var)
-{
-
-	$size = sizeof($var);
-	$i = 1;
-	if (is_array($var)) {
-		$code = '[';
-		foreach ($var as $key => $value) {
-			if ($i < $size) {
-				$code .= "'" . $key . "'=>" . $value . ",";
-			} else {
-				$code .= "'" . $key . "'=>" . $value;
-			}
-			$i++;
-		}
-		$code .= ']';
-		return $code;
-	} else {
-		return '[]';
-	}
-}
-
-/** Converts the input array  to a single string to facilitate the writing of the input array in a flat file
-
- * @param $var -- input array:: Type array
- * @returns $code -- contains the whole array in a single string:: Type array
- */
-function constructSingleArray($var)
-{
-	if (is_array($var)) {
-		$code = '[';
-		foreach ($var as $value) {
-			$code .= $value . ',';
-		}
-		$code .= ']';
-		return $code;
-	} else {
-		return '[]';
-	}
-}
-
-/** Converts the input array  to a single string to facilitate the writing of the input array in a flat file
-
- * @param $var -- input array:: Type array
- * @returns $code -- contains the whole array in a single string:: Type array
- */
-function constructSingleCharArray($var)
-{
-	if (is_array($var)) {
-		$code = '[';
-		foreach ($var as $value) {
-			$code .= "'" . $value . "',";
-		}
-		$code .= ']';
-		return $code;
-	} else {
-		return '[]';
-	}
-}
-
-/** Converts the input array  to a single string to facilitate the writing of the input array in a flat file
-
- * @param $var -- input array:: Type array
- * @returns $code -- contains the whole array in a single string:: Type array
- */
-function constructTwoDimensionalArray($var)
-{
-	if (is_array($var)) {
-		$code = '[';
-		foreach ($var as $key => $secarr) {
-			$code .= $key . '=>[';
-			foreach ($secarr as $seckey => $secvalue) {
-				$code .= $seckey . '=>' . $secvalue . ',';
-			}
-			$code .= '],';
-		}
-		$code .= ']';
-		return $code;
-	} else {
-		return '[]';
-	}
-}
-
-/** Converts the input array  to a single string to facilitate the writing of the input array in a flat file
-
- * @param $var -- input array:: Type array
- * @returns $code -- contains the whole array in a single string:: Type array
- */
-function constructTwoDimensionalValueArray($var)
-{
-	if (is_array($var)) {
-		$code = '[';
-		foreach ($var as $key => $secarr) {
-			$code .= $key . '=>array(';
-			foreach ($secarr as $seckey => $secvalue) {
-				$code .= $secvalue . ',';
-			}
-			$code .= '),';
-		}
-		$code .= ']';
-		return $code;
-	} else {
-		return '[]';
-	}
-}
-
-/** Converts the input array  to a single string to facilitate the writing of the input array in a flat file
-
- * @param $var -- input array:: Type array
- * @returns $code -- contains the whole array in a single string:: Type array
- */
-function constructTwoDimensionalCharIntSingleArray($var)
-{
-	if (is_array($var)) {
-		$code = '[';
-		foreach ($var as $key => $secarr) {
-			$code .= "'" . $key . "'=>[";
-			foreach ($secarr as $seckey => $secvalue) {
-				$code .= $seckey . ',';
-			}
-			$code .= '],';
-		}
-		$code .= ']';
-		return $code;
-	} else {
-		return '[]';
-	}
-}
-
-/** Converts the input array  to a single string to facilitate the writing of the input array in a flat file
-
- * @param $var -- input array:: Type array
- * @returns $code -- contains the whole array in a single string:: Type array
- */
-function constructTwoDimensionalCharIntSingleValueArray($var)
-{
-	if (is_array($var)) {
-		$code = '[';
-		foreach ($var as $key => $secarr) {
-			$code .= "'" . $key . "'=>[";
-			foreach ($secarr as $seckey => $secvalue) {
-				$code .= $secvalue . ',';
-			}
-			$code .= '],';
-		}
-		$code .= ']';
-		return $code;
-	} else {
-		return '[]';
-	}
 }
 
 /** Function to populate the read/wirte Sharing permissions data of user/groups for the specified user into the database
