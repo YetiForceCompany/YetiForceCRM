@@ -2,7 +2,7 @@
 
 // $Id: iCalendar_parameters.php,v 1.7 2005/07/21 23:17:21 defacer Exp $
 
-class iCalendar_parameter
+class IcalendarParameter
 {
 
 	public function multipleValuesAllowed($parameter)

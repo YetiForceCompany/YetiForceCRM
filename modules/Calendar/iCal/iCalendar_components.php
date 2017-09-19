@@ -377,7 +377,7 @@ class IcalendarComponent
 	}
 }
 
-class iCalendar extends IcalendarComponent
+class Icalendar extends IcalendarComponent
 {
 
 	public $name = 'VCALENDAR';
@@ -399,7 +399,7 @@ class iCalendar extends IcalendarComponent
 	}
 }
 
-class iCalendar_event extends IcalendarComponent
+class IcalendarEvent extends IcalendarComponent
 {
 
 	public $name = 'VEVENT';
@@ -551,7 +551,7 @@ class iCalendar_event extends IcalendarComponent
 	}
 }
 
-class iCalendar_todo extends IcalendarComponent
+class IcalendarTodo extends IcalendarComponent
 {
 
 	public $name = 'VTODO';
@@ -642,17 +642,17 @@ class iCalendar_todo extends IcalendarComponent
 	}
 }
 
-class iCalendar_journal extends IcalendarComponent
+class IcalendarJournal extends IcalendarComponent
 {
 
 }
 
-class iCalendar_freebusy extends IcalendarComponent
+class IcalendarFreebusy extends IcalendarComponent
 {
 
 }
 
-class iCalendar_alarm extends IcalendarComponent
+class IcalendarAlarm extends IcalendarComponent
 {
 
 	public $name = 'VALARM';
@@ -692,7 +692,7 @@ class iCalendar_alarm extends IcalendarComponent
 	}
 }
 
-class iCalendar_timezone extends IcalendarComponent
+class IcalendarTimezone extends IcalendarComponent
 {
 
 	public $name = 'VTIMEZONE';
