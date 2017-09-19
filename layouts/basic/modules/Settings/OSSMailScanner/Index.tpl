@@ -50,7 +50,7 @@
                 <button type="button" class="close" data-dismiss="alert">×</button>
                 <h4 class="alert-heading">{\App\Language::translate('OSSMail', 'OSSMail')} - {\App\Language::translate('Alert_no_accounts_title', 'OSSMailScanner')}</h4>
                 <p>{\App\Language::translate('Alert_no_accounts_desc', 'OSSMailScanner')}</p>
-                <p><a class="btn btn-default" href="index.php?module=OSSMail&view=index">{\App\Language::translate('OSSMail','OSSMail')}</a></p>
+                <p><a class="btn btn-default" href="index.php?module=OSSMail&view=Index">{\App\Language::translate('OSSMail','OSSMail')}</a></p>
             </div>	
 		{else}
 			<table class="table tableRWD table-bordered">
