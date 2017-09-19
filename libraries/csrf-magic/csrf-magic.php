@@ -321,7 +321,7 @@ class CSRF
 	 * This should be helpful in production. For debigging use csrf_callback().
 	 * It is configurable by setting $GLOBALS['csrf']['callback'] in this file
 	 */
-	public static function responseForIllegalAccess($tokens)
+	public static function responseForIllegalAccess()
 	{
 		echo 'Invalid request - Response For Illegal Access';
 	}
