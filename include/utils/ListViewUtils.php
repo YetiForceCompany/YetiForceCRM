@@ -283,9 +283,9 @@ function getListQuery($module, $where = '')
 
 	if ($module !== 'Users') {
 		$instance = CRMEntity::getInstance($module);
-		$query = $instance->listQueryNonAdminChange($query, '');
+		$query = $instance->listQueryNonAdminChange($query);
 	}
-	\App\Log::trace("Exiting getListQuery method ...");
+	\App\Log::trace('Exiting getListQuery method ...');
 	return $query;
 }
 
