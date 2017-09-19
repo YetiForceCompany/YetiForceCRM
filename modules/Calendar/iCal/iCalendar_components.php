@@ -50,10 +50,10 @@ class iCalendar_component
 
 		// Create a property object of the correct class
 		if ($xname) {
-			$property = new iCalendar_property_x;
+			$property = new IcalendarPropertyX;
 			$property->setName($name);
 		} else {
-			$classname = 'iCalendar_property_' . strtolower(str_replace('-', '_', $name));
+			$classname = 'IcalendarProperty' . ucfirst(strtolower(str_replace('-', '', $name)));
 			$property = new $classname;
 		}
 		// If $value is NULL, then this property must define a default value.
@@ -136,7 +136,7 @@ class iCalendar_component
 
 	public function get_property_list($name)
 	{
-		
+
 	}
 
 	public function invariantHolds()
@@ -160,7 +160,7 @@ class iCalendar_component
 		// that have not been set and do not have a default value
 		foreach ($this->valid_properties as $property => $propdata) {
 			if (($propdata & RFC2445_REQUIRED) && empty($this->properties[$property])) {
-				$classname = 'iCalendar_property_' . strtolower(str_replace('-', '_', $property));
+				$classname = 'IcalendarProperty' . ucfirst(strtolower(str_replace('-', '', $property)));
 				$object = new $classname;
 				if ($object->defaultValueICal() === NULL) {
 					return false;
@@ -644,12 +644,12 @@ class iCalendar_todo extends iCalendar_component
 
 class iCalendar_journal extends iCalendar_component
 {
-	
+
 }
 
 class iCalendar_freebusy extends iCalendar_component
 {
-	
+
 }
 
 class iCalendar_alarm extends iCalendar_component
