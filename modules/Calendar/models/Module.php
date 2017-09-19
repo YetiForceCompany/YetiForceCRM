@@ -66,7 +66,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getCreateTaskRecordUrl()
 	{
-		return 'index.php?module=' . $this->get('name') . '&view=' . $this->getEditViewName() . '&mode=Calendar';
+		return 'index.php?module=' . $this->get('name') . '&view=' . $this->getEditViewName() . '&mode=calendar';
 	}
 
 	/**

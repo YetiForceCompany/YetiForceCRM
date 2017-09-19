@@ -19,7 +19,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 	{
 		parent::__construct();
 		$this->exposeMethod('Events');
-		$this->exposeMethod('Calendar');
+		$this->exposeMethod('calendar');
 	}
 
 	/**
@@ -41,7 +41,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 			$this->invokeExposedMethod($mode, $request, $mode);
 			return;
 		}
-		$this->Calendar($request, 'Calendar');
+		$this->calendar($request, 'Calendar');
 	}
 
 	public function Events(\App\Request $request, $moduleName)
@@ -72,12 +72,12 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 		foreach ($requestFieldList as $fieldName => $fieldValue) {
 			$fieldModel = $fieldList[$fieldName];
 			$specialField = false;
-			// We collate date and time part together in the EditView UI handling 
-			// so a bit of special treatment is required if we come from QuickCreate 
+			// We collate date and time part together in the EditView UI handling
+			// so a bit of special treatment is required if we come from QuickCreate
 			if (empty($record) && ($fieldName == 'time_start' || $fieldName == 'time_end') && !empty($fieldValue)) {
 				$specialField = true;
-				// Convert the incoming user-picked time to GMT time 
-				// which will get re-translated based on user-time zone on EditForm 
+				// Convert the incoming user-picked time to GMT time
+				// which will get re-translated based on user-time zone on EditForm
 				$fieldValue = DateTimeField::convertToDBTimeZone($fieldValue)->format("H:i");
 			}
 			if (empty($record) && ($fieldName == 'date_start' || $fieldName == 'due_date') && !empty($fieldValue)) {
@@ -150,7 +150,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 	 * @param \App\Request $request
 	 * @param string $moduleName
 	 */
-	public function Calendar(\App\Request $request, $moduleName)
+	public function calendar(\App\Request $request, $moduleName)
 	{
 		parent::process($request);
 	}
