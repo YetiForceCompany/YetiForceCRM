@@ -411,7 +411,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		$updatedFields = 'default_language';
 		$patternString = "\$%s = %s;";
 		$pattern = '/\$' . $updatedFields . '[\s]+=([^\n]+);/';
-		$replacement = sprintf($patternString, $updatedFields, vtlib\Functions::varExportMin(ltrim($prefix, '0')));
+		$replacement = sprintf($patternString, $updatedFields, App\Utils::varExport(ltrim($prefix, '0')));
 		$fileContent = preg_replace($pattern, $replacement, $completeData);
 		$filePointer = fopen($fileName, 'w');
 		fwrite($filePointer, $fileContent);

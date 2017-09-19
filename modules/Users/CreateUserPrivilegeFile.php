@@ -36,7 +36,7 @@ function createUserPrivilegesfile($userid)
 		}
 		if ($user_focus->is_admin == 'on') {
 			$newbuf .= "\$is_admin=true;\n";
-			$newbuf .= "\$user_info=" . \vtlib\Functions::varExportMin($userInfo) . ";\n";
+			$newbuf .= "\$user_info=" . \App\Utils::varExport($userInfo) . ";\n";
 		} else {
 			$newbuf .= "\$is_admin=false;\n";
 
@@ -59,7 +59,7 @@ function createUserPrivilegesfile($userid)
 			$newbuf .= "\$subordinate_roles=" . constructSingleCharArray($subRoles) . ";\n";
 			$newbuf .= "\$parent_roles=" . constructSingleCharArray($parentRoles) . ";\n";
 			$newbuf .= "\$subordinate_roles_users=" . constructTwoDimensionalCharIntSingleArray($subRoleAndUsers) . ";\n";
-			$newbuf .= "\$user_info=" . \vtlib\Functions::varExportMin($userInfo) . ";\n";
+			$newbuf .= "\$user_info=" . \App\Utils::varExport($userInfo) . ";\n";
 		}
 		fputs($handle, $newbuf);
 		fclose($handle);
@@ -133,7 +133,7 @@ function createUserSharingPrivilegesfile($userid)
 
 				$sharingPrivileges['permission'][$module_name] = ['read' => $mod_share_read_perm, 'write' => $mod_share_write_perm];
 			}
-			$newbuf .= 'return ' . \vtlib\Functions::varExportMin($sharingPrivileges) . ";\n";
+			$newbuf .= 'return ' . \App\Utils::varExport($sharingPrivileges) . ";\n";
 			// END
 			fputs($handle, $newbuf);
 			fclose($handle);

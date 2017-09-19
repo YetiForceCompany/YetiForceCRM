@@ -432,7 +432,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 				}
 			}
 		}
-		$content = '<?php return ' . \vtlib\Functions::varExportMin($cache) . ';' . PHP_EOL;
+		$content = '<?php return ' . \App\Utils::varExport($cache) . ';' . PHP_EOL;
 		file_put_contents(static::$cacheFile, $content, LOCK_EX);
 	}
 

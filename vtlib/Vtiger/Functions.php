@@ -1034,18 +1034,4 @@ class Functions
 		}
 		return $difference;
 	}
-
-	public static function varExportMin($var)
-	{
-		if (is_array($var)) {
-			$toImplode = [];
-			foreach ($var as $key => $value) {
-				$toImplode[] = var_export($key, true) . '=>' . self::varExportMin($value);
-			}
-			$code = '[' . implode(',', $toImplode) . ']';
-			return $code;
-		} else {
-			return var_export($var, true);
-		}
-	}
 }
