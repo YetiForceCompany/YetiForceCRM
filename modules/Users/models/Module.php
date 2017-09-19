@@ -70,18 +70,6 @@ class Users_Module_Model extends Vtiger_Module_Model
 		return 'index.php?module=' . $this->get('name') . '&parent=Settings&view=' . $this->getEditViewName();
 	}
 
-	public function checkDuplicateUser($userName)
-	{
-		$db = PearDatabase::getInstance();
-
-		$query = 'SELECT user_name FROM vtiger_users WHERE user_name = ?';
-		$result = $db->pquery($query, array($userName));
-		if ($db->numRows($result) > 0) {
-			return true;
-		}
-		return false;
-	}
-
 	/**
 	 * Function to delete a given record model of the current module
 	 * @param Vtiger_Record_Model $recordModel
@@ -220,13 +208,44 @@ class Users_Module_Model extends Vtiger_Module_Model
 		return $time_zones_list;
 	}
 
-	public function checkMailExist($email, $id)
+	/**
+	 * Check mail exist
+	 * @param string $email
+	 * @param int $userId
+	 * @return boolean
+	 */
+	public static function checkMailExist($email, $userId)
 	{
 		$query = (new \App\Db\Query())->from('vtiger_users')->where(['email1' => $email]);
-		if ($id) {
-			$query->andWhere(['<>', 'id', $id]);
+		if ($userId) {
+			$query->andWhere(['<>', 'id', $userId]);
 		}
 		return $query->exists();
+	}
+
+	/**
+	 * Validation of user name
+	 * @param string $userName
+	 * @param int $userId
+	 * @return boolean
+	 */
+	public static function checkUserName($userName, $userId)
+	{
+		$query = (new \App\Db\Query())->from('vtiger_users')->where(['user_name' => $userName]);
+		if ($userId) {
+			$query->andWhere(['<>', 'id', $userId]);
+		}
+		if ($query->exists()) {
+			return \App\Language::translate('LBL_USER_NAME_EXISTS', 'Users');
+		}
+		if ($userId && AppConfig::module('Users', 'CHECK_LAST_USERNAME') && (new \App\Db\Query())->from('l_#__username_history')->where(['user_name' => $userName])->exists()) {
+			return \App\Language::translate('LBL_USER_NAME_HAS_ALREADY_BEEN_USED', 'Users');
+		}
+		$blacklist = require 'config/username_blacklist.php';
+		if (in_array($userName, $blacklist)) {
+			return \App\Language::translate('LBL_FORBIDDEN_USERNAMES', 'Users');
+		}
+		return false;
 	}
 
 	/**

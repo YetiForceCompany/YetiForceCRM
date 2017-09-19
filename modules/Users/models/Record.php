@@ -170,13 +170,18 @@ class Users_Record_Model extends Vtiger_Record_Model
 	{
 		$entityInstance = $this->getModule()->getEntityInstance();
 		$db = \App\Db::getInstance();
-		foreach ($this->getValuesForSave() as $tableName => $tableData) {
+		$valuesForSave = $this->getValuesForSave();
+		foreach ($valuesForSave as $tableName => $tableData) {
 			$keyTable = [$entityInstance->tab_name_index[$tableName] => $this->getId()];
 			if ($this->isNew()) {
 				$db->createCommand()->insert($tableName, $keyTable + $tableData)->execute();
 			} else {
 				$db->createCommand()->update($tableName, $tableData, [$entityInstance->tab_name_index[$tableName] => $this->getId()])->execute();
 			}
+		}
+		if (AppConfig::module('Users', 'CHECK_LAST_USERNAME') && isset($valuesForSave['vtiger_users']['user_name'])) {
+			$db = \App\Db::getInstance('log');
+			$db->createCommand()->insert('l_#__username_history', ['user_name' => $valuesForSave['vtiger_users']['user_name'], 'user_id' => $this->getId()])->execute();
 		}
 	}
 

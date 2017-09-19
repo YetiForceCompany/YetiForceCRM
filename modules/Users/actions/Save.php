@@ -22,7 +22,7 @@ class Users_Save_Action extends Vtiger_Save_Action
 		$moduleName = $request->getModule();
 		if (!$request->isEmpty('record', true)) {
 			$record = $request->getInteger('record');
-			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			$this->record = $recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			$currentUserModel = Users_Record_Model::getCurrentUserModel();
 
 			$allowed = \App\Privilege::isPermitted($moduleName, 'Save', $record);
@@ -68,48 +68,64 @@ class Users_Save_Action extends Vtiger_Save_Action
 		if (!empty($_FILES[0]['name'])) {
 			$request->set('imagename', $_FILES[0]['name']);
 		}
-		$moduleModel = Vtiger_Module_Model::getInstance('Users');
-		if (!$moduleModel->checkMailExist($request->get('email1'), $request->get('record'))) {
-			$recordModel = $this->saveRecord($request);
-			$settingsModuleModel = Settings_Users_Module_Model::getInstance();
-			$settingsModuleModel->refreshSwitchUsers();
-
-			$sharedIds = $request->get('sharedusers');
-			$sharedType = $request->get('calendarsharedtype');
-			$currentUserModel = Users_Record_Model::getCurrentUserModel();
-			$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
-			$accessibleUsers = \App\Fields\Owner::getInstance('Calendar', $currentUserModel)->getAccessibleUsersForModule();
-
-			if ($sharedType == 'private') {
-				$calendarModuleModel->deleteSharedUsers($currentUserModel->getId());
-			} else if ($sharedType == 'public') {
-				$allUsers = $currentUserModel->getAll(true);
-				$accessibleUsers = [];
-				foreach ($allUsers as $id => $userModel) {
-					$accessibleUsers[$id] = $id;
-				}
-				$calendarModuleModel->deleteSharedUsers($currentUserModel->getId());
-				$calendarModuleModel->insertSharedUsers($currentUserModel->getId(), array_keys($accessibleUsers));
-			} else {
-				if (!empty($sharedIds)) {
-					$calendarModuleModel->deleteSharedUsers($currentUserModel->getId());
-					$calendarModuleModel->insertSharedUsers($currentUserModel->getId(), $sharedIds);
-				} else {
-					$calendarModuleModel->deleteSharedUsers($currentUserModel->getId());
+		$moduleName = $request->getModule();
+		$message = '';
+		if (Users_Module_Model::checkMailExist($request->get('email1'), (int) $request->get('record'))) {
+			$message = \App\Language::translate('LBL_USER_MAIL_EXIST', $moduleName);
+		}
+		if ($request->isEmpty('record', true) || $this->record->get('user_name') !== $request->get('user_name')) {
+			if ($checkUserName = Users_Module_Model::checkUserName($request->get('user_name'), (int) $request->get('record'))) {
+				$message = $checkUserName;
+			}
+		}
+		if ($request->isEmpty('record', true)) {
+			if (!$request->isEmpty('user_password', true)) {
+				$checkPassword = Settings_Password_Record_Model::checkPassword($request->get('user_password'));
+				if ($checkPassword) {
+					$message = $checkPassword;
 				}
 			}
-			if ($request->get('relationOperation')) {
-				$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->get('sourceRecord'), $request->getByType('sourceModule', 1));
-				$loadUrl = $parentRecordModel->getDetailViewUrl();
-			} else if ($request->get('isPreference')) {
-				$loadUrl = $recordModel->getPreferenceDetailViewUrl();
-			} else {
-				$loadUrl = $recordModel->getDetailViewUrl();
-			}
-		} else {
-			App\Log::error('USER_MAIL_EXIST');
+		}
+		if ($message) {
+			App\Log::error($message);
 			header('Location: index.php?module=Users&parent=Settings&view=Edit');
 			return false;
+		}
+		$recordModel = $this->saveRecord($request);
+		$settingsModuleModel = Settings_Users_Module_Model::getInstance();
+		$settingsModuleModel->refreshSwitchUsers();
+
+		$sharedIds = $request->get('sharedusers');
+		$sharedType = $request->get('calendarsharedtype');
+		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$calendarModuleModel = Vtiger_Module_Model::getInstance('Calendar');
+		$accessibleUsers = \App\Fields\Owner::getInstance('Calendar', $currentUserModel)->getAccessibleUsersForModule();
+
+		if ($sharedType == 'private') {
+			$calendarModuleModel->deleteSharedUsers($currentUserModel->getId());
+		} else if ($sharedType == 'public') {
+			$allUsers = $currentUserModel->getAll(true);
+			$accessibleUsers = [];
+			foreach ($allUsers as $id => $userModel) {
+				$accessibleUsers[$id] = $id;
+			}
+			$calendarModuleModel->deleteSharedUsers($currentUserModel->getId());
+			$calendarModuleModel->insertSharedUsers($currentUserModel->getId(), array_keys($accessibleUsers));
+		} else {
+			if (!empty($sharedIds)) {
+				$calendarModuleModel->deleteSharedUsers($currentUserModel->getId());
+				$calendarModuleModel->insertSharedUsers($currentUserModel->getId(), $sharedIds);
+			} else {
+				$calendarModuleModel->deleteSharedUsers($currentUserModel->getId());
+			}
+		}
+		if ($request->get('relationOperation')) {
+			$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->get('sourceRecord'), $request->getByType('sourceModule', 1));
+			$loadUrl = $parentRecordModel->getDetailViewUrl();
+		} else if ($request->get('isPreference')) {
+			$loadUrl = $recordModel->getPreferenceDetailViewUrl();
+		} else {
+			$loadUrl = $recordModel->getDetailViewUrl();
 		}
 		header("Location: $loadUrl");
 	}

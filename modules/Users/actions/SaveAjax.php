@@ -16,7 +16,6 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('userExists');
 		$this->exposeMethod('savePassword');
 		$this->exposeMethod('restoreUser');
 		$this->exposeMethod('editPasswords');
@@ -98,17 +97,6 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			$recordModel->set('is_owner', 1);
 		}
 		return $recordModel;
-	}
-
-	public function userExists(\App\Request $request)
-	{
-		$module = $request->getModule();
-		$userName = $request->get('user_name');
-		$userModuleModel = Users_Module_Model::getCleanInstance($module);
-		$status = $userModuleModel->checkDuplicateUser($userName);
-		$response = new Vtiger_Response();
-		$response->setResult($status);
-		$response->emit();
 	}
 
 	public function savePassword(\App\Request $request)
