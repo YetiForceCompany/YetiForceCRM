@@ -137,7 +137,7 @@ class Vtiger_Util_Helper
 		$dateTimeInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue($date . ' ' . $time);
 
 		list($dateInUserFormat, $timeInUserFormat) = explode(' ', $dateTimeInUserFormat);
-		list($hours, $minutes, $seconds) = explode(':', $timeInUserFormat);
+		list($hours, $minutes) = explode(':', $timeInUserFormat);
 
 		$displayTime = $hours . ':' . $minutes;
 		if ($currentUser->get('hour_format') === '12') {

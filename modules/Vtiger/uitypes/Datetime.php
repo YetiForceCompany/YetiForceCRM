@@ -31,7 +31,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 		if (empty($value)) {
 			return '';
 		}
-		return $dateValue = self::getDisplayDateTimeValue($value);
+		return self::getDisplayDateTimeValue($value);
 	}
 
 	/**
