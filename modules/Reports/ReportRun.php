@@ -3396,7 +3396,9 @@ class ReportRun extends CRMEntity
 		$numRows = $adb->numRows($groupByTimeRes);
 		for ($i = 0; $i < $numRows; $i++) {
 			$sortColName = $adb->queryResult($groupByTimeRes, $i, 'sortcolname');
-			list($tablename, $colname, $module_field, $fieldname, $single) = explode(':', $sortColName);
+			$sortColNameExplode = explode(':', $sortColName);
+			$tablename = $sortColNameExplode[0];
+			$module_field = $sortColNameExplode[2];
 			$groupField = $module_field;
 			$groupCriteria = $adb->queryResult($groupByTimeRes, $i, 'dategroupbycriteria');
 			if (in_array($groupCriteria, array_keys($this->groupByTimeParent))) {

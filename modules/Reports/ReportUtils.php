@@ -65,13 +65,19 @@ function isReferenceUIType($uitype)
 	return false;
 }
 
+/**
+ * The function is a date field
+ * @param type $reportColDetails
+ * @return boolean
+ */
 function IsDateField($reportColDetails)
 {
 	if ($reportColDetails === 'none') {
 		return false;
 	}
 
-	list($tablename, $colname, $module_field, $fieldname, $typeOfData) = explode(':', $reportColDetails);
+	$reportColDetailsExplode = explode(':', $reportColDetails);
+	$typeOfData = $reportColDetailsExplode[4];
 	if ($typeOfData === 'D') {
 		return true;
 	} else {

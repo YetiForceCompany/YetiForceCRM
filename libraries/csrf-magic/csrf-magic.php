@@ -343,6 +343,8 @@ class CSRF
 
 	/**
 	 * Checks if a token is valid.
+	 * @param int $token
+	 * @return boolean
 	 */
 	public static function checkToken($token)
 	{
@@ -351,7 +353,8 @@ class CSRF
 		list($type, $value) = explode(':', $token, 2);
 		if (strpos($value, ',') === false)
 			return false;
-		list($x, $time) = explode(',', $token, 2);
+		$tokenExplode = explode(',', $token, 2);
+		$time = $tokenExplode[1];
 		if (static::$expires) {
 			if (time() > $time + static::$expires)
 				return false;

@@ -178,7 +178,9 @@ class WorkFlowScheduler
 				$value = html_entity_decode($value);
 				preg_match('/(\w+) : \((\w+)\) (\w+)/', $condition['fieldname'], $matches);
 				if (count($matches) != 0) {
-					list($full, $sourceField, $relatedModule, $relatedFieldName) = $matches;
+					$sourceField = $matches[1];
+					$relatedModule = $matches[2];
+					$relatedFieldName = $matches[3];
 				}
 				if ($sourceField) {
 					$queryGenerator->addRelatedCondition([
