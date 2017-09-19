@@ -26,76 +26,6 @@ function vtws_generateRandomAccessKey($length = 10)
 	}
 	return $accesskey;
 }
-
-function vtws_getIdComponents($elementid)
-{
-	if (strpos($elementid, 'x') !== false) {
-		return explode('x', $elementid);
-	}
-	App\Log::warning('Incorrect ID');
-}
-
-/** function to get the module List to which are crm entities.
- *  @return Array modules list as array
- */
-function vtws_getModuleNameList()
-{
-	$adb = PearDatabase::getInstance();
-
-	$sql = "select name from vtiger_tab where isentitytype=1 and name not in ('Rss'," .
-		"'Recyclebin','Events') order by tabsequence";
-	$res = $adb->pquery($sql, []);
-	$mod_array = [];
-	while ($row = $adb->fetchByAssoc($res)) {
-		array_push($mod_array, $row['name']);
-	}
-	return $mod_array;
-}
-
-function vtws_getWebserviceEntities()
-{
-	$adb = PearDatabase::getInstance();
-
-	$sql = "select name,id,ismodule from vtiger_ws_entity";
-	$res = $adb->pquery($sql, []);
-	$moduleArray = [];
-	$entityArray = [];
-	while ($row = $adb->fetchByAssoc($res)) {
-		if ($row['ismodule'] == '1') {
-			array_push($moduleArray, $row['name']);
-		} else {
-			array_push($entityArray, $row['name']);
-		}
-	}
-	return array('module' => $moduleArray, 'entity' => $entityArray);
-}
-
-function vtws_getOwnerType($ownerId)
-{
-	return \App\Fields\Owner::getType($ownerId);
-}
-
-function vtws_getCalendarEntityType($id)
-{
-	if (\App\Cache::has('vtws_getCalendarEntityType', $id)) {
-		return \App\Cache::get('vtws_getCalendarEntityType', $id);
-	}
-	$adb = PearDatabase::getInstance();
-
-	$sql = 'select activitytype from vtiger_activity where activityid=?';
-	$result = $adb->pquery($sql, [$id]);
-	$seType = 'Calendar';
-	if ($result !== null && isset($result)) {
-		if ($adb->numRows($result) > 0) {
-			$activityType = $adb->queryResult($result, 0, 'activitytype');
-			if ($activityType !== 'Task') {
-				$seType = 'Events';
-			}
-		}
-	}
-	\App\Cache::save('vtws_getCalendarEntityType', $id, $seType);
-	return $seType;
-}
 /* * *
  * Get the webservice reference Id given the entity's id and it's type name
  */
@@ -104,140 +34,6 @@ function vtws_deleteWebserviceEntity($moduleName)
 {
 	\App\Db::getInstance()->createCommand()
 		->delete('vtiger_ws_entity', ['name' => $moduleName])->execute();
-}
-
-function vtws_addDefaultActorTypeEntity($actorName, $actorNameDetails, $withName = true)
-{
-	$actorHandler = array('file' => 'include/Webservices/VtigerActorOperation.php',
-		'class' => 'VtigerActorOperation');
-	if ($withName === true) {
-		vtws_addActorTypeWebserviceEntityWithName($actorName, $actorHandler['file'], $actorHandler['class'], $actorNameDetails);
-	} else {
-		vtws_addActorTypeWebserviceEntityWithoutName($actorName, $actorHandler['file'], $actorHandler['class']);
-	}
-}
-
-function vtws_addActorTypeWebserviceEntityWithName($moduleName, $filePath, $className, $actorNameDetails)
-{
-	$db = \App\Db::getInstance();
-	$db->createCommand()
-		->insert('vtiger_ws_entity', [
-			'name' => $moduleName,
-			'handler_path' => $filePath,
-			'handler_class' => $className,
-			'ismodule' => 0,
-		])->execute();
-	vtws_addActorTypeName($db->getLastInsertID('vtiger_ws_entity_seq'), $actorNameDetails['fieldNames'], $actorNameDetails['indexField'], $actorNameDetails['tableName']);
-}
-
-function vtws_addActorTypeWebserviceEntityWithoutName($moduleName, $filePath, $className)
-{
-	\App\Db::getInstance()->createCommand()
-		->insert('vtiger_ws_entity', [
-			'name' => $moduleName,
-			'handler_path' => $filePath,
-			'handler_class' => $className,
-			'ismodule' => 0,
-		])->execute();
-}
-
-function vtws_addActorTypeName($entityId, $fieldNames, $indexColumn, $tableName)
-{
-	\App\Db::getInstance()->createCommand()
-		->insert('vtiger_ws_entity_name', [
-			'entity_id' => $entityId,
-			'name_fields' => $fieldNames,
-			'index_field' => $indexColumn,
-			'table_name' => $tableName,
-		])->execute();
-}
-
-/**
- * Takes the details of a webservices and exposes it over http.
- * @param $name name of the webservice to be added with namespace.
- * @param $handlerFilePath file to be include which provides the handler method for the given webservice.
- * @param $handlerMethodName name of the function to the called when this webservice is invoked.
- * @param $requestType type of request that this operation should be, if in doubt give it as GET,
- * 	general rule of thumb is that, if the operation is adding/updating data on server then it must be POST
- * 	otherwise it should be GET.
- * @param $preLogin 0 if the operation need the user to authorised to access the webservice and
- * 	1 if the operation is called before login operation hence the there will be no user authorisation happening
- * 	for the operation.
- * @return Integer operationId of successful or null upon failure.
- */
-function vtws_addWebserviceOperation($name, $handlerFilePath, $handlerMethodName, $requestType, $preLogin = 0)
-{
-	$adb = PearDatabase::getInstance();
-	$createOperationQuery = "insert into vtiger_ws_operation(operationid,name,handler_path,handler_method,type,prelogin)
-		values (?,?,?,?,?,?);";
-	if (strtolower($requestType) != 'get' && strtolower($requestType) != 'post') {
-		return null;
-	}
-	$requestType = strtoupper($requestType);
-	if (empty($preLogin)) {
-		$preLogin = 0;
-	} else {
-		$preLogin = 1;
-	}
-	$operationId = $adb->getUniqueID("vtiger_ws_operation");
-	$result = $adb->pquery($createOperationQuery, array($operationId, $name, $handlerFilePath, $handlerMethodName,
-		$requestType, $preLogin));
-	if ($result !== false) {
-		return $operationId;
-	}
-	return null;
-}
-
-/**
- * Add a parameter to a webservice.
- * @param $operationId Id of the operation for which a webservice needs to be added.
- * @param $paramName name of the parameter used to pickup value from request(POST/GET) object.
- * @param $paramType type of the parameter, it can either 'string','datetime' or 'encoded'
- * 	encoded type is used for input which will be encoded in JSON or XML(NOT SUPPORTED).
- * @param $sequence sequence of the parameter in the definition in the handler method.
- * @return Boolean true if the parameter was added successfully, false otherwise
- */
-function vtws_addWebserviceOperationParam($operationId, $paramName, $paramType, $sequence)
-{
-	$adb = PearDatabase::getInstance();
-	$supportedTypes = array('string', 'encoded', 'datetime', 'double', 'boolean');
-	if (!is_numeric($sequence)) {
-		$sequence = 1;
-	}if ($sequence <= 1) {
-		$sequence = 1;
-	}
-	if (!in_array(strtolower($paramType), $supportedTypes)) {
-		return false;
-	}
-	$createOperationParamsQuery = "insert into vtiger_ws_operation_parameters(operationid,name,type,sequence)
-		values (?,?,?,?);";
-	$result = $adb->pquery($createOperationParamsQuery, array($operationId, $paramName, $paramType, $sequence));
-	return ($result !== false);
-}
-
-function vtws_isRoleBasedPicklist($name)
-{
-	$db = PearDatabase::getInstance();
-	$sql = "select picklistid from vtiger_picklist where name = ?";
-	$result = $db->pquery($sql, array($name));
-	return ($db->numRows($result) > 0);
-}
-
-function vtws_getConvertLeadFieldMapping()
-{
-	$adb = PearDatabase::getInstance();
-	$sql = "select * from vtiger_convertleadmapping";
-	$result = $adb->pquery($sql, []);
-	if ($result === false) {
-		return null;
-	}
-	$mapping = [];
-	$rowCount = $adb->numRows($result);
-	for ($i = 0; $i < $rowCount; ++$i) {
-		$row = $adb->queryResultRowData($result, $i);
-		$mapping[$row['leadfid']] = array('Accounts' => $row['accountfid'], 'Contacts' => $row['contactfid']);
-	}
-	return $mapping;
 }
 
 /** 	Function used to get the lead related Notes and Attachments with other entities Account, Contact and Potential
@@ -584,7 +380,7 @@ function vtws_getWebserviceTranslatedString($label)
 
 	//current language doesn't have translation, return translation in default language
 	//if default language is english then LBL_ will not shown to the user.
-	$defaultLanguage = vtws_getWebserviceDefaultLanguage();
+	$defaultLanguage = vglobal('default_language');
 	$translation = vtws_getWebserviceTranslatedStringForLanguage($label, $defaultLanguage);
 	if (!empty($translation)) {
 		return $translation;
@@ -607,11 +403,5 @@ function vtws_getWebserviceCurrentLanguage()
 	if (empty($lang)) {
 		$lang = vglobal('default_language');
 	}
-	return $lang;
-}
-
-function vtws_getWebserviceDefaultLanguage()
-{
-	$lang = vglobal('default_language');
 	return $lang;
 }
