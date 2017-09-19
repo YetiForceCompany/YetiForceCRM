@@ -177,9 +177,9 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 		$fnumber = preg_replace('/[-()\s+]/', '', $from);
 		$rnumber = strrev($fnumber);
 		$row = (new App\Db\Query())->select(['crmid', 'fieldname'])
-				->from(self::LOOKUP_TABLE_NAME)
-				->where(['or', ['like', 'fnumber', "$fnumber%", false], ['like', 'rnumber', "$rnumber%", false]])
-				->one();
+			->from(self::LOOKUP_TABLE_NAME)
+			->where(['or', ['like', 'fnumber', "$fnumber%", false], ['like', 'rnumber', "$rnumber%", false]])
+			->one();
 		if ($row) {
 			$crmid = $row['crmid'];
 			$fieldname = $row['fieldname'];
@@ -232,11 +232,9 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 			$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
 		}
 
-		$lookuptables = [];
 		$lookupcolumns = [];
 		foreach ($cachedModuleFields as $fieldinfo) {
 			if (in_array($fieldinfo['uitype'], array($uitype))) {
-				$lookuptables[] = $fieldinfo['tablename'];
 				$lookupcolumns[] = $fieldinfo['columnname'];
 			}
 		}
@@ -246,10 +244,10 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 		$entitycolumnnames = $entityfields['fieldname'];
 
 		$query = "select id as id, $querycolumnnames, $entitycolumnnames as name ";
-		$query .= " FROM vtiger_users";
+		$query .= ' FROM vtiger_users';
 
 		if (!empty($lookupcolumns)) {
-			$query .= " WHERE deleted=0 && ";
+			$query .= ' WHERE deleted=0 && ';
 			$i = 0;
 			$columnCount = count($lookupcolumns);
 			foreach ($lookupcolumns as $columnname) {
