@@ -263,9 +263,9 @@ class Install_InitSchema_Model
 		if ($rootDirectory && strpos($src, $rootDirectory) === false) {
 			$src = $rootDirectory . $src;
 		}
-		if (!file_exists($src) || !$rootDirectory)
+		if (!file_exists($src) || !$rootDirectory) {
 			return;
-		@chmod($src, 0777);
+		}
 		\App\Log::trace("Exiting VT620_to_YT::testest(" . $src . ") method ...");
 		if (is_dir($src)) {
 			$dir = new DirectoryIterator($src);
