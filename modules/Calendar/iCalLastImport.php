@@ -9,9 +9,9 @@
  * *********************************************************************************** */
 
 /**
- * Class iCalLastImport
+ * Class IcalLastImport
  */
-class iCalLastImport
+class IcalLastImport
 {
 
 	/**

@@ -26,7 +26,7 @@ require_once('install/models/InitSchema.php');
 App\Session::init();
 
 $request = App\Request::init();
-$install = new Install_Index_view();
+$install = new Install_Index_View();
 $install->preProcess($request);
 $install->process($request);
 $install->postProcess($request);
