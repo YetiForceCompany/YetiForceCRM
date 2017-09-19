@@ -52,15 +52,16 @@ function DataAccessConditions() {
 		})
 	};
 	this.validateCondition = function (type) {
-		var state = true,
-				msgTab = [];
+		var state = true, msgTab = [];
 		var betweenValue = jQuery('input.dateField').data('calendar-type');
-
 		jQuery('#' + type + ' .conditionRow').each(function () {
 			var row = jQuery(this);
-			var fieldInfo = jQuery(row).find('.comparator-select option:selected').data('info');
+			var comparator = row.find('[name="comparator"]');
+			var fieldInfo = row.find('.comparator-select option:selected').data('info');
 			var fieldType = fieldInfo.type;
-
+			if (jQuery.inArray(comparator.val(), ['is empty', 'is not empty', 'has changed'])) {
+				return;
+			}
 			if (fieldType == 'email') {
 				var emailInstance = new Vtiger_Email_Validator_Js();
 				emailInstance.setElement(jQuery(row).find('[name="val"]'));
@@ -272,7 +273,7 @@ function DataAccessConditions() {
 		valPlace.children().remove();
 		valPlace.append(html);
 		var valElement = jQuery(valPlace).find('div.date');
-		app.registerDateRangePickerFields(valElement,{ranges: false});
+		app.registerDateRangePickerFields(valElement, {ranges: false});
 	};
 	this.showPicklist = function (element) {
 		var valPlace = jQuery(element).parents('.conditionRow').find('.fieldUiHolder');
@@ -427,7 +428,7 @@ function DataAccessConditions() {
 		this.comparatorHasChanged();
 		this.fieldTypeHasChanged();
 		app.registerEventForDatePickerFields(jQuery('input.dateFieldNormal'), true);
-		app.registerDateRangePickerFields(jQuery('input.bw'),{ranges: false});
+		app.registerDateRangePickerFields(jQuery('input.bw'), {ranges: false});
 		app.registerEventForClockPicker();
 	};
 }
