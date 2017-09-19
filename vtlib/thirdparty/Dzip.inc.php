@@ -4,7 +4,7 @@
  * DOWNLOADED FROM: http://www.phpclasses.org/browse/package/2495/
  * License: 	BSD License
  */
-class dZip
+class Dzip
 {
 
 	public $filename;
@@ -138,9 +138,9 @@ class dZip
 		fwrite($fh, $this->dirSignatureE);
 		fwrite($fh, pack('v', 0)); // number of this disk
 		fwrite($fh, pack('v', 0)); // number of the disk with the start of the central directory
-		fwrite($fh, pack('v', $this->files_count)); // total # of entries "on this disk" 
-		fwrite($fh, pack('v', $this->files_count)); // total # of entries overall 
-		fwrite($fh, pack('V', strlen($cdrec)));  // size of central dir 
+		fwrite($fh, pack('v', $this->files_count)); // total # of entries "on this disk"
+		fwrite($fh, pack('v', $this->files_count)); // total # of entries overall
+		fwrite($fh, pack('V', strlen($cdrec)));  // size of central dir
 		fwrite($fh, pack('V', $before_cd));   // offset to start of central dir
 		fwrite($fh, pack('v', strlen($zipComments))); // .zip file comment length
 		fwrite($fh, $zipComments);

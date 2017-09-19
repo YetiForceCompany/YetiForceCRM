@@ -2,7 +2,7 @@ vtlib uses third party libraries to enable certain functionality.
 
 1. For creating and unpacking zip files
 -- ====================================
-vtlib/thirdparty/dZip.php
+vtlib/thirdparty/Dzip.php
 vtlib/thirdparty/dUnzip2.inc.php
 
 DOWNLOAD URL:
