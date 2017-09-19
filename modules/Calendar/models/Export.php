@@ -95,7 +95,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 	 */
 	public function outputData(\App\Request $request, $dataReader, $moduleModel, $fileName, $toFile = false)
 	{
-		$timeZone = new iCalendar_timezone;
+		$timeZone = new IcalendarTimezone;
 		$timeZoneId = explode('/', date_default_timezone_get());
 
 		if (!empty($timeZoneId[1])) {
@@ -113,7 +113,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 			$timeZone->addProperty('STANDARDC', date('I'));
 		}
 
-		$myiCal = new iCalendar;
+		$myiCal = new Icalendar;
 		$myiCal->addComponent($timeZone);
 
 		while ($row = $dataReader->read()) {
@@ -141,10 +141,10 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 				}
 				$temp['id'] = $id;
 
-				$iCalTask = new iCalendar_event;
+				$iCalTask = new IcalendarEvent;
 				$iCalTask->assignValues($temp);
 
-				$iCalAlarm = new iCalendar_alarm;
+				$iCalAlarm = new IcalendarAlarm;
 				$iCalAlarm->assignValues($temp);
 				$iCalTask->addComponent($iCalAlarm);
 			} else {
@@ -161,7 +161,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 					} else
 						$temp[$fieldName] = $eventFields[$fieldName];
 				}
-				$iCalTask = new iCalendar_todo;
+				$iCalTask = new IcalendarTodo;
 				$iCalTask->assignValues($temp);
 			}
 			$myiCal->addComponent($iCalTask);

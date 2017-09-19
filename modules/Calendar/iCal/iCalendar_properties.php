@@ -76,7 +76,7 @@ class IcalendarProperty
 
 	public function setParentComponent($componentname)
 	{
-		if (class_exists('iCalendar_' . strtolower(substr($componentname, 1)))) {
+		if (class_exists('Icalendar' . ucfirst(strtolower(substr($componentname, 1))))) {
 			$this->parent_component = strtoupper($componentname);
 			return true;
 		}

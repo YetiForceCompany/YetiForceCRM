@@ -108,10 +108,10 @@ class Calendar_Import_View extends Vtiger_Import_View
 
 			for ($i = 0; $i < $noOfActivities; $i++) {
 				if ($icalActivities[$i]['TYPE'] == 'VEVENT') {
-					$activity = new iCalendar_event;
+					$activity = new IcalendarEvent;
 					$module = $eventModule;
 				} else {
-					$activity = new iCalendar_todo;
+					$activity = new IcalendarTodo;
 					$module = $todoModule;
 				}
 

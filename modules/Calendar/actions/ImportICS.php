@@ -71,10 +71,10 @@ class Calendar_ImportICS_Action extends Vtiger_Action_Controller
 
 			for ($i = 0; $i < $noOfActivities; $i++) {
 				if ($icalActivities[$i]['TYPE'] == 'VEVENT') {
-					$activity = new iCalendar_event;
+					$activity = new IcalendarEvent;
 					$module = $eventModule;
 				} else {
-					$activity = new iCalendar_todo;
+					$activity = new IcalendarTodo;
 					$module = $todoModule;
 				}
 
