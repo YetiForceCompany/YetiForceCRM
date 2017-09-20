@@ -463,14 +463,12 @@ class Vtiger_InventoryField_Model extends App\Base
 		$db = PearDatabase::getInstance();
 		$columns = ['label', 'invtype', 'defaultValue', 'sequence', 'block', 'displayType', 'params', 'colSpan'];
 		$set = [];
-		$params = [];
 		foreach ($columns AS $columnName) {
 			if (isset($param[$columnName])) {
 				$set[strtolower($columnName)] = $param[$columnName];
 			}
 		}
 		$id = $param['id'];
-		$params[] = $id;
 		if (!empty($set)) {
 			$return = $db->update($this->getTableName('fields'), $set, '`id` = ?', [$id]);
 		}

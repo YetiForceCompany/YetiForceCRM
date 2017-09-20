@@ -43,6 +43,6 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		return \vtlib\Functions::fromHTML($value, true);
+		return \vtlib\Functions::fromHTML($value);
 	}
 }
