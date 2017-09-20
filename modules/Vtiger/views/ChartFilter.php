@@ -15,7 +15,7 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('WIZARD_STEP', $request->get('step'));
+		$viewer->assign('WIZARD_STEP', $request->getByType('step', 2));
 		switch ($request->get('step')) {
 			case 'step1':
 				$modules = vtlib\Functions::getAllModules(true, false, 0);
@@ -33,15 +33,24 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 				$viewer->assign('MODULES', $modules);
 				break;
 			case 'step2':
-				$selectedModule = $request->get('selectedModule');
+				$selectedModule = $request->getByType('selectedModule', 1);
 				$filters = CustomView_Record_Model::getAllByGroup($selectedModule);
 				$viewer->assign('ALLFILTERS', $filters);
 				break;
 			case 'step3':
-				$selectedModuleName = $request->get('selectedModule');
+				$selectedModuleName = $request->getByType('selectedModule', 1);
 				$selectedModuleModel = Vtiger_Module_Model::getInstance($selectedModuleName);
 				$viewer->assign('MODULE_FIELDS', $selectedModuleModel->getFields());
 				$viewer->assign('SELECTED_MODULE', $selectedModuleName);
+				break;
+			case 'step4':
+				$selectedModuleName = $request->getByType('selectedModule', 1);
+				$selectedModuleModel = Vtiger_Module_Model::getInstance($selectedModuleName);
+				$viewer->assign('SELECTED_MODULE', $selectedModuleName);
+				$viewer->assign('SELECTED_MODULE_MODEL', $selectedModuleModel);
+				$viewer->assign('CHART_TYPE', $request->getByType('chartType', 1));
+				$viewer->assign('GROUP_FIELD', $request->getByType('groupField', 1));
+				$viewer->assign('GROUP_FIELD_MODEL', $selectedModuleModel->getFieldByName($request->getByType('groupField', 1)));
 				break;
 		}
 		$viewer->view('dashboards/ChartFilter.tpl', $moduleName);

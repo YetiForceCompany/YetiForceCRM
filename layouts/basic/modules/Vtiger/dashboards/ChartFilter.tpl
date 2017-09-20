@@ -12,7 +12,7 @@
 						<div class="modal-body">
 							<input type="hidden" name="module" value="{$MODULE}" />
 							<input type="hidden" name="action" value="MassSave" />
-
+							<input type="hidden" id="widgetStep" value="" />
 							<table class="table table-bordered">
 								<tbody>
 									<tr>
@@ -36,7 +36,7 @@
 											</div>
 										</td>
 									</tr>
-									<tr>
+									<tr class="step1">
 										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_SELECT_MODULE')}</td>
 										<td class="fieldValue">
 											<select class="form-control" name="module">
@@ -47,23 +47,9 @@
 											</select>
 										</td>
 									</tr>
-									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_FILTER')}</td>
-										<td class="fieldValue">
-											<select class="form-control" name="filterid">
-												<option></option>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_GROUP_FIELD')}</td>
-										<td class="fieldValue">
-											<select class="form-control" name="groupField" size="2" >
-												<option></option>
-											</select>
-										</td>
-									</tr>
-									<tr class="hide sectorContainer">
+									<tr class="step2"></tr>
+									<tr class="step3"></tr>
+									<tr class="step4 hide sectorContainer">
 										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_SECTOR')}</td>
 										<td class="fieldValue">
 											<select class="form-control select2" multiple name="sectorField" size="2" >
@@ -79,20 +65,52 @@
 			</div>
 		</div>
 	{elseif $WIZARD_STEP eq 'step2'}
-		<option></option>
-		{foreach from=$ALLFILTERS item=FILTERS key=FILTERGROUP}
-			<optgroup label="{\App\Language::translate($FILTERGROUP,$SELECTED_MODULE)}">
-				{foreach from=$FILTERS item=FILTER key=FILTERNAME}
-					{if $FILTER->get('setmetrics') eq 1}
-						<option value="{$FILTER->getId()}">{\App\Language::translate($FILTER->get('viewname'),$SELECTED_MODULE)}</option>
-					{/if}
-				{/foreach}
-			</optgroup>
-		{/foreach}
+		<tr class="step2">
+			<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_FILTER')}</td>
+			<td class="fieldValue">
+				<select class="form-control filterId" name="filterid">
+					<option></option>
+					{foreach from=$ALLFILTERS item=FILTERS key=FILTERGROUP}
+						<optgroup label="{\App\Language::translate($FILTERGROUP,$SELECTED_MODULE)}">
+							{foreach from=$FILTERS item=FILTER key=FILTERNAME}
+								{if $FILTER->get('setmetrics') eq 1}
+									<option value="{$FILTER->getId()}">{\App\Language::translate($FILTER->get('viewname'),$SELECTED_MODULE)}</option>
+								{/if}
+							{/foreach}
+						</optgroup>
+					{/foreach}
+				</select>
+			</td>
+		</tr>
 	{elseif $WIZARD_STEP eq 'step3'}
-		<option></option>
-		{foreach from=$MODULE_FIELDS item=FIELD key=FIELD_NAME}
-			<option value="{$FIELD_NAME}" data-field-type="{$FIELD->getFieldDataType()}">{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
-		{/foreach}
+		<tr class="step3">
+			<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_GROUP_FIELD')}</td>
+			<td class="fieldValue">
+				<select class="form-control groupField" name="groupField" size="2" >
+					<option></option>
+					{foreach from=$MODULE_FIELDS item=FIELD key=FIELD_NAME}
+						<option value="{$FIELD_NAME}" data-field-type="{$FIELD->getFieldDataType()}">{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
+					{/foreach}
+				</select>
+			</td>
+		</tr>
+	{elseif $WIZARD_STEP eq 'step4'}
+		<tr class="step4">
+			<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_TIME_RANGE')}</td>
+			<td class="fieldValue">
+				<select class="form-control saveParam" name="timeRange" size="2" >
+					<option>{\App\Language::translate('--None--')}</option>
+					
+				</select>
+			</td>
+		</tr>
+		{if $CHART_TYPE == 'Funnel' && in_array($GROUP_FIELD_MODEL->getFieldDataType(),['currency', 'double', 'percentage', 'integer'])}
+			<tr class="step4">
+				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_SECTOR')}</td>
+				<td class="fieldValue">
+					<select class="form-control select saveParam" multiple name="sectorField" size="2"></select>
+				</td>
+			</tr>
+		{/if}
 	{/if}
 {/strip}
