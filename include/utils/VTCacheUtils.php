@@ -16,17 +16,6 @@ require_once 'include/runtime/Cache.php';
 class VTCacheUtils
 {
 
-	/** Tab information caching */
-	public static $_tabidinfo_cache = [];
-
-	public static function lookupModulename($tabid)
-	{
-		if (isset(self::$_tabidinfo_cache[$tabid])) {
-			return self::$_tabidinfo_cache[$tabid];
-		}
-		return false;
-	}
-
 	/** All tab information caching */
 	public static $_alltabrows_cache = false;
 
