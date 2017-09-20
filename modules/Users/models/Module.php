@@ -231,18 +231,18 @@ class Users_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function checkUserName($userName, $userId)
 	{
-		$query = (new \App\Db\Query())->from('vtiger_users')->where(['user_name' => $userName]);
+		$query = (new \App\Db\Query())->from('vtiger_users')->where(['or', ['user_name' => $userName, 'user_name' => strtolower($userName)]]);
 		if ($userId) {
 			$query->andWhere(['<>', 'id', $userId]);
 		}
 		if ($query->exists()) {
 			return \App\Language::translate('LBL_USER_NAME_EXISTS', 'Users');
 		}
-		if ($userId && AppConfig::module('Users', 'CHECK_LAST_USERNAME') && (new \App\Db\Query())->from('l_#__username_history')->where(['user_name' => $userName])->exists()) {
+		if ($userId && AppConfig::module('Users', 'CHECK_LAST_USERNAME') && (new \App\Db\Query())->from('l_#__username_history')->where(['or', ['user_name' => $userName, 'user_name' => strtolower($userName)]])->exists()) {
 			return \App\Language::translate('LBL_USER_NAME_HAS_ALREADY_BEEN_USED', 'Users');
 		}
 		$blacklist = require 'config/username_blacklist.php';
-		if (in_array($userName, $blacklist)) {
+		if (in_array(strtolower($userName), $blacklist)) {
 			return \App\Language::translate('LBL_FORBIDDEN_USERNAMES', 'Users');
 		}
 		return false;

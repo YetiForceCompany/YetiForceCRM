@@ -234,7 +234,7 @@ class Users extends CRMEntity
 	public function doLogin($userPassword)
 	{
 		$userName = $this->column_fields['user_name'];
-		$userInfo = (new App\Db\Query())->select(['id', 'deleted', 'user_password', 'crypt_type', 'status'])->from($this->table_name)->where(['user_name' => $userName])->one();
+		$userInfo = (new App\Db\Query())->select(['id', 'deleted', 'user_password', 'user_name', 'crypt_type', 'status'])->from($this->table_name)->where(['or', ['user_name' => $userName, 'user_name' => strtolower($userName)]])->one();
 		$encryptedPassword = $this->encryptPassword($userPassword, empty($userInfo['crypt_type']) ? 'PHP5.3MD5' : $userInfo['crypt_type']);
 		if (!$userInfo || (int) $userInfo['deleted'] !== 0) {
 			\App\Log::error('User not found: ' . $userName);
@@ -245,6 +245,7 @@ class Users extends CRMEntity
 			\App\Log::trace("Authentication failed. User: $userName");
 			return false;
 		}
+		$this->column_fields['user_name'] = $userInfo['user_name'];
 		$this->column_fields['id'] = (int) $userInfo['id'];
 		if (\App\Cache::has('Authorization', 'config')) {
 			$auth = \App\Cache::get('Authorization', 'config');
