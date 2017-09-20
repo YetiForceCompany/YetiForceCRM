@@ -64,7 +64,11 @@ class Base
 		if (!isset($this->value[$key])) {
 			return $value;
 		}
-		$value = settype($this->value[$key], 'array');
+		if (is_string($this->value[$key]) && (strpos($this->value[$key], '[') === 0 || strpos($this->value[$key], '{') === 0)) {
+			$value = Json::decode($this->value[$key]);
+		} else {
+			$value = settype($this->value[$key], 'array');
+		}
 		return $value;
 	}
 
