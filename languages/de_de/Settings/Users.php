@@ -42,8 +42,10 @@ $languageStrings = [
 	'LBL_LOCK_RIGHT_MENU' => 'Rechte Maustaste sperren',
 	'LBL_LOCK_SELECT_TEXT' => 'Selektieren sperren',
 	'LBL_LOCK_DRAG' => 'Verschieben sperren',
+	'LBL_CHANGE_ACCESS_KEY' => 'Zugriffsschlüssel ändern ',
 ];
 $jsLanguageStrings = [
+	'JS_CHANGE_ACCESS_KEY_CONFIRMATION' => 'Änderung des Zugriffsschlüssel durchführen?',
 	'JS_USER_MAIL_EXIST' => 'Benutzer mit dieser E-Mail-Adresse existiert bereits',
 	'JS_PLEASE_SELECT_MODULE' => 'Bitte Modul wählen',
 	'JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME' => 'Dezimaltrennzeichen und Zifferngruppierungs-Trennzeichen kann nicht gleich sein',
