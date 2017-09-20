@@ -264,7 +264,7 @@
             this.max = max;
             var track = 0;
             
-            // todo: adjust this so more ticks displayed.
+            // YTTODO: adjust this so more ticks displayed.
             var maxVisibleTicks = parseInt(3+dim/10, 10);
             var skip = parseInt(numcats/maxVisibleTicks, 10);
 
