@@ -1156,6 +1156,7 @@ $languageStrings = [
 	'LBL_NEGLECTED_ACCOUNTS' => 'Zaniedbani kontrahenci',
 	'LBL_ADD_CHART_FILTER' => 'Dodaj wykres z filtru',
 	'LBL_PIE_CHART' => 'Diagram kołowy',
+	'LBL_DONUT_CHART' => 'Diagram pierścieniowy',
 	'LBL_VERTICAL_BAR_CHART' => 'Wykres słupkowy pionowy',
 	'LBL_HORIZONTAL_BAR_CHART' => 'Wykres słupkowy poziomy',
 	'LBL_LINE_CHART' => 'Wykres liniowy',

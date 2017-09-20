@@ -21,6 +21,7 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 				$modules = vtlib\Functions::getAllModules(true, false, 0);
 				$chartTypes = [
 					'Pie' => 'LBL_PIE_CHART',
+					'Donut' => 'LBL_DONUT_CHART',
 					'Barchat' => 'LBL_VERTICAL_BAR_CHART',
 					'Horizontal' => 'LBL_HORIZONTAL_BAR_CHART',
 					'Line' => 'LBL_LINE_CHART',

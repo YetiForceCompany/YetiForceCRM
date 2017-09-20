@@ -77,6 +77,16 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		return $data;
 	}
 
+	public function getDataDonut()
+	{
+		$groupData = $this->getDataFromFilter();
+		$data = [];
+		foreach ($groupData as $fieldName => $value) {
+			$data [] = ['last_name' => $fieldName, 'id' => $value['count'], '2' => $value['link']];
+		}
+		return $data;
+	}
+
 	private function getSector($sectors, $value)
 	{
 		$sectorId = false;
