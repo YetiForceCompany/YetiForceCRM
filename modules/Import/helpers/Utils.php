@@ -90,7 +90,11 @@ class Import_Utils_Helper
 		self::showErrorPage($errorMessage, $errorDetails);
 	}
 
-	public static function showImportTableBlockedError($moduleName, $user)
+	/**
+	 * Shows import errors in the table
+	 * @param string $moduleName
+	 */
+	public static function showImportTableBlockedError($moduleName)
 	{
 
 		$errorMessage = \App\Language::translate('ERR_UNIMPORTED_RECORDS_EXIST', 'Import');

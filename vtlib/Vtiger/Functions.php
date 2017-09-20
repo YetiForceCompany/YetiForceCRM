@@ -281,7 +281,12 @@ class Functions
 		return $value;
 	}
 
-	public static function fromHTML($string, $encode = true)
+	/**
+	 * From html
+	 * @param string $string
+	 * @return string
+	 */
+	public static function fromHTML($string)
 	{
 		if (is_string($string)) {
 			if (preg_match('/(script).*(\/script)/i', $string)) {
@@ -623,7 +628,13 @@ class Functions
 		}
 	}
 
-	public static function recurseCopy($src, $dest, $delete = false)
+	/**
+	 * The function copies files
+	 * @param string $src
+	 * @param string $dest
+	 * @return string
+	 */
+	public static function recurseCopy($src, $dest)
 	{
 		$rootDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
 		if (!file_exists($rootDir . $src)) {

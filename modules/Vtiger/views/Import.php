@@ -303,7 +303,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 				Import_Main_View::showImportStatus($importInfo, $user);
 				return;
 			} else {
-				Import_Utils_Helper::showImportTableBlockedError($moduleName, $user);
+				Import_Utils_Helper::showImportTableBlockedError($moduleName);
 				return;
 			}
 		}

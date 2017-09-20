@@ -41,7 +41,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 		if (empty($value)) {
 			return '';
 		}
-		$value = vtlib\Functions::getCRMRecordLabel($value, $default = '');
+		$value = vtlib\Functions::getCRMRecordLabel($value);
 		return $value;
 	}
 
