@@ -128,26 +128,6 @@ function getUserId_Ol($username)
 	}
 }
 
-/** Function to get a user id or group id for a given entity
- * @param $record -- entity id :: Type integer
- * @returns $ownerArr -- owner id :: Type array
- */
-function getRecordOwnerId($record)
-{
-
-	\App\Log::trace("Entering getRecordOwnerId($record) method ...");
-	$ownerArr = [];
-
-	$recordMetaData = vtlib\Functions::getCRMRecordMetadata($record);
-	if ($recordMetaData) {
-		$ownerId = $recordMetaData['smownerid'];
-		$type = \App\Fields\Owner::getType($ownerId);
-		$ownerArr[$type] = $ownerId;
-	}
-	\App\Log::trace('Exiting getRecordOwnerId method ...');
-	return $ownerArr;
-}
-
 // Return Question mark
 function _questionify($v)
 {
