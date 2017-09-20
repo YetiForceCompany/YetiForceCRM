@@ -109,5 +109,6 @@ $jsLanguageStrings = [
 	'LBL_MANDATORY_FIELDS_ERROR' => 'Uwaga! Pola wymagane są puste.',
 	'LBL_PASS_REENTER_ERROR' => 'Należy ponownie wpisać hasło. Pole Hasło i Powtórz hasło nie zgadzają się.',
 	'LBL_INVALID_EMAIL_ERROR' => 'Uwaga! Niepoprawny adres email.',
+	'LBL_INVALID_USERNAME_ERROR' => 'Niedozwolona nazwa uzytkownika.',
 	'LBL_RESOLVE_ERROR' => 'Proszę naprawić błąd przed kontynuowaniem instalacji',
 ];

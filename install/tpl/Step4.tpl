@@ -13,6 +13,7 @@
 	<form class="form-horizontal" name="step4" method="post" action="Install.php">
 		<input type="hidden" name="mode" value="step5" />
 		<input type="hidden" name="lang" value="{$LANG}" />
+		<input type="hidden" name="not_allowed_logins" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($USERNAME_BLACKLIST))}" >
 		<div class="row main-container">
 			<div class="inner-container">
 				<h4>{\App\Language::translate('LBL_SYSTEM_CONFIGURATION', 'Install')} </h4>
@@ -84,13 +85,13 @@
 							</thead>
 							<tbody>
 								<tr><td>{\App\Language::translate('LBL_USERNAME', 'Install')}</td>
-									<td><input type="text" class="form-control" value="{$ADMIN_NAME}" name="user_name" /></td>
+									<td><input type="text" class="form-control validate[required,funcCall[Install_Index_Js.checkUsername]]" value="{$ADMIN_NAME}" name="user_name" /></td>
 								</tr>
 								<tr><td>{\App\Language::translate('LBL_PASSWORD', 'Install')}<span class="no">*</span></td>
-									<td><input type="password" class="form-control" value="{$ADMIN_PASSWORD}" name="password" /></td>
+									<td><input type="password" class="form-control validate[required]" value="{$ADMIN_PASSWORD}" name="password" id="password"/></td>
 								</tr>
 								<tr><td>{\App\Language::translate('LBL_RETYPE_PASSWORD', 'Install')} <span class="no">*</span></td>
-									<td><input type="password" class="form-control" value="{$ADMIN_PASSWORD}" name="retype_password" />
+									<td><input type="password" class="form-control validate[required]" value="{$ADMIN_PASSWORD}" name="retype_password" id="retype_password"/>
 										<span id="passwordError" class="no"></span></td>
 								</tr>
 								<tr><td>{\App\Language::translate('First Name', 'Install')}</td>
@@ -106,7 +107,7 @@
 									<td>
 										{\App\Language::translate('LBL_EMAIL','Install')} <span class="no">*</span>
 									</td><td>
-										<input type="text" class="form-control" value="{$ADMIN_EMAIL}" name="admin_email">
+										<input type="text" class="form-control validate[required,custom[email]]" value="{$ADMIN_EMAIL}" name="admin_email">
 									</td>
 								</tr>
 								<tr>

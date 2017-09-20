@@ -150,6 +150,7 @@ class Install_Index_View extends Vtiger_View_Controller
 		$this->viewer->assign('TIMEZONES', UserTimeZones::getTimeZones());
 
 		$defaultParameters = Install_Utils_Model::getDefaultPreInstallParameters();
+		$this->viewer->assign('USERNAME_BLACKLIST', require 'config/username_blacklist.php');
 		$this->viewer->assign('DB_HOSTNAME', $defaultParameters['db_hostname']);
 		$this->viewer->assign('DB_USERNAME', $defaultParameters['db_username']);
 		$this->viewer->assign('DB_PASSWORD', $defaultParameters['db_password']);
@@ -158,7 +159,6 @@ class Install_Index_View extends Vtiger_View_Controller
 		$this->viewer->assign('ADMIN_LASTNAME', $defaultParameters['admin_lastname']);
 		$this->viewer->assign('ADMIN_PASSWORD', $defaultParameters['admin_password']);
 		$this->viewer->assign('ADMIN_EMAIL', $defaultParameters['admin_email']);
-
 		echo $this->viewer->fetch('Step4.tpl');
 	}
 
