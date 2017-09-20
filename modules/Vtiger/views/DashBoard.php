@@ -164,6 +164,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 			'~libraries/jquery/jqplot/plugins/jqplot.pointLabels.min.js',
 			'~libraries/jquery/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js',
 			'~libraries/jquery/jqplot/plugins/jqplot.funnelRenderer.min.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.donutRenderer.min.js',
 			'~libraries/jquery/jqplot/plugins/jqplot.barRenderer.min.js',
 			'~libraries/jquery/jqplot/plugins/jqplot.logAxisRenderer.min.js',
 			'modules.Vtiger.resources.DashBoard',
