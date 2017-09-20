@@ -8,12 +8,6 @@
  * All Rights Reserved.
  * **************************************************************************** */
 
-interface VTExpressionEnv
-{
-
-	public function get($var);
-}
-
 function __vt_add($arr)
 {
 	if (sizeof($arr) == 1) {
