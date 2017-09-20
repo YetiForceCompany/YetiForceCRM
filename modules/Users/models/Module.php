@@ -211,10 +211,10 @@ class Users_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Check mail exist
 	 * @param string $email
-	 * @param int $userId
+	 * @param int|false $userId
 	 * @return boolean
 	 */
-	public static function checkMailExist($email, $userId)
+	public static function checkMailExist($email, $userId = false)
 	{
 		$query = (new \App\Db\Query())->from('vtiger_users')->where(['email1' => $email]);
 		if ($userId) {
@@ -226,10 +226,10 @@ class Users_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Validation of user name
 	 * @param string $userName
-	 * @param int $userId
+	 * @param int|false $userId
 	 * @return boolean
 	 */
-	public static function checkUserName($userName, $userId)
+	public static function checkUserName($userName, $userId = false)
 	{
 		$query = (new \App\Db\Query())->from('vtiger_users')->where(['or', ['user_name' => $userName, 'user_name' => strtolower($userName)]]);
 		if ($userId) {
