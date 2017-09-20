@@ -15,16 +15,17 @@ class Vtiger_ChartFilter_Dashboard extends Vtiger_IndexAjax_View
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-
 		// Initialize Widget to the right-state of information
 		if ($widget && !$request->has('widgetid')) {
 			$widgetId = $widget->get('id');
 		} else {
 			$widgetId = $request->get('widgetid');
 		}
-
 		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($widgetId, $currentUser->getId());
 		$chartFilterWidgetModel = Vtiger_ChartFilter_Model::getInstance();
+		if (!$request->isEmpty('time', true)) {
+			$chartFilterWidgetModel->set('time', $request->getDateRange('time'));
+		}
 		$chartFilterWidgetModel->setWidgetModel($widget);
 		$data = $chartFilterWidgetModel->getChartData();
 		$viewer->assign('WIDGET', $widget);

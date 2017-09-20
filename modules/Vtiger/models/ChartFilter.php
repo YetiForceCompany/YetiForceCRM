@@ -98,7 +98,18 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$queryGenerator = new \App\QueryGenerator($this->getTargetModule());
 		$queryGenerator->initForCustomViewById($filterId);
 		$queryGenerator->setField($groupField);
-		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+		$query = $queryGenerator->createQuery();
+		if ($this->has('time')) {
+			$time = $this->get('time');
+			/*
+			  $query->andWhere([
+			  'and',
+			  ['>=', 'vtiger_osstimecontrol.due_date', Vtiger_Date_UIType::getDBInsertedValue($time['start'])],
+			  ['<=', 'vtiger_osstimecontrol.due_date', Vtiger_Date_UIType::getDBInsertedValue($time['end'])]
+			  ]);
+			 */
+		}
+		$dataReader = $query->createCommand()->query();
 		$groupData = [];
 		if (empty($this->extraData['sector'])) {
 			while ($row = $dataReader->read()) {
