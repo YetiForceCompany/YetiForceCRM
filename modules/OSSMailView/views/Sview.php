@@ -1,12 +1,12 @@
 <?php
 
 /**
- * OSSMailView preview view class
+ * OSSMailView sview view class
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
-Class OSSMailView_preview_View extends Vtiger_Index_View
+class OSSMailView_Sview_View extends Vtiger_Index_View
 {
 
 	public function checkPermission(\App\Request $request)
@@ -33,18 +33,8 @@ Class OSSMailView_preview_View extends Vtiger_Index_View
 		$record = $request->get('record');
 		$load = $request->get('noloadlibs');
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-
-		$from = $recordModel->get('from_email');
-		$to = $recordModel->get('to_email');
+		$to = $recordModel->getForHtml('to_email');
 		$to = explode(',', $to);
-		$cc = $recordModel->get('cc_email');
-		$bcc = $recordModel->get('bcc_email');
-		$subject = $recordModel->get('subject');
-		$owner = $recordModel->get('assigned_user_id');
-		$sentTime = new DateTimeField($recordModel->get('createdtime'));
-		$sent = $sentTime->getDisplayDateTimeValue();
-
-		// pobierz załączniki
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = "SELECT case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name,
 				'Documents' ActivityType,vtiger_attachments.type  FileType,vtiger_crmentity.modifiedtime,
@@ -58,44 +48,29 @@ Class OSSMailView_preview_View extends Vtiger_Index_View
 				LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid= vtiger_users.id
 				LEFT JOIN vtiger_ossmailview_files ON vtiger_ossmailview_files.documentsid =vtiger_notes.notesid
 				WHERE vtiger_ossmailview_files.ossmailviewid = ?";
-		$params = array($record);
-		$result = $db->pquery($query, $params, true);
-		$num = $db->num_rows($result);
+		$result = $db->pquery($query, [$record], true);
+		$num = $db->numRows($result);
 
 		$attachments = [];
 		for ($i = 0; $i < $num; $i++) {
-			$attachments[$i]['name'] = $db->query_result($result, $i, 'title');
-			$attachments[$i]['file'] = $db->query_result($result, $i, 'filename');
-			$attachments[$i]['id'] = $db->query_result($result, $i, 'crmid');
+			$attachments[$i]['name'] = $db->queryResult($result, $i, 'title');
+			$attachments[$i]['file'] = $db->queryResult($result, $i, 'filename');
+			$attachments[$i]['id'] = $db->queryResult($result, $i, 'crmid');
 		}
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULENAME', $moduleName);
 		$viewer->assign('NOLOADLIBS', $load);
-		$viewer->assign('FROM', $from);
+		$viewer->assign('FROM', $recordModel->getForHtml('from_email'));
 		$viewer->assign('TO', $to);
-		$viewer->assign('CC', $cc);
-		$viewer->assign('BCC', $bcc);
-		$viewer->assign('SUBJECT', $subject);
-		$viewer->assign('URL', "index.php?module=$moduleName&view=mbody&record=$record");
-		$viewer->assign('OWNER', $owner);
-		$viewer->assign('SENT', $sent);
+		$viewer->assign('CC', $recordModel->getForHtml('cc_email'));
+		$viewer->assign('BCC', $recordModel->getForHtml('bcc_email'));
+		$viewer->assign('SUBJECT', $recordModel->getForHtml('subject'));
+		$viewer->assign('URL', "index.php?module=$moduleName&view=Mbody&record=$record");
+		$viewer->assign('OWNER', $recordModel->get('assigned_user_id'));
+		$viewer->assign('SENT', $recordModel->get('createdtime'));
 		$viewer->assign('ATTACHMENTS', $attachments);
 		$viewer->assign('RECORD', $record);
-		$viewer->assign('RECORD_MODEL', $recordModel);
-		$viewer->assign('ISMODAL', $request->isAjax());
-		$viewer->assign('SCRIPTS', $this->getModalScripts($request));
-		$viewer->assign('SMODULENAME', $request->get('smodule'));
-		$viewer->assign('SRECORD', $request->get('srecord'));
-		$viewer->view('preview.tpl', 'OSSMailView');
-	}
-
-	public function getModalScripts(\App\Request $request)
-	{
-		$scripts = [
-			'~layouts/basic/modules/OSSMailView/resources/preview.js'
-		];
-		$modalScripts = $this->checkAndConvertJsScripts($scripts);
-		return $modalScripts;
+		$viewer->view('sview.tpl', 'OSSMailView');
 	}
 }

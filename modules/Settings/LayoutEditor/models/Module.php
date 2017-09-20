@@ -404,7 +404,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	{
 		$tabId = [$this->getId()];
 		if ($this->getName() === 'Calendar' || $this->getName() === 'Events') {
-			$tabId = [vtlib\Functions::getModuleId('Calendar'), vtlib\Functions::getModuleId('Events')];
+			$tabId = [\App\Module::getModuleId('Calendar'), \App\Module::getModuleId('Events')];
 		}
 		$count = (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $tabId])
 			->andWhere(['or', ['fieldname' => $fieldName], ['columnname' => $fieldName]])
@@ -552,7 +552,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getTreeTemplates($sourceModule)
 	{
-		$sourceModule = vtlib\Functions::getModuleId($sourceModule);
+		$sourceModule = \App\Module::getModuleId($sourceModule);
 		$query = (new \App\Db\Query())->select('templateid, name')->from('vtiger_trees_templates')->where(['module' => $sourceModule])->orWhere(['like', 'share', ",$sourceModule,"]);
 		$treeList = [];
 		$dataReader = $query->createCommand()->query();

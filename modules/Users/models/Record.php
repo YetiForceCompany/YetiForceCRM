@@ -170,13 +170,18 @@ class Users_Record_Model extends Vtiger_Record_Model
 	{
 		$entityInstance = $this->getModule()->getEntityInstance();
 		$db = \App\Db::getInstance();
-		foreach ($this->getValuesForSave() as $tableName => $tableData) {
+		$valuesForSave = $this->getValuesForSave();
+		foreach ($valuesForSave as $tableName => $tableData) {
 			$keyTable = [$entityInstance->tab_name_index[$tableName] => $this->getId()];
 			if ($this->isNew()) {
 				$db->createCommand()->insert($tableName, $keyTable + $tableData)->execute();
 			} else {
 				$db->createCommand()->update($tableName, $tableData, [$entityInstance->tab_name_index[$tableName] => $this->getId()])->execute();
 			}
+		}
+		if (AppConfig::module('Users', 'CHECK_LAST_USERNAME') && isset($valuesForSave['vtiger_users']['user_name'])) {
+			$db = \App\Db::getInstance('log');
+			$db->createCommand()->insert('l_#__username_history', ['user_name' => $valuesForSave['vtiger_users']['user_name'], 'user_id' => $this->getId()])->execute();
 		}
 	}
 
@@ -527,12 +532,10 @@ class Users_Record_Model extends Vtiger_Record_Model
 	{
 		$image = $this->getImageDetails();
 		$image = reset($image);
-		if (empty($image) || empty($image['path'])) {
-			$imagePath = \App\Layout::getImagePath('DefaultUserIcon.png');
-		} else {
-			$imagePath = $image['path'];
+		if (!empty($image['path'])) {
+			return $image['path'];
 		}
-		return $imagePath;
+		return false;
 	}
 
 	/**
@@ -568,7 +571,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 
 		$checkResult = $db->pquery('SELECT smid FROM vtiger_salesmanattachmentsrel WHERE attachmentsid = ?', array($imageId));
-		$smId = $db->query_result($checkResult, 0, 'smid');
+		$smId = $db->queryResult($checkResult, 0, 'smid');
 
 		if ($this->getId() === $smId) {
 			$db->pquery('DELETE FROM vtiger_attachments WHERE attachmentsid = ?', array($imageId));
@@ -682,8 +685,8 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT id FROM vtiger_users WHERE user_name = ?', array($userName));
 
-		if ($db->num_rows($result)) {
-			return Users_Record_Model::getInstanceById($db->query_result($result, 0, 'id'), 'Users');
+		if ($db->numRows($result)) {
+			return Users_Record_Model::getInstanceById($db->queryResult($result, 0, 'id'), 'Users');
 		}
 		return false;
 	}
@@ -714,12 +717,12 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$sql = 'SELECT id FROM vtiger_users WHERE status=? && is_admin=?';
 		$result = $db->pquery($sql, array('ACTIVE', 'on'));
 
-		$noOfUsers = $db->num_rows($result);
+		$noOfUsers = $db->numRows($result);
 		$users = [];
 		if ($noOfUsers > 0) {
 			$focus = new Users();
 			for ($i = 0; $i < $noOfUsers; ++$i) {
-				$userId = $db->query_result($result, $i, 'id');
+				$userId = $db->queryResult($result, $i, 'id');
 				$focus->id = $userId;
 				$focus->retrieveEntityInfo($userId, 'Users');
 

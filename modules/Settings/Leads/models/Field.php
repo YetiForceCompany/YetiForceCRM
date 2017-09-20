@@ -22,10 +22,8 @@ class Settings_Leads_Field_Model extends Vtiger_Field_Model
 		if ($uitype == '9') {
 			$fieldDataType = 'percent';
 		}
-
 		if (!$fieldDataType) {
-			$webserviceField = $this->getWebserviceFieldObject();
-			$fieldDataType = $webserviceField->getFieldDataType();
+			$fieldDataType = parent::getFieldDataType();
 			switch ($fieldDataType) {
 				case 'text' : $fieldDataType = 'textArea';
 					break;

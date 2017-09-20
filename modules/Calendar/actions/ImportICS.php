@@ -44,7 +44,7 @@ class Calendar_ImportICS_Action extends Vtiger_Action_Controller
 			$currentUserModel = Users_Record_Model::getCurrentUserModel();
 			$userId = $currentUserModel->getId();
 
-			$lastImport = new iCalLastImport();
+			$lastImport = new IcalLastImport();
 			$lastImport->clearRecords($userId);
 
 			$eventModule = 'Events';
@@ -65,16 +65,16 @@ class Calendar_ImportICS_Action extends Vtiger_Action_Controller
 				$skipCount[$module] = 0;
 			}
 
-			$ical = new iCal();
+			$ical = new Ical();
 			$icalActivities = $ical->iCalReader($ics);
 			$noOfActivities = count($icalActivities);
 
 			for ($i = 0; $i < $noOfActivities; $i++) {
 				if ($icalActivities[$i]['TYPE'] == 'VEVENT') {
-					$activity = new iCalendar_event;
+					$activity = new IcalendarEvent;
 					$module = $eventModule;
 				} else {
-					$activity = new iCalendar_todo;
+					$activity = new IcalendarTodo;
 					$module = $todoModule;
 				}
 
@@ -94,7 +94,7 @@ class Calendar_ImportICS_Action extends Vtiger_Action_Controller
 				}
 				$recordModel->save();
 
-				$lastImport = new iCalLastImport();
+				$lastImport = new IcalLastImport();
 				$lastImport->setFields(array('userid' => $userId, 'entitytype' => $todoModule, 'crmid' => $recordModel->getId()));
 				$lastImport->save();
 

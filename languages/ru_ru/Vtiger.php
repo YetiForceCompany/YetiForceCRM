@@ -1324,6 +1324,8 @@ $languageStrings = [
 	'BTN_ADD_FILE' => 'Add file',
 	'BTN_SUBMIT' => 'Submit',
 	'LBL_PHONE_CALL_SUCCESS' => 'Dialling in progress',
+	'LBL_BAD_REQUEST' => 'Incorrect request',
+	'LBL_NOT_ALLOWED_VALUE' => 'Incorrect value detected, please contact your administrator',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Подитог',

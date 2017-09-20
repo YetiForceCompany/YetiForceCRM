@@ -237,9 +237,10 @@ class Field extends FieldBasic
 
 	/**
 	 * Get Field instances related to module
-	 * @param Module Instance of module to use
+	 * @param ModuleBasic $moduleInstance
+	 * @return self
 	 */
-	public static function getAllForModule($moduleInstance)
+	public static function getAllForModule(ModuleBasic $moduleInstance)
 	{
 		$moduleId = $moduleInstance->id;
 		if (\App\Cache::has('AllFieldForModule', $moduleId)) {
@@ -262,17 +263,17 @@ class Field extends FieldBasic
 
 	/**
 	 * Delete fields associated with the module
-	 * @param Module Instance of module
+	 * @param ModuleBasic $moduleInstance
 	 * @access private
 	 */
-	public static function deleteForModule($moduleInstance)
+	public static function deleteForModule(ModuleBasic $moduleInstance)
 	{
 		self::deletePickLists($moduleInstance);
 		self::deleteUiType10Fields($moduleInstance);
 		$db = \App\Db::getInstance();
 		$db->createCommand()->delete('vtiger_field', ['tabid' => $moduleInstance->id])->execute();
 		$db->createCommand()->delete('vtiger_fieldmodulerel', ['or', "module = '$moduleInstance->name'", "relmodule = '$moduleInstance->name'"])->execute();
-		self::log("Deleting fields of the module ... DONE");
+		self::log('Deleting fields of the module ... DONE');
 	}
 
 	public function setTreeTemplate($tree, $moduleInstance)

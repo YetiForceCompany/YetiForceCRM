@@ -36,6 +36,9 @@ class Users_Field_Model extends Vtiger_Field_Model
 		if ($this->getDisplayType() === 4 || in_array($this->get('presence'), [1, 3])) {
 			return false;
 		}
+		if ($this->get('uitype') === 106 && !AppConfig::module('Users', 'USER_NAME_IS_EDITABLE')) {
+			return false;
+		}
 		return parent::isViewEnabled();
 	}
 
@@ -71,7 +74,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	public function isAjaxEditable()
 	{
 		if (!$this->isEditable() || $this->get('uitype') === 115 || $this->get('uitype') === 105 ||
-			$this->get('uitype') === 106 || $this->get('uitype') === 98 || $this->get('uitype') === 101 || 'date_format' === $this->getFieldName()) {
+			$this->get('uitype') === 106 || $this->get('uitype') === 98 || $this->get('uitype') === 101 || 'date_format' === $this->getFieldName() || 'email1' === $this->getFieldName()) {
 			return false;
 		}
 		return parent::isAjaxEditable();
@@ -83,7 +86,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 */
 	public function getPicklistValues($skipCheckingRole = false)
 	{
-		if ($this->get('uitype') == '115') {
+		if ($this->get('uitype') == 115) {
 			$fieldPickListValues = [];
 			$query = (new \App\Db\Query())->select([$this->getFieldName()])->from('vtiger_' . $this->getFieldName());
 			$dataReader = $query->createCommand($db)->query();

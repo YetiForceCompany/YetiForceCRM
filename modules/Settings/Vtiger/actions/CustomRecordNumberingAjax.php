@@ -19,10 +19,15 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 		$this->exposeMethod('updateRecordsWithSequenceNumber');
 	}
 
+	/**
+	 * The function checks permissions
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\AppException
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		parent::checkPermission($request);
-		$qualifiedModuleName = $request->getModule(false);
+		$request->getModule(false);
 		$sourceModule = $request->getByType('sourceModule', 1);
 
 		if (!$sourceModule) {

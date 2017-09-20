@@ -42,11 +42,11 @@ class Access
 
 	/**
 	 * Enable or Disable sharing access control to module
-	 * @param \vtlib\ModuleBasic $moduleInstance
+	 * @param ModuleBasic $moduleInstance
 	 * @param Boolean true to enable sharing access, false disable sharing access
 	 * @access private
 	 */
-	public static function allowSharing(\vtlib\ModuleBasic $moduleInstance, $enable = true)
+	public static function allowSharing(ModuleBasic $moduleInstance, $enable = true)
 	{
 		$ownedBy = $enable ? 0 : 1;
 		\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['ownedby' => $ownedBy], ['tabid' => $moduleInstance->id])->execute();
@@ -55,11 +55,11 @@ class Access
 
 	/**
 	 * Initialize sharing access.
-	 * @param \vtlib\ModuleBasic $moduleInstance
+	 * @param ModuleBasic $moduleInstance
 	 * @access private
 	 * @internal This method is called from Module during creation.
 	 */
-	public static function initSharing(\vtlib\ModuleBasic $moduleInstance)
+	public static function initSharing(ModuleBasic $moduleInstance)
 	{
 		$query = (new \App\Db\Query)->select(['share_action_id'])->from('vtiger_org_share_action_mapping')
 			->where(['share_action_name' => ['Public: Read Only', 'Public: Read, Create/Edit', 'Public: Read, Create/Edit, Delete', 'Private']]);
@@ -76,11 +76,11 @@ class Access
 
 	/**
 	 * Delete sharing access setup for module
-	 * @param \vtlib\ModuleBasic $moduleInstance
+	 * @param ModuleBasic $moduleInstance
 	 * @access private
 	 * @internal This method is called from Module during deletion.
 	 */
-	public static function deleteSharing(\vtlib\ModuleBasic $moduleInstance)
+	public static function deleteSharing(ModuleBasic $moduleInstance)
 	{
 		\App\Db::getInstance()->createCommand()->delete('vtiger_org_share_action2tab', ['tabid' => $moduleInstance->id])->execute();
 		self::log('Deleting sharing access ... DONE');
@@ -88,11 +88,11 @@ class Access
 
 	/**
 	 * Set default sharing for a module
-	 * @param \vtlib\ModuleBasic $moduleInstance
+	 * @param ModuleBasic $moduleInstance
 	 * @param String Permission text should be one of ['Public_ReadWriteDelete', 'Public_ReadOnly', 'Public_ReadWrite', 'Private']
 	 * @access private
 	 */
-	public static function setDefaultSharing(\vtlib\ModuleBasic $moduleInstance, $permissionText = 'Public_ReadWriteDelete')
+	public static function setDefaultSharing(ModuleBasic $moduleInstance, $permissionText = 'Public_ReadWriteDelete')
 	{
 		$permissionText = strtolower($permissionText);
 
@@ -121,13 +121,13 @@ class Access
 
 	/**
 	 * Enable tool for module.
-	 * @param \vtlib\ModuleBasic $moduleInstance
+	 * @param ModuleBasic $moduleInstance
 	 * @param String Tool (action name) like Import, Export, Merge
 	 * @param Boolean true to enable tool, false to disable
 	 * @param Integer (optional) profile id to use, false applies to all profile.
 	 * @access private
 	 */
-	public static function updateTool(\vtlib\ModuleBasic $moduleInstance, $toolAction, $flag, $profileid = false)
+	public static function updateTool(ModuleBasic $moduleInstance, $toolAction, $flag, $profileid = false)
 	{
 		$actionId = \App\Module::getActionId($toolAction);
 		if ($actionId) {
@@ -160,9 +160,9 @@ class Access
 
 	/**
 	 * Delete tool (actions) of the module
-	 * @param \vtlib\ModuleBasic $moduleInstance
+	 * @param ModuleBasic $moduleInstance
 	 */
-	public static function deleteTools(\vtlib\ModuleBasic $moduleInstance)
+	public static function deleteTools(ModuleBasic $moduleInstance)
 	{
 		\App\Db::getInstance()->createCommand()->delete('vtiger_profile2utility', ['tabid' => $moduleInstance->id])->execute();
 		self::log('Deleting tools ... DONE');

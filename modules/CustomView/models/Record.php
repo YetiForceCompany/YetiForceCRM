@@ -872,7 +872,7 @@ class CustomView_Record_Model extends \App\Base
 		$sql .= ' ORDER BY sequence ASC';
 		$result = $db->pquery($sql, $params);
 		$customViews = [];
-		while ($row = $db->fetch_array($result)) {
+		while ($row = $db->fetchArray($result)) {
 			$customView = new self();
 			if (strlen(App\Purifier::decodeHtml($row['viewname'])) > 40) {
 				$row['viewname'] = substr(App\Purifier::decodeHtml($row['viewname']), 0, 36) . '...';

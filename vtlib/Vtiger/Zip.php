@@ -9,13 +9,13 @@
  * ********************************************************************************** */
 namespace vtlib;
 
-require_once('vtlib/thirdparty/dZip.inc.php');
+require_once('vtlib/thirdparty/Dzip.inc.php');
 
 /**
- * Wrapper class over dZip.
+ * Wrapper class over dzip.
  * @package vtlib
  */
-class Zip extends \dZip
+class Zip extends \Dzip
 {
 
 	/**
@@ -91,7 +91,7 @@ class Zip extends \dZip
 		while (false !== ($file = readdir($dir))) {
 			if ($file != '.' && $file != '..' &&
 				$file != '.svn' && $file != 'CVS') {
-				// Exclude the file/directory 
+				// Exclude the file/directory
 				if (!empty($excludeList) && in_array("$dirname$file", $excludeList))
 					continue;
 

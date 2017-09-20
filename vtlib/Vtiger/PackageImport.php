@@ -419,7 +419,8 @@ class PackageImport extends PackageExport
 				//module images
 				'images' => 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module",
 				'updates' => 'cache/updates',
-				'layouts' => 'layouts'
+				'layouts' => 'layouts',
+				'languages' => 'languages'
 			]);
 		}
 		return $module;
@@ -994,7 +995,7 @@ class PackageImport extends PackageExport
 				if (method_exists($updateInstance, 'afterDelete')) {
 					$updateInstance->afterDelete();
 				}
-				Functions::recurseCopy($dirName . '/files', '', true);
+				Functions::recurseCopy($dirName . '/files', '');
 				if (method_exists($updateInstance, 'afterCopy')) {
 					$updateInstance->afterCopy();
 				}
@@ -1006,7 +1007,7 @@ class PackageImport extends PackageExport
 			}
 			$adb->query('SET FOREIGN_KEY_CHECKS = 1;');
 		} else {
-			Functions::recurseCopy($dirName . '/files', '', true);
+			Functions::recurseCopy($dirName . '/files', '');
 		}
 		$adb->insert('yetiforce_updates', [
 			'user' => \Users_Record_Model::getCurrentUserModel()->get('user_name'),

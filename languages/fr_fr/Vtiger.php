@@ -1329,6 +1329,8 @@ $languageStrings = [
 	'LBL_NOVEMDECILLIONS' => 'décillions',
 	'LBL_NOVEMDECILLIONSS' => 'décillions',
 	'LBL_SECTOR' => 'Secteurs',
+	'LBL_BAD_REQUEST' => 'Incorrect request',
+	'LBL_NOT_ALLOWED_VALUE' => 'Incorrect value detected, please contact your administrator',
 ];
 $jsLanguageStrings = [
 	'JS_BASE_CURRENCY_CHANGED_TO_DISABLE_CURRENCY' => 'La devise de base doit être changée sur OFF',

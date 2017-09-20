@@ -37,11 +37,11 @@ class Leads_Module_Model extends Vtiger_Module_Model
                 WHERE setype=? && ' . $deletedCondition . ' && modifiedby = ? ORDER BY modifiedtime DESC LIMIT ?';
 		$params = array($this->get('name'), $currentUserModel->id, $limit);
 		$result = $db->pquery($query, $params);
-		$noOfRows = $db->num_rows($result);
+		$noOfRows = $db->numRows($result);
 
 		$recentRecords = [];
 		for ($i = 0; $i < $noOfRows; ++$i) {
-			$row = $db->query_result_rowdata($result, $i);
+			$row = $db->queryResultRowData($result, $i);
 			$row['id'] = $row['crmid'];
 			$recentRecords[$row['id']] = $this->getRecordFromArray($row);
 		}
@@ -126,19 +126,17 @@ class Leads_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to get Converted Information for selected records
-	 * @param <array> $recordIdsList
-	 * @return <array> converted Info
+	 * @param array $recordIdsList
+	 * @return array converted Info
 	 */
 	public static function getConvertedInfo($recordIdsList = [])
 	{
 		$convertedInfo = [];
 		if ($recordIdsList) {
-			$db = PearDatabase::getInstance();
-			$query = sprintf('SELECT leadid,converted FROM vtiger_leaddetails WHERE leadid IN (%s)', implode(',', $recordIdsList));
-			$result = $db->query($query);
-			while ($row = $db->getRow($result)) {
-				$convertedInfo[$row['leadid']] = $row['converted'];
-			}
+			$convertedInfo = (new App\Db\Query())->select(['leadid', 'converted'])
+					->from('vtiger_leaddetails')
+					->where(['leadid' => $recordIdsList])
+					->createCommand()->queryAllByGroup(0);
 		}
 		return $convertedInfo;
 	}
@@ -207,13 +205,13 @@ class Leads_Module_Model extends Vtiger_Module_Model
 				$params[] = $recordModel->get(key($fields));
 			}
 			$result = $db->pquery($sql, $params);
-			$num = $db->num_rows($result);
+			$num = $db->numRows($result);
 			if ($num > 1) {
 				\App\Log::trace('End ' . __METHOD__);
 				return false;
 			} elseif ($num == 1) {
 				\App\Log::trace('End ' . __METHOD__);
-				return (int) $db->query_result($result, 0, 'accountid');
+				return (int) $db->queryResult($result, 0, 'accountid');
 			}
 		}
 		\App\Log::trace('End ' . __METHOD__);

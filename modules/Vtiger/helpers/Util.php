@@ -137,7 +137,7 @@ class Vtiger_Util_Helper
 		$dateTimeInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue($date . ' ' . $time);
 
 		list($dateInUserFormat, $timeInUserFormat) = explode(' ', $dateTimeInUserFormat);
-		list($hours, $minutes, $seconds) = explode(':', $timeInUserFormat);
+		list($hours, $minutes) = explode(':', $timeInUserFormat);
 
 		$displayTime = $hours . ':' . $minutes;
 		if ($currentUser->get('hour_format') === '12') {
@@ -342,8 +342,8 @@ class Vtiger_Util_Helper
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$result = $db->pquery('SELECT * FROM vtiger_currency_info WHERE id = ?', array($currentUser->get('currency_id')));
-		if ($db->num_rows($result))
-			return $db->query_result_rowdata($result, 0);
+		if ($db->numRows($result))
+			return $db->queryResultRowData($result, 0);
 	}
 
 	public static function transferListSearchParamsToFilterCondition($searchParams, $moduleModel)
@@ -358,7 +358,7 @@ class Vtiger_Util_Helper
 			if (empty($groupInfo)) {
 				continue;
 			}
-			$groupColumnsInfo = $groupConditionInfo = [];
+			$groupColumnsInfo = [];
 			foreach ($groupInfo as &$fieldSearchInfo) {
 				list ($fieldName, $operator, $fieldValue, $specialOption) = $fieldSearchInfo;
 				if ($field->getFieldDataType() === 'tree' && $specialOption) {
@@ -407,7 +407,7 @@ class Vtiger_Util_Helper
 	{
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT deleted FROM vtiger_users WHERE id = ? && (status=? || deleted=?)', array($userid, 'Inactive', 1));
-		$count = $db->num_rows($result);
+		$count = $db->numRows($result);
 		if ($count > 0)
 			return true;
 

@@ -27,11 +27,11 @@ function getInventoryCurrencyInfo($module, $id)
 		. "inner join vtiger_currency_info on {$focus->table_name}.currency_id = vtiger_currency_info.id where {$focus->table_index}=?", array($id), true);
 
 	$currency_info = [];
-	$currency_info['currency_id'] = $adb->query_result($res, 0, 'currency_id');
-	$currency_info['conversion_rate'] = $adb->query_result($res, 0, 'conv_rate');
-	$currency_info['currency_name'] = $adb->query_result($res, 0, 'currency_name');
-	$currency_info['currency_code'] = $adb->query_result($res, 0, 'currency_code');
-	$currency_info['currency_symbol'] = $adb->query_result($res, 0, 'currency_symbol');
+	$currency_info['currency_id'] = $adb->queryResult($res, 0, 'currency_id');
+	$currency_info['conversion_rate'] = $adb->queryResult($res, 0, 'conv_rate');
+	$currency_info['currency_name'] = $adb->queryResult($res, 0, 'currency_name');
+	$currency_info['currency_code'] = $adb->queryResult($res, 0, 'currency_code');
+	$currency_info['currency_symbol'] = $adb->queryResult($res, 0, 'currency_symbol');
 
 	\App\Log::trace("Exit from function getInventoryCurrencyInfo($module, $id).");
 
@@ -70,20 +70,20 @@ function getPriceDetailsForProduct($productid, $unit_price, $available = 'availa
 		}
 
 		$res = $adb->pquery($query, $params);
-		$rows_res = $adb->num_rows($res);
+		$rows_res = $adb->numRows($res);
 		for ($i = 0; $i < $rows_res; $i++) {
 			$price_details[$i]['productid'] = $productid;
-			$price_details[$i]['currencylabel'] = $adb->query_result($res, $i, 'currency_name');
-			$price_details[$i]['currencycode'] = $adb->query_result($res, $i, 'currency_code');
-			$price_details[$i]['currencysymbol'] = $adb->query_result($res, $i, 'currency_symbol');
-			$currency_id = $adb->query_result($res, $i, 'id');
+			$price_details[$i]['currencylabel'] = $adb->queryResult($res, $i, 'currency_name');
+			$price_details[$i]['currencycode'] = $adb->queryResult($res, $i, 'currency_code');
+			$price_details[$i]['currencysymbol'] = $adb->queryResult($res, $i, 'currency_symbol');
+			$currency_id = $adb->queryResult($res, $i, 'id');
 			$price_details[$i]['curid'] = $currency_id;
-			$price_details[$i]['curname'] = 'curname' . $adb->query_result($res, $i, 'id');
-			$cur_value = $adb->query_result($res, $i, 'actual_price');
+			$price_details[$i]['curname'] = 'curname' . $adb->queryResult($res, $i, 'id');
+			$cur_value = $adb->queryResult($res, $i, 'actual_price');
 
 			// Get the conversion rate for the given currency, get the conversion rate of the product currency to base currency.
 			// Both together will be the actual conversion rate for the given currency.
-			$conversion_rate = $adb->query_result($res, $i, 'conversion_rate');
+			$conversion_rate = $adb->queryResult($res, $i, 'conversion_rate');
 			$actual_conversion_rate = $product_base_conv_rate * $conversion_rate;
 
 			$is_basecurrency = false;
@@ -112,18 +112,18 @@ function getPriceDetailsForProduct($productid, $unit_price, $available = 'availa
 			$params = [];
 
 			$res = $adb->pquery($query, $params);
-			$rows = $adb->num_rows($res);
+			$rows = $adb->numRows($res);
 			for ($i = 0; $i < $rows; $i++) {
-				$price_details[$i]['currencylabel'] = $adb->query_result($res, $i, 'currency_name');
-				$price_details[$i]['currencycode'] = $adb->query_result($res, $i, 'currency_code');
-				$price_details[$i]['currencysymbol'] = $adb->query_result($res, $i, 'currency_symbol');
-				$currency_id = $adb->query_result($res, $i, 'id');
+				$price_details[$i]['currencylabel'] = $adb->queryResult($res, $i, 'currency_name');
+				$price_details[$i]['currencycode'] = $adb->queryResult($res, $i, 'currency_code');
+				$price_details[$i]['currencysymbol'] = $adb->queryResult($res, $i, 'currency_symbol');
+				$currency_id = $adb->queryResult($res, $i, 'id');
 				$price_details[$i]['curid'] = $currency_id;
-				$price_details[$i]['curname'] = 'curname' . $adb->query_result($res, $i, 'id');
+				$price_details[$i]['curname'] = 'curname' . $adb->queryResult($res, $i, 'id');
 
 				// Get the conversion rate for the given currency, get the conversion rate of the product currency(logged in user's currency) to base currency.
 				// Both together will be the actual conversion rate for the given currency.
-				$conversion_rate = $adb->query_result($res, $i, 'conversion_rate');
+				$conversion_rate = $adb->queryResult($res, $i, 'conversion_rate');
 				$user_cursym_convrate = \vtlib\Functions::getCurrencySymbolandRate($userCurrencyId);
 				$product_base_conv_rate = 1 / $user_cursym_convrate['rate'];
 				$actual_conversion_rate = $product_base_conv_rate * $conversion_rate;
@@ -162,7 +162,7 @@ function getProductBaseCurrency($productid, $module = 'Products')
 	}
 	$params = array($productid);
 	$res = $adb->pquery($sql, $params);
-	$currencyid = $adb->query_result($res, 0, 'currency_id');
+	$currencyid = $adb->queryResult($res, 0, 'currency_id');
 	return $currencyid;
 }
 

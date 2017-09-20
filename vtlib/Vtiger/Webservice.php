@@ -29,9 +29,9 @@ class Webservice
 
 	/**
 	 * Initialize webservice for the given module
-	 * @param Module Instance of the module.
+	 * @param \vtlib\ModuleBasic $moduleInstance
 	 */
-	public static function initialize($moduleInstance)
+	public static function initialize(ModuleBasic $moduleInstance)
 	{
 		if ($moduleInstance->isentitytype) {
 			if (function_exists('vtws_addDefaultModuleTypeEntity')) {
@@ -43,9 +43,9 @@ class Webservice
 
 	/**
 	 * Initialize webservice for the given module
-	 * @param Module Instance of the module.
+	 * @param \vtlib\ModuleBasic $moduleInstance
 	 */
-	public static function uninitialize($moduleInstance)
+	public static function uninitialize(ModuleBasic $moduleInstance)
 	{
 		if ($moduleInstance->isentitytype) {
 

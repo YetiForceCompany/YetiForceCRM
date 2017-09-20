@@ -14,7 +14,7 @@ class Settings_OSSMail_Index_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$OSSMail_Record_Model = Vtiger_Record_Model::getCleanInstance('OSSMail');
-		if (vtlib\Functions::getModuleId('OSSMailScanner')) {
+		if (\App\Module::getModuleId('OSSMailScanner')) {
 			$OSSMailScanner_Record_Model = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 			$WidgetCfg = $OSSMailScanner_Record_Model->getConfig(false);
 		}

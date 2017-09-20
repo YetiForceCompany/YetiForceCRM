@@ -13,7 +13,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 
 	public function getDefaultViewName()
 	{
-		return 'index';
+		return 'Index';
 	}
 
 	public function getSettingLinks()
@@ -41,7 +41,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 
 	public static function getComposeUrl($moduleName = false, $record = false, $view = false, $type = false)
 	{
-		$url = 'index.php?module=OSSMail&view=compose';
+		$url = 'index.php?module=OSSMail&view=Compose';
 		if ($moduleName) {
 			$url .= '&crmModule=' . $moduleName;
 		}

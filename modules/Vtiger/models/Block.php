@@ -141,7 +141,7 @@ class Vtiger_Block_Model extends vtlib\Block
 	 * @param <type> $moduleModel - module instance
 	 * @return <array> - list of Vtiger_Block_Model
 	 */
-	public static function getAllForModule($moduleModel)
+	public static function getAllForModule(vtlib\ModuleBasic $moduleModel)
 	{
 		$blockObjects = Vtiger_Cache::get('ModuleBlock', $moduleModel->getName());
 

@@ -26,12 +26,4 @@
 			</div>
 		</div>
 	</div>
-	<hr class="widgetHr"/>
-	<div class="row" >
-		<div class="col-md-12">
-			<div class="pull-right">
-				&nbsp;
-			</div>
-		</div>
-	</div>
 {/strip}

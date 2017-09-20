@@ -96,12 +96,12 @@
 				{foreach from=$GITHUB_ISSUES item=ISSUE}
 					<tr class="">
 						<td>
-							<a href="{$ISSUE->get('html_url')}" target="_blank">
+							<a href="{$ISSUE->get('html_url')}" target="_blank" rel="noreferrer">
 								{$ISSUE->get('title')}
 							</a>
 						</td>
 						<td>
-							<a href="{$ISSUE->get('user')->html_url}" target="_blank">
+							<a href="{$ISSUE->get('user')->html_url}" target="_blank" rel="noreferrer">
 								{$ISSUE->get('user')->login}
 							</a>
 						</td>
@@ -111,7 +111,7 @@
 						<td>
 							<div class="pull-right actions">
 								<span class="actionImages">
-									<a href="{$ISSUE->get('html_url')}" target="_blank">
+									<a href="{$ISSUE->get('html_url')}" target="_blank" rel="noreferrer">
 										<span title="" class="glyphicon glyphicon-th-list alignMiddle"></span>
 									</a>
 								</span>

@@ -16,7 +16,7 @@ class Reports_Chart_Model extends \App\Base
 		$self = new self();
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM vtiger_reporttype WHERE reportid = ?', array($reportModel->getId()));
-		$data = $db->query_result($result, 0, 'data');
+		$data = $db->queryResult($result, 0, 'data');
 		if (!empty($data)) {
 			$decodeData = \App\Json::decode(App\Purifier::decodeHtml($data));
 			$self->setData($decodeData);
@@ -464,7 +464,7 @@ class PieChart extends Base_Chart
 		$values = [];
 		$chartSQL = $this->getQuery();
 		$result = $db->pquery($chartSQL, []);
-		$rows = $db->num_rows($result);
+		$rows = $db->numRows($result);
 
 		$queryColumnsByFieldModel = $this->getQueryColumnsByFieldModel();
 		if (is_array($queryColumnsByFieldModel)) {
@@ -482,7 +482,7 @@ class PieChart extends Base_Chart
 
 		if (is_array($groupByColumnsByFieldModel)) {
 			foreach ($groupByColumnsByFieldModel as $groupField) {
-				$legend = $groupByColumns[] = $groupField->get('reportlabel');
+				$legend = $groupField->get('reportlabel');
 				$legendField = $groupField;
 			}
 		}
@@ -491,7 +491,7 @@ class PieChart extends Base_Chart
 		$currencyRateAndSymbol = \vtlib\Functions::getCurrencySymbolandRate($currentUserModel->currency_id);
 
 		for ($i = 0; $i < $rows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+			$row = $db->queryResultRowData($result, $i);
 			$value = (float) $row[$sector];
 			if (!$this->isRecordCount()) {
 				if ($sectorField) {
@@ -549,7 +549,7 @@ class VerticalbarChart extends Base_Chart
 		$chartSQL = $this->getQuery();
 
 		$result = $db->pquery($chartSQL, []);
-		$rows = $db->num_rows($result);
+		$rows = $db->numRows($result);
 		$values = [];
 
 		$queryColumnsByFieldModel = $this->getQueryColumnsByFieldModel();
@@ -566,7 +566,7 @@ class VerticalbarChart extends Base_Chart
 		$links = [];
 
 		for ($i = 0; $i < $rows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+			$row = $db->queryResultRowData($result, $i);
 
 			if ($recordCountLabel) {
 				$values[$i][] = (int) $row[$recordCountLabel];

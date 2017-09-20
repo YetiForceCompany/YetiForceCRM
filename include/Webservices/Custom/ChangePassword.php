@@ -22,14 +22,12 @@
  * @param Users $user 
  * 
  */
-function vtws_changePassword($id, $oldPassword, $newPassword, $confirmPassword, Users $user)
+function vtws_changePassword($userId, $oldPassword, $newPassword, $confirmPassword, Users $user)
 {
-	vtws_preserveGlobal('current_user', $user);
-	$idComponents = vtws_getIdComponents($id);
-	if ($idComponents[1] == $user->id || \vtlib\Functions::userIsAdministrator($user)) {
+	if ($userId == $user->id || $user->isAdminUser()) {
 		$newUser = new Users();
-		$newUser->retrieveEntityInfo($idComponents[1], 'Users');
-		if (!\vtlib\Functions::userIsAdministrator($user)) {
+		$newUser->retrieveEntityInfo($userId, 'Users');
+		if (!$user->isAdminUser()) {
 			if (empty($oldPassword)) {
 				throw new WebServiceException(WebServiceErrorCode::$INVALIDOLDPASSWORD, vtws_getWebserviceTranslatedString('LBL_' .
 					WebServiceErrorCode::$INVALIDOLDPASSWORD));
@@ -54,7 +52,6 @@ function vtws_changePassword($id, $oldPassword, $newPassword, $confirmPassword, 
 			throw new WebServiceException(WebServiceErrorCode::$CHANGEPASSWORDFAILURE, vtws_getWebserviceTranslatedString('LBL_' .
 				WebServiceErrorCode::$CHANGEPASSWORDFAILURE));
 		}
-		VTWS_PreserveGlobal::flush();
 		return array('message' => 'Changed password successfully');
 	}
 }

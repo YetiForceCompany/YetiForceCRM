@@ -2,7 +2,7 @@
 
 // $Id: iCalendar_properties.php,v 1.13 2005/07/21 22:42:13 defacer Exp $
 
-class iCalendar_property
+class IcalendarProperty
 {
 
 	// Properties can have parameters, but cannot have other properties or components
@@ -31,18 +31,18 @@ class iCalendar_property
 	{
 
 		if (is_array($value)) {
-			if (!iCalendar_parameter::multipleValuesAllowed($parameter)) {
+			if (!IcalendarParameter::multipleValuesAllowed($parameter)) {
 				return false;
 			}
 			foreach ($value as $item) {
-				if (!iCalendar_parameter::isValidValue($this, $parameter, $item)) {
+				if (!IcalendarParameter::isValidValue($this, $parameter, $item)) {
 					return false;
 				}
 			}
 			return true;
 		}
 
-		return iCalendar_parameter::isValidValue($this, $parameter, $value);
+		return IcalendarParameter::isValidValue($this, $parameter, $value);
 	}
 
 	public function invariantHolds()
@@ -76,7 +76,7 @@ class iCalendar_property
 
 	public function setParentComponent($componentname)
 	{
-		if (class_exists('iCalendar_' . strtolower(substr($componentname, 1)))) {
+		if (class_exists('Icalendar' . ucfirst(strtolower(substr($componentname, 1))))) {
 			$this->parent_component = strtoupper($componentname);
 			return true;
 		}
@@ -141,10 +141,10 @@ class iCalendar_property
 
 		if (is_array($value)) {
 			foreach ($value as $key => $element) {
-				$value[$key] = iCalendar_parameter::doValueFormatting($name, $element);
+				$value[$key] = IcalendarParameter::doValueFormatting($name, $element);
 			}
 		} else {
-			$value = iCalendar_parameter::doValueFormatting($name, $value);
+			$value = IcalendarParameter::doValueFormatting($name, $value);
 		}
 
 		$this->parameters[$name] = $value;
@@ -207,7 +207,7 @@ class iCalendar_property
 // 4.7 Calendar Properties
 // -----------------------
 
-class iCalendar_property_calscale extends iCalendar_property
+class IcalendarPropertyCalscale extends IcalendarProperty
 {
 
 	public $name = 'CALSCALE';
@@ -227,7 +227,7 @@ class iCalendar_property_calscale extends iCalendar_property
 	}
 }
 
-class iCalendar_property_method extends iCalendar_property
+class IcalendarPropertyMethod extends IcalendarProperty
 {
 
 	public $name = 'METHOD';
@@ -249,7 +249,7 @@ class iCalendar_property_method extends iCalendar_property
 	}
 }
 
-class iCalendar_property_prodid extends iCalendar_property
+class IcalendarPropertyProdid extends IcalendarProperty
 {
 
 	public $name = 'PRODID';
@@ -266,7 +266,7 @@ class iCalendar_property_prodid extends iCalendar_property
 	}
 }
 
-class iCalendar_property_version extends iCalendar_property
+class IcalendarPropertyVersion extends IcalendarProperty
 {
 
 	public $name = 'VERSION';
@@ -289,7 +289,7 @@ class iCalendar_property_version extends iCalendar_property
 // 4.8.1 Descriptive Component Properties
 // --------------------------------------
 
-class iCalendar_property_attach extends iCalendar_property
+class IcalendarPropertyAttach extends IcalendarProperty
 {
 
 	public $name = 'ATTACH';
@@ -338,7 +338,7 @@ class iCalendar_property_attach extends iCalendar_property
 	}
 }
 
-class iCalendar_property_categories extends iCalendar_property
+class IcalendarPropertyCategories extends IcalendarProperty
 {
 
 	public $name = 'CATEGORIES';
@@ -354,7 +354,7 @@ class iCalendar_property_categories extends iCalendar_property
 	}
 }
 
-class iCalendar_property_class extends iCalendar_property
+class IcalendarPropertyClass extends IcalendarProperty
 {
 
 	public $name = 'CLASS';
@@ -376,7 +376,7 @@ class iCalendar_property_class extends iCalendar_property
 	}
 }
 
-class iCalendar_property_comment extends iCalendar_property
+class IcalendarPropertyComment extends IcalendarProperty
 {
 
 	public $name = 'COMMENT';
@@ -392,7 +392,7 @@ class iCalendar_property_comment extends iCalendar_property
 	}
 }
 
-class iCalendar_property_description extends iCalendar_property
+class IcalendarPropertyDescription extends IcalendarProperty
 {
 
 	public $name = 'DESCRIPTION';
@@ -408,7 +408,7 @@ class iCalendar_property_description extends iCalendar_property
 	}
 }
 
-class iCalendar_property_geo extends iCalendar_property
+class IcalendarPropertyGeo extends IcalendarProperty
 {
 
 	public $name = 'GEO';
@@ -451,7 +451,7 @@ class iCalendar_property_geo extends iCalendar_property
 	}
 }
 
-class iCalendar_property_location extends iCalendar_property
+class IcalendarPropertyLocation extends IcalendarProperty
 {
 
 	public $name = 'LOCATION';
@@ -467,7 +467,7 @@ class iCalendar_property_location extends iCalendar_property
 	}
 }
 
-class iCalendar_property_percent_complete extends iCalendar_property
+class IcalendarPropertyPercentcomplete extends IcalendarProperty
 {
 
 	public $name = 'PERCENT-COMPLETE';
@@ -491,7 +491,7 @@ class iCalendar_property_percent_complete extends iCalendar_property
 	}
 }
 
-class iCalendar_property_priority extends iCalendar_property
+class IcalendarPropertyPriority extends IcalendarProperty
 {
 
 	public $name = 'PRIORITY';
@@ -506,7 +506,7 @@ class iCalendar_property_priority extends iCalendar_property
 
 	public function isValidValue($value)
 	{
-		// Only integers between 0 and 9 inclusive allowed        
+		// Only integers between 0 and 9 inclusive allowed
 		if (!parent::isValidValue($value)) {
 			return false;
 		}
@@ -514,7 +514,7 @@ class iCalendar_property_priority extends iCalendar_property
 	}
 }
 
-class iCalendar_property_resources extends iCalendar_property
+class IcalendarPropertyResources extends IcalendarProperty
 {
 
 	public $name = 'RESOURCES';
@@ -531,7 +531,7 @@ class iCalendar_property_resources extends iCalendar_property
 	}
 }
 
-class iCalendar_property_status extends iCalendar_property
+class IcalendarPropertyStatus extends IcalendarProperty
 {
 
 	public $name = 'STATUS';
@@ -562,7 +562,7 @@ class iCalendar_property_status extends iCalendar_property
 	 */
 }
 
-class iCalendar_property_summary extends iCalendar_property
+class IcalendarPropertySummary extends IcalendarProperty
 {
 
 	public $name = 'SUMMARY';
@@ -581,7 +581,7 @@ class iCalendar_property_summary extends iCalendar_property
 // 4.8.2 Date and Time Component Properties
 // ----------------------------------------
 
-class iCalendar_property_completed extends iCalendar_property
+class IcalendarPropertyCompleted extends IcalendarProperty
 {
 
 	public $name = 'COMPLETED';
@@ -604,7 +604,7 @@ class iCalendar_property_completed extends iCalendar_property
 	}
 }
 
-class iCalendar_property_dtend extends iCalendar_property
+class IcalendarPropertyDtend extends IcalendarProperty
 {
 
 	public $name = 'DTEND';
@@ -649,7 +649,7 @@ class iCalendar_property_dtend extends iCalendar_property
 	}
 }
 
-class iCalendar_property_due extends iCalendar_property
+class IcalendarPropertyDue extends IcalendarProperty
 {
 
 	public $name = 'DUE';
@@ -694,7 +694,7 @@ class iCalendar_property_due extends iCalendar_property
 	}
 }
 
-class iCalendar_property_dtstart extends iCalendar_property
+class IcalendarPropertyDtstart extends IcalendarProperty
 {
 
 	public $name = 'DTSTART';
@@ -737,7 +737,7 @@ class iCalendar_property_dtstart extends iCalendar_property
 	}
 }
 
-class iCalendar_property_duration extends iCalendar_property
+class IcalendarPropertyDuration extends IcalendarProperty
 {
 
 	public $name = 'DURATION';
@@ -761,7 +761,7 @@ class iCalendar_property_duration extends iCalendar_property
 	}
 }
 
-class iCalendar_property_freebusy extends iCalendar_property
+class IcalendarPropertyFreebusy extends IcalendarProperty
 {
 
 	public $name = 'FREEBUSY';
@@ -796,7 +796,7 @@ class iCalendar_property_freebusy extends iCalendar_property
 	}
 }
 
-class iCalendar_property_transp extends iCalendar_property
+class IcalendarPropertyTransp extends IcalendarProperty
 {
 
 	public $name = 'TRANSP';
@@ -816,7 +816,7 @@ class iCalendar_property_transp extends iCalendar_property
 	}
 }
 
-class iCalendar_property_attendee extends iCalendar_property
+class IcalendarPropertyAttendee extends IcalendarProperty
 {
 
 	public $name = 'ATTENDEE';
@@ -858,7 +858,7 @@ class iCalendar_property_attendee extends iCalendar_property
 	}
 }
 
-class iCalendar_property_contact extends iCalendar_property
+class IcalendarPropertyContact extends IcalendarProperty
 {
 
 	public $name = 'CONTACT';
@@ -874,7 +874,7 @@ class iCalendar_property_contact extends iCalendar_property
 	}
 }
 
-class iCalendar_property_organizer extends iCalendar_property
+class IcalendarPropertyOrganizer extends IcalendarProperty
 {
 
 	public $name = 'ORGANIZER';
@@ -892,7 +892,7 @@ class iCalendar_property_organizer extends iCalendar_property
 	}
 }
 
-class iCalendar_property_recurrence_id extends iCalendar_property
+class IcalendarPropertyRecurrenceid extends IcalendarProperty
 {
 
 	public $name = 'RECURRENCE-ID';
@@ -924,7 +924,7 @@ class iCalendar_property_recurrence_id extends iCalendar_property
 	}
 }
 
-class iCalendar_property_related_to extends iCalendar_property
+class IcalendarPropertyRelatedto extends IcalendarProperty
 {
 
 	public $name = 'RELATED-TO';
@@ -939,7 +939,7 @@ class iCalendar_property_related_to extends iCalendar_property
 	}
 }
 
-class iCalendar_property_url extends iCalendar_property
+class IcalendarPropertyUrl extends IcalendarProperty
 {
 
 	public $name = 'URL';
@@ -953,7 +953,7 @@ class iCalendar_property_url extends iCalendar_property
 	}
 }
 
-class iCalendar_property_uid extends iCalendar_property
+class IcalendarPropertyUid extends IcalendarProperty
 {
 
 	public $name = 'UID';
@@ -975,7 +975,7 @@ class iCalendar_property_uid extends iCalendar_property
 // 4.8.5 Recurrence Component Properties
 // -------------------------------------
 
-class iCalendar_property_exdate extends iCalendar_property
+class IcalendarPropertyExdate extends IcalendarProperty
 {
 
 	public $name = 'EXDATE';
@@ -1007,7 +1007,7 @@ class iCalendar_property_exdate extends iCalendar_property
 	}
 }
 
-class iCalendar_property_exrule extends iCalendar_property
+class IcalendarPropertyExrule extends IcalendarProperty
 {
 
 	public $name = 'EXRULE';
@@ -1021,7 +1021,7 @@ class iCalendar_property_exrule extends iCalendar_property
 	}
 }
 
-class iCalendar_property_rdate extends iCalendar_property
+class IcalendarPropertyRdate extends IcalendarProperty
 {
 
 	public $name = 'RDATE';
@@ -1053,7 +1053,7 @@ class iCalendar_property_rdate extends iCalendar_property
 	}
 }
 
-class iCalendar_property_rrule extends iCalendar_property
+class IcalendarPropertyRrule extends IcalendarProperty
 {
 
 	public $name = 'RRULE';
@@ -1067,7 +1067,7 @@ class iCalendar_property_rrule extends iCalendar_property
 	}
 }
 
-class iCalendar_property_created extends iCalendar_property
+class IcalendarPropertyCreated extends IcalendarProperty
 {
 
 	public $name = 'CREATED';
@@ -1090,7 +1090,7 @@ class iCalendar_property_created extends iCalendar_property
 	}
 }
 
-class iCalendar_property_dtstamp extends iCalendar_property
+class IcalendarPropertyDtstamp extends IcalendarProperty
 {
 
 	public $name = 'DTSTAMP';
@@ -1113,7 +1113,7 @@ class iCalendar_property_dtstamp extends iCalendar_property
 	}
 }
 
-class iCalendar_property_last_modified extends iCalendar_property
+class IcalendarPropertyLastmodified extends IcalendarProperty
 {
 
 	public $name = 'LAST-MODIFIED';
@@ -1136,7 +1136,7 @@ class iCalendar_property_last_modified extends iCalendar_property
 	}
 }
 
-class iCalendar_property_sequence extends iCalendar_property
+class IcalendarPropertySequence extends IcalendarProperty
 {
 
 	public $name = 'SEQUENCE';
@@ -1163,7 +1163,7 @@ class iCalendar_property_sequence extends iCalendar_property
 // 4.8.8 Miscellaneous Component Properties
 // ----------------------------------------
 
-class iCalendar_property_x extends iCalendar_property
+class IcalendarPropertyX extends IcalendarProperty
 {
 
 	public $name = RFC2445_XNAME;
@@ -1191,7 +1191,7 @@ class iCalendar_property_x extends iCalendar_property
 	}
 }
 
-class iCalendar_property_request_status extends iCalendar_property
+class IcalendarPropertyRequeststatus extends IcalendarProperty
 {
 
 	// IMPORTANT NOTE: This property value includes TEXT fields
@@ -1322,7 +1322,7 @@ class iCalendar_property_request_status extends iCalendar_property
 	}
 }
 
-class iCalendar_property_trigger extends iCalendar_property
+class IcalendarPropertyTrigger extends IcalendarProperty
 {
 
 	public $name = 'TRIGGER';
@@ -1336,7 +1336,7 @@ class iCalendar_property_trigger extends iCalendar_property
 	}
 }
 
-class iCalendar_property_action extends iCalendar_property
+class IcalendarPropertyAction extends IcalendarProperty
 {
 
 	public $name = 'ACTION';
@@ -1351,7 +1351,7 @@ class iCalendar_property_action extends iCalendar_property
 	}
 }
 
-class iCalendar_property_x_wr_alarmuid extends iCalendar_property
+class IcalendarPropertyXwralarmuid extends IcalendarProperty
 {
 
 	public $name = 'X_WR_ALARMUID';
@@ -1365,7 +1365,7 @@ class iCalendar_property_x_wr_alarmuid extends iCalendar_property
 	}
 }
 
-class iCalendar_property_tzoffsetto extends iCalendar_property
+class IcalendarPropertyTzoffsetto extends IcalendarProperty
 {
 
 	public $name = 'TZOFFSETTO';
@@ -1379,7 +1379,7 @@ class iCalendar_property_tzoffsetto extends iCalendar_property
 	}
 }
 
-class iCalendar_property_daylightc extends iCalendar_property
+class IcalendarPropertyDaylightc extends IcalendarProperty
 {
 
 	public $name = 'DAYLIGHTC';
@@ -1393,7 +1393,7 @@ class iCalendar_property_daylightc extends iCalendar_property
 	}
 }
 
-class iCalendar_property_standardc extends iCalendar_property
+class IcalendarPropertyStandardc extends IcalendarProperty
 {
 
 	public $name = 'STANDARDC';
@@ -1407,7 +1407,7 @@ class iCalendar_property_standardc extends iCalendar_property
 	}
 }
 
-class iCalendar_property_tzid extends iCalendar_property
+class IcalendarPropertyTzid extends IcalendarProperty
 {
 
 	public $name = 'TZID';

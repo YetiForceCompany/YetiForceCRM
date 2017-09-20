@@ -65,13 +65,19 @@ function isReferenceUIType($uitype)
 	return false;
 }
 
+/**
+ * The function is a date field
+ * @param type $reportColDetails
+ * @return boolean
+ */
 function IsDateField($reportColDetails)
 {
 	if ($reportColDetails === 'none') {
 		return false;
 	}
 
-	list($tablename, $colname, $module_field, $fieldname, $typeOfData) = explode(':', $reportColDetails);
+	$reportColDetailsExplode = explode(':', $reportColDetails);
+	$typeOfData = $reportColDetailsExplode[4];
 	if ($typeOfData === 'D') {
 		return true;
 	} else {
@@ -92,7 +98,6 @@ function getReportFieldValue(ReportRun $report, $picklistArray, $dbField, $value
 {
 	$defaultCharset = vglobal('default_charset');
 
-	$db = PearDatabase::getInstance();
 	$value = $valueArray[$fieldName];
 	$fld_type = $dbField->type;
 	list($module, $fieldLabel) = explode('__', $dbField->name, 2);
@@ -101,12 +106,12 @@ function getReportFieldValue(ReportRun $report, $picklistArray, $dbField, $value
 	$fieldType = null;
 	$fieldvalue = $value;
 	if (!empty($fieldInfo)) {
-		$field = WebserviceField::fromArray($db, $fieldInfo);
-		$fieldType = $field->getFieldDataType();
+		$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldInfo['fieldid']);
+		$fieldType = $fieldModel->getFieldDataType();
 	}
 	if ($fieldType === 'currency' && $value !== '') {
 		// Some of the currency fields like Unit Price, Total, Sub-total etc of Inventory modules, do not need currency conversion
-		if ($field->getUIType() == '72') {
+		if ($fieldModel->getUIType() == '72') {
 			$curid_value = explode('::', $value);
 			$currency_id = $curid_value[0];
 			$currency_value = $curid_value[1];
@@ -133,7 +138,7 @@ function getReportFieldValue(ReportRun $report, $picklistArray, $dbField, $value
 		$entityNames = \App\Fields\Owner::getUserLabel($value);
 		$fieldvalue = $entityNames[$value];
 	} elseif ($fieldType === 'date' && !empty($value)) {
-		if ($module === 'Calendar' && $field->getFieldName() === 'due_date') {
+		if ($module === 'Calendar' && $fieldModel->getFieldName() === 'due_date') {
 			$endTime = $valueArray['calendar_end_time'];
 			if (empty($endTime)) {
 				$recordId = $valueArray['calendar_id'];
@@ -141,15 +146,15 @@ function getReportFieldValue(ReportRun $report, $picklistArray, $dbField, $value
 			}
 			$date = new DateTimeField($value . ' ' . $endTime);
 			$fieldvalue = $date->getDisplayDate();
-		} else if (!($field->getUIType() == '5' || $field->getUiType() == '23')) {
+		} else if (!($fieldModel->getUIType() == '5' || $fieldModel->getUIType() == '23')) {
 			$date = new DateTimeField($fieldvalue);
 			$fieldvalue = $date->getDisplayDateTimeValue();
 		}
 	} elseif ($fieldType === "datetime" && !empty($value)) {
 		$date = new DateTimeField($value);
 		$fieldvalue = $date->getDisplayDateTimeValue();
-	} elseif ($fieldType === 'time' && !empty($value) && $field->getFieldName() != 'duration_hours') {
-		if ($field->getFieldName() === "time_start" || $field->getFieldName() === "time_end") {
+	} elseif ($fieldType === 'time' && !empty($value) && $fieldModel->getFieldName() != 'duration_hours') {
+		if ($fieldModel->getFieldName() === "time_start" || $fieldModel->getFieldName() === "time_end") {
 			$date = new DateTimeField($value);
 			$fieldvalue = $date->getDisplayTime();
 		} else {
@@ -162,7 +167,7 @@ function getReportFieldValue(ReportRun $report, $picklistArray, $dbField, $value
 	} elseif ($fieldType === "picklist" && !empty($value)) {
 		if (is_array($picklistArray)) {
 			if (is_array($picklistArray[$dbField->name]) &&
-				$field->getFieldName() != 'activitytype' && !in_array(
+				$fieldModel->getFieldName() != 'activitytype' && !in_array(
 					$value, $picklistArray[$dbField->name])) {
 				$fieldvalue = \App\Language::translate('LBL_NOT_ACCESSIBLE');
 			} else {
@@ -197,7 +202,7 @@ function getReportFieldValue(ReportRun $report, $picklistArray, $dbField, $value
 		} else {
 			$fieldvalue = \App\Language::translate('LBL_NO');
 		}
-	} elseif ($field && $field->getUIType() == 117 && $value != '') {
+	} elseif ($fieldModel && $fieldModel->getUIType() == 117 && $value != '') {
 		if ($value != '0') {
 			$currencyList = Settings_Currency_Record_Model::getAll();
 			$fieldvalue = $currencyList[$value]->getName() . ' (' . $currencyList[$value]->get('currency_symbol') . ')';

@@ -15,10 +15,10 @@ class Vtiger_Report_Model extends Reports
 	public static function getInstance($reportId = '')
 	{
 		$self = new self();
-		return $self->Reports($reportId);
+		return $self->reports($reportId);
 	}
 
-	public function Reports($reportId = '')
+	public function reports($reportId = '')
 	{
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -60,8 +60,8 @@ class Vtiger_Report_Model extends Reports
 
 				$result = $db->pquery($ssql, $params);
 
-				if ($result && $db->num_rows($result)) {
-					$reportModulesRow = $db->fetch_array($result);
+				if ($result && $db->numRows($result)) {
+					$reportModulesRow = $db->fetchArray($result);
 
 					// Update information in cache now
 					VTCacheUtils::updateReportInfo(
@@ -76,10 +76,10 @@ class Vtiger_Report_Model extends Reports
 									INNER JOIN vtiger_role ON vtiger_role.roleid = vtiger_user2role.roleid
 									WHERE vtiger_role.parentrole LIKE '$current_user_parent_role_seq::%'", []);
 
-				$numOfSubRows = $db->num_rows($subResult);
+				$numOfSubRows = $db->numRows($subResult);
 
 				for ($i = 0; $i < $numOfSubRows; $i++) {
-					$subOrdinateUsers[] = $db->query_result($subResult, $i, 'userid');
+					$subOrdinateUsers[] = $db->queryResult($subResult, $i, 'userid');
 				}
 
 				// Update subordinate user information for re-use

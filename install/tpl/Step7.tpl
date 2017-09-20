@@ -12,7 +12,7 @@
 {strip}
 	<form class="form-horizontal" name="step7" method="post" action="../index.php?module=Users&action=Login">
 		<input type="hidden" name="mode" value="install" >
-		<input type="hidden" name="username" value="admin" >
+		<input type="hidden" name="username" value="{$USER_NAME}" >
 		<input type="hidden" name="password" value="{$PASSWORD}" >
 	</form>
 	<script type="text/javascript">

@@ -90,7 +90,7 @@ class ModCommentsCore extends CRMEntity
 
 		$sortorder = $this->default_sort_order;
 		if (!\App\Request::_isEmpty('sorder'))
-			$sortorder = $this->db->sql_escape_string(\App\Request::_get('sorder'));
+			$sortorder = $this->db->sqlEscapeString(\App\Request::_get('sorder'));
 		else if ($_SESSION[$currentModule . '_Sort_Order'])
 			$sortorder = $_SESSION[$currentModule . '_Sort_Order'];
 
@@ -108,7 +108,7 @@ class ModCommentsCore extends CRMEntity
 
 		$orderby = $use_default_order_by;
 		if (!\App\Request::_isEmpty('order_by'))
-			$orderby = $this->db->sql_escape_string(\App\Request::_get('order_by'));
+			$orderby = $this->db->sqlEscapeString(\App\Request::_get('order_by'));
 		else if ($_SESSION[$currentModule . '_Order_By'])
 			$orderby = $_SESSION[$currentModule . '_Order_By'];
 		return $orderby;
@@ -150,11 +150,11 @@ class ModCommentsCore extends CRMEntity
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
 			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($module));
-		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
+		$linkedFieldsCount = $this->db->numRows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
-			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
-			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
+			$related_module = $this->db->queryResult($linkedModulesQuery, $i, 'relmodule');
+			$columnname = $this->db->queryResult($linkedModulesQuery, $i, 'columnname');
 
 			$other = CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
@@ -246,12 +246,12 @@ class ModCommentsCore extends CRMEntity
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
 			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($thismodule));
-		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
+		$linkedFieldsCount = $this->db->numRows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
-			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
-			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
-			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
+			$related_module = $this->db->queryResult($linkedModulesQuery, $i, 'relmodule');
+			$fieldname = $this->db->queryResult($linkedModulesQuery, $i, 'fieldname');
+			$columnname = $this->db->queryResult($linkedModulesQuery, $i, 'columnname');
 
 			$other = CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
@@ -332,14 +332,15 @@ class ModCommentsCore extends CRMEntity
 
 		return $query;
 	}
-	/*
-	 * Function to get the secondary query part of a report
-	 * @param - $module primary module name
-	 * @param - $secmodule secondary module name
-	 * returns the query string formed on fetching the related data for report for secondary module
-	 */
 
-	public function generateReportsSecQuery($module, $secmodule, $queryplanner)
+	/**
+	 * Function to get the secondary query part of a report
+	 * @param string $module
+	 * @param string $secmodule
+	 * @param ReportRunQueryPlanner $queryPlanner
+	 * @return string
+	 */
+	public function generateReportsSecQuery($module, $secmodule, ReportRunQueryPlanner $queryplanner)
 	{
 		$matrix = $queryplanner->newDependencyMatrix();
 
@@ -350,22 +351,22 @@ class ModCommentsCore extends CRMEntity
 			return '';
 		}
 
-		$query = $this->getRelationQuery($module, $secmodule, "vtiger_modcomments", "modcommentsid", $queryplanner);
+		$query = $this->getRelationQuery($module, $secmodule, 'vtiger_modcomments', 'modcommentsid', $queryplanner);
 
-		if ($queryplanner->requireTable("vtiger_crmentityModComments", $matrix)) {
-			$query .= " left join vtiger_crmentity as vtiger_crmentityModComments on vtiger_crmentityModComments.crmid=vtiger_modcomments.modcommentsid and vtiger_crmentityModComments.deleted=0";
+		if ($queryplanner->requireTable('vtiger_crmentityModComments', $matrix)) {
+			$query .= ' left join vtiger_crmentity as vtiger_crmentityModComments on vtiger_crmentityModComments.crmid=vtiger_modcomments.modcommentsid and vtiger_crmentityModComments.deleted=0';
 		}
-		if ($queryplanner->requireTable("vtiger_groupsModComments")) {
-			$query .= " left join vtiger_groups vtiger_groupsModComments on vtiger_groupsModComments.groupid = vtiger_crmentityModComments.smownerid";
+		if ($queryplanner->requireTable('vtiger_groupsModComments')) {
+			$query .= ' left join vtiger_groups vtiger_groupsModComments on vtiger_groupsModComments.groupid = vtiger_crmentityModComments.smownerid';
 		}
-		if ($queryplanner->requireTable("vtiger_usersModComments")) {
-			$query .= " left join vtiger_users as vtiger_usersModComments on vtiger_usersModComments.id = vtiger_crmentityModComments.smownerid";
+		if ($queryplanner->requireTable('vtiger_usersModComments')) {
+			$query .= ' left join vtiger_users as vtiger_usersModComments on vtiger_usersModComments.id = vtiger_crmentityModComments.smownerid';
 		}
-		if ($queryplanner->requireTable("vtiger_contactdetailsRelModComments")) {
-			$query .= " left join vtiger_contactdetails as vtiger_contactdetailsRelModComments on vtiger_contactdetailsRelModComments.contactid = vtiger_crmentityModComments.crmid";
+		if ($queryplanner->requireTable('vtiger_contactdetailsRelModComments')) {
+			$query .= ' left join vtiger_contactdetails as vtiger_contactdetailsRelModComments on vtiger_contactdetailsRelModComments.contactid = vtiger_crmentityModComments.crmid';
 		}
-		if ($queryplanner->requireTable("vtiger_modcommentsRelModComments")) {
-			$query .= " left join vtiger_modcomments as vtiger_modcommentsRelModComments on vtiger_modcommentsRelModComments.modcommentsid = vtiger_crmentityModComments.crmid";
+		if ($queryplanner->requireTable('vtiger_modcommentsRelModComments')) {
+			$query .= ' left join vtiger_modcomments as vtiger_modcommentsRelModComments on vtiger_modcommentsRelModComments.modcommentsid = vtiger_crmentityModComments.crmid';
 		}
 		return $query;
 	}
@@ -378,17 +379,17 @@ class ModCommentsCore extends CRMEntity
 	public function moduleHandler($modulename, $event_type)
 	{
 		if ($event_type == 'module.postinstall') {
-			
+
 		} else if ($event_type == 'module.disabled') {
-			
+
 		} else if ($event_type == 'module.enabled') {
-			
+
 		} else if ($event_type == 'module.preuninstall') {
-			
+
 		} else if ($event_type == 'module.preupdate') {
-			
+
 		} else if ($event_type == 'module.postupdate') {
-			
+
 		}
 	}
 }

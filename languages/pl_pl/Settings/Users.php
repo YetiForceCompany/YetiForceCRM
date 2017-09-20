@@ -36,7 +36,6 @@ $languageStrings = [
 	'LBL_LOCK_DRAG' => 'Blokada przeciągania elementów strony',
 ];
 $jsLanguageStrings = [
-	'JS_USER_MAIL_EXIST' => 'Użytkownik o podanym adresie email już istnieje',
 	'JS_PLEASE_SELECT_MODULE' => 'Proszę wybrać moduł',
 	'JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME' => 'Separator dziesiętny i grupowania nie mogą być takie same',
 	'Changed password successfully' => 'Hasło zmienione poprawnie',

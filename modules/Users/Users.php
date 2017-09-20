@@ -116,7 +116,7 @@ class Users extends CRMEntity
 
 		\App\Log::trace("Entering getSortOrder() method ...");
 		if (\App\Request::_has('sorder'))
-			$sorder = $this->db->sql_escape_string(\App\Request::_get('sorder'));
+			$sorder = $this->db->sqlEscapeString(\App\Request::_get('sorder'));
 		else
 			$sorder = (($_SESSION['USERS_SORT_ORDER'] != '') ? ($_SESSION['USERS_SORT_ORDER']) : ($this->default_sort_order));
 		\App\Log::trace("Exiting getSortOrder method ...");
@@ -138,7 +138,7 @@ class Users extends CRMEntity
 		}
 
 		if (\App\Request::_has('order_by'))
-			$order_by = $this->db->sql_escape_string(\App\Request::_get('order_by'));
+			$order_by = $this->db->sqlEscapeString(\App\Request::_get('order_by'));
 		else
 			$order_by = (($_SESSION['USERS_ORDER_BY'] != '') ? ($_SESSION['USERS_ORDER_BY']) : ($use_default_order_by));
 		\App\Log::trace("Exiting getOrderBy method ...");
@@ -206,7 +206,7 @@ class Users extends CRMEntity
 	public function encryptPassword($user_password, $crypt_type = 'PHP5.3MD5')
 	{
 		// encrypt the password.
-		$salt = substr($this->column_fields["user_name"], 0, 2);
+		$salt = substr($this->column_fields['user_name'], 0, 2);
 		// Fix for: http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/4923
 		if ($crypt_type === '') {
 			// Try to get the crypt_type which is in database for the user
@@ -234,7 +234,9 @@ class Users extends CRMEntity
 	public function doLogin($userPassword)
 	{
 		$userName = $this->column_fields['user_name'];
-		$userInfo = (new App\Db\Query())->select(['id', 'deleted', 'user_password', 'crypt_type', 'status'])->from($this->table_name)->where(['user_name' => $userName])->one();
+		$userInfo = (new App\Db\Query())->select(['id', 'deleted', 'user_password', 'user_name', 'crypt_type', 'status'])->from($this->table_name)->where(['or', ['user_name' => $userName, 'user_name' => strtolower($userName)]])->one();
+		$this->column_fields['user_name'] = $userInfo['user_name'];
+		$this->column_fields['id'] = (int) $userInfo['id'];
 		$encryptedPassword = $this->encryptPassword($userPassword, empty($userInfo['crypt_type']) ? 'PHP5.3MD5' : $userInfo['crypt_type']);
 		if (!$userInfo || (int) $userInfo['deleted'] !== 0) {
 			\App\Log::error('User not found: ' . $userName);
@@ -242,10 +244,9 @@ class Users extends CRMEntity
 		}
 		\App\Log::trace('Start of authentication for user: ' . $userName);
 		if ($userInfo['status'] !== 'Active') {
-			\App\Log::trace("Authentication failed. User: $userName");
+			\App\Log::trace("Authentication failed [Status]. User: $userName");
 			return false;
 		}
-		$this->column_fields['id'] = (int) $userInfo['id'];
 		if (\App\Cache::has('Authorization', 'config')) {
 			$auth = \App\Cache::get('Authorization', 'config');
 		} else {
@@ -309,7 +310,7 @@ class Users extends CRMEntity
 			$qcrypt_sql = "SELECT crypt_type from $this->table_name where user_name=?";
 			$crypt_res = $this->db->pquery($qcrypt_sql, array($this->column_fields["user_name"]));
 		}
-		if ($crypt_res && $this->db->num_rows($crypt_res)) {
+		if ($crypt_res && $this->db->numRows($crypt_res)) {
 			$crypt_row = $this->db->fetchByAssoc($crypt_res);
 			$crypt_type = $crypt_row['crypt_type'];
 		}
@@ -329,14 +330,12 @@ class Users extends CRMEntity
 	public function changePassword($userPassword, $newPassword, $dieOnError = true)
 	{
 		$userName = $this->column_fields['user_name'];
-		$currentUser = \App\User::getCurrentUserModel();
 		\App\Log::trace('Starting password change for ' . $userName);
-
 		if (empty($newPassword)) {
 			$this->error_string = \App\Language::translate('ERR_PASSWORD_CHANGE_FAILED_1') . $userName . \App\Language::translate('ERR_PASSWORD_CHANGE_FAILED_2');
 			return false;
 		}
-		if (!$currentUser->isAdmin()) {
+		if (empty($this->column_fields['is_admin']) && $userPassword) {
 			if (!$this->verifyPassword($userPassword)) {
 				\App\Log::warning('Incorrect old password for ' . $userName);
 				$this->error_string = \App\Language::translate('ERR_PASSWORD_INCORRECT_OLD');
@@ -352,7 +351,6 @@ class Users extends CRMEntity
 			'confirm_password' => $encryptedNewPassword,
 			'crypt_type' => $crypt_type,
 			], ['id' => $this->id])->execute();
-
 		$this->column_fields['user_password'] = $encryptedNewPassword;
 		$this->column_fields['confirm_password'] = $encryptedNewPassword;
 
@@ -378,6 +376,15 @@ class Users extends CRMEntity
 	public function isAuthenticated()
 	{
 		return $this->authenticated;
+	}
+
+	/**
+	 * Function to check whether the user is an Admin user
+	 * @return boolean true/false
+	 */
+	public function isAdminUser()
+	{
+		return (isset($this->is_admin) && $this->is_admin === 'on');
 	}
 
 	/** gives the user id for the specified user name
@@ -547,8 +554,8 @@ class Users extends CRMEntity
 	{
 		$sql1 = 'SELECT attachmentsid FROM vtiger_salesmanattachmentsrel WHERE smid = ?';
 		$res1 = $this->db->pquery($sql1, array($this->id));
-		if ($this->db->num_rows($res1) > 0) {
-			$attachmentId = $this->db->query_result($res1, 0, 'attachmentsid');
+		if ($this->db->numRows($res1) > 0) {
+			$attachmentId = $this->db->queryResult($res1, 0, 'attachmentsid');
 
 			$sql2 = "DELETE FROM vtiger_crmentity WHERE crmid=? && setype='Users Attachments'";
 			$this->db->pquery($sql2, array($attachmentId));
@@ -615,7 +622,6 @@ class Users extends CRMEntity
 	 */
 	public static function getActiveAdminId()
 	{
-		$db = PearDatabase::getInstance();
 		$cache = Vtiger_Cache::getInstance();
 		if ($cache->getAdminUserId()) {
 			return $cache->getAdminUserId();

@@ -98,8 +98,8 @@ class Reports extends CRMEntity
 				VTCacheUtils::updateReportSubordinateUsers($reportid, $subordinate_users);
 
 				$result = $adb->pquery($ssql, $params);
-				if ($result && $adb->num_rows($result)) {
-					$reportmodulesrow = $adb->fetch_array($result);
+				if ($result && $adb->numRows($result)) {
+					$reportmodulesrow = $adb->fetchArray($result);
 
 					// Update information in cache now
 					VTCacheUtils::updateReportInfo(
@@ -141,14 +141,14 @@ class Reports extends CRMEntity
 		}
 		$sql = sprintf('SELECT blockid, blocklabel FROM vtiger_blocks WHERE tabid IN (%s)', generateQuestionMarks($tabid));
 		$res = $adb->pquery($sql, [$tabid]);
-		$noOfRows = $adb->num_rows($res);
+		$noOfRows = $adb->numRows($res);
 		if ($noOfRows <= 0)
 			return;
 		for ($index = 0; $index < $noOfRows; ++$index) {
-			$blockid = $adb->query_result($res, $index, 'blockid');
+			$blockid = $adb->queryResult($res, $index, 'blockid');
 			if (in_array($blockid, $this->module_list[$module]))
 				continue;
-			$blocklabel = $adb->query_result($res, $index, 'blocklabel');
+			$blocklabel = $adb->queryResult($res, $index, 'blocklabel');
 			$this->module_list[$module][$blocklabel] = $blockid;
 		}
 	}
@@ -197,8 +197,8 @@ class Reports extends CRMEntity
 				$query = sprintf('SELECT blockid, blocklabel, tabid FROM vtiger_blocks WHERE tabid IN (%s)', generateQuestionMarks($moduleids));
 				$reportblocks = $adb->pquery($query, [$moduleids]);
 				$prev_block_label = '';
-				if ($adb->num_rows($reportblocks)) {
-					while ($resultrow = $adb->fetch_array($reportblocks)) {
+				if ($adb->numRows($reportblocks)) {
+					while ($resultrow = $adb->fetchArray($reportblocks)) {
 						$blockid = $resultrow['blockid'];
 						$blocklabel = $resultrow['blocklabel'];
 						$module = $this->module_id[$resultrow['tabid']];
@@ -233,8 +233,8 @@ class Reports extends CRMEntity
 					AND vtiger_tab.name NOT IN(%s)
 					AND vtiger_tab.presence = 0", generateQuestionMarks($restricted_modules), generateQuestionMarks($restricted_modules));
 				$relatedmodules = $adb->pquery($query, [$restricted_modules, $restricted_modules]);
-				if ($adb->num_rows($relatedmodules)) {
-					while ($resultrow = $adb->fetch_array($relatedmodules)) {
+				if ($adb->numRows($relatedmodules)) {
+					while ($resultrow = $adb->fetchArray($relatedmodules)) {
 						$module = $this->module_id[$resultrow['tabid']];
 
 						if (!isset($this->related_modules[$module])) {
@@ -282,7 +282,7 @@ class Reports extends CRMEntity
 		$returndata = [];
 		$sql = "select * from vtiger_reportfolder order by folderid";
 		$result = $adb->pquery($sql, []);
-		$reportfldrow = $adb->fetch_array($result);
+		$reportfldrow = $adb->fetchArray($result);
 		if ($mode != '') {
 			// Fetch detials of all reports of folder at once
 			$reportsInAllFolders = $this->sgetRptsforFldr(false);
@@ -299,7 +299,7 @@ class Reports extends CRMEntity
 					$details['details'] = $reportsInAllFolders[$reportfldrow["folderid"]];
 					$returndata[] = $details;
 				}
-			} while ($reportfldrow = $adb->fetch_array($result));
+			} while ($reportfldrow = $adb->fetchArray($result));
 		} else {
 			do {
 				$details = [];
@@ -310,7 +310,7 @@ class Reports extends CRMEntity
 				$details['fname'] = popup_decode_html($details['name']);
 				$details['fdescription'] = popup_decode_html($reportfldrow["description"]);
 				$returndata[] = $details;
-			} while ($reportfldrow = $adb->fetch_array($result));
+			} while ($reportfldrow = $adb->fetchArray($result));
 		}
 
 		\App\Log::trace("Reports :: ListView->Successfully returned vtiger_report folder HTML");
@@ -340,7 +340,7 @@ class Reports extends CRMEntity
 			$sql .= " LIMIT " . ($pageLimit + 1) . ' OFFSET ' . $startIndex;
 		}
 		$result = $adb->pquery($sql, $params);
-		$report = $adb->fetch_array($result);
+		$report = $adb->fetchArray($result);
 		if (count($report) > 0) {
 			do {
 				$report_details = [];
@@ -362,7 +362,7 @@ class Reports extends CRMEntity
 				if (\App\Privilege::isPermitted($report['primarymodule'], 'index')) {
 					$returndata[] = $report_details;
 				}
-			} while ($report = $adb->fetch_array($result));
+			} while ($report = $adb->fetchArray($result));
 		}
 		\App\Log::trace("Reports :: ListView->Successfully returned vtiger_report details HTML");
 		return $returndata;
@@ -424,7 +424,7 @@ class Reports extends CRMEntity
 		}
 		$result = $adb->pquery($sql, $params);
 
-		$report = $adb->fetch_array($result);
+		$report = $adb->fetchArray($result);
 		$numRows = $adb->getRowCount($result);
 		if ($numRows) {
 			do {
@@ -447,7 +447,7 @@ class Reports extends CRMEntity
 				if (\App\Privilege::isPermitted($report['primarymodule'], 'index')) {
 					$returndata [$report['folderid']][] = $report_details;
 				}
-			} while ($report = $adb->fetch_array($result));
+			} while ($report = $adb->fetchArray($result));
 		}
 
 		if ($rpt_fldr_id !== false) {
@@ -587,16 +587,16 @@ class Reports extends CRMEntity
 		array_push($params, $skipTalbes);
 
 		$result = $adb->pquery($sql, $params);
-		$noofrows = $adb->num_rows($result);
+		$noofrows = $adb->numRows($result);
 		for ($i = 0; $i < $noofrows; $i++) {
-			$fieldtablename = $adb->query_result($result, $i, "tablename");
-			$fieldcolname = $adb->query_result($result, $i, "columnname");
-			$fieldname = $adb->query_result($result, $i, "fieldname");
-			$fieldtype = $adb->query_result($result, $i, "typeofdata");
-			$uitype = $adb->query_result($result, $i, "uitype");
-			$fieldtype = explode("~", $fieldtype);
+			$fieldtablename = $adb->queryResult($result, $i, "tablename");
+			$fieldcolname = $adb->queryResult($result, $i, "columnname");
+			$fieldname = $adb->queryResult($result, $i, "fieldname");
+			$fieldtype = $adb->queryResult($result, $i, "typeofdata");
+			$uitype = $adb->queryResult($result, $i, "uitype");
+			$fieldtype = explode('~', $fieldtype);
 			$fieldtypeofdata = $fieldtype[0];
-			$blockid = $adb->query_result($result, $i, "block");
+			$blockid = $adb->queryResult($result, $i, "block");
 
 			//Here we Changing the displaytype of the field. So that its criteria will be displayed correctly in Reports Advance Filter.
 			$fieldtypeofdata = \vtlib\Functions::transformFieldTypeOfData($fieldtablename, $fieldcolname, $fieldtypeofdata);
@@ -604,22 +604,22 @@ class Reports extends CRMEntity
 			if ($uitype == 68 || $uitype == 59) {
 				$fieldtypeofdata = 'V';
 			}
-			if ($fieldtablename == "vtiger_crmentity") {
+			if ($fieldtablename == 'vtiger_crmentity') {
 				$fieldtablename = $fieldtablename . $module;
 			}
-			if ($fieldname == "assigned_user_id") {
-				$fieldtablename = "vtiger_users" . $module;
-				$fieldcolname = "user_name";
+			if ($fieldname == 'assigned_user_id') {
+				$fieldtablename = 'vtiger_users' . $module;
+				$fieldcolname = 'user_name';
 			}
-			if ($fieldname == "assigned_user_id1") {
-				$fieldtablename = "vtiger_usersRel1";
-				$fieldcolname = "user_name";
+			if ($fieldname == 'assigned_user_id1') {
+				$fieldtablename = 'vtiger_usersRel1';
+				$fieldcolname = 'user_name';
 			}
-			$fieldlabel = $adb->query_result($result, $i, "fieldlabel");
-			$fieldlabel1 = str_replace(" ", "__", $fieldlabel);
-			$optionvalue = $fieldtablename . ":" . $fieldcolname . ":" . $module . "__" . $fieldlabel1 . ":" . $fieldname . ":" . $fieldtypeofdata;
+			$fieldlabel = $adb->queryResult($result, $i, "fieldlabel");
+			$fieldlabel1 = str_replace(' ', '__', $fieldlabel);
+			$optionvalue = $fieldtablename . ':' . $fieldcolname . ':' . $module . '__' . $fieldlabel1 . ':' . $fieldname . ':' . $fieldtypeofdata;
 
-			$adv_rel_field_tod_value = '$' . $module . '#' . $fieldname . '$' . "::" . \App\Language::translate($module, $module) . " " . \App\Language::translate($fieldlabel, $module);
+			$adv_rel_field_tod_value = '$' . $module . '#' . $fieldname . '$' . '::' . \App\Language::translate($module, $module) . ' ' . \App\Language::translate($fieldlabel, $module);
 			if (!is_array($this->adv_rel_fields[$fieldtypeofdata]) ||
 				!in_array($adv_rel_field_tod_value, $this->adv_rel_fields[$fieldtypeofdata])) {
 				$this->adv_rel_fields[$fieldtypeofdata][] = $adv_rel_field_tod_value;
@@ -647,7 +647,7 @@ class Reports extends CRMEntity
 		$adb = PearDatabase::getInstance();
 		$sSQL = "select vtiger_reportdatefilter.* from vtiger_reportdatefilter inner join vtiger_report on vtiger_report.reportid = vtiger_reportdatefilter.datefilterid where vtiger_report.reportid=?";
 		$result = $adb->pquery($sSQL, array($reportid));
-		$selectedstdfilter = $adb->fetch_array($result);
+		$selectedstdfilter = $adb->fetchArray($result);
 
 		$this->stdselectedcolumn = $selectedstdfilter["datecolumnname"];
 		$this->stdselectedfilter = $selectedstdfilter["datefilter"];
@@ -742,7 +742,7 @@ class Reports extends CRMEntity
 		$result = $adb->pquery($query, $params);
 
 
-		while ($collistrow = $adb->fetch_array($result)) {
+		while ($collistrow = $adb->fetchArray($result)) {
 			$access_fields[] = $collistrow["fieldname"];
 		}
 		return $access_fields;
@@ -765,16 +765,16 @@ class Reports extends CRMEntity
 		$sreportsortsql .= " where vtiger_report.reportid =? order by vtiger_reportsortcol.sortcolid";
 
 		$result = $adb->pquery($sreportsortsql, array($reportid));
-		$noofrows = $adb->num_rows($result);
+		$noofrows = $adb->numRows($result);
 
 		for ($i = 0; $i < $noofrows; $i++) {
-			$fieldcolname = $adb->query_result($result, $i, "columnname");
-			$sort_values = $adb->query_result($result, $i, "sortorder");
+			$fieldcolname = $adb->queryResult($result, $i, "columnname");
+			$sort_values = $adb->queryResult($result, $i, "sortorder");
 			$this->ascdescorder[] = $sort_values;
 			$array_list[] = $fieldcolname;
 		}
 
-		\App\Log::trace("Reports :: Successfully returned getSelctedSortingColumns");
+		\App\Log::trace('Reports :: Successfully returned getSelctedSortingColumns');
 		return $array_list;
 	}
 
@@ -800,7 +800,7 @@ class Reports extends CRMEntity
 		array_push($selected_mod, $this->primodule);
 
 		$inventoryModules = getInventoryModules();
-		while ($columnslistrow = $adb->fetch_array($result)) {
+		while ($columnslistrow = $adb->fetchArray($result)) {
 			$fieldname = '';
 			$fieldcolname = $columnslistrow['columnname'];
 
@@ -814,7 +814,7 @@ class Reports extends CRMEntity
 			if ($selmod_field_disabled === false) {
 				list($tablename, $colname, $module_field, $fieldname, $single) = explode(':', $fieldcolname);
 				require('user_privileges/user_privileges_' . $current_user->id . '.php');
-				list($module, $field) = explode('__', $module_field);
+				list($module) = explode('__', $module_field);
 				if (sizeof($permitted_fields) == 0 && $is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1) {
 					$permitted_fields = $this->getaccesfield($module);
 				}
@@ -852,7 +852,7 @@ class Reports extends CRMEntity
 
 		$i = 1;
 		$j = 0;
-		while ($relcriteriagroup = $adb->fetch_array($groupsresult)) {
+		while ($relcriteriagroup = $adb->fetchArray($groupsresult)) {
 			$groupId = $relcriteriagroup["groupid"];
 			$groupCondition = $relcriteriagroup["group_condition"];
 
@@ -863,11 +863,11 @@ class Reports extends CRMEntity
 			$ssql .= " where vtiger_report.reportid = ? && vtiger_relcriteria.groupid = ? order by vtiger_relcriteria.columnindex";
 
 			$result = $adb->pquery($ssql, array($reportid, $groupId));
-			$noOfColumns = $adb->num_rows($result);
+			$noOfColumns = $adb->numRows($result);
 			if ($noOfColumns <= 0)
 				continue;
 
-			while ($relcriteriarow = $adb->fetch_array($result)) {
+			while ($relcriteriarow = $adb->fetchArray($result)) {
 				$criteria = [];
 				$criteria['columnname'] = $relcriteriarow["columnname"];
 				$criteria['comparator'] = $relcriteriarow["comparator"];
@@ -880,13 +880,13 @@ class Reports extends CRMEntity
 				$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
 				$fieldType = null;
 				if (!empty($fieldInfo)) {
-					$field = WebserviceField::fromArray($adb, $fieldInfo);
-					$fieldType = $field->getFieldDataType();
+					$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldInfo['fieldid']);
+					$fieldType = $fieldModel->getFieldDataType();
 				}
-				if ($fieldType == 'currency') {
-					if ($field->getUIType() == '71') {
+				if ($fieldType === 'currency') {
+					if ($fieldModel->getUIType() == '71') {
 						$advfilterval = CurrencyField::convertToUserFormat($advfilterval, $current_user);
-					} else if ($field->getUIType() == '72') {
+					} else if ($fieldModel->getUIType() == '72') {
 						$advfilterval = CurrencyField::convertToUserFormat($advfilterval, $current_user, true);
 					}
 				}
@@ -941,10 +941,10 @@ class Reports extends CRMEntity
 
 		$sql = "select * from vtiger_reportfolder order by folderid";
 		$result = $adb->pquery($sql, []);
-		$reportfldrow = $adb->fetch_array($result);
+		$reportfldrow = $adb->fetchArray($result);
 		do {
 			$shtml .= "<option value='" . $reportfldrow['folderid'] . "'>" . $reportfldrow['foldername'] . "</option>";
-		} while ($reportfldrow = $adb->fetch_array($result));
+		} while ($reportfldrow = $adb->fetchArray($result));
 
 		\App\Log::trace("Reports :: Successfully returned sgetRptFldrSaveReport");
 		return $shtml;
@@ -982,11 +982,11 @@ class Reports extends CRMEntity
 			$ssql = "select vtiger_reportsummary.* from vtiger_reportsummary inner join vtiger_report on vtiger_report.reportid = vtiger_reportsummary.reportsummaryid where vtiger_report.reportid=?";
 			$result = $adb->pquery($ssql, array($reportid));
 			if ($result) {
-				$reportsummaryrow = $adb->fetch_array($result);
+				$reportsummaryrow = $adb->fetchArray($result);
 
 				do {
 					$this->columnssummary[] = $reportsummaryrow["columnname"];
-				} while ($reportsummaryrow = $adb->fetch_array($result));
+				} while ($reportsummaryrow = $adb->fetchArray($result));
 			}
 		}
 		$options [] = $this->sgetColumnstoTotalHTML($primarymodule, 0);
@@ -1050,7 +1050,7 @@ class Reports extends CRMEntity
 		$ssql .= " order by sequence";
 
 		$result = $adb->pquery($ssql, $sparams);
-		$columntototalrow = $adb->fetch_array($result);
+		$columntototalrow = $adb->fetchArray($result);
 		$options_list = [];
 		do {
 			$typeofdata = explode("~", $columntototalrow["typeofdata"]);
@@ -1110,7 +1110,7 @@ class Reports extends CRMEntity
 				}
 				$options_list [] = $options;
 			}
-		} while ($columntototalrow = $adb->fetch_array($result));
+		} while ($columntototalrow = $adb->fetchArray($result));
 
 		\App\Log::trace("Reports :: Successfully returned sgetColumnstoTotalHTML");
 		return $options_list;
@@ -1147,12 +1147,12 @@ function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_grou
 		$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
 		$fieldType = null;
 		if (!empty($fieldInfo)) {
-			$field = WebserviceField::fromArray($adb, $fieldInfo);
-			$fieldType = $field->getFieldDataType();
+			$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldInfo['fieldid']);
+			$fieldType = $fieldModel->getFieldDataType();
 		}
 		if ($fieldType == 'currency') {
 			// Some of the currency fields like Unit Price, Total, Sub-total etc of Inventory modules, do not need currency conversion
-			if ($field->getUIType() == '72') {
+			if ($fieldModel->getUIType() == '72') {
 				$adv_filter_value = CurrencyField::convertToDBFormat($adv_filter_value, null, true);
 			} else {
 				$adv_filter_value = CurrencyField::convertToDBFormat($adv_filter_value);

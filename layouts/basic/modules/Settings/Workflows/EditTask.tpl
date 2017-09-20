@@ -21,7 +21,7 @@
 					<input type="hidden" name="module" value="{$MODULE}" />
 					<input type="hidden" name="parent" value="Settings" />
 					<input type="hidden" name="action" value="TaskAjax" />
-					<input type="hidden" name="mode" value="Save" />
+					<input type="hidden" name="mode" value="save" />
 					<input type="hidden" name="for_workflow" value="{$WORKFLOW_ID}" />
 					<input type="hidden" name="task_id" value="{$TASK_ID}" />
 					<input type="hidden" name="taskType" id="taskType" value="{$TASK_TYPE_MODEL->get('tasktypename')}" />
@@ -38,7 +38,7 @@
 										<input type="radio" name="active" class="alignTop" {if $TASK_MODEL->get('status') eq 1} checked="" {/if} value="true">&nbsp;{\App\Language::translate('LBL_ACTIVE',$QUALIFIED_MODULE)}&nbsp;&nbsp;
 										<input type="radio" name="active" class="alignTop" {if $TASK_MODEL->get('status') neq 1} checked="" {/if} value="false" />&nbsp;{\App\Language::translate('LBL_IN_ACTIVE',$QUALIFIED_MODULE)}
 									</div>
-								</div>	
+								</div>
 							</div>
 							{if ($TASK_OBJECT->trigger!=null)}
 								{assign var=trigger value=$TASK_OBJECT->trigger}
@@ -78,7 +78,7 @@
 								{include file="{$TASK_TEMPLATE_PATH}" }
 							</div>
 						</div>
-					</div>	
+					</div>
 					{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $MODULE)}
 				</form>
 			</div>

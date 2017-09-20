@@ -702,7 +702,7 @@ class Vtiger_Record_Model extends \App\Base
 	{
 		$db = PearDatabase::getInstance();
 		$checkResult = $db->pquery('SELECT crmid FROM vtiger_seattachmentsrel WHERE attachmentsid = ?', array($imageId));
-		$crmId = $db->query_result($checkResult, 0, 'crmid');
+		$crmId = $db->queryResult($checkResult, 0, 'crmid');
 		if ($this->getId() == $crmId) {
 			$db->pquery('DELETE FROM vtiger_attachments WHERE attachmentsid = ?', array($imageId));
 			$db->pquery('DELETE FROM vtiger_seattachmentsrel WHERE attachmentsid = ?', array($imageId));
@@ -721,7 +721,7 @@ class Vtiger_Record_Model extends \App\Base
 		if (empty($description)) {
 			$db = PearDatabase::getInstance();
 			$result = $db->pquery("SELECT description FROM vtiger_crmentity WHERE crmid = ?", array($this->getId()));
-			$description = $db->query_result($result, 0, "description");
+			$description = $db->queryResult($result, 0, "description");
 		}
 		return $description;
 	}
@@ -951,7 +951,7 @@ class Vtiger_Record_Model extends \App\Base
 		$table = $inventoryField->getTableName('data');
 		$result = $db->pquery(sprintf('SELECT * FROM %s WHERE id = ? ORDER BY seq', $table), [$ID]);
 		$fields = [];
-		while ($row = $db->fetch_array($result)) {
+		while ($row = $db->fetchArray($result)) {
 			$fields[] = $row;
 		}
 		return $fields;

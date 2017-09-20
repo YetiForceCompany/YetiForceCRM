@@ -61,7 +61,7 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 	public function getModule()
 	{
 		if (!$this->module) {
-			$this->module = $moduleInstance = Settings_Vtiger_Module_Model::getInstance('Settings:PBX');
+			$this->module = Settings_Vtiger_Module_Model::getInstance('Settings:PBX');
 		}
 		return $this->module;
 	}

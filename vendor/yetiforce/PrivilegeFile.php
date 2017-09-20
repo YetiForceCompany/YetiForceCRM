@@ -31,7 +31,7 @@ class PrivilegeFile
 			$users['id'][$row['id']] = $row;
 			$users['userName'][$row['user_name']] = $row['id'];
 		}
-		file_put_contents(static::$usersFile, '<?php return ' . \vtlib\Functions::varExportMin($users) . ';');
+		file_put_contents(static::$usersFile, '<?php return ' . Utils::varExport($users) . ';');
 	}
 
 	/**
@@ -70,6 +70,6 @@ class PrivilegeFile
 		$user['groups'] = PrivilegeUtil::getUserGroups($userId);
 		$user['parent_roles'] = $userRoleInfo['parentRoles'];
 		$user['parent_role_seq'] = $userRoleInfo['parentrole'];
-		file_put_contents($file, 'return ' . \vtlib\Functions::varExportMin($user) . ';', FILE_APPEND);
+		file_put_contents($file, 'return ' . Utils::varExport($user) . ';', FILE_APPEND);
 	}
 }

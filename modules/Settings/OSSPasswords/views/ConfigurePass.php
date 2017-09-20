@@ -29,10 +29,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 
 	public function process(\App\Request $request)
 	{
-
 		$adb = PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
-
 		// config
 		// check if password encode config exists
 		$config_path = 'modules/OSSPasswords/config.ini.php';
@@ -87,7 +84,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 				App\Db::getInstance()->createCommand()->update('vtiger_passwords_config', [
 					'pass_length_min' => $post_min,
 					'pass_length_max' => $post_max,
-					'pass_allow_chars' => $adb->sql_escape_string($aChars),
+					'pass_allow_chars' => $adb->sqlEscapeString($aChars),
 					'register_changes' => $rChanges,
 				])->execute();
 				// update variables
@@ -231,7 +228,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 		$viewer->assign('MODULENAME', $moduleName);
 		$viewer->assign('SAVE', 'Save');
 		$viewer->assign('CANCEL', 'Cancel');
-		if (\vtlib\Functions::userIsAdministrator($current_user))
+		if (\App\User::getCurrentUserModel()->isAdmin())
 			$viewer->assign('ISADMIN', 1);
 		else
 			$viewer->assign('ISADMIN', 0);

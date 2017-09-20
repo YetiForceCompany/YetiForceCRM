@@ -2,7 +2,6 @@
 namespace App;
 
 \Vtiger_Loader::includeOnce('~/modules/com_vtiger_workflow/VTJsonCondition.php');
-\Vtiger_Loader::includeOnce('~/include/Webservices/Retrieve.php');
 
 /**
  * Advanced privilege class
@@ -42,7 +41,7 @@ class PrivilegeAdvanced
 				'members' => array_flip($users)
 			];
 		}
-		$content = '<?php return ' . \vtlib\Functions::varExportMin($cache) . ';' . PHP_EOL;
+		$content = '<?php return ' . Utils::varExport($cache) . ';' . PHP_EOL;
 		file_put_contents(static::$cacheFile, $content, LOCK_EX);
 	}
 

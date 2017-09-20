@@ -59,7 +59,7 @@ class Reports_Folder_Model extends \App\Base
 			$db->pquery('UPDATE vtiger_reportfolder SET foldername = ?, description = ? WHERE folderid = ?', array($this->getName(), $this->getDescription(), $folderId));
 		} else {
 			$result = $db->pquery('SELECT MAX(folderid) AS folderid FROM vtiger_reportfolder', []);
-			$folderId = (int) ($db->query_result($result, 0, 'folderid')) + 1;
+			$folderId = (int) ($db->queryResult($result, 0, 'folderid')) + 1;
 
 			$db->pquery('INSERT INTO vtiger_reportfolder(folderid, foldername, description, state) VALUES(?, ?, ?, ?)', array($folderId, $this->getName(), $this->getDescription(), 'CUSTOMIZED'));
 			$this->set('folderid', $folderId);
@@ -181,8 +181,8 @@ class Reports_Folder_Model extends \App\Base
 
 			$result = $db->pquery("SELECT * FROM vtiger_reportfolder WHERE folderid = ?", array($folderId));
 
-			if ($db->num_rows($result) > 0) {
-				$values = $db->query_result_rowdata($result, 0);
+			if ($db->numRows($result) > 0) {
+				$values = $db->queryResultRowData($result, 0);
 				$folderModel->setData($values);
 			}
 			Vtiger_Cache::set('reportsFolder', $folderId, $folderModel);
@@ -201,11 +201,11 @@ class Reports_Folder_Model extends \App\Base
 		if (!$folders) {
 			$folders = [];
 			$result = $db->pquery("SELECT * FROM vtiger_reportfolder ORDER BY foldername ASC", []);
-			$noOfFolders = $db->num_rows($result);
+			$noOfFolders = $db->numRows($result);
 			if ($noOfFolders > 0) {
 				for ($i = 0; $i < $noOfFolders; $i++) {
 					$folderModel = Reports_Folder_Model::getInstance();
-					$values = $db->query_result_rowdata($result, $i);
+					$values = $db->queryResultRowData($result, $i);
 					$folders[$values['folderid']] = $folderModel->setData($values);
 					Vtiger_Cache::set('reportsFolder', $values['folderid'], $folderModel);
 				}
@@ -234,7 +234,7 @@ class Reports_Folder_Model extends \App\Base
 
 		$result = $db->pquery($query, $params);
 
-		if ($db->num_rows($result) > 0) {
+		if ($db->numRows($result) > 0) {
 			return true;
 		}
 		return false;
@@ -250,7 +250,7 @@ class Reports_Folder_Model extends \App\Base
 
 		$result = $db->pquery('SELECT 1 FROM vtiger_report WHERE folderid = ?', array($this->getId()));
 
-		if ($db->num_rows($result) > 0) {
+		if ($db->numRows($result) > 0) {
 			return true;
 		}
 		return false;
@@ -316,18 +316,18 @@ class Reports_Folder_Model extends \App\Base
 		$params = [];
 		$query = "SELECT reportmodulesid, primarymodule from vtiger_reportmodules";
 		$result = $db->pquery($query, []);
-		$noOfRows = $db->num_rows($result);
+		$noOfRows = $db->numRows($result);
 		$allowedReportIds = [];
 		for ($i = 0; $i < $noOfRows; $i++) {
-			$primaryModule = $db->query_result($result, $i, 'primarymodule');
-			$reportid = $db->query_result($result, $i, 'reportmodulesid');
+			$primaryModule = $db->queryResult($result, $i, 'primarymodule');
+			$reportid = $db->queryResult($result, $i, 'reportmodulesid');
 			if (\App\Privilege::isPermitted($primaryModule, 'index')) {
 				$allowedReportIds[] = $reportid;
 			}
 		}
 		if (!empty($allowedReportIds)) {
 			$sql = sprintf('SELECT count(*) AS count FROM vtiger_report
-					INNER JOIN vtiger_reportfolder ON vtiger_reportfolder.folderid = vtiger_report.folderid && 
+					INNER JOIN vtiger_reportfolder ON vtiger_reportfolder.folderid = vtiger_report.folderid &&
 					vtiger_report.reportid in (%s)', implode(',', $allowedReportIds));
 			$fldrId = $this->getId();
 			if ($fldrId == 'All') {
@@ -360,7 +360,7 @@ class Reports_Folder_Model extends \App\Base
 				array_push($params, $currentUserId, $currentUserId, $parentRoleSeq);
 			}
 			$result = $db->pquery($sql, $params);
-			return $db->query_result($result, 0, 'count');
+			return $db->queryResult($result, 0, 'count');
 		}
 		return 0;
 	}
@@ -391,41 +391,21 @@ class Reports_Folder_Model extends \App\Base
 	/**
 	 * Function which provides the records for the current view
 	 * @param boolean $skipRecords - List of the RecordIds to be skipped
-	 * @return <Array> List of RecordsIds
+	 * @return int[] List of RecordsIds
 	 */
-	public function getRecordIds($skipRecords = false, $module)
+	public function getRecordIds($skipRecords = false)
 	{
-		$db = PearDatabase::getInstance();
-		$baseTableName = "vtiger_report";
-		$baseTableId = "reportid";
 		$folderId = $this->getId();
-		$listQuery = $this->getListViewQuery($folderId);
-
+		$query = (new App\Db\Query())->select(['vtiger_report.reportid'])
+			->from('vtiger_report')
+			->innerJoin('vtiger_reportfolder', 'vtiger_reportfolder.folderid = vtiger_report.folderid')
+			->innerJoin('vtiger_reportmodules', 'vtiger_reportmodules.reportmodulesid = vtiger_report.reportid');
+		if ($folderId !== 'All') {
+			$query->where(['vtiger_reportfolder.folderid' => $folderId]);
+		}
 		if ($skipRecords && !empty($skipRecords) && is_array($skipRecords) && count($skipRecords) > 0) {
-			$listQuery .= ' AND ' . $baseTableName . '.' . $baseTableId . ' NOT IN (' . implode(',', $skipRecords) . ')';
+			$query->andWhere(['not in', 'vtiger_report.reportid', $skipRecords]);
 		}
-		$result = $db->query($listQuery);
-		$noOfRecords = $db->num_rows($result);
-		$recordIds = [];
-		for ($i = 0; $i < $noOfRecords; ++$i) {
-			$recordIds[] = $db->query_result($result, $i, $baseTableId);
-		}
-		return $recordIds;
-	}
-
-	/**
-	 * Function returns Report Models for the folder
-	 * @return <Reports_Record_Model>
-	 */
-	public function getListViewQuery($folderId)
-	{
-		$sql = "select vtiger_report.*, vtiger_reportmodules.*, vtiger_reportfolder.folderid from vtiger_report 
-                inner join vtiger_reportfolder on vtiger_reportfolder.folderid = vtiger_report.folderid 
-                inner join vtiger_reportmodules on vtiger_reportmodules.reportmodulesid = vtiger_report.reportid ";
-
-		if ($folderId != "All") {
-			$sql = $sql . " where vtiger_reportfolder.folderid = " . $folderId;
-		}
-		return $sql;
+		return $query->column();
 	}
 }

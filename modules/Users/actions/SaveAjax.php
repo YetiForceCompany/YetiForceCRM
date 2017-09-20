@@ -16,7 +16,6 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('userExists');
 		$this->exposeMethod('savePassword');
 		$this->exposeMethod('restoreUser');
 		$this->exposeMethod('editPasswords');
@@ -100,27 +99,14 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		return $recordModel;
 	}
 
-	public function userExists(\App\Request $request)
-	{
-		$module = $request->getModule();
-		$userName = $request->get('user_name');
-		$userModuleModel = Users_Module_Model::getCleanInstance($module);
-		$status = $userModuleModel->checkDuplicateUser($userName);
-		$response = new Vtiger_Response();
-		$response->setResult($status);
-		$response->emit();
-	}
-
 	public function savePassword(\App\Request $request)
 	{
-		$module = $request->getModule();
 		$userModel = vglobal('current_user');
 		$newPassword = $request->get('new_password');
 		$oldPassword = $request->get('old_password');
 		$checkPassword = Settings_Password_Record_Model::checkPassword($newPassword);
 		if (!$checkPassword) {
-			$wsUserId = vtws_getWebserviceEntityId($module, $request->get('userid'));
-			$wsStatus = vtws_changePassword($wsUserId, $oldPassword, $newPassword, $newPassword, $userModel);
+			$wsStatus = vtws_changePassword($request->getInteger('userid'), $oldPassword, $newPassword, $newPassword, $userModel);
 		}
 		$response = new Vtiger_Response();
 		if ($checkPassword) {
@@ -136,22 +122,18 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	/**
 	 * Mass edit users passwords
 	 * @param \App\Request $request
-	 * @throws WebServiceException
 	 */
 	public function editPasswords(\App\Request $request)
 	{
-		$module = $request->getModule();
 		$userModel = vglobal('current_user');
 		$newPassword = $request->get('new_password');
 		$oldPassword = $request->get('old_password');
 		$userIds = $request->get('userids');
 
 		$checkPassword = Settings_Password_Record_Model::checkPassword($newPassword);
-
 		if (!$checkPassword) {
 			foreach ($userIds as $userId) {
-				$wsUserId = vtws_getWebserviceEntityId($module, $userId);
-				$wsStatus = vtws_changePassword($wsUserId, $oldPassword, $newPassword, $newPassword, $userModel);
+				$wsStatus = vtws_changePassword($userId, $oldPassword, $newPassword, $newPassword, $userModel);
 			}
 		}
 

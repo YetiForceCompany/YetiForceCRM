@@ -66,7 +66,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getCreateTaskRecordUrl()
 	{
-		return 'index.php?module=' . $this->get('name') . '&view=' . $this->getEditViewName() . '&mode=Calendar';
+		return 'index.php?module=' . $this->get('name') . '&view=' . $this->getEditViewName() . '&mode=calendar';
 	}
 
 	/**
@@ -181,14 +181,10 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 */
 	public function setEventFieldsForExport()
 	{
-		$moduleFields = array_flip($this->getColumnFieldMapping());
-
 		$keysToReplace = array('taskpriority');
 		$keysValuesToReplace = array('taskpriority' => 'priority');
-
-		foreach ($moduleFields as $fieldName => $fieldValue) {
-			$fieldModel = Vtiger_Field_Model::getInstance($fieldName, $this);
-			if ($fieldName != 'id' && $fieldModel->getPermissions()) {
+		foreach ($this->getFields() as $fieldName => $fieldModel) {
+			if ($fieldModel->getPermissions()) {
 				if (!in_array($fieldName, $keysToReplace)) {
 					$eventFields[$fieldName] = 'yes';
 				} else {
@@ -204,14 +200,10 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 */
 	public function setTodoFieldsForExport()
 	{
-		$moduleFields = array_flip($this->getColumnFieldMapping());
-
 		$keysToReplace = array('taskpriority', 'activitystatus');
 		$keysValuesToReplace = array('taskpriority' => 'priority', 'activitystatus' => 'status');
-
-		foreach ($moduleFields as $fieldName => $fieldValue) {
-			$fieldModel = Vtiger_Field_Model::getInstance($fieldName, $this);
-			if ($fieldName != 'id' && $fieldModel->getPermissions()) {
+		foreach ($this->getFields() as $fieldName => $fieldModel) {
+			if ($fieldModel->getPermissions()) {
 				if (!in_array($fieldName, $keysToReplace)) {
 					$todoFields[$fieldName] = 'yes';
 				} else {
@@ -243,12 +235,12 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			FROM vtiger_sharedcalendar RIGHT JOIN vtiger_users ON vtiger_sharedcalendar.userid=vtiger_users.id and status= 'Active'
 			WHERE sharedid=? || (vtiger_users.status='Active' && vtiger_users.calendarsharedtype='public' && vtiger_users.id <> ?);";
 		$result = $db->pquery($query, array($id, $id));
-		$rows = $db->num_rows($result);
+		$rows = $db->numRows($result);
 
 		$userIds = [];
 		for ($i = 0; $i < $rows; $i++) {
-			$id = $db->query_result($result, $i, 'userid');
-			$userName = $db->query_result($result, $i, 'first_name') . ' ' . $db->query_result($result, $i, 'last_name');
+			$id = $db->queryResult($result, $i, 'userid');
+			$userName = $db->queryResult($result, $i, 'first_name') . ' ' . $db->queryResult($result, $i, 'last_name');
 			$userIds[$id] = $userName;
 		}
 
@@ -311,10 +303,10 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$params = [$this->getName(), $currentUserModel->id, $limit];
 		$query = sprintf($query, $deletedCondition);
 		$result = $db->pquery($query, $params);
-		$noOfRows = $db->num_rows($result);
+		$noOfRows = $db->numRows($result);
 		$recentRecords = [];
 		for ($i = 0; $i < $noOfRows; ++$i) {
-			$row = $db->query_result_rowdata($result, $i);
+			$row = $db->queryResultRowData($result, $i);
 			$row['id'] = $row['crmid'];
 			$recentRecords[$row['id']] = $this->getRecordFromArray($row);
 		}
@@ -357,7 +349,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, 'Calendar');
 				$link = $recordModel->get('link');
 				if ($link && $permissionToSendEmail) {
-					$url = 'index.php?module=OSSMail&view=compose&mod=' . \App\Record::getType($link) . "&record=$link";
+					$url = 'index.php?module=OSSMail&view=Compose&mod=' . \App\Record::getType($link) . "&record=$link";
 					$recordModel->set('mailUrl', "<a href='$url' class='btn btn-info' target='_blank'><span class='glyphicon glyphicon-envelope icon-white'></span>&nbsp;&nbsp;" . \App\Language::translate('LBL_SEND_MAIL') . "</a>");
 				}
 				$recordModels[] = $recordModel;
@@ -385,7 +377,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			if (in_array($fieldType, $type)) {
 				$fieldName = $field->getName();
 				if ($fieldType == 'picklist' && in_array($fieldName, $restrictedField[$fieldType])) {
-					
+
 				} else {
 					$fieldList[$fieldName] = $field;
 				}

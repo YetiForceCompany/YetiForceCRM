@@ -23,10 +23,10 @@ function getPermittedBlocks($module, $disp_view)
 	$tabid = \App\Module::getModuleId($module);
 	$query = "select blockid,blocklabel,show_title from vtiger_blocks where tabid=? and $disp_view=0 and visible = 0 order by sequence";
 	$result = $adb->pquery($query, array($tabid));
-	$noofrows = $adb->num_rows($result);
+	$noofrows = $adb->numRows($result);
 	$blockid_list = '(';
 	for ($i = 0; $i < $noofrows; $i++) {
-		$blockid = $adb->query_result($result, $i, "blockid");
+		$blockid = $adb->queryResult($result, $i, "blockid");
 		if ($i != 0)
 			$blockid_list .= ', ';
 		$blockid_list .= $blockid;
@@ -72,12 +72,12 @@ function getFieldsListFromQuery($query)
 	\App\Log::trace("Entering into the function getFieldsListFromQuery($query)");
 
 	$result = $adb->query($query);
-	$num_rows = $adb->num_rows($result);
+	$numRows = $adb->numRows($result);
 
-	for ($i = 0; $i < $num_rows; $i++) {
-		$columnName = $adb->query_result($result, $i, "columnname");
-		$fieldlabel = $adb->query_result($result, $i, "fieldlabel");
-		$tablename = $adb->query_result($result, $i, "tablename");
+	for ($i = 0; $i < $numRows; $i++) {
+		$columnName = $adb->queryResult($result, $i, "columnname");
+		$fieldlabel = $adb->queryResult($result, $i, "fieldlabel");
+		$tablename = $adb->queryResult($result, $i, "tablename");
 
 		//HANDLE HERE - Mismatch fieldname-tablename in field table, in future we have to avoid these if elses
 		if ($columnName == 'smownerid') {//for all assigned to user name

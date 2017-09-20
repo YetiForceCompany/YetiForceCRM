@@ -39,7 +39,7 @@ class Oss_Tool
 	public static function addUitype70Field($moduleName, $blockLabel, $fieldName, $fieldLabel)
 	{
 		if (self::checkArg(func_get_args(), 4)) {
-			$tabid = vtlib\Functions::getModuleId($moduleName);
+			$tabid = \App\Module::getModuleId($moduleName);
 			$blockId = \vtlib\Deprecated::getBlockId($tabid, $blockLabel);
 
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
@@ -69,7 +69,7 @@ class Oss_Tool
 	public static function addUitype56Field($moduleName, $blockLabel, $fieldName = NULL, $fieldLabel = NULL)
 	{
 		if (self::checkArg(func_get_args(), 2)) {
-			$tabid = vtlib\Functions::getModuleId($moduleName);
+			$tabid = \App\Module::getModuleId($moduleName);
 			$blockId = \vtlib\Deprecated::getBlockId($tabid, $blockLabel);
 
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
@@ -80,7 +80,7 @@ class Oss_Tool
 			if ($fieldName) {
 				$field->name = strtolower($fieldName);
 			} else {
-				$field->name = Oss_Tool::generateFieldName();
+				$field->name = self::generateFieldName();
 			}
 
 			if (!$fieldName) {
@@ -121,7 +121,7 @@ class Oss_Tool
 	{
 		if (self::checkArg(func_get_args(), 3)) {
 
-			$tabid = vtlib\Functions::getModuleId($moduleName);
+			$tabid = \App\Module::getModuleId($moduleName);
 			$blockId = \vtlib\Deprecated::getBlockId($tabid, $blockLabel);
 
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
@@ -132,7 +132,7 @@ class Oss_Tool
 			if ($fieldName) {
 				$field->name = strtolower($fieldName);
 			} else {
-				$field->name = Oss_Tool::generateFieldName();
+				$field->name = self::generateFieldName();
 			}
 
 			if ($fieldLabel) {
@@ -187,7 +187,7 @@ class Oss_Tool
 	public static function addUitype10Field($moduleName, $blockLabel, $relModuleList, $fieldName, $mandatory = false, $fieldLabel = NULL)
 	{
 		if (self::checkArg(func_get_args(), 4)) {
-			$tabid = vtlib\Functions::getModuleId($moduleName);
+			$tabid = \App\Module::getModuleId($moduleName);
 			$blockId = \vtlib\Deprecated::getBlockId($tabid, $blockLabel);
 
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
@@ -321,7 +321,7 @@ class Oss_Tool
 	 */
 	private static function addLink($type, $moduleName, $widgetName, $link)
 	{
-		$tabId = vtlib\Functions::getModuleId($moduleName);
+		$tabId = \App\Module::getModuleId($moduleName);
 		if ($tabId) {
 			vtlib\Link::addLink($tabId, $type, $widgetName, $link);
 		} else {

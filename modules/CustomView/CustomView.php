@@ -27,8 +27,6 @@ class CustomView extends CRMEntity
 	// Information as defined for this instance in the database table.
 	protected $_status = false;
 	protected $_userid = false;
-	protected $meta;
-	protected $moduleMetaInfo;
 
 	/** This function sets the currentuser id to the class variable smownerid,
 	 * modulename to the class variable customviewmodule
@@ -42,25 +40,6 @@ class CustomView extends CRMEntity
 		$this->escapemodule[] = $module . '_';
 		$this->escapemodule[] = '_';
 		$this->smownerid = $currentUser->id;
-		$this->moduleMetaInfo = [];
-		if ($module != '' && $module != 'Calendar') {
-			$this->meta = $this->getMeta($module, $currentUser);
-		}
-	}
-
-	/**
-	 *
-	 * @param String:ModuleName $module
-	 * @return EntityMeta
-	 */
-	public function getMeta($module, $user)
-	{
-		if (empty($this->moduleMetaInfo[$module])) {
-			$handler = vtws_getModuleHandlerFromName($module, $user);
-			$meta = $handler->getMeta();
-			$this->moduleMetaInfo[$module] = $meta;
-		}
-		return $this->moduleMetaInfo[$module];
 	}
 
 	// return type array
@@ -89,19 +68,19 @@ class CustomView extends CRMEntity
 		}
 		$result = $adb->pquery($ssql, $sparams);
 
-		$usercv_result = $adb->pquery("select default_cvid from vtiger_user_module_preferences where userid = ? and tabid = ?", array($current_user->id, $tabid));
-		$def_cvid = $adb->query_result($usercv_result, 0, 'default_cvid');
+		$usercv_result = $adb->pquery("select default_cvid from vtiger_user_module_preferences where userid = ? and tabid = ?", [$current_user->id, $tabid]);
+		$def_cvid = $adb->queryResult($usercv_result, 0, 'default_cvid');
 
-		while ($cvrow = $adb->fetch_array($result)) {
-			$customviewlist["viewname"] = $cvrow["viewname"];
+		while ($cvrow = $adb->fetchArray($result)) {
+			$customviewlist['viewname'] = $cvrow['viewname'];
 			if ((isset($def_cvid) || $def_cvid != '') && $def_cvid == $cvid) {
-				$customviewlist["setdefault"] = 1;
+				$customviewlist['setdefault'] = 1;
 			} else {
-				$customviewlist["setdefault"] = $cvrow["setdefault"];
+				$customviewlist['setdefault'] = $cvrow['setdefault'];
 			}
-			$customviewlist["setmetrics"] = $cvrow["setmetrics"];
-			$customviewlist["userid"] = $cvrow["userid"];
-			$customviewlist["status"] = $cvrow["status"];
+			$customviewlist['setmetrics'] = $cvrow['setmetrics'];
+			$customviewlist['userid'] = $cvrow['userid'];
+			$customviewlist['status'] = $cvrow['status'];
 		}
 		return $customviewlist;
 	}
@@ -139,7 +118,7 @@ class CustomView extends CRMEntity
 		}
 		$ssql .= " ORDER BY viewname";
 		$result = $adb->pquery($ssql, $sparams);
-		while ($cvrow = $adb->fetch_array($result)) {
+		while ($cvrow = $adb->fetchArray($result)) {
 			if ($cvrow['viewname'] == 'All') {
 				$cvrow['viewname'] = \App\Language::translate('COMBO_ALL');
 			}
@@ -209,7 +188,7 @@ class CustomView extends CRMEntity
 		$sSQL .= ' where vtiger_customview.cvid =? order by vtiger_cvcolumnlist.columnindex';
 		$result = $adb->pquery($sSQL, [$cvid]);
 
-		if ($adb->num_rows($result) == 0 && is_numeric($cvid) && $this->customviewmodule != 'Users') {
+		if ($adb->numRows($result) == 0 && is_numeric($cvid) && $this->customviewmodule != 'Users') {
 			\App\Log::trace("Error !!!: " . \App\Language::translate('LBL_NO_FOUND_VIEW') . " ID: $cvid");
 			throw new \App\Exceptions\AppException('LBL_NO_FOUND_VIEW');
 		} else if (!is_numeric($cvid) && $this->customviewmodule != 'Users') {
@@ -225,7 +204,7 @@ class CustomView extends CRMEntity
 				throw new \App\Exceptions\AppException('LBL_NO_FOUND_VIEW');
 			}
 		} else {
-			while ($columnrow = $adb->fetch_array($result)) {
+			while ($columnrow = $adb->fetchArray($result)) {
 				$columnlist[$columnrow['columnindex']] = $columnrow['columnname'];
 			}
 		}
@@ -466,7 +445,7 @@ class CustomView extends CRMEntity
 		$sSQL .= " where vtiger_cvstdfilter.cvid=?";
 
 		$result = $adb->pquery($sSQL, array($cvid));
-		$stdfilterrow = $adb->fetch_array($result);
+		$stdfilterrow = $adb->fetchArray($result);
 
 		$stdfilterlist = [];
 		$stdfilterlist["columnname"] = $stdfilterrow["columnname"];
@@ -723,11 +702,11 @@ class CustomView extends CRMEntity
 
 		$adv_chk_value = $value;
 		$value = '(';
-		$sql = sprintf('select distinct(setype) from vtiger_crmentity c INNER JOIN %s t ON t.%s = c.crmid', $adb->sql_escape_string($tablename), $adb->sql_escape_string($fieldname));
+		$sql = sprintf('select distinct(setype) from vtiger_crmentity c INNER JOIN %s t ON t.%s = c.crmid', $adb->sqlEscapeString($tablename), $adb->sqlEscapeString($fieldname));
 		$res = $adb->query($sql);
-		$rows = $adb->num_rows($res);
+		$rows = $adb->numRows($res);
 		for ($s = 0; $s < $rows; $s++) {
-			$modulename = $adb->query_result($res, $s, "setype");
+			$modulename = $adb->queryResult($res, $s, "setype");
 			if ($modulename == 'Vendors') {
 				continue;
 			}
@@ -790,7 +769,7 @@ class CustomView extends CRMEntity
 
 		$adb = vglobal('ab');
 		$value = html_entity_decode(trim($value), ENT_QUOTES, vglobal('default_charset'));
-		$value = $adb->sql_escape_string($value);
+		$value = $adb->sqlEscapeString($value);
 
 		if ($comparator == "e") {
 			if (trim($value) == "NULL") {

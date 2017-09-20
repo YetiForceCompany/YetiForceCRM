@@ -9,7 +9,7 @@
 /**
  * OSSMail index view class
  */
-class OSSMail_index_View extends Vtiger_Index_View
+class OSSMail_Index_View extends Vtiger_Index_View
 {
 
 	/**

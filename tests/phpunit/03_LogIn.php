@@ -1,5 +1,4 @@
 <?php
-
 /**
  * LogIn test class
  * @package YetiForce.Test
@@ -46,6 +45,31 @@ class LogIn extends TestCase
 			App\Session::set('full_user_name', \App\Fields\Owner::getUserLabel(TESTS_USER_ID));
 			$this->assertInternalType('int', TESTS_USER_ID);
 		}
+	}
+
+	/**
+	 * Test Case-sensitive Username
+	 */
+	public function testCaseSensitiveUsername()
+	{
+		$userName = 'Demo';
+		$user = CRMEntity::getInstance('Users');
+		$user->column_fields['user_name'] = $userName;
+		$this->assertTrue($user->doLogin('demo'));
+		$this->assertTrue($user->column_fields['user_name'] !== $userName);
+	}
+
+	/**
+	 * Testing user data verification
+	 */
+	public function testUserVerifyData()
+	{
+		$this->assertTrue(Users_Module_Model::checkMailExist('demo@yetiforce.com'));
+		$this->assertFalse(Users_Module_Model::checkMailExist('demo@yetiforce.com', TESTS_USER_ID));
+		$this->assertFalse(Users_Module_Model::checkMailExist('xxx@yetiforce.com'));
+		$this->assertEquals(Users_Module_Model::checkUserName('demo'), \App\Language::translate('LBL_USER_NAME_EXISTS', 'Users'));
+		$this->assertEquals(Users_Module_Model::checkUserName('demo', TESTS_USER_ID), \App\Language::translate('LBL_USER_NAME_HAS_ALREADY_BEEN_USED', 'Users'));
+		$this->assertEquals(Users_Module_Model::checkUserName('test', 1), \App\Language::translate('LBL_FORBIDDEN_USERNAMES', 'Users'));
 	}
 
 	/**

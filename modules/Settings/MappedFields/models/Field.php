@@ -19,18 +19,9 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 	public function getUIType()
 	{
 		if (!$this->get('uitype')) {
-			$this->uitype = $this->getWebserviceFieldObject()->getUIType();
+			$this->uitype = parent::getUIType();
 		}
 		return $this->uitype;
-	}
-
-	/**
-	 * Function to get field picklist
-	 * @return <Array> picklist
-	 */
-	public function getPicklistDetails()
-	{
-		return $this->getWebserviceFieldObject()->getPicklistDetails();
 	}
 
 	/**
@@ -86,27 +77,28 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 
 	/**
 	 * Function to get field instance from WebserviceFieldObject
-	 * @return <Settings_MappedFields_Field_Model>
+	 * @param Vtiger_Field_Model $fieldModel
+	 * @return Settings_MappedFields_Field_Model
 	 */
-	public static function getInstanceFromWebserviceFieldObject($webserviceField)
+	public static function getInstanceFromWebserviceFieldObject($fieldModel)
 	{
 		$row = [];
-		$row['uitype'] = $webserviceField->getUIType();
-		$row['table'] = $webserviceField->getTableName();
-		$row['column'] = $webserviceField->getColumnName();
-		$row['name'] = $webserviceField->getFieldName();
-		$row['label'] = $webserviceField->getFieldLabelKey();
-		$row['displaytype'] = $webserviceField->getDisplayType();
-		$row['masseditable'] = $webserviceField->getMassEditable();
-		$row['typeofdata'] = $webserviceField->getTypeOfData();
-		$row['presence'] = $webserviceField->getPresence();
-		$row['id'] = $webserviceField->getFieldId();
-		$row['defaultvalue'] = $webserviceField->getDefault();
-		$row['mandatory'] = $webserviceField->isMandatory();
-		$row['fieldparams'] = $webserviceField->getFieldParams();
+		$row['uitype'] = $fieldModel->getUIType();
+		$row['table'] = $fieldModel->getTableName();
+		$row['column'] = $fieldModel->getColumnName();
+		$row['name'] = $fieldModel->getFieldName();
+		$row['label'] = $fieldModel->getFieldLabel();
+		$row['displaytype'] = $fieldModel->getDisplayType();
+		$row['masseditable'] = (bool) $fieldModel->get('masseditable');
+		$row['typeofdata'] = $fieldModel->get('typeofdata');
+		$row['presence'] = $fieldModel->get('presence');
+		$row['id'] = $fieldModel->getId();
+		$row['defaultvalue'] = $fieldModel->getDefaultFieldValue();
+		$row['mandatory'] = $fieldModel->isMandatory();
+		$row['fieldparams'] = $fieldModel->getFieldParams();
 
 		$instance = self::fromArray($row);
-		$instance->webserviceField == $webserviceField;
+		$instance->fieldModel == $fieldModel;
 		return $instance;
 	}
 

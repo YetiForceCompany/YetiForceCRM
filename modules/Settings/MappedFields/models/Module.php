@@ -56,7 +56,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getId()
 	{
-		return vtlib\Functions::getModuleId($this->getName());
+		return \App\Module::getModuleId($this->getName());
 	}
 
 	public static function getFieldsByStep($step = 1)
@@ -208,19 +208,16 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getFields($source = false)
 	{
-
 		\App\Log::trace('Entering ' . __METHOD__ . '() method ...');
 		$moduleModel = Vtiger_Module_Model::getInstance($this->getName());
-		$moduleMeta = $moduleModel->getModuleMeta();
-		$moduleFields = $moduleMeta->getAccessibleFields();
 		$fields = [];
-		foreach ($moduleFields as $fieldName => $fieldInstance) {
-			if ($moduleMeta->isEditableField($fieldInstance) && !in_array($fieldInstance->getUIType(), $this->getRestrictedUitypes())) {
-				$blockName = $fieldInstance->getBlockName();
+		foreach ($moduleModel->getFields() as $fieldName => $fieldModel) {
+			if ($fieldModel->isActiveField() && $fieldModel->isEditable() && !in_array($fieldModel->getUIType(), $this->getRestrictedUitypes())) {
+				$blockName = $fieldModel->getBlockName();
 				if (!$blockName) {
 					$blockName = 'LBL_NOT_ASSIGNET_TO_BLOCK';
 				}
-				$fields[$blockName][$fieldInstance->getFieldId()] = Settings_MappedFields_Field_Model::getInstanceFromWebserviceFieldObject($fieldInstance);
+				$fields[$blockName][$fieldModel->getId()] = Settings_MappedFields_Field_Model::getInstanceFromWebserviceFieldObject($fieldModel);
 			}
 		}
 		if ($source) {
@@ -362,7 +359,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 		$xml = simplexml_load_file($uploadedXml);
 		foreach ($xml as $fieldsKey => $fieldsValue) {
 			if (array_key_exists($fieldsKey, $combine)) {
-				$value = (int) vtlib\Functions::getModuleId((string) $fieldsValue);
+				$value = (int) \App\Module::getModuleId((string) $fieldsValue);
 				if (empty($value)) {
 					break;
 				}

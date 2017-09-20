@@ -17,7 +17,7 @@
 				<p>
 					{\App\Language::translate('POWEREDBY')} {$YETIFORCE_VERSION} &nbsp;
 					&copy; 2004 - {date('Y')}&nbsp;&nbsp;
-					<a href="http://yetiforce.com" target="_blank">yetiforce.com</a>
+					<a href="http://yetiforce.com" target="_blank" rel="noreferrer">yetiforce.com</a>
 					&nbsp;|&nbsp;
 					<a href="#" onclick="window.open('../licenses/License.html', 'License', 'height=615,width=875').moveTo(110, 120)">{\App\Language::translate('LBL_READ_LICENSE')}</a>
 				</p>

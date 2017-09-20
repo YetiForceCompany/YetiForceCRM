@@ -29,18 +29,17 @@ class Reports_CheckDuplicate_Action extends Vtiger_Action_Controller
 	{
 		$moduleName = $request->getModule();
 		$reportName = $request->get('reportname');
-		$record = $request->getInteger('record');
 
-		if ($record) {
+
+		if (!$request->isEmpty('record', true)) {
+			$record = $request->getInteger('record');
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			$recordModel->set('reportid', $record);
 		} else {
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		}
-
 		$recordModel->set('reportname', $reportName);
-		$recordModel->set('reportid', $record);
 		$recordModel->set('isDuplicate', $request->get('isDuplicate'));
-
 		if (!$recordModel->checkDuplicate()) {
 			$result = array('success' => false);
 		} else {

@@ -1,5 +1,16 @@
 Title: Change Log
 
+1.0.9:
+* Convert toolchain to grunt
+* Add "step" chart style
+* Refactor code according to JSLint rules (johanbove)
+* Add enhancedPieLegendRenderer
+* Pull request #17: Fix infinite loop
+* Pull request #22: Update jqplot.pointLabels.js
+* Pull request #23 Update jqplot.pieRenderer.js
+* Pull request #25: barRenderer resizing fix
+* Pull request #26: Error resizing horizontal bar charts
+
 1.0.8:
 * Issue #375: sortMergedLabels does not sort string labels
 * Issue #279: Groups > 3 Causes Alignment Issues

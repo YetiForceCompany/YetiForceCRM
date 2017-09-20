@@ -11,8 +11,6 @@
 require_once 'config/config.php';
 require_once 'config/debug.php';
 require_once 'config/performance.php';
-require_once 'include/Webservices/Delete.php';
-require_once 'include/Webservices/DescribeObject.php';
 require_once 'include/Loader.php';
 require_once('include/ConfigUtils.php');
 Vtiger_Loader::includeOnce('include.runtime.Globals');
@@ -38,7 +36,7 @@ function vtws_convertlead($entityvalues, Users_Record_Model $user)
 		throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, vtws_getWebserviceTranslatedString('LBL_' .
 			WebServiceErrorCode::$DATABASEQUERYERROR));
 	}
-	$rowCount = $adb->num_rows($result);
+	$rowCount = $adb->numRows($result);
 	if ($rowCount > 0) {
 		\App\Log::error('Error converting a lead: ' . vtws_getWebserviceTranslatedString('LBL_' . WebServiceErrorCode::$LEAD_ALREADY_CONVERTED));
 		throw new WebServiceException(WebServiceErrorCode::$LEAD_ALREADY_CONVERTED, vtws_getWebserviceTranslatedString('LBL_' . WebServiceErrorCode::$LEAD_ALREADY_CONVERTED));
@@ -138,7 +136,7 @@ function vtws_populateConvertLeadEntities($entityvalue, $entity, Vtiger_Record_M
 	$entityName = $entityvalue['name'];
 	$sql = 'SELECT * FROM vtiger_convertleadmapping';
 	$result = $adb->pquery($sql, []);
-	if ($adb->num_rows($result)) {
+	if ($adb->numRows($result)) {
 		switch ($entityName) {
 			case 'Accounts':$column = 'accountfid';
 				break;
@@ -147,7 +145,7 @@ function vtws_populateConvertLeadEntities($entityvalue, $entity, Vtiger_Record_M
 			default:$column = 'leadfid';
 				break;
 		}
-		$row = $adb->fetch_array($result);
+		$row = $adb->fetchArray($result);
 		$count = 1;
 		foreach ($targetModuleModel->getFields() as $fieldname => $field) {
 			$defaultvalue = $field->getDefaultFieldValue();
@@ -168,7 +166,7 @@ function vtws_populateConvertLeadEntities($entityvalue, $entity, Vtiger_Record_M
 			$entityFieldName = $entityField->getFieldName();
 			$entity[$entityFieldName] = $leadinfo[$leadFieldName];
 			$count++;
-		} while ($row = $adb->fetch_array($result));
+		} while ($row = $adb->fetchArray($result));
 
 		foreach ($entityvalue as $fieldname => $fieldvalue) {
 			if (!empty($fieldvalue)) {
@@ -190,30 +188,17 @@ function vtws_populateConvertLeadEntities($entityvalue, $entity, Vtiger_Record_M
  */
 function vtws_validateConvertLeadEntityMandatoryValues($entity, Vtiger_Module_Model $targetModuleModel, $module)
 {
-
 	$mandatoryFields = $targetModuleModel->getMandatoryFieldModels();
 	foreach ($mandatoryFields as $field => $fieldModel) {
 		if (empty($entity[$field])) {
-			$fieldInfo = vtws_getConvertLeadFieldInfo($module, $field);
-			if (($fieldInfo['type']['name'] === 'picklist' || $fieldInfo['type']['name'] === 'multipicklist' || $fieldInfo['type']['name'] === 'date' || $fieldInfo['type']['name'] === 'datetime') && ($fieldInfo['editable'] === true)) {
-				$entity[$field] = $fieldInfo['default'];
+			if (($fieldModel->getFieldDataType() === 'picklist' || $fieldModel->getFieldDataType() === 'multipicklist' || $fieldModel->getFieldDataType() === 'date' || $fieldModel->getFieldDataType() === 'datetime') && $fieldModel->isEditable()) {
+				$entity[$field] = $fieldModel->getDefaultFieldValue();
 			} else {
 				$entity[$field] = '????';
 			}
 		}
 	}
 	return $entity;
-}
-
-function vtws_getConvertLeadFieldInfo($module, $fieldname)
-{
-	$describe = vtws_describe($module, vglobal('current_user'));
-	foreach ($describe['fields'] as $index => $fieldInfo) {
-		if ($fieldInfo['name'] == $fieldname) {
-			return $fieldInfo;
-		}
-	}
-	return false;
 }
 
 //function to handle the transferring of related records for lead

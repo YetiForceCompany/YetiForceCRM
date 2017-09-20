@@ -21,7 +21,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 
 	/**
 	 * Search condition
-	 * @var array 
+	 * @var array
 	 */
 	protected $searchParams = [];
 
@@ -87,8 +87,8 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 			$db = PearDatabase::getInstance();
 			$suffix = '';
 			$customviewrs = $db->pquery('SELECT viewname FROM vtiger_customview WHERE cvid=?', array($this->widgetModel->get('filterid')));
-			if ($db->num_rows($customviewrs)) {
-				$customview = $db->fetch_array($customviewrs);
+			if ($db->numRows($customviewrs)) {
+				$customview = $db->fetchArray($customviewrs);
 				$suffix = ' - ' . \App\Language::translate($customview['viewname'], $this->getTargetModule());
 			}
 			return $prefix . \App\Language::translate($this->getTargetModuleModel()->label, $this->getTargetModule()) . $suffix;

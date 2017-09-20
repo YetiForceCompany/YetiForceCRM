@@ -10,7 +10,7 @@
 class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 {
 
-	const url_separator = '^';
+	const URL_SEPARATOR = '^';
 
 	/**
 	 * Remove translation
@@ -23,7 +23,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		$langkey = $params['langkey'];
 		foreach ($params['lang'] as $lang) {
 			$edit = false;
-			$mod = str_replace(self::url_separator, '.', $params['mod']);
+			$mod = str_replace(self::URL_SEPARATOR, '.', $params['mod']);
 			if (\AppConfig::performance('LOAD_CUSTOM_FILES')) {
 				$qualifiedName = "custom.languages.$lang.$mod";
 			} else {
@@ -75,7 +75,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		$mod = $params['mod'];
 		$langkey = addslashes($params['langkey']);
 		$val = addslashes($params['val']);
-		$mod = str_replace(self::url_separator, '.', $mod);
+		$mod = str_replace(self::URL_SEPARATOR, '.', $mod);
 
 		if (\AppConfig::performance('LOAD_CUSTOM_FILES')) {
 			$qualifiedName = "custom.languages.$lang.$mod";
@@ -135,7 +135,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		$mod = $params['mod'];
 		$langkey = $params['langkey'];
 		$val = addslashes($params['val']);
-		$mod = str_replace(self::url_separator, '.', $mod);
+		$mod = str_replace(self::URL_SEPARATOR, '.', $mod);
 		$languageStrings = $jsLanguageStrings = [];
 		$customType = \AppConfig::performance('LOAD_CUSTOM_FILES');
 		if ($customType) {
@@ -195,7 +195,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function createCustomLangDirectory($params)
 	{
-		$mod = explode(self::url_separator, $params['mod']);
+		$mod = explode(self::URL_SEPARATOR, $params['mod']);
 		$folders = ['custom', 'languages', $params['lang']];
 		if (count($mod) > 1) {
 			$folders[] = 'Settings';
@@ -221,7 +221,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	public function loadLangTranslation($langs, $mod, $ShowDifferences = 0)
 	{
 		$keysPhp = $keysJs = $langTab = $respPhp = $respJs = [];
-		$mod = str_replace(self::url_separator, '/', $mod);
+		$mod = str_replace(self::URL_SEPARATOR, '/', $mod);
 		if (!is_array($langs)) {
 			$langs = [$langs];
 		}
@@ -285,8 +285,8 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 				$name = str_replace('.php', "", $name);
 				$val = str_replace($dir . DIRECTORY_SEPARATOR, "", $name);
 				$key = str_replace($dir . DIRECTORY_SEPARATOR, "", $name);
-				$key = str_replace("/", self::url_separator, $key);
-				$key = str_replace("\\", self::url_separator, $key);
+				$key = str_replace("/", self::URL_SEPARATOR, $key);
+				$key = str_replace("\\", self::URL_SEPARATOR, $key);
 				$val = str_replace(DIRECTORY_SEPARATOR, "|", $val);
 				$files[$key] = $val;
 			}
@@ -411,7 +411,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		$updatedFields = 'default_language';
 		$patternString = "\$%s = %s;";
 		$pattern = '/\$' . $updatedFields . '[\s]+=([^\n]+);/';
-		$replacement = sprintf($patternString, $updatedFields, vtlib\Functions::varExportMin(ltrim($prefix, '0')));
+		$replacement = sprintf($patternString, $updatedFields, App\Utils::varExport(ltrim($prefix, '0')));
 		$fileContent = preg_replace($pattern, $replacement, $completeData);
 		$filePointer = fopen($fileName, 'w');
 		fwrite($filePointer, $fileContent);

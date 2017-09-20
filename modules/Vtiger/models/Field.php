@@ -18,7 +18,6 @@ class Vtiger_Field_Model extends vtlib\Field
 	protected $fieldType;
 	protected $fieldDataTypeShort;
 	protected $uitype_instance;
-	public $webserviceField = false;
 	public static $referenceTypes = ['reference', 'referenceLink', 'referenceProcess', 'referenceSubProcess'];
 
 	const REFERENCE_TYPE = 'reference';
@@ -168,36 +167,6 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
-	 * Function to get the Webservice Field Object for the current Field Object
-	 * @return WebserviceField instance
-	 */
-	public function getWebserviceFieldObject()
-	{
-		if ($this->webserviceField === false) {
-			$db = PearDatabase::getInstance();
-
-			$row = [];
-			$row['uitype'] = $this->get('uitype');
-			$row['block'] = $this->get('block');
-			$row['tablename'] = $this->get('table');
-			$row['columnname'] = $this->get('column');
-			$row['fieldname'] = $this->get('name');
-			$row['fieldlabel'] = $this->get('label');
-			$row['displaytype'] = $this->get('displaytype');
-			$row['masseditable'] = $this->get('masseditable');
-			$row['typeofdata'] = $this->get('typeofdata');
-			$row['presence'] = $this->get('presence');
-			$row['tabid'] = $this->getModuleId();
-			$row['fieldid'] = $this->get('id');
-			$row['readonly'] = !$this->getProfileReadWritePermission();
-			$row['defaultvalue'] = $this->get('defaultvalue');
-			$row['fieldparams'] = $this->get('fieldparams');
-			$this->webserviceField = WebserviceField::fromArray($db, $row);
-		}
-		return $this->webserviceField;
-	}
-
-	/**
 	 * Function to get the Webservice Field data type
 	 * @return string Data type of the field
 	 */
@@ -266,8 +235,32 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 311: $fieldDataType = 'multiImage';
 						break;
 					default:
-						$webserviceField = $this->getWebserviceFieldObject();
-						$fieldDataType = $webserviceField->getFieldDataType();
+						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
+						if (isset($fieldsDataType[$uiType])) {
+							$fieldDataType = $fieldsDataType[$uiType]['fieldtype'];
+						} else {
+							$fieldType = explode('~', $this->get('typeofdata'));
+							switch ($fieldType[0]) {
+								case 'T': $fieldDataType = 'time';
+									break;
+								case 'D': $fieldDataType = 'date';
+									break;
+								case 'DT': $fieldDataType = 'datetime';
+									break;
+								case 'E': $fieldDataType = 'email';
+									break;
+								case 'N':
+								case 'NN': $fieldDataType = 'double';
+									break;
+								case 'P': $fieldDataType = 'password';
+									break;
+								case 'I': $fieldDataType = 'integer';
+									break;
+								case 'V':
+								default: $fieldDataType = 'string';
+									break;
+							}
+						}
 						break;
 				}
 				App\Cache::save('FieldDataType', $cacheName, $fieldDataType);
@@ -826,7 +819,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 * @param Vtiger_Module_Model $blockModel - block instance
 	 * @return <array> List of field model
 	 */
-	public static function getAllForModule($moduleModel)
+	public static function getAllForModule(vtlib\ModuleBasic $moduleModel)
 	{
 		$fieldModelList = Vtiger_Cache::get('ModuleFields', $moduleModel->id);
 		if (!$fieldModelList) {
@@ -889,11 +882,11 @@ class Vtiger_Field_Model extends vtlib\Field
 				ON `vtiger_trees_templates_data`.`templateid` = `vtiger_field`.`fieldparams`
 			WHERE `vtiger_field`.`columnname` = ?
 				AND `vtiger_field`.`tablename` = ?;", array('folderid', 'vtiger_notes'));
-		$rows = $adb->num_rows($result);
+		$rows = $adb->numRows($result);
 		$folders = [];
 		for ($i = 0; $i < $rows; $i++) {
-			$folderId = $adb->query_result($result, $i, 'tree');
-			$folderName = $adb->query_result($result, $i, 'name');
+			$folderId = $adb->queryResult($result, $i, 'tree');
+			$folderName = $adb->queryResult($result, $i, 'name');
 			$folders[$folderId] = $folderName;
 		}
 		return $folders;

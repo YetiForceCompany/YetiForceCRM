@@ -24,24 +24,24 @@ class Vtiger_DependencyPicklist
 			$tabId = \App\Module::getModuleId($module);
 			$result = $adb->pquery('SELECT DISTINCT sourcefield, targetfield, tabid FROM vtiger_picklist_dependency WHERE tabid=?', array($tabId));
 		}
-		$noofrows = $adb->num_rows($result);
+		$noofrows = $adb->numRows($result);
 
 		$dependentPicklists = [];
 		if ($noofrows > 0) {
 			for ($i = 0; $i < $noofrows; ++$i) {
-				$fieldTabId = $adb->query_result($result, $i, 'tabid');
-				$sourceField = $adb->query_result($result, $i, 'sourcefield');
-				$targetField = $adb->query_result($result, $i, 'targetfield');
+				$fieldTabId = $adb->queryResult($result, $i, 'tabid');
+				$sourceField = $adb->queryResult($result, $i, 'sourcefield');
+				$targetField = $adb->queryResult($result, $i, 'targetfield');
 
 				if (\vtlib\Functions::getModuleFieldId($fieldTabId, $sourceField) === false || \vtlib\Functions::getModuleFieldId($fieldTabId, $targetField) === false) {
 					continue;
 				}
 
 				$fieldResult = $adb->pquery('SELECT fieldlabel FROM vtiger_field WHERE fieldname = ?', array($sourceField));
-				$sourceFieldLabel = $adb->query_result($fieldResult, 0, 'fieldlabel');
+				$sourceFieldLabel = $adb->queryResult($fieldResult, 0, 'fieldlabel');
 
 				$fieldResult = $adb->pquery('SELECT fieldlabel FROM vtiger_field WHERE fieldname = ?', array($targetField));
-				$targetFieldLabel = $adb->query_result($fieldResult, 0, 'fieldlabel');
+				$targetFieldLabel = $adb->queryResult($fieldResult, 0, 'fieldlabel');
 				$forModule = \App\Module::getModuleName($fieldTabId);
 				$dependentPicklists[] = array(
 					'sourcefield' => $sourceField,
@@ -159,7 +159,7 @@ class Vtiger_DependencyPicklist
 					GROUP BY vtiger_field.tabid HAVING count(*) > 1';
 		// END
 		$result = $adb->pquery($query, []);
-		while ($row = $adb->fetch_array($result)) {
+		while ($row = $adb->fetchArray($result)) {
 			$modules[$row['tablabel']] = $row['tabname'];
 		}
 		ksort($modules);

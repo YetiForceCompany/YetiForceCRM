@@ -63,11 +63,11 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 
 		$response = [];
 
-		$numRowsCount = $db->num_rows($result);
+		$numRowsCount = $db->numRows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
-			$saleStage = $db->query_result($result, $i, 'ossmailview_sendtype');
+			$saleStage = $db->queryResult($result, $i, 'ossmailview_sendtype');
 			$response[$i][0] = $saleStage;
-			$response[$i][1] = $db->query_result($result, $i, 'count');
+			$response[$i][1] = $db->queryResult($result, $i, 'count');
 			$response[$i][2] = \App\Language::translate($saleStage, $this->getName());
 		}
 		return $response;
@@ -75,7 +75,7 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 
 	public function getPreviewViewUrl($id)
 	{
-		return 'index.php?module=' . $this->get('name') . '&view=preview&record=' . $id;
+		return 'index.php?module=' . $this->get('name') . '&view=Preview&record=' . $id;
 	}
 
 	public function isQuickCreateSupported()

@@ -13,7 +13,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 {
 
 	/**
-	 * Function to check whether the current field is editable 
+	 * Function to check whether the current field is editable
 	 * @return boolean
 	 */
 	public function isEditable()
@@ -57,9 +57,9 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		}
 		$result = $db->pquery($query, $roleIdList);
 		$pickListValues = [];
-		$num_rows = $db->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
-			$rowData = $db->query_result_rowdata($result, $i);
+		$numRows = $db->numRows($result);
+		for ($i = 0; $i < $numRows; $i++) {
+			$rowData = $db->queryResultRowData($result, $i);
 			if ($intersectionMode) {
 				//not equal if specify that the picklistvalue is not present for all the roles
 				if ($rowData['rolecount'] != count($roleIdList)) {

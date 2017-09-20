@@ -113,5 +113,6 @@ $jsLanguageStrings = [
 	'LBL_MANDATORY_FIELDS_ERROR' => 'Внимание! Поля отмеченные звездочкой, обязательны к заполнению.',
 	'LBL_PASS_REENTER_ERROR' => 'Внимание! Пароли не совпадают.',
 	'LBL_INVALID_EMAIL_ERROR' => 'Внимание! Неверный адрес электронной почты.',
+	'LBL_INVALID_USERNAME_ERROR' => 'Invalid username',
 	'LBL_RESOLVE_ERROR' => 'Пожалуйста, устраните ошибки перед продолжением установки',
 ];

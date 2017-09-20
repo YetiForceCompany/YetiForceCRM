@@ -296,9 +296,9 @@ class ModuleBasic
 
 	/**
 	 * Set entity identifier field for this module
-	 * @param \Field Instance of field to use
+	 * @param FieldBasic $fieldInstance
 	 */
-	public function setEntityIdentifier($fieldInstance)
+	public function setEntityIdentifier(FieldBasic $fieldInstance)
 	{
 		$db = \App\Db::getInstance();
 
@@ -393,9 +393,10 @@ class ModuleBasic
 
 	/**
 	 * Add block to this module
-	 * @param vtlib\Block Instance of block to add
+	 * @param Block $blockInstance
+	 * @return $this
 	 */
-	public function addBlock($blockInstance)
+	public function addBlock(Block $blockInstance)
 	{
 		$blockInstance->save($this);
 		return $this;
@@ -403,12 +404,22 @@ class ModuleBasic
 
 	/**
 	 * Add filter to this module
-	 * @param vtlib\Filter Instance of filter to add
+	 * @param Filter $filterInstance
+	 * @return $this
 	 */
-	public function addFilter($filterInstance)
+	public function addFilter(Filter $filterInstance)
 	{
 		$filterInstance->save($this);
 		return $this;
+	}
+
+	/**
+	 * Function to get the Module/Tab id
+	 * @return int
+	 */
+	public function getId()
+	{
+		return $this->id;
 	}
 
 	/**
@@ -423,6 +434,14 @@ class ModuleBasic
 		else
 			$fields = Field::getAllForModule($this);
 		return $fields;
+	}
+
+	/**
+	 * Get all the custom links related to this module for exporting.
+	 */
+	public function getLinksForExport()
+	{
+		return Link::getAllForExport($this->id);
 	}
 
 	/**
@@ -556,9 +575,9 @@ class ModuleBasic
 
 	/**
 	 * Function to remove files related to a module
-	 * @param  string $path - dir path
+	 * @param  ModuleBasic $moduleInstance
 	 */
-	public function deleteDir($moduleInstance)
+	public function deleteDir(ModuleBasic $moduleInstance)
 	{
 		self::log(__METHOD__ . ' | Start');
 		Functions::recurseDelete("config/modules/{$moduleInstance->name}.php");

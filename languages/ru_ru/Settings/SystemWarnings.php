@@ -14,7 +14,7 @@ $languageStrings = [
 	'LBL_LIBRARY_PHPEXCEL' => 'PHPExcel library',
 	'LBL_CONFIG_REPORT' => 'Server configuration',
 	'LBL_CONFIG_REPORT_LINK' => 'Show missing library',
-	'LBL_CONFIG_REPORT_DESC' => 'The server has not been properly configured. The system may malfunction, or the entered data may be corrupted or removed. More information in the article <a target="_blank" href="https://www.yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements"><u>on server requirements at yetiforce.com</u></a>',
+	'LBL_CONFIG_REPORT_DESC' => 'The server has not been properly configured. The system may malfunction, or the entered data may be corrupted or removed. More information in the article <a target="_blank" rel="noreferrer" href="https://www.yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements"><u>on server requirements at yetiforce.com</u></a>',
 	'LBL_NEWSLETTER' => 'Newsletter',
 	'LBL_NEWSLETTER_DESC' => 'Sign up for YetiForce\’s free newsletter. Keep up with all latest features in the system, and find out more about the CRM sector. We will send you information about new versions, updates, events, new additions to the system, and much more.<br />Join our community and stay up to date.<br />Internet connection is required to sign up.',
 	'LBL_STATS' => 'Send statistical information',

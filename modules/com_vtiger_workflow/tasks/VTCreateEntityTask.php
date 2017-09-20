@@ -26,7 +26,6 @@ class VTCreateEntityTask extends VTTask
 	 */
 	public function doTask($recordModel)
 	{
-		$current_user = vglobal('current_user');
 		$moduleName = $recordModel->getModuleName();
 		$recordId = $recordModel->getId();
 		$entityType = $this->entity_type;
@@ -39,10 +38,8 @@ class VTCreateEntityTask extends VTTask
 		}
 		if (!empty($entityType) && !empty($fieldValueMapping) && count($fieldValueMapping) > 0 && !$this->mappingPanel) {
 			$newRecordModel = Vtiger_Record_Model::getCleanInstance($entityType);
-			$entityModuleHandler = vtws_getModuleHandlerFromName($entityType, $current_user);
-			$handlerMeta = $entityModuleHandler->getMeta();
-			$ownerFields = $handlerMeta->getOwnerFields();
-			foreach ($fieldValueMapping as &$fieldInfo) {
+			$ownerFields = array_keys($newRecordModel->getModule()->getFieldsByType('owner'));
+			foreach ($fieldValueMapping as $fieldInfo) {
 				$fieldName = $fieldInfo['fieldname'];
 				$referenceModule = $fieldInfo['modulename'];
 				$fieldValueType = $fieldInfo['valuetype'];

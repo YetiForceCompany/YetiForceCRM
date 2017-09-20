@@ -415,9 +415,9 @@ class Cron
 
 	/**
 	 * Delete all cron tasks associated with module
-	 * @param \Module Instnace of module to use
+	 * @param ModuleBasic $moduleInstance
 	 */
-	public static function deleteForModule($moduleInstance)
+	public static function deleteForModule(ModuleBasic $moduleInstance)
 	{
 		\App\Db::getInstance()->createCommand()->delete(self::$baseTable, ['module' => $moduleInstance->name])->execute();
 	}

@@ -152,7 +152,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 				} else if (in_array($fieldName, ['layoutInLoginView', 'langInLoginView', 'backgroundClosingModal', 'breadcrumbs'])) {
 					$fieldValue = strcasecmp('true', (string) $fieldValue) === 0;
 				}
-				$replacement = sprintf("\$%s = %s;", $fieldName, \vtlib\Functions::varExportMin($fieldValue));
+				$replacement = sprintf("\$%s = %s;", $fieldName, \App\Utils::varExport($fieldValue));
 				$fileContent = preg_replace('/\$' . $fieldName . '[\s]+=([^;]+);/', $replacement, $fileContent);
 			}
 			$filePointer = fopen($this->fileName, 'w');

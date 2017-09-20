@@ -58,11 +58,11 @@ class ModTracker
 		} else if ($eventType === 'module.enabled') {
 			\App\EventHandler::setActive('ModTracker_ModTrackerHandler_Handler');
 		} else if ($eventType === 'module.preuninstall') {
-			
+
 		} else if ($eventType === 'module.preupdate') {
-			
+
 		} else if ($eventType === 'module.postupdate') {
-			
+
 		}
 	}
 
@@ -174,7 +174,7 @@ class ModTracker
 	 * Get the list of changed record after $mtime
 	 * @param <type> $mtime
 	 * @param <type> $user
-	 * @param <type> $limit 
+	 * @param <type> $limit
 	 */
 	public function getChangedRecords($uniqueId, $mtime, $limit = 100)
 	{
@@ -204,16 +204,16 @@ class ModTracker
 		$result = $adb->pquery($query, $params);
 
 		$modTime = [];
-		$rows = $adb->num_rows($result);
+		$rows = $adb->numRows($result);
 
 		for ($i = 0; $i < $rows; $i++) {
-			$status = $adb->query_result($result, $i, 'status');
+			$status = $adb->queryResult($result, $i, 'status');
 
-			$record['uniqueid'] = $adb->query_result($result, $i, 'id');
-			$record['modifiedtime'] = $adb->query_result($result, $i, 'modifiedtime');
-			$record['module'] = $adb->query_result($result, $i, 'module');
-			$record['crmid'] = $adb->query_result($result, $i, 'crmid');
-			$record['assigneduserid'] = $adb->query_result($result, $i, 'smownerid');
+			$record['uniqueid'] = $adb->queryResult($result, $i, 'id');
+			$record['modifiedtime'] = $adb->queryResult($result, $i, 'modifiedtime');
+			$record['module'] = $adb->queryResult($result, $i, 'module');
+			$record['crmid'] = $adb->queryResult($result, $i, 'crmid');
+			$record['assigneduserid'] = $adb->queryResult($result, $i, 'smownerid');
 
 			if ($status == ModTracker::$DELETED) {
 				$deletedRecords[] = $record;
@@ -255,7 +255,7 @@ class ModTracker
 
 		$result = $adb->pquery($moreQuery, $param);
 
-		if ($adb->num_rows($result) > 0) {
+		if ($adb->numRows($result) > 0) {
 			$output['more'] = true;
 		} else {
 			$output['more'] = false;
@@ -285,15 +285,15 @@ class ModTracker
 		$fieldResult = $adb->pquery('SELECT * FROM vtiger_modtracker_detail
                         INNER JOIN vtiger_modtracker_basic ON vtiger_modtracker_basic.id = vtiger_modtracker_detail.id
                         WHERE crmid = ? && changedon >= ?', array($crmid, $date));
-		$countFieldResult = $adb->num_rows($fieldResult);
+		$countFieldResult = $adb->numRows($fieldResult);
 		for ($i = 0; $i < $countFieldResult; $i++) {
-			$fieldName = $adb->query_result($fieldResult, $i, 'fieldname');
+			$fieldName = $adb->queryResult($fieldResult, $i, 'fieldname');
 			if ($fieldName == 'record_id' || $fieldName == 'record_module' ||
 				$fieldName == 'createdtime')
 				continue;
 
-			$field['postvalue'] = $adb->query_result($fieldResult, $i, 'postvalue');
-			$field['prevalue'] = $adb->query_result($fieldResult, $i, 'prevalue');
+			$field['postvalue'] = $adb->queryResult($fieldResult, $i, 'postvalue');
+			$field['prevalue'] = $adb->queryResult($fieldResult, $i, 'prevalue');
 			if ($decodeHTML) {
 				$field['postvalue'] = App\Purifier::decodeHtml($field['postvalue']);
 				$field['prevalue'] = App\Purifier::decodeHtml($field['prevalue']);

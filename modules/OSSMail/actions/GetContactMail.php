@@ -1,12 +1,12 @@
 <?php
 
 /**
- * OSSMail getContactMail action class
+ * OSSMail get contact mail action class
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
-class OSSMail_getContactMail_Action extends Vtiger_Action_Controller
+class OSSMail_GetContactMail_Action extends Vtiger_Action_Controller
 {
 
 	/**

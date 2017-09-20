@@ -56,11 +56,11 @@ class Rss_Module_Model extends Vtiger_Module_Model
 
 		$sql = 'Select *from vtiger_rss';
 		$result = $db->pquery($sql, []);
-		$noOfRows = $db->num_rows($result);
+		$noOfRows = $db->numRows($result);
 
 		$records = [];
 		for ($i = 0; $i < $noOfRows; ++$i) {
-			$row = $db->query_result_rowdata($result, $i);
+			$row = $db->queryResultRowData($result, $i);
 			$row['id'] = $row['rssid'];
 			$records[$row['id']] = $this->getRecordFromArray($row);
 		}

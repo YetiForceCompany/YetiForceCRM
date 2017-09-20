@@ -101,12 +101,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 	 */
 	public function getEmployeeHierarchy($id)
 	{
-		$adb = PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
-
-
 		\App\Log::trace("Entering getEmployeeHierarchy(" . $id . ") method ...");
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
 
 		$listview_header = [];
 		$listview_entries = [];
@@ -118,13 +113,13 @@ class OSSEmployees extends Vtiger_CRMEntity
 		}
 
 		$rows_list = [];
-		$encountered_accounts = array($id);
+		$encountered_accounts = [$id];
 		$rows_list = $this->__getParentEmployees($id, $rows_list, $encountered_accounts);
 		$rows_list = $this->__getChildEmployees($id, $rows_list, $rows_list[$id]['depth']);
 		foreach ($rows_list as $employees_id => $account_info) {
 			$account_info_data = [];
 
-			$hasRecordViewAccess = (vtlib\Functions::userIsAdministrator($current_user)) || (isPermitted('OSSEmployees', 'DetailView', $employees_id) == 'yes');
+			$hasRecordViewAccess = \App\Privilege::isPermitted('OSSEmployees', 'DetailView', $employees_id);
 			foreach ($this->list_fields_name as $fieldname => $colname) {
 				if (!$hasRecordViewAccess && $colname != 'name') {
 					$account_info_data[] = '';
@@ -150,7 +145,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 			}
 			$listview_entries[$employees_id] = $account_info_data;
 		}
-		$hierarchy = array('header' => $listview_header, 'entries' => $listview_entries);
+		$hierarchy = ['header' => $listview_header, 'entries' => $listview_entries];
 		\App\Log::trace("Exiting getEmployeeHierarchy method ...");
 		return $hierarchy;
 	}
@@ -165,11 +160,11 @@ class OSSEmployees extends Vtiger_CRMEntity
 			" WHERE vtiger_crmentity.deleted = 0 and vtiger_ossemployees.ossemployeesid = ?";
 		$params = array($id);
 		$res = $adb->pquery($query, $params);
-		if ($adb->num_rows($res) > 0 &&
-			$adb->query_result($res, 0, 'parentid') != '' && $adb->query_result($res, 0, 'parentid') != 0 &&
-			!in_array($adb->query_result($res, 0, 'parentid'), $encountered_accounts)) {
+		if ($adb->numRows($res) > 0 &&
+			$adb->queryResult($res, 0, 'parentid') != '' && $adb->queryResult($res, 0, 'parentid') != 0 &&
+			!in_array($adb->queryResult($res, 0, 'parentid'), $encountered_accounts)) {
 
-			$parentid = $adb->query_result($res, 0, 'parentid');
+			$parentid = $adb->queryResult($res, 0, 'parentid');
 			$encountered_accounts[] = $parentid;
 			$this->__getParentEmployees($parentid, $parent_accounts, $encountered_accounts);
 		}
@@ -189,16 +184,16 @@ class OSSEmployees extends Vtiger_CRMEntity
 		$res = $adb->pquery($query, $params);
 		$parent_account_info = [];
 		$depth = 0;
-		$immediate_parentid = $adb->query_result($res, 0, 'parentid');
+		$immediate_parentid = $adb->queryResult($res, 0, 'parentid');
 		if (isset($parent_accounts[$immediate_parentid])) {
 			$depth = $parent_accounts[$immediate_parentid]['depth'] + 1;
 		}
 		$parent_account_info['depth'] = $depth;
 		foreach ($this->list_fields_name as $fieldname => $columnname) {
 			if ($columnname == 'assigned_user_id') {
-				$parent_account_info[$columnname] = $adb->query_result($res, 0, 'user_name');
+				$parent_account_info[$columnname] = $adb->queryResult($res, 0, 'user_name');
 			} else {
-				$parent_account_info[$columnname] = $adb->query_result($res, 0, $columnname);
+				$parent_account_info[$columnname] = $adb->queryResult($res, 0, $columnname);
 			}
 		}
 		$parent_accounts[$id] = $parent_account_info;
@@ -225,11 +220,11 @@ class OSSEmployees extends Vtiger_CRMEntity
 			" WHERE vtiger_crmentity.deleted = 0 and parentid = ?";
 		$params = array($id);
 		$res = $adb->pquery($query, $params);
-		$num_rows = $adb->num_rows($res);
-		if ($num_rows > 0) {
+		$numRows = $adb->numRows($res);
+		if ($numRows > 0) {
 			$depth = $depth + 1;
-			for ($i = 0; $i < $num_rows; $i++) {
-				$child_acc_id = $adb->query_result($res, $i, 'ossemployeesid');
+			for ($i = 0; $i < $numRows; $i++) {
+				$child_acc_id = $adb->queryResult($res, $i, 'ossemployeesid');
 				if (array_key_exists($child_acc_id, $child_accounts)) {
 					continue;
 				}
@@ -237,9 +232,9 @@ class OSSEmployees extends Vtiger_CRMEntity
 				$child_account_info['depth'] = $depth;
 				foreach ($this->list_fields_name as $fieldname => $columnname) {
 					if ($columnname == 'assigned_user_id') {
-						$child_account_info[$columnname] = $adb->query_result($res, $i, 'user_name');
+						$child_account_info[$columnname] = $adb->queryResult($res, $i, 'user_name');
 					} else {
-						$child_account_info[$columnname] = $adb->query_result($res, $i, $columnname);
+						$child_account_info[$columnname] = $adb->queryResult($res, $i, $columnname);
 					}
 				}
 				$child_accounts[$child_acc_id] = $child_account_info;

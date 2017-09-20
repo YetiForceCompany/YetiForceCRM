@@ -1,12 +1,12 @@
 <?php
 
 /**
- * OSSMailScanner saveEmailSearchList action class
+ * OSSMailScanner restart cron action class
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
-class OSSMailScanner_saveEmailSearchList_Action extends Vtiger_Action_Controller
+class OSSMailScanner_RestartCron_Action extends Vtiger_Action_Controller
 {
 
 	/**
@@ -24,13 +24,10 @@ class OSSMailScanner_saveEmailSearchList_Action extends Vtiger_Action_Controller
 
 	public function process(\App\Request $request)
 	{
-		$vale = $request->get('vale');
-		if (!empty($vale)) {
-			$vale = implode(',', $vale);
-		}
-		$mailScannerModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
-		$mailScannerModel->setEmailSearchList($vale);
-		$result = array('success' => true, 'data' => \App\Language::translate('JS_save_fields_info', 'OSSMailScanner'));
+		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
+		$recordModel->runRestartCron();
+		$recordModel->verificationCron();
+		$result = array('success' => true, 'data' => \App\Language::translate('JS_info_restart_ok', 'OSSMailScanner'));
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

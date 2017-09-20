@@ -644,6 +644,61 @@ Vtiger_Widget_Js('Vtiger_Pie_Widget_Js', {}, {
 });
 
 
+
+Vtiger_Widget_Js('Vtiger_Donut_Widget_Js', {}, {
+	/**
+	 * Function which will give chart related Data
+	 */
+	generateData: function () {
+		var container = this.getContainer();
+		var jData = container.find('.widgetData').val();
+		var data = JSON.parse(jData);
+		var chartData = [];
+		for (var index in data) {
+			var row = data[index];
+			var rowData = [row.last_name, row.id];
+			chartData.push(rowData);
+		}
+		return {'chartData': chartData};
+	},
+	loadChart: function () {
+		var chartData = this.generateData();
+		if (chartData['chartData'].length > 0) {
+			this.getPlotContainer(false).jqplot([chartData['chartData']], {
+				seriesDefaults: {
+					renderer: jQuery.jqplot.DonutRenderer,
+					rendererOptions: {
+						// Donut's can be cut into slices like pies.
+						sliceMargin: 3,
+						// Pies and donuts can start at any arbitrary angle.
+						startAngle: -90,
+						showDataLabels: true,
+						dataLabels: 'value',
+						// "totalLabel=true" uses the centre of the donut for the total amount
+						totalLabel: true
+					}
+				},
+				legend: {
+					show: true,
+					location: 'e'
+				},
+				title: chartData['title']
+			});
+			this.registerSectionClick();
+		}
+	},
+	registerSectionClick: function () {
+		var container = this.getContainer();
+		var data = container.find('.widgetData').val();
+		var dataInfo = JSON.parse(data);
+		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
+			var url = dataInfo[pointIndex][2];
+			window.location.href = url;
+		});
+	}
+});
+
+
 Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 	generateChartData: function () {
 		var container = this.getContainer();
@@ -1324,7 +1379,8 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 					var status = parent.find('.widgetFilterSwitch').data();
 					url += '["activitystatus","e","' + status[params.time] + '"],';
 				}
-				window.location.href = url + '["activitytype","e","' + $(this).data('type') + '"],["date_start","ir","' + $(this).data('date') + '"]]]';
+				var date = moment($(this).data('date')).format(thisInstance.getUserDateFormat().toUpperCase())
+				window.location.href = url + '["activitytype","e","' + $(this).data('type') + '"],["date_start","bw","' + date + ',' + date + '"]]]';
 			});
 		});
 	},

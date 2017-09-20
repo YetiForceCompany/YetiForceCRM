@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-include_once 'include/Webservices/Create.php';
 include_once 'include/utils/utils.php';
 
 class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
@@ -107,8 +106,7 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 
 	public function createRecord(\App\Request $request)
 	{
-		$user = Users_Record_Model::getCurrentUserModel();
-		$moduleName = $request->get('modulename');
+		$moduleName = $request->getByType('modulename', 1);
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'CreateView')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
@@ -117,7 +115,6 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 		$element['lastname'] = $name[0];
 		$element['email'] = $request->get('email');
 		$element['phone'] = $request->get('number');
-		$element['assigned_user_id'] = vtws_getWebserviceEntityId('Users', $user->id);
 
 		$moduleInstance = Vtiger_Module_Model::getInstance($moduleName);
 		$mandatoryFieldModels = $moduleInstance->getMandatoryFieldModels();
@@ -135,9 +132,10 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 				$element[$fieldName] = $fieldValue;
 			}
 		}
-
-		$entity = vtws_create($moduleName, $element, $user);
-		$this->updateCustomerInPhoneCalls($entity, $request);
+		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+		$recordModel->setData($element);
+		$recordModel->save();
+		$this->updateCustomerInPhoneCalls($recordModel->getId(), $request);
 		$response = new Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
@@ -145,16 +143,15 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 
 	/**
 	 * Updates the customer in phone call
-	 * @param int $customer
+	 * @param int $id
 	 * @param \App\Request $request
 	 */
-	public function updateCustomerInPhoneCalls($customer, \App\Request $request)
+	public function updateCustomerInPhoneCalls($id, \App\Request $request)
 	{
-		$id = vtws_getIdComponents($customer['id']);
 		$sourceuuid = $request->get('callid');
 		$module = $request->get('modulename');
 		$recordModel = PBXManager_Record_Model::getInstanceBySourceUUID($sourceuuid);
-		$recordModel->updateCallDetails(array('customer' => $id[1], 'customertype' => $module));
+		$recordModel->updateCallDetails(array('customer' => $id, 'customertype' => $module));
 	}
 
 	public function getCallStatus($request)

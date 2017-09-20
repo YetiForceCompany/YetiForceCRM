@@ -14,7 +14,7 @@ $languageStrings = [
 	'LBL_LIBRARY_PHPEXCEL' => 'PHPExcel Library',
 	'LBL_CONFIG_REPORT' => 'Server Konfiguration',
 	'LBL_CONFIG_REPORT_LINK' => 'Fehlende Library zeigen',
-	'LBL_CONFIG_REPORT_DESC' => 'Der Server wurde nicht korrekt konfiguriert. Das System kann dadurch instabil sein und eingegeben Daten eventuell fehlerhaft. Mehr Informationen finden Sie in folgenden Artikel <a target="_blank" href="https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements"><u>on server requirements at yetiforce.com</u></a>',
+	'LBL_CONFIG_REPORT_DESC' => 'Der Server wurde nicht korrekt konfiguriert. Das System kann dadurch instabil sein und eingegeben Daten eventuell fehlerhaft. Mehr Informationen finden Sie in folgenden Artikel <a target="_blank" rel="noreferrer" href="https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements"><u>on server requirements at yetiforce.com</u></a>',
 	'LBL_NEWSLETTER' => 'Newsletter',
 	'LBL_NEWSLETTER_DESC' => 'Anmelden für den kostenlosen YetiForce Newsletter. Werden Sie über die aktuellen Systemfunktionen im CRM Bereich informiert. Wir senden Ihnen Informationen über neue Versionen, Updates, Events, Neuentwicklungen, und vieles mehr.<br />Treten Sie unserer Community bei und bleiben Sie auf dem aktuellen Stand.<br />Eine Internetverbindung wird für die Anmeldung benötigt.',
 	'LBL_STATS' => 'Statistische Informationen senden',

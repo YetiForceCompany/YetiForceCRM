@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Client Model
  * @package YetiForce.Github
@@ -17,33 +16,33 @@ class Settings_Github_Client_Model
 	/**
 	 * Repository name
 	 */
-	const repository = 'YetiForceCRM';
-	
+	const REPOSITORY = 'YetiForceCRM';
+
 	/**
 	 * Owner repository
 	 */
-	const ownerRepository = 'YetiForceCompany';
-	
+	const OWNER_REPOSITORY = 'YetiForceCompany';
+
 	/**
 	 * Address url to api
 	 */
-	const url = 'https://api.github.com';
+	const URL = 'https://api.github.com';
 
 	/**
 	 * Id client
-	 * @var string 
+	 * @var string
 	 */
 	private $clientId;
-	
+
 	/**
 	 *
-	 * @var type 
+	 * @var type
 	 */
 	private $clientToken;
-	
+
 	/**
 	 * Username
-	 * @var string 
+	 * @var string
 	 */
 	private $username;
 
@@ -86,7 +85,7 @@ class Settings_Github_Client_Model
 		$data['page'] = $numPage;
 		$data['per_page'] = 20;
 		$path = '/search/issues';
-		$data['q'] = 'user:' . self::ownerRepository . ' repo:' . self::repository . " is:issue is:$state";
+		$data['q'] = 'user:' . self::OWNER_REPOSITORY . ' repo:' . self::REPOSITORY . " is:issue is:$state";
 		if ($author) {
 			$data['q'] .= " author:$this->username";
 		}
@@ -110,7 +109,7 @@ class Settings_Github_Client_Model
 	 */
 	public function createIssue($body, $title)
 	{
-		$path = '/repos/' . self::ownerRepository . '/' . self::repository . '/issues';
+		$path = '/repos/' . self::OWNER_REPOSITORY . '/' . self::REPOSITORY . '/issues';
 		$data['title'] = $title;
 		$data['body'] = $body;
 		$data = json_encode($data);
@@ -187,15 +186,15 @@ class Settings_Github_Client_Model
 	 */
 	private function doRequest($url, $method, $data = [], $status)
 	{
-		$url = self::url . $url;
+		$url = self::URL . $url;
 		$options = [];
 		if ($this->isAuthorized()) {
-			$options['auth'] =  [$this->clientId, $this->clientToken];
+			$options['auth'] = [$this->clientId, $this->clientToken];
 		}
 		switch ($method) {
 			case 'GET':
 				$url .= '?' . http_build_query($data);
-				$content = \Requests::get($url, [], $options);	
+				$content = \Requests::get($url, [], $options);
 				break;
 
 			case 'POST':
@@ -206,6 +205,6 @@ class Settings_Github_Client_Model
 		if ($code != $status) {
 			return false;
 		}
-		return  App\Json::decode($content->body, App\Json::TYPE_OBJECT);
+		return App\Json::decode($content->body, App\Json::TYPE_OBJECT);
 	}
 }

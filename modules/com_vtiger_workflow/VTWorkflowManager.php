@@ -328,8 +328,9 @@ class VTWorkflowManager
 
 	/**
 	 * Update the Next trigger timestamp for a workflow
+	 * @param Workflow $workflow
 	 */
-	public function updateNexTriggerTime($workflow)
+	public function updateNexTriggerTime(Workflow $workflow)
 	{
 		$nextTriggerTime = $workflow->getNextTriggerTime();
 		$workflow->setNextTriggerTime($nextTriggerTime);
@@ -755,7 +756,7 @@ class Workflow
 				foreach ($scheduledDaysOfMonth as $day) {
 					if ($day == $currentDayOfMonth) {
 						$currentTime = time();
-						$schTime = strtotime($date = date('Y') . '-' . date('m') . '-' . $day . ' ' . $scheduledTime);
+						$schTime = strtotime(date('Y') . '-' . date('m') . '-' . $day . ' ' . $scheduledTime);
 						if ($schTime > $currentTime) {
 							$nextTriggerDay = $day;
 							break;

@@ -52,12 +52,12 @@ class Users_MassSave_Action extends Vtiger_MassSave_Action
 
 			$sql = "SELECT `id` FROM `vtiger_users`";
 			$result = $db->query($sql, true);
-			$uNum = $db->num_rows($result);
+			$uNum = $db->numRows($result);
 
 			if ($uNum > 0) {
 				$recordIds = [];
 				for ($i = 0; $i < $uNum; $i++) {
-					$recordIds[] = $db->query_result($result, $i, 'id');
+					$recordIds[] = $db->queryResult($result, $i, 'id');
 				}
 			}
 		}

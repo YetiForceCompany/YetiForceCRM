@@ -105,6 +105,15 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
+	 * Function declare fields to edit
+	 * @return string[]
+	 */
+	public function getEditableFields()
+	{
+		return ['id', 'tabid', 'field', 'roleid', 'value', 'roles', 'smowners', 'assign', 'conditions', 'user_limit', 'active'];
+	}
+
+	/**
 	 * Function returns field instances for given name
 	 * @param string $name
 	 * @return Vtiger_Field_Model
@@ -339,12 +348,16 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	{
 		$db = App\Db::getInstance('admin');
 		$params = [];
+		$fieldsToEdit = $this->getEditableFields();
 		foreach ($this->getData() as $key => $value) {
+			if (!in_array($key, $fieldsToEdit)) {
+				throw new \App\Exceptions\BadRequest('LBL_NOT_ALLOWED_VALUE');
+			}
 			$params[$key] = $this->getValueToSave($key, $value);
 		}
 		if ($params && empty($this->getId())) {
-			$seccess = $db->createCommand()->insert($this->getTable(), $params)->execute();
-			if ($seccess) {
+			$success = $db->createCommand()->insert($this->getTable(), $params)->execute();
+			if ($success) {
 				$this->rawData = $params;
 				$this->set('id', $db->getLastInsertID($this->getTable() . '_id_seq'));
 			}
@@ -477,7 +490,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 		}
 		if (empty($users)) {
 			$smowners = $this->get('smowners') ? explode(',', $this->get('smowners')) : [];
-			foreach ($smowners as $key => $user) {
+			foreach ($smowners as $user) {
 				if (\App\Fields\Owner::getType($user) !== 'Users') {
 					$users = array_merge($users, \App\PrivilegeUtil::getUsersByGroup($user));
 				} else {

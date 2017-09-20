@@ -126,9 +126,15 @@ class ModuleHierarchy
 		return $return;
 	}
 
+	/**
+	 * The function takes a hierarchy relationship
+	 * @param string $moduleName
+	 * @param boolean $field
+	 * @return array
+	 */
 	public static function getRelationFieldByHierarchy($moduleName, $field = false)
 	{
-		if ($field != false && isset(static::$hierarchy['modulesMapRelatedFields'][$moduleName][$field])) {
+		if ($field !== false && isset(static::$hierarchy['modulesMapRelatedFields'][$moduleName][$field])) {
 			return static::$hierarchy['modulesMapRelatedFields'][$moduleName][$field];
 		}
 		if (isset(static::$hierarchy['modulesMapRelatedFields'][$moduleName])) {

@@ -42,6 +42,7 @@ $languageStrings = [
 	'LBL_PASSWORD_MISMATCH' => 'Merci de resaisir le mot de passe.  Le \"Mot de passe\" and \"Vérifier le mot de passe\" ne concordent pas.',
 	'LBL_PHP_CONFIGURATION' => 'Configuration PHP',
 	'LBL_PHP_RECOMMENDED_SETTINGS' => 'Paramètres PHP recommandés',
+	'LBL_SECURITY_RECOMMENDED_SETTINGS' => 'Recommended security settings',
 	'LBL_PHP_VERSION' => 'Version PHP',
 	'LBL_PLEASE_WAIT' => 'Veuillez patienter',
 	'LBL_PRESENT_VALUE' => 'Valeurs actuelles',
@@ -111,5 +112,6 @@ $jsLanguageStrings = [
 	'LBL_MANDATORY_FIELDS_ERROR' => 'Attention! Des champs obligatoires sont vides.',
 	'LBL_PASS_REENTER_ERROR' => 'Merci de resaisir le mot de passe.  Le mot de passe et sa vérification ne sont pas identiques.',
 	'LBL_INVALID_EMAIL_ERROR' => 'Attention! Email adresse invalide.',
+	'LBL_INVALID_USERNAME_ERROR' => 'Invalid username',
 	'LBL_RESOLVE_ERROR' => 'Merci de résoudre les erreurs avant de continuer l\'installation',
 ];

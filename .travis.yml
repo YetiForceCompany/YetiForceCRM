@@ -5,6 +5,7 @@ dist: trusty
 language: php
 
 php:
+  - 7.2
   - 7.1
   - 7.0
   - 5.6
@@ -15,6 +16,7 @@ matrix:
   allow_failures:
     - php: hhvm
     - php: nightly
+    - php: 7.2
     
 branches:
   only:
@@ -53,7 +55,7 @@ before_script:
   
 script:
 - cd tests
-- /usr/local/bin/phpunit --debug --verbose --coverage-text --coverage-clover=coverage.clover
+- /usr/local/bin/phpunit --debug --verbose --coverage-text --coverage-clover=coverage.xml
     
 after_script:
 - cd ..
@@ -67,5 +69,5 @@ after_script:
 - cat cache/logs/phpError.log
 - cat cache/logs/system.log
 - cat cache/logs/Importer.log
-- php ocular code-coverage:upload --format=php-clover coverage.clover
+- php ocular code-coverage:upload --format=php-clover coverage.xml
 - bash <(curl -s https://codecov.io/bash) 

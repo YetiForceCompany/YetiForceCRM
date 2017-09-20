@@ -19,7 +19,7 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 	 * @param \App\Request $request
 	 * @param Users_Record_Model $user
 	 */
-	public function __construct(\App\Request $request, $user)
+	public function __construct(\App\Request $request, Users_Record_Model $user)
 	{
 		$instance = Vtiger_Cache::get('ZipReader', $request->get('module') . $user->id);
 		if (!empty($instance)) {

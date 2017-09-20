@@ -7,7 +7,14 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-jQuery.Class('Install_Index_Js', {}, {
+jQuery.Class('Install_Index_Js', {
+	checkUsername: function (field, rules, i, options) {
+		var logins = jQuery.parseJSON(jQuery('input[name="not_allowed_logins"]').val());
+		if (jQuery.inArray(field.val(), logins) !== -1) {
+			return app.vtranslate('LBL_INVALID_USERNAME_ERROR');
+		}
+	},
+}, {
 	registerEventForStep1: function () {
 		jQuery('.bt_install').on('click', function (e) {
 			jQuery('input[name="mode"]').val('step2');
@@ -66,20 +73,14 @@ jQuery.Class('Install_Index_Js', {}, {
 		return error;
 	},
 	registerEventForStep4: function () {
-
 		var config = JSON.parse(localStorage.getItem('yetiforce_install'));
-
 		for (var field in config) {
-//		console.log(field);
 			var formField = jQuery('[name="' + field + '"]');
-
 			if ('SELECT' == jQuery(formField).prop('tagName')) {
 				jQuery(formField).val(config[field]);
 				jQuery(formField).select2('destroy');
 				jQuery(formField).select2();
-
 			} else if ('INPUT' == jQuery(formField).prop('tagName') && 'checkbox' == jQuery(formField).attr('type')) {
-
 				if (true == config[field]) {
 					jQuery(formField).prop('checked', true);
 					jQuery('.config-table tr.hide').removeClass('hide');
@@ -88,7 +89,6 @@ jQuery.Class('Install_Index_Js', {}, {
 				jQuery(formField).val(config[field]);
 			}
 		}
-
 		var thisInstance = this;
 		jQuery('input[name="create_db"]').on('click', function () {
 			var userName = jQuery('#root_user');
@@ -101,7 +101,6 @@ jQuery.Class('Install_Index_Js', {}, {
 				password.addClass('hide');
 			}
 		});
-
 		function clearPasswordError() {
 			jQuery('#passwordError').html('');
 		}

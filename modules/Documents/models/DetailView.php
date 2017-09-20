@@ -49,7 +49,7 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model
 					'linklabel' => \App\Language::translate('LBL_EMAIL_FILE_AS_ATTACHMENT', 'Documents'),
 					'linkhref' => true,
 					'linktarget' => '_blank',
-					'linkurl' => 'index.php?module=OSSMail&view=compose&type=new&crmModule=Documents&crmRecord=' . $recordModel->getId(),
+					'linkurl' => 'index.php?module=OSSMail&view=Compose&type=new&crmModule=Documents&crmRecord=' . $recordModel->getId(),
 					'linkicon' => 'glyphicon glyphicon-envelope'
 				);
 				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);

@@ -77,6 +77,16 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		return $data;
 	}
 
+	public function getDataDonut()
+	{
+		$groupData = $this->getDataFromFilter();
+		$data = [];
+		foreach ($groupData as $fieldName => $value) {
+			$data [] = ['last_name' => $fieldName, 'id' => $value['count'], '2' => $value['link']];
+		}
+		return $data;
+	}
+
 	private function getSector($sectors, $value)
 	{
 		$sectorId = false;
@@ -98,7 +108,18 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$queryGenerator = new \App\QueryGenerator($this->getTargetModule());
 		$queryGenerator->initForCustomViewById($filterId);
 		$queryGenerator->setField($groupField);
-		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+		$query = $queryGenerator->createQuery();
+		if ($this->has('time')) {
+			$time = $this->get('time');
+			/*
+			  $query->andWhere([
+			  'and',
+			  ['>=', 'vtiger_osstimecontrol.due_date', Vtiger_Date_UIType::getDBInsertedValue($time['start'])],
+			  ['<=', 'vtiger_osstimecontrol.due_date', Vtiger_Date_UIType::getDBInsertedValue($time['end'])]
+			  ]);
+			 */
+		}
+		$dataReader = $query->createCommand()->query();
 		$groupData = [];
 		if (empty($this->extraData['sector'])) {
 			while ($row = $dataReader->read()) {
@@ -201,8 +222,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$db = PearDatabase::getInstance();
 			$suffix = '';
 			$customviewrs = $db->pquery('SELECT viewname FROM vtiger_customview WHERE cvid=?', array($this->widgetModel->get('filterid')));
-			if ($db->num_rows($customviewrs)) {
-				$customview = $db->fetch_array($customviewrs);
+			if ($db->numRows($customviewrs)) {
+				$customview = $db->fetchArray($customviewrs);
 				$suffix = ' - ' . \App\Language::translate($customview['viewname'], $this->getTargetModule());
 				$groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
 				$suffix .= ' - ' . \App\Language::translate($groupFieldModel->getFieldLabel(), $this->getTargetModule());

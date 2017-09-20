@@ -33,10 +33,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		if (empty($sourceModule)) {
 			$sourceModule = $moduleName;
 		}
-		$currentDashboard = $request->get('dashboardId');
-		if (empty($currentDashboard)) {
-			$currentDashboard = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
-		}
+		$currentDashboard = $this->getDashboardId($request);
 		$dashBoardModel = Vtiger_DashBoard_Model::getInstance($moduleName);
 		$dashBoardModel->set('dashboardId', $currentDashboard);
 		//check profile permissions for Dashboards
@@ -67,10 +64,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$currentDashboard = $request->get('dashboardId');
-		if (empty($currentDashboard)) {
-			$currentDashboard = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
-		}
+		$currentDashboard = $this->getDashboardId($request);
 		$dashBoardModel = Vtiger_DashBoard_Model::getInstance($moduleName);
 		$dashBoardModel->set('dashboardId', $currentDashboard);
 		//check profile permissions for Dashboards
@@ -105,10 +99,8 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$currentDashboard = $request->get('dashboardId');
-		if (empty($currentDashboard)) {
-			$currentDashboard = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
-		}
+		$currentDashboard = $this->getDashboardId($request);
+		\App\Session::set($request->getModule() . 'LastDashBoardId', $currentDashboard);
 		$dashBoardModel = Vtiger_DashBoard_Model::getInstance($moduleName);
 		$dashBoardModel->set('dashboardId', $currentDashboard);
 		//check profile permissions for Dashboards
@@ -119,7 +111,6 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		} else {
 			return;
 		}
-
 		$viewer->assign('WIDGETS', $widgets);
 		$viewer->view('dashboards/DashBoardContents.tpl', $moduleName);
 	}
@@ -127,6 +118,26 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 	public function postProcess(\App\Request $request)
 	{
 		parent::postProcess($request);
+	}
+
+	/**
+	 * Get dashboard id
+	 * @param \App\Request $request
+	 * @return int
+	 */
+	public function getDashboardId(\App\Request $request)
+	{
+		$dashboardId = false;
+		if (!$request->isEmpty('dashboardId', true)) {
+			$dashboardId = $request->getInteger('dashboardId');
+		} elseif (\App\Session::has($request->getModule() . 'LastDashBoardId')) {
+			$dashboardId = \App\Session::get($request->getModule() . 'LastDashBoardId');
+		}
+		if (!$dashboardId) {
+			$dashboardId = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
+		}
+		$request->set('dashboardId', $dashboardId);
+		return $dashboardId;
 	}
 
 	/**
@@ -140,21 +151,22 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'~libraries/jquery/gridster/jquery.gridster.min.js',
-			'~libraries/jquery/flot/jquery.flot.min.js',
-			'~libraries/jquery/flot/jquery.flot.pie.min.js',
-			'~libraries/jquery/flot/jquery.flot.stack.min.js',
-			'~libraries/jquery/jqplot/jquery.jqplot.min.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.canvasTextRenderer.min.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.pieRenderer.min.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.barRenderer.min.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.categoryAxisRenderer.min.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.pointLabels.min.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.funnelRenderer.min.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.barRenderer.min.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.logAxisRenderer.min.js',
+			'~libraries/jquery/gridster/jquery.gridster.js',
+			'~libraries/jquery/flot/jquery.flot.js',
+			'~libraries/jquery/flot/jquery.flot.pie.js',
+			'~libraries/jquery/flot/jquery.flot.stack.js',
+			'~libraries/jquery/jqplot/jquery.jqplot.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.canvasTextRenderer.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.canvasAxisTickRenderer.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.pieRenderer.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.barRenderer.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.categoryAxisRenderer.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.pointLabels.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.canvasAxisLabelRenderer.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.funnelRenderer.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.donutRenderer.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.barRenderer.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.logAxisRenderer.js',
 			'modules.Vtiger.resources.DashBoard',
 			'modules.' . $moduleName . '.resources.DashBoard',
 			'modules.Vtiger.resources.dashboards.Widget',
@@ -176,9 +188,9 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		$parentHeaderCssScriptInstances = parent::getHeaderCss($request);
 
 		$headerCss = array(
-			'~libraries/jquery/gridster/jquery.gridster.min.css',
-			'~libraries/jquery/jqplot/jquery.jqplot.min.css',
-			'~libraries/fullcalendar/fullcalendar.min.css',
+			'~libraries/jquery/gridster/jquery.gridster.css',
+			'~libraries/jquery/jqplot/jquery.jqplot.css',
+			'~libraries/fullcalendar/fullcalendar.css',
 			'~libraries/fullcalendar/fullcalendarCRM.css'
 		);
 		$cssScripts = $this->checkAndConvertCssStyles($headerCss);

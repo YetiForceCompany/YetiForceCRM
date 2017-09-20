@@ -92,7 +92,7 @@ class ThemeExport extends Package
 		$adb = \PearDatabase::getInstance();
 
 		$sqlresult = $adb->pquery("SELECT * FROM vtiger_layoutskins WHERE name = ?", array($themeName));
-		$layoutresultrow = $adb->fetch_array($sqlresult);
+		$layoutresultrow = $adb->fetchArray($sqlresult);
 
 		$resultThemename = \App\Purifier::decodeHtml($layoutresultrow['name']);
 		$resultThemelabel = \App\Purifier::decodeHtml($layoutresultrow['label']);
@@ -181,7 +181,7 @@ class ThemeExport extends Package
 		$query = sprintf('SELECT * FROM %s WHERE name = ?', self::TABLENAME);
 		$checkres = $adb->pquery($query, [$name]);
 		$datetime = date('Y-m-d H:i:s');
-		if ($adb->num_rows($checkres)) {
+		if ($adb->numRows($checkres)) {
 			$adb->update(self::TABLENAME, [
 				'label' => $label,
 				'name' => $name,
@@ -189,7 +189,7 @@ class ThemeExport extends Package
 				'lastupdated' => $datetime,
 				'isdefault' => $useisdefault,
 				'active' => $useisactive,
-				], 'id=?', [$adb->query_result($checkres, 0, 'id')]
+				], 'id=?', [$adb->queryResult($checkres, 0, 'id')]
 			);
 		} else {
 			$adb->insert(self::TABLENAME, [

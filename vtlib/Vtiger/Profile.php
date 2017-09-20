@@ -90,10 +90,10 @@ class Profile
 
 	/**
 	 * Initialize profile setup for Field
-	 * @param Field Instance of the field
+	 * @param FieldBasic $fieldInstance
 	 * @access private
 	 */
-	public static function initForField($fieldInstance)
+	public static function initForField(FieldBasic $fieldInstance)
 	{
 		$db = \App\Db::getInstance();
 		// Allow field access to all
@@ -113,10 +113,10 @@ class Profile
 
 	/**
 	 * Delete profile information related with field.
-	 * @param Field Instance of the field
+	 * @param FieldBasic $fieldInstance
 	 * @access private
 	 */
-	public static function deleteForField($fieldInstance)
+	public static function deleteForField(FieldBasic $fieldInstance)
 	{
 		$db = \App\Db::getInstance();
 		$db->createCommand()->delete('vtiger_def_org_field', ['fieldid' => $fieldInstance->id])->execute();
@@ -139,10 +139,10 @@ class Profile
 
 	/**
 	 * Initialize profile setup for the module
-	 * @param Module Instance of module
+	 * @param ModuleBasic $moduleInstance
 	 * @access private
 	 */
-	public static function initForModule($moduleInstance)
+	public static function initForModule(ModuleBasic $moduleInstance)
 	{
 		$db = \App\Db::getInstance();
 		$actionids = (new \App\Db\Query())->select(['actionid'])->from('vtiger_actionmapping')
@@ -171,10 +171,10 @@ class Profile
 
 	/**
 	 * Delete profile setup of the module
-	 * @param Module Instance of module
+	 * @param ModuleBasic $moduleInstance
 	 * @access private
 	 */
-	public static function deleteForModule($moduleInstance)
+	public static function deleteForModule(ModuleBasic $moduleInstance)
 	{
 		$db = \App\Db::getInstance();
 		$db->createCommand()->delete('vtiger_def_org_field', ['tabid' => $moduleInstance->id])->execute();

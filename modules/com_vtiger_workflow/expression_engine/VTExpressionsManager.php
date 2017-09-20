@@ -62,12 +62,10 @@ class VTExpressionsManager
 	 */
 	public function fields($moduleName)
 	{
-		$current_user = vglobal('current_user');
-		$result = vtws_describe($moduleName, $current_user);
-		$fields = $result['fields'];
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$arr = [];
-		foreach ($fields as $field) {
-			$arr[$field['name']] = $field['label'];
+		foreach ($moduleModel->getFields() as $fieldName => $fieldModel) {
+			$arr[$fieldName] = $fieldModel->getFieldLabel();
 		}
 		return $arr;
 	}

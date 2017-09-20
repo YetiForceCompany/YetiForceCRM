@@ -147,7 +147,7 @@
 						</span>
 					{/if}
 					{if $RECORD->get('location') neq '' }
-						<a target="_blank" href="https://www.google.com/maps/search/{urlencode ($RECORD->get('location'))}" class="pull-right popoverTooltip delay0" data-original-title="{\App\Language::translate('Location', 'Calendar')}" data-content="{$RECORD->get('location')}">
+						<a target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/{urlencode ($RECORD->get('location'))}" class="pull-right popoverTooltip delay0" data-original-title="{\App\Language::translate('Location', 'Calendar')}" data-content="{$RECORD->get('location')}">
 							<span class="icon-map-marker"></span>&nbsp
 						</a>
 					{/if}

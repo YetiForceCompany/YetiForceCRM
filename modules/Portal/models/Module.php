@@ -49,8 +49,8 @@ class Portal_Module_Model extends Vtiger_Module_Model
 
 		$result = $db->pquery('SELECT portalname, portalurl FROM vtiger_portal WHERE portalid = ?', array($recordId));
 
-		$data['bookmarkName'] = $db->query_result($result, 0, 'portalname');
-		$data['bookmarkUrl'] = $db->query_result($result, 0, 'portalurl');
+		$data['bookmarkName'] = $db->queryResult($result, 0, 'portalname');
+		$data['bookmarkUrl'] = $db->queryResult($result, 0, 'portalurl');
 
 		return $data;
 	}
@@ -65,7 +65,7 @@ class Portal_Module_Model extends Vtiger_Module_Model
 		$db = PearDatabase::getInstance();
 		$result = $db->pquery('SELECT portalurl FROM vtiger_portal WHERE portalid=?', array($recordId));
 
-		return $db->query_result($result, 0, 'portalurl');
+		return $db->queryResult($result, 0, 'portalurl');
 	}
 
 	public function getAllRecords()

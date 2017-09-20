@@ -109,7 +109,7 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 
 	/**
 	 * Array with instances, kay as number id element of menu
-	 * @var array 
+	 * @var array
 	 */
 	public static $cacheInstance = false;
 
@@ -147,8 +147,8 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 
 		$result = $db->pquery($sql, $params);
 
-		if ($db->num_rows($result) > 0) {
-			$rowData = $db->query_result_rowdata($result, 0);
+		if ($db->numRows($result) > 0) {
+			$rowData = $db->queryResultRowData($result, 0);
 			return Settings_Vtiger_Menu_Model::getInstanceFromArray($rowData);
 		}
 		return false;

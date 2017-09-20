@@ -15,7 +15,7 @@ class Settings_OSSMailScanner_Index_View extends Settings_Vtiger_Index_View
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$mailModuleActive = vtlib\Functions::getModuleId('OSSMail');
+		$mailModuleActive = \App\Module::getModuleId('OSSMail');
 		$mailScannerRecordModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 		$identityList = [];
 		if ($mailModuleActive) {

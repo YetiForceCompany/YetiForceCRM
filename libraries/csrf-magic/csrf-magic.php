@@ -145,7 +145,7 @@ class CSRF
 	 * Rewrites <form> on the fly to add CSRF tokens to them. This can also
 	 * inject our JavaScript library.
 	 */
-	public static function obHandler($buffer, $flags)
+	public static function obHandler($buffer)
 	{
 		if (!static::$isHtml) {
 			// not HTML until proven otherwise
@@ -321,7 +321,7 @@ class CSRF
 	 * This should be helpful in production. For debigging use csrf_callback().
 	 * It is configurable by setting $GLOBALS['csrf']['callback'] in this file
 	 */
-	public static function responseForIllegalAccess($tokens)
+	public static function responseForIllegalAccess()
 	{
 		echo 'Invalid request - Response For Illegal Access';
 	}
@@ -343,6 +343,8 @@ class CSRF
 
 	/**
 	 * Checks if a token is valid.
+	 * @param int $token
+	 * @return boolean
 	 */
 	public static function checkToken($token)
 	{
@@ -351,7 +353,8 @@ class CSRF
 		list($type, $value) = explode(':', $token, 2);
 		if (strpos($value, ',') === false)
 			return false;
-		list($x, $time) = explode(',', $token, 2);
+		$tokenExplode = explode(',', $token, 2);
+		$time = $tokenExplode[1];
 		if (static::$expires) {
 			if (time() > $time + static::$expires)
 				return false;
@@ -445,7 +448,7 @@ class CSRF
 	/**
 	 * Generates a random string as the hash of time, microtime, and mt_rand.
 	 */
-	public static function generateSecret($len = 32)
+	public static function generateSecret()
 	{
 		$r = '';
 		for ($i = 0; $i < 32; $i++) {

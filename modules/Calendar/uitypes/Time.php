@@ -16,12 +16,8 @@ class Calendar_Time_UIType extends Vtiger_Time_UIType
 		if (!empty($value)) {
 			return parent::getEditViewDisplayValue($value);
 		}
-
 		$specialTimeFields = array('time_start', 'time_end');
-
-		$fieldInstance = $this->get('field')->getWebserviceFieldObject();
-		$fieldName = $fieldInstance->getFieldName();
-
+		$fieldName = $this->get('field')->getFieldName();
 		if (!in_array($fieldName, $specialTimeFields)) {
 			return parent::getEditViewDisplayValue($value);
 		} else {
@@ -40,7 +36,7 @@ class Calendar_Time_UIType extends Vtiger_Time_UIType
 		$userModel = Users_Privileges_Model::getCurrentUserModel();
 		$date = new DateTime($value);
 
-		if ($fieldName == 'time_end' && empty($value)) {
+		if ($fieldName === 'time_end' && empty($value)) {
 			$defaultCallDuration = $userModel->get('callduration');
 			$date->modify("+{$defaultCallDuration} minutes");
 		}

@@ -9,6 +9,14 @@
 class Settings_Menu_Module_Model
 {
 
+	/**
+	 * Fields to edit
+	 * @var strung[] 
+	 */
+	protected $editFields = [
+		'id', 'role', 'parentid', 'type', 'sequence', 'module', 'label', 'newwindow',
+		'dataurl', 'showicon', 'icon', 'sizeicon', 'hotkey', 'filters', 'edit'
+	];
 	protected $types = [
 		0 => 'Module',
 		1 => 'Shortcut',
@@ -30,6 +38,15 @@ class Settings_Menu_Module_Model
 	{
 		$instance = new self();
 		return $instance;
+	}
+
+	/**
+	 * Function to get editable fields
+	 * @return string[]
+	 */
+	public function getEditFields()
+	{
+		return $this->editFields;
 	}
 
 	public function getMenuTypes($key = false)

@@ -140,8 +140,8 @@ class Reports_Record_Model extends Vtiger_Record_Model
 
 		$self = new self();
 		$reportResult = $db->pquery('SELECT * FROM vtiger_report WHERE reportid = ?', array($recordId));
-		if ($db->num_rows($reportResult)) {
-			$values = $db->query_result_rowdata($reportResult, 0);
+		if ($db->numRows($reportResult)) {
+			$values = $db->queryResultRowData($reportResult, 0);
 			$module = Vtiger_Module_Model::getInstance('Reports');
 			$self->setData($values)->setId($values['reportid'])->setModuleFromInstance($module);
 			$self->initialize();
@@ -291,16 +291,19 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery("SELECT vtiger_selectcolumn.columnname FROM vtiger_report
+		$result = $db->pquery('SELECT vtiger_selectcolumn.columnname FROM vtiger_report
 					INNER JOIN vtiger_selectquery ON vtiger_selectquery.queryid = vtiger_report.queryid
 					INNER JOIN vtiger_selectcolumn ON vtiger_selectcolumn.queryid = vtiger_selectquery.queryid
-					WHERE vtiger_report.reportid = ? ORDER BY vtiger_selectcolumn.columnindex", array($this->getId()));
+					WHERE vtiger_report.reportid = ? ORDER BY vtiger_selectcolumn.columnindex', array($this->getId()));
 
 		$selectedColumns = [];
-		$numRowsCount = $db->num_rows($result);
+		$numRowsCount = $db->numRows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
-			$column = $db->query_result($result, $i, 'columnname');
-			list($tableName, $columnName, $moduleFieldLabel, $fieldName, $type) = explode(':', $column);
+			$column = $db->queryResult($result, $i, 'columnname');
+			$columnExpode = explode(':', $column);
+			$columnName = $columnExpode[1];
+			$moduleFieldLabel = $columnExpode[2];
+			$fieldName = $columnExpode[3];
 			$fieldLabel = explode('__', $moduleFieldLabel);
 			$module = $fieldLabel[0];
 			if (\App\Field::getFieldPermission($module, $fieldName) && $columnName !== 'crmid') {
@@ -323,9 +326,9 @@ class Reports_Record_Model extends Vtiger_Record_Model
 					WHERE vtiger_report.reportid=?', array($this->getId()));
 
 		$columns = [];
-		$numRowsCount = $db->num_rows($result);
+		$numRowsCount = $db->numRows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
-			$columns[] = $db->query_result($result, $i, 'columnname');
+			$columns[] = $db->queryResult($result, $i, 'columnname');
 		}
 		return $columns;
 	}
@@ -343,10 +346,10 @@ class Reports_Record_Model extends Vtiger_Record_Model
 					WHERE vtiger_report.reportid = ? ORDER BY vtiger_reportsortcol.sortcolid', array($this->getId()));
 
 		$sortColumns = [];
-		$numRowsCount = $db->num_rows($result);
+		$numRowsCount = $db->numRows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
-			$column = $db->query_result($result, $i, 'columnname');
-			$order = $db->query_result($result, $i, 'sortorder');
+			$column = $db->queryResult($result, $i, 'columnname');
+			$order = $db->queryResult($result, $i, 'sortorder');
 			$sortColumns[App\Purifier::decodeHtml($column)] = $order;
 		}
 		return $sortColumns;
@@ -362,11 +365,11 @@ class Reports_Record_Model extends Vtiger_Record_Model
 
 		$result = $db->pquery('SELECT * FROM vtiger_reportdatefilter WHERE datefilterid = ? && startdate != ? && enddate != ?', array($this->getId(), '0000-00-00', '0000-00-00'));
 		$standardFieldInfo = [];
-		if ($db->num_rows($result)) {
-			$standardFieldInfo['columnname'] = $db->query_result($result, 0, 'datecolumnname');
-			$standardFieldInfo['type'] = $db->query_result($result, 0, 'datefilter');
-			$standardFieldInfo['startdate'] = $db->query_result($result, 0, 'startdate');
-			$standardFieldInfo['enddate'] = $db->query_result($result, 0, 'enddate');
+		if ($db->numRows($result)) {
+			$standardFieldInfo['columnname'] = $db->queryResult($result, 0, 'datecolumnname');
+			$standardFieldInfo['type'] = $db->queryResult($result, 0, 'datefilter');
+			$standardFieldInfo['startdate'] = $db->queryResult($result, 0, 'startdate');
+			$standardFieldInfo['enddate'] = $db->queryResult($result, 0, 'enddate');
 
 			if ($standardFieldInfo['type'] == "custom" || $standardFieldInfo['type'] == "") {
 				if ($standardFieldInfo["startdate"] != "0000-00-00" && $standardFieldInfo["startdate"] != "") {
@@ -599,12 +602,12 @@ class Reports_Record_Model extends Vtiger_Record_Model
 					$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
 					$fieldType = null;
 					if (!empty($fieldInfo)) {
-						$field = WebserviceField::fromArray($db, $fieldInfo);
-						$fieldType = $field->getFieldDataType();
+						$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldInfo['fieldid']);
+						$fieldType = $fieldModel->getFieldDataType();
 					}
 
 					if ($fieldType === 'currency') {
-						if ($field->getUIType() == '72') {
+						if ($fieldModel->getUIType() == '72') {
 							// Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
 							$advFilterValue = Vtiger_Currency_UIType::convertToDBFormat($advFilterValue, null, true);
 						} else {
@@ -733,8 +736,8 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		$adb = PearDatabase::getInstance();
 		$count = 0;
 		$result = $adb->query($query, []);
-		if ($adb->num_rows($result) > 0) {
-			$count = $adb->query_result($result, 0, 'count');
+		if ($adb->numRows($result) > 0) {
+			$count = $adb->queryResult($result, 0, 'count');
 		}
 		return $count;
 	}
@@ -1055,7 +1058,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 			return false;
 		}
 		$result = $db->pquery($query, $params);
-		if ($db->num_rows($result)) {
+		if ($db->numRows($result)) {
 			return true;
 		}
 		return false;
@@ -1092,24 +1095,24 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		return Reports_ScheduleReports_Model::getInstanceById($this->getId());
 	}
 
+	/**
+	 * Function to get ids for selected records
+	 * @param \App\Request $request
+	 * @return int[]
+	 */
 	public static function getRecordsListFromRequest(\App\Request $request)
 	{
 		$folderId = $request->get('viewname');
-		$module = $request->get('module');
 		$selectedIds = $request->get('selected_ids');
 		$excludedIds = $request->get('excluded_ids');
-
-		if (!empty($selectedIds) && $selectedIds != 'all') {
+		if (!empty($selectedIds) && $selectedIds != '"all"' && $selectedIds != 'all') {
 			if (!empty($selectedIds) && count($selectedIds) > 0) {
 				return $selectedIds;
 			}
 		}
-
 		$reportFolderModel = Reports_Folder_Model::getInstance();
 		$reportFolderModel->set('folderid', $folderId);
-		if ($reportFolderModel) {
-			return $reportFolderModel->getRecordIds($excludedIds, $module);
-		}
+		return $reportFolderModel->getRecordIds($excludedIds);
 	}
 
 	public function getModuleCalculationFieldsForReport()
@@ -1161,8 +1164,8 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		$result = $db->pquery("SELECT data FROM vtiger_reporttype WHERE reportid = ?", array($this->getId()));
 
 		$dataFields = '';
-		if ($db->num_rows($result) > 0) {
-			$dataFields = $db->query_result($result, 0, 'data');
+		if ($db->numRows($result) > 0) {
+			$dataFields = $db->queryResult($result, 0, 'data');
 		}
 		return $dataFields;
 	}

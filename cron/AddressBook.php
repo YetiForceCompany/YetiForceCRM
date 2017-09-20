@@ -102,5 +102,5 @@ foreach ($workflows as $row) {
 	$last = false;
 }
 OSSMail_AddressBook_Model::createABFile();
-\App\Log::trace(vtlib\Functions::varExportMin($i));
+\App\Log::trace(App\Utils::varExport($i));
 \App\Log::trace('End create AddressBook');

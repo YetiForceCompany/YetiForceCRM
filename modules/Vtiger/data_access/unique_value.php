@@ -25,7 +25,7 @@ Class DataAccess_unique_value
 	public function process($moduleName, $ID, $record_form, $config)
 	{
 		$db = PearDatabase::getInstance();
-		$moduleNameID = vtlib\Functions::getModuleId($moduleName);
+		$moduleNameID = \App\Module::getModuleId($moduleName);
 		$fieldlabel = $sql_ext = '';
 		$save_record1 = true;
 		$save_record2 = true;
@@ -87,9 +87,9 @@ Class DataAccess_unique_value
 					}
 				}
 				$result = $db->pquery("SELECT $index FROM {$where[0]} $sqlSpecial " . $searchTrash['query'] . " WHERE {$where[1]} = ? $sql_ext $spacialCondition " . $searchTrash['params'] . ";", $sql_param, true);
-				$num = $db->num_rows($result);
+				$num = $db->numRows($result);
 				for ($i = 0; $i < $num; $i++) {
-					$id = $db->query_result_raw($result, $i, $index);
+					$id = $db->queryResultRaw($result, $i, $index);
 					$metadata = vtlib\Functions::getCRMRecordMetadata($id);
 					if ($metadata['setype'] == $DestModuleName) {
 						$save_record1 = false;
@@ -128,9 +128,9 @@ Class DataAccess_unique_value
 					}
 				}
 				$result = $db->pquery("SELECT $index FROM {$where[0]} " . $searchTrash['query'] . " WHERE {$where[1]} = ? $sql_ext " . $searchTrash['params'] . ";", $sql_param, true);
-				$num = $db->num_rows($result);
+				$num = $db->numRows($result);
 				for ($i = 0; $i < $num; $i++) {
-					$id = $db->query_result_raw($result, $i, $index);
+					$id = $db->queryResultRaw($result, $i, $index);
 					$metadata = vtlib\Functions::getCRMRecordMetadata($id);
 					if ($metadata['setype'] == $DestModuleName) {
 						$save_record2 = false;
@@ -196,7 +196,7 @@ Class DataAccess_unique_value
 		$result = $db->pquery("SELECT * FROM vtiger_field LEFT JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid  WHERE vtiger_field.presence <> '1' && vtiger_field.displaytype IN ('1','10') ORDER BY name", [], true);
 		$fields = [];
 		$ModuleFields = [];
-		while ($row = $db->fetch_array($result)) {
+		while ($row = $db->fetchArray($result)) {
 			array_push($fields, array($row['fieldlabel'], $row['tablename'], $row['columnname'], $row['name'], $row['tabid'], $row['fieldname']));
 			if ($row['name'] === $baseModule) {
 				array_push($ModuleFields, array($row['name'], $row['fieldname'], $row['fieldlabel']));

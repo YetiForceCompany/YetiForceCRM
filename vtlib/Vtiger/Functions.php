@@ -13,11 +13,6 @@ namespace vtlib;
 class Functions
 {
 
-	public static function userIsAdministrator($user)
-	{
-		return (isset($user->is_admin) && $user->is_admin == 'on');
-	}
-
 	public static function currentUserDisplayDateNew()
 	{
 		$current_user = vglobal('current_user');
@@ -152,18 +147,6 @@ class Functions
 		return $id ? \App\Cache::get('moduleTabById', $id) : NULL;
 	}
 
-	public static function getModuleId($name)
-	{
-		$moduleInfo = self::getModuleData($name);
-		return $moduleInfo ? $moduleInfo['tabid'] : NULL;
-	}
-
-	public static function getModuleOwner($name)
-	{
-		$moduleInfo = self::getModuleData($name);
-		return $moduleInfo ? $moduleInfo['ownedby'] : NULL;
-	}
-
 	/**
 	 * this function returns the entity field name for a given module; for e.g. for Contacts module it return concat(lastname, ' ', firstname)
 	 * @param string $mixed - the module name
@@ -237,20 +220,6 @@ class Functions
 		return empty($label) ? $default : $label;
 	}
 
-	protected static $userIdNameCache = [];
-
-	public static function getUserName($id)
-	{
-		$adb = \PearDatabase::getInstance();
-		if (!self::$userIdNameCache[$id]) {
-			$result = $adb->pquery('SELECT id, user_name FROM vtiger_users');
-			while ($row = $adb->fetch_array($result)) {
-				self::$userIdNameCache[$row['id']] = $row['user_name'];
-			}
-		}
-		return (isset(self::$userIdNameCache[$id])) ? self::$userIdNameCache[$id] : NULL;
-	}
-
 	/**
 	 * Function get module field infos
 	 * @param int|string $mixed
@@ -266,7 +235,7 @@ class Functions
 		if (!\App\Cache::has($cacheName, $module)) {
 			$dataReader = (new \App\Db\Query())
 					->from('vtiger_field')
-					->where(['tabid' => $module === 'Calendar' ? [9, 16] : self::getModuleId($module)])
+					->where(['tabid' => $module === 'Calendar' ? [9, 16] : \App\Module::getModuleId($module)])
 					->createCommand()->query();
 			$fieldInfoByName = $fieldInfoByColumn = [];
 			while ($row = $dataReader->read()) {
@@ -312,7 +281,12 @@ class Functions
 		return $value;
 	}
 
-	public static function fromHTML($string, $encode = true)
+	/**
+	 * From html
+	 * @param string $string
+	 * @return string
+	 */
+	public static function fromHTML($string)
 	{
 		if (is_string($string)) {
 			if (preg_match('/(script).*(\/script)/i', $string)) {
@@ -347,31 +321,6 @@ class Functions
 		return preg_replace(array('/</', '/>/', '/"/'), array('&lt;', '&gt;', '&quot;'), $string);
 	}
 
-	public static function getInventoryTermsAndCondition()
-	{
-		$adb = \PearDatabase::getInstance();
-		$sql = "select tandc from vtiger_inventory_tandc";
-		$result = $adb->pquery($sql, []);
-		$tandc = $adb->query_result($result, 0, "tandc");
-		return $tandc;
-	}
-
-	public static function getMergedDescriptionCustomVars($fields, $description)
-	{
-		foreach ($fields['custom'] as $columnname) {
-			$token_data = '$custom-' . $columnname . '$';
-			$token_value = '';
-			switch ($columnname) {
-				case 'currentdate': $token_value = date("F j, Y");
-					break;
-				case 'currenttime': $token_value = date("G:i:s T");
-					break;
-			}
-			$description = str_replace($token_data, $token_value, $description);
-		}
-		return $description;
-	}
-
 	/** 	Function used to retrieve a single field value from database
 	 * 	@param string $tableName - tablename from which we will retrieve the field value
 	 * 	@param string $fieldName - fieldname to which we want to get the value from database
@@ -382,30 +331,6 @@ class Functions
 	public static function getSingleFieldValue($tableName, $fieldName, $idName, $id)
 	{
 		return (new \App\Db\Query())->select([$fieldName])->from($tableName)->where([$idName => $id])->scalar();
-	}
-
-	/**
-	 * Gets the comment number
-	 * @param int $ticketid
-	 * @return string
-	 */
-	public static function getTicketComments($ticketid)
-	{
-		$adb = \PearDatabase::getInstance();
-		$moduleName = \App\Record::getType($ticketid);
-		$commentlist = '';
-		$sql = 'SELECT commentcontent FROM vtiger_modcomments WHERE related_to = ?';
-		$result = $adb->pquery($sql, array($ticketid));
-		$countResult = $adb->num_rows($result);
-		for ($i = 0; $i < $countResult; $i++) {
-			$comment = $adb->query_result($result, $i, 'commentcontent');
-			if ($comment != '') {
-				$commentlist .= '<br /><br />' . $comment;
-			}
-		}
-		if ($commentlist != '')
-			$commentlist = '<br /><br />' . \App\Language::translate('The comments are', $moduleName) . ' : ' . $commentlist;
-		return $commentlist;
 	}
 
 	/**     function used to change the Type of Data for advanced filters in custom view and Reports
@@ -491,8 +416,8 @@ class Functions
 	{
 		$adb = \PearDatabase::getInstance();
 		$query = "select activitytype from vtiger_activity where activityid=?";
-		$res = $adb->pquery($query, array($id));
-		$activity_type = $adb->query_result($res, 0, "activitytype");
+		$res = $adb->pquery($query, [$id]);
+		$activity_type = $adb->queryResult($res, 0, "activitytype");
 		return $activity_type;
 	}
 
@@ -530,7 +455,7 @@ class Functions
 			$query = "select unit_price from vtiger_products where productid=?";
 		}
 		$result = $adb->pquery($query, array($productid));
-		$unitpice = $adb->query_result($result, 0, 'unit_price');
+		$unitpice = $adb->queryResult($result, 0, 'unit_price');
 		return $unitpice;
 	}
 
@@ -685,7 +610,6 @@ class Functions
 			return;
 		}
 		$dirs = [];
-		@chmod($rootDir . $src, 0777);
 		$dirs[] = $rootDir . $src;
 		if (is_dir($src)) {
 			foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
@@ -704,7 +628,13 @@ class Functions
 		}
 	}
 
-	public static function recurseCopy($src, $dest, $delete = false)
+	/**
+	 * The function copies files
+	 * @param string $src
+	 * @param string $dest
+	 * @return string
+	 */
+	public static function recurseCopy($src, $dest)
 	{
 		$rootDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
 		if (!file_exists($rootDir . $src)) {
@@ -1038,19 +968,5 @@ class Functions
 			}
 		}
 		return $difference;
-	}
-
-	public static function varExportMin($var)
-	{
-		if (is_array($var)) {
-			$toImplode = [];
-			foreach ($var as $key => $value) {
-				$toImplode[] = var_export($key, true) . '=>' . self::varExportMin($value);
-			}
-			$code = '[' . implode(',', $toImplode) . ']';
-			return $code;
-		} else {
-			return var_export($var, true);
-		}
 	}
 }

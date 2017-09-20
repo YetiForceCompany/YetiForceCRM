@@ -74,10 +74,8 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	{
 		if (empty($value) || $value === ' ') {
 			$value = trim($value);
-			$fieldInstance = $this->get('field')->getWebserviceFieldObject();
+			$fieldName = $this->get('field')->getFieldName();
 			$moduleName = $this->get('field')->getModule()->getName();
-			$fieldName = $fieldInstance->getFieldName();
-
 			//Restricted Fields for to show Default Value
 			if (($fieldName === 'birthday' && $moduleName === 'Contacts') || $moduleName === 'Products') {
 				return $value;

@@ -210,7 +210,7 @@
 								<div class="headerLinksMails" id="OSSMailBoxInfo" {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true" data-interval="{$CONFIG['timeCheckingMail']}"{/if}>
 									<div class="btn-group">
 										{if count($AUTOLOGINUSERS) eq 1}
-											<a type="button" class="btn btn-sm btn-default" title="{$MAIN_MAIL.username}" href="index.php?module=OSSMail&view=index">
+											<a type="button" class="btn btn-sm btn-default" title="{$MAIN_MAIL.username}" href="index.php?module=OSSMail&view=Index">
 												<div class="hidden-xs">
 													{$ITEM.username}
 													<span class="mail_user_name">{$MAIN_MAIL.username}</span>

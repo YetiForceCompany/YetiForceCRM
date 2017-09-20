@@ -2,7 +2,7 @@
 // $Id: iCalendar_components.php,v 1.8 2005/07/21 22:31:44 defacer Exp $
 require_once('include/utils/utils.php');
 
-class iCalendar_component
+class IcalendarComponent
 {
 
 	public $name = NULL;
@@ -50,10 +50,10 @@ class iCalendar_component
 
 		// Create a property object of the correct class
 		if ($xname) {
-			$property = new iCalendar_property_x;
+			$property = new IcalendarPropertyX;
 			$property->setName($name);
 		} else {
-			$classname = 'iCalendar_property_' . strtolower(str_replace('-', '_', $name));
+			$classname = 'IcalendarProperty' . ucfirst(strtolower(str_replace('-', '', $name)));
 			$property = new $classname;
 		}
 		// If $value is NULL, then this property must define a default value.
@@ -117,7 +117,7 @@ class iCalendar_component
 	{
 
 		// With the detailed interface, you can add only components with this function
-		if (!is_object($component) || !is_subclass_of($component, 'iCalendar_component')) {
+		if (!is_object($component) || !is_subclass_of($component, 'IcalendarComponent')) {
 			return false;
 		}
 
@@ -134,9 +134,9 @@ class iCalendar_component
 		return true;
 	}
 
-	public function get_property_list($name)
+	public function getPropertyList($name)
 	{
-		
+
 	}
 
 	public function invariantHolds()
@@ -160,7 +160,7 @@ class iCalendar_component
 		// that have not been set and do not have a default value
 		foreach ($this->valid_properties as $property => $propdata) {
 			if (($propdata & RFC2445_REQUIRED) && empty($this->properties[$property])) {
-				$classname = 'iCalendar_property_' . strtolower(str_replace('-', '_', $property));
+				$classname = 'IcalendarProperty' . ucfirst(strtolower(str_replace('-', '', $property)));
 				$object = new $classname;
 				if ($object->defaultValueICal() === NULL) {
 					return false;
@@ -377,7 +377,7 @@ class iCalendar_component
 	}
 }
 
-class iCalendar extends iCalendar_component
+class Icalendar extends IcalendarComponent
 {
 
 	public $name = 'VCALENDAR';
@@ -399,7 +399,7 @@ class iCalendar extends iCalendar_component
 	}
 }
 
-class iCalendar_event extends iCalendar_component
+class IcalendarEvent extends IcalendarComponent
 {
 
 	public $name = 'VEVENT';
@@ -551,7 +551,7 @@ class iCalendar_event extends iCalendar_component
 	}
 }
 
-class iCalendar_todo extends iCalendar_component
+class IcalendarTodo extends IcalendarComponent
 {
 
 	public $name = 'VTODO';
@@ -642,17 +642,17 @@ class iCalendar_todo extends iCalendar_component
 	}
 }
 
-class iCalendar_journal extends iCalendar_component
+class IcalendarJournal extends IcalendarComponent
 {
-	
+
 }
 
-class iCalendar_freebusy extends iCalendar_component
+class IcalendarFreebusy extends IcalendarComponent
 {
-	
+
 }
 
-class iCalendar_alarm extends iCalendar_component
+class IcalendarAlarm extends IcalendarComponent
 {
 
 	public $name = 'VALARM';
@@ -692,7 +692,7 @@ class iCalendar_alarm extends iCalendar_component
 	}
 }
 
-class iCalendar_timezone extends iCalendar_component
+class IcalendarTimezone extends IcalendarComponent
 {
 
 	public $name = 'VTIMEZONE';

@@ -33,16 +33,16 @@
 <footer class="footerContainer navbar-default navbar-fixed-bottom noprint">
 	<div class="vtFooter">
 		<div class="pull-left">
-			<a class="iconsInFooter" href="https://www.linkedin.com/groups/8177576">
+			<a class="iconsInFooter" href="https://www.linkedin.com/groups/8177576" rel="noreferrer">
 				<span class="AdditionalIcon-Linkedin" title="Linkendin"></span>
 			</a>
-			<a class="iconsInFooter" href="https://twitter.com/YetiForceEN">
+			<a class="iconsInFooter" href="https://twitter.com/YetiForceEN" rel="noreferrer">
 				<span class="AdditionalIcon-Twitter" title="Twitter"></span>
 			</a>
-			<a class="iconsInFooter" href="https://www.facebook.com/YetiForce-CRM-158646854306054/">
+			<a class="iconsInFooter" href="https://www.facebook.com/YetiForce-CRM-158646854306054/" rel="noreferrer">
 				<span class="AdditionalIcon-Facebook" title="Facebook"></span>
 			</a>
-			<a class="iconsInFooter" href="https://github.com/YetiForceCompany/YetiForceCRM">
+			<a class="iconsInFooter" href="https://github.com/YetiForceCompany/YetiForceCRM" rel="noreferrer">
 				<span class="AdditionalIcon-Github" title="Github"></span>
 			</a>
 		</div>
@@ -76,21 +76,21 @@
 				<p>The Program is provided AS IS, without warranty. Licensed under <a href="licenses/LicenseEN.txt" target="_blank"><strong>YetiForce Public License 2.0</strong></a>.</p>
 				<p>YetiForce is based on two systems - <strong>VtigerCRM</strong> and <strong>SugarCRM</strong>.<br /><br /></p>
 				<p><span class="label label-default">License:</span> <a href="licenses/LicenseEN.txt" target="_blank"><strong>YetiForce Public License 2.0</strong></a></p>
-				<p><span class="label label-primary">WWW:</span> <a href="https://yetiforce.com" target="_blank"><strong>https://yetiforce.com</strong></a></p>
-				<p><span class="label label-success">Code:</span> <a href="https://github.com/YetiForceCompany/YetiForceCRM" target="_blank"><strong>https://github.com/YetiForceCompany/YetiForceCRM</strong></a></p>
-				<p><span class="label label-info">Documentation:</span> <a href="https://yetiforce.com/en/documentation.html" target="_blank"><strong>https://yetiforce.com/en/documentation.html</strong></a></p>
-				<p><span class="label label-warning">Issues:</span> <a href="https://github.com/YetiForceCompany/YetiForceCRM/issues" target="_blank"><strong>https://github.com/YetiForceCompany/YetiForceCRM/issues</strong></a></p>
+				<p><span class="label label-primary">WWW:</span> <a href="https://yetiforce.com" target="_blank" rel="noreferrer"><strong>https://yetiforce.com</strong></a></p>
+				<p><span class="label label-success">Code:</span> <a href="https://github.com/YetiForceCompany/YetiForceCRM" target="_blank" rel="noreferrer"><strong>https://github.com/YetiForceCompany/YetiForceCRM</strong></a></p>
+				<p><span class="label label-info">Documentation:</span> <a href="https://yetiforce.com/en/knowledge-base/documentation" target="_blank" rel="noreferrer"><strong>https://yetiforce.com/en/documentation.html</strong></a></p>
+				<p><span class="label label-warning">Issues:</span> <a href="https://github.com/YetiForceCompany/YetiForceCRM/issues" target="_blank" rel="noreferrer"><strong>https://github.com/YetiForceCompany/YetiForceCRM/issues</strong></a></p>
 				<p class="text-center">
-					<a class="yetiforceDetailsLink" href="https://www.linkedin.com/groups/8177576">
+					<a class="yetiforceDetailsLink" rel="noreferrer" href="https://www.linkedin.com/groups/8177576">
 						<span class="fa fa-linkedin-square" title="LinkendIn"></span>
 					</a>
-					<a class="yetiforceDetailsLink" href="https://twitter.com/YetiForceEN">
+					<a class="yetiforceDetailsLink" rel="noreferrer" href="https://twitter.com/YetiForceEN">
 						<span class="fa fa-twitter-square" title="Twitter"></span>
 					</a>
-					<a class="yetiforceDetailsLink" href="https://www.facebook.com/YetiForce-CRM-158646854306054/">
+					<a class="yetiforceDetailsLink" rel="noreferrer" href="https://www.facebook.com/YetiForce-CRM-158646854306054/">
 						<span class="fa fa-facebook-square" title="Facebook"></span>
 					</a>
-					<a class="yetiforceDetailsLink" href="https://github.com/YetiForceCompany/YetiForceCRM">
+					<a class="yetiforceDetailsLink" rel="noreferrer" href="https://github.com/YetiForceCompany/YetiForceCRM">
 						<span class="fa fa-github-square" title="Github"></span>
 					</a>
 				</p>

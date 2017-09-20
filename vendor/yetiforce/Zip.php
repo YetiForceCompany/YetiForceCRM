@@ -185,7 +185,7 @@ class Zip extends \ZipArchive
 	 */
 	public function checkFreeSpace()
 	{
-		$df = disk_free_space(ROOT_DIRECTORY);
+		$df = disk_free_space(ROOT_DIRECTORY . DIRECTORY_SEPARATOR);
 		$size = 0;
 		for ($i = 0; $i < $this->numFiles; $i++) {
 			$stat = $this->statIndex($i);

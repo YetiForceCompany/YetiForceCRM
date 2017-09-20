@@ -34,7 +34,7 @@ class Users_Login_Action extends Vtiger_Action_Controller
 		$bfInstance = Settings_BruteForce_Module_Model::getCleanInstance();
 		if ($bfInstance->isActive() && $bfInstance->isBlockedIp()) {
 			$bfInstance->incAttempts();
-			$moduleModel->saveLoginHistory($username, 'Blocked IP');
+			$moduleModel->saveLoginHistory(strtolower($username), 'Blocked IP');
 			header('Location: index.php?module=Users&view=Login&error=2');
 			return false;
 		}
@@ -47,7 +47,7 @@ class Users_Login_Action extends Vtiger_Action_Controller
 			$userId = $user->column_fields['id'];
 			App\Session::set('authenticated_user_id', $userId);
 			App\Session::set('app_unique_key', AppConfig::main('application_unique_key'));
-			App\Session::set('user_name', $username);
+			App\Session::set('user_name', $user->column_fields['user_name']);
 			App\Session::set('full_user_name', \App\Fields\Owner::getUserLabel($userId, true));
 
 			if ($request->has('loginLanguage') && AppConfig::main('langInLoginView')) {
@@ -57,7 +57,7 @@ class Users_Login_Action extends Vtiger_Action_Controller
 				App\Session::set('layout', $request->get('layout'));
 			}
 			//Track the login History
-			$moduleModel->saveLoginHistory($user->column_fields['user_name']);
+			$moduleModel->saveLoginHistory(strtolower($username));
 			//End
 			if (isset($_SESSION['return_params'])) {
 				$return_params = urldecode($_SESSION['return_params']);

@@ -28,7 +28,7 @@ function vtlib_prefetchModuleActiveInfo($force = true)
 		$tabres = $adb->query("SELECT * FROM vtiger_tab");
 		$tabrows = [];
 		if ($tabres) {
-			while ($tabresrow = $adb->fetch_array($tabres)) {
+			while ($tabresrow = $adb->fetchArray($tabres)) {
 				$tabrows[] = $tabresrow;
 			}
 			// Update cache for further re-use
@@ -215,11 +215,11 @@ function vtlib_getPicklistValues_AccessibleToAll($fieldColumnname)
 	$tablename = 'vtiger_' . $fieldColumnname;
 	// Gather all the roles (except H1 which is organization role)
 	$roleres = $adb->query("SELECT roleid FROM vtiger_role WHERE roleid != 'H1'");
-	$roleresCount = $adb->num_rows($roleres);
+	$roleresCount = $adb->numRows($roleres);
 	$allroles = [];
 	if ($roleresCount) {
 		for ($index = 0; $index < $roleresCount; ++$index)
-			$allroles[] = $adb->query_result($roleres, $index, 'roleid');
+			$allroles[] = $adb->queryResult($roleres, $index, 'roleid');
 	}
 	sort($allroles);
 
@@ -229,7 +229,7 @@ function vtlib_getPicklistValues_AccessibleToAll($fieldColumnname)
 		INNER JOIN vtiger_role2picklist ON $tablename.picklist_valueid=vtiger_role2picklist.picklistvalueid
 		WHERE roleid != 'H1'");
 
-	$picklistresCount = $adb->num_rows($picklistres);
+	$picklistresCount = $adb->numRows($picklistres);
 
 	$picklistval_roles = [];
 	if ($picklistresCount) {

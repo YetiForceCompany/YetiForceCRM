@@ -19,6 +19,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		$this->modules_email_actions_widgets['HelpDesk'] = true;
 		$this->modules_email_actions_widgets['Project'] = true;
 		$this->modules_email_actions_widgets['SSalesProcesses'] = true;
+		$this->modules_email_actions_widgets['SSingleOrders'] = true;
 		parent::__construct();
 	}
 
@@ -54,63 +55,60 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 	 */
 	public function showEmailsList($srecord, $smodule, $config, $type, $filter = 'All')
 	{
+		if ($filter === 'All' || $filter === 'Contacts') {
+			$relatedId = (new \App\Db\Query())->select(['vtiger_contactdetails.contactid'])->from('vtiger_contactdetails')
+					->innerJoin('vtiger_crmentity', 'vtiger_contactdetails.contactid = vtiger_crmentity.crmid')
+					->where(['vtiger_contactdetails.parentid' => $srecord, 'deleted' => 0])->column();
+		}
+		if ($filter !== 'Contacts') {
+			$relatedId[] = $srecord;
+		}
+		if (!$relatedId || App\ModuleHierarchy::getModuleLevel($smodule) === false) {
+			return [];
+		}
 		$return = [];
-		$widgets = $this->modules_email_actions_widgets;
-		if (!empty($widgets[$smodule])) {
-			if ($filter === 'All' || $filter === 'Contacts') {
-				$relatedId = (new \App\Db\Query())->select(['vtiger_contactdetails.contactid'])->from('vtiger_contactdetails')
-						->innerJoin('vtiger_crmentity', 'vtiger_contactdetails.contactid = vtiger_crmentity.crmid')
-						->where(['vtiger_contactdetails.parentid' => $srecord, 'deleted' => 0])->column();
+		$subQuery = (new \App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview_relation')->where(['crmid' => $relatedId, 'deleted' => 0])->orderBy(['date' => SORT_DESC])->column();
+		$query = (new \App\Db\Query())->select(['vtiger_ossmailview.*'])->from('vtiger_ossmailview')
+			->innerJoin('vtiger_crmentity', 'vtiger_ossmailview.ossmailviewid = vtiger_crmentity.crmid')
+			->where(['ossmailviewid' => $subQuery]);
+		if ($type !== 'All') {
+			$query->andWhere((['type' => $type]));
+		}
+		\App\PrivilegeQuery::getConditions($query, 'OSSMailView');
+		$query->orderBy(['date' => SORT_DESC]);
+		if ($config['widget_limit'] !== '') {
+			$query->limit($config['widget_limit']);
+		}
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$from = $this->findRecordsById($row['from_id']);
+			$from = ($from && $from !== '') ? $from : $row['from_email'];
+			$to = $this->findRecordsById($row['to_id']);
+			$to = ($to && $to !== '') ? $to : $row['to_email'];
+			$content = vtlib\Functions::getHtmlOrPlainText($row['content']);
+			if (\App\Privilege::isPermitted('OSSMailView', 'DetailView', $row['ossmailviewid'])) {
+				$subject = '<a href="index.php?module=OSSMailView&view=Preview&record=' . $row['ossmailviewid'] . '" target="' . $config['target'] . '"> ' . $row['subject'] . '</a>';
+			} else {
+				$subject = $row['subject'];
 			}
-			if ($filter !== 'Contacts') {
-				$relatedId[] = $srecord;
-			}
-			if (!$relatedId) {
-				return [];
-			}
-			$subQuery = (new \App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview_relation')->where(['crmid' => $relatedId, 'deleted' => 0])->orderBy(['date' => SORT_DESC])->column();
-			$query = (new \App\Db\Query())->select(['vtiger_ossmailview.*'])->from('vtiger_ossmailview')
-				->innerJoin('vtiger_crmentity', 'vtiger_ossmailview.ossmailviewid = vtiger_crmentity.crmid')
-				->where(['ossmailviewid' => $subQuery]);
-			if ($type !== 'All') {
-				$query->andWhere((['type' => $type]));
-			}
-			\App\PrivilegeQuery::getConditions($query, 'OSSMailView');
-			$query->orderBy(['date' => SORT_DESC]);
-			if ($config['widget_limit'] !== '') {
-				$query->limit($config['widget_limit']);
-			}
-			$dataReader = $query->createCommand()->query();
-			while ($row = $dataReader->read()) {
-				$from = $this->findRecordsById($row['from_id']);
-				$from = ($from && $from !== '') ? $from : $row['from_email'];
-				$to = $this->findRecordsById($row['to_id']);
-				$to = ($to && $to !== '') ? $to : $row['to_email'];
-				$content = vtlib\Functions::getHtmlOrPlainText($row['content']);
-				if (\App\Privilege::isPermitted('OSSMailView', 'DetailView', $row['ossmailviewid'])) {
-					$subject = '<a href="index.php?module=OSSMailView&view=preview&record=' . $row['ossmailviewid'] . '" target="' . $config['target'] . '"> ' . $row['subject'] . '</a>';
-				} else {
-					$subject = $row['subject'];
-				}
-				$return[] = [
-					'id' => $row['ossmailviewid'],
-					'date' => $row['date'],
-					'firstLetter' => strtoupper(vtlib\Functions::textLength(trim(strip_tags($from)), 1, false)),
-					'subjectRaw' => $row['subject'],
-					'subject' => $subject,
-					'attachments' => $row['attachments_exist'],
-					'from' => $from,
-					'fromRaw' => $row['from_email'],
-					'toRaw' => $row['to_email'],
-					'ccRaw' => $row['cc_email'],
-					'to' => $to,
-					'url' => "index.php?module=OSSMailView&view=preview&record={$row['ossmailviewid']}&srecord=$srecord&smodule=$smodule",
-					'type' => $row['type'],
-					'teaser' => vtlib\Functions::textLength(trim(preg_replace('/[ \t]+/', ' ', strip_tags($content))), 100),
-					'body' => $content,
-					'bodyRaw' => $row['content'],
-				];
-			}
+			$return[] = [
+				'id' => $row['ossmailviewid'],
+				'date' => $row['date'],
+				'firstLetter' => strtoupper(vtlib\Functions::textLength(trim(strip_tags($from)), 1, false)),
+				'subjectRaw' => $row['subject'],
+				'subject' => $subject,
+				'attachments' => $row['attachments_exist'],
+				'from' => $from,
+				'fromRaw' => $row['from_email'],
+				'toRaw' => $row['to_email'],
+				'ccRaw' => $row['cc_email'],
+				'to' => $to,
+				'url' => "index.php?module=OSSMailView&view=Preview&record={$row['ossmailviewid']}&srecord=$srecord&smodule=$smodule",
+				'type' => $row['type'],
+				'teaser' => vtlib\Functions::textLength(trim(preg_replace('/[ \t]+/', ' ', strip_tags($content))), 100),
+				'body' => $content,
+				'bodyRaw' => $row['content'],
+			];
 		}
 		return $return;
 	}

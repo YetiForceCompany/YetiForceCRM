@@ -289,35 +289,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Function to get the module meta information
-	 * @param <type> $userModel - user model
-	 */
-	public function getModuleMeta($userModel = false)
-	{
-		if (empty($this->moduleMeta)) {
-			if (empty($userModel)) {
-				$userModel = Users_Record_Model::getCurrentUserModel();
-			}
-			$this->moduleMeta = Vtiger_ModuleMeta_Model::getInstance($this->get('name'), $userModel);
-		}
-		return $this->moduleMeta;
-	}
-	//Note : This api is using only in RelationListview - for getting columnfields of Related Module
-	//Need to review........
-
-	/**
-	 * Function to get the module field mapping
-	 * @return <array>
-	 */
-	public function getColumnFieldMapping()
-	{
-		$moduleMeta = $this->getModuleMeta();
-		$meta = $moduleMeta->getMeta();
-		$fieldColumnMapping = $meta->getFieldColumnMapping();
-		return array_flip($fieldColumnMapping);
-	}
-
-	/**
 	 * Function to get the ListView Component Name
 	 * @return string
 	 */
@@ -767,7 +738,11 @@ class Vtiger_Module_Model extends \vtlib\Module
 	public function getNameFields()
 	{
 		$entityInfo = App\Module::getEntityInfo($this->getId());
-		return $entityInfo['fieldnameArr'];
+		$fieldsName = [];
+		foreach ($entityInfo['fieldnameArr'] as $columnName) {
+			$fieldsName[] = $this->getFieldByColumn($columnName)->getFieldName();
+		}
+		return $fieldsName;
 	}
 
 	/**
@@ -1056,8 +1031,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$db = PearDatabase::getInstance();
 
 		$result = $db->pquery("SELECT cvid FROM vtiger_customview WHERE setdefault = 1 && entitytype = ?", array($this->getName()));
-		if ($db->num_rows($result)) {
-			return $db->query_result($result, 0, 'cvid');
+		if ($db->numRows($result)) {
+			return $db->queryResult($result, 0, 'cvid');
 		}
 		return false;
 	}
@@ -1081,9 +1056,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 			WHERE vtiger_crmentity.deleted = 0 && crmentity2.deleted = 0 && crmentity2.setype = ? %s
 			ORDER BY vtiger_crmentity.createdtime DESC LIMIT ?, ?', $accessConditions);
 		$result = $db->pquery($query, [$this->getName(), $pagingModel->getStartIndex(), $pagingModel->getPageLimit()]);
-		$numRowsCount = $db->num_rows($result);
+		$numRowsCount = $db->numRows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+			$row = $db->queryResultRowData($result, $i);
 			$commentModel = Vtiger_Record_Model::getCleanInstance('ModComments');
 			$commentModel->setData($row);
 			$time = $commentModel->get('createdtime');
@@ -1123,9 +1098,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 								ORDER BY vtiger_modtracker_basic.id DESC LIMIT ?, ?', array($this->getName(), $pagingModel->getStartIndex(), $pagingModel->getPageLimit()));
 
 		$activites = [];
-		$numRowsCount = $db->num_rows($result);
+		$numRowsCount = $db->numRows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+			$row = $db->queryResultRowData($result, $i);
 			if (\App\Privilege::isPermitted($row['module'], 'DetailView', $row['crmid'])) {
 				$modTrackerRecorModel = new ModTracker_Record_Model();
 				$modTrackerRecorModel->setData($row)->setParent($row['crmid'], $row['module']);
@@ -1166,7 +1141,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$currentActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('current');
 		$nowInUserFormat = Vtiger_Datetime_UIType::getDisplayDateValue(date('Y-m-d H:i:s'));
 		$nowInDBFormat = Vtiger_Datetime_UIType::getDBDateTimeValue($nowInUserFormat);
-		list($currentDate, $currentTime) = explode(' ', $nowInDBFormat);
+		list($currentDate) = explode(' ', $nowInDBFormat);
 
 		$referenceLinkClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceLink', $moduleName);
 		$referenceLinkInstance = new $referenceLinkClass();
@@ -1387,7 +1362,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	public function getSearchRecordsQuery($searchValue, $parentId = false, $parentModule = false)
 	{
 		return (new App\Db\Query())->select(['crmid', 'setype', 'searchlabel'])
-			->from('u_#__crmentity_search_label')->where(['and', ['like', 'userid', ',' . App\User::getCurrentUserId() . ','], ['like', 'searchlabel', $searchValue]]);
+				->from('u_#__crmentity_search_label')->where(['and', ['like', 'userid', ',' . App\User::getCurrentUserId() . ','], ['like', 'searchlabel', $searchValue]]);
 	}
 
 	/**
@@ -1455,7 +1430,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$mandatoryFields = [];
 		if ($fields) {
 			foreach ($fields as $field) {
-				if ($field->isMandatory()) {
+				if ($field->isActiveField() && $field->isMandatory()) {
 					$mandatoryFields[$field->getName()] = $field;
 				}
 			}

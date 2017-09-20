@@ -95,7 +95,7 @@ class Reservations_Calendar_Model extends \App\Base
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 			$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 			$item['end'] = $dataBaseDateFormatedString . ' ' . $dateTimeComponents[1];
-			$item['className'] = ' ownerCBg_' . $record['smownerid'] . ' picklistCBg_OSSTimeControl_timecontrol_type_' . $record['type'];
+			$item['className'] = ' ownerCBg_' . $record['smownerid'];
 			$result[] = $item;
 		}
 		return $result;

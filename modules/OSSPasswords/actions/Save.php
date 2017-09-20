@@ -49,11 +49,11 @@ class OSSPasswords_Save_Action extends Vtiger_Save_Action
 				if ($config) { // when encryption is on
 					$sql = sprintf("SELECT AES_DECRYPT(`password`, '%s') AS pass FROM `vtiger_osspasswords` WHERE `osspasswordsid` = ?;", $config['key']);
 					$result = $adb->pquery($sql, [$recordId], true);
-					$properPassword = $adb->query_result($result, 0, 'pass');
+					$properPassword = $adb->queryResult($result, 0, 'pass');
 				} else {  // encryption mode is off
 					$sql = "SELECT `password` AS pass FROM `vtiger_osspasswords` WHERE `osspasswordsid` = ?;";
 					$result = $adb->pquery($sql, array($recordId), true);
-					$properPassword = $adb->query_result($result, 0, 'pass');
+					$properPassword = $adb->queryResult($result, 0, 'pass');
 				}
 			}
 			$recordModel->set('password', $properPassword);

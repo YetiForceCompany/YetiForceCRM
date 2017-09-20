@@ -438,7 +438,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	 */
 	protected static function uuDecode($input)
 	{
-		$attachments = $parts = [];
+		$attachments = [];
 		$uu_regexp_begin = '/begin [0-7]{3,4} ([^\r\n]+)\r?\n/s';
 		$uu_regexp_end = '/`\r?\nend((\r?\n)|($))/s';
 
@@ -588,7 +588,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			} elseif ($fieldName == 'skin_logo') {
 				$fieldValue = ['*' => $fieldValue];
 			}
-			$replacement = sprintf("\$config['%s'] = %s;", $fieldName, vtlib\Functions::varExportMin($fieldValue));
+			$replacement = sprintf("\$config['%s'] = %s;", $fieldName, App\Utils::varExport($fieldValue));
 			$fileContent = preg_replace('/(\$config\[\'' . $fieldName . '\'\])[\s]+=([^\n]+);/', $replacement, $fileContent);
 		}
 		$filePointer = fopen($fileName, 'w');

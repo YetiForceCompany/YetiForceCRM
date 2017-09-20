@@ -18,15 +18,6 @@ class Module extends ModuleBasic
 {
 
 	/**
-	 * Function to get the Module/Tab id
-	 * @return int
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
-
-	/**
 	 * Get related list sequence to use
 	 * @return int
 	 */
@@ -156,14 +147,6 @@ class Module extends ModuleBasic
 	public function getLinks()
 	{
 		return Link::getAll($this->id);
-	}
-
-	/**
-	 * Get all the custom links related to this module for exporting.
-	 */
-	public function getLinksForExport()
-	{
-		return Link::getAllForExport($this->id);
 	}
 
 	/**

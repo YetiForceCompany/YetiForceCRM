@@ -6,17 +6,17 @@
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
-Class OSSMailView_mbody_View extends Vtiger_Index_View
+Class OSSMailView_Mbody_View extends Vtiger_Index_View
 {
 
 	public function preProcess(\App\Request $request, $display = true)
 	{
-		
+
 	}
 
 	public function postProcess(\App\Request $request, $display = true)
 	{
-		
+
 	}
 
 	public function checkPermission(\App\Request $request)

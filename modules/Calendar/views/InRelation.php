@@ -19,7 +19,7 @@ class Calendar_InRelation_View extends Vtiger_RelatedList_View
 		$label = $request->get('tab_label');
 		$pageNumber = $request->getInteger('page');
 		$time = $request->get('time');
-		$totalCount = $request->get('totalCount');
+		$totalCount = $request->isEmpty('totalCount', true) ? false : $request->getInteger('totalCount');
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
 		}

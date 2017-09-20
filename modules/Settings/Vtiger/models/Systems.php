@@ -58,8 +58,8 @@ class Settings_Vtiger_Systems_Model extends \App\Base
 			$modelClassName = self;
 		}
 		$instance = new $modelClassName();
-		if ($db->num_rows($result) > 0) {
-			$rowData = $db->query_result_rowdata($result, 0);
+		if ($db->numRows($result) > 0) {
+			$rowData = $db->queryResultRowData($result, 0);
 			$instance->setData($rowData);
 		}
 		return $instance;

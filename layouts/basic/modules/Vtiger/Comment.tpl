@@ -16,7 +16,11 @@
 			<div class="commentInfoHeader row no-margin" data-commentid="{$COMMENT->getId()}" data-parentcommentid="{$COMMENT->get('parent_comments')}">
 				<div class="pull-left">
 					{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
-					<img class="alignMiddle pull-left" alt="" width="48px" src="{if !empty($IMAGE_PATH)}{$IMAGE_PATH}{else}{\App\Layout::getImagePath('DefaultUserIcon.png')}{/if}">
+					{if $IMAGE_PATH}
+						<img class="userImage pull-left" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_PATH))}" >
+					{else}	
+						<span class="glyphicon glyphicon-user userImage pull-left" aria-hidden="true"></span>
+					{/if}
 				</div>
 				<div class="commentTitle row no-margin" id="{$COMMENT->getId()}">
 					{assign var=PARENT_COMMENT_MODEL value=$COMMENT->getParentCommentModel()}

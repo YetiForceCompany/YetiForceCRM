@@ -89,7 +89,7 @@ class LanguageExport extends Package
 	{
 		$db = \PearDatabase::getInstance();
 		$sqlresult = $db->pquery('SELECT * FROM vtiger_language WHERE prefix = ?', array($prefix));
-		$languageresultrow = $db->fetch_array($sqlresult);
+		$languageresultrow = $db->fetchArray($sqlresult);
 		$langname = \App\Purifier::decodeHtml($languageresultrow['name']);
 		$langlabel = \App\Purifier::decodeHtml($languageresultrow['label']);
 		$this->openNode('module');
@@ -149,8 +149,7 @@ class LanguageExport extends Package
 		$adb = \PearDatabase::getInstance();
 		$checkres = $adb->pquery(sprintf('SELECT id FROM %s WHERE prefix = ?', self::TABLENAME), [$prefix]);
 		$datetime = date('Y-m-d H:i:s');
-		if ($adb->num_rows($checkres)) {
-			$id = $adb->query_result($checkres, 0, 'id');
+		if ($adb->numRows($checkres)) {			
 			$adb->update(self::TABLENAME, [
 				'label' => $label,
 				'name' => $name,

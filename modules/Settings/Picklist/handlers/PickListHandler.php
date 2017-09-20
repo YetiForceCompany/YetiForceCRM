@@ -37,12 +37,12 @@ class Settings_Picklist_PickListHandler_Handler
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$tabId = $moduleModel->getId();
-		//update picklist dependency values 
+		//update picklist dependency values
 		$query = "SELECT id,targetvalues FROM vtiger_picklist_dependency where targetfield=? and tabid=?";
 		$result = $db->pquery($query, array($pickListFieldName, $tabId));
-		$num_rows = $db->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+		$numRows = $db->numRows($result);
+		for ($i = 0; $i < $numRows; $i++) {
+			$row = $db->queryResultRowData($result, $i);
 			$value = App\Purifier::decodeHtml($row['targetvalues']);
 			$explodedValueArray = \App\Json::decode($value);
 			$arrayKey = array_search($oldValue, $explodedValueArray);
@@ -60,9 +60,9 @@ class Settings_Picklist_PickListHandler_Handler
 		//update advancefilter values
 		$query = 'SELECT cvid,value,columnindex,groupid FROM vtiger_cvadvfilter where columnname=?';
 		$result = $db->pquery($query, array($advFiltercolumnName));
-		$num_rows = $db->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+		$numRows = $db->numRows($result);
+		for ($i = 0; $i < $numRows; $i++) {
+			$row = $db->queryResultRowData($result, $i);
 			$value = $row['value'];
 			$explodedValueArray = explode(',', $value);
 			$arrayKey = array_search($oldValue, $explodedValueArray);
@@ -77,9 +77,9 @@ class Settings_Picklist_PickListHandler_Handler
 		//update reportsFilter values
 		$query = 'SELECT queryid,value,columnindex,groupid FROM vtiger_relcriteria where columnname=?';
 		$result = $db->pquery($query, array($reportFilterColumnName));
-		$num_rows = $db->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+		$numRows = $db->numRows($result);
+		for ($i = 0; $i < $numRows; $i++) {
+			$row = $db->queryResultRowData($result, $i);
 			$value = $row['value'];
 			$explodedValueArray = explode(',', $value);
 			$arrayKey = array_search($oldValue, $explodedValueArray);
@@ -127,10 +127,10 @@ class Settings_Picklist_PickListHandler_Handler
 		//update workflow task
 		$query = 'SELECT task,task_id,workflow_id FROM com_vtiger_workflowtasks where task LIKE ?';
 		$result = $db->pquery($query, ["%$oldValue%"]);
-		$num_rows = $db->num_rows($result);
+		$numRows = $db->numRows($result);
 
-		for ($i = 0; $i < $num_rows; $i++) {
-			$row = $db->raw_query_result_rowdata($result, $i);
+		for ($i = 0; $i < $numRows; $i++) {
+			$row = $db->rawQueryResultRowData($result, $i);
 			$task = $row['task'];
 			$taskComponents = explode(':', $task);
 			$classNameWithDoubleQuotes = $taskComponents[2];
@@ -211,9 +211,9 @@ class Settings_Picklist_PickListHandler_Handler
 		//update advancefilter values
 		$query = 'SELECT cvid,value,columnindex,groupid FROM vtiger_cvadvfilter where columnname=?';
 		$result = $db->pquery($query, array($advFiltercolumnName));
-		$num_rows = $db->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+		$numRows = $db->numRows($result);
+		for ($i = 0; $i < $numRows; $i++) {
+			$row = $db->queryResultRowData($result, $i);
 			$value = $row['value'];
 			$explodedValueArray = explode(',', $value);
 			foreach ($valueToDelete as $value) {
@@ -230,9 +230,9 @@ class Settings_Picklist_PickListHandler_Handler
 		//update reportsFilter values
 		$query = 'SELECT queryid,value,columnindex,groupid FROM vtiger_relcriteria where columnname=?';
 		$result = $db->pquery($query, array($reportFilterColumnName));
-		$num_rows = $db->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+		$numRows = $db->numRows($result);
+		for ($i = 0; $i < $numRows; $i++) {
+			$row = $db->queryResultRowData($result, $i);
 			$value = $row['value'];
 			$explodedValueArray = explode(',', $value);
 			foreach ($valueToDelete as $value) {

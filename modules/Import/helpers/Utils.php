@@ -56,7 +56,12 @@ class Import_Utils_Helper
 		return $importDir;
 	}
 
-	public static function getImportFilePath($user)
+	/**
+	 * The function takes the path of the file to be imported
+	 * @param Users_Record_Model $user
+	 * @return string
+	 */
+	public static function getImportFilePath(Users_Record_Model $user)
 	{
 		$importDirectory = self::getImportDirectory();
 		return $importDirectory . "IMPORT_" . $user->id;
@@ -85,7 +90,11 @@ class Import_Utils_Helper
 		self::showErrorPage($errorMessage, $errorDetails);
 	}
 
-	public static function showImportTableBlockedError($moduleName, $user)
+	/**
+	 * Shows import errors in the table
+	 * @param string $moduleName
+	 */
+	public static function showImportTableBlockedError($moduleName)
 	{
 
 		$errorMessage = \App\Language::translate('ERR_UNIMPORTED_RECORDS_EXIST', 'Import');

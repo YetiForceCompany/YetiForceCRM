@@ -93,8 +93,8 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 			$switchUsers[$user] = $usersForSort;
 		}
 		$content = '<?php' . PHP_EOL .
-			'$switchUsersRaw = ' . \vtlib\Functions::varExportMin($switchUsersRaw) . ';' . PHP_EOL .
-			'$switchUsers = ' . \vtlib\Functions::varExportMin($switchUsers) . ';' . PHP_EOL;
+			'$switchUsersRaw = ' . \App\Utils::varExport($switchUsersRaw) . ';' . PHP_EOL .
+			'$switchUsers = ' . \App\Utils::varExport($switchUsers) . ';' . PHP_EOL;
 		file_put_contents('user_privileges/switchUsers.php', $content);
 	}
 
@@ -195,8 +195,8 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 			$switchUsers [$user] = $usersForSort;
 		}
 		$content = '<?php' . PHP_EOL .
-			'$switchUsersRaw = ' . \vtlib\Functions::varExportMin($switchUsersRaw) . ';' . PHP_EOL .
-			'$switchUsers = ' . \vtlib\Functions::varExportMin($switchUsers) . ';' . PHP_EOL;
+			'$switchUsersRaw = ' . \App\Utils::varExport($switchUsersRaw) . ';' . PHP_EOL .
+			'$switchUsers = ' . \App\Utils::varExport($switchUsers) . ';' . PHP_EOL;
 		file_put_contents('user_privileges/switchUsers.php', $content);
 	}
 
@@ -253,8 +253,8 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 			}
 		}
 		$content = '<?php' . PHP_EOL .
-			'$locksRaw = ' . \vtlib\Functions::varExportMin($toSave) . ';' . PHP_EOL .
-			'$locks = ' . \vtlib\Functions::varExportMin($map) . ';';
+			'$locksRaw = ' . \App\Utils::varExport($toSave) . ';' . PHP_EOL .
+			'$locks = ' . \App\Utils::varExport($map) . ';';
 		file_put_contents('user_privileges/locks.php', $content);
 		$newValues = $this->getLocks();
 		$difference = vtlib\Functions::arrayDiffAssocRecursive($newValues, $oldValues);

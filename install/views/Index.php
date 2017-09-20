@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-class Install_Index_view extends Vtiger_View_Controller
+class Install_Index_View extends Vtiger_View_Controller
 {
 
 	protected $debug = false;
@@ -150,6 +150,7 @@ class Install_Index_view extends Vtiger_View_Controller
 		$this->viewer->assign('TIMEZONES', UserTimeZones::getTimeZones());
 
 		$defaultParameters = Install_Utils_Model::getDefaultPreInstallParameters();
+		$this->viewer->assign('USERNAME_BLACKLIST', require 'config/username_blacklist.php');
 		$this->viewer->assign('DB_HOSTNAME', $defaultParameters['db_hostname']);
 		$this->viewer->assign('DB_USERNAME', $defaultParameters['db_username']);
 		$this->viewer->assign('DB_PASSWORD', $defaultParameters['db_password']);
@@ -158,7 +159,6 @@ class Install_Index_view extends Vtiger_View_Controller
 		$this->viewer->assign('ADMIN_LASTNAME', $defaultParameters['admin_lastname']);
 		$this->viewer->assign('ADMIN_PASSWORD', $defaultParameters['admin_password']);
 		$this->viewer->assign('ADMIN_EMAIL', $defaultParameters['admin_email']);
-
 		echo $this->viewer->fetch('Step4.tpl');
 	}
 
@@ -225,6 +225,7 @@ class Install_Index_view extends Vtiger_View_Controller
 			$initSchema->initialize();
 			$initSchema->setCompanyDetails($request);
 
+			$this->viewer->assign('USER_NAME', $_SESSION['config_file_info']['user_name']);
 			$this->viewer->assign('PASSWORD', $_SESSION['config_file_info']['password']);
 			$this->viewer->assign('APPUNIQUEKEY', $this->retrieveConfiguredAppUniqueKey());
 			$this->viewer->assign('CURRENT_VERSION', \App\Version::get());
@@ -289,8 +290,8 @@ class Install_Index_view extends Vtiger_View_Controller
 			vglobal('adb', $adb);
 			$query = "SELECT crypt_type, user_name FROM vtiger_users WHERE user_name=?";
 			$result = $adb->requirePsSingleResult($query, array($username), true);
-			if ($adb->num_rows($result) > 0) {
-				$crypt_type = $adb->query_result($result, 0, 'crypt_type');
+			if ($adb->numRows($result) > 0) {
+				$crypt_type = $adb->queryResult($result, 0, 'crypt_type');
 				$salt = substr($username, 0, 2);
 				if ($crypt_type == 'MD5') {
 					$salt = '$1$' . $salt . '$';
@@ -302,7 +303,7 @@ class Install_Index_view extends Vtiger_View_Controller
 				$encrypted_password = crypt($password, $salt);
 				$query = "SELECT 1 from vtiger_users where user_name=? && user_password=? && status = ?";
 				$result = $adb->requirePsSingleResult($query, array($username, $encrypted_password, 'Active'), true);
-				if ($adb->num_rows($result) > 0) {
+				if ($adb->numRows($result) > 0) {
 					$loginStatus = true;
 				}
 			}

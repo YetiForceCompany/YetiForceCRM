@@ -255,7 +255,7 @@ abstract class VTTask
 	 */
 	public function formatTimeForTimePicker($time)
 	{
-		list($h, $m, $s) = explode(':', $time);
+		list($h, $m) = explode(':', $time);
 		$mn = str_pad($m - $m % 15, 2, 0, STR_PAD_LEFT);
 		$AM_PM = array('am', 'pm');
 		return str_pad(($h % 12), 2, 0, STR_PAD_LEFT) . ':' . $mn . $AM_PM[($h / 12) % 2];

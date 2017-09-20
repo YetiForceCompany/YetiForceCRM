@@ -1,12 +1,12 @@
 <?php
 
 /**
- * OSSMailScanner getConfig action class
+ * OSSMail check mails action class
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
-class OSSMailScanner_getConfig_Action extends Vtiger_Action_Controller
+class OSSMail_CheckMails_Action extends Vtiger_Action_Controller
 {
 
 	/**
@@ -16,20 +16,22 @@ class OSSMailScanner_getConfig_Action extends Vtiger_Action_Controller
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($moduleName)) {
+		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
 	public function process(\App\Request $request)
 	{
-		$recordModel_OSSMailScanner = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
-		$Config = $recordModel_OSSMailScanner->getConfig('email_list');
-		$result = array('success' => $success, 'data' => $Config);
+		$users = $request->get('users');
+		$output = [];
+		if (count($users) > 0) {
+			OSSMail_Record_Model::updateMailBoxmsgInfo($users);
+			$output = OSSMail_Record_Model::getMailBoxmsgInfo($users);
+		}
 		$response = new Vtiger_Response();
-		$response->setResult($result);
+		$response->setResult($output);
 		$response->emit();
 	}
 }
