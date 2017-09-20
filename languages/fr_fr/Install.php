@@ -112,5 +112,6 @@ $jsLanguageStrings = [
 	'LBL_MANDATORY_FIELDS_ERROR' => 'Attention! Des champs obligatoires sont vides.',
 	'LBL_PASS_REENTER_ERROR' => 'Merci de resaisir le mot de passe.  Le mot de passe et sa vérification ne sont pas identiques.',
 	'LBL_INVALID_EMAIL_ERROR' => 'Attention! Email adresse invalide.',
+	'LBL_INVALID_USERNAME_ERROR' => 'Invalid username',
 	'LBL_RESOLVE_ERROR' => 'Merci de résoudre les erreurs avant de continuer l\'installation',
 ];
