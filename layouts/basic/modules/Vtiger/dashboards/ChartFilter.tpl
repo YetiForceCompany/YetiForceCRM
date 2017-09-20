@@ -95,15 +95,6 @@
 			</td>
 		</tr>
 	{elseif $WIZARD_STEP eq 'step4'}
-		<tr class="step4">
-			<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_TIME_RANGE')}</td>
-			<td class="fieldValue">
-				<select class="form-control saveParam" name="timeRange" size="2" >
-					<option>{\App\Language::translate('--None--')}</option>
-					
-				</select>
-			</td>
-		</tr>
 		{if $CHART_TYPE == 'Funnel' && in_array($GROUP_FIELD_MODEL->getFieldDataType(),['currency', 'double', 'percentage', 'integer'])}
 			<tr class="step4">
 				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_SECTOR')}</td>
@@ -112,5 +103,29 @@
 				</td>
 			</tr>
 		{/if}
+		{if $CHART_TYPE != ''}
+			<tr class="step4">
+				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_TIMELINE_BY_DATE')}</td>
+				<td class="fieldValue">
+					<select class="form-control saveParam" name="timeLine" size="2" >
+						<option>{\App\Language::translate('--None--')}</option>
+						{foreach from=$SELECTED_MODULE_MODEL->getFieldsByType(['date','datetime']) item=FIELD key=FIELD_NAME}
+							<option value="{$FIELD_NAME}">{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
+						{/foreach}
+					</select>
+				</td>
+			</tr>
+		{/if}
+		<tr class="step4">
+			<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_FILTERING_BY_DATE')}</td>
+			<td class="fieldValue">
+				<select class="form-control saveParam" name="timeRange" size="2" >
+					<option>{\App\Language::translate('--None--')}</option>
+					{foreach from=$SELECTED_MODULE_MODEL->getFieldsByType(['date','datetime']) item=FIELD key=FIELD_NAME}
+						<option value="{$FIELD_NAME}">{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
+					{/foreach}
+				</select>
+			</td>
+		</tr>
 	{/if}
 {/strip}

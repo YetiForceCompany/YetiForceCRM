@@ -19,16 +19,19 @@
 		</div>
 		<hr class="widgetHr"/>
 		<div class="row" >
-			<div class="col-md-6">
-				<div class="input-group input-group-sm">
-					<span class=" input-group-addon"><span class="glyphicon glyphicon-calendar iconMiddle "></span></span>
-					<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter width90 form-control" value=""/>
-				</div>	
-			</div>
+			{assign var="WIDGET_DATA" value=$WIDGET->getArray('data')}
+			{if $WIDGET_DATA['timeRange']}
+				<div class="col-md-6">
+					<div class="input-group input-group-sm">
+						<span class=" input-group-addon"><span class="glyphicon glyphicon-calendar iconMiddle "></span></span>
+						<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter width90 form-control" value=""/>
+					</div>	
+				</div>
+			{/if}
 			<div class="col-md-6">
 				<div class="input-group input-group-sm">
 					<span class="input-group-addon"><span class="glyphicon glyphicon-user iconMiddle"></span></span>
-					
+
 				</div>
 			</div>
 		</div>
