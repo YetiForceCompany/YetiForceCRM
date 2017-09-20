@@ -158,14 +158,14 @@ if (!document.createElement('canvas').getContext) {
 
         var attrs = el.attributes;
         if (attrs.width && attrs.width.specified) {
-          // TODO: use runtimeStyle and coordsize
+          // YTTODO: use runtimeStyle and coordsize
           // el.getContext().setWidth_(attrs.width.nodeValue);
           el.style.width = attrs.width.nodeValue + 'px';
         } else {
           el.width = el.clientWidth;
         }
         if (attrs.height && attrs.height.specified) {
-          // TODO: use runtimeStyle and coordsize
+          // YTTODO: use runtimeStyle and coordsize
           // el.getContext().setHeight_(attrs.height.nodeValue);
           el.style.height = attrs.height.nodeValue + 'px';
         } else {
@@ -636,7 +636,7 @@ if (!document.createElement('canvas').getContext) {
   };
 
   contextPrototype.beginPath = function() {
-    // TODO: Branch current matrix so that save/restore has no effect
+    // YTTODO: Branch current matrix so that save/restore has no effect
     //       as per safari docs.
     this.currentPath_ = [];
   };
@@ -951,7 +951,7 @@ if (!document.createElement('canvas').getContext) {
       }
 
 
-      // TODO: Following is broken for curves due to
+      // YTTODO: Following is broken for curves due to
       //       move to proper paths.
 
       // Figure out dimensions so we can do gradient fills
@@ -1014,7 +1014,7 @@ if (!document.createElement('canvas').getContext) {
     var width = max.x - min.x;
     var height = max.y - min.y;
     if (fillStyle instanceof CanvasGradient_) {
-      // TODO: Gradients transformed with the transformation matrix.
+      // YTTODO: Gradients transformed with the transformation matrix.
       var angle = 0;
       var focus = {x: 0, y: 0};
 
@@ -1097,7 +1097,7 @@ if (!document.createElement('canvas').getContext) {
                      deltaLeft / width * arcScaleX * arcScaleX, ',',
                      deltaTop / height * arcScaleY * arcScaleY, '"',
                      ' type="tile"',
-                     // TODO: Figure out the correct size to fit the scale.
+                     // YTTODO: Figure out the correct size to fit the scale.
                      //' size="', w, 'px ', h, 'px"',
                      ' src="', fillStyle.src_, '" />');
        }
@@ -1289,7 +1289,7 @@ if (!document.createElement('canvas').getContext) {
     if (stroke) {
       appendStroke(this, lineStr);
     } else {
-      // TODO: Fix the min and max params.
+      // YTTODO: Fix the min and max params.
       appendFill(this, lineStr, {x: -left, y: 0},
                  {x: right, y: fontStyle.size});
     }
@@ -1338,11 +1338,11 @@ if (!document.createElement('canvas').getContext) {
 
   /******** STUBS ********/
   contextPrototype.clip = function() {
-    // TODO: Implement
+    // YTTODO: Implement
   };
 
   contextPrototype.arcTo = function() {
-    // TODO: Implement
+    // YTTODO: Implement
   };
 
   contextPrototype.createPattern = function(image, repetition) {
