@@ -206,7 +206,7 @@ class Users extends CRMEntity
 	public function encryptPassword($user_password, $crypt_type = 'PHP5.3MD5')
 	{
 		// encrypt the password.
-		$salt = substr($this->column_fields["user_name"], 0, 2);
+		$salt = substr($this->column_fields['user_name'], 0, 2);
 		// Fix for: http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/4923
 		if ($crypt_type === '') {
 			// Try to get the crypt_type which is in database for the user
@@ -235,6 +235,8 @@ class Users extends CRMEntity
 	{
 		$userName = $this->column_fields['user_name'];
 		$userInfo = (new App\Db\Query())->select(['id', 'deleted', 'user_password', 'user_name', 'crypt_type', 'status'])->from($this->table_name)->where(['or', ['user_name' => $userName, 'user_name' => strtolower($userName)]])->one();
+		$this->column_fields['user_name'] = $userInfo['user_name'];
+		$this->column_fields['id'] = (int) $userInfo['id'];
 		$encryptedPassword = $this->encryptPassword($userPassword, empty($userInfo['crypt_type']) ? 'PHP5.3MD5' : $userInfo['crypt_type']);
 		if (!$userInfo || (int) $userInfo['deleted'] !== 0) {
 			\App\Log::error('User not found: ' . $userName);
@@ -242,11 +244,9 @@ class Users extends CRMEntity
 		}
 		\App\Log::trace('Start of authentication for user: ' . $userName);
 		if ($userInfo['status'] !== 'Active') {
-			\App\Log::trace("Authentication failed. User: $userName");
+			\App\Log::trace("Authentication failed [Status]. User: $userName");
 			return false;
 		}
-		$this->column_fields['user_name'] = $userInfo['user_name'];
-		$this->column_fields['id'] = (int) $userInfo['id'];
 		if (\App\Cache::has('Authorization', 'config')) {
 			$auth = \App\Cache::get('Authorization', 'config');
 		} else {

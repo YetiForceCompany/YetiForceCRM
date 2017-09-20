@@ -169,7 +169,11 @@ class Log extends Logger
 		foreach (\Yii::getLogger()->messages as $message) {
 			$level = \yii\log\Logger::getLevelName($message[1]);
 			$category = $message[2];
-			$content .= "#$i [$level] {$message[0]} || $category" . PHP_EOL;
+			$content .= "#$i [$level] {$message[0]}";
+			if ($category) {
+				$content .= ' || ' . $category;
+			}
+			$content .= PHP_EOL;
 			$i++;
 		}
 		return $content;
