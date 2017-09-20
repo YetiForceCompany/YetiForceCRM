@@ -65,6 +65,13 @@
 									{$INFORMATION['db_name']}
 								</td>
 							</tr>
+							<tr>
+								<td>
+									{\App\Language::translate('LBL_USERNAME','Install')}
+								</td><td>
+									{$INFORMATION['db_username']}
+								</td>
+							</tr>
 						</tbody>
 					</table>
 					<table class="config-table input-table">
@@ -99,6 +106,22 @@
 							</tr>
 						</thead>
 						<tbody>
+							<tr>
+								<td>
+									{\App\Language::translate('First Name','Install')}
+								</td>
+								<td>
+									{$INFORMATION['firstname']}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									{\App\Language::translate('Last Name','Install')}
+								</td>
+								<td>
+									{$INFORMATION['lastname']}
+								</td>
+							</tr>
 							<tr>
 								<td>
 									{\App\Language::translate('LBL_USERNAME','Install')}
