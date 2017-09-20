@@ -64,10 +64,8 @@ class LogIn extends TestCase
 	 */
 	public function testUserVerifyData()
 	{
-		var_dump((new \App\Db\Query())->select(['email1', 'id'])->from('vtiger_users')->all());
-		$this->assertTrue(Users_Module_Model::checkMailExist('help@yetiforce.com', 1));
-		$this->assertTrue(Users_Module_Model::checkMailExist('help@yetiforce.com'));
-		$this->assertTrue(Users_Module_Model::checkMailExist('demo@yetiforce.com', TESTS_USER_ID));
+		$this->assertTrue(Users_Module_Model::checkMailExist('demo@yetiforce.com'));
+		$this->assertFalse(Users_Module_Model::checkMailExist('demo@yetiforce.com', TESTS_USER_ID));
 		$this->assertFalse(Users_Module_Model::checkMailExist('xxx@yetiforce.com'));
 		$this->assertEquals(Users_Module_Model::checkUserName('demo'), \App\Language::translate('LBL_USER_NAME_EXISTS', 'Users'));
 		$this->assertEquals(Users_Module_Model::checkUserName('demo', TESTS_USER_ID), \App\Language::translate('LBL_USER_NAME_HAS_ALREADY_BEEN_USED', 'Users'));
