@@ -2,10 +2,10 @@
  * jqPlot
  * Pure JavaScript plotting plugin using jQuery
  *
- * Version: 1.0.8
- * Revision: 1250
+ * Version: 1.0.9
+ * Revision: d96a669
  *
- * Copyright (c) 2009-2013 Chris Leonello
+ * Copyright (c) 2009-2016 Chris Leonello
  * jqPlot is currently available for use in all personal or commercial projects 
  * under both the MIT (http://www.opensource.org/licenses/mit-license.php) and GPL 
  * version 2.0 (http://www.gnu.org/licenses/gpl-2.0.html) licenses. This means that you can 
@@ -132,6 +132,9 @@
         // prop: showDataLabels
         // true to show data labels on slices.
         this.showDataLabels = false;
+        // prop: totalLabel
+        // true to show total label in the centre
+        this.totalLabel = false;
         // prop: dataLabelFormatString
         // Format string for data labels.  If none, '%s' is used for "label" and for arrays, '%d' for value and '%d%%' for percentage.
         this.dataLabelFormatString = null;
@@ -263,6 +266,7 @@
             td[i][1] = stack[i] * fact;
             td[i][2] = data[i][1]/tot;
         }
+        this._totalAmount = tot;        
         return td;
     };
     
@@ -374,8 +378,9 @@
         var shadow = (opts.shadow != undefined) ? opts.shadow : this.shadow;
         var showLine = (opts.showLine != undefined) ? opts.showLine : this.showLine;
         var fill = (opts.fill != undefined) ? opts.fill : this.fill;
-        var cw = ctx.canvas.width;
-        var ch = ctx.canvas.height;
+        //see http://stackoverflow.com/questions/20221461/hidpi-retina-plot-drawing
+        var cw = parseInt(ctx.canvas.style.width);
+        var ch = parseInt(ctx.canvas.style.height);
         var w = cw - offx - 2 * this.padding;
         var h = ch - offy - 2 * this.padding;
         var mindim = Math.min(w,h);
@@ -393,7 +398,10 @@
         else {
             this._thickness = this.thickness || mindim / 2 / (this._numberSeries + 1) * 0.85;
         }
-
+        if (this._diameter < 6) {
+            $.jqplot.log("Diameter of donut too small, not rendering.");
+            return;
+        }
         var r = this._radius = this._diameter/2;
         this._innerRadius = this._radius - this._thickness;
         var sa = this.startAngle / 180 * Math.PI;
@@ -450,7 +458,10 @@
                 labelelem.css({left: x, top: y});
             }
         }
-               
+        if (this.totalLabel) {
+            var totalLabel = $('<div class="jqplot-data-label" style="position:absolute">' + this._totalAmount + '</div>').insertAfter(plot.eventCanvas._elem);
+            totalLabel.css({left: this._center[0], top: this._center[1]});
+        }
     };
     
     $.jqplot.DonutAxisRenderer = function() {

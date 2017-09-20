@@ -8,7 +8,7 @@ jqPlot is a jQuery plugin to generate pure client-side javascript charts in your
 
 The jqPlot home page is at <http://www.jqplot.com/>.  
 
-The project page and downloads are at <http://www.bitbucket.org/cleonello/jqplot/>.
+The project page and downloads are at <http://www.github.com/jqPlot/jqPlot/>.
 
 Below are a few examples to demonstrate jqPlot usage.  These plots are shown as static images.  
 Many more examples of dynamically rendered plots can be seen on the test and examples pages here: <../../tests/>.
