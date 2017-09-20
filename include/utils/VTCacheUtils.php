@@ -16,9 +16,6 @@ require_once 'include/runtime/Cache.php';
 class VTCacheUtils
 {
 
-	/** Tab information caching */
-	public static $_tabidinfo_cache = [];
-
 	/** All tab information caching */
 	public static $_alltabrows_cache = false;
 
