@@ -139,7 +139,7 @@ class Privilege
 				return true;
 			} else {
 				//If modules is Products,Vendors,Faq,PriceBook then no sharing
-				if (\vtlib\Functions::getModuleOwner($moduleName) == 1) {
+				if (Module::getModuleOwner($tabid) === 1) {
 					static::$isPermittedLevel = 'SEC_MODULE_IS_OWNEDBY';
 					\App\Log::trace('Exiting isPermitted method ... - SEC_MODULE_IS_OWNEDBY');
 					return true;

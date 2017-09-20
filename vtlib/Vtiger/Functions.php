@@ -147,12 +147,6 @@ class Functions
 		return $id ? \App\Cache::get('moduleTabById', $id) : NULL;
 	}
 
-	public static function getModuleOwner($name)
-	{
-		$moduleInfo = self::getModuleData($name);
-		return $moduleInfo ? $moduleInfo['ownedby'] : NULL;
-	}
-
 	/**
 	 * this function returns the entity field name for a given module; for e.g. for Contacts module it return concat(lastname, ' ', firstname)
 	 * @param string $mixed - the module name

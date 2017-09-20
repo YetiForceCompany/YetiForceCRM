@@ -105,9 +105,9 @@ class Module
 	 * @param string $name
 	 * @return int|bool
 	 */
-	public static function getModuleId($name)
+	public static function getModuleId($moduleName)
 	{
-		return isset(static::$tabdataCache['tabId'][$name]) ? static::$tabdataCache['tabId'][$name] : false;
+		return isset(static::$tabdataCache['tabId'][$moduleName]) ? static::$tabdataCache['tabId'][$moduleName] : false;
 	}
 
 	/**
@@ -118,6 +118,16 @@ class Module
 	public static function getModuleName($tabId)
 	{
 		return isset(static::$tabdataCache['tabName'][$tabId]) ? static::$tabdataCache['tabName'][$tabId] : false;
+	}
+
+	/**
+	 * Get module owner by module id
+	 * @param int $tabId
+	 * @return int
+	 */
+	public static function getModuleOwner($tabId)
+	{
+		return isset(static::$tabdataCache['tabOwnedby'][$tabId]) ? static::$tabdataCache['tabOwnedby'][$tabId] : false;
 	}
 
 	/**
