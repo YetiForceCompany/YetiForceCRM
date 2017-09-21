@@ -382,11 +382,11 @@ class ServiceContracts extends CRMEntity
 		} else if ($eventType == 'module.enabled') {
 			App\EventHandler::setActive('ServiceContracts_ServiceContractsHandler_Handler');
 		} else if ($eventType == 'module.preuninstall') {
-
+			
 		} else if ($eventType == 'module.preupdate') {
-
+			
 		} else if ($eventType == 'module.postupdate') {
-
+			
 		}
 	}
 
@@ -577,17 +577,22 @@ class ServiceContracts extends CRMEntity
 		}
 	}
 
-	/** Function to unlink an entity with given Id from another entity */
+	/**
+	 * Function to unlink an entity with given Id from another entity
+	 * @param int $id
+	 * @param string $returnModule
+	 * @param int $returnId
+	 * @param boolean $relatedName
+	 */
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-		$currentModule = vglobal('currentModule');
-		if ($relatedName == 'getManyToMany') {
+		if ($relatedName === 'getManyToMany') {
 			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
 		} else {
-			parent::deleteRelatedFromDB(vglobal('currentModule'), $id, $returnModule, $returnId);
+			parent::deleteRelatedFromDB($id, $returnModule, $returnId);
 			$dataReader = (new \App\Db\Query())->select(['tabid', 'tablename', 'columnname'])
 					->from('vtiger_field')
-					->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $currentModule, 'relmodule' => $returnModule])])
+					->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => vglobal('currentModule'), 'relmodule' => $returnModule])])
 					->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				App\Db::getInstance()->createCommand()
