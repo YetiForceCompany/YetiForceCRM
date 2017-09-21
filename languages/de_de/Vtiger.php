@@ -1447,7 +1447,6 @@ $jsLanguageStrings = [
 	'JS_TOTAL_RECORDS' => 'Gesamtanzahl Datensätze',
 	'JS_UPLOADED_FILE_SIZE_EXCEEDS' => 'Hochgeladen Dateigröße überschreitet',
 	'JS_UPLOADED_FILE_SIZE_SHOULD_BE_LESS_THAN' => 'Hochgeladene Dateigröße sollte kleiner sein als',
-	'JS_USER_EXISTS' => 'Benutzer existiert bereits',
 	'JS_VALUE_SHOULD_BE_GREATER_THAN_ZERO' => 'Wert sollte größer sein als Null',
 	'JS_VALUE_SHOULD_NOT_BE_LESS_THAN' => 'Frequenz eines Cron-Jobs sollte nicht kleiner sein als',
 	'JS_YOU_ARE_IN_PAGE_NUMBER' => 'Sie sind auf Seite',
