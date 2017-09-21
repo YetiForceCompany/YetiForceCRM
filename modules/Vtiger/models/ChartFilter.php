@@ -61,14 +61,18 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		});
 		$data = [];
 		foreach ($groupData as $fieldName => $value) {
-			$data [] = [$value['count'], $fieldName, $value['link']];
+			$data[] = [$value['count'], $fieldName, $value['link']];
 		}
 		return $data;
 	}
 
 	protected function getDataFunnel()
 	{
-		$groupData = $this->getDataFromFilter();
+		if (empty($this->extraData['sector'])) {
+			$groupData = $this->getRows();
+		} else {
+			$groupData = $this->getRowsFunnel();
+		}
 		uasort($groupData, function($first, $second) {
 			if ($first['count'] == $second['count']) {
 				return 0;
@@ -77,7 +81,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		});
 		$data = [];
 		foreach ($groupData as $fieldName => $value) {
-			$data [] = [$fieldName, $value['count'], $value['link']];
+			$data[] = [$fieldName, $value['count'], $value['link']];
 		}
 
 		return $data;
@@ -85,52 +89,75 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 
 	protected function getDataPie()
 	{
-		$groupData = $this->getDataFromFilter();
 		$data = [];
-		foreach ($groupData as $fieldName => $value) {
-			$data [] = ['last_name' => $fieldName, 'id' => $value['count'], '2' => $value['link']];
+		foreach ($this->getRows() as $fieldName => $value) {
+			$data[] = ['last_name' => $fieldName, 'id' => $value['count'], '2' => $value['link']];
 		}
 		return $data;
 	}
 
 	protected function getDataDonut()
 	{
-		$groupData = $this->getDataFromFilter();
 		$data = [];
-		foreach ($groupData as $fieldName => $value) {
-			$data [] = ['last_name' => $fieldName, 'id' => $value['count'], '2' => $value['link']];
+		foreach ($this->getRows() as $fieldName => $value) {
+			$data[] = ['last_name' => $fieldName, 'id' => $value['count'], '2' => $value['link']];
 		}
 		return $data;
 	}
 
 	public function getDataAxis()
 	{
-		$groupData = $this->getDataFromFilter();
 		$data = [];
-		foreach ($groupData as $fieldName => $value) {
-			$data [] = ['last_name' => $fieldName, 'id' => $value['count'], '2' => $value['link']];
+		foreach ($this->getRows() as $fieldName => $value) {
+			$data[] = ['last_name' => $fieldName, 'id' => $value['count'], '2' => $value['link']];
 		}
 		return $data;
 	}
 
 	public function getDataArea()
 	{
-		$groupData = $this->getDataFromFilter();
 		$data = [];
-		foreach ($groupData as $fieldName => $value) {
-			$data [] = ['last_name' => $fieldName, 'id' => $value['count'], '2' => $value['link']];
+		foreach ($this->getRows() as $fieldName => $value) {
+			$data[] = ['last_name' => $fieldName, 'id' => $value['count'], '2' => $value['link']];
 		}
 		return $data;
 	}
 
 	public function getDataBardivided()
 	{
-		$groupData = $this->getDataFromFilter();
 		$data = [];
-		foreach ($groupData as $fieldName => $value) {
-			$data [] = ['last_name' => $fieldName, 'id' => $value['count'], '2' => $value['link']];
+		foreach ($this->getRows() as $fieldName => $value) {
+			$data[] = ['last_name' => $fieldName, 'id' => $value['count'], '2' => $value['link']];
 		}
 		return $data;
+	}
+
+	/**
+	 * Get rows for all chart
+	 * @return array
+	 */
+	protected function getRows()
+	{
+		$filterId = $this->widgetModel->get('filterid');
+		$groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
+		$fieldName = $groupFieldModel->getFieldName();
+		$dataReader = $this->getQuery()->createCommand()->query();
+		$groupData = [];
+		while ($row = $dataReader->read()) {
+			if (!empty($row[$fieldName])) {
+				$displayValue = $groupFieldModel->getDisplayValue($row[$fieldName]);
+				if (!isset($groupData[$displayValue]['count'])) {
+					$groupData[$displayValue]['count'] = 1;
+				} else {
+					$groupData[$displayValue]['count'] ++;
+				}
+				if (!isset($groupData[$displayValue]['link'])) {
+					$this->searchParams[] = [$fieldName, 'e', $row[$fieldName]];
+					$groupData[$displayValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . "&viewname=$filterId&search_params=" . App\Json::encode([$this->searchParams]);
+				}
+			}
+		}
+		return $groupData;
 	}
 
 	/**
@@ -159,51 +186,37 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		return $query;
 	}
 
-	public function getDataFromFilter()
+	/**
+	 * Get rows for funnel chart
+	 * @return array
+	 */
+	protected function getRowsFunnel()
 	{
 		$filterId = $this->widgetModel->get('filterid');
 		$groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
 		$fieldName = $groupFieldModel->getFieldName();
+		$count = $groupData = [];
+		$sectors = $this->extraData['sector'];
 		$dataReader = $this->getQuery()->createCommand()->query();
-		$groupData = [];
-		if (empty($this->extraData['sector'])) {
-			while ($row = $dataReader->read()) {
-				if (!empty($row[$fieldName])) {
-					$displayValue = $groupFieldModel->getDisplayValue($row[$fieldName]);
-					if (!isset($groupData[$displayValue]['count'])) {
-						$groupData[$displayValue]['count'] = 1;
-					} else {
-						$groupData[$displayValue]['count'] ++;
-					}
-					if (!isset($groupData[$displayValue]['link'])) {
-						$this->searchParams[] = [$fieldName, 'e', $row[$fieldName]];
-						$groupData[$displayValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . "&viewname=$filterId&search_params=" . App\Json::encode([$this->searchParams]);
-					}
+		while ($row = $dataReader->read()) {
+			$sectorId = $this->getSector($sectors, $row[$fieldName]);
+			if ($sectorId !== false) {
+				if (!isset($count[$sectorId])) {
+					$count[$sectorId] = 1;
+				} else {
+					$count[$sectorId] ++;
 				}
 			}
-		} else {
-			$sectors = $this->extraData['sector'];
-			$count = [];
-			while ($row = $dataReader->read()) {
-				$sectorId = $this->getSector($sectors, $row[$fieldName]);
-				if ($sectorId !== false) {
-					if (!isset($count[$sectorId])) {
-						$count[$sectorId] = 1;
-					} else {
-						$count[$sectorId] ++;
-					}
-				}
+		}
+		foreach ($sectors as $sectorId => &$sectorValue) {
+			$displayValue = $groupFieldModel->getDisplayValue($sectorValue);
+			$displayValue .= ' - (' . (int) $count[$sectorId] . ')';
+			$groupData[$displayValue]['count'] = (int) $sectorValue;
+			$this->searchParams[] = [$fieldName, 'm', $sectorValue];
+			if ($sectorId != 0) {
+				$this->searchParams[] = [$fieldName, 'g', $sectors[$sectorId - 1]];
 			}
-			foreach ($sectors as $sectorId => &$sectorValue) {
-				$displayValue = $groupFieldModel->getDisplayValue($sectorValue);
-				$displayValue .= ' - (' . (int) $count[$sectorId] . ')';
-				$groupData[$displayValue]['count'] = (int) $sectorValue;
-				$this->searchParams[] = [$fieldName, 'm', $sectorValue];
-				if ($sectorId != 0) {
-					$this->searchParams[] = [$fieldName, 'g', $sectors[$sectorId - 1]];
-				}
-				$groupData[$displayValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . "&viewname=$filterId&search_params=" . App\Json::encode([$this->searchParams]);
-			}
+			$groupData[$displayValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . "&viewname=$filterId&search_params=" . App\Json::encode([$this->searchParams]);
 		}
 		return $groupData;
 	}
