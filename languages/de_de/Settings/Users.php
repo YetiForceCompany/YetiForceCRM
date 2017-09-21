@@ -44,7 +44,6 @@ $languageStrings = [
 	'LBL_LOCK_DRAG' => 'Verschieben sperren',
 ];
 $jsLanguageStrings = [
-	'JS_USER_MAIL_EXIST' => 'Benutzer mit dieser E-Mail-Adresse existiert bereits',
 	'JS_PLEASE_SELECT_MODULE' => 'Bitte Modul wählen',
 	'JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME' => 'Dezimaltrennzeichen und Zifferngruppierungs-Trennzeichen kann nicht gleich sein',
 	'Changed password successfully' => 'Passwort erfolgreich geändert',
