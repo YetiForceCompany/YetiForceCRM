@@ -1150,6 +1150,7 @@ $languageStrings = [
 	'LBL_NEGLECTED_ACCOUNTS' => 'Contas negligenciadas',
 	'LBL_ADD_CHART_FILTER' => 'Adicionar gráfico a partir do filtro',
 	'LBL_PIE_CHART' => 'Gráfico de Pizza',
+	'LBL_DONUT_CHART' => 'Donut chart',
 	'LBL_VERTICAL_BAR_CHART' => 'Gráfico Barra Horizontal',
 	'LBL_HORIZONTAL_BAR_CHART' => 'Gráfico Barra Vertical',
 	'LBL_LINE_CHART' => 'Gráfico de Linhas',
