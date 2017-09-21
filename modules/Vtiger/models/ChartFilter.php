@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Model widget chart with a filter
  * @package YetiForce.Model
@@ -7,29 +6,61 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
+
+/**
+ * Widget chart model with a filter
+ */
 class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 {
 
+	/**
+	 * Widget model
+	 * @var \Vtiger_Widget_Model
+	 */
 	private $widgetModel;
+
+	/**
+	 * Extra data
+	 * @var array
+	 */
 	private $extraData;
+
+	/**
+	 * Target module model
+	 * @var \Vtiger_Module_Model
+	 */
 	private $targetModuleModel;
 
 	/**
-	 * Url search params 
-	 * @var array 
+	 * Url search params
+	 * @var array
 	 */
 	private $searchParams = [];
 
+	/**
+	 * Get instance
+	 * @param int $linkId
+	 * @param int $userId
+	 * @return \self
+	 */
 	public static function getInstance($linkId = 0, $userId = 0)
 	{
 		return new self();
 	}
 
+	/**
+	 * Get type
+	 * @return string
+	 */
 	public function getType()
 	{
 		return $this->extraData['chartType'];
 	}
 
+	/**
+	 * Get chart data
+	 * @return array
+	 */
 	public function getChartData()
 	{
 		$charType = $this->getType();
@@ -40,16 +71,28 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		return [];
 	}
 
+	/**
+	 * Get horizontal chart data
+	 * @return array
+	 */
 	protected function getDataHorizontal()
 	{
 		return $this->getDataBarchat();
 	}
 
+	/**
+	 * Get line chart data
+	 * @return array
+	 */
 	protected function getDataLine()
 	{
 		return $this->getDataBarchat();
 	}
 
+	/**
+	 * Get bar chart data
+	 * @return array
+	 */
 	protected function getDataBarchat()
 	{
 		$groupData = $this->getRows();
@@ -66,6 +109,10 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		return $data;
 	}
 
+	/**
+	 * Get funnel chart data
+	 * @return array
+	 */
 	protected function getDataFunnel()
 	{
 		if (empty($this->extraData['sector'])) {
@@ -87,6 +134,10 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		return $data;
 	}
 
+	/**
+	 * Get pie chart data
+	 * @return array
+	 */
 	protected function getDataPie()
 	{
 		$data = [];
@@ -96,6 +147,10 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		return $data;
 	}
 
+	/**
+	 * Get donut chart data
+	 * @return array
+	 */
 	protected function getDataDonut()
 	{
 		$data = [];
@@ -105,6 +160,10 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		return $data;
 	}
 
+	/**
+	 * Get axis chart data
+	 * @return array
+	 */
 	public function getDataAxis()
 	{
 		$data = [];
@@ -114,6 +173,10 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		return $data;
 	}
 
+	/**
+	 * Get area chart data
+	 * @return array
+	 */
 	public function getDataArea()
 	{
 		$data = [];
@@ -123,6 +186,10 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		return $data;
 	}
 
+	/**
+	 * Get divided bar chart data
+	 * @return array
+	 */
 	public function getDataBardivided()
 	{
 		$data = [];
@@ -221,6 +288,12 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		return $groupData;
 	}
 
+	/**
+	 * Get sector
+	 * @param array $sectors
+	 * @param int $value
+	 * @return int
+	 */
 	protected function getSector($sectors, $value)
 	{
 		$sectorId = false;
@@ -233,6 +306,11 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		return $sectorId;
 	}
 
+	/**
+	 * Set widget model
+	 * @param \Vtiger_Widget_Model $widgetModel
+	 * @throws Exception
+	 */
 	public function setWidgetModel($widgetModel)
 	{
 		$this->widgetModel = $widgetModel;
@@ -256,11 +334,19 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		return $this->extraData['color'];
 	}
 
+	/**
+	 * Get target module
+	 * @return string
+	 */
 	public function getTargetModule()
 	{
 		return $this->extraData['module'];
 	}
 
+	/**
+	 * Get target module model
+	 * @return \Vtiger_Module_Model
+	 */
 	public function getTargetModuleModel()
 	{
 		if (!$this->targetModuleModel) {
@@ -269,6 +355,11 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		return $this->targetModuleModel;
 	}
 
+	/**
+	 * Get title
+	 * @param string $prefix
+	 * @return string
+	 */
 	public function getTitle($prefix = '')
 	{
 		$title = $this->widgetModel->get('title');
@@ -289,11 +380,19 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		return $title;
 	}
 
+	/**
+	 * Get total count url
+	 * @return string
+	 */
 	public function getTotalCountURL()
 	{
 		return 'index.php?module=' . $this->getTargetModule() . '&action=Pagination&mode=getTotalCount&viewname=' . $this->widgetModel->get('filterid');
 	}
 
+	/**
+	 * Get list view url
+	 * @return string
+	 */
 	public function getListViewURL()
 	{
 		return 'index.php?module=' . $this->getTargetModule() . '&view=List&viewname=' . $this->widgetModel->get('filterid');
