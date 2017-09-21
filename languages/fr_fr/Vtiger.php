@@ -1241,6 +1241,7 @@ $languageStrings = [
 	'LBL_NEGLECTED_ACCOUNTS' => 'Comptes négligés',
 	'LBL_ADD_CHART_FILTER' => 'Ajouter widget depuis un rapport',
 	'LBL_PIE_CHART' => 'Diagramme Circulaire',
+	'LBL_DONUT_CHART' => 'Donut chart',
 	'LBL_VERTICAL_BAR_CHART' => 'Diagramme Vertical',
 	'LBL_HORIZONTAL_BAR_CHART' => 'Diagramme Horizontal',
 	'LBL_LINE_CHART' => 'Diagramme en Lignes',
