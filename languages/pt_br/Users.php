@@ -317,6 +317,12 @@ $languageStrings = [
 	'LBL_SWITCH' => 'Mudar',
 	'LBL_SWITCH_USER' => 'Mudar Usuário',
 	'LBL_SWITCH_TO_YOURSELF' => 'Mudar para você mesmo',
+	'LBL_FAILED_TO_UPDATE_ACCESS_KEY' => 'Failed to update access key',
+	'LBL_USER_MAIL_EXIST' => 'User with this email address already exists',
+	'LBL_INVALID_USERNAME' => 'Invalid username',
+	'LBL_USER_NAME_EXISTS' => 'Username already exists',
+	'LBL_USER_NAME_HAS_ALREADY_BEEN_USED' => 'This username has already been used, system does not allow to use it again.',
+	'LBL_FORBIDDEN_USERNAMES' => 'This username is forbidden because it is unsafe.',
 ];
 
 $jsLanguageStrings = [
@@ -330,6 +336,5 @@ $jsLanguageStrings = [
 	'JS_PASSWORD_CHANGE_FAILED_2' => ' falhou.  Uma nova senha deve ser definida.',
 	'JS_PASSWORD_INCORRECT_OLD' => 'A senha antiga está incorreta. Redigite a senha.',
 	'JS_REENTER_PASSWORDS' => 'Por favor, redigite suas senhas.  Os valores da \"nova senha\" e \"senha de confirmação\" não combinam.',
-	'JS_USER_MAIL_EXIST' => 'Já existe um Usuário com este endereço de e-mail',
 ];
 
