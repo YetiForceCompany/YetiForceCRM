@@ -19,7 +19,7 @@ class Vtiger_ChartFilter_Dashboard extends Vtiger_IndexAjax_View
 		if ($widget && !$request->has('widgetid')) {
 			$widgetId = $widget->get('id');
 		} else {
-			$widgetId = $request->get('widgetid');
+			$widgetId = $request->getInteger('widgetid');
 		}
 		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($widgetId, $currentUser->getId());
 		$chartFilterWidgetModel = Vtiger_ChartFilter_Model::getInstance();

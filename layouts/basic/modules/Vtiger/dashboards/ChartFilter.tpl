@@ -49,13 +49,6 @@
 									</tr>
 									<tr class="step2"></tr>
 									<tr class="step3"></tr>
-									<tr class="step4 hide sectorContainer">
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_SECTOR')}</td>
-										<td class="fieldValue">
-											<select class="form-control select2" multiple name="sectorField" size="2" >
-											</select>
-										</td>
-									</tr>
 								</tbody>
 							</table>
 						</div>
@@ -103,12 +96,11 @@
 				</td>
 			</tr>
 		{/if}
-		{if $CHART_TYPE != '' && in_array($CHART_TYPE,['Area','Axis'])}
+		{if in_array($CHART_TYPE,['Area','Axis'])}
 			<tr class="step4">
 				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_TIMELINE_BY_DATE')}</td>
 				<td class="fieldValue">
 					<select class="form-control saveParam" name="timeLine" size="2" >
-						<option>{\App\Language::translate('--None--')}</option>
 						{foreach from=$SELECTED_MODULE_MODEL->getFieldsByType(['date','datetime']) item=FIELD key=FIELD_NAME}
 							<option value="{$FIELD_NAME}">{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
 						{/foreach}
@@ -116,7 +108,7 @@
 				</td>
 			</tr>
 		{/if}
-		{if $CHART_TYPE != '' && in_array($CHART_TYPE,['Bardivided'])}
+		{if in_array($CHART_TYPE,['Bardivided'])}
 			<tr class="step4">
 				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_BAR_DIVIDED_FIELD')}</td>
 				<td class="fieldValue">
