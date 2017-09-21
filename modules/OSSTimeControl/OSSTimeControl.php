@@ -107,15 +107,15 @@ class OSSTimeControl extends Vtiger_CRMEntity
 					ModComments::addWidgetTo(array('OSSTimeControl'));
 			}
 		} else if ($eventType === 'module.disabled') {
-
+			
 		} else if ($eventType === 'module.enabled') {
-
+			
 		} else if ($eventType === 'module.preuninstall') {
-
+			
 		} else if ($eventType === 'module.preupdate') {
-
+			
 		} else if ($eventType === 'module.postupdate') {
-
+			
 		}
 	}
 
@@ -128,12 +128,18 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		$this->column_fields['due_date'] = $end->format('Y-m-d');
 	}
 
-	/** Function to unlink an entity with given Id from another entity */
+	/**
+	 * Function to unlink an entity with given Id from another entity
+	 * @param int $id
+	 * @param string $returnModule
+	 * @param int $returnId
+	 * @param boolean $relatedName
+	 */
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
 		$currentModule = vglobal('currentModule');
 		$results = [];
-		parent::deleteRelatedFromDB($currentModule, $id, $returnModule, $returnId);
+		parent::deleteRelatedFromDB($id, $returnModule, $returnId);
 		$dataReader = (new \App\Db\Query())->select(['vtiger_field.tabid', 'vtiger_field.tablename', 'vtiger_field.columnname', 'vtiger_tab.name'])
 				->from('vtiger_field')
 				->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
