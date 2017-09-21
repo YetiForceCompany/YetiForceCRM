@@ -1,29 +1,23 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 	<div class="dashboardWidgetHeader">
-		{foreach key=index item=cssModel from=$STYLES}
-			<link rel="{$cssModel->getRel()}" href="{$cssModel->getHref()}" type="{$cssModel->getType()}" media="{$cssModel->getMedia()}" />
-		{/foreach}
-		{foreach key=index item=jsModel from=$SCRIPTS}
-			<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
-		{/foreach}
 		<div class="row">
 			<div class="col-md-7">
 				<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
 			</div>
 			<div class="col-md-5">
 				<div class="box pull-right">
+					<button class="btn btn-xs btn-default downloadWidget hidden" data-widgetid="{$CHART_MODEL->get('widgetid')}">
+						<span class="glyphicon glyphicon-download" title="{\App\Language::translate('LBL_WIDGET_DOWNLOAD','Home')}"></span>
+					</button>&nbsp;
+					<button class="btn btn-xs btn-default printWidget hidden" data-widgetid="{$CHART_MODEL->get('widgetid')}">
+						<span class="glyphicon glyphicon-print" title="{\App\Language::translate('LBL_WIDGET_PRINT','Home')}"></span>
+					</button>&nbsp;
 					<button class="btn btn-xs btn-default recordCount" data-url="{Vtiger_Util_Helper::toSafeHTML($CHART_MODEL->getTotalCountURL())}">
 						<span class="glyphicon glyphicon-equalizer" title="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}"></span>
 						<a class="pull-left hide" href="{Vtiger_Util_Helper::toSafeHTML($CHART_MODEL->getListViewURL())}">
 							<span class="count badge pull-left"></span>
 						</a>
-					</button>&nbsp;
-					<button class="btn btn-xs btn-default downloadWidget hidden" data-widgetid="{$CHART_MODEL->get('widgetid')}">
-						<span class="glyphicon glyphicon-download" title="{\App\Language::translate('LBL_WIDGET_DOWNLOAD')}"></span>
-					</button>&nbsp;
-					<button class="btn btn-xs btn-default printWidget hidden" data-widgetid="{$CHART_MODEL->get('widgetid')}">
-						<span class="glyphicon glyphicon-print" title="{\App\Language::translate('LBL_WIDGET_PRINT')}"></span>
 					</button>
 					{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
 				</div>
