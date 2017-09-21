@@ -41,7 +41,7 @@
 					<div class="input-group input-group-sm">
 						<span class="input-group-addon"><span class="glyphicon glyphicon-user iconMiddle" title="{\App\Language::translate('Assigned To')}"></span></span>
 						<select class="widgetFilter select2 width90 owner form-control input-sm" name="owner" title="{\App\Language::translate('LBL_OWNER')}">
-
+							<option value="0">{\App\Language::translate('LBL_ALL_OWNERS','Home')}</option>
 						</select>
 					</div>
 				</div>

@@ -39,4 +39,5 @@ $languageStrings = [
 	'LBL_GROUP_FIELD' => 'Grupuj po polu',
 	'LBL_GROUP_VALUES' => 'Grupuj wartości',
 	'LBL_FILTER_BY_OWNER' => 'Filtruj po włascicielu',
+	'LBL_ALL_OWNERS' => 'Wszyscy',
 ];

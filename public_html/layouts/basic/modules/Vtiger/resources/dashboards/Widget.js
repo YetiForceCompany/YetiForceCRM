@@ -181,8 +181,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		this.registerSectionClick();
 		this.registerLoadMore();
-		this.registerUserList();
-
 	},
 	setSortingButton: function (currentElement) {
 		if (currentElement.length) {
@@ -209,9 +207,18 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 	},
 	registerUserList: function () {
-		var thisInstance = this;
 		var container = this.getContainer();
-		
+		var header = container.find('.dashboardWidgetHeader');
+		var ownersFilter = header.find('.ownersFilter')
+		if (ownersFilter.length) {
+			var owners = container.find('.widgetOwners').val();
+			if (owners) {
+				var select = ownersFilter.find('select');
+				$.each(jQuery.parseJSON(owners), function (key, value) {
+					select.append($('<option>', {value: key}).text(value));
+				});
+			}
+		}
 	},
 	/**
 	 * Change of widget entries sorting
