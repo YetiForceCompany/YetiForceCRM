@@ -48,5 +48,4 @@ $jsLanguageStrings = [
 	'Changed password successfully' => 'Senha alterada com sucesso',
 	'JS_PLEASE_SELECT_MODULE' => 'Please select module',
 	'JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME' => 'O separador de casas decimais e separador de milhar não podem ser iguais',
-	'JS_USER_MAIL_EXIST' => 'Já existe um Usuário com este endereço de e-mail',
 ];
