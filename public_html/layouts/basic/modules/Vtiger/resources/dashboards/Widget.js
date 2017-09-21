@@ -671,6 +671,7 @@ Vtiger_Widget_Js('Vtiger_Donut_Widget_Js', {}, {
 	 */
 	generateData: function () {
 		var container = this.getContainer();
+		var parent = container.parent();
 		var jData = container.find('.widgetData').val();
 		var data = JSON.parse(jData);
 		var chartData = [];
@@ -678,6 +679,21 @@ Vtiger_Widget_Js('Vtiger_Donut_Widget_Js', {}, {
 			var row = data[index];
 			var rowData = [row.last_name, row.id];
 			chartData.push(rowData);
+		}
+		var downloadWidget = parent.find('.downloadWidget');
+		var printWidget = parent.find('.printWidget');
+		if (chartData) {
+			printWidget.removeClass('hidden');
+			downloadWidget.removeClass('hidden');
+			printWidget.click(function (e) {
+				alert('print');
+			});
+			downloadWidget.click(function (e) {
+				alert('download');
+			});
+		} else {
+			printWidget.addClass('hidden');
+			downloadWidget.addClass('hidden');
 		}
 		return {'chartData': chartData};
 	},
