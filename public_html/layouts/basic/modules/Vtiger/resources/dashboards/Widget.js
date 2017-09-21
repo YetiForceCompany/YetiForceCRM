@@ -577,6 +577,7 @@ Vtiger_Widget_Js('Vtiger_Funnel_Widget_Js', {}, {
 				},
 				legend: {
 					show: true,
+					renderer: $.jqplot.EnhancedLegendRenderer,
 					location: 'e',
 				}
 			});
@@ -681,6 +682,7 @@ Vtiger_Widget_Js('Vtiger_Donut_Widget_Js', {}, {
 				},
 				legend: {
 					show: true,
+					renderer: $.jqplot.EnhancedLegendRenderer,
 					location: 'e'
 				},
 				title: chartData['title']
@@ -736,6 +738,7 @@ Vtiger_Widget_Js('Vtiger_Axis_Widget_Js', {}, {
 				},
 				legend: {
 					show: true,
+					renderer: $.jqplot.EnhancedLegendRenderer,
 					location: 'e'
 				},
 				title: chartData['title']
@@ -792,6 +795,7 @@ Vtiger_Widget_Js('Vtiger_Area_Widget_Js', {}, {
 				},
 				legend: {
 					show: true,
+					renderer: $.jqplot.EnhancedLegendRenderer,
 					location: 'e'
 				},
 				title: chartData['title']
@@ -847,6 +851,7 @@ Vtiger_Widget_Js('Vtiger_Bardivided_Widget_Js', {}, {
 				},
 				legend: {
 					show: true,
+					renderer: $.jqplot.EnhancedLegendRenderer,
 					location: 'e'
 				},
 				title: chartData['title']
@@ -935,6 +940,7 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 					placement: (data['placement']) ? data['placement'] : 'outside',
 					showLabels: (data['data_labels']) ? true : false,
 					showSwatch: (data['data_labels']) ? true : false,
+					renderer: $.jqplot.EnhancedLegendRenderer,
 					labels: data['data_labels']
 				}
 			});
@@ -987,6 +993,7 @@ Vtiger_Barchat_Widget_Js('Vtiger_Horizontal_Widget_Js', {}, {
 				show: false,
 				location: 'e',
 				placement: 'outside',
+				renderer: $.jqplot.EnhancedLegendRenderer,
 				showSwatch: true,
 				showLabels: true,
 				labels: data['data_labels']
@@ -1005,6 +1012,7 @@ Vtiger_Barchat_Widget_Js('Vtiger_Line_Widget_Js', {}, {
 					show: false,
 					labels: data['labels'],
 					location: 'ne',
+					renderer: $.jqplot.EnhancedLegendRenderer,
 					showSwatch: true,
 					showLabels: true,
 					placement: 'outside'
@@ -1115,6 +1123,7 @@ Vtiger_Widget_Js('Vtiger_MultiBarchat_Widget_Js', {
 			legend: {
 				show: true,
 				location: 'e',
+				renderer: $.jqplot.EnhancedLegendRenderer,
 				placement: 'outside',
 				labels: labels
 			}
