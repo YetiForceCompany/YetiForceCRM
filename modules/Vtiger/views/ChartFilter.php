@@ -1,5 +1,4 @@
 <?php
-
 /**
  * View to create chart with a filter
  * @package YetiForce.View
@@ -7,9 +6,17 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
+
+/**
+ * View to create chart with a filter
+ */
 class Vtiger_ChartFilter_View extends Vtiger_Index_View
 {
 
+	/**
+	 * Process request
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -31,7 +38,7 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 					'Funnel' => 'LBL_FUNNEL_CHART',
 				];
 				$viewer->assign('CHART_TYPES', $chartTypes);
-				//Since comments is not treated as seperate module 
+				//Since comments is not treated as seperate module
 				unset($modules['ModComments']);
 				$viewer->assign('MODULES', $modules);
 				break;
