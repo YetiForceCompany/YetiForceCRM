@@ -103,13 +103,26 @@
 				</td>
 			</tr>
 		{/if}
-		{if $CHART_TYPE != ''}
+		{if $CHART_TYPE != '' && in_array($CHART_TYPE,['Area','Axis'])}
 			<tr class="step4">
 				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_TIMELINE_BY_DATE')}</td>
 				<td class="fieldValue">
 					<select class="form-control saveParam" name="timeLine" size="2" >
 						<option>{\App\Language::translate('--None--')}</option>
 						{foreach from=$SELECTED_MODULE_MODEL->getFieldsByType(['date','datetime']) item=FIELD key=FIELD_NAME}
+							<option value="{$FIELD_NAME}">{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
+						{/foreach}
+					</select>
+				</td>
+			</tr>
+		{/if}
+		{if $CHART_TYPE != '' && in_array($CHART_TYPE,['Bardivided'])}
+			<tr class="step4">
+				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_BAR_DIVIDED_FIELD')}</td>
+				<td class="fieldValue">
+					<select class="form-control saveParam" name="barDividedField" size="2" >
+						<option>{\App\Language::translate('--None--')}</option>
+						{foreach from=$SELECTED_MODULE_MODEL->getFields() item=FIELD key=FIELD_NAME}
 							<option value="{$FIELD_NAME}">{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
 						{/foreach}
 					</select>
