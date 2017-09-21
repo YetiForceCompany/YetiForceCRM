@@ -1154,6 +1154,7 @@ $languageStrings = [
 	'LBL_NEGLECTED_ACCOUNTS' => 'Neglected Accounts',
 	'LBL_ADD_CHART_FILTER' => 'Add chart from filter',
 	'LBL_PIE_CHART' => 'Pie chart',
+	'LBL_DONUT_CHART' => 'Donut chart',
 	'LBL_VERTICAL_BAR_CHART' => 'Horizontal bar chart',
 	'LBL_HORIZONTAL_BAR_CHART' => 'Vertical bar chart',
 	'LBL_LINE_CHART' => 'Line chart',
