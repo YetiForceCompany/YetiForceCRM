@@ -1475,7 +1475,6 @@ $jsLanguageStrings = [
 	'JS_TOTAL_RECORDS' => 'Enregistrements Totaux',
 	'JS_UPLOADED_FILE_SIZE_EXCEEDS' => 'Taille maximale dépassée',
 	'JS_UPLOADED_FILE_SIZE_SHOULD_BE_LESS_THAN' => 'Taille de l\'upload doit être inférieure à',
-	'JS_USER_EXISTS' => 'Utilisateur existe déjà',
 	'JS_VALUE_SHOULD_BE_GREATER_THAN_ZERO' => 'La valeur doit être supérieure à zéro',
 	'JS_VALUE_SHOULD_NOT_BE_LESS_THAN' => 'Les fréquences des jobs cron ne peuvent être inférieures à ',
 	'JS_YOU_ARE_IN_PAGE_NUMBER' => 'Vous êtes à la page no.',
