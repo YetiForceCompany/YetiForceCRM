@@ -174,7 +174,7 @@ function vtws_populateConvertLeadEntities($entityvalue, $entity, Vtiger_Record_M
 			}
 		}
 
-		$entity = vtws_validateConvertLeadEntityMandatoryValues($entity, $targetModuleModel, $entityName);
+		$entity = vtws_validateConvertLeadEntityMandatoryValues($entity, $targetModuleModel);
 	}
 	return $entity;
 }
@@ -183,10 +183,9 @@ function vtws_populateConvertLeadEntities($entityvalue, $entity, Vtiger_Record_M
  * Validate convert lead entity mandatory values
  * @param string $entity
  * @param Vtiger_Module_Model $targetModuleModel
- * @param string $module
  * @return string
  */
-function vtws_validateConvertLeadEntityMandatoryValues($entity, Vtiger_Module_Model $targetModuleModel, $module)
+function vtws_validateConvertLeadEntityMandatoryValues($entity, Vtiger_Module_Model $targetModuleModel)
 {
 	$mandatoryFields = $targetModuleModel->getMandatoryFieldModels();
 	foreach ($mandatoryFields as $field => $fieldModel) {

@@ -291,7 +291,7 @@ function DeleteEntity($destinationModule, $sourceModule, CRMEntity $focus, $dest
 		$eventHandler->trigger('EntityBeforeUnLink');
 
 		$focus->unlinkRelationship($destinationRecordId, $sourceModule, $sourceRecordId, $relatedName);
-		$focus->trackUnLinkedInfo($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId);
+		$focus->trackUnLinkedInfo($sourceRecordId);
 
 		$eventHandler->trigger('EntityAfterUnLink');
 	} else {

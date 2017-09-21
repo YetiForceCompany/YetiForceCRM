@@ -743,7 +743,7 @@ class PearDatabase
 		return $rows;
 	}
 
-	public function requirePsSingleResult($sql, $params, $dieOnError = false, $msg = '', $encode = true)
+	public function requirePsSingleResult($sql, $params, $dieOnError = false, $msg = '')
 	{
 		$result = $this->pquery($sql, $params, $dieOnError, $msg);
 

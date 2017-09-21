@@ -1342,8 +1342,9 @@ class CRMEntity
 
 	/**
 	 * Function to track when a record is unlinked to a given record
+	 * @param int $crmId
 	 */
-	public function trackUnLinkedInfo($module, $crmId, $with_module, $with_crmid)
+	public function trackUnLinkedInfo($crmId)
 	{
 		$current_user = vglobal('current_user');
 		$currentTime = date('Y-m-d H:i:s');
