@@ -152,8 +152,8 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 					$groupData[$displayValue]['count'] ++;
 				}
 				if (!isset($groupData[$displayValue]['link'])) {
-					$this->searchParams[] = [$fieldName, 'e', $row[$fieldName]];
-					$groupData[$displayValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . "&viewname=$filterId&search_params=" . App\Json::encode([$this->searchParams]);
+					$searchParams = array_merge($this->searchParams, [[$fieldName, 'e', $row[$fieldName]]]);
+					$groupData[$displayValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . "&viewname=$filterId&search_params=" . App\Json::encode([$searchParams]);
 				}
 			}
 		}
@@ -212,11 +212,11 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$displayValue = $groupFieldModel->getDisplayValue($sectorValue);
 			$displayValue .= ' - (' . (int) $count[$sectorId] . ')';
 			$groupData[$displayValue]['count'] = (int) $sectorValue;
-			$this->searchParams[] = [$fieldName, 'm', $sectorValue];
+			$searchParams = array_merge($this->searchParams, [[$fieldName, 'm', $sectorValue]]);
 			if ($sectorId != 0) {
-				$this->searchParams[] = [$fieldName, 'g', $sectors[$sectorId - 1]];
+				$searchParams[] = [$fieldName, 'g', $sectors[$sectorId - 1]];
 			}
-			$groupData[$displayValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . "&viewname=$filterId&search_params=" . App\Json::encode([$this->searchParams]);
+			$groupData[$displayValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . "&viewname=$filterId&search_params=" . App\Json::encode([$searchParams]);
 		}
 		return $groupData;
 	}

@@ -16,13 +16,13 @@
 							<table class="table table-bordered">
 								<tbody>
 									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_WIDGET_NAME','Home')}</td>
+										<td class="fieldLabel alignMiddle textAlignCenter" nowrap><span class="redColor">*</span>{\App\Language::translate('LBL_WIDGET_NAME','Home')}</td>
 										<td class="fieldValue">
 											<input type="text" class="form-control" name="widgetTitle" value="">
 										</td>
 									</tr>
 									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_SELECT_CHART','Home')}</td>
+										<td class="fieldLabel alignMiddle textAlignCenter" nowrap><span class="redColor">*</span>{\App\Language::translate('LBL_SELECT_CHART','Home')}</td>
 										<td class="fieldValue">
 											<div class="input-group">
 												<select class="form-control select2" name="chartType">
@@ -37,7 +37,7 @@
 										</td>
 									</tr>
 									<tr class="step1">
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_SELECT_MODULE')}</td>
+										<td class="fieldLabel alignMiddle textAlignCenter" nowrap><span class="redColor">*</span>{\App\Language::translate('LBL_SELECT_MODULE')}</td>
 										<td class="fieldValue">
 											<select class="form-control" name="module">
 												<option></option>
@@ -59,7 +59,7 @@
 		</div>
 	{elseif $WIZARD_STEP eq 'step2'}
 		<tr class="step2">
-			<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_FILTER')}</td>
+			<td class="fieldLabel alignMiddle textAlignCenter" nowrap><span class="redColor">*</span>{\App\Language::translate('LBL_FILTER')}</td>
 			<td class="fieldValue">
 				<select class="form-control filterId" name="filterid">
 					<option></option>
@@ -77,7 +77,7 @@
 		</tr>
 	{elseif $WIZARD_STEP eq 'step3'}
 		<tr class="step3">
-			<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_GROUP_FIELD','Home')}</td>
+			<td class="fieldLabel alignMiddle textAlignCenter" nowrap><span class="redColor">*</span>{\App\Language::translate('LBL_GROUP_FIELD','Home')}</td>
 			<td class="fieldValue">
 				<select class="form-control groupField" name="groupField" size="2" >
 					<option></option>
@@ -129,6 +129,15 @@
 					{foreach from=$SELECTED_MODULE_MODEL->getFieldsByType(['date','datetime']) item=FIELD key=FIELD_NAME}
 						<option value="{$FIELD_NAME}">{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
 					{/foreach}
+				</select>
+			</td>
+		</tr>
+		<tr class="step4">
+			<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_FILTER_BY_OWNER','Home')}</td>
+			<td class="fieldValue">
+				<select class="form-control saveParam" name="showOwnerFilter" size="2" >
+					<option value="0">{\App\Language::translate('LBL_NO')}</option>
+					<option value="1">{\App\Language::translate('LBL_YES')}</option>
 				</select>
 			</td>
 		</tr>

@@ -13,6 +13,12 @@
 			</div>
 			<div class="col-md-4">
 				<div class="box pull-right">
+					<button class="btn btn-xs btn-default recordCount" data-url="{Vtiger_Util_Helper::toSafeHTML($CHART_MODEL->getTotalCountURL($OWNER))}">
+						<span class="glyphicon glyphicon-equalizer" title="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}"></span>
+						<a class="pull-left hide" href="{Vtiger_Util_Helper::toSafeHTML($CHART_MODEL->getListViewURL())}">
+							<span class="count badge pull-left"></span>
+						</a>
+					</button>
 					{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
 				</div>
 			</div>
@@ -44,8 +50,5 @@
 	</div>
 	<div class="dashboardWidgetContent">
 		{include file=\App\Layout::getTemplatePath('dashboards/ChartFilterContents.tpl', $MODULE_NAME) WIDGET=$WIDGET}
-	</div>
-	<div class="dashboardWidgetFooter">
-		{include file=\App\Layout::getTemplatePath('dashboards/ChartFilterFooter.tpl', $MODULE_NAME)}
 	</div>
 {/strip}
