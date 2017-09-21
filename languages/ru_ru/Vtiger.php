@@ -1174,6 +1174,7 @@ $languageStrings = [
 	'LBL_NEGLECTED_ACCOUNTS' => 'Утеряные счета',
 	'LBL_ADD_CHART_FILTER' => 'Добавить диаграмму из фильтра',
 	'LBL_PIE_CHART' => 'Круговая диаграмма',
+	'LBL_DONUT_CHART' => 'Donut chart',
 	'LBL_VERTICAL_BAR_CHART' => 'Горизонтальная гистограмма',
 	'LBL_HORIZONTAL_BAR_CHART' => 'Вертикальная гистограмма',
 	'LBL_LINE_CHART' => 'Линейный график',
