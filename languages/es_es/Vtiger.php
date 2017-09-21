@@ -1176,6 +1176,7 @@ $languageStrings = [
 	'LBL_NEGLECTED_ACCOUNTS' => 'Cuentas sin atender',
 	'LBL_ADD_CHART_FILTER' => 'Crear gráfica',
 	'LBL_PIE_CHART' => 'Gráfico circular',
+	'LBL_DONUT_CHART' => 'Donut chart',
 	'LBL_VERTICAL_BAR_CHART' => 'Gráfico de barras horizontal',
 	'LBL_HORIZONTAL_BAR_CHART' => 'Gráfico de barras verticales',
 	'LBL_LINE_CHART' => 'Gráfico de líneas',
