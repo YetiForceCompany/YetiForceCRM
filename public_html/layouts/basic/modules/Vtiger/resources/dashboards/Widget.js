@@ -21,13 +21,13 @@ jQuery.Class('Vtiger_Widget_Js', {
 		var basicClass = Vtiger_Widget_Js;
 		var instance;
 		if (typeof moduleClass != 'undefined') {
-			instance = new moduleClass(container);
+			instance = new moduleClass(container, false);
 		} else if (typeof fallbackClass != 'undefined') {
-			instance = new fallbackClass(container);
+			instance = new fallbackClass(container, false);
 		} else if (typeof yetiClass != 'undefined') {
-			instance = new yetiClass(container);
+			instance = new yetiClass(container, false);
 		} else {
-			instance = new basicClass(container);
+			instance = new basicClass(container, false);
 		}
 		return instance;
 	}
@@ -37,10 +37,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 	plotInstance: false,
 	chartData: [],
 	paramCache: false,
-	init: function (container) {
+	init: function (container, reload) {
 		this.setContainer(jQuery(container));
 		this.registerWidgetPostLoadEvent(container);
-		this.registerWidgetPostRefreshEvent(container);
+		if (!reload) {
+			this.registerWidgetPostRefreshEvent(container);
+		}
 		this.registerCache(container);
 	},
 	getContainer: function () {
@@ -168,6 +170,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.registerWidgetSwitch();
 		this.registerChangeSorting();
 		this.registerLoadMore();
+		this.registerUserList();
 	},
 	postRefreshWidget: function () {
 		this.loadScrollbar();
@@ -178,6 +181,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 		this.registerSectionClick();
 		this.registerLoadMore();
+		this.registerUserList();
+
 	},
 	setSortingButton: function (currentElement) {
 		if (currentElement.length) {
@@ -202,6 +207,11 @@ jQuery.Class('Vtiger_Widget_Js', {
 			glyphicon.removeClass().addClass('glyphicon').addClass(icon);
 			drefresh.data('url', url);
 		}
+	},
+	registerUserList: function () {
+		var thisInstance = this;
+		var container = this.getContainer();
+		
 	},
 	/**
 	 * Change of widget entries sorting
@@ -424,6 +434,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	},
 	registerWidgetPostRefreshEvent: function (container) {
 		var thisInstance = this;
+		container.off(Vtiger_Widget_Js.widgetPostRefereshEvent);
 		container.on(Vtiger_Widget_Js.widgetPostRefereshEvent, function (e) {
 			thisInstance.postRefreshWidget();
 		});
@@ -1713,7 +1724,7 @@ Vtiger_Widget_Js('YetiForce_Chartfilter_Widget_Js', {}, {
 
 		var instance = false;
 		if (typeof chartClass != 'undefined') {
-			instance = new chartClass(container);
+			instance = new chartClass(container, true);
 			instance.loadChart();
 		}
 		this.registerRecordsCount();
