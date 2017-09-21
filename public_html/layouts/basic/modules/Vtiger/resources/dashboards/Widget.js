@@ -763,6 +763,7 @@ Vtiger_Widget_Js('Vtiger_Area_Widget_Js', {}, {
 		var container = this.getContainer();
 		var jData = container.find('.widgetData').val();
 		var data = JSON.parse(jData);
+		console.log(data);
 		var chartData = [];
 		for (var index in data) {
 			var row = data[index];
@@ -831,7 +832,7 @@ Vtiger_Widget_Js('Vtiger_Bardivided_Widget_Js', {}, {
 		if (chartData['chartData'].length > 0) {
 			this.getPlotContainer(false).jqplot([chartData['chartData']], {
 				seriesDefaults: {
-					renderer: jQuery.jqplot.DonutRenderer,
+					renderer: jQuery.jqplot.BarRenderer,
 					rendererOptions: {
 						// Donut's can be cut into slices like pies.
 						sliceMargin: 3,
