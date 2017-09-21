@@ -1167,6 +1167,7 @@ $languageStrings = [
 	'LBL_ADD_CHART_FILTER' => 'Diagramm hinzufügen',
 	'LBL_SELECT_CHART' => 'Diagramm wählen',
 	'LBL_PIE_CHART' => 'Kuchendiagramm',
+	'LBL_DONUT_CHART' => 'Donut chart',
 	'LBL_VERTICAL_BAR_CHART' => 'Horizontales Balkendiagramm',
 	'LBL_HORIZONTAL_BAR_CHART' => 'Vertikales Balkendiagramm',
 	'LBL_LINE_CHART' => 'Liniendiagramm',
