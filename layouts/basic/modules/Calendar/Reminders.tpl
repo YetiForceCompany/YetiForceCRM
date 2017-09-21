@@ -1,18 +1,5 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
-	<style>
-	{if empty($COLOR_LIST)}	
-		{foreach item=ITEM from=Settings_Calendar_Module_Model::getCalendarConfig('colors')}
-			.borderColor{$ITEM['label']}{
-				border-color: {$ITEM['value']};
-			}
-			.headingColor{$ITEM['label']}{
-				background-color: {$ITEM['value']} !important;
-				border-color: {$ITEM['value']};
-			}
-		{/foreach}
-	{/if}
-	</style>
 	<div class="remindersContent">
 		{foreach item=RECORD from=$RECORDS}
 			{assign var=START_DATE value=$RECORD->get('date_start')}
@@ -20,10 +7,10 @@
 			{assign var=END_DATE value=$RECORD->get('due_date')}
 			{assign var=END_TIME value=$RECORD->get('time_end')}
 			{assign var=RECORD_ID value=$RECORD->getId()}
-			<div class="panel borderColor{$RECORD->get('activitytype')}" data-record="{$RECORD_ID}">
-				<div class="panel-heading headingColor{$RECORD->get('activitytype')}" 
+			<div class="panel picklistCBr_Calendar_activitytype_{$RECORD->get('activitytype')}" data-record="{$RECORD_ID}">
+				<div class="panel-heading picklistCBg_Calendar_activitytype_{$RECORD->get('activitytype')}"
 					 {if !empty($COLOR_LIST[$RECORD_ID])}
-					 style="background: {$COLOR_LIST[$RECORD_ID]['background']}; color: {$COLOR_LIST[$RECORD_ID]['text']};"
+					 {/strip} {strip}style="background: {$COLOR_LIST[$RECORD_ID]['background']} !important; color: {$COLOR_LIST[$RECORD_ID]['text']} !important;"
 					 {/if}>
 					<button class="btn btn-success btn-xs pull-right showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}">
 						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>

@@ -48,12 +48,8 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function updateCalendarConfig($params)
 	{
-		if ($params['table']) {
-			Users_Colors_Model::updateColor($params);
-		} else {
-			\App\Db::getInstance()->createCommand()->update('vtiger_calendar_config', ['value' => $params['color']], ['name' => $params['id']]
-			)->execute();
-		}
+		\App\Db::getInstance()->createCommand()->update('vtiger_calendar_config', ['value' => $params['color']], ['name' => $params['id']])
+			->execute();
 		\App\Cache::clear();
 		\App\Colors::generate('calendar');
 	}
