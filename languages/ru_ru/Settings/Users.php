@@ -45,7 +45,6 @@ $languageStrings = [
 	'LBL_LOCK_DRAG' => 'Блокировать перемещение',
 ];
 $jsLanguageStrings = [
-	'JS_USER_MAIL_EXIST' => 'Пользователь с такой электронной почтой уже существует',
 	'JS_PLEASE_SELECT_MODULE' => 'Please select module',
 	'JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME' => 'Разделитель десятичных и тысячных не могут быть одинаковыми',
 	'Changed password successfully' => 'Пароль успешно изменен',
