@@ -97,6 +97,36 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		return $data;
 	}
 
+	public function getDataAxis()
+	{
+		$groupData = $this->getDataFromFilter();
+		$data = [];
+		foreach ($groupData as $fieldName => $value) {
+			$data [] = ['last_name' => $fieldName, 'id' => $value['count'], '2' => $value['link']];
+		}
+		return $data;
+	}
+
+	public function getDataArea()
+	{
+		$groupData = $this->getDataFromFilter();
+		$data = [];
+		foreach ($groupData as $fieldName => $value) {
+			$data [] = ['last_name' => $fieldName, 'id' => $value['count'], '2' => $value['link']];
+		}
+		return $data;
+	}
+
+	public function getDataBardivided()
+	{
+		$groupData = $this->getDataFromFilter();
+		$data = [];
+		foreach ($groupData as $fieldName => $value) {
+			$data [] = ['last_name' => $fieldName, 'id' => $value['count'], '2' => $value['link']];
+		}
+		return $data;
+	}
+
 	public function getDataFromFilter()
 	{
 		$filterId = $this->widgetModel->get('filterid');
