@@ -13,7 +13,7 @@
 			</div>
 			<div class="col-md-4">
 				<div class="box pull-right">
-					<button class="btn btn-xs btn-default recordCount" data-url="{Vtiger_Util_Helper::toSafeHTML($CHART_MODEL->getTotalCountURL($OWNER))}">
+					<button class="btn btn-xs btn-default recordCount" data-url="{Vtiger_Util_Helper::toSafeHTML($CHART_MODEL->getTotalCountURL())}">
 						<span class="glyphicon glyphicon-equalizer" title="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}"></span>
 						<a class="pull-left hide" href="{Vtiger_Util_Helper::toSafeHTML($CHART_MODEL->getListViewURL())}">
 							<span class="count badge pull-left"></span>
@@ -23,11 +23,11 @@
 				</div>
 			</div>
 		</div>
-		{if $WIDGET_DATA['timeRange'] || $WIDGET_DATA['showOwnerFilter']}	 
+		{assign var="WIDGET_DATA" value=$WIDGET->getArray('data')}
+		{if $WIDGET_DATA['timeRange'] || $WIDGET_DATA['showOwnerFilter']}
 			<hr class="widgetHr" />
 		{/if}
-		<div class="row" >
-			{assign var="WIDGET_DATA" value=$WIDGET->getArray('data')}
+		<div class="row">
 			{if $WIDGET_DATA['timeRange']}
 				<div class="col-md-6">
 					<div class="input-group input-group-sm">

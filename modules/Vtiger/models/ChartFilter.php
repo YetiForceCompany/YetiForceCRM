@@ -38,6 +38,12 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	private $searchParams = [];
 
 	/**
+	 * Owners list
+	 * @var array 
+	 */
+	private $owners = [];
+
+	/**
 	 * Get instance
 	 * @param int $linkId
 	 * @param int $userId
@@ -206,6 +212,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	protected function getRows()
 	{
 		$filterId = $this->widgetModel->get('filterid');
+		$showOwnerFilter = !empty($this->extraData['showOwnerFilter']);
 		$groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
 		$fieldName = $groupFieldModel->getFieldName();
 		$dataReader = $this->getQuery()->createCommand()->query();
@@ -217,6 +224,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 					$groupData[$displayValue]['count'] = 1;
 				} else {
 					$groupData[$displayValue]['count'] ++;
+				}
+				if ($showOwnerFilter) {
+					$this->owners[] = $row['assigned_user_id'];
 				}
 				if (!isset($groupData[$displayValue]['link'])) {
 					$searchParams = array_merge($this->searchParams, [[$fieldName, 'e', $row[$fieldName]]]);
@@ -250,6 +260,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			]);
 			$this->searchParams[] = [$timeFieldModel->getFieldName(), 'bw', $time['start'] . ',' . $time['end']];
 		}
+		if (!empty($this->extraData['showOwnerFilter'])) {
+			$queryGenerator->setField('assigned_user_id');
+		}
 		return $query;
 	}
 
@@ -260,6 +273,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	protected function getRowsFunnel()
 	{
 		$filterId = $this->widgetModel->get('filterid');
+		$showOwnerFilter = !empty($this->extraData['showOwnerFilter']);
 		$groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
 		$fieldName = $groupFieldModel->getFieldName();
 		$count = $groupData = [];
@@ -267,6 +281,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$dataReader = $this->getQuery()->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$sectorId = $this->getSector($sectors, $row[$fieldName]);
+			if ($showOwnerFilter) {
+				$this->owners[] = $row['assigned_user_id'];
+			}
 			if ($sectorId !== false) {
 				if (!isset($count[$sectorId])) {
 					$count[$sectorId] = 1;
@@ -307,6 +324,29 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	}
 
 	/**
+	 * Get owners list from result data
+	 * @return type
+	 */
+	public function getRowsOwners()
+	{
+		$owners = [];
+		foreach (array_unique($this->owners) as $ownerId) {
+			$owners[$ownerId] = App\Fields\Owner::getLabel($ownerId);
+		}
+		return $owners;
+	}
+
+	/**
+	 * Get extra data 
+	 * @param string $key
+	 * @return mixed
+	 */
+	public function getExtraData($key)
+	{
+		return isset($this->extraData[$key]) ? $this->extraData[$key] : null;
+	}
+
+	/**
 	 * Set widget model
 	 * @param \Vtiger_Widget_Model $widgetModel
 	 * @throws Exception
@@ -321,7 +361,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			$this->extraData = \App\Json::decode(App\Purifier::decodeHtml($this->extraData));
 		}
 		if ($this->extraData === null) {
-			throw new Exception('Invalid data');
+			throw new \App\Exceptions\AppException('Invalid data');
 		}
 	}
 
