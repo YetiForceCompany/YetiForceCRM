@@ -52,7 +52,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 
 	protected function getDataBarchat()
 	{
-		$groupData = $this->getDataFromFilter();
+		$groupData = $this->getRows();
 		uasort($groupData, function($first, $second) {
 			if ($first['count'] == $second['count']) {
 				return 0;
