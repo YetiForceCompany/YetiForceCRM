@@ -30,4 +30,12 @@ $languageStrings = [
 	'LBL_TIME' => 'Czas',
 	'LBL_NOTIFICATION_BY_SENDER' => 'Ilość powiadomień wg nadawców',
 	'LBL_NOTIFICATION_BY_RECIPIENT' => 'Ilość powiadomien wg odbiorców',
+	// Widgets
+	'LBL_MINI_LIST' => 'Okno z filtrem',
+	'LBL_FILTERING_BY_DATE' => 'Filtrowanie po dacie',
+	'LBL_TIMELINE_BY_DATE' => 'Oś czasu po dacie',
+	'LBL_WIDGET_NAME' => 'Nazwa widżetu',
+	'LBL_SELECT_CHART' => 'Wybierz wykres',
+	'LBL_GROUP_FIELD' => 'Grupuj po polu',
+	'LBL_GROUP_VALUES' => 'Grupuj wartości',
 ];

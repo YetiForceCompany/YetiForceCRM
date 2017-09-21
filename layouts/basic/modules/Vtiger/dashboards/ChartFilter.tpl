@@ -6,7 +6,7 @@
 				<div class="modal-content">
 					<div class="modal-header contentsBackground">
 						<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
-						<h3 class="modal-title" id="massEditHeader">{\App\Language::translate('LBL_MINI_LIST', $MODULE)} {\App\Language::translate($MODULE, $MODULE)}</h3>
+						<h3 class="modal-title" id="massEditHeader">{\App\Language::translate('LBL_MINI_LIST','Home')} {\App\Language::translate($MODULE, $MODULE)}</h3>
 					</div>
 					<form class="form-horizontal" method="post" action="javascript:;">
 						<div class="modal-body">
@@ -16,13 +16,13 @@
 							<table class="table table-bordered">
 								<tbody>
 									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_WIDGET_NAME')}</td>
+										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_WIDGET_NAME','Home')}</td>
 										<td class="fieldValue">
 											<input type="text" class="form-control" name="widgetTitle" value="">
 										</td>
 									</tr>
 									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_SELECT_CHART')}</td>
+										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_SELECT_CHART','Home')}</td>
 										<td class="fieldValue">
 											<div class="input-group">
 												<select class="form-control select2" name="chartType">
@@ -77,7 +77,7 @@
 		</tr>
 	{elseif $WIZARD_STEP eq 'step3'}
 		<tr class="step3">
-			<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_GROUP_FIELD')}</td>
+			<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_GROUP_FIELD','Home')}</td>
 			<td class="fieldValue">
 				<select class="form-control groupField" name="groupField" size="2" >
 					<option></option>
@@ -90,7 +90,7 @@
 	{elseif $WIZARD_STEP eq 'step4'}
 		{if $CHART_TYPE == 'Funnel' && in_array($GROUP_FIELD_MODEL->getFieldDataType(),['currency', 'double', 'percentage', 'integer'])}
 			<tr class="step4">
-				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_GROUP_VALUES')}</td>
+				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_GROUP_VALUES','Home')}</td>
 				<td class="fieldValue">
 					<select class="form-control select saveParam" multiple name="sectorField" size="2"></select>
 				</td>
@@ -98,7 +98,7 @@
 		{/if}
 		{if in_array($CHART_TYPE,['Area','Axis'])}
 			<tr class="step4">
-				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_TIMELINE_BY_DATE')}</td>
+				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_TIMELINE_BY_DATE','Home')}</td>
 				<td class="fieldValue">
 					<select class="form-control saveParam" name="timeLine" size="2" >
 						{foreach from=$SELECTED_MODULE_MODEL->getFieldsByType(['date','datetime']) item=FIELD key=FIELD_NAME}
@@ -110,7 +110,7 @@
 		{/if}
 		{if in_array($CHART_TYPE,['Bardivided'])}
 			<tr class="step4">
-				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_BAR_DIVIDED_FIELD')}</td>
+				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_BAR_DIVIDED_FIELD','Home')}</td>
 				<td class="fieldValue">
 					<select class="form-control saveParam" name="barDividedField" size="2" >
 						<option>{\App\Language::translate('--None--')}</option>
@@ -122,7 +122,7 @@
 			</tr>
 		{/if}
 		<tr class="step4">
-			<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_FILTERING_BY_DATE')}</td>
+			<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_FILTERING_BY_DATE','Home')}</td>
 			<td class="fieldValue">
 				<select class="form-control saveParam" name="timeRange" size="2" >
 					<option>{\App\Language::translate('--None--')}</option>
