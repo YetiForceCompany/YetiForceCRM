@@ -625,6 +625,7 @@ Vtiger_Widget_Js('Vtiger_Pie_Widget_Js', {}, {
 				},
 				legend: {
 					show: true,
+					renderer: $.jqplot.EnhancedPieLegendRenderer,
 					location: 'e'
 				},
 				title: chartData['title']

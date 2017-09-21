@@ -343,13 +343,13 @@ class Project extends CRMEntity
 
 			\App\Fields\RecordNumber::setNumber($moduleName, 'PROJ', 1);
 		} else if ($eventType === 'module.disabled') {
-
+			
 		} else if ($eventType === 'module.enabled') {
-
+			
 		} else if ($eventType === 'module.preuninstall') {
-
+			
 		} else if ($eventType === 'module.preupdate') {
-
+			
 		} else if ($eventType === 'module.postupdate') {
 			$projectTabid = (new \App\Db\Query())->select(['tabid'])->from('vtiger_tab')->where(['name' => 'Project'])->scalar();
 
@@ -367,7 +367,7 @@ class Project extends CRMEntity
 
 	public static function registerLinks()
 	{
-
+		
 	}
 	/**
 	 * Here we override the parent's method,
@@ -404,21 +404,26 @@ class Project extends CRMEntity
 		}
 	}
 
-	/** Function to unlink an entity with given Id from another entity */
-	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
+	/**
+	 * Function to unlink an entity with given Id from another entity
+	 * @param int $id
+	 * @param string $returnModule
+	 * @param int $returnId
+	 * @param boolean $relatedName
+	 */
+	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-		$currentModule = vglobal('currentModule');
-		if ($relatedName == 'getManyToMany') {
-			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
+		if ($relatedName === 'getManyToMany') {
+			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
 		} else {
-			parent::deleteRelatedFromDB(vglobal('currentModule'), $id, $return_module, $return_id);
+			parent::deleteRelatedFromDB($id, $returnModule, $returnId);
 			$dataReader = (new \App\Db\Query())->select(['tabid', 'tablename', 'columnname'])
 					->from('vtiger_field')
-					->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $currentModule, 'relmodule' => $return_module])])
+					->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => vglobal('currentModule'), 'relmodule' => $returnModule])])
 					->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				App\Db::getInstance()->createCommand()
-					->update($row['tablename'], [$row['columnname'] => null], [$row['columnname'] => $return_id, CRMEntity::getInstance(App\Module::getModuleName($row['tabid']))->table_index => $id])
+					->update($row['tablename'], [$row['columnname'] => null], [$row['columnname'] => $returnId, CRMEntity::getInstance(App\Module::getModuleName($row['tabid']))->table_index => $id])
 					->execute();
 			}
 		}

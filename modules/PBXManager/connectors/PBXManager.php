@@ -322,9 +322,9 @@ class PBXManager_PBXManager_Connector
 	/**
 	 * Function to make outbound call 
 	 * @param string $number (Customer)
-	 * @param string $recordid
+	 * @return boolean
 	 */
-	public function call($number, $record)
+	public function call($number)
 	{
 		$user = Users_Record_Model::getCurrentUserModel();
 		$extension = $user->phone_crm_extension;
@@ -343,7 +343,7 @@ class PBXManager_PBXManager_Connector
 		$httpClient = Requests::post($serviceURL);
 		$response = trim($httpClient->body);
 
-		if ($response == "Error" || $response == "" || $response === null || $response == "Authentication Failure") {
+		if ($response === 'Error' || $response === '' || $response === null || $response === 'Authentication Failure') {
 			return false;
 		}
 		return true;

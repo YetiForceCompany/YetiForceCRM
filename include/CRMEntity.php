@@ -346,7 +346,13 @@ class CRMEntity
 		
 	}
 
-	/** Function to unlink an entity with given Id from another entity */
+	/**
+	 * Function to unlink an entity with given Id from another entity
+	 * @param int $id
+	 * @param string $returnModule
+	 * @param int $returnId
+	 * @param boolean $relatedName
+	 */
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
 		$currentModule = vglobal('currentModule');
@@ -359,11 +365,11 @@ class CRMEntity
 				$this->deleteRelatedDependent($currentModule, $id, $returnModule, $returnId);
 				break;
 			case 'getRelatedList':
-				$this->deleteRelatedFromDB($currentModule, $id, $returnModule, $returnId);
+				$this->deleteRelatedFromDB($id, $returnModule, $returnId);
 				break;
 			default:
 				$this->deleteRelatedDependent($currentModule, $id, $returnModule, $returnId);
-				$this->deleteRelatedFromDB($currentModule, $id, $returnModule, $returnId);
+				$this->deleteRelatedFromDB($id, $returnModule, $returnId);
 				break;
 		}
 	}
@@ -388,7 +394,13 @@ class CRMEntity
 		$db->delete($referenceInfo['table'], $referenceInfo['base'] . ' = ? && ' . $referenceInfo['rel'] . ' = ?', [$withCrmid, $crmid]);
 	}
 
-	public function deleteRelatedFromDB($module, $crmid, $withModule, $withCrmid)
+	/**
+	 * 
+	 * @param int $crmid
+	 * @param string $withModule
+	 * @param int $withCrmid
+	 */
+	public function deleteRelatedFromDB($crmid, $withModule, $withCrmid)
 	{
 		App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', ['or',
 			[
