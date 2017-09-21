@@ -604,7 +604,18 @@ Vtiger_Widget_Js('Vtiger_Funnel_Widget_Js', {}, {
 			printWidget.removeClass('hidden');
 			downloadWidget.removeClass('hidden');
 			printWidget.click(function (e) {
-				alert('print');
+				var imgEl = $(plot.jqplotToImageElem());
+				var print = window.open('', 'PRINT', 'height=400,width=600');
+				print.document.write('<html><head><title>' + container.find('.dashboardTitle').text() + '</title>');
+				print.document.write('</head><body >');
+				print.document.write($('<div>').append(imgEl.clone()).html());
+				print.document.write('</body></html>');
+				print.document.close(); // necessary for IE >= 10
+				print.focus(); // necessary for IE >= 10*/
+				setTimeout(function () {
+					print.print();
+					print.close();
+				}, 1000);
 			});
 			downloadWidget.click({chart: $(this)}, function (e) {
 				var imgEl = $(plot.jqplotToImageElem());
@@ -676,7 +687,18 @@ Vtiger_Widget_Js('Vtiger_Pie_Widget_Js', {}, {
 			printWidget.removeClass('hidden');
 			downloadWidget.removeClass('hidden');
 			printWidget.click(function (e) {
-				alert('print');
+				var imgEl = $(plot.jqplotToImageElem());
+				var print = window.open('', 'PRINT', 'height=400,width=600');
+				print.document.write('<html><head><title>' + container.find('.dashboardTitle').text() + '</title>');
+				print.document.write('</head><body >');
+				print.document.write($('<div>').append(imgEl.clone()).html());
+				print.document.write('</body></html>');
+				print.document.close(); // necessary for IE >= 10
+				print.focus(); // necessary for IE >= 10*/
+				setTimeout(function () {
+					print.print();
+					print.close();
+				}, 1000);
 			});
 			downloadWidget.click({chart: $(this)}, function (e) {
 				var imgEl = $(plot.jqplotToImageElem());
@@ -755,7 +777,18 @@ Vtiger_Widget_Js('Vtiger_Donut_Widget_Js', {}, {
 			printWidget.removeClass('hidden');
 			downloadWidget.removeClass('hidden');
 			printWidget.click(function (e) {
-				alert('print');
+				var imgEl = $(plot.jqplotToImageElem());
+				var print = window.open('', 'PRINT', 'height=400,width=600');
+				print.document.write('<html><head><title>' + container.find('.dashboardTitle').text() + '</title>');
+				print.document.write('</head><body >');
+				print.document.write($('<div>').append(imgEl.clone()).html());
+				print.document.write('</body></html>');
+				print.document.close(); // necessary for IE >= 10
+				print.focus(); // necessary for IE >= 10*/
+				setTimeout(function () {
+					print.print();
+					print.close();
+				}, 1000);
 			});
 			downloadWidget.click({chart: $(this)}, function (e) {
 				var imgEl = $(plot.jqplotToImageElem());
@@ -834,7 +867,18 @@ Vtiger_Widget_Js('Vtiger_Axis_Widget_Js', {}, {
 			printWidget.removeClass('hidden');
 			downloadWidget.removeClass('hidden');
 			printWidget.click(function (e) {
-				alert('print');
+				var imgEl = $(plot.jqplotToImageElem());
+				var print = window.open('', 'PRINT', 'height=400,width=600');
+				print.document.write('<html><head><title>' + container.find('.dashboardTitle').text() + '</title>');
+				print.document.write('</head><body >');
+				print.document.write($('<div>').append(imgEl.clone()).html());
+				print.document.write('</body></html>');
+				print.document.close(); // necessary for IE >= 10
+				print.focus(); // necessary for IE >= 10*/
+				setTimeout(function () {
+					print.print();
+					print.close();
+				}, 1000);
 			});
 			downloadWidget.click({chart: $(this)}, function (e) {
 				var imgEl = $(plot.jqplotToImageElem());
@@ -913,7 +957,18 @@ Vtiger_Widget_Js('Vtiger_Area_Widget_Js', {}, {
 			printWidget.removeClass('hidden');
 			downloadWidget.removeClass('hidden');
 			printWidget.click(function (e) {
-				alert('print');
+				var imgEl = $(plot.jqplotToImageElem());
+				var print = window.open('', 'PRINT', 'height=400,width=600');
+				print.document.write('<html><head><title>' + container.find('.dashboardTitle').text() + '</title>');
+				print.document.write('</head><body >');
+				print.document.write($('<div>').append(imgEl.clone()).html());
+				print.document.write('</body></html>');
+				print.document.close(); // necessary for IE >= 10
+				print.focus(); // necessary for IE >= 10*/
+				setTimeout(function () {
+					print.print();
+					print.close();
+				}, 1000);
 			});
 			downloadWidget.click({chart: $(this)}, function (e) {
 				var imgEl = $(plot.jqplotToImageElem());
@@ -992,7 +1047,18 @@ Vtiger_Widget_Js('Vtiger_Bardivided_Widget_Js', {}, {
 			printWidget.removeClass('hidden');
 			downloadWidget.removeClass('hidden');
 			printWidget.click(function (e) {
-				alert('print');
+				var imgEl = $(plot.jqplotToImageElem());
+				var print = window.open('', 'PRINT', 'height=400,width=600');
+				print.document.write('<html><head><title>' + container.find('.dashboardTitle').text() + '</title>');
+				print.document.write('</head><body >');
+				print.document.write($('<div>').append(imgEl.clone()).html());
+				print.document.write('</body></html>');
+				print.document.close(); // necessary for IE >= 10
+				print.focus(); // necessary for IE >= 10*/
+				setTimeout(function () {
+					print.print();
+					print.close();
+				}, 1000);
 			});
 			downloadWidget.click({chart: $(this)}, function (e) {
 				var imgEl = $(plot.jqplotToImageElem());
@@ -1101,7 +1167,18 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 			printWidget.removeClass('hidden');
 			downloadWidget.removeClass('hidden');
 			printWidget.click(function (e) {
-				alert('print');
+				var imgEl = $(plot.jqplotToImageElem());
+				var print = window.open('', 'PRINT', 'height=400,width=600');
+				print.document.write('<html><head><title>' + container.find('.dashboardTitle').text() + '</title>');
+				print.document.write('</head><body >');
+				print.document.write($('<div>').append(imgEl.clone()).html());
+				print.document.write('</body></html>');
+				print.document.close(); // necessary for IE >= 10
+				print.focus(); // necessary for IE >= 10*/
+				setTimeout(function () {
+					print.print();
+					print.close();
+				}, 1000);
 			});
 			downloadWidget.click({chart: $(this)}, function (e) {
 				var imgEl = $(plot.jqplotToImageElem());
@@ -1178,7 +1255,18 @@ Vtiger_Barchat_Widget_Js('Vtiger_Horizontal_Widget_Js', {}, {
 			printWidget.removeClass('hidden');
 			downloadWidget.removeClass('hidden');
 			printWidget.click(function (e) {
-				alert('print');
+				var imgEl = $(plot.jqplotToImageElem());
+				var print = window.open('', 'PRINT', 'height=400,width=600');
+				print.document.write('<html><head><title>' + container.find('.dashboardTitle').text() + '</title>');
+				print.document.write('</head><body >');
+				print.document.write($('<div>').append(imgEl.clone()).html());
+				print.document.write('</body></html>');
+				print.document.close(); // necessary for IE >= 10
+				print.focus(); // necessary for IE >= 10*/
+				setTimeout(function () {
+					print.print();
+					print.close();
+				}, 1000);
 			});
 			downloadWidget.click({chart: $(this)}, function (e) {
 				var imgEl = $(plot.jqplotToImageElem());
@@ -1239,7 +1327,18 @@ Vtiger_Barchat_Widget_Js('Vtiger_Line_Widget_Js', {}, {
 			printWidget.removeClass('hidden');
 			downloadWidget.removeClass('hidden');
 			printWidget.click(function (e) {
-				alert('print');
+				var imgEl = $(plot.jqplotToImageElem());
+				var print = window.open('', 'PRINT', 'height=400,width=600');
+				print.document.write('<html><head><title>' + container.find('.dashboardTitle').text() + '</title>');
+				print.document.write('</head><body >');
+				print.document.write($('<div>').append(imgEl.clone()).html());
+				print.document.write('</body></html>');
+				print.document.close(); // necessary for IE >= 10
+				print.focus(); // necessary for IE >= 10*/
+				setTimeout(function () {
+					print.print();
+					print.close();
+				}, 1000);
 			});
 			downloadWidget.click({chart: $(this)}, function (e) {
 				var imgEl = $(plot.jqplotToImageElem());
@@ -1354,7 +1453,18 @@ Vtiger_Widget_Js('Vtiger_MultiBarchat_Widget_Js', {
 			printWidget.removeClass('hidden');
 			downloadWidget.removeClass('hidden');
 			printWidget.click(function (e) {
-				alert('print');
+				var imgEl = $(plot.jqplotToImageElem());
+				var print = window.open('', 'PRINT', 'height=400,width=600');
+				print.document.write('<html><head><title>' + container.find('.dashboardTitle').text() + '</title>');
+				print.document.write('</head><body >');
+				print.document.write($('<div>').append(imgEl.clone()).html());
+				print.document.write('</body></html>');
+				print.document.close(); // necessary for IE >= 10
+				print.focus(); // necessary for IE >= 10*/
+				setTimeout(function () {
+					print.print();
+					print.close();
+				}, 1000);
 			});
 			downloadWidget.click({chart: $(this)}, function (e) {
 				var imgEl = $(plot.jqplotToImageElem());
