@@ -65,6 +65,8 @@ class Request
 		}
 		if (isset($this->rawValues[$key])) {
 			$value = $this->rawValues[$key];
+		} else {
+			return $value;
 		}
 		if (is_string($value) && (strpos($value, '[') === 0 || strpos($value, '{') === 0)) {
 			$value = Json::decode($value);
