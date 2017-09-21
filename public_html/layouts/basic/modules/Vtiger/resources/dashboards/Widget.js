@@ -785,7 +785,6 @@ Vtiger_Widget_Js('Vtiger_Area_Widget_Js', {}, {
 		var container = this.getContainer();
 		var jData = container.find('.widgetData').val();
 		var data = JSON.parse(jData);
-		console.log(data);
 		var chartData = [];
 		for (var index in data) {
 			var row = data[index];
@@ -958,7 +957,6 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 					placement: (data['placement']) ? data['placement'] : 'outside',
 					showLabels: (data['data_labels']) ? true : false,
 					showSwatch: (data['data_labels']) ? true : false,
-					renderer: $.jqplot.EnhancedLegendRenderer,
 					labels: data['data_labels']
 				}
 			});
@@ -1011,7 +1009,6 @@ Vtiger_Barchat_Widget_Js('Vtiger_Horizontal_Widget_Js', {}, {
 				show: false,
 				location: 'e',
 				placement: 'outside',
-				renderer: $.jqplot.EnhancedLegendRenderer,
 				showSwatch: true,
 				showLabels: true,
 				labels: data['data_labels']
@@ -1030,7 +1027,6 @@ Vtiger_Barchat_Widget_Js('Vtiger_Line_Widget_Js', {}, {
 					show: false,
 					labels: data['labels'],
 					location: 'ne',
-					renderer: $.jqplot.EnhancedLegendRenderer,
 					showSwatch: true,
 					showLabels: true,
 					placement: 'outside'
