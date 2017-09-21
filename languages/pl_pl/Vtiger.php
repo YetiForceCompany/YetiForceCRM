@@ -1165,7 +1165,7 @@ $languageStrings = [
 	'LBL_LINE_CHART' => 'Wykres liniowy',
 	'LBL_FUNNEL_CHART' => 'Lejek sprzedażowy',
 	'LBL_SELECT_CHART' => 'Wybierz wykres',
-	'LBL_GROUP_FIELD' => 'Grupuj po',
+	'LBL_GROUP_FIELD' => 'Grupuj po polu',
 	// numbers in words
 	'LBL_MINUS' => 'minus',
 	'LBL_ZERO' => 'zero',
@@ -1255,7 +1255,7 @@ $languageStrings = [
 	'LBL_MAP' => 'Mapa',
 	'LBL_SHOW_MAP' => 'Pokaż na mapie',
 	'FL_CAMPAIGN_STATUS' => 'Status kampanii',
-	'LBL_SECTOR' => 'Sektory',
+	'LBL_GROUP_VALUES' => 'Grupuj wartości',
 	'LBL_CLOSED_TICKETS_BY_PRIORITY' => 'Zamknięte zgłoszenie według priorytetu',
 	'LBL_CLOSED_TICKETS_BY_USER' => 'Zamknięte zgłoszenia według użytkowników',
 	'LBL_REVIEW_CHANGES' => 'Zapoznanie się ze zmianami',

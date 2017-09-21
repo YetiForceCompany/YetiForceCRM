@@ -1329,7 +1329,7 @@ $languageStrings = [
 	'LBL_NOVEMDECILLION' => 'décillion',
 	'LBL_NOVEMDECILLIONS' => 'décillions',
 	'LBL_NOVEMDECILLIONSS' => 'décillions',
-	'LBL_SECTOR' => 'Secteurs',
+	'LBL_GROUP_VALUES' => 'Secteurs',
 	'LBL_BAD_REQUEST' => 'Incorrect request',
 	'LBL_NOT_ALLOWED_VALUE' => 'Incorrect value detected, please contact your administrator',
 ];
