@@ -212,7 +212,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$groupData = [];
 		while ($row = $dataReader->read()) {
 			if (!empty($row[$fieldName])) {
-				$displayValue = $groupFieldModel->getDisplayValue($row[$fieldName]);
+				$displayValue = $groupFieldModel->getDisplayValue($row[$fieldName], false, false, true);
 				if (!isset($groupData[$displayValue]['count'])) {
 					$groupData[$displayValue]['count'] = 1;
 				} else {
