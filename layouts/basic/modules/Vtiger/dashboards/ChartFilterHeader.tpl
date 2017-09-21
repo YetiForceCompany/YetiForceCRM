@@ -17,23 +17,29 @@
 				</div>
 			</div>
 		</div>
-		<hr class="widgetHr"/>
+		{if $WIDGET_DATA['timeRange'] || $WIDGET_DATA['showOwnerFilter']}	 
+			<hr class="widgetHr" />
+		{/if}
 		<div class="row" >
 			{assign var="WIDGET_DATA" value=$WIDGET->getArray('data')}
 			{if $WIDGET_DATA['timeRange']}
 				<div class="col-md-6">
 					<div class="input-group input-group-sm">
 						<span class=" input-group-addon"><span class="glyphicon glyphicon-calendar iconMiddle "></span></span>
-						<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter width90 form-control" value=""/>
+						<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" placeholder="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter width90 form-control" />
 					</div>	
 				</div>
 			{/if}
-			<div class="col-md-6">
-				<div class="input-group input-group-sm">
-					<span class="input-group-addon"><span class="glyphicon glyphicon-user iconMiddle"></span></span>
+			{if $WIDGET_DATA['showOwnerFilter']}
+				<div class="col-md-6 ownersFilter">
+					<div class="input-group input-group-sm">
+						<span class="input-group-addon"><span class="glyphicon glyphicon-user iconMiddle" title="{\App\Language::translate('Assigned To')}"></span></span>
+						<select class="widgetFilter select2 width90 owner form-control input-sm" name="owner" title="{\App\Language::translate('LBL_OWNER')}">
 
+						</select>
+					</div>
 				</div>
-			</div>
+			{/if}
 		</div>
 	</div>
 	<div class="dashboardWidgetContent">
