@@ -22,6 +22,9 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 				$chartTypes = [
 					'Pie' => 'LBL_PIE_CHART',
 					'Donut' => 'LBL_DONUT_CHART',
+					'Area' => 'LBL_AREA_CHART',
+					'Axis' => 'LBL_AXIS_CHART',
+					'Bardivided' => 'LBL_BAR_DIVIDED_CHART',
 					'Barchat' => 'LBL_VERTICAL_BAR_CHART',
 					'Horizontal' => 'LBL_HORIZONTAL_BAR_CHART',
 					'Line' => 'LBL_LINE_CHART',
