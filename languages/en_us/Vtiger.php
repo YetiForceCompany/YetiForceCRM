@@ -1432,7 +1432,6 @@ $jsLanguageStrings = [
 	'JS_TOTAL_RECORDS' => 'Total records',
 	'JS_UPLOADED_FILE_SIZE_EXCEEDS' => 'Maximum file size exceeded',
 	'JS_UPLOADED_FILE_SIZE_SHOULD_BE_LESS_THAN' => 'Upload file size should be less than',
-	'JS_USER_EXISTS' => 'User already exists',
 	'JS_VALUE_SHOULD_BE_GREATER_THAN_ZERO' => 'value should be greater than zero',
 	'JS_VALUE_SHOULD_NOT_BE_LESS_THAN' => 'Frequency of any cron job configured should not be less than',
 	'JS_YOU_ARE_IN_PAGE_NUMBER' => 'You are in page number',
