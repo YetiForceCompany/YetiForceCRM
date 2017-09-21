@@ -1452,7 +1452,6 @@ $jsLanguageStrings = [
 	'JS_TOTAL_RECORDS' => 'Всего записей',
 	'JS_UPLOADED_FILE_SIZE_EXCEEDS' => 'Размер загружаемого файла превышен',
 	'JS_UPLOADED_FILE_SIZE_SHOULD_BE_LESS_THAN' => 'Размер загружаемого файла должен быть меньше',
-	'JS_USER_EXISTS' => 'Пользователь уже существует',
 	'JS_VALUE_SHOULD_BE_GREATER_THAN_ZERO' => 'Значение должно быть больше 0',
 	'JS_VALUE_SHOULD_NOT_BE_LESS_THAN' => 'Частота любой задачи Планировщика должны быть не меньше',
 	'JS_YOU_ARE_IN_PAGE_NUMBER' => 'Вы находитесь на странице номер',
