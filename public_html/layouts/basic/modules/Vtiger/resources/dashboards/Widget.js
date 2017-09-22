@@ -34,7 +34,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 }, {
 	container: false,
 	plotContainer: false,
-	plotInstance: false,
+	chartInstance: false,
 	chartData: [],
 	paramCache: false,
 	init: function (container, reload) {
@@ -171,6 +171,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.registerChangeSorting();
 		this.registerLoadMore();
 		this.registerUserList();
+		this.registerHeaderButtons();
 	},
 	postRefreshWidget: function () {
 		this.loadScrollbar();
@@ -219,6 +220,12 @@ jQuery.Class('Vtiger_Widget_Js', {
 				});
 			}
 		}
+	},
+	registerHeaderButtons: function () {
+		var container = this.getContainer();
+		var header = container.find('.dashboardWidgetHeader');
+		var downloadWidget = header.find('.downloadWidget');
+		var printWidget = header.find('.printWidget');
 	},
 	/**
 	 * Change of widget entries sorting
@@ -496,11 +503,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 	}
 });
-
 Vtiger_Widget_Js('Vtiger_History_Widget_Js', {}, {
 	postLoadWidget: function () {
 		this._super();
-		var widgetContent = jQuery('.dashboardWidgetContent', this.getContainer());
 		this.registerLoadMore();
 	},
 	postRefreshWidget: function () {
@@ -554,25 +559,24 @@ Vtiger_Widget_Js('Vtiger_History_Widget_Js', {}, {
 	}
 
 });
-
-
+Vtiger_Widget_Js('YetiForce_Chartfilter_Widget_Js', {}, {
+	chartfilterInstance: false,
+	init: function (container, reload) {
+		this._super(container, reload);
+		var container = this.getContainer();
+		var chartType = container.find('[name="typeChart"]').val();
+		var chartClassName = chartType.toCamelCase();
+		this.chartfilterInstance = Vtiger_Widget_Js.getInstance(container, chartClassName);
+	},
+});
 Vtiger_Widget_Js('Vtiger_Funnel_Widget_Js', {}, {
 	postLoadWidget: function () {
 		this._super();
-		var thisInstance = this;
-
-		this.getContainer().on('jqplotDataClick', function (ev, gridpos, datapos, neighbor, plot) {
-			var jData = thisInstance.getContainer().find('.widgetData').val();
-			var data = JSON.parse(jData);
-			var linkUrl = data[datapos][3];
-			if (linkUrl)
-				window.location.href = linkUrl;
-		});
-
-		this.getContainer().on("jqplotDataHighlight", function (evt, seriesIndex, pointIndex, neighbor) {
+		var container = this.getContainer();
+		container.on("jqplotDataHighlight", function (evt, seriesIndex, pointIndex, neighbor) {
 			$('.jqplot-event-canvas').css('cursor', 'pointer');
 		});
-		this.getContainer().on("jqplotDataUnhighlight", function (evt, seriesIndex, pointIndex, neighbor) {
+		container.on("jqplotDataUnhighlight", function (evt, seriesIndex, pointIndex, neighbor) {
 			$('.jqplot-event-canvas').css('cursor', 'auto');
 		});
 	},
@@ -581,7 +585,7 @@ Vtiger_Widget_Js('Vtiger_Funnel_Widget_Js', {}, {
 		var data = container.find('.widgetData').val();
 		var dataInfo = JSON.parse(data);
 		if (dataInfo.length > 0) {
-			this.getPlotContainer(false).jqplot([dataInfo], {
+			this.chartInstance = this.getPlotContainer(false).jqplot([dataInfo], {
 				seriesDefaults: {
 					renderer: jQuery.jqplot.FunnelRenderer,
 					rendererOptions: {
@@ -599,7 +603,6 @@ Vtiger_Widget_Js('Vtiger_Funnel_Widget_Js', {}, {
 					location: 'e',
 				}
 			});
-			this.registerSectionClick();
 		}
 	},
 	registerSectionClick: function () {
@@ -612,9 +615,6 @@ Vtiger_Widget_Js('Vtiger_Funnel_Widget_Js', {}, {
 		});
 	}
 });
-
-
-
 Vtiger_Widget_Js('Vtiger_Pie_Widget_Js', {}, {
 	/**
 	 * Function which will give chart related Data
@@ -634,7 +634,7 @@ Vtiger_Widget_Js('Vtiger_Pie_Widget_Js', {}, {
 	loadChart: function () {
 		var chartData = this.generateData();
 		if (chartData['chartData'].length > 0) {
-			this.getPlotContainer(false).jqplot([chartData['chartData']], {
+			this.chartInstance = this.getPlotContainer(false).jqplot([chartData['chartData']], {
 				seriesDefaults: {
 					renderer: jQuery.jqplot.PieRenderer,
 					rendererOptions: {
@@ -649,7 +649,6 @@ Vtiger_Widget_Js('Vtiger_Pie_Widget_Js', {}, {
 				},
 				title: chartData['title']
 			});
-			this.registerSectionClick();
 		}
 	},
 	registerSectionClick: function () {
@@ -660,11 +659,8 @@ Vtiger_Widget_Js('Vtiger_Pie_Widget_Js', {}, {
 			var url = dataInfo[pointIndex][2];
 			window.location.href = url;
 		});
-	}
+	},
 });
-
-
-
 Vtiger_Widget_Js('Vtiger_Donut_Widget_Js', {}, {
 	/**
 	 * Function which will give chart related Data
@@ -684,7 +680,7 @@ Vtiger_Widget_Js('Vtiger_Donut_Widget_Js', {}, {
 	loadChart: function () {
 		var chartData = this.generateData();
 		if (chartData['chartData'].length > 0) {
-			this.getPlotContainer(false).jqplot([chartData['chartData']], {
+			this.chartInstance = this.getPlotContainer(false).jqplot([chartData['chartData']], {
 				seriesDefaults: {
 					renderer: jQuery.jqplot.DonutRenderer,
 					rendererOptions: {
@@ -705,7 +701,6 @@ Vtiger_Widget_Js('Vtiger_Donut_Widget_Js', {}, {
 				},
 				title: chartData['title']
 			});
-			this.registerSectionClick();
 		}
 	},
 	registerSectionClick: function () {
@@ -716,11 +711,8 @@ Vtiger_Widget_Js('Vtiger_Donut_Widget_Js', {}, {
 			var url = dataInfo[pointIndex][2];
 			window.location.href = url;
 		});
-	}
+	},
 });
-
-
-
 Vtiger_Widget_Js('Vtiger_Axis_Widget_Js', {}, {
 	/**
 	 * Function which will give chart related Data
@@ -740,7 +732,7 @@ Vtiger_Widget_Js('Vtiger_Axis_Widget_Js', {}, {
 	loadChart: function () {
 		var chartData = this.generateData();
 		if (chartData['chartData'].length > 0) {
-			this.getPlotContainer(false).jqplot([chartData['chartData']], {
+			this.chartInstance = this.getPlotContainer(false).jqplot([chartData['chartData']], {
 				seriesDefaults: {
 					renderer: jQuery.jqplot.DonutRenderer,
 					rendererOptions: {
@@ -761,7 +753,6 @@ Vtiger_Widget_Js('Vtiger_Axis_Widget_Js', {}, {
 				},
 				title: chartData['title']
 			});
-			this.registerSectionClick();
 		}
 	},
 	registerSectionClick: function () {
@@ -772,11 +763,8 @@ Vtiger_Widget_Js('Vtiger_Axis_Widget_Js', {}, {
 			var url = dataInfo[pointIndex][2];
 			window.location.href = url;
 		});
-	}
+	},
 });
-
-
-
 Vtiger_Widget_Js('Vtiger_Area_Widget_Js', {}, {
 	/**
 	 * Function which will give chart related Data
@@ -797,7 +785,7 @@ Vtiger_Widget_Js('Vtiger_Area_Widget_Js', {}, {
 	loadChart: function () {
 		var chartData = this.generateData();
 		if (chartData['chartData'].length > 0) {
-			this.getPlotContainer(false).jqplot([chartData['chartData']], {
+			this.chartInstance = this.getPlotContainer(false).jqplot([chartData['chartData']], {
 				seriesDefaults: {
 					renderer: jQuery.jqplot.DonutRenderer,
 					rendererOptions: {
@@ -818,7 +806,6 @@ Vtiger_Widget_Js('Vtiger_Area_Widget_Js', {}, {
 				},
 				title: chartData['title']
 			});
-			this.registerSectionClick();
 		}
 	},
 	registerSectionClick: function () {
@@ -829,11 +816,8 @@ Vtiger_Widget_Js('Vtiger_Area_Widget_Js', {}, {
 			var url = dataInfo[pointIndex][2];
 			window.location.href = url;
 		});
-	}
+	},
 });
-
-
-
 Vtiger_Widget_Js('Vtiger_Bardivided_Widget_Js', {}, {
 	/**
 	 * Function which will give chart related Data
@@ -853,7 +837,7 @@ Vtiger_Widget_Js('Vtiger_Bardivided_Widget_Js', {}, {
 	loadChart: function () {
 		var chartData = this.generateData();
 		if (chartData['chartData'].length > 0) {
-			this.getPlotContainer(false).jqplot([chartData['chartData']], {
+			this.chartInstance = this.getPlotContainer(false).jqplot([chartData['chartData']], {
 				seriesDefaults: {
 					renderer: jQuery.jqplot.BarRenderer,
 					rendererOptions: {
@@ -874,7 +858,6 @@ Vtiger_Widget_Js('Vtiger_Bardivided_Widget_Js', {}, {
 				},
 				title: chartData['title']
 			});
-			this.registerSectionClick();
 		}
 	},
 	registerSectionClick: function () {
@@ -885,10 +868,8 @@ Vtiger_Widget_Js('Vtiger_Bardivided_Widget_Js', {}, {
 			var url = dataInfo[pointIndex][2];
 			window.location.href = url;
 		});
-	}
+	},
 });
-
-
 Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 	generateChartData: function () {
 		var container = this.getContainer();
@@ -958,11 +939,9 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 					placement: (data['placement']) ? data['placement'] : 'outside',
 					showLabels: (data['data_labels']) ? true : false,
 					showSwatch: (data['data_labels']) ? true : false,
-					renderer: $.jqplot.EnhancedLegendRenderer,
 					labels: data['data_labels']
 				}
 			});
-			this.registerSectionClick();
 		}
 	},
 	registerSectionClick: function () {
@@ -973,7 +952,7 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 			var url = dataInfo[pointIndex][2];
 			window.location.href = url;
 		});
-	}
+	},
 });
 Vtiger_Barchat_Widget_Js('Vtiger_Horizontal_Widget_Js', {}, {
 	loadChart: function () {
@@ -1011,13 +990,11 @@ Vtiger_Barchat_Widget_Js('Vtiger_Horizontal_Widget_Js', {}, {
 				show: false,
 				location: 'e',
 				placement: 'outside',
-				renderer: $.jqplot.EnhancedLegendRenderer,
 				showSwatch: true,
 				showLabels: true,
 				labels: data['data_labels']
 			}
 		});
-		this.registerSectionClick();
 	}
 });
 Vtiger_Barchat_Widget_Js('Vtiger_Line_Widget_Js', {}, {
@@ -1030,7 +1007,6 @@ Vtiger_Barchat_Widget_Js('Vtiger_Line_Widget_Js', {}, {
 					show: false,
 					labels: data['labels'],
 					location: 'ne',
-					renderer: $.jqplot.EnhancedLegendRenderer,
 					showSwatch: true,
 					showLabels: true,
 					placement: 'outside'
@@ -1169,10 +1145,8 @@ Vtiger_Widget_Js('YetiForce_Charts_Widget_Js', {}, {
 		var chartClass = window["Report_" + chartClassName + "_Js"];
 		var instance = false;
 		if (typeof chartClass != 'undefined') {
-			instance = new chartClass();
-			instance.setContainer(container);
+			instance = new chartClass(container, true);
 			instance.loadChart();
-			instance.postInitializeCalls();
 		}
 	}
 });
@@ -1260,7 +1234,7 @@ Vtiger_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
 	loadChart: function () {
 		var thisInstance = this;
 		var chartData = thisInstance.generateData();
-		thisInstance.plotInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], {
+		thisInstance.chartInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], {
 			series: {
 				pie: {
 					show: true,
@@ -1341,7 +1315,7 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 				stack: true
 			},
 		};
-		thisInstance.plotInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
+		thisInstance.chartInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
 	},
 	getLabelFormat: function (label, slice) {
 		return "<div style='font-size:x-small;text-align:center;padding:2px;color:" + slice.color + ";'>" + label + "<br />" + slice.data[0][1] + "</div>";
@@ -1399,7 +1373,7 @@ YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js', {}, {
 				sorted: 'reverse'
 			},
 		};
-		thisInstance.plotInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
+		thisInstance.chartInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
 	},
 });
 Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
@@ -1722,21 +1696,6 @@ Vtiger_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 	}
 });
 YetiForce_Productssoldtorenew_Widget_Js('YetiForce_Servicessoldtorenew_Widget_Js', {}, {});
-Vtiger_Widget_Js('YetiForce_Chartfilter_Widget_Js', {}, {
-	loadChart: function () {
-		var container = this.getContainer();
-		var chartType = container.find('[name="typeChart"]').val();
-		var chartClassName = chartType.toCamelCase();
-		var chartClass = window["Vtiger_" + chartClassName + "_Widget_Js"];
-
-		var instance = false;
-		if (typeof chartClass != 'undefined') {
-			instance = new chartClass(container, true);
-			instance.loadChart();
-		}
-		this.registerRecordsCount();
-	}
-});
 YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 	loadChart: function () {
 		var thisInstance = this;
@@ -1771,7 +1730,7 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 				}
 			}
 		};
-		thisInstance.plotInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
+		thisInstance.chartInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
 	}
 });
 YetiForce_Bar_Widget_Js('YetiForce_Leadsbysource_Widget_Js', {}, {
@@ -1816,7 +1775,7 @@ Vtiger_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {
 	loadChart: function () {
 		var chartData = this.generateData();
 		if (chartData['chartData'].length > 0) {
-			this.getPlotContainer(false).jqplot([chartData['chartData']], {
+			this.chartInstance = this.getPlotContainer(false).jqplot([chartData['chartData']], {
 				seriesDefaults: {
 					renderer: jQuery.jqplot.PieRenderer,
 					rendererOptions: {
@@ -1831,7 +1790,6 @@ Vtiger_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {
 				},
 				title: chartData['title']
 			});
-			this.registerSectionClick();
 		}
 	},
 	registerSectionClick: function () {
@@ -1840,7 +1798,7 @@ Vtiger_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {
 			var url = chartData['url'][pointIndex];
 			window.location.href = url;
 		});
-	}
+	},
 });
 Vtiger_Barchat_Widget_Js('YetiForce_Closedticketsbyuser_Widget_Js', {}, {});
 Vtiger_Barchat_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {
@@ -1905,7 +1863,6 @@ Vtiger_Barchat_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {
 					show: false,
 				}
 			});
-			this.registerSectionClick();
 		}
 	},
 });
@@ -1940,7 +1897,7 @@ Vtiger_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
 	loadChart: function () {
 		var dataInfo = this.generateData();
 		if (dataInfo.length > 0) {
-			this.getPlotContainer(false).jqplot([dataInfo], {
+			this.chartInstance = this.getPlotContainer(false).jqplot([dataInfo], {
 				seriesDefaults: {
 					renderer: jQuery.jqplot.FunnelRenderer,
 					rendererOptions: {
@@ -1957,7 +1914,6 @@ Vtiger_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
 					location: 'e',
 				}
 			});
-			this.registerSectionClick();
 		}
 	}
 });
