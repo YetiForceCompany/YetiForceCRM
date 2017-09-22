@@ -226,6 +226,10 @@ jQuery.Class('Vtiger_Widget_Js', {
 		var header = container.find('.dashboardWidgetHeader');
 		var downloadWidget = header.find('.downloadWidget');
 		var printWidget = header.find('.printWidget');
+		
+		
+		
+		
 	},
 	/**
 	 * Change of widget entries sorting
@@ -563,10 +567,10 @@ Vtiger_Widget_Js('YetiForce_Chartfilter_Widget_Js', {}, {
 	chartfilterInstance: false,
 	init: function (container, reload) {
 		this._super(container, reload);
-		var container = this.getContainer();
 		var chartType = container.find('[name="typeChart"]').val();
 		var chartClassName = chartType.toCamelCase();
 		this.chartfilterInstance = Vtiger_Widget_Js.getInstance(container, chartClassName);
+		this.registerRecordsCount();
 	},
 });
 Vtiger_Widget_Js('Vtiger_Funnel_Widget_Js', {}, {
