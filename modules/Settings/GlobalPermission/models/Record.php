@@ -64,7 +64,7 @@ class Settings_GlobalPermission_Record_Model extends Settings_Vtiger_Record_Mode
 		$userIdsList = Settings_Profiles_Record_Model::getUsersList();
 		if ($userIdsList) {
 			foreach ($userIdsList as $userId) {
-				createUserPrivilegesfile($userId);
+				\App\CreateUserPrivilegesFile::createUserPrivilegesfile($userId);
 			}
 		}
 	}

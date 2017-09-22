@@ -187,7 +187,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			$entity->createAccessKey();
 
 			require_once('modules/Users/CreateUserPrivilegeFile.php');
-			createUserPrivilegesfile($recordId);
+			\App\CreateUserPrivilegesFile::createUserPrivilegesfile($recordId);
 
 			require("user_privileges/user_privileges_$recordId.php");
 			$newAccessKey = $user_info['accesskey'];

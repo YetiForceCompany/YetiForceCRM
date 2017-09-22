@@ -296,8 +296,8 @@ class Users_Module_Model extends Vtiger_Module_Model
 			}
 		}
 		Vtiger_Loader::includeOnce('~/modules/Users/CreateUserPrivilegeFile.php');
-		createUserPrivilegesfile($recordModel->getId());
-		createUserSharingPrivilegesfile($recordModel->getId());
+		\App\CreateUserPrivilegesFile::createUserPrivilegesfile($recordModel->getId());
+		\App\CreateUserPrivilegesFile::createUserSharingPrivilegesfile($recordModel->getId());
 
 		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
 			\App\PrivilegeFile::createUsersFile();
