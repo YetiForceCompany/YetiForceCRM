@@ -227,7 +227,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 		var downloadWidget = header.find('.downloadWidget');
 		var printWidget = header.find('.printWidget');
 		printWidget.click(function (e) {
-			var imgEl = $(plot.jqplotToImageElem());
+			var imgEl = $(this.chartInstance.jqplotToImageElem());
 			var print = window.open('', 'PRINT', 'height=400,width=600');
 			print.document.write('<html><head><title>' + header.find('.dashboardTitle').text() + '</title>');
 			print.document.write('</head><body >');
@@ -241,17 +241,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 			}, 1000);
 		});
 		downloadWidget.click({chart: $(this)}, function (e) {
-			var imgEl = $(plot.jqplotToImageElem());
+			var imgEl = $(this.chartInstance.jqplotToImageElem());
 			var a = $("<a>")
 					.attr("href", imgEl.attr('src'))
-					.attr("download", container.find('.dashboardTitle').text() + ".png")
+					.attr("download", header.find('.dashboardTitle').text() + ".png")
 					.appendTo(container);
 			a[0].click();
 			a.remove();
 		});
-
-
-
 	},
 	/**
 	 * Change of widget entries sorting

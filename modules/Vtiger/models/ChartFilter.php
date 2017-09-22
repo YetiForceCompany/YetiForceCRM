@@ -39,7 +39,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 
 	/**
 	 * Owners list
-	 * @var array 
+	 * @var array
 	 */
 	private $owners = [];
 
@@ -199,7 +199,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	public function getDataBardivided()
 	{
 		$data = [];
-		foreach ($this->getRows() as $fieldName => $value) {
+		foreach ($this->getRowsDivided() as $fieldName => $value) {
 			$data[] = ['last_name' => $fieldName, 'id' => $value['count'], '2' => $value['link']];
 		}
 		return $data;
@@ -215,6 +215,39 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$showOwnerFilter = !empty($this->extraData['showOwnerFilter']);
 		$groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
 		$fieldName = $groupFieldModel->getFieldName();
+		$dataReader = $this->getQuery()->createCommand()->query();
+		$groupData = [];
+		while ($row = $dataReader->read()) {
+			if (!empty($row[$fieldName])) {
+				$displayValue = $groupFieldModel->getDisplayValue($row[$fieldName], false, false, true);
+				if (!isset($groupData[$displayValue]['count'])) {
+					$groupData[$displayValue]['count'] = 1;
+				} else {
+					$groupData[$displayValue]['count'] ++;
+				}
+				if ($showOwnerFilter) {
+					$this->owners[] = $row['assigned_user_id'];
+				}
+				if (!isset($groupData[$displayValue]['link'])) {
+					$searchParams = array_merge($this->searchParams, [[$fieldName, 'e', $row[$fieldName]]]);
+					$groupData[$displayValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . "&viewname=$filterId&search_params=" . App\Json::encode([$searchParams]);
+				}
+			}
+		}
+		return $groupData;
+	}
+
+	/**
+	 * Get rows for divided field chart
+	 * @return array
+	 */
+	protected function getRowsDivided()
+	{
+		$filterId = $this->widgetModel->get('filterid');
+		$showOwnerFilter = !empty($this->extraData['showOwnerFilter']);
+		$groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
+		$fieldName = $groupFieldModel->getFieldName();
+		echo $this->getQuery()->createCommand()->getRawSql();
 		$dataReader = $this->getQuery()->createCommand()->query();
 		$groupData = [];
 		while ($row = $dataReader->read()) {
@@ -337,7 +370,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	}
 
 	/**
-	 * Get extra data 
+	 * Get extra data
 	 * @param string $key
 	 * @return mixed
 	 */
