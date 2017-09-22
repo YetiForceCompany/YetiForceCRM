@@ -33,6 +33,9 @@ class Vtiger_ChartFilter_Dashboard extends Vtiger_IndexAjax_View
 		if (!$request->isEmpty('time', true)) {
 			$chartFilterWidgetModel->set('time', $request->getDateRange('time'));
 		}
+		if (!$request->isEmpty('owner', true)) {
+			$chartFilterWidgetModel->set('owner', $request->getInteger('owner'));
+		}
 		$viewer->assign('CHART_DATA', $chartFilterWidgetModel->getChartData());
 		if ($owners = $chartFilterWidgetModel->getRowsOwners()) {
 			$viewer->assign('CHART_OWNERS', $owners);

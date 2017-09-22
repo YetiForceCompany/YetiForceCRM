@@ -281,6 +281,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$queryGenerator = new \App\QueryGenerator($this->getTargetModule());
 		$queryGenerator->initForCustomViewById($filterId);
 		$queryGenerator->setField($groupField);
+		if ($this->has('owner') && !empty($this->extraData['showOwnerFilter']) && $this->get('owner') !== 0) {
+			$queryGenerator->addCondition('assigned_user_id', $this->get('owner'), 'e');
+		}
 		$query = $queryGenerator->createQuery();
 		if ($this->has('time') && !empty($this->extraData['timeRange'])) {
 			$time = $this->get('time');

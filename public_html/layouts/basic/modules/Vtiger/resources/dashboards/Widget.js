@@ -21,13 +21,13 @@ jQuery.Class('Vtiger_Widget_Js', {
 		var basicClass = Vtiger_Widget_Js;
 		var instance;
 		if (typeof moduleClass != 'undefined') {
-			instance = new moduleClass(container, false);
+			instance = new moduleClass(container, false, widgetClassName);
 		} else if (typeof fallbackClass != 'undefined') {
-			instance = new fallbackClass(container, false);
+			instance = new fallbackClass(container, false, widgetClassName);
 		} else if (typeof yetiClass != 'undefined') {
-			instance = new yetiClass(container, false);
+			instance = new yetiClass(container, false, widgetClassName);
 		} else {
-			instance = new basicClass(container, false);
+			instance = new basicClass(container, false, widgetClassName);
 		}
 		return instance;
 	}
@@ -37,7 +37,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	chartInstance: false,
 	chartData: [],
 	paramCache: false,
-	init: function (container, reload) {
+	init: function (container, reload, widgetClassName) {
 		this.setContainer(jQuery(container));
 		this.registerWidgetPostLoadEvent(container);
 		if (!reload) {
@@ -584,8 +584,8 @@ Vtiger_Widget_Js('Vtiger_History_Widget_Js', {}, {
 });
 Vtiger_Widget_Js('YetiForce_Chartfilter_Widget_Js', {}, {
 	chartfilterInstance: false,
-	init: function (container, reload) {
-		this._super(container, reload);
+	init: function (container, reload, widgetClassName) {
+		this.setContainer(jQuery(container));
 		var chartType = container.find('[name="typeChart"]').val();
 		var chartClassName = chartType.toCamelCase();
 		this.chartfilterInstance = Vtiger_Widget_Js.getInstance(container, chartClassName);
@@ -796,7 +796,6 @@ Vtiger_Widget_Js('Vtiger_Area_Widget_Js', {}, {
 		var container = this.getContainer();
 		var jData = container.find('.widgetData').val();
 		var data = JSON.parse(jData);
-		console.log(data);
 		var chartData = [];
 		for (var index in data) {
 			var row = data[index];

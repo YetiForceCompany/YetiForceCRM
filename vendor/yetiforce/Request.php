@@ -81,7 +81,10 @@ class Request
 	 * Purify by data type
 	 * 
 	 * Type list:
+	 * Standard - only words
 	 * 1 - only words
+	 * Alnum - word and int
+	 * 2 - word and int
 	 * @param string $key Key name
 	 * @param mixed $type Data type that is only acceptable
 	 * @return boolean|mixed
