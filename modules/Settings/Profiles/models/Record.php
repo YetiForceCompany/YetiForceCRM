@@ -895,7 +895,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		$userIdsList = self::getUsersList($this->getId());
 		if ($userIdsList) {
 			foreach ($userIdsList as $userId) {
-				\App\CreateUserPrivilegesFile::createUserPrivilegesfile($userId);
+				\App\UserPrivilegesFile::createUserPrivilegesfile($userId);
 			}
 		}
 	}

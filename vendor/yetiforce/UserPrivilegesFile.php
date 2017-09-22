@@ -7,7 +7,7 @@ namespace App;
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
-class CreateUserPrivilegesFile
+class UserPrivilegesFile
 {
 
 	/** Creates a file with all the user, user-role,user-profile, user-groups informations
@@ -17,10 +17,9 @@ class CreateUserPrivilegesFile
 	public static function createUserPrivilegesfile($userId)
 	{
 		$handle = @fopen(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'user_privileges/user_privileges_' . $userId . '.php', 'w+');
-
 		if ($handle) {
 			$newBuf = '';
-			$newBuf .= '<?php\n';
+			$newBuf .= '<?php' . PHP_EOL;
 			$userFocus = \CRMEntity::getInstance('Users');
 			$userFocus->retrieveEntityInfo($userId, 'Users');
 			$userInfo = [];
@@ -32,10 +31,10 @@ class CreateUserPrivilegesFile
 				}
 			}
 			if ($userFocus->is_admin == 'on') {
-				$newBuf .= '\$is_admin=true;\n';
-				$newBuf .= '\$user_info=' . Utils::varExport($userInfo) . ';\n';
+				$newBuf .= '$is_admin=true;' . PHP_EOL;
+				$newBuf .= '$user_info=' . Utils::varExport($userInfo) . ';' . PHP_EOL;
 			} else {
-				$newBuf .= '\$is_admin=false;\n';
+				$newBuf .= '$is_admin=false;' . PHP_EOL;
 
 				$globalPermissionArr = PrivilegeUtil::getCombinedUserGlobalPermissions($userId);
 				$tabsPermissionArr = PrivilegeUtil::getCombinedUserTabsPermissions($userId);
@@ -48,15 +47,15 @@ class CreateUserPrivilegesFile
 				$parentRoles = PrivilegeUtil::getParentRole($userRole);
 				$newBuf .= "\$current_user_roles='" . $userRole . "';\n";
 				$newBuf .= "\$current_user_parent_role_seq='" . $userRoleParent . "';\n";
-				$newBuf .= '\$current_user_profiles=' . Utils::varExport(PrivilegeUtil::getProfilesByRole($userRole)) . ';\n';
-				$newBuf .= '\$profileGlobalPermission=' . Utils::varExport($globalPermissionArr) . ';\n';
-				$newBuf .= '\$profileTabsPermission=' . Utils::varExport($tabsPermissionArr) . ';\n';
-				$newBuf .= '\$profileActionPermission=' . Utils::varExport($actionPermissionArr) . ';\n';
-				$newBuf .= '\$current_user_groups=' . Utils::varExport(PrivilegeUtil::getAllGroupsByUser($userId)) . ';\n';
-				$newBuf .= '\$subordinate_roles=' . Utils::varExport($subRoles) . ';\n';
-				$newBuf .= '\$parent_roles=' . Utils::varExport($parentRoles) . ';\n';
-				$newBuf .= '\$subordinate_roles_users=' . Utils::varExport($subRoleAndUsers) . ';\n';
-				$newBuf .= '\$user_info=' . Utils::varExport($userInfo) . ';\n';
+				$newBuf .= '$current_user_profiles=' . Utils::varExport(PrivilegeUtil::getProfilesByRole($userRole)) . ';' . PHP_EOL;
+				$newBuf .= '$profileGlobalPermission=' . Utils::varExport($globalPermissionArr) . ';' . PHP_EOL;
+				$newBuf .= '$profileTabsPermission=' . Utils::varExport($tabsPermissionArr) . ';' . PHP_EOL;
+				$newBuf .= '$profileActionPermission=' . Utils::varExport($actionPermissionArr) . ';' . PHP_EOL;
+				$newBuf .= '$current_user_groups=' . Utils::varExport(PrivilegeUtil::getAllGroupsByUser($userId)) . ';' . PHP_EOL;
+				$newBuf .= '$subordinate_roles=' . Utils::varExport($subRoles) . ';' . PHP_EOL;
+				$newBuf .= '$parent_roles=' . Utils::varExport($parentRoles) . ';' . PHP_EOL;
+				$newBuf .= '$subordinate_roles_users=' . Utils::varExport($subRoleAndUsers) . ';' . PHP_EOL;
+				$newBuf .= '$user_info=' . Utils::varExport($userInfo) . ';' . PHP_EOL;
 			}
 			fputs($handle, $newBuf);
 			fclose($handle);
@@ -80,7 +79,7 @@ class CreateUserPrivilegesFile
 		$handle = @fopen(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'user_privileges/sharing_privileges_' . $userId . '.php', "w+");
 
 		if ($handle) {
-			$newBuf = '<?php\n';
+			$newBuf = '<?php' . PHP_EOL;
 			$userFocus = \CRMEntity::getInstance('Users');
 			$userFocus->retrieveEntityInfo($userId, 'Users');
 			if ($userFocus->is_admin == 'on') {
@@ -91,31 +90,31 @@ class CreateUserPrivilegesFile
 				$sharingPrivileges = [];
 //Constructig the Default Org Share Array
 				$defOrgShare = PrivilegeUtil::getAllDefaultSharingAction();
-				$newBuf .= '\$defaultOrgSharingPermission=' . Utils::varExport($defOrgShare) . ';\n';
+				$newBuf .= '$defaultOrgSharingPermission=' . Utils::varExport($defOrgShare) . ';' . PHP_EOL;
 				$sharingPrivileges['defOrgShare'] = $defOrgShare;
 
 				$relatedModuleShare = PrivilegeUtil::getDatashareRelatedModules();
-				$newBuf .= '\$related_module_share=' . Utils::varExport($relatedModuleShare) . ';\n';
+				$newBuf .= '$related_module_share=' . Utils::varExport($relatedModuleShare) . ';' . PHP_EOL;
 				$sharingPrivileges['relatedModuleShare'] = $relatedModuleShare;
 //Constructing Account Sharing Rules
 				$accountSharePerArray = PrivilegeUtil::getUserModuleSharingObjects('Accounts', $userId, $defOrgShare, $currentUserRoles, $parentRoles, $currentUserGroups);
 				$accountShareReadPer = $accountSharePerArray['read'];
 				$accountShareWritePer = $accountSharePerArray['write'];
 				$accountSharingruleMembers = $accountSharePerArray['sharingrules'];
-				$newBuf .= "\$Accounts_share_read_permission=array('ROLE'=>" . Utils::varExport($accountShareReadPer['ROLE']) . ",'GROUP'=>" . Utils::varExport($accountShareReadPer['GROUP']) . ');\n';
-				$newBuf .= "\$Accounts_share_write_permission=array('ROLE'=>" . Utils::varExport($accountShareWritePer['ROLE']) . ",'GROUP'=>" . Utils::varExport($accountShareWritePer['GROUP']) . ');\n';
+				$newBuf .= "\$Accounts_share_read_permission=array('ROLE'=>" . Utils::varExport($accountShareReadPer['ROLE']) . ",'GROUP'=>" . Utils::varExport($accountShareReadPer['GROUP']) . ');' . PHP_EOL;
+				$newBuf .= "\$Accounts_share_write_permission=array('ROLE'=>" . Utils::varExport($accountShareWritePer['ROLE']) . ",'GROUP'=>" . Utils::varExport($accountShareWritePer['GROUP']) . ');' . PHP_EOL;
 				$sharingPrivileges['permission']['Accounts'] = ['read' => $accountShareReadPer, 'write' => $accountShareWritePer];
 //Constructing Contact Sharing Rules
-				$newBuf .= "\$Contacts_share_read_permission=array('ROLE'=>" . Utils::varExport($accountShareReadPer['ROLE']) . ",'GROUP'=>" . Utils::varExport($accountShareReadPer['GROUP']) . ');\n';
-				$newBuf .= "\$Contacts_share_write_permission=array('ROLE'=>" . Utils::varExport($accountShareWritePer['ROLE']) . ",'GROUP'=>" . Utils::varExport($accountShareWritePer['GROUP']) . ');\n';
+				$newBuf .= "\$Contacts_share_read_permission=array('ROLE'=>" . Utils::varExport($accountShareReadPer['ROLE']) . ",'GROUP'=>" . Utils::varExport($accountShareReadPer['GROUP']) . ');' . PHP_EOL;
+				$newBuf .= "\$Contacts_share_write_permission=array('ROLE'=>" . Utils::varExport($accountShareWritePer['ROLE']) . ",'GROUP'=>" . Utils::varExport($accountShareWritePer['GROUP']) . ');' . PHP_EOL;
 				$sharingPrivileges['permission']['Contacts'] = ['read' => $accountShareReadPer, 'write' => $accountShareWritePer];
 
 //Constructing the Account Ticket Related Module Sharing Array
 				$acctRelatedTkt = static::getRelatedModuleSharingArray('Accounts', 'HelpDesk', $accountSharingruleMembers, $accountShareReadPer, $accountShareWritePer, $defOrgShare);
 				$accTktShareReadPer = $acctRelatedTkt['read'];
 				$accTktShareWritePer = $acctRelatedTkt['write'];
-				$newBuf .= "\$Accounts_HelpDesk_share_read_permission=array('ROLE'=>" . Utils::varExport($accTktShareReadPer['ROLE']) . ",'GROUP'=>" . Utils::varExport($accTktShareReadPer['GROUP']) . ');\n';
-				$newBuf .= "\$Accounts_HelpDesk_share_write_permission=array('ROLE'=>" . Utils::varExport($accTktShareWritePer['ROLE']) . ",'GROUP'=>" . Utils::varExport($accTktShareWritePer['GROUP']) . ');\n';
+				$newBuf .= "\$Accounts_HelpDesk_share_read_permission=array('ROLE'=>" . Utils::varExport($accTktShareReadPer['ROLE']) . ",'GROUP'=>" . Utils::varExport($accTktShareReadPer['GROUP']) . ');' . PHP_EOL;
+				$newBuf .= "\$Accounts_HelpDesk_share_write_permission=array('ROLE'=>" . Utils::varExport($accTktShareWritePer['ROLE']) . ",'GROUP'=>" . Utils::varExport($accTktShareWritePer['GROUP']) . ');' . PHP_EOL;
 				$sharingPrivileges['permission']['Accounts_HelpDesk'] = ['read' => $accTktShareReadPer, 'write' => $accTktShareWritePer];
 
 				$customModules = Module::getSharingModuleList(['Accounts', 'Contacts']);
@@ -126,14 +125,14 @@ class CreateUserPrivilegesFile
 					$modShareWritePerm = $modSharePermArray['write'];
 					$newBuf .= '$' . $moduleName . "_share_read_permission=['ROLE'=>" .
 						Utils::varExport($modShareReadPerm['ROLE']) . ",'GROUP'=>" .
-						Utils::varExport($modShareReadPerm['GROUP']) . '];\n';
+						Utils::varExport($modShareReadPerm['GROUP']) . '];' . PHP_EOL;
 					$newBuf .= '$' . $moduleName . "_share_write_permission=['ROLE'=>" .
 						Utils::varExport($modShareWritePerm['ROLE']) . ",'GROUP'=>" .
-						Utils::varExport($modShareWritePerm['GROUP']) . '];\n';
+						Utils::varExport($modShareWritePerm['GROUP']) . '];' . PHP_EOL;
 
 					$sharingPrivileges['permission'][$moduleName] = ['read' => $modShareReadPerm, 'write' => $modShareWritePerm];
 				}
-				$newBuf .= 'return ' . Utils::varExport($sharingPrivileges) . ';\n';
+				$newBuf .= 'return ' . Utils::varExport($sharingPrivileges) . ';' . PHP_EOL;
 // END
 				fputs($handle, $newBuf);
 				fclose($handle);
@@ -305,14 +304,11 @@ class CreateUserPrivilegesFile
 	public static function populateSharingTmpTables($userId)
 	{
 		$adb = \PearDatabase::getInstance();
-		\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userId . '.php');
-		require('user_privileges/sharing_privileges_' . $userId . '.php');
 //Deleting from the existing vtiger_tables
 		$tableArr = Array('vtiger_tmp_read_user_sharing_per', 'vtiger_tmp_write_user_sharing_per', 'vtiger_tmp_read_group_sharing_per', 'vtiger_tmp_write_group_sharing_per', 'vtiger_tmp_read_user_rel_sharing_per', 'vtiger_tmp_write_user_rel_sharing_per', 'vtiger_tmp_read_group_rel_sharing_per', 'vtiger_tmp_write_group_rel_sharing_per');
 		foreach ($tableArr as $tabName) {
 			$adb->delete($tabName, 'userid = ?', [$userId]);
 		}
-
 // Look up for modules for which sharing access is enabled.
 		$modules = \vtlib\Functions::getAllModules(true, true, 0, false, 0);
 		$sharingArray = array_column($modules, 'name');
@@ -326,7 +322,7 @@ class CreateUserPrivilegesFile
 			static::populateSharingPrivileges('GROUP', $userId, $module, 'write', $$moduleSharingWritePermvar);
 		}
 //Populating Values into the temp related sharing tables
-		foreach ($relatedModuleShare as $relTabId => $tabidArr) {
+		foreach (PrivilegeUtil::getDatashareRelatedModules() as $relTabId => $tabidArr) {
 			$relTabName = Module::getModuleName($relTabId);
 			if (!empty($relTabName)) {
 				foreach ($tabidArr as $taId) {
