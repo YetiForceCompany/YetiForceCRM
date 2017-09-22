@@ -870,23 +870,30 @@ Vtiger_Widget_Js('Vtiger_Bardivided_Widget_Js', {}, {
 						highlightMouseDown: true
 					},
 					pointLabels: {show: true}
-				}/**,
-				 legend: {
-				 show: true,
-				 location: 'e',
-				 placement: 'outside'
-				 }**/
+				},
+				legend: {
+					show: true,
+					location: 'e'
+				}
 			});
 		}
 	},
 	registerSectionClick: function () {
-		/*var container = this.getContainer();
-		 var data = container.find('.widgetData').val();
-		 var dataInfo = JSON.parse(data);
-		 this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
-		 var url = dataInfo[pointIndex][2];
-		 window.location.href = url;
-		 });*/
+		var container = this.getContainer();
+		var jData = container.find('.widgetData').val();
+		var data = JSON.parse(jData);
+		var chartData = [];
+		$.each(data, function (pname, types) {
+			var type = [];
+			$.each(types, function (sname, counts) {
+				type.push({'id': counts.id, 'url': counts[2]});
+			});
+			chartData.push(type);
+		});
+		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, data) {
+			var url = chartData[seriesIndex][pointIndex]['url'];
+			window.location.href = url;
+		});
 	},
 });
 Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
