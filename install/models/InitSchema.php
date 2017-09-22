@@ -93,7 +93,6 @@ class Install_InitSchema_Model
 		$newUser = new Users();
 		$newUser->retrieveEntityInfo(1, 'Users');
 		$newUser->changePassword('admin', $adminPassword, false);
-		require_once('modules/Users/CreateUserPrivilegeFile.php');
 		\App\CreateUserPrivilegesFile::createUserPrivilegesfile(1);
 	}
 
