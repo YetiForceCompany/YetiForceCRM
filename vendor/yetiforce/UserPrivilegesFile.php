@@ -305,7 +305,7 @@ class UserPrivilegesFile
 	 */
 	public static function populateSharingtmptables($userid)
 	{
-		$adb = PearDatabase::getInstance();
+		$adb = \PearDatabase::getInstance();
 		\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userid . '.php');
 		require('user_privileges/sharing_privileges_' . $userid . '.php');
 		//Deleting from the existing vtiger_tables
