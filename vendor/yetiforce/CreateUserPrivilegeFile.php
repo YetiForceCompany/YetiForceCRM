@@ -21,7 +21,7 @@ class CreateUserPrivilegesFile
 		if ($handle) {
 			$newBuf = '';
 			$newBuf .= '<?php\n';
-			$userFocus = CRMEntity::getInstance('Users');
+			$userFocus = \CRMEntity::getInstance('Users');
 			$userFocus->retrieveEntityInfo($userId, 'Users');
 			$userInfo = [];
 			$userFocus->column_fields['id'] = '';
@@ -111,7 +111,7 @@ class CreateUserPrivilegesFile
 				$sharingPrivileges['permission']['Contacts'] = ['read' => $accountShareReadPer, 'write' => $accountShareWritePer];
 
 //Constructing the Account Ticket Related Module Sharing Array
-				$acctRelatedTkt = self::getRelatedModuleSharingArray('Accounts', 'HelpDesk', $accountSharingruleMembers, $accountShareReadPer, $accountShareWritePer, $defOrgShare);
+				$acctRelatedTkt = static::getRelatedModuleSharingArray('Accounts', 'HelpDesk', $accountSharingruleMembers, $accountShareReadPer, $accountShareWritePer, $defOrgShare);
 				$accTktShareReadPer = $acctRelatedTkt['read'];
 				$accTktShareWritePer = $acctRelatedTkt['write'];
 				$newBuf .= "\$Accounts_HelpDesk_share_read_permission=array('ROLE'=>" . Utils::varExport($accTktShareReadPer['ROLE']) . ",'GROUP'=>" . Utils::varExport($accTktShareReadPer['GROUP']) . ');\n';
@@ -139,7 +139,7 @@ class CreateUserPrivilegesFile
 				fclose($handle);
 
 //Populating Temp Tables
-				self::populateSharingTmpTables($userId);
+				static::populateSharingTmpTables($userId);
 			}
 		}
 	}
@@ -320,10 +320,10 @@ class CreateUserPrivilegesFile
 			$moduleSharingReadPermvar = $module . '_share_read_permission';
 			$moduleSharingWritePermvar = $module . '_share_write_permission';
 
-			self::populateSharingPrivileges('USER', $userId, $module, 'read', $$moduleSharingReadPermvar);
-			self::populateSharingPrivileges('USER', $userId, $module, 'write', $$moduleSharingWritePermvar);
-			self::populateSharingPrivileges('GROUP', $userId, $module, 'read', $$moduleSharingReadPermvar);
-			self::populateSharingPrivileges('GROUP', $userId, $module, 'write', $$moduleSharingWritePermvar);
+			static::populateSharingPrivileges('USER', $userId, $module, 'read', $$moduleSharingReadPermvar);
+			static::populateSharingPrivileges('USER', $userId, $module, 'write', $$moduleSharingWritePermvar);
+			static::populateSharingPrivileges('GROUP', $userId, $module, 'read', $$moduleSharingReadPermvar);
+			static::populateSharingPrivileges('GROUP', $userId, $module, 'write', $$moduleSharingWritePermvar);
 		}
 //Populating Values into the temp related sharing tables
 		foreach ($relatedModuleShare as $relTabId => $tabidArr) {
@@ -335,10 +335,10 @@ class CreateUserPrivilegesFile
 					$relmoduleSharingReadPermvar = $tabName . '_' . $relTabName . '_share_read_permission';
 					$relmoduleSharingWritePermvar = $tabName . '_' . $relTabName . '_share_write_permission';
 
-					self::populateRelatedSharingPrivileges('USER', $userId, $tabName, $relTabName, 'read', $$relmoduleSharingReadPermvar);
-					self::populateRelatedSharingPrivileges('USER', $userId, $tabName, $relTabName, 'write', $$relmoduleSharingWritePermvar);
-					self::populateRelatedSharingPrivileges('GROUP', $userId, $tabName, $relTabName, 'read', $$relmoduleSharingReadPermvar);
-					self::populateRelatedSharingPrivileges('GROUP', $userId, $tabName, $relTabName, 'write', $$relmoduleSharingWritePermvar);
+					static::populateRelatedSharingPrivileges('USER', $userId, $tabName, $relTabName, 'read', $$relmoduleSharingReadPermvar);
+					static::populateRelatedSharingPrivileges('USER', $userId, $tabName, $relTabName, 'write', $$relmoduleSharingWritePermvar);
+					static::populateRelatedSharingPrivileges('GROUP', $userId, $tabName, $relTabName, 'read', $$relmoduleSharingReadPermvar);
+					static::populateRelatedSharingPrivileges('GROUP', $userId, $tabName, $relTabName, 'write', $$relmoduleSharingWritePermvar);
 				}
 			}
 		}
