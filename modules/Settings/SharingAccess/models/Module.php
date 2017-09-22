@@ -163,7 +163,7 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 			->where(['deleted' => 0])
 			->column();
 		foreach ($userIds as $id) {
-			createUserSharingPrivilegesfile($id);
+			\App\CreateUserPrivilegesFile::createUserSharingPrivilegesfile($id);
 		}
 	}
 }

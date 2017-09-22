@@ -672,8 +672,8 @@ function RecalculateSharingRules()
 		->where(['deleted' => 0])
 		->column();
 	foreach ($userIds as $id) {
-		createUserPrivilegesfile($id);
-		createUserSharingPrivilegesfile($id);
+		\App\CreateUserPrivilegesFile::createUserPrivilegesfile($id);
+		\App\CreateUserPrivilegesFile::createUserSharingPrivilegesfile($id);
 	}
 	\App\Log::trace("Exiting RecalculateSharingRules method ...");
 }
