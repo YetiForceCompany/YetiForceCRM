@@ -226,10 +226,32 @@ jQuery.Class('Vtiger_Widget_Js', {
 		var header = container.find('.dashboardWidgetHeader');
 		var downloadWidget = header.find('.downloadWidget');
 		var printWidget = header.find('.printWidget');
-		
-		
-		
-		
+		printWidget.click(function (e) {
+			var imgEl = $(plot.jqplotToImageElem());
+			var print = window.open('', 'PRINT', 'height=400,width=600');
+			print.document.write('<html><head><title>' + header.find('.dashboardTitle').text() + '</title>');
+			print.document.write('</head><body >');
+			print.document.write($('<div>').append(imgEl.clone()).html());
+			print.document.write('</body></html>');
+			print.document.close(); // necessary for IE >= 10
+			print.focus(); // necessary for IE >= 10*/
+			setTimeout(function () {
+				print.print();
+				print.close();
+			}, 1000);
+		});
+		downloadWidget.click({chart: $(this)}, function (e) {
+			var imgEl = $(plot.jqplotToImageElem());
+			var a = $("<a>")
+					.attr("href", imgEl.attr('src'))
+					.attr("download", container.find('.dashboardTitle').text() + ".png")
+					.appendTo(container);
+			a[0].click();
+			a.remove();
+		});
+
+
+
 	},
 	/**
 	 * Change of widget entries sorting
