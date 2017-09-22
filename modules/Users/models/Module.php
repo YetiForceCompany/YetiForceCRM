@@ -91,45 +91,6 @@ class Users_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to update Base Currency of Product
-	 * @param- $currencyName array
-	 */
-	public function updateBaseCurrency($currencyName)
-	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT currency_code, currency_symbol FROM vtiger_currencies WHERE currency_name = ?', array($currencyName));
-		$numRows = $db->numRows($result);
-		if ($numRows > 0) {
-			$currency_code = App\Purifier::decodeHtml($db->queryResult($result, 0, 'currency_code'));
-			$currency_symbol = App\Purifier::decodeHtml($db->queryResult($result, 0, 'currency_symbol'));
-		}
-
-		//Updating Database
-		$query = 'UPDATE vtiger_currency_info SET currency_name = ?, currency_code = ?, currency_symbol = ? WHERE id = ?';
-		$params = array($currencyName, $currency_code, $currency_symbol, '1');
-		$db->pquery($query, $params);
-
-		$this->updateConfigFile($currencyName);
-	}
-
-	/**
-	 * Function to update Config file
-	 * @param- $currencyName array
-	 */
-	public function updateConfigFile($currencyName)
-	{
-		$currencyName = '$currency_name = \'' . $currencyName . '\'';
-
-		//Updating in config inc file
-		$filename = 'config/config.php';
-		if (file_exists($filename)) {
-			$contents = file_get_contents($filename);
-			$contents = str_replace('$currency_name = \'USA, Dollars\'', $currencyName, $contents);
-			file_put_contents($filename, $contents);
-		}
-	}
-
-	/**
 	 * Function to store the login history
 	 * @param type $userName
 	 */

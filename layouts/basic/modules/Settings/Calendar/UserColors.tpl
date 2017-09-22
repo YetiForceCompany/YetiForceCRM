@@ -15,14 +15,14 @@
 					<li><a data-toggle="tab" href="#workingDays"><strong>{\App\Language::translate('LBL_NOTWORKING_DAYS', $QUALIFIED_MODULE)}</strong></a></li>
 				</ul>
 				<div class="tab-content layoutContent" style="padding-top: 10px;">
-					<div class="tab-pane paddingTop20" id="calendarConfig">
+					<div class="tab-pane paddingTop20 active" id="calendarConfig">
 						<table class="table table-bordered table-condensed listViewEntriesTable">
 							<tbody>
 								{foreach from=$MODULE_MODEL->getCalendarConfig('reminder') item=item key=key}
 									<tr data-id="{$item.name}" data-color="{$item.value}">
 										<td class="col-md-3"><p class="paddingTop10">{\App\Language::translate($item.label,$QUALIFIED_MODULE)}</p></td>
 										<td class="col-md-9">
-											<input class="marginTop10" type="checkbox" id="update_event" name="update_event" data-metod="UpdateCalendarConfig" value=1 {if $item.value eq 1} checked{/if}/>
+											<input class="marginTop10" type="checkbox" id="update_event" name="update_event" data-metod="updateCalendarConfig" value=1 {if $item.value eq 1} checked{/if}/>
 										</td>
 									</tr>
 								{/foreach}

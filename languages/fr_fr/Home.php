@@ -52,6 +52,15 @@ $languageStrings = [
 	'LBL_TITLE' => 'Titre',
 	'LBL_MESSAGE' => 'Message',
 	'LBL_TIME' => 'Timer',
+	//Widgets
+	'LBL_MINI_LIST' => 'Mini Liste',
+	'LBL_FILTERING_BY_DATE' => 'Filtering by date',		
+ 	'LBL_TIMELINE_BY_DATE' => 'Timeline by date',
+	'LBL_WIDGET_NAME' => 'Nombre del Widget',
+	'LBL_SELECT_CHART' => 'Sélectionner Graphique',
+	'LBL_FILTER' => 'Filtre',
+	'LBL_GROUP_FIELD' => 'Regrouper par',
+	'LBL_GROUP_VALUES' => 'Secteurs',
 ];
 
 $jsLanguageStrings = [
