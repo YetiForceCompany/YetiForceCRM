@@ -247,7 +247,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$showOwnerFilter = !empty($this->extraData['showOwnerFilter']);
 		$groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
 		$fieldName = $groupFieldModel->getFieldName();
-		echo $this->getQuery()->createCommand()->getRawSql();
 		$dataReader = $this->getQuery()->createCommand()->query();
 		$groupData = [];
 		while ($row = $dataReader->read()) {
