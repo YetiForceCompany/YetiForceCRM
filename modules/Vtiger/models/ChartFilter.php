@@ -121,7 +121,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	protected function getDataFunnel()
 	{
-		if (empty($this->extraData['sector'])) {
+		if (empty($this->extraData['sectorField'])) {
 			$groupData = $this->getRows();
 		} else {
 			$groupData = $this->getRowsFunnel();
@@ -312,7 +312,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
 		$fieldName = $groupFieldModel->getFieldName();
 		$count = $groupData = [];
-		$sectors = $this->extraData['sector'];
+		$sectors = $this->extraData['sectorField'];
 		$dataReader = $this->getQuery()->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$sectorId = $this->getSector($sectors, $row[$fieldName]);
