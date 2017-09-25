@@ -10,55 +10,54 @@ namespace App;
 class UserPrivilegesFile
 {
 
-	/** Creates a file with all the user, user-role,user-profile, user-groups informations
-	 * @param int $userId
+	/**
+	 * Creates a file with all the user, user-role,user-profile, user-groups informations
+	 * @param int $userid
 	 * @returns User_Privileges_Userid file under the User_Privileges Directory
 	 */
 	public static function createUserPrivilegesfile($userid)
 	{
-		$handle = @fopen(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'user_privileges/user_privileges_' . $userid . '.php', "w+");
-
+		$handle = fopen(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'user_privileges/user_privileges_' . $userid . '.php', "w+");
 		if ($handle) {
-			$newbuf = '';
-			$newbuf .= "<?php\n";
-			$user_focus = \CRMEntity::getInstance('Users');
-			$user_focus->retrieveEntityInfo($userid, 'Users');
+			$newBuf = '';
+			$newBuf .= "<?php\n";
+			$userFocus = \CRMEntity::getInstance('Users');
+			$userFocus->retrieveEntityInfo($userid, 'Users');
 			$userInfo = [];
-			$user_focus->column_fields["id"] = '';
-			$user_focus->id = $userid;
-			foreach ($user_focus->column_fields as $field => $value_iter) {
-				if (isset($user_focus->$field)) {
-					$userInfo[$field] = $user_focus->$field;
+			$userFocus->column_fields["id"] = '';
+			$userFocus->id = $userid;
+			foreach ($userFocus->column_fields as $field => $value_iter) {
+				if (isset($userFocus->$field)) {
+					$userInfo[$field] = $userFocus->$field;
 				}
 			}
-			if ($user_focus->is_admin == 'on') {
-				$newbuf .= "\$is_admin=true;\n";
-				$newbuf .= "\$user_info=" . Utils::varExport($userInfo) . ";\n";
+			if ($userFocus->is_admin == 'on') {
+				$newBuf .= "\$is_admin=true;\n";
+				$newBuf .= "\$user_info=" . Utils::varExport($userInfo) . ";\n";
 			} else {
-				$newbuf .= "\$is_admin=false;\n";
-
+				$newBuf .= "\$is_admin=false;\n";
 				$globalPermissionArr = PrivilegeUtil::getCombinedUserGlobalPermissions($userid);
 				$tabsPermissionArr = PrivilegeUtil::getCombinedUserTabsPermissions($userid);
 				$actionPermissionArr = getCombinedUserActionPermissions($userid);
-				$user_role = PrivilegeUtil::getRoleByUsers($userid);
-				$user_role_info = PrivilegeUtil::getRoleDetail($user_role);
-				$user_role_parent = $user_role_info['parentrole'];
-				$subRoles = PrivilegeUtil::getRoleSubordinates($user_role);
-				$subRoleAndUsers = getSubordinateRoleAndUsers($user_role);
-				$parentRoles = PrivilegeUtil::getParentRole($user_role);
-				$newbuf .= "\$current_user_roles='" . $user_role . "';\n";
-				$newbuf .= "\$current_user_parent_role_seq='" . $user_role_parent . "';\n";
-				$newbuf .= "\$current_user_profiles=" . Utils::varExport(PrivilegeUtil::getProfilesByRole($user_role)) . ";\n";
-				$newbuf .= "\$profileGlobalPermission=" . Utils::varExport($globalPermissionArr) . ";\n";
-				$newbuf .= "\$profileTabsPermission=" . Utils::varExport($tabsPermissionArr) . ";\n";
-				$newbuf .= "\$profileActionPermission=" . Utils::varExport($actionPermissionArr) . ";\n";
-				$newbuf .= "\$current_user_groups=" . Utils::varExport(PrivilegeUtil::getAllGroupsByUser($userid)) . ";\n";
-				$newbuf .= "\$subordinate_roles=" . Utils::varExport($subRoles) . ";\n";
-				$newbuf .= "\$parent_roles=" . Utils::varExport($parentRoles) . ";\n";
-				$newbuf .= "\$subordinate_roles_users=" . Utils::varExport($subRoleAndUsers) . ";\n";
-				$newbuf .= "\$user_info=" . Utils::varExport($userInfo) . ";\n";
+				$userRole = PrivilegeUtil::getRoleByUsers($userid);
+				$userRoleInfo = PrivilegeUtil::getRoleDetail($userRole);
+				$userRoleParent = $userRoleInfo['parentrole'];
+				$subRoles = PrivilegeUtil::getRoleSubordinates($userRole);
+				$subRoleAndUsers = getSubordinateRoleAndUsers($userRole);
+				$parentRoles = PrivilegeUtil::getParentRole($userRole);
+				$newBuf .= "\$current_user_roles='" . $userRole . "';\n";
+				$newBuf .= "\$current_user_parent_role_seq='" . $userRoleParent . "';\n";
+				$newBuf .= "\$current_user_profiles=" . Utils::varExport(PrivilegeUtil::getProfilesByRole($userRole)) . ";\n";
+				$newBuf .= "\$profileGlobalPermission=" . Utils::varExport($globalPermissionArr) . ";\n";
+				$newBuf .= "\$profileTabsPermission=" . Utils::varExport($tabsPermissionArr) . ";\n";
+				$newBuf .= "\$profileActionPermission=" . Utils::varExport($actionPermissionArr) . ";\n";
+				$newBuf .= "\$current_user_groups=" . Utils::varExport(PrivilegeUtil::getAllGroupsByUser($userid)) . ";\n";
+				$newBuf .= "\$subordinate_roles=" . Utils::varExport($subRoles) . ";\n";
+				$newBuf .= "\$parent_roles=" . Utils::varExport($parentRoles) . ";\n";
+				$newBuf .= "\$subordinate_roles_users=" . Utils::varExport($subRoleAndUsers) . ";\n";
+				$newBuf .= "\$user_info=" . Utils::varExport($userInfo) . ";\n";
 			}
-			fputs($handle, $newbuf);
+			fputs($handle, $newBuf);
 			fclose($handle);
 			PrivilegeFile::createUserPrivilegesFile($userid);
 			\Users_Privileges_Model::clearCache($userid);
@@ -70,74 +69,68 @@ class UserPrivilegesFile
 	 * Creates a file with all the organization default sharing permissions 
 	 * and custom sharing permissins specific for the specified user. 
 	 * In this file the information of the other users whose data is shared with the specified user is stored.
-	 * @param int $userId
+	 * @param int $userid
 	 * @returns sharing_privileges_userid file under the user_privileges directory
 	 */
 	public static function createUserSharingPrivilegesfile($userid)
 	{
 		\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/user_privileges_' . $userid . '.php');
 		require('user_privileges/user_privileges_' . $userid . '.php');
-		$handle = @fopen(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'user_privileges/sharing_privileges_' . $userid . '.php', "w+");
-
+		$handle = fopen(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'user_privileges/sharing_privileges_' . $userid . '.php', "w+");
 		if ($handle) {
-			$newbuf = "<?php\n";
-			$user_focus = \CRMEntity::getInstance('Users');
-			$user_focus->retrieveEntityInfo($userid, 'Users');
-			if ($user_focus->is_admin == 'on') {
-				fputs($handle, $newbuf);
+			$newBuf = "<?php\n";
+			$userFocus = \CRMEntity::getInstance('Users');
+			$userFocus->retrieveEntityInfo($userid, 'Users');
+			if ($userFocus->is_admin == 'on') {
+				fputs($handle, $newBuf);
 				fclose($handle);
 				return;
 			} else {
 				$sharingPrivileges = [];
 				//Constructig the Default Org Share Array
-				$def_org_share = PrivilegeUtil::getAllDefaultSharingAction();
-				$newbuf .= "\$defaultOrgSharingPermission=" . Utils::varExport($def_org_share) . ";\n";
-				$sharingPrivileges['defOrgShare'] = $def_org_share;
-
+				$defOrgShare = PrivilegeUtil::getAllDefaultSharingAction();
+				$newBuf .= "\$defaultOrgSharingPermission=" . Utils::varExport($defOrgShare) . ";\n";
+				$sharingPrivileges['defOrgShare'] = $defOrgShare;
 				$relatedModuleShare = PrivilegeUtil::getDatashareRelatedModules();
-				$newbuf .= "\$related_module_share=" . Utils::varExport($relatedModuleShare) . ";\n";
+				$newBuf .= "\$related_module_share=" . Utils::varExport($relatedModuleShare) . ";\n";
 				$sharingPrivileges['relatedModuleShare'] = $relatedModuleShare;
 				//Constructing Account Sharing Rules
-				$account_share_per_array = PrivilegeUtil::getUserModuleSharingObjects('Accounts', $userid, $def_org_share, $current_user_roles, $parent_roles, $current_user_groups);
-				$account_share_read_per = $account_share_per_array['read'];
-				$account_share_write_per = $account_share_per_array['write'];
-				$account_sharingrule_members = $account_share_per_array['sharingrules'];
-				$newbuf .= "\$Accounts_share_read_permission=array('ROLE'=>" . Utils::varExport($account_share_read_per['ROLE']) . ",'GROUP'=>" . Utils::varExport($account_share_read_per['GROUP']) . ");\n";
-				$newbuf .= "\$Accounts_share_write_permission=array('ROLE'=>" . Utils::varExport($account_share_write_per['ROLE']) . ",'GROUP'=>" . Utils::varExport($account_share_write_per['GROUP']) . ");\n";
-				$sharingPrivileges['permission']['Accounts'] = ['read' => $account_share_read_per, 'write' => $account_share_write_per];
+				$accountSharePerArray = PrivilegeUtil::getUserModuleSharingObjects('Accounts', $userid, $defOrgShare, $current_user_roles, $parent_roles, $current_user_groups);
+				$accountShareReadPer = $accountSharePerArray['read'];
+				$accountShareWritePer = $accountSharePerArray['write'];
+				$accountSharingruleMembers = $accountSharePerArray['sharingrules'];
+				$newBuf .= "\$Accounts_share_read_permission=array('ROLE'=>" . Utils::varExport($accountShareReadPer['ROLE']) . ",'GROUP'=>" . Utils::varExport($accountShareReadPer['GROUP']) . ");\n";
+				$newBuf .= "\$Accounts_share_write_permission=array('ROLE'=>" . Utils::varExport($accountShareWritePer['ROLE']) . ",'GROUP'=>" . Utils::varExport($accountShareWritePer['GROUP']) . ");\n";
+				$sharingPrivileges['permission']['Accounts'] = ['read' => $accountShareReadPer, 'write' => $accountShareWritePer];
 				//Constructing Contact Sharing Rules
-				$newbuf .= "\$Contacts_share_read_permission=array('ROLE'=>" . Utils::varExport($account_share_read_per['ROLE']) . ",'GROUP'=>" . Utils::varExport($account_share_read_per['GROUP']) . ");\n";
-				$newbuf .= "\$Contacts_share_write_permission=array('ROLE'=>" . Utils::varExport($account_share_write_per['ROLE']) . ",'GROUP'=>" . Utils::varExport($account_share_write_per['GROUP']) . ");\n";
-				$sharingPrivileges['permission']['Contacts'] = ['read' => $account_share_read_per, 'write' => $account_share_write_per];
-
+				$newBuf .= "\$Contacts_share_read_permission=array('ROLE'=>" . Utils::varExport($accountShareReadPer['ROLE']) . ",'GROUP'=>" . Utils::varExport($accountShareReadPer['GROUP']) . ");\n";
+				$newBuf .= "\$Contacts_share_write_permission=array('ROLE'=>" . Utils::varExport($accountShareWritePer['ROLE']) . ",'GROUP'=>" . Utils::varExport($accountShareWritePer['GROUP']) . ");\n";
+				$sharingPrivileges['permission']['Contacts'] = ['read' => $accountShareReadPer, 'write' => $accountShareWritePer];
 				//Constructing the Account Ticket Related Module Sharing Array
-				$acct_related_tkt = static::getRelatedModuleSharingArray('Accounts', 'HelpDesk', $account_sharingrule_members, $account_share_read_per, $account_share_write_per, $def_org_share);
-				$acc_tkt_share_read_per = $acct_related_tkt['read'];
-				$acc_tkt_share_write_per = $acct_related_tkt['write'];
-				$newbuf .= "\$Accounts_HelpDesk_share_read_permission=array('ROLE'=>" . Utils::varExport($acc_tkt_share_read_per['ROLE']) . ",'GROUP'=>" . Utils::varExport($acc_tkt_share_read_per['GROUP']) . ");\n";
-				$newbuf .= "\$Accounts_HelpDesk_share_write_permission=array('ROLE'=>" . Utils::varExport($acc_tkt_share_write_per['ROLE']) . ",'GROUP'=>" . Utils::varExport($acc_tkt_share_write_per['GROUP']) . ");\n";
-				$sharingPrivileges['permission']['Accounts_HelpDesk'] = ['read' => $acc_tkt_share_read_per, 'write' => $acc_tkt_share_write_per];
+				$acctRelatedTkt = static::getRelatedModuleSharingArray('Accounts', 'HelpDesk', $accountSharingruleMembers, $accountShareReadPer, $accountShareWritePer, $defOrgShare);
+				$accTktShareReadPer = $acctRelatedTkt['read'];
+				$accTktShareWriteer = $acctRelatedTkt['write'];
+				$newBuf .= "\$Accounts_HelpDesk_share_read_permission=array('ROLE'=>" . Utils::varExport($accTktShareReadPer['ROLE']) . ",'GROUP'=>" . Utils::varExport($accTktShareReadPer['GROUP']) . ");\n";
+				$newBuf .= "\$Accounts_HelpDesk_share_write_permission=array('ROLE'=>" . Utils::varExport($accTktShareWriteer['ROLE']) . ",'GROUP'=>" . Utils::varExport($accTktShareWriteer['GROUP']) . ");\n";
+				$sharingPrivileges['permission']['Accounts_HelpDesk'] = ['read' => $accTktShareReadPer, 'write' => $accTktShareWriteer];
+				$customModules = Module::getSharingModuleList(['Accounts', 'Contacts']);
+				foreach ($customModules as &$moduleName) {
+					$modSharePermArray = PrivilegeUtil::getUserModuleSharingObjects($moduleName, $userid, $defOrgShare, $current_user_roles, $parent_roles, $current_user_groups);
+					$modShareReadPerm = $modSharePermArray['read'];
+					$modShareWritePerm = $modSharePermArray['write'];
+					$newBuf .= '$' . $moduleName . "_share_read_permission=['ROLE'=>" .
+						Utils::varExport($modShareReadPerm['ROLE']) . ",'GROUP'=>" .
+						Utils::varExport($modShareReadPerm['GROUP']) . "];\n";
+					$newBuf .= '$' . $moduleName . "_share_write_permission=['ROLE'=>" .
+						Utils::varExport($modShareWritePerm['ROLE']) . ",'GROUP'=>" .
+						Utils::varExport($modShareWritePerm['GROUP']) . "];\n";
 
-				$custom_modules = Module::getSharingModuleList(['Accounts', 'Contacts']);
-				foreach ($custom_modules as &$module_name) {
-					$mod_share_perm_array = PrivilegeUtil::getUserModuleSharingObjects($module_name, $userid, $def_org_share, $current_user_roles, $parent_roles, $current_user_groups);
-
-					$mod_share_read_perm = $mod_share_perm_array['read'];
-					$mod_share_write_perm = $mod_share_perm_array['write'];
-					$newbuf .= '$' . $module_name . "_share_read_permission=['ROLE'=>" .
-						Utils::varExport($mod_share_read_perm['ROLE']) . ",'GROUP'=>" .
-						Utils::varExport($mod_share_read_perm['GROUP']) . "];\n";
-					$newbuf .= '$' . $module_name . "_share_write_permission=['ROLE'=>" .
-						Utils::varExport($mod_share_write_perm['ROLE']) . ",'GROUP'=>" .
-						Utils::varExport($mod_share_write_perm['GROUP']) . "];\n";
-
-					$sharingPrivileges['permission'][$module_name] = ['read' => $mod_share_read_perm, 'write' => $mod_share_write_perm];
+					$sharingPrivileges['permission'][$moduleName] = ['read' => $modShareReadPerm, 'write' => $modShareWritePerm];
 				}
-				$newbuf .= 'return ' . Utils::varExport($sharingPrivileges) . ";\n";
+				$newBuf .= 'return ' . Utils::varExport($sharingPrivileges) . ";\n";
 				// END
-				fputs($handle, $newbuf);
+				fputs($handle, $newBuf);
 				fclose($handle);
-
 				//Populating Temp Tables
 				static::populateSharingtmptables($userid);
 			}
@@ -147,161 +140,145 @@ class UserPrivilegesFile
 	/**
 	 * Gives an array which contains the information for what all roles,
 	 * groups and user's related module data that is to be shared  for the specified parent module and shared module
-	 * @param string $parMod
-	 * @param string $shareMod
-	 * @param array $modSharingRuleMembers
-	 * @param array $modShareReadPer
-	 * @param array $modShareWritePer
-	 * @param array $defOrgShare
+	 * @param string $par_mod
+	 * @param string $share_mod
+	 * @param array $mod_sharingrule_members
+	 * @param array $mod_share_read_per
+	 * @param array $mod_share_write_per
+	 * @param array $def_org_share
 	 * @return array
 	 */
 	public static function getRelatedModuleSharingArray($par_mod, $share_mod, $mod_sharingrule_members, $mod_share_read_per, $mod_share_write_per, $def_org_share)
 	{
-
 		$adb = \PearDatabase::getInstance();
-		$related_mod_sharing_permission = [];
-		$mod_share_read_permission = [];
-		$mod_share_write_permission = [];
-
-		$mod_share_read_permission['ROLE'] = [];
-		$mod_share_write_permission['ROLE'] = [];
-		$mod_share_read_permission['GROUP'] = [];
-		$mod_share_write_permission['GROUP'] = [];
-
-		$par_mod_id = Module::getModuleId($par_mod);
-		$share_mod_id = Module::getModuleId($share_mod);
-
-		if ($def_org_share[$share_mod_id] == 3 || $def_org_share[$share_mod_id] == 0) {
-			$role_read_per = [];
-			$role_write_per = [];
-			$grp_read_per = [];
-			$grp_write_per = [];
-
+		$relatedModSharingPermission = [];
+		$modShareReadPermission = [];
+		$modShareWritePermission = [];
+		$modShareReadPermission['ROLE'] = [];
+		$modShareWritePermission['ROLE'] = [];
+		$modShareReadPermission['GROUP'] = [];
+		$modShareWritePermission['GROUP'] = [];
+		$parModId = Module::getModuleId($par_mod);
+		$shareModId = Module::getModuleId($share_mod);
+		if ($def_org_share[$shareModId] == 3 || $def_org_share[$shareModId] == 0) {
+			$roleReadPer = [];
+			$roleWritePer = [];
+			$grpReadPer = [];
+			$grpWritePer = [];
 			foreach ($mod_sharingrule_members as $sharingid => $sharingInfoArr) {
 				$query = "select vtiger_datashare_relatedmodule_permission.* from vtiger_datashare_relatedmodule_permission inner join vtiger_datashare_relatedmodules on vtiger_datashare_relatedmodules.datashare_relatedmodule_id=vtiger_datashare_relatedmodule_permission.datashare_relatedmodule_id where vtiger_datashare_relatedmodule_permission.shareid=? and vtiger_datashare_relatedmodules.tabid=? and vtiger_datashare_relatedmodules.relatedto_tabid=?";
-				$result = $adb->pquery($query, array($sharingid, $par_mod_id, $share_mod_id));
-				$share_permission = $adb->queryResult($result, 0, 'permission');
-
+				$result = $adb->pquery($query, array($sharingid, $parModId, $shareModId));
+				$sharePermission = $adb->queryResult($result, 0, 'permission');
 				foreach ($sharingInfoArr as $shareType => $shareEntArr) {
 					foreach ($shareEntArr as $key => $shareEntId) {
 						if ($shareType == 'ROLE') {
-							if ($share_permission == 1) {
-								if ($def_org_share[$share_mod_id] == 3) {
-									if (!array_key_exists($shareEntId, $role_read_per)) {
+							if ($sharePermission == 1) {
+								if ($def_org_share[$shareModId] == 3) {
+									if (!array_key_exists($shareEntId, $roleReadPer)) {
 										if (array_key_exists($shareEntId, $mod_share_read_per['ROLE'])) {
-											$share_role_users = $mod_share_read_per['ROLE'][$shareEntId];
+											$shareRoleUsers = $mod_share_read_per['ROLE'][$shareEntId];
 										} elseif (array_key_exists($shareEntId, $mod_share_write_per['ROLE'])) {
-											$share_role_users = $mod_share_write_per['ROLE'][$shareEntId];
+											$shareRoleUsers = $mod_share_write_per['ROLE'][$shareEntId];
 										} else {
-
-											$share_role_users = PrivilegeUtil::getUsersByRole($shareEntId);
+											$shareRoleUsers = PrivilegeUtil::getUsersByRole($shareEntId);
 										}
-
-										$role_read_per[$shareEntId] = $share_role_users;
+										$roleReadPer[$shareEntId] = $shareRoleUsers;
 									}
 								}
-								if (!array_key_exists($shareEntId, $role_write_per)) {
+								if (!array_key_exists($shareEntId, $roleWritePer)) {
 									if (array_key_exists($shareEntId, $mod_share_read_per['ROLE'])) {
-										$share_role_users = $mod_share_read_per['ROLE'][$shareEntId];
+										$shareRoleUsers = $mod_share_read_per['ROLE'][$shareEntId];
 									} elseif (array_key_exists($shareEntId, $mod_share_write_per['ROLE'])) {
-										$share_role_users = $mod_share_write_per['ROLE'][$shareEntId];
+										$shareRoleUsers = $mod_share_write_per['ROLE'][$shareEntId];
 									} else {
-
-										$share_role_users = PrivilegeUtil::getUsersByRole($shareEntId);
+										$shareRoleUsers = PrivilegeUtil::getUsersByRole($shareEntId);
 									}
-
-									$role_write_per[$shareEntId] = $share_role_users;
+									$roleWritePer[$shareEntId] = $shareRoleUsers;
 								}
-							} elseif ($share_permission == 0 && $def_org_share[$share_mod_id] == 3) {
-								if (!array_key_exists($shareEntId, $role_read_per)) {
+							} elseif ($sharePermission == 0 && $def_org_share[$shareModId] == 3) {
+								if (!array_key_exists($shareEntId, $roleReadPer)) {
 									if (array_key_exists($shareEntId, $mod_share_read_per['ROLE'])) {
-										$share_role_users = $mod_share_read_per['ROLE'][$shareEntId];
+										$shareRoleUsers = $mod_share_read_per['ROLE'][$shareEntId];
 									} elseif (array_key_exists($shareEntId, $mod_share_write_per['ROLE'])) {
-										$share_role_users = $mod_share_write_per['ROLE'][$shareEntId];
+										$shareRoleUsers = $mod_share_write_per['ROLE'][$shareEntId];
 									} else {
-
-										$share_role_users = PrivilegeUtil::getUsersByRole($shareEntId);
+										$shareRoleUsers = PrivilegeUtil::getUsersByRole($shareEntId);
 									}
-
-									$role_read_per[$shareEntId] = $share_role_users;
+									$roleReadPer[$shareEntId] = $shareRoleUsers;
 								}
 							}
 						} elseif ($shareType == 'GROUP') {
-							if ($share_permission == 1) {
-								if ($def_org_share[$share_mod_id] == 3) {
-
-									if (!array_key_exists($shareEntId, $grp_read_per)) {
+							if ($sharePermission == 1) {
+								if ($def_org_share[$shareModId] == 3) {
+									if (!array_key_exists($shareEntId, $grpReadPer)) {
 										if (array_key_exists($shareEntId, $mod_share_read_per['GROUP'])) {
-											$share_grp_users = $mod_share_read_per['GROUP'][$shareEntId];
+											$shareGrpUsers = $mod_share_read_per['GROUP'][$shareEntId];
 										} elseif (array_key_exists($shareEntId, $mod_share_write_per['GROUP'])) {
-											$share_grp_users = $mod_share_write_per['GROUP'][$shareEntId];
+											$shareGrpUsers = $mod_share_write_per['GROUP'][$shareEntId];
 										} else {
 											$usersByGroup = PrivilegeUtil::getUsersByGroup($shareEntId, true);
-											$share_grp_users = $usersByGroup['users'];
+											$shareGrpUsers = $usersByGroup['users'];
 											foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
-												if (!array_key_exists($subgrpid, $grp_read_per)) {
-													$grp_read_per[$subgrpid] = $subgrpusers;
+												if (!array_key_exists($subgrpid, $grpReadPer)) {
+													$grpReadPer[$subgrpid] = $subgrpusers;
 												}
 											}
 										}
-
-										$grp_read_per[$shareEntId] = $share_grp_users;
+										$grpReadPer[$shareEntId] = $shareGrpUsers;
 									}
 								}
-								if (!array_key_exists($shareEntId, $grp_write_per)) {
-									if (!array_key_exists($shareEntId, $grp_write_per)) {
+								if (!array_key_exists($shareEntId, $grpWritePer)) {
+									if (!array_key_exists($shareEntId, $grpWritePer)) {
 										if (array_key_exists($shareEntId, $mod_share_read_per['GROUP'])) {
-											$share_grp_users = $mod_share_read_per['GROUP'][$shareEntId];
+											$shareGrpUsers = $mod_share_read_per['GROUP'][$shareEntId];
 										} elseif (array_key_exists($shareEntId, $mod_share_write_per['GROUP'])) {
-											$share_grp_users = $mod_share_write_per['GROUP'][$shareEntId];
+											$shareGrpUsers = $mod_share_write_per['GROUP'][$shareEntId];
 										} else {
 											$usersByGroup = PrivilegeUtil::getUsersByGroup($shareEntId, true);
-											$share_grp_users = $usersByGroup['users'];
+											$shareGrpUsers = $usersByGroup['users'];
 											foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
-												if (!array_key_exists($subgrpid, $grp_write_per)) {
-													$grp_write_per[$subgrpid] = $subgrpusers;
+												if (!array_key_exists($subgrpid, $grpWritePer)) {
+													$grpWritePer[$subgrpid] = $subgrpusers;
 												}
 											}
 										}
-
-										$grp_write_per[$shareEntId] = $share_grp_users;
+										$grpWritePer[$shareEntId] = $shareGrpUsers;
 									}
 								}
-							} elseif ($share_permission == 0 && $def_org_share[$share_mod_id] == 3) {
-								if (!array_key_exists($shareEntId, $grp_read_per)) {
+							} elseif ($sharePermission == 0 && $def_org_share[$shareModId] == 3) {
+								if (!array_key_exists($shareEntId, $grpReadPer)) {
 									if (array_key_exists($shareEntId, $mod_share_read_per['GROUP'])) {
-										$share_grp_users = $mod_share_read_per['GROUP'][$shareEntId];
+										$shareGrpUsers = $mod_share_read_per['GROUP'][$shareEntId];
 									} elseif (array_key_exists($shareEntId, $mod_share_write_per['GROUP'])) {
-										$share_grp_users = $mod_share_write_per['GROUP'][$shareEntId];
+										$shareGrpUsers = $mod_share_write_per['GROUP'][$shareEntId];
 									} else {
 										$usersByGroup = PrivilegeUtil::getUsersByGroup($shareEntId, true);
-										$share_grp_users = $usersByGroup['users'];
+										$shareGrpUsers = $usersByGroup['users'];
 										foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
-											if (!array_key_exists($subgrpid, $grp_read_per)) {
-												$grp_read_per[$subgrpid] = $subgrpusers;
+											if (!array_key_exists($subgrpid, $grpReadPer)) {
+												$grpReadPer[$subgrpid] = $subgrpusers;
 											}
 										}
 									}
-
-									$grp_read_per[$shareEntId] = $share_grp_users;
+									$grpReadPer[$shareEntId] = $shareGrpUsers;
 								}
 							}
 						}
 					}
 				}
 			}
-			$mod_share_read_permission['ROLE'] = $role_read_per;
-			$mod_share_write_permission['ROLE'] = $role_write_per;
-			$mod_share_read_permission['GROUP'] = $grp_read_per;
-			$mod_share_write_permission['GROUP'] = $grp_write_per;
+			$modShareReadPermission['ROLE'] = $roleReadPer;
+			$modShareWritePermission['ROLE'] = $roleWritePer;
+			$modShareReadPermission['GROUP'] = $grpReadPer;
+			$modShareWritePermission['GROUP'] = $grpWritePer;
 		}
-		$related_mod_sharing_permission['read'] = $mod_share_read_permission;
-		$related_mod_sharing_permission['write'] = $mod_share_write_permission;
-		return $related_mod_sharing_permission;
+		$relatedModSharingPermission['read'] = $modShareReadPermission;
+		$relatedModSharingPermission['write'] = $modShareWritePermission;
+		return $relatedModSharingPermission;
 	}
 
 	/** Function to populate the read/wirte Sharing permissions data of user/groups for the specified user into the database
-	 * @param int $userId
+	 * @param int $userid
 	 */
 	public static function populateSharingtmptables($userid)
 	{
@@ -309,37 +286,33 @@ class UserPrivilegesFile
 		\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userid . '.php');
 		require('user_privileges/sharing_privileges_' . $userid . '.php');
 		//Deleting from the existing vtiger_tables
-		$table_arr = Array('vtiger_tmp_read_user_sharing_per', 'vtiger_tmp_write_user_sharing_per', 'vtiger_tmp_read_group_sharing_per', 'vtiger_tmp_write_group_sharing_per', 'vtiger_tmp_read_user_rel_sharing_per', 'vtiger_tmp_write_user_rel_sharing_per', 'vtiger_tmp_read_group_rel_sharing_per', 'vtiger_tmp_write_group_rel_sharing_per');
-		foreach ($table_arr as $tabname) {
+		$tableArr = Array('vtiger_tmp_read_user_sharing_per', 'vtiger_tmp_write_user_sharing_per', 'vtiger_tmp_read_group_sharing_per', 'vtiger_tmp_write_group_sharing_per', 'vtiger_tmp_read_user_rel_sharing_per', 'vtiger_tmp_write_user_rel_sharing_per', 'vtiger_tmp_read_group_rel_sharing_per', 'vtiger_tmp_write_group_rel_sharing_per');
+		foreach ($tableArr as $tabname) {
 			$adb->delete($tabname, 'userid = ?', [$userid]);
 		}
-
 		// Look up for modules for which sharing access is enabled.
 		$modules = \vtlib\Functions::getAllModules(true, true, 0, false, 0);
 		$sharingArray = array_column($modules, 'name');
 		foreach ($sharingArray as $module) {
-			$module_sharing_read_permvar = $module . '_share_read_permission';
-			$module_sharing_write_permvar = $module . '_share_write_permission';
-
-			static::populateSharingPrivileges('USER', $userid, $module, 'read', $$module_sharing_read_permvar);
-			static::populateSharingPrivileges('USER', $userid, $module, 'write', $$module_sharing_write_permvar);
-			static::populateSharingPrivileges('GROUP', $userid, $module, 'read', $$module_sharing_read_permvar);
-			static::populateSharingPrivileges('GROUP', $userid, $module, 'write', $$module_sharing_write_permvar);
+			$moduleSharingReadPermvar = $module . '_share_read_permission';
+			$moduleSharingWritePermvar = $module . '_share_write_permission';
+			static::populateSharingPrivileges('USER', $userid, $module, 'read', $$moduleSharingReadPermvar);
+			static::populateSharingPrivileges('USER', $userid, $module, 'write', $moduleSharingWritePermvar);
+			static::populateSharingPrivileges('GROUP', $userid, $module, 'read', $moduleSharingReadPermvar);
+			static::populateSharingPrivileges('GROUP', $userid, $module, 'write', $moduleSharingWritePermvar);
 		}
 		//Populating Values into the temp related sharing tables
-		foreach ($related_module_share as $rel_tab_id => $tabid_arr) {
-			$rel_tab_name = Module::getModuleName($rel_tab_id);
-			if (!empty($rel_tab_name)) {
-				foreach ($tabid_arr as $taid) {
-					$tab_name = Module::getModuleName($taid);
-
-					$relmodule_sharing_read_permvar = $tab_name . '_' . $rel_tab_name . '_share_read_permission';
-					$relmodule_sharing_write_permvar = $tab_name . '_' . $rel_tab_name . '_share_write_permission';
-
-					static::populateRelatedSharingPrivileges('USER', $userid, $tab_name, $rel_tab_name, 'read', $$relmodule_sharing_read_permvar);
-					static::populateRelatedSharingPrivileges('USER', $userid, $tab_name, $rel_tab_name, 'write', $$relmodule_sharing_write_permvar);
-					static::populateRelatedSharingPrivileges('GROUP', $userid, $tab_name, $rel_tab_name, 'read', $$relmodule_sharing_read_permvar);
-					static::populateRelatedSharingPrivileges('GROUP', $userid, $tab_name, $rel_tab_name, 'write', $$relmodule_sharing_write_permvar);
+		foreach ($related_module_share as $relTabId => $tabIdArr) {
+			$relTabName = Module::getModuleName($relTabId);
+			if (!empty($relTabName)) {
+				foreach ($tabIdArr as $tabId) {
+					$tabName = Module::getModuleName($tabId);
+					$relmoduleSharingReadPermvar = $tabName . '_' . $relTabName . '_share_read_permission';
+					$relmoduleSharingWritePermvar = $tabName . '_' . $relTabName . '_share_write_permission';
+					static::populateRelatedSharingPrivileges('USER', $userid, $tabName, $relTabName, 'read', $$relmoduleSharingReadPermvar);
+					static::populateRelatedSharingPrivileges('USER', $userid, $tabName, $relTabName, 'write', $relmoduleSharingWritePermvar);
+					static::populateRelatedSharingPrivileges('GROUP', $userid, $tabName, $relTabName, 'read', $$relmoduleSharingReadPermvar);
+					static::populateRelatedSharingPrivileges('GROUP', $userid, $tabName, $relTabName, 'write', $relmoduleSharingWritePermvar);
 				}
 			}
 		}
@@ -347,76 +320,74 @@ class UserPrivilegesFile
 
 	/**
 	 * Function to populate the read/wirte Sharing permissions data for the specified user into the database
-	 * @param string $entType
-	 * @param int $userId
+	 * @param string $enttype
+	 * @param int $userid
 	 * @param string $module
-	 * @param string $perType
-	 * @param boolean $varNameArr
+	 * @param string $pertype
+	 * @param boolean $var_name_arr
 	 */
 	public static function populateSharingPrivileges($enttype, $userid, $module, $pertype, $var_name_arr = false)
 	{
 		$adb = \PearDatabase::getInstance();
-		$tabid = Module::getModuleId($module);
-
+		$tabId = Module::getModuleId($module);
 		if (!$var_name_arr) {
 			\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userid . '.php');
 			require('user_privileges/sharing_privileges_' . $userid . '.php');
 		}
-
 		if ($enttype == 'USER') {
 			if ($pertype == 'read') {
-				$table_name = 'vtiger_tmp_read_user_sharing_per';
-				$var_name = $module . '_share_read_permission';
+				$tableName = 'vtiger_tmp_read_user_sharing_per';
+				$varName = $module . '_share_read_permission';
 			} elseif ($pertype == 'write') {
-				$table_name = 'vtiger_tmp_write_user_sharing_per';
-				$var_name = $module . '_share_write_permission';
+				$tableName = 'vtiger_tmp_write_user_sharing_per';
+				$varName = $module . '_share_write_permission';
 			}
 			// Lookup for the variable if not set through function argument
-			if (!$var_name_arr)
-				$var_name_arr = $$var_name;
-			$user_arr = [];
+			if (!$var_name_arr) {
+				$var_name_arr = $$varName;
+			}
+			$useArrr = [];
 			if (sizeof($var_name_arr['ROLE']) > 0) {
-				foreach ($var_name_arr['ROLE'] as $roleid => $roleusers) {
-
-					foreach ($roleusers as $user_id) {
-						if (!in_array($user_id, $user_arr)) {
-							$query = "insert into " . $table_name . " values(?,?,?)";
-							$adb->pquery($query, array($userid, $tabid, $user_id));
-							$user_arr[] = $user_id;
+				foreach ($var_name_arr['ROLE'] as $roleId => $roleUsers) {
+					foreach ($roleUsers as $userId) {
+						if (!in_array($userId, $useArrr)) {
+							$query = "insert into " . $tableName . " values(?,?,?)";
+							$adb->pquery($query, array($userid, $tabId, $userId));
+							$useArrr[] = $userId;
 						}
 					}
 				}
 			}
 			if (sizeof($var_name_arr['GROUP']) > 0) {
-				foreach ($var_name_arr['GROUP'] as $grpid => $grpusers) {
-					foreach ($grpusers as $user_id) {
-						if (!in_array($user_id, $user_arr)) {
-							$query = "insert into " . $table_name . " values(?,?,?)";
-							$adb->pquery($query, array($userid, $tabid, $user_id));
-							$user_arr[] = $user_id;
+				foreach ($var_name_arr['GROUP'] as $grpId => $grpUsers) {
+					foreach ($grpUsers as $userId) {
+						if (!in_array($userId, $useArrr)) {
+							$query = "insert into " . $tableName . " values(?,?,?)";
+							$adb->pquery($query, array($userid, $tabId, $userId));
+							$useArrr[] = $userId;
 						}
 					}
 				}
 			}
 		} elseif ($enttype == 'GROUP') {
 			if ($pertype == 'read') {
-				$table_name = 'vtiger_tmp_read_group_sharing_per';
-				$var_name = $module . '_share_read_permission';
+				$tableName = 'vtiger_tmp_read_group_sharing_per';
+				$varName = $module . '_share_read_permission';
 			} elseif ($pertype == 'write') {
-				$table_name = 'vtiger_tmp_write_group_sharing_per';
-				$var_name = $module . '_share_write_permission';
+				$tableName = 'vtiger_tmp_write_group_sharing_per';
+				$varName = $module . '_share_write_permission';
 			}
 			// Lookup for the variable if not set through function argument
-			if (!$var_name_arr)
-				$var_name_arr = $$var_name;
-			$grp_arr = [];
+			if (!$var_name_arr) {
+				$var_name_arr = $$varName;
+			}
+			$grpArr = [];
 			if (sizeof($var_name_arr['GROUP']) > 0) {
-
 				foreach ($var_name_arr['GROUP'] as $grpid => $grpusers) {
-					if (!in_array($grpid, $grp_arr)) {
-						$query = "insert into " . $table_name . " values(?,?,?)";
-						$adb->pquery($query, array($userid, $tabid, $grpid));
-						$grp_arr[] = $grpid;
+					if (!in_array($grpid, $grpArr)) {
+						$query = "insert into " . $tableName . " values(?,?,?)";
+						$adb->pquery($query, array($userid, $tabId, $grpid));
+						$grpArr[] = $grpid;
 					}
 				}
 			}
@@ -425,78 +396,76 @@ class UserPrivilegesFile
 
 	/**
 	 * Function to populate the read/wirte Sharing permissions related module data for the specified user into the database
-	 * @param string $entType
-	 * @param int $userId
+	 * @param string $enttype
+	 * @param int $userid
 	 * @param string $module
-	 * @param string $relModule
-	 * @param string $perType
-	 * @param boolean $varNameArr
+	 * @param string $relmodule
+	 * @param string $pertype
+	 * @param boolean $var_name_arr
 	 */
 	public static function populateRelatedSharingPrivileges($enttype, $userid, $module, $relmodule, $pertype, $var_name_arr = false)
 	{
 		$adb = \PearDatabase::getInstance();
-		$tabid = Module::getModuleId($module);
-		$reltabid = Module::getModuleId($relmodule);
-
+		$tabId = Module::getModuleId($module);
+		$relTabId = Module::getModuleId($relmodule);
 		if (!$var_name_arr) {
 			\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userid . '.php');
 			require('user_privileges/sharing_privileges_' . $userid . '.php');
 		}
-
 		if ($enttype == 'USER') {
 			if ($pertype == 'read') {
-				$table_name = 'vtiger_tmp_read_user_rel_sharing_per';
-				$var_name = $module . '_' . $relmodule . '_share_read_permission';
+				$tableName = 'vtiger_tmp_read_user_rel_sharing_per';
+				$varName = $module . '_' . $relmodule . '_share_read_permission';
 			} elseif ($pertype == 'write') {
-				$table_name = 'vtiger_tmp_write_user_rel_sharing_per';
-				$var_name = $module . '_' . $relmodule . '_share_write_permission';
+				$tableName = 'vtiger_tmp_write_user_rel_sharing_per';
+				$varName = $module . '_' . $relmodule . '_share_write_permission';
 			}
 			// Lookup for the variable if not set through function argument
-			if (!$var_name_arr)
-				$var_name_arr = $$var_name;
-			$user_arr = [];
+			if (!$var_name_arr) {
+				$var_name_arr = $$varName;
+			}
+			$userArr = [];
 			if (sizeof($var_name_arr['ROLE']) > 0) {
-				foreach ($var_name_arr['ROLE'] as $roleid => $roleusers) {
-
-					foreach ($roleusers as $user_id) {
-						if (!in_array($user_id, $user_arr)) {
-							$query = "insert into " . $table_name . " values(?,?,?,?)";
-							$adb->pquery($query, array($userid, $tabid, $reltabid, $user_id));
-							$user_arr[] = $user_id;
+				foreach ($var_name_arr['ROLE'] as $roleId => $roleUsers) {
+					foreach ($roleUsers as $userId) {
+						if (!in_array($userId, $userArr)) {
+							$query = "insert into " . $tableName . " values(?,?,?,?)";
+							$adb->pquery($query, array($userid, $tabId, $relTabId, $userId));
+							$userArr[] = $userId;
 						}
 					}
 				}
 			}
 			if (sizeof($var_name_arr['GROUP']) > 0) {
-				foreach ($var_name_arr['GROUP'] as $grpid => $grpusers) {
-					foreach ($grpusers as $user_id) {
-						if (!in_array($user_id, $user_arr)) {
-							$query = "insert into " . $table_name . " values(?,?,?,?)";
-							$adb->pquery($query, array($userid, $tabid, $reltabid, $user_id));
-							$user_arr[] = $user_id;
+				foreach ($var_name_arr['GROUP'] as $grpId => $grpUsers) {
+					foreach ($grpUsers as $userId) {
+						if (!in_array($userId, $userArr)) {
+							$query = "insert into " . $tableName . " values(?,?,?,?)";
+							$adb->pquery($query, array($userid, $tabId, $relTabId, $userId));
+							$userArr[] = $userId;
 						}
 					}
 				}
 			}
 		} elseif ($enttype == 'GROUP') {
 			if ($pertype == 'read') {
-				$table_name = 'vtiger_tmp_read_group_rel_sharing_per';
-				$var_name = $module . '_' . $relmodule . '_share_read_permission';
+				$tableName = 'vtiger_tmp_read_group_rel_sharing_per';
+				$varName = $module . '_' . $relmodule . '_share_read_permission';
 			} elseif ($pertype == 'write') {
-				$table_name = 'vtiger_tmp_write_group_rel_sharing_per';
-				$var_name = $module . '_' . $relmodule . '_share_write_permission';
+				$tableName = 'vtiger_tmp_write_group_rel_sharing_per';
+				$varName = $module . '_' . $relmodule . '_share_write_permission';
 			}
 			// Lookup for the variable if not set through function argument
-			if (!$var_name_arr)
-				$var_name_arr = $$var_name;
-			$grp_arr = [];
+			if (!$var_name_arr) {
+				$var_name_arr = $$varName;
+			}
+			$grpArr = [];
 			if (sizeof($var_name_arr['GROUP']) > 0) {
-
-				foreach ($var_name_arr['GROUP'] as $grpid => $grpusers) {
-					if (!in_array($grpid, $grp_arr)) {
-						$query = "insert into " . $table_name . " values(?,?,?,?)";
-						$adb->pquery($query, array($userid, $tabid, $reltabid, $grpid));
-						$grp_arr[] = $grpid;
+				foreach ($var_name_arr['GROUP'] as $grpId => $grpUsers) {
+					if (!in_array($grpId, $grpArr)) {
+						$query = "insert into " . $tableName . " values(?,?,?,?)";
+						$adb->pquery($query, array($userid, $tabId, $relTabId, $grpId));
+						$grpArr[] = $grpId;
 					}
 				}
 			}
