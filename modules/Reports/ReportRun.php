@@ -49,11 +49,16 @@ class ReportRunQueryDependencyMatrix
 
 		$this->computedMatrix = [];
 		foreach ($this->matrix as $key => $values) {
-			$this->computedMatrix[$key] = $this->computeDependencyForKey($key, $values);
+			$this->computedMatrix[$key] = $this->computeDependencyForKey($values);
 		}
 	}
 
-	protected function computeDependencyForKey($key, $values)
+	/**
+	 * Calculate the dependency for the key
+	 * @param array $values
+	 * @return array
+	 */
+	protected function computeDependencyForKey($values)
 	{
 		$merged = [];
 		foreach ($values as $value) {
