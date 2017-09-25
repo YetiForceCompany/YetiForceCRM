@@ -849,45 +849,49 @@ Vtiger_Widget_Js('Vtiger_Bardivided_Widget_Js', {}, {
 		var jData = container.find('.widgetData').val();
 		var data = JSON.parse(jData);
 		var chartData = [];
-		for (var index in data) {
-			var row = data[index];
-			var rowData = [row.last_name, row.id];
-			chartData.push(rowData);
-		}
+		$.each(data, function (pname, types) {
+			var type = [];
+			$.each(types, function (sname, counts) {
+				type.push(counts.id);
+			});
+			chartData.push(type);
+		});
 		return {'chartData': chartData};
 	},
 	loadChart: function () {
 		var chartData = this.generateData();
 		if (chartData['chartData'].length > 0) {
-			this.chartInstance = this.getPlotContainer(false).jqplot([chartData['chartData']], {
+			this.chartInstance = this.getPlotContainer(false).jqplot(chartData['chartData'], {
+				stackSeries: true,
+				captureRightClick: true,
 				seriesDefaults: {
 					renderer: jQuery.jqplot.BarRenderer,
 					rendererOptions: {
-						// Donut's can be cut into slices like pies.
-						sliceMargin: 3,
-						// Pies and donuts can start at any arbitrary angle.
-						startAngle: -90,
-						showDataLabels: true,
-						dataLabels: 'value',
-						// "totalLabel=true" uses the centre of the donut for the total amount
-						totalLabel: true
-					}
+						highlightMouseDown: true
+					},
+					pointLabels: {show: true}
 				},
 				legend: {
 					show: true,
-					renderer: $.jqplot.EnhancedLegendRenderer,
 					location: 'e'
-				},
-				title: chartData['title']
+				}
 			});
 		}
 	},
 	registerSectionClick: function () {
 		var container = this.getContainer();
-		var data = container.find('.widgetData').val();
-		var dataInfo = JSON.parse(data);
-		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
-			var url = dataInfo[pointIndex][2];
+		var jData = container.find('.widgetData').val();
+		var data = JSON.parse(jData);
+		var chartData = [];
+		$.each(data, function (pname, types) {
+			var type = [];
+			$.each(types, function (sname, counts) {
+				type.push({'id': counts.id, 'url': counts[2]});
+			});
+			chartData.push(type);
+		});
+		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, data) {
+			var url = chartData[seriesIndex][pointIndex]['url'];
 			window.location.href = url;
 		});
 	},
