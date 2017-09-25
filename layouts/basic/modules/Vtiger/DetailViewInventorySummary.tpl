@@ -19,7 +19,7 @@
 					<tbody>
 						<tr>
 							<td class="textAlignRight">
-								{CurrencyField::convertToUserFormatSymbol($DISCOUNT,false,$CURRENCY_SYMBOLAND['symbol'],true)}
+								{CurrencyField::convertToUserFormatSymbol($DISCOUNT, false, $CURRENCY_SYMBOLAND['symbol'])}
 							</td>
 						</tr>
 					</tbody>
@@ -45,7 +45,7 @@
 									{$KEY}%
 								</td>
 								<td class="textAlignRight">
-									{CurrencyField::convertToUserFormatSymbol($TAX,false,$CURRENCY_SYMBOLAND['symbol'])}
+									{CurrencyField::convertToUserFormatSymbol($TAX, false, $CURRENCY_SYMBOLAND['symbol'])}
 								</td>
 							</tr>
 						{/foreach}
@@ -54,7 +54,7 @@
 								{\App\Language::translate('LBL_AMOUNT',$MODULE_NAME)}
 							</td>
 							<td class="textAlignRight">
-								{CurrencyField::convertToUserFormatSymbol($TAX_AMOUNT,false,$CURRENCY_SYMBOLAND['symbol'])}
+								{CurrencyField::convertToUserFormatSymbol($TAX_AMOUNT, false, $CURRENCY_SYMBOLAND['symbol'])}
 							</td>
 						</tr>
 					</tbody>
@@ -68,7 +68,7 @@
 						<thead>
 							<tr>
 								<th colspan="2">
-									<strong>{\App\Language::translate('LBL_CURRENCIES_SUMMARY',$MODULE_NAME)}</strong>
+									<strong>{\App\Language::translate('LBL_CURRENCIES_SUMMARY', $MODULE_NAME)}</strong>
 								</th>
 							</tr>
 						</thead>
@@ -80,16 +80,16 @@
 										{$KEY}%
 									</td>
 									<td class="textAlignRight">
-										{CurrencyField::convertToUserFormatSymbol($TAX * $RATE,false,$BASE_CURRENCY['currency_symbol'],true)}
+										{CurrencyField::convertToUserFormatSymbol($TAX * $RATE, false, $BASE_CURRENCY['currency_symbol'])}
 									</td>
 								</tr>
 							{/foreach}
 							<tr>
 								<td class="textAlignRight" width='70px'>
-									{\App\Language::translate('LBL_AMOUNT',$MODULE_NAME)}
+									{\App\Language::translate('LBL_AMOUNT', $MODULE_NAME)}
 								</td>
 								<td class="textAlignRight">
-									{CurrencyField::convertToUserFormatSymbol($CURRENY_AMOUNT * $RATE,false,$BASE_CURRENCY['currency_symbol'],true)}
+									{CurrencyField::convertToUserFormatSymbol($CURRENY_AMOUNT * $RATE, false, $BASE_CURRENCY['currency_symbol'])}
 								</td>
 							</tr>
 						</tbody>

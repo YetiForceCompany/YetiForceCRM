@@ -141,7 +141,7 @@ class CurrencyField
 		return ($negative) ? '-' . $value : $value;
 	}
 
-	public static function convertToUserFormatSymbol($value, $skipConversion = false, $currencySymbol = false, $skipFormatting = false)
+	public static function convertToUserFormatSymbol($value, $skipConversion = false, $currencySymbol = false)
 	{
 		// To support negative values
 		$negative = false;
