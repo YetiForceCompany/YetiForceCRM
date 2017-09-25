@@ -20,19 +20,16 @@ class Settings_Workflows_CreateEntity_View extends Settings_Vtiger_Index_View
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
-		$workflowId = $request->getInteger('for_workflow');
-		$workflowModel = Settings_Workflows_Record_Model::getInstance($workflowId);
+		$workflowModel = Settings_Workflows_Record_Model::getInstance($request->getInteger('for_workflow'));
 		$relatedModule = '';
-		$relatedModuleModel = false;
-		if ($request->has('relatedModule')) {
-			$relatedModule = $request->getByType('relatedModule', 1);
-			$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
-		}
 		$workflowModuleModel = $workflowModel->getModule();
 		$viewer->assign('MAPPING_PANEL', $request->get('mappingPanel'));
 		$viewer->assign('WORKFLOW_MODEL', $workflowModel);
+		if ($request->has('relatedModule')) {
+			$relatedModule = $request->getByType('relatedModule', 1);
+			$viewer->assign('RELATED_MODULE_MODEL', Vtiger_Module_Model::getInstance($relatedModule));
+		}
 		$viewer->assign('REFERENCE_FIELD_NAME', $workflowModel->getReferenceFieldName($relatedModule));
-		$viewer->assign('RELATED_MODULE_MODEL', $relatedModuleModel);
 		$viewer->assign('FIELD_EXPRESSIONS', Settings_Workflows_Module_Model::getExpressions());
 		$viewer->assign('MODULE_MODEL', $workflowModuleModel);
 		$viewer->assign('SOURCE_MODULE', $workflowModuleModel->getName());
