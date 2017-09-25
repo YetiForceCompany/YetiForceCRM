@@ -262,8 +262,8 @@ class Field
 	 */
 	public static function getFieldsTypeFromUIType()
 	{
-		if (Cache::has('getFieldsTypeFromUIType', $mixed)) {
-			return Cache::get('getFieldsTypeFromUIType', $mixed);
+		if (Cache::has('getFieldsTypeFromUIType', '')) {
+			return Cache::get('getFieldsTypeFromUIType', '');
 		}
 		$fieldTypeMapping = (new Db\Query())->from('vtiger_ws_fieldtype')->indexBy('uitype')->all();
 		Cache::save('getFieldsTypeFromUIType', '', $fieldTypeMapping, Cache::LONG);
