@@ -1240,7 +1240,6 @@ $languageStrings = [
 	'LBL_ADD_CHART_FILTER' => 'Ajouter widget depuis un rapport',
 	'LBL_PIE_CHART' => 'Diagramme Circulaire',
 	'LBL_DONUT_CHART' => 'Donut chart',
-	'LBL_AREA_CHART' => 'Area chart',
 	'LBL_AXIS_CHART' => 'Axis chart',
 	'LBL_BAR_DIVIDED_CHART' => 'Divided bar chart',
 	'LBL_VERTICAL_BAR_CHART' => 'Diagramme Vertical',

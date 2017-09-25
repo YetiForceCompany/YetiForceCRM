@@ -1154,7 +1154,6 @@ $languageStrings = [
 	'LBL_ADD_CHART_FILTER' => 'Dodaj wykres z filtru',
 	'LBL_PIE_CHART' => 'Diagram kołowy',
 	'LBL_DONUT_CHART' => 'Diagram pierścieniowy',
-	'LBL_AREA_CHART' => 'Wykres warstwowy',
 	'LBL_AXIS_CHART' => 'Wykres osi',
 	'LBL_BAR_DIVIDED_CHART' => 'Wykres słupkowy podzielony',
 	'LBL_VERTICAL_BAR_CHART' => 'Wykres słupkowy pionowy',

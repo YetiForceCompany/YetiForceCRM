@@ -662,6 +662,7 @@ Vtiger_Widget_Js('Vtiger_Pie_Widget_Js', {}, {
 					renderer: jQuery.jqplot.PieRenderer,
 					rendererOptions: {
 						showDataLabels: true,
+						sliceMargin: 2,
 						dataLabels: 'value'
 					}
 				},
@@ -721,8 +722,7 @@ Vtiger_Widget_Js('Vtiger_Donut_Widget_Js', {}, {
 					show: true,
 					renderer: $.jqplot.EnhancedLegendRenderer,
 					location: 'e'
-				},
-				title: chartData['title']
+				}
 			});
 		}
 	},
@@ -737,58 +737,6 @@ Vtiger_Widget_Js('Vtiger_Donut_Widget_Js', {}, {
 	},
 });
 Vtiger_Widget_Js('Vtiger_Axis_Widget_Js', {}, {
-	/**
-	 * Function which will give chart related Data
-	 */
-	generateData: function () {
-		var container = this.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		var chartData = [];
-		for (var index in data) {
-			var row = data[index];
-			var rowData = [row.last_name, row.id];
-			chartData.push(rowData);
-		}
-		return {'chartData': chartData};
-	},
-	loadChart: function () {
-		var chartData = this.generateData();
-		if (chartData['chartData'].length > 0) {
-			this.chartInstance = this.getPlotContainer(false).jqplot([chartData['chartData']], {
-				seriesDefaults: {
-					renderer: jQuery.jqplot.DonutRenderer,
-					rendererOptions: {
-						// Donut's can be cut into slices like pies.
-						sliceMargin: 3,
-						// Pies and donuts can start at any arbitrary angle.
-						startAngle: -90,
-						showDataLabels: true,
-						dataLabels: 'value',
-						// "totalLabel=true" uses the centre of the donut for the total amount
-						totalLabel: true
-					}
-				},
-				legend: {
-					show: true,
-					renderer: $.jqplot.EnhancedLegendRenderer,
-					location: 'e'
-				},
-				title: chartData['title']
-			});
-		}
-	},
-	registerSectionClick: function () {
-		var container = this.getContainer();
-		var data = container.find('.widgetData').val();
-		var dataInfo = JSON.parse(data);
-		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
-			var url = dataInfo[pointIndex][2];
-			window.location.href = url;
-		});
-	},
-});
-Vtiger_Widget_Js('Vtiger_Area_Widget_Js', {}, {
 	/**
 	 * Function which will give chart related Data
 	 */
