@@ -297,9 +297,9 @@ class UserPrivilegesFile
 			$moduleSharingReadPermvar = $module . '_share_read_permission';
 			$moduleSharingWritePermvar = $module . '_share_write_permission';
 			static::populateSharingPrivileges('USER', $userid, $module, 'read', $$moduleSharingReadPermvar);
-			static::populateSharingPrivileges('USER', $userid, $module, 'write', $moduleSharingWritePermvar);
-			static::populateSharingPrivileges('GROUP', $userid, $module, 'read', $moduleSharingReadPermvar);
-			static::populateSharingPrivileges('GROUP', $userid, $module, 'write', $moduleSharingWritePermvar);
+			static::populateSharingPrivileges('USER', $userid, $module, 'write', $$moduleSharingWritePermvar);
+			static::populateSharingPrivileges('GROUP', $userid, $module, 'read', $$moduleSharingReadPermvar);
+			static::populateSharingPrivileges('GROUP', $userid, $module, 'write', $$moduleSharingWritePermvar);
 		}
 		//Populating Values into the temp related sharing tables
 		foreach ($related_module_share as $relTabId => $tabIdArr) {
@@ -310,9 +310,9 @@ class UserPrivilegesFile
 					$relmoduleSharingReadPermvar = $tabName . '_' . $relTabName . '_share_read_permission';
 					$relmoduleSharingWritePermvar = $tabName . '_' . $relTabName . '_share_write_permission';
 					static::populateRelatedSharingPrivileges('USER', $userid, $tabName, $relTabName, 'read', $$relmoduleSharingReadPermvar);
-					static::populateRelatedSharingPrivileges('USER', $userid, $tabName, $relTabName, 'write', $relmoduleSharingWritePermvar);
+					static::populateRelatedSharingPrivileges('USER', $userid, $tabName, $relTabName, 'write', $$relmoduleSharingWritePermvar);
 					static::populateRelatedSharingPrivileges('GROUP', $userid, $tabName, $relTabName, 'read', $$relmoduleSharingReadPermvar);
-					static::populateRelatedSharingPrivileges('GROUP', $userid, $tabName, $relTabName, 'write', $relmoduleSharingWritePermvar);
+					static::populateRelatedSharingPrivileges('GROUP', $userid, $tabName, $relTabName, 'write', $$relmoduleSharingWritePermvar);
 				}
 			}
 		}
