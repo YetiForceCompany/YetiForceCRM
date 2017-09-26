@@ -6,6 +6,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
 	'vtlib\\' => array($baseDir . '/vtlib/Vtiger'),
+	'libphonenumber\\' => array($vendorDir . '/giggsey/libphonenumber-for-php/src'),
 	'includes\\' => array($baseDir . '/include'),
 	'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
 	'Symfony\\Component\\VarDumper\\' => array($vendorDir . '/symfony/var-dumper'),
@@ -21,6 +22,7 @@ return array(
 	'Sabre\\CardDAV\\' => array($vendorDir . '/sabre/dav/lib/CardDAV'),
 	'Sabre\\CalDAV\\' => array($vendorDir . '/sabre/dav/lib/CalDAV'),
 	'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
+	'Giggsey\\Locale\\' => array($vendorDir . '/giggsey/locale/src'),
 	'Exception\\' => array($baseDir . '/include/exceptions'),
 	'DebugBar\\' => array($vendorDir . '/php-debugbar/src/DebugBar'),
 	'Cron\\' => array($baseDir . '/cron'),
