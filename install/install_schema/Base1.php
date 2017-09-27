@@ -885,6 +885,24 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'u_#__countries' => [
+				'columns' => [
+					'id' => $this->primaryKey(5)->unsigned(),
+					'name' => $this->stringType(50)->notNull(),
+					'code' => $this->char(2)->notNull(),
+					'status' => $this->tinyInteger(1)->defaultValue(0)->unsigned(),
+					'sortorderid' => $this->smallInteger(5)->unsigned(),
+				],
+				'primaryKeys' => [
+					['countries_pk', 'id']
+				],
+				'index' => [
+					['code', 'code'],
+					['status', 'status'],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'u_#__crmentity_label' => [
 				'columns' => [
 					'crmid' => $this->integer(10)->unsigned()->notNull(),

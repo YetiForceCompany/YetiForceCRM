@@ -1185,6 +1185,19 @@ CREATE TABLE `u_yf_competitioncf` (
   CONSTRAINT `fk_1_u_yf_competitioncf` FOREIGN KEY (`competitionid`) REFERENCES `u_yf_competition` (`competitionid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_countries` */
+
+CREATE TABLE `u_yf_countries` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `code` char(2) NOT NULL,
+  `status` tinyint(1) unsigned DEFAULT '0',
+  `sortorderid` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `code` (`code`),
+  KEY `status` (`status`)
+) ENGINE=InnoDB AUTO_INCREMENT=242 DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_crmentity_label` */
 
 CREATE TABLE `u_yf_crmentity_label` (
