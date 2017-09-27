@@ -65,8 +65,7 @@ class Phone
 			}
 		} catch (\libphonenumber\NumberParseException $e) {
 			\App\Log::info($e->getMessage(), __CLASS__);
-			throw new \App\Exceptions\FieldException('LBL_INVALID_PHONE_NUMBER');
 		}
-		return false;
+		throw new \App\Exceptions\FieldException('LBL_INVALID_PHONE_NUMBER');
 	}
 }
