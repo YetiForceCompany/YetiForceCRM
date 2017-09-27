@@ -1313,6 +1313,9 @@ $languageStrings = [
 	'LBL_PHONE_CALL_SUCCESS' => 'Trwa wybieranie numeru',
 	'LBL_BAD_REQUEST' => 'Nieprawidłowe zapytanie',
 	'LBL_NOT_ALLOWED_VALUE' => 'Wykryto niedozwoloną wartość, prosimy o kontakt z administratorem',
+	'LBL_NO_PHONE_COUNTRY' => 'Brak kodu kraju',
+	'LBL_INVALID_COUNTRY_CODE' => 'Błędny kod kraju',
+	'LBL_INVALID_PHONE_NUMBER' => 'Wprowadzono błędny numer telefonu',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
