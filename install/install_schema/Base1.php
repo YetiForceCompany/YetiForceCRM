@@ -893,9 +893,6 @@ class Base1 extends \App\Db\Importers\Base
 					'status' => $this->tinyInteger(1)->defaultValue(0)->unsigned(),
 					'sortorderid' => $this->smallInteger(5)->unsigned(),
 				],
-				'primaryKeys' => [
-					['countries_pk', 'id']
-				],
 				'index' => [
 					['code', 'code'],
 					['status', 'status'],
