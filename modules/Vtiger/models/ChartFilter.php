@@ -255,9 +255,9 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$filterId = $this->widgetModel->get('filterid');
 		$showOwnerFilter = !empty($this->extraData['showOwnerFilter']);
 		$groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
-		$fieldName = $groupFieldModel->getFieldName(); //status
+		$fieldName = $groupFieldModel->getFieldName();
 		$divideFieldModel = Vtiger_Field_Model::getInstance($this->extraData['barDividedField'], $this->getTargetModuleModel());
-		$divideFieldName = $divideFieldModel->getFieldName(); //priorytet
+		$divideFieldName = $divideFieldModel->getFieldName();
 
 		$dataReader = $this->getQuery()->createCommand()->query();
 		$data = $groupFields = $dividedFields = [];
