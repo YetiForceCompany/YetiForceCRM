@@ -108,7 +108,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 			src_record: sourceRecordId,
 			filterFields: filterFields,
 		}
-		$.each(['link','process'], function (index, value) {
+		$.each(['link', 'process'], function (index, value) {
 			var fieldElement = formElement.find('[name="' + value + '"]');
 			if (fieldElement.length && fieldElement.val() != '' && fieldElement.val() != 0) {
 				params[value] = fieldElement.val();
@@ -1515,6 +1515,12 @@ jQuery.Class("Vtiger_Edit_Js", {
 			}
 		});
 	},
+	registerCopyValue: function (container) {
+		container.find('.fieldValue [data-copy-to-field]').change(function (e) {
+			var element = jQuery(e.currentTarget);
+			container.find('[name="'+element.data('copyToField')+'"]').val(element.val());
+		});
+	},
 	/**
 	 * Function which will register basic events which will be used in quick create as well
 	 *
@@ -1535,6 +1541,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		this.registerHelpInfo();
 		this.registerReferenceFields(container);
 		this.registerFocusFirstField(container);
+		this.registerCopyValue(container);
 	},
 	registerEvents: function () {
 		var editViewForm = this.getForm();
