@@ -796,28 +796,38 @@ Vtiger_Widget_Js('Vtiger_Bardivided_Widget_Js', {}, {
 		var container = this.getContainer();
 		var jData = container.find('.widgetData').val();
 		var data = JSON.parse(jData);
-		var chartData = [];
-		$.each(data, function (pname, types) {
-			var type = [];
-			$.each(types, function (sname, counts) {
-				type.push(counts.id);
-			});
-			chartData.push(type);
-		});
-		return {'chartData': chartData};
+		return data;
 	},
 	loadChart: function () {
-		var chartData = this.generateData();
-		if (chartData['chartData'].length > 0) {
-			this.chartInstance = this.getPlotContainer(false).jqplot(chartData['chartData'], {
+		var data = this.generateData();
+		var series = [];
+		$.each(data['divided'], function (index, value) {
+			series[index] = {label: value};
+		});
+		if (data['chartData'].length > 0) {
+			console.log(data);
+			this.chartInstance = this.getPlotContainer(false).jqplot(data['chartData'], {
 				stackSeries: true,
 				captureRightClick: true,
 				seriesDefaults: {
 					renderer: jQuery.jqplot.BarRenderer,
 					rendererOptions: {
-						highlightMouseDown: true
+						highlightMouseOver: true,
+						varyBarColor: true
 					},
 					pointLabels: {show: true}
+				},
+				series: series,
+				axes: {
+					xaxis: {
+						renderer: $.jqplot.CategoryAxisRenderer,
+						tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+						ticks: data['group'],
+						tickOptions: {
+							angle: -65,
+							fontsize: '2pt'
+						}
+					}
 				},
 				legend: {
 					show: true,
@@ -827,19 +837,10 @@ Vtiger_Widget_Js('Vtiger_Bardivided_Widget_Js', {}, {
 		}
 	},
 	registerSectionClick: function () {
-		var container = this.getContainer();
-		var jData = container.find('.widgetData').val();
-		var data = JSON.parse(jData);
-		var chartData = [];
-		$.each(data, function (pname, types) {
-			var type = [];
-			$.each(types, function (sname, counts) {
-				type.push({'id': counts.id, 'url': counts[2]});
-			});
-			chartData.push(type);
-		});
+		var data = this.generateData();
+		var links = data['links'];
 		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, data) {
-			var url = chartData[seriesIndex][pointIndex]['url'];
+			var url = links[seriesIndex][pointIndex];
 			window.location.href = url;
 		});
 	},

@@ -199,18 +199,19 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	public function getDataBardivided()
 	{
 		$raw = $this->getRowsDivided();
-		$data = [];
-
+		$data = $links = [];
 		foreach ($raw['data'] as $groupOptions) {
-			foreach ($raw['values'] as $value) {
+			foreach ($raw['divided'] as $value => $key) {
 				if (isset($groupOptions[$value])) {
-					$data[$value][] = ['id' => $groupOptions[$value]['count'], '2' => $groupOptions[$value]['link']];
+					$data[$key][] = $groupOptions[$value]['count'];
+					$links[$key][] = $groupOptions[$value]['link'];
 				} else {
-					$data[$value][] = ['id' => 0, '2' => false];
+					$data[$key][] = 0;
+					$links[$key][] = '';
 				}
 			}
 		}
-		return $data;
+		return ['chartData' => $data, 'divided' => array_flip($raw['divided']), 'group' => array_flip($raw['group']), 'links' => $links];
 	}
 
 	/**
@@ -254,33 +255,39 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$filterId = $this->widgetModel->get('filterid');
 		$showOwnerFilter = !empty($this->extraData['showOwnerFilter']);
 		$groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
-		$fieldName = $groupFieldModel->getFieldName();
+		$fieldName = $groupFieldModel->getFieldName(); //status
 		$divideFieldModel = Vtiger_Field_Model::getInstance($this->extraData['barDividedField'], $this->getTargetModuleModel());
-		$divideFieldName = $divideFieldModel->getFieldName();
+		$divideFieldName = $divideFieldModel->getFieldName(); //priorytet
+
 		$dataReader = $this->getQuery()->createCommand()->query();
-		$groupData = [];
-		$divideValues = [];
+		$data = $groupFields = $dividedFields = [];
+		$dividedFieldCounter = $groupFieldsCounter = 0;
 		while ($row = $dataReader->read()) {
 			if (!empty($row[$fieldName]) && !empty($row[$divideFieldName])) {
 				$displayValue = $groupFieldModel->getDisplayValue($row[$fieldName], false, false, true);
 				$divideValue = $divideFieldModel->getDisplayValue($row[$divideFieldName], false, false, true);
-				$divideValues[$divideValue] = $divideValue;
-				if (!isset($groupData[$displayValue][$divideValue]['count'])) {
-					$groupData[$displayValue][$divideValue]['count'] = 1;
+				if (!isset($groupFields[$displayValue])) {
+					$groupFields[$displayValue] = $groupFieldsCounter++;
+				}
+				if (!isset($dividedFields[$divideValue])) {
+					$dividedFields[$divideValue] = $dividedFieldCounter++;
+				}
+				if (!isset($data[$displayValue][$divideValue]['count'])) {
+					$data[$displayValue][$divideValue]['count'] = 1;
 				} else {
-					$groupData[$displayValue][$divideValue]['count'] ++;
+					$data[$displayValue][$divideValue]['count'] ++;
 				}
 				if ($showOwnerFilter) {
 					$this->owners[] = $row['assigned_user_id'];
 				}
-				if (!isset($groupData[$displayValue][$divideValue]['link'])) {
+				if (!isset($data[$displayValue][$divideValue]['link'])) {
 					$searchParams = array_merge($this->searchParams, [[$fieldName, 'e', $row[$fieldName]]]);
 					$searchParams = array_merge($searchParams, [[$divideFieldName, 'e', $row[$divideFieldName]]]);
-					$groupData[$displayValue][$divideValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . "&viewname=$filterId&search_params=" . App\Json::encode([$searchParams]);
+					$data[$displayValue][$divideValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . "&viewname=$filterId&search_params=" . App\Json::encode([$searchParams]);
 				}
 			}
 		}
-		return ['values' => $divideValues, 'data' => $groupData];
+		return ['data' => $data, 'group' => $groupFields, 'divided' => $dividedFields];
 	}
 
 	/**
