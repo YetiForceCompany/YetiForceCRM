@@ -825,7 +825,6 @@ Vtiger_Widget_Js('Vtiger_Bardivided_Widget_Js', {}, {
 						ticks: data['group'],
 						tickOptions: {
 							angle: -65,
-							fontsize: '2pt'
 						}
 					}
 				},
