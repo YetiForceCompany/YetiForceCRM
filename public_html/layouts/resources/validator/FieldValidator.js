@@ -55,7 +55,59 @@ Vtiger_Base_Validator_Js("Vtiger_Email_Validator_Js", {
 		return true;
 	}
 });
-
+Vtiger_Base_Validator_Js("Vtiger_Phone_Validator_Js", {}, {
+	/**
+	 * Function to validate the phone field data
+	 */
+	validate: function () {
+		var fieldValue = this.getFieldValue();
+		return this.validateValue(fieldValue);
+	},
+	/**
+	 * Function to validate the phone field data
+	 * @return true if validation is successfull
+	 * @return false if validation error occurs
+	 */
+	validateValue: function (fieldValue) {
+		if (fieldValue == '') {
+			return true;
+		}
+		var field = this.getElement();
+		var fieldData = field.data();
+		var result = true;
+		if (fieldData.advancedVerification == 1) {
+			var thisInstance = this;
+			var fieldInfo = fieldData.fieldinfo;
+			var group = field.closest('.input-group');
+			var phoneCountryList = group.find('.phoneCountryList');
+			field.attr('readonly', true);
+			AppConnector.request({
+				async: false,
+				data: {
+					module: app.getModuleName(),
+					action: 'Fields',
+					mode: 'verifyPhoneNumber',
+					fieldName: fieldInfo.name,
+					phoneNumber: fieldValue,
+					phoneCountry: phoneCountryList.val(),
+				}
+			}).then(function (data) {
+				if (data.result.isValidNumber == false) {
+					thisInstance.setError(data.result.message);
+					result = false;
+				} else {
+					field.val(data.result.number);
+					field.attr('title', data.result.geocoding + ' ' + data.result.carrier);
+					if (phoneCountryList.val() != data.result.country) {
+						phoneCountryList.val(data.result.country).change().trigger("chosen:updated");
+					}
+				}
+				field.attr('readonly', false);
+			});
+		}
+		return result;
+	}
+});
 Vtiger_Base_Validator_Js("Vtiger_UserName_Validator_Js", {
 	/**
 	 *Function which invokes field validation

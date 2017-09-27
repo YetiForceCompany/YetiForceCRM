@@ -30,6 +30,7 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('getOwners');
 		$this->exposeMethod('searchReference');
 		$this->exposeMethod('searchValues');
+		$this->exposeMethod('verifyPhoneNumber');
 	}
 
 	public function process(\App\Request $request)
@@ -134,6 +135,35 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 		} else {
 			$response->setError('NO');
 		}
+		$response->emit();
+	}
+
+	/**
+	 * Verify phone number
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
+	public function verifyPhoneNumber(\App\Request $request)
+	{
+		$response = new Vtiger_Response();
+		if (!\App\Field::getFieldPermission($request->getModule(), $request->getByType('fieldName', 1))) {
+			throw new \App\Exceptions\NoPermitted('LBL_NO_PERMISSIONS_TO_FIELD');
+		}
+		$data = ['isValidNumber' => false];
+		if ($request->isEmpty('phoneCountry', true)) {
+			$data['message'] = \App\Language::translate('LBL_NO_PHONE_COUNTRY');
+		}
+		if (empty($data['message'])) {
+			try {
+				$data = App\Fields\Phone::verifyNumber($request->get('phoneNumber'), $request->getByType('phoneCountry', 1));
+			} catch (\App\Exceptions\FieldException $e) {
+				$data = ['isValidNumber' => false];
+			}
+		}
+		if (!$data['isValidNumber'] && empty($data['message'])) {
+			$data['message'] = \App\Language::translate('LBL_INVALID_PHONE_NUMBER');
+		}
+		$response->setResult($data);
 		$response->emit();
 	}
 }
