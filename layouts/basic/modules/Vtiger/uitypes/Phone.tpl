@@ -27,7 +27,7 @@
 			{else}
 				{assign var="TITLE" value=\App\Language::translate($FIELD_MODEL->get('label'), $MODULE)}
 			{/if}
-			<input name="{$FIELD_MODEL->getFieldName()}" value="{$FIELD_MODEL->get('fieldvalue')}" id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->get('name')}" title="{$TITLE}" type="text" class="form-control" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" 
+			<input name="{$FIELD_MODEL->getFieldName()}" value="{$PHONE_DETAIL['number']}" id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->get('name')}" title="{$TITLE}" type="text" class="form-control" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" 
 				  data-advanced-verification="1"  data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} {if $FIELD_MODEL->get('fieldparams') != ''}data-inputmask="'mask': '{$FIELD_MODEL->get('fieldparams')}'"{/if} />
 		</div>
 	{else}
