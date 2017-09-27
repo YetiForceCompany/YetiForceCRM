@@ -1329,6 +1329,9 @@ $languageStrings = [
 	'LBL_NOVEMDECILLIONSS' => 'décillions',
 	'LBL_BAD_REQUEST' => 'Incorrect request',
 	'LBL_NOT_ALLOWED_VALUE' => 'Incorrect value detected, please contact your administrator',
+	'LBL_NO_PHONE_COUNTRY' => 'No country code',
+	'LBL_INVALID_COUNTRY_CODE' => 'Invalid country code',
+	'LBL_INVALID_PHONE_NUMBER' => 'Entered invalid phone number',
 ];
 $jsLanguageStrings = [
 	'JS_BASE_CURRENCY_CHANGED_TO_DISABLE_CURRENCY' => 'La devise de base doit être changée sur OFF',
