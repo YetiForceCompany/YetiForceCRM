@@ -1317,6 +1317,7 @@ $languageStrings = [
 	'LBL_INVALID_COUNTRY_CODE' => 'Błędny kod kraju',
 	'LBL_INVALID_PHONE_NUMBER' => 'Wprowadzono błędny numer telefonu',
 	'LBL_VALUE_NOT_FOUND' => 'Nie znaleziono wartości',
+	'FL_PHONE_CUSTOM_INFORMATION' => 'Informacje dodatkowe',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

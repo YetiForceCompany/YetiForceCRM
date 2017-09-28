@@ -4263,12 +4263,12 @@ html,body,.baseContainer
 .chosen-container-multi .chosen-choices li.search-choice .search-choice-close{
 	top: 8px;
 }
-.referenceGroup .referenceModulesListGroup .chosen-container{
+.referenceGroup .referenceModulesListGroup .chosen-container, .phoneGroup .chosen-container{
 	min-width: 100px !important;
     text-align: left;
 	height: 32px;
 }
-.referenceGroup .referenceModulesListGroup .chosen-container .chosen-single{
+.referenceGroup .referenceModulesListGroup .chosen-container .chosen-single , .phoneGroup .chosen-container .chosen-single{
 	border: 0;
 	height: 32px;
 	border-radius: 0;
