@@ -3429,6 +3429,9 @@ CREATE TABLE `vtiger_account` (
   `last_invoice_date` date DEFAULT NULL,
   `active` tinyint(1) DEFAULT '0',
   `accounts_status` varchar(255) DEFAULT NULL,
+  `phone_extra` varchar(100) DEFAULT NULL,
+  `fax_extra` varchar(100) DEFAULT NULL,
+  `otherphone_extra` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`accountid`),
   KEY `account_account_type_idx` (`account_type`),
   KEY `email_idx` (`email1`,`email2`),
@@ -3915,6 +3918,8 @@ CREATE TABLE `vtiger_callhistory` (
   `subscriberid` varchar(100) DEFAULT NULL,
   `destination` int(10) DEFAULT NULL,
   `source` int(10) DEFAULT NULL,
+  `from_number_extra` varchar(100) DEFAULT NULL,
+  `to_number_extra` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`callhistoryid`),
   KEY `source` (`source`),
   KEY `destination` (`destination`),
@@ -4102,6 +4107,8 @@ CREATE TABLE `vtiger_contactdetails` (
   `decision_maker` tinyint(1) DEFAULT '0',
   `sum_time` decimal(10,2) DEFAULT '0.00',
   `active` tinyint(1) DEFAULT '0',
+  `phone_extra` varchar(100) DEFAULT NULL,
+  `mobile_extra` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`contactid`),
   KEY `contactdetails_accountid_idx` (`parentid`),
   KEY `email_idx` (`email`),
@@ -5182,7 +5189,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2609 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2625 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -5824,6 +5831,9 @@ CREATE TABLE `vtiger_leadaddress` (
   `buildingnumbera` varchar(100) DEFAULT NULL,
   `localnumbera` varchar(100) DEFAULT NULL,
   `poboxa` varchar(50) DEFAULT NULL,
+  `phone_extra` varchar(100) DEFAULT NULL,
+  `mobile_extra` varchar(100) DEFAULT NULL,
+  `fax_extra` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`leadaddressid`),
   CONSTRAINT `fk_1_vtiger_leadaddress` FOREIGN KEY (`leadaddressid`) REFERENCES `vtiger_leaddetails` (`leadid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -6565,6 +6575,9 @@ CREATE TABLE `vtiger_ossemployees` (
   `secondary_phone` varchar(25) DEFAULT NULL,
   `position` varchar(255) DEFAULT NULL,
   `rbh` decimal(25,8) DEFAULT NULL,
+  `business_phone_extra` varchar(100) DEFAULT NULL,
+  `private_phone_extra` varchar(100) DEFAULT NULL,
+  `secondary_phone_extra` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`ossemployeesid`),
   CONSTRAINT `fk_1_vtiger_ossemployees` FOREIGN KEY (`ossemployeesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -7028,6 +7041,7 @@ CREATE TABLE `vtiger_pbxmanager` (
   `user` varchar(100) DEFAULT NULL,
   `customernumber` varchar(100) DEFAULT NULL,
   `customertype` varchar(100) DEFAULT NULL,
+  `customernumber_extra` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`pbxmanagerid`),
   KEY `index_sourceuuid` (`sourceuuid`),
   KEY `index_pbxmanager_id` (`pbxmanagerid`),
@@ -8930,6 +8944,7 @@ CREATE TABLE `vtiger_users` (
   `available` tinyint(1) DEFAULT '0',
   `auto_assign` tinyint(1) DEFAULT '0',
   `records_limit` int(10) DEFAULT NULL,
+  `phone_crm_extension_extra` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email1` (`email1`),
   KEY `user_user_name_idx` (`user_name`),
@@ -8992,6 +9007,7 @@ CREATE TABLE `vtiger_vendor` (
   `verification` text,
   `sum_time` decimal(10,2) DEFAULT '0.00',
   `active` tinyint(1) DEFAULT '0',
+  `phone_extra` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`vendorid`),
   KEY `vendorname` (`vendorname`),
   CONSTRAINT `fk_1_vtiger_vendor` FOREIGN KEY (`vendorid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
