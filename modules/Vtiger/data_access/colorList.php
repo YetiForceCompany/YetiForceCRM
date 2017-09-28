@@ -1,6 +1,6 @@
 <?php
 
-Class DataAccess_colorList
+Class DataAccessColorList
 {
 
 	public $config = true;
