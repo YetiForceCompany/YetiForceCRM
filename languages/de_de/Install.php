@@ -44,7 +44,7 @@ $languageStrings = [
 	'LBL_PASSWORD_MISMATCH' => 'Bitte geben Sie erneut die Passwörter ein. Die beiden Passwörter stimmen nicht überein.',
 	'LBL_PHP_CONFIGURATION' => 'PHP Konfiguration',
 	'LBL_PHP_RECOMMENDED_SETTINGS' => 'Empfohlene PHP-Einstellungen',
-	'LBL_SECURITY_RECOMMENDED_SETTINGS' => 'Recommended security settings',
+	'LBL_SECURITY_RECOMMENDED_SETTINGS' => 'Empfohlene Sicherheitseinstellungen',
 	'LBL_PHP_VERSION' => 'PHP Version',
 	'LBL_PLEASE_WAIT' => 'Bitte warten',
 	'LBL_PRESENT_VALUE' => 'Aktueller Wert',
@@ -112,6 +112,6 @@ $jsLanguageStrings = [
 	'LBL_MANDATORY_FIELDS_ERROR' => 'Achtung! Erforderlichen Feldern fehlen Werte.',
 	'LBL_PASS_REENTER_ERROR' => 'Bitte geben Sie erneut die Passwörter ein. Die beiden Passwörter stimmen nicht überein.',
 	'LBL_INVALID_EMAIL_ERROR' => 'Achtung! Ungültige E-Mail-Adresse.',
-	'LBL_INVALID_USERNAME_ERROR' => 'Invalid username',
+	'LBL_INVALID_USERNAME_ERROR' => 'ungültiger Benutzername',
 	'LBL_RESOLVE_ERROR' => 'Bitte beheben Sie den Fehler, bevor Sie mit der Installation fortfahren',
 ];
