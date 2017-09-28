@@ -10,7 +10,7 @@
  */
 Vtiger_Loader::includeOnce('~/libraries/mPDF/mpdf.php');
 
-class Vtiger_mPDF_Pdf extends Vtiger_AbstractPDF_Pdf
+class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 {
 
 	const WATERMARK_TYPE_TEXT = 0;
@@ -210,7 +210,7 @@ class Vtiger_mPDF_Pdf extends Vtiger_AbstractPDF_Pdf
 		}
 	}
 
-	// meta attributes
+// meta attributes
 	/**
 	 * Set Title of the document
 	 */
