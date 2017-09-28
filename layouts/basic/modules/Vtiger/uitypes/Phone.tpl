@@ -17,8 +17,9 @@
 		<div class="input-group">
 			<div class="input-group-addon noSpaces">
 				<select name="{$FIELD_MODEL->getFieldName()}_country" id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_dropDown" class="chzn-select phoneCountryList" required="required">
-					{foreach key=KEY item=ROW from=App\Fields\Country::getAll()}
-						<option value="{$KEY}" {if $PHONE_DETAIL && $PHONE_DETAIL['country'] == $KEY} selected {/if} title="{\App\Language::translate($KEY, 'Other.Country')}">{\App\Language::translate($KEY, 'Other.Country')}</option>
+					{foreach key=KEY item=ROW from=App\Fields\Country::getAll('phone')}
+						{assign var="TRANSLATE" value=\App\Language::translateSingleMod($ROW['name'],'Other.Country')}
+						<option value="{$KEY}" {if $PHONE_DETAIL && $PHONE_DETAIL['country'] == $KEY} selected {/if} title="{$TRANSLATE}">{$TRANSLATE}</option>
 					{/foreach}
 				</select>
 			</div>
