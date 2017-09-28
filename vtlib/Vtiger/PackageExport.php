@@ -479,7 +479,7 @@ class PackageExport
 			// Export picklist values for picklist fields
 			if ($uitype == '15' || $uitype == '16' || $uitype == '111' || $uitype == '33' || $uitype == '55') {
 				if ($uitype == '16') {
-					$picklistvalues = \App\Fields\Picklist::getPickListValues($fieldname);
+					$picklistvalues = \App\Fields\Picklist::getValuesName($fieldname);
 				} else {
 					$picklistvalues = vtlib_getPicklistValues_AccessibleToAll($fieldname);
 				}

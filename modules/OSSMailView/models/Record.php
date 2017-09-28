@@ -67,14 +67,14 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			return [];
 		}
 		$return = [];
-		$subQuery = (new \App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview_relation')->where(['crmid' => $relatedId, 'deleted' => 0])->orderBy(['date' => SORT_DESC])->column();
+		$subQuery = (new \App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview_relation')->where(['crmid' => $relatedId, 'deleted' => 0]);
 		$query = (new \App\Db\Query())->select(['vtiger_ossmailview.*'])->from('vtiger_ossmailview')
 			->innerJoin('vtiger_crmentity', 'vtiger_ossmailview.ossmailviewid = vtiger_crmentity.crmid')
 			->where(['ossmailviewid' => $subQuery]);
 		if ($type !== 'All') {
 			$query->andWhere((['type' => $type]));
 		}
-		\App\PrivilegeQuery::getConditions($query, 'OSSMailView');
+		\App\PrivilegeQuery::getConditions($query, 'OSSMailView', false, $srecord);
 		$query->orderBy(['date' => SORT_DESC]);
 		if ($config['widget_limit'] !== '') {
 			$query->limit($config['widget_limit']);

@@ -266,17 +266,23 @@ class Documents extends CRMEntity
 		return $relTables[$secmodule];
 	}
 
-	// Function to unlink an entity with given Id from another entity
+	/**
+	 * Function to unlink an entity with given Id from another entity
+	 * @param int $id
+	 * @param string $returnModule
+	 * @param int $returnId
+	 * @param boolean $relatedName
+	 */
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
 		if (empty($returnModule) || empty($returnId))
 			return;
-		if ($returnModule == 'Accounts') {
+		if ($returnModule === 'Accounts') {
 			$subQuery = (new \App\Db\Query())->select(['contactid'])->from('vtiger_contactdetails')->where(['parentid' => $returnId]);
 			App\Db::getInstance()->createCommand()->delete('vtiger_senotesrel', ['and', ['notesid' => $id], ['or', ['crmid' => $returnId], ['crmid' => $subQuery]]])->execute();
 		} else {
 			App\Db::getInstance()->createCommand()->delete('vtiger_senotesrel', ['notesid' => $id, 'crmid' => $returnId])->execute();
-			parent::deleteRelatedFromDB($relatedName, $id, $returnModule, $returnId);
+			parent::deleteRelatedFromDB($id, $returnModule, $returnId);
 		}
 	}
 

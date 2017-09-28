@@ -72,7 +72,7 @@
 		<!--added this div for Temporarily -->
 		{if $LISTVIEW_ENTRIES_COUNT eq '0'}
 			<div class="row">
-				<div class="emptyRecordsDiv">{\App\Language::translate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA', $MODULE)}.</div>
+				<div class="emptyRecordsDiv">{\App\Language::translate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA')}.</div>
 			</div>
 		{/if}
 	</div>

@@ -46,7 +46,7 @@ $languageStrings = [
 	'LBL_CUSTOMFILTER' => 'Filtro',
 	'LBL_CUSTOMFILTER_DESC' => 'Redirecionando item do menu para o filtro selecionado.',
 	'LBL_PROFILE' => 'Perfil',
-	'LBL_PROFILE_DESC' => "Item do Menu que permite mudanças das configurações do Usuário.",
+	'LBL_PROFILE_DESC' => 'Item do Menu que permite mudanças das configurações do Usuário.',
 	//Message
 	'LBL_REMOVED_MENU_ITEM' => 'O item do menu foi removido',
 	'LBL_SAVED_MAP_MENU' => 'O layout do menu foi removido',

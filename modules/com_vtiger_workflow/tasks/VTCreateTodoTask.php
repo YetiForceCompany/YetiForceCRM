@@ -162,6 +162,20 @@ class VTCreateTodoTask extends VTTask
 		if ($field) {
 			$fields[$field] = $recordModel->getId();
 		}
+		if ($parentRecord = \App\Record::getParentRecord($recordModel->getId())) {
+			$parentModuleName = \App\Record::getType($parentRecord);
+			$field = \App\ModuleHierarchy::getMappingRelatedField($parentModuleName);
+			if ($field) {
+				$fields[$field] = $parentRecord;
+			}
+			if ($parentRecord = \App\Record::getParentRecord($parentRecord)) {
+				$parentModuleName = \App\Record::getType($parentRecord);
+				$field = \App\ModuleHierarchy::getMappingRelatedField($parentModuleName);
+				if ($field) {
+					$fields[$field] = $parentRecord;
+				}
+			}
+		}
 		$newRecordModel = Vtiger_Record_Model::getCleanInstance('Calendar');
 		$newRecordModel->setData($fields);
 		$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);

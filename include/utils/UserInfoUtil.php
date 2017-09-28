@@ -666,14 +666,13 @@ function getPermittedModuleIdList()
 function RecalculateSharingRules()
 {
 	\App\Log::trace("Entering RecalculateSharingRules() method ...");
-	require_once('modules/Users/CreateUserPrivilegeFile.php');
 	$userIds = (new App\Db\Query())->select(['id'])
 		->from('vtiger_users')
 		->where(['deleted' => 0])
 		->column();
 	foreach ($userIds as $id) {
-		createUserPrivilegesfile($id);
-		createUserSharingPrivilegesfile($id);
+		\App\UserPrivilegesFile::createUserPrivilegesfile($id);
+		\App\UserPrivilegesFile::createUserSharingPrivilegesfile($id);
 	}
 	\App\Log::trace("Exiting RecalculateSharingRules method ...");
 }

@@ -157,13 +157,12 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 	{
 		$phpMaxExecutionTime = AppConfig::main('php_max_execution_time');
 		set_time_limit($phpMaxExecutionTime);
-		require_once('modules/Users/CreateUserPrivilegeFile.php');
 		$userIds = (new App\Db\Query())->select(['id'])
 			->from('vtiger_users')
 			->where(['deleted' => 0])
 			->column();
 		foreach ($userIds as $id) {
-			createUserSharingPrivilegesfile($id);
+			\App\UserPrivilegesFile::createUserSharingPrivilegesfile($id);
 		}
 	}
 }

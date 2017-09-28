@@ -91,6 +91,20 @@ class VTCreateEventTask extends VTTask
 		if ($field) {
 			$fields[$field] = $id;
 		}
+		if ($parentRecord = \App\Record::getParentRecord($id)) {
+			$parentModuleName = \App\Record::getType($parentRecord);
+			$field = \App\ModuleHierarchy::getMappingRelatedField($parentModuleName);
+			if ($field) {
+				$fields[$field] = $parentRecord;
+			}
+			if ($parentRecord = \App\Record::getParentRecord($parentRecord)) {
+				$parentModuleName = \App\Record::getType($parentRecord);
+				$field = \App\ModuleHierarchy::getMappingRelatedField($parentModuleName);
+				if ($field) {
+					$fields[$field] = $parentRecord;
+				}
+			}
+		}
 		$newRecordModel = Vtiger_Record_Model::getCleanInstance('Events');
 		$newRecordModel->setData($fields);
 		$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);

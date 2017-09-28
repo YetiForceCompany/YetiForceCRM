@@ -173,7 +173,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 			foreach ($entriesInventory as $inventory) {
 				unset($inventory['id']);
 				$xml->startElement('INVENTORY_ITEM');
-				while (list($columnName, $value) = each($inventory)) {
+				foreach ($inventory as $columnName => $value) {
 					$xml->startElement($columnName);
 					$fieldModel = $this->inventoryFields[$columnName];
 					if ($fieldModel) {

@@ -65,6 +65,8 @@ class Request
 		}
 		if (isset($this->rawValues[$key])) {
 			$value = $this->rawValues[$key];
+		} else {
+			return $value;
 		}
 		if (is_string($value) && (strpos($value, '[') === 0 || strpos($value, '{') === 0)) {
 			$value = Json::decode($value);
@@ -79,7 +81,10 @@ class Request
 	 * Purify by data type
 	 * 
 	 * Type list:
+	 * Standard - only words
 	 * 1 - only words
+	 * Alnum - word and int
+	 * 2 - word and int
 	 * @param string $key Key name
 	 * @param mixed $type Data type that is only acceptable
 	 * @return boolean|mixed

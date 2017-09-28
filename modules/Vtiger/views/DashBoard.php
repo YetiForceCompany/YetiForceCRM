@@ -167,6 +167,8 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 			'~libraries/jquery/jqplot/plugins/jqplot.donutRenderer.js',
 			'~libraries/jquery/jqplot/plugins/jqplot.barRenderer.js',
 			'~libraries/jquery/jqplot/plugins/jqplot.logAxisRenderer.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.enhancedLegendRenderer.js',
+			'~libraries/jquery/jqplot/plugins/jqplot.enhancedPieLegendRenderer.js',
 			'modules.Vtiger.resources.DashBoard',
 			'modules.' . $moduleName . '.resources.DashBoard',
 			'modules.Vtiger.resources.dashboards.Widget',

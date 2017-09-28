@@ -586,9 +586,12 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
 				view: 'CreateEntity',
-				relatedModule: jQuery(e.currentTarget).val(),
 				for_workflow: jQuery('[name="for_workflow"]').val(),
 				mappingPanel: app.getMainParams('mappingPanel')
+			}
+			var relatedModule =  jQuery(e.currentTarget).val();
+			if (relatedModule) {
+				params['relatedModule'] = relatedModule;
 			}
 			var progressIndicatorElement = jQuery.progressIndicator({
 				position: 'html',

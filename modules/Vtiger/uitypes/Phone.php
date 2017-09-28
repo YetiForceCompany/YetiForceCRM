@@ -41,11 +41,22 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
+		$rfc3966 = $international = $value;
+		if (AppConfig::main('phoneFieldAdvancedVerification', false)) {
+			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+			try {
+				$swissNumberProto = $phoneUtil->parse($value);
+				$international = $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::INTERNATIONAL);
+				$rfc3966 = $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::RFC3966);
+			} catch (\libphonenumber\NumberParseException $e) {
+				
+			}
+		}
 		if ($rawText) {
-			return $value;
+			return $international;
 		}
 		if (!\App\Integrations\Pbx::isActive()) {
-			return \App\Purifier::encodeHtml($value);
+			return '<a href="' . \App\Purifier::encodeHtml($rfc3966) . '">' . \App\Purifier::encodeHtml($international) . '</a>';
 		}
 		return '<a class="phoneField" onclick="Vtiger_Index_Js.performPhoneCall(\'' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $value) . '\',' . $record . ')"><span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span> ' . \App\Purifier::encodeHtml($value) . '</a>';
 	}
@@ -53,5 +64,22 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		return $this->getDisplayValue($value, $record, $recordInstance, $rawText);
+	}
+
+	/**
+	 * Function to get the db insert value
+	 * @param mixed $value
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @return mixed
+	 */
+	public function getDBValue($value, $recordModel = false)
+	{
+		if (empty($value)) {
+			return '';
+		}
+		if (AppConfig::main('phoneFieldAdvancedVerification', false)) {
+			return str_replace(' ', '', $value);
+		}
+		return $value;
 	}
 }

@@ -389,10 +389,9 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			$roleModel->save();
 		}
 		if (is_array($array_users)) {
-			require_once('modules/Users/CreateUserPrivilegeFile.php');
 			foreach ($array_users as $userid) {
-				createUserPrivilegesfile($userid);
-				createUserSharingPrivilegesfile($userid);
+				\App\UserPrivilegesFile::createUserPrivilegesfile($userid);
+				\App\UserPrivilegesFile::createUserSharingPrivilegesfile($userid);
 			}
 		}
 		\App\Privilege::setAllUpdater();

@@ -275,7 +275,7 @@ $languageStrings = [
 	'narrow' => 'estreita',
 	'Last 2 Days' => 'Últimos 2 Dias',
 	'Last Week' => 'Última Semana',
-	" " => 'Nada',
+	' ' => 'Nada',
 	'Active' => 'Ativo',
 	'Inactive' => 'Inativo',
 	'yes' => 'Sim',
@@ -293,12 +293,12 @@ $languageStrings = [
 	'Project Management Department' => 'Departamento Gestão de Projetos',
 	'Help Desk Department' => 'Departamento de Suporte',
 	'Human Resources Department' => 'Departamento de Recursos Humanos',
-	"Secretary's Office" => "Gabinete do Secretário",
-	"Organization" => 'Conta',
-	"Financial Department" => 'Departamento Financeiro',
-	"Production Department" => 'Departamento de Produção',
-	"Marketing Department" => 'Departamento de Marketing',
-	"LBL_BASIC_EXPORT" => 'Exportar dados básicos',
+	"Secretary's Office" => 'Gabinete do Secretário',
+	'Organization' => 'Conta',
+	'Financial Department' => 'Departamento Financeiro',
+	'Production Department' => 'Departamento de Produção',
+	'Marketing Department' => 'Departamento de Marketing',
+	'LBL_BASIC_EXPORT' => 'Exportar dados básicos',
 	'LBL_MASS_PASSWORD_EDITING' => 'Ediação em massa de senhas de Usuários',
 	'LBL_MASS_PWD_EDIT' => 'Edição em massa de senhas',
 	'Approval for email' => 'Permissão para enviar e-mails',
@@ -317,6 +317,12 @@ $languageStrings = [
 	'LBL_SWITCH' => 'Mudar',
 	'LBL_SWITCH_USER' => 'Mudar Usuário',
 	'LBL_SWITCH_TO_YOURSELF' => 'Mudar para você mesmo',
+	'LBL_FAILED_TO_UPDATE_ACCESS_KEY' => 'Failed to update access key',
+	'LBL_USER_MAIL_EXIST' => 'User with this email address already exists',
+	'LBL_INVALID_USERNAME' => 'Invalid username',
+	'LBL_USER_NAME_EXISTS' => 'Username already exists',
+	'LBL_USER_NAME_HAS_ALREADY_BEEN_USED' => 'This username has already been used, system does not allow to use it again.',
+	'LBL_FORBIDDEN_USERNAMES' => 'This username is forbidden because it is unsafe.',
 ];
 
 $jsLanguageStrings = [
@@ -330,6 +336,5 @@ $jsLanguageStrings = [
 	'JS_PASSWORD_CHANGE_FAILED_2' => ' falhou.  Uma nova senha deve ser definida.',
 	'JS_PASSWORD_INCORRECT_OLD' => 'A senha antiga está incorreta. Redigite a senha.',
 	'JS_REENTER_PASSWORDS' => 'Por favor, redigite suas senhas.  Os valores da \"nova senha\" e \"senha de confirmação\" não combinam.',
-	'JS_USER_MAIL_EXIST' => 'Já existe um Usuário com este endereço de e-mail',
 ];
 

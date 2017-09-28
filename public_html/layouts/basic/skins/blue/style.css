@@ -53,7 +53,6 @@ body{
 	color: #969696 ;
 }
 .baseContainer .basePanel {
-	z-index: 1029;
 	min-height: auto;
 	position: absolute;
 	bottom: 0;
@@ -416,7 +415,6 @@ btn-danger:hover{
     width: 100%;
     color: #00285f;
 	font-weight: bold;
-    z-index: 1030;
 }
 .baseContainer .leftPanel .nav.modulesList{
 
@@ -425,8 +423,6 @@ btn-danger:hover{
 }
 .bodyHeader{
 	left:50px;
-	right: 188px;
-	z-index: 1030;
 }
 .mainBody{
 	top:0;
@@ -658,9 +654,9 @@ btn-danger:hover{
 .infoUser{
 	background: #00509e;
 }
-.remindersNoticeContainer,
-#AJAXChatBlock{
-	top: 90px !important;
+.calendarRightPanel,
+.siteBarRight {
+	top: 123px;
 }
 .baseContainer .leftPanel .menuContainer .modulesList > .menuShortcut a .menuName{
 	text-transform: uppercase;

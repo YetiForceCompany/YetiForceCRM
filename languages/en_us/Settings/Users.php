@@ -45,7 +45,6 @@ $languageStrings = [
 	'LBL_LOCK_DRAG' => 'Lock dragging',
 ];
 $jsLanguageStrings = [
-	'JS_USER_MAIL_EXIST' => 'User with this e-mail address exists',
 	'JS_PLEASE_SELECT_MODULE' => 'Please select module',
 	'JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME' => 'Decimal separator and Grouping separator cant be the same',
 	'Changed password successfully' => 'Changed password successfully',

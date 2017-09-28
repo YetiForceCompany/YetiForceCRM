@@ -35,7 +35,10 @@ class VTJsonCondition
 				if (count($matches) == 0) {
 					$expressionResults[$conditionGroup][$i]['result'] = $this->checkCondition($recordModel, $cond);
 				} else {
-					list($full, $referenceField, $referenceModule, $fieldname) = $matches;
+					$referenceField = $matches[1];
+					$referenceModule = $matches[2];
+					$fieldname = $matches[3];
+
 					$referenceFieldId = $recordModel->get($referenceField);
 					if (!empty($referenceFieldId)) {
 						if ($referenceModule === 'Users') {

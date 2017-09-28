@@ -7,5 +7,5 @@
  */
 $languageStrings = [
 	'Export' => 'Export',
-	'LBL_INFO_USER_EXPORT_RECORDS' => "Seul les utilisateurs actifs peuvent être exportés",
+	'LBL_INFO_USER_EXPORT_RECORDS' => 'Seul les utilisateurs actifs peuvent être exportés',
 ];

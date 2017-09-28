@@ -21,26 +21,28 @@ jQuery.Class('Vtiger_Widget_Js', {
 		var basicClass = Vtiger_Widget_Js;
 		var instance;
 		if (typeof moduleClass != 'undefined') {
-			instance = new moduleClass(container);
+			instance = new moduleClass(container, false, widgetClassName);
 		} else if (typeof fallbackClass != 'undefined') {
-			instance = new fallbackClass(container);
+			instance = new fallbackClass(container, false, widgetClassName);
 		} else if (typeof yetiClass != 'undefined') {
-			instance = new yetiClass(container);
+			instance = new yetiClass(container, false, widgetClassName);
 		} else {
-			instance = new basicClass(container);
+			instance = new basicClass(container, false, widgetClassName);
 		}
 		return instance;
 	}
 }, {
 	container: false,
 	plotContainer: false,
-	plotInstance: false,
+	chartInstance: false,
 	chartData: [],
 	paramCache: false,
-	init: function (container) {
+	init: function (container, reload, widgetClassName) {
 		this.setContainer(jQuery(container));
 		this.registerWidgetPostLoadEvent(container);
-		this.registerWidgetPostRefreshEvent(container);
+		if (!reload) {
+			this.registerWidgetPostRefreshEvent(container);
+		}
 		this.registerCache(container);
 	},
 	getContainer: function () {
@@ -168,6 +170,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 		this.registerWidgetSwitch();
 		this.registerChangeSorting();
 		this.registerLoadMore();
+		this.registerUserList();
+		this.registerHeaderButtons();
 	},
 	postRefreshWidget: function () {
 		this.loadScrollbar();
@@ -202,6 +206,49 @@ jQuery.Class('Vtiger_Widget_Js', {
 			glyphicon.removeClass().addClass('glyphicon').addClass(icon);
 			drefresh.data('url', url);
 		}
+	},
+	registerUserList: function () {
+		var container = this.getContainer();
+		var header = container.find('.dashboardWidgetHeader');
+		var ownersFilter = header.find('.ownersFilter')
+		if (ownersFilter.length) {
+			var owners = container.find('.widgetOwners').val();
+			if (owners) {
+				var select = ownersFilter.find('select');
+				$.each(jQuery.parseJSON(owners), function (key, value) {
+					select.append($('<option>', {value: key}).text(value));
+				});
+			}
+		}
+	},
+	registerHeaderButtons: function () {
+		var container = this.getContainer();
+		var header = container.find('.dashboardWidgetHeader');
+		var downloadWidget = header.find('.downloadWidget');
+		var printWidget = header.find('.printWidget');
+		printWidget.click(function (e) {
+			var imgEl = $(this.chartInstance.jqplotToImageElem());
+			var print = window.open('', 'PRINT', 'height=400,width=600');
+			print.document.write('<html><head><title>' + header.find('.dashboardTitle').text() + '</title>');
+			print.document.write('</head><body >');
+			print.document.write($('<div>').append(imgEl.clone()).html());
+			print.document.write('</body></html>');
+			print.document.close(); // necessary for IE >= 10
+			print.focus(); // necessary for IE >= 10*/
+			setTimeout(function () {
+				print.print();
+				print.close();
+			}, 1000);
+		});
+		downloadWidget.click({chart: $(this)}, function (e) {
+			var imgEl = $(this.chartInstance.jqplotToImageElem());
+			var a = $("<a>")
+					.attr("href", imgEl.attr('src'))
+					.attr("download", header.find('.dashboardTitle').text() + ".png")
+					.appendTo(container);
+			a[0].click();
+			a.remove();
+		});
 	},
 	/**
 	 * Change of widget entries sorting
@@ -424,6 +471,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 	},
 	registerWidgetPostRefreshEvent: function (container) {
 		var thisInstance = this;
+		container.off(Vtiger_Widget_Js.widgetPostRefereshEvent);
 		container.on(Vtiger_Widget_Js.widgetPostRefereshEvent, function (e) {
 			thisInstance.postRefreshWidget();
 		});
@@ -478,11 +526,9 @@ jQuery.Class('Vtiger_Widget_Js', {
 		}
 	}
 });
-
 Vtiger_Widget_Js('Vtiger_History_Widget_Js', {}, {
 	postLoadWidget: function () {
 		this._super();
-		var widgetContent = jQuery('.dashboardWidgetContent', this.getContainer());
 		this.registerLoadMore();
 	},
 	postRefreshWidget: function () {
@@ -536,25 +582,24 @@ Vtiger_Widget_Js('Vtiger_History_Widget_Js', {}, {
 	}
 
 });
-
-
+Vtiger_Widget_Js('YetiForce_Chartfilter_Widget_Js', {}, {
+	chartfilterInstance: false,
+	init: function (container, reload, widgetClassName) {
+		this.setContainer(jQuery(container));
+		var chartType = container.find('[name="typeChart"]').val();
+		var chartClassName = chartType.toCamelCase();
+		this.chartfilterInstance = Vtiger_Widget_Js.getInstance(container, chartClassName);
+		this.registerRecordsCount();
+	},
+});
 Vtiger_Widget_Js('Vtiger_Funnel_Widget_Js', {}, {
 	postLoadWidget: function () {
 		this._super();
-		var thisInstance = this;
-
-		this.getContainer().on('jqplotDataClick', function (ev, gridpos, datapos, neighbor, plot) {
-			var jData = thisInstance.getContainer().find('.widgetData').val();
-			var data = JSON.parse(jData);
-			var linkUrl = data[datapos][3];
-			if (linkUrl)
-				window.location.href = linkUrl;
-		});
-
-		this.getContainer().on("jqplotDataHighlight", function (evt, seriesIndex, pointIndex, neighbor) {
+		var container = this.getContainer();
+		container.on("jqplotDataHighlight", function (evt, seriesIndex, pointIndex, neighbor) {
 			$('.jqplot-event-canvas').css('cursor', 'pointer');
 		});
-		this.getContainer().on("jqplotDataUnhighlight", function (evt, seriesIndex, pointIndex, neighbor) {
+		container.on("jqplotDataUnhighlight", function (evt, seriesIndex, pointIndex, neighbor) {
 			$('.jqplot-event-canvas').css('cursor', 'auto');
 		});
 	},
@@ -563,7 +608,7 @@ Vtiger_Widget_Js('Vtiger_Funnel_Widget_Js', {}, {
 		var data = container.find('.widgetData').val();
 		var dataInfo = JSON.parse(data);
 		if (dataInfo.length > 0) {
-			this.getPlotContainer(false).jqplot([dataInfo], {
+			this.chartInstance = this.getPlotContainer(false).jqplot([dataInfo], {
 				seriesDefaults: {
 					renderer: jQuery.jqplot.FunnelRenderer,
 					rendererOptions: {
@@ -577,10 +622,10 @@ Vtiger_Widget_Js('Vtiger_Funnel_Widget_Js', {}, {
 				},
 				legend: {
 					show: true,
+					renderer: $.jqplot.EnhancedLegendRenderer,
 					location: 'e',
 				}
 			});
-			this.registerSectionClick();
 		}
 	},
 	registerSectionClick: function () {
@@ -593,9 +638,6 @@ Vtiger_Widget_Js('Vtiger_Funnel_Widget_Js', {}, {
 		});
 	}
 });
-
-
-
 Vtiger_Widget_Js('Vtiger_Pie_Widget_Js', {}, {
 	/**
 	 * Function which will give chart related Data
@@ -615,21 +657,22 @@ Vtiger_Widget_Js('Vtiger_Pie_Widget_Js', {}, {
 	loadChart: function () {
 		var chartData = this.generateData();
 		if (chartData['chartData'].length > 0) {
-			this.getPlotContainer(false).jqplot([chartData['chartData']], {
+			this.chartInstance = this.getPlotContainer(false).jqplot([chartData['chartData']], {
 				seriesDefaults: {
 					renderer: jQuery.jqplot.PieRenderer,
 					rendererOptions: {
 						showDataLabels: true,
+						sliceMargin: 2,
 						dataLabels: 'value'
 					}
 				},
 				legend: {
 					show: true,
+					renderer: $.jqplot.EnhancedPieLegendRenderer,
 					location: 'e'
 				},
 				title: chartData['title']
 			});
-			this.registerSectionClick();
 		}
 	},
 	registerSectionClick: function () {
@@ -640,11 +683,8 @@ Vtiger_Widget_Js('Vtiger_Pie_Widget_Js', {}, {
 			var url = dataInfo[pointIndex][2];
 			window.location.href = url;
 		});
-	}
+	},
 });
-
-
-
 Vtiger_Widget_Js('Vtiger_Donut_Widget_Js', {}, {
 	/**
 	 * Function which will give chart related Data
@@ -664,7 +704,7 @@ Vtiger_Widget_Js('Vtiger_Donut_Widget_Js', {}, {
 	loadChart: function () {
 		var chartData = this.generateData();
 		if (chartData['chartData'].length > 0) {
-			this.getPlotContainer(false).jqplot([chartData['chartData']], {
+			this.chartInstance = this.getPlotContainer(false).jqplot([chartData['chartData']], {
 				seriesDefaults: {
 					renderer: jQuery.jqplot.DonutRenderer,
 					rendererOptions: {
@@ -680,11 +720,10 @@ Vtiger_Widget_Js('Vtiger_Donut_Widget_Js', {}, {
 				},
 				legend: {
 					show: true,
+					renderer: $.jqplot.EnhancedLegendRenderer,
 					location: 'e'
-				},
-				title: chartData['title']
+				}
 			});
-			this.registerSectionClick();
 		}
 	},
 	registerSectionClick: function () {
@@ -695,10 +734,116 @@ Vtiger_Widget_Js('Vtiger_Donut_Widget_Js', {}, {
 			var url = dataInfo[pointIndex][2];
 			window.location.href = url;
 		});
-	}
+	},
 });
-
-
+Vtiger_Widget_Js('Vtiger_Axis_Widget_Js', {}, {
+	/**
+	 * Function which will give chart related Data
+	 */
+	generateData: function () {
+		var container = this.getContainer();
+		var jData = container.find('.widgetData').val();
+		var data = JSON.parse(jData);
+		var chartData = [];
+		for (var index in data) {
+			var row = data[index];
+			var rowData = [row.last_name, row.id];
+			chartData.push(rowData);
+		}
+		return {'chartData': chartData};
+	},
+	loadChart: function () {
+		var chartData = this.generateData();
+		if (chartData['chartData'].length > 0) {
+			this.chartInstance = this.getPlotContainer(false).jqplot([chartData['chartData']], {
+				seriesDefaults: {
+					renderer: jQuery.jqplot.DonutRenderer,
+					rendererOptions: {
+						// Donut's can be cut into slices like pies.
+						sliceMargin: 3,
+						// Pies and donuts can start at any arbitrary angle.
+						startAngle: -90,
+						showDataLabels: true,
+						dataLabels: 'value',
+						// "totalLabel=true" uses the centre of the donut for the total amount
+						totalLabel: true
+					}
+				},
+				legend: {
+					show: true,
+					renderer: $.jqplot.EnhancedLegendRenderer,
+					location: 'e'
+				},
+				title: chartData['title']
+			});
+		}
+	},
+	registerSectionClick: function () {
+		var container = this.getContainer();
+		var data = container.find('.widgetData').val();
+		var dataInfo = JSON.parse(data);
+		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, args) {
+			var url = dataInfo[pointIndex][2];
+			window.location.href = url;
+		});
+	},
+});
+Vtiger_Widget_Js('Vtiger_Bardivided_Widget_Js', {}, {
+	/**
+	 * Function which will give chart related Data
+	 */
+	generateData: function () {
+		var container = this.getContainer();
+		var jData = container.find('.widgetData').val();
+		var data = JSON.parse(jData);
+		return data;
+	},
+	loadChart: function () {
+		var data = this.generateData();
+		var series = [];
+		$.each(data['divided'], function (index, value) {
+			series[index] = {label: value};
+		});
+		if (data['chartData'].length > 0) {
+			console.log(data);
+			this.chartInstance = this.getPlotContainer(false).jqplot(data['chartData'], {
+				stackSeries: true,
+				captureRightClick: true,
+				seriesDefaults: {
+					renderer: jQuery.jqplot.BarRenderer,
+					rendererOptions: {
+						highlightMouseOver: true,
+						varyBarColor: true
+					},
+					pointLabels: {show: true}
+				},
+				series: series,
+				axes: {
+					xaxis: {
+						renderer: $.jqplot.CategoryAxisRenderer,
+						tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+						ticks: data['group'],
+						tickOptions: {
+							angle: -65,
+						}
+					}
+				},
+				legend: {
+					show: true,
+					location: 'e'
+				}
+			});
+		}
+	},
+	registerSectionClick: function () {
+		var data = this.generateData();
+		var links = data['links'];
+		this.getContainer().off('jqplotDataClick').on('jqplotDataClick', function (ev, seriesIndex, pointIndex, data) {
+			var url = links[seriesIndex][pointIndex];
+			window.location.href = url;
+		});
+	},
+});
 Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 	generateChartData: function () {
 		var container = this.getContainer();
@@ -771,7 +916,6 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 					labels: data['data_labels']
 				}
 			});
-			this.registerSectionClick();
 		}
 	},
 	registerSectionClick: function () {
@@ -782,7 +926,7 @@ Vtiger_Widget_Js('Vtiger_Barchat_Widget_Js', {}, {
 			var url = dataInfo[pointIndex][2];
 			window.location.href = url;
 		});
-	}
+	},
 });
 Vtiger_Barchat_Widget_Js('Vtiger_Horizontal_Widget_Js', {}, {
 	loadChart: function () {
@@ -825,7 +969,6 @@ Vtiger_Barchat_Widget_Js('Vtiger_Horizontal_Widget_Js', {}, {
 				labels: data['data_labels']
 			}
 		});
-		this.registerSectionClick();
 	}
 });
 Vtiger_Barchat_Widget_Js('Vtiger_Line_Widget_Js', {}, {
@@ -948,6 +1091,7 @@ Vtiger_Widget_Js('Vtiger_MultiBarchat_Widget_Js', {
 			legend: {
 				show: true,
 				location: 'e',
+				renderer: $.jqplot.EnhancedLegendRenderer,
 				placement: 'outside',
 				labels: labels
 			}
@@ -975,10 +1119,8 @@ Vtiger_Widget_Js('YetiForce_Charts_Widget_Js', {}, {
 		var chartClass = window["Report_" + chartClassName + "_Js"];
 		var instance = false;
 		if (typeof chartClass != 'undefined') {
-			instance = new chartClass();
-			instance.setContainer(container);
+			instance = new chartClass(container, true);
 			instance.loadChart();
-			instance.postInitializeCalls();
 		}
 	}
 });
@@ -1066,7 +1208,7 @@ Vtiger_Widget_Js('YetiForce_Pie_Widget_Js', {}, {
 	loadChart: function () {
 		var thisInstance = this;
 		var chartData = thisInstance.generateData();
-		thisInstance.plotInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], {
+		thisInstance.chartInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], {
 			series: {
 				pie: {
 					show: true,
@@ -1147,7 +1289,7 @@ Vtiger_Widget_Js('YetiForce_Bar_Widget_Js', {}, {
 				stack: true
 			},
 		};
-		thisInstance.plotInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
+		thisInstance.chartInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
 	},
 	getLabelFormat: function (label, slice) {
 		return "<div style='font-size:x-small;text-align:center;padding:2px;color:" + slice.color + ";'>" + label + "<br />" + slice.data[0][1] + "</div>";
@@ -1205,7 +1347,7 @@ YetiForce_Bar_Widget_Js('YetiForce_Ticketsbystatus_Widget_Js', {}, {
 				sorted: 'reverse'
 			},
 		};
-		thisInstance.plotInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
+		thisInstance.chartInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
 	},
 });
 Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
@@ -1528,21 +1670,6 @@ Vtiger_Widget_Js('YetiForce_Productssoldtorenew_Widget_Js', {}, {
 	}
 });
 YetiForce_Productssoldtorenew_Widget_Js('YetiForce_Servicessoldtorenew_Widget_Js', {}, {});
-Vtiger_Widget_Js('YetiForce_Chartfilter_Widget_Js', {}, {
-	loadChart: function () {
-		var container = this.getContainer();
-		var chartType = container.find('[name="typeChart"]').val();
-		var chartClassName = chartType.toCamelCase();
-		var chartClass = window["Vtiger_" + chartClassName + "_Widget_Js"];
-
-		var instance = false;
-		if (typeof chartClass != 'undefined') {
-			instance = new chartClass(container);
-			instance.loadChart();
-		}
-		this.registerRecordsCount();
-	}
-});
 YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 	loadChart: function () {
 		var thisInstance = this;
@@ -1577,7 +1704,7 @@ YetiForce_Bar_Widget_Js('YetiForce_Alltimecontrol_Widget_Js', {}, {
 				}
 			}
 		};
-		thisInstance.plotInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
+		thisInstance.chartInstance = $.plot(thisInstance.getPlotContainer(false), chartData['chartData'], options);
 	}
 });
 YetiForce_Bar_Widget_Js('YetiForce_Leadsbysource_Widget_Js', {}, {
@@ -1622,7 +1749,7 @@ Vtiger_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {
 	loadChart: function () {
 		var chartData = this.generateData();
 		if (chartData['chartData'].length > 0) {
-			this.getPlotContainer(false).jqplot([chartData['chartData']], {
+			this.chartInstance = this.getPlotContainer(false).jqplot([chartData['chartData']], {
 				seriesDefaults: {
 					renderer: jQuery.jqplot.PieRenderer,
 					rendererOptions: {
@@ -1637,7 +1764,6 @@ Vtiger_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {
 				},
 				title: chartData['title']
 			});
-			this.registerSectionClick();
 		}
 	},
 	registerSectionClick: function () {
@@ -1646,7 +1772,7 @@ Vtiger_Pie_Widget_Js('YetiForce_Closedticketsbypriority_Widget_Js', {}, {
 			var url = chartData['url'][pointIndex];
 			window.location.href = url;
 		});
-	}
+	},
 });
 Vtiger_Barchat_Widget_Js('YetiForce_Closedticketsbyuser_Widget_Js', {}, {});
 Vtiger_Barchat_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {
@@ -1711,7 +1837,6 @@ Vtiger_Barchat_Widget_Js('YetiForce_Opentickets_Widget_Js', {}, {
 					show: false,
 				}
 			});
-			this.registerSectionClick();
 		}
 	},
 });
@@ -1746,7 +1871,7 @@ Vtiger_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
 	loadChart: function () {
 		var dataInfo = this.generateData();
 		if (dataInfo.length > 0) {
-			this.getPlotContainer(false).jqplot([dataInfo], {
+			this.chartInstance = this.getPlotContainer(false).jqplot([dataInfo], {
 				seriesDefaults: {
 					renderer: jQuery.jqplot.FunnelRenderer,
 					rendererOptions: {
@@ -1763,7 +1888,6 @@ Vtiger_Funnel_Widget_Js('YetiForce_Estimatedvaluebystatus_Widget_Js', {}, {
 					location: 'e',
 				}
 			});
-			this.registerSectionClick();
 		}
 	}
 });

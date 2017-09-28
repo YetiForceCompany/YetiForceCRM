@@ -20,9 +20,8 @@ class Layout
 	 */
 	public static function getActiveLayout()
 	{
-		$layout = \App\Session::get('layout');
-		if (!empty($layout)) {
-			return $layout;
+		if (Session::has('layout')) {
+			return Session::get('layout');
 		}
 		return \AppConfig::main('defaultLayout');
 	}

@@ -180,11 +180,10 @@ class Reports_ScheduleReports_Model extends \App\Base
 			}
 		}
 		//Added for specific email address.
-		$specificemails = explode(',', \App\Json::decode($this->get('specificemails')));
+		$specificemails = trim($this->get('specificemails'), '"');
 		if (!empty($specificemails)) {
-			$recipientsEmails = array_merge($recipientsEmails, $specificemails);
+			$recipientsEmails = array_merge($recipientsEmails, explode(',', $specificemails));
 		}
-
 		return $recipientsEmails;
 	}
 
@@ -223,11 +222,8 @@ class Reports_ScheduleReports_Model extends \App\Base
 			$attachments[$filePath] = $fileName;
 			$oReportRun->writeReportToExcelFile($filePath);
 		}
-		//Added cc to account owner
-		$accountOwnerId = Users::getActiveAdminId();
 		\App\Mailer::sendFromTemplate([
 			'to' => $to,
-			'cc' => [\App\User::getUserModel($accountOwnerId)->getDetail('email1') => \App\Fields\Owner::getUserLabel($accountOwnerId)],
 			'template' => 'ScheduleReprots',
 			'attachments' => $attachments,
 			'reportName' => $reportRecordModel->getName(),
@@ -293,10 +289,9 @@ class Reports_ScheduleReports_Model extends \App\Base
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
 		date_default_timezone_set($adminTimeZone);
-		$currentTimestamp = date("Y-m-d H:i:s");
+		$currentTimestamp = date('Y-m-d H:i:s');
 		date_default_timezone_set($default_timezone);
-		$dataReader = (new App\Db\Query())->select(['reportid'])
-				->from('vtiger_schedulereports')
+		$dataReader = (new App\Db\Query())->select(['reportid'])->from('vtiger_schedulereports')
 				->where(['or', ['next_trigger_time' => null], ['<=', 'next_trigger_time', $currentTimestamp]])
 				->createCommand()->query();
 		$scheduledReports = [];

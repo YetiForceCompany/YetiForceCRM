@@ -44,7 +44,8 @@
 		"doctrine/collections": "v1.4.0",
 		"symfony/var-dumper": "v3.3.6",
 		"symfony/console": "v3.3.6",
-		"symfony/debug": "v3.3.6"
+		"symfony/debug": "v3.3.6",
+		"giggsey/libphonenumber-for-php": "8.8.2"
 	},
 	"archive": {
 		"exclude": [

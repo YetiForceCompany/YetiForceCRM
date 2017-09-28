@@ -92,9 +92,9 @@ class Vtiger_Menu_Model
 			} elseif ($view == '') {
 				$breadcrumbs[] = ['name' => App\Language::translate('LBL_HOME', $moduleName)];
 			}
-			if ($request->get('record') != '') {
+			if ($moduleModel && $request->get('record') != '' && $moduleModel->isEntityModule()) {
 				$recordLabel = vtlib\Functions::getCRMRecordLabel($request->get('record'));
-				if ($recordLabel != '') {
+				if ($recordLabel !== '') {
 					$breadcrumbs[] = ['name' => $recordLabel];
 				}
 			}

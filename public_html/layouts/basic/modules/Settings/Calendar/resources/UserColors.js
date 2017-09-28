@@ -12,11 +12,11 @@ var Settings_UserColors_Js = {
 		});
 		var target = $(e.currentTarget);
 		var metod = target.data('metod');
+		var value = 0;
 		if (target.prop('checked')) {
 			value = 1;
-		} else
-			value = 0;
-		params = {};
+		}			
+		var params = {};
 		params.color = value;
 		params.id = target.attr('id');
 		params = jQuery.extend({}, params);
@@ -51,7 +51,6 @@ var Settings_UserColors_Js = {
 		);
 	},
 	registerSaveWorkingDays: function (content) {
-		var thisInstance = this;
 		content.find('.workignDaysField').change(function (e) {
 			var target = $(e.currentTarget);
 			var params = {};
@@ -66,7 +65,6 @@ var Settings_UserColors_Js = {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
 			});
 		});
-
 	},
 	registerEvents: function () {
 		Settings_UserColors_Js.initEvants();

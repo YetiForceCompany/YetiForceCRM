@@ -656,12 +656,12 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			var form = jQuery('form', wizardContainer);
 			var chartType = jQuery('select[name="chartType"]', wizardContainer);
 			var moduleNameSelectDOM = jQuery('select[name="module"]', wizardContainer);
-			var step1 = jQuery('.step1', wizardContainer);
-			var step2 = jQuery('.step2', wizardContainer);
-			var step3 = jQuery('.step3', wizardContainer);
 			var moduleNameSelect2 = app.showSelect2ElementView(moduleNameSelectDOM, {
 				placeholder: app.vtranslate('JS_SELECT_MODULE')
 			});
+			var step1 = jQuery('.step1', wizardContainer);
+			var step2 = jQuery('.step2', wizardContainer);
+			var step3 = jQuery('.step3', wizardContainer);
 			var footer = jQuery('.modal-footer', wizardContainer);
 			step2.remove();
 			step3.remove();
@@ -744,7 +744,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 				var selectedModuleLabel = moduleNameSelect2.find(':selected').text();
 				var selectedFilterId = form.find('.filterId').val();
 				var selectedFilterLabel = form.find('.filterId').find(':selected').text();
-				var fieldLabel = form.find('.groupField').find(':selected').text();
+				var selectedFieldLabel = form.find('.groupField').find(':selected').text();
 				var isColorValue = 0;
 				var isColor = form.find('.isColor');
 				if (!isColor.hasClass('hide') && isColor.is(':checked')) {
@@ -760,7 +760,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 					element = $(element);
 					data[element.attr('name')] = element.val();
 				});
-				finializeAddChart(selectedModuleLabel, selectedFilterId, selectedFilterLabel, fieldLabel, data, form);
+				finializeAddChart(selectedModuleLabel, selectedFilterId, selectedFilterLabel, selectedFieldLabel, data, form);
 			});
 		});
 
@@ -806,6 +806,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			);
 		}
 	},
+	
 	addChartWidget: function (element) {
 		app.showModalWindow(null, "index.php?parent=Settings&module=WidgetsManagement&view=AddChart", function (wizardContainer) {
 			wizardContainer.find('[name="blockid"]').val(element.data('block-id'));

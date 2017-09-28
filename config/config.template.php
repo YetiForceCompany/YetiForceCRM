@@ -203,4 +203,8 @@ $layoutInLoginView = false;
 // Set the default layout 
 $defaultLayout = 'basic';
 
+// Redirect to proper url when wrong url is entered.
 $forceRedirect = true;
+
+// Enable advanced phone number validation. Enabling  it will block saving invalid phone number.
+$phoneFieldAdvancedVerification = true;

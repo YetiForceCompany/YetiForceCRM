@@ -276,7 +276,7 @@ $languageStrings = [
 	'narrow' => 'narrow',
 	'Last 2 Days' => 'Last 2 days',
 	'Last Week' => 'Last week',
-	" " => 'None',
+	' ' => 'None',
 	'Active' => 'Active',
 	'Inactive' => 'Inactive',
 	'yes' => 'Yes',
@@ -295,11 +295,11 @@ $languageStrings = [
 	'Help Desk Department' => 'Help Desk Department',
 	'Human Resources Department' => 'Human Resources Department',
 	"Secretary's Office" => "Secretary's Office",
-	"Organization" => 'Account',
-	"Financial Department" => 'Financial Department',
-	"Production Department" => 'Production Department',
-	"Marketing Department" => 'Marketing Department',
-	"LBL_BASIC_EXPORT" => 'Exports basic data',
+	'Organization' => 'Account',
+	'Financial Department' => 'Financial Department',
+	'Production Department' => 'Production Department',
+	'Marketing Department' => 'Marketing Department',
+	'LBL_BASIC_EXPORT' => 'Exports basic data',
 	'LBL_MASS_PASSWORD_EDITING' => 'Mass edit of users passwords',
 	'LBL_MASS_PWD_EDIT' => 'Mass edit of passwords',
 	'Approval for email' => 'Permission to send emails',
@@ -319,6 +319,12 @@ $languageStrings = [
 	'LBL_SWITCH_USER' => 'Switch user',
 	'LBL_SWITCH_TO_YOURSELF' => 'Switch to yourself',
 	'LBL_USER_EXISTS' => 'user already exists',
+	'LBL_FAILED_TO_UPDATE_ACCESS_KEY' => 'Failed to update access key',
+	'LBL_USER_MAIL_EXIST' => 'User with this email address already exists',
+	'LBL_INVALID_USERNAME' => 'Invalid username',
+	'LBL_USER_NAME_EXISTS' => 'Username already exists',
+	'LBL_USER_NAME_HAS_ALREADY_BEEN_USED' => 'This username has already been used, system does not allow to use it again.',
+	'LBL_FORBIDDEN_USERNAMES' => 'This username is forbidden because it is unsafe.',
 ];
 
 $jsLanguageStrings = [
@@ -332,6 +338,5 @@ $jsLanguageStrings = [
 	'JS_PASSWORD_CHANGE_FAILED_2' => ' failed. The new password must be set.',
 	'JS_PASSWORD_INCORRECT_OLD' => 'Incorrect old password specified. Re-enter password information.',
 	'JS_REENTER_PASSWORDS' => 'Please re-enter passwords.  The \"new password\" and \"confirm password\" values do not match.',
-	'JS_USER_MAIL_EXIST' => 'User with this e-mail address exists',
 ];
 

@@ -21,6 +21,10 @@ class ComposerStaticInitYT
 		array(
 			'vtlib\\' => 6,
 		),
+		'l' =>
+		array(
+			'libphonenumber\\' => 15,
+		),
 		'i' =>
 		array(
 			'includes\\' => 9,
@@ -45,6 +49,10 @@ class ComposerStaticInitYT
 		array(
 			'Psr\\Log\\' => 8,
 		),
+		'G' =>
+		array(
+			'Giggsey\\Locale\\' => 15,
+		),
 		'E' =>
 		array(
 			'Exception\\' => 10,
@@ -68,6 +76,10 @@ class ComposerStaticInitYT
 		'vtlib\\' =>
 		array(
 			0 => __DIR__ . '/../..' . '/vtlib/Vtiger',
+		),
+		'libphonenumber\\' =>
+		array(
+			0 => __DIR__ . '/..' . '/giggsey/libphonenumber-for-php/src',
 		),
 		'includes\\' =>
 		array(
@@ -128,6 +140,10 @@ class ComposerStaticInitYT
 		'Psr\\Log\\' =>
 		array(
 			0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+		),
+		'Giggsey\\Locale\\' =>
+		array(
+			0 => __DIR__ . '/..' . '/giggsey/locale/src',
 		),
 		'Exception\\' =>
 		array(

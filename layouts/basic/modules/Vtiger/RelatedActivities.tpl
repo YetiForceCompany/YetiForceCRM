@@ -111,8 +111,18 @@
 								<span class="glyphicon glyphicon-pencil" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 							</span>
 						{/if}
+						{if $RECORD->get('location') neq '' }
+							<a target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/{urlencode ($RECORD->get('location'))}" class="pull-right popoverTooltip delay0" data-original-title="{\App\Language::translate('Location', 'Calendar')}" data-content="{$RECORD->get('location')}">
+								<span class="glyphicon glyphicon-map-marker"></span>&nbsp
+							</a>
+						{/if}
 						<span class="pull-right popoverTooltip delay0" data-placement="top" data-original-title="{\App\Language::translate($RECORD->get('activitytype'),$MODULE_NAME)}: {$RECORD->get('subject')}" 
-							  data-content="{\App\Language::translate('Status',$MODULE_NAME)}: {\App\Language::translate($STATUS,$MODULE_NAME)}<br />{\App\Language::translate('Start Time','Calendar')}: {$START_DATE} {$START_TIME}<br />{\App\Language::translate('End Time','Calendar')}: {$END_DATE} {$END_TIME}<hr />{\App\Language::translate('Created By',$MODULE_NAME)}: {\App\Fields\Owner::getLabel( $RECORD->get('smcreatorid') )}<br />{\App\Language::translate('Assigned To',$MODULE_NAME)}: {\App\Fields\Owner::getLabel( $RECORD->get('smownerid') )}
+							  data-content="{\App\Language::translate('Status',$MODULE_NAME)}: {\App\Language::translate($STATUS,$MODULE_NAME)}<br />{\App\Language::translate('Start Time','Calendar')}: {$START_DATE} {$START_TIME}<br />{\App\Language::translate('End Time','Calendar')}: {$END_DATE} {$END_TIME}
+							  {if $RECORD->get('link')}<hr />{App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('link')))}: {$RECORD->getDisplayValue('link')}{/if}
+							  {if $RECORD->get('process')}<br />{App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('process')))}: {$RECORD->getDisplayValue('process')}{/if}
+							  {if $RECORD->get('subprocess')}<br />{App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('subprocess')))}: {$RECORD->getDisplayValue('subprocess')}{/if}
+							  <hr />{\App\Language::translate('Created By',$MODULE_NAME)}: {\App\Fields\Owner::getLabel( $RECORD->get('smcreatorid') )}
+							  <br />{\App\Language::translate('Assigned To',$MODULE_NAME)}: {\App\Fields\Owner::getLabel( $RECORD->get('smownerid') )}
 							  {if $SHAREDOWNER}<div> 
 								  {\App\Language::translate('Share with users',$MODULE_NAME)}:&nbsp;
 								  {foreach $SHAREDOWNER item=SOWNERID name=sowner}
@@ -145,11 +155,6 @@
 								<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}' data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}' />
 							{/if}
 						</span>
-					{/if}
-					{if $RECORD->get('location') neq '' }
-						<a target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/{urlencode ($RECORD->get('location'))}" class="pull-right popoverTooltip delay0" data-original-title="{\App\Language::translate('Location', 'Calendar')}" data-content="{$RECORD->get('location')}">
-							<span class="icon-map-marker"></span>&nbsp
-						</a>
 					{/if}
 				</div>
 			</div>

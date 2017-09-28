@@ -891,12 +891,11 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$php_max_execution_time = vglobal('php_max_execution_time');
 		set_time_limit($php_max_execution_time);
-		require_once('modules/Users/CreateUserPrivilegeFile.php');
 
 		$userIdsList = self::getUsersList($this->getId());
 		if ($userIdsList) {
 			foreach ($userIdsList as $userId) {
-				createUserPrivilegesfile($userId);
+				\App\UserPrivilegesFile::createUserPrivilegesfile($userId);
 			}
 		}
 	}
