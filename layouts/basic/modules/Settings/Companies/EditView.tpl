@@ -1,5 +1,5 @@
 {strip} 
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 	<div class="row widget_header">
 		<div class="col-xs-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
@@ -31,8 +31,19 @@
 							</label>
 							<div class="col-sm-10">
 								<select class="select2 form-control" name="industry">
-									{foreach from=$INDUSTRY_LIST item=ITEM}
+									{foreach from=Settings_Companies_Module_Model::getIndustryList() item=ITEM}
 										<option value="{$ITEM}"  {if $RECORD_MODEL->get('industry') == $ITEM}selected="true"{/if}>{App\Language::translate($ITEM)}</option>
+									{/foreach}
+								</select>
+							</div>
+						{elseif $COLUMN eq 'country'}
+							<label class="col-sm-2 control-label">
+								{App\Language::translate('LBL_COUNTRY', $QUALIFIED_MODULE)}
+							</label>
+							<div class="col-sm-10">
+								<select class="select2 form-control" name="country">
+									{foreach from=\App\Fields\Country::getAll() item=ITEM}
+										<option value="{$ITEM['name']}" {if $RECORD_MODEL->get('country') == $ITEM['name']}selected="true"{/if}>{\App\Language::translateSingleMod($ITEM['name'],'Other.Country')}</option>
 									{/foreach}
 								</select>
 							</div>

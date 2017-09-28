@@ -49,6 +49,15 @@ class Install_Utils_Model
 	}
 
 	/**
+	 * Returns list of countries
+	 * @return array
+	 */
+	public static function getCountryList()
+	{
+		return require 'install/models/Country.php';
+	}
+
+	/**
 	 * Function checks if its mysql type
 	 * @param type $dbType
 	 * @return type
