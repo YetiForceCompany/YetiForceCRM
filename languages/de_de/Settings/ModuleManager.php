@@ -4,6 +4,7 @@
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @author skavenkf (K.Fink)
  */
 $languageStrings = [
 	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Fehler beim Upload',
@@ -89,7 +90,7 @@ $jsLanguageStrings = [
 	'JS_IMPORTED_MODULE' => 'Installation Erfolgreich',
 	'JS_IMPORT_SUCCESSFULL' => 'Installation Erfolgreich',
 	'JS_FOR_INSTALLATION' => 'für Installation',
-	'JS_CLICK_HERE' => 'Hier Klicken',
+	'JS_CLICK_HERE' => 'Hier klicken',
 	'JS_ON' => 'Ein',
 	'JS_REMOVED_MODULE' => 'Gelöschtes Modul',
 	'JS_SPECIAL_CHARACTERS_NOT_ALLOWED' => 'Sonderzeichen wie & < > \' " : , sind nicht erlaubt',

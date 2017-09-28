@@ -4,6 +4,7 @@
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @author skavenkf (K.Fink)
  */
 $languageStrings = [
 	'MailSmtp' => 'SMTP Konfiguration',
@@ -21,10 +22,10 @@ $languageStrings = [
 	'LBL_AUTHENTICATION' => 'Authentifikation',
 	'LBL_REPLY_TO' => 'Antwort an',
 	'LBL_INDIVIDUAL_DELIVERY' => 'Individuelle Zustellung',
-	'LBL_REPLY_TO' => 'Reply to',
+	'LBL_REPLY_TO' => 'Antwort an',
 	'LBL_NAME' => 'Name',
 	'LBL_FROM_EMAIL' => 'Sender E-Mail',
-	'LBL_SAVE_SEND_MAIL' => 'Sollen gesendete EMails gespeichert werden?',
+	'LBL_SAVE_SEND_MAIL' => 'Sollen gesendete E-Mails gespeichert werden?',
 	'LBL_SAVE_SEND_MAIL_INFO' => 'Alle gesendeten E-Mails werden nicht gesichert (Gmail speichert diese automatisch, somit muss diese Funktion nicht aktiviert werden). Zum Speichern der E-Mails ist eine zusätzliche Konfiguration notwendig.',
 	'LBL_VALIDATE_CERT' => 'Zertifikat validieren?',
 	'LBL_IMAP_SAVE_MAIL' => 'IMAP Konfiguration fur gespeicherte E-Mails',
