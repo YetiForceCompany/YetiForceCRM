@@ -134,6 +134,10 @@ class Vtiger_Base_UIType extends \App\Base
 		return $this->getDisplayValue($value);
 	}
 
+	/**
+	 * Function to get the Template name for the current UI Type object
+	 * @return string - Template Name
+	 */
 	public function getListSearchTemplateName()
 	{
 		return 'uitypes/FieldSearchView.tpl';
