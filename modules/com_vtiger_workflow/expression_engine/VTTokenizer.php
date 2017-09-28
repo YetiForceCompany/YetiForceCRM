@@ -77,7 +77,7 @@ class VTExpressionTokenizer
 			$match = $matches[$idx];
 			$this->idx = $idx + 1;
 			$i = 1;
-			while ($match[$i] === null) {
+			while (empty($match[$i])) {
 				$i += 1;
 			}
 			$tokenName = $this->tokenNames[$i - 1];
