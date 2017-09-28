@@ -19,26 +19,29 @@ class Vtiger_Delete_Action extends Vtiger_Action_Controller
 	public function checkPermission(\App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
+		$moduleName = $request->getModule();
 		if (!$recordId) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		if (!\App\Privilege::isPermitted($request->getModule(), 'Delete', $recordId)) {
+		if (!\App\Privilege::isPermitted($moduleName, 'Delete', $recordId)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
+		if (!Vtiger_Record_Model::getInstanceById($recordId, $moduleName)->isDeletable()) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 
+	/**
+	 * Main process
+	 * @param \App\Request $request
+	 * @return \Vtiger_Response
+	 */
 	public function process(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$recordId = $request->getInteger('record');
-		$ajaxDelete = $request->get('ajaxDelete');
-
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-		$moduleModel = $recordModel->getModule();
+		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
 		$recordModel->delete();
-
-		$listViewUrl = $moduleModel->getListViewUrl();
-		if ($ajaxDelete) {
+		$listViewUrl = $recordModel->getModule()->getListViewUrl();
+		if ($request->get('ajaxDelete')) {
 			$response = new Vtiger_Response();
 			$response->setResult($listViewUrl);
 			return $response;
