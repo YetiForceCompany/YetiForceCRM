@@ -189,7 +189,26 @@ class FieldBasic
 				$db->createCommand()->createIndex("{$this->table}_{$this->column}_idx", $this->table, $this->column)->execute();
 			}
 		}
+		$this->createAdditionalField();
 		self::log("Creating field $this->name ... DONE");
+	}
+
+	/**
+	 * Create additional fields
+	 */
+	public function createAdditionalField()
+	{
+		if ($this->uitype === 11) {
+			$fieldInstance = new Field();
+			$fieldInstance->name = $this->name . '_extra';
+			$fieldInstance->table = $this->table;
+			$fieldInstance->label = 'FL_PHONE_CUSTOM_INFORMATION';
+			$fieldInstance->column = $this->column . '_extra';
+			$fieldInstance->uitype = 1;
+			$fieldInstance->displaytype = 3;
+			$fieldInstance->typeofdata = 'V~O';
+			$fieldInstance->save($this->block);
+		}
 	}
 
 	public function __update()
