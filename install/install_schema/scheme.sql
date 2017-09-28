@@ -1193,9 +1193,12 @@ CREATE TABLE `u_yf_countries` (
   `code` char(2) NOT NULL,
   `status` tinyint(1) unsigned DEFAULT '0',
   `sortorderid` smallint(5) unsigned NOT NULL,
+  `phone` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `uitype` tinyint(1) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `code` (`code`),
-  KEY `status` (`status`)
+  KEY `phone` (`status`,`phone`),
+  KEY `uitype` (`status`,`uitype`)
 ) ENGINE=InnoDB AUTO_INCREMENT=242 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_crmentity_label` */

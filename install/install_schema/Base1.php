@@ -890,12 +890,15 @@ class Base1 extends \App\Db\Importers\Base
 					'id' => $this->primaryKey(5)->unsigned(),
 					'name' => $this->stringType(50)->notNull(),
 					'code' => $this->char(2)->notNull(),
-					'status' => $this->tinyInteger(1)->defaultValue(0)->unsigned(),
+					'status' => $this->tinyInteger(1)->defaultValue(0)->unsigned()->notNull(),
 					'sortorderid' => $this->smallInteger(5)->unsigned(),
+					'phone' => $this->tinyInteger(1)->defaultValue(0)->unsigned()->notNull(),
+					'uitype' => $this->tinyInteger(1)->defaultValue(0)->unsigned()->notNull(),
 				],
 				'index' => [
 					['code', 'code'],
-					['status', 'status'],
+					['phone', ['status', 'phone']],
+					['uitype', ['status', 'uitype']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
