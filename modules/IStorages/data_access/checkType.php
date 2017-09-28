@@ -10,7 +10,7 @@
 /**
  * Class data access check type for module istorages
  */
-class DataAccess_checkType
+class DataAccessCheckType
 {
 
 	/**

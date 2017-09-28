@@ -9,7 +9,7 @@
   Type: 1 - show quick create mondal
  */
 
-Class DataAccess_validate_mandatory
+Class DataAccessValidateMandatory
 {
 
 	public $config = false;

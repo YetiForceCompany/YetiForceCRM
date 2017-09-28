@@ -9,9 +9,9 @@
  */
 
 /**
- * Class DataAccess_check_day_tasks
+ * Class DataAccessCheckDayTasks
  */
-class DataAccess_check_day_tasks
+class DataAccessCheckDayTasks
 {
 
 	/**

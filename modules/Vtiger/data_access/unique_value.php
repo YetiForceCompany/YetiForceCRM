@@ -17,7 +17,7 @@
   Type: 2 - show notify info
  */
 
-Class DataAccess_unique_value
+Class DataAccessUniqueValue
 {
 
 	public $config = true;

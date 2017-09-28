@@ -7,7 +7,7 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
  */
-class DataAccess_checkHierarchy
+class DataAccessCheckHierarchy
 {
 
 	public $config = false;
