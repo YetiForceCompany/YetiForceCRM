@@ -89,7 +89,6 @@ class Groups extends TestCase
 		$recordModel->save();
 
 		$row = (new \App\Db\Query())->from('vtiger_groups')->where(['groupid' => static::$id])->one();
-
 		$this->assertEquals($row['groupname'], 'Test groups edit');
 		$this->assertEquals($row['description'], 'Test description edit');
 
