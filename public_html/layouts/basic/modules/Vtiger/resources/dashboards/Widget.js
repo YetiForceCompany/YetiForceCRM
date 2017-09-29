@@ -1008,6 +1008,38 @@ Vtiger_Barchat_Widget_Js('Vtiger_Line_Widget_Js', {}, {
 		}
 	}
 });
+Vtiger_Barchat_Widget_Js('Vtiger_Lineplain_Widget_Js', {}, {
+	loadChart: function () {
+		var data = this.generateChartData();
+		if (data['chartData'][0].length > 0) {
+			this.getPlotContainer(false).jqplot(data['chartData'], {
+				title: data['title'],
+				axesDefaults: {
+					labelRenderer: $.jqplot.CanvasAxisLabelRenderer
+				},
+				seriesDefaults: {
+					rendererOptions: {
+						smooth: true
+					}
+				},
+				axes: {
+					xaxis: {
+						min: 0,
+						pad: 0,
+						renderer: $.jqplot.CategoryAxisRenderer,
+						ticks: data['labels'],
+						tickOptions: {
+							formatString: '%b %#d'
+						}
+					}
+				},
+				cursor: {
+					show: true
+				}
+			});
+		}
+	}
+});
 Vtiger_Widget_Js('Vtiger_MultiBarchat_Widget_Js', {
 	/**
 	 * Function which will give char related Data like data , x labels and legend labels as map
