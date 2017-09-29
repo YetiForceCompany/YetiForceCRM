@@ -1179,6 +1179,7 @@ $languageStrings = [
 	'LBL_VERTICAL_BAR_CHART' => 'Gráfico de barras horizontal',
 	'LBL_HORIZONTAL_BAR_CHART' => 'Gráfico de barras verticales',
 	'LBL_LINE_CHART' => 'Gráfico de líneas',
+	'LBL_LINE_CHART_PLAIN' => 'Smooth line graph',
 	'LBL_FUNNEL_CHART' => 'Gráfico de embudo', //Sales funnel
 	// numbers in words
 	'LBL_MINUS' => 'menos',

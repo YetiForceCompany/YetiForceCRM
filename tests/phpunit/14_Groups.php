@@ -28,10 +28,7 @@ class Groups extends TestCase
 
 		$id = $recordModel->getId();
 		$this->assertInternalType('int', $id);
-
-
 		$row = (new \App\Db\Query())->from('vtiger_groups')->where(['groupid' => $id])->one();
-
 		$this->assertNotFalse($row, "No record id: $id");
 		$this->assertEquals($row['groupname'], 'Test groups');
 		$this->assertEquals($row['description'], 'Test description');
