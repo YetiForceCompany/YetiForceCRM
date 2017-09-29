@@ -44,6 +44,8 @@ $languageStrings = [
 	'FL_USER' => 'Utilisateurs',
 	'FL_TYPE' => 'Type',
 	'LBL_MARK_AS_READ' => 'Marquer comme lu',
+	'LBL_UNREAD' => 'Unread',
+	'LBL_NO_UNREAD_NOTIFICATIONS' => 'No unread notifications',
 ];
 $jsLanguageStrings = [
 	'JS_MARKED_AS_READ' => 'Marquer comme lu',
