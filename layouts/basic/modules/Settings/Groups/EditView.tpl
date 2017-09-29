@@ -13,8 +13,6 @@
 			<input type="hidden" name="action" value="Save">
 			<input type="hidden" name="parent" value="Settings">
 			<input type="hidden" name="record" value="{$RECORD_MODEL->getId()}">
-			<input type="hidden" name="mode" value="{$MODE}">
-
 			<div class="widget_header row">
 				<div class="col-xs-12">
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}

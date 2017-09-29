@@ -17,15 +17,11 @@ Class Settings_Groups_Edit_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$record = $request->get('record');
-
 		if (!empty($record)) {
 			$recordModel = Settings_Groups_Record_Model::getInstance($record);
-			$viewer->assign('MODE', 'edit');
 		} else {
 			$recordModel = new Settings_Groups_Record_Model();
-			$viewer->assign('MODE', '');
 		}
-
 		$viewer->assign('MEMBER_GROUPS', Settings_Groups_Member_Model::getAll(true));
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
