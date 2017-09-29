@@ -21,11 +21,9 @@ Class Settings_Roles_EditAjax_View extends Settings_Roles_IndexAjax_View
 
 		if (!empty($record)) {
 			$recordModel = Settings_Roles_Record_Model::getInstanceById($record);
-			$viewer->assign('MODE', 'edit');
 		} else {
 			$recordModel = new Settings_Roles_Record_Model();
 			$recordModel->setParent(Settings_Roles_Record_Model::getInstanceById($parentRoleId));
-			$viewer->assign('MODE', '');
 		}
 
 		$viewer->assign('ALL_PROFILES', Settings_Profiles_Record_Model::getAll());
