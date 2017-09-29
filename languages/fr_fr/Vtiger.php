@@ -1245,6 +1245,7 @@ $languageStrings = [
 	'LBL_VERTICAL_BAR_CHART' => 'Diagramme Vertical',
 	'LBL_HORIZONTAL_BAR_CHART' => 'Diagramme Horizontal',
 	'LBL_LINE_CHART' => 'Diagramme en Lignes',
+	'LBL_LINE_CHART_PLAIN' => 'Smooth line graph',
 	'LBL_SEND_MESSAGE' => 'Send message',
 	// numbers in words
 	'LBL_MINUS' => 'minus',
