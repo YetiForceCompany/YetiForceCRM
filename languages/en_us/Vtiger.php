@@ -1157,6 +1157,7 @@ $languageStrings = [
 	'LBL_VERTICAL_BAR_CHART' => 'Horizontal bar chart',
 	'LBL_HORIZONTAL_BAR_CHART' => 'Vertical bar chart',
 	'LBL_LINE_CHART' => 'Line chart',
+	'LBL_LINE_CHART_PLAIN' => 'Smooth line graph',
 	'LBL_FUNNEL_CHART' => 'Sales funnel',
 	// numbers in words
 	'LBL_MINUS' => 'minus',
