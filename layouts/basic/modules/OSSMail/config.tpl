@@ -20,7 +20,7 @@
 				<br />
 				<div class="alert alert-danger" role="alert">
 					<div>
-						<h4>{\App\Language::translate('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger','roundcube')}</h4>
+						<h4>{\App\Language::translateArgs('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger','roundcube')}</h4>
 					</div>
 				</div>
 			{elseif !\App\Module::isModuleActive('OSSMail')}	
