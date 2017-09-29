@@ -1332,6 +1332,8 @@ $languageStrings = [
 	'LBL_NO_PHONE_COUNTRY' => 'No country code',
 	'LBL_INVALID_COUNTRY_CODE' => 'Invalid country code',
 	'LBL_INVALID_PHONE_NUMBER' => 'Entered invalid phone number',
+	'LBL_VALUE_NOT_FOUND' => 'Value not found',
+	'FL_PHONE_CUSTOM_INFORMATION' => 'Additional information',
 ];
 $jsLanguageStrings = [
 	'JS_BASE_CURRENCY_CHANGED_TO_DISABLE_CURRENCY' => 'La devise de base doit être changée sur OFF',
