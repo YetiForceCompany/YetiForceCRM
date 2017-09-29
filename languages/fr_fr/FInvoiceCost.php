@@ -15,6 +15,8 @@ $languageStrings = [
 	'LBL_CUSTOM_INFORMATION' => 'Information système',
 	'LBL_INVOICE_ADDRESS' => 'Adresse de facturation',
 	'LBL_ADDRESS_DELIVERY_INFORMATION' => 'Adresse de livraison',
+	'LBL_DESCRIPTION_BLOCK' => 'Description',
+	'LBL_ATTENTION_BLOCK' => 'Comments',
 	//FIELDS
 	'FL_SUBJECT' => 'Sujet',
 	'FL_PAYMENT_DATE' => 'Date dûe',
@@ -28,6 +30,7 @@ $languageStrings = [
 	'FL_STATUS' => 'Statut',
 	'FL_PAYMENT_STATUS' => 'Statut du paiement',
 	'FL_INVOICE_TYPE' => 'Type de facture',
+	'FL_CATEGORY' => 'Category',
 	//PICKLIST VALUES
 	'PLL_TRANSFER' => 'Virement',
 	'PLL_WIRE_TRANSFER' => 'Virement bancaire',
