@@ -65,26 +65,21 @@
 								{else}
 									&nbsp;{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
 								{/if}
-								{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
-								</td><td nowrap class="{$WIDTHTYPE}">
-									<div class="pull-right actions">
-										<span class="actionImages">
-											{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
-												{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}
-												<a {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="{$RECORD_LINK_URL|substr:strlen("javascript:")};
-														if (event.stopPropagation){ldelim}
-																	event.stopPropagation();{rdelim} else{ldelim}
-																				event.cancelBubble = true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}>
-													<i class="{$RECORD_LINK->getIcon()} alignMiddle" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></i>
-												</a>
-												{if !$RECORD_LINK@last}
-													&nbsp;&nbsp;
-												{/if}
-											{/foreach}
-										</span>
-									</div>
-								</td>
-							{/if}
+								{if $LAST_COLUMN}
+									</td>
+									<td nowrap class="{$WIDTHTYPE}">
+										{assign var=LINKS value=$LISTVIEW_ENTRY->getRecordLinks()}
+										{if count($LINKS) > 0}
+											<div class="actions">
+												<div class="pull-right">
+													{foreach from=$LINKS item=LINK}
+														{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $QUALIFIED_MODULE) BUTTON_VIEW='listViewBasic' MODULE=$QUALIFIED_MODULE}
+													{/foreach}
+												</div>
+											</div>
+										{/if}
+									</td>
+								{/if}
 							</td>
 						{/foreach}
 					</tr>
