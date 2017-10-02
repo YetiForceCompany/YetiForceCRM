@@ -60,16 +60,6 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 	passCheckCache: {},
 	//Hold the conditions for a hour format
 	hourFormatConditionMapping: false,
-	registerWidthChangeEvent: function () {
-		var widthType = app.cacheGet('widthType', 'narrowWidthType');
-		jQuery('#currentWidthType').html(jQuery('li[data-class="' + widthType + '"]').html());
-		jQuery('#widthType').on('click', 'li', function (e) {
-			var value = jQuery(e.currentTarget).data('class');
-			app.cacheSet('widthType', value);
-			jQuery('#currentWidthType').html(jQuery(e.currentTarget).html());
-			window.location.reload();
-		});
-	},
 	registerHourFormatChangeEvent: function () {
 
 	},
@@ -185,7 +175,6 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 	registerEvents: function () {
 		this._super();
 		var form = this.getForm();
-		this.registerWidthChangeEvent();
 		this.triggerHourFormatChangeEvent(form);
 		this.registerRecordPreSaveEvent(form);
 		this.registerCalendarSharedType(form);
