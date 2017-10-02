@@ -1,5 +1,5 @@
 <?php
-/*+***********************************************************************************
+/* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
- ************************************************************************************/
+ * ********************************************************************************** */
 $languageStrings = [
 	'LBL_NOTIFICATION_BY_RECIPIENT' => 'Nombre de notifications par consommateurs',
 	'LBL_NOTIFICATION_BY_SENDER' => 'Nombre de notifications par radiodiffuseurs',
@@ -39,7 +39,6 @@ $languageStrings = [
 	'LBL_CRON_LAUNCHING_FREQUENCY' => 'Fréquence du lancement du CRON',
 	'LBL_SCHEDULE' => 'Planification',
 	'LBL_CRON' => 'Cron',
-	
 	'PLL_5_MIN' => '5 minutes',
 	'PLL_15_MIN' => '15 minutes',
 	'PLL_30_MIN' => '30 minutes',
@@ -54,8 +53,8 @@ $languageStrings = [
 	'LBL_TIME' => 'Timer',
 	//Widgets
 	'LBL_MINI_LIST' => 'Mini Liste',
-	'LBL_FILTERING_BY_DATE' => 'Filtering by date',		
- 	'LBL_TIMELINE_BY_DATE' => 'Timeline by date',
+	'LBL_FILTERING_BY_DATE' => 'Show filtering by date from field',
+	'LBL_TIMELINE_BY_DATE' => 'Timeline by date',
 	'LBL_WIDGET_NAME' => 'Nombre del Widget',
 	'LBL_SELECT_CHART' => 'Sélectionner Graphique',
 	'LBL_FILTER' => 'Filtre',
