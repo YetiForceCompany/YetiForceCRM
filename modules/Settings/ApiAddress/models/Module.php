@@ -28,16 +28,17 @@ class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model
 		\App\Log::trace('Entering set api address config');
 		$apiName = $elements['api_name'];
 		unset($elements['api_name']);
-		$result = 0;
+		$result = false;
 		if (count($elements)) {
 			$db = \App\Db::getInstance();
 			foreach ($elements as $key => $value) {
-				$result = $db->createCommand()
+				$db->createCommand()
 					->update('vtiger_apiaddress', [
 						'val' => $value
 						], ['type' => $apiName, 'name' => $key])
 					->execute();
 			}
+			$result = true;
 		}
 		\App\Log::trace('Exiting set api address config');
 		return $result;
