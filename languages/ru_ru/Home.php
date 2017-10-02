@@ -37,8 +37,8 @@ $languageStrings = [
 	'LBL_NOTIFICATION_BY_RECIPIENT' => 'Number of notifications by recipient',
 	//Widgets
 	'LBL_MINI_LIST' => 'Виджет по фильтрам',
-	'LBL_FILTERING_BY_DATE' => 'Filtering by date',		
- 	'LBL_TIMELINE_BY_DATE' => 'Timeline by date',
+	'LBL_FILTERING_BY_DATE' => 'Show filtering by date from field',
+	'LBL_TIMELINE_BY_DATE' => 'Timeline by date',
 	'LBL_WIDGET_NAME' => 'Widget name',
 	'LBL_SELECT_CHART' => 'Выбрать график',
 	'LBL_FILTER' => 'Фильтр',
