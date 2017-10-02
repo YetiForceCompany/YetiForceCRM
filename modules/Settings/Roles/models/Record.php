@@ -332,6 +332,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		$profileIds = $this->get('profileIds');
 		$oldRole = Vtiger_Cache::get('RolesArray', $roleId);
 		if ($oldRole !== false) {
+			$oldProfileIds = $this->getProfileIdList();
 			if ($profileIds === false ||
 				$oldRole['listrelatedrecord'] != $this->get('listrelatedrecord') ||
 				$oldRole['previewrelatedrecord'] != $this->get('previewrelatedrecord') ||
