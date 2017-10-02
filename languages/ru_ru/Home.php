@@ -44,4 +44,6 @@ $languageStrings = [
 	'LBL_FILTER' => 'Фильтр',
 	'LBL_GROUP_FIELD' => 'Группировать',
 	'LBL_GROUP_VALUES' => 'Sectors',
+	'LBL_FILTER_BY_OWNER' => 'Filter by owner',
+	'LBL_ALL_OWNERS' => 'All',
 ];
