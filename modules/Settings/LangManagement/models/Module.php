@@ -10,7 +10,7 @@
 class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 {
 
-	const URL_SEPARATOR = '^';
+	const URL_SEPARATOR = '__';
 
 	/**
 	 * Remove translation

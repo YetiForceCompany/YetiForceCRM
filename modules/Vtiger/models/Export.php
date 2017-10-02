@@ -338,13 +338,15 @@ class Vtiger_Export_Model extends \App\Base
 					case 'currencyparam':
 						$field = $inventoryFields['currency'];
 						$valueData = $field->getCurrencyParam([], $valueParam);
-						$valueNewData = [];
-						foreach ($valueData as $currencyId => &$data) {
-							$currencyName = vtlib\Functions::getCurrencyName($currencyId, false);
-							$data['value'] = $currencyName;
-							$valueNewData[$currencyName] = $data;
+						if (is_array($valueData)) {
+							$valueNewData = [];
+							foreach ($valueData as $currencyId => $data) {
+								$currencyName = vtlib\Functions::getCurrencyName($currencyId, false);
+								$data['value'] = $currencyName;
+								$valueNewData[$currencyName] = $data;
+							}
+							$valueParam = \App\Json::encode($valueNewData);
 						}
-						$valueParam = \App\Json::encode($valueNewData);
 						break;
 					default:
 						break;
