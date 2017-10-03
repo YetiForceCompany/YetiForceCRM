@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * ********************************************************************************** */
 
 class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
@@ -25,8 +26,10 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 
 		$viewer = $this->getViewer($request);
 		$this->initializeListViewContents($request, $viewer);
-		$sourceModule = $request->getByType('sourceModule', 1);
-		$viewer->assign('SOURCE_MODULE', $sourceModule);
+		if (!$request->isEmpty('sourceModule')) {
+			$sourceModule = $request->getByType('sourceModule', 1);
+			$viewer->assign('SOURCE_MODULE', $sourceModule);
+		}
 		$viewer->view('ListViewHeader.tpl', $request->getModule(false));
 	}
 
@@ -36,18 +39,18 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 		$this->initializeListViewContents($request, $viewer);
 		$viewer->view('ListViewContents.tpl', $request->getModule(false));
 	}
-	/*
-	 * Function to initialize the required data in smarty to display the List View Contents
-	 */
 
+	/**
+	 * Function to initialize the required data in smarty to display the List View Contents
+	 * @param \App\Request $request
+	 * @param Vtiger_Viewer $viewer
+	 */
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
-		$sourceModule = $request->getByType('sourceModule', 1);
-		$forModule = $request->get('formodule');
 		$searchParams = $request->get('searchParams');
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
@@ -84,11 +87,13 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 			$listViewModel->set('orderby', $orderBy);
 			$listViewModel->set('sortorder', $sortOrder);
 		}
-		if (!empty($sourceModule)) {
+		if (!$request->isEmpty('sourceModule')) {
+			$sourceModule = $request->getByType('sourceModule', 1);
 			$listViewModel->set('sourceModule', $sourceModule);
 		}
-		if (!empty($forModule)) {
-			$listViewModel->set('formodule', $forModule);
+		if (!$request->isEmpty('formodule')) {
+			$sourceModule = $request->getByType('formodule', 1);
+			$listViewModel->set('formodule', $sourceModule);
 		}
 		if (!$this->listViewHeaders) {
 			$this->listViewHeaders = $listViewModel->getListViewHeaders();

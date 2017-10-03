@@ -15,22 +15,23 @@ class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('getPagination');
 	}
 
+	/**
+	 * Pagination
+	 * @param \App\Request $request
+	 */
 	public function getPagination(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$pageNumber = $request->getInteger('page');
 		$searchResult = $request->get('searchResult');
 		$qualifiedModuleName = $request->getModule(false);
-		$sourceModule = $request->getByType('sourceModule', 1);
 		$listViewModel = Settings_Vtiger_ListView_Model::getInstance($qualifiedModuleName);
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
 		}
-		if (!empty($sourceModule)) {
+		if (!$request->isEmpty('sourceModule')) {
+			$sourceModule = $request->getByType('sourceModule', 1);
 			$listViewModel->set('sourceModule', $sourceModule);
-		}
-		if (!empty($forModule)) {
-			$listViewModel->set('formodule', $forModule);
 		}
 
 		$pagingModel = new Vtiger_Paging_Model();

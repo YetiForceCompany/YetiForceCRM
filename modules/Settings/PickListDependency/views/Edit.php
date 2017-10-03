@@ -6,11 +6,16 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * *********************************************************************************** */
 
 class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View
 {
 
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -18,9 +23,10 @@ class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View
 
 		$moduleModelList = Settings_PickListDependency_Module_Model::getPicklistSupportedModules();
 
-		$selectedModule = $request->getByType('sourceModule', 1);
-		if (empty($selectedModule)) {
+		if ($request->isEmpty('sourceModule')) {
 			$selectedModule = $moduleModelList[0]->name;
+		} else {
+			$selectedModule = $request->getByType('sourceModule', 1);
 		}
 		$sourceField = $request->get('sourcefield');
 		$targetField = $request->get('targetfield');
