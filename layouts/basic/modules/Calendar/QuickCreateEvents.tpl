@@ -5,7 +5,7 @@
 			<table class="table">
 				<tr>
 					{if $smarty.foreach.iteration.first}
-						<th class="padding5">
+						<th class="padding5 hidden-xs">
 							<button type="button" class="btn btn-xs btn-primary previousDayBtn"><</button>
 						</th>
 					{/if}
@@ -13,7 +13,7 @@
 						<span class="cursorPointer dateBtn" data-date="{Vtiger_Date_UIType::getDisplayDateValue($DATE)}">{Vtiger_Date_UIType::getDisplayDateValue($DATE)}&nbsp;({\App\Language::translate('LBL_'|cat:DateTimeField::getDayFromDate($DATE, true), $MODULE_NAME)})</span>
 					</th>
 					{if $smarty.foreach.iteration.last}
-						<th class="padding5">
+						<th class="padding5 hidden-xs">
 							<button type="button" class="btn btn-xs btn-primary nextDayBtn">></button>
 						</th>
 					{/if}

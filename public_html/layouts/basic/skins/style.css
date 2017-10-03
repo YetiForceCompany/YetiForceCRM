@@ -4403,6 +4403,9 @@ html,body,.baseContainer
 	}
 }
 @media screen and (min-width: 1200px) {
+	#quickCreate .modal-body{
+		max-height: none !important;
+	}
 	#mediumNav,
 	#shortNav,
 	#headerLinksCompact {
@@ -4425,6 +4428,9 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (max-width: 992px) {
+	.modalRightSiteBar{
+		width: 60%;
+	}
 	.listViewActionsDiv .btn-toolbar,
 	.editViewContainer .btn-toolbar{
 		margin-bottom: 5px;
@@ -4651,6 +4657,9 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (min-width: 992px) {
+	.modalRightSiteBar{
+		width: 40%;
+	}
 	.conditionList .conditionField{
 		padding-left: 0;
 	}
@@ -4780,6 +4789,9 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (min-width: 768px) {
+	.width1per7{
+		width: 14.28%;
+	}
 	.basePanel.menuOpen{
 		left:180px;
 		width: calc(100% - 180px);
@@ -4841,6 +4853,9 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (max-width: 768px) {
+	.width1per7{
+		width: 100%;
+	}
 	.mainBody{
 		bottom:17px;
 	}
@@ -4953,6 +4968,9 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (max-width: 480px){
+	.modalRightSiteBar{
+		width: 100%;
+	}
 	.detailViewToolbar{
 		text-align: center !important;
 	}
@@ -5242,9 +5260,6 @@ html,body,.baseContainer
 	border-top-left-radius:0px !important;
 	border-bottom-left-radius:0px !important;
 }
-#quickCreate .modal-body{
-	max-height: none !important;
-}
 .hideToggleSiteBarRightButton{
 	right: 0px !important;
 }
@@ -5326,7 +5341,6 @@ select.form-control {
 	padding-right: 0.8em !important;
 }
 .width1per7{
-	width: 14.28%;
 	float: left;
 }
 .quickCreateContent .addedNearCalendarEvent td{
@@ -5879,7 +5893,6 @@ select.form-control {
 }
 .modalRightSiteBar{
 	margin: 0;
-	width: 40%;
 	height: 100%;
     right: 0px;
     top: 0px;
