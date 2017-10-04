@@ -294,26 +294,22 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		return $userIdsList;
 	}
 
+	/**
+	 * TransferOwnership
+	 * @param Settings_Groups_Record_Model|Users_Record_Model $transferToGroup
+	 */
 	protected function transferOwnership($transferToGroup)
 	{
-		$db = App\Db::getInstance();
 		$groupId = $this->getId();
 		$transferGroupId = $transferToGroup->getId();
 
-		$db->createCommand()->update('vtiger_crmentity', ['smownerid' => $transferGroupId], ['smownerid' => $groupId])->execute();
-
-		//update workflow tasks Assigned User from Deleted Group to Transfer Owner
-		$newOwnerModel = $this->getInstance($transferGroupId);
-		if (!$newOwnerModel) {
-			$newOwnerModel = Users_Record_Model::getInstanceById($transferGroupId, 'Users');
-		}
-		$ownerModel = $this->getInstance($groupId);
-		vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel);
+		App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['smownerid' => $transferGroupId], ['smownerid' => $groupId])->execute();
+		App\Fields\Owner::transferOwnership($groupId, $transferGroupId);
 	}
 
 	/**
 	 * Function to delete the group
-	 * @param <Settings_Groups_Record_Model> $transferToGroup
+	 * @param Settings_Groups_Record_Model $transferToGroup
 	 */
 	public function delete($transferToGroup)
 	{

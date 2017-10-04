@@ -42,8 +42,12 @@ $languageStrings = [
 	'FL_TYPE' => 'Type',
 	'LBL_MARK_AS_READ' => 'Mark as read',
 	'LBL_NO_NOTIFICATIONS' => ' Нет уведомлений',
+	'LBL_CRON_LAUNCHING_FREQUENCY' => 'Cron launching frequency',
+	'LBL_MODULES' => 'Modules',
+	'LBL_SENT_NOTIFICATIONS' => 'Send notifications',
 	'LBL_NOTIFICATION_SETTINGS' => 'Настройки уведомлений',
 	'LBL_UNREAD' => 'Unread',
+	'LBL_NO_UNREAD_NOTIFICATIONS' => 'No unread notifications',
 ];
 $jsLanguageStrings = [
 	'JS_MARKED_AS_READ' => 'Marked as read',

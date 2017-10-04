@@ -41,6 +41,35 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
+		$extra = '';
+		if ($recordInstance) {
+			$extra = $recordInstance->get($this->get('field')->getFieldName() . '_extra');
+			if ($extra) {
+				$extra = ' ' . $extra;
+			}
+		}
+		$rfc3966 = $international = $value;
+		if (AppConfig::main('phoneFieldAdvancedVerification', false)) {
+			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+			try {
+				$swissNumberProto = $phoneUtil->parse($value);
+				$international = $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::INTERNATIONAL);
+				$rfc3966 = $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::RFC3966);
+			} catch (\libphonenumber\NumberParseException $e) {
+				
+			}
+		}
+		if ($rawText) {
+			return $international . $extra;
+		}
+		if (!\App\Integrations\Pbx::isActive()) {
+			return '<a href="' . \App\Purifier::encodeHtml($rfc3966) . '">' . \App\Purifier::encodeHtml($international . $extra) . '</a>';
+		}
+		return '<a class="phoneField" onclick="Vtiger_Index_Js.performPhoneCall(\'' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $value) . '\',' . $record . ')"><span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span> ' . \App\Purifier::encodeHtml($value . $extra) . '</a>';
+	}
+
+	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	{
 		$rfc3966 = $international = $value;
 		if (AppConfig::main('phoneFieldAdvancedVerification', false)) {
 			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
@@ -59,11 +88,6 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 			return '<a href="' . \App\Purifier::encodeHtml($rfc3966) . '">' . \App\Purifier::encodeHtml($international) . '</a>';
 		}
 		return '<a class="phoneField" onclick="Vtiger_Index_Js.performPhoneCall(\'' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $value) . '\',' . $record . ')"><span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span> ' . \App\Purifier::encodeHtml($value) . '</a>';
-	}
-
-	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
-	{
-		return $this->getDisplayValue($value, $record, $recordInstance, $rawText);
 	}
 
 	/**

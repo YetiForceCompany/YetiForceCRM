@@ -25,11 +25,11 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 	public function changeStatusRelation(\App\Request $request)
 	{
 		$relationId = $request->getInteger('relationId');
-		$status = $request->getInteger('status');
+		$status = $request->getBoolean('status');
 		$response = new Vtiger_Response();
 		try {
 			Vtiger_Relation_Model::updateRelationPresence($relationId, $status);
-			$response->setResult(array('success' => true));
+			$response->setResult(['success' => true]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
@@ -99,12 +99,12 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 
 	public function updateStateFavorites(\App\Request $request)
 	{
-		$relationId = $request->get('relationId');
+		$relationId = $request->getInteger('relationId');
 		$status = $request->get('status');
 		$response = new Vtiger_Response();
 		try {
 			Vtiger_Relation_Model::updateStateFavorites($relationId, $status);
-			$response->setResult(array('success' => true));
+			$response->setResult(['success' => true]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}

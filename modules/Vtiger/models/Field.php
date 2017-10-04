@@ -197,6 +197,8 @@ class Vtiger_Field_Model extends vtlib\Field
 						break;
 					case 32: $fieldDataType = 'languages';
 						break;
+					case 35: $fieldDataType = 'country';
+						break;
 					case 54: $fieldDataType = 'multiowner';
 						break;
 					case 55:
@@ -364,8 +366,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function getPicklistValues($skipCheckingRole = false)
 	{
 		$fieldDataType = $this->getFieldDataType();
-		if ($this->getName() === 'hdnTaxType')
+		if ($this->getName() === 'hdnTaxType') {
 			return null;
+		}
 
 		if ($fieldDataType === 'picklist' || $fieldDataType === 'multipicklist') {
 			if ($this->isRoleBased() && !$skipCheckingRole) {

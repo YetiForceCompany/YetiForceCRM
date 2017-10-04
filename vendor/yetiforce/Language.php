@@ -99,6 +99,25 @@ class Language
 	}
 
 	/**
+	 * Translation function based on only one file
+	 * @param string $key
+	 * @param string $moduleName
+	 * @param string|bool $language
+	 * @return string
+	 */
+	public static function translateSingleMod($key, $moduleName = 'Vtiger', $language = false)
+	{
+		if (!$language) {
+			$language = static::getLanguage();
+		}
+		$commonStrings = \Vtiger_Language_Handler::getModuleStringsFromFile($language, $moduleName);
+		if (!empty($commonStrings['languageStrings'][$key])) {
+			return stripslashes($commonStrings['languageStrings'][$key]);
+		}
+		return $key;
+	}
+
+	/**
 	 * Functions that gets pluralized translated string
 	 * @param string $key String which need to be translated
 	 * @param string $moduleName Module scope in which the translation need to be check

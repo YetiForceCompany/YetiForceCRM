@@ -24,7 +24,7 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'ExportPdf')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
-		if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $request->getInteger('record'))) {
+		if (!$request->isEmpty('record') && !\App\Privilege::isPermitted($moduleName, 'DetailView', $request->getInteger('record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}

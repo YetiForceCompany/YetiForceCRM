@@ -1153,6 +1153,7 @@ $languageStrings = [
 	'LBL_VERTICAL_BAR_CHART' => 'Gráfico Barra Horizontal',
 	'LBL_HORIZONTAL_BAR_CHART' => 'Gráfico Barra Vertical',
 	'LBL_LINE_CHART' => 'Gráfico de Linhas',
+	'LBL_LINE_CHART_PLAIN' => 'Smooth line graph',
 	'LBL_FUNNEL_CHART' => 'Funil de Vendas',
 	// numbers in words
 	'LBL_MINUS' => 'menos',
@@ -1297,6 +1298,8 @@ $languageStrings = [
 	'LBL_NO_PHONE_COUNTRY' => 'No country code',
 	'LBL_INVALID_COUNTRY_CODE' => 'Invalid country code',
 	'LBL_INVALID_PHONE_NUMBER' => 'Entered invalid phone number',
+	'LBL_VALUE_NOT_FOUND' => 'Value not found',
+	'FL_PHONE_CUSTOM_INFORMATION' => 'Additional information',
 ];
 $jsLanguageStrings = [
 	'JS_RECORDS_TRANSFERRED_SUCCESSFULLY' => 'A responsabilidade dos registros foi transferida com sucesso.',

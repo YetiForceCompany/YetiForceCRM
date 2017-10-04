@@ -44,6 +44,7 @@ $languageStrings = [
 	'LBL_PERMISSIONS_TO_VIEW_RELATED_RECORDS' => 'Partager la liste des enregistrements que nous pouvons prévisualiser',
 	'LBL_PERMISSIONS_TO_EDIT_RELATED_RECORDS' => 'Editer les enregistrements (que nous ne possédons pas) liés aux nôtres',
 	'LBL_PERMISSIONS_FIELD_RELATED_RECORDS' => 'Droits sur les champs des enregistrements liés',
+	'LBL_PERMITTED_BY_READ_ACCESS' => 'Access to record',
 	'LBL_PERMITTED_BY_SHARING' => 'Accéder aux exceptions de droits',
 	'LBL_INACTIVE' => 'Inactif',
 	'LBL_ONLY_PARENT' => 'Enregistrement parent',

@@ -45,6 +45,19 @@
 							</div>
 						</div>
 						<div class="col-xs-12 paddingLRZero marginBottom5 ">
+							<div class="col-xs-12 paddingLRZero textOverflowEllipsis">
+								{if $RECORD->get('link')}
+									{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('link')))}: {$RECORD->getDisplayValue('link')}<br />
+								{/if}
+								{if $RECORD->get('process')}
+									{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('process')))}: {$RECORD->getDisplayValue('process')}<br />
+								{/if}
+								{if $RECORD->get('subprocess')}
+									{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('subprocess')))}: {$RECORD->getDisplayValue('subprocess')}
+								{/if}
+							</div>
+						</div>
+						<div class="col-xs-12 paddingLRZero marginBottom5 ">
 							<div class="col-xs-10 paddingLRZero textOverflowEllipsis">
 								<strong class="">{\App\Language::translate($RECORD->getModule()->getField('smcreatorid')->get('label'),$MODULE_NAME)}: {$RECORD->getCreatorUser()}</strong>
 							</div>

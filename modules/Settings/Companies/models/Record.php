@@ -111,6 +111,9 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 			case 'industry':
 				$value = App\Language::translate($value);
 				break;
+			case 'country':
+				$value = \App\Language::translateSingleMod($value, 'Other.Country');
+				break;
 			case 'logo_login':
 			case 'logo_main':
 			case 'logo_mail':

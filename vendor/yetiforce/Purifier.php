@@ -253,7 +253,10 @@ class Purifier
 	 * Purify by data type
 	 * 
 	 * Type list:
+	 * Standard - only words
 	 * 1 - only words
+	 * Alnum - word and int
+	 * 2 - word and int
 	 * @param mixed $input
 	 * @param string $type Data type that is only acceptable
 	 * @return mixed
@@ -267,9 +270,11 @@ class Purifier
 			}
 		} else {
 			switch ($type) {
+				case 'Standard': // only word
 				case 1: // only word
 					$value = preg_match('/^[_a-zA-Z]+$/', $input) ? $input : false;
 					break;
+				case 'Alnum': // word and int
 				case 2: // word and int
 					$value = preg_match('/^[[:alnum:]]+$/', $input) ? $input : false;
 					break;

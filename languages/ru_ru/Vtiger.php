@@ -1177,6 +1177,7 @@ $languageStrings = [
 	'LBL_VERTICAL_BAR_CHART' => 'Горизонтальная гистограмма',
 	'LBL_HORIZONTAL_BAR_CHART' => 'Вертикальная гистограмма',
 	'LBL_LINE_CHART' => 'Линейный график',
+	'LBL_LINE_CHART_PLAIN' => 'Smooth line graph',
 	'LBL_FUNNEL_CHART' => 'Воронка продаж',
 	// numbers in words
 	'LBL_MINUS' => 'минус',
@@ -1326,6 +1327,8 @@ $languageStrings = [
 	'LBL_NO_PHONE_COUNTRY' => 'No country code',
 	'LBL_INVALID_COUNTRY_CODE' => 'Invalid country code',
 	'LBL_INVALID_PHONE_NUMBER' => 'Entered invalid phone number',
+	'LBL_VALUE_NOT_FOUND' => 'Value not found',
+	'FL_PHONE_CUSTOM_INFORMATION' => 'Additional information',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Подитог',

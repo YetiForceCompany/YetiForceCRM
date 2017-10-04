@@ -610,4 +610,63 @@ class Owner
 		self::$typeCache[$id] = $result;
 		return $result;
 	}
+
+	/**
+	 * Transfer ownership records
+	 * @param int $oldId
+	 * @param int $newId
+	 */
+	public static function transferOwnership($oldId, $newId)
+	{
+		$db = \App\Db::getInstance();
+		$ownerName = static::getLabel($oldId);
+		$newOwnerName = static::getLabel($newId);
+		//update workflow tasks Assigned User from Deleted User to Transfer User
+
+		$nameSearchValue = '"fieldname":"assigned_user_id","value":"' . $ownerName . '"';
+		$idSearchValue = '"fieldname":"assigned_user_id","value":"' . $oldId . '"';
+		$fieldSearchValue = 's:16:"assigned_user_id"';
+		$dataReader = (new \App\Db\Query())->select(['task', 'task_id', 'workflow_id'])->from('com_vtiger_workflowtasks')
+				->where(['or like', 'task', [$nameSearchValue, $idSearchValue, $fieldSearchValue]])
+				->createCommand()->query();
+		require_once("modules/com_vtiger_workflow/VTTaskManager.php");
+		while ($row = $dataReader->read()) {
+			$task = $row['task'];
+			$taskComponents = explode(':', $task);
+			$classNameWithDoubleQuotes = $taskComponents[2];
+			$className = str_replace('"', '', $classNameWithDoubleQuotes);
+			require_once 'modules/com_vtiger_workflow/tasks/' . $className . '.php';
+			$unserializeTask = unserialize($task);
+			if (array_key_exists('field_value_mapping', $unserializeTask)) {
+				$fieldMapping = \App\Json::decode($unserializeTask->field_value_mapping);
+				if (!empty($fieldMapping)) {
+					foreach ($fieldMapping as $key => $condition) {
+						if ($condition['fieldname'] == 'assigned_user_id') {
+							$value = $condition['value'];
+							if (is_numeric($value) && $value == $oldId) {
+								$condition['value'] = $newId;
+							} else if ($value == $ownerName) {
+								$condition['value'] = $newOwnerName;
+							}
+						}
+						$fieldMapping[$key] = $condition;
+					}
+					$updatedTask = \App\Json::encode($fieldMapping);
+					$unserializeTask->field_value_mapping = $updatedTask;
+					$serializeTask = serialize($unserializeTask);
+					$db->createCommand()->update('com_vtiger_workflowtasks', ['task' => $serializeTask], ['workflow_id' => $row['workflow_id'], 'task_id' => $row['task_id']])->execute();
+				}
+			} else {
+				//For VTCreateTodoTask and VTCreateEventTask
+				if (array_key_exists('assigned_user_id', $unserializeTask)) {
+					$value = $unserializeTask->assigned_user_id;
+					if ($value == $oldId) {
+						$unserializeTask->assigned_user_id = $newId;
+					}
+					$serializeTask = serialize($unserializeTask);
+					$db->createCommand()->update('com_vtiger_workflowtasks', ['task' => $serializeTask], ['workflow_id' => $row['workflow_id'], 'task_id' => $row['task_id']])->execute();
+				}
+			}
+		}
+	}
 }

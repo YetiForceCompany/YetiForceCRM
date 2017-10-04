@@ -37,13 +37,15 @@ $languageStrings = [
 	'LBL_NOTIFICATION_BY_RECIPIENT' => 'Número de notificaciones por destinatario',
 	//Widgets
 	'LBL_MINI_LIST' => 'Mini lista',
-	'LBL_FILTERING_BY_DATE' => 'Filtering by date',		
- 	'LBL_TIMELINE_BY_DATE' => 'Timeline by date',
+	'LBL_FILTERING_BY_DATE' => 'Show filtering by date from field',
+	'LBL_TIMELINE_BY_DATE' => 'Timeline by date',
 	'LBL_WIDGET_NAME' => 'Nombre del Widget',
 	'LBL_SELECT_CHART' => 'Seleccione gráfico',
 	'LBL_FILTER' => 'Filtrar',
 	'LBL_GROUP_FIELD' => 'Agrupar por',
 	'LBL_GROUP_VALUES' => 'Sectores',
+	'LBL_FILTER_BY_OWNER' => 'Filter by owner',
+	'LBL_ALL_OWNERS' => 'All',
 ];
 
 $jsLanguageStrings = [

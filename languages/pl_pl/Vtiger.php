@@ -1159,6 +1159,7 @@ $languageStrings = [
 	'LBL_VERTICAL_BAR_CHART' => 'Wykres słupkowy pionowy',
 	'LBL_HORIZONTAL_BAR_CHART' => 'Wykres słupkowy poziomy',
 	'LBL_LINE_CHART' => 'Wykres liniowy',
+	'LBL_LINE_CHART_PLAIN' => 'Wykres liniowy gładki',
 	'LBL_FUNNEL_CHART' => 'Lejek sprzedażowy',
 	// numbers in words
 	'LBL_MINUS' => 'minus',
@@ -1316,6 +1317,8 @@ $languageStrings = [
 	'LBL_NO_PHONE_COUNTRY' => 'Brak kodu kraju',
 	'LBL_INVALID_COUNTRY_CODE' => 'Błędny kod kraju',
 	'LBL_INVALID_PHONE_NUMBER' => 'Wprowadzono błędny numer telefonu',
+	'LBL_VALUE_NOT_FOUND' => 'Nie znaleziono wartości',
+	'FL_PHONE_CUSTOM_INFORMATION' => 'Informacje dodatkowe',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

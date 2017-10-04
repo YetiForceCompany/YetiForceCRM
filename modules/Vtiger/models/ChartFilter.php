@@ -95,6 +95,11 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		return $this->getDataBarchat();
 	}
 
+	protected function getDataLineplain()
+	{
+		return $this->getDataBarchat();
+	}
+
 	/**
 	 * Get bar chart data
 	 * @return array

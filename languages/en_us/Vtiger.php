@@ -1157,6 +1157,7 @@ $languageStrings = [
 	'LBL_VERTICAL_BAR_CHART' => 'Horizontal bar chart',
 	'LBL_HORIZONTAL_BAR_CHART' => 'Vertical bar chart',
 	'LBL_LINE_CHART' => 'Line chart',
+	'LBL_LINE_CHART_PLAIN' => 'Smooth line graph',
 	'LBL_FUNNEL_CHART' => 'Sales funnel',
 	// numbers in words
 	'LBL_MINUS' => 'minus',
@@ -1306,6 +1307,8 @@ $languageStrings = [
 	'LBL_NO_PHONE_COUNTRY' => 'No country code',
 	'LBL_INVALID_COUNTRY_CODE' => 'Invalid country code',
 	'LBL_INVALID_PHONE_NUMBER' => 'Entered invalid phone number',
+	'LBL_VALUE_NOT_FOUND' => 'Value not found',
+	'FL_PHONE_CUSTOM_INFORMATION' => 'Additional information',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summary',

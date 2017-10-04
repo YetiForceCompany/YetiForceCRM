@@ -49,13 +49,11 @@
 				</thead>
 				<tbody>
 					{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES}
-						<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}"
+						<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}"{/strip} {strip}
 							{if method_exists($LISTVIEW_ENTRY,'getDetailViewUrl')}data-recordurl="{$LISTVIEW_ENTRY->getDetailViewUrl()}"{/if}
 							>
 							<td width="1%" nowrap class="{$WIDTHTYPE}">
-								{if $MODULE eq 'CronTasks'}
-									<img src="{\App\Layout::getImagePath('drag.png')}" class="alignTop" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
-								{/if}
+								<img src="{\App\Layout::getImagePath('drag.png')}" class="alignTop" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
 							</td>
 							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 								{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}

@@ -1440,7 +1440,9 @@ var app = {
 		params['module'] = app.getModuleName();
 		params['parent'] = app.getParentModuleName();
 		params['action'] = 'SaveAjax';
-		params['mode'] = mode;
+		if(mode){
+			params['mode'] = mode;
+		}
 		params['param'] = param;
 		if (addToParams != undefined) {
 			for (var i in addToParams) {

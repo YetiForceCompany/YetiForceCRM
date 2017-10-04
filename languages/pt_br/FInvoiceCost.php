@@ -12,6 +12,8 @@ $languageStrings = [
 	'LBL_CUSTOM_INFORMATION' => 'Informações do Sistema',
 	'LBL_INVOICE_ADDRESS' => 'Endereço de Fatura',
 	'LBL_ADDRESS_DELIVERY_INFORMATION' => 'Endereço de Entrega',
+	'LBL_DESCRIPTION_BLOCK' => 'Description',
+	'LBL_ATTENTION_BLOCK' => 'Comments',
 	//FIELDS
 	'FL_SUBJECT' => 'Assunto',
 	'FL_PAYMENT_DATE' => 'Data de Vencimento',
@@ -25,6 +27,7 @@ $languageStrings = [
 	'FL_STATUS' => 'Situação',
 	'FL_PAYMENT_STATUS' => 'Situação do Pagamento',
 	'FL_INVOICE_TYPE' => 'Tipo de Fatura',
+	'FL_CATEGORY' => 'Category',
 	//PICKLIST VALUES
 	'PLL_TRANSFER' => 'Depósito Bancário',
 	'PLL_WIRE_TRANSFER' => 'Transferência Eletrônica',

@@ -422,6 +422,7 @@ var Vtiger_Index_Js = {
 			if (remindersNoticeContainer.hasClass('toggled')) {
 				remindersNoticeContainer.removeClass('toggled');
 			}
+			$('.actionMenu').removeClass('actionMenuOn');
 			$('.chatModal').modal({backdrop: false});
 		});
 		this.registerChatLoadItems(modal.data('timer'));

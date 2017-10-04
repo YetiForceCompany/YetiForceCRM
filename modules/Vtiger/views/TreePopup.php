@@ -39,9 +39,8 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $this->getModule($request);
-		$template = $request->get('template');
-		$srcField = $request->get('src_field');
-		$srcRecord = $request->getInteger('src_record');
+		$template = $request->getInteger('template');
+		$srcField = $request->getByType('src_field', 1);
 		$value = $request->get('value');
 		$type = false;
 		if (!empty($template)) {
@@ -57,7 +56,9 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 		}
 		$tree = $recordModel->getTree($type, $value);
 		$viewer->assign('TREE', \App\Json::encode($tree));
-		$viewer->assign('SRC_RECORD', $srcRecord);
+		if (!$request->isEmpty('src_record')) {
+			$viewer->assign('SRC_RECORD', $request->getInteger('src_record'));
+		}
 		$viewer->assign('SRC_FIELD', $srcField);
 		$viewer->assign('TEMPLATE', $template);
 		$viewer->assign('MODULE', $moduleName);

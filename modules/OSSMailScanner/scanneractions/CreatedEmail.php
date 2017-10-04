@@ -17,7 +17,6 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 	 */
 	public function process(OSSMail_Mail_Model $mail)
 	{
-		$id = 0;
 		$type = $mail->getTypeEmail();
 		$exceptionsAll = OSSMailScanner_Record_Model::getConfig('exceptions');
 		if (!empty($exceptionsAll['crating_mails'])) {
@@ -25,7 +24,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			$mailForExceptions = ($type === 0) ? $mail->get('toaddress') : $mail->get('fromaddress');
 			foreach ($exceptions as $exception) {
 				if (strpos($mailForExceptions, $exception) !== false) {
-					return $id;
+					return false;
 				}
 			}
 		}
@@ -64,6 +63,12 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 					], ['ossmailviewid' => $id]
 				)->execute();
 				return ['mailViewId' => $id, 'attachments' => $attachments];
+			} else {
+				App\Db::getInstance()->createCommand()->update('vtiger_ossmailview', [
+					'id' => $mail->get('id')
+					], ['ossmailviewid' => $mailId]
+				)->execute();
+				return ['mailViewId' => $mailId];
 			}
 		}
 		return false;

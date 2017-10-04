@@ -109,7 +109,7 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 			Vtiger_PDF_Model::exportToPdf($recordId, $moduleName, $templateIds[0]);
 		} else {
 			if ($singlePdf) {
-				$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'mPDF', $moduleName);
+				$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'Mpdf', $moduleName);
 				$pdf = new $handlerClass();
 				$styles = '';
 				$headers = '';
@@ -187,7 +187,7 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 						if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $record)) {
 							throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 						}
-						$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'mPDF', $moduleName);
+						$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'Mpdf', $moduleName);
 						$pdf = new $handlerClass();
 						$pdf->setTemplateId($id);
 						$pdf->setRecordId($record);

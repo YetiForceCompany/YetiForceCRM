@@ -94,6 +94,8 @@ $languageStrings = [
 	//dashboards
 	'Graf' => 'Письма по статусу',
 	'LBL_ORGINAL_MAIL_CONTENT' => 'Оригинал сообщения',
+	'BTN_RESET_RELATED_MAILS' => 'Reset related emails',
+	'LBL_SET_RELOAD_RELATIONS' => 'Marked for relation reload',
 ];
 $jsLanguageStrings = [
 	'From' => 'От',

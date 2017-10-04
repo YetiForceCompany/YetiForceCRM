@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Language Files test class
  * @package YetiForce.Test
@@ -9,6 +8,9 @@
  */
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers LanguageFiles::<public>
+ */
 class LanguageFiles extends TestCase
 {
 
