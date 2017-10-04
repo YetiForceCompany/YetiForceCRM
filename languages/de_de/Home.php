@@ -1,12 +1,11 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * *********************************************************************************** */
+/**
+ * Home german translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @author skavenkf (K.Fink)
+ */
 $languageStrings = [
 	'ALVT' => 'Top Organisationen',
 	'CVLVT' => 'Schlüsselmetrik',
@@ -44,8 +43,8 @@ $languageStrings = [
 	'LBL_FILTER' => 'Filter',
 	'LBL_GROUP_FIELD' => 'Gruppieren',
 	'LBL_GROUP_VALUES' => 'Sektoren',
-	'LBL_FILTER_BY_OWNER' => 'Filter by owner',
-	'LBL_ALL_OWNERS' => 'All',
+	'LBL_FILTER_BY_OWNER' => 'Filter nach Besitzer',
+	'LBL_ALL_OWNERS' => 'Alle',
 ];
 
 $jsLanguageStrings = [

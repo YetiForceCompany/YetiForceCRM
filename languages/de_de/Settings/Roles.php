@@ -1,12 +1,11 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * *********************************************************************************** */
+/**
+ * Roles german translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @author skavenkf (K.Fink)
+ */
 $languageStrings = [
 	'LBL_ADD_RECORD' => 'Rolle hinzufügen',
 	'LBL_ALL_USERS' => 'Alle Benutzer',
@@ -48,9 +47,9 @@ $languageStrings = [
 	'LBL_ONLY_PARENT' => 'Eltern Datensatz',
 	'LBL_ACCORDING_TO_HIERARCHY' => 'Zugriff zur Hierarchie',
 	'LBL_SHOW_GLOBAL_SEARCH_ADVANCED' => 'Erweiterte globale Suche anzeigen',
-	'LBL_BLOCK_COPY' => 'Block copying',
-	'LBL_BLOCK_CUT' => 'Block cutting',
-	'LBL_BLOCK_PASTE' => 'Block pasting',
+	'LBL_BLOCK_COPY' => 'Block kopieren',
+	'LBL_BLOCK_CUT' => 'Block ausschneiden',
+	'LBL_BLOCK_PASTE' => 'Block einfügen',
 	'LBL_AUTO_ASSIGN_RECORDS' => 'Automatische Zuordnung',
 ];
 $jsLanguageStrings = [

@@ -1,12 +1,11 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * *********************************************************************************** */
+/**
+ * Sharing Access german translation
+ * @package YetiForce.Language
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @author skavenkf (K.Fink)
+ */
 $languageStrings = [
 	'Sharing Rules' => 'Freigaberegeln',
 	'SharingAccess' => 'Freigaberegeln',
@@ -27,11 +26,11 @@ $languageStrings = [
 	'Read Only' => 'Lesen',
 	'Read Write' => 'Lesen/Schreiben',
 	'SINGLE_Groups' => 'Gruppe',
-	'Groups' => 'Groups',
+	'Groups' => 'Gruppen',
 	'SINGLE_RoleAndSubordinates' => 'Rolle und Untergeordnete',
-	'RoleAndSubordinates' => 'Roles and subordinates',
+	'RoleAndSubordinates' => 'Rollen und Untergeordnete',
 	'SINGLE_Roles' => 'Rolle',
-	'Roles' => 'Roles',
+	'Roles' => 'Rollen',
 	'Private' => 'Privat',
 	'Public: Read Only' => 'Öffentlich: Nur Lesen',
 	'Public: Read, Create/Edit, Delete' => 'Öffentlich: Lesen, Erstellen / Bearbeiten, Löschen',
