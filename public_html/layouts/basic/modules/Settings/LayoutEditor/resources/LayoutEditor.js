@@ -121,14 +121,14 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			var relatedModule = currentTarget.closest('.relatedModule');
 			relatedModule.find('.activeRelationModule').removeClass('hide').show();
 			currentTarget.hide();
-			thisInstance.changeStatusRelatedModule(relatedModule.data('relation-id'), 0);
+			thisInstance.changeStatusRelatedModule(relatedModule.data('relation-id'), 'false');
 		})
 		relatedList.on('click', '.activeRelationModule', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var relatedModule = currentTarget.closest('.relatedModule');
 			relatedModule.find('.inActiveRelationModule').removeClass('hide').show();
 			currentTarget.hide();
-			thisInstance.changeStatusRelatedModule(relatedModule.data('relation-id'), 1);
+			thisInstance.changeStatusRelatedModule(relatedModule.data('relation-id'), 'true');
 		})
 		relatedList.on('click', '.removeRelation', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
@@ -245,8 +245,6 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		);
 	},
 	changeStatusRelatedModule: function (relationId, status) {
-		var thisInstance = this;
-
 		var params = {};
 		params['module'] = app.getModuleName();
 		params['parent'] = app.getParentModuleName();
@@ -254,11 +252,10 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		params['mode'] = 'changeStatusRelation';
 		params['relationId'] = relationId;
 		params['status'] = status;
-
 		AppConnector.request(params).then(
 				function (data) {
 					var params = {};
-					if (status == 1) {
+					if (status === 'true') {
 						params['text'] = app.vtranslate('JS_SAVED_CHANGE_STATUS_1');
 					} else {
 						params['text'] = app.vtranslate('JS_SAVED_CHANGE_STATUS_0');
@@ -268,6 +265,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				function (error) {
 					var params = {};
 					params['text'] = error;
+					params['type'] = 'error';
 					Settings_Vtiger_Index_Js.showMessage(params);
 				}
 		);
