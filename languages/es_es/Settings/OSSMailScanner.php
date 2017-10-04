@@ -18,6 +18,7 @@ $languageStrings = [
 	'INBOX' => 'Bandeja de entrada',
 	'Junk' => 'Basura',
 	'Sent' => 'Enviado',
+	'ERR_INCORRECT_ACCESS_DATA' => 'Incorrect access data',
 	'LBL_INFO_ABOUT_FOLDERS_TO_REMOVE' => 'Las carpetas a continuación serán eliminadas después de guardar',
 ];
 $jsLanguageStrings = [

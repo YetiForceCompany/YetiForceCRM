@@ -17,6 +17,7 @@ $languageStrings = [
 	'INBOX' => 'INBOX',
 	'Junk' => 'JUNK',
 	'Sent' => 'SENT',
+	'ERR_INCORRECT_ACCESS_DATA' => 'Incorrect access data',
 	'LBL_INFO_ABOUT_FOLDERS_TO_REMOVE' => 'Die unten aufgeführten Verzeichnisse werden nach dem Sichern gelöscht',
 ];
 $jsLanguageStrings = [
