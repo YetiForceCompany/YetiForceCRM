@@ -47,6 +47,7 @@ $languageStrings = [
 	'LBL_PERMISSIONS_TO_VIEW_RELATED_RECORDS' => 'Доступ к связанным записям в режиме предпросмотра, при совместном доступе',
 	'LBL_PERMISSIONS_TO_EDIT_RELATED_RECORDS' => 'Разрешить редактировать записи, владельцем которых мы уже не являемся',
 	'LBL_PERMISSIONS_FIELD_RELATED_RECORDS' => 'Разрешить доступ к полям связанных записей',
+	'LBL_PERMITTED_BY_READ_ACCESS' => 'Access to record',
 	'LBL_PERMITTED_BY_SHARING' => 'Общий доступ',
 	'LBL_INACTIVE' => 'Неактивный',
 	'LBL_ONLY_PARENT' => 'Только к родителю записи',
