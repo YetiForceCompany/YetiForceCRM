@@ -47,14 +47,18 @@
 		"symfony/debug": "v3.3.6",
 		"giggsey/libphonenumber-for-php": "8.8.2"
 	},
+	"require-dev": {
+		"phpunit/phpunit": "6.*",
+		"phpunit/phpunit-selenium": "4.1.0"
+	},
 	"archive": {
 		"exclude": [
 			"tests"
 		]
 	},
-	 "config": {
-        "autoloader-suffix": "YT"
-    },
+	"config": {
+		"autoloader-suffix": "YT"
+	},
 	"autoload": {
 		"psr-4": {
 			"vtlib\\": "vtlib/Vtiger/",
