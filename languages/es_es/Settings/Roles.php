@@ -43,6 +43,7 @@ $languageStrings = [
 	'LBL_PERMISSIONS_TO_VIEW_RELATED_RECORDS' => 'Debería compartirse la vista previa de registros, relacionados con los registros a los que podemos acceder',
 	'LBL_PERMISSIONS_TO_EDIT_RELATED_RECORDS' => 'Debería habilitarse la edición de registros (que no poseemos), relacionados con nuestros registros',
 	'LBL_PERMISSIONS_FIELD_RELATED_RECORDS' => 'Los permisos para los registros relacionados están basados en el campo',
+	'LBL_PERMITTED_BY_READ_ACCESS' => 'Access to record',
 	'LBL_PERMITTED_BY_SHARING' => 'Excepciones de permisos de acceso',
 	'LBL_INACTIVE' => 'Inactiva',
 	'LBL_ONLY_PARENT' => 'Registro padre',
