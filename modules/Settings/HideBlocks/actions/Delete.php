@@ -9,15 +9,19 @@
 class Settings_HideBlocks_Delete_Action extends Settings_Vtiger_Index_Action
 {
 
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$qualifiedModuleName = $request->getModule(false);
 
 		$recordModel = Settings_HideBlocks_Record_Model::getInstanceById($recordId, $qualifiedModuleName);
 		$recordModel->delete();
 
-		$returnUrl = Settings_HideBlocks_Module_Model::getListViewUrl();
+		$returnUrl = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName)->getListViewUrl();
 		header("Location: $returnUrl");
 	}
 }
