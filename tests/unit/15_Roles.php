@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Roles test class
  * @package YetiForce.Test
@@ -43,8 +44,8 @@ class Roles extends TestCase
 		$recordModel->set('previewrelatedrecord', 0);
 		$recordModel->setParent($parentRole);
 		$recordModel->save();
-		self::$id = $recordModel->getId();
-		$this->assertNotNull(self::$id);
+		static::$id = $recordModel->getId();
+		$this->assertNotNull(static::$id);
 
 		$row = (new \App\Db\Query())->from('vtiger_role')->where(['roleid' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
@@ -68,7 +69,7 @@ class Roles extends TestCase
 	 */
 	public function testEditRole()
 	{
-		$recordModel = Settings_Roles_Record_Model::getInstanceById(self::$id);
+		$recordModel = Settings_Roles_Record_Model::getInstanceById(static::$id);
 		$this->assertNotNull($recordModel);
 
 		$recordModel->set('change_owner', 0);
@@ -110,7 +111,7 @@ class Roles extends TestCase
 	 */
 	public function testDeleteRole()
 	{
-		$recordModel = Settings_Roles_Record_Model::getInstanceById(self::$id);
+		$recordModel = Settings_Roles_Record_Model::getInstanceById(static::$id);
 		$transferToRole = Settings_Roles_Record_Model::getInstanceById('H6');
 		$this->assertNotNull($recordModel);
 		$this->assertNotNull($transferToRole);
