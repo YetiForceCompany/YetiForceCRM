@@ -121,14 +121,14 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			var relatedModule = currentTarget.closest('.relatedModule');
 			relatedModule.find('.activeRelationModule').removeClass('hide').show();
 			currentTarget.hide();
-			thisInstance.changeStatusRelatedModule(relatedModule.data('relation-id'), 'false');
+			thisInstance.changeStatusRelatedModule(relatedModule.data('relation-id'), false);
 		})
 		relatedList.on('click', '.activeRelationModule', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var relatedModule = currentTarget.closest('.relatedModule');
 			relatedModule.find('.inActiveRelationModule').removeClass('hide').show();
 			currentTarget.hide();
-			thisInstance.changeStatusRelatedModule(relatedModule.data('relation-id'), 'true');
+			thisInstance.changeStatusRelatedModule(relatedModule.data('relation-id'), true);
 		})
 		relatedList.on('click', '.removeRelation', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
@@ -251,11 +251,11 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		params['action'] = 'Relation';
 		params['mode'] = 'changeStatusRelation';
 		params['relationId'] = relationId;
-		params['status'] = status;
+		params['status'] = status ? 'true' : 'false';
 		AppConnector.request(params).then(
 				function (data) {
 					var params = {};
-					if (status === 'true') {
+					if (status) {
 						params['text'] = app.vtranslate('JS_SAVED_CHANGE_STATUS_1');
 					} else {
 						params['text'] = app.vtranslate('JS_SAVED_CHANGE_STATUS_0');

@@ -10,37 +10,26 @@
 class Settings_WebserviceApps_SaveAjax_Action extends Settings_Vtiger_Index_Action
 {
 
+	/**
+	 * Main process
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
-		$keyLength = 32;
-		$id = $request->get('id');
-		$status = $request->get('status');
-		$nameServer = $request->get('name');
-		$url = $request->get('url');
-		$pass = $request->get('pass');
-		$accounts = $request->get('accounts');
-		$db = \App\Db::getInstance('webservice');
-		if (empty($id)) {
-			$type = $request->get('type');
-			$key = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $keyLength);
-			$db->createCommand()->insert('w_#__servers', [
-				'name' => $nameServer,
-				'acceptable_url' => $url,
-				'api_key' => $key,
-				'status' => $status == 'true' ? 1 : 0,
-				'type' => $type,
-				'pass' => $pass,
-				'accounts_id' => $accounts,
-			])->execute();
+		if ($request->isEmpty('id')) {
+			$recordModel = Settings_WebserviceApps_Record_Model::getCleanInstance();
+			$recordModel->set('type', $request->get('type'));
 		} else {
-			$updates = [
-				'status' => $status == 'true' ? 1 : 0,
-				'name' => $nameServer,
-				'acceptable_url' => $url,
-				'pass' => $pass,
-				'accounts_id' => $accounts,
-			];
-			$db->createCommand()->update('w_#__servers', $updates, ['id' => $id])->execute();
+			$recordModel = Settings_WebserviceApps_Record_Model::getInstanceById($request->getInteger('id'));
 		}
+		$recordModel->set('status', $request->getBoolean('status'));
+		$recordModel->set('name', $request->get('name'));
+		$recordModel->set('acceptable_url', $request->get('url'));
+		$recordModel->set('pass', $request->get('pass'));
+		$recordModel->set('accounts_id', $request->get('accounts'));
+		$recordModel->save();
+		$responce = new Vtiger_Response();
+		$responce->setResult(true);
+		$responce->emit();
 	}
 }
