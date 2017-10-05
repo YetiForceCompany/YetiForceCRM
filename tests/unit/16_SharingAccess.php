@@ -28,18 +28,14 @@ class SharingAccess extends TestCase
 			$moduleModel = Settings_SharingAccess_Module_Model::getInstance($tabId);
 			$permissionOld = $moduleModel->get('permission');
 			$moduleModel->set('permission', $permission);
-			if ($permissionOld != $permission) {
+			if ($permissionOld !== $permission) {
 				$prevValues[$tabId] = $permissionOld;
 				$postValues[$tabId] = $moduleModel->get('permission');
-				if ($permissionOld == 3 || $moduleModel->get('permission') == 3) {
+				if ($permissionOld === 3 || $moduleModel->get('permission') === 3) {
 					\App\Privilege::setUpdater(\App\Module::getModuleName($tabId));
 				}
 			}
-			try {
-				$moduleModel->save();
-			} catch (\App\Exceptions\AppException $e) {
-				$this->assertTrue(true, $e->getMessage());
-			}
+			$moduleModel->save();
 		}
 		Settings_Vtiger_Tracker_Model::addDetail($prevValues, $postValues);
 		Settings_SharingAccess_Module_Model::recalculateSharingRules();
@@ -54,7 +50,7 @@ class SharingAccess extends TestCase
 		$this->assertNotFalse($row, 'No record id: 6');
 
 		$oldPermission = $row['permission'];
-		$newPermission = $oldPermission == 2 ? 1 : 2;
+		$newPermission = $oldPermission === 2 ? 1 : 2;
 
 		$modulePermissions = [6 => $newPermission, 4 => $newPermission];
 		$this->changePermissions($modulePermissions);
