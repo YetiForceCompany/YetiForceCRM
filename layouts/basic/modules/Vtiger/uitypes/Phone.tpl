@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce Sp. z o.o.
 ********************************************************************************/
 -->*}
 {strip}
@@ -16,7 +16,7 @@
 	{if AppConfig::main('phoneFieldAdvancedVerification',false)}
 		{assign var="PHONE_DETAIL" value=App\Fields\Phone::getDetails($NUMBER)}
 		{assign var="FIELD_NAME_EXTRA" value=$FIELD_MODEL->getFieldName()|cat:'_extra'}
-		{assign var="FIELD_MODEL_EXTRA" value=$RECORD->getModule()->getFieldByName($FIELD_NAME_EXTRA)}
+		{assign var="FIELD_MODEL_EXTRA" value=$FIELD_MODEL->getModule()->getFieldByName($FIELD_NAME_EXTRA)}
 		{assign var="ACTIVE_EXTRA_FIELD" value=$FIELD_MODEL_EXTRA && $FIELD_MODEL_EXTRA->isWritable()}
 		<div class="row">
 			<div class="{if $ACTIVE_EXTRA_FIELD}col-md-8{else}col-md-12{/if}">
@@ -44,7 +44,7 @@
 				<div class="col-md-4">
 					{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_MODEL_EXTRA->getFieldInfo()))}
 					{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL_EXTRA->getValidator()}
-					<input name="{$FIELD_NAME_EXTRA}" class="form-control" title="{\App\Language::translate($FIELD_MODEL_EXTRA->get('label'), $MODULE)}" value="{$RECORD->get($FIELD_NAME_EXTRA)}" id="{$MODULE}_editView_fieldName_{$FIELD_NAME_EXTRA}" type="text"  data-validation-engine="validate[{if $FIELD_MODEL_EXTRA->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if} {if $FIELD_MODEL_EXTRA->isEditableReadOnly()}readonly="readonly"{/if} {if $FIELD_MODEL_EXTRA->get('fieldparams') != ''}data-inputmask="'mask': '{$FIELD_MODEL_EXTRA->get('fieldparams')}'"{/if}/>
+					<input name="{$FIELD_NAME_EXTRA}" class="form-control" title="{\App\Language::translate($FIELD_MODEL_EXTRA->get('label'), $MODULE)}" value="{if $RECORD}{$RECORD->get($FIELD_NAME_EXTRA)}{/if}" id="{$MODULE}_editView_fieldName_{$FIELD_NAME_EXTRA}" type="text"  data-validation-engine="validate[{if $FIELD_MODEL_EXTRA->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if} {if $FIELD_MODEL_EXTRA->isEditableReadOnly()}readonly="readonly"{/if} {if $FIELD_MODEL_EXTRA->get('fieldparams') != ''}data-inputmask="'mask': '{$FIELD_MODEL_EXTRA->get('fieldparams')}'"{/if}/>
 				</div>
 			{/if}
 		</div>

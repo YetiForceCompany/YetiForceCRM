@@ -22,16 +22,6 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the Detailview template name for the current UI Type Object 
-	 * Added for PhoneCalls module
-	 * @return string - Template Name
-	 */
-	public function getDetailViewTemplateName()
-	{
-		return 'uitypes/PhoneDetailView.tpl';
-	}
-
-	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param mixed $value
 	 * @param int|bool $record
