@@ -39,14 +39,6 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 		$dbEndDate = $dbEndDateObject->format('Y-m-d');
 
 		$db = App\Db::getInstance();
-		$params[] = 0;
-		$params[] = $currentUser->getId();
-		$params[] = $dbStartDateTime;
-		$params[] = $dbEndDateTime;
-		$params[] = $dbStartDateTime;
-		$params[] = $dbEndDateTime;
-		$params[] = $dbStartDate;
-		$params[] = $dbEndDate;
 		$startTime = $dbStartDateOject->format('H:i:s');
 		$dataReader = (new \App\Db\Query())->select(['date_start', 'time_start', 'time_end'])
 				->from('vtiger_activity')
