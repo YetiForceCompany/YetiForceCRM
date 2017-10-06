@@ -48,9 +48,9 @@ $languageStrings = [
 	'LBL_ONLY_PARENT' => 'Eltern Datensatz',
 	'LBL_ACCORDING_TO_HIERARCHY' => 'Zugriff zur Hierarchie',
 	'LBL_SHOW_GLOBAL_SEARCH_ADVANCED' => 'Erweiterte globale Suche anzeigen',
-	'LBL_BLOCK_COPY' => 'Block copying',
-	'LBL_BLOCK_CUT' => 'Block cutting',
-	'LBL_BLOCK_PASTE' => 'Block pasting',
+	'LBL_BLOCK_COPY' => 'Block kopieren',
+	'LBL_BLOCK_CUT' => 'Block ausschneiden',
+	'LBL_BLOCK_PASTE' => 'Block einfügen',
 	'LBL_AUTO_ASSIGN_RECORDS' => 'Automatische Zuordnung',
 ];
 $jsLanguageStrings = [

@@ -44,8 +44,8 @@ $languageStrings = [
 	'LBL_FILTER' => 'Filter',
 	'LBL_GROUP_FIELD' => 'Gruppieren',
 	'LBL_GROUP_VALUES' => 'Sektoren',
-	'LBL_FILTER_BY_OWNER' => 'Filter by owner',
-	'LBL_ALL_OWNERS' => 'All',
+	'LBL_FILTER_BY_OWNER' => 'Filter nach Besitzer',
+	'LBL_ALL_OWNERS' => 'Alle',
 ];
 
 $jsLanguageStrings = [

@@ -4,6 +4,7 @@
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @author skavenkf (K.Fink)
  */
 $languageStrings = [
 	'ConfReport' => 'Serverkonfiguration',
@@ -64,9 +65,9 @@ $languageStrings = [
 	'LBL_CRON_LOG_FILE' => 'Cron - Error Logs',
 	'LBL_CRON_PHP_SAPI' => 'Cron - API Server',
 	'LBL_ENVIRONMENTAL_INFORMATION' => 'Umgebungsinformationen',
-	'LBL_OPERATING_SYSTEM' => 'Operating system',
-	'BTN_SERVER_SPEED_TEST' => 'Server speed test',
-	'LBL_LIB_NAME' => 'Library name',
+	'LBL_OPERATING_SYSTEM' => 'Betriebssystem',
+	'BTN_SERVER_SPEED_TEST' => 'Server Performance Test',
+	'LBL_LIB_NAME' => 'Library Name',
  	'LBL_VULNERABILITY_NAME' => 'Name der Schwachstelle',
  	'LBL_VULNERABILITY_URL' => 'Adresse der Schwachstelle',
 	'HTTPS_HELP_TEXT' => 'SSL ist die Standard Sicherheitstechnologie für die verschlüsselte Verbindung zwischen dem Webserver und dem Browser',
