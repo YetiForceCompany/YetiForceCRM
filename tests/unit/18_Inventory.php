@@ -49,7 +49,7 @@ class Inventory extends TestCase
 	public function testAddInventory()
 	{
 		$type = 'Taxes';
-		$name = 'testowy podatek';
+		$name = 'test';
 		$value = 3.14;
 		$status = 0;
 		static::$id = $this->save('', $type, $name, $value, $status);
@@ -58,9 +58,9 @@ class Inventory extends TestCase
 		$tableName = Settings_Inventory_Record_Model::getTableNameFromType($type);
 		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
-		$this->assertEquals($row['name'], 'testowy podatek');
-		$this->assertEquals($row['value'], 3.14);
-		$this->assertEquals($row['status'], 0);
+		$this->assertEquals($row['name'], $name);
+		$this->assertEquals($row['value'], $value);
+		$this->assertEquals($row['status'], $status);
 	}
 
 	/**
@@ -69,21 +69,17 @@ class Inventory extends TestCase
 	public function testEditInventory()
 	{
 		$type = 'Taxes';
-		$recordModel = Settings_Inventory_Record_Model::getInstanceById(static::$id, $type);
-
-		$recordModel->set('id', static::$id);
-		$recordModel->set('name', 'testowy podatek edy');
-		$recordModel->set('value', 1.16);
-		$recordModel->set('status', 1);
-		$recordModel->setType($type);
-		$recordModel->save();
+		$name = 'test edit';
+		$value = 1.16;
+		$status = 1;
+		$this->save(static::$id, $type, $name, $value, $status);
 
 		$tableName = Settings_Inventory_Record_Model::getTableNameFromType($type);
 		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
-		$this->assertEquals($row['name'], 'testowy podatek edy');
-		$this->assertEquals($row['value'], 1.16);
-		$this->assertEquals($row['status'], 1);
+		$this->assertEquals($row['name'], $name);
+		$this->assertEquals($row['value'], $value);
+		$this->assertEquals($row['status'], $status);
 	}
 
 	/**
@@ -125,11 +121,10 @@ class Inventory extends TestCase
 	public function testEditDiscount()
 	{
 		$type = 'Discounts';
-		$name = 'test name edit';
+		$name = 'test edit';
 		$value = 2.62;
 		$status = 1;
-		static::$id = $this->save('', $type, $name, $value, $status);
-		$this->save('', $type, $name, $value, $status);
+		$this->save(static::$id, $type, $name, $value, $status);
 
 		$tableName = Settings_Inventory_Record_Model::getTableNameFromType($type);
 		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
@@ -145,6 +140,58 @@ class Inventory extends TestCase
 	public function testDeleteDiscount()
 	{
 		$type = 'Discounts';
+		$recordModel = Settings_Inventory_Record_Model::getInstanceById(static::$id, $type);
+		$recordModel->delete();
+
+		$tableName = Settings_Inventory_Record_Model::getTableNameFromType($type);
+		$this->assertFalse((new App\Db\Query())->from($tableName)->where(['id' => static::$id])->exists(), 'The record was not removed from the database ID: ' . static::$id);
+	}
+
+	/**
+	 * Testing credit limits creation
+	 */
+	public function testAddCreditLimits()
+	{
+		$type = 'CreditLimits';
+		$name = 'test';
+		$value = 500;
+		$status = 0;
+		static::$id = $this->save('', $type, $name, $value, $status);
+		$this->assertNotNull(static::$id, 'Id is null');
+
+		$tableName = Settings_Inventory_Record_Model::getTableNameFromType($type);
+		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
+		$this->assertNotFalse($row, 'No record id: ' . static::$id);
+		$this->assertEquals($row['name'], $name);
+		$this->assertEquals($row['value'], $value);
+		$this->assertEquals($row['status'], $status);
+	}
+
+	/**
+	 * Testing credit limits edition
+	 */
+	public function testEditCreditLimits()
+	{
+		$type = 'CreditLimits';
+		$name = 'test edit';
+		$value = 1410;
+		$status = 1;
+		$this->save(static::$id, $type, $name, $value, $status);
+
+		$tableName = Settings_Inventory_Record_Model::getTableNameFromType($type);
+		$row = (new \App\Db\Query())->from($tableName)->where(['id' => static::$id])->one();
+		$this->assertNotFalse($row, 'No record id: ' . static::$id);
+		$this->assertEquals($row['name'], $name);
+		$this->assertEquals($row['value'], $value);
+		$this->assertEquals($row['status'], $status);
+	}
+
+	/**
+	 * Testing credit limits deletion
+	 */
+	public function testDeleteCreditLimits()
+	{
+		$type = 'CreditLimits';
 		$recordModel = Settings_Inventory_Record_Model::getInstanceById(static::$id, $type);
 		$recordModel->delete();
 
