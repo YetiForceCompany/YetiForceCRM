@@ -60,18 +60,6 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	}
 
 	/**
-	 * Function to get the DB Insert Value, for the current field type with given User Value
-	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @return mixed
-	 */
-	public function getDBValue($value, $recordModel = false)
-	{
-		$v = parent::getDBValue($value, $recordModel);
-		return $v;
-	}
-
-	/**
 	 * Function to get the datetime value in user preferred hour format
 	 * @param <type> $dateTime
 	 * @return string date and time with hour format

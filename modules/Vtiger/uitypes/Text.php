@@ -20,9 +20,9 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	{
 		$uiType = $this->get('field')->get('uitype');
 		if ($uiType === 300) {
-			return \App\Purifier::purifyHtml($value);
+			return \App\Purifier::encodeHtml($value);
 		} else {
-			return nl2br($value);
+			return \App\Purifier::encodeHtml(nl2br($value));
 		}
 	}
 
@@ -43,6 +43,6 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		return \vtlib\Functions::fromHTML($value);
+		return \App\Purifier::decodeHtml($value);
 	}
 }

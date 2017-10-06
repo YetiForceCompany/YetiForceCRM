@@ -33,7 +33,7 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 		} else if ($value === 0 || $value === '0' || strtolower($value) === 'off' || strtolower($value) === 'no' || false === $value) {
 			return Vtiger_Language_Handler::getTranslatedString('LBL_NO', $this->get('field')->getModuleName());
 		}
-		return $value;
+		return \App\Purifier::encodeHtml($value);
 	}
 
 	public function getListSearchTemplateName()
@@ -49,7 +49,7 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		if ($value === 'on' || $value == 1) {
+		if ($value === 'on' || (int) $value === 1) {
 			return 1;
 		} else {
 			return 0;

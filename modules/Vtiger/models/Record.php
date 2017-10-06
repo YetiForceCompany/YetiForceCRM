@@ -301,7 +301,7 @@ class Vtiger_Record_Model extends \App\Base
 		if (empty($recordId)) {
 			$recordId = $this->getId();
 		}
-		$fieldModel = $this->getModule()->getField($fieldName);
+		$fieldModel = $this->getModule()->getFieldByName($fieldName);
 		if ($fieldModel) {
 			return $fieldModel->getDisplayValue($this->get($fieldName), $recordId, $this, $rawText);
 		}
@@ -385,7 +385,7 @@ class Vtiger_Record_Model extends \App\Base
 	{
 		$entityInstance = $this->getModule()->getEntityInstance();
 		$db = \App\Db::getInstance();
-		foreach ($this->getValuesForSave() as $tableName => &$tableData) {
+		foreach ($this->getValuesForSave() as $tableName => $tableData) {
 			$keyTable = [$entityInstance->tab_name_index[$tableName] => $this->getId()];
 			if ($this->isNew()) {
 				if ($tableName === 'vtiger_crmentity') {
@@ -483,7 +483,7 @@ class Vtiger_Record_Model extends \App\Base
 		$instance = new $modelClassName();
 		$instance->setModuleFromInstance($module);
 		$instance->isNew = true;
-		$instance->setData($focus->column_fields)->setModule($moduleName)->setEntity($focus);
+		$instance->setData($focus->column_fields)->setEntity($focus);
 		\App\Cache::staticSave('RecordModelCleanInstance', $moduleName, clone $instance);
 		return $instance;
 	}
@@ -804,9 +804,9 @@ class Vtiger_Record_Model extends \App\Base
 				$commonFields = array_intersect($fieldsList, $parentFieldsList);
 				foreach ($commonFields as $fieldName) {
 					if (\App\Field::getFieldPermission($parentRecordModel->getModuleName(), $fieldName)) {
-						if ($fieldName == 'shownerid') {
+						if ($fieldName === 'shownerid') {
 							$fieldInstance = Vtiger_Field_Model::getInstance($fieldName, $parentRecordModel->getModule());
-							$parentRecordModel->set($fieldName, $fieldInstance->getUITypeModel()->getEditViewDisplayValue('', $parentRecordModel->getId()));
+							$parentRecordModel->set($fieldName, $fieldInstance->getUITypeModel()->getSharedOwners($parentRecordModel->getId()));
 						}
 						$this->set($fieldName, $parentRecordModel->get($fieldName));
 					}
@@ -837,9 +837,9 @@ class Vtiger_Record_Model extends \App\Base
 					}
 				} elseif ((is_object($mapp['target']) && is_object($mapp['source'])) && \App\Field::getFieldPermission($parentRecordModel->getModuleName(), $mapp['source']->getName()) && in_array($mapp['source']->getName(), $parentFieldsList)) {
 					$parentMapName = $parentRecordModel->get($mapp['source']->getName());
-					if ($mapp['source']->getName() == 'shownerid' && empty($parentMapName)) {
+					if ($mapp['source']->getName() === 'shownerid' && empty($parentMapName)) {
 						$fieldInstance = Vtiger_Field_Model::getInstance($mapp['source']->getName(), $parentRecordModel->getModule());
-						$parentRecordModel->set($mapp['source']->getName(), $fieldInstance->getUITypeModel()->getEditViewDisplayValue('', $parentRecordModel->getId()));
+						$parentRecordModel->set($mapp['source']->getName(), $fieldInstance->getUITypeModel()->getSharedOwners($parentRecordModel->getId()));
 					}
 					$value = $parentRecordModel->get($mapp['source']->getName());
 					if (!$value) {

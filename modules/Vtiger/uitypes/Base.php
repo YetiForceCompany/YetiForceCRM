@@ -48,7 +48,7 @@ class Vtiger_Base_UIType extends \App\Base
 		if (is_null($value)) {
 			$value = '';
 		}
-		return $value;
+		return \App\Purifier::decodeHtml($value);
 	}
 
 	/**
@@ -58,9 +58,6 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		if ($rawText) {
-			return $value;
-		}
 		return \App\Purifier::encodeHtml($value);
 	}
 
@@ -96,13 +93,14 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
-	 * Function to get the display value in edit view
-	 * @param reference record id
-	 * @return link
+	 * Function to get the edit value in display view
+	 * @param mixed $value
+	 * @param Vtiger_Record_Model $recordModel
+	 * @return mixed
 	 */
-	public function getEditViewDisplayValue($value, $record = false)
+	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		return $value;
+		return \App\Purifier::encodeHtml($value);
 	}
 
 	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)

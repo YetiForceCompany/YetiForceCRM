@@ -23,7 +23,7 @@ class Vtiger_FileLocationType_UIType extends Vtiger_Picklist_UIType
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$values = $this->getPicklistValues();
-		return isset($values[$value]) ? $values[$value] : $value;
+		return \App\Purifier::encodeHtml(isset($values[$value]) ? $values[$value] : $value);
 	}
 
 	/**

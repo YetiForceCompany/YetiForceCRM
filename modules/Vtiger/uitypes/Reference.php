@@ -50,21 +50,20 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$referenceModule = $this->getReferenceModule($value);
-		if ($referenceModule && !empty($value)) {
-			$referenceModuleName = $referenceModule->get('name');
-			if ($referenceModuleName === 'Users' || $referenceModuleName === 'Groups') {
-				$name = \App\Fields\Owner::getLabel($value);
-			} else {
-				$name = \App\Record::getLabel($value);
-			}
-			if ($rawText || $referenceModuleName === 'Users' || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
-				return $name;
-			}
-			$name = vtlib\Functions::textLength($name, vglobal('href_max_length'));
-			$linkValue = "<a class='modCT_$referenceModuleName' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . App\Language::translate($referenceModuleName, $referenceModuleName) . "'>$name</a>";
-			return $linkValue;
+		if (!$referenceModule || empty($value)) {
+			return '';
 		}
-		return '';
+		$referenceModuleName = $referenceModule->get('name');
+		if ($referenceModuleName === 'Users' || $referenceModuleName === 'Groups') {
+			return \App\Fields\Owner::getLabel($value);
+		}
+		$name = \App\Record::getLabel($value);
+		if ($rawText || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
+			return $name;
+		}
+		$name = vtlib\Functions::textLength($name, vglobal('href_max_length'));
+		$linkValue = "<a class='modCT_$referenceModuleName showReferenceTooltip' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . App\Language::translateSingularModuleName($referenceModuleName) . "'>$name</a>";
+		return $linkValue;
 	}
 
 	/**
@@ -75,37 +74,35 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$referenceModule = $this->getReferenceModule($value);
-		if ($referenceModule && !empty($value)) {
-			$referenceModuleName = $referenceModule->get('name');
-			if ($referenceModuleName === 'Users' || $referenceModuleName === 'Groups') {
-				$name = \App\Fields\Owner::getLabel($value);
-			} else {
-				$name = \App\Record::getLabel($value);
-			}
-			if ($rawText || $referenceModuleName === 'Users' || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
-				return $name;
-			}
-			$name = vtlib\Functions::textLength($name, $this->get('field')->get('maxlengthtext'));
-			$linkValue = "<a class='modCT_$referenceModuleName' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . App\Language::translate($referenceModuleName, $referenceModuleName) . "'>$name</a>";
-			return $linkValue;
+		if (!$referenceModule || empty($value)) {
+			return '';
 		}
-		return '';
+		$referenceModuleName = $referenceModule->get('name');
+		if ($referenceModuleName === 'Users' || $referenceModuleName === 'Groups') {
+			return \App\Fields\Owner::getLabel($value);
+		}
+		$name = \App\Record::getLabel($value);
+		if ($rawText || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
+			return $name;
+		}
+		$name = vtlib\Functions::textLength($name, $this->get('field')->get('maxlengthtext'));
+		$linkValue = "<a class='modCT_$referenceModuleName showReferenceTooltip' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . App\Language::translateSingularModuleName($referenceModuleName) . "'>$name</a>";
+		return $linkValue;
 	}
 
 	/**
-	 * Function to get the display value in edit view
-	 * @param reference record id
-	 * @return link
+	 * Function to get the edit value in display view
+	 * @param mixed $value
+	 * @param Vtiger_Record_Model $recordModel
+	 * @return mixed
 	 */
-	public function getEditViewDisplayValue($value, $record = false)
+	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		$referenceModuleName = $this->getReferenceModule($value);
 		if ($referenceModuleName === 'Users' || $referenceModuleName === 'Groups') {
-			$name = \App\Fields\Owner::getLabel($value);
-		} else {
-			$name = \App\Record::getLabel($value);
+			return \App\Fields\Owner::getLabel($value);
 		}
-		return $name;
+		return \App\Record::getLabel($value);
 	}
 
 	public function getListSearchTemplateName()
@@ -132,6 +129,6 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		if (empty($value)) {
 			$value = 0;
 		}
-		return $value;
+		return (int) $value;
 	}
 }

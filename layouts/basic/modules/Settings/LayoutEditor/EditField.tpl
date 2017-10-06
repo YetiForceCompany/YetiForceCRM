@@ -107,7 +107,7 @@
 								</div>
 							{elseif $FIELD_MODEL->getFieldDataType() eq "date"}
 								<div class="input-group date">
-									{assign var=FIELD_NAME value=$FIELD_MODEL->get('name')}
+									{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
 									<input type="text" class="form-control dateField" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if} name="fieldDefaultValue" data-toregister="date" data-date-format="{$USER_MODEL->get('date_format')}" data-fieldinfo='{\App\Json::encode($FIELD_INFO)}'{strip} {/strip}
 										   value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('defaultvalue'))}" />
 									<span class="input-group-addon">

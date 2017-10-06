@@ -31,7 +31,7 @@ class Vtiger_Country_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		return \App\Language::translateSingleMod($value, 'Other.Country');
+		return \App\Purifier::encodeHtml(\App\Language::translateSingleMod($value, 'Other.Country'));
 	}
 
 	/**
@@ -39,7 +39,7 @@ class Vtiger_Country_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		return $value;
+		return \App\Purifier::decodeHtml($value);
 	}
 
 	/**

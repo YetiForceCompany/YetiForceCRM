@@ -37,7 +37,7 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$reminder_value = '';
-		$reminder_time = $this->getEditViewDisplayValue($value);
+		$reminder_time = $this->getEditViewDisplayValue($value, $recordInstance);
 		if (!empty($reminder_time[0])) {
 			$reminder_value = $reminder_time[0] . ' ' . \App\Language::translate('LBL_DAYS');
 		}
@@ -52,11 +52,12 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 	}
 
 	/**
-	 * Function to get the display value in edit view
-	 * @param $value
-	 * @return converted value
+	 * Function to get the edit value in display view
+	 * @param mixed $value
+	 * @param Vtiger_Record_Model $recordModel
+	 * @return mixed
 	 */
-	public function getEditViewDisplayValue($value, $record = false)
+	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		if ($value != 0) {
 			$rem_days = floor($value / (24 * 60));

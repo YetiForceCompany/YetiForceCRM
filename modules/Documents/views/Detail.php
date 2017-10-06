@@ -59,7 +59,7 @@ class Documents_Detail_View extends Vtiger_Detail_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORDID', $recordId);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('LIMIT', 'no_limit');
+		$viewer->assign('LIMIT', 0);
 		$viewer->assign('DATA', $data);
 
 		echo $viewer->view('DetailViewDocumentRelations.tpl', $moduleName, true);

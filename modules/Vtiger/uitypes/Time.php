@@ -108,11 +108,12 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the display value in edit view
-	 * @param $value
-	 * @return converted value
+	 * Function to get the edit value in display view
+	 * @param mixed $value
+	 * @param Vtiger_Record_Model $recordModel
+	 * @return mixed
 	 */
-	public function getEditViewDisplayValue($value, $record = false)
+	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		return $this->getDisplayValue($value);
 	}
@@ -125,8 +126,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	public static function getDBTimeFromUserValue($value)
 	{
 		$time = DateTimeField::convertToDBTimeZone(date(DateTimeField::getPHPDateFormat()) . ' ' . $value);
-		$value = $time->format('H:i:s');
-		return $value;
+		return $time->format('H:i:s');
 	}
 
 	/**
@@ -140,6 +140,6 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 		if ($this->get('field')->get('uitype') === 14) {
 			return self::getDBTimeFromUserValue($value);
 		}
-		return $value;
+		return \App\Purifier::decodeHtml($value);
 	}
 }

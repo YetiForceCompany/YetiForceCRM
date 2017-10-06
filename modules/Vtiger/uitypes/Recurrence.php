@@ -36,13 +36,14 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the display value in edit view
-	 * @param $value
-	 * @return converted value
+	 * Function to get the edit value in display view
+	 * @param mixed $value
+	 * @param Vtiger_Record_Model $recordModel
+	 * @return mixed
 	 */
-	public function getEditViewDisplayValue($value, $record = false)
+	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		return $this->getDisplayValue($value);
+		return $this->getDisplayValue($value, false, $recordModel);
 	}
 
 	/**

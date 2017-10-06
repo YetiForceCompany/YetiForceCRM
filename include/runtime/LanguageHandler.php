@@ -45,7 +45,7 @@ class Vtiger_Language_Handler
 
 		// If translation is not found then return label
 		if ($translatedString === null) {
-			$translatedString = $key;
+			$translatedString = \App\Purifier::encodeHtml($key);
 		}
 		return $translatedString;
 	}

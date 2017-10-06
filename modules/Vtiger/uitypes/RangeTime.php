@@ -17,13 +17,12 @@ class Vtiger_RangeTime_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$isNull = is_null($value);
-		$result = vtlib\Functions::getRangeTime($value, !$isNull);
+		$result = vtlib\Functions::getRangeTime($value, !is_null($value));
 		$mode = $this->get('field')->getFieldParams();
 		if (empty($mode)) {
 			$mode = 'short';
 		}
-		return $result[$mode];
+		return \App\Purifier::encodeHtml($result[$mode]);
 	}
 
 	public function isActiveSearchView()

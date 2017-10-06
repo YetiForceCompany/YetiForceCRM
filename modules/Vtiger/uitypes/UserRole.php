@@ -27,7 +27,7 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 		if ($currentUserModel->isAdmin() && $rawText !== false) {
 			$roleRecordModel = new Settings_Roles_Record_Model();
 			$roleRecordModel->set('roleid', $value);
-			return '<a href="' . $roleRecordModel->getEditViewUrl() . '">' . \vtlib\Functions::textLength($displayValue) . '</a>';
+			return '<a href="' . $roleRecordModel->getEditViewUrl() . '">' . \App\Purifier::encodeHtml(\vtlib\Functions::textLength($displayValue)) . '</a>';
 		}
 		return $displayValue;
 	}

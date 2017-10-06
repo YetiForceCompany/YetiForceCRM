@@ -27,7 +27,7 @@ class IStorages_ProductsTableHierarchy_TextParser extends \App\TextParser\Base
 	{
 		$html = '';
 		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('limit', 'no_limit');
+		$pagingModel->set('limit', 0);
 		$relationModuleName = 'Products';
 		$columns = ['Product Name', 'FL_EAN_13', 'Product Category'];
 		// Products from main storage

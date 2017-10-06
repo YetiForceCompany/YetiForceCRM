@@ -851,7 +851,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('LIMIT', 'no_limit');
+		$viewer->assign('LIMIT', 0);
 		if (!$this->recordStructure) {
 			$this->recordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
 		}

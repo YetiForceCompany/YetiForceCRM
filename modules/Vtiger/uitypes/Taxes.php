@@ -35,16 +35,16 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 			$values = explode(',', $value);
 			$display = array_intersect_key($taxes, array_flip($values));
 		}
-		return implode(', ', $display);
+		return \App\Purifier::encodeHtml(implode(', ', $display));
 	}
 
 	/**
-	 * Function to get the display value in edit view
-	 * @param string $value
-	 * @param int $record - Record ID
-	 * @return array
+	 * Function to get the edit value in display view
+	 * @param mixed $value
+	 * @param Vtiger_Record_Model $recordModel
+	 * @return mixed
 	 */
-	public function getEditViewDisplayValue($value, $record = false)
+	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		$display = [];
 		if (!empty($value)) {
@@ -52,7 +52,7 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 			$taxes = $this->getPicklistValues();
 			foreach ($values as $tax) {
 				if (isset($taxes[$tax])) {
-					$display[] = $tax;
+					$display[] = \App\Purifier::encodeHtml($tax);
 				}
 			}
 		}
@@ -62,7 +62,7 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	public static function getValues($value)
 	{
 		$values = explode(',', $value);
-		$taxs = self::getTaxes();
+		$taxs = Vtiger_Inventory_Model::getGlobalTaxes();
 		$display = [];
 
 		foreach ($values as $tax) {
@@ -75,21 +75,12 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get taxes
-	 * @return array
-	 */
-	public static function getTaxes()
-	{
-		return Vtiger_Inventory_Model::getGlobalTaxes();
-	}
-
-	/**
 	 * Function to get all the available picklist values for the current field
 	 * @return array List of picklist values if the field
 	 */
 	public function getPicklistValues()
 	{
-		$taxes = self::getTaxes();
+		$taxes = Vtiger_Inventory_Model::getGlobalTaxes();
 		foreach ($taxes as $key => $tax) {
 			$taxes[$key] = $tax['name'] . ' - ' . $tax['value'] . '%';
 		}
@@ -116,6 +107,6 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 		if (is_array($value)) {
 			$value = implode(',', $value);
 		}
-		return $value;
+		return \App\Purifier::decodeHtml($value);
 	}
 }

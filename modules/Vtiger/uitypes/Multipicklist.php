@@ -39,19 +39,18 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 			$trValue[] = Vtiger_Language_Handler::getTranslatedString($value[$i], $moduleName);
 		}
 		$trValue = implode(' |##| ', $trValue);
-
-		return str_ireplace(' |##| ', ', ', $trValue);
+		return \App\Purifier::encodeHtml(str_ireplace(' |##| ', ', ', $trValue));
 	}
 
 	/**
-	 * Function to get the display value in edit view
-	 * @param string $value
-	 * @param int $record - Record ID
-	 * @return array
+	 * Function to get the edit value in display view
+	 * @param mixed $value
+	 * @param Vtiger_Record_Model $recordModel
+	 * @return mixed
 	 */
-	public function getEditViewDisplayValue($value, $record = false)
+	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		return explode(' |##| ', $value);
+		return explode(' |##| ', \App\Purifier::encodeHtml($value));
 	}
 
 	/**
@@ -65,7 +64,7 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 		if (is_array($value)) {
 			$value = implode(' |##| ', $value);
 		}
-		return $value;
+		return \App\Purifier::decodeHtml($value);
 	}
 
 	public function getListSearchTemplateName()

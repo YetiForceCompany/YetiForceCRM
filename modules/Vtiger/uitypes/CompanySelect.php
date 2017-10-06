@@ -34,7 +34,7 @@ class Vtiger_CompanySelect_UIType extends Vtiger_Base_UIType
 			$companiesList = $this->getPicklistValues();
 			$namesOfCompany = $companiesList[$values[0]]['name'];
 		}
-		return $namesOfCompany;
+		return \App\Purifier::encodeHtml($namesOfCompany);
 	}
 
 	/**

@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
-	{assign var=FIELD_NAME value=$FIELD_MODEL->get('name')}
+	{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
 	{assign var="REFERENCE_LIST" value=$FIELD_MODEL->getReferenceList()}
 	{assign var="REFERENCE_LIST_COUNT" value=count($REFERENCE_LIST)}
 	{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
@@ -9,6 +9,7 @@
 	{if {$REFERENCE_LIST_COUNT} eq 1}
 		<input name="popupReferenceModule" type="hidden" data-multi-reference="0" title="{reset($REFERENCE_LIST)}" value="{reset($REFERENCE_LIST)}" />
 	{/if}
+	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
 	{assign var="DISPLAYID" value=$FIELD_MODEL->get('fieldvalue')}
 	{if {$REFERENCE_LIST_COUNT} gt 1}
 		{assign var="REFERENCED_MODULE_STRUCT" value=$UITYPE_MODEL->getReferenceModule($DISPLAYID)}
@@ -24,7 +25,7 @@
 		{/if}
 	{/if}
 	{assign var=REFERENCE_MODULE_MODEL value=Vtiger_Module_Model::getInstance($REFERENCE_LIST[0])}
-	<input name="{$FIELD_MODEL->getFieldName()}" type="hidden" value="{$FIELD_MODEL->get('fieldvalue')}" title="{$FIELD_MODEL->get('fieldvalue')}" class="sourceField" data-type="entity" data-fieldtype="{$FIELD_MODEL->getFieldDataType()}" data-displayvalue="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'))}" data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} />
+	<input name="{$FIELD_MODEL->getFieldName()}" type="hidden" value="{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}" title="{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}" class="sourceField" data-type="entity" data-fieldtype="{$FIELD_MODEL->getFieldDataType()}" data-displayvalue="{$FIELD_VALUE}" data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} />
 	<div class="input-group referenceGroup">
 		{if $REFERENCE_LIST_COUNT > 1}
 			<div class="input-group-addon noSpaces referenceModulesListGroup">
@@ -36,8 +37,8 @@
 				</select>
 			</div>
 		{/if}
-		<input id="{$FIELD_NAME}_display" name="{$FIELD_MODEL->getFieldName()}_display" type="text" title="{Vtiger_Util_Helper::toSafeHTML($FIELD_MODEL->getEditViewDisplayValue($DISPLAYID))}" class="marginLeftZero form-control autoComplete" {if !empty($DISPLAYID)}readonly="true"{/if}
-			   value="{Vtiger_Util_Helper::toSafeHTML($FIELD_MODEL->getEditViewDisplayValue($DISPLAYID))}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+		<input id="{$FIELD_NAME}_display" name="{$FIELD_MODEL->getFieldName()}_display" type="text" title="{$FIELD_VALUE}" class="marginLeftZero form-control autoComplete" {if !empty($DISPLAYID)}readonly="true"{/if}
+			   value="{$FIELD_VALUE}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 			   data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->get('displaytype') != 10}placeholder="{\App\Language::translate('LBL_TYPE_SEARCH',$MODULE)}"{/if} {if $REFERENCE_MODULE_MODEL == false}disabled{/if}
 			   {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}/>
 		<span class="input-group-btn cursorPointer">

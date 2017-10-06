@@ -27,20 +27,20 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 		if ($value && !$rawText) {
 			$moduleName = $this->get('field')->get('block')->module->name;
 			$fieldName = $this->get('field')->get('name');
-			$rawValue = $value;
-			$value = vtlib\Functions::textLength($value);
+			$rawValue = \App\Purifier::encodeHtml($value);
+			$value = \App\Purifier::encodeHtml(vtlib\Functions::textLength($value));
 			if ($internalMailer == 1 && \App\Privilege::isPermitted('OSSMail')) {
 				$url = OSSMail_Module_Model::getComposeUrl($moduleName, $recordId, 'Detail', 'new');
 				$mailConfig = OSSMail_Module_Model::getComposeParameters();
-				$value = "<a class=\"cursorPointer sendMailBtn\" data-url=\"$url\" data-module=\"$moduleName\" data-record=\"$recordId\" data-to=\"$rawValue\" data-popup=" . $mailConfig['popup'] . " title=" . \App\Language::translate('LBL_SEND_EMAIL') . ">$value</a>";
+				return "<a class=\"cursorPointer sendMailBtn\" data-url=\"$url\" data-module=\"$moduleName\" data-record=\"$recordId\" data-to=\"$rawValue\" data-popup=" . $mailConfig['popup'] . " title=" . \App\Language::translate('LBL_SEND_EMAIL') . ">$value</a>";
 			} else {
 				if ($moduleName === 'Users' && $fieldName === 'user_name') {
-					$value = "<a class='cursorPointer' href='mailto:" . $rawValue . "'>" . $value . "</a>";
+					return "<a class='cursorPointer' href='mailto:" . $rawValue . "'>" . $value . "</a>";
 				} else {
-					$value = "<a class='emailField cursorPointer'  href='mailto:" . $rawValue . "'>" . $value . "</a>";
+					return "<a class='emailField cursorPointer'  href='mailto:" . $rawValue . "'>" . $value . "</a>";
 				}
 			}
 		}
-		return $value;
+		return \App\Purifier::encodeHtml($value);
 	}
 }

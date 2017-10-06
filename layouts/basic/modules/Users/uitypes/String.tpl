@@ -12,8 +12,9 @@
 {strip}
 {assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 {assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
-{assign var="FIELD_NAME" value=$FIELD_MODEL->get('name')}
-<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text" class="form-control {if $FIELD_MODEL->isNameField()}nameField{/if}" {if $FIELD_MODEL->getFieldName() == 'user_name'}data-validation-engine="validate[required,funcCall[Vtiger_UserName_Validator_Js.invokeValidation]]"{else}data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"{/if} name="{$FIELD_MODEL->getFieldName()}" value="{$FIELD_MODEL->get('fieldvalue')}"
+{assign var="FIELD_NAME" value=$FIELD_MODEL->getName()}
+{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
+<input name="{$FIELD_MODEL->getFieldName()}" id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text" class="form-control {if $FIELD_MODEL->isNameField()}nameField{/if}" {if $FIELD_MODEL->getFieldName() == 'user_name'}data-validation-engine="validate[required,funcCall[Vtiger_UserName_Validator_Js.invokeValidation]]"{else}data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"{/if} value="{$FIELD_VALUE}"
 {if $FIELD_MODEL->get('uitype') eq '3' || $FIELD_MODEL->get('uitype') eq '4'|| $FIELD_MODEL->isReadOnly()} readonly {/if} data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if} 
 {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}/>
 {/strip}

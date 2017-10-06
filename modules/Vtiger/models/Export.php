@@ -269,13 +269,12 @@ class Vtiger_Export_Model extends \App\Base
 					$value = '';
 				}
 			} elseif ($uitype === 52 || $type === 'owner') {
-				$value = Vtiger_Util_Helper::getOwnerName($value);
+				$value = \App\Fields\Owner::getLabel($value);
 			} elseif ($uitype === 120) {
 				$uitypeInstance = new Vtiger_SharedOwner_UIType;
-				$owners = $uitypeInstance->getEditViewDisplayValue([], $recordId);
 				$values = [];
-				foreach ($owners as $owner) {
-					$values[] = Vtiger_Util_Helper::getOwnerName($owner);
+				foreach ($uitypeInstance->getSharedOwners($recordId) as $owner) {
+					$values[] = \App\Fields\Owner::getLabel($owner);
 				}
 				$value = implode(',', $values);
 			} elseif ($type === 'reference') {

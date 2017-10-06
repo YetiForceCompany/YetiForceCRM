@@ -32,7 +32,7 @@ class KnowledgeBase_Content_View extends Vtiger_IndexAjax_View
 		} else {
 			$moduleName = $request->getModule();
 			$pagingModel = new Vtiger_Paging_Model();
-			$pagingModel->set('limit', 'no_limit');
+			$pagingModel->set('limit', 0);
 			$listViewModel = Vtiger_ListView_Model::getInstance($moduleName);
 			$listEntries = $listViewModel->getListViewEntries($pagingModel);
 			$headers = $listViewModel->getListViewHeaders();

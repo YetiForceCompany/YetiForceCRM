@@ -23,7 +23,6 @@
 					{/if}	
 				{/while}
 			{/if}
-
 			{if is_array($PARENT_COMMENTS)}
 				{foreach key=Index item=COMMENT from=$PARENT_COMMENTS}
 					{assign var=PARENT_COMMENT_ID value=$COMMENT->getId()}

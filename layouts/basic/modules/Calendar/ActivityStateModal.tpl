@@ -48,8 +48,8 @@
 			<div class="form-horizontal modalSummaryValues">
 				<div class="form-group">
 					<label class="col-sm-4 control-label">{\App\Language::translate('Subject',$MODULE_NAME)}:</label>
-					<div class="col-sm-8 textOverflowEllipsis fieldVal" data-subject="{Vtiger_Util_Helper::toSafeHTML($RECORD->get('subject'))}">
-						{$RECORD->get('subject')}
+					<div class="col-sm-8 textOverflowEllipsis fieldVal" data-subject="{$RECORD->getDisplayValue('subject')}">
+						{$RECORD->getDisplayValue('subject')}
 					</div>
 				</div>
 				<div class="">
@@ -95,7 +95,7 @@
 						<label class="col-sm-4 control-label">{\App\Language::translate('Description',$MODULE_NAME)}: </label>
 						<div class="col-sm-8">
 						{if $RECORD->get('description') neq ''}
-							{\App\Language::translate($RECORD->get('description'),$MODULE_NAME)|truncate:120:'...'}
+							{$RECORD->getDisplayValue('description')|truncate:120:'...'}
 						{else}
 							<span class="muted">{\App\Language::translate('LBL_NO_DESCRIPTION',$MODULE_NAME)}</span>
 						{/if}
@@ -105,18 +105,17 @@
 					<div class="form-group">
 						<label class="col-sm-4 control-label">{\App\Language::translate('Created By',$MODULE_NAME)}: </label>
 						<div class="col-sm-8 textOverflowEllipsis">
-							{\App\Fields\Owner::getLabel( $RECORD->get('created_user_id') )}
+							{$RECORD->getDisplayValue('created_user_id')}
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-4 control-label">{\App\Language::translate('Assigned To',$MODULE_NAME)}: </label>
-						<div class="col-sm-8 textOverflowEllipsis">{\App\Fields\Owner::getLabel( $RECORD->get('assigned_user_id') )}</div>
+						<div class="col-sm-8 textOverflowEllipsis">{$RECORD->getDisplayValue('assigned_user_id')}</div>
 					</div>
 					{if $RECORD->get('shownerid')}
 						<div class="form-group">
-							{assign var=FIELD_MODEL value=$RECORD->getModule()->getField('shownerid')}
-							<label class="col-sm-4 control-label">{\App\Language::translate($FIELD_MODEL->get('label'),$MODULE_NAME)}: </label>
-							<div class="col-sm-8">{$FIELD_MODEL->getDisplayValue($RECORD->get('shownerid'))}</div>
+							<label class="col-sm-4 control-label">{\App\Language::translate('Share with users',$MODULE_NAME)}: </label>
+							<div class="col-sm-8">{$RECORD->getDisplayValue('shownerid')}</div>
 						</div>
 					{/if}
 				</div>

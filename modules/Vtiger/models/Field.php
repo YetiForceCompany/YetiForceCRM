@@ -992,12 +992,13 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to retrieve display value in edit view
-	 * @param string $value - value which need to be converted to display value
-	 * @return string - converted display value
+	 * @param mixed $value
+	 * @param Vtiger_Record_Model $recordModel
+	 * @return mixed
 	 */
-	public function getEditViewDisplayValue($value, $record = false)
+	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		return $this->getUITypeModel()->getEditViewDisplayValue($value, $record);
+		return $this->getUITypeModel()->getEditViewDisplayValue($value, $recordModel);
 	}
 
 	/**

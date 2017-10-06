@@ -36,7 +36,7 @@ class Products_TreeRecords_View extends Vtiger_TreeRecords_View
 		}
 
 		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('limit', 'no_limit');
+		$pagingModel->set('limit', 0);
 		$listViewModel = Vtiger_ListView_Model::getInstance($baseModuleName, $filter);
 		$queryGenerator = $listViewModel->get('query_generator');
 		if (!empty($branches)) {

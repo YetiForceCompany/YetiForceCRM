@@ -281,21 +281,6 @@ class Functions
 		return $value;
 	}
 
-	/**
-	 * From html
-	 * @param string $string
-	 * @return string
-	 */
-	public static function fromHTML($string)
-	{
-		if (is_string($string)) {
-			if (preg_match('/(script).*(\/script)/i', $string)) {
-				$string = preg_replace(array('/</', '/>/', '/"/'), array('&lt;', '&gt;', '&quot;'), $string);
-			}
-		}
-		return $string;
-	}
-
 	public static function fromHtmlPopup($string, $encode = true)
 	{
 		$popup_toHtml = array(

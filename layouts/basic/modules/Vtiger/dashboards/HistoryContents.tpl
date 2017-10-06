@@ -135,7 +135,7 @@
 					<div>
 						<strong>{$HISTORY->getCommentedByModel()->getName()}</strong> {\App\Language::translate('LBL_COMMENTED')} {\App\Language::translate('LBL_ON')} <a class="textOverflowEllipsis" href="{$HISTORY->getParentRecordModel()->getDetailViewUrl()}">{$HISTORY->getParentRecordModel()->getName()}</a>
 					</div>
-					<div class='font-x-small'><span>"{nl2br($HISTORY->get('commentcontent'))}"</span></div>
+					<div class='font-x-small'><span>"{nl2br($HISTORY->getDisplayValue('commentcontent'))}"</span></div>
 				</div>
 			</div>
 		{/if}

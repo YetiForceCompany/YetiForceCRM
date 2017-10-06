@@ -195,7 +195,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 		$relationModuleModel = $relationModel->getRelationModuleModel();
 		$pageLimit = $pagingModel->getPageLimit();
 		$query = $this->getRelationQuery();
-		if ($pagingModel->get('limit') !== 'no_limit') {
+		if ($pagingModel->get('limit') !== 0) {
 			$query->limit($pageLimit + 1)->offset($pagingModel->getStartIndex());
 		}
 		$rows = $query->all();

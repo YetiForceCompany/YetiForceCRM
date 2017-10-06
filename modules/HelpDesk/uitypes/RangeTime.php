@@ -13,7 +13,7 @@ class HelpDesk_RangeTime_UIType extends Vtiger_RangeTime_UIType
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$isNull = is_null($value);
-		if ($this->get('field')->getName() == 'response_time') {
+		if ($this->get('field')->getName() === 'response_time') {
 			$value = round(vtlib\Functions::getDateTimeMinutesDiff($value, date('Y-m-d H:i:s')));
 		}
 		$result = vtlib\Functions::getRangeTime($value, !$isNull);
@@ -21,6 +21,6 @@ class HelpDesk_RangeTime_UIType extends Vtiger_RangeTime_UIType
 		if (empty($mode)) {
 			$mode = 'short';
 		}
-		return $result[$mode];
+		return \App\Purifier::encodeHtml($result[$mode]);
 	}
 }

@@ -15,7 +15,7 @@ class Vtiger_CurrencyList_UIType extends Vtiger_Picklist_UIType
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$currencylist = $this->getPicklistValues();
-		return isset($currencylist[$value]) ? $currencylist[$value] : $value;
+		return \App\Purifier::encodeHtml(isset($currencylist[$value]) ? $currencylist[$value] : $value);
 	}
 
 	/**

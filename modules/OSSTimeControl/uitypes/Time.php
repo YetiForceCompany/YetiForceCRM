@@ -9,16 +9,16 @@
 class OSSTimeControl_Time_UIType extends Vtiger_Time_UIType
 {
 
-	public function getEditViewDisplayValue($value, $record = false)
+	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		if (!empty($value)) {
-			return parent::getEditViewDisplayValue($value, $record);
+			return parent::getEditViewDisplayValue($value, $recordModel);
 		}
 
 		$specialTimeFields = array('time_start', 'time_end');
 		$fieldName = $this->get('field')->getFieldName();
 		if (!in_array($fieldName, $specialTimeFields)) {
-			return parent::getEditViewDisplayValue($value, $record);
+			return parent::getEditViewDisplayValue($value, $recordModel);
 		} else {
 			return $this->getDisplayTimeDifferenceValue($fieldName, $value);
 		}

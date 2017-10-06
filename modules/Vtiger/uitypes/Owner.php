@@ -34,28 +34,32 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 		if ($rawText) {
 			return $ownerName;
 		}
-		if (\App\Fields\Owner::getType($value) === 'Users') {
-			$userModel = Users_Privileges_Model::getInstanceById($value);
-			$userModel->setModule('Users');
-			$ownerName = $userModel->getName();
-			if ($userModel->get('status') === 'Inactive') {
-				$ownerName = '<span class="redColor">' . $ownerName . '</span>';
-			}
-			$detailViewUrl = $userModel->getDetailViewUrl();
-			$currentUser = Users_Record_Model::getCurrentUserModel();
-			if (!$currentUser->isAdminUser() || $rawText) {
-				return $ownerName;
-			}
-		} else {
-			$currentUser = Users_Record_Model::getCurrentUserModel();
-			if (!$currentUser->isAdminUser() || $rawText) {
-				return $ownerName;
-			}
-			$recordModel = new Settings_Groups_Record_Model();
-			$recordModel->set('groupid', $value);
-			$detailViewUrl = $recordModel->getDetailViewUrl();
+		switch (\App\Fields\Owner::getType($value)) {
+			case 'Users':
+				$userModel = Users_Privileges_Model::getInstanceById($value);
+				$userModel->setModule('Users');
+				if ($userModel->get('status') === 'Inactive') {
+					$ownerName = '<span class="redColor">' . $ownerName . '</span>';
+				}
+				if (App\User::getCurrentUserModel()->isAdmin()) {
+					$detailViewUrl = $userModel->getDetailViewUrl();
+				}
+				break;
+			case 'Groups':
+				if (App\User::getCurrentUserModel()->isAdmin()) {
+					$recordModel = new Settings_Groups_Record_Model();
+					$recordModel->set('groupid', $value);
+					$detailViewUrl = $recordModel->getDetailViewUrl();
+				}
+				break;
+			default:
+				$ownerName = '<span class="redColor">---</span>';
+				break;
 		}
-		return "<a href='" . $detailViewUrl . "'>$ownerName</a>";
+		if (isset($detailViewUrl)) {
+			return "<a href='" . $detailViewUrl . "'>$ownerName</a>";
+		}
+		return $ownerName;
 	}
 
 	/**
@@ -65,33 +69,36 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$maxLengthText = $this->get('field')->get('maxlengthtext');
-		$ownerName = \App\Fields\Owner::getLabel($value);
+		$ownerName = vtlib\Functions::textLength(\App\Fields\Owner::getLabel($value), $this->get('field')->get('maxlengthtext'));
 		if ($rawText) {
-			return \vtlib\Functions::textLength($ownerName, $maxLengthText);
+			return $ownerName;
 		}
-		if (\App\Fields\Owner::getType($value) === 'Users') {
-			$userModel = Users_Privileges_Model::getInstanceById($value);
-			$userModel->setModule('Users');
-			$ownerName = vtlib\Functions::textLength($userModel->getName(), $maxLengthText);
-			if ($userModel->get('status') === 'Inactive') {
-				$ownerName = '<span class="redColor">' . $ownerName . '</span>';
-			}
-			$detailViewUrl = $userModel->getDetailViewUrl();
-			$currentUser = Users_Record_Model::getCurrentUserModel();
-			if (!$currentUser->isAdminUser() || $rawText) {
-				return $ownerName;
-			}
-		} else {
-			$currentUser = Users_Record_Model::getCurrentUserModel();
-			if (!$currentUser->isAdminUser() || $rawText) {
-				return \vtlib\Functions::textLength($ownerName, $maxLengthText);
-			}
-			$recordModel = new Settings_Groups_Record_Model();
-			$recordModel->set('groupid', $value);
-			$detailViewUrl = $recordModel->getDetailViewUrl();
+		switch (\App\Fields\Owner::getType($value)) {
+			case 'Users':
+				$userModel = Users_Privileges_Model::getInstanceById($value);
+				$userModel->setModule('Users');
+				if ($userModel->get('status') === 'Inactive') {
+					$ownerName = '<span class="redColor">' . $ownerName . '</span>';
+				}
+				if (App\User::getCurrentUserModel()->isAdmin()) {
+					$detailViewUrl = $userModel->getDetailViewUrl();
+				}
+				break;
+			case 'Groups':
+				if (App\User::getCurrentUserModel()->isAdmin()) {
+					$recordModel = new Settings_Groups_Record_Model();
+					$recordModel->set('groupid', $value);
+					$detailViewUrl = $recordModel->getDetailViewUrl();
+				}
+				break;
+			default:
+				$ownerName = '<span class="redColor">---</span>';
+				break;
 		}
-		return "<a href='" . $detailViewUrl . "'>$ownerName</a>";
+		if (isset($detailViewUrl)) {
+			return "<a href='" . $detailViewUrl . "'>$ownerName</a>";
+		}
+		return $ownerName;
 	}
 
 	/**

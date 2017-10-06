@@ -693,7 +693,7 @@ class Vtiger_Relation_Model extends \App\Base
 		if (array_key_exists("$relatedModuleName::$parentModuleName", $map)) {
 			$fieldMap = $map["$relatedModuleName::$parentModuleName"];
 			$fieldModel = $recordModel->getField($fieldMap[1]);
-			$value = $fieldModel->getEditViewDisplayValue($recordModel->get($fieldMap[1]));
+			$value = $fieldModel->getEditViewDisplayValue($recordModel->get($fieldMap[1]), $recordModel);
 			$fields = ['key' => $fieldMap[0], 'name' => strip_tags($value)];
 		}
 		return $fields;

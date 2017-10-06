@@ -28,13 +28,12 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		if (empty($value)) {
-			return $value;
+			return '';
 		} else {
 			$dateValue = self::getDisplayDateValue($value);
 		}
-
-		if ($dateValue == '--') {
-			return "";
+		if ($dateValue === '--') {
+			return '';
 		} else {
 			return $dateValue;
 		}
@@ -50,9 +49,8 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	{
 		if (!empty($value)) {
 			return self::getDBInsertedValue($value);
-		} else {
-			return '';
 		}
+		return '';
 	}
 
 	/**
@@ -66,11 +64,12 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the display value in edit view
-	 * @param $value
-	 * @return converted value
+	 * Function to get the edit value in display view
+	 * @param mixed $value
+	 * @param Vtiger_Record_Model $recordModel
+	 * @return mixed
 	 */
-	public function getEditViewDisplayValue($value, $record = false)
+	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		if (empty($value) || $value === ' ') {
 			$value = trim($value);
@@ -78,7 +77,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 			$moduleName = $this->get('field')->getModule()->getName();
 			//Restricted Fields for to show Default Value
 			if (($fieldName === 'birthday' && $moduleName === 'Contacts') || $moduleName === 'Products') {
-				return $value;
+				return \App\Purifier::encodeHtml($value);
 			}
 
 			//Special Condition for field 'support_end_date' in Contacts Module
@@ -90,7 +89,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		} else {
 			$value = DateTimeField::convertToUserFormat($value);
 		}
-		return $value;
+		return \App\Purifier::encodeHtml($value);
 	}
 
 	/**

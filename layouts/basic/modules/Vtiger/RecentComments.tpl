@@ -54,7 +54,7 @@
 												{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
 												<span class="commentorName"><strong>{$COMMENTOR->getName()}</strong></span>
 												<div class="commentInfoContent">
-													{nl2br($COMMENT->get('commentcontent'))}
+													{nl2br($COMMENT->getDisplayValue('commentcontent'))}
 												</div>
 											</div>
 											<div class="inner">
@@ -67,7 +67,7 @@
 									</div>
 								</div>
 								<div class="commentActionsContainer">
-									{assign var="REASON_TO_EDIT" value=$COMMENT->get('reasontoedit')}
+									{assign var="REASON_TO_EDIT" value=$COMMENT->getDisplayValue('reasontoedit')}
 									<div class="pull-left {if empty($REASON_TO_EDIT)}hide {/if}editStatus"  name="editStatus">
 										<span class="pull-left paddingRight10 visible-lg-block">
 											<p class="muted">

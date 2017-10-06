@@ -43,7 +43,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($values, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
+		$isAdmin = \App\User::getCurrentUserModel()->isAdmin();
 		if (empty($values)) {
 			return '';
 		} elseif (!is_array($values)) {
@@ -51,40 +51,39 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		}
 		$displayValue = [];
 		foreach ($values as $shownerid) {
-			if (\App\Fields\Owner::getType($shownerid) === 'Users') {
-				if ($currentUser->isAdminUser() && !$rawText) {
-					$displayValue[] = '<a href="index.php?module=User&view=Detail&record=' . $shownerid . '">' . rtrim(\App\Fields\Owner::getLabel($shownerid)) . '</a>';
-				} else {
-					$displayValue[] = rtrim(\App\Fields\Owner::getLabel($shownerid));
-				}
-			} else {
-				if ($currentUser->isAdminUser() && !$rawText) {
-					$displayValue[] = '<a href="index.php?module=Groups&parent=Settings&view=Detail&record=' . $shownerid . '">' . rtrim(\App\Fields\Owner::getLabel($shownerid)) . '</a>';
-				} else {
-					$displayValue[] = rtrim(\App\Fields\Owner::getLabel($shownerid));
-				}
+			$ownerName = rtrim(\App\Fields\Owner::getLabel($shownerid));
+			if (!$isAdmin || $rawText) {
+				$displayValue[] = $ownerName;
+				continue;
+			}
+			$detailViewUrl = '';
+			switch (\App\Fields\Owner::getType($shownerid)) {
+				case 'Users':
+					$userModel = Users_Privileges_Model::getInstanceById($shownerid);
+					$userModel->setModule('Users');
+					if ($userModel->get('status') === 'Inactive') {
+						$ownerName = '<span class="redColor">' . $ownerName . '</span>';
+					}
+					if (App\User::getCurrentUserModel()->isAdmin()) {
+						$detailViewUrl = $userModel->getDetailViewUrl();
+					}
+					break;
+				case 'Groups':
+					if (App\User::getCurrentUserModel()->isAdmin()) {
+						$recordModel = new Settings_Groups_Record_Model();
+						$recordModel->set('groupid', $shownerid);
+						$detailViewUrl = $recordModel->getDetailViewUrl();
+					}
+					break;
+				default:
+					$ownerName = '<span class="redColor">---</span>';
+					break;
+			}
+			if (!empty($detailViewUrl)) {
+				$displayValue[] = "<a href=\"$detailViewUrl\">$ownerName</a>";
 			}
 		}
 		return implode(', ', $displayValue);
-	}
-
-	/**
-	 * Function to get the display value in edit view
-	 * @param reference record id
-	 * @return link
-	 */
-	public function getEditViewDisplayValue($value, $record = false)
-	{
-		if (empty($record)) {
-			return [];
-		}
-
-		$query = (new \App\Db\Query())->select('userid')->from('u_#__crmentity_showners')->where(['crmid' => $record])->distinct();
-		$values = $query->column();
-		if (empty($values))
-			$values = [];
-
-		return $values;
 	}
 
 	/**
@@ -97,7 +96,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$values = $this->getEditViewDisplayValue($value, $record);
+		$values = $this->getSharedOwners($record);
 		if (empty($values)) {
 			return '';
 		}
@@ -105,28 +104,36 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		$maxLengthText = $this->get('field')->get('maxlengthtext');
 		$isAdmin = \App\User::getCurrentUserModel()->isAdmin();
 		foreach ($values as $key => $shownerid) {
-			if (\App\Fields\Owner::getType($shownerid) === 'Users') {
-				$userModel = Users_Privileges_Model::getInstanceById($shownerid);
-				$userModel->setModule('Users');
-				$display[$key] = $userModel->getName();
-				if ($userModel->get('status') === 'Inactive') {
-					$shownerData[$key]['inactive'] = true;
-				}
-				if ($isAdmin && !$rawText) {
-					$shownerData[$key]['link'] = $userModel->getDetailViewUrl();
-				}
-			} else {
-				$shownerName = \App\Fields\Owner::getLabel($shownerid);
-				if (empty($shownerName)) {
-					continue;
-				}
-				$display[$key] = $shownerName;
-				$recordModel = new Settings_Groups_Record_Model();
-				$recordModel->set('groupid', $shownerid);
-				$detailViewUrl = $recordModel->getDetailViewUrl();
-				if ($isAdmin && !$rawText) {
-					$shownerData[$key]['link'] = $detailViewUrl;
-				}
+			$name = \App\Fields\Owner::getLabel($shownerid);
+			switch (\App\Fields\Owner::getType($shownerid)) {
+				case 'Users':
+					$userModel = Users_Privileges_Model::getInstanceById($shownerid);
+					$userModel->setModule('Users');
+					$display[$key] = $userModel->getName();
+					if ($userModel->get('status') === 'Inactive') {
+						$shownerData[$key]['inactive'] = true;
+					}
+					if ($isAdmin && !$rawText) {
+						$shownerData[$key]['link'] = $userModel->getDetailViewUrl();
+					}
+					break;
+				case 'Groups':
+					$shownerName = \App\Fields\Owner::getLabel($shownerid);
+					if (empty($shownerName)) {
+						continue;
+					}
+					$display[$key] = $shownerName;
+					$recordModel = new Settings_Groups_Record_Model();
+					$recordModel->set('groupid', $shownerid);
+					$detailViewUrl = $recordModel->getDetailViewUrl();
+					if ($isAdmin && !$rawText) {
+						$shownerData[$key]['link'] = $detailViewUrl;
+					}
+
+					break;
+
+				default:
+					break;
 			}
 		}
 		$display = implode(', ', $display);
@@ -200,6 +207,6 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		if (is_array($value)) {
 			$value = implode(',', $value);
 		}
-		return parent::getDBValue($value);
+		return \App\Purifier::decodeHtml($value);
 	}
 }

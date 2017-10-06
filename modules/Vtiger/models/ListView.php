@@ -308,7 +308,7 @@ class Vtiger_ListView_Model extends \App\Base
 		$this->loadListViewOrderBy();
 		$pageLimit = $pagingModel->getPageLimit();
 		$query = $this->getQueryGenerator()->createQuery();
-		if ($pagingModel->get('limit') !== 'no_limit') {
+		if ($pagingModel->get('limit') !== 0) {
 			$query->limit($pageLimit + 1)->offset($pagingModel->getStartIndex());
 		}
 		$rows = $query->all();

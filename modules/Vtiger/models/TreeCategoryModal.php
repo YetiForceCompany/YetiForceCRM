@@ -143,7 +143,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($this->get('srcRecord'), $this->get('srcModule'));
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $this->getModuleName());
 		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('limit', 'no_limit');
+		$pagingModel->set('limit', 0);
 		$entries = $relationListView->getEntries($pagingModel);
 
 		vglobal('currentModule', $currentModule);
@@ -163,7 +163,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 			$listViewModel->set('src_record', $this->get('srcRecord'));
 		}
 		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('limit', 'no_limit');
+		$pagingModel->set('limit', 0);
 		$listViewModel->get('query_generator')->setField($this->getTreeField()['fieldname']);
 		$listEntries = $listViewModel->getListViewEntries($pagingModel);
 		return $listEntries;

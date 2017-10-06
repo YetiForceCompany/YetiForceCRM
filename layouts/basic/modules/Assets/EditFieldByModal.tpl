@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
-	{assign var=ID value=$RECORD->get('id')}
+	{assign var=ID value=$RECORD->getId()}
 	{assign var=FIELD_DATA value=$RECORD->getFieldToEditByModal()}
 	{assign var=FIELD_TO_EDIT value=$FIELD_DATA['name']}
 	{assign var=BASIC_FIELD_MODEL value=Vtiger_Field_Model::getInstance($FIELD_TO_EDIT, $RECORD->getModule())}
@@ -17,11 +17,12 @@
 		<div class="col-xs-8">
 			<h3 class="modal-title">
 				{if $RECORD->get('product')}
-					{\App\Record::getLabel($RECORD->get('product'))}
-					{if $RECORD->get('assets_renew')}<span class="marginLeft10 font-small label label-info">{\App\Language::translate($RECORD->get('assets_renew'), $MODULE_NAME)}</span>{/if}
+					{$RECORD->getDisplayValue('product')}
+					{if $RECORD->get('assets_renew')}<span class="marginLeft10 font-small label label-info">{$RECORD->getDisplayValue('assets_renew')}</span>{/if}
 				{else}
 					{\App\Language::translate('LBL_CHANGE_VALUE_FOR_FIELD', $MODULE_NAME)}
-				{/if}</h3>
+				{/if}
+			</h3>
 		</div>
 		<div class="btn-toolbar">
 			<div class="pull-right btn-group">
@@ -45,7 +46,7 @@
 							<ul class="dropdown-menu">
 								{foreach  key=KEY item=ITEM from=$PICKLIST}
 									{if in_array($KEY, $RESTRICTS_ITEM) || $KEY eq $RECORD->get($FIELD_TO_EDIT)} {continue} {/if}
-									<li><a href="#" class="editState" data-state='{$KEY}' data-id='{$ID}'>{$ITEM}</a></li>
+									<li><a href="#" class="editState" data-state='{\App\Purifier::encodeHtml($KEY)}' data-id='{$ID}'>{\App\Purifier::encodeHtml($ITEM)}</a></li>
 									{/foreach}
 							</ul>
 						</div>
@@ -87,10 +88,10 @@
 						{foreach from=$RELATED_MODULE item=REL_MODULE_NAME name=tabs}
 							{assign var=REL_MODULE_NAME_LOWER value=$REL_MODULE_NAME|lower}
 							<li class="{if $smarty.foreach.tabs.first}active{/if}"><a data-toggle="tab" href="#{$REL_MODULE_NAME_LOWER}">{\App\Language::translate($REL_MODULE_NAME, $REL_MODULE_NAME)}</a></li>
-						{/foreach}
+							{/foreach}
 					</ul>
-					 <div class="tab-content">
-						 {foreach from=$RELATED_MODULE item=REL_MODULE_NAME name=tabs}
+					<div class="tab-content">
+						{foreach from=$RELATED_MODULE item=REL_MODULE_NAME name=tabs}
 							{assign var=REL_MODULE_NAME_LOWER value=$REL_MODULE_NAME|lower}
 							<div id="{$REL_MODULE_NAME_LOWER}" class="tab-pane fade in{if $smarty.foreach.tabs.first} active{/if}">
 							</div>

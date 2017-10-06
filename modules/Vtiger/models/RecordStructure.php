@@ -38,7 +38,7 @@ class Vtiger_RecordStructure_Model extends \App\Base
 
 	/**
 	 * Function to get the record
-	 * @return <Vtiger_Record_Model>
+	 * @return Vtiger_Record_Model
 	 */
 	public function getRecord()
 	{

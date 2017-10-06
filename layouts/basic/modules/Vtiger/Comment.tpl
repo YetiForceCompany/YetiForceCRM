@@ -37,12 +37,12 @@
 									{\App\Language::translate($RELATED_MODULE,$RELATED_MODULE)}: 
 								</strong>
 								<strong class="commentRelatedTitle">
-									{vtlib\Functions::getCRMRecordLabel($RELATED_TO)}
+									{$COMMENT->getDisplayValue('related_to')}
 								</strong>
 							</a>
 						{/if}
 						<div class="commentInfoContent ">
-							{nl2br($COMMENT->get('commentcontent'))}
+							{nl2br($COMMENT->getDisplayValue('commentcontent'))}
 						</div>
 					</div>
 					<div class="inner">
@@ -54,7 +54,7 @@
 				</div>
 			</div>
 			<div class="commentActionsContainer row no-margin">
-				{assign var="REASON_TO_EDIT" value=$COMMENT->get('reasontoedit')}
+				{assign var="REASON_TO_EDIT" value=$COMMENT->getDisplayValue('reasontoedit')}
 				<div class="editedStatus visible-lg-block"  name="editStatus">
 					<div class="col-xs-6">
 						<span class="{if empty($REASON_TO_EDIT)}hide{/if} col-xs-6 editReason">

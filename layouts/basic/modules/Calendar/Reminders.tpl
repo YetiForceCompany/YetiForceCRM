@@ -7,8 +7,8 @@
 			{assign var=END_DATE value=$RECORD->get('due_date')}
 			{assign var=END_TIME value=$RECORD->get('time_end')}
 			{assign var=RECORD_ID value=$RECORD->getId()}
-			<div class="panel picklistCBr_Calendar_activitytype_{$RECORD->get('activitytype')}" data-record="{$RECORD_ID}">
-				<div class="panel-heading picklistCBg_Calendar_activitytype_{$RECORD->get('activitytype')}"
+			<div class="panel picklistCBr_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}" data-record="{$RECORD_ID}">
+				<div class="panel-heading picklistCBg_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}"
 					 {if !empty($COLOR_LIST[$RECORD_ID])}
 					 {/strip} {strip}style="background: {$COLOR_LIST[$RECORD_ID]['background']} !important; color: {$COLOR_LIST[$RECORD_ID]['text']} !important;"
 					 {/if}>
@@ -17,7 +17,7 @@
 					</button>
 					<img class="activityTypeIcon" src="{\App\Layout::getImagePath($RECORD->getActivityTypeIcon())}" />&nbsp;
 					<a target="_blank" href="index.php?module=Calendar&view=Detail&record={$RECORD_ID}">
-						{$RECORD->get('subject')}
+						{$RECORD->getDisplayValue('subject')}
 					</a>
 				</div>
 				<div class="panel-body">
@@ -66,10 +66,10 @@
 						<div>
 							{\App\Language::translate('Location',$MODULE_NAME)}:&nbsp;
 							<strong>
-								{$RECORD->get('location')}
+								{$RECORD->getDisplayValue('location')}
 							</strong>
 							{if App\Privilege::isPermitted('OpenStreetMap')}
-								<a class="pull-right btn btn-default btn-xs actionIcon" onclick="Vtiger_Index_Js.showLocation('{$RECORD->get('location')}')">
+								<a class="pull-right btn btn-default btn-xs actionIcon" onclick="Vtiger_Index_Js.showLocation('{$RECORD->getDisplayValue('location')}')">
 									<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
 								</a>
 							{/if}

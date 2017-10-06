@@ -33,8 +33,9 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($values, $record = false, $recordInstance = false, $rawText = false)
 	{
-		if ($values === null && !is_array($values))
-			return;
+		if ($values === null && !is_array($values)) {
+			return '';
+		}
 		foreach ($values as $value) {
 			if (self::getOwnerType($value) === 'User') {
 				$userModel = Users_Record_Model::getCleanInstance('Users');
@@ -59,8 +60,7 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 				$displayvalue[] = "<a href=" . $detailViewUrl . ">" . \App\Fields\Owner::getLabel($value) . "</a>&nbsp";
 			}
 		}
-		$displayvalue = implode(',', $displayvalue);
-		return $displayvalue;
+		return implode(',', $displayvalue);
 	}
 
 	/**
@@ -70,10 +70,6 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 	 */
 	public static function getOwnerType($id)
 	{
-		$result = (new \App\Db\Query())->from('vtiger_users')->where(['id' => $id])->exists();
-		if ($result) {
-			return 'User';
-		}
-		return 'Group';
+		return \App\Fields\Owner::getType($id);
 	}
 }

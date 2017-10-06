@@ -41,21 +41,20 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
+		$value = \App\Purifier::encodeHtml($value);
 		if ($recordInstance) {
 			$fileLocationType = $recordInstance->get('filelocationtype');
 			$fileStatus = $recordInstance->get('filestatus');
 			if (!empty($value) && $fileStatus) {
 				if ($fileLocationType === 'I') {
 					$fileId = (new App\Db\Query())->select(['attachmentsid'])
-						->from('vtiger_seattachmentsrel')
-						->where(['crmid' => $record])
-						->scalar();
+							->from('vtiger_seattachmentsrel')->where(['crmid' => $record])->scalar();
 					if ($fileId) {
-						$value = '<a href="file.php?module=Documents&action=DownloadFile&record=' . $record . '&fileid=' . $fileId . '"' .
+						return '<a href="file.php?module=Documents&action=DownloadFile&record=' . $record . '&fileid=' . $fileId . '"' .
 							' title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
 					}
 				} else {
-					$value = '<a href="' . $value . '" target="_blank" title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
+					return '<a href="' . $value . '" target="_blank" title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
 				}
 			}
 		}
@@ -75,9 +74,8 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 			if ($fileName) {
 				return App\Purifier::decodeHtml($fileName);
 			}
-			return $value;
-		} else {
-			return App\Purifier::decodeHtml($value);
+			return '';
 		}
+		return App\Purifier::decodeHtml($value);
 	}
 }

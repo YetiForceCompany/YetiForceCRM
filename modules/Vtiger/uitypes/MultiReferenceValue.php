@@ -209,8 +209,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		$value = str_replace(self::COMMA, ', ', $value);
 		$value = substr($value, 1);
 		$value = substr($value, 0, -2);
-
-		return $value;
+		return \App\Purifier::encodeHtml($value);
 	}
 
 	/**
@@ -232,7 +231,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 			foreach ($values as &$value) {
 				$value = \App\Language::translate($value, $relModuleName);
 			}
-			$values = implode(', ', $values);
+			$values = \App\Purifier::encodeHtml(implode(', ', $values));
 		} else {
 			$values = $this->getDisplayValue($value, $record, $recordInstance, $rawText);
 		}

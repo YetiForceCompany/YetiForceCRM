@@ -20,27 +20,31 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 		return 'uitypes/Url.tpl';
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$matchPattern = "^[\w]+:\/\/^";
-		preg_match($matchPattern, $value, $matches);
+		$rawValue = $value;
+		$value = \App\Purifier::encodeHtml($value);
+		preg_match("^[\w]+:\/\/^", $rawValue, $matches);
 		if (!empty($matches[0])) {
-			$value = '<a class="urlField cursorPointer" title="' . $value . '" href="' . $value . '" target="_blank">' . \vtlib\Functions::textLength($value) . '</a>';
-		} else {
-			$value = '<a class="urlField cursorPointer" title="' . $value . '" href="http://' . $value . '" target="_blank" rel="noreferrer">' . \vtlib\Functions::textLength($value) . '</a>';
+			$value = 'http://' . $value;
 		}
-		return $value;
+		return '<a class="urlField cursorPointer" title="' . $value . '" href="' . $value . '" target="_blank" rel="noreferrer">' . \App\Purifier::encodeHtml(\vtlib\Functions::textLength($rawValue)) . '</a>';
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$matchPattern = "^[\w]+:\/\/^";
-		preg_match($matchPattern, $value, $matches);
+		$rawValue = $value;
+		$value = \App\Purifier::encodeHtml($value);
+		preg_match("^[\w]+:\/\/^", $rawValue, $matches);
 		if (!empty($matches[0])) {
-			$value = '<a class="urlField cursorPointer" title="' . $value . '" href="' . $value . '" target="_blank">' . \vtlib\Functions::textLength($value, $this->get('field')->get('maxlengthtext')) . '</a>';
-		} else {
-			$value = '<a class="urlField cursorPointer" title="' . $value . '" href="http://' . $value . '" target="_blank" rel="noreferrer">' . \vtlib\Functions::textLength($value, $this->get('field')->get('maxlengthtext')) . '</a>';
+			$value = 'http://' . $value;
 		}
-		return $value;
+		return '<a class="urlField cursorPointer" title="' . $value . '" href="' . $value . '" target="_blank" rel="noreferrer">' . \App\Purifier::encodeHtml(\vtlib\Functions::textLength($rawValue, $this->get('field')->get('maxlengthtext'))) . '</a>';
 	}
 }

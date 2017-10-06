@@ -33,12 +33,12 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	{
 		$extra = '';
 		if ($recordInstance) {
-			$extra = $recordInstance->get($this->get('field')->getFieldName() . '_extra');
+			$extra = $recordInstance->getDisplayValue($this->get('field')->getFieldName() . '_extra');
 			if ($extra) {
 				$extra = ' ' . $extra;
 			}
 		}
-		$rfc3966 = $international = $value;
+		$rfc3966 = $international = \App\Purifier::encodeHtml($value);
 		if (AppConfig::main('phoneFieldAdvancedVerification', false)) {
 			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
 			try {
@@ -53,14 +53,14 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 			return $international . $extra;
 		}
 		if (!\App\Integrations\Pbx::isActive()) {
-			return '<a href="' . \App\Purifier::encodeHtml($rfc3966) . '">' . \App\Purifier::encodeHtml($international . $extra) . '</a>';
+			return '<a href="' . $rfc3966 . '">' . $international . $extra . '</a>';
 		}
-		return '<a class="phoneField" onclick="Vtiger_Index_Js.performPhoneCall(\'' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $value) . '\',' . $record . ')"><span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span> ' . \App\Purifier::encodeHtml($value . $extra) . '</a>';
+		return '<a class="phoneField" onclick="Vtiger_Index_Js.performPhoneCall(\'' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $international) . '\',' . $record . ')"><span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span> ' . $international . $extra . '</a>';
 	}
 
 	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$rfc3966 = $international = $value;
+		$rfc3966 = $international = \App\Purifier::encodeHtml($value);
 		if (AppConfig::main('phoneFieldAdvancedVerification', false)) {
 			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
 			try {
@@ -75,9 +75,9 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 			return $international;
 		}
 		if (!\App\Integrations\Pbx::isActive()) {
-			return '<a href="' . \App\Purifier::encodeHtml($rfc3966) . '">' . \App\Purifier::encodeHtml($international) . '</a>';
+			return '<a href="' . $rfc3966 . '">' . $international . '</a>';
 		}
-		return '<a class="phoneField" onclick="Vtiger_Index_Js.performPhoneCall(\'' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $value) . '\',' . $record . ')"><span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span> ' . \App\Purifier::encodeHtml($value) . '</a>';
+		return '<a class="phoneField" onclick="Vtiger_Index_Js.performPhoneCall(\'' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $international) . '\',' . $record . ')"><span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span> ' . $international . '</a>';
 	}
 
 	/**
@@ -92,8 +92,8 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 			return '';
 		}
 		if (AppConfig::main('phoneFieldAdvancedVerification', false)) {
-			return str_replace(' ', '', $value);
+			$value = str_replace(' ', '', $value);
 		}
-		return $value;
+		return \App\Purifier::decodeHtml($value);
 	}
 }

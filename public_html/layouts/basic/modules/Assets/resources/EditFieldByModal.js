@@ -37,7 +37,7 @@ Vtiger_EditFieldByModal_Js("Assets_EditFieldByModal_Js", {}, {
 			'view': 'Detail',
 			'mode': module == 'ModComments' ? 'showRecentComments' : 'showRelatedList',
 			'relatedModule': module,
-			'limit': 'no_limit',
+			'limit': 0,
 			'record': this.relatedRecord ? this.relatedRecord : form.find('.relatedRecord').val()
 		};
 		AppConnector.request(params).then(

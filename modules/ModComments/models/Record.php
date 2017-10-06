@@ -163,13 +163,13 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		$queryGenerator->setSourceRecord($parentRecordId);
 		$queryGenerator->addNativeCondition(['related_to' => $parentRecordId]);
 		$query = $queryGenerator->createQuery()->orderBy(['vtiger_crmentity.createdtime' => SORT_DESC]);
-		if ($pagingModel->get('limit') !== 'no_limit') {
+		if ($pagingModel->get('limit') !== 0) {
 			$query->limit($pagingModel->getPageLimit())->offset($pagingModel->getStartIndex());
 		}
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$recordInstance = new self();
-			$recordInstance->setData($row);
+			$recordInstance->setData($row)->setModuleFromInstance($queryGenerator->getModuleModel());
 			$recordInstances[] = $recordInstance;
 		}
 		return $recordInstances;
@@ -202,7 +202,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		$recordInstances = [];
 		while ($row = $dataReader->read()) {
 			$recordInstance = new self();
-			$recordInstance->setData($row);
+			$recordInstance->setData($row)->setModuleFromInstance($queryGenerator->getModuleModel());
 			$recordInstances[] = $recordInstance;
 		}
 		return $recordInstances;
@@ -257,7 +257,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		$recordInstances = [];
 		while ($row = $datareader->read()) {
 			$recordInstance = new self();
-			$recordInstance->setData($row);
+			$recordInstance->setData($row)->setModuleFromInstance($queryGenerator->getModuleModel());
 			$recordInstances[] = $recordInstance;
 		}
 		return $recordInstances;

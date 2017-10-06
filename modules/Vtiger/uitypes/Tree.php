@@ -36,17 +36,7 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 	{
 		$fieldModel = $this->get('field');
 		$treeData = \App\Fields\Tree::getPicklistValue($fieldModel->getFieldParams(), $fieldModel->getModuleName());
-		return $treeData[$tree];
-	}
-
-	/**
-	 * Function to get the display value in edit view
-	 * @param reference record id
-	 * @return link
-	 */
-	public function getEditViewDisplayValue($value, $record = false)
-	{
-		return $this->getDisplayValue($value, $record);
+		return \App\Purifier::encodeHtml($treeData[$tree]);
 	}
 
 	public function getListSearchTemplateName()

@@ -104,14 +104,14 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the display value in edit view
-	 * @param string $value
-	 * @param int $record
-	 * @return array
+	 * Function to get the edit value in display view
+	 * @param mixed $value
+	 * @param Vtiger_Record_Model $recordModel
+	 * @return mixed
 	 */
-	public function getEditViewDisplayValue($value, $record = false)
+	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		return $record ? $this->getMultiImageQuery($value, [], false)->all() : [];
+		return $recordModel ? $this->getMultiImageQuery($value, [], false)->all() : [];
 	}
 
 	/**

@@ -34,7 +34,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 				$names[] = $treeData[$treeId];
 			}
 		}
-		return implode(', ', $names);
+		return \App\Purifier::encodeHtml(implode(', ', $names));
 	}
 
 	/**
@@ -50,6 +50,6 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 		} elseif (is_null($value)) {
 			$value = '';
 		}
-		return $value;
+		return \App\Purifier::decodeHtml($value);
 	}
 }

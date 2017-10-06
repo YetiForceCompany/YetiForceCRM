@@ -18,9 +18,9 @@
 {assign var=PICKLIST_VALUES value=array_merge($FIELD_MODEL->getPicklistValues(),$EVENT_STAUTS_PICKLIST_VALUES)}
 {assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
 <div class="picklistSearchField">
-    <select class="select2 listSearchContributor" name="{$FIELD_MODEL->get('name')}" title="{\App\Language::translate($FIELD_MODEL->get('label'), $MODULE)}" multiple data-fieldinfo='{$FIELD_INFO|escape}'>
+    <select class="select2 listSearchContributor" name="{$FIELD_MODEL->getName()}" title="{\App\Language::translate($FIELD_MODEL->get('label'), $MODULE)}" multiple data-fieldinfo='{$FIELD_INFO|escape}'>
         {foreach item=PICKLIST_LABEL key=PICKLIST_KEY from=$PICKLIST_VALUES}
-            <option title="{$PICKLIST_LABEL}" value="{$PICKLIST_KEY}" {if in_array($PICKLIST_KEY,$SEARCH_VALUES)} selected{/if}>{$PICKLIST_LABEL}</option>
+            <option title="{\App\Purifier::encodeHtml($PICKLIST_LABEL)}" value="{$PICKLIST_KEY}" {if in_array($PICKLIST_KEY,$SEARCH_VALUES)} selected{/if}>{\App\Purifier::encodeHtml($PICKLIST_LABEL)}</option>
         {/foreach}
     </select>
 </div>
