@@ -91,9 +91,9 @@ class Vtiger_Record_Model extends \App\Base
 	{
 		$displayName = $this->get('label');
 		if (empty($displayName)) {
-			$displayName = $this->getDisplayName();
+			return $this->getDisplayName();
 		}
-		return \App\Purifier::encodeHtml(App\Purifier::decodeHtml($displayName));
+		return \App\Purifier::encodeHtml($displayName);
 	}
 
 	/**
