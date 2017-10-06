@@ -44,12 +44,11 @@ Class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Actio
 
 		$prevValues['permission'] = $ruleModel->getPermission();
 		$newValues['permission'] = $request->get('permission');
-
 		Settings_Vtiger_Tracker_Model::addDetail($prevValues, $newValues);
 
 		$ruleModel->set('source_id', $request->get('source_id'));
 		$ruleModel->set('target_id', $request->get('target_id'));
-		$ruleModel->set('permission', $request->get('permission'));
+		$ruleModel->set('permission', (int) $request->get('permission'));
 
 		$response = new Vtiger_Response();
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
