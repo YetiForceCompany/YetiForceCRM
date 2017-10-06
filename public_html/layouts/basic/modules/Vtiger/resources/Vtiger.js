@@ -512,7 +512,7 @@ var Vtiger_Index_Js = {
 	 * Function to trigger tooltip feature.
 	 */
 	registerTooltipEvents: function () {
-		var references = jQuery.merge(jQuery('[data-field-type="reference"] > a'), jQuery('[data-field-type="multireference"] > a'));
+		var references = jQuery.merge(jQuery('[data-field-type="reference"] > a'), jQuery('[data-field-type="multireference"] > a'), jQuery('.showReferenceTooltip'));
 		var lastPopovers = [];
 		// Fetching reference fields often is not a good idea on a given page.
 		// The caching is done based on the URL so we can reuse.
