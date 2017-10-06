@@ -43,6 +43,14 @@ class Purifier
 	public static $collectErrors = false;
 
 	/**
+	 * Html events attributes
+	 * @var type 
+	 */
+	private static $htmlEventAttributes = 'onerror|onblur|onchange|oncontextmenu|onfocus|oninput|oninvalid|onreset|onsearch|onselect|onsubmit|onkeydown|onkeypress|onkeyup|' .
+		'onclick|ondblclick|ondrag|ondragend|ondragenter|ondragleave|ondragover|ondragstart|ondrop|onmousedown|onmousemove|onmouseout|onmouseover|' .
+		'onmouseup|onmousewheel|onscroll|onwheel|oncopy|oncut|onpaste|onload|onselectionchange|onabort|onselectstart|ondragdrop|onmouseleave|onmouseenter|onunload|onresize';
+
+	/**
 	 * Purify (Cleanup) malicious snippets of code from the input
 	 * @param string $input
 	 * @param boolean $ignore Skip cleaning of the input
@@ -80,7 +88,7 @@ class Purifier
 					}
 				} elseif (is_string($input)) {
 					$value = static::$purifyInstanceCache->purify(static::decodeHtml($input));
-					$value = static::purifyHtmlEventAttributes(static::decodeHtml($value));
+					$value = static::encodeHtml(static::purifyHtmlEventAttributes(static::decodeHtml($value)));
 					Cache::save('purify', $cacheKey, $value, Cache::SHORT);
 				}
 			}
@@ -95,7 +103,11 @@ class Purifier
 	 */
 	public static function purifyHtmlEventAttributes($value)
 	{
-		return preg_replace("#<([^><]+?)([^a-z_\-]on\w*|xmlns)(\s*=\s*[^><]*)([>]*)#i", "<\\1\\4", $value);
+		if (preg_match("#<([^><]+?)([^a-z_\-]on\w*|xmlns)(\s*=\s*[^><]*)([>]*)#i", $value) || preg_match("/\b(" . static::$htmlEventAttributes . ")\s*=/i", $value) || preg_match('@<[^/>][^>]+(expression\(|j\W*a\W*v\W*a|v\W*b\W*s\W*c\W*r|&#|/\*|\*/)[^>]*>@sim', $value)) {
+			\App\Log::error('purifyHtmlEventAttributes: ' . $value, 'BadRequest');
+			throw new Exceptions\BadRequest('LBL_NOT_ALLOWED_VALUE');
+		}
+		return $value;
 	}
 
 	/**
@@ -147,7 +159,7 @@ class Purifier
 				if (static::$collectErrors) {
 					echo static::$purifyHtmlInstanceCache->context->get('ErrorCollector')->getHTMLFormatted($config);
 				}
-				$value = static::purifyHtmlEventAttributes(static::decodeHtml($value));
+				$value = static::encodeHtml(static::purifyHtmlEventAttributes(static::decodeHtml($value)));
 				Cache::save('purifyHtml', $cacheKey, $value, Cache::SHORT);
 			}
 		}
