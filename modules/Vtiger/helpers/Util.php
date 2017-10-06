@@ -107,14 +107,6 @@ class Vtiger_Util_Helper
 	}
 
 	/**
-	 * Function to make the input safe to be used as HTML
-	 */
-	public static function toSafeHTML($input)
-	{
-		return htmlspecialchars($input, ENT_QUOTES, vglobal('default_charset'));
-	}
-
-	/**
 	 * Function that will strip all the tags while displaying
 	 * @param string $input - html data
 	 * @return string vtiger6 displayable data
@@ -234,35 +226,6 @@ class Vtiger_Util_Helper
 	{
 		$upload_maxsize = vglobal('upload_maxsize');
 		return ceil($upload_maxsize / (1024 * 1024));
-	}
-
-	/**
-	 * Function to get Owner name for ownerId
-	 * @param integer $ownerId
-	 * @return string $ownerName
-	 */
-	public static function getOwnerName($ownerId)
-	{
-		$cache = Vtiger_Cache::getInstance();
-		if ($cache->hasOwnerDbName($ownerId)) {
-			return $cache->getOwnerDbName($ownerId);
-		}
-
-		$ownerModel = Users_Record_Model::getInstanceById($ownerId, 'Users');
-		$userName = $ownerModel->get('user_name');
-		$ownerName = '';
-		if ($userName) {
-			$ownerName = $userName;
-		} else {
-			$ownerModel = Settings_Groups_Record_Model::getInstance($ownerId);
-			if (!empty($ownerModel)) {
-				$ownerName = $ownerModel->getName();
-			}
-		}
-		if (!empty($ownerName)) {
-			$cache->setOwnerDbName($ownerId, $ownerName);
-		}
-		return $ownerName;
 	}
 
 	/**
