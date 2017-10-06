@@ -44,9 +44,9 @@ class Inventory extends TestCase
 	}
 
 	/**
-	 * Testing inventory creation
+	 * Testing taxes creation
 	 */
-	public function testAddInventory()
+	public function testAddTaxes()
 	{
 		$type = 'Taxes';
 		$name = 'test';
@@ -64,9 +64,9 @@ class Inventory extends TestCase
 	}
 
 	/**
-	 * Testing inventory edition
+	 * Testing taxes edition
 	 */
-	public function testEditInventory()
+	public function testEditTaxes()
 	{
 		$type = 'Taxes';
 		$name = 'test edit';
@@ -83,9 +83,9 @@ class Inventory extends TestCase
 	}
 
 	/**
-	 * Testing inventory deletion
+	 * Testing taxes deletion
 	 */
-	public function testDeleteInventory()
+	public function testDeleteTaxes()
 	{
 		$type = 'Taxes';
 		$recordModel = Settings_Inventory_Record_Model::getInstanceById(static::$id, $type);
