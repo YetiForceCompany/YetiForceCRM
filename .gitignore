@@ -12,6 +12,9 @@
 /cache/logs/*.log
 /cache/vtlib/
 /test/templates_c/basic/*.php
+/modules/TestData
+/modules/Settings/TestData
+/layouts/basic/modules/Settings/TestData
 /libraries/mPDF/
 /public_html/modules/OSSMail/roundcube/
 /public_html/libraries/gantt/
