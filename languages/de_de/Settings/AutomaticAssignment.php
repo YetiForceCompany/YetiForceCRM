@@ -4,6 +4,7 @@
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @author skavenkf (K.Fink)
  */
 $languageStrings = [
 	'LBL_AUTOMATIC_ASSIGNMENT' => 'Automatische Datensatzzuordnung',
@@ -16,9 +17,9 @@ $languageStrings = [
 	'FL_ROLES' => 'Rolle',
 	'FL_SMOWNERS' => 'Zuständiger',
 	'FL_SHOWNERS' => 'Geteilt mit',
-	'FL_ASSIGN' => 'Default settings',
-	'FL_CONDITIONS' => 'Record search conditions',
-	'FL_MODE' => 'Mode',
+	'FL_ASSIGN' => 'Standard Einstellungen',
+	'FL_CONDITIONS' => 'Konditionen zur Datensuche',
+	'FL_MODE' => 'Modus',
 	// Others
 	'LBL_CREATE_RECORD' => 'Neu',
 	'BTN_NEXT' => 'Nächster',
@@ -28,10 +29,10 @@ $languageStrings = [
 	'LBL_CHANGE_RECORD_STATE' => 'Status Datensatz ändern',
 	'BTN_SAVE' => 'Sichern',
 	'LBL_INCLUDE_USERS_RECORD_LIMIT' => 'Inklusive Datensatzliste des Benutzers',
-	'LBL_SET_DEFAULT_USER' => 'Set default user',
-	'LBL_DEACTIVATE_SYSTEM_MODE' => 'Deactivate system mode',
+	'LBL_SET_DEFAULT_USER' => 'Standardbenutzer setzen',
+	'LBL_DEACTIVATE_SYSTEM_MODE' => 'System Modus deaktivieren',
 	'LBL_SYSTEM' => 'System',
-	'LBL_NOTE' => 'Note!',
+	'LBL_NOTE' => 'Notiz!',
 	'LBL_VALUE_INFO' => 'The following field sets the value for the selected module field.',
 	'LBL_ROLES_INFO' => 'The list of pre-assigned users is created from the below roles.',
 	'LBL_SMOWNERS_INFO' => 'The list of pre-assigned users is created from the below users, groups. This user list is created only if there are no users selected from roles.',

@@ -1322,9 +1322,8 @@ $languageStrings = [
 	'LBL_NO_PHONE_COUNTRY' => 'Kein Länderschlüssel',
 	'LBL_INVALID_COUNTRY_CODE' => 'Fehlerhafter Länderschlüssel',
 	'LBL_INVALID_PHONE_NUMBER' => 'Fehlerhafte Telefonnummer',
-	'LBL_VALUE_NOT_FOUND' => 'Value not found',
-	'FL_PHONE_CUSTOM_INFORMATION' => 'Additional information',
-];
+	'LBL_VALUE_NOT_FOUND' => 'Wert nicht gefunden',
+	'FL_PHONE_CUSTOM_INFORMATION' => 'Zusatzinformation',];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',
 	'JS_LOADING_PLEASE_WAIT' => 'Laden, bitte warten.',

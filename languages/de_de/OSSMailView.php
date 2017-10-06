@@ -4,6 +4,7 @@
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @author skavenkf (K.Fink)
  */
 $languageStrings = [
 	// Basic Strings
@@ -61,9 +62,9 @@ $languageStrings = [
 	'LBL_SHOW_PREVIEW_EMAILS' => 'Vorschau der E-Mails',
 	'LBL_NO_MAILS' => 'keine E-Mails',
 	'LBL_CHANGE_FILTER' => 'Filter ändern',
-	'LBL_EXPAND_ALL' => 'Expand all',
-	'LBL_COLLAPSE_ALL' => 'Collapse all',
-	'LBL_COUNT_ALL_MAILS' => 'Number of all emails',
+	'LBL_EXPAND_ALL' => 'Alles erweitern',
+	'LBL_COLLAPSE_ALL' => 'Alles reduzieren',
+	'LBL_COUNT_ALL_MAILS' => 'Anzahl aller E-Mails',
 	'LBL_VERIFY' => 'Zur Überprüfung',
 	'LBL_REL_MOD' => 'Verknüpfte Module',
 	'LBL_BindMailsOK' => 'Zugeordnete E-Mails werden beim nächsten CRON Durchlauf den Datensätzen zugewiesen',
