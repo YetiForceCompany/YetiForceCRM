@@ -129,7 +129,7 @@ class Request
 		if (!isset($this->rawValues[$key])) {
 			return $value;
 		}
-		if ($value = filter_var($this->rawValues[$key], FILTER_VALIDATE_INT)) {
+		if (($value = filter_var($this->rawValues[$key], FILTER_VALIDATE_INT)) !== false) {
 			return $this->parseValues[$key] = $value;
 		}
 		\App\Log::error('getInteger: ' . $this->rawValues[$key], 'BadRequest');
