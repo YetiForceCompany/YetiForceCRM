@@ -1,5 +1,4 @@
 <?php
-
 /**
  * SharingAccess test class
  * @package YetiForce.Test
@@ -57,7 +56,7 @@ class SharingAccess extends TestCase
 	 * Save permissions
 	 * @codeCoverageIgnore
 	 */
-	private function saveRule($forModule, $ruleId, $permission, $sourceId, $targetId): Settings_SharingAccess_Rule_Model
+	private function saveRule($forModule, $ruleId, $permission, $sourceId, $targetId)
 	{
 		Settings_Vtiger_Tracker_Model::lockTracking(false);
 		Settings_Vtiger_Tracker_Model::addBasic('save');
