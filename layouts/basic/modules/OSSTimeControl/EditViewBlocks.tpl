@@ -62,7 +62,7 @@
 							{assign var=COUNTER value=0}
 							{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
 								{if in_array($FIELD_NAME, ['time_start','time_end'])}{continue}{/if}
-								{if $FIELD_MODEL->get('uitype') eq '20' || $FIELD_MODEL->get('uitype') eq '19' || $FIELD_MODEL->get('uitype') eq '300'}
+								{if $FIELD_MODEL->getUIType() eq '20' || $FIELD_MODEL->getUIType() eq '19' || $FIELD_MODEL->getUIType() eq '300'}
 									{if $COUNTER eq '1'}
 										<td class="{$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td></tr><tr>
 											{assign var=COUNTER value=0}
@@ -75,18 +75,18 @@
 								{else}
 									{assign var=COUNTER value=$COUNTER+1}
 								{/if}
-								<div class="{if $FIELD_MODEL->get('uitype') neq "300"}col-md-6{/if} fieldRow">
+								<div class="{if $FIELD_MODEL->getUIType() neq "300"}col-md-6{/if} fieldRow">
 									<div class="col-md-3 fieldLabel paddingLeft5px {$WIDTHTYPE}">
 										<label class="muted pull-right marginRight10px">
 											{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span>{/if}
-											{\App\Language::translate($FIELD_MODEL->get('label'), $MODULE)}
+											{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
 										</label>
 									</div>
-									<div class="{$WIDTHTYPE} {if $FIELD_MODEL->get('uitype') neq "300"}col-md-9{/if} fieldValue" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->get('uitype') eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
+									<div class="{$WIDTHTYPE} {if $FIELD_MODEL->getUIType() neq "300"}col-md-9{/if} fieldValue" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->getUIType() eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
 										<div class="row">
 											<div class="">
-												{if $FIELD_MODEL->get('uitype') eq "300"}
-													<label class="muted">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{\App\Language::translate($FIELD_MODEL->get('label'), $MODULE)}</label>
+												{if $FIELD_MODEL->getUIType() eq "300"}
+													<label class="muted">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}</label>
 												{/if}
 												{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
 											</div>

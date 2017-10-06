@@ -49,7 +49,7 @@
 													<td class="fieldLabel col-xs-5">
 														<label class='muted pull-right marginRight10px'>
 															{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if} 
-															{App\Language::translate($FIELD_MODEL->get('label'), $MODULE_NAME)}
+															{App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
 
 														</label>
 													</td>
@@ -68,12 +68,12 @@
 									<tr>
 										<td class="fieldLabel col-xs-5">
 											<label class='muted pull-right'>
-												<span class="redColor">*</span> {App\Language::translate($FIELD_MODEL->get('label'), $MODULE_NAME)}
+												<span class="redColor">*</span> {App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
 												{if $FIELD_MODEL->isMandatory() eq true} {/if}
 											</label>
 										</td>
 										<td class="fieldValue col-xs-7">
-											{if $FIELD_MODEL->get('uitype') eq '53'}
+											{if $FIELD_MODEL->getUIType() eq '53'}
 												{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME)}
 											{/if}
 										</td>

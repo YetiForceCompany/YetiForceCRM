@@ -15,7 +15,7 @@
 	{assign var="FIELD_NAME" value=$FIELD_MODEL->getName()}
 	{assign var="SYMBOL_PLACEMENT" value=$USER_MODEL->currency_symbol_placement}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
-	{if $FIELD_MODEL->get('uitype') eq '71'}
+	{if $FIELD_MODEL->getUIType() eq '71'}
 		<div class="input-group">
 			{if $SYMBOL_PLACEMENT neq '1.0$'}
 				<span class="input-group-addon">{$USER_MODEL->get('currency_symbol')}</span>
@@ -27,7 +27,7 @@
 				<span class="input-group-addon">{$USER_MODEL->get('currency_symbol')}</span>
 			{/if}
 		</div>
-	{else if ($FIELD_MODEL->get('uitype') eq '72') && ($FIELD_MODEL->getName() eq 'unit_price')}
+	{else if ($FIELD_MODEL->getUIType() eq '72') && ($FIELD_MODEL->getName() eq 'unit_price')}
 		<div class="input-group">
 			{if $SYMBOL_PLACEMENT neq '1.0$'}
 				<span class="input-group-addon row">{$BASE_CURRENCY_SYMBOL}</span>

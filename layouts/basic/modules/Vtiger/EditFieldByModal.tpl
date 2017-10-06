@@ -34,8 +34,8 @@
 						{assign var=CONVERT value=false}
 						{assign var=VALUE value={include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}}
 						<div class="form-group">
-							<label class="col-sm-4 control-label">{\App\Language::translate($FIELD_MODEL->get('label'),$MODULE_NAME)} 
-								{if in_array($FIELD_MODEL->get('uitype'),['300','19']) && $VALUE}
+							<label class="col-sm-4 control-label">{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$MODULE_NAME)} 
+								{if in_array($FIELD_MODEL->getUIType(),['300','19']) && $VALUE}
 									<a href="#" class="helpInfoPopover" title="{\App\Language::translate('LBL_PREVIEW',$MODULE_NAME)}" data-placement="auto right" data-content="{htmlspecialchars($VALUE)}"> <span title="{\App\Language::translate('LBL_PREVIEW',$MODULE_NAME)}" class="glyphicon glyphicon-modal-window"></span> </a>
 									{assign var=CONVERT value=true}
 								{/if}

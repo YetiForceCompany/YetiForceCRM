@@ -42,7 +42,7 @@
 										{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
 											{if $FIELD_MODEL->isListviewSortable()}
 												<option value="{$FIELD_MODEL->get('column')}"{if $FIELD_MODEL->get('column') eq $SORT_ORDER_BY[0]} selected{/if}>
-													{\App\Language::translate($FIELD_MODEL->get('label'), $SOURCE_MODULE_MODEL->getName())}
+													{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE_MODEL->getName())}
 												</option>
 											{/if}
 										{/foreach}
@@ -54,7 +54,7 @@
 										{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
 											{if $FIELD_MODEL->isListviewSortable()}
 												<option value="{$FIELD_MODEL->get('column')}"{if $FIELD_MODEL->get('column') eq $SORT_ORDER_BY[0]} selected{/if}>
-													{\App\Language::translate($FIELD_MODEL->get('label'), $SOURCE_MODULE_MODEL->getName())}
+													{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE_MODEL->getName())}
 												</option>
 											{/if}
 										{/foreach}

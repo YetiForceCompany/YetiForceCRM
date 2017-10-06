@@ -19,7 +19,7 @@
 				<select class="chzn-select form-control modulePickList" id="modulePickList">
 					<optgroup>
 						{foreach key=PICKLIST_FIELD item=FIELD_MODEL from=$PICKLIST_FIELDS}
-							<option {if $SELECTED_PICKLIST_FIELD_ID eq $FIELD_MODEL->getId()} selected="" {/if}  value="{$FIELD_MODEL->getId()}">{\App\Language::translate($FIELD_MODEL->get('label'),$SELECTED_MODULE_NAME)}</option>
+							<option {if $SELECTED_PICKLIST_FIELD_ID eq $FIELD_MODEL->getId()} selected="" {/if}  value="{$FIELD_MODEL->getId()}">{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$SELECTED_MODULE_NAME)}</option>
 						{/foreach}
 					</optgroup>
 				</select>

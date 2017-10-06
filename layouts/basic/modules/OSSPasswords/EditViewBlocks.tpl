@@ -68,7 +68,7 @@
 						<div class="col-md-12 paddingLRZero">
 							{assign var=COUNTER value=0}
 							{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
-								{if $FIELD_MODEL->get('uitype') eq '20' || $FIELD_MODEL->get('uitype') eq '19' || $FIELD_MODEL->get('uitype') eq '300'}
+								{if $FIELD_MODEL->getUIType() eq '20' || $FIELD_MODEL->getUIType() eq '19' || $FIELD_MODEL->getUIType() eq '300'}
 									{if $COUNTER eq '1'}
 										</div>
 										<div class="col-md-12 paddingLRZero">
@@ -82,14 +82,14 @@
 								{else}
 									{assign var=COUNTER value=$COUNTER+1}
 								{/if}
-								<div class="{if $FIELD_MODEL->get('uitype') neq "300"}col-md-6{/if} fieldRow">
+								<div class="{if $FIELD_MODEL->getUIType() neq "300"}col-md-6{/if} fieldRow">
 									<div class="col-md-3 fieldLabel paddingLeft5px {$WIDTHTYPE}">
 										<label class="muted pull-right marginRight10px">
 											{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
-											{\App\Language::translate($FIELD_MODEL->get('label'), $MODULE)}
+											{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
 										</label>
 									</div>
-									<div class="fieldValue {$WIDTHTYPE} {if $FIELD_MODEL->get('uitype') eq '300'} col-md-12 {assign var=COUNTER value=$COUNTER+1} {else} col-md-9  {/if} ">
+									<div class="fieldValue {$WIDTHTYPE} {if $FIELD_MODEL->getUIType() eq '300'} col-md-12 {assign var=COUNTER value=$COUNTER+1} {else} col-md-9  {/if} ">
 										<div class="row">
 											<div class="col-md-12">
 												{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
@@ -97,7 +97,7 @@
 										</div>
 									</div>
 								</div>
-								{if $BLOCK_FIELDS|@count eq 1 and $FIELD_MODEL->get('uitype') neq "19" and $FIELD_MODEL->get('uitype') neq "20" and $FIELD_MODEL->get('uitype') neq "30" and $FIELD_MODEL->get('uitype') neq '300'}
+								{if $BLOCK_FIELDS|@count eq 1 and $FIELD_MODEL->getUIType() neq "19" and $FIELD_MODEL->getUIType() neq "20" and $FIELD_MODEL->getUIType() neq "30" and $FIELD_MODEL->getUIType() neq '300'}
 									</div>
 									<div class="col-md-12 paddingLRZero">
 									{/if}

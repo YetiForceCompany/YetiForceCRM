@@ -127,7 +127,7 @@
 										   data-fieldinfo='{\App\Json::encode($FIELD_INFO)}' value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('defaultvalue'))}"
 										   data-decimal-separator='{$USER_MODEL->get('currency_decimal_separator')}' data-group-separator='{$USER_MODEL->get('currency_grouping_separator')}' />
 								</div>
-							{else if $FIELD_MODEL->get('uitype') eq 19}
+							{else if $FIELD_MODEL->getUIType() eq 19}
 								<textarea class="input-medium" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if}  name="fieldDefaultValue" value="{$FIELD_MODEL->get('defaultvalue')}" data-fieldinfo='{\App\Json::encode($FIELD_INFO)}'></textarea>
 							{else}
 								<input type="text" class="input-medium form-control" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if}  name="fieldDefaultValue" value="{$FIELD_MODEL->get('defaultvalue')}" data-fieldinfo='{\App\Json::encode($FIELD_INFO)}'/>

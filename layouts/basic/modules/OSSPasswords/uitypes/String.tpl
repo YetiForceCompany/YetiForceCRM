@@ -17,8 +17,8 @@
 		   {else}
 			   value="{$FIELD_VALUE}" 
 		   {/if}
-		   {if ($FIELD_MODEL->get('uitype') eq '106' && $MODE neq '') || $FIELD_MODEL->get('uitype') eq '3' 
-				|| $FIELD_MODEL->get('uitype') eq '4'|| $FIELD_MODEL->isReadOnly()} 
+		   {if ($FIELD_MODEL->getUIType() eq '106' && $MODE neq '') || $FIELD_MODEL->getUIType() eq '3' 
+				|| $FIELD_MODEL->getUIType() eq '4'|| $FIELD_MODEL->isReadOnly()} 
 		   readonly 
 		   {/if} 
 			   data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if} />

@@ -24,7 +24,7 @@
 										{/if}
 										{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 										<option value="{$REFERENCE_FIELD->get('name')}::{$RELATION_MODULE_NAME}::{$FIELD_MODEL->getName()}" {if $FIELD_MAP['fieldname'] eq $RELATION_MODULE_NAME|cat:'::'|cat:$FIELD_MODEL->getName()}selected=""{/if}data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_MODEL->getName()}" data-fieldinfo="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}" >
-											{\App\Language::translate($FIELD_MODEL->get('label'), $RELATION_MODULE_NAME)}
+											{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATION_MODULE_NAME)}
 										</option>
 									{/foreach}
 								</optgroup>
@@ -40,7 +40,7 @@
 									{/if}
 									{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 									<option value="{$RELATION_MODULE_NAME}::{$FIELD_MODEL->getName()}" {if $FIELD_MAP['fieldname'] eq $RELATION_MODULE_NAME|cat:'::'|cat:$FIELD_MODEL->getName()}selected=""{/if}data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_MODEL->getName()}" data-fieldinfo="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}" >
-										{\App\Language::translate($FIELD_MODEL->get('label'), $RELATION_MODULE_NAME)}
+										{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATION_MODULE_NAME)}
 									</option>
 								{/foreach}
 							</optgroup>
@@ -72,7 +72,7 @@
 								{/if}
 								{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 								<option value="{$REFERENCE_FIELD->get('name')}::{$RELATION_MODULE_NAME}::{$FIELD_MODEL->getName()}" {if $FIELD_MAP['fieldname'] eq $RELATION_MODULE_NAME|cat:'::'|cat:$FIELD_MODEL->getName()}selected=""{/if}data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_MODEL->getName()}" data-fieldinfo="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}" >
-									{\App\Language::translate($FIELD_MODEL->get('label'), $RELATION_MODULE_NAME)}
+									{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATION_MODULE_NAME)}
 								</option>
 							{/foreach}
 						</optgroup>
@@ -88,7 +88,7 @@
 							{/if}
 							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 							<option value="{$RELATION_MODULE_NAME}::{$FIELD_MODEL->getName()}" data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_MODEL->getName()}" data-fieldinfo="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}" >
-								{\App\Language::translate($FIELD_MODEL->get('label'), $RELATION_MODULE_NAME)}
+								{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATION_MODULE_NAME)}
 							</option>
 						{/foreach}
 					</optgroup>

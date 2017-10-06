@@ -15,7 +15,7 @@
 				{assign var=FIELD_MODEL value=$FIELD->getWithDefaultValue()}
 				<div class="row marginBottom10px editField" data-prevvalue="{$FIELD_MODEL->get('fieldvalue')}" data-fieldname = "q_{$FIELD_MODEL->getFieldName()}">
 					<div class="col-md-5 margin0px">
-						<h4>{\App\Language::translate($FIELD_MODEL->get('label'),$MODULE_NAME)}</h4>
+						<h4>{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$MODULE_NAME)}</h4>
 					</div>
 					<div class="col-md-7">
 						{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}

@@ -104,7 +104,7 @@
 						<div class="col-md-12 paddingLRZero">
 							{assign var=COUNTER value=0}
 							{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
-								{if $FIELD_MODEL->get('uitype') eq '20' || $FIELD_MODEL->get('uitype') eq '19' || $FIELD_MODEL->get('uitype') eq '300'}
+								{if $FIELD_MODEL->getUIType() eq '20' || $FIELD_MODEL->getUIType() eq '19' || $FIELD_MODEL->getUIType() eq '300'}
 									{if $COUNTER eq '1'}
 									</div>
 									<div class="col-md-12 paddingLRZero">
@@ -118,19 +118,19 @@
 								{else}
 									{assign var=COUNTER value=$COUNTER+1}
 								{/if}
-								<div class="{if $FIELD_MODEL->get('uitype') neq "300"}col-md-6{/if} fieldRow">
+								<div class="{if $FIELD_MODEL->getUIType() neq "300"}col-md-6{/if} fieldRow">
 									<div class="col-md-3 fieldLabel paddingLeft5px {$WIDTHTYPE}">
 										{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
-										{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->get('label')}
+										{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
 										<label class="muted">
 											{if $FIELD_MODEL->isMandatory() eq true}<span class="redColor">*</span>{/if}
 											{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-												<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->get("label"), $MODULE)}'><span class="glyphicon glyphicon-info-sign"></span></a>
+												<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->get("label"), $MODULE)}'><span class="glyphicon glyphicon-info-sign"></span></a>
 											{/if}
-											{\App\Language::translate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE_NAME)}
+											{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE_NAME)}
 										</label>
 									</div>
-									<div class="{$WIDTHTYPE} {if $FIELD_MODEL->get('uitype') neq "300"}col-md-9{/if} fieldValue" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->get('uitype') eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
+									<div class="{$WIDTHTYPE} {if $FIELD_MODEL->getUIType() neq "300"}col-md-9{/if} fieldValue" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->getUIType() eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
 										<div class="row">
 											<div class="">						    
 												{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}

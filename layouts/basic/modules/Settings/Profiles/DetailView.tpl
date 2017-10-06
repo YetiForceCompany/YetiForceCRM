@@ -156,7 +156,7 @@
 													</span>
 												{/if}
 												<span style="margin-left: 25px">
-												{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if} {\App\Language::translate($FIELD_MODEL->get('label'), $PROFILE_MODULE->getName())}
+												{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if} {\App\Language::translate($FIELD_MODEL->getFieldLabel(), $PROFILE_MODULE->getName())}
 												</span>
 											</td>
 											{if $smarty.foreach.fields.last OR ($COUNTER+1) % 3 == 0}

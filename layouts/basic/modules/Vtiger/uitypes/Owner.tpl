@@ -12,7 +12,7 @@
 {strip}
 	{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
-	{if $FIELD_MODEL->get('uitype') eq '53'}
+	{if $FIELD_MODEL->getUIType() eq '53'}
 		{assign var=ROLE_RECORD_MODEL value=$USER_MODEL->getRoleDetail()}
 		{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance($MODULE)->getAccessibleUsers('',$FIELD_MODEL->getFieldDataType())}
 		{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance($MODULE)->getAccessibleGroups('',$FIELD_MODEL->getFieldDataType())}

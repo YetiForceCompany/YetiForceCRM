@@ -53,13 +53,13 @@
 										<div class="col-xs-12 col-md-6 fieldsLabelValue {$WIDTHTYPE} paddingLRZero">
 											<div class="fieldLabel col-xs-12 col-sm-5">
 												{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
-												{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->get('label')}
+												{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
 												<label class="muted pull-left-xs pull-right-sm pull-right-lg">
 													{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span>{/if}
 													{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-														<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->get("label"), $MODULE)}'><span class="glyphicon glyphicon-info-sign"></span></a>
+														<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->get("label"), $MODULE)}'><span class="glyphicon glyphicon-info-sign"></span></a>
 													{/if}
-													{\App\Language::translate($FIELD_MODEL->get('label'), $MODULE)}
+													{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
 												</label>
 											</div>
 											<div class="fieldValue col-xs-12 col-sm-7" >

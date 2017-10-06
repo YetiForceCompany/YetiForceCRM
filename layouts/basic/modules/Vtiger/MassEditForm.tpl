@@ -56,7 +56,7 @@
 										<div class="tab-pane {if $BLOCK_INDEX eq 1}active{/if}" id="block_{$BLOCK_INDEX}">
 											<div class="massEditTable paddingTop20">
 												{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
-													{if $FIELD_MODEL->get('uitype') neq 104 && $FIELD_MODEL->isEditable()}
+													{if $FIELD_MODEL->getUIType() neq 104 && $FIELD_MODEL->isEditable()}
 														<div class="form-group">
 															<div class="col-md-offset-1 rowElements">
 																<label class="marginLeft15 control-label col-md-4 fieldLabel btn btn-sm btn-default">
@@ -64,7 +64,7 @@
 																		<input data-toggle="button" aria-pressed="false" autocomplete="off" type="checkbox" id="selectRow{$FIELD_MODEL->getName()}" title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}" data-field-name="{$FIELD_MODEL->getName()}" class="selectRow" {if $FIELD_MODEL->isEditableReadOnly()} disabled{/if}>&nbsp;
 																	</span>
 																	{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
-																	{\App\Language::translate($FIELD_MODEL->get('label'), $MODULE)}:
+																	{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}:
 																</label>
 																<div class="fieldValue col-md-6">
 																	{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE) VIEW = 'MassEdit'}

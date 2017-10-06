@@ -87,7 +87,7 @@
 														{if in_array($FIELD_MODEL->getCustomViewColumnName(), $SELECTED_FIELDS)}
 															selected
 														{/if}
-														>{\App\Language::translate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
+														>{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}
 											{if $FIELD_MODEL->isMandatory() eq true} <span>*</span> {/if}
 											</option>
 										{/foreach}
@@ -104,7 +104,7 @@
 														{if in_array($FIELD_MODEL->getCustomViewColumnName(), $SELECTED_FIELDS)}
 															selected
 														{/if}
-														>{\App\Language::translate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
+														>{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}
 											{if $FIELD_MODEL->isMandatory() eq true} <span>*</span> {/if}
 											</option>
 										{/foreach}

@@ -17,19 +17,19 @@
 		{if $FIELD_MODEL->getName() neq 'modifiedtime' && $FIELD_MODEL->getName() neq 'createdtime'}
 			<tr class="summaryViewEntries">
 				<td class="fieldLabel {$WIDTHTYPE}" style="width:35%">
-				<label class="muted pull-left">{\App\Language::translate($FIELD_MODEL->get('label'),$MODULE_NAME)}
+				<label class="muted pull-left">{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$MODULE_NAME)}
 				{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
-				{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->get('label')}
+				{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
 				{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->get("label"), $MODULE_NAME)}'><span class="glyphicon glyphicon-info-sign"></span></a>
+					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->get("label"), $MODULE_NAME)}'><span class="glyphicon glyphicon-info-sign"></span></a>
 				{/if}
 				</label>
 				<td class="fieldValue {$WIDTHTYPE}" style="width:65%">
                     <div class="row">
-                        <div class="value textOverflowEllipsis col-xs-10 paddingRightZero" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20' or $FIELD_MODEL->get('uitype') eq '21'}style="word-wrap: break-word;white-space:pre-wrap;"{/if}>
+                        <div class="value textOverflowEllipsis col-xs-10 paddingRightZero" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '21'}style="word-wrap: break-word;white-space:pre-wrap;"{/if}>
 							{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName()) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
 						</div>
-                        {if !$IS_READ_ONLY && $FIELD_MODEL->isEditable() eq 'true' && ($FIELD_MODEL->getFieldDataType()!=Vtiger_Field_Model::REFERENCE_TYPE) && $IS_AJAX_ENABLED && $FIELD_MODEL->isAjaxEditable() eq 'true' && $FIELD_MODEL->get('uitype') neq 69}
+                        {if !$IS_READ_ONLY && $FIELD_MODEL->isEditable() eq 'true' && ($FIELD_MODEL->getFieldDataType()!=Vtiger_Field_Model::REFERENCE_TYPE) && $IS_AJAX_ENABLED && $FIELD_MODEL->isAjaxEditable() eq 'true' && $FIELD_MODEL->getUIType() neq 69}
                             <div class="hide edit col-xs-12">
                                 {include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
 								{if $FIELD_MODEL->getFieldDataType() eq 'boolean' || $FIELD_MODEL->getFieldDataType() eq 'picklist'}

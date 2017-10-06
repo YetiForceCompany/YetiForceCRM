@@ -24,13 +24,13 @@
 						{if !$FIELD_MODEL->isViewableInDetailView()}
 							{continue}
 						{/if}
-						{if $FIELD_MODEL->get('uitype') eq '300'}
+						{if $FIELD_MODEL->getUIType() eq '300'}
 							<div class="col-xs-12 knowledgeBaseDetails">
-								<span class="value" data-field-type="{$FIELD_MODEL->getFieldDataType()}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20' or $FIELD_MODEL->get('uitype') eq '21' or $FIELD_MODEL->get('uitype') eq '300'} style="white-space:normal;" {/if}>
+								<span class="value" data-field-type="{$FIELD_MODEL->getFieldDataType()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '21' or $FIELD_MODEL->getUIType() eq '300'} style="white-space:normal;" {/if}>
 									{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(),  $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
 								</span>
 							</div>
-						{else if $FIELD_MODEL->get('uitype') eq "69" || $FIELD_MODEL->get('uitype') eq "105"}
+						{else if $FIELD_MODEL->getUIType() eq "69" || $FIELD_MODEL->getUIType() eq "105"}
 							{if $COUNTER neq 0}
 								{if $COUNTER eq 2}
 								</div><div class="col-xs-12 paddingLRZero fieldRow">
@@ -39,7 +39,7 @@
 							{/if}
 							<div class="col-md-6 col-xs-12 fieldsLabelValue paddingLRZero">
 								<div class="fieldLabel col-sm-5 col-xs-12 {$WIDTHTYPE}">
-									<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">{\App\Language::translate({$FIELD_MODEL->get('label')},{$MODULE_NAME})}</label>
+									<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}</label>
 								</div>
 								<div class="fieldValue col-sm-7 col-xs-12 {$WIDTHTYPE}">
 									<div id="imageContainer">
@@ -53,7 +53,7 @@
 							</div>
 							{assign var=COUNTER value=$COUNTER+1}
 						{else}
-							{if $FIELD_MODEL->get('uitype') eq "20" or $FIELD_MODEL->get('uitype') eq "19" or $FIELD_MODEL->get('uitype') eq '300'}
+							{if $FIELD_MODEL->getUIType() eq "20" or $FIELD_MODEL->getUIType() eq "19" or $FIELD_MODEL->getUIType() eq '300'}
 								{if $COUNTER eq '1'}
 									{assign var=COUNTER value=0}
 								{/if}
@@ -67,16 +67,16 @@
 							<div class="col-md-6 col-xs-12 fieldsLabelValue paddingLRZero">
 								<div class="fieldLabel col-sm-5 col-xs-12 {$WIDTHTYPE}" id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 									{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
-									{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->get('label')}
+									{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
 									{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-										<a style="margin-left: 5px;margin-top: 2px;" href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->get('label'), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->get("label"), $MODULE_NAME)}'><i class="glyphicon glyphicon-info-sign"></i></a>
+										<a style="margin-left: 5px;margin-top: 2px;" href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->get("label"), $MODULE_NAME)}'><i class="glyphicon glyphicon-info-sign"></i></a>
 										{/if}
 									<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">
-										{\App\Language::translate({$FIELD_MODEL->get('label')},{$MODULE_NAME})}
+										{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}
 									</label>
 								</div>
-								<div class="fieldValue col-sm-7 col-xs-12 {$WIDTHTYPE}" id="{$MODULE_NAME}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20' or $FIELD_MODEL->get('uitype') eq '300'} {assign var=COUNTER value=$COUNTER+1} {/if}>
-									<span class="value" data-field-type="{$FIELD_MODEL->getFieldDataType()}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20' or $FIELD_MODEL->get('uitype') eq '21' or $FIELD_MODEL->get('uitype') eq '300'} style="white-space:normal;" {/if}>
+								<div class="fieldValue col-sm-7 col-xs-12 {$WIDTHTYPE}" id="{$MODULE_NAME}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300'} {assign var=COUNTER value=$COUNTER+1} {/if}>
+									<span class="value" data-field-type="{$FIELD_MODEL->getFieldDataType()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '21' or $FIELD_MODEL->getUIType() eq '300'} style="white-space:normal;" {/if}>
 										{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
 									</span>
 									{assign var=EDIT value=false}

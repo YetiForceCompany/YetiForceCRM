@@ -23,7 +23,7 @@
 			{if !$FIELD_MODEL->isViewableInDetailView()}
 				 {continue}
 			 {/if}
-			{if $FIELD_MODEL->get('uitype') eq "69" || $FIELD_MODEL->get('uitype') eq "105"}
+			{if $FIELD_MODEL->getUIType() eq "69" || $FIELD_MODEL->getUIType() eq "105"}
 				{if $COUNTER neq 0}
 					{if $COUNTER eq 2}
 						</div><div class="col-xs-12 paddingLRZero fieldRow">
@@ -32,7 +32,7 @@
 				{/if}
 				<div class="col-md-6 col-xs-12 fieldsLabelValue paddingLRZero"
 					<div class="fieldLabel col-sm-5 col-xs-12 {$WIDTHTYPE}">
-						<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">{\App\Language::translate({$FIELD_MODEL->get('label')},{$MODULE_NAME})}</label>
+						<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}</label>
 					</div>
 					<div class="fieldValue col-sm-7 col-xs-12 {$WIDTHTYPE}">
 						<div id="imageContainer">
@@ -46,7 +46,7 @@
 				</div>
 				{assign var=COUNTER value=$COUNTER+1}
 			{else}
-				{if $FIELD_MODEL->get('uitype') eq "20" or $FIELD_MODEL->get('uitype') eq "19"}
+				{if $FIELD_MODEL->getUIType() eq "20" or $FIELD_MODEL->getUIType() eq "19"}
 					{if $COUNTER eq '1'}
 						{assign var=COUNTER value=0}
 					{/if}
@@ -60,10 +60,10 @@
 				 <div class="col-md-6 col-xs-12 fieldsLabelValue paddingLRZero">
 					<div class="fieldLabel col-sm-5 col-xs-12 {$WIDTHTYPE}" id="{$MODULE}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 						<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">
-							{\App\Language::translate({$FIELD_MODEL->get('label')},{$MODULE_NAME})}
+							{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}
 						</label>
 					</div>
-					<div class="fieldValue col-sm-7 col-xs-12 {$WIDTHTYPE}" id="{$MODULE}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20'} {assign var=COUNTER value=$COUNTER+1} {/if} {if $FIELD_MODEL->getName() eq 'password'}onclick="showPasswordQuickEdit('{$smarty.get.record}');" {/if}>
+					<div class="fieldValue col-sm-7 col-xs-12 {$WIDTHTYPE}" id="{$MODULE}_detailView_fieldValue_{$FIELD_MODEL->getName()}" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} {assign var=COUNTER value=$COUNTER+1} {/if} {if $FIELD_MODEL->getName() eq 'password'}onclick="showPasswordQuickEdit('{$smarty.get.record}');" {/if}>
 						<span class="value" data-field-type="{$FIELD_MODEL->getFieldDataType()}" {if $FIELD_MODEL->getName() eq 'password'}id="detailPassword" {/if}>
 						   {include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
 						</span>

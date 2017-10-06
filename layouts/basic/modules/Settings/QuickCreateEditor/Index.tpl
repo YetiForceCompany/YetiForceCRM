@@ -79,7 +79,7 @@
                                                                 {/if}
                                                             </div>
                                                             <div class="col-sm-11 col-xs-10 col-md-10 marginLeftZero" style="word-wrap: break-word;">
-                                                                <span class="fieldLabel">{\App\Language::translate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}&nbsp;
+                                                                <span class="fieldLabel">{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}&nbsp;
 																	{if $IS_MANDATORY}<span class="redColor">*</span>{/if}</span>
 															</div>
 														</div>
@@ -108,7 +108,7 @@
 																	{if $IS_MANDATORY}
 																		<span class="redColor">*</span>
 																	{/if}
-																	{\App\Language::translate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}&nbsp;
+																	{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}&nbsp;
 																</span>
 
 															</div>
