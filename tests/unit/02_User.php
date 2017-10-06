@@ -1,4 +1,5 @@
 <?php
+
 /**
  * AddUser test class
  * @package YetiForce.Test
@@ -97,5 +98,38 @@ class User extends TestCase
 		$this->assertNotFalse($currentUserModel, 'No current user');
 		Users_Record_Model::deleteUserPermanently(static::$id, $currentUserModel->getId());
 		$this->assertFalse((new App\Db\Query())->from('vtiger_users')->where(['id' => static::$id])->exists(), 'The record was not removed from the database ID: ' . static::$id);
+	}
+
+	/**
+	 * Testing locks creation
+	 */
+	public function testLocksUser()
+	{
+		$param = [['user' => 'H6', 'locks' => ['copy', 'paste']]];
+		$moduleModel = Settings_Users_Module_Model::getInstance();
+		$this->assertNotNull($moduleModel, 'Object is null');
+		$moduleModel->saveLocks($param);
+
+		$this->assertFileExists('user_privileges/locks.php');
+		$locks = $moduleModel->getLocks();
+		$locksRaw = ['H6' => ['copy', 'paste']];
+
+		$this->assertCount(0, array_diff_assoc($locksRaw, $locks), 'Unexpected value in lock array');
+		$this->assertCount(0, array_diff_assoc($locksRaw['H6'], $locks['H6']), 'Unexpected value in lock array');
+	}
+
+	/**
+	 * Testing locks deletion
+	 */
+	public function testDelteLocksUser()
+	{
+		$param = '';
+		$moduleModel = Settings_Users_Module_Model::getInstance();
+		$this->assertNotNull($moduleModel, 'Object is null');
+		$moduleModel->saveLocks($param);
+
+		$this->assertFileExists('user_privileges/locks.php');
+		$locks = $moduleModel->getLocks();
+		$this->assertCount(0, $locks, 'Unexpected value in lock array');
 	}
 }
