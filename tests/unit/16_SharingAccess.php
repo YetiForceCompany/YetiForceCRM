@@ -36,13 +36,14 @@ class SharingAccess extends TestCase
 		$postValues = [];
 		$prevValues = [];
 		foreach ($modulePermissions as $tabId => $permission) {
+			$permission = (int) $permission;
 			$moduleModel = Settings_SharingAccess_Module_Model::getInstance($tabId);
-			$permissionOld = $moduleModel->get('permission');
+			$permissionOld = (int) $moduleModel->get('permission');
 			$moduleModel->set('permission', $permission);
 			if ($permissionOld !== $permission) {
 				$prevValues[$tabId] = $permissionOld;
-				$postValues[$tabId] = $moduleModel->get('permission');
-				if ($permissionOld === 3 || $moduleModel->get('permission') === 3) {
+				$postValues[$tabId] = (int) $moduleModel->get('permission');
+				if ($permissionOld === 3 || (int) $moduleModel->get('permission') === 3) {
 					\App\Privilege::setUpdater(\App\Module::getModuleName($tabId));
 				}
 			}
