@@ -14,7 +14,7 @@
 					<input class="switchBtn" type="checkbox" title="{\App\Language::translate('LBL_WARNINGS_SWITCH',$MODULE)}" data-size="normal" data-label-width="5" data-handle-width="90" data-on-text="{\App\Language::translate('LBL_ACTIVE',$MODULE)}" data-off-text="{\App\Language::translate('LBL_ALL')}">
 				</div>
 				<hr>
-				<input type="hidden" id="treeValues" value="{Vtiger_Util_Helper::toSafeHTML($FOLDERS)}">
+				<input type="hidden" id="treeValues" value="{\App\Purifier::encodeHtml($FOLDERS)}">
 				<div id="jstreeContainer"></div>
 			</div>
 		</div>

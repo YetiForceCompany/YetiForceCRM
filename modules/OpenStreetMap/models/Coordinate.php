@@ -117,7 +117,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 
 	/**
 	 * Function to get params url
-	 * @param <Vtiger_Record_Model> $recordModel
+	 * @param Vtiger_Record_Model $recordModel
 	 * @param string $type a,b or c
 	 * @return array
 	 */
@@ -134,7 +134,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 
 	/**
 	 * Function to get coordinates for record
-	 * @param <Vtiger_Record_Model> $recordModel
+	 * @param Vtiger_Record_Model $recordModel
 	 * @return array
 	 */
 	public function getCoordinatesByRecord($recordModel)

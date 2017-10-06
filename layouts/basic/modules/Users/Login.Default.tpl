@@ -38,7 +38,7 @@
 								<div class="form-group {if $LAYOUT_SELECTION}first-group {/if}">
 									<select class="input-lg form-control" title="{\App\Language::translate('LBL_CHOOSE_LANGUAGE',$MODULE)}" name="loginLanguage">
 										{foreach item=VALUE key=KEY from=\App\Language::getAll()}
-											<option {if $KEY eq $DEFAULT_LANGUAGE} selected {/if}  value="{Vtiger_Util_Helper::toSafeHTML($KEY)}">{$VALUE}</option>
+											<option {if $KEY eq $DEFAULT_LANGUAGE} selected {/if}  value="{\App\Purifier::encodeHtml($KEY)}">{$VALUE}</option>
 										{/foreach}
 									</select>	
 								</div>
@@ -48,7 +48,7 @@
 								<div class="form-group">
 									<select class="input-lg form-control" title="{\App\Language::translate('LBL_SELECT_LAYOUT',$MODULE)}" name="layout">
 										{foreach item=VALUE key=KEY from=\App\Layout::getAllLayouts()}
-											<option value="{Vtiger_Util_Helper::toSafeHTML($KEY)}">{$VALUE}</option>
+											<option value="{\App\Purifier::encodeHtml($KEY)}">{$VALUE}</option>
 										{/foreach}
 									</select>	
 								</div>

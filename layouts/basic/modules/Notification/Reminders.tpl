@@ -32,7 +32,7 @@
 										{$FULL_TEXT}
 										{assign var=SHOW_BUTTON value=false}
 									{else}
-										{Vtiger_Util_Helper::toSafeHTML(strip_tags($FULL_TEXT))|substr:0:200}
+										{\App\Purifier::encodeHtml(strip_tags($FULL_TEXT))|substr:0:200}
 										{assign var=SHOW_BUTTON value=true}
 									{/if}
 								</span>

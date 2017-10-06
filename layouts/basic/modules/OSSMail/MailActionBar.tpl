@@ -11,13 +11,13 @@
 		{assign var="MODULES_LEVEL_1" value=\App\ModuleHierarchy::getModulesByLevel(1)}
 		{assign var="MODULES_LEVEL_2" value=\App\ModuleHierarchy::getModulesByLevel(2)}
 		{if !empty($MODULES_LEVEL_0)}
-			<input type="hidden" id="modulesLevel0" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode(array_keys($MODULES_LEVEL_0)))}" />
+			<input type="hidden" id="modulesLevel0" value="{\App\Purifier::encodeHtml(\App\Json::encode(array_keys($MODULES_LEVEL_0)))}" />
 		{/if}
 		{if !empty($MODULES_LEVEL_1)}
-			<input type="hidden" id="modulesLevel1" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode(array_keys($MODULES_LEVEL_1)))}" />
+			<input type="hidden" id="modulesLevel1" value="{\App\Purifier::encodeHtml(\App\Json::encode(array_keys($MODULES_LEVEL_1)))}" />
 		{/if}
 		{if !empty($MODULES_LEVEL_2)}
-			<input type="hidden" id="modulesLevel2" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode(array_keys($MODULES_LEVEL_2)))}" />
+			<input type="hidden" id="modulesLevel2" value="{\App\Purifier::encodeHtml(\App\Json::encode(array_keys($MODULES_LEVEL_2)))}" />
 		{/if}
 		<div class="row actionBar">
 			<div class="col-4" >

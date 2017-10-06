@@ -8,14 +8,14 @@
 				{assign var="MINILIST_WIDGET_RECORDS" value=$MINILIST_WIDGET_MODEL->getRecords($OWNER)}
 			{/if}
 			<div class="col-md-4">
-				<button class="btn btn-xs btn-default recordCount" data-url="{Vtiger_Util_Helper::toSafeHTML($MINILIST_WIDGET_MODEL->getTotalCountURL($OWNER))}">
+				<button class="btn btn-xs btn-default recordCount" data-url="{\App\Purifier::encodeHtml($MINILIST_WIDGET_MODEL->getTotalCountURL($OWNER))}">
 					<span class="glyphicon glyphicon-equalizer" title="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}"></span>
-					<a class="pull-left hide" href="{Vtiger_Util_Helper::toSafeHTML($MINILIST_WIDGET_MODEL->getListViewURL($OWNER))}"><span class="count badge pull-left"></span></a>
+					<a class="pull-left hide" href="{\App\Purifier::encodeHtml($MINILIST_WIDGET_MODEL->getListViewURL($OWNER))}"><span class="count badge pull-left"></span></a>
 				</button>
 			</div>
 			{if count($MINILIST_WIDGET_RECORDS) >= $MINILIST_WIDGET_MODEL->getRecordLimit()}
 				<div class="col-md-8">
-					<a class="btn btn-xs btn-primary pull-right" href="{Vtiger_Util_Helper::toSafeHTML($MINILIST_WIDGET_MODEL->getListViewURL($OWNER))}">
+					<a class="btn btn-xs btn-primary pull-right" href="{\App\Purifier::encodeHtml($MINILIST_WIDGET_MODEL->getListViewURL($OWNER))}">
 						<span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>&nbsp;&nbsp;
 						{\App\Language::translate('LBL_MORE')}
 					</a>

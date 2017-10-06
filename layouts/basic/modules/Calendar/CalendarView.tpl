@@ -11,8 +11,8 @@
 	<input type="hidden" id="eventLimit" value="{$EVENT_LIMIT}" />
 	<input type="hidden" id="weekView" value="{$WEEK_VIEW}" />
 	<input type="hidden" id="dayView" value="{$DAY_VIEW}" />
-	<input type="hidden" id="hiddenDays" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode(AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}" />
-	<input type="hidden" id="activityStateLabels" value="{Vtiger_Util_Helper::toSafeHTML($ACTIVITY_STATE_LABELS)}" />
+	<input type="hidden" id="hiddenDays" value="{\App\Purifier::encodeHtml(\App\Json::encode(AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}" />
+	<input type="hidden" id="activityStateLabels" value="{\App\Purifier::encodeHtml($ACTIVITY_STATE_LABELS)}" />
 	<div class="calendarViewContainer rowContent col-md-12 paddingLefttZero col-xs-12">
 		<div class="widget_header row marginbottomZero marginRightMinus20">
 			<div class="pull-left paddingLeftMd">

@@ -73,7 +73,7 @@
 								{if $FIELD_MODEL->getFieldDataType() eq 'multipicklist'}
 								   <input type="hidden" class="fieldname" value='{$FIELD_MODEL->getName()}[]' data-prev-value='{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'))}' />
 								{else}
-									<input type="hidden" class="fieldname" value='{$FIELD_MODEL->getName()}' data-prev-value='{Vtiger_Util_Helper::toSafeHTML($FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue')))}' />
+									<input type="hidden" class="fieldname" value='{$FIELD_MODEL->getName()}' data-prev-value='{\App\Purifier::encodeHtml($FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue')))}' />
 								{/if}
 							</span>
 						{/if}

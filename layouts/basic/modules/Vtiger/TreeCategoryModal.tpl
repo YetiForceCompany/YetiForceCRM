@@ -14,7 +14,7 @@
 		<input type="hidden" id="isActiveCategory" value="{$SELECTABLE_CATEGORY}" />
 		<input type="hidden" id="relationType" value="{$RELATION_TYPE}" />
 		<input type="hidden" id="relatedModule" value="{$MODULE}" />
-		<input type="hidden" name="tree" id="treePopupValues" value="{Vtiger_Util_Helper::toSafeHTML($TREE)}" />
+		<input type="hidden" name="tree" id="treePopupValues" value="{\App\Purifier::encodeHtml($TREE)}" />
 		{if count($TREE) != 0}
 			<div class="col-md-12 marginBottom10px">
 				<div class="col-md-12" id="treePopupContents"></div>

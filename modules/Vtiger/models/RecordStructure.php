@@ -105,7 +105,7 @@ class Vtiger_RecordStructure_Model extends \App\Base
 
 	/**
 	 * Function to retieve the instance from record model
-	 * @param <Vtiger_Record_Model> $recordModel - record instance
+	 * @param Vtiger_Record_Model $recordModel - record instance
 	 * @return Vtiger_RecordStructure_Model
 	 */
 	public static function getInstanceFromRecordModel($recordModel, $mode = self::RECORD_STRUCTURE_MODE_DEFAULT)

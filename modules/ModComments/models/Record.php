@@ -82,7 +82,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the parent Comment Model
-	 * @return <Vtiger_Record_Model>
+	 * @return Vtiger_Record_Model
 	 */
 	public function getParentCommentModel()
 	{
@@ -95,7 +95,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the parent Record Model(Contacts, Accounts etc)
-	 * @return <Vtiger_Record_Model>
+	 * @return Vtiger_Record_Model
 	 */
 	public function getParentRecordModel()
 	{

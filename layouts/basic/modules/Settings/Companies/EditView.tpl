@@ -52,7 +52,7 @@
 								{App\Language::translate('LBL_'|cat:$COLUMN|upper, $QUALIFIED_MODULE)}
 							</label>
 							<div class="col-sm-10">
-								<input class="form-control" name="{$COLUMN}" {if $COLUMN eq 'id'} readonly {/if} {if $COLUMN eq 'name' }data-validation-engine="validate[required]"{/if} value="{Vtiger_Util_Helper::toSafeHTML($RECORD_MODEL->get($COLUMN))}" >
+								<input class="form-control" name="{$COLUMN}" {if $COLUMN eq 'id'} readonly {/if} {if $COLUMN eq 'name' }data-validation-engine="validate[required]"{/if} value="{\App\Purifier::encodeHtml($RECORD_MODEL->get($COLUMN))}" >
 							</div>
 						{else}
 							<div class="col-sm-3">

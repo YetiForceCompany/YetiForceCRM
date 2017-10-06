@@ -31,9 +31,9 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 			} elseif (is_array($recordFieldValue) && in_array($fieldModel->getFieldDataType(), ['sharedOwner', 'taxes'])) {
 				$recordFieldValue = implode(',', $recordFieldValue);
 			}
-			$fieldValue = $displayValue = Vtiger_Util_Helper::toSafeHTML($recordFieldValue);
+			$fieldValue = $displayValue = \App\Purifier::encodeHtml($recordFieldValue);
 			if ($fieldModel->getFieldDataType() === 'currency') {
-				$displayValue = Vtiger_Util_Helper::toSafeHTML($fieldModel->getDisplayValue($recordFieldValue, $recordModel->getId()));
+				$displayValue = \App\Purifier::encodeHtml($fieldModel->getDisplayValue($recordFieldValue, $recordModel->getId()));
 			} else {
 				$displayValue = $fieldModel->getDisplayValue($recordFieldValue, $recordModel->getId(), $recordModel);
 			}

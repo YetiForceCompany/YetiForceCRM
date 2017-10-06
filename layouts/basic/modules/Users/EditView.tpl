@@ -13,7 +13,7 @@
 		{assign var=QUALIFIED_MODULE value={$MODULE_NAME}}
 		{include file=\App\Layout::getTemplatePath('EditViewBlocks.tpl', $MODULE)}
 		<input type="hidden" name="isPreference" value="{$IS_PREFERENCE}" />
-		<input type="hidden" name="timeFormatOptions" data-value="{Vtiger_Util_Helper::toSafeHTML($DAY_STARTS)}" />
+		<input type="hidden" name="timeFormatOptions" data-value="{\App\Purifier::encodeHtml($DAY_STARTS)}" />
 	</form>
 </div>
 </div>

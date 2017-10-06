@@ -36,7 +36,7 @@
         {assign var=value value=array_push($MAPPED_SOURCE_PICKLIST_VALUES, $MAPPING['sourcevalue'])}
         {$MAPPED_TARGET_PICKLIST_VALUES[$MAPPING['sourcevalue']] = $MAPPING['targetvalues']}
     {/foreach}
-    <input type="hidden" class="allSourceValues" value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($SOURCE_PICKLIST_VALUES))}' />
+    <input type="hidden" class="allSourceValues" value='{\App\Purifier::encodeHtml(\App\Json::encode($SOURCE_PICKLIST_VALUES))}' />
 
     <div class="row depandencyTable no-margin">
         <div class="col-md-2 col-sm-2 col-xs-2 paddingRightZero">
@@ -61,7 +61,7 @@
             <table class="table-bordered table-condensed themeTableColor pickListDependencyTable">
                 <thead><tr class="blockHeader">
                         {foreach item=SOURCE_PICKLIST_VALUE from=$SOURCE_PICKLIST_VALUES}
-                            <th data-source-value="{Vtiger_Util_Helper::toSafeHTML($SOURCE_PICKLIST_VALUE)}" style="
+                            <th data-source-value="{\App\Purifier::encodeHtml($SOURCE_PICKLIST_VALUE)}" style="
 								{if !empty($MAPPED_VALUES) && !in_array($SOURCE_PICKLIST_VALUE, array_map('App\Purifier::decodeHtml', $MAPPED_SOURCE_PICKLIST_VALUES))}display: none;{/if}">
 								{\App\Language::translate($SOURCE_PICKLIST_VALUE, $SELECTED_MODULE)}</th>
 						{/foreach}</tr>
@@ -70,7 +70,7 @@
 					{foreach key=TARGET_INDEX item=TARGET_VALUE from=$TARGET_PICKLIST_VALUES name=targetValuesLoop}
 						<tr>
 							{foreach item=SOURCE_PICKLIST_VALUE from=$SOURCE_PICKLIST_VALUES}
-								{assign var=targetValues value=$MAPPED_TARGET_PICKLIST_VALUES[Vtiger_Util_Helper::toSafeHTML($SOURCE_PICKLIST_VALUE)]}
+								{assign var=targetValues value=$MAPPED_TARGET_PICKLIST_VALUES[\App\Purifier::encodeHtml($SOURCE_PICKLIST_VALUE)]}
 
 								{assign var=SOURCE_INDEX value=$smarty.foreach.mappingIndex.index}
 								{assign var=IS_SELECTED value=false}
@@ -78,7 +78,7 @@
 								{if empty($targetValues) || in_array($TARGET_VALUE, array_map('App\Purifier::decodeHtml',$targetValues))}
 									{assign var=IS_SELECTED value=true}
 								{/if}
-								<td	data-source-value='{Vtiger_Util_Helper::toSafeHTML($SOURCE_PICKLIST_VALUE)}' data-target-value='{Vtiger_Util_Helper::toSafeHTML($TARGET_VALUE)}'
+								<td	data-source-value='{\App\Purifier::encodeHtml($SOURCE_PICKLIST_VALUE)}' data-target-value='{\App\Purifier::encodeHtml($TARGET_VALUE)}'
 									class="{if $IS_SELECTED}selectedCell {else}unselectedCell {/if} targetValue picklistValueMapping cursorPointer"
 									{if !empty($MAPPED_VALUES) && !in_array($SOURCE_PICKLIST_VALUE, array_map('App\Purifier::decodeHtml', $MAPPED_SOURCE_PICKLIST_VALUES))}style="display: none;" {/if}>
 									{if $IS_SELECTED}
@@ -111,8 +111,8 @@
 									<td>
 										<div class="form-group">
 											<div class="controls checkbox">
-												<label class=""><input type="checkbox" class="sourceValue {Vtiger_Util_Helper::toSafeHTML($SOURCE_VALUE)}"
-																	   data-source-value="{Vtiger_Util_Helper::toSafeHTML($SOURCE_VALUE)}" value="{Vtiger_Util_Helper::toSafeHTML($SOURCE_VALUE)}" 
+												<label class=""><input type="checkbox" class="sourceValue {\App\Purifier::encodeHtml($SOURCE_VALUE)}"
+																	   data-source-value="{\App\Purifier::encodeHtml($SOURCE_VALUE)}" value="{\App\Purifier::encodeHtml($SOURCE_VALUE)}" 
 																	   {if empty($MAPPED_VALUES) || in_array($SOURCE_VALUE, array_map('App\Purifier::decodeHtml', $MAPPED_SOURCE_PICKLIST_VALUES))} checked {/if}/>
 													&nbsp;{\App\Language::translate($SOURCE_VALUE, $SELECTED_MODULE)}</label>
 											</div>

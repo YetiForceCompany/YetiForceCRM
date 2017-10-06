@@ -57,7 +57,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			if (!$fieldModel->isViewEnabled()) {
 				continue;
 			}
-			$fieldValue = $displayValue = Vtiger_Util_Helper::toSafeHTML($recordModel->get($fieldName));
+			$fieldValue = $displayValue = \App\Purifier::encodeHtml($recordModel->get($fieldName));
 			if ($fieldModel->getFieldDataType() !== 'currency') {
 				$displayValue = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId());
 			}

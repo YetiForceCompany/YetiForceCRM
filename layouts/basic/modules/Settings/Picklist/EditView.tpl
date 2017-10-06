@@ -24,7 +24,7 @@
 				<input type="hidden" name="action" value="SaveAjax" />
 				<input type="hidden" name="mode" value="rename" />
 				<input type="hidden" name="picklistName" value="{$FIELD_MODEL->getName()}" />
-				<input type="hidden" name="pickListValues" value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($SELECTED_PICKLISTFIELD_EDITABLE_VALUES))}' />
+				<input type="hidden" name="pickListValues" value='{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_PICKLISTFIELD_EDITABLE_VALUES))}' />
 				<div class="modal-body tabbable">
 					<div class="form-group">
 						<div class="col-md-3 control-label">{\App\Language::translate('LBL_ITEM_TO_RENAME',$QUALIFIED_MODULE)}</div>
@@ -33,7 +33,7 @@
 							<select class="chzn-select form-control" name="oldValue">
 								<optgroup>
 									{foreach from=$PICKLIST_VALUES key=PICKLIST_VALUE_KEY item=PICKLIST_VALUE}
-										<option {if $FIELD_VALUE eq $PICKLIST_VALUE} selected="" {/if}value="{Vtiger_Util_Helper::toSafeHTML($PICKLIST_VALUE)}" data-id={$PICKLIST_VALUE_KEY}>{\App\Language::translate($PICKLIST_VALUE,$SOURCE_MODULE)}</option>
+										<option {if $FIELD_VALUE eq $PICKLIST_VALUE} selected="" {/if}value="{\App\Purifier::encodeHtml($PICKLIST_VALUE)}" data-id={$PICKLIST_VALUE_KEY}>{\App\Language::translate($PICKLIST_VALUE,$SOURCE_MODULE)}</option>
 									{/foreach}	
 								</optgroup>
 							</select>	

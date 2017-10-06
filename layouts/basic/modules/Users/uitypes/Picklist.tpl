@@ -28,7 +28,7 @@
         {if $FIELD_MODEL->isEmptyPicklistOptionAllowed()}<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>{/if}
         {if $FIELD_MODEL->getName() eq 'defaulteventstatus' || $FIELD_MODEL->getName() eq 'defaultactivitytype' }<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>{/if}
         {foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
-			{assign var=OPTION_VALUE value=Vtiger_Util_Helper::toSafeHTML($PICKLIST_NAME)}
+			{assign var=OPTION_VALUE value=\App\Purifier::encodeHtml($PICKLIST_NAME)}
 			{if $PICKLIST_NAME eq ' ' and ($FIELD_NAME eq 'currency_decimal_separator' || $FIELD_NAME eq 'currency_grouping_separator')}
 				{assign var=PICKLIST_VALUE value=\App\Language::translate('LBL_SPACE', 'Users')}
 				{assign var=OPTION_VALUE value='&nbsp;'}

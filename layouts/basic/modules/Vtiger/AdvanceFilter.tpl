@@ -19,7 +19,7 @@
 		{assign var=ANY_CONDITION_CRITERIA value=[]}
 	{/if}
 <div class="filterContainer">
-	<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($DATE_FILTERS))}' />
+	<input type="hidden" name="date_filters" data-value='{\App\Purifier::encodeHtml(\App\Json::encode($DATE_FILTERS))}' />
 	<input type="hidden" name="advanceFilterOpsByFieldType" data-value='{\App\Json::encode($ADVANCED_FILTER_OPTIONS_BY_TYPE)}' />
 	{foreach key=ADVANCE_FILTER_OPTION_KEY item=ADVANCE_FILTER_OPTION from=$ADVANCED_FILTER_OPTIONS}
 		{$ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION_KEY] = {\App\Language::translate($ADVANCE_FILTER_OPTION, $MODULE)}|escape}

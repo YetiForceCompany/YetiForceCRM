@@ -77,7 +77,7 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			if (is_array($recordFieldValue) && $fieldModel->getFieldDataType() == 'multipicklist') {
 				$recordFieldValue = implode(' |##| ', $recordFieldValue);
 			}
-			$fieldValue = $displayValue = Vtiger_Util_Helper::toSafeHTML($recordFieldValue);
+			$fieldValue = $displayValue = \App\Purifier::encodeHtml($recordFieldValue);
 			if ($fieldModel->getFieldDataType() !== 'currency' && $fieldModel->getFieldDataType() !== 'datetime' && $fieldModel->getFieldDataType() !== 'time' && $fieldModel->getFieldDataType() !== 'date') {
 				$displayValue = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId());
 			}

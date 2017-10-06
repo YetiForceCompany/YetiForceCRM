@@ -27,10 +27,10 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		foreach ($fieldModelList as $fieldName => &$fieldModel) {
 			$value = $recordModel->get($fieldName);
 			if (!is_array($value)) {
-				$fieldValue = Vtiger_Util_Helper::toSafeHTML($value);
+				$fieldValue = \App\Purifier::encodeHtml($value);
 			} else {
 				foreach ($value as $key => $item) {
-					$fieldValue[$key] = Vtiger_Util_Helper::toSafeHTML($item);
+					$fieldValue[$key] = \App\Purifier::encodeHtml($item);
 				}
 			}
 			$result[$fieldName] = [];
@@ -83,7 +83,7 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 				$result[$fieldName]['value'] = $fieldValue;
 				$result[$fieldName]['display_value'] = $dateTimeComponents[1];
 			} elseif (is_array($recordModel->get($fieldName)) && $fieldModel->getFieldDataType() === 'sharedOwner') {
-				$recordFieldValue = Vtiger_Util_Helper::toSafeHTML(implode(',', $recordModel->get($fieldName)));
+				$recordFieldValue = \App\Purifier::encodeHtml(implode(',', $recordModel->get($fieldName)));
 				$result[$fieldName]['value'] = $result[$fieldName]['display_value'] = $fieldModel->getDisplayValue($recordFieldValue, $recordModel->getId(), $recordModel);
 			} else if ('time_start' !== $fieldName && 'time_end' !== $fieldName && 'duration_hours' !== $fieldName) {
 				$result[$fieldName]['value'] = $fieldValue;

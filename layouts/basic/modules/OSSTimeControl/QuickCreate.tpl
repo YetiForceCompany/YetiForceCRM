@@ -25,10 +25,10 @@
 						<div class="clearfix"></div>
 					</div>
 					{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
-						<input type="hidden" name="picklistDependency" value='{Vtiger_Util_Helper::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
+						<input type="hidden" name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}' />
 					{/if}
 					{if !empty($MAPPING_RELATED_FIELD)}
-						<input type="hidden" name="mappingRelatedField" value='{Vtiger_Util_Helper::toSafeHTML($MAPPING_RELATED_FIELD)}' />
+						<input type="hidden" name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}' />
 					{/if}
 					<input type="hidden" id="disallowLongerThan24Hours" value="{AppConfig::module('OSSTimeControl', 'DISALLOW_LONGER_THAN_24_HOURS')}" />
 					<input type="hidden" name="module" value="{$MODULE}">

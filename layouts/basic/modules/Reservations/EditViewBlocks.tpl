@@ -4,10 +4,10 @@
 		<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 			{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
-				<input type="hidden" name="picklistDependency" value='{Vtiger_Util_Helper::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
+				<input type="hidden" name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}' />
 			{/if}
 			{if !empty($MAPPING_RELATED_FIELD)}
-				<input type="hidden" name="mappingRelatedField" value='{Vtiger_Util_Helper::toSafeHTML($MAPPING_RELATED_FIELD)}' />
+				<input type="hidden" name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}' />
 			{/if}
 			{assign var=QUALIFIED_MODULE_NAME value={$MODULE}}
 			{assign var=IS_PARENT_EXISTS value=strpos($MODULE,":")}

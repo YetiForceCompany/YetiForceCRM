@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
 <div id="activityStateModal" class="modal fade modalEditStatus" tabindex="-1">
-	{assign var=ID value=$RECORD->get('id')}
+	{assign var=ID value=$RECORD->getId()}
 	<div class="modal-dialog">
         <div class="modal-content">
 			<div class="modal-header">

@@ -8,7 +8,7 @@
 	<input type="hidden" name="record" value="{$RECORD_ID}" />
 	<input type="hidden" id="treeLastID" value="{$LAST_ID}" />
 	<input type="hidden" id="access" value="{$ACCESS}" />
-	<input type="hidden" name="tree" id="treeValues" value='{Vtiger_Util_Helper::toSafeHTML($TREE)}' />
+	<input type="hidden" name="tree" id="treeValues" value='{\App\Purifier::encodeHtml($TREE)}' />
 	<input type="hidden" name="replace" id="replaceIds" value="" />
 	<div class='widget_header row '>
 		<div class="col-xs-12">

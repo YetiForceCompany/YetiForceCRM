@@ -67,7 +67,7 @@
 			<div class="col-md-12 {if !empty($DETAILVIEW_LINKS['DETAILVIEWTAB']) || !empty($DETAILVIEW_LINKS['DETAILVIEWRELATED']) } details {/if}">
 				<form id="detailView" data-name-fields='{\App\Json::encode($MODULE_MODEL->getNameFields())}' method="POST">
 					{if !empty($PICKLIST_DEPENDENCY_DATASOURCE)} 
-						<input type="hidden" name="picklistDependency" value="{Vtiger_Util_Helper::toSafeHTML($PICKLIST_DEPENDENCY_DATASOURCE)}"> 
+						<input type="hidden" name="picklistDependency" value="{\App\Purifier::encodeHtml($PICKLIST_DEPENDENCY_DATASOURCE)}"> 
 					{/if} 
 					<div class="contents">
 					{/strip}

@@ -39,7 +39,7 @@ class Vtiger_DetailView_Model extends \App\Base
 
 	/**
 	 * Function to get the Record model
-	 * @return <Vtiger_Record_Model>
+	 * @return Vtiger_Record_Model
 	 */
 	public function getRecord()
 	{

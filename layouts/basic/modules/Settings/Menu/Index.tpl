@@ -25,7 +25,7 @@
 	{/if}
 	<div class="treeMenuContainer">
 		<input type="hidden" id="treeLastID" value="{$LASTID}" />
-		<input type="hidden" name="tree" id="treeValues" value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($DATA))}' />
+		<input type="hidden" name="tree" id="treeValues" value='{\App\Purifier::encodeHtml(\App\Json::encode($DATA))}' />
 		<div id="treeContent"></div>
 	</div>
 	<div class="modal fade copyMenuModal">

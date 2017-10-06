@@ -23,10 +23,10 @@
 				</div>
 				<form class="form-horizontal" id="massEdit" name="MassEdit" method="post" action="index.php">
 					{if !empty($MAPPING_RELATED_FIELD)}
-						<input type="hidden" name="mappingRelatedField" value='{Vtiger_Util_Helper::toSafeHTML($MAPPING_RELATED_FIELD)}' />
+						<input type="hidden" name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}' />
 					{/if}
 					{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
-						<input type="hidden" name="picklistDependency" value='{Vtiger_Util_Helper::toSafeHTML($PICKIST_DEPENDENCY_DATASOURCE)}' />
+						<input type="hidden" name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}' />
 					{/if}
 					<input type="hidden" name="module" value="{$MODULE}" />
 					<input type="hidden" name="action" value="MassSave" />
@@ -37,7 +37,7 @@
 					<input type="hidden" name="operator" value="{$OPERATOR}" />
 					<input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />
 					<input type="hidden" name="search_params" value='{\App\Json::encode($SEARCH_PARAMS)}' />
-					<input type="hidden" id="massEditFieldsNameList" data-value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($MASS_EDIT_FIELD_DETAILS))}' />
+					<input type="hidden" id="massEditFieldsNameList" data-value='{\App\Purifier::encodeHtml(\App\Json::encode($MASS_EDIT_FIELD_DETAILS))}' />
 					<div name="massEditContent">
 						<div class="modal-body tabbable">
 							<ul class="nav nav-tabs massEditTabs">

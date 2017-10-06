@@ -19,7 +19,7 @@
 		<input type="hidden" id="advfilterlist" name="advfilterlist" value=""/>
 		<input type="hidden" id="status" name="status" value="{$CV_PRIVATE_VALUE}"/>
 		<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}">
-		<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($DATE_FILTERS))}' />
+		<input type="hidden" name="date_filters" data-value='{\App\Purifier::encodeHtml(\App\Json::encode($DATE_FILTERS))}' />
 		<div class='widget_header row customViewHeader'>
 			<div class="col-sm-5 col-xs-12">
 				{if !$RECORD_ID}

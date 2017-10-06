@@ -27,7 +27,7 @@
 			</div>
 			<div class="row chartContainer">
 				<div class="col-md-12">
-					<input class="widgetData" type="hidden" value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($RELATED_SUMMARY['userTime']))}' />
+					<input class="widgetData" type="hidden" value='{\App\Purifier::encodeHtml(\App\Json::encode($RELATED_SUMMARY['userTime']))}' />
 					<div class="legendContainer">
 						{\App\Language::translate('LBL_SUM', $RELATED_MODULE_NAME)}: {$TOTALTIME['full']}<br />
 					</div>

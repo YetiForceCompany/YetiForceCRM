@@ -58,7 +58,7 @@
 				<input type="hidden" id="module" value="{$MODULE}"/>
 				<input type="hidden" id="parent" value="{$PARENT_MODULE}"/>
 				<input type="hidden" id="view" value="{$VIEW}"/>
-				<input type="hidden" id="sounds" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode(AppConfig::sounds()))}"/>
+				<input type="hidden" id="sounds" value="{\App\Purifier::encodeHtml(\App\Json::encode(AppConfig::sounds()))}"/>
 				<input type="hidden" id="intervalForNotificationNumberCheck" value="{AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK')}"/>
 				<input type="hidden" id="fieldsReferencesDependent" value="{AppConfig::security('FIELDS_REFERENCES_DEPENDENT')}" />
 			</div>

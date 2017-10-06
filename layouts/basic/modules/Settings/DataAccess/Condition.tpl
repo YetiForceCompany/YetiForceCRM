@@ -8,7 +8,7 @@
                 <optgroup label='{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}'>
                     {foreach from=$FIELD key=key item=item}
                         <option data-module="{$MODULE_NAME}" value="{$item['name']}" data-uitype="{$item['uitype']}" 
-                                data-info="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($item['info']))}">{\App\Language::translate($item['label'], $BASE_MODULE)}</option>
+                                data-info="{\App\Purifier::encodeHtml(\App\Json::encode($item['info']))}">{\App\Language::translate($item['label'], $BASE_MODULE)}</option>
                     {/foreach}
                 </optgroup>
             {/foreach}

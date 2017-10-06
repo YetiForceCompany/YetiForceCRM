@@ -77,7 +77,7 @@
 									{if $FIELD_VALUE|is_array}
 										{assign var=FIELD_VALUE value=\App\Json::encode($FIELD_VALUE)}
 									{/if}
-									<input type="hidden" class="fieldname" value='{$FIELD_MODEL->getName()}' data-type="{$FIELD_MODEL->getFieldDataType()}" data-prev-value='{Vtiger_Util_Helper::toSafeHTML($FIELD_VALUE)}' />
+									<input type="hidden" class="fieldname" value='{$FIELD_MODEL->getName()}' data-type="{$FIELD_MODEL->getFieldDataType()}" data-prev-value='{\App\Purifier::encodeHtml($FIELD_VALUE)}' />
 								{/if}
 							</span>
 						{/if}

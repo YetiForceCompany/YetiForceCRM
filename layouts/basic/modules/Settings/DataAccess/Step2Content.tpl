@@ -25,7 +25,7 @@
 											<optgroup label='{\App\Language::translate($FIELD_MODULE_NAME, $FIELD_MODULE_NAME)}'>
 												{foreach from=$FIELD key=key item=item}
 													<option data-module="{$FIELD_MODULE_NAME}" value="{$item['name']}" {if $cnd_item['fieldname'] eq $item['name']}selected{/if}
-															data-uitype="{$item['uitype']}" data-info="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($item['info']))}"
+															data-uitype="{$item['uitype']}" data-info="{\App\Purifier::encodeHtml(\App\Json::encode($item['info']))}"
 															>{\App\Language::translate($item['label'], $BASE_MODULE)}</option>
 												{/foreach}
 											</optgroup>
@@ -99,7 +99,7 @@
 											<optgroup label='{\App\Language::translate($FIELD_MODULE_NAME, $FIELD_MODULE_NAME)}'>
 												{foreach from=$FIELD key=key item=item}
 													<option data-module="{$FIELD_MODULE_NAME}" value="{$item['name']}" {if $cnd_item['fieldname'] eq $item['name']}selected{/if}
-															data-uitype="{$item['uitype']}" data-info="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($item['info']))}"
+															data-uitype="{$item['uitype']}" data-info="{\App\Purifier::encodeHtml(\App\Json::encode($item['info']))}"
 															>{\App\Language::translate($item['label'], $BASE_MODULE)}</option>
 												{/foreach}
 											</optgroup>

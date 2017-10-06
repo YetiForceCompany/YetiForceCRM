@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	{assign var="FIELD_INFO" value=Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
+	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{if $FIELD_MODEL->getUIType() eq '53'}
 		{assign var=ROLE_RECORD_MODEL value=$USER_MODEL->getRoleDetail()}
