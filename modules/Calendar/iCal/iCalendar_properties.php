@@ -102,24 +102,6 @@ class IcalendarProperty
 		return false;
 	}
 
-	public function getValueICal()
-	{
-		// First of all, assume that we have multiple values
-		$valarray = explode('\\,', $this->value);
-
-		// Undo transparent formatting
-		$replace_function = create_function('$a', 'return rfc2445_undo_value_formatting($a, ' . $this->val_type . ');');
-		$valarray = array_map($replace_function, $valarray);
-
-		// Now, if this property cannot have multiple values, don't return as an array
-		if (!$this->val_multi) {
-			return $valarray[0];
-		}
-
-		// Otherwise return an array even if it has one element, for uniformity
-		return $valarray;
-	}
-
 	public function setParameterICal($name, $value)
 	{
 
