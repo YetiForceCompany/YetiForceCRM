@@ -331,18 +331,15 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		$profileIds = $this->get('profileIds');
 		$oldRole = Vtiger_Cache::get('RolesArray', $roleId);
-		if ($oldRole !== false) {
+		if ($oldRole !== false && $profileIds) {
 			$oldProfileIds = $this->getProfileIdList();
-			if ($profileIds === false ||
-				$oldRole['listrelatedrecord'] != $this->get('listrelatedrecord') ||
+			if ($oldRole['listrelatedrecord'] != $this->get('listrelatedrecord') ||
 				$oldRole['previewrelatedrecord'] != $this->get('previewrelatedrecord') ||
 				$oldRole['editrelatedrecord'] != $this->get('editrelatedrecord') ||
 				$oldRole['permissionsrelatedfield'] != $permissionsRelatedField ||
-				$oldRole['searchunpriv'] != $searchunpriv) {
-				if (!empty(array_merge(array_diff($profileIds, $oldProfileIds), array_diff($oldProfileIds, $profileIds)))) {
-					$oldProfileIds = array_keys($this->getProfiles());
-					\App\Privilege::setAllUpdater();
-				}
+				$oldRole['searchunpriv'] != $searchunpriv ||
+				!empty(array_merge(array_diff($profileIds, $oldProfileIds), array_diff($oldProfileIds, $profileIds)))) {
+				\App\Privilege::setAllUpdater();
 			}
 		}
 		if (empty($profileIds)) {
