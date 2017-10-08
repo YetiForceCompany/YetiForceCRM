@@ -18,21 +18,24 @@ class Vtiger_RelatedCommentModal_View extends Vtiger_BasicModal_View
 	public function checkPermission(\App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
-		$relatedRecord = $request->getInteger('relid');
-		if (!$recordId || !$relatedRecord) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
-		}
-		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId) || !\App\Privilege::isPermitted($request->get('relmodule'), 'DetailView', $relatedRecord)) {
+		$relatedRecord = $request->getByType('relid', 'Alnum');
+
+		if (!$recordId || !$relatedRecord || !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId) || (is_numeric($relatedRecord) && !\App\Privilege::isPermitted($request->getByType('relmodule', 'Standard'), 'DetailView', $relatedRecord))) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->getInteger('record');
-		$relatedRecord = $request->getInteger('relid');
-		$relatedModuleName = $request->get('relmodule');
+		$relatedRecord = $request->getByType('relid', 'Alnum');
+		$relatedModuleName = $request->getByType('relmodule', 'Standard');
 
 		$relatedCommentModal = Vtiger_RelatedCommentModal_Model::getInstance($record, $moduleName, $relatedRecord, $relatedModuleName);
 		if (!$relatedCommentModal->isEditable()) {

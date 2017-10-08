@@ -82,14 +82,14 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 		}
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
 		if ($parentModuleModel->isCommentEnabled() && $modCommentsModel->isPermitted('DetailView')) {
-			$relatedLinks[] = array(
+			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
 				'linklabel' => 'ModComments',
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showAllComments',
 				'linkicon' => '',
-				'related' => 'Comments',
+				'related' => $modCommentsModel->getName(),
 				'countRelated' => AppConfig::relation('SHOW_RECORDS_COUNT')
-			);
+			];
 		}
 
 		if ($parentModuleModel->isTrackingEnabled()) {

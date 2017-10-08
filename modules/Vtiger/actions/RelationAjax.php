@@ -186,27 +186,25 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	public function getRelatedListPageCount(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$relModules = $relatedModuleName = $request->getByType('relatedModule', 1);
+		$relatedModuleName = $request->getByType('relatedModule', 1);
 		$parentId = $request->getInteger('record');
 		if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $parentId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		$label = $request->get('tab_label');
 		$totalCount = 0;
-		if (!is_array($relatedModuleName)) {
-			$relModules = !empty($relatedModuleName) ? [$relatedModuleName] : [];
-		}
 		$pageCount = 0;
-		if (in_array('ProductsAndServices', $relModules)) {
-			$label = '';
-			$relModules = ['Products', 'OutsourcedProducts', 'Assets', 'Services', 'OSSOutsourcedServices', 'OSSSoldServices'];
-		}
-		if (in_array('Comments', $relModules)) {
+		if ($relatedModuleName === 'ModComments') {
 			$totalCount = ModComments_Record_Model::getCommentsCount($parentId);
 		} elseif ($relatedModuleName === 'ModTracker') {
 			$count = (int) ($unreviewed = current(ModTracker_Record_Model::getUnreviewed($parentId, false, true))) ? array_sum($unreviewed) : '';
 			$totalCount = $count ? $count : '';
 		} else {
+			$relModules = !empty($relatedModuleName) ? [$relatedModuleName] : [];
+			if ($relatedModuleName === 'ProductsAndServices') {
+				$label = '';
+				$relModules = ['Products', 'OutsourcedProducts', 'Assets', 'Services', 'OSSOutsourcedServices', 'OSSSoldServices'];
+			}
 			$categoryCount = ['Products', 'OutsourcedProducts', 'Services', 'OSSOutsourcedServices'];
 			$pagingModel = new Vtiger_Paging_Model();
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
