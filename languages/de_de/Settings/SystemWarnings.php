@@ -33,5 +33,5 @@ $languageStrings = [
 	'BTN_CONFIGURE_HTTPS' => 'Empfohlene Konfiguration',
 	'LBL_MISSING_HTTPS' => 'Die Serververbindung ist nicht verschlüsselt. Wenn die Verbindung nicht durch eine HTTPS Verbindung gesichert ist, kann diese von anderen abgegriffen und verändert werden. Die empfohlene Konfiguration kann unter dem "Web server requirements" Artikel in der Dokumentation gefunden werden.',
 	'LBL_DISK_USAGE' => 'Verfügbarer Speicherplatz',
-	'LBL_DISK_FULL' => 'Systemstabilität gefährdet. Es ist kein Speicherplatz mehr frei. Laufwerkspfad: %s',
+	'LBL_DISK_FULL' => 'Systemstabilität gefährdet (%s of %s). Es ist kein Speicherplatz mehr frei. Laufwerkspfad: %s',
 ];
