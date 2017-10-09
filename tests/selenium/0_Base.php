@@ -27,7 +27,7 @@ class GuiBase extends PHPUnit_Extensions_Selenium2TestCase
 		$this->prepareSession();
 	}
 
-	public function onNotSuccessfulTest($e)
+	public function onNotSuccessfulTest(Throwable $e)
 	{
 		$this->listener->addError($this, $e, null);
 		parent::onNotSuccessfulTest($e);
