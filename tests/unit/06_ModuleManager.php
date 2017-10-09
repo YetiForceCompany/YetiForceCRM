@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Cron test class
  * @package YetiForce.Test
@@ -48,5 +49,43 @@ class ModuleManager extends TestCase
 		$moduleInstance->delete();
 		$this->assertFalse(file_exists(ROOT_DIRECTORY . '/modules/Test/Test.php'));
 		$this->assertFalse((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists());
+	}
+
+	/**
+	 * Testing module off
+	 */
+	public function testOffAllModule()
+	{
+		$allModules = Settings_ModuleManager_Module_Model::getAll();
+		$moduleManagerModel = new Settings_ModuleManager_Module_Model();
+		foreach ($allModules as $module) {
+			$moduleName = $module->get('name');
+			$tabId = $module->getId();
+			$presence = (int) $module->get('presence');
+			//Turn off the module if it is on
+			if ($presence !== 1) {
+				$moduleManagerModel->disableModule($moduleName);
+				$this->assertEquals(1, (new \App\Db\Query())->select('presence')->from('vtiger_tab')->where(['tabid' => $tabId])->scalar());
+			}
+		}
+	}
+
+	/**
+	 * Testing module on
+	 */
+	public function testOnAllModule()
+	{
+		$allModules = Settings_ModuleManager_Module_Model::getAll();
+		$moduleManagerModel = new Settings_ModuleManager_Module_Model();
+		foreach ($allModules as $module) {
+			$moduleName = $module->get('name');
+			$tabId = $module->getId();
+			$presence = (int) $module->get('presence');
+			//Turn on the module if it is off
+			if ($presence !== 0) {
+				$moduleManagerModel->enableModule($moduleName);
+				$this->assertEquals(0, (new \App\Db\Query())->select('presence')->from('vtiger_tab')->where(['tabid' => $tabId])->scalar());
+			}
+		}
 	}
 }
