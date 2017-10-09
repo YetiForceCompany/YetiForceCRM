@@ -48,8 +48,8 @@
 		"giggsey/libphonenumber-for-php": "8.8.2"
 	},
 	"require-dev": {
-		"phpunit/phpunit": "6.*",
-		"phpunit/phpunit-selenium": "4.*"
+		"phpunit/phpunit": "5.*",
+		"phpunit/phpunit-selenium": "3.*"
 	},
 	"archive": {
 		"exclude": [
