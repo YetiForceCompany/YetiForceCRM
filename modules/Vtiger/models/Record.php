@@ -305,6 +305,10 @@ class Vtiger_Record_Model extends \App\Base
 		if ($fieldModel) {
 			return $fieldModel->getDisplayValue($this->get($fieldName), $recordId, $this, $rawText);
 		}
+		$fieldModelByColumn = $this->getModule()->getFieldByColumn($fieldName);
+		if ($fieldModelByColumn) {
+			return $fieldModelByColumn->getDisplayValue($this->get($fieldName), $recordId, $this, $rawText);
+		}
 		return false;
 	}
 
