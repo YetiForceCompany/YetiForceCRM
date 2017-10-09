@@ -22,6 +22,12 @@ class Inventory extends TestCase
 
 	/**
 	 * save to database
+	 * @param type $id
+	 * @param string $type
+	 * @param string $name
+	 * @param type $value
+	 * @param int $status
+	 * @return int
 	 */
 	private function save($id, $type, $name, $value, $status)
 	{
