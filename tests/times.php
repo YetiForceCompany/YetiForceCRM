@@ -73,7 +73,7 @@ if (version_compare(PHP_VERSION, '7.0.0', '>=')) {
 
 		public function startTestSuite(PHPUnit\Framework\TestSuite $suite)
 		{
-			printf("================    %s   ================\n", $suite->getName());
+			echo PHP_EOL . '================   ' . $suite->getName() . '   ================';
 		}
 
 		public function endTestSuite(PHPUnit\Framework\TestSuite $suite)

@@ -10,11 +10,11 @@
 		<testsuite name="Init">
 			<directory suffix=".php">./init/</directory>
 		</testsuite>
-		<testsuite name="Settings">
-			<directory suffix=".php">./settings/</directory>
-		</testsuite>
 		<testsuite name="Base">
 			<directory suffix=".php">./base/</directory>
+		</testsuite>
+		<testsuite name="Settings">
+			<directory suffix=".php">./settings/</directory>
 		</testsuite>
 		<testsuite name="Gui">
 			<directory suffix=".php">./gui/</directory>
