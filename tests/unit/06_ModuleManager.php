@@ -50,7 +50,7 @@ class ModuleManager extends TestCase
 		$package = new vtlib\PackageExport();
 
 		$zipFileName = $package->_export_tmpdir . '/' . $moduleModel->name . '_' . date('Y-m-d-Hi') . '_' . $moduleModel->version . '.zip';
-		//Remove file is exists
+		//Remove file if exists
 		if (file_exists($zipFileName)) {
 			unlink($zipFileName);
 		}
