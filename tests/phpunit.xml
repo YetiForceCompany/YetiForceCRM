@@ -7,11 +7,20 @@
 		 syntaxCheck="true"
 		 bootstrap="bootstrap.php">
 	<testsuites>
-		<testsuite name="UnitTests">
-			<directory suffix=".php">./unit/</directory>
+		<testsuite name="Init">
+			<directory suffix=".php">./init/</directory>
 		</testsuite>
-		<testsuite name="SeleniumTests">
-			<directory suffix=".php">./selenium/</directory>
+		<testsuite name="Settings">
+			<directory suffix=".php">./settings/</directory>
+		</testsuite>
+		<testsuite name="Base">
+			<directory suffix=".php">./base/</directory>
+		</testsuite>
+		<testsuite name="Gui">
+			<directory suffix=".php">./gui/</directory>
+		</testsuite>
+		<testsuite name="Finish">
+			<directory suffix=".php">./finish/</directory>
 		</testsuite>
 	</testsuites>
 	<filter>
