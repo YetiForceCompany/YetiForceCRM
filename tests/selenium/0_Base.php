@@ -16,7 +16,7 @@ class GuiBase extends PHPUnit_Extensions_Selenium2TestCase
 	{
 		parent::setUp();
 
-		$this->setBrowserUrl('http://127.0.0.1/');
+		$this->setBrowserUrl('http://yeti/');
 		$this->setBrowser('chrome');
 
 		$screenshotsDir = __DIR__ . '/../screenshots';
