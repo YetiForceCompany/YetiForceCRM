@@ -33,5 +33,5 @@ $languageStrings = [
 	'BTN_CONFIGURE_HTTPS' => 'Configuración recomendada',
 	'LBL_MISSING_HTTPS' => 'Su conexión con el servidor no está cifrada. Si la conexión no se establece mediante el protocolo HTTPS, la comunicación puede ser interceptada o alterada por terceros. La configuración recomendada se encuentra en el artículo "Requisitos de servidor Web" de la documentación.',
 	'LBL_DISK_USAGE' => 'Espacio en disco disponible',
-	'LBL_DISK_FULL' => 'No hay suficiente espacio libre en el disco, por lo que el sistema puede dejar de funcionar. Ruta del directorio: %s',
+	'LBL_DISK_FULL' => 'No hay suficiente espacio libre en el disco (%s of %s), por lo que el sistema puede dejar de funcionar. Ruta del directorio: %s',
 ];
