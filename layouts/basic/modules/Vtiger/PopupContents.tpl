@@ -39,8 +39,8 @@
 						{/if}
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							<th class="{$WIDTHTYPE}">
-								<a href="javascript:void(0);" class="listViewHeaderValues {if $LISTVIEW_HEADER->get('name') eq 'listprice' || !$LISTVIEW_HEADER->isListviewSortable()} noSorting {/if}" data-nextsortorderval="{if $ORDER_BY eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('column')}">{\App\Language::translate($LISTVIEW_HEADER->get('label'), $MODULE_NAME)}
-									{if $ORDER_BY eq $LISTVIEW_HEADER->get('column')}<img class="sortImage" alt="{\App\Language::translate('LBL_SORT_ASCENDING')}" src="{\App\Layout::getImagePath( $SORT_IMAGE, $MODULE_NAME)}">{else}<img class="hide sortingImage" alt="{\App\Language::translate('LBL_SORT_DESCENDING')}" src="{\App\Layout::getImagePath( 'downArrowSmall.png', $MODULE_NAME)}">{/if}</a>
+								<a href="javascript:void(0);" class="listViewHeaderValues {if $LISTVIEW_HEADER->getFieldName() eq 'listprice' || !$LISTVIEW_HEADER->isListviewSortable()} noSorting {/if}" data-nextsortorderval="{if $ORDER_BY eq $LISTVIEW_HEADER->getColumnName()}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->getColumnName()}">{\App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $MODULE_NAME)}
+									{if $ORDER_BY eq $LISTVIEW_HEADER->getColumnName()}<img class="sortImage" alt="{\App\Language::translate('LBL_SORT_ASCENDING')}" src="{\App\Layout::getImagePath( $SORT_IMAGE, $MODULE_NAME)}">{else}<img class="hide sortingImage" alt="{\App\Language::translate('LBL_SORT_DESCENDING')}" src="{\App\Layout::getImagePath( 'downArrowSmall.png', $MODULE_NAME)}">{/if}</a>
 							</th>
 						{/foreach}
 						<th class="{$WIDTHTYPE}"></th>
@@ -69,9 +69,9 @@
 								</td>
 							{/if}
 							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-								{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
+								{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->getFieldName()}
 								<td class="listViewEntryValue {$WIDTHTYPE}">
-									{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4') && $LISTVIEW_ENTRY->isViewable()}
+									{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->getUIType() eq '4') && $LISTVIEW_ENTRY->isViewable()}
 										<a {if $LISTVIEW_HEADER->isNameField() eq true}class="modCT_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
 											{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)}
 										</a>

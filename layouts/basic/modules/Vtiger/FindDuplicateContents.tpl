@@ -42,9 +42,9 @@
 					<input type="checkbox" title="{\App\Language::translate('LBL_SELECT_ALL')}" id="listViewEntriesMainCheckBox" />
 				</th>
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-					{if $LISTVIEW_HEADER->get('name') neq 'id'}
+					{if $LISTVIEW_HEADER->getFieldName() neq 'id'}
 						<th class="text-center" nowrap >
-							<a class="listViewHeaderValues">{\App\Language::translate($LISTVIEW_HEADER->get('label'), $MODULE)}</a>
+							<a class="listViewHeaderValues">{\App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $MODULE)}</a>
 						</th>
 					{/if}
 				{/foreach}
@@ -64,7 +64,7 @@
 					</td>
 					{assign var=sameRowValues value=true}
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-						{if $LISTVIEW_HEADER->get('name') neq 'id'}
+						{if $LISTVIEW_HEADER->getFieldName() neq 'id'}
 							<td nowrap style='border-bottom:1px solid #DDD;'>
 								{$LISTVIEW_HEADER->getDisplayValue($RECORD[$LISTVIEW_HEADER->getFieldName()], $RECORD.id,false,true)}
 							</td>

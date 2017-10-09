@@ -16,7 +16,7 @@
         <tr class="listViewHeaders">
             {foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
             <th nowrap {if $LISTVIEW_HEADER@last} colspan="2" {/if} class="{$WIDTHTYPE}">
-                {\App\Language::translate($LISTVIEW_HEADER->get('label'), $MODULE)}
+                {\App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $MODULE)}
             </th>
             {/foreach}
         </tr>
@@ -24,7 +24,7 @@
     {foreach item=LISTVIEW_ENTRY from=$RECORD->getRssObject() name=listview}
     <tr class="listViewEntries" data-id='{$RECORD->getId()}'>
         {foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-            {assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
+            {assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->getFieldName()}
             <td class="listViewEntryValue {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}" nowrap>
                 <a href="{$LISTVIEW_ENTRY->link}" target="_blank" rel="noreferrer">{$LISTVIEW_ENTRY->$LISTVIEW_HEADERNAME}</a>
             {if $LISTVIEW_HEADER@last}

@@ -35,8 +35,8 @@
 					{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 					<th nowrap  class="{$WIDTHTYPE}">
-						<a  {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{\App\Language::translate($LISTVIEW_HEADER->get('label'), $QUALIFIED_MODULE)}
-							{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}&nbsp;&nbsp;<span class="{$SORT_IMAGE}"></span>{/if}</a>
+						<a  {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->getFieldName()}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->getFieldName()}" {/if}>{\App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $QUALIFIED_MODULE)}
+							{if $COLUMN_NAME eq $LISTVIEW_HEADER->getFieldName()}&nbsp;&nbsp;<span class="{$SORT_IMAGE}"></span>{/if}</a>
 					</th>
 					{/foreach}
 					<th width='15%' ></th>
@@ -48,7 +48,7 @@
 						{if method_exists($LISTVIEW_ENTRY,'getDetailViewUrl')}data-recordurl="{$LISTVIEW_ENTRY->getDetailViewUrl()}"{/if}
 				>
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-						{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
+						{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->getFieldName()}
 						{if $LISTVIEW_HEADERNAME eq 'all_tasks'}
 							{assign var=ALL_TASKS value=$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
 						{else if $LISTVIEW_HEADERNAME eq 'active_tasks'}
