@@ -350,7 +350,7 @@ class Owner
 			$tempResult[''] = '';
 		}
 		while ($row = $dataReader->read()) {
-			$tempResult[$row['groupid']] = \App\Purifier::decodeHtml($row['groupname']);
+			$tempResult[$row['groupid']] = $row['groupname'];
 		}
 		\App\Cache::save('OwnerGroups', $cacheKey, $tempResult);
 		\App\Log::trace('Exiting getGroups method ...');
