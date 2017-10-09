@@ -12,7 +12,7 @@ class Currency extends TestCase
 {
 
 	/**
-	 * Inventory id
+	 * Currency id
 	 */
 	static $id;
 
