@@ -21,11 +21,11 @@ class Inventory extends TestCase
 	static $id;
 
 	/**
-	 * save to database
-	 * @param type $id
+	 * Save to database
+	 * @param int|null $id
 	 * @param string $type
 	 * @param string $name
-	 * @param type $value
+	 * @param float|int $value
 	 * @param int $status
 	 * @return int
 	 */
