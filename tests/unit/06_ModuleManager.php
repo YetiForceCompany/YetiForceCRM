@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Cron test class
  * @package YetiForce.Test
@@ -40,6 +41,24 @@ class ModuleManager extends TestCase
 	}
 
 	/**
+	 * Testing module export
+	 */
+	public function testExportModule()
+	{
+		$moduleModel = \vtlib\Module::getInstance('Test');
+		$this->assertTrue($moduleModel->isExportable(), 'Module not exportable!');
+		$package = new vtlib\PackageExport();
+
+		$zipFileName = $package->_export_tmpdir . '/' . $moduleModel->name . '_' . date('Y-m-d-Hi') . '_' . $moduleModel->version . '.zip';
+		//Remove file is exists
+		if (file_exists($zipFileName)) {
+			unlink($zipFileName);
+		}
+		$package->export($moduleModel, '', '', false);
+		$this->assertFileExists($zipFileName);
+	}
+
+	/**
 	 * Testing module removal
 	 */
 	public function testDeleteModule()
@@ -48,5 +67,37 @@ class ModuleManager extends TestCase
 		$moduleInstance->delete();
 		$this->assertFalse(file_exists(ROOT_DIRECTORY . '/modules/Test/Test.php'));
 		$this->assertFalse((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists());
+	}
+
+	/**
+	 * Testing module off
+	 */
+	public function testOffAllModule()
+	{
+		$allModules = Settings_ModuleManager_Module_Model::getAll();
+		$moduleManagerModel = new Settings_ModuleManager_Module_Model();
+		foreach ($allModules as $module) {
+			//Turn off the module if it is on
+			if ((int) $module->get('presence') !== 1) {
+				$moduleManagerModel->disableModule($module->get('name'));
+				$this->assertEquals(1, (new \App\Db\Query())->select('presence')->from('vtiger_tab')->where(['tabid' => $module->getId()])->scalar());
+			}
+		}
+	}
+
+	/**
+	 * Testing module on
+	 */
+	public function testOnAllModule()
+	{
+		$allModules = Settings_ModuleManager_Module_Model::getAll();
+		$moduleManagerModel = new Settings_ModuleManager_Module_Model();
+		foreach ($allModules as $module) {
+			//Turn on the module if it is off
+			if ((int) $module->get('presence') !== 0) {
+				$moduleManagerModel->enableModule($module->get('name'));
+				$this->assertEquals(0, (new \App\Db\Query())->select('presence')->from('vtiger_tab')->where(['tabid' => $module->getId()])->scalar());
+			}
+		}
 	}
 }
