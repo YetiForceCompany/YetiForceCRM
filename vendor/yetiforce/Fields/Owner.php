@@ -194,7 +194,7 @@ class Owner
 					$fullName .= ' ' . $row[$field];
 				}
 				$row['fullName'] = trim($fullName);
-				$tempResult[$row['id']] = $row;
+				$tempResult[$row['id']] = array_map('\App\Purifier::encodeHtml', $row);
 			}
 			\App\Cache::save('getUsers', $cacheKey, $tempResult);
 		}

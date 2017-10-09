@@ -19,16 +19,16 @@ class PrivilegeFile
 	public static function createUsersFile()
 	{
 		$entityData = Module::getEntityInfo('Users');
-		$dataReader = (new \App\Db\Query())->select(['id', 'first', 'name', 'last_name', 'is_admin', 'cal_color', 'status', 'email1', 'user_name', 'deleted'])->from('vtiger_users')->createCommand()->query();
+		$dataReader = (new \App\Db\Query())->select(['id', 'first_name', 'last_name', 'is_admin', 'cal_color', 'status', 'email1', 'user_name', 'deleted'])->from('vtiger_users')->createCommand()->query();
 		$users = [];
 		// Get the id and the name.
 		while ($row = $dataReader->read()) {
 			$fullName = '';
-			foreach ($entityData['fieldnameArr'] as &$field) {
+			foreach ($entityData['fieldnameArr'] as $field) {
 				$fullName .= ' ' . $row[$field];
 			}
 			$row['fullName'] = trim($fullName);
-			$users['id'][$row['id']] = $row;
+			$users['id'][$row['id']] = array_map('\App\Purifier::encodeHtml', $row);
 			$users['userName'][$row['user_name']] = $row['id'];
 		}
 		file_put_contents(static::$usersFile, '<?php return ' . Utils::varExport($users) . ';');
