@@ -73,6 +73,7 @@ Vtiger_Base_Validator_Js("Vtiger_Phone_Validator_Js", {}, {
 			return true;
 		}
 		var field = this.getElement();
+		var form = field.closest('form');
 		var fieldData = field.data();
 		var result = true;
 		if (fieldData.advancedVerification == 1) {
@@ -84,7 +85,7 @@ Vtiger_Base_Validator_Js("Vtiger_Phone_Validator_Js", {}, {
 			AppConnector.request({
 				async: false,
 				data: {
-					module: app.getModuleName(),
+					module: form.find('[name="module"]').val(),
 					action: 'Fields',
 					mode: 'verifyPhoneNumber',
 					fieldName: fieldInfo.name,
