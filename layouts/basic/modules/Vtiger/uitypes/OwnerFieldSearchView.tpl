@@ -46,8 +46,8 @@
 				{if count($ALL_ACTIVEUSER_LIST) gt 0}
 					<optgroup label="{\App\Language::translate('LBL_USERS')}">
 						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-							<option value="{$OWNER_ID}" data-picklistvalue="{\App\Purifier::encodeHtml($OWNER_NAME)}" {if in_array(trim(App\Purifier::decodeHtml($OWNER_NAME)),$SEARCH_VALUES) || in_array($OWNER_ID, $SEARCH_VALUES)} selected {/if} data-userId="{$OWNER_ID}">
-								{\App\Purifier::encodeHtml($OWNER_NAME)}
+							<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" {if in_array(trim(App\Purifier::decodeHtml($OWNER_NAME)),$SEARCH_VALUES) || in_array($OWNER_ID, $SEARCH_VALUES)} selected {/if} data-userId="{$OWNER_ID}">
+								{$OWNER_NAME}
 							</option>
 						{/foreach}
 					</optgroup>
@@ -55,8 +55,8 @@
 				{if count($ALL_ACTIVEGROUP_LIST) gt 0}
 					<optgroup label="{\App\Language::translate('LBL_GROUPS')}">
 						{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
-							<option value="{$OWNER_ID}" data-picklistvalue="{\App\Purifier::encodeHtml($OWNER_NAME)}" {if in_array(trim(App\Purifier::decodeHtml($OWNER_NAME)),$SEARCH_VALUES) || in_array($OWNER_ID, $SEARCH_VALUES)} selected {/if} >
-								{\App\Purifier::encodeHtml($OWNER_NAME)}
+							<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" {if in_array(trim(App\Purifier::decodeHtml($OWNER_NAME)),$SEARCH_VALUES) || in_array($OWNER_ID, $SEARCH_VALUES)} selected {/if} >
+								{$OWNER_NAME}
 							</option>
 						{/foreach}
 					</optgroup>

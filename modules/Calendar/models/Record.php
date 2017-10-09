@@ -61,7 +61,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getName()
 	{
-		$name = $this->get('subject');
+		$name = \App\Purifier::encodeHtml($this->get('subject'));
 		if (empty($name)) {
 			$name = parent::getName();
 		}

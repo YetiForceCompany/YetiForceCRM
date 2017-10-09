@@ -66,9 +66,9 @@ class Reservations_Calendar_Model extends \App\Base
 		while ($record = $dataReader->read()) {
 			$crmid = $record['reservationsid'];
 			$item['id'] = $crmid;
-			$item['title'] = $record['title'];
+			$item['title'] = \App\Purifier::encodeHtml($record['title']);
 			$item['type'] = $fieldType->getDisplayValue($record['type']);
-			$item['status'] = $record['reservations_status'];
+			$item['status'] = \App\Purifier::encodeHtml($record['reservations_status']);
 			$item['totalTime'] = vtlib\Functions::decimalTimeFormat($record['sum_time'])['short'];
 			$item['smownerid'] = \App\Fields\Owner::getLabel($record['smownerid']);
 			if ($record['relatedida']) {

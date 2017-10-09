@@ -18,10 +18,10 @@
 					<div class="col-xs-4">
 						{if \App\Privilege::isPermitted($MODULE_NAME, 'DetailView', $RECORD_ID)}
 							<a href="index.php?module=Accounts&view=Detail&record={$RECORD_ID}">
-								<b>{$ACCOUNTS_MODEL['accountname']}</b>
+								<b>{\App\Purifier::encodeHtml($ACCOUNTS_MODEL['accountname'])}</b>
 							</a>
 						{else}
-							{$ACCOUNTS_MODEL['accountname']}
+							{\App\Purifier::encodeHtml($ACCOUNTS_MODEL['accountname'])}
 						{/if}
 					</div>
 					<div class="col-xs-4">

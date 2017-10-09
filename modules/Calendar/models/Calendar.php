@@ -142,14 +142,14 @@ class Calendar_Calendar_Model extends App\Base
 			$activitytype = $record['activitytype'];
 			$item['id'] = $crmid;
 			$item['module'] = $this->getModuleName();
-			$item['title'] = $record['subject'];
+			$item['title'] = \App\Purifier::encodeHtml($record['subject']);
 			$item['url'] = 'index.php?module=' . $this->getModuleName() . '&view=Detail&record=' . $crmid;
 			$item['set'] = $record['activitytype'] == 'Task' ? 'Task' : 'Event';
-			$item['lok'] = $record['location'];
-			$item['pri'] = $record['priority'];
-			$item['sta'] = $record['status'];
-			$item['vis'] = $record['visibility'];
-			$item['state'] = $record['state'];
+			$item['lok'] = \App\Purifier::encodeHtml($record['location']);
+			$item['pri'] = \App\Purifier::encodeHtml($record['priority']);
+			$item['sta'] = \App\Purifier::encodeHtml($record['status']);
+			$item['vis'] = \App\Purifier::encodeHtml($record['visibility']);
+			$item['state'] = \App\Purifier::encodeHtml($record['state']);
 			$item['smownerid'] = \App\Fields\Owner::getLabel($record['smownerid']);
 
 			//translate
@@ -194,7 +194,7 @@ class Calendar_Calendar_Model extends App\Base
 					if ($dataReader->count()) {
 						$row = $dataReader->read();
 						$item['accid'] = $row['accountid'];
-						$item['accname'] = $row['accountname'];
+						$item['accname'] = \App\Purifier::encodeHtml($row['accountname']);
 					}
 				}
 			}

@@ -262,7 +262,7 @@ class Accounts extends CRMEntity
 			$rawData = '';
 			// Permission to view account is restricted, avoid showing field values (except account name)
 			if (\App\Field::getFieldPermission('Accounts', $fieldName)) {
-				$data = $accountInfoBase[$fieldName];
+				$data = \App\Purifier::encodeHtml($accountInfoBase[$fieldName]);
 				if ($fieldName == 'accountname') {
 					if ($accountId != $id) {
 						if ($hasRecordViewAccess) {
