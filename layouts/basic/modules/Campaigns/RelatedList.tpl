@@ -107,12 +107,12 @@
 									{/if}
 									{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 									<th nowrap>
-										{if $HEADER_FIELD->get('column') eq 'access_count' or $HEADER_FIELD->get('column') eq 'idlists' }
-											<a href="javascript:void(0);" class="noSorting">{\App\Language::translate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}</a>
-										{elseif $HEADER_FIELD->get('column') eq 'time_start'}
+										{if $HEADER_FIELD->getColumnName() eq 'access_count' or $HEADER_FIELD->getColumnName() eq 'idlists' }
+											<a href="javascript:void(0);" class="noSorting">{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}</a>
+										{elseif $HEADER_FIELD->getColumnName() eq 'time_start'}
 										{else}
-											<a href="javascript:void(0);" class="relatedListHeaderValues" data-nextsortorderval="{if $COLUMN_NAME eq $HEADER_FIELD->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-fieldname="{$HEADER_FIELD->get('column')}">{\App\Language::translate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}
-												&nbsp;&nbsp;{if $COLUMN_NAME eq $HEADER_FIELD->get('column')}<span class="{$SORT_IMAGE}"></span>{/if}
+											<a href="javascript:void(0);" class="relatedListHeaderValues" data-nextsortorderval="{if $COLUMN_NAME eq $HEADER_FIELD->getColumnName()}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-fieldname="{$HEADER_FIELD->getColumnName()}">{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}
+												&nbsp;&nbsp;{if $COLUMN_NAME eq $HEADER_FIELD->getColumnName()}<span class="{$SORT_IMAGE}"></span>{/if}
 											</a>
 										{/if}
 									</th>
@@ -161,9 +161,9 @@
 									</td>
 								{/if}
 								{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
-									{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->get('name')}
+									{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->getFieldName()}
 									<td nowrap class="{$WIDTHTYPE}">
-										{if ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->get('uitype') eq '4') && $RELATED_RECORD->isViewable()}
+										{if ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->getUIType() eq '4') && $RELATED_RECORD->isViewable()}
 											<a href="{$RELATED_RECORD->getDetailViewUrl()}">{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}</a>
 										{elseif $RELATED_HEADERNAME eq 'access_count'}
 											{$RELATED_RECORD->getAccessCountValue($PARENT_RECORD->getId())}

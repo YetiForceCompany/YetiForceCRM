@@ -55,8 +55,8 @@
 						<tr class="listViewHeaders">
 							{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 								<th nowrap {if $HEADER_FIELD@last} colspan="2" {/if}>
-									<a href="javascript:void(0);" class="relatedListHeaderValues" data-nextsortorderval="{if $COLUMN_NAME eq $HEADER_FIELD->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-fieldname="{$HEADER_FIELD->get('name')}">{\App\Language::translate($HEADER_FIELD->get('label'), $RELATED_MODULE->get('name'))}
-										&nbsp;&nbsp;{if $COLUMN_NAME eq $HEADER_FIELD->get('name')}<span class="{$SORT_IMAGE}"></span>{/if}
+									<a href="javascript:void(0);" class="relatedListHeaderValues" data-nextsortorderval="{if $COLUMN_NAME eq $HEADER_FIELD->getFieldName()}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-fieldname="{$HEADER_FIELD->getFieldName()}">{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}
+										&nbsp;&nbsp;{if $COLUMN_NAME eq $HEADER_FIELD->getFieldName()}<span class="{$SORT_IMAGE}"></span>{/if}
 									</a>
 								</th>
 							{/foreach}
@@ -66,12 +66,12 @@
 						{assign var=BASE_CURRENCY_DETAILS value=$RELATED_RECORD->getBaseCurrencyDetails()}
 						<tr class="listViewEntries" data-id='{$RELATED_RECORD->getId()}' data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'>
 							{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
-								{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->get('name')}
+								{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->getFieldName()}
 								<td nowrap class="{$WIDTHTYPE}">
-									{if $HEADER_FIELD->get('name') == 'listprice'}
-										{CurrencyField::convertToUserFormat($RELATED_RECORD->get($HEADER_FIELD->get('name')))}
-										{assign var="LISTPRICE" value=$RELATED_RECORD->get($HEADER_FIELD->get('name'))}
-									{elseif ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->get('uitype') eq '4') && $RELATED_RECORD->isViewable()}
+									{if $HEADER_FIELD->getFieldName() == 'listprice'}
+										{CurrencyField::convertToUserFormat($RELATED_RECORD->get($HEADER_FIELD->getFieldName()))}
+										{assign var="LISTPRICE" value=$RELATED_RECORD->get($HEADER_FIELD->getFieldName())}
+									{elseif ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->getUIType() eq '4') && $RELATED_RECORD->isViewable()}
 										<a href="{$RELATED_RECORD->getDetailViewUrl()}">{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}</a>
 									{else}
 										{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}
