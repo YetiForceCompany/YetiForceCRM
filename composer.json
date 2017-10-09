@@ -48,9 +48,9 @@
 		"giggsey/libphonenumber-for-php": "8.8.2"
 	},
 	"require-dev": {
-		"doctrine/instantiator": "1.0.5",
 		"phpunit/phpunit": "6.*",
-		"phpunit/phpunit-selenium": "4.*"
+		"phpunit/phpunit-selenium": "4.*",
+		"doctrine/instantiator": "1.0.5"
 	},
 	"archive": {
 		"exclude": [
