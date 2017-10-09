@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Cron test class
+ * ModuleManager test class
  * @package YetiForce.Test
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
@@ -36,7 +36,7 @@ class ModuleManager extends TestCase
 			'entitytype' => 1,
 			'entityfieldlabel' => 'Test',
 		]);
-		$this->assertTrue(file_exists(ROOT_DIRECTORY . '/modules/Test/Test.php'));
+		$this->assertFileExists(ROOT_DIRECTORY . '/modules/Test/Test.php');
 		$this->assertTrue((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists());
 	}
 
