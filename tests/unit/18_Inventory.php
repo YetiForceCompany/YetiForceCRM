@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Inventory test class
  * @package YetiForce.Test
@@ -9,9 +8,6 @@
  */
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers Inventory::<public>
- */
 class Inventory extends TestCase
 {
 
