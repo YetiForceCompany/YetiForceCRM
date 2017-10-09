@@ -28,4 +28,9 @@ $languageStrings = [
 	'BTN_REMOVE_IGNORE' => 'Ne pas ignorer',
 	'LBL_MISSING_LIBRARY' => 'Bibliothèque manquante détectée. Certaines fonctionnalités ont été désactivées. Pour les activer, veuillez télécharger la bibliothèque. Si le CRM n\'a pas de connexion Internet, vous pouvez télécharger les fichiers et les copier dans le dossier %s.',
 	'BTN_DOWNLOAD_LIBRARY' => 'Télécharger la bibliothèque',
+	'LBL_SERVER_HTTPS' => 'HTTPS encryption',
+	'BTN_CONFIGURE_HTTPS' => 'Recommended configuration',
+	'LBL_MISSING_HTTPS' => 'Your connection to the server is not encrypted. If the connection is not established through the HTTPS protocol the communication may be intercepted or altered by third parties. The recommended configuration can be found in the "Web server requirements" article in the documentation.',
+	'LBL_DISK_USAGE' => 'Disk space available',
+	'LBL_DISK_FULL' => 'There is not enough free space on your disk (%s of %s), so the system may stop working. Directory path: %s',
 ];
