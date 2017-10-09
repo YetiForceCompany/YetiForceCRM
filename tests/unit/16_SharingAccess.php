@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SharingAccess test class
  * @package YetiForce.Test
@@ -23,6 +24,7 @@ class SharingAccess extends TestCase
 
 	/**
 	 * Change of permissions
+	 * @param array $modulePermissions
 	 */
 	private function changePermissions($modulePermissions)
 	{
@@ -38,9 +40,6 @@ class SharingAccess extends TestCase
 			if ($permissionOld !== $permission) {
 				$prevValues[$tabId] = $permissionOld;
 				$postValues[$tabId] = (int) $moduleModel->get('permission');
-				if ($permissionOld === 3 || (int) $moduleModel->get('permission') === 3) {
-					\App\Privilege::setUpdater(\App\Module::getModuleName($tabId));
-				}
 			}
 			$moduleModel->save();
 		}
@@ -50,6 +49,12 @@ class SharingAccess extends TestCase
 
 	/**
 	 * Save permissions
+	 * @param string $forModule
+	 * @param int|null $ruleId
+	 * @param int $permission
+	 * @param string $sourceId
+	 * @param string $targetId
+	 * @return Settings_SharingAccess_Rule_Model
 	 */
 	private function saveRule($forModule, $ruleId, $permission, $sourceId, $targetId)
 	{
@@ -85,7 +90,7 @@ class SharingAccess extends TestCase
 		$sourceId = 'Groups:2';
 		$targetId = 'Groups:2';
 		$permission = 0;
-		$ruleId = '';
+		$ruleId = null;
 		$forModule = 'Accounts';
 		$ruleModel = $this->saveRule($forModule, $ruleId, $permission, $sourceId, $targetId);
 
