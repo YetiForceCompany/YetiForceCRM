@@ -28,7 +28,7 @@ class UserPrivilegesFile
 			$userFocus->id = $userid;
 			foreach ($userFocus->column_fields as $field => $value_iter) {
 				if (isset($userFocus->$field)) {
-					$userInfo[$field] = $userFocus->$field;
+					$userInfo[$field] = \App\Purifier::encodeHtml($userFocus->$field);
 				}
 			}
 			if ($userFocus->is_admin == 'on') {

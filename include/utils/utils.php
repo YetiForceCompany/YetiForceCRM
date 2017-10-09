@@ -471,35 +471,6 @@ function getInventoryModules()
 	return $inventoryModules;
 }
 
-/**
- * Function to get the list of Contacts related to an activity
- * @param Integer $activityId
- * @return Array $contactsList - List of Contact ids, mapped to Contact Names
- */
-function getActivityRelatedContacts($activityId)
-{
-	$adb = PearDatabase::getInstance();
-
-	$query = 'SELECT link FROM vtiger_activity WHERE activityid=?';
-	$result = $adb->pquery($query, [$activityId]);
-
-	$noOfContacts = $adb->numRows($result);
-	$contactsList = [];
-	for ($i = 0; $i < $noOfContacts; ++$i) {
-		$contactId = $adb->queryResult($result, $i, 'link');
-		$displayValueArray = \App\Record::getLabel($contactId, 'Contacts');
-		if (!empty($displayValueArray)) {
-			foreach ($displayValueArray as $key => $fieldValue) {
-				$contactName = $fieldValue;
-			}
-		} else {
-			$contactName = '';
-		}
-		$contactsList[$contactId] = $contactName;
-	}
-	return $contactsList;
-}
-
 /** Function to get the difference between 2 datetime strings or millisecond values */
 function dateDiff($d1, $d2)
 {

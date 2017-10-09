@@ -43,7 +43,7 @@ font-size: 75%;
 				{assign var=SUBPROCESS value=$ACTIVITY->get('subprocess')}
 				{assign var=CONTRACTOR value=$ACTIVITY->get('contractor')}
 				<div class="activityContainer">
-					{$ACTIVITY->get('subject')|html_entity_decode:$smarty.const.ENT_QUOTES:'utf-8'|truncate:$NAMELENGTH:'...'}				
+					{$ACTIVITY->getDisplayName('subject')|truncate:$NAMELENGTH:'...'}				
 					{if $CONTRACTOR}
 						<br /><small class="small-a">{\App\Language::translate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('contractor')}</strong></small>, <strong><small class='small-a'><a href="{$CONTRACTOR->getDetailViewUrl()}">{$CONTRACTOR->getDisplayName()|truncate:$HREFNAMELENGTH}</a></small></strong>			
 					{/if}

@@ -151,17 +151,8 @@ class Home_Module_Model extends Vtiger_Module_Model
 					}
 				}
 			}
-
-			$contactsA = getActivityRelatedContacts($row['activityid']);
-			if (count($contactsA)) {
-				foreach ($contactsA as $j => $rcA2) {
-					$contactsA[$j] = '<a href="index.php?module=Contacts&view=Detail&record=' . $j . '">' . $rcA2 . '</a>';
-					$model->set('contact_id', $contactsA);
-				}
-			}
 			$activities[] = $model;
 		}
-
 		$pagingModel->calculatePageRange($dataReader->count());
 		if ($dataReader->count() > $pagingModel->getPageLimit()) {
 			array_pop($activities);
@@ -169,7 +160,6 @@ class Home_Module_Model extends Vtiger_Module_Model
 		} else {
 			$pagingModel->set('nextPageExists', false);
 		}
-
 		return $activities;
 	}
 

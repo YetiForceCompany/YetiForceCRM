@@ -94,7 +94,7 @@
 									{\App\Language::translate('LBL_REMOVED', $MODULE_NAME)}
 								{/if}
 								{if $RELATION->getLinkedRecord()->getModuleName() eq 'Calendar'}
-									{if isPermitted('Calendar', 'DetailView', $RELATION->getLinkedRecord()->getId()) eq 'yes'}
+									{if \App\Privilege::isPermitted('Calendar', 'DetailView', $RELATION->getLinkedRecord()->getId())}
 										<a class="cursorPointer" {if stripos($LINKED_RECORD_DETAIL_URL, 'javascript:')===0} onclick='{$LINKED_RECORD_DETAIL_URL|substr:strlen("javascript:")}'
 											{else} onclick='window.location.href="{$LINKED_RECORD_DETAIL_URL}"' {/if}>{$RELATION->getLinkedRecord()->getName()}</a>
 									{else}

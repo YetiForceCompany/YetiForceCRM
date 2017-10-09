@@ -58,9 +58,10 @@ class PrivilegeFile
 		$userInstance = \CRMEntity::getInstance('Users');
 		$userInstance->retrieveEntityInfo($userId, 'Users');
 		$userInstance->column_fields['is_admin'] = $userInstance->is_admin === 'on';
+		$userInstance->column_fields = array_map('\App\Purifier::encodeHtml', $userInstance->column_fields);
 		$entityData = Module::getEntityInfo('Users');
 		$displayName = '';
-		foreach ($entityData['fieldnameArr'] as &$field) {
+		foreach ($entityData['fieldnameArr'] as $field) {
 			$displayName .= ' ' . $userInstance->column_fields[$field];
 		}
 		$userRoleInfo = PrivilegeUtil::getRoleDetail($userInstance->column_fields['roleid']);
