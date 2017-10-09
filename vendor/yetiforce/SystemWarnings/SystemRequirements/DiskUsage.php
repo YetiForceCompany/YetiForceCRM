@@ -45,7 +45,7 @@ class DiskUsage extends \App\SystemWarnings\Template
 			}
 		}
 		if ($this->status === 0) {
-			$this->description = \App\Language::translateArgs('LBL_DISK_FULL', 'Settings:SystemWarnings', $dir);
+			$this->description = \App\Language::translateArgs('LBL_DISK_FULL', 'Settings:SystemWarnings', \vtlib\Functions::showBytes($free), \vtlib\Functions::showBytes($total), $dir);
 		}
 	}
 }

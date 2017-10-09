@@ -33,5 +33,5 @@ $languageStrings = [
 	'BTN_CONFIGURE_HTTPS' => 'Zalecana konfiguracja',
 	'LBL_MISSING_HTTPS' => 'Wykryto, że połączenie z serwerem nie jest szyfrowane. Jeśli połączenie z serwerem nie zostało nawiązane za pomocą protokołu HTTPS komunikacja może zostać podsłuchana lub zmieniona przez osoby postronne. Zalecaną konfigurację można znaleźć w dokumentacji w temacie "Wymagania dla serwera WWW."',
 	'LBL_DISK_USAGE' => 'Ilość wolnego miejsca',
-	'LBL_DISK_FULL' => 'Mało wolnego miejsca na dysku, brak wystarczającej ilości miejsca na dysku spowoduje że system przestanie działać. Ścieżka do katalodu: %s',
+	'LBL_DISK_FULL' => 'Mało wolnego miejsca na dysku (%s z %s), brak wystarczającej ilości miejsca na dysku spowoduje że system przestanie działać. Ścieżka do katalodu: %s',
 ];
