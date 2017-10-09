@@ -50,7 +50,7 @@ class SharingAccess extends TestCase
 	/**
 	 * Save permissions
 	 * @param string $forModule
-	 * @param int|null $ruleId
+	 * @param int $ruleId
 	 * @param int $permission
 	 * @param string $sourceId
 	 * @param string $targetId
@@ -90,7 +90,7 @@ class SharingAccess extends TestCase
 		$sourceId = 'Groups:2';
 		$targetId = 'Groups:2';
 		$permission = 0;
-		$ruleId = null;
+		$ruleId = 0;
 		$forModule = 'Accounts';
 		$ruleModel = $this->saveRule($forModule, $ruleId, $permission, $sourceId, $targetId);
 
