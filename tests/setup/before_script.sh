@@ -1,5 +1,5 @@
 /usr/local/bin/phpunit --version
-composer install --no-dev
+composer install
 sudo wget https://scrutinizer-ci.com/ocular.phar
 sudo chmod +x ocular.phar
 sudo mv ocular.phar /usr/local/bin/ocular
