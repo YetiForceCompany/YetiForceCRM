@@ -8,9 +8,6 @@
  */
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers LanguageFiles::<public>
- */
 class LanguageFiles extends TestCase
 {
 

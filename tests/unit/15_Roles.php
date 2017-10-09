@@ -8,9 +8,6 @@
  */
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers Roles::<public>
- */
 class Roles extends TestCase
 {
 

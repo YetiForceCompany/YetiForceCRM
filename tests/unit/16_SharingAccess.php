@@ -8,9 +8,6 @@
  */
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers SharingAccess::<public>
- */
 class SharingAccess extends TestCase
 {
 
@@ -26,7 +23,6 @@ class SharingAccess extends TestCase
 
 	/**
 	 * Change of permissions
-	 * @codeCoverageIgnore
 	 */
 	private function changePermissions($modulePermissions)
 	{
@@ -54,7 +50,6 @@ class SharingAccess extends TestCase
 
 	/**
 	 * Save permissions
-	 * @codeCoverageIgnore
 	 */
 	private function saveRule($forModule, $ruleId, $permission, $sourceId, $targetId)
 	{

@@ -8,9 +8,6 @@
  */
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers InstalNewDb::<public>
- */
 class InstalNewDb extends TestCase
 {
 

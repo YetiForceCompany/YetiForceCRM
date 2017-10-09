@@ -8,9 +8,6 @@
  */
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers ModuleManager::<public>
- */
 class ModuleManager extends TestCase
 {
 

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Mail test class
  * @package YetiForce.Test
@@ -9,9 +8,6 @@
  */
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers Mail::<public>
- */
 class Mail extends TestCase
 {
 

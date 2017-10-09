@@ -9,9 +9,6 @@
  */
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers Pdf::<public>
- */
 class Pdf extends TestCase
 {
 

@@ -8,9 +8,6 @@
  */
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers Cron::<public>
- */
 class Cron extends TestCase
 {
 

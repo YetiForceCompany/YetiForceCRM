@@ -1,5 +1,4 @@
 <?php
-
 /**
  * AdvancedPermission test class
  * @package YetiForce.Test
@@ -9,9 +8,6 @@
  */
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers AdvancedPermission::<public>
- */
 class AdvancedPermission extends TestCase
 {
 

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Install test class
  * @package YetiForce.Test
@@ -9,9 +8,6 @@
  */
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers Install::<public>
- */
 class Install extends TestCase
 {
 

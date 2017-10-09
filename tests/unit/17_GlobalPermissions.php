@@ -1,5 +1,4 @@
 <?php
-
 /**
  * GlobalPermissions test class
  * @package YetiForce.Test
@@ -9,9 +8,6 @@
  */
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers GlobalPermissions::<public>
- */
 class GlobalPermissions extends TestCase
 {
 

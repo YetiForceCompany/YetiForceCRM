@@ -8,9 +8,6 @@
  */
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers LogIn::<public>
- */
 class LogIn extends TestCase
 {
 

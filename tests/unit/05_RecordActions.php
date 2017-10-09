@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Record Actions test class
  * @package YetiForce.Test
@@ -9,9 +8,6 @@
  */
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers RecordActions::<public>
- */
 class RecordActions extends TestCase
 {
 

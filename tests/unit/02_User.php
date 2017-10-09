@@ -1,5 +1,4 @@
 <?php
-
 /**
  * AddUser test class
  * @package YetiForce.Test
@@ -9,9 +8,6 @@
  */
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers User::<public>
- */
 class User extends TestCase
 {
 

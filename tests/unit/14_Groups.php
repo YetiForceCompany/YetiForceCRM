@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Groups test class
  * @package YetiForce.Test
@@ -9,9 +8,6 @@
  */
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers Groups::<public>
- */
 class Groups extends TestCase
 {
 
