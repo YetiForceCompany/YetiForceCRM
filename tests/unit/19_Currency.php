@@ -14,7 +14,7 @@ class Currency extends TestCase
 	/**
 	 * Currency id
 	 */
-	static $id;
+	private static $id;
 
 	/**
 	 * Testing add currency creation
@@ -45,21 +45,20 @@ class Currency extends TestCase
 	public function testEditCurrency()
 	{
 		$recordModel = Settings_Currency_Record_Model::getInstance(static::$id);
-		$recordModel->set('currency_name', 'Bahrain');
-		$recordModel->set('conversion_rate', 2.65);
-		$recordModel->set('currency_status', 'Active');
-		$recordModel->set('currency_code', 'BHD');
-		$recordModel->set('currency_symbol', 'BD');
+		$recordModel->set('currency_name', 'Argentina');
+		$recordModel->set('conversion_rate', 0.65);
+		$recordModel->set('currency_status', 'No');
+		$recordModel->set('currency_code', 'ARS');
+		$recordModel->set('currency_symbol', '$');
 		static::$id = $recordModel->save();
-		$this->assertNotNull(static::$id, 'Id is null');
 
 		$row = (new \App\Db\Query())->from('vtiger_currency_info')->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
-		$this->assertEquals($row['currency_name'], 'Bahrain');
-		$this->assertEquals($row['conversion_rate'], 2.65);
-		$this->assertEquals($row['currency_status'], 'Active');
-		$this->assertEquals($row['currency_code'], 'BHD');
-		$this->assertEquals($row['currency_symbol'], 'BD');
+		$this->assertEquals($row['currency_name'], 'Argentina');
+		$this->assertEquals($row['conversion_rate'], 0.65);
+		$this->assertEquals($row['currency_status'], 'No');
+		$this->assertEquals($row['currency_code'], 'ARS');
+		$this->assertEquals($row['currency_symbol'], '$');
 	}
 
 	/**
@@ -69,6 +68,8 @@ class Currency extends TestCase
 	{
 		Settings_Currency_Module_Model::delete(static::$id);
 		$row = (new \App\Db\Query())->from('vtiger_currency_info')->where(['id' => static::$id])->one();
-		$this->assertEquals($row['deleted'], 1);
+		if ($row['currency_name'] === 'Argentina') {
+			$this->assertEquals($row['deleted'], 1);
+		}
 	}
 }
