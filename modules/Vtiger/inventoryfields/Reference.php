@@ -23,7 +23,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getDisplayValue($value)
 	{
-		if ($value == 0) {
+		if (empty($value)) {
 			return '';
 		}
 		$metaData = vtlib\Functions::getCRMRecordMetadata($value);
@@ -41,8 +41,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 		if (empty($value)) {
 			return '';
 		}
-		$value = vtlib\Functions::getCRMRecordLabel($value);
-		return $value;
+		return \App\Record::getLabel($value);
 	}
 
 	public function getReferenceModules()

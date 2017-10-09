@@ -17,9 +17,9 @@
 	{foreach item=RECORD from=$WIDGET_RECORDS}
 		<div class="row rowAction cursorPointer" {if $RECORD->editFieldByModalPermission(true)} data-url="{$RECORD->getEditFieldByModalUrl()}"{/if}>
 			{foreach item=FIELD from=$WIDGET_MODEL->getHeaders()}
-				<div class="col-sm-{$SPANSIZE} textOverflowEllipsis" title="{strip_tags($RECORD->get($FIELD->get('name')))}">
+				<div class="col-sm-{$SPANSIZE} textOverflowEllipsis" title="{\App\Purifier::encodeHtml($RECORD->get($FIELD->get('name')))}">
 					{if $RECORD->get($FIELD->get('name'))}
-						<span class="pull-left">{\App\Language::translate($RECORD->getListViewDisplayValue($FIELD->get('name')), $BASE_MODULE)}</span>
+						<span class="pull-left">{$RECORD->getListViewDisplayValue($FIELD->get('name'))}</span>
 					{else}
 						&nbsp;
 					{/if}

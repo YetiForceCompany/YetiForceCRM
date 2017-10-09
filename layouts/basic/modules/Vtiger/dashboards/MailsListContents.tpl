@@ -6,7 +6,7 @@
 	<div class="row mailRow" data-mailId="{$key}">
 		<div class="col-md-12" style="font-size:x-small;">
 			<div class="pull-right muted" style="font-size:x-small;">
-				<small title="{$item->get('date')}">{Vtiger_Util_Helper::formatDateDiffInStrings($item->get('date'))}</small>&nbsp;&nbsp;&nbsp;&nbsp;
+				<small title="{\App\Purifier::encodeHtml($item->get('date'))}">{Vtiger_Util_Helper::formatDateDiffInStrings($item->get('date'))}</small>&nbsp;&nbsp;&nbsp;&nbsp;
 			</div>
 			<h5 style="margin-left:2%;">{$item->get('subject')} {if count($item->get('attachments')) > 0}<img alt="{\App\Language::translate('LBL_ATTACHMENT')}" class="pull-right" src="{\App\Layout::getLayoutFile('modules/OSSMailView/attachment.png')}" />{/if}<h5>
 		</div>
@@ -16,10 +16,10 @@
 					<span class="body-icon glyphicon glyphicon-chevron-down"></span>&nbsp;&nbsp;&nbsp;&nbsp;
 				</a>
 			</div>
-			<span class="pull-left" style="margin-left:2%;">{\App\Language::translate('From', 'OSSMailView')}: {$item->get('fromaddress')}</span>
+			<span class="pull-left" style="margin-left:2%;">{\App\Language::translate('From', 'OSSMailView')}: {\App\Purifier::encodeHtml($item->get('fromaddress'))}</span>
 		</div>
 		<div class="col-md-12 mailBody marginLeftZero" style="display: none;border: 1px solid #ddd;">
-			{$item->get('body'))}
+			{\App\Purifier::encodeHtml($item->get('body')))}
 		</div>
 	</div>
 	<hr/>

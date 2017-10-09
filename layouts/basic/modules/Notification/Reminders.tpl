@@ -59,7 +59,7 @@
 						</div>
 						<div class="col-xs-12 paddingLRZero marginBottom5 ">
 							<div class="col-xs-10 paddingLRZero textOverflowEllipsis">
-								<strong class="">{\App\Language::translate($RECORD->getModule()->getField('smcreatorid')->get('label'),$MODULE_NAME)}: {$RECORD->getCreatorUser()}</strong>
+								<strong class="">{\App\Language::translate('Created By',$MODULE_NAME)}: {$RECORD->getCreatorUser()}</strong>
 							</div>
 							<div class="col-xs-2 paddingLRZero">
 								<button type="button" class="btn btn-success btn-xs pull-right setAsMarked" title="{\App\Language::translate('LBL_MARK_AS_READ',$MODULE_NAME)}">

@@ -2,7 +2,7 @@
 {strip}
 <div {if $POPUP === true}class="knowledgePopoutContainer{/if}">	
 	<div class="col-xs-12{if $IS_POPUP === true} knowledgePopoutSubject{/if}">
-		<h4>{$RECORD->get('subject')}</h4>
+		<h4>{$RECORD->getDisplayValue('subject')}</h4>
 		<hr>
 	</div>
 	<div class="col-md-12{if $IS_POPUP === true} knowledgePopoutContent{/if}">

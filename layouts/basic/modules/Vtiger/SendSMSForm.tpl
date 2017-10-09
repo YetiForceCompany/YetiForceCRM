@@ -45,7 +45,7 @@
 											{assign var=PHONE_FIELD_NAME value=$PHONE_FIELD->get('name')}
 											<option value="{$PHONE_FIELD_NAME}">
 												{if !empty($SINGLE_RECORD)}
-													{assign var=FIELD_VALUE value=$SINGLE_RECORD->get($PHONE_FIELD_NAME)}
+													{assign var=FIELD_VALUE value=$SINGLE_RECORD->getDisplayValue($PHONE_FIELD_NAME)}
 												{/if}
 												{\App\Language::translate($PHONE_FIELD->get('label'), $SOURCE_MODULE)}{if !empty($FIELD_VALUE)} ({$FIELD_VALUE}){/if}
 											</option>

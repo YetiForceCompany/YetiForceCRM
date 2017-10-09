@@ -171,7 +171,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 */
 	public function getDisplayValue($value)
 	{
-		return $value;
+		return \App\Purifier::encodeHtml($value);
 	}
 
 	/**

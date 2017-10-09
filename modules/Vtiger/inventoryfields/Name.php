@@ -24,9 +24,10 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function getDisplayValue($value)
 	{
-		if ($value != 0)
-			return vtlib\Functions::getCRMRecordLabel($value);
-		return '';
+		if (empty($value)) {
+			return '';
+		}
+		return \App\Record::getLabel($value);
 	}
 
 	/**
@@ -36,8 +37,8 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	public function limitValues()
 	{
 		return [
-				['id' => 0, 'name' => 'LBL_NO'],
-				['id' => 1, 'name' => 'LBL_YES']
+			['id' => 0, 'name' => 'LBL_NO'],
+			['id' => 1, 'name' => 'LBL_YES']
 		];
 	}
 

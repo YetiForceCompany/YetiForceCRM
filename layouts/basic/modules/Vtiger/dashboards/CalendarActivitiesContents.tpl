@@ -59,7 +59,7 @@ font-size: 75%;
 				</div>
 			</div>
 			{if $ACTIVITY->get('location') neq '' }
-				<a target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/{urlencode ($ACTIVITY->get('location'))}" class="pull-right" title="{\App\Language::translate('Location', 'Calendar')}: {$ACTIVITY->get('location')}">
+				<a target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/{urlencode ($ACTIVITY->getDisplayValue('location'))}" class="pull-right" title="{\App\Language::translate('Location', 'Calendar')}: {$ACTIVITY->getDisplayValue('location')}">
 					<span class="icon-map-marker"></span>&nbsp
 				</a>
 			{/if}

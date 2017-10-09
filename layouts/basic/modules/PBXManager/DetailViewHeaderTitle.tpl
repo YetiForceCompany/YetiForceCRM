@@ -54,7 +54,7 @@
 								{assign var=ENTITY_NAMES value=\App\Fields\Owner::getUserLabel($RECORDID, $MODULE)}
 								{assign var=CALLERNAME value=$ENTITY_NAMES[$RECORDID]}
 							{else}
-								{assign var=CALLERNAME value=$RECORD->get("customernumber")}
+								{assign var=CALLERNAME value=$RECORD->getDisplayValue("customernumber")}
 							{/if}
 
 							{assign var=CALLER_INFO value=PBXManager_Record_Model::lookUpRelatedWithNumber($RECORD->get('customernumber'))}
@@ -74,7 +74,7 @@
 								</span><br /></strong>
 							{/if}    
 							{if $FIELD_NAME}
-							&nbsp;{$FIELD_NAME}:&nbsp;<span class="title_label muted">{$RECORD->get('customernumber')}
+							&nbsp;{$FIELD_NAME}:&nbsp;<span class="title_label muted">{$RECORD->getDisplayValue('customernumber')}
 							</span>
 							{/if}
 						{/if}

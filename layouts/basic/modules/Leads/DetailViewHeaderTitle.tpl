@@ -25,7 +25,7 @@
 					{if $RECORD->getDisplayValue('designation') && $RECORD->getDisplayValue('company')}
 						&nbsp;{\App\Language::translate('LBL_AT')}&nbsp;
 					{/if}
-					<span class="company_label">{$RECORD->get('company')}</span>
+					<span class="company_label">{$RECORD->getDisplayValue('company')}</span>
 				</div>
 				<div class="paddingLeft5px">
 					<span class="muted">

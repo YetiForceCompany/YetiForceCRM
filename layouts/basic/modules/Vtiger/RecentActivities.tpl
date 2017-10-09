@@ -55,7 +55,7 @@
 														{/if}
 														{if $FIELDMODEL->get('postvalue') neq '' && !($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
 															&nbsp;{\App\Language::translate('LBL_TO')}&nbsp;<strong style="white-space:pre-wrap;">
-															{\App\Language::translate(Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(App\Purifier::decodeHtml($FIELDMODEL->get('postvalue')))),$MODULE_NAME)}</strong>
+															{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(App\Purifier::decodeHtml($FIELDMODEL->get('postvalue'))))}</strong>
 														{/if}
 													</div>
 												{/if}

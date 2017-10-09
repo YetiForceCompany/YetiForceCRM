@@ -20,13 +20,13 @@
 					<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
 				</h4>
 				{assign var=LINK value=$RECORD->get('link')}
-				{if !empty($LINK)}
+				{if $LINK}
 					<div class="paddingLeft5px">
 						<span class="muted">{\App\Language::translate('LBL_RELATION',$MODULE_NAME)}: </span> <span>{$RECORD->getDisplayValue('link')}</span>
 					</div>
 				{/if}
 				{assign var=PROCESS value=$RECORD->get('process')}
-				{if !empty($PROCESS)}
+				{if $PROCESS}
 					<div class="paddingLeft5px">
 						<span class="muted">{\App\Language::translate('LBL_PROCESS',$MODULE_NAME)}: </span> <span>{$RECORD->getDisplayValue('process')}</span>
 					</div>

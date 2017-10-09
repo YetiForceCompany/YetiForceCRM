@@ -28,7 +28,7 @@
 									</span>
 								</div>
 								<strong>{$HISTORY['userModel']->getName()}&nbsp;</strong>
-								<a href="{$HISTORY['url']}" target="_blank">{$HISTORY['content']}</a>
+								<a href="{$HISTORY['url']}" target="_blank">{\App\Purifier::encodeHtml($HISTORY['content'])}</a>
 								{if $HISTORY['attachments_exist'] eq 1}
 									&nbsp;<span class="body-icon glyphicon glyphicon-paperclip"></span>
 								{/if}
@@ -51,7 +51,7 @@
 										{/if}
 									</div>
 								{/if}<br />
-								{$HISTORY['body']}
+								{\App\Purifier::encodeHtml($HISTORY['body'])}
 							</div>
 						</div>
 					</li>

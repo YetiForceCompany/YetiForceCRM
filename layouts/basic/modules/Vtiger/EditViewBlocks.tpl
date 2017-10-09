@@ -46,7 +46,7 @@
                 <input type="hidden" name="relationOperation" value="{$IS_RELATION_OPERATION}" />
             {/if}
 			{foreach from=$RECORD->getModule()->getFieldsByDisplayType(9) item=FIELD key=FIELD_NAME}
-				<input type="hidden" name="{$FIELD_NAME}" value="{$RECORD->get($FIELD_NAME)}" />
+				<input type="hidden" name="{$FIELD_NAME}" value="{\App\Purifier::encodeHtml($RECORD->get($FIELD_NAME))}" />
 			{/foreach}
 			<div class='widget_header row'>
 				<div class="col-md-8">
@@ -125,7 +125,7 @@
 										<label class="muted">
 											{if $FIELD_MODEL->isMandatory() eq true}<span class="redColor">*</span>{/if}
 											{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-												<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->get("label"), $MODULE)}'><span class="glyphicon glyphicon-info-sign"></span></a>
+												<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}'><span class="glyphicon glyphicon-info-sign"></span></a>
 											{/if}
 											{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE_NAME)}
 										</label>

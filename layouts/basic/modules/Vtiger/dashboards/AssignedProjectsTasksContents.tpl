@@ -20,11 +20,10 @@ font-size: 75%;
 				   <br /><small class='small-a'><strong>{$TASKS->getDisplayValue('projectid')}</strong></small>
 				{/if}
 				{if $ACCOUNT}
-				   - <small class='small-a'><strong>{$ACCOUNT}</strong></small>
+				   - <small class='small-a'><strong>{$TASKS->getDisplayValue('account')}</strong></small>
 				{/if}
 			</div>
-			{assign var=TARGETENDDATE value=$TASKS->get('targetenddate')}
-			<p class='pull-right muted' style='margin-top:5px;padding-right:5px;'><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($TARGETENDDATE)}">{$TARGETENDDATE}</small></p>
+			<p class='pull-right muted' style='margin-top:5px;padding-right:5px;'><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($TASKS->get('targetenddate'))}">{$TASKS->getDisplayValue('targetenddate')}</small></p>
 			<div class='clearfix'></div>
 		</div>
 		<div class='clearfix'></div>

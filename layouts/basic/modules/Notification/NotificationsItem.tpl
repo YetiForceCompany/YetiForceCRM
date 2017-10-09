@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
 {strip}
-	<div class="media noticeRow" data-id="{$ROW->getId()}" data-type="{$ROW->get('type')}">
+	<div class="media noticeRow" data-id="{$ROW->getId()}" data-type="{\App\Purifier::encodeHtml($ROW->get('type'))}">
 		{assign var=ICON value=$ROW->getIcon()}
 		<div class="media-body wordBreakAll">
 			<div class="panel panel-default">

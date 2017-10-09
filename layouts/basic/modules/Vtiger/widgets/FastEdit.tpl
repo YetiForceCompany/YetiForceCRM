@@ -13,7 +13,7 @@
 			{foreach item=item key=key from=$WIDGET['data']['FastEdit']}
 				{assign var=FIELD value=Vtiger_Field_Model::getInstance($item,$MODULEINSTANCE)}
 				{assign var=FIELD_MODEL value=$FIELD->getWithDefaultValue()}
-				<div class="row marginBottom10px editField" data-prevvalue="{$FIELD_MODEL->get('fieldvalue')}" data-fieldname = "q_{$FIELD_MODEL->getFieldName()}">
+				<div class="row marginBottom10px editField" data-prevvalue="{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}" data-fieldname = "q_{$FIELD_MODEL->getFieldName()}">
 					<div class="col-md-5 margin0px">
 						<h4>{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$MODULE_NAME)}</h4>
 					</div>
@@ -26,7 +26,7 @@
 								<option value="" {if $FIELD_MODEL->isMandatory() eq true && $FIELD_MODEL->get('fieldvalue') neq ''} disabled{/if}>{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>
 							{/if}
 							{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
-								<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" {if trim(App\Purifier::decodeHtml($FIELD_MODEL->get('fieldvalue'))) eq trim($PICKLIST_NAME)} selected {/if}>{$PICKLIST_VALUE}</option>
+								<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" {if trim(App\Purifier::decodeHtml($FIELD_MODEL->get('fieldvalue'))) eq trim($PICKLIST_NAME)} selected {/if}>{\App\Purifier::encodeHtml($PICKLIST_VALUE)}</option>
 							{/foreach}
 						</select>
 					</div>

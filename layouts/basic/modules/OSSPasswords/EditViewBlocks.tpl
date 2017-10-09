@@ -30,7 +30,7 @@
 			<input type="hidden" id="maxChars" value="{$passLengthMax}">
 			<input type="hidden" id="minChars" value="{$passLengthMin}">
 			{foreach from=$RECORD->getModule()->getFieldsByDisplayType(9) item=FIELD key=FIELD_NAME}
-				<input type="hidden" name="{$FIELD_NAME}" value="{$RECORD->get($FIELD_NAME)}" />
+				<input type="hidden" name="{$FIELD_NAME}" value="{\App\Purifier::encodeHtml($RECORD->get($FIELD_NAME))}" />
 			{/foreach}
 			<div class="widget_header row">
 				<div class="col-xs-12">

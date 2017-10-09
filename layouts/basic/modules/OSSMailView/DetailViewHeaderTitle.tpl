@@ -11,10 +11,10 @@
 				</h4>
 				<span class="muted">
 					<small><em>{\App\Language::translate('Sent','OSSMailView')}</em></small>
-					<span><small><em>&nbsp;{$RECORD->get('createdtime')}</em></small></span>
+					<span><small><em>&nbsp;{$RECORD->getDisplayValue('createdtime')}</em></small></span>
 				</span>
 				<div>
-					<strong>{\App\Language::translate('LBL_OWNER')} : {\App\Fields\Owner::getLabel($RECORD->get('assigned_user_id'))}</strong>
+					<strong>{\App\Language::translate('LBL_OWNER')} : {$RECORD->getDisplayValue('assigned_user_id')}</strong>
 				</div>
 			</div>
 		</div>

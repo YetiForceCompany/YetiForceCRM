@@ -17,8 +17,8 @@
 		<div class="col-xs-8">
 			<h3 class="modal-title">
 				{if $RECORD->get('serviceid')}
-					{\App\Record::getLabel($RECORD->get('serviceid'))}
-					{if $RECORD->get('osssoldservices_renew')}<span class="marginLeft10 font-small label label-info">{\App\Language::translate($RECORD->get('osssoldservices_renew'), $MODULE_NAME)}</span>{/if}
+					{$RECORD->getDisplayValue('serviceid')}
+					{if $RECORD->get('osssoldservices_renew')}<span class="marginLeft10 font-small label label-info">{$RECORD->getDisplayValue('osssoldservices_renew')}</span>{/if}
 				{else}
 					{\App\Language::translate('LBL_CHANGE_VALUE_FOR_FIELD', $MODULE_NAME)}
 				{/if}</h3>
