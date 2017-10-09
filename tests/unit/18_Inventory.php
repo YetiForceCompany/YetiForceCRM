@@ -22,7 +22,7 @@ class Inventory extends TestCase
 
 	/**
 	 * Save to database
-	 * @param int|null $id
+	 * @param int $id
 	 * @param string $type
 	 * @param string $name
 	 * @param float|int $value
@@ -58,7 +58,7 @@ class Inventory extends TestCase
 		$name = 'test';
 		$value = 3.14;
 		$status = 0;
-		static::$id = $this->save('', $type, $name, $value, $status);
+		static::$id = $this->save(0, $type, $name, $value, $status);
 		$this->assertNotNull(static::$id, 'Id is null');
 
 		$tableName = Settings_Inventory_Record_Model::getTableNameFromType($type);

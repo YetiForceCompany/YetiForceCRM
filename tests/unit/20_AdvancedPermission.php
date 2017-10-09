@@ -37,7 +37,6 @@ class AdvancedPermission extends TestCase
 		$recordModel->set('conditions', []);
 		$recordModel->save();
 		static::$id = $recordModel->getId();
-		AADebug_helper_AADebug_Lib::logToFile(static::$id);
 
 		$row = (new \App\Db\Query())->from('a_#__adv_permission')->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
