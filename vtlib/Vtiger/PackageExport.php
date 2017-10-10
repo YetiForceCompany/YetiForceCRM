@@ -21,6 +21,7 @@ class PackageExport
 	public $_export_modulexml_filename = null;
 	public $_export_modulexml_file = null;
 	protected $moduleInstance = false;
+	private $zipFileName = null;
 
 	/**
 	 * Constructor
@@ -112,6 +113,11 @@ class PackageExport
 		}
 	}
 
+	public function getZipFileName()
+	{
+		return $this->zipFileName;
+	}
+
 	/**
 	 * Export Module as a zip file.
 	 * @param Module Instance of module
@@ -119,23 +125,28 @@ class PackageExport
 	 * @param String Zipfilename to use
 	 * @param Boolean True for sending the output as download
 	 */
-	public function export(\vtlib\Module $moduleInstance, $todir = '', $zipfilename = '', $directDownload = false)
+	public function export(\vtlib\Module $moduleInstance, $todir = '', $zipFileName = '', $directDownload = false)
 	{
+		$this->zipFileName = $zipFileName;
 		$this->moduleInstance = $moduleInstance;
 		$module = $this->moduleInstance->name;
-
 		$this->__initExport($module);
 
 		// Call module export function
 		$this->exportModule();
-
 		$this->__finishExport();
 
 		// Export as Zip
-		$zipfilename = $this->moduleInstance->name . '_' . date('Y-m-d-Hi') . '_' . $this->moduleInstance->version . '.zip';
-		$zipfilename = "$this->_export_tmpdir/$zipfilename";
+		if (empty($this->zipFileName)) {
+			$this->zipFileName = $this->moduleInstance->name . '_' . date('Y-m-d-Hi') . '_' . $this->moduleInstance->version . '.zip';
+			$this->zipFileName = $this->_export_tmpdir . '/' . $this->zipFileName;
+		}
 
-		$zip = new Zip($zipfilename);
+		if (file_exists($this->zipFileName)) {
+			throw new \Exception('File already exists: ' . $this->zipFileName);
+		}
+
+		$zip = new Zip($this->zipFileName);
 
 		// Add manifest file
 		$zip->addFile($this->__getManifestFilePath(), 'manifest.xml');
@@ -192,12 +203,12 @@ class PackageExport
 		$zip->save();
 
 		if ($todir) {
-			copy($zipfilename, $todir);
+			copy($this->zipFileName, $todir);
 		}
 
 		if ($directDownload) {
-			$zip->forceDownload($zipfilename);
-			unlink($zipfilename);
+			$zip->forceDownload($this->zipFileName);
+			unlink($this->zipFileName);
 		}
 		$this->__cleanupExport();
 	}
