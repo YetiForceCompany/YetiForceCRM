@@ -1,4 +1,5 @@
 <?php
+
 /**
  * AdvancedPermission test class
  * @package YetiForce.Test
@@ -14,7 +15,7 @@ class AdvancedPermission extends TestCase
 	/**
 	 * Advanced permission id
 	 */
-	static $id;
+	private static $id;
 
 	/**
 	 * Testing advanced permission creation
