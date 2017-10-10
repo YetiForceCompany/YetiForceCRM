@@ -7,7 +7,7 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class GuiLogIn extends GuiBase
+class Gui_LogIn extends Gui_Base
 {
 
 	/**
@@ -15,6 +15,7 @@ class GuiLogIn extends GuiBase
 	 */
 	public function testLoadPage()
 	{
+		$this->shareSession(true);
 		$this->url('index.php');
 		$this->byId('username')->value('demo');
 		$this->byId('password')->value('demo');

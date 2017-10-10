@@ -7,16 +7,25 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class GuiBase extends PHPUnit_Extensions_Selenium2TestCase
+class Gui_Base extends PHPUnit_Extensions_Selenium2TestCase
 {
 
+	public static $browsers = [
+		[
+			'driver' => 'chrome',
+			'host' => 'localhost',
+			'port' => 4444,
+			'browserName' => 'chrome',
+			'sessionStrategy' => 'shared',
+		],
+	];
 	protected $captureScreenshotOnFailure = TRUE;
 
 	protected function setUp()
 	{
 		parent::setUp();
 
-		$this->setBrowserUrl('http://127.0.0.1/');
+		$this->setBrowserUrl(AppConfig::main('site_URL'));
 		$this->setBrowser('chrome');
 
 		$screenshotsDir = __DIR__ . '/../screenshots';
@@ -26,9 +35,10 @@ class GuiBase extends PHPUnit_Extensions_Selenium2TestCase
 		$this->listener = new PHPUnit_Extensions_Selenium2TestCase_ScreenshotListener($screenshotsDir);
 		$this->prepareSession();
 	}
-/**
- * @codeCoverageIgnore
- */
+
+	/**
+	 * @codeCoverageIgnore
+	 */
 	public function onNotSuccessfulTest(Throwable $e)
 	{
 		$this->listener->addError($this, $e, null);
