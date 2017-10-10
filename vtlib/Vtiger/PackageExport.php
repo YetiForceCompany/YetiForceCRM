@@ -21,7 +21,7 @@ class PackageExport
 	public $_export_modulexml_filename = null;
 	public $_export_modulexml_file = null;
 	protected $moduleInstance = false;
-	private $zipFileName = null;
+	private $zipFileName;
 
 	/**
 	 * Constructor
@@ -113,6 +113,10 @@ class PackageExport
 		}
 	}
 
+	/**
+	 * Get last name of zip file
+	 * @return string
+	 */
 	public function getZipFileName()
 	{
 		return $this->zipFileName;
