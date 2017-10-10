@@ -13,6 +13,12 @@ class ModuleManager extends TestCase
 {
 
 	/**
+	 * Zip file name
+	 * @var string
+	 */
+	static $zipFileName;
+
+	/**
 	 * Testing language exports
 	 */
 	public function testLanguageExport()
@@ -47,18 +53,19 @@ class ModuleManager extends TestCase
 	{
 		$moduleModel = \vtlib\Module::getInstance('Test');
 		$this->assertTrue($moduleModel->isExportable(), 'Module not exportable!');
-		$package = new vtlib\PackageExport();
+		$packageExport = new vtlib\PackageExport();
 
-		$zipFileName = $package->_export_tmpdir . '/' . $moduleModel->name . '_' . date('Y-m-d-Hi') . '_' . $moduleModel->version . '.zip';
-//Remove file if exists
-		if (file_exists($zipFileName)) {
-			unlink($zipFileName);
-			$this->assertFileNotExists($zipFileName);
+		static::$zipFileName = $packageExport->_export_tmpdir . '/' . $moduleModel->name . '_' . date('Y-m-d-Hi') . '_' . $moduleModel->version . '.zip';
+		//Remove file if exists
+		if (file_exists(static::$zipFileName)) {
+			unlink(static::$zipFileName);
+			$this->assertFileNotExists(static::$zipFileName);
 		}
-		$package->export($moduleModel, '', '', false);
-		$this->assertFileExists($zipFileName);
-		unlink($zipFileName);
-		$this->assertFileNotExists($zipFileName);
+		$packageExport->export($moduleModel, '', '', false);
+		$this->assertFileExists(static::$zipFileName);
+
+		$package = new vtlib\Package();
+		$this->assertEquals('Test', $package->getModuleNameFromZip(static::$zipFileName));
 	}
 
 	/**
@@ -68,8 +75,40 @@ class ModuleManager extends TestCase
 	{
 		$moduleInstance = \vtlib\Module::getInstance('Test');
 		$moduleInstance->delete();
-		$this->assertFalse(file_exists(ROOT_DIRECTORY . '/modules/Test/Test.php'));
-		$this->assertFalse((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists());
+		$this->assertFileNotExists(ROOT_DIRECTORY . '/modules/Test/Test.php');
+		$this->assertFalse((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists(), 'The test module exists in the database');
+	}
+
+	/**
+	 * Testing module import
+	 */
+	public function testImportModule()
+	{
+		$package = new vtlib\Package();
+
+		$this->assertEquals('Test', $package->getModuleNameFromZip(static::$zipFileName));
+		$this->assertFalse($package->isLanguageType(static::$zipFileName), 'The module is a language type');
+		$this->assertFalse($package->isUpdateType(static::$zipFileName), 'The module is a update type');
+		$this->assertFalse($package->isModuleBundle(static::$zipFileName), 'The module is a bundle type');
+
+		$package->import(static::$zipFileName);
+
+		$this->assertFileExists(ROOT_DIRECTORY . '/modules/Test/Test.php');
+		$this->assertTrue((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists(), 'The test module does not exist in the database');
+
+		unlink(static::$zipFileName);
+		$this->assertFileNotExists(static::$zipFileName);
+	}
+
+	/**
+	 * Testing imported module removal
+	 */
+	public function testDeleteImportedModule()
+	{
+		$moduleInstance = \vtlib\Module::getInstance('Test');
+		$moduleInstance->delete();
+		$this->assertFileNotExists(ROOT_DIRECTORY . '/modules/Test/Test.php');
+		$this->assertFalse((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists(), 'The test module exists in the database');
 	}
 
 	/**
@@ -108,7 +147,7 @@ class ModuleManager extends TestCase
 		$allModules = Settings_ModuleManager_Module_Model::getAll();
 		$moduleManagerModel = new Settings_ModuleManager_Module_Model();
 		foreach ($allModules as $module) {
-//Turn off the module if it is on
+			//Turn off the module if it is on
 			if ((int) $module->get('presence') !== 1) {
 				$moduleManagerModel->disableModule($module->get('name'));
 				$this->assertEquals(1, (new \App\Db\Query())->select('presence')->from('vtiger_tab')->where(['tabid' => $module->getId()])->scalar());
@@ -124,7 +163,7 @@ class ModuleManager extends TestCase
 		$allModules = Settings_ModuleManager_Module_Model::getAll();
 		$moduleManagerModel = new Settings_ModuleManager_Module_Model();
 		foreach ($allModules as $module) {
-//Turn on the module if it is off
+			//Turn on the module if it is off
 			if ((int) $module->get('presence') !== 0) {
 				$moduleManagerModel->enableModule($module->get('name'));
 				$this->assertEquals(0, (new \App\Db\Query())->select('presence')->from('vtiger_tab')->where(['tabid' => $module->getId()])->scalar());
