@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Inventory test class
  * @package YetiForce.Test
@@ -14,7 +15,7 @@ class Inventory extends TestCase
 	/**
 	 * Inventory id
 	 */
-	static $id;
+	private static $id;
 
 	/**
 	 * Save to database
