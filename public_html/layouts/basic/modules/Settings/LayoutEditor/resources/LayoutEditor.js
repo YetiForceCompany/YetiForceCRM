@@ -251,7 +251,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		params['action'] = 'Relation';
 		params['mode'] = 'changeStatusRelation';
 		params['relationId'] = relationId;
-		params['status'] = status ? 'true' : 'false';
+		params['status'] = status;
 		AppConnector.request(params).then(
 				function (data) {
 					var params = {};
