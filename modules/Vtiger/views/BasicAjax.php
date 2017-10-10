@@ -51,16 +51,15 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 	 */
 	public function showAdvancedSearch(\App\Request $request)
 	{
-		//Modules for which search is excluded
-		$excludedModuleForSearch = array('Vtiger', 'Reports');
+		$excludedModuleForSearch = ['Vtiger', 'Reports'];
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		if ($request->getByType('source_module', 1)) {
+		if (!$request->isEmpty('source_module')) {
 			$moduleName = $request->getByType('source_module', 1);
 		}
 
 		$saveFilterPermitted = true;
-		$saveFilterexcludedModules = array('ModComments', 'RSS', 'Portal', 'Integration', 'PBXManager', 'DashBoard');
+		$saveFilterexcludedModules = ['ModComments', 'RSS', 'Portal', 'Integration', 'PBXManager', 'DashBoard'];
 		if (in_array($moduleName, $saveFilterexcludedModules)) {
 			$saveFilterPermitted = false;
 		}
