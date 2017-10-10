@@ -6,7 +6,7 @@
 	<select name="{$FIELD_MODEL->getName()}" class="select2noactive listSearchContributor form-control" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" multiple data-fieldinfo='{$FIELD_INFO|escape}'>
 		<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>
 		{foreach item=PICKLIST_VALUE key=KEY from=$PICKLIST_VALUES}
-			<option value="{\App\Purifier::encodeHtml($KEY)}" {if in_array($KEY,$SEARCH_VALUES) && ($KEY neq "") } selected{/if}>{\App\Purifier::encodeHtml((\App\Language::translateSingleMod($KEY,'Other.Country'))}</option>
+			<option value="{\App\Purifier::encodeHtml($KEY)}" {if in_array($KEY,$SEARCH_VALUES) && ($KEY neq "") } selected{/if}>{\App\Purifier::encodeHtml(\App\Language::translateSingleMod($KEY,'Other.Country'))}</option>
 		{/foreach}
 	</select>
 {/strip}
