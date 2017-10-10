@@ -20,6 +20,7 @@ class Gui_Base extends PHPUnit_Extensions_Selenium2TestCase
 		],
 	];
 	protected $captureScreenshotOnFailure = TRUE;
+	public $logs;
 
 	protected function setUp()
 	{
