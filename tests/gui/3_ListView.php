@@ -16,19 +16,12 @@ class Gui_ListView extends Gui_Base
 	public function testList()
 	{
 		foreach (\App\Module::getAllEntityModuleInfo() as $moduleInfo) {
-			$this->url("/index.php?module={$moduleInfo['modulename']}&view=List");
-			$this->logs = $moduleInfo['modulename'];
-			$this->assertEquals($moduleInfo['modulename'], $this->byId('module')->value());
-			$this->assertEquals('List', $this->byId('view')->value());
+			if (\App\Privilege::isPermitted($moduleInfo['modulename'])) {
+				$this->url("/index.php?module={$moduleInfo['modulename']}&view=List");
+				$this->logs = $moduleInfo['modulename'];
+				$this->assertEquals($moduleInfo['modulename'], $this->byId('module')->value());
+				$this->assertEquals('List', $this->byId('view')->value());
+			}
 		}
-	}
-
-	/**
-	 * @codeCoverageIgnore
-	 */
-	public function onNotSuccessfulTest(Throwable $e)
-	{
-		print_r($this->logs);
-		parent::onNotSuccessfulTest($e);
 	}
 }

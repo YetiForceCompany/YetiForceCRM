@@ -42,6 +42,9 @@ class Gui_Base extends PHPUnit_Extensions_Selenium2TestCase
 	 */
 	public function onNotSuccessfulTest(Throwable $e)
 	{
+		if ($this->logs) {
+			var_export($this->logs);
+		}
 		$this->listener->addError($this, $e, null);
 		parent::onNotSuccessfulTest($e);
 	}
