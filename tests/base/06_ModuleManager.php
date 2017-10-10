@@ -115,7 +115,6 @@ class ModuleManager extends TestCase
 	 */
 	public function testImportModule()
 	{
-		return;
 		$package = new vtlib\Package();
 
 		$this->assertEquals('Test', $package->getModuleNameFromZip(static::$zipFileName));
@@ -138,7 +137,6 @@ class ModuleManager extends TestCase
 	 */
 	public function testDeleteImportedModule()
 	{
-		return;
 		$moduleInstance = \vtlib\Module::getInstance('Test');
 		$moduleInstance->delete();
 		$this->assertFileNotExists(ROOT_DIRECTORY . '/modules/Test/Test.php');
@@ -150,7 +148,6 @@ class ModuleManager extends TestCase
 	 */
 	public function testDownloadLibraryModule()
 	{
-		return;
 		$removeLib = [];
 		$libraries = Settings_ModuleManager_Library_Model::getAll();
 		foreach ($libraries as $key => $library) {
@@ -179,7 +176,6 @@ class ModuleManager extends TestCase
 	 */
 	public function testOffAllModule()
 	{
-		return;
 		$allModules = Settings_ModuleManager_Module_Model::getAll();
 		$moduleManagerModel = new Settings_ModuleManager_Module_Model();
 		foreach ($allModules as $module) {
@@ -196,8 +192,6 @@ class ModuleManager extends TestCase
 	 */
 	public function testOnAllModule()
 	{
-		return;
-
 		$allModules = Settings_ModuleManager_Module_Model::getAll();
 		$moduleManagerModel = new Settings_ModuleManager_Module_Model();
 		foreach ($allModules as $module) {
