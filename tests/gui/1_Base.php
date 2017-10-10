@@ -26,7 +26,9 @@ class GuiBase extends PHPUnit_Extensions_Selenium2TestCase
 		$this->listener = new PHPUnit_Extensions_Selenium2TestCase_ScreenshotListener($screenshotsDir);
 		$this->prepareSession();
 	}
-
+/**
+ * @codeCoverageIgnore
+ */
 	public function onNotSuccessfulTest(Throwable $e)
 	{
 		$this->listener->addError($this, $e, null);
