@@ -50,12 +50,15 @@ class ModuleManager extends TestCase
 		$package = new vtlib\PackageExport();
 
 		$zipFileName = $package->_export_tmpdir . '/' . $moduleModel->name . '_' . date('Y-m-d-Hi') . '_' . $moduleModel->version . '.zip';
-		//Remove file if exists
+//Remove file if exists
 		if (file_exists($zipFileName)) {
 			unlink($zipFileName);
+			$this->assertFileNotExists($zipFileName);
 		}
 		$package->export($moduleModel, '', '', false);
 		$this->assertFileExists($zipFileName);
+		unlink($zipFileName);
+		$this->assertFileNotExists($zipFileName);
 	}
 
 	/**
@@ -70,6 +73,34 @@ class ModuleManager extends TestCase
 	}
 
 	/**
+	 * Testing download librares
+	 */
+	public function testDownloadLibraryModule()
+	{
+		$removeLib = [];
+		$libraries = Settings_ModuleManager_Library_Model::getAll();
+		foreach ($libraries as $key => $library) {
+			$removeLib[$key]['toRemove'] = Settings_ModuleManager_Library_Model::checkLibrary($key);
+			$removeLib[$key]['dir'] = $library['dir'];
+
+			//Check if remote file exists
+			$header = get_headers($library['url'], 1);
+			$this->assertNotRegExp('/404/', $header['Status']);
+
+			Settings_ModuleManager_Library_Model::download($key);
+			$this->assertFileExists($library['dir'] . 'version.php');
+		}
+
+		//Delete unnecessary libraries
+		foreach ($removeLib as $libToRemove) {
+			if ($libToRemove['toRemove']) {
+				\vtlib\Functions::recurseDelete($libToRemove['dir']);
+				$this->assertFileNotExists($removeLib['dir'] . 'version.php');
+			}
+		}
+	}
+
+	/**
 	 * Testing module off
 	 */
 	public function testOffAllModule()
@@ -77,7 +108,7 @@ class ModuleManager extends TestCase
 		$allModules = Settings_ModuleManager_Module_Model::getAll();
 		$moduleManagerModel = new Settings_ModuleManager_Module_Model();
 		foreach ($allModules as $module) {
-			//Turn off the module if it is on
+//Turn off the module if it is on
 			if ((int) $module->get('presence') !== 1) {
 				$moduleManagerModel->disableModule($module->get('name'));
 				$this->assertEquals(1, (new \App\Db\Query())->select('presence')->from('vtiger_tab')->where(['tabid' => $module->getId()])->scalar());
@@ -93,7 +124,7 @@ class ModuleManager extends TestCase
 		$allModules = Settings_ModuleManager_Module_Model::getAll();
 		$moduleManagerModel = new Settings_ModuleManager_Module_Model();
 		foreach ($allModules as $module) {
-			//Turn on the module if it is off
+//Turn on the module if it is off
 			if ((int) $module->get('presence') !== 0) {
 				$moduleManagerModel->enableModule($module->get('name'));
 				$this->assertEquals(0, (new \App\Db\Query())->select('presence')->from('vtiger_tab')->where(['tabid' => $module->getId()])->scalar());
