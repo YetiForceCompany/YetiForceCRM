@@ -48,7 +48,7 @@ class Companies extends TestCase
 		static::$id = $recordModel->getId();
 		$this->assertNotNull(static::$id, 'Id is null');
 
-		$row = (new \App\Db\Query())->from('s_#_companies')->where(['id' => static::$id])->one();
+		$row = (new \App\Db\Query())->from('s_#__companies')->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
 		$this->assertEquals($row['name'], 'Name');
 		$this->assertEquals($row['short_name'], 'Short name');
@@ -105,7 +105,7 @@ class Companies extends TestCase
 		$recordModel->save();
 		static::$id = $recordModel->getId();
 
-		$row = (new \App\Db\Query())->from('s_#_companies')->where(['id' => static::$id])->one();
+		$row = (new \App\Db\Query())->from('s_#__companies')->where(['id' => static::$id])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$id);
 		$this->assertEquals($row['name'], 'Company');
 		$this->assertEquals($row['short_name'], 'Short company');
@@ -138,6 +138,6 @@ class Companies extends TestCase
 	{
 		$recordModel = Settings_Companies_Record_Model::getInstance(static::$id);
 		$recordModel->delete();
-		$this->assertFalse((new \App\Db\Query())->from('s_#_companies')->where(['id' => static::$id])->exists());
+		$this->assertFalse((new \App\Db\Query())->from('s_#__companies')->where(['id' => static::$id])->exists());
 	}
 }
