@@ -16,7 +16,34 @@ class ModuleManager extends TestCase
 	 * Zip file name
 	 * @var string
 	 */
-	static $zipFileName;
+	private static $zipFileName;
+
+	/**
+	 *
+	 * @param string $fileName
+	 * @return array
+	 * @throws Exception
+	 */
+	private function getLangPathToFile($fileName)
+	{
+		$langFileToCheck = [];
+		$dir = "./languages/";
+		if (is_dir($dir)) {
+			if ($dh = opendir($dir)) {
+				while (($file = readdir($dh)) !== false) {
+					$path = $dir . $file;
+					if ($file != '.' && $file != '..' && is_dir($path)) {
+						$langFileToCheck[] = $path . '/Test.php';
+					}
+				}
+				closedir($dh);
+			}
+		} else {
+			throw new Exception('This is not a directory: ' . $dir);
+		}
+
+		return $langFileToCheck;
+	}
 
 	/**
 	 * Testing language exports
@@ -43,6 +70,11 @@ class ModuleManager extends TestCase
 			'entityfieldlabel' => 'Test',
 		]);
 		$this->assertFileExists(ROOT_DIRECTORY . '/modules/Test/Test.php');
+		$langFileToCheck = $this->getLangPathToFile('Test.php');
+		foreach ($langFileToCheck as $pathToFile) {
+			$this->assertFileExists($pathToFile);
+		}
+
 		$this->assertTrue((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists());
 	}
 
@@ -55,17 +87,28 @@ class ModuleManager extends TestCase
 		$this->assertTrue($moduleModel->isExportable(), 'Module not exportable!');
 		$packageExport = new vtlib\PackageExport();
 
-		static::$zipFileName = $packageExport->_export_tmpdir . '/' . $moduleModel->name . '_' . date('Y-m-d-Hi') . '_' . $moduleModel->version . '.zip';
-		//Remove file if exists
-		if (file_exists(static::$zipFileName)) {
-			unlink(static::$zipFileName);
-			$this->assertFileNotExists(static::$zipFileName);
-		}
 		$packageExport->export($moduleModel, '', '', false);
+		static::$zipFileName = $packageExport->getZipFileName();
 		$this->assertFileExists(static::$zipFileName);
 
 		$package = new vtlib\Package();
 		$this->assertEquals('Test', $package->getModuleNameFromZip(static::$zipFileName));
+
+		$zip = new \App\Zip(static::$zipFileName, ['checkFiles' => false]);
+		$zipFiles = [];
+		for ($i = 0; $i < $zip->numFiles; $i++) {
+			$fileName = $zip->getNameIndex($i);
+			$zipFiles[] = $fileName;
+		}
+		$zip->close();
+		$this->assertContains('manifest.xml', $zipFiles);
+		$this->assertContains('modules/Test/Test.php', $zipFiles);
+
+		$langFileToCheck = $this->getLangPathToFile('Test.php');
+		foreach ($langFileToCheck as $pathToFile) {
+			$pathToFile = str_replace('./', '', $pathToFile);
+			$this->assertContains($pathToFile, $zipFiles);
+		}
 	}
 
 	/**
@@ -93,6 +136,7 @@ class ModuleManager extends TestCase
 
 		$package->import(static::$zipFileName);
 
+		$this->assertEquals('LBL_INVENTORY_MODULE', $package->getTypeName());
 		$this->assertFileExists(ROOT_DIRECTORY . '/modules/Test/Test.php');
 		$this->assertTrue((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists(), 'The test module does not exist in the database');
 
@@ -105,6 +149,7 @@ class ModuleManager extends TestCase
 	 */
 	public function testDeleteImportedModule()
 	{
+
 		$moduleInstance = \vtlib\Module::getInstance('Test');
 		$moduleInstance->delete();
 		$this->assertFileNotExists(ROOT_DIRECTORY . '/modules/Test/Test.php');
@@ -116,6 +161,7 @@ class ModuleManager extends TestCase
 	 */
 	public function testDownloadLibraryModule()
 	{
+
 		$removeLib = [];
 		$libraries = Settings_ModuleManager_Library_Model::getAll();
 		foreach ($libraries as $key => $library) {
@@ -144,6 +190,7 @@ class ModuleManager extends TestCase
 	 */
 	public function testOffAllModule()
 	{
+
 		$allModules = Settings_ModuleManager_Module_Model::getAll();
 		$moduleManagerModel = new Settings_ModuleManager_Module_Model();
 		foreach ($allModules as $module) {
@@ -160,6 +207,7 @@ class ModuleManager extends TestCase
 	 */
 	public function testOnAllModule()
 	{
+
 		$allModules = Settings_ModuleManager_Module_Model::getAll();
 		$moduleManagerModel = new Settings_ModuleManager_Module_Model();
 		foreach ($allModules as $module) {
