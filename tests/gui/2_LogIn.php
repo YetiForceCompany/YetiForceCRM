@@ -16,8 +16,8 @@ class GuiLogIn extends GuiBase
 	public function testLoadPage()
 	{
 		$this->url('index.php');
-		$this->byId('username')->value('admin');
-		$this->byId('password')->value('admin');
+		$this->byId('username')->value('demo');
+		$this->byId('password')->value('demo');
 		$this->byTag('form')->submit();
 		$this->assertEquals('Home', $this->byId('module')->value());
 		$this->assertEquals('DashBoard', $this->byId('view')->value());
