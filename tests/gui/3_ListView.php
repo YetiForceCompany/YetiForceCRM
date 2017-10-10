@@ -16,7 +16,7 @@ class Gui_ListView extends Gui_Base
 	public function testList()
 	{
 		foreach (\App\Module::getAllEntityModuleInfo() as $moduleInfo) {
-			if ($moduleInfo['modulename'] !== 'Users') {
+			if ($moduleInfo['modulename'] !== 'Users' && $moduleInfo['modulename'] !== 'ModComments') {
 				$this->url("/index.php?module={$moduleInfo['modulename']}&view=List");
 				$this->logs = $moduleInfo['modulename'];
 				$this->assertEquals($moduleInfo['modulename'], $this->byId('module')->value());
