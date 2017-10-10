@@ -67,8 +67,7 @@ class Currency extends TestCase
 	public function testDeletetCurrency()
 	{
 		Settings_Currency_Module_Model::delete(static::$id);
-		$row = (new \App\Db\Query())->from('vtiger_currency_info')->where(['id' => static::$id])->one();
-		$this->assertEquals($row['deleted'], 1);
-		$this->assertEquals($row['currency_name'], 'Argentina');
+		$this->assertTrue((new \App\Db\Query())->from('vtiger_currency_info')->where(['and', ['id' => static::$id], ['or', ['deleted' => 1]]])->exists());
+		$this->assertTrue((new \App\Db\Query())->from('vtiger_currency_info')->where(['and', ['currency_name' => 'Argentina'], ['or', ['deleted' => 1]]])->exists());
 	}
 }
