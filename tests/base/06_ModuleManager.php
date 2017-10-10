@@ -107,6 +107,12 @@ class ModuleManager extends TestCase
 		$moduleInstance = \vtlib\Module::getInstance('Test');
 		$moduleInstance->delete();
 		$this->assertFileNotExists(ROOT_DIRECTORY . '/modules/Test/Test.php');
+
+		$langFileToCheck = $this->getLangPathToFile('Test.php');
+		foreach ($langFileToCheck as $pathToFile) {
+			$this->assertFileNotExists($pathToFile);
+		}
+
 		$this->assertFalse((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists(), 'The test module exists in the database');
 	}
 
@@ -137,10 +143,7 @@ class ModuleManager extends TestCase
 	 */
 	public function testDeleteImportedModule()
 	{
-		$moduleInstance = \vtlib\Module::getInstance('Test');
-		$moduleInstance->delete();
-		$this->assertFileNotExists(ROOT_DIRECTORY . '/modules/Test/Test.php');
-		$this->assertFalse((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists(), 'The test module exists in the database');
+		$this->testDeleteModule();
 	}
 
 	/**
