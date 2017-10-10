@@ -589,7 +589,7 @@ class Users extends CRMEntity
 		$eventHandler->setModuleName('Users');
 		$eventHandler->trigger('UsersBeforeDelete');
 
-		vtws_transferOwnership($userId, $transformToUserId);
+		App\Fields\Owner::transferOwnership($userId, $transformToUserId);
 		//updating the vtiger_users table;
 		App\Db::getInstance()->createCommand()
 			->update('vtiger_users', [

@@ -248,48 +248,6 @@ function vtws_transferRelatedRecords($sourceRecordId, $destinationRecordId)
 	$db->createCommand()->update('vtiger_lettersout', ['relatedid' => $destinationRecordId], ['relatedid' => $sourceRecordId])->execute();
 }
 
-function vtws_transferOwnership($ownerId, $newOwnerId, $delete = true)
-{
-	$db = \App\Db::getInstance();
-	//Updating the smcreatorid,smownerid, modifiedby, smcreatorid in vtiger_crmentity
-	$db->createCommand()->update('vtiger_crmentity', ['smcreatorid' => $newOwnerId], ['smcreatorid' => $ownerId, 'setype' => 'ModComments'])
-		->execute();
-	$db->createCommand()->update('vtiger_crmentity', ['smownerid' => $newOwnerId], ['smownerid' => $ownerId, 'setype' => 'ModComments'])
-		->execute();
-	$db->createCommand()->update('vtiger_crmentity', ['modifiedby' => $newOwnerId], ['modifiedby' => $ownerId])
-		->execute();
-	//updating the vtiger_import_maps
-	$db->createCommand()->update('vtiger_import_maps', ['date_modified' => date('Y-m-d H:i:s'), 'assigned_user_id' => $newOwnerId], ['assigned_user_id' => $ownerId])
-		->execute();
-	if ($delete) {
-		$db->createCommand()->delete('vtiger_users2group', ['userid' => $ownerId])
-			->execute();
-	}
-	$dataReader = (new App\Db\Query())->select(['tabid', 'fieldname', 'tablename', 'columnname'])
-			->from('vtiger_field')
-			->leftJoin('vtiger_fieldmodulerel', 'vtiger_field.fieldid = vtiger_fieldmodulerel.fieldid')
-			->where(['or', ['uitype' => [52, 53, 77, 101]], ['uitype' => 10, 'relmodule' => 'Users']])
-			->createCommand()->query();
-	$columnList = [];
-	while ($row = $dataReader->read()) {
-		$column = $row['tablename'] . '.' . $row['columnname'];
-		if (!in_array($column, $columnList)) {
-			$columnList[] = $column;
-			if ($row['columnname'] === 'smcreatorid' || $row['columnname'] === 'smownerid') {
-				$db->createCommand()->update($row['tablename'], [$row['columnname'] => $newOwnerId], ['and', [$row['columnname'] => $ownerId], ['<>', 'setype', 'ModComments']])
-					->execute();
-			} else {
-				$db->createCommand()->update($row['tablename'], [$row['columnname'] => $newOwnerId], [$row['columnname'] => $ownerId])
-					->execute();
-			}
-		}
-	}
-	//update workflow tasks Assigned User from Deleted User to Transfer User
-	$newOwnerModel = Users_Record_Model::getInstanceById($newOwnerId, 'Users');
-	$ownerModel = Users_Record_Model::getInstanceById($ownerId, 'Users');
-	vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel);
-}
-
 function vtws_getWebserviceTranslatedStringForLanguage($label, $currentLanguage)
 {
 	static $translations = [];
