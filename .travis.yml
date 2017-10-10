@@ -60,4 +60,7 @@ after_script:
 - cat ../cache/logs/system.log
 - cat ../cache/logs/Importer.log
 - php ocular code-coverage:upload --format=php-clover coverage.xml
-- bash <(curl -s https://codecov.io/bash) 
+- bash <(curl -s https://codecov.io/bash)
+- sudo ls -all 
+- cd ..
+- sudo ls -all
