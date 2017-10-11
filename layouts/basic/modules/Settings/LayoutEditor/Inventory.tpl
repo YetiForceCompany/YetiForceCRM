@@ -23,7 +23,7 @@
 							<a>
 								<img src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 							</a>&nbsp;&nbsp;
-							<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}</span>
+							<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}</span>
 							<span class="btn-group pull-right actions">
 								<a href="#" class="editInventoryField">
 									<span class="glyphicon glyphicon-pencil alignMiddle" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
@@ -60,7 +60,7 @@
 							<a>
 								<img src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 							</a>&nbsp;&nbsp;
-							<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}</span>
+							<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}</span>
 							<span class="btn-group pull-right actions">
 								<a href="#" class="editInventoryField">
 									<span class="glyphicon glyphicon-pencil alignMiddle" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
@@ -97,7 +97,7 @@
 							<a>
 								<img src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
 							</a>&nbsp;&nbsp;
-							<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}</span>
+							<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}</span>
 							<span class="btn-group pull-right actions">
 								<a href="#" class="editInventoryField">
 									<span class="glyphicon glyphicon-pencil alignMiddle" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
