@@ -25,11 +25,6 @@
 			<directory suffix=".php">./finish/</directory>
 		</testsuite>
 	</testsuites>
-	<filter>
-		<whitelist processUncoveredFilesFromWhitelist="true">
-			<directory suffix=".php">/home/travis/build/YetiForceCompany/YetiForceCRM/</directory>
-		</whitelist>
-	</filter>
 	<listeners>
 		<listener class="Times" file="./times.php" />
 	</listeners>
