@@ -5,6 +5,8 @@
 		 processIsolation="false"
 		 stopOnFailure="true"
 		 syntaxCheck="true"
+		 printerClass="YtResultPrinter"
+		 printerFile="printer.php"
 		 bootstrap="bootstrap.php">
 	<testsuites>
 		<testsuite name="Init">
