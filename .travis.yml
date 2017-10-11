@@ -63,5 +63,5 @@ after_script:
 - bash <(curl -s https://codecov.io/bash)
 - sudo apt-get install ncftp
 - ncftpput -R -v -u $AFU -p $AFP $AFA / coverageHtml/
-- ncftpput -R -v -u $AFU -p $AFP $AFA / system.log phpError.log
+- ncftpput -R -v -u $AFU -p $AFP $AFA / system.log , phpError.log
 - sudo ls -all ./coverageHtml
