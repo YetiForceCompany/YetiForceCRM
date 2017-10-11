@@ -47,7 +47,8 @@ before_script:
   
 script:
 - sudo cp tests/phpunit.xml phpunit.xml
-- /usr/local/bin/phpunit --debug --verbose --coverage-text --coverage-clover=coverage.xml
+- sudo chown -R travis:travis phpunit.xml
+- /usr/local/bin/phpunit --debug --verbose --coverage-text
     
 after_script:
 - sudo cat /var/log/apache2/error.log

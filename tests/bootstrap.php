@@ -6,11 +6,9 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-define('ROOT_DIRECTORY', getcwd());
-
-if (!class_exists('Vtiger_WebUI')) {
-	require_once 'include/main/WebUI.php';
-}
+require_once 'include/main/WebUI.php';
+var_dump(getcwd());
+var_dump(get_include_path());
 \App\Config::$requestMode = 'TEST';
 
 //fix phpunit console for windows
