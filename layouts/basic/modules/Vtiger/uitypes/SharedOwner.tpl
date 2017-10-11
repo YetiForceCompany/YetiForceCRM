@@ -33,7 +33,7 @@
 								{foreach item=USER from=$FIELD_VALUE}
 									{if $USER eq $OWNER_ID } selected {/if}
 								{/foreach}>
-							{\App\Purifier::encodeHtml($OWNER_NAME)}
+							{$OWNER_NAME}
 						</option>
 					{/foreach}
 				</optgroup>

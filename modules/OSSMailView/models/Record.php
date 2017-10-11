@@ -85,17 +85,17 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			$from = ($from && $from !== '') ? $from : $row['from_email'];
 			$to = $this->findRecordsById($row['to_id']);
 			$to = ($to && $to !== '') ? $to : $row['to_email'];
-			$content = vtlib\Functions::getHtmlOrPlainText($row['content']);
+			$content = \App\Purifier::purifyHtml(vtlib\Functions::getHtmlOrPlainText($row['content']));
 			if (\App\Privilege::isPermitted('OSSMailView', 'DetailView', $row['ossmailviewid'])) {
-				$subject = '<a href="index.php?module=OSSMailView&view=Preview&record=' . $row['ossmailviewid'] . '" target="' . $config['target'] . '"> ' . $row['subject'] . '</a>';
+				$subject = '<a href="index.php?module=OSSMailView&view=Preview&record=' . $row['ossmailviewid'] . '" target="' . $config['target'] . '"> ' . \App\Purifier::encodeHtml($row['subject']) . '</a>';
 			} else {
-				$subject = $row['subject'];
+				$subject = \App\Purifier::encodeHtml($row['subject']);
 			}
 			$return[] = [
 				'id' => $row['ossmailviewid'],
 				'date' => $row['date'],
 				'firstLetter' => strtoupper(vtlib\Functions::textLength(trim(strip_tags($from)), 1, false)),
-				'subjectRaw' => $row['subject'],
+				'subjectRaw' => \App\Purifier::encodeHtml($row['subject']),
 				'subject' => $subject,
 				'attachments' => $row['attachments_exist'],
 				'from' => $from,

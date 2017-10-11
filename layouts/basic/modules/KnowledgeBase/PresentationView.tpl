@@ -13,7 +13,7 @@
 									<h5>{$smarty.foreach.carousel.iteration}/{$smarty.foreach.carousel.total}</h5>
 								</div>
 								<div class="knowledgePresentationText col-xs-12">
-									{$SLIDE}
+									{\App\Purifier::encodeHtml($SLIDE)}
 								</div>
 							</div>
 						</div>

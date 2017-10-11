@@ -124,7 +124,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 				if (!$hasRecordViewAccess && $colname != 'name') {
 					$account_info_data[] = '';
 				} else if (\App\Field::getFieldPermission('OSSEmployees', $colname)) {
-					$data = $account_info[$colname];
+					$data = \App\Purifier::encodeHtml($account_info[$colname]);
 					if ($colname == 'ossemployees_no') {
 						if ($employees_id != $id) {
 							if ($hasRecordViewAccess) {

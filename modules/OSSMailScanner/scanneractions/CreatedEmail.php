@@ -34,7 +34,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			$account = $mail->getAccount();
 			$record = Vtiger_Record_Model::getCleanInstance('OSSMailView');
 			$record->set('assigned_user_id', $mail->getAccountOwner());
-			$record->set('subject', $mail->isEmpty('subject') ? '-' : \App\Purifier::purify($mail->get('subject')));
+			$record->setFromUserValue('subject', $mail->isEmpty('subject') ? '-' : \App\Purifier::purify($mail->get('subject')));
 			$record->set('to_email', \App\Purifier::purify($mail->get('toaddress')));
 			$record->set('from_email', \App\Purifier::purify($mail->get('fromaddress')));
 			$record->set('reply_to_email', \App\Purifier::purify($mail->get('reply_toaddress')));

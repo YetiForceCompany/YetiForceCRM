@@ -173,7 +173,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		$html = '';
 		foreach ($row as $fieldName => $value) {
 			if (!empty($value)) {
-				$html .= $value . '<br />';
+				$html .= \App\Purifier::encodeHtml($value) . '<br />';
 			}
 		}
 		return $html;
@@ -216,7 +216,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		$fields = AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		foreach ($fields[$moduleName] as $fieldName) {
 			if (!empty($data[$fieldName])) {
-				$html .= $data[$fieldName] . '<br />';
+				$html .= \App\Purifier::encodeHtml($data[$fieldName]) . '<br />';
 			}
 		}
 		$html .= '</span></a></b><input type=hidden class="coordinates" data-lon="' . $data['lon'] . '" data-lat="' . $data['lat'] . '">';

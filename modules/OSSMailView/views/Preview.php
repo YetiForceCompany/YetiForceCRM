@@ -33,16 +33,14 @@ Class OSSMailView_Preview_View extends Vtiger_Index_View
 		$record = $request->get('record');
 		$load = $request->get('noloadlibs');
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-
-		$from = $recordModel->get('from_email');
-		$to = $recordModel->get('to_email');
+		$from = $recordModel->getDisplayValue('from_email');
+		$to = $recordModel->getDisplayValue('to_email');
 		$to = explode(',', $to);
-		$cc = $recordModel->get('cc_email');
-		$bcc = $recordModel->get('bcc_email');
-		$subject = $recordModel->get('subject');
-		$owner = $recordModel->get('assigned_user_id');
-		$sentTime = new DateTimeField($recordModel->get('createdtime'));
-		$sent = $sentTime->getDisplayDateTimeValue();
+		$cc = $recordModel->getDisplayValue('cc_email');
+		$bcc = $recordModel->getDisplayValue('bcc_email');
+		$subject = $recordModel->getDisplayValue('subject');
+		$owner = $recordModel->getDisplayValue('assigned_user_id');
+		$sent = $recordModel->getDisplayValue('createdtime');
 
 		// pobierz załączniki
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
