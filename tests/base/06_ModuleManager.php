@@ -19,20 +19,10 @@ class ModuleManager extends TestCase
 	private static $zipFileName;
 
 	/**
-	 *
-	 * @param string $fileName
-	 * @return array
-	 * @throws Exception
+	 * Block id
+	 * @var int
 	 */
-	private function getLangPathToFile($fileName)
-	{
-		$langFileToCheck = [];
-		$allLang = \App\Language::getAll();
-		foreach ($allLang as $key => $lang) {
-			$langFileToCheck[] = './languages/' . $key . '/' . $fileName;
-		}
-		return $langFileToCheck;
-	}
+	private static $blockId;
 
 	/**
 	 * Testing language exports
@@ -75,10 +65,21 @@ class ModuleManager extends TestCase
 		$blockInstance = new Settings_LayoutEditor_Block_Model();
 		$blockInstance->set('label', 'label block');
 		$blockInstance->set('iscustom', '1');
-		$blockidId = $blockInstance->save($moduleModel);
+		static::$blockId = $blockInstance->save($moduleModel);
 
-		$row = (new \App\Db\Query())->from('vtiger_blocks')->where(['blockid' => $blockidId])->one();
-		$this->assertNotFalse($row, 'No record id: ' . $blockidId);
+		$row = (new \App\Db\Query())->from('vtiger_blocks')->where(['blockid' => static::$blockId])->one();
+		$this->assertNotFalse($row, 'No record id: ' . static::$blockId);
+	}
+
+	/**
+	 * Testing the deletion of a new block for the module
+	 */
+	public function testDeleteNewBlock()
+	{
+		$this->assertFalse(Vtiger_Block_Model::checkFieldsExists(static::$blockId), 'Fields exists');
+		$blockInstance = Vtiger_Block_Model::getInstance(static::$blockId);
+		$this->assertTrue($blockInstance->isCustomized(), 'Block is not customized');
+		$blockInstance->delete(false);
 	}
 
 	/**
@@ -116,6 +117,7 @@ class ModuleManager extends TestCase
 
 	/**
 	 * Testing module removal
+	 * @group extended
 	 */
 	public function testDeleteModule()
 	{
@@ -133,6 +135,7 @@ class ModuleManager extends TestCase
 
 	/**
 	 * Testing module import
+	 * @group extended
 	 */
 	public function testImportModule()
 	{
@@ -155,6 +158,7 @@ class ModuleManager extends TestCase
 
 	/**
 	 * Testing imported module removal
+	 * @group extended
 	 */
 	public function testDeleteImportedModule()
 	{
@@ -163,6 +167,7 @@ class ModuleManager extends TestCase
 
 	/**
 	 * Testing download librares
+	 * @group extended
 	 */
 	public function testDownloadLibraryModule()
 	{
@@ -191,6 +196,7 @@ class ModuleManager extends TestCase
 
 	/**
 	 * Testing module off
+	 * @group extended
 	 */
 	public function testOffAllModule()
 	{
@@ -207,6 +213,7 @@ class ModuleManager extends TestCase
 
 	/**
 	 * Testing module on
+	 * @group extended
 	 */
 	public function testOnAllModule()
 	{
@@ -219,5 +226,21 @@ class ModuleManager extends TestCase
 				$this->assertEquals(0, (new \App\Db\Query())->select('presence')->from('vtiger_tab')->where(['tabid' => $module->getId()])->scalar());
 			}
 		}
+	}
+
+	/**
+	 *
+	 * @param string $fileName
+	 * @return array
+	 * @throws Exception
+	 */
+	private function getLangPathToFile($fileName)
+	{
+		$langFileToCheck = [];
+		$allLang = \App\Language::getAll();
+		foreach ($allLang as $key => $lang) {
+			$langFileToCheck[] = './languages/' . $key . '/' . $fileName;
+		}
+		return $langFileToCheck;
 	}
 }
