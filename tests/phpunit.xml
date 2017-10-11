@@ -28,7 +28,16 @@
 	<filter>
 		<whitelist processUncoveredFilesFromWhitelist="true">
 			<directory suffix=".php">.</directory>
-			<directory suffix=".php">../vendor/yetiforce</directory>
+			<directory suffix=".php">../vendor</directory>
+			<directory suffix=".php">../config</directory>
+			<directory suffix=".php">../cron</directory>
+			<directory suffix=".php">../include</directory>
+			<directory suffix=".php">../languages</directory>
+			<directory suffix=".php">../layouts</directory>
+			<directory suffix=".php">../libraries</directory>
+			<directory suffix=".php">../public_html</directory>
+			<directory suffix=".php">../user_privileges</directory>
+			<directory suffix=".php">../vtlib</directory>
 		</whitelist>
 	</filter>
 	<listeners>
