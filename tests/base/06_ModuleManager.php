@@ -84,10 +84,9 @@ class ModuleManager extends TestCase
 	 */
 	public function testCreateNewFieldText()
 	{
-		$type = 'Text';
-		$param['fieldType'] = $type;
-		$param['fieldLabel'] = 'test label';
-		$param['fieldName'] = 'testfieldname';
+		$param['fieldType'] = $type = 'Text';
+		$param['fieldLabel'] = __FUNCTION__;
+		$param['fieldName'] = strtolower(__FUNCTION__);
 		$param['fieldTypeList'] = 0;
 		$param['fieldLength'] = 12;
 		$param['decimal'] = '';
@@ -106,7 +105,32 @@ class ModuleManager extends TestCase
 	}
 
 	/**
-	 * Testing the deletion of a new field for the module
+	 * Testing the creation of a new field decimal for the module
+	 */
+	public function testCreateNewFieldDecimal()
+	{
+		$param['fieldType'] = $type = 'Decimal';
+		$param['fieldLabel'] = __FUNCTION__;
+		$param['fieldName'] = strtolower(__FUNCTION__);
+		$param['fieldTypeList'] = 0;
+		$param['fieldLength'] = 6;
+		$param['decimal'] = 2;
+		$param['tree'] = '-';
+		$param['blockid'] = static::$blockId;
+		$param['sourceModule'] = 'Test';
+
+		$moduleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($param['sourceModule']);
+		$fieldModel = $moduleModel->addField($param['fieldType'], static::$blockId, $param);
+		static::$fieldId[$type] = $fieldModel->getId();
+
+		$row = (new \App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldId[$type]])->one();
+		$this->assertNotFalse($row, 'No record id: ' . static::$fieldId[$type]);
+		$this->assertEquals($row['fieldname'], $param['fieldName']);
+		$this->assertEquals($row['fieldlabel'], $param['fieldLabel']);
+	}
+
+	/**
+	 * Testing the deletion of a new field text for the module
 	 * @group extended
 	 */
 	public function testDeleteNewFieldText()
