@@ -256,9 +256,7 @@ var app = {
 			}
 			params.language.maximumSelected = formatSelectionExceeds;
 		}
-
 		if (typeof selectElement.attr('multiple') != 'undefined' && !params.placeholder) {
-			params.tags = "true";
 			params.placeholder = app.vtranslate('JS_SELECT_SOME_OPTIONS');
 		} else if (!params.placeholder) {
 			params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');

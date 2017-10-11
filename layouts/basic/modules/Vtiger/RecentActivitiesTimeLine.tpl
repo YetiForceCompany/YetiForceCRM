@@ -26,7 +26,7 @@
 								{$COUNT=$COUNT+1}
 								{if $RECENT_ACTIVITY->isCreate()}
 									<span class="glyphicon glyphicon-plus bgGreen"></span>
-									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if}">
+									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if} isCreate">
 										<div class="pull-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
 											{if $IMAGE}
@@ -65,7 +65,7 @@
 									</div>
 								{else if $RECENT_ACTIVITY->isUpdate()}
 									<span class="glyphicon glyphicon-pencil bgDarkBlue"></span>
-									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if}">
+									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if} isUpdate">
 										<div class="pull-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
 											{if $IMAGE}
@@ -126,7 +126,7 @@
 									</div>
 								{else if ($RECENT_ACTIVITY->isRelationLink() || $RECENT_ACTIVITY->isRelationUnLink())}
 									<span class="glyphicon glyphicon-link bgOrange"></span>
-									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if}">
+									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if} isRelationLink isRelationUnLink">
 										<div class="pull-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
 											{if $IMAGE}
@@ -174,7 +174,7 @@
 
 								{else if $RECENT_ACTIVITY->isConvertToAccount()}
 									<span class="glyphicon glyphicon-transfer bgAzure"></span>
-									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if}">
+									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if} isConvertToAccount">
 										<div class="pull-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
 											{if $IMAGE}
@@ -194,7 +194,7 @@
 									</div>
 								{else if $RECENT_ACTIVITY->isDisplayed()}
 									<span class="glyphicon glyphicon-th-list bgAzure"></span>
-									<div class="timeline-item">
+									<div class="timeline-item isDisplayed">
 										<div class="pull-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
 											{if $IMAGE}

@@ -767,7 +767,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getDisplayName()
 	{
-		return \vtlib\Deprecated::getFullNameFromArray($this->getModuleName(), $this->getData());
+		return \App\Purifier::encodeHtml(\vtlib\Deprecated::getFullNameFromArray($this->getModuleName(), $this->getData()));
 	}
 
 	public function getSwitchUsersUrl()
