@@ -6,8 +6,6 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-chdir(__DIR__ . '/../');
-set_include_path(getcwd());
 define('ROOT_DIRECTORY', getcwd());
 
 if (!class_exists('Vtiger_WebUI')) {

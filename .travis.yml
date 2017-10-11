@@ -46,24 +46,25 @@ before_script:
 - ./tests/setup/selenium.sh
   
 script:
-- cd tests
+- sudo cp tests/phpunit.xml phpunit.xml
 - /usr/local/bin/phpunit --debug --verbose --coverage-text --coverage-clover=coverage.xml
     
 after_script:
 - sudo cat /var/log/apache2/error.log
 - sudo cat /var/log/apache2/access.log
 - sudo cat /var/log/apache2/other_vhosts_access.log
-- cat ../tests/records.log
-- cat ../cache/logs/errors.log
-- cat ../cache/logs/request.log
-- cat ../cache/logs/phpError.log
-- cat ../cache/logs/system.log
-- cat ../cache/logs/Importer.log
+- cat tests/records.log
+- cat cache/logs/errors.log
+- cat cache/logs/request.log
+- cat cache/logs/phpError.log
+- cat cache/logs/system.log
+- cat cache/logs/Importer.log
 - php ocular code-coverage:upload --format=php-clover coverage.xml
 - bash <(curl -s https://codecov.io/bash)
 - sudo apt-get install ncftp
 - ncftpput -R -v -u $AFU -p $AFP $AFA / coverageHtml/
-- ncftpput -R -v -u $AFU -p $AFP $AFA / ../cache/logs/errors.log
-- ncftpput -R -v -u $AFU -p $AFP $AFA / ../cache/logs/system.log
-- ncftpput -R -v -u $AFU -p $AFP $AFA / ../cache/logs/phpError.log
+- ncftpput -R -v -u $AFU -p $AFP $AFA / cache/logs/errors.log
+- ncftpput -R -v -u $AFU -p $AFP $AFA / cache/logs/system.log
+- ncftpput -R -v -u $AFU -p $AFP $AFA / cache/logs/phpError.log
 - sudo ls -all ./coverageHtml
+- ls -all

@@ -6,23 +6,23 @@
 		 stopOnFailure="true"
 		 syntaxCheck="true"
 		 printerClass="YtResultPrinter"
-		 printerFile="printer.php"
-		 bootstrap="bootstrap.php">
+		 printerFile="tests/printer.php"
+		 bootstrap="tests/bootstrap.php">
 	<testsuites>
 		<testsuite name="Init">
-			<directory suffix=".php">./init/</directory>
+			<directory suffix=".php">./tests/init/</directory>
 		</testsuite>
 		<testsuite name="Base">
-			<directory suffix=".php">./base/</directory>
+			<directory suffix=".php">./tests/base/</directory>
 		</testsuite>
 		<testsuite name="Settings">
-			<directory suffix=".php">./settings/</directory>
+			<directory suffix=".php">./tests/settings/</directory>
 		</testsuite>
 		<testsuite name="Gui">
-			<directory suffix=".php">./gui/</directory>
+			<directory suffix=".php">./tests/gui/</directory>
 		</testsuite>
 		<testsuite name="Finish">
-			<directory suffix=".php">./finish/</directory>
+			<directory suffix=".php">./tests/finish/</directory>
 		</testsuite>
 	</testsuites>
 	<filter>
@@ -31,7 +31,7 @@
 		</whitelist>
 	</filter>
 	<listeners>
-		<listener class="Times" file="./times.php" />
+		<listener class="Times" file="./tests/times.php" />
 	</listeners>
 	<logging>
 		<log type="coverage-html" target="./coverageHtml/" title="YetiForce coverage" yui="true" highlight="true" lowUpperBound="35" highLowerBound="70" charset="UTF-8" />
