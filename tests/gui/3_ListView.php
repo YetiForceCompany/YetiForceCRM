@@ -15,13 +15,14 @@ class Gui_ListView extends Gui_Base
 	 */
 	public function testList()
 	{
-		foreach (\App\Module::getAllEntityModuleInfo() as $moduleInfo) {
-			if ($moduleInfo['modulename'] !== 'Users' && $moduleInfo['modulename'] !== 'ModComments') {
-				$this->url("/index.php?module={$moduleInfo['modulename']}&view=List");
-				$this->logs = $moduleInfo['modulename'];
-				$this->assertEquals($moduleInfo['modulename'], $this->byId('module')->value());
-				$this->assertEquals('List', $this->byId('view')->value());
+		foreach (vtlib\Functions::getAllModules() as $module) {
+			if ($module['name'] === 'Events') {
+				continue;
 			}
+			$this->url("/index.php?module={$module['name']}&view=List");
+			$this->logs = $module['name'];
+			$this->assertEquals($module['name'], $this->byId('module')->value());
+			$this->assertEquals('List', $this->byId('view')->value());
 		}
 	}
 }
