@@ -736,21 +736,20 @@ class Functions
 		if (!$length) {
 			$length = \AppConfig::main('listview_max_textlength');
 		}
-		$newText = preg_replace("/(<\/?)(\w+)([^>]*>)/i", '', $text);
 		if (function_exists('mb_strlen')) {
-			if (mb_strlen(html_entity_decode($newText)) > $length) {
-				$newText = mb_substr(preg_replace('/(<\/?)(\w+)([^>]*>)/i', '', html_entity_decode($newText)), 0, $length, \AppConfig::main('default_charset'));
+			if (mb_strlen($text) > $length) {
+				$text = mb_substr($text, 0, $length, \AppConfig::main('default_charset'));
 				if ($addDots) {
-					$newText .= '...';
+					$text .= '...';
 				}
 			}
-		} elseif (strlen(html_entity_decode($text)) > $length) {
-			$newText = substr(preg_replace('/(<\/?)(\w+)([^>]*>)/i', '', html_entity_decode($newText)), 0, $length);
+		} elseif (strlen($text) > $length) {
+			$text = substr($text, 0, $length);
 			if ($addDots) {
-				$newText .= '...';
+				$text .= '...';
 			}
 		}
-		return $newText;
+		return $text;
 	}
 
 	public static function getDefaultCurrencyInfo()

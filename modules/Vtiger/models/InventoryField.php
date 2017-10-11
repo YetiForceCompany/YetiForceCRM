@@ -465,7 +465,7 @@ class Vtiger_InventoryField_Model extends App\Base
 		$set = [];
 		foreach ($columns AS $columnName) {
 			if (isset($param[$columnName])) {
-				$set[strtolower($columnName)] = $param[$columnName];
+				$set[strtolower($columnName)] = \App\Purifier::decodeHtml($param[$columnName]);
 			}
 		}
 		$id = $param['id'];
