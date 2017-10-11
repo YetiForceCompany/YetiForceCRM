@@ -67,6 +67,21 @@ class ModuleManager extends TestCase
 	}
 
 	/**
+	 * Testing the creation of a new block for the module
+	 */
+	public function testCreateNewBlock()
+	{
+		$moduleModel = Settings_LayoutEditor_Module_Model::getInstanceByName('Test');
+		$blockInstance = new Settings_LayoutEditor_Block_Model();
+		$blockInstance->set('label', 'label block');
+		$blockInstance->set('iscustom', '1');
+		$blockidId = $blockInstance->save($moduleModel);
+
+		$row = (new \App\Db\Query())->from('vtiger_blocks')->where(['blockid' => $blockidId])->one();
+		$this->assertNotFalse($row, 'No record id: ' . $blockidId);
+	}
+
+	/**
 	 * Testing module export
 	 */
 	public function testExportModule()
