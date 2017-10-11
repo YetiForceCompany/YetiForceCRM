@@ -27,7 +27,7 @@
 	</testsuites>
 	<filter>
 		<whitelist processUncoveredFilesFromWhitelist="true">
-			<directory suffix=".php">../</directory>
+			<directory suffix=".php">/home/travis/build/YetiForceCompany/YetiForceCRM/</directory>
 		</whitelist>
 	</filter>
 	<listeners>
