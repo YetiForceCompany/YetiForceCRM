@@ -54,7 +54,7 @@
 												{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
 												<span class="commentorName"><strong>{$COMMENTOR->getName()}</strong></span>
 												<div class="commentInfoContent">
-													{nl2br($COMMENT->getDisplayValue('commentcontent'))}
+													{$COMMENT->getDisplayValue('commentcontent')}
 												</div>
 											</div>
 											<div class="inner">

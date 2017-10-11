@@ -42,7 +42,7 @@
 							</a>
 						{/if}
 						<div class="commentInfoContent ">
-							{nl2br($COMMENT->getDisplayValue('commentcontent'))}
+							{$COMMENT->getDisplayValue('commentcontent')}
 						</div>
 					</div>
 					<div class="inner">

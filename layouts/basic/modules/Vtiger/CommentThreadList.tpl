@@ -32,7 +32,7 @@
 								<div class="clearfix"></div>
 							</div>
 							<div class="commentInfoContent">
-								{nl2br($COMMENT->getDisplayValue('commentcontent'))}
+								{$COMMENT->getDisplayValue('commentcontent')}
 							</div>
 						</div>
 						<span class="pull-right paddingRight15">
