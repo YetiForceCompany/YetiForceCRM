@@ -32,6 +32,7 @@ class ModuleManager extends TestCase
 
 	/**
 	 * Testing language exports
+	 * @group extended
 	 */
 	public function testLanguageExport()
 	{
@@ -131,16 +132,29 @@ class ModuleManager extends TestCase
 
 	/**
 	 * Testing the deletion of a new field text for the module
-	 * @group extended
+	 * @link https://phpunit.de/manual/3.7/en/writing-tests-for-phpunit.html#writing-tests-for-phpunit.data-providers
+	 * group extended
+	 * @dataProvider providerForDeleteField
 	 */
-	public function testDeleteNewFieldText()
+	public function testDeleteNewFieldText($type)
 	{
-		$type = 'Text';
 		$fieldInstance = Settings_LayoutEditor_Field_Model::getInstance(static::$fieldId[$type]);
 		$this->assertTrue($fieldInstance->isCustomField(), 'Field is not customized');
 		$fieldInstance->delete();
 
 		$this->assertFalse((new App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldId[$type]])->exists(), 'The record was not removed from the database ID: ' . static::$fieldId[$type]);
+	}
+
+	/**
+	 * Data provider for testDeleteNewFieldText
+	 * @return array
+	 */
+	public function providerForDeleteField()
+	{
+		return [
+			['Text'],
+			['Decimal'],
+		];
 	}
 
 	/**
