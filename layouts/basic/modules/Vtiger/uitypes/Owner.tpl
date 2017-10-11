@@ -31,9 +31,9 @@
 				{if $VIEW eq 'MassEdit'}<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>{/if}
 				<optgroup label="{\App\Language::translate('LBL_USERS')}">
 					{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEUSER_LIST}
-						<option value="{$OWNER_ID}" data-picklistvalue="{\App\Purifier::encodeHtml($OWNER_NAME)}" {if $FIELD_VALUE eq $OWNER_ID} selected {assign var=FOUND_SELECT_VALUE value=1}{/if}
+						<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" {if $FIELD_VALUE eq $OWNER_ID} selected {assign var=FOUND_SELECT_VALUE value=1}{/if}
 								data-userId="{$CURRENT_USER_ID}">
-							{\App\Purifier::encodeHtml($OWNER_NAME)}
+							{$OWNER_NAME}
 						</option>
 					{/foreach}
 				</optgroup>

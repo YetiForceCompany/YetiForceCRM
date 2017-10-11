@@ -29,7 +29,7 @@
 								{assign var=FULL_TEXT value=$RECORD->getMessage()}
 								<span class="teaserContent">
 									{if strip_tags($FULL_TEXT)|strlen <= 200}
-										{\App\Purifier::encodeHtml($FULL_TEXT)}
+										{$FULL_TEXT}
 										{assign var=SHOW_BUTTON value=false}
 									{else}
 										{strip_tags($FULL_TEXT)|substr:0:200}
@@ -38,7 +38,7 @@
 								</span>
 								{if $SHOW_BUTTON}
 									<span class="fullContent hide">
-										{\App\Purifier::encodeHtml($FULL_TEXT)}
+										{$FULL_TEXT}
 									</span>
 									&nbsp;<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
 								{/if}

@@ -10,6 +10,6 @@
 			<i class="fa fa-comment-o" aria-hidden="true"></i>
 			<span>{$ROW['user_name']}</span>
 		</div>
-		<div class="messages">{App\Purifier::decodeHtml($ROW['messages'])}</div>
+		<div class="messages">{$ROW['messages']}</div>
 	</div>
 {/strip}

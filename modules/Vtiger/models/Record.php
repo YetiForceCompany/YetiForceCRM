@@ -70,10 +70,11 @@ class Vtiger_Record_Model extends \App\Base
 
 	/**
 	 * Function to set the value for a given key and user farmat
-	 * @param $fieldName
-	 * @param $value
+	 * @param string $fieldName
+	 * @param mixed $value
+	 * @return $this
 	 */
-	public function setInUserFormat($fieldName, $value)
+	public function setFromUserValue($fieldName, $value)
 	{
 		if ($value === '') {
 			return $this;
