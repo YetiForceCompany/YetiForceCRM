@@ -335,7 +335,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	loadWidget: function (widgetContainer, params) {
 		var thisInstance = this;
-		var aDeferred = jQuery.Deferred();
 		var contentContainer = jQuery('.widget_contents', widgetContainer);
 		if (widgetContainer.find('[name="relatedModule"]').length) {
 			var relatedModuleName = widgetContainer.find('[name="relatedModule"]').val();
@@ -344,12 +343,16 @@ jQuery.Class("Vtiger_Detail_Js", {
 		}
 		if (params == undefined) {
 			var urlParams = widgetContainer.data('url');
+			if(urlParams == undefined){
+				return;
+			}
 			var params = {
 				type: 'GET',
 				dataType: 'html',
 				data: urlParams
 			};
 		}
+		var aDeferred = jQuery.Deferred();
 		contentContainer.progressIndicator({});
 		AppConnector.request(params).then(
 				function (data) {

@@ -9,11 +9,6 @@
 class Vtiger_FastEdit_Widget extends Vtiger_Basic_Widget
 {
 
-	public function getUrl()
-	{
-		return 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=getActivities&page=1&limit=' . $this->Data['limit'];
-	}
-
 	public function getConfigTplName()
 	{
 		return 'FastEditConfig';
@@ -22,7 +17,6 @@ class Vtiger_FastEdit_Widget extends Vtiger_Basic_Widget
 	public function getWidget()
 	{
 		$this->Config['tpl'] = 'FastEdit.tpl';
-		$this->Config['url'] = $this->getUrl();
 		return $this->Config;
 	}
 }

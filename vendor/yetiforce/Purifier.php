@@ -159,7 +159,7 @@ class Purifier
 				if (static::$collectErrors) {
 					echo static::$purifyHtmlInstanceCache->context->get('ErrorCollector')->getHTMLFormatted($config);
 				}
-				$value = static::encodeHtml(static::purifyHtmlEventAttributes(static::decodeHtml($value)));
+				$value = static::purifyHtmlEventAttributes(static::decodeHtml($value));
 				Cache::save('purifyHtml', $cacheKey, $value, Cache::SHORT);
 			}
 		}

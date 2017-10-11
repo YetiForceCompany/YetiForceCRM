@@ -29,16 +29,16 @@
 								{assign var=FULL_TEXT value=$RECORD->getMessage()}
 								<span class="teaserContent">
 									{if strip_tags($FULL_TEXT)|strlen <= 200}
-										{$FULL_TEXT}
+										{\App\Purifier::encodeHtml($FULL_TEXT)}
 										{assign var=SHOW_BUTTON value=false}
 									{else}
-										{\App\Purifier::encodeHtml(strip_tags($FULL_TEXT))|substr:0:200}
+										{strip_tags($FULL_TEXT)|substr:0:200}
 										{assign var=SHOW_BUTTON value=true}
 									{/if}
 								</span>
 								{if $SHOW_BUTTON}
 									<span class="fullContent hide">
-										{$FULL_TEXT}
+										{\App\Purifier::encodeHtml($FULL_TEXT)}
 									</span>
 									&nbsp;<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
 								{/if}

@@ -902,7 +902,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	public function showOpenStreetMap($request)
 	{
 		if (!\App\Privilege::isPermitted('OpenStreetMap')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 		$moduleName = $request->getModule();
 		$recordId = $request->getInteger('record');

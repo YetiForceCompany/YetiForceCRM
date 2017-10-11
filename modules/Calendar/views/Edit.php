@@ -18,7 +18,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('Events');
+		$this->exposeMethod('events');
 		$this->exposeMethod('calendar');
 	}
 
@@ -36,21 +36,18 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($recordId);
 			$mode = $recordModel->getType();
 		}
-
 		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request, $mode);
+			$this->invokeExposedMethod($mode, $request);
 			return;
 		}
 		$this->calendar($request, 'Calendar');
 	}
 
-	public function Events(\App\Request $request, $moduleName)
+	public function events(\App\Request $request)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-
+		$moduleName = 'Events';
 		$viewer = $this->getViewer($request);
 		$record = $request->get('record');
-
 		if (!empty($record) && $request->getBoolean('isDuplicate') === true) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			$viewer->assign('MODE', '');
@@ -140,17 +137,14 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode(\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName)));
 		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
 		$viewer->assign('INVITIES_SELECTED', $recordModel->getInvities());
-		$viewer->assign('CURRENT_USER', $currentUser);
-
 		$viewer->view('EditView.tpl', $moduleName);
 	}
 
 	/**
 	 * Calendar
 	 * @param \App\Request $request
-	 * @param string $moduleName
 	 */
-	public function calendar(\App\Request $request, $moduleName)
+	public function calendar(\App\Request $request)
 	{
 		parent::process($request);
 	}
