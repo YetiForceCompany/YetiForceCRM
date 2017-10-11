@@ -8,7 +8,7 @@
  */
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestSuite;
-use PHPUnit\Framework\ResultPrinter;
+use PHPUnit\TextUI\ResultPrinter;
 
 // @codeCoverageIgnoreStart
 class YtResultPrinter extends ResultPrinter
