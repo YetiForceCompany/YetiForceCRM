@@ -71,9 +71,7 @@ class Times implements PHPUnit\Framework\TestListener
 
 	public function startTestSuite(PHPUnit\Framework\TestSuite $suite)
 	{
-		if ($suite->getName() && in_array('default', $suite->getGroups())) {
-			echo PHP_EOL . '================   ' . $suite->getName() . '   ================';
-		}
+		
 	}
 
 	public function endTestSuite(PHPUnit\Framework\TestSuite $suite)

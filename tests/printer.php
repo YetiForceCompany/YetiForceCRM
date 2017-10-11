@@ -27,6 +27,17 @@ class YtResultPrinter extends \PHPUnit\TextUI\ResultPrinter
 			);
 		}
 	}
+
+	/**
+	 * A testsuite started.
+	 *
+	 * @param TestSuite $suite
+	 */
+	public function startTestSuite(TestSuite $suite)
+	{
+		parent::startTestSuite($suite);
+		echo PHP_EOL . '================   ' . $suite->getName() . '   ================';
+	}
 }
 
 // @codeCoverageIgnoreEnd
