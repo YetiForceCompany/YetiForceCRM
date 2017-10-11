@@ -7,9 +7,11 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 use PHPUnit\Framework\Test;
+use PHPUnit\Framework\TestSuite;
+use PHPUnit\Framework\ResultPrinter;
 
 // @codeCoverageIgnoreStart
-class YtResultPrinter extends \PHPUnit\TextUI\ResultPrinter
+class YtResultPrinter extends ResultPrinter
 {
 
 	/**
