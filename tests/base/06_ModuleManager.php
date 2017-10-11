@@ -25,8 +25,8 @@ class ModuleManager extends TestCase
 	private static $blockId;
 
 	/**
-	 * Field id
-	 * @var int
+	 * Array of field id
+	 * @var array()
 	 */
 	private static $fieldId;
 
@@ -80,11 +80,12 @@ class ModuleManager extends TestCase
 	}
 
 	/**
-	 * Testing the creation of a new field for the module
+	 * Testing the creation of a new field text for the module
 	 */
-	public function testCreateNewField()
+	public function testCreateNewFieldText()
 	{
-		$param['fieldType'] = 'Text';
+		$type = 'Text';
+		$param['fieldType'] = $type;
 		$param['fieldLabel'] = 'test label';
 		$param['fieldName'] = 'testfieldname';
 		$param['fieldTypeList'] = 0;
@@ -96,29 +97,31 @@ class ModuleManager extends TestCase
 
 		$moduleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($param['sourceModule']);
 		$fieldModel = $moduleModel->addField($param['fieldType'], static::$blockId, $param);
-		static::$fieldId = $fieldModel->getId();
+		static::$fieldId[$type] = $fieldModel->getId();
 
-		$row = (new \App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldId])->one();
-		$this->assertNotFalse($row, 'No record id: ' . static::$fieldId);
+		$row = (new \App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldId[$type]])->one();
+		$this->assertNotFalse($row, 'No record id: ' . static::$fieldId[$type]);
 		$this->assertEquals($row['fieldname'], $param['fieldName']);
 		$this->assertEquals($row['fieldlabel'], $param['fieldLabel']);
 	}
 
 	/**
 	 * Testing the deletion of a new field for the module
+	 * @group extended
 	 */
-	public function testDeleteNewField()
+	public function testDeleteNewFieldText()
 	{
-		$fieldInstance = Settings_LayoutEditor_Field_Model::getInstance(static::$fieldId);
+		$type = 'Text';
+		$fieldInstance = Settings_LayoutEditor_Field_Model::getInstance(static::$fieldId[$type]);
 		$this->assertTrue($fieldInstance->isCustomField(), 'Field is not customized');
 		$fieldInstance->delete();
 
-		$this->assertFalse((new App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldId])->exists(), 'The record was not removed from the database ID: ' . static::$fieldId);
+		$this->assertFalse((new App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldId[$type]])->exists(), 'The record was not removed from the database ID: ' . static::$fieldId[$type]);
 	}
 
 	/**
 	 * Testing the deletion of a new block for the module
-	 *
+	 * @group extended
 	 */
 	public function testDeleteNewBlock()
 	{
