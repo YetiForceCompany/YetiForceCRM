@@ -131,6 +131,31 @@ class ModuleManager extends TestCase
 	}
 
 	/**
+	 * Testing the creation of a new field decimal for the module
+	 */
+	public function testCreateNewFieldInteger()
+	{
+		$param['fieldType'] = $type = 'Integer';
+		$param['fieldLabel'] = __FUNCTION__;
+		$param['fieldName'] = strtolower(__FUNCTION__);
+		$param['fieldTypeList'] = 0;
+		$param['fieldLength'] = 2;
+		$param['decimal'] = '';
+		$param['tree'] = '-';
+		$param['blockid'] = static::$blockId;
+		$param['sourceModule'] = 'Test';
+
+		$moduleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($param['sourceModule']);
+		$fieldModel = $moduleModel->addField($param['fieldType'], static::$blockId, $param);
+		static::$fieldId[$type] = $fieldModel->getId();
+
+		$row = (new \App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldId[$type]])->one();
+		$this->assertNotFalse($row, 'No record id: ' . static::$fieldId[$type]);
+		$this->assertEquals($row['fieldname'], $param['fieldName']);
+		$this->assertEquals($row['fieldlabel'], $param['fieldLabel']);
+	}
+
+	/**
 	 * Testing the deletion of a new field text for the module
 	 * @link https://phpunit.de/manual/3.7/en/writing-tests-for-phpunit.html#writing-tests-for-phpunit.data-providers
 	 * group extended
@@ -154,6 +179,7 @@ class ModuleManager extends TestCase
 		return [
 			['Text'],
 			['Decimal'],
+			['Integer'],
 		];
 	}
 
