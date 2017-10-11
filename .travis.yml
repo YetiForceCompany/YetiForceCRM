@@ -61,5 +61,7 @@ after_script:
 - cat ../cache/logs/Importer.log
 - php ocular code-coverage:upload --format=php-clover coverage.xml
 - bash <(curl -s https://codecov.io/bash)
-- sudo ls -all 
+- sudo apt-get install ncftp
+- ncftpput -R -v -u $AFU -p $AFP $AFA / coverageHtml/
+- ncftpput -R -v -u $AFU -p $AFP $AFA / system.log phpError.log
 - sudo ls -all ./coverageHtml
