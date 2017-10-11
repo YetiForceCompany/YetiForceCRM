@@ -37,8 +37,8 @@ class UserPrivilegesFile
 			} else {
 				$newBuf .= "\$is_admin=false;\n";
 				$globalPermissionArr = PrivilegeUtil::getCombinedUserGlobalPermissions($userid);
-				$tabsPermissionArr = PrivilegeUtil::getCombinedUserTabsPermissions($userid);
-				$actionPermissionArr = PrivilegeUtil::getCombinedUserActionPermissions($userid);
+				$tabsPermissionArr = PrivilegeUtil::getCombinedUserModulesPermissions($userid);
+				$actionPermissionArr = PrivilegeUtil::getCombinedUserActionsPermissions($userid);
 				$userRole = PrivilegeUtil::getRoleByUsers($userid);
 				$userRoleInfo = PrivilegeUtil::getRoleDetail($userRole);
 				$userRoleParent = $userRoleInfo['parentrole'];

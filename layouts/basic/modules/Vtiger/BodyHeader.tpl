@@ -60,7 +60,7 @@
 								<div class="modal-content">
 									<div class="modal-header">
 										<button type="button" class="btn btn-warning pull-right marginLeft10" data-dismiss="modal" aria-hidden="true">&times;</button>
-										<h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>&nbsp;&nbsp;{\App\Language::translate('Chat','Chat')}</h4>
+										<h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_CHAT')}</h4>
 									</div>
 									<div class="modal-body">
 										{include file=\App\Layout::getTemplatePath('Items.tpl', 'Chat')}

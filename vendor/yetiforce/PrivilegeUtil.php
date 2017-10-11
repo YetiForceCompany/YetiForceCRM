@@ -468,10 +468,10 @@ class PrivilegeUtil
 	 * @param int $userId
 	 * @return array
 	 */
-	public static function getCombinedUserTabsPermissions($userId)
+	public static function getCombinedUserModulesPermissions($userId)
 	{
-		if (Cache::staticHas('getCombinedUserTabsPermissions', $userId)) {
-			return Cache::staticGet('getCombinedUserTabsPermissions', $userId);
+		if (Cache::staticHas('getCombinedUserModulesPermissions', $userId)) {
+			return Cache::staticGet('getCombinedUserModulesPermissions', $userId);
 		}
 		$profArr = static::getProfilesByUser($userId);
 		$profileId = array_shift($profArr);
@@ -493,7 +493,7 @@ class PrivilegeUtil
 		if (!isset($userTabPerrArr[$homeTabid])) {
 			$userTabPerrArr[$homeTabid] = 0;
 		}
-		Cache::staticSave('getCombinedUserTabsPermissions', $userId, $userTabPerrArr);
+		Cache::staticSave('getCombinedUserModulesPermissions', $userId, $userTabPerrArr);
 		return $userTabPerrArr;
 	}
 
@@ -502,9 +502,8 @@ class PrivilegeUtil
 	 * @param integer $profileid
 	 * @return array
 	 */
-	public static function getTabsUtilityActionPermission($profileid)
+	public static function getUtilityPermissions($profileid)
 	{
-		\App\Log::trace("Entering getTabsUtilityActionPermission($profileid) method ...");
 		$permissions = [];
 		$dataReader = (new Db\Query())
 				->from('vtiger_profile2utility')
@@ -513,7 +512,6 @@ class PrivilegeUtil
 		while ($row = $dataReader->read()) {
 			$permissions[$row['tabid']][$row['activityid']] = $row['permission'];
 		}
-		\App\Log::trace("Exiting getTabsUtilityActionPermission method ...");
 		return $permissions;
 	}
 
@@ -522,9 +520,8 @@ class PrivilegeUtil
 	 * @param integer $profileid
 	 * @return array
 	 */
-	public static function getProfileActionPermission($profileid)
+	public static function getStandardPermissions($profileid)
 	{
-		Log::trace("Entering getProfileActionPermission($profileid) method ...");
 		$permissions = [];
 		$dataReader = (new Db\Query())
 				->from('vtiger_profile2standardpermissions')
@@ -533,7 +530,6 @@ class PrivilegeUtil
 		while ($row = $dataReader->read()) {
 			$permissions[$row['tabid']][$row['operation']] = $row['permissions'];
 		}
-		Log::trace("Exiting getProfileActionPermission method ...");
 		return $permissions;
 	}
 
@@ -542,14 +538,13 @@ class PrivilegeUtil
 	 * @param integer $profileid
 	 * @return array
 	 */
-	public static function getProfileAllActionPermission($profileid)
+	public static function getAllProfilePermissions($profileid)
 	{
-		Log::trace("Entering getProfileAllActionPermission($profileid) method ...");
-		if (Cache::staticHas('getProfileAllActionPermission', $profileid)) {
-			return Cache::staticGet('getProfileAllActionPermission', $profileid);
+		if (Cache::staticHas(__METHOD__, $profileid)) {
+			return Cache::staticGet(__METHOD__, $profileid);
 		}
-		$allActions = self::getProfileActionPermission($profileid);
-		$utilityActions = self::getTabsUtilityActionPermission($profileid);
+		$allActions = static::getStandardPermissions($profileid);
+		$utilityActions = static::getUtilityPermissions($profileid);
 		foreach ($utilityActions as $tabid => $utilityAction) {
 			$actionTabs = $allActions[$tabid];
 			foreach ($utilityAction as $utilityId => $utilityPermission) {
@@ -557,8 +552,7 @@ class PrivilegeUtil
 			}
 			$allActions[$tabid] = $actionTabs;
 		}
-		Cache::staticSave('getProfileAllActionPermission', $profileid);
-		Log::trace("Exiting getProfileAllActionPermission method ...");
+		Cache::staticSave(__METHOD__, $profileid, $allActions);
 		return $allActions;
 	}
 
@@ -567,31 +561,29 @@ class PrivilegeUtil
 	 * @param integer $userId
 	 * @return array
 	 */
-	public static function getCombinedUserActionPermissions($userId)
+	public static function getCombinedUserActionsPermissions($userId)
 	{
-		Log::trace("Entering getCombinedUserActionPermissions($userId) method ...");
-		$profiles = self::getProfilesByUser($userId);
-		$numberOfProfiles = count($profiles);
+		$profiles = static::getProfilesByUser($userId);
 		$actionPermissions = [];
 		if (isset($profiles[0])) {
-			$actionPermissions = self::getProfileAllActionPermission($profiles[0]);
+			$actionPermissions = static::getAllProfilePermissions($profiles[0]);
+			unset($profiles[0]);
 		}
-		if ($numberOfProfiles !== 1) {
-			for ($i = 1; $i < $numberOfProfiles; $i++) {
-				$tempActionPerrArr = self::getProfileAllActionPermission($profiles[$i]);
+		if (is_array($profiles)) {
+			foreach ($profiles as $profileId) {
+				$tempActionPerrArr = static::getAllProfilePermissions($profileId);
 				foreach ($actionPermissions as $tabId => $permissionsInModule) {
-					foreach ($permissionsInModule as $actionid => $permission) {
+					foreach ($permissionsInModule as $actionId => $permission) {
 						if ($permission == 1) {
-							$nowPermission = $tempActionPerrArr[$tabId][$actionid];
+							$nowPermission = $tempActionPerrArr[$tabId][$actionId];
 							if ($nowPermission == 0 && $nowPermission != "") {
-								$actionPermissions[$tabId][$actionid] = $nowPermission;
+								$actionPermissions[$tabId][$actionId] = $nowPermission;
 							}
 						}
 					}
 				}
 			}
 		}
-		Log::trace("Exiting getCombinedUserActionPermissions method ...");
 		return $actionPermissions;
 	}
 
@@ -626,7 +618,7 @@ class PrivilegeUtil
 		if (Cache::staticHas('getDatashare', $cacheKey)) {
 			return Cache::staticGet('getDatashare', $cacheKey);
 		}
-		$structure = self::$dataShareStructure[$type];
+		$structure = static::$dataShareStructure[$type];
 		$query = (new \App\Db\Query())->select([$structure[0] . '.*'])->from($structure[0])
 			->innerJoin('vtiger_datashare_module_rel', "$structure[0].shareid = vtiger_datashare_module_rel.shareid")
 			->where(['vtiger_datashare_module_rel.tabid' => $tabId]);
