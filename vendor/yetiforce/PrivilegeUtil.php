@@ -497,6 +497,104 @@ class PrivilegeUtil
 		return $userTabPerrArr;
 	}
 
+	/**
+	 * Function to get all the vtiger_tab utility action permission for the specified vtiger_profile
+	 * @param integer $profileid
+	 * @return array
+	 */
+	public static function getTabsUtilityActionPermission($profileid)
+	{
+		\App\Log::trace("Entering getTabsUtilityActionPermission($profileid) method ...");
+		$permissions = [];
+		$dataReader = (new Db\Query())
+				->from('vtiger_profile2utility')
+				->where(['profileid' => $profileid])
+				->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$permissions[$row['tabid']][$row['activityid']] = $row['permission'];
+		}
+		\App\Log::trace("Exiting getTabsUtilityActionPermission method ...");
+		return $permissions;
+	}
+
+	/**
+	 * Function to get the Profile Action Permissions for the specified vtiger_profileid
+	 * @param integer $profileid
+	 * @return array
+	 */
+	public static function getProfileActionPermission($profileid)
+	{
+		Log::trace("Entering getProfileActionPermission($profileid) method ...");
+		$permissions = [];
+		$dataReader = (new Db\Query())
+				->from('vtiger_profile2standardpermissions')
+				->where(['profileid' => $profileid])
+				->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$permissions[$row['tabid']][$row['operation']] = $row['permissions'];
+		}
+		Log::trace("Exiting getProfileActionPermission method ...");
+		return $permissions;
+	}
+
+	/**
+	 * Function to get the Standard and Utility Profile Action Permissions for the specified vtiger_profileid
+	 * @param integer $profileid
+	 * @return array
+	 */
+	public static function getProfileAllActionPermission($profileid)
+	{
+		Log::trace("Entering getProfileAllActionPermission($profileid) method ...");
+		if (Cache::staticHas('getProfileAllActionPermission', $profileid)) {
+			return Cache::staticGet('getProfileAllActionPermission', $profileid);
+		}
+		$allActions = self::getProfileActionPermission($profileid);
+		$utilityActions = self::getTabsUtilityActionPermission($profileid);
+		foreach ($utilityActions as $tabid => $utilityAction) {
+			$actionTabs = $allActions[$tabid];
+			foreach ($utilityAction as $utilityId => $utilityPermission) {
+				$actionTabs[$utilityId] = $utilityPermission;
+			}
+			$allActions[$tabid] = $actionTabs;
+		}
+		Cache::staticSave('getProfileAllActionPermission', $profileid);
+		Log::trace("Exiting getProfileAllActionPermission method ...");
+		return $allActions;
+	}
+
+	/**
+	 * To retreive the vtiger_tab acion permissions of the specifed user from the various vtiger_profiles associated with the user
+	 * @param integer $userId
+	 * @return array
+	 */
+	public static function getCombinedUserActionPermissions($userId)
+	{
+		Log::trace("Entering getCombinedUserActionPermissions($userId) method ...");
+		$profiles = self::getProfilesByUser($userId);
+		$numberOfProfiles = count($profiles);
+		$actionPermissions = [];
+		if (isset($profiles[0])) {
+			$actionPermissions = self::getProfileAllActionPermission($profiles[0]);
+		}
+		if ($numberOfProfiles !== 1) {
+			for ($i = 1; $i < $numberOfProfiles; $i++) {
+				$tempActionPerrArr = self::getProfileAllActionPermission($profiles[$i]);
+				foreach ($actionPermissions as $tabId => $permissionsInModule) {
+					foreach ($permissionsInModule as $actionid => $permission) {
+						if ($permission == 1) {
+							$nowPermission = $tempActionPerrArr[$tabId][$actionid];
+							if ($nowPermission == 0 && $nowPermission != "") {
+								$actionPermissions[$tabId][$actionid] = $nowPermission;
+							}
+						}
+					}
+				}
+			}
+		}
+		Log::trace("Exiting getCombinedUserActionPermissions method ...");
+		return $actionPermissions;
+	}
+
 	protected static $dataShareStructure = [
 		'role2role' => ['vtiger_datashare_role2role', 'to_roleid'],
 		'role2rs' => ['vtiger_datashare_role2rs', 'to_roleandsubid'],
