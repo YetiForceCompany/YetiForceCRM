@@ -163,7 +163,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 		foreach ($listColumns as $colname) {
 			// Permission to view sales is restricted, avoid showing field values (except sales name)
 			if (\App\Field::getFieldPermission('SSalesProcesses', $colname)) {
-				$data = $salesProcessesInfoBase[$colname];
+				$data = \App\Purifier::encodeHtml($salesProcessesInfoBase[$colname]);
 				if ($getRawData === false) {
 					if ($colname == 'subject') {
 						if ($salesProcessesId != $id) {

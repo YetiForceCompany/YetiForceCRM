@@ -161,7 +161,7 @@ class IStorages extends Vtiger_CRMEntity
 		foreach ($listColumns as $fieldname => $colname) {
 			// Permission to view storage is restricted, avoid showing field values (except storage name)
 			if (\App\Field::getFieldPermission('IStorages', $colname)) {
-				$data = $iStorageInfoBase[$colname];
+				$data = \App\Purifier::encodeHtml($iStorageInfoBase[$colname]);
 				if ($getRawData === false) {
 					if ($colname == 'subject') {
 						if ($iStorageId != $id) {

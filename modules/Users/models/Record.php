@@ -348,6 +348,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		foreach ($objectProperties as $properName => $propertyValue) {
 			$userModel->$properName = $propertyValue;
 		}
+		$userObject->column_fields = array_map('\App\Purifier::decodeHtml', $userObject->column_fields);
 		return $userModel->setData($userObject->column_fields)->setModule('Users')->setEntity($userObject);
 	}
 
