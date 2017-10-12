@@ -110,6 +110,7 @@ class ModuleManager extends TestCase
 	/**
 	 * Data provider for testCreateNewField
 	 * @return array
+	 * @codeCoverageIgnore
 	 */
 	public function providerForCreateField()
 	{
@@ -121,6 +122,7 @@ class ModuleManager extends TestCase
 			['Currency', ['fieldTypeList' => 0, 'fieldLength' => 4, 'decimal' => 3]],
 			['Date', ['fieldTypeList' => 0]],
 			['Email', ['fieldTypeList' => 0]],
+			['URL', ['fieldTypeList' => 0]],
 		];
 	}
 
@@ -142,6 +144,7 @@ class ModuleManager extends TestCase
 	/**
 	 * Data provider for testDeleteNewFieldText
 	 * @return array
+	 * @codeCoverageIgnore
 	 */
 	public function providerForDeleteField()
 	{
@@ -153,6 +156,7 @@ class ModuleManager extends TestCase
 			['Currency'],
 			['Date'],
 			['Email'],
+			['URL'],
 		];
 	}
 
