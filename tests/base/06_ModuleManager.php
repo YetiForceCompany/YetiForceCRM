@@ -110,6 +110,15 @@ class ModuleManager extends TestCase
 		foreach ($profilesId as $profileId) {
 			$this->assertTrue((new \App\Db\Query())->from('vtiger_profile2field')->where(['fieldid' => static::$fieldsId[$type], 'profileid' => $profileId])->exists(), 'No record in the table');
 		}
+
+		if ($row['uitype'] === 11) {
+			$rowExtra = (new \App\Db\Query())->from('vtiger_field')->where(['fieldname' => $param['fieldName'] . '_extra'])->one();
+			$this->assertNotFalse($rowExtra, 'No "extra" record for uitype: ' . $row['uitype']);
+
+			foreach ($profilesId as $profileId) {
+				$this->assertTrue((new \App\Db\Query())->from('vtiger_profile2field')->where(['fieldid' => $rowExtra['fieldid'], 'profileid' => $profileId])->exists(), 'No record in the table');
+			}
+		}
 	}
 
 	/**
@@ -133,6 +142,7 @@ class ModuleManager extends TestCase
 			['Skype', ['fieldTypeList' => 0]],
 			['Time', ['fieldTypeList' => 0]],
 			['Editor', ['fieldTypeList' => 0]],
+			['Phone', ['fieldTypeList' => 0]],
 		];
 	}
 
@@ -172,6 +182,7 @@ class ModuleManager extends TestCase
 			['Skype'],
 			['Time'],
 			['Editor'],
+			['Phone'],
 		];
 	}
 
