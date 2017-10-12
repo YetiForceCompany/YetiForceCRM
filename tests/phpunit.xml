@@ -29,7 +29,7 @@
 		<whitelist processUncoveredFilesFromWhitelist="true">
 			<directory suffix=".php">.</directory>
 			<directory suffix=".php">../vendor/yetiforce</directory>
-			<directory suffix=".php">../modules/Settings/Roles</directory>
+			<directory suffix=".php">../modules/</directory>
 			<directory suffix=".php">../modules/Settings/Groups</directory>
 			<directory suffix=".php">../modules/Settings/AdvancedPermission</directory>
 			<directory suffix=".php">../modules/Settings/Companies</directory>
