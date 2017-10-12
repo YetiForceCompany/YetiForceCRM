@@ -32,7 +32,6 @@
 			<directory suffix=".php">../config</directory>
 			<directory suffix=".php">../include</directory>
 			<directory suffix=".php">../languages</directory>
-			<directory suffix=".php">../public_html</directory>
 			<directory suffix=".php">../user_privileges</directory>
 			<directory suffix=".php">../vtlib</directory>
 		</whitelist>
