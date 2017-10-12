@@ -25,14 +25,13 @@ class ModuleManager extends TestCase
 	private static $blockId;
 
 	/**
-	 * Array of field id
+	 * Array of fields id
 	 * @var array()
 	 */
-	private static $fieldId;
+	private static $fieldsId;
 
 	/**
 	 * Testing language exports
-	 * @group extended
 	 */
 	public function testLanguageExport()
 	{
@@ -81,93 +80,60 @@ class ModuleManager extends TestCase
 	}
 
 	/**
-	 * Testing the creation of a new field text for the module
+	 * Testing the creation of a new field for the module
+	 * @param string $type
+	 * @param array $param
+	 * @dataProvider providerForCreateField
 	 */
-	public function testCreateNewFieldText()
+	public function testCreateNewField($type, $param)
 	{
-		$param['fieldType'] = $type = 'Text';
-		$param['fieldLabel'] = __FUNCTION__;
-		$param['fieldName'] = strtolower(__FUNCTION__);
-		$param['fieldTypeList'] = 0;
-		$param['fieldLength'] = 12;
-		$param['decimal'] = '';
-		$param['tree'] = '-';
+		$param['fieldType'] = $type;
+		$param['fieldLabel'] = $type . 'FieldLabel';
+		$param['fieldName'] = strtolower($type . 'FieldLabel');
 		$param['blockid'] = static::$blockId;
 		$param['sourceModule'] = 'Test';
 
 		$moduleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($param['sourceModule']);
 		$fieldModel = $moduleModel->addField($param['fieldType'], static::$blockId, $param);
-		static::$fieldId[$type] = $fieldModel->getId();
+		static::$fieldsId[$type] = $fieldModel->getId();
+		$details = $moduleModel->getTypeDetailsForAddField($type, $param);
 
-		$row = (new \App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldId[$type]])->one();
-		$this->assertNotFalse($row, 'No record id: ' . static::$fieldId[$type]);
+		$row = (new \App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldsId[$type]])->one();
+		$this->assertNotFalse($row, 'No record id: ' . static::$fieldsId[$type]);
 		$this->assertEquals($row['fieldname'], $param['fieldName']);
 		$this->assertEquals($row['fieldlabel'], $param['fieldLabel']);
+		$this->assertEquals($row['typeofdata'], $details['typeofdata']);
+		$this->assertEquals($row['uitype'], $details['uitype']);
 	}
 
 	/**
-	 * Testing the creation of a new field decimal for the module
+	 * Data provider for testCreateNewField
+	 * @return array
 	 */
-	public function testCreateNewFieldDecimal()
+	public function providerForCreateField()
 	{
-		$param['fieldType'] = $type = 'Decimal';
-		$param['fieldLabel'] = __FUNCTION__;
-		$param['fieldName'] = strtolower(__FUNCTION__);
-		$param['fieldTypeList'] = 0;
-		$param['fieldLength'] = 6;
-		$param['decimal'] = 2;
-		$param['tree'] = '-';
-		$param['blockid'] = static::$blockId;
-		$param['sourceModule'] = 'Test';
-
-		$moduleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($param['sourceModule']);
-		$fieldModel = $moduleModel->addField($param['fieldType'], static::$blockId, $param);
-		static::$fieldId[$type] = $fieldModel->getId();
-
-		$row = (new \App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldId[$type]])->one();
-		$this->assertNotFalse($row, 'No record id: ' . static::$fieldId[$type]);
-		$this->assertEquals($row['fieldname'], $param['fieldName']);
-		$this->assertEquals($row['fieldlabel'], $param['fieldLabel']);
-	}
-
-	/**
-	 * Testing the creation of a new field decimal for the module
-	 */
-	public function testCreateNewFieldInteger()
-	{
-		$param['fieldType'] = $type = 'Integer';
-		$param['fieldLabel'] = __FUNCTION__;
-		$param['fieldName'] = strtolower(__FUNCTION__);
-		$param['fieldTypeList'] = 0;
-		$param['fieldLength'] = 2;
-		$param['decimal'] = '';
-		$param['tree'] = '-';
-		$param['blockid'] = static::$blockId;
-		$param['sourceModule'] = 'Test';
-
-		$moduleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($param['sourceModule']);
-		$fieldModel = $moduleModel->addField($param['fieldType'], static::$blockId, $param);
-		static::$fieldId[$type] = $fieldModel->getId();
-
-		$row = (new \App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldId[$type]])->one();
-		$this->assertNotFalse($row, 'No record id: ' . static::$fieldId[$type]);
-		$this->assertEquals($row['fieldname'], $param['fieldName']);
-		$this->assertEquals($row['fieldlabel'], $param['fieldLabel']);
+		return [
+			['Text', ['fieldTypeList' => 0, 'fieldLength' => 12]],
+			['Decimal', ['fieldTypeList' => 0, 'fieldLength' => 6, 'decimal' => 2]],
+			['Integer', ['fieldTypeList' => 0, 'fieldLength' => 2]],
+			['Percent', ['fieldTypeList' => 0]],
+			['Currency', ['fieldTypeList' => 0, 'fieldLength' => 4, 'decimal' => 3]],
+			['Date', ['fieldTypeList' => 0]],
+		];
 	}
 
 	/**
 	 * Testing the deletion of a new field text for the module
 	 * @link https://phpunit.de/manual/3.7/en/writing-tests-for-phpunit.html#writing-tests-for-phpunit.data-providers
-	 * group extended
 	 * @dataProvider providerForDeleteField
 	 */
 	public function testDeleteNewFieldText($type)
 	{
-		$fieldInstance = Settings_LayoutEditor_Field_Model::getInstance(static::$fieldId[$type]);
+		$fieldInstance = Settings_LayoutEditor_Field_Model::getInstance(static::$fieldsId[$type]);
 		$this->assertTrue($fieldInstance->isCustomField(), 'Field is not customized');
 		$fieldInstance->delete();
 
-		$this->assertFalse((new App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldId[$type]])->exists(), 'The record was not removed from the database ID: ' . static::$fieldId[$type]);
+		$this->assertFalse((new App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldsId[$type]])->exists(), 'The record was not removed from the database ID: ' . static::$fieldsId[$type]);
 	}
 
 	/**
@@ -180,12 +146,14 @@ class ModuleManager extends TestCase
 			['Text'],
 			['Decimal'],
 			['Integer'],
+			['Percent'],
+			['Currency'],
+			['Date'],
 		];
 	}
 
 	/**
 	 * Testing the deletion of a new block for the module
-	 * @group extended
 	 */
 	public function testDeleteNewBlock()
 	{
@@ -230,7 +198,6 @@ class ModuleManager extends TestCase
 
 	/**
 	 * Testing module removal
-	 * @group extended
 	 */
 	public function testDeleteModule()
 	{
@@ -248,7 +215,6 @@ class ModuleManager extends TestCase
 
 	/**
 	 * Testing module import
-	 * @group extended
 	 */
 	public function testImportModule()
 	{
@@ -271,7 +237,6 @@ class ModuleManager extends TestCase
 
 	/**
 	 * Testing imported module removal
-	 * @group extended
 	 */
 	public function testDeleteImportedModule()
 	{
@@ -280,7 +245,6 @@ class ModuleManager extends TestCase
 
 	/**
 	 * Testing download librares
-	 * @group extended
 	 */
 	public function testDownloadLibraryModule()
 	{
@@ -309,7 +273,6 @@ class ModuleManager extends TestCase
 
 	/**
 	 * Testing module off
-	 * @group extended
 	 */
 	public function testOffAllModule()
 	{
@@ -326,7 +289,6 @@ class ModuleManager extends TestCase
 
 	/**
 	 * Testing module on
-	 * @group extended
 	 */
 	public function testOnAllModule()
 	{
