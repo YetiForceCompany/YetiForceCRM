@@ -32,7 +32,7 @@ class ModuleManager extends TestCase
 
 	/**
 	 * Testing language exports
-	 *
+	 * *****
 	 */
 	public function testLanguageExport()
 	{
@@ -123,6 +123,11 @@ class ModuleManager extends TestCase
 			['Date', ['fieldTypeList' => 0]],
 			['Email', ['fieldTypeList' => 0]],
 			['URL', ['fieldTypeList' => 0]],
+			['Checkbox', ['fieldTypeList' => 0]],
+			['TextArea', ['fieldTypeList' => 0]],
+			['Skype', ['fieldTypeList' => 0]],
+			['Time', ['fieldTypeList' => 0]],
+			['Editor', ['fieldTypeList' => 0]],
 		];
 	}
 
@@ -130,7 +135,7 @@ class ModuleManager extends TestCase
 	 * Testing the deletion of a new field text for the module
 	 * @link https://phpunit.de/manual/3.7/en/writing-tests-for-phpunit.html#writing-tests-for-phpunit.data-providers
 	 * @dataProvider providerForDeleteField
-	 *
+	 * *****
 	 */
 	public function testDeleteNewFieldText($type)
 	{
@@ -157,12 +162,17 @@ class ModuleManager extends TestCase
 			['Date'],
 			['Email'],
 			['URL'],
+			['Checkbox'],
+			['TextArea'],
+			['Skype'],
+			['Time'],
+			['Editor'],
 		];
 	}
 
 	/**
 	 * Testing the deletion of a new block for the module
-	 *
+	 * *****
 	 */
 	public function testDeleteNewBlock()
 	{
@@ -207,7 +217,7 @@ class ModuleManager extends TestCase
 
 	/**
 	 * Testing module removal
-	 *
+	 * *****
 	 */
 	public function testDeleteModule()
 	{
@@ -225,7 +235,7 @@ class ModuleManager extends TestCase
 
 	/**
 	 * Testing module import
-	 *
+	 * *****
 	 */
 	public function testImportModule()
 	{
@@ -248,7 +258,7 @@ class ModuleManager extends TestCase
 
 	/**
 	 * Testing imported module removal
-	 *
+	 * *****
 	 */
 	public function testDeleteImportedModule()
 	{
@@ -257,7 +267,7 @@ class ModuleManager extends TestCase
 
 	/**
 	 * Testing download librares
-	 *
+	 * *****
 	 */
 	public function testDownloadLibraryModule()
 	{
@@ -289,7 +299,7 @@ class ModuleManager extends TestCase
 
 	/**
 	 * Testing module off
-	 *
+	 * *****
 	 */
 	public function testOffAllModule()
 	{
@@ -306,7 +316,7 @@ class ModuleManager extends TestCase
 
 	/**
 	 * Testing module on
-	 *
+	 * *****
 	 */
 	public function testOnAllModule()
 	{
