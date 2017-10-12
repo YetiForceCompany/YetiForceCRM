@@ -30,7 +30,6 @@
 			<directory suffix=".php">.</directory>
 			<directory suffix=".php">../vendor/yetiforce</directory>
 			<directory suffix=".php">../config</directory>
-			<directory suffix=".php">../cron</directory>
 			<directory suffix=".php">../include</directory>
 			<directory suffix=".php">../languages</directory>
 			<directory suffix=".php">../public_html</directory>
