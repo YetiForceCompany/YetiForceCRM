@@ -31,6 +31,12 @@ class ModuleManager extends TestCase
 	private static $fieldsId;
 
 	/**
+	 * Id for field extra
+	 * @var array()
+	 */
+	private static $fieldsExtraId;
+
+	/**
 	 * Testing language exports
 	 * *****
 	 */
@@ -106,18 +112,14 @@ class ModuleManager extends TestCase
 		$this->assertEquals($row['typeofdata'], $details['typeofdata']);
 		$this->assertEquals($row['uitype'], $details['uitype']);
 
-		$profilesId = (new \App\Db\Query())->select('profileid')->from('vtiger_profile')->column();
-		foreach ($profilesId as $profileId) {
-			$this->assertTrue((new \App\Db\Query())->from('vtiger_profile2field')->where(['fieldid' => static::$fieldsId[$type], 'profileid' => $profileId])->exists(), 'No record in the table');
-		}
+		$profilesId = \vtlib\Profile::getAllIds();
+		$this->assertCount((new \App\Db\Query())->from('vtiger_profile2field')->where(['fieldid' => static::$fieldsId[$type]])->count(), $profilesId, "The field \"$type\" did not add correctly to the profiles");
 
 		if ($row['uitype'] === 11) {
 			$rowExtra = (new \App\Db\Query())->from('vtiger_field')->where(['fieldname' => $param['fieldName'] . '_extra'])->one();
 			$this->assertNotFalse($rowExtra, 'No "extra" record for uitype: ' . $row['uitype']);
-
-			foreach ($profilesId as $profileId) {
-				$this->assertTrue((new \App\Db\Query())->from('vtiger_profile2field')->where(['fieldid' => $rowExtra['fieldid'], 'profileid' => $profileId])->exists(), 'No record in the table');
-			}
+			$this->assertCount((new \App\Db\Query())->from('vtiger_profile2field')->where(['fieldid' => $rowExtra['fieldid']])->count(), $profilesId, "The \"extra\" field \"$type\" did not add correctly to the profiles");
+			static::$fieldsExtraId[$type] = $rowExtra['fieldid'];
 		}
 	}
 
@@ -150,19 +152,24 @@ class ModuleManager extends TestCase
 	 * Testing the deletion of a new field text for the module
 	 * @link https://phpunit.de/manual/3.7/en/writing-tests-for-phpunit.html#writing-tests-for-phpunit.data-providers
 	 * @dataProvider providerForDeleteField
-	 * *****
+	 *
 	 */
-	public function testDeleteNewFieldText($type)
+	public function testDeleteNewField($type)
 	{
 		$fieldInstance = Settings_LayoutEditor_Field_Model::getInstance(static::$fieldsId[$type]);
+		$uitype = $fieldInstance->getUIType();
 		$this->assertTrue($fieldInstance->isCustomField(), 'Field is not customized');
 		$fieldInstance->delete();
 
 		$this->assertFalse((new App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldsId[$type]])->exists(), 'The record was not removed from the database ID: ' . static::$fieldsId[$type]);
+
+		if ($uitype === 11) {
+			$this->assertFalse((new App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldsExtraId[$type]])->exists(), 'The record "extra" was not removed from the database ID: ' . static::$fieldsExtraId[$type]);
+		}
 	}
 
 	/**
-	 * Data provider for testDeleteNewFieldText
+	 * Data provider for testDeleteNewField
 	 * @return array
 	 * @codeCoverageIgnore
 	 */
@@ -188,7 +195,7 @@ class ModuleManager extends TestCase
 
 	/**
 	 * Testing the deletion of a new block for the module
-	 * *****
+	 *
 	 */
 	public function testDeleteNewBlock()
 	{
@@ -200,6 +207,7 @@ class ModuleManager extends TestCase
 
 	/**
 	 * Testing module export
+	 * *****
 	 */
 	public function testExportModule()
 	{
