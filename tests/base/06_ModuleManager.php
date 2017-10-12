@@ -112,6 +112,8 @@ class ModuleManager extends TestCase
 		$this->assertEquals($row['typeofdata'], $details['typeofdata']);
 		$this->assertEquals($row['uitype'], $details['uitype']);
 
+		$this->assertTrue((new \App\Db\Query())->from('vtiger_def_org_field')->where(['fieldid' => static::$fieldsId[$type]])->exists(), 'No record in the table "vtiger_def_org_field" for type ' . $type);
+
 		$profilesId = \vtlib\Profile::getAllIds();
 		$this->assertCount((new \App\Db\Query())->from('vtiger_profile2field')->where(['fieldid' => static::$fieldsId[$type]])->count(), $profilesId, "The field \"$type\" did not add correctly to the profiles");
 
@@ -152,7 +154,7 @@ class ModuleManager extends TestCase
 	 * Testing the deletion of a new field text for the module
 	 * @link https://phpunit.de/manual/3.7/en/writing-tests-for-phpunit.html#writing-tests-for-phpunit.data-providers
 	 * @dataProvider providerForDeleteField
-	 *
+	 * *****
 	 */
 	public function testDeleteNewField($type)
 	{
@@ -195,7 +197,7 @@ class ModuleManager extends TestCase
 
 	/**
 	 * Testing the deletion of a new block for the module
-	 *
+	 * *****
 	 */
 	public function testDeleteNewBlock()
 	{
@@ -295,12 +297,8 @@ class ModuleManager extends TestCase
 	 */
 	public function testDownloadLibraryModule()
 	{
-		$removeLib = [];
 		$libraries = Settings_ModuleManager_Library_Model::getAll();
 		foreach ($libraries as $key => $library) {
-			$removeLib[$key]['toRemove'] = Settings_ModuleManager_Library_Model::checkLibrary($key);
-			$removeLib[$key]['dir'] = $library['dir'];
-
 			//Check if remote file exists
 			$header = get_headers($library['url'], 1);
 			$this->assertNotRegExp('/404/', $header['Status']);
@@ -308,17 +306,6 @@ class ModuleManager extends TestCase
 			Settings_ModuleManager_Library_Model::download($key);
 			$this->assertFileExists($library['dir'] . 'version.php');
 		}
-
-		// @codeCoverageIgnoreStart
-		//Delete unnecessary libraries
-		foreach ($removeLib as $libToRemove) {
-
-			if ($libToRemove['toRemove']) {
-				\vtlib\Functions::recurseDelete($libToRemove['dir']);
-				$this->assertFileNotExists($removeLib['dir'] . 'version.php');
-			}
-		}
-		// @codeCoverageIgnoreEnd
 	}
 
 	/**
