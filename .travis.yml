@@ -47,7 +47,7 @@ before_script:
   
 script:
 - cd tests
-- /usr/local/bin/phpunit --debug --verbose --coverage-text --coverage-clover=coverage.xml
+- /usr/local/bin/phpunit --debug --verbose
     
 after_script:
 - sudo cat /var/log/apache2/error.log
