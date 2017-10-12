@@ -29,11 +29,13 @@
 		<whitelist processUncoveredFilesFromWhitelist="true">
 			<directory suffix=".php">.</directory>
 			<directory suffix=".php">../vendor/yetiforce</directory>
-			<directory suffix=".php">../config</directory>
-			<directory suffix=".php">../include</directory>
-			<directory suffix=".php">../languages</directory>
-			<directory suffix=".php">../user_privileges</directory>
-			<directory suffix=".php">../vtlib</directory>
+			<directory suffix=".php">../modules/Settings/Roles</directory>
+			<directory suffix=".php">../modules/Settings/Groups</directory>
+			<directory suffix=".php">../modules/Settings/AdvancedPermission</directory>
+			<directory suffix=".php">../modules/Settings/Companies</directory>
+			<directory suffix=".php">../modules/Settings/GlobalPermission</directory>
+			<directory suffix=".php">../modules/Settings/Inventory</directory>
+			<directory suffix=".php">../modules/Settings/SharingAccess</directory>
 		</whitelist>
 	</filter>
 	<listeners>
