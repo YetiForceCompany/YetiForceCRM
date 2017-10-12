@@ -28,13 +28,11 @@
 	<filter>
 		<whitelist processUncoveredFilesFromWhitelist="true">
 			<directory suffix=".php">.</directory>
-			<directory suffix=".php">../vendor</directory>
+			<directory suffix=".php">../vendor/yetiforce</directory>
 			<directory suffix=".php">../config</directory>
 			<directory suffix=".php">../cron</directory>
 			<directory suffix=".php">../include</directory>
 			<directory suffix=".php">../languages</directory>
-			<directory suffix=".php">../layouts</directory>
-			<directory suffix=".php">../libraries</directory>
 			<directory suffix=".php">../public_html</directory>
 			<directory suffix=".php">../user_privileges</directory>
 			<directory suffix=".php">../vtlib</directory>
@@ -46,5 +44,6 @@
 	<logging>
 		<log type="coverage-html" target="./coverageHtml/" title="YetiForce coverage" yui="true" highlight="true" lowUpperBound="35" highLowerBound="70" charset="UTF-8" />
 		<log type="coverage-clover" target="coverage.xml"/>
+		<log type="coverage-text" target="php://stdout" showUncoveredFiles="false"/>
 	</logging>
 </phpunit>
