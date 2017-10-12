@@ -105,6 +105,11 @@ class ModuleManager extends TestCase
 		$this->assertEquals($row['fieldlabel'], $param['fieldLabel']);
 		$this->assertEquals($row['typeofdata'], $details['typeofdata']);
 		$this->assertEquals($row['uitype'], $details['uitype']);
+
+		$profilesId = (new \App\Db\Query())->select('profileid')->from('vtiger_profile')->column();
+		foreach ($profilesId as $profileId) {
+			$this->assertTrue((new \App\Db\Query())->from('vtiger_profile2field')->where(['fieldid' => static::$fieldsId[$type], 'profileid' => $profileId])->exists(), 'No record in the table');
+		}
 	}
 
 	/**
