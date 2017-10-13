@@ -516,7 +516,6 @@ class Vtiger_Record_Model extends \App\Base
 		if (\App\Cache::staticHas('RecordModel', $cacheName)) {
 			return \App\Cache::staticGet('RecordModel', $cacheName);
 		}
-
 		$focus = CRMEntity::getInstance($moduleName);
 		$focus->id = $recordId;
 		$focus->retrieveEntityInfo($recordId, $moduleName);
@@ -1008,34 +1007,6 @@ class Vtiger_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get EditFieldByModal view url for the record
-	 * @return string - EditFieldByModal View Url
-	 */
-	public function getEditFieldByModalUrl()
-	{
-		return 'index.php?module=' . $this->getModuleName() . '&view=EditFieldByModal&record=' . $this->getId();
-	}
-
-	public function getFieldToEditByModal()
-	{
-		return [
-			'addClass' => '',
-			'iconClass' => '',
-			'listViewClass' => '',
-			'titleTag' => '',
-			'name' => '',
-		];
-	}
-
-	public function editFieldByModalPermission($profileAction = false)
-	{
-		if (isset($this->privileges['editFieldByModal']) && $this->privileges['editFieldByModal'] === true && $profileAction) {
-			return \App\Privilege::isPermitted($this->getModuleName(), 'OpenRecord', $this->getId());
-		}
-		return isset($this->privileges['editFieldByModal']) ? (bool) $this->privileges['editFieldByModal'] : false;
-	}
-
-	/**
 	 * Clear privileges
 	 */
 	public function clearPrivilegesCache()
@@ -1212,17 +1183,6 @@ class Vtiger_Record_Model extends \App\Base
 				'linkicon' => 'glyphicon ' . ($watching ? 'glyphicon-eye-close' : 'glyphicon-eye-open'),
 				'linkclass' => 'btn-sm ' . ($watching ? 'btn-info' : 'btn-default'),
 				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => !$watching, 'on' => 'btn-info', 'off' => 'btn-default', 'icon-on' => 'glyphicon-eye-open', 'icon-off' => 'glyphicon-eye-close'],
-			];
-		}
-		if (($this->isEditable() && $this->editFieldByModalPermission()) || $this->editFieldByModalPermission(true)) {
-			$fieldEditData = $this->getFieldToEditByModal();
-			$recordLinks[] = [
-				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
-				'linklabel' => $fieldEditData['titleTag'],
-				'linkurl' => $this->getEditFieldByModalUrl(),
-				'linkicon' => 'glyphicon ' . $fieldEditData['iconClass'],
-				'linkclass' => 'btn-sm ' . $fieldEditData['addClass'],
-				'modalView' => true
 			];
 		}
 		if ($this->isDeletable()) {

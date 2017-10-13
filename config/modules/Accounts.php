@@ -6,10 +6,6 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 return[
-	// List of date and time fields that can be updated by current system time, via button visible in record preview.
-	// [Label => Name] 
-	'FIELD_TO_UPDATE_BY_BUTTON' => [
-	],
 	// Columns visible in Account hierarchy [$label => $columnName]
 	'COLUMNS_IN_HIERARCHY' => [],
 	// Max depth of hierarchy

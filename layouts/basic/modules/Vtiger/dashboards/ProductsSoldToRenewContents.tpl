@@ -15,7 +15,7 @@
 	</div>
 	{assign var="WIDGET_RECORDS" value=$WIDGET_MODEL->getRecords($OWNER)}
 	{foreach item=RECORD from=$WIDGET_RECORDS}
-		<div class="row rowAction cursorPointer" {if $RECORD->editFieldByModalPermission(true)} data-url="{$RECORD->getEditFieldByModalUrl()}"{/if}>
+		<div class="row rowAction cursorPointer">
 			{foreach item=FIELD from=$WIDGET_MODEL->getHeaders()}
 				<div class="col-sm-{$SPANSIZE} textOverflowEllipsis" title="{\App\Purifier::encodeHtml($RECORD->get($FIELD->get('name')))}">
 					{if $RECORD->get($FIELD->get('name'))}

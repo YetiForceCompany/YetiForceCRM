@@ -133,22 +133,6 @@ class Vtiger_DetailView_Model extends \App\Base
 		foreach ($detailViewLinks as $detailViewLink) {
 			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 		}
-		$fieldToupdate = AppConfig::module($moduleName, 'FIELD_TO_UPDATE_BY_BUTTON');
-		if ($recordModel->isEditable() && !empty($fieldToupdate)) {
-			foreach ($fieldToupdate as $fieldLabel => $fieldName) {
-				if (App\Field::getFieldPermission($moduleName, $fieldName)) {
-					$editViewLinks = [
-						'linktype' => 'DETAILVIEW',
-						'linklabel' => '',
-						'linkurl' => 'javascript:Vtiger_Detail_Js.updateField(\'' . $fieldName . '\')',
-						'linkicon' => 'glyphicon glyphicon-time',
-						'linkhint' => App\Language::translate('LBL_UPDATE_FIELD', $moduleName) . ' ' . App\Language::translate($fieldLabel, $moduleName),
-						'linkclass' => 'btn-warning',
-					];
-					$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($editViewLinks);
-				}
-			}
-		}
 		if ($recordModel->isEditable()) {
 			$editViewLinks = array(
 				'linktype' => 'DETAILVIEW',
@@ -160,20 +144,6 @@ class Vtiger_DetailView_Model extends \App\Base
 			);
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($editViewLinks);
 		}
-
-		if (($recordModel->isEditable() && $recordModel->editFieldByModalPermission() ) || $recordModel->editFieldByModalPermission(true)) {
-			$fieldByEditData = $recordModel->getFieldToEditByModal();
-			$basicActionLink = [
-				'linktype' => 'DETAILVIEW',
-				'linklabel' => $fieldByEditData['titleTag'],
-				'linkurl' => '#',
-				'linkdata' => ['url' => $recordModel->getEditFieldByModalUrl()],
-				'linkicon' => 'glyphicon ' . $fieldByEditData['iconClass'],
-				'linkclass' => 'showModal ' . $fieldByEditData['addClass']
-			];
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
-		}
-
 		if ($recordModel->isDeletable()) {
 			$deletelinkModel = array(
 				'linktype' => 'DETAILVIEW',

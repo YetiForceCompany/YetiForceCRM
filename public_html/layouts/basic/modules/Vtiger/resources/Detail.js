@@ -245,28 +245,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 				function (error, err) {
 				}
 		);
-	},
-	updateField: function (fieldName) {
-		var params = {
-			module: app.getModuleName(),
-			action: 'UpdateField',
-			record: app.getRecordId(),
-			fieldName: fieldName,
-		};
-		AppConnector.request(params).then(
-				function (response) {
-					Vtiger_Helper_Js.showMessage({
-						title: app.vtranslate('JS_LBL_PERMISSION'),
-						text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
-						type: 'success',
-						animation: 'show'
-					});
-					location.reload();
-				},
-				function (error, err) {
-					console.error(error, err);
-				}
-		);
 	}
 }, {
 	targetPicklistChange: false,
