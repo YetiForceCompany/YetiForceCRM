@@ -37,6 +37,12 @@ class ModuleManager extends TestCase
 	private static $fieldsExtraId;
 
 	/**
+	 * Table name for uitype === 16
+	 * @var string
+	 */
+	private static $tableName;
+
+	/**
 	 * Testing language exports
 	 * *****
 	 */
@@ -105,23 +111,29 @@ class ModuleManager extends TestCase
 		static::$fieldsId[$type] = $fieldModel->getId();
 		$details = $moduleModel->getTypeDetailsForAddField($type, $param);
 
-		$row = (new \App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldsId[$type]])->one();
+		$row = (new \App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldsId[$type], 'tabid' => $moduleModel->getId()])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$fieldsId[$type]);
 		$this->assertEquals($row['fieldname'], $param['fieldName']);
 		$this->assertEquals($row['fieldlabel'], $param['fieldLabel']);
 		$this->assertEquals($row['typeofdata'], $details['typeofdata']);
 		$this->assertEquals($row['uitype'], $details['uitype']);
 
-		$this->assertTrue((new \App\Db\Query())->from('vtiger_def_org_field')->where(['fieldid' => static::$fieldsId[$type]])->exists(), 'No record in the table "vtiger_def_org_field" for type ' . $type);
+		$this->assertTrue((new \App\Db\Query())->from('vtiger_def_org_field')->where(['fieldid' => static::$fieldsId[$type], 'tabid' => $moduleModel->getId()])->exists(), 'No record in the table "vtiger_def_org_field" for type ' . $type);
 
 		$profilesId = \vtlib\Profile::getAllIds();
 		$this->assertCount((new \App\Db\Query())->from('vtiger_profile2field')->where(['fieldid' => static::$fieldsId[$type]])->count(), $profilesId, "The field \"$type\" did not add correctly to the profiles");
 
-		if ($row['uitype'] === 11) {
+		if ($row['uitype'] === 11) { //Phone
 			$rowExtra = (new \App\Db\Query())->from('vtiger_field')->where(['fieldname' => $param['fieldName'] . '_extra'])->one();
 			$this->assertNotFalse($rowExtra, 'No "extra" record for uitype: ' . $row['uitype']);
 			$this->assertCount((new \App\Db\Query())->from('vtiger_profile2field')->where(['fieldid' => $rowExtra['fieldid']])->count(), $profilesId, "The \"extra\" field \"$type\" did not add correctly to the profiles");
 			static::$fieldsExtraId[$type] = $rowExtra['fieldid'];
+		} elseif ($row['uitype'] === 10) { //Related1M
+			$this->assertCount((new \App\Db\Query())->from('vtiger_fieldmodulerel')->where(['fieldid' => static::$fieldsId[$type]])->count(), $param['referenceModule'], 'Problem with table "vtiger_fieldmodulerel" in database');
+		} elseif ($row['uitype'] === 16) {
+			static::$tableName = 'vtiger_' . $param['fieldName'];
+			$this->assertNotNull(\App\Db::getInstance()->getTableSchema(static::$tableName), 'Table "' . static::$tableName . '" does not exist');
+			$this->assertCount(0, array_diff($param['pickListValues'], (new \App\Db\Query())->select($param['fieldName'])->from(static::$tableName)->column()), 'Bad values in the table "' . static::$tableName . '"');
 		}
 	}
 
@@ -147,6 +159,8 @@ class ModuleManager extends TestCase
 			['Time', ['fieldTypeList' => 0]],
 			['Editor', ['fieldTypeList' => 0]],
 			['Phone', ['fieldTypeList' => 0]],
+			['Related1M', ['fieldTypeList' => 0, 'referenceModule' => ['Contacts', 'Accounts', 'Leads'],]],
+			['Picklist', ['fieldTypeList' => 0, 'pickListValues' => ['val1', 'val2', 'val3'],]],
 		];
 	}
 
@@ -167,6 +181,10 @@ class ModuleManager extends TestCase
 
 		if ($uitype === 11) {
 			$this->assertFalse((new App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldsExtraId[$type]])->exists(), 'The record "extra" was not removed from the database ID: ' . static::$fieldsExtraId[$type]);
+		} elseif ($uitype === 10) {
+			$this->assertEquals((new \App\Db\Query())->from('vtiger_fieldmodulerel')->where(['fieldid' => static::$fieldsId[$type]])->count(), 0, 'Problem with table "vtiger_fieldmodulerel" in database');
+		} elseif ($uitype === 16) {
+			$this->assertNull(\App\Db::getInstance()->getTableSchema(static::$tableName), 'Table "' . static::$tableName . '" exist');
 		}
 	}
 
@@ -192,6 +210,8 @@ class ModuleManager extends TestCase
 			['Time'],
 			['Editor'],
 			['Phone'],
+			['Related1M'],
+			['Picklist'],
 		];
 	}
 
