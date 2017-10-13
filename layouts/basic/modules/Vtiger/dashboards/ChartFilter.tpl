@@ -59,6 +59,15 @@
 		</div>
 	{elseif $WIZARD_STEP eq 'step2'}
 		<tr class="step2">
+			<td class="fieldLabel alignMiddle textAlignCenter" nowrap><span class="redColor">*</span>{\App\Language::translate('LBL_VALUE_TYPE', 'Home')}</td>
+			<td class="fieldValue">
+				<select class="form-control valueType saveParam" name="valueType" size="2">
+					<option value="count">{\App\Language::translate('LBL_NUMBER_OF_RECORDS','Home')}</option>
+					<!--<option value="sum">{\App\Language::translate('LBL_SUM','Home')}</option>-->
+				</select>
+			</td>
+		</tr>
+		<tr class="step2">
 			<td class="fieldLabel alignMiddle textAlignCenter" nowrap><span class="redColor">*</span>{\App\Language::translate('LBL_FILTER')}</td>
 			<td class="fieldValue">
 				<select class="form-control filterId" name="filterid">
@@ -88,11 +97,11 @@
 			</td>
 		</tr>
 	{elseif $WIZARD_STEP eq 'step4'}
-		{if $CHART_TYPE == 'Funnel' && in_array($GROUP_FIELD_MODEL->getFieldDataType(),['currency', 'double', 'percentage', 'integer'])}
+		{if $CHART_TYPE == 'Funnel'  && in_array($GROUP_FIELD_MODEL->getFieldDataType(),['currency', 'double', 'percentage', 'integer'])}
 			<tr class="step4">
 				<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{\App\Language::translate('LBL_GROUP_VALUES','Home')}</td>
 				<td class="fieldValue">
-					<select class="form-control select saveParam" multiple name="sectorField" size="2"></select>
+					<select class="form-control select tags saveParam" multiple name="sectorField" size="2"></select>
 				</td>
 			</tr>
 		{/if}

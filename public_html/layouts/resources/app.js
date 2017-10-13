@@ -365,6 +365,9 @@ var app = {
 				select.parent().append(selectNew);
 				select.prop('disabled', true);
 			}
+			if (select.hasClass('tags')) {
+				params.tags = true;
+			}
 			select.select2(params)
 					.on("select2:open", function (e) {
 						if (select.data('unselecting')) {

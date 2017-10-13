@@ -50,7 +50,11 @@ class Vtiger_ChartFilter_View extends Vtiger_Index_View
 			case 'step3':
 				$selectedModuleName = $request->getByType('selectedModule', 1);
 				$selectedModuleModel = Vtiger_Module_Model::getInstance($selectedModuleName);
-				$viewer->assign('MODULE_FIELDS', $selectedModuleModel->getFields());
+				if ($request->getByType('valueType', 1) === 'sum') {
+					$viewer->assign('MODULE_FIELDS', $selectedModuleModel->getFieldsByType(['integer', 'percentage', 'double', 'currency']));
+				} else {
+					$viewer->assign('MODULE_FIELDS', $selectedModuleModel->getFields());
+				}
 				$viewer->assign('SELECTED_MODULE', $selectedModuleName);
 				break;
 			case 'step4':

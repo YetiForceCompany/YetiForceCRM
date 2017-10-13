@@ -332,6 +332,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		if ($data['isdefault'] != 1 || $data['isdefault'] != '1') {
 			$data['isdefault'] = 0;
 		}
+		$data['data'] = \App\Purifier::decodeHtml($data['data']);
 		$size = \App\Json::encode([
 				'width' => $data['width'],
 				'height' => $data['height']
