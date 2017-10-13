@@ -398,61 +398,6 @@ function getValidDBInsertDateTimeValue($value)
 		return getValidDBInsertDateValue($value);
 	}
 }
-
-/** Function to return block name
- * @param integer $blockId
- * @return string Block Name
- */
-function getBlockName($blockId)
-{
-	$adb = PearDatabase::getInstance();
-
-	$blockName = VTCacheUtils::lookupBlockLabelWithId($blockId);
-
-	if (!empty($blockId) && $blockName === false) {
-		$blockRes = $adb->pquery('SELECT blocklabel FROM vtiger_blocks WHERE blockid = ?', array($blockId));
-		if ($adb->numRows($blockRes)) {
-			$blockName = $adb->queryResult($blockRes, 0, 'blocklabel');
-		} else {
-			$blockName = '';
-		}
-		VTCacheUtils::updateBlockLabelWithId($blockName, $blockId);
-	}
-	return $blockName;
-}
-
-/**
- * Function to get the approximate difference between two date time values as string
- */
-function dateDiffAsString($d1, $d2)
-{
-	$currentModule = vglobal('currentModule');
-
-	$dateDiff = dateDiff($d1, $d2);
-
-	$years = $dateDiff['years'];
-	$months = $dateDiff['months'];
-	$days = $dateDiff['days'];
-	$hours = $dateDiff['hours'];
-	$minutes = $dateDiff['minutes'];
-	$seconds = $dateDiff['seconds'];
-
-	if ($years > 0) {
-		$diffString = "$years " . \App\Language::translate('LBL_YEARS', $currentModule);
-	} elseif ($months > 0) {
-		$diffString = "$months " . \App\Language::translate('LBL_MONTHS', $currentModule);
-	} elseif ($days > 0) {
-		$diffString = "$days " . \App\Language::translate('LBL_DAYS', $currentModule);
-	} elseif ($hours > 0) {
-		$diffString = "$hours " . \App\Language::translate('LBL_HOURS', $currentModule);
-	} elseif ($minutes > 0) {
-		$diffString = "$minutes " . \App\Language::translate('LBL_MINUTES', $currentModule);
-	} else {
-		$diffString = "$seconds " . \App\Language::translate('LBL_SECONDS', $currentModule);
-	}
-	return $diffString;
-}
-
 //Get the User selected NumberOfCurrencyDecimals
 function getCurrencyDecimalPlaces()
 {
@@ -470,31 +415,6 @@ function getInventoryModules()
 	$inventoryModules = [];
 	return $inventoryModules;
 }
-
-/** Function to get the difference between 2 datetime strings or millisecond values */
-function dateDiff($d1, $d2)
-{
-	$d1 = (is_string($d1) ? strtotime($d1) : $d1);
-	$d2 = (is_string($d2) ? strtotime($d2) : $d2);
-
-	$diffSecs = abs($d1 - $d2);
-	$baseYear = min(date("Y", $d1), date("Y", $d2));
-	$diff = mktime(0, 0, $diffSecs, 1, 1, $baseYear);
-	return array(
-		"years" => date("Y", $diff) - $baseYear,
-		"months_total" => (date("Y", $diff) - $baseYear) * 12 + date("n", $diff) - 1,
-		"months" => date("n", $diff) - 1,
-		"days_total" => floor($diffSecs / (3600 * 24)),
-		"days" => date("j", $diff) - 1,
-		"hours_total" => floor($diffSecs / 3600),
-		"hours" => date("G", $diff),
-		"minutes_total" => floor($diffSecs / 60),
-		"minutes" => (int) date("i", $diff),
-		"seconds_total" => $diffSecs,
-		"seconds" => (int) date("s", $diff)
-	);
-}
-
 /** call back function to change the array values in to lower case */
 function lower_array(&$string)
 {

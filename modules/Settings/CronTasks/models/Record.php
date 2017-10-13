@@ -135,12 +135,14 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$fieldValue = $this->get($fieldName);
 		switch ($fieldName) {
-			case 'frequency' : $fieldValue = intval($fieldValue);
+			case 'frequency' :
+				$fieldValue = intval($fieldValue);
 				$hours = str_pad((int) (($fieldValue / (60 * 60))), 2, 0, STR_PAD_LEFT);
 				$minutes = str_pad((int) (($fieldValue % (60 * 60)) / 60), 2, 0, STR_PAD_LEFT);
 				$fieldValue = $hours . ':' . $minutes;
 				break;
-			case 'status' : $fieldValue = intval($fieldValue);
+			case 'status' :
+				$fieldValue = intval($fieldValue);
 				$moduleModel = $this->getModule();
 				if ($fieldValue === Settings_CronTasks_Record_Model::$STATUS_COMPLETED) {
 					$fieldLabel = 'LBL_COMPLETED';
@@ -154,9 +156,10 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 				$fieldValue = \App\Language::translate($fieldLabel, $moduleModel->getParentName() . ':' . $moduleModel->getName());
 				break;
 			case 'laststart' :
-			case 'lastend' : $fieldValue = intval($fieldValue);
+			case 'lastend' :
+				$fieldValue = intval($fieldValue);
 				if ($fieldValue) {
-					$fieldValue = dateDiffAsString($fieldValue, time());
+					$fieldValue = Vtiger_Util_Helper::formatDateDiffInStrings(date('Y-m-d H:i:s', $fieldValue));
 				} else {
 					$fieldValue = '';
 				}
