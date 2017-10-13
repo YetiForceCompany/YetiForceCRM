@@ -19,18 +19,15 @@ class Calendar_ActivityStateAjax_Action extends Calendar_SaveAjax_Action
 	public function checkPermission(\App\Request $request)
 	{
 		parent::checkPermission($request);
-		if (!App\Field::getFieldPermission($request->getModule(), 'activitystatus')) {
+		if (!$this->record->getField('activitystatus')->isEditable()) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
 
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->getInteger('record');
-		$state = $request->get('state');
-		$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($recordId);
-		$recordModel->set('activitystatus', $state);
-		$recordModel->save();
+		$this->record->set('activitystatus', $request->get('state'));
+		$this->record->save();
 
 		$response = new Vtiger_Response();
 		$response->setResult(['success' => true]);

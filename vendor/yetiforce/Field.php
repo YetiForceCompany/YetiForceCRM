@@ -42,10 +42,11 @@ class Field
 			$fields = $query->indexBy('fieldname')->all();
 			Cache::save(__METHOD__ . User::getCurrentUserId(), $tabId, $fields);
 		}
+
 		if ($readOnly) {
 			return $fields;
 		}
-		foreach ($fields as $key => &$field) {
+		foreach ($fields as $key => $field) {
 			if ($field['readonly']) {
 				unset($fields[$key]);
 			}

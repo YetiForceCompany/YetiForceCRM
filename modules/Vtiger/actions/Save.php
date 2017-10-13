@@ -30,13 +30,13 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
 				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 			}
-			$this->record = $recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-			if (!$recordModel->isEditable()) {
+			$this->record = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+			if (!$this->record->isEditable()) {
 				throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			}
 		} else {
-			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-			if (!$recordModel->isCreateable()) {
+			$this->record = Vtiger_Record_Model::getCleanInstance($moduleName);
+			if (!$this->record->isCreateable()) {
 				throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			}
 		}

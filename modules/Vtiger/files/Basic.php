@@ -29,7 +29,7 @@ abstract class Vtiger_Basic_File
 	{
 		$moduleName = $request->getModule();
 		$record = $request->getInteger('record');
-		$field = $request->get('field');
+		$field = $request->getByType('field', 1);
 		if ($record) {
 			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $record) || !\App\Field::getFieldPermission($moduleName, $field)) {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
@@ -50,7 +50,7 @@ abstract class Vtiger_Basic_File
 	{
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
-		$field = $request->get('field');
+		$field = $request->getByType('field', 1);
 		if (!empty($record)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			if (!$recordModel->isEditable() || !\App\Field::getFieldPermission($moduleName, $field, false)) {
