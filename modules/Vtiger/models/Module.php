@@ -226,9 +226,11 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if (!$recordModel->isNew() && !$recordModel->isMandatorySave() && empty($recordModel->getPreviousValue())) {
 			App\Log::info('ERR_NO_DATA');
 		} else {
+			if (method_exists($recordModel, 'validate')) {
+				$recordModel->validate();
+			}
 			$recordModel->saveToDb();
 		}
-
 		$recordId = $recordModel->getId();
 		Users_Privileges_Model::setSharedOwner($recordModel->get('shownerid'), $recordId);
 		if ($this->isInventory()) {

@@ -211,6 +211,8 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$fieldModel = $moduleModel->getFieldByName($fieldName);
 			if ($fieldModel) {
 				$value = $this->get($fieldName);
+				$uitypeModel = $fieldModel->getUITypeModel();
+				$uitypeModel->validate($value);
 				if ($value === null || $value === '') {
 					$defaultValue = $fieldModel->getDefaultFieldValue();
 					if ($defaultValue !== '') {
@@ -218,7 +220,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 					} elseif ($default = $this->getDefaultValue($fieldName)) {
 						$value = $default;
 					} else {
-						$value = $fieldModel->getUITypeModel()->getDBValue($value, $this);
+						$value = $uitypeModel->getDBValue($value, $this);
 					}
 					$this->set($fieldName, $value);
 				}

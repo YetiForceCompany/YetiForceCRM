@@ -13,12 +13,32 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * Function to get the DB Insert Value, for the current field type with given User Value
+	 * @param mixed $value
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @return mixed
 	 */
-	public function getTemplateName()
+	public function getDBValue($value, $recordModel = false)
 	{
-		return 'uitypes/Boolean.tpl';
+		if ($value === 'on' || (int) $value === 1) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+
+	/**
+	 * Verification of data
+	 * @param string $value
+	 */
+	public function validate($value)
+	{
+		if ($this->validate || $value === '' || $value === null) {
+			return;
+		}
+		if (!in_array($value, [0, 1, '1', '0', 'on'])) {
+			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+		}
 	}
 
 	/**
@@ -36,23 +56,17 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 		return \App\Purifier::encodeHtml($value);
 	}
 
+	/**
+	 * Function to get the Template name for the current UI Type object
+	 * @return string - Template Name
+	 */
+	public function getTemplateName()
+	{
+		return 'uitypes/Boolean.tpl';
+	}
+
 	public function getListSearchTemplateName()
 	{
 		return 'uitypes/BooleanFieldSearchView.tpl';
-	}
-
-	/**
-	 * Function to get the DB Insert Value, for the current field type with given User Value
-	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @return mixed
-	 */
-	public function getDBValue($value, $recordModel = false)
-	{
-		if ($value === 'on' || (int) $value === 1) {
-			return 1;
-		} else {
-			return 0;
-		}
 	}
 }

@@ -128,10 +128,8 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 			if (!$fieldModel->isWritable()) {
 				continue;
 			}
-			if ($request->has($fieldName) && $fieldModel->get('uitype') === 300) {
-				$recordModel->set($fieldName, $fieldModel->getUITypeModel()->getDBValue($request->getForHtml($fieldName, null), $recordModel));
-			} elseif ($request->has($fieldName)) {
-				$recordModel->set($fieldName, $fieldModel->getUITypeModel()->getDBValue($request->get($fieldName, null), $recordModel));
+			if ($request->has($fieldName)) {
+				$fieldModel->getUITypeModel()->setValueFromRequest($request, $recordModel);
 			} elseif ($recordModel->isNew()) {
 				$defaultValue = $fieldModel->getDefaultFieldValue();
 				if ($defaultValue !== '') {

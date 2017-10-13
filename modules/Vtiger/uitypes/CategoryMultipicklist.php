@@ -8,9 +8,42 @@
  * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
  * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 {
+
+	/**
+	 * Function to get the DB Insert Value, for the current field type with given User Value
+	 * @param mixed $value
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @return string
+	 */
+	public function getDBValue($value, $recordModel = false)
+	{
+		if ($value) {
+			$value = ",$value,";
+		} elseif (is_null($value)) {
+			$value = '';
+		}
+		return \App\Purifier::decodeHtml($value);
+	}
+
+	/**
+	 * Verification of data
+	 * @param string $value
+	 */
+	public function validate($value)
+	{
+		if ($this->validate || $value === '' || $value === null) {
+			return;
+		}
+		foreach (explode(',', $value) as $row) {
+			if (substr($row, 0, 1) !== 'T' || !is_numeric(substr($row, 1))) {
+				throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+			}
+		}
+	}
 
 	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
@@ -35,21 +68,5 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 			}
 		}
 		return \App\Purifier::encodeHtml(implode(', ', $names));
-	}
-
-	/**
-	 * Function to get the DB Insert Value, for the current field type with given User Value
-	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @return string
-	 */
-	public function getDBValue($value, $recordModel = false)
-	{
-		if ($value) {
-			$value = ",$value,";
-		} elseif (is_null($value)) {
-			$value = '';
-		}
-		return \App\Purifier::decodeHtml($value);
 	}
 }

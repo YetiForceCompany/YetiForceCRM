@@ -340,7 +340,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/**
 	 * Function to get the UI Type model for the uitype of the current field
-	 * @return Vtiger_Base_UIType or UI Type specific model instance
+	 * @return Vtiger_Base_UIType  Vtiger_Base_UIType or UI Type specific model instance
 	 */
 	public function getUITypeModel()
 	{

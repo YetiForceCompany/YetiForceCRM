@@ -12,27 +12,11 @@
 class Vtiger_Base_UIType extends \App\Base
 {
 
-	public function isAjaxEditable()
-	{
-		return true;
-	}
-
 	/**
-	 * If the field is sortable in ListView
+	 * Verify the value
+	 * @var bool
 	 */
-	public function isListviewSortable()
-	{
-		return true;
-	}
-
-	/**
-	 * Function to get the Template name for the current UI Type Object
-	 * @return string - Template Name
-	 */
-	public function getTemplateName()
-	{
-		return 'uitypes/String.tpl';
-	}
+	protected $validate = false;
 
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
@@ -52,13 +36,94 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
-	 * @return <Object>
+	 * Set value from request 
+	 * @param \App\Request $request
+	 * @param Vtiger_Record_Model $recordModel
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel)
+	{
+		$fieldName = $this->get('field')->getFieldName();
+		$value = $request->get($fieldName, '');
+		$this->validate($value);
+		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
+	}
+
+	/**
+	 * Verification of data
+	 * @param string $value
+	 */
+	public function validate($value)
+	{
+		if ($this->validate || $value === '' || $value === null) {
+			return;
+		}
+		//var_dump(get_class($this), $value);
+		if (!is_string($value)) {
+			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+		}
+		if (App\Utils::getTextLength($value) > 255) {
+			throw new \App\Exceptions\SaveRecord('ERR_VALUE_IS_TOO_LONG', 406);
+		}
+	}
+
+	/**
+	 * Function to get the display value, for the current field type with given DB Insert Value
+	 * @param mixed $value
+	 * @param int $record
+	 * @param type $recordModel
+	 * @param Vtiger_Record_Model $rawText
+	 * @return mixed
+	 */
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
 		return \App\Purifier::encodeHtml($value);
+	}
+
+	/**
+	 * Function to get the edit value in display view
+	 * @param mixed $value
+	 * @param Vtiger_Record_Model $recordModel
+	 * @return mixed
+	 */
+	public function getEditViewDisplayValue($value, $recordModel = false)
+	{
+		return \App\Purifier::encodeHtml($value);
+	}
+
+	/**
+	 * Function to get the list value in display view
+	 * @param mixed $value
+	 * @param int $record
+	 * @param Vtiger_Record_Model $recordModel
+	 * @param bool $rawText
+	 * @return mixed
+	 */
+	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
+	{
+		return \vtlib\Functions::textLength($this->getDisplayValue($value, $record, $recordModel, $rawText), $this->get('field')->get('maxlengthtext'));
+	}
+
+	/**
+	 * Function to get the related list value in display view
+	 * @param mixed $value
+	 * @param int $record
+	 * @param Vtiger_Record_Model $recordModel
+	 * @param bool $rawText
+	 * @return mixed
+	 */
+	public function getRelatedListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
+	{
+		return $this->getListViewDisplayValue($value, $record, $recordModel, $rawText);
+	}
+
+	/**
+	 * Function to get Display value for RelatedList
+	 * @param string $value
+	 * @return string
+	 */
+	public function getRelatedListDisplayValue($value)
+	{
+		return $this->getDisplayValue($value);
 	}
 
 	/**
@@ -93,24 +158,12 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
-	 * Function to get the edit value in display view
-	 * @param mixed $value
-	 * @param Vtiger_Record_Model $recordModel
-	 * @return mixed
+	 * Function to get the Template name for the current UI Type Object
+	 * @return string - Template Name
 	 */
-	public function getEditViewDisplayValue($value, $recordModel = false)
+	public function getTemplateName()
 	{
-		return \App\Purifier::encodeHtml($value);
-	}
-
-	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
-	{
-		return \vtlib\Functions::textLength($this->getDisplayValue($value, $record, $recordInstance, $rawText), $this->get('field')->get('maxlengthtext'));
-	}
-
-	public function getRelatedListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
-	{
-		return $this->getListViewDisplayValue($value, $record, $recordInstance, $rawText);
+		return 'uitypes/String.tpl';
 	}
 
 	/**
@@ -120,16 +173,6 @@ class Vtiger_Base_UIType extends \App\Base
 	public function getDetailViewTemplateName()
 	{
 		return 'uitypes/StringDetailView.tpl';
-	}
-
-	/**
-	 * Function to get Display value for RelatedList
-	 * @param string $value
-	 * @return string
-	 */
-	public function getRelatedListDisplayValue($value)
-	{
-		return $this->getDisplayValue($value);
 	}
 
 	/**
@@ -151,6 +194,19 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	public function isActiveSearchView()
+	{
+		return true;
+	}
+
+	public function isAjaxEditable()
+	{
+		return true;
+	}
+
+	/**
+	 * If the field is sortable in ListView
+	 */
+	public function isListviewSortable()
 	{
 		return true;
 	}
