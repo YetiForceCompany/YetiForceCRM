@@ -217,6 +217,8 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 			case 'status':
 				$value = $value ? 'PLL_ACTIVE' : 'PLL_INACTIVE';
 				break;
+			case 'margin_chkbox':
+				$value = $value ? 'LBL_YES' : 'LBL_NO';
 		}
 		return $value;
 	}

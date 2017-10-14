@@ -52,7 +52,11 @@ Settings_Vtiger_List_Js("Settings_PDF_List_Js", {}, {
 	registerAddNewTemplate: function (container) {
 		jQuery('#addButton', container).on('click', function () {
 			var selectedModule = jQuery('#moduleFilter option:selected').val();
-			window.location.href = jQuery(this).data('url') + '&source_module=' + selectedModule;
+			var url = jQuery(this).data('url');
+			if (selectedModule.length) {
+				url += '&source_module=' + selectedModule;
+			}
+			window.location.href = url ;
 		});
 	},
 	registerImportTemplate: function (container) {
