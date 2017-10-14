@@ -9,8 +9,23 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-Class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
+class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 {
+
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
+	public function checkPermission(\App\Request $request)
+	{
+		if (\App\User::getCurrentUserModel()->isAdmin()) {
+			return;
+		}
+		if (($request->get('duplicate') !== '1') && $request->has('record') && !CustomView_Record_Model::getInstanceById($request->getInteger('record'))->isEditable()) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		}
+	}
 
 	public function process(\App\Request $request)
 	{

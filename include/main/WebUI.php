@@ -182,7 +182,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				$this->triggerCheckPermission($handler, $request);
 			}
 			// Every settings page handler should implement this method
-			if (stripos($qualifiedModuleName, 'Settings') === 0 || $moduleName === 'Users') {
+			if (stripos($qualifiedModuleName, 'Settings') === 0 || $moduleName === 'Users' || $moduleName === 'CustomView') {
 				$handler->checkPermission($request);
 			}
 			if ($moduleName === 'ModComments' && $view === 'List') {

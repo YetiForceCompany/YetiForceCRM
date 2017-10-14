@@ -18,7 +18,7 @@ class CustomView_Approve_Action extends Vtiger_Action_Controller
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		if (!CustomView_Record_Model::getInstanceById($request->get('record')->isPending())) {
+		if (!CustomView_Record_Model::getInstanceById($request->getInteger('record'))->isPending()) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -31,9 +31,8 @@ class CustomView_Approve_Action extends Vtiger_Action_Controller
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if ($currentUser->isAdminUser()) {
-			$customViewModel = CustomView_Record_Model::getInstanceById($request->get('record'));
+			$customViewModel = CustomView_Record_Model::getInstanceById($request->getInteger('record'));
 			$moduleModel = $customViewModel->getModule();
-
 			$customViewModel->approve();
 		}
 		$listViewUrl = $moduleModel->getListViewUrl();
