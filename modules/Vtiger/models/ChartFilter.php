@@ -113,12 +113,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	protected function getDataBarchat()
 	{
 		$groupData = $this->getRows();
-		uasort($groupData, function($first, $second) {
-			if ($first['count'] == $second['count']) {
-				return 0;
-			}
-			return ($first['count'] < $second['count']) ? 1 : -1;
-		});
 		$data = [];
 		foreach ($groupData as $fieldName => $value) {
 			$data[] = [$value['count'], $fieldName, $value['link']];
@@ -246,7 +240,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				if ($sectors) {
 					$sectorValues = $this->getValueForSector($sectorValues, $row[$fieldName]);
 				} else {
-					$groupData = $this->getValue($groupData, $row[$fieldName]);
+					$groupData = $this->getValue($groupData, $row);
 				}
 			}
 		}
@@ -267,15 +261,15 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	/**
 	 * Get chart value for row
 	 * @param array $groupData
-	 * @param mixed $value
+	 * @param array $row
 	 * @return array
 	 */
-	protected function getValue($groupData, $value)
+	protected function getValue($groupData, $row)
 	{
 		$fieldName = $this->groupFieldModel->getFieldName();
-		$displayValue = $this->groupFieldModel->getDisplayValue($value, false, false, true);
 		switch ($this->extraData['valueType']) {
 			case 'count':
+				$displayValue = $this->groupFieldModel->getDisplayValue($row[$fieldName], false, false, true);
 				if (!isset($groupData[$displayValue]['count'])) {
 					$groupData[$displayValue]['count'] = 1;
 				} else {
@@ -283,15 +277,16 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				}
 				break;
 			case 'sum':
+				$displayValue = $this->groupFieldModel->getDisplayValue($row[$fieldName], false, false, true);
 				if (!isset($groupData[$displayValue]['count'])) {
-					$groupData[$displayValue]['count'] = (int) $value;
+					$groupData[$displayValue]['count'] = (int) $row[$this->extraData['valueField']];
 				} else {
-					$groupData[$displayValue]['count'] += (int) $value;
+					$groupData[$displayValue]['count'] += (int) $row[$this->extraData['valueField']];
 				}
 				break;
 		}
 		if (!isset($groupData[$displayValue]['link'])) {
-			$searchParams = array_merge($this->searchParams, [[$fieldName, 'e', $value]]);
+			$searchParams = array_merge($this->searchParams, [[$this->extraData['valueField'], 'e', $row[$this->extraData['valueField']]]]);
 			$groupData[$displayValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->widgetModel->get('filterid') . '&search_params=' . App\Json::encode([$searchParams]);
 		}
 		return $groupData;
@@ -416,11 +411,12 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	 */
 	protected function getQuery()
 	{
-		$filterId = $this->widgetModel->get('filterid');
-		$groupField = $this->extraData['groupField'];
 		$queryGenerator = new \App\QueryGenerator($this->getTargetModule());
-		$queryGenerator->initForCustomViewById($filterId);
-		$queryGenerator->setField($groupField);
+		$queryGenerator->initForCustomViewById($this->widgetModel->get('filterid'));
+		$queryGenerator->setField($this->extraData['groupField']);
+		if (!empty($this->extraData['valueField'])) {
+			$queryGenerator->setField($this->extraData['valueField']);
+		}
 		if ($this->has('owner') && !empty($this->extraData['showOwnerFilter']) && $this->get('owner') !== 0) {
 			$queryGenerator->addCondition('assigned_user_id', $this->get('owner'), 'e');
 		}

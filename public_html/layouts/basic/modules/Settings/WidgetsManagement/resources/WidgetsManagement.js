@@ -695,9 +695,10 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 					var step2 = wizardContainer.find('.step2');
 					app.showSelect2ElementView(step2.find('select'));
 					footer.hide();
-					step2.find('.filterId').change(function () {
-						var filterid = $(this);
-						if (!filterid.val())
+					var filterid = step2.find('.filterId');
+					var valueTypeSelect = step2.find('.valueType');
+					step2.find('.filterId, .valueType').change(function () {
+						if (!filterid.val() || !valueTypeSelect.val())
 							return;
 						wizardContainer.find('.step3').remove();
 						wizardContainer.find('.step4').remove();
@@ -706,9 +707,10 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 							view: 'ChartFilter',
 							step: 'step3',
 							selectedModule: moduleNameSelect2.val(),
-							filterid: filterid.val()
+							filterid: filterid.val(),
+							valueType: valueTypeSelect.val()
 						}).then(function (step3Response) {
-							step2.after(step3Response);
+							step2.last().after(step3Response);
 							wizardContainer.find('#widgetStep').val(3);
 							var step3 = wizardContainer.find('.step3');
 							app.showSelect2ElementView(step3.find('select'));
@@ -728,7 +730,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 									groupField: groupField.val(),
 									chartType: chartType.val()
 								}).then(function (step4Response) {
-									step3.after(step4Response);
+									step3.last().after(step4Response);
 									wizardContainer.find('#widgetStep').val(4);
 									var step4 = wizardContainer.find('.step4');
 									app.showSelect2ElementView(step4.find('select'));
@@ -765,7 +767,6 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 		});
 
 		function finializeAddChart(moduleNameLabel, filterid, filterLabel, fieldLabel, data, form) {
-
 			var paramsForm = {};
 			paramsForm['data'] = JSON.stringify(data);
 			paramsForm['action'] = 'addWidget';
@@ -806,7 +807,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			);
 		}
 	},
-	
+
 	addChartWidget: function (element) {
 		app.showModalWindow(null, "index.php?parent=Settings&module=WidgetsManagement&view=AddChart", function (wizardContainer) {
 			wizardContainer.find('[name="blockid"]').val(element.data('block-id'));

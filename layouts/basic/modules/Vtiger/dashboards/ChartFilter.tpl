@@ -63,7 +63,7 @@
 			<td class="fieldValue">
 				<select class="form-control valueType saveParam" name="valueType" size="2">
 					<option value="count">{\App\Language::translate('LBL_NUMBER_OF_RECORDS','Home')}</option>
-					<!--<option value="sum">{\App\Language::translate('LBL_SUM','Home')}</option>-->
+					<option value="sum">{\App\Language::translate('LBL_SUM','Home')}</option>
 				</select>
 			</td>
 		</tr>
@@ -89,13 +89,34 @@
 			<td class="fieldLabel alignMiddle textAlignCenter" nowrap><span class="redColor">*</span>{\App\Language::translate('LBL_GROUP_FIELD','Home')}</td>
 			<td class="fieldValue">
 				<select class="form-control groupField" name="groupField" size="2" >
-					<option></option>
-					{foreach from=$MODULE_FIELDS item=FIELD key=FIELD_NAME}
-						<option value="{$FIELD_NAME}" data-field-type="{$FIELD->getFieldDataType()}">{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
+					{foreach from=$MODULE_FIELDS item=FIELDS key=BLOCK_NAME}
+						<optgroup label="{\App\Language::translate($BLOCK_NAME,$SELECTED_MODULE)}">
+							{foreach from=$FIELDS item=FIELD key=FIELD_NAME}
+								<option value="{$FIELD_NAME}" data-field-type="{$FIELD->getFieldDataType()}">{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
+							{/foreach}
+						</optgroup>
 					{/foreach}
 				</select>
 			</td>
 		</tr>
+		{if $VALUE_TYPE == 'sum'}
+			<tr class="step3">
+				<td class="fieldLabel alignMiddle textAlignCenter" nowrap><span class="redColor">*</span>{\App\Language::translate('LBL_VALUE_FIELD','Home')}</td>
+				<td class="fieldValue">
+					<select class="form-control saveParam valueField" name="valueField" size="2" >
+						{foreach from=$MODULE_FIELDS item=FIELDS key=BLOCK_NAME}
+							<optgroup label="{\App\Language::translate($BLOCK_NAME,$SELECTED_MODULE)}">
+								{foreach from=$FIELDS item=FIELD key=FIELD_NAME}
+									{if in_array($FIELD->getFieldDataType(),['currency', 'double', 'percentage', 'integer'])}
+										<option value="{$FIELD_NAME}" data-field-type="{$FIELD->getFieldDataType()}">{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
+									{/if}
+								{/foreach}
+							</optgroup>
+						{/foreach}
+					</select>
+				</td>
+			</tr>
+		{/if}
 	{elseif $WIZARD_STEP eq 'step4'}
 		{if $CHART_TYPE == 'Funnel'  && in_array($GROUP_FIELD_MODEL->getFieldDataType(),['currency', 'double', 'percentage', 'integer'])}
 			<tr class="step4">

@@ -37,6 +37,7 @@ $languageStrings = [
 	'LBL_WIDGET_NAME' => 'Nazwa widżetu',
 	'LBL_SELECT_CHART' => 'Wybierz wykres',
 	'LBL_VALUE_TYPE' => 'Typ wartości',
+	'LBL_VALUE_FIELD' => 'Pole wartości',
 	'LBL_NUMBER_OF_RECORDS' => 'Ilość rekordów',
 	'LBL_SUM' => 'Suma',
 	'LBL_GROUP_FIELD' => 'Grupuj po polu',
