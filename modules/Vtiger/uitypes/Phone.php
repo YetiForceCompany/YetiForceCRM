@@ -13,21 +13,42 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * {@inheritDoc}
 	 */
-	public function getTemplateName()
+	public function getDBValue($value, $recordModel = false)
 	{
-		return 'uitypes/Phone.tpl';
+		if (empty($value)) {
+			return '';
+		}
+		if (AppConfig::main('phoneFieldAdvancedVerification', false)) {
+			$value = str_replace(' ', '', $value);
+		}
+		return \App\Purifier::decodeHtml($value);
 	}
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param mixed $value
-	 * @param int|bool $record
-	 * @param Vtiger_Record_Model|bool $recordInstance
-	 * @param bool $rawText
-	 * @return string
+	 * {@inheritDoc}
+	 */
+	public function validate($value, $isUserFormat = false)
+	{
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		if (AppConfig::main('phoneFieldAdvancedVerification', false)) {
+			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+			try {
+				$phoneUtil->isValidNumber($phoneUtil->parse($value));
+			} catch (\libphonenumber\NumberParseException $e) {
+				throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+			}
+			$this->validate = true;
+		} else {
+			parent::validate($value, $isUserFormat);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
@@ -58,6 +79,9 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 		return '<a class="phoneField" onclick="Vtiger_Index_Js.performPhoneCall(\'' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $international) . '\',' . $record . ')"><span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span> ' . $international . $extra . '</a>';
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$rfc3966 = $international = \App\Purifier::encodeHtml($value);
@@ -81,19 +105,10 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the db insert value
-	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @return mixed
+	 * {@inheritDoc}
 	 */
-	public function getDBValue($value, $recordModel = false)
+	public function getTemplateName()
 	{
-		if (empty($value)) {
-			return '';
-		}
-		if (AppConfig::main('phoneFieldAdvancedVerification', false)) {
-			$value = str_replace(' ', '', $value);
-		}
-		return \App\Purifier::decodeHtml($value);
+		return 'uitypes/Phone.tpl';
 	}
 }
