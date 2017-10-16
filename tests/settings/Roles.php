@@ -61,6 +61,16 @@ class Roles extends TestCase
 	}
 
 	/**
+	 * Testing move role
+	 */
+	public function testMoveRole()
+	{
+		$parentRole = Settings_Roles_Record_Model::getInstanceById('H1');
+		$recordModel = Settings_Roles_Record_Model::getInstanceById(static::$id);
+		$recordModel->moveTo($parentRole);
+	}
+
+	/**
 	 * Testing role edition
 	 */
 	public function testEditRole()

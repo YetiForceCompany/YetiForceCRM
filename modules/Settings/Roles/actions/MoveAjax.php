@@ -11,31 +11,17 @@
 class Settings_Roles_MoveAjax_Action extends Settings_Vtiger_Basic_Action
 {
 
-	public function preProcess(\App\Request $request, $display = true)
-	{
-		return;
-	}
-
-	public function postProcess(\App\Request $request)
-	{
-		return;
-	}
-
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->get('record');
-		$parentRoleId = $request->get('parent_roleid');
+		$recordId = $request->getByType('record', 2);
+		$parentRoleId = $request->getByType('parent_roleid', 2);
 
 		$parentRole = Settings_Roles_Record_Model::getInstanceById($parentRoleId);
 		$recordModel = Settings_Roles_Record_Model::getInstanceById($recordId);
+		$recordModel->moveTo($parentRole);
 
 		$response = new Vtiger_Response();
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
-		try {
-			$recordModel->moveTo($parentRole);
-		} catch (\App\Exceptions\AppException $e) {
-			$response->setError('Move Role Failed');
-		}
 		$response->emit();
 	}
 }
