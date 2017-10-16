@@ -69,10 +69,10 @@ class Functions
 	public static function getCurrencySymbolandRate($currencyid)
 	{
 		$currencyInfo = self::getCurrencyInfo($currencyid);
-		$currencyRateSymbol = array(
+		$currencyRateSymbol = [
 			'rate' => $currencyInfo['conversion_rate'],
 			'symbol' => $currencyInfo['currency_symbol']
-		);
+		];
 		return $currencyRateSymbol;
 	}
 
@@ -184,7 +184,7 @@ class Functions
 	{
 		$multimode = is_array($mixedid);
 
-		$ids = $multimode ? $mixedid : array($mixedid);
+		$ids = $multimode ? $mixedid : [$mixedid];
 		$missing = [];
 		foreach ($ids as $id) {
 			if ($id && !isset(self::$crmRecordIdMetadataCache[$id])) {
@@ -283,10 +283,10 @@ class Functions
 
 	public static function fromHtmlPopup($string, $encode = true)
 	{
-		$popup_toHtml = array(
+		$popup_toHtml = [
 			'"' => '&quot;',
 			"'" => '&#039;',
-		);
+		];
 		if ($encode && is_string($string)) {
 			$string = addslashes(str_replace(array_values($popup_toHtml), array_keys($popup_toHtml), $string));
 		}
@@ -303,7 +303,7 @@ class Functions
 
 	public static function suppressHTMLTags($string)
 	{
-		return preg_replace(array('/</', '/>/', '/"/'), array('&lt;', '&gt;', '&quot;'), $string);
+		return preg_replace(['/</', '/>/', '/"/'], ['&lt;', '&gt;', '&quot;'], $string);
 	}
 
 	/** 	Function used to retrieve a single field value from database
@@ -344,7 +344,7 @@ class Functions
 		$field = $table_name . ':' . $column_name;
 		//Add the field details in this array if you want to change the advance filter field details
 
-		static $new_field_details = Array(
+		static $new_field_details = [
 			//Contacts Related Fields
 			'vtiger_contactdetails:parentid' => 'V',
 			'vtiger_contactsubdetails:birthday' => 'D',
@@ -388,7 +388,7 @@ class Functions
 			'vtiger_vendorcontactrel:vendorid' => 'V',
 			'vtiger_vendorcontactrel:contactid' => 'V',
 			'vtiger_pricebook:currency_id' => 'V',
-		);
+		];
 
 		//If the Fields details does not match with the array, then we return the same typeofdata
 		if (isset($new_field_details[$field])) {
@@ -439,7 +439,7 @@ class Functions
 		} else {
 			$query = "select unit_price from vtiger_products where productid=?";
 		}
-		$result = $adb->pquery($query, array($productid));
+		$result = $adb->pquery($query, [$productid]);
 		$unitpice = $adb->queryResult($result, 0, 'unit_price');
 		return $unitpice;
 	}
@@ -448,10 +448,10 @@ class Functions
 	{
 		$hour = floor($decTime);
 		$min = round(60 * ($decTime - $hour));
-		return array(
+		return [
 			'short' => $hour . \App\Language::translate('LBL_H') . ' ' . $min . \App\Language::translate('LBL_M'),
 			'full' => $hour . \App\Language::translate('LBL_HOURS') . ' ' . $min . \App\Language::translate('LBL_MINUTES'),
-		);
+		];
 	}
 
 	public static function getRangeTime($timeMinutesRange, $showEmptyValue = true)
@@ -789,7 +789,7 @@ class Functions
 	{
 		// Make sure string is in UTF-8 and strip invalid UTF-8 characters
 		$str = mb_convert_encoding((string) $str, 'UTF-8', mb_list_encodings());
-		$char_map = array(
+		$char_map = [
 			// Latin
 			'Ă€' => 'A', 'Ă' => 'A', 'Ă‚' => 'A', 'Ă' => 'A', 'Ă„' => 'A', 'Ă…' => 'A', 'Ă†' => 'AE', 'Ă‡' => 'C',
 			'Ă' => 'E', 'Ă‰' => 'E', 'ĂŠ' => 'E', 'Ă‹' => 'E', 'ĂŚ' => 'I', 'ĂŤ' => 'I', 'ĂŽ' => 'I', 'ĂŹ' => 'I',
@@ -855,7 +855,7 @@ class Functions
 			'Ĺ ' => 'S', 'ĹŞ' => 'u', 'Ĺ˝' => 'Z',
 			'Ä' => 'a', 'ÄŤ' => 'c', 'Ä“' => 'e', 'ÄŁ' => 'g', 'Ä«' => 'i', 'Ä·' => 'k', 'ÄĽ' => 'l', 'Ĺ†' => 'n',
 			'Ĺˇ' => 's', 'Ĺ«' => 'u', 'Ĺľ' => 'z'
-		);
+		];
 
 		// Transliterate characters to ASCII
 		$str = str_replace(array_keys($char_map), $char_map, $str);

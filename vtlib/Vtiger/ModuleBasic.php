@@ -384,7 +384,7 @@ class ModuleBasic
 	public function disableTools($tools)
 	{
 		if (is_string($tools)) {
-			$tools = Array(0 => $tools);
+			$tools = [0 => $tools];
 		}
 		foreach ($tools as $tool) {
 			Access::updateTool($this, $tool, false);

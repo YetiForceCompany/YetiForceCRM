@@ -261,7 +261,7 @@ class PackageExport
 		$adb = \PearDatabase::getInstance();
 		$moduleId = $moduleInstance->id;
 
-		$sqlResult = $adb->pquery('SELECT * FROM vtiger_tab_info WHERE tabid = ?', array($moduleId));
+		$sqlResult = $adb->pquery('SELECT * FROM vtiger_tab_info WHERE tabid = ?', [$moduleId]);
 		$minVersion = \App\Version::get();
 		$maxVersion = false;
 		$noOfPreferences = $adb->numRows($sqlResult);
@@ -388,7 +388,7 @@ class PackageExport
 	public function exportBlocks(ModuleBasic $moduleInstance)
 	{
 		$adb = \PearDatabase::getInstance();
-		$sqlresult = $adb->pquery('SELECT * FROM vtiger_blocks WHERE tabid = ?', Array($moduleInstance->id));
+		$sqlresult = $adb->pquery('SELECT * FROM vtiger_blocks WHERE tabid = ?', [$moduleInstance->id]);
 		$resultrows = $adb->numRows($sqlresult);
 
 		if (empty($resultrows))
@@ -436,13 +436,13 @@ class PackageExport
 	{
 		$adb = \PearDatabase::getInstance();
 
-		$fieldresult = $adb->pquery('SELECT * FROM vtiger_field WHERE tabid=? && block=?', Array($moduleInstance->id, $blockid));
+		$fieldresult = $adb->pquery('SELECT * FROM vtiger_field WHERE tabid=? && block=?', [$moduleInstance->id, $blockid]);
 		$fieldcount = $adb->numRows($fieldresult);
 
 		if (empty($fieldcount))
 			return;
 
-		$entityresult = $adb->pquery("SELECT * FROM vtiger_entityname WHERE tabid=?", Array($moduleInstance->id));
+		$entityresult = $adb->pquery("SELECT * FROM vtiger_entityname WHERE tabid=?", [$moduleInstance->id]);
 		$entity_fieldname = $adb->queryResult($entityresult, 0, 'fieldname');
 
 		$this->openNode('fields');
@@ -454,7 +454,7 @@ class PackageExport
 			$uitype = $fieldresultrow['uitype'];
 			$fieldid = $fieldresultrow['fieldid'];
 
-			$info_schema = $adb->pquery("SELECT column_name, column_type FROM INFORMATION_SCHEMA.COLUMNS WHERE table_schema = SCHEMA() && table_name = ? && column_name = ?", Array($fieldresultrow['tablename'], $fieldresultrow['columnname']));
+			$info_schema = $adb->pquery("SELECT column_name, column_type FROM INFORMATION_SCHEMA.COLUMNS WHERE table_schema = SCHEMA() && table_name = ? && column_name = ?", [$fieldresultrow['tablename'], $fieldresultrow['columnname']]);
 			$info_schemarow = $adb->fetchByAssoc($info_schema);
 
 			$this->outputNode($fieldname, 'fieldname');
@@ -507,7 +507,7 @@ class PackageExport
 
 			// Export field to module relations
 			if ($uitype == '10') {
-				$relatedmodres = $adb->pquery("SELECT * FROM vtiger_fieldmodulerel WHERE fieldid=?", Array($fieldid));
+				$relatedmodres = $adb->pquery("SELECT * FROM vtiger_fieldmodulerel WHERE fieldid=?", [$fieldid]);
 				$relatedmodcount = $adb->numRows($relatedmodres);
 				if ($relatedmodcount) {
 					$this->openNode('relatedmodules');
@@ -520,11 +520,11 @@ class PackageExport
 			if ($uitype == '302') {
 				$this->outputNode('', 'fieldparams');
 				$this->openNode('tree_template');
-				$trees = $adb->pquery('SELECT * FROM vtiger_trees_templates WHERE templateid=?;', Array($fieldresultrow['fieldparams']));
+				$trees = $adb->pquery('SELECT * FROM vtiger_trees_templates WHERE templateid=?;', [$fieldresultrow['fieldparams']]);
 				if ($adb->numRows($trees) > 0) {
 					$this->outputNode($adb->queryResultRaw($trees, 0, 'name'), 'name');
 					$this->outputNode($adb->queryResultRaw($trees, 0, 'access'), 'access');
-					$treesData = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid=?;', Array($fieldresultrow['fieldparams']));
+					$treesData = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid=?;', [$fieldresultrow['fieldparams']]);
 					$this->openNode('tree_values');
 					$countTreesData = $adb->numRows($treesData);
 					for ($i = 0; $i < $countTreesData; $i++) {
@@ -615,7 +615,7 @@ class PackageExport
 	{
 		$adb = \PearDatabase::getInstance();
 
-		$deforgshare = $adb->pquery('SELECT * FROM vtiger_def_org_share WHERE tabid=?', Array($moduleInstance->id));
+		$deforgshare = $adb->pquery('SELECT * FROM vtiger_def_org_share WHERE tabid=?', [$moduleInstance->id]);
 		$deforgshareCount = $adb->numRows($deforgshare);
 
 		if (empty($deforgshareCount))
@@ -653,7 +653,7 @@ class PackageExport
 
 		$adb = \PearDatabase::getInstance();
 		$result = $adb->pquery('SELECT distinct(actionname) FROM vtiger_profile2utility, vtiger_actionmapping
-			WHERE vtiger_profile2utility.activityid=vtiger_actionmapping.actionid and tabid=?', Array($moduleInstance->id));
+			WHERE vtiger_profile2utility.activityid=vtiger_actionmapping.actionid and tabid=?', [$moduleInstance->id]);
 
 		if ($adb->numRows($result)) {
 			$this->openNode('actions');
@@ -679,7 +679,7 @@ class PackageExport
 			return;
 
 		$adb = \PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT * FROM vtiger_relatedlists WHERE tabid = ?', Array($moduleInstance->id));
+		$result = $adb->pquery('SELECT * FROM vtiger_relatedlists WHERE tabid = ?', [$moduleInstance->id]);
 		if ($adb->numRows($result)) {
 			$this->openNode('relatedlists');
 
@@ -711,7 +711,7 @@ class PackageExport
 		}
 
 		// Relations in the opposite direction
-		$result = $adb->pquery("SELECT * FROM vtiger_relatedlists WHERE related_tabid = ?", Array($moduleInstance->id));
+		$result = $adb->pquery("SELECT * FROM vtiger_relatedlists WHERE related_tabid = ?", [$moduleInstance->id]);
 		if ($adb->numRows($result)) {
 			$this->openNode('inrelatedlists');
 

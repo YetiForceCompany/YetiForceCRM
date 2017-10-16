@@ -88,7 +88,7 @@ class LanguageExport extends Package
 	private function generateLangMainfest($prefix)
 	{
 		$db = \PearDatabase::getInstance();
-		$sqlresult = $db->pquery('SELECT * FROM vtiger_language WHERE prefix = ?', array($prefix));
+		$sqlresult = $db->pquery('SELECT * FROM vtiger_language WHERE prefix = ?', [$prefix]);
 		$languageresultrow = $db->fetchArray($sqlresult);
 		$langname = \App\Purifier::decodeHtml($languageresultrow['name']);
 		$langlabel = \App\Purifier::decodeHtml($languageresultrow['label']);
@@ -126,7 +126,7 @@ class LanguageExport extends Package
 			$adb = \PearDatabase::getInstance();
 			foreach (vglobal('languages') as $langkey => $langlabel) {
 				$uniqueid = self::__getUniqueId();
-				$adb->pquery('INSERT INTO ' . self::TABLENAME . '(id,name,prefix,label,lastupdated,active) VALUES(?,?,?,?,?,?)', Array($uniqueid, $langlabel, $langkey, $langlabel, date('Y-m-d H:i:s', time()), 1));
+				$adb->pquery('INSERT INTO ' . self::TABLENAME . '(id,name,prefix,label,lastupdated,active) VALUES(?,?,?,?,?,?)', [$uniqueid, $langlabel, $langkey, $langlabel, date('Y-m-d H:i:s', time()), 1]);
 			}
 		}
 	}
@@ -149,7 +149,7 @@ class LanguageExport extends Package
 		$adb = \PearDatabase::getInstance();
 		$checkres = $adb->pquery(sprintf('SELECT id FROM %s WHERE prefix = ?', self::TABLENAME), [$prefix]);
 		$datetime = date('Y-m-d H:i:s');
-		if ($adb->numRows($checkres)) {			
+		if ($adb->numRows($checkres)) {
 			$adb->update(self::TABLENAME, [
 				'label' => $label,
 				'name' => $name,

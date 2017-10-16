@@ -332,7 +332,7 @@ class Vtiger_Tools_Console_ModuleController extends Vtiger_Tools_Console_Control
 		$module->setDefaultSharing();
 
 		// Enable and Disable available tools
-		$module->enableTools(Array('Import', 'Export', 'Merge'));
+		$module->enableTools(['Import', 'Export', 'Merge']);
 
 		// Initialize Webservice support
 		$module->initWebservice();
@@ -487,8 +487,8 @@ class Vtiger_Tools_Console_LanguageController extends Vtiger_Tools_Console_Contr
 		if ($check && $db->numRows($check)) {
 			;
 		} else {
-			$db->pquery('INSERT INTO vtiger_language (id,name,prefix,label,lastupdated,isdefault,active) VALUES(?,?,?,?,?,?,?)', array($db->getUniqueId('vtiger_language'), $languageInformation['label'], $languageInformation['prefix'],
-				$languageInformation['label'], date('Y-m-d H:i:s'), 0, 1));
+			$db->pquery('INSERT INTO vtiger_language (id,name,prefix,label,lastupdated,isdefault,active) VALUES(?,?,?,?,?,?,?)', [$db->getUniqueId('vtiger_language'), $languageInformation['label'], $languageInformation['prefix'],
+				$languageInformation['label'], date('Y-m-d H:i:s'), 0, 1]);
 		}
 	}
 }
@@ -500,7 +500,7 @@ class Vtiger_Tools_Console_TestLanguageController extends Vtiger_Tools_Console_L
 	{
 		echo ">>> TEST LANGUAGE <<<\n";
 
-		$languageInformation = array('label' => 'TEST', 'prefix' => 'te_st', 'prefix_value' => '✔ ');
+		$languageInformation = ['label' => 'TEST', 'prefix' => 'te_st', 'prefix_value' => '✔ '];
 
 		echo "Creating ...";
 		$this->create($languageInformation);

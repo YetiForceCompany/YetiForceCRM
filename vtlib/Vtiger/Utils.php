@@ -52,7 +52,7 @@ class Utils
 	 */
 	public static function checkFileAccessForInclusion($filepath, $dieOnFail = true)
 	{
-		$unsafeDirectories = array('storage', 'cache', 'test');
+		$unsafeDirectories = ['storage', 'cache', 'test'];
 		$realfilepath = realpath($filepath);
 
 		/** Replace all \\ with \ first */
@@ -255,7 +255,7 @@ class Utils
 	{
 		if (ALLOW_MODULE_LOGGING) {
 			$date = date('Y-m-d H:i:s');
-			$log = array(\AppConfig::main('site_URL'), $module, $date);
+			$log = [\AppConfig::main('site_URL'), $module, $date];
 			if ($mixed instanceof \Exception) {
 				array_push($log, $mixed->getMessage());
 				array_push($log, $mixed->getTraceAsString());

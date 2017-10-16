@@ -67,7 +67,7 @@ class Deprecated
 	{
 		$adb = \PearDatabase::getInstance();
 		$query = "select blockid from vtiger_blocks where tabid=? and blocklabel = ?";
-		$result = $adb->pquery($query, array($tabId, $label));
+		$result = $adb->pquery($query, [$tabId, $label]);
 		$noOfRows = $adb->numRows($result);
 
 		$blockId = '';
@@ -160,7 +160,7 @@ class Deprecated
 
 		static $cvidCache = [];
 		if (!isset($cvidCache[$module])) {
-			$qry_res = $adb->pquery("select cvid from vtiger_customview where viewname='All' and entitytype=?", array($module));
+			$qry_res = $adb->pquery("select cvid from vtiger_customview where viewname='All' and entitytype=?", [$module]);
 			$cvid = $adb->queryResult($qry_res, 0, "cvid");
 			$cvidCache[$module] = $cvid;
 		}
@@ -194,7 +194,7 @@ class Deprecated
 	/** Function to check the file access is made within web root directory and whether it is not from unsafe directories */
 	public static function checkFileAccessForInclusion($filepath)
 	{
-		$unsafeDirectories = array('storage', 'cache', 'test');
+		$unsafeDirectories = ['storage', 'cache', 'test'];
 		$realfilepath = realpath($filepath);
 
 		/** Replace all \\ with \ first */
@@ -217,7 +217,7 @@ class Deprecated
 	/** Function to check the file deletion within the deletable (safe) directories */
 	public static function checkFileAccessForDeletion($filepath)
 	{
-		$safeDirectories = array('storage', 'cache', 'test');
+		$safeDirectories = ['storage', 'cache', 'test'];
 		$realfilepath = realpath($filepath);
 
 		/** Replace all \\ with \ first */
@@ -281,7 +281,7 @@ class Deprecated
 		$adb = \PearDatabase::getInstance();
 		$blockId = '';
 		$query = "select blockid from vtiger_settings_blocks where label = ?";
-		$result = $adb->pquery($query, array($label));
+		$result = $adb->pquery($query, [$label]);
 		$noOfRows = $adb->numRows($result);
 		if ($noOfRows == 1) {
 			$blockId = $adb->queryResult($result, 0, "blockid");

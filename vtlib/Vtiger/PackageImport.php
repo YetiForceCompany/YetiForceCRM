@@ -939,9 +939,9 @@ class PackageImport extends PackageExport
 			$handlerInfo = null;
 			if (!empty($customlinknode->handler_path)) {
 				$handlerInfo = [];
-				$handlerInfo = array('path' => "$customlinknode->handler_path",
+				$handlerInfo = ['path' => "$customlinknode->handler_path",
 					'class' => "$customlinknode->handler_class",
-					'method' => "$customlinknode->handler");
+					'method' => "$customlinknode->handler"];
 			}
 			$moduleInstance->addLink(
 				"$customlinknode->linktype", "$customlinknode->linklabel", "$customlinknode->linkurl", "$customlinknode->linkicon", "$customlinknode->sequence", $handlerInfo

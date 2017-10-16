@@ -106,7 +106,7 @@ class Field extends FieldBasic
 	{
 
 		$db = \App\Db::getInstance();
-		$pickListNameIDs = array('recurring_frequency', 'payment_duration');
+		$pickListNameIDs = ['recurring_frequency', 'payment_duration'];
 		$picklistTable = 'vtiger_' . $this->name;
 		$picklistIdCol = $this->name . 'id';
 		if (in_array($this->name, $pickListNameIDs)) {

@@ -153,7 +153,7 @@ class Link
 	/**
 	 * Get all the link related to module based on type
 	 * @param Integer Module ID
-	 * @param mixed String or List of types to select 
+	 * @param mixed String or List of types to select
 	 * @param Map Key-Value pair to use for formating the link url
 	 */
 	public static function getAllByType($tabid, $type = false, $parameters = false)
@@ -251,7 +251,7 @@ class Link
 				\vtlib\Deprecated::checkFileAccessForInclusion($row['handler_path']);
 				require_once $row['handler_path'];
 				$linkData = new LinkData($instance, vglobal('current_user'));
-				$ignore = call_user_func(array($row['handler_class'], $row['handler']), $linkData);
+				$ignore = call_user_func([$row['handler_class'], $row['handler']], $linkData);
 				if (!$ignore) {
 					self::log('Ignoring Link ... ' . var_export($row, true));
 					continue;

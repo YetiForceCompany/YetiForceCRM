@@ -91,7 +91,7 @@ class ThemeExport extends Package
 	{
 		$adb = \PearDatabase::getInstance();
 
-		$sqlresult = $adb->pquery("SELECT * FROM vtiger_layoutskins WHERE name = ?", array($themeName));
+		$sqlresult = $adb->pquery("SELECT * FROM vtiger_layoutskins WHERE name = ?", [$themeName]);
 		$layoutresultrow = $adb->fetchArray($sqlresult);
 
 		$resultThemename = \App\Purifier::decodeHtml($layoutresultrow['name']);
@@ -157,7 +157,7 @@ class ThemeExport extends Package
 			$adb = \PearDatabase::getInstance();
 			foreach (vglobal('languages') as $langkey => $langlabel) {
 				$uniqueid = self::__getUniqueId();
-				$adb->pquery('INSERT INTO ' . self::TABLENAME . '(id,name,label,parent,lastupdated,active) VALUES(?,?,?,?,?,?)', Array($uniqueid, $langlabel, $langkey, $langlabel, date('Y-m-d H:i:s', time()), 1));
+				$adb->pquery('INSERT INTO ' . self::TABLENAME . '(id,name,label,parent,lastupdated,active) VALUES(?,?,?,?,?,?)', [$uniqueid, $langlabel, $langkey, $langlabel, date('Y-m-d H:i:s', time()), 1]);
 			}
 		}
 	}
