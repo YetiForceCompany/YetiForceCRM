@@ -54,7 +54,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function validate($value)
 	{
-		if ($this->validate || $value === '' || $value === null) {
+		if ($this->validate || empty($value)) {
 			return;
 		}
 		//var_dump(get_class($this), $value);
@@ -64,6 +64,7 @@ class Vtiger_Base_UIType extends \App\Base
 		if (App\Utils::getTextLength($value) > 255) {
 			throw new \App\Exceptions\SaveRecord('ERR_VALUE_IS_TOO_LONG', 406);
 		}
+		$this->validate = true;
 	}
 
 	/**

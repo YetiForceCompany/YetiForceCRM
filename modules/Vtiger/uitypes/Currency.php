@@ -15,12 +15,36 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	protected $edit = false;
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * Function to get the DB Insert Value, for the current field type with given User Value
+	 * @param mixed $value
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @return mixed
 	 */
-	public function getTemplateName()
+	public function getDBValue($value, $recordModel = false)
 	{
-		return 'uitypes/Currency.tpl';
+		if ($this->get('field')->get('uitype') === 72) {
+			return self::convertToDBFormat($value, null, true);
+		} else {
+			return self::convertToDBFormat($value);
+		}
+	}
+
+	/**
+	 * Verification of data
+	 * @param string $value
+	 */
+	public function validate($value)
+	{
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		$currentUser = \App\User::getCurrentUserModel();
+		$value = str_replace($currentUser->getDetail('currency_grouping_separator'), '', $value);
+		$value = str_replace($currentUser->getDetail('currency_decimal_separator'), '.', $value);
+		if (!is_numeric($value)) {
+			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+		}
+		$this->validate = true;
 	}
 
 	/**
@@ -47,44 +71,6 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 			return \App\Purifier::encodeHtml($value);
 		}
 		return null;
-	}
-
-	/**
-	 * Function to get the DB Insert Value, for the current field type with given User Value
-	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @return mixed
-	 */
-	public function getDBValue($value, $recordModel = false)
-	{
-		if ($this->get('field')->get('uitype') === 72) {
-			return self::convertToDBFormat($value, null, true);
-		} else {
-			return self::convertToDBFormat($value);
-		}
-	}
-
-	/**
-	 * Function to transform display value for currency field
-	 * @param $value
-	 * @param Current User
-	 * @param boolean Skip Conversion
-	 * @return converted user format value
-	 */
-	public static function transformDisplayValue($value, $user = null, $skipConversion = false)
-	{
-		return CurrencyField::convertToUserFormat($value, $user, $skipConversion);
-	}
-
-	/**
-	 * Function converts User currency format to database format
-	 * @param <Object> $value - Currency value
-	 * @param <User Object> $user
-	 * @param boolean $skipConversion
-	 */
-	public static function convertToDBFormat($value, $user = null, $skipConversion = false)
-	{
-		return CurrencyField::convertToDBFormat($value, $user, $skipConversion);
 	}
 
 	/**
@@ -129,5 +115,37 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 			$currencySymbol = $currencyModal->currencySymbol;
 		}
 		return CurrencyField::appendCurrencySymbol($value, $currencySymbol);
+	}
+
+	/**
+	 * Function to transform display value for currency field
+	 * @param $value
+	 * @param Current User
+	 * @param boolean Skip Conversion
+	 * @return converted user format value
+	 */
+	public static function transformDisplayValue($value, $user = null, $skipConversion = false)
+	{
+		return CurrencyField::convertToUserFormat($value, $user, $skipConversion);
+	}
+
+	/**
+	 * Function converts User currency format to database format
+	 * @param <Object> $value - Currency value
+	 * @param <User Object> $user
+	 * @param boolean $skipConversion
+	 */
+	public static function convertToDBFormat($value, $user = null, $skipConversion = false)
+	{
+		return CurrencyField::convertToDBFormat($value, $user, $skipConversion);
+	}
+
+	/**
+	 * Function to get the Template name for the current UI Type object
+	 * @return string - Template Name
+	 */
+	public function getTemplateName()
+	{
+		return 'uitypes/Currency.tpl';
 	}
 }

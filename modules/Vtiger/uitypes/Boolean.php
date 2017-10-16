@@ -33,12 +33,13 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 	 */
 	public function validate($value)
 	{
-		if ($this->validate || $value === '' || $value === null) {
+		if ($this->validate || empty($value)) {
 			return;
 		}
 		if (!in_array($value, [0, 1, '1', '0', 'on'])) {
 			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
 		}
+		$this->validate = true;
 	}
 
 	/**
