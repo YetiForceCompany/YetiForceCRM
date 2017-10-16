@@ -6,38 +6,11 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vtiger_Date_UIType extends Vtiger_Base_UIType
 {
-
-	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
-	 */
-	public function getTemplateName()
-	{
-		return 'uitypes/Date.tpl';
-	}
-
-	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
-	 * @return <Object>
-	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
-	{
-		if (empty($value)) {
-			return '';
-		} else {
-			$dateValue = self::getDisplayDateValue($value);
-		}
-		if ($dateValue === '--') {
-			return '';
-		} else {
-			return $dateValue;
-		}
-	}
 
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
@@ -51,6 +24,51 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 			return self::getDBInsertedValue($value);
 		}
 		return '';
+	}
+
+	/**
+	 * Verification of data
+	 * @param string $value
+	 * @param bool $isUserFormat
+	 * @return null
+	 * @throws \App\Exceptions\SaveRecord
+	 */
+	public function validate($value, $isUserFormat = false)
+	{
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		if ($isUserFormat) {
+			list($y, $m, $d) = App\Fields\Date::explode($value, App\User::getCurrentUserModel()->getDetail('date_format'));
+		} else {
+			list($y, $m, $d) = explode('-', $value);
+		}
+		if (!checkdate($m, $d, $y)) {
+			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+		}
+		$this->validate = true;
+	}
+
+	/**
+	 * Function to get the display value, for the current field type with given DB Insert Value
+	 * @param mixed $value
+	 * @param int $record
+	 * @param type $recordModel
+	 * @param Vtiger_Record_Model $rawText
+	 * @return mixed
+	 */
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	{
+		if (empty($value)) {
+			return '';
+		} else {
+			$dateValue = self::getDisplayDateValue($value);
+		}
+		if ($dateValue === '--') {
+			return '';
+		} else {
+			return $dateValue;
+		}
 	}
 
 	/**
@@ -117,5 +135,14 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	public function getListSearchTemplateName()
 	{
 		return 'uitypes/DateFieldSearchView.tpl';
+	}
+
+	/**
+	 * Function to get the Template name for the current UI Type object
+	 * @return string - Template Name
+	 */
+	public function getTemplateName()
+	{
+		return 'uitypes/Date.tpl';
 	}
 }

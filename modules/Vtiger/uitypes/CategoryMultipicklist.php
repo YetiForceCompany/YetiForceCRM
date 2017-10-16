@@ -32,8 +32,11 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 	/**
 	 * Verification of data
 	 * @param string $value
+	 * @param bool $isUserFormat
+	 * @return null
+	 * @throws \App\Exceptions\SaveRecord
 	 */
-	public function validate($value)
+	public function validate($value, $isUserFormat = false)
 	{
 		if ($this->validate || $value === '' || $value === null) {
 			return;

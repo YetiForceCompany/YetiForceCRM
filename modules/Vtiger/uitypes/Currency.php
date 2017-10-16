@@ -32,15 +32,20 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	/**
 	 * Verification of data
 	 * @param string $value
+	 * @param bool $isUserFormat
+	 * @return null
+	 * @throws \App\Exceptions\SaveRecord
 	 */
-	public function validate($value)
+	public function validate($value, $isUserFormat = false)
 	{
 		if ($this->validate || empty($value)) {
 			return;
 		}
-		$currentUser = \App\User::getCurrentUserModel();
-		$value = str_replace($currentUser->getDetail('currency_grouping_separator'), '', $value);
-		$value = str_replace($currentUser->getDetail('currency_decimal_separator'), '.', $value);
+		if ($isUserFormat) {
+			$currentUser = \App\User::getCurrentUserModel();
+			$value = str_replace($currentUser->getDetail('currency_grouping_separator'), '', $value);
+			$value = str_replace($currentUser->getDetail('currency_decimal_separator'), '.', $value);
+		}
 		if (!is_numeric($value)) {
 			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
 		}

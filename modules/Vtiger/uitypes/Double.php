@@ -6,18 +6,47 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vtiger_Double_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * Function to get the DB Insert Value, for the current field type with given User Value
+	 * @param mixed $value
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @return mixed
 	 */
-	public function getTemplateName()
+	public function getDBValue($value, $recordModel = false)
 	{
-		return 'uitypes/Double.tpl';
+		if ($value === '') {
+			return 0;
+		}
+		return CurrencyField::convertToDBFormat($value);
+	}
+
+	/**
+	 * Verification of data
+	 * @param string $value
+	 * @param bool $isUserFormat
+	 * @return null
+	 * @throws \App\Exceptions\SaveRecord
+	 */
+	public function validate($value, $isUserFormat = false)
+	{
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		if ($isUserFormat) {
+			$currentUser = \App\User::getCurrentUserModel();
+			$value = str_replace($currentUser->getDetail('currency_grouping_separator'), '', $value);
+			$value = str_replace($currentUser->getDetail('currency_decimal_separator'), '.', $value);
+		}
+		if (!is_numeric($value)) {
+			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+		}
+		$this->validate = true;
 	}
 
 	/**
@@ -45,16 +74,11 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the DB Insert Value, for the current field type with given User Value
-	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @return mixed
+	 * Function to get the Template name for the current UI Type object
+	 * @return string - Template Name
 	 */
-	public function getDBValue($value, $recordModel = false)
+	public function getTemplateName()
 	{
-		if ($value === '') {
-			return 0;
-		}
-		return CurrencyField::convertToDBFormat($value);
+		return 'uitypes/Double.tpl';
 	}
 }

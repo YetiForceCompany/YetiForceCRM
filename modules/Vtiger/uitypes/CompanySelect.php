@@ -12,9 +12,12 @@ class Vtiger_CompanySelect_UIType extends Vtiger_Base_UIType
 
 	/**
 	 * Verification of data
-	 * @param string $value
+	 * @param int $value
+	 * @param bool $isUserFormat
+	 * @return null
+	 * @throws \App\Exceptions\SaveRecord
 	 */
-	public function validate($value)
+	public function validate($value, $isUserFormat = false)
 	{
 		if ($this->validate || empty($value)) {
 			return;

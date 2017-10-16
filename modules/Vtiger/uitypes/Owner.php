@@ -12,18 +12,41 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * Function to get the DB Insert Value, for the current field type with given User Value
+	 * @param mixed $value
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @return mixed
 	 */
-	public function getTemplateName()
+	public function getDBValue($value, $recordModel = false)
 	{
-		return 'uitypes/Owner.tpl';
+		return empty($value) ? \App\User::getCurrentUserId() : (int) $value;
 	}
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
-	 * @return <Object>
+	 * Verification of data
+	 * @param string $value
+	 * @param bool $isUserFormat
+	 * @return null
+	 * @throws \App\Exceptions\SaveRecord
+	 */
+	public function validate($value, $isUserFormat = false)
+	{
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		if (!is_numeric($value)) {
+			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+		}
+		$this->validate = true;
+	}
+
+	/**
+	 * Function to get the display value, for the current field type with given DB Insert Value
+	 * @param mixed $value
+	 * @param int $record
+	 * @param type $recordModel
+	 * @param Vtiger_Record_Model $rawText
+	 * @return mixed
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
@@ -116,6 +139,15 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 		return 'uitypes/OwnerFieldSearchView.tpl';
 	}
 
+	/**
+	 * Function to get the Template name for the current UI Type object
+	 * @return string - Template Name
+	 */
+	public function getTemplateName()
+	{
+		return 'uitypes/Owner.tpl';
+	}
+
 	public function isAjaxEditable()
 	{
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -124,16 +156,5 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 			return true;
 		}
 		return false;
-	}
-
-	/**
-	 * Function to get the DB Insert Value, for the current field type with given User Value
-	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @return mixed
-	 */
-	public function getDBValue($value, $recordModel = false)
-	{
-		return empty($value) ? \App\User::getCurrentUserId() : (int) $value;
 	}
 }

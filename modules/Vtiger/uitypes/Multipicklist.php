@@ -13,12 +13,45 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * Function to get the DB Insert Value, for the current field type with given User Value
+	 * @param mixed $value
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @return mixed
 	 */
-	public function getTemplateName()
+	public function getDBValue($value, $recordModel = false)
 	{
-		return 'uitypes/MultiPicklist.tpl';
+		if (is_array($value)) {
+			$value = implode(' |##| ', $value);
+		}
+		return \App\Purifier::decodeHtml($value);
+	}
+
+	/**
+	 * Verification of data
+	 * @param string $value
+	 * @param bool $isUserFormat
+	 * @return null
+	 * @throws \App\Exceptions\SaveRecord
+	 */
+	public function validate($value, $isUserFormat = false)
+	{
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		if (is_string($value)) {
+			$value = explode(' |##| ', $value);
+		}
+		if (!is_array($value)) {
+			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+		}
+		foreach ($value as $item) {
+			if (!is_string($item)) {
+				throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+			} elseif ($item != strip_tags($item)) {
+				throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+			}
+		}
+		$this->validate = true;
 	}
 
 	/**
@@ -54,17 +87,12 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the DB Insert Value, for the current field type with given User Value
-	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @return mixed
+	 * Function to get the Template name for the current UI Type object
+	 * @return string - Template Name
 	 */
-	public function getDBValue($value, $recordModel = false)
+	public function getTemplateName()
 	{
-		if (is_array($value)) {
-			$value = implode(' |##| ', $value);
-		}
-		return \App\Purifier::decodeHtml($value);
+		return 'uitypes/MultiPicklist.tpl';
 	}
 
 	public function getListSearchTemplateName()

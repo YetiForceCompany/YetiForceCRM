@@ -62,7 +62,7 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 			}
 			if (isset($result['UNTIL'])) {
 				$displayDate = substr($result['UNTIL'], 0, 4) . '-' . substr($result['UNTIL'], 4, 2) . '-' . substr($result['UNTIL'], 6, 2);
-				$result['UNTIL'] = App\Fields\DateTime::currentUserDisplayDate($displayDate);
+				$result['UNTIL'] = App\Fields\Date::currentUserDisplayDate($displayDate);
 			}
 			switch ($result['FREQ']) {
 				case 'DAILY':
