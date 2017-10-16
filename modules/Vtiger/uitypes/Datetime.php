@@ -13,18 +13,38 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 {
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * Verification of data
+	 * @param string $value
+	 * @param bool $isUserFormat
+	 * @return null
+	 * @throws \App\Exceptions\SaveRecord
 	 */
-	public function getTemplateName()
+	public function validate($value, $isUserFormat = false)
 	{
-		return 'uitypes/DateTime.tpl';
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		$arrayDateTime = explode(' ', $value, 2);
+		$cnt = count($arrayDateTime);
+		if (!$isUserFormat && $cnt !== 2) {
+			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+		}
+		if ($cnt === 1) { //Date
+			parent::validate($arrayDateTime[0], $isUserFormat);
+		} elseif ($cnt === 2) { //Date
+			parent::validate($arrayDateTime[0], $isUserFormat);
+			(new Vtiger_Time_UIType())->validate($arrayDateTime[1], $isUserFormat); //Time
+		}
+		$this->validate = true;
 	}
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
-	 * @return <Object>
+	 * Function to get the display value, for the current field type with given DB Insert Value
+	 * @param mixed $value
+	 * @param int $record
+	 * @param type $recordModel
+	 * @param Vtiger_Record_Model $rawText
+	 * @return mixed
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
@@ -67,5 +87,14 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	public static function getDateTimeValue($dateTime)
 	{
 		return Vtiger_Util_Helper::convertDateTimeIntoUsersDisplayFormat($dateTime);
+	}
+
+	/**
+	 * Function to get the Template name for the current UI Type object
+	 * @return string - Template Name
+	 */
+	public function getTemplateName()
+	{
+		return 'uitypes/DateTime.tpl';
 	}
 }

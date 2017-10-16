@@ -40,9 +40,12 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
-	 * @return <Object>
+	 * Function to get the display value, for the current field type with given DB Insert Value
+	 * @param mixed $value
+	 * @param int $record
+	 * @param type $recordModel
+	 * @param Vtiger_Record_Model $rawText
+	 * @return mixed
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{

@@ -41,7 +41,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 		if ($isUserFormat) {
 			$value = static::getTimeValueWithSeconds($value);
 		}
-		$timeFormat = 'G:i:s';
+		$timeFormat = 'H:i:s';
 		$d = DateTime::createFromFormat($timeFormat, $value);
 		if (!($d && $d->format($timeFormat) === $value)) {
 			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);

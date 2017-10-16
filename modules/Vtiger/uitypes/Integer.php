@@ -12,6 +12,24 @@ class Vtiger_Integer_UIType extends Vtiger_Base_UIType
 {
 
 	/**
+	 * Verification of data
+	 * @param string $value
+	 * @param bool $isUserFormat
+	 * @return null
+	 * @throws \App\Exceptions\SaveRecord
+	 */
+	public function validate($value, $isUserFormat = false)
+	{
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		if (!is_numeric($value)) {
+			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+		}
+		$this->validate = true;
+	}
+
+	/**
 	 * Function to get the Template name for the current UI Type object
 	 * @return string - Template Name
 	 */
