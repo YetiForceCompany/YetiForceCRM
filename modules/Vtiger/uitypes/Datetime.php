@@ -26,9 +26,6 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 		}
 		$arrayDateTime = explode(' ', $value, 2);
 		$cnt = count($arrayDateTime);
-		if (!$isUserFormat && $cnt !== 2) {
-			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
-		}
 		if ($cnt === 1) { //Date
 			parent::validate($arrayDateTime[0], $isUserFormat);
 		} elseif ($cnt === 2) { //Date
