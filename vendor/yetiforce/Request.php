@@ -407,6 +407,15 @@ class Request
 	}
 
 	/**
+	 * Get all request keys
+	 * @return array
+	 */
+	public function getKeys()
+	{
+		return array_keys($this->rawValues);
+	}
+
+	/**
 	 * Function to check if the ajax request.
 	 * @return boolean
 	 */
