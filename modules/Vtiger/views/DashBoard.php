@@ -100,7 +100,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$currentDashboard = $this->getDashboardId($request);
-		\App\Session::set($request->getModule() . 'LastDashBoardId', $currentDashboard);
+		\App\Session::set($moduleName . 'LastDashBoardId', $currentDashboard);
 		$dashBoardModel = Vtiger_DashBoard_Model::getInstance($moduleName);
 		$dashBoardModel->set('dashboardId', $currentDashboard);
 		//check profile permissions for Dashboards
@@ -143,13 +143,11 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @return Vtiger_JsScript_Model[]
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
-
 		$jsFileNames = [
 			'~libraries/jquery/gridster/jquery.gridster.js',
 			'~libraries/jquery/flot/jquery.flot.js',
@@ -174,29 +172,22 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 			'modules.Vtiger.resources.dashboards.Widget',
 			'~libraries/fullcalendar/fullcalendar.js'
 		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 
 	/**
 	 * Function to get the list of Css models to be included
 	 * @param \App\Request $request
-	 * @return <Array> - List of Vtiger_CssScript_Model instances
+	 * @return Vtiger_CssScript_Model[]
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
-		$parentHeaderCssScriptInstances = parent::getHeaderCss($request);
-
 		$headerCss = [
 			'~libraries/jquery/gridster/jquery.gridster.css',
 			'~libraries/jquery/jqplot/jquery.jqplot.css',
 			'~libraries/fullcalendar/fullcalendar.css',
 			'~libraries/fullcalendar/fullcalendarCRM.css'
 		];
-		$cssScripts = $this->checkAndConvertCssStyles($headerCss);
-		$headerCssScriptInstances = array_merge($parentHeaderCssScriptInstances, $cssScripts);
-		return $headerCssScriptInstances;
+		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($headerCss));
 	}
 }

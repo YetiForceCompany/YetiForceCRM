@@ -77,7 +77,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 			$viewer->assign('RECORD_ID', $record);
 		} else {
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-			$referenceId = $request->get('reference_id');
+			$referenceId = $request->getInteger('reference_id');
 			if ($referenceId) {
 				$parentRecordModel = Vtiger_Record_Model::getInstanceById($referenceId);
 				$recordModel->setRecordFieldValues($parentRecordModel);
