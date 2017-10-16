@@ -9,6 +9,9 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 $languageStrings = [
+	'Services' => 'services',
+	'Administrative' => 'administrative',
+	'Support' => 'support',
 	'PLL_SUBMITTED_COMMENTS' => 'Comentários submetidos',
 	'PLL_FOR_APPROVAL' => 'Para aprovação',
 	'PLL_TO_CLOSE' => 'Para fechar',
