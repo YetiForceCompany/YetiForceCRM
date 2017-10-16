@@ -13,6 +13,12 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 {
 
 	/**
+	 * Allowed url protocols
+	 * @var array string[]
+	 */
+	const ALLOWED_PROTOCOLS = ['http', 'https', 'ftp', 'ftps', 'telnet'];
+
+	/**
 	 * {@inheritDoc}
 	 */
 	public function validate($value, $isUserFormat = false)
@@ -20,7 +26,10 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 		if ($this->validate || empty($value)) {
 			return;
 		}
-		if (!(filter_var($value, FILTER_VALIDATE_URL) && preg_match('/^https{0,1}/i', $value) )) {
+		if (!preg_match('/^([^\:]+)\:/i', $value, $m)) {
+			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+		}
+		if (!(filter_var($value, FILTER_VALIDATE_URL) && in_array(strtolower($m[1]), static::ALLOWED_PROTOCOLS) )) {
 			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
 		}
 		$this->validate = true;

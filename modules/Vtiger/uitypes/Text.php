@@ -6,16 +6,14 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vtiger_Text_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Function to get the DB Insert Value, for the current field type with given User Value
-	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @return mixed
+	 * {@inheritDoc}
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
@@ -23,9 +21,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Set value from request
-	 * @param \App\Request $request
-	 * @param Vtiger_Record_Model $recordModel
+	 * {@inheritDoc}
 	 */
 	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel)
 	{
@@ -40,12 +36,25 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the display value, for the current field type with given DB Insert Value
-	 * @param mixed $value
-	 * @param int $record
-	 * @param type $recordModel
-	 * @param Vtiger_Record_Model $rawText
-	 * @return mixed
+	 * {@inheritDoc}
+	 */
+	public function validate($value, $isUserFormat = false)
+	{
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		if (!is_string($value)) {
+			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+		}
+		//Check for HTML tags
+		if ($this->getFieldModel()->getUIType() !== 300 && $value !== strip_tags($value)) {
+			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+		}
+		$this->validate = true;
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
@@ -58,8 +67,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the Template name for the current UI Type Object
-	 * @return string - Template Name
+	 * {@inheritDoc}
 	 */
 	public function getTemplateName()
 	{
