@@ -36,7 +36,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$module = $request->getByType('source_module', 1);
 		$pickListFieldId = $request->get('pickListFieldId');
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickListFieldId);
-		$valueToEdit = $request->getRaw('fieldValue');
+		$valueToEdit = $request->get('fieldValue');
 
 		$selectedFieldEditablePickListValues = App\Fields\Picklist::getEditablePicklistValues($fieldModel->getName());
 		$selectedFieldNonEditablePickListValues = App\Fields\Picklist::getNonEditablePicklistValues($fieldModel->getName());
