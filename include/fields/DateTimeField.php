@@ -111,8 +111,6 @@ class DateTimeField
 	 */
 	public static function __convertToDBFormat($date, $format)
 	{
-
-		\App\Log::trace('Start ' . __METHOD__ . ' ' . serialize($date) . ' | ' . $format);
 		if (empty($date)) {
 			\App\Log::trace('End ' . __METHOD__);
 			return $date;
@@ -121,27 +119,7 @@ class DateTimeField
 			$format = 'yyyy-mm-dd';
 		}
 		$dbDate = '';
-		switch ($format) {
-			case 'dd-mm-yyyy': list($d, $m, $y) = explode('-', $date);
-				break;
-			case 'mm-dd-yyyy': list($m, $d, $y) = explode('-', $date);
-				break;
-			case 'yyyy-mm-dd': list($y, $m, $d) = explode('-', $date);
-				break;
-			case 'dd.mm.yyyy': list($d, $m, $y) = explode('.', $date);
-				break;
-			case 'mm.dd.yyyy': list($m, $d, $y) = explode('.', $date);
-				break;
-			case 'yyyy.mm.dd': list($y, $m, $d) = explode('.', $date);
-				break;
-			case 'dd/mm/yyyy': list($d, $m, $y) = explode('/', $date);
-				break;
-			case 'mm/dd/yyyy': list($m, $d, $y) = explode('/', $date);
-				break;
-			case 'yyyy/mm/dd': list($y, $m, $d) = explode('/', $date);
-				break;
-		}
-
+		list($y, $m, $d) = App\Fields\Date::explode($date, $format);
 		if (!$y || !$m || !$d) {
 			if (strpos($date, '-') !== false) {
 				$separator = '-';
@@ -153,11 +131,11 @@ class DateTimeField
 			$formatToConvert = str_replace(array('/', '.'), array('-', '-'), $format);
 			$dateToConvert = str_replace($separator, '-', $date);
 			switch ($formatToConvert) {
-				case 'dd-mm-yyyy': list($d, $m, $y) = explode('-', $dateToConvert);
+				case 'dd-mm-yyyy': list($d, $m, $y) = explode('-', $dateToConvert, 3);
 					break;
-				case 'mm-dd-yyyy': list($m, $d, $y) = explode('-', $dateToConvert);
+				case 'mm-dd-yyyy': list($m, $d, $y) = explode('-', $dateToConvert, 3);
 					break;
-				case 'yyyy-mm-dd': list($y, $m, $d) = explode('-', $dateToConvert);
+				case 'yyyy-mm-dd': list($y, $m, $d) = explode('-', $dateToConvert, 3);
 					break;
 			}
 			$dbDate = $y . '-' . $m . '-' . $d;
@@ -166,7 +144,6 @@ class DateTimeField
 		} else {
 			$dbDate = $y . '-' . $m . '-' . $d;
 		}
-		\App\Log::trace('End ' . __METHOD__);
 		return $dbDate;
 	}
 

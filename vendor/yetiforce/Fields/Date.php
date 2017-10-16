@@ -11,7 +11,7 @@ namespace App\Fields;
 /**
  * DateTime class
  */
-class DateTime
+class Date
 {
 
 	public static $jsDateFormat = [
@@ -55,5 +55,39 @@ class DateTime
 	{
 		$date = new \DateTimeField($value);
 		return $date->getDisplayDate();
+	}
+
+	/**
+	 * Convert date to single items 
+	 * @param string $date
+	 * @param string|bool $format Date format
+	 * @return array Array date list($y, $m, $d)
+	 */
+	public static function explode($date, $format = false)
+	{
+		if (empty($format)) {
+			$format = 'yyyy-mm-dd';
+		}
+		switch ($format) {
+			case 'dd-mm-yyyy': list($d, $m, $y) = explode('-', $date, 3);
+				break;
+			case 'mm-dd-yyyy': list($m, $d, $y) = explode('-', $date, 3);
+				break;
+			case 'yyyy-mm-dd': list($y, $m, $d) = explode('-', $date, 3);
+				break;
+			case 'dd.mm.yyyy': list($d, $m, $y) = explode('.', $date, 3);
+				break;
+			case 'mm.dd.yyyy': list($m, $d, $y) = explode('.', $date, 3);
+				break;
+			case 'yyyy.mm.dd': list($y, $m, $d) = explode('.', $date, 3);
+				break;
+			case 'dd/mm/yyyy': list($d, $m, $y) = explode('/', $date, 3);
+				break;
+			case 'mm/dd/yyyy': list($m, $d, $y) = explode('/', $date, 3);
+				break;
+			case 'yyyy/mm/dd': list($y, $m, $d) = explode('/', $date, 3);
+				break;
+		}
+		return [$y, $m, $d];
 	}
 }
