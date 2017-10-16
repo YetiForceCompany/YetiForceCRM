@@ -10,5 +10,11 @@ namespace App\Exceptions;
  */
 class SaveRecord extends \Exception
 {
-	
+
+	public function __toString(): string
+	{
+		$test = parent::__toString();
+		var_dump($this);
+		return $test;
+	}
 }
