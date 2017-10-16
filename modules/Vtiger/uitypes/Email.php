@@ -6,20 +6,38 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vtiger_Email_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * Verification of data
+	 * @param string $value
+	 * @param bool $isUserFormat
+	 * @return null
+	 * @throws \App\Exceptions\SaveRecord
 	 */
-	public function getTemplateName()
+	public function validate($value, $isUserFormat = false)
 	{
-		return 'uitypes/Email.tpl';
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+		}
+		$this->validate = true;
 	}
 
+	/**
+	 * Function to get the display value, for the current field type with given DB Insert Value
+	 * @param mixed $value
+	 * @param int $record
+	 * @param type $recordModel
+	 * @param Vtiger_Record_Model $rawText
+	 * @return mixed
+	 */
 	public function getDisplayValue($value, $recordId = false, $recordInstance = false, $rawText = false)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -32,7 +50,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 			if ($internalMailer == 1 && \App\Privilege::isPermitted('OSSMail')) {
 				$url = OSSMail_Module_Model::getComposeUrl($moduleName, $recordId, 'Detail', 'new');
 				$mailConfig = OSSMail_Module_Model::getComposeParameters();
-				return "<a class=\"cursorPointer sendMailBtn\" data-url=\"$url\" data-module=\"$moduleName\" data-record=\"$recordId\" data-to=\"$rawValue\" data-popup=" . $mailConfig['popup'] . " title=" . \App\Language::translate('LBL_SEND_EMAIL') . ">$value</a>";
+				return "<a class = \"cursorPointer sendMailBtn\" data-url=\"$url\" data-module=\"$moduleName\" data-record=\"$recordId\" data-to=\"$rawValue\" data-popup=" . $mailConfig['popup'] . " title=" . \App\Language::translate('LBL_SEND_EMAIL') . ">$value</a>";
 			} else {
 				if ($moduleName === 'Users' && $fieldName === 'user_name') {
 					return "<a class='cursorPointer' href='mailto:" . $rawValue . "'>" . $value . "</a>";
@@ -42,5 +60,14 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 			}
 		}
 		return \App\Purifier::encodeHtml($value);
+	}
+
+	/**
+	 * Function to get the Template name for the current UI Type object
+	 * @return string - Template Name
+	 */
+	public function getTemplateName()
+	{
+		return 'uitypes/Email.tpl';
 	}
 }
