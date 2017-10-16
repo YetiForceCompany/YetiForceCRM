@@ -15,12 +15,6 @@ class Request
 {
 
 	/**
-	 * Cleared request data
-	 * @var array 
-	 */
-	protected $parseValues = [];
-
-	/**
 	 * Raw request data
 	 * @var array 
 	 */
@@ -39,16 +33,55 @@ class Request
 	protected static $request;
 
 	/**
+	 * Purified request values for get
+	 * @var array
+	 */
+	protected $purifiedValuesByGet = [];
+
+	/**
+	 * Purified request values for type
+	 * @var array
+	 */
+	protected $purifiedValuesByType = [];
+
+	/**
+	 * Purified request values for integer
+	 * @var array
+	 */
+	protected $purifiedValuesByInteger = [];
+
+	/**
+	 * Purified request values for array
+	 * @var array
+	 */
+	protected $purifiedValuesByArray = [];
+
+	/**
+	 * Purified request values for exploded
+	 * @var array
+	 */
+	protected $purifiedValuesByExploded = [];
+
+	/**
+	 * Purified request values for date range
+	 * @var array
+	 */
+	protected $purifiedValuesByDateRange = [];
+
+	/**
+	 * Purified request values for date html
+	 * @var array
+	 */
+	protected $purifiedValuesByHtml = [];
+
+	/**
 	 * Constructor
 	 * @param array $rawValues
 	 * @param array $parseValues
 	 */
-	public function __construct($rawValues, $parseValues = [])
+	public function __construct($rawValues)
 	{
 		$this->rawValues = $rawValues;
-		if ($parseValues) {
-			$this->parseValues = $parseValues;
-		}
 		static::$request = $this;
 	}
 
@@ -60,8 +93,8 @@ class Request
 	 */
 	public function get($key, $value = '')
 	{
-		if (isset($this->parseValues[$key])) {
-			return $this->parseValues[$key];
+		if (isset($this->purifiedValuesByGet[$key])) {
+			return $this->purifiedValuesByGet[$key];
 		}
 		if (isset($this->rawValues[$key])) {
 			$value = $this->rawValues[$key];
@@ -74,7 +107,7 @@ class Request
 		if ($value) {
 			$value = Purifier::purify($value);
 		}
-		return $this->parseValues[$key] = $value;
+		return $this->purifiedValuesByGet[$key] = $value;
 	}
 
 	/**
@@ -91,11 +124,11 @@ class Request
 	 */
 	public function getByType($key, $type)
 	{
-		if (isset($this->parseValues[$key])) {
-			return $this->parseValues[$key];
+		if (isset($this->purifiedValuesByType[$key])) {
+			return $this->purifiedValuesByType[$key];
 		}
 		if (isset($this->rawValues[$key])) {
-			return $this->parseValues[$key] = Purifier::purifyByType($this->rawValues[$key], $type);
+			return $this->purifiedValuesByType[$key] = Purifier::purifyByType($this->rawValues[$key], $type);
 		}
 		return false;
 	}
@@ -123,16 +156,15 @@ class Request
 	 */
 	public function getInteger($key, $value = 0)
 	{
-		if (isset($this->parseValues[$key])) {
-			return $this->parseValues[$key];
+		if (isset($this->purifiedValuesByInteger[$key])) {
+			return $this->purifiedValuesByInteger[$key];
 		}
 		if (!isset($this->rawValues[$key])) {
 			return $value;
 		}
 		if (($value = filter_var($this->rawValues[$key], FILTER_VALIDATE_INT)) !== false) {
-			return $this->parseValues[$key] = $value;
+			return $this->purifiedValuesByInteger[$key] = $value;
 		}
-		\App\Log::error('getInteger: ' . $this->rawValues[$key], 'BadRequest');
 		throw new \App\Exceptions\BadRequest('LBL_NOT_ALLOWED_VALUE');
 	}
 
@@ -144,8 +176,8 @@ class Request
 	 */
 	public function getArray($key, $value = [])
 	{
-		if (isset($this->parseValues[$key])) {
-			return $this->parseValues[$key];
+		if (isset($this->purifiedValuesByArray[$key])) {
+			return $this->purifiedValuesByArray[$key];
 		}
 		if (isset($this->rawValues[$key])) {
 			$value = $this->rawValues[$key];
@@ -156,7 +188,7 @@ class Request
 			if ($value) {
 				$value = Purifier::purify($value);
 			}
-			return $this->parseValues[$key] = $value;
+			return $this->purifiedValuesByArray[$key] = $value;
 		}
 		return $value;
 	}
@@ -169,8 +201,8 @@ class Request
 	 */
 	public function getExploded($key, $delimiter = ',')
 	{
-		if (isset($this->parseValues[$key])) {
-			return $this->parseValues[$key];
+		if (isset($this->purifiedValuesByExploded[$key])) {
+			return $this->purifiedValuesByExploded[$key];
 		}
 		if (isset($this->rawValues[$key])) {
 			if ($this->rawValues[$key] === '') {
@@ -180,7 +212,7 @@ class Request
 			if ($value) {
 				$value = Purifier::purify($value);
 			}
-			return $this->parseValues[$key] = $value;
+			return $this->purifiedValuesByExploded[$key] = $value;
 		}
 		return $value;
 	}
@@ -192,15 +224,15 @@ class Request
 	 */
 	public function getDateRange($key)
 	{
-		if (isset($this->parseValues[$key])) {
-			return $this->parseValues[$key];
+		if (isset($this->purifiedValuesByDateRange[$key])) {
+			return $this->purifiedValuesByDateRange[$key];
 		}
 		if (isset($this->rawValues[$key])) {
 			if (!isset($this->rawValues[$key]) || $this->rawValues[$key] === '') {
 				return [];
 			}
 			$value = Purifier::purify(explode(',', $this->rawValues[$key]));
-			return $this->parseValues[$key] = ['start' => $value[0], 'end' => $value[1]];
+			return $this->purifiedValuesByDateRange[$key] = ['start' => $value[0], 'end' => $value[1]];
 		}
 		return $value;
 	}
@@ -213,8 +245,8 @@ class Request
 	 */
 	public function getForHtml($key, $value = '')
 	{
-		if (isset($this->parseValues["html_$key"])) {
-			return $this->parseValues["html_$key"];
+		if (isset($this->purifiedValuesByHtml[$key])) {
+			return $this->purifiedValuesByHtml[$key];
 		}
 		if (isset($this->rawValues[$key])) {
 			$value = $this->rawValues[$key];
@@ -222,7 +254,7 @@ class Request
 		if ($value) {
 			$value = \App\Purifier::purifyHtml($value);
 		}
-		return $this->parseValues["html_$key"] = $value;
+		return $this->purifiedValuesByHtml[$key] = $value;
 	}
 
 	/**
@@ -347,7 +379,7 @@ class Request
 	{
 		$moduleName = $this->getByType('module', 1);
 		if (!$raw) {
-			$parentModule = $this->get('parent');
+			$parentModule = $this->getByType('parent', 1);
 			if ($parentModule === 'Settings') {
 				$moduleName = "$parentModule:$moduleName";
 			}
@@ -362,7 +394,7 @@ class Request
 	 */
 	public function has($key)
 	{
-		return isset($this->rawValues[$key]) || isset($this->parseValues[$key]);
+		return isset($this->rawValues[$key]);
 	}
 
 	/**
@@ -388,7 +420,7 @@ class Request
 	 */
 	public function set($key, $value)
 	{
-		$this->parseValues[$key] = $value;
+		$this->rawValues[$key] = $this->purifiedValuesByGet[$key] = $this->purifiedValuesByInteger[$key] = $this->purifiedValuesByType[$key] = $this->purifiedValuesByHtml[$key] = $value;
 		return $this;
 	}
 
@@ -398,8 +430,26 @@ class Request
 	 */
 	public function delete($key)
 	{
-		if (isset($this->parseValues[$key])) {
-			unset($this->parseValues[$key]);
+		if (isset($this->purifiedValuesByGet[$key])) {
+			unset($this->purifiedValuesByGet[$key]);
+		}
+		if (isset($this->purifiedValuesByInteger[$key])) {
+			unset($this->purifiedValuesByInteger[$key]);
+		}
+		if (isset($this->purifiedValuesByType[$key])) {
+			unset($this->purifiedValuesByType[$key]);
+		}
+		if (isset($this->purifiedValuesByHtml[$key])) {
+			unset($this->purifiedValuesByHtml[$key]);
+		}
+		if (isset($this->purifiedValuesByArray[$key])) {
+			unset($this->purifiedValuesByArray[$key]);
+		}
+		if (isset($this->purifiedValuesByDateRange[$key])) {
+			unset($this->purifiedValuesByDateRange[$key]);
+		}
+		if (isset($this->purifiedValuesByExploded[$key])) {
+			unset($this->purifiedValuesByExploded[$key]);
 		}
 		if (isset($this->rawValues[$key])) {
 			unset($this->rawValues[$key]);
