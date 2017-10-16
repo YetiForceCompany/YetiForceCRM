@@ -64,45 +64,15 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 
 		$moduleModel = $recordModel->getModule();
 		$fieldList = $moduleModel->getFields();
-		$requestFieldList = array_intersect_key($request->getAll(), $fieldList);
-
-		foreach ($requestFieldList as $fieldName => $fieldValue) {
+		$requestFieldList = array_intersect($request->getKeys(), array_keys($fieldList));
+		foreach ($requestFieldList as $fieldName) {
 			$fieldModel = $fieldList[$fieldName];
-			$specialField = false;
-			// We collate date and time part together in the EditView UI handling
-			// so a bit of special treatment is required if we come from QuickCreate
-			if (empty($record) && ($fieldName == 'time_start' || $fieldName == 'time_end') && !empty($fieldValue)) {
-				$specialField = true;
-				// Convert the incoming user-picked time to GMT time
-				// which will get re-translated based on user-time zone on EditForm
-				$fieldValue = DateTimeField::convertToDBTimeZone($fieldValue)->format("H:i");
-			}
-			if (empty($record) && ($fieldName == 'date_start' || $fieldName == 'due_date') && !empty($fieldValue)) {
-				if ($fieldName == 'date_start') {
-					$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($requestFieldList['time_start']);
-					$startDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($fieldValue . " " . $startTime);
-					list($startDate, $startTime) = explode(' ', $startDateTime);
-					$fieldValue = Vtiger_Date_UIType::getDisplayDateValue($startDate);
-				} else {
-					$endTime = Vtiger_Time_UIType::getTimeValueWithSeconds($requestFieldList['time_end']);
-					$endDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($fieldValue . " " . $endTime);
-					list($endDate, $endTime) = explode(' ', $endDateTime);
-					$fieldValue = Vtiger_Date_UIType::getDisplayDateValue($endDate);
-				}
-			}
-
-			if ($fieldModel->isWritable() || $specialField) {
-				$recordModel->set($fieldName, $fieldModel->getDBValue($fieldValue));
+			if ($fieldModel->isWritable()) {
+				$fieldModel->getUITypeModel()->setValueFromRequest($request, $recordModel);
 			}
 		}
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
 		$recordStructure = $recordStructureInstance->getStructure();
-
-		$viewMode = $request->get('view_mode');
-		if (!empty($viewMode)) {
-			$viewer->assign('VIEW_MODE', $viewMode);
-		}
-
 		$userChangedEndDateTime = $request->get('userChangedEndDateTime');
 		$isRelationOperation = $request->get('relationOperation');
 		//if it is relation edit
