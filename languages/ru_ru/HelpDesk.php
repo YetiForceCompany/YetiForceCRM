@@ -9,6 +9,9 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 $languageStrings = [
+	'Services' => 'services',
+	'Administrative' => 'administrative',
+	'Support' => 'support',
 	'LBL_SET_SERVICE_CONTRACTS_REFERENCE_DESC' => 'Нажмите эту кнопку, чтобы связать это соглашение с уведомлением',
 	'LBL_ACCOUNTS_NO_ACTIVE_SERVICE_CONTRACTS' => 'SLA не активен',
 	'LBL_NO_SERVICE_CONTRACTS_IN_HELPDESK' => 'Не подключен SLA',
