@@ -44,7 +44,7 @@ class Vtiger_Base_UIType extends \App\Base
 	{
 		$fieldName = $this->get('field')->getFieldName();
 		$value = $request->get($fieldName, '');
-		$this->validate($value);
+		$this->validate($value, true);
 		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
 	}
 

@@ -73,11 +73,11 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 			list($hours, $minutes, $seconds) = array_pad(explode(':', $timeDetails[0]), 3, 0);
 
 			//If pm exists and if it not 12 then we need to make it to 24 hour format
-			if ($timeDetails[1] === 'PM' && $hours != '12') {
+			if ($timeDetails[1] === 'PM' && $hours !== '12') {
 				$hours = $hours + 12;
 			}
 
-			if ($timeDetails[1] === 'AM' && $hours == '12') {
+			if ($timeDetails[1] === 'AM' && $hours === '12') {
 				$hours = '00';
 			}
 
@@ -100,8 +100,8 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	{
 		$userModel = Users_Privileges_Model::getCurrentUserModel();
 		$value = DateTimeField::convertToUserTimeZone(date('Y-m-d') . ' ' . $value);
-		$value = $value->format('H:i:s');
-		if ($userModel->get('hour_format') == '12') {
+		$value = $value->format('H:i');
+		if ($userModel->get('hour_format') === '12') {
 			return self::getTimeValueInAMorPM($value);
 		}
 		return $value;
