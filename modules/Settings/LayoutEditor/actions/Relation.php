@@ -42,7 +42,7 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		$response = new Vtiger_Response();
 		try {
 			Vtiger_Relation_Model::updateRelationSequence($modules);
-			$response->setResult(array('success' => true));
+			$response->setResult(['success' => true]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
@@ -61,7 +61,7 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 			} else {
 				Vtiger_Relation_Model::updateModuleRelatedFields($relationId, $fields);
 			}
-			$response->setResult(array('success' => true));
+			$response->setResult(['success' => true]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}

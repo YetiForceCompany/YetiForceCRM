@@ -85,17 +85,17 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
-		$jsFileNames = array('~libraries/jquery/jstree/jstree.js');
+		$jsFileNames = ['~libraries/jquery/jstree/jstree.js'];
 		if ($request->get('multiple')) {
 			$jsFileNames[] = '~libraries/jquery/jstree/jstree.category.js';
 			$jsFileNames[] = '~libraries/jquery/jstree/jstree.checkbox.js';
 		}
-		$jsFileNames = array_merge($jsFileNames, array(
+		$jsFileNames = array_merge($jsFileNames, [
 			'libraries.jquery.jquery_windowmsg',
 			'~libraries/jquery/clockpicker/jquery-clockpicker.js',
 			'modules.Vtiger.resources.TreePopup',
 			"modules.$moduleName.resources.TreePopup",
-		));
+		]);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
@@ -105,9 +105,9 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = array(
+		$cssFileNames = [
 			'~libraries/jquery/jstree/themes/proton/style.css',
-		);
+		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);
 		return $headerCssInstances;

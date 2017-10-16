@@ -52,7 +52,7 @@ class OSSPasswords_Save_Action extends Vtiger_Save_Action
 					$properPassword = $adb->queryResult($result, 0, 'pass');
 				} else {  // encryption mode is off
 					$sql = "SELECT `password` AS pass FROM `vtiger_osspasswords` WHERE `osspasswordsid` = ?;";
-					$result = $adb->pquery($sql, array($recordId), true);
+					$result = $adb->pquery($sql, [$recordId], true);
 					$properPassword = $adb->queryResult($result, 0, 'pass');
 				}
 			}
@@ -62,7 +62,7 @@ class OSSPasswords_Save_Action extends Vtiger_Save_Action
 			// after save we check if encryption is active
 			if ($config) {
 				$sql = "UPDATE `vtiger_osspasswords` SET `password` = AES_ENCRYPT(?,?) WHERE `osspasswordsid` = ?;";
-				$result = $adb->pquery($sql, array($properPassword, $config['key'], $recordId), true);
+				$result = $adb->pquery($sql, [$properPassword, $config['key'], $recordId], true);
 			}
 		} else {
 			$recordModel->save();
@@ -71,7 +71,7 @@ class OSSPasswords_Save_Action extends Vtiger_Save_Action
 			$recordId = $recordModel->get('id');
 			if ($config) { // when encryption is on
 				$sql = "UPDATE `vtiger_osspasswords` SET `password` = AES_ENCRYPT(`password`, ?) WHERE `osspasswordsid` = ?;";
-				$result = $adb->pquery($sql, array($config['key'], $recordId), true);
+				$result = $adb->pquery($sql, [$config['key'], $recordId], true);
 			}
 		}
 

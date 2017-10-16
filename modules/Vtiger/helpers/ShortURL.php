@@ -50,7 +50,7 @@ class Vtiger_ShortURL_Helper
 		}
 
 		$sql = "INSERT INTO vtiger_shorturls(uid, handler_path, handler_class, handler_function, handler_data, onetime) VALUES (?,?,?,?,?,?)";
-		$params = array($uid, $handlerPath, $handlerClass, $handlerFn, json_encode($handlerData), $options['onetime']);
+		$params = [$uid, $handlerPath, $handlerClass, $handlerFn, json_encode($handlerData), $options['onetime']];
 
 		$db->pquery($sql, $params);
 		return $uid;
@@ -60,7 +60,7 @@ class Vtiger_ShortURL_Helper
 	{
 		$db = PearDatabase::getInstance();
 
-		$rs = $db->pquery('SELECT * FROM vtiger_shorturls WHERE uid=?', array($uid));
+		$rs = $db->pquery('SELECT * FROM vtiger_shorturls WHERE uid=?', [$uid]);
 		if ($rs && $db->numRows($rs)) {
 			$record = $db->fetchArray($rs);
 			$handlerPath = App\Purifier::decodeHtml($record['handler_path']);
@@ -75,8 +75,8 @@ class Vtiger_ShortURL_Helper
 
 			// Delete onetime URL
 			if ($record['onetime'])
-				$db->pquery('DELETE FROM vtiger_shorturls WHERE id=?', array($record['id']));
-			call_user_func(array($handler, $handlerFn), $handlerData);
+				$db->pquery('DELETE FROM vtiger_shorturls WHERE id=?', [$record['id']]);
+			call_user_func([$handler, $handlerFn], $handlerData);
 		} else {
 			echo '<h3>Link you have used is invalid or has expired. .</h3>';
 		}
@@ -130,6 +130,6 @@ class Vtiger_ShortURL_Helper
 	public function delete()
 	{
 		$db = PearDatabase::getInstance();
-		$db->pquery('DELETE FROM vtiger_shorturls WHERE id=?', array($this->id));
+		$db->pquery('DELETE FROM vtiger_shorturls WHERE id=?', [$this->id]);
 	}
 }

@@ -243,7 +243,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			"modules.Reports.resources.Edit",
 			"modules.Reports.resources.Edit1",
 			"modules.Reports.resources.Edit2",
@@ -252,7 +252,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 			"modules.$moduleName.resources.ChartEdit1",
 			"modules.$moduleName.resources.ChartEdit2",
 			"modules.$moduleName.resources.ChartEdit3"
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);

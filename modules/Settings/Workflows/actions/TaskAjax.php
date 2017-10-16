@@ -37,7 +37,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 			$taskRecordModel = Settings_Workflows_TaskRecord_Model::getInstance($record);
 			$taskRecordModel->delete();
 			$response = new Vtiger_Response();
-			$response->setResult(array('ok'));
+			$response->setResult(['ok']);
 			$response->emit();
 		}
 	}
@@ -54,7 +54,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 				$taskObject->active = false;
 			$taskRecordModel->save();
 			$response = new Vtiger_Response();
-			$response->setResult(array('ok'));
+			$response->setResult(['ok']);
 			$response->emit();
 		}
 	}
@@ -76,7 +76,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 				$taskRecordModel->save();
 			}
 			$response = new Vtiger_Response();
-			$response->setResult(array('success' => true, 'count' => count($taskList)));
+			$response->setResult(['success' => true, 'count' => count($taskList)]);
 			$response->emit();
 		}
 	}
@@ -105,10 +105,10 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 			$checkSelectDate = $request->get('check_select_date');
 
 			if (!empty($checkSelectDate)) {
-				$trigger = array(
+				$trigger = [
 					'days' => ($request->get('select_date_direction') == 'after' ? 1 : -1) * (int) $request->get('select_date_days'),
 					'field' => $request->get('select_date_field')
-				);
+				];
 				$taskObject->trigger = $trigger;
 			} else {
 				$taskObject->trigger = null;
@@ -161,7 +161,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 
 			$taskRecordModel->save();
 			$response = new Vtiger_Response();
-			$response->setResult(array('for_workflow' => $workflowId));
+			$response->setResult(['for_workflow' => $workflowId]);
 			$response->emit();
 		}
 	}

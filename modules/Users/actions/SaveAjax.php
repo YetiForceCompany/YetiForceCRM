@@ -163,13 +163,13 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$recordModel->save();
 
 		$db = PearDatabase::getInstance();
-		$db->pquery("UPDATE vtiger_users SET deleted=? WHERE id=?", array(0, $record));
+		$db->pquery("UPDATE vtiger_users SET deleted=? WHERE id=?", [0, $record]);
 
 		$userModuleModel = Users_Module_Model::getInstance($moduleName);
 		$listViewUrl = $userModuleModel->getListViewUrl();
 
 		$response = new Vtiger_Response();
-		$response->setResult(array('message' => \App\Language::translate('LBL_USER_RESTORED_SUCCESSFULLY', $moduleName), 'listViewUrl' => $listViewUrl));
+		$response->setResult(['message' => \App\Language::translate('LBL_USER_RESTORED_SUCCESSFULLY', $moduleName), 'listViewUrl' => $listViewUrl]);
 		$response->emit();
 	}
 
@@ -191,7 +191,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			require("user_privileges/user_privileges_$recordId.php");
 			$newAccessKey = $user_info['accesskey'];
 			if ($newAccessKey != $oldAccessKey) {
-				$response->setResult(array('message' => \App\Language::translate('LBL_ACCESS_KEY_UPDATED_SUCCESSFULLY', $moduleName), 'accessKey' => $newAccessKey));
+				$response->setResult(['message' => \App\Language::translate('LBL_ACCESS_KEY_UPDATED_SUCCESSFULLY', $moduleName), 'accessKey' => $newAccessKey]);
 			} else {
 				$response->setError(\App\Language::translate('LBL_FAILED_TO_UPDATE_ACCESS_KEY', $moduleName));
 			}

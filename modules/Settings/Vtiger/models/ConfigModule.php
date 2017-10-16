@@ -118,12 +118,12 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getEditableFields()
 	{
-		return array(
-			'upload_maxsize' => array('label' => 'LBL_MAX_UPLOAD_SIZE', 'fieldType' => 'input'),
-			'default_module' => array('label' => 'LBL_DEFAULT_MODULE', 'fieldType' => 'picklist'),
-			'listview_max_textlength' => array('label' => 'LBL_MAX_TEXT_LENGTH_IN_LISTVIEW', 'fieldType' => 'input'),
-			'list_max_entries_per_page' => array('label' => 'LBL_MAX_ENTRIES_PER_PAGE_IN_LISTVIEW', 'fieldType' => 'input'),
-			'defaultLayout' => array('label' => 'LBL_DEFAULT_LAYOUT', 'fieldType' => 'picklist'),
+		return [
+			'upload_maxsize' => ['label' => 'LBL_MAX_UPLOAD_SIZE', 'fieldType' => 'input'],
+			'default_module' => ['label' => 'LBL_DEFAULT_MODULE', 'fieldType' => 'picklist'],
+			'listview_max_textlength' => ['label' => 'LBL_MAX_TEXT_LENGTH_IN_LISTVIEW', 'fieldType' => 'input'],
+			'list_max_entries_per_page' => ['label' => 'LBL_MAX_ENTRIES_PER_PAGE_IN_LISTVIEW', 'fieldType' => 'input'],
+			'defaultLayout' => ['label' => 'LBL_DEFAULT_LAYOUT', 'fieldType' => 'picklist'],
 			'breadcrumbs' => ['label' => 'LBL_SHOWING_BREADCRUMBS', 'fieldType' => 'checkbox'],
 			'title_max_length' => ['label' => 'LBL_TITLE_MAX_LENGTH', 'fieldType' => 'input'],
 			'MINIMUM_CRON_FREQUENCY' => ['label' => 'LBL_MINIMUM_CRON_FREQUENCY', 'fieldType' => 'input'],
@@ -132,7 +132,7 @@ class Settings_Vtiger_ConfigModule_Model extends Settings_Vtiger_Module_Model
 			'href_max_length' => ['label' => 'LBL_HREF_MAX_LEGTH', 'fieldType' => 'input'],
 			'langInLoginView' => ['label' => 'LBL_SHOW_LANG_IN_LOGIN_PAGE', 'fieldType' => 'checkbox'],
 			'layoutInLoginView' => ['label' => 'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE', 'fieldType' => 'checkbox'],
-		);
+		];
 	}
 
 	/**

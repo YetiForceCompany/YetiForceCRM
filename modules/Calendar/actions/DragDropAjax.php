@@ -34,11 +34,11 @@ class Calendar_DragDropAjax_Action extends Calendar_SaveAjax_Action
 		$minuteDelta = $request->get('minuteDelta');
 		$response = new Vtiger_Response();
 		if (!\App\Privilege::isPermitted($moduleName, 'EditView', $recordId)) {
-			$result = array('ispermitted' => false, 'error' => false);
+			$result = ['ispermitted' => false, 'error' => false];
 			$response->setResult($result);
 			$response->emit();
 		} else {
-			$result = array('ispermitted' => true, 'error' => false);
+			$result = ['ispermitted' => true, 'error' => false];
 			$record = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 
 			$oldDateTime[] = $record->get('due_date');
@@ -82,7 +82,7 @@ class Calendar_DragDropAjax_Action extends Calendar_SaveAjax_Action
 			$response->setResult($result);
 			$response->emit();
 		} else {
-			$result = array('ispermitted' => true);
+			$result = ['ispermitted' => true];
 			$record = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 
 			$oldStartDateTime[] = $record->get('date_start');

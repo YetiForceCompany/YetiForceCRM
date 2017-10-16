@@ -75,7 +75,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 			$this->listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
 		}
 
-		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1), 'CVID' => $cvId);
+		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1), 'CVID' => $cvId];
 		$linkModels = $this->listViewModel->getListViewMassActions($linkParams);
 		$this->listViewModel->set('status', $status);
 

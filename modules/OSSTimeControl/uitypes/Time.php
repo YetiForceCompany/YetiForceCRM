@@ -15,7 +15,7 @@ class OSSTimeControl_Time_UIType extends Vtiger_Time_UIType
 			return parent::getEditViewDisplayValue($value, $recordModel);
 		}
 
-		$specialTimeFields = array('time_start', 'time_end');
+		$specialTimeFields = ['time_start', 'time_end'];
 		$fieldName = $this->get('field')->getFieldName();
 		if (!in_array($fieldName, $specialTimeFields)) {
 			return parent::getEditViewDisplayValue($value, $recordModel);
@@ -28,7 +28,7 @@ class OSSTimeControl_Time_UIType extends Vtiger_Time_UIType
 	 * Function to get the calendar event call duration value in hour format
 	 * @param type $fieldName
 	 * @param type $value
-	 * @return <Vtiger_Time_UIType> - getTimeValue 
+	 * @return <Vtiger_Time_UIType> - getTimeValue
 	 */
 	public function getDisplayTimeDifferenceValue($fieldName, $value)
 	{

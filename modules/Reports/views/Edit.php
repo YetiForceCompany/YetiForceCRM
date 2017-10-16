@@ -152,7 +152,7 @@ Class Reports_Edit_View extends Vtiger_Edit_View
 		foreach ($data as $name => $value) {
 			if ($name === 'schdayoftheweek' || $name === 'schdayofthemonth' || $name === 'schannualdates' || $name === 'recipients') {
 				if (is_string($value)) { // need to save these as json data
-					$value = array($value);
+					$value = [$value];
 				}
 			}
 			$reportModel->set($name, $value);
@@ -233,7 +233,7 @@ Class Reports_Edit_View extends Vtiger_Edit_View
 		foreach ($data as $name => $value) {
 			if ($name === 'schdayoftheweek' || $name === 'schdayofthemonth' || $name === 'schannualdates' || $name === 'recipients') {
 				if (!is_array($value)) { // need to save these as json data
-					$value = array($value);
+					$value = [$value];
 				}
 			}
 			$reportModel->set($name, $value);
@@ -314,11 +314,11 @@ Class Reports_Edit_View extends Vtiger_Edit_View
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
-		$jsFileNames = array(
+		$jsFileNames = [
 			"modules.$moduleName.resources.Edit1",
 			"modules.$moduleName.resources.Edit2",
 			"modules.$moduleName.resources.Edit3",
-		);
+		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;

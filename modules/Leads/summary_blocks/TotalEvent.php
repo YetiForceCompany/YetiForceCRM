@@ -29,7 +29,7 @@ class TotalEvent
 			WHERE vtiger_activity.link=?
 			AND vtiger_crmentity.deleted = 0
 			AND vtiger_activity.activitytype <> ?';
-		$result_Event = $adb->pquery($activity, array($recordModel->getId(), 'Task'));
+		$result_Event = $adb->pquery($activity, [$recordModel->getId(), 'Task']);
 		$count = $adb->queryResult($result_Event, 0, 'count');
 		\App\Log::trace('Exiting TotalEvent::process() method ...');
 		return $count;

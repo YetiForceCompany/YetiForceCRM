@@ -21,36 +21,36 @@ class Project extends CRMEntity
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('vtiger_projectcf', 'projectid');
+	public $customFieldTable = ['vtiger_projectcf', 'projectid'];
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_project', 'vtiger_projectcf', 'vtiger_entity_stats');
+	public $tab_name = ['vtiger_crmentity', 'vtiger_project', 'vtiger_projectcf', 'vtiger_entity_stats'];
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public $tab_name_index = Array(
+	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_project' => 'projectid',
 		'vtiger_projectcf' => 'projectid',
-		'vtiger_entity_stats' => 'crmid');
+		'vtiger_entity_stats' => 'crmid'];
 
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public $list_fields = Array(
+	public $list_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Project Name' => Array('project', 'projectname'),
-		'Start Date' => Array('project', 'startdate'),
-		'Status' => Array('project', 'projectstatus'),
-		'Type' => Array('project', 'projecttype'),
-		'Assigned To' => Array('crmentity', 'smownerid'),
-		'Total time [Sum]' => Array('project', 'sum_time_all')
-	);
-	public $list_fields_name = Array(
+		'Project Name' => ['project', 'projectname'],
+		'Start Date' => ['project', 'startdate'],
+		'Status' => ['project', 'projectstatus'],
+		'Type' => ['project', 'projecttype'],
+		'Assigned To' => ['crmentity', 'smownerid'],
+		'Total time [Sum]' => ['project', 'sum_time_all']
+	];
+	public $list_fields_name = [
 		/* Format: Field Label => fieldname */
 		'Project Name' => 'projectname',
 		'Start Date' => 'startdate',
@@ -58,7 +58,7 @@ class Project extends CRMEntity
 		'Type' => 'projecttype',
 		'Assigned To' => 'assigned_user_id',
 		'Total time [Sum]' => 'sum_time'
-	);
+	];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
@@ -67,36 +67,36 @@ class Project extends CRMEntity
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'projectname';
 	// For Popup listview and UI type support
-	public $search_fields = Array(
+	public $search_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Project Name' => Array('project', 'projectname'),
-		'Start Date' => Array('project', 'startdate'),
-		'Status' => Array('project', 'projectstatus'),
-		'Type' => Array('project', 'projecttype'),
-	);
-	public $search_fields_name = Array(
+		'Project Name' => ['project', 'projectname'],
+		'Start Date' => ['project', 'startdate'],
+		'Status' => ['project', 'projectstatus'],
+		'Type' => ['project', 'projecttype'],
+	];
+	public $search_fields_name = [
 		/* Format: Field Label => fieldname */
 		'Project Name' => 'projectname',
 		'Start Date' => 'startdate',
 		'Status' => 'projectstatus',
 		'Type' => 'projecttype',
-	);
+	];
 	// For Popup window record selection
-	public $popup_fields = Array('projectname');
+	public $popup_fields = ['projectname'];
 	// For Alphabetical search
 	public $def_basicsearch_col = 'projectname';
 	// Column value to use on detail view record text display
 	public $def_detailview_recname = 'projectname';
 	// Required Information for enabling Import feature
-	public $required_fields = Array('projectname' => 1);
+	public $required_fields = ['projectname' => 1];
 	// Callback function list during Importing
-	public $special_functions = Array('set_import_assigned_user');
+	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public $mandatory_fields = Array('createdtime', 'modifiedtime', 'projectname', 'assigned_user_id');
+	public $mandatory_fields = ['createdtime', 'modifiedtime', 'projectname', 'assigned_user_id'];
 
 	/**
 	 * Get list view query (send more WHERE clause condition if required)
@@ -133,7 +133,7 @@ class Project extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($module));
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", [$module]);
 		$linkedFieldsCount = $this->db->numRows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
@@ -227,7 +227,7 @@ class Project extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($thismodule));
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", [$thismodule]);
 		$linkedFieldsCount = $this->db->numRows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
@@ -343,13 +343,13 @@ class Project extends CRMEntity
 
 			\App\Fields\RecordNumber::setNumber($moduleName, 'PROJ', 1);
 		} else if ($eventType === 'module.disabled') {
-			
+
 		} else if ($eventType === 'module.enabled') {
-			
+
 		} else if ($eventType === 'module.preuninstall') {
-			
+
 		} else if ($eventType === 'module.preupdate') {
-			
+
 		} else if ($eventType === 'module.postupdate') {
 			$projectTabid = (new \App\Db\Query())->select(['tabid'])->from('vtiger_tab')->where(['name' => 'Project'])->scalar();
 
@@ -367,7 +367,7 @@ class Project extends CRMEntity
 
 	public static function registerLinks()
 	{
-		
+
 	}
 	/**
 	 * Here we override the parent's method,
@@ -386,7 +386,7 @@ class Project extends CRMEntity
 	 */
 	public function deleteRelatedModule($module, $crmid, $with_module, $with_crmid)
 	{
-		if (!in_array($with_module, array('ProjectMilestone', 'ProjectTask'))) {
+		if (!in_array($with_module, ['ProjectMilestone', 'ProjectTask'])) {
 			parent::deleteRelatedModule($module, $crmid, $with_module, $with_crmid);
 			return;
 		}
@@ -394,7 +394,7 @@ class Project extends CRMEntity
 		if (empty($destinationModule))
 			$destinationModule = $with_module;
 		if (!is_array($with_crmid))
-			$with_crmid = Array($with_crmid);
+			$with_crmid = [$with_crmid];
 		foreach ($with_crmid as $relcrmid) {
 			$child = CRMEntity::getInstance($destinationModule);
 			$child->retrieveEntityInfo($relcrmid, $destinationModule);

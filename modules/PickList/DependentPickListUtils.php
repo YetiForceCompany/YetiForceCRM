@@ -22,7 +22,7 @@ class Vtiger_DependencyPicklist
 			$result = $adb->pquery('SELECT DISTINCT sourcefield, targetfield, tabid FROM vtiger_picklist_dependency', []);
 		} else {
 			$tabId = \App\Module::getModuleId($module);
-			$result = $adb->pquery('SELECT DISTINCT sourcefield, targetfield, tabid FROM vtiger_picklist_dependency WHERE tabid=?', array($tabId));
+			$result = $adb->pquery('SELECT DISTINCT sourcefield, targetfield, tabid FROM vtiger_picklist_dependency WHERE tabid=?', [$tabId]);
 		}
 		$noofrows = $adb->numRows($result);
 
@@ -37,19 +37,19 @@ class Vtiger_DependencyPicklist
 					continue;
 				}
 
-				$fieldResult = $adb->pquery('SELECT fieldlabel FROM vtiger_field WHERE fieldname = ?', array($sourceField));
+				$fieldResult = $adb->pquery('SELECT fieldlabel FROM vtiger_field WHERE fieldname = ?', [$sourceField]);
 				$sourceFieldLabel = $adb->queryResult($fieldResult, 0, 'fieldlabel');
 
-				$fieldResult = $adb->pquery('SELECT fieldlabel FROM vtiger_field WHERE fieldname = ?', array($targetField));
+				$fieldResult = $adb->pquery('SELECT fieldlabel FROM vtiger_field WHERE fieldname = ?', [$targetField]);
 				$targetFieldLabel = $adb->queryResult($fieldResult, 0, 'fieldlabel');
 				$forModule = \App\Module::getModuleName($fieldTabId);
-				$dependentPicklists[] = array(
+				$dependentPicklists[] = [
 					'sourcefield' => $sourceField,
 					'sourcefieldlabel' => \App\Language::translate($sourceFieldLabel, $forModule),
 					'targetfield' => $targetField,
 					'targetfieldlabel' => \App\Language::translate($targetFieldLabel, $forModule),
 					'module' => $forModule
-				);
+				];
 			}
 		}
 		return $dependentPicklists;

@@ -77,7 +77,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			'~libraries/jquery/timepicker/jquery.timepicker.min.js',
 			'~libraries/jquery/clockpicker/jquery-clockpicker.js',
 			'~libraries/jquery/inputmask/jquery.inputmask.js',
@@ -103,7 +103,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 			'modules.Vtiger.resources.AdvanceSearch',
 			"modules.$moduleName.resources.AdvanceSearch",
 			'modules.Settings.DataAccess.resources.SaveResult',
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);

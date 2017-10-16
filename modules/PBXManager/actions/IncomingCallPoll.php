@@ -47,7 +47,7 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 	public function checkModuleViewPermission(\App\Request $request)
 	{
 		$response = new Vtiger_Response();
-		$modules = array('Contacts', 'Leads');
+		$modules = ['Contacts', 'Leads'];
 		$view = $request->getByType('view', 1);
 		Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		foreach ($modules as $module) {
@@ -151,7 +151,7 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 		$sourceuuid = $request->get('callid');
 		$module = $request->get('modulename');
 		$recordModel = PBXManager_Record_Model::getInstanceBySourceUUID($sourceuuid);
-		$recordModel->updateCallDetails(array('customer' => $id, 'customertype' => $module));
+		$recordModel->updateCallDetails(['customer' => $id, 'customertype' => $module]);
 	}
 
 	public function getCallStatus($request)

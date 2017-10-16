@@ -18,7 +18,7 @@ class Settings_Github_SaveIssuesAjax_Action extends Settings_Vtiger_Basic_Action
 		$success = $clientModel->createIssue($body, $title);
 		$success = $success ? true : false;
 		$responce = new Vtiger_Response();
-		$responce->setResult(array('success' => $success));
+		$responce->setResult(['success' => $success]);
 		$responce->emit();
 	}
 

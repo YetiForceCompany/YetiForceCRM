@@ -115,7 +115,7 @@ function getUserId_Ol($username)
 	} else {
 		$adb = PearDatabase::getInstance();
 		$sql = 'select id from vtiger_users where user_name=?';
-		$result = $adb->pquery($sql, array($username));
+		$result = $adb->pquery($sql, [$username]);
 		$numRows = $adb->numRows($result);
 		if ($numRows > 0) {
 			$userId = $adb->queryResult($result, 0, 'id');
@@ -152,11 +152,11 @@ function generateQuestionMarks($items_list)
  */
 function is_uitype($uitype, $reqtype)
 {
-	$ui_type_arr = array(
-		'_date_' => array(5, 6, 23, 70),
-		'_picklist_' => array(15, 16, 52, 53, 54, 55, 59, 62, 63, 66, 68, 76, 77, 78, 80, 98, 101, 115, 357),
-		'_users_list_' => array(52),
-	);
+	$ui_type_arr = [
+		'_date_' => [5, 6, 23, 70],
+		'_picklist_' => [15, 16, 52, 53, 54, 55, 59, 62, 63, 66, 68, 76, 77, 78, 80, 98, 101, 115, 357],
+		'_users_list_' => [52],
+	];
 
 	if ($ui_type_arr[$reqtype] !== null) {
 		if (in_array($uitype, $ui_type_arr[$reqtype])) {
@@ -238,22 +238,22 @@ function getRelationTables($module, $secmodule)
 	$primary_obj = CRMEntity::getInstance($module);
 	$secondary_obj = CRMEntity::getInstance($secmodule);
 
-	$ui10_query = $adb->pquery("SELECT vtiger_field.tabid AS tabid,vtiger_field.tablename AS tablename, vtiger_field.columnname AS columnname FROM vtiger_field INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid WHERE (vtiger_fieldmodulerel.module=? && vtiger_fieldmodulerel.relmodule=?) || (vtiger_fieldmodulerel.module=? && vtiger_fieldmodulerel.relmodule=?)", array($module, $secmodule, $secmodule, $module));
+	$ui10_query = $adb->pquery("SELECT vtiger_field.tabid AS tabid,vtiger_field.tablename AS tablename, vtiger_field.columnname AS columnname FROM vtiger_field INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid WHERE (vtiger_fieldmodulerel.module=? && vtiger_fieldmodulerel.relmodule=?) || (vtiger_fieldmodulerel.module=? && vtiger_fieldmodulerel.relmodule=?)", [$module, $secmodule, $secmodule, $module]);
 	if ($adb->numRows($ui10_query) > 0) {
 		$ui10_tablename = $adb->queryResult($ui10_query, 0, 'tablename');
 		$ui10_columnname = $adb->queryResult($ui10_query, 0, 'columnname');
 
 		if ($primary_obj->table_name == $ui10_tablename) {
-			$reltables = array($ui10_tablename => array("" . $primary_obj->table_index . "", "$ui10_columnname"));
+			$reltables = [$ui10_tablename => ["" . $primary_obj->table_index . "", "$ui10_columnname"]];
 		} else if ($secondary_obj->table_name == $ui10_tablename) {
-			$reltables = array($ui10_tablename => array("$ui10_columnname", "" . $secondary_obj->table_index . ""), "" . $primary_obj->table_name . "" => "" . $primary_obj->table_index . "");
+			$reltables = [$ui10_tablename => ["$ui10_columnname", "" . $secondary_obj->table_index . ""], "" . $primary_obj->table_name . "" => "" . $primary_obj->table_index . ""];
 		} else {
 			if (isset($secondary_obj->tab_name_index[$ui10_tablename])) {
 				$rel_field = $secondary_obj->tab_name_index[$ui10_tablename];
-				$reltables = array($ui10_tablename => array("$ui10_columnname", "$rel_field"), "" . $primary_obj->table_name . "" => "" . $primary_obj->table_index . "");
+				$reltables = [$ui10_tablename => ["$ui10_columnname", "$rel_field"], "" . $primary_obj->table_name . "" => "" . $primary_obj->table_index . ""];
 			} else {
 				$rel_field = $primary_obj->tab_name_index[$ui10_tablename];
-				$reltables = array($ui10_tablename => array("$rel_field", "$ui10_columnname"), "" . $primary_obj->table_name . "" => "" . $primary_obj->table_index . "");
+				$reltables = [$ui10_tablename => ["$rel_field", "$ui10_columnname"], "" . $primary_obj->table_name . "" => "" . $primary_obj->table_index . ""];
 			}
 		}
 	} else {
@@ -266,7 +266,7 @@ function getRelationTables($module, $secmodule)
 	if (is_array($reltables) && !empty($reltables)) {
 		$rel_array = $reltables;
 	} else {
-		$rel_array = array("vtiger_crmentityrel" => array("crmid", "relcrmid"), "" . $primary_obj->table_name . "" => "" . $primary_obj->table_index . "");
+		$rel_array = ["vtiger_crmentityrel" => ["crmid", "relcrmid"], "" . $primary_obj->table_name . "" => "" . $primary_obj->table_index . ""];
 	}
 	return $rel_array;
 }
@@ -341,7 +341,7 @@ function getValidDBInsertDateValue($value)
 
 	\App\Log::trace("Entering getValidDBInsertDateValue(" . $value . ") method ...");
 	$value = trim($value);
-	$delim = array('/', '.');
+	$delim = ['/', '.'];
 	foreach ($delim as $delimiter) {
 		$x = strpos($value, $delimiter);
 		if ($x === false)
@@ -358,7 +358,7 @@ function getValidDBInsertDateValue($value)
 		$m = '0' . $m;
 	if (strlen($d) == 1)
 		$d = '0' . $d;
-	$value = implode('-', array($y, $m, $d));
+	$value = implode('-', [$y, $m, $d]);
 
 	if (strlen($y) < 4) {
 		$insert_date = DateTimeField::convertToDBFormat($value);
@@ -398,6 +398,7 @@ function getValidDBInsertDateTimeValue($value)
 		return getValidDBInsertDateValue($value);
 	}
 }
+
 //Get the User selected NumberOfCurrencyDecimals
 function getCurrencyDecimalPlaces()
 {
@@ -415,6 +416,7 @@ function getInventoryModules()
 	$inventoryModules = [];
 	return $inventoryModules;
 }
+
 /** call back function to change the array values in to lower case */
 function lower_array(&$string)
 {

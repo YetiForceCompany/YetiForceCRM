@@ -31,7 +31,7 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
                 WHERE `osspasswordsid` = ? LIMIT 1;";
 		}
 
-		$params = array($recordId);
+		$params = [$recordId];
 		$result = $db->pquery($sql, $params, true);
 
 		if ($db->numRows($result) == 1)
@@ -95,7 +95,7 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
 		$passLength = strlen($password);
 
 		if ($passLength == 0) {
-			return array('error' => true, 'message' => \App\Language::translate('LBL_NULLPASS', 'OSSPasswords'));
+			return ['error' => true, 'message' => \App\Language::translate('LBL_NULLPASS', 'OSSPasswords')];
 		}
 
 		$config = $this->getConfiguration();
@@ -103,9 +103,9 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
 		$max = $config['pass_length_max'];
 
 		if ($passLength < $min)
-			return array('error' => true, 'message' => \App\Language::translate('LBL_PASS_TOOSHORT', 'OSSPasswords'));
+			return ['error' => true, 'message' => \App\Language::translate('LBL_PASS_TOOSHORT', 'OSSPasswords')];
 		else if ($passLength > $max)
-			return array('error' => true, 'message' => \App\Language::translate('LBL_PASS_TOOLONG', 'OSSPasswords'));
+			return ['error' => true, 'message' => \App\Language::translate('LBL_PASS_TOOLONG', 'OSSPasswords')];
 
 		$onlyStars = true;
 		for ($i = 0; $i < $passLength; $i++) {
@@ -116,8 +116,8 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
 		}
 
 		if ($onlyStars)
-			return array('error' => true, 'message' => \App\Language::translate('LBL_ONLY_STARS', 'OSSPasswords'));
+			return ['error' => true, 'message' => \App\Language::translate('LBL_ONLY_STARS', 'OSSPasswords')];
 
-		return array('error' => false, 'message' => '');
+		return ['error' => false, 'message' => ''];
 	}
 }

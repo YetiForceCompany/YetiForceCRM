@@ -63,7 +63,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 	{
 		$db = PearDatabase::getInstance();
 		if (vtlib\Utils::checkTable('vtiger_import_queue')) {
-			$db->pquery('DELETE FROM vtiger_import_queue WHERE importid=?', array($importId));
+			$db->pquery('DELETE FROM vtiger_import_queue WHERE importid=?', [$importId]);
 		}
 	}
 
@@ -71,7 +71,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 	{
 		$db = PearDatabase::getInstance();
 		if (vtlib\Utils::checkTable('vtiger_import_queue')) {
-			$db->pquery('DELETE FROM vtiger_import_queue WHERE userid=?', array($user->id));
+			$db->pquery('DELETE FROM vtiger_import_queue WHERE userid=?', [$user->id]);
 		}
 	}
 
@@ -80,7 +80,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 		$db = PearDatabase::getInstance();
 
 		if (vtlib\Utils::checkTable('vtiger_import_queue')) {
-			$queueResult = $db->pquery('SELECT * FROM vtiger_import_queue WHERE userid=? LIMIT 1', array($user->id));
+			$queueResult = $db->pquery('SELECT * FROM vtiger_import_queue WHERE userid=? LIMIT 1', [$user->id]);
 
 			if ($queueResult && $db->numRows($queueResult) > 0) {
 				$rowData = $db->rawQueryResultRowData($queueResult, 0);
@@ -110,7 +110,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 		$db = PearDatabase::getInstance();
 
 		if (vtlib\Utils::checkTable('vtiger_import_queue')) {
-			$queueResult = $db->pquery('SELECT * FROM vtiger_import_queue WHERE importid=?', array($importId));
+			$queueResult = $db->pquery('SELECT * FROM vtiger_import_queue WHERE importid=?', [$importId]);
 
 			if ($queueResult && $db->numRows($queueResult) > 0) {
 				$rowData = $db->rawQueryResultRowData($queueResult, 0);
@@ -163,6 +163,6 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 	public static function updateStatus($importId, $temp_status)
 	{
 		$db = PearDatabase::getInstance();
-		$db->pquery('UPDATE vtiger_import_queue SET temp_status=? WHERE importid=?', array($temp_status, $importId));
+		$db->pquery('UPDATE vtiger_import_queue SET temp_status=? WHERE importid=?', [$temp_status, $importId]);
 	}
 }

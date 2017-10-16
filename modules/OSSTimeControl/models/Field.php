@@ -40,20 +40,20 @@ class OSSTimeControl_Field_Model extends Vtiger_Field_Model
 		$fieldName = $this->getName();
 
 		switch ($fieldName) {
-			case 'due_date': $funcName = array('name' => 'dateAndTimeGreaterThanDependentField',
-					'params' => ['date_start', 'time_start', 'due_date', 'time_end']);
+			case 'due_date': $funcName = ['name' => 'dateAndTimeGreaterThanDependentField',
+					'params' => ['date_start', 'time_start', 'due_date', 'time_end']];
 				array_push($validator, $funcName);
 				break;
-			case 'date_start': $funcName = array('name' => 'dateAndTimeGreaterThanDependentField',
-					'params' => ['date_start', 'time_start', 'due_date', 'time_end']);
+			case 'date_start': $funcName = ['name' => 'dateAndTimeGreaterThanDependentField',
+					'params' => ['date_start', 'time_start', 'due_date', 'time_end']];
 				array_push($validator, $funcName);
 				break;
-			case 'time_start': $funcName = array('name' => 'dateAndTimeGreaterThanDependentField',
-					'params' => ['date_start', 'time_start', 'due_date', 'time_end']);
+			case 'time_start': $funcName = ['name' => 'dateAndTimeGreaterThanDependentField',
+					'params' => ['date_start', 'time_start', 'due_date', 'time_end']];
 				array_push($validator, $funcName);
 				break;
-			case 'time_end': $funcName = array('name' => 'dateAndTimeGreaterThanDependentField',
-					'params' => ['date_start', 'time_start', 'due_date', 'time_end']);
+			case 'time_end': $funcName = ['name' => 'dateAndTimeGreaterThanDependentField',
+					'params' => ['date_start', 'time_start', 'due_date', 'time_end']];
 				array_push($validator, $funcName);
 				break;
 			default : $validator = parent::getValidator();

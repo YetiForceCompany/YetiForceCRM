@@ -38,8 +38,8 @@ function getListQuery($module, $where = '')
 	$current_user = vglobal('current_user');
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
 	require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
-	$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' =>
-			'vtiger_users.last_name'), 'Users');
+	$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name', 'last_name' =>
+			'vtiger_users.last_name'], 'Users');
 	switch ($module) {
 		Case "HelpDesk":
 			$query = "SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
@@ -62,7 +62,7 @@ function getListQuery($module, $where = '')
 			LEFT JOIN vtiger_users
 				ON vtiger_crmentity.smownerid = vtiger_users.id
 			LEFT JOIN vtiger_products
-				ON vtiger_products.productid = vtiger_troubletickets.product_id %s 
+				ON vtiger_products.productid = vtiger_troubletickets.product_id %s
 			WHERE vtiger_crmentity.deleted = 0 %s";
 			$query = sprintf($query, getNonAdminAccessControlQuery($module, $current_user), $where);
 			break;
@@ -83,7 +83,7 @@ function getListQuery($module, $where = '')
 			LEFT JOIN vtiger_users
 				ON vtiger_users.id = vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_account vtiger_account2
-				ON vtiger_account.parentid = vtiger_account2.accountid %s 
+				ON vtiger_account.parentid = vtiger_account2.accountid %s
 			WHERE vtiger_crmentity.deleted = 0 %s";
 			$query = sprintf($query, getNonAdminAccessControlQuery($module, $current_user), $where);
 			break;
@@ -104,7 +104,7 @@ function getListQuery($module, $where = '')
 			LEFT JOIN vtiger_groups
 				ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_users
-				ON vtiger_users.id = vtiger_crmentity.smownerid %s 
+				ON vtiger_users.id = vtiger_crmentity.smownerid %s
 			WHERE vtiger_crmentity.deleted = 0 && vtiger_leaddetails.converted = 0 %s";
 			$query = sprintf($query, getNonAdminAccessControlQuery($module, $current_user), $where);
 			break;
@@ -134,7 +134,7 @@ function getListQuery($module, $where = '')
 			LEFT JOIN vtiger_users
 				ON vtiger_users.id = vtiger_crmentity.smownerid
 			LEFT JOIN `vtiger_trees_templates_data`
-				ON vtiger_notes.folderid = `vtiger_trees_templates_data`.tree %s 
+				ON vtiger_notes.folderid = `vtiger_trees_templates_data`.tree %s
 			WHERE vtiger_crmentity.deleted = 0 %s";
 			$query = sprintf($query, getNonAdminAccessControlQuery($module, $current_user), $where);
 			break;
@@ -246,7 +246,7 @@ function getListQuery($module, $where = '')
 			LEFT JOIN vtiger_users
 				ON vtiger_users.id = vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_products
-				ON vtiger_products.productid = vtiger_campaign.product_id %s 
+				ON vtiger_products.productid = vtiger_campaign.product_id %s
 			WHERE vtiger_crmentity.deleted = 0 %s";
 			$query = sprintf($query, getNonAdminAccessControlQuery($module, $current_user), $where);
 			break;
@@ -260,17 +260,17 @@ function getListQuery($module, $where = '')
 			$query = sprintf($query, $where);
 			break;
 		Case "Reservations":
-			$query = "SELECT vtiger_crmentity.*, vtiger_reservations.*, vtiger_reservationscf.* FROM vtiger_reservations 
-                INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_reservations.reservationsid 
-                INNER JOIN vtiger_reservationscf ON vtiger_reservationscf.reservationsid = vtiger_reservations.reservationsid 
-                LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid 
-                LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid 
-                LEFT JOIN vtiger_account ON vtiger_account.accountid = vtiger_reservations.relatedida 
-                LEFT JOIN vtiger_leaddetails ON vtiger_leaddetails.leadid = vtiger_reservations.relatedida 
-                LEFT JOIN vtiger_vendor ON vtiger_vendor.vendorid = vtiger_reservations.relatedida 
-                LEFT JOIN vtiger_project ON vtiger_project.projectid = vtiger_reservations.relatedidb 
-                LEFT JOIN vtiger_troubletickets ON vtiger_troubletickets.ticketid = vtiger_reservations.relatedidb 
-                WHERE vtiger_reservations.reservationsid > 0 
+			$query = "SELECT vtiger_crmentity.*, vtiger_reservations.*, vtiger_reservationscf.* FROM vtiger_reservations
+                INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_reservations.reservationsid
+                INNER JOIN vtiger_reservationscf ON vtiger_reservationscf.reservationsid = vtiger_reservations.reservationsid
+                LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
+                LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
+                LEFT JOIN vtiger_account ON vtiger_account.accountid = vtiger_reservations.relatedida
+                LEFT JOIN vtiger_leaddetails ON vtiger_leaddetails.leadid = vtiger_reservations.relatedida
+                LEFT JOIN vtiger_vendor ON vtiger_vendor.vendorid = vtiger_reservations.relatedida
+                LEFT JOIN vtiger_project ON vtiger_project.projectid = vtiger_reservations.relatedidb
+                LEFT JOIN vtiger_troubletickets ON vtiger_troubletickets.ticketid = vtiger_reservations.relatedidb
+                WHERE vtiger_reservations.reservationsid > 0
                 && vtiger_crmentity.deleted = 0 ";
 			$query = sprintf($query, $where);
 			break;

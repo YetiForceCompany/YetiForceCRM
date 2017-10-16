@@ -62,7 +62,7 @@ class Reports_Folder_Action extends Vtiger_Action_Controller
 		}
 
 		$folderModel->save();
-		$result = array('success' => true, 'message' => \App\Language::translate('LBL_FOLDER_SAVED', $moduleName), 'info' => $folderModel->getInfoArray());
+		$result = ['success' => true, 'message' => \App\Language::translate('LBL_FOLDER_SAVED', $moduleName), 'info' => $folderModel->getInfoArray()];
 
 		$response = new Vtiger_Response();
 		$response->setResult($result);
@@ -89,10 +89,10 @@ class Reports_Folder_Action extends Vtiger_Action_Controller
 				}
 			}
 			if ($message) {
-				$result = array('success' => false, 'message' => $message);
+				$result = ['success' => false, 'message' => $message];
 			} else {
 				$folderModel->delete();
-				$result = array('success' => true, 'message' => \App\Language::translate('LBL_FOLDER_DELETED', $moduleName));
+				$result = ['success' => true, 'message' => \App\Language::translate('LBL_FOLDER_DELETED', $moduleName)];
 			}
 
 			$response = new Vtiger_Response();

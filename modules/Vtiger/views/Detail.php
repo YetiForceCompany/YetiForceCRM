@@ -14,7 +14,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 	/**
 	 * Record model instance
-	 * @var Vtiger_Record_Model 
+	 * @var Vtiger_Record_Model
 	 */
 	protected $record = false;
 	protected $recordStructure = false;
@@ -22,7 +22,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 	/**
 	 * Page title
-	 * @var type 
+	 * @var type
 	 */
 	protected $pageTitle = 'LBL_VIEW_DETAIL';
 
@@ -85,7 +85,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$eventHandler->setModuleName($moduleName);
 		$eventHandler->trigger('DetailViewBefore');
 
-		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
+		$detailViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $recordId];
 
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
 		$this->record->getWidgets($detailViewLinkParams);
@@ -176,7 +176,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('IS_EDITABLE', $this->record->getRecord()->isEditable($moduleName));
 		$viewer->assign('IS_DELETABLE', $this->record->getRecord()->isDeletable($moduleName));
 
-		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1));
+		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1)];
 		$linkModels = $this->record->getSideBarLinks($linkParams);
 		$viewer->assign('QUICK_LINKS', $linkModels);
 		$viewer->assign('DEFAULT_RECORD_VIEW', $currentUserModel->get('default_record_view'));
@@ -256,7 +256,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$jsFileNames = array(
+		$jsFileNames = [
 			'modules.Vtiger.resources.RelatedList',
 			"modules.$moduleName.resources.RelatedList",
 			'modules.Vtiger.resources.Widgets',
@@ -266,7 +266,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			'~libraries/leaflet/plugins/markercluster/leaflet.markercluster.js',
 			'~libraries/leaflet/plugins/awesome-markers/leaflet.awesome-markers.js',
 			"modules.OpenStreetMap.resources.Map",
-		);
+		];
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 
@@ -352,7 +352,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		}
 		$recordModel = $this->record->getRecord();
-		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
+		$detailViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $recordId];
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
 		$this->record->getWidgets($detailViewLinkParams);
 		$viewer = $this->getViewer($request);
@@ -840,7 +840,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		$recordModel = $this->record->getRecord();
 
-		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
+		$detailViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $recordId];
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
 
 		$viewer = $this->getViewer($request);

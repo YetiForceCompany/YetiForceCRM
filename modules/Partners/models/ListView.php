@@ -21,12 +21,12 @@ class Partners_ListView_Model extends Vtiger_ListView_Model
 		$moduleModel = $this->getModule();
 		$massActionLinks = [];
 		if ($moduleModel->isPermitted('MassComposeEmail') && AppConfig::main('isActiveSendingMails') && App\Mail::getDefaultSmtp()) {
-			$massActionLinks[] = array(
+			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_SEND_EMAIL',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerSendEmail()',
 				'linkicon' => ''
-			);
+			];
 		}
 		foreach ($massActionLinks as $massActionLink) {
 			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);

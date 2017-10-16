@@ -32,7 +32,7 @@ class Vtiger_AdvancedFilter_Helper
 	 */
 	public static function getAdvancedFilterOptions()
 	{
-		return array(
+		return [
 			'is' => 'is',
 			'is not' => 'is not',
 			'contains' => 'contains',
@@ -67,7 +67,7 @@ class Vtiger_AdvancedFilter_Helper
 			'None' => 'None',
 			'is Watching Record' => 'is Watching Record',
 			'is Not Watching Record' => 'is Not Watching Record',
-		);
+		];
 	}
 
 	/**
@@ -126,16 +126,16 @@ class Vtiger_AdvancedFilter_Helper
 		if (!empty($conditions)) {
 			foreach ($conditions as $index => $info) {
 				if (!($info['groupid'])) {
-					$firstGroup[] = array('columnname' => $info['fieldname'], 'comparator' => $info['operation'], 'value' => $info['value'],
-						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid']);
+					$firstGroup[] = ['columnname' => $info['fieldname'], 'comparator' => $info['operation'], 'value' => $info['value'],
+						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid']];
 				} else {
-					$secondGroup[] = array('columnname' => $info['fieldname'], 'comparator' => $info['operation'], 'value' => $info['value'],
-						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid']);
+					$secondGroup[] = ['columnname' => $info['fieldname'], 'comparator' => $info['operation'], 'value' => $info['value'],
+						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid']];
 				}
 			}
 		}
-		$transformedConditions[1] = array('columns' => $firstGroup);
-		$transformedConditions[2] = array('columns' => $secondGroup);
+		$transformedConditions[1] = ['columns' => $firstGroup];
+		$transformedConditions[2] = ['columns' => $secondGroup];
 		return $transformedConditions;
 	}
 
@@ -146,14 +146,14 @@ class Vtiger_AdvancedFilter_Helper
 			foreach ($conditions as $index => $condition) {
 				$columns = $condition['columns'];
 				if ($index == '1' && empty($columns)) {
-					$wfCondition[] = array('fieldname' => '', 'operation' => '', 'value' => '', 'valuetype' => '',
-						'joincondition' => '', 'groupid' => '0');
+					$wfCondition[] = ['fieldname' => '', 'operation' => '', 'value' => '', 'valuetype' => '',
+						'joincondition' => '', 'groupid' => '0'];
 				}
 				if (!empty($columns) && is_array($columns)) {
 					foreach ($columns as $column) {
-						$wfCondition[] = array('fieldname' => $column['columnname'], 'operation' => $column['comparator'],
+						$wfCondition[] = ['fieldname' => $column['columnname'], 'operation' => $column['comparator'],
 							'value' => $column['value'], 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
-							'groupjoin' => $condition['condition'], 'groupid' => $column['groupid']);
+							'groupjoin' => $condition['condition'], 'groupid' => $column['groupid']];
 					}
 				}
 			}

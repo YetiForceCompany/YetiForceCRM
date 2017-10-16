@@ -63,9 +63,9 @@ Class Products_Edit_View extends Vtiger_Edit_View
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			'libraries.jquery.multiplefileupload.jquery_MultiFile'
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);

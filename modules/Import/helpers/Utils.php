@@ -83,9 +83,9 @@ class Import_Utils_Helper
 	{
 
 		$errorMessage = \App\Language::translate('ERR_MODULE_IMPORT_LOCKED', 'Import');
-		$errorDetails = array(\App\Language::translate('LBL_MODULE_NAME', 'Import') => \App\Module::getModuleName($lockInfo['tabid']),
+		$errorDetails = [\App\Language::translate('LBL_MODULE_NAME', 'Import') => \App\Module::getModuleName($lockInfo['tabid']),
 			\App\Language::translate('LBL_USER_NAME', 'Import') => \App\Fields\Owner::getUserLabel($lockInfo['userid']),
-			\App\Language::translate('LBL_LOCKED_TIME', 'Import') => $lockInfo['locked_since']);
+			\App\Language::translate('LBL_LOCKED_TIME', 'Import') => $lockInfo['locked_since']];
 
 		self::showErrorPage($errorMessage, $errorDetails);
 	}
@@ -98,7 +98,7 @@ class Import_Utils_Helper
 	{
 
 		$errorMessage = \App\Language::translate('ERR_UNIMPORTED_RECORDS_EXIST', 'Import');
-		$customActions = array('LBL_CLEAR_DATA' => "location.href='index.php?module={$moduleName}&view=Import&mode=clearCorruptedData'");
+		$customActions = ['LBL_CLEAR_DATA' => "location.href='index.php?module={$moduleName}&view=Import&mode=clearCorruptedData'"];
 
 		self::showErrorPage($errorMessage, '', $customActions);
 	}

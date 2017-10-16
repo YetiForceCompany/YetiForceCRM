@@ -11,16 +11,16 @@
 	 * @copyright YetiForce Sp. z o.o.
 	 * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
 	 */
-	$required_php_exts = array(
+	$required_php_exts = [
 		'PCRE' => 'pcre',
 		'DOM' => 'dom',
 		'Session' => 'session',
 		'XML' => 'xml',
 		'JSON' => 'json',
 		'PDO' => 'PDO',
-	);
+	];
 
-	$optional_php_exts = array(
+	$optional_php_exts = [
 		'FileInfo' => 'fileinfo',
 		'Libiconv' => 'iconv',
 		'Multibyte' => 'mbstring',
@@ -28,27 +28,27 @@
 		'Mcrypt' => 'mcrypt',
 		'Intl' => 'intl',
 		'Exif' => 'exif',
-	);
+	];
 
-	$required_libs = array(
+	$required_libs = [
 		'PEAR' => 'PEAR.php',
 		'Net_SMTP' => 'Net/SMTP.php',
 		'Net_IDNA2' => 'Net/IDNA2.php',
 		'Mail_mime' => 'Mail/mime.php',
-	);
+	];
 
-	$ini_checks = array(
+	$ini_checks = [
 		'mbstring.func_overload' => 0,
 		'suhosin.session.encrypt' => 0,
-	);
+	];
 
-	$optional_checks = array(
+	$optional_checks = [
 		// required for utils/modcss.inc, should we require this?
 		'allow_url_fopen' => 1,
 		'date.timezone' => '-VALID-',
-	);
+	];
 
-	$source_urls = array(
+	$source_urls = [
 		'Sockets' => 'http://www.php.net/manual/en/book.sockets.php',
 		'Session' => 'http://www.php.net/manual/en/book.session.php',
 		'PCRE' => 'http://www.php.net/manual/en/book.pcre.php',
@@ -72,15 +72,15 @@
 		'Net_SMTP' => 'http://pear.php.net/package/Net_SMTP',
 		'Mail_mime' => 'http://pear.php.net/package/Mail_mime',
 		'Net_IDNA2' => 'http://pear.php.net/package/Net_IDNA2',
-	);
-	$supported_dbs = array(
+	];
+	$supported_dbs = [
 		'MySQL' => 'pdo_mysql',
 		'PostgreSQL' => 'pdo_pgsql',
 		'SQLite' => 'pdo_sqlite',
 		'SQLite (v2)' => 'pdo_sqlite2',
 		'SQL Server (SQLSRV)' => 'pdo_sqlsrv',
 		'SQL Server (DBLIB)' => 'pdo_dblib',
-	);
+	];
 
 	?>
 	<h3>Checking PHP extensions</h3>

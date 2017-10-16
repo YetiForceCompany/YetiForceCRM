@@ -96,7 +96,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 
 		try {
 			$fieldInstance->delete();
-			$response->setResult(array('success' => true));
+			$response->setResult(['success' => true]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
@@ -111,7 +111,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		Settings_LayoutEditor_Block_Model::updateFieldSequenceNumber($updatedFieldsList);
 
 		$response = new Vtiger_Response();
-		$response->setResult(array('success' => true));
+		$response->setResult(['success' => true]);
 		$response->emit();
 	}
 
@@ -125,7 +125,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 			foreach ($fieldIds as $fieldId) {
 				$fieldModel = Settings_LayoutEditor_Field_Model::getInstance($fieldId);
 				$fieldInfo = $fieldModel->getFieldInfo();
-				$responseData[] = array_merge(array('id' => $fieldModel->getId(), 'blockid' => $fieldModel->get('block')->id, 'customField' => $fieldModel->isCustomField()), $fieldInfo);
+				$responseData[] = array_merge(['id' => $fieldModel->getId(), 'blockid' => $fieldModel->get('block')->id, 'customField' => $fieldModel->isCustomField()], $fieldInfo);
 			}
 			$response->setResult($responseData);
 		} catch (Exception $e) {

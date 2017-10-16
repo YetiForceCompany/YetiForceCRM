@@ -261,11 +261,11 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			\App\Colors::updatePicklistValueColor($field->getId(), $request->getInteger('id'), $params['color']);
 		}
 		$response = new Vtiger_Response();
-		$response->setResult(array(
+		$response->setResult([
 			'success' => true,
 			'color' => $params['color'],
 			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
-		));
+		]);
 		$response->emit();
 	}
 
@@ -280,11 +280,11 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$params['color'] = '';
 		Settings_Calendar_Module_Model::updateCalendarConfig($params);
 		$response = new Vtiger_Response();
-		$response->setResult(array(
+		$response->setResult([
 			'success' => true,
 			'color' => $params['color'],
 			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
-		));
+		]);
 		$response->emit();
 	}
 }

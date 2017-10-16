@@ -18,30 +18,30 @@ class HelpDesk extends CRMEntity
 
 	public $table_name = "vtiger_troubletickets";
 	public $table_index = 'ticketid';
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_troubletickets', 'vtiger_ticketcf', 'vtiger_entity_stats');
-	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_troubletickets' => 'ticketid', 'vtiger_ticketcf' => 'ticketid', 'vtiger_entity_stats' => 'crmid');
+	public $tab_name = ['vtiger_crmentity', 'vtiger_troubletickets', 'vtiger_ticketcf', 'vtiger_entity_stats'];
+	public $tab_name_index = ['vtiger_crmentity' => 'crmid', 'vtiger_troubletickets' => 'ticketid', 'vtiger_ticketcf' => 'ticketid', 'vtiger_entity_stats' => 'crmid'];
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('vtiger_ticketcf', 'ticketid');
+	public $customFieldTable = ['vtiger_ticketcf', 'ticketid'];
 	public $column_fields = [];
 	//Pavani: Assign value to entity_table
 	public $entity_table = "vtiger_crmentity";
-	public $list_fields = Array(
+	public $list_fields = [
 		//Module Sequence Numbering
 		//'Ticket ID'=>Array('crmentity'=>'crmid'),
-		'Ticket No' => Array('troubletickets' => 'ticket_no'),
+		'Ticket No' => ['troubletickets' => 'ticket_no'],
 		// END
-		'Subject' => Array('troubletickets' => 'title'),
-		'Related To' => Array('troubletickets' => 'parent_id'),
-		'Contact Name' => Array('troubletickets' => 'contact_id'),
-		'Status' => Array('troubletickets' => 'status'),
-		'Priority' => Array('troubletickets' => 'priority'),
-		'Assigned To' => Array('crmentity', 'smownerid'),
-		'FL_TOTAL_TIME_H' => Array('troubletickets', 'sum_time')
-	);
-	public $list_fields_name = Array(
+		'Subject' => ['troubletickets' => 'title'],
+		'Related To' => ['troubletickets' => 'parent_id'],
+		'Contact Name' => ['troubletickets' => 'contact_id'],
+		'Status' => ['troubletickets' => 'status'],
+		'Priority' => ['troubletickets' => 'priority'],
+		'Assigned To' => ['crmentity', 'smownerid'],
+		'FL_TOTAL_TIME_H' => ['troubletickets', 'sum_time']
+	];
+	public $list_fields_name = [
 		'Ticket No' => 'ticket_no',
 		'Subject' => 'ticket_title',
 		'Related To' => 'parent_id',
@@ -50,14 +50,14 @@ class HelpDesk extends CRMEntity
 		'Priority' => 'ticketpriorities',
 		'Assigned To' => 'assigned_user_id',
 		'FL_TOTAL_TIME_H' => 'sum_time'
-	);
+	];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = ['ticket_no', 'ticket_title', 'parent_id', 'ticketstatus', 'ticketpriorities', 'assigned_user_id', 'sum_time'];
 	public $list_link_field = 'ticket_title';
-	public $range_fields = Array(
+	public $range_fields = [
 		'ticketid',
 		'title',
 		'firstname',
@@ -73,21 +73,21 @@ class HelpDesk extends CRMEntity
 		'solution',
 		'modifiedtime',
 		'createdtime'
-	);
-	public $search_fields = Array(
+	];
+	public $search_fields = [
 		//'Ticket ID' => Array('vtiger_crmentity'=>'crmid'),
-		'Ticket No' => Array('vtiger_troubletickets' => 'ticket_no'),
-		'Title' => Array('vtiger_troubletickets' => 'title')
-	);
-	public $search_fields_name = Array(
+		'Ticket No' => ['vtiger_troubletickets' => 'ticket_no'],
+		'Title' => ['vtiger_troubletickets' => 'title']
+	];
+	public $search_fields_name = [
 		'Ticket No' => 'ticket_no',
 		'Title' => 'ticket_title',
-	);
+	];
 	//Specify Required fields
 	public $required_fields = [];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public $mandatory_fields = Array('assigned_user_id', 'createdtime', 'modifiedtime', 'ticket_title', 'update_log');
+	public $mandatory_fields = ['assigned_user_id', 'createdtime', 'modifiedtime', 'ticket_title', 'update_log'];
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
@@ -123,8 +123,8 @@ class HelpDesk extends CRMEntity
 		$sql = getPermittedFieldsQuery("HelpDesk", "detail_view");
 		$fields_list = getFieldsListFromQuery($sql);
 
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
-				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' =>
+				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
 		$query = "SELECT $fields_list,case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name
                        FROM " . $this->entity_table . "
 				INNER JOIN vtiger_troubletickets
@@ -178,12 +178,12 @@ class HelpDesk extends CRMEntity
 				$entity_id_field = $entity_tbl_field_arr[$rel_table];
 				// IN clause to avoid duplicate entries
 				$sel_result = $adb->pquery("select $id_field from $rel_table where $entity_id_field=? " .
-					" and $id_field not in (select $id_field from $rel_table where $entity_id_field=?)", array($transferId, $entityId));
+					" and $id_field not in (select $id_field from $rel_table where $entity_id_field=?)", [$transferId, $entityId]);
 				$res_cnt = $adb->numRows($sel_result);
 				if ($res_cnt > 0) {
 					for ($i = 0; $i < $res_cnt; $i++) {
 						$id_field_value = $adb->queryResult($sel_result, $i, $id_field);
-						$adb->pquery("update $rel_table set $entity_id_field=? where $entity_id_field=? and $id_field=?", array($entityId, $transferId, $id_field_value));
+						$adb->pquery("update $rel_table set $entity_id_field=? where $entity_id_field=? and $id_field=?", [$entityId, $transferId, $id_field_value]);
 					}
 				}
 			}
@@ -203,9 +203,9 @@ class HelpDesk extends CRMEntity
 	{
 		$matrix = $queryplanner->newDependencyMatrix();
 
-		$matrix->setDependency('vtiger_crmentityHelpDesk', array('vtiger_groupsHelpDesk', 'vtiger_usersHelpDesk', 'vtiger_lastModifiedByHelpDesk'));
-		$matrix->setDependency('vtiger_troubletickets', array('vtiger_crmentityHelpDesk', 'vtiger_ticketcf', 'vtiger_crmentityRelHelpDesk', 'vtiger_productsRel'));
-		$matrix->setDependency('vtiger_crmentityRelHelpDesk', array('vtiger_accountRelHelpDesk', 'vtiger_contactdetailsRelHelpDesk'));
+		$matrix->setDependency('vtiger_crmentityHelpDesk', ['vtiger_groupsHelpDesk', 'vtiger_usersHelpDesk', 'vtiger_lastModifiedByHelpDesk']);
+		$matrix->setDependency('vtiger_troubletickets', ['vtiger_crmentityHelpDesk', 'vtiger_ticketcf', 'vtiger_crmentityRelHelpDesk', 'vtiger_productsRel']);
+		$matrix->setDependency('vtiger_crmentityRelHelpDesk', ['vtiger_accountRelHelpDesk', 'vtiger_contactdetailsRelHelpDesk']);
 
 
 		if (!$queryplanner->requireTable('vtiger_troubletickets', $matrix)) {
@@ -276,17 +276,17 @@ class HelpDesk extends CRMEntity
 
 		if ($return_module == 'Accounts') {
 			$sql = 'UPDATE vtiger_troubletickets SET parent_id=? WHERE ticketid=?';
-			$this->db->pquery($sql, array(null, $id));
+			$this->db->pquery($sql, [null, $id]);
 			$se_sql = 'DELETE FROM vtiger_seticketsrel WHERE ticketid=?';
-			$this->db->pquery($se_sql, array($id));
+			$this->db->pquery($se_sql, [$id]);
 		} elseif ($return_module == 'Contacts') {
 			$sql = 'UPDATE vtiger_troubletickets SET contact_id=? WHERE ticketid=?';
-			$this->db->pquery($sql, array(null, $id));
+			$this->db->pquery($sql, [null, $id]);
 			$se_sql = 'DELETE FROM vtiger_seticketsrel WHERE ticketid=?';
-			$this->db->pquery($se_sql, array($id));
+			$this->db->pquery($se_sql, [$id]);
 		} elseif ($return_module == 'Products') {
 			$sql = 'UPDATE vtiger_troubletickets SET product_id=? WHERE ticketid=?';
-			$this->db->pquery($sql, array(null, $id));
+			$this->db->pquery($sql, [null, $id]);
 		} elseif ($return_module == 'ServiceContracts' && $relatedName != 'getManyToMany') {
 			parent::unlinkRelationship($id, $return_module, $return_id);
 		} else {

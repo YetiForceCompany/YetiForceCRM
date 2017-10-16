@@ -104,7 +104,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	{
 		$fieldTypesInfo = [];
 		$addFieldSupportedTypes = $this->getAddSupportedFieldTypes();
-		$lengthSupportedFieldTypes = array('Text', 'Decimal', 'Integer', 'Currency');
+		$lengthSupportedFieldTypes = ['Text', 'Decimal', 'Integer', 'Currency'];
 		foreach ($addFieldSupportedTypes as $fieldType) {
 			$details = [];
 			if (in_array($fieldType, $lengthSupportedFieldTypes)) {
@@ -224,7 +224,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$fieldModel->setRelatedModules($moduleList);
 			foreach ($moduleList as $module) {
 				$targetModule = vtlib\Module::getInstance($module);
-				$targetModule->setRelatedList($this, $moduleName, array('Add'), 'getDependentsList');
+				$targetModule->setRelatedList($this, $moduleName, ['Add'], 'getDependentsList');
 			}
 		}
 		App\Cache::clear();
@@ -480,7 +480,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function isSortableAllowed()
 	{
 		$moduleName = $this->getName();
-		if (in_array($moduleName, array('Calendar', 'Events'))) {
+		if (in_array($moduleName, ['Calendar', 'Events'])) {
 			return false;
 		}
 		return true;
@@ -493,7 +493,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function isBlockSortableAllowed()
 	{
 		$moduleName = $this->getName();
-		if (in_array($moduleName, array('Calendar', 'Events'))) {
+		if (in_array($moduleName, ['Calendar', 'Events'])) {
 			return false;
 		}
 		return true;
@@ -506,11 +506,11 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function isFieldsSortableAllowed($blockName)
 	{
 		$moduleName = $this->getName();
-		$blocksEliminatedArray = array('HelpDesk' => array('LBL_TICKET_RESOLUTION', 'LBL_COMMENTS'),
-			'Faq' => array('LBL_COMMENT_INFORMATION'),
-			'Calendar' => array('LBL_TASK_INFORMATION', 'LBL_DESCRIPTION_INFORMATION'),
-			'Events' => array('LBL_EVENT_INFORMATION', 'LBL_REMINDER_INFORMATION', 'LBL_RECURRENCE_INFORMATION', 'LBL_RELATED_TO', 'LBL_DESCRIPTION_INFORMATION', 'LBL_INVITE_RECORDS'));
-		if (in_array($moduleName, array('Calendar', 'Events', 'HelpDesk', 'Faq'))) {
+		$blocksEliminatedArray = ['HelpDesk' => ['LBL_TICKET_RESOLUTION', 'LBL_COMMENTS'],
+			'Faq' => ['LBL_COMMENT_INFORMATION'],
+			'Calendar' => ['LBL_TASK_INFORMATION', 'LBL_DESCRIPTION_INFORMATION'],
+			'Events' => ['LBL_EVENT_INFORMATION', 'LBL_REMINDER_INFORMATION', 'LBL_RECURRENCE_INFORMATION', 'LBL_RELATED_TO', 'LBL_DESCRIPTION_INFORMATION', 'LBL_INVITE_RECORDS']];
+		if (in_array($moduleName, ['Calendar', 'Events', 'HelpDesk', 'Faq'])) {
 			if (!empty($blocksEliminatedArray[$moduleName])) {
 				if (in_array($blockName, $blocksEliminatedArray[$moduleName])) {
 					return false;
@@ -574,10 +574,10 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	public static function getRelationsActions()
 	{
-		$actionList = array(
+		$actionList = [
 			'ADD' => 'PLL_ADD',
 			'SELECT' => 'PLL_SELECT',
-		);
+		];
 		return $actionList;
 	}
 

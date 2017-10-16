@@ -44,9 +44,9 @@ class Reports_Charts_Dashboard extends Vtiger_IndexAjax_View
 
 	public function getScripts($chartType)
 	{
-		$jsFileNames = array(
+		$jsFileNames = [
 			'modules.Reports.resources.TypeCharts',
-		);
+		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		return $jsScriptInstances;
 	}

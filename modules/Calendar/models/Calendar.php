@@ -298,11 +298,11 @@ class Calendar_Calendar_Model extends App\Base
 
 	public static function getCalendarTypes()
 	{
-		$calendarConfig = Array(
+		$calendarConfig = [
 			'PLL_WORKING_TIME',
 			'PLL_BREAK_TIME',
 			'PLL_HOLIDAY'
-		);
+		];
 		return $calendarConfig;
 	}
 }

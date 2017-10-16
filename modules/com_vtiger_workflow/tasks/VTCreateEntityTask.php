@@ -17,7 +17,7 @@ class VTCreateEntityTask extends VTTask
 
 	public function getFieldNames()
 	{
-		return array('entity_type', 'reference_field', 'field_value_mapping', 'mappingPanel');
+		return ['entity_type', 'reference_field', 'field_value_mapping', 'mappingPanel'];
 	}
 
 	/**

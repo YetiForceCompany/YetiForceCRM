@@ -87,7 +87,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 	{
 		$sourceModule = $request->getByType('source_module', 1);
 		$moduleModel = Settings_Picklist_Module_Model::getInstance($sourceModule);
-		$pickListFields = $moduleModel->getFieldsByType(array('picklist', 'multipicklist'));
+		$pickListFields = $moduleModel->getFieldsByType(['picklist', 'multipicklist']);
 
 		$qualifiedName = $request->getModule(false);
 

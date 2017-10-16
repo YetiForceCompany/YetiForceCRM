@@ -29,7 +29,7 @@ class OSSMailScanner_BindServiceContracts_ScannerAction
 		$accountNumbers = [];
 		$accounts = $mail->getActionResult('Accounts');
 		if ($accounts) {
-			$keys = array('BindAccounts', 'BindContacts', 'BindLeads', 'BindHelpDesk');
+			$keys = ['BindAccounts', 'BindContacts', 'BindLeads', 'BindHelpDesk'];
 			foreach ($keys as $key) {
 				$accountNumbers = array_merge($accountNumbers, $accounts[$key]);
 			}

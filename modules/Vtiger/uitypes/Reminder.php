@@ -63,7 +63,7 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 			$rem_days = floor($value / (24 * 60));
 			$rem_hrs = floor(($value - $rem_days * 24 * 60) / 60);
 			$rem_min = ($value - ($rem_days * 24 * 60)) % 60;
-			$reminder_time = array($rem_days, $rem_hrs, $rem_min);
+			$reminder_time = [$rem_days, $rem_hrs, $rem_min];
 			return $reminder_time;
 		} else {
 			return '';

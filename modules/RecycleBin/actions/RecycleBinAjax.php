@@ -77,7 +77,7 @@ class RecycleBin_RecycleBinAjax_Action extends Vtiger_Mass_Action
 		$response = new Vtiger_Response();
 		if ($recordIds) {
 			$recycleBinModule->restore($sourceModule, $recordIds);
-			$response->setResult(array(true));
+			$response->setResult([true]);
 		}
 
 		$response->emit();
@@ -94,7 +94,7 @@ class RecycleBin_RecycleBinAjax_Action extends Vtiger_Mass_Action
 
 		if ($status) {
 			$response = new Vtiger_Response();
-			$response->setResult(array($status));
+			$response->setResult([$status]);
 			$response->emit();
 		}
 	}
@@ -111,7 +111,7 @@ class RecycleBin_RecycleBinAjax_Action extends Vtiger_Mass_Action
 		$response = new Vtiger_Response();
 		if ($recordIds) {
 			$recycleBinModule->deleteRecords($recordIds);
-			$response->setResult(array(true));
+			$response->setResult([true]);
 			$response->emit();
 		}
 	}

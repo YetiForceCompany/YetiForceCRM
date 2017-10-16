@@ -34,7 +34,7 @@ class OSSMail_ExecuteActions_Action extends Vtiger_Action_Controller
 		if ($mode == 'removeRelated')
 			$data = $instance->removeRelated($params);
 
-		$result = array('success' => true, 'data' => $data);
+		$result = ['success' => true, 'data' => $data];
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

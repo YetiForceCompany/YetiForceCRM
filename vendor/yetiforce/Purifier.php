@@ -14,13 +14,13 @@ class Purifier
 
 	/**
 	 * For optimization - default_charset can be either upper / lower case.
-	 * @var bool 
+	 * @var bool
 	 */
 	public static $UTF8;
 
 	/**
 	 * Default charset
-	 * @var string 
+	 * @var string
 	 */
 	public static $defaultCharset;
 
@@ -37,14 +37,14 @@ class Purifier
 	private static $purifyHtmlInstanceCache = false;
 
 	/**
-	 * Error collection class that enables HTML Purifier to report HTML problems back to the user. 
-	 * @var bool 
+	 * Error collection class that enables HTML Purifier to report HTML problems back to the user.
+	 * @var bool
 	 */
 	public static $collectErrors = false;
 
 	/**
 	 * Html events attributes
-	 * @var type 
+	 * @var type
 	 */
 	private static $htmlEventAttributes = 'onerror|onblur|onchange|oncontextmenu|onfocus|oninput|oninvalid|onreset|onsearch|onselect|onsubmit|onkeydown|onkeypress|onkeyup|' .
 		'onclick|ondblclick|ondrag|ondragend|ondragenter|ondragleave|ondragover|ondragstart|ondrop|onmousedown|onmousemove|onmouseout|onmouseover|' .
@@ -168,7 +168,7 @@ class Purifier
 
 	/**
 	 * Allowed html definition
-	 * @var type 
+	 * @var type
 	 */
 	private static $allowedHtmlDefinition = [
 		'img[src|alt|title|width|height|style|data-mce-src|data-mce-json|class]',
@@ -206,7 +206,7 @@ class Purifier
 			$def->addElement('hgroup', 'Block', 'Required: h1 | h2 | h3 | h4 | h5 | h6', 'Common');
 			$def->addElement('figure', 'Block', 'Optional: (figcaption, Flow) | (Flow, figcaption) | Flow', 'Common');
 			$def->addElement('figcaption', 'Inline', 'Flow', 'Common');
-			$def->addElement('video', 'Block', 'Optional: (source, Flow) | (Flow, source) | Flow', 'Common', array(
+			$def->addElement('video', 'Block', 'Optional: (source, Flow) | (Flow, source) | Flow', 'Common', [
 				'src' => 'URI',
 				'type' => 'Text',
 				'width' => 'Length',
@@ -214,25 +214,25 @@ class Purifier
 				'poster' => 'URI',
 				'preload' => 'Enum#auto,metadata,none',
 				'controls' => 'Bool',
-			));
-			$def->addElement('audio', 'Block', 'Optional: (source, Flow) | (Flow, source) | Flow', 'Common', array(
+			]);
+			$def->addElement('audio', 'Block', 'Optional: (source, Flow) | (Flow, source) | Flow', 'Common', [
 				'src' => 'URI',
 				'type' => 'Text',
 				'preload' => 'Enum#auto,metadata,none',
 				'controls' => 'Bool',
-			));
-			$def->addElement('source', 'Block', 'Flow', 'Common', array(
+			]);
+			$def->addElement('source', 'Block', 'Flow', 'Common', [
 				'src' => 'URI',
 				'type' => 'Text',
-			));
+			]);
 			$def->addElement('s', 'Inline', 'Inline', 'Common');
 			$def->addElement('var', 'Inline', 'Inline', 'Common');
 			$def->addElement('sub', 'Inline', 'Inline', 'Common');
 			$def->addElement('sup', 'Inline', 'Inline', 'Common');
 			$def->addElement('mark', 'Inline', 'Inline', 'Common');
 			$def->addElement('wbr', 'Inline', 'Empty', 'Core');
-			$def->addElement('ins', 'Block', 'Flow', 'Common', array('cite' => 'URI', 'datetime' => 'CDATA'));
-			$def->addElement('del', 'Block', 'Flow', 'Common', array('cite' => 'URI', 'datetime' => 'CDATA'));
+			$def->addElement('ins', 'Block', 'Flow', 'Common', ['cite' => 'URI', 'datetime' => 'CDATA']);
+			$def->addElement('del', 'Block', 'Flow', 'Common', ['cite' => 'URI', 'datetime' => 'CDATA']);
 			// TinyMCE
 			$def->addAttribute('img', 'data-mce-src', 'Text');
 			$def->addAttribute('img', 'data-mce-json', 'Text');
@@ -263,7 +263,7 @@ class Purifier
 
 	/**
 	 * Purify by data type
-	 * 
+	 *
 	 * Type list:
 	 * Standard - only words
 	 * 1 - only words

@@ -13,7 +13,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	 * variable has all the files and folder that should be writable
 	 * @var <Array>
 	 */
-	public static $writableFilesAndFolders = array(
+	public static $writableFilesAndFolders = [
 		'Configuration directory' => 'config/',
 		'Configuration file' => 'config/config.inc.php',
 		'User privileges directory' => 'user_privileges/',
@@ -40,13 +40,13 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		'Contact image directory' => 'storage/Contacts/',
 		'MailView attachments directory' => 'storage/OSSMailView/',
 		'Roundcube directory' => 'public_html/modules/OSSMail/',
-	);
+	];
 
 	/**
 	 * List of libraries
 	 * @var array
 	 */
-	public static $library = array(
+	public static $library = [
 		'LBL_IMAP_SUPPORT' => ['type' => 'f', 'name' => 'imap_open', 'mandatory' => true],
 		'LBL_ZLIB_SUPPORT' => ['type' => 'f', 'name' => 'gzinflate', 'mandatory' => true],
 		'LBL_PDO_SUPPORT' => ['type' => 'e', 'name' => 'pdo_mysql', 'mandatory' => true],
@@ -66,7 +66,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		'LBL_LDAP_LIBRARY' => ['type' => 'f', 'name' => 'ldap_connect', 'mandatory' => false],
 		'LBL_OPCACHE_LIBRARY' => ['type' => 'f', 'name' => 'opcache_get_configuration', 'mandatory' => false],
 		'LBL_APCU_LIBRARY' => ['type' => 'e', 'name' => 'apcu', 'mandatory' => false],
-	);
+	];
 
 	public static function getConfigurationLibrary()
 	{
@@ -118,10 +118,10 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['max_allowed_packet'] = ['prefer' => '10 MB']; // MySQL
 		}
 		if (extension_loaded('suhosin')) {
-			$directiveValues['suhosin.session.encrypt'] = array('prefer' => 'Off');
-			$directiveValues['suhosin.request.max_vars'] = array('prefer' => '5000');
-			$directiveValues['suhosin.post.max_vars'] = array('prefer' => '5000');
-			$directiveValues['suhosin.post.max_value_length'] = array('prefer' => '1500000');
+			$directiveValues['suhosin.session.encrypt'] = ['prefer' => 'Off'];
+			$directiveValues['suhosin.request.max_vars'] = ['prefer' => '5000'];
+			$directiveValues['suhosin.post.max_vars'] = ['prefer' => '5000'];
+			$directiveValues['suhosin.post.max_value_length'] = ['prefer' => '1500000'];
 		}
 		if (ini_get('file_uploads') != '1' && stripos(ini_get('file_uploads'), 'Off') !== false)
 			$directiveValues['file_uploads']['status'] = true;

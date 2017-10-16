@@ -22,7 +22,7 @@ function getPermittedBlocks($module, $disp_view)
 
 	$tabid = \App\Module::getModuleId($module);
 	$query = "select blockid,blocklabel,show_title from vtiger_blocks where tabid=? and $disp_view=0 and visible = 0 order by sequence";
-	$result = $adb->pquery($query, array($tabid));
+	$result = $adb->pquery($query, [$tabid]);
 	$noofrows = $adb->numRows($result);
 	$blockid_list = '(';
 	for ($i = 0; $i < $noofrows; $i++) {

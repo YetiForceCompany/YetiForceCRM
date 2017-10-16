@@ -41,7 +41,7 @@ class OSSMail_GetContactMail_Action extends Vtiger_Action_Controller
 			$email = $recordModel->get($emailField['fieldname']);
 			if ($email != '') {
 				$fieldlabel = \App\Language::translate($emailField['fieldlabel'], $emailField['name']);
-				$emailFields[] = array('name' => $name, 'fieldlabel' => $fieldlabel, 'email' => $email);
+				$emailFields[] = ['name' => $name, 'fieldlabel' => $fieldlabel, 'email' => $email];
 			}
 		}
 		$response = new Vtiger_Response();

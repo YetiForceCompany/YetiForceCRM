@@ -18,35 +18,35 @@ class IGRN extends Vtiger_CRMEntity
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('u_yf_igrncf', 'igrnid');
+	public $customFieldTable = ['u_yf_igrncf', 'igrnid'];
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public $tab_name = Array('vtiger_crmentity', 'u_yf_igrn', 'u_yf_igrncf');
+	public $tab_name = ['vtiger_crmentity', 'u_yf_igrn', 'u_yf_igrncf'];
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public $tab_name_index = Array(
+	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'u_yf_igrn' => 'igrnid',
-		'u_yf_igrncf' => 'igrnid');
+		'u_yf_igrncf' => 'igrnid'];
 
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public $list_fields = Array(
+	public $list_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 // tablename should not have prefix 'vtiger_'
-		'subject' => Array('igrn', 'subject'),
-		'Assigned To' => Array('crmentity', 'smownerid')
-	);
-	public $list_fields_name = Array(
+		'subject' => ['igrn', 'subject'],
+		'Assigned To' => ['crmentity', 'smownerid']
+	];
+	public $list_fields_name = [
 		/* Format: Field Label => fieldname */
 		'subject' => 'subject',
 		'Assigned To' => 'assigned_user_id',
-	);
+	];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
@@ -55,26 +55,26 @@ class IGRN extends Vtiger_CRMEntity
 // Make the field link to detail view
 	public $list_link_field = 'subject';
 // For Popup listview and UI type support
-	public $search_fields = Array(
+	public $search_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 // tablename should not have prefix 'vtiger_'
-		'subject' => Array('igrn', 'subject'),
-		'Assigned To' => Array('vtiger_crmentity', 'assigned_user_id'),
-	);
-	public $search_fields_name = Array(
+		'subject' => ['igrn', 'subject'],
+		'Assigned To' => ['vtiger_crmentity', 'assigned_user_id'],
+	];
+	public $search_fields_name = [
 		/* Format: Field Label => fieldname */
 		'subject' => 'subject',
 		'Assigned To' => 'assigned_user_id',
-	);
+	];
 // For Popup window record selection
-	public $popup_fields = Array('subject');
+	public $popup_fields = ['subject'];
 // For Alphabetical search
 	public $def_basicsearch_col = 'subject';
 // Column value to use on detail view record text display
 	public $def_detailview_recname = 'subject';
 // Used when enabling/disabling the mandatory fields for the module.
 // Refers to vtiger_field.fieldname values.
-	public $mandatory_fields = Array('subject', 'assigned_user_id');
+	public $mandatory_fields = ['subject', 'assigned_user_id'];
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
 
@@ -86,15 +86,15 @@ class IGRN extends Vtiger_CRMEntity
 	public function moduleHandler($moduleName, $eventType)
 	{
 		if ($eventType == 'module.postinstall') {
-			
+
 		} else if ($eventType == 'module.disabled') {
-			
+
 		} else if ($eventType == 'module.preuninstall') {
-			
+
 		} else if ($eventType == 'module.preupdate') {
-			
+
 		} else if ($eventType == 'module.postupdate') {
-			
+
 		}
 	}
 }

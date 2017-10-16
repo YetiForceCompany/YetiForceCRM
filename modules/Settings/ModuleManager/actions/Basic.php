@@ -71,7 +71,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
 		unlink($uploadFileName);
 
-		$result = array('success' => true, 'importModuleName' => $importModuleName);
+		$result = ['success' => true, 'importModuleName' => $importModuleName];
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
@@ -103,7 +103,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
 		unlink($uploadFileName);
 
-		$result = array('success' => true, 'importModuleName' => $importModuleName);
+		$result = ['success' => true, 'importModuleName' => $importModuleName];
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
@@ -195,11 +195,11 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 	{
 		\App\Colors::updateModuleColor($request->getInteger('id'), '');
 		$response = new Vtiger_Response();
-		$response->setResult(array(
+		$response->setResult([
 			'success' => true,
 			'color' => $color,
 			'message' => \App\Language::translate('LBL_REMOVED_COLOR', $request->getModule(false))
-		));
+		]);
 		$response->emit();
 	}
 
@@ -207,11 +207,11 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 	{
 		$color = \App\Colors::activeModuleColor($request->getInteger('id'), $request->get('status'), $request->get('color'));
 		$response = new Vtiger_Response();
-		$response->setResult(array(
+		$response->setResult([
 			'success' => true,
 			'color' => $color,
 			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
-		));
+		]);
 		$response->emit();
 	}
 }

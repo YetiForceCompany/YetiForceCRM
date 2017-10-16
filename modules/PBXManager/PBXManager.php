@@ -15,33 +15,33 @@ class PBXManager extends CRMEntity
 	protected $incominglinkLabel = 'Incoming Calls';
 	protected $tabId = 0;
 	protected $headerScriptLinkType = 'HEADERSCRIPT';
-	protected $dependentModules = array('Contacts', 'Leads', 'Accounts');
+	protected $dependentModules = ['Contacts', 'Leads', 'Accounts'];
 	public $db;
 	public $table_name = 'vtiger_pbxmanager';
 	public $table_index = 'pbxmanagerid';
-	public $customFieldTable = Array('vtiger_pbxmanagercf', 'pbxmanagerid');
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_pbxmanager', 'vtiger_pbxmanagercf');
-	public $tab_name_index = Array(
+	public $customFieldTable = ['vtiger_pbxmanagercf', 'pbxmanagerid'];
+	public $tab_name = ['vtiger_crmentity', 'vtiger_pbxmanager', 'vtiger_pbxmanagercf'];
+	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_pbxmanager' => 'pbxmanagerid',
-		'vtiger_pbxmanagercf' => 'pbxmanagerid');
-	public $list_fields = Array(
+		'vtiger_pbxmanagercf' => 'pbxmanagerid'];
+	public $list_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Call Status' => Array('vtiger_pbxmanager', 'callstatus'),
-		'Customer' => Array('vtiger_pbxmanager', 'customer'),
-		'User' => Array('vtiger_pbxmanager', 'user'),
-		'Recording' => Array('vtiger_pbxmanager', 'recordingurl'),
-		'Start Time' => Array('vtiger_pbxmanager', 'starttime'),
-	);
-	public $list_fields_name = Array(
+		'Call Status' => ['vtiger_pbxmanager', 'callstatus'],
+		'Customer' => ['vtiger_pbxmanager', 'customer'],
+		'User' => ['vtiger_pbxmanager', 'user'],
+		'Recording' => ['vtiger_pbxmanager', 'recordingurl'],
+		'Start Time' => ['vtiger_pbxmanager', 'starttime'],
+	];
+	public $list_fields_name = [
 		/* Format: Field Label => fieldname */
 		'Call Status' => 'callstatus',
 		'Customer' => 'customer',
 		'User' => 'user',
 		'Recording' => 'recordingurl',
 		'Start Time' => 'starttime',
-	);
+	];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
@@ -50,17 +50,17 @@ class PBXManager extends CRMEntity
 	// Make the field link to detail view
 	public $list_link_field = 'customernumber';
 	// For Popup listview and UI type support
-	public $search_fields = Array(
+	public $search_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Customer' => Array('vtiger_pbxmanager', 'customer'),
-	);
-	public $search_fields_name = Array(
+		'Customer' => ['vtiger_pbxmanager', 'customer'],
+	];
+	public $search_fields_name = [
 		/* Format: Field Label => fieldname */
 		'Customer' => 'customer',
-	);
+	];
 	// For Popup window record selection
-	public $popup_fields = Array('customernumber');
+	public $popup_fields = ['customernumber'];
 	// For Alphabetical search
 	public $def_basicsearch_col = 'customer';
 	// Column value to use on detail view record text display
@@ -176,9 +176,9 @@ class PBXManager extends CRMEntity
 	public function addLinksForPBXManager()
 	{
 
-		$handlerInfo = array('path' => 'modules/PBXManager/PBXManager.php',
+		$handlerInfo = ['path' => 'modules/PBXManager/PBXManager.php',
 			'class' => 'PBXManager',
-			'method' => 'checkLinkPermission');
+			'method' => 'checkLinkPermission'];
 
 		vtlib\Link::addLink($this->tabId, $this->headerScriptLinkType, $this->incominglinkLabel, 'modules/PBXManager/resources/PBXManagerJS.js', '', '', $handlerInfo);
 		\App\Log::info('Links added');

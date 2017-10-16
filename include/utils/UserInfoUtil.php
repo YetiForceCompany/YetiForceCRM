@@ -36,7 +36,7 @@ function getAllRoleDetails()
 
 		//getting the immediate subordinates
 		$query1 = "select * from vtiger_role where parentrole like ? and depth=?";
-		$res1 = $adb->pquery($query1, array($parentRole . "::%", $subRoleDepth));
+		$res1 = $adb->pquery($query1, [$parentRole . "::%", $subRoleDepth]);
 		$numRoles = $adb->numRows($res1);
 		if ($numRoles > 0) {
 			for ($j = 0; $j < $numRoles; $j++) {
@@ -71,7 +71,7 @@ function getRoleAndSubordinateUsers($roleId)
 	$roleInfoArr = \App\PrivilegeUtil::getRoleDetail($roleId);
 	$parentRole = $roleInfoArr['parentrole'];
 	$query = "select vtiger_user2role.*,vtiger_users.user_name from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like ?";
-	$result = $adb->pquery($query, array($parentRole . "%"));
+	$result = $adb->pquery($query, [$parentRole . "%"]);
 	$numRows = $adb->numRows($result);
 	$roleRelatedUsers = [];
 	for ($i = 0; $i < $numRows; $i++) {
@@ -95,7 +95,7 @@ function getRoleAndSubordinatesRoleIds($roleId)
 	$roleParentSeq = $roleDetails['parentrole'];
 
 	$query = "select * from vtiger_role where parentrole like ? order by parentrole asc";
-	$result = $adb->pquery($query, array($roleParentSeq . "%"));
+	$result = $adb->pquery($query, [$roleParentSeq . "%"]);
 	$numRows = $adb->numRows($result);
 	$roleInfo = [];
 	for ($i = 0; $i < $numRows; $i++) {
@@ -166,7 +166,7 @@ function deleteGroupRelatedSharingRules($grpId)
 	foreach ($dataShareTableColArr as $tablename => $colname) {
 		$colNameArr = explode('::', $colname);
 		$query = sprintf("SELECT shareid FROM %s WHERE %s = ?", $tablename, $colNameArr[0]);
-		$params = array($grpId);
+		$params = [$grpId];
 		if (sizeof($colNameArr) > 1) {
 			$query .= " or " . $colNameArr[1] . "=?";
 			array_push($params, $grpId);
@@ -202,7 +202,7 @@ function deleteUserRelatedSharingRules($usId)
 	foreach ($dataShareTableColArr as $tableName => $colName) {
 		$colNameArr = explode('::', $colName);
 		$query = sprintf("SELECT shareid FROM %s WHERE %s = ?", $tableName, $colNameArr[0]);
-		$params = array($grpId);
+		$params = [$grpId];
 		if (sizeof($colNameArr) > 1) {
 			$query .= " or " . $colNameArr[1] . "=?";
 			array_push($params, $grpId);
@@ -272,17 +272,17 @@ function deleteSharingRule($shareid)
 	\App\Log::trace("Entering deleteSharingRule(" . $shareid . ") method ...");
 	$adb = PearDatabase::getInstance();
 	$query2 = "select * from vtiger_datashare_module_rel where shareid=?";
-	$res = $adb->pquery($query2, array($shareid));
+	$res = $adb->pquery($query2, [$shareid]);
 	$typestr = $adb->queryResult($res, 0, 'relationtype');
 	$tabname = getDSTableNameForType($typestr);
 	$query3 = "delete from $tabname where shareid=?";
-	$adb->pquery($query3, array($shareid));
+	$adb->pquery($query3, [$shareid]);
 	$query4 = "delete from vtiger_datashare_module_rel where shareid=?";
-	$adb->pquery($query4, array($shareid));
+	$adb->pquery($query4, [$shareid]);
 
 	//deleting the releated module sharing permission
 	$query5 = "delete from vtiger_datashare_relatedmodule_permission where shareid=?";
-	$adb->pquery($query5, array($shareid));
+	$adb->pquery($query5, [$shareid]);
 	\App\Log::trace("Exiting deleteSharingRule method ...");
 }
 
@@ -339,7 +339,6 @@ function getDSTableNameForType($typeString)
 	return $tableName;
 }
 
-
 /** To retreive the subordinate vtiger_roles and vtiger_users of the specified parent vtiger_role
  * @param $roleid -- The Role Id:: Type varchar
  * @returns  subordinate vtiger_role array in the following format:
@@ -372,7 +371,7 @@ function getWriteSharingGroupsList($module)
 	$grpArray = [];
 	$tabId = \App\Module::getModuleId($module);
 	$query = "select sharedgroupid from vtiger_tmp_write_group_sharing_per where userid=? and tabid=?";
-	$result = $adb->pquery($query, array($currentUser->id, $tabId));
+	$result = $adb->pquery($query, [$currentUser->id, $tabId]);
 	$numRows = $adb->numRows($result);
 	for ($i = 0; $i < $numRows; $i++) {
 		$grpId = $adb->queryResult($result, $i, 'sharedgroupid');

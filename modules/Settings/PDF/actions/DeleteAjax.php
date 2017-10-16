@@ -18,9 +18,9 @@ class Settings_PDF_DeleteAjax_Action extends Settings_Vtiger_Index_Action
 		$response = new Vtiger_Response();
 		$recordModel = Vtiger_PDF_Model::getInstanceById($recordId);
 		if (Settings_PDF_Record_Model::delete($recordModel)) {
-			$response->setResult(array('success' => 'true'));
+			$response->setResult(['success' => 'true']);
 		} else {
-			$response->setResult(array('success' => 'false'));
+			$response->setResult(['success' => 'false']);
 		}
 		$response->emit();
 	}

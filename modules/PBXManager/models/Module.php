@@ -52,20 +52,20 @@ class PBXManager_Module_Model extends Vtiger_Module_Model
 		$settingsLinks = [];
 
 		if (VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
-			$settingsLinks[] = array(
+			$settingsLinks[] = [
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_WORKFLOWS',
 				'linkurl' => 'index.php?parent=Settings&module=Workflows&view=List&sourceModule=' . $this->getName(),
 				'linkicon' => $editWorkflowsImagePath
-			);
+			];
 		}
 
-		$settingsLinks[] = array(
+		$settingsLinks[] = [
 			'linktype' => 'LISTVIEWSETTINGS',
 			'linklabel' => 'LBL_SERVER_CONFIGURATION',
 			'linkurl' => 'index.php?parent=Settings&module=PBXManager&view=Index',
 			'linkicon' => ''
-		);
+		];
 		return $settingsLinks;
 	}
 

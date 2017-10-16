@@ -56,9 +56,9 @@ class Users_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 	{
 		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			"modules.$moduleName.resources.Edit"
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		return $jsScriptInstances;

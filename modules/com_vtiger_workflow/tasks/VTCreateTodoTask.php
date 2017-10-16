@@ -207,6 +207,6 @@ class VTCreateTodoTask extends VTTask
 
 	public function getTimeFieldList()
 	{
-		return array('time');
+		return ['time'];
 	}
 }

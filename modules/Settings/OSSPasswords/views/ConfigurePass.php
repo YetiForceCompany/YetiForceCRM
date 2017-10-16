@@ -116,7 +116,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 
 					// now encrypt all osspasswords with given key
 					$sql = 'UPDATE `vtiger_osspasswords` SET `password` = AES_ENCRYPT( `password`, ? );';
-					$result = $adb->pquery($sql, array($newPassword), true);
+					$result = $adb->pquery($sql, [$newPassword], true);
 
 					$success = 'Encryption password has been successfully saved!';
 
@@ -147,19 +147,19 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 
 					// first we are decrypting all the passwords
 					$sql = "UPDATE `vtiger_osspasswords` SET `password` = AES_DECRYPT(`password`, ?);";
-					$result = $adb->pquery($sql, array($configKey), true);
+					$result = $adb->pquery($sql, [$configKey], true);
 					$decrypt_aff_rows = $adb->getAffectedRowCount($result);
 
 					// then we are encrypting passwords using new password key
 					$sql = "UPDATE `vtiger_osspasswords` SET `password` = AES_ENCRYPT(`password`, ?);";
 					$newKey = hash('sha256', $newKey);
-					$result = $adb->pquery($sql, array($newKey), true);
+					$result = $adb->pquery($sql, [$newKey], true);
 					$encrypt_aff_rows = $adb->getAffectedRowCount($result);
 
 					if ($decrypt_aff_rows == $encrypt_aff_rows) {
 						// at end we are saving new password key
 						$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-						$config = array('encode' => array('key' => "$newKey"));
+						$config = ['encode' => ['key' => "$newKey"]];
 						$recordModel->writePhpIni($config, 'modules/OSSPasswords/config.ini.php');
 						$success = 'Your key has been changed correctly.';
 					} else {
@@ -189,7 +189,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 
 					// decrypt all passwords
 					$sql = "UPDATE `vtiger_osspasswords` SET `password` = AES_DECRYPT(`password`, ?);";
-					$result = $adb->pquery($sql, array($passKey), true);
+					$result = $adb->pquery($sql, [$passKey], true);
 
 					// delete config file
 					if ($result !== false) {
@@ -234,7 +234,7 @@ class Settings_OSSPasswords_ConfigurePass_View extends Settings_Vtiger_Index_Vie
 			$viewer->assign('ISADMIN', 0);
 
 		// encryption variables
-		$viewer->assign('CONFIG', (!$config ? false : array('key' => $config['key'])));
+		$viewer->assign('CONFIG', (!$config ? false : ['key' => $config['key']]));
 
 		$viewer->view('ConfigurePass.tpl', $moduleName);
 	}

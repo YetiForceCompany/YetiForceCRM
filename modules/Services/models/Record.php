@@ -22,7 +22,7 @@ class Services_Record_Model extends Products_Record_Model
 		}
 		$recordId = $this->getId();
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT discontinued FROM vtiger_service WHERE serviceid = ?', array($recordId));
+		$result = $db->pquery('SELECT discontinued FROM vtiger_service WHERE serviceid = ?', [$recordId]);
 		$activeStatus = $db->queryResult($result, 'discontinued');
 		return $activeStatus;
 	}

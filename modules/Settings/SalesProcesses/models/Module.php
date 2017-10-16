@@ -103,7 +103,7 @@ class Settings_SalesProcesses_Module_Model extends \App\Base
 	 */
 	public static function isLimitForModule($moduleName)
 	{
-		$validModules = array('SQuotes', 'SCalculations', 'SQuoteEnquiries', 'SRequirementsCards', 'SSingleOrders', 'SRecurringOrders');
+		$validModules = ['SQuotes', 'SCalculations', 'SQuoteEnquiries', 'SRequirementsCards', 'SSingleOrders', 'SRecurringOrders'];
 		return in_array($moduleName, $validModules);
 	}
 }

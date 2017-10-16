@@ -36,7 +36,7 @@ class Documents_CheckFileIntegrity_Action extends Vtiger_Action_Controller
 		$documentRecordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 		$resultVal = $documentRecordModel->checkFileIntegrity();
 
-		$result = array('success' => $resultVal);
+		$result = ['success' => $resultVal];
 		if ($resultVal) {
 			$documentRecordModel->updateFileStatus(1);
 			$result['message'] = App\Language::translate('LBL_FILE_AVAILABLE', $moduleName);

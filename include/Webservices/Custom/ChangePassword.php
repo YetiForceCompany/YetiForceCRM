@@ -6,7 +6,7 @@
  *   The Initial Developer of the Original Code is vtiger.
  *   Portions created by vtiger are Copyright (C) vtiger.
  *   All Rights Reserved.
- * 
+ *
  * ******************************************************************************* */
 
 /**
@@ -19,8 +19,8 @@
  * @param String $oldPassword
  * @param String $newPassword
  * @param String $confirmPassword
- * @param Users $user 
- * 
+ * @param Users $user
+ *
  */
 function vtws_changePassword($userId, $oldPassword, $newPassword, $confirmPassword, Users $user)
 {
@@ -52,6 +52,6 @@ function vtws_changePassword($userId, $oldPassword, $newPassword, $confirmPasswo
 			throw new WebServiceException(WebServiceErrorCode::$CHANGEPASSWORDFAILURE, vtws_getWebserviceTranslatedString('LBL_' .
 				WebServiceErrorCode::$CHANGEPASSWORDFAILURE));
 		}
-		return array('message' => 'Changed password successfully');
+		return ['message' => 'Changed password successfully'];
 	}
 }

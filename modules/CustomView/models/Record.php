@@ -690,7 +690,7 @@ class CustomView_Record_Model extends \App\Base
 							$date = new DateTimeField(trim($tempVal[$x]));
 							$val[$x] = $date->getDisplayDate();
 						} elseif ($col[4] === 'DT') {
-							$comparator = array('e', 'n', 'b', 'a');
+							$comparator = ['e', 'n', 'b', 'a'];
 							if (in_array($criteria['comparator'], $comparator)) {
 								$originalValue = $tempVal[$x];
 								$dateTime = explode(' ', $originalValue);
@@ -824,17 +824,17 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public static function getAdvancedFilterOpsByFieldType()
 	{
-		return array(
-			'V' => array('e', 'n', 's', 'ew', 'c', 'k'),
-			'N' => array('e', 'n', 'l', 'g', 'm', 'h'),
-			'T' => array('e', 'n', 'l', 'g', 'm', 'h', 'bw', 'b', 'a'),
-			'I' => array('e', 'n', 'l', 'g', 'm', 'h'),
-			'C' => array('e', 'n'),
-			'D' => array('e', 'n', 'bw', 'b', 'a'),
-			'DT' => array('e', 'n', 'bw', 'b', 'a'),
-			'NN' => array('e', 'n', 'l', 'g', 'm', 'h'),
-			'E' => array('e', 'n', 's', 'ew', 'c', 'k')
-		);
+		return [
+			'V' => ['e', 'n', 's', 'ew', 'c', 'k'],
+			'N' => ['e', 'n', 'l', 'g', 'm', 'h'],
+			'T' => ['e', 'n', 'l', 'g', 'm', 'h', 'bw', 'b', 'a'],
+			'I' => ['e', 'n', 'l', 'g', 'm', 'h'],
+			'C' => ['e', 'n'],
+			'D' => ['e', 'n', 'bw', 'b', 'a'],
+			'DT' => ['e', 'n', 'bw', 'b', 'a'],
+			'NN' => ['e', 'n', 'l', 'g', 'm', 'h'],
+			'E' => ['e', 'n', 's', 'ew', 'c', 'k']
+		];
 	}
 
 	/**
@@ -1029,8 +1029,8 @@ class CustomView_Record_Model extends \App\Base
 			$allGroupColumns = array_merge($allGroupColumns, $standardFilter);
 		}
 		$transformedAdvancedCondition = [];
-		$transformedAdvancedCondition[1] = array('columns' => $allGroupColumns, 'condition' => 'and');
-		$transformedAdvancedCondition[2] = array('columns' => $anyGroupColumns, 'condition' => '');
+		$transformedAdvancedCondition[1] = ['columns' => $allGroupColumns, 'condition' => 'and'];
+		$transformedAdvancedCondition[2] = ['columns' => $anyGroupColumns, 'condition' => ''];
 
 		return $transformedAdvancedCondition;
 	}
@@ -1057,7 +1057,7 @@ class CustomView_Record_Model extends \App\Base
 				$tranformedStandardFilter['columnname'] = $standardFilter['columnname'] . ':D';
 				$tranformedStandardFilter['value'] = $standardFilter['startdate'] . ',' . $standardFilter['enddate'];
 			}
-			return array($tranformedStandardFilter);
+			return [$tranformedStandardFilter];
 		} else {
 			return false;
 		}

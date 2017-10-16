@@ -29,7 +29,7 @@ class Vtiger_Kpi_Helper
 		$adb = PearDatabase::getInstance();
 		$list = [];
 		$sql = "SELECT serviceid as id, servicename as name FROM vtiger_service INNER JOIN vtiger_crmentity ON vtiger_service.serviceid = vtiger_crmentity.crmid WHERE vtiger_crmentity.deleted = ? && discontinued = ?;";
-		$params = array(0, 1);
+		$params = [0, 1];
 		$result = $adb->pquery($sql, $params, true);
 		$countResult = $adb->numRows($result);
 		for ($i = 0; $i < $countResult; $i++) {
@@ -71,7 +71,7 @@ class Vtiger_Kpi_Helper
 			FROM vtiger_osssoldservices
 			INNER JOIN vtiger_crmentity ON vtiger_osssoldservices.osssoldservicesid = vtiger_crmentity.crmid
 			WHERE vtiger_crmentity.deleted = ? && serviceid = ? && vtiger_crmentity.createdtime BETWEEN ? AND ?;";
-		$params = array(0, $this->service, $this->time['start'], $this->time['end']);
+		$params = [0, $this->service, $this->time['start'], $this->time['end']];
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
 		$accepted = 0;
@@ -86,7 +86,7 @@ class Vtiger_Kpi_Helper
 			return 0;
 		} else {
 			$result = number_format($accepted / $all * 100, 2);
-			return array(
+			return [
 				'result_lable' => $result . ' procent terminowo dostarczonych usług w okresie raportowym',
 				'result' => $result,
 				'reference_lable' => "100% (max $reference dni)",
@@ -95,7 +95,7 @@ class Vtiger_Kpi_Helper
 				'accepted' => $accepted,
 				'all' => $all,
 				'maxValue' => $maxValue,
-			);
+			];
 		}
 	}
 
@@ -109,7 +109,7 @@ class Vtiger_Kpi_Helper
 			FROM vtiger_osssoldservices
 			INNER JOIN vtiger_crmentity ON vtiger_osssoldservices.osssoldservicesid = vtiger_crmentity.crmid
 			WHERE vtiger_crmentity.deleted = ? && serviceid = ? && vtiger_crmentity.createdtime BETWEEN ? AND ?;";
-		$params = array(0, $this->service, $this->time['start'], $this->time['end']);
+		$params = [0, $this->service, $this->time['start'], $this->time['end']];
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
 		$sum = 0;
@@ -122,7 +122,7 @@ class Vtiger_Kpi_Helper
 			return 0;
 		} else {
 			$result = number_format($sum / $all, 2);
-			return array(
+			return [
 				'result_lable' => $result . ' - średni czas dostarczania usługi wyrażony w dniach',
 				'result' => $result,
 				'reference_lable' => $reference . ' dni',
@@ -131,7 +131,7 @@ class Vtiger_Kpi_Helper
 				'accepted' => $accepted,
 				'all' => $all,
 				'maxValue' => (int) $result + 5,
-			);
+			];
 		}
 	}
 
@@ -146,7 +146,7 @@ class Vtiger_Kpi_Helper
 			FROM vtiger_troubletickets
 			INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid
 			WHERE vtiger_crmentity.deleted = ? && product_id = ? && vtiger_crmentity.createdtime BETWEEN ? AND ?;";
-		$params = array(0, $this->service, $this->time['start'], $this->time['end']);
+		$params = [0, $this->service, $this->time['start'], $this->time['end']];
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
 		$accepted = 0;
@@ -161,7 +161,7 @@ class Vtiger_Kpi_Helper
 			return 0;
 		} else {
 			$result = number_format($accepted / $all * 100, 2);
-			return array(
+			return [
 				'result_lable' => $result . '%',
 				'result' => $result,
 				'reference_lable' => "100% (max $reference dni)",
@@ -170,7 +170,7 @@ class Vtiger_Kpi_Helper
 				'accepted' => $accepted,
 				'all' => $all,
 				'maxValue' => $maxValue,
-			);
+			];
 		}
 	}
 
@@ -185,7 +185,7 @@ class Vtiger_Kpi_Helper
 			FROM vtiger_troubletickets
 			INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid
 			WHERE vtiger_crmentity.deleted = ? && product_id = ? && priority IN ('High','Urgent') && vtiger_crmentity.createdtime BETWEEN ? AND ?;";
-		$params = array(0, $this->service, $this->time['start'], $this->time['end']);
+		$params = [0, $this->service, $this->time['start'], $this->time['end']];
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
 		$accepted = 0;
@@ -198,7 +198,7 @@ class Vtiger_Kpi_Helper
 			return 0;
 		} else {
 			$result = number_format($sum / $all, 2);
-			return array(
+			return [
 				'result_lable' => $result . ' średni czas usunięcia awarii priorytetowej wyrażony w godzinach',
 				'result' => $result,
 				'reference_lable' => "$reference godzin (Umowa PPP 23&sect;,ust. 11)",
@@ -207,7 +207,7 @@ class Vtiger_Kpi_Helper
 				'accepted' => $accepted,
 				'all' => $all,
 				'maxValue' => $maxValue,
-			);
+			];
 		}
 	}
 
@@ -221,7 +221,7 @@ class Vtiger_Kpi_Helper
 			FROM vtiger_troubletickets
 			INNER JOIN vtiger_crmentity ON vtiger_troubletickets.ticketid = vtiger_crmentity.crmid
 			WHERE vtiger_crmentity.deleted = ? && product_id = ? && priority IN ('Normal','Low') && vtiger_crmentity.createdtime BETWEEN ? AND ?;";
-		$params = array(0, $this->service, $this->time['start'], $this->time['end']);
+		$params = [0, $this->service, $this->time['start'], $this->time['end']];
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
 		$accepted = 0;
@@ -234,7 +234,7 @@ class Vtiger_Kpi_Helper
 			return 0;
 		} else {
 			$result = number_format($sum / $all, 2);
-			return array(
+			return [
 				'result_lable' => $result . ' średni czas usunięcia awarii zwykłej wyrażony w godzinach',
 				'result' => $result,
 				'reference_lable' => "$reference godzin (Umowa PPP 23&sect;,ust. 11)",
@@ -243,7 +243,7 @@ class Vtiger_Kpi_Helper
 				'accepted' => $accepted,
 				'all' => $all,
 				'maxValue' => (int) $result + 5,
-			);
+			];
 		}
 	}
 
@@ -261,7 +261,7 @@ class Vtiger_Kpi_Helper
 				INNER JOIN vtiger_crmentity ON vtiger_osssoldservices.osssoldservicesid = vtiger_crmentity.crmid
 				WHERE vtiger_crmentity.deleted = ? && serviceid = ? ORDER BY vtiger_crmentity.createdtime DESC LIMIT 100)
 			AND vtiger_crmentity.createdtime BETWEEN ? AND ?;";
-		$params = array(0, 0, $this->service, $this->time['start'], $this->time['end']);
+		$params = [0, 0, $this->service, $this->time['start'], $this->time['end']];
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
 		$accepted = 0;
@@ -274,7 +274,7 @@ class Vtiger_Kpi_Helper
 			return 0;
 		} else {
 			$result = number_format($sum / $all, 2);
-			return array(
+			return [
 				'result_lable' => $result . ' liczba awarii na 100 usług dzierżawy transmisji',
 				'result' => $result,
 				'reference_lable' => $reference,
@@ -283,7 +283,7 @@ class Vtiger_Kpi_Helper
 				'accepted' => $accepted,
 				'all' => $all,
 				'maxValue' => (int) $result + 5,
-			);
+			];
 		}
 	}
 }

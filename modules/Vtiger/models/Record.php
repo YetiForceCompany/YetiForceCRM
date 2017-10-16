@@ -707,11 +707,11 @@ class Vtiger_Record_Model extends \App\Base
 	public function deleteImage($imageId)
 	{
 		$db = PearDatabase::getInstance();
-		$checkResult = $db->pquery('SELECT crmid FROM vtiger_seattachmentsrel WHERE attachmentsid = ?', array($imageId));
+		$checkResult = $db->pquery('SELECT crmid FROM vtiger_seattachmentsrel WHERE attachmentsid = ?', [$imageId]);
 		$crmId = $db->queryResult($checkResult, 0, 'crmid');
 		if ($this->getId() == $crmId) {
-			$db->pquery('DELETE FROM vtiger_attachments WHERE attachmentsid = ?', array($imageId));
-			$db->pquery('DELETE FROM vtiger_seattachmentsrel WHERE attachmentsid = ?', array($imageId));
+			$db->pquery('DELETE FROM vtiger_attachments WHERE attachmentsid = ?', [$imageId]);
+			$db->pquery('DELETE FROM vtiger_seattachmentsrel WHERE attachmentsid = ?', [$imageId]);
 			return true;
 		}
 		return false;
@@ -726,7 +726,7 @@ class Vtiger_Record_Model extends \App\Base
 		$description = $this->get('description');
 		if (empty($description)) {
 			$db = PearDatabase::getInstance();
-			$result = $db->pquery("SELECT description FROM vtiger_crmentity WHERE crmid = ?", array($this->getId()));
+			$result = $db->pquery("SELECT description FROM vtiger_crmentity WHERE crmid = ?", [$this->getId()]);
 			$description = $db->queryResult($result, 0, "description");
 		}
 		return $description;
@@ -770,7 +770,7 @@ class Vtiger_Record_Model extends \App\Base
 					if (isset($blockObiect->reference) && !\App\Module::isModuleActive($blockObiect->reference)) {
 						continue;
 					}
-					$summaryBlocks[intval($blockCount / $this->summaryRowCount)][$blockObiect->sequence] = array('name' => $blockObiect->name, 'data' => $blockObiect->process($this), 'reference' => $blockObiect->reference);
+					$summaryBlocks[intval($blockCount / $this->summaryRowCount)][$blockObiect->sequence] = ['name' => $blockObiect->name, 'data' => $blockObiect->process($this), 'reference' => $blockObiect->reference];
 					$blockCount++;
 				}
 			}
@@ -788,7 +788,7 @@ class Vtiger_Record_Model extends \App\Base
 		\App\Log::trace("Track the viewing of a detail record: vtiger_tracker (user_id, module_name, item_id)($id)");
 		if ($id != '') {
 			$updateQuery = "UPDATE vtiger_crmentity SET viewedtime=? WHERE crmid=?;";
-			$updateParams = array(date('Y-m-d H:i:s'), $this->getId());
+			$updateParams = [date('Y-m-d H:i:s'), $this->getId()];
 			$db->pquery($updateQuery, $updateParams);
 		}
 	}

@@ -51,7 +51,7 @@ class Settings_Vtiger_Basic_Action extends Vtiger_Action_Controller
 		}
 
 		$response = new Vtiger_Response();
-		$response->setResult(array('SUCCESS' => 'OK'));
+		$response->setResult(['SUCCESS' => 'OK']);
 		$response->emit();
 	}
 

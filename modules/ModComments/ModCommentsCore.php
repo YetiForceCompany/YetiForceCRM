@@ -19,49 +19,49 @@ class ModCommentsCore extends CRMEntity
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('vtiger_modcommentscf', 'modcommentsid');
+	public $customFieldTable = ['vtiger_modcommentscf', 'modcommentsid'];
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_modcomments', 'vtiger_modcommentscf');
+	public $tab_name = ['vtiger_crmentity', 'vtiger_modcomments', 'vtiger_modcommentscf'];
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public $tab_name_index = Array(
+	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_modcomments' => 'modcommentsid',
-		'vtiger_modcommentscf' => 'modcommentsid');
+		'vtiger_modcommentscf' => 'modcommentsid'];
 
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public $list_fields = Array(
+	public $list_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Comment' => Array('modcomments', 'commentcontent'),
-		'Assigned To' => Array('crmentity', 'smownerid')
-	);
-	public $list_fields_name = Array(
+		'Comment' => ['modcomments', 'commentcontent'],
+		'Assigned To' => ['crmentity', 'smownerid']
+	];
+	public $list_fields_name = [
 		/* Format: Field Label => fieldname */
 		'Comment' => 'commentcontent',
 		'Assigned To' => 'assigned_user_id'
-	);
+	];
 	// Make the field link to detail view
 	public $list_link_field = 'commentcontent';
 	// For Popup listview and UI type support
-	public $search_fields = Array(
+	public $search_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Comment' => Array('modcomments', 'commentcontent')
-	);
-	public $search_fields_name = Array(
+		'Comment' => ['modcomments', 'commentcontent']
+	];
+	public $search_fields_name = [
 		/* Format: Field Label => fieldname */
 		'Comment' => 'commentcontent'
-	);
+	];
 	// For Popup window record selection
-	public $popup_fields = Array('commentcontent');
+	public $popup_fields = ['commentcontent'];
 	// Should contain field labels
 	//var $detailview_links = Array ('Comment');
 	// For Alphabetical search
@@ -69,14 +69,14 @@ class ModCommentsCore extends CRMEntity
 	// Column value to use on detail view record text display
 	public $def_detailview_recname = 'commentcontent';
 	// Required Information for enabling Import feature
-	public $required_fields = Array('assigned_user_id' => 1);
+	public $required_fields = ['assigned_user_id' => 1];
 	// Callback function list during Importing
-	public $special_functions = Array('set_import_assigned_user');
+	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = '';
 	public $default_sort_order = 'DESC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public $mandatory_fields = Array('createdtime', 'modifiedtime', 'commentcontent');
+	public $mandatory_fields = ['createdtime', 'modifiedtime', 'commentcontent'];
 
 	public function __construct()
 	{
@@ -149,7 +149,7 @@ class ModCommentsCore extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($module));
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", [$module]);
 		$linkedFieldsCount = $this->db->numRows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
@@ -245,7 +245,7 @@ class ModCommentsCore extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($thismodule));
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", [$thismodule]);
 		$linkedFieldsCount = $this->db->numRows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
@@ -344,8 +344,8 @@ class ModCommentsCore extends CRMEntity
 	{
 		$matrix = $queryplanner->newDependencyMatrix();
 
-		$matrix->setDependency('vtiger_crmentityModComments', array('vtiger_groupsModComments', 'vtiger_usersModComments', 'vtiger_contactdetailsRelModComments', 'vtiger_modcommentsRelModComments'));
-		$matrix->setDependency('vtiger_modcomments', array('vtiger_crmentityModComments'));
+		$matrix->setDependency('vtiger_crmentityModComments', ['vtiger_groupsModComments', 'vtiger_usersModComments', 'vtiger_contactdetailsRelModComments', 'vtiger_modcommentsRelModComments']);
+		$matrix->setDependency('vtiger_modcomments', ['vtiger_crmentityModComments']);
 
 		if (!$queryplanner->requireTable("vtiger_modcomments", $matrix)) {
 			return '';

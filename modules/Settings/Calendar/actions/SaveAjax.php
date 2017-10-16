@@ -21,10 +21,10 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$params = $request->get('params');
 		Settings_Calendar_Module_Model::updateCalendarConfig($params);
 		$response = new Vtiger_Response();
-		$response->setResult(array(
+		$response->setResult([
 			'success' => true,
 			'message' => \App\Language::translate('LBL_SAVE_CHANGES', $request->getModule(false))
-		));
+		]);
 		$response->emit();
 	}
 
@@ -33,10 +33,10 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$params = $request->get('param');
 		Settings_Calendar_Module_Model::updateNotWorkingDays($params);
 		$response = new Vtiger_Response();
-		$response->setResult(array(
+		$response->setResult([
 			'success' => true,
 			'message' => \App\Language::translate('LBL_SAVE_ACTIVE_TYPE', $request->getModule(false))
-		));
+		]);
 		$response->emit();
 	}
 }

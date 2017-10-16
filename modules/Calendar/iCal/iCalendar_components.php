@@ -92,7 +92,7 @@ class IcalendarComponent
 
 		// If this property is restricted to only once, blindly overwrite value
 		if (!$xname && $this->valid_properties[$name] & RFC2445_ONCE) {
-			$this->properties[$name] = array($property);
+			$this->properties[$name] = [$property];
 		}
 
 		// Otherwise add it to the instance array for this property
@@ -301,7 +301,7 @@ class IcalendarComponent
 				//if there is negative value then ignore it because in vtiger even though its negative or postiview we
 				//make reminder to be before the event
 				$temp = str_replace("-", '', $temp);
-				$durationTypeCharacters = array('W', 'D', 'T', 'H', 'M', 'S');
+				$durationTypeCharacters = ['W', 'D', 'T', 'H', 'M', 'S'];
 				$reminder_time = 0;
 				foreach ($durationTypeCharacters as $durationType) {
 					if (strpos($temp, $durationType) === false) {
@@ -345,7 +345,7 @@ class IcalendarComponent
 			$activity['visibility'] = 'Private';
 		}
 		if (array_key_exists('taskpriority', $activity)) {
-			$priorityMap = array('1' => 'Low', '5' => 'Medium', '9' => 'High');
+			$priorityMap = ['1' => 'Low', '5' => 'Medium', '9' => 'High'];
 			$priorityval = $activity['taskpriority'];
 			if (array_key_exists($priorityval, $priorityMap))
 				$activity['taskpriority'] = $priorityMap[$priorityval];
@@ -384,17 +384,17 @@ class Icalendar extends IcalendarComponent
 
 	public function construct()
 	{
-		$this->valid_properties = array(
+		$this->valid_properties = [
 			'CALSCALE' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'METHOD' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'PRODID' => RFC2445_REQUIRED | RFC2445_ONCE,
 			'VERSION' => RFC2445_REQUIRED | RFC2445_ONCE,
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 
-		$this->valid_components = array(
+		$this->valid_components = [
 			'VEVENT', 'VTODO', 'VTIMEZONE'
-		);
+		];
 		parent::construct();
 	}
 }
@@ -404,30 +404,30 @@ class IcalendarEvent extends IcalendarComponent
 
 	public $name = 'VEVENT';
 	public $properties;
-	public $mapping_arr = array(
-		'CLASS' => array('component' => 'visibility', 'type' => 'string'),
-		'DTSTART' => array('component' => array('date_start', 'time_start'), 'function' => 'iCalendarEventDtStart', 'type' => 'datetime'),
-		'DTEND' => array('component' => array('due_date', 'time_end'), 'function' => 'iCalendarEventDtEnd', 'type' => 'datetime'),
-		'DTSTAMP' => array('component' => array('date_start', 'time_start'), 'function' => 'iCalendarEventDtStamp', 'type' => 'datetime'),
-		'LOCATION' => array('component' => 'location', 'type' => 'string'),
-		'ORGANIZER' => array('component' => 'activityid', 'function' => 'icalendarEventOrganizer', 'type' => 'user'),
-		'STATUS' => array('component' => 'activitystatus', 'type' => 'string'),
-		'SUMMARY' => array('component' => 'subject', 'type' => 'string'),
-		'PRIORITY' => array('component' => 'priority', 'type' => 'string'),
-		'ATTENDEE' => array('component' => 'activityid', 'function' => 'iCalendarEventAttendee', 'type' => 'user'),
-		'RESOURCES' => array('component' => array('location', 'activitystatus'), 'type' => 'string'),
-		'DESCRIPTION' => array('component' => 'description', 'type' => 'string'),
-	);
-	public $field_mapping_arr = array(
+	public $mapping_arr = [
+		'CLASS' => ['component' => 'visibility', 'type' => 'string'],
+		'DTSTART' => ['component' => ['date_start', 'time_start'], 'function' => 'iCalendarEventDtStart', 'type' => 'datetime'],
+		'DTEND' => ['component' => ['due_date', 'time_end'], 'function' => 'iCalendarEventDtEnd', 'type' => 'datetime'],
+		'DTSTAMP' => ['component' => ['date_start', 'time_start'], 'function' => 'iCalendarEventDtStamp', 'type' => 'datetime'],
+		'LOCATION' => ['component' => 'location', 'type' => 'string'],
+		'ORGANIZER' => ['component' => 'activityid', 'function' => 'icalendarEventOrganizer', 'type' => 'user'],
+		'STATUS' => ['component' => 'activitystatus', 'type' => 'string'],
+		'SUMMARY' => ['component' => 'subject', 'type' => 'string'],
+		'PRIORITY' => ['component' => 'priority', 'type' => 'string'],
+		'ATTENDEE' => ['component' => 'activityid', 'function' => 'iCalendarEventAttendee', 'type' => 'user'],
+		'RESOURCES' => ['component' => ['location', 'activitystatus'], 'type' => 'string'],
+		'DESCRIPTION' => ['component' => 'description', 'type' => 'string'],
+	];
+	public $field_mapping_arr = [
 		'priority' => 'taskpriority'
-	);
+	];
 
 	public function construct()
 	{
 
-		$this->valid_components = array('VALARM');
+		$this->valid_components = ['VALARM'];
 
-		$this->valid_properties = array(
+		$this->valid_properties = [
 			'CLASS' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'CREATED' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'DESCRIPTION' => RFC2445_OPTIONAL | RFC2445_ONCE,
@@ -466,7 +466,7 @@ class IcalendarEvent extends IcalendarComponent
 			'RDATE' => RFC2445_OPTIONAL,
 			'RRULE' => RFC2445_OPTIONAL,
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 
 		parent::construct();
 	}
@@ -556,26 +556,26 @@ class IcalendarTodo extends IcalendarComponent
 
 	public $name = 'VTODO';
 	public $properties;
-	public $mapping_arr = array(
-		'DESCRIPTION' => array('component' => 'description', 'type' => 'string'),
+	public $mapping_arr = [
+		'DESCRIPTION' => ['component' => 'description', 'type' => 'string'],
 		//'DTSTAMP'		=>	array('component'=>array('date_start','time_start'),'function'=>'iCalendarEventDtStamp','type'=>'datetime'),
-		'DTSTART' => array('component' => array('date_start', 'time_start'), 'function' => 'iCalendarEventDtStart', 'type' => 'datetime'),
-		'DUE' => array('component' => array('due_date'), 'function' => 'iCalendarEventDtEnd', 'type' => 'datetime'),
-		'STATUS' => array('component' => 'status', 'type' => 'string'),
-		'SUMMARY' => array('component' => 'subject', 'type' => 'string'),
-		'PRIORITY' => array('component' => 'priority', 'type' => 'string'),
-		'RESOURCES' => array('component' => array('status'), 'type' => 'string'),
-	);
-	public $field_mapping_arr = array(
+		'DTSTART' => ['component' => ['date_start', 'time_start'], 'function' => 'iCalendarEventDtStart', 'type' => 'datetime'],
+		'DUE' => ['component' => ['due_date'], 'function' => 'iCalendarEventDtEnd', 'type' => 'datetime'],
+		'STATUS' => ['component' => 'status', 'type' => 'string'],
+		'SUMMARY' => ['component' => 'subject', 'type' => 'string'],
+		'PRIORITY' => ['component' => 'priority', 'type' => 'string'],
+		'RESOURCES' => ['component' => ['status'], 'type' => 'string'],
+	];
+	public $field_mapping_arr = [
 		'status' => 'activitystatus',
 		'priority' => 'taskpriority'
-	);
+	];
 
 	public function construct()
 	{
 
 		$this->valid_components = [];
-		$this->valid_properties = array(
+		$this->valid_properties = [
 			'CLASS' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'COMPLETED' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'CREATED' => RFC2445_OPTIONAL | RFC2445_ONCE,
@@ -609,7 +609,7 @@ class IcalendarTodo extends IcalendarComponent
 			'RDATE' => RFC2445_OPTIONAL,
 			'RRULE' => RFC2445_OPTIONAL,
 			'XPROP' => RFC2445_OPTIONAL
-		);
+		];
 
 		parent::construct();
 	}
@@ -657,21 +657,21 @@ class IcalendarAlarm extends IcalendarComponent
 
 	public $name = 'VALARM';
 	public $properties;
-	public $mapping_arr = array(
-		'TRIGGER' => array('component' => 'reminder_time', 'function' => 'iCalendarEventTrigger'),
-	);
+	public $mapping_arr = [
+		'TRIGGER' => ['component' => 'reminder_time', 'function' => 'iCalendarEventTrigger'],
+	];
 
 	public function construct()
 	{
 
 		$this->valid_components = [];
-		$this->valid_properties = array(
+		$this->valid_properties = [
 			'TRIGGER' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'DESCRIPTION' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'ACTION' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'X-WR-ALARMUID' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 
 		parent::construct();
 	}
@@ -701,7 +701,7 @@ class IcalendarTimezone extends IcalendarComponent
 	public function construct()
 	{
 		$this->valid_components = [];
-		$this->valid_properties = array(
+		$this->valid_properties = [
 			'TZID' => RFC2445_REQUIRED | RFC2445_ONCE,
 			'LAST-MODIFIED' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'TZURL' => RFC2445_OPTIONAL | RFC2445_ONCE,
@@ -710,7 +710,7 @@ class IcalendarTimezone extends IcalendarComponent
 			'TZOFFSETFROM' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'TZOFFSETTO' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'X-PROP' => RFC2445_OPTIONAL
-		);
+		];
 
 		parent::construct();
 	}

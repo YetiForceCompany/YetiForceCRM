@@ -19,38 +19,38 @@ class Products extends CRMEntity
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('vtiger_productcf', 'productid');
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_products', 'vtiger_productcf');
+	public $customFieldTable = ['vtiger_productcf', 'productid'];
+	public $tab_name = ['vtiger_crmentity', 'vtiger_products', 'vtiger_productcf'];
 	public $tab_name_index = ['vtiger_crmentity' => 'crmid', 'vtiger_products' => 'productid', 'vtiger_productcf' => 'productid', 'vtiger_seproductsrel' => 'productid'];
 	// This is the list of vtiger_fields that are in the lists.
-	public $list_fields = Array(
-		'Product Name' => Array('products' => 'productname'),
-		'Part Number' => Array('products' => 'productcode'),
-		'Commission Rate' => Array('products' => 'commissionrate'),
-		'Qty/Unit' => Array('products' => 'qty_per_unit'),
-		'Unit Price' => Array('products' => 'unit_price')
-	);
-	public $list_fields_name = Array(
+	public $list_fields = [
+		'Product Name' => ['products' => 'productname'],
+		'Part Number' => ['products' => 'productcode'],
+		'Commission Rate' => ['products' => 'commissionrate'],
+		'Qty/Unit' => ['products' => 'qty_per_unit'],
+		'Unit Price' => ['products' => 'unit_price']
+	];
+	public $list_fields_name = [
 		'Product Name' => 'productname',
 		'Part Number' => 'productcode',
 		'Commission Rate' => 'commissionrate',
 		'Qty/Unit' => 'qty_per_unit',
 		'Unit Price' => 'unit_price'
-	);
+	];
 	public $list_link_field = 'productname';
-	public $search_fields = Array(
-		'Product Name' => Array('products' => 'productname'),
-		'Part Number' => Array('products' => 'productcode'),
-		'Unit Price' => Array('products' => 'unit_price')
-	);
-	public $search_fields_name = Array(
+	public $search_fields = [
+		'Product Name' => ['products' => 'productname'],
+		'Part Number' => ['products' => 'productcode'],
+		'Unit Price' => ['products' => 'unit_price']
+	];
+	public $search_fields_name = [
 		'Product Name' => 'productname',
 		'Part Number' => 'productcode',
 		'Unit Price' => 'unit_price'
-	);
-	public $required_fields = Array(
+	];
+	public $required_fields = [
 		'productname' => 1
-	);
+	];
 
 	/** @var string[] List of fields in the RelationListView */
 	public $relationFields = ['productname', 'productcode', 'commissionrate', 'qty_per_unit', 'unit_price'];
@@ -60,7 +60,7 @@ class Products extends CRMEntity
 	public $default_sort_order = 'ASC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public $mandatory_fields = Array('createdtime', 'modifiedtime', 'productname', 'assigned_user_id');
+	public $mandatory_fields = ['createdtime', 'modifiedtime', 'productname', 'assigned_user_id'];
 	// Josh added for importing and exporting -added in patch2
 	public $unit_price;
 
@@ -114,18 +114,18 @@ class Products extends CRMEntity
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
-		$rel_table_arr = Array("HelpDesk" => "vtiger_troubletickets", "Products" => "vtiger_seproductsrel", "Attachments" => "vtiger_seattachmentsrel",
+		$rel_table_arr = ["HelpDesk" => "vtiger_troubletickets", "Products" => "vtiger_seproductsrel", "Attachments" => "vtiger_seattachmentsrel",
 			"PriceBooks" => "vtiger_pricebookproductrel", "Leads" => "vtiger_seproductsrel",
 			"Accounts" => "vtiger_seproductsrel", "Contacts" => "vtiger_seproductsrel",
-			"Documents" => "vtiger_senotesrel", 'Assets' => 'vtiger_assets',);
+			"Documents" => "vtiger_senotesrel", 'Assets' => 'vtiger_assets',];
 
-		$tbl_field_arr = Array("vtiger_troubletickets" => "ticketid", "vtiger_seproductsrel" => "crmid", "vtiger_seattachmentsrel" => "attachmentsid",
+		$tbl_field_arr = ["vtiger_troubletickets" => "ticketid", "vtiger_seproductsrel" => "crmid", "vtiger_seattachmentsrel" => "attachmentsid",
 			"vtiger_inventoryproductrel" => "id", "vtiger_pricebookproductrel" => "pricebookid", "vtiger_seproductsrel" => "crmid",
-			"vtiger_senotesrel" => "notesid", 'vtiger_assets' => 'assetsid');
+			"vtiger_senotesrel" => "notesid", 'vtiger_assets' => 'assetsid'];
 
-		$entity_tbl_field_arr = Array("vtiger_troubletickets" => "product_id", "vtiger_seproductsrel" => "crmid", "vtiger_seattachmentsrel" => "crmid",
+		$entity_tbl_field_arr = ["vtiger_troubletickets" => "product_id", "vtiger_seproductsrel" => "crmid", "vtiger_seattachmentsrel" => "crmid",
 			"vtiger_inventoryproductrel" => "productid", "vtiger_pricebookproductrel" => "productid", "vtiger_seproductsrel" => "productid",
-			"vtiger_senotesrel" => "crmid", 'vtiger_assets' => 'product');
+			"vtiger_senotesrel" => "crmid", 'vtiger_assets' => 'product'];
 
 		foreach ($transferEntityIds as $transferId) {
 			foreach ($rel_table_arr as $rel_module => $rel_table) {
@@ -133,12 +133,12 @@ class Products extends CRMEntity
 				$entity_id_field = $entity_tbl_field_arr[$rel_table];
 				// IN clause to avoid duplicate entries
 				$sel_result = $adb->pquery("select $id_field from $rel_table where $entity_id_field=? " .
-					" and $id_field not in (select $id_field from $rel_table where $entity_id_field=?)", array($transferId, $entityId));
+					" and $id_field not in (select $id_field from $rel_table where $entity_id_field=?)", [$transferId, $entityId]);
 				$res_cnt = $adb->numRows($sel_result);
 				if ($res_cnt > 0) {
 					for ($i = 0; $i < $res_cnt; $i++) {
 						$id_field_value = $adb->queryResult($sel_result, $i, $id_field);
-						$adb->pquery("update $rel_table set $entity_id_field=? where $entity_id_field=? and $id_field=?", array($entityId, $transferId, $id_field_value));
+						$adb->pquery("update $rel_table set $entity_id_field=? where $entity_id_field=? and $id_field=?", [$entityId, $transferId, $id_field_value]);
 					}
 				}
 			}
@@ -158,8 +158,8 @@ class Products extends CRMEntity
 		$current_user = vglobal('current_user');
 		$matrix = $queryplanner->newDependencyMatrix();
 
-		$matrix->setDependency('vtiger_crmentityProducts', array('vtiger_groupsProducts', 'vtiger_usersProducts', 'vtiger_lastModifiedByProducts'));
-		$matrix->setDependency('vtiger_products', array('innerProduct', 'vtiger_crmentityProducts', 'vtiger_productcf', 'vtiger_vendorRelProducts'));
+		$matrix->setDependency('vtiger_crmentityProducts', ['vtiger_groupsProducts', 'vtiger_usersProducts', 'vtiger_lastModifiedByProducts']);
+		$matrix->setDependency('vtiger_products', ['innerProduct', 'vtiger_crmentityProducts', 'vtiger_productcf', 'vtiger_vendorRelProducts']);
 		//query planner Support  added
 		if (!$queryplanner->requireTable('vtiger_products', $matrix)) {
 			return '';
@@ -208,15 +208,15 @@ class Products extends CRMEntity
 
 	public function setRelationTables($secmodule = false)
 	{
-		$relTables = array(
-			'HelpDesk' => array('vtiger_troubletickets' => array('product_id', 'ticketid'), 'vtiger_products' => 'productid'),
-			'Quotes' => array('vtiger_inventoryproductrel' => array('productid', 'id'), 'vtiger_products' => 'productid'),
-			'Leads' => array('vtiger_seproductsrel' => array('productid', 'crmid'), 'vtiger_products' => 'productid'),
-			'Accounts' => array('vtiger_seproductsrel' => array('productid', 'crmid'), 'vtiger_products' => 'productid'),
-			'Contacts' => array('vtiger_seproductsrel' => array('productid', 'crmid'), 'vtiger_products' => 'productid'),
-			'PriceBooks' => array('vtiger_pricebookproductrel' => array('productid', 'pricebookid'), 'vtiger_products' => 'productid'),
-			'Documents' => array('vtiger_senotesrel' => array('crmid', 'notesid'), 'vtiger_products' => 'productid'),
-		);
+		$relTables = [
+			'HelpDesk' => ['vtiger_troubletickets' => ['product_id', 'ticketid'], 'vtiger_products' => 'productid'],
+			'Quotes' => ['vtiger_inventoryproductrel' => ['productid', 'id'], 'vtiger_products' => 'productid'],
+			'Leads' => ['vtiger_seproductsrel' => ['productid', 'crmid'], 'vtiger_products' => 'productid'],
+			'Accounts' => ['vtiger_seproductsrel' => ['productid', 'crmid'], 'vtiger_products' => 'productid'],
+			'Contacts' => ['vtiger_seproductsrel' => ['productid', 'crmid'], 'vtiger_products' => 'productid'],
+			'PriceBooks' => ['vtiger_pricebookproductrel' => ['productid', 'pricebookid'], 'vtiger_products' => 'productid'],
+			'Documents' => ['vtiger_senotesrel' => ['crmid', 'notesid'], 'vtiger_products' => 'productid'],
+		];
 		if ($secmodule === false) {
 			return $relTables;
 		}
@@ -228,10 +228,10 @@ class Products extends CRMEntity
 		$adb = PearDatabase::getInstance();
 		if ($is_parent == 0) {
 			$sql = "delete from vtiger_seproductsrel WHERE crmid = ? && productid = ?";
-			$adb->pquery($sql, array($record, $return_id));
+			$adb->pquery($sql, [$record, $return_id]);
 		} else {
 			$sql = "delete from vtiger_seproductsrel WHERE crmid = ? && productid = ?";
-			$adb->pquery($sql, array($return_id, $record));
+			$adb->pquery($sql, [$return_id, $record]);
 		}
 	}
 
@@ -258,7 +258,7 @@ class Products extends CRMEntity
 			App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['productid' => $id, 'crmid' => $return_id])->execute();
 		} elseif ($return_module == 'Vendors') {
 			$sql = 'UPDATE vtiger_products SET vendor_id = ? WHERE productid = ?';
-			$this->db->pquery($sql, array(null, $id));
+			$this->db->pquery($sql, [null, $id]);
 		} else {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		}

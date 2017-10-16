@@ -78,7 +78,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 	{
 		$db = PearDatabase::getInstance();
 		$query = 'UPDATE vtiger_users SET status=?, date_modified=?, modified_user_id=? WHERE id=?';
-		$db->pquery($query, array('Inactive', date('Y-m-d H:i:s'), $recordModel->getId(), $recordModel->getId()), true, 'Error marking record deleted: ');
+		$db->pquery($query, ['Inactive', date('Y-m-d H:i:s'), $recordModel->getId(), $recordModel->getId()], true, 'Error marking record deleted: ');
 	}
 
 	/**
@@ -147,7 +147,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 			$currencyname = App\Purifier::decodeHtml($adb->queryResult($result, $i, 'currency_name'));
 			$currencycode = App\Purifier::decodeHtml($adb->queryResult($result, $i, 'currency_code'));
 			$currencysymbol = App\Purifier::decodeHtml($adb->queryResult($result, $i, 'currency_symbol'));
-			$currencies[$currencyname] = array($currencycode, $currencysymbol);
+			$currencies[$currencyname] = [$currencycode, $currencysymbol];
 		}
 		return $currencies;
 	}

@@ -65,7 +65,7 @@ Class DataAccess_unique_value
 				$ModuleInstance = CRMEntity::getInstance($DestModuleName);
 				$tab_name_index = $ModuleInstance->tab_name_index;
 				$index = $tab_name_index[$where[0]];
-				$sql_param = array($value1);
+				$sql_param = [$value1];
 				$sql_ext = '';
 				$spacialCondition = '';
 				$sqlSpecial = '';
@@ -106,7 +106,7 @@ Class DataAccess_unique_value
 				$ModuleInstance = CRMEntity::getInstance($DestModuleName);
 				$tab_name_index = $ModuleInstance->tab_name_index;
 				$index = $tab_name_index[$where[0]];
-				$sql_param = array($value2);
+				$sql_param = [$value2];
 				$sql_ext = '';
 				$spacialCondition = '';
 				$sqlSpecial = '';
@@ -177,7 +177,7 @@ Class DataAccess_unique_value
 		}
 
 		if (!$save_record)
-			return Array(
+			return [
 				'save_record' => $save_record,
 				'type' => $type,
 				'info' => is_array($info) ? $info : [
@@ -185,9 +185,9 @@ Class DataAccess_unique_value
 				'ntype' => $typeInfo,
 				'hide' => false,
 				]
-			);
+			];
 		else
-			return Array('save_record' => true);
+			return ['save_record' => true];
 	}
 
 	public function getConfig($id, $module, $baseModule)
@@ -197,11 +197,11 @@ Class DataAccess_unique_value
 		$fields = [];
 		$ModuleFields = [];
 		while ($row = $db->fetchArray($result)) {
-			array_push($fields, array($row['fieldlabel'], $row['tablename'], $row['columnname'], $row['name'], $row['tabid'], $row['fieldname']));
+			array_push($fields, [$row['fieldlabel'], $row['tablename'], $row['columnname'], $row['name'], $row['tabid'], $row['fieldname']]);
 			if ($row['name'] === $baseModule) {
-				array_push($ModuleFields, array($row['name'], $row['fieldname'], $row['fieldlabel']));
+				array_push($ModuleFields, [$row['name'], $row['fieldname'], $row['fieldlabel']]);
 			}
 		}
-		return Array('fields' => $fields, 'fields_mod' => $ModuleFields);
+		return ['fields' => $fields, 'fields_mod' => $ModuleFields];
 	}
 }

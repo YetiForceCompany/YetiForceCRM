@@ -31,7 +31,7 @@ class ModComments extends ModCommentsCore
 			// Mark the module as Standard module
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0,], ['name' => $moduleName])->execute();
 		} elseif ($eventType === 'module.postupdate') {
-			
+
 		}
 	}
 
@@ -71,7 +71,7 @@ class ModComments extends ModCommentsCore
 			return;
 
 		if (is_string($moduleNames))
-			$moduleNames = array($moduleNames);
+			$moduleNames = [$moduleNames];
 
 		$commentWidgetModules = [];
 		foreach ($moduleNames as $moduleName) {
@@ -102,7 +102,7 @@ class ModComments extends ModCommentsCore
 			return;
 
 		if (is_string($moduleNames))
-			$moduleNames = array($moduleNames);
+			$moduleNames = [$moduleNames];
 
 		$commentWidgetModules = [];
 		foreach ($moduleNames as $moduleName) {

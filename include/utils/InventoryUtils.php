@@ -24,7 +24,7 @@ function getInventoryCurrencyInfo($module, $id)
 	$focus = new $module();
 
 	$res = $adb->pquery("select currency_id, {$focus->table_name}.conversion_rate as conv_rate, vtiger_currency_info.* from {$focus->table_name} "
-		. "inner join vtiger_currency_info on {$focus->table_name}.currency_id = vtiger_currency_info.id where {$focus->table_index}=?", array($id), true);
+		. "inner join vtiger_currency_info on {$focus->table_name}.currency_id = vtiger_currency_info.id where {$focus->table_index}=?", [$id], true);
 
 	$currency_info = [];
 	$currency_info['currency_id'] = $adb->queryResult($res, 0, 'currency_id');
@@ -59,14 +59,14 @@ function getPriceDetailsForProduct($productid, $unit_price, $available = 'availa
 					inner join vtiger_productcurrencyrel on vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid
 					where vtiger_currency_info.currency_status = 'Active' and vtiger_currency_info.deleted=0
 					and vtiger_productcurrencyrel.productid = ? and vtiger_currency_info.id != ?";
-			$params = array($productid, $product_currency_id);
+			$params = [$productid, $product_currency_id];
 		} else { // Edit View
 			$query = "select vtiger_currency_info.*, vtiger_productcurrencyrel.converted_price, vtiger_productcurrencyrel.actual_price
 					from vtiger_currency_info
 					left join vtiger_productcurrencyrel
 					on vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid and vtiger_productcurrencyrel.productid = ?
 					where vtiger_currency_info.currency_status = 'Active' and vtiger_currency_info.deleted=0";
-			$params = array($productid);
+			$params = [$productid];
 		}
 
 		$res = $adb->pquery($query, $params);
@@ -160,7 +160,7 @@ function getProductBaseCurrency($productid, $module = 'Products')
 	} else {
 		$sql = "select currency_id from vtiger_products where productid=?";
 	}
-	$params = array($productid);
+	$params = [$productid];
 	$res = $adb->pquery($sql, $params);
 	$currencyid = $adb->queryResult($res, 0, 'currency_id');
 	return $currencyid;

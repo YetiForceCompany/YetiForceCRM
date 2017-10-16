@@ -17,11 +17,11 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 	public function getSearchParams($value, $assignedto, $dates)
 	{
 		$listSearchParams = [];
-		$conditions = array(array('leadstatus', 'e', $value));
+		$conditions = [['leadstatus', 'e', $value]];
 		if ($assignedto != '')
-			array_push($conditions, array('assigned_user_id', 'e', $assignedto));
+			array_push($conditions, ['assigned_user_id', 'e', $assignedto]);
 		if (!empty($dates)) {
-			array_push($conditions, array('createdtime', 'bw', $dates['start'] . ' 00:00:00,' . $dates['end'] . ' 23:59:59'));
+			array_push($conditions, ['createdtime', 'bw', $dates['start'] . ' 00:00:00,' . $dates['end'] . ' 23:59:59']);
 		}
 		$listSearchParams[] = $conditions;
 		return '&search_params=' . json_encode($listSearchParams);

@@ -204,8 +204,8 @@ class WorkFlowScheduler
 	 */
 	public function specialDateTimeOperator()
 	{
-		return array('less than days ago', 'more than days ago', 'in less than', 'in more than', 'days ago', 'days later',
-			'less than hours before', 'less than hours later', 'more than hours later', 'more than hours before', 'is today');
+		return ['less than days ago', 'more than days ago', 'in less than', 'in more than', 'days ago', 'days later',
+			'less than hours before', 'less than hours later', 'more than hours later', 'more than hours before', 'is today'];
 	}
 
 	/**

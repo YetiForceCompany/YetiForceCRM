@@ -63,12 +63,12 @@ class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View
 
 	public function getModalScripts(\App\Request $request)
 	{
-		$jsFileNames = array(
+		$jsFileNames = [
 			'~libraries/leaflet/leaflet.js',
 			'~libraries/leaflet/plugins/markercluster/leaflet.markercluster.js',
 			'~libraries/leaflet/plugins/awesome-markers/leaflet.awesome-markers.js',
 			"modules.OpenStreetMap.resources.Map",
-		);
+		];
 		return $this->checkAndConvertJsScripts($jsFileNames);
 	}
 

@@ -14,39 +14,39 @@ class PriceBooks extends CRMEntity
 
 	public $table_name = 'vtiger_pricebook';
 	public $table_index = 'pricebookid';
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_pricebook', 'vtiger_pricebookcf');
-	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_pricebook' => 'pricebookid', 'vtiger_pricebookcf' => 'pricebookid');
+	public $tab_name = ['vtiger_crmentity', 'vtiger_pricebook', 'vtiger_pricebookcf'];
+	public $tab_name_index = ['vtiger_crmentity' => 'crmid', 'vtiger_pricebook' => 'pricebookid', 'vtiger_pricebookcf' => 'pricebookid'];
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('vtiger_pricebookcf', 'pricebookid');
+	public $customFieldTable = ['vtiger_pricebookcf', 'pricebookid'];
 	public $column_fields = [];
 	// This is the list of fields that are in the lists.
-	public $list_fields = Array(
-		'Price Book Name' => Array('pricebook' => 'bookname'),
-		'Active' => Array('pricebook' => 'active')
-	);
-	public $list_fields_name = Array(
+	public $list_fields = [
+		'Price Book Name' => ['pricebook' => 'bookname'],
+		'Active' => ['pricebook' => 'active']
+	];
+	public $list_fields_name = [
 		'Price Book Name' => 'bookname',
 		'Active' => 'active'
-	);
+	];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = ['bookname', 'active', 'currency_id'];
 	public $list_link_field = 'bookname';
-	public $search_fields = Array(
-		'Price Book Name' => Array('pricebook' => 'bookname')
-	);
-	public $search_fields_name = Array(
+	public $search_fields = [
+		'Price Book Name' => ['pricebook' => 'bookname']
+	];
+	public $search_fields_name = [
 		'Price Book Name' => 'bookname'
-	);
+	];
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
-	public $mandatory_fields = Array('bookname', 'currency_id', 'pricebook_no', 'createdtime', 'modifiedtime');
+	public $mandatory_fields = ['bookname', 'currency_id', 'pricebook_no', 'createdtime', 'modifiedtime'];
 	// For Alphabetical search
 	public $def_basicsearch_col = 'bookname';
 
@@ -107,8 +107,8 @@ class PriceBooks extends CRMEntity
 
 		$matrix = $queryplanner->newDependencyMatrix();
 
-		$matrix->setDependency('vtiger_crmentityPriceBooks', array('vtiger_usersPriceBooks', 'vtiger_groupsPriceBooks'));
-		$matrix->setDependency('vtiger_pricebook', array('vtiger_crmentityPriceBooks', 'vtiger_currency_infoPriceBooks'));
+		$matrix->setDependency('vtiger_crmentityPriceBooks', ['vtiger_usersPriceBooks', 'vtiger_groupsPriceBooks']);
+		$matrix->setDependency('vtiger_pricebook', ['vtiger_crmentityPriceBooks', 'vtiger_currency_infoPriceBooks']);
 		if (!$queryplanner->requireTable('vtiger_pricebook', $matrix)) {
 			return '';
 		}
@@ -143,10 +143,10 @@ class PriceBooks extends CRMEntity
 
 	public function setRelationTables($secmodule = false)
 	{
-		$relTables = array(
-			'Products' => array('vtiger_pricebookproductrel' => array('pricebookid', 'productid'), 'vtiger_pricebook' => 'pricebookid'),
-			'Services' => array('vtiger_pricebookproductrel' => array('pricebookid', 'productid'), 'vtiger_pricebook' => 'pricebookid'),
-		);
+		$relTables = [
+			'Products' => ['vtiger_pricebookproductrel' => ['pricebookid', 'productid'], 'vtiger_pricebook' => 'pricebookid'],
+			'Services' => ['vtiger_pricebookproductrel' => ['pricebookid', 'productid'], 'vtiger_pricebook' => 'pricebookid'],
+		];
 		if ($secmodule === false) {
 			return $relTables;
 		}

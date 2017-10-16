@@ -31,7 +31,7 @@ class Users_DeleteImage_Action extends Vtiger_Action_Controller
 			$recordModel = Users_Record_Model::getInstanceById($recordId, $moduleName);
 			$status = $recordModel->deleteImage($imageId);
 			if ($status) {
-				$response->setResult(array(\App\Language::translate('LBL_IMAGE_DELETED_SUCCESSFULLY', $moduleName)));
+				$response->setResult([\App\Language::translate('LBL_IMAGE_DELETED_SUCCESSFULLY', $moduleName)]);
 			}
 		} else {
 			$response->setError(\App\Language::translate('LBL_IMAGE_NOT_DELETED', $moduleName));

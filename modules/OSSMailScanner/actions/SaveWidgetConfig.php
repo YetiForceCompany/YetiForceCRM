@@ -29,7 +29,7 @@ class OSSMailScanner_SaveWidgetConfig_Action extends Vtiger_Action_Controller
 		$conf_type = $request->get('conf_type');
 		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 		$recordModel->setConfigWidget($conf_type, $param, $val);
-		$result = array('success' => true, 'data' => \App\Language::translate('JS_save_config_info', 'OSSMailScanner'));
+		$result = ['success' => true, 'data' => \App\Language::translate('JS_save_config_info', 'OSSMailScanner')];
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

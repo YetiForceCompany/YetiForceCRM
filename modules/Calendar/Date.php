@@ -346,10 +346,10 @@ class VtDateTime
 			$day = $this->day + 1;
 		else
 			$day = $this->day - 1;
-		$date_data = array('day' => $day,
+		$date_data = ['day' => $day,
 			'month' => $this->month,
 			'year' => $this->year
-		);
+		];
 		return new VtDateTime($date_data, true);
 	}
 
@@ -365,10 +365,10 @@ class VtDateTime
 			$day = $first_day->day + 7;
 		else
 			$day = $first_day->day - 7;
-		$date_data = array('day' => $day,
+		$date_data = ['day' => $day,
 			'month' => $first_day->month,
 			'year' => $first_day->year
-		);
+		];
 		return new VtDateTime($date_data, true);
 	}
 
@@ -401,11 +401,11 @@ class VtDateTime
 				$year = $tmpDate['year'];
 			}
 		}
-		$date_data = array(
+		$date_data = [
 			'day' => 1,
 			'month' => $month,
 			'year' => $year
-		);
+		];
 
 		return new VtDateTime($date_data, true);
 	}
@@ -422,10 +422,10 @@ class VtDateTime
 		} else {
 			$year = $this->year - 1;
 		}
-		$date_data = array('day' => 1,
+		$date_data = ['day' => 1,
 			'month' => 1,
 			'year' => $year
-		);
+		];
 		return new VtDateTime($date_data, true);
 	}
 

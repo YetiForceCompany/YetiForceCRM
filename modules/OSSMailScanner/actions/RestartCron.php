@@ -27,7 +27,7 @@ class OSSMailScanner_RestartCron_Action extends Vtiger_Action_Controller
 		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 		$recordModel->runRestartCron();
 		$recordModel->verificationCron();
-		$result = array('success' => true, 'data' => \App\Language::translate('JS_info_restart_ok', 'OSSMailScanner'));
+		$result = ['success' => true, 'data' => \App\Language::translate('JS_info_restart_ok', 'OSSMailScanner')];
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

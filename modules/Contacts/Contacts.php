@@ -27,26 +27,26 @@ class Contacts extends CRMEntity
 
 	public $table_name = "vtiger_contactdetails";
 	public $table_index = 'contactid';
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_contactdetails', 'vtiger_contactaddress', 'vtiger_contactsubdetails', 'vtiger_contactscf', 'vtiger_customerdetails', 'vtiger_entity_stats');
-	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_contactdetails' => 'contactid', 'vtiger_contactaddress' => 'contactaddressid', 'vtiger_contactsubdetails' => 'contactsubscriptionid', 'vtiger_contactscf' => 'contactid', 'vtiger_customerdetails' => 'customerid', 'vtiger_entity_stats' => 'crmid');
+	public $tab_name = ['vtiger_crmentity', 'vtiger_contactdetails', 'vtiger_contactaddress', 'vtiger_contactsubdetails', 'vtiger_contactscf', 'vtiger_customerdetails', 'vtiger_entity_stats'];
+	public $tab_name_index = ['vtiger_crmentity' => 'crmid', 'vtiger_contactdetails' => 'contactid', 'vtiger_contactaddress' => 'contactaddressid', 'vtiger_contactsubdetails' => 'contactsubscriptionid', 'vtiger_contactscf' => 'contactid', 'vtiger_customerdetails' => 'customerid', 'vtiger_entity_stats' => 'crmid'];
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('vtiger_contactscf', 'contactid');
+	public $customFieldTable = ['vtiger_contactscf', 'contactid'];
 	public $column_fields = [];
 	public $list_link_field = 'lastname';
 	// This is the list of vtiger_fields that are in the lists.
-	public $list_fields = Array(
-		'First Name' => Array('contactdetails' => 'firstname'),
-		'Last Name' => Array('contactdetails' => 'lastname'),
-		'Title' => Array('contactdetails' => 'title'),
-		'Member Of' => Array('account' => 'parentid'),
-		'Email' => Array('contactdetails' => 'email'),
-		'Office Phone' => Array('contactdetails' => 'phone'),
-		'Assigned To' => Array('crmentity' => 'smownerid')
-	);
-	public $range_fields = Array(
+	public $list_fields = [
+		'First Name' => ['contactdetails' => 'firstname'],
+		'Last Name' => ['contactdetails' => 'lastname'],
+		'Title' => ['contactdetails' => 'title'],
+		'Member Of' => ['account' => 'parentid'],
+		'Email' => ['contactdetails' => 'email'],
+		'Office Phone' => ['contactdetails' => 'phone'],
+		'Assigned To' => ['crmentity' => 'smownerid']
+	];
+	public $range_fields = [
 		'first_name',
 		'last_name',
 		'primary_address_city',
@@ -76,8 +76,8 @@ class Contacts extends CRMEntity
 		'department',
 		'birthdate',
 		'assistant_name',
-		'assistant_phone');
-	public $list_fields_name = Array(
+		'assistant_phone'];
+	public $list_fields_name = [
 		'First Name' => 'firstname',
 		'Last Name' => 'lastname',
 		'Title' => 'title',
@@ -85,33 +85,33 @@ class Contacts extends CRMEntity
 		'Email' => 'email',
 		'Office Phone' => 'phone',
 		'Assigned To' => 'assigned_user_id'
-	);
-	public $search_fields = Array(
-		'First Name' => Array('contactdetails' => 'firstname'),
-		'Last Name' => Array('contactdetails' => 'lastname'),
-		'Title' => Array('contactdetails' => 'title'),
-		'Member Of' => Array('contactdetails' => 'parent_id'),
-		'Assigned To' => Array('crmentity' => 'smownerid'),
-	);
-	public $search_fields_name = Array(
+	];
+	public $search_fields = [
+		'First Name' => ['contactdetails' => 'firstname'],
+		'Last Name' => ['contactdetails' => 'lastname'],
+		'Title' => ['contactdetails' => 'title'],
+		'Member Of' => ['contactdetails' => 'parent_id'],
+		'Assigned To' => ['crmentity' => 'smownerid'],
+	];
+	public $search_fields_name = [
 		'First Name' => 'firstname',
 		'Last Name' => 'lastname',
 		'Title' => 'title',
 		'Member Of' => 'parent_id',
 		'Assigned To' => 'assigned_user_id'
-	);
+	];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = ['firstname', 'lastname', 'jobtitle', 'email', 'phone', 'assigned_user_id'];
 	// This is the list of vtiger_fields that are required
-	public $required_fields = array("lastname" => 1);
+	public $required_fields = ["lastname" => 1];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public $mandatory_fields = Array('assigned_user_id', 'lastname', 'createdtime', 'modifiedtime');
+	public $mandatory_fields = ['assigned_user_id', 'lastname', 'createdtime', 'modifiedtime'];
 	//Default Fields for Email Templates -- Pavani
-	public $emailTemplate_defaultFields = array('firstname', 'lastname', 'salutation', 'title', 'email', 'department', 'phone', 'mobile', 'support_start_date', 'support_end_date');
+	public $emailTemplate_defaultFields = ['firstname', 'lastname', 'salutation', 'title', 'email', 'department', 'phone', 'mobile', 'support_start_date', 'support_end_date'];
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
@@ -172,19 +172,19 @@ class Contacts extends CRMEntity
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
-		$rel_table_arr = Array("Products" => "vtiger_seproductsrel", "Documents" => "vtiger_senotesrel",
+		$rel_table_arr = ["Products" => "vtiger_seproductsrel", "Documents" => "vtiger_senotesrel",
 			"Attachments" => "vtiger_seattachmentsrel", "Campaigns" => "vtiger_campaign_records",
-			'ServiceContracts' => 'vtiger_servicecontracts', 'Project' => 'vtiger_project');
+			'ServiceContracts' => 'vtiger_servicecontracts', 'Project' => 'vtiger_project'];
 
-		$tbl_field_arr = Array("vtiger_seproductsrel" => "productid", "vtiger_senotesrel" => "notesid",
+		$tbl_field_arr = ["vtiger_seproductsrel" => "productid", "vtiger_senotesrel" => "notesid",
 			"vtiger_seattachmentsrel" => "attachmentsid", "vtiger_campaign_records" => "campaignid",
 			'vtiger_servicecontracts' => 'servicecontractsid', 'vtiger_project' => 'projectid',
-			'vtiger_payments' => 'paymentsid');
+			'vtiger_payments' => 'paymentsid'];
 
-		$entity_tbl_field_arr = Array("vtiger_seproductsrel" => "crmid", "vtiger_senotesrel" => "crmid",
+		$entity_tbl_field_arr = ["vtiger_seproductsrel" => "crmid", "vtiger_senotesrel" => "crmid",
 			"vtiger_seattachmentsrel" => "crmid", "vtiger_campaign_records" => "crmid",
 			'vtiger_servicecontracts' => 'sc_related_to', 'vtiger_project' => 'linktoaccountscontacts',
-			'vtiger_payments' => 'relatedcontact');
+			'vtiger_payments' => 'relatedcontact'];
 
 		foreach ($transferEntityIds as $transferId) {
 			foreach ($rel_table_arr as $rel_module => $rel_table) {
@@ -192,12 +192,12 @@ class Contacts extends CRMEntity
 				$entity_id_field = $entity_tbl_field_arr[$rel_table];
 				// IN clause to avoid duplicate entries
 				$sel_result = $adb->pquery("select $id_field from $rel_table where $entity_id_field=? " .
-					" and $id_field not in (select $id_field from $rel_table where $entity_id_field=?)", array($transferId, $entityId));
+					" and $id_field not in (select $id_field from $rel_table where $entity_id_field=?)", [$transferId, $entityId]);
 				$res_cnt = $adb->numRows($sel_result);
 				if ($res_cnt > 0) {
 					for ($i = 0; $i < $res_cnt; $i++) {
 						$id_field_value = $adb->queryResult($sel_result, $i, $id_field);
-						$adb->pquery("update $rel_table set $entity_id_field=? where $entity_id_field=? and $id_field=?", array($entityId, $transferId, $id_field_value));
+						$adb->pquery("update $rel_table set $entity_id_field=? where $entity_id_field=? and $id_field=?", [$entityId, $transferId, $id_field_value]);
 					}
 				}
 			}
@@ -216,9 +216,9 @@ class Contacts extends CRMEntity
 	public function generateReportsSecQuery($module, $secmodule, ReportRunQueryPlanner $queryplanner)
 	{
 		$matrix = $queryplanner->newDependencyMatrix();
-		$matrix->setDependency('vtiger_crmentityContacts', array('vtiger_groupsContacts', 'vtiger_usersContacts', 'vtiger_lastModifiedByContacts'));
-		$matrix->setDependency('vtiger_contactdetails', array('vtiger_crmentityContacts', 'vtiger_contactaddress',
-			'vtiger_customerdetails', 'vtiger_contactsubdetails', 'vtiger_contactscf'));
+		$matrix->setDependency('vtiger_crmentityContacts', ['vtiger_groupsContacts', 'vtiger_usersContacts', 'vtiger_lastModifiedByContacts']);
+		$matrix->setDependency('vtiger_contactdetails', ['vtiger_crmentityContacts', 'vtiger_contactaddress',
+			'vtiger_customerdetails', 'vtiger_contactsubdetails', 'vtiger_contactscf']);
 
 		if (!$queryplanner->requireTable('vtiger_contactdetails', $matrix)) {
 			return '';

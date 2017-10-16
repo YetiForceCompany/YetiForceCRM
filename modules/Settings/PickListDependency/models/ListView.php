@@ -32,7 +32,7 @@ class Settings_PickListDependency_ListView_Model extends Settings_Vtiger_ListVie
 		$field2->set('label', 'LBL_TARGET_FIELD');
 		$field2->set('sort', false);
 
-		return array($field, $field1, $field2);
+		return [$field, $field1, $field2];
 	}
 
 	/**

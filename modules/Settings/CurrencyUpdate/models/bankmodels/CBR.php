@@ -38,7 +38,7 @@ class Settings_CurrencyUpdate_Models_CBR_BankModel extends Settings_CurrencyUpda
 		$source = $this->getSource();
 
 		$client = new \SoapClient($source[0]);
-		$curs = $client->GetCursOnDate(array("On_date" => date('Y-m-d')));
+		$curs = $client->GetCursOnDate(["On_date" => date('Y-m-d')]);
 		$ratesXml = new \SimpleXMLElement($curs->GetCursOnDateResult->any);
 
 		foreach ($ratesXml->ValuteData[0] as $currency) {
@@ -82,7 +82,7 @@ class Settings_CurrencyUpdate_Models_CBR_BankModel extends Settings_CurrencyUpda
 
 		$source = $this->getSource();
 		$client = new \SoapClient($source[0]);
-		$curs = $client->GetCursOnDate(array('On_date' => $dateCur));
+		$curs = $client->GetCursOnDate(['On_date' => $dateCur]);
 		$ratesXml = new \SimpleXMLElement($curs->GetCursOnDateResult->any);
 
 		$datePublicationOfFile = $dateCur;

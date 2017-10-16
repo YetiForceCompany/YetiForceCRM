@@ -243,7 +243,7 @@ class DateTimeRange
 			$dateObject = new DateTime($dateObject);
 		}
 
-		return array($dateObject->format('Y-01-01'), $dateObject->format('Y-12-31'));
+		return [$dateObject->format('Y-01-01'), $dateObject->format('Y-12-31')];
 	}
 
 	/**
@@ -260,7 +260,7 @@ class DateTimeRange
 		}
 		$dateObject->modify('next year');
 
-		return array($dateObject->format('Y-01-01'), $dateObject->format('Y-12-31'));
+		return [$dateObject->format('Y-01-01'), $dateObject->format('Y-12-31')];
 	}
 
 	/**
@@ -277,7 +277,7 @@ class DateTimeRange
 		}
 		$dateObject->modify('last year');
 
-		return array($dateObject->format('Y-01-01'), $dateObject->format('Y-12-31'));
+		return [$dateObject->format('Y-01-01'), $dateObject->format('Y-12-31')];
 	}
 
 	/**

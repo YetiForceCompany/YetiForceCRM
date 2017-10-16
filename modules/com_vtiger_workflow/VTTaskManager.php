@@ -257,7 +257,7 @@ abstract class VTTask
 	{
 		list($h, $m) = explode(':', $time);
 		$mn = str_pad($m - $m % 15, 2, 0, STR_PAD_LEFT);
-		$AM_PM = array('am', 'pm');
+		$AM_PM = ['am', 'pm'];
 		return str_pad(($h % 12), 2, 0, STR_PAD_LEFT) . ':' . $mn . $AM_PM[($h / 12) % 2];
 	}
 }

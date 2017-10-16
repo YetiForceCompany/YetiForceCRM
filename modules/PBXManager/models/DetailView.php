@@ -17,7 +17,7 @@ class PBXManager_DetailView_Model extends Vtiger_DetailView_Model
 	 */
 	public function getDetailViewLinks($linkParams)
 	{
-		$linkTypes = array('DETAILVIEWBASIC', 'DETAILVIEW');
+		$linkTypes = ['DETAILVIEWBASIC', 'DETAILVIEW'];
 		$moduleModel = $this->getModule();
 		$recordModel = $this->getRecord();
 
@@ -30,12 +30,12 @@ class PBXManager_DetailView_Model extends Vtiger_DetailView_Model
 		unset($linkModelListDetails['DETAILVIEWBASIC']);
 
 		if (\App\Privilege::isPermitted($moduleName, 'Delete', $recordId)) {
-			$deletelinkModel = array(
+			$deletelinkModel = [
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => 'javascript:Vtiger_Detail_Js.deleteRecord("' . $recordModel->getDeleteUrl() . '")',
 				'linkicon' => 'glyphicon glyphicon-trash',
-			);
+			];
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($deletelinkModel);
 		}
 

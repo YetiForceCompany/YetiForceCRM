@@ -91,7 +91,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response = new Vtiger_Response();
 		try {
 			$id = $moduleModel->addPickListValues($fieldModel, $newValue, $rolesSelected);
-			$response->setResult(array('id' => $id['id']));
+			$response->setResult(['id' => $id['id']]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
@@ -139,7 +139,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response = new Vtiger_Response();
 		try {
 			$status = $moduleModel->remove($pickListFieldName, $valueToDelete, $replaceValue, $moduleName);
-			$response->setResult(array('success', $status));
+			$response->setResult(['success', $status]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
@@ -169,7 +169,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response = new Vtiger_Response();
 		try {
 			$moduleModel->enableOrDisableValuesForRole($request->getForSql('picklistName'), $request->getArray('assign_values'), [], $roleIdList);
-			$response->setResult(array('success', true));
+			$response->setResult(['success', true]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
@@ -182,7 +182,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response = new Vtiger_Response();
 		try {
 			$moduleModel->updateSequence($request->getForSql('picklistName'), $request->getArray('picklistValues'));
-			$response->setResult(array('success', true));
+			$response->setResult(['success', true]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
@@ -195,7 +195,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response = new Vtiger_Response();
 		try {
 			$moduleModel->enableOrDisableValuesForRole($request->getForSql('picklistName'), $request->getArray('enabled_values', []), $request->getArray('disabled_values', []), $request->getArray('rolesSelected'));
-			$response->setResult(array('success', true));
+			$response->setResult(['success', true]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}

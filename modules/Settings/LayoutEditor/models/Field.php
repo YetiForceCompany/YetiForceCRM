@@ -61,7 +61,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			$dataReader = $query->createCommand()->query();
 			if (!$dataReader->count()) {
 				$db->createCommand()->dropTable('vtiger_' . $fieldname)->execute();
-				//To Delete Sequence Table 
+				//To Delete Sequence Table
 				if ($db->isTableExists('vtiger_' . $fieldname . '_seq')) {
 					$db->createCommand()->dropTable('vtiger_' . $fieldname . '_seq')->execute();
 				}
@@ -130,7 +130,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		$moduleModel = $this->getModule();
 		$complusoryMandatoryFieldList = $moduleModel->getCumplosoryMandatoryFieldList();
 		//uitypes for which mandatory switch is disabled
-		$mandatoryRestrictedUitypes = array('4', '70');
+		$mandatoryRestrictedUitypes = ['4', '70'];
 		if (in_array($this->getName(), $complusoryMandatoryFieldList)) {
 			return true;
 		}
@@ -205,7 +205,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	public function isEditable()
 	{
 		$moduleName = $this->block->module->name;
-		if (in_array($moduleName, array('Calendar', 'Events'))) {
+		if (in_array($moduleName, ['Calendar', 'Events'])) {
 			return false;
 		}
 		return true;

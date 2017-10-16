@@ -30,10 +30,10 @@ class Users_ForgotPassword_Action
 		$shortURLModel = Vtiger_ShortURL_Helper::getInstance($shortURLID);
 		$secretToken = $shortURLModel->handler_data['secret_token'];
 
-		$validateData = array('username' => $userName,
+		$validateData = ['username' => $userName,
 			'secret_token' => $secretToken,
 			'secret_hash' => $secretHash
-		);
+		];
 		$valid = $shortURLModel->compareEquals($validateData);
 		if ($valid) {
 			$userId = getUserId_Ol($userName);
@@ -56,7 +56,7 @@ class Users_ForgotPassword_Action
 	{
 		$adb = PearDatabase::getInstance();
 		$username = App\Purifier::purify($request->get('user_name'));
-		$result = $adb->pquery('select id,email1 from vtiger_users where user_name = ? ', array($username));
+		$result = $adb->pquery('select id,email1 from vtiger_users where user_name = ? ', [$username]);
 		if ($adb->numRows($result) > 0) {
 			$email = $adb->queryResult($result, 0, 'email1');
 		}
@@ -67,12 +67,12 @@ class Users_ForgotPassword_Action
 				'handler_path' => 'modules/Users/handlers/ForgotPassword.php',
 				'handler_class' => 'Users_ForgotPassword_Handler',
 				'handler_function' => 'changePassword',
-				'handler_data' => array(
+				'handler_data' => [
 					'username' => $username,
 					'email' => $email,
 					'time' => $time,
 					'hash' => md5($username . $time)
-				)
+				]
 			];
 			if (App\Mail::getDefaultSmtp()) {
 				$status = \App\Mailer::sendFromTemplate([

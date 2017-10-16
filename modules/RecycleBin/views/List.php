@@ -20,7 +20,7 @@ class RecycleBin_List_View extends Vtiger_Index_View
 
 		$moduleModel = RecycleBin_Module_Model::getInstance($moduleName);
 
-		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1));
+		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1)];
 
 		$quickLinkModels = $moduleModel->getSideBarLinks($linkParams);
 
@@ -84,7 +84,7 @@ class RecycleBin_List_View extends Vtiger_Index_View
 		}
 		$listViewModel = RecycleBin_ListView_Model::getInstance($moduleName, $sourceModule);
 
-		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1));
+		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1)];
 		$linkModels = $moduleModel->getListViewMassActions($linkParams);
 
 		$pagingModel = new Vtiger_Paging_Model();
@@ -152,13 +152,13 @@ class RecycleBin_List_View extends Vtiger_Index_View
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
-		$jsFileNames = array(
+		$jsFileNames = [
 			'modules.Vtiger.resources.List',
 			"modules.$moduleName.resources.List",
 			'modules.CustomView.resources.CustomView',
 			"modules.$moduleName.resources.CustomView",
 			'modules.Vtiger.resources.CkEditor'
-		);
+		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;

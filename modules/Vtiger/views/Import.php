@@ -68,9 +68,9 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			'modules.Import.resources.Import'
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);

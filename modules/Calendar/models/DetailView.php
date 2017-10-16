@@ -22,14 +22,14 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 		$moduleName = $recordModel->getType();
 		$relatedLinks = [];
 		//link which shows the summary information(generally detail of record)
-		$relatedLinks[] = array(
+		$relatedLinks[] = [
 			'linktype' => 'DETAILVIEWTAB',
 			'linklabel' => \App\Language::translate('LBL_RECORD_DETAILS', $moduleName),
 			'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=full',
 			'linkicon' => '',
 			'linkKey' => 'LBL_RECORD_DETAILS',
 			'related' => 'Details'
-		);
+		];
 
 		$parentModuleModel = $this->getModule();
 		if ($parentModuleModel->isTrackingEnabled()) {

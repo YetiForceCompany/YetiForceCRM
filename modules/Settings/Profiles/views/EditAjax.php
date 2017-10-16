@@ -43,9 +43,9 @@ Class Settings_Profiles_EditAjax_View extends Settings_Profiles_Edit_View
 	 */
 	public function getScripts(\App\Request $request)
 	{
-		$jsFileNames = array(
+		$jsFileNames = [
 			'modules.Settings.Profiles.resources.Profiles',
-		);
+		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		return $jsScriptInstances;
 	}

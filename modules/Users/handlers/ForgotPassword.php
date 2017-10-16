@@ -31,17 +31,17 @@ class Users_ForgotPassword_Handler
 		if ($expiryTime > $currentTime) {
 			$secretToken = uniqid();
 			$secretHash = md5($userName . $secretToken);
-			$options = array(
+			$options = [
 				'handler_path' => 'modules/Users/handlers/ForgotPassword.php',
 				'handler_class' => 'Users_ForgotPassword_Handler',
 				'handler_function' => 'changePassword',
 				'onetime' => 1,
-				'handler_data' => array(
+				'handler_data' => [
 					'username' => $userName,
 					'secret_token' => $secretToken,
 					'secret_hash' => $secretHash
-				)
-			);
+				]
+			];
 			$trackURL = Vtiger_ShortURL_Helper::generateURL($options);
 			$shortURLID = explode('id=', $trackURL);
 			$viewer->assign('SHORTURL_ID', $shortURLID[1]);

@@ -18,30 +18,30 @@ class Campaigns extends CRMEntity
 
 	public $table_name = "vtiger_campaign";
 	public $table_index = 'campaignid';
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_campaign', 'vtiger_campaignscf', 'vtiger_entity_stats');
-	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_campaign' => 'campaignid', 'vtiger_campaignscf' => 'campaignid', 'vtiger_entity_stats' => 'crmid');
+	public $tab_name = ['vtiger_crmentity', 'vtiger_campaign', 'vtiger_campaignscf', 'vtiger_entity_stats'];
+	public $tab_name_index = ['vtiger_crmentity' => 'crmid', 'vtiger_campaign' => 'campaignid', 'vtiger_campaignscf' => 'campaignid', 'vtiger_entity_stats' => 'crmid'];
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('vtiger_campaignscf', 'campaignid');
+	public $customFieldTable = ['vtiger_campaignscf', 'campaignid'];
 	public $column_fields = [];
-	public $list_fields = Array(
-		'Campaign Name' => Array('campaign' => 'campaignname'),
-		'Campaign Type' => Array('campaign' => 'campaigntype'),
-		'Campaign Status' => Array('campaign' => 'campaignstatus'),
-		'Expected Revenue' => Array('campaign' => 'expectedrevenue'),
-		'Expected Close Date' => Array('campaign' => 'closingdate'),
-		'Assigned To' => Array('crmentity' => 'smownerid')
-	);
-	public $list_fields_name = Array(
+	public $list_fields = [
+		'Campaign Name' => ['campaign' => 'campaignname'],
+		'Campaign Type' => ['campaign' => 'campaigntype'],
+		'Campaign Status' => ['campaign' => 'campaignstatus'],
+		'Expected Revenue' => ['campaign' => 'expectedrevenue'],
+		'Expected Close Date' => ['campaign' => 'closingdate'],
+		'Assigned To' => ['crmentity' => 'smownerid']
+	];
+	public $list_fields_name = [
 		'Campaign Name' => 'campaignname',
 		'Campaign Type' => 'campaigntype',
 		'Campaign Status' => 'campaignstatus',
 		'Expected Revenue' => 'expectedrevenue',
 		'Expected Close Date' => 'closingdate',
 		'Assigned To' => 'assigned_user_id'
-	);
+	];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
@@ -51,17 +51,17 @@ class Campaigns extends CRMEntity
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = '';
 	public $default_sort_order = 'DESC';
-	public $search_fields = Array(
-		'Campaign Name' => Array('vtiger_campaign' => 'campaignname'),
-		'Campaign Type' => Array('vtiger_campaign' => 'campaigntype'),
-	);
-	public $search_fields_name = Array(
+	public $search_fields = [
+		'Campaign Name' => ['vtiger_campaign' => 'campaignname'],
+		'Campaign Type' => ['vtiger_campaign' => 'campaigntype'],
+	];
+	public $search_fields_name = [
 		'Campaign Name' => 'campaignname',
 		'Campaign Type' => 'campaigntype',
-	);
+	];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public $mandatory_fields = Array('campaignname', 'createdtime', 'modifiedtime', 'assigned_user_id');
+	public $mandatory_fields = ['campaignname', 'createdtime', 'modifiedtime', 'assigned_user_id'];
 	// For Alphabetical search
 	public $def_basicsearch_col = 'campaignname';
 
@@ -75,8 +75,8 @@ class Campaigns extends CRMEntity
 	public function generateReportsSecQuery($module, $secmodule, ReportRunQueryPlanner $queryplanner)
 	{
 		$matrix = $queryplanner->newDependencyMatrix();
-		$matrix->setDependency('vtiger_crmentityCampaigns', array('vtiger_groupsCampaigns', 'vtiger_usersCampaignss', 'vtiger_lastModifiedByCampaigns', 'vtiger_campaignscf'));
-		$matrix->setDependency('vtiger_campaign', array('vtiger_crmentityCampaigns', 'vtiger_productsCampaigns'));
+		$matrix->setDependency('vtiger_crmentityCampaigns', ['vtiger_groupsCampaigns', 'vtiger_usersCampaignss', 'vtiger_lastModifiedByCampaigns', 'vtiger_campaignscf']);
+		$matrix->setDependency('vtiger_campaign', ['vtiger_crmentityCampaigns', 'vtiger_productsCampaigns']);
 
 		if (!$queryplanner->requireTable('vtiger_campaign', $matrix)) {
 			return '';

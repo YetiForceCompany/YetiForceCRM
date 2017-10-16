@@ -154,7 +154,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		if (!is_array($includedIds)) {
 			if (!empty($includedIds)) {
-				$includedIds = array($includedIds);
+				$includedIds = [$includedIds];
 			} else {
 				$includedIds = [];
 			}

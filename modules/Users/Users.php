@@ -50,47 +50,47 @@ class Users extends CRMEntity
 	public $list_link_field = 'last_name';
 	public $list_mode;
 	public $popup_type;
-	public $search_fields = Array(
-		'Name' => Array('vtiger_users' => 'last_name'),
-		'Email' => Array('vtiger_users' => 'email1')
-	);
-	public $search_fields_name = Array(
+	public $search_fields = [
+		'Name' => ['vtiger_users' => 'last_name'],
+		'Email' => ['vtiger_users' => 'email1']
+	];
+	public $search_fields_name = [
 		'Name' => 'last_name',
 		'Email' => 'email1'
-	);
+	];
 	public $module_name = "Users";
 	public $object_name = "User";
 	public $user_preferences;
-	public $encodeFields = Array("first_name", "last_name", "description");
+	public $encodeFields = ["first_name", "last_name", "description"];
 	// This is used to retrieve related fields from form posts.
-	public $additional_column_fields = Array('reports_to_name');
+	public $additional_column_fields = ['reports_to_name'];
 	// This is the list of vtiger_fields that are in the lists.
-	public $list_fields = Array(
-		'First Name' => Array('vtiger_users' => 'first_name'),
-		'Last Name' => Array('vtiger_users' => 'last_name'),
-		'Role Name' => Array('vtiger_user2role' => 'roleid'),
-		'User Name' => Array('vtiger_users' => 'user_name'),
-		'Status' => Array('vtiger_users' => 'status'),
-		'Admin' => Array('vtiger_users' => 'is_admin')
-	);
-	public $list_fields_name = Array(
+	public $list_fields = [
+		'First Name' => ['vtiger_users' => 'first_name'],
+		'Last Name' => ['vtiger_users' => 'last_name'],
+		'Role Name' => ['vtiger_user2role' => 'roleid'],
+		'User Name' => ['vtiger_users' => 'user_name'],
+		'Status' => ['vtiger_users' => 'status'],
+		'Admin' => ['vtiger_users' => 'is_admin']
+	];
+	public $list_fields_name = [
 		'First Name' => 'first_name',
 		'Last Name' => 'last_name',
 		'Role Name' => 'roleid',
 		'User Name' => 'user_name',
 		'Status' => 'status',
 		'Admin' => 'is_admin'
-	);
+	];
 	//Default Fields for Email Templates -- Pavani
-	public $emailTemplate_defaultFields = array('first_name', 'last_name', 'title', 'department', 'phone_home', 'phone_mobile', 'signature', 'email1');
-	public $popup_fields = array('last_name');
+	public $emailTemplate_defaultFields = ['first_name', 'last_name', 'title', 'department', 'phone_home', 'phone_mobile', 'signature', 'email1'];
+	public $popup_fields = ['last_name'];
 	// This is the list of fields that are in the lists.
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
 	public $record_id;
 	public $new_schema = true;
 	//Default Widgests
-	public $default_widgets = array('CVLVT', 'UA');
+	public $default_widgets = ['CVLVT', 'UA'];
 
 	/** constructor function for the main user class
 	  instantiates the Logger class and PearDatabase Class
@@ -174,7 +174,7 @@ class Users extends CRMEntity
 	{
 		$data = base64_encode(serialize($this->user_preferences));
 		$query = "UPDATE $this->table_name SET user_preferences=? where id=?";
-		$result = & $this->db->pquery($query, array($data, $this->id));
+		$result = & $this->db->pquery($query, [$data, $this->id]);
 		\App\Log::trace("SAVING: PREFERENCES SIZE " . strlen($data) . "ROWS AFFECTED WHILE UPDATING USER PREFERENCES:" . $this->db->getAffectedRowCount($result));
 		$_SESSION["USER_PREFERENCES"] = $this->user_preferences;
 	}
@@ -305,10 +305,10 @@ class Users extends CRMEntity
 		if (isset($this->id)) {
 			// Get the type of crypt used on password before actual comparision
 			$qcrypt_sql = "SELECT crypt_type from $this->table_name where id=?";
-			$crypt_res = $this->db->pquery($qcrypt_sql, array($this->id), true);
+			$crypt_res = $this->db->pquery($qcrypt_sql, [$this->id], true);
 		} else if (isset($this->column_fields['user_name'])) {
 			$qcrypt_sql = "SELECT crypt_type from $this->table_name where user_name=?";
-			$crypt_res = $this->db->pquery($qcrypt_sql, array($this->column_fields["user_name"]));
+			$crypt_res = $this->db->pquery($qcrypt_sql, [$this->column_fields["user_name"]]);
 		}
 		if ($crypt_res && $this->db->numRows($crypt_res)) {
 			$crypt_row = $this->db->fetchByAssoc($crypt_res);
@@ -400,7 +400,7 @@ class Users extends CRMEntity
 			}
 		}
 		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT id,deleted from vtiger_users where user_name=?', array($userName));
+		$result = $adb->pquery('SELECT id,deleted from vtiger_users where user_name=?', [$userName]);
 		$row = $adb->getRow($result);
 		if ($row && $row['deleted'] == '0') {
 			return $row['id'];
@@ -547,27 +547,27 @@ class Users extends CRMEntity
 
 	public function filterInactiveFields($module)
 	{
-		
+
 	}
 
 	public function deleteImage()
 	{
 		$sql1 = 'SELECT attachmentsid FROM vtiger_salesmanattachmentsrel WHERE smid = ?';
-		$res1 = $this->db->pquery($sql1, array($this->id));
+		$res1 = $this->db->pquery($sql1, [$this->id]);
 		if ($this->db->numRows($res1) > 0) {
 			$attachmentId = $this->db->queryResult($res1, 0, 'attachmentsid');
 
 			$sql2 = "DELETE FROM vtiger_crmentity WHERE crmid=? && setype='Users Attachments'";
-			$this->db->pquery($sql2, array($attachmentId));
+			$this->db->pquery($sql2, [$attachmentId]);
 
 			$sql3 = 'DELETE FROM vtiger_salesmanattachmentsrel WHERE smid=? && attachmentsid=?';
-			$this->db->pquery($sql3, array($this->id, $attachmentId));
+			$this->db->pquery($sql3, [$this->id, $attachmentId]);
 
 			$sql2 = "UPDATE vtiger_users SET imagename='' WHERE id=?";
-			$this->db->pquery($sql2, array($this->id));
+			$this->db->pquery($sql2, [$this->id]);
 
 			$sql4 = 'DELETE FROM vtiger_attachments WHERE attachmentsid=?';
-			$this->db->pquery($sql4, array($attachmentId));
+			$this->db->pquery($sql4, [$attachmentId]);
 		}
 	}
 
@@ -612,8 +612,8 @@ class Users extends CRMEntity
 		$current_user = vglobal('current_user');
 		$date_var = date('Y-m-d H:i:s');
 		$query = "UPDATE vtiger_users set status=?,date_modified=?,modified_user_id=? where id=?";
-		$adb->pquery($query, array('Inactive', $adb->formatDate($date_var, true),
-			$current_user->id, $id), true, "Error marking record deleted: ");
+		$adb->pquery($query, ['Inactive', $adb->formatDate($date_var, true),
+			$current_user->id, $id], true, "Error marking record deleted: ");
 	}
 
 	/**

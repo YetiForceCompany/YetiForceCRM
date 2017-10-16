@@ -44,7 +44,7 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 				} else {  // encryption mode is off
 					\App\Log::trace('Get plain text password.');
 					$sql = "SELECT `password` AS pass FROM `vtiger_osspasswords` WHERE `osspasswordsid` = ?;";
-					$result = $db->pquery($sql, array($recordId), true);
+					$result = $db->pquery($sql, [$recordId], true);
 					$properPassword = $db->queryResult($result, 0, 'pass');
 					\App\Log::trace('Plain text pass: ' . $properPassword);
 				}
@@ -59,7 +59,7 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		if ($isPassword && $config) {
 			\App\Log::trace('Encrypt new password: ' . $properPassword);
 			$sql = "UPDATE `vtiger_osspasswords` SET `password` = AES_ENCRYPT(?, ?) WHERE `osspasswordsid` = ?;";
-			$result = $db->pquery($sql, array($properPassword, $config['key'], $recordId), true);
+			$result = $db->pquery($sql, [$properPassword, $config['key'], $recordId], true);
 		}
 		// encrypt password added thrue related module
 		else if ($isRelatedPassword && $config) {
@@ -67,7 +67,7 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			$properPassword = $request->get('password');
 			\App\Log::trace('Encrypt new related module password: ' . $properPassword);
 			$sql = "UPDATE `vtiger_osspasswords` SET `password` = AES_ENCRYPT(?, ?) WHERE `osspasswordsid` = ?;";
-			$result = $db->pquery($sql, array($properPassword, $config['key'], $record), true);
+			$result = $db->pquery($sql, [$properPassword, $config['key'], $record], true);
 		}
 
 		$fieldModelList = $recordModel->getModule()->getFields();
@@ -84,11 +84,11 @@ class OSSPasswords_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			if ($fieldName === 'password') {
 				$fieldValue = $displayValue = '**********';
 			}
-			$result[$fieldName] = array('value' => $fieldValue, 'display_value' => $displayValue);
+			$result[$fieldName] = ['value' => $fieldValue, 'display_value' => $displayValue];
 		}
 
 		// Handling salutation type
-		if ($request->get('field') === 'firstname' && in_array($request->getModule(), array('Contacts', 'Leads'))) {
+		if ($request->get('field') === 'firstname' && in_array($request->getModule(), ['Contacts', 'Leads'])) {
 			$salutationType = $recordModel->getDisplayValue('salutationtype');
 			$firstNameDetails = $result['firstname'];
 			$firstNameDetails['display_value'] = $salutationType . " " . $firstNameDetails['display_value'];

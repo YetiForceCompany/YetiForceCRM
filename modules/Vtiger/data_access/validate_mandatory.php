@@ -32,19 +32,19 @@ Class DataAccess_validate_mandatory
 			}
 		}
 		if (!$save_record)
-			return Array(
+			return [
 				'save_record' => $save_record,
 				's' => $moduleName,
 				'fne' => $fieldName2,
 				'type' => 0,
-				'info' => Array(
+				'info' => [
 					'title' => \App\Language::translate('LBL_FAILED_TO_APPROVE_CHANGES', 'Settings:DataAccess'),
 					'text' => \App\Language::translate('LBL_MANDATORY_FIELD', 'Settings:DataAccess') . ': ' . \App\Language::translate($invalidField, $moduleName),
 					'type' => 'info'
-				)
-			);
+				]
+			];
 		else
-			return Array('save_record' => $save_record);
+			return ['save_record' => $save_record];
 	}
 
 	public function getConfig($id, $module, $baseModule)

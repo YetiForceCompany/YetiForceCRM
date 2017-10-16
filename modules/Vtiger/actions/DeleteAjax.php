@@ -21,7 +21,7 @@ class Vtiger_DeleteAjax_Action extends Vtiger_Delete_Action
 
 		$cvId = $request->get('viewname');
 		$response = new Vtiger_Response();
-		$response->setResult(array('viewname' => $cvId, 'module' => $moduleName));
+		$response->setResult(['viewname' => $cvId, 'module' => $moduleName]);
 		$response->emit();
 	}
 }

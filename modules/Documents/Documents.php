@@ -14,52 +14,52 @@ class Documents extends CRMEntity
 
 	public $table_name = 'vtiger_notes';
 	public $table_index = 'notesid';
-	public $default_note_name_dom = array('Meeting vtiger_notes', 'Reminder');
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_notes', 'vtiger_notescf');
-	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_notes' => 'notesid', 'vtiger_senotesrel' => 'notesid', 'vtiger_notescf' => 'notesid');
+	public $default_note_name_dom = ['Meeting vtiger_notes', 'Reminder'];
+	public $tab_name = ['vtiger_crmentity', 'vtiger_notes', 'vtiger_notescf'];
+	public $tab_name_index = ['vtiger_crmentity' => 'crmid', 'vtiger_notes' => 'notesid', 'vtiger_senotesrel' => 'notesid', 'vtiger_notescf' => 'notesid'];
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('vtiger_notescf', 'notesid');
+	public $customFieldTable = ['vtiger_notescf', 'notesid'];
 	public $column_fields = [];
 	// This is used to retrieve related vtiger_fields from form posts.
-	public $additional_column_fields = Array('', '', '', '');
+	public $additional_column_fields = ['', '', '', ''];
 	// This is the list of vtiger_fields that are in the lists.
-	public $list_fields = Array(
-		'Title' => Array('notes' => 'title'),
-		'File Name' => Array('notes' => 'filename'),
-		'Modified Time' => Array('crmentity' => 'modifiedtime'),
-		'Assigned To' => Array('crmentity' => 'smownerid'),
-		'Folder Name' => Array('attachmentsfolder' => 'folderid')
-	);
-	public $list_fields_name = Array(
+	public $list_fields = [
+		'Title' => ['notes' => 'title'],
+		'File Name' => ['notes' => 'filename'],
+		'Modified Time' => ['crmentity' => 'modifiedtime'],
+		'Assigned To' => ['crmentity' => 'smownerid'],
+		'Folder Name' => ['attachmentsfolder' => 'folderid']
+	];
+	public $list_fields_name = [
 		'Title' => 'notes_title',
 		'File Name' => 'filename',
 		'Modified Time' => 'modifiedtime',
 		'Assigned To' => 'assigned_user_id',
 		'Folder Name' => 'folderid'
-	);
+	];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = ['notes_title', 'filename', 'modifiedtime', 'assigned_user_id', 'folderid', 'filelocationtype', 'filestatus'];
-	public $search_fields = Array(
-		'Title' => Array('notes' => 'notes_title'),
-		'File Name' => Array('notes' => 'filename'),
-		'Assigned To' => Array('crmentity' => 'smownerid'),
-		'Folder Name' => Array('attachmentsfolder' => 'foldername')
-	);
-	public $search_fields_name = Array(
+	public $search_fields = [
+		'Title' => ['notes' => 'notes_title'],
+		'File Name' => ['notes' => 'filename'],
+		'Assigned To' => ['crmentity' => 'smownerid'],
+		'Folder Name' => ['attachmentsfolder' => 'foldername']
+	];
+	public $search_fields_name = [
 		'Title' => 'notes_title',
 		'File Name' => 'filename',
 		'Assigned To' => 'assigned_user_id',
 		'Folder Name' => 'folderid'
-	);
+	];
 	public $list_link_field = 'notes_title';
 	public $old_filename = '';
-	public $mandatory_fields = Array('notes_title', 'createdtime', 'modifiedtime', 'filename', 'filesize', 'filetype', 'filedownloadcount', 'assigned_user_id');
+	public $mandatory_fields = ['notes_title', 'createdtime', 'modifiedtime', 'filename', 'filesize', 'filetype', 'filedownloadcount', 'assigned_user_id'];
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = '';
 	public $default_sort_order = 'DESC';
@@ -153,8 +153,8 @@ class Documents extends CRMEntity
 		$sql = getPermittedFieldsQuery('Documents', 'detail_view');
 		$fields_list = getFieldsListFromQuery($sql);
 
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
-				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' =>
+				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
 		$query = "SELECT $fields_list, case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name" .
 			" FROM vtiger_notes
 				inner join vtiger_crmentity
@@ -223,8 +223,8 @@ class Documents extends CRMEntity
 
 		$matrix = $queryplanner->newDependencyMatrix();
 
-		$matrix->setDependency('vtiger_crmentityDocuments', array('vtiger_groupsDocuments', 'vtiger_usersDocuments', 'vtiger_lastModifiedByDocuments'));
-		$matrix->setDependency('vtiger_notes', array('vtiger_crmentityDocuments', '`vtiger_trees_templates_data`'));
+		$matrix->setDependency('vtiger_crmentityDocuments', ['vtiger_groupsDocuments', 'vtiger_usersDocuments', 'vtiger_lastModifiedByDocuments']);
+		$matrix->setDependency('vtiger_notes', ['vtiger_crmentityDocuments', '`vtiger_trees_templates_data`']);
 
 		if (!$queryplanner->requireTable('vtiger_notes', $matrix)) {
 			return '';

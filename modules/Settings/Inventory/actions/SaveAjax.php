@@ -64,9 +64,9 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$exists = Settings_Inventory_Record_Model::checkDuplicate($name, $id, $type);
 
 		if (!$exists) {
-			$result = array('success' => false);
+			$result = ['success' => false];
 		} else {
-			$result = array('success' => true, 'message' => \App\Language::translate('LBL_NAME_EXIST', $qualifiedModuleName));
+			$result = ['success' => true, 'message' => \App\Language::translate('LBL_NAME_EXIST', $qualifiedModuleName)];
 		}
 
 		$response = new Vtiger_Response();
@@ -85,9 +85,9 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$status = $recordModel->delete();
 
 		if (!$status) {
-			$result = array('success' => false);
+			$result = ['success' => false];
 		} else {
-			$result = array('success' => true, 'message' => \App\Language::translate('LBL_DELETE_OK', $qualifiedModuleName));
+			$result = ['success' => true, 'message' => \App\Language::translate('LBL_DELETE_OK', $qualifiedModuleName)];
 		}
 
 		$response = new Vtiger_Response();
@@ -104,9 +104,9 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$status = $recordModel->setConfig($type, $params['param']);
 
 		if (!$status) {
-			$result = array('success' => false);
+			$result = ['success' => false];
 		} else {
-			$result = array('success' => true);
+			$result = ['success' => true];
 		}
 
 		$response = new Vtiger_Response();

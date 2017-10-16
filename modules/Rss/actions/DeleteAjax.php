@@ -20,7 +20,7 @@ class Rss_DeleteAjax_Action extends Vtiger_Delete_Action
 		$recordModel->delete();
 
 		$response = new Vtiger_Response();
-		$response->setResult(array('record' => $recordId, 'module' => $moduleName));
+		$response->setResult(['record' => $recordId, 'module' => $moduleName]);
 		$response->emit();
 	}
 }

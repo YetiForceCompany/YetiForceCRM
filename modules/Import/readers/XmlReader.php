@@ -11,7 +11,7 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 {
 
 	protected $moduleName;
-	protected $skipField = array('assigned_user_id', 'productid');
+	protected $skipField = ['assigned_user_id', 'productid'];
 	protected $skipRecord = 0;
 	protected $importedRecords = 0;
 	protected $relatedInventoryField = [];

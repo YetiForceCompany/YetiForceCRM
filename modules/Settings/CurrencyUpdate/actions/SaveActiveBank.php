@@ -16,9 +16,9 @@ class Settings_CurrencyUpdate_SaveActiveBank_Action extends Settings_Vtiger_Basi
 		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
 
 		if (!$moduleModel->setActiveBankById($id)) {
-			$return = array('success' => false, 'message' => \App\Language::translate('LBL_SET_BANK_ERROR', $qualifiedModule));
+			$return = ['success' => false, 'message' => \App\Language::translate('LBL_SET_BANK_ERROR', $qualifiedModule)];
 		} else {
-			$return = array('success' => true, 'message' => \App\Language::translate('LBL_SET_BANK_OK', $qualifiedModule));
+			$return = ['success' => true, 'message' => \App\Language::translate('LBL_SET_BANK_OK', $qualifiedModule)];
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($return);

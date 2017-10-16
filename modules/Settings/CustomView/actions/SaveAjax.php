@@ -25,10 +25,10 @@ class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$params = $request->get('param');
 		Settings_CustomView_Module_Model::delete($params);
 		$response = new Vtiger_Response();
-		$response->setResult(array(
+		$response->setResult([
 			'success' => $saveResp['success'],
 			'message' => \App\Language::translate('Delete CustomView', $request->getModule(false))
-		));
+		]);
 		$response->emit();
 	}
 

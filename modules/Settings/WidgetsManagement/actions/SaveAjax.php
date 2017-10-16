@@ -37,7 +37,7 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_IndexAj
 		$moduleName = $request->getByType('sourceModule', 1);
 		$addToUser = $request->get('addToUser');
 		if (!is_array($data) || !$data) {
-			$result = array('success' => false, 'message' => \App\Language::translate('LBL_INVALID_DATA', $moduleName));
+			$result = ['success' => false, 'message' => \App\Language::translate('LBL_INVALID_DATA', $moduleName)];
 		} else {
 			if (!$data['action'])
 				$data['action'] = 'saveDetails';
@@ -55,7 +55,7 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_IndexAj
 		$data = $request->get('form');
 		$moduleName = $request->getByType('sourceModule', 1);
 		if (!is_array($data) || !$data) {
-			$result = array('success' => false, 'message' => \App\Language::translate('LBL_INVALID_DATA', $moduleName));
+			$result = ['success' => false, 'message' => \App\Language::translate('LBL_INVALID_DATA', $moduleName)];
 		} else {
 			$action = $data['action'];
 			if (!$action) {

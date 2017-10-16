@@ -91,9 +91,9 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 
 		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			"modules.$moduleName.resources.Edit"
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		return $jsScriptInstances;

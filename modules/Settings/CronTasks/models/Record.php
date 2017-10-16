@@ -168,7 +168,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 		return $fieldValue;
 	}
 	/*
-	 * Function to get Edit view url 
+	 * Function to get Edit view url
 	 */
 
 	public function getEditViewUrl()
@@ -234,14 +234,14 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 
 		$links = [];
 
-		$recordLinks = array(
-			array(
+		$recordLinks = [
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => "javascript:Settings_CronTasks_List_Js.triggerEditEvent('" . $this->getEditViewUrl() . "')",
 				'linkicon' => 'glyphicon glyphicon-pencil'
-			)
-		);
+			]
+		];
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}

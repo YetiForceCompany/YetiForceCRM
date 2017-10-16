@@ -119,7 +119,7 @@ class ModTracker
 		\App\Db::getInstance()->createCommand()->update('vtiger_field', ['presence' => 2], ['tabid' => $tabid, 'fieldname' => 'was_read'])->execute();
 		if (static::isModtrackerLinkPresent($tabid)) {
 			$moduleInstance = vtlib\Module::getInstance($tabid);
-			$moduleInstance->addLink('DETAILVIEWBASIC', 'View History', "javascript:ModTrackerCommon.showhistory('\$RECORD\$')", '', '', array('path' => 'modules/ModTracker/ModTracker.php', 'class' => 'ModTracker', 'method' => 'isViewPermitted'));
+			$moduleInstance->addLink('DETAILVIEWBASIC', 'View History', "javascript:ModTrackerCommon.showhistory('\$RECORD\$')", '', '', ['path' => 'modules/ModTracker/ModTracker.php', 'class' => 'ModTracker', 'method' => 'isViewPermitted']);
 		}
 		App\Cache::save('isTrackingEnabledForModule', $tabid, true, App\Cache::LONG);
 	}
@@ -193,7 +193,7 @@ class ModTracker
                 WHERE id > ? && changedon >= ? && module IN (%s)
                 ORDER BY id', generateQuestionMarks($accessibleModules));
 
-		$params = array($uniqueId, $datetime);
+		$params = [$uniqueId, $datetime];
 		foreach ($accessibleModules as $entityModule) {
 			$params[] = $entityModule;
 		}
@@ -248,7 +248,7 @@ class ModTracker
 		$moreQuery = sprintf('SELECT * FROM vtiger_modtracker_basic WHERE id > ? && changedon >= ? && module
             IN(%s)', generateQuestionMarks($accessibleModules));
 
-		$param = array($maxUniqueId, $maxModifiedTime);
+		$param = [$maxUniqueId, $maxModifiedTime];
 		foreach ($accessibleModules as $entityModule) {
 			$param[] = $entityModule;
 		}
@@ -284,7 +284,7 @@ class ModTracker
 
 		$fieldResult = $adb->pquery('SELECT * FROM vtiger_modtracker_detail
                         INNER JOIN vtiger_modtracker_basic ON vtiger_modtracker_basic.id = vtiger_modtracker_detail.id
-                        WHERE crmid = ? && changedon >= ?', array($crmid, $date));
+                        WHERE crmid = ? && changedon >= ?', [$crmid, $date]);
 		$countFieldResult = $adb->numRows($fieldResult);
 		for ($i = 0; $i < $countFieldResult; $i++) {
 			$fieldName = $adb->queryResult($fieldResult, $i, 'fieldname');

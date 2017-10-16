@@ -28,7 +28,7 @@ class OSSMailScanner_SaveRcConfig_Action extends Vtiger_Action_Controller
 		$type = $request->get('type');
 		$vale = $request->get('vale');
 		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
-		$result = array('success' => true, 'data' => $recordModel->setConfigWidget($conf_type, $type, $vale));
+		$result = ['success' => true, 'data' => $recordModel->setConfigWidget($conf_type, $type, $vale)];
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

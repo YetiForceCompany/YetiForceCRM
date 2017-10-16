@@ -150,7 +150,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			'~libraries/jquery/gridster/jquery.gridster.js',
 			'~libraries/jquery/flot/jquery.flot.js',
 			'~libraries/jquery/flot/jquery.flot.pie.js',
@@ -173,7 +173,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 			'modules.' . $moduleName . '.resources.DashBoard',
 			'modules.Vtiger.resources.dashboards.Widget',
 			'~libraries/fullcalendar/fullcalendar.js'
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
@@ -189,12 +189,12 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 	{
 		$parentHeaderCssScriptInstances = parent::getHeaderCss($request);
 
-		$headerCss = array(
+		$headerCss = [
 			'~libraries/jquery/gridster/jquery.gridster.css',
 			'~libraries/jquery/jqplot/jquery.jqplot.css',
 			'~libraries/fullcalendar/fullcalendar.css',
 			'~libraries/fullcalendar/fullcalendarCRM.css'
-		);
+		];
 		$cssScripts = $this->checkAndConvertCssStyles($headerCss);
 		$headerCssScriptInstances = array_merge($parentHeaderCssScriptInstances, $cssScripts);
 		return $headerCssScriptInstances;

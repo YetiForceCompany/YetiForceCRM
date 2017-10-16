@@ -80,7 +80,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			'~libraries/jquery/timepicker/jquery.timepicker.min.js',
 			'~libraries/jquery/clockpicker/jquery-clockpicker.min.js',
 			'libraries.jquery.jquery_windowmsg',
@@ -90,7 +90,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 			'~layouts/resources/BaseValidator.js',
 			'~layouts/resources/FieldValidator.js',
 			"modules.$moduleName.resources.validator.FieldValidator"
-		);
+		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		return array_merge($headerScriptInstances, $jsScriptInstances);
 	}

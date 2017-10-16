@@ -35,7 +35,7 @@ class Vtiger_Report_Model extends Reports
 				$ssql = "SELECT vtiger_reportmodules.*, vtiger_report.* FROM vtiger_report
 							INNER JOIN vtiger_reportmodules ON vtiger_report.reportid = vtiger_reportmodules.reportmodulesid
 							WHERE vtiger_report.reportid = ?";
-				$params = array($reportId);
+				$params = [$reportId];
 				require('user_privileges/user_privileges_' . $userId . '.php');
 
 				$userGroupsList = App\PrivilegeUtil::getAllGroupsByUser($userId);

@@ -25,8 +25,8 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 		$fieldName = $this->getName();
 
 		switch ($fieldName) {
-			case 'due_date': $funcName = array('name' => 'greaterThanDependentField',
-					'params' => array('date_start'));
+			case 'due_date': $funcName = ['name' => 'greaterThanDependentField',
+					'params' => ['date_start']];
 				array_push($validator, $funcName);
 				break;
 			// NOTE: Letting user to add pre or post dated Event.
@@ -108,7 +108,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	{
 
 		$filterOpsByFieldType = parent::getAdvancedFilterOpsByFieldType();
-		$filterOpsByFieldType['O'] = array('e', 'n');
+		$filterOpsByFieldType['O'] = ['e', 'n'];
 
 		return $filterOpsByFieldType;
 	}

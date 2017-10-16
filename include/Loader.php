@@ -26,7 +26,7 @@ class Vtiger_Loader
 	 */
 	public static function resolveNameToPath($qualifiedName, $fileExtension = 'php')
 	{
-		$allowedExtensions = array('php', 'js', 'css', 'less');
+		$allowedExtensions = ['php', 'js', 'css', 'less'];
 		$file = '';
 		if (!in_array($fileExtension, $allowedExtensions)) {
 			return '';

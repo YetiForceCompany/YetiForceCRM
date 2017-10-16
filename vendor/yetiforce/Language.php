@@ -13,19 +13,19 @@ class Language
 
 	/**
 	 * Current language
-	 * @var string 
+	 * @var string
 	 */
 	private static $language = false;
 
 	/**
 	 * Short current language
-	 * @var string 
+	 * @var string
 	 */
 	private static $shortLanguage = false;
 
 	/**
 	 * Pluralize cache
-	 * @var array 
+	 * @var array
 	 */
 	private static $pluralizeCache = [];
 
@@ -177,7 +177,7 @@ class Language
 	 * - 3 or more forms : key_X with X indented for each plural form
 	 * @see https://www.i18next.com/plurals.html for some examples
 	 * @see http://docs.translatehouse.org/projects/localization-guide/en/latest/l10n/pluralforms.html?id=l10n/pluralforms for whole plural rules used by getText
-	 * 
+	 *
 	 * @param float $count Quantityu for plural determination
 	 * @return string Pluralized key to look for
 	 */
@@ -190,19 +190,19 @@ class Language
 			$lang = static::getShortLanguageName();
 		}
 		//No plural form
-		if (in_array($lang, array('ay', 'bo', 'cgg', 'dz', 'id', 'ja', 'jbo', 'ka', 'km', 'ko', 'lo', 'ms', 'my', 'sah', 'su', 'th', 'tt', 'ug', 'vi', 'wo', 'zh'))) {
+		if (in_array($lang, ['ay', 'bo', 'cgg', 'dz', 'id', 'ja', 'jbo', 'ka', 'km', 'ko', 'lo', 'ms', 'my', 'sah', 'su', 'th', 'tt', 'ug', 'vi', 'wo', 'zh'])) {
 			return '_0';
 		}
 		//Two plural forms
-		if (in_array($lang, array('ach', 'ak', 'am', 'arn', 'br', 'fa', 'fil', 'fr', 'gun', 'ln', 'mfe', 'mg', 'mi', 'oc', 'pt_br', 'tg', 'ti', 'tr', 'uz', 'wa'))) {
+		if (in_array($lang, ['ach', 'ak', 'am', 'arn', 'br', 'fa', 'fil', 'fr', 'gun', 'ln', 'mfe', 'mg', 'mi', 'oc', 'pt_br', 'tg', 'ti', 'tr', 'uz', 'wa'])) {
 			return ($count > 1) ? '_1' : '_0';
 		}
-		if (in_array($lang, array(
+		if (in_array($lang, [
 				'af', 'an', 'anp', 'as', 'ast', 'az', 'bg', 'bn', 'brx', 'ca', 'da', 'de', 'doi', 'dz', 'el', 'en', 'eo', 'es', 'et', 'eu', 'ff', 'fi', 'fo', 'fur', 'fy',
 				'gl', 'gu', 'ha', 'he', 'hi', 'hne', 'hu', 'hy', 'ia', 'it', 'kk', 'kl', 'kn', 'ku', 'ky', 'lb', 'mai', 'mk', 'ml', 'mn', 'mni', 'mr', 'nah', 'nap',
 				'nb', 'ne', 'nl', 'nn', 'nso', 'or', 'pa', 'pap', 'pms', 'ps', 'pt', 'rm', 'rw', 'sat', 'sco', 'sd', 'se', 'si', 'so', 'son', 'sq', 'sv', 'sw',
 				'ta', 'te', 'tk', 'ur', 'yo'
-			))) {
+			])) {
 			return ($count !== 1) ? '_1' : '_0';
 		}
 		switch ($lang) {

@@ -16,9 +16,9 @@ class OSSMailView_Graf_Dashboard extends Vtiger_IndexAjax_View
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
-		$cssFileNames = array(
+		$cssFileNames = [
 			//Place your widget specific css files here
-		);
+		];
 		$headerCssScriptInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		return $headerCssScriptInstances;
 	}
@@ -27,7 +27,7 @@ class OSSMailView_Graf_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$listSearchParams = [];
 		$conditions = [];
-		array_push($conditions, array("ossmailview_sendtype", "e", $stage));
+		array_push($conditions, ["ossmailview_sendtype", "e", $stage]);
 		if ($assignedto == '') {
 			$currenUserModel = Users_Record_Model::getCurrentUserModel();
 			$assignedto = $currenUserModel->getId();
@@ -35,14 +35,14 @@ class OSSMailView_Graf_Dashboard extends Vtiger_IndexAjax_View
 		if ($assignedto != 'all') {
 			$ownerType = \App\Fields\Owner::getType($assignedto);
 			if ($ownerType == 'Users')
-				array_push($conditions, array("assigned_user_id", "e", \App\Fields\Owner::getUserLabel($assignedto)));
+				array_push($conditions, ["assigned_user_id", "e", \App\Fields\Owner::getUserLabel($assignedto)]);
 			else {
 				$groupName = \App\Fields\Owner::getGroupName($assignedto);
-				array_push($conditions, array("assigned_user_id", "e", $groupName));
+				array_push($conditions, ["assigned_user_id", "e", $groupName]);
 			}
 		}
 		if (!empty($dates)) {
-			array_push($conditions, array("createdtime", "bw", $dates['start'] . ',' . $dates['end']));
+			array_push($conditions, ["createdtime", "bw", $dates['start'] . ',' . $dates['end']]);
 		}
 		$listSearchParams[] = $conditions;
 		return '&search_params=' . json_encode($listSearchParams);

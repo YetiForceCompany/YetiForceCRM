@@ -14,10 +14,10 @@ class Settings_TimeControlProcesses_SaveAjax_Action extends Settings_Vtiger_Inde
 		$params = $request->get('param');
 		$moduleModel = Settings_TimeControlProcesses_Module_Model::getCleanInstance();
 		$response = new Vtiger_Response();
-		$response->setResult(array(
+		$response->setResult([
 			'success' => $moduleModel->setConfig($params),
 			'message' => \App\Language::translate('LBL_SAVE_CONFIG', $request->getModule(false))
-		));
+		]);
 		$response->emit();
 	}
 }

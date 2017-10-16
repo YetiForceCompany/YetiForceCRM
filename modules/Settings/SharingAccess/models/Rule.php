@@ -312,20 +312,20 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 	{
 
 		$links = [];
-		$recordLinks = array(
-			array(
+		$recordLinks = [
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => 'javascript:app.showModalWindow(null, "' . $this->getEditViewUrl() . '");',
 				'linkicon' => 'glyphicon glyphicon-pencil'
-			),
-			array(
+			],
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => 'javascript:app.showModalWindow(null, "' . $this->getDeleteActionUrl() . '");',
 				'linkicon' => 'glyphicon glyphicon-trash'
-			)
-		);
+			]
+		];
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
@@ -368,7 +368,7 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 		$sourceColumnName = $tableColumnName['source_id'];
 		$targetColumnName = $tableColumnName['target_id'];
 
-		$this->set('relationtype', implode('::', array($sourceType, $targetType)));
+		$this->set('relationtype', implode('::', [$sourceType, $targetType]));
 
 		$db->createCommand()->insert($tableName, [
 			'shareid' => $ruleId,

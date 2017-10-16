@@ -13,7 +13,7 @@ class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model
 
 	public function isActionsAllowed()
 	{
-		$actionNotSupportedModules = array('calendar', 'events');
+		$actionNotSupportedModules = ['calendar', 'events'];
 		if (in_array(strtolower($this->module->name), $actionNotSupportedModules)) {
 			return false;
 		}

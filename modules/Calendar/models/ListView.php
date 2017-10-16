@@ -52,22 +52,22 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 		$advancedLinks = [];
 		$importPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'Import');
 		if ($importPermission && $createPermission) {
-			$advancedLinks[] = array(
+			$advancedLinks[] = [
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_IMPORT',
 				'linkurl' => 'javascript:Calendar_List_Js.triggerImportAction("' . $moduleModel->getImportUrl() . '")',
 				'linkicon' => ''
-			);
+			];
 		}
 
 		$exportPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'Export');
 		if ($exportPermission) {
-			$advancedLinks[] = array(
+			$advancedLinks[] = [
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_EXPORT',
 				'linkurl' => 'javascript:Calendar_List_Js.triggerExportAction("' . $this->getModule()->getExportUrl() . '")',
 				'linkicon' => ''
-			);
+			];
 		}
 		return $advancedLinks;
 	}

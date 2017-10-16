@@ -39,7 +39,7 @@ class Settings_LayoutEditor_Block_Action extends Settings_Vtiger_Index_Action
 				$beforeBlockInstance = Vtiger_Block_Model::getInstance($beforeBlockId);
 				$beforeBlockSequence = $beforeBlockInstance->get('sequence');
 				$newBlockSequence = ($beforeBlockSequence + 1);
-				//To give sequence one more than prev block 
+				//To give sequence one more than prev block
 				$blockInstance->set('sequence', $newBlockSequence);
 				//push all other block down so that we can keep new block there
 				Vtiger_Block_Model::pushDown($beforeBlockSequence, $modueInstance->getId());
@@ -51,7 +51,7 @@ class Settings_LayoutEditor_Block_Action extends Settings_Vtiger_Index_Action
 		if (!$isDuplicate) {
 			try {
 				$id = $blockInstance->save($modueInstance);
-				$responseInfo = array('id' => $id, 'label' => $blockInstance->get('label'), 'isCustom' => $blockInstance->isCustomized(), 'beforeBlockId' => $beforeBlockId, 'isAddCustomFieldEnabled' => $blockInstance->isAddCustomFieldEnabled());
+				$responseInfo = ['id' => $id, 'label' => $blockInstance->get('label'), 'isCustom' => $blockInstance->isCustomized(), 'beforeBlockId' => $beforeBlockId, 'isAddCustomFieldEnabled' => $blockInstance->isAddCustomFieldEnabled()];
 				if (empty($blockId)) {
 					//if mode is create add all blocks sequence so that client will place the new block correctly
 					$responseInfo['sequenceList'] = Vtiger_Block_Model::getAllBlockSequenceList($modueInstance->getId());
@@ -72,7 +72,7 @@ class Settings_LayoutEditor_Block_Action extends Settings_Vtiger_Index_Action
 		try {
 			$sequenceList = $request->get('sequence');
 			Vtiger_Block_Model::updateSequenceNumber($sequenceList);
-			$response->setResult(array('success' => true));
+			$response->setResult(['success' => true]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
@@ -97,7 +97,7 @@ class Settings_LayoutEditor_Block_Action extends Settings_Vtiger_Index_Action
 		}
 		try {
 			$blockInstance->delete(false);
-			$response->setResult(array('success' => true));
+			$response->setResult(['success' => true]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}

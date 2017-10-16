@@ -115,7 +115,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function isActive()
 	{
-		return in_array($this->get('presence'), array(0, 2));
+		return in_array($this->get('presence'), [0, 2]);
 	}
 
 	/**
@@ -574,7 +574,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	public function getFieldsByType($type)
 	{
 		if (!is_array($type)) {
-			$type = array($type);
+			$type = [$type];
 		}
 		$fieldList = [];
 		foreach ($this->getFields() as &$field) {
@@ -760,7 +760,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$deletedCondition = $this->getDeletedRecordCondition();
 		$nonAdminQuery .= Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName());
 		$query = sprintf('SELECT * FROM vtiger_crmentity %s WHERE setype=? && %s && modifiedby = ? ORDER BY modifiedtime DESC LIMIT ?', $nonAdminQuery, $deletedCondition);
-		$params = array($this->getName(), $currentUserModel->id, $limit);
+		$params = [$this->getName(), $currentUserModel->id, $limit];
 		$result = $db->pquery($query, $params);
 
 		$recentRecords = [];
@@ -864,9 +864,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 	{
 		$moduleModels = Vtiger_Cache::get('vtiger', 'EntityModules');
 		if (!$moduleModels) {
-			$presence = array(0, 2);
+			$presence = [0, 2];
 			$moduleModels = self::getAll($presence);
-			$restrictedModules = array('Integration', 'Dashboard');
+			$restrictedModules = ['Integration', 'Dashboard'];
 			foreach ($moduleModels as $key => $moduleModel) {
 				if (in_array($moduleModel->getName(), $restrictedModules) || $moduleModel->get('isentitytype') != 1) {
 					unset($moduleModels[$key]);
@@ -999,14 +999,14 @@ class Vtiger_Module_Model extends \vtlib\Module
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
 		}
 
-		$quickWidgets = array(
-			array(
+		$quickWidgets = [
+			[
 				'linktype' => 'SIDEBARWIDGET',
 				'linklabel' => 'LBL_RECENTLY_MODIFIED',
 				'linkurl' => 'module=' . $this->get('name') . '&view=IndexAjax&mode=showActiveRecords',
 				'linkicon' => ''
-			),
-		);
+			],
+		];
 		foreach ($quickWidgets as $quickWidget) {
 			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues($quickWidget);
 		}
@@ -1032,7 +1032,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	{
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery("SELECT cvid FROM vtiger_customview WHERE setdefault = 1 && entitytype = ?", array($this->getName()));
+		$result = $db->pquery("SELECT cvid FROM vtiger_customview WHERE setdefault = 1 && entitytype = ?", [$this->getName()]);
 		if ($db->numRows($result)) {
 			return $db->queryResult($result, 0, 'cvid');
 		}
@@ -1097,7 +1097,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 								FROM vtiger_modtracker_basic
 								INNER JOIN vtiger_crmentity ON vtiger_modtracker_basic.crmid = vtiger_crmentity.crmid
 									AND deleted = 0 && module = ?
-								ORDER BY vtiger_modtracker_basic.id DESC LIMIT ?, ?', array($this->getName(), $pagingModel->getStartIndex(), $pagingModel->getPageLimit()));
+								ORDER BY vtiger_modtracker_basic.id DESC LIMIT ?, ?', [$this->getName(), $pagingModel->getStartIndex(), $pagingModel->getPageLimit()]);
 
 		$activites = [];
 		$numRowsCount = $db->numRows($result);
@@ -1292,64 +1292,64 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$editWorkflowsImagePath = Vtiger_Theme::getImagePath('EditWorkflows.png');
 		$settingsLinks = [];
 
-		$settingsLinks[] = array(
+		$settingsLinks[] = [
 			'linktype' => 'LISTVIEWSETTING',
 			'linklabel' => 'LBL_EDIT_FIELDS',
 			'linkurl' => 'index.php?parent=Settings&module=LayoutEditor&sourceModule=' . $this->getName(),
 			'linkicon' => $layoutEditorImagePath
-		);
-		$settingsLinks[] = array(
+		];
+		$settingsLinks[] = [
 			'linktype' => 'LISTVIEWSETTING',
 			'linklabel' => 'LBL_ARRANGE_RELATED_TABS',
 			'linkurl' => 'index.php?parent=Settings&module=LayoutEditor&mode=showRelatedListLayout&block=2&fieldid=41&sourceModule=' . $this->getName(),
 			'linkicon' => $layoutEditorImagePath
-		);
-		$settingsLinks[] = array(
+		];
+		$settingsLinks[] = [
 			'linktype' => 'LISTVIEWSETTING',
 			'linklabel' => 'LBL_QUICK_CREATE_EDITOR',
 			'linkurl' => 'index.php?parent=Settings&module=QuickCreateEditor&sourceModule=' . $this->getName(),
 			'linkicon' => $layoutEditorImagePath
-		);
-		$settingsLinks[] = array(
+		];
+		$settingsLinks[] = [
 			'linktype' => 'LISTVIEWSETTING',
 			'linklabel' => 'LBL_TREES_MANAGER',
 			'linkurl' => 'index.php?parent=Settings&module=TreesManager&view=List&sourceModule=' . $this->getName(),
 			'linkicon' => $layoutEditorImagePath
-		);
-		$settingsLinks[] = array(
+		];
+		$settingsLinks[] = [
 			'linktype' => 'LISTVIEWSETTING',
 			'linklabel' => 'LBL_WIDGETS_MANAGMENT',
 			'linkurl' => 'index.php?parent=Settings&module=Widgets&view=Index&sourceModule=' . $this->getName(),
 			'linkicon' => $layoutEditorImagePath
-		);
+		];
 		if (VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
-			$settingsLinks[] = array(
+			$settingsLinks[] = [
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_WORKFLOWS',
 				'linkurl' => 'index.php?parent=Settings&module=Workflows&view=List&sourceModule=' . $this->getName(),
 				'linkicon' => $editWorkflowsImagePath
-			);
+			];
 		}
 
-		$settingsLinks[] = array(
+		$settingsLinks[] = [
 			'linktype' => 'LISTVIEWSETTING',
 			'linklabel' => 'LBL_EDIT_PICKLIST_VALUES',
 			'linkurl' => 'index.php?parent=Settings&module=Picklist&view=Index&source_module=' . $this->getName(),
 			'linkicon' => ''
-		);
-		$settingsLinks[] = array(
+		];
+		$settingsLinks[] = [
 			'linktype' => 'LISTVIEWSETTING',
 			'linklabel' => 'LBL_PICKLIST_DEPENDENCY',
 			'linkurl' => 'index.php?parent=Settings&module=PickListDependency&view=List&formodule=' . $this->getName(),
 			'linkicon' => ''
-		);
+		];
 		if ($this->hasSequenceNumberField()) {
-			$settingsLinks[] = array(
+			$settingsLinks[] = [
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_MODULE_SEQUENCE_NUMBERING',
 				'linkurl' => 'index.php?parent=Settings&module=Vtiger&view=CustomRecordNumbering&sourceModule=' . $this->getName(),
 				'linkicon' => ''
-			);
+			];
 		}
 		return $settingsLinks;
 	}

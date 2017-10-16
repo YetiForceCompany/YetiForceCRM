@@ -127,7 +127,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 					 * http://kigkonsult.se/iCalcreator/docs/using.html#PRIORITY
 					 */
 					if ($fieldName == 'priority') {
-						$priorityMap = array('High' => '1', 'Medium' => '2', 'Low' => '3');
+						$priorityMap = ['High' => '1', 'Medium' => '2', 'Low' => '3'];
 						$priorityval = $eventFields[$fieldName];
 						$icalZeroPriority = 0;
 						if (array_key_exists($priorityval, $priorityMap))
@@ -151,7 +151,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 				$temp = $moduleModel->get('todoFields');
 				foreach ($temp as $fieldName => $access) {
 					if ($fieldName == 'priority') {
-						$priorityMap = array('High' => '1', 'Medium' => '2', 'Low' => '3');
+						$priorityMap = ['High' => '1', 'Medium' => '2', 'Low' => '3'];
 						$priorityval = $eventFields[$fieldName];
 						$icalZeroPriority = 0;
 						if (array_key_exists($priorityval, $priorityMap))

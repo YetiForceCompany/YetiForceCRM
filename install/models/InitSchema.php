@@ -20,7 +20,7 @@ class Install_InitSchema_Model
 	public function initialize()
 	{
 		$this->db = PearDatabase::getInstance();
-		$this->initializeDatabase($this->sql_directory, array('scheme', 'data'));
+		$this->initializeDatabase($this->sql_directory, ['scheme', 'data']);
 		$this->setDefaultUsersAccess();
 		$currencyName = $_SESSION['config_file_info']['currency_name'];
 		$currencyCode = $_SESSION['config_file_info']['currency_code'];
@@ -70,7 +70,7 @@ class Install_InitSchema_Model
 			}
 		}
 		$this->db->query('SET FOREIGN_KEY_CHECKS = 1;');
-		return array('status' => $return, 'create' => $create_query, 'insert' => $insert_query, 'alter' => $alter_query, 'executed' => $executed_query);
+		return ['status' => $return, 'create' => $create_query, 'insert' => $insert_query, 'alter' => $alter_query, 'executed' => $executed_query];
 	}
 
 	/**
@@ -194,18 +194,18 @@ class Install_InitSchema_Model
 
 		$config_directory = $source_directory . 'config.inc.php';
 		if (!file_exists($config_directory)) {
-			return array('result' => false, 'text' => 'LBL_ERROR_NO_CONFIG');
+			return ['result' => false, 'text' => 'LBL_ERROR_NO_CONFIG'];
 		}
 
 		if (!file_exists($source_directory . 'vtigerversion.php')) {
-			return array('result' => false, 'text' => 'LBL_ERROR_NO_CONFIG');
+			return ['result' => false, 'text' => 'LBL_ERROR_NO_CONFIG'];
 		}
 
 		include_once $this->migration_schema . $system . '.php';
 		$migrationObject = new $system;
 		include_once $source_directory . 'vtigerversion.php';
 		if ($vtiger_current_version != $migrationObject->version) {
-			return array('result' => false, 'text' => 'LBL_ERROR_WRONG_VERSION');
+			return ['result' => false, 'text' => 'LBL_ERROR_WRONG_VERSION'];
 		}
 
 		include_once $config_directory;
@@ -229,7 +229,7 @@ class Install_InitSchema_Model
 
 		$configFile = new Install_ConfigFileUtils_Model($configFileParameters);
 		$configFile->createConfigFile();
-		return array('result' => true);
+		return ['result' => true];
 	}
 
 	public function copyFiles($source, $dest)
@@ -249,7 +249,7 @@ class Install_InitSchema_Model
 	public function deleteFiles($files = [])
 	{
 		if (!is_array($files)) {
-			$files = array($files);
+			$files = [$files];
 		}
 		foreach ($files as $file) {
 			$this->deleteDirFile($file);

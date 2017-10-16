@@ -49,7 +49,7 @@ class VTTaskQueue
 		$arr = [];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$arr[] = array($row['task_id'], $row['entity_id'], $row['task_contents']);
+			$arr[] = [$row['task_id'], $row['entity_id'], $row['task_contents']];
 		}
 		\App\Db::getInstance()->createCommand()->delete('com_vtiger_workflowtask_queue', ['<', 'do_after', $time])->execute();
 		return $arr;

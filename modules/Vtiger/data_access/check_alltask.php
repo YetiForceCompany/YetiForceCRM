@@ -47,6 +47,6 @@ Class DataAccess_check_alltask
 		while ($row = $db->fetchArray($result)) {
 			array_push($fields, $row['activitystatus']);
 		}
-		return Array('status' => $fields);
+		return ['status' => $fields];
 	}
 }

@@ -62,7 +62,7 @@ class Settings_Workflows_Save_Action extends Settings_Vtiger_Basic_Action
 				} else {
 					$workflowModel->set('nexttrigger_time', date('Y-m-d H:i:s', strtotime('+10 year')));
 				}
-				$annualDates = \App\Json::encode(array($dateDBFormat));
+				$annualDates = \App\Json::encode([$dateDBFormat]);
 			} else if ($workflowScheduleType == Workflow::$SCHEDULED_ANNUALLY) {
 				$annualDates = \App\Json::encode($request->get('schannualdates'));
 			}
@@ -84,7 +84,7 @@ class Settings_Workflows_Save_Action extends Settings_Vtiger_Basic_Action
 			$workflowModel->updateNextTriggerTime();
 		}
 
-		$response->setResult(array('id' => $workflowModel->get('workflow_id')));
+		$response->setResult(['id' => $workflowModel->get('workflow_id')]);
 		$response->emit();
 	}
 

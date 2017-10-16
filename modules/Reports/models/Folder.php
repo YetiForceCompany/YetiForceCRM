@@ -56,12 +56,12 @@ class Reports_Folder_Model extends \App\Base
 
 		$folderId = $this->getId();
 		if (!empty($folderId)) {
-			$db->pquery('UPDATE vtiger_reportfolder SET foldername = ?, description = ? WHERE folderid = ?', array($this->getName(), $this->getDescription(), $folderId));
+			$db->pquery('UPDATE vtiger_reportfolder SET foldername = ?, description = ? WHERE folderid = ?', [$this->getName(), $this->getDescription(), $folderId]);
 		} else {
 			$result = $db->pquery('SELECT MAX(folderid) AS folderid FROM vtiger_reportfolder', []);
 			$folderId = (int) ($db->queryResult($result, 0, 'folderid')) + 1;
 
-			$db->pquery('INSERT INTO vtiger_reportfolder(folderid, foldername, description, state) VALUES(?, ?, ?, ?)', array($folderId, $this->getName(), $this->getDescription(), 'CUSTOMIZED'));
+			$db->pquery('INSERT INTO vtiger_reportfolder(folderid, foldername, description, state) VALUES(?, ?, ?, ?)', [$folderId, $this->getName(), $this->getDescription(), 'CUSTOMIZED']);
 			$this->set('folderid', $folderId);
 		}
 	}
@@ -72,7 +72,7 @@ class Reports_Folder_Model extends \App\Base
 	public function delete()
 	{
 		$db = PearDatabase::getInstance();
-		$db->pquery('DELETE FROM vtiger_reportfolder WHERE folderid = ?', array($this->getId()));
+		$db->pquery('DELETE FROM vtiger_reportfolder WHERE folderid = ?', [$this->getId()]);
 	}
 
 	/**
@@ -82,22 +82,22 @@ class Reports_Folder_Model extends \App\Base
 	 */
 	public function getReports($pagingModel)
 	{
-		$paramsList = array(
+		$paramsList = [
 			'startIndex' => $pagingModel->getStartIndex(),
 			'pageLimit' => $pagingModel->getPageLimit(),
 			'orderBy' => $this->get('orderby'),
-			'sortBy' => $this->get('sortby'));
+			'sortBy' => $this->get('sortby')];
 
 		$reportClassInstance = Vtiger_Module_Model::getClassInstance('Reports');
 
 		$fldrId = $this->getId();
 		if ($fldrId == 'All') {
 			$fldrId = false;
-			$paramsList = array('startIndex' => $pagingModel->getStartIndex(),
+			$paramsList = ['startIndex' => $pagingModel->getStartIndex(),
 				'pageLimit' => $pagingModel->getPageLimit(),
 				'orderBy' => $this->get('orderby'),
 				'sortBy' => $this->get('sortby')
-			);
+			];
 		}
 
 		$reportsList = $reportClassInstance->sgetRptsforFldr($fldrId, $paramsList);
@@ -179,7 +179,7 @@ class Reports_Folder_Model extends \App\Base
 			$db = PearDatabase::getInstance();
 			$folderModel = Reports_Folder_Model::getInstance();
 
-			$result = $db->pquery("SELECT * FROM vtiger_reportfolder WHERE folderid = ?", array($folderId));
+			$result = $db->pquery("SELECT * FROM vtiger_reportfolder WHERE folderid = ?", [$folderId]);
 
 			if ($db->numRows($result) > 0) {
 				$values = $db->queryResultRowData($result, 0);
@@ -224,7 +224,7 @@ class Reports_Folder_Model extends \App\Base
 		$db = PearDatabase::getInstance();
 
 		$query = 'SELECT 1 FROM vtiger_reportfolder WHERE foldername = ?';
-		$params = array($this->getName());
+		$params = [$this->getName()];
 
 		$folderId = $this->getId();
 		if ($folderId) {
@@ -248,7 +248,7 @@ class Reports_Folder_Model extends \App\Base
 	{
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery('SELECT 1 FROM vtiger_report WHERE folderid = ?', array($this->getId()));
+		$result = $db->pquery('SELECT 1 FROM vtiger_report WHERE folderid = ?', [$this->getId()]);
 
 		if ($db->numRows($result) > 0) {
 			return true;
@@ -274,12 +274,12 @@ class Reports_Folder_Model extends \App\Base
 	 */
 	public function getInfoArray()
 	{
-		return array('folderId' => $this->getId(),
+		return ['folderId' => $this->getId(),
 			'folderName' => $this->getName(),
 			'editURL' => $this->getEditUrl(),
 			'deleteURL' => $this->getDeleteUrl(),
 			'isEditable' => $this->isEditable(),
-			'isDeletable' => $this->isDeletable());
+			'isDeletable' => $this->isDeletable()];
 	}
 
 	/**

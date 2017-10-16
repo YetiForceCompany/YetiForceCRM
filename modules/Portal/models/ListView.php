@@ -85,14 +85,14 @@ class Portal_ListView_Model extends Vtiger_ListView_Model
 		else
 			$nextPageExists = false;
 
-		$result = array(
+		$result = [
 			'startSequence' => $startSequence,
 			'endSequence' => $endSequence,
 			'recordCount' => $recordCount,
 			'pageCount' => $pageCount,
 			'nextPageExists' => $nextPageExists,
 			'pageLimit' => $pageLimit
-		);
+		];
 
 		return $result;
 	}

@@ -20,42 +20,42 @@ class OSSEmployees extends Vtiger_CRMEntity
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('vtiger_ossemployeescf', 'ossemployeesid');
+	public $customFieldTable = ['vtiger_ossemployeescf', 'ossemployeesid'];
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_ossemployees', 'vtiger_ossemployeescf', 'vtiger_entity_stats');
+	public $tab_name = ['vtiger_crmentity', 'vtiger_ossemployees', 'vtiger_ossemployeescf', 'vtiger_entity_stats'];
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public $tab_name_index = Array(
+	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_ossemployees' => 'ossemployeesid',
 		'vtiger_ossemployeescf' => 'ossemployeesid',
-		'vtiger_entity_stats' => 'crmid');
+		'vtiger_entity_stats' => 'crmid'];
 
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public $list_fields = Array(
+	public $list_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'LBL_LASTNAME' => Array('ossemployees', 'last_name'),
-		'LBL_NAME' => Array('ossemployees', 'name'),
-		'LBL_BUSINESSPHONE' => Array('ossemployees', 'business_phone'),
-		'LBL_BUSINESSMAIL' => Array('ossemployees', 'business_mail'),
-		'Assigned To' => Array('crmentity', 'smownerid'),
-	);
-	public $list_fields_name = Array(
+		'LBL_LASTNAME' => ['ossemployees', 'last_name'],
+		'LBL_NAME' => ['ossemployees', 'name'],
+		'LBL_BUSINESSPHONE' => ['ossemployees', 'business_phone'],
+		'LBL_BUSINESSMAIL' => ['ossemployees', 'business_mail'],
+		'Assigned To' => ['crmentity', 'smownerid'],
+	];
+	public $list_fields_name = [
 		/* Format: Field Label => fieldname */
 		'LBL_LASTNAME' => 'last_name',
 		'LBL_NAME' => 'name',
 		'LBL_BUSINESSPHONE' => 'business_phone',
 		'LBL_BUSINESSMAIL' => 'business_mail',
 		'Assigned To' => 'assigned_user_id',
-	);
+	];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
@@ -64,35 +64,35 @@ class OSSEmployees extends Vtiger_CRMEntity
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'assigned_user_id';
 	// For Popup listview and UI type support
-	public $search_fields = Array(
-		'LBL_LASTNAME' => Array('ossemployees', 'last_name'),
-		'LBL_NAME' => Array('ossemployees', 'name'),
-		'LBL_BUSINESSPHONE' => Array('ossemployees', 'business_phone'),
-		'LBL_BUSINESSMAIL' => Array('ossemployees', 'business_mail'),
-		'Assigned To' => Array('crmentity', 'smownerid'),
-	);
-	public $search_fields_name = Array(
+	public $search_fields = [
+		'LBL_LASTNAME' => ['ossemployees', 'last_name'],
+		'LBL_NAME' => ['ossemployees', 'name'],
+		'LBL_BUSINESSPHONE' => ['ossemployees', 'business_phone'],
+		'LBL_BUSINESSMAIL' => ['ossemployees', 'business_mail'],
+		'Assigned To' => ['crmentity', 'smownerid'],
+	];
+	public $search_fields_name = [
 		'LBL_LASTNAME' => 'last_name',
 		'LBL_NAME' => 'name',
 		'LBL_BUSINESSPHONE' => 'business_phone',
 		'LBL_BUSINESSMAIL' => 'business_mail',
 		'Assigned To' => 'assigned_user_id',
-	);
+	];
 	// For Popup window record selection
-	public $popup_fields = Array('last_name');
+	public $popup_fields = ['last_name'];
 	// For Alphabetical search
 	public $def_basicsearch_col = 'last_name';
 	// Column value to use on detail view record text display
 	public $def_detailview_recname = 'last_name';
 	// Required Information for enabling Import feature
-	public $required_fields = Array('assigned_user_id' => 1);
+	public $required_fields = ['assigned_user_id' => 1];
 	// Callback function list during Importing
-	public $special_functions = Array('set_import_assigned_user');
+	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public $mandatory_fields = Array('createdtime', 'modifiedtime', 'assigned_user_id');
+	public $mandatory_fields = ['createdtime', 'modifiedtime', 'assigned_user_id'];
 
 	/**
 	 * Function to get Employees hierarchy of the given Employees
@@ -158,7 +158,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 		$query = "SELECT parentid FROM vtiger_ossemployees " .
 			" INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossemployees.ossemployeesid" .
 			" WHERE vtiger_crmentity.deleted = 0 and vtiger_ossemployees.ossemployeesid = ?";
-		$params = array($id);
+		$params = [$id];
 		$res = $adb->pquery($query, $params);
 		if ($adb->numRows($res) > 0 &&
 			$adb->queryResult($res, 0, 'parentid') != '' && $adb->queryResult($res, 0, 'parentid') != 0 &&
@@ -168,8 +168,8 @@ class OSSEmployees extends Vtiger_CRMEntity
 			$encountered_accounts[] = $parentid;
 			$this->__getParentEmployees($parentid, $parent_accounts, $encountered_accounts);
 		}
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
-				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' =>
+				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
 		$query = "SELECT vtiger_ossemployees.*," .
 			" CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name " .
 			" FROM vtiger_ossemployees" .
@@ -180,7 +180,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 			" LEFT JOIN vtiger_users" .
 			" ON vtiger_users.id = vtiger_crmentity.smownerid" .
 			" WHERE vtiger_crmentity.deleted = 0 and vtiger_ossemployees.ossemployeesid = ?";
-		$params = array($id);
+		$params = [$id];
 		$res = $adb->pquery($query, $params);
 		$parent_account_info = [];
 		$depth = 0;
@@ -206,8 +206,8 @@ class OSSEmployees extends Vtiger_CRMEntity
 		$adb = PearDatabase::getInstance();
 
 		\App\Log::trace("Entering __getChildEmployees(" . $id . "," . $child_accounts . "," . $depth . ") method ...");
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
-				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' =>
+				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
 		$query = "SELECT vtiger_ossemployees.*," .
 			" CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name " .
 			" FROM vtiger_ossemployees" .
@@ -218,7 +218,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 			" LEFT JOIN vtiger_users" .
 			" ON vtiger_users.id = vtiger_crmentity.smownerid" .
 			" WHERE vtiger_crmentity.deleted = 0 and parentid = ?";
-		$params = array($id);
+		$params = [$id];
 		$res = $adb->pquery($query, $params);
 		$numRows = $adb->numRows($res);
 		if ($numRows > 0) {
@@ -259,18 +259,18 @@ class OSSEmployees extends Vtiger_CRMEntity
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
-					ModComments::addWidgetTo(array('OSSEmployees'));
+					ModComments::addWidgetTo(['OSSEmployees']);
 			}
 		} else if ($event_type == 'module.disabled') {
-			
+
 		} else if ($event_type == 'module.enabled') {
-			
+
 		} else if ($event_type == 'module.preuninstall') {
-			
+
 		} else if ($event_type == 'module.preupdate') {
-			
+
 		} else if ($event_type == 'module.postupdate') {
-			
+
 		}
 	}
 }

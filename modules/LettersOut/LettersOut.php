@@ -19,39 +19,39 @@ class LettersOut extends CRMEntity
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('vtiger_lettersoutcf', 'lettersoutid');
+	public $customFieldTable = ['vtiger_lettersoutcf', 'lettersoutid'];
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_lettersout', 'vtiger_lettersoutcf');
+	public $tab_name = ['vtiger_crmentity', 'vtiger_lettersout', 'vtiger_lettersoutcf'];
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public $tab_name_index = Array(
+	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_lettersout' => 'lettersoutid',
-		'vtiger_lettersoutcf' => 'lettersoutid');
+		'vtiger_lettersoutcf' => 'lettersoutid'];
 
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public $list_fields = Array(
+	public $list_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Number' => Array('lettersout', 'number'),
-		'Title' => Array('lettersout', 'title'),
-		'Assigned To' => Array('crmentity', 'smownerid'),
-		'Created Time' => Array('crmentity', 'createdtime'),
-	);
-	public $list_fields_name = Array(
+		'Number' => ['lettersout', 'number'],
+		'Title' => ['lettersout', 'title'],
+		'Assigned To' => ['crmentity', 'smownerid'],
+		'Created Time' => ['crmentity', 'createdtime'],
+	];
+	public $list_fields_name = [
 		/* Format: Field Label => fieldname */
 		'Number' => 'number',
 		'Title' => 'title',
 		'Assigned To' => 'assigned_user_id',
 		'Created Time' => 'createdtime',
-	);
+	];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
@@ -60,33 +60,33 @@ class LettersOut extends CRMEntity
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'title';
 	// For Popup listview and UI type support
-	public $search_fields = Array(
-		'Number' => Array('lettersout', 'number'),
-		'Title' => Array('lettersout', 'title'),
-		'Assigned To' => Array('crmentity', 'smownerid'),
-		'Created Time' => Array('crmentity', 'createdtime'),
-	);
-	public $search_fields_name = Array(
+	public $search_fields = [
+		'Number' => ['lettersout', 'number'],
+		'Title' => ['lettersout', 'title'],
+		'Assigned To' => ['crmentity', 'smownerid'],
+		'Created Time' => ['crmentity', 'createdtime'],
+	];
+	public $search_fields_name = [
 		'Number' => 'number',
 		'Title' => 'title',
 		'Assigned To' => 'assigned_user_id',
 		'Created Time' => 'createdtime',
-	);
+	];
 	// For Popup window record selection
-	public $popup_fields = Array('title');
+	public $popup_fields = ['title'];
 	// For Alphabetical search
 	public $def_basicsearch_col = 'title';
 	// Column value to use on detail view record text display
 	public $def_detailview_recname = 'title';
 	// Required Information for enabling Import feature
-	public $required_fields = Array('title' => 1);
+	public $required_fields = ['title' => 1];
 	// Callback function list during Importing
-	public $special_functions = Array('set_import_assigned_user');
+	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public $mandatory_fields = Array('createdtime', 'modifiedtime', 'title', 'assigned_user_id');
+	public $mandatory_fields = ['createdtime', 'modifiedtime', 'title', 'assigned_user_id'];
 
 	/**
 	 * Get list view query (send more WHERE clause condition if required)
@@ -123,7 +123,7 @@ class LettersOut extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($module));
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", [$module]);
 		$linkedFieldsCount = $this->db->numRows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
@@ -217,7 +217,7 @@ class LettersOut extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($thismodule));
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", [$thismodule]);
 		$linkedFieldsCount = $this->db->numRows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {

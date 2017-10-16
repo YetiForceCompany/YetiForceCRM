@@ -66,8 +66,8 @@ class UserPrivilegesFile
 	}
 
 	/**
-	 * Creates a file with all the organization default sharing permissions 
-	 * and custom sharing permissins specific for the specified user. 
+	 * Creates a file with all the organization default sharing permissions
+	 * and custom sharing permissins specific for the specified user.
 	 * In this file the information of the other users whose data is shared with the specified user is stored.
 	 * @param int $userid
 	 * @returns sharing_privileges_userid file under the user_privileges directory
@@ -167,7 +167,7 @@ class UserPrivilegesFile
 			$grpWritePer = [];
 			foreach ($mod_sharingrule_members as $sharingid => $sharingInfoArr) {
 				$query = "select vtiger_datashare_relatedmodule_permission.* from vtiger_datashare_relatedmodule_permission inner join vtiger_datashare_relatedmodules on vtiger_datashare_relatedmodules.datashare_relatedmodule_id=vtiger_datashare_relatedmodule_permission.datashare_relatedmodule_id where vtiger_datashare_relatedmodule_permission.shareid=? and vtiger_datashare_relatedmodules.tabid=? and vtiger_datashare_relatedmodules.relatedto_tabid=?";
-				$result = $adb->pquery($query, array($sharingid, $parModId, $shareModId));
+				$result = $adb->pquery($query, [$sharingid, $parModId, $shareModId]);
 				$sharePermission = $adb->queryResult($result, 0, 'permission');
 				foreach ($sharingInfoArr as $shareType => $shareEntArr) {
 					foreach ($shareEntArr as $key => $shareEntId) {
@@ -286,7 +286,7 @@ class UserPrivilegesFile
 		\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userid . '.php');
 		require('user_privileges/sharing_privileges_' . $userid . '.php');
 		//Deleting from the existing vtiger_tables
-		$tableArr = Array('vtiger_tmp_read_user_sharing_per', 'vtiger_tmp_write_user_sharing_per', 'vtiger_tmp_read_group_sharing_per', 'vtiger_tmp_write_group_sharing_per', 'vtiger_tmp_read_user_rel_sharing_per', 'vtiger_tmp_write_user_rel_sharing_per', 'vtiger_tmp_read_group_rel_sharing_per', 'vtiger_tmp_write_group_rel_sharing_per');
+		$tableArr = ['vtiger_tmp_read_user_sharing_per', 'vtiger_tmp_write_user_sharing_per', 'vtiger_tmp_read_group_sharing_per', 'vtiger_tmp_write_group_sharing_per', 'vtiger_tmp_read_user_rel_sharing_per', 'vtiger_tmp_write_user_rel_sharing_per', 'vtiger_tmp_read_group_rel_sharing_per', 'vtiger_tmp_write_group_rel_sharing_per'];
 		foreach ($tableArr as $tabname) {
 			$adb->delete($tabname, 'userid = ?', [$userid]);
 		}
@@ -352,7 +352,7 @@ class UserPrivilegesFile
 					foreach ($roleUsers as $userId) {
 						if (!in_array($userId, $useArrr)) {
 							$query = "insert into " . $tableName . " values(?,?,?)";
-							$adb->pquery($query, array($userid, $tabId, $userId));
+							$adb->pquery($query, [$userid, $tabId, $userId]);
 							$useArrr[] = $userId;
 						}
 					}
@@ -363,7 +363,7 @@ class UserPrivilegesFile
 					foreach ($grpUsers as $userId) {
 						if (!in_array($userId, $useArrr)) {
 							$query = "insert into " . $tableName . " values(?,?,?)";
-							$adb->pquery($query, array($userid, $tabId, $userId));
+							$adb->pquery($query, [$userid, $tabId, $userId]);
 							$useArrr[] = $userId;
 						}
 					}
@@ -386,7 +386,7 @@ class UserPrivilegesFile
 				foreach ($var_name_arr['GROUP'] as $grpid => $grpusers) {
 					if (!in_array($grpid, $grpArr)) {
 						$query = "insert into " . $tableName . " values(?,?,?)";
-						$adb->pquery($query, array($userid, $tabId, $grpid));
+						$adb->pquery($query, [$userid, $tabId, $grpid]);
 						$grpArr[] = $grpid;
 					}
 				}
@@ -430,7 +430,7 @@ class UserPrivilegesFile
 					foreach ($roleUsers as $userId) {
 						if (!in_array($userId, $userArr)) {
 							$query = "insert into " . $tableName . " values(?,?,?,?)";
-							$adb->pquery($query, array($userid, $tabId, $relTabId, $userId));
+							$adb->pquery($query, [$userid, $tabId, $relTabId, $userId]);
 							$userArr[] = $userId;
 						}
 					}
@@ -441,7 +441,7 @@ class UserPrivilegesFile
 					foreach ($grpUsers as $userId) {
 						if (!in_array($userId, $userArr)) {
 							$query = "insert into " . $tableName . " values(?,?,?,?)";
-							$adb->pquery($query, array($userid, $tabId, $relTabId, $userId));
+							$adb->pquery($query, [$userid, $tabId, $relTabId, $userId]);
 							$userArr[] = $userId;
 						}
 					}
@@ -464,7 +464,7 @@ class UserPrivilegesFile
 				foreach ($var_name_arr['GROUP'] as $grpId => $grpUsers) {
 					if (!in_array($grpId, $grpArr)) {
 						$query = "insert into " . $tableName . " values(?,?,?,?)";
-						$adb->pquery($query, array($userid, $tabId, $relTabId, $grpId));
+						$adb->pquery($query, [$userid, $tabId, $relTabId, $grpId]);
 						$grpArr[] = $grpId;
 					}
 				}

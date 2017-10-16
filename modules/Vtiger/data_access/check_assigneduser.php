@@ -19,7 +19,7 @@ Class DataAccess_check_assigneduser
 		$allowedUsers = $config['field'];
 		$assignedUser = $record_form['assigned_user_id'];
 		if (!is_array($allowedUsers))
-			$allowedUsers = array($allowedUsers);
+			$allowedUsers = [$allowedUsers];
 		if (in_array("currentUser", $allowedUsers)) {
 			$currentUser = Users_Record_Model::getCurrentUserModel();
 			$allowedUsers[] = $currentUser->get('id');
@@ -30,16 +30,16 @@ Class DataAccess_check_assigneduser
 			}
 		}
 		if (!in_array($assignedUser, $allowedUsers))
-			return Array(
+			return [
 				'save_record' => false,
 				'type' => 0,
-				'info' => Array(
+				'info' => [
 					'text' => \App\Language::translate($config['info'], 'DataAccess'),
 					'type' => 'error'
-				)
-			);
+				]
+			];
 		else
-			return Array('save_record' => true);
+			return ['save_record' => true];
 	}
 
 	public function getConfig($id, $module, $baseModule)
@@ -47,6 +47,6 @@ Class DataAccess_check_assigneduser
 		$users = \App\Fields\Owner::getInstance()->getAccessibleUsers();
 		$groups = \App\Fields\Owner::getInstance()->getAccessibleGroups();
 
-		return Array('users' => $users, 'groups' => $groups);
+		return ['users' => $users, 'groups' => $groups];
 	}
 }

@@ -573,12 +573,12 @@ class Users_Record_Model extends Vtiger_Record_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$checkResult = $db->pquery('SELECT smid FROM vtiger_salesmanattachmentsrel WHERE attachmentsid = ?', array($imageId));
+		$checkResult = $db->pquery('SELECT smid FROM vtiger_salesmanattachmentsrel WHERE attachmentsid = ?', [$imageId]);
 		$smId = $db->queryResult($checkResult, 0, 'smid');
 
 		if ($this->getId() === $smId) {
-			$db->pquery('DELETE FROM vtiger_attachments WHERE attachmentsid = ?', array($imageId));
-			$db->pquery('DELETE FROM vtiger_salesmanattachmentsrel WHERE attachmentsid = ?', array($imageId));
+			$db->pquery('DELETE FROM vtiger_attachments WHERE attachmentsid = ?', [$imageId]);
+			$db->pquery('DELETE FROM vtiger_salesmanattachmentsrel WHERE attachmentsid = ?', [$imageId]);
 			return true;
 		}
 		return false;
@@ -686,7 +686,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	public static function getInstanceByName($userName)
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT id FROM vtiger_users WHERE user_name = ?', array($userName));
+		$result = $db->pquery('SELECT id FROM vtiger_users WHERE user_name = ?', [$userName]);
 
 		if ($db->numRows($result)) {
 			return Users_Record_Model::getInstanceById($db->queryResult($result, 0, 'id'), 'Users');
@@ -718,7 +718,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$db = PearDatabase::getInstance();
 
 		$sql = 'SELECT id FROM vtiger_users WHERE status=? && is_admin=?';
-		$result = $db->pquery($sql, array('ACTIVE', 'on'));
+		$result = $db->pquery($sql, ['ACTIVE', 'on']);
 
 		$noOfUsers = $db->numRows($result);
 		$users = [];

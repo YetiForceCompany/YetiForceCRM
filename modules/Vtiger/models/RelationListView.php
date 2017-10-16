@@ -435,14 +435,14 @@ class Vtiger_RelationListView_Model extends \App\Base
 			return $selectLinkModel;
 		}
 
-		$selectLinkList = array(
-			array(
+		$selectLinkList = [
+			[
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => \App\Language::translate('LBL_SELECT_RELATION', $relatedModel->getName()),
 				'linkurl' => '',
 				'linkicon' => '',
-			)
-		);
+			]
+		];
 
 		foreach ($selectLinkList as $selectLink) {
 			$selectLinkModel[] = Vtiger_Link_Model::getInstanceFromValues($selectLink);
@@ -516,7 +516,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 			else if ($moduleName === 'Services')
 				$query .= "SELECT currency_id FROM vtiger_service WHERE serviceid = ?)";
 
-			$result = $db->pquery($query, array($recordId));
+			$result = $db->pquery($query, [$recordId]);
 			return $db->queryResult($result, 0, 'currency_symbol');
 		} else {
 			$fieldInfo = $fieldModel->getFieldInfo();

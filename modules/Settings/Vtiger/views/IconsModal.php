@@ -37,9 +37,9 @@ class Settings_Vtiger_IconsModal_View extends Vtiger_BasicModal_View
 
 	public function getModalScripts(\App\Request $request)
 	{
-		$scripts = array(
+		$scripts = [
 			'modules.Settings.Vtiger.resources.IconsModal'
-		);
+		];
 		$scriptInstances = $this->checkAndConvertJsScripts($scripts);
 		return $scriptInstances;
 	}

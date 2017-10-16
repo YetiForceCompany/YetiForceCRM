@@ -27,7 +27,7 @@ class VTSendNotificationTask extends VTTask
 	 */
 	public function getFieldNames()
 	{
-		return array('template');
+		return ['template'];
 	}
 
 	/**

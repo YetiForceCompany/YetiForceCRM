@@ -43,7 +43,7 @@ class Vtiger_ShowWidget_View extends Vtiger_IndexAjax_View
 		}
 
 		$response = new Vtiger_Response();
-		$response->setResult(array('success' => false, 'message' => \App\Language::translate('NO_DATA')));
+		$response->setResult(['success' => false, 'message' => \App\Language::translate('NO_DATA')]);
 		$response->emit();
 	}
 

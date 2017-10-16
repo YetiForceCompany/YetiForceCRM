@@ -51,7 +51,7 @@ class VTCacheUtils
 	public static function updateFieldInfo($tabid, $fieldname, $fieldid, $fieldlabel, $columnname, $tablename, $uitype, $typeofdata, $presence)
 	{
 
-		self::$_fieldinfo_cache[$tabid][$fieldname] = array(
+		self::$_fieldinfo_cache[$tabid][$fieldname] = [
 			'tabid' => $tabid,
 			'fieldid' => $fieldid,
 			'fieldname' => $fieldname,
@@ -61,11 +61,11 @@ class VTCacheUtils
 			'uitype' => $uitype,
 			'typeofdata' => $typeofdata,
 			'presence' => $presence,
-		);
+		];
 		Vtiger_Cache::set('fieldInfo', $tabid, self::$_fieldinfo_cache[$tabid]);
 	}
 
-	public static function lookupFieldInfoModule($module, $presencein = array('0', '2'))
+	public static function lookupFieldInfoModule($module, $presencein = ['0', '2'])
 	{
 		$tabid = \App\Module::getModuleId($module);
 		$modulefields = false;
@@ -91,7 +91,7 @@ class VTCacheUtils
 			foreach ($fieldInfo as $block => $blockFields) {
 				foreach ($blockFields as $field) {
 					if (in_array($field->get('presence'), $presencein)) {
-						$cacheField = array(
+						$cacheField = [
 							'tabid' => $tabid,
 							'fieldid' => $field->getId(),
 							'fieldname' => $field->getName(),
@@ -101,7 +101,7 @@ class VTCacheUtils
 							'uitype' => (int) $field->get('uitype'),
 							'typeofdata' => $field->get('typeofdata'),
 							'presence' => $field->get('presence'),
-						);
+						];
 						$modulefields[] = $cacheField;
 					}
 				}
@@ -121,10 +121,10 @@ class VTCacheUtils
 	public static function updateReportListOfModuleInfos($module_list, $related_modules)
 	{
 		if (self::$_report_listofmodules_cache === false) {
-			self::$_report_listofmodules_cache = array(
+			self::$_report_listofmodules_cache = [
 				'module_list' => $module_list,
 				'related_modules' => $related_modules
-			);
+			];
 		}
 	}
 
@@ -148,7 +148,7 @@ class VTCacheUtils
 			self::$_reportmodule_infoperuser_cache[$userid] = [];
 		}
 		if (!isset(self::$_reportmodule_infoperuser_cache[$userid][$reportid])) {
-			self::$_reportmodule_infoperuser_cache[$userid][$reportid] = array(
+			self::$_reportmodule_infoperuser_cache[$userid][$reportid] = [
 				'reportid' => $reportid,
 				'primarymodule' => $primarymodule,
 				'secondarymodules' => $secondarymodules,
@@ -157,7 +157,7 @@ class VTCacheUtils
 				'description' => $description,
 				'folderid' => $folderid,
 				'owner' => $owner
-			);
+			];
 		}
 	}
 
@@ -197,14 +197,14 @@ class VTCacheUtils
 			self::$_reportmodule_scheduledinfoperuser_cache[$userid] = [];
 		}
 		if (!isset(self::$_reportmodule_scheduledinfoperuser_cache[$userid][$reportid])) {
-			self::$_reportmodule_scheduledinfoperuser_cache[$userid][$reportid] = array(
+			self::$_reportmodule_scheduledinfoperuser_cache[$userid][$reportid] = [
 				'reportid' => $reportid,
 				'isScheduled' => $isScheduled,
 				'scheduledFormat' => $scheduledFormat,
 				'scheduledInterval' => $scheduledInterval,
 				'scheduledRecipients' => $scheduledRecipients,
 				'scheduledTime' => $scheduledTime,
-			);
+			];
 		}
 	}
 

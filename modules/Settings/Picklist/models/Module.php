@@ -129,19 +129,19 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$db = PearDatabase::getInstance();
 		$adb = App\Db::getInstance();
 		if (!is_array($valueToDeleteId)) {
-			$valueToDeleteId = array($valueToDeleteId);
+			$valueToDeleteId = [$valueToDeleteId];
 		}
 		$primaryKey = App\Fields\Picklist::getPickListId($pickListFieldName);
 
 		$pickListValues = [];
 		$valuesOfDeleteIds = "SELECT $pickListFieldName FROM " . $this->getPickListTableName($pickListFieldName) . " WHERE $primaryKey IN (" . generateQuestionMarks($valueToDeleteId) . ")";
-		$pickListValuesResult = $db->pquery($valuesOfDeleteIds, array($valueToDeleteId));
+		$pickListValuesResult = $db->pquery($valuesOfDeleteIds, [$valueToDeleteId]);
 		$numRows = $db->numRows($pickListValuesResult);
 		for ($i = 0; $i < $numRows; $i++) {
 			$pickListValues[] = App\Purifier::decodeHtml($db->queryResult($pickListValuesResult, $i, $pickListFieldName));
 		}
 
-		$replaceValueQuery = $db->pquery("SELECT $pickListFieldName FROM " . $this->getPickListTableName($pickListFieldName) . " WHERE $primaryKey IN (" . generateQuestionMarks($replaceValueId) . ")", array($replaceValueId));
+		$replaceValueQuery = $db->pquery("SELECT $pickListFieldName FROM " . $this->getPickListTableName($pickListFieldName) . " WHERE $primaryKey IN (" . generateQuestionMarks($replaceValueId) . ")", [$replaceValueId]);
 		$replaceValue = App\Purifier::decodeHtml($db->queryResult($replaceValueQuery, 0, $pickListFieldName));
 
 		//As older look utf8 characters are pushed as html-entities,and in new utf8 characters are pushed to database

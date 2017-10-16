@@ -23,11 +23,11 @@ class Settings_ModTracker_Module_Model extends Settings_Vtiger_Module_Model
 		$dataReader = $query->createCommand()->query();
 		$modules = [];
 		while ($row = $dataReader->read()) {
-			$modules[] = array(
+			$modules[] = [
 				'id' => $row['tabid'],
 				'module' => $row['name'],
 				'active' => $row['visible'] == 1 ? true : false,
-			);
+			];
 		}
 		return $modules;
 	}

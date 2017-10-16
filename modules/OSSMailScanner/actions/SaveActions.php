@@ -38,7 +38,7 @@ class OSSMailScanner_SaveActions_Action extends Vtiger_Action_Controller
 			$success = false;
 			$data = 'Error: Brak userid';
 		}
-		$result = array('success' => $success, 'data' => $data);
+		$result = ['success' => $success, 'data' => $data];
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

@@ -48,7 +48,7 @@ class Contacts_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
-		if (in_array($sourceModule, array('Campaigns', 'Vendors', 'Products', 'Services')) || ($sourceModule === 'Contacts' && $field === 'contact_id' && $record)) {
+		if (in_array($sourceModule, ['Campaigns', 'Vendors', 'Products', 'Services']) || ($sourceModule === 'Contacts' && $field === 'contact_id' && $record)) {
 			switch ($sourceModule) {
 				case 'Campaigns' :
 					$tableName = 'vtiger_campaign_records';

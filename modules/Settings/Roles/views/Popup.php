@@ -51,12 +51,12 @@ class Settings_Roles_Popup_View extends Vtiger_Footer_View
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			'modules.Settings.Vtiger.resources.Popup',
 			"modules.Settings.$moduleName.resources.Popup",
 			"modules.Settings.$moduleName.resources.$moduleName",
 			'libraries.jquery.jquery_windowmsg',
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);

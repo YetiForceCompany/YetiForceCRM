@@ -20,11 +20,11 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 	public function getSearchParams($industry, $assignedto, $dates)
 	{
 		$listSearchParams = [];
-		$conditions = array(array('industry', 'e', $industry));
+		$conditions = [['industry', 'e', $industry]];
 		if ($assignedto != '')
-			array_push($conditions, array('assigned_user_id', 'e', $assignedto));
+			array_push($conditions, ['assigned_user_id', 'e', $assignedto]);
 		if (!empty($dates)) {
-			array_push($conditions, array('createdtime', 'bw', $dates['start'] . ',' . $dates['end']));
+			array_push($conditions, ['createdtime', 'bw', $dates['start'] . ',' . $dates['end']]);
 		}
 		$listSearchParams[] = $conditions;
 		return '&search_params=' . App\Json::encode($listSearchParams);

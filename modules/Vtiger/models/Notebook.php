@@ -39,7 +39,7 @@ class Vtiger_Notebook_Model extends Vtiger_Widget_Model
 		$this->set('data', $data);
 
 
-		$db->pquery('UPDATE vtiger_module_dashboard_widgets SET data=? WHERE id=?', array($data, $noteBookId));
+		$db->pquery('UPDATE vtiger_module_dashboard_widgets SET data=? WHERE id=?', [$data, $noteBookId]);
 	}
 
 	public static function getUserInstance($widgetId)

@@ -34,9 +34,9 @@ class OSSEmployees_Detail_View extends Vtiger_Detail_View
 		unset($headerScriptInstances[$moduleEditFile]);
 		unset($headerScriptInstances[$moduleDetailFile]);
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			"modules.$moduleName.resources.Detail",
-		);
+		];
 		$jsFileNames[] = $moduleEditFile;
 		$jsFileNames[] = $modulePopUpFile;
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

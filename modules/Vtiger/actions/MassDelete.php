@@ -54,7 +54,7 @@ class Vtiger_MassDelete_Action extends Vtiger_Mass_Action
 			}
 		}
 		$response = new Vtiger_Response();
-		$response->setResult(array('viewname' => $request->get('viewname'), 'module' => $moduleName));
+		$response->setResult(['viewname' => $request->get('viewname'), 'module' => $moduleName]);
 		$response->emit();
 	}
 }

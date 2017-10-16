@@ -23,10 +23,10 @@ class Settings_Users_SaveAjax_Action extends Settings_Vtiger_Save_Action
 		$param = $request->get('param');
 		$recordModel = Settings_Users_Module_Model::getInstance();
 		$response = new Vtiger_Response();
-		$response->setResult(array(
+		$response->setResult([
 			'success' => $recordModel->setConfig($param),
 			'message' => \App\Language::translate('LBL_SAVE_CONFIG', $request->getModule(false))
-		));
+		]);
 		$response->emit();
 	}
 
@@ -36,9 +36,9 @@ class Settings_Users_SaveAjax_Action extends Settings_Vtiger_Save_Action
 		$moduleModel = Settings_Users_Module_Model::getInstance();
 		$moduleModel->saveSwitchUsers($param);
 		$response = new Vtiger_Response();
-		$response->setResult(array(
+		$response->setResult([
 			'message' => \App\Language::translate('LBL_SAVE_CONFIG', $request->getModule(false))
-		));
+		]);
 		$response->emit();
 	}
 

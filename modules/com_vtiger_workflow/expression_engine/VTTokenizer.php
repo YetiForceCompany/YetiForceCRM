@@ -33,21 +33,21 @@ class VTExpressionTokenizer
 	public function __construct($expr)
 	{
 		$expr = App\Purifier::decodeHtml($expr);
-		$tokenTypes = array(
-			'SPACE' => array('\s+', '_vt_processtoken_id'),
-			'SYMBOL' => array('[a-zA-Z][\w]*', '_vt_processtoken_symbol'),
-			'ESCAPED_SYMBOL' => array('?:`([^`]+)`', '_vt_processtoken_symbol'),
+		$tokenTypes = [
+			'SPACE' => ['\s+', '_vt_processtoken_id'],
+			'SYMBOL' => ['[a-zA-Z][\w]*', '_vt_processtoken_symbol'],
+			'ESCAPED_SYMBOL' => ['?:`([^`]+)`', '_vt_processtoken_symbol'],
 			//"STRING" => array('?:(?:"((?:\\\\"|[^"])+)"|'."'((?:\\\\'|[^'])+)')", 'stripcslashes'),
 			//"STRING" => array('?:"((?:\\\\"|[^"])+)"', 'stripcslashes'),
-			'STRING' => array("?:'((?:\\\\'|[^'])+)'", 'stripcslashes'),
-			'FLOAT' => array('\d+[.]\d+', 'floatval'),
-			'INTEGER' => array('\d+', 'intval'),
-			'OPERATOR' => array('[+]|[-]|[*]|>=|<=|[<]|[>]|==|\/', '_vt_processtoken_symbol'),
-			// NOTE: Any new Operator added should be updated in VTParser.inc::$precedence and operation at VTExpressionEvaluater				
-			'OPEN_BRACKET' => array('[(]', '_vt_processtoken_symbol'),
-			'CLOSE_BRACKET' => array('[)]', '_vt_processtoken_symbol'),
-			'COMMA' => array('[,]', '_vt_processtoken_symbol')
-		);
+			'STRING' => ["?:'((?:\\\\'|[^'])+)'", 'stripcslashes'],
+			'FLOAT' => ['\d+[.]\d+', 'floatval'],
+			'INTEGER' => ['\d+', 'intval'],
+			'OPERATOR' => ['[+]|[-]|[*]|>=|<=|[<]|[>]|==|\/', '_vt_processtoken_symbol'],
+			// NOTE: Any new Operator added should be updated in VTParser.inc::$precedence and operation at VTExpressionEvaluater
+			'OPEN_BRACKET' => ['[(]', '_vt_processtoken_symbol'],
+			'CLOSE_BRACKET' => ['[)]', '_vt_processtoken_symbol'],
+			'COMMA' => ['[,]', '_vt_processtoken_symbol']
+		];
 		$tokenReArr = [];
 		$tokenNames = [];
 		$this->tokenTypes = $tokenTypes;

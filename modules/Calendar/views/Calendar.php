@@ -45,10 +45,10 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
-		$jsFileNames = array(
+		$jsFileNames = [
 			'~libraries/fullcalendar/fullcalendar.js',
 			'modules.Calendar.resources.CalendarView',
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
@@ -60,10 +60,10 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 		$headerCssInstances = parent::getHeaderCss($request);
 
 
-		$cssFileNames = array(
+		$cssFileNames = [
 			'~libraries/fullcalendar/fullcalendar.min.css',
 			'~libraries/fullcalendar/fullcalendarCRM.css',
-		);
+		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
 

@@ -32,7 +32,7 @@ class ReportRunQueryDependencyMatrix
 		if (isset($this->matrix[$table]) && !in_array($dependent, $this->matrix[$table])) {
 			$this->matrix[$table][] = $dependent;
 		} else {
-			$this->setDependency($table, array($dependent));
+			$this->setDependency($table, [$dependent]);
 		}
 	}
 
@@ -140,7 +140,7 @@ class ReportRunQueryPlanner
 		if ($this->allowTempTables && !$this->disablePlanner) {
 			$current_user = vglobal('current_user');
 
-			$keyColumns = is_array($keyColumns) ? array_unique($keyColumns) : array($keyColumns);
+			$keyColumns = is_array($keyColumns) ? array_unique($keyColumns) : [$keyColumns];
 
 			// Minor optimization to avoid re-creating similar temporary table.
 			$uniqueName = NULL;
@@ -157,10 +157,10 @@ class ReportRunQueryPlanner
 				$uniqueName = $this->tempTablePrefix .
 					str_replace('.', '', uniqid($current_user->id, true)) . (self::$tempTableCounter++);
 
-				$this->tempTables[$uniqueName] = array(
+				$this->tempTables[$uniqueName] = [
 					'query' => $query,
-					'keycolumns' => is_array($keyColumns) ? array_unique($keyColumns) : array($keyColumns),
-				);
+					'keycolumns' => is_array($keyColumns) ? array_unique($keyColumns) : [$keyColumns],
+				];
 			}
 
 			return $uniqueName;
@@ -194,7 +194,7 @@ class ReportRunQueryPlanner
 		// NOTE: This works better than having in __destruct
 		// (as the reference to this object might end pre-maturely even before query is executed)
 		if (!$this->registeredCleanup) {
-			register_shutdown_function(array($this, 'cleanup'));
+			register_shutdown_function([$this, 'cleanup']);
 			// To avoid duplicate registration on this instance.
 			$this->registeredCleanup = true;
 		}
@@ -236,13 +236,13 @@ class ReportRun extends CRMEntity
 	public $_columnstotallist = false;
 	public $_advfiltersql = false;
 	// All UItype 72 fields are added here so that in reports the values are append currencyId::value
-	public $append_currency_symbol_to_value = array('Products_Unit_Price', 'Services_Price'
-	);
+	public $append_currency_symbol_to_value = ['Products_Unit_Price', 'Services_Price'
+	];
 	public $ui10_fields = [];
 	public $ui101_fields = [];
-	public $groupByTimeParent = array('Quarter' => array('Year'),
-		'Month' => array('Year')
-	);
+	public $groupByTimeParent = ['Quarter' => ['Year'],
+		'Month' => ['Year']
+	];
 	public $queryPlanner = null;
 	protected static $instances = false;
 	// Added to support line item fields calculation, if line item fields
@@ -297,7 +297,7 @@ class ReportRun extends CRMEntity
 		$ssql .= ' left join vtiger_selectcolumn on vtiger_selectcolumn.queryid = vtiger_selectquery.queryid';
 		$ssql .= ' where vtiger_report.reportid = ?';
 		$ssql .= ' order by vtiger_selectcolumn.columnindex';
-		$result = $adb->pquery($ssql, array($reportid));
+		$result = $adb->pquery($ssql, [$reportid]);
 		$permitted_fields = [];
 
 		while ($columnslistrow = $adb->fetchArray($result)) {
@@ -305,7 +305,7 @@ class ReportRun extends CRMEntity
 			$fieldcolname = $columnslistrow['columnname'];
 			list($tablename, $colname, $module_field, $fieldname, $single) = explode(':', $fieldcolname);
 			list($module) = explode('__', $module_field, 2);
-			$inventory_fields = array('serviceid');
+			$inventory_fields = ['serviceid'];
 			$inventory_modules = getInventoryModules();
 			require('user_privileges/user_privileges_' . $current_user->id . '.php');
 			if (sizeof($permitted_fields[$module]) == 0 && $is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1) {
@@ -344,7 +344,7 @@ class ReportRun extends CRMEntity
 			$fld_lbl = \App\Language::translate($fld_lbl_str, $module); //fieldlabel
 			$fieldlabel = $mod_lbl . ' ' . $fld_lbl;
 			if (($selectedfields[0] == 'vtiger_usersRel1') && ($selectedfields[1] == 'user_name') && ($selectedfields[2] == 'Quotes_Inventory_Manager')) {
-				$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => $selectedfields[0] . '.first_name', 'last_name' => $selectedfields[0] . '.last_name'), 'Users');
+				$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => $selectedfields[0] . '.first_name', 'last_name' => $selectedfields[0] . '.last_name'], 'Users');
 				$columnslist[$fieldcolname] = "trim( $concatSql ) as " . $module . '_Inventory_Manager';
 				$this->queryPlanner->addTable($selectedfields[0]);
 				continue;
@@ -384,7 +384,7 @@ class ReportRun extends CRMEntity
 		$header_label = $selectedfields[2]; // Header label to be displayed in the reports table
 
 		list($module) = explode('__', $selectedfields[2]);
-		$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => $selectedfields[0] . '.first_name', 'last_name' => $selectedfields[0] . '.last_name'), 'Users');
+		$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => $selectedfields[0] . '.first_name', 'last_name' => $selectedfields[0] . '.last_name'], 'Users');
 		$moduleInstance = CRMEntity::getInstance($module);
 		$this->queryPlanner->addTable($moduleInstance->table_name);
 		if ($selectedfields[4] == 'C') {
@@ -459,7 +459,7 @@ class ReportRun extends CRMEntity
 				$condition = "and vtiger_crmentity.crmid!=''";
 			}
 			if ($temp_module_from_tablename == $module) {
-				$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => $selectedfields[0] . ".first_name", 'last_name' => $selectedfields[0] . ".last_name"), 'Users');
+				$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => $selectedfields[0] . ".first_name", 'last_name' => $selectedfields[0] . ".last_name"], 'Users');
 				$columnSQL = " case when(" . $selectedfields[0] . ".last_name NOT LIKE '' $condition ) THEN " . $concatSql . " else vtiger_groups" . $module . ".groupname end AS '" . App\Purifier::decodeHtml($header_label) . "'";
 				$this->queryPlanner->addTable('vtiger_groups' . $module); // Auto-include the dependent module table.
 			} else {//Some Fields can't assigned to groups so case avoided (fields like inventory manager)
@@ -468,7 +468,7 @@ class ReportRun extends CRMEntity
 			$this->queryPlanner->addTable($selectedfields[0]);
 		} elseif (stristr($selectedfields[0], "vtiger_crmentity") && ($selectedfields[1] == 'modifiedby')) {
 			$targetTableName = 'vtiger_lastModifiedBy' . $module;
-			$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('last_name' => $targetTableName . '.last_name', 'first_name' => $targetTableName . '.first_name'), 'Users');
+			$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['last_name' => $targetTableName . '.last_name', 'first_name' => $targetTableName . '.first_name'], 'Users');
 			$columnSQL = "trim($concatSql) AS $header_label";
 			$this->queryPlanner->addTable("vtiger_crmentity$module");
 			$this->queryPlanner->addTable($targetTableName);
@@ -478,7 +478,7 @@ class ReportRun extends CRMEntity
 			$this->queryPlanner->addTable($moduleInstance->table_name);
 		} else if (stristr($selectedfields[0], "vtiger_crmentity") && ($selectedfields[1] == 'smcreatorid')) {
 			$targetTableName = 'vtiger_createdby' . $module;
-			$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('last_name' => $targetTableName . '.last_name', 'first_name' => $targetTableName . '.first_name'), 'Users');
+			$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['last_name' => $targetTableName . '.last_name', 'first_name' => $targetTableName . '.first_name'], 'Users');
 			$columnSQL = "trim($concatSql) AS " . App\Purifier::decodeHtml($header_label) . "";
 			$this->queryPlanner->addTable("vtiger_crmentity$module");
 			$this->queryPlanner->addTable($targetTableName);
@@ -488,7 +488,7 @@ class ReportRun extends CRMEntity
 			$this->queryPlanner->addTable($moduleInstance->table_name);
 		} else if (stristr($selectedfields[0], "vtiger_crmentity") && ($selectedfields[1] == 'shownerid')) {
 			$targetTableName = 'vtiger_shOwners' . $module;
-			$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('last_name' => $targetTableName . '.last_name', 'first_name' => $targetTableName . '.first_name'), 'Users');
+			$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['last_name' => $targetTableName . '.last_name', 'first_name' => $targetTableName . '.first_name'], 'Users');
 			$columnSQL = "trim($concatSql) AS $header_label";
 			$this->queryPlanner->addTable("u_yf_crmentity_showners");
 			$this->queryPlanner->addTable("vtiger_crmentity$module");
@@ -605,8 +605,8 @@ class ReportRun extends CRMEntity
 		$fieldInfo = getFieldByReportLabel($moduleName, $fieldLabel);
 
 		if ($moduleName == 'ModComments' && $fieldName == 'creator') {
-			$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_usersModComments.first_name',
-					'last_name' => 'vtiger_usersModComments.last_name'), 'Users');
+			$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_usersModComments.first_name',
+					'last_name' => 'vtiger_usersModComments.last_name'], 'Users');
 			$queryColumn = "trim(case when (vtiger_usersModComments.user_name not like '' and vtiger_crmentity.crmid!='') then $concatSql end) AS ModComments_Creator";
 			$this->queryPlanner->addTable('vtiger_usersModComments');
 			$this->queryPlanner->addTable("vtiger_usersModComments");
@@ -636,7 +636,7 @@ class ReportRun extends CRMEntity
 		$ssql .= " left join vtiger_selectcolumn on vtiger_selectcolumn.queryid = vtiger_selectquery.queryid where vtiger_report.reportid = ? ";
 		$ssql .= " order by vtiger_selectcolumn.columnindex";
 
-		$result = $adb->pquery($ssql, array($reportid));
+		$result = $adb->pquery($ssql, [$reportid]);
 		$noofrows = $adb->numRows($result);
 
 		if ($this->orderbylistsql != "") {
@@ -779,7 +779,7 @@ class ReportRun extends CRMEntity
 		$module = $field[0];
 		$fieldname = trim($field[1]);
 		$tabid = \App\Module::getModuleId($module);
-		$field_query = $adb->pquery("SELECT tablename,columnname,typeofdata,fieldname,uitype FROM vtiger_field WHERE tabid = ? && fieldname= ?", array($tabid, $fieldname));
+		$field_query = $adb->pquery("SELECT tablename,columnname,typeofdata,fieldname,uitype FROM vtiger_field WHERE tabid = ? && fieldname= ?", [$tabid, $fieldname]);
 		$fieldtablename = $adb->queryResult($field_query, 0, 'tablename');
 		$fieldcolname = $adb->queryResult($field_query, 0, 'columnname');
 		if ($fieldtablename == "vtiger_crmentity" && $module != $this->primarymodule) {
@@ -821,7 +821,7 @@ class ReportRun extends CRMEntity
 		$advft_criteria = [];
 
 		$sql = 'SELECT * FROM vtiger_relcriteria_grouping WHERE queryid = ? ORDER BY groupid';
-		$groupsresult = $adb->pquery($sql, array($reportid));
+		$groupsresult = $adb->pquery($sql, [$reportid]);
 
 		$i = 1;
 		$j = 0;
@@ -835,7 +835,7 @@ class ReportRun extends CRMEntity
 								and vtiger_relcriteria.groupid = vtiger_relcriteria_grouping.groupid';
 			$ssql .= " where vtiger_report.reportid = ? && vtiger_relcriteria.groupid = ? order by vtiger_relcriteria.columnindex";
 
-			$result = $adb->pquery($ssql, array($reportid, $groupId));
+			$result = $adb->pquery($ssql, [$reportid, $groupId]);
 			$noOfColumns = $adb->numRows($result);
 			if ($noOfColumns <= 0)
 				continue;
@@ -940,7 +940,7 @@ class ReportRun extends CRMEntity
 							continue;
 						}
 						$selectedFields = explode(":", $fieldcolname);
-						$tempComparators = array('e', 'n', 'bw', 'a', 'b');
+						$tempComparators = ['e', 'n', 'bw', 'a', 'b'];
 						if ($selectedFields[4] == 'DT' && in_array($comparator, $tempComparators)) {
 							if ($selectedFields[0] == 'vtiger_crmentity' . $this->primarymodule) {
 								$selectedFields[0] = 'vtiger_crmentity';
@@ -1015,7 +1015,7 @@ class ReportRun extends CRMEntity
 						$moduleFieldLabel = $selectedfields[2];
 						list($moduleName, $fieldLabel) = explode('_', $moduleFieldLabel, 2);
 						$fieldInfo = getFieldByReportLabel($moduleName, $fieldLabel);
-						$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => $selectedfields[0] . ".first_name", 'last_name' => $selectedfields[0] . ".last_name"), 'Users');
+						$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => $selectedfields[0] . ".first_name", 'last_name' => $selectedfields[0] . ".last_name"], 'Users');
 						// Added to handle the crmentity table name for Primary module
 						if ($selectedfields[0] == "vtiger_crmentity" . $this->primarymodule) {
 							$selectedfields[0] = "vtiger_crmentity";
@@ -1044,7 +1044,7 @@ class ReportRun extends CRMEntity
 							$dateFilterResolvedList = \App\CustomView::resolveDateFilterValue($columninfo);
 							$startDate = DateTimeField::convertToDBFormat($dateFilterResolvedList['startdate']);
 							$endDate = DateTimeField::convertToDBFormat($dateFilterResolvedList['enddate']);
-							$columninfo['value'] = $value = implode(',', array($startDate, $endDate));
+							$columninfo['value'] = $value = implode(',', [$startDate, $endDate]);
 							$comparator = 'bw';
 						}
 						$valuearray = explode(",", trim($value));
@@ -1089,7 +1089,7 @@ class ReportRun extends CRMEntity
 									if (is_numeric($valuearray[$n]) || empty($valuearray[$n])) {
 										$advcolsql [] = '(' . $tableName . '.id' . $this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype) . ')';
 									} else {
-										$advcolsql[] = 'trim(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('last_name' => "$tableName.last_name", 'first_name' => "$tableName.first_name"), 'Users') . ')' .
+										$advcolsql[] = 'trim(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(['last_name' => "$tableName.last_name", 'first_name' => "$tableName.first_name"], 'Users') . ')' .
 											$this->getAdvComparator($comparator, trim($valuearray[$n]), $datatype);
 									}
 									$this->queryPlanner->addTable($tableName);
@@ -1151,7 +1151,7 @@ class ReportRun extends CRMEntity
 							if (is_numeric($value) || empty($value)) {
 								$fieldvalue = '(' . $tableName . '.id' . $this->getAdvComparator($comparator, trim($value), $datatype) . ')';
 							} else {
-								$fieldvalue = 'trim(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('last_name' => "$tableName.last_name", 'first_name' => "$tableName.first_name"), 'Users') . ')' .
+								$fieldvalue = 'trim(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(['last_name' => "$tableName.last_name", 'first_name' => "$tableName.first_name"], 'Users') . ')' .
 									$this->getAdvComparator($comparator, trim($value), $datatype);
 							}
 							$this->queryPlanner->addTable($tableName);
@@ -1168,7 +1168,7 @@ class ReportRun extends CRMEntity
 							if (is_numeric($value) || empty($value)) {
 								$fieldvalue = '(' . $tableName . '.id' . $this->getAdvComparator($comparator, trim($value), $datatype) . ')';
 							} else {
-								$fieldvalue = 'trim(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('last_name' => "$tableName.last_name", 'first_name' => "$tableName.first_name"), 'Users') . ')' .
+								$fieldvalue = 'trim(' . \vtlib\Deprecated::getSqlForNameInDisplayFormat(['last_name' => "$tableName.last_name", 'first_name' => "$tableName.first_name"], 'Users') . ')' .
 									$this->getAdvComparator($comparator, trim($value), $datatype);
 							}
 
@@ -1287,7 +1287,7 @@ class ReportRun extends CRMEntity
 		$stdfiltersql .= " inner join vtiger_reportdatefilter on vtiger_report.reportid = vtiger_reportdatefilter.datefilterid";
 		$stdfiltersql .= " where vtiger_report.reportid = ?";
 
-		$result = $adb->pquery($stdfiltersql, array($reportid));
+		$result = $adb->pquery($stdfiltersql, [$reportid]);
 		$stdfilterrow = $adb->fetchArray($result);
 		if (isset($stdfilterrow)) {
 			$fieldcolname = $stdfilterrow["datecolumnname"];
@@ -1455,7 +1455,7 @@ class ReportRun extends CRMEntity
 		$sreportstdfiltersql .= " inner join vtiger_reportdatefilter on vtiger_report.reportid = vtiger_reportdatefilter.datefilterid";
 		$sreportstdfiltersql .= " where vtiger_report.reportid = ?";
 
-		$result = $adb->pquery($sreportstdfiltersql, array($reportid));
+		$result = $adb->pquery($sreportstdfiltersql, [$reportid]);
 		$noofrows = $adb->numRows($result);
 
 		for ($i = 0; $i < $noofrows; $i++) {
@@ -1511,7 +1511,7 @@ class ReportRun extends CRMEntity
 	public function hasGroupingList()
 	{
 		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT 1 FROM vtiger_reportsortcol WHERE reportid=? and columnname <> "none"', array($this->reportid));
+		$result = $adb->pquery('SELECT 1 FROM vtiger_reportsortcol WHERE reportid=? and columnname <> "none"', [$this->reportid]);
 		return ($result && $adb->numRows($result)) ? true : false;
 	}
 
@@ -1536,7 +1536,7 @@ class ReportRun extends CRMEntity
 		$sreportsortsql .= " LEFT JOIN vtiger_reportgroupbycolumn ON (vtiger_report.reportid = vtiger_reportgroupbycolumn.reportid && vtiger_reportsortcol.sortcolid = vtiger_reportgroupbycolumn.sortid)";
 		$sreportsortsql .= " where vtiger_report.reportid =? && vtiger_reportsortcol.columnname IN (SELECT columnname from vtiger_selectcolumn WHERE queryid=?) order by vtiger_reportsortcol.sortcolid";
 
-		$result = $adb->pquery($sreportsortsql, array($reportid, $reportid));
+		$result = $adb->pquery($sreportsortsql, [$reportid, $reportid]);
 		$grouplist = [];
 
 		$inventoryModules = getInventoryModules();
@@ -1625,7 +1625,7 @@ class ReportRun extends CRMEntity
 		$sreportsortsql .= " inner join vtiger_reportsortcol on vtiger_report.reportid = vtiger_reportsortcol.reportid";
 		$sreportsortsql .= " where vtiger_report.reportid =? order by vtiger_reportsortcol.sortcolid";
 
-		$result = $adb->pquery($sreportsortsql, array($reportid));
+		$result = $adb->pquery($sreportsortsql, [$reportid]);
 		$noofrows = $adb->numRows($result);
 
 		for ($i = 0; $i < $noofrows; $i++) {
@@ -1947,7 +1947,7 @@ class ReportRun extends CRMEntity
 		} else if ($module == 'HelpDesk') {
 			$matrix = $this->queryPlanner->newDependencyMatrix();
 
-			$matrix->setDependency('vtiger_crmentityRelHelpDesk', array('vtiger_accountRelHelpDesk', 'vtiger_contactdetailsRelHelpDesk'));
+			$matrix->setDependency('vtiger_crmentityRelHelpDesk', ['vtiger_accountRelHelpDesk', 'vtiger_contactdetailsRelHelpDesk']);
 
 			$query = 'from vtiger_troubletickets inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_troubletickets.ticketid';
 
@@ -2571,7 +2571,7 @@ class ReportRun extends CRMEntity
 				return $data;
 			}
 		} elseif ($outputformat == "TOTALXLS") {
-			$escapedchars = Array('__SUM', '__AVG', '__MIN', '__MAX');
+			$escapedchars = ['__SUM', '__AVG', '__MIN', '__MAX'];
 			$totalpdf = [];
 			$sSQL = $this->sGetSQLforReport($this->reportid, $filtersql, "COLUMNSTOTOTAL");
 			if (isset($this->totallist)) {
@@ -2582,7 +2582,7 @@ class ReportRun extends CRMEntity
 
 					foreach ($this->totallist as $key => $value) {
 						$fieldlist = explode(":", $key);
-						$mod_query = $adb->pquery("SELECT distinct(tabid) as tabid, uitype as uitype from vtiger_field where tablename = ? and columnname=?", array($fieldlist[1], $fieldlist[2]));
+						$mod_query = $adb->pquery("SELECT distinct(tabid) as tabid, uitype as uitype from vtiger_field where tablename = ? and columnname=?", [$fieldlist[1], $fieldlist[2]]);
 						if ($adb->numRows($mod_query) > 0) {
 							$module_name = \App\Module::getModuleName($adb->queryResult($mod_query, 0, 'tabid'));
 							$fieldlabel = trim(str_replace($escapedchars, " ", $fieldlist[3]));
@@ -2667,7 +2667,7 @@ class ReportRun extends CRMEntity
 			}
 			return $totalpdf;
 		} elseif ($outputformat == "TOTALHTML") {
-			$escapedchars = Array('__SUM', '__AVG', '__MIN', '__MAX');
+			$escapedchars = ['__SUM', '__AVG', '__MIN', '__MAX'];
 			$sSQL = $this->sGetSQLforReport($this->reportid, $filtersql, "COLUMNSTOTOTAL");
 
 			static $modulename_cache = [];
@@ -2692,7 +2692,7 @@ class ReportRun extends CRMEntity
 						$module_name = NULL;
 						$cachekey = $fieldlist[1] . ":" . $fieldlist[2];
 						if (!isset($modulename_cache[$cachekey])) {
-							$mod_query = $adb->pquery("SELECT distinct(tabid) as tabid, uitype as uitype from vtiger_field where tablename = ? and columnname=?", array($fieldlist[1], $fieldlist[2]));
+							$mod_query = $adb->pquery("SELECT distinct(tabid) as tabid, uitype as uitype from vtiger_field where tablename = ? and columnname=?", [$fieldlist[1], $fieldlist[2]]);
 							if ($adb->numRows($mod_query) > 0) {
 								$module_name = \App\Module::getModuleName($adb->queryResult($mod_query, 0, 'tabid'));
 								$modulename_cache[$cachekey] = $module_name;
@@ -2880,7 +2880,7 @@ class ReportRun extends CRMEntity
 				return $return_data;
 			}
 		} elseif ($outputformat == "PRINT_TOTAL") {
-			$escapedchars = Array('__SUM', '__AVG', '__MIN', '__MAX');
+			$escapedchars = ['__SUM', '__AVG', '__MIN', '__MAX'];
 			$sSQL = $this->sGetSQLforReport($this->reportid, $filtersql, "COLUMNSTOTOTAL");
 			if (isset($this->totallist)) {
 				if ($sSQL != "") {
@@ -2899,7 +2899,7 @@ class ReportRun extends CRMEntity
 
 					foreach ($this->totallist as $key => $value) {
 						$fieldlist = explode(":", $key);
-						$mod_query = $adb->pquery("SELECT distinct(tabid) as tabid, uitype as uitype from vtiger_field where tablename = ? and columnname=?", array($fieldlist[1], $fieldlist[2]));
+						$mod_query = $adb->pquery("SELECT distinct(tabid) as tabid, uitype as uitype from vtiger_field where tablename = ? and columnname=?", [$fieldlist[1], $fieldlist[2]]);
 						if ($adb->numRows($mod_query) > 0) {
 							$module_name = \App\Module::getModuleName($adb->queryResult($mod_query, 0, 'tabid'));
 							$fieldlabel = trim(str_replace($escapedchars, " ", $fieldlist[3]));
@@ -3010,7 +3010,7 @@ class ReportRun extends CRMEntity
 		static $modulename_cache = [];
 
 		$query = "select * from vtiger_reportmodules where reportmodulesid =?";
-		$res = $adb->pquery($query, array($reportid));
+		$res = $adb->pquery($query, [$reportid]);
 		$modrow = $adb->fetchArray($res);
 		$premod = $modrow["primarymodule"];
 		$secmod = $modrow["secondarymodules"];
@@ -3018,7 +3018,7 @@ class ReportRun extends CRMEntity
 		$coltotalsql .= " inner join vtiger_reportsummary on vtiger_report.reportid = vtiger_reportsummary.reportsummaryid";
 		$coltotalsql .= " where vtiger_report.reportid =?";
 
-		$result = $adb->pquery($coltotalsql, array($reportid));
+		$result = $adb->pquery($coltotalsql, [$reportid]);
 
 		while ($coltotalrow = $adb->fetchArray($result)) {
 			$fieldcolname = $coltotalrow["columnname"];
@@ -3029,7 +3029,7 @@ class ReportRun extends CRMEntity
 
 				$cachekey = $field_tablename . ":" . $field_columnname;
 				if (!isset($modulename_cache[$cachekey])) {
-					$mod_query = $adb->pquery("SELECT distinct(tabid) as tabid from vtiger_field where tablename = ? and columnname=?", array($fieldlist[1], $fieldlist[2]));
+					$mod_query = $adb->pquery("SELECT distinct(tabid) as tabid from vtiger_field where tablename = ? and columnname=?", [$fieldlist[1], $fieldlist[2]]);
 					if ($adb->numRows($mod_query) > 0) {
 						$module_name = \App\Module::getModuleName($adb->queryResult($mod_query, 0, 'tabid'));
 						$modulename_cache[$cachekey] = $module_name;
@@ -3147,7 +3147,7 @@ class ReportRun extends CRMEntity
 		$sreportstdfiltersql .= " inner join vtiger_reportsummary on vtiger_report.reportid = vtiger_reportsummary.reportsummaryid";
 		$sreportstdfiltersql .= " where vtiger_report.reportid =?";
 
-		$result = $adb->pquery($sreportstdfiltersql, array($reportid));
+		$result = $adb->pquery($sreportstdfiltersql, [$reportid]);
 		$noofrows = $adb->numRows($result);
 
 		for ($i = 0; $i < $noofrows; $i++) {
@@ -3215,7 +3215,7 @@ class ReportRun extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$current_user = vglobal('current_user');
-		$id = array(\App\Module::getModuleId($this->primarymodule));
+		$id = [\App\Module::getModuleId($this->primarymodule)];
 		if ($this->secondarymodule != '')
 			array_push($id, \App\Module::getModuleId($this->secondarymodule));
 
@@ -3304,9 +3304,9 @@ class ReportRun extends CRMEntity
 		$reportData = $this->GenerateReport("PDF", $filterlist);
 		$arrayValues = $reportData['data'];
 		$totalxls = $this->GenerateReport("TOTALXLS", $filterlist);
-		$header_styles = array(
-			'fill' => array('type' => PHPExcel_Style_Fill::FILL_SOLID, 'color' => array('rgb' => 'E1E0F7')),
-		);
+		$header_styles = [
+			'fill' => ['type' => PHPExcel_Style_Fill::FILL_SOLID, 'color' => ['rgb' => 'E1E0F7']],
+		];
 		if (!empty($arrayValues)) {
 			$count = 0;
 			$rowcount = 1;
@@ -3395,7 +3395,7 @@ class ReportRun extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$groupByTimeQuery = "SELECT * FROM vtiger_reportgroupbycolumn WHERE reportid=?";
-		$groupByTimeRes = $adb->pquery($groupByTimeQuery, array($reportId));
+		$groupByTimeRes = $adb->pquery($groupByTimeQuery, [$reportId]);
 		$numRows = $adb->numRows($groupByTimeRes);
 		for ($i = 0; $i < $numRows; $i++) {
 			$sortColName = $adb->queryResult($groupByTimeRes, $i, 'sortcolname');
@@ -3436,7 +3436,7 @@ class ReportRun extends CRMEntity
 		$sortFieldQuery = "SELECT * FROM vtiger_reportsortcol
                             LEFT JOIN vtiger_reportgroupbycolumn ON (vtiger_reportsortcol.sortcolid = vtiger_reportgroupbycolumn.sortid and vtiger_reportsortcol.reportid = vtiger_reportgroupbycolumn.reportid)
                             WHERE columnname!='none' and vtiger_reportsortcol.reportid=? ORDER By sortcolid";
-		$sortFieldResult = $adb->pquery($sortFieldQuery, array($reportid));
+		$sortFieldResult = $adb->pquery($sortFieldQuery, [$reportid]);
 		$inventoryModules = getInventoryModules();
 		if ($adb->numRows($sortFieldResult) > 0) {
 			$fieldcolname = $adb->queryResult($sortFieldResult, 0, 'columnname');
@@ -3549,13 +3549,13 @@ class ReportRun extends CRMEntity
 					$referenceTableName = "{$entityTableName}Rel{$moduleName}{$fieldModel->getId()}";
 					$dependentTableName = "vtiger_crmentityRel{$moduleName}{$fieldModel->getId()}";
 					$this->queryPlanner->addCustomTable(
-						array(
+						[
 							'reference' => $referenceTableName,
 							'field' => $fieldModel->getColumnName(),
 							'table' => $fieldInfo['tablename'],
 							'refTable' => $entityTableFieldNames['tablename'],
 							'refIndex' => $entityTableFieldNames['entityidfield']
-						)
+						]
 					);
 				}
 

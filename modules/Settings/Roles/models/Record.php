@@ -405,20 +405,20 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 
 		$links = [];
 		if ($this->getParent()) {
-			$recordLinks = array(
-				array(
+			$recordLinks = [
+				[
 					'linktype' => 'LISTVIEWRECORD',
 					'linklabel' => 'LBL_EDIT_RECORD',
 					'linkurl' => $this->getListViewEditUrl(),
 					'linkicon' => 'glyphicon glyphicon-pencil'
-				),
-				array(
+				],
+				[
 					'linktype' => 'LISTVIEWRECORD',
 					'linklabel' => 'LBL_DELETE_RECORD',
 					'linkurl' => $this->getDeleteActionUrl(),
 					'linkicon' => 'glyphicon glyphicon-trash'
-				)
-			);
+				]
+			];
 			foreach ($recordLinks as $recordLink) {
 				$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 			}

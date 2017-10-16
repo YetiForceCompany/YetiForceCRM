@@ -86,13 +86,13 @@ class Calendar_Import_View extends Vtiger_Import_View
 			$eventModule = 'Events';
 			$todoModule = 'Calendar';
 
-			$skipFields = array(
-				$eventModule => array('duration_hours'),
-				$todoModule => array('activitystatus')
-			);
+			$skipFields = [
+				$eventModule => ['duration_hours'],
+				$todoModule => ['activitystatus']
+			];
 
 			$requiredFields = [];
-			$modules = array($eventModule, $todoModule);
+			$modules = [$eventModule, $todoModule];
 			$calendarModel = Vtiger_Module_Model::getInstance($moduleName);
 
 			foreach ($modules as $module) {
@@ -121,7 +121,7 @@ class Calendar_Import_View extends Vtiger_Import_View
 					$activityFieldsList['visibility'] = ' ';
 				}
 				if (array_key_exists('taskpriority', $activityFieldsList)) {
-					$priorityMap = array('0' => 'Medium', '1' => 'High', '2' => 'Medium', '3' => 'Low');
+					$priorityMap = ['0' => 'Medium', '1' => 'High', '2' => 'Medium', '3' => 'Low'];
 					$priorityval = $activityFieldsList['taskpriority'];
 					if (array_key_exists($priorityval, $priorityMap))
 						$activityFieldsList['taskpriority'] = $priorityMap[$priorityval];
@@ -146,7 +146,7 @@ class Calendar_Import_View extends Vtiger_Import_View
 				$recordModel->save();
 
 				$lastImport = new IcalLastImport();
-				$lastImport->setFields(array('userid' => $userId, 'entitytype' => $todoModule, 'crmid' => $recordModel->getId()));
+				$lastImport->setFields(['userid' => $userId, 'entitytype' => $todoModule, 'crmid' => $recordModel->getId()]);
 				$lastImport->save();
 
 				if (!empty($icalActivities[$i]['VALARM'])) {

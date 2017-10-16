@@ -120,7 +120,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getSupportedModules()
 	{
-		$moduleModels = Vtiger_Module_Model::getAll(array(0, 2));
+		$moduleModels = Vtiger_Module_Model::getAll([0, 2]);
 		$supportedModuleModels = [];
 		foreach ($moduleModels as $tabId => $moduleModel) {
 			if ($moduleModel->isWorkflowSupported()) {

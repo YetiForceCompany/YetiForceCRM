@@ -98,11 +98,11 @@ class PearDatabase
 		$dsn = $this->dbType . ':host=' . $this->dbHostName . ';dbname=' . $this->dbName . ';port=' . $this->port;
 
 		// Set options
-		$options = array(
+		$options = [
 			PDO::ATTR_EMULATE_PREPARES => false,
 			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 			PDO::ATTR_TIMEOUT => 5
-		);
+		];
 		// Create a new PDO instanace
 		try {
 			$this->database = new PDO($dsn, $this->userName, $this->userPassword, $options);
@@ -775,14 +775,14 @@ class PearDatabase
 			return 'NULL';
 		}
 
-		$map = array(
+		$map = [
 			'bool' => PDO::PARAM_BOOL,
 			'integer' => PDO::PARAM_INT,
-		);
+		];
 
 		$type = isset($map[$type]) ? $map[$type] : PDO::PARAM_STR;
 		if ($quote) {
-			return strtr($this->database->quote($input, $type), array(self::DEFAULT_QUOTE => self::DEFAULT_QUOTE . self::DEFAULT_QUOTE));
+			return strtr($this->database->quote($input, $type), [self::DEFAULT_QUOTE => self::DEFAULT_QUOTE . self::DEFAULT_QUOTE]);
 		} else {
 			return self::DEFAULT_QUOTE . $input . self::DEFAULT_QUOTE;
 		}

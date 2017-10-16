@@ -18,12 +18,12 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 		$advancedLinks = [];
 		$exportPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'Export');
 		if ($exportPermission) {
-			$advancedLinks[] = array(
+			$advancedLinks[] = [
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_EXPORT',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerExportAction("' . $this->getModule()->getExportUrl() . '")',
 				'linkicon' => ''
-			);
+			];
 		}
 
 		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && \App\Privilege::isPermitted($moduleModel->getName(), 'ExportPdf')) {
@@ -43,12 +43,12 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 
 		$quickExportToExcelPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'QuickExportToExcel');
 		if ($quickExportToExcelPermission && !Settings_ModuleManager_Library_Model::checkLibrary('PHPExcel')) {
-			$advancedLinks[] = array(
+			$advancedLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerQuickExportToExcel("' . $moduleModel->getName() . '")',
 				'linkicon' => ''
-			);
+			];
 		}
 		return $advancedLinks;
 	}
@@ -88,17 +88,17 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 		$moduleModel = $this->getModule();
 		$moduleName = $moduleModel->getName();
 
-		$linkTypes = array('LISTVIEWMASSACTION');
+		$linkTypes = ['LISTVIEWMASSACTION'];
 		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 
 		$massActionLink = [];
 		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'Delete')) {
-			$massActionLink = array(
+			$massActionLink = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => \App\Language::translate('LBL_DELETE', $moduleName),
 				'linkurl' => 'javascript:Vtiger_List_Js.massDeleteRecords("index.php?module=' . $moduleName . '&action=MassDelete");',
 				'linkicon' => ''
-			);
+			];
 		}
 		$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
 

@@ -29,7 +29,7 @@ class Vtiger_Language_Handler
 		if (!$currentLanguage) {
 			$currentLanguage = \App\Language::getLanguage();
 		}
-		//decoding for Start Date & Time and End Date & Time 
+		//decoding for Start Date & Time and End Date & Time
 		if (!is_array($key)) {
 			$key = App\Purifier::decodeHtml($key);
 		}
@@ -176,7 +176,7 @@ class Vtiger_Language_Handler
 	{
 		$userSelectedLanguage = \App\Language::getLanguage();
 		$defaultLanguage = vglobal('default_language');
-		$languages = array($userSelectedLanguage);
+		$languages = [$userSelectedLanguage];
 		//To merge base language and user selected language translations
 		if ($userSelectedLanguage != $defaultLanguage) {
 			array_push($languages, $defaultLanguage);

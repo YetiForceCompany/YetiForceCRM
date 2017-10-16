@@ -46,10 +46,10 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 		$viewName = $request->getByType('view', 1);
 
-		$scripts = array(
+		$scripts = [
 			"modules.Vtiger.resources.$viewName",
 			"modules.$moduleName.resources.$viewName"
-		);
+		];
 
 		$scriptInstances = $this->checkAndConvertJsScripts($scripts);
 		return $scriptInstances;

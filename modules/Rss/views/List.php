@@ -59,7 +59,7 @@ class Rss_List_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $module);
 		$viewer->assign('RECORD', $recordInstance);
-		$linkParams = array('MODULE' => $module, 'ACTION' => $request->getByType('view', 1));
+		$linkParams = ['MODULE' => $module, 'ACTION' => $request->getByType('view', 1)];
 		$viewer->assign('QUICK_LINKS', $moduleModel->getSideBarLinks($linkParams));
 		$viewer->assign('LISTVIEW_HEADERS', $this->getListViewRssHeaders($module));
 	}
@@ -74,13 +74,13 @@ class Rss_List_View extends Vtiger_Index_View
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			'modules.Vtiger.resources.List',
 			"modules.$moduleName.resources.List",
 			'modules.CustomView.resources.CustomView',
 			"modules.$moduleName.resources.CustomView",
 			'modules.Vtiger.resources.CkEditor'
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
@@ -93,22 +93,22 @@ class Rss_List_View extends Vtiger_Index_View
 	 */
 	public function getListViewRssHeaders($module)
 	{
-		$headerFields = array(
-			'title' => array(
+		$headerFields = [
+			'title' => [
 				'uitype' => '1',
 				'name' => 'title',
 				'label' => 'LBL_SUBJECT',
 				'typeofdata' => 'V~O',
 				'diplaytype' => '1',
-			),
-			'sender' => array(
+			],
+			'sender' => [
 				'uitype' => '1',
 				'name' => 'sender',
 				'label' => 'LBL_SENDER',
 				'typeofdata' => 'V~O',
 				'diplaytype' => '1',
-			)
-		);
+			]
+		];
 		foreach ($headerFields as $fieldName => $fieldDetails) {
 			$fieldModel = new Vtiger_Field_Model();
 			foreach ($fieldDetails as $name => $value) {

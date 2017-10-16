@@ -21,7 +21,7 @@ class Settings_PickListDependency_SaveAjax_Action extends Settings_Vtiger_Index_
 		$response = new Vtiger_Response();
 		try {
 			$result = $recordModel->save($request->get('mapping'));
-			$response->setResult(array('success' => $result));
+			$response->setResult(['success' => $result]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}

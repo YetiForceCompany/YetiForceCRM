@@ -15,7 +15,7 @@ class VTAddressBookTask extends VTTask
 
 	public function getFieldNames()
 	{
-		return array('test');
+		return ['test'];
 	}
 
 	/**

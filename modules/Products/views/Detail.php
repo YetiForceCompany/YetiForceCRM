@@ -41,11 +41,11 @@ class Products_Detail_View extends Vtiger_Detail_View
 		unset($headerScriptInstances[$moduleDetailFile]);
 		unset($headerScriptInstances[$moduleRelatedListFile]);
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			'~libraries/jquery/jquery.cycle.min.js',
 			'modules.PriceBooks.resources.Detail',
 			'modules.PriceBooks.resources.RelatedList',
-		);
+		];
 
 		$jsFileNames[] = $moduleDetailFile;
 		$jsFileNames[] = $moduleRelatedListFile;

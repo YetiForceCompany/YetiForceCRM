@@ -54,7 +54,7 @@ class Reports_MassDelete_Action extends Vtiger_Mass_Action
 
 		$response = new Vtiger_Response();
 		if (empty($reportsDeleteDenied)) {
-			$response->setResult(array(\App\Language::translate('LBL_REPORTS_DELETED_SUCCESSFULLY', $parentModule)));
+			$response->setResult([\App\Language::translate('LBL_REPORTS_DELETED_SUCCESSFULLY', $parentModule)]);
 		} else {
 			$response->setError($reportsDeleteDenied, \App\Language::translate('LBL_DENIED_REPORTS', $parentModule));
 		}

@@ -22,7 +22,7 @@ class Products_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
-		$supportedModulesList = array($this->getName(), 'Vendors', 'Leads', 'Accounts');
+		$supportedModulesList = [$this->getName(), 'Vendors', 'Leads', 'Accounts'];
 		if (($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList') || in_array($sourceModule, $supportedModulesList) || Vtiger_Module_Model::getInstance($sourceModule)->isInventory()) {
 			$condition = ['and', ['vtiger_products.discontinued' => 1]];
 			if ($sourceModule === $this->getName()) {

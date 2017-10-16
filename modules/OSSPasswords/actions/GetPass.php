@@ -40,9 +40,9 @@ class OSSPasswords_GetPass_Action extends Vtiger_Action_Controller
 
 		$pass = $recordModel->getPassword($record);
 		if ($pass === false) {
-			$result = array('success' => false);
+			$result = ['success' => false];
 		} else {
-			$result = array('success' => true, 'password' => $pass);
+			$result = ['success' => true, 'password' => $pass];
 		}
 
 		$response = new Vtiger_Response();

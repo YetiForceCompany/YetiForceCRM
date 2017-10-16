@@ -18,12 +18,12 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 		$advancedLinks = [];
 
 		if ($moduleModel->isPermitted('Export')) {
-			$advancedLinks[] = array(
+			$advancedLinks[] = [
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_EXPORT',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerExportAction("' . $this->getModule()->getExportUrl() . '")',
 				'linkicon' => ''
-			);
+			];
 		}
 
 		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
@@ -42,12 +42,12 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 		}
 
 		if ($moduleModel->isPermitted('QuickExportToExcel') && !Settings_ModuleManager_Library_Model::checkLibrary('PHPExcel')) {
-			$advancedLinks[] = array(
+			$advancedLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerQuickExportToExcel("' . $moduleModel->getName() . '")',
 				'linkicon' => ''
-			);
+			];
 		}
 		if ($moduleModel->isPermitted('RecordMappingList')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
@@ -73,7 +73,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 	{
 		$moduleModel = $this->getModule();
 
-		$linkTypes = array('LISTVIEWMASSACTION');
+		$linkTypes = ['LISTVIEWMASSACTION'];
 		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 
 		//Opensource fix to make documents module mass editable

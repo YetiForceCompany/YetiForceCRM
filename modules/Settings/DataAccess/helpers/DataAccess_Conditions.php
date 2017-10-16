@@ -16,7 +16,7 @@ class DataAccess_Conditions
 	{
 		$condition = $this->getListConditionsById($ID);
 		if (empty($form)) {
-			return array('test' => true, 'ID' => $ID, 'condition' => $condition[$ID][0]);
+			return ['test' => true, 'ID' => $ID, 'condition' => $condition[$ID][0]];
 		}
 		$responeListRequired = [];
 		$responeListOptional = [];
@@ -63,9 +63,9 @@ class DataAccess_Conditions
 			$responeListOptionalStatus = true;
 		}
 		if ($responeListRequiredStatus && $responeListOptionalStatus) {
-			return array('test' => true, 'ID' => $ID, 'condition' => $condition[$ID][0]);
+			return ['test' => true, 'ID' => $ID, 'condition' => $condition[$ID][0]];
 		} else {
-			return array('test' => false, 'ID' => $ID, 'condition' => $condition[$ID][0]);
+			return ['test' => false, 'ID' => $ID, 'condition' => $condition[$ID][0]];
 		}
 	}
 

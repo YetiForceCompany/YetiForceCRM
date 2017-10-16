@@ -197,9 +197,9 @@ class IcalendarPropertyCalscale extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 
 	public function isValidValue($value)
@@ -217,16 +217,16 @@ class IcalendarPropertyMethod extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 
 	public function isValidValue($value)
 	{
 		// This is case-sensitive
 		// Methods from RFC 2446
-		$methods = array('PUBLISH', 'REQUEST', 'REPLY', 'ADD', 'CANCEL', 'REFRESH', 'COUNTER', 'DECLINECOUNTER');
+		$methods = ['PUBLISH', 'REQUEST', 'REPLY', 'ADD', 'CANCEL', 'REFRESH', 'COUNTER', 'DECLINECOUNTER'];
 		return in_array($value, $methods);
 	}
 }
@@ -242,9 +242,9 @@ class IcalendarPropertyProdid extends IcalendarProperty
 	{
 		$this->val_default = '-//YetiForce CRM//YetiForce CRM ' . \App\Version::get() . '//EN';
 
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 }
 
@@ -257,9 +257,9 @@ class IcalendarPropertyVersion extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 
 	public function isValidValue($value)
@@ -279,12 +279,12 @@ class IcalendarPropertyAttach extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			'FMTTYPE' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'ENCODING' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'VALUE' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 
 	public function invariantHolds()
@@ -329,10 +329,10 @@ class IcalendarPropertyCategories extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			'LANGUAGE' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 }
 
@@ -345,9 +345,9 @@ class IcalendarPropertyClass extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 
 	public function isValidValue($value)
@@ -366,11 +366,11 @@ class IcalendarPropertyComment extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			'ALTREP' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'LANGUAGE' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 }
 
@@ -382,11 +382,11 @@ class IcalendarPropertyDescription extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			'ALTREP' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'LANGUAGE' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 }
 
@@ -398,11 +398,11 @@ class IcalendarPropertyGeo extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			'ALTREP' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'LANGUAGE' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 
 	public function isValidValue($value)
@@ -441,11 +441,11 @@ class IcalendarPropertyLocation extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			'ALTREP' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'LANGUAGE' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 }
 
@@ -457,9 +457,9 @@ class IcalendarPropertyPercentcomplete extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 
 	public function isValidValue($value)
@@ -481,9 +481,9 @@ class IcalendarPropertyPriority extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 
 	public function isValidValue($value)
@@ -505,11 +505,11 @@ class IcalendarPropertyResources extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			'ALTREP' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'LANGUAGE' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 }
 
@@ -521,9 +521,9 @@ class IcalendarPropertyStatus extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 	/*    function isValidValue($value) {
 	  // This is case-sensitive
@@ -552,11 +552,11 @@ class IcalendarPropertySummary extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			'ALTREP' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'LANGUAGE' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 }
 
@@ -571,9 +571,9 @@ class IcalendarPropertyCompleted extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 
 	public function isValidValue($value)
@@ -594,11 +594,11 @@ class IcalendarPropertyDtend extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			'VALUE' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'TZID' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 
 	public function isValidValue($value)
@@ -639,11 +639,11 @@ class IcalendarPropertyDue extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			'VALUE' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'TZID' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 
 	public function isValidValue($value)
@@ -684,11 +684,11 @@ class IcalendarPropertyDtstart extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			'VALUE' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'TZID' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 
 	public function isValidValue($value)
@@ -727,9 +727,9 @@ class IcalendarPropertyDuration extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 
 	public function isValidValue($value)
@@ -752,10 +752,10 @@ class IcalendarPropertyFreebusy extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			'FBTYPE' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 
 	public function isValidValue($value)
@@ -787,9 +787,9 @@ class IcalendarPropertyTransp extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 
 	public function isValidValue($value)
@@ -806,7 +806,7 @@ class IcalendarPropertyAttendee extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			'LANGUAGE' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'CN' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'ROLE' => RFC2445_OPTIONAL | RFC2445_ONCE,
@@ -819,7 +819,7 @@ class IcalendarPropertyAttendee extends IcalendarProperty
 			'SENT-BY' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'DIR' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 
 	public function setParentComponent($componentname)
@@ -830,10 +830,10 @@ class IcalendarPropertyAttendee extends IcalendarProperty
 
 		if ($this->parent_component == 'VFREEBUSY' || $this->parent_component == 'VALARM') {
 			// Most parameters become invalid in this case, the full allowed set is now:
-			$this->valid_parameters = array(
+			$this->valid_parameters = [
 				'LANGUAGE' => RFC2445_OPTIONAL | RFC2445_ONCE,
 				RFC2445_XNAME => RFC2445_OPTIONAL
-			);
+			];
 		}
 
 		return false;
@@ -848,11 +848,11 @@ class IcalendarPropertyContact extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			'ALTREP' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'LANGUAGE' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 }
 
@@ -864,13 +864,13 @@ class IcalendarPropertyOrganizer extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			'CN' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'DIR' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'SENT-BY' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'LANGUAGE' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 }
 
@@ -882,12 +882,12 @@ class IcalendarPropertyRecurrenceid extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			'RANGE' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'TZID' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'VALUE' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 
 	public function isValidParameter($parameter, $value)
@@ -914,10 +914,10 @@ class IcalendarPropertyRelatedto extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			'RELTYPE' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 }
 
@@ -929,9 +929,9 @@ class IcalendarPropertyUrl extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 }
 
@@ -943,9 +943,9 @@ class IcalendarPropertyUid extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 
 		// The exception to the rule: this is not a static value, so we
 		// generate it on-the-fly here. Guaranteed to be different for
@@ -966,11 +966,11 @@ class IcalendarPropertyExdate extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			'TZID' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'VALUE' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 
 	public function isValidParameter($parameter, $value)
@@ -997,9 +997,9 @@ class IcalendarPropertyExrule extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 }
 
@@ -1012,11 +1012,11 @@ class IcalendarPropertyRdate extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			'TZID' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'VALUE' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 
 	public function isValidParameter($parameter, $value)
@@ -1043,9 +1043,9 @@ class IcalendarPropertyRrule extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 }
 
@@ -1057,9 +1057,9 @@ class IcalendarPropertyCreated extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 
 	public function isValidValue($value)
@@ -1080,9 +1080,9 @@ class IcalendarPropertyDtstamp extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 
 	public function isValidValue($value)
@@ -1103,9 +1103,9 @@ class IcalendarPropertyLastmodified extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 
 	public function isValidValue($value)
@@ -1127,9 +1127,9 @@ class IcalendarPropertySequence extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 
 	public function isValidValue($value)
@@ -1153,10 +1153,10 @@ class IcalendarPropertyX extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			'LANGUAGE' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 
 	public function setName($name)
@@ -1186,10 +1186,10 @@ class IcalendarPropertyRequeststatus extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			'LANGUAGE' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 
 	public function isValidValue($value)
@@ -1312,9 +1312,9 @@ class IcalendarPropertyTrigger extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 }
 
@@ -1326,10 +1326,10 @@ class IcalendarPropertyAction extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			'DISPLAY' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 }
 
@@ -1341,9 +1341,9 @@ class IcalendarPropertyXwralarmuid extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 }
 
@@ -1355,9 +1355,9 @@ class IcalendarPropertyTzoffsetto extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 }
 
@@ -1369,9 +1369,9 @@ class IcalendarPropertyDaylightc extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 }
 
@@ -1383,9 +1383,9 @@ class IcalendarPropertyStandardc extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 	}
 }
 
@@ -1397,8 +1397,8 @@ class IcalendarPropertyTzid extends IcalendarProperty
 
 	public function construct()
 	{
-		$this->valid_parameters = array(
+		$this->valid_parameters = [
 			RFC2445_XNAME => RFC2445_REQUIRED
-		);
+		];
 	}
 }

@@ -41,9 +41,9 @@ class Reports_CheckDuplicate_Action extends Vtiger_Action_Controller
 		$recordModel->set('reportname', $reportName);
 		$recordModel->set('isDuplicate', $request->get('isDuplicate'));
 		if (!$recordModel->checkDuplicate()) {
-			$result = array('success' => false);
+			$result = ['success' => false];
 		} else {
-			$result = array('success' => true, 'message' => \App\Language::translate('LBL_DUPLICATES_EXIST', $moduleName));
+			$result = ['success' => true, 'message' => \App\Language::translate('LBL_DUPLICATES_EXIST', $moduleName)];
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);

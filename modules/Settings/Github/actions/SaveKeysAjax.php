@@ -26,7 +26,7 @@ class Settings_Github_SaveKeysAjax_Action extends Settings_Vtiger_Basic_Action
 			$success = false;
 		}
 		$responce = new Vtiger_Response();
-		$responce->setResult(array('success' => $success));
+		$responce->setResult(['success' => $success]);
 		$responce->emit();
 	}
 

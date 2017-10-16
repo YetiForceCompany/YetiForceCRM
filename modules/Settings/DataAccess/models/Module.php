@@ -118,7 +118,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 				}
 			}
 		}
-		return array('basic_info' => $basicInfo, 'required_conditions' => $requiredConditions, 'optional_conditions' => $optionalConditions);
+		return ['basic_info' => $basicInfo, 'required_conditions' => $requiredConditions, 'optional_conditions' => $optionalConditions];
 	}
 
 	public static function getListBaseModuleField($baseModule)
@@ -146,33 +146,33 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 
 	public static function getConditionByType($type = NULL)
 	{
-		$list = array(
-			'string' => array('is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'),
-			'salutation' => array('is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'),
-			'text' => array('is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'),
-			'url' => array('is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'),
-			'email' => array('is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'),
-			'phone' => array('is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'),
-			'integer' => array('equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed'),
-			'double' => array('equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed'),
-			'currency' => array('equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed'),
-			'picklist' => array('is', 'is not', 'has changed'),
-			'multipicklist' => array('is', 'is not', 'has changed'),
-			'datetime' => array('is', 'is not', 'less than hours before', 'less than hours later', 'more than hours before', 'more than hours later', 'has changed'),
-			'time' => array('is', 'is not', 'has changed'),
-			'date' => array('is', 'is not', 'between', 'before', 'after', 'is today', 'in less than', 'in more than', 'days ago', 'days later', 'has changed'),
-			'boolean' => array('is enabled', 'is disabled', 'has changed'),
-			'reference' => array('is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'),
-			'owner' => array('is', 'is not', 'has changed'),
-			'sharedOwner' => array('is empty', 'is not empty', 'has changed'),
-			'recurrence' => array('is', 'is not'),
-			'comment' => array('is added'),
+		$list = [
+			'string' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'],
+			'salutation' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'],
+			'text' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'],
+			'url' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'],
+			'email' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'],
+			'phone' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'],
+			'integer' => ['equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed'],
+			'double' => ['equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed'],
+			'currency' => ['equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed'],
+			'picklist' => ['is', 'is not', 'has changed'],
+			'multipicklist' => ['is', 'is not', 'has changed'],
+			'datetime' => ['is', 'is not', 'less than hours before', 'less than hours later', 'more than hours before', 'more than hours later', 'has changed'],
+			'time' => ['is', 'is not', 'has changed'],
+			'date' => ['is', 'is not', 'between', 'before', 'after', 'is today', 'in less than', 'in more than', 'days ago', 'days later', 'has changed'],
+			'boolean' => ['is enabled', 'is disabled', 'has changed'],
+			'reference' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'],
+			'owner' => ['is', 'is not', 'has changed'],
+			'sharedOwner' => ['is empty', 'is not empty', 'has changed'],
+			'recurrence' => ['is', 'is not'],
+			'comment' => ['is added'],
 			'rangeTime' => ['is empty', 'is not empty'],
 			'tree' => ['is', 'is not', 'has changed', 'has changed to', 'is empty', 'is not empty'],
 			'documentsFileUpload' => ['is', 'contains', 'does not contain', 'starts with', 'ends with', 'is empty', 'is not empty', 'has changed'],
 			'multiImage' => ['is empty', 'is not empty'],
 			'multiReferenceValue' => ['is empty', 'is not empty'],
-		);
+		];
 		if (NULL != $type) {
 			return $list[$type];
 		} else {
@@ -339,7 +339,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 				}
 			}
 		}
-		return array('success' => $success, 'data' => $output);
+		return ['success' => $success, 'data' => $output];
 	}
 
 	public static function executeAction($module, $param, $data)
@@ -362,7 +362,7 @@ class Settings_DataAccess_Module_Model extends Vtiger_Module_Model
 				}
 			}
 		}
-		return array('success' => $save_record, 'data' => $output);
+		return ['success' => $save_record, 'data' => $output];
 	}
 
 	protected static $colorListCache = [];

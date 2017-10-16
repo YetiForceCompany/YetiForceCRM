@@ -52,7 +52,7 @@ class Vtiger_ProcessDuplicates_Action extends Vtiger_Action_Controller
 		}
 		$primaryRecordModel->save();
 
-		$deleteRecords = array_diff($records, array($primaryRecord));
+		$deleteRecords = array_diff($records, [$primaryRecord]);
 		foreach ($deleteRecords as $deleteRecord) {
 			$record = Vtiger_Record_Model::getInstanceById($deleteRecord, $moduleName);
 			if ($record->isDeletable()) {

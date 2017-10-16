@@ -24,7 +24,7 @@ Class Settings_HideBlocks_Conditions_View extends Settings_Vtiger_Index_View
 		if ($recordId) {
 			$mode = 'edit';
 		} else {
-			
+
 		}
 		$moduleModel = Settings_HideBlocks_Record_Model::getModuleInstanceByBlockId($blockId);
 		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
@@ -73,10 +73,10 @@ Class Settings_HideBlocks_Conditions_View extends Settings_Vtiger_Index_View
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			"modules.Settings.$moduleName.resources.Conditions",
 			"modules.Settings.$moduleName.resources.AdvanceFilter"
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
@@ -90,16 +90,16 @@ Class Settings_HideBlocks_Conditions_View extends Settings_Vtiger_Index_View
 		if (!empty($conditions)) {
 			foreach ($conditions as $index => $info) {
 				if (!($info['groupid'])) {
-					$firstGroup[] = array('columnname' => $info['fieldname'], 'comparator' => $info['operation'], 'value' => $info['value'],
-						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid']);
+					$firstGroup[] = ['columnname' => $info['fieldname'], 'comparator' => $info['operation'], 'value' => $info['value'],
+						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid']];
 				} else {
-					$secondGroup[] = array('columnname' => $info['fieldname'], 'comparator' => $info['operation'], 'value' => $info['value'],
-						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid']);
+					$secondGroup[] = ['columnname' => $info['fieldname'], 'comparator' => $info['operation'], 'value' => $info['value'],
+						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid']];
 				}
 			}
 		}
-		$transformedConditions[1] = array('columns' => $firstGroup);
-		$transformedConditions[2] = array('columns' => $secondGroup);
+		$transformedConditions[1] = ['columns' => $firstGroup];
+		$transformedConditions[2] = ['columns' => $secondGroup];
 		return $transformedConditions;
 	}
 }

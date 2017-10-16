@@ -225,9 +225,9 @@ function vtws_updateConvertLeadStatus($entityIds, $leadId, Users_Record_Model $u
 		//update the modifiedtime and modified by information for the record
 		$leadModifiedTime = $adb->formatDate(date('Y-m-d H:i:s'), true);
 		$crmentityUpdateSql = "UPDATE vtiger_crmentity SET modifiedtime=?, modifiedby=? WHERE crmid=?";
-		$adb->pquery($crmentityUpdateSql, array($leadModifiedTime, $user->id, $leadId));
+		$adb->pquery($crmentityUpdateSql, [$leadModifiedTime, $user->id, $leadId]);
 	}
-	$moduleArray = array('Accounts', 'Contacts');
+	$moduleArray = ['Accounts', 'Contacts'];
 
 	foreach ($moduleArray as $module) {
 		if (!empty($entityIds[$module])) {
@@ -237,7 +237,7 @@ function vtws_updateConvertLeadStatus($entityIds, $leadId, Users_Record_Model $u
 			$tablename = $field->getTableName();
 			$entity = $moduleModel->getEntityInstance();
 			$tableIndex = $entity->tab_name_index[$tablename];
-			$adb->pquery("UPDATE $tablename SET isconvertedfromlead = ? WHERE $tableIndex = ?", array(1, $id));
+			$adb->pquery("UPDATE $tablename SET isconvertedfromlead = ? WHERE $tableIndex = ?", [1, $id]);
 		}
 	}
 }

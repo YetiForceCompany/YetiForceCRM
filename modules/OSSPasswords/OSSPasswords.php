@@ -19,41 +19,41 @@ class OSSPasswords extends CRMEntity
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('vtiger_osspasswordscf', 'osspasswordsid');
+	public $customFieldTable = ['vtiger_osspasswordscf', 'osspasswordsid'];
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_osspasswords', 'vtiger_osspasswordscf');
+	public $tab_name = ['vtiger_crmentity', 'vtiger_osspasswords', 'vtiger_osspasswordscf'];
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public $tab_name_index = Array(
+	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_osspasswords' => 'osspasswordsid',
-		'vtiger_osspasswordscf' => 'osspasswordsid');
+		'vtiger_osspasswordscf' => 'osspasswordsid'];
 
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public $list_fields = Array(
+	public $list_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'OSSPassword No' => Array('osspasswords' => 'osspassword_no'),
-		'Key name' => Array('osspasswords' => 'passwordname'),
-		'Username' => Array('osspasswords' => 'username'),
-		'Password' => Array('osspasswords' => 'password'),
-		'WWW page' => Array('osspasswords' => 'link_adres'),
-	);
-	public $list_fields_name = Array(
+		'OSSPassword No' => ['osspasswords' => 'osspassword_no'],
+		'Key name' => ['osspasswords' => 'passwordname'],
+		'Username' => ['osspasswords' => 'username'],
+		'Password' => ['osspasswords' => 'password'],
+		'WWW page' => ['osspasswords' => 'link_adres'],
+	];
+	public $list_fields_name = [
 		/* Format: Field Label => fieldname */
 		'OSSPassword No' => 'osspassword_no',
 		'Key name' => 'passwordname',
 		'Username' => 'username',
 		'Password' => 'password',
 		'WWW page' => 'link_adres',
-	);
+	];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
@@ -62,32 +62,32 @@ class OSSPasswords extends CRMEntity
 	// Make the field link to detail view
 	public $list_link_field = 'passwordname';
 	// For Popup listview and UI type support
-	public $search_fields = Array(
+	public $search_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'OSSPassword No' => Array('osspasswords' => 'osspassword_no'),
-		'Key name' => Array('osspasswords' => 'passwordname'),
-		'Username' => Array('osspasswords' => 'username'),
-		'WWW page' => Array('osspasswords' => 'link_adres'),
-	);
-	public $search_fields_name = Array(
+		'OSSPassword No' => ['osspasswords' => 'osspassword_no'],
+		'Key name' => ['osspasswords' => 'passwordname'],
+		'Username' => ['osspasswords' => 'username'],
+		'WWW page' => ['osspasswords' => 'link_adres'],
+	];
+	public $search_fields_name = [
 		/* Format: Field Label => fieldname */
 		'OSSPassword No' => 'osspassword_no',
 		'Key name' => 'passwordname',
 		'Username' => 'username',
 		'WWW page' => 'link_adres',
-	);
+	];
 	// For Popup window record selection
-	public $popup_fields = Array('username');
+	public $popup_fields = ['username'];
 	// For Alphabetical search
 	public $def_basicsearch_col = 'passwordname';
 	// Required Information for enabling Import feature
-	public $required_fields = Array('passwordname' => 1);
+	public $required_fields = ['passwordname' => 1];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public $mandatory_fields = Array('passwordname');
+	public $mandatory_fields = ['passwordname'];
 	// Callback function list during Importing
-	public $special_functions = Array('set_import_assigned_user');
+	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
 	public $unit_price;
@@ -118,7 +118,7 @@ class OSSPasswords extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($module));
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", [$module]);
 		$linkedFieldsCount = $this->db->numRows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {

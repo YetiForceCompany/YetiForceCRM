@@ -26,23 +26,23 @@ class Accounts extends CRMEntity
 
 	public $table_name = 'vtiger_account';
 	public $table_index = 'accountid';
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_account', 'vtiger_accountaddress', 'vtiger_accountscf', 'vtiger_entity_stats');
-	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_account' => 'accountid', 'vtiger_accountaddress' => 'accountaddressid', 'vtiger_accountscf' => 'accountid', 'vtiger_entity_stats' => 'crmid');
+	public $tab_name = ['vtiger_crmentity', 'vtiger_account', 'vtiger_accountaddress', 'vtiger_accountscf', 'vtiger_entity_stats'];
+	public $tab_name_index = ['vtiger_crmentity' => 'crmid', 'vtiger_account' => 'accountid', 'vtiger_accountaddress' => 'accountaddressid', 'vtiger_accountscf' => 'accountid', 'vtiger_entity_stats' => 'crmid'];
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('vtiger_accountscf', 'accountid');
+	public $customFieldTable = ['vtiger_accountscf', 'accountid'];
 	public $entity_table = 'vtiger_crmentity';
 	public $column_fields = [];
 	// This is the list of vtiger_fields that are in the lists.
-	public $list_fields = Array(
+	public $list_fields = [
 		'Account Name' => ['vtiger_account' => 'accountname'],
 		'Assigned To' => ['vtiger_crmentity' => 'smownerid'],
 		'FL_STATUS' => ['vtiger_account' => 'accounts_status'],
 		'Type' => ['vtiger_account' => 'accounttype'],
 		'Vat ID' => ['vtiger_account' => 'vat_id'],
-	);
+	];
 	public $list_fields_name = [
 		'Account Name' => 'accountname',
 		'Assigned To' => 'assigned_user_id',
@@ -74,9 +74,9 @@ class Accounts extends CRMEntity
 	public $required_fields = [];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public $mandatory_fields = Array('assigned_user_id', 'createdtime', 'modifiedtime', 'accountname');
+	public $mandatory_fields = ['assigned_user_id', 'createdtime', 'modifiedtime', 'accountname'];
 	//Default Fields for Email Templates -- Pavani
-	public $emailTemplate_defaultFields = array('accountname', 'account_type', 'industry', 'annualrevenue', 'phone', 'email1', 'rating', 'website', 'fax');
+	public $emailTemplate_defaultFields = ['accountname', 'account_type', 'industry', 'annualrevenue', 'phone', 'email1', 'rating', 'website', 'fax'];
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
@@ -160,8 +160,8 @@ class Accounts extends CRMEntity
 	{
 
 		$matrix = $queryPlanner->newDependencyMatrix();
-		$matrix->setDependency('vtiger_crmentityAccounts', array('vtiger_groupsAccounts', 'vtiger_usersAccounts', 'vtiger_lastModifiedByAccounts'));
-		$matrix->setDependency('vtiger_account', array('vtiger_crmentityAccounts', ' vtiger_accountaddress', 'vtiger_accountscf', 'vtiger_accountAccounts', 'vtiger_email_trackAccounts'));
+		$matrix->setDependency('vtiger_crmentityAccounts', ['vtiger_groupsAccounts', 'vtiger_usersAccounts', 'vtiger_lastModifiedByAccounts']);
+		$matrix->setDependency('vtiger_account', ['vtiger_crmentityAccounts', ' vtiger_accountaddress', 'vtiger_accountscf', 'vtiger_accountAccounts', 'vtiger_email_trackAccounts']);
 
 		if (!$queryPlanner->requireTable('vtiger_account', $matrix)) {
 			return '';
@@ -227,7 +227,7 @@ class Accounts extends CRMEntity
 		$accountsList = [];
 
 		// Get the accounts hierarchy from the top most account in the hierarch of the current account, including the current account
-		$encountered_accounts = array($id);
+		$encountered_accounts = [$id];
 		$accountsList = $this->__getParentAccounts($id, $accountsList, $encountered_accounts);
 
 		$baseId = current(array_keys($accountsList));
@@ -239,7 +239,7 @@ class Accounts extends CRMEntity
 		// Create array of all the accounts in the hierarchy
 		$accountHierarchy = $this->getHierarchyData($id, $accountsList[$baseId], $baseId, $listview_entries);
 
-		$accountHierarchy = array('header' => $listview_header, 'entries' => $listview_entries);
+		$accountHierarchy = ['header' => $listview_header, 'entries' => $listview_entries];
 		\App\Log::trace('Exiting getAccountHierarchy method ...');
 		return $accountHierarchy;
 	}
@@ -247,9 +247,9 @@ class Accounts extends CRMEntity
 	/**
 	 * Function to create array of all the accounts in the hierarchy
 	 * @param  integer   $id - Id of the record highest in hierarchy
-	 * @param  array   $accountInfoBase 
+	 * @param  array   $accountInfoBase
 	 * @param  integer   $accountId - accountid
-	 * @param  array   $listviewEntries 
+	 * @param  array   $listviewEntries
 	 * returns All the parent accounts of the given accountid in array format
 	 */
 	public function getHierarchyData($id, $accountInfoBase, $accountId, &$listviewEntries)
@@ -277,7 +277,7 @@ class Accounts extends CRMEntity
 					$account_depth = str_repeat(' .. ', $accountInfoBase['depth']);
 					$data = $account_depth . $data;
 				} else if ($fieldName == 'assigned_user_id' || $fieldName == 'shownerid') {
-					
+
 				} else {
 					$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($field['fieldid']);
 					$rawData = $data;
@@ -313,8 +313,8 @@ class Accounts extends CRMEntity
 			return $parent_accounts;
 		}
 
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
-				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' =>
+				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
 		$query = 'SELECT vtiger_account.*, vtiger_accountaddress.*,' .
 			" CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name " .
 			' FROM vtiger_account' .
@@ -377,8 +377,8 @@ class Accounts extends CRMEntity
 			return $child_accounts;
 		}
 
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
-				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' =>
+				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
 		$query = "SELECT vtiger_account.*, vtiger_accountaddress.*," .
 			" CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name " .
 			' FROM vtiger_account' .
@@ -510,8 +510,8 @@ class Accounts extends CRMEntity
 		$entityIds = implode(',', $entityIds);
 
 		$query = "SELECT vtiger_crmentity.*, $other->table_name.*";
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name',
-				'last_name' => 'vtiger_users.last_name'), 'Users');
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name',
+				'last_name' => 'vtiger_users.last_name'], 'Users');
 		$query .= $tables;
 		$query .= ", CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name";
 		$query .= sprintf(' FROM %s', $other->table_name);

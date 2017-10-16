@@ -33,13 +33,13 @@ class Vtiger_Util_Helper
 
 			if (is_array($subName)) {
 				foreach (array_keys($subName) as $key) {
-					$files[$name][$key] = array(
+					$files[$name][$key] = [
 						'name' => $file['name'][$key],
 						'type' => $file['type'][$key],
 						'tmp_name' => $file['tmp_name'][$key],
 						'error' => $file['error'][$key],
 						'size' => $file['size'][$key],
-					);
+					];
 					$files[$name] = self::transformUploadedFiles($files[$name], false);
 				}
 			} else {
@@ -304,7 +304,7 @@ class Vtiger_Util_Helper
 	{
 		$db = PearDatabase::getInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$result = $db->pquery('SELECT * FROM vtiger_currency_info WHERE id = ?', array($currentUser->get('currency_id')));
+		$result = $db->pquery('SELECT * FROM vtiger_currency_info WHERE id = ?', [$currentUser->get('currency_id')]);
 		if ($db->numRows($result))
 			return $db->queryResultRowData($result, 0);
 	}
@@ -369,7 +369,7 @@ class Vtiger_Util_Helper
 	public static function isUserDeleted($userid)
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT deleted FROM vtiger_users WHERE id = ? && (status=? || deleted=?)', array($userid, 'Inactive', 1));
+		$result = $db->pquery('SELECT deleted FROM vtiger_users WHERE id = ? && (status=? || deleted=?)', [$userid, 'Inactive', 1]);
 		$count = $db->numRows($result);
 		if ($count > 0)
 			return true;

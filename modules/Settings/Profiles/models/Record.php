@@ -36,7 +36,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	 * Field locked UI types
 	 * @var array
 	 */
-	private static $fieldLockedUiTypes = array('70');
+	private static $fieldLockedUiTypes = ['70'];
 
 	/**
 	 * Function to get the Id
@@ -418,7 +418,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	public function getModulePermissions()
 	{
 		if (!isset($this->module_permissions)) {
-			$allModules = Vtiger_Module_Model::getAll(array(0), Settings_Profiles_Module_Model::getNonVisibleModulesList());
+			$allModules = Vtiger_Module_Model::getAll([0], Settings_Profiles_Module_Model::getNonVisibleModulesList());
 			$eventModule = Vtiger_Module_Model::getInstance('Events');
 			$allModules[$eventModule->getId()] = $eventModule;
 			$profileTabPermissions = $this->getProfileTabPermissions();
@@ -749,26 +749,26 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 
 		$links = [];
 
-		$recordLinks = array(
-			array(
+		$recordLinks = [
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
 				'linkicon' => 'glyphicon glyphicon-pencil'
-			),
-			array(
+			],
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DUPLICATE_RECORD',
 				'linkurl' => $this->getDuplicateViewUrl(),
 				'linkicon' => 'icon-share'
-			),
-			array(
+			],
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => "javascript:Settings_Vtiger_List_Js.triggerDelete(event,'" . $this->getDeleteActionUrl() . "')",
 				'linkicon' => 'glyphicon glyphicon-trash'
-			)
-		);
+			]
+		];
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}

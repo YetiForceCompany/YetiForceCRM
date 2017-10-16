@@ -215,11 +215,11 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::getSize() method ...");
 
-		$width = array(3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
-		$height = array(3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
+		$width = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+		$height = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 		\App\Log::trace("Exiting Settings_WidgetsManagement_Module_Model::getSize() method ...");
-		return array('width' => $width, 'height' => $height);
+		return ['width' => $width, 'height' => $height];
 	}
 
 	public function getDefaultValues()
@@ -227,7 +227,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 
 		\App\Log::trace("Entering Settings_WidgetsManagement_Module_Model::getDefaultValues() method ...");
 
-		$defaultValues = array('width' => 4, 'height' => 4);
+		$defaultValues = ['width' => 4, 'height' => 4];
 
 		\App\Log::trace("Exiting Settings_WidgetsManagement_Module_Model::getDefaultValues() method ...");
 		return $defaultValues;

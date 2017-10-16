@@ -29,9 +29,9 @@ class OSSPasswords_CheckPass_Action extends Vtiger_Action_Controller
 		$passOK = $recordModel->checkPassword($password);
 
 		if ($passOK['error'] === true) {
-			$result = array('success' => false, 'message' => $passOK['message']);
+			$result = ['success' => false, 'message' => $passOK['message']];
 		} else {
-			$result = array('success' => true, 'message' => '');
+			$result = ['success' => true, 'message' => ''];
 		}
 
 		$response = new Vtiger_Response();

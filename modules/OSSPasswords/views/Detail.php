@@ -15,11 +15,11 @@ class OSSPasswords_Detail_View extends Vtiger_Detail_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
-		$jsFileNames = array(
+		$jsFileNames = [
 			'modules.OSSPasswords.resources.gen_pass',
 			'libraries.jquery.clipboardjs.clipboard',
 			'modules.OSSPasswords.resources.zClipDetailView'
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($jsScriptInstances, $headerScriptInstances);

@@ -23,7 +23,7 @@ class Vtiger_Viewer extends SmartyBC
 	/**
 	 * log message into the file if in debug mode.
 	 * @param type $message
-	 * @param type $delimiter 
+	 * @param type $delimiter
 	 */
 	protected function log($message, $delimiter = '\n')
 	{
@@ -129,10 +129,10 @@ class Vtiger_Viewer extends SmartyBC
 					$moduleHierarchyParts = explode('/', $moduleName);
 					$actualModuleName = $moduleHierarchyParts[count($moduleHierarchyParts) - 1];
 					$baseModuleName = $moduleHierarchyParts[0];
-					$fallBackOrder = array(
+					$fallBackOrder = [
 						"$actualModuleName",
 						"$baseModuleName/Vtiger"
-					);
+					];
 					foreach ($fallBackOrder as $fallBackModuleName) {
 						$intermediateFallBackFileName = 'modules/' . $fallBackModuleName . '/' . $templateName;
 						$intermediateFallBackFilePath = $templateDir . DIRECTORY_SEPARATOR . $intermediateFallBackFileName;

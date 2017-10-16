@@ -156,7 +156,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 				if ($customType) {
 					return self::addTranslation($params);
 				}
-				return array('success' => false, 'data' => 'LBL_DO_NOT_POSSIBLE_TO_MAKE_CHANGES');
+				return ['success' => false, 'data' => 'LBL_DO_NOT_POSSIBLE_TO_MAKE_CHANGES'];
 			}
 			$countLangEl = count(explode("\n", $langTab[$langkey]));
 			$i = 1;
@@ -185,7 +185,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		if (!$fileExists) {
 			self::updateTranslation($params);
 		}
-		return array('success' => true, 'data' => 'LBL_UpdateTranslationOK');
+		return ['success' => true, 'data' => 'LBL_UpdateTranslationOK'];
 	}
 
 	/**
@@ -259,7 +259,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 				->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$output['php'][$mod . '|' . $row['fieldlabel']]['label'] = \App\Language::translate($row['fieldlabel'], $mod);
-			$output['php'][$mod . '|' . $row['fieldlabel']]['info'] = array('view' => explode(',', $row['helpinfo']), 'fieldid' => $row['fieldid']);
+			$output['php'][$mod . '|' . $row['fieldlabel']]['info'] = ['view' => explode(',', $row['helpinfo']), 'fieldid' => $row['fieldid']];
 			foreach ($langs AS $lang) {
 				$output['php'][$mod . '|' . $row['fieldlabel']][$lang] = stripslashes($variablesFromFile['php'][$mod . '|' . $row['fieldlabel']][$lang]);
 			}
@@ -306,7 +306,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 				$langs[$key] = \App\Language::translate($key, $key);
 			}
 		}
-		return array('mods' => $langs, 'settings' => $settings);
+		return ['mods' => $langs, 'settings' => $settings];
 	}
 
 	/**
@@ -342,7 +342,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		\App\Db::getInstance()->createCommand()
 			->update('vtiger_field', ['helpinfo' => $value], ['fieldid' => $params['fieldid']])
 			->execute();
-		return array('success' => true, 'data' => 'LBL_SUCCESSFULLY_UPDATED');
+		return ['success' => true, 'data' => 'LBL_SUCCESSFULLY_UPDATED'];
 	}
 
 	public static function delete($params)

@@ -16,11 +16,11 @@ Class DataAccess_test
 
 	public function process($ModuleName, $ID, $record_form, $config)
 	{
-		return Array('save_record' => false, 'type' => 0, 'info' => Array('title' => '111', 'text' => '22', 'type' => 'info'));
+		return ['save_record' => false, 'type' => 0, 'info' => ['title' => '111', 'text' => '22', 'type' => 'info']];
 	}
 
 	public function getConfig($id, $module, $baseModule)
 	{
-		return Array('tpl' => 'test', 'type' => 0);
+		return ['tpl' => 'test', 'type' => 0];
 	}
 }

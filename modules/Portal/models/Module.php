@@ -13,12 +13,12 @@ class Portal_Module_Model extends Vtiger_Module_Model
 
 	public function getSideBarLinks($linkParams)
 	{
-		$quickLink = array(
+		$quickLink = [
 			'linktype' => 'SIDEBARLINK',
 			'linklabel' => 'LBL_OUR_SITES_LIST',
 			'linkurl' => $this->getListViewUrl(),
 			'linkicon' => '',
-		);
+		];
 		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
 		return $links;
 	}
@@ -47,7 +47,7 @@ class Portal_Module_Model extends Vtiger_Module_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery('SELECT portalname, portalurl FROM vtiger_portal WHERE portalid = ?', array($recordId));
+		$result = $db->pquery('SELECT portalname, portalurl FROM vtiger_portal WHERE portalid = ?', [$recordId]);
 
 		$data['bookmarkName'] = $db->queryResult($result, 0, 'portalname');
 		$data['bookmarkUrl'] = $db->queryResult($result, 0, 'portalurl');
@@ -63,7 +63,7 @@ class Portal_Module_Model extends Vtiger_Module_Model
 	public function getWebsiteUrl($recordId)
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT portalurl FROM vtiger_portal WHERE portalid=?', array($recordId));
+		$result = $db->pquery('SELECT portalurl FROM vtiger_portal WHERE portalid=?', [$recordId]);
 
 		return $db->queryResult($result, 0, 'portalurl');
 	}

@@ -15,7 +15,7 @@ class PBXManager_ListView_Model extends Vtiger_ListView_Model
 {
 
 	/**
-	 * Overrided to remove add button 
+	 * Overrided to remove add button
 	 */
 	public function getBasicLinks()
 	{
@@ -23,24 +23,24 @@ class PBXManager_ListView_Model extends Vtiger_ListView_Model
 	}
 
 	/**
-	 * Overrided to remove Mass Edit Option 
+	 * Overrided to remove Mass Edit Option
 	 */
 	public function getListViewMassActions($linkParams)
 	{
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
 
-		$linkTypes = array('LISTVIEWMASSACTION');
+		$linkTypes = ['LISTVIEWMASSACTION'];
 		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 
 
 		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'Delete')) {
-			$massActionLinks[] = array(
+			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_DELETE',
 				'linkurl' => 'javascript:Vtiger_List_Js.massDeleteRecords("index.php?module=' . $moduleModel->get('name') . '&action=MassDelete");',
 				'linkicon' => ''
-			);
+			];
 
 			foreach ($massActionLinks as $massActionLink) {
 				$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);

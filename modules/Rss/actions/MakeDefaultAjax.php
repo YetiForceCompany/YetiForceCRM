@@ -31,7 +31,7 @@ class Rss_MakeDefaultAjax_Action extends Vtiger_Action_Controller
 		$recordModel->makeDefault();
 
 		$response = new Vtiger_Response();
-		$response->setResult(array('message' => 'JS_RSS_MADE_AS_DEFAULT', 'record' => $recordId, 'module' => $moduleName));
+		$response->setResult(['message' => 'JS_RSS_MADE_AS_DEFAULT', 'record' => $recordId, 'module' => $moduleName]);
 		$response->emit();
 	}
 }

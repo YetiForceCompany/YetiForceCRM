@@ -134,34 +134,34 @@ class Vtiger_DetailView_Model extends \App\Base
 			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 		}
 		if ($recordModel->isEditable()) {
-			$editViewLinks = array(
+			$editViewLinks = [
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'BTN_RECORD_EDIT',
 				'linkurl' => $recordModel->getEditViewUrl(),
 				'linkicon' => 'glyphicon glyphicon-pencil',
 				'linkclass' => 'btn',
 				'linkhint' => 'BTN_RECORD_EDIT',
-			);
+			];
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($editViewLinks);
 		}
 		if ($recordModel->isDeletable()) {
-			$deletelinkModel = array(
+			$deletelinkModel = [
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => 'javascript:Vtiger_Detail_Js.deleteRecord("' . $recordModel->getDeleteUrl() . '")',
 				'linkicon' => 'glyphicon glyphicon-trash',
 				'title' => \App\Language::translate('LBL_DELETE_RECORD')
-			);
+			];
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($deletelinkModel);
 		}
 		if ($moduleModel->isPermitted('DuplicateRecord')) {
-			$duplicateLinkModel = array(
+			$duplicateLinkModel = [
 				'linktype' => 'DETAILVIEWBASIC',
 				'linklabel' => 'LBL_DUPLICATE',
 				'linkurl' => $recordModel->getDuplicateRecordUrl(),
 				'linkicon' => 'glyphicon glyphicon-duplicate',
 				'title' => \App\Language::translate('LBL_DUPLICATE_RECORD')
-			);
+			];
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($duplicateLinkModel);
 		}
 		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
@@ -208,24 +208,24 @@ class Vtiger_DetailView_Model extends \App\Base
 		$this->getWidgets();
 		$relatedLinks = [];
 		if ($parentModuleModel->isSummaryViewSupported() && $this->widgetsList) {
-			$relatedLinks = array(array(
-					'linktype' => 'DETAILVIEWTAB',
-					'linklabel' => 'LBL_RECORD_SUMMARY',
-					'linkKey' => 'LBL_RECORD_SUMMARY',
-					'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=summary',
-					'linkicon' => '',
-					'related' => 'Summary'
-			));
+			$relatedLinks = [[
+				'linktype' => 'DETAILVIEWTAB',
+				'linklabel' => 'LBL_RECORD_SUMMARY',
+				'linkKey' => 'LBL_RECORD_SUMMARY',
+				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=summary',
+				'linkicon' => '',
+				'related' => 'Summary'
+			]];
 		}
 		//link which shows the summary information(generally detail of record)
-		$relatedLinks[] = array(
+		$relatedLinks[] = [
 			'linktype' => 'DETAILVIEWTAB',
 			'linklabel' => 'LBL_RECORD_DETAILS',
 			'linkKey' => 'LBL_RECORD_DETAILS',
 			'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDetailViewByMode&requestMode=full',
 			'linkicon' => '',
 			'related' => 'Details'
-		);
+		];
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
 		if ($parentModuleModel->isCommentEnabled() && $modCommentsModel->isPermitted('DetailView')) {
 			$relatedLinks[] = [
@@ -250,13 +250,13 @@ class Vtiger_DetailView_Model extends \App\Base
 		}
 		$relationModels = $parentModuleModel->getRelations();
 		foreach ($relationModels as $relation) {
-			$link = array(
+			$link = [
 				'linktype' => 'DETAILVIEWRELATED',
 				'linklabel' => $relation->get('label'),
 				'linkurl' => $relation->getListUrl($recordModel),
 				'linkicon' => '',
 				'relatedModuleName' => $relation->get('relatedModuleName')
-			);
+			];
 			$relatedLinks[] = $link;
 		}
 
@@ -297,10 +297,10 @@ class Vtiger_DetailView_Model extends \App\Base
 	 */
 	public function getSideBarLinks($linkParams)
 	{
-		$linkTypes = array('SIDEBARLINK', 'SIDEBARWIDGET');
+		$linkTypes = ['SIDEBARLINK', 'SIDEBARWIDGET'];
 		$moduleLinks = $this->getModule()->getSideBarLinks($linkTypes);
 
-		$listLinkTypes = array('DETAILVIEWSIDEBARLINK', 'DETAILVIEWSIDEBARWIDGET');
+		$listLinkTypes = ['DETAILVIEWSIDEBARLINK', 'DETAILVIEWSIDEBARWIDGET'];
 		$listLinks = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), $listLinkTypes);
 
 		if ($listLinks['DETAILVIEWSIDEBARLINK']) {

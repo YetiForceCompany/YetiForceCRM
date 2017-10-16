@@ -36,12 +36,12 @@ class Reports_ChartSave_Action extends Reports_Save_Action
 
 		$dataFields = $request->get('datafields', 'count(*)');
 		if (is_string($dataFields))
-			$dataFields = array($dataFields);
+			$dataFields = [$dataFields];
 
-		$reportModel->set('reporttypedata', \App\Json::encode(array(
+		$reportModel->set('reporttypedata', \App\Json::encode([
 				'type' => $request->get('charttype', 'pieChart'),
 				'groupbyfield' => $request->get('groupbyfield'),
-				'datafields' => $dataFields)
+				'datafields' => $dataFields]
 		));
 		$reportModel->save();
 

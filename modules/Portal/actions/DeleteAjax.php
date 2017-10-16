@@ -27,7 +27,7 @@ class Portal_DeleteAjax_Action extends Vtiger_DeleteAjax_Action
 		$moduleModel->deleteRecord($recordId);
 
 		$response = new Vtiger_Response();
-		$response->setResult(array('message' => \App\Language::translate('LBL_RECORD_DELETED_SUCCESSFULLY', $module)));
+		$response->setResult(['message' => \App\Language::translate('LBL_RECORD_DELETED_SUCCESSFULLY', $module)]);
 		$response->emit();
 	}
 }

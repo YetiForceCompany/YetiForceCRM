@@ -417,14 +417,14 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public static function showDisplayTypeList()
 	{
-		$displayType = array(
+		$displayType = [
 			1 => 'LBL_DISPLAY_TYPE_1',
 			2 => 'LBL_DISPLAY_TYPE_2',
 			3 => 'LBL_DISPLAY_TYPE_3',
 			4 => 'LBL_DISPLAY_TYPE_4',
 			//5 => 'LBL_DISPLAY_TYPE_5',
 			10 => 'LBL_DISPLAY_TYPE_10'
-		);
+		];
 		return $displayType;
 	}
 
@@ -528,7 +528,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isAjaxEditable()
 	{
-		$ajaxRestrictedFields = array('4', '72', '10', '300', '51', '59');
+		$ajaxRestrictedFields = ['4', '72', '10', '300', '51', '59'];
 		if (!$this->isEditable() || in_array($this->get('uitype'), $ajaxRestrictedFields) || !$this->getUITypeModel()->isAjaxEditable() || (int) $this->get('displaytype') === 10) {
 			return false;
 		}
@@ -804,7 +804,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public static function getAdvancedFilterOpsByFieldType()
 	{
-		return array(
+		return [
 			'V' => ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny', 'om', 'wr', 'nwr'],
 			'N' => ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'],
 			'T' => ['e', 'n', 'l', 'g', 'm', 'h', 'bw', 'b', 'a', 'y', 'ny'],
@@ -814,7 +814,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			'DT' => ['e', 'n', 'bw', 'b', 'a', 'y', 'ny'],
 			'NN' => ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'],
 			'E' => ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny']
-		);
+		];
 	}
 
 	/**
@@ -884,7 +884,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			INNER JOIN `vtiger_field`
 				ON `vtiger_trees_templates_data`.`templateid` = `vtiger_field`.`fieldparams`
 			WHERE `vtiger_field`.`columnname` = ?
-				AND `vtiger_field`.`tablename` = ?;", array('folderid', 'vtiger_notes'));
+				AND `vtiger_field`.`tablename` = ?;", ['folderid', 'vtiger_notes']);
 		$rows = $adb->numRows($result);
 		$folders = [];
 		for ($i = 0; $i < $rows; $i++) {
@@ -913,77 +913,77 @@ class Vtiger_Field_Model extends vtlib\Field
 		$validator = [];
 		$fieldName = $this->getName();
 		switch ($fieldName) {
-			case 'birthday' : $funcName = array('name' => 'lessThanToday');
+			case 'birthday' : $funcName = ['name' => 'lessThanToday'];
 				array_push($validator, $funcName);
 				break;
-			case 'support_end_date' : $funcName = array('name' => 'greaterThanDependentField',
-					'params' => array('support_start_date'));
+			case 'support_end_date' : $funcName = ['name' => 'greaterThanDependentField',
+					'params' => ['support_start_date']];
 				array_push($validator, $funcName);
 				break;
-			case 'support_start_date' : $funcName = array('name' => 'lessThanDependentField',
-					'params' => array('support_end_date'));
+			case 'support_start_date' : $funcName = ['name' => 'lessThanDependentField',
+					'params' => ['support_end_date']];
 				array_push($validator, $funcName);
 				break;
 			case 'targetenddate' :
 			case 'actualenddate':
 			case 'enddate':
-				$funcName = array('name' => 'greaterThanDependentField',
-					'params' => array('startdate'));
+				$funcName = ['name' => 'greaterThanDependentField',
+					'params' => ['startdate']];
 				array_push($validator, $funcName);
 				break;
 			case 'startdate':
 				if ($this->getModule()->get('name') === 'Project') {
-					$params = array('targetenddate');
+					$params = ['targetenddate'];
 				} else {
 					//for project task
-					$params = array('enddate');
+					$params = ['enddate'];
 				}
-				$funcName = array('name' => 'lessThanDependentField',
-					'params' => $params);
+				$funcName = ['name' => 'lessThanDependentField',
+					'params' => $params];
 				array_push($validator, $funcName);
 				break;
 			case 'expiry_date':
 			case 'due_date':
-				$funcName = array('name' => 'greaterThanDependentField',
-					'params' => array('start_date'));
+				$funcName = ['name' => 'greaterThanDependentField',
+					'params' => ['start_date']];
 				array_push($validator, $funcName);
 				break;
 			case 'sales_end_date':
-				$funcName = array('name' => 'greaterThanDependentField',
-					'params' => array('sales_start_date'));
+				$funcName = ['name' => 'greaterThanDependentField',
+					'params' => ['sales_start_date']];
 				array_push($validator, $funcName);
 				break;
 			case 'sales_start_date':
-				$funcName = array('name' => 'lessThanDependentField',
-					'params' => array('sales_end_date'));
+				$funcName = ['name' => 'lessThanDependentField',
+					'params' => ['sales_end_date']];
 				array_push($validator, $funcName);
 				break;
 			case 'qty_per_unit' :
 			case 'qtyindemand' :
 			case 'hours':
 			case 'days':
-				$funcName = array('name' => 'PositiveNumber');
+				$funcName = ['name' => 'PositiveNumber'];
 				array_push($validator, $funcName);
 				break;
 			case 'employees':
-				$funcName = array('name' => 'WholeNumber');
+				$funcName = ['name' => 'WholeNumber'];
 				array_push($validator, $funcName);
 				break;
 			case 'related_to':
-				$funcName = array('name' => 'ReferenceField');
+				$funcName = ['name' => 'ReferenceField'];
 				array_push($validator, $funcName);
 				break;
 			//SRecurringOrders field sepecial validators
-			case 'end_period' : $funcName1 = array('name' => 'greaterThanDependentField',
-					'params' => array('start_period'));
+			case 'end_period' : $funcName1 = ['name' => 'greaterThanDependentField',
+					'params' => ['start_period']];
 				array_push($validator, $funcName1);
-				$funcName2 = array('name' => 'lessThanDependentField',
-					'params' => array('duedate'));
+				$funcName2 = ['name' => 'lessThanDependentField',
+					'params' => ['duedate']];
 				array_push($validator, $funcName2);
 
 			case 'start_period' :
-				$funcName = array('name' => 'lessThanDependentField',
-					'params' => array('end_period'));
+				$funcName = ['name' => 'lessThanDependentField',
+					'params' => ['end_period']];
 				array_push($validator, $funcName);
 				break;
 		}
@@ -1077,7 +1077,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function updateTypeofDataFromMandatory($mandatoryValue = 'O')
 	{
 		$mandatoryValue = strtoupper($mandatoryValue);
-		$supportedMandatoryLiterals = array('O', 'M');
+		$supportedMandatoryLiterals = ['O', 'M'];
 		if (!in_array($mandatoryValue, $supportedMandatoryLiterals)) {
 			return;
 		}
@@ -1101,7 +1101,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function isActiveField()
 	{
 		$presence = $this->get('presence');
-		return in_array($presence, array(0, 2));
+		return in_array($presence, [0, 2]);
 	}
 
 	public function isMassEditable()

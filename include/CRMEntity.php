@@ -110,13 +110,13 @@ class CRMEntity
 		\App\Log::trace("in getOldFileName  " . $notesId);
 		$adb = PearDatabase::getInstance();
 		$query1 = "select * from vtiger_seattachmentsrel where crmid=?";
-		$result = $adb->pquery($query1, array($notesId));
+		$result = $adb->pquery($query1, [$notesId]);
 		$noOfRows = $adb->numRows($result);
 		if ($noOfRows != 0)
 			$attachmentId = $adb->queryResult($result, 0, 'attachmentsid');
 		if ($attachmentId != '') {
 			$query2 = "select * from vtiger_attachments where attachmentsid=?";
-			$fileName = $adb->queryResult($adb->pquery($query2, array($attachmentId)), 0, 'name');
+			$fileName = $adb->queryResult($adb->pquery($query2, [$attachmentId]), 0, 'name');
 		}
 		return $fileName;
 	}
@@ -148,9 +148,9 @@ class CRMEntity
 		if (isset($this->multirow_tables)) {
 			$multiRowTables = $this->multirow_tables;
 		} else {
-			$multiRowTables = array(
+			$multiRowTables = [
 				'vtiger_attachments',
-			);
+			];
 		}
 
 		// Lookup module field cache
@@ -319,7 +319,7 @@ class CRMEntity
 
 		$tabid = \App\Module::getModuleId($module);
 		$sql = "select * from vtiger_field where tabid= ? and typeofdata like '%M%' and uitype not in ('53','70') and vtiger_field.presence in (0,2)";
-		$result = $adb->pquery($sql, array($tabid));
+		$result = $adb->pquery($sql, [$tabid]);
 		$numRows = $adb->numRows($result);
 		for ($i = 0; $i < $numRows; $i++) {
 			$fieldName = $adb->queryResult($result, $i, "fieldname");
@@ -343,7 +343,7 @@ class CRMEntity
 	 */
 	public function deletePerminently($moduleName, $recordId)
 	{
-		
+
 	}
 
 	/**
@@ -395,7 +395,7 @@ class CRMEntity
 	}
 
 	/**
-	 * 
+	 *
 	 * @param int $crmid
 	 * @param string $withModule
 	 * @param int $withCrmid
@@ -652,7 +652,7 @@ class CRMEntity
 	{
 		$db = PearDatabase::getInstance();
 		if (!is_array($withCrmid))
-			$withCrmid = Array($withCrmid);
+			$withCrmid = [$withCrmid];
 		foreach ($withCrmid as $relcrmid) {
 
 			if ($withModule == 'Documents') {
@@ -683,7 +683,7 @@ class CRMEntity
 		foreach ($transferEntityIds as &$transferId) {
 			// Pick the records related to the entity to be transfered, but do not pick the once which are already related to the current entity.
 			$relatedRecords = $db->pquery('SELECT relcrmid, relmodule FROM vtiger_crmentityrel WHERE crmid=? && module=?' .
-				' && relcrmid NOT IN (SELECT relcrmid FROM vtiger_crmentityrel WHERE crmid=? && module=?)', array($transferId, $module, $entityId, $module));
+				' && relcrmid NOT IN (SELECT relcrmid FROM vtiger_crmentityrel WHERE crmid=? && module=?)', [$transferId, $module, $entityId, $module]);
 			while ($row = $db->getRow($relatedRecords)) {
 				$where = 'relcrmid = ? && relmodule = ? && crmid = ? && module = ?';
 				$params = [$row['relcrmid'], $row['relmodule'], $transferId, $module];
@@ -691,7 +691,7 @@ class CRMEntity
 			}
 			// Pick the records to which the entity to be transfered is related, but do not pick the once to which current entity is already related.
 			$parentRecords = $db->pquery('SELECT crmid, module FROM vtiger_crmentityrel WHERE relcrmid=? && relmodule=?' .
-				' && crmid NOT IN (SELECT crmid FROM vtiger_crmentityrel WHERE relcrmid=? && relmodule=?)', array($transferId, $module, $entityId, $module));
+				' && crmid NOT IN (SELECT crmid FROM vtiger_crmentityrel WHERE relcrmid=? && relmodule=?)', [$transferId, $module, $entityId, $module]);
 			while ($row = $db->getRow($parentRecords)) {
 				$where = 'crmid = ? && module = ? && relcrmid = ? && relmodule = ?';
 				$params = [$row['crmid'], $row['module'], $transferId, $module];
@@ -880,7 +880,7 @@ class CRMEntity
 		$relquery = '';
 		$matrix = $queryPlanner->newDependencyMatrix();
 
-		$fields_query = $adb->pquery('SELECT vtiger_field.fieldname,vtiger_field.tablename,vtiger_field.fieldid from vtiger_field INNER JOIN vtiger_tab on vtiger_tab.name = ? WHERE vtiger_tab.tabid=vtiger_field.tabid && vtiger_field.uitype IN (10) and vtiger_field.presence in (0,2)', array($secmodule));
+		$fields_query = $adb->pquery('SELECT vtiger_field.fieldname,vtiger_field.tablename,vtiger_field.fieldid from vtiger_field INNER JOIN vtiger_tab on vtiger_tab.name = ? WHERE vtiger_tab.tabid=vtiger_field.tabid && vtiger_field.uitype IN (10) and vtiger_field.presence in (0,2)', [$secmodule]);
 
 		if ($adb->numRows($fields_query) > 0) {
 			$countFieldsQuery = $adb->numRows($fields_query);
@@ -888,7 +888,7 @@ class CRMEntity
 				$field_name = $adb->queryResult($fields_query, $i, 'fieldname');
 				$field_id = $adb->queryResult($fields_query, $i, 'fieldid');
 				$tab_name = $adb->queryResult($fields_query, $i, 'tablename');
-				$ui10_modules_query = $adb->pquery("SELECT relmodule FROM vtiger_fieldmodulerel WHERE fieldid=?", array($field_id));
+				$ui10_modules_query = $adb->pquery("SELECT relmodule FROM vtiger_fieldmodulerel WHERE fieldid=?", [$field_id]);
 
 				if ($adb->numRows($ui10_modules_query) > 0) {
 					// Capture the forward table dependencies due to dynamic related-field
@@ -932,7 +932,7 @@ class CRMEntity
 		}
 
 		// Update forward table dependencies
-		$matrix->setDependency("vtiger_crmentity$secmodule", array("vtiger_groups$secmodule", "vtiger_users$secmodule", "vtiger_lastModifiedBy$secmodule"));
+		$matrix->setDependency("vtiger_crmentity$secmodule", ["vtiger_groups$secmodule", "vtiger_users$secmodule", "vtiger_lastModifiedBy$secmodule"]);
 		$matrix->addDependency($tablename, "vtiger_crmentity$secmodule");
 
 		if (!$queryPlanner->requireTable($tablename, $matrix)) {
@@ -1035,7 +1035,7 @@ class CRMEntity
 		$secQuery = "select $table_name.* from $table_name inner join vtiger_crmentity on " .
 			"vtiger_crmentity.crmid=$table_name.$column_name and vtiger_crmentity.deleted=0";
 
-		$secQueryTempTableQuery = $queryPlanner->registerTempTable($secQuery, array($column_name, $fields[1], $prifieldname));
+		$secQueryTempTableQuery = $queryPlanner->registerTempTable($secQuery, [$column_name, $fields[1], $prifieldname]);
 
 		$query = '';
 		if ($pritablename == 'vtiger_crmentityrel') {
@@ -1081,11 +1081,11 @@ class CRMEntity
 			return;
 		}
 		// Look for fields that has presence value NOT IN (0,2)
-		$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module, array('1'));
+		$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module, ['1']);
 		if ($cachedModuleFields === false) {
 			// Initialize the fields calling suitable API
 			getColumnFields($module);
-			$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module, array('1'));
+			$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module, ['1']);
 		}
 
 		$hiddenFields = [];
@@ -1096,7 +1096,7 @@ class CRMEntity
 				// NOTE: We should not translate the label to enable field diff based on it down
 				$fieldName = $fieldinfo['fieldname'];
 				$tableName = str_replace("vtiger_", "", $fieldinfo['tablename']);
-				$hiddenFields[$fieldLabel] = array($tableName => $fieldName);
+				$hiddenFields[$fieldLabel] = [$tableName => $fieldName];
 			}
 		}
 
@@ -1378,6 +1378,6 @@ class CRMEntity
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		
+
 	}
 }

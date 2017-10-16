@@ -20,37 +20,37 @@ class OSSTimeControl extends Vtiger_CRMEntity
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('vtiger_osstimecontrolcf', 'osstimecontrolid');
+	public $customFieldTable = ['vtiger_osstimecontrolcf', 'osstimecontrolid'];
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_osstimecontrol', 'vtiger_osstimecontrolcf');
+	public $tab_name = ['vtiger_crmentity', 'vtiger_osstimecontrol', 'vtiger_osstimecontrolcf'];
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public $tab_name_index = Array(
+	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_osstimecontrol' => 'osstimecontrolid',
-		'vtiger_osstimecontrolcf' => 'osstimecontrolid');
+		'vtiger_osstimecontrolcf' => 'osstimecontrolid'];
 
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public $list_fields = Array(
+	public $list_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'No.' => Array('osstimecontrol', 'osstimecontrol_no'),
-		'Assigned To' => Array('crmentity', 'smownerid'),
-		'Created Time' => Array('crmentity', 'createdtime'),
-	);
-	public $list_fields_name = Array(
+		'No.' => ['osstimecontrol', 'osstimecontrol_no'],
+		'Assigned To' => ['crmentity', 'smownerid'],
+		'Created Time' => ['crmentity', 'createdtime'],
+	];
+	public $list_fields_name = [
 		/* Format: Field Label => fieldname */
 		'No.' => 'osstimecontrol_no',
 		'Assigned To' => 'assigned_user_id',
 		'Created Time' => 'createdtime',
-	);
+	];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
@@ -59,31 +59,31 @@ class OSSTimeControl extends Vtiger_CRMEntity
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'assigned_user_id';
 	// For Popup listview and UI type support
-	public $search_fields = Array(
-		'No.' => Array('osstimecontrol', 'osstimecontrol_no'),
-		'Assigned To' => Array('crmentity', 'smownerid'),
-		'Created Time' => Array('crmentity', 'createdtime'),
-	);
-	public $search_fields_name = Array(
+	public $search_fields = [
+		'No.' => ['osstimecontrol', 'osstimecontrol_no'],
+		'Assigned To' => ['crmentity', 'smownerid'],
+		'Created Time' => ['crmentity', 'createdtime'],
+	];
+	public $search_fields_name = [
 		'No.' => 'osstimecontrol_no',
 		'Assigned To' => 'assigned_user_id',
 		'Created Time' => 'createdtime',
-	);
+	];
 	// For Popup window record selection
-	public $popup_fields = Array('name');
+	public $popup_fields = ['name'];
 	// For Alphabetical search
 	public $def_basicsearch_col = 'name';
 	// Column value to use on detail view record text display
 	public $def_detailview_recname = 'name';
 	// Required Information for enabling Import feature
-	public $required_fields = Array('assigned_user_id' => 1);
+	public $required_fields = ['assigned_user_id' => 1];
 	// Callback function list during Importing
-	public $special_functions = Array('set_import_assigned_user');
+	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = '';
 	public $default_sort_order = 'DESC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public $mandatory_fields = Array('createdtime', 'modifiedtime', 'assigned_user_id');
+	public $mandatory_fields = ['createdtime', 'modifiedtime', 'assigned_user_id'];
 
 	/**
 	 * Invoked when special actions are performed on the module.
@@ -104,18 +104,18 @@ class OSSTimeControl extends Vtiger_CRMEntity
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
-					ModComments::addWidgetTo(array('OSSTimeControl'));
+					ModComments::addWidgetTo(['OSSTimeControl']);
 			}
 		} else if ($eventType === 'module.disabled') {
-			
+
 		} else if ($eventType === 'module.enabled') {
-			
+
 		} else if ($eventType === 'module.preuninstall') {
-			
+
 		} else if ($eventType === 'module.preupdate') {
-			
+
 		} else if ($eventType === 'module.postupdate') {
-			
+
 		}
 	}
 

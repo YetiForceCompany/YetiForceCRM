@@ -118,31 +118,31 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$quickWidgetsRight = [];
 
 		if (isset($linkParams['ACTION']) && $linkParams['ACTION'] == 'Calendar') {
-			$quickWidgetsRight[] = array(
+			$quickWidgetsRight[] = [
 				'linktype' => 'SIDEBARWIDGET',
 				'linklabel' => 'Activity Type',
 				'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getActivityType',
 				'linkicon' => ''
-			);
-			$quickWidgetsRight[] = array(
+			];
+			$quickWidgetsRight[] = [
 				'linktype' => 'SIDEBARWIDGET',
 				'linklabel' => 'LBL_USERS',
 				'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getUsersList',
 				'linkicon' => ''
-			);
-			$quickWidgetsRight[] = array(
+			];
+			$quickWidgetsRight[] = [
 				'linktype' => 'SIDEBARWIDGET',
 				'linklabel' => 'LBL_GROUPS',
 				'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getGroupsList',
 				'linkicon' => ''
-			);
+			];
 		}
-		$quickWidgets[] = array(
+		$quickWidgets[] = [
 			'linktype' => 'SIDEBARWIDGET',
 			'linklabel' => 'LBL_RECENTLY_MODIFIED',
 			'linkurl' => 'module=' . $this->get('name') . '&view=IndexAjax&mode=showActiveRecords',
 			'linkicon' => ''
-		);
+		];
 
 		foreach ($quickWidgets as $quickWidget) {
 			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues($quickWidget);
@@ -181,8 +181,8 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 */
 	public function setEventFieldsForExport()
 	{
-		$keysToReplace = array('taskpriority');
-		$keysValuesToReplace = array('taskpriority' => 'priority');
+		$keysToReplace = ['taskpriority'];
+		$keysValuesToReplace = ['taskpriority' => 'priority'];
 		foreach ($this->getFields() as $fieldName => $fieldModel) {
 			if ($fieldModel->getPermissions()) {
 				if (!in_array($fieldName, $keysToReplace)) {
@@ -200,8 +200,8 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 */
 	public function setTodoFieldsForExport()
 	{
-		$keysToReplace = array('taskpriority', 'activitystatus');
-		$keysValuesToReplace = array('taskpriority' => 'priority', 'activitystatus' => 'status');
+		$keysToReplace = ['taskpriority', 'activitystatus'];
+		$keysValuesToReplace = ['taskpriority' => 'priority', 'activitystatus' => 'status'];
 		foreach ($this->getFields() as $fieldName => $fieldModel) {
 			if ($fieldModel->getPermissions()) {
 				if (!in_array($fieldName, $keysToReplace)) {
@@ -234,7 +234,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$query = "SELECT vtiger_users.first_name,vtiger_users.last_name, vtiger_users.id as userid
 			FROM vtiger_sharedcalendar RIGHT JOIN vtiger_users ON vtiger_sharedcalendar.userid=vtiger_users.id and status= 'Active'
 			WHERE sharedid=? || (vtiger_users.status='Active' && vtiger_users.calendarsharedtype='public' && vtiger_users.id <> ?);";
-		$result = $db->pquery($query, array($id, $id));
+		$result = $db->pquery($query, [$id, $id]);
 		$rows = $db->numRows($result);
 
 		$userIds = [];
@@ -255,7 +255,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	{
 		$db = PearDatabase::getInstance();
 		$delquery = "DELETE FROM vtiger_sharedcalendar WHERE userid=?";
-		$db->pquery($delquery, array($currentUserId));
+		$db->pquery($delquery, [$currentUserId]);
 	}
 
 	/**
@@ -269,7 +269,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		foreach ($sharedIds as $sharedId) {
 			if ($sharedId != $currentUserId) {
 				$sql = "INSERT INTO vtiger_sharedcalendar VALUES (?,?)";
-				$db->pquery($sql, array($currentUserId, $sharedId));
+				$db->pquery($sql, [$currentUserId, $sharedId]);
 			}
 		}
 	}
@@ -365,10 +365,10 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getFieldsByType($type)
 	{
-		$restrictedField = array('picklist' => array('activitystatus', 'visibility', 'duration_minutes'));
+		$restrictedField = ['picklist' => ['activitystatus', 'visibility', 'duration_minutes']];
 
 		if (!is_array($type)) {
-			$type = array($type);
+			$type = [$type];
 		}
 		$fields = $this->getFields();
 		$fieldList = [];
@@ -396,19 +396,19 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$settingLinks = [];
 
 		if ($currentUserModel->isAdminUser()) {
-			$settingLinks[] = array(
+			$settingLinks[] = [
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_FIELDS',
 				'linkurl' => 'index.php?parent=Settings&module=LayoutEditor&sourceModule=' . $this->getName(),
 				'linkicon' => Vtiger_Theme::getImagePath('LayoutEditor.gif')
-			);
+			];
 
-			$settingLinks[] = array(
+			$settingLinks[] = [
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_PICKLIST_VALUES',
 				'linkurl' => 'index.php?parent=Settings&module=Picklist&view=Index&source_module=' . $this->getName(),
 				'linkicon' => ''
-			);
+			];
 		}
 		return $settingLinks;
 	}

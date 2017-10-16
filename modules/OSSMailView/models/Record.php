@@ -208,7 +208,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 
 	public function getMailType()
 	{
-		return array(2 => 'Internal', 0 => 'Sent', 1 => 'Received');
+		return [2 => 'Internal', 0 => 'Sent', 1 => 'Received'];
 	}
 
 	public function changeTypeAllRecords($mailType)

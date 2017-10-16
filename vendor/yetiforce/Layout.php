@@ -90,7 +90,7 @@ class Layout
 	public static function getImagePath($imageName)
 	{
 		$args = func_get_args();
-		return call_user_func_array(array('Vtiger_Theme', 'getImagePath'), $args);
+		return call_user_func_array(['Vtiger_Theme', 'getImagePath'], $args);
 	}
 
 	/**

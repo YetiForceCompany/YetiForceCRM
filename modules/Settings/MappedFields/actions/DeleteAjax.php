@@ -17,9 +17,9 @@ class Settings_MappedFields_DeleteAjax_Action extends Settings_Vtiger_Index_Acti
 		$response = new Vtiger_Response();
 		$moduleInstance = Settings_MappedFields_Module_Model::getInstanceById($recordId);
 		if ($moduleInstance->delete()) {
-			$response->setResult(array('success' => 'true'));
+			$response->setResult(['success' => 'true']);
 		} else {
-			$response->setResult(array('success' => 'false'));
+			$response->setResult(['success' => 'false']);
 		}
 		$response->emit();
 	}

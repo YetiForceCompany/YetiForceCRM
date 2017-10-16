@@ -29,7 +29,7 @@ class Vtiger_SaveWidgetPositions_Action extends Vtiger_IndexAjax_View
 		}
 
 		$response = new Vtiger_Response();
-		$response->setResult(array('Save' => 'OK'));
+		$response->setResult(['Save' => 'OK']);
 		$response->emit();
 	}
 }

@@ -130,7 +130,7 @@ class VTExpressionParser
 			$ifFalse = $this->expression();
 			$this->consumeSymbol('end');
 		}
-		return new VTExpressionTreeNode(array(new VTExpressionSymbol('if'), $cond, $ifTrue, $ifFalse));
+		return new VTExpressionTreeNode([new VTExpressionSymbol('if'), $cond, $ifTrue, $ifFalse]);
 	}
 
 	public function expression()
@@ -140,7 +140,7 @@ class VTExpressionParser
 		if ($this->checkSymbol($la1, 'if')) {
 			return $this->ifCondition();
 		} else if ($la1->label == 'SYMBOL' && $la2->label == 'OPEN_BRACKET') {
-			$arr = array($this->nextToken()->value);
+			$arr = [$this->nextToken()->value];
 			$this->nextToken();
 			if ($this->la()->label != 'CLOSE_BRACKET') {
 				$arr[] = $this->expression();
@@ -161,12 +161,12 @@ class VTExpressionParser
 		}
 	}
 
-	public $precedence = array(
-		array('*', '/'),
-		array('+', '-'),
-		array('and', 'or'),
-		array('==', '>=', '<=', '>', '<')
-	);
+	public $precedence = [
+		['*', '/'],
+		['+', '-'],
+		['and', 'or'],
+		['==', '>=', '<=', '>', '<']
+	];
 
 	public function binOp()
 	{
@@ -181,7 +181,7 @@ class VTExpressionParser
 			if ($la->label == 'OPERATOR' && in_array($la->value->value, $this->precedence[$prec])) {
 				$operator = $this->nextToken()->value;
 				$rhs = $this->binOpPrec($prec);
-				return new VTExpressionTreeNode(array($operator, $lhs, $rhs));
+				return new VTExpressionTreeNode([$operator, $lhs, $rhs]);
 			} else {
 				return $lhs;
 			}
@@ -193,11 +193,11 @@ class VTExpressionParser
 	public function unaryOp()
 	{
 		$la = $this->la();
-		if ($la->label == "OPERATOR" && in_array($la->value->value, array('+', '-'))) {
+		if ($la->label == "OPERATOR" && in_array($la->value->value, ['+', '-'])) {
 			$this->nextToken();
 			$operator = $la->value;
 			$operand = $this->unaryOp();
-			return new VTExpressionTreeNode(array($operator, $operand));
+			return new VTExpressionTreeNode([$operator, $operand]);
 		} else {
 			return $this->atom();
 		}

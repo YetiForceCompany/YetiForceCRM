@@ -234,7 +234,7 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 
 		$lookupcolumns = [];
 		foreach ($cachedModuleFields as $fieldinfo) {
-			if (in_array($fieldinfo['uitype'], array($uitype))) {
+			if (in_array($fieldinfo['uitype'], [$uitype])) {
 				$lookupcolumns[] = $fieldinfo['columnname'];
 			}
 		}

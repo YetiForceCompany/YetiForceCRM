@@ -21,39 +21,39 @@ class ProjectMilestone extends CRMEntity
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('vtiger_projectmilestonecf', 'projectmilestoneid');
+	public $customFieldTable = ['vtiger_projectmilestonecf', 'projectmilestoneid'];
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_projectmilestone', 'vtiger_projectmilestonecf');
+	public $tab_name = ['vtiger_crmentity', 'vtiger_projectmilestone', 'vtiger_projectmilestonecf'];
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public $tab_name_index = Array(
+	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_projectmilestone' => 'projectmilestoneid',
-		'vtiger_projectmilestonecf' => 'projectmilestoneid');
+		'vtiger_projectmilestonecf' => 'projectmilestoneid'];
 
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public $list_fields = Array(
+	public $list_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Project Milestone Name' => Array('projectmilestone', 'projectmilestonename'),
-		'Milestone Date' => Array('projectmilestone', 'projectmilestonedate'),
-		'Type' => Array('projectmilestone', 'projectmilestonetype'),
+		'Project Milestone Name' => ['projectmilestone', 'projectmilestonename'],
+		'Milestone Date' => ['projectmilestone', 'projectmilestonedate'],
+		'Type' => ['projectmilestone', 'projectmilestonetype'],
 		//'Assigned To' => Array('crmentity','smownerid')
-	);
-	public $list_fields_name = Array(
+	];
+	public $list_fields_name = [
 		/* Format: Field Label => fieldname */
 		'Project Milestone Name' => 'projectmilestonename',
 		'Milestone Date' => 'projectmilestonedate',
 		'Type' => 'projectmilestonetype',
 		//'Assigned To' => 'assigned_user_id'
-	);
+	];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
@@ -62,34 +62,34 @@ class ProjectMilestone extends CRMEntity
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'projectmilestonename';
 	// For Popup listview and UI type support
-	public $search_fields = Array(
+	public $search_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Project Milestone Name' => Array('projectmilestone', 'projectmilestonename'),
-		'Milestone Date' => Array('projectmilestone', 'projectmilestonedate'),
-		'Type' => Array('projectmilestone', 'projectmilestonetype'),
-	);
-	public $search_fields_name = Array(
+		'Project Milestone Name' => ['projectmilestone', 'projectmilestonename'],
+		'Milestone Date' => ['projectmilestone', 'projectmilestonedate'],
+		'Type' => ['projectmilestone', 'projectmilestonetype'],
+	];
+	public $search_fields_name = [
 		/* Format: Field Label => fieldname */
 		'Project Milestone Namee' => 'projectmilestonename',
 		'Milestone Date' => 'projectmilestonedate',
 		'Type' => 'projectmilestonetype',
-	);
+	];
 	// For Popup window record selection
-	public $popup_fields = Array('projectmilestonename');
+	public $popup_fields = ['projectmilestonename'];
 	// For Alphabetical search
 	public $def_basicsearch_col = 'projectmilestonename';
 	// Column value to use on detail view record text display
 	public $def_detailview_recname = 'projectmilestonename';
 	// Required Information for enabling Import feature
-	public $required_fields = Array('projectmilestonename' => 1);
+	public $required_fields = ['projectmilestonename' => 1];
 	// Callback function list during Importing
-	public $special_functions = Array('set_import_assigned_user');
+	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public $mandatory_fields = Array('createdtime', 'modifiedtime', 'projectmilestonename', 'projectid', 'assigned_user_id');
+	public $mandatory_fields = ['createdtime', 'modifiedtime', 'projectmilestonename', 'projectid', 'assigned_user_id'];
 
 	/**
 	 * Get list view query (send more WHERE clause condition if required)
@@ -126,7 +126,7 @@ class ProjectMilestone extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($module));
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", [$module]);
 		$linkedFieldsCount = $this->db->numRows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
@@ -220,7 +220,7 @@ class ProjectMilestone extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($thismodule));
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", [$thismodule]);
 		$linkedFieldsCount = $this->db->numRows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {

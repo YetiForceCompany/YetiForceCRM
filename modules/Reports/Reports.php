@@ -11,13 +11,13 @@
 require_once('include/utils/UserInfoUtil.php');
 require_once 'modules/Reports/ReportUtils.php';
 
-$oldRelatedModules = Array('Accounts' => Array('Contacts', 'Products'),
-	'Contacts' => Array('Accounts'),
-	'Calendar' => Array('Leads', 'Accounts', 'Contacts'),
-	'Products' => Array('Accounts', 'Contacts'),
-	'HelpDesk' => Array('Products'),
-	'Campaigns' => Array('Products')
-);
+$oldRelatedModules = ['Accounts' => ['Contacts', 'Products'],
+	'Contacts' => ['Accounts'],
+	'Calendar' => ['Leads', 'Accounts', 'Contacts'],
+	'Products' => ['Accounts', 'Contacts'],
+	'HelpDesk' => ['Products'],
+	'Campaigns' => ['Products']
+];
 vglobal('old_related_modules', $oldRelatedModules);
 
 class Reports extends CRMEntity
@@ -74,7 +74,7 @@ class Reports extends CRMEntity
 			if ($cachedInfo === false) {
 				$ssql = "select vtiger_reportmodules.*,vtiger_report.* from vtiger_report inner join vtiger_reportmodules on vtiger_report.reportid = vtiger_reportmodules.reportmodulesid";
 				$ssql .= " where vtiger_report.reportid = ?";
-				$params = array($reportid);
+				$params = [$reportid];
 				require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 				$userGroups = App\PrivilegeUtil::getAllGroupsByUser($currentUser->id);
 				if (!empty($userGroups) && $is_admin === false) {
@@ -159,8 +159,8 @@ class Reports extends CRMEntity
 		$oldRelatedModules = vglobal('old_related_modules');
 
 		$adb = PearDatabase::getInstance();
-		$restricted_modules = array('Events');
-		$restricted_blocks = array('LBL_COMMENTS', 'LBL_COMMENT_INFORMATION');
+		$restricted_modules = ['Events'];
+		$restricted_blocks = ['LBL_COMMENTS', 'LBL_COMMENT_INFORMATION'];
 
 		$this->module_id = [];
 		$this->module_list = [];
@@ -563,13 +563,13 @@ class Reports extends CRMEntity
 
 		if (is_string($block))
 			$block = explode(',', $block);
-		$skipTalbes = array('vtiger_attachments');
+		$skipTalbes = ['vtiger_attachments'];
 
 		$tabid = \App\Module::getModuleId($module);
 		if ($module == 'Calendar') {
-			$tabid = array('9', '16');
+			$tabid = ['9', '16'];
 		}
-		$params = array($tabid, $block);
+		$params = [$tabid, $block];
 
 		$profileList = $currentUser->getProfiles();
 		$sql = sprintf("select * from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where vtiger_field.tabid in (%s)  and vtiger_field.block in (%s) and vtiger_field.displaytype in (1,2,3,10) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)", generateQuestionMarks($tabid), generateQuestionMarks($block));
@@ -646,7 +646,7 @@ class Reports extends CRMEntity
 	{
 		$adb = PearDatabase::getInstance();
 		$sSQL = "select vtiger_reportdatefilter.* from vtiger_reportdatefilter inner join vtiger_report on vtiger_report.reportid = vtiger_reportdatefilter.datefilterid where vtiger_report.reportid=?";
-		$result = $adb->pquery($sSQL, array($reportid));
+		$result = $adb->pquery($sSQL, [$reportid]);
 		$selectedstdfilter = $adb->fetchArray($result);
 
 		$this->stdselectedcolumn = $selectedstdfilter["datecolumnname"];
@@ -672,17 +672,17 @@ class Reports extends CRMEntity
 	{
 		$modStrings = vglobal('mod_strings');
 
-		$datefiltervalue = Array("custom", "prevfy", "thisfy", "nextfy", "prevfq", "thisfq", "nextfq",
+		$datefiltervalue = ["custom", "prevfy", "thisfy", "nextfy", "prevfq", "thisfq", "nextfq",
 			"yesterday", "today", "tomorrow", "lastweek", "thisweek", "nextweek", "lastmonth", "thismonth",
 			"nextmonth", "last7days", "last15days", "last30days", "last60days", "last90days", "last120days",
 			"next15days", "next30days", "next60days", "next90days", "next120days"
-		);
+		];
 
-		$datefilterdisplay = Array("Custom", "Previous FY", "Current FY", "Next FY", "Previous FQ", "Current FQ", "Next FQ", "Yesterday",
+		$datefilterdisplay = ["Custom", "Previous FY", "Current FY", "Next FY", "Previous FQ", "Current FQ", "Next FQ", "Yesterday",
 			"Today", "Tomorrow", "Last Week", "Current Week", "Next Week", "Last Month", "Current Month",
 			"Next Month", "Last 7 Days", "Last 15 Days", "Last 30 Days", "Last 60 Days", "Last 90 Days", "Last 120 Days",
 			"Next 7 Days", "Next 15 Days", "Next 30 Days", "Next 60 Days", "Next 90 Days", "Next 120 Days"
-		);
+		];
 
 		$countDateFilterValue = count($datefiltervalue);
 		for ($i = 0; $i < $countDateFilterValue; $i++) {
@@ -764,7 +764,7 @@ class Reports extends CRMEntity
 		$sreportsortsql .= " inner join vtiger_reportsortcol on vtiger_report.reportid = vtiger_reportsortcol.reportid";
 		$sreportsortsql .= " where vtiger_report.reportid =? order by vtiger_reportsortcol.sortcolid";
 
-		$result = $adb->pquery($sreportsortsql, array($reportid));
+		$result = $adb->pquery($sreportsortsql, [$reportid]);
 		$noofrows = $adb->numRows($result);
 
 		for ($i = 0; $i < $noofrows; $i++) {
@@ -793,7 +793,7 @@ class Reports extends CRMEntity
 		$ssql .= " left join vtiger_selectcolumn on vtiger_selectcolumn.queryid = vtiger_selectquery.queryid";
 		$ssql .= " where vtiger_report.reportid = ?";
 		$ssql .= " order by vtiger_selectcolumn.columnindex";
-		$result = $adb->pquery($ssql, array($reportid));
+		$result = $adb->pquery($ssql, [$reportid]);
 		$permitted_fields = [];
 
 		$selected_mod = explode(':', $this->secmodule);
@@ -848,7 +848,7 @@ class Reports extends CRMEntity
 		$advft_criteria = [];
 
 		$sql = 'SELECT * FROM vtiger_relcriteria_grouping WHERE queryid = ? ORDER BY groupid';
-		$groupsresult = $adb->pquery($sql, array($reportid));
+		$groupsresult = $adb->pquery($sql, [$reportid]);
 
 		$i = 1;
 		$j = 0;
@@ -862,7 +862,7 @@ class Reports extends CRMEntity
 								and vtiger_relcriteria.groupid = vtiger_relcriteria_grouping.groupid';
 			$ssql .= " where vtiger_report.reportid = ? && vtiger_relcriteria.groupid = ? order by vtiger_relcriteria.columnindex";
 
-			$result = $adb->pquery($ssql, array($reportid, $groupId));
+			$result = $adb->pquery($ssql, [$reportid, $groupId]);
 			$noOfColumns = $adb->numRows($result);
 			if ($noOfColumns <= 0)
 				continue;
@@ -980,7 +980,7 @@ class Reports extends CRMEntity
 		$options = [];
 		if ($reportid != "") {
 			$ssql = "select vtiger_reportsummary.* from vtiger_reportsummary inner join vtiger_report on vtiger_report.reportid = vtiger_reportsummary.reportsummaryid where vtiger_report.reportid=?";
-			$result = $adb->pquery($ssql, array($reportid));
+			$result = $adb->pquery($ssql, [$reportid]);
 			if ($result) {
 				$reportsummaryrow = $adb->fetchArray($result);
 
@@ -1014,8 +1014,8 @@ class Reports extends CRMEntity
 		$currentUser = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$tabid = \App\Module::getModuleId($module);
-		$escapedchars = Array('__SUM', '__AVG', '__MIN', '__MAX');
-		$sparams = array($tabid);
+		$escapedchars = ['__SUM', '__AVG', '__MIN', '__MAX'];
+		$sparams = [$tabid];
 		$profileList = $currentUser->getProfiles();
 		$ssql = "select * from vtiger_field inner join vtiger_tab on vtiger_tab.tabid = vtiger_field.tabid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid  where vtiger_field.uitype != 50 and vtiger_field.tabid=? and vtiger_field.displaytype in (1,2,3) and vtiger_def_org_field.visible=0 and vtiger_profile2field.visible=0 and vtiger_field.presence in (0,2)";
 		if ($profileList !== false && count($profileList) > 0) {
@@ -1122,9 +1122,9 @@ function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_grou
 
 	$adb = PearDatabase::getInstance();
 	$idelrelcriteriasql = 'delete from vtiger_relcriteria where queryid=?';
-	$adb->pquery($idelrelcriteriasql, array($reportid));
+	$adb->pquery($idelrelcriteriasql, [$reportid]);
 	$idelrelcriteriagroupsql = 'delete from vtiger_relcriteria_grouping where queryid=?';
-	$adb->pquery($idelrelcriteriagroupsql, array($reportid));
+	$adb->pquery($idelrelcriteriagroupsql, [$reportid]);
 
 	if (empty($advft_criteria))
 		return;
@@ -1180,7 +1180,7 @@ function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_grou
 		}
 
 		$irelcriteriasql = "insert into vtiger_relcriteria(QUERYID,COLUMNINDEX,COLUMNNAME,COMPARATOR,VALUE,GROUPID,COLUMN_CONDITION) values (?,?,?,?,?,?,?)";
-		$adb->pquery($irelcriteriasql, array($reportid, $column_index, $adv_filter_column, $adv_filter_comparator, $adv_filter_value, $adv_filter_groupid, $adv_filter_column_condition));
+		$adb->pquery($irelcriteriasql, [$reportid, $column_index, $adv_filter_column, $adv_filter_comparator, $adv_filter_value, $adv_filter_groupid, $adv_filter_column_condition]);
 
 		// Update the condition expression for the group to which the condition column belongs
 		$groupConditionExpression = '';
@@ -1199,6 +1199,6 @@ function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_grou
 			continue; // Case when the group doesn't have any column criteria
 
 		$irelcriteriagroupsql = "insert into vtiger_relcriteria_grouping(GROUPID,QUERYID,GROUP_CONDITION,CONDITION_EXPRESSION) values (?,?,?,?)";
-		$adb->pquery($irelcriteriagroupsql, array($group_index, $reportid, $group_condition_info["groupcondition"], $group_condition_info["conditionexpression"]));
+		$adb->pquery($irelcriteriagroupsql, [$group_index, $reportid, $group_condition_info["groupcondition"], $group_condition_info["conditionexpression"]]);
 	}
 }

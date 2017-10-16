@@ -19,36 +19,36 @@ class OSSMailView extends CRMEntity
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('vtiger_ossmailviewcf', 'ossmailviewid');
+	public $customFieldTable = ['vtiger_ossmailviewcf', 'ossmailviewid'];
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_ossmailview', 'vtiger_ossmailviewcf');
-	public $related_tables = Array('vtiger_ossmailviewcf' => Array('ossmailviewid', 'vtiger_ossmailview', 'ossmailviewid'));
+	public $tab_name = ['vtiger_crmentity', 'vtiger_ossmailview', 'vtiger_ossmailviewcf'];
+	public $related_tables = ['vtiger_ossmailviewcf' => ['ossmailviewid', 'vtiger_ossmailview', 'ossmailviewid']];
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public $tab_name_index = Array(
+	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_ossmailview' => 'ossmailviewid',
-		'vtiger_ossmailviewcf' => 'ossmailviewid');
+		'vtiger_ossmailviewcf' => 'ossmailviewid'];
 
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public $list_fields = Array(
+	public $list_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'number' => Array('ossmailview' => 'ossmailview_no'),
-		'From' => Array('ossmailview' => 'from_email'),
-		'Subject' => Array('ossmailview' => 'subject'),
-		'To' => Array('ossmailview' => 'to_email'),
-		'SendType' => Array('ossmailview' => 'ossmailview_sendtype'),
-		'Assigned To' => Array('ossmailview' => 'assigned_user_id')
-	);
-	public $list_fields_name = Array(
+		'number' => ['ossmailview' => 'ossmailview_no'],
+		'From' => ['ossmailview' => 'from_email'],
+		'Subject' => ['ossmailview' => 'subject'],
+		'To' => ['ossmailview' => 'to_email'],
+		'SendType' => ['ossmailview' => 'ossmailview_sendtype'],
+		'Assigned To' => ['ossmailview' => 'assigned_user_id']
+	];
+	public $list_fields_name = [
 		/* Format: Field Label => fieldname */
 		'number' => 'ossmailview_no',
 		'From' => 'from_email',
@@ -56,7 +56,7 @@ class OSSMailView extends CRMEntity
 		'To' => 'to_email',
 		'SendType' => 'ossmailview_sendtype',
 		'Assigned To' => 'assigned_user_id'
-	);
+	];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
@@ -65,17 +65,17 @@ class OSSMailView extends CRMEntity
 	// Make the field link to detail view
 	public $list_link_field = 'subject';
 	// For Popup listview and UI type support
-	public $search_fields = Array(
+	public $search_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'number' => Array('ossmailview' => 'ossmailview_no'),
-		'From' => Array('ossmailview' => 'from_email'),
-		'Subject' => Array('ossmailview' => 'subject'),
-		'To' => Array('ossmailview' => 'to_email'),
-		'SendType' => Array('ossmailview' => 'ossmailview_sendtype'),
-		'Assigned To' => Array('ossmailview' => 'assigned_user_id')
-	);
-	public $search_fields_name = Array(
+		'number' => ['ossmailview' => 'ossmailview_no'],
+		'From' => ['ossmailview' => 'from_email'],
+		'Subject' => ['ossmailview' => 'subject'],
+		'To' => ['ossmailview' => 'to_email'],
+		'SendType' => ['ossmailview' => 'ossmailview_sendtype'],
+		'Assigned To' => ['ossmailview' => 'assigned_user_id']
+	];
+	public $search_fields_name = [
 		/* Format: Field Label => fieldname */
 		'number' => 'ossmailview_no',
 		'From' => 'from_email',
@@ -83,18 +83,18 @@ class OSSMailView extends CRMEntity
 		'To' => 'to_email',
 		'SendType' => 'ossmailview_sendtype',
 		'Assigned To' => 'assigned_user_id'
-	);
+	];
 	// For Popup window record selection
-	public $popup_fields = Array('from', 'subject', 'ossmailview_sendtype');
+	public $popup_fields = ['from', 'subject', 'ossmailview_sendtype'];
 	// For Alphabetical search
 	public $def_basicsearch_col = 'subject';
 	// Required Information for enabling Import feature
-	public $required_fields = Array('subject' => 1);
+	public $required_fields = ['subject' => 1];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public $mandatory_fields = Array('subject', 'from');
+	public $mandatory_fields = ['subject', 'from'];
 	// Callback function list during Importing
-	public $special_functions = Array('set_import_assigned_user');
+	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = '';
 	public $default_sort_order = 'DESC';
 	public $unit_price;
@@ -125,7 +125,7 @@ class OSSMailView extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($module));
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", [$module]);
 		$linkedFieldsCount = $this->db->numRows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {

@@ -21,7 +21,7 @@ class Settings_PickListDependency_DeleteAjax_Action extends Settings_Vtiger_Inde
 		$response = new Vtiger_Response();
 		try {
 			$result = $recordModel->delete();
-			$response->setResult(array('success', $result));
+			$response->setResult(['success', $result]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}

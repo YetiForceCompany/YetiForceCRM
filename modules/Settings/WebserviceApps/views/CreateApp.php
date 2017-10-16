@@ -44,9 +44,9 @@ class Settings_WebserviceApps_CreateApp_View extends Settings_Vtiger_BasicModal_
 	public function getModalScripts(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$scripts = array(
+		$scripts = [
 			"modules.Settings.$moduleName.resources.Edit",
-		);
+		];
 		$scriptInstances = $this->checkAndConvertJsScripts($scripts);
 		return $scriptInstances;
 	}

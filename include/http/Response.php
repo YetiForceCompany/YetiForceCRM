@@ -71,7 +71,7 @@ class Vtiger_Response
 	{
 		if ($message === null)
 			$message = $code;
-		$error = array('code' => $code, 'message' => $message, 'trace' => $trace);
+		$error = ['code' => $code, 'message' => $message, 'trace' => $trace];
 		$this->error = $error;
 	}
 

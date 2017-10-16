@@ -48,7 +48,7 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 				}
 				if (empty($relatedRecordIdsList)) {
 					$response = new Vtiger_Response();
-					$response->setResult(array(false));
+					$response->setResult([false]);
 					$response->emit();
 				} else {
 					foreach ($relatedRecordIdsList as $relatedRecordId) {
@@ -77,9 +77,9 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 			$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModuleName);
 
 			$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
-			$relationModel->updateStatus($request->getInteger('sourceRecord'), array($relatedRecordId => $status));
+			$relationModel->updateStatus($request->getInteger('sourceRecord'), [$relatedRecordId => $status]);
 
-			$response->setResult(array(true));
+			$response->setResult([true]);
 		} else {
 			$response->setError($code);
 		}

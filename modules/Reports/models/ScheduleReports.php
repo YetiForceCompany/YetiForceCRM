@@ -34,7 +34,7 @@ class Reports_ScheduleReports_Model extends \App\Base
 		$scheduledReportModel = new self();
 
 		if (!empty($recordId)) {
-			$scheduledReportResult = $db->pquery('SELECT * FROM vtiger_schedulereports WHERE reportid = ?', array($recordId));
+			$scheduledReportResult = $db->pquery('SELECT * FROM vtiger_schedulereports WHERE reportid = ?', [$recordId]);
 			if ($db->numRows($scheduledReportResult) > 0) {
 				$reportScheduleInfo = $db->queryResultRowData($scheduledReportResult, 0);
 				$reportScheduleInfo['schdate'] = App\Purifier::decodeHtml($reportScheduleInfo['schdate']);
@@ -80,7 +80,7 @@ class Reports_ScheduleReports_Model extends \App\Base
 			} else {
 				$this->set('next_trigger_time', date('Y-m-d H:i:s', strtotime('+10 year')));
 			}
-			$schdate = \App\Json::encode(array($dateDBFormat));
+			$schdate = \App\Json::encode([$dateDBFormat]);
 		} else if ($scheduleid == self::$SCHEDULED_WEEKLY) {
 			$schdayoftheweek = \App\Json::encode($this->get('schdayoftheweek'));
 			$this->set('schdayoftheweek', $schdayoftheweek);
@@ -101,9 +101,9 @@ class Reports_ScheduleReports_Model extends \App\Base
 		}
 		if ($isReportScheduled == '0' || $isReportScheduled == '' || $isReportScheduled === false) {
 			$deleteScheduledReportSql = "DELETE FROM vtiger_schedulereports WHERE reportid=?";
-			$adb->pquery($deleteScheduledReportSql, array($reportid));
+			$adb->pquery($deleteScheduledReportSql, [$reportid]);
 		} else {
-			$checkScheduledResult = $adb->pquery('SELECT 1 FROM vtiger_schedulereports WHERE reportid=?', array($reportid));
+			$checkScheduledResult = $adb->pquery('SELECT 1 FROM vtiger_schedulereports WHERE reportid=?', [$reportid]);
 			$params = [
 				'scheduleid' => $scheduleid,
 				'recipients' => $recipients,
@@ -277,7 +277,7 @@ class Reports_ScheduleReports_Model extends \App\Base
 		$adb = PearDatabase::getInstance();
 		$nextTriggerTime = $this->getNextTriggerTime();
 		vtlib\Utils::moduleLog('ScheduleReprot Next Trigger Time >> ', $nextTriggerTime);
-		$adb->pquery('UPDATE vtiger_schedulereports SET next_trigger_time=? WHERE reportid=?', array($nextTriggerTime, $this->get('reportid')));
+		$adb->pquery('UPDATE vtiger_schedulereports SET next_trigger_time=? WHERE reportid=?', [$nextTriggerTime, $this->get('reportid')]);
 		vtlib\Utils::moduleLog('ScheduleReprot', 'Next Trigger Time updated');
 	}
 

@@ -29,14 +29,14 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$basicLinks = [];
 		if ($currentUserModel->isAdminUser()) {
-			$basicLinks = array(
-				array(
+			$basicLinks = [
+				[
 					'linktype' => 'LISTVIEWBASIC',
 					'linklabel' => 'LBL_EMPTY_RECYCLEBIN',
 					'linkurl' => 'javascript:RecycleBin_List_Js.emptyRecycleBin("index.php?module=' . $this->get('name') . '&action=RecycleBinAjax")',
 					'linkicon' => ''
-				)
-			);
+				]
+			];
 		}
 
 		foreach ($basicLinks as $basicLink) {
@@ -57,20 +57,20 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 
 		$massActionLinks = [];
 		if ($currentUserModel->isAdminUser()) {
-			$massActionLinks[] = array(
+			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_DELETE',
 				'linkurl' => 'javascript:RecycleBin_List_Js.deleteRecords("index.php?module=' . $this->get('name') . '&action=RecycleBinAjax")',
 				'linkicon' => ''
-			);
+			];
 		}
 
-		$massActionLinks[] = array(
+		$massActionLinks[] = [
 			'linktype' => 'LISTVIEWMASSACTION',
 			'linklabel' => 'LBL_RESTORE',
 			'linkurl' => 'javascript:RecycleBin_List_Js.restoreRecords("index.php?module=' . $this->get('name') . '&action=RecycleBinAjax")',
 			'linkicon' => ''
-		);
+		];
 
 
 		foreach ($massActionLinks as $massActionLink) {
@@ -87,17 +87,17 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getSideBarLinks($linkParams)
 	{
-		$linkTypes = array('SIDEBARLINK', 'SIDEBARWIDGET');
+		$linkTypes = ['SIDEBARLINK', 'SIDEBARWIDGET'];
 		$links = Vtiger_Link_Model::getAllByType($this->getId(), $linkTypes, $linkParams);
 
-		$quickLinks = array(
-			array(
+		$quickLinks = [
+			[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getDefaultUrl(),
 				'linkicon' => '',
-			),
-		);
+			],
+		];
 		foreach ($quickLinks as $quickLink) {
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
 		}
@@ -111,7 +111,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 	public function getAllModuleList()
 	{
 		$moduleModels = parent::getEntityModules();
-		$restrictedModules = array('ProjectMilestone', 'ModComments', 'Rss', 'Portal', 'Integration', 'PBXManager', 'Dashboard', 'Home');
+		$restrictedModules = ['ProjectMilestone', 'ModComments', 'Rss', 'Portal', 'Integration', 'PBXManager', 'Dashboard', 'Home'];
 		foreach ($moduleModels as $key => $moduleModel) {
 			if (in_array($moduleModel->getName(), $restrictedModules) || $moduleModel->get('isentitytype') != 1) {
 				unset($moduleModels[$key]);

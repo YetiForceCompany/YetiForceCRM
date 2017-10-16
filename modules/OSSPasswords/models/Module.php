@@ -19,12 +19,12 @@ class OSSPasswords_Module_Model extends Vtiger_Module_Model
 		$settingLinks = parent::getSettingLinks();
 
 		if ($currentUserModel->isAdminUser()) {
-			$settingLinks[] = array(
+			$settingLinks[] = [
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_PASS_CONFIGURATION',
 				'linkurl' => 'index.php?module=OSSPasswords&view=ConfigurePass&parent=Settings',
 				'linkicon' => ''
-			);
+			];
 		}
 		return $settingLinks;
 	}

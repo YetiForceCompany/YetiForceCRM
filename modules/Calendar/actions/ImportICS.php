@@ -49,13 +49,13 @@ class Calendar_ImportICS_Action extends Vtiger_Action_Controller
 
 			$eventModule = 'Events';
 			$todoModule = 'Calendar';
-			$skipFields = array(
-				$eventModule => array('duration_hours'),
-				$todoModule => array('activitystatus')
-			);
+			$skipFields = [
+				$eventModule => ['duration_hours'],
+				$todoModule => ['activitystatus']
+			];
 
 			$requiredFields = [];
-			$modules = array($eventModule, $todoModule);
+			$modules = [$eventModule, $todoModule];
 			$calendarModel = Vtiger_Module_Model::getInstance($moduleName);
 
 			foreach ($modules as $module) {
@@ -95,7 +95,7 @@ class Calendar_ImportICS_Action extends Vtiger_Action_Controller
 				$recordModel->save();
 
 				$lastImport = new IcalLastImport();
-				$lastImport->setFields(array('userid' => $userId, 'entitytype' => $todoModule, 'crmid' => $recordModel->getId()));
+				$lastImport->setFields(['userid' => $userId, 'entitytype' => $todoModule, 'crmid' => $recordModel->getId()]);
 				$lastImport->save();
 
 				if (!empty($icalActivities[$i]['VALARM'])) {

@@ -37,7 +37,7 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 		$viewer->assign('TASK_TEMPLATE_PATH', $taskTypeModel->getTemplatePath());
 		$moduleModel = $workflowModel->getModule();
 		$sourceModule = $moduleModel->getName();
-		$dateTimeFields = $moduleModel->getFieldsByType(array('date', 'datetime'));
+		$dateTimeFields = $moduleModel->getFieldsByType(['date', 'datetime']);
 
 		$taskObject = $taskModel->getTaskObject();
 		$taskType = get_class($taskObject);
@@ -71,7 +71,7 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 		}
 		if ($taskType === 'VTUpdateFieldsTask') {
 			if ($sourceModule === 'Documents') {
-				$restrictFields = array('folderid', 'filename', 'filelocationtype');
+				$restrictFields = ['folderid', 'filename', 'filelocationtype'];
 				$viewer->assign('RESTRICTFIELDS', $restrictFields);
 			}
 		}
@@ -92,10 +92,10 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 		$groupTaxBlockLabel = \App\Language::translate('LBL_LINEITEM_BLOCK_INDIVIDUAL', $qualifiedModuleName);
 		$groupTaxBlockValue = $viewer->view('LineItemsIndividualTemplate.tpl', $qualifiedModuleName, $fetch = true);
 
-		$templateVariables = array(
+		$templateVariables = [
 			$individualTaxBlockValue => $individualTaxBlockLabel,
 			$groupTaxBlockValue => $groupTaxBlockLabel
-		);
+		];
 		$viewer->assign('TEMPLATE_VARIABLES', $templateVariables);
 		$viewer->assign('TASK_OBJECT', $taskObject);
 		$viewer->assign('FIELD_EXPRESSIONS', Settings_Workflows_Module_Model::getExpressions());

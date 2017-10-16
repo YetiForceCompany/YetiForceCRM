@@ -86,12 +86,12 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 			$imageOriginalName = App\Purifier::decodeHtml($imageName);
 
 			if (!empty($imageName)) {
-				$imageDetails[] = array(
+				$imageDetails[] = [
 					'id' => $imageId,
 					'orgname' => $imageOriginalName,
 					'path' => $imagePath . $imageId,
 					'name' => $imageName
-				);
+				];
 			}
 		}
 		return $imageDetails;

@@ -46,7 +46,7 @@ class RecycleBin_Pagination_View extends Vtiger_IndexAjax_View
 		}
 		$listViewModel = RecycleBin_ListView_Model::getInstance($moduleName, $sourceModule);
 
-		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1));
+		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1)];
 		$linkModels = $moduleModel->getListViewMassActions($linkParams);
 
 		$pagingModel = new Vtiger_Paging_Model();

@@ -51,9 +51,9 @@ class Calendar_ActivityStateModal_View extends Vtiger_BasicModal_View
 	public function getScripts(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$jsFileNames = array(
+		$jsFileNames = [
 			"modules.$moduleName.resources.ActivityStateModal",
-		);
+		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		return $jsScriptInstances;
 	}

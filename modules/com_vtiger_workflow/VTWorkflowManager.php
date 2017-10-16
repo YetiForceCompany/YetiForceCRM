@@ -683,7 +683,7 @@ class Workflow
 	 */
 	public function getNextTriggerTimeForWeekly($scheduledDaysOfWeek, $scheduledTime)
 	{
-		$weekDays = array('1' => 'Monday', '2' => 'Tuesday', '3' => 'Wednesday', '4' => 'Thursday', '5' => 'Friday', '6' => 'Saturday', '7' => 'Sunday');
+		$weekDays = ['1' => 'Monday', '2' => 'Tuesday', '3' => 'Wednesday', '4' => 'Thursday', '5' => 'Friday', '6' => 'Saturday', '7' => 'Sunday'];
 		$currentTime = time();
 		$currentWeekDay = date('N', $currentTime);
 		if ($scheduledDaysOfWeek) {

@@ -42,7 +42,7 @@ class Reports_MoveReports_Action extends Vtiger_Mass_Action
 		}
 		$response = new Vtiger_Response();
 		if (empty($reportsMoveDenied)) {
-			$response->setResult(array(\App\Language::translate('LBL_REPORTS_MOVED_SUCCESSFULLY', $parentModule)));
+			$response->setResult([\App\Language::translate('LBL_REPORTS_MOVED_SUCCESSFULLY', $parentModule)]);
 		} else {
 			$response->setError($reportsMoveDenied, \App\Language::translate('LBL_DENIED_REPORTS', $parentModule));
 		}

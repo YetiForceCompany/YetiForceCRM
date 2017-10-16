@@ -217,7 +217,7 @@ class VTFieldExpressionEvaluater
 	public function __construct($expr)
 	{
 
-		$this->operators = array(
+		$this->operators = [
 			'+' => '__vt_add',
 			'-' => '__vt_sub',
 			'*' => '__vt_mul',
@@ -227,8 +227,8 @@ class VTFieldExpressionEvaluater
 			'>=' => '__vt_gtequals',
 			'<' => '__vt_lt',
 			'>' => '__vt_gt',
-		);
-		$this->functions = array(
+		];
+		$this->functions = [
 			'concat' => '__vt_concat',
 			'time_diff' => '__vt_time_diff',
 			'time_diffdays' => '__vt_time_diffdays',
@@ -237,7 +237,7 @@ class VTFieldExpressionEvaluater
 			'get_date' => '__vt_get_date',
 			'add_time' => '__vt_add_time',
 			'sub_time' => '__vt_sub_time'
-		);
+		];
 
 		$this->operations = array_merge($this->functions, $this->operators);
 		$this->expr = $expr;
@@ -264,7 +264,7 @@ class VTFieldExpressionEvaluater
 					return $this->exec($params[2]);
 				}
 			} else {
-				$params = array_map(array($this, 'exec'), $expr->getParams());
+				$params = array_map([$this, 'exec'], $expr->getParams());
 				$func = $this->operations[$op->value];
 				return $func($params);
 			}

@@ -24,7 +24,7 @@ class IcalLastImport
 	 * Fields
 	 * @var array
 	 */
-	public $fields = array('id', 'userid', 'entitytype', 'crmid');
+	public $fields = ['id', 'userid', 'entitytype', 'crmid'];
 
 	/**
 	 * Field data
@@ -77,7 +77,7 @@ class IcalLastImport
 
 		$fieldNames = array_keys($this->fieldData);
 		$fieldValues = array_values($this->fieldData);
-		$adb->pquery('INSERT INTO ' . $this->tableName . '(' . implode(',', $fieldNames) . ') VALUES (' . generateQuestionMarks($fieldValues) . ')', array($fieldValues));
+		$adb->pquery('INSERT INTO ' . $this->tableName . '(' . implode(',', $fieldNames) . ') VALUES (' . generateQuestionMarks($fieldValues) . ')', [$fieldValues]);
 	}
 
 	/**

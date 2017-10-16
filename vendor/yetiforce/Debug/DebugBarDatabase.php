@@ -37,17 +37,17 @@ class DebugBarDatabase extends DataCollector implements Renderable
 	 */
 	public function getWidgets()
 	{
-		return array(
-			"Database" => array(
+		return [
+			"Database" => [
 				"icon" => "tags",
 				"widget" => "PhpDebugBar.Widgets.VariableListWidget",
 				"map" => "Database",
 				"default" => "{}"
-			),
-			"Database:badge" => array(
+			],
+			"Database:badge" => [
 				"map" => "Database.count",
 				"default" => 1
-			)
-		);
+			]
+		];
 	}
 }

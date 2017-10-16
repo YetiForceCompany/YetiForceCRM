@@ -48,7 +48,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 			LEFT JOIN vtiger_seproductsrel ON vtiger_seproductsrel.crmid = vtiger_products.productid AND vtiger_products.discontinued = 1 AND vtiger_seproductsrel.setype='Products'
 			LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			WHERE vtiger_crmentity.deleted = 0 AND vtiger_seproductsrel.productid = ? ", array($this->getId()));
+			WHERE vtiger_crmentity.deleted = 0 AND vtiger_seproductsrel.productid = ? ", [$this->getId()]);
 
 		$subProductList = [];
 
@@ -133,12 +133,12 @@ class Products_Record_Model extends Vtiger_Record_Model
 			if (is_array($imageOriginalNamesList)) {
 				$countOfImages = count($imageOriginalNamesList);
 				for ($j = 0; $j < $countOfImages; $j++) {
-					$imageDetails[] = array(
+					$imageDetails[] = [
 						'id' => $imageIdsList[$j],
 						'orgname' => $imageOriginalNamesList[$j],
 						'path' => $imagePathList[$j] . $imageIdsList[$j],
 						'name' => $imageNamesList[$j]
-					);
+					];
 				}
 			}
 		}

@@ -33,7 +33,7 @@ class Vtiger_SetReadRecord_Action extends Vtiger_SaveAjax_Action
 
 		$cvId = $request->get('viewname');
 		$response = new Vtiger_Response();
-		$response->setResult(array('viewname' => $cvId, 'module' => $moduleName));
+		$response->setResult(['viewname' => $cvId, 'module' => $moduleName]);
 		$response->emit();
 	}
 }

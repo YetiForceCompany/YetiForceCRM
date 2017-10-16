@@ -41,10 +41,10 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 			}
 		}
 		$response = new Vtiger_Response();
-		$response->setResult(array(
+		$response->setResult([
 			'success' => $saveResp['success'],
 			'message' => \App\Language::translate($saveResp['data'], $request->getModule(false))
-		));
+		]);
 		$response->emit();
 	}
 
@@ -69,10 +69,10 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$params = $request->get('params');
 		$saveResp = Settings_LangManagement_Module_Model::saveView($params);
 		$response = new Vtiger_Response();
-		$response->setResult(array(
+		$response->setResult([
 			'success' => $saveResp['success'],
 			'message' => \App\Language::translate($saveResp['data'], $request->getModule(false))
-		));
+		]);
 		$response->emit();
 	}
 
@@ -97,10 +97,10 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$params = $request->get('params');
 		$saveResp = Settings_LangManagement_Module_Model::add($params);
 		$response = new Vtiger_Response();
-		$response->setResult(array(
+		$response->setResult([
 			'success' => $saveResp['success'],
 			'message' => \App\Language::translate($saveResp['data'], $request->getModule(false))
-		));
+		]);
 		$response->emit();
 	}
 
@@ -123,9 +123,9 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 		$saveResp = Settings_LangManagement_Module_Model::setAsDefault($params);
 		$response = new Vtiger_Response();
 		if ($saveResp['success']) {
-			$response->setResult(array('success' => true, 'message' => \App\Language::translate('LBL_SaveDataOK', $request->getModule(false)), 'prefixOld' => $saveResp['prefixOld']));
+			$response->setResult(['success' => true, 'message' => \App\Language::translate('LBL_SaveDataOK', $request->getModule(false)), 'prefixOld' => $saveResp['prefixOld']]);
 		} else {
-			$response->setResult(array('success' => false));
+			$response->setResult(['success' => false]);
 		}
 		$response->emit();
 	}

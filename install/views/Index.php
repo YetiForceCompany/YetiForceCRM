@@ -17,7 +17,7 @@ class Install_Index_View extends Vtiger_View_Controller
 
 	public function checkPermission(\App\Request $request)
 	{
-		
+
 	}
 
 	public function loginRequired()
@@ -288,7 +288,7 @@ class Install_Index_View extends Vtiger_View_Controller
 			$adb = new PearDatabase($dbconfig['db_type'], $dbconfig['db_hostname'], $dbconfig['db_name'], $dbconfig['db_username'], $dbconfig['db_password']);
 			vglobal('adb', $adb);
 			$query = "SELECT crypt_type, user_name FROM vtiger_users WHERE user_name=?";
-			$result = $adb->requirePsSingleResult($query, array($username), true);
+			$result = $adb->requirePsSingleResult($query, [$username], true);
 			if ($adb->numRows($result) > 0) {
 				$crypt_type = $adb->queryResult($result, 0, 'crypt_type');
 				$salt = substr($username, 0, 2);
@@ -301,7 +301,7 @@ class Install_Index_View extends Vtiger_View_Controller
 				}
 				$encrypted_password = crypt($password, $salt);
 				$query = "SELECT 1 from vtiger_users where user_name=? && user_password=? && status = ?";
-				$result = $adb->requirePsSingleResult($query, array($username, $encrypted_password, 'Active'), true);
+				$result = $adb->requirePsSingleResult($query, [$username, $encrypted_password, 'Active'], true);
 				if ($adb->numRows($result) > 0) {
 					$loginStatus = true;
 				}
@@ -333,7 +333,7 @@ class Install_Index_View extends Vtiger_View_Controller
 
 	protected function preProcessDisplay(\App\Request $request)
 	{
-		
+
 	}
 
 	public function validateRequest(\App\Request $request)
@@ -368,10 +368,10 @@ class Install_Index_View extends Vtiger_View_Controller
 	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = array(
+		$cssFileNames = [
 			'~install/tpl/resources/css/style.css',
 			'~install/tpl/resources/css/mkCheckbox.css',
-		);
+		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		return array_merge($headerCssInstances, $cssInstances);
 	}
@@ -387,9 +387,9 @@ class Install_Index_View extends Vtiger_View_Controller
 			return [];
 		}
 		$headerScriptInstances = parent::getFooterScripts($request);
-		$jsFileNames = array(
+		$jsFileNames = [
 			'~install/tpl/resources/Index.js',
-		);
+		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		return array_merge($headerScriptInstances, $jsScriptInstances);
 	}

@@ -18,28 +18,28 @@ class Rss_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getSideBarLinks($linkParams)
 	{
-		$linkTypes = array('SIDEBARLINK', 'SIDEBARWIDGET');
+		$linkTypes = ['SIDEBARLINK', 'SIDEBARWIDGET'];
 		$links = Vtiger_Link_Model::getAllByType($this->getId(), $linkTypes, $linkParams);
 
-		$quickLinks = array(
-			array(
+		$quickLinks = [
+			[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_ADD_FEED_SOURCE',
 				'linkurl' => $this->getDefaultUrl(),
 				'linkicon' => '',
-			)
-		);
+			]
+		];
 		foreach ($quickLinks as $quickLink) {
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
 		}
-		$quickWidgets = array(
-			array(
+		$quickWidgets = [
+			[
 				'linktype' => 'SIDEBARWIDGET',
 				'linklabel' => 'LBL_RSS_FEED_SOURCES',
 				'linkurl' => 'module=' . $this->get('name') . '&view=ViewTypes&mode=getRssWidget',
 				'linkicon' => ''
-			),
-		);
+			],
+		];
 		foreach ($quickWidgets as $quickWidget) {
 			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues($quickWidget);
 		}

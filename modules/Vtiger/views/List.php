@@ -71,7 +71,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$mid = $request->get('mid');
 		}
 
-		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1));
+		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1)];
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName, $mid));
 		$this->viewName = App\CustomView::getInstance($moduleName)->getViewId();
 		if ($request->isEmpty('viewname') && App\CustomView::hasViewChanged($moduleName, $this->viewName)) {
@@ -150,7 +150,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			'modules.Vtiger.resources.List',
 			"modules.$moduleName.resources.List",
 			'~libraries/jquery/colorpicker/js/colorpicker.js',
@@ -159,7 +159,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 			'modules.Vtiger.resources.CkEditor',
 			'modules.Vtiger.resources.ListSearch',
 			"modules.$moduleName.resources.ListSearch"
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
@@ -174,9 +174,9 @@ class Vtiger_List_View extends Vtiger_Index_View
 	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = array(
+		$cssFileNames = [
 			'~libraries/jquery/colorpicker/css/colorpicker.css'
-		);
+		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
 		return $headerCssInstances;
@@ -217,7 +217,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		if (!empty($searchResult)) {
 			$this->listViewModel->set('searchResult', $searchResult);
 		}
-		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1), 'CVID' => $this->viewName);
+		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1), 'CVID' => $this->viewName];
 		$linkModels = $this->listViewModel->getListViewMassActions($linkParams);
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);

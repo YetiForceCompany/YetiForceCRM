@@ -54,6 +54,6 @@ Class DataAccess_show_quick_create
 				$modules[$moduleName] = $singularLabel;
 			}
 		}
-		return Array('modules' => $modules);
+		return ['modules' => $modules];
 	}
 }

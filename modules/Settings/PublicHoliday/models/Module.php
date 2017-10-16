@@ -123,7 +123,7 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 
 		$db = PearDatabase::getInstance();
 		$sql = 'SELECT COUNT(1) as num FROM `vtiger_publicholiday` WHERE `holidaydate` = ?;';
-		$params = array($date);
+		$params = [$date];
 
 		$result = $db->pquery($sql, $params);
 		$num = $db->queryResult($result, 0, 'num');

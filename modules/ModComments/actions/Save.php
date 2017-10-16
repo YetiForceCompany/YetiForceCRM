@@ -16,7 +16,7 @@ class ModComments_Save_Action extends Vtiger_Save_Action
 	{
 		$request->set('assigned_user_id', App\User::getCurrentUserId());
 		$recordModel = $this->saveRecord($request);
-		$responseFieldsToSent = array('reasontoedit', 'commentcontent');
+		$responseFieldsToSent = ['reasontoedit', 'commentcontent'];
 		foreach ($responseFieldsToSent as $fieldName) {
 			$result[$fieldName] = $recordModel->getDisplayValue($fieldName);
 		}

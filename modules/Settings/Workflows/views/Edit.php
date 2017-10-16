@@ -96,7 +96,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		foreach ($requestData as $name => $value) {
 			if ($name == 'schdayofweek' || $name == 'schdayofmonth' || $name == 'schannualdates') {
 				if (is_string($value)) { // need to save these as json data
-					$value = array($value);
+					$value = [$value];
 				}
 			}
 			if ($name == 'summary')
@@ -165,7 +165,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			'libraries.jquery.clipboardjs.clipboard',
 			'modules.Settings.Vtiger.resources.Edit',
 			"modules.Settings.$moduleName.resources.Edit",
@@ -175,7 +175,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 			"modules.Settings.$moduleName.resources.AdvanceFilter",
 			'~libraries/jquery/ckeditor/ckeditor.js',
 			'modules.Vtiger.resources.CkEditor',
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);

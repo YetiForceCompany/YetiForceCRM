@@ -19,9 +19,9 @@ class Settings_DataAccess_ExecuteHandlers_Action extends Settings_Vtiger_Index_A
 		$param = $request->get('param');
 		$Resp = Settings_DataAccess_Module_Model::executeAjaxHandlers($param['module'], $param);
 		$response = new Vtiger_Response();
-		$response->setResult(array(
+		$response->setResult([
 			'success' => $Resp['success'],
-			'data' => $Resp['data'])
+			'data' => $Resp['data']]
 		);
 		$response->emit();
 	}

@@ -17,8 +17,8 @@ class Settings_Vtiger_Module_Model extends \App\Base
 
 	public $baseTable = 'vtiger_settings_field';
 	public $baseIndex = 'fieldid';
-	public $listFields = array('name' => 'Name', 'description' => 'Description');
-	public $nameFields = array('name');
+	public $listFields = ['name' => 'Name', 'description' => 'Description'];
+	public $nameFields = ['name'];
 	public $name = 'Vtiger';
 
 	public function getName($includeParentIfExists = false)
@@ -56,7 +56,7 @@ class Settings_Vtiger_Module_Model extends \App\Base
 			$fields = $this->listFields;
 			$fieldObjects = [];
 			foreach ($fields as $fieldName => $fieldLabel) {
-				$fieldObjects[$fieldName] = new \App\Base(array('name' => $fieldName, 'label' => $fieldLabel));
+				$fieldObjects[$fieldName] = new \App\Base(['name' => $fieldName, 'label' => $fieldLabel]);
 			}
 			$this->listFieldModels = $fieldObjects;
 		}
@@ -79,7 +79,7 @@ class Settings_Vtiger_Module_Model extends \App\Base
 	 */
 	public function getField($fieldName)
 	{
-		return new \App\Base(array('name' => $fieldName, 'label' => $fieldName));
+		return new \App\Base(['name' => $fieldName, 'label' => $fieldName]);
 	}
 
 	public function hasCreatePermissions()

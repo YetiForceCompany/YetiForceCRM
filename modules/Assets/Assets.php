@@ -22,73 +22,73 @@ class Assets extends CRMEntity
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('vtiger_assetscf', 'assetsid');
+	public $customFieldTable = ['vtiger_assetscf', 'assetsid'];
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_assets', 'vtiger_assetscf');
+	public $tab_name = ['vtiger_crmentity', 'vtiger_assets', 'vtiger_assetscf'];
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public $tab_name_index = Array(
+	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_assets' => 'assetsid',
-		'vtiger_assetscf' => 'assetsid');
+		'vtiger_assetscf' => 'assetsid'];
 
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public $list_fields = Array(
+	public $list_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Asset No' => Array('assets' => 'asset_no'),
-		'Asset Name' => Array('assets' => 'assetname'),
-		'Customer Name' => Array('account' => 'account'),
-		'Product Name' => Array('products' => 'product'),
-	);
-	public $list_fields_name = Array(
+		'Asset No' => ['assets' => 'asset_no'],
+		'Asset Name' => ['assets' => 'assetname'],
+		'Customer Name' => ['account' => 'account'],
+		'Product Name' => ['products' => 'product'],
+	];
+	public $list_fields_name = [
 		/* Format: Field Label => fieldname */
 		'Asset No' => 'asset_no',
 		'Asset Name' => 'assetname',
 		'Customer Name' => 'account',
 		'Product Name' => 'product',
-	);
+	];
 	// Make the field link to detail view
 	public $list_link_field = 'assetname';
 	// For Popup listview and UI type support
-	public $search_fields = Array(
+	public $search_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Asset No' => Array('assets' => 'asset_no'),
-		'Asset Name' => Array('assets' => 'assetname'),
-		'Customer Name' => Array('account' => 'account'),
-		'Product Name' => Array('products' => 'product')
-	);
-	public $search_fields_name = Array(
+		'Asset No' => ['assets' => 'asset_no'],
+		'Asset Name' => ['assets' => 'assetname'],
+		'Customer Name' => ['account' => 'account'],
+		'Product Name' => ['products' => 'product']
+	];
+	public $search_fields_name = [
 		/* Format: Field Label => fieldname */
 		'Asset No' => 'asset_no',
 		'Asset Name' => 'assetname',
 		'Customer Name' => 'account',
 		'Product Name' => 'product'
-	);
+	];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = ['asset_no', 'assetname', 'product', 'assigned_user_id'];
 	// For Popup window record selection
-	public $popup_fields = Array('assetname', 'account', 'product');
+	public $popup_fields = ['assetname', 'account', 'product'];
 	// For Alphabetical search
 	public $def_basicsearch_col = 'assetname';
 	// Required Information for enabling Import feature
-	public $required_fields = Array('assetname' => 1);
+	public $required_fields = ['assetname' => 1];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public $mandatory_fields = Array('assetname', 'product', 'assigned_user_id');
+	public $mandatory_fields = ['assetname', 'product', 'assigned_user_id'];
 	// Callback function list during Importing
-	public $special_functions = Array('set_import_assigned_user');
+	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
 	public $unit_price;
@@ -119,7 +119,7 @@ class Assets extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($module));
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", [$module]);
 		$linkedFieldsCount = $this->db->numRows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
@@ -335,11 +335,11 @@ class Assets extends CRMEntity
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
-		$rel_table_arr = Array("Documents" => "vtiger_senotesrel", "Attachments" => "vtiger_seattachmentsrel");
+		$rel_table_arr = ["Documents" => "vtiger_senotesrel", "Attachments" => "vtiger_seattachmentsrel"];
 
-		$tbl_field_arr = Array("vtiger_senotesrel" => "notesid", "vtiger_seattachmentsrel" => "attachmentsid");
+		$tbl_field_arr = ["vtiger_senotesrel" => "notesid", "vtiger_seattachmentsrel" => "attachmentsid"];
 
-		$entity_tbl_field_arr = Array("vtiger_senotesrel" => "crmid", "vtiger_seattachmentsrel" => "crmid");
+		$entity_tbl_field_arr = ["vtiger_senotesrel" => "crmid", "vtiger_seattachmentsrel" => "crmid"];
 
 		foreach ($transferEntityIds as $transferId) {
 			foreach ($rel_table_arr as $rel_module => $rel_table) {
@@ -347,12 +347,12 @@ class Assets extends CRMEntity
 				$entity_id_field = $entity_tbl_field_arr[$rel_table];
 				// IN clause to avoid duplicate entries
 				$sel_result = $adb->pquery("select $id_field from $rel_table where $entity_id_field=? " .
-					" and $id_field not in (select $id_field from $rel_table where $entity_id_field=?)", array($transferId, $entityId));
+					" and $id_field not in (select $id_field from $rel_table where $entity_id_field=?)", [$transferId, $entityId]);
 				$res_cnt = $adb->numRows($sel_result);
 				if ($res_cnt > 0) {
 					for ($i = 0; $i < $res_cnt; $i++) {
 						$id_field_value = $adb->queryResult($sel_result, $i, $id_field);
-						$adb->pquery("update $rel_table set $entity_id_field=? where $entity_id_field=? and $id_field=?", array($entityId, $transferId, $id_field_value));
+						$adb->pquery("update $rel_table set $entity_id_field=? where $entity_id_field=? and $id_field=?", [$entityId, $transferId, $id_field_value]);
 					}
 				}
 			}

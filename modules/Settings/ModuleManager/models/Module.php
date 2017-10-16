@@ -14,7 +14,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Base module tools
-	 * @var string[] 
+	 * @var string[]
 	 */
 	public static $baseModuleTools = ['Import', 'Export', 'DuplicatesHandling', 'CreateCustomFilter',
 		'DuplicateRecord', 'MassEdit', 'MassDelete', 'MassAddComment', 'MassTransferOwnership',
@@ -25,7 +25,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Base module tools exceptions
-	 * @var array 
+	 * @var array
 	 */
 	public static $baseModuleToolsExceptions = [
 		'Documents' => ['notAllowed' => ['Import', 'DuplicatesHandling']],
@@ -77,7 +77,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get the url of new module import 
+	 * Function to get the url of new module import
 	 */
 	public static function getUserModuleImportUrl()
 	{
@@ -85,7 +85,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to disable a module 
+	 * Function to disable a module
 	 * @param type $moduleName - name of the module
 	 */
 	public function disableModule($moduleName)
@@ -120,7 +120,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getAll($presence = [], $restrictedModulesList = [], $isEntityType = false)
 	{
-		return parent::getAll(array(0, 1), self::getNonVisibleModulesList());
+		return parent::getAll([0, 1], self::getNonVisibleModulesList());
 	}
 
 	/**

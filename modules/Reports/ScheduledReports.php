@@ -43,7 +43,7 @@ class VTScheduledReport extends Reports
 			$cachedInfo = VTCacheUtils::lookupReportScheduledInfo($this->user->id, $this->id);
 
 			if ($cachedInfo === false) {
-				$result = $adb->pquery('SELECT * FROM vtiger_scheduled_reports WHERE reportid=?', array($this->id));
+				$result = $adb->pquery('SELECT * FROM vtiger_scheduled_reports WHERE reportid=?', [$this->id]);
 
 				if ($adb->numRows($result) > 0) {
 					$reportScheduleInfo = $adb->rawQueryResultRowData($result, 0);
@@ -185,7 +185,7 @@ class VTScheduledReport extends Reports
 			return date("Y-m-d H:i:s", strtotime("+ 1 day " . $scheduledTime));
 		}
 		if ($scheduleType == VTScheduledReport::$SCHEDULED_WEEKLY) {
-			$weekDays = array('0' => 'Sunday', '1' => 'Monday', '2' => 'Tuesday', '3' => 'Wednesday', '4' => 'Thursday', '5' => 'Friday', '6' => 'Saturday');
+			$weekDays = ['0' => 'Sunday', '1' => 'Monday', '2' => 'Tuesday', '3' => 'Wednesday', '4' => 'Thursday', '5' => 'Friday', '6' => 'Saturday'];
 
 			if (date('w', time()) == $scheduledDayOfWeek) {
 				return date("Y-m-d H:i:s", strtotime('+1 week ' . $scheduledTime));
@@ -194,7 +194,7 @@ class VTScheduledReport extends Reports
 			}
 		}
 		if ($scheduleType == VTScheduledReport::$SCHEDULED_BIWEEKLY) {
-			$weekDays = array('0' => 'Sunday', '1' => 'Monday', '2' => 'Tuesday', '3' => 'Wednesday', '4' => 'Thursday', '5' => 'Friday', '6' => 'Saturday');
+			$weekDays = ['0' => 'Sunday', '1' => 'Monday', '2' => 'Tuesday', '3' => 'Wednesday', '4' => 'Thursday', '5' => 'Friday', '6' => 'Saturday'];
 			if (date('w', time()) == $scheduledDayOfWeek) {
 				return date("Y-m-d H:i:s", strtotime('+2 weeks ' . $scheduledTime));
 			} else {
@@ -218,8 +218,8 @@ class VTScheduledReport extends Reports
 			}
 		}
 		if ($scheduleType == VTScheduledReport::$SCHEDULED_ANNUALLY) {
-			$months = array(0 => 'January', 1 => 'February', 2 => 'March', 3 => 'April', 4 => 'May', 5 => 'June', 6 => 'July',
-				7 => 'August', 8 => 'September', 9 => 'October', 10 => 'November', 11 => 'December');
+			$months = [0 => 'January', 1 => 'February', 2 => 'March', 3 => 'April', 4 => 'May', 5 => 'June', 6 => 'July',
+				7 => 'August', 8 => 'September', 9 => 'October', 10 => 'November', 11 => 'December'];
 			$currentTime = time();
 			$currentMonth = date('n', $currentTime);
 			if (($scheduledMonth + 1) == $currentMonth) {
@@ -240,7 +240,7 @@ class VTScheduledReport extends Reports
 	{
 		$adb = $this->db;
 		$nextTriggerTime = $this->getNextTriggerTime(); // Compute based on the frequency set
-		$adb->pquery('UPDATE vtiger_scheduled_reports SET next_trigger_time=? WHERE reportid=?', array($nextTriggerTime, $this->id));
+		$adb->pquery('UPDATE vtiger_scheduled_reports SET next_trigger_time=? WHERE reportid=?', [$nextTriggerTime, $this->id]);
 	}
 
 	public static function generateRecipientOption($type, $value, $name = '')
@@ -333,7 +333,7 @@ class VTScheduledReport extends Reports
 
 		$currentTime = date('Y-m-d H:i:s');
 		$result = $adb->pquery("SELECT * FROM vtiger_scheduled_reports
-									WHERE next_trigger_time = '' || next_trigger_time <= ?", array($currentTime));
+									WHERE next_trigger_time = '' || next_trigger_time <= ?", [$currentTime]);
 
 		$scheduledReports = [];
 		$noOfScheduledReports = $adb->numRows($result);

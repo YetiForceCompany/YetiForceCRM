@@ -1,7 +1,7 @@
 <?php
 
 /**
- * CallHistory DetailView model class 
+ * CallHistory DetailView model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
@@ -11,7 +11,7 @@ class CallHistory_DetailView_Model extends Vtiger_DetailView_Model
 
 	public function getDetailViewLinks($linkParams)
 	{
-		$linkTypes = array('DETAILVIEWBASIC', 'DETAILVIEW');
+		$linkTypes = ['DETAILVIEWBASIC', 'DETAILVIEW'];
 		$moduleModel = $this->getModule();
 		$linkModelListDetails = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 		//Mark all detail view basic links as detail view links.

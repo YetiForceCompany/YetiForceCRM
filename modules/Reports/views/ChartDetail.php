@@ -135,7 +135,7 @@ class Reports_ChartDetail_View extends Vtiger_Index_View
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			'modules.Vtiger.resources.Detail',
 			"modules.Vtiger.resources.dashboards.Widget",
 			"modules.$moduleName.resources.Detail",
@@ -154,7 +154,7 @@ class Reports_ChartDetail_View extends Vtiger_Index_View
 			'~libraries/jquery/jqplot/plugins/jqplot.pointLabels.min.js',
 			'~libraries/jquery/jqplot/plugins/jqplot.highlighter.min.js',
 			'~libraries/jquery/jqplot/plugins/jqplot.pieRenderer.min.js'
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
@@ -170,9 +170,9 @@ class Reports_ChartDetail_View extends Vtiger_Index_View
 	{
 		$parentHeaderCssScriptInstances = parent::getHeaderCss($request);
 
-		$headerCss = array(
+		$headerCss = [
 			'~libraries/jquery/jqplot/jquery.jqplot.min.css',
-		);
+		];
 		$cssScripts = $this->checkAndConvertCssStyles($headerCss);
 		$headerCssScriptInstances = array_merge($parentHeaderCssScriptInstances, $cssScripts);
 		return $headerCssScriptInstances;

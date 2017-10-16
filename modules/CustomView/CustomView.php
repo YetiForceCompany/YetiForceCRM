@@ -60,7 +60,7 @@ class CustomView extends CRMEntity
 
 		$ssql = "select vtiger_customview.* from vtiger_customview inner join vtiger_tab on vtiger_tab.name = vtiger_customview.entitytype";
 		$ssql .= " where vtiger_customview.cvid=?";
-		$sparams = array($cvid);
+		$sparams = [$cvid];
 
 		if ($is_admin === false) {
 			$ssql .= " and (vtiger_customview.status=0 or vtiger_customview.userid = ? or vtiger_customview.status = 3 or vtiger_customview.userid in(select vtiger_user2role.userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '" . $current_user_parent_role_seq . "::%'))";
@@ -110,7 +110,7 @@ class CustomView extends CRMEntity
 		$ssql = "select vtiger_customview.*, vtiger_users.first_name,vtiger_users.last_name from vtiger_customview inner join vtiger_tab on vtiger_tab.name = vtiger_customview.entitytype
 					left join vtiger_users on vtiger_customview.userid = vtiger_users.id ";
 		$ssql .= " where vtiger_tab.tabid=?";
-		$sparams = array($tabid);
+		$sparams = [$tabid];
 
 		if ($is_admin === false) {
 			$ssql .= " and (vtiger_customview.status=0 or vtiger_customview.userid = ? or vtiger_customview.status = 3 or vtiger_customview.userid in(select vtiger_user2role.userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like '" . $current_user_parent_role_seq . "::%'))";
@@ -326,7 +326,7 @@ class CustomView extends CRMEntity
 					$date = new DateTimeField(trim($temp_val[$x]));
 					$val[$x] = $date->getDisplayDate();
 				} elseif ($col[4] == 'DT') {
-					$comparator = array('e', 'n', 'b', 'a');
+					$comparator = ['e', 'n', 'b', 'a'];
 					if (in_array($criteria['comparator'], $comparator)) {
 						$originalValue = $temp_val[$x];
 						$dateTime = explode(' ', $originalValue);
@@ -400,8 +400,8 @@ class CustomView extends CRMEntity
 					}
 					//Added for assigned to sorting
 					if ($list[1] === 'smownerid') {
-						$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
-								'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+						$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' =>
+								'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
 						$sqlListColumn = "case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name";
 					}
 					if ($list[0] === 'vtiger_contactdetails' && $list[1] === 'lastname')
@@ -444,7 +444,7 @@ class CustomView extends CRMEntity
 		$sSQL = "select vtiger_cvstdfilter.* from vtiger_cvstdfilter inner join vtiger_customview on vtiger_customview.cvid = vtiger_cvstdfilter.cvid";
 		$sSQL .= " where vtiger_cvstdfilter.cvid=?";
 
-		$result = $adb->pquery($sSQL, array($cvid));
+		$result = $adb->pquery($sSQL, [$cvid]);
 		$stdfilterrow = $adb->fetchArray($result);
 
 		$stdfilterlist = [];
@@ -613,9 +613,9 @@ class CustomView extends CRMEntity
 
 		$contactid = "vtiger_contactdetails.lastname";
 		if ($currentModule != "Contacts" && $currentModule != "Leads" && $currentModule != 'Campaigns') {
-			$contactid = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('lastname' => 'vtiger_contactdetails.lastname', 'firstname' => 'vtiger_contactdetails.firstname'), 'Contacts');
+			$contactid = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['lastname' => 'vtiger_contactdetails.lastname', 'firstname' => 'vtiger_contactdetails.firstname'], 'Contacts');
 		}
-		$change_table_field = Array(
+		$change_table_field = [
 			"product_id" => "vtiger_products.productname",
 			"contactid" => 'trim(' . $contactid . ')',
 			"contact_id" => 'trim(' . $contactid . ')',
@@ -625,9 +625,9 @@ class CustomView extends CRMEntity
 			"vendor_id" => "vtiger_vendor.vendorname",
 			"vtiger_account.parentid" => "vtiger_account2.accountname",
 			"campaignid" => "vtiger_campaign.campaignname",
-			"vtiger_contactdetails.reportsto" => \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('lastname' => 'vtiger_contactdetails2.lastname', 'firstname' => 'vtiger_contactdetails2.firstname'), 'Contacts'),
+			"vtiger_contactdetails.reportsto" => \vtlib\Deprecated::getSqlForNameInDisplayFormat(['lastname' => 'vtiger_contactdetails2.lastname', 'firstname' => 'vtiger_contactdetails2.firstname'], 'Contacts'),
 			"vtiger_pricebook.currency_id" => "vtiger_currency_info.currency_name",
-		);
+		];
 
 		if ($fieldname == "smownerid" || $fieldname == 'modifiedby') {
 			if ($fieldname == "smownerid") {
@@ -635,8 +635,8 @@ class CustomView extends CRMEntity
 			} elseif ($fieldname == "modifiedby") {
 				$tableNameSuffix = '2';
 			}
-			$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
-					'vtiger_users' . $tableNameSuffix . '.first_name', 'last_name' => 'vtiger_users' . $tableNameSuffix . '.last_name'), 'Users');
+			$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' =>
+					'vtiger_users' . $tableNameSuffix . '.first_name', 'last_name' => 'vtiger_users' . $tableNameSuffix . '.last_name'], 'Users');
 			$temp_value = '( trim(' . $userNameSql . ')' . $this->getAdvComparator($comparator, $value, $datatype);
 			$temp_value .= " ||  vtiger_groups$tableNameSuffix.groupname" . $this->getAdvComparator($comparator, $value, $datatype) . ')';
 			$value = $temp_value; // Hot fix: removed unbalanced closing bracket ")";
@@ -720,7 +720,7 @@ class CustomView extends CRMEntity
 				$value .= 'vtiger_account.accountname';
 			}
 			if ($modulename == 'Leads') {
-				$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('lastname' => 'vtiger_leaddetails.lastname', 'firstname' => 'vtiger_leaddetails.firstname'), 'Leads');
+				$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['lastname' => 'vtiger_leaddetails.lastname', 'firstname' => 'vtiger_leaddetails.firstname'], 'Leads');
 				if (($comparator == 'e' || $comparator == 's' || $comparator == 'c') && trim($adv_chk_value) == '') {
 					$value .= " $concatSql IS NULL or ";
 				}
@@ -733,7 +733,7 @@ class CustomView extends CRMEntity
 				$value .= ' vtiger_products.productname';
 			}
 			if ($modulename == 'Contacts') {
-				$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('lastname' => 'vtiger_contactdetails.lastname', 'firstname' => 'vtiger_contactdetails.firstname'), 'Contacts');
+				$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['lastname' => 'vtiger_contactdetails.lastname', 'firstname' => 'vtiger_contactdetails.firstname'], 'Contacts');
 				if (($comparator == 'e' || $comparator == 's' || $comparator == 'c') && trim($adv_chk_value) == '') {
 					$value .= " $concatSql IS NULL or ";
 				}
@@ -901,7 +901,7 @@ class CustomView extends CRMEntity
 				$changed_status = App\CustomView::CV_STATUS_PENDING;
 				$status_label = $custom_strings['LBL_STATUS_PUBLIC_DENY'];
 			}
-			$status_details = Array('Status' => $status, 'ChangedStatus' => $changed_status, 'Label' => $status_label);
+			$status_details = ['Status' => $status, 'ChangedStatus' => $changed_status, 'Label' => $status_label];
 		}
 		\App\Log::trace("Exiting isPermittedChangeStatus($status) method..............");
 		return $status_details;

@@ -128,7 +128,7 @@ class DateTimeField
 			} elseif (strpos($date, '/') !== false) {
 				$separator = '/';
 			}
-			$formatToConvert = str_replace(array('/', '.'), array('-', '-'), $format);
+			$formatToConvert = str_replace(['/', '.'], ['-', '-'], $format);
 			$dateToConvert = str_replace($separator, '-', $date);
 			switch ($formatToConvert) {
 				case 'dd-mm-yyyy': list($d, $m, $y) = explode('-', $dateToConvert, 3);
@@ -395,7 +395,7 @@ class DateTimeField
 			$user = $current_user;
 		}
 		$dateFormat = empty($user->date_format) ? 'Y-m-d' : $user->date_format;
-		return str_replace(array('yyyy', 'mm', 'dd'), array('Y', 'm', 'd'), $dateFormat);
+		return str_replace(['yyyy', 'mm', 'dd'], ['Y', 'm', 'd'], $dateFormat);
 	}
 
 	private static function sanitizeDate($value, $user)

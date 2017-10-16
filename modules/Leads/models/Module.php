@@ -35,7 +35,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 			' INNER JOIN vtiger_leaddetails ON
                 vtiger_leaddetails.leadid = vtiger_crmentity.crmid
                 WHERE setype=? && ' . $deletedCondition . ' && modifiedby = ? ORDER BY modifiedtime DESC LIMIT ?';
-		$params = array($this->get('name'), $currentUserModel->id, $limit);
+		$params = [$this->get('name'), $currentUserModel->id, $limit];
 		$result = $db->pquery($query, $params);
 		$noOfRows = $db->numRows($result);
 

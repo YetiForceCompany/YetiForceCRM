@@ -38,7 +38,7 @@ class Users_BasicAjax_Action extends Vtiger_BasicAjax_Action
 		if (is_array($records)) {
 			foreach ($records as $moduleName => $recordModels) {
 				foreach ($recordModels as $recordModel) {
-					$result[] = array('label' => App\Purifier::decodeHtml($recordModel->getName()), 'value' => App\Purifier::decodeHtml($recordModel->getName()), 'id' => $recordModel->getId());
+					$result[] = ['label' => App\Purifier::decodeHtml($recordModel->getName()), 'value' => App\Purifier::decodeHtml($recordModel->getName()), 'id' => $recordModel->getId()];
 				}
 			}
 		}
