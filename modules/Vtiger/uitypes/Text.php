@@ -44,11 +44,11 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		if (!is_string($value)) {
-			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+			throw new \App\Exceptions\SaveRecord('ERR_ILLEGAL_FIELD_VALUE', 406);
 		}
 		//Check for HTML tags
 		if ($this->getFieldModel()->getUIType() !== 300 && $value !== strip_tags($value)) {
-			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+			throw new \App\Exceptions\SaveRecord('ERR_ILLEGAL_FIELD_VALUE', 406);
 		}
 		$this->validate = true;
 	}

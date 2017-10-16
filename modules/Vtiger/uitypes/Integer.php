@@ -24,7 +24,7 @@ class Vtiger_Integer_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		if (!is_numeric($value)) {
-			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+			throw new \App\Exceptions\SaveRecord('ERR_ILLEGAL_FIELD_VALUE', 406);
 		}
 		$this->validate = true;
 	}

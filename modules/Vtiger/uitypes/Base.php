@@ -60,9 +60,9 @@ class Vtiger_Base_UIType extends \App\Base
 		if ($this->validate || empty($value)) {
 			return;
 		}
-		//var_dump(get_class($this), $value);
-		if (!is_string($value)) {
-			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+		//var_dump('<hr>', get_class($this), $value, $this->getFieldModel()->getName(), $this->getFieldModel()->getModuleName());
+		if (!is_string($value) || $value !== strip_tags($value)) {
+			throw new \App\Exceptions\SaveRecord('ERR_ILLEGAL_FIELD_VALUE', 406);
 		}
 		if (App\Utils::getTextLength($value) > 255) {
 			throw new \App\Exceptions\SaveRecord('ERR_VALUE_IS_TOO_LONG', 406);
