@@ -1,5 +1,4 @@
 <?php
-
 /**
  * ModuleManager test class
  * @package YetiForce.Test
@@ -104,6 +103,7 @@ class ModuleManager extends TestCase
 	 */
 	public function testDeleteModule()
 	{
+		$db = \App\Db::getInstance()->getSchema()->refresh();
 		$moduleInstance = \vtlib\Module::getInstance('Test');
 		$moduleInstance->delete();
 		$this->assertFileNotExists(ROOT_DIRECTORY . '/modules/Test/Test.php');
@@ -121,6 +121,7 @@ class ModuleManager extends TestCase
 	 */
 	public function testImportModule()
 	{
+		$db = \App\Db::getInstance()->getSchema()->refresh();
 		$package = new vtlib\Package();
 
 		$this->assertEquals('Test', $package->getModuleNameFromZip(static::$zipFileName));

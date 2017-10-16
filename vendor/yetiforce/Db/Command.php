@@ -21,13 +21,6 @@ class Command extends \yii\db\Command
 	public function query()
 	{
 		return $this->queryInternal('');
-		try {
-			
-		} catch (\yii\db\Exception $e) {
-			if (AppConfig::debug('SQL_DIE_ON_ERROR')) {
-				
-			}
-		}
 	}
 
 	/**
