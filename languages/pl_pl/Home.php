@@ -41,7 +41,7 @@ $languageStrings = [
 	'LBL_NUMBER_OF_RECORDS' => 'Ilość rekordów',
 	'LBL_SUM' => 'Suma',
 	'LBL_GROUP_FIELD' => 'Grupuj po polu',
-	'LBL_GROUP_VALUES' => 'Podziel wartości',
+	'LBL_GROUP_VALUES' => 'Podziel wartości grupowania',
 	'LBL_FILTER_BY_OWNER' => 'Filtruj po włascicielu',
 	'LBL_ALL_OWNERS' => 'Wszyscy',
 ];
