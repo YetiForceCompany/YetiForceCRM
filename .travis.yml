@@ -57,8 +57,9 @@ after_script:
 - sudo ls -all ./coverageHtml
 - |
     if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.1" ]]; then
+      zip -r coverageHtml.zip coverageHtml/
       sudo apt-get install ncftp
-      ncftpput -R -v -u $AFU -p $AFP $AFA / coverageHtml/
+      ncftpput -R -v -u $AFU -p $AFP $AFA / coverageHtml.zip
       ncftpput -R -v -u $AFU -p $AFP $AFA / ../cache/logs/errors.log
       ncftpput -R -v -u $AFU -p $AFP $AFA / ../cache/logs/system.log
       ncftpput -R -v -u $AFU -p $AFP $AFA / ../cache/logs/phpError.log
