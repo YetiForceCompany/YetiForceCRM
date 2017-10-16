@@ -13,12 +13,46 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * Function to get the DB Insert Value, for the current field type with given User Value
+	 * @param mixed $value
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @return mixed
 	 */
-	public function getTemplateName()
+	public function getDBValue($value, $recordModel = false)
 	{
-		return 'uitypes/Time.tpl';
+		if ($this->get('field')->get('uitype') === 14) {
+			return self::getDBTimeFromUserValue($value);
+		}
+		return \App\Purifier::decodeHtml($value);
+	}
+
+	/**
+	 * Verification of data
+	 * @param string $value
+	 * @param bool $isUserFormat
+	 * @return null
+	 * @throws \App\Exceptions\SaveRecord
+	 */
+	public function validate($value, $isUserFormat = false)
+	{
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		if ($isUserFormat) {
+			$value = static::getTimeValueWithSeconds($value);
+		}
+		$timeFormat = 'G:i:s';
+		$d = DateTime::createFromFormat($timeFormat, $value);
+		if (!($d && $d->format($timeFormat) === $value)) {
+			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+		}
+		$this->validate = true;
+	}
+
+	public static function getDBTimeFromUserValue($value)
+	{
+		$time = DateTimeField::convertToDBTimeZone(date(DateTimeField::getPHPDateFormat()) . ' ' . $value);
+		return $time->format('H:i:s');
 	}
 
 	/**
@@ -123,23 +157,12 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 		return 'uitypes/TimeFieldSearchView.tpl';
 	}
 
-	public static function getDBTimeFromUserValue($value)
-	{
-		$time = DateTimeField::convertToDBTimeZone(date(DateTimeField::getPHPDateFormat()) . ' ' . $value);
-		return $time->format('H:i:s');
-	}
-
 	/**
-	 * Function to get the DB Insert Value, for the current field type with given User Value
-	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @return mixed
+	 * Function to get the Template name for the current UI Type object
+	 * @return string - Template Name
 	 */
-	public function getDBValue($value, $recordModel = false)
+	public function getTemplateName()
 	{
-		if ($this->get('field')->get('uitype') === 14) {
-			return self::getDBTimeFromUserValue($value);
-		}
-		return \App\Purifier::decodeHtml($value);
+		return 'uitypes/Time.tpl';
 	}
 }
