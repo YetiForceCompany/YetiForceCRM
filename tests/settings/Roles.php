@@ -100,7 +100,7 @@ class Roles extends TestCase
 		$this->assertEquals($row['rolename'], 'Test edit');
 		$this->assertEquals($row['changeowner'], 0);
 		$this->assertEquals($row['searchunpriv'], 'Contacts,Accounts');
-		$this->assertEquals($row['parentrole'], 'H1::H2::' . static::$id);
+		$this->assertEquals($row['parentrole'], 'H1::' . static::$id);
 		$this->assertEquals($row['allowassignedrecordsto'], 4);
 		$this->assertEquals($row['clendarallorecords'], 2);
 		$this->assertEquals($row['listrelatedrecord'], 1);
