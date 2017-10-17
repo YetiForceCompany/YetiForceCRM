@@ -31,7 +31,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		if (!is_array($value)) {
-			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+			settype($value, 'array');
 		}
 		foreach ($value as $shownerid) {
 			if (!is_numeric($shownerid)) {

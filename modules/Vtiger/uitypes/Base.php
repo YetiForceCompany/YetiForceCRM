@@ -36,14 +36,18 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
-	 * Set value from request 
+	 * Set value from request
 	 * @param \App\Request $request
 	 * @param Vtiger_Record_Model $recordModel
+	 * @param string|bool $requestFieldName
 	 */
-	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel)
+	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
 		$fieldName = $this->get('field')->getFieldName();
-		$value = $request->get($fieldName, '');
+		if (!$requestFieldName) {
+			$requestFieldName = $fieldName;
+		}
+		$value = $request->get($requestFieldName, '');
 		$this->validate($value, true);
 		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
 	}

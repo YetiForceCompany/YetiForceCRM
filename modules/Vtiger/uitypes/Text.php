@@ -23,13 +23,16 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritDoc}
 	 */
-	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel)
+	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
 		$fieldName = $this->get('field')->getFieldName();
+		if (!$requestFieldName) {
+			$requestFieldName = $fieldName;
+		}
 		if ($this->get('field')->getUIType() === 300) {
-			$value = $request->getForHtml($fieldName, '');
+			$value = $request->getForHtml($requestFieldName, '');
 		} else {
-			$value = $request->get($fieldName, '');
+			$value = $request->get($requestFieldName, '');
 		}
 		$this->validate($value);
 		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
