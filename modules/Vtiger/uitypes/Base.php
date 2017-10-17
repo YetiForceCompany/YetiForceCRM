@@ -27,10 +27,10 @@ class Vtiger_Base_UIType extends \App\Base
 	public function getDBValue($value, $recordModel = false)
 	{
 		if ($value === '' && in_array($this->getFieldModel()->getFieldType(), ['I', 'N', 'NN'])) {
-			$value = 0;
+			return 0;
 		}
 		if (is_null($value)) {
-			$value = '';
+			return '';
 		}
 		return \App\Purifier::decodeHtml($value);
 	}
@@ -64,7 +64,6 @@ class Vtiger_Base_UIType extends \App\Base
 		if ($this->validate || empty($value)) {
 			return;
 		}
-		//var_dump('<hr>', get_class($this), $value, $this->getFieldModel()->getName(), $this->getFieldModel()->getModuleName());
 		if (!is_string($value) || $value !== strip_tags($value)) {
 			throw new \App\Exceptions\SaveRecord('ERR_ILLEGAL_FIELD_VALUE', 406);
 		}
