@@ -1882,64 +1882,9 @@ class Base4 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_ws_entity_fieldtype' => [
-				'columns' => [
-					'fieldtypeid' => $this->primaryKey(10),
-					'table_name' => $this->stringType(50)->notNull(),
-					'field_name' => $this->stringType(50)->notNull(),
-					'fieldtype' => $this->stringType(200)->notNull(),
-				],
-				'index' => [
-					['vtiger_idx_1_tablename_fieldname', ['table_name', 'field_name'], true],
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_ws_entity_fieldtype_seq' => [
-				'columns' => [
-					'id' => $this->integer(10)->notNull(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_ws_entity_name' => [
-				'columns' => [
-					'entity_id' => $this->integer(10)->notNull(),
-					'name_fields' => $this->stringType(50)->notNull(),
-					'index_field' => $this->stringType(50)->notNull(),
-					'table_name' => $this->stringType(50)->notNull(),
-				],
-				'primaryKeys' => [
-					['ws_entity_name_pk', 'entity_id']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_ws_entity_referencetype' => [
-				'columns' => [
-					'fieldtypeid' => $this->integer(10)->notNull(),
-					'type' => $this->stringType(25)->notNull(),
-				],
-				'primaryKeys' => [
-					['ws_entity_referencetype_pk', ['fieldtypeid', 'type']]
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_ws_entity_seq' => [
 				'columns' => [
 					'id' => $this->integer(10)->notNull(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_ws_entity_tables' => [
-				'columns' => [
-					'webservice_entity_id' => $this->integer(10)->notNull(),
-					'table_name' => $this->stringType(50)->notNull(),
-				],
-				'primaryKeys' => [
-					['ws_entity_tables_pk', ['webservice_entity_id', 'table_name']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2228,8 +2173,6 @@ class Base4 extends \App\Db\Importers\Base
 			['fk_1_vtiger_vendorcf', 'vtiger_vendorcf', 'vendorid', 'vtiger_vendor', 'vendorid', 'CASCADE', 'RESTRICT'],
 			['fk_2_vtiger_vendorcontactrel', 'vtiger_vendorcontactrel', 'vendorid', 'vtiger_vendor', 'vendorid', 'CASCADE', 'RESTRICT'],
 			['vtiger_widgets_ibfk_1', 'vtiger_widgets', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
-			['vtiger_fk_1_actors_referencetype', 'vtiger_ws_entity_referencetype', 'fieldtypeid', 'vtiger_ws_entity_fieldtype', 'fieldtypeid', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_ws_actor_tables', 'vtiger_ws_entity_tables', 'webservice_entity_id', 'vtiger_ws_entity', 'id', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_referencetype', 'vtiger_ws_referencetype', 'fieldtypeid', 'vtiger_ws_fieldtype', 'fieldtypeid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_osscurrencies', 'yetiforce_currencyupdate', 'currency_id', 'vtiger_currency_info', 'id', 'CASCADE', 'RESTRICT'],
 			['yetiforce_mail_quantities_ibfk_1', 'yetiforce_mail_quantities', 'userid', 'roundcube_users', 'user_id', 'CASCADE', 'RESTRICT'],
@@ -9636,38 +9579,10 @@ class Base4 extends \App\Db\Importers\Base
 					[98, 'SVendorEnquiries', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
 				]
 			],
-			'vtiger_ws_entity_fieldtype' => [
-				'columns' => ['fieldtypeid', 'table_name', 'field_name', 'fieldtype'],
-				'values' => [
-					[1, 'vtiger_attachmentsfolder', 'createdby', 'reference'],
-				]
-			],
-			'vtiger_ws_entity_fieldtype_seq' => [
-				'columns' => ['id'],
-				'values' => [
-					[8],
-				]
-			],
-			'vtiger_ws_entity_name' => [
-				'columns' => ['entity_id', 'name_fields', 'index_field', 'table_name'],
-				'values' => [
-					[20, 'groupname', 'groupid', 'vtiger_groups'],
-					[21, 'currency_name', 'id', 'vtiger_currency_info'],
-					[22, 'foldername', 'folderid', 'vtiger_attachmentsfolder'],
-				]
-			],
 			'vtiger_ws_entity_seq' => [
 				'columns' => ['id'],
 				'values' => [
 					[92],
-				]
-			],
-			'vtiger_ws_entity_tables' => [
-				'columns' => ['webservice_entity_id', 'table_name'],
-				'values' => [
-					[20, 'vtiger_groups'],
-					[21, 'vtiger_currency_info'],
-					[22, 'vtiger_attachmentsfolder'],
 				]
 			],
 			'vtiger_ws_fieldtype' => [

@@ -9149,55 +9149,10 @@ CREATE TABLE `vtiger_ws_entity` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_ws_entity_fieldtype` */
-
-CREATE TABLE `vtiger_ws_entity_fieldtype` (
-  `fieldtypeid` int(10) NOT NULL AUTO_INCREMENT,
-  `table_name` varchar(50) NOT NULL,
-  `field_name` varchar(50) NOT NULL,
-  `fieldtype` varchar(200) NOT NULL,
-  PRIMARY KEY (`fieldtypeid`),
-  UNIQUE KEY `vtiger_idx_1_tablename_fieldname` (`table_name`,`field_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_ws_entity_fieldtype_seq` */
-
-CREATE TABLE `vtiger_ws_entity_fieldtype_seq` (
-  `id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_ws_entity_name` */
-
-CREATE TABLE `vtiger_ws_entity_name` (
-  `entity_id` int(10) NOT NULL,
-  `name_fields` varchar(50) NOT NULL,
-  `index_field` varchar(50) NOT NULL,
-  `table_name` varchar(50) NOT NULL,
-  PRIMARY KEY (`entity_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_ws_entity_referencetype` */
-
-CREATE TABLE `vtiger_ws_entity_referencetype` (
-  `fieldtypeid` int(10) NOT NULL,
-  `type` varchar(25) NOT NULL,
-  PRIMARY KEY (`fieldtypeid`,`type`),
-  CONSTRAINT `vtiger_fk_1_actors_referencetype` FOREIGN KEY (`fieldtypeid`) REFERENCES `vtiger_ws_entity_fieldtype` (`fieldtypeid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_ws_entity_seq` */
 
 CREATE TABLE `vtiger_ws_entity_seq` (
   `id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_ws_entity_tables` */
-
-CREATE TABLE `vtiger_ws_entity_tables` (
-  `webservice_entity_id` int(10) NOT NULL,
-  `table_name` varchar(50) NOT NULL,
-  PRIMARY KEY (`webservice_entity_id`,`table_name`),
-  CONSTRAINT `fk_1_vtiger_ws_actor_tables` FOREIGN KEY (`webservice_entity_id`) REFERENCES `vtiger_ws_entity` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_ws_fieldinfo` */

@@ -189,8 +189,6 @@ class Vtiger_Field_Model extends vtlib\Field
 						break;
 					case 9: $fieldDataType = 'percentage';
 						break;
-					case 26: $fieldDataType = 'documentsFolder';
-						break;
 					case 27: $fieldDataType = 'fileLocationType';
 						break;
 					case 28: $fieldDataType = 'documentsFileUpload';
