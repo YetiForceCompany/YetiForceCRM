@@ -13,12 +13,23 @@ class Vtiger_Languages_UIType extends Vtiger_Picklist_UIType
 {
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param string $value
-	 * @param int $record
-	 * @param Vtiger_Record_Model $recordInstance
-	 * @param bool $rawText
-	 * @return string
+	 * {@inheritDoc}
+	 */
+	public function validate($value, $isUserFormat = false)
+	{
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		parent::validate($value, $isUserFormat);
+		$this->validate = false;
+		if (\App\Language::getLanguageLabel($value) === false) {
+			throw new \App\Exceptions\SaveRecord('ERR_NO_VALUES_IN_THE_DATABASE', 406);
+		}
+		$this->validate = true;
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{

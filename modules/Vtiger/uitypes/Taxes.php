@@ -11,21 +11,37 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * {@inheritDoc}
 	 */
-	public function getTemplateName()
+	public function getDBValue($value, $recordModel = false)
 	{
-		return 'uitypes/Taxes.tpl';
+		if (is_array($value)) {
+			$value = implode(',', $value);
+		}
+		return \App\Purifier::decodeHtml($value);
 	}
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param string $value
-	 * @param int $record
-	 * @param Vtiger_Record_Model $recordInstance
-	 * @param bool $rawText
-	 * @return string
+	 * {@inheritDoc}
+	 */
+	public function validate($value, $isUserFormat = false)
+	{
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		if (!is_array($value)) {
+			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+		}
+		foreach ($value as $shownerid) {
+			if (!is_numeric($shownerid)) {
+				throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+			}
+		}
+		$this->validate = true;
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
@@ -39,10 +55,7 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the edit value in display view
-	 * @param mixed $value
-	 * @param Vtiger_Record_Model $recordModel
-	 * @return mixed
+	 * {@inheritDoc}
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
@@ -88,8 +101,7 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * {@inheritDoc}
 	 */
 	public function getListSearchTemplateName()
 	{
@@ -97,16 +109,10 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the DB Insert Value, for the current field type with given User Value
-	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @return mixed
+	 * {@inheritDoc}
 	 */
-	public function getDBValue($value, $recordModel = false)
+	public function getTemplateName()
 	{
-		if (is_array($value)) {
-			$value = implode(',', $value);
-		}
-		return \App\Purifier::decodeHtml($value);
+		return 'uitypes/Taxes.tpl';
 	}
 }
