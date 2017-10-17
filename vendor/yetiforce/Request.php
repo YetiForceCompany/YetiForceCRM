@@ -381,7 +381,7 @@ class Request
 	{
 		$moduleName = $this->getByType('module', 1);
 		if (!$raw) {
-			if (!$this->isEmpty('parent', true) && ($parentModule = $this->getByType('parent', 1)) === 'Settings') {
+			if (!$this->isEmpty('parent', true) && ($parentModule = $this->getByType('parent', 2)) === 'Settings') {
 				$moduleName = "$parentModule:$moduleName";
 			}
 		}

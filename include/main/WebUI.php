@@ -177,16 +177,16 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			if ($handler->loginRequired()) {
 				$this->checkLogin($request);
 			}
-			$skipList = ['Users', 'Home', 'CustomView', 'Import', 'Export', 'Vtiger', 'Install', 'ModTracker'];
+			if ($moduleName === 'ModComments' && $view === 'List') {
+				header('Location:index.php?module=Home&view=DashBoard');
+			}
+			$skipList = ['Users', 'Home', 'CustomView', 'Import', 'Export', 'Install', 'ModTracker'];
 			if (!in_array($moduleName, $skipList) && stripos($qualifiedModuleName, 'Settings') === false) {
 				$this->triggerCheckPermission($handler, $request);
 			}
 			// Every settings page handler should implement this method
-			if (stripos($qualifiedModuleName, 'Settings') === 0 || $moduleName === 'Users' || $moduleName === 'CustomView') {
+			if (stripos($qualifiedModuleName, 'Settings') === 0 || in_array($moduleName, $skipList)) {
 				$handler->checkPermission($request);
-			}
-			if ($moduleName === 'ModComments' && $view === 'List') {
-				header('Location:index.php?module=Home&view=DashBoard');
 			}
 			$this->triggerPreProcess($handler, $request);
 			$response = $handler->process($request);
