@@ -54,6 +54,15 @@ class ModuleManager extends TestCase
 		unlink(ROOT_DIRECTORY . '/PL.zip');
 	}
 
+	public function testTest()
+	{
+		$b = (new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists();
+		if ($b) {
+			$moduleInstance = \vtlib\Module::getInstance('Test');
+			$moduleInstance->delete();
+		}
+	}
+
 	/**
 	 * Testing the module creation
 	 */
@@ -98,39 +107,41 @@ class ModuleManager extends TestCase
 	 * @param array $param
 	 * @dataProvider providerForCreateField
 	 */
-	public function testCreateNewField($type, $param)
+	public function testCreateNewField($type, $param, $suffix = '')
 	{
 		$param['fieldType'] = $type;
-		$param['fieldLabel'] = $type . 'FieldLabel';
-		$param['fieldName'] = strtolower($type . 'FieldLabel');
+		$param['fieldLabel'] = $type . 'FieldLabel' . $suffix;
+		$param['fieldName'] = strtolower($type . 'FieldLabel' . $suffix);
 		$param['blockid'] = static::$blockId;
 		$param['sourceModule'] = 'Test';
 
+		$key = $type . $suffix;
+
 		$moduleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($param['sourceModule']);
 		$fieldModel = $moduleModel->addField($param['fieldType'], static::$blockId, $param);
-		static::$fieldsId[$type] = $fieldModel->getId();
+		static::$fieldsId[$key] = $fieldModel->getId();
 		$details = $moduleModel->getTypeDetailsForAddField($type, $param);
 
-		$row = (new \App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldsId[$type], 'tabid' => $moduleModel->getId()])->one();
-		$this->assertNotFalse($row, 'No record id: ' . static::$fieldsId[$type]);
+		$row = (new \App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldsId[$key], 'tabid' => $moduleModel->getId()])->one();
+		$this->assertNotFalse($row, 'No record id: ' . static::$fieldsId[$key]);
 		$this->assertEquals($row['fieldname'], $param['fieldName']);
 		$this->assertEquals($row['fieldlabel'], $param['fieldLabel']);
 		$this->assertEquals($row['typeofdata'], $details['typeofdata']);
 		$this->assertEquals($row['uitype'], $details['uitype']);
 
-		$this->assertTrue((new \App\Db\Query())->from('vtiger_def_org_field')->where(['fieldid' => static::$fieldsId[$type], 'tabid' => $moduleModel->getId()])->exists(), 'No record in the table "vtiger_def_org_field" for type ' . $type);
+		$this->assertTrue((new \App\Db\Query())->from('vtiger_def_org_field')->where(['fieldid' => static::$fieldsId[$key], 'tabid' => $moduleModel->getId()])->exists(), 'No record in the table "vtiger_def_org_field" for type ' . $type);
 
 		$profilesId = \vtlib\Profile::getAllIds();
-		$this->assertCount((new \App\Db\Query())->from('vtiger_profile2field')->where(['fieldid' => static::$fieldsId[$type]])->count(), $profilesId, "The field \"$type\" did not add correctly to the profiles");
+		$this->assertCount((new \App\Db\Query())->from('vtiger_profile2field')->where(['fieldid' => static::$fieldsId[$key]])->count(), $profilesId, "The field \"$type\" did not add correctly to the profiles");
 
 		if ($row['uitype'] === 11) { //Phone
 			$rowExtra = (new \App\Db\Query())->from('vtiger_field')->where(['fieldname' => $param['fieldName'] . '_extra'])->one();
 			$this->assertNotFalse($rowExtra, 'No "extra" record for uitype: ' . $row['uitype']);
 			$this->assertCount((new \App\Db\Query())->from('vtiger_profile2field')->where(['fieldid' => $rowExtra['fieldid']])->count(), $profilesId, "The \"extra\" field \"$type\" did not add correctly to the profiles");
-			static::$fieldsExtraId[$type] = $rowExtra['fieldid'];
+			static::$fieldsExtraId[$key] = $rowExtra['fieldid'];
 		} elseif ($row['uitype'] === 10) { //Related1M
-			$this->assertCount((new \App\Db\Query())->from('vtiger_fieldmodulerel')->where(['fieldid' => static::$fieldsId[$type]])->count(), $param['referenceModule'], 'Problem with table "vtiger_fieldmodulerel" in database');
-		} elseif ($row['uitype'] === 16) {
+			$this->assertCount((new \App\Db\Query())->from('vtiger_fieldmodulerel')->where(['fieldid' => static::$fieldsId[$key]])->count(), $param['referenceModule'], 'Problem with table "vtiger_fieldmodulerel" in database');
+		} elseif ($row['uitype'] === 16) { //Picklist
 			static::$tableName = 'vtiger_' . $param['fieldName'];
 			$this->assertNotNull(\App\Db::getInstance()->getTableSchema(static::$tableName), 'Table "' . static::$tableName . '" does not exist');
 			$this->assertCount(0, array_diff($param['pickListValues'], (new \App\Db\Query())->select($param['fieldName'])->from(static::$tableName)->column()), 'Bad values in the table "' . static::$tableName . '"');
@@ -161,6 +172,7 @@ class ModuleManager extends TestCase
 			['Phone', ['fieldTypeList' => 0]],
 			['Related1M', ['fieldTypeList' => 0, 'referenceModule' => ['Contacts', 'Accounts', 'Leads'],]],
 			['Picklist', ['fieldTypeList' => 0, 'pickListValues' => ['val1', 'val2', 'val3'],]],
+			['Picklist', ['fieldTypeList' => 0, 'pickListValues' => ['val1', 'val2', 'val3'], 'isRoleBasedPickList' => 1], '2'],
 		];
 	}
 
@@ -170,20 +182,21 @@ class ModuleManager extends TestCase
 	 * @dataProvider providerForDeleteField
 	 * *****
 	 */
-	public function testDeleteNewField($type)
+	public function testDeleteNewField($type, $suffix = '')
 	{
-		$fieldInstance = Settings_LayoutEditor_Field_Model::getInstance(static::$fieldsId[$type]);
+		$key = $type . $suffix;
+		$fieldInstance = Settings_LayoutEditor_Field_Model::getInstance(static::$fieldsId[$key]);
 		$uitype = $fieldInstance->getUIType();
 		$this->assertTrue($fieldInstance->isCustomField(), 'Field is not customized');
 		$fieldInstance->delete();
 
-		$this->assertFalse((new App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldsId[$type]])->exists(), 'The record was not removed from the database ID: ' . static::$fieldsId[$type]);
+		$this->assertFalse((new App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldsId[$key]])->exists(), 'The record was not removed from the database ID: ' . static::$fieldsId[$key]);
 
-		if ($uitype === 11) {
-			$this->assertFalse((new App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldsExtraId[$type]])->exists(), 'The record "extra" was not removed from the database ID: ' . static::$fieldsExtraId[$type]);
-		} elseif ($uitype === 10) {
-			$this->assertEquals((new \App\Db\Query())->from('vtiger_fieldmodulerel')->where(['fieldid' => static::$fieldsId[$type]])->count(), 0, 'Problem with table "vtiger_fieldmodulerel" in database');
-		} elseif ($uitype === 16) {
+		if ($uitype === 11) { //Phone
+			$this->assertFalse((new App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldsExtraId[$key]])->exists(), 'The record "extra" was not removed from the database ID: ' . static::$fieldsExtraId[$key]);
+		} elseif ($uitype === 10) { //Related1M
+			$this->assertEquals((new \App\Db\Query())->from('vtiger_fieldmodulerel')->where(['fieldid' => static::$fieldsId[$key]])->count(), 0, 'Problem with table "vtiger_fieldmodulerel" in database');
+		} elseif ($uitype === 16) { //Picklist
 			$this->assertNull(\App\Db::getInstance()->getTableSchema(static::$tableName), 'Table "' . static::$tableName . '" exist');
 		}
 	}
@@ -212,6 +225,7 @@ class ModuleManager extends TestCase
 			['Phone'],
 			['Related1M'],
 			['Picklist'],
+			['Picklist', '2'],
 		];
 	}
 
