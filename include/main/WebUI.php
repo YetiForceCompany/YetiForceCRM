@@ -183,9 +183,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$skipList = ['Users', 'Home', 'CustomView', 'Import', 'Export', 'Install', 'ModTracker'];
 			if (!in_array($moduleName, $skipList) && stripos($qualifiedModuleName, 'Settings') === false) {
 				$this->triggerCheckPermission($handler, $request);
-			}
-			// Every settings page handler should implement this method
-			if (stripos($qualifiedModuleName, 'Settings') === 0 || in_array($moduleName, $skipList)) {
+			} elseif (stripos($qualifiedModuleName, 'Settings') === 0 || in_array($moduleName, $skipList)) {
 				$handler->checkPermission($request);
 			}
 			$this->triggerPreProcess($handler, $request);
