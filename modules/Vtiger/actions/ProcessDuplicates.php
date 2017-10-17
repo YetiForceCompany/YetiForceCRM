@@ -25,7 +25,7 @@ class Vtiger_ProcessDuplicates_Action extends Vtiger_Action_Controller
 		}
 		$records = $request->getArray('records');
 		foreach ($records as $record) {
-			if (!\App\Privilege::isPermitted($moduleName, 'EditView', $record)) {
+			if (!is_numeric($record) || !\App\Privilege::isPermitted($moduleName, 'EditView', $record)) {
 				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 			}
 		}
@@ -51,7 +51,6 @@ class Vtiger_ProcessDuplicates_Action extends Vtiger_Action_Controller
 			}
 		}
 		$primaryRecordModel->save();
-
 		$deleteRecords = array_diff($records, [$primaryRecord]);
 		foreach ($deleteRecords as $deleteRecord) {
 			$record = Vtiger_Record_Model::getInstanceById($deleteRecord, $moduleName);

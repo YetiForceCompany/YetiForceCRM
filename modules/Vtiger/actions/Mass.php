@@ -14,9 +14,9 @@ abstract class Vtiger_Mass_Action extends Vtiger_Action_Controller
 
 	public static function getRecordsListFromRequest(\App\Request $request)
 	{
-		$cvId = $request->get('viewname');
-		$module = $request->get('module');
-		if (!empty($cvId) && $cvId == "undefined" && $request->getByType('source_module', 1) != 'Users') {
+		$cvId = $request->getByType('viewname', 2);
+		$module = $request->getByType('module');
+		if (!empty($cvId) && $cvId == 'undefined' && $request->getByType('source_module') !== 'Users') {
 			$sourceModule = $request->getByType('sourceModule', 1);
 			$cvId = CustomView_Record_Model::getAllFilterByModule($sourceModule)->getId();
 		}
@@ -31,9 +31,9 @@ abstract class Vtiger_Mass_Action extends Vtiger_Action_Controller
 
 		$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
 		if ($customViewModel) {
-			$searchKey = $request->get('search_key');
+			$searchKey = $request->getByType('search_key');
 			$searchValue = $request->get('search_value');
-			$operator = $request->getByType('operator', 1);
+			$operator = $request->getByType('operator');
 			if (!empty($operator)) {
 				$customViewModel->set('operator', $operator);
 				$customViewModel->set('search_key', $searchKey);

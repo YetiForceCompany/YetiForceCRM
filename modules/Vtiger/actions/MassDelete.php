@@ -19,8 +19,8 @@ class Vtiger_MassDelete_Action extends Vtiger_Mass_Action
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'MassDelete')) {
+		$userPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$userPriviligesModel->hasModuleActionPermission($request->getModule(), 'MassDelete')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -43,7 +43,7 @@ class Vtiger_MassDelete_Action extends Vtiger_Mass_Action
 		if ($request->get('selected_ids') === 'all' && $request->getMode() === 'FindDuplicates') {
 			$recordIds = Vtiger_FindDuplicate_Model::getMassDeleteRecords($request);
 		} else {
-			$recordIds = static::getRecordsListFromRequest($request);
+			$recordIds = self::getRecordsListFromRequest($request);
 		}
 		foreach ($recordIds as $recordId) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);
@@ -54,7 +54,7 @@ class Vtiger_MassDelete_Action extends Vtiger_Mass_Action
 			}
 		}
 		$response = new Vtiger_Response();
-		$response->setResult(['viewname' => $request->get('viewname'), 'module' => $moduleName]);
+		$response->setResult(['viewname' => $request->getByType('viewname', 2), 'module' => $moduleName]);
 		$response->emit();
 	}
 }

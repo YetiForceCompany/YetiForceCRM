@@ -11,10 +11,6 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 
 	public function checkPermission(\App\Request $request)
 	{
-		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
-		}
 		if (!$request->isEmpty('src_record') && !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('src_record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}

@@ -20,9 +20,6 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 	public function checkPermission(\App\Request $request)
 	{
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$userPrivilegesModel->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
-		}
 		if (!$userPrivilegesModel->hasModuleActionPermission($request->getModule(), 'CreateView')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}

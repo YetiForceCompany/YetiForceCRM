@@ -2775,11 +2775,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 	updateRecordsPDFTemplateBtn: function (form) {
 		var params = {};
 		params.data = {
-			module: 'Vtiger',
+			module: app.getModuleName(),
 			action: 'PDF',
 			mode: 'hasValidTemplate',
 			record: app.getRecordId(),
-			modulename: app.getModuleName(),
 			view: app.getViewName()
 		};
 		params.dataType = 'json';

@@ -29,7 +29,6 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
-
 		if ($mode) {
 			$this->invokeExposedMethod($mode, $request);
 		}
@@ -90,7 +89,6 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 			$viewer->assign('TOTALS', $totalPrice);
 			$html = $viewer->view('InventoryLimitAlert.tpl', $moduleName, true);
 		}
-
 		$response->setResult([
 			'status' => $status,
 			'html' => $html
@@ -101,12 +99,11 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 	public function getUnitPrice(\App\Request $request)
 	{
 		$record = $request->getInteger('record');
-		$recordModule = $request->get('recordModule');
+		$recordModule = $request->getByType('recordModule');
 		if (!\App\Privilege::isPermitted($recordModule, 'EditView', $record)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		$unitPriceValues = false;
-
 		if (in_array($recordModule, ['Products', 'Services'])) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $recordModule);
 			$unitPriceValues = $recordModel->getListPriceValues($record);
@@ -121,7 +118,7 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 		$recordId = $request->getInteger('record');
 		$idList = $request->get('idlist');
 		$currencyId = $request->getInteger('currency_id');
-		$fieldName = $request->get('fieldname');
+		$fieldName = $request->getByType('fieldname');
 		$moduleName = $request->getModule();
 
 		if (empty($idList)) {

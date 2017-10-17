@@ -42,16 +42,16 @@ class Vtiger_NoteBook_Action extends Vtiger_Action_Controller
 		$dataValue['contents'] = $request->get('notePadContent');
 		$dataValue['lastSavedOn'] = date('Y-m-d H:i:s');
 		$data = \App\Json::encode((object) $dataValue);
-		$size = \App\Json::encode(['width' => $request->get('width'), 'height' => $request->get('height')]);
+		$size = \App\Json::encode(['width' => $request->getInteger('width'), 'height' => $request->getInteger('height')]);
 		$db = \App\Db::getInstance();
 		$db->createCommand()
 			->insert('vtiger_module_dashboard', [
-				'linkid' => $request->get('linkId'),
-				'blockid' => $request->get('blockid'),
+				'linkid' => $request->getInteger('linkId'),
+				'blockid' => $request->getInteger('blockid'),
 				'filterid' => 0,
 				'title' => $request->get('notePadName'),
 				'data' => $data,
-				'isdefault' => $request->get('isdefault'),
+				'isdefault' => $request->getInteger('isdefault'),
 				'size' => $size
 			])->execute();
 		$result = [];

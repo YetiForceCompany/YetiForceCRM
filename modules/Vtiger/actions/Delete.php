@@ -18,15 +18,14 @@ class Vtiger_Delete_Action extends Vtiger_Action_Controller
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
-		if (!$recordId) {
+		if ($request->isEmpty('record', true)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		if (!\App\Privilege::isPermitted($moduleName, 'Delete', $recordId)) {
+		if (!\App\Privilege::isPermitted($moduleName, 'Delete', $request->getInteger('record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		if (!Vtiger_Record_Model::getInstanceById($recordId, $moduleName)->isDeletable()) {
+		if (!Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName)->isDeletable()) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}

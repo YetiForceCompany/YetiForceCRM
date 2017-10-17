@@ -21,7 +21,7 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 			$parentRecordId = $request->get('sourceRecord');
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentRecordId, $parentModuleName);
 			$loadUrl = $parentRecordModel->getDetailViewUrl();
-		} else if ($request->get('returnToList')) {
+		} else if ($request->getBoolean('returnToList')) {
 			$moduleModel = $recordModel->getModule();
 			$loadUrl = $moduleModel->getListViewUrl();
 		}

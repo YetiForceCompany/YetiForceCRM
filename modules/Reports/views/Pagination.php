@@ -27,7 +27,7 @@ class Reports_Pagination_View extends Vtiger_IndexAjax_View
 		$listViewModel = new Reports_ListView_Model();
 		$listViewModel->set('module', $moduleModel);
 
-		$folderId = $request->get('viewname');
+		$folderId = $request->getByType('viewname', 2);
 		if (empty($folderId) || $folderId == 'undefined') {
 			$folderId = 'All';
 		}

@@ -44,7 +44,7 @@ class Campaigns_DetailAjax_Action extends Vtiger_RelatedList_View
 		$count = $relationListView->getRelatedEntriesCount();
 		$result = [];
 		$result['module'] = $moduleName;
-		$result['viewname'] = $request->get('viewname');
+		$result['viewname'] = $request->getByType('viewname', 2);
 		$result['count'] = $count;
 
 		$response = new Vtiger_Response();

@@ -39,7 +39,7 @@ class Users_ExportData_Action extends Vtiger_ExportData_Action
 	 */
 	public function getExportQuery(\App\Request $request)
 	{
-		$cvId = $request->get('viewname');
+		$cvId = $request->getByType('viewname', 2);
 		$queryGenerator = new \App\QueryGenerator($request->getByType('source_module', 1));
 		if (!empty($cvId)) {
 			$queryGenerator->initForCustomViewById($cvId);

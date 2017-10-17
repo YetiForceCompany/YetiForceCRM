@@ -130,7 +130,10 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$viewer->assign('SEARCH_MODULE', $moduleName);
 		} else {
 			$searchKey = $request->get('value');
-			$limit = $request->getInteger('limit') !== 0 ? $request->getInteger('limit') : false;
+			$limit = false;
+			if (!$request->isEmpty('limit', true) && $request->getBoolean('limit') !== false) {
+				$limit = $request->getInteger('limit');
+			}
 			$operator = (!$request->isEmpty('operator') ) ? $request->getByType('operator', 1) : false;
 			$searchModule = false;
 			if ($request->getByType('searchModule', 1)) {
@@ -155,7 +158,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			unset($matchingRecords[$curentModule]);
 			$matchingRecords = [$curentModule => $pushTop] + $matchingRecords;
 		}
-		if ($request->get('html') === 'true') {
+		if ($request->getBoolean('html')) {
 			$viewer->assign('MODULE', $moduleName);
 			$viewer->assign('MATCHING_RECORDS', $matchingRecords);
 			$viewer->assign('IS_ADVANCE_SEARCH', $isAdvanceSearch);
@@ -164,7 +167,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$recordsList = [];
 			foreach ($matchingRecords as $module => &$modules) {
 				foreach ($modules as $recordID => $recordModel) {
-					$label = App\Purifier::decodeHtml($recordModel->getName());
+					$label = $recordModel->getName();
 					$label .= ' (' . \App\Fields\Owner::getLabel($recordModel->get('smownerid')) . ')';
 					if (!$recordModel->get('permitted')) {
 						$label .= ' <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>';

@@ -555,7 +555,7 @@ class Vtiger_Record_Model extends \App\Base
 		}
 		$rows = $recordSearch->search();
 		$ids = $matchingRecords = $leadIdsList = [];
-		foreach ($rows as &$row) {
+		foreach ($rows as $row) {
 			$ids[] = $row['crmid'];
 			if ($row['setype'] === 'Leads') {
 				$leadIdsList[] = $row['crmid'];
@@ -563,14 +563,13 @@ class Vtiger_Record_Model extends \App\Base
 		}
 		$convertedInfo = Leads_Module_Model::getConvertedInfo($leadIdsList);
 		$labels = \App\Record::getLabel($ids);
-
-		foreach ($rows as &$row) {
+		foreach ($rows as $row) {
 			if ($row['setype'] === 'Leads' && $convertedInfo[$row['crmid']]) {
 				continue;
 			}
 			$recordMeta = \vtlib\Functions::getCRMRecordMetadata($row['crmid']);
 			$row['id'] = $row['crmid'];
-			$row['label'] = $labels[$row['crmid']];
+			$row['label'] = App\Purifier::decodeHtml($labels[$row['crmid']]);
 			$row['smownerid'] = $recordMeta['smownerid'];
 			$row['createdtime'] = $recordMeta['createdtime'];
 			$row['permitted'] = \App\Privilege::isPermitted($row['setype'], 'DetailView', $row['crmid']);

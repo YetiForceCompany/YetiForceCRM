@@ -19,7 +19,7 @@ class Calendar_DeleteAjax_Action extends Vtiger_DeleteAjax_Action
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 		$recordModel->delete();
 
-		$cvId = $request->get('viewname');
+		$cvId = $request->getByType('viewname', 2);
 		$response = new Vtiger_Response();
 		$response->setResult(['viewname' => $cvId, 'module' => $moduleName]);
 		$response->emit();

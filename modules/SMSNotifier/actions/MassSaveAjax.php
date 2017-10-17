@@ -73,7 +73,7 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 	 */
 	public function getRecordsListQueryFromRequest(\App\Request $request)
 	{
-		$cvId = $request->get('viewname');
+		$cvId = $request->getByType('viewname', 2);
 		$module = $request->getModule();
 		$sourceModule = $request->getByType('source_module', 1);
 		$selectedIds = $request->get('selected_ids');

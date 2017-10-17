@@ -53,7 +53,7 @@ class Import_List_View extends Vtiger_Popup_View
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $request->get('for_module');
-		$cvId = $request->get('viewname');
+		$cvId = $request->getByType('viewname', 2);
 		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');

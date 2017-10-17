@@ -20,9 +20,6 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View
 	{
 		$moduleName = $request->getModule();
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$userPrivilegesModel->hasModulePermission($moduleName)) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
-		}
 		if (!$userPrivilegesModel->hasModuleActionPermission($moduleName, 'DuplicatesHandling')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}

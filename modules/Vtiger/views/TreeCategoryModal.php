@@ -12,11 +12,6 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 
 	public function checkPermission(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPrivilegesModel->hasModulePermission($moduleName)) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
-		}
 		$recordId = $request->getInteger('src_record');
 		if (!$recordId) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');

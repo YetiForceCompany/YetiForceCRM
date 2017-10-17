@@ -233,7 +233,6 @@ class Vtiger_Watchdog_Model extends \App\Base
 		} else {
 			$isExists = $this->isWatchingModuleConfig($member);
 		}
-		$state = intval($state);
 		if ($isExists && $state === 1) {
 			return true;
 		}

@@ -24,9 +24,6 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
-		}
 		if (!$request->isEmpty('related_parent_module') && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('related_parent_module', 1))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -106,7 +103,6 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		$sortOrder = $request->getForSql('sortorder');
 		$sourceModule = $request->getByType('src_module', 1);
 		$sourceField = $request->get('src_field');
-		$sourceRecord = $request->getInteger('src_record');
 		$currencyId = $request->getInteger('currency_id');
 		$relatedParentModule = $request->getByType('related_parent_module', 1);
 		$relatedParentId = $request->getInteger('related_parent_id');
@@ -185,7 +181,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		if (!empty($sourceModule)) {
 			$listViewModel->set('src_module', $sourceModule);
 			$listViewModel->set('src_field', $sourceField);
-			$listViewModel->set('src_record', $sourceRecord);
+			$listViewModel->set('src_record', (int) $request->get('src_record'));
 		}
 		if (!$request->isEmpty('search_key', true) && !$request->isEmpty('search_value', true)) {
 			$listViewModel->set('search_key', $request->getByType('search_key', 1));

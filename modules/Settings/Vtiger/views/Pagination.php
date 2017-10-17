@@ -36,7 +36,7 @@ class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
-		$pagingModel->set('viewid', $request->get('viewname'));
+		$pagingModel->set('viewid', $request->getByType('viewname', 2));
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
 		$operator = $request->getByType('operator', 1);

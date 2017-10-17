@@ -31,7 +31,7 @@ class Vtiger_Watchdog_Action extends Vtiger_Action_Controller
 		}
 		if ($request->has('user')) {
 			$userList = array_keys(\App\Fields\Owner::getInstance()->getAccessibleUsers());
-			if (!in_array($request->get('user'), $userList)) {
+			if (!in_array($request->getInteger('user'), $userList)) {
 				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 			}
 		}
@@ -41,10 +41,10 @@ class Vtiger_Watchdog_Action extends Vtiger_Action_Controller
 	{
 		$moduleName = $request->getModule();
 		$record = $request->getInteger('record');
-		$state = $request->get('state');
+		$state = $request->getInteger('state');
 		$user = false;
 		if ($request->has('user')) {
-			$user = $request->get('user');
+			$user = $request->getInteger('user');
 		}
 		if (empty($record)) {
 			$watchdog = Vtiger_Watchdog_Model::getInstance($moduleName, $user);

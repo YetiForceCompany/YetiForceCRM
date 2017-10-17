@@ -14,14 +14,10 @@ class Vtiger_DeleteAjax_Action extends Vtiger_Delete_Action
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
-
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 		$recordModel->delete();
-
-		$cvId = $request->get('viewname');
 		$response = new Vtiger_Response();
-		$response->setResult(['viewname' => $cvId, 'module' => $moduleName]);
+		$response->setResult(['viewname' => $request->getByType('viewname', 2), 'module' => $moduleName]);
 		$response->emit();
 	}
 }

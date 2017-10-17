@@ -87,7 +87,7 @@
 				<span class="input-group-addon"><span class="glyphicon glyphicon-user iconMiddle"></span></span>
 				<select class="widgetFilter width90 form-control select2" title="{\App\Language::translate('LBL_SELECT_USER')}" name="user" style="margin-bottom:0;" 
 					{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
-						data-ajax-search="1" data-ajax-url="index.php?module={$MODULE_NAME}&action=Fields&mode=getOwners&type=Edit&result[]=users" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
+						data-ajax-search="1" data-ajax-url="index.php?module={$MODULE_NAME}&action=Fields&mode=getOwners&fieldName=assigned_user_id&result[]=users" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
 					{/if}>
 					{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 						<optgroup label="{\App\Language::translate('LBL_USERS')}">

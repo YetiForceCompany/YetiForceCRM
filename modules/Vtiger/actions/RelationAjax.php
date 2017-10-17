@@ -33,13 +33,13 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		if (!$userPrivilegesModel->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
-		if ($request->getInteger('src_record') && !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('src_record'))) {
+		if (!$request->isEmpty('src_record', true) && !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('src_record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		if ($request->get('related_module') && !$userPrivilegesModel->hasModulePermission($request->get('related_module'))) {
+		if (!$request->isEmpty('related_module', true) && !$userPrivilegesModel->hasModulePermission($request->getByType('related_module', 2))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
-		if ($request->getByType('relatedModule', 1) && !$userPrivilegesModel->hasModulePermission($request->getByType('relatedModule', 1))) {
+		if (!$request->isEmpty('relatedModule', true) && !$userPrivilegesModel->hasModulePermission($request->getByType('relatedModule'))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -72,7 +72,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	{
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->getInteger('src_record');
-		$relatedModule = $request->get('related_module');
+		$relatedModule = $request->getByType('related_module', 2);
 		if (is_numeric($relatedModule)) {
 			$relatedModule = \App\Module::getModuleName($relatedModule);
 		}
@@ -86,7 +86,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		}
 		foreach ($relatedRecordIdList as $relatedRecordId) {
 			if (\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedRecordId)) {
-				$relationModel->addRelation($sourceRecordId, $relatedRecordId);
+				$relationModel->addRelation($sourceRecordId, (int) $relatedRecordId);
 			}
 		}
 		$response = new Vtiger_Response();
@@ -103,7 +103,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	{
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->getInteger('src_record');
-		$relatedModule = $request->get('related_module');
+		$relatedModule = $request->getByType('related_module', 2);
 		$relatedRecordIdList = $request->get('related_record_list');
 
 		//Setting related module as current module to delete the relation
@@ -115,7 +115,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		$result = false;
 		foreach ($relatedRecordIdList as $relatedRecordId) {
 			if (\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedRecordId)) {
-				$result = $relationModel->deleteRelation($sourceRecordId, $relatedRecordId);
+				$result = $relationModel->deleteRelation($sourceRecordId, (int) $relatedRecordId);
 			}
 		}
 		$response = new Vtiger_Response();
@@ -133,7 +133,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	{
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->getInteger('src_record');
-		$relatedModule = $request->get('related_module');
+		$relatedModule = $request->getByType('related_module', 2);
 		$recordsToRemove = $request->get('recordsToRemove');
 		$recordsToAdd = $request->get('recordsToAdd');
 		$categoryToAdd = $request->get('categoryToAdd');
@@ -154,7 +154,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		if (!empty($recordsToRemove)) {
 			if ($relationModel->isDeletable()) {
 				foreach ($recordsToRemove as $relatedRecordId) {
-					$relationModel->deleteRelation($sourceRecordId, $relatedRecordId);
+					$relationModel->deleteRelation((int) $sourceRecordId, (int) $relatedRecordId);
 				}
 			} else {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
@@ -186,7 +186,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	public function getRelatedListPageCount(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$relatedModuleName = $request->getByType('relatedModule', 1);
+		$relatedModuleName = $request->getByType('relatedModule');
 		$parentId = $request->getInteger('record');
 		if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $parentId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
@@ -242,16 +242,12 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 
 	public function updateFavoriteForRecord(\App\Request $request)
 	{
-		$sourceModule = $request->getModule();
-		$relatedModule = $request->getByType('relatedModule', 1);
-		$actionMode = $request->get('actionMode');
-
-		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
-		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
+		$sourceModuleModel = Vtiger_Module_Model::getInstance($request->getModule());
+		$relatedModuleModel = Vtiger_Module_Model::getInstance($request->getByType('relatedModule'));
 		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
 
 		if (!empty($relationModel)) {
-			$result = $relationModel->updateFavoriteForRecord($actionMode, ['crmid' => $request->get('record'), 'relcrmid' => $request->get('relcrmid')]);
+			$result = $relationModel->updateFavoriteForRecord($request->getByType('actionMode'), ['crmid' => $request->getInteger('record'), 'relcrmid' => $request->getInteger('relcrmid')]);
 		}
 
 		$response = new Vtiger_Response();

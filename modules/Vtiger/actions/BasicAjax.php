@@ -19,27 +19,24 @@ class Vtiger_BasicAjax_Action extends Vtiger_Action_Controller
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($request->get('search_module'))) {
+		if (!$currentUserPriviligesModel->hasModulePermission($request->getByType('search_module')) || !$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
 	public function process(\App\Request $request)
 	{
-		$searchValue = $request->get('search_value');
-		$searchModule = $request->get('search_module');
-		$parentRecordId = $request->get('parent_id');
-		$parentModuleName = $request->get('parent_module');
-		$relatedModule = $request->get('module');
-
-		$searchModuleModel = Vtiger_Module_Model::getInstance($searchModule);
-		$records = $searchModuleModel->searchRecord($searchValue, $parentRecordId, $parentModuleName, $relatedModule);
-
+		$searchModuleModel = Vtiger_Module_Model::getInstance($request->getByType('search_module'));
+		$records = $searchModuleModel->searchRecord($request->get('search_value'), $request->getInteger('parent_id'), $request->getByType('parent_module'), $request->getModule());
 		$result = [];
 		if (is_array($records)) {
 			foreach ($records as $moduleName => $recordModels) {
 				foreach ($recordModels as $recordModel) {
-					$result[] = ['label' => App\Purifier::decodeHtml($recordModel->getSearchName()), 'value' => App\Purifier::decodeHtml($recordModel->getName()), 'id' => $recordModel->getId()];
+					$result[] = [
+						'label' => App\Purifier::decodeHtml($recordModel->getSearchName()),
+						'value' => App\Purifier::decodeHtml($recordModel->getName()),
+						'id' => $recordModel->getId()
+					];
 				}
 			}
 		}

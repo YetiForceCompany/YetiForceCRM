@@ -35,7 +35,7 @@ class Documents_MoveDocuments_View extends Vtiger_Index_View
 		$viewer->assign('FOLDERS', $moduleModel->getAllFolders());
 		$viewer->assign('SELECTED_IDS', $request->get('selected_ids'));
 		$viewer->assign('EXCLUDED_IDS', $request->get('excluded_ids'));
-		$viewer->assign('VIEWNAME', $request->get('viewname'));
+		$viewer->assign('VIEWNAME', $request->getByType('viewname', 2));
 
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');

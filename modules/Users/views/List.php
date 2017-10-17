@@ -45,7 +45,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
-		$cvId = $request->get('viewname');
+		$cvId = $request->getByType('viewname', 2);
 		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
@@ -174,7 +174,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 	public function getRecordsCount(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$cvId = $request->get('viewname');
+		$cvId = $request->getByType('viewname', 2);
 		$count = $this->getListViewCount($request);
 
 		$result = [];
