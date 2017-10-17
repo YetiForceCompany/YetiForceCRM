@@ -41,7 +41,7 @@ class Base extends \PHPUnit_Extensions_Selenium2TestCase
 	/**
 	 * @codeCoverageIgnore
 	 */
-	public function onNotSuccessfulTest(Throwable $e)
+	public function onNotSuccessfulTest(\Throwable $e)
 	{
 		if ($this->logs) {
 			var_export($this->logs);
