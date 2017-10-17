@@ -29,6 +29,10 @@ class ComposerStaticInitYT
 		array(
 			'includes\\' => 9,
 		),
+		'T' =>
+		array(
+			'Tests\\' => 6,
+		),
 		'S' =>
 		array(
 			'Symfony\\Polyfill\\Mbstring\\' => 26,
@@ -84,6 +88,10 @@ class ComposerStaticInitYT
 		'includes\\' =>
 		array(
 			0 => __DIR__ . '/../..' . '/include',
+		),
+		'Tests\\' =>
+		array(
+			0 => __DIR__ . '/../..' . '/tests',
 		),
 		'Symfony\\Polyfill\\Mbstring\\' =>
 		array(

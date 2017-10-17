@@ -5,12 +5,12 @@
 		"version_normalized": "1.2.1.0",
 		"source": {
 			"type": "git",
-			"url": "https://github.com/fruux/sabre-uri.git",
+			"url": "https://github.com/sabre-io/uri.git",
 			"reference": "ada354d83579565949d80b2e15593c2371225e61"
 		},
 		"dist": {
 			"type": "zip",
-			"url": "https://api.github.com/repos/fruux/sabre-uri/zipball/ada354d83579565949d80b2e15593c2371225e61",
+			"url": "https://api.github.com/repos/sabre-io/uri/zipball/ada354d83579565949d80b2e15593c2371225e61",
 			"reference": "ada354d83579565949d80b2e15593c2371225e61",
 			"shasum": ""
 		},
@@ -58,12 +58,12 @@
 		"version_normalized": "1.5.0.0",
 		"source": {
 			"type": "git",
-			"url": "https://github.com/fruux/sabre-xml.git",
+			"url": "https://github.com/sabre-io/xml.git",
 			"reference": "59b20e5bbace9912607481634f97d05a776ffca7"
 		},
 		"dist": {
 			"type": "zip",
-			"url": "https://api.github.com/repos/fruux/sabre-xml/zipball/59b20e5bbace9912607481634f97d05a776ffca7",
+			"url": "https://api.github.com/repos/sabre-io/xml/zipball/59b20e5bbace9912607481634f97d05a776ffca7",
 			"reference": "59b20e5bbace9912607481634f97d05a776ffca7",
 			"shasum": ""
 		},
@@ -123,12 +123,12 @@
 		"version_normalized": "4.1.2.0",
 		"source": {
 			"type": "git",
-			"url": "https://github.com/fruux/sabre-vobject.git",
+			"url": "https://github.com/sabre-io/vobject.git",
 			"reference": "d0fde2fafa2a3dad1f559c2d1c2591d4fd75ae3c"
 		},
 		"dist": {
 			"type": "zip",
-			"url": "https://api.github.com/repos/fruux/sabre-vobject/zipball/d0fde2fafa2a3dad1f559c2d1c2591d4fd75ae3c",
+			"url": "https://api.github.com/repos/sabre-io/vobject/zipball/d0fde2fafa2a3dad1f559c2d1c2591d4fd75ae3c",
 			"reference": "d0fde2fafa2a3dad1f559c2d1c2591d4fd75ae3c",
 			"shasum": ""
 		},
@@ -222,12 +222,12 @@
 		"version_normalized": "3.0.0.0",
 		"source": {
 			"type": "git",
-			"url": "https://github.com/fruux/sabre-event.git",
+			"url": "https://github.com/sabre-io/event.git",
 			"reference": "831d586f5a442dceacdcf5e9c4c36a4db99a3534"
 		},
 		"dist": {
 			"type": "zip",
-			"url": "https://api.github.com/repos/fruux/sabre-event/zipball/831d586f5a442dceacdcf5e9c4c36a4db99a3534",
+			"url": "https://api.github.com/repos/sabre-io/event/zipball/831d586f5a442dceacdcf5e9c4c36a4db99a3534",
 			"reference": "831d586f5a442dceacdcf5e9c4c36a4db99a3534",
 			"shasum": ""
 		},
@@ -281,12 +281,12 @@
 		"version_normalized": "4.2.3.0",
 		"source": {
 			"type": "git",
-			"url": "https://github.com/fruux/sabre-http.git",
+			"url": "https://github.com/sabre-io/http.git",
 			"reference": "0295f9a3ee39be97e0898592fc19e42421e0cd93"
 		},
 		"dist": {
 			"type": "zip",
-			"url": "https://api.github.com/repos/fruux/sabre-http/zipball/0295f9a3ee39be97e0898592fc19e42421e0cd93",
+			"url": "https://api.github.com/repos/sabre-io/http/zipball/0295f9a3ee39be97e0898592fc19e42421e0cd93",
 			"reference": "0295f9a3ee39be97e0898592fc19e42421e0cd93",
 			"shasum": ""
 		},
@@ -339,12 +339,12 @@
 		"version_normalized": "3.1.3.0",
 		"source": {
 			"type": "git",
-			"url": "https://github.com/fruux/sabre-dav.git",
+			"url": "https://github.com/sabre-io/dav.git",
 			"reference": "8a266c7b5e140da79529414b9cde2a2d058b536b"
 		},
 		"dist": {
 			"type": "zip",
-			"url": "https://api.github.com/repos/fruux/sabre-dav/zipball/8a266c7b5e140da79529414b9cde2a2d058b536b",
+			"url": "https://api.github.com/repos/sabre-io/dav/zipball/8a266c7b5e140da79529414b9cde2a2d058b536b",
 			"reference": "8a266c7b5e140da79529414b9cde2a2d058b536b",
 			"shasum": ""
 		},
@@ -687,67 +687,6 @@
 			"log",
 			"psr",
 			"psr-3"
-		]
-	},
-	{
-		"name": "symfony/polyfill-mbstring",
-		"version": "v1.5.0",
-		"version_normalized": "1.5.0.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/symfony/polyfill-mbstring.git",
-			"reference": "7c8fae0ac1d216eb54349e6a8baa57d515fe8803"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/7c8fae0ac1d216eb54349e6a8baa57d515fe8803",
-			"reference": "7c8fae0ac1d216eb54349e6a8baa57d515fe8803",
-			"shasum": ""
-		},
-		"require": {
-			"php": ">=5.3.3"
-		},
-		"suggest": {
-			"ext-mbstring": "For best performance"
-		},
-		"time": "2017-06-14T15:44:48+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "1.5-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-4": {
-				"Symfony\\Polyfill\\Mbstring\\": ""
-			},
-			"files": [
-				"bootstrap.php"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"MIT"
-		],
-		"authors": [
-			{
-				"name": "Nicolas Grekas",
-				"email": "p@tchwork.com"
-			},
-			{
-				"name": "Symfony Community",
-				"homepage": "https://symfony.com/contributors"
-			}
-		],
-		"description": "Symfony polyfill for the Mbstring extension",
-		"homepage": "https://symfony.com",
-		"keywords": [
-			"compatibility",
-			"mbstring",
-			"polyfill",
-			"portable",
-			"shim"
 		]
 	},
 	{
@@ -1311,6 +1250,67 @@
 			"mobile",
 			"phonenumber",
 			"validation"
+		]
+	},
+	{
+		"name": "symfony/polyfill-mbstring",
+		"version": "v1.6.0",
+		"version_normalized": "1.6.0.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/symfony/polyfill-mbstring.git",
+			"reference": "2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296",
+			"reference": "2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296",
+			"shasum": ""
+		},
+		"require": {
+			"php": ">=5.3.3"
+		},
+		"suggest": {
+			"ext-mbstring": "For best performance"
+		},
+		"time": "2017-10-11T12:05:26+00:00",
+		"type": "library",
+		"extra": {
+			"branch-alias": {
+				"dev-master": "1.6-dev"
+			}
+		},
+		"installation-source": "dist",
+		"autoload": {
+			"psr-4": {
+				"Symfony\\Polyfill\\Mbstring\\": ""
+			},
+			"files": [
+				"bootstrap.php"
+			]
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"MIT"
+		],
+		"authors": [
+			{
+				"name": "Nicolas Grekas",
+				"email": "p@tchwork.com"
+			},
+			{
+				"name": "Symfony Community",
+				"homepage": "https://symfony.com/contributors"
+			}
+		],
+		"description": "Symfony polyfill for the Mbstring extension",
+		"homepage": "https://symfony.com",
+		"keywords": [
+			"compatibility",
+			"mbstring",
+			"polyfill",
+			"portable",
+			"shim"
 		]
 	}
 ]

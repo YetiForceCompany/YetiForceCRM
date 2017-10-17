@@ -67,6 +67,7 @@
 			"App\\": "vendor/yetiforce/",
 			"Api\\": "api/webservice/",
 			"Cron\\": "cron/",
+			"Tests\\": "tests/",
 			"Exception\\": "include/exceptions/",
 			"DebugBar\\": "vendor/php-debugbar/src/DebugBar/"
 		}

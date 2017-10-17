@@ -8,6 +8,7 @@ return array(
 	'vtlib\\' => array($baseDir . '/vtlib/Vtiger'),
 	'libphonenumber\\' => array($vendorDir . '/giggsey/libphonenumber-for-php/src'),
 	'includes\\' => array($baseDir . '/include'),
+	'Tests\\' => array($baseDir . '/tests'),
 	'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
 	'Symfony\\Component\\VarDumper\\' => array($vendorDir . '/symfony/var-dumper'),
 	'Symfony\\Component\\Debug\\' => array($vendorDir . '/symfony/debug'),
