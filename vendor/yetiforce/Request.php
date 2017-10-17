@@ -77,7 +77,7 @@ class Request
 	/**
 	 * Constructor
 	 * @param array $rawValues
-	 * @param array $parseValues
+	 * @param bool $overwrite
 	 */
 	public function __construct($rawValues, $overwrite = true)
 	{
@@ -288,7 +288,7 @@ class Request
 		foreach ($this->rawValues as $key => $value) {
 			$this->get($key);
 		}
-		return $this->parseValues;
+		return $this->purifiedValuesByGet;
 	}
 
 	/**
