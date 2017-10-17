@@ -6,18 +6,24 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * {@inheritDoc}
 	 */
-	public function getTemplateName()
+	public function validate($value, $isUserFormat = false)
 	{
-		return 'uitypes/Reference.tpl';
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		if (!is_numeric($value) || \App\User::isExists($value)) {
+			throw new \App\Exceptions\SaveRecord('ERR_ILLEGAL_FIELD_VALUE', 406);
+		}
+		$this->validate = true;
 	}
 
 	/**
@@ -46,5 +52,13 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 			return '<a href="' . $recordModel->getDetailViewUrl() . '">' . \vtlib\Functions::textLength($displayValue) . '</a>';
 		}
 		return \vtlib\Functions::textLength($displayValue);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getTemplateName()
+	{
+		return 'uitypes/Reference.tpl';
 	}
 }

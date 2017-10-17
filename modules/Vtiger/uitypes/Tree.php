@@ -10,27 +10,22 @@
 class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 {
 
-	public function isAjaxEditable()
-	{
-		return false;
-	}
-
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * {@inheritDoc}
 	 */
-	public function getTemplateName()
+	public function validate($value, $isUserFormat = false)
 	{
-		return 'uitypes/Tree.tpl';
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		if (substr($value, 0, 1) !== 'T' || !is_numeric(substr($value, 1))) {
+			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+		}
+		$this->validate = true;
 	}
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param string $tree
-	 * @param int $record
-	 * @param Vtiger_Record_Model $recordInstance
-	 * @param boolean $rawText
-	 * @return string
+	 * {@inheritDoc}
 	 */
 	public function getDisplayValue($tree, $record = false, $recordInstance = false, $rawText = false)
 	{
@@ -39,8 +34,27 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 		return \App\Purifier::encodeHtml($treeData[$tree]);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getListSearchTemplateName()
 	{
 		return 'uitypes/TreeFieldSearchView.tpl';
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getTemplateName()
+	{
+		return 'uitypes/Tree.tpl';
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function isAjaxEditable()
+	{
+		return false;
 	}
 }

@@ -33,7 +33,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		if (!$request->isEmpty('related_parent_id', true) && !\App\Privilege::isPermitted($request->getByType('related_parent_module', 1), 'DetailView', $request->getInteger('related_parent_id'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		if (!$request->isEmpty('src_record', true) && !\App\Privilege::isPermitted($request->getByType('src_module', 1), 'DetailView', $request->getInteger('src_record'))) {
+		if (!$request->isEmpty('src_record', true) && $request->getByType('src_module', 1) !== 'Users' && !\App\Privilege::isPermitted($request->getByType('src_module', 1), 'DetailView', $request->getInteger('src_record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}

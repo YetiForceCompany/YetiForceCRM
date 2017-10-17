@@ -193,6 +193,8 @@ class Vtiger_Field_Model extends vtlib\Field
 						break;
 					case 28: $fieldDataType = 'documentsFileUpload';
 						break;
+					case 31: $fieldDataType = 'theme';
+						break;
 					case 32: $fieldDataType = 'languages';
 						break;
 					case 35: $fieldDataType = 'country';
@@ -213,6 +215,12 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 68: $fieldDataType = 'referenceSubProcess';
 						break;
 					case 69: $fieldDataType = 'image';
+						break;
+					case 98: $fieldDataType = 'userRole';
+						break;
+					case 99: $fieldDataType = 'password';
+						break;
+					case 115: $fieldDataType = 'picklist';
 						break;
 					case 117: $fieldDataType = 'currencyList';
 						break;

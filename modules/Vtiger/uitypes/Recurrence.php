@@ -12,14 +12,54 @@
 class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 {
 
-	public function isAjaxEditable()
+	/**
+	 * {@inheritDoc}
+	 */
+	public function validate($value, $isUserFormat = false)
 	{
-		return false;
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		$result = [];
+		$values = explode(';', $value);
+		foreach ($values as $val) {
+			$val = explode('=', $val, 2);
+			$result[$val[0]] = $val[1];
+		}
+		$allowedFreqValues = ['DAILY', 'WEEKLY', 'MONTHLY', 'YEARLY'];
+		if (isset($result['FREQ']) && !in_array($result['FREQ'], $allowedFreqValues)) {
+			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+		}
+		if (isset($result['INTERVAL'])) {
+			if (!is_numeric($result['INTERVAL']) || $result['INTERVAL'] < 1 || $result['INTERVAL'] > 31) {
+				throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+			}
+		}
+		$allowedDayes = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
+		if (isset($result['BYDAY']) && !in_array($result['BYDAY'], $allowedDayes)) {
+			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+		}
+		if (isset($result['BYMONTHDAY'])) {
+			if (!is_numeric($result['BYMONTHDAY']) || $result['BYMONTHDAY'] < 1 || $result['BYMONTHDAY'] > 31) {
+				throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+			}
+		}
+		if (isset($result['COUNT']) && !is_numeric($result['COUNT'])) {
+			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+		}
+		if (isset($result['UNTIL'])) {
+			$dateTime = str_replace('T', ' ', $result['UNTIL']);
+			$timeFormat = 'Ymd His';
+			$d = DateTime::createFromFormat($timeFormat, $dateTime);
+			if (!($d && $d->format($timeFormat) === $dateTime)) {
+				throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+			}
+		}
+		$this->validate = true;
 	}
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * {@inheritDoc}
 	 */
 	public function getTemplateName()
 	{
@@ -27,8 +67,7 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the Detailview template name for the current UI Type Object
-	 * @return string - Template Name
+	 * {@inheritDoc}
 	 */
 	public function getDetailViewTemplateName()
 	{
@@ -62,7 +101,7 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 			}
 			if (isset($result['UNTIL'])) {
 				$displayDate = substr($result['UNTIL'], 0, 4) . '-' . substr($result['UNTIL'], 4, 2) . '-' . substr($result['UNTIL'], 6, 2);
-				$result['UNTIL'] = App\Fields\Date::currentUserDisplayDate($displayDate);
+				$result['UNTIL'] = App\Fields\DateTime::currentUserDisplayDate($displayDate);
 			}
 			switch ($result['FREQ']) {
 				case 'DAILY':
@@ -84,11 +123,7 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param string $value
-	 * @param integer $record
-	 * @param Vtiger_Record_Model $recordInstance
-	 * @param boolean $rawText
+	 * {@inheritDoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
@@ -108,5 +143,10 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 			}
 		}
 		return $text;
+	}
+
+	public function isAjaxEditable()
+	{
+		return false;
 	}
 }

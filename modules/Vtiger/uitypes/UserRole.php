@@ -13,12 +13,21 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 {
 
 	/**
-	 * Function to get display value
-	 * @param string $value
-	 * @param int $recordId
-	 * @param Vtiger_Record_Model $recordInstance
-	 * @param bool $rawText
-	 * @return string
+	 * {@inheritDoc}
+	 */
+	public function validate($value, $isUserFormat = false)
+	{
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		if (substr($value, 0, 1) !== 'H' || !is_numeric(substr($value, 1)) || is_null(\App\PrivilegeUtil::getRoleName($value))) {
+			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+		}
+		$this->validate = true;
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public function getDisplayValue($value, $recordId = false, $recordInstance = false, $rawText = false)
 	{
@@ -47,7 +56,7 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 	}
 
 	/**
-	 * Function searches for value data 
+	 * Function searches for value data
 	 * @param string $value
 	 * @return string[]
 	 */
@@ -59,8 +68,7 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 	}
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * {@inheritDoc}
 	 */
 	public function getListSearchTemplateName()
 	{
