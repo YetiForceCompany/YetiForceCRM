@@ -54,15 +54,6 @@ class ModuleManager extends TestCase
 		unlink(ROOT_DIRECTORY . '/PL.zip');
 	}
 
-	public function testTest()
-	{
-		$b = (new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists();
-		if ($b) {
-			$moduleInstance = \vtlib\Module::getInstance('Test');
-			$moduleInstance->delete();
-		}
-	}
-
 	/**
 	 * Testing the module creation
 	 */
@@ -172,7 +163,6 @@ class ModuleManager extends TestCase
 			['Phone', ['fieldTypeList' => 0]],
 			['Related1M', ['fieldTypeList' => 0, 'referenceModule' => ['Contacts', 'Accounts', 'Leads'],]],
 			['Picklist', ['fieldTypeList' => 0, 'pickListValues' => ['val1', 'val2', 'val3'],]],
-			['Picklist', ['fieldTypeList' => 0, 'pickListValues' => ['val1', 'val2', 'val3'], 'isRoleBasedPickList' => 1], '2'],
 		];
 	}
 
@@ -225,7 +215,6 @@ class ModuleManager extends TestCase
 			['Phone'],
 			['Related1M'],
 			['Picklist'],
-			['Picklist', '2'],
 		];
 	}
 
