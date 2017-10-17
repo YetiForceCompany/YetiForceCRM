@@ -25,7 +25,7 @@
 				<input type="hidden" name="module" value="{$FOR_MODULE}" />
 				{if $ERROR_MESSAGE neq ''}
 					<div class="alert alert-warning">
-						{$ERROR_MESSAGE}rewtwerterte ert ewrtewrgetr
+						{$ERROR_MESSAGE}
 					</div>
 				{/if}
 				<div class="form-group">

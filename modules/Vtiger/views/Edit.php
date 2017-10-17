@@ -31,9 +31,8 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$record = $request->getInteger('record');
-		if (!empty($record)) {
-			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
+		if (!$request->isEmpty('record')) {
+			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 			$isPermited = $recordModel->isEditable() || ($request->getBoolean('isDuplicate') === true && $recordModel->getModule()->isPermitted('DuplicateRecord') && $recordModel->isCreateable() && $recordModel->isViewable());
 		} else {
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
@@ -96,8 +95,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 
 		$moduleModel = $recordModel->getModule();
 		$fieldList = $moduleModel->getFields();
-		$requestFieldList = array_intersect($request->getKeys(), array_keys($fieldList));
-		foreach ($requestFieldList as $fieldName) {
+		foreach (array_intersect($request->getKeys(), array_keys($fieldList)) as $fieldName) {
 			$fieldModel = $fieldList[$fieldName];
 			if ($fieldModel->isWritable()) {
 				$fieldModel->getUITypeModel()->setValueFromRequest($request, $recordModel);
@@ -107,18 +105,18 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		$recordStructure = $recordStructureInstance->getStructure();
 		$picklistDependencyDatasource = \App\Fields\Picklist::getPicklistDependencyDatasource($moduleName);
 
-		$isRelationOperation = $request->get('relationOperation');
+		$isRelationOperation = $request->getBoolean('relationOperation');
 		//if it is relation edit
 		$viewer->assign('IS_RELATION_OPERATION', $isRelationOperation);
 		if ($isRelationOperation) {
 			$sourceModule = $request->getByType('sourceModule', 1);
-			$sourceRecord = $request->get('sourceRecord');
+			$sourceRecord = $request->getInteger('sourceRecord');
 
 			$viewer->assign('SOURCE_MODULE', $sourceModule);
 			$viewer->assign('SOURCE_RECORD', $sourceRecord);
 			$sourceRelatedField = $moduleModel->getValuesFromSource($request);
 			foreach ($recordStructure as &$block) {
-				foreach ($sourceRelatedField as $field => &$value) {
+				foreach ($sourceRelatedField as $field => $value) {
 					if (isset($block[$field])) {
 						$fieldvalue = $block[$field]->get('fieldvalue');
 						if (empty($fieldvalue)) {

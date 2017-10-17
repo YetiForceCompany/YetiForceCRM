@@ -135,7 +135,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$selectedTabLabel = $request->get('tab_label');
-		$requestMode = $request->get('requestMode');
+		$requestMode = $request->getByType('requestMode', 1);
 		$mode = $request->getMode();
 		if (empty($selectedTabLabel) && !empty($requestMode)) {
 			if ($requestMode == 'full') {
@@ -159,14 +159,13 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		if (isset($detailViewLinks['DETAILVIEWTAB']) && is_array($detailViewLinks['DETAILVIEWTAB'])) {
 			foreach ($detailViewLinks['DETAILVIEWTAB'] as $link) {
-				if ($link->getLabel() == $selectedTabLabel) {
+				if ($link->getLabel() === $selectedTabLabel) {
 					$params = vtlib\Functions::getQueryParams($link->getUrl());
 					$this->defaultMode = $params['mode'];
 					break;
 				}
 			}
 		}
-
 		$viewer->assign('SELECTED_TAB_LABEL', $selectedTabLabel);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
@@ -270,10 +269,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 
-	public function showDetailViewByMode($request)
+	public function showDetailViewByMode(\App\Request$request)
 	{
-		$requestMode = $request->get('requestMode');
-		if ($requestMode == 'full') {
+		$requestMode = $request->getByType('requestMode', 1);
+		if ($requestMode === 'full') {
 			return $this->showModuleDetailView($request);
 		}
 		return $this->showModuleBasicView($request);
@@ -440,7 +439,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		} else {
 			$tplName = 'RecentActivitiesTimeLine.tpl';
 		}
-		if (!$request->get('skipHeader')) {
+		if (!$request->getBoolean('skipHeader')) {
 			$viewer->view('RecentActivitiesHeader.tpl', $moduleName);
 		}
 		return $viewer->view($tplName, $moduleName, true);
@@ -449,7 +448,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	/**
 	 * Function returns latest comments
 	 * @param \App\Request $request
-	 * @return <type>
+	 * @return string
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function showRecentComments(\App\Request $request)
@@ -488,7 +487,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	/**
 	 * Function returns related records
 	 * @param \App\Request $request
-	 * @return <type>
+	 * @return string
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function showRelatedList(\App\Request $request)
@@ -580,7 +579,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$commentRecordId = $request->getInteger('commentid');
 		$hierarchy = [];
 		if ($request->has('hierarchy')) {
-			$hierarchy = explode(',', $request->get('hierarchy'));
+			$hierarchy = $request->getExploded('hierarchy');
 		}
 		$moduleName = $request->getModule();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -616,7 +615,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	/**
 	 * Function to get Ajax is enabled or not
 	 * @param Vtiger_Record_Model record model
-	 * @return <boolean> true/false
+	 * @return boolean true/false
 	 */
 	public function isAjaxEnabled($recordModel)
 	{
@@ -631,9 +630,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 */
 	public function getActivities(\App\Request $request)
 	{
-		$moduleName = 'Calendar';
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($moduleName)) {
+		if (!$currentUserPriviligesModel->hasModulePermission('Calendar')) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		$moduleName = $request->getModule();
@@ -642,7 +640,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$pageLimit = $request->getInteger('limit');
 		$sortOrder = $request->getForSql('sortorder');
 		$orderBy = $request->getForSql('orderby');
-		$type = $request->get('type');
+		$type = $request->getByType('type', 1);
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
 		}
@@ -893,7 +891,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('HISTORIES', $histories);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('POPUP', $config['popup']);
-		$viewer->assign('NO_MORE', $request->get('noMore'));
+		$viewer->assign('NO_MORE', $request->getBoolean('noMore'));
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
 		$viewer->assign('IS_FULLSCREEN', $request->getBoolean('isFullscreen'));
 		return $viewer->view('HistoryRelation.tpl', $moduleName, true);

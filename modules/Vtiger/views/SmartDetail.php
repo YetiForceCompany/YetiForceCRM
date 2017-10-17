@@ -10,23 +10,19 @@ class Vtiger_SmartDetail_View extends Vtiger_IndexAjax_View
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$recordId = $request->getInteger('record');
-		if (!$recordId) {
+		if ($request->isEmpty('record', true)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
+		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
-
 		if (!$this->record) {
-			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $request->getInteger('record'));
 		}
 		$recordModel = $this->record->getRecord();
 		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);

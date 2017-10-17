@@ -96,7 +96,7 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View
 		$dataModelInstance->set('fields', $duplicateSearchFields);
 		$ignoreEmpty = $request->get('ignoreEmpty');
 		$ignoreEmptyValue = false;
-		if ($ignoreEmpty == 'on' || $ignoreEmpty == 'true' || $ignoreEmpty == '1') {
+		if ($ignoreEmpty === 'on' || $ignoreEmpty == 'true' || $ignoreEmpty == '1') {
 			$ignoreEmptyValue = true;
 		}
 		$dataModelInstance->set('ignoreEmpty', $ignoreEmptyValue);
@@ -147,7 +147,7 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View
 		$dataModelInstance = Vtiger_FindDuplicate_Model::getInstance($moduleName);
 		$ignoreEmpty = $request->get('ignoreEmpty');
 		$ignoreEmptyValue = false;
-		if ($ignoreEmpty == 'on' || $ignoreEmpty == 'true' || $ignoreEmpty == '1') {
+		if ($ignoreEmpty === 'on' || $ignoreEmpty == 'true' || $ignoreEmpty == '1') {
 			$ignoreEmptyValue = true;
 		}
 		$dataModelInstance->set('ignoreEmpty', $ignoreEmptyValue);

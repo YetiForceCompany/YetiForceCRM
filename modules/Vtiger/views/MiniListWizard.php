@@ -17,9 +17,9 @@ class Vtiger_MiniListWizard_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('WIZARD_STEP', $request->get('step'));
+		$viewer->assign('WIZARD_STEP', $request->getByType('step', 2));
 
-		switch ($request->get('step')) {
+		switch ($request->getByType('step', 2)) {
 			case 'step1':
 				$modules = vtlib\Functions::getAllModules(true, false, 0);
 				//Since comments is not treated as seperate module 
@@ -27,7 +27,7 @@ class Vtiger_MiniListWizard_View extends Vtiger_Index_View
 				$viewer->assign('MODULES', $modules);
 				break;
 			case 'step2':
-				$selectedModule = $request->get('selectedModule');
+				$selectedModule = $request->getByType('selectedModule', 1);
 				if (!\App\Privilege::isPermitted($selectedModule)) {
 					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 				}
@@ -35,7 +35,7 @@ class Vtiger_MiniListWizard_View extends Vtiger_Index_View
 				$viewer->assign('ALLFILTERS', $filters);
 				break;
 			case 'step3':
-				$selectedModule = $request->get('selectedModule');
+				$selectedModule = $request->getByType('selectedModule', 1);
 				if (!\App\Privilege::isPermitted($selectedModule)) {
 					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 				}

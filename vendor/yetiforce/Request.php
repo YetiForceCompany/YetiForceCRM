@@ -79,10 +79,12 @@ class Request
 	 * @param array $rawValues
 	 * @param array $parseValues
 	 */
-	public function __construct($rawValues)
+	public function __construct($rawValues, $overwrite = true)
 	{
 		$this->rawValues = $rawValues;
-		static::$request = $this;
+		if ($overwrite) {
+			static::$request = $this;
+		}
 	}
 
 	/**
@@ -119,10 +121,10 @@ class Request
 	 * Alnum - word and int
 	 * 2 - word and int
 	 * @param string $key Key name
-	 * @param mixed $type Data type that is only acceptable
+	 * @param mixed $type Data type that is only acceptable, default only words
 	 * @return boolean|mixed
 	 */
-	public function getByType($key, $type)
+	public function getByType($key, $type = 1)
 	{
 		if (isset($this->purifiedValuesByType[$key])) {
 			return $this->purifiedValuesByType[$key];

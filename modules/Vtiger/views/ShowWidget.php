@@ -17,7 +17,7 @@ class Vtiger_ShowWidget_View extends Vtiger_IndexAjax_View
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
 		$moduleName = $request->getModule();
-		$componentName = $request->get('name');
+		$componentName = $request->getByType('name', 1);
 		$linkId = $request->get('linkid');
 		$id = $request->get('widgetid');
 		if (!empty($componentName)) {
@@ -26,9 +26,9 @@ class Vtiger_ShowWidget_View extends Vtiger_IndexAjax_View
 				$widget = NULL;
 				if (!empty($linkId)) {
 					$widget = new Vtiger_Widget_Model();
-					$widget->set('linkid', $linkId);
+					$widget->set('linkid', (int) $linkId);
 					$widget->set('userid', $currentUser->getId());
-					$widget->set('widgetid', $id);
+					$widget->set('widgetid', (int) $id);
 					$widget->set('active', $request->get('active'));
 					$widget->set('filterid', $request->get('filterid', NULL));
 					if ($request->has('data')) {

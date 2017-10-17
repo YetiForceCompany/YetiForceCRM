@@ -23,7 +23,7 @@ class Vtiger_FileUpload_View extends Vtiger_BasicModal_View
 	{
 		$moduleName = $request->getModule();
 		$record = $request->getInteger('record');
-		$fieldName = $request->get('inputName');
+		$fieldName = $request->getByType('inputName', 1);
 		if (!empty($record)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			if (!$recordModel->isEditable() || !\App\Field::getFieldPermission($moduleName, $fieldName, false)) {
@@ -45,9 +45,9 @@ class Vtiger_FileUpload_View extends Vtiger_BasicModal_View
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$this->preProcess($request);
-		$viewer->assign('INPUT_NAME', $request->get('inputName'));
+		$viewer->assign('INPUT_NAME', $request->getByType('inputName', 1));
 		$viewer->assign('FILE_TYPE', $request->get('fileType'));
-		$viewer->assign('RECORD', $request->get('record'));
+		$viewer->assign('RECORD', $request->getInteger('record'));
 		$viewer->view('FileUpload.tpl', $moduleName);
 		$this->postProcess($request);
 	}

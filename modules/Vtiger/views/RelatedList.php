@@ -20,7 +20,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 	public function checkPermission(\App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
-		if (!$recordId) {
+		if ($request->isEmpty('record', true)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId)) {
@@ -73,7 +73,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 			$relationListView->set('orderby', $orderBy);
 			$relationListView->set('sortorder', $sortOrder);
 		}
-		$searchKey = $request->get('search_key');
+		$searchKey = $request->getByType('search_key', 1);
 		$searchValue = $request->get('search_value');
 		$operator = $request->getByType('operator', 1);
 		if (!empty($operator)) {

@@ -39,7 +39,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 	public function showMassEditForm(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$cvId = $request->get('viewname');
+		$cvId = $request->getByType('viewname', 2);
 		$selectedIds = $request->get('selected_ids');
 		$excludedIds = $request->get('excluded_ids');
 		$viewer = $this->getViewer($request);
@@ -71,19 +71,15 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
-		$searchKey = $request->get('search_key');
-		$searchValue = $request->get('search_value');
-		$operator = $request->getByType('operator', 1);
-		if (!empty($operator)) {
-			$viewer->assign('OPERATOR', $operator);
-			$viewer->assign('ALPHABET_VALUE', $searchValue);
-			$viewer->assign('SEARCH_KEY', $searchKey);
+		if (!$request->isEmpty('operator', true)) {
+			$viewer->assign('OPERATOR', $request->getByType('operator', 1));
+			$viewer->assign('ALPHABET_VALUE', $request->get('search_value'));
+			$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 1));
 		}
 		$searchParams = $request->get('search_params');
 		if (!empty($searchParams)) {
 			$viewer->assign('SEARCH_PARAMS', $searchParams);
 		}
-
 		echo $viewer->view('MassEditForm.tpl', $moduleName, true);
 	}
 
@@ -96,7 +92,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 	{
 		$sourceModule = $request->getModule();
 		$moduleName = 'ModComments';
-		$cvId = $request->get('viewname');
+		$cvId = $request->getByType('viewname', 2);
 		$selectedIds = $request->get('selected_ids');
 		$excludedIds = $request->get('excluded_ids');
 
@@ -112,16 +108,11 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('SELECTED_IDS', $selectedIds);
 		$viewer->assign('EXCLUDED_IDS', $excludedIds);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-
-		$searchKey = $request->get('search_key');
-		$searchValue = $request->get('search_value');
-		$operator = $request->getByType('operator', 1);
-		if (!empty($operator)) {
-			$viewer->assign('OPERATOR', $operator);
-			$viewer->assign('ALPHABET_VALUE', $searchValue);
-			$viewer->assign('SEARCH_KEY', $searchKey);
+		if (!$request->isEmpty('operator', true)) {
+			$viewer->assign('OPERATOR', $request->getByType('operator', 1));
+			$viewer->assign('ALPHABET_VALUE', $request->get('search_value'));
+			$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 1));
 		}
-
 		$searchParams = $request->get('search_params');
 		if (!empty($searchParams)) {
 			$viewer->assign('SEARCH_PARAMS', $searchParams);
@@ -140,7 +131,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$moduleName = 'SMSNotifier';
 		$selectedIds = $request->get('selected_ids');
 		$excludedIds = $request->get('excluded_ids');
-		$cvId = $request->get('viewname');
+		$cvId = $request->getByType('viewname', 2);
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'CreateView') || !$currentUserPriviligesModel->hasModuleActionPermission($sourceModule, 'MassSendSMS') || !SMSNotifier_Module_Model::checkServer()) {
@@ -162,21 +153,15 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('SELECTED_IDS', $selectedIds);
 		$viewer->assign('EXCLUDED_IDS', $excludedIds);
 		$viewer->assign('PHONE_FIELDS', $phoneFields);
-
-		$searchKey = $request->get('search_key');
-		$searchValue = $request->get('search_value');
-		$operator = $request->getByType('operator', 1);
-		if (!empty($operator)) {
-			$viewer->assign('OPERATOR', $operator);
-			$viewer->assign('ALPHABET_VALUE', $searchValue);
-			$viewer->assign('SEARCH_KEY', $searchKey);
+		if (!$request->isEmpty('operator', true)) {
+			$viewer->assign('OPERATOR', $request->getByType('operator', 1));
+			$viewer->assign('ALPHABET_VALUE', $request->get('search_value'));
+			$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 1));
 		}
-
 		$searchParams = $request->get('search_params');
 		if (!empty($searchParams)) {
 			$viewer->assign('SEARCH_PARAMS', $searchParams);
 		}
-
 		echo $viewer->view('SendSMSForm.tpl', $moduleName, true);
 	}
 

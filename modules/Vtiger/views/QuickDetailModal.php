@@ -17,11 +17,10 @@ class Vtiger_QuickDetailModal_View extends Vtiger_BasicModal_View
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$recordId = $request->getInteger('record');
-		if (!$recordId) {
+		if ($request->isEmpty('record', true)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId)) {
+		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
@@ -47,8 +46,8 @@ class Vtiger_QuickDetailModal_View extends Vtiger_BasicModal_View
 				if (!empty($widget['url'])) {
 					parse_str($widget['url'], $output);
 					$method = $output['mode'];
-					$widgetRequest = new \App\Request($output);
-					$widgetRequest->set('isReadOnly', 'true');
+					$widgetRequest = new \App\Request($output, false);
+					$widgetRequest->set('isReadOnly', true);
 					if ($detailView->isMethodExposed($method)) {
 						$label = '';
 						if (!empty($widget['label'])) {

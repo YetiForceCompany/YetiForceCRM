@@ -63,7 +63,7 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 		$viewer->assign('TEMPLATE', $template);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('IS_MULTIPLE', $request->get('multiple'));
-		$viewer->assign('TRIGGER_EVENT_NAME', $request->get('triggerEventName'));
+		$viewer->assign('TRIGGER_EVENT_NAME', $request->getByType('triggerEventName', 2));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('TreePopup.tpl', $moduleName);
 	}

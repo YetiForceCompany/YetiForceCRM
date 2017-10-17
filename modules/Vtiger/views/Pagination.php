@@ -30,7 +30,9 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		$pagingModel->set('noOfEntries', $request->getInteger('noOfEntries'));
 		$relatedModuleName = $request->getByType('relatedModule', 1);
 		$parentId = $request->getInteger('record');
-
+		if (!$parentId || !\App\Privilege::isPermitted($moduleName, 'DetailView', $parentId)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
 		$totalCount = (int) $relationListView->getRelatedEntriesCount();
@@ -51,7 +53,7 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 	public function getPagination(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$cvId = $request->get('viewname');
+		$cvId = $request->getByType('viewname', 2);
 		$pageNumber = $request->getInteger('page');
 		$moduleName = $request->getModule();
 		if (empty($cvId)) {
@@ -63,21 +65,18 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('viewid', $cvId);
-		$pagingModel->set('noOfEntries', $request->get('noOfEntries'));
+		$pagingModel->set('noOfEntries', $request->getInteger('noOfEntries'));
 
 		$totalCount = (int) $request->get('totalCount');
 		$operator = '';
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') || $totalCount == -1) {
 			$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
-			$searchKey = $request->get('search_key');
-			$searchValue = $request->get('search_value');
-			$operator = $request->getByType('operator', 1);
-			if (!empty($operator)) {
-				$listViewModel->set('operator', $operator);
+			if (!$request->isEmpty('operator', true)) {
+				$listViewModel->set('operator', $request->getByType('operator', 1));
 			}
-			if (!empty($searchKey) && !empty($searchValue)) {
-				$listViewModel->set('search_key', $searchKey);
-				$listViewModel->set('search_value', $searchValue);
+			if (!$request->isEmpty('search_key', true) && !$request->isEmpty('search_value', true)) {
+				$listViewModel->set('search_key', $request->getByType('search_key', 1));
+				$listViewModel->set('search_value', $request->get('search_value'));
 			}
 			$searchParmams = $request->get('search_params');
 			if (!empty($searchParmams) && is_array($searchParmams)) {

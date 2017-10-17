@@ -34,7 +34,7 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		$this->preProcess($request);
 		$moduleName = $request->getModule();
 		$recordId = $request->getInteger('record');
-		$view = $request->get('fromview');
+		$view = $request->getByType('fromview', 1);
 		$allRecords = Vtiger_Mass_Action::getRecordsListFromRequest($request);
 
 		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);

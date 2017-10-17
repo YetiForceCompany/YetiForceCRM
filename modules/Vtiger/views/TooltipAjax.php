@@ -12,22 +12,33 @@
 class Vtiger_TooltipAjax_View extends Vtiger_PopupAjax_View
 {
 
+	/**
+	 * Checking permissions
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
+	public function checkPermission(\App\Request $request)
+	{
+		if ($request->isEmpty('record', true)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
+		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
+	}
+
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-
 		$this->initializeListViewContents($request, $viewer);
-
 		echo $viewer->view('TooltipContents.tpl', $moduleName, true);
 	}
 
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $this->getModule($request);
-
-		$recordId = $request->getInteger('record');
-		$tooltipViewModel = Vtiger_TooltipView_Model::getInstance($moduleName, $recordId);
+		$tooltipViewModel = Vtiger_TooltipView_Model::getInstance($moduleName, $request->getInteger('record'));
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('MODULE_MODEL', $tooltipViewModel->getRecord()->getModule());

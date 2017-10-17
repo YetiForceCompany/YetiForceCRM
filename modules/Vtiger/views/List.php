@@ -32,7 +32,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$title = $title . ' ' . App\Language::translate('LBL_VIEW_LIST', $moduleName);
 
 		if ($request->has('viewname')) {
-			$customView = CustomView_Record_Model::getAll($moduleName)[$request->get('viewname')];
+			$customView = CustomView_Record_Model::getAll($moduleName)[$request->getByType('viewname', 2)];
 			if (!empty($customView)) {
 				$title .= ' [' . App\Language::translate('LBL_FILTER', $moduleName) . ': ' . App\Language::translate($customView->get('viewname'), $moduleName) . ']';
 			}
@@ -45,7 +45,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$title = \App\Language::translate('LBL_VIEW_LIST', $moduleName);
 		if ($request->has('viewname')) {
-			$customView = CustomView_Record_Model::getAll($moduleName)[$request->get('viewname')];
+			$customView = CustomView_Record_Model::getAll($moduleName)[$request->getByType('viewname', 2)];
 			if (!empty($customView)) {
 				$title .= '<div class="breadCrumbsFilter dispaly-inline font-small"> [' . \App\Language::translate('LBL_FILTER', $moduleName)
 					. ': ' . \App\Language::translate($customView->get('viewname'), $moduleName) . ']</div>';
@@ -68,7 +68,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 
 		$mid = false;
 		if ($request->has('mid')) {
-			$mid = $request->get('mid');
+			$mid = $request->getInteger('mid');
 		}
 
 		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1)];
@@ -143,13 +143,11 @@ class Vtiger_List_View extends Vtiger_Index_View
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @return Vtiger_JsScript_Model[] - List of Vtiger_JsScript_Model instances
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
-
 		$jsFileNames = [
 			'modules.Vtiger.resources.List',
 			"modules.$moduleName.resources.List",
@@ -160,26 +158,20 @@ class Vtiger_List_View extends Vtiger_Index_View
 			'modules.Vtiger.resources.ListSearch',
 			"modules.$moduleName.resources.ListSearch"
 		];
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 
 	/**
 	 * Retrieves css styles that need to loaded in the page
 	 * @param \App\Request $request - request model
-	 * @return <array> - array of Vtiger_CssScript_Model
+	 * @return Vtiger_CssScript_Model[] - array of Vtiger_CssScript_Model
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
-		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [
 			'~libraries/jquery/colorpicker/css/colorpicker.css'
 		];
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
-		return $headerCssInstances;
+		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($cssFileNames));
 	}
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
@@ -226,17 +218,14 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$this->listViewModel->set('orderby', $orderBy);
 			$this->listViewModel->set('sortorder', $sortOrder);
 		}
-		$searchKey = $request->get('search_key');
-		$searchValue = $request->get('search_value');
-		$operator = $request->getByType('operator', 1);
-		if (!empty($operator)) {
-			$this->listViewModel->set('operator', $operator);
+		if (!$request->isEmpty('operator', true)) {
+			$this->listViewModel->set('operator', $request->getByType('operator', 1));
+			$viewer->assign('OPERATOR', $request->getByType('operator', 1));
 		}
-		$viewer->assign('OPERATOR', $operator);
-		$viewer->assign('ALPHABET_VALUE', $searchValue);
-		if (!empty($searchKey) && !empty($searchValue)) {
-			$this->listViewModel->set('search_key', $searchKey);
-			$this->listViewModel->set('search_value', $searchValue);
+		if (!$request->isEmpty('search_key', true) && !$request->isEmpty('search_value', true)) {
+			$this->listViewModel->set('search_key', $request->getByType('search_key', 1));
+			$this->listViewModel->set('search_value', $request->get('search_value'));
+			$viewer->assign('ALPHABET_VALUE', $request->get('search_value'));
 		}
 		$searchParams = $request->get('search_params');
 		if (!empty($searchParams) && is_array($searchParams)) {
