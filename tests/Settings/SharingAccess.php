@@ -7,9 +7,7 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Arkadiusz Adach <a.adach@yetiforce.com>
  */
-use PHPUnit\Framework\TestCase;
-
-class SharingAccess extends TestCase
+class SharingAccess extends \Tests\Init\Base
 {
 
 	/**

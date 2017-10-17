@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Record Actions test class
  * @package YetiForce.Test
@@ -6,16 +7,8 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-use PHPUnit\Framework\TestCase;
-
-class RecordActions extends TestCase
+class RecordActions extends \Tests\Init\Base
 {
-
-	protected function onNotSuccessfulTest(Throwable $t)
-	{
-		var_export(array_shift($t->getTrace()));
-		throw $t;
-	}
 
 	/**
 	 * Temporary record object

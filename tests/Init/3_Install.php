@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Install test class
  * @package YetiForce.Test
@@ -6,9 +7,7 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-use PHPUnit\Framework\TestCase;
-
-class Install extends TestCase
+class Install extends \Tests\Init\Base
 {
 
 	/**

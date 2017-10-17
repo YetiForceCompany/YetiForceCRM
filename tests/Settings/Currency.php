@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Currency test class
  * @package YetiForce.Test
@@ -6,9 +7,7 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Arkadiusz Sołek <a.solek@yetiforce.com>
  */
-use PHPUnit\Framework\TestCase;
-
-class Currency extends TestCase
+class Currency extends \Tests\Init\Base
 {
 
 	/**

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Cron test class
  * @package YetiForce.Test
@@ -6,9 +7,7 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-use PHPUnit\Framework\TestCase;
-
-class Cron extends TestCase
+class Cron extends \Tests\Init\Base
 {
 
 	/**

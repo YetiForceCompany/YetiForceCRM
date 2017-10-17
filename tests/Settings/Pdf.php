@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Pdf test class
  * @package YetiForce.Test
@@ -7,9 +8,7 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-use PHPUnit\Framework\TestCase;
-
-class Pdf extends TestCase
+class Pdf extends \Tests\Init\Base
 {
 
 	/**

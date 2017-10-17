@@ -10,19 +10,19 @@
 		 bootstrap="bootstrap.php">
 	<testsuites>
 		<testsuite name="Init">
-			<directory suffix=".php">./init/</directory>
+			<directory suffix=".php">./Init/</directory>
 		</testsuite>
-		<testsuite name="Base">
-			<directory suffix=".php">./base/</directory>
+		<testsuite name="Entity">
+			<directory suffix=".php">./Entity/</directory>
 		</testsuite>
 		<testsuite name="Settings">
-			<directory suffix=".php">./settings/</directory>
+			<directory suffix=".php">./Settings/</directory>
 		</testsuite>
 		<testsuite name="Gui">
-			<directory suffix=".php">./gui/</directory>
+			<directory suffix=".php">./Gui/</directory>
 		</testsuite>
 		<testsuite name="Finish">
-			<directory suffix=".php">./finish/</directory>
+			<directory suffix=".php">./Finish/</directory>
 		</testsuite>
 	</testsuites>
 	<filter>
