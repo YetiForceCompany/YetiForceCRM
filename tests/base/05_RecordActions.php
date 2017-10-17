@@ -11,6 +11,12 @@ use PHPUnit\Framework\TestCase;
 class RecordActions extends TestCase
 {
 
+	protected function onNotSuccessfulTest(Throwable $t)
+	{
+		var_export(array_shift($t->getTrace()));
+		throw $t;
+	}
+
 	/**
 	 * Temporary record object
 	 * @var Vtiger_Record_Model

@@ -375,9 +375,9 @@ class Vtiger_Record_Model extends \App\Base
 		}
 		$this->getModule()->saveRecord($this);
 		$db->completeTransaction();
-
 		if ($this->isNew()) {
 			\App\Cache::staticSave('RecordModel', $this->getId() . ':' . $this->getModuleName(), $this);
+			$this->isNew = false;
 		}
 		\App\Cache::delete('recordLabel', $this->getId());
 		\App\PrivilegeUpdater::updateOnRecordSave($this);
@@ -1241,5 +1241,13 @@ class Vtiger_Record_Model extends \App\Base
 			$this->set($fieldModel->getName(), $value);
 		}
 		return $this->get($fieldName);
+	}
+
+	/**
+	 * Clear changes
+	 */
+	public function clearChanges()
+	{
+		unset($this->changes);
 	}
 }
