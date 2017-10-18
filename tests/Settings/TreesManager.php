@@ -53,7 +53,6 @@ class TreesManager extends \Tests\Init\Base
 	 * @param int|null $moduleId
 	 * @param array() $tree
 	 * @dataProvider providerForTree
-	 * @group extended
 	 */
 	public function testDeleteTree($key, $moduleId = NULL, $tree = [], $share = [])
 	{
