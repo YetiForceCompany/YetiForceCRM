@@ -295,6 +295,9 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			$this->set('parentrole', $parentRole->getParentRoleString() . '::' . $roleId);
 		}
 		$searchunpriv = $this->get('searchunpriv');
+		if (!empty($searchunpriv) && !is_array($searchunpriv)) {
+			$searchunpriv = explode(',', $searchunpriv);
+		}
 		$searchunpriv = implode(',', empty($searchunpriv) ? [] : $searchunpriv);
 		$permissionsRelatedField = $this->get('permissionsrelatedfield');
 		$permissionsRelatedField = implode(',', empty($permissionsRelatedField) ? [] : $permissionsRelatedField);
