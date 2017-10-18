@@ -47,6 +47,28 @@ class TreesManager extends \Tests\Init\Base
 	}
 
 	/**
+	 * Testing edition tree
+	 * @param int|string $key
+	 * @param array $tree
+	 * @dataProvider providerForEditTree
+	 */
+	public function testEditTree($key, $tree = [], $share = [])
+	{
+		$recordModel = \Settings_TreesManager_Record_Model::getInstanceById(static::$treesId[$key]);
+		$this->assertNotNull($recordModel, 'Settings_TreesManager_Record_Model is null');
+		$recordModel->set('name', 'TestTreeEdit' . $key);
+		$recordModel->set('tree', $tree);
+		$recordModel->set('share', $share);
+		$recordModel->set('replace', "");
+		$recordModel->save();
+
+		$row = (new \App\Db\Query())->from('vtiger_trees_templates')->where(['templateid' => static::$treesId[$key]])->one();
+		$this->assertEquals($row['name'], 'TestTreeEdit' . $key);
+		$this->assertEquals($row['share'], \Settings_TreesManager_Record_Model::getShareFromArray($share));
+		$this->assertEquals((new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => static::$treesId[$key]])->count(), static::countItems($tree));
+	}
+
+	/**
 	 * Testing deletion tree
 	 * @param int|string $key
 	 * @param int|null $moduleId
@@ -64,7 +86,7 @@ class TreesManager extends \Tests\Init\Base
 	}
 
 	/**
-	 * Data provider for testAddTree and testEditTree
+	 * Data provider for testAddTree
 	 * @return array
 	 * @codeCoverageIgnore
 	 */
@@ -72,6 +94,7 @@ class TreesManager extends \Tests\Init\Base
 	{
 		$tree1[] = $this->createItemForTree('item1', 1);
 		$tree1[] = $this->createItemForTree('item2', 2);
+
 		$share2[] = \App\Module::getModuleId('Contacts');
 		$share2[] = \App\Module::getModuleId('Leads');
 		$share2[] = \App\Module::getModuleId('Calendar');
@@ -85,6 +108,32 @@ class TreesManager extends \Tests\Init\Base
 			[2, NULL, [], $share2],
 			[3, NULL, $tree1, $share2],
 			[4, NULL, $tree4, []],
+		];
+	}
+
+	/**
+	 * Data provider for testEditTree
+	 * @return array
+	 * @codeCoverageIgnore
+	 */
+	public function providerForEditTree()
+	{
+		$tree0[] = $this->createItemForTree('itemEdit1', 1);
+		$tree0[] = $this->createItemForTree('itemEdit2', 2);
+
+		$share1[] = \App\Module::getModuleId('Contacts');
+		$share1[] = \App\Module::getModuleId('Leads');
+		$share1[] = \App\Module::getModuleId('Calendar');
+
+		$tree4[] = $this->createItemForTree('item1Edit', 1);
+		$tree4[] = $this->createItemForTree('item2Edit', 2, [$this->createItemForTree('item3Edit', 3), $this->createItemForTree('itemEdit4', 4)]);
+
+		return [
+			[0, $tree0, []],
+			[1, [], $share1],
+			[2, $tree4, $share1],
+			[3, [], []],
+			[4, [], []],
 		];
 	}
 
