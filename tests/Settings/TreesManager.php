@@ -24,7 +24,7 @@ class TreesManager extends \Tests\Init\Base
 	 * @param array() $tree
 	 * @dataProvider providerForTree
 	 */
-	public function testAddTree($key, $moduleId = NULL, $tree = [])
+	public function testAddTree($key, $moduleId = NULL, $tree = [], $share = [])
 	{
 		if (empty($moduleId)) {
 			$moduleId = \App\Module::getModuleId('Dashboard');
@@ -34,7 +34,7 @@ class TreesManager extends \Tests\Init\Base
 		$recordModel->set('name', 'TestTree' . $key);
 		$recordModel->set('module', $moduleId);
 		$recordModel->set('tree', $tree);
-		$recordModel->set('share', "");
+		$recordModel->set('share', $share);
 		$recordModel->set('replace', "");
 		$recordModel->save();
 		static::$treesId[$key] = $recordModel->getId();
@@ -42,10 +42,27 @@ class TreesManager extends \Tests\Init\Base
 		$row = (new \App\Db\Query())->from('vtiger_trees_templates')->where(['templateid' => static::$treesId[$key]])->one();
 		$this->assertEquals($row['name'], 'TestTree' . $key);
 		$this->assertEquals($row['module'], $moduleId);
+		$this->assertEquals($row['share'], \Settings_TreesManager_Record_Model::getShareFromArray($share));
 
-		if (count($tree) > 0) {
-			$this->assertCount((new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => static::$treesId[$key]])->count(), $tree);
-		}
+		$this->assertCount((new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => static::$treesId[$key]])->count(), $tree);
+	}
+
+	/**
+	 * Testing deletion tree
+	 * @param int|string $key
+	 * @param int|null $moduleId
+	 * @param array() $tree
+	 * @dataProvider providerForTree
+	 * @group extended
+	 */
+	public function testDeleteTree($key, $moduleId = NULL, $tree = [], $share = [])
+	{
+		$recordModel = \Settings_TreesManager_Record_Model::getInstanceById(static::$treesId[$key]);
+		$recordModel->delete();
+
+		$this->assertFalse((new \App\Db\Query())->from('vtiger_trees_templates')->where(['templateid' => static::$treesId[$key]])->exists(), 'The record was not removed from the database ID: ' . static::$treesId[$key]);
+
+		$this->assertEquals((new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => static::$treesId[$key]])->count(), 0, 'The records were not removed from the table "vtiger_trees_templates_data"');
 	}
 
 	/**
@@ -57,28 +74,15 @@ class TreesManager extends \Tests\Init\Base
 	{
 		$tree1[] = $this->createItemForTree('item1', 1);
 		$tree1[] = $this->createItemForTree('item2', 2);
+		$share2[] = \App\Module::getModuleId('Contacts');
+		$share2[] = \App\Module::getModuleId('Leads');
+		$share2[] = \App\Module::getModuleId('Calendar');
+
 		return [
-			[0, NULL, []],
-			[1, NULL, $tree1],
+			[0, NULL, [], []],
+			[1, NULL, $tree1, []],
+			[2, NULL, [], $share2],
 		];
-	}
-
-	/**
-	 * Testing deletion tree
-	 * @param int|string $key
-	 * @param int|null $moduleId
-	 * @param array() $tree
-	 * @dataProvider providerForTree
-	 * @codeCoverageIgnore
-	 */
-	public function testDeleteTree($key, $moduleId = NULL, $tree = [])
-	{
-		$recordModel = \Settings_TreesManager_Record_Model::getInstanceById(static::$treesId[$key]);
-		$recordModel->delete();
-
-		$this->assertFalse((new \App\Db\Query())->from('vtiger_trees_templates')->where(['templateid' => static::$treesId[$key]])->exists(), 'The record was not removed from the database ID: ' . static::$treesId[$key]);
-
-		$this->assertEquals((new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => static::$treesId[$key]])->count(), 0, 'The records were not removed from the table "vtiger_trees_templates_data"');
 	}
 
 	/**
