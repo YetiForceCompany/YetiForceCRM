@@ -25,8 +25,8 @@ class Campaigns_Detail_View extends Vtiger_Detail_View
 	public function showCountRecords(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
-		$relatedModules = $request->get('relatedModules');
+		$recordId = $request->getInteger('record');
+		$relatedModules = $request->getByType('relatedModules');
 		$relatedModulesNames = [];
 		foreach ($relatedModules as $tabId) {
 			$relatedModulesNames[$tabId] = \App\Module::getModuleName($tabId);

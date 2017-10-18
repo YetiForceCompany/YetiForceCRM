@@ -23,7 +23,7 @@ class Portal_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	public function process(\App\Request $request)
 	{
 		$module = $request->getModule();
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$bookmarkName = $request->get('bookmarkName');
 		$bookmarkUrl = $request->get('bookmarkUrl');
 

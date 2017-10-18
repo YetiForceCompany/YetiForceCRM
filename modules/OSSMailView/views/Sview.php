@@ -30,7 +30,7 @@ class OSSMailView_Sview_View extends Vtiger_Index_View
 	{
 		$db = PearDatabase::getInstance();
 		$moduleName = $request->getModule();
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$load = $request->get('noloadlibs');
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		$to = $recordModel->getForHtml('to_email');

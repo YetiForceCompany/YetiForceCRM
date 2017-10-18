@@ -89,7 +89,7 @@ class Calendar_Detail_View extends Vtiger_Detail_View
 		$viewer->assign('IS_EDITABLE', $this->record->getRecord()->isEditable($moduleName));
 		$viewer->assign('IS_DELETABLE', $this->record->getRecord()->isDeletable($moduleName));
 
-		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1)];
+		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view')];
 		$linkModels = $this->record->getSideBarLinks($linkParams);
 
 		$viewer->assign('QUICK_LINKS', $linkModels);
@@ -113,10 +113,9 @@ class Calendar_Detail_View extends Vtiger_Detail_View
 		if (!empty($recordId)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 			$activityType = $recordModel->getType();
-			if ($activityType == 'Events')
+			if ($activityType === 'Events')
 				$moduleName = 'Events';
 		}
-
 		$detailViewModel = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
 		$recordModel = $detailViewModel->getRecord();
 		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
@@ -124,7 +123,7 @@ class Calendar_Detail_View extends Vtiger_Detail_View
 		$moduleModel = $recordModel->getModule();
 
 		$viewer = $this->getViewer($request);
-		$viewer->assign('VIEW', $request->getByType('view', 1));
+		$viewer->assign('VIEW', $request->getByType('view'));
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());

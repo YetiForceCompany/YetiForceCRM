@@ -40,7 +40,7 @@ class OSSMailView_MassDelete_Action extends Vtiger_Mass_Action
 		$recordModel = new OSSMailView_Record_Model();
 		$recordModel->setModule($moduleName);
 
-		$recordIds = $this->getRecordsListFromRequest($request);
+		$recordIds = self::getRecordsListFromRequest($request);
 
 		$permission = true;
 		foreach ($recordIds as $recordId) {

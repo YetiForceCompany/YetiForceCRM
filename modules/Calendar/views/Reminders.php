@@ -16,7 +16,7 @@ class Calendar_Reminders_View extends Vtiger_IndexAjax_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		if ('true' == $request->get('type_remainder')) {
+		if ($request->getBoolean('type_remainder')) {
 			$recordModels = Calendar_Module_Model::getCalendarReminder(true);
 		} else {
 			$recordModels = Calendar_Module_Model::getCalendarReminder();

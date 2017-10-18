@@ -49,6 +49,9 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$this->user = $user;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -57,6 +60,9 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		return;

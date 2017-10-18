@@ -16,9 +16,9 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 		$recordModel = $this->saveRecord($request);
 		$loadUrl = $recordModel->getDetailViewUrl();
 
-		if ($request->get('relationOperation')) {
-			$parentModuleName = $request->getByType('sourceModule', 1);
-			$parentRecordId = $request->get('sourceRecord');
+		if ($request->getBoolean('relationOperation')) {
+			$parentModuleName = $request->getByType('sourceModule');
+			$parentRecordId = $request->getInteger('sourceRecord');
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentRecordId, $parentModuleName);
 			$loadUrl = $parentRecordModel->getDetailViewUrl();
 		} else if ($request->getBoolean('returnToList')) {
@@ -37,12 +37,12 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 	{
 		$recordModel = $this->getRecordModelFromRequest($request);
 		$recordModel->save();
-		if ($request->get('relationOperation')) {
-			$parentModuleName = $request->getByType('sourceModule', 1);
+		if ($request->getBoolean('relationOperation')) {
+			$parentModuleName = $request->getByType('sourceModule');
 			$parentModuleModel = Vtiger_Module_Model::getInstance($parentModuleName);
-			$parentRecordId = $request->get('sourceRecord');
+			$parentRecordId = $request->getInteger('sourceRecord');
 			$relatedModule = $recordModel->getModule();
-			if ($relatedModule->getName() == 'Events') {
+			if ($relatedModule->getName() === 'Events') {
 				$relatedModule = Vtiger_Module_Model::getInstance('Calendar');
 			}
 			$relatedRecordId = $recordModel->getId();
@@ -76,12 +76,12 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 		$endDate = Vtiger_Date_UIType::getDBInsertedValue($request->get('due_date'));
 		if ($endTime) {
 			$endTime = Vtiger_Time_UIType::getTimeValueWithSeconds($endTime);
-			$endDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($request->get('due_date') . " " . $endTime);
+			$endDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($request->get('due_date') . ' ' . $endTime);
 			list($endDate, $endTime) = explode(' ', $endDateTime);
 		}
 		$recordModel->set('time_end', $endTime);
 		$recordModel->set('due_date', $endDate);
-		$activityType = $request->get('activitytype');
+		$activityType = $request->getByType('activitytype');
 		if (empty($activityType)) {
 			$recordModel->set('activitytype', 'Task');
 			$recordModel->set('visibility', 'Private');

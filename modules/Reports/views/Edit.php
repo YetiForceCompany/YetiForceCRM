@@ -26,7 +26,7 @@ Class Reports_Edit_View extends Vtiger_Edit_View
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		if ($record) {
 			$reportModel = Reports_Record_Model::getCleanInstance($record);
 			if (!$reportModel->isEditable()) {
@@ -39,7 +39,7 @@ Class Reports_Edit_View extends Vtiger_Edit_View
 	{
 		parent::preProcess($request);
 		$viewer = $this->getViewer($request);
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$moduleName = $request->getModule();
 		$reportModel = Reports_Record_Model::getCleanInstance($record);
 		$primaryModule = $reportModel->getPrimaryModule();
@@ -78,12 +78,12 @@ Class Reports_Edit_View extends Vtiger_Edit_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$weekDays = ['Sunday' => 0, 'Monday' => 1, 'Tuesday' => 2, 'Wednesday' => 3, 'Thursday' => 4, 'Friday' => 5, 'Saturday' => 6];
 
 		$reportModel = Reports_Record_Model::getCleanInstance($record);
 		if (!$reportModel->has('folderid')) {
-			$reportModel->set('folderid', $request->get('folder'));
+			$reportModel->set('folderid', $request->getInteger('folder'));
 		}
 		$data = $request->getAll();
 		foreach ($data as $name => $value) {
@@ -139,7 +139,7 @@ Class Reports_Edit_View extends Vtiger_Edit_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 
 		$reportModel = Reports_Record_Model::getCleanInstance($record);
 		if (!empty($record)) {
@@ -222,7 +222,7 @@ Class Reports_Edit_View extends Vtiger_Edit_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 
 		$reportModel = Reports_Record_Model::getCleanInstance($record);
 		if (!empty($record)) {

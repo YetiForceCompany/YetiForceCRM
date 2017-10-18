@@ -38,7 +38,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 	{
 		parent::preProcess($request);
 		$viewer = $this->getViewer($request);
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$moduleName = $request->getModule();
 
 		$reportModel = Reports_Record_Model::getCleanInstance($record);
@@ -121,7 +121,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 		$viewer->assign('REPORT_FOLDERS', $reportFolderModels);
 		$viewer->assign('RECORD_ID', $record);
 
-		if ($request->get('isDuplicate')) {
+		if ($request->getBoolean('isDuplicate')) {
 			$viewer->assign('IS_DUPLICATE', true);
 		}
 

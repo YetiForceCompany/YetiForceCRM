@@ -16,16 +16,16 @@ class Products_Popup_View extends Vtiger_Popup_View
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $this->getModule($request);
-		$cvId = $request->get('cvid');
+		$cvId = $request->getByType('cvid', 2);
 		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
 		$sourceModule = $request->getByType('src_module', 1);
-		$sourceField = $request->get('src_field');
-		$sourceRecord = $request->get('src_record');
-		$searchKey = $request->get('search_key');
+		$sourceField = $request->isEmpty('src_field') ? false : $request->getByType('src_field', 2);
+		$sourceRecord = $request->isEmpty('src_record') ? false : $request->getInteger('src_record');
+		$searchKey = $request->isEmpty('search_key') ? false : $request->getByType('search_key', 2);
 		$searchValue = $request->get('search_value');
-		$currencyId = $request->get('currency_id');
+		$currencyId = $request->isEmpty('currency_id') ? false : $request->getInteger('currency_id');
 		$relatedParentModule = $request->getByType('related_parent_module', 1);
 		$relatedParentId = $request->getInteger('related_parent_id');
 		$filterFields = $request->get('filterFields');
@@ -34,7 +34,7 @@ class Products_Popup_View extends Vtiger_Popup_View
 		$getUrl = $request->get('get_url');
 
 		//Check whether the request is in multi select mode
-		$multiSelectMode = $request->get('multi_select');
+		$multiSelectMode = $request->getBoolean('multi_select');
 		if (empty($multiSelectMode)) {
 			$multiSelectMode = false;
 		}
@@ -101,7 +101,7 @@ class Products_Popup_View extends Vtiger_Popup_View
 		}
 		// Limit the choice of products/services only to the ones related to currently selected Opportunity - second step.
 		if (Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit($sourceModule)) {
-			$salesProcessId = $request->get('salesprocessid');
+			$salesProcessId = $request->getInteger('salesprocessid');
 			if (empty($salesProcessId))
 				$salesProcessId = -1;
 			$listViewModel->set('salesprocessid', $salesProcessId);

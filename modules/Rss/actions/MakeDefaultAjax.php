@@ -25,7 +25,7 @@ class Rss_MakeDefaultAjax_Action extends Vtiger_Action_Controller
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 
 		$recordModel = Rss_Record_Model::getInstanceById($recordId, $moduleName);
 		$recordModel->makeDefault();

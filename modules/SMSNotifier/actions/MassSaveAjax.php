@@ -34,7 +34,7 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 	{
 		$sourceModule = $request->getByType('source_module', 1);
 		$queryGenerator = $this->getRecordsListQueryFromRequest($request);
-		$phoneFieldList = $fields = $request->get('fields');
+		$phoneFieldList = $fields = $request->getArray('fields');
 		$fields[] = 'id';
 
 		$queryGenerator->setFields($fields);
@@ -89,7 +89,7 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 
 		$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
 		if ($customViewModel) {
-			$searchKey = $request->get('search_key');
+			$searchKey = $request->getByType('search_key', 2);
 			$searchValue = $request->get('search_value');
 			$operator = $request->getByType('operator', 1);
 			if (!empty($operator)) {

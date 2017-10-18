@@ -19,7 +19,7 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 	 */
 	public function process(\App\Request $request)
 	{
-		$linkId = $request->get('linkid');
+		$linkId = $request->getInteger('linkid');
 
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUser->getId();

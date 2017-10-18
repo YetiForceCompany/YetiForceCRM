@@ -36,7 +36,7 @@ class Reports_Save_Action extends Vtiger_Save_Action
 		$record = $request->get('record');
 		$reportModel = Reports_Record_Model::getCleanInstance();
 		$reportModel->setModule('Reports');
-		if (!empty($record) && !$request->get('isDuplicate')) {
+		if (!empty($record) && !$request->getBoolean('isDuplicate')) {
 			$reportModel->setId($record);
 		}
 
@@ -44,11 +44,11 @@ class Reports_Save_Action extends Vtiger_Save_Action
 		if (empty($reporttype))
 			$reporttype = 'tabular';
 		$reportModel->set('reportname', $request->get('reportname'));
-		$reportModel->set('folderid', $request->get('folderid'));
+		$reportModel->set('folderid', $request->getInteger('folderid'));
 		$reportModel->set('description', $request->get('reports_description'));
 		$reportModel->set('reporttype', $reporttype);
 
-		$reportModel->setPrimaryModule($request->get('primary_module'));
+		$reportModel->setPrimaryModule($request->getByType('primary_module'));
 
 		$secondaryModules = $request->get('secondary_modules');
 		$secondaryModules = implode(':', $secondaryModules);

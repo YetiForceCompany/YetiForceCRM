@@ -30,7 +30,7 @@ Class OSSMailView_Preview_View extends Vtiger_Index_View
 	{
 		$db = PearDatabase::getInstance();
 		$moduleName = $request->getModule();
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$load = $request->get('noloadlibs');
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		$from = $recordModel->getDisplayValue('from_email');
@@ -83,8 +83,8 @@ Class OSSMailView_Preview_View extends Vtiger_Index_View
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('ISMODAL', $request->isAjax());
 		$viewer->assign('SCRIPTS', $this->getModalScripts($request));
-		$viewer->assign('SMODULENAME', $request->get('smodule'));
-		$viewer->assign('SRECORD', $request->get('srecord'));
+		$viewer->assign('SMODULENAME', $request->getByType('smodule'));
+		$viewer->assign('SRECORD', $request->getInteger('srecord'));
 		$viewer->view('preview.tpl', 'OSSMailView');
 	}
 

@@ -9,11 +9,14 @@
 class KnowledgeBase_Tree_View extends Vtiger_Index_View
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1)];
+		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view')];
 		$linkModels = $moduleModel->getSideBarLinks($linkParams);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);
@@ -21,6 +24,9 @@ class KnowledgeBase_Tree_View extends Vtiger_Index_View
 		$viewer->view('TreeHeader.tpl', $moduleName);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getFooterScripts(\App\Request $request)
 	{
 		$parentScriptInstances = parent::getFooterScripts($request);
@@ -34,6 +40,9 @@ class KnowledgeBase_Tree_View extends Vtiger_Index_View
 		return $scriptInstances;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getHeaderCss(\App\Request $request)
 	{
 		$parentCssInstances = parent::getHeaderCss($request);

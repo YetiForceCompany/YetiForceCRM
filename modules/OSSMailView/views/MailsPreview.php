@@ -19,7 +19,7 @@ Class OSSMailView_MailsPreview_View extends Vtiger_IndexAjax_View
 		}
 
 		$srecord = $request->getInteger('srecord');
-		$smodule = $request->get('smodule');
+		$smodule = $request->getByType('smodule');
 
 		$recordPermission = \App\Privilege::isPermitted($smodule, 'DetailView', $srecord);
 		if (!$recordPermission) {
@@ -30,11 +30,11 @@ Class OSSMailView_MailsPreview_View extends Vtiger_IndexAjax_View
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$srecord = $request->get('srecord');
-		$smodule = $request->get('smodule');
+		$srecord = $request->getInteger('srecord');
+		$smodule = $request->getByType('smodule');
 		$type = $request->get('type');
 		$mode = $request->getMode();
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$mailFilter = $request->get('mailFilter');
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		$config = OSSMail_Module_Model::getComposeParameters();

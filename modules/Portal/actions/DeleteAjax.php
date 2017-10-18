@@ -21,7 +21,7 @@ class Portal_DeleteAjax_Action extends Vtiger_DeleteAjax_Action
 
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$module = $request->getModule();
 		$moduleModel = new Portal_Module_Model();
 		$moduleModel->deleteRecord($recordId);

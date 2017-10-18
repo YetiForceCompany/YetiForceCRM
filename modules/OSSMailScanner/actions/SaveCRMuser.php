@@ -31,8 +31,8 @@ class OSSMailScanner_SaveCRMuser_Action extends Vtiger_Action_Controller
 	 */
 	public function process(\App\Request $request)
 	{
-		$userid = $request->get('userid');
-		$value = $request->get('value');
+		$userid = $request->getInteger('userid');
+		$value = $request->getInteger('value');
 		if ($userid) {
 			\App\Db::getInstance()->createCommand()->update('roundcube_users', ['crm_user_id' => $value], ['user_id' => $userid])->execute();
 			$success = true;

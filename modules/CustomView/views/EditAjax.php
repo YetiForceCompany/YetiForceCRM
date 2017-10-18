@@ -32,7 +32,7 @@ class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getByType('source_module', 2);
 		$module = $request->getModule();
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$duplicate = $request->get('duplicate');
 
 		if (is_numeric($moduleName)) {

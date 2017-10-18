@@ -13,18 +13,18 @@ class Reports_ChartSave_Action extends Reports_Save_Action
 
 	public function process(\App\Request $request)
 	{
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$reportModel = Reports_Record_Model::getCleanInstance();
 		$reportModel->setModule('Reports');
-		if (!empty($record) && !$request->get('isDuplicate')) {
+		if (!empty($record) && !$request->getBoolean('isDuplicate')) {
 			$reportModel->setId($record);
 		}
 
 		$reportModel->set('reportname', $request->get('reportname'));
-		$reportModel->set('folderid', $request->get('folderid'));
+		$reportModel->set('folderid', $request->getInteger('folderid'));
 		$reportModel->set('description', $request->get('reports_description'));
 
-		$reportModel->setPrimaryModule($request->get('primary_module'));
+		$reportModel->setPrimaryModule($request->getByType('primary_module'));
 
 		$secondaryModules = $request->get('secondary_modules');
 		$secondaryModules = implode(':', $secondaryModules);

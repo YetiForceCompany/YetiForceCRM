@@ -23,7 +23,7 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$uid = $request->get('uid');
+		$uid = $request->getInteger('uid');
 		$folder = $request->get('folder');
 		$params = null; // YTfixme - non existent
 

@@ -81,7 +81,7 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
-		$linkId = $request->get('linkid');
+		$linkId = $request->getInteger('linkid');
 		$data = $request->get('data');
 
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());

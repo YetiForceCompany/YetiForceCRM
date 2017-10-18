@@ -38,7 +38,7 @@ Class OSSMailView_Mbody_View extends Vtiger_Index_View
 			CSRF::$rewriteJs = null;
 		}
 		$moduleName = $request->getModule();
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULENAME', $moduleName);

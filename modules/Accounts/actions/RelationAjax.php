@@ -6,6 +6,7 @@
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Accounts_RelationAjax_Action extends Vtiger_RelationAjax_Action
 {
@@ -17,15 +18,27 @@ class Accounts_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	}
 
 	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
+	public function checkPermission(\App\Request $request)
+	{
+		parent::checkPermission($request);
+		if (!$request->isEmpty('record', true) && !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
+	}
+
+	/**
 	 * Number of hierarchy entries for a given record
 	 * @param \App\Request $request
 	 */
 	public function getHierarchyCount(\App\Request $request)
 	{
 		$sourceModule = $request->getModule();
-		$recordId = $request->get('record');
 		$focus = CRMEntity::getInstance($sourceModule);
-		$hierarchy = $focus->getAccountHierarchy($recordId);
+		$hierarchy = $focus->getAccountHierarchy($request->getInteger('record'));
 		$response = new Vtiger_Response();
 		$response->setResult(count($hierarchy['entries']) - 1);
 		$response->emit();

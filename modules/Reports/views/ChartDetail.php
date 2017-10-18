@@ -27,7 +27,7 @@ class Reports_ChartDetail_View extends Vtiger_Index_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 
 		$this->record = $detailViewModel = Reports_DetailView_Model::getInstance($moduleName, $recordId);
 
@@ -97,7 +97,7 @@ class Reports_ChartDetail_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 
 		$reportModel = Reports_Record_Model::getInstanceById($record);
 		$reportChartModel = Reports_Chart_Model::getInstanceById($reportModel);

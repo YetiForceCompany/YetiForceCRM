@@ -20,9 +20,12 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 
 	public function __construct()
 	{
-
+		
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -31,6 +34,9 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		return;

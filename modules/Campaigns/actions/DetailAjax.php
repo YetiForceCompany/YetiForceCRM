@@ -36,7 +36,7 @@ class Campaigns_DetailAjax_Action extends Vtiger_RelatedList_View
 	{
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->getByType('relatedModule', 1);
-		$parentId = $request->get('record');
+		$parentId = $request->getInteger('record');
 		$label = $request->get('tab_label');
 
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);

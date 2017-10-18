@@ -6,6 +6,7 @@
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 {
@@ -92,8 +93,7 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 
 	public function process(\App\Request $request)
 	{
-		$dateStart = $request->get('dateStart');
-		$dateStart = DateTimeField::convertToDBFormat($dateStart);
+		$dateStart = DateTimeField::convertToDBFormat($request->getByType('dateStart', 'DateInUserFormat'));
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$startWorkHour = $currentUser->get('start_hour');
 		$endWorkHour = $currentUser->get('end_hour');
@@ -104,7 +104,7 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 			$data ['time_end'] = $startDate['time_end'];
 		} else {
 			$data ['time_start'] = $startWorkHour;
-			$data ['date_start'] = $request->get('dateStart');
+			$data ['date_start'] = $request->getByType('dateStart', 'DateInUserFormat');
 			$data ['time_end'] = $startWorkHour;
 		}
 		$response = new Vtiger_Response();

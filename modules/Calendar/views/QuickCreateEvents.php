@@ -21,7 +21,7 @@ class Calendar_QuickCreateEvents_View extends Vtiger_IndexAjax_View
 	{
 		$dates = [];
 		$moduleName = $request->getModule();
-		$currentDate = DateTimeField::convertToDBFormat($request->get('currentDate'));
+		$currentDate = DateTimeField::convertToDBFormat($request->getByType('currentDate', 'DateInUserFormat'));
 		$hideDays = AppConfig::module($moduleName, 'HIDDEN_DAYS_IN_CALENDAR_VIEW');
 		$numberDaysToDisplay = 3;
 		$dates[$numberDaysToDisplay] = $currentDate;
@@ -45,7 +45,7 @@ class Calendar_QuickCreateEvents_View extends Vtiger_IndexAjax_View
 		}
 		ksort($dates);
 		$record = Calendar_Calendar_Model::getCleanInstance();
-		$record->set('user', $request->get('user'));
+		$record->set('user', $request->getInteger('user'));
 		$record->set('time', 'current');
 		$record->set('start', reset($dates) . ' 00:00:00');
 		$record->set('end', end($dates) . ' 23:59:59');

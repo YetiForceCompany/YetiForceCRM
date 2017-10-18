@@ -10,6 +10,9 @@
 class KnowledgeBase_DataTreeAjax_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -20,6 +23,9 @@ class KnowledgeBase_DataTreeAjax_Action extends Vtiger_Action_Controller
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();

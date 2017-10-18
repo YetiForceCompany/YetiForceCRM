@@ -51,7 +51,7 @@ class Reports_Folder_Action extends Vtiger_Action_Controller
 		$folderId = $request->get('folderid');
 
 		if (!empty($folderId)) {
-			$folderModel->set('folderid', $folderId);
+			$folderModel->set('folderid', (int) $folderId);
 		}
 
 		$folderModel->set('foldername', $request->get('foldername'));
@@ -75,7 +75,7 @@ class Reports_Folder_Action extends Vtiger_Action_Controller
 	 */
 	public function delete(\App\Request $request)
 	{
-		$folderId = $request->get('folderid');
+		$folderId = $request->getInteger('folderid');
 		$moduleName = $request->getModule();
 
 		if ($folderId) {

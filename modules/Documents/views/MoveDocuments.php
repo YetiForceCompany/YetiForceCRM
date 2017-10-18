@@ -37,7 +37,7 @@ class Documents_MoveDocuments_View extends Vtiger_Index_View
 		$viewer->assign('EXCLUDED_IDS', $request->get('excluded_ids'));
 		$viewer->assign('VIEWNAME', $request->getByType('viewname', 2));
 
-		$searchKey = $request->get('search_key');
+		$searchKey = $request->getByType('search_key', 2);
 		$searchValue = $request->get('search_value');
 		$operator = $request->getByType('operator', 1);
 		if (!empty($operator)) {

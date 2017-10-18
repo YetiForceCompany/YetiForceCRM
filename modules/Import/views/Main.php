@@ -19,7 +19,7 @@ class Import_Main_View extends Vtiger_View_Controller
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPrivilegesModel->hasModulePermission($request->get('module'))) {
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -218,11 +218,10 @@ class Import_Main_View extends Vtiger_View_Controller
 	public static function deleteMap(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$mapId = $request->get('mapid');
+		$mapId = $request->getInteger('mapid');
 		if (!empty($mapId)) {
 			Import_Map_Model::markAsDeleted($mapId);
 		}
-
 		$viewer = new Vtiger_Viewer();
 		$viewer->assign('FOR_MODULE', $moduleName);
 		$viewer->assign('MODULE', 'Import');

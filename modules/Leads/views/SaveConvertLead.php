@@ -52,7 +52,7 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 	{
 		$recordId = $request->getInteger('record');
 		$modules = $request->get('modules');
-		$assignId = $request->get('assigned_user_id');
+		$assignId = $request->getInteger('assigned_user_id');
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
 		$entityValues = [];
@@ -69,7 +69,9 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 				$entityValues['entities'][$module]['name'] = $module;
 				foreach ($convertLeadFields[$module] as $fieldModel) {
 					$fieldName = $fieldModel->getName();
-					$fieldValue = $fieldModel->getUITypeModel()->getDBValue($request->get($fieldName, null));
+					$uitypeModel = $fieldModel->getUITypeModel();
+					$uitypeModel->validate($request->get($fieldName, null), true);
+					$fieldValue = $uitypeModel->getDBValue($request->get($fieldName, null));
 					$entityValues['entities'][$module][$fieldName] = $fieldValue;
 				}
 			}

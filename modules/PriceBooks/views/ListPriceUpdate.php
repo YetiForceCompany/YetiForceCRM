@@ -38,7 +38,7 @@ class PriceBooks_ListPriceUpdate_View extends Vtiger_BasicModal_View
 		parent::preProcess($request);
 		$moduleName = $request->getModule();
 		$priceBookId = $request->getInteger('record');
-		$relId = $request->get('relid');
+		$relId = $request->getInteger('relid');
 		$currentPrice = $request->get('currentPrice');
 
 		$viewer = $this->getViewer($request);

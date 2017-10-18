@@ -6,7 +6,7 @@
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.c
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Notification_Notification_Action extends Vtiger_Action_Controller
 {
@@ -64,7 +64,7 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 			$ids = [$ids];
 		}
 		foreach ($ids as $id) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($id);
+			$recordModel = Vtiger_Record_Model::getInstanceById($id, $request->getModule());
 			$recordModel->setMarked();
 		}
 
@@ -80,7 +80,7 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 		Vtiger_Watchdog_Model::setSchedulerByUser($request->get('sendNotifications'), $request->get('frequency'));
 		if (!empty($selectedModules)) {
 			foreach ($selectedModules as $moduleId) {
-				$watchdogModel = Vtiger_Watchdog_Model::getInstance($moduleId);
+				$watchdogModel = Vtiger_Watchdog_Model::getInstance((int) $moduleId);
 				$watchdogModel->changeModuleState(1);
 			}
 		} else {
@@ -98,7 +98,7 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 	public function createMail(\App\Request $request)
 	{
 		$accessibleUsers = \App\Fields\Owner::getInstance()->getAccessibleUsers();
-		$content = $request->get('message');
+		$content = $request->getForHtml('message');
 		$subject = $request->get('title');
 		$users = $request->get('users');
 		if (!is_array($users)) {

@@ -29,10 +29,10 @@ class PriceBooks_ProductListPrice_Action extends Vtiger_Action_Controller
 
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$moduleModel = $request->getModule();
 		$priceBookModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);
-		$listPrice = $priceBookModel->getProductsListPrice($request->get('itemId'));
+		$listPrice = $priceBookModel->getProductsListPrice($request->getInteger('itemId'));
 		$response = new Vtiger_Response();
 		$response->setResult([$listPrice]);
 		$response->emit();

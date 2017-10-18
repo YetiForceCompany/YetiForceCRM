@@ -31,7 +31,7 @@ class Reports_ChartSaveAjax_View extends Vtiger_IndexAjax_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$reportModel = Reports_Record_Model::getInstanceById($record);
 		$reportModel->setModule('Reports');
 		$reportModel->set('advancedFilter', $request->get('advanced_filter'));

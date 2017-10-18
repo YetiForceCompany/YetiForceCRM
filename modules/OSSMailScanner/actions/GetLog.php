@@ -25,7 +25,7 @@ class OSSMailScanner_GetLog_Action extends Vtiger_Action_Controller
 	public function process(\App\Request $request)
 	{
 
-		$startNumber = $request->get('start_number');
+		$startNumber = $request->getInteger('start_number');
 		$moduleName = $request->getModule();
 
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);

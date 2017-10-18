@@ -39,11 +39,11 @@ class Reservations_Calendar_Action extends Vtiger_Action_Controller
 	public function getEvent(\App\Request $request)
 	{
 		$record = Reservations_Calendar_Model::getInstance();
-		$record->set('user', $request->get('user'));
-		$record->set('types', $request->get('types'));
-		if ($request->get('start') && $request->get('end')) {
-			$record->set('start', $request->get('start'));
-			$record->set('end', $request->get('end'));
+		$record->set('user', $request->getArray('user'));
+		$record->set('types', $request->getArray('types'));
+		if ($request->has('start') && $request->has('end')) {
+			$record->set('start', $request->getByType('start', 'Date'));
+			$record->set('end', $request->getByType('end', 'Date'));
 		}
 		$entity = $record->getEntity();
 		$response = new Vtiger_Response();
@@ -54,7 +54,7 @@ class Reservations_Calendar_Action extends Vtiger_Action_Controller
 	public function updateEvent(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->get('id');
+		$recordId = $request->getInteger('id');
 		$date_start = date('Y-m-d', strtotime($request->get('start')));
 		$time_start = date('H:i:s', strtotime($request->get('start')));
 		$succes = false;

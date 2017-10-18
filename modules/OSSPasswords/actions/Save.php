@@ -12,9 +12,9 @@ class OSSPasswords_Save_Action extends Vtiger_Save_Action
 	public function process(\App\Request $request)
 	{
 		$recordModel = $this->saveRecord($request);
-		if ($request->get('relationOperation')) {
-			$parentModuleName = $request->getByType('sourceModule', 1);
-			$parentRecordId = $request->get('sourceRecord');
+		if ($request->getBoolean('relationOperation')) {
+			$parentModuleName = $request->getByType('sourceModule');
+			$parentRecordId = $request->getInteger('sourceRecord');
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentRecordId, $parentModuleName);
 			$loadUrl = $parentRecordModel->getDetailViewUrl();
 		} else if ($request->getBoolean('returnToList')) {
@@ -32,7 +32,7 @@ class OSSPasswords_Save_Action extends Vtiger_Save_Action
 	 */
 	public function saveRecord(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$recordModel = $this->getRecordModelFromRequest($request);
 		$adb = PearDatabase::getInstance();
 		// check if encryption is enabled
@@ -75,10 +75,10 @@ class OSSPasswords_Save_Action extends Vtiger_Save_Action
 			}
 		}
 
-		if ($request->get('relationOperation')) {
+		if ($request->getBoolean('relationOperation')) {
 			$parentModuleName = $request->getByType('sourceModule', 1);
 			$parentModuleModel = Vtiger_Module_Model::getInstance($parentModuleName);
-			$parentRecordId = $request->get('sourceRecord');
+			$parentRecordId = $request->getInteger('sourceRecord');
 			$relatedModule = $recordModel->getModule();
 			$relatedRecordId = $recordModel->getId();
 

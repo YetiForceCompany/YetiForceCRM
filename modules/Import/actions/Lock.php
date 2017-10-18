@@ -19,13 +19,11 @@ class Import_Lock_Action extends Vtiger_Action_Controller
 	 */
 	public function __construct()
 	{
-
+		
 	}
 
 	/**
-	 * Check permission
-	 * @param \App\Request $request
-	 * @throws \Exception\NoPermitted
+	 * {@inheritDoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -36,9 +34,7 @@ class Import_Lock_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Process
-	 * @param \App\Request $request
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function process(\App\Request $request)
 	{

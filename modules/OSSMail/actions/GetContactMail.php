@@ -31,7 +31,7 @@ class OSSMail_GetContactMail_Action extends Vtiger_Action_Controller
 
 	public function process(\App\Request $request)
 	{
-		$ids = $request->get('ids');
+		$ids = $request->getInteger('ids');
 		$mod = $request->getByType('mod', 1);
 		$emailFields = [];
 		$searchList = OSSMailScanner_Record_Model::getEmailSearch($mod);

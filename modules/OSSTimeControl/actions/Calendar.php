@@ -37,9 +37,9 @@ class OSSTimeControl_Calendar_Action extends Vtiger_Action_Controller
 		$record = OSSTimeControl_Calendar_Model::getInstance();
 		$record->set('user', $request->getArray('user'));
 		$record->set('types', $request->getArray('types'));
-		if ($request->get('start') && $request->get('end')) {
-			$record->set('start', $request->get('start'));
-			$record->set('end', $request->get('end'));
+		if ($request->has('start') && $request->has('end')) {
+			$record->set('start', $request->getByType('start', 'Date'));
+			$record->set('end', $request->getByType('end', 'Date'));
 		}
 		$entity = $record->getEntity();
 
@@ -51,31 +51,29 @@ class OSSTimeControl_Calendar_Action extends Vtiger_Action_Controller
 	public function updateEvent(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->get('id');
+		$recordId = $request->getInteger('id');
 		$date_start = date('Y-m-d', strtotime($request->get('start')));
 		$time_start = date('H:i:s', strtotime($request->get('start')));
 		$succes = false;
 		if (!\App\Privilege::isPermitted($moduleName, 'EditView', $recordId)) {
 			$succes = false;
 		} else {
-			if (!empty($recordId)) {
-				try {
-					$delta = $request->get('delta');
-					$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-					$recordData = $recordModel->entity->column_fields;
-					$end = self::changeDateTime($recordData['due_date'] . ' ' . $recordData['time_end'], $delta);
-					$due_date = $end['date'];
-					$time_end = $end['time'];
-					$recordModel->setId($recordId);
-					$recordModel->set('date_start', $date_start);
-					$recordModel->set('time_start', $time_start);
-					$recordModel->set('due_date', $due_date);
-					$recordModel->set('time_end', $time_end);
-					$recordModel->save();
-					$succes = true;
-				} catch (Exception $e) {
-					$succes = false;
-				}
+			try {
+				$delta = $request->getArray('delta');
+				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+				$recordData = $recordModel->entity->column_fields;
+				$end = self::changeDateTime($recordData['due_date'] . ' ' . $recordData['time_end'], $delta);
+				$due_date = $end['date'];
+				$time_end = $end['time'];
+				$recordModel->setId($recordId);
+				$recordModel->set('date_start', $date_start);
+				$recordModel->set('time_start', $time_start);
+				$recordModel->set('due_date', $due_date);
+				$recordModel->set('time_end', $time_end);
+				$recordModel->save();
+				$succes = true;
+			} catch (Exception $e) {
+				$succes = false;
 			}
 		}
 		$response = new Vtiger_Response();

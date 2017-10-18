@@ -28,7 +28,7 @@ class Reports_MoveReports_Action extends Vtiger_Mass_Action
 	{
 		$parentModule = 'Reports';
 		$reportIdsList = Reports_Record_Model::getRecordsListFromRequest($request);
-		$folderId = $request->get('folderid');
+		$folderId = $request->getInteger('folderid');
 
 		if (!empty($reportIdsList)) {
 			foreach ($reportIdsList as $reportId) {

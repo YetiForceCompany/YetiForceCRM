@@ -79,7 +79,7 @@ class Events_Record_Model extends Calendar_Record_Model
 	 */
 	public function addRelationOperation(\App\Request $request)
 	{
-		if ($request->get('relationOperation')) {
+		if ($request->getBoolean('relationOperation')) {
 			$parentModuleName = $request->getByType('sourceModule', 1);
 			$parentModuleModel = Vtiger_Module_Model::getInstance($parentModuleName);
 			$parentRecordId = $request->get('sourceRecord');

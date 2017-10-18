@@ -15,7 +15,7 @@ class PriceBooks_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	{
 		$recordModel = $this->getRecordModelFromRequest($request);
 		$recordModel->save();
-		if ($request->get('relationOperation')) {
+		if ($request->getBoolean('relationOperation')) {
 			$parentModuleName = $request->getByType('sourceModule', 1);
 			$parentModuleModel = Vtiger_Module_Model::getInstance($parentModuleName);
 			$parentRecordId = $request->getInteger('sourceRecord');

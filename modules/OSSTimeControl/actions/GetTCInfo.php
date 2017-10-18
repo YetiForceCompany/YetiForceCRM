@@ -9,6 +9,9 @@
 class OSSTimeControl_GetTCInfo_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -26,6 +29,9 @@ class OSSTimeControl_GetTCInfo_Action extends Vtiger_Action_Controller
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();

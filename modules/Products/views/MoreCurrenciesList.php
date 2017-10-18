@@ -34,7 +34,7 @@ class Products_MoreCurrenciesList_View extends Vtiger_IndexAjax_View
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$currencyName = $request->get('currency');
+		$currencyName = $request->getByType('currency', 2);
 		if (!$request->isEmpty('record', true)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 			$priceDetails = $recordModel->getPriceDetails();

@@ -12,21 +12,21 @@ class Documents_DownloadFile_Action extends Vtiger_Action_Controller
 {
 
 	/**
-	 * Check Permission
-	 * @param \App\Request $request
-	 * @throws \App\Exceptions\NoPermittedToRecord
+	 * {@inheritDoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$recordId = $request->getInteger('record');
-		if (!$recordId) {
+		if ($request->isEmpty('record')) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId)) {
+		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();

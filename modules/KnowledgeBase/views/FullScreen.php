@@ -26,13 +26,16 @@ class KnowledgeBase_FullScreen_View extends Vtiger_Popup_View
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$previewView = new KnowledgeBase_PreviewContent_View();
 		$previewView->process($request, false);
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		$recordModel = Vtiger_Record_Model::getInstanceById($request->get('record'));
+		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 		$type = str_replace('PLL_', '', $recordModel->get('knowledgebase_view'));
 		$template = ucfirst(strtolower($type)) . 'View.tpl';
 		$viewer->assign('IS_POPUP', true);

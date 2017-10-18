@@ -32,7 +32,6 @@ class Calendar_Invitees_Action extends Vtiger_Action_Controller
 	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
-
 		if ($mode) {
 			$this->invokeExposedMethod($mode, $request);
 		}

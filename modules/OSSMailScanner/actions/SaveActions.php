@@ -24,7 +24,7 @@ class OSSMailScanner_SaveActions_Action extends Vtiger_Action_Controller
 
 	public function process(\App\Request $request)
 	{
-		$userid = $request->get('userid');
+		$userid = $request->getInteger('userid');
 		$vale = $request->get('vale');
 		if ($userid) {
 			if ($vale != 'null') {

@@ -30,11 +30,9 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
-
-		$recordId = $request->get('record');
-		if (!empty($recordId)) {
-			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($recordId);
-			$mode = $recordModel->getType();
+		if ($request->has('record')) {
+			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
+			$mode = strtolower($recordModel->getType());
 		}
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
@@ -47,14 +45,13 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 	{
 		$moduleName = 'Events';
 		$viewer = $this->getViewer($request);
-		$record = $request->get('record');
-		if (!empty($record) && $request->getBoolean('isDuplicate') === true) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+		if ($request->has('record') && $request->getBoolean('isDuplicate') === true) {
+			$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 			$viewer->assign('MODE', '');
-		} else if (!empty($record)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+		} else if ($request->has('record')) {
+			$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 			$viewer->assign('MODE', 'edit');
-			$viewer->assign('RECORD_ID', $record);
+			$viewer->assign('RECORD_ID', $request->getInteger('record'));
 		} else {
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 			$viewer->assign('MODE', '');
@@ -74,18 +71,18 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
 		$recordStructure = $recordStructureInstance->getStructure();
 		$userChangedEndDateTime = $request->get('userChangedEndDateTime');
-		$isRelationOperation = $request->get('relationOperation');
+		$isRelationOperation = $request->getBoolean('relationOperation');
 		//if it is relation edit
 		$viewer->assign('IS_RELATION_OPERATION', $isRelationOperation);
 		if ($isRelationOperation) {
-			$sourceModule = $request->getByType('sourceModule', 1);
-			$sourceRecord = $request->get('sourceRecord');
+			$sourceModule = $request->getByType('sourceModule');
+			$sourceRecord = $request->getInteger('sourceRecord');
 
 			$viewer->assign('SOURCE_MODULE', $sourceModule);
 			$viewer->assign('SOURCE_RECORD', $sourceRecord);
 			$sourceRelatedField = $moduleModel->getValuesFromSource($request, $moduleName);
 			foreach ($recordStructure as &$block) {
-				foreach ($sourceRelatedField as $field => &$value) {
+				foreach ($sourceRelatedField as $field => $value) {
 					if (isset($block[$field])) {
 						$fieldvalue = $block[$field]->get('fieldvalue');
 						if (empty($fieldvalue)) {

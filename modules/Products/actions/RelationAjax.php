@@ -25,7 +25,7 @@ class Products_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	{
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->getInteger('src_record');
-		$relatedModule = $request->get('related_module');
+		$relatedModule = $request->getByType('related_module');
 		if (is_numeric($relatedModule)) {
 			$relatedModule = \App\Module::getModuleName($relatedModule);
 		}
@@ -34,9 +34,9 @@ class Products_RelationAjax_Action extends Vtiger_RelationAjax_Action
 		$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModule);
 		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
 		foreach ($relatedRecordIdList as $relatedRecordId) {
-			$relationModel->addRelation($sourceRecordId, $relatedRecordId, $listPrice);
+			$relationModel->addRelation($sourceRecordId, (int) $relatedRecordId, $listPrice);
 			if ($relatedModule === 'PriceBooks') {
-				$recordModel = Vtiger_Record_Model::getInstanceById($relatedRecordId);
+				$recordModel = Vtiger_Record_Model::getInstanceById((int) $relatedRecordId);
 				if ($sourceRecordId && ($sourceModule === 'Products' || $sourceModule === 'Services')) {
 					$parentRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, $sourceModule);
 					$recordModel->updateListPrice($sourceRecordId, $parentRecordModel->get('unit_price'));
@@ -56,7 +56,7 @@ class Products_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	{
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->getInteger('src_record');
-		$relatedModule = $request->get('related_module');
+		$relatedModule = $request->getByType('related_module');
 		$relInfos = $request->get('relinfo');
 
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);

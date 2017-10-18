@@ -24,7 +24,7 @@ class OSSMail_SetUser_Action extends Vtiger_Action_Controller
 
 	public function process(\App\Request $request)
 	{
-		$user = $request->get('user');
+		$user = $request->getInteger('user');
 		$_SESSION['AutoLoginUser'] = $user;
 		$response = new Vtiger_Response();
 		$response->setResult(true);
