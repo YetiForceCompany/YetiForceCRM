@@ -69,6 +69,7 @@ class TreesManager extends \Tests\Init\Base
 	 * @param int|null $moduleId
 	 * @param array() $tree
 	 * @dataProvider providerForTree
+	 * @codeCoverageIgnore
 	 */
 	public function testDeleteTree($key, $moduleId = NULL, $tree = [])
 	{
@@ -85,6 +86,7 @@ class TreesManager extends \Tests\Init\Base
 	 * @param string $itemName
 	 * @param int $id
 	 * @return array()
+	 * @codeCoverageIgnore
 	 */
 	private function createItemForTree($itemName, $id)
 	{
