@@ -297,7 +297,7 @@ class Purifier
 						$value = $input;
 					}
 					break;
-				case 'Date': // date in user format
+				case 'Date': // date in base format yyyy-mm-dd
 					list($y, $m, $d) = Fields\Date::explode($input);
 					if (checkdate($m, $d, $y)) {
 						$value = $input;
