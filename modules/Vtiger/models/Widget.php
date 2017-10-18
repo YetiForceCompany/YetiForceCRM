@@ -207,10 +207,11 @@ class Vtiger_Widget_Model extends \App\Base
 	 */
 	public function getDeleteUrl()
 	{
-		$url = 'index.php?module=Vtiger&action=RemoveWidget&linkid=' . $this->get('linkid');
+		$url = 'index.php?module=' . App\Module::getModuleName($this->get('module')) . '&action=RemoveWidget&linkid=' . $this->get('linkid');
 		$widgetid = $this->has('widgetid') ? $this->get('widgetid') : $this->get('id');
-		if ($widgetid)
+		if ($widgetid) {
 			$url .= '&widgetid=' . $widgetid;
+		}
 		return $url;
 	}
 

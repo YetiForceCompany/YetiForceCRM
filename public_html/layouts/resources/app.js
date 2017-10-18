@@ -1700,7 +1700,7 @@ var app = {
 	clearBrowsingHistory: function () {
 		AppConnector.request({
 			module: app.getModuleName(),
-			action: 'browsingHistory',
+			action: 'BrowsingHistory',
 		}).then(function (response) {
 			$('ul.historyList').remove();
 		});
