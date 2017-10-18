@@ -13,7 +13,7 @@ class TreesManager extends \Tests\Init\Base
 
 	/**
 	 * Array of trees id
-	 * @var array()
+	 * @var array
 	 */
 	private static $treesId;
 
@@ -21,7 +21,7 @@ class TreesManager extends \Tests\Init\Base
 	 * Testing creation tree
 	 * @param int|string $key
 	 * @param int|null $moduleId
-	 * @param array() $tree
+	 * @param array $tree
 	 * @dataProvider providerForTree
 	 */
 	public function testAddTree($key, $moduleId = NULL, $tree = [], $share = [])
@@ -43,15 +43,14 @@ class TreesManager extends \Tests\Init\Base
 		$this->assertEquals($row['name'], 'TestTree' . $key);
 		$this->assertEquals($row['module'], $moduleId);
 		$this->assertEquals($row['share'], \Settings_TreesManager_Record_Model::getShareFromArray($share));
-
-		$this->assertCount((new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => static::$treesId[$key]])->count(), $tree);
+		$this->assertEquals((new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => static::$treesId[$key]])->count(), static::countItems($tree));
 	}
 
 	/**
 	 * Testing deletion tree
 	 * @param int|string $key
 	 * @param int|null $moduleId
-	 * @param array() $tree
+	 * @param array $tree
 	 * @dataProvider providerForTree
 	 */
 	public function testDeleteTree($key, $moduleId = NULL, $tree = [], $share = [])
@@ -77,10 +76,15 @@ class TreesManager extends \Tests\Init\Base
 		$share2[] = \App\Module::getModuleId('Leads');
 		$share2[] = \App\Module::getModuleId('Calendar');
 
+		$tree4[] = $this->createItemForTree('item1', 1);
+		$tree4[] = $this->createItemForTree('item2', 2, [$this->createItemForTree('item3', 3), $this->createItemForTree('item4', 4)]);
+
 		return [
 			[0, NULL, [], []],
 			[1, NULL, $tree1, []],
 			[2, NULL, [], $share2],
+			[3, NULL, $tree1, $share2],
+			[4, NULL, $tree4, []],
 		];
 	}
 
@@ -88,10 +92,10 @@ class TreesManager extends \Tests\Init\Base
 	 * Create item for tree array
 	 * @param string $itemName
 	 * @param int $id
-	 * @return array()
+	 * @return array
 	 * @codeCoverageIgnore
 	 */
-	private function createItemForTree($itemName, $id)
+	private function createItemForTree($itemName, $id, $children = [])
 	{
 		return [
 			'id' => $id,
@@ -101,7 +105,23 @@ class TreesManager extends \Tests\Init\Base
 			'a_attr' => ['href' => '#', 'id' => $id . '_anchor'],
 			'state' => ['loaded' => '1', 'opened' => false, 'selected' => false, 'disabled' => false],
 			'data' => [],
-			'children' => [],
+			'children' => $children,
 		];
+	}
+
+	/**
+	 * Count item in tree
+	 * @param array $tree
+	 * @return int
+	 */
+	private static function countItems($tree)
+	{
+		$cnt = count($tree);
+		foreach ($tree as $item) {
+			if (is_array($item['children'])) {
+				$cnt += static::countItems($item['children']);
+			}
+		}
+		return $cnt;
 	}
 }
