@@ -121,7 +121,7 @@ class Request
 	 * Alnum - word and int
 	 * 2 - word and int
 	 * @param string $key Key name
-	 * @param mixed $type Data type that is only acceptable, default only words
+	 * @param int|string $type Data type that is only acceptable, default only words 'Standard'
 	 * @return boolean|mixed
 	 */
 	public function getByType($key, $type = 1)

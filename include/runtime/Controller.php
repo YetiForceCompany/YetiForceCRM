@@ -142,6 +142,11 @@ abstract class Vtiger_Action_Controller extends Vtiger_Controller
 		parent::__construct();
 	}
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	abstract public function checkPermission(\App\Request $request);
 
 	public function getViewer(\App\Request $request)
@@ -170,6 +175,15 @@ abstract class Vtiger_Action_Controller extends Vtiger_Controller
 	}
 
 	public function postProcess(\App\Request $request)
+	{
+		return true;
+	}
+
+	/**
+	 * Process action
+	 * @param \App\Request $request
+	 */
+	public function process(\App\Request $request)
 	{
 		return true;
 	}

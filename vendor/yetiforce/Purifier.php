@@ -281,14 +281,27 @@ class Purifier
 				$value[$k] = static::purifyByType($v, $type);
 			}
 		} else {
+			$value = false;
 			switch ($type) {
 				case 'Standard': // only word
-				case 1: // only word
+				case 1:
 					$value = preg_match('/^[_a-zA-Z]+$/', $input) ? $input : false;
 					break;
 				case 'Alnum': // word and int
-				case 2: // word and int
-					$value = preg_match('/^[[:alnum:]]+$/', $input) ? $input : false;
+				case 2:
+					$value = preg_match('/^[[:alnum:]_]+$/', $input) ? $input : false;
+					break;
+				case 'DateInUserFormat': // date in user format
+					list($y, $m, $d) = Fields\Date::explode($input, User::getCurrentUserModel()->getDetail('date_format'));
+					if (checkdate($m, $d, $y)) {
+						$value = $input;
+					}
+					break;
+				case 'Date': // date in user format
+					list($y, $m, $d) = Fields\Date::explode($input);
+					if (checkdate($m, $d, $y)) {
+						$value = $input;
+					}
 					break;
 				default:
 					$value = Purifier::purify($value);
