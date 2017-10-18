@@ -19,11 +19,10 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$recordId = $request->getInteger('record');
 		if ($request->isEmpty('record', true)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
-		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId)) {
+		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();

@@ -14,7 +14,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 	/**
 	 * Record model instance
-	 * @var Vtiger_Record_Model
+	 * @var Vtiger_DetailView_Model
 	 */
 	protected $record = false;
 	protected $recordStructure = false;
@@ -54,8 +54,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$recordId = $request->getInteger('record');
-		if (!$recordId || !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId)) {
+		if ($request->isEmpty('record')) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
+		$this->record = Vtiger_DetailView_Model::getInstance($request->getModule(), $request->getInteger('record'));
+		if (!$this->record->getRecord()->isViewable()) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
@@ -66,9 +69,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 		$moduleName = $request->getModule();
 		$recordId = $request->getInteger('record');
-		if (!$this->record) {
-			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
-		}
 		$recordModel = $this->record->getRecord();
 		$this->recordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
 		$summaryInfo = [];
@@ -202,9 +202,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
-		if (!$this->record) {
-			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
-		}
 		$defaultMode = $this->defaultMode;
 		if ($defaultMode == 'showDetailViewByMode') {
 			$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -220,11 +217,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 	public function postProcess(\App\Request $request)
 	{
-		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
-		if (!$this->record) {
-			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
-		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $this->record->getModule());
 		$viewer->view('DetailViewPostProcess.tpl', $moduleName);
@@ -285,12 +278,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 */
 	public function showModuleDetailView(\App\Request $request)
 	{
-		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
-
-		if (!$this->record) {
-			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
-		}
 		$recordModel = $this->record->getRecord();
 		if (!$this->recordStructure) {
 			$this->recordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
@@ -313,12 +301,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 	public function showModuleSummaryView(\App\Request $request)
 	{
-		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
-
-		if (!$this->record) {
-			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
-		}
 		$recordModel = $this->record->getRecord();
 		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_SUMMARY);
 
@@ -346,10 +329,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	{
 		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
-
-		if (!$this->record) {
-			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
-		}
 		$recordModel = $this->record->getRecord();
 		$detailViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $recordId];
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
@@ -656,9 +635,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		} else {
 			$pagingModel->set('limit', 10);
 		}
-		if (!$this->record) {
-			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
-		}
 		$recordModel = $this->record->getRecord();
 		$moduleModel = $recordModel->getModule();
 
@@ -833,9 +809,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	{
 		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
-		if (!$this->record) {
-			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
-		}
 		$recordModel = $this->record->getRecord();
 
 		$detailViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $recordId];

@@ -18,25 +18,26 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 	 */
 	protected $record;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function __construct()
 	{
 		parent::__construct();
 	}
 
 	/**
-	 * Function to check permission
-	 * @param \App\Request $request
-	 * @throws \App\Exceptions\NoPermittedToRecord
+	 * {@inheritDoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		if (!$request->isEmpty('record')) {
-			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
-			$isPermited = $recordModel->isEditable() || ($request->getBoolean('isDuplicate') === true && $recordModel->getModule()->isPermitted('DuplicateRecord') && $recordModel->isCreateable() && $recordModel->isViewable());
+		if ($request->has('record')) {
+			$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
+			$isPermited = $this->record->isEditable() || ($request->getBoolean('isDuplicate') === true && $this->record->getModule()->isPermitted('DuplicateRecord') && $this->record->isCreateable() && $this->record->isViewable());
 		} else {
-			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-			$isPermited = $recordModel->isCreateable();
+			$this->record = Vtiger_Record_Model::getCleanInstance($moduleName);
+			$isPermited = $this->record->isCreateable();
 		}
 		if (!$isPermited) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
@@ -61,6 +62,9 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		return $pageTitle;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -69,39 +73,33 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		if (!empty($record) && $request->getBoolean('isDuplicate') === true) {
 			$viewer->assign('MODE', '');
 			$viewer->assign('RECORD_ID', '');
-			$recordModel = $this->getDuplicate($record, $moduleName);
+			$this->getDuplicate();
 		} else if (!empty($record)) {
-			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			$viewer->assign('MODE', 'edit');
 			$viewer->assign('RECORD_ID', $record);
 		} else {
-			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 			$referenceId = $request->getInteger('reference_id');
 			if ($referenceId) {
 				$parentRecordModel = Vtiger_Record_Model::getInstanceById($referenceId);
-				$recordModel->setRecordFieldValues($parentRecordModel);
+				$this->record->setRecordFieldValues($parentRecordModel);
 			}
 			$viewer->assign('MODE', '');
 			$viewer->assign('RECORD_ID', '');
 		}
-		if (!$this->record) {
-			$this->record = $recordModel;
-		}
-
 		$editModel = Vtiger_EditView_Model::getInstance($moduleName, $record);
 		$editViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $record];
 		$detailViewLinks = $editModel->getEditViewLinks($editViewLinkParams);
 		$viewer->assign('EDITVIEW_LINKS', $detailViewLinks);
 
-		$moduleModel = $recordModel->getModule();
+		$moduleModel = $this->record->getModule();
 		$fieldList = $moduleModel->getFields();
 		foreach (array_intersect($request->getKeys(), array_keys($fieldList)) as $fieldName) {
 			$fieldModel = $fieldList[$fieldName];
 			if ($fieldModel->isWritable()) {
-				$fieldModel->getUITypeModel()->setValueFromRequest($request, $recordModel);
+				$fieldModel->getUITypeModel()->setValueFromRequest($request, $this->record);
 			}
 		}
-		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
+		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($this->record, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_EDIT);
 		$recordStructure = $recordStructureInstance->getStructure();
 		$picklistDependencyDatasource = \App\Fields\Picklist::getPicklistDependencyDatasource($moduleName);
 
@@ -132,7 +130,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('MODULE_TYPE', $moduleModel->getModuleType());
-		$viewer->assign('RECORD', $recordModel);
+		$viewer->assign('RECORD', $this->record);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
@@ -143,21 +141,19 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		$viewer->view('EditView.tpl', $moduleName);
 	}
 
-	public function getDuplicate($record, $moduleName)
+	public function getDuplicate()
 	{
-		$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
-		$recordModel->set('id', '');
+		$this->record->set('id', '');
 		//While Duplicating record, If the related record is deleted then we are removing related record info in record model
-		$mandatoryFieldModels = $recordModel->getModule()->getMandatoryFieldModels();
+		$mandatoryFieldModels = $this->record->getModule()->getMandatoryFieldModels();
 		foreach ($mandatoryFieldModels as $fieldModel) {
 			if ($fieldModel->isReferenceField()) {
 				$fieldName = $fieldModel->get('name');
-				if (!\App\Record::isExists($recordModel->get($fieldName))) {
-					$recordModel->set($fieldName, '');
+				if (!\App\Record::isExists($this->record->get($fieldName))) {
+					$this->record->set($fieldName, '');
 				}
 			}
 		}
-		return $recordModel;
 	}
 
 	/**

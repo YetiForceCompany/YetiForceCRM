@@ -342,7 +342,7 @@ class Vtiger_DetailView_Model extends \App\Base
 	 * Function to get the instance
 	 * @param string $moduleName - module name
 	 * @param string $recordId - record id
-	 * @return <Vtiger_DetailView_Model>
+	 * @return Vtiger_DetailView_Model
 	 */
 	public static function getInstance($moduleName, $recordId)
 	{

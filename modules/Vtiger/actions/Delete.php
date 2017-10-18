@@ -40,7 +40,7 @@ class Vtiger_Delete_Action extends Vtiger_Action_Controller
 		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
 		$recordModel->delete();
 		$listViewUrl = $recordModel->getModule()->getListViewUrl();
-		if ($request->get('ajaxDelete')) {
+		if ($request->getBoolean('ajaxDelete')) {
 			$response = new Vtiger_Response();
 			$response->setResult($listViewUrl);
 			return $response;
