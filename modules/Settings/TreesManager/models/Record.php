@@ -207,7 +207,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$db = App\Db::getInstance();
 		$templateId = $this->getId();
-		$share = $this->get('share') ? ',' . implode(',', $this->get('share')) . ',' : '';
+		$share = static::getShareFromArray($this->get('share'));
 		if (empty($templateId)) {
 			$db->createCommand()
 				->insert('vtiger_trees_templates', ['name' => $this->get('name'), 'module' => $this->get('module'), 'share' => $share])
@@ -324,6 +324,16 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			return $instance;
 		}
 		return null;
+	}
+
+	/**
+	 * Get share string from array
+	 * @param array()|null $share
+	 * @return string
+	 */
+	public static function getShareFromArray($share)
+	{
+		return $share ? ',' . implode(',', $share) . ',' : '';
 	}
 
 	/**
