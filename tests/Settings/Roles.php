@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Roles test class
  * @package YetiForce.Test
@@ -7,6 +6,11 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Arkadiusz Adach <a.adach@yetiforce.com>
  */
+namespace Tests\Settings;
+
+use Settings_Roles_Record_Model;
+use App\Db\Query;
+
 class Roles extends \Tests\Init\Base
 {
 
@@ -66,7 +70,11 @@ class Roles extends \Tests\Init\Base
 	{
 		$parentRole = Settings_Roles_Record_Model::getInstanceById('H1');
 		$recordModel = Settings_Roles_Record_Model::getInstanceById(static::$id);
+		$recordModel->setParent($parentRole);
 		$recordModel->moveTo($parentRole);
+
+		$row = (new \App\Db\Query())->from('vtiger_role')->where(['roleid' => static::$id])->one();
+		$this->assertEquals($row['parentrole'], 'H1::' . static::$id);
 	}
 
 	/**
@@ -121,6 +129,6 @@ class Roles extends \Tests\Init\Base
 		$this->assertNotNull($recordModel);
 		$this->assertNotNull($transferToRole);
 		$recordModel->delete($transferToRole);
-		$this->assertFalse((new App\Db\Query())->from('vtiger_role')->where(['roleid' => static::$id])->exists(), 'The record was not removed from the database ID: ' . static::$id);
+		$this->assertFalse((new \App\Db\Query())->from('vtiger_role')->where(['roleid' => static::$id])->exists(), 'The record was not removed from the database ID: ' . static::$id);
 	}
 }
