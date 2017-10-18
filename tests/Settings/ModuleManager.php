@@ -144,6 +144,7 @@ class ModuleManager extends \Tests\Init\Base
 				$this->assertCount(0, array_diff($param['pickListValues'], (new \App\Db\Query())->select($param['fieldName'])->from(static::$tablesName[$key])->column()), 'Bad values in the table "' . static::$tablesName[$key] . '"');
 				break;
 			case 15: //Picklist
+			case 33: //MultiSelectCombo
 				static::$tablesName[$key] = 'vtiger_' . $param['fieldName'];
 				$this->assertNotNull(\App\Db::getInstance()->getTableSchema(static::$tablesName[$key]), 'Table "' . static::$tablesName[$key] . '" does not exist');
 				$this->assertCount(0, array_diff($param['pickListValues'], (new \App\Db\Query())->select($param['fieldName'])->from(static::$tablesName[$key])->column()), 'Bad values in the table "' . static::$tablesName[$key] . '"');
@@ -182,6 +183,7 @@ class ModuleManager extends \Tests\Init\Base
 			['Related1M', ['fieldTypeList' => 0, 'referenceModule' => ['Contacts', 'Accounts', 'Leads'],]],
 			['Picklist', ['fieldTypeList' => 0, 'pickListValues' => ['a1', 'a2', 'a3'],]],
 			['Picklist', ['fieldTypeList' => 0, 'pickListValues' => ['b1', 'b2', 'b3'], 'isRoleBasedPickList' => 1], '2'],
+			['MultiSelectCombo', ['fieldTypeList' => 0, 'pickListValues' => ['c1', 'c2', 'c3']]],
 		];
 	}
 
@@ -189,7 +191,7 @@ class ModuleManager extends \Tests\Init\Base
 	 * Testing the deletion of a new field text for the module
 	 * @link https://phpunit.de/manual/3.7/en/writing-tests-for-phpunit.html#writing-tests-for-phpunit.data-providers
 	 * @dataProvider providerForField
-	 * group extended
+	 * *****
 	 */
 	public function testDeleteNewField($type, $param, $suffix = '')
 	{
@@ -213,6 +215,7 @@ class ModuleManager extends \Tests\Init\Base
 				$this->assertNull(\App\Db::getInstance()->getTableSchema(static::$tablesName[$key]), 'Table "' . static::$tablesName[$key] . '" exist');
 				break;
 			case 15: //Picklist
+			case 33: //MultiSelectCombo
 				$this->assertNull(\App\Db::getInstance()->getTableSchema(static::$tablesName[$key]), 'Table "' . static::$tablesName[$key] . '" exist');
 				$this->assertFalse((new App\Db\Query())->from('vtiger_picklist')->where(['name' => $columnName])->exists(), 'The record from "vtiger_picklist" was not removed from the database ID: ' . static::$fieldsExtraId[$key]);
 
