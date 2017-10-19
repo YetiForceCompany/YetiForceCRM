@@ -123,11 +123,11 @@ class ModuleManager extends \Tests\Init\Base
 	{
 		$key = $type . $suffix;
 		$param['fieldType'] = $type;
-		$param['fieldLabel'] = $type . 'FieldLabel' . $suffix;
-		$param['fieldName'] = strtolower($type . 'FieldLabel' . $suffix);
+		$param['fieldLabel'] = $type . 'FL' . $suffix;
+		$param['fieldName'] = strtolower($type . 'FL' . $suffix);
 		$param['blockid'] = static::$blockId;
 		$param['sourceModule'] = 'Test';
-		if ($type === 'Tree') {
+		if ($type === 'Tree' || $type === 'CategoryMultipicklist') {
 			$param['tree'] = static::$treeId;
 		}
 
@@ -205,6 +205,7 @@ class ModuleManager extends \Tests\Init\Base
 			['Picklist', ['fieldTypeList' => 0, 'pickListValues' => ['b1', 'b2', 'b3'], 'isRoleBasedPickList' => 1], '2'],
 			['MultiSelectCombo', ['fieldTypeList' => 0, 'pickListValues' => ['c1', 'c2', 'c3']]],
 			['Tree', ['fieldTypeList' => 0]],
+			['CategoryMultipicklist', ['fieldTypeList' => 0]],
 		];
 	}
 
@@ -247,6 +248,7 @@ class ModuleManager extends \Tests\Init\Base
 
 	/**
 	 * Testing creation tree
+	 * *****
 	 */
 	public function testDeleteTree()
 	{
