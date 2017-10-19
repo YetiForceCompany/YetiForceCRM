@@ -8,9 +8,6 @@
  */
 namespace Tests\Settings;
 
-use Settings_Roles_Record_Model;
-use App\Db\Query;
-
 class Roles extends \Tests\Init\Base
 {
 
@@ -24,8 +21,8 @@ class Roles extends \Tests\Init\Base
 	 */
 	public function testAddRole()
 	{
-		$recordModel = new Settings_Roles_Record_Model();
-		$parentRole = Settings_Roles_Record_Model::getInstanceById('H2');
+		$recordModel = new \Settings_Roles_Record_Model();
+		$parentRole = \Settings_Roles_Record_Model::getInstanceById('H2');
 		$this->assertNotNull($parentRole);
 		$recordModel->set('change_owner', 1);
 		$recordModel->set('searchunpriv', ['Contacts']);
@@ -68,8 +65,8 @@ class Roles extends \Tests\Init\Base
 	 */
 	public function testMoveRole()
 	{
-		$parentRole = Settings_Roles_Record_Model::getInstanceById('H1');
-		$recordModel = Settings_Roles_Record_Model::getInstanceById(static::$id);
+		$parentRole = \Settings_Roles_Record_Model::getInstanceById('H1');
+		$recordModel = \Settings_Roles_Record_Model::getInstanceById(static::$id);
 		$recordModel->setParent($parentRole);
 		$recordModel->moveTo($parentRole);
 
@@ -82,7 +79,7 @@ class Roles extends \Tests\Init\Base
 	 */
 	public function testEditRole()
 	{
-		$recordModel = Settings_Roles_Record_Model::getInstanceById(static::$id);
+		$recordModel = \Settings_Roles_Record_Model::getInstanceById(static::$id);
 		$this->assertNotNull($recordModel);
 
 		$recordModel->set('change_owner', 0);
@@ -124,8 +121,8 @@ class Roles extends \Tests\Init\Base
 	 */
 	public function testDeleteRole()
 	{
-		$recordModel = Settings_Roles_Record_Model::getInstanceById(static::$id);
-		$transferToRole = Settings_Roles_Record_Model::getInstanceById('H6');
+		$recordModel = \Settings_Roles_Record_Model::getInstanceById(static::$id);
+		$transferToRole = \Settings_Roles_Record_Model::getInstanceById('H6');
 		$this->assertNotNull($recordModel);
 		$this->assertNotNull($transferToRole);
 		$recordModel->delete($transferToRole);
