@@ -24,7 +24,7 @@ class Vtiger_FileLocationType_UIType extends Vtiger_Picklist_UIType
 		$this->validate = false;
 		$allowedPicklist = $this->getPicklistValues();
 		if (!isset($allowedPicklist[$value])) {
-			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+			throw new \App\Exceptions\SaveRecord('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;
 	}

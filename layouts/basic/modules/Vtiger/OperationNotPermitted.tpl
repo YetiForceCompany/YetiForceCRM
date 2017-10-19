@@ -25,7 +25,7 @@
 				<div style="position: relative;" >
 					<div>
 						<h2 class="alert-heading">{\App\Language::translate('LBL_ERROR')}</h2>
-						<p>{\App\Language::translate($MESSAGE)}</p>
+						<p>{\App\Purifier::encodeHtml($MESSAGE)}</p>
 						<p class="Buttons">
 							<a class="btn btn-warning" href="javascript:window.history.back();">{\App\Language::translate('LBL_GO_BACK')}</a>
 							<a class="btn btn-info" href="index.php">{\App\Language::translate('LBL_MAIN_PAGE')}</a>

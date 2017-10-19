@@ -44,7 +44,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 			list($y, $m, $d) = explode('-', $value);
 		}
 		if (!checkdate($m, $d, $y)) {
-			throw new \App\Exceptions\SaveRecord('ERR_ILLEGAL_FIELD_VALUE', 406);
+			throw new \App\Exceptions\SaveRecord('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;
 	}

@@ -19,7 +19,7 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		if (substr($value, 0, 1) !== 'T' || !is_numeric(substr($value, 1))) {
-			throw new \App\Exceptions\SaveRecord('ERR_INCORRECT_VALUE_WHILE_SAVING_RECORD', 406);
+			throw new \App\Exceptions\SaveRecord('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;
 	}
