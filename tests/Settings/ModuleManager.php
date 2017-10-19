@@ -247,7 +247,7 @@ class ModuleManager extends \Tests\Init\Base
 	}
 
 	/**
-	 * Testing creation tree
+	 * Testing deletion tree
 	 * *****
 	 */
 	public function testDeleteTree()
