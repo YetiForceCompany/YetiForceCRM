@@ -67,9 +67,6 @@ class Vtiger_Base_UIType extends \App\Base
 		if ($isUserFormat) {
 			$value = \App\Purifier::decodeHtml($value);
 		}
-		if (!is_numeric($value)) {
-			throw new \App\Exceptions\SaveRecord('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
-		}
 		if (!is_numeric($value) && (is_string($value) && $value !== strip_tags($value))) {
 			throw new \App\Exceptions\SaveRecord('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
 		}
