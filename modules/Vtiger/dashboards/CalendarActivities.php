@@ -26,7 +26,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel();
 
 		$page = $request->getInteger('page');
-		$linkId = $request->get('linkid');
+		$linkId = $request->getInteger('linkid');
 		$sortOrder = $request->getForSql('sortorder');
 		$orderBy = $request->getForSql('orderby');
 
@@ -41,7 +41,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 			]
 		];
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
-		$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Calendar', $request->get('owner'));
+		$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Calendar', $request->getByType('owner', 2));
 
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
@@ -73,8 +73,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('LISTVIEWLINKS', true);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('USER_CONDITIONS', $conditions);
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/CalendarActivitiesContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/CalendarActivities.tpl', $moduleName);

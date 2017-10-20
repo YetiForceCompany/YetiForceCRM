@@ -17,7 +17,7 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 	 */
 	public function process(\App\Request $request)
 	{
-		$linkId = $request->get('linkid');
+		$linkId = $request->getInteger('linkid');
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUser->getId();
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $userId);
@@ -46,8 +46,7 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('PARAM', $param);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('CURRENTUSER', $currentUser);
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/SummationByUserContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/SummationByUser.tpl', $moduleName);

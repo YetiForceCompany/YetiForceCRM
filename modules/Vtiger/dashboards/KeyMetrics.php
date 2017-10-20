@@ -16,21 +16,15 @@ class Vtiger_KeyMetrics_Dashboard extends Vtiger_IndexAjax_View
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-
-		$linkId = $request->get('linkid');
+		$linkId = $request->getInteger('linkid');
 		$data = $request->getAll();
-
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
-
 		$keyMetrics = $this->getKeyMetricsWithCount();
-
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('KEYMETRICS', $keyMetrics);
 		$viewer->assign('DATA', $data);
-
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/KeyMetricsContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/KeyMetrics.tpl', $moduleName);

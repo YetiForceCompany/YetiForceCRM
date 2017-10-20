@@ -16,7 +16,7 @@ class Vtiger_AssignedOverdueCalendarTasks_Dashboard extends Vtiger_IndexAjax_Vie
 		$moduleName = $request->getModule();
 
 		$page = $request->getInteger('page');
-		$linkId = $request->get('linkid');
+		$linkId = $request->getInteger('linkid');
 		$sortOrder = $request->getForSql('sortorder');
 		$orderBy = $request->getForSql('orderby');
 		$data = $request->getAll();
@@ -25,7 +25,7 @@ class Vtiger_AssignedOverdueCalendarTasks_Dashboard extends Vtiger_IndexAjax_Vie
 		if (!$request->has('owner'))
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		else
-			$owner = $request->get('owner');
+			$owner = $request->getByType('owner', 2);
 
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
@@ -57,8 +57,7 @@ class Vtiger_AssignedOverdueCalendarTasks_Dashboard extends Vtiger_IndexAjax_Vie
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('USER_CONDITIONS', $conditions);
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/CalendarActivitiesContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/CalendarActivities.tpl', $moduleName);

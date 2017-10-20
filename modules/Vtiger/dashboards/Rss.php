@@ -19,7 +19,7 @@ class Vtiger_Rss_Dashboard extends Vtiger_IndexAjax_View
 		if ($widget && !$request->has('widgetid')) {
 			$widgetId = $widget->get('id');
 		} else {
-			$widgetId = $request->get('widgetid');
+			$widgetId = $request->getInteger('widgetid');
 		}
 		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($widgetId, $currentUser->getId());
 		$data = $widget->get('data');
@@ -48,8 +48,7 @@ class Vtiger_Rss_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('LIST_SUCJECTS', $listSubjects);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/RssContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/RssHeader.tpl', $moduleName);

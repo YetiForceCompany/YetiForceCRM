@@ -40,7 +40,7 @@ class Vtiger_ChartFilter_Dashboard extends Vtiger_IndexAjax_View
 		if ($owners = $chartFilterWidgetModel->getRowsOwners()) {
 			$viewer->assign('CHART_OWNERS', $owners);
 		}
-		if (!$request->isEmpty('content', true)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/ChartFilterContents.tpl', $moduleName);
 		} else {
 			$widget->set('title', $chartFilterWidgetModel->getTitle());

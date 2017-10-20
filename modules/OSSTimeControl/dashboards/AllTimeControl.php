@@ -109,8 +109,8 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 		$loggedUserId = $currentUser->get('id');
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$linkId = $request->get('linkid');
-		$user = $request->get('owner');
+		$linkId = $request->getInteger('linkid');
+		$user = $request->getByType('owner', 2);
 		$time = $request->getDateRange('time');
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		if (empty($time)) {
@@ -140,8 +140,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('LOGGEDUSERID', $loggedUserId);
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/TimeControlContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/AllTimeControl.tpl', $moduleName);

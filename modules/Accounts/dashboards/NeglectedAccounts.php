@@ -28,7 +28,7 @@ class Accounts_NeglectedAccounts_Dashboard extends Vtiger_IndexAjax_View
 			$sql .= ' AND vtiger_crmentity.smownerid = ? ';
 			$params[] = $user;
 		}
-		$sql.= \App\PrivilegeQuery::getAccessConditions($moduleName);
+		$sql .= \App\PrivilegeQuery::getAccessConditions($moduleName);
 		$sql .= ' ORDER BY vtiger_entity_stats.crmactivity IS NULL, vtiger_entity_stats.crmactivity  ASC  LIMIT ? OFFSET ?';
 		$params[] = $pagingModel->getPageLimit();
 		$params[] = $pagingModel->getStartIndex();
@@ -50,8 +50,8 @@ class Accounts_NeglectedAccounts_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$moduleName = $request->getModule();
-		$linkId = $request->get('linkid');
-		$user = $request->get('owner');
+		$linkId = $request->getInteger('linkid');
+		$user = $request->getByType('owner', 2);
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		if (empty($user)) {
 			$user = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
@@ -79,8 +79,7 @@ class Accounts_NeglectedAccounts_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('USER_CONDITIONS', $this->conditions);
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/NeglectedAccountsContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/NeglectedAccounts.tpl', $moduleName);

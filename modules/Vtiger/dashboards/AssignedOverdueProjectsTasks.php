@@ -17,13 +17,13 @@ class Vtiger_AssignedOverdueProjectsTasks_Dashboard extends Vtiger_IndexAjax_Vie
 		$data = $request->getAll();
 
 		$page = $request->getInteger('page');
-		$linkId = $request->get('linkid');
+		$linkId = $request->getInteger('linkid');
 
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		else
-			$owner = $request->get('owner');
+			$owner = $request->getByType('owner', 2);
 
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
@@ -47,8 +47,7 @@ class Vtiger_AssignedOverdueProjectsTasks_Dashboard extends Vtiger_IndexAjax_Vie
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_OVERDUE_ACTIVITIES');
 		$viewer->assign('DATA', $data);
 		$viewer->assign('USER_CONDITIONS', ['condition' => ['<', 'targetenddate', $currentDate]]);
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/AssignedProjectsTasksContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/AssignedProjectsTasks.tpl', $moduleName);
