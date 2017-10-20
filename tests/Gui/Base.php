@@ -27,9 +27,8 @@ class Base extends \PHPUnit_Extensions_Selenium2TestCase
 	{
 		parent::setUp();
 
-		$this->setBrowserUrl(AppConfig::main('site_URL'));
+		$this->setBrowserUrl(\AppConfig::main('site_URL'));
 		$this->setBrowser('chrome');
-
 		$screenshotsDir = __DIR__ . '/../screenshots';
 		if (!file_exists($screenshotsDir)) {
 			mkdir($screenshotsDir, 0777, true);
