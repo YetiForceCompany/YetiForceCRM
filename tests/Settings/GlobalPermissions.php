@@ -1,5 +1,4 @@
 <?php
-
 /**
  * GlobalPermissions test class
  * @package YetiForce.Test
@@ -7,6 +6,8 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Arkadiusz Adach <a.adach@yetiforce.com>
  */
+namespace Tests\Settings;
+
 class GlobalPermissions extends \Tests\Init\Base
 {
 
@@ -18,7 +19,7 @@ class GlobalPermissions extends \Tests\Init\Base
 		$profileID = 1;
 		$checked = 0;
 		$globalactionid = 1;
-		Settings_GlobalPermission_Record_Model::save($profileID, $globalactionid, $checked);
+		\Settings_GlobalPermission_Record_Model::save($profileID, $globalactionid, $checked);
 
 		$row = (new \App\Db\Query())->from('vtiger_profile2globalpermissions')->where(['profileid' => $profileID, 'globalactionid' => $globalactionid])->all();
 
@@ -34,7 +35,7 @@ class GlobalPermissions extends \Tests\Init\Base
 		$profileID = 1;
 		$checked = 1;
 		$globalactionid = 1;
-		Settings_GlobalPermission_Record_Model::save($profileID, $globalactionid, $checked);
+		\Settings_GlobalPermission_Record_Model::save($profileID, $globalactionid, $checked);
 
 		$row = (new \App\Db\Query())->from('vtiger_profile2globalpermissions')->where(['profileid' => $profileID, 'globalactionid' => $globalactionid])->all();
 

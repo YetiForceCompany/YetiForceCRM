@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Roles test class
  * @package YetiForce.Test
@@ -7,6 +6,8 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Arkadiusz Adach <a.adach@yetiforce.com>
  */
+namespace Tests\Settings;
+
 class Roles extends \Tests\Init\Base
 {
 
@@ -20,8 +21,8 @@ class Roles extends \Tests\Init\Base
 	 */
 	public function testAddRole()
 	{
-		$recordModel = new Settings_Roles_Record_Model();
-		$parentRole = Settings_Roles_Record_Model::getInstanceById('H2');
+		$recordModel = new \Settings_Roles_Record_Model();
+		$parentRole = \Settings_Roles_Record_Model::getInstanceById('H2');
 		$this->assertNotNull($parentRole);
 		$recordModel->set('change_owner', 1);
 		$recordModel->set('searchunpriv', ['Contacts']);
@@ -64,9 +65,13 @@ class Roles extends \Tests\Init\Base
 	 */
 	public function testMoveRole()
 	{
-		$parentRole = Settings_Roles_Record_Model::getInstanceById('H1');
-		$recordModel = Settings_Roles_Record_Model::getInstanceById(static::$id);
+		$parentRole = \Settings_Roles_Record_Model::getInstanceById('H1');
+		$recordModel = \Settings_Roles_Record_Model::getInstanceById(static::$id);
+		$recordModel->setParent($parentRole);
 		$recordModel->moveTo($parentRole);
+
+		$row = (new \App\Db\Query())->from('vtiger_role')->where(['roleid' => static::$id])->one();
+		$this->assertEquals($row['parentrole'], 'H1::' . static::$id);
 	}
 
 	/**
@@ -74,7 +79,7 @@ class Roles extends \Tests\Init\Base
 	 */
 	public function testEditRole()
 	{
-		$recordModel = Settings_Roles_Record_Model::getInstanceById(static::$id);
+		$recordModel = \Settings_Roles_Record_Model::getInstanceById(static::$id);
 		$this->assertNotNull($recordModel);
 
 		$recordModel->set('change_owner', 0);
@@ -116,11 +121,11 @@ class Roles extends \Tests\Init\Base
 	 */
 	public function testDeleteRole()
 	{
-		$recordModel = Settings_Roles_Record_Model::getInstanceById(static::$id);
-		$transferToRole = Settings_Roles_Record_Model::getInstanceById('H6');
+		$recordModel = \Settings_Roles_Record_Model::getInstanceById(static::$id);
+		$transferToRole = \Settings_Roles_Record_Model::getInstanceById('H6');
 		$this->assertNotNull($recordModel);
 		$this->assertNotNull($transferToRole);
 		$recordModel->delete($transferToRole);
-		$this->assertFalse((new App\Db\Query())->from('vtiger_role')->where(['roleid' => static::$id])->exists(), 'The record was not removed from the database ID: ' . static::$id);
+		$this->assertFalse((new \App\Db\Query())->from('vtiger_role')->where(['roleid' => static::$id])->exists(), 'The record was not removed from the database ID: ' . static::$id);
 	}
 }
