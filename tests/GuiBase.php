@@ -22,6 +22,7 @@ abstract class GuiBase extends \PHPUnit_Extensions_Selenium2TestCase
 	];
 	public $captureScreenshotOnFailure = TRUE;
 	public $logs;
+	protected $coverageScriptUrl = 'http://localhost/phpunit_coverage.php';
 
 	public function setUp()
 	{
