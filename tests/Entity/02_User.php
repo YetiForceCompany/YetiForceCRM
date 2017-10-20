@@ -28,6 +28,7 @@ class User extends \Tests\Base
 		$user->set('user_password', 'demo');
 		$user->set('confirm_password', 'demo');
 		$user->set('roleid', 'H2');
+		$user->set('is_admin', 'on');
 		$user->save();
 		define('TESTS_USER_ID', $user->getId());
 		$userForus = CRMEntity::getInstance('Users');
