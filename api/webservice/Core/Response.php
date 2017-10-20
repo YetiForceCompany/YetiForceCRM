@@ -76,8 +76,10 @@ class Response
 				if (strpos($requestContentType, 'text/html') !== false) {
 					$response = $this->encodeHtml($this->body);
 				} else if (strpos($requestContentType, 'application/xml') !== false) {
+					header("Content-Disposition: attachment; filename=\"api.xml\"");
 					$response = $this->encodeXml($this->body);
 				} else {
+					header("Content-Disposition: attachment; filename=\"api.json\"");
 					$response = $this->encodeJson($this->body);
 				}
 			}
