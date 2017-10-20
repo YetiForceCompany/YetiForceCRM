@@ -3,6 +3,9 @@
 class Users_ExportData_Action extends Vtiger_ExportData_Action
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -17,7 +20,7 @@ class Users_ExportData_Action extends Vtiger_ExportData_Action
 	 */
 	public function exportData(\App\Request $request)
 	{
-		$moduleName = $request->getByType('source_module', 1);
+		$moduleName = $request->getByType('source_module');
 
 		$this->moduleInstance = Vtiger_Module_Model::getInstance($moduleName);
 		$this->moduleFieldInstances = $this->moduleInstance->getFields();
@@ -26,7 +29,7 @@ class Users_ExportData_Action extends Vtiger_ExportData_Action
 		$entries = $query->all();
 
 		$headers = ['User Name', 'Title', 'First Name', 'Last Name', 'Email', 'Other Email', 'Secondary Email', 'Office Phone', 'Mobile', 'Fax', 'Street', 'City', 'State', 'Country', 'Postal Code'];
-		foreach ($headers as &$header) {
+		foreach ($headers as $header) {
 			$translatedHeaders[] = \App\Language::translate(html_entity_decode($header, ENT_QUOTES), $moduleName);
 		}
 		$this->output($request, $translatedHeaders, $entries);

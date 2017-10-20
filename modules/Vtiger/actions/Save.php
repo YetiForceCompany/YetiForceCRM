@@ -117,27 +117,21 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 	 */
 	protected function getRecordModelFromRequest(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		if (!$request->isEmpty('record', true)) {
-			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
-		} else {
-			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getCleanInstance($moduleName);
-		}
 		$fieldModelList = $recordModel->getModule()->getFields();
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
 			if (!$fieldModel->isWritable()) {
 				continue;
 			}
 			if ($request->has($fieldName)) {
-				$fieldModel->getUITypeModel()->setValueFromRequest($request, $recordModel);
-			} elseif ($recordModel->isNew()) {
+				$fieldModel->getUITypeModel()->setValueFromRequest($request, $this->record);
+			} elseif ($this->record->isNew()) {
 				$defaultValue = $fieldModel->getDefaultFieldValue();
 				if ($defaultValue !== '') {
-					$recordModel->set($fieldName, $defaultValue);
+					$this->record->set($fieldName, $defaultValue);
 				}
 			}
 		}
-		return $recordModel;
+		return $this->record;
 	}
 
 	public function validateRequest(\App\Request $request)

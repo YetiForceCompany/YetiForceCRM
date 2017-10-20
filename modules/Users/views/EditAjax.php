@@ -11,6 +11,9 @@
 Class Users_EditAjax_View extends Vtiger_IndexAjax_View
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -21,6 +24,9 @@ Class Users_EditAjax_View extends Vtiger_IndexAjax_View
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -28,6 +34,9 @@ Class Users_EditAjax_View extends Vtiger_IndexAjax_View
 		$this->exposeMethod('editPasswords');
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
@@ -40,8 +49,8 @@ Class Users_EditAjax_View extends Vtiger_IndexAjax_View
 	public function changePassword(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$moduleName = $request->get('module');
-		$userId = $request->get('record');
+		$moduleName = $request->getModule();
+		$userId = $request->getInteger('record');
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('USERID', $userId);
@@ -52,7 +61,7 @@ Class Users_EditAjax_View extends Vtiger_IndexAjax_View
 	public function editPasswords(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$moduleName = $request->get('module');
+		$moduleName = $request->getModule();
 		$userIds = $request->get('userids');
 
 		$viewer->assign('MODULE', $moduleName);

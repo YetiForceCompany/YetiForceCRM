@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-chdir(dirname(__FILE__) . "/../../../");
+chdir(dirname(__FILE__) . '/../../../');
 require_once 'include/RequirementsValidation.php';
 require_once 'include/main/WebUI.php';
 include_once "include/utils/VtlibUtils.php";
@@ -23,8 +23,8 @@ class Users_ForgotPassword_Action
 	{
 		$viewer = Vtiger_Viewer::getInstance();
 		$userName = $request->get('username');
-		$newPassword = $request->get('password');
-		$confirmPassword = $request->get('confirmPassword');
+		$newPassword = $request->getRaw('password');
+		$confirmPassword = $request->getRaw('confirmPassword');
 		$shortURLID = $request->get('shorturl_id');
 		$secretHash = $request->get('secret_hash');
 		$shortURLModel = Vtiger_ShortURL_Helper::getInstance($shortURLID);

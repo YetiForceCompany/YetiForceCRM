@@ -12,6 +12,9 @@
 class Users_ChangePassword_View extends Vtiger_BasicModal_View
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -22,6 +25,9 @@ class Users_ChangePassword_View extends Vtiger_BasicModal_View
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);

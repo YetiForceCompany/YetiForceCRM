@@ -547,7 +547,7 @@ class Users extends CRMEntity
 
 	public function filterInactiveFields($module)
 	{
-
+		
 	}
 
 	public function deleteImage()
@@ -656,5 +656,15 @@ class Users extends CRMEntity
 		$user = CRMEntity::getInstance('Users');
 		$user->retrieveCurrentUserInfoFromFile($adminId);
 		return $user;
+	}
+
+	public function createAccessKey()
+	{
+		App\Db::getInstance()->createCommand()
+			->update('vtiger_users', [
+				'accesskey' => vtws_generateRandomAccessKey(16),
+				], ['id' => $this->id])
+			->execute();
+		\App\UserPrivilegesFile::createUserPrivilegesfile($this->id);
 	}
 }

@@ -11,6 +11,9 @@
 class Users_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -19,23 +22,21 @@ class Users_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-
 		$recordModel = Users_Record_Model::getCleanInstance($moduleName);
 		$moduleModel = $recordModel->getModule();
-
 		$fieldList = $moduleModel->getFields();
-		$requestFieldList = array_intersect_key($request->getAll(), $fieldList);
-
-		foreach ($requestFieldList as $fieldName => $fieldValue) {
+		foreach (array_intersect($request->getKeys(), array_keys($fieldList)) as $fieldName) {
 			$fieldModel = $fieldList[$fieldName];
 			if ($fieldModel->isWritable()) {
-				$recordModel->set($fieldName, $fieldModel->getDBValue($fieldValue));
+				$fieldModel->getUITypeModel()->setValueFromRequest($request, $recordModel);
 			}
 		}
-
 		$recordStructureInstance = Users_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Users_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
 
 		$viewer = $this->getViewer($request);
@@ -52,6 +53,9 @@ class Users_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		echo $viewer->view('QuickCreate.tpl', $moduleName, true);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getFooterScripts(\App\Request $request)
 	{
 		$moduleName = $request->getModule();

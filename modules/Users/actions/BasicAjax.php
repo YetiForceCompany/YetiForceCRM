@@ -6,15 +6,14 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Users_BasicAjax_Action extends Vtiger_BasicAjax_Action
 {
 
 	/**
-	 * Function to check permission
-	 * @param \App\Request $request
-	 * @throws \App\Exceptions\NoPermitted
+	 * {@inheritDoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -24,25 +23,30 @@ class Users_BasicAjax_Action extends Vtiger_BasicAjax_Action
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$searchValue = $request->get('search_value');
-		$searchModule = $request->get('search_module');
+		$searchModule = $request->getByType('search_module');
 		$parentRecordId = $request->getInteger('parent_id');
-		$parentModuleName = $request->get('parent_module');
+		$parentModuleName = $request->getByType('parent_module');
 
 		$searchModuleModel = Users_Module_Model::getInstance($searchModule);
 		$records = $searchModuleModel->searchRecord($searchValue, $parentRecordId, $parentModuleName);
-
 		$result = [];
 		if (is_array($records)) {
 			foreach ($records as $moduleName => $recordModels) {
 				foreach ($recordModels as $recordModel) {
-					$result[] = ['label' => App\Purifier::decodeHtml($recordModel->getName()), 'value' => App\Purifier::decodeHtml($recordModel->getName()), 'id' => $recordModel->getId()];
+					$result[] = [
+						'label' => App\Purifier::decodeHtml($recordModel->getName()),
+						'value' => App\Purifier::decodeHtml($recordModel->getName()),
+						'id' => $recordModel->getId()
+					];
 				}
 			}
 		}
-
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

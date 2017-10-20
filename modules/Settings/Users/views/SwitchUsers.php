@@ -10,6 +10,9 @@
 class Settings_Users_SwitchUsers_View extends Settings_Vtiger_Index_View
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -23,6 +26,9 @@ class Settings_Users_SwitchUsers_View extends Settings_Vtiger_Index_View
 		$viewer->view('SwitchUsers.tpl', $qualifiedModuleName);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);

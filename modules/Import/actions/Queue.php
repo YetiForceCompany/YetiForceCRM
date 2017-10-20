@@ -56,7 +56,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 		}
 		\App\Db::getInstance()->createCommand()->insert('vtiger_import_queue', [
 			'userid' => $user->id,
-			'tabid' => \App\Module::getModuleId($request->get('module')),
+			'tabid' => \App\Module::getModuleId($request->getModule()),
 			'field_mapping' => \App\Json::encode($request->get('field_mapping')),
 			'default_values' => \App\Json::encode($request->get('default_values')),
 			'merge_type' => $request->get('merge_type'),

@@ -347,12 +347,6 @@ class Activity extends CRMEntity
 		if (is_object($result)) {
 			$query = "REPLACE INTO $tableName (id) SELECT userid as id FROM vtiger_sharedcalendar WHERE sharedid = ?";
 			$result = $db->pquery($query, [$user->id]);
-
-			//For newly created users, entry will not be there in vtiger_sharedcalendar table
-			//so, consider the users whose having the calendarsharedtype is public
-			$query = "REPLACE INTO $tableName (id) SELECT id FROM vtiger_users WHERE calendarsharedtype = ?";
-			$result = $db->pquery($query, ['public']);
-
 			if (is_object($result)) {
 				return true;
 			}
