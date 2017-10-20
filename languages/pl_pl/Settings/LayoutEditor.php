@@ -157,6 +157,7 @@ $languageStrings = [
 	'LBL_MAX_LENGTH_TEXT' => 'Maksymalna długość tekstu',
 	'LBL_MAX_WIDTH_COLUMN' => 'Szerokość kolumny [%]',
 	'LBL_EDIT_CUSTOM_FIELD' => 'Edytuj pole',
+	'LBL_EXCEEDED_MAXIMUM_NUMBER_CHARACTERS_FOR_FIELD_NAME' => 'Przekroczono dozwoloną długość nazwy pola, maks 30 znaków',
 ];
 
 $jsLanguageStrings = [

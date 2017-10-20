@@ -157,7 +157,8 @@ $languageStrings = [
 	'LBL_ADD_ADVANCED_BLOCK_FIELDS' => 'Agregar campos de bloque avanzado',
 	'LBL_MAX_LENGTH_TEXT' => 'Longitud máxima del texto',
 	'LBL_MAX_WIDTH_COLUMN' => 'Ancho de columna [%]',
-	'LBL_EDIT_CUSTOM_FIELD' => 'Editar campo'
+	'LBL_EDIT_CUSTOM_FIELD' => 'Editar campo',
+	'LBL_EXCEEDED_MAXIMUM_NUMBER_CHARACTERS_FOR_FIELD_NAME' => 'You exceeded the maximum number of 30 characters for field name.',
 ];
 
 $jsLanguageStrings = [
