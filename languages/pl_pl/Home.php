@@ -29,7 +29,7 @@ $languageStrings = [
 	'LBL_TYPE_NOTIFICATIONS' => 'Typy powiadomień',
 	'LBL_TIME' => 'Czas',
 	'LBL_NOTIFICATION_BY_SENDER' => 'Ilość powiadomień wg nadawców',
-	'LBL_NOTIFICATION_BY_RECIPIENT' => 'Ilość powiadomien wg odbiorców',
+	'LBL_NOTIFICATION_BY_RECIPIENT' => 'Ilość powiadomień wg odbiorców',
 	// Widgets
 	'LBL_MINI_LIST' => 'Okno z filtrem',
 	'LBL_FILTERING_BY_DATE' => 'Filtruj po dacie z pola',
