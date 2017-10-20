@@ -30,11 +30,11 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		if (!is_array($value)) {
-			throw new \App\Exceptions\SaveRecord('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			$value = [$value];
 		}
-		foreach ($value as $shownerid) {
-			if (!is_numeric($shownerid)) {
-				throw new \App\Exceptions\SaveRecord('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+		foreach ($value as $id) {
+			if (!is_numeric($id)) {
+				throw new \App\Exceptions\SaveRecord('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $id, 406);
 			}
 		}
 		$this->validate = true;
