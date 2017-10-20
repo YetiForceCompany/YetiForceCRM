@@ -42,7 +42,7 @@
 										<tr>
 											<td colspan="2" style="padding-left: 20px;">
 												<div class='checkbox'>
-													<input type="checkbox" class="checkbox" name="deleteUserPermanent" value="1" >&nbsp;{\App\Language::translate('LBL_DELETE_USER_PERMANENTLY',$MODULE)} 
+													<input type="checkbox" class="checkbox" name="deleteUserPermanent" value="true" >&nbsp;{\App\Language::translate('LBL_DELETE_USER_PERMANENTLY',$MODULE)} 
 												</div>
 											</td>
 										</tr>

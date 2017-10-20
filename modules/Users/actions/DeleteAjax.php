@@ -13,6 +13,9 @@ Vtiger_Loader::includeOnce('~include/Webservices/Custom/DeleteUser.php');
 class Users_DeleteAjax_Action extends Vtiger_Delete_Action
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -21,6 +24,9 @@ class Users_DeleteAjax_Action extends Vtiger_Delete_Action
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -31,8 +37,8 @@ class Users_DeleteAjax_Action extends Vtiger_Delete_Action
 		} else {
 			$userObj = new Users();
 			$userObj->transformOwnerShipAndDelete($userId, $transformUserId);
-			if ($request->get('permanent') === '1') {
-				Users_Record_Model::deleteUserPermanently($ownerId, $newOwnerId);
+			if ($request->getBoolean('permanent')) {
+				Users_Record_Model::deleteUserPermanently($userId, $transformUserId);
 			}
 		}
 		$userModuleModel = Users_Module_Model::getInstance($moduleName);
