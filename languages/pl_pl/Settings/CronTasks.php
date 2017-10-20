@@ -56,7 +56,7 @@ $languageStrings = [
 	'LBL_MAILER' => 'Wysyłka emaili',
 	'LBL_CARD_DAV' => 'Integracja CardDav',
 	'LBL_CAL_DAV' => 'Integracja CalDav',
-	'LBL_CLEAR_ATTACHMENTS_TABLE' => 'Czyszczenie tablicy zalączników',
+	'LBL_CLEAR_ATTACHMENTS_TABLE' => 'Czyszczenie tablicy załączników',
 	'LBL_SMSNOTIFIER' => 'Wiadomości SMS',
 ];
 $jsLanguageStrings = [
