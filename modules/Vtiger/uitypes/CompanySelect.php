@@ -15,7 +15,7 @@ class Vtiger_CompanySelect_UIType extends Vtiger_Base_UIType
 	 * @param int $value
 	 * @param bool $isUserFormat
 	 * @return null
-	 * @throws \App\Exceptions\SaveRecord
+	 * @throws \App\Exceptions\Security
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
@@ -23,7 +23,7 @@ class Vtiger_CompanySelect_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		if (!is_numeric($value)) {
-			throw new \App\Exceptions\SaveRecord('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;
 	}

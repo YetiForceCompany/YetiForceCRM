@@ -26,10 +26,10 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if (!\App\Privilege::isPermitted($request->getModule(), 'EditView')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		$this->fieldModel = Vtiger_Module_Model::getInstance($request->getModule())->getFieldByName($request->getByType('fieldName', 2));
 		if (!$this->fieldModel || !$this->fieldModel->isEditable()) {
@@ -63,7 +63,7 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 	public function getOwners(\App\Request $request)
 	{
 		if (!AppConfig::performance('SEARCH_OWNERS_BY_AJAX')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if ($this->fieldModel->getFieldDataType() !== 'owner' && $this->fieldModel->getFieldDataType() !== 'sharedOwner') {
 			throw new \App\Exceptions\NoPermitted('LBL_NO_PERMISSIONS_TO_FIELD');
@@ -114,7 +114,7 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 	public function getUserRole(\App\Request $request)
 	{
 		if (!AppConfig::performance('SEARCH_ROLES_BY_AJAX')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if ($this->fieldModel->getFieldDataType() !== 'userRole') {
 			throw new \App\Exceptions\NoPermitted('LBL_NO_PERMISSIONS_TO_FIELD');
@@ -141,7 +141,7 @@ class Vtiger_Fields_Action extends Vtiger_Action_Controller
 	public function getReference(\App\Request $request)
 	{
 		if (!AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if (!$this->fieldModel->isReferenceField()) {
 			throw new \App\Exceptions\NoPermitted('LBL_NO_PERMISSIONS_TO_FIELD');

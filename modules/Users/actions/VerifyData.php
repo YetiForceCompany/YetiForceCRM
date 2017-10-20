@@ -19,7 +19,7 @@ class Users_VerifyData_Action extends Vtiger_Action_Controller
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUser->isAdminUser() && $currentUser->getId() != $request->getInteger('record')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 

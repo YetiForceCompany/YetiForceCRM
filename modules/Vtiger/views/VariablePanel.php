@@ -20,10 +20,10 @@ class Vtiger_VariablePanel_View extends Vtiger_View_Controller
 	{
 		$moduleName = $request->getModule();
 		if (!\App\Privilege::isPermitted($moduleName, 'CreateView')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if (!$request->isEmpty('record') && !\App\Privilege::isPermitted($moduleName, 'EditView', $request->getInteger('record'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 

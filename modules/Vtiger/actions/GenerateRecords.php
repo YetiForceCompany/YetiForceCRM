@@ -18,7 +18,7 @@ class Vtiger_GenerateRecords_Action extends Vtiger_Action_Controller
 	{
 		$userPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$userPriviligesModel->hasModuleActionPermission($request->getByType('target'), 'CreateView') || !$userPriviligesModel->hasModuleActionPermission($request->getModule(), 'RecordMappingList')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 

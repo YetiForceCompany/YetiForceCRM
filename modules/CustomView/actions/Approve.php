@@ -18,7 +18,7 @@ class CustomView_Approve_Action extends Vtiger_Action_Controller
 	public function checkPermission(\App\Request $request)
 	{
 		if (!CustomView_Record_Model::getInstanceById($request->getInteger('record'))->isPending()) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 

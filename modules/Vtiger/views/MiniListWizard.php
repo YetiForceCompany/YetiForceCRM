@@ -29,7 +29,7 @@ class Vtiger_MiniListWizard_View extends Vtiger_Index_View
 			case 'step2':
 				$selectedModule = $request->getByType('selectedModule', 1);
 				if (!\App\Privilege::isPermitted($selectedModule)) {
-					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 				}
 				$filters = CustomView_Record_Model::getAllByGroup($selectedModule);
 				$viewer->assign('ALLFILTERS', $filters);
@@ -37,7 +37,7 @@ class Vtiger_MiniListWizard_View extends Vtiger_Index_View
 			case 'step3':
 				$selectedModule = $request->getByType('selectedModule', 1);
 				if (!\App\Privilege::isPermitted($selectedModule)) {
-					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 				}
 				$queryGenerator = new \App\QueryGenerator($selectedModule);
 				$queryGenerator->initForCustomViewById($request->getInteger('filterid'));

@@ -95,7 +95,7 @@ class Settings_ModuleManager_Library_Model
 	{
 		if (!static::$libraries[$name]) {
 			App\Log::warning('Library does not exist: ' . $name);
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 
 		$lib = static::$libraries[$name];

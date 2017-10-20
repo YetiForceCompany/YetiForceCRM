@@ -17,7 +17,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 	 * @param string $value
 	 * @param bool $isUserFormat
 	 * @return null
-	 * @throws \App\Exceptions\SaveRecord
+	 * @throws \App\Exceptions\Security
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
@@ -25,7 +25,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
-			throw new \App\Exceptions\SaveRecord('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;
 	}

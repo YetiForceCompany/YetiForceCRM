@@ -24,12 +24,12 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if (!$request->isEmpty('record', true)) {
 			$reportModel = Reports_Record_Model::getCleanInstance($request->getInteger('record'));
 			if (!$reportModel->isEditable()) {
-				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
 		}
 	}
@@ -53,7 +53,7 @@ Class Reports_ChartEdit_View extends Vtiger_Edit_View
 				$viewer->assign('MODULE', $primaryModule);
 				$viewer->assign('MESSAGE', 'LBL_PERMISSION_DENIED');
 				$viewer->view('OperationNotPermitted.tpl', $primaryModule);
-				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
 		}
 

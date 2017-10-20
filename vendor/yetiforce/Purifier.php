@@ -105,7 +105,7 @@ class Purifier
 	{
 		if (preg_match("#<([^><]+?)([^a-z_\-]on\w*|xmlns)(\s*=\s*[^><]*)([>]*)#i", $value) || preg_match("/\b(" . static::$htmlEventAttributes . ")\s*=/i", $value) || preg_match('@<[^/>][^>]+(expression\(|j\W*a\W*v\W*a|v\W*b\W*s\W*c\W*r|&#|/\*|\*/)[^>]*>@sim', $value)) {
 			\App\Log::error('purifyHtmlEventAttributes: ' . $value, 'BadRequest');
-			throw new Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE');
+			throw new Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE', 406);
 		}
 		return $value;
 	}
@@ -259,7 +259,7 @@ class Purifier
 			return $input;
 		}
 		\App\Log::error('purifySql: ' . $input, 'BadRequest');
-		throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||' . $input);
+		throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||' . $input, 406);
 	}
 
 	/**
@@ -310,7 +310,7 @@ class Purifier
 			}
 			if ($value === false) {
 				\App\Log::error('purifyByType: ' . $input, 'BadRequest');
-				throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE');
+				throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE', 406);
 			}
 		}
 		return $value;
