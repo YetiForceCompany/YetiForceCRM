@@ -34,7 +34,7 @@ class Base extends \PHPUnit_Extensions_Selenium2TestCase
 		if (!file_exists($screenshotsDir)) {
 			mkdir($screenshotsDir, 0777, true);
 		}
-		$this->listener = new PHPUnit_Extensions_Selenium2TestCase_ScreenshotListener($screenshotsDir);
+		$this->listener = new \PHPUnit_Extensions_Selenium2TestCase_ScreenshotListener($screenshotsDir);
 		$this->prepareSession();
 	}
 
