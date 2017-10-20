@@ -8,7 +8,7 @@
  */
 namespace Tests\Settings;
 
-class SharingAccess extends \Tests\Init\Base
+class SharingAccess extends \Tests\Base
 {
 
 	/**

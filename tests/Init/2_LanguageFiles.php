@@ -7,7 +7,7 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class LanguageFiles extends \Tests\Init\Base
+class LanguageFiles extends \Tests\Base
 {
 
 	/**

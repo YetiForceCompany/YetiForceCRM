@@ -8,7 +8,7 @@
  */
 namespace Tests\Settings;
 
-class Groups extends \Tests\Init\Base
+class Groups extends \Tests\Base
 {
 
 	/**

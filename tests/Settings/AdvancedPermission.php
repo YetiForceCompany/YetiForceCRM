@@ -8,7 +8,7 @@
  */
 namespace Tests\Settings;
 
-class AdvancedPermission extends \Tests\Init\Base
+class AdvancedPermission extends \Tests\Base
 {
 
 	/**

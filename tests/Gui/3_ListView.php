@@ -7,7 +7,7 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Gui_ListView extends Tests\Gui\Base
+class Gui_ListView extends \Tests\GuiBase
 {
 
 	/**

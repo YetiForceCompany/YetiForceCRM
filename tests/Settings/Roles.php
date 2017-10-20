@@ -8,7 +8,7 @@
  */
 namespace Tests\Settings;
 
-class Roles extends \Tests\Init\Base
+class Roles extends \Tests\Base
 {
 
 	/**

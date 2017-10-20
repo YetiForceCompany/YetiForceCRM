@@ -8,7 +8,7 @@
  */
 namespace Tests\Settings;
 
-class TreesManager extends \Tests\Init\Base
+class TreesManager extends \Tests\Base
 {
 
 	/**

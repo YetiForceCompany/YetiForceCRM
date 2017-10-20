@@ -7,7 +7,7 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Arkadiusz Sołek <a.solek@yetiforce.com>
  */
-class Companies extends \Tests\Init\Base
+class Companies extends \Tests\Base
 {
 
 	/**

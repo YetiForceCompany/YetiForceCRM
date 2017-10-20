@@ -8,7 +8,7 @@
  */
 namespace Tests\Settings;
 
-class GlobalPermissions extends \Tests\Init\Base
+class GlobalPermissions extends \Tests\Base
 {
 
 	/**

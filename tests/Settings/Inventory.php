@@ -8,7 +8,7 @@
  */
 namespace Tests\Settings;
 
-class Inventory extends \Tests\Init\Base
+class Inventory extends \Tests\Base
 {
 
 	/**
