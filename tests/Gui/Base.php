@@ -20,10 +20,10 @@ class Base extends \PHPUnit_Extensions_Selenium2TestCase
 			'sessionStrategy' => 'shared',
 		],
 	];
-	protected $captureScreenshotOnFailure = TRUE;
+	public $captureScreenshotOnFailure = TRUE;
 	public $logs;
 
-	protected function setUp()
+	public function setUp()
 	{
 		parent::setUp();
 
