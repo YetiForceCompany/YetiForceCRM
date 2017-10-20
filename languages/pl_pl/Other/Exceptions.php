@@ -10,4 +10,5 @@ $languageStrings = [
 	'ERR_ILLEGAL_FIELD_VALUE' => 'Niedozwolona wartość w polu %s (%s)',
 	'ERR_VALUE_IS_TOO_LONG' => 'Wartość pola %s jest za długa (%s)',
 	'ERR_VALUE_CAN_NOT_BE_LESS_THAN_ZERO' => 'Wartość pola %s musi być większa od zera (%s)',
+	'ERR_NOT_ALLOWED_VALUE' => 'Wykryto niedozwoloną wartość (%s), prosimy o kontakt z administratorem',
 ];

@@ -81,7 +81,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 			$data = $this->getData();
 			foreach ($data as $key => $item) {
 				if (!in_array($key, $editFields)) {
-					throw new \App\Exceptions\BadRequest('LBL_NOT_ALLOWED_VALUE');
+					throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE');
 				}
 				if (is_array($item)) {
 					$item = implode(',', $item);
@@ -100,7 +100,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		} else {
 			foreach ($this->getData() as $key => $item) {
 				if (!in_array($key, $editFields)) {
-					throw new \App\Exceptions\BadRequest('LBL_NOT_ALLOWED_VALUE');
+					throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE');
 				}
 				if (is_array($item)) {
 					$item = implode(',', $item);

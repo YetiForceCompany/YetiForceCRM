@@ -45,7 +45,7 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		} else {
 			$color = $request->get('color');
 			if (!\App\Colors::checkFormatValue($color)) {
-				throw new \App\Exceptions\BadRequest('LBL_NOT_ALLOWED_VALUE');
+				throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE');
 			}
 		}
 		\App\Colors::updateUserColor($recordId, $color);
@@ -85,7 +85,7 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		} else {
 			$color = $request->get('color');
 			if (!\App\Colors::checkFormatValue($color)) {
-				throw new \App\Exceptions\BadRequest('LBL_NOT_ALLOWED_VALUE');
+				throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE');
 			}
 		}
 		\App\Colors::updateGroupColor($request->getInteger('record'), $color);
@@ -126,7 +126,7 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		} else {
 			$color = $request->get('color');
 			if (!\App\Colors::checkFormatValue($color)) {
-				throw new \App\Exceptions\BadRequest('LBL_NOT_ALLOWED_VALUE');
+				throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE');
 			}
 		}
 		\App\Colors::updateModuleColor($recordId, $color);
@@ -186,7 +186,7 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		} else {
 			$color = $request->get('color');
 			if (!\App\Colors::checkFormatValue($color)) {
-				throw new \App\Exceptions\BadRequest('LBL_NOT_ALLOWED_VALUE');
+				throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE');
 			}
 		}
 		\App\Colors::updatePicklistValueColor($request->getInteger('fieldId'), $request->getInteger('fieldValueId'), $color);
@@ -251,7 +251,7 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		if (!$params['color']) {
 			$params['color'] = \App\Colors::getRandomColor();
 		} else if (!\App\Colors::checkFormatValue($params['color'])) {
-			throw new \App\Exceptions\BadRequest('LBL_NOT_ALLOWED_VALUE');
+			throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE');
 		}
 		if (!is_numeric($params['id'])) {
 			Settings_Calendar_Module_Model::updateCalendarConfig($params);

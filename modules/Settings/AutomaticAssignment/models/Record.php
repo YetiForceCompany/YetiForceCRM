@@ -351,7 +351,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 		$fieldsToEdit = $this->getEditableFields();
 		foreach ($this->getData() as $key => $value) {
 			if (!in_array($key, $fieldsToEdit)) {
-				throw new \App\Exceptions\BadRequest('LBL_NOT_ALLOWED_VALUE');
+				throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE');
 			}
 			$params[$key] = $this->getValueToSave($key, $value);
 		}

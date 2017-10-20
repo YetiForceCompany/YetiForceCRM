@@ -1318,7 +1318,6 @@ $languageStrings = [
 	'BTN_SUBMIT' => 'Ausführen',
 	'LBL_PHONE_CALL_SUCCESS' => 'Anruf wird eingeleitet',
 	'LBL_BAD_REQUEST' => 'Fehlerhafte Anfrage',
-	'LBL_NOT_ALLOWED_VALUE' => 'Fehlerhafter Wert entdeckt, bitte kontaktieren Sie Ihren Administrator',
 	'LBL_NO_PHONE_COUNTRY' => 'Kein Länderschlüssel',
 	'LBL_INVALID_COUNTRY_CODE' => 'Fehlerhafter Länderschlüssel',
 	'LBL_INVALID_PHONE_NUMBER' => 'Fehlerhafte Telefonnummer',

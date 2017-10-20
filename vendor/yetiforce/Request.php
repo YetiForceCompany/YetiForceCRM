@@ -167,7 +167,7 @@ class Request
 		if (($value = filter_var($this->rawValues[$key], FILTER_VALIDATE_INT)) !== false) {
 			return $this->purifiedValuesByInteger[$key] = $value;
 		}
-		throw new \App\Exceptions\BadRequest('LBL_NOT_ALLOWED_VALUE');
+		throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE');
 	}
 
 	/**
