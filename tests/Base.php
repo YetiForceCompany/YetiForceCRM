@@ -8,7 +8,7 @@
  */
 namespace Tests;
 
-class Base extends \PHPUnit\Framework\TestCase
+abstract class Base extends \PHPUnit\Framework\TestCase
 {
 
 	/**

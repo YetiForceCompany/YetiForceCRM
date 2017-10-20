@@ -8,7 +8,7 @@
  */
 namespace Tests;
 
-class GuiBase extends \PHPUnit_Extensions_Selenium2TestCase
+abstract class GuiBase extends \PHPUnit_Extensions_Selenium2TestCase
 {
 
 	public static $browsers = [
