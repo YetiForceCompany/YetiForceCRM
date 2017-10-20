@@ -259,7 +259,7 @@ class Purifier
 			return $input;
 		}
 		\App\Log::error('purifySql: ' . $input, 'BadRequest');
-		throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||' . $input, 406);
+		throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE', 406);
 	}
 
 	/**
