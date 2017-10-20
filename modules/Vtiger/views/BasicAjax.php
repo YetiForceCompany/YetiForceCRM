@@ -136,7 +136,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			}
 			$operator = (!$request->isEmpty('operator') ) ? $request->getByType('operator', 1) : false;
 			$searchModule = false;
-			if ($request->getByType('searchModule', 1)) {
+			if (!$request->isEmpty('searchModule', true)) {
 				$searchModule = $request->getByType('searchModule', 1);
 			}
 			$viewer->assign('SEARCH_KEY', $searchKey);
