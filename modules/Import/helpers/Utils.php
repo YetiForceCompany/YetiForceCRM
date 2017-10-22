@@ -18,7 +18,7 @@ class Import_Utils_Helper
 	public static $supportedFileExtensions = ['csv', 'vcf', 'ical', 'xml', 'ics'];
 	public static $supportedFileExtensionsByModule = ['Contacts' => ['csv', 'vcf'], 'Calendar' => ['csv', 'ical', 'ics'], 'Default' => ['csv', 'xml', 'zip']];
 
-	public function getSupportedFileExtensions($moduleName = null)
+	public static function getSupportedFileExtensions($moduleName = null)
 	{
 		if (!$moduleName) {
 			return self::$supportedFileExtensions;
