@@ -243,7 +243,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function getEditViewUrl()
 	{
 		$module = $this->getModule();
-		return 'index.php?module=' . $this->getModuleName() . '&view=' . $module->getEditViewName() . '&record=' . $this->getId();
+		return 'index.php?module=' . $this->getModuleName() . '&view=' . $module->getEditViewName() . ($this->getId() ? '&record=' . $this->getId() : '');
 	}
 
 	/**
