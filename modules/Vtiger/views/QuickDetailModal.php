@@ -30,6 +30,10 @@ class Vtiger_QuickDetailModal_View extends Vtiger_BasicModal_View
 		return 'modalRightSiteBar';
 	}
 
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$this->preProcess($request);
@@ -39,6 +43,7 @@ class Vtiger_QuickDetailModal_View extends Vtiger_BasicModal_View
 		$detailModel->getWidgets();
 		$handlerClass = Vtiger_Loader::getComponentClassName('View', 'Detail', $moduleName);
 		$detailView = new $handlerClass();
+		$detailView->record = $detailModel;
 
 		$widgets = [];
 		foreach ($detailModel->widgets as $dw) {

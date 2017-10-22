@@ -16,7 +16,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * Record model instance
 	 * @var Vtiger_DetailView_Model
 	 */
-	protected $record = false;
+	public $record = false;
 	protected $recordStructure = false;
 	public $defaultMode = false;
 
