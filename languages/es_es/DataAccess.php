@@ -37,7 +37,7 @@ $languageStrings = [
 	//
 	'Action_show_quick_create' => 'Creación rápida',
 	'Action_Desc_show_quick_create' => 'Esta acción muestra la creación rápida.',
-	'LBL_SELECT_OPTION' => 'Seleccionar una Opción',
+	'LBL_SELECT_OPTION' => '-Elige uno-',
 	//
 	'Action_blockEditView' => 'Bloquear la vista edición',
 	'Action_Desc_blockEditView' => 'Esta acción bloquea la vista edición (la edición rápida y completa).',
