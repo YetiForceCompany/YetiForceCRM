@@ -48,7 +48,7 @@ $languageStrings = [
 	'attentions' => 'Comentarios',
 	'BLOCK_INFORMATION_TIME' => 'Información de Tiempos',
 	'LBL_GENERATE_EXTENSION' => 'Generar extensión',
-	'LBL_ORDER_TIME' => 'Tiempo de Pedido',
+	'LBL_ORDER_TIME' => 'Tiempo de ejecución',
 	'LBL_EXPIRING_SOLD_PRODUCTS' => 'Caducidad de productos vendidos',
 	'LBL_CHANGE_STATUS' => 'Cambiar Estado',
 ];

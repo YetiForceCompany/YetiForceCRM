@@ -28,7 +28,7 @@ $languageStrings = [
 	'Where bought' => 'Donde compró',
 	'Services' => 'Servicios',
 	'LBL_GENERATE_EXTENSION' => 'Generar extensión',
-	'LBL_ORDER_TIME' => 'Fecha de pedido',
+	'LBL_ORDER_TIME' => 'Tiempo de ejecución',
 	'FL_RENEWAL_INVOICE' => 'Factura de renovación',
 	// picklist values
 	'FL_RENEWAL' => 'Renovación',

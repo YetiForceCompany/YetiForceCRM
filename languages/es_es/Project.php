@@ -36,6 +36,7 @@ $languageStrings = [
 	'description' => 'Descripción',
 	'Related to' => 'Relacionado con',
 	'FL_MEMBER_OF' => 'Proyecto padre',
+	'ServiceContracts' => 'Contrato de servicio',
 	//Summary Information
 	'LBL_TASKS_OPEN' => 'Tareas abiertas',
 	'LBL_TASKS_DUE' => 'Tareas pendientes',

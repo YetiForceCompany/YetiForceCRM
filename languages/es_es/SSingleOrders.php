@@ -22,7 +22,7 @@ $languageStrings = [
 	'LBL_REALIZATION_START_DATE' => 'Fecha inicio de la realización',
 	'LBL_REALIZATION_COMPLETION_DATE' => 'Fecha fin de la realización',
 	'LBL_ACTUAL_COMPLETION_DATE' => 'Fecha de finalización real',
-	'LBL_COMPANY_NAME' => 'Nombre de empresa',
+	'LBL_COMPANY_NAME' => 'Nombre del Cliente',
 	'SINGLE_SSalesProcesses' => 'Oportunidad',
 	'FL_TOTAL_PRICE' => 'Neto',
 	'FL_MARGINP' => 'Porcentaje de margen total',
@@ -35,7 +35,7 @@ $languageStrings = [
 	'FL_STORAGE' => 'Almacenamiento',
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Borrador',
-	'PLL_IN_REALIZATION' => 'En progreso',
+	'PLL_IN_REALIZATION' => 'En proceso',
 	'PLL_FOR_VERIFICATION' => 'Por Aprobar',
 	'PLL_AWAITING_SIGNATURES' => 'En espera de firmas',
 	'PLL_CANCELLED' => 'Cancelado',
