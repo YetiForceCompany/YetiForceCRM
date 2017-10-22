@@ -147,7 +147,7 @@ class Request
 		if (is_bool($value)) {
 			return $value;
 		}
-		return strcasecmp('true', (string) $value) === 0;
+		return strcasecmp('true', (string) $value) === 0 || '1' === (string) $value;
 	}
 
 	/**
