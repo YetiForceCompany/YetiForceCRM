@@ -117,7 +117,7 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 	 */
 	protected function getRecordModelFromRequest(\App\Request $request)
 	{
-		$fieldModelList = $recordModel->getModule()->getFields();
+		$fieldModelList = $this->record->getModule()->getFields();
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
 			if (!$fieldModel->isWritable()) {
 				continue;
