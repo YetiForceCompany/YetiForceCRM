@@ -120,18 +120,17 @@ class ModuleManager extends \Tests\Init\Base
 		if ($type === 'Tree' || $type === 'CategoryMultipicklist') {
 			//Add a tree if it does not exist
 			if (empty(static::$treeId)) {
-				$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName('Test');
-				$objTreesManager = new TreesManager();
-				static::$treeId = $objTreesManager->testAddTree(1, $moduleModel->getId());
+				static::$treeId = (new TreesManager())->testAddTree(1, \Settings_LayoutEditor_Module_Model::getInstanceByName('Test')->getId());
 			}
 			$param['tree'] = static::$treeId;
+		} elseif ($type === 'MultiReferenceValue') {
+			$param['MRVField'] = $this->getMRVField();
 		}
 
 		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName($param['sourceModule']);
 		$fieldModel = $moduleModel->addField($param['fieldType'], static::$blockId, $param);
 		static::$fieldsId[$key] = $fieldModel->getId();
 		$details = $moduleModel->getTypeDetailsForAddField($type, $param);
-
 		$row = (new \App\Db\Query())->from('vtiger_field')->where(['fieldid' => static::$fieldsId[$key], 'tabid' => $moduleModel->getId()])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$fieldsId[$key]);
 		$this->assertEquals($row['fieldname'], $param['fieldName']);
@@ -171,6 +170,9 @@ class ModuleManager extends \Tests\Init\Base
 
 				$this->assertEquals((new \App\Db\Query)->from('vtiger_role')->count() * count($param['pickListValues']), (new \App\Db\Query)->from('vtiger_role2picklist')->where(['picklistid' => $rowPicklist['picklistid']])->count(), 'Wrong number of rows in the table "vtiger_role2picklist"');
 				break;
+			case 305: //MultiReferenceValue
+				$this->assertTrue((new \App\Db\Query())->from('s_#__multireference')->where(['source_module' => 'Test', 'dest_module' => 'Contacts'])->exists(), 'No record in the table "s_yf_multireference" for type ' . $type);
+				break;
 		}
 	}
 
@@ -202,11 +204,12 @@ class ModuleManager extends \Tests\Init\Base
 			['MultiSelectCombo', ['fieldTypeList' => 0, 'pickListValues' => ['c1', 'c2', 'c3']]],
 			['Tree', ['fieldTypeList' => 0]],
 			['CategoryMultipicklist', ['fieldTypeList' => 0]],
+			['MultiReferenceValue', ['fieldTypeList' => 0, 'MRVModule' => 'Contacts']],
 		];
 	}
 
 	/**
-	 * Testing the deletion of a new field text for the module
+	 * Testing the deletion of a new field
 	 * @link https://phpunit.de/manual/3.7/en/writing-tests-for-phpunit.html#writing-tests-for-phpunit.data-providers
 	 * @dataProvider providerForField
 	 * *****
@@ -238,6 +241,9 @@ class ModuleManager extends \Tests\Init\Base
 				$this->assertFalse((new \App\Db\Query())->from('vtiger_picklist')->where(['name' => $columnName])->exists(), 'The record from "vtiger_picklist" was not removed from the database ID: ' . static::$fieldsExtraId[$key]);
 
 				$this->assertEquals(0, (new \App\Db\Query)->from('vtiger_role2picklist')->where(['picklistid' => static::$pickList[$key]])->count(), 'All rows in the table "vtiger_role2picklist" have not been deleted');
+				break;
+			case 305: //MultiReferenceValue
+				$this->assertFalse((new \App\Db\Query())->from('s_#__multireference')->where(['source_module' => 'Test', 'dest_module' => 'Contacts'])->exists(), 'The record from "s_#__multireference" was not removed.');
 				break;
 		}
 	}
@@ -290,7 +296,7 @@ class ModuleManager extends \Tests\Init\Base
 
 	/**
 	 * Testing module removal
-	 * group extended
+	 * *****
 	 */
 	public function testDeleteModule()
 	{
@@ -390,6 +396,31 @@ class ModuleManager extends \Tests\Init\Base
 				$this->assertEquals(0, (new \App\Db\Query())->select('presence')->from('vtiger_tab')->where(['tabid' => $module->getId()])->scalar());
 			}
 		}
+	}
+
+	/**
+	 * Get Id of MultiReferenceValue field
+	 * @return int
+	 */
+	private function getMRVField()
+	{
+		$label = 'TestRel123';
+		$type = 'getRelatedList';
+		$actions = ['ADD', 'SELECT'];
+
+		$source_Module = \vtlib\Module::getInstance('Test');
+		$moduleInstance = \vtlib\Module::getInstance('Contacts');
+		$source_Module->setRelatedList($moduleInstance, $label, $actions, $type);
+
+
+		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName('Test');
+		$fields = [];
+		foreach ($moduleModel->getRelations() as $value) {
+			foreach ($value->getFields() as $valF) {
+				$fields[] = $valF->getId();
+			}
+		}
+		return $fields[0];
 	}
 
 	/**
