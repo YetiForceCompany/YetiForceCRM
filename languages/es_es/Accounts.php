@@ -107,5 +107,5 @@ $languageStrings = [
 $jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'El nombre del Cliente ya existe. ¿Quieres crear un registro duplicado?',
 	'LBL_DELETE_CONFIRMATION' => 'Eliminando este Cliente eliminará las Oportunidades y Ofertas asociadas. ¿Está seguro de que quiere eliminar esta Cliente?',
-	'LBL_MASS_DELETE_CONFIRMATION' => 'Eliminando estos(s) Cliente(s) eliminará las Oportunidades y Ofertas asociadas. ¿Está seguro de que quiere eliminar esta(s) Cliente(s)?',
+	'LBL_MASS_DELETE_CONFIRMATION' => 'Eliminando estos Clientes eliminará las Oportunidades y Ofertas asociadas. ¿Está seguro de que quiere eliminar esta(s) Cliente(s)?',
 ];
