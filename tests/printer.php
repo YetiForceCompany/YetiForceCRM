@@ -24,6 +24,9 @@ class YtResultPrinter extends PHPUnit\TextUI\ResultPrinter
 		}
 	}
 
+	/**
+	 * @param TestResult $result
+	 */
 	public function printResult(\PHPUnit\Framework\TestResult $result)
 	{
 		$this->write("\n==========================================================================================================");
