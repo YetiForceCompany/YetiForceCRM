@@ -30,5 +30,6 @@ class Gui_Roles extends \Tests\GuiBase
 	{
 		$this->url('/index.php?module=Roles&parent=Settings&view=Index');
 		$this->byCssSelector('.toolbar-handle .toolbar a')->click();
+		$this->assertEquals('Roles', $this->byId('module')->value());
 	}
 }
