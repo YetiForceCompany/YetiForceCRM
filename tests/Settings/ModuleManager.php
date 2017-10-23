@@ -87,16 +87,6 @@ class ModuleManager extends \Tests\Init\Base
 	}
 
 	/**
-	 * Testing creation tree
-	 */
-	public function testAddTree()
-	{
-		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName('Test');
-		$objTreesManager = new TreesManager();
-		static::$treeId = $objTreesManager->testAddTree(1, $moduleModel->getId());
-	}
-
-	/**
 	 * Testing the creation of a new block for the module
 	 */
 	public function testCreateNewBlock()
@@ -128,6 +118,12 @@ class ModuleManager extends \Tests\Init\Base
 		$param['blockid'] = static::$blockId;
 		$param['sourceModule'] = 'Test';
 		if ($type === 'Tree' || $type === 'CategoryMultipicklist') {
+			//Add a tree if it does not exist
+			if (empty(static::$treeId)) {
+				$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName('Test');
+				$objTreesManager = new TreesManager();
+				static::$treeId = $objTreesManager->testAddTree(1, $moduleModel->getId());
+			}
 			$param['tree'] = static::$treeId;
 		}
 
