@@ -9,9 +9,6 @@
 			{assign var=RECORD_ID value=$RECORD->getId()}
 			<div class="panel picklistCBr_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}" data-record="{$RECORD_ID}">
 				<div class="panel-heading picklistCBg_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}"
-					 {if !empty($COLOR_LIST[$RECORD_ID])}
-					 {/strip} {strip}style="background: {$COLOR_LIST[$RECORD_ID]['background']} !important; color: {$COLOR_LIST[$RECORD_ID]['text']} !important;"
-					 {/if}>
 					<button class="btn btn-success btn-xs pull-right showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}">
 						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 					</button>

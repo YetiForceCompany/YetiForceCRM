@@ -44,6 +44,8 @@ class TreesManager extends \Tests\Base
 		$this->assertEquals($row['module'], $moduleId);
 		$this->assertEquals($row['share'], \Settings_TreesManager_Record_Model::getShareFromArray($share));
 		$this->assertEquals((new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => static::$treesId[$key]])->count(), static::countItems($tree));
+
+		return static::$treesId[$key];
 	}
 
 	/**

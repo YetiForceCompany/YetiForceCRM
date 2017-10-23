@@ -135,6 +135,7 @@ class Deprecated
 		} else {
 			\App\Log::error("The file $filename does not exist");
 		}
+		\App\Module::init();
 	}
 
 	public static function getModuleTranslationStrings($language, $module)

@@ -77,7 +77,7 @@
 				{assign var="LISTVIEW_HEADER_COUNT" value=count($LISTVIEW_HEADERS)}
 				{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
 					{assign var="RECORD_ID" value=$LISTVIEW_ENTRY->getId()}
-					<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}" {if $LISTVIEW_ENTRY->colorList}style="background-color: {$LISTVIEW_ENTRY->colorList['background']};color: {$LISTVIEW_ENTRY->colorList['text']};"{/if}>
+					<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
 						{if array_key_exists('password',$LISTVIEW_HEADERS)}
 							{$PASS_ID="{$LISTVIEW_ENTRY->get('id')}"}
 						{/if}

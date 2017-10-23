@@ -62,9 +62,6 @@
 				<tr class="listViewEntries" data-id='{$RELATED_RECORD->getId()}'
 					{if $RELATED_RECORD->isViewable()}
 						data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'
-					{/if}
-					{if !empty($COLOR_LIST[$RELATED_RECORD->getId()])}
-						style="background: {$COLOR_LIST[$RELATED_RECORD->getId()]['background']}; color: {$COLOR_LIST[$RELATED_RECORD->getId()]['text']}"
 					{/if}>
 					{assign var=COUNT value=0}
 					{* create id for possword *}
