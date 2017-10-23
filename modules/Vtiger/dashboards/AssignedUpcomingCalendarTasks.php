@@ -16,7 +16,7 @@ class Vtiger_AssignedUpcomingCalendarTasks_Dashboard extends Vtiger_IndexAjax_Vi
 		$moduleName = $request->getModule();
 
 		$page = $request->getInteger('page');
-		$linkId = $request->get('linkid');
+		$linkId = $request->getInteger('linkid');
 		$sortOrder = $request->getForSql('sortorder');
 		$orderBy = $request->getForSql('orderby');
 		$data = $request->getAll();
@@ -25,7 +25,7 @@ class Vtiger_AssignedUpcomingCalendarTasks_Dashboard extends Vtiger_IndexAjax_Vi
 		if (!$request->has('owner'))
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		else
-			$owner = $request->get('owner');
+			$owner = $request->getByType('owner', 2);
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', (int) $widget->get('limit'));
@@ -43,13 +43,8 @@ class Vtiger_AssignedUpcomingCalendarTasks_Dashboard extends Vtiger_IndexAjax_Vi
 		];
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$calendarActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('assigned_upcoming', $pagingModel, $owner, false, $params);
-		$colorList = [];
-		foreach ($calendarActivities as $activityModel) {
-			$colorList[$activityModel->getId()] = Settings_DataAccess_Module_Model::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
-		}
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('SOURCE_MODULE', 'Calendar');
-		$viewer->assign('COLOR_LIST', $colorList);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('ACTIVITIES', $calendarActivities);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
@@ -60,8 +55,7 @@ class Vtiger_AssignedUpcomingCalendarTasks_Dashboard extends Vtiger_IndexAjax_Vi
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('USER_CONDITIONS', $conditions);
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/CalendarActivitiesContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/CalendarActivities.tpl', $moduleName);

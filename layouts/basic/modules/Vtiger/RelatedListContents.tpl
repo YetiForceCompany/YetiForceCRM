@@ -61,11 +61,7 @@
 				<tr class="listViewEntries" data-id='{$RELATED_RECORD->getId()}'
 					{if $RELATED_RECORD->isViewable()}
 						data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'
-					{/if}
-					{if !empty($COLOR_LIST[$RELATED_RECORD->getId()])}
-						style="background: {$COLOR_LIST[$RELATED_RECORD->getId()]['background']}; color: {$COLOR_LIST[$RELATED_RECORD->getId()]['text']}"
-					{/if}
-					>
+					{/if}>
 					{assign var=COUNT value=0}
 					<td class="{$WIDTHTYPE} noWrap leftRecordActions">
 						{include file=\App\Layout::getTemplatePath('RelatedListLeftSide.tpl', $RELATED_MODULE_NAME)}

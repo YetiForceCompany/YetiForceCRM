@@ -46,7 +46,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		if (!$moduleModel->isPermitted('MassEdit')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_MASSEDIT);
@@ -99,7 +99,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$moduleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($sourceModule) || !($moduleModel->isCommentEnabled() && $currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'EditView') && $moduleModel->isPermitted('MassAddComment'))) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
@@ -135,7 +135,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'CreateView') || !$currentUserPriviligesModel->hasModuleActionPermission($sourceModule, 'MassSendSMS') || !SMSNotifier_Module_Model::checkServer()) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 
 		$moduleModel = Vtiger_Module_Model::getInstance($sourceModule);
@@ -175,7 +175,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		if (!$moduleModel->isPermitted('DuplicatesHandling')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		$fields = $moduleModel->getFields();
 		$viewer = $this->getViewer($request);
@@ -194,7 +194,7 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'MassTransferOwnership')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		$transferModel = Vtiger_TransferOwnership_Model::getInstance($moduleName);
 		$viewer = $this->getViewer($request);

@@ -8,7 +8,7 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Pdf extends \Tests\Init\Base
+class Pdf extends \Tests\Base
 {
 
 	/**

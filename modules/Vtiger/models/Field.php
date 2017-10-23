@@ -185,6 +185,8 @@ class Vtiger_Field_Model extends vtlib\Field
 				switch ($uiType) {
 					case 4: $fieldDataType = 'recordNumber';
 						break;
+					case 7: $fieldDataType = 'double';
+						break;
 					case 8: $fieldDataType = 'totalTime';
 						break;
 					case 9: $fieldDataType = 'percentage';
@@ -748,7 +750,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			case 'owner':
 			case 'userCreator':
 			case 'sharedOwner':
-				if (!AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || in_array(\App\Request::_get('module'), ['CustomView', 'Workflows', 'PDF', 'MappedFields', 'DataAccess', 'Reports']) || \App\Request::_get('mode') === 'showAdvancedSearch') {
+				if (!AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || in_array(\App\Request::_get('module'), ['CustomView', 'Workflows', 'PDF', 'MappedFields', 'Reports']) || \App\Request::_get('mode') === 'showAdvancedSearch') {
 					$userList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
 					$groupList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $fieldDataType);
 					$pickListValues = [];

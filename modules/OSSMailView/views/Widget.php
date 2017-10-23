@@ -15,7 +15,7 @@ Class OSSMailView_Widget_View extends Vtiger_Edit_View
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
 		if (!$permission) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 
 		$srecord = $request->getInteger('srecord');
@@ -23,7 +23,7 @@ Class OSSMailView_Widget_View extends Vtiger_Edit_View
 
 		$recordPermission = \App\Privilege::isPermitted($smodule, 'DetailView', $srecord);
 		if (!$recordPermission) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 

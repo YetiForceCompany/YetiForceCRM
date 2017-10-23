@@ -107,7 +107,7 @@
 											<button class="btn btn-success" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="glyphicon glyphicon-ok"></span></strong></button>
 										</div>
 										{if AppConfig::module($MODULE, 'SHOW_DAYS_QUICKCREATE')}
-											<div class="row noSpaces col-xs-12 eventsTable" style="margin-top: 5px;"></div>
+											<div class="row noSpaces col-xs-12 eventsTable"></div>
 										{/if}
 									</div>
 								</div>

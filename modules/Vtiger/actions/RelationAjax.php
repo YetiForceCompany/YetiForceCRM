@@ -31,13 +31,13 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	{
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$request->isEmpty('src_record', true) && !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('src_record'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		if (!$request->isEmpty('related_module', true) && !$userPrivilegesModel->hasModulePermission($request->getByType('related_module', 2))) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if (!$request->isEmpty('relatedModule', true) && !$userPrivilegesModel->hasModulePermission($request->getByType('relatedModule'))) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -154,7 +154,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 					$relationModel->deleteRelation((int) $sourceRecordId, (int) $relatedRecordId);
 				}
 			} else {
-				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
 		}
 		if (!empty($categoryToAdd)) {
@@ -168,7 +168,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 					$relationModel->deleteRelTree($sourceRecordId, $category);
 				}
 			} else {
-				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
 		}
 		$response = new Vtiger_Response();
@@ -186,7 +186,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		$relatedModuleName = $request->getByType('relatedModule');
 		$parentId = $request->getInteger('record');
 		if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $parentId)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$label = $request->get('tab_label');
 		$totalCount = 0;

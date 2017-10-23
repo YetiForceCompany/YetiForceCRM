@@ -1284,39 +1284,6 @@ class Base2 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_dataaccess' => [
-				'columns' => [
-					'dataaccessid' => $this->primaryKey(5),
-					'module_name' => $this->stringType(25),
-					'summary' => $this->stringType()->notNull(),
-					'data' => $this->text(),
-					'presence' => $this->smallInteger(1)->defaultValue(1),
-				],
-				'columns_mysql' => [
-					'presence' => $this->tinyInteger(1)->defaultValue(1),
-				],
-				'index' => [
-					['module_name', 'module_name'],
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_dataaccess_cnd' => [
-				'columns' => [
-					'dataaccess_cndid' => $this->primaryKey(10),
-					'dataaccessid' => $this->integer(10)->notNull(),
-					'fieldname' => $this->stringType()->notNull(),
-					'comparator' => $this->stringType()->notNull(),
-					'val' => $this->stringType(),
-					'required' => $this->smallInteger(3)->notNull(),
-					'field_type' => $this->stringType(100)->notNull(),
-				],
-				'columns_mysql' => [
-					'required' => $this->tinyInteger(3)->notNull(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_datashare_grp2grp' => [
 				'columns' => [
 					'shareid' => $this->integer(10)->notNull(),
@@ -3775,35 +3742,6 @@ class Base2 extends \App\Db\Importers\Base
 					[110, 3, 'u_yf_svendorenquiries:category:category:SVendorEnquiries_Category:V'],
 					[110, 4, 'vtiger_crmentity:smownerid:assigned_user_id:SVendorEnquiries_Assigned_To:V'],
 					[110, 5, 'vtiger_crmentity:createdtime:createdtime:SVendorEnquiries_Created_Time:DT'],
-				]
-			],
-			'vtiger_dataaccess' => [
-				'columns' => ['dataaccessid', 'module_name', 'summary', 'data', 'presence'],
-				'values' => [
-					[1, 'HelpDesk', 'Adding time period to status change', 'a:1:{i:0;a:3:{s:2:"an";s:25:"Vtiger!!show_quick_create";s:7:"modules";s:14:"OSSTimeControl";s:2:"cf";b:1;}}', 1],
-					[3, 'ProjectTask', 'Adding time period to status change', 'a:1:{i:0;a:3:{s:2:"an";s:25:"Vtiger!!show_quick_create";s:7:"modules";s:14:"OSSTimeControl";s:2:"cf";b:1;}}', 1],
-					[5, 'ProjectTask', 'Date validation', 'a:1:{i:0;a:2:{s:2:"cf";b:0;s:2:"an";s:22:"Vtiger!!check_taskdate";}}', 1],
-					[6, 'ProjectTask', 'Check parent task', 'a:1:{i:0;a:3:{s:2:"an";s:24:"Vtiger!!check_taskstatus";s:6:"status";a:2:{i:0;s:4:"Open";i:1;s:11:"In Progress";}s:2:"cf";b:1;}}', 1],
-					[7, 'Leads', 'Check if there are any tasks that are not closed', 'a:1:{i:0;a:4:{s:2:"an";s:21:"Vtiger!!check_alltask";s:6:"status";a:5:{i:0;s:11:"Not Started";i:1;s:11:"In Progress";i:2;s:13:"Pending Input";i:3;s:8:"Deferred";i:4;s:7:"Planned";}s:7:"message";s:67:"There are unsolved tasks, complete them to be able to change status";s:2:"cf";b:1;}}', 1],
-					[9, 'All', 'Check whether all mandatory fields in quick edit are filled in', 'a:1:{i:0;a:2:{s:2:"cf";b:0;s:2:"an";s:26:"Vtiger!!validate_mandatory";}}', 1],
-					[10, 'HelpDesk', 'Lock edit on the status', 'a:1:{i:0;a:2:{s:2:"cf";b:0;s:2:"an";s:21:"Vtiger!!blockEditView";}}', 1],
-					[11, 'Accounts', 'Check for duplicates', 'a:1:{i:0;a:2:{s:2:"cf";b:0;s:2:"an";s:24:"Accounts!!unique_account";}}', 1],
-					[12, 'Leads', 'Check for duplicates', 'a:1:{i:0;a:8:{s:2:"an";s:20:"Vtiger!!unique_value";s:5:"what1";s:6:"vat_id";s:6:"where1";a:2:{i:0;s:23:"vtiger_account=vat_id=6";i:1;s:27:"vtiger_leaddetails=vat_id=7";}s:5:"info0";s:0:"";s:5:"info1";s:0:"";s:5:"info2";s:0:"";s:8:"locksave";s:1:"3";s:2:"cf";b:1;}}', 1],
-					[14, 'IStorages', 'Check for parent storage', 'a:1:{i:0;a:2:{s:2:"cf";b:0;s:2:"an";s:20:"IStorages!!checkType";}}', 0],
-					[15, 'IStorages', 'Prevents parents loop', 'a:1:{i:0;a:2:{s:2:"cf";b:0;s:2:"an";s:25:"IStorages!!checkHierarchy";}}', 0],
-				]
-			],
-			'vtiger_dataaccess_cnd' => [
-				'columns' => ['dataaccess_cndid', 'dataaccessid', 'fieldname', 'comparator', 'val', 'required', 'field_type'],
-				'values' => [
-					[37, 1, 'ticketstatus', 'has changed', 'Open', 1, 'picklist'],
-					[39, 3, 'projecttaskstatus', 'has changed', 'Open', 1, 'picklist'],
-					[42, 5, 'projectmilestoneid', 'is not empty', '', 1, 'reference'],
-					[46, 7, 'leadstatus', 'is', 'PLL_LEAD_ACQUIRED', 1, 'picklist'],
-					[50, 10, 'ticketstatus', 'is', 'Rejected', 0, 'picklist'],
-					[51, 10, 'ticketstatus', 'is', 'Closed', 0, 'picklist'],
-					[52, 11, 'accountname', 'is not empty', '', 1, 'string'],
-					[53, 12, 'vat_id', 'is not empty', '', 1, 'string'],
 				]
 			],
 			'vtiger_datashare_relatedmodules' => [

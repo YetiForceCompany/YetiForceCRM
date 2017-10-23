@@ -123,7 +123,7 @@ class Reports extends CRMEntity
 				else
 					$this->is_editable = 'false';
 			} else {
-				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
 		}
 	}

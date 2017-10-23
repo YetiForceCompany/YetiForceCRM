@@ -12,14 +12,20 @@
 class Users_List_View extends Settings_Vtiger_List_View
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
@@ -32,16 +38,19 @@ class Users_List_View extends Settings_Vtiger_List_View
 		return $headerScriptInstances;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$this->initializeListViewContents($request, $viewer);
 		$viewer->view('ListViewContents.tpl', $request->getModule(false));
 	}
-	/*
+
+	/**
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
-
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
@@ -67,10 +76,10 @@ class Users_List_View extends Settings_Vtiger_List_View
 			$pageNumber = 1;
 		}
 
-		$status = $request->get('status');
-		if (empty($status))
+		$status = $request->getByType('status');
+		if (empty($status)) {
 			$status = 'Active';
-
+		}
 		if (!$this->listViewModel) {
 			$this->listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
 		}
@@ -88,9 +97,9 @@ class Users_List_View extends Settings_Vtiger_List_View
 			$this->listViewModel->set('sortorder', $sortOrder);
 		}
 
-		$searchKey = $request->get('search_key');
+		$searchKey = $request->getByType('search_key', 2);
 		$searchValue = $request->get('search_value');
-		$operator = $request->getByType('operator', 1);
+		$operator = $request->getByType('operator');
 		if (!empty($operator)) {
 			$this->listViewModel->set('operator', $operator);
 		}
@@ -200,10 +209,10 @@ class Users_List_View extends Settings_Vtiger_List_View
 			$cvId = '0';
 		}
 
-		$searchKey = $request->get('search_key');
+		$searchKey = $request->getByType('search_key', 2);
 		$searchValue = $request->get('search_value');
 		$searchParmams = $request->get('search_params');
-		$operator = $request->getByType('operator', 1);
+		$operator = $request->getByType('operator');
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
 
 		if (empty($searchParmams) || !is_array($searchParmams)) {

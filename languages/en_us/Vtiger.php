@@ -1303,7 +1303,6 @@ $languageStrings = [
 	'DW_ACTUAL_SALES_OF_TEAM' => 'Actual sales of the team',
 	'LBL_PHONE_CALL_SUCCESS' => 'Dialling in progress',
 	'LBL_BAD_REQUEST' => 'Incorrect request',
-	'LBL_NOT_ALLOWED_VALUE' => 'Incorrect value detected, please contact your administrator',
 	'LBL_NO_PHONE_COUNTRY' => 'No country code',
 	'LBL_INVALID_COUNTRY_CODE' => 'Invalid country code',
 	'LBL_INVALID_PHONE_NUMBER' => 'Entered invalid phone number',

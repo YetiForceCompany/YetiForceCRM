@@ -7,7 +7,7 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class User extends \Tests\Init\Base
+class User extends \Tests\Base
 {
 
 	/**
@@ -28,6 +28,7 @@ class User extends \Tests\Init\Base
 		$user->set('user_password', 'demo');
 		$user->set('confirm_password', 'demo');
 		$user->set('roleid', 'H2');
+		$user->set('is_admin', 'on');
 		$user->save();
 		define('TESTS_USER_ID', $user->getId());
 		$userForus = CRMEntity::getInstance('Users');

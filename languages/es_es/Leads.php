@@ -24,8 +24,8 @@ $languageStrings = [
 	'Industry' => 'Industria',
 	'Sub industry' => 'Delegación',
 	'Junk Lead' => 'Potencial no deseado',
-	'Building number' => 'Número de edificio',
-	'Local number' => 'Número',
+	'Building number' => 'Número del edificio<br />(Ej: 32)',
+	'Local number' => 'Número de la Oficina<br />(Ej: 2B)',
 	'LBL_ADD_RECORD' => 'Añadir',
 	'LBL_CONVERT_LEAD' => 'Convertir Potencial',
 	'LBL_CONVERT_LEAD_ERROR_TITLE' => 'Módulos deshabilitados',
@@ -58,13 +58,13 @@ $languageStrings = [
 	'Warm' => 'Cálido',
 	'Website' => 'Sitio web',
 	/* YetiForce Lead Status */
-	'PLL_TO_REALIZE' => 'En Proceso',
+	'PLL_TO_REALIZE' => 'A procesar',
 	'PLL_CONTACTS_IN_THE_FUTURE' => 'Contactar en el futuro',
 	'LBL_LEAD_UNTAPPED' => 'Potencial no adquirido',
 	'PLL_LEAD_UNTAPPED' => 'Indeciso',
 	'PLL_LEAD_ACQUIRED' => 'Para conversión',
 	'PLL_PENDING' => 'Pendiente',
-	'PLL_IN_REALIZATION' => 'En progreso',
+	'PLL_IN_REALIZATION' => 'En proceso',
 	'PLL_INCORRECT' => 'Incorrecto',
 	/* YetiForce */
 	'Contact Information' => 'Información de contacto',
@@ -103,9 +103,9 @@ $languageStrings = [
 	"Attorney General's Office" => 'Oficina del Procurador General',
 	'LBL_RELATION' => 'Relación',
 	'LBL_LEGAL_FORM' => 'Forma legal',
-	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => 'Al menos dos cuentas cumplen con los requisitos para la vinculación, vaya a: (Administración> Procesos> Marketing> procesos de conversión) %s',
+	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => 'Al menos dos Clientes cumplen con los requisitos para la vinculación, vaya a: (Administración> Procesos> Marketing> procesos de conversión) %s',
 ];
 
 $jsLanguageStrings = [
-	'JS_SELECT_ORGANIZATION' => 'Seleccione Cuenta para continuar',
+	'JS_SELECT_ORGANIZATION' => 'Seleccione Cliente para continuar',
 ];

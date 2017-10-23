@@ -40,7 +40,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 			$isPermited = $this->record->isCreateable();
 		}
 		if (!$isPermited) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 

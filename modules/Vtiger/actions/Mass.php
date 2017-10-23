@@ -14,7 +14,7 @@ abstract class Vtiger_Mass_Action extends Vtiger_Action_Controller
 
 	public static function getRecordsListFromRequest(\App\Request $request)
 	{
-		$cvId = $request->getByType('viewname', 2);
+		$cvId = $request->isEmpty('viewname') ? '' : $request->getByType('viewname', 2);
 		$module = $request->getByType('module');
 		if (!empty($cvId) && $cvId == 'undefined' && $request->getByType('source_module') !== 'Users') {
 			$sourceModule = $request->getByType('sourceModule', 1);

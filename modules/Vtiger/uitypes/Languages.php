@@ -23,7 +23,7 @@ class Vtiger_Languages_UIType extends Vtiger_Picklist_UIType
 		parent::validate($value, $isUserFormat);
 		$this->validate = false;
 		if (\App\Language::getLanguageLabel($value) === false) {
-			throw new \App\Exceptions\SaveRecord('ERR_NO_VALUES_IN_THE_DATABASE', 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;
 	}

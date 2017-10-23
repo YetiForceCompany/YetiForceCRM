@@ -1,5 +1,4 @@
 <?php
-
 /**
  * AdvancedPermission test class
  * @package YetiForce.Test
@@ -7,7 +6,9 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Arkadiusz Adach <a.adach@yetiforce.com>
  */
-class AdvancedPermission extends \Tests\Init\Base
+namespace Tests\Settings;
+
+class AdvancedPermission extends \Tests\Base
 {
 
 	/**
@@ -22,7 +23,7 @@ class AdvancedPermission extends \Tests\Init\Base
 	{
 		$members = ['Users:1', 'Groups:3', 'Roles:H6', 'RoleAndSubordinates:H34'];
 
-		$recordModel = new Settings_AdvancedPermission_Record_Model();
+		$recordModel = new \Settings_AdvancedPermission_Record_Model();
 		$recordModel->set('name', 'test');
 		$recordModel->set('tabid', 4);
 		$recordModel->set('action', 0);
@@ -71,7 +72,7 @@ class AdvancedPermission extends \Tests\Init\Base
 			],
 		];
 
-		$recordModel = Settings_AdvancedPermission_Record_Model::getInstance(static::$id);
+		$recordModel = \Settings_AdvancedPermission_Record_Model::getInstance(static::$id);
 		$this->assertNotFalse($recordModel, 'No record id: ' . static::$id);
 
 		$recordModel->set('name', 'test edit');
@@ -99,9 +100,9 @@ class AdvancedPermission extends \Tests\Init\Base
 	 */
 	public function testDelteAdvancedPermission()
 	{
-		$recordModel = Settings_AdvancedPermission_Record_Model::getInstance(static::$id);
+		$recordModel = \Settings_AdvancedPermission_Record_Model::getInstance(static::$id);
 		$recordModel->delete();
 
-		$this->assertFalse((new App\Db\Query())->from('a_#__adv_permission')->where(['id' => static::$id])->exists(), 'The record was not removed from the database ID: ' . static::$id);
+		$this->assertFalse((new \App\Db\Query())->from('a_#__adv_permission')->where(['id' => static::$id])->exists(), 'The record was not removed from the database ID: ' . static::$id);
 	}
 }

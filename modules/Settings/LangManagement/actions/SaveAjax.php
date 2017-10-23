@@ -29,7 +29,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 	{
 		$params = $request->get('params');
 		$form_data = $params['form_data'];
-		$langs = json_decode($form_data['langs'], true);
+		$langs = json_decode(\App\Purifier::decodeHtml($form_data['langs']), true);
 		$params['type'] = $form_data['type'];
 		$params['langkey'] = $form_data['variable'];
 		foreach ($langs as $lang) {

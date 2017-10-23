@@ -8,7 +8,7 @@
  */
 namespace Tests\Settings;
 
-class ModuleManager extends \Tests\Init\Base
+class ModuleManager extends \Tests\Base
 {
 
 	/**

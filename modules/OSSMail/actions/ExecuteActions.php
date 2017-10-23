@@ -18,11 +18,11 @@ class OSSMail_ExecuteActions_Action extends Vtiger_Action_Controller
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		$params = $request->getArray('params');
 		if (!\App\Privilege::isPermitted(\App\Record::getType($params['crmid']), 'DetailView', $params['crmid'])) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -34,7 +34,7 @@ class OSSMail_ExecuteActions_Action extends Vtiger_Action_Controller
 
 		if ($mode == 'addRelated') {
 			if (!\App\Privilege::isPermitted($params['newModule'], 'DetailView', $params['newCrmId'])) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 			$data = $instance->addRelated($params);
 		} elseif ($mode == 'removeRelated') {

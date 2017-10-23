@@ -74,7 +74,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		$customViewModel->setModule($moduleName);
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($moduleName)) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 
@@ -109,7 +109,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		$moduleName = $request->getModule();
 		$advFilterList = $request->get('advfilterlist');
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($moduleName)) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		//used to show the save modify filter option
 		$isAdvanceSearch = false;
@@ -136,7 +136,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			}
 			$operator = (!$request->isEmpty('operator') ) ? $request->getByType('operator', 1) : false;
 			$searchModule = false;
-			if ($request->getByType('searchModule', 1)) {
+			if (!$request->isEmpty('searchModule', true)) {
 				$searchModule = $request->getByType('searchModule', 1);
 			}
 			$viewer->assign('SEARCH_KEY', $searchKey);

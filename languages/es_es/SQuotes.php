@@ -19,7 +19,7 @@ $languageStrings = [
 	'LBL_STATUS' => 'Estado',
 	'LBL_CLOSED_TIME' => 'Fecha de cierre',
 	'LBL_RESPONSE_TIME' => 'Tiempo de respuesta',
-	'LBL_COMPANY_NAME' => 'Nombre de empresa',
+	'LBL_COMPANY_NAME' => 'Nombre del Cliente',
 	'SINGLE_SSalesProcesses' => 'Oportunidad',
 	'FL_TOTAL_PRICE' => 'Neto',
 	'FL_MARGINP' => 'Porcentaje de margen total',
@@ -29,7 +29,7 @@ $languageStrings = [
 	'FL_VALID_UNTIL' => 'Válido hasta',
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Borrador',
-	'PLL_IN_REALIZATION' => 'En progreso',
+	'PLL_IN_REALIZATION' => 'En proceso',
 	'PLL_FOR_VERIFICATION' => 'Por Aprobar',
 	'PLL_AWAITING_DECISION' => 'Esperando decisión',
 	'PLL_NEGOTIATIONS' => 'Negociaciones',

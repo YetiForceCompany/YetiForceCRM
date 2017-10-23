@@ -11,21 +11,33 @@
 class Users_ListAjax_Action extends Vtiger_BasicAjax_Action
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function __construct()
 	{
 		parent::__construct();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function preProcess(\App\Request $request)
 	{
 		return true;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function postProcess(\App\Request $request)
 	{
 		return true;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();

@@ -192,7 +192,9 @@ function getBaseConversionRateForProduct($productid, $mode = 'edit', $module = '
 		$convRate = $query->select(['conversion_rate'])->from('vtiger_currency_info')
 				->where(['id' => App\User::getCurrentUserModel()->getDetail('currency_id')])->scalar();
 	}
-	$convRate = 1 / $convRate;
+	if ($convRate) {
+		$convRate = 1 / $convRate;
+	}
 	\App\Cache::save('getBaseConversionRateForProduct', $nameCache, $convRate);
 	return $convRate;
 }

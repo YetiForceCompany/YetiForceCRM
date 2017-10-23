@@ -25,5 +25,6 @@ class Faq_Edit_View extends Vtiger_Edit_View
 				$this->record = Faq_Record_Model::getInstanceFromHelpDesk($parentRecordModel);
 			}
 		}
+		parent::process($request);
 	}
 }

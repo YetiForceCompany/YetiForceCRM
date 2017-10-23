@@ -319,7 +319,7 @@ $languageStrings = [
 	'LBL_USER_MAIL_EXIST' => 'Użytkownik o podanym adresie email już istnieje',
 	'LBL_INVALID_USERNAME' => 'Nieprawidłowa nazwa użytkownika',
 	'LBL_USER_NAME_EXISTS' => 'Użytkownik o takiej nazwie już istnieje',
-	'LBL_USER_NAME_HAS_ALREADY_BEEN_USED' => 'Nazwa użytkownika była już wykorzystana, system nie pozwala na użycie tej samej nawy powtórnie.',
+	'LBL_USER_NAME_HAS_ALREADY_BEEN_USED' => 'Nazwa użytkownika była już wykorzystana, system nie pozwala na użycie tej samej nazwy powtórnie.',
 	'LBL_FORBIDDEN_USERNAMES' => 'Nazwa użytkownika znajduje się na liście niebezpiecznych nazw.',
 ];
 

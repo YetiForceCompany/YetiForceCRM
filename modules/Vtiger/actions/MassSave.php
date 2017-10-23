@@ -21,7 +21,7 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 	{
 		$userPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$userPriviligesModel->hasModuleActionPermission($request->getModule(), 'MassEdit')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -52,13 +52,13 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordIds = Vtiger_Mass_Action::getRecordsListFromRequest($request);
 		$recordModels = [];
+		$fieldModelList = $moduleModel->getFields();
 		foreach ($recordIds as $recordId) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);
 			if (!$recordModel->isEditable()) {
 				$recordModels[$recordId] = false;
 				continue;
 			}
-			$fieldModelList = $moduleModel->getFields();
 			foreach ($fieldModelList as $fieldName => $fieldModel) {
 				if ($fieldModel->isWritable() && $request->has($fieldName)) {
 					$fieldModel->getUITypeModel()->setValueFromRequest($request, $recordModel);

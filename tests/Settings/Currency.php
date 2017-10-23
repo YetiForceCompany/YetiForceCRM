@@ -7,7 +7,7 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Arkadiusz Sołek <a.solek@yetiforce.com>
  */
-class Currency extends \Tests\Init\Base
+class Currency extends \Tests\Base
 {
 
 	/**

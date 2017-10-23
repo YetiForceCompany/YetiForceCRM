@@ -25,7 +25,7 @@ class Vtiger_AutoAssignRecord_View extends Vtiger_BasicModal_View
 				return true;
 			}
 		}
-		throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 	}
 
 	/**

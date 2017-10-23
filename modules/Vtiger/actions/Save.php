@@ -28,20 +28,20 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 		if (!$request->isEmpty('record', true)) {
 			$recordId = $request->getInteger('record');
 			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 			$this->record = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 			if (!$this->record->isEditable()) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		} else {
 			$this->record = Vtiger_Record_Model::getCleanInstance($moduleName);
 			if (!$this->record->isCreateable()) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		}
 		if ($request->getBoolean('relationOperation') && !\App\Privilege::isPermitted($request->getByType('sourceModule', 1), 'DetailView', $request->getInteger('sourceRecord'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -117,27 +117,21 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 	 */
 	protected function getRecordModelFromRequest(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		if (!$request->isEmpty('record', true)) {
-			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
-		} else {
-			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getCleanInstance($moduleName);
-		}
-		$fieldModelList = $recordModel->getModule()->getFields();
+		$fieldModelList = $this->record->getModule()->getFields();
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
 			if (!$fieldModel->isWritable()) {
 				continue;
 			}
 			if ($request->has($fieldName)) {
-				$fieldModel->getUITypeModel()->setValueFromRequest($request, $recordModel);
-			} elseif ($recordModel->isNew()) {
+				$fieldModel->getUITypeModel()->setValueFromRequest($request, $this->record);
+			} elseif ($this->record->isNew()) {
 				$defaultValue = $fieldModel->getDefaultFieldValue();
 				if ($defaultValue !== '') {
-					$recordModel->set($fieldName, $defaultValue);
+					$this->record->set($fieldName, $defaultValue);
 				}
 			}
 		}
-		return $recordModel;
+		return $this->record;
 	}
 
 	public function validateRequest(\App\Request $request)

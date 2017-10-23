@@ -22,7 +22,7 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$userPrivilegesModel->hasModulePermission($moduleName)) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 

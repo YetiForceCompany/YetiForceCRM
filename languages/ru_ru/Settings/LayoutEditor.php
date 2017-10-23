@@ -164,6 +164,7 @@ $languageStrings = [
 	'LBL_MAX_LENGTH_TEXT' => 'Максимальная длина текста',
 	'LBL_MAX_WIDTH_COLUMN' => 'Ширина колонки [%]',
 	'LBL_EDIT_CUSTOM_FIELD' => 'Edit field',
+	'LBL_EXCEEDED_MAXIMUM_NUMBER_CHARACTERS_FOR_FIELD_NAME' => 'You exceeded the maximum number of 30 characters for field name.',
 ];
 
 $jsLanguageStrings = [

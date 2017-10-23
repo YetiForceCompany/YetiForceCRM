@@ -12,19 +12,24 @@
 class Users_Login_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function loginRequired()
 	{
 		return false;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		return true;
 	}
 
 	/**
-	 * Function verifies application access
-	 * @param \App\Request $request
+	 * {@inheritDoc}
 	 */
 	public function process(\App\Request $request)
 	{
@@ -51,10 +56,10 @@ class Users_Login_Action extends Vtiger_Action_Controller
 			App\Session::set('full_user_name', \App\Fields\Owner::getUserLabel($userId, true));
 
 			if ($request->has('loginLanguage') && AppConfig::main('langInLoginView')) {
-				App\Session::set('language', $request->get('loginLanguage'));
+				App\Session::set('language', $request->getByType('loginLanguage'));
 			}
 			if ($request->has('layout')) {
-				App\Session::set('layout', $request->get('layout'));
+				App\Session::set('layout', $request->getByType('layout'));
 			}
 			//Track the login History
 			$moduleModel->saveLoginHistory(strtolower($username));

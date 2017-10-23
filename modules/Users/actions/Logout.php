@@ -11,11 +11,17 @@
 class Users_Logout_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		return true;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$eventHandler = new App\EventHandler();

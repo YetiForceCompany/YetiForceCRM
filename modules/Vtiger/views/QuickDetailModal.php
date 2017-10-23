@@ -18,10 +18,10 @@ class Vtiger_QuickDetailModal_View extends Vtiger_BasicModal_View
 	public function checkPermission(\App\Request $request)
 	{
 		if ($request->isEmpty('record', true)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -30,6 +30,10 @@ class Vtiger_QuickDetailModal_View extends Vtiger_BasicModal_View
 		return 'modalRightSiteBar';
 	}
 
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$this->preProcess($request);
@@ -39,6 +43,7 @@ class Vtiger_QuickDetailModal_View extends Vtiger_BasicModal_View
 		$detailModel->getWidgets();
 		$handlerClass = Vtiger_Loader::getComponentClassName('View', 'Detail', $moduleName);
 		$detailView = new $handlerClass();
+		$detailView->record = $detailModel;
 
 		$widgets = [];
 		foreach ($detailModel->widgets as $dw) {

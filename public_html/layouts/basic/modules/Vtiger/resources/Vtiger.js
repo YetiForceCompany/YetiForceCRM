@@ -692,10 +692,6 @@ var Vtiger_Index_Js = {
 	sendNotification: function () {
 		Vtiger_Header_Js.getInstance().quickCreateModule('Notification');
 	},
-	loadPreSaveRecord: function (form) {
-		SaveResult = new SaveResult()
-		return SaveResult.checkData(form);
-	},
 	performPhoneCall: function (phoneNumber, record) {
 		AppConnector.request({
 			module: app.getModuleName(),

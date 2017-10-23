@@ -21,12 +21,12 @@ class Reports_Save_Action extends Vtiger_Save_Action
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if (!$request->isEmpty('record', true)) {
 			$reportModel = Reports_Record_Model::getCleanInstance($request->getInteger('record'));
 			if (!$reportModel->isEditable()) {
-				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
 		}
 	}

@@ -140,16 +140,6 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 		});
 		return aDeferred.promise();
 	},
-	registerCalendarSharedType: function (form) {
-		form.find('select[name="calendarsharedtype"]').on('change', function (e) {
-			var type = jQuery(e.currentTarget).val();
-			if (type == 'seletedusers') {
-				form.find('#selectUsers').show();
-			} else {
-				form.find('#selectUsers').hide();
-			}
-		});
-	},
 	verifyData: function () {
 		var aDeferred = jQuery.Deferred();
 		AppConnector.request({
@@ -177,7 +167,6 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 		var form = this.getForm();
 		this.triggerHourFormatChangeEvent(form);
 		this.registerRecordPreSaveEvent(form);
-		this.registerCalendarSharedType(form);
 		Users_Edit_Js.registerChangeEventForCurrencySeparator();
 	}
 });

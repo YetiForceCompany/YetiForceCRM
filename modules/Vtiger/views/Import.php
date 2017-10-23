@@ -36,7 +36,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	{
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$userPrivilegesModel->hasModuleActionPermission($request->getModule(), 'Import') || !$userPrivilegesModel->hasModuleActionPermission($request->getModule(), 'CreateView')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -189,7 +189,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		if (!$user->isAdminUser() && $user->getId() != $ownerId) {
 			$viewer->assign('MESSAGE', 'LBL_PERMISSION_DENIED');
 			$viewer->view('OperationNotPermitted.tpl', 'Vtiger');
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if (empty($type)) {
 			vglobal('VTIGER_BULK_SAVE_MODE', true);
@@ -274,7 +274,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 			$lockedBy = $lockInfo['userid'];
 			if ($user->id != $lockedBy && !$user->isAdminUser()) {
 				Import_Utils_Helper::showImportLockedError($lockInfo);
-				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			} else {
 				if ($mode === 'continueImport' && $user->id == $lockedBy) {
 					$importController = new Import_Main_View($request, $user);

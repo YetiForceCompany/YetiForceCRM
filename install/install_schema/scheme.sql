@@ -4487,31 +4487,6 @@ CREATE TABLE `vtiger_cvstdfilter` (
   CONSTRAINT `fk_1_vtiger_cvstdfilter` FOREIGN KEY (`cvid`) REFERENCES `vtiger_customview` (`cvid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_dataaccess` */
-
-CREATE TABLE `vtiger_dataaccess` (
-  `dataaccessid` smallint(5) NOT NULL AUTO_INCREMENT,
-  `module_name` varchar(25) DEFAULT NULL,
-  `summary` varchar(255) NOT NULL,
-  `data` text,
-  `presence` tinyint(1) DEFAULT '1',
-  PRIMARY KEY (`dataaccessid`),
-  KEY `module_name` (`module_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_dataaccess_cnd` */
-
-CREATE TABLE `vtiger_dataaccess_cnd` (
-  `dataaccess_cndid` int(10) NOT NULL AUTO_INCREMENT,
-  `dataaccessid` int(10) NOT NULL,
-  `fieldname` varchar(255) NOT NULL,
-  `comparator` varchar(255) NOT NULL,
-  `val` varchar(255) DEFAULT NULL,
-  `required` tinyint(3) NOT NULL,
-  `field_type` varchar(100) NOT NULL,
-  PRIMARY KEY (`dataaccess_cndid`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_datashare_grp2grp` */
 
 CREATE TABLE `vtiger_datashare_grp2grp` (

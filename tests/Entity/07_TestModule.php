@@ -10,7 +10,7 @@
 /**
  * @codeCoverageIgnore
  */
-class TestModule extends \Tests\Init\Base
+class TestModule extends \Tests\Base
 {
 
 	/**

@@ -57,7 +57,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getCreateEventRecordUrl()
 	{
-		return 'index.php?module=' . $this->get('name') . '&view=' . $this->getEditViewName() . '&mode=Events';
+		return 'index.php?module=' . $this->get('name') . '&view=' . $this->getEditViewName() . '&mode=events';
 	}
 
 	/**
@@ -89,13 +89,13 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$links = Vtiger_Link_Model::getAllByType($this->getId(), $linkTypes, $linkParams);
 
 		$quickLinks = [
-			[
+				[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_CALENDAR_VIEW',
 				'linkurl' => $this->getCalendarViewUrl(),
 				'linkicon' => '',
 			],
-			[
+				[
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),
@@ -224,57 +224,6 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * To get the lists of sharedids
-	 * @param $id --  user id
-	 * @returns <Array> $sharedids
-	 */
-	public static function getSharedUsersOfCurrentUser($id)
-	{
-		$db = PearDatabase::getInstance();
-		$query = "SELECT vtiger_users.first_name,vtiger_users.last_name, vtiger_users.id as userid
-			FROM vtiger_sharedcalendar RIGHT JOIN vtiger_users ON vtiger_sharedcalendar.userid=vtiger_users.id and status= 'Active'
-			WHERE sharedid=? || (vtiger_users.status='Active' && vtiger_users.calendarsharedtype='public' && vtiger_users.id <> ?);";
-		$result = $db->pquery($query, [$id, $id]);
-		$rows = $db->numRows($result);
-
-		$userIds = [];
-		for ($i = 0; $i < $rows; $i++) {
-			$id = $db->queryResult($result, $i, 'userid');
-			$userName = $db->queryResult($result, $i, 'first_name') . ' ' . $db->queryResult($result, $i, 'last_name');
-			$userIds[$id] = $userName;
-		}
-
-		return $sharedids[$id] = $userIds;
-	}
-
-	/**
-	 * Function to delete shared users
-	 * @param type $currentUserId
-	 */
-	public function deleteSharedUsers($currentUserId)
-	{
-		$db = PearDatabase::getInstance();
-		$delquery = "DELETE FROM vtiger_sharedcalendar WHERE userid=?";
-		$db->pquery($delquery, [$currentUserId]);
-	}
-
-	/**
-	 * Function to insert shared users
-	 * @param type $currentUserId
-	 * @param type $sharedIds
-	 */
-	public function insertSharedUsers($currentUserId, $sharedIds, $sharedType = false)
-	{
-		$db = PearDatabase::getInstance();
-		foreach ($sharedIds as $sharedId) {
-			if ($sharedId != $currentUserId) {
-				$sql = "INSERT INTO vtiger_sharedcalendar VALUES (?,?)";
-				$db->pquery($sql, [$currentUserId, $sharedId]);
-			}
-		}
-	}
-
-	/**
 	 * Function to get Alphabet Search Field
 	 */
 	public function getAlphabetSearchField()
@@ -377,7 +326,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			if (in_array($fieldType, $type)) {
 				$fieldName = $field->getName();
 				if ($fieldType == 'picklist' && in_array($fieldName, $restrictedField[$fieldType])) {
-
+					
 				} else {
 					$fieldList[$fieldName] = $field;
 				}

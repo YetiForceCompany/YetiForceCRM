@@ -1585,7 +1585,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 				}
 			}
 			if ($relationField && ($moduleName != $sourceModule || \App\Request::_get('addRelation'))) {
-				$data[$relationField] = $sourceRecord;
+				$data[$relationField] = $recordModel->getId();
 			}
 		}
 		return $data;

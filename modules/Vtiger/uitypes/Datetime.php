@@ -17,7 +17,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	 * @param string $value
 	 * @param bool $isUserFormat
 	 * @return null
-	 * @throws \App\Exceptions\SaveRecord
+	 * @throws \App\Exceptions\Security
 	 */
 	public function validate($value, $isUserFormat = false)
 	{

@@ -74,7 +74,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		$lang = $params['lang'];
 		$mod = $params['mod'];
 		$langkey = addslashes($params['langkey']);
-		$val = addslashes($params['val']);
+		$val = addslashes(\App\Purifier::decodeHtml($params['val']));
 		$mod = str_replace(self::URL_SEPARATOR, '.', $mod);
 
 		if (\AppConfig::performance('LOAD_CUSTOM_FILES')) {
@@ -134,7 +134,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		$lang = $params['lang'];
 		$mod = $params['mod'];
 		$langkey = $params['langkey'];
-		$val = addslashes($params['val']);
+		$val = addslashes(\App\Purifier::decodeHtml($params['val']));
 		$mod = str_replace(self::URL_SEPARATOR, '.', $mod);
 		$languageStrings = $jsLanguageStrings = [];
 		$customType = \AppConfig::performance('LOAD_CUSTOM_FILES');
@@ -333,7 +333,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		return ['success' => true, 'data' => 'LBL_AddDataOK'];
 	}
 
-	public function saveView($params)
+	public static function saveView($params)
 	{
 		if (!is_array($params['value'])) {
 			$params['value'] = [$params['value']];
@@ -401,7 +401,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	 * @param array $lang
 	 * @return array
 	 */
-	public function setAsDefault($lang)
+	public static function setAsDefault($lang)
 	{
 		\App\Log::trace("Entering Settings_LangManagement_Module_Model::setAsDefault(" . $lang . ") method ...");
 		$db = \App\Db::getInstance();

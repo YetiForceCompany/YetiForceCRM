@@ -18,10 +18,10 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	public function checkPermission(\App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('sourceRecord'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		if (!$request->isEmpty('relatedRecord', true) && !\App\Privilege::isPermitted($request->getByType('relatedModule'), 'DetailView', $request->getInteger('relatedRecord'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -42,7 +42,7 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 		$relatedModuleName = $request->getByType('relatedModule');
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($relatedModuleName)) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		$viewId = $request->getByType('viewId', 2);
 		if ($viewId) {

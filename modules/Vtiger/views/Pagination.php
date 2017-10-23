@@ -31,7 +31,7 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		$relatedModuleName = $request->getByType('relatedModule', 1);
 		$parentId = $request->getInteger('record');
 		if (!$parentId || !\App\Privilege::isPermitted($moduleName, 'DetailView', $parentId)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);

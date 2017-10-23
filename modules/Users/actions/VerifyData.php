@@ -18,8 +18,8 @@ class Users_VerifyData_Action extends Vtiger_Action_Controller
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		if (!$currentUser->isAdminUser() && $currentUser->getId() != $request->get('record')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		if (!$currentUser->isAdminUser() && $currentUser->getId() != $request->getInteger('record')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -32,13 +32,13 @@ class Users_VerifyData_Action extends Vtiger_Action_Controller
 		$message = '';
 		$moduleName = $request->getModule();
 		$checkUserName = false;
-		if (Users_Module_Model::checkMailExist($request->get('email'), (int) $request->get('record'))) {
+		if (Users_Module_Model::checkMailExist($request->get('email'), $request->getInteger('record'))) {
 			$message = \App\Language::translate('LBL_USER_MAIL_EXIST', $moduleName);
 		}
 		if ($request->isEmpty('record', true)) {
 			$checkUserName = true;
 			if (!$request->isEmpty('password', true)) {
-				$checkPassword = Settings_Password_Record_Model::checkPassword($request->get('password'));
+				$checkPassword = Settings_Password_Record_Model::checkPassword($request->getRaw('password'));
 				if ($checkPassword) {
 					$message = $checkPassword;
 				}
@@ -50,7 +50,7 @@ class Users_VerifyData_Action extends Vtiger_Action_Controller
 			}
 		}
 		if ($checkUserName) {
-			if ($checkUserName = Users_Module_Model::checkUserName($request->get('userName'), (int) $request->get('record'))) {
+			if ($checkUserName = Users_Module_Model::checkUserName($request->get('userName'), $request->getInteger('record'))) {
 				$message = $checkUserName;
 			}
 		}

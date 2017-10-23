@@ -9,25 +9,34 @@
 class Users_SwitchUsers_View extends Vtiger_BasicModal_View
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		if (!Users_Module_Model::getSwitchUsers()) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		echo '<div class="modal fade switchUsersContainer"><div class="modal-dialog modal-sm"><div class="modal-content">';
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$users = Users_Module_Model::getSwitchUsers(true);
-		$userId = $request->get('id');
+		$userId = $request->getInteger('id');
 		$baseUserId = $userId;
-		if (App\Session::has('baseUserId') && App\Session::get('baseUserId') != '') {
+		if (App\Session::has('baseUserId') && App\Session::get('baseUserId') !== '') {
 			$baseUserId = App\Session::get('baseUserId');
 		}
 		unset($users[$baseUserId]);

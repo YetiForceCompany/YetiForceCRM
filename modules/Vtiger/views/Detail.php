@@ -16,7 +16,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	 * Record model instance
 	 * @var Vtiger_DetailView_Model
 	 */
-	protected $record = false;
+	public $record = false;
 	protected $recordStructure = false;
 	public $defaultMode = false;
 
@@ -55,11 +55,11 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	public function checkPermission(\App\Request $request)
 	{
 		if ($request->isEmpty('record')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$this->record = Vtiger_DetailView_Model::getInstance($request->getModule(), $request->getInteger('record'));
 		if (!$this->record->getRecord()->isViewable()) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -95,7 +95,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('NAVIGATION', $navigationInfo);
 		$viewer->assign('NO_PAGINATION', true);
-		$viewer->assign('COLORLISTHANDLERS', Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $recordModel));
 
 		//Intially make the prev and next records as null
 		$prevRecordId = null;
@@ -368,7 +367,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	public function showRecentActivities(\App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted('ModTracker')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$type = 'changes';
 		$parentRecordId = $request->getInteger('record');
@@ -433,7 +432,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	public function showRecentComments(\App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted('ModComments')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$parentId = $request->getInteger('record');
 		$pageNumber = $request->getInteger('page');
@@ -475,7 +474,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$relatedModuleName = $request->getByType('relatedModule', 1);
 		$targetControllerClass = null;
 		if (!\App\Privilege::isPermitted($relatedModuleName)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		// Added to support related list view from the related module, rather than the base module.
 		if (!$targetControllerClass = Vtiger_Loader::getComponentClassName('View', 'In' . $moduleName . 'Relation', $relatedModuleName, false)) {
@@ -500,7 +499,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	public function showChildComments(\App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted('ModComments')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$parentCommentId = $request->getInteger('commentid');
 		$parentCommentModel = Vtiger_Record_Model::getInstanceById($parentCommentId);
@@ -526,7 +525,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	public function showThreadComments(\App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted('ModComments')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$parentRecordId = $request->getInteger('record');
 		$commentRecordId = $request->getInteger('commentid');
@@ -552,7 +551,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	public function showAllComments(\App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted('ModComments')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$parentRecordId = $request->getInteger('record');
 		$commentRecordId = $request->getInteger('commentid');
@@ -611,7 +610,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission('Calendar')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$moduleName = $request->getModule();
 		$recordId = $request->getInteger('record');
@@ -639,14 +638,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$moduleModel = $recordModel->getModule();
 
 		$relatedActivities = $moduleModel->getCalendarActivities($type, $pagingModel, 'all', $recordId);
-
-		$colorList = [];
-		foreach ($relatedActivities as $activityModel) {
-			$colorList[$activityModel->getId()] = Settings_DataAccess_Module_Model::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
-		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
-		$viewer->assign('COLOR_LIST', $colorList);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
@@ -700,10 +693,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$sortOrder = $relatedInstance->default_sort_order;
 		}
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if (!\App\Privilege::isPermitted($relatedModuleName)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
@@ -728,15 +721,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$relatedModuleModel = $relationModel->getRelationModuleModel();
 		$relationField = $relationModel->getRelationField();
 		$noOfEntries = count($models);
-		$colorList = [];
 		if ($columns) {
 			$header = array_splice($header, 0, $columns);
 		}
-		foreach ($models as $record) {
-			$colorList[$record->getId()] = Settings_DataAccess_Module_Model::executeColorListHandlers($relatedModuleName, $record->getId(), $record);
-		}
 		$viewer = $this->getViewer($request);
-		$viewer->assign('COLOR_LIST', $colorList);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('LIMIT', $limit);
 		$viewer->assign('RELATED_RECORDS', $models);
@@ -783,7 +771,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$parentId = $request->getInteger('record');
 		$relatedModuleName = $request->getByType('relatedModule', 1);
 		if (!\App\Privilege::isPermitted($relatedModuleName)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
@@ -873,7 +861,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	public function showOpenStreetMap($request)
 	{
 		if (!\App\Privilege::isPermitted('OpenStreetMap')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$moduleName = $request->getModule();
 		$recordId = $request->getInteger('record');

@@ -321,13 +321,10 @@ class Vtiger_ListView_Model extends \App\Base
 			$pagingModel->set('nextPageExists', false);
 		}
 		$listViewRecordModels = [];
-		foreach ($rows as &$row) {
-			$recordModel = $moduleModel->getRecordFromArray($row);
-			$recordModel->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleModel->get('name'), $row['id'], $recordModel);
-			$listViewRecordModels[$row['id']] = $recordModel;
+		foreach ($rows as $row) {
+			$listViewRecordModels[$row['id']] = $moduleModel->getRecordFromArray($row);
 		}
 		unset($rows);
-
 		return $listViewRecordModels;
 	}
 

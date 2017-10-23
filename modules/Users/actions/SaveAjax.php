@@ -13,6 +13,9 @@ Vtiger_Loader::includeOnce('~include/Webservices/Custom/ChangePassword.php');
 class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -22,23 +25,26 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$this->exposeMethod('changeAccessKey');
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
+		parent::checkPermission($request);
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$userId = $request->getInteger('userid');
 		if (!$currentUserModel->isAdminUser()) {
 			$mode = $request->getMode();
 			if ($mode === 'savePassword' && ($userId && (int) $currentUserModel->getId() !== $userId)) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			} else if ($mode !== 'savePassword' && ((int) $currentUserModel->getId() !== $request->getInteger('record'))) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		}
 	}
 
 	/**
-	 * Process
-	 * @param \App\Request $request
+	 * {@inheritDoc}
 	 */
 	public function process(\App\Request $request)
 	{
@@ -69,7 +75,6 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			}
 			$result[$fieldName] = ['value' => $fieldValue, 'display_value' => $displayValue];
 		}
-
 		$result['_recordLabel'] = $recordModel->getName();
 		$result['_recordId'] = $recordModel->getId();
 
@@ -80,9 +85,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	}
 
 	/**
-	 * Function to get the record model based on the request parameters
-	 * @param \App\Request $request
-	 * @return Vtiger_Record_Model or Module specific Record Model instance
+	 * {@inheritDoc}
 	 */
 	public function getRecordModelFromRequest(\App\Request $request)
 	{
@@ -185,8 +188,6 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 
 			$entity = $recordModel->getEntity();
 			$entity->createAccessKey();
-
-			\App\UserPrivilegesFile::createUserPrivilegesfile($recordId);
 
 			require("user_privileges/user_privileges_$recordId.php");
 			$newAccessKey = $user_info['accesskey'];

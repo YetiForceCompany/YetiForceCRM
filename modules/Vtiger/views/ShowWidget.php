@@ -18,7 +18,7 @@ class Vtiger_ShowWidget_View extends Vtiger_IndexAjax_View
 
 		$moduleName = $request->getModule();
 		$componentName = $request->getByType('name', 1);
-		$linkId = $request->get('linkid');
+		$linkId = $request->getInteger('linkid');
 		$id = $request->get('widgetid');
 		if (!empty($componentName)) {
 			$className = Vtiger_Loader::getComponentClassName('Dashboard', $componentName, $moduleName);
