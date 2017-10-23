@@ -55,7 +55,6 @@ class ModuleManager extends \Tests\Init\Base
 
 	/**
 	 * Testing language exports
-	 * *****
 	 */
 	public function testLanguageExport()
 	{
@@ -212,7 +211,6 @@ class ModuleManager extends \Tests\Init\Base
 	 * Testing the deletion of a new field
 	 * @link https://phpunit.de/manual/3.7/en/writing-tests-for-phpunit.html#writing-tests-for-phpunit.data-providers
 	 * @dataProvider providerForField
-	 * *****
 	 */
 	public function testDeleteNewField($type, $param, $suffix = '')
 	{
@@ -250,7 +248,6 @@ class ModuleManager extends \Tests\Init\Base
 
 	/**
 	 * Testing the deletion of a new block for the module
-	 * *****
 	 */
 	public function testDeleteNewBlock()
 	{
@@ -262,7 +259,6 @@ class ModuleManager extends \Tests\Init\Base
 
 	/**
 	 * Testing module export
-	 * *****
 	 */
 	public function testExportModule()
 	{
@@ -296,7 +292,6 @@ class ModuleManager extends \Tests\Init\Base
 
 	/**
 	 * Testing module removal
-	 * *****
 	 */
 	public function testDeleteModule()
 	{
@@ -316,7 +311,6 @@ class ModuleManager extends \Tests\Init\Base
 
 	/**
 	 * Testing module import
-	 * *****
 	 */
 	public function testImportModule()
 	{
@@ -340,7 +334,6 @@ class ModuleManager extends \Tests\Init\Base
 
 	/**
 	 * Testing imported module removal
-	 * *****
 	 */
 	public function testDeleteImportedModule()
 	{
@@ -349,7 +342,6 @@ class ModuleManager extends \Tests\Init\Base
 
 	/**
 	 * Testing download librares
-	 * *****
 	 */
 	public function testDownloadLibraryModule()
 	{
@@ -366,7 +358,6 @@ class ModuleManager extends \Tests\Init\Base
 
 	/**
 	 * Testing module off
-	 * *****
 	 */
 	public function testOffAllModule()
 	{
@@ -383,7 +374,6 @@ class ModuleManager extends \Tests\Init\Base
 
 	/**
 	 * Testing module on
-	 * *****
 	 */
 	public function testOnAllModule()
 	{
