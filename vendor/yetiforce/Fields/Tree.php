@@ -70,4 +70,14 @@ class Tree
 		}
 		return $values;
 	}
+
+	/**
+	 * Delete trees of the module
+	 * @param ModuleBasic $moduleInstance
+	 */
+	public static function deleteForModule($moduleId)
+	{
+		$db = \App\Db::getInstance();
+		$db->createCommand()->delete('vtiger_trees_templates', ['module' => $moduleId])->execute();
+	}
 }

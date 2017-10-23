@@ -394,14 +394,9 @@ class ModuleManager extends \Tests\Init\Base
 	 */
 	private function getMRVField()
 	{
-		$label = 'TestRel123';
-		$type = 'getRelatedList';
-		$actions = ['ADD', 'SELECT'];
-
 		$source_Module = \vtlib\Module::getInstance('Test');
 		$moduleInstance = \vtlib\Module::getInstance('Contacts');
-		$source_Module->setRelatedList($moduleInstance, $label, $actions, $type);
-
+		$source_Module->setRelatedList($moduleInstance, 'TestRel123', ['ADD', 'SELECT'], 'getRelatedList');
 
 		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName('Test');
 		$fields = [];

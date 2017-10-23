@@ -343,14 +343,4 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		\App\Cache::delete('TreeValuesById', $this->getId());
 	}
-
-	/**
-	 * Delete trees of the module
-	 * @param ModuleBasic $moduleInstance
-	 */
-	public static function deleteForModule($moduleId)
-	{
-		$db = \App\Db::getInstance();
-		$db->createCommand()->delete('vtiger_trees_templates', ['module' => $moduleId])->execute();
-	}
 }
