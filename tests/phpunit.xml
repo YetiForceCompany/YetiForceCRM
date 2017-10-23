@@ -52,6 +52,7 @@
 			<directory suffix=".php">.</directory>
 			<directory suffix=".php">../vendor/yetiforce</directory>
 			<directory suffix=".php">../modules/Settings</directory>
+			<directory suffix=".php">../modules/Vtiger</directory>
 		</whitelist>
 	</filter>
 	<listeners>
