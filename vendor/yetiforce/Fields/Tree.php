@@ -73,7 +73,7 @@ class Tree
 
 	/**
 	 * Delete trees of the module
-	 * @param ModuleBasic $moduleInstance
+	 * @param int $moduleId
 	 */
 	public static function deleteForModule($moduleId)
 	{
