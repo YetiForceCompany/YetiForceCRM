@@ -48,6 +48,7 @@
 				<file>../modules/OSSSoldServices/cron/Renewal.php</file>
 				<file>../modules/Settings/CurrencyUpdate/cron/CurrencyUpdateCron.php</file>
 				<file>../modules/SMSNotifier/cron/SMSNotifier.php</file>
+				<directory suffix=".php">../modules/Vtiger/pdfs</directory>
 			</exclude>
 			<directory suffix=".php">.</directory>
 			<directory suffix=".php">../vendor/yetiforce</directory>
