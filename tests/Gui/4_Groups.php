@@ -26,6 +26,7 @@ class Gui_Groups extends \Tests\GuiBase
 	 */
 	public function testOrder()
 	{
+		$this->url('/index.php?module=Groups&parent=Settings&view=List');
 		$this->byCssSelector('.listViewHeaderValues[data-columnname="groupname"]')->click();
 		$this->assertStringEndsWith('&orderby=groupname&sortorder=ASC', strstr($this->url(), '&orderby=groupname&sortorder='));
 		$this->url('/index.php?module=Groups&parent=Settings&view=List');
