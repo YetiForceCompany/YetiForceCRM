@@ -39,18 +39,11 @@ Class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View
 		$overdueActivityLabels['status'] = Calendar_Module_Model::getComponentActivityStateLabel('overdue');
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$overDueActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('overdue', $pagingModel, $owner, false, $overdueActivityLabels);
-
-		$colorList = [];
-		foreach ($overDueActivities as $activityModel) {
-			$colorList[$activityModel->getId()] = Settings_DataAccess_Module_Model::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
-		}
 		$viewer = $this->getViewer($request);
-
 		$viewer->assign('SOURCE_MODULE', 'Calendar');
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('ACTIVITIES', $overDueActivities);
-		$viewer->assign('COLOR_LIST', $colorList);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('NAMELENGTH', AppConfig::main('title_max_length'));

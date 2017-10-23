@@ -95,7 +95,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('NAVIGATION', $navigationInfo);
 		$viewer->assign('NO_PAGINATION', true);
-		$viewer->assign('COLORLISTHANDLERS', Settings_DataAccess_Module_Model::executeColorListHandlers($moduleName, $recordId, $recordModel));
 
 		//Intially make the prev and next records as null
 		$prevRecordId = null;
@@ -639,14 +638,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$moduleModel = $recordModel->getModule();
 
 		$relatedActivities = $moduleModel->getCalendarActivities($type, $pagingModel, 'all', $recordId);
-
-		$colorList = [];
-		foreach ($relatedActivities as $activityModel) {
-			$colorList[$activityModel->getId()] = Settings_DataAccess_Module_Model::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
-		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
-		$viewer->assign('COLOR_LIST', $colorList);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
@@ -728,15 +721,10 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$relatedModuleModel = $relationModel->getRelationModuleModel();
 		$relationField = $relationModel->getRelationField();
 		$noOfEntries = count($models);
-		$colorList = [];
 		if ($columns) {
 			$header = array_splice($header, 0, $columns);
 		}
-		foreach ($models as $record) {
-			$colorList[$record->getId()] = Settings_DataAccess_Module_Model::executeColorListHandlers($relatedModuleName, $record->getId(), $record);
-		}
 		$viewer = $this->getViewer($request);
-		$viewer->assign('COLOR_LIST', $colorList);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('LIMIT', $limit);
 		$viewer->assign('RELATED_RECORDS', $models);

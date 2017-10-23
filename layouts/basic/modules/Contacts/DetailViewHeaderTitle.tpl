@@ -21,7 +21,7 @@
 								<img src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_INFO.path))}" class="pushDown" alt="{$RECORD->getName()}" title="{$RECORD->getName()}" width="65" height="80" align="left"><br />
 							{/if}
 						{foreachelse}
-							<span class="detailViewIcon userIcon-{$MODULE}" {if $COLORLISTHANDLERS}style="background-color: {$COLORLISTHANDLERS['background']};color: {$COLORLISTHANDLERS['text']};"{/if}></span>
+							<span class="detailViewIcon userIcon-{$MODULE}"></span>
 						{/foreach}
 					</span>
 				</div>

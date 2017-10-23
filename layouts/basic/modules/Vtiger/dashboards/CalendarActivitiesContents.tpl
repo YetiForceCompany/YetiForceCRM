@@ -17,10 +17,7 @@ font-size: 75%;
 </style>
 <div>
 	{foreach from=$ACTIVITIES key=INDEX item=ACTIVITY}
-		<div class="changeActivity cursorPointer" data-url="{$ACTIVITY->getActivityStateModalUrl()}" accesskey=""
-			{if !empty($COLOR_LIST[$ACTIVITY->getId()])}
-				style="background: {$COLOR_LIST[$ACTIVITY->getId()]['background']}; color: {$COLOR_LIST[$ACTIVITY->getId()]['text']}"
-			{/if}>
+		<div class="changeActivity cursorPointer" data-url="{$ACTIVITY->getActivityStateModalUrl()}" accesskey="">
 			<div class="rowActivities">
 			<div>
 				<div class="pull-left marginLeft5 marginTop5">
