@@ -187,23 +187,23 @@ class ModuleManager extends \Tests\Init\Base
 	{
 		return [
 			['Text', ['fieldTypeList' => 0, 'fieldLength' => 12]],
-			['Decimal', ['fieldTypeList' => 0, 'fieldLength' => 6, 'decimal' => 2]],
-			['Integer', ['fieldTypeList' => 0, 'fieldLength' => 2]],
-			['Percent', ['fieldTypeList' => 0]],
-			['Currency', ['fieldTypeList' => 0, 'fieldLength' => 4, 'decimal' => 3]],
-			['Date', ['fieldTypeList' => 0]],
-			['Email', ['fieldTypeList' => 0]],
-			['URL', ['fieldTypeList' => 0]],
-			['Checkbox', ['fieldTypeList' => 0]],
-			['TextArea', ['fieldTypeList' => 0]],
-			['Skype', ['fieldTypeList' => 0]],
-			['Time', ['fieldTypeList' => 0]],
-			['Editor', ['fieldTypeList' => 0]],
-			['Phone', ['fieldTypeList' => 0]],
-			['Related1M', ['fieldTypeList' => 0, 'referenceModule' => ['Contacts', 'Accounts', 'Leads'],]],
-			['Picklist', ['fieldTypeList' => 0, 'pickListValues' => ['a1', 'a2', 'a3'],]],
-			['Picklist', ['fieldTypeList' => 0, 'pickListValues' => ['b1', 'b2', 'b3'], 'isRoleBasedPickList' => 1], '2'],
-			['MultiSelectCombo', ['fieldTypeList' => 0, 'pickListValues' => ['c1', 'c2', 'c3']]],
+			/* ['Decimal', ['fieldTypeList' => 0, 'fieldLength' => 6, 'decimal' => 2]],
+			  ['Integer', ['fieldTypeList' => 0, 'fieldLength' => 2]],
+			  ['Percent', ['fieldTypeList' => 0]],
+			  ['Currency', ['fieldTypeList' => 0, 'fieldLength' => 4, 'decimal' => 3]],
+			  ['Date', ['fieldTypeList' => 0]],
+			  ['Email', ['fieldTypeList' => 0]],
+			  ['URL', ['fieldTypeList' => 0]],
+			  ['Checkbox', ['fieldTypeList' => 0]],
+			  ['TextArea', ['fieldTypeList' => 0]],
+			  ['Skype', ['fieldTypeList' => 0]],
+			  ['Time', ['fieldTypeList' => 0]],
+			  ['Editor', ['fieldTypeList' => 0]],
+			  ['Phone', ['fieldTypeList' => 0]],
+			  ['Related1M', ['fieldTypeList' => 0, 'referenceModule' => ['Contacts', 'Accounts', 'Leads'],]],
+			  ['Picklist', ['fieldTypeList' => 0, 'pickListValues' => ['a1', 'a2', 'a3'],]],
+			  ['Picklist', ['fieldTypeList' => 0, 'pickListValues' => ['b1', 'b2', 'b3'], 'isRoleBasedPickList' => 1], '2'],
+			  ['MultiSelectCombo', ['fieldTypeList' => 0, 'pickListValues' => ['c1', 'c2', 'c3']]], */
 			['Tree', ['fieldTypeList' => 0]],
 			['CategoryMultipicklist', ['fieldTypeList' => 0]],
 		];
@@ -245,17 +245,16 @@ class ModuleManager extends \Tests\Init\Base
 				break;
 		}
 	}
-
 	/**
 	 * Testing deletion tree
 	 * *****
 	 */
-	public function testDeleteTree()
-	{
-		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName('Test');
-		$objTreesManager = new TreesManager();
-		static::$treeId = $objTreesManager->testDeleteTree(1);
-	}
+	/* public function testDeleteTree()
+	  {
+	  $moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName('Test');
+	  $objTreesManager = new TreesManager();
+	  static::$treeId = $objTreesManager->testDeleteTree(1);
+	  } */
 
 	/**
 	 * Testing the deletion of a new block for the module
@@ -305,7 +304,7 @@ class ModuleManager extends \Tests\Init\Base
 
 	/**
 	 * Testing module removal
-	 * *****
+	 * group extended
 	 */
 	public function testDeleteModule()
 	{
@@ -320,6 +319,7 @@ class ModuleManager extends \Tests\Init\Base
 		}
 
 		$this->assertFalse((new \App\Db\Query())->from('vtiger_tab')->where(['name' => 'Test'])->exists(), 'The test module exists in the database');
+		$this->assertFalse((new \App\Db\Query())->from('vtiger_trees_templates')->where(['templateid' => static::$treeId])->exists(), 'The tree was not removed');
 	}
 
 	/**
