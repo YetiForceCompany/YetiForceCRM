@@ -35,6 +35,8 @@ class Gui_Groups extends \Tests\GuiBase
 
 	/**
 	 * Testing the add group
+	 *
+	 * Test unfinished
 	 */
 	public function testAdd()
 	{
@@ -47,11 +49,6 @@ class Gui_Groups extends \Tests\GuiBase
 		$this->byName('description')->value('Test description');
 		$this->select($this->byId('modulesList'))->selectOptionByValue(\App\Module::getModuleId('Contacts'));
 		$this->select($this->byId('memberList'))->selectOptionByValue('Users:1');
-
-		try {
-			$this->byCssSelector('form')->submit();
-		} catch (Exception $exc) {
-			
-		}
+		$this->byCssSelector('form')->submit();
 	}
 }
