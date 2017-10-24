@@ -51,14 +51,14 @@ $languageStrings = [
 	'FL_LAST_INVOICE_DATE' => 'Последняя дата счета',
 	'FL_STATUS' => 'Status',
 	//PICKLIST VALUES
-	'PLL_PROMISING_CLIENT' => 'Promising client',
-	'PLL_ACTIVE_CLIENT' => 'Active client',
-	'PLL_SPECIAL_CLIENT' => 'Special client',
-	'PLL_LOST_CLIENT' => 'Lost client',
-	'PLL_UNOBTAINED_CLIENT' => 'Unobtained client',
-	'PLL_INACTIVE_CLIENT' => 'Inactive client',
-	'PLL_CLOSED_CLIENT' => 'Closed client',
-	'PLL_BLACKLISTED_CLIENT' => 'Blacklisted client',
+	'PLL_PROMISING_CLIENT' => 'Подающий надежды клиент',
+	'PLL_ACTIVE_CLIENT' => 'Активный клиент',
+	'PLL_SPECIAL_CLIENT' => 'Особый клиент',
+	'PLL_LOST_CLIENT' => 'Потерянный клиент',
+	'PLL_UNOBTAINED_CLIENT' => 'Недостижимый клиент',
+	'PLL_INACTIVE_CLIENT' => 'Неактивный клиент',
+	'PLL_CLOSED_CLIENT' => 'Закрытый клиент',
+	'PLL_BLACKLISTED_CLIENT' => 'Клиент в черном списке',
 	'PLL_NATURAL_PERSON' => 'Физическое лицо',
 	'PLL_BUSINESS_ACTIVITY' => 'Юридическое лицо',
 	'PLL_GENERAL_PARTNERSHIP' => 'Общество с Неограниченной Ответственностью',
@@ -103,8 +103,8 @@ $languageStrings = [
 	// OTHERS
 	'LBL_DEACTIVATED_BY' => 'Акаунт выключен ',
 	'SINGLE_Vendors' => 'Поставщик',
-	'LBL_NUMBER_OF_ACTIVE_CONTRACTS' => 'Number of active SLA',
-	'LBL_VIEW_ACCOUNTSLISTTREE' => 'Products and services',
+	'LBL_NUMBER_OF_ACTIVE_CONTRACTS' => 'Количество активных контрактов',
+	'LBL_VIEW_ACCOUNTSLISTTREE' => 'Продукты и услуги',
 ];
 $jsLanguageStrings = [
 	'JS_DUPLICTAE_CREATION_CONFIRMATION' => 'Такой клиент уже существует. Создать дубликат?',
