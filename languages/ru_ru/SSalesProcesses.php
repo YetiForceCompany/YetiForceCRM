@@ -27,7 +27,7 @@ $languageStrings = [
 	'FL_TYPE' => 'Тип',
 	'FL_STATUS' => 'Статус',
 	'FL_CAMPAIGN' => 'Кампания',
-	'FL_MEMBER_OF' => 'Parent Sales Opportunity',
+	'FL_MEMBER_OF' => 'Родительская сделка',
 	//Picklist
 	'PLL_WEBSITE' => 'Сайт',
 	'PLL_PHONE' => 'Телефон',
