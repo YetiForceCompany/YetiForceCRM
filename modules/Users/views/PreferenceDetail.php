@@ -34,7 +34,7 @@ class Users_PreferenceDetail_View extends Vtiger_Detail_View
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		$this->record = Vtiger_DetailView_Model::getInstance($request->getModule(), $request->getInteger('record'));
-		parent::preProcess($request, false);
+		parent::preProcess($request, $display);
 	}
 
 	/**
