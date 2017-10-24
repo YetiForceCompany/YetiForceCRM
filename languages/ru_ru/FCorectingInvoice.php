@@ -7,9 +7,9 @@
  */
 $languageStrings = [
 	'FCorectingInvoice' => 'Корректировка счетов',
-	'SINGLE_FCorectingInvoice' => 'Коректировка счета',
+	'SINGLE_FCorectingInvoice' => 'Корректировка счета',
 	//BLOCKS
-	'LBL_CUSTOM_INFORMATION' => 'Сичтемная информация',
+	'LBL_CUSTOM_INFORMATION' => 'Системная информация',
 	'LBL_INVOICE_ADDRESS' => 'Адрес выставления счета',
 	'LBL_ADDRESS_DELIVERY_INFORMATION' => 'Адрес доставки',
 	//FIELDS
@@ -25,7 +25,7 @@ $languageStrings = [
 	'FL_STATUS' => 'Статус',
 	//PICKLIST VALUES
 	'PLL_TRANSFER' => 'Банковский перевод',
-	'PLL_CASH' => 'Налиные',
+	'PLL_CASH' => 'Наличные',
 	//OTHERS
 	'LBL_YEAR' => 'Год',
 	'FL_INVOICE' => 'Счет',
