@@ -10,8 +10,6 @@
 class OSSPasswords_Detail_View extends Vtiger_Detail_View
 {
 
-	protected $record = false;
-
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
