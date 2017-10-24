@@ -54,7 +54,7 @@ $languageStrings = [
 	'ossdc_status' => 'Статус',
 	'LBL_EMAIL_FILE_AS_ATTACHMENT' => 'Отправить Документ по Почте',
 	'LBL_RELATIONS' => 'Связан с',
-	'LBL_MASS_ADD' => 'Mass add'
+	'LBL_MASS_ADD' => 'Массовая загрузка'
 ];
 $jsLanguageStrings = [
 	'JS_ARE_YOU_SURE_YOU_WANT_TO_MOVE_DOCUMENTS_TO' => 'Вы уверены, что хотите переместить файлы в',
