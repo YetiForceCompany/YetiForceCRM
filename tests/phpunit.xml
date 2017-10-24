@@ -50,6 +50,7 @@
 				<file>../modules/SMSNotifier/cron/SMSNotifier.php</file>
 				<file>../modules/Leads/summary_blocks/TotalTimeWorked.php</file>
 				<directory suffix=".php">../modules/Vtiger/pdfs</directory>
+				<directory suffix=".php">../modules/OSSMail</directory>
 			</exclude>
 			<directory suffix=".php">.</directory>
 			<directory suffix=".php">../vendor/yetiforce</directory>
