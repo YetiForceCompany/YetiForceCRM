@@ -10,14 +10,14 @@ $languageStrings = [
 	'USER_MAIL_EXIST' => 'Пользователь с такой электронной почтой уже существует',
 	'LBL_GROUP_NAME' => 'Название группы',
 	'LBL_PRIORITY' => 'Приоритет',
-	'LBL_PICKLISTS' => 'Picklists',
-	'LBL_WARNING' => 'Warning',
-	'LBL_SELECT_PICKLIST' => 'Select picklist',
-	'LBL_PICKLIST_COLOR_COL_NOT_FOUND' => 'Color functionality has not been activated for this picklist',
-	'LBL_UPDATE_COLOR_COLUMN' => 'Activate',
-	'LBL_ITEM' => 'Value',
+	'LBL_PICKLISTS' => 'Списки',
+	'LBL_WARNING' => 'Предупреждение',
+	'LBL_SELECT_PICKLIST' => 'Выбрать список',
+	'LBL_PICKLIST_COLOR_COL_NOT_FOUND' => 'Функционал цветов не был активирован для данного списка.',
+	'LBL_UPDATE_COLOR_COLUMN' => 'Активировать',
+	'LBL_ITEM' => 'Значение',
 	'LBL_MODULE' => 'Модуль',
-	'LBL_LDAP_RECOMMENDED_INFO' => 'We do not recommend selecting users with admin permissions for LDAP authorization. In case of authorization problems there must be a user who is able to log in without LDAP integration.',
+	'LBL_LDAP_RECOMMENDED_INFO' => 'Мы рекомендуем не выбирать пользователей с административными правами для авторизации через LDAP. В случае проблем с авторизацией должен быть пользователь, способный войти в систему без LDAP.',
 	//Auth
 	'LBL_AUTHORIZATION' => 'LDAP',
 	'LBL_AUTHORIZATION_DESCRIPTION' => 'Настройка способа Авторизации',
@@ -45,7 +45,7 @@ $languageStrings = [
 	'LBL_LOCK_DRAG' => 'Блокировать перемещение',
 ];
 $jsLanguageStrings = [
-	'JS_PLEASE_SELECT_MODULE' => 'Please select module',
+	'JS_PLEASE_SELECT_MODULE' => 'Пожалуйста, выберите модуль',
 	'JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME' => 'Разделитель десятичных и тысячных не могут быть одинаковыми',
 	'Changed password successfully' => 'Пароль успешно изменен',
 ];
