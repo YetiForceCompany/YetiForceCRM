@@ -28,53 +28,88 @@
 			<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
             <div class="relatedHeader">
                 <div class="btn-toolbar row">
-                    <div class="col-md-4">
-                        {foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
-                            <div class="btn-group paddingRight10">
-                                {assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
-                                {assign var=IS_SEND_EMAIL_BUTTON value={$RELATED_LINK->get('_sendEmail')}}
-                                <button type="button" class="btn btn-default addButton
+					<div class="col-md-9">
+						<div class="btn-group listViewMassActions btn-group paddingRight10">
+							{if $RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS']|@count gt 0}
+								<button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><strong>{\App\Language::translate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
+								<ul class="dropdown-menu">
+									{foreach item="LISTVIEW_MASSACTION" from=$RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'] name=actionCount}
+										<li id="{$MODULE}_listView_massAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_MASSACTION->getLabel())}"><a href="javascript:void(0);" {if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick="Vtiger_List_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"{/if} >{\App\Language::translate($LISTVIEW_MASSACTION->getLabel(), $MODULE)}</a></li>
+										{if $smarty.foreach.actionCount.last eq true}
+											<li class="divider"></li>
+										{/if}
+									{/foreach}
+									{if $RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS_ADV']|@count gt 0}
+										{foreach item=LISTVIEW_ADVANCEDACTIONS from=$RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS_ADV']}
+											<li id="{$MODULE}_listView_advancedAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_ADVANCEDACTIONS->getLabel())}">
+												<a {if stripos($LISTVIEW_ADVANCEDACTIONS->getUrl(), 'javascript:')===0}
+														href="javascript:void(0);" onclick='{$LISTVIEW_ADVANCEDACTIONS->getUrl()|substr:strlen("javascript:")};'
+													{else} 
+														href='{$LISTVIEW_ADVANCEDACTIONS->getUrl()}'
+													{/if}
+													{if $LISTVIEW_ADVANCEDACTIONS->get('linkclass') neq ''}
+														class="{$LISTVIEW_ADVANCEDACTIONS->get('linkclass')}"
+													{/if}
+													{if count($LISTVIEW_ADVANCEDACTIONS->get('linkdata')) gt 0}
+														{foreach from=$LISTVIEW_ADVANCEDACTIONS->get('linkdata') key=NAME item=DATA}
+															data-{$NAME}="{$DATA}" 
+														{/foreach}
+													{/if}
+												>{\App\Language::translate($LISTVIEW_ADVANCEDACTIONS->getLabel(), $MODULE)}</a>
+											</li>
+										{/foreach}
+									{/if}
+								</ul>
+							{/if}
+						</div>
+						<div class="btn-group col-md-3">
+							<span class="customFilterMainSpan">
+								{if $CUSTOM_VIEWS|@count gt 0}
+									<select id="recordsFilter" class="col-md-12" data-placeholder="{\App\Language::translate('LBL_SELECT_TO_LOAD_LIST', $RELATED_MODULE_NAME)}">
+										{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
+											<optgroup label="{\App\Language::translate($GROUP_LABEL)}">
+												{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
+													<option id="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" value="{$CUSTOM_VIEW->get('cvid')}" class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" data-id="{$CUSTOM_VIEW->get('cvid')}">{if $CUSTOM_VIEW->get('viewname') eq 'All'}{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $RELATED_MODULE_NAME)} {\App\Language::translate($RELATED_MODULE_NAME, $RELATED_MODULE_NAME)}{else}{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $RELATED_MODULE_NAME)}{/if}{if $GROUP_LABEL neq 'Mine'} [ {$CUSTOM_VIEW->getOwnerName()} ] {/if}</option>
+												{/foreach}
+											</optgroup>
+										{/foreach}
+									</select>
+									<span class="filterImage">
+										<span class="glyphicon glyphicon-filter"></span>
+									</span>
+								{else}
+									<input type="hidden" value="0" id="customFilter" />
+								{/if}
+							</span>
+						</div>
+						<div class="btn-group paddingRight10">
+							<button type="button" class="btn btn-default loadFormFilterButton popoverTooltip" data-content="{\App\Language::translate('LBL_LOAD_RECORDS_INFO',$MODULE)}">
+								<span class="glyphicon glyphicon-filter"></span>&nbsp;
+								<strong>{\App\Language::translate('LBL_LOAD_RECORDS',$MODULE)}</strong>
+							</button>
+						</div>
+						{foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
+							<div class="btn-group paddingRight10">
+								{assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
+								{assign var=IS_SEND_EMAIL_BUTTON value={$RELATED_LINK->get('_sendEmail')}}
+								<button type="button" class="btn btn-default addButton
 										{if $IS_SELECT_BUTTON eq true} selectRelation {/if} modCT_{$RELATED_MODULE->get('name')} {if $RELATED_LINK->linkqcs eq true}quickCreateSupported{/if}"
-										{if $IS_SELECT_BUTTON eq true} data-moduleName='{$RELATED_LINK->get('_module')->get('name')}' {/if}
+										{if $IS_SELECT_BUTTON eq true} data-moduleName='{$RELATED_LINK->get('_module')->get('name')}'{/if}
 										{if $RELATION_FIELD} data-name="{$RELATION_FIELD->getName()}" {/if}
 										{if $IS_SEND_EMAIL_BUTTON eq true}	onclick="{$RELATED_LINK->getUrl()}" {else} data-url="{$RELATED_LINK->getUrl()}"{/if}
 										{if ($IS_SELECT_BUTTON eq false) and ($IS_SEND_EMAIL_BUTTON eq false)}
-											name="addButton"><span class="glyphicon glyphicon-plus"></span>
+											name="addButton">										
 										{else}
 											> {* closing the button tag *}
+										{/if}
+										{if $RELATED_LINK->get('linkicon') neq ''}
+											<span class="{$RELATED_LINK->get('linkicon')}"></span>
 										{/if}&nbsp;<strong>{$RELATED_LINK->getLabel()}</strong>
 								</button>
 							</div>
-						{/foreach}
-						&nbsp;
-					</div>
-					<div class="col-md-2">
-						<span class="customFilterMainSpan">
-							{if $CUSTOM_VIEWS|@count gt 0}
-								<select id="recordsFilter" class="col-md-12" data-placeholder="{\App\Language::translate('LBL_SELECT_TO_LOAD_LIST', $RELATED_MODULE_NAME)}">
-									{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
-										<optgroup label="{\App\Language::translate($GROUP_LABEL)}">
-											{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
-												<option id="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" value="{$CUSTOM_VIEW->get('cvid')}" class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" data-id="{$CUSTOM_VIEW->get('cvid')}">{if $CUSTOM_VIEW->get('viewname') eq 'All'}{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $RELATED_MODULE_NAME)} {\App\Language::translate($RELATED_MODULE_NAME, $RELATED_MODULE_NAME)}{else}{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $RELATED_MODULE_NAME)}{/if}{if $GROUP_LABEL neq 'Mine'} [ {$CUSTOM_VIEW->getOwnerName()} ] {/if}</option>
-											{/foreach}
-										</optgroup>
-									{/foreach}
-								</select>
-								<span class="filterImage">
-									<span class="glyphicon glyphicon-filter"></span>
-								</span>
-							{else}
-								<input type="hidden" value="0" id="customFilter" />
-							{/if}
-						</span>
-					</div>
-					<div class="col-md-2">
-						<button type="button" class="btn btn-default loadFormFilterButton popoverTooltip" data-content="{\App\Language::translate('LBL_LOAD_RECORDS_INFO',$MODULE)}">
-							<span class="glyphicon glyphicon-filter"></span>&nbsp;
-							<strong>{\App\Language::translate('LBL_LOAD_RECORDS',$MODULE)}</strong>
-						</button>
-					</div>
-					<div class="col-md-4">
+						{/foreach}&nbsp;
+					</div>	
+					<div class="col-md-3">
 						<div class="paginationDiv pull-right">
 							{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE) VIEWNAME='related'}
 						</div>

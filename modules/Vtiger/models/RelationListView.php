@@ -222,7 +222,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 	 */
 	public function getEntryExtend(Vtiger_Record_Model $recordModel)
 	{
-
+		
 	}
 
 	/**
@@ -440,7 +440,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => \App\Language::translate('LBL_SELECT_RELATION', $relatedModel->getName()),
 				'linkurl' => '',
-				'linkicon' => '',
+				'linkicon' => 'glyphicon glyphicon-open',
 			]
 		];
 
@@ -469,14 +469,14 @@ class Vtiger_RelationListView_Model extends \App\Base
 				'linklabel' => App\Language::translate('LBL_ADD_EVENT'),
 				'linkurl' => $this->getCreateEventRecordUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-plus'
 			];
 			$addLinkList[] = [
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => App\Language::translate('LBL_ADD_TASK'),
 				'linkurl' => $this->getCreateTaskRecordUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-plus'
 			];
 		} else {
 			$addLinkList = [[
@@ -486,7 +486,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 				'linklabel' => App\Language::translate('LBL_ADD_RELATION'),
 				'linkurl' => $this->getCreateViewUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-plus'
 			]];
 		}
 		if ($relatedModel->get('label') === 'Documents') {
