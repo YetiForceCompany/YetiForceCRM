@@ -531,11 +531,13 @@ class Functions
 	public static function throwNewException($e, $die = true, $tpl = 'OperationNotPermitted.tpl')
 	{
 		$message = is_object($e) ? $e->getMessage() : $e;
-		if (strpos($message, '||') === false) {
-			$message = \App\Language::translateSingleMod($message, 'Other.Exceptions');
-		} else {
-			$params = explode('||', $message);
-			$message = call_user_func_array('vsprintf', [\App\Language::translateSingleMod(array_shift($params), 'Other.Exceptions'), $params]);
+		if (!is_array($message)) {
+			if (strpos($message, '||') === false) {
+				$message = \App\Language::translateSingleMod($message, 'Other.Exceptions');
+			} else {
+				$params = explode('||', $message);
+				$message = call_user_func_array('vsprintf', [\App\Language::translateSingleMod(array_shift($params), 'Other.Exceptions'), $params]);
+			}
 		}
 		if (\App\Config::$requestMode === 'API') {
 			throw new \APIException($message, 401);
