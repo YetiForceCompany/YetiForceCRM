@@ -118,7 +118,7 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 	protected function getRecordModelFromRequest(\App\Request $request)
 	{
 		if (empty($this->record)) {
-			$this->record = $request->isEmpty('record', true) ? Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule()) : Vtiger_Record_Model::getCleanInstance($request->getModule());
+			$this->record = $request->isEmpty('record', true) ? Vtiger_Record_Model::getCleanInstance($request->getModule()) : Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
 		}
 		$fieldModelList = $this->record->getModule()->getFields();
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
