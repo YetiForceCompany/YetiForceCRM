@@ -4,7 +4,7 @@
 		<button class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
 		<h4 class="modal-title">{\App\Language::translate('LBL_RESET_PASSWORD_HEAD', $MODULE_NAME)} - {App\Fields\Owner::getUserLabel($RECORD)}</h4>
 	</div>
-	<form name="ResetPasswordUsersForm" action="index.php" method="post">
+	<form name="ResetPasswordUsersForm" class="sendByAjax" action="index.php" method="post">
 		<input type="hidden" name="module" value="{$MODULE_NAME}" />
 		<input type="hidden" name="action" value="ResetPassword" />
 		<input type="hidden" name="record" value="{$RECORD}" />

@@ -298,14 +298,12 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	protected function transformValues($values)
 	{
-		$entityInstance = $this->getModule()->getEntityInstance();
-		$cryptType = AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
 		if ($this->isNew() || $this->getPreviousValue('confirm_password') !== false) {
-			$this->set('confirm_password', $entityInstance->encryptPassword($this->get('confirm_password'), $cryptType));
+			$this->set('confirm_password', $this->encryptPassword($this->get('confirm_password')));
 		}
 		if ($this->isNew() || $this->getPreviousValue('user_password') !== false) {
-			$this->set('user_password', $entityInstance->encryptPassword($this->get('user_password'), $cryptType));
-			$values['vtiger_users']['crypt_type'] = $cryptType;
+			$this->set('user_password', $this->encryptPassword($this->get('user_password')));
+			$values['vtiger_users']['crypt_type'] = $this->getCryptType();
 		}
 		return $values;
 	}
@@ -833,5 +831,42 @@ class Users_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		return $return;
+	}
+
+	/**
+	 *
+	 * @param string $password User password
+	 * @param string $cryptType Type of password encryption
+	 * @return string Encrypted password
+	 */
+	public function encryptPassword($password, $cryptType = 'PHP5.3MD5')
+	{
+		$salt = 345;
+		if (!$cryptType) {
+			$cryptType = $this->getCryptType();
+		}
+		if ($cryptType === 'MD5') {
+			$salt = '$1$' . $salt . '$';
+		} elseif ($cryptType === 'BLOWFISH') {
+			$salt = '$2$' . $salt . '$';
+		} elseif ($cryptType === 'PHP5.3MD5') {
+			$salt = '$1$' . str_pad($salt, 9, '0');
+		}
+		return crypt($password, $salt);
+	}
+
+	/**
+	 * Get crypt type to use for password for the user.
+	 * @return string Type of password encryption
+	 */
+	protected function getCryptType()
+	{
+		$cryptType = AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
+		if (!$this->isEmpty('crypt_type')) {
+			$cryptType = $this->get('crypt_type');
+		} elseif ($userCryptType = (new App\Db\Query())->select(['crypt_type'])->from('vtiger_users')->where(['id' => $this->getId()])->scalar()) {
+			$cryptType = $userCryptType;
+		}
+		return $cryptType;
 	}
 }

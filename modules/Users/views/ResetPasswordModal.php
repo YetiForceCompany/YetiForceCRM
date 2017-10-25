@@ -28,7 +28,6 @@ class Users_ResetPasswordModal_View extends Vtiger_BasicModal_View
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('RECORD', $request->getInteger('record'));

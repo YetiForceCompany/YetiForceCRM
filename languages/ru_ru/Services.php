@@ -34,7 +34,7 @@ $languageStrings = [
 	'Owner' => 'Ответственный',
 	'Share with users' => 'Поделиться с',
 	'Price' => 'Цена',
-	'FL_TAXES' => 'Taxes',
+	'FL_TAXES' => 'Налоги',
 	// YetiForce
 	'LBL_SUMMARY' => 'Всего рабочего времени',
 	'Service' => 'Услуги',

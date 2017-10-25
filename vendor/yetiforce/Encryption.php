@@ -65,4 +65,18 @@ class Encryption
 		}
 		return true;
 	}
+
+	/**
+	 * Get random password
+	 * @param int $length
+	 * @return string
+	 */
+	public static function getRandomPassword($length = 10, $type = 0)
+	{
+		$allowedCharacters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		if ($type === 1) {
+			$allowedCharacters .= '_)(*&^%$#@!<>?-=+';
+		}
+		return substr(str_shuffle($allowedCharacters), 0, $length);
+	}
 }

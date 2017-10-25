@@ -321,6 +321,11 @@ $languageStrings = [
 	'LBL_USER_NAME_EXISTS' => 'Użytkownik o takiej nazwie już istnieje',
 	'LBL_USER_NAME_HAS_ALREADY_BEEN_USED' => 'Nazwa użytkownika była już wykorzystana, system nie pozwala na użycie tej samej nazwy powtórnie.',
 	'LBL_FORBIDDEN_USERNAMES' => 'Nazwa użytkownika znajduje się na liście niebezpiecznych nazw.',
+	'BTN_RESET_PASSWORD' => 'Resetuj hasło',
+	'LBL_RESET_PASSWORD_HEAD' => 'Resetuj hasło użytkownika',
+	'LBL_RESET_PASSWORD_DESC' => 'System wygeneruje użytkownikowi nowe hasło, które zostanie wysłane na adres email użytkownika.',
+	'LBL_RESET_PASSWORD_ERROR' => 'System nie może zresetować hasła ponieważ nie ma aktywnego konta SMTP dla powiadomień systemowych.',
+	'LBL_PASSWORD_WAS_RESET_AND_SENT_TO_USER' => 'Hasło zostało zresetowane i wysłane do użytkownika.',
 ];
 
 $jsLanguageStrings = [

@@ -23,8 +23,8 @@ $languageStrings = [
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Пользователи для уведомления',
 	'LBL_BRUTEFORCE_ACTIVE' => 'Активный',
 	'LBL_VIEW_SHOW' => 'Защита от подбора пароля',
-	'LBL_SENT_NOTIFICATIONS' => 'Send notifications',
+	'LBL_SENT_NOTIFICATIONS' => 'Отправленные уведомления',
 ];
 $jsLanguageStrings = [
-	'JS_COULD_NOT_FINNISH_REACTION' => 'Error. Save failed.',
+	'JS_COULD_NOT_FINNISH_REACTION' => 'Ошибка. Не удалось сохранить.',
 ];

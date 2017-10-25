@@ -15,7 +15,7 @@ $languageStrings = [
 	'LBL_NUMBER' => 'Номер',
 	'FL_STATUS' => 'Статус',
 	'FL_INTERVAL' => 'Время напоминания',
-	'FL_IS_MANDATORY' => 'Obligatory to accept',
+	'FL_IS_MANDATORY' => 'Обязательно принять',
 	// Picklist values
 	'PLL_DRAFT' => 'Черновик',
 	'PLL_FOR_ACCEPTANCE' => 'Для подтверждения',
