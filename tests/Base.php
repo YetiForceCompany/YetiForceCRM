@@ -16,7 +16,9 @@ abstract class Base extends \PHPUnit\Framework\TestCase
 	 */
 	protected function onNotSuccessfulTest(\Throwable $t)
 	{
+		echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
 		var_export(array_shift($t->getTrace()));
+		echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
 		throw $t;
 	}
 }
