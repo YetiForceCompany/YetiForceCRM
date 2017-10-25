@@ -117,8 +117,10 @@ class Api extends \Tests\GuiBase
 		static::$requestHeaders['X-TOKEN'] = static::$authUserParams->token;
 	}
 
+	private static $recordId;
+
 	/**
-	 * Testing record list
+	 * Testing add record
 	 */
 	public function testAddRecord()
 	{
@@ -129,7 +131,22 @@ class Api extends \Tests\GuiBase
 			'buildingnumbera' => 111,
 			'legal_form' => 'PLL_GENERAL_PARTNERSHIP',
 		];
-		$request = \Requests::post(static::$url . 'Accounts/Record', static::$requestHeaders, \App\Json::encode($recordData), static::$requestOptions);
+		$request = \Requests::post(static::$url . 'Accounts/Record/', static::$requestHeaders, \App\Json::encode($recordData), static::$requestOptions);
+		$response = \App\Json::decode($request->body, 1);
+		$this->assertEquals($response['status'], 1, $response['error']['message']);
+		static::$recordId = $response['result']['id'];
+	}
+
+	/**
+	 * Testing edit record
+	 */
+	public function testEditRecord()
+	{
+		$recordData = [
+			'accountname' => 'Api YetiForce Sp. z o.o. New name',
+			'buildingnumbera' => 222,
+		];
+		$request = \Requests::put(static::$url . 'Accounts/Record/' . static::$recordId, static::$requestHeaders, \App\Json::encode($recordData), static::$requestOptions);
 		$response = \App\Json::decode($request->body, 1);
 		$this->assertEquals($response['status'], 1, $response['error']['message']);
 	}
@@ -142,6 +159,53 @@ class Api extends \Tests\GuiBase
 		$request = \Requests::get(static::$url . 'Accounts/RecordsList', static::$requestHeaders, static::$requestOptions);
 		$response = \App\Json::decode($request->body, 1);
 		$this->assertEquals($response['status'], 1, $response['error']['message']);
+	}
+
+	/**
+	 * Testing get fields
+	 */
+	public function testGetFields()
+	{
+		$request = \Requests::get(static::$url . 'Accounts/Fields', static::$requestHeaders, static::$requestOptions);
+		$response = \App\Json::decode($request->body, 1);
+		$this->assertEquals($response['status'], 1, $response['error']['message']);
+		$this->assertTrue(!empty($response['result']['fields']));
+		$this->assertTrue(!empty($response['result']['blocks']));
+	}
+
+	/**
+	 * Testing get privileges
+	 */
+	public function testGetPrivileges()
+	{
+		$request = \Requests::get(static::$url . 'Accounts/Privileges', static::$requestHeaders, static::$requestOptions);
+		$response = \App\Json::decode($request->body, 1);
+		$this->assertEquals($response['status'], 1, $response['error']['message']);
+		$this->assertTrue(!empty($response['result']['standardActions']));
+	}
+
+	/**
+	 * Testing get api methods
+	 */
+	public function testGetMethods()
+	{
+		$request = \Requests::get(static::$url . 'Methods', static::$requestHeaders, static::$requestOptions);
+		$response = \App\Json::decode($request->body, 1);
+		$this->assertEquals($response['status'], 1, $response['error']['message']);
+		$this->assertTrue(!empty($response['result']['BaseAction']));
+		$this->assertTrue(!empty($response['result']['BaseModule']));
+		$this->assertTrue(!empty($response['result']['Users']));
+	}
+
+	/**
+	 * Testing get modules
+	 */
+	public function testGetModules()
+	{
+		$request = \Requests::get(static::$url . 'Modules', static::$requestHeaders, static::$requestOptions);
+		$response = \App\Json::decode($request->body, 1);
+		$this->assertEquals($response['status'], 1, $response['error']['message']);
+		$this->assertTrue(!empty($response['result']['Accounts']));
 	}
 
 	/**
