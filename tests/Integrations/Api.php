@@ -1,6 +1,6 @@
 <?php
 /**
- * Integrations test class
+ * Api integrations test class
  * @package YetiForce.Test
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
@@ -10,6 +10,12 @@ namespace Tests\Integrations;
 
 class Api extends \Tests\Base
 {
+
+	/**
+	 * Server address
+	 * @var string
+	 */
+	private static $url;
 
 	/**
 	 * Api server id
@@ -45,6 +51,12 @@ class Api extends \Tests\Base
 	 * @var array
 	 */
 	private static $authUserParams;
+
+	public function setUp()
+	{
+		parent::setUp();
+		static::$url = \AppConfig::main('site_URL') . 'api/webservice/';
+	}
 
 	/**
 	 * Testing add configuration
@@ -95,14 +107,14 @@ class Api extends \Tests\Base
 	 */
 	public function testLogIn()
 	{
-		$request = \Requests::post('http://yeti/api/webservice/Users/Login', static::$requestHeaders, \App\Json::encode([
+		$request = \Requests::post(static::$url . 'Users/Login', static::$requestHeaders, \App\Json::encode([
 					'userName' => 'demo@yetiforce.com',
 					'password' => 'demo'
 				]), static::$requestOptions);
 		$response = \App\Json::decode($request->body, 0);
 		$this->assertEquals($response->status, 1, $response->error->message);
-		$this->authUserParams = $response->result;
-		static::$requestHeaders['X-TOKEN'] = $this->authUserParams->token;
+		static::$authUserParams = $response->result;
+		static::$requestHeaders['X-TOKEN'] = static::$authUserParams->token;
 	}
 
 	/**
@@ -117,7 +129,7 @@ class Api extends \Tests\Base
 			'buildingnumbera' => 111,
 			'legal_form' => 'PLL_GENERAL_PARTNERSHIP',
 		];
-		$request = \Requests::post('http://yeti/api/webservice/Accounts/Record', static::$requestHeaders, \App\Json::encode($recordData), static::$requestOptions);
+		$request = \Requests::post(static::$url . 'Accounts/Record', static::$requestHeaders, \App\Json::encode($recordData), static::$requestOptions);
 		$response = \App\Json::decode($request->body, 1);
 		$this->assertEquals($response['status'], 1, $response['error']['message']);
 	}
@@ -127,7 +139,7 @@ class Api extends \Tests\Base
 	 */
 	public function testRecordList()
 	{
-		$request = \Requests::get('http://yeti/api/webservice/Accounts/RecordsList', static::$requestHeaders, static::$requestOptions);
+		$request = \Requests::get(static::$url . 'Accounts/RecordsList', static::$requestHeaders, static::$requestOptions);
 		$response = \App\Json::decode($request->body, 1);
 		$this->assertEquals($response['status'], 1, $response['error']['message']);
 	}
