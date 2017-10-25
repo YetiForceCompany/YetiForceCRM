@@ -19,6 +19,9 @@
 		<testsuite name="Entity">
 			<directory suffix=".php">./Entity/</directory>
 		</testsuite>
+		<testsuite name="Integrations">
+			<directory suffix=".php">./Integrations/</directory>
+		</testsuite>
 		<testsuite name="Settings">
 			<directory suffix=".php">./Settings/</directory>
 		</testsuite>
