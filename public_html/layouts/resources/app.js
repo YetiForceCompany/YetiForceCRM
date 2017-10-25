@@ -658,8 +658,13 @@ var app = {
 						blockInfo: {'enabled': true}
 					});
 					var formData = form.serializeFormData();
-					AppConnector.request(formData).then(function (data) {
-						sendByAjaxCb(formData, data);
+					AppConnector.request(formData).then(function (responseData) {
+						sendByAjaxCb(formData, responseData);
+						if (responseData.success && responseData.result) {
+							if (responseData.result.notify) {
+								Vtiger_Helper_Js.showMessage(responseData.result.notify);
+							}
+						}
 						app.hideModalWindow();
 						progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					});
@@ -904,7 +909,7 @@ var app = {
 		ranges[app.vtranslate('JS_LAST_7_DAYS')] = [moment().subtract(6, 'days'), moment()];
 		ranges[app.vtranslate('JS_CURRENT_MONTH')] = [moment().startOf('month'), moment().endOf('month')];
 		ranges[app.vtranslate('JS_LAST_MONTH')] = [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')];
-		if($.fn.datepicker.dates[language] == undefined){
+		if ($.fn.datepicker.dates[language] == undefined) {
 			var langCodes = Object.keys($.fn.datepicker.dates);
 			language = langCodes[0];
 		}
@@ -1441,7 +1446,7 @@ var app = {
 		params['module'] = app.getModuleName();
 		params['parent'] = app.getParentModuleName();
 		params['action'] = 'SaveAjax';
-		if(mode){
+		if (mode) {
 			params['mode'] = mode;
 		}
 		params['param'] = param;

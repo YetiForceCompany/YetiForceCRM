@@ -83,7 +83,7 @@ Class Reports_Edit_View extends Vtiger_Edit_View
 
 		$reportModel = Reports_Record_Model::getCleanInstance($record);
 		if (!$reportModel->has('folderid')) {
-			$reportModel->set('folderid', $request->getInteger('folder'));
+			$reportModel->set('folderid', $request->getByType('folder', 2));
 		}
 		$data = $request->getAll();
 		foreach ($data as $name => $value) {

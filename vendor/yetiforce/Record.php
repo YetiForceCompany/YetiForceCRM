@@ -220,14 +220,14 @@ class Record
 	{
 		$metaInfo = \App\Module::getEntityInfo($recordModel->getModuleName());
 		$labelName = [];
-		foreach ($metaInfo['fieldnameArr'] as &$columnName) {
+		foreach ($metaInfo['fieldnameArr'] as $columnName) {
 			$fieldModel = $recordModel->getModule()->getFieldByColumn($columnName);
-			$labelName[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel);
+			$labelName[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel, true);
 		}
 		$labelSearch = [];
-		foreach ($metaInfo['searchcolumnArr'] as &$columnName) {
+		foreach ($metaInfo['searchcolumnArr'] as $columnName) {
 			$fieldModel = $recordModel->getModule()->getFieldByColumn($columnName);
-			$labelSearch[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel);
+			$labelSearch[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel, true);
 		}
 		$label = \vtlib\Functions::textLength(implode(' ', $labelName), 254, false);
 		if (empty($label)) {

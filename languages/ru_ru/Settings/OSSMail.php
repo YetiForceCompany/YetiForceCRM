@@ -7,7 +7,7 @@
  */
 $languageStrings = [
 	'OSSMail' => 'Почта',
-	'ERR_NO_MODULE_IS_INACTIVE' => '"My mailbox" module is inactive, it should be enabled before configuration.',
+	'ERR_NO_MODULE_IS_INACTIVE' => 'Модуль "Мой почтовый ящик" отключён, перед настройкой его необходимо включить.',
 ];
 
 $jsLanguageStrings = [

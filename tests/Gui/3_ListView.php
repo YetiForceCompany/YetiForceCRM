@@ -25,4 +25,18 @@ class Gui_ListView extends \Tests\GuiBase
 			$this->assertEquals('List', $this->byId('view')->value());
 		}
 	}
+
+	public function testView()
+	{
+		$id = (new \App\Db\Query())->select('accountid')->from('vtiger_account')->limit(1)->scalar();
+		$this->url('/index.php?module=Accounts&view=Detail&record=' . $id);
+		$this->timeouts()->implicitWait(5000);
+		$this->assertEquals('Accounts', $this->byId('module')->value());
+		$this->assertEquals('Detail', $this->byId('view')->value());
+
+		$this->url('/index.php?module=Accounts&view=Edit&record=' . $id);
+		$this->timeouts()->implicitWait(5000);
+		$this->assertEquals('Accounts', $this->byId('module')->value());
+		$this->assertEquals('Edit', $this->byId('view')->value());
+	}
 }

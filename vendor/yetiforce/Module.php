@@ -22,13 +22,13 @@ class Module
 	/**
 	 * Init tabdataCache
 	 */
-	static public function init()
+	public static function init()
 	{
 		static::$tabdataCache = require 'user_privileges/tabdata.php';
 		static::$tabdataCache['tabName'] = array_flip(static::$tabdataCache['tabId']);
 	}
 
-	static public function getEntityInfo($mixed = false)
+	public static function getEntityInfo($mixed = false)
 	{
 		$entity = false;
 		if ($mixed) {
@@ -63,7 +63,7 @@ class Module
 		return $entity;
 	}
 
-	static public function getAllEntityModuleInfo($sort = false)
+	public static function getAllEntityModuleInfo($sort = false)
 	{
 		if (empty(static::$moduleEntityCacheById)) {
 			static::getEntityInfo();
@@ -82,7 +82,7 @@ class Module
 
 	protected static $isModuleActiveCache = [];
 
-	static public function isModuleActive($moduleName)
+	public static function isModuleActive($moduleName)
 	{
 		if (isset(static::$isModuleActiveCache[$moduleName])) {
 			return static::$isModuleActiveCache[$moduleName];
@@ -102,7 +102,7 @@ class Module
 
 	/**
 	 * Get module id by module name
-	 * @param string $name
+	 * @param string $moduleName
 	 * @return int|bool
 	 */
 	public static function getModuleId($moduleName)

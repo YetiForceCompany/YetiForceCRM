@@ -13,11 +13,10 @@ class Reports_ChartSave_Action extends Reports_Save_Action
 
 	public function process(\App\Request $request)
 	{
-		$record = $request->getInteger('record');
 		$reportModel = Reports_Record_Model::getCleanInstance();
 		$reportModel->setModule('Reports');
-		if (!empty($record) && !$request->getBoolean('isDuplicate')) {
-			$reportModel->setId($record);
+		if (!$request->isEmpty('record') && !$request->getBoolean('isDuplicate')) {
+			$reportModel->setId($request->getInteger('record'));
 		}
 
 		$reportModel->set('reportname', $request->get('reportname'));

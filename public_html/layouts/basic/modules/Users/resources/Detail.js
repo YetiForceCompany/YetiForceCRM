@@ -9,29 +9,6 @@
  *************************************************************************************/
 
 Vtiger_Detail_Js("Users_Detail_Js", {
-	triggerChangePassword: function (CHPWActionUrl, module) {
-		AppConnector.request(CHPWActionUrl).then(
-				function (data) {
-					if (data) {
-						var callback = function (data) {
-							var params = app.validationEngineOptions;
-							params.onValidationComplete = function (form, valid) {
-								if (valid) {
-									Users_Detail_Js.savePassword(form);
-								}
-								return false;
-							};
-							jQuery('#changePassword').validationEngine(app.validationEngineOptions);
-						};
-						app.showModalWindow(data, function (data) {
-							if (typeof callback == 'function') {
-								callback(data);
-							}
-						});
-					}
-				}
-		);
-	},
 	savePassword: function (form) {
 		var new_password = form.find('[name="new_password"]');
 		var confirm_password = form.find('[name="confirm_password"]');

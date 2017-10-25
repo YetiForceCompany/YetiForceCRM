@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Travis CI result printer class
  * @package YetiForce.Test
@@ -6,12 +7,8 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-use PHPUnit\Framework\Test;
-use PHPUnit\Framework\TestSuite;
-use PHPUnit\TextUI\ResultPrinter;
-
 // @codeCoverageIgnoreStart
-class YtResultPrinter extends ResultPrinter
+class YtResultPrinter extends PHPUnit\TextUI\ResultPrinter
 {
 
 	/**
@@ -19,15 +16,22 @@ class YtResultPrinter extends ResultPrinter
 	 *
 	 * @param Test $test
 	 */
-	public function startTest(Test $test)
+	public function startTest(PHPUnit\Framework\Test $test)
 	{
 		if ($this->debug) {
-			$this->write(
-				\sprintf(
-					"\n%s", \PHPUnit\Util\Test::describe($test)
-				)
-			);
+			$this->write("\n" . \get_class($test) . '::' . $test->getName());
+			//$this->write(\sprintf("\n%s", \PHPUnit\Util\Test::describe($test)));
 		}
+	}
+
+	/**
+	 * @param TestResult $result
+	 */
+	public function printResult(\PHPUnit\Framework\TestResult $result)
+	{
+		$this->write("\n==========================================================================================================");
+		parent::printResult($result);
+		$this->write("\n==========================================================================================================");
 	}
 }
 

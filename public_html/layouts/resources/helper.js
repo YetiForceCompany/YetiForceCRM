@@ -165,8 +165,10 @@ jQuery.Class("Vtiger_Helper_Js", {
 		if (typeof params.type == "undefined") {
 			params.type = 'info';
 		}
+		if (typeof params.title == "undefined") {
+			params.title = app.vtranslate('JS_MESSAGE');
+		}
 		params.animation = "show";
-		params.title = app.vtranslate('JS_MESSAGE');
 		Vtiger_Helper_Js.showPnotify(params);
 	},
 	/*

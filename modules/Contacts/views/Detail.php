@@ -25,4 +25,29 @@ class Contacts_Detail_View extends Vtiger_Detail_View
 
 		return parent::showModuleDetailView($request);
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getHeaderCss(\App\Request $request)
+	{
+		$cssFileNames = [
+			'~libraries/jquery/flot/jquery.flot.valuelabels.css',
+		];
+		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($cssFileNames));
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getFooterScripts(\App\Request $request)
+	{
+		$jsFileNames = [
+			'~libraries/jquery/flot/jquery.flot.min.js',
+			'~libraries/jquery/flot/jquery.flot.resize.js',
+			'~libraries/jquery/flot/jquery.flot.stack.min.js',
+			'~libraries/jquery/flot/jquery.flot.valuelabels.min.js',
+		];
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
+	}
 }

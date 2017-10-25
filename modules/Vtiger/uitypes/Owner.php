@@ -62,7 +62,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 				$userModel = Users_Privileges_Model::getInstanceById($value);
 				$userModel->setModule('Users');
 				if ($userModel->get('status') === 'Inactive') {
-					$ownerName = '<span class="redColor">' . $ownerName . '</span>';
+					$ownerName = '<span class="redColor"><s>' . $ownerName . '</s></span>';
 				}
 				if (App\User::getCurrentUserModel()->isAdmin()) {
 					$detailViewUrl = $userModel->getDetailViewUrl();

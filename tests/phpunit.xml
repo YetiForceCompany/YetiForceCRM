@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGlobals="false"
 		 backupStaticAttributes="false"
-		 colors="true"
+		 colors="false"
 		 processIsolation="false"
 		 convertErrorsToExceptions="true"
 		 convertWarningsToExceptions="true"
@@ -18,6 +18,9 @@
 		</testsuite>
 		<testsuite name="Entity">
 			<directory suffix=".php">./Entity/</directory>
+		</testsuite>
+		<testsuite name="Integrations">
+			<directory suffix=".php">./Integrations/</directory>
 		</testsuite>
 		<testsuite name="Settings">
 			<directory suffix=".php">./Settings/</directory>
@@ -48,10 +51,22 @@
 				<file>../modules/OSSSoldServices/cron/Renewal.php</file>
 				<file>../modules/Settings/CurrencyUpdate/cron/CurrencyUpdateCron.php</file>
 				<file>../modules/SMSNotifier/cron/SMSNotifier.php</file>
+				<file>../modules/Leads/summary_blocks/TotalTimeWorked.php</file>
+				<file>../modules/Users/actions/ForgotPassword.php</file>
+				<file>../api/dav.php</file>
+				<file>../api/webservice.php</file>
+				<directory suffix=".php">../modules/Vtiger/pdfs</directory>
+				<directory suffix=".php">../modules/OSSMail</directory>
+				<directory suffix=".php">../modules/PBXManager</directory>
 			</exclude>
 			<directory suffix=".php">.</directory>
 			<directory suffix=".php">../vendor/yetiforce</directory>
 			<directory suffix=".php">../modules/Settings</directory>
+			<directory suffix=".php">../modules</directory>
+			<directory suffix=".php">../include</directory>
+			<directory suffix=".php">../api</directory>
+			<directory suffix=".php">../languages</directory>
+			<directory suffix=".php">../vtlib/Vtiger</directory>
 		</whitelist>
 	</filter>
 	<listeners>
