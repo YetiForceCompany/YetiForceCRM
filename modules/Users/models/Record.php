@@ -834,7 +834,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 *
+	 * Encrypt user password
 	 * @param string $password User password
 	 * @param string $cryptType Type of password encryption
 	 * @return string Encrypted password
@@ -853,6 +853,16 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$salt = '$1$' . str_pad($salt, 9, '0');
 		}
 		return crypt($password, $salt);
+	}
+
+	/**
+	 * Verify user assword
+	 * @param string $password
+	 * @return bool
+	 */
+	public function verifyPassword($password)
+	{
+		return $this->encryptPassword($password) === $this->get('user_password');
 	}
 
 	/**

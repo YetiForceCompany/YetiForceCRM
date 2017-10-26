@@ -48,22 +48,22 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 		$conf = self::getPassDetail();
 		$moduleName = 'Settings:Password';
 		if (strlen($pass) > $conf['max_length']) {
-			return \App\Language::translate("Maximum password length", $moduleName) . ' ' . $conf['max_length'] . ' ' . \App\Language::translate("characters", $moduleName);
+			return \App\Language::translate('Maximum password length', $moduleName) . ' ' . $conf['max_length'] . ' ' . \App\Language::translate("characters", $moduleName);
 		}
 		if (strlen($pass) < $conf['min_length']) {
-			return \App\Language::translate("Minimum password length", $moduleName) . ' ' . $conf['min_length'] . ' ' . \App\Language::translate("characters", $moduleName);
+			return \App\Language::translate('Minimum password length', $moduleName) . ' ' . $conf['min_length'] . ' ' . \App\Language::translate("characters", $moduleName);
 		}
-		if ($conf['numbers'] == 'true' && !preg_match("#[0-9]+#", $pass)) {
-			return \App\Language::translate("Password should contain numbers", $moduleName);
+		if ($conf['numbers'] == 'true' && !preg_match('#[0-9]+#', $pass)) {
+			return \App\Language::translate('Password should contain numbers', $moduleName);
 		}
-		if ($conf['big_letters'] == 'true' && !preg_match("#[A-Z]+#", $pass)) {
-			return \App\Language::translate("Uppercase letters from A to Z", $moduleName);
+		if ($conf['big_letters'] == 'true' && !preg_match('#[A-Z]+#', $pass)) {
+			return \App\Language::translate('Uppercase letters from A to Z', $moduleName);
 		}
-		if ($conf['small_letters'] == 'true' && !preg_match("#[a-z]+#", $pass)) {
-			return \App\Language::translate("Lowercase letters a to z", $moduleName);
+		if ($conf['small_letters'] == 'true' && !preg_match('#[a-z]+#', $pass)) {
+			return \App\Language::translate('Lowercase letters a to z', $moduleName);
 		}
-		if ($conf['special'] == 'true' && !preg_match("/[!@#$%^&*()\-_=+{};:,<.>]/", $pass)) {
-			return \App\Language::translate("Password should contain special characters", $moduleName);
+		if ($conf['special'] == 'true' && !preg_match('/[!@#$%^&*()\-_=+{};:,<.>]/', $pass)) {
+			return \App\Language::translate('Password should contain special characters', $moduleName);
 		}
 		return false;
 	}

@@ -27,14 +27,25 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 			$recordModel = $this->getRecord();
 			$detailViewLinks = [];
 			if (vglobal('systemMode') != 'demo') {
-				$detailViewLinks[] = [
-					'linktype' => 'DETAILVIEWBASIC',
-					'linklabel' => 'BTN_RESET_PASSWORD',
-					'linkdata' => ['url' => 'index.php?module=Users&view=ResetPasswordModal&record=' . $recordId],
-					'linkclass' => 'btn-info showModal',
-					'linkicon' => 'glyphicon glyphicon-repeat',
-					'showLabel' => true
-				];
+				if ((int) $currentUserModel->get('id') === $recordId) {
+					$detailViewLinks[] = [
+						'linktype' => 'DETAILVIEWBASIC',
+						'linklabel' => 'LBL_CHANGE_PASSWORD',
+						'linkdata' => ['url' => 'index.php?module=Users&view=PasswordModal&mode=change&record=' . $recordId],
+						'linkclass' => 'btn-info showModal',
+						'linkicon' => 'glyphicon glyphicon-repeat',
+						'showLabel' => true
+					];
+				} else {
+					$detailViewLinks[] = [
+						'linktype' => 'DETAILVIEWBASIC',
+						'linklabel' => 'BTN_RESET_PASSWORD',
+						'linkdata' => ['url' => 'index.php?module=Users&view=PasswordModal&mode=reset&record=' . $recordId],
+						'linkclass' => 'btn-info showModal',
+						'linkicon' => 'glyphicon glyphicon-repeat',
+						'showLabel' => true
+					];
+				}
 			}
 			$detailViewLinks[] = [
 				'linktype' => 'DETAILVIEWBASIC',

@@ -225,7 +225,6 @@ $languageStrings = [
 	'Please enater valid email address' => 'Proszę podać poprawny adres e-mail',
 	'The email address contains illegal characters.' => 'Adres e-mail zawiera niedozwolone znaki.',
 	'Please enter new Password' => 'Wprowadź nowe hasło',
-	'Password and Confirm Password should be same' => 'Hasła powinny być takie same',
 	'LBL_MOBILE_VERSION_TITLE' => 'Wersja mobilna systemu CRM',
 	'LBL_MOBILE_VERSION_DESC' => 'Wykryliśmy, że korzystasz z małej rozdzielczości ekranu, w celu ułatwienia pracy zalecamy korzystanie z wersji mobilnej systemu CRM.',
 	'LBL_MOBILE_VERSION_BUTTON' => 'Uruchom wersję mobilną',
@@ -326,6 +325,8 @@ $languageStrings = [
 	'LBL_RESET_PASSWORD_DESC' => 'System wygeneruje użytkownikowi nowe hasło, które zostanie wysłane na adres email użytkownika.',
 	'LBL_RESET_PASSWORD_ERROR' => 'System nie może zresetować hasła ponieważ nie ma aktywnego konta SMTP dla powiadomień systemowych.',
 	'LBL_PASSWORD_WAS_RESET_AND_SENT_TO_USER' => 'Hasło zostało zresetowane i wysłane do użytkownika.',
+	'LBL_PASSWORD_SHOULD_BE_SAME' => 'Hasła powinny być takie same',
+	'LBL_INCORRECT_OLD_PASSWORD' => 'Podano niepoprawne stare hasło. Wpisz ponownie.',
 ];
 
 $jsLanguageStrings = [
