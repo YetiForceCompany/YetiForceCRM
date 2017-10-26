@@ -80,15 +80,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the url for the Profile page
-	 * @return string - Profile Url
-	 */
-	public function getProfileUrl()
-	{
-		return 'index.php?module=Users&view=ChangePassword&mode=Profile';
-	}
-
-	/**
 	 * Function to get the Edit View url for the record
 	 * @return string - Record Edit View Url
 	 */
