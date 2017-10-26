@@ -78,7 +78,6 @@ class Install_InitSchema_Model
 	 */
 	public function setDefaultUsersAccess()
 	{
-		$adminPassword = $_SESSION['config_file_info']['password'];
 		$this->db->update('vtiger_users', [
 			'user_name' => $_SESSION['config_file_info']['user_name'],
 			'date_format' => $_SESSION['config_file_info']['dateformat'],
@@ -90,9 +89,9 @@ class Install_InitSchema_Model
 			'language' => $_SESSION['default_language']
 			]
 		);
-		$newUser = new Users();
-		$newUser->retrieveEntityInfo(1, 'Users');
-		$newUser->changePassword('admin', $adminPassword, false);
+		$userRecordModel = Users_Record_Model::getInstanceById(1, 'Users');
+		$userRecordModel->set('user_password', $_SESSION['config_file_info']['password']);
+		$userRecordModel->save();
 		require_once('vendor/yetiforce/UserPrivilegesFile.php');
 		\App\UserPrivilegesFile::createUserPrivilegesfile(1);
 	}

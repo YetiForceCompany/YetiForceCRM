@@ -195,38 +195,6 @@ class Users extends CRMEntity
 	}
 
 	/**
-	 * @return string encrypted password for storage in DB and comparison against DB password.
-	 * @param string $user_name - Must be non null and at least 2 characters
-	 * @param string $user_password - Must be non null and at least 1 character.
-	 * @desc Take an unencrypted username and password and return the encrypted password
-	 * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc..
-	 * All Rights Reserved..
-	 * Contributor(s): ______________________________________..
-	 */
-	public function encryptPassword($user_password, $crypt_type = 'PHP5.3MD5')
-	{
-		// encrypt the password.
-		$salt = substr($this->column_fields['user_name'], 0, 2);
-		// Fix for: http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/4923
-		if ($crypt_type === '') {
-			// Try to get the crypt_type which is in database for the user
-			$crypt_type = $this->getCryptType();
-		}
-		// For more details on salt format look at: http://in.php.net/crypt
-		if ($crypt_type === 'MD5') {
-			$salt = '$1$' . $salt . '$';
-		} elseif ($crypt_type === 'BLOWFISH') {
-			$salt = '$2$' . $salt . '$';
-		} elseif ($crypt_type === 'PHP5.3MD5') {
-			//only change salt for php 5.3 or higher version for backward
-			//compactibility.
-			//crypt API is lot stricter in taking the value for salt.
-			$salt = '$1$' . str_pad($salt, 9, '0');
-		}
-		return crypt($user_password, $salt);
-	}
-
-	/**
 	 * Checks the config.php AUTHCFG value for login type and forks off to the proper module
 	 * @param string $userPassword - The password of the user to authenticate
 	 * @return bool true if the user is authenticated, false otherwise
@@ -315,62 +283,6 @@ class Users extends CRMEntity
 			$crypt_type = $crypt_row['crypt_type'];
 		}
 		return $crypt_type;
-	}
-
-	/**
-	 * @param string $user name - Must be non null and at least 1 character.
-	 * @param string $userPassword - Must be non null and at least 1 character.
-	 * @param string $newPassword - Must be non null and at least 1 character.
-	 * @return boolean - If passwords pass verification and query succeeds, return true, else return false.
-	 * @desc Verify that the current password is correct and write the new password to the DB.
-	 * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc..
-	 * All Rights Reserved..
-	 * Contributor(s): Contributor(s): YetiForce.com
-	 */
-	public function changePassword($userPassword, $newPassword, $dieOnError = true)
-	{
-		$userName = $this->column_fields['user_name'];
-		\App\Log::trace('Starting password change for ' . $userName);
-		if (empty($newPassword)) {
-			$this->error_string = \App\Language::translate('ERR_PASSWORD_CHANGE_FAILED_1') . $userName . \App\Language::translate('ERR_PASSWORD_CHANGE_FAILED_2');
-			return false;
-		}
-		if (empty($this->column_fields['is_admin']) && $userPassword) {
-			if (!$this->verifyPassword($userPassword)) {
-				\App\Log::warning('Incorrect old password for ' . $userName);
-				$this->error_string = \App\Language::translate('ERR_PASSWORD_INCORRECT_OLD');
-				return false;
-			}
-		}
-		//set new password
-		$crypt_type = AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
-		$encryptedNewPassword = $this->encryptPassword($newPassword, $crypt_type);
-
-		\App\Db::getInstance()->createCommand()->update($this->table_name, [
-			'user_password' => $encryptedNewPassword,
-			'confirm_password' => $encryptedNewPassword,
-			'crypt_type' => $crypt_type,
-			], ['id' => $this->id])->execute();
-		$this->column_fields['user_password'] = $encryptedNewPassword;
-		$this->column_fields['confirm_password'] = $encryptedNewPassword;
-
-		\App\Log::trace('Ending password change for ' . $userName);
-		return true;
-	}
-
-	/**
-	 * Function verifies if given password is correct
-	 * @param string $password
-	 * @return boolean
-	 */
-	public function verifyPassword($password)
-	{
-		$row = (new \App\Db\Query())->select(['user_name', 'user_password', 'crypt_type'])->from($this->table_name)->where(['id' => $this->id])->one();
-		$encryptedPassword = $this->encryptPassword($password, $row['crypt_type']);
-		if ($encryptedPassword !== $row['user_password']) {
-			return false;
-		}
-		return true;
 	}
 
 	public function isAuthenticated()

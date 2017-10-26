@@ -79,21 +79,6 @@
 							<p>{\App\Language::translate('Too many failed login attempts.',$MODULE)}</p>
 						</div>
 					{/if}
-					{if $FPERROR}
-						<div class="alert alert-warning">
-							<p>{\App\Language::translate('Invalid Username or Email address.',$MODULE)}</p>
-						</div>
-					{/if}
-					{if $STATUS}
-						<div class="alert alert-success">
-							<p>{\App\Language::translate('LBL_MAIL_WAITING_TO_SENT',$MODULE)}</p>
-						</div>
-					{/if}
-					{if $STATUS_ERROR}
-						<div class="alert alert-warning">
-							<p>{\App\Language::translate('Outgoing mail server was not configured.',$MODULE)}</p>
-						</div>
-					{/if}
 				</div>
 			</div>	
 			{if AppConfig::security('RESET_LOGIN_PASSWORD')}
@@ -142,27 +127,6 @@
 				jQuery("#loginDiv").removeClass('hide');
 				jQuery("#loginDiv").show();
 				jQuery("#forgotPasswordDiv").hide();
-			});
-
-			jQuery("input[name='retrievePassword']").click(function () {
-				var username = jQuery('#user_name').val();
-				var email = jQuery('#emailId').val();
-				var email1 = email.replace(/^\s+/, '').replace(/\s+$/, '');
-				var emailFilter = /^[^@]+@[^@.]+\.[^@]*\w\w$/;
-				var illegalChars = /[\(\)\<\>\,\;\:\\\"\[\]]/;
-
-				if (username == '') {
-					alert('Please enter valid username');
-					return false;
-				} else if (!emailFilter.test(email1) || email == '') {
-					alert('Please enater valid email address');
-					return false;
-				} else if (email.match(illegalChars)) {
-					alert("The email address contains illegal characters.");
-					return false;
-				} else {
-					return true;
-				}
 			});
 		});
 	</script>

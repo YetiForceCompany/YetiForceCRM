@@ -9,38 +9,6 @@
  *************************************************************************************/
 
 Vtiger_Detail_Js("Users_Detail_Js", {
-	savePassword: function (form) {
-		var new_password = form.find('[name="new_password"]');
-		var confirm_password = form.find('[name="confirm_password"]');
-		var old_password = form.find('[name="old_password"]');
-		var userid = form.find('[name="userid"]').val();
-
-		if (new_password.val() == confirm_password.val()) {
-			var params = {
-				'module': app.getModuleName(),
-				'action': "SaveAjax",
-				'mode': 'savePassword',
-				'old_password': old_password.val(),
-				'new_password': new_password.val(),
-				'userid': userid
-			};
-			AppConnector.request(params).then(
-					function (data) {
-						if (data.success) {
-							app.hideModalWindow();
-							Vtiger_Helper_Js.showPnotify({text: app.vtranslate(data.result.message), type: 'success'});
-						} else {
-							//old_password.validationEngine('showPrompt', app.vtranslate(data.error.message) , 'error','topLeft',true);
-							Vtiger_Helper_Js.showPnotify(data.error.message);
-							return false;
-						}
-					}
-			);
-		} else {
-			new_password.validationEngine('showPrompt', app.vtranslate('JS_REENTER_PASSWORDS'), 'error', 'topLeft', true);
-			return false;
-		}
-	},
 	/*
 	 * function to trigger delete record action
 	 * @params: delete record url.

@@ -52,7 +52,6 @@
 				<file>../modules/Settings/CurrencyUpdate/cron/CurrencyUpdateCron.php</file>
 				<file>../modules/SMSNotifier/cron/SMSNotifier.php</file>
 				<file>../modules/Leads/summary_blocks/TotalTimeWorked.php</file>
-				<file>../modules/Users/actions/ForgotPassword.php</file>
 				<file>../api/dav.php</file>
 				<file>../api/webservice.php</file>
 				<directory suffix=".php">../modules/Vtiger/pdfs</directory>

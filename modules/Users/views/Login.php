@@ -66,9 +66,6 @@ class Users_Login_View extends Vtiger_View_Controller
 		$viewer->assign('LANGUAGE_SELECTION', AppConfig::main('langInLoginView'));
 		$viewer->assign('LAYOUT_SELECTION', AppConfig::main('layoutInLoginView'));
 		$viewer->assign('ERROR', $request->get('error'));
-		$viewer->assign('FPERROR', $request->get('fpError'));
-		$viewer->assign('STATUS', $request->getByType('status'));
-		$viewer->assign('STATUS_ERROR', $request->get('statusError'));
 		$viewer->view('Login.tpl', 'Users');
 	}
 
