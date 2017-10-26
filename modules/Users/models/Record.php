@@ -841,7 +841,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function encryptPassword($password, $cryptType = 'PHP5.3MD5')
 	{
-		$salt = 345;
+		$salt = substr($this->get('user_name'), 0, 2);
 		if (!$cryptType) {
 			$cryptType = $this->getCryptType();
 		}
