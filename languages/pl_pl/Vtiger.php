@@ -379,7 +379,6 @@ $languageStrings = [
 	'LBL_OWNER' => 'Właściciel',
 	'LBL_PAGE' => 'Stron',
 	'LBL_PARENT_OWNER' => 'Nadrzędny właściciela rekordu',
-	'LBL_PASSWORD_LINK_EXPIRED_OR_INVALID_PASSWORD' => 'Adres do resetowania hasła',
 	'LBL_PERMISSION_DENIED' => 'Brak uprawnień',
 	'LBL_NO_PERMISSIONS_FOR_THE_RECORD' => 'Próbujesz przeglądać/edytować rekord do którego nie masz wystarczających uprawnień. Jeśli powinieneś mieć do niego dostęp zgłoś problem administratorowi.',
 	'LBL_PLEASE_SELECT_MODULE' => 'Proszę wybrać moduł',
