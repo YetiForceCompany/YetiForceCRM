@@ -664,6 +664,10 @@ var app = {
 							if (responseData.result.notify) {
 								Vtiger_Helper_Js.showMessage(responseData.result.notify);
 							}
+							if (responseData.result.procesStop) {
+								progressIndicatorElement.progressIndicator({'mode': 'hide'});
+								return false;
+							}
 						}
 						app.hideModalWindow();
 						progressIndicatorElement.progressIndicator({'mode': 'hide'});
