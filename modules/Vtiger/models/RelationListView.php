@@ -409,15 +409,28 @@ class Vtiger_RelationListView_Model extends \App\Base
 	public function getLinks()
 	{
 		$relationModel = $this->getRelationModel();
+		$relatedModuleName = $relationModel->getRelationModuleModel()->getName();
+		$id = $this->getParentRecordModel()->getId();
 		$selectLinks = $this->getSelectRelationLinks();
 		foreach ($selectLinks as $selectLinkModel) {
 			$selectLinkModel->set('_selectRelation', true)->set('_module', $relationModel->getRelationModuleModel());
 		}
-		$addLinks = $this->getAddRelationLinks();
-
-		$links = array_merge($selectLinks, $addLinks);
 		$relatedLink = [];
-		$relatedLink['LISTVIEWBASIC'] = $links;
+		$relatedLink['LISTVIEWBASIC'] = array_merge($selectLinks, $this->getAddRelationLinks());
+		$relatedLink['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'RELATEDLIST_MASSACTIONS',
+				'linklabel' => 'LBL_MASS_DELETE',
+				'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module=Campaigns&action=RelationAjax&mode=massDeleteRelation&src_record={$id}&relatedModule={$relatedModuleName}')",
+				'linkclass' => '',
+				'linkicon' => ''
+		]);
+		$relatedLink['RELATEDLIST_MASSACTIONS_ADV'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'RELATEDLIST_MASSACTIONS_ADV',
+				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
+				'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module=Campaigns&action=RelationAjax&mode=exportToExcel&src_record={$id}&relatedModule={$relatedModuleName}')",
+				'linkclass' => '',
+				'linkicon' => ''
+		]);
 		return $relatedLink;
 	}
 

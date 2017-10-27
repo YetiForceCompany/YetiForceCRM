@@ -18,6 +18,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('addRelation');
 		$this->exposeMethod('deleteRelation');
 		$this->exposeMethod('massDeleteRelation');
+		$this->exposeMethod('exportToExcel');
 		$this->exposeMethod('updateRelation');
 		$this->exposeMethod('getRelatedListPageCount');
 		$this->exposeMethod('updateFavoriteForRecord');
@@ -163,6 +164,114 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		$response = new Vtiger_Response();
 		$response->setResult(['reloadList' => true]);
 		$response->emit();
+	}
+
+	public function exportToExcel(\App\Request $request)
+	{
+		Vtiger_Loader::includeOnce('libraries.PHPExcel.PHPExcel');
+		$sourceModule = $request->getModule();
+		$filter = $request->getByType('viewname', 2);
+		$relatedModuleName = $request->getByType('relatedModule', 1);
+		$sourceRecordId = $request->getInteger('src_record');
+		$pagingModel = new Vtiger_Paging_Model();
+		$parentRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, $sourceModule);
+		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
+		$excludedIds = $request->getArray('excluded_ids');
+		if ('all' === $request->getRaw('selected_ids')) {
+			if (!$request->isEmpty('operator', true)) {
+				$relationListView->set('operator', $request->getByType('operator', 1));
+			}
+			if (!$request->isEmpty('search_key', true)) {
+				$relationListView->set('search_key', $request->getByType('search_key', 1));
+				$relationListView->set('search_value', $request->get('search_value'));
+			}
+			$searchParmams = $request->get('search_params');
+			if (empty($searchParmams) || !is_array($searchParmams)) {
+				$searchParmams = [];
+			}
+			$transformedSearchParams = $relationListView->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
+			$relationListView->set('search_params', $transformedSearchParams);
+			$rows = array_keys($relationListView->getEntries($pagingModel));
+		} else {
+			$rows = $request->getRaw('selected_ids') === '[]' ? [] : $request->getArray('selected_ids');
+		}
+		$workbook = new PHPExcel();
+		$worksheet = $workbook->setActiveSheetIndex(0);
+		$header_styles = [
+			'fill' => ['type' => PHPExcel_Style_Fill::FILL_SOLID, 'color' => ['rgb' => 'E1E0F7']],
+			'font' => ['bold' => true]
+		];
+		$row = 1;
+		$col = 0;
+		$headers = $relationListView->getHeaders();
+		$customView = CustomView_Record_Model::getInstanceById($filter);
+		foreach ($headers as $fieldsModel) {
+			$worksheet->setCellValueExplicitByColumnAndRow($col, $row, App\Purifier::decodeHtml(App\Language::translate($fieldsModel->getFieldLabel(), $relatedModuleName)), PHPExcel_Cell_DataType::TYPE_STRING);
+			$col++;
+		}
+		$row++;
+		foreach ($rows as $id) {
+			$col = 0;
+			$record = Vtiger_Record_Model::getInstanceById($id, $relatedModuleName);
+			if (!$record->isViewable()) {
+				continue;
+			}
+			foreach ($headers as $fieldsModel) {
+				//depending on the uitype we might want the raw value, the display value or something else.
+				//we might also want the display value sans-links so we can use strip_tags for that
+				//phone numbers need to be explicit strings
+				$value = $record->getDisplayValue($fieldsModel->getFieldName(), $id, true);
+				switch ($fieldsModel->getUIType()) {
+					case 25:
+					case 7:
+						if ($fieldsModel->getFieldName() === 'sum_time') {
+							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, PHPExcel_Cell_DataType::TYPE_STRING);
+						} else {
+							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+						}
+						break;
+					case 71:
+					case 72:
+						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $record->get($fieldsModel->getFieldName()), PHPExcel_Cell_DataType::TYPE_NUMERIC);
+						break;
+					case 6://datetimes
+					case 23:
+					case 70:
+						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, PHPExcel_Shared_Date::PHPToExcel(strtotime($record->get($fieldsModel->getFieldName()))), PHPExcel_Cell_DataType::TYPE_NUMERIC);
+						$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY HH:MM:SS'); //format the date to the users preference
+						break;
+					default:
+						$worksheet->setCellValueExplicitByColumnAndRow($col, $row, App\Purifier::decodeHtml($value), PHPExcel_Cell_DataType::TYPE_STRING);
+				}
+				$col++;
+			}
+			$row++;
+		}
+		//having written out all the data lets have a go at getting the columns to auto-size
+		$col = 0;
+		$row = 1;
+		foreach ($headers as &$fieldsModel) {
+			$cell = $worksheet->getCellByColumnAndRow($col, $row);
+			$worksheet->getStyleByColumnAndRow($col, $row)->applyFromArray($header_styles);
+			$worksheet->getColumnDimension($cell->getColumn())->setAutoSize(true);
+			$col++;
+		}
+		$tmpDir = vglobal('tmp_dir');
+		$tempFileName = tempnam(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $tmpDir, 'xls');
+		$workbookWriter = PHPExcel_IOFactory::createWriter($workbook, 'Excel5');
+		$workbookWriter->save($tempFileName);
+		if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
+			header('Pragma: public');
+			header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+		}
+		header('Content-Type: application/x-msexcel');
+		header('Content-Length: ' . filesize($tempFileName));
+		$filename = \App\Language::translate($relatedModuleName, $relatedModuleName) . '-' . \App\Language::translate(App\Purifier::decodeHtml($customView->get('viewname')), $relatedModuleName) . ".xls";
+		header("Content-Disposition: attachment; filename=\"$filename\"");
+		$fp = fopen($tempFileName, 'rb');
+		fpassthru($fp);
+		fclose($fp);
+		unlink($tempFileName);
 	}
 
 	/**
