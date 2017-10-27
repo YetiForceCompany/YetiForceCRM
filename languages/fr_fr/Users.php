@@ -64,7 +64,6 @@ $languageStrings = [
 	'LBL_DELETE_USER_PERMANENTLY' => 'Effacer l\'utilisateur définitivement',
 	'LBL_DELETE_USER' => 'Utilisateur à effacer',
 	'LBL_DEPARTMENT' => 'Departement',
-	'LBL_EMAIL_SEND' => 'Nous vous avons envoyé un email pour réinitialiser votre mot de passe.',
 	'LBL_GET_MORE' => 'En savoir plus sur YetiForce',
 	'LBL_GET_STARTED' => 'Démarrer',
 	'LBL_HIDDEN' => 'Caché',
@@ -74,7 +73,6 @@ $languageStrings = [
 	'LBL_INACTIVE_USERS' => 'Utilisateurs inactifs',
 	'LBL_INVALID_USER_OR_EMAIL' => 'Nom d\'utilisateur ou adresse email invalide.',
 	'LBL_INVALID_USER_OR_PASSWORD' => 'Nom d\'utilisateur ou mot de passe invalide.',
-	'LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS' => 'Votre IP a été bloquée suite à de nombreuses tentatives infructueuses',
 	'LBL_JOB_TITLE' => 'Titre',
 	'LBL_LANGUAGE' => 'Langue',
 	'LBL_LOGIN_AS' => 'Connecté en tant que ',
@@ -334,6 +332,10 @@ $languageStrings = [
 	'LBL_PASSWORD_WAS_RESET_AND_SENT_TO_USERS' => 'Passwords were reset and sent to users\' email addresses.',
 	'LBL_PASSWORD_SHOULD_BE_SAME' => 'Both passwords must match.',
 	'LBL_INCORRECT_OLD_PASSWORD' => 'Incorrect old password. Try again.',
+	'LBL_SEND_EMAIL_RESET_PASSWORD' => 'System generated a new password and sent it to the email address.',
+	'LBL_NO_USER_FOUND' => 'No user found.',
+	'LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS' => 'Too many failed login attempts. IP has been blocked.',
+	'LBL_IP_IS_BLOCKED' => 'Your IP is on the list of blocked IPs, please contact your administrator.',
 ];
 
 $jsLanguageStrings = [
