@@ -445,7 +445,6 @@ $languageStrings = [
 	'LBL_OWNER' => 'Proprietário',
 	'LBL_PAGE' => 'Página',
 	'LBL_PARENT_OWNER' => 'Proprietário Registro Pai',
-	'LBL_PASSWORD_LINK_EXPIRED_OR_INVALID_PASSWORD' => 'O link da Senha experiou ou você digitou uma senha inválida',
 	'LBL_PERMISSION_DENIED' => 'Permissão negada',
 	'LBL_NO_PERMISSIONS_FOR_THE_RECORD' => 'You don\'t have the permissions required to view/edit this record. Contact the administrator if you should have the permission to view it.',
 	'LBL_PLEASE_SELECT_MODULE' => 'Por favor, selecione o módulo',
