@@ -18,6 +18,7 @@ class Users_PasswordModal_View extends Vtiger_BasicModal_View
 		parent::__construct();
 		$this->exposeMethod('reset');
 		$this->exposeMethod('change');
+		$this->exposeMethod('massReset');
 	}
 
 	/**
@@ -34,6 +35,11 @@ class Users_PasswordModal_View extends Vtiger_BasicModal_View
 				break;
 			case 'change':
 				if ((int) $currentUserModel->get('id') === $request->getInteger('record')) {
+					return true;
+				}
+				break;
+			case 'massReset':
+				if ($currentUserModel->isAdminUser() === true) {
 					return true;
 				}
 				break;
@@ -81,6 +87,25 @@ class Users_PasswordModal_View extends Vtiger_BasicModal_View
 		$viewer->assign('MODE', 'change');
 		$viewer->assign('MODE_TITLE', 'LBL_CHANGE_PASSWORD');
 		$viewer->assign('RECORD', $request->getInteger('record'));
+		$this->preProcess($request);
+		$viewer->view('PasswordModal.tpl', $moduleName);
+		$this->postProcess($request);
+	}
+
+	/**
+	 * Mass reset user password
+	 */
+	public function massReset(\App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$viewer = $this->getViewer($request);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('MODE', 'massReset');
+		$viewer->assign('MODE_TITLE', 'LBL_MASS_RESET_PASSWORD_HEAD');
+		$viewer->assign('ACTIVE_SMTP', App\Mail::getDefaultSmtp());
+		$viewer->assign('SELECTED_IDS', $request->get('selected_ids'));
+		$viewer->assign('EXCLUDED_IDS', $request->get('excluded_ids'));
+		$viewer->assign('SEARCH_PARAMS', $request->get('search_params'));
 		$this->preProcess($request);
 		$viewer->view('PasswordModal.tpl', $moduleName);
 		$this->postProcess($request);

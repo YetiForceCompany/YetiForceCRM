@@ -18,6 +18,7 @@ class Users_Password_Action extends Vtiger_Action_Controller
 		parent::__construct();
 		$this->exposeMethod('reset');
 		$this->exposeMethod('change');
+		$this->exposeMethod('massReset');
 	}
 
 	/**
@@ -36,6 +37,11 @@ class Users_Password_Action extends Vtiger_Action_Controller
 				break;
 			case 'change':
 				if ((int) $currentUserModel->get('id') === $request->getInteger('record')) {
+					return true;
+				}
+				break;
+			case 'massReset':
+				if ($currentUserModel->isAdminUser() === true) {
 					return true;
 				}
 				break;
@@ -99,6 +105,32 @@ class Users_Password_Action extends Vtiger_Action_Controller
 		} else {
 			$response->setResult(['procesStop' => true, 'notify' => ['text' => $checkPassword, 'type' => 'error']]);
 		}
+		$response->emit();
+	}
+
+	/**
+	 * Mass reset user password
+	 * @param \App\Request $request
+	 */
+	public function massReset(\App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$recordsList = Vtiger_Mass_Action::getRecordsListFromRequest($request);
+		foreach ($recordsList as $userId) {
+			$password = \App\Encryption::getRandomPassword();
+			$userRecordModel = Users_Record_Model::getInstanceById($userId, $moduleName);
+			$userRecordModel->set('user_password', $password);
+			$userRecordModel->save();
+			\App\Mailer::sendFromTemplate([
+				'template' => 'UsersResetPassword',
+				'moduleName' => $moduleName,
+				'recordId' => $userRecordModel->getId(),
+				'to' => $userRecordModel->get('email1'),
+				'password' => $password,
+			]);
+		}
+		$response = new Vtiger_Response();
+		$response->setResult(['notify' => ['text' => \App\Language::translate('LBL_PASSWORD_WAS_RESET_AND_SENT_TO_USERS', 'Users')]]);
 		$response->emit();
 	}
 }

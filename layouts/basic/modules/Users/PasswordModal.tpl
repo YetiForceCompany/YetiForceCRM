@@ -2,15 +2,20 @@
 {strip}
 	<div class="modal-header">
 		<button class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
-		<h4 class="modal-title">{\App\Language::translate($MODE_TITLE, $MODULE_NAME)} - {App\Fields\Owner::getUserLabel($RECORD)}</h4>
+		<h4 class="modal-title">{\App\Language::translate($MODE_TITLE, $MODULE_NAME)}{if $RECORD}   - {App\Fields\Owner::getUserLabel($RECORD)}{/if}</h4>
 	</div>
 	<form name="PasswordUsersForm" class="form-horizontal sendByAjax validateForm" action="index.php" method="post" autocomplete="off">
 		<input type="hidden" name="module" value="{$MODULE_NAME}" />
 		<input type="hidden" name="action" value="Password" />
 		<input type="hidden" name="mode" value="{$MODE}" />
 		<input type="hidden" name="record" value="{$RECORD}" />
+		{if $MODE === 'massReset'}
+			<input type="hidden" name="selected_ids" value="{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_IDS))}">
+            <input type="hidden" name="excluded_ids" value="{\App\Purifier::encodeHtml(\App\Json::encode($EXCLUDED_IDS))}">
+			<input type="hidden" name="search_params" value='{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}' />
+		{/if}
 		<div class="modal-body">
-			{if $MODE === 'reset'}
+			{if $MODE === 'reset' || $MODE === 'massReset'}
 				{if $ACTIVE_SMTP}
 					<div class="alert alert-warning" role="alert">{\App\Language::translate('LBL_RESET_PASSWORD_DESC', $MODULE_NAME)}</div>
 				{else}
@@ -38,7 +43,7 @@
 			{/if}
 		</div>
 		<div class="modal-footer">
-			{if $MODE === 'reset' && $ACTIVE_SMTP}
+			{if ($MODE === 'massReset' || $MODE === 'reset') &&  $ACTIVE_SMTP}
 				<button class="btn btn-success" type="submit" name="saveButton">
 					<span class="glyphicon glyphicon-repeat"></span>&nbsp;&nbsp;<strong>{\App\Language::translate('BTN_RESET_PASSWORD', $MODULE_NAME)}</strong>
 				</button>
