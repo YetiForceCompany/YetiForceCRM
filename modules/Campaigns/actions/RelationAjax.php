@@ -17,7 +17,8 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('src_record'))) {
+		parent::checkPermission($request);
+		if (!$request->isEmpty('sourceRecord', true) && !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('sourceRecord'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		if (!$request->isEmpty('relatedRecord', true) && !\App\Privilege::isPermitted($request->getByType('relatedModule'), 'DetailView', $request->getInteger('relatedRecord'))) {
@@ -38,7 +39,7 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	 */
 	public function addRelationsFromRelatedModuleViewId(\App\Request $request)
 	{
-		$sourceRecordId = $request->getInteger('src_record');
+		$sourceRecordId = $request->getInteger('sourceRecord');
 		$relatedModuleName = $request->getByType('relatedModule');
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($relatedModuleName)) {
