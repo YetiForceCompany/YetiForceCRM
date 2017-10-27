@@ -17,6 +17,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		parent::__construct();
 		$this->exposeMethod('addRelation');
 		$this->exposeMethod('deleteRelation');
+		$this->exposeMethod('massDeleteRelation');
 		$this->exposeMethod('updateRelation');
 		$this->exposeMethod('getRelatedListPageCount');
 		$this->exposeMethod('updateFavoriteForRecord');
@@ -117,6 +118,50 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);
+		$response->emit();
+	}
+
+	/**
+	 * This function removes the relationship associated with the module
+	 * @param \App\Request $request
+	 */
+	public function massDeleteRelation(\App\Request $request)
+	{
+		$sourceModule = $request->getModule();
+		$relatedModuleName = $request->getByType('relatedModule', 1);
+		$sourceRecordId = $request->getInteger('src_record');
+		$pagingModel = new Vtiger_Paging_Model();
+
+		$parentRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, $sourceModule);
+		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
+		$excludedIds = $request->getArray('excluded_ids');
+		if ('all' === $request->getRaw('selected_ids')) {
+			if (!$request->isEmpty('operator', true)) {
+				$relationListView->set('operator', $request->getByType('operator', 1));
+			}
+			if (!$request->isEmpty('search_key', true)) {
+				$relationListView->set('search_key', $request->getByType('search_key', 1));
+				$relationListView->set('search_value', $request->get('search_value'));
+			}
+			$searchParmams = $request->get('search_params');
+			if (empty($searchParmams) || !is_array($searchParmams)) {
+				$searchParmams = [];
+			}
+			$transformedSearchParams = $relationListView->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
+			$relationListView->set('search_params', $transformedSearchParams);
+			$rows = array_keys($relationListView->getEntries($pagingModel));
+		} else {
+			$rows = $request->getRaw('selected_ids') === '[]' ? [] : $request->getArray('selected_ids');
+		}
+		$relationModel = $relationListView->getRelationModel();
+		foreach ($rows as $relatedRecordId) {
+			if (!in_array($relatedRecordId, $excludedIds) && \App\Privilege::isPermitted($relatedModuleName, 'DetailView', $relatedRecordId)) {
+				$relationModel->deleteRelation((int) $sourceRecordId, (int) $relatedRecordId);
+			}
+		}
+
+		$response = new Vtiger_Response();
+		$response->setResult(['reloadList' => true]);
 		$response->emit();
 	}
 

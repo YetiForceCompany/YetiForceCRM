@@ -222,7 +222,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$this->listViewModel->set('operator', $request->getByType('operator', 1));
 			$viewer->assign('OPERATOR', $request->getByType('operator', 1));
 		}
-		if (!$request->isEmpty('search_key', true) && !$request->isEmpty('search_value', true)) {
+		if (!$request->isEmpty('search_key', true)) {
 			$this->listViewModel->set('search_key', $request->getByType('search_key', 1));
 			$this->listViewModel->set('search_value', $request->get('search_value'));
 			$viewer->assign('ALPHABET_VALUE', $request->get('search_value'));
