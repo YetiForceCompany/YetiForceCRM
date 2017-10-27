@@ -170,7 +170,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_EDIT',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerMassEdit("index.php?module=' . $moduleModel->get('name') . '&view=MassActionAjax&mode=showMassEditForm");',
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-pencil'
 			];
 		}
 		if ($moduleModel->isPermitted('MassDelete')) {
@@ -178,7 +178,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_DELETE',
 				'linkurl' => 'javascript:Vtiger_List_Js.massDeleteRecords("index.php?module=' . $moduleModel->get('name') . '&action=MassDelete");',
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-trash'
 			];
 		}
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
@@ -187,7 +187,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ADD_COMMENT',
 				'linkurl' => 'index.php?module=' . $moduleModel->get('name') . '&view=MassActionAjax&mode=showAddCommentForm',
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-comment'
 			];
 		}
 
@@ -196,7 +196,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerTransferOwnership("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=transferOwnership")',
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-user'
 			];
 		}
 		if ($moduleModel->isTrackingEnabled() && AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $moduleModel->isPermitted('ReviewingUpdates') && $currentUser->getId() === $currentUser->getRealId()) {
@@ -204,7 +204,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_REVIEW_CHANGES',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerReviewChanges("index.php?module=ModTracker&sourceModule=' . $moduleModel->getName() . '&action=ChangesReviewedOn&mode=reviewChanges")',
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-ok-sign'
 			];
 		}
 		foreach ($massActionLinks as $massActionLink) {
@@ -353,7 +353,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_IMPORT',
 				'linkurl' => $moduleModel->getImportUrl(),
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-import'
 			];
 		}
 		if ($moduleModel->isPermitted('Export')) {
@@ -361,7 +361,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_EXPORT',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerExportAction("' . $this->getModule()->getExportUrl() . '")',
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-export'
 			];
 		}
 		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
@@ -384,7 +384,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linklabel' => 'LBL_FIND_DUPLICATES',
 				'linkurl' => 'Javascript:Vtiger_List_Js.showDuplicateSearchForm("index.php?module=' . $moduleModel->getName() .
 				'&view=MassActionAjax&mode=showDuplicatesSearchForm")',
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-duplicate'
 			];
 		}
 		if ($moduleModel->isPermitted('QuickExportToExcel') && !Settings_ModuleManager_Library_Model::checkLibrary('PHPExcel')) {
@@ -392,7 +392,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerQuickExportToExcel("' . $moduleModel->getName() . '")',
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-save-file',
 			];
 		}
 		if ($moduleModel->isPermitted('RecordMappingList')) {
@@ -404,6 +404,7 @@ class Vtiger_ListView_Model extends \App\Base
 					'linktype' => 'LISTVIEW',
 					'linklabel' => 'LBL_GENERATE_RECORDS',
 					'linkurl' => 'javascript:Vtiger_List_Js.triggerGenerateRecords("index.php?module=' . $moduleModel->getName() . '&view=GenerateModal&fromview=List");',
+					'linkicon' => 'glyphicon glyphicon-plus-sign',
 				];
 			}
 		}

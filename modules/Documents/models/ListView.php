@@ -83,7 +83,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerMassEdit("index.php?module=' . $moduleModel->get('name') . '&view=MassActionAjax&mode=showMassEditForm");',
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-pencil'
 			];
 		}
 
@@ -92,7 +92,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_DELETE',
 				'linkurl' => 'javascript:Vtiger_List_Js.massDeleteRecords("index.php?module=' . $moduleModel->getName() . '&action=MassDelete");',
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-envelope'
 			];
 		}
 		if ($moduleModel->isPermitted('MassMoveDocuments')) {
@@ -100,7 +100,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MOVE',
 				'linkurl' => 'javascript:Documents_List_Js.massMove("index.php?module=' . $moduleModel->getName() . '&view=MoveDocuments");',
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-folder-open'
 			];
 		}
 		if ($moduleModel->isPermitted('MassTransferOwnership')) {
@@ -108,7 +108,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerTransferOwnership("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=transferOwnership")',
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-user'
 			];
 		}
 		if ($moduleModel->isPermitted('CreateView')) {
@@ -116,7 +116,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ADD',
 				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-plus'
 			];
 		}
 		foreach ($massActionLinks as $massActionLink) {

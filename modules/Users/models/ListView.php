@@ -55,9 +55,9 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		if ($linkParams['MODULE'] === 'Users' && $linkParams['ACTION'] === 'List' && $privilegesModel->isAdminUser()) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
-				'linklabel' => 'LBL_MASS_PWD_EDIT',
-				'linkurl' => 'javascript:Settings_Users_List_Js.triggerEditPasswords("index.php?module=Users&view=EditAjax&mode=editPasswords", "' . $linkParams['MODULE'] . '")',
-				'linkicon' => ''
+				'linklabel' => 'BTN_MASS_RESET_PASSWORD',
+				'linkurl' => 'index.php?module=Users&view=PasswordModal&mode=massReset',
+				'linkicon' => 'glyphicon glyphicon-repeat'
 			];
 		}
 		foreach ($massActionLinks as $massActionLink) {
@@ -154,13 +154,13 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_IMPORT',
 				'linkurl' => $moduleModel->getImportUrl(),
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-import'
 			];
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_EXPORT',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerExportAction("' . $moduleModel->getExportUrl() . '")',
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-export'
 			];
 		}
 
