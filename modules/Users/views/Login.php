@@ -65,7 +65,13 @@ class Users_Login_View extends Vtiger_View_Controller
 		$viewer->assign('CURRENT_VERSION', \App\Version::get());
 		$viewer->assign('LANGUAGE_SELECTION', AppConfig::main('langInLoginView'));
 		$viewer->assign('LAYOUT_SELECTION', AppConfig::main('layoutInLoginView'));
-		$viewer->assign('ERROR', $request->get('error'));
+		$viewer->assign('IS_BLOCKED_IP', Settings_BruteForce_Module_Model::getCleanInstance()->isBlockedIp());
+		if (\App\Session::has('UserLoginMessage')) {
+			$viewer->assign('MESSAGE', \App\Session::get('UserLoginMessage'));
+			$viewer->assign('MESSAGE_TYPE', \App\Session::get('UserLoginMessageType'));
+			\App\Session::delete('UserLoginMessage');
+			\App\Session::delete('UserLoginMessageType');
+		}
 		$viewer->view('Login.tpl', 'Users');
 	}
 

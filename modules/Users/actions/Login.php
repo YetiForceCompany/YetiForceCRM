@@ -33,6 +33,7 @@ class Users_Login_Action extends Vtiger_Action_Controller
 	 */
 	public function process(\App\Request $request)
 	{
+		$moduleName = $request->getModule();
 		$username = $request->get('username');
 		$password = $request->getRaw('password');
 		$moduleModel = Users_Module_Model::getInstance('Users');
@@ -40,7 +41,7 @@ class Users_Login_Action extends Vtiger_Action_Controller
 		if ($bfInstance->isActive() && $bfInstance->isBlockedIp()) {
 			$bfInstance->incAttempts();
 			$moduleModel->saveLoginHistory(strtolower($username), 'Blocked IP');
-			header('Location: index.php?module=Users&view=Login&error=2');
+			header('Location: index.php?module=Users&view=Login');
 			return false;
 		}
 		$user = CRMEntity::getInstance('Users');
@@ -76,14 +77,15 @@ class Users_Login_Action extends Vtiger_Action_Controller
 			}
 		} else {
 			$bfInstance->updateBlockedIp();
-			$error = 1;
+			\App\Session::set('UserLoginMessage', App\Language::translate('LBL_INVALID_USER_OR_PASSWORD', $moduleName));
 			if ($bfInstance->isBlockedIp()) {
 				$bfInstance->sendNotificationEmail();
-				$error = 2;
+				\App\Session::set('UserLoginMessage', App\Language::translate('LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS', $moduleName));
+				\App\Session::set('UserLoginMessageType', 'error');
 			}
 			//Track the login History
 			$moduleModel->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('username')), 'Failed login');
-			header("Location: index.php?module=Users&view=Login&error=$error");
+			header("Location: index.php?module=Users&view=Login");
 		}
 	}
 }

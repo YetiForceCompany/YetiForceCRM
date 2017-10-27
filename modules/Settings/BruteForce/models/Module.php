@@ -80,7 +80,7 @@ class Settings_BruteForce_Module_Model extends Settings_Vtiger_Module_Model
 		$query = (new \App\Db\Query())
 			->select(['usersName' => new \yii\db\Expression('DISTINCT user_name'), 'browser' => new \yii\db\Expression('browser')])
 			->from('vtiger_loginhistory')
-			->where(['status' => ['Failed login', 'Blocked IP'], 'user_ip' => $data['ip']])
+			->where(['status' => ['Failed login', 'Blocked IP', 'ForgotPasswordNoUserFound'], 'user_ip' => $data['ip']])
 			->andWhere(['>=', 'login_time', $data['time']]);
 		$historyData = $query->createCommand()->queryAllByGroup(2);
 		$users = array_keys($historyData);
