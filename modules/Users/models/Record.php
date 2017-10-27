@@ -163,9 +163,8 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$db = \App\Db::getInstance();
 		$valuesForSave = $this->getValuesForSave();
 		foreach ($valuesForSave as $tableName => $tableData) {
-			$keyTable = [$entityInstance->tab_name_index[$tableName] => $this->getId()];
 			if ($this->isNew()) {
-				$db->createCommand()->insert($tableName, $keyTable + $tableData)->execute();
+				$db->createCommand()->insert($tableName, [$entityInstance->tab_name_index[$tableName] => $this->getId()] + $tableData)->execute();
 			} else {
 				$db->createCommand()->update($tableName, $tableData, [$entityInstance->tab_name_index[$tableName] => $this->getId()])->execute();
 			}
@@ -193,7 +192,8 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$saveFields = $moduleModel->getFieldsForSave($this);
 		if (!$this->isNew()) {
 			$saveFields = array_intersect($saveFields, array_keys($this->changes));
-		} else {
+		}
+		if ($this->isNew()) {
 			$this->setId(\App\Db::getInstance()->getUniqueID('vtiger_users'));
 			$forSave['vtiger_users']['date_entered'] = date('Y-m-d H:i:s');
 		}
@@ -201,8 +201,8 @@ class Users_Record_Model extends Vtiger_Record_Model
 		foreach ($saveFields as $fieldName) {
 			$fieldModel = $moduleModel->getFieldByName($fieldName);
 			if ($fieldModel) {
-				$value = $this->get($fieldName);
 				$uitypeModel = $fieldModel->getUITypeModel();
+				$value = $this->get($fieldName);
 				$uitypeModel->validate($value);
 				if ($value === null || $value === '') {
 					$defaultValue = $fieldModel->getDefaultFieldValue();
@@ -215,7 +215,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 					}
 					$this->set($fieldName, $value);
 				}
-				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $value;
+				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $uitypeModel->convertToSave($value, $this);
 			}
 		}
 		return $forSave;
@@ -253,7 +253,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Validation of modified data
-	 * @throws \Exception
+	 * @throws \App\Exceptions\SaveRecord
 	 */
 	public function validate()
 	{
@@ -273,12 +273,18 @@ class Users_Record_Model extends Vtiger_Record_Model
 					->from('vtiger_users')
 					->leftJoin('vtiger_user2role', 'vtiger_user2role.userid = vtiger_users.id')
 					->where(['user_name' => $this->get('user_name'), 'vtiger_user2role.roleid' => $this->get('roleid')])->exists()) {
-				throw new \Exception('LBL_USER_EXISTS');
+				throw new \App\Exceptions\SaveRecord('LBL_USER_EXISTS', 406);
 			}
 			if ($this->getId()) {
 				\App\Db::getInstance()->createCommand()->delete('vtiger_module_dashboard_widgets', ['userid' => $this->getId()])->execute();
 			}
 			\App\Privilege::setAllUpdater();
+		}
+		if ($this->has('user_password')) {
+			$isExists = (new \App\Db\Query())->from('l_#__userpass_history')->where(['user_id' => $this->getId(), 'pass' => $this->encryptPassword($this->get('user_password'))])->exists();
+			if ($isExists) {
+				throw new \App\Exceptions\SaveRecord('ERR_PASSWORD_HAS_ALREADY_BEEN_USED', 406);
+			}
 		}
 	}
 
@@ -289,11 +295,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	protected function transformValues($values)
 	{
-		if ($this->isNew() || $this->getPreviousValue('confirm_password') !== false) {
-			$this->set('confirm_password', $this->encryptPassword($this->get('confirm_password')));
-		}
 		if ($this->isNew() || $this->getPreviousValue('user_password') !== false) {
-			$this->set('user_password', $this->encryptPassword($this->get('user_password')));
 			$values['vtiger_users']['crypt_type'] = $this->getCryptType();
 		}
 		return $values;

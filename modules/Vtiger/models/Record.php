@@ -391,13 +391,12 @@ class Vtiger_Record_Model extends \App\Base
 		$entityInstance = $this->getModule()->getEntityInstance();
 		$db = \App\Db::getInstance();
 		foreach ($this->getValuesForSave() as $tableName => $tableData) {
-			$keyTable = [$entityInstance->tab_name_index[$tableName] => $this->getId()];
 			if ($this->isNew()) {
 				if ($tableName === 'vtiger_crmentity') {
 					$db->createCommand()->insert($tableName, $tableData)->execute();
 					$this->setId((int) $db->getLastInsertID('vtiger_crmentity_crmid_seq'));
 				} else {
-					$db->createCommand()->insert($tableName, $keyTable + $tableData)->execute();
+					$db->createCommand()->insert($tableName, [$entityInstance->tab_name_index[$tableName] => $this->getId()] + $tableData)->execute();
 				}
 			} else {
 				$db->createCommand()->update($tableName, $tableData, [$entityInstance->tab_name_index[$tableName] => $this->getId()])->execute();
@@ -430,10 +429,14 @@ class Vtiger_Record_Model extends \App\Base
 				$uitypeModel = $fieldModel->getUITypeModel();
 				$uitypeModel->validate($value);
 				if ($value === '' || $value === null) {
-					$value = $uitypeModel->getDBValue($value, $this);
-					$this->set($fieldName, $value);
+					$defaultValue = $fieldModel->getDefaultFieldValue();
+					if ($defaultValue !== '') {
+						$value = $defaultValue;
+					} else {
+						$value = $uitypeModel->getDBValue($value, $this);
+					}
 				}
-				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $value;
+				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $uitypeModel->convertToSave($value, $this);
 			}
 		}
 		return $forSave;
@@ -497,9 +500,9 @@ class Vtiger_Record_Model extends \App\Base
 
 	/**
 	 * Static Function to get the instance of the Vtiger Record Model given the recordid and the module name
-	 * @param <Number> $recordId
-	 * @param string $moduleName
-	 * @return Vtiger_Record_Model or Module Specific Record Model instance
+	 * @param int $recordId
+	 * @param string $module
+	 * @return \Vtiger_Record_Model Module Specific Record Model instance
 	 */
 	public static function getInstanceById($recordId, $module = null)
 	{

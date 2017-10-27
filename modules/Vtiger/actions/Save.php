@@ -127,11 +127,6 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 			}
 			if ($request->has($fieldName)) {
 				$fieldModel->getUITypeModel()->setValueFromRequest($request, $this->record);
-			} elseif ($this->record->isNew()) {
-				$defaultValue = $fieldModel->getDefaultFieldValue();
-				if ($defaultValue !== '') {
-					$this->record->set($fieldName, $defaultValue);
-				}
 			}
 		}
 		return $this->record;

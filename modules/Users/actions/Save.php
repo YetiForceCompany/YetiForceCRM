@@ -39,9 +39,7 @@ class Users_Save_Action extends Vtiger_Save_Action
 	}
 
 	/**
-	 * Function to get the record model based on the request parameters
-	 * @param \App\Request $request
-	 * @return Vtiger_Record_Model or Module specific Record Model instance
+	 * {@inheritDoc}
 	 */
 	protected function getRecordModelFromRequest(\App\Request $request)
 	{
@@ -49,7 +47,7 @@ class Users_Save_Action extends Vtiger_Save_Action
 		if ($recordModel->isNew()) {
 			$recordModel->set('user_name', $request->get('user_name', null));
 			$recordModel->set('user_password', $request->getRaw('user_password', null));
-			$recordModel->set('confirm_password', $request->getRaw('confirm_password', null));
+			$recordModel->set('confirm_password', '');
 		}
 		return $recordModel;
 	}

@@ -31,7 +31,7 @@
 				<div class="form-group">
 					<label class="col-sm-4 control-label">{\App\Language::translate('LBL_NEW_PASSWORD', $MODULE_NAME)}</label>
 					<div class="col-sm-6 controls">
-						<input type="password" name="password" id="passwordUsersFormPassword" title="{\App\Language::translate('LBL_NEW_PASSWORD', $MODULE_NAME)}" class="form-control" data-validation-engine="validate[required,equals[confirmPasswordUsersFormPassword]]" autocomplete="off"/>
+						<input type="password" name="password" id="passwordUsersFormPassword" title="{\App\Language::translate('LBL_NEW_PASSWORD', $MODULE_NAME)}" class="form-control" data-validation-engine="validate[required]]" autocomplete="off"/>
 					</div>
 				</div>
 				<div class="form-group">
