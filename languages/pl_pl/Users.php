@@ -53,7 +53,6 @@ $languageStrings = [
 	'LBL_DELETE_USER_PERMANENTLY' => 'Usuń użytkownika na stałe',
 	'LBL_DELETE_USER' => 'Użytkownik do usunięcia',
 	'LBL_DEPARTMENT' => 'Dział',
-	'LBL_EMAIL_SEND' => 'Wysłaliśmy Ci email potrzebny do zresetowania hasła.',
 	'LBL_GET_MORE' => 'Wykorzystaj lepiej YetiForce',
 	'LBL_GET_STARTED' => 'Pierwsze kroki',
 	'LBL_HIDDEN' => 'Ukryte',
@@ -216,8 +215,6 @@ $languageStrings = [
 	// Login page
 	'Recover password' => 'Przypomnij hasło',
 	'Login' => 'Logowanie',
-	'Invalid username or password.' => 'Nieprawidłowa nazwa użytkownika lub hasło.',
-	'Too many failed login attempts.' => 'Zbyt wiele nieudanych prób logowania. IP zostało zablokowane.',
 	'Please enter valid username' => 'Proszę podać poprawną nazwę użytkownika',
 	'Please enater valid email address' => 'Proszę podać poprawny adres e-mail',
 	'The email address contains illegal characters.' => 'Adres e-mail zawiera niedozwolone znaki.',
@@ -325,6 +322,10 @@ $languageStrings = [
 	'LBL_PASSWORD_WAS_RESET_AND_SENT_TO_USERS' => 'Hasła zostały zresetowane i wysłane do użytkowników.',
 	'LBL_PASSWORD_SHOULD_BE_SAME' => 'Hasła powinny być takie same',
 	'LBL_INCORRECT_OLD_PASSWORD' => 'Podano niepoprawne stare hasło. Wpisz ponownie.',
+	'LBL_SEND_EMAIL_RESET_PASSWORD' => 'System wygenerował nowe hasło i wysłał na podany adres mailowy.',
+	'LBL_NO_USER_FOUND' => 'Nie znaleziono użytkownika.',
+	'LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS' => 'Zbyt wiele nieudanych prób logowania. IP zostało zablokowane.',
+	'LBL_IP_IS_BLOCKED' => 'Twój IP został zablokowany czasowo bo znajduje się na czarnej liście, prosimy o kontakt z administratorem.',
 ];
 
 $jsLanguageStrings = [
