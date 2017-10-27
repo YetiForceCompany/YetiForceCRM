@@ -8,7 +8,62 @@
  * Contributor(s): YetiForce.com
  *************************************************************************************/
 
-jQuery.Class("Vtiger_RelatedList_Js", {}, {
+jQuery.Class("Vtiger_RelatedList_Js", {
+	triggerMassAction: function (massActionUrl) {
+		var listInstance = Vtiger_List_Js.getInstance();
+		var validationResult = listInstance.checkListRecordSelected();
+		if (validationResult != true) {
+			var progressIndicatorElement = jQuery.progressIndicator();
+			// Compute selected ids, excluded ids values, along with cvid value and pass as url parameters
+			var selectedIds = listInstance.readSelectedIds(true);
+			var excludedIds = listInstance.readExcludedIds(true);
+			var cvId = listInstance.getCurrentCvId();
+			var postData = {
+				"viewname": cvId,
+				"selected_ids": selectedIds,
+				"excluded_ids": excludedIds
+			};
+			var listViewInstance = Vtiger_List_Js.getInstance();
+			if (listViewInstance.getListSearchInstance()) {
+				var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
+				postData.search_params = JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
+				if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+					postData['search_key'] = listViewInstance.getListSearchInstance().getAlphabetSearchField();
+					postData['search_value'] = searchValue;
+					postData['operator'] = 's';
+				}
+			}
+			var actionParams = {
+				"type": "POST",
+				"url": massActionUrl,
+				"data": postData
+			};
+			AppConnector.request(actionParams).then(
+					function (responseData) {
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+						if (responseData && responseData.result !== null) {
+							if (responseData.result.notify) {
+								Vtiger_Helper_Js.showMessage(responseData.result.notify);
+							}
+							if (responseData.result.reloadList) {
+								Vtiger_Detail_Js.reloadRelatedList();
+							}
+							if (responseData.result.procesStop) {
+								progressIndicatorElement.progressIndicator({'mode': 'hide'});
+								return false;
+							}
+						}
+					},
+					function (error, err) {
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					}
+			);
+		} else {
+			listInstance.noRecordSelectedAlert();
+		}
+
+	}
+}, {
 	selectedRelatedTabElement: false,
 	parentRecordId: false,
 	parentModuleName: false,

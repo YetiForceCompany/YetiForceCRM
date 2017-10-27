@@ -208,7 +208,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 			$pagingModel->set('nextPageExists', false);
 		}
 		$relatedRecordList = [];
-		foreach ($rows as &$row) {
+		foreach ($rows as $row) {
 			$recordModel = $relationModuleModel->getRecordFromArray($row);
 			$this->getEntryExtend($recordModel);
 			$relatedRecordList[$row['id']] = $recordModel;
