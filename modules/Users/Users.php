@@ -202,7 +202,7 @@ class Users extends CRMEntity
 	public function doLogin($userPassword)
 	{
 		$userName = $this->column_fields['user_name'];
-		$userInfo = (new App\Db\Query())->select(['id', 'deleted', 'user_password', 'user_name', 'crypt_type', 'status'])->from($this->table_name)->where(['or', ['user_name' => $userName, 'user_name' => strtolower($userName)]])->one();
+		$userInfo = (new App\Db\Query())->select(['id', 'deleted', 'user_password', 'user_name', 'crypt_type', 'status'])->from($this->table_name)->where(['or', ['user_name' => $userName], ['user_name' => strtolower($userName)]])->one();
 		$this->column_fields['user_name'] = $userInfo['user_name'];
 		$this->column_fields['id'] = (int) $userInfo['id'];
 		$userRecordModel = Users_Record_Model::getCleanInstance('Users');

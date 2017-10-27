@@ -670,15 +670,13 @@ class Users_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function to get instance of user model by name
 	 * @param string $userName
-	 * @return <Users_Record_Model>
+	 * @return Users_Record_Model
 	 */
 	public static function getInstanceByName($userName)
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT id FROM vtiger_users WHERE user_name = ?', [$userName]);
-
-		if ($db->numRows($result)) {
-			return Users_Record_Model::getInstanceById($db->queryResult($result, 0, 'id'), 'Users');
+		$id = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['or', ['user_name' => $userName], ['user_name' => strtolower($userName)]])->scalar();
+		if ($id) {
+			return Users_Record_Model::getInstanceById($id, 'Users');
 		}
 		return false;
 	}
