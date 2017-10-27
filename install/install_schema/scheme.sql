@@ -546,9 +546,19 @@ CREATE TABLE `l_yf_switch_users` (
 CREATE TABLE `l_yf_username_history` (
   `user_name` varchar(32) DEFAULT NULL,
   `user_id` int(10) unsigned DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
   KEY `user_id` (`user_id`),
   KEY `user_name` (`user_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `l_yf_userpass_history` */
+
+CREATE TABLE `l_yf_userpass_history` (
+  `pass` varchar(200) NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `date` datetime NOT NULL,
+  KEY `user_id` (`user_id`,`pass`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 /*Table structure for table `o_yf_access_for_admin` */
 
