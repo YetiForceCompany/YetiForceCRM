@@ -457,7 +457,6 @@ $languageStrings = [
 	'LBL_OWNER' => 'Eigentümer',
 	'LBL_PAGE' => 'Seite',
 	'LBL_PARENT_OWNER' => 'Besitzer übergeordneter Datensatz',
-	'LBL_PASSWORD_LINK_EXPIRED_OR_INVALID_PASSWORD' => 'Kennwort Link abgelaufen oder Sie haben ein ungültiges Kennwort eingegeben',
 	'LBL_PERMISSION_DENIED' => 'Zugriff verweigert',
 	'LBL_NO_PERMISSIONS_FOR_THE_RECORD' => 'Fehlende Berechtigung um diesen Datensatz anzuschauen oder zu editieren. Bitte kontaktieren Sie den Administrator falls Sie diese Berechtigung benötigen.',
 	'LBL_PLEASE_SELECT_MODULE' => 'Bitte Modul zur Suche auswählen',
