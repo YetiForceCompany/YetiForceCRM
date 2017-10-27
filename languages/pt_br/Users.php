@@ -226,13 +226,10 @@ $languageStrings = [
 	'Login' => 'Acesso',
 	'Invalid username or password.' => 'Usuário e Senha inválida.',
 	'Too many failed login attempts.' => 'Muitas tentativas de acesso falharam.',
-	'Outgoing mail server was not configured.' => 'Servidor de Envio de Mensagens não foi configurado.',
-	'Invalid Username or Email address.' => 'Usuário ou endereço de Email inválido.',
 	'Please enter valid username' => 'Por favor, digite nome de Usuário válido',
 	'Please enater valid email address' => 'Por favor, digite endereço de e-mail válido',
 	'The email address contains illegal characters.' => 'O endereço de e-mail contém caracteres não permitidos.',
 	'Please enter new Password' => 'Por favor, digite nova Senha',
-	'Password and Confirm Password should be same' => 'A Senha e Senha de Confirmaçõa devem ser as mesmas',
 	'LBL_MOBILE_VERSION_TITLE' => 'Verso do YetiForce para Celular',
 	'LBL_MOBILE_VERSION_DESC' => 'Foi detectado que você utiliza resolução de tela pequena. Para tornar seu trabalho facilitado, é recomendado que você utilize a Versão para Celular YetiForce.',
 	'LBL_MOBILE_VERSION_BUTTON' => 'Habilitar a versão para celular',
@@ -299,8 +296,6 @@ $languageStrings = [
 	'Production Department' => 'Departamento de Produção',
 	'Marketing Department' => 'Departamento de Marketing',
 	'LBL_BASIC_EXPORT' => 'Exportar dados básicos',
-	'LBL_MASS_PASSWORD_EDITING' => 'Ediação em massa de senhas de Usuários',
-	'LBL_MASS_PWD_EDIT' => 'Edição em massa de senhas',
 	'Approval for email' => 'Permissão para enviar e-mails',
 	'LBL_GENERATED_COLOR' => 'Cor gerada',
 	'LBL_SAVE_COLOR' => 'Cor salva',
@@ -323,18 +318,19 @@ $languageStrings = [
 	'LBL_USER_NAME_EXISTS' => 'Username already exists',
 	'LBL_USER_NAME_HAS_ALREADY_BEEN_USED' => 'This username has already been used, system does not allow to use it again.',
 	'LBL_FORBIDDEN_USERNAMES' => 'This username is forbidden because it is unsafe.',
+	'BTN_RESET_PASSWORD' => 'Reset password',
+	'LBL_RESET_PASSWORD_HEAD' => 'Reset user password',
+	'LBL_RESET_PASSWORD_DESC' => 'System will generate a new user password and send it to user\'s email address.',
+	'LBL_RESET_PASSWORD_ERROR' => 'System cannot reset the password because there is no active SMTP account for system notifications.',
+	'LBL_PASSWORD_WAS_RESET_AND_SENT_TO_USER' => 'Password was reset and sent to user\'s email address.',
+	'LBL_PASSWORD_SHOULD_BE_SAME' => 'Both passwords must match.',
+	'LBL_INCORRECT_OLD_PASSWORD' => 'Incorrect old password. Try again.',
 ];
 
 $jsLanguageStrings = [
 	'JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME' => 'O separador de casas decimais e separador de milhar não podem ser os mesmos',
 	//Curency seperator validation messages
 	'JS_ENTER_CONFIRMATION_PASSWORD' => 'Por favor, digite confirmação da senha.',
-	'JS_ENTER_NEW_PASSWORD' => 'Por favor, digite sua nova senha.',
-	'JS_ENTER_OLD_PASSWORD' => 'Por favor, digite sua senha antiga.',
-	'JS_INVALID_PASSWORD' => 'Você deve especificar um nome de usuário e senha válidos.',
-	'JS_PASSWORD_CHANGE_FAILED_1' => 'A mudança de senha do Usuário para ',
-	'JS_PASSWORD_CHANGE_FAILED_2' => ' falhou.  Uma nova senha deve ser definida.',
-	'JS_PASSWORD_INCORRECT_OLD' => 'A senha antiga está incorreta. Redigite a senha.',
 	'JS_REENTER_PASSWORDS' => 'Por favor, redigite suas senhas.  Os valores da \"nova senha\" e \"senha de confirmação\" não combinam.',
 ];
 
