@@ -205,7 +205,12 @@ class Users extends CRMEntity
 		$userInfo = (new App\Db\Query())->select(['id', 'deleted', 'user_password', 'user_name', 'crypt_type', 'status'])->from($this->table_name)->where(['or', ['user_name' => $userName, 'user_name' => strtolower($userName)]])->one();
 		$this->column_fields['user_name'] = $userInfo['user_name'];
 		$this->column_fields['id'] = (int) $userInfo['id'];
-		$encryptedPassword = $this->encryptPassword($userPassword, empty($userInfo['crypt_type']) ? 'PHP5.3MD5' : $userInfo['crypt_type']);
+		$userRecordModel = Users_Record_Model::getCleanInstance('Users');
+		$userRecordModel->set('user_name', $userName);
+		if (!empty($userInfo['crypt_type'])) {
+			$userRecordModel->set('crypt_type', $userInfo['crypt_type']);
+		}
+		$encryptedPassword = $userRecordModel->encryptPassword($userPassword);
 		if (!$userInfo || (int) $userInfo['deleted'] !== 0) {
 			\App\Log::error('User not found: ' . $userName);
 			return false;
