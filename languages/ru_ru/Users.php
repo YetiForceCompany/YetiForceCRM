@@ -189,7 +189,6 @@ $languageStrings = [
 	'LBL_DELETE_USER' => 'Пользователь для удаления',
 	'LBL_DELETE_USER_PERMANENTLY' => 'Удалить пользователя на всегда',
 	'LBL_DEPARTMENT' => 'Отдел',
-	'LBL_EMAIL_SEND' => 'Мы отправили вам по электронной почте информацию для сброса пароля.',
 	'LBL_GET_MORE' => 'Получите больше от YetiForce CRM',
 	'LBL_GET_STARTED' => 'Завершить установку',
 	'LBL_HIDDEN' => 'Скрыто',
@@ -288,7 +287,6 @@ $languageStrings = [
 	'Title' => 'Должность',
 	'Today' => 'Сегодня',
 	'LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS' => 'Слишком много неудачных попыток входа в систему.',
-	'LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS' => 'Ваш IP-был заблокирован из-за многочисленных неудачных попыток входа в систему',
 	'Truncate Trailing Zeros' => 'Удалять конечные нули',
 	'Tuesday' => 'Вторник',
 	'UTC' => '(UTC) Всемирное координированное время, время по Гринвичу',
@@ -340,6 +338,10 @@ $languageStrings = [
 	'LBL_PASSWORD_WAS_RESET_AND_SENT_TO_USERS' => 'Passwords were reset and sent to users\' email addresses.',
 	'LBL_PASSWORD_SHOULD_BE_SAME' => 'Both passwords must match.',
 	'LBL_INCORRECT_OLD_PASSWORD' => 'Incorrect old password. Try again.',
+	'LBL_SEND_EMAIL_RESET_PASSWORD' => 'System generated a new password and sent it to the email address.',
+	'LBL_NO_USER_FOUND' => 'No user found.',
+	'LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS' => 'Too many failed login attempts. IP has been blocked.',
+	'LBL_IP_IS_BLOCKED' => 'Your IP is on the list of blocked IPs, please contact your administrator.',
 ];
 
 $jsLanguageStrings = [
