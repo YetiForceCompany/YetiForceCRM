@@ -461,7 +461,6 @@ $languageStrings = [
 	'LBL_OWNER' => 'Мои',
 	'LBL_PAGE' => 'Стр.',
 	'LBL_PARENT_OWNER' => 'Родительская запись владельца',
-	'LBL_PASSWORD_LINK_EXPIRED_OR_INVALID_PASSWORD' => 'Срок ссылки истек, или вы ввели неверный пароль',
 	'LBL_PERMISSION_DENIED' => 'Доступ запрещен',
 	'LBL_NO_PERMISSIONS_FOR_THE_RECORD' => 'Доступ ограничен. Свяжитесь с системным администратором',
 	'LBL_PLEASE_SELECT_MODULE' => 'Выберите модуль для поиска',
