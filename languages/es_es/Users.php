@@ -320,10 +320,13 @@ $languageStrings = [
 	'LBL_USER_NAME_HAS_ALREADY_BEEN_USED' => 'Este nombre de usuario ya está en uso, el sistema no permite volver a utilizarlo.',
 	'LBL_FORBIDDEN_USERNAMES' => 'Este nombre de usuario está prohibido porque no es seguro.',
 	'BTN_RESET_PASSWORD' => 'Reset password',
+	'BTN_MASS_RESET_PASSWORD' => 'Mass reset password',
 	'LBL_RESET_PASSWORD_HEAD' => 'Reset user password',
+	'LBL_MASS_RESET_PASSWORD_HEAD' => 'Mass reset users\' passwords',
 	'LBL_RESET_PASSWORD_DESC' => 'System will generate a new user password and send it to user\'s email address.',
 	'LBL_RESET_PASSWORD_ERROR' => 'System cannot reset the password because there is no active SMTP account for system notifications.',
 	'LBL_PASSWORD_WAS_RESET_AND_SENT_TO_USER' => 'Password was reset and sent to user\'s email address.',
+	'LBL_PASSWORD_WAS_RESET_AND_SENT_TO_USERS' => 'Passwords were reset and sent to users\' email addresses.',
 	'LBL_PASSWORD_SHOULD_BE_SAME' => 'Both passwords must match.',
 	'LBL_INCORRECT_OLD_PASSWORD' => 'Incorrect old password. Try again.',
 ];
