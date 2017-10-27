@@ -536,7 +536,6 @@ $languageStrings = [
 	'LBL_OWNER' => 'Propriétaire',
 	'LBL_PAGE' => 'Page',
 	'LBL_PARENT_OWNER' => 'Propriétaire de l\'enregistrement parent',
-	'LBL_PASSWORD_LINK_EXPIRED_OR_INVALID_PASSWORD' => 'Le lien vers le mot de passe a expiré ou vous avez saisi un mauvais mot de passe',
 	'LBL_PERMISSION_DENIED' => 'Autorisation refusée',
 	'LBL_NO_PERMISSIONS_FOR_THE_RECORD' => 'Vous n\'avez pas les autorisations nécessaires pour voir/éditer cet enregistrement. Contacter l\'administrateur si vous devriez avoir les autorisations.',
 	'LBL_PLEASE_SELECT_MODULE' => 'Merci de choisir un module pour la recherche',
