@@ -40,7 +40,7 @@ class Vtiger_MiniList_Dashboard extends Vtiger_IndexAjax_View
 		if ($widget->get('data')) {
 			$widgetParams = $widget->get('data');
 			if (isset($widgetParams['filterFields'])) {
-				$fileterField = Vtiger_Field_Model::getInstanceFromFieldId($widgetParams['filterFields']);
+				$filterField = Vtiger_Field_Model::getInstanceFromFieldId($widgetParams['filterFields']);
 			}
 		}
 		$viewer->assign('WIDGET', $widget);
