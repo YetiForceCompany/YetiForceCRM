@@ -18,4 +18,6 @@ $languageStrings = [
 	'LBL_ERROR' => 'Błąd podczas zapisu',
 	'LBL_SAVE_OK' => 'Dane zostały zapisane',
 	'characters' => 'znaków',
+	'LBL_PASSWORD_CHANGE_TIME' => 'Co ile dni wymusić zmiane hasła',
+	'LBL_PASSWORD_CHANGE_TIME_DESC' => '0 - bez ograniczenia, 356 - rok, 30 - miesiąc',
 ];

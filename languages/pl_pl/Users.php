@@ -69,7 +69,7 @@ $languageStrings = [
 	'LBL_MORE_INFORMATION' => 'Więcej informacji',
 	'LBL_MY_PREFERENCES' => 'Moje ustawienia',
 	'LBL_NEW_PASSWORD' => 'Nowe hasło',
-	'LBL_OLD_PASSWORD' => 'Stare hasło',
+	'LBL_OLD_PASSWORD' => 'Aktualne hasło',
 	'LBL_OPERATING_CURRENCY' => 'Waluty bazowej nie można później modyfikować. Wybierz walutę operacyjną',
 	'LBL_PHONE' => 'Telefon',
 	'LBL_PROFILE_TO_BE_DELETED' => 'Profil do usunięcia',
@@ -327,6 +327,9 @@ $languageStrings = [
 	'LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS' => 'Zbyt wiele nieudanych prób logowania. IP zostało zablokowane.',
 	'LBL_IP_IS_BLOCKED' => 'Twój IP został zablokowany czasowo bo znajduje się na czarnej liście, prosimy o kontakt z administratorem.',
 	'FL_DATE_PASSWORD_CHANGE' => 'Ostatnia zmiana hasła',
+	'LBL_PASSWORD_SUCCESSFULLY_CHANGED' => 'Twoje hasło zostało pomyślnie zmienione.',
+	'LBL_YOUR_PASSWORD_HAS_EXPIRED' => 'Twoje hasło straciło ważność, prosimy o kontakt z administratorem w celu zresetowania hasła.',
+	'LBL_YOUR_PASSWORD_WILL_EXPIRE' => 'Użytkowniku twóje hasło straci ważność za %s dni, po tym czasie system zablokuje dostęp do Twojego konta. Zalecamy szybką zmianę hasła.',
 ];
 
 $jsLanguageStrings = [
