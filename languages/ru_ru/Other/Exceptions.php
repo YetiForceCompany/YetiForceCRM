@@ -11,4 +11,5 @@ $languageStrings = [
 	'ERR_VALUE_IS_TOO_LONG' => 'Значение в поле %s слишком длинное (%s)',
 	'ERR_VALUE_CAN_NOT_BE_LESS_THAN_ZERO' => 'Значение поля %s должно быть больше нуля (%s)',
 	'ERR_NOT_ALLOWED_VALUE' => 'Обнаружено некорректное значение, пожалуйста, свяжитесь с администратором',
+	'ERR_PASSWORD_HAS_ALREADY_BEEN_USED' => 'This password has already been used. The system does not allow to use the same password for security reasons.',
 ];
