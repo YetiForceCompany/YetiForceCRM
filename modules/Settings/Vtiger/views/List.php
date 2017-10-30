@@ -27,7 +27,7 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$this->initializeListViewContents($request, $viewer);
 		if (!$request->isEmpty('sourceModule')) {
-			$sourceModule = $request->getByType('sourceModule', 1);
+			$sourceModule = $request->getByType('sourceModule', 2);
 			$viewer->assign('SOURCE_MODULE', $sourceModule);
 		}
 		$viewer->view('ListViewHeader.tpl', $request->getModule(false));
@@ -88,7 +88,7 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 			$listViewModel->set('sortorder', $sortOrder);
 		}
 		if (!$request->isEmpty('sourceModule')) {
-			$sourceModule = $request->getByType('sourceModule', 1);
+			$sourceModule = $request->getByType('sourceModule', 2);
 			$listViewModel->set('sourceModule', $sourceModule);
 		}
 		if (!$request->isEmpty('formodule')) {
