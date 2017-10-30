@@ -406,6 +406,10 @@ class Vtiger_RelationListView_Model extends \App\Base
 		return $createViewUrl;
 	}
 
+	/**
+	 * Function to get the links for related list
+	 * @return Vtiger_Link_Model[]
+	 */
 	public function getLinks()
 	{
 		$relationModel = $this->getRelationModel();
@@ -427,7 +431,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 		$relatedLink['RELATEDLIST_MASSACTIONS_ADV'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'RELATEDLIST_MASSACTIONS_ADV',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
-				'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module=Campaigns&action=RelationAjax&mode=exportToExcel&src_record={$id}&relatedModule={$relatedModuleName}')",
+				'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module=Campaigns&action=RelationAjax&mode=exportToExcel&src_record={$id}&relatedModule={$relatedModuleName}','sendByForm')",
 				'linkclass' => '',
 				'linkicon' => ''
 		]);

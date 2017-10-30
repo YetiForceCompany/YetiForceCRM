@@ -9,7 +9,7 @@
  *************************************************************************************/
 
 jQuery.Class("Vtiger_RelatedList_Js", {
-	triggerMassAction: function (massActionUrl) {
+	triggerMassAction: function (massActionUrl, type) {
 		var listInstance = Vtiger_List_Js.getInstance();
 		var validationResult = listInstance.checkListRecordSelected();
 		if (validationResult != true) {
@@ -38,26 +38,39 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				"url": massActionUrl,
 				"data": postData
 			};
-			AppConnector.request(actionParams).then(
-					function (responseData) {
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
-						if (responseData && responseData.result !== null) {
-							if (responseData.result.notify) {
-								Vtiger_Helper_Js.showMessage(responseData.result.notify);
+			if (type === 'sendByForm') {
+				var form = $('<form method="POST" action="' + massActionUrl + '">');
+				if (typeof csrfMagicName !== 'undefined') {
+					form.append($('<input />', {name: csrfMagicName, value: csrfMagicToken}));
+				}
+				$.each(postData, function (k, v) {
+					form.append($('<input />', {name: k, value: v}));
+				});
+				$('body').append(form);
+				form.submit();
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			} else {
+				AppConnector.request(actionParams).then(
+						function (responseData) {
+							progressIndicatorElement.progressIndicator({'mode': 'hide'});
+							if (responseData && responseData.result !== null) {
+								if (responseData.result.notify) {
+									Vtiger_Helper_Js.showMessage(responseData.result.notify);
+								}
+								if (responseData.result.reloadList) {
+									Vtiger_Detail_Js.reloadRelatedList();
+								}
+								if (responseData.result.procesStop) {
+									progressIndicatorElement.progressIndicator({'mode': 'hide'});
+									return false;
+								}
 							}
-							if (responseData.result.reloadList) {
-								Vtiger_Detail_Js.reloadRelatedList();
-							}
-							if (responseData.result.procesStop) {
-								progressIndicatorElement.progressIndicator({'mode': 'hide'});
-								return false;
-							}
+						},
+						function (error, err) {
+							progressIndicatorElement.progressIndicator({'mode': 'hide'});
 						}
-					},
-					function (error, err) {
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					}
-			);
+				);
+			}
 		} else {
 			listInstance.noRecordSelectedAlert();
 		}
@@ -611,7 +624,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		});
 		if (!ids || isUnreviewedActive < 1) {
 			return;
-		};
+		}
+		;
 		var actionParams = {
 			action: 'ChangesReviewedOn',
 			mode: 'getUnreviewed',

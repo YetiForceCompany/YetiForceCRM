@@ -45,9 +45,12 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 	{
 		$rawValue = $value;
 		$value = \App\Purifier::encodeHtml($value);
-		preg_match("^[\w]+:\/\/^", $rawValue, $matches);
-		if (!empty($matches[0])) {
+		preg_match("^[\w]+:\/\/^", $value, $matches);
+		if (empty($matches[0])) {
 			$value = 'http://' . $value;
+		}
+		if ($rawText) {
+			return $value;
 		}
 		return '<a class="urlField cursorPointer" title="' . $value . '" href="' . $value . '" target="_blank" rel="noreferrer">' . \App\Purifier::encodeHtml(\vtlib\Functions::textLength($rawValue)) . '</a>';
 	}

@@ -166,11 +166,14 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		$response->emit();
 	}
 
+	/**
+	 * Export relations to excel
+	 * @param \App\Request $request
+	 */
 	public function exportToExcel(\App\Request $request)
 	{
 		Vtiger_Loader::includeOnce('libraries.PHPExcel.PHPExcel');
 		$sourceModule = $request->getModule();
-		$filter = $request->getByType('viewname', 2);
 		$relatedModuleName = $request->getByType('relatedModule', 1);
 		$sourceRecordId = $request->getInteger('src_record');
 		$pagingModel = new Vtiger_Paging_Model();
@@ -204,48 +207,49 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		$row = 1;
 		$col = 0;
 		$headers = $relationListView->getHeaders();
-		$customView = CustomView_Record_Model::getInstanceById($filter);
 		foreach ($headers as $fieldsModel) {
 			$worksheet->setCellValueExplicitByColumnAndRow($col, $row, App\Purifier::decodeHtml(App\Language::translate($fieldsModel->getFieldLabel(), $relatedModuleName)), PHPExcel_Cell_DataType::TYPE_STRING);
 			$col++;
 		}
 		$row++;
 		foreach ($rows as $id) {
-			$col = 0;
-			$record = Vtiger_Record_Model::getInstanceById($id, $relatedModuleName);
-			if (!$record->isViewable()) {
-				continue;
-			}
-			foreach ($headers as $fieldsModel) {
-				//depending on the uitype we might want the raw value, the display value or something else.
-				//we might also want the display value sans-links so we can use strip_tags for that
-				//phone numbers need to be explicit strings
-				$value = $record->getDisplayValue($fieldsModel->getFieldName(), $id, true);
-				switch ($fieldsModel->getUIType()) {
-					case 25:
-					case 7:
-						if ($fieldsModel->getFieldName() === 'sum_time') {
-							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, PHPExcel_Cell_DataType::TYPE_STRING);
-						} else {
-							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, PHPExcel_Cell_DataType::TYPE_NUMERIC);
-						}
-						break;
-					case 71:
-					case 72:
-						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $record->get($fieldsModel->getFieldName()), PHPExcel_Cell_DataType::TYPE_NUMERIC);
-						break;
-					case 6://datetimes
-					case 23:
-					case 70:
-						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, PHPExcel_Shared_Date::PHPToExcel(strtotime($record->get($fieldsModel->getFieldName()))), PHPExcel_Cell_DataType::TYPE_NUMERIC);
-						$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY HH:MM:SS'); //format the date to the users preference
-						break;
-					default:
-						$worksheet->setCellValueExplicitByColumnAndRow($col, $row, App\Purifier::decodeHtml($value), PHPExcel_Cell_DataType::TYPE_STRING);
+			if (!in_array($id, $excludedIds) && \App\Privilege::isPermitted($relatedModuleName, 'DetailView', $id)) {
+				$col = 0;
+				$record = Vtiger_Record_Model::getInstanceById($id, $relatedModuleName);
+				if (!$record->isViewable()) {
+					continue;
 				}
-				$col++;
+				foreach ($headers as $fieldsModel) {
+					//depending on the uitype we might want the raw value, the display value or something else.
+					//we might also want the display value sans-links so we can use strip_tags for that
+					//phone numbers need to be explicit strings
+					$value = $record->getDisplayValue($fieldsModel->getFieldName(), $id, true);
+					switch ($fieldsModel->getUIType()) {
+						case 25:
+						case 7:
+							if ($fieldsModel->getFieldName() === 'sum_time') {
+								$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, PHPExcel_Cell_DataType::TYPE_STRING);
+							} else {
+								$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+							}
+							break;
+						case 71:
+						case 72:
+							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $record->get($fieldsModel->getFieldName()), PHPExcel_Cell_DataType::TYPE_NUMERIC);
+							break;
+						case 6://datetimes
+						case 23:
+						case 70:
+							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, PHPExcel_Shared_Date::PHPToExcel(strtotime($record->get($fieldsModel->getFieldName()))), PHPExcel_Cell_DataType::TYPE_NUMERIC);
+							$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY HH:MM:SS'); //format the date to the users preference
+							break;
+						default:
+							$worksheet->setCellValueExplicitByColumnAndRow($col, $row, App\Purifier::decodeHtml($value), PHPExcel_Cell_DataType::TYPE_STRING);
+					}
+					$col++;
+				}
+				$row++;
 			}
-			$row++;
 		}
 		//having written out all the data lets have a go at getting the columns to auto-size
 		$col = 0;
@@ -266,7 +270,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		}
 		header('Content-Type: application/x-msexcel');
 		header('Content-Length: ' . filesize($tempFileName));
-		$filename = \App\Language::translate($relatedModuleName, $relatedModuleName) . '-' . \App\Language::translate(App\Purifier::decodeHtml($customView->get('viewname')), $relatedModuleName) . ".xls";
+		$filename = \App\Language::translate($relatedModuleName, $relatedModuleName) . '.xls';
 		header("Content-Disposition: attachment; filename=\"$filename\"");
 		$fp = fopen($tempFileName, 'rb');
 		fpassthru($fp);
