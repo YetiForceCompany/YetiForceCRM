@@ -9,6 +9,9 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+/**
+ * Uitype: 80
+ */
 class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 {
 
@@ -48,7 +51,12 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 		if (empty($value)) {
 			return '';
 		}
-		return self::getDisplayDateTimeValue($value);
+		switch ($this->getFieldModel()->getUIType()) {
+			case 80:
+				return $rawText ? Vtiger_Util_Helper::formatDateDiffInStrings($value) : '<span title="' . self::getDisplayDateTimeValue($value) . '">' . Vtiger_Util_Helper::formatDateDiffInStrings($value) . '</span>';
+			default:
+				return self::getDisplayDateTimeValue($value);
+		}
 	}
 
 	/**

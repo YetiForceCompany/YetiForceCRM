@@ -326,6 +326,7 @@ $languageStrings = [
 	'LBL_NO_USER_FOUND' => 'Nie znaleziono użytkownika.',
 	'LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS' => 'Zbyt wiele nieudanych prób logowania. IP zostało zablokowane.',
 	'LBL_IP_IS_BLOCKED' => 'Twój IP został zablokowany czasowo bo znajduje się na czarnej liście, prosimy o kontakt z administratorem.',
+	'FL_DATE_PASSWORD_CHANGE' => 'Ostatnia zmiana hasła',
 ];
 
 $jsLanguageStrings = [

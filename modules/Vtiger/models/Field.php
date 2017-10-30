@@ -218,6 +218,8 @@ class Vtiger_Field_Model extends vtlib\Field
 						break;
 					case 69: $fieldDataType = 'image';
 						break;
+					case 80: $fieldDataType = 'datetime';
+						break;
 					case 98: $fieldDataType = 'userRole';
 						break;
 					case 99: $fieldDataType = 'password';
