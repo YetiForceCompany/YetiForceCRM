@@ -87,7 +87,7 @@ class Settings_WebserviceApps_Record_Model extends Settings_Vtiger_Record_Model
 		];
 		if ($this->isEmpty('id')) {
 			$data['type'] = $this->get('type');
-			$data['api_key'] = \App\Encryption::getRandomPassword(self::KEY_LENGTH);
+			$data['api_key'] = \App\Encryption::generatePassword(self::KEY_LENGTH);
 			$db->createCommand()->insert('w_#__servers', $data)->execute();
 			$this->set('id', $db->getLastInsertID('w_#__servers_id_seq'));
 		} else {

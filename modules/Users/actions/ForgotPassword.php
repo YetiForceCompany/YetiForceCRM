@@ -44,7 +44,7 @@ class Users_ForgotPassword_Action extends Vtiger_Action_Controller
 		}
 		$isExists = (new \App\Db\Query())->from('vtiger_users')->where(['status' => 'Active', 'deleted' => 0, 'email1' => $email])->andWhere(['or', ['user_name' => $userName], ['user_name' => strtolower($userName)]])->exists();
 		if ($isExists) {
-			$password = \App\Encryption::getRandomPassword();
+			$password = \App\Encryption::generateUserPassword();
 			$userRecordModel = Users_Record_Model::getInstanceByName($userName);
 			vglobal('current_user', $userRecordModel->getEntity());
 			\App\User::setCurrentUserId($userRecordModel->getId());

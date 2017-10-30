@@ -22,6 +22,9 @@
 					<div class="alert alert-danger" role="alert">{\App\Language::translate('LBL_RESET_PASSWORD_ERROR', $MODULE_NAME)}</div>
 				{/if}
 			{elseif $MODE === 'change'}
+				{if $YOUR_PASSWORD_WILL_EXPIRE}
+					<div class="alert alert-danger" role="alert">{$YOUR_PASSWORD_WILL_EXPIRE}</div>
+				{/if}
 				<div class="form-group">
 					<label class="control-label col-sm-4">{\App\Language::translate('LBL_OLD_PASSWORD', $MODULE_NAME)}</label>
 					<div class="controls col-sm-6">

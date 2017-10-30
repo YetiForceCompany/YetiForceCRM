@@ -18,13 +18,16 @@ var Settings_Password_Js = {
         });
         jQuery("#max_length").change(function() {
 			Settings_Password_Js.saveConf(jQuery(this).attr('name'), jQuery(this).val());
-        });		
+        });
 		jQuery('#min_length').keyup(function () {  
 			this.value = this.value.replace(/[^0-9\.]/g,''); 
 		});
 		jQuery('#max_length').keyup(function () {  
 			this.value = this.value.replace(/[^0-9\.]/g,''); 
 		});
+		jQuery("#change_time").change(function() {
+			Settings_Password_Js.saveConf(jQuery(this).attr('name'), jQuery(this).val());
+        });
 	},
 	saveConf: function( type , vale ) {
         var params = {

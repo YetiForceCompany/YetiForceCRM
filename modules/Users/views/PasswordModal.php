@@ -29,17 +29,13 @@ class Users_PasswordModal_View extends Vtiger_BasicModal_View
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		switch ($request->getMode()) {
 			case 'reset':
-				if ($currentUserModel->isAdminUser() === true || (AppConfig::security('SHOW_MY_PREFERENCES') && (int) $currentUserModel->get('id') === $request->getInteger('record'))) {
+			case 'massReset':
+				if ($currentUserModel->isAdminUser() === true) {
 					return true;
 				}
 				break;
 			case 'change':
 				if ((int) $currentUserModel->get('id') === $request->getInteger('record')) {
-					return true;
-				}
-				break;
-			case 'massReset':
-				if ($currentUserModel->isAdminUser() === true) {
 					return true;
 				}
 				break;
@@ -87,6 +83,15 @@ class Users_PasswordModal_View extends Vtiger_BasicModal_View
 		$viewer->assign('MODE', 'change');
 		$viewer->assign('MODE_TITLE', 'LBL_CHANGE_PASSWORD');
 		$viewer->assign('RECORD', $request->getInteger('record'));
+		$passConfig = \Settings_Password_Record_Model::getUserPassConfig();
+		$time = (int) $passConfig['change_time'];
+		if ($time !== 0) {
+			$time += (int) $passConfig['lock_time'];
+			$userModel = App\User::getCurrentUserModel();
+			if (date('Y-m-d') > date('Y-m-d', strtotime("+{$passConfig['change_time']} day", strtotime($userModel->getDetail('date_password_change'))))) {
+				$viewer->assign('YOUR_PASSWORD_WILL_EXPIRE', \App\Language::translateArgs('LBL_YOUR_PASSWORD_WILL_EXPIRE', $moduleName, \App\Fields\Date::getDiff(date('Y-m-d'), date('Y-m-d', strtotime("+$time day", strtotime($userModel->getDetail('date_password_change')))), 'days')));
+			}
+		}
 		$this->preProcess($request);
 		$viewer->view('PasswordModal.tpl', $moduleName);
 		$this->postProcess($request);

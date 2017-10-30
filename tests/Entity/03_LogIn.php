@@ -32,9 +32,8 @@ class LogIn extends \Tests\Base
 	public function testLoginInToCrm()
 	{
 		$userName = 'demo';
-		$user = CRMEntity::getInstance('Users');
-		$user->column_fields['user_name'] = $userName;
-		if ($user->doLogin($userName)) {
+		$userRecordModel = Users_Record_Model::getCleanInstance('Users')->set('user_name', $userName);
+		if ($userRecordModel->doLogin($userName)) {
 			App\Session::set('authenticated_user_id', TESTS_USER_ID);
 			App\Session::set('app_unique_key', AppConfig::main('application_unique_key'));
 			App\Session::set('user_name', $userName);

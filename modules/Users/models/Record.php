@@ -684,6 +684,23 @@ class Users_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
+	 * Function to get instance of user model by id from file
+	 * @param int $userId
+	 * @return Users_Record_Model
+	 */
+	public static function getInstanceFromFile($userId)
+	{
+		if (empty($userId)) {
+			\App\Log::error('No user id: ' . $userId);
+			return false;
+		}
+		$valueMap = \App\User::getPrivilegesFile($userId);
+		$instance = new self();
+		$instance->setData($valueMap['user_info']);
+		return $instance;
+	}
+
+	/**
 	 * Function to delete the current Record Model
 	 */
 	public function delete()
@@ -830,7 +847,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 * @param string $cryptType Type of password encryption
 	 * @return string Encrypted password
 	 */
-	public function encryptPassword($password, $cryptType = 'PHP5.3MD5')
+	public function encryptPassword($password, $cryptType = '')
 	{
 		$salt = substr($this->get('user_name'), 0, 2);
 		if (!$cryptType) {
@@ -853,7 +870,9 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function verifyPassword($password)
 	{
-		return $this->encryptPassword($password) === $this->get('user_password');
+		$encrypted = $this->encryptPassword($password);
+		\App\Log::trace('Verify password: ' . $encrypted);
+		return $encrypted === $this->get('user_password');
 	}
 
 	/**
@@ -869,5 +888,91 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$cryptType = $userCryptType;
 		}
 		return $cryptType;
+	}
+
+	/**
+	 * The function to log on to the system
+	 * @param string $password The password of the user to authenticate
+	 * @return bool true if the user is authenticated, false otherwise
+	 */
+	public function doLogin($password)
+	{
+		$userName = $this->get('user_name');
+		$row = (new App\Db\Query())->select(['id', 'deleted'])->from('vtiger_users')->where(['or', ['user_name' => $userName], ['user_name' => strtolower($userName)]])->one();
+		if (!$row || (int) $row['deleted'] !== 0) {
+			$this->encryptPassword($password);
+			\App\Log::info('User not found: ' . $userName, 'UserAuthentication');
+			return false;
+		}
+		$this->set('id', $row['id']);
+		$userRecordModel = static::getInstanceFromFile($row['id']);
+		if ($userRecordModel->get('status') !== 'Active') {
+			\App\Log::info('Inactive user :' . $userName, 'UserAuthentication');
+			return false;
+		}
+		$result = $userRecordModel->doLoginByAuthMethod($password);
+		if (!is_null($result)) {
+			return $result;
+		} elseif (is_null($result) && $userRecordModel->verifyPassword($password)) {
+			\App\Session::set('UserAuthMethod', 'PASSWORD');
+			return true;
+		}
+		\App\Log::info('Invalid password. User: ' . $userName, 'UserAuthentication');
+		return false;
+	}
+
+	/**
+	 * User authorization based on authorization methods
+	 * @param string $password
+	 * @return bool|null
+	 */
+	protected function doLoginByAuthMethod($password)
+	{
+		$auth = $this->getAuthDetail();
+		if ($auth['ldap']['active'] === 'true') {
+			$authMethod = new Users_Ldap_AuthMethod($this);
+			return $authMethod->process($auth['ldap'], $password);
+		}
+		return null;
+	}
+
+	/**
+	 * Get authorization detail
+	 * @return array
+	 */
+	protected function getAuthDetail()
+	{
+		if (\App\Cache::has('getAuthMethods', 'config')) {
+			$auth = \App\Cache::get('getAuthMethods', 'config');
+		}
+		$dataReader = (new \App\Db\Query())->from('yetiforce_auth')->createCommand()->query();
+		$auth = [];
+		while ($row = $dataReader->read()) {
+			$auth[$row['type']][$row['param']] = $row['value'];
+		}
+		\App\Cache::save('getAuthMethods', 'config', $auth);
+		return $auth;
+	}
+
+	/**
+	 * Check password change date
+	 * @param App\User $userModel
+	 * @return boolean
+	 */
+	public function checkPasswordChangeDate(App\User $userModel)
+	{
+		$passConfig = \Settings_Password_Record_Model::getUserPassConfig();
+		$time = (int) $passConfig['change_time'];
+		if ($time === 0) {
+			return false;
+		}
+		if (strtotime("-$time day") > strtotime($userModel->getDetail('date_password_change'))) {
+			$time += (int) $passConfig['lock_time'];
+			if (strtotime("-$time day") > strtotime($userModel->getDetail('date_password_change'))) {
+				return true;
+			}
+			\App\Session::set('ShowUserPasswordChange', true);
+		}
+		return false;
 	}
 }

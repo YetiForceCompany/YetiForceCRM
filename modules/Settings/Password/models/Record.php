@@ -9,17 +9,24 @@
 class Settings_Password_Record_Model extends Vtiger_Record_Model
 {
 
-	public static function getPassDetail($type = false)
+	/**
+	 * Get user password configuration
+	 * @param string|bool $type
+	 * @return array|string
+	 */
+	public static function getUserPassConfig($type = false)
 	{
-		$query = (new \App\Db\Query())->from('vtiger_password');
-		if ($type) {
-			$query->where(['type' => $type]);
+		if (\App\Cache::has('UserPasswordgConfig', '')) {
+			$detail = \App\Cache::get('UserPasswordgConfig', '');
+		} else {
+			$dataReader = (new \App\Db\Query())->from('vtiger_password')->createCommand()->query();
+			$detail = [];
+			while ($row = $dataReader->read()) {
+				$detail[$row['type']] = $row['val'];
+			}
+			\App\Cache::save('UserPasswordgConfig', '', $detail);
 		}
-		$dataReader = $query->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$resp[$row['type']] = $row['val'];
-		}
-		return $resp;
+		return $type ? $detail[$type] : $detail;
 	}
 
 	public static function setPassDetail($type, $vale)
@@ -27,11 +34,12 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 		App\Db::getInstance()->createCommand()
 			->update('vtiger_password', ['val' => $vale], ['type' => $type])
 			->execute();
+		\App\Cache::delete('PasswordgetPassDetail', '');
 	}
 
 	public static function validation($type, $vale)
 	{
-		if ($type == 'min_length' || $type == 'max_length') {
+		if ($type == 'min_length' || $type == 'max_length' || $type == 'change_time') {
 			return is_numeric($vale);
 		}
 		if ($type == 'big_letters' || $type == 'small_letters' || $type == 'numbers' || $type == 'special') {
@@ -45,7 +53,7 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 
 	public static function checkPassword($pass)
 	{
-		$conf = self::getPassDetail();
+		$conf = self::getUserPassConfig();
 		$moduleName = 'Settings:Password';
 		if (strlen($pass) > $conf['max_length']) {
 			return \App\Language::translate('Maximum password length', $moduleName) . ' ' . $conf['max_length'] . ' ' . \App\Language::translate("characters", $moduleName);
@@ -62,7 +70,7 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 		if ($conf['small_letters'] == 'true' && !preg_match('#[a-z]+#', $pass)) {
 			return \App\Language::translate('Lowercase letters a to z', $moduleName);
 		}
-		if ($conf['special'] == 'true' && !preg_match('/[!@#$%^&*()\-_=+{};:,<.>]/', $pass)) {
+		if ($conf['special'] == 'true' && !preg_match('/[!"#$%&\'()*+,-./:;<=>?@[\]^_{|}]/', $pass)) {
 			return \App\Language::translate('Password should contain special characters', $moduleName);
 		}
 		return false;

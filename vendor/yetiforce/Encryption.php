@@ -67,16 +67,62 @@ class Encryption
 	}
 
 	/**
-	 * Get random password
+	 * Generate random password
 	 * @param int $length
 	 * @return string
 	 */
-	public static function getRandomPassword($length = 10, $type = 0)
+	public static function generatePassword($length = 10, $type = 'lbn')
 	{
-		$allowedCharacters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		if ($type === 1) {
-			$allowedCharacters .= '_)(*&^%$#@!<>?-=+';
+		$chars = [];
+		if (strpos($type, 'l') !== false) {
+			$chars[] = 'abcdefghjkmnpqrstuvwxyz';
 		}
-		return substr(str_shuffle($allowedCharacters), 0, $length);
+		if (strpos($type, 'b') !== false) {
+			$chars[] = 'ABCDEFGHJKMNPQRSTUVWXYZ';
+		}
+		if (strpos($type, 'n') !== false) {
+			$chars[] = '0123456789';
+		}
+		if (strpos($type, 's') !== false) {
+			$chars[] = '!"#$%&\'()*+,-./:;<=>?@[\]^_{|}';
+		}
+		$password = $allChars = '';
+		foreach ($chars as $char) {
+			$allChars .= $char;
+			$password .= $char[array_rand(str_split($char))];
+		}
+		$allChars = str_split($allChars);
+		$missing = $length - count($chars);
+		for ($i = 0; $i < $missing; $i++) {
+			$password .= $allChars[array_rand($allChars)];
+		}
+		return str_shuffle($password);
+	}
+
+	/**
+	 * Generate user password
+	 * @param int $length
+	 * @return string
+	 */
+	public static function generateUserPassword($length = 10)
+	{
+		$passDetail = \Settings_Password_Record_Model::getUserPassConfig();
+		if ($length > $passDetail['max_length']) {
+			$length = $passDetail['max_length'];
+		}
+		if ($length < $passDetail['min_length']) {
+			$length = $passDetail['min_length'];
+		}
+		$type = 'l';
+		if ($passDetail['numbers'] === 'true') {
+			$type .= 'd';
+		}
+		if ($passDetail['big_letters'] === 'true') {
+			$type .= 'b';
+		}
+		if ($passDetail['special'] === 'true') {
+			$type .= 's';
+		}
+		return static::generatePassword($length, $type);
 	}
 }

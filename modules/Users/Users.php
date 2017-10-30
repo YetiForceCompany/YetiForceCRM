@@ -98,7 +98,6 @@ class Users extends CRMEntity
 	 */
 	public function __construct()
 	{
-		$this->db = PearDatabase::getInstance();
 		$this->column_fields = getColumnFields('Users');
 		$this->column_fields['currency_name'] = '';
 		$this->column_fields['currency_code'] = '';
@@ -115,10 +114,11 @@ class Users extends CRMEntity
 	{
 
 		\App\Log::trace("Entering getSortOrder() method ...");
-		if (\App\Request::_has('sorder'))
-			$sorder = $this->db->sqlEscapeString(\App\Request::_get('sorder'));
-		else
+		if (\App\Request::_has('sorder')) {
+			$sorder = \App\Request::_getForSql('sorder');
+		} else {
 			$sorder = (($_SESSION['USERS_SORT_ORDER'] != '') ? ($_SESSION['USERS_SORT_ORDER']) : ($this->default_sort_order));
+		}
 		\App\Log::trace("Exiting getSortOrder method ...");
 		return $sorder;
 	}
@@ -129,170 +129,16 @@ class Users extends CRMEntity
 	 */
 	public function getOrderBy()
 	{
-
-		\App\Log::trace("Entering getOrderBy() method ...");
-
 		$use_default_order_by = '';
 		if (AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
 			$use_default_order_by = $this->default_order_by;
 		}
-
-		if (\App\Request::_has('order_by'))
-			$order_by = $this->db->sqlEscapeString(\App\Request::_get('order_by'));
-		else
-			$order_by = (($_SESSION['USERS_ORDER_BY'] != '') ? ($_SESSION['USERS_ORDER_BY']) : ($use_default_order_by));
-		\App\Log::trace("Exiting getOrderBy method ...");
-		return $order_by;
-	}
-	// Mike Crowe Mod --------------------------------------------------------
-
-	/** Function to set the user preferences in the session
-	 * @param $name -- name:: Type varchar
-	 * @param $value -- value:: Type varchar
-	 *
-	 */
-	public function setPreference($name, $value)
-	{
-		if (!isset($this->user_preferences)) {
-			if (isset($_SESSION["USER_PREFERENCES"]))
-				$this->user_preferences = $_SESSION["USER_PREFERENCES"];
-			else
-				$this->user_preferences = [];
-		}
-		if (!array_key_exists($name, $this->user_preferences) || $this->user_preferences[$name] != $value) {
-			\App\Log::trace("Saving To Preferences:" . $name . "=" . $value);
-			$this->user_preferences[$name] = $value;
-			$this->savePreferecesToDB();
-		}
-		$_SESSION[$name] = $value;
-	}
-
-	/** Function to save the user preferences to db
-	 *
-	 */
-	public function savePreferecesToDB()
-	{
-		$data = base64_encode(serialize($this->user_preferences));
-		$query = "UPDATE $this->table_name SET user_preferences=? where id=?";
-		$result = & $this->db->pquery($query, [$data, $this->id]);
-		\App\Log::trace("SAVING: PREFERENCES SIZE " . strlen($data) . "ROWS AFFECTED WHILE UPDATING USER PREFERENCES:" . $this->db->getAffectedRowCount($result));
-		$_SESSION["USER_PREFERENCES"] = $this->user_preferences;
-	}
-
-	/** Function to load the user preferences from db
-	 *
-	 */
-	public function loadPreferencesFromDB($value)
-	{
-
-		if (isset($value) && !empty($value)) {
-			\App\Log::trace("LOADING :PREFERENCES SIZE " . strlen($value));
-			$this->user_preferences = unserialize(base64_decode($value));
-			$_SESSION = array_merge($this->user_preferences, $_SESSION);
-			\App\Log::trace("Finished Loading");
-			$_SESSION["USER_PREFERENCES"] = $this->user_preferences;
-		}
-	}
-
-	/**
-	 * Checks the config.php AUTHCFG value for login type and forks off to the proper module
-	 * @param string $userPassword - The password of the user to authenticate
-	 * @return bool true if the user is authenticated, false otherwise
-	 */
-	public function doLogin($userPassword)
-	{
-		$userName = $this->column_fields['user_name'];
-		$userInfo = (new App\Db\Query())->select(['id', 'deleted', 'user_password', 'user_name', 'crypt_type', 'status'])->from($this->table_name)->where(['or', ['user_name' => $userName], ['user_name' => strtolower($userName)]])->one();
-		$this->column_fields['user_name'] = $userInfo['user_name'];
-		$this->column_fields['id'] = (int) $userInfo['id'];
-		$userRecordModel = Users_Record_Model::getCleanInstance('Users');
-		$userRecordModel->set('user_name', $userName);
-		if (!empty($userInfo['crypt_type'])) {
-			$userRecordModel->set('crypt_type', $userInfo['crypt_type']);
-		}
-		$encryptedPassword = $userRecordModel->encryptPassword($userPassword);
-		if (!$userInfo || (int) $userInfo['deleted'] !== 0) {
-			\App\Log::error('User not found: ' . $userName);
-			return false;
-		}
-		\App\Log::trace('Start of authentication for user: ' . $userName);
-		if ($userInfo['status'] !== 'Active') {
-			\App\Log::trace("Authentication failed [Status]. User: $userName");
-			return false;
-		}
-		if (\App\Cache::has('Authorization', 'config')) {
-			$auth = \App\Cache::get('Authorization', 'config');
+		if (\App\Request::_has('order_by')) {
+			$orderBy = \App\Request::_getForSql('order_by');
 		} else {
-			$dataReader = (new \App\Db\Query())->from('yetiforce_auth')->createCommand()->query();
-			$auth = [];
-			while ($row = $dataReader->read()) {
-				$auth[$row['type']][$row['param']] = $row['value'];
-			}
-			\App\Cache::save('Authorization', 'config', $auth);
+			$orderBy = (($_SESSION['USERS_ORDER_BY'] != '') ? ($_SESSION['USERS_ORDER_BY']) : ($use_default_order_by));
 		}
-		if ($auth['ldap']['active'] == 'true') {
-			\App\Log::trace('Start LDAP authentication');
-			$users = explode(',', $auth['ldap']['users']);
-			if (in_array($userInfo['id'], $users)) {
-				$bind = false;
-				$port = $auth['ldap']['port'] == '' ? 389 : $auth['ldap']['port'];
-				$ds = @ldap_connect($auth['ldap']['server'], $port);
-				if (!$ds) {
-					\App\Log::error('Error LDAP authentication: Could not connect to LDAP server.');
-				}
-				ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3); // Try version 3.  Will fail and default to v2.
-				ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
-				ldap_set_option($ds, LDAP_OPT_TIMELIMIT, 5);
-				ldap_set_option($ds, LDAP_OPT_TIMEOUT, 5);
-				ldap_set_option($ds, LDAP_OPT_NETWORK_TIMEOUT, 5);
-				$parser = parse_url($auth['ldap']['server']);
-				if ($parser['scheme'] === 'tls') {
-					ldap_start_tls($ds);
-				}
-				$bind = @ldap_bind($ds, $userName . $auth['ldap']['domain'], $userPassword);
-				if (!$bind) {
-					\App\Log::error('LDAP authentication: LDAP bind failed.');
-				}
-				return $bind;
-			} else {
-				\App\Log::trace($userName . ' user does not belong to the LDAP');
-			}
-			\App\Log::trace('End LDAP authentication');
-		}
-		if ($encryptedPassword === $userInfo['user_password']) {
-			\App\Log::trace("Authentication OK. User: $userName");
-			return true;
-		}
-		\App\Log::trace("Authentication failed. User: $userName");
-		return false;
-	}
-
-	/**
-	 * Get crypt type to use for password for the user.
-	 * Fix for: http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/4923
-	 */
-	public function getCryptType()
-	{
-		$crypt_res = null;
-		$crypt_type = AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
-		if (isset($this->id)) {
-			// Get the type of crypt used on password before actual comparision
-			$qcrypt_sql = "SELECT crypt_type from $this->table_name where id=?";
-			$crypt_res = $this->db->pquery($qcrypt_sql, [$this->id], true);
-		} else if (isset($this->column_fields['user_name'])) {
-			$qcrypt_sql = "SELECT crypt_type from $this->table_name where user_name=?";
-			$crypt_res = $this->db->pquery($qcrypt_sql, [$this->column_fields["user_name"]]);
-		}
-		if ($crypt_res && $this->db->numRows($crypt_res)) {
-			$crypt_row = $this->db->fetchByAssoc($crypt_res);
-			$crypt_type = $crypt_row['crypt_type'];
-		}
-		return $crypt_type;
-	}
-
-	public function isAuthenticated()
-	{
-		return $this->authenticated;
+		return $orderBy;
 	}
 
 	/**
@@ -469,22 +315,13 @@ class Users extends CRMEntity
 
 	public function deleteImage()
 	{
-		$sql1 = 'SELECT attachmentsid FROM vtiger_salesmanattachmentsrel WHERE smid = ?';
-		$res1 = $this->db->pquery($sql1, [$this->id]);
-		if ($this->db->numRows($res1) > 0) {
-			$attachmentId = $this->db->queryResult($res1, 0, 'attachmentsid');
-
-			$sql2 = "DELETE FROM vtiger_crmentity WHERE crmid=? && setype='Users Attachments'";
-			$this->db->pquery($sql2, [$attachmentId]);
-
-			$sql3 = 'DELETE FROM vtiger_salesmanattachmentsrel WHERE smid=? && attachmentsid=?';
-			$this->db->pquery($sql3, [$this->id, $attachmentId]);
-
-			$sql2 = "UPDATE vtiger_users SET imagename='' WHERE id=?";
-			$this->db->pquery($sql2, [$this->id]);
-
-			$sql4 = 'DELETE FROM vtiger_attachments WHERE attachmentsid=?';
-			$this->db->pquery($sql4, [$attachmentId]);
+		$attachmentId = (new \App\Db\Query())->select(['attachmentsid'])->from('vtiger_salesmanattachmentsrel')->where(['smid' => $this->id])->limit(1)->scalar();
+		if ($attachmentId) {
+			$command = \App\Db::getInstance()->createCommand();
+			$command->delete('vtiger_crmentity', ['crmid' => $attachmentId, 'setype' => 'Users Attachments'])->execute();
+			$command->delete('vtiger_salesmanattachmentsrel', ['smid' => $this->id, 'attachmentsid' => $attachmentId])->execute();
+			$command->delete('vtiger_attachments', ['attachmentsid' => $attachmentId])->execute();
+			$command->update('vtiger_users', ['imagename' => ''])->where(['id' => $this->id])->execute();
 		}
 	}
 

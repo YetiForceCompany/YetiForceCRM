@@ -68,9 +68,10 @@ class Users_Password_Action extends Vtiger_Action_Controller
 	public function reset(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$password = \App\Encryption::getRandomPassword();
+		$password = \App\Encryption::generateUserPassword();
 		$userRecordModel = Users_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 		$userRecordModel->set('user_password', $password);
+		$userRecordModel->set('date_password_change', date('Y-m-d H:i:s'));
 		$userRecordModel->save();
 		\App\Mailer::sendFromTemplate([
 			'template' => 'UsersResetPassword',
@@ -100,9 +101,10 @@ class Users_Password_Action extends Vtiger_Action_Controller
 			$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_INCORRECT_OLD_PASSWORD', 'Users'), 'type' => 'error']]);
 		} else {
 			$userRecordModel->set('user_password', $request->getRaw('password'));
+			$userRecordModel->set('date_password_change', date('Y-m-d H:i:s'));
 			try {
 				$userRecordModel->save();
-				$response->setResult(['notify' => ['text' => \App\Language::translate('LBL_PASSWORD_WAS_RESET_AND_SENT_TO_USER', 'Users')]]);
+				$response->setResult(['notify' => ['text' => \App\Language::translate('LBL_PASSWORD_SUCCESSFULLY_CHANGED', 'Users')]]);
 			} catch (\App\Exceptions\SaveRecord $exc) {
 				$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translateSingleMod($exc->getMessage(), 'Other.Exceptions'), 'type' => 'error']]);
 			} catch (\App\Exceptions\Security $exc) {
@@ -121,9 +123,10 @@ class Users_Password_Action extends Vtiger_Action_Controller
 		$moduleName = $request->getModule();
 		$recordsList = Vtiger_Mass_Action::getRecordsListFromRequest($request);
 		foreach ($recordsList as $userId) {
-			$password = \App\Encryption::getRandomPassword();
+			$password = \App\Encryption::generateUserPassword();
 			$userRecordModel = Users_Record_Model::getInstanceById($userId, $moduleName);
 			$userRecordModel->set('user_password', $password);
+			$userRecordModel->set('date_password_change', date('Y-m-d H:i:s'));
 			$userRecordModel->save();
 			\App\Mailer::sendFromTemplate([
 				'template' => 'UsersResetPassword',
