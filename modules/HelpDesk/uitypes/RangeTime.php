@@ -14,7 +14,7 @@ class HelpDesk_RangeTime_UIType extends Vtiger_RangeTime_UIType
 	{
 		$isNull = is_null($value);
 		if ($this->get('field')->getName() === 'response_time') {
-			$value = round(vtlib\Functions::getDateTimeMinutesDiff($value, date('Y-m-d H:i:s')));
+			$value = round(\App\Fields\Date::getDiff($value, date('Y-m-d H:i:s'), 'minutes'));
 		}
 		$result = vtlib\Functions::getRangeTime($value, !$isNull);
 		$mode = $this->get('field')->getFieldParams();

@@ -53,7 +53,7 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 		}
 		$closedTime = $recordModel->get('closedtime');
 		if (!empty($closedTime) && $recordModel->has('report_time')) {
-			$timeMinutesRange = round(vtlib\Functions::getDateTimeMinutesDiff($recordModel->get('createdtime'), $closedTime));
+			$timeMinutesRange = round(\App\Fields\Date::getDiff($recordModel->get('createdtime'), $closedTime, 'minutes'));
 			if (!empty($timeMinutesRange)) {
 				App\Db::getInstance()->createCommand()
 					->update('vtiger_troubletickets', ['report_time' => $timeMinutesRange], ['ticketid' => $recordModel->getId()])

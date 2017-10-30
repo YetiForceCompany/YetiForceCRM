@@ -46,9 +46,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 					->where(['vtiger_crmentity.deleted' => 0, "vtiger_activity.$fieldName" => $id, 'vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('current')])
 					->orderBy(['date_start' => SORT_ASC])->limit(1)->one();
 			if ($row) {
-				$date = new DateTime(date('Y-m-d'));
-				$diff = $date->diff(new DateTime($row['date_start']));
-				$db->createCommand()->update('vtiger_entity_stats', ['crmactivity' => (int) $diff->format("%r%a")], ['crmid' => $id])->execute();
+				$db->createCommand()->update('vtiger_entity_stats', ['crmactivity' => (int) \App\Fields\Date::getDiff(date('Y-m-d'), $row['date_start'], '%r%a')], ['crmid' => $id])->execute();
 			} else {
 				$db->createCommand()->update(('vtiger_entity_stats'), ['crmactivity' => null], ['crmid' => $id])->execute();
 			}

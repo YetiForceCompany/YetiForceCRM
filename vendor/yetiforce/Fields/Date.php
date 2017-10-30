@@ -90,4 +90,69 @@ class Date
 		}
 		return [$y, $m, $d];
 	}
+
+	/**
+	 * Function returning difference in format between date times
+	 * @param string $start ex. '2017-07-10 11:45:56
+	 * @param string $end ex. 2017-07-30 12:08:19
+	 * @param string $format Default %a
+	 * @link https://secure.php.net/manual/en/class.dateinterval.php
+	 * @link https://secure.php.net/manual/en/dateinterval.format.php
+	 * @return string|int difference in format
+	 */
+	public static function getDiff($start, $end, $format = '%a')
+	{
+		$interval = (new \DateTime($start))->diff(new \DateTime($end));
+		switch ($format) {
+			case 'years':
+				return $interval->format('%Y');
+			case 'months':
+				$years = $interval->format('%Y');
+				$months = 0;
+				if ($years) {
+					$months += $years * 12;
+				}
+				$months += $interval->format('%m');
+				return $months;
+			case 'days':
+				return $interval->format('%a');
+			case 'hours':
+				$days = $interval->format('%a');
+				$hours = 0;
+				if ($days) {
+					$hours += 24 * $days;
+				}
+				$hours += $interval->format('%H');
+				return $hours;
+			case 'minutes':
+				$days = $interval->format('%a');
+				$minutes = 0;
+				if ($days) {
+					$minutes += 24 * 60 * $days;
+				}
+				$hours = $interval->format('%H');
+				if ($hours) {
+					$minutes += 60 * $hours;
+				}
+				$minutes += $interval->format('%i');
+				return $minutes;
+			case 'seconds':
+				$days = $interval->format('%a');
+				$seconds = 0;
+				if ($days) {
+					$seconds += 24 * 60 * 60 * $days;
+				}
+				$hours = $interval->format('%H');
+				if ($hours) {
+					$seconds += 60 * 60 * $hours;
+				}
+				$minutes = $interval->format('%i');
+				if ($minutes) {
+					$seconds += 60 * $minutes;
+				}
+				$seconds += $interval->format('%s');
+				return $seconds;
+		}
+		return $interval->format($format);
+	}
 }
