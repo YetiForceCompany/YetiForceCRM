@@ -185,8 +185,6 @@ class Vtiger_Field_Model extends vtlib\Field
 				switch ($uiType) {
 					case 4: $fieldDataType = 'recordNumber';
 						break;
-					case 7: $fieldDataType = 'double';
-						break;
 					case 8: $fieldDataType = 'totalTime';
 						break;
 					case 9: $fieldDataType = 'percentage';
