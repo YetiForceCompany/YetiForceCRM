@@ -52,6 +52,8 @@ after_script:
 - cat ../cache/logs/phpError.log
 - cat ../cache/logs/system.log
 - cat ../cache/logs/Importer.log
+- cat ../cache/logs/webserviceDebug.log
+- cat ../cache/logs/webserviceErrors.log
 - php ocular code-coverage:upload --format=php-clover coverage.xml
 - bash <(curl -s https://codecov.io/bash)
 - sudo ls -all ./coverageHtml
@@ -65,4 +67,6 @@ after_script:
       ncftpput -R -v -u $AFU -p $AFP $AFA / ../cache/logs/errors.log
       ncftpput -R -v -u $AFU -p $AFP $AFA / ../cache/logs/system.log
       ncftpput -R -v -u $AFU -p $AFP $AFA / ../cache/logs/phpError.log
+      ncftpput -R -v -u $AFU -p $AFP $AFA / ../cache/logs/webserviceDebug.log
+      ncftpput -R -v -u $AFU -p $AFP $AFA / ../cache/logs/webserviceErrors.log
     fi

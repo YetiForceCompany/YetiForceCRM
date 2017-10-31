@@ -8,7 +8,7 @@
  */
 namespace Tests\Integrations;
 
-class Api extends \Tests\GuiBase
+class Api extends \Tests\Base
 {
 
 	/**
