@@ -17,7 +17,7 @@ class Install_Index_View extends Vtiger_View_Controller
 
 	public function checkPermission(\App\Request $request)
 	{
-
+		
 	}
 
 	public function loginRequired()
@@ -245,85 +245,6 @@ class Install_Index_View extends Vtiger_View_Controller
 		echo $this->viewer->fetch('mStep0.tpl');
 	}
 
-	public function mStep1(\App\Request $request)
-	{
-		$initSchema = new Install_InitSchema_Model();
-		$schemaLists = $initSchema->getMigrationSchemaList();
-		$rootDirectory = getcwd();
-		if (substr($rootDirectory, -1) != '/') {
-			$rootDirectory = $rootDirectory . '/';
-		}
-		$this->viewer->assign('EXAMPLE_DIRECTORY', $rootDirectory);
-		$this->viewer->assign('SCHEMALISTS', $schemaLists);
-		echo $this->viewer->fetch('mStep1.tpl');
-	}
-
-	public function mStep2(\App\Request $request)
-	{
-		$initSchema = new Install_InitSchema_Model();
-		$schemaLists = $initSchema->getMigrationSchemaList();
-		$rootDirectory = getcwd();
-		if (substr($rootDirectory, -1) != '/') {
-			$rootDirectory = $rootDirectory . '/';
-		}
-		$this->viewer->assign('EXAMPLE_DIRECTORY', $rootDirectory);
-		$this->viewer->assign('SCHEMALISTS', $schemaLists);
-		echo $this->viewer->fetch('mStep2.tpl');
-	}
-
-	public function mStep3(\App\Request $request)
-	{
-		$system = $request->get('system');
-		$source_directory = $request->get('source_directory');
-		$username = $request->get('username');
-		$password = $request->get('password');
-		$errorText = '';
-		$loginStatus = false;
-
-		$migrationURL = 'Install.php?mode=execute&ajax=true&system=' . $system . '&user=' . $username;
-		$initSchema = new Install_InitSchema_Model();
-		$createConfig = $initSchema->createConfig($source_directory, $username, $password, $system);
-		if ($createConfig['result']) {
-			include('config/config.inc.php');
-			$adb = new PearDatabase($dbconfig['db_type'], $dbconfig['db_hostname'], $dbconfig['db_name'], $dbconfig['db_username'], $dbconfig['db_password']);
-			vglobal('adb', $adb);
-			$query = "SELECT crypt_type, user_name FROM vtiger_users WHERE user_name=?";
-			$result = $adb->requirePsSingleResult($query, [$username], true);
-			if ($adb->numRows($result) > 0) {
-				$crypt_type = $adb->queryResult($result, 0, 'crypt_type');
-				$salt = substr($username, 0, 2);
-				if ($crypt_type == 'MD5') {
-					$salt = '$1$' . $salt . '$';
-				} elseif ($crypt_type == 'BLOWFISH') {
-					$salt = '$2$' . $salt . '$';
-				} elseif ($crypt_type == 'PHP5.3MD5') {
-					$salt = '$1$' . str_pad($salt, 9, '0');
-				}
-				$encrypted_password = crypt($password, $salt);
-				$query = "SELECT 1 from vtiger_users where user_name=? && user_password=? && status = ?";
-				$result = $adb->requirePsSingleResult($query, [$username, $encrypted_password, 'Active'], true);
-				if ($adb->numRows($result) > 0) {
-					$loginStatus = true;
-				}
-			}
-			if (!$loginStatus) {
-				$errorText = 'LBL_WRONG_USERNAME_OR_PASSWORD';
-				file_put_contents('config/config.inc.php', '');
-			}
-		} else {
-			$errorText = $createConfig['text'];
-		}
-		$this->viewer->assign('MIGRATIONURL', $migrationURL);
-		$this->viewer->assign('ERRORTEXT', $errorText);
-		$this->viewer->assign('MIGRATIONRESULT', $migrationResult);
-		echo $this->viewer->fetch('mStep3.tpl');
-		if ($loginStatus) {
-			echo $this->viewer->fetch('mStep3Pre.tpl');
-			$migrationResult = $initSchema->executeMigrationSchema($system, $username, $source_directory);
-			echo $this->viewer->fetch('mStep3Post.tpl');
-		}
-	}
-
 	// Helper function as configuration file is still not loaded.
 	protected function retrieveConfiguredAppUniqueKey()
 	{
@@ -333,7 +254,7 @@ class Install_Index_View extends Vtiger_View_Controller
 
 	protected function preProcessDisplay(\App\Request $request)
 	{
-
+		
 	}
 
 	public function validateRequest(\App\Request $request)

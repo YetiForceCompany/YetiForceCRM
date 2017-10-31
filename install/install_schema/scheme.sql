@@ -8881,7 +8881,6 @@ CREATE TABLE `vtiger_users` (
   `deleted` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `language` varchar(36) DEFAULT NULL,
   `user_password` varchar(200) DEFAULT NULL,
-  `crypt_type` varchar(20) NOT NULL DEFAULT 'MD5',
   `internal_mailer` tinyint(1) unsigned NOT NULL DEFAULT 1,
   `reports_to_id` mediumint(10) unsigned DEFAULT NULL,
   `modified_user_id` varchar(36) DEFAULT NULL,

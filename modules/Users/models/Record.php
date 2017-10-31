@@ -197,7 +197,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$this->setId(\App\Db::getInstance()->getUniqueID('vtiger_users'));
 			$forSave['vtiger_users']['date_entered'] = date('Y-m-d H:i:s');
 		}
-		$forSave = $this->transformValues($forSave);
 		foreach ($saveFields as $fieldName) {
 			$fieldModel = $moduleModel->getFieldByName($fieldName);
 			if ($fieldModel) {
@@ -317,19 +316,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
 			\App\PrivilegeFile::createUsersFile();
 		}
-	}
-
-	/**
-	 * Transform values
-	 * @param array $values
-	 * @return array
-	 */
-	protected function transformValues($values)
-	{
-		if ($this->isNew() || $this->getPreviousValue('user_password') !== false) {
-			$values['vtiger_users']['crypt_type'] = $this->getCryptType();
-		}
-		return $values;
 	}
 
 	/**
@@ -901,21 +887,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$this->getAuthDetail();
 		\Settings_Password_Record_Model::getUserPassConfig();
 		password_verify($password, $this->encryptPassword($password));
-	}
-
-	/**
-	 * Get crypt type to use for password for the user.
-	 * @return string Type of password encryption
-	 */
-	protected function getCryptType()
-	{
-		$cryptType = AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
-		if (!$this->isEmpty('crypt_type')) {
-			$cryptType = $this->get('crypt_type');
-		} elseif ($userCryptType = (new App\Db\Query())->select(['crypt_type'])->from('vtiger_users')->where(['id' => $this->getId()])->scalar()) {
-			$cryptType = $userCryptType;
-		}
-		return $cryptType;
 	}
 
 	/**
