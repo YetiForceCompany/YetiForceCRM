@@ -18,7 +18,7 @@ class OSSPasswords_PopupAjax_View extends OSSPasswords_Popup_View
 		$this->exposeMethod('getPageCount');
 	}
 
-	public function preProcess(\App\Request $request)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		return true;
 	}
