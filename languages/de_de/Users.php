@@ -336,6 +336,10 @@ $languageStrings = [
 	'LBL_NO_USER_FOUND' => 'No user found.',
 	'LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS' => 'Too many failed login attempts. IP has been blocked.',
 	'LBL_IP_IS_BLOCKED' => 'Your IP is on the list of blocked IPs, please contact your administrator.',
+	'FL_DATE_PASSWORD_CHANGE' => 'Recent password change',
+	'LBL_PASSWORD_SUCCESSFULLY_CHANGED' => 'Your password has been changed successfully.',
+	'LBL_YOUR_PASSWORD_HAS_EXPIRED' => 'Your password has expired, please contact your administrator to reset your password.',
+	'LBL_YOUR_PASSWORD_WILL_EXPIRE' => 'Dear User, your password will expire in %s days and the system will block access to your account. It is recommended to change password as soon as possible.',
 ];
 
 $jsLanguageStrings = [
