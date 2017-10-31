@@ -70,7 +70,20 @@
 									<input class="form-control" type="text" name="change_time" id="change_time"  title="{\App\Language::translate('LBL_PASSWORD_CHANGE_TIME', $QUALIFIED_MODULE)}" value="{$DETAIL['change_time']}" />
 								</div>
 								<div class="col-xs-7">
-									<p class="form-control-static">{\App\Language::translate('LBL_PASSWORD_CHANGE_TIME_DESC', $QUALIFIED_MODULE)}</p>
+									<p class="form-control-static"><span class="glyphicon glyphicon-info-sign popoverTooltip" data-content="{\App\Language::translate('LBL_PASSWORD_CHANGE_TIME_DESC', $QUALIFIED_MODULE)}" data-placement="auto top"></span></p>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td width="30%">
+								<label class="muted pull-right marginRight10px control-label">{\App\Language::translate('LBL_TIME_TO_CHANGE_PASSWORD', $QUALIFIED_MODULE)}</label>
+							</td>
+							<td style="border-left: none;">
+								<div class="col-xs-5">
+									<input class="form-control" type="text" name="lock_time" id="lock_time"  title="{\App\Language::translate('LBL_TIME_TO_CHANGE_PASSWORD', $QUALIFIED_MODULE)}" value="{$DETAIL['lock_time']}" />
+								</div>
+								<div class="col-xs-7">
+									<p class="form-control-static"><span class="glyphicon glyphicon-info-sign popoverTooltip" data-content="{\App\Language::translate('LBL_TIME_TO_CHANGE_PASSWORD_DESC', $QUALIFIED_MODULE)}" data-placement="auto top"></span></p>
 								</div>
 							</td>
 						</tr>

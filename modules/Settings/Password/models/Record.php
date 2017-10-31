@@ -39,7 +39,7 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 
 	public static function validation($type, $vale)
 	{
-		if ($type == 'min_length' || $type == 'max_length' || $type == 'change_time') {
+		if ($type == 'min_length' || $type == 'max_length' || $type == 'change_time' || $type == 'lock_time') {
 			return is_numeric($vale);
 		}
 		if ($type == 'big_letters' || $type == 'small_letters' || $type == 'numbers' || $type == 'special') {
