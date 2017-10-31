@@ -329,7 +329,7 @@ $languageStrings = [
 	'FL_DATE_PASSWORD_CHANGE' => 'Ostatnia zmiana hasła',
 	'LBL_PASSWORD_SUCCESSFULLY_CHANGED' => 'Twoje hasło zostało pomyślnie zmienione.',
 	'LBL_YOUR_PASSWORD_HAS_EXPIRED' => 'Twoje hasło straciło ważność, prosimy o kontakt z administratorem w celu zresetowania hasła.',
-	'LBL_YOUR_PASSWORD_WILL_EXPIRE' => 'Użytkowniku twóje hasło straci ważność za %s dni, po tym czasie system zablokuje dostęp do Twojego konta. Zalecamy szybką zmianę hasła.',
+	'LBL_YOUR_PASSWORD_WILL_EXPIRE' => 'Użytkowniku, Twoje hasło straci ważność za %s dni, po tym czasie system zablokuje dostęp do Twojego konta. Zalecamy szybką zmianę hasła.',
 ];
 
 $jsLanguageStrings = [
