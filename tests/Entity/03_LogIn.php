@@ -48,10 +48,9 @@ class LogIn extends \Tests\Base
 	public function testCaseSensitiveUsername()
 	{
 		$userName = 'Demo';
-		$user = CRMEntity::getInstance('Users');
-		$user->column_fields['user_name'] = $userName;
-		$this->assertTrue($user->doLogin('demo'));
-		$this->assertTrue($user->column_fields['user_name'] !== $userName);
+		$userRecordModel = \Users_Record_Model::getCleanInstance('Users')->set('user_name', $userName);
+		$this->assertTrue($userRecordModel->doLogin('demo'));
+		$this->assertTrue(App\User::getUserModel($userRecordModel->getId())->getDetail('user_name') !== $userName);
 	}
 
 	/**
