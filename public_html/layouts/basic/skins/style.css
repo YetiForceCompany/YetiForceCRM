@@ -6050,3 +6050,9 @@ select.form-control {
 .daterangepicker .calendar th,.daterangepicker .calendar td{
 	min-width: 30px;
 }
+.fs30{
+	font-size: 30px;
+}
+.fs40{
+	font-size: 40px;
+}

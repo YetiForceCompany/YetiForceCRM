@@ -23,7 +23,7 @@
 				{/if}
 			{elseif $MODE === 'change'}
 				{if $YOUR_PASSWORD_WILL_EXPIRE}
-					<div class="alert alert-danger" role="alert">{$YOUR_PASSWORD_WILL_EXPIRE}</div>
+					<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-warning-sign fs30 pull-left marginRight10" aria-hidden="true"></span>{$YOUR_PASSWORD_WILL_EXPIRE}</div>
 				{/if}
 				<div class="form-group">
 					<label class="control-label col-sm-4">{\App\Language::translate('LBL_OLD_PASSWORD', $MODULE_NAME)}</label>
