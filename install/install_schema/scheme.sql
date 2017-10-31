@@ -558,7 +558,7 @@ CREATE TABLE `l_yf_userpass_history` (
   `user_id` int(10) unsigned NOT NULL,
   `date` datetime NOT NULL,
   KEY `user_id` (`user_id`,`pass`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `o_yf_access_for_admin` */
 

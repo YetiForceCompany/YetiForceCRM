@@ -125,4 +125,14 @@ class Encryption
 		}
 		return static::generatePassword($length, $type);
 	}
+
+	/**
+	 * Function to create a hash
+	 * @param string $text
+	 * @return string
+	 */
+	public static function createHash($text)
+	{
+		return crypt($text, '$1$' . \AppConfig::main('application_unique_key'));
+	}
 }

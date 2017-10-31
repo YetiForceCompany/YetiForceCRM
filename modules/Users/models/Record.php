@@ -281,7 +281,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			\App\Privilege::setAllUpdater();
 		}
 		if (!$this->isNew() && $this->has('user_password') && App\User::getCurrentUserId() === $this->getId()) {
-			$isExists = (new \App\Db\Query())->from('l_#__userpass_history')->where(['user_id' => $this->getId(), 'pass' => $this->encryptPassword($this->get('user_password'))])->exists();
+			$isExists = (new \App\Db\Query())->from('l_#__userpass_history')->where(['user_id' => $this->getId(), 'pass' => \App\Encryption::createHash($this->get('user_password'))])->exists();
 			if ($isExists) {
 				throw new \App\Exceptions\SaveRecord('ERR_PASSWORD_HAS_ALREADY_BEEN_USED', 406);
 			}
@@ -296,7 +296,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		if ($this->has('user_password') && ($this->isNew() || App\User::getCurrentUserId() === $this->getId())) {
 			\App\Db::getInstance()->createCommand()
 				->insert('l_#__userpass_history', [
-					'pass' => $this->get('user_password'),
+					'pass' => \App\Encryption::createHash($this->get('user_password')),
 					'user_id' => $this->getId(),
 					'date' => date('Y-m-d H:i:s'),
 				])->execute();
@@ -875,23 +875,11 @@ class Users_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Encrypt user password
 	 * @param string $password User password
-	 * @param string $cryptType Type of password encryption
 	 * @return string Encrypted password
 	 */
-	public function encryptPassword($password, $cryptType = '')
+	public function encryptPassword($password)
 	{
-		$salt = substr($this->get('user_name'), 0, 2);
-		if (!$cryptType) {
-			$cryptType = $this->getCryptType();
-		}
-		if ($cryptType === 'MD5') {
-			$salt = '$1$' . $salt . '$';
-		} elseif ($cryptType === 'BLOWFISH') {
-			$salt = '$2$' . $salt . '$';
-		} elseif ($cryptType === 'PHP5.3MD5') {
-			$salt = '$1$' . str_pad($salt, 9, '0');
-		}
-		return crypt($password, $salt);
+		return password_hash($password, PASSWORD_BCRYPT, ['cost' => AppConfig::security('USER_ENCRYPT_PASSWORD_COST')]);
 	}
 
 	/**
@@ -901,9 +889,18 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function verifyPassword($password)
 	{
-		$encrypted = $this->encryptPassword($password);
-		\App\Log::trace('Verify password: ' . $encrypted);
-		return $encrypted === $this->get('user_password');
+		return password_verify($password, $this->get('user_password'));
+	}
+
+	/**
+	 * Slower logon for security purposes
+	 * @param string $password
+	 */
+	public function fakeEncryptPassword($password)
+	{
+		$this->getAuthDetail();
+		\Settings_Password_Record_Model::getUserPassConfig();
+		password_verify($password, $this->encryptPassword($password));
 	}
 
 	/**
@@ -929,9 +926,9 @@ class Users_Record_Model extends Vtiger_Record_Model
 	public function doLogin($password)
 	{
 		$userName = $this->get('user_name');
-		$row = (new App\Db\Query())->select(['id', 'deleted'])->from('vtiger_users')->where(['or', ['user_name' => $userName], ['user_name' => strtolower($userName)]])->one();
+		$row = (new App\Db\Query())->select(['id', 'deleted'])->from('vtiger_users')->where(['or', ['user_name' => $userName], ['user_name' => strtolower($userName)]])->limit(1)->one();
 		if (!$row || (int) $row['deleted'] !== 0) {
-			$this->encryptPassword($password);
+			$this->fakeEncryptPassword($password);
 			\App\Log::info('User not found: ' . $userName, 'UserAuthentication');
 			return false;
 		}

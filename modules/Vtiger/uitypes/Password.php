@@ -31,9 +31,7 @@ class Vtiger_Password_UIType extends Vtiger_Base_UIType
 	 */
 	public function convertToSave($value, Vtiger_Record_Model $recordModel)
 	{
-		$encrypted = $recordModel->encryptPassword($value);
-		$recordModel->set($this->getFieldModel()->getName(), $encrypted);
-		return $encrypted;
+		return $recordModel->encryptPassword($value);
 	}
 
 	/**

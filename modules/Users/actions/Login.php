@@ -76,12 +76,14 @@ class Users_Login_Action extends Vtiger_Action_Controller
 			}
 			return true;
 		}
-		$bfInstance->updateBlockedIp();
 		\App\Session::set('UserLoginMessage', App\Language::translate('LBL_INVALID_USER_OR_PASSWORD', $moduleName));
-		if ($bfInstance->isBlockedIp()) {
-			$bfInstance->sendNotificationEmail();
-			\App\Session::set('UserLoginMessage', App\Language::translate('LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS', $moduleName));
-			\App\Session::set('UserLoginMessageType', 'error');
+		if ($bfInstance->isActive()) {
+			$bfInstance->updateBlockedIp();
+			if ($bfInstance->isBlockedIp()) {
+				$bfInstance->sendNotificationEmail();
+				\App\Session::set('UserLoginMessage', App\Language::translate('LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS', $moduleName));
+				\App\Session::set('UserLoginMessageType', 'error');
+			}
 		}
 		$moduleModel->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('username')), 'Failed login'); //Track the login History
 		header('Location: index.php?module=Users&view=Login');
