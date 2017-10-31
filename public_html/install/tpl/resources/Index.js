@@ -261,7 +261,7 @@ jQuery.Class('Install_Index_Js', {
 	},
 	changeLanguage: function (e) {
 		var target = $(e.currentTarget);
-		jQuery('input[name="mode"]').val('');
+		jQuery('input[name="mode"]').val('step1');
 		jQuery('form[name="step1"]').submit();
 	},
 	registerEvents: function () {
