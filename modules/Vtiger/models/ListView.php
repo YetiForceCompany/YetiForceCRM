@@ -124,40 +124,81 @@ class Vtiger_ListView_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get the list of listview links for the module
-	 * @param <Array> $linkParams
-	 * @return <Array> - Associate array of Link Type to List of Vtiger_Link_Model instances
+	 * Function to give advance links of a module
+	 * @return array of advanced links
 	 */
-	public function getListViewLinks($linkParams)
+	public function getAdvancedLinks()
 	{
 		$moduleModel = $this->getModule();
-		$links = [];
+		$advancedLinks = [];
 
-		$basicLinks = $this->getBasicLinks();
-		foreach ($basicLinks as $basicLink) {
-			$links['LISTVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
+		if ($moduleModel->isPermitted('CreateView') && $moduleModel->isPermitted('Import')) {
+			$advancedLinks[] = [
+				'linktype' => 'LISTVIEW',
+				'linklabel' => 'LBL_IMPORT',
+				'linkurl' => $moduleModel->getImportUrl(),
+				'linkicon' => 'glyphicon glyphicon-import'
+			];
 		}
-
-		$allLinks = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['LISTVIEWBASIC', 'LISTVIEW'], $linkParams);
-		if (!empty($allLinks)) {
-			foreach ($allLinks as $type => $allLinksByType) {
-				foreach ($allLinksByType as $linkModel) {
-					$links[$type][] = $linkModel;
-				}
+		if ($moduleModel->isPermitted('Export')) {
+			$advancedLinks[] = [
+				'linktype' => 'LISTVIEW',
+				'linklabel' => 'LBL_EXPORT',
+				'linkurl' => 'javascript:Vtiger_List_Js.triggerExportAction("' . $this->getModule()->getExportUrl() . '")',
+				'linkicon' => 'glyphicon glyphicon-export'
+			];
+		}
+		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
+			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
+			$pdfModel = new $handlerClass();
+			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
+			if (count($templates) > 0) {
+				$advancedLinks[] = [
+					'linktype' => 'DETAILVIEWBASIC',
+					'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
+					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
+					'linkicon' => 'glyphicon glyphicon-save-file',
+					'title' => \App\Language::translate('LBL_EXPORT_PDF')
+				];
 			}
 		}
-
-		$advancedLinks = $this->getAdvancedLinks();
-		foreach ($advancedLinks as $advancedLink) {
-			$links['LISTVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($advancedLink);
+		if ($moduleModel->isPermitted('DuplicatesHandling')) {
+			$advancedLinks[] = [
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_FIND_DUPLICATES',
+				'linkurl' => 'Javascript:Vtiger_List_Js.showDuplicateSearchForm("index.php?module=' . $moduleModel->getName() .
+				'&view=MassActionAjax&mode=showDuplicatesSearchForm")',
+				'linkicon' => 'glyphicon glyphicon-duplicate'
+			];
 		}
-		return $links;
+		if ($moduleModel->isPermitted('QuickExportToExcel') && !Settings_ModuleManager_Library_Model::checkLibrary('PHPExcel')) {
+			$advancedLinks[] = [
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
+				'linkurl' => 'javascript:Vtiger_List_Js.triggerQuickExportToExcel("' . $moduleModel->getName() . '")',
+				'linkicon' => 'glyphicon glyphicon-save-file',
+			];
+		}
+		if ($moduleModel->isPermitted('RecordMappingList')) {
+			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleModel->getName());
+			$mfModel = new $handlerClass();
+			$templates = $mfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
+			if (count($templates) > 0) {
+				$advancedLinks[] = [
+					'linktype' => 'LISTVIEW',
+					'linklabel' => 'LBL_GENERATE_RECORDS',
+					'linkurl' => 'javascript:Vtiger_List_Js.triggerGenerateRecords("index.php?module=' . $moduleModel->getName() . '&view=GenerateModal&fromview=List");',
+					'linkicon' => 'glyphicon glyphicon-plus-sign',
+				];
+			}
+		}
+		return $advancedLinks;
 	}
 
 	/**
 	 * Function to get the list of Mass actions for the module
-	 * @param <Array> $linkParams
-	 * @return <Array> - Associative array of Link type to List of  Vtiger_Link_Model instances for Mass Actions
+	 * @param type $linkParams
+	 * @return Vtiger_Link_Model[]
 	 */
 	public function getListViewMassActions($linkParams)
 	{
@@ -209,6 +250,74 @@ class Vtiger_ListView_Model extends \App\Base
 		}
 		foreach ($massActionLinks as $massActionLink) {
 			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
+		}
+		return $links;
+	}
+
+	/**
+	 * Function to get Basic links
+	 * @return array of Basic links
+	 */
+	public function getBasicLinks()
+	{
+		$basicLinks = [];
+		$moduleModel = $this->getModule();
+
+		if ($moduleModel->isPermitted('CreateView')) {
+			$basicLinks[] = [
+				'linktype' => 'LISTVIEWBASIC',
+				'linklabel' => 'LBL_ADD_RECORD',
+				'linkurl' => $moduleModel->getCreateRecordUrl(),
+				'linkclass' => 'addButton modCT_' . $moduleModel->getName(),
+				'linkicon' => 'glyphicon glyphicon-plus',
+				'showLabel' => 1,
+				'linkhref' => true
+			];
+		}
+
+		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
+			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
+			$pdfModel = new $handlerClass();
+			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
+			if (count($templates) > 0) {
+				$basicLinks[] = [
+					'linktype' => 'LISTVIEWBASIC',
+					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
+					'linkicon' => 'glyphicon glyphicon-save-file',
+					'linkhint' => \App\Language::translate('LBL_EXPORT_PDF')
+				];
+			}
+		}
+		return $basicLinks;
+	}
+
+	/**
+	 * Function to get the list of listview links for the module
+	 * @param <Array> $linkParams
+	 * @return <Array> - Associate array of Link Type to List of Vtiger_Link_Model instances
+	 */
+	public function getListViewLinks($linkParams)
+	{
+		$moduleModel = $this->getModule();
+		$links = [];
+
+		$basicLinks = $this->getBasicLinks();
+		foreach ($basicLinks as $basicLink) {
+			$links['LISTVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
+		}
+
+		$allLinks = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['LISTVIEWBASIC', 'LISTVIEW'], $linkParams);
+		if (!empty($allLinks)) {
+			foreach ($allLinks as $type => $allLinksByType) {
+				foreach ($allLinksByType as $linkModel) {
+					$links[$type][] = $linkModel;
+				}
+			}
+		}
+
+		$advancedLinks = $this->getAdvancedLinks();
+		foreach ($advancedLinks as $advancedLink) {
+			$links['LISTVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($advancedLink);
 		}
 		return $links;
 	}
@@ -337,115 +446,6 @@ class Vtiger_ListView_Model extends \App\Base
 	{
 		$this->loadListViewCondition();
 		return $this->getQueryGenerator()->createQuery()->count();
-	}
-
-	/**
-	 * Function to give advance links of a module
-	 * @return array of advanced links
-	 */
-	public function getAdvancedLinks()
-	{
-		$moduleModel = $this->getModule();
-		$advancedLinks = [];
-
-		if ($moduleModel->isPermitted('CreateView') && $moduleModel->isPermitted('Import')) {
-			$advancedLinks[] = [
-				'linktype' => 'LISTVIEW',
-				'linklabel' => 'LBL_IMPORT',
-				'linkurl' => $moduleModel->getImportUrl(),
-				'linkicon' => 'glyphicon glyphicon-import'
-			];
-		}
-		if ($moduleModel->isPermitted('Export')) {
-			$advancedLinks[] = [
-				'linktype' => 'LISTVIEW',
-				'linklabel' => 'LBL_EXPORT',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerExportAction("' . $this->getModule()->getExportUrl() . '")',
-				'linkicon' => 'glyphicon glyphicon-export'
-			];
-		}
-		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
-			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
-			$pdfModel = new $handlerClass();
-			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
-			if (count($templates) > 0) {
-				$advancedLinks[] = [
-					'linktype' => 'DETAILVIEWBASIC',
-					'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
-					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
-					'linkicon' => 'glyphicon glyphicon-save-file',
-					'title' => \App\Language::translate('LBL_EXPORT_PDF')
-				];
-			}
-		}
-		if ($moduleModel->isPermitted('DuplicatesHandling')) {
-			$advancedLinks[] = [
-				'linktype' => 'LISTVIEWMASSACTION',
-				'linklabel' => 'LBL_FIND_DUPLICATES',
-				'linkurl' => 'Javascript:Vtiger_List_Js.showDuplicateSearchForm("index.php?module=' . $moduleModel->getName() .
-				'&view=MassActionAjax&mode=showDuplicatesSearchForm")',
-				'linkicon' => 'glyphicon glyphicon-duplicate'
-			];
-		}
-		if ($moduleModel->isPermitted('QuickExportToExcel') && !Settings_ModuleManager_Library_Model::checkLibrary('PHPExcel')) {
-			$advancedLinks[] = [
-				'linktype' => 'LISTVIEWMASSACTION',
-				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerQuickExportToExcel("' . $moduleModel->getName() . '")',
-				'linkicon' => 'glyphicon glyphicon-save-file',
-			];
-		}
-		if ($moduleModel->isPermitted('RecordMappingList')) {
-			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleModel->getName());
-			$mfModel = new $handlerClass();
-			$templates = $mfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
-			if (count($templates) > 0) {
-				$advancedLinks[] = [
-					'linktype' => 'LISTVIEW',
-					'linklabel' => 'LBL_GENERATE_RECORDS',
-					'linkurl' => 'javascript:Vtiger_List_Js.triggerGenerateRecords("index.php?module=' . $moduleModel->getName() . '&view=GenerateModal&fromview=List");',
-					'linkicon' => 'glyphicon glyphicon-plus-sign',
-				];
-			}
-		}
-		return $advancedLinks;
-	}
-
-	/**
-	 * Function to get Basic links
-	 * @return array of Basic links
-	 */
-	public function getBasicLinks()
-	{
-		$basicLinks = [];
-		$moduleModel = $this->getModule();
-
-		if ($moduleModel->isPermitted('CreateView')) {
-			$basicLinks[] = [
-				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => 'LBL_ADD_RECORD',
-				'linkurl' => $moduleModel->getCreateRecordUrl(),
-				'linkclass' => 'addButton modCT_' . $moduleModel->getName(),
-				'linkicon' => 'glyphicon glyphicon-plus',
-				'showLabel' => 1,
-				'linkhref' => true
-			];
-		}
-
-		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
-			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
-			$pdfModel = new $handlerClass();
-			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
-			if (count($templates) > 0) {
-				$basicLinks[] = [
-					'linktype' => 'LISTVIEWBASIC',
-					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
-					'linkicon' => 'glyphicon glyphicon-save-file',
-					'linkhint' => \App\Language::translate('LBL_EXPORT_PDF')
-				];
-			}
-		}
-		return $basicLinks;
 	}
 
 	public function extendPopupFields($fieldsList)
