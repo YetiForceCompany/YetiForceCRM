@@ -327,9 +327,13 @@ $languageStrings = [
 	'LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS' => 'Zbyt wiele nieudanych prób logowania. IP zostało zablokowane.',
 	'LBL_IP_IS_BLOCKED' => 'Twój IP został zablokowany czasowo bo znajduje się na czarnej liście, prosimy o kontakt z administratorem.',
 	'FL_DATE_PASSWORD_CHANGE' => 'Ostatnia zmiana hasła',
+	'FL_FORCE_PASSWORD_CHANGE' => 'Wymuś zmianę hasła',
 	'LBL_PASSWORD_SUCCESSFULLY_CHANGED' => 'Twoje hasło zostało pomyślnie zmienione.',
 	'LBL_YOUR_PASSWORD_HAS_EXPIRED' => 'Twoje hasło straciło ważność, prosimy o kontakt z administratorem w celu zresetowania hasła.',
 	'LBL_YOUR_PASSWORD_WILL_EXPIRE' => 'Użytkowniku, Twoje hasło straci ważność za %s dni, po tym czasie system zablokuje dostęp do Twojego konta. Zalecamy szybką zmianę hasła.',
+	'LBL_CHANGING_PASSWORD_OF_ANOTHER_USER' => 'Zmieniając hasło innego użytkownika wymuszasz na nim zmianę hasła podczas pierwszego zalogowania.',
+	'LBL_FORCE_PASSWORD_CHANGE_ALERT' => 'Użytkowniku twoje hasło musi zostać zmienione. Aby kontynuować pracę w systemie musisz wprowadzić nowe hasło.',
+	'LBL_NEW_PASSWORD_CRITERIA' => 'Nowe hasło musi spełniać następujące kryteria:',
 ];
 
 $jsLanguageStrings = [

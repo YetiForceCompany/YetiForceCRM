@@ -31,14 +31,9 @@ class Vtiger_Password_UIType extends Vtiger_Base_UIType
 	 */
 	public function convertToSave($value, Vtiger_Record_Model $recordModel)
 	{
-		$value = $recordModel->encryptPassword($value);
-		\App\Db::getInstance()->createCommand()
-			->insert('l_#__userpass_history', [
-				'pass' => $value,
-				'user_id' => $recordModel->getId(),
-				'date' => date('Y-m-d H:i:s'),
-			])->execute();
-		return $value;
+		$encrypted = $recordModel->encryptPassword($value);
+		$recordModel->set($this->getFieldModel()->getName(), $encrypted);
+		return $encrypted;
 	}
 
 	/**

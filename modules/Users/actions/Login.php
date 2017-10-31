@@ -59,7 +59,7 @@ class Users_Login_Action extends Vtiger_Action_Controller
 		$this->userRecordModel = Users_Record_Model::getCleanInstance('Users')->set('user_name', $userName);
 		if (!empty($password) && $this->userRecordModel->doLogin($password)) {
 			$this->userModel = App\User::getUserModel($this->userRecordModel->getId());
-			if (\App\Session::get('UserAuthMethod') === 'PASSWORD' && $this->userRecordModel->checkPasswordChangeDate($this->userModel)) {
+			if (\App\Session::get('UserAuthMethod') === 'PASSWORD' && $this->userRecordModel->verifyPasswordChange($this->userModel)) {
 				\App\Session::set('UserLoginMessage', App\Language::translate('LBL_YOUR_PASSWORD_HAS_EXPIRED', $moduleName));
 				\App\Session::set('UserLoginMessageType', 'error');
 				header('Location: index.php');

@@ -705,7 +705,7 @@ var Vtiger_Index_Js = {
 		});
 	},
 	registerUserPasswordChangeModal: function (timer) {
-		if (app.getMainParams('showUserPasswordChange') == 1) {
+		if (app.getMainParams('showUserPasswordChange')) {
 			app.showModalWindow(null, 'index.php?module=Users&view=PasswordModal&mode=change&record=' + app.getMainParams('current_user_id'));
 		}
 	},

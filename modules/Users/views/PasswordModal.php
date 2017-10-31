@@ -26,21 +26,24 @@ class Users_PasswordModal_View extends Vtiger_BasicModal_View
 	 */
 	public function checkPermission(\App\Request $request)
 	{
+		if (AppConfig::main('systemMode') === 'demo') {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		switch ($request->getMode()) {
 			case 'reset':
+			case 'change':
+				if ($currentUserModel->isAdminUser() === true || (int) $currentUserModel->get('id') === $request->getInteger('record')) {
+					return true;
+				}
+				break;
 			case 'massReset':
 				if ($currentUserModel->isAdminUser() === true) {
 					return true;
 				}
 				break;
-			case 'change':
-				if ((int) $currentUserModel->get('id') === $request->getInteger('record')) {
-					return true;
-				}
-				break;
 		}
-		throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
+		throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 	}
 
 	/**
@@ -84,13 +87,24 @@ class Users_PasswordModal_View extends Vtiger_BasicModal_View
 		$viewer->assign('MODE_TITLE', 'LBL_CHANGE_PASSWORD');
 		$viewer->assign('RECORD', $request->getInteger('record'));
 		$passConfig = \Settings_Password_Record_Model::getUserPassConfig();
-		$time = (int) $passConfig['change_time'];
-		if ($time !== 0) {
-			$time += (int) $passConfig['lock_time'];
+		$viewer->assign('PASS_CONFIG', $passConfig);
+		if (App\User::getCurrentUserId() === $request->getInteger('record')) {
 			$userModel = App\User::getCurrentUserModel();
-			if (date('Y-m-d') > date('Y-m-d', strtotime("+{$passConfig['change_time']} day", strtotime($userModel->getDetail('date_password_change'))))) {
-				$viewer->assign('YOUR_PASSWORD_WILL_EXPIRE', \App\Language::translateArgs('LBL_YOUR_PASSWORD_WILL_EXPIRE', $moduleName, \App\Fields\Date::getDiff(date('Y-m-d'), date('Y-m-d', strtotime("+$time day", strtotime($userModel->getDetail('date_password_change')))), 'days')));
+			if ((int) $userModel->getDetail('force_password_change') === 1) {
+				$this->modalClass = 'static';
+				$viewer->assign('LOCK_EXIT', true);
+				$viewer->assign('WARNING', \App\Language::translate('LBL_FORCE_PASSWORD_CHANGE_ALERT', 'Users'));
+			} else {
+				$time = (int) $passConfig['change_time'];
+				if ($time !== 0) {
+					$time += (int) $passConfig['lock_time'];
+					if (date('Y-m-d') > date('Y-m-d', strtotime("+{$passConfig['change_time']} day", strtotime($userModel->getDetail('date_password_change'))))) {
+						$viewer->assign('WARNING', \App\Language::translateArgs('LBL_YOUR_PASSWORD_WILL_EXPIRE', $moduleName, \App\Fields\Date::getDiff(date('Y-m-d'), date('Y-m-d', strtotime("+$time day", strtotime($userModel->getDetail('date_password_change')))), 'days')));
+					}
+				}
 			}
+		} else {
+			$viewer->assign('WARNING', \App\Language::translate('LBL_CHANGING_PASSWORD_OF_ANOTHER_USER', 'Users'));
 		}
 		$this->preProcess($request);
 		$viewer->view('PasswordModal.tpl', $moduleName);

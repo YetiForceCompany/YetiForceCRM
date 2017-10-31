@@ -28,15 +28,14 @@ class Users_Password_Action extends Vtiger_Action_Controller
 	 */
 	public function checkPermission(\App\Request $request)
 	{
+		if (AppConfig::main('systemMode') === 'demo') {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		switch ($request->getMode()) {
 			case 'reset':
-				if ($currentUserModel->isAdminUser() === true || (AppConfig::security('SHOW_MY_PREFERENCES') && (int) $currentUserModel->get('id') === $request->getInteger('record'))) {
-					return true;
-				}
-				break;
 			case 'change':
-				if ((int) $currentUserModel->get('id') === $request->getInteger('record')) {
+				if ($currentUserModel->isAdminUser() === true || (int) $currentUserModel->get('id') === $request->getInteger('record')) {
 					return true;
 				}
 				break;
@@ -46,7 +45,7 @@ class Users_Password_Action extends Vtiger_Action_Controller
 				}
 				break;
 		}
-		throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED', 406);
+		throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 	}
 
 	/**
@@ -72,6 +71,7 @@ class Users_Password_Action extends Vtiger_Action_Controller
 		$userRecordModel = Users_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 		$userRecordModel->set('user_password', $password);
 		$userRecordModel->set('date_password_change', date('Y-m-d H:i:s'));
+		$userRecordModel->set('force_password_change', 0);
 		$userRecordModel->save();
 		\App\Mailer::sendFromTemplate([
 			'template' => 'UsersResetPassword',
@@ -93,18 +93,21 @@ class Users_Password_Action extends Vtiger_Action_Controller
 	{
 		$moduleName = $request->getModule();
 		$password = $request->getRaw('password');
-		$userRecordModel = Users_Record_Model::getInstanceById(App\User::getCurrentUserId(), $moduleName);
+		$userRecordModel = Users_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 		$response = new Vtiger_Response();
+		$isOtherUser = App\User::getCurrentUserId() !== $request->getInteger('record');
 		if ($password !== $request->getRaw('confirmPassword')) {
 			$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_PASSWORD_SHOULD_BE_SAME', 'Users'), 'type' => 'error']]);
-		} elseif (!$userRecordModel->verifyPassword($request->getRaw('oldPassword'))) {
+		} elseif (!$isOtherUser && !$userRecordModel->verifyPassword($request->getRaw('oldPassword'))) {
 			$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_INCORRECT_OLD_PASSWORD', 'Users'), 'type' => 'error']]);
 		} else {
 			$userRecordModel->set('user_password', $request->getRaw('password'));
 			$userRecordModel->set('date_password_change', date('Y-m-d H:i:s'));
+			$userRecordModel->set('force_password_change', $isOtherUser ? 1 : 0);
 			try {
 				$userRecordModel->save();
 				$response->setResult(['notify' => ['text' => \App\Language::translate('LBL_PASSWORD_SUCCESSFULLY_CHANGED', 'Users')]]);
+				\App\Session::delete('ShowUserPasswordChange');
 			} catch (\App\Exceptions\SaveRecord $exc) {
 				$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translateSingleMod($exc->getMessage(), 'Other.Exceptions'), 'type' => 'error']]);
 			} catch (\App\Exceptions\Security $exc) {
@@ -127,6 +130,7 @@ class Users_Password_Action extends Vtiger_Action_Controller
 			$userRecordModel = Users_Record_Model::getInstanceById($userId, $moduleName);
 			$userRecordModel->set('user_password', $password);
 			$userRecordModel->set('date_password_change', date('Y-m-d H:i:s'));
+			$userRecordModel->set('force_password_change', 0);
 			$userRecordModel->save();
 			\App\Mailer::sendFromTemplate([
 				'template' => 'UsersResetPassword',

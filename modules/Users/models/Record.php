@@ -280,11 +280,42 @@ class Users_Record_Model extends Vtiger_Record_Model
 			}
 			\App\Privilege::setAllUpdater();
 		}
-		if ($this->has('user_password')) {
+		if (!$this->isNew() && $this->has('user_password') && App\User::getCurrentUserId() === $this->getId()) {
 			$isExists = (new \App\Db\Query())->from('l_#__userpass_history')->where(['user_id' => $this->getId(), 'pass' => $this->encryptPassword($this->get('user_password'))])->exists();
 			if ($isExists) {
 				throw new \App\Exceptions\SaveRecord('ERR_PASSWORD_HAS_ALREADY_BEEN_USED', 406);
 			}
+		}
+	}
+
+	/**
+	 * Function after save to database
+	 */
+	public function afterSaveToDb()
+	{
+		if ($this->has('user_password') && ($this->isNew() || App\User::getCurrentUserId() === $this->getId())) {
+			\App\Db::getInstance()->createCommand()
+				->insert('l_#__userpass_history', [
+					'pass' => $this->get('user_password'),
+					'user_id' => $this->getId(),
+					'date' => date('Y-m-d H:i:s'),
+				])->execute();
+		}
+		if ($this->getPreviousValue('language') !== false && App\User::getCurrentUserRealId() === $this->getId()) {
+			App\Session::set('language', $this->get('language'));
+		}
+		if ($_FILES) {
+			foreach ($_FILES as $fileindex => $files) {
+				if ($files['name'] !== '' && $files['size'] > 0) {
+					$files['original_name'] = \App\Request::_get($fileindex . '_hidden');
+					$this->getEntity()->uploadAndSaveFile($this->getId(), $this->getModuleName(), $files);
+				}
+			}
+		}
+		\App\UserPrivilegesFile::createUserPrivilegesfile($this->getId());
+		\App\UserPrivilegesFile::createUserSharingPrivilegesfile($this->getId());
+		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+			\App\PrivilegeFile::createUsersFile();
 		}
 	}
 
@@ -955,11 +986,11 @@ class Users_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Check password change date
+	 * Verify  password change
 	 * @param App\User $userModel
 	 * @return boolean
 	 */
-	public function checkPasswordChangeDate(App\User $userModel)
+	public function verifyPasswordChange(App\User $userModel)
 	{
 		$passConfig = \Settings_Password_Record_Model::getUserPassConfig();
 		$time = (int) $passConfig['change_time'];
@@ -971,7 +1002,10 @@ class Users_Record_Model extends Vtiger_Record_Model
 			if (strtotime("-$time day") > strtotime($userModel->getDetail('date_password_change'))) {
 				return true;
 			}
-			\App\Session::set('ShowUserPasswordChange', true);
+			\App\Session::set('ShowUserPasswordChange', 1);
+		}
+		if ((int) $userModel->getDetail('force_password_change') === 1) {
+			\App\Session::set('ShowUserPasswordChange', 2);
 		}
 		return false;
 	}

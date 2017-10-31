@@ -5174,7 +5174,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2626 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2627 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -8890,6 +8890,7 @@ CREATE TABLE `vtiger_users` (
   `date_entered` timestamp NULL DEFAULT NULL,
   `date_modified` timestamp NULL DEFAULT NULL,
   `date_password_change` datetime DEFAULT NULL,
+  `force_password_change` tinyint(1) DEFAULT 0,
   `holidays` varchar(60) DEFAULT NULL,
   `namedays` varchar(60) DEFAULT NULL,
   `workdays` varchar(30) DEFAULT NULL,

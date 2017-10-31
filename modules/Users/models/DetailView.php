@@ -26,26 +26,23 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 		if (($currentUserModel->isAdminUser() === true || $currentUserModel->get('id') === $recordId) && $recordModel->get('status') === 'Active') {
 			$recordModel = $this->getRecord();
 			$detailViewLinks = [];
-			if (vglobal('systemMode') != 'demo') {
-				if ((int) $currentUserModel->get('id') === $recordId) {
-					$detailViewLinks[] = [
-						'linktype' => 'DETAILVIEWBASIC',
-						'linklabel' => 'LBL_CHANGE_PASSWORD',
-						'linkdata' => ['url' => 'index.php?module=Users&view=PasswordModal&mode=change&record=' . $recordId],
-						'linkclass' => 'btn-info showModal',
-						'linkicon' => 'glyphicon glyphicon-repeat',
-						'showLabel' => true
-					];
-				} else {
-					$detailViewLinks[] = [
-						'linktype' => 'DETAILVIEWBASIC',
-						'linklabel' => 'BTN_RESET_PASSWORD',
-						'linkdata' => ['url' => 'index.php?module=Users&view=PasswordModal&mode=reset&record=' . $recordId],
-						'linkclass' => 'btn-info showModal',
-						'linkicon' => 'glyphicon glyphicon-repeat',
-						'showLabel' => true
-					];
-				}
+			$detailViewLinks[] = [
+				'linktype' => 'DETAILVIEWBASIC',
+				'linklabel' => 'LBL_CHANGE_PASSWORD',
+				'linkdata' => ['url' => 'index.php?module=Users&view=PasswordModal&mode=change&record=' . $recordId],
+				'linkclass' => 'btn-info showModal',
+				'linkicon' => 'fa fa-key',
+				'showLabel' => true
+			];
+			if ($currentUserModel->isAdminUser() === true) {
+				$detailViewLinks[] = [
+					'linktype' => 'DETAILVIEWBASIC',
+					'linklabel' => 'BTN_RESET_PASSWORD',
+					'linkdata' => ['url' => 'index.php?module=Users&view=PasswordModal&mode=reset&record=' . $recordId],
+					'linkclass' => 'btn-info showModal',
+					'linkicon' => 'glyphicon glyphicon-repeat',
+					'showLabel' => true
+				];
 			}
 			$detailViewLinks[] = [
 				'linktype' => 'DETAILVIEWBASIC',

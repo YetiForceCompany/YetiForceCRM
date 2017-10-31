@@ -70,7 +70,7 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 		if ($conf['small_letters'] == 'true' && !preg_match('#[a-z]+#', $pass)) {
 			return \App\Language::translate('Lowercase letters a to z', $moduleName);
 		}
-		if ($conf['special'] == 'true' && !preg_match('/[!"#$%&\'()*+,-./:;<=>?@[\]^_{|}]/', $pass)) {
+		if ($conf['special'] == 'true' && !preg_match('~[!"#$%&\'()*+,-./:;<=>?@[\]^_{|}]~', $pass)) {
 			return \App\Language::translate('Password should contain special characters', $moduleName);
 		}
 		return false;

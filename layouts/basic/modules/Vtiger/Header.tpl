@@ -63,7 +63,9 @@
 				<input type="hidden" id="fieldsReferencesDependent" value="{AppConfig::security('FIELDS_REFERENCES_DEPENDENT')}" />
 				{if \App\Session::has('ShowUserPasswordChange')}
 					<input type="hidden" id="showUserPasswordChange" value="{\App\Session::get('ShowUserPasswordChange')}" />
-					{\App\Session::delete('ShowUserPasswordChange')}
+					{if \App\Session::get('ShowUserPasswordChange') == 1}
+						{\App\Session::delete('ShowUserPasswordChange')}
+					{/if}
 				{/if}
 			</div>
 			<div id="page">
