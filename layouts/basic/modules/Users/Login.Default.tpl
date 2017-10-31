@@ -62,7 +62,7 @@
 							</div>
 						</form>
 					</div>
-					{if AppConfig::security('RESET_LOGIN_PASSWORD')}
+					{if AppConfig::security('RESET_LOGIN_PASSWORD') && App\Mail::getDefaultSmtp()}
 						<div class="form-group">
 							<div class="">
 								<a href="#" id="forgotpass" >{\App\Language::translate('ForgotPassword',$MODULE)}?</a>
