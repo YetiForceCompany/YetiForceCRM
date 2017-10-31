@@ -951,35 +951,37 @@ class QueryGenerator
 			}
 			$groupColumnsInfo = $groupConditionInfo = [];
 			foreach ($groupInfo as &$fieldSearchInfo) {
-				list ($fieldName, $operator, $fieldValue, $specialOption) = array_pad($fieldSearchInfo, 4, false);
-				$field = $this->getModuleField($fieldName);
-				if (($field->getFieldDataType() === 'tree' || $field->getFieldDataType() === 'categoryMultipicklist') && $specialOption) {
-					$fieldValue = \Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $this->moduleModel);
-				}
-				//Request will be having in terms of AM and PM but the database will be having in 24 hr format so converting
-				if ($field->getFieldDataType() === 'time') {
-					$fieldValue = \Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
-				}
-				if ($fieldName === 'date_start' || $fieldName === 'due_date' || $field->getFieldDataType() === 'datetime') {
-					$dateValues = explode(',', $fieldValue);
-					//Indicate whether it is fist date in the between condition
-					$isFirstDate = true;
-					foreach ($dateValues as $key => $dateValue) {
-						$dateTimeCompoenents = explode(' ', $dateValue);
-						if (empty($dateTimeCompoenents[1])) {
-							if ($isFirstDate) {
-								$dateTimeCompoenents[1] = '00:00:00';
-							} else {
-								$dateTimeCompoenents[1] = '23:59:59';
-							}
-						}
-						$dateValue = implode(' ', $dateTimeCompoenents);
-						$dateValues[$key] = $dateValue;
-						$isFirstDate = false;
+				if ($fieldSearchInfo) {
+					list ($fieldName, $operator, $fieldValue, $specialOption) = array_pad($fieldSearchInfo, 4, false);
+					$field = $this->getModuleField($fieldName);
+					if (($field->getFieldDataType() === 'tree' || $field->getFieldDataType() === 'categoryMultipicklist') && $specialOption) {
+						$fieldValue = \Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $this->moduleModel);
 					}
-					$fieldValue = implode(',', $dateValues);
+					//Request will be having in terms of AM and PM but the database will be having in 24 hr format so converting
+					if ($field->getFieldDataType() === 'time') {
+						$fieldValue = \Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
+					}
+					if ($fieldName === 'date_start' || $fieldName === 'due_date' || $field->getFieldDataType() === 'datetime') {
+						$dateValues = explode(',', $fieldValue);
+						//Indicate whether it is fist date in the between condition
+						$isFirstDate = true;
+						foreach ($dateValues as $key => $dateValue) {
+							$dateTimeCompoenents = explode(' ', $dateValue);
+							if (empty($dateTimeCompoenents[1])) {
+								if ($isFirstDate) {
+									$dateTimeCompoenents[1] = '00:00:00';
+								} else {
+									$dateTimeCompoenents[1] = '23:59:59';
+								}
+							}
+							$dateValue = implode(' ', $dateTimeCompoenents);
+							$dateValues[$key] = $dateValue;
+							$isFirstDate = false;
+						}
+						$fieldValue = implode(',', $dateValues);
+					}
+					$groupColumnsInfo[] = ['columnname' => $field->getCustomViewColumnName(), 'comparator' => $operator, 'value' => $fieldValue];
 				}
-				$groupColumnsInfo[] = ['columnname' => $field->getCustomViewColumnName(), 'comparator' => $operator, 'value' => $fieldValue];
 			}
 			$advFilterConditionFormat[$glueOrder[$groupIterator]] = $groupColumnsInfo;
 			$groupIterator++;

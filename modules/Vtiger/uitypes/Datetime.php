@@ -16,11 +16,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 {
 
 	/**
-	 * Verification of data
-	 * @param string $value
-	 * @param bool $isUserFormat
-	 * @return null
-	 * @throws \App\Exceptions\Security
+	 * {@inheritDoc}
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
@@ -39,12 +35,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	}
 
 	/**
-	 * Function to get the display value, for the current field type with given DB Insert Value
-	 * @param mixed $value
-	 * @param int $record
-	 * @param type $recordModel
-	 * @param Vtiger_Record_Model $rawText
-	 * @return mixed
+	 * {@inheritDoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
@@ -60,9 +51,22 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	}
 
 	/**
-	 * Function to get Date and Time value for Display
-	 * @param string $date
-	 * @return string
+	 * {@inheritDoc}
+	 */
+	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
+	{
+		if (empty($value)) {
+			return '';
+		}
+		switch ($this->getFieldModel()->getUIType()) {
+			case 80:
+				return $rawText ? Vtiger_Util_Helper::formatDateDiffInStrings($value) : '<span title="' . self::getDisplayDateTimeValue($value) . '">' . Vtiger_Util_Helper::formatDateDiffInStrings($value) . '</span>';
+		}
+		return \vtlib\Functions::textLength($this->getDisplayValue($value, $record, $recordModel, $rawText), $this->get('field')->get('maxlengthtext'));
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public static function getDisplayDateTimeValue($date)
 	{
@@ -95,8 +99,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	}
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * {@inheritDoc}
 	 */
 	public function getTemplateName()
 	{
