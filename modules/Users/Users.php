@@ -71,7 +71,9 @@ class Users extends CRMEntity
 		'Role Name' => ['vtiger_user2role' => 'roleid'],
 		'User Name' => ['vtiger_users' => 'user_name'],
 		'Status' => ['vtiger_users' => 'status'],
-		'Admin' => ['vtiger_users' => 'is_admin']
+		'Admin' => ['vtiger_users' => 'is_admin'],
+		'FL_FORCE_PASSWORD_CHANGE' => ['vtiger_users' => 'force_password_change'],
+		'FL_DATE_PASSWORD_CHANGE' => ['vtiger_users' => 'date_password_change'],
 	];
 	public $list_fields_name = [
 		'First Name' => 'first_name',
@@ -79,7 +81,9 @@ class Users extends CRMEntity
 		'Role Name' => 'roleid',
 		'User Name' => 'user_name',
 		'Status' => 'status',
-		'Admin' => 'is_admin'
+		'Admin' => 'is_admin',
+		'FL_FORCE_PASSWORD_CHANGE' => 'force_password_change',
+		'FL_DATE_PASSWORD_CHANGE' => 'date_password_change',
 	];
 	//Default Fields for Email Templates -- Pavani
 	public $emailTemplate_defaultFields = ['first_name', 'last_name', 'title', 'department', 'phone_home', 'phone_mobile', 'signature', 'email1'];

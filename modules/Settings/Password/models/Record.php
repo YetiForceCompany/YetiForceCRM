@@ -75,4 +75,10 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 		}
 		return false;
 	}
+
+	public static function getPasswordChangeDate()
+	{
+		$passConfig = static::getUserPassConfig();
+		return date('Y-m-d', strtotime("-{$passConfig['change_time']} day"));
+	}
 }

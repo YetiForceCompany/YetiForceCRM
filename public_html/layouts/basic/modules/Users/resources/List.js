@@ -206,12 +206,10 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 		var module = app.getModuleName();
 		var cvId = this.getCurrentCvId();
 		var pageCountParams = {
-			'module': module,
-			'view': "ListAjax",
-			'mode': "getPageCount",
-			'search_key': 'status',
-			'operator': 'e',
-			'search_value': jQuery('#usersFilter').val()
+			module: module,
+			view: "ListAjax",
+			mode: "getPageCount",
+			search_params: jQuery('#usersFilter').val()
 		};
 		return pageCountParams;
 	},
@@ -241,12 +239,10 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 				}
 			});
 			var params = {
-				'module': app.getModuleName(),
-				'view': 'List',
-				'parent': app.getParentModuleName(),
-				'search_key': 'status',
-				'operator': 'e',
-				'search_value': jQuery('#usersFilter').val()
+				module: app.getModuleName(),
+				view: 'List',
+				parent: app.getParentModuleName(),
+				search_params: jQuery('#usersFilter').val()
 			};
 			AppConnector.request(params).then(
 					function (data) {
@@ -272,9 +268,7 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 		params['parent'] = app.getParentModuleName();
 		params['view'] = 'Pagination';
 		params['mode'] = 'getPagination';
-		params['search_key'] = 'status';
-		params['search_value'] = jQuery('#usersFilter').val();
-		params['operator'] = "e";
+		params['search_params'] = jQuery('#usersFilter').val();
 		AppConnector.request(params).then(function (data) {
 			jQuery('.paginationDiv').html(data);
 			thisInstance.registerPageNavigationEvents();
@@ -289,17 +283,9 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 		params['view'] = 'Pagination';
 		params['page'] = pageNumber;
 		params['mode'] = 'getPagination';
-		var searchValue = this.getAlphabetSearchValue();
-		if ('status' == searchValue) {
-			params['search_key'] = 'status';
-			params['search_value'] = jQuery('#usersFilter').val();
-			params['operator'] = "e";
-		} else {
-			params['search_key'] = this.getAlphabetSearchField();
-			params['search_value'] = searchValue;
-			params['operator'] = "s";
-
-		}
+		params['search_key'] = this.getAlphabetSearchField();
+		params['search_value'] = this.getAlphabetSearchValue();
+		params['operator'] = "s";
 		params.search_params = JSON.stringify(this.getListSearchInstance().getListSearchParams());
 		params['noOfEntries'] = jQuery('#noOfEntries').val();
 		AppConnector.request(params).then(function (data) {

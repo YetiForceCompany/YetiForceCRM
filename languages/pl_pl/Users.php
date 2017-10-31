@@ -334,6 +334,7 @@ $languageStrings = [
 	'LBL_CHANGING_PASSWORD_OF_ANOTHER_USER' => 'Zmieniając hasło innego użytkownika wymuszasz na nim zmianę hasła podczas pierwszego zalogowania.',
 	'LBL_FORCE_PASSWORD_CHANGE_ALERT' => 'Użytkowniku twoje hasło musi zostać zmienione. Aby kontynuować pracę w systemie musisz wprowadzić nowe hasło.',
 	'LBL_NEW_PASSWORD_CRITERIA' => 'Nowe hasło musi spełniać następujące kryteria:',
+	'LBL_USERS_NEED_CHANGE_PASSWORD' => 'Użytkownicy którzy muszą zmienić hasło',
 ];
 
 $jsLanguageStrings = [
