@@ -185,6 +185,17 @@ class Api extends \Tests\Base
 	}
 
 	/**
+	 * Testing get modules
+	 */
+	public function testGetModules()
+	{
+		$request = \Requests::get(static::$url . 'Modules', static::$requestHeaders, static::$requestOptions);
+		$response = \App\Json::decode($request->body, 1);
+		$this->assertEquals($response['status'], 1, $response['error']['message']);
+		$this->assertTrue(!empty($response['result']['Accounts']));
+	}
+
+	/**
 	 * Testing get api methods
 	 */
 	public function testGetMethods()
@@ -195,17 +206,6 @@ class Api extends \Tests\Base
 		$this->assertTrue(!empty($response['result']['BaseAction']));
 		$this->assertTrue(!empty($response['result']['BaseModule']));
 		$this->assertTrue(!empty($response['result']['Users']));
-	}
-
-	/**
-	 * Testing get modules
-	 */
-	public function testGetModules()
-	{
-		$request = \Requests::get(static::$url . 'Modules', static::$requestHeaders, static::$requestOptions);
-		$response = \App\Json::decode($request->body, 1);
-		$this->assertEquals($response['status'], 1, $response['error']['message']);
-		$this->assertTrue(!empty($response['result']['Accounts']));
 	}
 
 	/**
