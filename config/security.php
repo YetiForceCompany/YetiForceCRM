@@ -6,7 +6,7 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $SECURITY_CONFIG = [
-	// Passowrd encrypt algorithmic cost. Numeric values, we recommend values greater than 10. The greater the value of the password encryption takes longer.
+	// Password encrypt algorithmic cost. Numeric values - we recommend values greater than 10. The greater the value, the longer it takes to encrypt the password.
 	'USER_ENCRYPT_PASSWORD_COST' => 10,
 	// Possible to reset the password while logging in (true/false)
 	'RESET_LOGIN_PASSWORD' => false,
