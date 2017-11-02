@@ -96,7 +96,9 @@ class Users_Password_Action extends Vtiger_Action_Controller
 		$userRecordModel = Users_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 		$response = new Vtiger_Response();
 		$isOtherUser = App\User::getCurrentUserId() !== $request->getInteger('record');
-		if ($password !== $request->getRaw('confirmPassword')) {
+		if (!$isOtherUser && \App\Session::get('UserAuthMethod') !== 'PASSWORD') {
+			$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_NOT_CHANGE_PASS_AUTH_EXTERNAL_SYSTEM', 'Users'), 'type' => 'error']]);
+		} elseif ($password !== $request->getRaw('confirmPassword')) {
 			$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_PASSWORD_SHOULD_BE_SAME', 'Users'), 'type' => 'error']]);
 		} elseif (!$isOtherUser && !$userRecordModel->verifyPassword($request->getRaw('oldPassword'))) {
 			$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_INCORRECT_OLD_PASSWORD', 'Users'), 'type' => 'error']]);
