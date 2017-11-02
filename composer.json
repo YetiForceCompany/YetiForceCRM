@@ -47,7 +47,7 @@
 		"symfony/console": "v3.3.6",
 		"symfony/debug": "v3.3.6",
 		"giggsey/libphonenumber-for-php": "8.8.2",
-		"fortawesome/font-awesome": "v4.7.0"
+		"fortawesome/font-awesome": "*"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "6.*",
