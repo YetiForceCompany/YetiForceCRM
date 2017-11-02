@@ -31,7 +31,7 @@ class Gui_Groups extends \Tests\GuiBase
 		$this->assertStringEndsWith('&orderby=groupname&sortorder=ASC&parent=Settings' , strstr($this->url(), '&orderby=groupname&sortorder='));
 		$this->url('/index.php?module=Groups&parent=Settings&view=List');
 		$this->byCssSelector('.listViewHeaderValues[data-columnname="description"]')->click();
-		$this->assertStringEndsWith('&orderby=description&sortorder=ASC', strstr($this->url(), '&orderby=description&sortorder='));
+		$this->assertStringEndsWith('&orderby=description&sortorder=ASC&parent=Settings' , strstr($this->url(), '&orderby=description&sortorder='));
 	}
 
 	/**
