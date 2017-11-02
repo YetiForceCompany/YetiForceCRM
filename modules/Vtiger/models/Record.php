@@ -673,12 +673,40 @@ class Vtiger_Record_Model extends \App\Base
 		return $this->privileges['isNoLockByField'];
 	}
 
+	/**
+	 * Checking for permission to delete
+	 * @return bool
+	 */
 	public function isDeletable()
 	{
-		if (!isset($this->privileges['isDeletable'])) {
-			$this->privileges['isDeletable'] = \App\Privilege::isPermitted($this->getModuleName(), 'Delete', $this->getId()) && $this->checkLockFields();
+		if (!isset($this->privileges['Deleted'])) {
+			$this->privileges['Deleted'] = \App\Record::getState($this->getId()) !== 'Deleted' && \App\Privilege::isPermitted($this->getModuleName(), 'Delete', $this->getId()) && $this->checkLockFields();
 		}
-		return $this->privileges['isDeletable'];
+		return $this->privileges['Deleted'];
+	}
+
+	/**
+	 * Checking for permission to archive
+	 * @return bool
+	 */
+	public function privilegeToArchive()
+	{
+		if (!isset($this->privileges['Archive'])) {
+			$this->privileges['Archive'] = \App\Record::getState($this->getId()) !== 'Archived' && \App\Privilege::isPermitted($this->getModuleName(), 'Archived', $this->getId());
+		}
+		return $this->privileges['Archive'];
+	}
+
+	/**
+	 * Checking for permission to activate
+	 * @return bool
+	 */
+	public function privilegeToActivate()
+	{
+		if (!isset($this->privileges['Activate'])) {
+			$this->privileges['Activate'] = \App\Record::getState($this->getId()) !== 'Active' && \App\Privilege::isPermitted($this->getModuleName(), 'Active', $this->getId());
+		}
+		return $this->privileges['Activate'];
 	}
 
 	/**

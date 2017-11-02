@@ -67,7 +67,7 @@ class Privilege
 						static::$isPermittedLevel = 'SEC_RECORD_DOES_NOT_EXIST';
 						\App\Log::trace('Exiting isPermitted method ... - SEC_RECORD_DOES_NOT_EXIST');
 						return false;
-					} elseif ($recordMetaData['deleted'] !== 0 && $actionId !== 4) {
+					} elseif ($recordMetaData['deleted'] !== 0 && ($actionId === 1 || $actionId === 0 || $actionId === 17)) {
 						switch ($recordMetaData['deleted']) {
 							case 1:
 								static::$isPermittedLevel = 'SEC_RECORD_DELETED';
@@ -159,8 +159,7 @@ class Privilege
 				static::$isPermittedLevel = 'SEC_RECORD_DOES_NOT_EXIST';
 				\App\Log::trace('Exiting isPermitted method ... - SEC_RECORD_DOES_NOT_EXIST');
 				return false;
-			}
-			if ($recordMetaData['deleted'] !== 0 && $actionId !== 4) {
+			} elseif ($recordMetaData['deleted'] !== 0 && ($actionId === 1 || $actionId === 0 || $actionId === 17)) {
 				switch ($recordMetaData['deleted']) {
 					case 1:
 						static::$isPermittedLevel = 'SEC_RECORD_DELETED';

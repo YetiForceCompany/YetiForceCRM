@@ -200,6 +200,9 @@ class Module
 		if (empty($actionId)) {
 			$actionId = (new Db\Query())->select(['actionid'])->from('vtiger_actionmapping')->where(['actionname' => $action])->scalar();
 		}
+		if (is_numeric($actionId)) {
+			$actionId = (int) $actionId;
+		}
 		Cache::save('getActionId', $action, $actionId, Cache::LONG);
 		return $actionId;
 	}

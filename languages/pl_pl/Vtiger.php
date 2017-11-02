@@ -1320,6 +1320,8 @@ $languageStrings = [
 	'LBL_INVALID_PHONE_NUMBER' => 'Wprowadzono błędny numer telefonu',
 	'LBL_VALUE_NOT_FOUND' => 'Nie znaleziono wartości',
 	'FL_PHONE_CUSTOM_INFORMATION' => 'Informacje dodatkowe',
+	'LBL_ARCHIVE_RECORD' => 'Archiwizuj rekord',
+	'LBL_ACTIVATE_RECORD' => 'Aktywuj rekord',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
