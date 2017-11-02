@@ -705,20 +705,17 @@ jQuery.Class("Vtiger_List_Js", {
 		return this.filterSelectElement;
 	},
 	getDefaultParams: function () {
-		var pageNumber = jQuery('#pageNumber').val();
-		var module = app.getModuleName();
-		var parent = app.getParentModuleName();
-		var cvId = this.getCurrentCvId();
-		var orderBy = jQuery('#orderBy').val();
-		var sortOrder = jQuery("#sortOrder").val();
 		var params = {
-			module: module,
-			parent: parent,
-			page: pageNumber,
+			module: app.getModuleName(),
+			page: jQuery('#pageNumber').val(),
 			view: "List",
-			viewname: cvId,
-			orderby: orderBy,
-			sortorder: sortOrder
+			viewname: this.getCurrentCvId(),
+			orderby: jQuery('#orderBy').val(),
+			sortorder: jQuery("#sortOrder").val(),
+			entityState: jQuery("#entityState").val(),
+		}
+		if (app.getParentModuleName()) {
+			params.parent = app.getParentModuleName();
 		}
 		var listSearchInstance = this.getListSearchInstance();
 		if (listSearchInstance !== false) {
@@ -747,7 +744,6 @@ jQuery.Class("Vtiger_List_Js", {
 		if (typeof urlParams == 'undefined') {
 			urlParams = {};
 		}
-
 		var thisInstance = this;
 		var loadingMessage = jQuery('.listViewLoadingMsg').text();
 		var progressIndicatorElement = jQuery.progressIndicator({
@@ -757,7 +753,6 @@ jQuery.Class("Vtiger_List_Js", {
 				'enabled': true
 			}
 		});
-
 		var defaultParams = this.getDefaultParams();
 		var urlParams = jQuery.extend(defaultParams, urlParams);
 		AppConnector.requestPjax(urlParams).then(
@@ -2016,6 +2011,12 @@ jQuery.Class("Vtiger_List_Js", {
 			Vtiger_Helper_Js.showHorizontalTopScrollBar();
 		});
 	},
+	registerChangeEntityStateEvent: function () {
+		var thisInstance = this;
+		$('#entityState').on('change', function () {
+			thisInstance.getListViewRecords();
+		});
+	},
 	registerEvents: function () {
 		this.breadCrumbsFilter();
 		this.registerRowClickEvent();
@@ -2029,6 +2030,7 @@ jQuery.Class("Vtiger_List_Js", {
 		this.registerMassActionSubmitEvent();
 		this.changeCustomFilterElementView();
 		this.registerChangeCustomFilterEvent();
+		this.registerChangeEntityStateEvent();
 		this.registerDuplicateFilterClickEvent();
 		this.registerEditFilterClickEvent();
 		this.registerDeleteFilterClickEvent();

@@ -933,6 +933,9 @@ $languageStrings = [
 	'LBL_COMMON' => 'Wspólne',
 	'LBL_OPEN' => 'Otwate',
 	'LBL_ARCHIVE' => 'Archiwum',
+	'LBL_ARCHIVED' => 'Zarchiwizowane',
+	'LBL_DELETED' => 'Usunięte',
+	'LBL_ACTIVEPLU' => 'Aktywne',
 	'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES' => 'Terminy/Zadania przekazane innym',
 	//Gantt
 	'LBL_FILTERING' => 'Filtr',

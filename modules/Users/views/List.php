@@ -71,23 +71,14 @@ class Users_List_View extends Settings_Vtiger_List_View
 			$nextSortOrder = "ASC";
 			$sortImage = "glyphicon glyphicon-chevron-up";
 		}
-
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
-		}
-
-		$status = $request->getByType('status');
-		if (empty($status)) {
-			$status = 'Active';
 		}
 		if (!$this->listViewModel) {
 			$this->listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
 		}
-
 		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1), 'CVID' => $cvId];
 		$linkModels = $this->listViewModel->getListViewMassActions($linkParams);
-		$this->listViewModel->set('status', $status);
-
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('viewid', $cvId);
@@ -110,7 +101,6 @@ class Users_List_View extends Settings_Vtiger_List_View
 			$this->listViewModel->set('search_key', $searchKey);
 			$this->listViewModel->set('search_value', $searchValue);
 		}
-
 		$searchParmams = $request->get('search_params');
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
@@ -170,6 +160,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 		$viewer->assign('PAGE_COUNT', $pageCount);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('MODULE_MODEL', $this->listViewModel->getModule());
+		$viewer->assign('LIST_VIEW_MODEL', $this->listViewModel);
 		$viewer->assign('IS_MODULE_EDITABLE', $this->listViewModel->getModule()->isPermitted('EditView'));
 		$viewer->assign('IS_MODULE_DELETABLE', $this->listViewModel->getModule()->isPermitted('Delete'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());

@@ -73,8 +73,7 @@ class Vtiger_DetailView_Model extends \App\Base
 		$moduleName = $moduleModel->getName();
 		$recordId = $recordModel->getId();
 		$linkModelList = $detailViewLinks = [];
-
-		if ($moduleModel->isPermitted('WorkflowTrigger')) {
+		if ($moduleModel->isPermitted('WorkflowTrigger') && $recordModel->isEditable()) {
 			Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
 			Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
 			$wfs = new VTWorkflowManager();
@@ -188,7 +187,7 @@ class Vtiger_DetailView_Model extends \App\Base
 		$allLinks = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['DETAILVIEWBASIC', 'DETAILVIEW', 'DETAIL_VIEW_HEADER_WIDGET', 'DETAILVIEWTAB'], $linkParams);
 		if (!empty($allLinks)) {
 			foreach ($allLinks as $type => &$allLinksByType) {
-				foreach ($allLinksByType as &$linkModel) {
+				foreach ($allLinksByType as $linkModel) {
 					$linkModelList[$type][] = $linkModel;
 				}
 			}

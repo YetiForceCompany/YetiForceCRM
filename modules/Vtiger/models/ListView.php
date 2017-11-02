@@ -372,18 +372,19 @@ class Vtiger_ListView_Model extends \App\Base
 	public function loadListViewCondition()
 	{
 		$queryGenerator = $this->getQueryGenerator();
+		if ($entityState = $this->get('entityState')) {
+			$queryGenerator->setStateCondition($entityState);
+		}
 		$srcRecord = $this->get('src_record');
 		if ($this->getModule()->get('name') === $this->get('src_module') && !empty($srcRecord)) {
 			$queryGenerator->addCondition('id', $srcRecord, 'n');
 		}
-		$searchParams = $this->get('search_params');
-		if ($searchParams) {
+		if ($searchParams = $this->get('search_params')) {
 			$queryGenerator->parseAdvFilter($searchParams);
 		}
-		$searchKey = $this->get('search_key');
-		$searchValue = $this->get('search_value');
-		$operator = $this->get('operator');
-		if ($searchKey) {
+		if ($operator = $this->get('operator')) {
+			$searchKey = $this->get('search_key');
+			$searchValue = $this->get('search_value');
 			if ($operator === 's' && strlen($searchValue) === 1) {
 				$searchValue = [$searchValue, strtolower($searchValue)];
 			}
