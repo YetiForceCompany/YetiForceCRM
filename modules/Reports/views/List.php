@@ -65,7 +65,7 @@ class Reports_List_View extends Vtiger_Index_View
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('LISTVIEW_MASSACTIONS', $listViewMassActionModels);
 		$viewer->assign('LISTVIEW_ENTRIES_COUNT', $noOfEntries);
-
+		$viewer->assign('LIST_VIEW_MODEL', $listViewModel);
 
 		if (!$this->listViewCount) {
 			$this->listViewCount = $listViewModel->getListViewCount();
