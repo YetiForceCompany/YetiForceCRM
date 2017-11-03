@@ -340,6 +340,7 @@ $languageStrings = [
 	'LBL_FORCE_PASSWORD_CHANGE_ALERT' => 'Your password must be changed. To continue using the system please enter a new password.',
 	'LBL_NEW_PASSWORD_CRITERIA' => 'The new password must meet the following criteria:',
 	'LBL_USERS_NEED_CHANGE_PASSWORD' => 'Users who must change their passwords',
+	'LBL_NOT_CHANGE_PASS_AUTH_EXTERNAL_SYSTEM' => 'You cannot change the password, the user uses authorization on an external system',
 ];
 
 $jsLanguageStrings = [
