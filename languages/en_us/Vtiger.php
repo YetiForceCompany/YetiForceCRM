@@ -936,6 +936,9 @@ $languageStrings = [
 	'LBL_COMMON' => 'Shared',
 	'LBL_OPEN' => 'Open',
 	'LBL_ARCHIVE' => 'Archive',
+	'LBL_ARCHIVED' => 'Archived',
+	'LBL_DELETED' => 'Deleted',
+	'LBL_ACTIVEPLU' => 'Active',
 	'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES' => "To Do's/Events forwarded to somoene else",
 	//Gantt
 	'LBL_FILTERING' => 'Filtering',
