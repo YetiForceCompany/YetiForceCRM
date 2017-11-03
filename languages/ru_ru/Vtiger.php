@@ -956,6 +956,9 @@ $languageStrings = [
 	'LBL_COMMON' => 'Общий',
 	'LBL_OPEN' => 'Открыто',
 	'LBL_ARCHIVE' => 'Архив',
+	'LBL_ARCHIVED' => 'Archived',
+	'LBL_DELETED' => 'Deleted',
+	'LBL_ACTIVEPLU' => 'Active',
 	'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES' => 'Переадресованные события',
 	//Gantt
 	'LBL_FILTERING' => 'Фильтр',
