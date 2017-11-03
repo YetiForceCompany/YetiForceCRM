@@ -957,6 +957,9 @@ $languageStrings = [
 	'LBL_COMMON' => 'Compartido',
 	'LBL_OPEN' => 'Abierto',
 	'LBL_ARCHIVE' => 'Archivar',
+	'LBL_ARCHIVED' => 'Archived',
+	'LBL_DELETED' => 'Deleted',
+	'LBL_ACTIVEPLU' => 'Active',
 	'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES' => 'Tareas/Eventos reenviados a otra persona',
 	//Gantt
 	'LBL_FILTERING' => 'Filtrar',
