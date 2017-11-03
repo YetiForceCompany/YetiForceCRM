@@ -932,6 +932,9 @@ $languageStrings = [
 	'LBL_COMMON' => 'Compartilhado',
 	'LBL_OPEN' => 'Aberto',
 	'LBL_ARCHIVE' => 'Arquivo',
+	'LBL_ARCHIVED' => 'Archived',
+	'LBL_DELETED' => 'Deleted',
+	'LBL_ACTIVEPLU' => 'Active',
 	'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES' => 'Tarefas redirecionadas a outra pessoa',
 	//Gantt
 	'LBL_FILTERING' => 'Filtrando',
