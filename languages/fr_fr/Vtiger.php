@@ -1028,6 +1028,9 @@ $languageStrings = [
 	'LBL_COMMON' => 'Partagé',
 	'LBL_OPEN' => 'Ouvert',
 	'LBL_ARCHIVE' => 'Archive',
+	'LBL_ARCHIVED' => 'Archived',
+	'LBL_DELETED' => 'Deleted',
+	'LBL_ACTIVEPLU' => 'Active',
 	'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES' => 'Tâches/Evenements transférés à une autre personne',
 	//Gantt
 	'LBL_FILTERING' => 'Filtre',
