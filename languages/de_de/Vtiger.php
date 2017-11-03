@@ -951,6 +951,9 @@ $languageStrings = [
 	'LBL_COMMON' => 'Geteilte',
 	'LBL_OPEN' => 'Offen',
 	'LBL_ARCHIVE' => 'Archiv',
+	'LBL_ARCHIVED' => 'Archived',
+	'LBL_DELETED' => 'Deleted',
+	'LBL_ACTIVEPLU' => 'Active',
 	'LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES' => 'Aufgaben/Ereignisse wurden an Andere weitergeleitet',
 	//Gantt
 	'LBL_FILTERING' => 'Filtern',
