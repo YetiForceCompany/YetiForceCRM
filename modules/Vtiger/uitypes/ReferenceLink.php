@@ -10,9 +10,18 @@
 class Vtiger_ReferenceLink_UIType extends Vtiger_Reference_UIType
 {
 
-	public function isAjaxEditable()
+	/**
+	 * {@inheritDoc}
+	 */
+	public function validate($value, $isUserFormat = false)
 	{
-		return false;
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		if (!is_numeric($value)) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+		}
+		$this->validate = true;
 	}
 
 	public function getReferenceList()
@@ -27,5 +36,10 @@ class Vtiger_ReferenceLink_UIType extends Vtiger_Reference_UIType
 			return 'uitypes/ReferenceSearchView.tpl';
 		}
 		return Vtiger_Base_UIType::getListSearchTemplateName();
+	}
+
+	public function isAjaxEditable()
+	{
+		return false;
 	}
 }

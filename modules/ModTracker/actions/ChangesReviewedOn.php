@@ -17,20 +17,19 @@ class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$record = $request->getInteger('record');
 		$sourceModule = $request->getByType('sourceModule', 1);
-		if ($record) {
-			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record);
+		if ($request->has('record')) {
+			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
 			if (!$recordModel->isViewable() || !$recordModel->getModule()->isTrackingEnabled()) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		} elseif ($sourceModule) {
 			$moduleModel = Vtiger_Module_Model::getInstance($sourceModule);
-			if (!$moduleModel || $moduleModel->isTrackingEnabled()) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+			if (!$moduleModel || !$moduleModel->isTrackingEnabled()) {
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		} else {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 

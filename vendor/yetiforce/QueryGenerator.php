@@ -18,8 +18,14 @@ class QueryGenerator
 	const EQUALITY_TYPES = ['currency', 'percentage', 'double', 'integer', 'number'];
 	const COMMA_TYPES = ['picklist', 'multipicklist', 'owner', 'date', 'datetime', 'time', 'tree', 'sharedOwner', 'sharedOwner'];
 
-	/** @var bool Not deleted records */
-	public $deletedCondition = true;
+	/**
+	 * State records to display
+	 * 0 - Active
+	 * 1 - Deleted
+	 * 2 - Archived
+	 * @var int
+	 */
+	private $stateCondition = 0;
 
 	/** @var bool Permissions conditions */
 	public $permissions = true;
@@ -54,7 +60,7 @@ class QueryGenerator
 	private $relatedQueryFields = [];
 
 	/**
-	 * @var boolean 
+	 * @var boolean
 	 */
 	private $ignoreComma = false;
 
@@ -69,17 +75,17 @@ class QueryGenerator
 	private $conditionsOr = [];
 
 	/**
-	 * @var \Vtiger_Module_Model 
+	 * @var \Vtiger_Module_Model
 	 */
 	private $moduleModel;
 
 	/**
-	 * @var array \Vtiger_Field_Model 
+	 * @var array \Vtiger_Field_Model
 	 */
 	private $fieldsModel;
 
 	/**
-	 * @var \CRMEntity 
+	 * @var \CRMEntity
 	 */
 	private $entityModel;
 
@@ -710,8 +716,8 @@ class QueryGenerator
 	 */
 	public function loadWhere()
 	{
-		if ($this->deletedCondition) {
-			$this->query->andWhere($this->getDeletedCondition());
+		if ($this->stateCondition !== false) {
+			$this->query->andWhere($this->getStateCondition());
 		}
 		$this->query->andWhere(['and', array_merge(['and'], $this->conditionsAnd), array_merge(['or'], $this->conditionsOr)]);
 		if ($this->permissions) {
@@ -725,23 +731,45 @@ class QueryGenerator
 	}
 
 	/**
-	 * Get conditions for non-deleted records
+	 * Get conditions for records state
 	 * @return string|array
 	 */
-	public function getDeletedCondition()
+	private function getStateCondition()
 	{
+		$condition = ['vtiger_crmentity.deleted' => $this->stateCondition];
 		switch ($this->moduleName) {
 			case 'Leads':
-				$condition = ['vtiger_crmentity.deleted' => 0, 'vtiger_leaddetails.converted' => 0];
+				$condition += ['vtiger_leaddetails.converted' => 0];
 				break;
 			case 'Users':
 				$condition = ['vtiger_users.status' => 'Active'];
 				break;
+		}
+		//var_dump($condition);
+		return $condition;
+	}
+
+	/**
+	 * Set state condition
+	 * @param string $state
+	 */
+	public function setStateCondition($state)
+	{
+		switch ($state) {
 			default:
-				$condition = 'vtiger_crmentity.deleted=0';
+			case 'Active':
+				$this->stateCondition = 0;
+				break;
+			case 'Deleted':
+				$this->stateCondition = 1;
+				break;
+			case 'Archived':
+				$this->stateCondition = 2;
+				break;
+			case 'All':
+				$this->stateCondition = false;
 				break;
 		}
-		return $condition;
 	}
 
 	/**
@@ -933,7 +961,7 @@ class QueryGenerator
 	}
 
 	/**
-	 * Parse base search condition to db condition 
+	 * Parse base search condition to db condition
 	 * @param array $searchParams Example: [[["firstname","a","Tom"]]]
 	 * @return array
 	 */
@@ -951,35 +979,37 @@ class QueryGenerator
 			}
 			$groupColumnsInfo = $groupConditionInfo = [];
 			foreach ($groupInfo as &$fieldSearchInfo) {
-				list ($fieldName, $operator, $fieldValue, $specialOption) = array_pad($fieldSearchInfo, 4, false);
-				$field = $this->getModuleField($fieldName);
-				if (($field->getFieldDataType() === 'tree' || $field->getFieldDataType() === 'categoryMultipicklist') && $specialOption) {
-					$fieldValue = \Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $this->moduleModel);
-				}
-				//Request will be having in terms of AM and PM but the database will be having in 24 hr format so converting
-				if ($field->getFieldDataType() === 'time') {
-					$fieldValue = \Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
-				}
-				if ($fieldName === 'date_start' || $fieldName === 'due_date' || $field->getFieldDataType() === 'datetime') {
-					$dateValues = explode(',', $fieldValue);
-					//Indicate whether it is fist date in the between condition
-					$isFirstDate = true;
-					foreach ($dateValues as $key => $dateValue) {
-						$dateTimeCompoenents = explode(' ', $dateValue);
-						if (empty($dateTimeCompoenents[1])) {
-							if ($isFirstDate) {
-								$dateTimeCompoenents[1] = '00:00:00';
-							} else {
-								$dateTimeCompoenents[1] = '23:59:59';
-							}
-						}
-						$dateValue = implode(' ', $dateTimeCompoenents);
-						$dateValues[$key] = $dateValue;
-						$isFirstDate = false;
+				if ($fieldSearchInfo) {
+					list ($fieldName, $operator, $fieldValue, $specialOption) = array_pad($fieldSearchInfo, 4, false);
+					$field = $this->getModuleField($fieldName);
+					if (($field->getFieldDataType() === 'tree' || $field->getFieldDataType() === 'categoryMultipicklist') && $specialOption) {
+						$fieldValue = \Settings_TreesManager_Record_Model::getChildren($fieldValue, $fieldName, $this->moduleModel);
 					}
-					$fieldValue = implode(',', $dateValues);
+					//Request will be having in terms of AM and PM but the database will be having in 24 hr format so converting
+					if ($field->getFieldDataType() === 'time') {
+						$fieldValue = \Vtiger_Time_UIType::getTimeValueWithSeconds($fieldValue);
+					}
+					if ($fieldName === 'date_start' || $fieldName === 'due_date' || $field->getFieldDataType() === 'datetime') {
+						$dateValues = explode(',', $fieldValue);
+						//Indicate whether it is fist date in the between condition
+						$isFirstDate = true;
+						foreach ($dateValues as $key => $dateValue) {
+							$dateTimeCompoenents = explode(' ', $dateValue);
+							if (empty($dateTimeCompoenents[1])) {
+								if ($isFirstDate) {
+									$dateTimeCompoenents[1] = '00:00:00';
+								} else {
+									$dateTimeCompoenents[1] = '23:59:59';
+								}
+							}
+							$dateValue = implode(' ', $dateTimeCompoenents);
+							$dateValues[$key] = $dateValue;
+							$isFirstDate = false;
+						}
+						$fieldValue = implode(',', $dateValues);
+					}
+					$groupColumnsInfo[] = ['columnname' => $field->getCustomViewColumnName(), 'comparator' => $operator, 'value' => $fieldValue];
 				}
-				$groupColumnsInfo[] = ['columnname' => $field->getCustomViewColumnName(), 'comparator' => $operator, 'value' => $fieldValue];
 			}
 			$advFilterConditionFormat[$glueOrder[$groupIterator]] = $groupColumnsInfo;
 			$groupIterator++;

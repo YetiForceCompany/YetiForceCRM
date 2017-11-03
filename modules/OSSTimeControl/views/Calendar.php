@@ -9,6 +9,9 @@
 class OSSTimeControl_Calendar_View extends Vtiger_Index_View
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -20,6 +23,9 @@ class OSSTimeControl_Calendar_View extends Vtiger_Index_View
 		$viewer->view('CalendarView.tpl', $request->getModule());
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function postProcess(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -28,6 +34,9 @@ class OSSTimeControl_Calendar_View extends Vtiger_Index_View
 		parent::postProcess($request);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
@@ -42,6 +51,9 @@ class OSSTimeControl_Calendar_View extends Vtiger_Index_View
 		return $headerScriptInstances;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);

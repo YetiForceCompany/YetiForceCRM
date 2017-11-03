@@ -215,6 +215,7 @@ class ModuleBasic
 		$this->deleteModuleTables();
 		$this->deleteCRMEntityRel();
 		Profile::deleteForModule($this);
+		\App\Fields\Tree::deleteForModule($this->id);
 		Link::deleteAll($this->id);
 		\Settings_Vtiger_Module_Model::deleteSettingsFieldBymodule($this->name);
 		$this->deleteDir($moduleInstance);

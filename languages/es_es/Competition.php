@@ -16,5 +16,5 @@ $languageStrings = [
 	'LBL_SUBJECT' => 'Nombre',
 	'LBL_NUMBER' => 'ID',
 	'LBL_CLOSED_TIME' => 'Fecha de cierre',
-	'LBL_VAT_ID' => 'ID Impuesto',
+	'LBL_VAT_ID' => 'NIF',
 ];

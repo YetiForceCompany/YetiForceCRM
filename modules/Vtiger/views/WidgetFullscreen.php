@@ -20,12 +20,11 @@ class Vtiger_WidgetFullscreen_View extends Vtiger_BasicModal_View
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$recordId = $request->getInteger('record');
-		if (!$recordId) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		if ($request->isEmpty('record')) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -38,7 +37,7 @@ class Vtiger_WidgetFullscreen_View extends Vtiger_BasicModal_View
 	{
 		$this->preProcess($request);
 		$moduleName = $request->getModule();
-		$detailModel = Vtiger_DetailView_Model::getInstance($moduleName, $request->get('record'));
+		$detailModel = Vtiger_DetailView_Model::getInstance($moduleName, $request->getInteger('record'));
 		$recordModel = $detailModel->getRecord();
 		$detailModel->getWidgets();
 		$handlerClass = Vtiger_Loader::getComponentClassName('View', 'Detail', $moduleName);
@@ -49,7 +48,7 @@ class Vtiger_WidgetFullscreen_View extends Vtiger_BasicModal_View
 		if ($detailView->isMethodExposed($mode)) {
 			$content = $detailView->$mode($request);
 		}
-		$title = 'xx';
+		$title = '';
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('MODULE_NAME', $moduleName);

@@ -19,26 +19,22 @@ class Import_Lock_Action extends Vtiger_Action_Controller
 	 */
 	public function __construct()
 	{
-
+		
 	}
 
 	/**
-	 * Check permission
-	 * @param \App\Request $request
-	 * @throws \Exception\NoPermitted
+	 * {@inheritDoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
 	/**
-	 * Process
-	 * @param \App\Request $request
-	 * @return boolean
+	 * {@inheritDoc}
 	 */
 	public function process(\App\Request $request)
 	{

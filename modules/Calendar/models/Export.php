@@ -21,7 +21,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 	public function getExportQuery(\App\Request $request)
 	{
 		$moduleName = $request->getByType('source_module', 1);
-		$cvId = $request->get('viewname');
+		$cvId = $request->getByType('viewname', 2);
 		$listInstance = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');

@@ -226,6 +226,12 @@ class FieldBasic
 		\App\Db::getInstance()->createCommand()->delete('vtiger_field', ['fieldid' => $this->id])->execute();
 		if ($this->uitype === 10) {
 			\App\Db::getInstance()->createCommand()->delete('vtiger_fieldmodulerel', ['fieldid' => $this->id])->execute();
+		} elseif ($this->uitype === 11) {
+			$rowExtra = (new \App\Db\Query())->from('vtiger_field')->where(['fieldname' => $this->name . '_extra'])->one();
+			if ($rowExtra === false) {
+				throw new Exception('Extra field does not exist');
+			}
+			\App\Db::getInstance()->createCommand()->delete('vtiger_field', ['fieldid' => $rowExtra['fieldid']])->execute();
 		}
 		self::log("Deleteing Field $this->name ... DONE");
 	}
@@ -318,8 +324,8 @@ class FieldBasic
 	}
 
 	/**
-	 * Set Summaryfield information for this instance. 
-	 * @param Integer Summaryfield value 
+	 * Set Summaryfield information for this instance.
+	 * @param Integer Summaryfield value
 	 */
 	public function setSummaryField($value)
 	{

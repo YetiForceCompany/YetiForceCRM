@@ -22,7 +22,7 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 		$sourceModule = $request->getByType('source_module', 1);
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'CreateView') || !$currentUserPriviligesModel->hasModuleActionPermission($sourceModule, 'MassSendSMS') || !SMSNotifier_Module_Model::checkServer()) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -34,7 +34,7 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 	{
 		$sourceModule = $request->getByType('source_module', 1);
 		$queryGenerator = $this->getRecordsListQueryFromRequest($request);
-		$phoneFieldList = $fields = $request->get('fields');
+		$phoneFieldList = $fields = $request->getArray('fields');
 		$fields[] = 'id';
 
 		$queryGenerator->setFields($fields);
@@ -73,7 +73,7 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 	 */
 	public function getRecordsListQueryFromRequest(\App\Request $request)
 	{
-		$cvId = $request->get('viewname');
+		$cvId = $request->getByType('viewname', 2);
 		$module = $request->getModule();
 		$sourceModule = $request->getByType('source_module', 1);
 		$selectedIds = $request->get('selected_ids');
@@ -89,7 +89,7 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 
 		$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
 		if ($customViewModel) {
-			$searchKey = $request->get('search_key');
+			$searchKey = $request->getByType('search_key', 2);
 			$searchValue = $request->get('search_value');
 			$operator = $request->getByType('operator', 1);
 			if (!empty($operator)) {

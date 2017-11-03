@@ -1882,64 +1882,9 @@ class Base4 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_ws_entity_fieldtype' => [
-				'columns' => [
-					'fieldtypeid' => $this->primaryKey(10),
-					'table_name' => $this->stringType(50)->notNull(),
-					'field_name' => $this->stringType(50)->notNull(),
-					'fieldtype' => $this->stringType(200)->notNull(),
-				],
-				'index' => [
-					['vtiger_idx_1_tablename_fieldname', ['table_name', 'field_name'], true],
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_ws_entity_fieldtype_seq' => [
-				'columns' => [
-					'id' => $this->integer(10)->notNull(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_ws_entity_name' => [
-				'columns' => [
-					'entity_id' => $this->integer(10)->notNull(),
-					'name_fields' => $this->stringType(50)->notNull(),
-					'index_field' => $this->stringType(50)->notNull(),
-					'table_name' => $this->stringType(50)->notNull(),
-				],
-				'primaryKeys' => [
-					['ws_entity_name_pk', 'entity_id']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_ws_entity_referencetype' => [
-				'columns' => [
-					'fieldtypeid' => $this->integer(10)->notNull(),
-					'type' => $this->stringType(25)->notNull(),
-				],
-				'primaryKeys' => [
-					['ws_entity_referencetype_pk', ['fieldtypeid', 'type']]
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_ws_entity_seq' => [
 				'columns' => [
 					'id' => $this->integer(10)->notNull(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_ws_entity_tables' => [
-				'columns' => [
-					'webservice_entity_id' => $this->integer(10)->notNull(),
-					'table_name' => $this->stringType(50)->notNull(),
-				],
-				'primaryKeys' => [
-					['ws_entity_tables_pk', ['webservice_entity_id', 'table_name']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2228,8 +2173,6 @@ class Base4 extends \App\Db\Importers\Base
 			['fk_1_vtiger_vendorcf', 'vtiger_vendorcf', 'vendorid', 'vtiger_vendor', 'vendorid', 'CASCADE', 'RESTRICT'],
 			['fk_2_vtiger_vendorcontactrel', 'vtiger_vendorcontactrel', 'vendorid', 'vtiger_vendor', 'vendorid', 'CASCADE', 'RESTRICT'],
 			['vtiger_widgets_ibfk_1', 'vtiger_widgets', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
-			['vtiger_fk_1_actors_referencetype', 'vtiger_ws_entity_referencetype', 'fieldtypeid', 'vtiger_ws_entity_fieldtype', 'fieldtypeid', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_ws_actor_tables', 'vtiger_ws_entity_tables', 'webservice_entity_id', 'vtiger_ws_entity', 'id', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_referencetype', 'vtiger_ws_referencetype', 'fieldtypeid', 'vtiger_ws_fieldtype', 'fieldtypeid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_osscurrencies', 'yetiforce_currencyupdate', 'currency_id', 'vtiger_currency_info', 'id', 'CASCADE', 'RESTRICT'],
 			['yetiforce_mail_quantities_ibfk_1', 'yetiforce_mail_quantities', 'userid', 'roundcube_users', 'user_id', 'CASCADE', 'RESTRICT'],
@@ -8519,7 +8462,6 @@ class Base4 extends \App\Db\Importers\Base
 					[46, 8, 'Mail View', 'adminIcon-oss_mailview', 'LBL_MAIL_VIEW_DESCRIPTION', 'index.php?module=OSSMailView&parent=Settings&view=index', 21, 0, 0, NULL],
 					[49, 9, 'License', 'adminIcon-license', 'LBL_LICENSE_DESCRIPTION', 'index.php?module=Vtiger&parent=Settings&view=License', 4, 0, 0, NULL],
 					[51, 7, 'OSSPassword Configuration', 'adminIcon-passwords-encryption', 'LBL_OSSPASSWORD_CONFIGURATION_DESCRIPTION', 'index.php?module=OSSPasswords&view=ConfigurePass&parent=Settings', 3, 0, 0, NULL],
-					[52, 15, 'LBL_DATAACCESS', 'adminIcon-recording-control', 'LBL_DATAACCESS_DESCRIPTION', 'index.php?module=DataAccess&parent=Settings&view=Index', 2, 0, 0, NULL],
 					[53, 4, 'LangManagement', 'adminIcon-languages-and-translations', 'LBL_LANGMANAGEMENT_DESCRIPTION', 'index.php?module=LangManagement&parent=Settings&view=Index', 1, 0, 0, NULL],
 					[54, 1, 'GlobalPermission', 'adminIcon-special-access', 'LBL_GLOBALPERMISSION_DESCRIPTION', 'index.php?module=GlobalPermission&parent=Settings&view=Index', 7, 0, 0, NULL],
 					[56, 13, 'Search Setup', 'adminIcon-search-configuration', 'LBL_SEARCH_SETUP_DESCRIPTION', 'index.php?module=Search&parent=Settings&view=Index', 1, 0, 0, NULL],
@@ -9636,38 +9578,10 @@ class Base4 extends \App\Db\Importers\Base
 					[98, 'SVendorEnquiries', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
 				]
 			],
-			'vtiger_ws_entity_fieldtype' => [
-				'columns' => ['fieldtypeid', 'table_name', 'field_name', 'fieldtype'],
-				'values' => [
-					[1, 'vtiger_attachmentsfolder', 'createdby', 'reference'],
-				]
-			],
-			'vtiger_ws_entity_fieldtype_seq' => [
-				'columns' => ['id'],
-				'values' => [
-					[8],
-				]
-			],
-			'vtiger_ws_entity_name' => [
-				'columns' => ['entity_id', 'name_fields', 'index_field', 'table_name'],
-				'values' => [
-					[20, 'groupname', 'groupid', 'vtiger_groups'],
-					[21, 'currency_name', 'id', 'vtiger_currency_info'],
-					[22, 'foldername', 'folderid', 'vtiger_attachmentsfolder'],
-				]
-			],
 			'vtiger_ws_entity_seq' => [
 				'columns' => ['id'],
 				'values' => [
 					[92],
-				]
-			],
-			'vtiger_ws_entity_tables' => [
-				'columns' => ['webservice_entity_id', 'table_name'],
-				'values' => [
-					[20, 'vtiger_groups'],
-					[21, 'vtiger_currency_info'],
-					[22, 'vtiger_attachmentsfolder'],
 				]
 			],
 			'vtiger_ws_fieldtype' => [
@@ -9736,7 +9650,6 @@ class Base4 extends \App\Db\Importers\Base
 					[11, 'describe', 'include/Webservices/DescribeObject.php', 'vtws_describe', 'GET', 0],
 					[13, 'convertlead', 'include/Webservices/ConvertLead.php', 'vtws_convertlead', 'POST', 0],
 					[14, 'revise', 'include/Webservices/Revise.php', 'vtws_revise', 'POST', 0],
-					[15, 'changePassword', 'include/Webservices/ChangePassword.php', 'vtws_changePassword', 'POST', 0],
 					[16, 'deleteUser', 'include/Webservices/DeleteUser.php', 'vtws_deleteUser', 'POST', 0],
 				]
 			],

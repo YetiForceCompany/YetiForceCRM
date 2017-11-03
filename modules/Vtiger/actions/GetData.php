@@ -19,12 +19,11 @@ class Vtiger_GetData_Action extends Vtiger_IndexAjax_View
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$recordId = $request->getInteger('record');
-		if (!$recordId) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		if ($request->isEmpty('record', true)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -35,8 +34,11 @@ class Vtiger_GetData_Action extends Vtiger_IndexAjax_View
 	public function process(\App\Request $request)
 	{
 		$record = $request->getInteger('record');
-		$sourceModule = $request->getByType('source_module', 1);
+		$sourceModule = $request->getByType('source_module');
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, $sourceModule);
+		if (!$recordModel->isViewable()) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
 		$labels = $data = $display = [];
 		foreach ($recordModel->getModule()->getFields() as $fieldName => $fieldModel) {
 			if ($fieldModel->isViewable()) {

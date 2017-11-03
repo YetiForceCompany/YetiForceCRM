@@ -25,7 +25,7 @@ class PBXManager_Detail_View extends Vtiger_Detail_View
 
 	public function preProcess(\App\Request $request, $display = true)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 		if (!$this->record) {
 			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);

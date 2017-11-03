@@ -21,7 +21,7 @@ class Reports_MoveReports_View extends Vtiger_Index_View
 		$viewer->assign('FOLDERS', $folderList);
 		$viewer->assign('SELECTED_IDS', $request->get('selected_ids'));
 		$viewer->assign('EXCLUDED_IDS', $request->get('excluded_ids'));
-		$viewer->assign('VIEWNAME', $request->get('viewname'));
+		$viewer->assign('VIEWNAME', $request->getByType('viewname', 2));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('MoveReports.tpl', $moduleName);
 	}

@@ -20,7 +20,7 @@ class Vtiger_Pagination_Action extends Vtiger_BasicAjax_Action
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -41,7 +41,7 @@ class Vtiger_Pagination_Action extends Vtiger_BasicAjax_Action
 	public function getTotalCount(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$viewName = $request->get('viewname');
+		$viewName = $request->getByType('viewname', 2);
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $viewName);
 		$searchParmams = $request->get('search_params');
 		if (empty($searchParmams) || !is_array($searchParmams)) {

@@ -12,9 +12,12 @@
 class Faq_Edit_View extends Vtiger_Edit_View
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
-		if (empty($record)) {
+		if ($request->isEmpty('record')) {
 			$parentId = $request->get('parentId');
 			$parentModule = $request->get('parentModule');
 			if ($parentId && $parentModule === 'HelpDesk') {
@@ -22,5 +25,6 @@ class Faq_Edit_View extends Vtiger_Edit_View
 				$this->record = Faq_Record_Model::getInstanceFromHelpDesk($parentRecordModel);
 			}
 		}
+		parent::process($request);
 	}
 }

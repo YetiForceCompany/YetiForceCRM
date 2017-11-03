@@ -26,11 +26,14 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 		if ($this->validate || empty($value)) {
 			return;
 		}
+		if (strpos($value, 'www.') === 0) {
+			$value = 'http://' . $value;
+		}
 		if (!preg_match('/^([^\:]+)\:/i', $value, $m)) {
-			throw new \App\Exceptions\SaveRecord('ERR_ILLEGAL_FIELD_VALUE', 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
 		}
 		if (!(filter_var($value, FILTER_VALIDATE_URL) && in_array(strtolower($m[1]), static::ALLOWED_PROTOCOLS) )) {
-			throw new \App\Exceptions\SaveRecord('ERR_ILLEGAL_FIELD_VALUE', 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;
 	}
@@ -42,9 +45,12 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 	{
 		$rawValue = $value;
 		$value = \App\Purifier::encodeHtml($value);
-		preg_match("^[\w]+:\/\/^", $rawValue, $matches);
-		if (!empty($matches[0])) {
+		preg_match("^[\w]+:\/\/^", $value, $matches);
+		if (empty($matches[0])) {
 			$value = 'http://' . $value;
+		}
+		if ($rawText) {
+			return $value;
 		}
 		return '<a class="urlField cursorPointer" title="' . $value . '" href="' . $value . '" target="_blank" rel="noreferrer">' . \App\Purifier::encodeHtml(\vtlib\Functions::textLength($rawValue)) . '</a>';
 	}

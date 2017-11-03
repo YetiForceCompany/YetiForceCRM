@@ -18,7 +18,7 @@ class PriceBooks_ProductPriceBookPopup_View extends Vtiger_Popup_View
 		$moduleName = $request->getModule();
 		$this->initializeListViewContents($request, $viewer);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('TRIGGER_EVENT_NAME', $request->get('triggerEventName'));
+		$viewer->assign('TRIGGER_EVENT_NAME', $request->getByType('triggerEventName', 2));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 
 		$viewer->view('ProductPriceBookPopup.tpl', 'PriceBooks');
@@ -48,18 +48,18 @@ class PriceBooks_ProductPriceBookPopup_View extends Vtiger_Popup_View
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
-		$cvId = $request->get('cvid');
+		$cvId = $request->getByType('cvid', 2);
 		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
 		$sourceModule = $request->getByType('src_module', 1);
-		$sourceField = $request->get('src_field');
-		$sourceRecord = $request->get('src_record');
+		$sourceField = $request->getByType('src_field', 2);
+		$sourceRecord = $request->getInteger('src_record');
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
 
 		if (empty($cvId)) {
-			$cvId = '0';
+			$cvId = 0;
 		}
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
@@ -84,7 +84,7 @@ class PriceBooks_ProductPriceBookPopup_View extends Vtiger_Popup_View
 
 		if (!empty($sourceModule)) {
 			$listViewModel->set('src_module', $sourceModule);
-			$listViewModel->set('src_field', $sourceField);
+			$listViewModel->set('src_field', $request->get('src_field'));
 			$listViewModel->set('src_record', $sourceRecord);
 			$sourceRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule);
 		}

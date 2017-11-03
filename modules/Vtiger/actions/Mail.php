@@ -18,13 +18,8 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($moduleName)) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
-		}
 		if (!$request->isEmpty('sourceRecord') && !\App\Privilege::isPermitted($request->getByType('sourceModule', 1), 'DetailView', $request->getInteger('sourceRecord'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -72,10 +67,10 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 	public function sendMails(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$field = $request->get('field');
-		$template = $request->get('template');
-		$sourceModule = $request->getByType('sourceModule', 1);
-		$sourceRecord = $request->get('sourceRecord');
+		$field = $request->getByType('field');
+		$template = $request->getInteger('template');
+		$sourceModule = $request->getByType('sourceModule');
+		$sourceRecord = $request->getInteger('sourceRecord');
 		$result = false;
 		if (!empty($template) && !empty($field)) {
 			$dataReader = $this->getQuery($request)->createCommand()->query();
@@ -117,20 +112,20 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 	public function getQuery(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$sourceModule = $request->getByType('sourceModule', 1);
+		$sourceModule = $request->getByType('sourceModule');
 		if ($sourceModule) {
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $sourceModule);
 			$listView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName);
 		} else {
-			$listView = Vtiger_ListView_Model::getInstance($moduleName, $request->get('viewname'));
+			$listView = Vtiger_ListView_Model::getInstance($moduleName, $request->getByType('viewname', 2));
 		}
 		$searchResult = $request->get('searchResult');
 		if (!empty($searchResult)) {
 			$listView->set('searchResult', $searchResult);
 		}
-		$searchKey = $request->get('search_key');
+		$searchKey = $request->getByType('search_key');
 		$searchValue = $request->get('search_value');
-		$operator = $request->getByType('operator', 1);
+		$operator = $request->getByType('operator');
 		if (!empty($searchKey) && !empty($searchValue)) {
 			$listView->set('operator', $operator);
 			$listView->set('search_key', $searchKey);
@@ -145,8 +140,8 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 		$moduleModel = $queryGenerator->getModuleModel();
 		$baseTableName = $moduleModel->get('basetable');
 		$baseTableId = $moduleModel->get('basetableid');
-		$queryGenerator->setFields(['id', $request->get('field')]);
-		$queryGenerator->addCondition($request->get('field'), '', 'ny');
+		$queryGenerator->setFields(['id', $request->getByType('field')]);
+		$queryGenerator->addCondition($request->getByType('field'), '', 'ny');
 		$selected = $request->get('selected_ids');
 		if ($selected && $selected !== 'all') {
 			$queryGenerator->addNativeCondition(["$baseTableName.$baseTableId" => $selected]);

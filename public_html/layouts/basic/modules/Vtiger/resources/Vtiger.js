@@ -692,10 +692,6 @@ var Vtiger_Index_Js = {
 	sendNotification: function () {
 		Vtiger_Header_Js.getInstance().quickCreateModule('Notification');
 	},
-	loadPreSaveRecord: function (form) {
-		SaveResult = new SaveResult()
-		return SaveResult.checkData(form);
-	},
 	performPhoneCall: function (phoneNumber, record) {
 		AppConnector.request({
 			module: app.getModuleName(),
@@ -708,6 +704,11 @@ var Vtiger_Index_Js = {
 			Vtiger_Helper_Js.showMessage({text: response.result});
 		});
 	},
+	registerUserPasswordChangeModal: function (timer) {
+		if (app.getMainParams('showUserPasswordChange')) {
+			app.showModalWindow(null, 'index.php?module=Users&view=PasswordModal&mode=change&record=' + app.getMainParams('current_user_id'));
+		}
+	},
 	registerEvents: function () {
 		Vtiger_Index_Js.registerWidgetsEvents();
 		Vtiger_Index_Js.loadWidgetsOnLoad();
@@ -717,6 +718,7 @@ var Vtiger_Index_Js = {
 		Vtiger_Index_Js.changeSkin();
 		Vtiger_Index_Js.registerResizeEvent();
 		Vtiger_Index_Js.registerChat();
+		Vtiger_Index_Js.registerUserPasswordChangeModal();
 	},
 	registerPostAjaxEvents: function () {
 		Vtiger_Index_Js.registerTooltipEvents();

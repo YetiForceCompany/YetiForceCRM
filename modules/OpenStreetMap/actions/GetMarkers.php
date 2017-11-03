@@ -19,24 +19,24 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		if (!$request->isEmpty('srcModule') && !$currentUserPrivilegesModel->hasModulePermission($request->get('srcModule'))) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		if (!$request->isEmpty('srcModule') && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('srcModule'))) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
 	public function process(\App\Request $request)
 	{
 		$data = [];
-		$sourceModule = $request->get('srcModule');
+		$sourceModule = $request->getByType('srcModule');
 		$srcModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
 		$coordinatesModel->set('srcModuleModel', $srcModuleModel);
-		$coordinatesModel->set('radius', (int) $request->get('radius'));
-		$coordinatesModel->set('selectedIds', $request->get('selected_ids'));
-		$coordinatesModel->set('viewname', $request->get('viewname'));
-		$coordinatesModel->set('excludedIds', $request->get('excluded_ids'));
+		$coordinatesModel->set('radius', $request->getInteger('radius'));
+		$coordinatesModel->set('selectedIds', $request->getArray('selected_ids'));
+		$coordinatesModel->set('viewname', $request->getByType('viewname', 2));
+		$coordinatesModel->set('excludedIds', $request->getArray('excluded_ids'));
 		$coordinatesModel->set('searchKey', $request->get('search_key'));
 		$coordinatesModel->set('operator', $request->getByType('operator', 1));
 		$coordinatesModel->set('groupBy', $request->getByType('groupBy', 1));

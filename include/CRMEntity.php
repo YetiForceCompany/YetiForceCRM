@@ -212,7 +212,6 @@ class CRMEntity
 					$query->leftJoin($tableName, "vtiger_crmentity.crmid = $tableName.$tableIndex");
 				}
 			}
-
 			$query->where(['vtiger_crmentity.crmid' => $record]);
 			if ($module != '') {
 				$query->andWhere(['vtiger_crmentity.setype' => $module]);
@@ -221,9 +220,6 @@ class CRMEntity
 			if (empty($resultRow)) {
 				throw new \App\Exceptions\NoPermittedToRecord('LBL_RECORD_NOT_FOUND');
 			} else {
-				if (!empty($resultRow['deleted'])) {
-					throw new \App\Exceptions\NoPermittedToRecord('LBL_RECORD_DELETE');
-				}
 				foreach ($cachedModuleFields as $fieldInfo) {
 					$fieldvalue = '';
 					$fieldkey = $this->createColumnAliasForField($fieldInfo);
@@ -343,7 +339,7 @@ class CRMEntity
 	 */
 	public function deletePerminently($moduleName, $recordId)
 	{
-
+		
 	}
 
 	/**
@@ -1378,6 +1374,6 @@ class CRMEntity
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-
+		
 	}
 }

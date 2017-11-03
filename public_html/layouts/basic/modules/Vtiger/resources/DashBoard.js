@@ -87,7 +87,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			});
 		}
 
-		AppConnector.request({module: 'Vtiger', action: 'SaveWidgetPositions', 'positionsmap': widgetRowColPositions}).then(function (data) {
+		AppConnector.request({module: app.getModuleName(), action: 'SaveWidgetPositions', 'positionsmap': widgetRowColPositions}).then(function (data) {
 		});
 	},
 	loadWidgets: function () {
@@ -651,7 +651,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			var currentTarget = $(e.currentTarget);
 			var id = currentTarget.data('widget-id');
 			var params = {
-				module: 'Vtiger',
+				module: app.getModuleName(),
 				action: "RemoveWidgetFromList",
 				id: id
 			};

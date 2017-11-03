@@ -210,7 +210,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to save a given record model of the current module
-	 * @param Vtiger_Record_Model $recordModel
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @return \Vtiger_Record_Model
 	 */
 	public function saveRecord(\Vtiger_Record_Model $recordModel)
 	{
@@ -230,19 +231,18 @@ class Vtiger_Module_Model extends \vtlib\Module
 				$recordModel->validate();
 			}
 			$recordModel->saveToDb();
+			if (method_exists($recordModel, 'afterSaveToDb')) {
+				$recordModel->afterSaveToDb();
+			}
 		}
 		$recordId = $recordModel->getId();
 		Users_Privileges_Model::setSharedOwner($recordModel->get('shownerid'), $recordId);
 		if ($this->isInventory()) {
 			$recordModel->saveInventoryData($moduleName);
 		}
-		// vtlib customization: Hook provide to enable generic module relation.
-		if (\App\Request::_get('createmode') === 'link') {
-			$forModule = \App\Request::_get('return_module');
-			$forCrmid = \App\Request::_get('return_id');
-			if ($forModule && $forCrmid) {
-				$focus = CRMEntity::getInstance($forModule);
-				relateEntities($focus, $forModule, $forCrmid, $moduleName, $recordId);
+		if (\App\Request::_get('createmode') === 'link') {// vtlib customization: Hook provide to enable generic module relation.
+			if (\App\Request::_has('return_module') && \App\Request::_has('return_id')) {
+				relateEntities(CRMEntity::getInstance(\App\Request::_get('return_module')), \App\Request::_get('return_module'), \App\Request::_get('return_id'), $moduleName, $recordId);
 			}
 		}
 		$eventHandler->trigger('EntityAfterSave');
@@ -1513,17 +1513,28 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if (!$moduleName) {
 			$moduleName = $request->getModule();
 		}
-		$sourceModule = $request->getByType('sourceModule', 1);
-		$sourceRecord = $request->get('sourceRecord');
-		$sourceRecordData = $request->get('sourceRecordData');
-
-		if ($sourceModule && ($sourceRecord || $sourceRecordData)) {
+		$sourceModule = $request->getByType('sourceModule');
+		if ($sourceModule && ($request->has('sourceRecord') || !$request->isEmpty('sourceRecordData'))) {
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-			if (empty($sourceRecord)) {
+			if ($request->isEmpty('sourceRecord')) {
+				$sourceRecordData = $request->getRaw('sourceRecordData');
 				$recordModel = Vtiger_Record_Model::getCleanInstance($sourceModule);
-				$recordModel->setData($sourceRecordData);
+				$fieldModelList = $recordModel->getModule()->getFields();
+				foreach ($fieldModelList as $fieldName => $fieldModel) {
+					if (!$fieldModel->isWritable()) {
+						continue;
+					}
+					if (isset($sourceRecordData[$fieldName])) {
+						$fieldModel->getUITypeModel()->setValueFromRequest(new \App\Request($sourceRecordData), $recordModel);
+					} else {
+						$defaultValue = $fieldModel->getDefaultFieldValue();
+						if ($defaultValue !== '') {
+							$recordModel->set($fieldName, $defaultValue);
+						}
+					}
+				}
 			} else {
-				$recordModel = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule);
+				$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $sourceModule);
 			}
 			$sourceModuleModel = $recordModel->getModule();
 			$relationField = false;
@@ -1574,7 +1585,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 				}
 			}
 			if ($relationField && ($moduleName != $sourceModule || \App\Request::_get('addRelation'))) {
-				$data[$relationField] = $sourceRecord;
+				$data[$relationField] = $recordModel->getId();
 			}
 		}
 		return $data;

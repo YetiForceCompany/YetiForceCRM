@@ -8,37 +8,36 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-Vtiger_Loader::includeOnce('~include/Webservices/Custom/ChangePassword.php');
 
 class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('savePassword');
 		$this->exposeMethod('restoreUser');
-		$this->exposeMethod('editPasswords');
 		$this->exposeMethod('changeAccessKey');
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
+		parent::checkPermission($request);
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$userId = $request->getInteger('userid');
 		if (!$currentUserModel->isAdminUser()) {
-			$mode = $request->getMode();
-			if ($mode === 'savePassword' && ($userId && (int) $currentUserModel->getId() !== $userId)) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
-			} else if ($mode !== 'savePassword' && ((int) $currentUserModel->getId() !== $request->getInteger('record'))) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+			if ((int) $currentUserModel->getId() !== $request->getInteger('record') && (int) $currentUserModel->getId() !== $request->getInteger('userid')) {
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		}
 	}
 
 	/**
-	 * Process
-	 * @param \App\Request $request
+	 * {@inheritDoc}
 	 */
 	public function process(\App\Request $request)
 	{
@@ -69,7 +68,6 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			}
 			$result[$fieldName] = ['value' => $fieldValue, 'display_value' => $displayValue];
 		}
-
 		$result['_recordLabel'] = $recordModel->getName();
 		$result['_recordId'] = $recordModel->getId();
 
@@ -80,9 +78,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	}
 
 	/**
-	 * Function to get the record model based on the request parameters
-	 * @param \App\Request $request
-	 * @return Vtiger_Record_Model or Module specific Record Model instance
+	 * {@inheritDoc}
 	 */
 	public function getRecordModelFromRequest(\App\Request $request)
 	{
@@ -97,56 +93,6 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			$recordModel->set('is_owner', 1);
 		}
 		return $recordModel;
-	}
-
-	public function savePassword(\App\Request $request)
-	{
-		$userModel = vglobal('current_user');
-		$newPassword = $request->get('new_password');
-		$oldPassword = $request->get('old_password');
-		$checkPassword = Settings_Password_Record_Model::checkPassword($newPassword);
-		if (!$checkPassword) {
-			$wsStatus = vtws_changePassword($request->getInteger('userid'), $oldPassword, $newPassword, $newPassword, $userModel);
-		}
-		$response = new Vtiger_Response();
-		if ($checkPassword) {
-			$response->setError($checkPassword, $checkPassword);
-		} elseif ($wsStatus['message']) {
-			$response->setResult($wsStatus);
-		} else {
-			$response->setError('JS_PASSWORD_INCORRECT_OLD', 'JS_PASSWORD_INCORRECT_OLD');
-		}
-		$response->emit();
-	}
-
-	/**
-	 * Mass edit users passwords
-	 * @param \App\Request $request
-	 */
-	public function editPasswords(\App\Request $request)
-	{
-		$userModel = vglobal('current_user');
-		$newPassword = $request->get('new_password');
-		$oldPassword = $request->get('old_password');
-		$userIds = $request->get('userids');
-
-		$checkPassword = Settings_Password_Record_Model::checkPassword($newPassword);
-		if (!$checkPassword) {
-			foreach ($userIds as $userId) {
-				$wsStatus = vtws_changePassword($userId, $oldPassword, $newPassword, $newPassword, $userModel);
-			}
-		}
-
-		$response = new Vtiger_Response();
-		if ($checkPassword) {
-			$response->setError($checkPassword, $checkPassword);
-		} else if ($wsStatus['message']) {
-			$response->setResult($wsStatus);
-		} else {
-			$response->setError('JS_PASSWORD_INCORRECT_OLD', 'JS_PASSWORD_INCORRECT_OLD');
-		}
-
-		$response->emit();
 	}
 	/*
 	 * To restore a user
@@ -185,8 +131,6 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 
 			$entity = $recordModel->getEntity();
 			$entity->createAccessKey();
-
-			\App\UserPrivilegesFile::createUserPrivilegesfile($recordId);
 
 			require("user_privileges/user_privileges_$recordId.php");
 			$newAccessKey = $user_info['accesskey'];

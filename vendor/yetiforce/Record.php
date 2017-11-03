@@ -50,7 +50,7 @@ class Record
 			if (Cache::has('recordLabel', $id)) {
 				$result[$id] = Cache::get('recordLabel', $id);
 			} else {
-				$result[$id] = NULL;
+				$result[$id] = null;
 			}
 		}
 		return $multiMode ? $result : array_shift($result);
@@ -220,14 +220,14 @@ class Record
 	{
 		$metaInfo = \App\Module::getEntityInfo($recordModel->getModuleName());
 		$labelName = [];
-		foreach ($metaInfo['fieldnameArr'] as &$columnName) {
+		foreach ($metaInfo['fieldnameArr'] as $columnName) {
 			$fieldModel = $recordModel->getModule()->getFieldByColumn($columnName);
-			$labelName[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel);
+			$labelName[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel, true);
 		}
 		$labelSearch = [];
-		foreach ($metaInfo['searchcolumnArr'] as &$columnName) {
+		foreach ($metaInfo['searchcolumnArr'] as $columnName) {
 			$fieldModel = $recordModel->getModule()->getFieldByColumn($columnName);
-			$labelSearch[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel);
+			$labelSearch[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel, true);
 		}
 		$label = \vtlib\Functions::textLength(implode(' ', $labelName), 254, false);
 		if (empty($label)) {
@@ -272,7 +272,27 @@ class Record
 	public static function getType($recordId)
 	{
 		$metadata = Functions::getCRMRecordMetadata($recordId);
-		return $metadata ? $metadata['setype'] : NULL;
+		return $metadata ? $metadata['setype'] : null;
+	}
+
+	/**
+	 * Get record state
+	 * @param int $recordId
+	 * @return string
+	 */
+	public static function getState($recordId)
+	{
+		$metadata = Functions::getCRMRecordMetadata($recordId);
+		switch ($metadata['deleted']) {
+			default:
+			case 0:
+				return 'Active';
+			case 1:
+				return 'Deleted';
+			case 2:
+				return 'Archived';
+		}
+		return null;
 	}
 
 	/**

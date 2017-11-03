@@ -12,34 +12,37 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * If the field is sortable in ListView
+	 * {@inheritDoc}
 	 */
-	public function isListviewSortable()
+	public function getDBValue($value, $recordModel = false)
 	{
-		return false;
+		if (is_array($value)) {
+			$value = implode(',', $value);
+		}
+		return \App\Purifier::decodeHtml($value);
 	}
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * {@inheritDoc}
 	 */
-	public function getTemplateName()
+	public function validate($value, $isUserFormat = false)
 	{
-		return 'uitypes/SharedOwner.tpl';
-	}
-
-	public function getListSearchTemplateName()
-	{
-		return 'uitypes/SharedOwnerFieldSearchView.tpl';
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		if (!is_array($value)) {
+			settype($value, 'array');
+		}
+		foreach ($value as $shownerid) {
+			if (!is_numeric($shownerid)) {
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			}
+		}
+		$this->validate = true;
 	}
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param string $value
-	 * @param int $record
-	 * @param Vtiger_Record_Model $recordInstance
-	 * @param bool $rawText
-	 * @return string
+	 * {@inheritDoc}
 	 */
 	public function getDisplayValue($values, $record = false, $recordInstance = false, $rawText = false)
 	{
@@ -197,16 +200,26 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the DB Insert Value, for the current field type with given User Value
-	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @return mixed
+	 * {@inheritDoc}
 	 */
-	public function getDBValue($value, $recordModel = false)
+	public function getTemplateName()
 	{
-		if (is_array($value)) {
-			$value = implode(',', $value);
-		}
-		return \App\Purifier::decodeHtml($value);
+		return 'uitypes/SharedOwner.tpl';
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getListSearchTemplateName()
+	{
+		return 'uitypes/SharedOwnerFieldSearchView.tpl';
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function isListviewSortable()
+	{
+		return false;
 	}
 }

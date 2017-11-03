@@ -21,7 +21,7 @@ class Vtiger_RelatedCommentModal_View extends Vtiger_BasicModal_View
 		$relatedRecord = $request->getByType('relid', 'Alnum');
 
 		if (!$recordId || !$relatedRecord || !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId) || (is_numeric($relatedRecord) && !\App\Privilege::isPermitted($request->getByType('relmodule', 'Standard'), 'DetailView', $relatedRecord))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -39,7 +39,7 @@ class Vtiger_RelatedCommentModal_View extends Vtiger_BasicModal_View
 
 		$relatedCommentModal = Vtiger_RelatedCommentModal_Model::getInstance($record, $moduleName, $relatedRecord, $relatedModuleName);
 		if (!$relatedCommentModal->isEditable()) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 
 		$viewer = $this->getViewer($request);

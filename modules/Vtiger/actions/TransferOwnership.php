@@ -17,9 +17,9 @@ class Vtiger_TransferOwnership_Action extends Vtiger_Action_Controller
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'EditView') || !$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'MassTransferOwnership')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		$userPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$userPriviligesModel->hasModuleActionPermission($moduleName, 'EditView') || !$userPriviligesModel->hasModuleActionPermission($moduleName, 'MassTransferOwnership')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -32,10 +32,11 @@ class Vtiger_TransferOwnership_Action extends Vtiger_Action_Controller
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'TransferOwnership', $module);
 		$transferModel = new $modelClassName();
 
-		if (empty($record))
+		if (empty($record)) {
 			$recordIds = $this->getBaseModuleRecordIds($request);
-		else
+		} else {
 			$recordIds = [$record];
+		}
 		if (!empty($recordIds)) {
 			$transferModel->transferRecordsOwnership($module, $transferOwnerId, $recordIds);
 		}
@@ -55,12 +56,12 @@ class Vtiger_TransferOwnership_Action extends Vtiger_Action_Controller
 
 	protected function getBaseModuleRecordIds(\App\Request $request)
 	{
-		$cvId = $request->get('viewname');
+		$cvId = $request->getByType('viewname', 2);
 		$module = $request->getModule();
 		$selectedIds = $request->get('selected_ids');
 		$excludedIds = $request->get('excluded_ids');
 
-		if (!empty($selectedIds) && $selectedIds != 'all') {
+		if (!empty($selectedIds) && $selectedIds !== 'all') {
 			if (!empty($selectedIds) && count($selectedIds) > 0) {
 				foreach ($selectedIds as $key => &$recordId) {
 					$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
@@ -75,7 +76,7 @@ class Vtiger_TransferOwnership_Action extends Vtiger_Action_Controller
 		if ($selectedIds == 'all') {
 			$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
 			if ($customViewModel) {
-				$searchKey = $request->get('search_key');
+				$searchKey = $request->getByType('search_key');
 				$searchValue = $request->get('search_value');
 				$operator = $request->getByType('operator', 1);
 				if (!empty($operator)) {

@@ -8,7 +8,7 @@
 
 					</span>
 				{/if}
-				<span class="detailViewIcon cursorPointer userIcon-{$MODULE}" {if $COLORLISTHANDLERS}style="background-color: {$COLORLISTHANDLERS['background']};color: {$COLORLISTHANDLERS['text']};"{/if}></span>
+				<span class="detailViewIcon cursorPointer userIcon-{$MODULE}"></span>
 			</div>
 			<div class="paddingLeft5px">
 				<h4 class="recordLabel textOverflowEllipsis pushDown marginbottomZero" title="{$RECORD->getName()}">

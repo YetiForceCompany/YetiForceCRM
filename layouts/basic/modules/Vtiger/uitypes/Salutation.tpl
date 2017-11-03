@@ -18,7 +18,7 @@
 				<select class="chzn-select form-control" name="{$SALUTATION_FIELD_MODEL->getName()}" data-validation-engine="validate[{if $SALUTATION_FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" >
 					{if $SALUTATION_FIELD_MODEL->isEmptyPicklistOptionAllowed()}<option value="">{\App\Language::translate('LBL_NONE', $MODULE)}</option>{/if}
 					{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
-						<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" {if trim(App\Purifier::decodeHtml($SALUTATION_FIELD_MODEL->get('fieldvalue'))) eq trim($PICKLIST_NAME)} selected {/if}>{App\Purifier::decodeHtml($PICKLIST_VALUE)}</option>
+						<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" {if trim($SALUTATION_FIELD_MODEL->get('fieldvalue')) eq trim($PICKLIST_NAME)} selected {/if}>{App\Purifier::encodeHtml($PICKLIST_VALUE)}</option>
 					{/foreach}
 				</select>
 			</div>

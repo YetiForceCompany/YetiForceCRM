@@ -20,12 +20,8 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
-		}
 		if (!$request->isEmpty('sourceRecord') && !\App\Privilege::isPermitted($request->getByType('sourceModule', 1), 'DetailView', $request->getInteger('sourceRecord'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -85,16 +81,16 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 		$moduleName = $request->getModule();
 		$sourceModule = $request->getByType('sourceModule', 1);
 		if ($sourceModule) {
-			$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->get('sourceRecord'), $sourceModule);
+			$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $sourceModule);
 			$listView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName);
 		} else {
-			$listView = Vtiger_ListView_Model::getInstance($moduleName, $request->get('viewname'));
+			$listView = Vtiger_ListView_Model::getInstance($moduleName, $request->getByType('viewname', 2));
 		}
 		$searchResult = $request->get('searchResult');
 		if (!empty($searchResult)) {
 			$listView->set('searchResult', $searchResult);
 		}
-		$searchKey = $request->get('search_key');
+		$searchKey = $request->getByType('search_key', 1);
 		$searchValue = $request->get('search_value');
 		$operator = $request->getByType('operator', 1);
 		if (!empty($searchKey) && !empty($searchValue)) {

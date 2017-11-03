@@ -23,7 +23,7 @@ $languageStrings = [
 	'LBL_MAPPING_WITH_OTHER_MODULES' => 'Mapeo con otros Módulos',
 	'LBL_NONE' => 'Ninguno',
 	'LBL_OPPORTUNITIES' => 'Oportunidades',
-	'LBL_ORGANIZATIONS' => 'Cuentas',
+	'LBL_ORGANIZATIONS' => 'Clientes',
 	'LBL_SAVED_SUCCESSFULLY' => 'Guardado correctamente',
 	'multiSelectCombo' => 'Desplegable de selección múltiple',
 	'percent' => 'Por ciento',
@@ -35,7 +35,7 @@ $languageStrings = [
 	'text' => 'Cadena de texto',
 	'time' => 'Hora',
 	'url' => 'Url',
-	'LBL_CONVERSION_TO_ACCOUNT' => 'Convertir en Cuenta',
+	'LBL_CONVERSION_TO_ACCOUNT' => 'Convertir a Cliente',
 	'sharedOwner' => ' ',
 ];
 

@@ -14,7 +14,7 @@ class Portal_EditAjax_View extends Vtiger_IndexAjax_View
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 
 		$viewer = $this->getViewer($request);
 

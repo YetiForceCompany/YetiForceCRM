@@ -17,8 +17,7 @@ class Vtiger_GenerateModal_View extends Vtiger_BasicModal_View
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->getInteger('record');
-		$view = $request->get('fromview');
+		$view = $request->getByType('fromview', 1);
 		$viewer = $this->getViewer($request);
 		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 		$mfModel = new $handlerClass();
@@ -27,6 +26,7 @@ class Vtiger_GenerateModal_View extends Vtiger_BasicModal_View
 			$templates = $mfModel->getActiveTemplatesForModule($moduleName, $view);
 			$viewer->assign('ALL_RECORDS', $allRecords);
 		} else {
+			$recordId = $request->getInteger('record');
 			$templates = $mfModel->getActiveTemplatesForRecord($recordId, $view, $moduleName);
 			$viewer->assign('RECORD', $recordId);
 		}

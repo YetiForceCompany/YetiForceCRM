@@ -6,10 +6,12 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $SECURITY_CONFIG = [
+	// Password encrypt algorithmic cost. Numeric values - we recommend values greater than 10. The greater the value, the longer it takes to encrypt the password.
+	'USER_ENCRYPT_PASSWORD_COST' => 10,
 	// Possible to reset the password while logging in (true/false)
 	'RESET_LOGIN_PASSWORD' => false,
 	// Show my preferences
-	'SHOW_MY_PREFERENCES' => false,
+	'SHOW_MY_PREFERENCES' => true,
 	// Changing the settings by the user is possible true/false
 	'CHANGE_LOGIN_PASSWORD' => true,
 	/*

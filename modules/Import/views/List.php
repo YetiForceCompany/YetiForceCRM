@@ -23,8 +23,8 @@ class Import_List_View extends Vtiger_Popup_View
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPrivilegesModel->hasModulePermission($request->get('for_module'))) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->getByType('for_module'))) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -40,7 +40,7 @@ class Import_List_View extends Vtiger_Popup_View
 			$this->invokeExposedMethod($mode, $request);
 		} else {
 			$this->initializeListViewContents($request, $viewer);
-			$moduleName = $request->get('for_module');
+			$moduleName = $request->getByType('for_module');
 			$viewer->assign('MODULE_NAME', $moduleName);
 
 			$viewer->view('Popup.tpl', $moduleName);
@@ -52,8 +52,8 @@ class Import_List_View extends Vtiger_Popup_View
 
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
-		$moduleName = $request->get('for_module');
-		$cvId = $request->get('viewname');
+		$moduleName = $request->getByType('for_module');
+		$cvId = $request->getByType('viewname', 2);
 		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
@@ -117,7 +117,7 @@ class Import_List_View extends Vtiger_Popup_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$forModule = $request->get('forModule');
+		$forModule = $request->getByType('forModule');
 		$user = Users_Record_Model::getCurrentUserModel();
 		$importRecords = Import_Data_Action::getImportDetails($user, $forModule);
 		$viewer->assign('IMPORT_RECORDS', $importRecords);

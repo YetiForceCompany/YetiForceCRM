@@ -15,7 +15,7 @@ Class Settings_Password_Index_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('DETAIL', Settings_Password_Record_Model::getPassDetail());
+		$viewer->assign('DETAIL', Settings_Password_Record_Model::getUserPassConfig());
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 

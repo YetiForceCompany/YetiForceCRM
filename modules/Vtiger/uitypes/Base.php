@@ -27,23 +27,27 @@ class Vtiger_Base_UIType extends \App\Base
 	public function getDBValue($value, $recordModel = false)
 	{
 		if ($value === '' && in_array($this->getFieldModel()->getFieldType(), ['I', 'N', 'NN'])) {
-			$value = 0;
+			return 0;
 		}
 		if (is_null($value)) {
-			$value = '';
+			return '';
 		}
 		return \App\Purifier::decodeHtml($value);
 	}
 
 	/**
-	 * Set value from request 
+	 * Set value from request
 	 * @param \App\Request $request
 	 * @param Vtiger_Record_Model $recordModel
+	 * @param string|bool $requestFieldName
 	 */
-	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel)
+	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
 		$fieldName = $this->get('field')->getFieldName();
-		$value = $request->get($fieldName, '');
+		if (!$requestFieldName) {
+			$requestFieldName = $fieldName;
+		}
+		$value = $request->get($requestFieldName, '');
 		$this->validate($value, true);
 		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
 	}
@@ -53,21 +57,34 @@ class Vtiger_Base_UIType extends \App\Base
 	 * @param string $value
 	 * @param bool $isUserFormat
 	 * @return null
-	 * @throws \App\Exceptions\SaveRecord
+	 * @throws \App\Exceptions\Security
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
 		if ($this->validate || empty($value)) {
 			return;
 		}
-		//var_dump('<hr>', get_class($this), $value, $this->getFieldModel()->getName(), $this->getFieldModel()->getModuleName());
-		if (!is_string($value) || $value !== strip_tags($value)) {
-			throw new \App\Exceptions\SaveRecord('ERR_ILLEGAL_FIELD_VALUE', 406);
+		if ($isUserFormat) {
+			$value = \App\Purifier::decodeHtml($value);
+		}
+		if (!is_numeric($value) && (is_string($value) && $value !== strip_tags($value))) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
 		}
 		if (App\Utils::getTextLength($value) > 255) {
-			throw new \App\Exceptions\SaveRecord('ERR_VALUE_IS_TOO_LONG', 406);
+			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->get('field')->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;
+	}
+
+	/**
+	 * Convert value before writing to the database
+	 * @param mixed $value
+	 * @param Vtiger_Record_Model $recordModel
+	 * @return mixed
+	 */
+	public function convertToSave($value, Vtiger_Record_Model $recordModel)
+	{
+		return $value;
 	}
 
 	/**

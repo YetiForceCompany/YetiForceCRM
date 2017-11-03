@@ -23,7 +23,7 @@ class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 			return;
 		}
 		if (($request->get('duplicate') !== '1') && $request->has('record') && !CustomView_Record_Model::getInstanceById($request->getInteger('record'))->isEditable()) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -32,7 +32,7 @@ class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getByType('source_module', 2);
 		$module = $request->getModule();
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$duplicate = $request->get('duplicate');
 
 		if (is_numeric($moduleName)) {

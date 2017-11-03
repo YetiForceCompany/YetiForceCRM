@@ -6,11 +6,6 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 		jQuery('#activityStateModal button:not(.close)').on('click', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			currentTarget.closest('.modal').addClass('hide');
-
-			if (thisInstance.saveResultInstance == undefined) {
-				thisInstance.saveResultInstance = new SaveResult();
-			}
-
 			if (currentTarget.data('type') == '1') {
 				thisInstance.updateActivityState(currentTarget);
 			}
@@ -40,12 +35,6 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 							if (data && data.success && data.result.followup.value == currentTarget.data('id')) {
 								thisInstance.updateActivityState(currentTarget);
 							}
-							var formData2 = {};
-							formData2.record = currentTarget.data('id');
-							formData2.module = 'Calendar';
-							formData2.view = 'quick_edit';
-							formData2['activitystatus'] = currentTarget.data('state');
-							thisInstance.saveResultInstance.checkData(formData2);
 						}});
 				});
 			}

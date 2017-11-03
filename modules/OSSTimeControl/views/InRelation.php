@@ -9,6 +9,9 @@
 class OSSTimeControl_InRelation_View extends Vtiger_RelatedList_View
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();

@@ -14,24 +14,22 @@ class Calendar_Delete_Action extends Vtiger_Delete_Action
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
-		$ajaxDelete = $request->get('ajaxDelete');
+		$recordId = $request->getInteger('record');
 
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-		$moduleModel = $recordModel->getModule();
 		$recordModel->delete();
 
 		$typeRemove = Events_RecuringEvents_Model::UPDATE_THIS_EVENT;
 		if (!$request->isEmpty('typeRemove')) {
-			$typeRemove = $request->get('typeRemove');
+			$typeRemove = $request->getInteger('typeRemove');
 		}
 		$recurringEvents = Events_RecuringEvents_Model::getInstance();
 		$recurringEvents->typeSaving = $typeRemove;
 		$recurringEvents->recordModel = $recordModel;
 		$recurringEvents->templateRecordId = $recordId;
 		$recurringEvents->delete();
-		$listViewUrl = $moduleModel->getListViewUrl();
-		if ($ajaxDelete) {
+		$listViewUrl = $recordModel->getModule()->getListViewUrl();
+		if ($request->getBoolean('ajaxDelete')) {
 			$response = new Vtiger_Response();
 			$response->setResult($listViewUrl);
 			return $response;

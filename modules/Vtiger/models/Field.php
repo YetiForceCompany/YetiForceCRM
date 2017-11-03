@@ -189,11 +189,11 @@ class Vtiger_Field_Model extends vtlib\Field
 						break;
 					case 9: $fieldDataType = 'percentage';
 						break;
-					case 26: $fieldDataType = 'documentsFolder';
-						break;
 					case 27: $fieldDataType = 'fileLocationType';
 						break;
 					case 28: $fieldDataType = 'documentsFileUpload';
+						break;
+					case 31: $fieldDataType = 'theme';
 						break;
 					case 32: $fieldDataType = 'languages';
 						break;
@@ -215,6 +215,14 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 68: $fieldDataType = 'referenceSubProcess';
 						break;
 					case 69: $fieldDataType = 'image';
+						break;
+					case 80: $fieldDataType = 'datetime';
+						break;
+					case 98: $fieldDataType = 'userRole';
+						break;
+					case 99: $fieldDataType = 'password';
+						break;
+					case 115: $fieldDataType = 'picklist';
 						break;
 					case 117: $fieldDataType = 'currencyList';
 						break;
@@ -369,7 +377,6 @@ class Vtiger_Field_Model extends vtlib\Field
 		if ($this->getName() === 'hdnTaxType') {
 			return null;
 		}
-
 		if ($fieldDataType === 'picklist' || $fieldDataType === 'multipicklist') {
 			if ($this->isRoleBased() && !$skipCheckingRole) {
 				$userModel = Users_Record_Model::getCurrentUserModel();
@@ -377,19 +384,17 @@ class Vtiger_Field_Model extends vtlib\Field
 			} else {
 				$picklistValues = App\Fields\Picklist::getValuesName($this->getName());
 			}
-
-			// Protection against deleting a value that does not exist on the list
-			if ($fieldDataType === 'picklist') {
-				$fieldValue = $this->get('fieldvalue');
-				if (!empty($fieldValue) && !in_array($this->get('fieldvalue'), $picklistValues)) {
-					$picklistValues[] = $this->get('fieldvalue');
-					$this->set('isEditableReadOnly', true);
-				}
-			}
-
 			$fieldPickListValues = [];
 			foreach ($picklistValues as $value) {
 				$fieldPickListValues[$value] = \App\Language::translate($value, $this->getModuleName());
+			}
+			// Protection against deleting a value that does not exist on the list
+			if ($fieldDataType === 'picklist') {
+				$fieldValue = $this->get('fieldvalue');
+				if (!empty($fieldValue) && !isset($fieldPickListValues[$fieldValue])) {
+					$fieldPickListValues[$fieldValue] = \App\Purifier::decodeHtml($this->get('fieldvalue'));
+					$this->set('isEditableReadOnly', true);
+				}
 			}
 			return $fieldPickListValues;
 		} else if (method_exists($this->getUITypeModel(), 'getPicklistValues')) {
@@ -745,7 +750,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			case 'owner':
 			case 'userCreator':
 			case 'sharedOwner':
-				if (!AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || in_array(\App\Request::_get('module'), ['CustomView', 'Workflows', 'PDF', 'MappedFields', 'DataAccess', 'Reports']) || \App\Request::_get('mode') === 'showAdvancedSearch') {
+				if (!AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || in_array(\App\Request::_get('module'), ['CustomView', 'Workflows', 'PDF', 'MappedFields', 'Reports']) || \App\Request::_get('mode') === 'showAdvancedSearch') {
 					$userList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
 					$groupList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $fieldDataType);
 					$pickListValues = [];

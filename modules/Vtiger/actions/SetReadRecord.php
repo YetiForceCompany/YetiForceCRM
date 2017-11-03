@@ -20,9 +20,9 @@ class Vtiger_SetReadRecord_Action extends Vtiger_SaveAjax_Action
 	public function checkPermission(\App\Request $request)
 	{
 		parent::checkPermission($request);
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'ReadRecord')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		$userPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$userPriviligesModel->hasModuleActionPermission($request->getModule(), 'ReadRecord')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -31,7 +31,7 @@ class Vtiger_SetReadRecord_Action extends Vtiger_SaveAjax_Action
 		$moduleName = $request->getModule();
 		$this->saveRecord($request);
 
-		$cvId = $request->get('viewname');
+		$cvId = $request->getByType('viewname', 2);
 		$response = new Vtiger_Response();
 		$response->setResult(['viewname' => $cvId, 'module' => $moduleName]);
 		$response->emit();

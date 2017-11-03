@@ -90,7 +90,7 @@ $languageStrings = [
 	'LBL_FIELD_TYPE1' => 'Пользовательское (Например: vtiger_accountcf)',
 	'LBL_TREE_TEMPLATE' => 'Выберите шаблон Каталога',
 	'Tree' => 'Каталог',
-	'CategoryMultipicklist' => 'Tree field (multiple choice)',
+	'CategoryMultipicklist' => 'Множественный выбор',
 	'LBL_FIELD_MASK_INFO' => 'Маска по умолчанию <br />9: цифры<br />a: буквы<br />*: цифры и буквы<br /><br />Пример:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
 	'MultiReferenceValue' => 'Значения соответствующего модуля',
 	'LBL_MULTI_REFERENCE_VALUE_MODULES' => 'Связанные модули',
@@ -125,7 +125,7 @@ $languageStrings = [
 	'LBL_NEXT' => 'Далее',
 	'LBL_PARAMS_MODULES' => 'Модули',
 	'LBL_PARAMS_LIMIT' => 'Лимит',
-	'LBL_PARAMS_LIMIT_CONDITIONS' => 'Required fields',
+	'LBL_PARAMS_LIMIT_CONDITIONS' => 'Необходимые поля',
 	'LBL_DISPLAY_TYPE' => 'Тип поля',
 	'LBL_DISPLAYTYPE_ALL' => 'Видим везде',
 	'LBL_DISPLAYTYPE_READONLY' => 'Только для чтения',
@@ -163,7 +163,8 @@ $languageStrings = [
 	'LBL_ADD_ADVANCED_BLOCK_FIELDS' => 'Добавить дополнительное поле в блок',
 	'LBL_MAX_LENGTH_TEXT' => 'Максимальная длина текста',
 	'LBL_MAX_WIDTH_COLUMN' => 'Ширина колонки [%]',
-	'LBL_EDIT_CUSTOM_FIELD' => 'Edit field',
+	'LBL_EDIT_CUSTOM_FIELD' => 'Редактировать поле',
+	'LBL_EXCEEDED_MAXIMUM_NUMBER_CHARACTERS_FOR_FIELD_NAME' => 'Вы превысили максимальное количество символов (30) для названия поля.',
 ];
 
 $jsLanguageStrings = [

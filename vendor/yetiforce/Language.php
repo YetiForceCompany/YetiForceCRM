@@ -365,7 +365,12 @@ class Language
 	 */
 	public static function getLanguageLabel($name)
 	{
-		return (new \App\Db\Query())->select(['label'])->from('vtiger_language')->where(['prefix' => $name])->scalar();
+		if (Cache::has('getLanguageLabel', $name)) {
+			return Cache::get('getLanguageLabel', $name);
+		}
+		$label = (new \App\Db\Query())->select(['label'])->from('vtiger_language')->where(['prefix' => $name])->scalar();
+		Cache::save('getLanguageLabel', $name, $label);
+		return $label;
 	}
 
 	/**

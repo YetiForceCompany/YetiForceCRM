@@ -3,11 +3,14 @@
 class Users_ExportData_Action extends Vtiger_ExportData_Action
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -17,7 +20,7 @@ class Users_ExportData_Action extends Vtiger_ExportData_Action
 	 */
 	public function exportData(\App\Request $request)
 	{
-		$moduleName = $request->getByType('source_module', 1);
+		$moduleName = $request->getByType('source_module');
 
 		$this->moduleInstance = Vtiger_Module_Model::getInstance($moduleName);
 		$this->moduleFieldInstances = $this->moduleInstance->getFields();
@@ -26,7 +29,7 @@ class Users_ExportData_Action extends Vtiger_ExportData_Action
 		$entries = $query->all();
 
 		$headers = ['User Name', 'Title', 'First Name', 'Last Name', 'Email', 'Other Email', 'Secondary Email', 'Office Phone', 'Mobile', 'Fax', 'Street', 'City', 'State', 'Country', 'Postal Code'];
-		foreach ($headers as &$header) {
+		foreach ($headers as $header) {
 			$translatedHeaders[] = \App\Language::translate(html_entity_decode($header, ENT_QUOTES), $moduleName);
 		}
 		$this->output($request, $translatedHeaders, $entries);
@@ -39,7 +42,7 @@ class Users_ExportData_Action extends Vtiger_ExportData_Action
 	 */
 	public function getExportQuery(\App\Request $request)
 	{
-		$cvId = $request->get('viewname');
+		$cvId = $request->getByType('viewname', 2);
 		$queryGenerator = new \App\QueryGenerator($request->getByType('source_module', 1));
 		if (!empty($cvId)) {
 			$queryGenerator->initForCustomViewById($cvId);

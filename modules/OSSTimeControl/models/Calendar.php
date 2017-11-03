@@ -53,7 +53,7 @@ class OSSTimeControl_Calendar_Model extends App\Base
 			$query->andWhere(['vtiger_crmentity.smownerid' => $this->get('user')]);
 		}
 		$dataReader = $query->createCommand()->query();
-
+		$result = [];
 		while ($record = $dataReader->read()) {
 			$item = [];
 			$item['id'] = $record['id'];

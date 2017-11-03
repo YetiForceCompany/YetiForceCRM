@@ -19,12 +19,9 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Save')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
-		}
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'MassEdit')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		$userPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$userPriviligesModel->hasModuleActionPermission($request->getModule(), 'MassEdit')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -47,7 +44,7 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 	/**
 	 * Function to get the record model based on the request parameters
 	 * @param \App\Request $request
-	 * @return array - List of Vtiger_Record_Model instances
+	 * @return Vtiger_Record_Model[] - List of Vtiger_Record_Model instances
 	 */
 	public function getRecordModelsFromRequest(\App\Request $request)
 	{
@@ -55,23 +52,16 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordIds = Vtiger_Mass_Action::getRecordsListFromRequest($request);
 		$recordModels = [];
+		$fieldModelList = $moduleModel->getFields();
 		foreach ($recordIds as $recordId) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);
 			if (!$recordModel->isEditable()) {
 				$recordModels[$recordId] = false;
 				continue;
 			}
-			$fieldModelList = $moduleModel->getFields();
 			foreach ($fieldModelList as $fieldName => $fieldModel) {
-				if (!$fieldModel->isEditable()) {
-					continue;
-				}
-				if ($request->has($fieldName)) {
-					if ($fieldModel->get('uitype') === 300) {
-						$recordModel->set($fieldName, $request->getForHtml($fieldName, null));
-					} else {
-						$recordModel->set($fieldName, $fieldModel->getUITypeModel()->getDBValue($request->get($fieldName, null), $recordModel));
-					}
+				if ($fieldModel->isWritable() && $request->has($fieldName)) {
+					$fieldModel->getUITypeModel()->setValueFromRequest($request, $recordModel);
 				}
 			}
 			$recordModels[$recordId] = $recordModel;

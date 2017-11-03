@@ -127,7 +127,7 @@ class Vtiger_Export_Model extends \App\Base
 	public function getExportQuery(\App\Request $request)
 	{
 		$mode = $request->getMode();
-		$cvId = $request->get('viewname');
+		$cvId = $request->getByType('viewname', 2);
 		$queryGenerator = new \App\QueryGenerator($request->getByType('source_module', 1));
 		if (!empty($cvId)) {
 			$queryGenerator->initForCustomViewById($cvId);

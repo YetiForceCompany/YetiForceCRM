@@ -16,20 +16,21 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 	{
 		$moduleName = $request->getModule();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$record = $request->getInteger('record');
 		if (!AppConfig::security('SHOW_MY_PREFERENCES')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		if ($record && (int) $currentUserModel->get('id') !== $record) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-			if ($recordModel->get('status') !== 'Active') {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+		if (!$request->isEmpty('record', true)) {
+			$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
+			if ($currentUserModel->get('id') != $request->getInteger('record') && $this->record->get('status') != 'Active') {
+				throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 			}
+		} elseif ($request->isEmpty('record')) {
+			$this->record = Vtiger_Record_Model::getCleanInstance($moduleName);
 		}
-		if (($currentUserModel->isAdminUser() === true || (int) $currentUserModel->get('id') === $record)) {
+		if (($currentUserModel->isAdminUser() === true || ($currentUserModel->get('id') == $request->getInteger('record') && AppConfig::security('SHOW_MY_PREFERENCES')))) {
 			return true;
 		} else {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -41,12 +42,10 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-		if ($this->checkPermission($request)) {
-			$viewer = $this->getViewer($request);
-			$viewer->assign('IS_PREFERENCE', true);
-			if ($display) {
-				$this->preProcessDisplay($request);
-			}
+		$viewer = $this->getViewer($request);
+		$viewer->assign('IS_PREFERENCE', true);
+		if ($display) {
+			$this->preProcessDisplay($request);
 		}
 	}
 

@@ -28,20 +28,20 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 		if (!$request->isEmpty('record', true)) {
 			$recordId = $request->getInteger('record');
 			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 			$this->record = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 			if (!$this->record->isEditable()) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		} else {
 			$this->record = Vtiger_Record_Model::getCleanInstance($moduleName);
 			if (!$this->record->isCreateable()) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		}
-		if ($request->get('relationOperation') && !\App\Privilege::isPermitted($request->getByType('sourceModule', 1), 'DetailView', $request->getInteger('sourceRecord'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		if ($request->getBoolean('relationOperation') && !\App\Privilege::isPermitted($request->getByType('sourceModule', 1), 'DetailView', $request->getInteger('sourceRecord'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -72,10 +72,10 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 	public function process(\App\Request $request)
 	{
 		$recordModel = $this->saveRecord($request);
-		if ($request->get('relationOperation')) {
-			$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $request->getByType('sourceModule', 1));
+		if ($request->getBoolean('relationOperation')) {
+			$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $request->getByType('sourceModule'));
 			$loadUrl = $parentRecordModel->getDetailViewUrl();
-		} else if ($request->get('returnToList')) {
+		} else if ($request->getBoolean('returnToList')) {
 			$loadUrl = $recordModel->getModule()->getListViewUrl();
 		} else {
 			$loadUrl = $recordModel->getDetailViewUrl();
@@ -92,8 +92,8 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 	{
 		$recordModel = $this->getRecordModelFromRequest($request);
 		$recordModel->save();
-		if ($request->get('relationOperation')) {
-			$parentModuleModel = Vtiger_Module_Model::getInstance($request->getByType('sourceModule', 1));
+		if ($request->getBoolean('relationOperation')) {
+			$parentModuleModel = Vtiger_Module_Model::getInstance($request->getByType('sourceModule'));
 			$relatedModule = $recordModel->getModule();
 			$relatedRecordId = $recordModel->getId();
 			$relationModel = Vtiger_Relation_Model::getInstance($parentModuleModel, $relatedModule);
@@ -101,10 +101,10 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 				$relationModel->addRelation($request->getInteger('sourceRecord'), $relatedRecordId);
 			}
 		}
-		if ($request->get('imgDeleted')) {
-			$imageIds = $request->get('imageid');
+		if ($request->getBoolean('imgDeleted')) {
+			$imageIds = $request->getArray('imageid');
 			foreach ($imageIds as $imageId) {
-				$recordModel->deleteImage($imageId);
+				$recordModel->deleteImage((int) $imageId);
 			}
 		}
 		return $recordModel;
@@ -117,27 +117,19 @@ class Vtiger_Save_Action extends Vtiger_Action_Controller
 	 */
 	protected function getRecordModelFromRequest(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		if (!$request->isEmpty('record', true)) {
-			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
-		} else {
-			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getCleanInstance($moduleName);
+		if (empty($this->record)) {
+			$this->record = $request->isEmpty('record', true) ? Vtiger_Record_Model::getCleanInstance($request->getModule()) : Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
 		}
-		$fieldModelList = $recordModel->getModule()->getFields();
+		$fieldModelList = $this->record->getModule()->getFields();
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
 			if (!$fieldModel->isWritable()) {
 				continue;
 			}
 			if ($request->has($fieldName)) {
-				$fieldModel->getUITypeModel()->setValueFromRequest($request, $recordModel);
-			} elseif ($recordModel->isNew()) {
-				$defaultValue = $fieldModel->getDefaultFieldValue();
-				if ($defaultValue !== '') {
-					$recordModel->set($fieldName, $defaultValue);
-				}
+				$fieldModel->getUITypeModel()->setValueFromRequest($request, $this->record);
 			}
 		}
-		return $recordModel;
+		return $this->record;
 	}
 
 	public function validateRequest(\App\Request $request)

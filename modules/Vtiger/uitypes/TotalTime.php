@@ -10,6 +10,9 @@
 class Vtiger_TotalTime_UIType extends Vtiger_Double_UIType
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$return = vtlib\Functions::decimalTimeFormat($value);

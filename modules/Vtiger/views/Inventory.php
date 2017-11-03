@@ -20,12 +20,12 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 	public function showDiscounts(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$discountType = $request->get('discountType');
-		$currency = $request->get('currency');
+		$discountType = $request->getInteger('discountType');
+		$currency = $request->getInteger('currency');
 		$relatedRecord = $request->getInteger('relatedRecord');
-		$totalPrice = $request->get('totalPrice');
+		$totalPrice = (float) $request->get('totalPrice');
 		if (!\App\Privilege::isPermitted($moduleName, 'EditView')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$inventoryModel = Vtiger_Inventory_Model::getInstance($moduleName);
 		$config = $inventoryModel->getDiscountsConfig();
@@ -54,12 +54,12 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 		$record = $request->getInteger('record');
 		$recordModule = $request->get('recordModule');
-		$currency = $request->get('currency');
+		$currency = $request->getInteger('currency');
 		$sourceRecord = $request->getInteger('sourceRecord');
 		$taxType = $request->get('taxType');
-		$totalPrice = $request->get('totalPrice');
+		$totalPrice = (float) $request->get('totalPrice');
 		if (!\App\Privilege::isPermitted($moduleName, 'EditView')) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$inventoryModel = Vtiger_Inventory_Model::getInstance($moduleName);
 		$accountTaxs = $inventoryModel->getAccountTax($moduleName, $sourceRecord);

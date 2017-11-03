@@ -34,7 +34,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 	 * @param string $value
 	 * @param bool $isUserFormat
 	 * @return null
-	 * @throws \App\Exceptions\SaveRecord
+	 * @throws \App\Exceptions\Security
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
@@ -43,7 +43,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 		}
 		foreach (explode(',', $value) as $row) {
 			if (substr($row, 0, 1) !== 'T' || !is_numeric(substr($row, 1))) {
-				throw new \App\Exceptions\SaveRecord('ERR_ILLEGAL_FIELD_VALUE', 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
 			}
 		}
 		$this->validate = true;

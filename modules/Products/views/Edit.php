@@ -12,52 +12,42 @@
 Class Products_Edit_View extends Vtiger_Edit_View
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$recordId = $request->getInteger('record');
-		$recordModel = $this->record;
-		if (!$recordModel) {
-			if (!empty($recordId)) {
-				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-			} else {
-				$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-			}
-		}
-
-		$baseCurrenctDetails = $recordModel->getBaseCurrencyDetails();
-
+		$baseCurrenctDetails = $this->record->getBaseCurrencyDetails();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('BASE_CURRENCY_NAME', 'curname' . $baseCurrenctDetails['currencyid']);
 		$viewer->assign('BASE_CURRENCY_ID', $baseCurrenctDetails['currencyid']);
 		$viewer->assign('BASE_CURRENCY_SYMBOL', $baseCurrenctDetails['symbol']);
-		$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
+		$viewer->assign('IMAGE_DETAILS', $this->record->getImageDetails());
 
 		parent::process($request);
 	}
 
-	public function getDuplicate($record, $moduleName)
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getDuplicate()
 	{
-		$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($record, $moduleName);
-		$recordModel->set('id', '');
-		$recordModel->set('qtyinstock', null);
+		$this->record->set('id', '');
+		$this->record->set('qtyinstock', null);
 		//While Duplicating record, If the related record is deleted then we are removing related record info in record model
-		$mandatoryFieldModels = $recordModel->getModule()->getMandatoryFieldModels();
+		$mandatoryFieldModels = $this->record->getModule()->getMandatoryFieldModels();
 		foreach ($mandatoryFieldModels as $fieldModel) {
 			if ($fieldModel->isReferenceField()) {
 				$fieldName = $fieldModel->get('name');
-				if (!\App\Record::isExists($recordModel->get($fieldName))) {
-					$recordModel->set($fieldName, '');
+				if (!\App\Record::isExists($this->record->get($fieldName))) {
+					$this->record->set($fieldName, '');
 				}
 			}
 		}
-		return $recordModel;
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
-	 * @param \App\Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * {@inheritDoc}
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{

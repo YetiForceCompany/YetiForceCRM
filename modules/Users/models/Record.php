@@ -80,15 +80,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get the url for the Profile page
-	 * @return string - Profile Url
-	 */
-	public function getProfileUrl()
-	{
-		return 'index.php?module=Users&view=ChangePassword&mode=Profile';
-	}
-
-	/**
 	 * Function to get the Edit View url for the record
 	 * @return string - Record Edit View Url
 	 */
@@ -172,9 +163,8 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$db = \App\Db::getInstance();
 		$valuesForSave = $this->getValuesForSave();
 		foreach ($valuesForSave as $tableName => $tableData) {
-			$keyTable = [$entityInstance->tab_name_index[$tableName] => $this->getId()];
 			if ($this->isNew()) {
-				$db->createCommand()->insert($tableName, $keyTable + $tableData)->execute();
+				$db->createCommand()->insert($tableName, [$entityInstance->tab_name_index[$tableName] => $this->getId()] + $tableData)->execute();
 			} else {
 				$db->createCommand()->update($tableName, $tableData, [$entityInstance->tab_name_index[$tableName] => $this->getId()])->execute();
 			}
@@ -202,16 +192,16 @@ class Users_Record_Model extends Vtiger_Record_Model
 		$saveFields = $moduleModel->getFieldsForSave($this);
 		if (!$this->isNew()) {
 			$saveFields = array_intersect($saveFields, array_keys($this->changes));
-		} else {
+		}
+		if ($this->isNew()) {
 			$this->setId(\App\Db::getInstance()->getUniqueID('vtiger_users'));
 			$forSave['vtiger_users']['date_entered'] = date('Y-m-d H:i:s');
 		}
-		$forSave = $this->transformValues($forSave);
 		foreach ($saveFields as $fieldName) {
 			$fieldModel = $moduleModel->getFieldByName($fieldName);
 			if ($fieldModel) {
-				$value = $this->get($fieldName);
 				$uitypeModel = $fieldModel->getUITypeModel();
+				$value = $this->get($fieldName);
 				$uitypeModel->validate($value);
 				if ($value === null || $value === '') {
 					$defaultValue = $fieldModel->getDefaultFieldValue();
@@ -224,7 +214,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 					}
 					$this->set($fieldName, $value);
 				}
-				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $value;
+				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $uitypeModel->convertToSave($value, $this);
 			}
 		}
 		return $forSave;
@@ -262,7 +252,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Validation of modified data
-	 * @throws \Exception
+	 * @throws \App\Exceptions\SaveRecord
 	 */
 	public function validate()
 	{
@@ -282,32 +272,50 @@ class Users_Record_Model extends Vtiger_Record_Model
 					->from('vtiger_users')
 					->leftJoin('vtiger_user2role', 'vtiger_user2role.userid = vtiger_users.id')
 					->where(['user_name' => $this->get('user_name'), 'vtiger_user2role.roleid' => $this->get('roleid')])->exists()) {
-				throw new \Exception('LBL_USER_EXISTS');
+				throw new \App\Exceptions\SaveRecord('LBL_USER_EXISTS', 406);
 			}
 			if ($this->getId()) {
 				\App\Db::getInstance()->createCommand()->delete('vtiger_module_dashboard_widgets', ['userid' => $this->getId()])->execute();
 			}
 			\App\Privilege::setAllUpdater();
 		}
+		if (!$this->isNew() && $this->has('user_password') && App\User::getCurrentUserId() === $this->getId()) {
+			$isExists = (new \App\Db\Query())->from('l_#__userpass_history')->where(['user_id' => $this->getId(), 'pass' => \App\Encryption::createHash($this->get('user_password'))])->exists();
+			if ($isExists) {
+				throw new \App\Exceptions\SaveRecord('ERR_PASSWORD_HAS_ALREADY_BEEN_USED', 406);
+			}
+		}
 	}
 
 	/**
-	 * Transform values
-	 * @param array $values
-	 * @return array
+	 * Function after save to database
 	 */
-	protected function transformValues($values)
+	public function afterSaveToDb()
 	{
-		$entityInstance = $this->getModule()->getEntityInstance();
-		$cryptType = AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
-		if ($this->isNew() || $this->getPreviousValue('confirm_password') !== false) {
-			$this->set('confirm_password', $entityInstance->encryptPassword($this->get('confirm_password'), $cryptType));
+		if ($this->has('user_password') && ($this->isNew() || App\User::getCurrentUserId() === $this->getId())) {
+			\App\Db::getInstance()->createCommand()
+				->insert('l_#__userpass_history', [
+					'pass' => \App\Encryption::createHash($this->get('user_password')),
+					'user_id' => $this->getId(),
+					'date' => date('Y-m-d H:i:s'),
+				])->execute();
 		}
-		if ($this->isNew() || $this->getPreviousValue('user_password') !== false) {
-			$this->set('user_password', $entityInstance->encryptPassword($this->get('user_password'), $cryptType));
-			$values['vtiger_users']['crypt_type'] = $cryptType;
+		if ($this->getPreviousValue('language') !== false && App\User::getCurrentUserRealId() === $this->getId()) {
+			App\Session::set('language', $this->get('language'));
 		}
-		return $values;
+		if ($_FILES) {
+			foreach ($_FILES as $fileindex => $files) {
+				if ($files['name'] !== '' && $files['size'] > 0) {
+					$files['original_name'] = \App\Request::_get($fileindex . '_hidden');
+					$this->getEntity()->uploadAndSaveFile($this->getId(), $this->getModuleName(), $files);
+				}
+			}
+		}
+		\App\UserPrivilegesFile::createUserPrivilegesfile($this->getId());
+		\App\UserPrivilegesFile::createUserSharingPrivilegesfile($this->getId());
+		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
+			\App\PrivilegeFile::createUsersFile();
+		}
 	}
 
 	/**
@@ -681,17 +689,32 @@ class Users_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function to get instance of user model by name
 	 * @param string $userName
-	 * @return <Users_Record_Model>
+	 * @return Users_Record_Model
 	 */
 	public static function getInstanceByName($userName)
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT id FROM vtiger_users WHERE user_name = ?', [$userName]);
-
-		if ($db->numRows($result)) {
-			return Users_Record_Model::getInstanceById($db->queryResult($result, 0, 'id'), 'Users');
+		$id = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['or', ['user_name' => $userName], ['user_name' => strtolower($userName)]])->scalar();
+		if ($id) {
+			return Users_Record_Model::getInstanceById($id, 'Users');
 		}
 		return false;
+	}
+
+	/**
+	 * Function to get instance of user model by id from file
+	 * @param int $userId
+	 * @return Users_Record_Model
+	 */
+	public static function getInstanceFromFile($userId)
+	{
+		if (empty($userId)) {
+			\App\Log::error('No user id: ' . $userId);
+			return false;
+		}
+		$valueMap = \App\User::getPrivilegesFile($userId);
+		$instance = new self();
+		$instance->setData($valueMap['user_info']);
+		return $instance;
 	}
 
 	/**
@@ -833,5 +856,125 @@ class Users_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		return $return;
+	}
+
+	/**
+	 * Encrypt user password
+	 * @param string $password User password
+	 * @return string Encrypted password
+	 */
+	public function encryptPassword($password)
+	{
+		return password_hash($password, PASSWORD_BCRYPT, ['cost' => AppConfig::security('USER_ENCRYPT_PASSWORD_COST')]);
+	}
+
+	/**
+	 * Verify user assword
+	 * @param string $password
+	 * @return bool
+	 */
+	public function verifyPassword($password)
+	{
+		return password_verify($password, $this->get('user_password'));
+	}
+
+	/**
+	 * Slower logon for security purposes
+	 * @param string $password
+	 */
+	public function fakeEncryptPassword($password)
+	{
+		$this->getAuthDetail();
+		\Settings_Password_Record_Model::getUserPassConfig();
+		password_verify($password, $this->encryptPassword($password));
+	}
+
+	/**
+	 * The function to log on to the system
+	 * @param string $password The password of the user to authenticate
+	 * @return bool true if the user is authenticated, false otherwise
+	 */
+	public function doLogin($password)
+	{
+		$userName = $this->get('user_name');
+		$row = (new App\Db\Query())->select(['id', 'deleted'])->from('vtiger_users')->where(['or', ['user_name' => $userName], ['user_name' => strtolower($userName)]])->limit(1)->one();
+		if (!$row || (int) $row['deleted'] !== 0) {
+			$this->fakeEncryptPassword($password);
+			\App\Log::info('User not found: ' . $userName, 'UserAuthentication');
+			return false;
+		}
+		$this->set('id', $row['id']);
+		$userRecordModel = static::getInstanceFromFile($row['id']);
+		if ($userRecordModel->get('status') !== 'Active') {
+			\App\Log::info('Inactive user :' . $userName, 'UserAuthentication');
+			return false;
+		}
+		$result = $userRecordModel->doLoginByAuthMethod($password);
+		if (!is_null($result)) {
+			return $result;
+		} elseif (is_null($result) && $userRecordModel->verifyPassword($password)) {
+			\App\Session::set('UserAuthMethod', 'PASSWORD');
+			return true;
+		}
+		\App\Log::info('Invalid password. User: ' . $userName, 'UserAuthentication');
+		return false;
+	}
+
+	/**
+	 * User authorization based on authorization methods
+	 * @param string $password
+	 * @return bool|null
+	 */
+	protected function doLoginByAuthMethod($password)
+	{
+		$auth = $this->getAuthDetail();
+		if ($auth['ldap']['active'] === 'true') {
+			$authMethod = new Users_Ldap_AuthMethod($this);
+			return $authMethod->process($auth['ldap'], $password);
+		}
+		return null;
+	}
+
+	/**
+	 * Get authorization detail
+	 * @return array
+	 */
+	protected function getAuthDetail()
+	{
+		if (\App\Cache::has('getAuthMethods', 'config')) {
+			$auth = \App\Cache::get('getAuthMethods', 'config');
+		}
+		$dataReader = (new \App\Db\Query())->from('yetiforce_auth')->createCommand()->query();
+		$auth = [];
+		while ($row = $dataReader->read()) {
+			$auth[$row['type']][$row['param']] = $row['value'];
+		}
+		\App\Cache::save('getAuthMethods', 'config', $auth);
+		return $auth;
+	}
+
+	/**
+	 * Verify  password change
+	 * @param App\User $userModel
+	 * @return boolean
+	 */
+	public function verifyPasswordChange(App\User $userModel)
+	{
+		$passConfig = \Settings_Password_Record_Model::getUserPassConfig();
+		$time = (int) $passConfig['change_time'];
+		if ($time === 0) {
+			return false;
+		}
+		if (strtotime("-$time day") > strtotime($userModel->getDetail('date_password_change'))) {
+			$time += (int) $passConfig['lock_time'];
+			if (strtotime("-$time day") > strtotime($userModel->getDetail('date_password_change'))) {
+				return true;
+			}
+			\App\Session::set('ShowUserPasswordChange', 1);
+		}
+		if ((int) $userModel->getDetail('force_password_change') === 1) {
+			\App\Session::set('ShowUserPasswordChange', 2);
+		}
+		return false;
 	}
 }

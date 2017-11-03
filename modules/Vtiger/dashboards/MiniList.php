@@ -29,7 +29,7 @@ class Vtiger_MiniList_Dashboard extends Vtiger_IndexAjax_View
 		if (!$request->has('owner')) {
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		} else {
-			$owner = $request->get('owner');
+			$owner = $request->getByType('owner', 2);
 		}
 		$minilistWidgetModel = new Vtiger_MiniList_Model();
 		$minilistWidgetModel->setWidgetModel($widget);
@@ -40,7 +40,7 @@ class Vtiger_MiniList_Dashboard extends Vtiger_IndexAjax_View
 		if ($widget->get('data')) {
 			$widgetParams = $widget->get('data');
 			if (isset($widgetParams['filterFields'])) {
-				$fileterField = Vtiger_Field_Model::getInstanceFromFieldId($widgetParams['filterFields']);
+				$filterField = Vtiger_Field_Model::getInstanceFromFieldId($widgetParams['filterFields']);
 			}
 		}
 		$viewer->assign('WIDGET', $widget);
@@ -50,9 +50,8 @@ class Vtiger_MiniList_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('BASE_MODULE', $minilistWidgetModel->getTargetModule());
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 		$viewer->assign('DATA', $data);
-		$viewer->assign('FILTER_FIELD', $fileterField);
-		$content = $request->get('content');
-		if (!empty($content)) {
+		$viewer->assign('FILTER_FIELD', $filterField);
+		if ($request->has('content')) {
 			$viewer->view('dashboards/MiniListContents.tpl', $moduleName);
 			$viewer->view('dashboards/MiniListFooter.tpl', $moduleName);
 		} else {

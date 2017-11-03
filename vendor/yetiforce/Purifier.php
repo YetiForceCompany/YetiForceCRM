@@ -105,7 +105,7 @@ class Purifier
 	{
 		if (preg_match("#<([^><]+?)([^a-z_\-]on\w*|xmlns)(\s*=\s*[^><]*)([>]*)#i", $value) || preg_match("/\b(" . static::$htmlEventAttributes . ")\s*=/i", $value) || preg_match('@<[^/>][^>]+(expression\(|j\W*a\W*v\W*a|v\W*b\W*s\W*c\W*r|&#|/\*|\*/)[^>]*>@sim', $value)) {
 			\App\Log::error('purifyHtmlEventAttributes: ' . $value, 'BadRequest');
-			throw new Exceptions\BadRequest('LBL_NOT_ALLOWED_VALUE');
+			throw new Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||' . $value, 406);
 		}
 		return $value;
 	}
@@ -249,16 +249,17 @@ class Purifier
 
 	/**
 	 * Function to return the valid SQl input.
-	 * @param string $string
+	 * @param string $input
 	 * @param boolean $skipEmpty Skip the check if string is empty.
 	 * @return string|boolean
 	 */
-	public static function purifySql($string, $skipEmpty = true)
+	public static function purifySql($input, $skipEmpty = true)
 	{
-		if ((empty($string) && $skipEmpty) || preg_match("/^[_a-zA-Z0-9.,]+$/", $string)) {
-			return $string;
+		if ((empty($input) && $skipEmpty) || preg_match("/^[_a-zA-Z0-9.,]+$/", $input)) {
+			return $input;
 		}
-		return false;
+		\App\Log::error('purifySql: ' . $input, 'BadRequest');
+		throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||' . $input, 406);
 	}
 
 	/**
@@ -281,14 +282,27 @@ class Purifier
 				$value[$k] = static::purifyByType($v, $type);
 			}
 		} else {
+			$value = false;
 			switch ($type) {
 				case 'Standard': // only word
-				case 1: // only word
+				case 1:
 					$value = preg_match('/^[_a-zA-Z]+$/', $input) ? $input : false;
 					break;
 				case 'Alnum': // word and int
-				case 2: // word and int
-					$value = preg_match('/^[[:alnum:]]+$/', $input) ? $input : false;
+				case 2:
+					$value = preg_match('/^[[:alnum:]_]+$/', $input) ? $input : false;
+					break;
+				case 'DateInUserFormat': // date in user format
+					list($y, $m, $d) = Fields\Date::explode($input, User::getCurrentUserModel()->getDetail('date_format'));
+					if (checkdate($m, $d, $y)) {
+						$value = $input;
+					}
+					break;
+				case 'Date': // date in base format yyyy-mm-dd
+					list($y, $m, $d) = Fields\Date::explode($input);
+					if (checkdate($m, $d, $y)) {
+						$value = $input;
+					}
 					break;
 				default:
 					$value = Purifier::purify($value);
@@ -296,7 +310,7 @@ class Purifier
 			}
 			if ($value === false) {
 				\App\Log::error('purifyByType: ' . $input, 'BadRequest');
-				throw new \App\Exceptions\BadRequest('LBL_NOT_ALLOWED_VALUE');
+				throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||' . $input, 406);
 			}
 		}
 		return $value;

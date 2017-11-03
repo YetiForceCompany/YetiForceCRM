@@ -991,18 +991,8 @@ jQuery.Class("Vtiger_Edit_Js", {
 	 * Function to check the view permission of a record after save
 	 */
 	registerRecordPreSaveEventEvent: function (form) {
-		if (Vtiger_Edit_Js.SaveResultInstance == false) {
-			Vtiger_Edit_Js.SaveResultInstance = new SaveResult();
-		}
-		var formElement = this.getForm();
-		var formData = formElement.serializeFormData();
-		if (Vtiger_Edit_Js.SaveResultInstance.recordValue == false) {
-			Vtiger_Edit_Js.SaveResultInstance.loadFormData(formData);
-		}
 		form.on(Vtiger_Edit_Js.recordPreSave, function (e, data) {
-			if (Vtiger_Edit_Js.SaveResultInstance.checkData(form.serializeFormData(), form) == false) {
-				e.preventDefault();
-			}
+			
 		});
 	},
 	/**

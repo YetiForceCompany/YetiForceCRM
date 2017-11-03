@@ -23,7 +23,7 @@ class IStorages_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	public function getHierarchyCount(\App\Request $request)
 	{
 		$sourceModule = $request->getModule();
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$focus = CRMEntity::getInstance($sourceModule);
 		$hierarchy = $focus->getHierarchy($recordId);
 		$response = new Vtiger_Response();

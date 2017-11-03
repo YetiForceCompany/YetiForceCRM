@@ -9,6 +9,9 @@
 class Settings_Users_Auth_View extends Settings_Vtiger_Index_View
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -21,6 +24,9 @@ class Settings_Users_Auth_View extends Settings_Vtiger_Index_View
 		$viewer->view('Auth.tpl', $qualifiedModuleName);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);

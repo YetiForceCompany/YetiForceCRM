@@ -37,17 +37,8 @@
 					<div class="col-md-4">
 						<div class="row pull-right detailViewButtoncontainer">
 							<div class="btn-toolbar pull-right">
-								{foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWPREFERENCE']}
-									<div class="btn-group">
-										<button class="btn btn-default"
-												{if $DETAIL_VIEW_BASIC_LINK->isPageLoadLink()}
-													onclick="window.location.href = '{$DETAIL_VIEW_BASIC_LINK->getUrl()}'"
-												{else}
-													onclick={$DETAIL_VIEW_BASIC_LINK->getUrl()}
-												{/if}>
-											<strong>{\App\Language::translate($DETAIL_VIEW_BASIC_LINK->getLabel(), $MODULE_NAME)}</strong>
-										</button>
-									</div>
+								{foreach item=LINK from=$DETAILVIEW_LINKS['DETAILVIEWPREFERENCE']}
+									{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewBasic'}
 								{/foreach}
 								{if $DETAILVIEW_LINKS['DETAILVIEW']|@count gt 0}
 									<span class="btn-group">

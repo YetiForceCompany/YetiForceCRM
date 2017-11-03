@@ -85,9 +85,9 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$linkId = $request->get('linkid');
-		$time = $request->get('time');
-		$compare = $request->get('compare') === 'true';
+		$linkId = $request->getInteger('linkid');
+		$time = $request->getDateRange('time');
+		$compare = $request->getBoolean('compare');
 		$widget = Vtiger_Widget_Model::getInstance($linkId, \App\User::getCurrentUserId());
 		if (empty($time)) {
 			$time = ['start' => ''];
@@ -123,9 +123,7 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 		$viewer->assign('DATA', $data);
 		$viewer->assign('DTIME', $timeSting);
 		$viewer->assign('COMPARE', $compare);
-
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/DashBoardWidgetContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/TeamsEstimatedSales.tpl', $moduleName);

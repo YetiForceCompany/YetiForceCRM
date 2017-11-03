@@ -6,33 +6,14 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 {
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
-	 */
-	public function getTemplateName()
-	{
-		return 'uitypes/Reminder.tpl';
-	}
-
-	/**
-	 * Function to get the Detailview template name for the current UI Type Object
-	 * @return string - Template Name
-	 */
-	public function getDetailViewTemplateName()
-	{
-		return 'uitypes/ReminderDetailView.tpl';
-	}
-
-	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
-	 * @return <Object>
+	 * {@inheritDoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
@@ -52,10 +33,7 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 	}
 
 	/**
-	 * Function to get the edit value in display view
-	 * @param mixed $value
-	 * @param Vtiger_Record_Model $recordModel
-	 * @return mixed
+	 * {@inheritDoc}
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
@@ -63,10 +41,26 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 			$rem_days = floor($value / (24 * 60));
 			$rem_hrs = floor(($value - $rem_days * 24 * 60) / 60);
 			$rem_min = ($value - ($rem_days * 24 * 60)) % 60;
-			$reminder_time = [$rem_days, $rem_hrs, $rem_min];
+			$reminder_time = array($rem_days, $rem_hrs, $rem_min);
 			return $reminder_time;
 		} else {
 			return '';
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getTemplateName()
+	{
+		return 'uitypes/Reminder.tpl';
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getDetailViewTemplateName()
+	{
+		return 'uitypes/ReminderDetailView.tpl';
 	}
 }

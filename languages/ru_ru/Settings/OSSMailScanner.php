@@ -19,7 +19,7 @@ $languageStrings = [
 	'INBOX' => 'Входящие',
 	'Junk' => 'Спам',
 	'Sent' => 'Отправленные',
-	'LBL_INFO_ABOUT_FOLDERS_TO_REMOVE' => 'The folders below will be removed after saving',
+	'LBL_INFO_ABOUT_FOLDERS_TO_REMOVE' => 'Указанные ниже папки будут удалены после сохранения.',
 ];
 $jsLanguageStrings = [
 	'start_cron' => 'Планировщик запущен',

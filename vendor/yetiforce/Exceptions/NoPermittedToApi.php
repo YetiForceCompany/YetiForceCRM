@@ -15,16 +15,15 @@ class NoPermittedToApi extends Security
 	{
 		parent::__construct($message, $code, $previous);
 		\App\Session::init();
-
-		$dbLog = \PearDatabase::getInstance('log');
 		$userName = \App\Session::get('full_user_name');
-		$dbLog->insert('o_yf_access_for_api', [
-			'username' => empty($userName) ? '-' : $userName,
-			'date' => date('Y-m-d H:i:s'),
-			'ip' => \App\RequestUtil::getRemoteIP(),
-			'url' => \App\RequestUtil::getBrowserInfo()->url,
-			'agent' => $_SERVER['HTTP_USER_AGENT'],
-			'request' => json_encode($_REQUEST),
-		]);
+		\App\Db::getInstance('log')->createCommand()
+			->insert('o_#__access_for_api', [
+				'username' => empty($userName) ? '-' : $userName,
+				'date' => date('Y-m-d H:i:s'),
+				'ip' => \App\RequestUtil::getRemoteIP(),
+				'url' => \App\RequestUtil::getBrowserInfo()->url,
+				'agent' => $_SERVER['HTTP_USER_AGENT'],
+				'request' => json_encode($_REQUEST),
+			])->execute();
 	}
 }

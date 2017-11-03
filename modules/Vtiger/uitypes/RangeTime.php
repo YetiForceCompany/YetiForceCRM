@@ -11,9 +11,7 @@ class Vtiger_RangeTime_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
-	 * @return $value
+	 * {@inheritDoc}
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{

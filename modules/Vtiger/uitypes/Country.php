@@ -13,17 +13,9 @@ class Vtiger_Country_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getTemplateName()
+	public function getDBValue($value, $recordModel = false)
 	{
-		return 'uitypes/Country.tpl';
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getListSearchTemplateName()
-	{
-		return 'uitypes/CountrySearchView.tpl';
+		return \App\Purifier::decodeHtml($value);
 	}
 
 	/**
@@ -37,9 +29,17 @@ class Vtiger_Country_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getDBValue($value, $recordModel = false)
+	public function getTemplateName()
 	{
-		return \App\Purifier::decodeHtml($value);
+		return 'uitypes/Country.tpl';
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getListSearchTemplateName()
+	{
+		return 'uitypes/CountrySearchView.tpl';
 	}
 
 	/**

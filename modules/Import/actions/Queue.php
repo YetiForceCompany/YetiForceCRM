@@ -20,17 +20,23 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 
 	public function __construct()
 	{
-
+		
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		return;
@@ -50,7 +56,7 @@ class Import_Queue_Action extends Vtiger_Action_Controller
 		}
 		\App\Db::getInstance()->createCommand()->insert('vtiger_import_queue', [
 			'userid' => $user->id,
-			'tabid' => \App\Module::getModuleId($request->get('module')),
+			'tabid' => \App\Module::getModuleId($request->getModule()),
 			'field_mapping' => \App\Json::encode($request->get('field_mapping')),
 			'default_values' => \App\Json::encode($request->get('default_values')),
 			'merge_type' => $request->get('merge_type'),

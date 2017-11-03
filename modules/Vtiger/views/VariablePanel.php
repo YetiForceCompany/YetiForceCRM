@@ -19,13 +19,11 @@ class Vtiger_VariablePanel_View extends Vtiger_View_Controller
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->getInteger('record');
-		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPrivilegesModel->hasModulePermission($moduleName) || !\App\Privilege::isPermitted($moduleName, 'CreateView')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		if (!\App\Privilege::isPermitted($moduleName, 'CreateView')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		if ($recordId && !\App\Privilege::isPermitted($moduleName, 'EditView', $recordId)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		if (!$request->isEmpty('record') && !\App\Privilege::isPermitted($moduleName, 'EditView', $request->getInteger('record'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -38,8 +36,8 @@ class Vtiger_VariablePanel_View extends Vtiger_View_Controller
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('SELECTED_MODULE', $request->get('selectedModule'));
-		$viewer->assign('PARSER_TYPE', $request->get('type'));
+		$viewer->assign('SELECTED_MODULE', $request->getByType('selectedModule', 1));
+		$viewer->assign('PARSER_TYPE', $request->getByType('type', 1));
 		$viewer->assign('GRAY', true);
 		$viewer->view('VariablePanel.tpl', $moduleName);
 	}

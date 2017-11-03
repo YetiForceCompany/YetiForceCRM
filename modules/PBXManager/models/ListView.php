@@ -39,7 +39,7 @@ class PBXManager_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_DELETE',
 				'linkurl' => 'javascript:Vtiger_List_Js.massDeleteRecords("index.php?module=' . $moduleModel->get('name') . '&action=MassDelete");',
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-trash'
 			];
 
 			foreach ($massActionLinks as $massActionLink) {

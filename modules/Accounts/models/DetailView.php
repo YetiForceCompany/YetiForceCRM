@@ -23,7 +23,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$moduleModel = $this->getModule();
 
-		if ($moduleModel->isPermitted('DetailTransferOwnership')) {
+		if ($this->getRecord()->isEditable() && $moduleModel->isPermitted('DetailTransferOwnership')) {
 			$massActionLink = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',

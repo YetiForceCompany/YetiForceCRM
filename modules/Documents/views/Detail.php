@@ -20,10 +20,7 @@ class Documents_Detail_View extends Vtiger_Detail_View
 
 	public function preProcess(\App\Request $request, $display = true)
 	{
-		$recordId = $request->getInteger('record');
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
-		$fileType = $recordModel->get('filetype');
-		$fileIcon = \App\Layout\Icon::getIconByFileType($fileType);
+		$fileIcon = \App\Layout\Icon::getIconByFileType($this->record->getRecord()->get('filetype'));
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('NO_SUMMARY', true);

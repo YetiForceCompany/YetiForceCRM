@@ -25,7 +25,7 @@ class OSSMailScanner_IdentitiesDel_Action extends Vtiger_Action_Controller
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$id = $request->get('id');
+		$id = $request->getInteger('id');
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		$recordModel->deleteIdentities($id);
 

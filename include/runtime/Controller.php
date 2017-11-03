@@ -31,22 +31,22 @@ abstract class Vtiger_Controller
 
 	public function validateRequest(\App\Request $request)
 	{
-
+		
 	}
 
 	public function preProcessAjax(\App\Request $request)
 	{
-
+		
 	}
 
 	public function preProcess(\App\Request $request)
 	{
-
+		
 	}
 
 	public function postProcess(\App\Request $request)
 	{
-
+		
 	}
 
 	// Control the exposure of methods to be invoked from client (kind-of RPC)
@@ -142,6 +142,11 @@ abstract class Vtiger_Action_Controller extends Vtiger_Controller
 		parent::__construct();
 	}
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	abstract public function checkPermission(\App\Request $request);
 
 	public function getViewer(\App\Request $request)
@@ -161,7 +166,7 @@ abstract class Vtiger_Action_Controller extends Vtiger_Controller
 
 	protected function preProcessDisplay(\App\Request $request)
 	{
-
+		
 	}
 
 	protected function preProcessTplName(\App\Request $request)
@@ -170,6 +175,15 @@ abstract class Vtiger_Action_Controller extends Vtiger_Controller
 	}
 
 	public function postProcess(\App\Request $request)
+	{
+		return true;
+	}
+
+	/**
+	 * Process action
+	 * @param \App\Request $request
+	 */
+	public function process(\App\Request $request)
 	{
 		return true;
 	}
@@ -213,7 +227,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			$viewer->assign('MODULE_NAME', $request->getModule());
 			if ($request->isAjax()) {
 				$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-				if ($request->getByType('parent', 1) === 'Settings') {
+				if (!$request->isEmpty('parent', true) && $request->getByType('parent', 1) === 'Settings') {
 					$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 				}
 			}

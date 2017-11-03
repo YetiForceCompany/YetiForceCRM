@@ -151,7 +151,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		}
 		$sUsers = implode(',', $users);
 		$query = (new \App\Db\Query())->from('yetiforce_mail_quantities')->where(['userid' => $sUsers, 'status' => 1]);
-		if (!$query->count()) {
+		if ($query->count()) {
 			return false;
 		}
 		$dbCommand->update('yetiforce_mail_quantities', ['status' => 1], ['userid' => $sUsers])->execute();

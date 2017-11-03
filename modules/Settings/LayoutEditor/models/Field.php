@@ -65,9 +65,15 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 				if ($db->isTableExists('vtiger_' . $fieldname . '_seq')) {
 					$db->createCommand()->dropTable('vtiger_' . $fieldname . '_seq')->execute();
 				}
-				$db->createCommand()->delete('vtiger_picklist', ['name' => $fieldname]);
+				$db->createCommand()->delete('vtiger_picklist', ['name' => $fieldname])->execute();
 			}
 			$db->createCommand()->delete('vtiger_picklist_dependency', ['and', ['tabid' => $tabId], ['or', ['sourcefield' => $fieldname], ['targetfield' => $fieldname]]])->execute();
+		}
+
+		//MultiReferenceValue
+		if ($this->getUIType() === 305) {
+			$fieldParams = \App\Json::decode($this->get('fieldparams'));
+			$db->createCommand()->delete('s_#__multireference', ['source_module' => $fldModule, 'dest_module' => $fieldParams['module']])->execute();
 		}
 	}
 

@@ -243,7 +243,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function getEditViewUrl()
 	{
 		$module = $this->getModule();
-		return 'index.php?module=' . $this->getModuleName() . '&view=' . $module->getEditViewName() . '&record=' . $this->getId();
+		return 'index.php?module=' . $this->getModuleName() . '&view=' . $module->getEditViewName() . ($this->getId() ? '&record=' . $this->getId() : '');
 	}
 
 	/**
@@ -375,9 +375,9 @@ class Vtiger_Record_Model extends \App\Base
 		}
 		$this->getModule()->saveRecord($this);
 		$db->completeTransaction();
-
 		if ($this->isNew()) {
 			\App\Cache::staticSave('RecordModel', $this->getId() . ':' . $this->getModuleName(), $this);
+			$this->isNew = false;
 		}
 		\App\Cache::delete('recordLabel', $this->getId());
 		\App\PrivilegeUpdater::updateOnRecordSave($this);
@@ -391,13 +391,12 @@ class Vtiger_Record_Model extends \App\Base
 		$entityInstance = $this->getModule()->getEntityInstance();
 		$db = \App\Db::getInstance();
 		foreach ($this->getValuesForSave() as $tableName => $tableData) {
-			$keyTable = [$entityInstance->tab_name_index[$tableName] => $this->getId()];
 			if ($this->isNew()) {
 				if ($tableName === 'vtiger_crmentity') {
 					$db->createCommand()->insert($tableName, $tableData)->execute();
 					$this->setId((int) $db->getLastInsertID('vtiger_crmentity_crmid_seq'));
 				} else {
-					$db->createCommand()->insert($tableName, $keyTable + $tableData)->execute();
+					$db->createCommand()->insert($tableName, [$entityInstance->tab_name_index[$tableName] => $this->getId()] + $tableData)->execute();
 				}
 			} else {
 				$db->createCommand()->update($tableName, $tableData, [$entityInstance->tab_name_index[$tableName] => $this->getId()])->execute();
@@ -430,10 +429,14 @@ class Vtiger_Record_Model extends \App\Base
 				$uitypeModel = $fieldModel->getUITypeModel();
 				$uitypeModel->validate($value);
 				if ($value === '' || $value === null) {
-					$value = $uitypeModel->getDBValue($value, $this);
-					$this->set($fieldName, $value);
+					$defaultValue = $fieldModel->getDefaultFieldValue();
+					if ($defaultValue !== '') {
+						$value = $defaultValue;
+					} else {
+						$value = $uitypeModel->getDBValue($value, $this);
+					}
 				}
-				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $value;
+				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $uitypeModel->convertToSave($value, $this);
 			}
 		}
 		return $forSave;
@@ -497,9 +500,9 @@ class Vtiger_Record_Model extends \App\Base
 
 	/**
 	 * Static Function to get the instance of the Vtiger Record Model given the recordid and the module name
-	 * @param <Number> $recordId
-	 * @param string $moduleName
-	 * @return Vtiger_Record_Model or Module Specific Record Model instance
+	 * @param int $recordId
+	 * @param string $module
+	 * @return \Vtiger_Record_Model Module Specific Record Model instance
 	 */
 	public static function getInstanceById($recordId, $module = null)
 	{
@@ -555,7 +558,7 @@ class Vtiger_Record_Model extends \App\Base
 		}
 		$rows = $recordSearch->search();
 		$ids = $matchingRecords = $leadIdsList = [];
-		foreach ($rows as &$row) {
+		foreach ($rows as $row) {
 			$ids[] = $row['crmid'];
 			if ($row['setype'] === 'Leads') {
 				$leadIdsList[] = $row['crmid'];
@@ -563,14 +566,13 @@ class Vtiger_Record_Model extends \App\Base
 		}
 		$convertedInfo = Leads_Module_Model::getConvertedInfo($leadIdsList);
 		$labels = \App\Record::getLabel($ids);
-
-		foreach ($rows as &$row) {
+		foreach ($rows as $row) {
 			if ($row['setype'] === 'Leads' && $convertedInfo[$row['crmid']]) {
 				continue;
 			}
 			$recordMeta = \vtlib\Functions::getCRMRecordMetadata($row['crmid']);
 			$row['id'] = $row['crmid'];
-			$row['label'] = $labels[$row['crmid']];
+			$row['label'] = App\Purifier::decodeHtml($labels[$row['crmid']]);
 			$row['smownerid'] = $recordMeta['smownerid'];
 			$row['createdtime'] = $recordMeta['createdtime'];
 			$row['permitted'] = \App\Privilege::isPermitted($row['setype'], 'DetailView', $row['crmid']);
@@ -671,12 +673,40 @@ class Vtiger_Record_Model extends \App\Base
 		return $this->privileges['isNoLockByField'];
 	}
 
+	/**
+	 * Checking for permission to delete
+	 * @return bool
+	 */
 	public function isDeletable()
 	{
-		if (!isset($this->privileges['isDeletable'])) {
-			$this->privileges['isDeletable'] = \App\Privilege::isPermitted($this->getModuleName(), 'Delete', $this->getId()) && $this->checkLockFields();
+		if (!isset($this->privileges['Deleted'])) {
+			$this->privileges['Deleted'] = \App\Record::getState($this->getId()) !== 'Deleted' && \App\Privilege::isPermitted($this->getModuleName(), 'Delete', $this->getId()) && $this->checkLockFields();
 		}
-		return $this->privileges['isDeletable'];
+		return $this->privileges['Deleted'];
+	}
+
+	/**
+	 * Checking for permission to archive
+	 * @return bool
+	 */
+	public function privilegeToArchive()
+	{
+		if (!isset($this->privileges['Archive'])) {
+			$this->privileges['Archive'] = \App\Record::getState($this->getId()) !== 'Archived' && \App\Privilege::isPermitted($this->getModuleName(), 'Archived', $this->getId());
+		}
+		return $this->privileges['Archive'];
+	}
+
+	/**
+	 * Checking for permission to activate
+	 * @return bool
+	 */
+	public function privilegeToActivate()
+	{
+		if (!isset($this->privileges['Activate'])) {
+			$this->privileges['Activate'] = \App\Record::getState($this->getId()) !== 'Active' && \App\Privilege::isPermitted($this->getModuleName(), 'Active', $this->getId());
+		}
+		return $this->privileges['Activate'];
 	}
 
 	/**
@@ -1242,5 +1272,13 @@ class Vtiger_Record_Model extends \App\Base
 			$this->set($fieldModel->getName(), $value);
 		}
 		return $this->get($fieldName);
+	}
+
+	/**
+	 * Clear changes
+	 */
+	public function clearChanges()
+	{
+		unset($this->changes);
 	}
 }

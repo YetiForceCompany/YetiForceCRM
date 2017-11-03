@@ -177,16 +177,14 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			if ($handler->loginRequired()) {
 				$this->checkLogin($request);
 			}
-			$skipList = ['Users', 'Home', 'CustomView', 'Import', 'Export', 'Vtiger', 'Install', 'ModTracker'];
-			if (!in_array($moduleName, $skipList) && stripos($qualifiedModuleName, 'Settings') === false) {
-				$this->triggerCheckPermission($handler, $request);
-			}
-			// Every settings page handler should implement this method
-			if (stripos($qualifiedModuleName, 'Settings') === 0 || $moduleName === 'Users' || $moduleName === 'CustomView') {
-				$handler->checkPermission($request);
-			}
 			if ($moduleName === 'ModComments' && $view === 'List') {
 				header('Location:index.php?module=Home&view=DashBoard');
+			}
+			$skipList = ['Users', 'Home', 'CustomView', 'Import', 'Export', 'Install', 'ModTracker'];
+			if (!in_array($moduleName, $skipList) && stripos($qualifiedModuleName, 'Settings') === false) {
+				$this->triggerCheckPermission($handler, $request);
+			} elseif (stripos($qualifiedModuleName, 'Settings') === 0 || in_array($moduleName, $skipList)) {
+				$handler->checkPermission($request);
 			}
 			$this->triggerPreProcess($handler, $request);
 			$response = $handler->process($request);
@@ -196,7 +194,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$tpl = 'OperationNotPermitted.tpl';
 			if ($e instanceof \App\Exceptions\NoPermittedToRecord || $e instanceof WebServiceException) {
 				$tpl = 'NoPermissionsForRecord.tpl';
-			} elseif ($e instanceof \App\Exceptions\Security) {
+			} elseif ($e instanceof \App\Exceptions\Security || $e instanceof \App\Exceptions\Security) {
 				$tpl = 'BadRequest.tpl';
 			}
 			\vtlib\Functions::throwNewException($e, false, $tpl);
@@ -215,7 +213,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				throw $e;
 			}
 		}
-		if ($response) {
+		if (is_object($response)) {
 			$response->emit();
 		}
 	}

@@ -35,18 +35,18 @@ $languageStrings = [
 	'LBL_NOTIFICATION_BY_RECIPIENT' => 'Número de notificaciones por destinatario',
 	//Widgets
 	'LBL_MINI_LIST' => 'Mini lista',
-	'LBL_FILTERING_BY_DATE' => 'Filter by date from field',
-	'LBL_TIMELINE_BY_DATE' => 'Timeline by date',
+	'LBL_FILTERING_BY_DATE' => 'Filtrar por fecha del campo',
+	'LBL_TIMELINE_BY_DATE' => 'Línea del tiempo por fecha',
 	'LBL_WIDGET_NAME' => 'Nombre del Widget',
 	'LBL_SELECT_CHART' => 'Seleccione gráfico',
-	'LBL_VALUE_TYPE' => 'Value type',
-	'LBL_VALUE_FIELD' => 'Value field',
-	'LBL_NUMBER_OF_RECORDS' => 'Number of records',
+	'LBL_VALUE_TYPE' => 'Tipo de valor',
+	'LBL_VALUE_FIELD' => 'Tipo de campo',
+	'LBL_NUMBER_OF_RECORDS' => 'Nº de registros',
 	'LBL_SUM' => 'Sum',
-	'LBL_GROUP_FIELD' => 'Agrupar por',
-	'LBL_GROUP_VALUES' => 'Split grouping values',
-	'LBL_FILTER_BY_OWNER' => 'Filter by owner',
-	'LBL_ALL_OWNERS' => 'All',
+	'LBL_GROUP_FIELD' => 'Agrupar por el campo',
+	'LBL_GROUP_VALUES' => 'División de valores de agrupamiento',
+	'LBL_FILTER_BY_OWNER' => 'Filtrar por propietario',
+	'LBL_ALL_OWNERS' => 'Todos',
 ];
 
 $jsLanguageStrings = [

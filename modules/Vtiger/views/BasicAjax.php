@@ -74,7 +74,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		$customViewModel->setModule($moduleName);
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($moduleName)) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 
@@ -109,7 +109,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		$moduleName = $request->getModule();
 		$advFilterList = $request->get('advfilterlist');
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($moduleName)) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		//used to show the save modify filter option
 		$isAdvanceSearch = false;
@@ -130,10 +130,13 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$viewer->assign('SEARCH_MODULE', $moduleName);
 		} else {
 			$searchKey = $request->get('value');
-			$limit = $request->getInteger('limit') !== 0 ? $request->getInteger('limit') : false;
+			$limit = false;
+			if (!$request->isEmpty('limit', true) && $request->getBoolean('limit') !== false) {
+				$limit = $request->getInteger('limit');
+			}
 			$operator = (!$request->isEmpty('operator') ) ? $request->getByType('operator', 1) : false;
 			$searchModule = false;
-			if ($request->getByType('searchModule', 1)) {
+			if (!$request->isEmpty('searchModule', true)) {
 				$searchModule = $request->getByType('searchModule', 1);
 			}
 			$viewer->assign('SEARCH_KEY', $searchKey);
@@ -155,7 +158,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			unset($matchingRecords[$curentModule]);
 			$matchingRecords = [$curentModule => $pushTop] + $matchingRecords;
 		}
-		if ($request->get('html') === 'true') {
+		if ($request->getBoolean('html')) {
 			$viewer->assign('MODULE', $moduleName);
 			$viewer->assign('MATCHING_RECORDS', $matchingRecords);
 			$viewer->assign('IS_ADVANCE_SEARCH', $isAdvanceSearch);
@@ -164,7 +167,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$recordsList = [];
 			foreach ($matchingRecords as $module => &$modules) {
 				foreach ($modules as $recordID => $recordModel) {
-					$label = App\Purifier::decodeHtml($recordModel->getName());
+					$label = $recordModel->getName();
 					$label .= ' (' . \App\Fields\Owner::getLabel($recordModel->get('smownerid')) . ')';
 					if (!$recordModel->get('permitted')) {
 						$label .= ' <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>';

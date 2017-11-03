@@ -65,6 +65,63 @@ class Campaigns extends CRMEntity
 	// For Alphabetical search
 	public $def_basicsearch_col = 'campaignname';
 
+	public function getRelationQuery($module, $secmodule, $table_name, $column_name, ReportRunQueryPlanner $queryPlanner)
+	{
+		$tab = getRelationTables($module, $secmodule);
+
+		foreach ($tab as $key => $value) {
+			$tables[] = $key;
+			$fields[] = $value;
+		}
+		$pritablename = $tables[0];
+		$sectablename = $tables[1];
+		$prifieldname = $fields[0][0];
+		$secfieldname = $fields[0][1];
+		$tmpname = $pritablename . 'tmp' . $secmodule;
+		$condition = "";
+		if (!empty($tables[1]) && !empty($fields[1])) {
+			$condvalue = $tables[1] . "." . $fields[1];
+			$condition = "$pritablename.$prifieldname=$condvalue";
+		} else {
+			$condvalue = $table_name . "." . $column_name;
+			$condition = "$pritablename.$secfieldname=$condvalue";
+		}
+
+		// Look forward for temporary table usage as defined by the QueryPlanner
+		$secQuery = "select $table_name.* from $table_name inner join vtiger_crmentity on " .
+			"vtiger_crmentity.crmid=$table_name.$column_name and vtiger_crmentity.deleted=0";
+
+		$secQueryTempTableQuery = $queryPlanner->registerTempTable($secQuery, [$column_name, $fields[1], $prifieldname]);
+
+		$query = '';
+		if ($pritablename == 'vtiger_crmentityrel') {
+			$condition = "($table_name.$column_name={$tmpname}.{$secfieldname} " .
+				"OR $table_name.$column_name={$tmpname}.{$prifieldname})";
+			$query = " left join vtiger_crmentityrel as $tmpname ON ($condvalue={$tmpname}.{$secfieldname} " .
+				"OR $condvalue={$tmpname}.{$prifieldname}) ";
+		} elseif (strripos($pritablename, 'rel') === (strlen($pritablename) - 3)) {
+			$instance = self::getInstance($module);
+			$sectableindex = $instance->tab_name_index[$sectablename];
+			$condition = "$table_name.$column_name=$tmpname.$secfieldname";
+			if ($pritablename === 'vtiger_senotesrel') {
+				$query = " left join $pritablename as $tmpname ON ($sectablename.$sectableindex=$tmpname.$prifieldname
+                    && $tmpname.notesid IN (SELECT crmid FROM vtiger_crmentity WHERE setype='Documents' && deleted = 0))";
+			} else {
+				$query = " left join $pritablename as $tmpname ON ($sectablename.$sectableindex=$tmpname.$prifieldname)";
+			}
+			if ($secmodule === 'Leads') {
+				$condition .= " && $table_name.converted = 0";
+			}
+		} elseif ($pritablename === 'vtiger_campaign_records') {
+			$condition = "($table_name.$column_name={$tmpname}.{$secfieldname} " .
+				"OR $table_name.$column_name={$tmpname}.{$prifieldname})";
+			$query = " left join vtiger_campaign_records as $tmpname ON ($condvalue={$tmpname}.{$secfieldname} " .
+				"OR $condvalue={$tmpname}.{$prifieldname}) ";
+		}
+		$query .= " left join $secQueryTempTableQuery as $table_name on {$condition}";
+		return $query;
+	}
+
 	/**
 	 * Function to get the secondary query part of a report
 	 * @param string $module

@@ -10,6 +10,9 @@
 class Settings_Users_SaveAjax_Action extends Settings_Vtiger_Save_Action
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -20,7 +23,7 @@ class Settings_Users_SaveAjax_Action extends Settings_Vtiger_Save_Action
 
 	public function updateConfig(\App\Request $request)
 	{
-		$param = $request->get('param');
+		$param = $request->getArray('param');
 		$recordModel = Settings_Users_Module_Model::getInstance();
 		$response = new Vtiger_Response();
 		$response->setResult([
@@ -32,7 +35,7 @@ class Settings_Users_SaveAjax_Action extends Settings_Vtiger_Save_Action
 
 	public function saveSwitchUsers(\App\Request $request)
 	{
-		$param = $request->get('param');
+		$param = $request->getArray('param');
 		$moduleModel = Settings_Users_Module_Model::getInstance();
 		$moduleModel->saveSwitchUsers($param);
 		$response = new Vtiger_Response();
@@ -48,7 +51,7 @@ class Settings_Users_SaveAjax_Action extends Settings_Vtiger_Save_Action
 	 */
 	public function saveLocks(\App\Request $request)
 	{
-		$param = $request->get('param');
+		$param = $request->getArray('param');
 		$moduleModel = Settings_Users_Module_Model::getInstance();
 		$moduleModel->saveLocks($param);
 		$response = new Vtiger_Response();

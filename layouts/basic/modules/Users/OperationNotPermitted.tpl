@@ -18,7 +18,7 @@
 		<tr>
 			<td rowspan='2' width='11%'><img src="{\App\Layout::getImagePath('denied.gif')}" ></td>
 			<td style='border-bottom: 1px solid rgb(204, 204, 204);' nowrap='nowrap' width='70%'>
-				<span class='genHeaderSmall'>{\App\Language::translate($MESSAGE)}</span></td>
+				<span class='genHeaderSmall'>{\App\Purifier::encodeHtml($MESSAGE)}</span></td>
 		</tr>
 		<tr>
 			<td class='small' align='right' nowrap='nowrap'>

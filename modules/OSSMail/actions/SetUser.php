@@ -18,13 +18,13 @@ class OSSMail_SetUser_Action extends Vtiger_Action_Controller
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
 	public function process(\App\Request $request)
 	{
-		$user = $request->get('user');
+		$user = $request->getInteger('user');
 		$_SESSION['AutoLoginUser'] = $user;
 		$response = new Vtiger_Response();
 		$response->setResult(true);

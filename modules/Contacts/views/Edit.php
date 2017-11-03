@@ -6,35 +6,27 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Contacts_Edit_View extends Vtiger_Edit_View
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$recordId = $request->getInteger('record');
-		$recordModel = $this->record;
-		if (!$recordModel) {
-			if (!empty($recordId)) {
-				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-			} else {
-				$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-			}
-			$this->record = $recordModel;
-		}
-
 		$viewer = $this->getViewer($request);
-		$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
+		$viewer->assign('IMAGE_DETAILS', $this->record->getImageDetails());
 
-		$salutationFieldModel = Vtiger_Field_Model::getInstance('salutationtype', $recordModel->getModule());
+		$salutationFieldModel = Vtiger_Field_Model::getInstance('salutationtype', $this->record->getModule());
 		// Fix for http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/7851
 		$salutationType = $request->get('salutationtype');
 		if (!empty($salutationType)) {
-			$salutationFieldModel->set('fieldvalue', $request->get('salutationtype'));
+			$salutationFieldModel->set('fieldvalue', $salutationFieldModel->getUITypeModel()->getDBValue($salutationType, $this->record));
 		} else {
-			$salutationFieldModel->set('fieldvalue', $recordModel->get('salutationtype'));
+			$salutationFieldModel->set('fieldvalue', $this->record->get('salutationtype'));
 		}
 		$viewer->assign('SALUTATION_FIELD_MODEL', $salutationFieldModel);
 

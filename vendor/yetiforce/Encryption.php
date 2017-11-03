@@ -65,4 +65,74 @@ class Encryption
 		}
 		return true;
 	}
+
+	/**
+	 * Generate random password
+	 * @param int $length
+	 * @return string
+	 */
+	public static function generatePassword($length = 10, $type = 'lbn')
+	{
+		$chars = [];
+		if (strpos($type, 'l') !== false) {
+			$chars[] = 'abcdefghjkmnpqrstuvwxyz';
+		}
+		if (strpos($type, 'b') !== false) {
+			$chars[] = 'ABCDEFGHJKMNPQRSTUVWXYZ';
+		}
+		if (strpos($type, 'n') !== false) {
+			$chars[] = '0123456789';
+		}
+		if (strpos($type, 's') !== false) {
+			$chars[] = '!"#$%&\'()*+,-./:;<=>?@[\]^_{|}';
+		}
+		$password = $allChars = '';
+		foreach ($chars as $char) {
+			$allChars .= $char;
+			$password .= $char[array_rand(str_split($char))];
+		}
+		$allChars = str_split($allChars);
+		$missing = $length - count($chars);
+		for ($i = 0; $i < $missing; $i++) {
+			$password .= $allChars[array_rand($allChars)];
+		}
+		return str_shuffle($password);
+	}
+
+	/**
+	 * Generate user password
+	 * @param int $length
+	 * @return string
+	 */
+	public static function generateUserPassword($length = 10)
+	{
+		$passDetail = \Settings_Password_Record_Model::getUserPassConfig();
+		if ($length > $passDetail['max_length']) {
+			$length = $passDetail['max_length'];
+		}
+		if ($length < $passDetail['min_length']) {
+			$length = $passDetail['min_length'];
+		}
+		$type = 'l';
+		if ($passDetail['numbers'] === 'true') {
+			$type .= 'd';
+		}
+		if ($passDetail['big_letters'] === 'true') {
+			$type .= 'b';
+		}
+		if ($passDetail['special'] === 'true') {
+			$type .= 's';
+		}
+		return static::generatePassword($length, $type);
+	}
+
+	/**
+	 * Function to create a hash
+	 * @param string $text
+	 * @return string
+	 */
+	public static function createHash($text)
+	{
+		return crypt($text, '$1$' . \AppConfig::main('application_unique_key'));
+	}
 }

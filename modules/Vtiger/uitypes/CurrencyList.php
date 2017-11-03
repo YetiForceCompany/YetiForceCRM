@@ -12,6 +12,23 @@
 class Vtiger_CurrencyList_UIType extends Vtiger_Picklist_UIType
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public function validate($value, $isUserFormat = false)
+	{
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		if (!is_numeric($value)) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+		}
+		$this->validate = true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$currencylist = $this->getPicklistValues();
@@ -28,6 +45,11 @@ class Vtiger_CurrencyList_UIType extends Vtiger_Picklist_UIType
 		return $fieldModel->getCurrencyList();
 	}
 
+	public function getCurrenyListReferenceFieldName()
+	{
+		return 'currency_name';
+	}
+
 	/**
 	 * Function defines empty picklist element availability
 	 * @return boolean
@@ -35,10 +57,5 @@ class Vtiger_CurrencyList_UIType extends Vtiger_Picklist_UIType
 	public function isEmptyPicklistOptionAllowed()
 	{
 		return false;
-	}
-
-	public function getCurrenyListReferenceFieldName()
-	{
-		return 'currency_name';
 	}
 }

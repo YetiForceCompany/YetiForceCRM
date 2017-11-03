@@ -28,13 +28,13 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		if (!$request->isEmpty('srcModule') && !$currentUserPrivilegesModel->hasModulePermission($request->get('srcModule'))) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		if (!$request->isEmpty('srcModule') && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('srcModule'))) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		if (!$request->isEmpty('srcModuleName') && !$currentUserPrivilegesModel->hasModulePermission($request->get('srcModuleName'))) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		if (!$request->isEmpty('srcModuleName') && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('srcModuleName'))) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -50,7 +50,7 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 	public function addAllRecords(\App\Request $request)
 	{
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
-		$coordinatesModel->set('moduleName', $request->get('srcModule'));
+		$coordinatesModel->set('moduleName', $request->getByType('srcModule'));
 		$count = $coordinatesModel->saveAllRecordsToCache();
 		$response = new Vtiger_Response();
 		$response->setResult(['count' => $count]);
@@ -60,7 +60,7 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 	public function delete(\App\Request $request)
 	{
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
-		$coordinatesModel->set('moduleName', $request->get('srcModule'));
+		$coordinatesModel->set('moduleName', $request->getByType('srcModule'));
 		$coordinatesModel->deleteCache();
 		$response = new Vtiger_Response();
 		$response->setResult(0);
@@ -71,7 +71,7 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 	{
 		$records = $request->get('recordIds');
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
-		$coordinatesModel->set('moduleName', $request->get('srcModule'));
+		$coordinatesModel->set('moduleName', $request->getByType('srcModule'));
 		$coordinatesModel->deleteCache();
 		$coordinatesModel->saveCache($records);
 		$response = new Vtiger_Response();
@@ -82,9 +82,9 @@ class OpenStreetMap_ClipBoard_Action extends Vtiger_BasicAjax_Action
 	public function addRecord(\App\Request $request)
 	{
 		$record = $request->getInteger('record');
-		$srcModuleName = $request->get('srcModuleName');
+		$srcModuleName = $request->getByType('srcModuleName');
 		if (!\App\Privilege::isPermitted($srcModuleName, 'DetailView', $record)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
 		$coordinatesModel->set('moduleName', $srcModuleName);

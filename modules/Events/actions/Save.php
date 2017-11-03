@@ -47,7 +47,7 @@ class Events_Save_Action extends Calendar_Save_Action
 	public function getRecordModelFromRequest(\App\Request $request)
 	{
 		$recordModel = parent::getRecordModelFromRequest($request);
-		if ((int) $request->get('typeSaving') === Events_RecuringEvents_Model::UPDATE_THIS_EVENT) {
+		if (!$request->isEmpty('typeSaving') && $request->getInteger('typeSaving') === Events_RecuringEvents_Model::UPDATE_THIS_EVENT) {
 			$recordModel->set('recurrence', $recordModel->getPreviousValue('recurrence'));
 		}
 		return $recordModel;

@@ -20,7 +20,7 @@ class Reports_MoveReports_Action extends Vtiger_Mass_Action
 	public function checkPermission(\App\Request $request)
 	{
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -28,7 +28,7 @@ class Reports_MoveReports_Action extends Vtiger_Mass_Action
 	{
 		$parentModule = 'Reports';
 		$reportIdsList = Reports_Record_Model::getRecordsListFromRequest($request);
-		$folderId = $request->get('folderid');
+		$folderId = $request->getInteger('folderid');
 
 		if (!empty($reportIdsList)) {
 			foreach ($reportIdsList as $reportId) {

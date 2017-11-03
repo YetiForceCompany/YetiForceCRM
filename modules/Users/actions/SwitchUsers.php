@@ -33,7 +33,7 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 				'agent' => $_SERVER['HTTP_USER_AGENT'],
 				'status' => 'Failed login - No permission',
 			])->execute();
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -45,7 +45,7 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$baseUserId = $currentUserModel->getId();
-		$userId = $request->get('id');
+		$userId = $request->getInteger('id');
 		$user = new Users();
 		$currentUser = $user->retrieveCurrentUserInfoFromFile($userId);
 		$name = $currentUserModel->getName();

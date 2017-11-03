@@ -59,9 +59,9 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 
 	public static function getComposeParam(\App\Request $request)
 	{
-		$moduleName = $request->get('crmModule');
-		$record = $request->get('crmRecord');
-		$type = $request->get('type');
+		$moduleName = $request->getByType('crmModule');
+		$record = $request->getInteger('crmRecord');
+		$type = $request->getByType('type');
 
 		$return = [];
 		if (!empty($record) && \App\Record::isExists($record) && \App\Privilege::isPermitted($moduleName, 'DetailView', $record)) {
@@ -93,10 +93,10 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			$return['crmrecord'] = $record;
 		}
 		if (!$request->isEmpty('crmView')) {
-			$return['crmview'] = $request->get('crmView');
+			$return['crmview'] = $request->getByType('crmView');
 		}
 		if (!$request->isEmpty('mid') && !empty($type)) {
-			$return['mailId'] = (int) $request->get('mid');
+			$return['mailId'] = (int) $request->getInteger('mid');
 			$return['type'] = $type;
 		}
 		if (!$request->isEmpty('pdf_path')) {

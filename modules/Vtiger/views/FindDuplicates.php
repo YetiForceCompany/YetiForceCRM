@@ -20,11 +20,8 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View
 	{
 		$moduleName = $request->getModule();
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$userPrivilegesModel->hasModulePermission($moduleName)) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
-		}
 		if (!$userPrivilegesModel->hasModuleActionPermission($moduleName, 'DuplicatesHandling')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -96,7 +93,7 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View
 		$dataModelInstance->set('fields', $duplicateSearchFields);
 		$ignoreEmpty = $request->get('ignoreEmpty');
 		$ignoreEmptyValue = false;
-		if ($ignoreEmpty == 'on' || $ignoreEmpty == 'true' || $ignoreEmpty == '1') {
+		if ($ignoreEmpty === 'on' || $ignoreEmpty == 'true' || $ignoreEmpty == '1') {
 			$ignoreEmptyValue = true;
 		}
 		$dataModelInstance->set('ignoreEmpty', $ignoreEmptyValue);
@@ -147,7 +144,7 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View
 		$dataModelInstance = Vtiger_FindDuplicate_Model::getInstance($moduleName);
 		$ignoreEmpty = $request->get('ignoreEmpty');
 		$ignoreEmptyValue = false;
-		if ($ignoreEmpty == 'on' || $ignoreEmpty == 'true' || $ignoreEmpty == '1') {
+		if ($ignoreEmpty === 'on' || $ignoreEmpty == 'true' || $ignoreEmpty == '1') {
 			$ignoreEmptyValue = true;
 		}
 		$dataModelInstance->set('ignoreEmpty', $ignoreEmptyValue);

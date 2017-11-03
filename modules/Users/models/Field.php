@@ -49,20 +49,10 @@ class Users_Field_Model extends Vtiger_Field_Model
 	public function getFieldDataType()
 	{
 		switch ($this->get('uitype')) {
-			case 99:
-				return 'password';
-			case 115:
-				return 'picklist';
-			case 98:
-				return 'userRole';
 			case 101:
 				return 'userReference';
 			case 105:
 				return 'image';
-			case 31:
-				return 'theme';
-			default:
-				break;
 		}
 		return parent::getFieldDataType();
 	}

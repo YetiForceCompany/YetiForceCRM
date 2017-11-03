@@ -13,31 +13,31 @@ class Documents_MoveDocuments_Action extends Vtiger_Mass_Action
 {
 
 	/**
-	 * Function to check permission
-	 * @param \App\Request $request
-	 * @throws \App\Exceptions\NoPermitted
+	 * {@inheritDoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted($request->getModule(), 'EditView')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$documentIdsList = $this->getRecordsListFromRequest($request);
-		$folderId = $request->get('folderid');
-
 		if (!empty($documentIdsList)) {
 			foreach ($documentIdsList as $documentId) {
-				$documentModel = Vtiger_Record_Model::getInstanceById($documentId, $moduleName);
-				if ($documentModel->isEditable()) {
-					$documentModel->set('folderid', $folderId);
-					$documentModel->save();
+				$recordModel = Vtiger_Record_Model::getInstanceById($documentId, $moduleName);
+				$fieldModel = $recordModel->getModule()->getFieldByName('folderid');
+				if ($fieldModel && $fieldModel->isEditable()) {
+					$fieldModel->getUITypeModel()->setValueFromRequest($request, $recordModel);
+					$recordModel->save();
 				} else {
-					$documentsMoveDenied[] = $documentModel->getName();
+					$documentsMoveDenied[] = $recordModel->getName();
 				}
 			}
 		}
@@ -46,7 +46,6 @@ class Documents_MoveDocuments_Action extends Vtiger_Mass_Action
 		} else {
 			$result = ['success' => false, 'message' => \App\Language::translate('LBL_DENIED_DOCUMENTS', $moduleName), 'LBL_RECORDS_LIST' => $documentsMoveDenied];
 		}
-
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

@@ -18,6 +18,7 @@
 /libraries/mPDF/
 /public_html/modules/OSSMail/roundcube/
 /public_html/libraries/gantt/
+/public_html/libraries/font-awesome/
 /libraries/PHPExcel/
 /vendor/*/
 !/vendor/yetiforce

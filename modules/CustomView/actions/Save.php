@@ -13,9 +13,7 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 {
 
 	/**
-	 * Function to check permission
-	 * @param \App\Request $request
-	 * @throws \App\Exceptions\NoPermitted
+	 * {@inheritDoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -23,20 +21,19 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 			return;
 		}
 		if ($request->has('record') && !CustomView_Record_Model::getInstanceById($request->getInteger('record'))->isEditable()) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		if (!App\Privilege::isPermitted($request->getByType('source_module', 1), 'CreateCustomFilter')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		if (!App\Privilege::isPermitted($request->getByType('source_module'), 'CreateCustomFilter')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
 	/**
-	 * Main process action
-	 * @param \App\Request $request
+	 * {@inheritDoc}
 	 */
 	public function process(\App\Request $request)
 	{
-		$moduleModel = Vtiger_Module_Model::getInstance($request->getByType('source_module', 1));
+		$moduleModel = Vtiger_Module_Model::getInstance($request->getByType('source_module'));
 		$customViewModel = $this->getCVModelFromRequest($request);
 		$response = new Vtiger_Response();
 
@@ -59,7 +56,7 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 	 */
 	private function getCVModelFromRequest(\App\Request $request)
 	{
-		$cvId = $request->get('record');
+		$cvId = $request->getInteger('record');
 
 		if (!empty($cvId)) {
 			$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
@@ -67,14 +64,13 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 			$customViewModel = CustomView_Record_Model::getCleanInstance();
 			$customViewModel->setModule($request->getByType('source_module', 1));
 		}
-		$setmetrics = empty($request->get('setmetrics')) ? 0 : $request->get('setmetrics');
 		$customViewData = [
 			'cvid' => $cvId,
 			'viewname' => $request->get('viewname'),
-			'setdefault' => $request->get('setdefault'),
-			'setmetrics' => $setmetrics,
-			'status' => $request->get('status'),
-			'featured' => $request->get('featured'),
+			'setdefault' => $request->getInteger('setdefault'),
+			'setmetrics' => $request->isEmpty('setmetrics') ? 0 : $request->getInteger('setmetrics'),
+			'status' => $request->getInteger('status', 0),
+			'featured' => $request->getInteger('featured', 0),
 			'color' => $request->get('color'),
 			'description' => $request->get('description')
 		];
@@ -101,6 +97,9 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 		return $customViewModel->setData($customViewData);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();

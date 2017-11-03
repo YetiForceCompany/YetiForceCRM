@@ -22,7 +22,7 @@ $languageStrings = [
 	'SINGLE_SSalesProcesses' => 'Oportunidad',
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Borrador',
-	'PLL_IN_REALIZATION' => 'En progreso',
+	'PLL_IN_REALIZATION' => 'En proceso',
 	'PLL_FOR_VERIFICATION' => 'Por Aprobar',
 	'PLL_CANCELLED' => 'Cancelado',
 	'PLL_COMPLETED' => 'Completado',

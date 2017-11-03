@@ -1,6 +1,4 @@
 <?php
-namespace App;
-
 /**
  * Colors stylesheet generator class
  * @package YetiForce.App
@@ -8,6 +6,7 @@ namespace App;
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  * @author Sławomir Kłos <s.klos@yetiforce.com>
  */
+namespace App;
 
 /**
  * Custom colors stylesheet file generator

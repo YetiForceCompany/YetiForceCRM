@@ -77,12 +77,14 @@ class Request
 	/**
 	 * Constructor
 	 * @param array $rawValues
-	 * @param array $parseValues
+	 * @param bool $overwrite
 	 */
-	public function __construct($rawValues)
+	public function __construct($rawValues, $overwrite = true)
 	{
 		$this->rawValues = $rawValues;
-		static::$request = $this;
+		if ($overwrite) {
+			static::$request = $this;
+		}
 	}
 
 	/**
@@ -119,10 +121,10 @@ class Request
 	 * Alnum - word and int
 	 * 2 - word and int
 	 * @param string $key Key name
-	 * @param mixed $type Data type that is only acceptable
+	 * @param int|string $type Data type that is only acceptable, default only words 'Standard'
 	 * @return boolean|mixed
 	 */
-	public function getByType($key, $type)
+	public function getByType($key, $type = 1)
 	{
 		if (isset($this->purifiedValuesByType[$key])) {
 			return $this->purifiedValuesByType[$key];
@@ -165,7 +167,7 @@ class Request
 		if (($value = filter_var($this->rawValues[$key], FILTER_VALIDATE_INT)) !== false) {
 			return $this->purifiedValuesByInteger[$key] = $value;
 		}
-		throw new \App\Exceptions\BadRequest('LBL_NOT_ALLOWED_VALUE');
+		throw new \App\Exceptions\BadRequest("ERR_NOT_ALLOWED_VALUE||$key||{$this->rawValues[$key]}", 406);
 	}
 
 	/**
@@ -286,7 +288,7 @@ class Request
 		foreach ($this->rawValues as $key => $value) {
 			$this->get($key);
 		}
-		return $this->parseValues;
+		return $this->purifiedValuesByGet;
 	}
 
 	/**
@@ -379,8 +381,7 @@ class Request
 	{
 		$moduleName = $this->getByType('module', 1);
 		if (!$raw) {
-			$parentModule = $this->getByType('parent', 1);
-			if ($parentModule === 'Settings') {
+			if (!$this->isEmpty('parent', true) && ($parentModule = $this->getByType('parent', 2)) === 'Settings') {
 				$moduleName = "$parentModule:$moduleName";
 			}
 		}

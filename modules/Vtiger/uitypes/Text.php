@@ -23,13 +23,16 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritDoc}
 	 */
-	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel)
+	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
 		$fieldName = $this->get('field')->getFieldName();
+		if (!$requestFieldName) {
+			$requestFieldName = $fieldName;
+		}
 		if ($this->get('field')->getUIType() === 300) {
-			$value = $request->getForHtml($fieldName, '');
+			$value = $request->getForHtml($requestFieldName, '');
 		} else {
-			$value = $request->get($fieldName, '');
+			$value = $request->get($requestFieldName, '');
 		}
 		$this->validate($value);
 		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
@@ -44,11 +47,11 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		if (!is_string($value)) {
-			throw new \App\Exceptions\SaveRecord('ERR_ILLEGAL_FIELD_VALUE', 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
 		}
 		//Check for HTML tags
 		if ($this->getFieldModel()->getUIType() !== 300 && $value !== strip_tags($value)) {
-			throw new \App\Exceptions\SaveRecord('ERR_ILLEGAL_FIELD_VALUE', 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;
 	}

@@ -26,7 +26,7 @@ $languageStrings = [
 	'Parent letters' => 'Cartas relacionadas con',
 	'Overall dimensions' => 'Dimensión',
 	'Notes' => 'Notas',
-	'Related' => 'Cuenta / Oportunidad',
+	'Related' => 'Cliente / Oportunidad',
 	'Contact' => 'Contacto',
 	// picklist values
 	'PLL_LOCAL_PICKUP' => 'Recogida en persona',

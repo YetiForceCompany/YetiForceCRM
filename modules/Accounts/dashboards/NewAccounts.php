@@ -49,8 +49,8 @@ class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$moduleName = $request->getModule();
-		$linkId = $request->get('linkid');
-		$user = $request->get('owner');
+		$linkId = $request->getInteger('linkid');
+		$user = $request->getByType('owner', 2);
 		$time = $request->getArray('time');
 		if (empty($time)) {
 			$time['start'] = vtlib\Functions::currentUserDisplayDateNew();
@@ -83,8 +83,7 @@ class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/NewAccountsContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/NewAccounts.tpl', $moduleName);

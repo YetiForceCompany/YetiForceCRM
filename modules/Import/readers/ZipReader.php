@@ -21,13 +21,13 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 	 */
 	public function __construct(\App\Request $request, Users_Record_Model $user)
 	{
-		$instance = Vtiger_Cache::get('ZipReader', $request->get('module') . $user->id);
+		$instance = Vtiger_Cache::get('ZipReader', $request->getModule() . $user->id);
 		if (!empty($instance)) {
 			$this->setInstanceProperties($instance);
 			$this->request = $request;
 			return;
 		}
-		$this->moduleName = $request->get('module');
+		$this->moduleName = $request->getModule();
 		$this->extension = $request->get('extension');
 		parent::__construct($request, $user);
 		$this->initialize($request, $user);

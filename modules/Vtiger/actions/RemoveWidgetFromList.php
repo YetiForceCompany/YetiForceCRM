@@ -14,7 +14,7 @@ class Vtiger_RemoveWidgetFromList_Action extends Vtiger_IndexAjax_View
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if ($request->has('id')) {
-			$id = $request->get('id');
+			$id = $request->getInteger('id');
 			$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($id, $currentUser->getId());
 			if (!$widget->isDefault()) {
 				Vtiger_Widget_Model::removeWidgetFromList($id);

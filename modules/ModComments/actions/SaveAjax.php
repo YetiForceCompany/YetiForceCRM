@@ -18,8 +18,9 @@ class ModComments_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		if (!$request->isEmpty('record', true)) {
 			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
-		if (!App\Privilege::isPermitted($request->getModule(), 'CreateView')) {
-			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
+		$this->record = Vtiger_Record_Model::getCleanInstance($request->getModule());
+		if (!$this->record->isCreateable()) {
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 

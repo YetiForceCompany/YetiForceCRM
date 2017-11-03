@@ -26,7 +26,7 @@ Class OSSMailView_Mbody_View extends Vtiger_Index_View
 
 		$recordPermission = \App\Privilege::isPermitted($moduleName, 'DetailView', $recordId);
 		if (!$recordPermission) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		return true;
 	}
@@ -38,7 +38,7 @@ Class OSSMailView_Mbody_View extends Vtiger_Index_View
 			CSRF::$rewriteJs = null;
 		}
 		$moduleName = $request->getModule();
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULENAME', $moduleName);

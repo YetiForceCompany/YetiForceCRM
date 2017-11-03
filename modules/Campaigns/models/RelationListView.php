@@ -13,7 +13,7 @@ class Campaigns_RelationListView_Model extends Vtiger_RelationListView_Model
 
 	/**
 	 * Function to get the links for related list
-	 * @return <Array> List of action models <Vtiger_Link_Model>
+	 * @return Vtiger_Link_Model[] List of action models Vtiger_Link_Model
 	 */
 	public function getLinks()
 	{
@@ -27,7 +27,7 @@ class Campaigns_RelationListView_Model extends Vtiger_RelationListView_Model
 						'linktype' => 'LISTVIEWBASIC',
 						'linklabel' => \App\Language::translate('LBL_SEND_EMAIL', $relatedModuleName),
 						'linkurl' => "javascript:Campaigns_RelatedList_Js.triggerSendEmail();",
-						'linkicon' => ''
+						'linkicon' => 'glyphicon glyphicon-envelope'
 				]);
 				$emailLink->set('_sendEmail', true);
 				$relatedLinks['LISTVIEWBASIC'][] = $emailLink;

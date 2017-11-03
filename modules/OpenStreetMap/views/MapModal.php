@@ -19,10 +19,10 @@ class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		if (!$request->isEmpty('srcModule') && !$currentUserPrivilegesModel->hasModulePermission($request->get('srcModule'))) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		if (!$request->isEmpty('srcModule', true) && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('srcModule'))) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -36,16 +36,16 @@ class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
-		if (!$request->isEmpty('srcModule')) {
-			$srcModuleModel = Vtiger_Module_Model::getInstance($request->get('srcModule'));
+		if (!$request->isEmpty('srcModule', true)) {
+			$srcModuleModel = Vtiger_Module_Model::getInstance($request->getByType('srcModule'));
 			$fields = $srcModuleModel->getFields();
 			$fieldsToGroup = [];
-			foreach ($fields as &$fieldModel) {
-				if ($fieldModel->getFieldDataType() == 'picklist') {
+			foreach ($fields as $fieldModel) {
+				if ($fieldModel->getFieldDataType() === 'picklist') {
 					$fieldsToGroup [] = $fieldModel;
 				}
 			}
-			$cacheRecords[$request->get('srcModule')] = 0; // default values
+			$cacheRecords[$request->getByType('srcModule')] = 0; // default values
 			$cacheRecords = array_merge($cacheRecords, $coordinatesModel->getCachedRecords());
 		} else {
 			$cacheRecords = $coordinatesModel->getCachedRecords();
@@ -55,7 +55,7 @@ class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View
 		$viewer->assign('FIELDS_TO_GROUP', $fieldsToGroup);
 		$viewer->assign('CACHE_GROUP_RECORDS', $cacheRecords);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('SRC_MODULE', $request->get('srcModule'));
+		$viewer->assign('SRC_MODULE', $request->getByType('srcModule'));
 		$this->preProcess($request);
 		$viewer->view('MapModal.tpl', $moduleName);
 		$this->postProcess($request);

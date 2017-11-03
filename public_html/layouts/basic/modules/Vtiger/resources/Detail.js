@@ -9,7 +9,6 @@
  *************************************************************************************/
 jQuery.Class("Vtiger_Detail_Js", {
 	detailInstance: false,
-	SaveResultInstance: false,
 	getInstance: function () {
 		if (Vtiger_Detail_Js.detailInstance == false) {
 			var module = app.getModuleName();
@@ -1109,9 +1108,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			detailViewValue.addClass('hide');
 			actionElement.addClass('hide');
 			editElement.removeClass('hide').children().filter('input[type!="hidden"]input[type!="image"],select').filter(':first').focus();
-
-			var saveTriggred = false;
-			var preventDefault = false;
 			var saveHandler = function (e) {
 				var element = jQuery(e.target);
 				if ((element.closest('.fieldValue').is(currentTdElement))) {
@@ -1171,34 +1167,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 					fieldElement.trigger(preFieldSaveEvent, {'fieldValue': fieldValue, 'recordId': thisInstance.getRecordId()});
 					if (preFieldSaveEvent.isDefaultPrevented()) {
 						//Stop the save
-						saveTriggred = false;
-						preventDefault = true;
 						readRecord.prop('disabled', false);
 						return;
 					}
-					preventDefault = false;
-					editElement.off('clickoutside');
-					if (!saveTriggred && !preventDefault) {
-						saveTriggred = true;
-						if (Vtiger_Detail_Js.SaveResultInstance == false) {
-							Vtiger_Detail_Js.SaveResultInstance = new SaveResult();
-						}
-						formData.record = thisInstance.getRecordId();
-						formData.module = app.getModuleName();
-						formData.view = 'quick_edit';
-						if (Vtiger_Detail_Js.SaveResultInstance.checkData(formData) == false) {
-							editElement.addClass('hide');
-							detailViewValue.removeClass('hide');
-							actionElement.removeClass('hide');
-							editElement.off('clickoutside');
-							readRecord.prop('disabled', false);
-							fieldElement.val(previousValue);
-							return;
-						}
-					} else {
-						return;
-					}
-
 					currentTdElement.progressIndicator();
 					editElement.addClass('hide');
 					var fieldNameValueMap = {};
@@ -1562,23 +1533,16 @@ jQuery.Class("Vtiger_Detail_Js", {
 		this.registerChangeSwitchForWidget(summaryViewContainer);
 		this.registerFilterForAddingModuleRelatedRecordFromSummaryWidget();
 		this.registerEmailEvent();
-		if (Vtiger_Detail_Js.SaveResultInstance == false) {
-			Vtiger_Detail_Js.SaveResultInstance = new SaveResult();
-		}
 		/**
 		 * Function to handle the ajax edit for summary view fields
 		 */
 		var formElement = thisInstance.getForm();
-		var formData = formElement.serializeFormData();
 		summaryViewContainer.off('click').on('click', '.row .summaryViewEdit', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			currentTarget.addClass('hide');
 			var currentTdElement = currentTarget.closest('.fieldValue');
 			thisInstance.ajaxEditHandling(currentTdElement);
-			Vtiger_Detail_Js.SaveResultInstance.loadFormData(formData);
 		});
-
-		Vtiger_Detail_Js.SaveResultInstance.loadFormData(formData);
 		/**
 		 * Function to handle actions after ajax save in summary view
 		 */
@@ -1626,19 +1590,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var activityId = activityDiv.find('.activityId').val();
 				var moduleName = activityDiv.find('.activityModule').val();
 				var activityType = activityDiv.find('.activityType').val();
-
-				if (Vtiger_Detail_Js.SaveResultInstance == false) {
-					Vtiger_Detail_Js.SaveResultInstance = new SaveResult();
-				}
-				var formData2 = {};
-				formData2.record = activityId;
-				formData2.module = moduleName;
-				formData2.view = 'quick_edit';
-				formData2[fieldName] = ajaxEditNewValue;
-				formData2['p_' + fieldName] = previousValue;
-				if (Vtiger_Detail_Js.SaveResultInstance.checkData(formData2) == false) {
-					return;
-				}
 				if (previousValue == ajaxEditNewValue) {
 					editElement.addClass('hide');
 					detailViewElement.removeClass('hide');
@@ -1652,16 +1603,14 @@ jQuery.Class("Vtiger_Detail_Js", {
 					}
 					currentDiv.progressIndicator();
 					editElement.addClass('hide');
-					var params = {
+					AppConnector.request( {
 						action: 'SaveAjax',
 						record: activityId,
 						field: fieldName,
 						value: ajaxEditNewValue,
 						module: moduleName,
 						activitytype: activityType
-					};
-
-					AppConnector.request(params).then(
+					}).then(
 							function (data) {
 								currentDiv.progressIndicator({'mode': 'hide'});
 								detailViewElement.removeClass('hide');
@@ -2036,21 +1985,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			}
 			var preFieldSaveEvent = jQuery.Event(thisInstance.fieldPreSave);
 			fieldElement.trigger(preFieldSaveEvent, {'fieldValue': fieldValue, 'recordId': thisInstance.getRecordId()});
-			if (Vtiger_Detail_Js.SaveResultInstance == false) {
-				Vtiger_Detail_Js.SaveResultInstance = new SaveResult();
-			}
-			var formData = {};
-			formData.record = thisInstance.getRecordId();
-			formData.module = app.getModuleName();
-			formData.view = 'quick_edit';
-			formData[fieldName] = fieldValue;
-			formData['p_' + fieldName] = prevValue;
-
-			if (Vtiger_Detail_Js.SaveResultInstance.checkData(formData) == false) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				thisInstance.reloadTabContent();
-				return;
-			}
 			var fieldNameValueMap = {};
 			fieldNameValueMap["value"] = fieldValue;
 			fieldNameValueMap["field"] = fieldName;
@@ -2775,11 +2709,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 	updateRecordsPDFTemplateBtn: function (form) {
 		var params = {};
 		params.data = {
-			module: 'Vtiger',
+			module: app.getModuleName(),
 			action: 'PDF',
 			mode: 'hasValidTemplate',
 			record: app.getRecordId(),
-			modulename: app.getModuleName(),
 			view: app.getViewName()
 		};
 		params.dataType = 'json';

@@ -19,10 +19,13 @@ class KnowledgeBase_Content_View extends Vtiger_IndexAjax_View
 		parent::checkPermission($request);
 		$recordId = $request->getInteger('record');
 		if ($recordId && !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
@@ -38,7 +41,7 @@ class KnowledgeBase_Content_View extends Vtiger_IndexAjax_View
 			$headers = $listViewModel->getListViewHeaders();
 
 			$viewer = $this->getViewer($request);
-			$viewer->assign('VIEW', $request->getByType('view', 1));
+			$viewer->assign('VIEW', $request->getByType('view'));
 			$viewer->assign('ENTRIES', $listEntries);
 			$viewer->assign('HEADERS', $headers);
 			$viewer->assign('MODULE_NAME', $moduleName);

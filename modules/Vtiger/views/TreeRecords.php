@@ -53,7 +53,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 	public function process(\App\Request $request)
 	{
 		$branches = $request->get('branches');
-		$filter = $request->get('filter');
+		$filter = $request->getByType('filter', 2);
 		if (empty($branches)) {
 			return;
 		}

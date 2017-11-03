@@ -25,7 +25,7 @@ class Competition_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_SEND_EMAIL',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerSendEmail()',
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-envelope'
 			];
 		}
 		foreach ($massActionLinks as $massActionLink) {

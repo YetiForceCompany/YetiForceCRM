@@ -18,7 +18,7 @@ class Import_XmlReader_Reader extends Import_FileReader_Reader
 
 	public function __construct($request, $user)
 	{
-		$this->moduleName = $request->get('module');
+		$this->moduleName = $request->getModule();
 		parent::__construct($request, $user);
 	}
 

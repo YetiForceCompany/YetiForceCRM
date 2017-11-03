@@ -31,7 +31,7 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 	 * @param string $value
 	 * @param bool $isUserFormat
 	 * @return null
-	 * @throws \App\Exceptions\SaveRecord
+	 * @throws \App\Exceptions\Security
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
@@ -42,13 +42,13 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 			$value = explode(' |##| ', $value);
 		}
 		if (!is_array($value)) {
-			throw new \App\Exceptions\SaveRecord('ERR_ILLEGAL_FIELD_VALUE', 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
 		}
 		foreach ($value as $item) {
 			if (!is_string($item)) {
-				throw new \App\Exceptions\SaveRecord('ERR_ILLEGAL_FIELD_VALUE', 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
 			} elseif ($item != strip_tags($item)) {
-				throw new \App\Exceptions\SaveRecord('ERR_ILLEGAL_FIELD_VALUE', 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
 			}
 		}
 		$this->validate = true;

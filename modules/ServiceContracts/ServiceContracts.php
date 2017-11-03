@@ -382,11 +382,11 @@ class ServiceContracts extends CRMEntity
 		} else if ($eventType == 'module.enabled') {
 			App\EventHandler::setActive('ServiceContracts_ServiceContractsHandler_Handler');
 		} else if ($eventType == 'module.preuninstall') {
-
+			
 		} else if ($eventType == 'module.preupdate') {
-
+			
 		} else if ($eventType == 'module.postupdate') {
-
+			
 		}
 	}
 
@@ -538,20 +538,14 @@ class ServiceContracts extends CRMEntity
 
 		// Calculate the Planned Duration based on Due date and Start date. (in days)
 		if (!empty($dueDate) && !empty($startDate)) {
-			$start = new \DateTime($startDate);
-			$end = new \DateTime($dueDate);
-			$interval = $start->diff($end)->format('%a');
-			$params['planned_duration'] = $interval;
+			$params['planned_duration'] = \App\Fields\Date::getDiff($startDate, $dueDate, 'days');
 		} else {
 			$params['planned_duration'] = '';
 		}
 
 		// Calculate the Actual Duration based on End date and Start date. (in days)
 		if (!empty($endDate) && !empty($startDate)) {
-			$start = new \DateTime($startDate);
-			$end = new \DateTime($endDate);
-			$interval = $start->diff($end)->format('%a');
-			$params['actual_duration'] = $interval;
+			$params['actual_duration'] = \App\Fields\Date::getDiff($startDate, $endDate, 'days');
 		} else {
 			$params['actual_duration'] = '';
 		}

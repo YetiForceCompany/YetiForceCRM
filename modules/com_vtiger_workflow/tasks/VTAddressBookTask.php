@@ -24,31 +24,28 @@ class VTAddressBookTask extends VTTask
 	 */
 	public function doTask($recordModel)
 	{
-		$db = PearDatabase::getInstance();
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		$moduleName = $recordModel->getModuleName();
 		$entityId = $recordModel->getId();
-
 		$users = $name = '';
 		$table = OSSMail_AddressBook_Model::TABLE;
 		$metainfo = \App\Module::getEntityInfo($moduleName);
 		foreach ($metainfo['fieldnameArr'] as $entityName) {
 			$name .= ' ' . $recordModel->get($entityName);
 		}
-
 		$usersIds = \App\Fields\Owner::getUsersIds();
 		foreach ($usersIds as &$userId) {
 			if (\App\Privilege::isPermitted($moduleName, 'DetailView', $entityId, $userId)) {
 				$users .= ',' . $userId;
 			}
 		}
-		$db->delete($table, 'id = ?', [$entityId]);
-
+		$dbCommand->delete($table, ['id' => $entityId])->execute();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$fields = $moduleModel->getFieldsByType('email');
 		foreach ($fields as $field) {
 			$fieldname = $field->getName();
 			if (!empty($recordModel->get($fieldname))) {
-				$db->insert($table, ['id' => $entityId, 'email' => $recordModel->get($fieldname), 'name' => trim($name), 'users' => $users]);
+				$dbCommand->insert($table, ['id' => $entityId, 'email' => $recordModel->get($fieldname), 'name' => trim($name), 'users' => $users])->execute();
 			}
 		}
 		OSSMail_AddressBook_Model::createABFile();

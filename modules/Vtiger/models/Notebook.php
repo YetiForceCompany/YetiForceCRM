@@ -23,11 +23,11 @@ class Vtiger_Notebook_Model extends Vtiger_Widget_Model
 		return $data['lastSavedOn'];
 	}
 
-	public function save($request)
+	public function save(\App\Request$request)
 	{
 		$db = PearDatabase::getInstance();
 		$content = $request->get('contents');
-		$noteBookId = $request->get('widgetid');
+		$noteBookId = $request->getInteger('widgetid');
 		$date_var = date("Y-m-d H:i:s");
 		$date = $db->formatDate($date_var, true);
 

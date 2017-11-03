@@ -12,20 +12,17 @@ class CustomView_Delete_Action extends Vtiger_Action_Controller
 {
 
 	/**
-	 * Function to check permission
-	 * @param \App\Request $request
-	 * @throws \App\Exceptions\NoPermitted
+	 * {@inheritDoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		if (!CustomView_Record_Model::getInstanceById($request->getInteger('record'))->isDeletable()) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
 	/**
-	 * Main function of action
-	 * @param \App\Request $request
+	 * {@inheritDoc}
 	 */
 	public function process(\App\Request $request)
 	{
@@ -36,8 +33,7 @@ class CustomView_Delete_Action extends Vtiger_Action_Controller
 	}
 
 	/**
-	 * Validate request
-	 * @param \App\Request $request
+	 * {@inheritDoc}
 	 */
 	public function validateRequest(\App\Request $request)
 	{
