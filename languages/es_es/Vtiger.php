@@ -1282,6 +1282,7 @@ $languageStrings = [
 	'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS' => 'Valor estimado de la oportunidad',
 	'LBL_UPDATE_FIELD' => 'Actualizar campo',
 	'FL_IS_PRIVATE' => 'Privado',
+	'BTN_REALIZE' => 'Realize',
 	//TextParser
 	'LBL_TRANSLATE' => 'Traducción',
 	'LBL_COMPANY_VARIABLES' => 'Detalles de la empresa',
