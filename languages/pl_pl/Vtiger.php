@@ -1317,6 +1317,10 @@ $languageStrings = [
 	'FL_PHONE_CUSTOM_INFORMATION' => 'Informacje dodatkowe',
 	'LBL_ARCHIVE_RECORD' => 'Archiwizuj rekord',
 	'LBL_ACTIVATE_RECORD' => 'Aktywuj rekord',
+	'LBL_CHANGES_SAVED' => 'Zapisano zmiany.',
+	'LBL_OMITTED_RECORDS' => 'Pominięte rekordy:',
+	'LBL_MASS_ARCHIVE' => 'Masowa archiwizacja',
+	'LBL_MASS_ACTIVATE' => 'Masowa aktywacja',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
