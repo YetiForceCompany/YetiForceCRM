@@ -39,7 +39,7 @@ class RecordActions extends \Tests\Base
 		$this->assertTrue(static::$record->isEditable());
 		$this->assertTrue(static::$record->isCreateable());
 		$this->assertTrue(static::$record->isViewable());
-		$this->assertTrue(static::$record->privilegeToActivate());
+		$this->assertFalse(static::$record->privilegeToActivate());
 		$this->assertTrue(static::$record->privilegeToArchive());
 		$this->assertTrue(static::$record->privilegeToDelete());
 	}
