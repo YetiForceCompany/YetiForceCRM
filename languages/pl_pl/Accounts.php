@@ -61,7 +61,6 @@ $languageStrings = [
 	'Approval for email' => 'Zgoda na kontakt mailowy',
 	'Balance' => 'Saldo księgowe',
 	'Average profit sales order' => 'Średnia marża',
-	'LBL_CONVERTED_FROM_LEAD' => 'Skonwertowany z leada',
 	'LBL_LEGAL_FORM' => 'Forma prawna',
 	'LBL_INVENTORY_BALANCE' => 'Saldo',
 	'LBL_DISCOUNT' => 'Rabat',
