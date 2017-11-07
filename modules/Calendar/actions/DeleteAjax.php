@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Calendar_DeleteAjax_Action extends Vtiger_DeleteAjax_Action
+class Calendar_DeleteAjax_Action extends Vtiger_Delete_Action
 {
 
 	public function process(\App\Request $request)
