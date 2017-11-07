@@ -32,16 +32,36 @@ class OSSMailView_ListView_Model extends Vtiger_ListView_Model
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
 		$massActionLinks = [];
-
-		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassDelete')) {
+		if ($moduleModel->isPermitted('MassDelete')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_DELETE',
-				'linkurl' => 'javascript:Vtiger_List_Js.massDeleteRecords("index.php?module=' . $moduleModel->get('name') . '&action=MassDelete");',
+				'linkurl' => 'javascript:',
+				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Deleted&sourceView=List',
+				'linkclass' => 'massRecordEvent',
 				'linkicon' => 'glyphicon glyphicon-trash'
 			];
 		}
-
+		if ($moduleModel->isPermitted('MassArchived')) {
+			$massActionLinks[] = [
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_MASS_ARCHIVE',
+				'linkurl' => 'javascript:',
+				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Archived&sourceView=List',
+				'linkclass' => 'massRecordEvent',
+				'linkicon' => 'fa fa-archive'
+			];
+		}
+		if ($moduleModel->isPermitted('MassActive')) {
+			$massActionLinks[] = [
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_MASS_ACTIVATE',
+				'linkurl' => 'javascript:',
+				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Active&sourceView=List',
+				'linkclass' => 'massRecordEvent',
+				'linkicon' => 'fa fa-refresh'
+			];
+		}
 		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'EditView')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',

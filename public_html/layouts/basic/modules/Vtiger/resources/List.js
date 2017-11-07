@@ -232,68 +232,6 @@ jQuery.Class("Vtiger_List_Js", {
 		}
 		return this.getRelatedModulesContainer;
 	},
-	massDeleteRecords: function (url, instance) {
-		var listInstance = Vtiger_List_Js.getInstance();
-		if (typeof instance != "undefined") {
-			listInstance = instance;
-		}
-		var validationResult = listInstance.checkListRecordSelected();
-		if (validationResult != true) {
-			// Compute selected ids, excluded ids values, along with cvid value and pass as url parameters
-			var selectedIds = listInstance.readSelectedIds(true);
-			var excludedIds = listInstance.readExcludedIds(true);
-			var cvId = listInstance.getCurrentCvId();
-			var message = app.vtranslate('LBL_MASS_DELETE_CONFIRMATION');
-			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-					function (e) {
-
-						var deleteURL = url + '&viewname=' + cvId + '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds;
-						var listViewInstance = Vtiger_List_Js.getInstance();
-
-						if (listViewInstance.getListSearchInstance()) {
-							var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
-							deleteURL += "&search_params=" + JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
-							if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
-								deleteURL += '&search_key=' + listViewInstance.getListSearchInstance().getAlphabetSearchField();
-								deleteURL += '&search_value=' + searchValue;
-								deleteURL += '&operator=s';
-							}
-						}
-
-						var deleteMessage = app.vtranslate('JS_RECORDS_ARE_GETTING_DELETED');
-						var progressIndicatorElement = jQuery.progressIndicator({
-							'message': deleteMessage,
-							'position': 'html',
-							'blockInfo': {
-								'enabled': true
-							}
-						});
-						AppConnector.request(deleteURL).then(
-								function (data) {
-									progressIndicatorElement.progressIndicator({
-										'mode': 'hide'
-									});
-									listInstance.postMassDeleteRecords();
-									if (data.error) {
-										var params = {
-											text: app.vtranslate(data.error.message),
-											title: app.vtranslate('JS_LBL_PERMISSION')
-										}
-										Vtiger_Helper_Js.showPnotify(params);
-									}
-								},
-								function (error) {
-									console.log('Error: ' + error)
-								}
-						);
-					},
-					function (error, err) {
-						Vtiger_List_Js.clearList();
-					})
-		} else {
-			listInstance.noRecordSelectedAlert();
-		}
-	},
 	triggerMassAction: function (massActionUrl, callBackFunction, beforeShowCb, css) {
 		if (typeof beforeShowCb == 'undefined') {
 			beforeShowCb = function () {
