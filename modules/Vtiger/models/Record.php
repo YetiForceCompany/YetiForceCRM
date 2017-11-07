@@ -1219,14 +1219,32 @@ class Vtiger_Record_Model extends \App\Base
 			$recordLinks[] = [
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_DELETE',
+				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Deleted',
 				'linkicon' => 'glyphicon glyphicon-trash',
-				'linkclass' => 'btn-sm btn-default deleteRecordButton'
+				'linkclass' => 'btn-sm btn-default recordEvent'
+			];
+		}
+		if ($this->privilegeToArchive()) {
+			$recordLinks[] = [
+				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+				'linklabel' => 'LBL_ARCHIVE_RECORD',
+				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Archived',
+				'linkicon' => 'fa fa-archive',
+				'linkclass' => 'btn-sm btn-default recordEvent'
+			];
+		}
+		if ($this->privilegeToActivate()) {
+			$recordLinks[] = [
+				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+				'linklabel' => 'LBL_ACTIVATE_RECORD',
+				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Active',
+				'linkicon' => 'fa fa-refresh',
+				'linkclass' => 'btn-sm btn-default recordEvent'
 			];
 		}
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 

@@ -39,7 +39,7 @@ class Vtiger_ListView_Model extends \App\Base
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'ListView', $moduleName);
 		$instance = new $modelClassName();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$queryGenerator = new \App\QueryGenerator($moduleModel->get('name'));
+		$queryGenerator = new \App\QueryGenerator($moduleModel->getName());
 		if ($viewId) {
 			$queryGenerator->initForCustomViewById($viewId);
 		} else {
@@ -62,7 +62,7 @@ class Vtiger_ListView_Model extends \App\Base
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'ListView', $value);
 		$instance = new $modelClassName();
 		$moduleModel = Vtiger_Module_Model::getInstance($value);
-		$queryGenerator = new \App\QueryGenerator($moduleModel->get('name'));
+		$queryGenerator = new \App\QueryGenerator($moduleModel->getName());
 		if (!$sourceModule && !empty($sourceModule)) {
 			$moduleModel->set('sourceModule', $sourceModule);
 		}
@@ -210,7 +210,7 @@ class Vtiger_ListView_Model extends \App\Base
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_EDIT',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerMassEdit("index.php?module=' . $moduleModel->get('name') . '&view=MassActionAjax&mode=showMassEditForm");',
+				'linkurl' => 'javascript:Vtiger_List_Js.triggerMassEdit("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=showMassEditForm");',
 				'linkicon' => 'glyphicon glyphicon-pencil'
 			];
 		}
@@ -218,8 +218,30 @@ class Vtiger_ListView_Model extends \App\Base
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_DELETE',
-				'linkurl' => 'javascript:Vtiger_List_Js.massDeleteRecords("index.php?module=' . $moduleModel->get('name') . '&action=MassDelete");',
+				'linkurl' => 'javascript:',
+				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Deleted&sourceView=List',
+				'linkclass' => 'massRecordEvent',
 				'linkicon' => 'glyphicon glyphicon-trash'
+			];
+		}
+		if ($moduleModel->isPermitted('MassArchived')) {
+			$massActionLinks[] = [
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_MASS_ARCHIVE',
+				'linkurl' => 'javascript:',
+				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Archived&sourceView=List',
+				'linkclass' => 'massRecordEvent',
+				'linkicon' => 'fa fa-archive'
+			];
+		}
+		if ($moduleModel->isPermitted('MassActive')) {
+			$massActionLinks[] = [
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_MASS_ACTIVATE',
+				'linkurl' => 'javascript:',
+				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Active&sourceView=List',
+				'linkclass' => 'massRecordEvent',
+				'linkicon' => 'fa fa-refresh'
 			];
 		}
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
@@ -227,11 +249,10 @@ class Vtiger_ListView_Model extends \App\Base
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ADD_COMMENT',
-				'linkurl' => 'index.php?module=' . $moduleModel->get('name') . '&view=MassActionAjax&mode=showAddCommentForm',
+				'linkurl' => 'index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=showAddCommentForm',
 				'linkicon' => 'glyphicon glyphicon-comment'
 			];
 		}
-
 		if ($moduleModel->isPermitted('MassTransferOwnership')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
