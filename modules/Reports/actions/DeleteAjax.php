@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Reports_DeleteAjax_Action extends Vtiger_DeleteAjax_Action
+class Reports_DeleteAjax_Action extends Vtiger_Delete_Action
 {
 
 	/**
