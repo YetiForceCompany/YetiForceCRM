@@ -3345,6 +3345,7 @@ span[name=existingImages] img{
 	color: #337AB7;
 	float: right;
 	margin-left: 5px;
+	margin-bottom: 0;
 	list-style: none;
 	padding: 8px 5px;
 }

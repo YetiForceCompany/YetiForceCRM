@@ -39,12 +39,18 @@
 						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 					</span>
 					<span class="pull-right">
-						<button class="btn btn-success" type="submit" id="saveBtn1"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
-						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
+						<button class="btn btn-success" type="submit" id="saveBtn1">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;
+							<strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE_NAME)}</strong>
+						</button>&nbsp;&nbsp;
+						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">
+							<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;
+							<strong>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE_NAME)}</strong>
+						</button>
 					</span>
 				</div>
 			</div>
-				
+
 			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE name="EditViewBlockLevelLoop"}
 			{if $BLOCK_FIELDS|@count lte 0}{continue}{/if}
 			{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL]}
@@ -70,8 +76,8 @@
 							{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
 								{if $FIELD_MODEL->getUIType() eq '20' || $FIELD_MODEL->getUIType() eq '19' || $FIELD_MODEL->getUIType() eq '300'}
 									{if $COUNTER eq '1'}
-										</div>
-										<div class="col-md-12 paddingLRZero">
+									</div>
+									<div class="col-md-12 paddingLRZero">
 										{assign var=COUNTER value=0}
 									{/if}
 								{/if}
@@ -98,10 +104,10 @@
 									</div>
 								</div>
 								{if $BLOCK_FIELDS|@count eq 1 and $FIELD_MODEL->getUIType() neq "19" and $FIELD_MODEL->getUIType() neq "20" and $FIELD_MODEL->getUIType() neq "30" and $FIELD_MODEL->getUIType() neq '300'}
-									</div>
-									<div class="col-md-12 paddingLRZero">
-									{/if}
-								{/foreach}
+								</div>
+								<div class="col-md-12 paddingLRZero">
+								{/if}
+							{/foreach}
 						</div>
 					</div>
 				</div>
