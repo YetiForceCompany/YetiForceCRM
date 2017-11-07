@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Portal_DeleteAjax_Action extends Vtiger_DeleteAjax_Action
+class Portal_DeleteAjax_Action extends Vtiger_Action_Controller
 {
 
 	public function checkPermission(\App\Request $request)
