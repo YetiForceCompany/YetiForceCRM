@@ -15,11 +15,27 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	const UPDATE = 0;
 	const DELETE = 1;
 	const CREATE = 2;
-	const RESTORE = 3;
+	const ACTIVE = 3;
 	const LINK = 4;
 	const UNLINK = 5;
 	const CONVERTTOACCOUNT = 6;
 	const DISPLAYED = 7;
+
+	/**
+	 * Status labels
+	 * @var string[]
+	 */
+	public static $statusLabel = [
+		0 => 'LBL_UPDATED',
+		1 => 'LBL_DELETED',
+		2 => 'LBL_CREATED',
+		4 => 'LBL_ADDED',
+		5 => 'LBL_REMOVED',
+		6 => 'LBL_CONVERTED_FROM_LEAD',
+		7 => 'LBL_DISPLAYED',
+		3 => 'LBL_ACTIVE',
+		8 => 'LBL_ARCHIVED',
+	];
 
 	/**
 	 * Function to get the history of updates on a record
@@ -226,16 +242,6 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return $this->checkStatus(self::UPDATE);
 	}
 
-	public function isDelete()
-	{
-		return $this->checkStatus(self::DELETE);
-	}
-
-	public function isRestore()
-	{
-		return $this->checkStatus(self::RESTORE);
-	}
-
 	public function isRelationLink()
 	{
 		return $this->checkStatus(self::LINK);
@@ -251,6 +257,15 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		return $this->checkStatus(self::DISPLAYED);
 	}
 
+	/**
+	 * Has changed state
+	 * @return bool
+	 */
+	public function isChangeState()
+	{
+		return in_array($this->get('status'), [1, 3, 8]);
+	}
+
 	public function isReviewed($userId = false)
 	{
 		if ($userId === false) {
@@ -262,6 +277,15 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			return false;
 		}
 		return strpos($reviewed, "#$userId#") !== false;
+	}
+
+	/**
+	 * Get status label
+	 * @return string
+	 */
+	public function getStatusLabel()
+	{
+		return static::$statusLabel[$this->get('status')];
 	}
 
 	public function getModifiedBy()

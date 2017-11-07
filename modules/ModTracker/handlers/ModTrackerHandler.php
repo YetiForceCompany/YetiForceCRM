@@ -138,19 +138,32 @@ class ModTracker_ModTrackerHandler_Handler
 	}
 
 	/**
-	 * EntityAfterRestore handler function
+	 * EntityChangeState handler function
 	 * @param App\EventHandler $eventHandler
 	 */
-	public function entityAfterRestore(App\EventHandler $eventHandler)
+	public function entityChangeState(App\EventHandler $eventHandler)
 	{
-		$recordId = $eventHandler->getRecordModel()->getId();
+		$recordModel = $eventHandler->getRecordModel();
+		$recordId = $recordModel->getId();
+		$status = 0;
+		switch ($recordModel->get('deleted')) {
+			case 'Active':
+				$status = ModTracker::$ACTIVE;
+				break;
+			case 'Deleted':
+				$status = ModTracker::$DELETED;
+				break;
+			case 'Archived':
+				$status = ModTracker::$ARCHIVED;
+				break;
+		}
 		$db = \App\Db::getInstance();
 		$db->createCommand()->insert('vtiger_modtracker_basic', [
 			'crmid' => $recordId,
 			'module' => $eventHandler->getModuleName(),
 			'whodid' => \App\User::getCurrentUserRealId(),
 			'changedon' => date('Y-m-d H:i:s'),
-			'status' => ModTracker::$RESTORED,
+			'status' => $status,
 			'last_reviewed_users' => '#' . \App\User::getCurrentUserRealId() . '#'
 		])->execute();
 		$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
@@ -159,32 +172,7 @@ class ModTracker_ModTrackerHandler_Handler
 		if ($isExists) {
 			$db->createCommand()->update('vtiger_crmentity', ['was_read' => 0], ['crmid' => $recordId])->execute();
 		}
-		$this->addNotification($eventHandler->getModuleName(), $recordId, 'LBL_RESTORED');
-	}
-
-	/**
-	 * EntityBeforeDelete handler function
-	 * @param App\EventHandler $eventHandler
-	 */
-	public function entityBeforeDelete(App\EventHandler $eventHandler)
-	{
-		$recordId = $eventHandler->getRecordModel()->getId();
-		$db = \App\Db::getInstance();
-		$db->createCommand()->insert('vtiger_modtracker_basic', [
-			'crmid' => $recordId,
-			'module' => $eventHandler->getModuleName(),
-			'whodid' => \App\User::getCurrentUserRealId(),
-			'changedon' => date('Y-m-d H:i:s'),
-			'status' => ModTracker::$DELETED,
-			'last_reviewed_users' => '#' . \App\User::getCurrentUserRealId() . '#'
-		])->execute();
-		$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
-		ModTracker_Record_Model::unsetReviewed($recordId, \App\User::getCurrentUserRealId(), $id);
-		$isExists = (new \App\Db\Query())->from('vtiger_crmentity')->where(['crmid' => $recordId])->andWhere(['<>', 'smownerid', \App\User::getCurrentUserRealId()])->exists();
-		if ($isExists) {
-			$db->createCommand()->update('vtiger_crmentity', ['was_read' => 0], ['crmid' => $recordId])->execute();
-		}
-		$this->addNotification($eventHandler->getModuleName(), $recordId, 'LBL_REMOVED');
+		$this->addNotification($eventHandler->getModuleName(), $recordId, ModTracker_Record_Model::$statusLabel[$status]);
 	}
 
 	/**
