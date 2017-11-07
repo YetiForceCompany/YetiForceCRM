@@ -5782,8 +5782,7 @@ class Base2 extends \App\Db\Importers\Base
 				'values' => [
 					[3, 'EntityAfterSave', 'Vtiger_Workflow_Handler', 1, '', '', 5, 0],
 					[4, 'EntityAfterRestore', 'Vtiger_Workflow_Handler', 1, '', '', 5, 0],
-					[8, 'EntityBeforeDelete', 'ModTracker_ModTrackerHandler_Handler', 1, '', '', 5, 32],
-					[9, 'EntityAfterRestore', 'ModTracker_ModTrackerHandler_Handler', 1, '', '', 5, 32],
+					[8, 'EntityChangeState', 'ModTracker_ModTrackerHandler_Handler', 1, '', '', 5, 32],
 					[10, 'EntityAfterSave', 'PBXManager_PBXManagerHandler_Handler', 1, 'Contacts,Accounts,Leads', '', 5, 33],
 					[11, 'EntityAfterDelete', 'PBXManager_PBXManagerHandler_Handler', 1, 'Contacts,Accounts,Leads', '', 5, 33],
 					[12, 'EntityAfterRestore', 'PBXManager_PBXManagerHandler_Handler', 1, 'Contacts,Accounts,Leads', '', 5, 33],

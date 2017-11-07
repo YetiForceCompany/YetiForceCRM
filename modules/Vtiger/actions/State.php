@@ -38,8 +38,10 @@ class Vtiger_State_Action extends Vtiger_Action_Controller
 	 */
 	public function process(\App\Request $request)
 	{
-
-
+		if (!in_array($request->getByType('state'), ['Active', 'Deleted', 'Archived'])) {
+			
+		}
+		$this->record->changeState($request->getByType('state'));
 		header("Location: index.php?module={$request->getModule()}&view=Detail&record={$request->getInteger('record')}");
 	}
 }

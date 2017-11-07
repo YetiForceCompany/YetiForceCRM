@@ -1281,4 +1281,33 @@ class Vtiger_Record_Model extends \App\Base
 	{
 		unset($this->changes);
 	}
+
+	/**
+	 * Change record state
+	 * @param type $state
+	 */
+	public function changeState($state)
+	{
+		$this->set('deleted', $state);
+		$stateId = 0;
+		switch ($state) {
+			case 'Active':
+				$stateId = 0;
+				break;
+			case 'Deleted':
+				$stateId = 1;
+				break;
+			case 'Archived':
+				$stateId = 2;
+				break;
+		}
+		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['deleted' => $stateId], ['crmid' => $this->getId()])->execute();
+		$eventHandler = new App\EventHandler();
+		$eventHandler->setRecordModel($this);
+		$eventHandler->setModuleName($this->getModuleName());
+		if ($this->getHandlerExceptions()) {
+			$eventHandler->setExceptions($this->getHandlerExceptions());
+		}
+		$eventHandler->trigger('EntityChangeState');
+	}
 }
