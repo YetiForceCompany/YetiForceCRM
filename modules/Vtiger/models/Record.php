@@ -692,7 +692,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function privilegeToArchive()
 	{
 		if (!isset($this->privileges['Archive'])) {
-			$this->privileges['Archive'] = \App\Record::getState($this->getId()) !== 'Archived' && \App\Privilege::isPermitted($this->getModuleName(), 'Archived', $this->getId());
+			$this->privileges['Archive'] = \App\Record::getState($this->getId()) !== 'Archived' && \App\Privilege::isPermitted($this->getModuleName(), 'ArchiveRecord', $this->getId());
 		}
 		return $this->privileges['Archive'];
 	}
@@ -704,7 +704,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function privilegeToActivate()
 	{
 		if (!isset($this->privileges['Activate'])) {
-			$this->privileges['Activate'] = \App\Record::getState($this->getId()) !== 'Active' && \App\Privilege::isPermitted($this->getModuleName(), 'Active', $this->getId());
+			$this->privileges['Activate'] = \App\Record::getState($this->getId()) !== 'Active' && \App\Privilege::isPermitted($this->getModuleName(), 'ActiveRecord', $this->getId());
 		}
 		return $this->privileges['Activate'];
 	}
