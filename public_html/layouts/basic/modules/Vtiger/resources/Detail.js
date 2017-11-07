@@ -143,26 +143,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		}
 		return this.getRelatedModulesContainer;
 	},
-	/*
-	 * function to trigger delete record action
-	 * @params: delete record url.
-	 */
-	deleteRecord: function (deleteRecordActionUrl) {
-		var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
-		Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(function (data) {
-			AppConnector.request(deleteRecordActionUrl + '&ajaxDelete=true').then(
-					function (data) {
-						if (data.success == true) {
-							window.location.href = data.result;
-						} else {
-							Vtiger_Helper_Js.showPnotify(data.error.message);
-						}
-					});
-		},
-				function (error, err) {
-				}
-		);
-	},
 	reloadRelatedList: function () {
 		var detailInstance = Vtiger_Detail_Js.getInstance();
 		var params = {};

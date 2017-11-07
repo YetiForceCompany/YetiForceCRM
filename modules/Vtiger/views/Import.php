@@ -217,7 +217,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		while ($recordId = $dataReader->readColumn(0)) {
 			if (App\Record::isExists($recordId)) {
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-				if ($recordModel->isDeletable()) {
+				if ($recordModel->privilegeToDelete()) {
 					$recordModel->delete();
 					$noOfRecordsDeleted++;
 				}

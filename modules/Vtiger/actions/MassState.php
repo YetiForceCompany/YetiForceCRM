@@ -58,7 +58,7 @@ class Vtiger_MassState_Action extends Vtiger_Mass_Action
 					}
 					break;
 				case 'Deleted':
-					if (!$recordModel->isDeletable()) {
+					if (!$recordModel->privilegeToDelete()) {
 						$skipped[] = $recordModel->getName();
 						continue;
 					}

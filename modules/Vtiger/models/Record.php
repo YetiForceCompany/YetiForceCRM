@@ -677,7 +677,7 @@ class Vtiger_Record_Model extends \App\Base
 	 * Checking for permission to delete
 	 * @return bool
 	 */
-	public function isDeletable()
+	public function privilegeToDelete()
 	{
 		if (!isset($this->privileges['Deleted'])) {
 			$this->privileges['Deleted'] = \App\Record::getState($this->getId()) !== 'Deleted' && \App\Privilege::isPermitted($this->getModuleName(), 'Delete', $this->getId()) && $this->checkLockFields();
@@ -1215,7 +1215,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => !$watching, 'on' => 'btn-info', 'off' => 'btn-default', 'icon-on' => 'glyphicon-eye-open', 'icon-off' => 'glyphicon-eye-close'],
 			];
 		}
-		if ($this->isDeletable()) {
+		if ($this->privilegeToDelete()) {
 			$recordLinks[] = [
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_DELETE',

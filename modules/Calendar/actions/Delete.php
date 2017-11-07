@@ -17,8 +17,7 @@ class Calendar_Delete_Action extends Vtiger_Delete_Action
 		$recordId = $request->getInteger('record');
 
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-		$recordModel->delete();
-
+		$recordModel->changeState('Deleted');
 		$typeRemove = Events_RecuringEvents_Model::UPDATE_THIS_EVENT;
 		if (!$request->isEmpty('typeRemove')) {
 			$typeRemove = $request->getInteger('typeRemove');

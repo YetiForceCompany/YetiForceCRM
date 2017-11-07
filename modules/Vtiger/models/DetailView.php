@@ -142,7 +142,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linkhint' => 'BTN_RECORD_EDIT',
 			]);
 		}
-		if ($recordModel->isDeletable()) {
+		if ($recordModel->privilegeToDelete()) {
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'DETAILVIEW',
 					'linklabel' => 'LBL_DELETE_RECORD',

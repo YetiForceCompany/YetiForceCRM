@@ -77,7 +77,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 	{
 		$srcModuleModel = Vtiger_Module_Model::getInstance($this->get('srcModule'));
 		$relationModel = Vtiger_Relation_Model::getInstance($srcModuleModel, $this->get('module'));
-		return $relationModel->isDeletable();
+		return $relationModel->privilegeToDelete();
 	}
 
 	public function getTreeData()

@@ -56,7 +56,7 @@
 					</a>&nbsp;
 				{/if}
 			{/if}
-			{if $IS_DELETABLE && $RELATED_RECORD->isDeletable()}
+			{if $IS_DELETABLE && $RELATED_RECORD->privilegeToDelete()}
 				<a class="relationDelete">
 					<span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span>
 				</a>&nbsp;

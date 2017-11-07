@@ -227,7 +227,7 @@ class Events_RecuringEvents_Model extends \App\Base
 				$records = $this->getRecords($this->recordModel->get('followup'));
 				foreach ($records as $recordId => $data) {
 					if ($recordId !== $this->templateRecordId) {
-						Vtiger_Record_Model::getInstanceById($recordId)->delete();
+						Vtiger_Record_Model::getInstanceById($recordId)->changeState('Deleted');
 					}
 				}
 				break;
@@ -244,7 +244,7 @@ class Events_RecuringEvents_Model extends \App\Base
 						$omittedRecords [] = $recordId;
 						continue;
 					}
-					Vtiger_Record_Model::getInstanceById($recordId)->delete();
+					Vtiger_Record_Model::getInstanceById($recordId)->changeState('Deleted');
 				}
 				break;
 			case self::UPDATE_THIS_EVENT:

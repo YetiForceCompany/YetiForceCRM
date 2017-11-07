@@ -82,7 +82,7 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
 
-		if ($recordModel->isDeletable() && $recordModel->get('reapeat') === 1) {
+		if ($recordModel->privilegeToDelete() && $recordModel->get('reapeat') === 1) {
 			foreach ($linkModelList['DETAILVIEW'] as $key => $linkObject) {
 				if ($linkObject->linklabel == 'LBL_DELETE_RECORD') {
 					unset($linkModelList['DETAILVIEW'][$key]);

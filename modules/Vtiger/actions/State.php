@@ -30,7 +30,7 @@ class Vtiger_State_Action extends Vtiger_Action_Controller
 		if ($request->getByType('state') === 'Archived' && !$this->record->privilegeToArchive()) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		if ($request->getByType('state') === 'Deleted' && !$this->record->isDeletable()) {
+		if ($request->getByType('state') === 'Deleted' && !$this->record->privilegeToDelete()) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		if ($request->getByType('state') === 'Active' && !$this->record->privilegeToActivate()) {

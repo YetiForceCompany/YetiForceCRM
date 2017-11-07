@@ -307,7 +307,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 			}
 		}
 		if (!empty($recordsToRemove)) {
-			if ($relationModel->isDeletable()) {
+			if ($relationModel->privilegeToDelete()) {
 				foreach ($recordsToRemove as $relatedRecordId) {
 					$relationModel->deleteRelation((int) $sourceRecordId, (int) $relatedRecordId);
 				}
@@ -321,7 +321,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 			}
 		}
 		if (!empty($categoryToRemove)) {
-			if ($relationModel->isDeletable()) {
+			if ($relationModel->privilegeToDelete()) {
 				foreach ($categoryToRemove as $category) {
 					$relationModel->deleteRelTree($sourceRecordId, $category);
 				}

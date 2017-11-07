@@ -16,7 +16,7 @@ class CustomView_Delete_Action extends Vtiger_Action_Controller
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		if (!CustomView_Record_Model::getInstanceById($request->getInteger('record'))->isDeletable()) {
+		if (!CustomView_Record_Model::getInstanceById($request->getInteger('record'))->privilegeToDelete()) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
