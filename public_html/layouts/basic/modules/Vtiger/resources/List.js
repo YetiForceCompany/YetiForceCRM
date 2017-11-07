@@ -1958,7 +1958,17 @@ jQuery.Class("Vtiger_List_Js", {
 	registerChangeEntityStateEvent: function () {
 		var thisInstance = this;
 		$('#entityState').on('change', function () {
-			thisInstance.getListViewRecords();
+			app.setMainParams('pageNumber', '1');
+			app.setMainParams('pageToJump', '1');
+			jQuery('#recordsCount').val('');
+			jQuery('#totalPageCount').text("");
+			$('.pagination').data('totalCount', 0);
+			thisInstance.getListViewRecords().then(function (data) {
+				thisInstance.calculatePages().then(function () {
+					thisInstance.updatePagination();
+				});
+
+			});
 		});
 	},
 	registerEvents: function () {

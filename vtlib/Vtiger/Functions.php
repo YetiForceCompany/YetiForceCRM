@@ -95,7 +95,7 @@ class Functions
 			\App\Cache::save('moduleTabs', 'all', $moduleList);
 		}
 		$restrictedModules = ['SMSNotifier', 'Dashboard', 'ModComments'];
-		foreach ($moduleList as $id => &$module) {
+		foreach ($moduleList as $id => $module) {
 			if (!$showRestricted && in_array($module['name'], $restrictedModules)) {
 				unset($moduleList[$id]);
 			}
