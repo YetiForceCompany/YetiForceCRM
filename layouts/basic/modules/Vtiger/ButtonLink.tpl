@@ -33,6 +33,10 @@
 					target="{$LINK->get('linktarget')}"
 				{/if}
 			{/strip} {strip}
+				{if $LINK->get('dataUrl')}
+					data-url="{$LINK->get('dataUrl')}"
+				{/if}
+			{/strip} {strip}
 				{if $LINK->get('modalView')}
 					data-url="{$LINK_URL}"
 				{else}

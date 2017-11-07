@@ -21,7 +21,15 @@
 							<ul class="dropdown-menu">
 								{foreach item="LISTVIEW_MASSACTION" from=$LISTVIEW_MASSACTIONS name=actionCount}
 									<li id="{$MODULE}_listView_massAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_MASSACTION->getLabel())}">
-										<a href="javascript:void(0);" {if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick="Vtiger_List_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"{/if} >
+										<a href="javascript:void(0);" 
+										   {if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick="Vtiger_List_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"{/if}
+										   {if $LISTVIEW_MASSACTION->get('dataUrl')}
+											   data-url="{$LISTVIEW_MASSACTION->get('dataUrl')}"
+										   {/if}
+										   {if $LISTVIEW_MASSACTION->get('linkclass') neq ''}
+											   class="{$LISTVIEW_MASSACTION->get('linkclass')}"
+										   {/if}
+										   >
 											{if $LISTVIEW_MASSACTION->get('linkicon') neq ''}
 												<span class="{$LISTVIEW_MASSACTION->get('linkicon')}"></span>&nbsp;&nbsp;
 											{/if}
