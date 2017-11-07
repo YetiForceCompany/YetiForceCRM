@@ -36,4 +36,14 @@ $languageStrings = [
 	'LBL_NUMBER_UNREAD_CHANGES' => 'Nombre de modifications non lues',
 	'LBL_REVIEW_CHANGES_LIMIT_DESCRIPTION' => 'En raison du dépassement de la limite des données mises à jour, l\'action a été ajoutée à la file d\'attente des tâches cron.',
 	'LBL_ESTIMATED_TIME' => 'Temps estimé',
+	//Status
+	'LBL_CREATED' => 'créé',
+	'LBL_UPDATED' => ' a mis à jour',
+	'LBL_DISPLAYED' => 'Displayed',
+	'LBL_ADDED' => 'a ajouté',
+	'LBL_REMOVED' => 'retiré',
+	'LBL_CONVERTED_FROM_LEAD' => 'Converti depuis un prospect',
+	'LBL_DELETED' => 'Deleted record',
+	'LBL_ACTIVE' => 'Restored record',
+	'LBL_ARCHIVED' => 'Archived record',
 ];
