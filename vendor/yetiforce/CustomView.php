@@ -120,7 +120,11 @@ class CustomView
 	 */
 	public static function setCurrentPage($moduleName, $viewId, $start)
 	{
-		$_SESSION['lvs'][$moduleName][$viewId]['start'] = $start;
+		if (empty($start)) {
+			unset($_SESSION['lvs'][$moduleName][$viewId]['start']);
+		} else {
+			$_SESSION['lvs'][$moduleName][$viewId]['start'] = $start;
+		}
 	}
 
 	/**
@@ -164,7 +168,11 @@ class CustomView
 	 */
 	public static function setSorder($moduleName, $order)
 	{
-		$_SESSION['lvs'][$moduleName]['sorder'] = $order;
+		if (empty($order)) {
+			unset($_SESSION['lvs'][$moduleName]['sorder']);
+		} else {
+			$_SESSION['lvs'][$moduleName]['sorder'] = $order;
+		}
 	}
 
 	/**
@@ -182,11 +190,15 @@ class CustomView
 	/**
 	 * Set sorted by
 	 * @param string $moduleName
-	 * @param string $order
+	 * @param string $sortby
 	 */
-	public static function setSortby($moduleName, $order)
+	public static function setSortby($moduleName, $sortby)
 	{
-		$_SESSION['lvs'][$moduleName]['sortby'] = $order;
+		if (empty($sortby)) {
+			unset($_SESSION['lvs'][$moduleName]['sortby']);
+		} else {
+			$_SESSION['lvs'][$moduleName]['sortby'] = $sortby;
+		}
 	}
 
 	/**
