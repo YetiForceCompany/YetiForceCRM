@@ -24,8 +24,8 @@ $CONFIG = [
 	'GLOBAL_SEARCH_OPERATOR' => true,
 	// Colors for record state will be displayed in list view, history, and preview.
 	'LIST_ENTITY_STATE_COLOR' => [
-		'Archived' => '#0047e6',
-		'Trash' => '#d40404',
-		'Active' => '#16c301',
+		'Archived' => '#0032a2',
+		'Trash' => '#ab0505',
+		'Active' => '#009405',
 	],
 ];

@@ -142,12 +142,15 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linkhint' => 'BTN_RECORD_EDIT',
 			]);
 		}
+		$stateColors = AppConfig::search('LIST_ENTITY_STATE_COLOR');
 		if ($recordModel->privilegeToActivate()) {
 			$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'DETAIL_VIEW_EXTENDED',
 					'linklabel' => 'LBL_ACTIVATE_RECORD',
 					'linkurl' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Active&record=' . $recordModel->getId(),
 					'linkicon' => 'fa fa-refresh fa-spin',
+					'linkclass' => 'entityStateBtn',
+					'style' => empty($stateColors['Active']) ? '' : "background: {$stateColors['Active']};",
 					'title' => \App\Language::translate('LBL_ACTIVATE_RECORD')
 			]);
 		}
@@ -157,6 +160,8 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linklabel' => 'LBL_ARCHIVE_RECORD',
 					'linkurl' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Archived&record=' . $recordModel->getId(),
 					'linkicon' => 'fa fa-archive',
+					'linkclass' => 'entityStateBtn',
+					'style' => empty($stateColors['Archived']) ? '' : "background: {$stateColors['Archived']};",
 					'title' => \App\Language::translate('LBL_ARCHIVE_RECORD')
 			]);
 		}
@@ -166,6 +171,8 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linklabel' => 'LBL_MOVE_TO_TRASH',
 					'linkurl' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Trash&record=' . $recordModel->getId(),
 					'linkicon' => 'glyphicon glyphicon-trash',
+					'linkclass' => 'entityStateBtn',
+					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
 					'title' => \App\Language::translate('LBL_MOVE_TO_TRASH')
 			]);
 		}

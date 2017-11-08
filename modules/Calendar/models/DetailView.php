@@ -81,6 +81,7 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 			];
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
+		$stateColors = AppConfig::search('LIST_ENTITY_STATE_COLOR');
 		if ($recordModel->privilegeToMoveToTrash() && $recordModel->get('reapeat') === 1) {
 			foreach ($linkModelList['DETAIL_VIEW_EXTENDED'] as $key => $linkObject) {
 				if ($linkObject->linklabel == 'LBL_MOVE_TO_TRASH') {
@@ -92,6 +93,8 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 					'linklabel' => 'LBL_MOVE_TO_TRASH',
 					'linkurl' => 'javascript:Calendar_Detail_Js.deleteRecord("index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Trash&record=' . $recordModel->getId() . '")',
 					'linkicon' => 'glyphicon glyphicon-trash',
+					'linkclass' => 'entityStateBtn',
+					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
 					'title' => \App\Language::translate('LBL_MOVE_TO_TRASH')
 			]);
 		}
