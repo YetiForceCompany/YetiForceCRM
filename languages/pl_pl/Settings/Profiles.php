@@ -81,6 +81,8 @@ $languageStrings = [
 	'ArchiveRecord' => 'Archiwizuj rekord',
 	'ActiveRecord' => 'Aktywuj rekord',
 	'TimeLineList' => 'Historia w liście rekordów',
+	'MoveToTrash' => 'Przenieś do kosza',
+	'MassTrash' => 'Masowe przenoszenie do kosza',
 	//end actions
 	'Profile Related to Sales' => 'Profil powiązany ze sprzedażą',
 	'Profile Related to Support' => 'Profil związany ze wsparciem',
