@@ -7,6 +7,7 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 $languageStrings = [
+	'ERR_ILLEGAL_VALUE' => 'Illegal value',
 	'ERR_ILLEGAL_FIELD_VALUE' => 'Некорректное значение в поле %s (%s)',
 	'ERR_VALUE_IS_TOO_LONG' => 'Значение в поле %s слишком длинное (%s)',
 	'ERR_VALUE_CAN_NOT_BE_LESS_THAN_ZERO' => 'Значение поля %s должно быть больше нуля (%s)',
