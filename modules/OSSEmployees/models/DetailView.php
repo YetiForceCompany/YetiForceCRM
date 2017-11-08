@@ -22,7 +22,7 @@ class OSSEmployees_DetailView_Model extends Vtiger_DetailView_Model
 			'linkurl' => 'javascript:OSSEmployees_Detail_Js.triggerEmployeeHierarchy("' . $linkURL . '");',
 			'linkicon' => 'glyphicon glyphicon-user'
 		];
-		$linkModelLists['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($linkModel);
+		$linkModelLists['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($linkModel);
 		return $linkModelLists;
 	}
 }

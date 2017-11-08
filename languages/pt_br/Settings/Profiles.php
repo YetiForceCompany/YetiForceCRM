@@ -77,6 +77,12 @@ $languageStrings = [
 	'OpenRecord' => 'Registro aberto',
 	'CloseRecord' => 'Registro fechado',
 	'ReviewingUpdates' => 'Revisando o histórico de mudanças',
+	'CreateDashboardChartFilter' => 'Create chart from filter',
+	'MassArchived' => 'Mass archive',
+	'MassActive' => 'Mass activate',
+	'ArchiveRecord' => 'Archive record',
+	'ActiveRecord' => 'Activate record',
+	'TimeLineList' => 'History in records list',
 	//end Actions
 	'Profile Related to Sales' => 'Perfil relacionado a Vendas',
 	'Profile Related to Support' => 'Perfil relacionado a Suporte',

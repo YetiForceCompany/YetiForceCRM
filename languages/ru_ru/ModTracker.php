@@ -36,6 +36,16 @@ $languageStrings = [
 	'LBL_NUMBER_UNREAD_CHANGES' => 'Количество непрочитанных изменений',
 	'LBL_REVIEW_CHANGES_LIMIT_DESCRIPTION' => 'Из-за превышения лимита обновления действие было добавлено в очередь задач CRON.',
 	'LBL_ESTIMATED_TIME' => 'Приблизительное время',
+	//Status
+	'LBL_CREATED' => 'создал',
+	'LBL_UPDATED' => 'изменил',
+	'LBL_DISPLAYED' => 'Просмотрено',
+	'LBL_ADDED' => 'добавил',
+	'LBL_REMOVED' => 'удалено',
+	'LBL_CONVERTED_FROM_LEAD' => 'Создано из Обращения',
+	'LBL_DELETED' => 'Deleted record',
+	'LBL_ACTIVE' => 'Restored record',
+	'LBL_ARCHIVED' => 'Archived record',
 ];
 
 $jsLanguageStrings = [

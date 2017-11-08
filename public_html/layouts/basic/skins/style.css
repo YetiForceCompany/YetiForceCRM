@@ -3345,6 +3345,7 @@ span[name=existingImages] img{
 	color: #337AB7;
 	float: right;
 	margin-left: 5px;
+	margin-bottom: 0;
 	list-style: none;
 	padding: 8px 5px;
 }
@@ -6055,4 +6056,7 @@ select.form-control {
 }
 .fs40{
 	font-size: 40px;
+}
+.detailViewActionsBtn .btn-group{
+	margin-left: 15px;
 }

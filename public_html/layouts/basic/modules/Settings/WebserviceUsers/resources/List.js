@@ -7,14 +7,6 @@ Settings_Vtiger_List_Js('Settings_WebserviceUsers_List_Js', {}, {
 		}
 		return this.container;
 	},
-	getDeafultDeleteParam: function () {
-		return {
-			module: app.getModuleName(),
-			action: 'DeleteAjax',
-			parent: app.getParentModuleName(),
-			typeApi: this.getActiveTypeApi()
-		};
-	},
 	getActiveTypeApi: function () {
 		return this.getContainer().find('.tabApi.active').data('typeapi');
 	},

@@ -171,8 +171,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('DETAILVIEW_WIDGETS', $this->record->widgets);
 		$viewer->assign('FIELDS_HEADER', $fieldsInHeader);
 		$viewer->assign('CUSTOM_FIELDS_HEADER', $this->record->getCustomHeaderFields());
-		$viewer->assign('IS_EDITABLE', $this->record->getRecord()->isEditable($moduleName));
-		$viewer->assign('IS_DELETABLE', $this->record->getRecord()->isDeletable($moduleName));
+		$viewer->assign('IS_EDITABLE', $this->record->getRecord()->isEditable());
+		$viewer->assign('IS_DELETABLE', $this->record->getRecord()->privilegeToMoveToTrash());
 
 		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1)];
 		$linkModels = $this->record->getSideBarLinks($linkParams);
@@ -758,7 +758,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('COLUMN_NAME', $orderBy);
 		$viewer->assign('COLUMNS', $columns);
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
-		$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
+		$viewer->assign('IS_DELETABLE', $relationModel->privilegeToDelete());
 		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
 		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));

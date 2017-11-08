@@ -164,4 +164,17 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 
 		\App\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function delete()
+	{
+		parent::delete();
+		\App\Db::getInstance()->createCommand()->update('vtiger_customerdetails', [
+			'portal' => 0,
+			'support_start_date' => null,
+			'support_end_date' => null
+			], ['customerid' => $this->getId()])->execute();
+	}
 }

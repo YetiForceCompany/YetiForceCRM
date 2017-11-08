@@ -116,7 +116,7 @@ class Module extends ModuleBasic
 
 	/**
 	 * Add custom link for a module page
-	 * @param String Type can be like 'DETAILVIEW', 'LISTVIEW' etc..
+	 * @param String Type can be like 'DETAIL_VIEW_BASIC', 'LISTVIEW' etc..
 	 * @param String Label to use for display
 	 * @param String HREF value to use for generated link
 	 * @param String Path to the image file (relative or absolute)
@@ -132,7 +132,7 @@ class Module extends ModuleBasic
 
 	/**
 	 * Delete custom link of a module
-	 * @param String Type can be like 'DETAILVIEW', 'LISTVIEW' etc..
+	 * @param String Type can be like 'DETAIL_VIEW_BASIC', 'LISTVIEW' etc..
 	 * @param String Display label to lookup
 	 * @param String URL value to lookup
 	 */

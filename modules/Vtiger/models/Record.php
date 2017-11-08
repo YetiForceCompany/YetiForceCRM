@@ -367,14 +367,18 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function save()
 	{
-		$db = PearDatabase::getInstance();
-		//Disabled generating record ID in transaction  in order to maintain data integrity
-		$db->startTransaction();
-		if ($this->getModule()->isInventory()) {
-			$this->initInventoryData();
+		$db = \App\Db::getInstance();
+		$transaction = $db->beginTransaction();
+		try {
+			if ($this->getModule()->isInventory()) {
+				$this->initInventoryData();
+			}
+			$this->getModule()->saveRecord($this);
+			$transaction->commit();
+		} catch (\Exception $e) {
+			$transaction->rollBack();
+			throw $e;
 		}
-		$this->getModule()->saveRecord($this);
-		$db->completeTransaction();
 		if ($this->isNew()) {
 			\App\Cache::staticSave('RecordModel', $this->getId() . ':' . $this->getModuleName(), $this);
 			$this->isNew = false;
@@ -469,12 +473,40 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function delete()
 	{
-		$db = PearDatabase::getInstance();
-		$db->startTransaction();
+		$db = \App\Db::getInstance();
+		$transaction = $db->beginTransaction();
+		try {
+			$moduleName = $this->getModuleName();
+			$eventHandler = new App\EventHandler();
+			$eventHandler->setRecordModel($this);
+			$eventHandler->setModuleName($moduleName);
+			$eventHandler->trigger('EntityBeforeDelete');
 
-		$this->getModule()->deleteRecord($this);
-
-		$db->completeTransaction();
+			$focus = $this->getModule()->getEntityInstance();
+			if (method_exists($focus, 'transferRelatedRecords') && $this->get('transferRecordIDs')) {
+				$focus->transferRelatedRecords($moduleName, $this->get('transferRecordIDs'), $this->getId());
+			}
+			Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
+			Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
+			$workflows = (new VTWorkflowManager())->getWorkflowsForModule($moduleName, VTWorkflowManager::$ON_DELETE);
+			if (count($workflows)) {
+				foreach ($workflows as &$workflow) {
+					if ($workflow->evaluate($this)) {
+						$workflow->performTasks($this);
+					}
+				}
+			}
+			$dbCommand = $db->createCommand();
+			$dbCommand->delete('u_#__crmentity_label', ['crmid' => $this->getId()])->execute();
+			$dbCommand->delete('u_#__crmentity_search_label', ['crmid' => $this->getId()])->execute();
+			$dbCommand->delete('vtiger_crmentity', ['crmid' => $this->getId()])->execute();
+			\App\Db::getInstance('admin')->createCommand()->delete('s_#__privileges_updater', ['crmid' => $this->getId()])->execute();
+			$eventHandler->trigger('EntityAfterDelete');
+			$transaction->commit();
+		} catch (\Exception $e) {
+			$transaction->rollBack();
+			throw $e;
+		}
 	}
 
 	/**
@@ -677,12 +709,24 @@ class Vtiger_Record_Model extends \App\Base
 	 * Checking for permission to delete
 	 * @return bool
 	 */
-	public function isDeletable()
+	public function privilegeToDelete()
 	{
 		if (!isset($this->privileges['Deleted'])) {
-			$this->privileges['Deleted'] = \App\Record::getState($this->getId()) !== 'Deleted' && \App\Privilege::isPermitted($this->getModuleName(), 'Delete', $this->getId()) && $this->checkLockFields();
+			$this->privileges['Deleted'] = \App\Privilege::isPermitted($this->getModuleName(), 'Delete', $this->getId()) && $this->checkLockFields();
 		}
 		return $this->privileges['Deleted'];
+	}
+
+	/**
+	 * Checking for permission to move to trash
+	 * @return bool
+	 */
+	public function privilegeToMoveToTrash()
+	{
+		if (!isset($this->privileges['MoveToTrash'])) {
+			$this->privileges['MoveToTrash'] = \App\Record::getState($this->getId()) !== 'Trash' && \App\Privilege::isPermitted($this->getModuleName(), 'MoveToTrash', $this->getId()) && $this->checkLockFields();
+		}
+		return $this->privileges['MoveToTrash'];
 	}
 
 	/**
@@ -692,7 +736,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function privilegeToArchive()
 	{
 		if (!isset($this->privileges['Archive'])) {
-			$this->privileges['Archive'] = \App\Record::getState($this->getId()) !== 'Archived' && \App\Privilege::isPermitted($this->getModuleName(), 'Archived', $this->getId());
+			$this->privileges['Archive'] = \App\Record::getState($this->getId()) !== 'Archived' && \App\Privilege::isPermitted($this->getModuleName(), 'ArchiveRecord', $this->getId());
 		}
 		return $this->privileges['Archive'];
 	}
@@ -704,7 +748,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function privilegeToActivate()
 	{
 		if (!isset($this->privileges['Activate'])) {
-			$this->privileges['Activate'] = \App\Record::getState($this->getId()) !== 'Active' && \App\Privilege::isPermitted($this->getModuleName(), 'Active', $this->getId());
+			$this->privileges['Activate'] = \App\Record::getState($this->getId()) !== 'Active' && \App\Privilege::isPermitted($this->getModuleName(), 'ActiveRecord', $this->getId());
 		}
 		return $this->privileges['Activate'];
 	}
@@ -1177,7 +1221,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function getRecordListViewLinksLeftSide()
 	{
 		$links = $recordLinks = [];
-		if ($this->isViewable()) {
+		if ($this->isViewable() && $this->getModule()->isSummaryViewSupported()) {
 			$recordLinks[] = [
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_SHOW_QUICK_DETAILS',
@@ -1186,7 +1230,6 @@ class Vtiger_Record_Model extends \App\Base
 				'linkclass' => 'btn-sm btn-default',
 				'modalView' => true
 			];
-
 			$recordLinks[] = [
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_SHOW_COMPLETE_DETAILS',
@@ -1215,18 +1258,45 @@ class Vtiger_Record_Model extends \App\Base
 				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => !$watching, 'on' => 'btn-info', 'off' => 'btn-default', 'icon-on' => 'glyphicon-eye-open', 'icon-off' => 'glyphicon-eye-close'],
 			];
 		}
-		if ($this->isDeletable()) {
+		if ($this->privilegeToActivate()) {
 			$recordLinks[] = [
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
-				'linklabel' => 'LBL_DELETE',
+				'linklabel' => 'LBL_ACTIVATE_RECORD',
+				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Active',
+				'linkicon' => 'fa fa-refresh',
+				'linkclass' => 'btn-sm btn-default recordEvent'
+			];
+		}
+		if ($this->privilegeToArchive()) {
+			$recordLinks[] = [
+				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+				'linklabel' => 'LBL_ARCHIVE_RECORD',
+				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Archived',
+				'linkicon' => 'fa fa-archive',
+				'linkclass' => 'btn-sm btn-default recordEvent'
+			];
+		}
+		if ($this->privilegeToMoveToTrash()) {
+			$recordLinks[] = [
+				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+				'linklabel' => 'LBL_MOVE_TO_TRASH',
+				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash',
 				'linkicon' => 'glyphicon glyphicon-trash',
-				'linkclass' => 'btn-sm btn-default deleteRecordButton'
+				'linkclass' => 'btn-sm btn-default recordEvent'
+			];
+		}
+		if ($this->privilegeToDelete()) {
+			$recordLinks[] = [
+				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+				'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
+				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=Delete',
+				'linkicon' => 'glyphicon glyphicon-erase',
+				'linkclass' => 'btn-sm btn-default recordEvent'
 			];
 		}
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
-
 		return $links;
 	}
 
@@ -1280,5 +1350,34 @@ class Vtiger_Record_Model extends \App\Base
 	public function clearChanges()
 	{
 		unset($this->changes);
+	}
+
+	/**
+	 * Change record state
+	 * @param type $state
+	 */
+	public function changeState($state)
+	{
+		$this->set('deleted', $state);
+		$stateId = 0;
+		switch ($state) {
+			case 'Active':
+				$stateId = 0;
+				break;
+			case 'Trash':
+				$stateId = 1;
+				break;
+			case 'Archived':
+				$stateId = 2;
+				break;
+		}
+		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['deleted' => $stateId, 'modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => \App\User::getCurrentUserId()], ['crmid' => $this->getId()])->execute();
+		$eventHandler = new App\EventHandler();
+		$eventHandler->setRecordModel($this);
+		$eventHandler->setModuleName($this->getModuleName());
+		if ($this->getHandlerExceptions()) {
+			$eventHandler->setExceptions($this->getHandlerExceptions());
+		}
+		$eventHandler->trigger('EntityChangeState');
 	}
 }

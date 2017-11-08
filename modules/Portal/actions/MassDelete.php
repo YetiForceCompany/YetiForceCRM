@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Portal_MassDelete_Action extends Vtiger_MassDelete_Action
+class Portal_MassDelete_Action extends Vtiger_Mass_Action
 {
 
 	public function checkPermission(\App\Request $request)

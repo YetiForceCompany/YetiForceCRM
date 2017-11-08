@@ -14,7 +14,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$recordModel = $this->getRecord();
 		$linkModelList = parent::getDetailViewLinks($linkParams);
-		unset($linkModelList['DETAILVIEWBASIC']);
+		unset($linkModelList['DETAIL_VIEW_ADDITIONAL']);
 
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission('OSSMail');
@@ -25,7 +25,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 				$url = OSSMail_Module_Model::getComposeUrl();
 
 				$detailViewLinks[] = [
-					'linktype' => 'DETAILVIEWBASIC',
+					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => '',
 					'linkhint' => 'LBL_REPLY',
 					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=reply', 'popup' => $config['popup']],
@@ -33,7 +33,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linkclass' => 'sendMailBtn'
 				];
 				$detailViewLinks[] = [
-					'linktype' => 'DETAILVIEWBASIC',
+					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => '',
 					'linkhint' => 'LBL_REPLYALLL',
 					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=replyAll', 'popup' => $config['popup']],
@@ -41,7 +41,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linkclass' => 'sendMailBtn'
 				];
 				$detailViewLinks[] = [
-					'linktype' => 'DETAILVIEWBASIC',
+					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => '',
 					'linkhint' => 'LBL_FORWARD',
 					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=forward', 'popup' => $config['popup']],
@@ -50,7 +50,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 				];
 			} else {
 				$detailViewLinks[] = [
-					'linktype' => 'DETAILVIEWBASIC',
+					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linkhref' => true,
 					'linklabel' => '',
 					'linkhint' => 'LBL_REPLY',
@@ -59,7 +59,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linkclass' => 'sendMailBtn'
 				];
 				$detailViewLinks[] = [
-					'linktype' => 'DETAILVIEWBASIC',
+					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linkhref' => true,
 					'linklabel' => '',
 					'linkhint' => 'LBL_REPLYALLL',
@@ -68,7 +68,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linkclass' => 'sendMailBtn'
 				];
 				$detailViewLinks[] = [
-					'linktype' => 'DETAILVIEWBASIC',
+					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linkhref' => true,
 					'linklabel' => '',
 					'linkhint' => 'LBL_FORWARD',
@@ -80,7 +80,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 
 			if (\App\Privilege::isPermitted('OSSMailView', 'PrintMail')) {
 				$detailViewLinks[] = [
-					'linktype' => 'DETAILVIEWBASIC',
+					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => '',
 					'linkhint' => 'LBL_PRINT',
 					'linkurl' => 'javascript:OSSMailView_Detail_Js.printMail();',
@@ -88,15 +88,15 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 				];
 			}
 			foreach ($detailViewLinks as $detailViewLink) {
-				$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
+				$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 			}
 		}
-		$linkModelDetailViewList = $linkModelList['DETAILVIEW'];
+		$linkModelDetailViewList = $linkModelList['DETAIL_VIEW_BASIC'];
 		$countOfList = count($linkModelDetailViewList);
 		for ($i = 0; $i < $countOfList; $i++) {
 			$linkModel = $linkModelDetailViewList[$i];
 			if ($linkModel->get('linklabel') == 'LBL_DUPLICATE') {
-				unset($linkModelList['DETAILVIEW'][$i]);
+				unset($linkModelList['DETAIL_VIEW_BASIC'][$i]);
 				break;
 			}
 		}

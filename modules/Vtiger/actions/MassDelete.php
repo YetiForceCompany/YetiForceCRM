@@ -1,21 +1,17 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce.com
- * *********************************************************************************** */
 
+/**
+ * Mass records delete action class
+ * @package YetiForce.Action
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 class Vtiger_MassDelete_Action extends Vtiger_Mass_Action
 {
 
 	/**
-	 * Function to check permission
-	 * @param \App\Request $request
-	 * @throws \App\Exceptions\NoPermitted
+	 * {@inheritDoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -25,36 +21,34 @@ class Vtiger_MassDelete_Action extends Vtiger_Mass_Action
 		}
 	}
 
-	public function preProcess(\App\Request $request)
-	{
-		return true;
-	}
-
-	public function postProcess(\App\Request $request)
-	{
-		return true;
-	}
-
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-
-		if ($request->get('selected_ids') === 'all' && $request->getMode() === 'FindDuplicates') {
-			$recordIds = Vtiger_FindDuplicate_Model::getMassDeleteRecords($request);
-		} else {
-			$recordIds = self::getRecordsListFromRequest($request);
-		}
+		$recordIds = self::getRecordsListFromRequest($request);
+		$skipped = [];
 		foreach ($recordIds as $recordId) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleModel);
-			if ($recordModel->isDeletable()) {
-				$recordModel->delete();
-			} else {
-				throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
+			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+			if (!$recordModel->privilegeToDelete()) {
+				$skipped[] = $recordModel->getName();
+				continue;
+			}
+			$recordModel->delete();
+			unset($recordModel);
+		}
+		$text = \App\Language::translate('LBL_CHANGES_SAVED');
+		$type = 'success';
+		if ($skipped) {
+			$type = 'info';
+			$text .= PHP_EOL . \App\Language::translate('LBL_OMITTED_RECORDS');
+			foreach ($skipped as $name) {
+				$text .= PHP_EOL . $name;
 			}
 		}
 		$response = new Vtiger_Response();
-		$response->setResult(['viewname' => $request->getByType('viewname', 2), 'module' => $moduleName]);
+		$response->setResult(['notify' => ['text' => $text, 'type' => $type]]);
 		$response->emit();
 	}
 }

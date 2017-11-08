@@ -56,8 +56,14 @@
 					<div class="contentHeader">
 						{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
 						<span class="pull-right">
-							<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE_NAME)}</strong></button>&nbsp;&nbsp;
-							<button class="btn btn-warning" type="reset" onclick="javascript:window.history.back();"><strong>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE_NAME)}</strong></button>
+							<button class="btn btn-success" type="submit">
+								<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;
+								<strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE_NAME)}</strong>
+							</button>&nbsp;&nbsp;
+							<button class="btn btn-warning" type="reset" onclick="javascript:window.history.back();">
+								<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;
+								<strong>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE_NAME)}</strong>
+							</button>
 						</span>
 						<span class="pull-right">
 							{foreach item=LINK from=$EDITVIEW_LINKS['EDIT_VIEW_HEADER']}

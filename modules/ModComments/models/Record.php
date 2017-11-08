@@ -264,10 +264,17 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get details for user have the permissions to do actions
-	 * @return boolean - true/false
+	 * {@inheritDoc}
 	 */
-	public function isDeletable()
+	public function privilegeToDelete()
+	{
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function privilegeToMoveToTrash()
 	{
 		return false;
 	}

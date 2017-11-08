@@ -722,7 +722,19 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function delete()
 	{
-		$this->getModule()->deleteRecord($this);
+		$db = \App\Db::getInstance();
+		$transaction = $db->beginTransaction();
+		try {
+			$db->createCommand()->update('vtiger_users', [
+				'status' => 'Inactive',
+				'date_modified' => date('Y-m-d H:i:s'),
+				'modified_user_id' => App\User::getCurrentUserRealId(),
+				], ['id' => $this->getId()])->execute();
+			$transaction->commit();
+		} catch (\Exception $e) {
+			$transaction->rollBack();
+			throw $e;
+		}
 	}
 
 	public function isAccountOwner()

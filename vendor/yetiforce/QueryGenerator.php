@@ -21,7 +21,7 @@ class QueryGenerator
 	/**
 	 * State records to display
 	 * 0 - Active
-	 * 1 - Deleted
+	 * 1 - Trash
 	 * 2 - Archived
 	 * @var int
 	 */
@@ -760,7 +760,7 @@ class QueryGenerator
 			case 'Active':
 				$this->stateCondition = 0;
 				break;
-			case 'Deleted':
+			case 'Trash':
 				$this->stateCondition = 1;
 				break;
 			case 'Archived':

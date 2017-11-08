@@ -40,7 +40,7 @@
 												<span title="{$RECENT_ACTIVITY->getDisplayActivityTime()}">{Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getParent()->get('createdtime'))}</span>
 											</span>
 											<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong> 
-											&nbsp;{\App\Language::translate('LBL_CREATED', $MODULE_NAME)}
+											&nbsp;{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}
 											{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
 												{if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}
 													<div class='font-x-small updateInfoContainer'>
@@ -78,7 +78,7 @@
 											<span class="time pull-right">
 												<span title="{$RECENT_ACTIVITY->getDisplayActivityTime()}">{Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())}</span>
 											</span>
-											<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()}&nbsp;</strong> {\App\Language::translate('LBL_UPDATED', $MODULE_NAME)}</span>
+											<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()}&nbsp;</strong> {\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(),'ModTracker')}</span>
 											{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
 												{if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}
 													<div class='font-x-small updateInfoContainer'>
@@ -146,11 +146,7 @@
 											</span>
 											{assign var=RELATION value=$RECENT_ACTIVITY->getRelationInstance()}
 											<span>
-												{if $RECENT_ACTIVITY->isRelationLink()}
-													{\App\Language::translate('LBL_ADDED', $MODULE_NAME)}
-												{else}
-													{\App\Language::translate('LBL_REMOVED', $MODULE_NAME)}
-												{/if}&nbsp;
+												{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(),'ModTracker')}&nbsp;
 											</span>
 											<span>
 												{if \App\Privilege::isPermitted($RELATION->getLinkedRecord()->getModuleName(), 'DetailView', $RELATION->getLinkedRecord()->getId())}
@@ -170,8 +166,33 @@
 											<span>&nbsp;({\App\Language::translate('SINGLE_'|cat:$RELATION->getLinkedRecord()->getModuleName(), $RELATION->getLinkedRecord()->getModuleName())})</span>
 										</div>
 									</div>
-								{else if $RECENT_ACTIVITY->isRestore()}
-
+								{else if $RECENT_ACTIVITY->isChangeState()}
+									{if $RECENT_ACTIVITY->get('status') == 1}
+										<span class="glyphicon glyphicon-trash bgDanger"></span>
+									{else if $RECENT_ACTIVITY->get('status') == 3}
+										<span class="fa glyphicon fa-refresh bgGreen"></span>
+									{else if $RECENT_ACTIVITY->get('status') == 8}
+										<span class="fa glyphicon fa-archive bgOrange"></span>
+									{/if}
+									<div class="timeline-item isDisplayed">
+										<div class="pull-left paddingRight15 imageContainer">
+											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
+											{if $IMAGE}
+												<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
+											{else}	
+												<span class="glyphicon glyphicon-user userImage" aria-hidden="true"></span>
+											{/if}
+										</div>
+										<div class="timeline-body row no-margin">
+											<span class="time pull-right">
+												<span title="{$RECENT_ACTIVITY->getDisplayActivityTime()}">{Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())}</span>
+											</span>
+											<div class="pull-left">
+												<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>
+												&nbsp;{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}
+											</div>
+										</div>
+									</div>
 								{else if $RECENT_ACTIVITY->isConvertToAccount()}
 									<span class="glyphicon glyphicon-transfer bgAzure"></span>
 									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if} isConvertToAccount">
@@ -188,7 +209,7 @@
 												<span title="{$RECENT_ACTIVITY->getDisplayActivityTime()}">{Vtiger_Util_Helper::formatDateDiffInStrings($RECENT_ACTIVITY->getActivityTime())}</span>
 											</span>
 											<div class="pull-left">
-												<strong>{\App\Language::translate('LBL_CONVERTED_FROM_LEAD', $MODULE_NAME)}</strong> 
+												<strong>{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}</strong> 
 											</div>
 										</div>
 									</div>
@@ -209,7 +230,7 @@
 											</span>
 											<div class="pull-left">
 												<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>
-												&nbsp;{\App\Language::translate('LBL_DISPLAYED', $MODULE_NAME)}
+												&nbsp;{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}
 											</div>
 										</div>
 									</div>

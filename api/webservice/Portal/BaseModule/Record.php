@@ -44,7 +44,7 @@ class Record extends \Api\Core\BaseAction
 			$this->recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			switch ($method) {
 				case 'DELETE':
-					if (!$this->recordModel->isDeletable()) {
+					if (!$this->recordModel->privilegeToDelete()) {
 						throw new \Api\Core\Exception('No permissions to remove record', 401);
 					}
 					break;

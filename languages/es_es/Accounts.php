@@ -93,7 +93,6 @@ $languageStrings = [
 	'Average profit sales order' => 'Media de beneficio por Órden de Venta (%)',
 	'Approval for email' => 'Permiso para envío de correos',
 	'Approval for phone calls' => 'Permiso para llamar',
-	'LBL_CONVERTED_FROM_LEAD' => 'Convertido desde el Potencial',
 	'LBL_LEGAL_FORM' => 'Forma jurídica',
 	'LBL_INVENTORY_BALANCE' => 'balance',
 	'LBL_DISCOUNT' => 'Descuento',

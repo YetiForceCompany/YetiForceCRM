@@ -77,6 +77,11 @@ $languageStrings = [
 	'OpenRecord' => 'Datensatz öffnen',
 	'CloseRecord' => 'Datensatz schließen',
 	'ReviewingUpdates' => 'Anzeige der Änderungshistorie',
+	'MassArchived' => 'Mass archive',
+	'MassActive' => 'Mass activate',
+	'ArchiveRecord' => 'Archive record',
+	'ActiveRecord' => 'Activate record',
+	'TimeLineList' => 'History in records list',
 	//end Actions
 	'Profile Related to Sales' => 'zugeordnetes Profil für den Vertrieb',
 	'Profile Related to Support' => 'zugeordnetes Profil für den Support',

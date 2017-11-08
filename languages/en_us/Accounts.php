@@ -93,7 +93,6 @@ $languageStrings = [
 	'Average profit sales order' => 'Average profit sales order (%)',
 	'Approval for email' => 'Permission to send emails',
 	'Approval for phone calls' => 'Permission to call',
-	'LBL_CONVERTED_FROM_LEAD' => 'Converted from lead',
 	'LBL_LEGAL_FORM' => 'Legal form',
 	'LBL_INVENTORY_BALANCE' => 'balance',
 	'LBL_DISCOUNT' => 'Discount',

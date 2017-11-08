@@ -95,7 +95,6 @@ $languageStrings = [
 	'Average profit sales order' => 'Средняя прибыль от продаж (%)',
 	'Approval for email' => 'Можно писать',
 	'Approval for phone calls' => 'Можно звонить',
-	'LBL_CONVERTED_FROM_LEAD' => 'Создано из Обращения',
 	'LBL_LEGAL_FORM' => 'Юридическая форма организации',
 	'LBL_INVENTORY_BALANCE' => 'Баланс',
 	'LBL_DISCOUNT' => 'Скидка',

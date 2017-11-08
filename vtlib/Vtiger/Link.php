@@ -67,7 +67,7 @@ class Link
 	/**
 	 * Add link given module
 	 * @param Integer Module ID
-	 * @param String Link Type (like DETAILVIEW). Useful for grouping based on pages.
+	 * @param String Link Type (like DETAIL_VIEW_BASIC). Useful for grouping based on pages.
 	 * @param String Label to display
 	 * @param String HREF value or URL to use for the link
 	 * @param String ICON to use on the display
@@ -106,7 +106,7 @@ class Link
 	/**
 	 * Delete link of the module
 	 * @param Integer Module ID
-	 * @param String Link Type (like DETAILVIEW). Useful for grouping based on pages.
+	 * @param String Link Type (like DETAIL_VIEW_BASIC). Useful for grouping based on pages.
 	 * @param String Display label
 	 * @param String URL of link to lookup while deleting
 	 */

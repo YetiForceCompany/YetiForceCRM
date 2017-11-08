@@ -288,7 +288,7 @@ class Record
 			case 0:
 				return 'Active';
 			case 1:
-				return 'Deleted';
+				return 'Trash';
 			case 2:
 				return 'Archived';
 		}
