@@ -28,7 +28,9 @@ class Session
 			static::$pool = new $className();
 			session_set_save_handler(static::$pool, true);
 		}
-		session_start();
+		if (session_status() !== PHP_SESSION_ACTIVE) {
+			session_start();
+		}
 	}
 
 	/**
