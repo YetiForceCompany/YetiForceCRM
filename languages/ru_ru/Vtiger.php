@@ -1326,6 +1326,12 @@ $languageStrings = [
 	'LBL_INVALID_PHONE_NUMBER' => 'Введен некорректный номер телефона',
 	'LBL_VALUE_NOT_FOUND' => 'Значение не найдено',
 	'FL_PHONE_CUSTOM_INFORMATION' => 'Дополнительная информация',
+	'LBL_ARCHIVE_RECORD' => 'Archive record',
+	'LBL_ACTIVATE_RECORD' => 'Activate record',
+	'LBL_CHANGES_SAVED' => 'Changes saved',
+	'LBL_OMITTED_RECORDS' => 'Omitted records:',
+	'LBL_MASS_ARCHIVE' => 'Mass archive',
+	'LBL_MASS_ACTIVATE' => 'Mass activate',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Подитог',
