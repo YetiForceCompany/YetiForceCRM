@@ -1297,6 +1297,12 @@ $languageStrings = [
 	'LBL_INVALID_PHONE_NUMBER' => 'Entered invalid phone number',
 	'LBL_VALUE_NOT_FOUND' => 'Value not found',
 	'FL_PHONE_CUSTOM_INFORMATION' => 'Additional information',
+	'LBL_ARCHIVE_RECORD' => 'Archive record',
+	'LBL_ACTIVATE_RECORD' => 'Activate record',
+	'LBL_CHANGES_SAVED' => 'Changes saved',
+	'LBL_OMITTED_RECORDS' => 'Omitted records:',
+	'LBL_MASS_ARCHIVE' => 'Mass archive',
+	'LBL_MASS_ACTIVATE' => 'Mass activate',
 ];
 $jsLanguageStrings = [
 	'JS_RECORDS_TRANSFERRED_SUCCESSFULLY' => 'A responsabilidade dos registros foi transferida com sucesso.',
