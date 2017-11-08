@@ -4301,7 +4301,7 @@ html,body,.baseContainer
 .listViewActionsDiv .btn-group button,
 .listViewActionsDiv .pagination > li > span,
 .listViewActionsDiv .pageInfo {
-	max-height:34px;
+	max-height:35px;
 }
 .listViewActionsDiv .btn-toolbar > .dropdown-toggle + .dropdown-menu{
 	left: 20px;
