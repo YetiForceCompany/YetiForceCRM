@@ -171,8 +171,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('DETAILVIEW_WIDGETS', $this->record->widgets);
 		$viewer->assign('FIELDS_HEADER', $fieldsInHeader);
 		$viewer->assign('CUSTOM_FIELDS_HEADER', $this->record->getCustomHeaderFields());
-		$viewer->assign('IS_EDITABLE', $this->record->getRecord()->isEditable($moduleName));
-		$viewer->assign('IS_DELETABLE', $this->record->getRecord()->privilegeToDelete($moduleName));
+		$viewer->assign('IS_EDITABLE', $this->record->getRecord()->isEditable());
+		$viewer->assign('IS_DELETABLE', $this->record->getRecord()->privilegeToMoveToTrash());
 
 		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1)];
 		$linkModels = $this->record->getSideBarLinks($linkParams);

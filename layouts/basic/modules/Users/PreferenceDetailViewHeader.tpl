@@ -40,13 +40,13 @@
 								{foreach item=LINK from=$DETAILVIEW_LINKS['DETAILVIEWPREFERENCE']}
 									{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewBasic'}
 								{/foreach}
-								{if $DETAILVIEW_LINKS['DETAILVIEW']|@count gt 0}
+								{if $DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']|@count gt 0}
 									<span class="btn-group">
 										<button class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
 											<strong>{\App\Language::translate('LBL_MORE', $MODULE_NAME)}</strong>&nbsp;&nbsp;<i class="caret"></i>
 										</button>
 										<ul class="dropdown-menu pull-right">
-											{foreach item=DETAIL_VIEW_LINK from=$DETAILVIEW_LINKS['DETAILVIEW']}
+											{foreach item=DETAIL_VIEW_LINK from=$DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']}
 												<li id="{$MODULE_NAME}_detailView_moreAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_LINK->getLabel())}">
 													<a href={$DETAIL_VIEW_LINK->getUrl()} >{\App\Language::translate($DETAIL_VIEW_LINK->getLabel(), $MODULE_NAME)}</a>
 												</li>

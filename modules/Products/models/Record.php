@@ -415,7 +415,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 	{
 		parent::saveToDb();
 		//Inserting into product_taxrel table
-		if (\App\Request::_get('ajxaction') != 'DETAILVIEW' && \App\Request::_get('action') != 'MassSave' && \App\Request::_get('action') != 'ProcessDuplicates') {
+		if (\App\Request::_get('ajxaction') != 'DETAIL_VIEW_BASIC' && \App\Request::_get('action') != 'MassSave' && \App\Request::_get('action') != 'ProcessDuplicates') {
 			$this->insertPriceInformation();
 		}
 		// Update unit price value in vtiger_productcurrencyrel

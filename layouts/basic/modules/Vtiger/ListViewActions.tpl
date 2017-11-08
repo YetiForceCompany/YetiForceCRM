@@ -14,7 +14,7 @@
 		<div class="pull-right paddingLeft5px">
 			<select class="select2 entityState" id="entityState">
 				<option value="Active" {if $LIST_VIEW_MODEL->get('entityState') === 'Active'}selected{/if}>{\App\Language::translate('LBL_ACTIVEPLU')}</option>
-				<option value="Deleted" {if $LIST_VIEW_MODEL->get('entityState') === 'Deleted'}selected{/if}>{\App\Language::translate('LBL_DELETED')}</option>
+				<option value="Trash" {if $LIST_VIEW_MODEL->get('entityState') === 'Trash'}selected{/if}>{\App\Language::translate('LBL_DELETED')}</option>
 				<option value="Archived" {if $LIST_VIEW_MODEL->get('entityState') === 'Archived'}selected{/if}>{\App\Language::translate('LBL_ARCHIVED')}</option>
 				<option value="All" {if $LIST_VIEW_MODEL->get('entityState') === 'All'}selected{/if}>{\App\Language::translate('LBL_ALL')}</option>
 			</select>

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Msss records state action class
+ * Mass records state action class
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
@@ -24,8 +24,8 @@ class Vtiger_MassState_Action extends Vtiger_Mass_Action
 					return true;
 				}
 				break;
-			case 'Deleted':
-				if ($userPriviligesModel->hasModuleActionPermission($request->getModule(), 'MassDelete')) {
+			case 'Trash':
+				if ($userPriviligesModel->hasModuleActionPermission($request->getModule(), 'MassTrash')) {
 					return true;
 				}
 				break;
@@ -57,8 +57,8 @@ class Vtiger_MassState_Action extends Vtiger_Mass_Action
 						continue;
 					}
 					break;
-				case 'Deleted':
-					if (!$recordModel->privilegeToDelete()) {
+				case 'Trash':
+					if (!$recordModel->privilegeToMoveToTrash()) {
 						$skipped[] = $recordModel->getName();
 						continue;
 					}
@@ -71,6 +71,7 @@ class Vtiger_MassState_Action extends Vtiger_Mass_Action
 					break;
 			}
 			$recordModel->changeState($request->getByType('state'));
+			unset($recordModel);
 		}
 		$text = \App\Language::translate('LBL_CHANGES_SAVED');
 		$type = 'success';

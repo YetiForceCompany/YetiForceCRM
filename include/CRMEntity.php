@@ -242,17 +242,6 @@ class CRMEntity
 		$this->column_fields['record_module'] = $module;
 	}
 
-	/** This function should be overridden in each module.  It marks an item as deleted.
-	 * If it is not overridden, then marking this type of item is not allowed
-	 * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc..
-	 * All Rights Reserved..
-	 * Contributor(s): ______________________________________..
-	 */
-	public function markDeleted($id)
-	{
-		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['deleted' => 1, 'modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => \App\User::getCurrentUserId()], ['crmid' => $id])->execute();
-	}
-
 	/**
 	 * Function to check if the custom vtiger_field vtiger_table exists
 	 * return true or false
@@ -321,15 +310,6 @@ class CRMEntity
 			$fieldName = $adb->queryResult($result, $i, "fieldname");
 			$this->required_fields[$fieldName] = 1;
 		}
-	}
-
-	/** Function to delete an entity with given Id */
-	public function trash($moduleName, $id)
-	{
-		if (\App\Record::getType($id) !== $moduleName) {
-			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
-		}
-		$this->markDeleted($id);
 	}
 
 	/**

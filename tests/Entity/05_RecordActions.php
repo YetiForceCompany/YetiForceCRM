@@ -41,6 +41,7 @@ class RecordActions extends \Tests\Base
 		$this->assertTrue(static::$record->isViewable());
 		$this->assertFalse(static::$record->privilegeToActivate());
 		$this->assertTrue(static::$record->privilegeToArchive());
+		$this->assertTrue(static::$record->privilegeToMoveToTrash());
 		$this->assertTrue(static::$record->privilegeToDelete());
 	}
 
@@ -76,7 +77,7 @@ class RecordActions extends \Tests\Base
 	 */
 	public function testStateRecord()
 	{
-		static::$record->changeState('Deleted');
+		static::$record->changeState('Trash');
 		$this->assertEquals(1, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => ACCOUNT_ID])->scalar());
 		static::$record->changeState('Active');
 		$this->assertEquals(0, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => ACCOUNT_ID])->scalar());

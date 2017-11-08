@@ -57,7 +57,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 	public function getDetailViewLinks()
 	{
 		return [Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'DETAILVIEW',
+				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => 'javascript:Settings_LeadMapping_Js.triggerEdit("' . $this->getEditViewUrl() . '")',
 				'linkicon' => ''
@@ -71,7 +71,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 	public function getMappingLinks()
 	{
 		return [Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'DETAILVIEW',
+				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'LBL_DELETE',
 				'linkurl' => 'javascript:Settings_LeadMapping_Js.triggerDelete(event,"' . $this->getMappingDeleteUrl() . '")',
 				'linkicon' => ''

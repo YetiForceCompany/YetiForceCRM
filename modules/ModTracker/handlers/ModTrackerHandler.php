@@ -150,7 +150,7 @@ class ModTracker_ModTrackerHandler_Handler
 			case 'Active':
 				$status = ModTracker::$ACTIVE;
 				break;
-			case 'Deleted':
+			case 'Trash':
 				$status = ModTracker::$DELETED;
 				break;
 			case 'Archived':

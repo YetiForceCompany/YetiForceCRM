@@ -329,12 +329,6 @@ class Users extends CRMEntity
 		}
 	}
 
-	/** Function to delete an entity with given Id */
-	public function trash($module, $id)
-	{
-		$this->markDeleted($id);
-	}
-
 	/**
 	 * Transform owner ship and delete
 	 * @param int $userId
@@ -358,20 +352,6 @@ class Users extends CRMEntity
 				], ['id' => $userId])->execute();
 
 		$eventHandler->trigger('UsersAfterDelete');
-	}
-
-	/**
-	 * This function should be overridden in each module.  It marks an item as deleted.
-	 * @param <type> $id
-	 */
-	public function markDeleted($id)
-	{
-		$adb = PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
-		$date_var = date('Y-m-d H:i:s');
-		$query = "UPDATE vtiger_users set status=?,date_modified=?,modified_user_id=? where id=?";
-		$adb->pquery($query, ['Inactive', $adb->formatDate($date_var, true),
-			$current_user->id, $id], true, "Error marking record deleted: ");
 	}
 
 	/**

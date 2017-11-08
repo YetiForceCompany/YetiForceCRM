@@ -6,51 +6,49 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vtiger_Delete_Action extends Vtiger_Action_Controller
 {
 
 	/**
-	 * Function to check permission
-	 * @param \App\Request $request
-	 * @throws \App\Exceptions\NoPermittedToRecord
+	 * Record model instance
+	 * @var Vtiger_Record_Model
+	 */
+	protected $record;
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
 		if ($request->isEmpty('record', true)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		if (!\App\Privilege::isPermitted($moduleName, 'Delete', $request->getInteger('record'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-		}
-		if (!Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName)->privilegeToDelete()) {
+		$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
+		if (!$this->record->privilegeToDelete()) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
 	/**
-	 * Main process
-	 * @param \App\Request $request
-	 * @return \Vtiger_Response
+	 * {@inheritDoc}
 	 */
 	public function process(\App\Request $request)
 	{
-		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
-		$recordModel->changeState('Deleted');
-		$listViewUrl = $recordModel->getModule()->getListViewUrl();
-		if ($request->getBoolean('ajaxDelete')) {
+		$listViewUrl = $this->record->getModule()->getListViewUrl();
+		$this->record->delete();
+		if ($request->getByType('sourceView') === 'List') {
+			$response = new Vtiger_Response();
+			$response->setResult(['notify' => ['type' => 'success', 'text' => \App\Language::translate('LBL_RECORD_HAS_BEEN_DELETED')]]);
+			$response->emit();
+		} elseif ($request->getBoolean('ajaxDelete')) {
 			$response = new Vtiger_Response();
 			$response->setResult($listViewUrl);
-			return $response;
+			$response->emit();
 		} else {
 			header("Location: $listViewUrl");
 		}
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

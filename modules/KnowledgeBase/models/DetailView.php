@@ -25,7 +25,7 @@ class KnowledgeBase_DetailView_Model extends Vtiger_DetailView_Model
 				'related' => 'Summary'
 			],
 			[
-				'linktype' => 'DETAILVIEWBASIC',
+				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linkurl' => 'javascript:KnowledgeBase_Popup_Js.getInstance().showPresentationContent(' . $recordId . ');',
 				'linkicon' => 'glyphicon glyphicon-resize-full',
 				'title' => \App\Language::translate('LBL_FULL_SCREEN', $moduleName),

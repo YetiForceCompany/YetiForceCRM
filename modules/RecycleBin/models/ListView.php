@@ -37,7 +37,7 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 	public function loadListViewCondition()
 	{
 		$queryGenerator = $this->get('query_generator');
-		$queryGenerator->setStateCondition('Deleted');
+		$queryGenerator->setStateCondition('Trash');
 		parent::loadListViewCondition();
 	}
 
@@ -49,7 +49,7 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 	public function getListViewCount()
 	{
 		$queryGenerator = $this->get('query_generator');
-		$queryGenerator->setStateCondition('Deleted');
+		$queryGenerator->setStateCondition('Trash');
 		return parent::getListViewCount();
 	}
 }

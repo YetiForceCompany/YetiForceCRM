@@ -63,39 +63,51 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 
 		if ($recordModel->isEditable() && $this->getModule()->isPermitted('DetailView') && \App\Privilege::isPermitted($moduleName, 'ActivityComplete', $recordId) && \App\Privilege::isPermitted($moduleName, 'ActivityCancel', $recordId) && \App\Privilege::isPermitted($moduleName, 'ActivityPostponed', $recordId) && in_array($status, $statusActivity)) {
 			$basicActionLink = [
-				'linktype' => 'DETAILVIEW',
+				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'LBL_SET_RECORD_STATUS',
 				'linkurl' => '#',
 				'linkdata' => ['url' => $recordModel->getActivityStateModalUrl()],
 				'linkicon' => 'glyphicon glyphicon-ok',
 				'linkclass' => 'showModal closeCalendarRekord'
 			];
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
 		if (App\Privilege::isPermitted('OpenStreetMap') && !$recordModel->isEmpty('location')) {
 			$basicActionLink = [
-				'linktype' => 'DETAILVIEW',
+				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'LBL_SHOW_LOCATION',
 				'linkurl' => 'javascript:Vtiger_Index_Js.showLocation(\'' . $recordModel->get('location') . '\')',
 				'linkicon' => 'glyphicon glyphicon-map-marker',
 			];
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
-
-		if ($recordModel->privilegeToDelete() && $recordModel->get('reapeat') === 1) {
-			foreach ($linkModelList['DETAILVIEW'] as $key => $linkObject) {
-				if ($linkObject->linklabel == 'LBL_DELETE_RECORD') {
-					unset($linkModelList['DETAILVIEW'][$key]);
+		if ($recordModel->privilegeToMoveToTrash() && $recordModel->get('reapeat') === 1) {
+			foreach ($linkModelList['DETAIL_VIEW_EXTENDED'] as $key => $linkObject) {
+				if ($linkObject->linklabel == 'LBL_MOVE_TO_TRASH') {
+					unset($linkModelList['DETAIL_VIEW_EXTENDED'][$key]);
 				}
 			}
-			$deletelinkModel = [
-				'linktype' => 'DETAILVIEW',
-				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => 'javascript:Calendar_Detail_Js.deleteRecord("' . $recordModel->getDeleteUrl() . '")',
-				'linkicon' => 'glyphicon glyphicon-trash',
-				'title' => App\Language::translate('LBL_DELETE_RECORD')
-			];
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($deletelinkModel);
+			$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'DETAIL_VIEW_EXTENDED',
+					'linklabel' => 'LBL_MOVE_TO_TRASH',
+					'linkurl' => 'javascript:Calendar_Detail_Js.deleteRecord("index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Trash&record=' . $recordModel->getId() . '")',
+					'linkicon' => 'glyphicon glyphicon-trash',
+					'title' => \App\Language::translate('LBL_MOVE_TO_TRASH')
+			]);
+		}
+		if ($recordModel->privilegeToDelete() && $recordModel->get('reapeat') === 1) {
+			foreach ($linkModelList['DETAIL_VIEW_EXTENDED'] as $key => $linkObject) {
+				if ($linkObject->linklabel == 'LBL_DELETE_RECORD_COMPLETELY') {
+					unset($linkModelList['DETAIL_VIEW_EXTENDED'][$key]);
+				}
+			}
+			$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'DETAIL_VIEW_EXTENDED',
+					'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
+					'linkurl' => 'javascript:Calendar_Detail_Js.deleteRecord("index.php?module=' . $recordModel->getModuleName() . '&action=Delete&record=' . $recordModel->getId() . '")',
+					'linkicon' => 'glyphicon glyphicon-erase',
+					'title' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY')
+			]);
 		}
 		return $linkModelList;
 	}

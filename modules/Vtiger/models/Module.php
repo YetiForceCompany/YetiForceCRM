@@ -255,42 +255,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Function to delete a given record model of the current module
-	 * @param Vtiger_Record_Model $recordModel
-	 */
-	public function deleteRecord($recordModel)
-	{
-		$moduleName = $this->get('name');
-		$eventHandler = new App\EventHandler();
-		$eventHandler->setRecordModel($recordModel);
-		$eventHandler->setModuleName($moduleName);
-		$eventHandler->trigger('EntityBeforeDelete');
-
-		$focus = $this->getEntityInstance();
-		$focus->trash($moduleName, $recordModel->getId());
-
-		$eventHandler->trigger('EntityAfterDelete');
-		if (method_exists($focus, 'transferRelatedRecords') && $recordModel->get('transferRecordIDs')) {
-			$focus->transferRelatedRecords($moduleName, $recordModel->get('transferRecordIDs'), $recordModel->getId());
-		}
-
-		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
-		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
-		$workflows = (new VTWorkflowManager())->getWorkflowsForModule($moduleName, VTWorkflowManager::$ON_DELETE);
-		if (count($workflows)) {
-			foreach ($workflows as &$workflow) {
-				if ($workflow->evaluate($recordModel)) {
-					$workflow->performTasks($recordModel);
-				}
-			}
-		}
-		$dbCommand = \App\Db::getInstance()->createCommand();
-		$dbCommand->delete('u_#__crmentity_label', ['crmid' => $recordModel->getId()])->execute();
-		$dbCommand->delete('u_#__crmentity_search_label', ['crmid' => $recordModel->getId()])->execute();
-		\App\Db::getInstance('admin')->createCommand()->delete('s_#__privileges_updater', ['crmid' => $recordModel->getId()])->execute();
-	}
-
-	/**
 	 * Function to get the ListView Component Name
 	 * @return string
 	 */

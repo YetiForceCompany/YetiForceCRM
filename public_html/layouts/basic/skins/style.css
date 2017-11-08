@@ -6057,3 +6057,6 @@ select.form-control {
 .fs40{
 	font-size: 40px;
 }
+.detailViewActionsBtn .btn-group{
+	margin-left: 15px;
+}

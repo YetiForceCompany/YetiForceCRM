@@ -54,7 +54,10 @@ class Vtiger_ProcessDuplicates_Action extends Vtiger_Action_Controller
 		$deleteRecords = array_diff($records, [$primaryRecord]);
 		foreach ($deleteRecords as $deleteRecord) {
 			$record = Vtiger_Record_Model::getInstanceById($deleteRecord, $moduleName);
-			if ($record->privilegeToDelete()) {
+			if ($record->privilegeToMoveToTrash()) {
+				$primaryRecordModel->transferRelationInfoOfRecords([$deleteRecord]);
+				$record->changeState('Trash');
+			} elseif ($record->privilegeToDelete()) {
 				$primaryRecordModel->transferRelationInfoOfRecords([$deleteRecord]);
 				$record->delete();
 			}

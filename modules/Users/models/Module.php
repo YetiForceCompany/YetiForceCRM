@@ -71,17 +71,6 @@ class Users_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to delete a given record model of the current module
-	 * @param Vtiger_Record_Model $recordModel
-	 */
-	public function deleteRecord($recordModel)
-	{
-		$db = PearDatabase::getInstance();
-		$query = 'UPDATE vtiger_users SET status=?, date_modified=?, modified_user_id=? WHERE id=?';
-		$db->pquery($query, ['Inactive', date('Y-m-d H:i:s'), $recordModel->getId(), $recordModel->getId()], true, 'Error marking record deleted: ');
-	}
-
-	/**
 	 * Function to get the url for list view of the module
 	 * @return string - url
 	 */

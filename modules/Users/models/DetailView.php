@@ -27,7 +27,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 			$recordModel = $this->getRecord();
 			$detailViewLinks = [];
 			$detailViewLinks[] = [
-				'linktype' => 'DETAILVIEWBASIC',
+				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linklabel' => 'LBL_CHANGE_PASSWORD',
 				'linkdata' => ['url' => 'index.php?module=Users&view=PasswordModal&mode=change&record=' . $recordId],
 				'linkclass' => 'btn-info showModal',
@@ -36,7 +36,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 			];
 			if ($currentUserModel->isAdminUser() === true) {
 				$detailViewLinks[] = [
-					'linktype' => 'DETAILVIEWBASIC',
+					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => 'BTN_RESET_PASSWORD',
 					'linkdata' => ['url' => 'index.php?module=Users&view=PasswordModal&mode=reset&record=' . $recordId],
 					'linkclass' => 'btn-info showModal',
@@ -45,7 +45,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 				];
 			}
 			$detailViewLinks[] = [
-				'linktype' => 'DETAILVIEWBASIC',
+				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => $recordModel->getEditViewUrl(),
 				'linkclass' => 'btn-success',
@@ -53,7 +53,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 				'showLabel' => true
 			];
 			$detailViewLinks[] = [
-				'linktype' => 'DETAILVIEWBASIC',
+				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linklabel' => 'LBL_DELETE',
 				'linkurl' => 'javascript:Users_Detail_Js.triggerDeleteUser("' . $recordModel->getDeleteUrl() . '")',
 				'linkicon' => 'glyphicon glyphicon-trash',
@@ -61,7 +61,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 				'showLabel' => true
 			];
 			foreach ($detailViewLinks as $detailViewLink) {
-				$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
+				$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 				$detailViewLink['linktype'] = 'DETAILVIEWPREFERENCE';
 				$linkModelList['DETAILVIEWPREFERENCE'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 			}
@@ -70,13 +70,13 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 				
 			}
 			$detailViewActionLinks[] = [
-				'linktype' => 'DETAILVIEW',
+				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'LBL_CHANGE_ACCESS_KEY',
 				'linkurl' => "javascript:Users_Detail_Js.triggerChangeAccessKey('index.php?module = Users&action = SaveAjax&mode = changeAccessKey&record = $recordId')",
 				'linkicon' => ''
 			];
 			foreach ($detailViewActionLinks as $detailViewLink) {
-				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
+				$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 			}
 			return $linkModelList;
 		}

@@ -32,7 +32,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
 			if (count($templates) > 0) {
 				$advancedLinks[] = [
-					'linktype' => 'DETAILVIEWBASIC',
+					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
 					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
 					'linkicon' => 'glyphicon glyphicon-save-file',
@@ -87,14 +87,14 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 		$moduleModel = $this->getModule();
 		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['LISTVIEWMASSACTION'], $linkParams);
 		$massActionLink = [];
-		if ($moduleModel->isPermitted('MassDelete')) {
+		if ($moduleModel->isPermitted('MassActive')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
-				'linklabel' => 'LBL_MASS_DELETE',
+				'linklabel' => 'LBL_MASS_ACTIVATE',
 				'linkurl' => 'javascript:',
-				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Deleted&sourceView=List',
+				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Active&sourceView=List',
 				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'glyphicon glyphicon-trash'
+				'linkicon' => 'fa fa-refresh'
 			];
 		}
 		if ($moduleModel->isPermitted('MassArchived')) {
@@ -107,14 +107,24 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 				'linkicon' => 'fa fa-archive'
 			];
 		}
-		if ($moduleModel->isPermitted('MassActive')) {
+		if ($moduleModel->isPermitted('MassTrash')) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
-				'linklabel' => 'LBL_MASS_ACTIVATE',
+				'linklabel' => 'LBL_MASS_MOVE_TO_TRASH',
 				'linkurl' => 'javascript:',
-				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Active&sourceView=List',
+				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Trash&sourceView=List',
 				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'fa fa-refresh'
+				'linkicon' => 'glyphicon glyphicon-trash'
+			];
+		}
+		if ($moduleModel->isPermitted('MassDelete')) {
+			$massActionLinks[] = [
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_MASS_DELETE',
+				'linkurl' => 'javascript:',
+				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassDelete&sourceView=List',
+				'linkclass' => 'massRecordEvent',
+				'linkicon' => 'glyphicon glyphicon-erase'
 			];
 		}
 		foreach ($massActionLinks as $massActionLink) {
