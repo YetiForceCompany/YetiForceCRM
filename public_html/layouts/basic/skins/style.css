@@ -5827,6 +5827,9 @@ select.form-control {
 .listViewEntries{
 	background: #fff;
 }
+.listViewEntries:hover{
+	background: #dddddd20;
+}
 .leftRecordActions{
 	background: inherit;
 }
@@ -6059,4 +6062,14 @@ select.form-control {
 }
 .detailViewActionsBtn .btn-group{
 	margin-left: 15px;
+}
+.dropdownEntityState ul li{
+	border-left: 10px solid #fff;
+}
+.listViewAll tbody tr.listViewEntries > td:first-child{
+	border-left: 10px solid #ddd;
+}
+.entityStateIcon{
+	background: #d2d6de;
+	color: #fff !important;
 }

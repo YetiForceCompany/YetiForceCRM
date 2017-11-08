@@ -60,7 +60,7 @@
 														{if $FIELD->get('prevalue') neq '' && $FIELD->get('postvalue') neq '' && !($FIELD->getFieldInstance()->getFieldDataType() eq 'reference' && ($FIELD->get('postvalue') eq '0' || $FIELD->get('prevalue') eq '0'))}
 															&nbsp;{\App\Language::translate('LBL_FROM')}&nbsp; <strong>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELD->getDisplayValue(App\Purifier::decodeHtml($FIELD->get('prevalue'))))}</strong>
 														{else if $FIELD->get('postvalue') eq '' || ($FIELD->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELD->get('postvalue') eq '0')}
-															&nbsp; <strong> {\App\Language::translate('LBL_DELETED')} </strong> ( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELD->getDisplayValue(App\Purifier::decodeHtml($FIELD->get('prevalue'))))}</del> )
+															&nbsp; <strong> {\App\Language::translate('LBL_DELETED','ModTracker')} </strong> ( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELD->getDisplayValue(App\Purifier::decodeHtml($FIELD->get('prevalue'))))}</del> )
 														{else}
 															&nbsp;{\App\Language::translate('LBL_CHANGED')}
 														{/if}

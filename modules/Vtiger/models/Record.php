@@ -1380,4 +1380,19 @@ class Vtiger_Record_Model extends \App\Base
 		}
 		$eventHandler->trigger('EntityChangeState');
 	}
+
+	/**
+	 * Get list view color for record
+	 * @return string[]
+	 */
+	public function getListViewColor()
+	{
+		$colors = [];
+		$stateColors = AppConfig::search('LIST_ENTITY_STATE_COLOR');
+		$state = \App\Record::getState($this->getId());
+		if (!empty($stateColors[$state])) {
+			$colors['leftBorder'] = $stateColors[$state];
+		}
+		return $colors;
+	}
 }

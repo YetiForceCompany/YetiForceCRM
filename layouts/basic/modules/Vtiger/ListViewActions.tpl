@@ -12,12 +12,35 @@
 {strip}
 	{if $PARENT_MODULE !== 'Settings'}
 		<div class="pull-right paddingLeft5px">
-			<select class="select2 entityState" id="entityState">
-				<option value="Active" {if $LIST_VIEW_MODEL->get('entityState') === 'Active'}selected{/if}>{\App\Language::translate('LBL_ACTIVEPLU')}</option>
-				<option value="Trash" {if $LIST_VIEW_MODEL->get('entityState') === 'Trash'}selected{/if}>{\App\Language::translate('LBL_DELETED')}</option>
-				<option value="Archived" {if $LIST_VIEW_MODEL->get('entityState') === 'Archived'}selected{/if}>{\App\Language::translate('LBL_ARCHIVED')}</option>
-				<option value="All" {if $LIST_VIEW_MODEL->get('entityState') === 'All'}selected{/if}>{\App\Language::translate('LBL_ALL')}</option>
-			</select>
+			{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
+			<input type="hidden" id="entityState" value="{$LIST_VIEW_MODEL->get('entityState')}">
+			<div class="dropdown dropdownEntityState">
+				<button class="btn btn-default dropdown-toggle" type="button" id="dropdownEntityState" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+					{if $LIST_VIEW_MODEL->get('entityState') == 'Archived'}
+						<span class="fa fa-archive"></span>
+					{elseif $LIST_VIEW_MODEL->get('entityState') == 'Trash'}
+						<span class="glyphicon glyphicon-trash"></span>
+					{elseif $LIST_VIEW_MODEL->get('entityState') == 'All'}
+						<span class="glyphicon glyphicon-menu-hamburger"></span>
+					{else}
+						<span class="fa fa-refresh"></span>
+					{/if}
+				</button>
+				<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownEntityState">
+					<li {if $COLOR['Active']}style="border-color: {$COLOR['Active']};"{/if}>
+						<a href="#" data-value="Active"><span class="fa fa-refresh"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}</a>
+					</li>
+					<li {if $COLOR['Archived']}style="border-color: {$COLOR['Archived']};"{/if}>
+						<a href="#" data-value="Archived"><span class="fa fa-archive"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}</a>
+					</li>
+					<li {if $COLOR['Trash']}style="border-color: {$COLOR['Trash']};"{/if}>
+						<a href="#" data-value="Trash"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}</a>
+					</li>
+					<li>
+						<a href="#" data-value="All"><span class="glyphicon glyphicon-menu-hamburger"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ALL')}</a>
+					</li>
+				</ul>
+			</div>
 		</div>
 	{/if}
 	<div class="listViewActions pull-right paginationDiv paddingLeft5px">

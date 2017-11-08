@@ -4,6 +4,7 @@
 		<input type="hidden" id="updatesCurrentPage" value="{$PAGING_MODEL->get('page')}" />
 		<input type="hidden" id="updatesPageLimit" value="{$PAGING_MODEL->getPageLimit()}" />
 		{if !empty($RECENT_ACTIVITIES)}
+			{assign var=LIST_ENTITY_STATE_COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
 			<div id="updates">
 				<ul class="timeline">
 					{assign var=COUNT value=0}
@@ -99,7 +100,7 @@
 														{else if $FIELDMODEL->get('postvalue') eq '' || ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
 															&nbsp; 
 															<strong>
-																{\App\Language::translate('LBL_DELETED')}
+																{\App\Language::translate('LBL_DELETED','ModTracker')}
 															</strong>
 															( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getOldValue())}</del> )
 														{else}
@@ -168,11 +169,11 @@
 									</div>
 								{else if $RECENT_ACTIVITY->isChangeState()}
 									{if $RECENT_ACTIVITY->get('status') == 1}
-										<span class="glyphicon glyphicon-trash bgDanger"></span>
+										<span class="glyphicon glyphicon-trash entityStateIcon" {if $LIST_ENTITY_STATE_COLOR['Trash']}style="background: {$LIST_ENTITY_STATE_COLOR['Trash']};"{/if}></span>
 									{else if $RECENT_ACTIVITY->get('status') == 3}
-										<span class="fa glyphicon fa-refresh bgGreen"></span>
+										<span class="fa glyphicon fa-refresh entityStateIcon" {if $LIST_ENTITY_STATE_COLOR['Active']}style="background: {$LIST_ENTITY_STATE_COLOR['Active']};"{/if}></span>
 									{else if $RECENT_ACTIVITY->get('status') == 8}
-										<span class="fa glyphicon fa-archive bgOrange"></span>
+										<span class="fa glyphicon fa-archive entityStateIcon" {if $LIST_ENTITY_STATE_COLOR['Archived']}style="background: {$LIST_ENTITY_STATE_COLOR['Archived']};"{/if}></span>
 									{/if}
 									<div class="timeline-item isDisplayed">
 										<div class="pull-left paddingRight15 imageContainer">

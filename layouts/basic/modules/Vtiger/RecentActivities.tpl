@@ -49,7 +49,7 @@
 																&nbsp;{\App\Language::translate('LBL_FROM')} <strong style="white-space:pre-wrap;">
 																	{\App\Language::translate(Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(App\Purifier::decodeHtml($FIELDMODEL->get('prevalue')))),$MODULE_NAME)}</strong>
 																{else if $FIELDMODEL->get('postvalue') eq '' || ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
-																&nbsp; <strong> {\App\Language::translate('LBL_DELETED')} </strong> ( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(App\Purifier::decodeHtml($FIELDMODEL->get('prevalue'))))}</del> )
+																&nbsp; <strong> {\App\Language::translate('LBL_DELETED','ModTracker')} </strong> ( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(App\Purifier::decodeHtml($FIELDMODEL->get('prevalue'))))}</del> )
 															{else}
 																&nbsp;{\App\Language::translate('LBL_CHANGED')}
 															{/if}
@@ -78,7 +78,7 @@
 														&nbsp;{\App\Language::translate('LBL_FROM')} <strong style="white-space:pre-wrap;">
 															{\App\Language::translate(Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(App\Purifier::decodeHtml($FIELDMODEL->get('prevalue')))),$MODULE_NAME)}</strong>
 														{else if $FIELDMODEL->get('postvalue') eq '' || ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
-														&nbsp; <strong> {\App\Language::translate('LBL_DELETED')} </strong> ( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(App\Purifier::decodeHtml($FIELDMODEL->get('prevalue'))))}</del> )
+														&nbsp; <strong> {\App\Language::translate('LBL_DELETED','ModTracker')} </strong> ( <del>{Vtiger_Util_Helper::toVtiger6SafeHTML($FIELDMODEL->getDisplayValue(App\Purifier::decodeHtml($FIELDMODEL->get('prevalue'))))}</del> )
 													{else}
 														&nbsp;{\App\Language::translate('LBL_CHANGED')}
 													{/if}

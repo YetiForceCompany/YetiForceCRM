@@ -1950,17 +1950,19 @@ jQuery.Class("Vtiger_List_Js", {
 	},
 	registerChangeEntityStateEvent: function () {
 		var thisInstance = this;
-		$('#entityState').on('change', function () {
+		$('.dropdownEntityState a').click(function (e) {
+			var element = $(this);
+			$('#entityState').val(element.data('value'));
 			app.setMainParams('pageNumber', '1');
 			app.setMainParams('pageToJump', '1');
-			jQuery('#recordsCount').val('');
-			jQuery('#totalPageCount').text("");
+			$('#recordsCount').val('');
+			$('#totalPageCount').text("");
 			$('.pagination').data('totalCount', 0);
+			$('#dropdownEntityState').find('span').attr('class', element.find('span').attr('class'));
 			thisInstance.getListViewRecords().then(function (data) {
 				thisInstance.calculatePages().then(function () {
 					thisInstance.updatePagination();
 				});
-
 			});
 		});
 	},
