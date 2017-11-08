@@ -7,10 +7,10 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 $languageStrings = [
-	'ERR_ILLEGAL_VALUE' => 'Illegal value',
-	'ERR_ILLEGAL_FIELD_VALUE' => 'Illegal value in field %s (%s)',
-	'ERR_VALUE_IS_TOO_LONG' => 'Value in %s field is too long (%s)',
-	'ERR_VALUE_CAN_NOT_BE_LESS_THAN_ZERO' => 'Field value %s must be greater than zero (%s)',
+	'ERR_ILLEGAL_VALUE' => 'Nicht zugelassener Wert',
+	'ERR_ILLEGAL_FIELD_VALUE' => 'Nicht zugelassener Wert in Feld %s (%s)',
+	'ERR_VALUE_IS_TOO_LONG' => 'Wert in Feld %s ist zu lang (%s)',
+	'ERR_VALUE_CAN_NOT_BE_LESS_THAN_ZERO' => 'Wert %s muss größer Null sein (%s)',
 	'ERR_NOT_ALLOWED_VALUE' => 'Fehlerhafter Wert entdeckt, bitte kontaktieren Sie Ihren Administrator',
-	'ERR_PASSWORD_HAS_ALREADY_BEEN_USED' => 'This password has already been used. The system does not allow to use the same password for security reasons.',
+	'ERR_PASSWORD_HAS_ALREADY_BEEN_USED' => 'Das Passwort wurde bereits verwendet. Das System erlaubt aus Sicherheitsgründen keine bisherigen Passwörter.',
 ];

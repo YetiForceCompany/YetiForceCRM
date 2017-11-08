@@ -43,7 +43,7 @@ $languageStrings = [
 	'LBL_ADDED' => 'Hinzugefügt',
 	'LBL_REMOVED' => 'Entfernt',
 	'LBL_CONVERTED_FROM_LEAD' => 'Aus Lead konvertiert',
-	'LBL_DELETED' => 'Deleted record',
-	'LBL_ACTIVE' => 'Restored record',
-	'LBL_ARCHIVED' => 'Archived record',
+	'LBL_DELETED' => 'gelöschter Datensatz',
+	'LBL_ACTIVE' => 'wiederhergestellter Datensatz',
+	'LBL_ARCHIVED' => 'archivierter Datensatz',
 ];
