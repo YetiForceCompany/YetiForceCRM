@@ -33,6 +33,8 @@ https://github.com/YetiForceCompany/YetiForceScripts
 
 YetiForce CRM was orginally forked from Vtiger CRM and has mechanisms that allow to easily migrate from Vtiger to YetiForce.
 
+Gallery: https://public.yetiforce.com/gallery
+
 ![](https://public.yetiforce.com/img/main/1_Home_page.png)
 
 ![](https://public.yetiforce.com/img/main/3_Home_page.png)
