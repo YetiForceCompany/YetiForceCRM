@@ -74,6 +74,5 @@
 	<logging>
 		<log type="coverage-html" target="./coverageHtml/" title="YetiForce coverage" yui="true" highlight="true" lowUpperBound="35" highLowerBound="70" charset="UTF-8" />
 		<log type="coverage-clover" target="coverage.xml"/>
-		<log type="coverage-text" target="php://stdout" showUncoveredFiles="false"/>
 	</logging>
 </phpunit>
