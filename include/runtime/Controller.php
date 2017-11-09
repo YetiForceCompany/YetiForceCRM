@@ -365,6 +365,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~layouts/resources/colors/owners.css',
 			'~layouts/resources/colors/modules.css',
 			'~layouts/resources/colors/picklists.css',
+			'~layouts/resources/styleTemplate.css',
 		];
 		return $this->checkAndConvertCssStyles($cssFileNames);
 	}
