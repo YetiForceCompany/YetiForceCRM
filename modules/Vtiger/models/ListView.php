@@ -220,6 +220,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linklabel' => 'LBL_MASS_ACTIVATE',
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Active&sourceView=List',
+				'linkdata' => ['confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC')],
 				'linkclass' => 'massRecordEvent',
 				'linkicon' => 'fa fa-refresh'
 			];
@@ -230,6 +231,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linklabel' => 'LBL_MASS_ARCHIVE',
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Archived&sourceView=List',
+				'linkdata' => ['confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC')],
 				'linkclass' => 'massRecordEvent',
 				'linkicon' => 'fa fa-archive'
 			];
@@ -240,6 +242,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linklabel' => 'LBL_MASS_MOVE_TO_TRASH',
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Trash&sourceView=List',
+				'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')],
 				'linkclass' => 'massRecordEvent',
 				'linkicon' => 'glyphicon glyphicon-trash'
 			];
@@ -250,6 +253,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linklabel' => 'LBL_MASS_DELETE',
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassDelete&sourceView=List',
+				'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
 				'linkclass' => 'massRecordEvent',
 				'linkicon' => 'glyphicon glyphicon-erase'
 			];

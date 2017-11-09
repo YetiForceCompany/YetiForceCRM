@@ -147,42 +147,59 @@ class Vtiger_DetailView_Model extends \App\Base
 			$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'DETAIL_VIEW_EXTENDED',
 					'linklabel' => 'LBL_ACTIVATE_RECORD',
-					'linkurl' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Active&record=' . $recordModel->getId(),
+					'title' => \App\Language::translate('LBL_ACTIVATE_RECORD'),
+					'linkurl' => 'javascript:app.showConfirmation({type: "href"},this)',
+					'linkdata' => [
+						'url' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Active&record=' . $recordModel->getId(),
+						'confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC')
+					],
 					'linkicon' => 'fa fa-refresh fa-spin',
 					'linkclass' => 'entityStateBtn',
-					'style' => empty($stateColors['Active']) ? '' : "background: {$stateColors['Active']};",
-					'title' => \App\Language::translate('LBL_ACTIVATE_RECORD')
+					'style' => empty($stateColors['Active']) ? '' : "background: {$stateColors['Active']};"
 			]);
 		}
 		if ($recordModel->privilegeToArchive()) {
 			$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'DETAIL_VIEW_EXTENDED',
 					'linklabel' => 'LBL_ARCHIVE_RECORD',
-					'linkurl' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Archived&record=' . $recordModel->getId(),
+					'title' => \App\Language::translate('LBL_ARCHIVE_RECORD'),
+					'linkurl' => 'javascript:app.showConfirmation({type: "href"},this)',
+					'linkdata' => [
+						'url' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Archived&record=' . $recordModel->getId(),
+						'confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC')
+					],
 					'linkicon' => 'fa fa-archive',
 					'linkclass' => 'entityStateBtn',
-					'style' => empty($stateColors['Archived']) ? '' : "background: {$stateColors['Archived']};",
-					'title' => \App\Language::translate('LBL_ARCHIVE_RECORD')
+					'style' => empty($stateColors['Archived']) ? '' : "background: {$stateColors['Archived']};"
 			]);
 		}
 		if ($recordModel->privilegeToMoveToTrash()) {
 			$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'DETAIL_VIEW_EXTENDED',
 					'linklabel' => 'LBL_MOVE_TO_TRASH',
-					'linkurl' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Trash&record=' . $recordModel->getId(),
+					'title' => \App\Language::translate('LBL_MOVE_TO_TRASH'),
+					'linkurl' => 'javascript:app.showConfirmation({type: "href"},this)',
+					'linkdata' => [
+						'url' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Trash&record=' . $recordModel->getId(),
+						'confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')
+					],
 					'linkicon' => 'glyphicon glyphicon-trash',
 					'linkclass' => 'entityStateBtn',
-					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
-					'title' => \App\Language::translate('LBL_MOVE_TO_TRASH')
+					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};"
 			]);
 		}
 		if ($recordModel->privilegeToDelete()) {
 			$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'DETAIL_VIEW_EXTENDED',
 					'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
-					'linkurl' => 'index.php?module=' . $recordModel->getModuleName() . '&action=Delete&record=' . $recordModel->getId(),
+					'title' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY'),
+					'linkurl' => 'javascript:app.showConfirmation({type: "href"},this)',
+					'linkdata' => [
+						'url' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Delete&record=' . $recordModel->getId(),
+						'confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')
+					],
 					'linkicon' => 'glyphicon glyphicon-erase',
-					'title' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY')
+					'linkclass' => 'btn-black'
 			]);
 		}
 		if ($moduleModel->isPermitted('DuplicateRecord')) {

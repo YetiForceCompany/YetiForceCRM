@@ -1266,6 +1266,7 @@ class Vtiger_Record_Model extends \App\Base
 				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Active',
 				'linkicon' => 'fa fa-refresh',
 				'style' => empty($stateColors['Active']) ? '' : "background: {$stateColors['Active']};",
+				'linkdata' => ['confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC')],
 				'linkclass' => 'btn-sm btn-default recordEvent entityStateBtn'
 			];
 		}
@@ -1276,6 +1277,7 @@ class Vtiger_Record_Model extends \App\Base
 				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Archived',
 				'linkicon' => 'fa fa-archive',
 				'style' => empty($stateColors['Archived']) ? '' : "background: {$stateColors['Archived']};",
+				'linkdata' => ['confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC')],
 				'linkclass' => 'btn-sm btn-default recordEvent entityStateBtn'
 			];
 		}
@@ -1286,6 +1288,7 @@ class Vtiger_Record_Model extends \App\Base
 				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash',
 				'linkicon' => 'glyphicon glyphicon-trash',
 				'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
+				'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')],
 				'linkclass' => 'btn-sm btn-default recordEvent entityStateBtn'
 			];
 		}
@@ -1293,9 +1296,10 @@ class Vtiger_Record_Model extends \App\Base
 			$recordLinks[] = [
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
-				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=Delete',
 				'linkicon' => 'glyphicon glyphicon-erase',
-				'linkclass' => 'btn-sm btn-default recordEvent'
+				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=Delete',
+				'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
+				'linkclass' => 'btn-sm btn-black recordEvent'
 			];
 		}
 		foreach ($recordLinks as $recordLink) {
@@ -1393,8 +1397,12 @@ class Vtiger_Record_Model extends \App\Base
 	{
 		$colors = [];
 		$stateColors = AppConfig::search('LIST_ENTITY_STATE_COLOR');
+		$moduleConfig = AppConfig::module($this->getModuleName());
+		//var_dump($moduleConfig);
 		$state = \App\Record::getState($this->getId());
-		if (!empty($stateColors[$state])) {
+		if (false) {
+			
+		} elseif (!empty($stateColors[$state])) {
 			$colors['leftBorder'] = $stateColors[$state];
 		}
 		return $colors;
