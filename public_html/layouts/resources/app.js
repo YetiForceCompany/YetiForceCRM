@@ -1714,6 +1714,26 @@ var app = {
 			$('ul.historyList').remove();
 		});
 	},
+	showConfirmation: function (params, element) {
+		var params = {};
+		if (element) {
+			element = $(element);
+			if (!params.title) {
+				params.title = element.html() + ' ' + element.data('content');
+			}
+			if (!params.message) {
+				params.message = element.data('confirm');
+			}
+			if (!params.url) {
+				params.url = element.data('url');
+			}
+		}
+		Vtiger_Helper_Js.showConfirmationBox(params).then(function () {
+			if (params.type == 'href') {
+				window.location.href = params.url;
+			}
+		});
+	},
 }
 jQuery(document).ready(function () {
 	app.changeSelectElementView();
