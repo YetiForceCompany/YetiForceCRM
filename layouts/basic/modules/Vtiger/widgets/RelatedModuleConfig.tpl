@@ -63,16 +63,6 @@
 									<input name="limit" class="form-control" type="text" value="{$WIDGETINFO['data']['limit']}"/>
 								</div>
 							</div>
-							<div class="form-group form-group-sm">
-								<label class="col-md-4 control-label">{\App\Language::translate('Columns', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{\App\Language::translate('Columns info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('Columns', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
-								<div class="col-md-7 controls">
-									<select name="columns" class="select2 form-control marginLeftZero">
-										{foreach from=$MODULE_MODEL->getColumns() item=item key=key}
-											<option value="{$item}" {if $WIDGETINFO['data']['columns'] == $item}selected{/if} >{$item}</option>
-										{/foreach}
-									</select>
-								</div>
-							</div>
 							<div class="form-group form-group-sm form-switch-mini">
 								<label class="col-md-4 control-label">{\App\Language::translate('No left margin', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{\App\Language::translate('No left margin info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('No left margin', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 								<div class="col-md-7 controls">

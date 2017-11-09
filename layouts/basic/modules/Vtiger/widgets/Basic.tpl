@@ -1,5 +1,5 @@
 {strip}
-	<div class="summaryWidgetContainer">
+	<div class="summaryWidgetContainer summaryView">
 		{assign var=RELATED_MODULE_NAME value=App\Module::getModuleName($WIDGET['data']['relatedmodule'])}
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
 			<div class="widget_header">
@@ -9,7 +9,7 @@
 						<div class="widgetTitle textOverflowEllipsis">
 							<h4 class="modCT_{$WIDGET['label']}">
 								{if $WIDGET['label'] eq ''}
-                  {\App\Language::translate($RELATED_MODULE_NAME,$RELATED_MODULE_NAME)}
+									{\App\Language::translate($RELATED_MODULE_NAME,$RELATED_MODULE_NAME)}
 								{else}
 									{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}
 								{/if}
@@ -24,6 +24,16 @@
 					<div class="col-md-3 col-sm-3 pull-right paddingBottom10">
 						<div class="pull-right">
 							<div class="btn-group">
+								{if $WIDGET['data']['viewtype'] eq 'Summary'}
+									<div class="btn-group control-widget">
+										<button class="btn btn-sm btn-default prev disabled" type="button" title="{\App\Language::translate('LBL_PREV',$MODULE_NAME)}" >
+											<span class="glyphicon glyphicon-menu-left"></span>
+										</button>
+										<button class="btn btn-sm btn-default next" type="button" title="{\App\Language::translate('LBL_NEXT',$MODULE_NAME)}">
+											<span class="glyphicon glyphicon-menu-right"></span>
+										</button>
+									</div>
+								{/if}
 								{if isset($WIDGET['data']['actionSelect']) || isset($WIDGET['data']['action'])}
 									{assign var=VRM value=Vtiger_Record_Model::getInstanceById($RECORD->getId(), $MODULE_NAME)}
 									{assign var=VRMM value=Vtiger_RelationListView_Model::getInstance($VRM, $RELATED_MODULE_NAME)}
