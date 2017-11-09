@@ -660,7 +660,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$parentId = $request->getInteger('record');
 		$pageNumber = $request->getInteger('page');
 		$limit = (int) $request->get('limit');
-		$viewType = $request->get('viewType');
+		$viewType = $request->getByType('viewType');
 		$searchParams = $request->get('search_params');
 		$relatedModuleName = $request->getByType('relatedModule', 1);
 		$orderBy = $request->getForSql('orderby');
