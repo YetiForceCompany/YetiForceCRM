@@ -660,6 +660,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$parentId = $request->getInteger('record');
 		$pageNumber = $request->getInteger('page');
 		$limit = (int) $request->get('limit');
+		$viewType = $request->getByType('viewType');
 		$searchParams = $request->get('search_params');
 		$relatedModuleName = $request->getByType('relatedModule', 1);
 		$orderBy = $request->getForSql('orderby');
@@ -715,6 +716,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$relationListView->set('orderby', $orderBy);
 			$relationListView->set('sortorder', $sortOrder);
 		}
+		if ($request->has('fields')) {
+			$relationListView->setFields($request->getExploded('fields'));
+		}
 		$models = $relationListView->getEntries($pagingModel);
 		$header = $relationListView->getHeaders();
 		$links = $relationListView->getLinks();
@@ -727,6 +731,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('LIMIT', $limit);
+		$viewer->assign('TYPE_VIEW', $viewType);
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('RELATED_HEADERS', $header);
 		$viewer->assign('RELATED_MODULE', $relatedModuleModel);
