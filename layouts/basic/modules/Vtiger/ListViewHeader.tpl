@@ -29,6 +29,11 @@
 										   {if $LISTVIEW_MASSACTION->get('dataUrl')}
 											   data-url="{$LISTVIEW_MASSACTION->get('dataUrl')}"
 										   {/if}
+										   {if count($LISTVIEW_MASSACTION->get('linkdata')) gt 0}
+											   {foreach from=$LISTVIEW_MASSACTION->get('linkdata') key=NAME item=DATA}
+												   data-{$NAME}="{$DATA}" 
+											   {/foreach}
+										   {/if}
 										   {if $LISTVIEW_MASSACTION->get('linkclass') neq ''}
 											   class="{$LISTVIEW_MASSACTION->get('linkclass')}"
 										   {/if}

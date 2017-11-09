@@ -85,6 +85,9 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 			return $name;
 		}
 		$name = vtlib\Functions::textLength($name, vglobal('href_max_length'));
+		if (\App\Record::getState($value) !== 'Active') {
+			$name = '<s>' . $name . '</s>';
+		}
 		$linkValue = "<a class='modCT_$referenceModuleName showReferenceTooltip' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . App\Language::translateSingularModuleName($referenceModuleName) . "'>$name</a>";
 		return $linkValue;
 	}

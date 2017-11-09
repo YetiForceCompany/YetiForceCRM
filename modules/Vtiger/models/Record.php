@@ -1258,13 +1258,16 @@ class Vtiger_Record_Model extends \App\Base
 				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => !$watching, 'on' => 'btn-info', 'off' => 'btn-default', 'icon-on' => 'glyphicon-eye-open', 'icon-off' => 'glyphicon-eye-close'],
 			];
 		}
+		$stateColors = AppConfig::search('LIST_ENTITY_STATE_COLOR');
 		if ($this->privilegeToActivate()) {
 			$recordLinks[] = [
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_ACTIVATE_RECORD',
 				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Active',
 				'linkicon' => 'fa fa-refresh',
-				'linkclass' => 'btn-sm btn-default recordEvent'
+				'style' => empty($stateColors['Active']) ? '' : "background: {$stateColors['Active']};",
+				'linkdata' => ['confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC')],
+				'linkclass' => 'btn-sm btn-default recordEvent entityStateBtn'
 			];
 		}
 		if ($this->privilegeToArchive()) {
@@ -1273,7 +1276,9 @@ class Vtiger_Record_Model extends \App\Base
 				'linklabel' => 'LBL_ARCHIVE_RECORD',
 				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Archived',
 				'linkicon' => 'fa fa-archive',
-				'linkclass' => 'btn-sm btn-default recordEvent'
+				'style' => empty($stateColors['Archived']) ? '' : "background: {$stateColors['Archived']};",
+				'linkdata' => ['confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC')],
+				'linkclass' => 'btn-sm btn-default recordEvent entityStateBtn'
 			];
 		}
 		if ($this->privilegeToMoveToTrash()) {
@@ -1282,16 +1287,19 @@ class Vtiger_Record_Model extends \App\Base
 				'linklabel' => 'LBL_MOVE_TO_TRASH',
 				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash',
 				'linkicon' => 'glyphicon glyphicon-trash',
-				'linkclass' => 'btn-sm btn-default recordEvent'
+				'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
+				'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')],
+				'linkclass' => 'btn-sm btn-default recordEvent entityStateBtn'
 			];
 		}
 		if ($this->privilegeToDelete()) {
 			$recordLinks[] = [
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
-				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=Delete',
 				'linkicon' => 'glyphicon glyphicon-erase',
-				'linkclass' => 'btn-sm btn-default recordEvent'
+				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=Delete',
+				'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
+				'linkclass' => 'btn-sm btn-black recordEvent'
 			];
 		}
 		foreach ($recordLinks as $recordLink) {
@@ -1379,5 +1387,24 @@ class Vtiger_Record_Model extends \App\Base
 			$eventHandler->setExceptions($this->getHandlerExceptions());
 		}
 		$eventHandler->trigger('EntityChangeState');
+	}
+
+	/**
+	 * Get list view color for record
+	 * @return string[]
+	 */
+	public function getListViewColor()
+	{
+		$colors = [];
+		$stateColors = AppConfig::search('LIST_ENTITY_STATE_COLOR');
+		$moduleConfig = AppConfig::module($this->getModuleName());
+		//var_dump($moduleConfig);
+		$state = \App\Record::getState($this->getId());
+		if (false) {
+			
+		} elseif (!empty($stateColors[$state])) {
+			$colors['leftBorder'] = $stateColors[$state];
+		}
+		return $colors;
 	}
 }

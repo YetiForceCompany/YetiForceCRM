@@ -2620,31 +2620,6 @@ i {
 	cursor: pointer;
 	text-decoration: none !important;
 }
-.marginTB3{
-	margin-top: 3px;
-	margin-bottom: 3px;
-}
-.marginLeft5{
-	margin-left:5px;
-}
-.marginLeft10{
-	margin-left:10px;
-}
-.marginLeft20{
-	margin-left: 20px;
-}
-.marginbottomZero {
-	margin-bottom: 0 !important;
-}
-.marginLeftZero {
-	margin-left: 0 !important;
-}
-.marginRightZero {
-	margin-right: 0 !important;
-}
-.clearfix {
-	clear: both !important;
-}
 textarea {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -2663,28 +2638,6 @@ table.summary-table .summaryViewEdit{
 	padding-bottom: 2px;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
-.margin0px {
-	margin: 0 !important;
-}
-.padding10 {
-	padding: 10px;
-	padding-bottom: 0;
-}
-.padding20 {
-	padding: 20px;
-}
-.padding6 {
-	padding: 6px 12px !important;
-}
-.top10 {
-	top: -10px;
-}
-.relative {
-	position: relative;
-}
-.pushDown {
-	margin-top: 7px;
 }
 .boxSizingBorderBox {
 	-webkit-box-sizing: border-box;
@@ -2735,47 +2688,8 @@ table.summary-table .summaryViewEdit{
 	background: #ffffff;
 	border: 1px solid #dddddd;
 }
-.textAlignCenter {
-	text-align: center;
-}
-.textAlignRight {
-	text-align: right;
-}
 .alignMiddle, .tableMiddle td, tableMiddle th {
 	vertical-align: middle !important;
-}
-.alignTop {
-	vertical-align: top;
-}
-.padding1per {
-	padding: 1%;
-}
-.paddingTop20 {
-	padding-top: 20px;
-}
-.paddingTop10 {
-	padding-top: 10px;
-}
-.padding20px {
-	padding: 20px;
-}
-.padding-bottom1per {
-	padding-bottom: 1%;
-}
-.paddingBottom20{
-	padding-bottom: 20px;
-}
-.paddingBottom10{
-	padding-bottom: 10px;
-}
-.marginBottom10px {
-	margin-bottom: 10px !important;
-}
-.displayInlineBlock {
-	display: inline-block;
-}
-.backgroundImageNone {
-	background-image: none;
 }
 .liStyleNone {
 	list-style: none outside none;
@@ -2906,25 +2820,6 @@ td.listViewEntryValue .row input {
 	white-space: nowrap;
 	overflow: hidden;
 }
-.paddingLRZero {
-	padding-left: 0px;
-	padding-right: 0px;
-}
-.paddingLefttZero {
-	padding-left: 0 !important;
-}
-.paddingRightZero {
-	padding-right: 0 !important;
-}
-.paddingRight10{
-	padding-right: 10px !important;
-}
-.paddingRight15{
-	padding-right: 15px !important;
-}
-.padding5{
-	padding: 5px !important;
-}
 .input-group.input-group-sm > .input-group-addon img {
 	width: 15px;
 }
@@ -3045,16 +2940,6 @@ table.dataTable .form-control {
 }
 .calendarRightPanel .widgetContainer ul {
 	margin-top: 5px;
-	margin-bottom: 5px;
-}
-.paddingLR10{
-	padding-left:10px !important;
-	padding-right: 10px !important;
-}
-.paddingLeft5px{
-	padding-left: 5px;
-}
-.marginBottom5px {
 	margin-bottom: 5px;
 }
 .detailViewTable  .fieldValue:hover  .summaryViewEdit {
@@ -3204,27 +3089,6 @@ span[name=existingImages] img{
 }
 .mailRows hr{
 	margin: 0;
-}
-.paddingLeftMd{
-	padding-left: 15px;
-}
-.marginRight10{
-	margin-right: 10px;
-}
-.marginRight20{
-	margin-right: 20px;
-}
-.marginRightMinus20{
-	margin-right:-20px;
-}
-.marginTop2{
-	margin-top: 2px !important;
-}
-.marginTop5{
-	margin-top: 5px !important;
-}
-.marginTopMinus10{
-	margin-top:-10px;
 }
 .fieldLabel .referenceMandatory{
 	margin-right: -12px;
@@ -3479,9 +3343,6 @@ span[name=existingImages] img{
 	-webkit-box-shadow: 0px 0px 8px -1px rgba(156,156,156,1);
 	-moz-box-shadow: 0px 0px 8px -1px rgba(156,156,156,1);
 	box-shadow: 0px 0px 8px -1px rgba(156,156,156,1);
-}
-.modal-blg {
-	width: 90%;
 }
 .modal-blg iframe{
 	height: 420px;
@@ -4301,7 +4162,7 @@ html,body,.baseContainer
 .listViewActionsDiv .btn-group button,
 .listViewActionsDiv .pagination > li > span,
 .listViewActionsDiv .pageInfo {
-	max-height:34px;
+	max-height:35px;
 }
 .listViewActionsDiv .btn-toolbar > .dropdown-toggle + .dropdown-menu{
 	left: 20px;
@@ -5243,10 +5104,7 @@ html,body,.baseContainer
 .inventoryItems .colName {
 	width: 25%;
 }
-.modal-full{
-	width: 95% !important;
-	max-width: 1250px;
-}
+
 .dateTimeField .date{
 	margin-right: -2px;
 }
@@ -5409,12 +5267,6 @@ select.form-control {
 .knowledgePresentation .knowledgePresentationRow {
 	margin: 0 !important;
 }
-.danger-color{
-	color: #d9534f !important;
-}
-.info-color{
-	color: #5bc0de !important;
-}
 .detailViewContainer .chosen-container,
 .editViewContainer .chosen-container{
 	height: auto;
@@ -5467,12 +5319,6 @@ select.form-control {
 }
 .modalNotificationConfig .checkbox{
 	margin: 5px 0;
-}
-.font-small{
-	font-size: small;
-}
-.dispaly-inline{
-	display: inline;
 }
 .narrow.fieldValue .referenceGroup button.btn{
 	height: 27px;
@@ -5564,33 +5410,6 @@ select.form-control {
 	padding: 2px;
 	border: 2px solid #d2d6de;
 	font-size: 32px;
-}
-.bgBlue{
-	background: #337ab7 !important;
-	color: #fff !important;
-}
-.bgWarning{
-	background: #fcf8e3 !important;
-}
-.bgDanger{
-	color: #fff !important;
-	background-color: #d9534f !important;
-}
-.bgGreen{
-	background: #5cb85c !important;
-	color: #fff !important;
-}
-.bgOrange{
-	background: #f0ad4e !important;
-	color: #fff !important;
-}
-.bgAzure{
-	background: #3EB1F7 !important;
-	color: #fff !important;
-}
-.bgDarkBlue{
-	background: #001f3f !important;
-	color: #fff !important;
 }
 .bodyHeader .rightHeaderBtn{
 	margin-top: 7px;
@@ -5827,6 +5646,9 @@ select.form-control {
 .listViewEntries{
 	background: #fff;
 }
+.listViewEntries:hover{
+	background: #dddddd20;
+}
 .leftRecordActions{
 	background: inherit;
 }
@@ -6051,12 +5873,20 @@ select.form-control {
 .daterangepicker .calendar th,.daterangepicker .calendar td{
 	min-width: 30px;
 }
-.fs30{
-	font-size: 30px;
-}
-.fs40{
-	font-size: 40px;
-}
 .detailViewActionsBtn .btn-group{
 	margin-left: 15px;
+}
+.dropdownEntityState ul li{
+	border-left: 10px solid #fff;
+}
+.listViewAll tbody tr.listViewEntries > td:first-child{
+	border-left: 10px solid #ddd;
+}
+.entityStateIcon{
+	background: #d2d6de;
+	color: #fff !important;
+}
+.entityStateBtn  {
+	color: #fff !important;
+	border-color: transparent;
 }

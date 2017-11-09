@@ -83,6 +83,8 @@ $languageStrings = [
 	'ArchiveRecord' => 'Archive record',
 	'ActiveRecord' => 'Activate record',
 	'TimeLineList' => 'History in records list',
+	'MoveToTrash' => 'Move to Recycle Bin',
+	'MassTrash' => 'Mass move to Recycle Bin',
 	//end Actions
 	'Profile Related to Sales' => 'Profile related to sales',
 	'Profile Related to Support' => 'Profile related to support',

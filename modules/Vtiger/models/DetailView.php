@@ -142,40 +142,64 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linkhint' => 'BTN_RECORD_EDIT',
 			]);
 		}
+		$stateColors = AppConfig::search('LIST_ENTITY_STATE_COLOR');
 		if ($recordModel->privilegeToActivate()) {
 			$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'DETAIL_VIEW_EXTENDED',
 					'linklabel' => 'LBL_ACTIVATE_RECORD',
-					'linkurl' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Active&record=' . $recordModel->getId(),
+					'title' => \App\Language::translate('LBL_ACTIVATE_RECORD'),
+					'linkurl' => 'javascript:app.showConfirmation({type: "href"},this)',
+					'linkdata' => [
+						'url' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Active&record=' . $recordModel->getId(),
+						'confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC')
+					],
 					'linkicon' => 'fa fa-refresh fa-spin',
-					'title' => \App\Language::translate('LBL_ACTIVATE_RECORD')
+					'linkclass' => 'entityStateBtn',
+					'style' => empty($stateColors['Active']) ? '' : "background: {$stateColors['Active']};"
 			]);
 		}
 		if ($recordModel->privilegeToArchive()) {
 			$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'DETAIL_VIEW_EXTENDED',
 					'linklabel' => 'LBL_ARCHIVE_RECORD',
-					'linkurl' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Archived&record=' . $recordModel->getId(),
+					'title' => \App\Language::translate('LBL_ARCHIVE_RECORD'),
+					'linkurl' => 'javascript:app.showConfirmation({type: "href"},this)',
+					'linkdata' => [
+						'url' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Archived&record=' . $recordModel->getId(),
+						'confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC')
+					],
 					'linkicon' => 'fa fa-archive',
-					'title' => \App\Language::translate('LBL_ARCHIVE_RECORD')
+					'linkclass' => 'entityStateBtn',
+					'style' => empty($stateColors['Archived']) ? '' : "background: {$stateColors['Archived']};"
 			]);
 		}
 		if ($recordModel->privilegeToMoveToTrash()) {
 			$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'DETAIL_VIEW_EXTENDED',
 					'linklabel' => 'LBL_MOVE_TO_TRASH',
-					'linkurl' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Trash&record=' . $recordModel->getId(),
+					'title' => \App\Language::translate('LBL_MOVE_TO_TRASH'),
+					'linkurl' => 'javascript:app.showConfirmation({type: "href"},this)',
+					'linkdata' => [
+						'url' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Trash&record=' . $recordModel->getId(),
+						'confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')
+					],
 					'linkicon' => 'glyphicon glyphicon-trash',
-					'title' => \App\Language::translate('LBL_MOVE_TO_TRASH')
+					'linkclass' => 'entityStateBtn',
+					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};"
 			]);
 		}
 		if ($recordModel->privilegeToDelete()) {
 			$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'DETAIL_VIEW_EXTENDED',
 					'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
-					'linkurl' => 'index.php?module=' . $recordModel->getModuleName() . '&action=Delete&record=' . $recordModel->getId(),
+					'title' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY'),
+					'linkurl' => 'javascript:app.showConfirmation({type: "href"},this)',
+					'linkdata' => [
+						'url' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Delete&record=' . $recordModel->getId(),
+						'confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')
+					],
 					'linkicon' => 'glyphicon glyphicon-erase',
-					'title' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY')
+					'linkclass' => 'btn-black'
 			]);
 		}
 		if ($moduleModel->isPermitted('DuplicateRecord')) {

@@ -22,4 +22,10 @@ $CONFIG = [
 	'GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH' => 3,
 	// Global search - Show operator
 	'GLOBAL_SEARCH_OPERATOR' => true,
+	// Colors for record state will be displayed in list view, history, and preview.
+	'LIST_ENTITY_STATE_COLOR' => [
+		'Archived' => '#0032a2',
+		'Trash' => '#ab0505',
+		'Active' => '#009405',
+	],
 ];
