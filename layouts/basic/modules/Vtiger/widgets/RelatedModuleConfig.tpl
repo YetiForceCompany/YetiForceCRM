@@ -40,7 +40,7 @@
 											{foreach from=Vtiger_Module_Model::getInstance($RELATED_MODULE['name'])->getFieldsByBlocks() key=BLOCK_NAME item=FIELDS}
 												<optgroup label="{\App\Language::translate($BLOCK_NAME, $RELATED_MODULE['name'])}" data-module="{$RELATED_MODULE['related_tabid']}">
 													{foreach from=$FIELDS item=FIELD_MODEL key=FIELD_NAME}
-														<option value="{$RELATED_MODULE['related_tabid']}::{$FIELD_NAME}" {if in_array($RELATED_MODULE['related_tabid']|cat:'::'|cat:$FIELD_NAME, $WIDGETINFO['data']['relatedfields'])}selected{/if} data-module="{$RELATED_MODULE['related_tabid']}">{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATED_MODULE['name'])}</option>
+														<option value="{$RELATED_MODULE['related_tabid']}::{$FIELD_NAME}" {if $WIDGETINFO['data']['relatedfields'] && in_array($RELATED_MODULE['related_tabid']|cat:'::'|cat:$FIELD_NAME, $WIDGETINFO['data']['relatedfields'])}selected{/if} data-module="{$RELATED_MODULE['related_tabid']}">{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATED_MODULE['name'])}</option>
 													{/foreach}
 												</optgroup>
 											{/foreach}

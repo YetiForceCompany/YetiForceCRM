@@ -17,9 +17,11 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 			$url .= '&r=' . $this->Data['no_result_text'];
 		}
 		$fields = [];
-		foreach ($this->Data['relatedfields'] as $field) {
-			list($moduleId, $fieldName) = explode('::', $field);
-			$fields[] = $fieldName;
+		if (!empty($this->Data['relatedfields'])) {
+			foreach ($this->Data['relatedfields'] as $field) {
+				list($moduleId, $fieldName) = explode('::', $field);
+				$fields[] = $fieldName;
+			}
 		}
 		if ($fields) {
 			$url .= '&fields=' . implode(',', $fields);
