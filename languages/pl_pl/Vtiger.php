@@ -3,7 +3,7 @@
  * Vtiger polish translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'GlobalPermission' => 'Uprawnienia globalne',
@@ -683,7 +683,7 @@ $languageStrings = [
 	'Address details' => 'Dane adresowe',
 	'Contact details' => 'Dane kontaktowe',
 	'Registration details' => 'Dane rejestrowe',
-	'LBL_SUMMARY_LICENSE' => 'YetiForce Public License 2.0',
+	'LBL_SUMMARY_LICENSE' => 'YetiForce Public License 3.0',
 	'LBL_REGISTERING_INFORMATION' => 'Informacje rejestrowe',
 	'Created By' => 'Utworzył',
 	'Parent ID' => 'Powiązany z',

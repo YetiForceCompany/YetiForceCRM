@@ -4,7 +4,7 @@
  * Vtiger calendar dashboard class
  * @package YetiForce.Dashboard
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_Calendar_Dashboard extends Vtiger_IndexAjax_View
 {

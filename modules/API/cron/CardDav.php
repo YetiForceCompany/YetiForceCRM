@@ -3,7 +3,7 @@
  * CardDAV Cron Class
  * @package YetiForce.Cron
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 \App\Log::trace('Start cron CardDAV');

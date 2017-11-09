@@ -1984,13 +1984,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var form = this.getForm();
 		app.showPopoverElementView(form.find('.HelpInfoPopover'));
 	},
-	/**
-	 * Counting the number of records in related modules
-	 * @license licenses/License.html
-	 * @package YetiForce.Detail
-	 * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
-	 * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
-	 */
 	registerRelatedModulesRecordCount: function (tabContainer) {
 		var thisInstance = this;
 		if (!jQuery.isFunction(thisInstance.refreshRelatedList)) {
