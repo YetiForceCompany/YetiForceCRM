@@ -30,6 +30,8 @@ https://github.com/YetiForceCompany/YetiForceCRM/milestones
 https://github.com/YetiForceCompany/UpdatePackages
 4. Additional scripts
 https://github.com/YetiForceCompany/YetiForceScripts
+5. Languages that were removed from the YetiForce system due to the lack of regular updates.
+https://github.com/YetiForceCompany/YetiForceIncompleteLanguages
 
 YetiForce CRM was orginally forked from Vtiger CRM and has mechanisms that allow to easily migrate from Vtiger to YetiForce.
 
