@@ -134,6 +134,12 @@ class Install_Index_View extends Vtiger_View_Controller
 
 	public function step2(\App\Request $request)
 	{
+		if ($_SESSION['default_language'] === 'pl_pl') {
+			$license = file_get_contents('licenses/LicensePL.txt');
+		} else {
+			$license = file_get_contents('licenses/LicenseEN.txt');
+		}
+		$this->viewer->assign('LICENSE', nl2br($license));
 		echo $this->viewer->fetch('Step2.tpl');
 	}
 
