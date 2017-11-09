@@ -12,9 +12,17 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 	public function getUrl()
 	{
 		$moduleName = is_numeric($this->Data['relatedmodule']) ? App\Module::getModuleName($this->Data['relatedmodule']) : $this->Data['relatedmodule'];
-		$url = 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showRelatedRecords&relatedModule=' . $moduleName . '&page=1&limit=' . $this->Data['limit'] . '&col=' . $this->Data['columns'];
+		$url = 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showRelatedRecords&relatedModule=' . $moduleName . '&page=1&limit=' . $this->Data['limit'] . '&viewType=' . $this->Data['viewtype'];
 		if (isset($this->Data['no_result_text'])) {
 			$url .= '&r=' . $this->Data['no_result_text'];
+		}
+		$fields = [];
+		foreach ($this->Data['relatedfields'] as $field) {
+			list($moduleId, $fieldName) = explode('::', $field);
+			$fields[] = $fieldName;
+		}
+		if ($fields) {
+			$url .= '&fields=' . implode(',', $fields);
 		}
 		return $url;
 	}

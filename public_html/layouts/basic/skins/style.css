@@ -124,6 +124,14 @@ hr {
 	height: 45px;
 	margin: 10px auto;
 }
+.pull-right .btn-group .createRecordFromFilter,
+.item .addButton{
+	margin-left: 6px;
+}
+.carousel-inner .item table{
+	margin-bottom: 10px;
+	width:100%;
+}
 .sk-cube-grid .sk-cube {
 	width: 33%;
 	height: 33%;
@@ -835,11 +843,13 @@ li.ui-timepicker-selected,
 	padding: 5px 0 5px 5%;
 	border-top: 1px solid #dddddd;
 	border-right: 1px solid #dddddd;
+	width: 35%;
 }
 .summaryView .summaryViewEntries .fieldValue {
 	vertical-align: top;
 	padding: 5px 0 5px 5px; /*ie fix from 5px 0 5px 5%*/
 	border-top: 1px solid #dddddd;
+	width: 65%;
 }
 .summaryView .summaryViewEntries:hover .summaryViewEdit {
 	opacity: 1;

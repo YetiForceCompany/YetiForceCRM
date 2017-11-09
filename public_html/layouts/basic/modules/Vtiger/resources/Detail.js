@@ -300,7 +300,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		}
 		if (params == undefined) {
 			var urlParams = widgetContainer.data('url');
-			if(urlParams == undefined){
+			if (urlParams == undefined) {
 				return;
 			}
 			var params = {
@@ -322,6 +322,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					if (relatedModuleName) {
 						var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), thisInstance.getSelectedTab(), relatedModuleName);
 						relatedController.registerUnreviewedCountEvent(widgetContainer);
+						thisInstance.widgetRelatedRecordView(widgetContainer, true);
 					}
 					aDeferred.resolve(params);
 				},
@@ -332,6 +333,50 @@ jQuery.Class("Vtiger_Detail_Js", {
 		);
 		return aDeferred.promise();
 	},
+	widgetRelatedRecordView: function (container, load) {
+		var controlBox = container.find('.control-widget');
+		var prev = controlBox.find('.prev');
+		var next = controlBox.find('.next');
+		if (container.find('.item').length <= 1) {
+			next.addClass('disabled');
+		} else {
+			next.removeClass('disabled');
+		}
+		if (load) {
+			next.click(function () {
+				if ($(this).hasClass('disabled')) {
+					return;
+				}
+				var active = container.find('.item.active');
+				active.removeClass('active');
+				var nextElement = active.next();
+				nextElement.addClass('active');
+				if (!nextElement.next().length) {
+					next.addClass('disabled');
+				}
+				if (active.prev()) {
+					prev.removeClass('disabled');
+				}
+
+			});
+			prev.click(function () {
+				if ($(this).hasClass('disabled')) {
+					return;
+				}
+				var active = container.find('.item.active');
+				active.removeClass('active');
+				var prevElement = active.prev();
+				prevElement.addClass('active');
+				if (!prevElement.prev().length) {
+					prev.addClass('disabled');
+				}
+				if (active.next()) {
+					next.removeClass('disabled');
+				}
+			});
+		}
+	},
+
 	/**
 	 * Function to load only Comments Widget.
 	 */
@@ -975,7 +1020,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			}
 		});
 		var relatedModuleName = thisInstance.getRelatedModuleName();
-		if (relatedModuleName){
+		if (relatedModuleName) {
 			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), thisInstance.getSelectedTab(), relatedModuleName);
 			relatedController.registerUnreviewedCountEvent();
 		}
@@ -1583,7 +1628,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					}
 					currentDiv.progressIndicator();
 					editElement.addClass('hide');
-					AppConnector.request( {
+					AppConnector.request({
 						action: 'SaveAjax',
 						record: activityId,
 						field: fieldName,
@@ -1710,6 +1755,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 								app.changeSelectElementView(documentsWidget);
 								var relatedController = new Vtiger_RelatedList_Js(recordId, module, thisInstance.getSelectedTab(), referenceModuleName);
 								relatedController.registerUnreviewedCountEvent(widgetDataContainer);
+								thisInstance.widgetRelatedRecordView(summaryWidgetContainer, false);
 							}
 					);
 				}
