@@ -182,8 +182,8 @@ class Purifier
 		'p[style|class]', 'div[style|class]', 'center', 'address[style]',
 		'span[style|class]', 'pre[style]',
 		'ul', 'ol', 'li',
-		'table[width|height|border|style|class]', 'th[width|height|border|style|class]',
-		'tr[width|height|border|style|class]', 'td[width|height|border|style|class]',
+		'table[width|height|border|style|class]', 'th[width|height|border|style|class|colspan|rowspan]',
+		'tr[width|height|border|style|class]', 'td[width|height|border|style|class|colspan|rowspan]',
 		'blockquote[style]',
 		'hr',
 	];

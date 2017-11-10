@@ -1048,9 +1048,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	 * @param type $value in user format
 	 * @return type
 	 */
-	public function getDBValue($value)
+	public function getDBValue($value, $recordModel = false)
 	{
-		return $this->getUITypeModel()->getDBValue($value);
+		return $this->getUITypeModel()->getDBValue($value, $recordModel);
 	}
 
 	/**
