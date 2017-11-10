@@ -124,13 +124,30 @@ hr {
 	height: 45px;
 	margin: 10px auto;
 }
-.pull-right .btn-group .createRecordFromFilter,
-.item .addButton{
+.pull-right .btn-group .createRecordFromFilter {
 	margin-left: 6px;
 }
-.carousel-inner .item table{
+.item .addButton {
+	margin-right: 6px;
+}
+.carousel-inner .item table {
 	margin-bottom: 10px;
 	width:100%;
+}
+.summaryViewEntries .fieldLabel {
+	width: 	35%;
+	vertical-align: top;
+    padding: 5px 0 5px 5%;
+    border-top: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
+	border-bottom: 1px solid #dddddd;
+}
+.summaryViewEntries .fieldValue {
+	width: 65%;
+	vertical-align: top;
+    padding: 5px 0 5px 5px;
+    border-top: 1px solid #dddddd;
+	border-bottom: 1px solid #dddddd;
 }
 .sk-cube-grid .sk-cube {
 	width: 33%;
