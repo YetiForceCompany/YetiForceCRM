@@ -187,7 +187,12 @@ class Request
 		if (isset($this->rawValues[$key])) {
 			$value = $this->rawValues[$key];
 			if (is_string($value) && (strpos($value, '[') === 0 || strpos($value, '{') === 0)) {
-				$value = Json::decode($value);
+				$decodeValue = Json::decode($value);
+				if (isset($decodeValue)) {
+					$value = $decodeValue;
+				} else {
+					\App\Log::warning('Invalid data format, problem encountered while decoding JSON. Data should be in JSON format. Data: ' . $value);
+				}
 			}
 			settype($value, 'array');
 			if ($value) {
