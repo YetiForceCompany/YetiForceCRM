@@ -1316,7 +1316,7 @@ $languageStrings = [
 	'LBL_VALUE_NOT_FOUND' => 'Nie znaleziono wartości',
 	'FL_PHONE_CUSTOM_INFORMATION' => 'Informacje dodatkowe',
 	'LBL_ARCHIVE_RECORD' => 'Archiwizuj rekord',
-	'LBL_ARCHIVE_RECORD_DESC' => 'Przeniesienie rekordu do archiwizum zmienia tylko stan rekordu nie zmieniając pozostałych informacji. Czy na pewno chcesz przenieść ten rekord?',
+	'LBL_ARCHIVE_RECORD_DESC' => 'Przeniesienie rekordu do archiwum zmienia tylko stan rekordu nie zmieniając pozostałych informacji. Czy na pewno chcesz przenieść ten rekord?',
 	'LBL_ACTIVATE_RECORD' => 'Aktywuj rekord',
 	'LBL_ACTIVATE_RECORD_DESC' => 'Aktywacja rekordu zmienia tylko stan rekordu nie zmieniając pozostałych informacji. Czy na pewno chcesz aktywować ten rekord?',
 	'LBL_CHANGES_SAVED' => 'Zapisano zmiany.',
@@ -1328,7 +1328,7 @@ $languageStrings = [
 	'LBL_MOVE_TO_TRASH' => 'Przenieś do kosza',
 	'LBL_MOVE_TO_TRASH_DESC' => 'Przeniesienie rekordu do kosza zmienia tylko stan rekordu nie zmieniając pozostałych informacji. Czy na pewno chcesz przenieść ten rekord?',
 	'LBL_DELETE_RECORD_COMPLETELY' => 'Usuń rekord z systemu',
-	'LBL_DELETE_RECORD_COMPLETELY_DESC' => 'Usunięcie rekordu spowoduje trwałe i nie odwracalne usunięcie wszystkich informacji o rekordzie. Czy na pewno chcesz usunąc ten rekord?',
+	'LBL_DELETE_RECORD_COMPLETELY_DESC' => 'Usunięcie rekordu spowoduje trwałe i nieodwracalne usunięcie wszystkich informacji o rekordzie. Czy na pewno chcesz usunąć ten rekord?',
 	'LBL_RECORD_HAS_BEEN_DELETED' => 'Rekord został usunięty',
 ];
 $jsLanguageStrings = [

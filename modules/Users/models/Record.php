@@ -143,14 +143,33 @@ class Users_Record_Model extends Vtiger_Record_Model
 	{
 		$entityInstance = $this->getModule()->getEntityInstance();
 		$entityInstance->column_fields['user_name'] = $this->get('user_name');
+		if (!$this->isNew() && empty($this->getPreviousValue())) {
+			App\Log::info('ERR_NO_DATA');
+			return false;
+		}
+		$eventHandler = new App\EventHandler();
+		$eventHandler->setRecordModel($this);
+		$eventHandler->setModuleName($this->getModuleName());
+		if ($this->getHandlerExceptions()) {
+			$eventHandler->setExceptions($this->getHandlerExceptions());
+		}
+		$eventHandler->trigger('UserBeforeSave');
 		$db = \App\Db::getInstance();
 		$transaction = $db->beginTransaction();
 		try {
-			$this->getModule()->saveRecord($this);
+			$this->validate();
+			$this->saveToDb();
+			$this->afterSaveToDb();
 			$transaction->commit();
 		} catch (\Exception $e) {
 			$transaction->rollBack();
 			throw $e;
+		}
+		$eventHandler->trigger('UserAfterSave');
+		if ($this->isNew()) {
+			$eventHandler->setSystemTrigger('UserSystemAfterCreate');
+		} else {
+			$eventHandler->setSystemTrigger('UserSystemAfterEdit');
 		}
 	}
 

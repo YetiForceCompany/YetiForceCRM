@@ -13,7 +13,7 @@
 	{if $PARENT_MODULE !== 'Settings'}
 		<div class="pull-right paddingLeft5px">
 			{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
-			<input type="hidden" id="entityState" value="{$LIST_VIEW_MODEL->get('entityState')}">
+			<input type="hidden" id="entityState" value="{if $LIST_VIEW_MODEL->has('entityState')}{$LIST_VIEW_MODEL->get('entityState')}{else}Active{/if}">
 			<div class="dropdown dropdownEntityState">
 				<button class="btn btn-default dropdown-toggle" type="button" id="dropdownEntityState" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 					{if $LIST_VIEW_MODEL->get('entityState') == 'Archived'}

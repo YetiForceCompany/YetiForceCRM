@@ -209,52 +209,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Function to save a given record model of the current module
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @return \Vtiger_Record_Model
-	 */
-	public function saveRecord(\Vtiger_Record_Model $recordModel)
-	{
-		$moduleName = $this->get('name');
-		$eventHandler = new App\EventHandler();
-		$eventHandler->setRecordModel($recordModel);
-		$eventHandler->setModuleName($moduleName);
-		if ($recordModel->getHandlerExceptions()) {
-			$eventHandler->setExceptions($recordModel->getHandlerExceptions());
-		}
-		$eventHandler->trigger('EntityBeforeSave');
-
-		if (!$recordModel->isNew() && !$recordModel->isMandatorySave() && empty($recordModel->getPreviousValue())) {
-			App\Log::info('ERR_NO_DATA');
-		} else {
-			if (method_exists($recordModel, 'validate')) {
-				$recordModel->validate();
-			}
-			$recordModel->saveToDb();
-			if (method_exists($recordModel, 'afterSaveToDb')) {
-				$recordModel->afterSaveToDb();
-			}
-		}
-		$recordId = $recordModel->getId();
-		Users_Privileges_Model::setSharedOwner($recordModel->get('shownerid'), $recordId);
-		if ($this->isInventory()) {
-			$recordModel->saveInventoryData($moduleName);
-		}
-		if (\App\Request::_get('createmode') === 'link') {// vtlib customization: Hook provide to enable generic module relation.
-			if (\App\Request::_has('return_module') && \App\Request::_has('return_id')) {
-				relateEntities(CRMEntity::getInstance(\App\Request::_get('return_module')), \App\Request::_get('return_module'), \App\Request::_get('return_id'), $moduleName, $recordId);
-			}
-		}
-		$eventHandler->trigger('EntityAfterSave');
-		if ($recordModel->isNew()) {
-			$eventHandler->setSystemTrigger('EntitySystemAfterCreate');
-		} else {
-			$eventHandler->setSystemTrigger('EntitySystemAfterEdit');
-		}
-		return $recordModel;
-	}
-
-	/**
 	 * Function to get the ListView Component Name
 	 * @return string
 	 */

@@ -367,21 +367,54 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function save()
 	{
+		$moduleModel = $this->getModule();
+		if ($moduleModel->isInventory()) {
+			$this->initInventoryData();
+		}
+		$moduleName = $moduleModel->get('name');
+		$eventHandler = new App\EventHandler();
+		$eventHandler->setRecordModel($this);
+		$eventHandler->setModuleName($moduleName);
+		if ($this->getHandlerExceptions()) {
+			$eventHandler->setExceptions($this->getHandlerExceptions());
+		}
+		$eventHandler->trigger('EntityBeforeSave');
 		$db = \App\Db::getInstance();
 		$transaction = $db->beginTransaction();
 		try {
-			if ($this->getModule()->isInventory()) {
-				$this->initInventoryData();
+			if (!$this->isNew() && !$this->isMandatorySave() && empty($this->getPreviousValue())) {
+				App\Log::info('ERR_NO_DATA');
+			} else {
+				if (method_exists($this, 'validate')) {
+					$this->validate();
+				}
+				$this->saveToDb();
+				if (method_exists($this, 'afterSaveToDb')) {
+					$this->afterSaveToDb();
+				}
 			}
-			$this->getModule()->saveRecord($this);
+			$recordId = $this->getId();
+			Users_Privileges_Model::setSharedOwner($this->get('shownerid'), $recordId);
+			if ($moduleModel->isInventory()) {
+				$this->saveInventoryData($moduleName);
+			}
+			if (\App\Request::_get('createmode') === 'link') {// vtlib customization: Hook provide to enable generic module relation.
+				if (\App\Request::_has('return_module') && \App\Request::_has('return_id')) {
+					relateEntities(CRMEntity::getInstance(\App\Request::_get('return_module')), \App\Request::_get('return_module'), \App\Request::_get('return_id'), $moduleName, $recordId);
+				}
+			}
 			$transaction->commit();
 		} catch (\Exception $e) {
 			$transaction->rollBack();
 			throw $e;
 		}
+		$eventHandler->trigger('EntityAfterSave');
 		if ($this->isNew()) {
+			$eventHandler->setSystemTrigger('EntitySystemAfterCreate');
 			\App\Cache::staticSave('RecordModel', $this->getId() . ':' . $this->getModuleName(), $this);
 			$this->isNew = false;
+		} else {
+			$eventHandler->setSystemTrigger('EntitySystemAfterEdit');
 		}
 		\App\Cache::delete('recordLabel', $this->getId());
 		\App\PrivilegeUpdater::updateOnRecordSave($this);

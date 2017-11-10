@@ -254,36 +254,6 @@ class Users_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to save a given record model of the current module
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @return \Vtiger_Record_Model
-	 */
-	public function saveRecord(\Vtiger_Record_Model $recordModel)
-	{
-		if (!$recordModel->isNew() && empty($recordModel->getPreviousValue())) {
-			App\Log::info('ERR_NO_DATA');
-			return $recordModel;
-		}
-		$eventHandler = new App\EventHandler();
-		$eventHandler->setRecordModel($recordModel);
-		$eventHandler->setModuleName($this->get('name'));
-		if ($recordModel->getHandlerExceptions()) {
-			$eventHandler->setExceptions($recordModel->getHandlerExceptions());
-		}
-		$eventHandler->trigger('UserBeforeSave');
-		$recordModel->validate();
-		$recordModel->saveToDb();
-		$recordModel->afterSaveToDb();
-		$eventHandler->trigger('UserAfterSave');
-		if ($recordModel->isNew()) {
-			$eventHandler->setSystemTrigger('UserSystemAfterCreate');
-		} else {
-			$eventHandler->setSystemTrigger('UserSystemAfterEdit');
-		}
-		return $recordModel;
-	}
-
-	/**
 	 * Function gives list fields for save
 	 * @return string[]
 	 */
