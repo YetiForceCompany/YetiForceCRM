@@ -6,8 +6,8 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
-	'FInvoiceCost' => 'Счета',
-	'SINGLE_FInvoiceCost' => 'Счёт',
+	'FInvoiceCost' => 'Суммы счетов',
+	'SINGLE_FInvoiceCost' => 'Сумма счёта',
 	//BLOCKS
 	'LBL_CUSTOM_INFORMATION' => 'Системная информация',
 	'LBL_INVOICE_ADDRESS' => 'Адрес выставления счета',
