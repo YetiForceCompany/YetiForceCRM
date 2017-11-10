@@ -104,7 +104,10 @@ class Request
 			return $value;
 		}
 		if (is_string($value) && (strpos($value, '[') === 0 || strpos($value, '{') === 0)) {
-			$value = Json::decode($value);
+			$decodeValue = Json::decode($value);
+			if (isset($decodeValue)) {
+				$value = $decodeValue;
+			}
 		}
 		if ($value) {
 			$value = Purifier::purify($value);
