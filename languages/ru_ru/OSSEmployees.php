@@ -46,8 +46,8 @@ $languageStrings = [
 	'Inactive' => 'Уволен',
 	'Average daily working time' => 'Рабочее время',
 	'LBL_USER_EXISTS' => 'Сотрудник уже существует',
-	'FL_POSITION' => 'Position',
-	'FL_SECONDARY_PHONE' => 'Secondary phone',
+	'FL_POSITION' => 'Должность',
+	'FL_SECONDARY_PHONE' => 'Дополнительный телефон',
 	'FL_RBH' => 'RBH'
 ];
 

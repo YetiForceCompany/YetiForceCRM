@@ -18,8 +18,8 @@ $languageStrings = [
 	'LBL_ERROR' => 'Ошибка сохранения изменений',
 	'LBL_SAVE_OK' => 'Изменения успешно сохранены',
 	'characters' => 'Символы',
-	'LBL_PASSWORD_CHANGE_TIME' => 'Force password change every',
-	'LBL_PASSWORD_CHANGE_TIME_DESC' => '0 - no limitation, 356 - year, 30 - month. After this period, each time a user logs in, the system will display a message to change a password.',
-	'LBL_TIME_TO_CHANGE_PASSWORD' => 'Maximum time for changing password (days)',
-	'LBL_TIME_TO_CHANGE_PASSWORD_DESC' => 'After this period the account will be blocked and a user won\'t be able to log into the system.',
+	'LBL_PASSWORD_CHANGE_TIME' => 'Принудительная смена пароля каждые...',
+	'LBL_PASSWORD_CHANGE_TIME_DESC' => '0 - нет ограничений, 356 - год, 30 - месяц. Через этот промежуток времени всякий раз, когда пользователь заходит в систему, система будет требовать сменить пароль.',
+	'LBL_TIME_TO_CHANGE_PASSWORD' => 'Максимальный срок для изменения пароля (в днях)',
+	'LBL_TIME_TO_CHANGE_PASSWORD_DESC' => 'Спустя этот срок пользователь, не сменивший пароль, будет заблокирован и не сможет войти в систему.',
 ];

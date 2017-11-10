@@ -95,7 +95,7 @@ $languageStrings = [
 	'Graf' => 'Письма по статусу',
 	'LBL_ORGINAL_MAIL_CONTENT' => 'Оригинал сообщения',
 	'BTN_RESET_RELATED_MAILS' => 'Сбросить связанную почту',
-	'LBL_SET_RELOAD_RELATIONS' => 'Marked for relation reload',
+	'LBL_SET_RELOAD_RELATIONS' => 'Помечено на обновление связей',
 ];
 $jsLanguageStrings = [
 	'From' => 'От',

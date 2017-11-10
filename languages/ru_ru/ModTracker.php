@@ -43,9 +43,9 @@ $languageStrings = [
 	'LBL_ADDED' => 'добавил',
 	'LBL_REMOVED' => 'удалено',
 	'LBL_CONVERTED_FROM_LEAD' => 'Создано из Обращения',
-	'LBL_DELETED' => 'Deleted record',
-	'LBL_ACTIVE' => 'Restored record',
-	'LBL_ARCHIVED' => 'Archived record',
+	'LBL_DELETED' => 'Удаленная запись',
+	'LBL_ACTIVE' => 'Восстановленная запись',
+	'LBL_ARCHIVED' => 'Архивированная запись',
 ];
 
 $jsLanguageStrings = [
