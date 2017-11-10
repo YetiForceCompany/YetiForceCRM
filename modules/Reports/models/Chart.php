@@ -221,11 +221,11 @@ abstract class Base_Chart extends \App\Base
 					}
 
 					$fieldModel->set('reportcolumninfo', $column);
-
 					$fieldModels[] = $fieldModel;
 				}
 			}
 		}
+
 		if ($fieldModels)
 			$this->groupByFieldModels = $fieldModels;
 	}
@@ -247,7 +247,6 @@ abstract class Base_Chart extends \App\Base
 		$reportRunObject->append_currency_symbol_to_value = [];
 
 		$columnSQL = $reportRunObject->getColumnSQL($selectedfields);
-
 		// Fix for http://code.vtiger.com/vtiger/vtigercrm/issues/4
 		switch ($selectedfields[count($selectedfields) - 1]) {
 			case 'MY':
@@ -596,7 +595,14 @@ class VerticalbarChart extends Base_Chart
 						}
 						$label = implode(',', $labelList);
 					} else if ($fieldDataType === 'date') {
-						$label = Vtiger_Date_UIType::getDisplayDateValue($row[$gFieldModel->get('reportlabel')]);
+						$columnInfo = explode(':', $gFieldModel->get('reportcolumninfo'));
+						$label = $row[$gFieldModel->get('reportlabel')];
+						if (isset($columnInfo[5]) && $columnInfo[5] === 'MY') {
+							$m = explode(' ', $label);
+							$label = App\Language::translate('LBL_' . date('M', strtotime($m[1] . '-' . $m[0] . '-' . '1'))) . ' ' . $m[1];
+						} else {
+							$label = Vtiger_Date_UIType::getDisplayDateValue($label);
+						}
 					} else if ($fieldDataType === 'datetime') {
 						$label = $row[$gFieldModel->get('reportlabel')];
 						$columnInfo = explode(':', $gFieldModel->get('reportcolumninfo'));
@@ -647,10 +653,10 @@ class VerticalbarChart extends Base_Chart
 
 class HorizontalbarChart extends VerticalbarChart
 {
-
+	
 }
 
 class LineChart extends VerticalbarChart
 {
-
+	
 }
