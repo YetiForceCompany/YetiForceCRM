@@ -1714,8 +1714,11 @@ var app = {
 			$('ul.historyList').remove();
 		});
 	},
-	showConfirmation: function (params, element) {
+	showConfirmation: function (data, element) {
 		var params = {};
+		if(data){
+			params = jQuery.extend(params, data);
+		}
 		if (element) {
 			element = $(element);
 			if (!params.title) {
