@@ -3,7 +3,7 @@
  * Accounts polish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'Account Name' => 'Nazwa kontrahenta',
@@ -61,7 +61,6 @@ $languageStrings = [
 	'Approval for email' => 'Zgoda na kontakt mailowy',
 	'Balance' => 'Saldo księgowe',
 	'Average profit sales order' => 'Średnia marża',
-	'LBL_CONVERTED_FROM_LEAD' => 'Skonwertowany z leada',
 	'LBL_LEGAL_FORM' => 'Forma prawna',
 	'LBL_INVENTORY_BALANCE' => 'Saldo',
 	'LBL_DISCOUNT' => 'Rabat',

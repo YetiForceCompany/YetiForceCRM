@@ -171,8 +171,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('DETAILVIEW_WIDGETS', $this->record->widgets);
 		$viewer->assign('FIELDS_HEADER', $fieldsInHeader);
 		$viewer->assign('CUSTOM_FIELDS_HEADER', $this->record->getCustomHeaderFields());
-		$viewer->assign('IS_EDITABLE', $this->record->getRecord()->isEditable($moduleName));
-		$viewer->assign('IS_DELETABLE', $this->record->getRecord()->isDeletable($moduleName));
+		$viewer->assign('IS_EDITABLE', $this->record->getRecord()->isEditable());
+		$viewer->assign('IS_DELETABLE', $this->record->getRecord()->privilegeToMoveToTrash());
 
 		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1)];
 		$linkModels = $this->record->getSideBarLinks($linkParams);
@@ -660,6 +660,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$parentId = $request->getInteger('record');
 		$pageNumber = $request->getInteger('page');
 		$limit = (int) $request->get('limit');
+		$viewType = $request->getByType('viewType');
 		$searchParams = $request->get('search_params');
 		$relatedModuleName = $request->getByType('relatedModule', 1);
 		$orderBy = $request->getForSql('orderby');
@@ -715,6 +716,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$relationListView->set('orderby', $orderBy);
 			$relationListView->set('sortorder', $sortOrder);
 		}
+		if ($request->has('fields')) {
+			$relationListView->setFields($request->getExploded('fields'));
+		}
 		$models = $relationListView->getEntries($pagingModel);
 		$header = $relationListView->getHeaders();
 		$links = $relationListView->getLinks();
@@ -727,6 +731,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('LIMIT', $limit);
+		$viewer->assign('TYPE_VIEW', $viewType);
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('RELATED_HEADERS', $header);
 		$viewer->assign('RELATED_MODULE', $relatedModuleModel);
@@ -758,7 +763,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('COLUMN_NAME', $orderBy);
 		$viewer->assign('COLUMNS', $columns);
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
-		$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
+		$viewer->assign('IS_DELETABLE', $relationModel->privilegeToDelete());
 		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
 		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));

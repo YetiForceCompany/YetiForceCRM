@@ -4,7 +4,7 @@
  * AddUser test class
  * @package YetiForce.Test
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class User extends \Tests\Base
@@ -20,6 +20,13 @@ class User extends \Tests\Base
 	 */
 	public function testLoadBaseUser()
 	{
+		$db = \App\Db::getInstance();
+		$db->createCommand()->update('vtiger_password', ['val' => 4,], ['type' => 'min_length'])->execute();
+		$db->createCommand()->update('vtiger_password', ['val' => 'false'], ['type' => 'big_letters'])->execute();
+		$db->createCommand()->update('vtiger_password', ['val' => 'false'], ['type' => 'small_letters'])->execute();
+		$db->createCommand()->update('vtiger_password', ['val' => 'false'], ['type' => 'numbers'])->execute();
+		$db->createCommand()->update('vtiger_password', ['val' => 'false'], ['type' => 'special'])->execute();
+
 		$user = Vtiger_Record_Model::getCleanInstance('Users');
 		$user->set('user_name', 'demo');
 		$user->set('email1', 'demo@yetiforce.com');

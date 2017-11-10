@@ -4,7 +4,7 @@
  * Record Actions test class
  * @package YetiForce.Test
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class RecordActions extends \Tests\Base
@@ -14,7 +14,7 @@ class RecordActions extends \Tests\Base
 	 * Temporary record object
 	 * @var Vtiger_Record_Model
 	 */
-	static protected $record;
+	protected static $record;
 
 	/**
 	 * Testing the record creation
@@ -34,33 +34,15 @@ class RecordActions extends \Tests\Base
 	/**
 	 * Testing editing permissions
 	 */
-	public function testIsEditable()
+	public function testPermission()
 	{
 		$this->assertTrue(static::$record->isEditable());
-	}
-
-	/**
-	 * Testing watching record permissions
-	 */
-	public function testIsWatchingRecord()
-	{
-		$this->assertFalse(static::$record->isWatchingRecord());
-	}
-
-	/**
-	 * Testing permission to preview
-	 */
-	public function testIsViewable()
-	{
-		$this->assertTrue(static::$record->isViewable());
-	}
-
-	/**
-	 * Testing permissions for the creation view
-	 */
-	public function testIsCreateable()
-	{
 		$this->assertTrue(static::$record->isCreateable());
+		$this->assertTrue(static::$record->isViewable());
+		$this->assertFalse(static::$record->privilegeToActivate());
+		$this->assertTrue(static::$record->privilegeToArchive());
+		$this->assertTrue(static::$record->privilegeToMoveToTrash());
+		$this->assertTrue(static::$record->privilegeToDelete());
 	}
 
 	/**
@@ -88,5 +70,18 @@ class RecordActions extends \Tests\Base
 	public function testGetDisplayName()
 	{
 		$this->assertTrue(static::$record->getDisplayName() === 'YetiForce Sp. z o.o.');
+	}
+
+	/**
+	 * Testing the change record state
+	 */
+	public function testStateRecord()
+	{
+		static::$record->changeState('Trash');
+		$this->assertEquals(1, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => ACCOUNT_ID])->scalar());
+		static::$record->changeState('Active');
+		$this->assertEquals(0, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => ACCOUNT_ID])->scalar());
+		static::$record->changeState('Archived');
+		$this->assertEquals(2, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => ACCOUNT_ID])->scalar());
 	}
 }

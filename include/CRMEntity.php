@@ -212,7 +212,6 @@ class CRMEntity
 					$query->leftJoin($tableName, "vtiger_crmentity.crmid = $tableName.$tableIndex");
 				}
 			}
-
 			$query->where(['vtiger_crmentity.crmid' => $record]);
 			if ($module != '') {
 				$query->andWhere(['vtiger_crmentity.setype' => $module]);
@@ -221,9 +220,6 @@ class CRMEntity
 			if (empty($resultRow)) {
 				throw new \App\Exceptions\NoPermittedToRecord('LBL_RECORD_NOT_FOUND');
 			} else {
-				if (!empty($resultRow['deleted'])) {
-					throw new \App\Exceptions\NoPermittedToRecord('LBL_RECORD_DELETE');
-				}
 				foreach ($cachedModuleFields as $fieldInfo) {
 					$fieldvalue = '';
 					$fieldkey = $this->createColumnAliasForField($fieldInfo);
@@ -244,17 +240,6 @@ class CRMEntity
 		}
 		$this->column_fields['record_id'] = $record;
 		$this->column_fields['record_module'] = $module;
-	}
-
-	/** This function should be overridden in each module.  It marks an item as deleted.
-	 * If it is not overridden, then marking this type of item is not allowed
-	 * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc..
-	 * All Rights Reserved..
-	 * Contributor(s): ______________________________________..
-	 */
-	public function markDeleted($id)
-	{
-		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['deleted' => 1, 'modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => \App\User::getCurrentUserId()], ['crmid' => $id])->execute();
 	}
 
 	/**
@@ -327,15 +312,6 @@ class CRMEntity
 		}
 	}
 
-	/** Function to delete an entity with given Id */
-	public function trash($moduleName, $id)
-	{
-		if (\App\Record::getType($id) !== $moduleName) {
-			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
-		}
-		$this->markDeleted($id);
-	}
-
 	/**
 	 * Function to unlink all the dependent entities of the given Entity by Id
 	 * @param string $moduleName
@@ -343,7 +319,7 @@ class CRMEntity
 	 */
 	public function deletePerminently($moduleName, $recordId)
 	{
-
+		
 	}
 
 	/**
@@ -1378,6 +1354,6 @@ class CRMEntity
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-
+		
 	}
 }

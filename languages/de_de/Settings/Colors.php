@@ -3,7 +3,7 @@
  * Colors settings German translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Sławomir Kłos <s.klos@yetiforce.com>
  */
 $languageStrings = [
@@ -18,8 +18,8 @@ $languageStrings = [
 	'LBL_COLORS_DESCRIPTION' => '',
 	'LBL_EDIT_COLOR' => 'Farbe editieren',
 	'LBL_SELECT_COLOR' => 'Wähle Farbe:',
-	'LBL_CALENDAR_COLORS' => 'Calendar colors',
-	'LBL_CALENDAR_TYPE' => 'Activity type',
+	'LBL_CALENDAR_COLORS' => 'Kalenderfarben',
+	'LBL_CALENDAR_TYPE' => 'Art Aktivität',
 	'LBL_SAVE_COLOR' => 'Farbe gesichert',
 	'Call' => 'Anruf',
  	'Task' => 'Aufgabe',

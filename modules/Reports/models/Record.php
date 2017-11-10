@@ -1237,4 +1237,20 @@ class Reports_Record_Model extends Vtiger_Record_Model
 
 		return $fields;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getDisplayValue($fieldName, $recordId = false, $rawText = false)
+	{
+		switch ($fieldName) {
+			case 'foldername':
+				$value = \App\Language::translateArgs($this->get($fieldName), 'Reports');
+				break;
+			default:
+				$value = $this->get($fieldName);
+				break;
+		}
+		return $value;
+	}
 }

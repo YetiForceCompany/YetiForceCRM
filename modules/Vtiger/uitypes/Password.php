@@ -19,13 +19,19 @@ class Vtiger_Password_UIType extends Vtiger_Base_UIType
 		if ($this->validate || empty($value)) {
 			return;
 		}
-		if ($isUserFormat) {
-			$res = Settings_Password_Record_Model::checkPassword($value);
-			if ($res !== false) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
-			}
+		$res = Settings_Password_Record_Model::checkPassword($value);
+		if ($res !== false) {
+			throw new \App\Exceptions\Security($res, 406);
 		}
 		$this->validate = true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function convertToSave($value, Vtiger_Record_Model $recordModel)
+	{
+		return $recordModel->encryptPassword($value);
 	}
 
 	/**

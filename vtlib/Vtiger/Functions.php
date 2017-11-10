@@ -95,7 +95,7 @@ class Functions
 			\App\Cache::save('moduleTabs', 'all', $moduleList);
 		}
 		$restrictedModules = ['SMSNotifier', 'Dashboard', 'ModComments'];
-		foreach ($moduleList as $id => &$module) {
+		foreach ($moduleList as $id => $module) {
 			if (!$showRestricted && in_array($module['name'], $restrictedModules)) {
 				unset($moduleList[$id]);
 			}
@@ -531,11 +531,13 @@ class Functions
 	public static function throwNewException($e, $die = true, $tpl = 'OperationNotPermitted.tpl')
 	{
 		$message = is_object($e) ? $e->getMessage() : $e;
-		if (strpos($message, '||') === false) {
-			$message = \App\Language::translateSingleMod($message, 'Other.Exceptions');
-		} else {
-			$params = explode('||', $message);
-			$message = call_user_func_array('vsprintf', [\App\Language::translateSingleMod(array_shift($params), 'Other.Exceptions'), $params]);
+		if (!is_array($message)) {
+			if (strpos($message, '||') === false) {
+				$message = \App\Language::translateSingleMod($message, 'Other.Exceptions');
+			} else {
+				$params = explode('||', $message);
+				$message = call_user_func_array('vsprintf', [\App\Language::translateSingleMod(array_shift($params), 'Other.Exceptions'), $params]);
+			}
 		}
 		if (\App\Config::$requestMode === 'API') {
 			throw new \APIException($message, 401);
@@ -903,35 +905,6 @@ class Functions
 		}
 
 		return $info;
-	}
-
-	/**
-	 * Function returning difference in minutes between date times
-	 * @param string $startDateTime
-	 * @param string $endDateTime
-	 * @return int difference in minutes
-	 */
-	public static function getDateTimeMinutesDiff($startDateTime, $endDateTime)
-	{
-		$start = new \DateTime($startDateTime);
-		$end = new \DateTime($endDateTime);
-		$interval = $start->diff($end);
-
-		$intervalInSeconds = (new \DateTime())->setTimeStamp(0)->add($interval)->getTimeStamp();
-		$intervalInMinutes = ($intervalInSeconds / 60);
-
-		return $intervalInMinutes;
-	}
-
-	/**
-	 * Function returning difference in hours between date times
-	 * @param string $startDateTime
-	 * @param string $endDateTime
-	 * @return int difference in hours
-	 */
-	public static function getDateTimeHoursDiff($startDateTime, $endDateTime)
-	{
-		return self::getDateTimeMinutesDiff($startDateTime, $endDateTime) / 60;
 	}
 
 	public static function getQueryParams($url)

@@ -5,7 +5,7 @@ namespace App\Exceptions;
  * Csrf exception class
  * @package YetiForce.Exception
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Csrf extends Security
@@ -15,16 +15,15 @@ class Csrf extends Security
 	{
 		parent::__construct($message, $code, $previous);
 		\App\Session::init();
-
-		$dbLog = \PearDatabase::getInstance('log');
 		$userName = \App\Session::get('full_user_name');
-		$dbLog->insert('o_yf_csrf', [
-			'username' => empty($userName) ? '-' : $userName,
-			'date' => date('Y-m-d H:i:s'),
-			'ip' => \App\RequestUtil::getRemoteIP(),
-			'referer' => $_SERVER['HTTP_REFERER'],
-			'url' => \App\RequestUtil::getBrowserInfo()->url,
-			'agent' => $_SERVER['HTTP_USER_AGENT'],
-		]);
+		\App\Db::getInstance('log')->createCommand()
+			->insert('o_#__csrf', [
+				'username' => empty($userName) ? '-' : $userName,
+				'date' => date('Y-m-d H:i:s'),
+				'ip' => \App\RequestUtil::getRemoteIP(),
+				'referer' => empty($_SERVER['HTTP_REFERER']) ? '-' : $_SERVER['HTTP_REFERER'],
+				'url' => \App\RequestUtil::getBrowserInfo()->url,
+				'agent' => empty($_SERVER['HTTP_USER_AGENT']) ? '-' : $_SERVER['HTTP_USER_AGENT']
+			])->execute();
 	}
 }

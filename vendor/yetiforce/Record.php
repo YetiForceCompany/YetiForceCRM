@@ -7,7 +7,7 @@ use vtlib\Functions;
  * Record basic class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -50,7 +50,7 @@ class Record
 			if (Cache::has('recordLabel', $id)) {
 				$result[$id] = Cache::get('recordLabel', $id);
 			} else {
-				$result[$id] = NULL;
+				$result[$id] = null;
 			}
 		}
 		return $multiMode ? $result : array_shift($result);
@@ -272,7 +272,27 @@ class Record
 	public static function getType($recordId)
 	{
 		$metadata = Functions::getCRMRecordMetadata($recordId);
-		return $metadata ? $metadata['setype'] : NULL;
+		return $metadata ? $metadata['setype'] : null;
+	}
+
+	/**
+	 * Get record state
+	 * @param int $recordId
+	 * @return string
+	 */
+	public static function getState($recordId)
+	{
+		$metadata = Functions::getCRMRecordMetadata($recordId);
+		switch ($metadata['deleted']) {
+			default:
+			case 0:
+				return 'Active';
+			case 1:
+				return 'Trash';
+			case 2:
+				return 'Archived';
+		}
+		return null;
 	}
 
 	/**

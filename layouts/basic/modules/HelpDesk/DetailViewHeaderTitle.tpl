@@ -44,6 +44,18 @@
 			<div class="paddingLeft5px detailViewHeaderFieldInformation">
 				<h4 class="recordLabel margin0px textOverflowEllipsis" title="{$RECORD->getName()}">
 					<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
+					{assign var=RECORD_STATE value=\App\Record::getState($RECORD->getId())}
+					{if $RECORD_STATE !== 'Active'}
+						&nbsp;&nbsp;
+						{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
+						<span class="label label-default" {if $COLOR[$RECORD_STATE]}style="background-color: {$COLOR[$RECORD_STATE]};"{/if}>
+							{if \App\Record::getState($RECORD->getId()) === 'Trash'}
+								{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}
+							{else}
+								{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}
+							{/if}
+						</span>
+					{/if}
 				</h4>
 				{assign var=RELATED_TO value=$RECORD->get('parent_id')}
 				{if !empty($RELATED_TO)}

@@ -3,7 +3,7 @@
  * Profiles polish translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'LBL_ADD_RECORD' => 'Dodaj profil',
@@ -75,6 +75,14 @@ $languageStrings = [
 	'OpenRecord' => 'Otwieranie rekordów',
 	'CloseRecord' => 'Zamykanie rekordów',
 	'ReviewingUpdates' => 'Zapoznawanie się z historią zmian',
+	'CreateDashboardChartFilter' => 'Tworzenie wykresu z filtru',
+	'MassArchived' => 'Masowa archiwizacja',
+	'MassActive' => 'Masowa aktywacja',
+	'ArchiveRecord' => 'Archiwizuj rekord',
+	'ActiveRecord' => 'Aktywuj rekord',
+	'TimeLineList' => 'Historia w liście rekordów',
+	'MoveToTrash' => 'Przenieś do kosza',
+	'MassTrash' => 'Masowe przenoszenie do kosza',
 	//end actions
 	'Profile Related to Sales' => 'Profil powiązany ze sprzedażą',
 	'Profile Related to Support' => 'Profil związany ze wsparciem',

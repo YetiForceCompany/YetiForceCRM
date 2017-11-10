@@ -185,8 +185,6 @@ class Vtiger_Field_Model extends vtlib\Field
 				switch ($uiType) {
 					case 4: $fieldDataType = 'recordNumber';
 						break;
-					case 7: $fieldDataType = 'double';
-						break;
 					case 8: $fieldDataType = 'totalTime';
 						break;
 					case 9: $fieldDataType = 'percentage';
@@ -217,6 +215,8 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 68: $fieldDataType = 'referenceSubProcess';
 						break;
 					case 69: $fieldDataType = 'image';
+						break;
+					case 80: $fieldDataType = 'datetime';
 						break;
 					case 98: $fieldDataType = 'userRole';
 						break;

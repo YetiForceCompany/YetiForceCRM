@@ -32,16 +32,25 @@
 										</div>
 									{/if}
 									<div class="pull-right-md pull-left-sm pull-right-lg">
-										<div class="btn-toolbar">
-											<span class="btn-group ">
-												{foreach item=LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}	
-													{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewBasic'}
-												{/foreach}
-											</span>
-											{if $DETAILVIEW_LINKS['DETAILVIEW']|@count gt 0}
+										<div class="btn-toolbar detailViewActionsBtn">
+											{if $DETAILVIEW_LINKS['DETAIL_VIEW_ADDITIONAL']}
+												<span class="btn-group ">
+													{foreach item=LINK from=$DETAILVIEW_LINKS['DETAIL_VIEW_ADDITIONAL']}	
+														{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewAdditional'}
+													{/foreach}
+												</span>
+											{/if}
+											{if $DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']}
 												<span class="btn-group">
-													{foreach item=LINK from=$DETAILVIEW_LINKS['DETAILVIEW']}
-														{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailView'}
+													{foreach item=LINK from=$DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']}
+														{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewBasic'}
+													{/foreach}
+												</span>
+											{/if}
+											{if $DETAILVIEW_LINKS['DETAIL_VIEW_EXTENDED']}
+												<span class="btn-group">
+													{foreach item=LINK from=$DETAILVIEW_LINKS['DETAIL_VIEW_EXTENDED']}
+														{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewExtended'}
 													{/foreach}
 												</span>
 											{/if}

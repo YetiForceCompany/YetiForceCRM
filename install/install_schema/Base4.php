@@ -5,7 +5,7 @@ namespace Importers;
  * Class that imports base database
  * @package YetiForce.Install
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Base4 extends \App\Db\Importers\Base
@@ -9650,7 +9650,6 @@ class Base4 extends \App\Db\Importers\Base
 					[11, 'describe', 'include/Webservices/DescribeObject.php', 'vtws_describe', 'GET', 0],
 					[13, 'convertlead', 'include/Webservices/ConvertLead.php', 'vtws_convertlead', 'POST', 0],
 					[14, 'revise', 'include/Webservices/Revise.php', 'vtws_revise', 'POST', 0],
-					[15, 'changePassword', 'include/Webservices/ChangePassword.php', 'vtws_changePassword', 'POST', 0],
 					[16, 'deleteUser', 'include/Webservices/DeleteUser.php', 'vtws_deleteUser', 'POST', 0],
 				]
 			],

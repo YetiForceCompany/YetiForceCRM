@@ -32,6 +32,7 @@ class Vtiger_MassSave_Action extends Vtiger_Mass_Action
 		foreach ($recordModels as $recordModel) {
 			if ($recordModel !== false) {
 				$recordModel->save();
+				unset($recordModel);
 			} else {
 				$allRecordSave = false;
 			}

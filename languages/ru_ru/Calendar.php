@@ -163,10 +163,10 @@ $languageStrings = [
 	'LBL_CACHE_SELECTED_FILTERS' => 'Стандартный вид в календаре изменен. Нажмите кнопку \"Очистить вид\", чтобы очистить его.',
 	'LBL_CACHE_CLEAR' => 'Очистить вид',
 	'LBL_PROCESS' => 'Процесс',
-	'LBL_SAVE_AND_CLOSE' => 'Save and close',
-	'LBL_SHOW_LOCATION' => 'Show location',
-	'FL_RECURRENCE' => 'Repetition',
-	'FL_REAPEAT' => 'Repeat',
+	'LBL_SAVE_AND_CLOSE' => 'Сохранить и закрыть',
+	'LBL_SHOW_LOCATION' => 'Показать место',
+	'FL_RECURRENCE' => 'Повтор события',
+	'FL_REAPEAT' => 'Повторить',
 ];
 $jsLanguageStrings = [
 	'JS_ADD_EVENT_TASK' => '+ Событие | Задача',

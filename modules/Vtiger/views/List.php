@@ -82,6 +82,9 @@ class Vtiger_List_View extends Vtiger_Index_View
 			App\CustomView::setCurrentView($moduleName, $this->viewName);
 		}
 		$this->listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $this->viewName);
+		if (isset($_SESSION['lvs'][$moduleName]['entityState'])) {
+			$this->listViewModel->set('entityState', $_SESSION['lvs'][$moduleName]['entityState']);
+		}
 		$viewer->assign('HEADER_LINKS', $this->listViewModel->getHederLinks($linkParams));
 		$this->initializeListViewContents($request, $viewer);
 		$viewer->assign('VIEWID', $this->viewName);
@@ -120,6 +123,9 @@ class Vtiger_List_View extends Vtiger_Index_View
 				if ($request->has('page')) {
 					App\CustomView::setCurrentPage($moduleName, $this->viewName, $request->getInteger('page'));
 				}
+			}
+			if ($request->has('entityState')) {
+				$_SESSION['lvs'][$moduleName]['entityState'] = $request->getByType('entityState');
 			}
 			$this->initializeListViewContents($request, $viewer);
 			$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
@@ -222,10 +228,13 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$this->listViewModel->set('operator', $request->getByType('operator', 1));
 			$viewer->assign('OPERATOR', $request->getByType('operator', 1));
 		}
-		if (!$request->isEmpty('search_key', true) && !$request->isEmpty('search_value', true)) {
+		if (!$request->isEmpty('search_key', true)) {
 			$this->listViewModel->set('search_key', $request->getByType('search_key', 1));
 			$this->listViewModel->set('search_value', $request->get('search_value'));
 			$viewer->assign('ALPHABET_VALUE', $request->get('search_value'));
+		}
+		if ($request->has('entityState')) {
+			$this->listViewModel->set('entityState', $request->getByType('entityState'));
 		}
 		$searchParams = $request->get('search_params');
 		if (!empty($searchParams) && is_array($searchParams)) {

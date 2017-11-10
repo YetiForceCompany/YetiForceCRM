@@ -5,7 +5,7 @@ namespace Api\Portal\BaseModule;
  * Get record detail class
  * @package YetiForce.WebserviceAction
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -44,7 +44,7 @@ class Record extends \Api\Core\BaseAction
 			$this->recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			switch ($method) {
 				case 'DELETE':
-					if (!$this->recordModel->isDeletable()) {
+					if (!$this->recordModel->privilegeToDelete()) {
 						throw new \Api\Core\Exception('No permissions to remove record', 401);
 					}
 					break;

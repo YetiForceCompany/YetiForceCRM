@@ -77,6 +77,17 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
+	 * Convert value before writing to the database
+	 * @param mixed $value
+	 * @param Vtiger_Record_Model $recordModel
+	 * @return mixed
+	 */
+	public function convertToSave($value, Vtiger_Record_Model $recordModel)
+	{
+		return $value;
+	}
+
+	/**
 	 * Function to get the display value, for the current field type with given DB Insert Value
 	 * @param mixed $value
 	 * @param int $record

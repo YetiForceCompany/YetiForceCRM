@@ -4,7 +4,7 @@
  * Vtiger RelatedModule widget class
  * @package YetiForce.Widget
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 {
@@ -12,9 +12,19 @@ class Vtiger_RelatedModule_Widget extends Vtiger_Basic_Widget
 	public function getUrl()
 	{
 		$moduleName = is_numeric($this->Data['relatedmodule']) ? App\Module::getModuleName($this->Data['relatedmodule']) : $this->Data['relatedmodule'];
-		$url = 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showRelatedRecords&relatedModule=' . $moduleName . '&page=1&limit=' . $this->Data['limit'] . '&col=' . $this->Data['columns'];
+		$url = 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showRelatedRecords&relatedModule=' . $moduleName . '&page=1&limit=' . $this->Data['limit'] . '&viewType=' . $this->Data['viewtype'];
 		if (isset($this->Data['no_result_text'])) {
 			$url .= '&r=' . $this->Data['no_result_text'];
+		}
+		$fields = [];
+		if (!empty($this->Data['relatedfields'])) {
+			foreach ($this->Data['relatedfields'] as $field) {
+				list($moduleId, $fieldName) = explode('::', $field);
+				$fields[] = $fieldName;
+			}
+		}
+		if ($fields) {
+			$url .= '&fields=' . implode(',', $fields);
 		}
 		return $url;
 	}

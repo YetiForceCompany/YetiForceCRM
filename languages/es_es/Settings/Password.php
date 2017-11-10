@@ -3,7 +3,7 @@
  * Password spanish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'Password' => 'Configuración de contraseña',
@@ -18,4 +18,8 @@ $languageStrings = [
 	'LBL_ERROR' => 'Error al guardar el archivo',
 	'LBL_SAVE_OK' => 'Los datos se guardaron',
 	'characters' => 'caracteres',
+	'LBL_PASSWORD_CHANGE_TIME' => 'Force password change every',
+	'LBL_PASSWORD_CHANGE_TIME_DESC' => '0 - no limitation, 356 - year, 30 - month. After this period, each time a user logs in, the system will display a message to change a password.',
+	'LBL_TIME_TO_CHANGE_PASSWORD' => 'Maximum time for changing password (days)',
+	'LBL_TIME_TO_CHANGE_PASSWORD_DESC' => 'After this period the account will be blocked and a user won\'t be able to log into the system.',
 ];

@@ -4,7 +4,7 @@
  * Settings menu record model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -81,7 +81,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 			$data = $this->getData();
 			foreach ($data as $key => $item) {
 				if (!in_array($key, $editFields)) {
-					throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE', 406);
+					throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||' . $key, 406);
 				}
 				if (is_array($item)) {
 					$item = implode(',', $item);
@@ -100,7 +100,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		} else {
 			foreach ($this->getData() as $key => $item) {
 				if (!in_array($key, $editFields)) {
-					throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE', 406);
+					throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||' . $key, 406);
 				}
 				if (is_array($item)) {
 					$item = implode(',', $item);

@@ -3,7 +3,7 @@
  * Widgets polish translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'Widgets' => 'Moduły - widżety',
@@ -49,6 +49,12 @@ $languageStrings = [
 	'Filter info' => 'Czy w widgecie ma być możliwość filtrowania danych według listy wyboru',
 	'None' => 'Brak',
 	'ProductsServices' => 'Usługi produktów',
+	'LBL_SELECTING_FIELDS' => 'Wybór pól',
+	'LBL_SELECTING_FIELDS_INFO' => 'Nazwa pól z wybranego modułu, które mają być wyświetlone w widoku.',
+	'LBL_VIEW_TYPE' => 'Widok',
+	'LBL_VIEW_TYPE_INFO' => 'Sposób wyświetlenia wigdetu.',
+	'LBL_LIST' => 'Lista',
+	'LBL_SUMMARY' => 'Podsumowanie',
 	'LBL_SELECT_BUTTON_INFO' => 'Włącz pokazywanie przycisku wybierz',
 	'LBL_CONDITION' => 'Warunek',
 	'LBL_CONDITION_INFO' => 'Wybierz warunek pokazywania rekordów',

@@ -36,4 +36,14 @@ $languageStrings = [
 	'LBL_NUMBER_UNREAD_CHANGES' => 'Number of unread changes',
 	'LBL_REVIEW_CHANGES_LIMIT_DESCRIPTION' => 'Due to exceeding the limit of updated data the action was added to cron tasks queue.',
 	'LBL_ESTIMATED_TIME' => 'Estimated time',
+	//Status
+	'LBL_CREATED' => 'created',
+	'LBL_UPDATED' => 'updated',
+	'LBL_DISPLAYED' => 'Displayed',
+	'LBL_ADDED' => 'added',
+	'LBL_REMOVED' => 'removed',
+	'LBL_CONVERTED_FROM_LEAD' => 'Converted from lead',
+	'LBL_DELETED' => 'Deleted record',
+	'LBL_ACTIVE' => 'Restored record',
+	'LBL_ARCHIVED' => 'Archived record',
 ];

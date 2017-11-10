@@ -29,7 +29,7 @@ class LayoutImport extends LayoutExport
 	 * Initialize Import
 	 * @access private
 	 */
-	public function initImport($zipfile, $overwrite)
+	public function initImport($zipfile, $overwrite = true)
 	{
 		$name = $this->getModuleNameFromZip($zipfile);
 		return $name;

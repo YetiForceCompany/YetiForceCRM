@@ -5,7 +5,7 @@ namespace Importers;
  * Class that imports base database
  * @package YetiForce.Install
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Base2 extends \App\Db\Importers\Base
@@ -5782,8 +5782,7 @@ class Base2 extends \App\Db\Importers\Base
 				'values' => [
 					[3, 'EntityAfterSave', 'Vtiger_Workflow_Handler', 1, '', '', 5, 0],
 					[4, 'EntityAfterRestore', 'Vtiger_Workflow_Handler', 1, '', '', 5, 0],
-					[8, 'EntityBeforeDelete', 'ModTracker_ModTrackerHandler_Handler', 1, '', '', 5, 32],
-					[9, 'EntityAfterRestore', 'ModTracker_ModTrackerHandler_Handler', 1, '', '', 5, 32],
+					[8, 'EntityChangeState', 'ModTracker_ModTrackerHandler_Handler', 1, '', '', 5, 32],
 					[10, 'EntityAfterSave', 'PBXManager_PBXManagerHandler_Handler', 1, 'Contacts,Accounts,Leads', '', 5, 33],
 					[11, 'EntityAfterDelete', 'PBXManager_PBXManagerHandler_Handler', 1, 'Contacts,Accounts,Leads', '', 5, 33],
 					[12, 'EntityAfterRestore', 'PBXManager_PBXManagerHandler_Handler', 1, 'Contacts,Accounts,Leads', '', 5, 33],

@@ -29,7 +29,7 @@ class ThemeImport extends ThemeExport
 	 * Initialize Import
 	 * @access private
 	 */
-	public function initImport($zipfile, $overwrite)
+	public function initImport($zipfile, $overwrite = true)
 	{
 		$this->__initSchema();
 		$name = $this->getModuleNameFromZip($zipfile);

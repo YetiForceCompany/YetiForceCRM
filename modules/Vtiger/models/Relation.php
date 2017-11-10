@@ -500,7 +500,7 @@ class Vtiger_Relation_Model extends \App\Base
 	 * Function which will specify whether the relation is deletable
 	 * @return boolean
 	 */
-	public function isDeletable()
+	public function privilegeToDelete()
 	{
 		return $this->getRelationModuleModel()->isPermitted('RemoveRelation');
 	}

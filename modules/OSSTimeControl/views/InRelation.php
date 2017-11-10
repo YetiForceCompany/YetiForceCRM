@@ -4,7 +4,7 @@
  * OSSTimeControl InRelation view class
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSTimeControl_InRelation_View extends Vtiger_RelatedList_View
 {
@@ -109,7 +109,7 @@ class OSSTimeControl_InRelation_View extends Vtiger_RelatedList_View
 		$viewer->assign('COLUMN_NAME', $orderBy);
 
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
-		$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
+		$viewer->assign('IS_DELETABLE', $relationModel->privilegeToDelete());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
 		$viewer->assign('VIEW', $request->getByType('view', 1));

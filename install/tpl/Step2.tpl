@@ -20,7 +20,7 @@
 					<div class="span12">
 						<div class="license">
 							<div class="lic-scroll">
-								{include file="licenses/License.html"}
+								{$LICENSE}
 							</div>
 						</div>
 					</div>

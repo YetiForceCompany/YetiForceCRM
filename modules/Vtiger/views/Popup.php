@@ -104,8 +104,8 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		$sourceModule = $request->getByType('src_module', 1);
 		$sourceField = $request->get('src_field');
 		$currencyId = $request->getInteger('currency_id');
-		$relatedParentModule = $request->getByType('related_parent_module', 1);
-		$relatedParentId = $request->getInteger('related_parent_id');
+		$relatedParentModule = $request->isEmpty('related_parent_module', true) ? '' : $request->getByType('related_parent_module', 1);
+		$relatedParentId = $request->isEmpty('related_parent_id') ? '' : $request->getInteger('related_parent_id');
 		$filterFields = $request->get('filterFields');
 		$showSwitch = $request->getInteger('showSwitch');
 		//To handle special operation when selecting record from Popup
@@ -301,14 +301,14 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		$moduleName = $request->getModule();
 		$sourceModule = $request->getByType('src_module', 1);
 		$sourceField = $request->get('src_field', 1);
-		$sourceRecord = $request->getInteger('src_record');
+		$sourceRecord = $request->isEmpty('src_record', true) ? 0 : $request->getInteger('src_record');
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
 		$currencyId = $request->getInteger('currency_id');
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
-		$relatedParentModule = $request->getByType('related_parent_module', 1);
-		$relatedParentId = $request->getInteger('related_parent_id');
+		$relatedParentModule = $request->isEmpty('related_parent_module', true) ? '' : $request->getByType('related_parent_module', 1);
+		$relatedParentId = $request->isEmpty('related_parent_id') ? '' : $request->getInteger('related_parent_id');
 		if (!empty($relatedParentModule) && !empty($relatedParentId)) {
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($relatedParentId, $relatedParentModule);
 			$listViewModel = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName);

@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{foreach from=$DATES item=DATE name="iteration"}
 		<div class="width1per7 paddingLRZero" {if $smarty.foreach.iteration.index eq 3}id="cur_events"{/if}>

@@ -2,7 +2,7 @@
 /**
  * Travis CI test script
  * @package YetiForce.Travis CI
- * @license licenses/License.html
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 // more than 8MB memory needed for graphics

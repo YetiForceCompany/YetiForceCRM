@@ -4,7 +4,7 @@
  * Calendar Model Class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author YetiForce.com
  */
 class Calendar_Calendar_Model extends App\Base
@@ -226,7 +226,7 @@ class Calendar_Calendar_Model extends App\Base
 			$item['start_display'] = $startDateTimeDisplay;
 			$item['end_display'] = $endDateTimeDisplay;
 			$item['hour_start'] = $startTimeDisplay;
-			$hours = vtlib\Functions::getDateTimeHoursDiff($item['start'], $item['end']);
+			$hours = \App\Fields\Date::getDiff($item['start'], $item['end'], 'hours');
 			$item['hours'] = vtlib\Functions::decimalTimeFormat($hours)['short'];
 			$item['allDay'] = $record['allday'] == 1 ? true : false;
 			$item['className'] = ' ownerCBg_' . $record['smownerid'] . ' picklistCBr_Calendar_activitytype_' . $activitytype;

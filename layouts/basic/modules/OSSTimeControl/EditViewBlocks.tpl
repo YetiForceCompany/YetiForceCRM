@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="editViewContainer">
 		<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
@@ -8,8 +8,14 @@
 				</div>
 				<div class=" col-md-4 contentHeader">
 					<span class="pull-right">
-						<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
-						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
+						<button class="btn btn-success" type="submit">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;
+							<strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE_NAME)}</strong>
+						</button>&nbsp;&nbsp;
+						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">
+							<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;
+							<strong>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE_NAME)}</strong>
+						</button>
 					</span>
 					<div class="clearfix"></div>
 				</div>
@@ -61,42 +67,42 @@
 						<div class="col-md-12 paddingLRZero">
 							{assign var=COUNTER value=0}
 							{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
-								{if in_array($FIELD_NAME, ['time_start','time_end'])}{continue}{/if}
-								{if $FIELD_MODEL->getUIType() eq '20' || $FIELD_MODEL->getUIType() eq '19' || $FIELD_MODEL->getUIType() eq '300'}
-									{if $COUNTER eq '1'}
-										<td class="{$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td></tr><tr>
-											{assign var=COUNTER value=0}
-										{/if}
+							{if in_array($FIELD_NAME, ['time_start','time_end'])}{continue}{/if}
+							{if $FIELD_MODEL->getUIType() eq '20' || $FIELD_MODEL->getUIType() eq '19' || $FIELD_MODEL->getUIType() eq '300'}
+								{if $COUNTER eq '1'}
+									<td class="{$WIDTHTYPE}"></td><td class="{$WIDTHTYPE}"></td></tr><tr>
+										{assign var=COUNTER value=0}
 									{/if}
-									{if $COUNTER eq 2}
-								</div>
-								<div class="col-md-12 paddingLRZero">
-									{assign var=COUNTER value=1}
-								{else}
-									{assign var=COUNTER value=$COUNTER+1}
 								{/if}
-								<div class="{if $FIELD_MODEL->getUIType() neq "300"}col-md-6{/if} fieldRow">
-									<div class="col-md-3 fieldLabel paddingLeft5px {$WIDTHTYPE}">
-										<label class="muted pull-right marginRight10px">
-											{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span>{/if}
-											{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
-										</label>
-									</div>
-									<div class="{$WIDTHTYPE} {if $FIELD_MODEL->getUIType() neq "300"}col-md-9{/if} fieldValue" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->getUIType() eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
-										<div class="row">
-											<div class="">
-												{if $FIELD_MODEL->getUIType() eq "300"}
-													<label class="muted">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}</label>
-												{/if}
-												{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
-											</div>
+								{if $COUNTER eq 2}
+							</div>
+							<div class="col-md-12 paddingLRZero">
+								{assign var=COUNTER value=1}
+							{else}
+								{assign var=COUNTER value=$COUNTER+1}
+							{/if}
+							<div class="{if $FIELD_MODEL->getUIType() neq "300"}col-md-6{/if} fieldRow">
+								<div class="col-md-3 fieldLabel paddingLeft5px {$WIDTHTYPE}">
+									<label class="muted pull-right marginRight10px">
+										{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span>{/if}
+										{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
+									</label>
+								</div>
+								<div class="{$WIDTHTYPE} {if $FIELD_MODEL->getUIType() neq "300"}col-md-9{/if} fieldValue" {if $FIELD_MODEL->getUIType() eq '19' or $FIELD_MODEL->getUIType() eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->getUIType() eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
+									<div class="row">
+										<div class="">
+											{if $FIELD_MODEL->getUIType() eq "300"}
+												<label class="muted">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}</label>
+											{/if}
+											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
 										</div>
 									</div>
 								</div>
-							{/foreach}
-						</div>
+							</div>
+						{/foreach}
 					</div>
 				</div>
-			{/if}
-		{/foreach}
-	{/strip}
+			</div>
+		{/if}
+	{/foreach}
+{/strip}

@@ -5,7 +5,7 @@ namespace App;
  * Modules basic class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Module
@@ -199,6 +199,9 @@ class Module
 		}
 		if (empty($actionId)) {
 			$actionId = (new Db\Query())->select(['actionid'])->from('vtiger_actionmapping')->where(['actionname' => $action])->scalar();
+		}
+		if (is_numeric($actionId)) {
+			$actionId = (int) $actionId;
 		}
 		Cache::save('getActionId', $action, $actionId, Cache::LONG);
 		return $actionId;

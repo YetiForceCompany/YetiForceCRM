@@ -49,10 +49,8 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 	 */
 	public function getRecordModelFromRequest(\App\Request $request)
 	{
-		$recordId = $request->get('record');
-		if (!empty($recordId)) {
-			$moduleName = $request->getModule();
-			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+		if (!$request->isEmpty('record')) {
+			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
 			$fieldModel = $recordModel->getModule()->getFieldByName($request->getByType('field', 2));
 			if ($fieldModel && $fieldModel->isEditable()) {
 				$fieldModel->getUITypeModel()->setValueFromRequest($request, $recordModel, 'value');

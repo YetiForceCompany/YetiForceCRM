@@ -238,7 +238,7 @@ class CustomView_Record_Model extends \App\Base
 		return false;
 	}
 
-	public function isDeletable()
+	public function privilegeToDelete()
 	{
 		return $this->isEditable() && $this->get('presence') != 0;
 	}
@@ -289,8 +289,7 @@ class CustomView_Record_Model extends \App\Base
 		$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition($searchParams);
 		$queryGenerator->parseAdvFilter($transformedSearchParams);
 		if ($module === 'RecycleBin') {
-			$queryGenerator->deletedCondition = false;
-			$queryGenerator->addNativeCondition(['vtiger_crmentity.deleted = 1']);
+			$queryGenerator->setStateCondition('Trash');
 		}
 		if (is_array($skipRecords) && count($skipRecords) > 0) {
 			$queryGenerator->addNativeCondition(['not in', "$baseTableName.$baseTableId", $skipRecords]);

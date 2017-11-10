@@ -4,7 +4,7 @@ namespace Api\Portal\Users;
 /**
  * Users Login action class
  * @package YetiForce.WebserviceAction
- * @license licenses/License.html
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Login extends \Api\Core\BaseAction

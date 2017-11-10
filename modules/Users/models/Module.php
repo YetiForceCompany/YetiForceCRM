@@ -71,17 +71,6 @@ class Users_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to delete a given record model of the current module
-	 * @param Vtiger_Record_Model $recordModel
-	 */
-	public function deleteRecord($recordModel)
-	{
-		$db = PearDatabase::getInstance();
-		$query = 'UPDATE vtiger_users SET status=?, date_modified=?, modified_user_id=? WHERE id=?';
-		$db->pquery($query, ['Inactive', date('Y-m-d H:i:s'), $recordModel->getId(), $recordModel->getId()], true, 'Error marking record deleted: ');
-	}
-
-	/**
 	 * Function to get the url for list view of the module
 	 * @return string - url
 	 */
@@ -266,40 +255,30 @@ class Users_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Function to save a given record model of the current module
-	 * @param Vtiger_Record_Model $recordModel
-	 * @copyright Modyfikowane przez PWC
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @return \Vtiger_Record_Model
 	 */
 	public function saveRecord(\Vtiger_Record_Model $recordModel)
 	{
-		$moduleName = $this->get('name');
 		if (!$recordModel->isNew() && empty($recordModel->getPreviousValue())) {
 			App\Log::info('ERR_NO_DATA');
 			return $recordModel;
 		}
-		$recordModel->validate();
 		$eventHandler = new App\EventHandler();
 		$eventHandler->setRecordModel($recordModel);
-		$eventHandler->setModuleName($moduleName);
+		$eventHandler->setModuleName($this->get('name'));
 		if ($recordModel->getHandlerExceptions()) {
 			$eventHandler->setExceptions($recordModel->getHandlerExceptions());
 		}
+		$eventHandler->trigger('UserBeforeSave');
+		$recordModel->validate();
 		$recordModel->saveToDb();
-		if ($recordModel->getPreviousValue('language') !== false && App\User::getCurrentUserRealId() === $recordModel->getId()) {
-			App\Session::set('language', $recordModel->get('language'));
-		}
-		if ($_FILES) {
-			foreach ($_FILES as $fileindex => $files) {
-				if ($files['name'] !== '' && $files['size'] > 0) {
-					$files['original_name'] = \App\Request::_get($fileindex . '_hidden');
-					$recordModel->getEntity()->uploadAndSaveFile($recordModel->getId(), $moduleName, $files);
-				}
-			}
-		}
-		\App\UserPrivilegesFile::createUserPrivilegesfile($recordModel->getId());
-		\App\UserPrivilegesFile::createUserSharingPrivilegesfile($recordModel->getId());
-
-		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
-			\App\PrivilegeFile::createUsersFile();
+		$recordModel->afterSaveToDb();
+		$eventHandler->trigger('UserAfterSave');
+		if ($recordModel->isNew()) {
+			$eventHandler->setSystemTrigger('UserSystemAfterCreate');
+		} else {
+			$eventHandler->setSystemTrigger('UserSystemAfterEdit');
 		}
 		return $recordModel;
 	}

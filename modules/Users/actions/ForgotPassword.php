@@ -1,113 +1,77 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce.com
- * *********************************************************************************** */
-chdir(dirname(__FILE__) . '/../../../');
-require_once 'include/RequirementsValidation.php';
-require_once 'include/main/WebUI.php';
-include_once "include/utils/VtlibUtils.php";
-include_once "include/Webservices/Custom/ChangePassword.php";
-include_once "include/Webservices/Utils.php";
-include_once 'modules/Vtiger/helpers/ShortURL.php';
 
-class Users_ForgotPassword_Action
+/**
+ * Forgot password action class
+ * @package YetiForce.Action
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+class Users_ForgotPassword_Action extends Vtiger_Action_Controller
 {
 
-	public function changePassword(\App\Request $request)
+	/**
+	 * {@inheritDoc}
+	 */
+	public function loginRequired()
 	{
-		$viewer = Vtiger_Viewer::getInstance();
-		$userName = $request->get('username');
-		$newPassword = $request->getRaw('password');
-		$confirmPassword = $request->getRaw('confirmPassword');
-		$shortURLID = $request->get('shorturl_id');
-		$secretHash = $request->get('secret_hash');
-		$shortURLModel = Vtiger_ShortURL_Helper::getInstance($shortURLID);
-		$secretToken = $shortURLModel->handler_data['secret_token'];
-
-		$validateData = ['username' => $userName,
-			'secret_token' => $secretToken,
-			'secret_hash' => $secretHash
-		];
-		$valid = $shortURLModel->compareEquals($validateData);
-		if ($valid) {
-			$userId = getUserId_Ol($userName);
-			$user = Users::getActiveAdminUser();
-			try {
-				vtws_changePassword($userId, '', $newPassword, $confirmPassword, $user);
-			} catch (Exception $exc) {
-				$viewer->assign('ERROR', true);
-			}
-		} else {
-			$viewer->assign('ERROR', true);
-		}
-		$shortURLModel->delete();
-		$viewer->assign('USERNAME', $userName);
-		$viewer->assign('PASSWORD', $newPassword);
-		$viewer->view('FPLogin.tpl', 'Users');
+		return false;
 	}
 
-	public function requestForgotPassword(\App\Request $request)
+	/**
+	 * {@inheritDoc}
+	 */
+	public function checkPermission(\App\Request $request)
 	{
-		$adb = PearDatabase::getInstance();
-		$username = App\Purifier::purify($request->get('user_name'));
-		$result = $adb->pquery('select id,email1 from vtiger_users where user_name = ? ', [$username]);
-		if ($adb->numRows($result) > 0) {
-			$email = $adb->queryResult($result, 0, 'email1');
-		}
-		if (strcasecmp($request->get('emailId'), $email) === 0) {
-			$userId = $adb->queryResult($result, 0, 'id');
-			$time = time();
-			$options = [
-				'handler_path' => 'modules/Users/handlers/ForgotPassword.php',
-				'handler_class' => 'Users_ForgotPassword_Handler',
-				'handler_function' => 'changePassword',
-				'handler_data' => [
-					'username' => $username,
-					'email' => $email,
-					'time' => $time,
-					'hash' => md5($username . $time)
-				]
-			];
-			if (App\Mail::getDefaultSmtp()) {
-				$status = \App\Mailer::sendFromTemplate([
-						'template' => 'UsersForgotPassword',
-						'moduleName' => 'Users',
-						'recordId' => $userId,
-						'to' => $email,
-						'priority' => 9,
-						'trackURL' => Vtiger_ShortURL_Helper::generateURL($options)
-				]);
-			}
-			$site_URL = vglobal('site_URL') . 'index.php?modules=Users&view=Login';
-			if ($status)
-				header('Location:  ' . $site_URL . '&status=1');
-			else
-				header('Location:  ' . $site_URL . '&statusError=1');
-		} else {
-			$site_URL = vglobal('site_URL') . 'index.php?modules=Users&view=Login';
-			header('Location:  ' . $site_URL . '&fpError=1');
-		}
+		return true;
 	}
 
-	public static function run(\App\Request $request)
+	/**
+	 * {@inheritDoc}
+	 */
+	public function process(\App\Request $request)
 	{
-		$instance = new self();
-		if ($request->has('user_name') && $request->has('emailId')) {
-			if (AppConfig::security('RESET_LOGIN_PASSWORD')) {
-				$instance->requestForgotPassword($request);
-			} else {
-				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-			}
-		} else {
-			$instance->changePassword($request);
+		$moduleName = $request->getModule();
+		$userName = $request->get('user_name');
+		$email = $request->get('emailId');
+		$moduleModel = Users_Module_Model::getInstance($moduleName);
+		$bruteForceInstance = Settings_BruteForce_Module_Model::getCleanInstance();
+		if ($bruteForceInstance->isActive() && $bruteForceInstance->isBlockedIp()) {
+			$bruteForceInstance->incAttempts();
+			$moduleModel->saveLoginHistory(strtolower($userName), 'Blocked IP');
+			header('Location: index.php?module=Users&view=Login');
+			return false;
 		}
+		$isExists = (new \App\Db\Query())->from('vtiger_users')->where(['status' => 'Active', 'deleted' => 0, 'email1' => $email])->andWhere(['or', ['user_name' => $userName], ['user_name' => strtolower($userName)]])->exists();
+		if ($isExists) {
+			$password = \App\Encryption::generateUserPassword();
+			$userRecordModel = Users_Record_Model::getInstanceByName($userName);
+			vglobal('current_user', $userRecordModel->getEntity());
+			\App\User::setCurrentUserId($userRecordModel->getId());
+			\App\User::getCurrentUserModel();
+
+			$userRecordModel->set('user_password', $password);
+			$userRecordModel->save();
+			\App\Mailer::sendFromTemplate([
+				'template' => 'UsersResetPassword',
+				'moduleName' => $moduleName,
+				'recordId' => $userRecordModel->getId(),
+				'to' => $userRecordModel->get('email1'),
+				'password' => $password,
+			]);
+			\App\Session::set('UserLoginMessage', App\Language::translate('LBL_SEND_EMAIL_RESET_PASSWORD', $moduleName));
+			\App\Session::set('UserLoginMessageType', 'success');
+			$moduleModel->saveLoginHistory($userName, 'ForgotPasswordSendMail');
+		} else {
+			\App\Session::set('UserLoginMessage', App\Language::translate('LBL_NO_USER_FOUND', $moduleName));
+			\App\Session::set('UserLoginMessageType', 'error');
+			$bruteForceInstance->updateBlockedIp();
+			if ($bruteForceInstance->isBlockedIp()) {
+				$bruteForceInstance->sendNotificationEmail();
+				\App\Session::set('UserLoginMessage', App\Language::translate('LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS', $moduleName));
+			}
+			$moduleModel->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('user_name')), 'ForgotPasswordNoUserFound');
+		}
+		header("Location: index.php?module=Users&view=Login");
 	}
 }
-
-Users_ForgotPassword_Action::run(App\Request::init());

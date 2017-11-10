@@ -22,7 +22,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_EXPORT',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerExportAction("' . $this->getModule()->getExportUrl() . '")',
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-export'
 			];
 		}
 
@@ -32,7 +32,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
 			if (count($templates) > 0) {
 				$advancedLinks[] = [
-					'linktype' => 'DETAILVIEWBASIC',
+					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
 					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
 					'linkicon' => 'glyphicon glyphicon-save-file',
@@ -47,7 +47,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerQuickExportToExcel("' . $moduleModel->getName() . '")',
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-save-file',
 			];
 		}
 		return $advancedLinks;
@@ -84,24 +84,52 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 	 */
 	public function getListViewMassActions($linkParams)
 	{
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
-		$moduleName = $moduleModel->getName();
-
-		$linkTypes = ['LISTVIEWMASSACTION'];
-		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
-
+		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['LISTVIEWMASSACTION'], $linkParams);
 		$massActionLink = [];
-		if ($currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'Delete')) {
-			$massActionLink = [
+		if ($moduleModel->isPermitted('MassActive')) {
+			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
-				'linklabel' => \App\Language::translate('LBL_DELETE', $moduleName),
-				'linkurl' => 'javascript:Vtiger_List_Js.massDeleteRecords("index.php?module=' . $moduleName . '&action=MassDelete");',
-				'linkicon' => ''
+				'linklabel' => 'LBL_MASS_ACTIVATE',
+				'linkurl' => 'javascript:',
+				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Active&sourceView=List',
+				'linkclass' => 'massRecordEvent',
+				'linkicon' => 'fa fa-refresh'
 			];
 		}
-		$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
-
+		if ($moduleModel->isPermitted('MassArchived')) {
+			$massActionLinks[] = [
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_MASS_ARCHIVE',
+				'linkurl' => 'javascript:',
+				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Archived&sourceView=List',
+				'linkclass' => 'massRecordEvent',
+				'linkicon' => 'fa fa-archive'
+			];
+		}
+		if ($moduleModel->isPermitted('MassTrash')) {
+			$massActionLinks[] = [
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_MASS_MOVE_TO_TRASH',
+				'linkurl' => 'javascript:',
+				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Trash&sourceView=List',
+				'linkclass' => 'massRecordEvent',
+				'linkicon' => 'glyphicon glyphicon-trash'
+			];
+		}
+		if ($moduleModel->isPermitted('MassDelete')) {
+			$massActionLinks[] = [
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_MASS_DELETE',
+				'linkurl' => 'javascript:',
+				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassDelete&sourceView=List',
+				'linkclass' => 'massRecordEvent',
+				'linkicon' => 'glyphicon glyphicon-erase'
+			];
+		}
+		foreach ($massActionLinks as $massActionLink) {
+			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
+		}
 		return $links;
 	}
 }

@@ -4,12 +4,18 @@
  * Basic Modal Class
  * @package YetiForce.Modal
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 {
+
+	/**
+	 * Additional classes for the modal window
+	 * @var string
+	 */
+	protected $modalClass = '';
 
 	public function getSize(\App\Request $request)
 	{
@@ -20,7 +26,7 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 	{
 		$moduleName = $request->getModule();
 		$viewName = $request->getByType('view', 1);
-		echo '<div class="modal fade modal' . $moduleName . '' . $viewName . '" id="modal' . $viewName . '"><div class="modal-dialog ' . $this->getSize($request) . '"><div class="modal-content">';
+		echo '<div class="modal fade modal' . $moduleName . '' . $viewName . ' ' . $this->modalClass . '" id="modal' . $viewName . '"><div class="modal-dialog ' . $this->getSize($request) . '"><div class="modal-content">';
 		foreach ($this->getModalCss($request) as $style) {
 			echo '<link rel="stylesheet" href="' . $style->getHref() . '">';
 		}

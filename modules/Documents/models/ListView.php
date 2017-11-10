@@ -22,7 +22,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_EXPORT',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerExportAction("' . $this->getModule()->getExportUrl() . '")',
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-export'
 			];
 		}
 
@@ -32,7 +32,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
 			if (count($templates) > 0) {
 				$advancedLinks[] = [
-					'linktype' => 'DETAILVIEWBASIC',
+					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
 					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
 					'linkicon' => 'glyphicon glyphicon-save-file',
@@ -46,7 +46,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerQuickExportToExcel("' . $moduleModel->getName() . '")',
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-save-file',
 			];
 		}
 		if ($moduleModel->isPermitted('RecordMappingList')) {
@@ -83,16 +83,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerMassEdit("index.php?module=' . $moduleModel->get('name') . '&view=MassActionAjax&mode=showMassEditForm");',
-				'linkicon' => ''
-			];
-		}
-
-		if ($moduleModel->isPermitted('MassDelete')) {
-			$massActionLinks[] = [
-				'linktype' => 'LISTVIEWMASSACTION',
-				'linklabel' => 'LBL_DELETE',
-				'linkurl' => 'javascript:Vtiger_List_Js.massDeleteRecords("index.php?module=' . $moduleModel->getName() . '&action=MassDelete");',
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-pencil'
 			];
 		}
 		if ($moduleModel->isPermitted('MassMoveDocuments')) {
@@ -100,7 +91,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MOVE',
 				'linkurl' => 'javascript:Documents_List_Js.massMove("index.php?module=' . $moduleModel->getName() . '&view=MoveDocuments");',
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-folder-open'
 			];
 		}
 		if ($moduleModel->isPermitted('MassTransferOwnership')) {
@@ -108,7 +99,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerTransferOwnership("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=transferOwnership")',
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-user'
 			];
 		}
 		if ($moduleModel->isPermitted('CreateView')) {
@@ -116,7 +107,47 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ADD',
 				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-plus'
+			];
+		}
+		if ($moduleModel->isPermitted('MassActive')) {
+			$massActionLinks[] = [
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_MASS_ACTIVATE',
+				'linkurl' => 'javascript:',
+				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Active&sourceView=List',
+				'linkclass' => 'massRecordEvent',
+				'linkicon' => 'fa fa-refresh'
+			];
+		}
+		if ($moduleModel->isPermitted('MassArchived')) {
+			$massActionLinks[] = [
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_MASS_ARCHIVE',
+				'linkurl' => 'javascript:',
+				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Archived&sourceView=List',
+				'linkclass' => 'massRecordEvent',
+				'linkicon' => 'fa fa-archive'
+			];
+		}
+		if ($moduleModel->isPermitted('MassTrash')) {
+			$massActionLinks[] = [
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_MASS_MOVE_TO_TRASH',
+				'linkurl' => 'javascript:',
+				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Trash&sourceView=List',
+				'linkclass' => 'massRecordEvent',
+				'linkicon' => 'glyphicon glyphicon-trash'
+			];
+		}
+		if ($moduleModel->isPermitted('MassDelete')) {
+			$massActionLinks[] = [
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_MASS_DELETE',
+				'linkurl' => 'javascript:',
+				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassDelete&sourceView=List',
+				'linkclass' => 'massRecordEvent',
+				'linkicon' => 'glyphicon glyphicon-erase'
 			];
 		}
 		foreach ($massActionLinks as $massActionLink) {

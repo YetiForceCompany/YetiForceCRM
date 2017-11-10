@@ -4,7 +4,7 @@
  * LogIn test class
  * @package YetiForce.Test
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class LogIn extends \Tests\Base
@@ -32,9 +32,8 @@ class LogIn extends \Tests\Base
 	public function testLoginInToCrm()
 	{
 		$userName = 'demo';
-		$user = CRMEntity::getInstance('Users');
-		$user->column_fields['user_name'] = $userName;
-		if ($user->doLogin($userName)) {
+		$userRecordModel = Users_Record_Model::getCleanInstance('Users')->set('user_name', $userName);
+		if ($userRecordModel->doLogin($userName)) {
 			App\Session::set('authenticated_user_id', TESTS_USER_ID);
 			App\Session::set('app_unique_key', AppConfig::main('application_unique_key'));
 			App\Session::set('user_name', $userName);
@@ -49,10 +48,9 @@ class LogIn extends \Tests\Base
 	public function testCaseSensitiveUsername()
 	{
 		$userName = 'Demo';
-		$user = CRMEntity::getInstance('Users');
-		$user->column_fields['user_name'] = $userName;
-		$this->assertTrue($user->doLogin('demo'));
-		$this->assertTrue($user->column_fields['user_name'] !== $userName);
+		$userRecordModel = \Users_Record_Model::getCleanInstance('Users')->set('user_name', $userName);
+		$this->assertTrue($userRecordModel->doLogin('demo'));
+		$this->assertTrue(App\User::getUserModel($userRecordModel->getId())->getDetail('user_name') !== $userName);
 	}
 
 	/**

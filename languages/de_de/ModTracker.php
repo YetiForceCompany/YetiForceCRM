@@ -36,4 +36,14 @@ $languageStrings = [
 	'LBL_NUMBER_UNREAD_CHANGES' => 'Anzahl der ungelesenen Änderungen',
 	'LBL_REVIEW_CHANGES_LIMIT_DESCRIPTION' => 'Aufgrund der Beschränkung von Datenaktualisierungen, wurde die Aktion in die Hintergrundverarbeitung eingeplant.',
 	'LBL_ESTIMATED_TIME' => 'geschätzte Zeit',
+	//Status
+	'LBL_CREATED' => 'Erstellt',
+	'LBL_UPDATED' => 'aktualisiert',
+	'LBL_DISPLAYED' => 'Angezeigt',
+	'LBL_ADDED' => 'Hinzugefügt',
+	'LBL_REMOVED' => 'Entfernt',
+	'LBL_CONVERTED_FROM_LEAD' => 'Aus Lead konvertiert',
+	'LBL_DELETED' => 'gelöschter Datensatz',
+	'LBL_ACTIVE' => 'wiederhergestellter Datensatz',
+	'LBL_ARCHIVED' => 'archivierter Datensatz',
 ];

@@ -73,15 +73,14 @@ class Vtiger_DetailView_Model extends \App\Base
 		$moduleName = $moduleModel->getName();
 		$recordId = $recordModel->getId();
 		$linkModelList = $detailViewLinks = [];
-
-		if ($moduleModel->isPermitted('WorkflowTrigger')) {
+		if ($moduleModel->isPermitted('WorkflowTrigger') && $recordModel->isEditable()) {
 			Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
 			Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
 			$wfs = new VTWorkflowManager();
 			$workflows = $wfs->getWorkflowsForModule($moduleName, VTWorkflowManager::$TRIGGER);
 			if (count($workflows) > 0) {
 				$detailViewLinks[] = [
-					'linktype' => 'DETAILVIEWBASIC',
+					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => '',
 					'linkurl' => 'javascript:Vtiger_Detail_Js.showWorkflowTriggerView(this)',
 					'linkicon' => 'glyphicon glyphicon-plus-sign',
@@ -95,7 +94,7 @@ class Vtiger_DetailView_Model extends \App\Base
 			$mfModel = new $handlerClass();
 			if ($mfModel && $mfModel->checkActiveTemplates($recordId, $moduleName, 'Detail')) {
 				$detailViewLinks[] = [
-					'linktype' => 'DETAILVIEWBASIC',
+					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => '',
 					'linkdata' => ['url' => 'index.php?module=' . $moduleName . '&view=GenerateModal&fromview=Detail&record=' . $recordId],
 					'linkicon' => 'glyphicon glyphicon-new-window',
@@ -111,7 +110,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				$class = 'btn-info';
 			}
 			$detailViewLinks[] = [
-				'linktype' => 'DETAILVIEWBASIC',
+				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linklabel' => '',
 				'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
 				'linkicon' => 'glyphicon glyphicon-eye-open',
@@ -123,7 +122,7 @@ class Vtiger_DetailView_Model extends \App\Base
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if ($userPrivilegesModel->hasModulePermission('Notification') && $userPrivilegesModel->hasModuleActionPermission('Notification', 'CreateView')) {
 			$detailViewLinks[] = [
-				'linktype' => 'DETAILVIEWBASIC',
+				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linklabel' => '',
 				'linkurl' => 'javascript:Vtiger_Index_Js.sendNotification(this)',
 				'linkicon' => 'glyphicon glyphicon-send',
@@ -131,64 +130,109 @@ class Vtiger_DetailView_Model extends \App\Base
 			];
 		}
 		foreach ($detailViewLinks as $detailViewLink) {
-			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
+			$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues($detailViewLink);
 		}
 		if ($recordModel->isEditable()) {
-			$editViewLinks = [
-				'linktype' => 'DETAILVIEW',
-				'linklabel' => 'BTN_RECORD_EDIT',
-				'linkurl' => $recordModel->getEditViewUrl(),
-				'linkicon' => 'glyphicon glyphicon-pencil',
-				'linkclass' => 'btn',
-				'linkhint' => 'BTN_RECORD_EDIT',
-			];
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($editViewLinks);
+			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'DETAIL_VIEW_BASIC',
+					'linklabel' => 'BTN_RECORD_EDIT',
+					'linkurl' => $recordModel->getEditViewUrl(),
+					'linkicon' => 'glyphicon glyphicon-pencil',
+					'linkclass' => 'btn',
+					'linkhint' => 'BTN_RECORD_EDIT',
+			]);
 		}
-		if ($recordModel->isDeletable()) {
-			$deletelinkModel = [
-				'linktype' => 'DETAILVIEW',
-				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => 'javascript:Vtiger_Detail_Js.deleteRecord("' . $recordModel->getDeleteUrl() . '")',
-				'linkicon' => 'glyphicon glyphicon-trash',
-				'title' => \App\Language::translate('LBL_DELETE_RECORD')
-			];
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($deletelinkModel);
+		$stateColors = AppConfig::search('LIST_ENTITY_STATE_COLOR');
+		if ($recordModel->privilegeToActivate()) {
+			$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'DETAIL_VIEW_EXTENDED',
+					'linklabel' => 'LBL_ACTIVATE_RECORD',
+					'title' => \App\Language::translate('LBL_ACTIVATE_RECORD'),
+					'linkurl' => 'javascript:app.showConfirmation({type: "href"},this)',
+					'linkdata' => [
+						'url' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Active&record=' . $recordModel->getId(),
+						'confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC')
+					],
+					'linkicon' => 'fa fa-refresh fa-spin',
+					'linkclass' => 'entityStateBtn',
+					'style' => empty($stateColors['Active']) ? '' : "background: {$stateColors['Active']};"
+			]);
+		}
+		if ($recordModel->privilegeToArchive()) {
+			$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'DETAIL_VIEW_EXTENDED',
+					'linklabel' => 'LBL_ARCHIVE_RECORD',
+					'title' => \App\Language::translate('LBL_ARCHIVE_RECORD'),
+					'linkurl' => 'javascript:app.showConfirmation({type: "href"},this)',
+					'linkdata' => [
+						'url' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Archived&record=' . $recordModel->getId(),
+						'confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC')
+					],
+					'linkicon' => 'fa fa-archive',
+					'linkclass' => 'entityStateBtn',
+					'style' => empty($stateColors['Archived']) ? '' : "background: {$stateColors['Archived']};"
+			]);
+		}
+		if ($recordModel->privilegeToMoveToTrash()) {
+			$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'DETAIL_VIEW_EXTENDED',
+					'linklabel' => 'LBL_MOVE_TO_TRASH',
+					'title' => \App\Language::translate('LBL_MOVE_TO_TRASH'),
+					'linkurl' => 'javascript:app.showConfirmation({type: "href"},this)',
+					'linkdata' => [
+						'url' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Trash&record=' . $recordModel->getId(),
+						'confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')
+					],
+					'linkicon' => 'glyphicon glyphicon-trash',
+					'linkclass' => 'entityStateBtn',
+					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};"
+			]);
+		}
+		if ($recordModel->privilegeToDelete()) {
+			$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'DETAIL_VIEW_EXTENDED',
+					'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
+					'title' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY'),
+					'linkurl' => 'javascript:app.showConfirmation({type: "href"},this)',
+					'linkdata' => [
+						'url' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Delete&record=' . $recordModel->getId(),
+						'confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')
+					],
+					'linkicon' => 'glyphicon glyphicon-erase',
+					'linkclass' => 'btn-black'
+			]);
 		}
 		if ($moduleModel->isPermitted('DuplicateRecord')) {
-			$duplicateLinkModel = [
-				'linktype' => 'DETAILVIEWBASIC',
-				'linklabel' => 'LBL_DUPLICATE',
-				'linkurl' => $recordModel->getDuplicateRecordUrl(),
-				'linkicon' => 'glyphicon glyphicon-duplicate',
-				'title' => \App\Language::translate('LBL_DUPLICATE_RECORD')
-			];
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($duplicateLinkModel);
+			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
+					'linklabel' => 'LBL_DUPLICATE',
+					'linkurl' => $recordModel->getDuplicateRecordUrl(),
+					'linkicon' => 'glyphicon glyphicon-duplicate',
+					'title' => \App\Language::translate('LBL_DUPLICATE_RECORD')
+			]);
 		}
 		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
 			$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdfModel = new $handlerClass();
 			if ($pdfModel->checkActiveTemplates($recordId, $moduleName, 'Detail')) {
-				$pdfLink = [
-					'linktype' => 'DETAILVIEWBASIC',
-					'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
-					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleName . '&view=PDF&fromview=Detail&record=' . $recordId . '");',
-					'linkicon' => 'glyphicon glyphicon-save-file',
-					'title' => \App\Language::translate('LBL_EXPORT_PDF')
-				];
-				$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($pdfLink);
+				$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
+						'linktype' => 'DETAIL_VIEW_ADDITIONAL',
+						'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
+						'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleName . '&view=PDF&fromview=Detail&record=' . $recordId . '");',
+						'linkicon' => 'glyphicon glyphicon-save-file',
+						'title' => \App\Language::translate('LBL_EXPORT_PDF')
+				]);
 			}
 		}
-
 		$relatedLinks = $this->getDetailViewRelatedLinks();
 		foreach ($relatedLinks as &$relatedLinkEntry) {
 			$relatedLink = Vtiger_Link_Model::getInstanceFromValues($relatedLinkEntry);
 			$linkModelList[$relatedLink->getType()][] = $relatedLink;
 		}
-
-		$allLinks = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['DETAILVIEWBASIC', 'DETAILVIEW', 'DETAIL_VIEW_HEADER_WIDGET', 'DETAILVIEWTAB'], $linkParams);
+		$allLinks = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['DETAIL_VIEW_ADDITIONAL', 'DETAIL_VIEW_BASIC', 'DETAIL_VIEW_HEADER_WIDGET', 'DETAIL_VIEW_EXTENDED', 'DETAILVIEWTAB'], $linkParams);
 		if (!empty($allLinks)) {
 			foreach ($allLinks as $type => &$allLinksByType) {
-				foreach ($allLinksByType as &$linkModel) {
+				foreach ($allLinksByType as $linkModel) {
 					$linkModelList[$type][] = $linkModel;
 				}
 			}

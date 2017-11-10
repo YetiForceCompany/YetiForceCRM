@@ -4,7 +4,7 @@
  * List view test class
  * @package YetiForce.Test
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Gui_ListView extends \Tests\GuiBase
@@ -28,14 +28,13 @@ class Gui_ListView extends \Tests\GuiBase
 
 	public function testView()
 	{
-		$id = (new \App\Db\Query())->select('accountid')->from('vtiger_account')->limit(1)->scalar();
-		$this->url('/index.php?module=Accounts&view=Detail&record=' . $id);
-		$this->timeouts()->implicitWait(5000);
+		$this->url("/index.php?module=Accounts&view=List");
+		$this->byCssSelector('.listViewEntries')->click();
+
 		$this->assertEquals('Accounts', $this->byId('module')->value());
 		$this->assertEquals('Detail', $this->byId('view')->value());
 
-		$this->url('/index.php?module=Accounts&view=Edit&record=' . $id);
-		$this->timeouts()->implicitWait(5000);
+		$this->byId('Accounts_detailView_action_BTN_RECORD_EDIT')->click();
 		$this->assertEquals('Accounts', $this->byId('module')->value());
 		$this->assertEquals('Edit', $this->byId('view')->value());
 	}

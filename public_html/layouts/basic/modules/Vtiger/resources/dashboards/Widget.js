@@ -250,13 +250,6 @@ jQuery.Class('Vtiger_Widget_Js', {
 			a.remove();
 		});
 	},
-	/**
-	 * Change of widget entries sorting
-	 * @license licenses/License.html
-	 * @package YetiForce.Dashboards
-	 * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
-	 * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
-	 */
 	registerChangeSorting: function () {
 		var thisInstance = this;
 		var container = this.getContainer();

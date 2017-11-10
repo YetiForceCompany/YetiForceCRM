@@ -3,7 +3,7 @@
  * Request basic class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 namespace App;
@@ -167,7 +167,7 @@ class Request
 		if (($value = filter_var($this->rawValues[$key], FILTER_VALIDATE_INT)) !== false) {
 			return $this->purifiedValuesByInteger[$key] = $value;
 		}
-		throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE', 406);
+		throw new \App\Exceptions\BadRequest("ERR_NOT_ALLOWED_VALUE||$key||{$this->rawValues[$key]}", 406);
 	}
 
 	/**

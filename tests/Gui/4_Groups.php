@@ -4,7 +4,7 @@
  * List view test class
  * @package YetiForce.Test
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Gui_Groups extends \Tests\GuiBase
@@ -28,10 +28,10 @@ class Gui_Groups extends \Tests\GuiBase
 	{
 		$this->url('/index.php?module=Groups&parent=Settings&view=List');
 		$this->byCssSelector('.listViewHeaderValues[data-columnname="groupname"]')->click();
-		$this->assertStringEndsWith('&orderby=groupname&sortorder=ASC', strstr($this->url(), '&orderby=groupname&sortorder='));
+		$this->assertStringEndsWith('&orderby=groupname&sortorder=ASC&parent=Settings' , strstr($this->url(), '&orderby=groupname&sortorder='));
 		$this->url('/index.php?module=Groups&parent=Settings&view=List');
 		$this->byCssSelector('.listViewHeaderValues[data-columnname="description"]')->click();
-		$this->assertStringEndsWith('&orderby=description&sortorder=ASC', strstr($this->url(), '&orderby=description&sortorder='));
+		$this->assertStringEndsWith('&orderby=description&sortorder=ASC&parent=Settings' , strstr($this->url(), '&orderby=description&sortorder='));
 	}
 
 	/**

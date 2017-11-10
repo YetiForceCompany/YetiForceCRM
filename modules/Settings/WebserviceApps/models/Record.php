@@ -4,7 +4,7 @@
  * Record Model
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Settings_WebserviceApps_Record_Model extends Settings_Vtiger_Record_Model
@@ -87,8 +87,9 @@ class Settings_WebserviceApps_Record_Model extends Settings_Vtiger_Record_Model
 		];
 		if ($this->isEmpty('id')) {
 			$data['type'] = $this->get('type');
-			$data['api_key'] = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, self::KEY_LENGTH);
+			$data['api_key'] = \App\Encryption::generatePassword(self::KEY_LENGTH);
 			$db->createCommand()->insert('w_#__servers', $data)->execute();
+			$this->set('id', $db->getLastInsertID('w_#__servers_id_seq'));
 		} else {
 			$db->createCommand()->update('w_#__servers', $data, ['id' => $this->getId()])->execute();
 		}

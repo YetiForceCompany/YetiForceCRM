@@ -36,4 +36,14 @@ $languageStrings = [
 	'LBL_NUMBER_UNREAD_CHANGES' => 'Quantidade de alterações não lidas',
 	'LBL_REVIEW_CHANGES_LIMIT_DESCRIPTION' => 'Devido limite dados atualizados ter excedido, a ação foi incluída na fila de tarefas do CRON.',
 	'LBL_ESTIMATED_TIME' => 'Tempo estimado',
+	//Status
+	'LBL_CREATED' => 'Criado',
+	'LBL_UPDATED' => 'Atualizado',
+	'LBL_DISPLAYED' => 'Exibido',
+	'LBL_ADDED' => 'adicionado',
+	'LBL_REMOVED' => 'removido',
+	'LBL_CONVERTED_FROM_LEAD' => 'Convertido do Lead',
+	'LBL_DELETED' => 'Deleted record',
+	'LBL_ACTIVE' => 'Restored record',
+	'LBL_ARCHIVED' => 'Archived record',
 ];

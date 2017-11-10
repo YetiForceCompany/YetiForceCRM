@@ -26,15 +26,15 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model
 		$recordId = $recordModel->getId();
 
 		$index = 0;
-		foreach ($linkModelList['DETAILVIEW'] as $link) {
+		foreach ($linkModelList['DETAIL_VIEW_BASIC'] as $link) {
 			if ($link->linklabel == 'View History') {
-				unset($linkModelList['DETAILVIEW'][$index]);
+				unset($linkModelList['DETAIL_VIEW_BASIC'][$index]);
 			} else if ($link->linklabel == 'LBL_SHOW_ACCOUNT_HIERARCHY') {
 				$link->linklabel = 'LBL_SHOW_ACCOUNT_HIERARCHY';
 				$linkURL = 'index.php?module=Accounts&view=AccountHierarchy&record=' . $recordId;
 				$link->linkurl = 'javascript:Accounts_Detail_Js.triggerAccountHierarchy("' . $linkURL . '");';
-				unset($linkModelList['DETAILVIEW'][$index]);
-				$linkModelList['DETAILVIEW'][$index] = $link;
+				unset($linkModelList['DETAIL_VIEW_BASIC'][$index]);
+				$linkModelList['DETAIL_VIEW_BASIC'][$index] = $link;
 			}
 			$index++;
 		}
@@ -42,14 +42,14 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model
 		if (\App\Privilege::isPermitted($moduleModel->getName(), 'ConvertLead', $recordModel->getId()) && \App\Privilege::isPermitted($moduleModel->getName(), 'EditView', $recordModel->getId())) {
 			$convert = !Leads_Module_Model::checkIfAllowedToConvert($recordModel->get('leadstatus')) ? 'hide' : '';
 			$basicActionLink = [
-				'linktype' => 'DETAILVIEWBASIC',
+				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linklabel' => '',
 				'linkclass' => 'btn-info btn-convertLead ' . $convert,
 				'linkhint' => \App\Language::translate('LBL_CONVERT_LEAD', $moduleName),
 				'linkurl' => 'javascript:Leads_Detail_Js.convertLead("' . $recordModel->getConvertLeadUrl() . '",this);',
 				'linkicon' => 'glyphicon glyphicon-transfer',
 			];
-			$linkModelList['DETAILVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
+			$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
 		return $linkModelList;
 	}

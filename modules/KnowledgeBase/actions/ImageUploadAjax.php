@@ -4,7 +4,7 @@
  * Action to upload file
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Krzysztof Gastołek <krzysztofgastolek@wars.pl>
  */
 class KnowledgeBase_ImageUploadAjax_Action extends Vtiger_Action_Controller

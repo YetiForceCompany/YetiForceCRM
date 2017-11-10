@@ -61,6 +61,12 @@
 				<input type="hidden" id="sounds" value="{\App\Purifier::encodeHtml(\App\Json::encode(AppConfig::sounds()))}"/>
 				<input type="hidden" id="intervalForNotificationNumberCheck" value="{AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK')}"/>
 				<input type="hidden" id="fieldsReferencesDependent" value="{AppConfig::security('FIELDS_REFERENCES_DEPENDENT')}" />
+				{if \App\Session::has('ShowUserPasswordChange')}
+					<input type="hidden" id="showUserPasswordChange" value="{\App\Session::get('ShowUserPasswordChange')}" />
+					{if \App\Session::get('ShowUserPasswordChange') == 1}
+						{\App\Session::delete('ShowUserPasswordChange')}
+					{/if}
+				{/if}
 			</div>
 			<div id="page">
 				{assign var="ANNOUNCEMENTS" value=Vtiger_Module_Model::getInstance('Announcements')}

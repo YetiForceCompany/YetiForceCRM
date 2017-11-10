@@ -41,7 +41,7 @@
 				<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 			</div>
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-			<table class="table table-bordered listViewEntriesTable {$WIDTHTYPE}">
+			<table class="table table-bordered listViewEntriesTable {$WIDTHTYPE} {if $LIST_VIEW_MODEL && !$LIST_VIEW_MODEL->isEmpty('entityState')}listView{$LIST_VIEW_MODEL->get('entityState')}{/if}">
 				<thead>
 					<tr class="listViewHeaders">
 						<th>
@@ -93,8 +93,9 @@
 				{assign var="LISTVIEW_HEADER_COUNT" value=count($LISTVIEW_HEADERS)}
 				{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
 					{assign var="RECORD_ID" value=$LISTVIEW_ENTRY->getId()}
+					{assign var="RECORD_COLORS" value=$LISTVIEW_ENTRY->getListViewColor()}
 					<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
-						<td class="{$WIDTHTYPE} noWrap leftRecordActions">
+						<td class="{$WIDTHTYPE} noWrap leftRecordActions" {if $RECORD_COLORS['leftBorder']}style="border-left-color: {$RECORD_COLORS['leftBorder']};"{/if}>
 							{include file=\App\Layout::getTemplatePath('ListViewLeftSide.tpl', $MODULE_NAME)}
 						</td>
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=listHeaderForeach}

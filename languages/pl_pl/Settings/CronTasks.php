@@ -3,7 +3,7 @@
  * CronTasks polish translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Zalecana częstotliwość dla Planowanego Importu to 15 minut.',
@@ -58,6 +58,11 @@ $languageStrings = [
 	'LBL_CAL_DAV' => 'Integracja CalDav',
 	'LBL_CLEAR_ATTACHMENTS_TABLE' => 'Czyszczenie tablicy załączników',
 	'LBL_SMSNOTIFIER' => 'Wiadomości SMS',
+	'LBL_CACHE' => 'Czyszczenie plików cache',
+	'LBL_NEVER_ENDING_RECURRING_EVENTS' => 'Generowanie wydarzeń cyklicznych',
+	'LBL_BROWSING_HISTORY' => 'Usuwanie historii ostatnio przeglądanych stron',
+	'LBK_SYSTEM_WARNINGS' => 'Powiadomienia z ostrzeżeniami systemowymi',
+	'LBL_BATCH_PROCESSES' => 'Procesy wsadowe do obsługi długo trwających akcji',
 ];
 $jsLanguageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Zalecana częstotliwość dla Planowanego Importu to 15 minut.',

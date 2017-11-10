@@ -5,7 +5,7 @@ namespace App\Exceptions;
  * No permitted for admin exception class
  * @package YetiForce.Exception
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class NoPermittedForAdmin extends Security
@@ -31,9 +31,9 @@ class NoPermittedForAdmin extends Security
 			'ip' => \App\RequestUtil::getRemoteIP(),
 			'module' => $request->getModule(),
 			'url' => \App\RequestUtil::getBrowserInfo()->url,
-			'agent' => $_SERVER['HTTP_USER_AGENT'],
+			'agent' => empty($_SERVER['HTTP_USER_AGENT']) ? '-' : $_SERVER['HTTP_USER_AGENT'],
 			'request' => json_encode($_REQUEST),
-			'referer' => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : ''
+			'referer' => empty($_SERVER['HTTP_REFERER']) ? '-' : $_SERVER['HTTP_REFERER'],
 		];
 		\App\Db::getInstance()->createCommand()->insert('o_#__access_for_admin', $data)->execute();
 	}

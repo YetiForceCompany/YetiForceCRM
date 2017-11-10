@@ -1,5 +1,5 @@
 {strip}
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <div class=" supportProcessesContainer">
 	<div class="widget_header row">
 		<div class="col-xs-12">

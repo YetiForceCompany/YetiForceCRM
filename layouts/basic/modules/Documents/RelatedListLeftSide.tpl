@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{assign var=IMAGE_CLASS value=Documents_Record_Model::getFileIconByFileType($RELATED_RECORD->get('filetype'))}
 	<span class="{$IMAGE_CLASS} fa-lg">{if $IMAGE_CLASS neq 'userIcon-Documents'}&nbsp;{/if}</span>
@@ -57,7 +57,7 @@
 					</a>&nbsp;
 				{/if}
 			{/if}
-			{if $IS_DELETABLE && $RELATED_RECORD->isDeletable()}
+			{if $IS_DELETABLE && $RELATED_RECORD->privilegeToMoveToTrash()}
 				<a class="relationDelete">
 					<span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span>
 				</a>

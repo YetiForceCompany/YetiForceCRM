@@ -23,14 +23,14 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$moduleModel = $this->getModule();
 
-		if ($moduleModel->isPermitted('DetailTransferOwnership')) {
+		if ($this->getRecord()->isEditable() && $moduleModel->isPermitted('DetailTransferOwnership')) {
 			$massActionLink = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
 				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerTransferOwnership("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=transferOwnership")',
 				'linkicon' => 'glyphicon glyphicon-user'
 			];
-			$linkModelList['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
+			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
 		}
 		return $linkModelList;
 	}

@@ -5,7 +5,7 @@ namespace App;
  * Privilege basic class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -53,21 +53,31 @@ class Privilege
 		}
 		//Retreiving the Tabid and Action Id
 		$tabid = Module::getModuleId($moduleName);
-		$actionid = Module::getActionId($actionName);
+		$actionId = Module::getActionId($actionName);
 		$checkModule = $moduleName;
-
 		if ($checkModule === 'Events') {
 			$checkModule = 'Calendar';
 		}
-
 		if (Module::isModuleActive($checkModule)) {
 			//Checking whether the user is admin
 			if ($userPrivileges['is_admin']) {
 				if ($record !== false && $moduleName !== 'Users') {
 					$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($record);
-					if (!isset($recordMetaData) || $recordMetaData['deleted'] === 1) {
+					if (empty($recordMetaData)) {
 						static::$isPermittedLevel = 'SEC_RECORD_DOES_NOT_EXIST';
 						\App\Log::trace('Exiting isPermitted method ... - SEC_RECORD_DOES_NOT_EXIST');
+						return false;
+					} elseif ($recordMetaData['deleted'] !== 0 && ($actionId === 1 || $actionId === 0 || $actionId === 17)) {
+						switch ($recordMetaData['deleted']) {
+							case 1:
+								static::$isPermittedLevel = 'SEC_RECORD_DELETED';
+								\App\Log::trace('Exiting isPermitted method ... - SEC_RECORD_DELETED');
+								break;
+							case 2:
+								static::$isPermittedLevel = 'SEC_RECORD_ARCHIVED';
+								\App\Log::trace('Exiting isPermitted method ... - SEC_RECORD_ARCHIVED');
+								break;
+						}
 						return false;
 					}
 				}
@@ -75,9 +85,8 @@ class Privilege
 				\App\Log::trace('Exiting isPermitted method ... - SEC_USER_IS_ADMIN');
 				return true;
 			}
-
 			//If no actionid, then allow action is vtiger_tab permission is available
-			if ($actionid === '' || $actionid === null) {
+			if ($actionId === '' || $actionId === null) {
 				if ($userPrivileges['profile_tabs_permission'][$tabid] == 0) {
 					$permission = true;
 				} else {
@@ -94,31 +103,31 @@ class Privilege
 				return false;
 			}
 
-			if ($actionid === false) {
+			if ($actionId === false) {
 				static::$isPermittedLevel = 'SEC_ACTION_DOES_NOT_EXIST';
 				\App\Log::trace('Exiting isPermitted method ... - SEC_ACTION_DOES_NOT_EXIST');
 				return false;
 			}
 			//Checking for Action Permission
-			if (!isset($userPrivileges['profile_action_permission'][$tabid][$actionid])) {
+			if (!isset($userPrivileges['profile_action_permission'][$tabid][$actionId])) {
 				static::$isPermittedLevel = 'SEC_MODULE_NO_ACTION_TOOL';
 				\App\Log::trace('Exiting isPermitted method ... - SEC_MODULE_NO_ACTION_TOOL');
 				return false;
 			}
-			if (strlen($userPrivileges['profile_action_permission'][$tabid][$actionid]) < 1 && $userPrivileges['profile_action_permission'][$tabid][$actionid] == '') {
+			if (strlen($userPrivileges['profile_action_permission'][$tabid][$actionId]) < 1 && $userPrivileges['profile_action_permission'][$tabid][$actionId] == '') {
 				static::$isPermittedLevel = 'SEC_MODULE_RIGHTS_TO_ACTION';
 				\App\Log::trace('Exiting isPermitted method ... - SEC_MODULE_RIGHTS_TO_ACTION');
 				return true;
 			}
 
-			if ($userPrivileges['profile_action_permission'][$tabid][$actionid] != 0 && $userPrivileges['profile_action_permission'][$tabid][$actionid] != '') {
+			if ($userPrivileges['profile_action_permission'][$tabid][$actionId] != 0 && $userPrivileges['profile_action_permission'][$tabid][$actionId] != '') {
 				static::$isPermittedLevel = 'SEC_MODULE_NO_RIGHTS_TO_ACTION';
 				\App\Log::trace('Exiting isPermitted method ... - SEC_MODULE_NO_RIGHTS_TO_ACTION');
 				return false;
 			}
 			//Checking for view all permission
 			if ($userPrivileges['profile_global_permission'][1] == 0 || $userPrivileges['profile_global_permission'][2] == 0) {
-				if ($actionid == 3 || $actionid == 4) {
+				if ($actionId == 3 || $actionId == 4) {
 					static::$isPermittedLevel = 'SEC_MODULE_VIEW_ALL_PERMISSION';
 					\App\Log::trace('Exiting isPermitted method ... - SEC_MODULE_VIEW_ALL_PERMISSION');
 					return true;
@@ -126,7 +135,7 @@ class Privilege
 			}
 			//Checking for edit all permission
 			if ($userPrivileges['profile_global_permission'][2] == 0) {
-				if ($actionid == 3 || $actionid == 4 || $actionid == 0 || $actionid == 1) {
+				if ($actionId == 3 || $actionId == 4 || $actionId == 0 || $actionId == 1) {
 					static::$isPermittedLevel = 'SEC_MODULE_EDIT_ALL_PERMISSION';
 					\App\Log::trace('Exiting isPermitted method ... - SEC_MODULE_EDIT_ALL_PERMISSION');
 					return true;
@@ -146,9 +155,21 @@ class Privilege
 				}
 			}
 			$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($record);
-			if (!isset($recordMetaData) || $recordMetaData['deleted'] === 1) {
+			if (empty($recordMetaData)) {
 				static::$isPermittedLevel = 'SEC_RECORD_DOES_NOT_EXIST';
 				\App\Log::trace('Exiting isPermitted method ... - SEC_RECORD_DOES_NOT_EXIST');
+				return false;
+			} elseif ($recordMetaData['deleted'] !== 0 && ($actionId === 1 || $actionId === 0 || $actionId === 17)) {
+				switch ($recordMetaData['deleted']) {
+					case 1:
+						static::$isPermittedLevel = 'SEC_RECORD_DELETED';
+						\App\Log::trace('Exiting isPermitted method ... - SEC_RECORD_DELETED');
+						break;
+					case 2:
+						static::$isPermittedLevel = 'SEC_RECORD_ARCHIVED';
+						\App\Log::trace('Exiting isPermitted method ... - SEC_RECORD_ARCHIVED');
+						break;
+				}
 				return false;
 			}
 			if (\AppConfig::security('PERMITTED_BY_PRIVATE_FIELD') && $recordMetaData['private']) {
@@ -233,8 +254,8 @@ class Privilege
 			if (\AppConfig::security('PERMITTED_BY_RECORD_HIERARCHY')) {
 				$userPrivilegesModel = \Users_Privileges_Model::getInstanceById($userId);
 				$role = $userPrivilegesModel->getRoleDetail();
-				if ((($actionid == 3 || $actionid == 4) && $role->get('previewrelatedrecord') != 0 ) || (($actionid == 0 || $actionid == 1) && $role->get('editrelatedrecord') != 0 )) {
-					$parentRecord = \Users_Privileges_Model::getParentRecord($record, $moduleName, $role->get('previewrelatedrecord'), $actionid);
+				if ((($actionId == 3 || $actionId == 4) && $role->get('previewrelatedrecord') != 0 ) || (($actionId == 0 || $actionId == 1) && $role->get('editrelatedrecord') != 0 )) {
+					$parentRecord = \Users_Privileges_Model::getParentRecord($record, $moduleName, $role->get('previewrelatedrecord'), $actionId);
 					if ($parentRecord) {
 						$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($parentRecord);
 						$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');
@@ -250,7 +271,7 @@ class Privilege
 									break;
 								case 2:
 									if (\AppConfig::security('PERMITTED_BY_SHARING')) {
-										$relatedPermission = static::isPermittedBySharing($recordMetaData['setype'], Module::getModuleId($recordMetaData['setype']), $actionid, $parentRecord, $userId);
+										$relatedPermission = static::isPermittedBySharing($recordMetaData['setype'], Module::getModuleId($recordMetaData['setype']), $actionId, $parentRecord, $userId);
 									}
 									break;
 								case 3:
@@ -268,7 +289,7 @@ class Privilege
 				}
 			}
 			if (\AppConfig::security('PERMITTED_BY_SHARING')) {
-				$permission = static::isPermittedBySharing($moduleName, $tabid, $actionid, $record, $userId);
+				$permission = static::isPermittedBySharing($moduleName, $tabid, $actionId, $record, $userId);
 			}
 			static::$isPermittedLevel = 'SEC_RECORD_BY_SHARING_' . ($permission ? 'YES' : 'NO');
 		} else {
@@ -412,7 +433,7 @@ class Privilege
 
 	/** Function to check if the currently logged in user has Write Access due to Sharing for the specified record
 	 * @param $moduleName -- Module Name:: Type varchar
-	 * @param $actionid -- Action Id:: Type integer
+	 * @param $actionId -- Action Id:: Type integer
 	 * @param $recordid -- Record Id:: Type integer
 	 * @param $tabid -- Tab Id:: Type integer
 	 * @returns yes or no. If Yes means this action is allowed for the currently logged in user. If no means this action is not allowed for the currently logged in user
