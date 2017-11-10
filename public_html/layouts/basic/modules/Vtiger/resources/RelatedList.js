@@ -625,7 +625,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		if (!ids || isUnreviewedActive < 1) {
 			return;
 		}
-		;
 		var actionParams = {
 			action: 'ChangesReviewedOn',
 			mode: 'getUnreviewed',

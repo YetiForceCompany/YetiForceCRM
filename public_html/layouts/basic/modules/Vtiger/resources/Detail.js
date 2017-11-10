@@ -1729,37 +1729,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var thisInstance = this;
 		var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
 		var widgetHeaderContainer = summaryWidgetContainer.find('.widget_header');
-		var widgetDataContainer = summaryWidgetContainer.find('.widget_contents');
 		var referenceModuleName = widgetHeaderContainer.find('[name="relatedModule"]').val();
-		var recordId = this.getRecordId();
-		var module = app.getModuleName();
 		var idList = [];
 		idList.push(data.result._recordId);
-		widgetDataContainer.progressIndicator({});
-		this.addRelationBetweenRecords(referenceModuleName, idList).then(
-				function (data) {
-					var params = {};
-					params['record'] = recordId;
-					params['view'] = 'Detail';
-					params['module'] = module;
-					params['page'] = widgetDataContainer.find('[name="page"]').val();
-					params['limit'] = widgetDataContainer.find('[name="pageLimit"]').val();
-					params['col'] = widgetDataContainer.find('[name="col"]').val();
-					params['relatedModule'] = referenceModuleName;
-					params['mode'] = 'showRelatedRecords';
-					AppConnector.request(params).then(
-							function (data) {
-								var documentsWidget = jQuery('#relatedDocuments');
-								widgetDataContainer.progressIndicator({'mode': 'hide'});
-								widgetDataContainer.html(data);
-								app.changeSelectElementView(documentsWidget);
-								var relatedController = new Vtiger_RelatedList_Js(recordId, module, thisInstance.getSelectedTab(), referenceModuleName);
-								relatedController.registerUnreviewedCountEvent(widgetDataContainer);
-								thisInstance.widgetRelatedRecordView(summaryWidgetContainer, false);
-							}
-					);
-				}
-		)
+		this.addRelationBetweenRecords(referenceModuleName, idList).then(function (data) {
+			thisInstance.loadWidget(summaryWidgetContainer.find('.widgetContentBlock'));
+		});
 	},
 	registerChangeEventForModulesList: function () {
 		jQuery('#tagSearchModulesList').on('change', function (e) {

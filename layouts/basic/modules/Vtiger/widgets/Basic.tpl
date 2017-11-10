@@ -1,5 +1,5 @@
 {strip}
-	<div class="summaryWidgetContainer summaryView">
+	<div class="summaryWidgetContainer">
 		{assign var=RELATED_MODULE_NAME value=App\Module::getModuleName($WIDGET['data']['relatedmodule'])}
 		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
 			<div class="widget_header">
