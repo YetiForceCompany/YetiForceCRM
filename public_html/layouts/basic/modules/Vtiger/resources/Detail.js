@@ -435,6 +435,19 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 		return targetTab;
 	},
+	getTabByModule: function (moduleName) {
+		var tabs = this.getTabs();
+		var targetTab = false;
+		tabs.each(function (index, element) {
+			var tab = jQuery(element);
+			console.log(tab.data('reference') , moduleName);
+			if (tab.data('reference') == moduleName) {
+				targetTab = tab;
+				return false;
+			}
+		});
+		return targetTab;
+	},
 	selectModuleTab: function () {
 		var relatedTabContainer = this.getTabContainer();
 		var moduleTab = relatedTabContainer.find('li.module-tab');
@@ -2403,8 +2416,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 
 		detailContentsHolder.on('click', '.moreRecentRecords', function (e) {
 			e.preventDefault();
-			var element = jQuery(e.currentTarget);
-			var recentCommentsTab = thisInstance.getTabByLabel(element.data('label-key'));
+			var recentCommentsTab = thisInstance.getTabByModule($(this).data('label-key'));
 			recentCommentsTab.trigger('click');
 		});
 		detailContentsHolder.on('change', '.relatedHistoryTypes', function (e) {
