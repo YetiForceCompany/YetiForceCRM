@@ -101,7 +101,7 @@
 									{/foreach}
 								</tbody>
 							</table>
-							<div class="pull-right">
+							<div class="pull-right marginBottom5">
 								{if $RELATED_RECORD->isViewable()}
 									<a class="addButton" href="{$RELATED_RECORD->getFullDetailViewUrl()}">
 										<button class="btn btn-sm btn-default popoverTooltip" type="button">
