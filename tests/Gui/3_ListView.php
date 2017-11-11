@@ -34,7 +34,7 @@ class Gui_ListView extends \Tests\GuiBase
 		$this->assertEquals('Accounts', $this->byId('module')->value());
 		$this->assertEquals('Detail', $this->byId('view')->value());
 
-		$this->byId('Accounts_detailView_action_BTN_RECORD_EDIT')->click();
+		$this->byId('Accounts_detailViewBasic_action_BTN_RECORD_EDIT')->click();
 		$this->assertEquals('Accounts', $this->byId('module')->value());
 		$this->assertEquals('Edit', $this->byId('view')->value());
 	}
