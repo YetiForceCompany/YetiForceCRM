@@ -30,23 +30,23 @@ class Gui_ListView extends \Tests\GuiBase
 	{
 		$this->url("/index.php?module=Accounts&view=List");
 
-		$this->execute(array(
+		$this->execute([
 			'script' => '$("#Accounts_listView_row_1 .Accounts_listViewBasic_action_LBL_SHOW_QUICK_DETAILS").click();',
 			'args' => [],
-		));
+		]);
 
-		$this->execute(array(
+		$this->execute([
 			'script' => '$("#Accounts_listView_row_1 .Accounts_listViewBasic_action_LBL_SHOW_COMPLETE_DETAILS").click();',
 			'args' => [],
-		));
+		]);
 
 		$this->assertEquals('Accounts', $this->byId('module')->value());
 		$this->assertEquals('Detail', $this->byId('view')->value());
 
-		$this->execute(array(
+		$this->execute([
 			'script' => '$(".Accounts_detailViewBasic_action_BTN_RECORD_EDIT").click();',
 			'args' => [],
-		));
+		]);
 
 		$this->assertEquals('Accounts', $this->byId('module')->value());
 		$this->assertEquals('Edit', $this->byId('view')->value());
@@ -55,19 +55,19 @@ class Gui_ListView extends \Tests\GuiBase
 		$this->assertEquals('Accounts', $this->byId('module')->value());
 		$this->assertEquals('Detail', $this->byId('view')->value());
 
-		$this->execute(array(
+		$this->execute([
 			'script' => '$(".Accounts_detailViewExtended_action_LBL_ARCHIVE_RECORD").click();',
 			'args' => [],
-		));
-		$this->execute(array(
+		]);
+		$this->execute([
 			'script' => '$(".bootbox-confirm  button.btn-success").click();',
 			'args' => [],
-		));
+		]);
 
-		$this->execute(array(
+		$this->execute([
 			'script' => '$(".Accounts_detailViewBasic_action_LBL_DUPLICATE").click();',
 			'args' => [],
-		));
+		]);
 		$this->assertEquals('Accounts', $this->byId('module')->value());
 		$this->assertEquals('Edit', $this->byId('view')->value());
 	}
@@ -75,25 +75,26 @@ class Gui_ListView extends \Tests\GuiBase
 	public function testListActions()
 	{
 		$this->url("/index.php?module=Accounts&view=List");
-
-		$this->execute(array(
+		$this->execute([
 			'script' => '$(".Accounts_listViewHeader_action_BTN_WATCHING_MODULE").click();',
 			'args' => [],
-		));
-
-		$response = $this->execute(array(
-			'script' => 'return $(".Accounts_listViewHeader_action_BTN_WATCHING_MODULE").attr("class");',
-			'args' => array(),
-		));
-
-		$this->execute(array(
+		]);
+		$this->execute([
 			'script' => '$(".Accounts_listViewHeader_action_LBL_SEND_NOTIFICATION").click();',
 			'args' => [],
-		));
+		]);
 
-		$this->execute(array(
+		$this->execute([
 			'script' => '$(".Accounts_listViewHeader_action_LBL_SHOW_MAP").click();',
 			'args' => [],
-		));
+		]);
+
+		$this->url("/index.php?module=Accounts&view=List");
+
+		$response = $this->execute([
+			'script' => 'return $(".Accounts_listViewHeader_action_BTN_WATCHING_MODULE").attr("class");',
+			'args' => [],
+		]);
+		$this->assertContains('btn-info', $response);
 	}
 }
