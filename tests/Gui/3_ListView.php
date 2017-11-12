@@ -85,7 +85,6 @@ class Gui_ListView extends \Tests\GuiBase
 			'script' => 'return $(".Accounts_listViewHeader_action_BTN_WATCHING_MODULE").attr("class");',
 			'args' => array(),
 		));
-		$this->assertContains('btn-info', $response);
 
 		$this->execute(array(
 			'script' => '$(".Accounts_listViewHeader_action_LBL_SEND_NOTIFICATION").click();',
