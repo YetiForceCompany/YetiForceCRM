@@ -88,13 +88,6 @@ class Gui_ListView extends \Tests\GuiBase
 			'script' => '$(".Accounts_listViewHeader_action_LBL_SHOW_MAP").click();',
 			'args' => [],
 		]);
-
-		$this->url("/index.php?module=Accounts&view=List");
-
-		$response = $this->execute([
-			'script' => 'return $(".Accounts_listViewHeader_action_BTN_WATCHING_MODULE").attr("class");',
-			'args' => [],
-		]);
-		$this->assertContains('btn-info', $response);
+		$this->assertEquals('Accounts', $this->byId('module')->value());
 	}
 }
