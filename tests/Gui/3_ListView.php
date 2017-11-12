@@ -29,12 +29,45 @@ class Gui_ListView extends \Tests\GuiBase
 	public function testView()
 	{
 		$this->url("/index.php?module=Accounts&view=List");
-		$this->byCssSelector('.listViewEntries')->click();
+
+		$this->execute(array(
+			'script' => '$("#Accounts_listView_row_1 .Accounts_listViewBasic_action_LBL_SHOW_QUICK_DETAILS").click();',
+			'args' => [],
+		));
+
+		$this->execute(array(
+			'script' => '$("#Accounts_listView_row_1 .Accounts_listViewBasic_action_LBL_SHOW_COMPLETE_DETAILS").click();',
+			'args' => [],
+		));
 
 		$this->assertEquals('Accounts', $this->byId('module')->value());
 		$this->assertEquals('Detail', $this->byId('view')->value());
 
-		$this->byId('Accounts_detailViewBasic_action_BTN_RECORD_EDIT')->click();
+		$this->execute(array(
+			'script' => '$(".Accounts_detailViewBasic_action_BTN_RECORD_EDIT").click();',
+			'args' => [],
+		));
+
+		$this->assertEquals('Accounts', $this->byId('module')->value());
+		$this->assertEquals('Edit', $this->byId('view')->value());
+
+		$this->byCssSelector('.contentHeader button.btn-success')->click();
+		$this->assertEquals('Accounts', $this->byId('module')->value());
+		$this->assertEquals('Detail', $this->byId('view')->value());
+
+		$this->execute(array(
+			'script' => '$(".Accounts_detailViewExtended_action_LBL_ARCHIVE_RECORD").click();',
+			'args' => [],
+		));
+		$this->execute(array(
+			'script' => '$(".bootbox-confirm  button.btn-success").click();',
+			'args' => [],
+		));
+
+		$this->execute(array(
+			'script' => '$(".Accounts_detailViewBasic_action_LBL_DUPLICATE").click();',
+			'args' => [],
+		));
 		$this->assertEquals('Accounts', $this->byId('module')->value());
 		$this->assertEquals('Edit', $this->byId('view')->value());
 	}

@@ -20,6 +20,8 @@ class Gui_LogIn extends \Tests\GuiBase
 		$this->byId('username')->value('demo');
 		$this->byId('password')->value('demo');
 		$this->byTag('form')->submit();
+
+		$this->url('index.php?module=Home&view=DashBoard');
 		$this->assertEquals('Home', $this->byId('module')->value());
 		$this->assertEquals('DashBoard', $this->byId('view')->value());
 	}
