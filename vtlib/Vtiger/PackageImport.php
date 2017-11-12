@@ -319,17 +319,22 @@ class PackageImport extends PackageExport
 		}
 
 		$validzip = false;
-		if ($manifestxml_found && $languagefile_found && $moduleVersionFound)
+		if ($manifestxml_found && $languagefile_found && $moduleVersionFound) {
 			$validzip = true;
-
-		if ($manifestxml_found && $layoutfile_found && $moduleVersionFound)
+		}
+		if ($manifestxml_found && $layoutfile_found && $moduleVersionFound) {
 			$validzip = true;
-
-		if ($manifestxml_found && $languagefile_found && $extensionfile_found && $moduleVersionFound)
+		}
+		if ($manifestxml_found && $languagefile_found && $extensionfile_found && $moduleVersionFound) {
 			$validzip = true;
-
-		if ($manifestxml_found && $updatefile_found && $moduleVersionFound)
+		}
+		if ($manifestxml_found && $updatefile_found && $moduleVersionFound) {
 			$validzip = true;
+		}
+		if ($this->isLanguageType() && $manifestxml_found && strpos($this->_modulexml->prefix, '/') !== false) {
+			$validzip = false;
+			$this->_errorText = \App\Language::translate('LBL_ERROR_NO_VALID_PREFIX', 'Settings:ModuleManager');
+		}
 
 		if ($validzip) {
 			if (!empty($this->_modulexml->license)) {

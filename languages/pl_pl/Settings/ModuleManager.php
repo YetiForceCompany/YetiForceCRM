@@ -80,6 +80,7 @@ $languageStrings = [
 	'LBL_LIBRARY_NO_DOWNLOAD' => 'Niepobrana',
 	'LBL_LIBRARY_NEEDS_UPDATING' => 'Wymaga aktualizacji',
 	'LBL_NO_PERMISSION_TO_DIR' => 'Brak uprawnień do katalogów',
+	'LBL_ERROR_NO_VALID_PREFIX' => 'Nieprawidłowy prefix języka',
 ];
 $jsLanguageStrings = [
 	'JS_UPDATED_MODULE' => 'Aktualizacja przebiegła pomyślnie.',
