@@ -10,9 +10,8 @@
 		{assign var="LINK_URL" value=$LINK->getUrl()}
 		{assign var="BTN_MODULE" value=$LINK->getRelatedModuleName($MODULE)}
 	{if $LINK->get('linkhref')}<a{else}<button type="button"{/if}{/strip} {strip}
-				{if !$LINK->isActive()} disabled {/if}
-				id="{$MODULE}_{$BUTTON_VIEW}_action_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($ACTION_NAME)}"{/strip} {strip}
-				class="btn {if $LINK->getClassName() neq ''}{if $LINK->getClassName()|strrpos:"btn-" === false}btn-default {/if}{$LINK->getClassName()}{else}btn-default{/if} {if $LABEL neq '' && $LINK->get('showLabel') != '1'} popoverTooltip{/if} {if $LINK->get('modalView')}showModal{/if}"
+				{if !$LINK->isActive()} disabled {/if}{/strip} {strip}
+				class="btn {if $LINK->getClassName() neq ''}{if $LINK->getClassName()|strrpos:"btn-" === false}btn-default {/if}{$LINK->getClassName()}{else}btn-default{/if} {if $LABEL neq '' && $LINK->get('showLabel') != '1'} popoverTooltip{/if} {if $LINK->get('modalView')}showModal{/if} {$MODULE}_{$BUTTON_VIEW}_action_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($ACTION_NAME)}"
 				{if $LINK->get('linkdata') neq '' && is_array($LINK->get('linkdata'))}
 					{foreach from=$LINK->get('linkdata') key=NAME item=DATA}
 						{/strip} {strip}
