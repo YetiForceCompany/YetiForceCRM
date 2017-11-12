@@ -71,4 +71,30 @@ class Gui_ListView extends \Tests\GuiBase
 		$this->assertEquals('Accounts', $this->byId('module')->value());
 		$this->assertEquals('Edit', $this->byId('view')->value());
 	}
+
+	public function testListActions()
+	{
+		$this->url("/index.php?module=Accounts&view=List");
+
+		$this->execute(array(
+			'script' => '$(".Accounts_listViewHeader_action_BTN_WATCHING_MODULE").click();',
+			'args' => [],
+		));
+
+		$response = $this->execute(array(
+			'script' => 'return $(".Accounts_listViewHeader_action_BTN_WATCHING_MODULE").attr("class");',
+			'args' => array(),
+		));
+		$this->assertContains('btn-info', $response);
+
+		$this->execute(array(
+			'script' => '$(".Accounts_listViewHeader_action_LBL_SEND_NOTIFICATION").click();',
+			'args' => [],
+		));
+
+		$this->execute(array(
+			'script' => '$(".Accounts_listViewHeader_action_LBL_SHOW_MAP").click();',
+			'args' => [],
+		));
+	}
 }
