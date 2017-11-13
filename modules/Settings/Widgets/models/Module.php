@@ -234,6 +234,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 				'data' => $serializeData
 			])->execute();
 		}
+		\App\Cache::delete('ModuleWidgets', $tabid);
 	}
 
 	/**
@@ -243,6 +244,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	public static function removeWidget($wid)
 	{
 		\App\Db::getInstance()->createCommand()->delete('vtiger_widgets', ['id' => $wid])->execute();
+		\App\Cache::clear();
 	}
 
 	/**
@@ -283,6 +285,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 				->update('vtiger_widgets', ['sequence' => $value['index'], 'wcol' => $value['column']], ['tabid' => $tabid, 'id' => $key])
 				->execute();
 		}
+		\App\Cache::delete('ModuleWidgets', $tabid);
 	}
 
 	/**
