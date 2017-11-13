@@ -40,4 +40,27 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 		}
 		return $return;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getValueFromRequest(&$insertData, \App\Request $request, $i)
+	{
+		$column = $this->getColumnName();
+		if (empty($column) || $column === '-' || !$request->has($column)) {
+			return false;
+		}
+		$insertData[$column] = $request->getInteger($column);
+		$insertData['currencyparam'] = \App\Json::encode($request->getArray('currencyparam'));
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function validate($value, $columnName, $isUserFormat = false)
+	{
+		if (!is_numeric($value)) {
+			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
+		}
+	}
 }

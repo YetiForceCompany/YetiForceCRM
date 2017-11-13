@@ -28,4 +28,17 @@ class Vtiger_Quantity_InventoryField extends Vtiger_Basic_InventoryField
 	{
 		return \App\Purifier::encodeHtml(vtlib\Functions::formatDecimal($value));
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getValueFromRequest(&$insertData, \App\Request $request, $i)
+	{
+		$column = $this->getColumnName();
+		if (empty($column) || $column === '-' || !$request->has($column . $i)) {
+			return false;
+		}
+		$insertData[$column] = CurrencyField::convertToDBFormat($request->getByType($column . $i, 'NumberInUserFormat'), null, true);
+		$insertData['qtyparam'] = $request->isEmpty('qtyparam' . $i, true) ? 0 : $request->getInteger('qtyparam' . $i);
+	}
 }

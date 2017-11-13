@@ -58,4 +58,26 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 		}
 		return '';
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getValueFromRequest(&$insertData, \App\Request $request, $i)
+	{
+		$column = $this->getColumnName();
+		if (empty($column) || $column === '-' || !$request->has($column . $i)) {
+			return false;
+		}
+		$insertData[$column] = $request->getInteger($column . $i);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function validate($value, $columnName, $isUserFormat = false)
+	{
+		if (!is_numeric($value)) {
+			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
+		}
+	}
 }

@@ -30,4 +30,26 @@ class Vtiger_TaxMode_InventoryField extends Vtiger_Basic_InventoryField
 		}
 		return 'LBL_' . strtoupper($this->values[$value]);
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getValueFromRequest(&$insertData, \App\Request $request, $i)
+	{
+		$column = $this->getColumnName();
+		if (empty($column) || $column === '-' || !$request->has($column)) {
+			return false;
+		}
+		$insertData[$column] = $request->getInteger($column);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function validate($value, $columnName, $isUserFormat = false)
+	{
+		if (!is_numeric($value)) {
+			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
+		}
+	}
 }

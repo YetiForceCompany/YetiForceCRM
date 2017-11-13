@@ -29,4 +29,17 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	{
 		return CurrencyField::convertToUserFormat($value, null, true);
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getValueFromRequest(&$insertData, \App\Request $request, $i)
+	{
+		$column = $this->getColumnName();
+		if (empty($column) || $column === '-' || !$request->has($column . $i)) {
+			return false;
+		}
+		$insertData[$column] = CurrencyField::convertToDBFormat($request->getByType($column . $i, 'NumberInUserFormat'), null, true);
+		$insertData['discountparam'] = \App\Json::encode($request->getArray('discountparam' . $i));
+	}
 }

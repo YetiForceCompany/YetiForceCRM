@@ -283,4 +283,36 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	{
 		return $this->fieldDataType;
 	}
+
+	/**
+	 * Get value from request
+	 * @param array $insertData
+	 * @param \App\Request $request
+	 * @param int $i
+	 * @return boolean
+	 */
+	public function getValueFromRequest(&$insertData, \App\Request $request, $i)
+	{
+		$column = $this->getColumnName();
+		if (empty($column) || $column === '-' || !$request->has($column . $i)) {
+			return false;
+		}
+		$value = $request->get($column . $i);
+		$this->validate($value, $column . $i, true);
+		$insertData[$column] = $value;
+	}
+
+	/**
+	 * Verification of data
+	 * @param mixed $value
+	 * @param string $columnName
+	 * @param boolean $isUserFormat
+	 * @throws \App\Exceptions\Security
+	 */
+	public function validate($value, $columnName, $isUserFormat = false)
+	{
+		if (!is_numeric($value) && (is_string($value) && $value !== strip_tags($value))) {
+			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
+		}
+	}
 }

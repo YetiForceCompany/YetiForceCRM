@@ -1076,10 +1076,8 @@ class Vtiger_Record_Model extends \App\Base
 	public function initInventoryData()
 	{
 		\App\Log::trace('Entering ' . __METHOD__);
-
-		$moduleName = $this->getModuleName();
-		$inventory = Vtiger_InventoryField_Model::getInstance($moduleName);
-		$fields = $inventory->getColumns();
+		$inventory = Vtiger_InventoryField_Model::getInstance($this->getModuleName());
+		$fields = $inventory->getFields();
 		$summaryFields = $inventory->getSummaryFields();
 		$inventoryData = [];
 		if (isset($this->inventoryRawData)) {
@@ -1088,23 +1086,21 @@ class Vtiger_Record_Model extends \App\Base
 			$request = App\Request::init();
 		}
 		if ($request->has('inventoryItemsNo')) {
-			$numRow = $request->get('inventoryItemsNo');
+			$numRow = $request->getInteger('inventoryItemsNo');
 			for ($i = 1; $i <= $numRow; $i++) {
-				if (!$request->has(reset($fields)) && !$request->has(reset($fields) . $i)) {
+				if (!$request->has('name') && !$request->has('name' . $i)) {
 					continue;
 				}
-				$insertData = ['seq' => $request->get('seq' . $i)];
+				$insertData = ['seq' => $request->getInteger('seq' . $i)];
 				foreach ($fields as $field) {
-					$insertData[$field] = $inventory->getValueForSave($request, $field, $i);
+					$field->getValueFromRequest($insertData, $request, $i);
 				}
 				$inventoryData[] = $insertData;
 			}
-			$prefix = 'sum_';
-			$inventoryFields = $inventory->getFields();
 			foreach ($summaryFields as $fieldName) {
-				if ($this->has($prefix . $fieldName)) {
-					$value = $inventoryFields[$fieldName]->getSummaryValuesFromData($inventoryData);
-					$this->set($prefix . $fieldName, $value);
+				if ($this->has('sum_' . $fieldName)) {
+					$value = $fields[$fieldName]->getSummaryValuesFromData($inventoryData);
+					$this->set('sum_' . $fieldName, $value);
 				}
 			}
 			$this->inventoryData = $inventoryData;

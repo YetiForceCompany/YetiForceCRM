@@ -48,8 +48,6 @@ class Vtiger_InventoryField_Model extends App\Base
 	 */
 	public function getFields($returnInBlock = false, $ids = [], $viewType = false)
 	{
-
-		\App\Log::trace('Entering ' . __METHOD__ . '| ');
 		$key = $returnInBlock ? 'block' : 'noBlock';
 		if (!isset($this->fields[$key])) {
 			$table = $this->getTableName('fields');
@@ -91,7 +89,6 @@ class Vtiger_InventoryField_Model extends App\Base
 				$fields[2] = [];
 			}
 		}
-		\App\Log::trace('Exiting ' . __METHOD__);
 		return $fields;
 	}
 
@@ -119,12 +116,9 @@ class Vtiger_InventoryField_Model extends App\Base
 	 */
 	public function getColumns()
 	{
-
-		\App\Log::trace('Entering ' . __METHOD__ . '| ');
 		if ($this->columns) {
 			return $this->columns;
 		}
-
 		$columns = [];
 		foreach ($this->getFields() as $key => $field) {
 			$column = $field->getColumnName();
@@ -135,7 +129,6 @@ class Vtiger_InventoryField_Model extends App\Base
 			}
 		}
 		$this->columns = $columns;
-		\App\Log::trace('Exiting ' . __METHOD__);
 		return $columns;
 	}
 
@@ -226,7 +219,7 @@ class Vtiger_InventoryField_Model extends App\Base
 	/**
 	 * Get Vtiger_InventoryField_Model instance
 	 * @param string $moduleName Module name
-	 * @return \modelClassName Vtiger_InventoryField_Model Instance
+	 * @return Vtiger_InventoryField_Model
 	 */
 	public static function getInstance($moduleName)
 	{
@@ -372,30 +365,8 @@ class Vtiger_InventoryField_Model extends App\Base
 				continue;
 			}
 		}
-
 		Vtiger_Cache::set('InventoryIsGetTaxField', $moduleName, $return);
 		return $return;
-	}
-
-	/**
-	 * Get the value to save
-	 * @param \App\Request|\App\Base $request
-	 * @param string $field Field name
-	 * @param int $i Sequence number
-	 * @return string
-	 */
-	public function getValueForSave($request, $field, $i)
-	{
-		$value = '';
-		if ($request->has($field . $i)) {
-			$value = in_array($field, $this->jsonFields) ? \App\Json::encode($request->getArray($field . $i)) : $request->get($field . $i);
-		} else if ($request->has($field)) {
-			$value = in_array($field, $this->jsonFields) ? \App\Json::encode($request->getArray($field)) : $request->get($field);
-		}
-		if (in_array($field, ['qty', 'price', 'gross', 'net', 'discount', 'purchase', 'margin', 'marginp', 'tax', 'total'])) {
-			$value = CurrencyField::convertToDBFormat($value, null, true);
-		}
-		return $value;
 	}
 
 	/**
@@ -446,7 +417,7 @@ class Vtiger_InventoryField_Model extends App\Base
 			'sequence' => $db->getUniqueID($tableName, 'sequence', false),
 			'block' => $params['block'],
 			'displaytype' => $params['displayType'],
-			'params' => isset($params['params']) ? $params['params'] : '',
+			'params' => isset($params['params']) ? App\Purifier::decodeHtml($params['params']) : '',
 			'colspan' => $colSpan
 		])->execute();
 		return $db->getLastInsertID($tableName . '_id_seq');
@@ -456,7 +427,6 @@ class Vtiger_InventoryField_Model extends App\Base
 	 * Save field value
 	 * @param array $param
 	 * @return string/false
-	 * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
 	 */
 	public function saveField($type, $param)
 	{
@@ -479,7 +449,6 @@ class Vtiger_InventoryField_Model extends App\Base
 	 * Save sequence field
 	 * @param array $sequenceList
 	 * @return string/false
-	 * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
 	 */
 	public function saveSequence($sequenceList)
 	{
@@ -496,7 +465,6 @@ class Vtiger_InventoryField_Model extends App\Base
 	 * Delete inventory field
 	 * @param array $param
 	 * @return string/false
-	 * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
 	 */
 	public function delete($param)
 	{
