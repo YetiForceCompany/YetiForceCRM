@@ -84,7 +84,7 @@ class Vtiger_Menu_Model
 			}
 
 			if ($pageTitle) {
-				$breadcrumbs[] = ['name' => App\Language::translate($pageTitle, $moduleName)];
+				$breadcrumbs[] = ['name' => $pageTitle];
 			} elseif ($view == 'Edit' && $request->get('record') === '') {
 				$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_CREATE', $moduleName)];
 			} elseif ($view != '' && $view != 'index' && $view != 'Index') {
