@@ -101,7 +101,7 @@ class SharingAccess extends \Tests\Base
 
 		$row = (new \App\Db\Query())->from('vtiger_datashare_module_rel')->where(['shareid' => static::$shareId])->one();
 		$this->assertNotFalse($row, 'No record id: ' . static::$shareId);
-		$relationType = implode('::', array($sourceType, $targetType));
+		$relationType = implode('::', [$sourceType, $targetType]);
 
 		$this->assertEquals($ruleModel->getModule()->getId(), $row['tabid']);
 		$this->assertEquals($relationType, $row['relationtype']);
