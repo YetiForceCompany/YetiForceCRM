@@ -992,7 +992,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 	 */
 	registerRecordPreSaveEventEvent: function (form) {
 		form.on(Vtiger_Edit_Js.recordPreSave, function (e, data) {
-			
+
 		});
 	},
 	/**
@@ -1309,7 +1309,6 @@ jQuery.Class("Vtiger_Edit_Js", {
 		if (!apiData) {
 			return false;
 		}
-
 		jQuery('.api_address_autocomplete').each(function () {
 			jQuery(this).autocomplete({
 				source: function (request, response) {
@@ -1331,7 +1330,11 @@ jQuery.Class("Vtiger_Edit_Js", {
 				select: function (event, ui) {
 					for (var key in ui.item.components) {
 						var addressType = thisInstance.addressFieldsMappingFromApi[key];
-						jQuery(this).parents('.blockContainer').find('[name^="' + addressType + '"]').val(ui.item.components[key]);
+						var element = jQuery(this).parents('.blockContainer').find('[name^="' + addressType + '"]');
+						element.val(ui.item.components[key]);
+						if (element.is("select")) {
+							element.val(element.find('option[data-code="' + ui.item.components[key].toUpperCase() + '"]').val()).trigger('chosen:updated');
+						}
 					}
 				}
 			}).data("ui-autocomplete")._renderItem = function (ul, item) {
@@ -1344,17 +1347,19 @@ jQuery.Class("Vtiger_Edit_Js", {
 		});
 	},
 	addressFieldsMappingFromApi: {
-		'house_number': 'buildingnumber',
-		'local_number': 'localnumber',
-		'country': 'addresslevel1',
-		'state': 'addresslevel2',
-		'powiat': 'addresslevel3',
-		'county': 'addresslevel4',
-		'city': 'addresslevel5',
-		'region_city': 'addresslevel6',
-		'postcode': 'addresslevel7',
-		'road': 'addresslevel8',
-		'village': 'addresslevel5'
+		country_code: 'addresslevel1',
+		state: 'addresslevel2',
+		state_district: 'addresslevel3',
+		county: 'addresslevel4',
+		village: 'addresslevel5',
+		city: 'addresslevel5',
+		neighbourhood: 'addresslevel6',
+		city_district: 'addresslevel6',
+		suburb: 'addresslevel6',
+		postcode: 'addresslevel7',
+		road: 'addresslevel8',
+		house_number: 'buildingnumber',
+		local_number: 'localnumber',
 	},
 	setEnabledFields: function (element) {
 		var fieldValue = element.closest('.fieldValue');
@@ -1508,7 +1513,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 	registerCopyValue: function (container) {
 		container.find('.fieldValue [data-copy-to-field]').change(function (e) {
 			var element = jQuery(e.currentTarget);
-			container.find('[name="'+element.data('copyToField')+'"]').val(element.val());
+			container.find('[name="' + element.data('copyToField') + '"]').val(element.val());
 		});
 	},
 	/**

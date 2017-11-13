@@ -14,7 +14,7 @@
 			{if $FIELD_MODEL->isEmptyPicklistOptionAllowed()}<option value="" {if $FIELD_MODEL->isMandatory() eq true && $FIELD_VALUE neq ''} disabled{/if}>{\App\Language::translate('LBL_SELECT_OPTION')}</option>{/if}
 			{foreach item=VALUE key=KEY from=$FIELD_MODEL->getPicklistValues()}
 				{assign var="TRANSLATE" value=\App\Language::translateSingleMod($KEY,'Other.Country')}
-				<option value="{\App\Purifier::encodeHtml($KEY)}" title="{\App\Purifier::encodeHtml($TRANSLATE)}" {if $FIELD_VALUE eq $KEY}selected{/if}>{\App\Purifier::encodeHtml($TRANSLATE)}</option>
+				<option value="{\App\Purifier::encodeHtml($KEY)}" data-code="{$VALUE['code']}" title="{\App\Purifier::encodeHtml($TRANSLATE)}" {if $FIELD_VALUE eq $KEY}selected{/if}>{\App\Purifier::encodeHtml($TRANSLATE)}</option>
 			{/foreach}
 		</optgroup>
 	</select>
