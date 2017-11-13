@@ -32,7 +32,8 @@ class Users_VerifyData_Action extends Vtiger_Action_Controller
 		$message = '';
 		$moduleName = $request->getModule();
 		$checkUserName = false;
-		if (Users_Module_Model::checkMailExist($request->get('email'), $request->getInteger('record'))) {
+		$userId = $request->isEmpty('record', true) ? false : $request->getInteger('record');
+		if (Users_Module_Model::checkMailExist($request->get('email'), $userId)) {
 			$message = \App\Language::translate('LBL_USER_MAIL_EXIST', $moduleName);
 		}
 		if ($request->isEmpty('record', true)) {
@@ -44,13 +45,13 @@ class Users_VerifyData_Action extends Vtiger_Action_Controller
 				}
 			}
 		} else {
-			$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
+			$recordModel = Vtiger_Record_Model::getInstanceById($userId, $moduleName);
 			if ($request->get('userName') !== $recordModel->get('user_name')) {
 				$checkUserName = true;
 			}
 		}
 		if ($checkUserName) {
-			if ($checkUserName = Users_Module_Model::checkUserName($request->get('userName'), $request->getInteger('record'))) {
+			if ($checkUserName = Users_Module_Model::checkUserName($request->get('userName'), $userId)) {
 				$message = $checkUserName;
 			}
 		}
