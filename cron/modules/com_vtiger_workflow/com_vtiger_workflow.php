@@ -19,7 +19,7 @@ $workflowScheduler = new WorkFlowScheduler();
 $workflowScheduler->queueScheduledWorkflowTasks();
 $readyTasks = (new VTTaskQueue())->getReadyTasks();
 $tm = new VTTaskManager();
-foreach ($readyTasks as $tasdkDetails) {
+foreach ($readyTasks as $taskDetails) {
 	list($taskId, $entityId, $taskContents) = $taskDetails;
 	$task = $tm->retrieveTask($taskId);
 	//If task is not there then continue

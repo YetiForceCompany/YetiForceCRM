@@ -78,8 +78,11 @@ class VTTaskManager
 	 */
 	public function retrieveTask($taskId)
 	{
-		$task = (new \App\Db\Query())->select(['task'])->from('com_vtiger_workflowtasks')->where(['task_id' => $taskId])->scalar();
-		return $this->unserializeTask($task);
+		$row = (new \App\Db\Query())->select(['task_id', 'workflow_id', 'task'])->from('com_vtiger_workflowtasks')->where(['task_id' => $taskId])->one();
+		$task = $this->unserializeTask($row['task']);
+		$task->workflowId = $row['workflow_id'];
+		$task->id = $row['task_id'];
+		return $task;
 	}
 
 	/**
@@ -91,11 +94,14 @@ class VTTaskManager
 		if (\App\Cache::staticHas('getTasksForWorkflow', $workflowId)) {
 			return \App\Cache::staticGet('getTasksForWorkflow', $workflowId);
 		}
-		$rows = (new \App\Db\Query())->select(['task'])->from('com_vtiger_workflowtasks')->where(['workflow_id' => $workflowId])->column();
+		$dataReader = (new \App\Db\Query())->select(['task_id', 'workflow_id', 'task'])->from('com_vtiger_workflowtasks')->where(['workflow_id' => $workflowId])->createCommand()->query();
 		$tasks = [];
-		foreach ($rows as &$task) {
-			$this->requireTask(self::taskName($task));
-			$tasks[] = unserialize($task);
+		while ($row = $dataReader->read()) {
+			$this->requireTask(self::taskName($row['task']));
+			$task = unserialize($row['task']);
+			$task->workflowId = $row['workflow_id'];
+			$task->id = $row['task_id'];
+			$tasks[] = $task;
 		}
 		\App\Cache::staticGet('getTasksForWorkflow', $workflowId, $tasks);
 		return $tasks;
