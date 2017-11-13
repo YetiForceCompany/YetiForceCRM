@@ -617,27 +617,24 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 						}
 						var saveButton = form.find(':submit');
 						saveButton.attr('disabled', 'disabled');
-						thisInstance.addCustomField(blockId, form).then(
-								function (data) {
-									var result = data['result'];
-									var params = {};
-									if (data['success']) {
-										app.hideModalWindow();
-										params['text'] = app.vtranslate('JS_CUSTOM_FIELD_ADDED');
-										Settings_Vtiger_Index_Js.showMessage(params);
-										thisInstance.showCustomField(result);
-									} else {
-										var message = data['error']['message'];
-										if (data['error']['code'] != 513) {
-											var errorField = form.find('[name="fieldName"]');
-										} else {
-											var errorField = form.find('[name="fieldLabel"]');
-										}
-										errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
-										saveButton.removeAttr('disabled');
-									}
-								}
-						);
+						thisInstance.addCustomField(blockId, form).then(function (data) {
+							var result = data['result'];
+							var params = {};
+							if (data['success']) {
+								app.hideModalWindow();
+								params['text'] = app.vtranslate('JS_CUSTOM_FIELD_ADDED');
+								Settings_Vtiger_Index_Js.showMessage(params);
+								thisInstance.showCustomField(result);
+							} else {
+								var message = data['error']['message'];
+								Vtiger_Helper_Js.showPnotify({
+									title: data['error']['code'] != 513 ? form.find('.fieldNameForm').text() : form.find('.fieldLabelForm').text(),
+									type: 'error',
+									text: data['error']['message']
+								});
+								saveButton.removeAttr('disabled');
+							}
+						});
 					}
 					//To prevent form submit
 					return false;

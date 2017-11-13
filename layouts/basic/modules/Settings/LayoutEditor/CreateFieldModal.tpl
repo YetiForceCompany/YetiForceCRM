@@ -37,7 +37,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<div class="col-md-3 control-label">
+							<div class="col-md-3 control-label fieldLabelForm">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_LABEL_NAME', $QUALIFIED_MODULE)}
 							</div>
@@ -47,7 +47,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<div class="col-md-3 control-label">
+							<div class="col-md-3 control-label fieldNameForm">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_FIELD_NAME', $QUALIFIED_MODULE)}
 							</div>
