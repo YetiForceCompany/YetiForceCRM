@@ -26,9 +26,16 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 		if (empty($value)) {
 			return '';
 		}
-		$metaData = vtlib\Functions::getCRMRecordMetadata($value);
-		$linkValue = '<a class="modCT_' . $metaData['setype'] . '" href="index.php?module=' . $metaData['setype'] . '&view=Detail&record=' . $value . '" title="' . \App\Language::translate($metaData['setype'], $metaData['setype']) . '">' . \App\Record::getLabel($value) . '</a>';
-		return $linkValue;
+		$name = \App\Record::getLabel($value);
+		$moduleName = \App\Record::getType($value);
+		if ($value && !\App\Privilege::isPermitted($moduleName, 'DetailView', $value)) {
+			return $name;
+		}
+		$name = vtlib\Functions::textLength($name, vglobal('href_max_length'));
+		if (\App\Record::getState($value) !== 'Active') {
+			$name = '<s>' . $name . '</s>';
+		}
+		return "<a class='modCT_$moduleName showReferenceTooltip' href='index.php?module=$moduleName&view=Detail&record=$value' title='" . App\Language::translateSingularModuleName($moduleName) . "'>$name</a>";
 	}
 
 	/**
