@@ -304,6 +304,19 @@ class Purifier
 						$value = $input;
 					}
 					break;
+				case 'Bool':
+					if (is_bool($input) || strcasecmp('true', (string) $input) === 0) {
+						$value = $input;
+					}
+					break;
+				case 'NumberInUserFormat': // number in user format
+					$currentUser = User::getCurrentUserModel();
+					$input = str_replace($currentUser->getDetail('currency_grouping_separator'), '', $input);
+					$input = str_replace($currentUser->getDetail('currency_decimal_separator'), '.', $input);
+					if (is_numeric($input)) {
+						$value = $input;
+					}
+					break;
 				default:
 					$value = Purifier::purify($value);
 					break;

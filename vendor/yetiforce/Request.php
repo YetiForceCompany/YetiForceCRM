@@ -176,10 +176,11 @@ class Request
 	/**
 	 * Function to get the array values for a given key
 	 * @param string $key
+	 * @param mixed $type
 	 * @param array $value
 	 * @return array
 	 */
-	public function getArray($key, $value = [])
+	public function getArray($key, $type = false, $value = [])
 	{
 		if (isset($this->purifiedValuesByArray[$key])) {
 			return $this->purifiedValuesByArray[$key];
@@ -194,10 +195,10 @@ class Request
 					\App\Log::warning('Invalid data format, problem encountered while decoding JSON. Data should be in JSON format. Data: ' . $value);
 				}
 			}
-			settype($value, 'array');
 			if ($value) {
-				$value = Purifier::purify($value);
+				$value = $type ? Purifier::purifyByType($value, $type) : Purifier::purify($value);
 			}
+			settype($value, 'array');
 			return $this->purifiedValuesByArray[$key] = $value;
 		}
 		return $value;

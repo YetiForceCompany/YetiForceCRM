@@ -45,7 +45,7 @@ class Settings_LayoutEditor_SaveAjax_Action extends Settings_Vtiger_IndexAjax_Vi
 		$param = $request->get('param');
 		$moduleName = $param['module'];
 		$name = $param['name'];
-		$id = $param['id'];
+		$id = (int) $param['id'];
 		$edit = false;
 		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
 		if (!empty($id)) {
