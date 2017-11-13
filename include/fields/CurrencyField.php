@@ -387,20 +387,18 @@ class CurrencyField
 		if (empty($user)) {
 			$user = $current_user;
 		}
-
 		$this->initialize($user);
-
-		$value = $this->value;
-
 		$currencySeparator = $this->currencySeparator;
 		$decimalSeparator = $this->decimalSeparator;
-		if (empty($currencySeparator))
+		if (empty($currencySeparator)) {
 			$currencySeparator = ' ';
-		if (empty($decimalSeparator))
+		}
+		if (empty($decimalSeparator)) {
 			$decimalSeparator = ' ';
-		$value = str_replace($currencySeparator, '', $value);
+		}
+		$value = str_replace($currencySeparator, '', $this->value);
 		$value = str_replace($decimalSeparator, '.', $value);
-		$value = preg_replace('/[^0-9\.]/', '', $value);
+		$value = (float) preg_replace('/[^0-9\.-]/', '', $value);
 		if ($skipConversion === false) {
 			$value = self::convertToDollar($value, $this->conversionRate);
 		}
