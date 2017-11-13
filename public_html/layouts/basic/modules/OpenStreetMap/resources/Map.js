@@ -318,11 +318,12 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			minLength: '3',
 			source: function (request, response) {
 				AppConnector.request({
-					module: app.getModuleName(),
+					module: searchModule.val(),
+					curentModule: app.getModuleName(),
+					searchModule: searchModule.val(),
 					view: 'BasicAjax',
 					mode: 'showSearchResults',
 					value: searchValue.val(),
-					searchModule: searchModule.val(),
 					html: false,
 				}).then(function (responseAjax) {
 					responseAjax = JSON.parse(responseAjax);

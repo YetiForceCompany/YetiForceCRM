@@ -22,7 +22,13 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 
 	public function checkPermission(\App\Request $request)
 	{
-		
+		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+		if (!$request->isEmpty('searchModule') && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('searchModule', 1))) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
 	}
 
 	public function preProcess(\App\Request $request, $display = true)
@@ -54,16 +60,14 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		$excludedModuleForSearch = ['Vtiger', 'Reports'];
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		if (!$request->isEmpty('source_module')) {
-			$moduleName = $request->getByType('source_module', 1);
+		if (!$request->isEmpty('searchModule')) {
+			$moduleName = $request->getByType('searchModule', 1);
 		}
-
 		$saveFilterPermitted = true;
 		$saveFilterexcludedModules = ['ModComments', 'RSS', 'Portal', 'Integration', 'PBXManager', 'DashBoard'];
 		if (in_array($moduleName, $saveFilterexcludedModules)) {
 			$saveFilterPermitted = false;
 		}
-
 		//See if it is an excluded module, If so search in home module
 		if (in_array($moduleName, $excludedModuleForSearch)) {
 			$moduleName = 'Home';
@@ -108,9 +112,6 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$advFilterList = $request->get('advfilterlist');
-		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($moduleName)) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
 		//used to show the save modify filter option
 		$isAdvanceSearch = false;
 		$matchingRecords = [];
@@ -152,11 +153,10 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 				$matchingRecords = $matchingRecordsList;
 			}
 		}
-		$curentModule = $request->getByType('curentModule', 1);
-		if (AppConfig::search('GLOBAL_SEARCH_CURRENT_MODULE_TO_TOP') && isset($matchingRecords[$curentModule])) {
-			$pushTop = $matchingRecords[$curentModule];
-			unset($matchingRecords[$curentModule]);
-			$matchingRecords = [$curentModule => $pushTop] + $matchingRecords;
+		if (AppConfig::search('GLOBAL_SEARCH_CURRENT_MODULE_TO_TOP') && isset($matchingRecords[$moduleName])) {
+			$pushTop = $matchingRecords[$moduleName];
+			unset($matchingRecords[$moduleName]);
+			$matchingRecords = [$moduleName => $pushTop] + $matchingRecords;
 		}
 		if ($request->getBoolean('html')) {
 			$viewer->assign('MODULE', $moduleName);

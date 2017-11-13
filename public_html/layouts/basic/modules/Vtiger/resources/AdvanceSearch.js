@@ -63,26 +63,18 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 	 */
 	getAdvanceSearch: function () {
 		var aDeferred = jQuery.Deferred();
-		var moduleName = app.getModuleName();
 		var searchModule = this.getSearchModule();
 		//Exists in the cache
 		if (searchModule in Vtiger_AdvanceSearch_Js.cache) {
 			aDeferred.resolve(Vtiger_AdvanceSearch_Js.cache[searchModule]);
 			return aDeferred.promise();
 		}
-
-		//if you are in settings then module should be vtiger
-		if (app.getParentModuleName().length > 0) {
-			moduleName = 'Vtiger';
-		}
-
 		var searchableModulesParams = {
-			"module": moduleName,
-			"view": "BasicAjax",
-			"mode": "showAdvancedSearch",
-			"source_module": searchModule
+			module: app.getModuleName(),
+			searchModule: searchModule,
+			view: "BasicAjax",
+			mode: "showAdvancedSearch",
 		};
-
 		var progressInstance = jQuery.progressIndicator();
 		AppConnector.request(searchableModulesParams).then(
 				function (data) {
@@ -172,12 +164,11 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 	search: function () {
 		var conditionValues = this.advanceFilter.getValues();
 		var module = this.getSearchModule();
-
-		var params = {};
-		params.module = module;
-		params.advfilterlist = JSON.stringify(conditionValues);
-
-		return this._search(params);
+		return this._search({
+			module: app.getModuleName(),
+			searchModule: module, 
+			advfilterlist: JSON.stringify(conditionValues)
+		});
 	},
 	/**
 	 * Function which shows search results in proper manner
