@@ -918,7 +918,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	 */
 	public function convertInventoryDataToObject($inventoryData = [])
 	{
-		$inventoryModel = new \App\Base();
+		$inventoryModel = new \App\Request([], false);
 		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->module);
 		$jsonFields = $inventoryFieldModel->getJsonFields();
 		foreach ($inventoryData as $index => $data) {
