@@ -287,18 +287,21 @@ class Users_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		if ($checkUserExist) {
-			if ((new App\Db\Query())
-					->from('vtiger_users')
-					->leftJoin('vtiger_user2role', 'vtiger_user2role.userid = vtiger_users.id')
-					->where(['user_name' => $this->get('user_name'), 'vtiger_user2role.roleid' => $this->get('roleid')])->exists()) {
-				throw new \App\Exceptions\SaveRecord('LBL_USER_EXISTS', 406);
+			$query = (new App\Db\Query())->from('vtiger_users')
+				->leftJoin('vtiger_user2role', 'vtiger_user2role.userid = vtiger_users.id')
+				->where(['vtiger_users.user_name' => $this->get('user_name'), 'vtiger_user2role.roleid' => $this->get('roleid')]);
+			if ($this->isNew() === false) {
+				$query->andWhere(['<>', 'vtiger_users.id', $this->getId()]);
+			}
+			if ($query->exists()) {
+				throw new \App\Exceptions\SaveRecord('ERR_USER_EXISTS||' . $this->get('user_name'), 406);
 			}
 			if ($this->getId()) {
 				\App\Db::getInstance()->createCommand()->delete('vtiger_module_dashboard_widgets', ['userid' => $this->getId()])->execute();
 			}
 			\App\Privilege::setAllUpdater();
 		}
-		if (!$this->isNew() && $this->has('user_password') && App\User::getCurrentUserId() === $this->getId()) {
+		if (!$this->isNew() && $this->getPreviousValue('user_password') !== false && App\User::getCurrentUserId() === $this->getId()) {
 			$isExists = (new \App\Db\Query())->from('l_#__userpass_history')->where(['user_id' => $this->getId(), 'pass' => \App\Encryption::createHash($this->get('user_password'))])->exists();
 			if ($isExists) {
 				throw new \App\Exceptions\SaveRecord('ERR_PASSWORD_HAS_ALREADY_BEEN_USED', 406);
@@ -311,7 +314,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function afterSaveToDb()
 	{
-		if ($this->has('user_password') && ($this->isNew() || App\User::getCurrentUserId() === $this->getId())) {
+		if ($this->getPreviousValue('user_password') !== false && ($this->isNew() || App\User::getCurrentUserId() === $this->getId())) {
 			\App\Db::getInstance()->createCommand()
 				->insert('l_#__userpass_history', [
 					'pass' => \App\Encryption::createHash($this->get('user_password')),

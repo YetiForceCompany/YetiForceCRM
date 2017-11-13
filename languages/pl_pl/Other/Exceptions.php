@@ -13,4 +13,5 @@ $languageStrings = [
 	'ERR_VALUE_CAN_NOT_BE_LESS_THAN_ZERO' => 'Wartość pola %s musi być większa od zera (%s)',
 	'ERR_NOT_ALLOWED_VALUE' => 'Wykryto niedozwoloną wartość, prosimy o kontakt z administratorem',
 	'ERR_PASSWORD_HAS_ALREADY_BEEN_USED' => 'Takie hasło było już kiedyś używane, system ze względów bezpieczeństwa nie pozwala na używanie takich samych haseł.',
+	'ERR_USER_EXISTS' => 'Użytkownik o takiej nazwie i roli już istnieje (%s)',
 ];

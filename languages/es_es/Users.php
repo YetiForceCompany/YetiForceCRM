@@ -310,7 +310,6 @@ $languageStrings = [
 	'LBL_SWITCH' => 'Cambiar',
 	'LBL_SWITCH_USER' => 'Cambiar usuario',
 	'LBL_SWITCH_TO_YOURSELF' => 'Cambiar a ti mismo',
-	'LBL_USER_EXISTS' => 'el usuario ya existe',
 	'LBL_FAILED_TO_UPDATE_ACCESS_KEY' => 'Falló actualizar la llave de acceso',
 	'LBL_USER_MAIL_EXIST' => 'El usuario con este correo ya existe',
 	'LBL_INVALID_USERNAME' => 'Usuario inválido',

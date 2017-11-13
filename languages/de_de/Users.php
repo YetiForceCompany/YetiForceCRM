@@ -315,7 +315,6 @@ $languageStrings = [
 	'LBL_SWITCH' => 'Wechsel',
 	'LBL_SWITCH_USER' => 'Benutzer wechseln',
 	'LBL_SWITCH_TO_YOURSELF' => 'Zurückwechseln',
-	'LBL_USER_EXISTS' => 'Benutzer existiert bereits',
 	'LBL_FAILED_TO_UPDATE_ACCESS_KEY' => 'Fehler beim Aktualisieren des Zugangsschlüssel',
 	'LBL_USER_MAIL_EXIST' => 'Benutzer zu dieser E-Mail Adresse existiert bereits',
 	'LBL_INVALID_USERNAME' => 'Fehlerhafter Benutzername',
