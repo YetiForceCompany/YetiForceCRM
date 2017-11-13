@@ -11,7 +11,10 @@ namespace App;
 class TextParser
 {
 
-	/** @var array Examples of supported variables */
+	/**
+	 * Examples of supported variables
+	 * @var array
+	 */
 	public static $variableExamples = [
 		'LBL_ORGANIZATION_NAME' => '$(organization : name)$',
 		'LBL_ORGANIZATION_LOGO' => '$(organization : mailLogo)$',
@@ -31,7 +34,10 @@ class TextParser
 		'LBL_RECORDS_LIST' => '$(recordsList : Contacts|firstname,lastname,email|[[["firstname","a","Tom"]]]||5)$',
 	];
 
-	/** @var array Variables for entity modules */
+	/**
+	 * Variables for entity modules
+	 * @var array 
+	 */
 	public static $variableGeneral = [
 		'LBL_CURRENT_DATE' => '$(general : CurrentDate)$',
 		'LBL_CURRENT_TIME' => '$(general : CurrentTime)$',
@@ -42,7 +48,10 @@ class TextParser
 		'LBL_TRANSLATE' => '$(translate : Accounts|LBL_COPY_BILLING_ADDRESS)$, $(translate : LBL_SECONDS)$',
 	];
 
-	/** @var array Variables for entity modules */
+	/**
+	 * Variables for entity modules
+	 * @var array 
+	 */
 	public static $variableEntity = [
 		'CrmDetailViewURL' => 'LBL_CRM_DETAIL_VIEW_URL',
 		'PortalDetailViewURL' => 'LBL_PORTAL_DETAIL_VIEW_URL',
@@ -53,44 +62,81 @@ class TextParser
 		'Comments' => 'LBL_RECORD_COMMENT'
 	];
 
-	/** @var string[] List of available functions */
+	/**
+	 * List of available functions
+	 * @var string[] 
+	 */
 	protected static $baseFunctions = ['general', 'translate', 'record', 'relatedRecord', 'sourceRecord', 'organization', 'employee', 'params', 'custom', 'relatedRecordsList', 'recordsList'];
 
-	/** @var string[] List of source modules */
+	/**
+	 * List of source modules
+	 * @var string[] 
+	 */
 	public static $sourceModules = [
 		'Campaigns' => ['Leads', 'Accounts', 'Contacts', 'Vendors', 'Partners', 'Competition']
 	];
 	private static $recordVariable;
 	private static $relatedVariable;
 
-	/** @var int Record id */
+	/**
+	 * Record id
+	 * @var int 
+	 */
 	public $record;
 
-	/** @var string Module name */
+	/**
+	 * Module name
+	 * @var string 
+	 */
 	public $moduleName;
 
-	/** @var \Vtiger_Record_Model Record model */
+	/**
+	 * Record model
+	 * @var \Vtiger_Record_Model 
+	 */
 	public $recordModel;
 
-	/** @var string|null Parser type */
+	/**
+	 * Parser type
+	 * @var string|null
+	 */
 	public $type;
 
-	/** @var \Vtiger_Record_Model Source record model */
+	/**
+	 * Source record model
+	 * @var \Vtiger_Record_Model
+	 * 
+	 */
 	protected $sourceRecordModel;
 
-	/** @var string Content */
+	/**
+	 * Content
+	 *  @var string
+	 */
 	protected $content;
 
-	/** @var string Rwa content */
+	/**
+	 * Rwa content
+	 * @var string
+	 */
 	protected $rawContent;
 
-	/** @var bool without translations */
+	/**
+	 * without translations
+	 * @var bool 
+	 */
 	protected $withoutTranslations = false;
 
-	/** @var string Language content */
+	/**
+	 * Language content
+	 * @var string
+	 */
 	protected $language;
 
-	/** @var array Additional params */
+	/**
+	 * Additional params
+	 * @var array
+	 */
 	protected $params;
 
 	/**
@@ -98,6 +144,12 @@ class TextParser
 	 * @var string 
 	 */
 	public $relatedRecordSeparator = ',';
+
+	/**
+	 * Is the parsing text content html?
+	 * @var bool
+	 */
+	public $isHtml = true;
 
 	/**
 	 * Get instanace by record id
@@ -422,10 +474,9 @@ class TextParser
 					$currentValue = $this->getDisplayValueByField($fieldModel);
 					if ($this->withoutTranslations !== true) {
 						$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ' ';
-						$value .= Language::translate('LBL_FROM') . " $oldValue " . Language::translate('LBL_TO') . " $currentValue" . PHP_EOL;
+						$value .= Language::translate('LBL_FROM') . " $oldValue " . Language::translate('LBL_TO') . " $currentValue" . ($this->isHtml ? '<br />' : PHP_EOL);
 					} else {
-						$value .= "\$(translate : $this->moduleName|{$fieldModel->getFieldLabel()})\$ \$(translate : LBL_FROM)\$ $oldValue \$(translate : LBL_TO)\$ " .
-							$currentValue . PHP_EOL;
+						$value .= "\$(translate : $this->moduleName|{$fieldModel->getFieldLabel()})\$ \$(translate : LBL_FROM)\$ $oldValue \$(translate : LBL_TO)\$ " . $currentValue . ($this->isHtml ? '<br />' : PHP_EOL);
 					}
 				}
 				return $value;
@@ -437,14 +488,14 @@ class TextParser
 				}
 				foreach ($changes as $fieldName => $oldValue) {
 					$fieldModel = $this->recordModel->getModule()->getField($fieldName);
-					if (!$fieldModel) {
+					if (!$fieldModel || $oldValue !== '') {
 						continue;
 					}
 					$currentValue = $this->getDisplayValueByField($fieldModel);
 					if ($this->withoutTranslations !== true) {
-						$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ": $currentValue" . PHP_EOL;
+						$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ": $currentValue" . ($this->isHtml ? '<br />' : PHP_EOL);
 					} else {
-						$value .= "\$(translate : $this->moduleName|{$fieldModel->getFieldLabel()})\$: $currentValue" . PHP_EOL;
+						$value .= "\$(translate : $this->moduleName|{$fieldModel->getFieldLabel()})\$: $currentValue" . ($this->isHtml ? '<br />' : PHP_EOL);
 					}
 				}
 				return $value;
@@ -660,8 +711,8 @@ class TextParser
 	 */
 	protected function getDisplayValueByField(\Vtiger_Field_Model $fieldModel, $value = false)
 	{
+		$recordModel = $this->recordModel;
 		if ($value === false) {
-			$recordModel = $this->recordModel;
 			$value = $this->recordModel->get($fieldModel->getName(), $this->recordModel->getId(), $this->recordModel, true);
 			if (!$fieldModel->isViewEnabled()) {
 				return '-';
