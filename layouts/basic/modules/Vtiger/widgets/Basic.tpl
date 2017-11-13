@@ -44,7 +44,7 @@
 											<span class="glyphicon glyphicon-search"></span>
 										</button>
 									{/if}
-									{if $WIDGET['data']['action'] eq 1}
+									{if $WIDGET['data']['action'] eq 1 && \App\Privilege::isPermitted($RELATIONMODEL->getRelationModuleName(), 'CreateView')}
 										{assign var=RELATION_FIELD value=$RELATIONMODEL->getRelationField()}
 										{assign var=AUTOCOMPLETE_FIELD value=$RELATIONMODEL->getAutoCompleteField($VRM)}
 										<button class="btn btn-sm btn-default createRecordFromFilter" type="button" data-url="{$WIDGET['actionURL']}"
