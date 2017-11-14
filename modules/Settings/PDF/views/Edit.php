@@ -30,11 +30,9 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-
-		$recordId = $request->get('record');
-		if ($recordId) {
-			$pdfModel = Vtiger_PDF_Model::getInstanceById($recordId);
-			$viewer->assign('RECORDID', $recordId);
+		if (!$request->isEmpty('record', true)) {
+			$pdfModel = Vtiger_PDF_Model::getInstanceById($request->getInteger('record'));
+			$viewer->assign('RECORDID', $request->getInteger('record'));
 			$viewer->assign('MODE', 'edit');
 			$selectedModuleName = $pdfModel->get('module_name');
 		} else {
