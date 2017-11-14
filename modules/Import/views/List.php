@@ -23,7 +23,7 @@ class Import_List_View extends Vtiger_Popup_View
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPrivilegesModel->hasModulePermission($request->getByType('for_module'))) {
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->getByType('forModule'))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
@@ -40,7 +40,7 @@ class Import_List_View extends Vtiger_Popup_View
 			$this->invokeExposedMethod($mode, $request);
 		} else {
 			$this->initializeListViewContents($request, $viewer);
-			$moduleName = $request->getByType('for_module');
+			$moduleName = $request->getByType('forModule');
 			$viewer->assign('MODULE_NAME', $moduleName);
 
 			$viewer->view('Popup.tpl', $moduleName);
@@ -52,7 +52,7 @@ class Import_List_View extends Vtiger_Popup_View
 
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
-		$moduleName = $request->getByType('for_module');
+		$moduleName = $request->getByType('forModule');
 		$cvId = $request->getByType('viewname', 2);
 		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->getForSql('orderby');
