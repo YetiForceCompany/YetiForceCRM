@@ -334,13 +334,28 @@ jQuery.Class("Vtiger_Detail_Js", {
 		return aDeferred.promise();
 	},
 	widgetRelatedRecordView: function (container, load) {
+		var cacheKey = this.getRecordId() + '_' + container.data('id');
+		var relatedRecordCacheID = app.moduleCacheGet(cacheKey);
+		if (relatedRecordCacheID !== null) {
+			var newActive = container.find(".item[data-id = '" + relatedRecordCacheID + "']");
+			if (newActive.length) {
+				container.find('.item.active').removeClass('active');
+				container.find(".item[data-id = '" + relatedRecordCacheID + "']").addClass('active');
+			}
+		}
 		var controlBox = container.find('.control-widget');
 		var prev = controlBox.find('.prev');
 		var next = controlBox.find('.next');
-		if (container.find('.item').length <= 1) {
+		var active = container.find('.item.active');
+		if (container.find('.item').length <= 1 || !active.next().length) {
 			next.addClass('disabled');
 		} else {
 			next.removeClass('disabled');
+		}
+		if (container.find('.item').length <= 1 || !active.prev().length) {
+			prev.addClass('disabled');
+		} else {
+			prev.removeClass('disabled');
 		}
 		if (load) {
 			next.click(function () {
@@ -357,7 +372,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				if (active.prev()) {
 					prev.removeClass('disabled');
 				}
-
+				app.moduleCacheSet(cacheKey, nextElement.data('id'));
 			});
 			prev.click(function () {
 				if ($(this).hasClass('disabled')) {
@@ -373,6 +388,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				if (active.next()) {
 					next.removeClass('disabled');
 				}
+				app.moduleCacheSet(cacheKey, prevElement.data('id'));
 			});
 		}
 	},
@@ -440,7 +456,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var targetTab = false;
 		tabs.each(function (index, element) {
 			var tab = jQuery(element);
-			console.log(tab.data('reference') , moduleName);
 			if (tab.data('reference') == moduleName) {
 				targetTab = tab;
 				return false;

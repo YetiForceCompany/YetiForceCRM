@@ -73,7 +73,7 @@
 			<div class="carousel slide" data-ride="carousel">
 				<div class="carousel-inner" role="listbox">
 					{foreach item=RELATED_RECORD from=$RELATED_RECORDS name=recordlist}
-						<div class="item {if $smarty.foreach.recordlist.first}active{/if}">
+						<div class="item {if $smarty.foreach.recordlist.first}active{/if}" data-id="{$RELATED_RECORD->getId()}">
 							<table class="summary-table">
 								<tbody>
 									{foreach item=HEADER_FIELD from=$RELATED_HEADERS}

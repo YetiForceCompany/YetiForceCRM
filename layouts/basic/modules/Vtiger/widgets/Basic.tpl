@@ -1,7 +1,7 @@
 {strip}
 	<div class="summaryWidgetContainer">
 		{assign var=RELATED_MODULE_NAME value=App\Module::getModuleName($WIDGET['data']['relatedmodule'])}
-		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
+		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}" data-id="{$WIDGET['id']}">
 			<div class="widget_header">
 				<input type="hidden" name="relatedModule" value="{$RELATED_MODULE_NAME}" />
 				<div class="row">
