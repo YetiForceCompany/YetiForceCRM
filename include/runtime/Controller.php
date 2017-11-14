@@ -269,7 +269,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			return $this->breadcrumbTitle;
 		}
 		if (isset($this->pageTitle)) {
-			return $this->pageTitle;
+			return App\Language::translate($this->pageTitle, $request->getModule(false));
 		}
 		return '';
 	}
