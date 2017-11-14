@@ -171,6 +171,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		} else {
 			$eventHandler->setSystemTrigger('UserSystemAfterEdit');
 		}
+		\App\Cache::clearOpcache();
 	}
 
 	/**

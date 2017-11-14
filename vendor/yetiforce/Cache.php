@@ -19,6 +19,12 @@ class Cache
 	const SHORT = 60;
 
 	/**
+	 * Clean the opcache after the script finishes
+	 * @var bool
+	 */
+	public static $clearOpcache = false;
+
+	/**
 	 * Initialize cache class.
 	 */
 	public static function init()
@@ -140,5 +146,22 @@ class Cache
 	public static function staticClear()
 	{
 		static::$staticPool->clear();
+	}
+
+	/**
+	 * Clear the opcache after the script finishes
+	 * @return boolean
+	 */
+	public static function clearOpcache()
+	{
+		if (static::$clearOpcache) {
+			return false;
+		}
+		register_shutdown_function(function () {
+			if (function_exists('opcache_reset')) {
+				opcache_reset();
+			}
+		});
+		static::$clearOpcache = true;
 	}
 }
