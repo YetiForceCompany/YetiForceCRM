@@ -81,7 +81,6 @@ class VTScheduledReport extends Reports
 			if (!empty($recipientsInfo['users'])) {
 				$recipientsList = array_merge($recipientsList, $recipientsInfo['users']);
 			}
-
 			if (!empty($recipientsInfo['roles'])) {
 				foreach ($recipientsInfo['roles'] as $roleId) {
 					$roleUsers = \App\PrivilegeUtil::getUsersNameByRole($roleId);
@@ -90,17 +89,13 @@ class VTScheduledReport extends Reports
 					}
 				}
 			}
-
 			if (!empty($recipientsInfo['rs'])) {
 				foreach ($recipientsInfo['rs'] as $roleId) {
-					$users = getRoleAndSubordinateUsers($roleId);
-					foreach ($users as $userId => $userName) {
+					foreach (\App\PrivilegeUtil::getUsersByRoleAndSubordinate($roleId) as $userId) {
 						array_push($recipientsList, $userId);
 					}
 				}
 			}
-
-
 			if (!empty($recipientsInfo['groups'])) {
 				foreach ($recipientsInfo['groups'] as $groupId) {
 					$recipientsList = array_merge($recipientsList, App\PrivilegeUtil::getUsersByGroup($groupId));
@@ -241,91 +236,6 @@ class VTScheduledReport extends Reports
 		$adb = $this->db;
 		$nextTriggerTime = $this->getNextTriggerTime(); // Compute based on the frequency set
 		$adb->pquery('UPDATE vtiger_scheduled_reports SET next_trigger_time=? WHERE reportid=?', [$nextTriggerTime, $this->id]);
-	}
-
-	public static function generateRecipientOption($type, $value, $name = '')
-	{
-		switch ($type) {
-			case 'users' : if (empty($name))
-					$name = \App\Fields\Owner::getUserLabel($value);
-				$optionName = 'User::' . addslashes(App\Purifier::decodeHtml($name));
-				$optionValue = 'users::' . $value;
-				break;
-			case 'groups' : if (empty($name)) {
-					$name = \App\Fields\Owner::getGroupName($value);
-				}
-				$optionName = 'Group::' . addslashes(App\Purifier::decodeHtml($name));
-				$optionValue = 'groups::' . $value;
-				break;
-			case 'roles' : if (empty($name))
-					$name = \App\PrivilegeUtil::getRoleName($value);
-				$optionName = 'Roles::' . addslashes(App\Purifier::decodeHtml($name));
-				$optionValue = 'roles::' . $value;
-				break;
-			case 'rs' : if (empty($name))
-					$name = \App\PrivilegeUtil::getRoleName($value);
-				$optionName = 'RoleAndSubordinates::' . addslashes(App\Purifier::decodeHtml($name));
-				$optionValue = 'rs::' . $value;
-				break;
-		}
-		return '<option value="' . $optionValue . '">' . $optionName . '</option>';
-	}
-
-	public function getSelectedRecipientsHTML()
-	{
-		$selectedRecipientsHTML = '';
-		if (!empty($this->scheduledRecipients)) {
-			foreach ($this->scheduledRecipients as $recipientType => $recipients) {
-				foreach ($recipients as $recipientId) {
-					$selectedRecipientsHTML .= VTScheduledReport::generateRecipientOption($recipientType, $recipientId);
-				}
-			}
-		}
-		return $selectedRecipientsHTML;
-	}
-
-	public static function getAvailableUsersHTML()
-	{
-		$userDetails = getAllUserName();
-		$usersHTML = '<select id="availableRecipients" name="availableRecipients" multiple size="10" class="small crmFormList">';
-		foreach ($userDetails as $userId => $userName) {
-			$usersHTML .= VTScheduledReport::generateRecipientOption('users', $userId, $userName);
-		}
-		$usersHTML .= '</select>';
-		return $usersHTML;
-	}
-
-	public static function getAvailableGroupsHTML()
-	{
-		$grpDetails = getAllGroupName();
-		$groupsHTML = '<select id="availableRecipients" name="availableRecipients" multiple size="10" class="small crmFormList">';
-		foreach ($grpDetails as $groupId => $groupName) {
-			$groupsHTML .= VTScheduledReport::generateRecipientOption('groups', $groupId, $groupName);
-		}
-		$groupsHTML .= '</select>';
-		return $groupsHTML;
-	}
-
-	public static function getAvailableRolesHTML()
-	{
-		$roleDetails = getAllRoleDetails();
-		$rolesHTML = '<select id="availableRecipients" name="availableRecipients" multiple size="10" class="small crmFormList">';
-		foreach ($roleDetails as $roleId => $roleInfo) {
-			$rolesHTML .= VTScheduledReport::generateRecipientOption('roles', $roleId, $roleInfo[0]);
-		}
-		$rolesHTML .= '</select>';
-		return $rolesHTML;
-	}
-
-	public static function getAvailableRolesAndSubordinatesHTML()
-	{
-		$roleDetails = getAllRoleDetails();
-		$rolesAndSubHTML = '<select id="availableRecipients" name="availableRecipients" multiple size="10" class="small crmFormList">';
-		foreach ($roleDetails as $roleId => $roleInfo) {
-			$rolesAndSubHTML .= VTScheduledReport::generateRecipientOption('rs', $roleId, $roleInfo[0]);
-		}
-		$rolesAndSubHTML .= '</select>';
-		return $rolesAndSubHTML;
 	}
 
 	public static function getScheduledReports($adb, $user)

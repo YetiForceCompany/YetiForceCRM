@@ -400,7 +400,7 @@ class Users extends CRMEntity
 	{
 		App\Db::getInstance()->createCommand()
 			->update('vtiger_users', [
-				'accesskey' => vtws_generateRandomAccessKey(16),
+				'accesskey' => \App\Encryption::generatePassword(20, 'lbn'),
 				], ['id' => $this->id])
 			->execute();
 		\App\UserPrivilegesFile::createUserPrivilegesfile($this->id);

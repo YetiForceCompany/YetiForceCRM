@@ -71,13 +71,12 @@ class VTCreateEntityTask extends VTTask
 					}
 				}
 				if (in_array($fieldName, $ownerFields) && !is_numeric($fieldValue)) {
-					$userId = getUserId_Ol($fieldValue);
+					$userId = App\User::getUserIdByName($fieldValue);
 					$groupId = \App\Fields\Owner::getGroupId($fieldValue);
-
-					if ($userId == 0 && $groupId == 0) {
+					if (!$userId && !$groupId) {
 						$fieldValue = $recordModel->get($fieldName);
 					} else {
-						$fieldValue = ($userId == 0) ? $groupId : $userId;
+						$fieldValue = (!$userId) ? $groupId : $userId;
 					}
 				}
 				$newRecordModel->set($fieldName, $fieldValue);
@@ -150,13 +149,12 @@ class VTCreateEntityTask extends VTTask
 				}
 			}
 			if (in_array($fieldName, $ownerFields) && !is_numeric($fieldValue)) {
-				$userId = getUserId_Ol($fieldValue);
+				$userId = App\User::getUserIdByName($fieldValue);
 				$groupId = \App\Fields\Owner::getGroupId($fieldValue);
-
-				if ($userId == 0 && $groupId == 0) {
+				if (!$userId && !$groupId) {
 					$fieldValue = $parentRecordModel->get($fieldName);
 				} else {
-					$fieldValue = ($userId == 0) ? $groupId : $userId;
+					$fieldValue = (!$userId) ? $groupId : $userId;
 				}
 			}
 			$recordModel->set($fieldName, $fieldValue);

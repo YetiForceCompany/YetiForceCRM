@@ -156,12 +156,8 @@ class Picklist
 		$values = [];
 		$exists = (new \App\Db\Query())->select(['picklistid'])->from('vtiger_picklist')->where(['name' => $tableName])->exists();
 		if ($exists) {
-			$sub = getSubordinateRoleAndUsers($roleId);
-			$subRoles = [$roleId];
-			$subRoles = array_merge($subRoles, array_keys($sub));
-
-			$roleIds = [];
-			foreach ($subRoles as $role) {
+			$roleIds = [$roleId];
+			foreach (\App\PrivilegeUtil::getRoleSubordinates($roleId) as $role) {
 				$roleIds[] = $role;
 			}
 			$dataReader = (new \App\Db\Query())->select([$tableName, 'sortid'])->from("vtiger_$tableName")

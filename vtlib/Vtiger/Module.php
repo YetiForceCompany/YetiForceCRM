@@ -157,14 +157,6 @@ class Module extends ModuleBasic
 		Webservice::initialize($this);
 	}
 
-	/**
-	 * De-Initialize webservice setup for this module instance.
-	 */
-	public function deinitWebservice()
-	{
-		Webservice::uninitialize($this);
-	}
-
 	public function createFiles(Field $entityField)
 	{
 		$targetpath = 'modules/' . $this->name;

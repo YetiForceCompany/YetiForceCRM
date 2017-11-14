@@ -85,7 +85,7 @@ class Install_InitSchema_Model
 			'first_name' => $_SESSION['config_file_info']['firstname'],
 			'last_name' => $_SESSION['config_file_info']['lastname'],
 			'email1' => $_SESSION['config_file_info']['admin_email'],
-			'accesskey' => vtws_generateRandomAccessKey(16),
+			'accesskey' => \App\Encryption::generatePassword(20, 'lbn'),
 			'language' => $_SESSION['default_language']
 			]
 		);

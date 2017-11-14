@@ -305,18 +305,9 @@ class ReportRun extends CRMEntity
 			$fieldcolname = $columnslistrow['columnname'];
 			list($tablename, $colname, $module_field, $fieldname, $single) = explode(':', $fieldcolname);
 			list($module) = explode('__', $module_field, 2);
-			$inventory_fields = ['serviceid'];
-			$inventory_modules = getInventoryModules();
 			require('user_privileges/user_privileges_' . $current_user->id . '.php');
 			if (sizeof($permitted_fields[$module]) == 0 && $is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1) {
 				$permitted_fields[$module] = $this->getaccesfield($module);
-			}
-			if (in_array($module, $inventory_modules)) {
-				if (!empty($permitted_fields)) {
-					foreach ($inventory_fields as $value) {
-						array_push($permitted_fields[$module], $value);
-					}
-				}
 			}
 			$selectedfields = explode(':', $fieldcolname);
 			if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && !in_array($selectedfields[3], $permitted_fields[$module])) {
@@ -349,7 +340,7 @@ class ReportRun extends CRMEntity
 				$this->queryPlanner->addTable($selectedfields[0]);
 				continue;
 			}
-			if ((!\App\Field::getFieldPermission($mod, $fieldname) && $colname !== 'crmid' && (!in_array($fieldname, $inventory_fields) && in_array($module, $inventory_modules))) || empty($fieldname)) {
+			if (!\App\Field::getFieldPermission($mod, $fieldname) || empty($fieldname)) {
 				continue;
 			} else {
 				$this->labelMapping[$selectedfields[2]] = str_replace(' ', '__', $fieldlabel);
@@ -1538,8 +1529,6 @@ class ReportRun extends CRMEntity
 
 		$result = $adb->pquery($sreportsortsql, [$reportid, $reportid]);
 		$grouplist = [];
-
-		$inventoryModules = getInventoryModules();
 		while ($reportsortrow = $adb->fetchArray($result)) {
 			$fieldcolname = $reportsortrow['columnname'];
 			$fieldcolnameExplode = explode(':', $fieldcolname);
@@ -1580,9 +1569,7 @@ class ReportRun extends CRMEntity
 				$grouplist[$fieldcolname] = $sqlvalue;
 				$temp = explode('__', $selectedfields[2], 2);
 				$module = $temp[0];
-				if (in_array($module, $inventoryModules) && $fieldname == 'serviceid') {
-					$grouplist[$fieldcolname] = $sqlvalue;
-				} else if (\App\Field::getFieldPermission($module, $fieldname)) {
+				if (\App\Field::getFieldPermission($module, $fieldname)) {
 					$grouplist[$fieldcolname] = $sqlvalue;
 				} else {
 					$grouplist[$fieldcolname] = $selectedfields[0] . "." . $selectedfields[1];
@@ -3437,7 +3424,6 @@ class ReportRun extends CRMEntity
                             LEFT JOIN vtiger_reportgroupbycolumn ON (vtiger_reportsortcol.sortcolid = vtiger_reportgroupbycolumn.sortid and vtiger_reportsortcol.reportid = vtiger_reportgroupbycolumn.reportid)
                             WHERE columnname!='none' and vtiger_reportsortcol.reportid=? ORDER By sortcolid";
 		$sortFieldResult = $adb->pquery($sortFieldQuery, [$reportid]);
-		$inventoryModules = getInventoryModules();
 		if ($adb->numRows($sortFieldResult) > 0) {
 			$fieldcolname = $adb->queryResult($sortFieldResult, 0, 'columnname');
 			list($tablename, $colname, $module_field, $fieldname, $typeOfData) = explode(":", $fieldcolname);
@@ -3456,9 +3442,7 @@ class ReportRun extends CRMEntity
 					$groupByField = implode(', ', $groupByCondition);
 				}
 			} elseif (!\App\Field::getFieldPermission($modulename, $fieldname)) {
-				if (!(in_array($modulename, $inventoryModules) && $fieldname === 'serviceid')) {
-					$groupByField = $tablename . '.' . $colname;
-				}
+				$groupByField = $tablename . '.' . $colname;
 			}
 		}
 		return $groupByField;

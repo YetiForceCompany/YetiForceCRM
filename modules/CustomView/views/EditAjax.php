@@ -63,11 +63,6 @@ class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', $advanceFilterOpsByFieldType);
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$recordStructure = $recordStructureInstance->getStructure();
-		// for Inventory module we should now allow item details block
-		if (in_array($moduleName, getInventoryModules())) {
-			$itemsBlock = "LBL_ITEM_DETAILS";
-			unset($recordStructure[$itemsBlock]);
-		}
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		// Added to show event module custom fields
 		if ($moduleName == 'Calendar') {

@@ -16,26 +16,6 @@ require_once 'include/utils/utils.php';
 require_once 'include/utils/UserInfoUtil.php';
 require_once 'include/utils/VtlibUtils.php';
 
-function vtws_generateRandomAccessKey($length = 10)
-{
-	$source = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-	$accesskey = "";
-	$maxIndex = strlen($source);
-	for ($i = 0; $i < $length; ++$i) {
-		$accesskey = $accesskey . substr($source, rand(null, $maxIndex), 1);
-	}
-	return $accesskey;
-}
-/* * *
- * Get the webservice reference Id given the entity's id and it's type name
- */
-
-function vtws_deleteWebserviceEntity($moduleName)
-{
-	\App\Db::getInstance()->createCommand()
-		->delete('vtiger_ws_entity', ['name' => $moduleName])->execute();
-}
-
 /** 	Function used to get the lead related Notes and Attachments with other entities Account, Contact and Potential
  * 	@param integer $id - leadid
  * 	@param integer $relatedId -  related entity id (accountid / contactid)

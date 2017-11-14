@@ -252,7 +252,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 				return CurrencyField::getDBCurrencyId();
 				break;
 			case 'accesskey':
-				return vtws_generateRandomAccessKey(16);
+				return \App\Encryption::generatePassword(20, 'lbn');
 				break;
 			case 'language':
 				return \App\Language::getLanguage();

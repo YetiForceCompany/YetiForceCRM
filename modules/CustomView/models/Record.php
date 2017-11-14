@@ -724,26 +724,6 @@ class CustomView_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function returns standard filter sql
-	 * @return string
-	 */
-	public function getCVStdFilterSQL()
-	{
-		$customView = new CustomView();
-		return $customView->getCVStdFilterSQL($this->getId());
-	}
-
-	/**
-	 * Function returns Advanced filter sql
-	 * @return string
-	 */
-	public function getCVAdvFilterSQL()
-	{
-		$customView = new CustomView();
-		return $customView->getCVAdvFilterSQL($this->getId());
-	}
-
-	/**
 	 * Function returns approve url
 	 * @return String - approve url
 	 */

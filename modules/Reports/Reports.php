@@ -798,8 +798,6 @@ class Reports extends CRMEntity
 
 		$selected_mod = explode(':', $this->secmodule);
 		array_push($selected_mod, $this->primodule);
-
-		$inventoryModules = getInventoryModules();
 		while ($columnslistrow = $adb->fetchArray($result)) {
 			$fieldname = '';
 			$fieldcolname = $columnslistrow['columnname'];
@@ -826,9 +824,7 @@ class Reports extends CRMEntity
 				$mod_lbl = \App\Language::translate($mod, $module); //module
 				$fld_lbl = \App\Language::translate($fieldlabel, $module); //fieldlabel
 				$fieldlabel = $mod_lbl . ' ' . $fld_lbl;
-				if (in_array($mod, $inventoryModules) && $fieldname == 'serviceid') {
-					$shtml .= "<option permission='yes' value=\"" . $fieldcolname . "\">" . $fieldlabel . "</option>";
-				} else if (!\App\Field::getFieldPermission($mod, $fieldname) && $colname !== "crmid") {
+				if (!\App\Field::getFieldPermission($mod, $fieldname) && $colname !== "crmid") {
 					$shtml .= "<option permission='no' value=\"" . $fieldcolname . "\" disabled = 'true'>" . $fieldlabel . "</option>";
 				} else {
 					$shtml .= "<option permission='yes' value=\"" . $fieldcolname . "\">" . $fieldlabel . "</option>";

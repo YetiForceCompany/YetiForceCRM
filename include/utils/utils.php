@@ -99,35 +99,6 @@ function getColumnFields($module)
 	return $column_fld;
 }
 
-/** Function to get a userid for outlook
- * @param $username -- username :: Type string
- * @returns $user_id -- user id :: Type integer
- */
-//outlook security
-function getUserId_Ol($username)
-{
-
-	\App\Log::trace('Entering getUserId_Ol(' . $username . ') method ...');
-	\App\Log::trace('in getUserId_Ol ' . $username);
-	$cache = Vtiger_Cache::getInstance();
-	if ($cache->getUserId($username) || $cache->getUserId($username) === 0) {
-		return $cache->getUserId($username);
-	} else {
-		$adb = PearDatabase::getInstance();
-		$sql = 'select id from vtiger_users where user_name=?';
-		$result = $adb->pquery($sql, [$username]);
-		$numRows = $adb->numRows($result);
-		if ($numRows > 0) {
-			$userId = $adb->queryResult($result, 0, 'id');
-		} else {
-			$userId = 0;
-		}
-		\App\Log::trace('Exiting getUserId_Ol method ...');
-		$cache->setUserId($username, $userId);
-		return $userId;
-	}
-}
-
 // Return Question mark
 function _questionify($v)
 {
@@ -145,25 +116,6 @@ function generateQuestionMarks($items_list)
 	} else {
 		return implode(',', array_map('_questionify', explode(',', $items_list)));
 	}
-}
-
-/**
- * Function to find the UI type of a field based on the uitype id
- */
-function is_uitype($uitype, $reqtype)
-{
-	$ui_type_arr = [
-		'_date_' => [5, 6, 23, 70],
-		'_picklist_' => [15, 16, 52, 53, 54, 55, 59, 62, 63, 66, 68, 76, 77, 78, 80, 98, 101, 115, 357],
-		'_users_list_' => [52],
-	];
-
-	if ($ui_type_arr[$reqtype] !== null) {
-		if (in_array($uitype, $ui_type_arr[$reqtype])) {
-			return true;
-		}
-	}
-	return false;
 }
 
 /**
@@ -409,16 +361,4 @@ function getCurrencyDecimalPlaces()
 	} else {
 		return 2;
 	}
-}
-
-function getInventoryModules()
-{
-	$inventoryModules = [];
-	return $inventoryModules;
-}
-
-/** call back function to change the array values in to lower case */
-function lower_array(&$string)
-{
-	$string = strtolower(trim($string));
 }

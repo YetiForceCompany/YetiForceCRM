@@ -197,9 +197,6 @@ class ModuleBasic
 			Access::deleteTools($this);
 			Filter::deleteForModule($this);
 			Block::deleteForModule($this);
-			if (method_exists($this, 'deinitWebservice')) {
-				$this->deinitWebservice();
-			}
 		}
 		$this->deleteIcons();
 		$this->unsetAllRelatedList($moduleInstance);

@@ -194,7 +194,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$uitype = $details['uitype'];
 		$typeofdata = $details['typeofdata'];
 		$dbType = $details['dbType'];
-		$quickCreate = in_array($moduleName, getInventoryModules()) ? 3 : 1;
 		$fieldModel = new Settings_LayoutEditor_Field_Model();
 		$fieldModel->set('name', $columnName)
 			->set('table', $tableName)
@@ -202,7 +201,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			->set('uitype', $uitype)
 			->set('label', $label)
 			->set('typeofdata', $typeofdata)
-			->set('quickcreate', $quickCreate)
+			->set('quickcreate', 1)
 			->set('fieldparams', $fieldParams ? \App\Json::encode($fieldParams) : '')
 			->set('columntype', $dbType);
 

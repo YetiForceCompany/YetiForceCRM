@@ -40,19 +40,4 @@ class Webservice
 			}
 		}
 	}
-
-	/**
-	 * Initialize webservice for the given module
-	 * @param \vtlib\ModuleBasic $moduleInstance
-	 */
-	public static function uninitialize(ModuleBasic $moduleInstance)
-	{
-		if ($moduleInstance->isentitytype) {
-
-			if (function_exists('vtws_deleteWebserviceEntity')) {
-				vtws_deleteWebserviceEntity($moduleInstance->name);
-				self::log("De-Initializing webservices support ...DONE");
-			}
-		}
-	}
 }

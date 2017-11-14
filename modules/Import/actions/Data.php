@@ -764,7 +764,6 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			$emailSubject = 'Yetiforce- Scheduled Data Import Report for ' . $importDataController->module;
 			$viewer = new Vtiger_Viewer();
 			$viewer->assign('FOR_MODULE', $importDataController->module);
-			$viewer->assign('INVENTORY_MODULES', getInventoryModules());
 			$viewer->assign('IMPORT_RESULT', $importStatusCount);
 			$importResult = $viewer->view('Import_Result_Details.tpl', 'Import', true);
 			$importResult = str_replace('align="center"', '', $importResult);
