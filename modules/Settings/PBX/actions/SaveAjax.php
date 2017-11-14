@@ -16,9 +16,8 @@ class Settings_PBX_SaveAjax_Action extends Settings_Vtiger_Save_Action
 	 */
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->getInteger('record');
-		if ($recordId) {
-			$recordModel = Settings_PBX_Record_Model::getInstanceById($recordId);
+		if (!$request->isEmpty('record', true)) {
+			$recordModel = Settings_PBX_Record_Model::getInstanceById($request->getInteger('record'));
 		} else {
 			$recordModel = Settings_PBX_Record_Model::getCleanInstance();
 		}

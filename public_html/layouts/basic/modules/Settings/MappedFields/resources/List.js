@@ -131,7 +131,7 @@ Settings_Vtiger_List_Js("Settings_MappedFields_List_Js", {}, {
 				e.stopPropagation();
 				e.preventDefault();
 				var templateId = jQuery(this).closest('tr').data('id');
-				Vtiger_List_Js.deleteRecord(templateId).then(function () {
+				Settings_MappedFields_List_Js.delete(templateId).then(function () {
 					thisInstance.registerBasic();
 				});
 			});

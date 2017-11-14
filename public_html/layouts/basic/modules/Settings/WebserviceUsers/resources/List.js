@@ -1,24 +1,13 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-Settings_Vtiger_List_Js('Settings_WebserviceUsers_List_Js', {
-	delete: function (id) {
-		var thisInstance = new Settings_WebserviceUsers_List_Js;
-		AppConnector.request({
+Settings_Vtiger_List_Js('Settings_WebserviceUsers_List_Js', {}, {
+	getDeleteParams: function () {
+		return {
 			module: app.getModuleName(),
 			parent: app.getParentModuleName(),
 			action: "DeleteAjax",
-			record: id,
-			typeApi: thisInstance.getActiveTypeApi(),
-		}).then(function (data) {
-			if (data.success) {
-				jQuery('#recordsCount').val('');
-				jQuery('#totalPageCount').text('');
-				thisInstance.getListViewRecords().then(function () {
-					thisInstance.updatePagination();
-				});
-			}
-		});
+			typeApi: Vtiger_List_Js.getInstance().getActiveTypeApi(),
+		};
 	},
-}, {
 	container: false,
 	getContainer: function () {
 		if (this.container == false) {
