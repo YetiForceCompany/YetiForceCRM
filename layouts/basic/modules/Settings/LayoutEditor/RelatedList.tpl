@@ -99,7 +99,7 @@
 													{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
 														{if !in_array($FIELD_MODEL->getId(), $SELECTED_FIELDS)}
 															<option value="{$FIELD_MODEL->getId()}" data-field-name="{$FIELD_NAME}">
-																{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATED_MODULE_NAME)}
+																{\App\Language::translate($FIELD_MODEL->get('label'), $RELATED_MODULE_NAME)}
 													  		</option>
 												  		{/if}
 													{/foreach}
@@ -123,7 +123,7 @@
 												{foreach item=FIELD_MODEL from=$INVENTORY_FIELDS}
 													{if !in_array($FIELD_MODEL->getColumnName(), $SELECTED_FIELDS)}
 														<option value="{$FIELD_MODEL->getColumnName()}" data-field-name="{$FIELD_MODEL->getColumnName()}">
-															{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATED_MODULE_NAME)}
+															{\App\Language::translate($FIELD_MODEL->get('label'), $RELATED_MODULE_NAME)}
 														</option>
 													{/if}
 												{/foreach}
