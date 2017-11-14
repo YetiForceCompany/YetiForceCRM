@@ -82,16 +82,32 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 	public function parseContent(OSSMail_Mail_Model $mail)
 	{
 		$html = $mail->get('body');
-		$html = preg_replace('/<html[^>]+\>/', '', $html);
-		$html = preg_replace('/<body[^>]+\>/', '', $html);
-		$html = str_replace(['<html>', '<body>', '</html>', '</body>'], '', $html);
+		$attachments = $mail->get('attachments');
+		if (count($html) < 2) {
+			foreach ($attachments as $key => $attachment) {
+				if ((substr($attachment['filename'], -5) === '.html') || ( substr($attachment['filename'], -4) === '.txt')) {
+					$html .= $attachment['attachment'] . '<hr />';
+					unset($attachments[$key]);
+				}
+			}
+		}
+		$html = preg_replace(
+			array(':<(head|style|script).+?</\1>:is', # remove <head>, <styleand <scriptsections
+			':<!\[[^]<]+\]>:', # remove <![if !mso]and friends
+			':<!DOCTYPE[^>]+>:', # remove <!DOCTYPE ... >
+			':<\?[^>]+>:', # remove <?xml version="1.0" ... >
+			'~</?html[^>]*>~', # remove html tags
+			'~</?body[^>]*>~', # remove body tags
+			'~</?o:[^>]*>~', # remove mso tags
+			'~\sclass=[\'|\"][^\'\"]+[\'|\"]~i', # remove class attributes
+			), array('', '', '', '', '', '', '', ''), $html);
 		$doc = new \DOMDocument('1.0', 'UTF-8');
 		$previousValue = libxml_use_internal_errors(true);
 		/*
 		 * Alternative when coding problems
-		 * $doc->loadHTML(mb_convert_encoding($mail->get('body'), 'HTML-ENTITIES', 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+		 * $doc->loadHTML(mb_convert_encoding($mail->get('body'), 'HTML-ENTITIES', 'UTF-8'));
 		 */
-		$doc->loadHTML('<?xml encoding="utf-8"?>' . $html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+		$doc->loadHTML('<?xml encoding="utf-8"?>' . $html);
 		libxml_clear_errors();
 		libxml_use_internal_errors($previousValue);
 		$params = [
@@ -101,7 +117,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			'createdtime' => $mail->get('udate_formated'),
 			'modifiedtime' => $mail->get('udate_formated')
 		];
-		$attachments = $mail->get('attachments');
+
 		$files = [];
 		foreach ($doc->getElementsByTagName('img') as $img) {
 			$src = trim($img->getAttribute('src'), '\'');
