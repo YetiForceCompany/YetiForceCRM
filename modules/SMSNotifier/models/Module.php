@@ -112,15 +112,12 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getActiveProviderInstance()
 	{
-		$cacheName = 'activeProviderInstance';
-		if (\App\Cache::has('SMSNotifierConfig', $cacheName)) {
-			return clone \App\Cache::get('SMSNotifierConfig', $cacheName);
+		if (\App\Cache::has('SMSNotifierConfig', 'activeProviderInstance')) {
+			$provider = \App\Cache::get('SMSNotifierConfig', 'activeProviderInstance');
+			return $provider ? clone $provider : $provider;
 		}
 		$provider = false;
-		$data = (new App\Db\Query())
-			->from('a_#__smsnotifier_servers')
-			->where(['isactive' => 1])
-			->one();
+		$data = (new App\Db\Query())->from('a_#__smsnotifier_servers')->where(['isactive' => 1])->one();
 		if ($data) {
 			$provider = self::getProviderInstance($data['providertype']);
 			if (!empty($data['parameters'])) {
@@ -131,7 +128,7 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 			}
 			$provider->set('api_key', $data['api_key']);
 		}
-		\App\Cache::save('SMSNotifierConfig', $cacheName, $provider, \App\Cache::LONG);
+		\App\Cache::save('SMSNotifierConfig', 'activeProviderInstance', $provider, \App\Cache::LONG);
 		return $provider;
 	}
 
