@@ -188,6 +188,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 				\App\Privilege::setUpdater(\App\Module::getModuleName($tabId));
 			}
 		}
+		\App\Cache::clear();
 		$this->recalculate($oldUsersList);
 		$eventHandler = new App\EventHandler();
 		$eventHandler->setParams([
@@ -331,6 +332,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		$db->createCommand()->delete('vtiger_reportsharing', ['shareid' => $groupId, 'setype' => 'groups'])->execute();
 		$db->createCommand()->delete('vtiger_group2modules', ['groupid' => $groupId])->execute();
 		$db->createCommand()->delete('vtiger_groups', ['groupid' => $groupId])->execute();
+		\App\Cache::clear();
 	}
 
 	/**
