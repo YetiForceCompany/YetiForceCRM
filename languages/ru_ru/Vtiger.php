@@ -1270,7 +1270,7 @@ $languageStrings = [
 	'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS' => 'Приблизительная стоимость сделок',
 	'LBL_UPDATE_FIELD' => 'Обновить поле',
 	'FL_IS_PRIVATE' => 'Приватно',
-	'BTN_REALIZE' => 'Realize',
+	'BTN_ASSIGN_TO_ME' => 'Assign to me',
 	'LBL_SHOW_QUICK_DETAILS' => 'Быстрый просмотр',
 	'LBL_SEND_MESSAGE' => 'Послать сообщение',
 	//TextParser

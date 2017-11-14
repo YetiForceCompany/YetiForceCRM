@@ -1252,7 +1252,7 @@ $languageStrings = [
 	'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS' => 'Estimated Opportunity value',
 	'LBL_UPDATE_FIELD' => 'Update field',
 	'FL_IS_PRIVATE' => 'Private',
-	'BTN_REALIZE' => 'Realize',
+	'BTN_ASSIGN_TO_ME' => 'Assign to me',
 	'LBL_SHOW_QUICK_DETAILS' => 'Quick preview',
 	'LBL_SEND_MESSAGE' => 'Send message',
 	//TextParser

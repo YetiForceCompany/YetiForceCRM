@@ -1247,7 +1247,7 @@ $languageStrings = [
 	'LBL_UPDATE_FIELD' => 'Atualizar campo',
 	'FL_IS_PRIVATE' => 'Privado',
 	'LBL_SEND_MESSAGE' => 'Send message',
-	'BTN_REALIZE' => 'Realize',
+	'BTN_ASSIGN_TO_ME' => 'Assign to me',
 	//TextParser
 	'LBL_TRANSLATE' => 'Tradução',
 	'LBL_COMPANY_VARIABLES' => 'Detalhes da Empresa',

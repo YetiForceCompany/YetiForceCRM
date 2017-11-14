@@ -988,7 +988,7 @@ $languageStrings = [
 	'LBL_VIEW_EDIT2' => 'Añadir condiciones',
 	'LBL_VIEW_CONFIGURATION' => 'Vista de configuración',
 	'MEN_LEADS' => 'Empresas y Contactos',
-	'LBL_VIEW_STEP1' => 'Información sobre el registro',/////////////////////////////
+	'LBL_VIEW_STEP1' => 'Información sobre el registro', /////////////////////////////
 	'LBL_VIEW_STEP2' => 'Añadir condiciones',
 	'LBL_VIEW_STEP3' => 'Acciones',
 	'LBL_VIEW_ADDACTION' => 'Acciones',
@@ -1275,7 +1275,7 @@ $languageStrings = [
 	'LBL_TOTAL_ESTIMATED_VALUE_BY_STATUS' => 'Valor estimado de la oportunidad',
 	'LBL_UPDATE_FIELD' => 'Actualizar campo',
 	'FL_IS_PRIVATE' => 'Privado',
-	'BTN_REALIZE' => 'Realize',
+	'BTN_ASSIGN_TO_ME' => 'Assign to me',
 	//TextParser
 	'LBL_TRANSLATE' => 'Traducción',
 	'LBL_COMPANY_VARIABLES' => 'Detalles de la empresa',

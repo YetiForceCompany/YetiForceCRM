@@ -1219,7 +1219,7 @@ class Vtiger_Record_Model extends \App\Base
 		if ($this->isEditable() && $this->isCanAssignToHimself()) {
 			$recordLinks[] = [
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_RIGHT_SIDE',
-				'linklabel' => 'BTN_REALIZE',
+				'linklabel' => 'BTN_ASSIGN_TO_ME',
 				'linkurl' => 'javascript:Vtiger_Index_Js.assignToOwner(this)',
 				'linkicon' => 'glyphicon glyphicon-user',
 				'linkclass' => 'btn-sm btn-success',
