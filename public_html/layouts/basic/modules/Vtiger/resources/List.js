@@ -293,6 +293,12 @@ jQuery.Class("Vtiger_List_Js", {
 				}
 			}, function (error, err) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				Vtiger_Helper_Js.showPnotify({
+					title: app.vtranslate('JS_MESSAGE'),
+					text: err,
+					animation: 'show',
+					type: 'error'
+				});
 			});
 		} else {
 			listInstance.noRecordSelectedAlert();
