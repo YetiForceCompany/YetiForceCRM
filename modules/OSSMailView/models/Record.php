@@ -298,12 +298,12 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
-		$crmid = $params['crmid'];
+		$crmid = (int) $params['crmid'];
 		$newModule = $params['newModule'];
-		$newCrmId = $params['newCrmId'];
-		$mailId = $params['mailId'];
+		$newCrmId = (int) $params['newCrmId'];
+		$mailId = (int) $params['mailId'];
 
-		if ($newModule == 'Products') {
+		if ($newModule === 'Products') {
 			$dbCommand->insert('vtiger_seproductsrel', [
 				'crmid' => $crmid,
 				'productid' => $newCrmId,
@@ -311,7 +311,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 				'rel_created_user' => $currentUser->getId(),
 				'rel_created_time' => date('Y-m-d H:i:s')
 			])->execute();
-		} elseif ($newModule == 'Services') {
+		} elseif ($newModule === 'Services') {
 			$dbCommand->insert('vtiger_crmentityrel', [
 				'crmid' => $crmid,
 				'module' => $params['mod'],
@@ -331,7 +331,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 	 */
 	public static function removeRelated($params)
 	{
-		\App\Db::getInstance()->createCommand()->delete('vtiger_ossmailview_relation', ['ossmailviewid' => $params['mailId'], 'crmid' => $params['crmid']]);
+		\App\Db::getInstance()->createCommand()->delete('vtiger_ossmailview_relation', ['ossmailviewid' => (int) $params['mailId'], 'crmid' => (int) $params['crmid']])->execute();
 		return \App\Language::translate('Removed relationship', 'OSSMail');
 	}
 
@@ -356,7 +356,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			\App\Db::getInstance()->createCommand()->insert('s_#__mail_relation_updater', [
 				'tabid' => \App\Module::getModuleId($moduleName),
 				'crmid' => $record
-			]);
+			])->execute();
 		}
 	}
 }

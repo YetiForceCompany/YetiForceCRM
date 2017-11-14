@@ -21,7 +21,10 @@ class OSSMail_ExecuteActions_Action extends Vtiger_Action_Controller
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		$params = $request->getArray('params');
-		if (!\App\Privilege::isPermitted(\App\Record::getType($params['crmid']), 'DetailView', $params['crmid'])) {
+		if (isset($params['newModule']) && !\App\Privilege::isPermitted($params['newModule'], 'DetailView', $params['newCrmId'])) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		if (isset($params['crmid']) && !\App\Privilege::isPermitted(\App\Record::getType($params['crmid']), 'DetailView', $params['crmid'])) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
@@ -32,12 +35,12 @@ class OSSMail_ExecuteActions_Action extends Vtiger_Action_Controller
 		$params = $request->getArray('params');
 		$instance = Vtiger_Record_Model::getCleanInstance('OSSMailView');
 
-		if ($mode == 'addRelated') {
+		if ($mode === 'addRelated') {
 			if (!\App\Privilege::isPermitted($params['newModule'], 'DetailView', $params['newCrmId'])) {
 				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 			$data = $instance->addRelated($params);
-		} elseif ($mode == 'removeRelated') {
+		} elseif ($mode === 'removeRelated') {
 			$data = $instance->removeRelated($params);
 		}
 
