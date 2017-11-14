@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	{if $PARENT_MODULE !== 'Settings'}
+	{if $PARENT_MODULE !== 'Settings' && $LIST_VIEW_MODEL}
 		<div class="pull-right paddingLeft5px">
 			{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
 			<input type="hidden" id="entityState" value="{if $LIST_VIEW_MODEL->has('entityState')}{$LIST_VIEW_MODEL->get('entityState')}{else}Active{/if}">
