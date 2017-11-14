@@ -279,14 +279,14 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			case 'sum':
 				$displayValue = $this->groupFieldModel->getDisplayValue($row[$fieldName], false, false, true);
 				if (!isset($groupData[$displayValue]['count'])) {
-					$groupData[$displayValue]['count'] = (int) $row[$this->extraData['valueField']];
+					$groupData[$displayValue]['count'] = (int) $row[$this->extraData['groupField']];
 				} else {
-					$groupData[$displayValue]['count'] += (int) $row[$this->extraData['valueField']];
+					$groupData[$displayValue]['count'] += (int) $row[$this->extraData['groupField']];
 				}
 				break;
 		}
 		if (!isset($groupData[$displayValue]['link'])) {
-			$searchParams = array_merge($this->searchParams, [[$this->extraData['valueField'], 'e', $row[$this->extraData['valueField']]]]);
+			$searchParams = array_merge($this->searchParams, [[$this->extraData['groupField'], 'e', $row[$this->extraData['groupField']]]]);
 			$groupData[$displayValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->widgetModel->get('filterid') . '&search_params=' . App\Json::encode([$searchParams]);
 		}
 		return $groupData;
@@ -414,23 +414,25 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 		$queryGenerator = new \App\QueryGenerator($this->getTargetModule());
 		$queryGenerator->initForCustomViewById($this->widgetModel->get('filterid'));
 		$queryGenerator->setField($this->extraData['groupField']);
-		if (!empty($this->extraData['valueField'])) {
-			$queryGenerator->setField($this->extraData['valueField']);
+		if (!empty($this->extraData['groupField'])) {
+			$queryGenerator->setField($this->extraData['groupField']);
 		}
 		if ($this->has('owner') && !empty($this->extraData['showOwnerFilter']) && $this->get('owner') !== 0) {
 			$queryGenerator->addCondition('assigned_user_id', $this->get('owner'), 'e');
 		}
 		$query = $queryGenerator->createQuery();
-		if ($this->has('time') && !empty($this->extraData['timeRange'])) {
+		if ($this->has('time') && !empty($this->extraData['timeRange']) && $this->extraData['timeRange'] !== '-') {
 			$time = $this->get('time');
 			$timeFieldModel = Vtiger_Field_Model::getInstance($this->extraData['timeRange'], $this->getTargetModuleModel());
-			$tableAndColumnName = $timeFieldModel->getTableName() . '.' . $timeFieldModel->getColumnName();
-			$query->andWhere([
-				'and',
-				['>=', $tableAndColumnName, Vtiger_Date_UIType::getDBInsertedValue($time['start'])],
-				['<=', $tableAndColumnName, Vtiger_Date_UIType::getDBInsertedValue($time['end'])]
-			]);
-			$this->searchParams[] = [$timeFieldModel->getFieldName(), 'bw', $time['start'] . ',' . $time['end']];
+			if ($timeFieldModel) {
+				$tableAndColumnName = $timeFieldModel->getTableName() . '.' . $timeFieldModel->getColumnName();
+				$query->andWhere([
+					'and',
+					['>=', $tableAndColumnName, Vtiger_Date_UIType::getDBInsertedValue($time['start'])],
+					['<=', $tableAndColumnName, Vtiger_Date_UIType::getDBInsertedValue($time['end'])]
+				]);
+				$this->searchParams[] = [$timeFieldModel->getFieldName(), 'bw', $time['start'] . ',' . $time['end']];
+			}
 		}
 		if (!empty($this->extraData['showOwnerFilter'])) {
 			$queryGenerator->setField('assigned_user_id');
