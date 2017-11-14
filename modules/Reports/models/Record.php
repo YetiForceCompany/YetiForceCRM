@@ -1072,10 +1072,9 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 */
 	public function showLineItemFieldsInFilter($calculationFields = false)
 	{
-		if ($calculationFields === false)
+		if ($calculationFields === false) {
 			$calculationFields = $this->getSelectedCalculationFields();
-
-		$primaryModule = $this->getPrimaryModule();
+		}
 		if (!empty($calculationFields)) {
 			foreach ($calculationFields as $field) {
 				if (stripos($field, 'cb:vtiger_inventoryproductrel') !== false) {
