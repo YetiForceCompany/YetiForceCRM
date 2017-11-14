@@ -1,4 +1,3 @@
-
 <!--- Before you create a new issue, please check out our [manual] (https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/how-to-report-bugs) --->
 
 #### Issue
