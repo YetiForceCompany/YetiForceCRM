@@ -126,6 +126,10 @@ class Vtiger_Field_Model extends vtlib\Field
 		return get_object_vars($this);
 	}
 
+	/**
+	 * Get module model
+	 * @return Vtiger_Module_Model
+	 */
 	public function getModule()
 	{
 		if (!isset($this->module)) {
@@ -328,7 +332,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		if (!$moduleModel) {
 			return false;
 		}
-		if (in_array($this->get('column'), $moduleModel->getNameFields())) {
+		if (in_array($this->getFieldName(), $moduleModel->getNameFields())) {
 			return true;
 		}
 		return false;
