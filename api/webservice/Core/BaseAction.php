@@ -61,7 +61,7 @@ class BaseAction
 		$sessionTable = "w_#__{$apiType}_session";
 		$userTable = "w_#__{$apiType}_user";
 		$db = \App\Db::getInstance('webservice');
-		$row = (new \App\Db\Query())->from($userTable)
+		$row = (new \App\Db\Query())->select(["$userTable.*", "$sessionTable.id", 'sessionLanguage' => "$sessionTable.language", "$sessionTable.created", "$sessionTable.changed", "$sessionTable.params"])->from($userTable)
 			->innerJoin($sessionTable, "$sessionTable.user_id = $userTable.id")
 			->where(["$sessionTable.id" => $this->controller->headers['X-TOKEN'], "$userTable.status" => 1])
 			->one($db);
