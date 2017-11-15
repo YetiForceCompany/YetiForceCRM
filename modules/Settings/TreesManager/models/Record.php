@@ -165,8 +165,12 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 				'id' => $treeID,
 				'parent' => $parent === 0 ? '#' : $parent,
 				'text' => \App\Language::translate($row['name'], $module),
+				'li_attr' => [
+					'text' => \App\Language::translate($row['name'], $module),
+					'key' => $row['name'],
+				],
 				'state' => ($row['state']) ? \App\Json::decode($row['state']) : '',
-				'icon' => $row['icon']
+				'icon' => empty($row['icon']) ? false : $row['icon']
 			];
 			if ($category) {
 				$parameters['type'] = $category;
@@ -175,8 +179,9 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 				}
 			}
 			$tree[] = $parameters;
-			if ($treeID > $lastId)
+			if ($treeID > $lastId) {
 				$lastId = $treeID;
+			}
 		}
 		$this->set('lastId', $lastId);
 		return $tree;
