@@ -5927,3 +5927,6 @@ select.form-control {
 	font-size: 16px;
 	width: 16px;
 }
+select[readonly], select[disabled]{
+	pointer-events: none;
+}
