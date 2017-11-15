@@ -98,6 +98,31 @@ class Log extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'l_#__username_history' => [
+				'columns' => [
+					'user_name' => $this->stringType(32),
+					'user_id' => $this->integer(10)->unsigned(),
+					'date' => $this->dateTime(),
+				],
+				'index' => [
+					['user_id', 'user_id'],
+					['user_name', 'user_name'],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'l_#__userpass_history' => [
+				'columns' => [
+					'pass' => $this->stringType(200)->notNull(),
+					'user_id' => $this->integer(10)->unsigned()->notNull(),
+					'date' => $this->dateTime()->notNull(),
+				],
+				'index' => [
+					['user_id', ['user_id', 'pass']],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'o_#__access_for_admin' => [
 				'columns' => [
 					'id' => $this->primaryKey(10)->unsigned(),

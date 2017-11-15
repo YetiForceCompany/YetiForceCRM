@@ -571,6 +571,9 @@ class Base3 extends \App\Db\Importers\Base
 					'buildingnumbera' => $this->stringType(100),
 					'localnumbera' => $this->stringType(100),
 					'poboxa' => $this->stringType(50),
+					'phone_extra' => $this->stringType(100),
+					'mobile_extra' => $this->stringType(100),
+					'fax_extra' => $this->stringType(100),
 				],
 				'primaryKeys' => [
 					['leadaddress_pk', 'leadaddressid']
@@ -1417,6 +1420,9 @@ class Base3 extends \App\Db\Importers\Base
 					'secondary_phone' => $this->stringType(25),
 					'position' => $this->stringType(),
 					'rbh' => $this->decimal('25,8'),
+					'business_phone_extra' => $this->stringType(100),
+					'private_phone_extra' => $this->stringType(100),
+					'secondary_phone_extra' => $this->stringType(100),
 				],
 				'columns_mysql' => [
 					'dav_status' => $this->tinyInteger(1)->defaultValue(1),
@@ -1685,12 +1691,14 @@ class Base3 extends \App\Db\Importers\Base
 					'ssalesprocessesid' => $this->integer(10),
 					'osssoldservices_renew' => $this->stringType(),
 					'renewalinvoice' => $this->integer(10),
+					'contactid' => $this->integer(19),
 				],
 				'index' => [
 					['parent_id', 'parent_id'],
 					['serviceid', 'serviceid'],
 					['ssalesprocessesid', 'ssalesprocessesid'],
 					['renewalinvoice', 'renewalinvoice'],
+					['contactid_idx', 'contactid'],
 				],
 				'primaryKeys' => [
 					['osssoldservices_pk', 'osssoldservicesid']
@@ -1959,6 +1967,7 @@ class Base3 extends \App\Db\Importers\Base
 					'user' => $this->stringType(100),
 					'customernumber' => $this->stringType(100),
 					'customertype' => $this->stringType(100),
+					'customernumber_extra' => $this->stringType(100),
 				],
 				'index' => [
 					['index_sourceuuid', 'sourceuuid'],

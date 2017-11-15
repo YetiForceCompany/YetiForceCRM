@@ -53,6 +53,9 @@ class Base2 extends \App\Db\Importers\Base
 					'last_invoice_date' => $this->date(),
 					'active' => $this->smallInteger(1)->defaultValue(0),
 					'accounts_status' => $this->stringType(),
+					'phone_extra' => $this->stringType(100),
+					'fax_extra' => $this->stringType(100),
+					'otherphone_extra' => $this->stringType(100),
 				],
 				'columns_mysql' => [
 					'active' => $this->tinyInteger(1)->defaultValue(0),
@@ -387,12 +390,14 @@ class Base2 extends \App\Db\Importers\Base
 					'ssalesprocessesid' => $this->integer(10),
 					'assets_renew' => $this->stringType(),
 					'renewalinvoice' => $this->integer(10),
+					'contactid' => $this->integer(19),
 				],
 				'index' => [
 					['parent_id', 'parent_id'],
 					['product', 'product'],
 					['ssalesprocessesid', 'ssalesprocessesid'],
 					['renewalinvoice', 'renewalinvoice'],
+					['contactid_idx', 'contactid'],
 				],
 				'primaryKeys' => [
 					['assets_pk', 'assetsid']
@@ -615,6 +620,8 @@ class Base2 extends \App\Db\Importers\Base
 					'subscriberid' => $this->stringType(100),
 					'destination' => $this->integer(10),
 					'source' => $this->integer(10),
+					'from_number_extra' => $this->stringType(100),
+					'to_number_extra' => $this->stringType(100),
 				],
 				'index' => [
 					['source', 'source'],
@@ -831,6 +838,8 @@ class Base2 extends \App\Db\Importers\Base
 					'decision_maker' => $this->smallInteger(1)->defaultValue(0),
 					'sum_time' => $this->decimal('10,2')->defaultValue(0),
 					'active' => $this->smallInteger(1)->defaultValue(0),
+					'phone_extra' => $this->stringType(100),
+					'mobile_extra' => $this->stringType(100),
 				],
 				'columns_mysql' => [
 					'dav_status' => $this->tinyInteger(1)->defaultValue(1),
