@@ -3729,11 +3729,13 @@ CREATE TABLE `vtiger_assets` (
   `ssalesprocessesid` int(10) DEFAULT NULL,
   `assets_renew` varchar(255) DEFAULT NULL,
   `renewalinvoice` int(10) DEFAULT NULL,
+  `contactid` int(19) DEFAULT NULL,
   PRIMARY KEY (`assetsid`),
   KEY `parent_id` (`parent_id`),
   KEY `product` (`product`),
   KEY `ssalesprocessesid` (`ssalesprocessesid`),
   KEY `renewalinvoice` (`renewalinvoice`),
+  KEY `contactid_idx` (`contactid`),
   CONSTRAINT `fk_1_vtiger_assets` FOREIGN KEY (`assetsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -5174,7 +5176,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2627 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2629 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6787,11 +6789,13 @@ CREATE TABLE `vtiger_osssoldservices` (
   `ssalesprocessesid` int(10) DEFAULT NULL,
   `osssoldservices_renew` varchar(255) DEFAULT NULL,
   `renewalinvoice` int(10) DEFAULT NULL,
+  `contactid` int(19) DEFAULT NULL,
   PRIMARY KEY (`osssoldservicesid`),
   KEY `parent_id` (`parent_id`),
   KEY `serviceid` (`serviceid`),
   KEY `ssalesprocessesid` (`ssalesprocessesid`),
   KEY `renewalinvoice` (`renewalinvoice`),
+  KEY `contactid_idx` (`contactid`),
   CONSTRAINT `fk_1_vtiger_osssoldservices` FOREIGN KEY (`osssoldservicesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -7624,7 +7628,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `tabid_2` (`tabid`,`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=538 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=540 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 
