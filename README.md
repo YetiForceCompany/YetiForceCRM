@@ -39,12 +39,12 @@ YetiForce CRM was orginally forked from Vtiger CRM and has mechanisms that allow
 
 ![](https://public.yetiforce.com/img/main/1_Home_page.png)
 
+![](https://public.yetiforce.com/gallery/uploads/big/7679123c2d73f4065c9abc532d1bde77.png)
+
 ![](https://public.yetiforce.com/img/main/3_Home_page.png)
 
 ![](https://public.yetiforce.com/img/main/4_Calendar.png)
 
 ![](https://public.yetiforce.com/img/main/8_List_Accounts.png)
-
-![](https://public.yetiforce.com/img/main/9_Detail_Accounts.png)
 
 ![](https://public.yetiforce.com/img/main/24_Detail_Projects_Gantt_Months.png)
