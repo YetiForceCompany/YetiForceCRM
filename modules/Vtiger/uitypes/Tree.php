@@ -30,8 +30,24 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 	public function getDisplayValue($tree, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$fieldModel = $this->get('field');
-		$treeData = \App\Fields\Tree::getPicklistValue($fieldModel->getFieldParams(), $fieldModel->getModuleName());
-		return \App\Purifier::encodeHtml($treeData[$tree]);
+		$value = \App\Fields\Tree::getPicklistValueImage($fieldModel->getFieldParams(), $fieldModel->getModuleName(), $tree);
+		if (isset($value['icon'])) {
+			return $value['icon'] . '' . \App\Purifier::encodeHtml($value['name']);
+		}
+		return \App\Purifier::encodeHtml($value['name']);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getListViewDisplayValue($tree, $record = false, $recordModel = false, $rawText = false)
+	{
+		$fieldModel = $this->get('field');
+		$value = \App\Fields\Tree::getPicklistValueImage($fieldModel->getFieldParams(), $fieldModel->getModuleName(), $tree);
+		if (isset($value['icon'])) {
+			return $value['icon'] . '' . \vtlib\Functions::textLength(\App\Purifier::encodeHtml($value['name']), $this->get('field')->get('maxlengthtext'));
+		}
+		return \vtlib\Functions::textLength(\App\Purifier::encodeHtml($value['name']), $this->get('field')->get('maxlengthtext'));
 	}
 
 	/**

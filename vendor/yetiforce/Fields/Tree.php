@@ -72,6 +72,43 @@ class Tree
 	}
 
 	/**
+	 * Get picklist value with graphics
+	 * @param int $templateId
+	 * @param string $moduleName
+	 * @param string $treeId
+	 * @return string[]
+	 */
+	public static function getPicklistValueImage($templateId, $moduleName, $treeId)
+	{
+		$value = ['name' => ''];
+		$rows = self::getValuesById((int) $templateId);
+		if (empty($rows[$treeId])) {
+			return $value;
+		}
+		$row = $rows[$treeId];
+		$parent = '';
+		$parentName = '';
+		if ($row['depth'] > 0) {
+			$parentTrre = $row['parenttrre'];
+			$cut = strlen('::' . $treeId);
+			$parentTrre = substr($parentTrre, 0, - $cut);
+			$pieces = explode('::', $parentTrre);
+			$parent = end($pieces);
+			$parentName = static::getPicklistValue($templateId, $moduleName)[$parent]['name'];
+			$parentName = '(' . \App\Language::translate($parentName, $moduleName) . ') ';
+		}
+		$value['name'] = $parentName . \App\Language::translate($row['name'], $moduleName);
+		if ($row['icon']) {
+			if ($row['icon'] && strpos($row['icon'], 'layouts') === 0) {
+				$value['icon'] = '<img class="treeImageIcon" src="' . $row['icon'] . '" />';
+			} else {
+				$value['icon'] = '<span class="treeImageIcon ' . $row['icon'] . '"></span>';
+			}
+		}
+		return $value;
+	}
+
+	/**
 	 * Delete trees of the module
 	 * @param int $moduleId
 	 */

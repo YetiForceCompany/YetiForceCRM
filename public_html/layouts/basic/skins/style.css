@@ -5917,3 +5917,13 @@ select.form-control {
 	color: #fff !important;
 	border-color: transparent;
 }
+.jstree-container-ul .jstree-leaf .jstree-icon.jstree-themeicon{
+	line-height: 20px;
+    font-size: 16px;
+	background-size: 18px !important;
+}
+.treeImageIcon{
+	margin-right: 6px;
+	font-size: 16px;
+	width: 16px;
+}

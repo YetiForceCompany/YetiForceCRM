@@ -144,7 +144,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getRelatedListDisplayValue($value)
 	{
-		return $this->getDisplayValue($value);
+		return $this->getListViewDisplayValue($value);
 	}
 
 	/**
