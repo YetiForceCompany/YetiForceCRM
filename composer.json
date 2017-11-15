@@ -76,7 +76,8 @@
 	},
 	"extra": {
 		"installer-paths": {
-			"public_html/libraries/font-awesome/": ["fortawesome/font-awesome"]
+			"public_html/libraries/font-awesome/": ["fortawesome/font-awesome"],
+			"/": ["yetiforce/yetiforce-crm"]
 		}
 	}
 }
