@@ -30,6 +30,9 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 	public function getDisplayValue($tree, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$fieldModel = $this->get('field');
+		if ($rawText) {
+			return \App\Purifier::encodeHtml(\App\Fields\Tree::getPicklistValue($fieldModel->getFieldParams(), $fieldModel->getModuleName())[$tree]);
+		}
 		$value = \App\Fields\Tree::getPicklistValueImage($fieldModel->getFieldParams(), $fieldModel->getModuleName(), $tree);
 		if (isset($value['icon'])) {
 			return $value['icon'] . '' . \App\Purifier::encodeHtml($value['name']);
