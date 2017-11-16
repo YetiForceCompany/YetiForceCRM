@@ -29,6 +29,7 @@ $languageStrings = [
 	'FL_RENEWAL' => 'Renovación',
 	'LBL_SET_RENEWAL' => 'Activar renovación',
 	'FL_RENEWAL_INVOICE' => 'Factura de renovación',
+	'FL_CONTACT' => 'Contact',
 	/* picklist values */
 	'PLL_DRAFT' => 'Borrador',
 	'PLL_ACCEPTED' => 'Aceptado',
