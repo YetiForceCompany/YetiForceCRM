@@ -30,6 +30,7 @@ $languageStrings = [
 	'LBL_GENERATE_EXTENSION' => 'Generate extension',
 	'LBL_ORDER_TIME' => 'Order time',
 	'FL_RENEWAL_INVOICE' => 'Renewal invoice',
+	'FL_CONTACT' => 'Contact',
 	// picklist values
 	'FL_RENEWAL' => 'Renewal',
 	'PLL_DRAFT' => 'Draft',
