@@ -103,9 +103,9 @@ $languageStrings = [
 	"Attorney General's Office" => 'Oficina del Procurador General',
 	'LBL_RELATION' => 'Relación',
 	'LBL_LEGAL_FORM' => 'Forma legal',
-	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => 'Al menos dos Clientes cumplen con los requisitos para la vinculación, vaya a: (Administración> Procesos> Marketing> procesos de conversión) %s',
+	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => 'Al menos dos Empresas cumplen con los requisitos para la vinculación, vaya a: (Administración> Procesos> Marketing> procesos de conversión) %s',
 ];
 
 $jsLanguageStrings = [
-	'JS_SELECT_ORGANIZATION' => 'Seleccione Cliente para continuar',
+	'JS_SELECT_ORGANIZATION' => 'Seleccione una Empresa para continuar',
 ];

@@ -22,7 +22,7 @@ $languageStrings = [
 	'Creator' => 'Creado por',
 	'Related To Comments' => 'Relacionado con',
 	'UserId' => 'ID usuario',
-	'Customer' => 'Cliente',
+	'Customer' => 'Empresa',
 	'ReasonToEdit' => 'Motivo de la edición',
 	//Email notifications
 	'LBL_ADDED_COMMENT_TO_TICKET' => 'Agregó un comentario a la incidencia',

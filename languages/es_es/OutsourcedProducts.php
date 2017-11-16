@@ -8,11 +8,11 @@
 $languageStrings = [
 	'LBL_RECORDS_LIST' => 'Lista',
 	// Basic Strings
-	'OutsourcedProducts' => 'Productos Extranjeros',
-	'SINGLE_OutsourcedProducts' => 'Producto Extranjero',
+	'OutsourcedProducts' => 'Productos Subcontratados',
+	'SINGLE_OutsourcedProducts' => 'Producto Subcontratado',
 	'LBL_ADD_RECORD' => 'Añadir',
 	// Blocks
-	'LBL_INFORMATION' => 'Información sobre el Producto Extranjero',
+	'LBL_INFORMATION' => 'Información sobre el Producto Subcontratado',
 	//Field Labels
 	'Assigned To' => 'Asignado a',
 	'LBL_RODZAJUMOWY' => 'Tipo de acuerdo',

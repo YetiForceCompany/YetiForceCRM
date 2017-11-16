@@ -36,6 +36,7 @@ $languageStrings = [
 	//Widgets
 	'LBL_MINI_LIST' => 'Mini lista',
 	'LBL_FILTERING_BY_DATE' => 'Filtrar por fecha del campo',
+	'LBL_BAR_DIVIDED_FIELD' => 'Campo de la barra dividida',
 	'LBL_TIMELINE_BY_DATE' => 'Línea del tiempo por fecha',
 	'LBL_WIDGET_NAME' => 'Nombre del Widget',
 	'LBL_SELECT_CHART' => 'Seleccione gráfico',

@@ -12,7 +12,7 @@ $languageStrings = [
 	'LBL_ATTENTION_BLOCK' => 'Comentarios',
 	// Fields
 	'FL_ACCEPTANCE_DATE' => 'Fecha de aceptación',
-	'FL_ACCOUNT' => 'Cliente',
+	'FL_ACCOUNT' => 'Empresa',
 	'FL_NUMBER' => 'ID',
 	'FL_SUBJECT' => 'Asunto',
 	'FL_STORAGE' => 'Almacenamiento',
