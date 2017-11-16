@@ -30,6 +30,7 @@ $languageStrings = [
 	'LBL_GENERATE_EXTENSION' => 'Создать Предложение',
 	'LBL_ORDER_TIME' => 'Время Заказа',
 	'FL_RENEWAL_INVOICE' => 'Возобновляемый счет',
+	'FL_CONTACT' => 'Contact',
 	// picklist values
 	'FL_RENEWAL' => 'Возобновление',
 	'PLL_DRAFT' => 'Черновик',
