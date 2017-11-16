@@ -28,6 +28,7 @@ $languageStrings = [
 	'FL_RENEWAL' => 'Verlängerung',
 	'LBL_SET_RENEWAL' => 'Verlängerung setzen',
 	'FL_RENEWAL_INVOICE' => 'Folgerechnung',
+	'FL_CONTACT' => 'Contact',
 	/* picklist values */
 	'PLL_DRAFT' => 'Entwurf',
 	'PLL_ACCEPTED' => 'bestätigt',
