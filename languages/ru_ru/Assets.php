@@ -30,6 +30,7 @@ $languageStrings = [
 	'FL_RENEWAL' => 'Обновление',
 	'LBL_SET_RENEWAL' => 'Обновить',
 	'FL_RENEWAL_INVOICE' => 'Счет',
+	'FL_CONTACT' => 'Contact',
 	// picklist values
 	'PLL_DRAFT' => 'Черновик',
 	'PLL_WAITING_FOR_VERIFICATION' => 'В ожидании проверки',
