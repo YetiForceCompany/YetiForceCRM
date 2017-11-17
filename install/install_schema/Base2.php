@@ -578,13 +578,6 @@ class Base2 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_calendarsharedtype_seq' => [
-				'columns' => [
-					'id' => $this->integer(10)->notNull(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_callduration' => [
 				'columns' => [
 					'calldurationid' => $this->primaryKey(10),
@@ -2840,12 +2833,6 @@ class Base2 extends \App\Db\Importers\Base
 					['colors', 'Task', 'Task', '#00d4f5'],
 					['reminder', 'update_event', 'LBL_UPDATE_EVENT', '0'],
 					['info', 'notworkingdays', 'LBL_NOTWORKING_DAYS', NULL],
-				]
-			],
-			'vtiger_calendarsharedtype_seq' => [
-				'columns' => ['id'],
-				'values' => [
-					[3],
 				]
 			],
 			'vtiger_callduration' => [

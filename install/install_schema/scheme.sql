@@ -3889,12 +3889,6 @@ CREATE TABLE `vtiger_calendar_config` (
   `value` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_calendarsharedtype_seq` */
-
-CREATE TABLE `vtiger_calendarsharedtype_seq` (
-  `id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_callduration` */
 
 CREATE TABLE `vtiger_callduration` (
