@@ -84,6 +84,7 @@ $languageStrings = [
 	'LBL_LIBRARY_NO_DOWNLOAD' => 'Не скачано',
 	'LBL_LIBRARY_NEEDS_UPDATING' => 'Требуется обновление',
 	'LBL_NO_PERMISSION_TO_DIR' => 'Нет разрешения на доступ к папкам',
+	'LBL_ERROR_NO_VALID_PREFIX' => 'Invalid language prefix',
 ];
 $jsLanguageStrings = [
 	'JS_ON' => 'вкл',
