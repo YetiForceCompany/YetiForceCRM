@@ -10,7 +10,7 @@
 $languageStrings = [
 	'Sharing Rules' => 'Reglas de uso compartido',
 	'SharingAccess' => 'Reglas de uso compartido',
-	'Accounts' => 'Clientes y Contactos',
+	'Accounts' => 'Empresas y Contactos',
 	'LBL_ADD_CUSTOM_RULE' => 'Añadir regla personalizada',
 	'LBL_ADD_CUSTOM_RULE_TO' => 'Añadir regla personalizada a',
 	'LBL_ADVANCED_SHARING_RULES' => 'Reglas avanzadas de uso compartido',

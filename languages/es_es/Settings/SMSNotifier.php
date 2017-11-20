@@ -16,14 +16,14 @@ $languageStrings = [
 	'PLL_ACTIVE' => 'Activo',
 	'PLL_INACTIVE' => 'Inactivo',
 	'LBL_SMSNOTIFIER_DESCRIPTION' => ' ',
-	'LBL_ADD_CONFIGURATION' => 'New configuration',
-	'LBL_EDIT_CONFIGURATION' => 'Edit configuration',
-	'BTN_SAVE' => 'Save',
-	'BTN_CLOSE' => 'Cancel',
+	'LBL_ADD_CONFIGURATION' => 'Nueva configuración',
+	'LBL_EDIT_CONFIGURATION' => 'Editar',
+	'BTN_SAVE' => 'Guardar',
+	'BTN_CLOSE' => 'Cancelar',
 ];
 
 $jsLanguageStrings = [
 	'JS_SAVE_SUCCESS' => 'Configuración del SMS Notifier creada satisfactoriamente',
-	'LBL_DELETE_CONFIRMATION' => 'Are you sure you want to delete this configuration?',
-	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Configuration removed successfully',
+	'LBL_DELETE_CONFIRMATION' => '¿Seguro que quieres eliminar esta configuración?',
+	'JS_RECORD_DELETED_SUCCESSFULLY' => 'La configuración se eliminó correctamente',
 ];
