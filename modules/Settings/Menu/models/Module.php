@@ -113,7 +113,7 @@ class Settings_Menu_Module_Model
 
 	public function getModulesList()
 	{
-		$notInParam = "('Home','Reports','RecycleBin','OSSMail','Portal','Rss')";
+		$notInParam = "('Home','Reports','OSSMail','Portal','Rss')";
 		$query = (new \App\Db\Query())->select('tabid, name')->from('vtiger_tab')
 			->where(['not in', 'name', ['Users', 'ModComments']])
 			->andWhere(['or', 'isentitytype = 1', "name IN $notInParam"])

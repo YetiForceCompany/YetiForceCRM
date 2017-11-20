@@ -313,16 +313,6 @@ class CRMEntity
 	}
 
 	/**
-	 * Function to unlink all the dependent entities of the given Entity by Id
-	 * @param string $moduleName
-	 * @param int $recordId
-	 */
-	public function deletePerminently($moduleName, $recordId)
-	{
-		
-	}
-
-	/**
 	 * Function to unlink an entity with given Id from another entity
 	 * @param int $id
 	 * @param string $returnModule

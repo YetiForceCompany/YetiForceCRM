@@ -288,9 +288,6 @@ class CustomView_Record_Model extends \App\Base
 		}
 		$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition($searchParams);
 		$queryGenerator->parseAdvFilter($transformedSearchParams);
-		if ($module === 'RecycleBin') {
-			$queryGenerator->setStateCondition('Trash');
-		}
 		if (is_array($skipRecords) && count($skipRecords) > 0) {
 			$queryGenerator->addNativeCondition(['not in', "$baseTableName.$baseTableId", $skipRecords]);
 		}

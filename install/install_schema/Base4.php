@@ -8838,7 +8838,6 @@ class Base4 extends \App\Db\Importers\Base
 					[41, 'ProjectMilestone', 0, -1, 'ProjectMilestone', NULL, NULL, 0, 0, 1, '3.0', 'Support', NULL, 0, 0],
 					[42, 'ProjectTask', 0, -1, 'ProjectTask', NULL, NULL, 0, 0, 1, '3.1', 'Support', NULL, 0, 0],
 					[43, 'Project', 0, -1, 'Project', NULL, NULL, 0, 0, 1, '3.3', 'Support', NULL, 0, 0],
-					[44, 'RecycleBin', 0, -1, 'Recycle Bin', NULL, NULL, 0, 0, 0, '1.5', 'Tools', NULL, 0, 0],
 					[45, 'SMSNotifier', 0, -1, 'SMSNotifier', NULL, NULL, 0, 0, 1, '1.9', 'Tools', NULL, 0, 0],
 					[48, 'OSSMail', 1, -1, 'OSSMail', NULL, NULL, 0, 0, 0, '1.50', 'Tools', NULL, 0, 0],
 					[50, 'Password', 0, -1, 'Password', NULL, NULL, 0, 0, 0, '1.00', '', NULL, 0, 0],

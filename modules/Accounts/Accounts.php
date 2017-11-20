@@ -277,7 +277,7 @@ class Accounts extends CRMEntity
 					$account_depth = str_repeat(' .. ', $accountInfoBase['depth']);
 					$data = $account_depth . $data;
 				} else if ($fieldName == 'assigned_user_id' || $fieldName == 'shownerid') {
-
+					
 				} else {
 					$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($field['fieldid']);
 					$rawData = $data;
@@ -415,19 +415,6 @@ class Accounts extends CRMEntity
 		}
 		\App\Log::trace('Exiting __getChildAccounts method ...');
 		return $child_accounts;
-	}
-
-	/**
-	 * Function to unlink all the dependent entities of the given Entity by Id
-	 * @param string $moduleName
-	 * @param int $recordId
-	 */
-	public function deletePerminently($moduleName, $recordId)
-	{
-		$db = \App\Db::getInstance();
-		$db->createCommand()->update('vtiger_contactdetails', ['parentid' => 0], ['parentid' => $recordId])->execute();
-		$db->createCommand()->update('vtiger_troubletickets', ['parent_id' => 0], ['parent_id' => $recordId])->execute();
-		parent::deletePerminently($moduleName, $recordId);
 	}
 
 	// Function to unlink an entity with given Id from another entity
