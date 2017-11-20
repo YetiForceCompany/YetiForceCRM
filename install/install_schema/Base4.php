@@ -9852,7 +9852,6 @@ class Base4 extends \App\Db\Importers\Base
 					[142, 0, 71, 0, 3, 107, NULL, 0, NULL, 0, '', NULL, '', NULL],
 					[143, 0, 131, 0, 2, 108, 'IGRNC', 0, NULL, 0, '', NULL, '', NULL],
 					[144, 0, 131, 0, 3, 109, 'IGDNC', 0, NULL, 0, '', NULL, '', NULL],
-					[145, 0, 84, 0, 24, 44, '', 0, NULL, 0, '', NULL, '', NULL],
 					[146, 0, 84, 0, 14, 112, '', 0, NULL, 0, '', NULL, '', NULL],
 					[147, 0, 76, 0, 3, 113, '', 0, NULL, 0, '', NULL, '', NULL],
 					[148, 0, 76, 0, 4, 114, '', 0, NULL, 0, '', NULL, '', NULL],
