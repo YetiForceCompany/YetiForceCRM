@@ -1,6 +1,6 @@
 {strip}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-	{if $TYPE_VIEW eq 'List'}
+	{if !$TYPE_VIEW || $TYPE_VIEW eq 'List'}
 		<div class="listViewEntriesDiv contents-bottomscroll relatedContents">
 			<table class="table noStyle listViewEntriesTable">
 				<thead>

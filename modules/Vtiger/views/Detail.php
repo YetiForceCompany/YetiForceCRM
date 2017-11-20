@@ -511,7 +511,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('PARENT_COMMENTS', $childComments);
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
-		$viewer->assign('TYPE_VIEW', "List");
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
 		return $viewer->view('CommentsList.tpl', $request->getModule(), true);
 	}
@@ -557,7 +556,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$commentRecordId = $request->getInteger('commentid');
 		$hierarchy = [];
 		if ($request->has('hierarchy')) {
-			$hierarchy = $request->getExploded('hierarchy');
+			$hierarchy = $request->getExploded('hierarchy', ',', 'Integer');
 		}
 		$moduleName = $request->getModule();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -567,7 +566,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (!empty($commentRecordId)) {
 			$currentCommentModel = Vtiger_Record_Model::getInstanceById($commentRecordId);
 		}
-
 		$hierarchyList = ['LBL_COMMENTS_0', 'LBL_COMMENTS_1', 'LBL_COMMENTS_2'];
 		$level = \App\ModuleHierarchy::getModuleLevel($request->getModule());
 		if ($level > 0) {
@@ -576,7 +574,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 				unset($hierarchyList[2]);
 			}
 		}
-
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('PARENT_RECORD', $parentRecordId);
@@ -660,7 +657,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$parentId = $request->getInteger('record');
 		$pageNumber = $request->getInteger('page');
 		$limit = (int) $request->get('limit');
-		$viewType = $request->getByType('viewType');
 		$searchParams = $request->get('search_params');
 		$relatedModuleName = $request->getByType('relatedModule', 1);
 		$orderBy = $request->getForSql('orderby');
@@ -731,7 +727,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('LIMIT', $limit);
-		$viewer->assign('TYPE_VIEW', $viewType);
+		if (!$request->isEmpty('viewType')) {
+			$viewer->assign('TYPE_VIEW', $request->getByType('viewType'));
+		}
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('RELATED_HEADERS', $header);
 		$viewer->assign('RELATED_MODULE', $relatedModuleModel);

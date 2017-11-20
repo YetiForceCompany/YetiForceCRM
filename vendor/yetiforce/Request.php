@@ -208,9 +208,10 @@ class Request
 	 * Function to get the exploded values for a given key
 	 * @param string $key
 	 * @param string $delimiter
+	 * @param bool|string $type
 	 * @return array
 	 */
-	public function getExploded($key, $delimiter = ',')
+	public function getExploded($key, $delimiter = ',', $type = false)
 	{
 		if (isset($this->purifiedValuesByExploded[$key])) {
 			return $this->purifiedValuesByExploded[$key];
@@ -221,7 +222,7 @@ class Request
 			}
 			$value = explode($delimiter, $this->rawValues[$key]);
 			if ($value) {
-				$value = Purifier::purify($value);
+				$value = $type ? Purifier::purifyByType($value, $type) : Purifier::purify($value);
 			}
 			return $this->purifiedValuesByExploded[$key] = $value;
 		}
