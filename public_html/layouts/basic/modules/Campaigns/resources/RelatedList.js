@@ -35,18 +35,25 @@ Vtiger_RelatedList_Js("Campaigns_RelatedList_Js", {
 		return aDeferred.promise();
 	},
 	getCompleteParams: function () {
-		var params = {};
-		params['view'] = "Detail";
-		params['module'] = this.parentModuleName;
-		params['record'] = this.getParentId();
-		params['relatedModule'] = this.relatedModulename;
-		params['sortorder'] = this.getSortOrder();
-		params['orderby'] = this.getOrderBy();
-		params['page'] = this.getCurrentPageNum();
-		params['mode'] = "showRelatedList";
-		params['selectedIds'] = jQuery('#selectedIds').data('selectedIds');
-		params['excludedIds'] = jQuery('#excludedIds').data('excludedIds');
-
+		var container = this.getRelatedContainer();
+		var params = {
+			view: 'Detail',
+			module: this.parentModuleName,
+			record: this.getParentId(),
+			relatedModule: this.relatedModulename,
+			sortorder: this.getSortOrder(),
+			orderby: this.getOrderBy(),
+			page: this.getCurrentPageNum(),
+			mode: 'showRelatedList',
+			selectedIds: jQuery('#selectedIds').data('selectedIds'),
+			excludedIds: jQuery('#excludedIds').data('excludedIds')
+		};
+		if (container.find('.pagination').length) {
+			params['totalCount'] = container.find('.pagination').data('totalCount');
+		}
+		if (container.find('.entityState').length) {
+			params['entityState'] = container.find('.entityState').val();
+		}
 		if (this.listSearchInstance) {
 			var searchValue = this.listSearchInstance.getAlphabetSearchValue();
 			params.search_params = JSON.stringify(this.listSearchInstance.getListSearchParams());

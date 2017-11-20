@@ -5906,7 +5906,7 @@ select.form-control {
 .dropdownEntityState ul li{
 	border-left: 10px solid #fff;
 }
-.listViewAll tbody tr.listViewEntries > td:first-child{
+.listViewAll tbody tr.listViewEntries > td:first-child, .listViewAll .listViewEntriesTable tbody tr > td:first-child{
 	border-left: 10px solid #ddd;
 }
 .entityStateIcon{

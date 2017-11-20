@@ -471,7 +471,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	public function showRelatedList(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$relatedModuleName = $request->getByType('relatedModule', 1);
+		$relatedModuleName = $request->getByType('relatedModule');
 		$targetControllerClass = null;
 		if (!\App\Privilege::isPermitted($relatedModuleName)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);

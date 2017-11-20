@@ -137,7 +137,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 						jQuery('.pageNumbers', thisInstance.relatedContentContainer).tooltip();
 						jQuery('body').trigger(jQuery.Event('LoadRelatedRecordList.PostLoad'), {response: responseData, params: completeParams});
 						app.showBtnSwitch(jQuery('body').find('.switchBtn'));
-						thisInstance.registerUnreviewedCountEvent();
+						thisInstance.registerRelatedEvents(thisInstance.relatedContentContainer.find('.relatedContainer'));
 						if (thisInstance.listSearchInstance) {
 							thisInstance.listSearchInstance.registerBasicEvents();
 						}
@@ -265,6 +265,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		return jQuery("#sortOrder").val();
 	},
 	getCompleteParams: function () {
+		var container = this.getRelatedContainer();
 		var params = {
 			view: 'Detail',
 			module: this.parentModuleName,
@@ -275,8 +276,11 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			page: this.getCurrentPageNum(),
 			mode: 'showRelatedList'
 		};
-		if ($('.pagination').length) {
-			params['totalCount'] = $('.pagination').data('totalCount');
+		if (container.find('.pagination').length) {
+			params['totalCount'] = container.find('.pagination').data('totalCount');
+		}
+		if (container.find('.entityState').length) {
+			params['entityState'] = container.find('.entityState').val();
 		}
 		if (this.relatedModulename == 'Calendar') {
 			if (this.relatedContentContainer.find('.switchBtn').is(':checked'))
@@ -284,7 +288,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			else
 				params['time'] = 'history';
 		}
-
 		if (this.listSearchInstance) {
 			var searchValue = this.listSearchInstance.getAlphabetSearchValue();
 			params.search_params = JSON.stringify(this.listSearchInstance.getListSearchParams());
@@ -295,7 +298,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			params['operator'] = 's';
 		}
 		if (this.relatedModulename == 'Calendar') {
-			var switchBtn = this.getRelatedContainer().find('.switchBtn');
+			var switchBtn = container.find('.switchBtn');
 			if (switchBtn.length) {
 				params.time = switchBtn.prop('checked') ? 'current' : 'history';
 			}
@@ -643,6 +646,20 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				}
 			});
 		});
+	},
+	registerChangeEntityStateEvent: function (container) {
+		var thisInstance = this;
+		container.find('.dropdownEntityState a').click(function (e) {
+			var element = $(this);
+			container.find('.entityState').val(element.data('value'));
+			container.find('.pagination').data('totalCount', 0);
+			container.find('.dropdownEntityState button').find('span').attr('class', element.find('span').attr('class'));
+			thisInstance.loadRelatedList({page: 1});
+		});
+	},
+	registerRelatedEvents: function (container) {
+		this.registerUnreviewedCountEvent(container);
+		this.registerChangeEntityStateEvent(container);
 	},
 	init: function (parentId, parentModule, selectedRelatedTabElement, relatedModuleName) {
 		this.selectedRelatedTabElement = selectedRelatedTabElement;

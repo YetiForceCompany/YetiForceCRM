@@ -321,7 +321,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					app.registerMoreContent(contentContainer.find('button.moreBtn'));
 					if (relatedModuleName) {
 						var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), thisInstance.getSelectedTab(), relatedModuleName);
-						relatedController.registerUnreviewedCountEvent(widgetContainer);
+						relatedController.registerRelatedEvents(contentContainer);
 						thisInstance.widgetRelatedRecordView(widgetContainer, true);
 					}
 					aDeferred.resolve(params);
@@ -865,34 +865,24 @@ jQuery.Class("Vtiger_Detail_Js", {
 	registerEventForRelatedListPagination: function () {
 		var thisInstance = this;
 		var detailContentsHolder = this.getContentHolder();
+		var relatedModuleName = thisInstance.getRelatedModuleName();
+		var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), thisInstance.getSelectedTab(), relatedModuleName);
 		detailContentsHolder.on('click', '#relatedViewNextPageButton', function (e) {
 			var element = jQuery(e.currentTarget);
 			if (element.hasClass('disabled')) {
 				return;
 			}
-			var selectedTabElement = thisInstance.getSelectedTab();
-			var relatedModuleName = thisInstance.getRelatedModuleName();
-			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
 			relatedController.nextPageHandler();
 		});
 		detailContentsHolder.on('click', '#relatedViewPreviousPageButton', function () {
-			var selectedTabElement = thisInstance.getSelectedTab();
-			var relatedModuleName = thisInstance.getRelatedModuleName();
-			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
 			relatedController.previousPageHandler();
 		});
 		detailContentsHolder.on('click', '#relatedListPageJump', function (e) {
-			var selectedTabElement = thisInstance.getSelectedTab();
-			var relatedModuleName = thisInstance.getRelatedModuleName();
-			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
 			relatedController.getRelatedPageCount();
 		});
 		detailContentsHolder.on('click', '#relatedListPageJumpDropDown > li', function (e) {
 			e.stopImmediatePropagation();
 		}).on('keypress', '#pageToJump', function (e) {
-			var selectedTabElement = thisInstance.getSelectedTab();
-			var relatedModuleName = thisInstance.getRelatedModuleName();
-			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
 			relatedController.pageJumpHandler(e);
 		});
 		detailContentsHolder.on('click', '.pageNumber', function () {
@@ -900,9 +890,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			if (disabled)
 				return false;
 			var pageNumber = $(this).data("id");
-			var selectedTabElement = thisInstance.getSelectedTab();
-			var relatedModuleName = thisInstance.getRelatedModuleName();
-			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
 			relatedController.selectPageHandler(pageNumber);
 		});
 		detailContentsHolder.on('click', '#totalCountBtn', function () {
@@ -915,6 +902,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 				noOfEntries: $('#noOfEntries').val(),
 				page: detailContentsHolder.find('[name="currentPageNum"]').val(),
 				record: app.getRecordId(),
+			}
+			if (detailContentsHolder.find('.entityState').length) {
+				params['entityState'] = detailContentsHolder.find('.entityState').val();
 			}
 			AppConnector.request(params).then(function (response) {
 				detailContentsHolder.find('.paginationDiv').html(response);
@@ -1050,7 +1040,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var relatedModuleName = thisInstance.getRelatedModuleName();
 		if (relatedModuleName) {
 			var relatedController = new Vtiger_RelatedList_Js(thisInstance.getRecordId(), app.getModuleName(), thisInstance.getSelectedTab(), relatedModuleName);
-			relatedController.registerUnreviewedCountEvent();
+			relatedController.registerRelatedEvents(detailContentsHolder.find('.relatedContainer'));
 		}
 	},
 	registerBlockAnimationEvent: function () {
@@ -1949,14 +1939,14 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	showPagingInfo: function () {
 		var totalNumberOfRecords = jQuery('#totalCount').val();
-		var pageNumberElement = jQuery('.pageNumbersText');
-		var pageRange = pageNumberElement.text();
-		var newPagingInfo = pageRange + " (" + totalNumberOfRecords + ")";
-		var listViewEntriesCount = parseInt(jQuery('#noOfEntries').val());
-		if (listViewEntriesCount != 0) {
-			jQuery('.pageNumbersText').html(newPagingInfo);
-		} else {
-			jQuery('.pageNumbersText').html("");
+			var pageNumberElement = jQuery('.pageNumbersText');
+			var pageRange = pageNumberElement.text();
+			var newPagingInfo = pageRange + " (" + totalNumberOfRecords + ")";
+			var listViewEntriesCount = parseInt(jQuery('#noOfEntries').val());
+			if (listViewEntriesCount != 0) {
+				jQuery('.pageNumbersText').html(newPagingInfo);
+			} else {
+				jQuery('.pageNumbersText').html("");
 		}
 	},
 	getCustomFieldNameValueMap: function (fieldNameValueMap) {

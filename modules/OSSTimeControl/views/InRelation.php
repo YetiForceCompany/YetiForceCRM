@@ -15,28 +15,29 @@ class OSSTimeControl_InRelation_View extends Vtiger_RelatedList_View
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$relatedModuleName = $request->getByType('relatedModule', 1);
+		$relatedModuleName = $request->getByType('relatedModule');
 		$parentId = $request->getInteger('record');
 		$label = $request->get('tab_label');
+		$pageNumber = $request->getInteger('page');
 		$totalCount = $request->isEmpty('totalCount', true) ? false : $request->getInteger('totalCount');
-		$requestedPage = $request->getInteger('page');
-		if (empty($requestedPage)) {
-			$requestedPage = 1;
+		if (empty($pageNumber)) {
+			$pageNumber = 1;
 		}
-
 		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('page', $requestedPage);
-
+		$pagingModel->set('page', $pageNumber);
+		if ($request->has('limit')) {
+			$pagingModel->set('limit', $request->getInteger('limit'));
+		}
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
 		if ($sortOrder === 'ASC') {
 			$nextSortOrder = 'DESC';
-			$sortImage = 'icon-chevron-down';
+			$sortImage = 'glyphicon glyphicon-chevron-down';
 		} else {
 			$nextSortOrder = 'ASC';
-			$sortImage = 'icon-chevron-up';
+			$sortImage = 'glyphicon glyphicon-chevron-up';
 		}
 		if (empty($orderBy) && empty($sortOrder)) {
 			$relatedInstance = CRMEntity::getInstance($relatedModuleName);
@@ -46,6 +47,20 @@ class OSSTimeControl_InRelation_View extends Vtiger_RelatedList_View
 		if (!empty($orderBy)) {
 			$relationListView->set('orderby', $orderBy);
 			$relationListView->set('sortorder', $sortOrder);
+		}
+		if ($request->has('entityState')) {
+			$relationListView->set('entityState', $request->getByType('entityState'));
+		}
+		$viewer = $this->getViewer($request);
+		$viewer->assign('RELATION_LIST_VIEW', $relationListView);
+		if (!$request->isEmpty('operator', true)) {
+			$relationListView->set('operator', $request->getByType('operator'));
+			$viewer->assign('OPERATOR', $request->getByType('operator'));
+		}
+		if (!$request->isEmpty('search_key', true)) {
+			$relationListView->set('search_key', $request->getByType('search_key'));
+			$relationListView->set('search_value', $request->get('search_value'));
+			$viewer->assign('ALPHABET_VALUE', $request->get('search_value'));
 		}
 		$searchParmams = $request->get('search_params');
 		if (empty($searchParmams) || !is_array($searchParmams)) {
@@ -68,13 +83,9 @@ class OSSTimeControl_InRelation_View extends Vtiger_RelatedList_View
 		$noOfEntries = count($models);
 
 		$relationModel = $relationListView->getRelationModel();
+
 		$relatedModuleModel = $relationModel->getRelationModuleModel();
-		$relationField = $relationModel->getRelationField();
-
-		$relatedSummary = $relatedModuleModel->getRelatedSummary($relationListView->getRelationQuery());
-
-		$viewer = $this->getViewer($request);
-		$viewer->assign('RELATED_SUMMARY', $relatedSummary);
+		$viewer->assign('RELATED_SUMMARY', $relatedModuleModel->getRelatedSummary($relationListView->getRelationQuery()));
 		$viewer->assign('RELATED_MODULE_NAME', $relatedModuleName);
 		$viewer->view('RelatedSummary.tpl', $relatedModuleName);
 
@@ -84,35 +95,40 @@ class OSSTimeControl_InRelation_View extends Vtiger_RelatedList_View
 		$viewer->assign('RELATED_HEADERS', $header);
 		$viewer->assign('RELATED_MODULE', $relatedModuleModel);
 		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
-		$viewer->assign('RELATION_FIELD', $relationField);
-
+		$viewer->assign('RELATION_FIELD', $relationModel->getRelationField());
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
 		}
 		if (!empty($totalCount)) {
 			$pagingModel->set('totalCount', (int) $totalCount);
-			$viewer->assign('TOTAL_ENTRIES', (int) $totalCount);
-			$viewer->assign('LISTVIEW_COUNT', (int) $totalCount);
+			$viewer->assign('LISTVIEW_COUNT', $totalCount);
+			$viewer->assign('TOTAL_ENTRIES', $totalCount);
 		}
-
-		$pageCount = $pagingModel->getPageCount();
-		$startPaginFrom = $pagingModel->getStartPagingFrom();
-
-		$viewer->assign('PAGE_COUNT', $pageCount);
+		$viewer->assign('PAGE_COUNT', $pagingModel->getPageCount());
+		$viewer->assign('PAGE_NUMBER', $pageNumber);
+		$viewer->assign('START_PAGIN_FROM', $pagingModel->getStartPagingFrom());
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
-		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('ORDER_BY', $orderBy);
 		$viewer->assign('SORT_ORDER', $sortOrder);
 		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
 		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('COLUMN_NAME', $orderBy);
-
+		$viewer->assign('INVENTORY_FIELDS', $relationModel->getRelationInventoryFields());
+		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
+		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
+		$isFavorites = false;
+		if ($relationModel->isFavorites() && \App\Privilege::isPermitted($moduleName, 'FavoriteRecords')) {
+			$favorites = $relationListView->getFavoriteRecords();
+			$viewer->assign('FAVORITES', $favorites);
+			$isFavorites = $relationModel->isFavorites();
+		}
+		$viewer->assign('IS_FAVORITES', $isFavorites);
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
 		$viewer->assign('IS_DELETABLE', $relationModel->privilegeToDelete());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
-		$viewer->assign('VIEW', $request->getByType('view', 1));
-		return $viewer->view('RelatedList.tpl', $moduleName, 'true');
+		$viewer->assign('VIEW', $request->getByType('view'));
+		return $viewer->view('RelatedList.tpl', $moduleName, true);
 	}
 }

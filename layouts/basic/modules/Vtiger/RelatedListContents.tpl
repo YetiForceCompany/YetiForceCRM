@@ -3,7 +3,7 @@
 	{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $RELATED_MODULE_NAME) MODULE_MODEL=$RELATED_MODULE}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	<div class="listViewEntriesDiv contents-bottomscroll">
-		<table class="table table-bordered listViewEntriesTable">
+		<table class="table table-bordered listViewEntriesTable {if $RELATION_LIST_VIEW && !$RELATION_LIST_VIEW->isEmpty('entityState')}listView{$RELATION_LIST_VIEW->get('entityState')}{/if}">
 			<thead>
 				<tr class="listViewHeaders">
 					{assign var=COUNT value=0}
@@ -58,12 +58,13 @@
 			{/if}
 			{assign var="RELATED_HEADER_COUNT" value=count($RELATED_HEADERS)}
 			{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
+				{assign var="RECORD_COLORS" value=$RELATED_RECORD->getListViewColor()}
 				<tr class="listViewEntries" data-id='{$RELATED_RECORD->getId()}'
 					{if $RELATED_RECORD->isViewable()}
 						data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'
 					{/if}>
 					{assign var=COUNT value=0}
-					<td class="{$WIDTHTYPE} noWrap leftRecordActions">
+					<td class="{$WIDTHTYPE} noWrap leftRecordActions" {if $RECORD_COLORS['leftBorder']}style="border-left-color: {$RECORD_COLORS['leftBorder']};"{/if}>
 						{include file=\App\Layout::getTemplatePath('RelatedListLeftSide.tpl', $RELATED_MODULE_NAME)}
 					</td>
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS name=listHeaderForeach}

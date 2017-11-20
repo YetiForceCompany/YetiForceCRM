@@ -18,17 +18,19 @@ class Calendar_InRelation_View extends Vtiger_RelatedList_View
 		$parentId = $request->getInteger('record');
 		$label = $request->get('tab_label');
 		$pageNumber = $request->getInteger('page');
-		$time = $request->getByType('time');
 		$totalCount = $request->isEmpty('totalCount', true) ? false : $request->getInteger('totalCount');
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
 		}
-		if (empty($time)) {
-			$time = 'current';
+		$time = 'current';
+		if (!$request->isEmpty('time', true)) {
+			$time = $request->getByType('time');
 		}
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
-
+		if ($request->has('limit')) {
+			$pagingModel->set('limit', $request->getInteger('limit'));
+		}
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $label);
 		$orderBy = $request->getForSql('orderby');
@@ -49,28 +51,26 @@ class Calendar_InRelation_View extends Vtiger_RelatedList_View
 			$relationListView->set('orderby', $orderBy);
 			$relationListView->set('sortorder', $sortOrder);
 		}
-
-		$searchKey = $request->getByType('search_key', 2);
-		$searchValue = $request->get('search_value');
-		$operator = $request->getByType('operator', 1);
-		if (!empty($operator)) {
-			$relationListView->set('operator', $operator);
+		if ($request->has('entityState')) {
+			$relationListView->set('entityState', $request->getByType('entityState'));
 		}
 		$viewer = $this->getViewer($request);
-		$viewer->assign('OPERATOR', $operator);
-		$viewer->assign('ALPHABET_VALUE', $searchValue);
-		if (!empty($searchKey) && !empty($searchValue)) {
-			$relationListView->set('search_key', $searchKey);
-			$relationListView->set('search_value', $searchValue);
+		$viewer->assign('RELATION_LIST_VIEW', $relationListView);
+		if (!$request->isEmpty('operator', true)) {
+			$relationListView->set('operator', $request->getByType('operator'));
+			$viewer->assign('OPERATOR', $request->getByType('operator'));
 		}
-
+		if (!$request->isEmpty('search_key', true)) {
+			$relationListView->set('search_key', $request->getByType('search_key'));
+			$relationListView->set('search_value', $request->get('search_value'));
+			$viewer->assign('ALPHABET_VALUE', $request->get('search_value'));
+		}
 		$searchParmams = $request->get('search_params');
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
 		}
 		$transformedSearchParams = $relationListView->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
 		$relationListView->set('search_params', $transformedSearchParams);
-
 		//To make smarty to get the details easily accesible
 		foreach ($searchParmams as $fieldListGroup) {
 			foreach ($fieldListGroup as $fieldSearchInfo) {
@@ -80,51 +80,38 @@ class Calendar_InRelation_View extends Vtiger_RelatedList_View
 				$searchParmams[$fieldName] = $fieldSearchInfo;
 			}
 		}
-
 		$models = $relationListView->getEntries($pagingModel);
 		$links = $relationListView->getLinks();
 		$header = $relationListView->getHeaders();
 		$noOfEntries = count($models);
 
 		$relationModel = $relationListView->getRelationModel();
-		$relatedModuleModel = $relationModel->getRelationModuleModel();
-		$relationField = $relationModel->getRelationField();
-
+		$viewer->assign('RELATED_RECORDS', $models);
+		$viewer->assign('PARENT_RECORD', $parentRecordModel);
+		$viewer->assign('RELATED_LIST_LINKS', $links);
+		$viewer->assign('RELATED_HEADERS', $header);
+		$viewer->assign('RELATED_MODULE', $relationModel->getRelationModuleModel());
+		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
+		$viewer->assign('RELATION_FIELD', $relationModel->getRelationField());
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
 		}
 		if (!empty($totalCount)) {
 			$pagingModel->set('totalCount', (int) $totalCount);
-			$viewer->assign('TOTAL_ENTRIES', (int) $totalCount);
-			$viewer->assign('LISTVIEW_COUNT', (int) $totalCount);
+			$viewer->assign('LISTVIEW_COUNT', $totalCount);
+			$viewer->assign('TOTAL_ENTRIES', $totalCount);
 		}
-		$pageCount = $pagingModel->getPageCount();
-		$startPaginFrom = $pagingModel->getStartPagingFrom();
-
-		$viewer->assign('RELATED_RECORDS', $models);
-		$viewer->assign('PARENT_RECORD', $parentRecordModel);
-		$viewer->assign('RELATED_LIST_LINKS', $links);
-		$viewer->assign('RELATED_HEADERS', $header);
-		$viewer->assign('RELATED_MODULE', $relatedModuleModel);
-		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
-		$viewer->assign('RELATION_FIELD', $relationField);
-		$viewer->assign('TIME', $time);
-		$viewer->assign('PAGE_COUNT', $pageCount);
+		$viewer->assign('PAGE_COUNT', $pagingModel->getPageCount());
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
-		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
+		$viewer->assign('START_PAGIN_FROM', $pagingModel->getStartPagingFrom());
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
-
 		$viewer->assign('ORDER_BY', $orderBy);
 		$viewer->assign('SORT_ORDER', $sortOrder);
 		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
 		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('COLUMN_NAME', $orderBy);
-
-		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
-		$viewer->assign('IS_DELETABLE', $relationModel->privilegeToDelete());
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-		$viewer->assign('VIEW', $request->getByType('view'));
+		$viewer->assign('INVENTORY_FIELDS', $relationModel->getRelationInventoryFields());
 		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
 		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
 		$isFavorites = false;
@@ -134,7 +121,12 @@ class Calendar_InRelation_View extends Vtiger_RelatedList_View
 			$isFavorites = $relationModel->isFavorites();
 		}
 		$viewer->assign('IS_FAVORITES', $isFavorites);
+		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
+		$viewer->assign('IS_DELETABLE', $relationModel->privilegeToDelete());
+		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
-		return $viewer->view('RelatedList.tpl', $relatedModuleName, 'true');
+		$viewer->assign('VIEW', $request->getByType('view'));
+		$viewer->assign('TIME', $time);
+		return $viewer->view('RelatedList.tpl', $relatedModuleName, true);
 	}
 }
