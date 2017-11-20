@@ -8914,8 +8914,6 @@ class Base4 extends \App\Db\Importers\Base
 					[41, 'vtiger_max_version', '6.*'],
 					[42, 'vtiger_min_version', '6.0.0rc'],
 					[43, 'vtiger_min_version', '6.0.0rc'],
-					[44, 'vtiger_min_version', '6.0.0rc'],
-					[44, 'vtiger_max_version', '6.*'],
 					[45, 'vtiger_min_version', '6.0.0rc'],
 					[45, 'vtiger_max_version', '6.*'],
 					[48, 'vtiger_min_version', '6.0.0'],
