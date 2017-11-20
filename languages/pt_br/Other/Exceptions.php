@@ -13,4 +13,5 @@ $languageStrings = [
 	'ERR_VALUE_CAN_NOT_BE_LESS_THAN_ZERO' => 'Field value %s must be greater than zero (%s)',
 	'ERR_NOT_ALLOWED_VALUE' => 'Incorrect value detected, please contact your administrator',
 	'ERR_PASSWORD_HAS_ALREADY_BEEN_USED' => 'This password has already been used. The system does not allow to use the same password for security reasons.',
+	'ERR_USER_EXISTS' => 'User with the same username and role already exists (%s)',
 ];
