@@ -116,7 +116,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 			params.async = true;
 		}
 		params.dataType = 'json';
-		AppConnector.request(params).done(
+		AppConnector.request(params).then(
 				function (data) {
 					var response = data['result'];
 					var params = {

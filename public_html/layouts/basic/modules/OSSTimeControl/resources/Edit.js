@@ -93,7 +93,7 @@ Vtiger_Edit_Js("OSSTimeControl_Edit_Js", {}, {
 			params.data = {module: 'OSSTimeControl', action: 'GetTCInfo', id: sourceDesk, sourceModule: moduleName};
 			params.async = false;
 			params.dataType = 'json';
-			AppConnector.request(params).done(
+			AppConnector.request(params).then(
 					function (data) {
 						var response = data['result'];
 						if (response['success']) {
