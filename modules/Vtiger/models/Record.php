@@ -1284,7 +1284,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
 				'linkicon' => 'glyphicon ' . ($watching ? 'glyphicon-eye-close' : 'glyphicon-eye-open'),
 				'linkclass' => 'btn-sm ' . ($watching ? 'btn-info' : 'btn-default'),
-				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => !$watching, 'on' => 'btn-info', 'off' => 'btn-default', 'icon-on' => 'glyphicon-eye-open', 'icon-off' => 'glyphicon-eye-close'],
+				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId(), 'value' => (int) !$watching, 'on' => 'btn-info', 'off' => 'btn-default', 'icon-on' => 'glyphicon-eye-open', 'icon-off' => 'glyphicon-eye-close'],
 			];
 		}
 		$stateColors = AppConfig::search('LIST_ENTITY_STATE_COLOR');
