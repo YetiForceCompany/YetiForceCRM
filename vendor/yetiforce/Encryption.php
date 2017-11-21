@@ -71,7 +71,7 @@ class Encryption
 	 * @param int $length
 	 * @return string
 	 */
-	public static function generatePassword($length = 10, $type = 'lbn')
+	public static function generatePassword($length = 10, $type = 'lbd')
 	{
 		$chars = [];
 		if (strpos($type, 'l') !== false) {
@@ -80,7 +80,7 @@ class Encryption
 		if (strpos($type, 'b') !== false) {
 			$chars[] = 'ABCDEFGHJKMNPQRSTUVWXYZ';
 		}
-		if (strpos($type, 'n') !== false) {
+		if (strpos($type, 'd') !== false) {
 			$chars[] = '0123456789';
 		}
 		if (strpos($type, 's') !== false) {
