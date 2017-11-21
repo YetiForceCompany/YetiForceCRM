@@ -92,8 +92,8 @@
 						<form class="forgot-form" action="index.php?module=Users&action=ForgotPassword" method="POST">
 							<div class='marginLeft0  marginRight0 row col-xs-10'>	
 								<div class="form-group first-group has-feedback">
-									<label for="username" class="sr-only">{\App\Language::translate('LBL_USER',$MODULE)}</label>
-									<input type="text" class="form-control input-lg" title="{\App\Language::translate('LBL_USER',$MODULE)}" id="username" name="user_name" placeholder="{\App\Language::translate('LBL_USER',$MODULE)}">
+									<label for="usernameFp" class="sr-only">{\App\Language::translate('LBL_USER',$MODULE)}</label>
+									<input type="text" class="form-control input-lg" title="{\App\Language::translate('LBL_USER',$MODULE)}" id="usernameFp" name="user_name" placeholder="{\App\Language::translate('LBL_USER',$MODULE)}">
 									<span class="adminIcon-user form-control-feedback" aria-hidden="true"></span>
 								</div>
 								<div class="form-group has-feedback">
@@ -133,7 +133,7 @@
 				jQuery("#forgotPasswordDiv").hide();
 			});
 			jQuery("form.forgot-form").submit(function (event) {
-				if ($("#username").val() === "" || $("#emailId").val() === "") {
+				if ($("#usernameFp").val() === "" || $("#emailId").val() === "") {
 					event.preventDefault();
 				}
 			});
