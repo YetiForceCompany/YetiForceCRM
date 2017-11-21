@@ -13,6 +13,18 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 {
 
 	/**
+	 * Related view types
+	 * @var string[]
+	 */
+	private static $relatedViewType = [
+		'RelatedTab' => 'LBL_RELATED_TAB_TYPE',
+		'DetailTop' => 'LBL_DETAIL_TOP_TYPE',
+		'DetailBottom' => 'LBL_DETAIL_BOTTOM_TYPE',
+		'SummaryTop' => 'LBL_SUMMARY_TOP_TYPE',
+		'SummaryBottom' => 'LBL_SUMMARY_BOTTOM_TYPE',
+	];
+
+	/**
 	 * Function that returns all the fields for the module
 	 * @return <Array of Vtiger_Field_Model> - list of field models
 	 */
@@ -595,5 +607,24 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$fields[] = $row['fieldname'];
 		}
 		return $fields;
+	}
+
+	/**
+	 * Update related view type
+	 * @param int $relationId
+	 * @param string[] $type
+	 */
+	public static function updateRelatedViewType($relationId, $type)
+	{
+		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['view_type' => implode(',', $type)], ['relation_id' => $relationId])->execute();
+	}
+
+	/**
+	 * Get related view types
+	 * @return string[]
+	 */
+	public static function getRelatedViewTypes()
+	{
+		return static::$relatedViewType;
 	}
 }

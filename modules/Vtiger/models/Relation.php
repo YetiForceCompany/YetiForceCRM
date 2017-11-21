@@ -192,6 +192,25 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
+	 * Get related view type
+	 * @return string[]
+	 */
+	public function getRelatedViewType()
+	{
+		return explode(',', $this->get('view_type'));
+	}
+
+	/**
+	 * Check related view type
+	 * @param string $type
+	 * @return boolean
+	 */
+	public function isRelatedViewType($type)
+	{
+		return strpos($this->get('view_type'), $type) !== false;
+	}
+
+	/**
 	 * Get relation list model instance
 	 * @param Vtiger_Module_Model $parentModuleModel
 	 * @param Vtiger_Module_Model $relatedModuleModel
@@ -627,7 +646,7 @@ class Vtiger_Relation_Model extends \App\Base
 		$relationModels = [];
 		$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
 		$privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		foreach ($relationList as &$row) {
+		foreach ($relationList as $row) {
 			// Skip relation where target module does not exits or is no permitted for view.
 			if ($permissions && !$privilegesModel->hasModuleActionPermission($row['moduleid'], 'DetailView')) {
 				continue;

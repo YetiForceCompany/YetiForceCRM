@@ -20,6 +20,7 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		$this->exposeMethod('updateStateFavorites');
 		$this->exposeMethod('addRelation');
 		$this->exposeMethod('removeRelation');
+		$this->exposeMethod('updateRelatedViewType');
 	}
 
 	public function changeStatusRelation(\App\Request $request)
@@ -91,6 +92,22 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		try {
 			Vtiger_Relation_Model::removeRelationById($relationId);
 			$response->setResult(['success' => true]);
+		} catch (Exception $e) {
+			$response->setError($e->getCode(), $e->getMessage());
+		}
+		$response->emit();
+	}
+
+	/**
+	 * Update related view type mode
+	 * @param \App\Request $request
+	 */
+	public function updateRelatedViewType(\App\Request $request)
+	{
+		$response = new Vtiger_Response();
+		try {
+			Settings_LayoutEditor_Module_Model::updateRelatedViewType($request->getInteger('relationId'), $request->getArray('types', 'Standard'));
+			$response->setResult(['text' => \App\Language::translate('LBL_CHANGES_SAVED')]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}

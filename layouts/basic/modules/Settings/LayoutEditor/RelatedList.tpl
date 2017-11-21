@@ -11,132 +11,160 @@
 -->*}
 {strip}
     <div id="relatedTabOrder">
-    <div class="" id="layoutEditorContainer">
-        <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
-        <div class="widget_header row">
-            <div class="col-md-7">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
-            </div>
-            <div class="col-md-5">
-				<div class="btn-toolbar">
-					<div class="btn-group col-xs-5 pull-right paddingLRZero">
-						<select class="select2 form-control layoutEditorRelModules" name="layoutEditorRelModules">
-							{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
-								<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</option>
-							{/foreach}
-						</select>
-					</div>
-					{if AppConfig::developer('CHANGE_RELATIONS')}
-						<button class="btn btn-primary pull-right addRelation" type="button">{\App\Language::translate('LBL_ADD_RELATION', $QUALIFIED_MODULE)}</button>
-					{/if}	
+		<div class="" id="layoutEditorContainer">
+			<input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
+			<div class="widget_header row">
+				<div class="col-md-7">
+					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				</div>
-            </div>
-        </div>
-        <hr>
-        <div class="relatedTabModulesList">
-            {if empty($RELATED_MODULES)}
-                <div class="emptyRelatedTabs">
-                    <div class="recordDetails">
-                        <p class="textAlignCenter">{\App\Language::translate('LBL_NO_RELATED_INFORMATION',$QUALIFIED_MODULE)}</p>
-                    </div>
-                </div>
-            {else}
-                <div class="relatedListContainer">	
-					<div class="relatedModulesList">
-						{foreach item=MODULE_MODEL from=$RELATED_MODULES}
-							{assign var=INVENTORY_FIELD_MODEL value=false}
-							{assign var=RELATED_MODULE_NAME value=$MODULE_MODEL->getRelationModuleName()}
-							{assign var=RELATED_MODULE_MODEL value=$MODULE_MODEL->getRelationModuleModel()}
-							{assign var=RECORD_STRUCTURE_INSTANCE value=Vtiger_RecordStructure_Model::getInstanceForModule($RELATED_MODULE_MODEL)}
-							{assign var=RECORD_STRUCTURE value=$RECORD_STRUCTURE_INSTANCE->getStructure()}
-							{if $RELATED_MODULE_MODEL->isInventory()}
-								{assign var=INVENTORY_FIELD_MODEL value=Vtiger_InventoryField_Model::getInstance($RELATED_MODULE_NAME)}
-								{assign var=SELECTED_INVENTORY_FIELDS value=$MODULE_MODEL->getRelationInventoryFields()}
-							{/if}
-							{if $MODULE_MODEL->isActive()}
-								{assign var=STATUS value='1'}
-							{else}
-								{assign var=STATUS value='0'}
-							{/if}
-							{assign var=SELECTED_FIELDS value=Settings_LayoutEditor_Module_Model::getRelationFields($MODULE_MODEL->getId())}
-							<div class="relatedModule mainBlockTable panel panel-default" data-relation-id="{$MODULE_MODEL->getId()}" data-status="{$STATUS}">
-                                <div class="mainBlockTableHeader panel-heading">
-									<div class="btn-toolbar btn-group-xs pull-right">
-										{if AppConfig::developer('CHANGE_RELATIONS')}
-											<button type="button" class="btn btn-danger removeRelation pull-right" title="{\App\Language::translate('LBL_REMOVE_RELATION', $QUALIFIED_MODULE)}">x</button>
-										{/if}
-										{assign var=FAVORITES value=$MODULE_MODEL->isFavorites()}
-			                        	<button type="button" class="btn btn-default addToFavorites" data-state="{$MODULE_MODEL->get('favorites')}">
+				<div class="col-md-5">
+					<div class="btn-toolbar">
+						<div class="btn-group col-xs-5 pull-right paddingLRZero">
+							<select class="select2 form-control layoutEditorRelModules" name="layoutEditorRelModules">
+								{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
+									<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</option>
+								{/foreach}
+							</select>
+						</div>
+						{if AppConfig::developer('CHANGE_RELATIONS')}
+							<button class="btn btn-primary pull-right addRelation" type="button">
+								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;&nbsp;
+								{\App\Language::translate('LBL_ADD_RELATION', $QUALIFIED_MODULE)}
+							</button>
+						{/if}	
+					</div>
+				</div>
+			</div>
+			<hr>
+			<div class="relatedTabModulesList">
+				{if empty($RELATED_MODULES)}
+					<div class="emptyRelatedTabs">
+						<div class="recordDetails">
+							<p class="textAlignCenter">{\App\Language::translate('LBL_NO_RELATED_INFORMATION',$QUALIFIED_MODULE)}</p>
+						</div>
+					</div>
+				{else}
+					<div class="relatedListContainer">	
+						<div class="relatedModulesList">
+							{foreach item=MODULE_MODEL from=$RELATED_MODULES}
+								{assign var=INVENTORY_FIELD_MODEL value=false}
+								{assign var=RELATED_MODULE_NAME value=$MODULE_MODEL->getRelationModuleName()}
+								{assign var=RELATED_MODULE_MODEL value=$MODULE_MODEL->getRelationModuleModel()}
+								{assign var=RECORD_STRUCTURE_INSTANCE value=Vtiger_RecordStructure_Model::getInstanceForModule($RELATED_MODULE_MODEL)}
+								{assign var=RECORD_STRUCTURE value=$RECORD_STRUCTURE_INSTANCE->getStructure()}
+								{if $RELATED_MODULE_MODEL->isInventory()}
+									{assign var=INVENTORY_FIELD_MODEL value=Vtiger_InventoryField_Model::getInstance($RELATED_MODULE_NAME)}
+									{assign var=SELECTED_INVENTORY_FIELDS value=$MODULE_MODEL->getRelationInventoryFields()}
+								{/if}
+								{if $MODULE_MODEL->isActive()}
+									{assign var=STATUS value='1'}
+								{else}
+									{assign var=STATUS value='0'}
+								{/if}
+								{assign var=SELECTED_FIELDS value=Settings_LayoutEditor_Module_Model::getRelationFields($MODULE_MODEL->getId())}
+								<div class="relatedModule mainBlockTable panel panel-default" data-relation-id="{$MODULE_MODEL->getId()}" data-status="{$STATUS}">
+									<div class="mainBlockTableHeader panel-heading">
+										<div class="btn-toolbar btn-group-xs pull-right">
+											{if AppConfig::developer('CHANGE_RELATIONS')}
+												<button type="button" class="btn btn-danger removeRelation pull-right" title="{\App\Language::translate('LBL_REMOVE_RELATION', $QUALIFIED_MODULE)}">
+												<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+												</button>
+											{/if}
+											{assign var=FAVORITES value=$MODULE_MODEL->isFavorites()}
+											<button type="button" class="btn btn-default addToFavorites" data-state="{$MODULE_MODEL->get('favorites')}">
 												<span class="glyphicon glyphicon-star {if !$FAVORITES}hide{/if}" title="{\App\Language::translate('LBL_DEACTIVATE_FAVORITES', $QUALIFIED_MODULE)}"></span>
 												<span class="glyphicon glyphicon-star-empty {if $FAVORITES}hide{/if}" title="{\App\Language::translate('LBL_ACTIVATE_FAVORITES', $QUALIFIED_MODULE)}"></span>	
-										</button>
-			                        	<button type="button" class="btn btn-success inActiveRelationModule{if !$MODULE_MODEL->isActive()} hide{/if}"><span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_VISIBLE', $QUALIFIED_MODULE)}</strong></button>
-			                        	<button type="button" class="btn btn-warning activeRelationModule{if $MODULE_MODEL->isActive()} hide{/if}"><span class="glyphicon glyphicon-remove"></span>&nbsp;<strong>{\App\Language::translate('LBL_HIDDEN', $QUALIFIED_MODULE)}</strong></button>
-			                        </div>
-									<h4 class="panel-title">
-										<div class="relatedModuleLabel mainBlockTableLabel">
-											<a><img src="{\App\Layout::getImagePath('drag.png')}" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/></a>
-											<strong>{\App\Language::translate($MODULE_MODEL->get('label'), $RELATED_MODULE_NAME)}</strong>
+											</button>
+											<button type="button" class="btn btn-success inActiveRelationModule{if !$MODULE_MODEL->isActive()} hide{/if}"><span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_VISIBLE', $QUALIFIED_MODULE)}</strong></button>
+											<button type="button" class="btn btn-warning activeRelationModule{if $MODULE_MODEL->isActive()} hide{/if}"><span class="glyphicon glyphicon-remove"></span>&nbsp;<strong>{\App\Language::translate('LBL_HIDDEN', $QUALIFIED_MODULE)}</strong></button>
 										</div>
-									</h4>
-                                </div>
-								<div class="relatedModuleFieldsList mainBlockTableContent panel-body paddingBottomZero">
-									<div class="form-group">
-									<label class="control-label">{\App\Language::translate('LBL_STANDARD_FIELDS',$QUALIFIED_MODULE)}</label>
-										<select data-placeholder="{\App\Language::translate('LBL_ADD_MORE_COLUMNS',$MODULE)}" multiple class="select2_container columnsSelect relatedColumnsList">
-				                        	<optgroup label=''>
-												{foreach item=SELECTED_FIELD from=$SELECTED_FIELDS}
-													{assign var=FIELD_INSTANCE value=$RELATED_MODULE_MODEL->getField($SELECTED_FIELD)}
-													{if $FIELD_INSTANCE}
-														<option value="{$FIELD_INSTANCE->getId()}" data-name="{$FIELD_INSTANCE->getFieldName()}" selected>
-															{\App\Language::translate($FIELD_INSTANCE->get('label'), $RELATED_MODULE_NAME)}
-												  		</option>
-											  		{/if}
-												{/foreach}
-											</optgroup>
-					                        {foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
-												<optgroup label='{\App\Language::translate($BLOCK_LABEL, $RELATED_MODULE_NAME)}'>
-													{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
-														{if !in_array($FIELD_MODEL->getId(), $SELECTED_FIELDS)}
-															<option value="{$FIELD_MODEL->getId()}" data-field-name="{$FIELD_NAME}">
-																{\App\Language::translate($FIELD_MODEL->get('label'), $RELATED_MODULE_NAME)}
-													  		</option>
-												  		{/if}
-													{/foreach}
-												</optgroup>
-						                    {/foreach}
-                     					</select>
-                    				</div>
-									{if $INVENTORY_FIELD_MODEL}
-										{assign var=INVENTORY_FIELDS value=$INVENTORY_FIELD_MODEL->getFields()}
-										<div class="form-group">
-										<label class="control-label">{\App\Language::translate('LBL_ADVANCED_BLOCK_FIELDS',$QUALIFIED_MODULE)}</label>
-											<select data-placeholder="{\App\Language::translate('LBL_ADD_ADVANCED_BLOCK_FIELDS', $QUALIFIED_MODULE)}" multiple class="select2_container relatedColumnsList" data-type="inventory">
-												{foreach item=NAME key=SELECTED_FIELD from=$SELECTED_INVENTORY_FIELDS}
-													{assign var=FIELD_INSTANCE value=$INVENTORY_FIELDS[$SELECTED_FIELD]}
-													{if $FIELD_INSTANCE}
-														<option value="{$FIELD_INSTANCE->getColumnName()}" data-name="{$FIELD_INSTANCE->getColumnName()}" selected>
-															{\App\Language::translate($FIELD_INSTANCE->get('label'), $RELATED_MODULE_NAME)}
-														</option>
-													{/if}
-												{/foreach}
-												{foreach item=FIELD_MODEL from=$INVENTORY_FIELDS}
-													{if !in_array($FIELD_MODEL->getColumnName(), $SELECTED_FIELDS)}
-														<option value="{$FIELD_MODEL->getColumnName()}" data-field-name="{$FIELD_MODEL->getColumnName()}">
-															{\App\Language::translate($FIELD_MODEL->get('label'), $RELATED_MODULE_NAME)}
-														</option>
-													{/if}
-												{/foreach}
-											</select>
+										<h4 class="panel-title">
+											<div class="relatedModuleLabel mainBlockTableLabel">
+												<a><img src="{\App\Layout::getImagePath('drag.png')}" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/></a>
+												&nbsp;&nbsp;
+												<strong><span class="userIcon-{$RELATED_MODULE_NAME}"></span> {\App\Language::translate($MODULE_MODEL->get('label'), $RELATED_MODULE_NAME)}</strong>
+											</div>
+										</h4>
+									</div>
+									<div class="relatedModuleFieldsList mainBlockTableContent panel-body">
+										<div class="form-horizontal">
+											<div class="form-group">
+												<label class="col-sm-2 control-label">{\App\Language::translate('LBL_RELATED_VIEW_TYPE',$QUALIFIED_MODULE)}:</label>
+												<div class="col-sm-10">
+													<select data-placeholder="{\App\Language::translate('LBL_RELATED_VIEW_TYPE_DESC',$MODULE)}" multiple data-prompt-position="topLeft" class="form-control select2_container relatedViewType validate[required]">
+														{foreach key=KEY item=NAME from=Settings_LayoutEditor_Module_Model::getRelatedViewTypes()}
+															<option value="{$KEY}" {if $MODULE_MODEL->isRelatedViewType($KEY)}selected{/if}>
+																{\App\Language::translate($NAME, $QUALIFIED_MODULE)}
+															</option>
+														{/foreach}
+													</select>
+												</div>
+											</div>
 										</div>
-									{/if}
+										<div class="form-horizontal">
+											<div class="form-group">
+												<label class="col-sm-2 control-label">{\App\Language::translate('LBL_STANDARD_FIELDS',$QUALIFIED_MODULE)}:</label>
+												<div class="col-sm-10">
+													<select data-placeholder="{\App\Language::translate('LBL_ADD_MORE_COLUMNS',$MODULE)}" multiple class="form-control select2_container columnsSelect relatedColumnsList">
+														<optgroup label=''>
+															{foreach item=SELECTED_FIELD from=$SELECTED_FIELDS}
+																{assign var=FIELD_INSTANCE value=$RELATED_MODULE_MODEL->getField($SELECTED_FIELD)}
+																{if $FIELD_INSTANCE}
+																	<option value="{$FIELD_INSTANCE->getId()}" data-name="{$FIELD_INSTANCE->getFieldName()}" selected>
+																		{\App\Language::translate($FIELD_INSTANCE->get('label'), $RELATED_MODULE_NAME)}
+																	</option>
+																{/if}
+															{/foreach}
+														</optgroup>
+														{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
+															<optgroup label='{\App\Language::translate($BLOCK_LABEL, $RELATED_MODULE_NAME)}'>
+																{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
+																	{if !in_array($FIELD_MODEL->getId(), $SELECTED_FIELDS)}
+																		<option value="{$FIELD_MODEL->getId()}" data-field-name="{$FIELD_NAME}">
+																			{\App\Language::translate($FIELD_MODEL->get('label'), $RELATED_MODULE_NAME)}
+																		</option>
+																	{/if}
+																{/foreach}
+															</optgroup>
+														{/foreach}
+													</select>
+												</div>
+											</div>
+										</div>
+										{if $INVENTORY_FIELD_MODEL}
+											{assign var=INVENTORY_FIELDS value=$INVENTORY_FIELD_MODEL->getFields()}
+											<div class="form-horizontal">
+												<div class="form-group">
+													<label class="col-sm-2 control-label">{\App\Language::translate('LBL_ADVANCED_BLOCK_FIELDS',$QUALIFIED_MODULE)}:</label>
+													<div class="col-sm-10">
+														<select data-placeholder="{\App\Language::translate('LBL_ADD_ADVANCED_BLOCK_FIELDS', $QUALIFIED_MODULE)}" multiple class="select2_container relatedColumnsList" data-type="inventory">
+															{foreach item=NAME key=SELECTED_FIELD from=$SELECTED_INVENTORY_FIELDS}
+																{assign var=FIELD_INSTANCE value=$INVENTORY_FIELDS[$SELECTED_FIELD]}
+																{if $FIELD_INSTANCE}
+																	<option value="{$FIELD_INSTANCE->getColumnName()}" data-name="{$FIELD_INSTANCE->getColumnName()}" selected>
+																		{\App\Language::translate($FIELD_INSTANCE->get('label'), $RELATED_MODULE_NAME)}
+																	</option>
+																{/if}
+															{/foreach}
+															{foreach item=FIELD_MODEL from=$INVENTORY_FIELDS}
+																{if !in_array($FIELD_MODEL->getColumnName(), $SELECTED_FIELDS)}
+																	<option value="{$FIELD_MODEL->getColumnName()}" data-field-name="{$FIELD_MODEL->getColumnName()}">
+																		{\App\Language::translate($FIELD_MODEL->get('label'), $RELATED_MODULE_NAME)}
+																	</option>
+																{/if}
+															{/foreach}
+														</select>
+													</div>
+												</div>
+											</div>
+										{/if}
+									</div>
 								</div>
-							</div>
-						{/foreach}
+							{/foreach}
+						</div>
 					</div>
-				</div>
-            {/if}
-        </div>
+				{/if}
+			</div>
         </div>
 		<div class="addRelationContainer modal fade" tabindex="-1">	
 			<div class="modal-dialog">

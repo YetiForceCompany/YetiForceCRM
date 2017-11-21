@@ -7616,6 +7616,7 @@ CREATE TABLE `vtiger_relatedlists` (
   `favorites` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `creator_detail` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `relation_comment` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `view_type` varchar(100) NOT NULL DEFAULT 'RelatedTab',
   PRIMARY KEY (`relation_id`),
   KEY `tabid` (`tabid`),
   KEY `related_tabid` (`related_tabid`),
