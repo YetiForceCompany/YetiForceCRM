@@ -16,7 +16,7 @@ class ModTracker
 	 * Constant variables which indicates the status of the changed record.
 	 */
 	public static $UPDATED = 0;
-	public static $DELETED = 1;
+	public static $TRASH = 1;
 	public static $CREATED = 2;
 	public static $ACTIVE = 3;
 	public static $LINK = 4;
@@ -24,12 +24,14 @@ class ModTracker
 	public static $CONVERTTOACCOUNT = 6;
 	public static $DISPLAYED = 7;
 	public static $ARCHIVED = 8;
+	public static $DELETED = 9;
 
 	public static function getAllActionsTypes()
 	{
 		return [
 			static::$UPDATED => 'LBL_AT_UPDATE',
 			static::$DELETED => 'LBL_AT_DELETE',
+			static::$TRASH => 'LBL_AT_TRASH',
 			static::$CREATED => 'LBL_AT_CREATE',
 			static::$LINK => 'LBL_AT_LINK',
 			static::$UNLINK => 'LBL_AT_UNLINK',

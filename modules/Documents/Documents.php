@@ -306,21 +306,6 @@ class Documents extends CRMEntity
 	}
 
 	/**
-	 * Customizing the restore procedure.
-	 * @param string $moduleName
-	 * @param int $id
-	 */
-	public function restore($modulename, $id)
-	{
-		parent::restore($modulename, $id);
-		$folderId = (new App\Db\Query())->select(['folderid'])->from('vtiger_notes')->where(['notesid' => $id])->scalar();
-		if ($folderid && !$this->isFolderPresent($folderid)) {
-			// Re-link to default folder
-			\App\Db::getInstance()->createCommand()->update('vtiger_notes', ['folderid' => self::getFolderDefault()], ['notesid' => self::getFolderDefault()]);
-		}
-	}
-
-	/**
 	 * Function to check the module active and user action permissions before showing as link in other modules
 	 * like in more actions of detail view.
 	 */
