@@ -20,7 +20,7 @@
 			</div>
 		</div>
 	</div>
-	<hr class="widgetHr"/>
+	<hr class="widgetHr" />
 	<div class="row" >
 		<div class="col-sm-6">
 			{if AppConfig::module('Calendar','DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE') == 'list'}

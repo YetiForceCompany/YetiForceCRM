@@ -139,7 +139,7 @@
 				<span class="col-md-7 row">
 					<span class="col-md-3 control-label">{\App\Language::translate('LBL_SUBJECT',$QUALIFIED_MODULE)}<span class="redColor">*</span></span>
 					<div class="col-md-9">
-						<input data-validation-engine='validate[required]' name="subject" class="fields form-control" type="text" name="subject" value="{$TASK_OBJECT->subject|escape}" id="subject" spellcheck="true"/>
+						<input data-validation-engine='validate[required]' name="subject" class="fields form-control" type="text" name="subject" value="{$TASK_OBJECT->subject|escape}" id="subject" spellcheck="true" />
 					</div>
 				</span>
 			</div>

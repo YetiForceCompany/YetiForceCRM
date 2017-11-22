@@ -33,7 +33,7 @@
 						<tr data-tabid="{$KEY}">
 							<td class="alignMiddle widthMin noWrap"><span>&nbsp;
 									<a>
-										<img src="{\Vtiger_Theme::getImagePath('drag.png')}" alt="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+										<img src="{\Vtiger_Theme::getImagePath('drag.png')}" alt="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
 									</a>&nbsp;
 								</span>
 								<strong>{\App\Language::translate($item['modulename'],$item['modulename'])}</strong>

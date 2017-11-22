@@ -16,7 +16,7 @@
                 <div id="popupContents">{include file=\App\Layout::getTemplatePath('ProductPriceBookPopupContents.tpl', $PARENT_MODULE)}</div>
             </form>
         </div>
-        <input type="hidden" class="triggerEventName" value="{$TRIGGER_EVENT_NAME}"/>
+        <input type="hidden" class="triggerEventName" value="{$TRIGGER_EVENT_NAME}" />
     </div>
 </div>
 {/strip}

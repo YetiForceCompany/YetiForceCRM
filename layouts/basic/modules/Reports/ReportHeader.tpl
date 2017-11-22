@@ -90,10 +90,10 @@
 					{include file=\App\Layout::getTemplatePath('AdvanceFilter.tpl') RECORD_STRUCTURE=$RECORD_STRUCTURE ADVANCE_CRITERIA=$SELECTED_ADVANCED_FILTER_FIELDS COLUMNNAME_API=getReportFilterColumnName}
 					<div class="row">
 						<div class="textAlignCenter">
-							<button class="btn generateReport btn-primary" data-mode="generate" value="{\App\Language::translate('LBL_GENERATE_NOW',$MODULE)}"/>
+							<button class="btn generateReport btn-primary" data-mode="generate" value="{\App\Language::translate('LBL_GENERATE_NOW',$MODULE)}" />
 							<strong>{\App\Language::translate('LBL_GENERATE_NOW',$MODULE)}</strong>
 							</button>&nbsp;
-							<button class="btn btn-success generateReport" data-mode="save" value="{\App\Language::translate('LBL_SAVE',$MODULE)}"/>
+							<button class="btn btn-success generateReport" data-mode="save" value="{\App\Language::translate('LBL_SAVE',$MODULE)}" />
 							<strong>{\App\Language::translate('LBL_SAVE',$MODULE)}</strong>
 							</button>
 						</div>

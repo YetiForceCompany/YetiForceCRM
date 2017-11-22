@@ -20,10 +20,10 @@
 			<br />
 			<form id="pickListDependencyForm" class="form-horizontal" method="POST">
 				{if !empty($MAPPED_VALUES)}
-					<input type="hidden" class="editDependency" value="true"/>
-					<input type="hidden" name="sourceModule" value="{$SELECTED_MODULE}"/>
-					<input type="hidden" name="sourceField" value="{$RECORD_MODEL->get('sourcefield')}"/>
-					<input type="hidden" name="targetField" value="{$RECORD_MODEL->get('targetfield')}"/>
+					<input type="hidden" class="editDependency" value="true" />
+					<input type="hidden" name="sourceModule" value="{$SELECTED_MODULE}" />
+					<input type="hidden" name="sourceField" value="{$RECORD_MODEL->get('sourcefield')}" />
+					<input type="hidden" name="targetField" value="{$RECORD_MODEL->get('targetfield')}" />
 				{/if}
 				<div class="row">
 					<div class="col-md-12">

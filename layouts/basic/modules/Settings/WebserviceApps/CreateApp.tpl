@@ -3,7 +3,7 @@
 	<div class="modal-content validationEngineContainer" id="EditView">
 		<form>
 			<input class="recordEditView" type="hidden">
-			<input type="hidden" name="mappingRelatedField" value="{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}"/>
+			<input type="hidden" name="mappingRelatedField" value="{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}" />
 			<div class="modal-header row no-margin">
 				<div class="col-xs-12 paddingLRZero">
 					<div class="col-xs-8 paddingLRZero">

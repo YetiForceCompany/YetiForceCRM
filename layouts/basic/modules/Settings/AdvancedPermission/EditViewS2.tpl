@@ -10,10 +10,10 @@
 		<form name="EditAdvPermission" action="index.php" method="post" id="EditView" class="form-horizontal">
 			<input type="hidden" name="module" value="AdvancedPermission">
 			<input type="hidden" name="parent" value="Settings" />
-			<input type="hidden" name="action" value="Save">
-			<input type="hidden" name="mode" value="step2">
-			<input type="hidden" name="record" value="{$RECORD_ID}">
-			<input type="hidden" name="conditions" id="advanced_filter"/>
+			<input type="hidden" name="action" value="Save" />
+			<input type="hidden" name="mode" value="step2" />
+			<input type="hidden" name="record" value="{$RECORD_ID}" />
+			<input type="hidden" name="conditions" id="advanced_filter" />
 			{include file=\App\Layout::getTemplatePath('AdvanceFilterExpressions.tpl')}
 			<div class="row">
 				<div class="col-md-5 pull-right">

@@ -11,7 +11,7 @@
 -->*}
 <script type="text/javascript">
 	YetiForce_Bar_Widget_Js('YetiForce_Leadsbyindustry_Widget_Js',{},{
-		registerSectionClick : function() {	
+		registerSectionClick : function() {
 			var thisInstance = this;
 			var chartData = thisInstance.generateData();
 			thisInstance.getPlotContainer().bind("plothover", function (event, pos, item) {
@@ -21,7 +21,7 @@
 					$(this).css( 'cursor', 'auto' );
 				}
 			});
-			thisInstance.getPlotContainer().bind("plotclick", function (event, pos, item) {			
+			thisInstance.getPlotContainer().bind("plotclick", function (event, pos, item) {
 				if(item) {
 					$(chartData['links']).each(function(){
 						if(item.seriesIndex == this[0])
@@ -32,7 +32,7 @@
 		}
 	});
 </script>
-<div class="dashboardWidgetHeader">	
+<div class="dashboardWidgetHeader">
 	{foreach key=index item=cssModel from=$STYLES}
 		<link rel="{$cssModel->getRel()}" href="{$cssModel->getHref()}" type="{$cssModel->getType()}" media="{$cssModel->getMedia()}" />
 	{/foreach}
@@ -50,12 +50,12 @@
 			</div>
 		</div>
 	</div>
-	<hr class="widgetHr"/>
+	<hr class="widgetHr" />
 	<div class="row" >
 		<div class="col-sm-6">
 			<div class="input-group input-group-sm">
 				<span class=" input-group-addon"><span class="glyphicon glyphicon-calendar iconMiddle margintop3"></span></span>
-				<input type="text" name="createdtime" title="{\App\Language::translate('Created Time', $MODULE_NAME)}" class="dateRangeField form-control widgetFilter width90" value="{implode(',', $DTIME)}"/>
+				<input type="text" name="createdtime" title="{\App\Language::translate('Created Time', $MODULE_NAME)}" class="dateRangeField form-control widgetFilter width90" value="{implode(',', $DTIME)}" />
 			</div>
 		</div>
 		<div class="col-sm-6">
@@ -66,4 +66,3 @@
 <div class="dashboardWidgetContent">
 	{include file=\App\Layout::getTemplatePath('dashboards/DashBoardWidgetContents.tpl', $MODULE_NAME)}
 </div>
-

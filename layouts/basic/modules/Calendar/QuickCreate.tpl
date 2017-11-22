@@ -20,7 +20,7 @@
 				<form class="form-horizontal recordEditView" id="quickCreate" name="QuickCreate" method="post" action="index.php">
 					<div class="modal-header">
 						<div class="pull-left">
-							<h3 class="modal-title quickCreateTitle">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:&nbsp <p class="textTransform"><b> {\App\Language::translate('LBL_EVENT_OR_TASK', $MODULE)}</b></p></h3>
+							<h3 class="modal-title quickCreateTitle">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:&nbsp;<p class="textTransform"><b> {\App\Language::translate('LBL_EVENT_OR_TASK', $MODULE)}</b></p></h3>
 						</div>
 						{assign var="CALENDAR_MODULE_MODEL" value=$QUICK_CREATE_CONTENTS['Calendar']['moduleModel']}
 						<div class="quickCreateActions pull-right pullRight">
@@ -45,8 +45,8 @@
 					{if !empty($MAPPING_RELATED_FIELD)}
 						<input type="hidden" name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}' />
 					{/if}
-					<input type="hidden" name="module" value="{$MODULE}">
-					<input type="hidden" name="action" value="SaveAjax">
+					<input type="hidden" name="module" value="{$MODULE}" />
+					<input type="hidden" name="action" value="SaveAjax" />
 					<input type="hidden" name="defaultCallDuration" value="{$USER_MODEL->get('callduration')}" />
 					<input type="hidden" name="defaultOtherEventDuration" value="{$USER_MODEL->get('othereventduration')}" />
 					<input type="hidden" name="userChangedEndDateTime" value="0" />
@@ -64,7 +64,7 @@
 						<div class="tab-content overflowVisible">
 							{foreach item=MODULE_DETAILS key=MODULE_NAME from=$QUICK_CREATE_CONTENTS}
 								<div class="{$MODULE_NAME}QuikcCreateContents_{$RAND_NUMBER} tab-pane {if $MODULE_NAME eq 'Events'} active in {/if}fade">
-									<input type="hidden" name="mode" value="{if $MODULE_NAME eq 'Calendar'}calendar{else}events{/if}">
+									<input type="hidden" name="mode" value="{if $MODULE_NAME eq 'Calendar'}calendar{else}events{/if}" />
 									{assign var="RECORD_STRUCTURE_MODEL" value=$QUICK_CREATE_CONTENTS[$MODULE_NAME]['recordStructureModel']}
 									{assign var="RECORD_STRUCTURE" value=$QUICK_CREATE_CONTENTS[$MODULE_NAME]['recordStructure']}
 									{assign var="MODULE_MODEL" value=$QUICK_CREATE_CONTENTS[$MODULE_NAME]['moduleModel']}

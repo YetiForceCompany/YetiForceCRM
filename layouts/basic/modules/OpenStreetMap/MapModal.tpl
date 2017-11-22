@@ -6,11 +6,11 @@
 		</div>
 		<div class="col-xs-6">
 			<div class="col-xs-8 noSpaces">
-				<input type="text" class="searchValue form-control" placeholder="{\App\Language::translate('LBL_SEARCH_VALUE_DESCRIPTION', $MODULE_NAME)}">
+				<input type="text" class="searchValue form-control" placeholder="{\App\Language::translate('LBL_SEARCH_VALUE_DESCRIPTION', $MODULE_NAME)}" />
 			</div>
 			<div class="col-xs-4 noSpaces">
 				<div class="input-group group-btn">
-					<input type="text" class="form-control radius" placeholder="{\App\Language::translate('LBL_IN_RADIUS', $MODULE_NAME)}">
+					<input type="text" class="form-control radius" placeholder="{\App\Language::translate('LBL_IN_RADIUS', $MODULE_NAME)}" />
 					<div class="input-group-btn">
 						<button class="btn btn-primary searchBtn">{\App\Language::translate('LBL_SEARCH', $MODULE_NAME)}</button>
 					</div>
@@ -29,7 +29,7 @@
 			<div class="col-xs-12 paddingLRZero ">
 				<div class="col-xs-7 form-group paddingLefttZero">
 					<div class="input-group">
-						<input type="text" class="form-control searchCompany">
+						<input type="text" class="form-control searchCompany" />
 						<span class="input-group-btn">
 							<button class="btn btn-default addRecord" type="button">
 								<span class="glyphicon glyphicon-plus"></span>
@@ -54,7 +54,7 @@
 					</optgroup>
 				</select>
 				<span class="input-group-addon">
-					<input class="popoverTooltip groupNeighbours" type="checkbox" checked="checked" data-content="{\App\Language::translate('LBL_GROUP_NEIGHBOURS', $MODULE_NAME)}" class="groupNeighbours">
+					<input class="popoverTooltip groupNeighbours" type="checkbox" checked="checked" data-content="{\App\Language::translate('LBL_GROUP_NEIGHBOURS', $MODULE_NAME)}" class="groupNeighbours" />
 				</span>
 				<div class="input-group-btn">
 					<button class="btn btn-primary groupBy">{\App\Language::translate('LBL_GROUP_BY', $MODULE_NAME)}</button>
@@ -66,7 +66,7 @@
 				</div>
 				<div class="panel-body track">
 					<div class="input-group group-btn input-group-sm form-group startContainer">
-						<input type="text" readonly="readonly" class="form-control start">
+						<input type="text" readonly="readonly" class="form-control start" />
 						<div class="input-group-btn">
 							<button class="btn btn-success btn-sm setView">
 								<span class="fa fa-truck"></span>
@@ -74,7 +74,7 @@
 						</div>
 					</div>
 					<div class="input-group group-btn input-group-sm form-group indirectContainer indirectTemplate hide">
-						<input type="text" readonly="readonly" class="form-control indirect ">
+						<input type="text" readonly="readonly" class="form-control indirect " />
 						<div class="input-group-btn">
 							<button class="btn btn-warning btn-sm setView">
 								<span class="fa fa-flag"></span>
@@ -91,7 +91,7 @@
 						</div>
 					</div>
 					<div class="input-group group-btn input-group-sm form-group">
-						<input type="text" readonly="readonly" class="form-control end">
+						<input type="text" readonly="readonly" class="form-control end" />
 						<div class="input-group-btn">
 							<button class="btn btn-danger btn-sm setView">
 								<span class="fa fa-flag-checkered"></span>
@@ -112,7 +112,7 @@
 						<div class="cacheModuleContainer">
 							<div class="col-xs-8">
 								<label>
-									<input type="checkbox" class="showRecordsFromCache" data-module="{$ALLOWED_MODULE_NAME}">
+									<input type="checkbox" class="showRecordsFromCache" data-module="{$ALLOWED_MODULE_NAME}" />
 									&nbsp;{\App\Language::translate($ALLOWED_MODULE_NAME, $ALLOWED_MODULE_NAME)}&nbsp;
 									<span class="badge countRecords{$ALLOWED_MODULE_NAME}">
 										{if !empty($CACHE_GROUP_RECORDS[$ALLOWED_MODULE_NAME])}
@@ -134,9 +134,9 @@
 			</div>
 			<div class="panel panel-default hide descriptionContainer">
 				<div class="panel-body descriptionContent">
-					<b>{\App\Language::translate('LBL_DISTANCE', $MODULE_NAME)}:&nbsp</b><span class="distance"></span><br />
-					<b>{\App\Language::translate('LBL_TRAVEL_TIME', $MODULE_NAME)}:&nbsp</b><span class="travelTime"></span><br />
-					<b>{\App\Language::translate('LBL_INSTRUCTION', $MODULE_NAME)}:&nbsp</b><span class="instruction"></span>
+					<b>{\App\Language::translate('LBL_DISTANCE', $MODULE_NAME)}:&nbsp;</b><span class="distance"></span><br />
+					<b>{\App\Language::translate('LBL_TRAVEL_TIME', $MODULE_NAME)}:&nbsp;</b><span class="travelTime"></span><br />
+					<b>{\App\Language::translate('LBL_INSTRUCTION', $MODULE_NAME)}:&nbsp;</b><span class="instruction"></span>
 				</div>
 			</div>
 		</div>

@@ -16,7 +16,7 @@
 				<span class="col-md-2">&nbsp;
 					{if $IS_SORTABLE}
 						<a>
-							<img src="{\App\Layout::getImagePath('drag.png')}" border="0" alt="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+							<img src="{\App\Layout::getImagePath('drag.png')}" border="0" alt="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
 						</a>
 					{/if}
 				</span>

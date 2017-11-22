@@ -21,7 +21,7 @@
 		<td colspan='2' data-import-upload-size="{$IMPORT_UPLOAD_SIZE}" data-import-upload-size-mb="{$IMPORT_UPLOAD_SIZE_MB}">
 			<input type="hidden" name="type" value="csv" />
 			<input type="hidden" name="is_scheduled" value="1" />
-			<input type="file" name="import_file" id="import_file" title="{\App\Language::translate('LBL_SELECT_FILE', $MODULE)}" accept="{$SUPPORTED_FILE_TYPES_TEXT}" onchange="ImportJs.checkFileType()"/>
+			<input type="file" name="import_file" id="import_file" title="{\App\Language::translate('LBL_SELECT_FILE', $MODULE)}" accept="{$SUPPORTED_FILE_TYPES_TEXT}" onchange="ImportJs.checkFileType()" />
 			<!-- input type="hidden" name="userfile_hidden" value=""/ -->
 		</td>
 	</tr>

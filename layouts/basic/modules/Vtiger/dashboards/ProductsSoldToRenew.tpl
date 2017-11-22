@@ -14,7 +14,7 @@
 			</div>
 		</div>
 	</div>
-	<hr class="widgetHr"/>
+	<hr class="widgetHr" />
 	<div class="row" >
 		<div class="col-md-12">
 			{if $LISTVIEWLINKS}

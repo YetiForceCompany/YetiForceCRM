@@ -8,5 +8,5 @@
 			{\App\Language::translate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA')}
 		</span>
 	{/if}
-	<input class="widgetData" type="hidden" value="{\App\Purifier::encodeHtml(\App\Json::encode($DATA))}"/>
+	<input class="widgetData" type="hidden" value="{\App\Purifier::encodeHtml(\App\Json::encode($DATA))}" />
 {/strip}

@@ -16,16 +16,16 @@
             <input type="hidden" id="view" value="{$VIEW}" />
             <input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}" />
             <input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}" />
-            <input type="hidden" value="{$ORDER_BY}" id="orderBy">
-            <input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
-            <input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries">
-            <input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
-            <input type="hidden" id="recordsCount" value=""/>
+            <input type="hidden" value="{$ORDER_BY}" id="orderBy" />
+            <input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
+            <input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries" />
+            <input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit' />
+            <input type="hidden" id="recordsCount" value="" />
             <input type="hidden" id="selectedIds" name="selectedIds" data-selected-ids={\App\Json::encode($SELECTED_IDS)} />
             <input type="hidden" id="excludedIds" name="excludedIds" data-excluded-ids={\App\Json::encode($EXCLUDED_IDS)} />
             <input type="hidden" id="recordsCount" name="recordsCount" />
-            <input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'>
-			<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
+            <input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount' />
+			<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}" />
             <div class="relatedHeader">
                 <div class="btn-toolbar row">
 					<div class="col-md-9">
@@ -44,7 +44,7 @@
 											<li id="{$MODULE}_listView_advancedAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_ADVANCEDACTIONS->getLabel())}">
 												<a {if stripos($LISTVIEW_ADVANCEDACTIONS->getUrl(), 'javascript:')===0}
 													href="javascript:void(0);" onclick='{$LISTVIEW_ADVANCEDACTIONS->getUrl()|substr:strlen("javascript:")};'
-													{else} 
+													{else}
 														href='{$LISTVIEW_ADVANCEDACTIONS->getUrl()}'
 														{/if}
 															{if $LISTVIEW_ADVANCEDACTIONS->get('linkclass') neq ''}
@@ -52,7 +52,7 @@
 															{/if}
 															{if count($LISTVIEW_ADVANCEDACTIONS->get('linkdata')) gt 0}
 																{foreach from=$LISTVIEW_ADVANCEDACTIONS->get('linkdata') key=NAME item=DATA}
-																	data-{$NAME}="{$DATA}" 
+																	data-{$NAME}="{$DATA}"
 																{/foreach}
 															{/if}
 															>{\App\Language::translate($LISTVIEW_ADVANCEDACTIONS->getLabel(), $MODULE)}</a>
@@ -98,7 +98,7 @@
 																		{if $RELATION_FIELD} data-name="{$RELATION_FIELD->getName()}" {/if}
 																		{if $IS_SEND_EMAIL_BUTTON eq true}	onclick="{$RELATED_LINK->getUrl()}" {else} data-url="{$RELATED_LINK->getUrl()}"{/if}
 																		{if ($IS_SELECT_BUTTON eq false) and ($IS_SEND_EMAIL_BUTTON eq false)}
-																			name="addButton">										
+																			name="addButton">
 																		{else}
 																			> {* closing the button tag *}
 																		{/if}
@@ -108,13 +108,13 @@
 																</button>
 															</div>
 														{/foreach}&nbsp;
-													</div>	
+													</div>
 													<div class="col-md-3">
 														<div class="pull-right">
 															{if $RELATION_LIST_VIEW}
 																<div class="pull-right paddingLeft5px">
 																	{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
-																	<input type="hidden" class="entityState" value="{if $RELATION_LIST_VIEW->has('entityState')}{$RELATION_LIST_VIEW->get('entityState')}{else}Active{/if}">
+																	<input type="hidden" class="entityState" value="{if $RELATION_LIST_VIEW->has('entityState')}{$RELATION_LIST_VIEW->get('entityState')}{else}Active{/if}" />
 																	<div class="dropdown dropdownEntityState">
 																		<button class="btn btn-default dropdown-toggle" type="button" id="dropdownEntityState" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 																			{if $RELATION_LIST_VIEW->get('entityState') === 'Archived'}
@@ -170,7 +170,7 @@
 														<thead>
 															<tr class="listViewHeaders">
 																<th width="4%">
-																	<input type="checkbox" title="{\App\Language::translate('LBL_SELECT_ALL')}" id="listViewEntriesMainCheckBox"/>
+																	<input type="checkbox" title="{\App\Language::translate('LBL_SELECT_ALL')}" id="listViewEntriesMainCheckBox" />
 																</th>
 																{if $IS_FAVORITES}
 																	<th></th>
@@ -220,7 +220,7 @@
 															{assign var="RECORD_COLORS" value=$RELATED_RECORD->getListViewColor()}
 															<tr class="listViewEntries" data-id='{$RELATED_RECORD->getId()}' data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'>
 																<td width="4%" class="{$WIDTHTYPE}" {if $RECORD_COLORS['leftBorder']}style="border-left-color: {$RECORD_COLORS['leftBorder']};"{/if}>
-																	<input type="checkbox" value="{$RELATED_RECORD->getId()}" title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox"/>
+																	<input type="checkbox" value="{$RELATED_RECORD->getId()}" title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox" />
 																</td>
 																{if $IS_FAVORITES}
 																	<td class="{$WIDTHTYPE} text-center text-center font-larger">

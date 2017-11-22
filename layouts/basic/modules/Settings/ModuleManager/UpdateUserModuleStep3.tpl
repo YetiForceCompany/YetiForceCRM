@@ -39,7 +39,7 @@
 						</table>
 						<div class="modal-footer">
 							<input type="hidden" name="module" value="ModuleManager">
-							<input type="hidden" name="parent" value="Settings">
+							<input type="hidden" name="parent" value="Settings" />
 							<input type="hidden" name="view" value="List">
 							<button  class="btn btn-success" type="submit" ><strong>{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></button>
 						</div>

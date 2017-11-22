@@ -171,7 +171,7 @@
 			{elseif $_FIELD_TYPE eq 'date'}
 				<input type="text" id="{$_FIELD_ID}_defaultvalue" data-date-format="{$DATE_FORMAT}" class="defaultInputTextContainer form-control col-md-2 dateField" value="" disabled/>
 			{elseif $_FIELD_TYPE eq 'datetime'}
-				<input type="text" id="{$_FIELD_ID}_defaultvalue" class="defaultInputTextContainer form-control col-md-2" value="" data-date-format="{$DATE_FORMAT}"/>
+				<input type="text" id="{$_FIELD_ID}_defaultvalue" class="defaultInputTextContainer form-control col-md-2" value="" data-date-format="{$DATE_FORMAT}" />
 			{elseif $_FIELD_TYPE eq 'boolean'}
 				<input type="checkbox" id="{$_FIELD_ID}_defaultvalue" class="" disabled/>
 			{elseif !in_array($_FIELD_TYPE,['sharedOwner','reference'])}

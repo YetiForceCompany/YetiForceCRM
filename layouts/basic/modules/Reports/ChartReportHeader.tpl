@@ -108,7 +108,7 @@
 						</div>
 					</div>
 					<div class="row textAlignCenter">
-						<button type="button" class="btn btn-success generateReport" data-mode="save" value="{\App\Language::translate('LBL_SAVE',$MODULE)}"/>
+						<button type="button" class="btn btn-success generateReport" data-mode="save" value="{\App\Language::translate('LBL_SAVE',$MODULE)}" />
 						<strong>{\App\Language::translate('LBL_SAVE',$MODULE)}</strong>
 						</button>
 					</div>

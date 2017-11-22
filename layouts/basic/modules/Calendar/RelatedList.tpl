@@ -14,12 +14,12 @@
 		{assign var=RELATED_MODULE_NAME value=$RELATED_MODULE->get('name')}
 		<input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}" />
 		<input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}" />
-		<input type="hidden" value="{$ORDER_BY}" id="orderBy">
-		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
-		<input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries">
-		<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
-		<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'>
-		<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
+		<input type="hidden" value="{$ORDER_BY}" id="orderBy" />
+		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
+		<input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries" />
+		<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit' />
+		<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount' />
+		<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}" />
 		<div class="relatedHeader calendarRelatedHeader">
 			<div class="row">
 				<div class="col-sm-6 col-md-6">
@@ -44,7 +44,7 @@
 					{/foreach}
 					&nbsp;
 					<div class="btn-group">
-						<input class="switchBtn" type="checkbox" {if $TIME=='current'}checked{/if} title="{\App\Language::translate('LBL_CHANGE_ACTIVITY_TYPE')}" data-size="normal" data-label-width="5" data-handle-width="90" data-on-text="{\App\Language::translate('LBL_CURRENT')}" data-off-text="{\App\Language::translate('LBL_HISTORY')}">
+						<input class="switchBtn" type="checkbox" {if $TIME=='current'}checked{/if} title="{\App\Language::translate('LBL_CHANGE_ACTIVITY_TYPE')}" data-size="normal" data-label-width="5" data-handle-width="90" data-on-text="{\App\Language::translate('LBL_CURRENT')}" data-off-text="{\App\Language::translate('LBL_HISTORY')}" />
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-6 col-md-6">
@@ -52,7 +52,7 @@
 						{if $RELATION_LIST_VIEW}
 							<div class="pull-right paddingLeft5px">
 								{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
-								<input type="hidden" class="entityState" value="{if $RELATION_LIST_VIEW->has('entityState')}{$RELATION_LIST_VIEW->get('entityState')}{else}Active{/if}">
+								<input type="hidden" class="entityState" value="{if $RELATION_LIST_VIEW->has('entityState')}{$RELATION_LIST_VIEW->get('entityState')}{else}Active{/if}" />
 								<div class="dropdown dropdownEntityState">
 									<button class="btn btn-default dropdown-toggle" type="button" id="dropdownEntityState" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 										{if $RELATION_LIST_VIEW->get('entityState') === 'Archived'}

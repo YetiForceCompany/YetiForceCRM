@@ -5,7 +5,7 @@
 	<div class="summary-left pull-left" style="text-align:center;margin-left:2%;">
 		{*if $SHOWING_ICON.workingDays eq 'true'}
 			<span class="summary-detail">
-				<img class=" summary-img" src="{\App\Layout::getImagePath('all_days.png')}" alt="All days" title="{\App\Language::translate('LBL_ALLDAYS_INFO', $MODULE_NAME)}"/>
+				<img class=" summary-img" src="{\App\Layout::getImagePath('all_days.png')}" alt="All days" title="{\App\Language::translate('LBL_ALLDAYS_INFO', $MODULE_NAME)}" />
 				<span class="summary-text">{$ALLDAYS}</span>
 			</span>
 			<span class="summary-detail">
@@ -23,7 +23,7 @@
 		{/if}
 		{if $SHOWING_ICON.holidays eq 'true'}
 			<span class="summary-detail">
-				<img class=" summary-img" src="{\App\Layout::getImagePath('ecclesiastical.png')}" alt="Ecclesiastical" title="{\App\Language::translate('LBL_ECCLESIASTICAL_INFO', $MODULE_NAME)}"/>
+				<img class=" summary-img" src="{\App\Layout::getImagePath('ecclesiastical.png')}" alt="Ecclesiastical" title="{\App\Language::translate('LBL_ECCLESIASTICAL_INFO', $MODULE_NAME)}" />
 				<span class="summary-text">
 					{if $ECCLESIASTICAL}
 						{$ECCLESIASTICAL}
@@ -33,7 +33,7 @@
 				</span>
 			</span>
 			<span class="summary-detail">
-				<img class=" summary-img"  src="{\App\Layout::getImagePath('national.png')}" alt="National" title="{\App\Language::translate('LBL_NATIONAL_INFO', $MODULE_NAME)}"/>
+				<img class=" summary-img"  src="{\App\Layout::getImagePath('national.png')}" alt="National" title="{\App\Language::translate('LBL_NATIONAL_INFO', $MODULE_NAME)}" />
 				<span class="summary-text">
 					{if $NATIONAL}
 						{$NATIONAL}
@@ -48,7 +48,7 @@
 	{*if $SHOWING_ICON.workingTime eq 'true'}
 		<div class="summary-right pull-right" style="text-align:center;">
 			<span class="summary-detail">
-				<img class=" summary-img" src="{\App\Layout::getImagePath('worked_days.png')}" alt="Worked days" title="{\App\Language::translate('LBL_WORKEDDAYS_INFO', $MODULE_NAME)}"/>
+				<img class=" summary-img" src="{\App\Layout::getImagePath('worked_days.png')}" alt="Worked days" title="{\App\Language::translate('LBL_WORKEDDAYS_INFO', $MODULE_NAME)}" />
 				<span class="summary-text">
 					{if $WORKEDDAYS}
 						{$WORKEDDAYS}
@@ -58,7 +58,7 @@
 				</span>
 			</span>
 			<span class="summary-detail">
-				<img class=" summary-img" src="{\App\Layout::getImagePath('holiday_days.png')}" alt="Holiday days" title="{\App\Language::translate('LBL_HOLIDAYDAYS_INFO', $MODULE_NAME)}"/>
+				<img class=" summary-img" src="{\App\Layout::getImagePath('holiday_days.png')}" alt="Holiday days" title="{\App\Language::translate('LBL_HOLIDAYDAYS_INFO', $MODULE_NAME)}" />
 				<span class="summary-text">
 					{if $HOLIDAYDAYS}
 						{$HOLIDAYDAYS}
@@ -68,7 +68,7 @@
 				</span>
 			</span>
 			<span class="summary-detail">
-				<img class=" summary-img" src="{\App\Layout::getImagePath('average_working_time.png')}" alt="Average working time" title="{\App\Language::translate('LBL_AVERAGEWORKTIME_INFO', $MODULE_NAME)}"/>
+				<img class=" summary-img" src="{\App\Layout::getImagePath('average_working_time.png')}" alt="Average working time" title="{\App\Language::translate('LBL_AVERAGEWORKTIME_INFO', $MODULE_NAME)}" />
 				<span class="summary-text">
 					{if $AVERAGEWORKTIME}
 						{$AVERAGEWORKTIME}
@@ -78,7 +78,7 @@
 				</span>
 			</span>
 			<span class="summary-detail">
-				<img class=" summary-img" src="{\App\Layout::getImagePath('average_break_time.png')}" alt="Average breaking time" title="{\App\Language::translate('LBL_AVERAGEBREAKTIME_INFO', $MODULE_NAME)}"/>
+				<img class=" summary-img" src="{\App\Layout::getImagePath('average_break_time.png')}" alt="Average breaking time" title="{\App\Language::translate('LBL_AVERAGEBREAKTIME_INFO', $MODULE_NAME)}" />
 				<span class="summary-text">
 					{$AVERAGEBREAKTIME}
 				</span>

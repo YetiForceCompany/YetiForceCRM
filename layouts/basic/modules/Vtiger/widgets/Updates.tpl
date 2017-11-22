@@ -30,7 +30,7 @@
 						</div>
 					</div>
 				</div>
-				<hr class="widgetHr"/>
+				<hr class="widgetHr" />
 			</div>
 			<div class="widget_contents">
 			</div>

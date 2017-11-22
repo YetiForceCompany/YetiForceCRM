@@ -14,7 +14,7 @@
 			</div>
 		</div>
 	</div>
-	<hr class="widgetHr"/>
+	<hr class="widgetHr" />
 	<div class="row" >
 		<div class="col-sm-12">
 			<div class="pull-right">&nbsp;

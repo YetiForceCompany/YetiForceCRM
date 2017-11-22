@@ -16,11 +16,11 @@
 		{/if}
 		<input type="hidden" name="module" value="{$MODULE}" />
 		<input type="hidden" name="action" value="Save" />
-		<input type="hidden" name="source_module" value="{$SOURCE_MODULE}"/>
-		<input type="hidden" id="stdfilterlist" name="stdfilterlist" value=""/>
-		<input type="hidden" id="advfilterlist" name="advfilterlist" value=""/>
-		<input type="hidden" id="status" name="status" value="{$CV_PRIVATE_VALUE}"/>
-		<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}">
+		<input type="hidden" name="source_module" value="{$SOURCE_MODULE}" />
+		<input type="hidden" id="stdfilterlist" name="stdfilterlist" value="" />
+		<input type="hidden" id="advfilterlist" name="advfilterlist" value="" />
+		<input type="hidden" id="status" name="status" value="{$CV_PRIVATE_VALUE}" />
+		<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}" />
 		<input type="hidden" name="date_filters" data-value='{\App\Purifier::encodeHtml(\App\Json::encode($DATE_FILTERS))}' />
 		<div class='widget_header row customViewHeader'>
 			<div class="col-sm-5 col-xs-12">
@@ -40,24 +40,24 @@
 				</div>
 				<div class="btn-group pull-right pull-left-xs iconPreferences marginRight10" data-toggle="buttons">
 					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->isDefault()} active  btn-primary{/if}" title="{\App\Language::translate('LBL_SET_AS_DEFAULT',$MODULE)}" >
-						<input id="setdefault" name="setdefault" type="checkbox"  {if $CUSTOMVIEW_MODEL->isDefault()}checked="checked"{/if} value="1">
+						<input id="setdefault" name="setdefault" type="checkbox"  {if $CUSTOMVIEW_MODEL->isDefault()}checked="checked"{/if} value="1" />
 						<span class="glyphicon glyphicon-heart-empty" data-check="glyphicon-heart" data-unchecked="glyphicon-heart-empty"></span>
 					</label>
 					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->isSetPublic()} active  btn-primary{/if}" title="{\App\Language::translate('LBL_SET_AS_PUBLIC',$MODULE)}">
-						<input id="status" name="status" type="checkbox" {if $CUSTOMVIEW_MODEL->isSetPublic()} value="{$CUSTOMVIEW_MODEL->get('status')}" checked="checked" {else} value="{$CV_PENDING_VALUE}" {/if}>
+						<input id="status" name="status" type="checkbox" {if $CUSTOMVIEW_MODEL->isSetPublic()} value="{$CUSTOMVIEW_MODEL->get('status')}" checked="checked" {else} value="{$CV_PENDING_VALUE}" {/if} />
 						<span class="glyphicon glyphicon-eye-close" data-check="glyphicon-eye-open" data-unchecked="glyphicon-eye-close"></span>
 					</label>
 					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->isFeatured(true)} active btn-primary{/if}" title="{\App\Language::translate('LBL_FEATURED',$MODULE)}">
-						<input id="featured" name="featured" type="checkbox"  {if $CUSTOMVIEW_MODEL->isFeatured(true)} checked="checked"{/if} value="1">
+						<input id="featured" name="featured" type="checkbox"  {if $CUSTOMVIEW_MODEL->isFeatured(true)} checked="checked"{/if} value="1" />
 						<span class="glyphicon glyphicon-star-empty" data-check="glyphicon-star" data-unchecked="glyphicon-star-empty"></span>
 					</label>
 					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->get('setmetrics')} active btn-primary{/if}" title="{\App\Language::translate('LBL_LIST_IN_METRICS',$MODULE)}">
-						<input id="setmetrics" name="setmetrics" type="checkbox" {if $CUSTOMVIEW_MODEL->get('setmetrics') eq '1'}checked="checked"{/if} value="1">
+						<input id="setmetrics" name="setmetrics" type="checkbox" {if $CUSTOMVIEW_MODEL->get('setmetrics') eq '1'}checked="checked"{/if} value="1" />
 						<span class="glyphicon glyphicon-blackboard" data-check="glyphicon-heart" data-unchecked="glyphicon-heart-empty"></span>
 					</label>
 				</div>
 			</div>
-		</div>	
+		</div>
 		{assign var=SELECTED_FIELDS value=$CUSTOMVIEW_MODEL->getSelectedFields()}
 		<div class="">
 			<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
@@ -69,7 +69,7 @@
 						<div class="row col-md-5">
 							<label class="pull-left control-label paddingLeftMd"><span class="redColor">*</span> {\App\Language::translate('LBL_VIEW_NAME',$MODULE)}:</label>
 							<div class="col-md-7">
-								<input type="text" id="viewname" class="form-control" data-validation-engine="validate[required]" name="viewname" value="{$CUSTOMVIEW_MODEL->get('viewname')}">
+								<input type="text" id="viewname" class="form-control" data-validation-engine="validate[required]" name="viewname" value="{$CUSTOMVIEW_MODEL->get('viewname')}" />
 							</div>
 						</div>
 					</div>
@@ -123,7 +123,7 @@
 							<label class="pull-left control-label paddingLeftMd"><span class="redColor">*</span> {\App\Language::translate('LBL_COLOR_VIEW',$MODULE)}:</label>
 							<div class="col-md-7">
 								<div class="input-group">
-									<input type="text" class="form-control colorPicker" name="color" value="{$CUSTOMVIEW_MODEL->get('color')}">
+									<input type="text" class="form-control colorPicker" name="color" value="{$CUSTOMVIEW_MODEL->get('color')}" />
 									<span class="input-group-addon" style="background-color: {$CUSTOMVIEW_MODEL->get('color')};">&nbsp;&nbsp;</span>
 								</div>
 							</div>
@@ -137,7 +137,7 @@
 						<h4 class="">{\App\Language::translate('LBL_DESCRIPTION_INFORMATION',$MODULE)}</h4></div></div>
 				<div class="panel-body padding5 hide">
 					<textarea name="description" id="description" class="ckEditorSource">{$CUSTOMVIEW_MODEL->get('description')}</textarea>
-				</div>	
+				</div>
 			</div>
 			<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
 				<div class="row blockHeader panel-heading marginLeftZero marginRightZero"><div class="iconCollapse">

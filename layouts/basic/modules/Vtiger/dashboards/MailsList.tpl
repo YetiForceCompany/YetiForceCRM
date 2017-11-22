@@ -21,7 +21,7 @@
 			</div>
 		</div>
 	</div>
-	<hr class="widgetHr"/>
+	<hr class="widgetHr" />
 	<div class="row" >
 		<div class="col-md-6 pull-right">
 			<select class="mailUserList form-control input-sm select2" id="mailUserList" title="{\App\Language::translate('LBL_MAIL_USERS_LIST')}" name="type">

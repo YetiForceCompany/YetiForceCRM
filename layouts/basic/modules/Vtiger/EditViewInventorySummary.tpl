@@ -14,7 +14,7 @@
 					<div class="panel-body">
 						<div class="form-group">
 							<div class="input-group">
-								<input type="text" class="form-control textAlignRight" readonly="readonly">
+								<input type="text" class="form-control textAlignRight" readonly="readonly" />
 								{if in_array("currency",$COLUMNS)}
 									<div class="input-group-addon currencySymbol">{$CURRENCY_SYMBOLAND['symbol']}</div>
 								{/if}
@@ -39,7 +39,7 @@
 						<div class="form-group">
 							<div class="input-group">
 								<div class="input-group-addon percent">{\App\Language::translate('LBL_AMOUNT', $MODULE)}</div>
-								<input type="text" class="form-control textAlignRight" readonly="readonly">
+								<input type="text" class="form-control textAlignRight" readonly="readonly" />
 								{if in_array("currency",$COLUMNS)}
 									<div class="input-group-addon currencySymbol">{$CURRENCY_SYMBOLAND['symbol']}</div>
 								{/if}
@@ -50,7 +50,7 @@
 						<div class="form-group">
 							<div class="input-group">
 								<div class="input-group-addon percent"></div>
-								<input type="text" class="form-control textAlignRight" readonly="readonly">
+								<input type="text" class="form-control textAlignRight" readonly="readonly" />
 								{if in_array("currency",$COLUMNS)}
 									<div class="input-group-addon currencySymbol">{$CURRENCY_SYMBOLAND['symbol']}</div>
 								{/if}
@@ -69,7 +69,7 @@
 						<div class="form-group">
 							<div class="input-group">
 								<div class="input-group-addon percent">{\App\Language::translate('LBL_AMOUNT', $MODULE)}</div>
-								<input type="text" class="form-control textAlignRight" readonly="readonly">
+								<input type="text" class="form-control textAlignRight" readonly="readonly" />
 								{if in_array("currency",$COLUMNS)}
 									<div class="input-group-addon">{$BASE_CURRENCY['currency_symbol']}</div>
 								{/if}
@@ -80,7 +80,7 @@
 						<div class="form-group">
 							<div class="input-group">
 								<div class="input-group-addon percent"></div>
-								<input type="text" class="form-control textAlignRight" readonly="readonly">
+								<input type="text" class="form-control textAlignRight" readonly="readonly" />
 								{if in_array("currency",$COLUMNS)}
 									<div class="input-group-addon">{$BASE_CURRENCY['currency_symbol']}</div>
 								{/if}

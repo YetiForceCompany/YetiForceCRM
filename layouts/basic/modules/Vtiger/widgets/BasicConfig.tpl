@@ -4,8 +4,8 @@
 	<div class="modal-dialog">
         <div class="modal-content">
 			<form class="form-modalAddWidget">  
-				<input type="hidden" name="wid" value="{$WID}">
-				<input type="hidden" name="type" value="{$TYPE}">
+				<input type="hidden" name="wid" value="{$WID}" />
+				<input type="hidden" name="type" value="{$TYPE}" />
 				<div class="modal-header">
 					<button type="button" data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}">×</button>
 					<h3 id="massEditHeader" class="modal-title">{\App\Language::translate('Add widget', $QUALIFIED_MODULE)}</h3>

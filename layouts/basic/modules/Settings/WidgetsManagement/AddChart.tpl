@@ -8,14 +8,14 @@
 					<h3 id="massEditHeader" class="modal-title">{\App\Language::translate('LBL_ADD', $MODULE)} {\App\Language::translate('LBL_ADD_WIDGET_CHARTS', $MODULE)}</h3>
 				</div>
 				<form class="form-horizontal validateForm sendByAjax" >
-					<input type="hidden" name="module" value="{$MODULE_NAME}">
-					<input type="hidden" name="action" value="CreateChart">
-					<input type="hidden" name="parent" value="Settings">
-					<input type="hidden" name="blockid">
-					<input type="hidden" name="linkId">
-					<input type="hidden" name="isDefault" value="0">
-					<input type="hidden" name="width" value="4">
-					<input type="hidden" name="height" value="3">
+					<input type="hidden" name="module" value="{$MODULE_NAME}" />
+					<input type="hidden" name="action" value="CreateChart" />
+					<input type="hidden" name="parent" value="Settings" />
+					<input type="hidden" name="blockid" />
+					<input type="hidden" name="linkId" />
+					<input type="hidden" name="isDefault" value="0" />
+					<input type="hidden" name="width" value="4" />
+					<input type="hidden" name="height" value="3" />
 					<div class="form-group margin0px padding1per">
 						<label class="col-sm-3 control-label">{\App\Language::translate('LBL_NAME_CHART', $MODULE)}<span class="redColor">*</span> </label>
 						<div class="col-sm-8 controls">
@@ -34,7 +34,7 @@
 					</div>
 					{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $MODULE)}
 				</form>
-			
+
 			</div>
 		</div>
 	</div>

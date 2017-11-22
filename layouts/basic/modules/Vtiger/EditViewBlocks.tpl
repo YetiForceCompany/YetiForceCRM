@@ -20,7 +20,7 @@
 
 			{foreach from=$APIADDRESS item=item key=key}
 				{if !empty($item['nominatim'])}
-					<input type="hidden" name="apiAddress" value='{$item['key']}' data-max-num="{$APIADDRESS['global']['result_num']}" data-api-name="{$key}" data-url="{$item['source']}" data-length="{$APIADDRESS['global']['min_length']}"/>
+					<input type="hidden" name="apiAddress" value='{$item['key']}' data-max-num="{$APIADDRESS['global']['result_num']}" data-api-name="{$key}" data-url="{$item['source']}" data-length="{$APIADDRESS['global']['min_length']}" />
 				{/if}
 			{/foreach}
 
@@ -32,7 +32,7 @@
             {if $PARENT_MODULE neq ''}
                 <input type="hidden" name="module" value="{$MODULE}" />
                 <input type="hidden" name="parent" value="{$PARENT_MODULE}" />
-				<input type="hidden" value="{$VIEW}" name="view"/>
+				<input type="hidden" value="{$VIEW}" name="view" />
             {else}
                 <input type="hidden" name="module" value="{$MODULE}" />
             {/if}
