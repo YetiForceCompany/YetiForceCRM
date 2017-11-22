@@ -22,11 +22,11 @@
 				<td class="widgeticons col-md-5" align="right">
 					<div class="box pull-right">
 						<a name="dfilter">
-							<i class='icon-cog' border='0' align="absmiddle" title="{\App\Language::translate('LBL_FILTER')}" alt="{\App\Language::translate('LBL_FILTER')}"/>
+							<i class='icon-cog' border='0' align="absmiddle" title="{\App\Language::translate('LBL_FILTER')}" alt="{\App\Language::translate('LBL_FILTER')}" />
 						</a>
 						<!--
 						<a class="dprint" name="dprint">
-							<i class='icon-print' border='0' align="absmiddle" title="{\App\Language::translate('LBL_PRINT')}" alt="{\App\Language::translate('LBL_PRINT')}"/>
+							<i class='icon-print' border='0' align="absmiddle" title="{\App\Language::translate('LBL_PRINT')}" alt="{\App\Language::translate('LBL_PRINT')}" />
 						</a>
 						-->
 						<a href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data">

@@ -173,7 +173,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('CUSTOM_FIELDS_HEADER', $this->record->getCustomHeaderFields());
 		$viewer->assign('IS_EDITABLE', $this->record->getRecord()->isEditable());
 		$viewer->assign('IS_DELETABLE', $this->record->getRecord()->privilegeToMoveToTrash());
-
+		$viewer->assign('VIEW_MODEL', $this->record);
 		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1)];
 		$linkModels = $this->record->getSideBarLinks($linkParams);
 		$viewer->assign('QUICK_LINKS', $linkModels);
@@ -290,6 +290,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('VIEW', $request->getByType('view', 1));
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
+		$viewer->assign('VIEW_MODEL', $this->record);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('MODULE_NAME', $moduleName);
@@ -341,21 +342,19 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('VIEW', $request->getByType('view', 1));
-
 		if (!$this->recordStructure) {
 			$this->recordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
 		}
 		$structuredValues = $this->recordStructure->getStructure();
-
 		$moduleModel = $recordModel->getModule();
-
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
+		$viewer->assign('VIEW_MODEL', $this->record);
 		if ($moduleModel->isSummaryViewSupported() && $this->record->widgetsList) {
-			return $viewer->view('SummaryViewWidgets.tpl', $moduleName, true);
+			return $viewer->view('DetailViewSummaryView.tpl', $moduleName, true);
 		} else {
-			return $viewer->view('DetailViewSummaryContents.tpl', $moduleName, true);
+			return $viewer->view('DetailViewFullContents.tpl', $moduleName, true);
 		}
 	}
 
@@ -471,7 +470,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	public function showRelatedList(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$relatedModuleName = $request->getByType('relatedModule', 1);
+		$relatedModuleName = $request->getByType('relatedModule');
 		$targetControllerClass = null;
 		if (!\App\Privilege::isPermitted($relatedModuleName)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -511,7 +510,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('PARENT_COMMENTS', $childComments);
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
-		$viewer->assign('TYPE_VIEW', "List");
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
 		return $viewer->view('CommentsList.tpl', $request->getModule(), true);
 	}
@@ -557,7 +555,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$commentRecordId = $request->getInteger('commentid');
 		$hierarchy = [];
 		if ($request->has('hierarchy')) {
-			$hierarchy = $request->getExploded('hierarchy');
+			$hierarchy = $request->getExploded('hierarchy', ',', 'Integer');
 		}
 		$moduleName = $request->getModule();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -567,7 +565,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (!empty($commentRecordId)) {
 			$currentCommentModel = Vtiger_Record_Model::getInstanceById($commentRecordId);
 		}
-
 		$hierarchyList = ['LBL_COMMENTS_0', 'LBL_COMMENTS_1', 'LBL_COMMENTS_2'];
 		$level = \App\ModuleHierarchy::getModuleLevel($request->getModule());
 		if ($level > 0) {
@@ -576,7 +573,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 				unset($hierarchyList[2]);
 			}
 		}
-
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('PARENT_RECORD', $parentRecordId);
@@ -660,7 +656,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$parentId = $request->getInteger('record');
 		$pageNumber = $request->getInteger('page');
 		$limit = (int) $request->get('limit');
-		$viewType = $request->getByType('viewType');
 		$searchParams = $request->get('search_params');
 		$relatedModuleName = $request->getByType('relatedModule', 1);
 		$orderBy = $request->getForSql('orderby');
@@ -731,7 +726,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('LIMIT', $limit);
-		$viewer->assign('TYPE_VIEW', $viewType);
+		if (!$request->isEmpty('viewType')) {
+			$viewer->assign('TYPE_VIEW', $request->getByType('viewType'));
+		}
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('RELATED_HEADERS', $header);
 		$viewer->assign('RELATED_MODULE', $relatedModuleModel);

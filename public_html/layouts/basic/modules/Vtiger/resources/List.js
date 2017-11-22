@@ -114,7 +114,7 @@ jQuery.Class("Vtiger_List_Js", {
 			};
 			AppConnector.request(actionParams).then(
 					function (data) {
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+						progressIndicatorElement.progressIndicator({mode: 'hide'});
 						if (data) {
 							var callback = function (data) {
 								var params = app.validationEngineOptions;
@@ -184,7 +184,7 @@ jQuery.Class("Vtiger_List_Js", {
 			form.submit();
 			Vtiger_Helper_Js.showMessage({text: app.vtranslate('JS_STARTED_GENERATING_FILE'), type: 'info'})
 
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({mode: 'hide'});
 		} else {
 			listInstance.noRecordSelectedAlert();
 		}
@@ -278,7 +278,7 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 			var css = jQuery.extend({'text-align': 'left'}, css);
 			AppConnector.request(actionParams).then(function (data) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				progressIndicatorElement.progressIndicator({mode: 'hide'});
 				if (data) {
 					var result = beforeShowCb(data);
 					if (!result) {
@@ -292,7 +292,7 @@ jQuery.Class("Vtiger_List_Js", {
 					}, css)
 				}
 			}, function (error, err) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				progressIndicatorElement.progressIndicator({mode: 'hide'});
 				Vtiger_Helper_Js.showPnotify({
 					title: app.vtranslate('JS_MESSAGE'),
 					text: err,
@@ -381,7 +381,7 @@ jQuery.Class("Vtiger_List_Js", {
 	showDuplicateSearchForm: function (url) {
 		var progressIndicatorElement = jQuery.progressIndicator();
 		app.showModalWindow("", url, function () {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({mode: 'hide'});
 			Vtiger_List_Js.registerDuplicateSearchButtonEvent();
 		});
 	},
@@ -445,7 +445,7 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 		});
 		app.showModalWindow(null, url, function () {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'})
+			progressIndicatorElement.progressIndicator({mode: 'hide'})
 		});
 	},
 	showMap: function () {
@@ -1114,7 +1114,7 @@ jQuery.Class("Vtiger_List_Js", {
 						pageCount = 1;
 					}
 					element.text(pageCount);
-					element.progressIndicator({'mode': 'hide'});
+					element.progressIndicator({mode: 'hide'});
 				});
 			}
 		})
@@ -1715,13 +1715,13 @@ jQuery.Class("Vtiger_List_Js", {
 						url: target.data('url'),
 						data: postData
 					}).then(function (data) {
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+						progressIndicatorElement.progressIndicator({mode: 'hide'});
 						if (data && data.result && data.result.notify) {
 							Vtiger_Helper_Js.showMessage(data.result.notify);
 						}
 						thisInstance.getListViewRecords();
 					}, function (error, err) {
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+						progressIndicatorElement.progressIndicator({mode: 'hide'});
 					});
 				});
 			} else {
@@ -1884,7 +1884,7 @@ jQuery.Class("Vtiger_List_Js", {
 			} else {
 				thisInstance.showPagingInfo();
 			}
-			element.parent().progressIndicator({'mode': 'hide'});
+			element.parent().progressIndicator({mode: 'hide'});
 		})
 	},
 	showPagingInfo: function () {
@@ -1988,6 +1988,37 @@ jQuery.Class("Vtiger_List_Js", {
 			});
 		});
 	},
+	registerSummationEvent: function () {
+		var thisInstance = this;
+		this.getListViewContentContainer().on('click', '.listViewSummation button', function () {
+			var button = $(this);
+			var td = button.closest('td');
+			var params = thisInstance.getDefaultParams();
+			var progress = $.progressIndicator({
+				message: app.vtranslate('JS_CALCULATING_IN_PROGRESS'),
+				position: 'html',
+				blockInfo: {
+					enabled: true
+				}
+			});
+			params['action'] = 'List';
+			params['mode'] = 'calculate';
+			params['fieldName'] = button.data('field');
+			params['calculateType'] = button.data('operator');
+			if (thisInstance.checkListRecordSelected() != true) {
+				params['selected_ids'] = thisInstance.readSelectedIds(true);
+				params['excluded_ids'] = thisInstance.readExcludedIds(true);
+			}
+			delete params['view'];
+			app.hidePopover(button);
+			AppConnector.request(params).then(function (response) {
+				if (response.success) {
+					td.html(response.result);
+				}
+				progress.progressIndicator({mode: 'hide'});
+			});
+		});
+	},
 	registerEvents: function () {
 		this.breadCrumbsFilter();
 		this.registerRowClickEvent();
@@ -2015,7 +2046,7 @@ jQuery.Class("Vtiger_List_Js", {
 		Vtiger_Helper_Js.showHorizontalTopScrollBar();
 		this.registerUrlFieldClickEvent();
 		this.registerEventForTotalRecordsCount();
-
+		this.registerSummationEvent();
 		//Just reset all the checkboxes on page load: added for chrome issue.
 		var listViewContainer = this.getListViewContentContainer();
 		listViewContainer.find('#listViewEntriesMainCheckBox,.listViewEntriesCheckBox').prop('checked', false);

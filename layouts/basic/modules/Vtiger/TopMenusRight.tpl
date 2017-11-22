@@ -87,7 +87,7 @@
 	{if isset($CHAT_ENTRIES)}
 		<ul class="headerLinksContainer headerLinksChat nav navbar-nav navbar-right">
 			<li>
-				<a class="ChatIcon" href="#" title="{\App\Language::translate('LBL_CHAT', $MODULE)}"><img src="{\App\Layout::getImagePath('chat.png')}" alt="chat_icon"/></a>
+				<a class="ChatIcon" href="#" title="{\App\Language::translate('LBL_CHAT', $MODULE)}"><img src="{\App\Layout::getImagePath('chat.png')}" alt="chat_icon" /></a>
 			</li>
 		</ul>
 	{/if}

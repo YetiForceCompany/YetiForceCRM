@@ -32,7 +32,7 @@ class PriceBooks_ProductPriceBookPopup_View extends Vtiger_Popup_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getByType('src_module', 1);
+		$moduleName = $request->getByType('src_module', 2);
 		$jsFileNames = [
 			"modules.PriceBooks.resources.PriceBooksPopup",
 			'~layouts/resources/validator/BaseValidator.js',
@@ -52,7 +52,7 @@ class PriceBooks_ProductPriceBookPopup_View extends Vtiger_Popup_View
 		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
-		$sourceModule = $request->getByType('src_module', 1);
+		$sourceModule = $request->getByType('src_module', 2);
 		$sourceField = $request->getByType('src_field', 2);
 		$sourceRecord = $request->getInteger('src_record');
 		$searchKey = $request->get('search_key');

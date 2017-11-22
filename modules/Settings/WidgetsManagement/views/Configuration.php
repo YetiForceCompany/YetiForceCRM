@@ -14,7 +14,7 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 
 		\App\Log::trace(__METHOD__ . ' | Start');
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$sourceModule = $request->getByType('sourceModule', 1);
+		$sourceModule = $request->getByType('sourceModule', 2);
 		$widgetsManagementModel = new Settings_WidgetsManagement_Module_Model();
 		$dashboardModules = $widgetsManagementModel->getSelectableDashboard();
 

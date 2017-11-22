@@ -26,9 +26,9 @@
 				<input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}" />
 				<input type="hidden" name="relationOperation" value="{$IS_RELATION_OPERATION}" />
 			{/if}
-			<input type="hidden" id="allowedLetters" value="{$allowChars}">
-			<input type="hidden" id="maxChars" value="{$passLengthMax}">
-			<input type="hidden" id="minChars" value="{$passLengthMin}">
+			<input type="hidden" id="allowedLetters" value="{$allowChars}" />
+			<input type="hidden" id="maxChars" value="{$passLengthMax}" />
+			<input type="hidden" id="minChars" value="{$passLengthMin}" />
 			{foreach from=$RECORD->getModule()->getFieldsByDisplayType(9) item=FIELD key=FIELD_NAME}
 				<input type="hidden" name="{$FIELD_NAME}" value="{\App\Purifier::encodeHtml($RECORD->get($FIELD_NAME))}" />
 			{/foreach}

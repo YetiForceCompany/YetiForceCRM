@@ -35,6 +35,9 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		}
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
+		if ($request->has('entityState')) {
+			$relationListView->set('entityState', $request->getByType('entityState'));
+		}
 		$totalCount = (int) $relationListView->getRelatedEntriesCount();
 		if (!empty($totalCount)) {
 			$pagingModel->set('totalCount', (int) $totalCount);

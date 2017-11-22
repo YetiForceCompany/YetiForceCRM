@@ -316,14 +316,33 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to remove record
+	 * {@inheritDoc}
+	 */
+	public function changeState($state)
+	{
+		parent::changeState();
+		$stateId = 0;
+		switch ($state) {
+			case 'Active':
+				$stateId = 0;
+				break;
+			case 'Trash':
+				$stateId = 1;
+				break;
+			case 'Archived':
+				$stateId = 2;
+				break;
+		}
+		\App\Db::getInstance()->createCommand()->update('vtiger_activity', ['deleted' => $stateId], ['activityid' => $this->getId()])->execute();
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public function delete()
 	{
 		parent::delete();
-		App\Db::getInstance()->createCommand()
-			->update('vtiger_activity', ['deleted' => 1], ['activityid' => $this->getId()])
-			->execute();
+		\App\Db::getInstance()->createCommand()->delete('vtiger_activity_reminder', ['activity_id' => $this->getId()])->execute();
 	}
 
 	/**

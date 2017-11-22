@@ -4,8 +4,8 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<form class="form-modalAddWidget form-horizontal validateForm">
-					<input type="hidden" name="wid" value="{$WID}">
-					<input type="hidden" name="type" value="{$TYPE}">
+					<input type="hidden" name="wid" value="{$WID}" />
+					<input type="hidden" name="type" value="{$TYPE}" />
 					<div class="modal-header">
 						<button type="button" data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}">×</button>
 						<h3 id="massEditHeader" class="modal-title">{\App\Language::translate('Add widget', $QUALIFIED_MODULE)}</h3>
@@ -60,7 +60,7 @@
 							<div class="form-group form-group-sm">
 								<label class="col-md-4 control-label">{\App\Language::translate('Limit entries', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{\App\Language::translate('Limit entries info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('Limit entries', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 								<div class="col-md-7 controls">
-									<input name="limit" class="form-control" type="text" value="{$WIDGETINFO['data']['limit']}"/>
+									<input name="limit" class="form-control" type="text" value="{$WIDGETINFO['data']['limit']}" />
 								</div>
 							</div>
 							<div class="form-group form-group-sm form-switch-mini">

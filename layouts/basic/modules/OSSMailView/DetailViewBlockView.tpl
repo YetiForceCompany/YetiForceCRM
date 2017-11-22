@@ -85,7 +85,6 @@
 		</div>
 		</div>
 	</div>
-	<br />
 	{/if}
 	{/foreach}
 {/strip}

@@ -1,4 +1,7 @@
 {strip}
+	<div class="">
+		{include file=\App\Layout::getTemplatePath('DetailViewBlockLink.tpl', $MODULE_NAME) TYPE_VIEW='SummaryTop'}
+	</div>
 	<div class="row">
 		{assign var=col1 value=count($DETAILVIEW_WIDGETS[1])}
 		{assign var=col2 value=count($DETAILVIEW_WIDGETS[2])}
@@ -18,5 +21,8 @@
 				{/foreach}
 			</div>
 		{/foreach}
+	</div>
+	<div class="">
+		{include file=\App\Layout::getTemplatePath('DetailViewBlockLink.tpl', $MODULE_NAME) TYPE_VIEW='SummaryBottom'}
 	</div>
 {/strip}

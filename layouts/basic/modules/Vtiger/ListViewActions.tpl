@@ -49,7 +49,7 @@
         {/if}
 	</div>
 	<div class="clearfix"></div>
-	<input type="hidden" id="recordsCount" value=""/>
+	<input type="hidden" id="recordsCount" value="" />
 	<input type="hidden" id="selectedIds" name="selectedIds" />
 	<input type="hidden" id="excludedIds" name="excludedIds" />
 {/strip}

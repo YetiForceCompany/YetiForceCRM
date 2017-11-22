@@ -10,7 +10,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 	taxModalFields: ['aggregationType', 'globalTax', 'groupCheckbox', 'groupTax', 'individualTax'],
 	/**
 	 * Function that is used to get the line item container
-	 * @return : jQuery object
+	 * @return : jQuery object 
 	 */
 	getInventoryItemsContainer: function () {
 		if (this.inventoryContainer === false) {
@@ -946,7 +946,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		params.async = false;
 		params.dataType = 'json';
 		var progressInstace = jQuery.progressIndicator();
-		AppConnector.request(params).done(
+		AppConnector.request(params).then(
 				function (data) {
 					progressInstace.hide();
 					if (data.result.status == false) {

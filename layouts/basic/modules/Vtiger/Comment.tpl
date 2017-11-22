@@ -27,18 +27,16 @@
 					{assign var=CHILD_COMMENTS_MODEL value=$COMMENT->getChildComments()}
 					<div class="col-xs-8 pull-left commentorInfo">
 						{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
-						<span class="commentorName pull-left"><strong>{$COMMENTOR->getName()}</strong></span><br /> 
-								{if $HIERARCHY}
-									{assign var=RELATED_TO value=$COMMENT->get('related_to')}
+						<span class="commentorName pull-left">
+							<strong>{$COMMENTOR->getName()}</strong>
+						</span><br />
+						{if $HIERARCHY}
+							{assign var=RELATED_TO value=$COMMENT->get('related_to')}
 							<input hidden="" class="related_to" name="related_to" value="{$RELATED_TO}"  />
 							{assign var=RELATED_MODULE value=\App\Record::getType($RELATED_TO)}
 							<a href="index.php?module={$RELATED_MODULE}&view=Detail&record={$RELATED_TO}">
-								<strong>
-									{\App\Language::translate($RELATED_MODULE,$RELATED_MODULE)}: 
-								</strong>
-								<strong class="commentRelatedTitle">
-									{$COMMENT->getDisplayValue('related_to')}
-								</strong>
+								<strong>{\App\Language::translate($RELATED_MODULE,$RELATED_MODULE)}:&nbsp;&nbsp;</strong>
+								<strong class="commentRelatedTitle">{$COMMENT->getDisplayValue('related_to')}</strong>
 							</a>
 						{/if}
 						<div class="commentInfoContent ">

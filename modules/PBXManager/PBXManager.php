@@ -138,7 +138,7 @@ class PBXManager extends CRMEntity
 
 		App\EventHandler::registerHandler('EntityAfterSave', $className, 'Contacts,Accounts,Leads');
 		App\EventHandler::registerHandler('EntityAfterDelete', $className, 'Contacts,Accounts,Leads');
-		App\EventHandler::registerHandler('EntityAfterRestore', $className, 'Contacts,Accounts,Leads');
+		App\EventHandler::registerHandler('EntityChangeState', $className, 'Contacts,Accounts,Leads');
 		\App\Log::info('Lookup Events Registered');
 	}
 

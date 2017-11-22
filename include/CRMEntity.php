@@ -313,16 +313,6 @@ class CRMEntity
 	}
 
 	/**
-	 * Function to unlink all the dependent entities of the given Entity by Id
-	 * @param string $moduleName
-	 * @param int $recordId
-	 */
-	public function deletePerminently($moduleName, $recordId)
-	{
-		
-	}
-
-	/**
 	 * Function to unlink an entity with given Id from another entity
 	 * @param int $id
 	 * @param string $returnModule
@@ -390,33 +380,6 @@ class CRMEntity
 				'crmid' => $withCrmid
 			]
 		])->execute();
-	}
-
-	/**
-	 * Function to restore a deleted record of specified module with given crmid
-	 * @param string $moduleName
-	 * @param int $id
-	 */
-	public function restore($moduleName, $id)
-	{
-		$result = \App\Db::getInstance()->createCommand()->update(
-				'vtiger_crmentity', [
-				'deleted' => 0,
-				'modifiedtime' => date('Y-m-d H:i:s'),
-				'modifiedby' => \App\User::getCurrentUserRealId(),
-				'users' => null,
-				], ['crmid' => $id]
-			)->execute();
-		if ($result) {
-			if (!\AppConfig::security('CACHING_PERMISSION_TO_RECORD')) {
-				\App\Privilege::setUpdater($moduleName, $id, 6, 0);
-			}
-			//Event triggering code
-			$eventHandler = new App\EventHandler();
-			$eventHandler->setRecordModel(Vtiger_Record_Model::getInstanceById($id));
-			$eventHandler->setModuleName($moduleName);
-			$eventHandler->trigger('EntityAfterRestore');
-		}
 	}
 	/* Function to check if the mod number already exits */
 

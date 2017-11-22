@@ -26,4 +26,13 @@ class Services_Record_Model extends Products_Record_Model
 		$activeStatus = $db->queryResult($result, 'discontinued');
 		return $activeStatus;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function delete()
+	{
+		parent::delete();
+		\App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['or', ['productid' => $this->getId()], ['crmid' => $this->getId()]])->execute();
+	}
 }

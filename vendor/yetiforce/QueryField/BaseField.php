@@ -144,6 +144,15 @@ class BaseField
 	}
 
 	/**
+	 * Get field model
+	 * @return \Vtiger_Field_Model
+	 */
+	public function getField()
+	{
+		return $this->fieldModel;
+	}
+
+	/**
 	 * Get order by
 	 * @return array
 	 */

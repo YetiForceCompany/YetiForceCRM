@@ -89,7 +89,7 @@ class Users_Save_Action extends Vtiger_Save_Action
 		$settingsModuleModel = Settings_Users_Module_Model::getInstance();
 		$settingsModuleModel->refreshSwitchUsers();
 		if ($request->getBoolean('relationOperation')) {
-			$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $request->getByType('sourceModule', 1));
+			$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $request->getByType('sourceModule', 2));
 			$loadUrl = $parentRecordModel->getDetailViewUrl();
 		} else if ($request->getBoolean('isPreference')) {
 			$loadUrl = $recordModel->getPreferenceDetailViewUrl();

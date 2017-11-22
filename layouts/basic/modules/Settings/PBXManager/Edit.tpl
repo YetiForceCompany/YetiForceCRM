@@ -39,9 +39,9 @@
 							<tr><td width="25%"><label class="muted pull-right marginRight10px"><span class="redColor">*</span>{\App\Language::translate($FIELD_NAME,$QUALIFIED_MODULE)}</label></td>
 								<td style="border-left: none;"><input type="{$FIELD_TYPE}" class="form-control" name="{$FIELD_NAME}" data-validation-engine='validate[required]' value="{$RECORD_MODEL->get($FIELD_NAME)}" /></td></tr>
 								{/foreach}
-					<input type="hidden" name="module" value="PBXManager"/>
-					<input type="hidden" name="action" value="SaveAjax"/>
-					<input type="hidden" name="parent" value="Settings"/>
+					<input type="hidden" name="module" value="PBXManager" />
+					<input type="hidden" name="action" value="SaveAjax" />
+					<input type="hidden" name="parent" value="Settings" />
 					<input type="hidden" name="id" value="{$RECORD_ID}">
 					</tbody>
 				</table>

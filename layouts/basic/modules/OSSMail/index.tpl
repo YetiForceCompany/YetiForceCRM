@@ -9,5 +9,5 @@
 		$('#roundcube_interface').css('height', height - v)
 	});
 </script>
-<input type="hidden" value="" id="tempField" name="tempField"/>
+<input type="hidden" value="" id="tempField" name="tempField" />
 <iframe id="roundcube_interface" style="width: 100%; height: 590px;margin-bottom: -5px;" frameborder="0" src="{$URL}" frameborder="0"> </iframe>

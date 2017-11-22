@@ -195,7 +195,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'title' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY'),
 					'linkurl' => 'javascript:app.showConfirmation({type: "href"},this)',
 					'linkdata' => [
-						'url' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Delete&record=' . $recordModel->getId(),
+						'url' => 'index.php?module=' . $recordModel->getModuleName() . '&action=Delete&record=' . $recordModel->getId(),
 						'confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')
 					],
 					'linkicon' => 'glyphicon glyphicon-erase',
@@ -292,18 +292,39 @@ class Vtiger_DetailView_Model extends \App\Base
 				'badgeClass' => 'bgDanger'
 			];
 		}
-		$relationModels = $parentModuleModel->getRelations();
-		foreach ($relationModels as $relation) {
-			$link = [
-				'linktype' => 'DETAILVIEWRELATED',
-				'linklabel' => $relation->get('label'),
-				'linkurl' => $relation->getListUrl($recordModel),
-				'linkicon' => '',
-				'relatedModuleName' => $relation->get('relatedModuleName')
-			];
-			$relatedLinks[] = $link;
+		foreach ($parentModuleModel->getRelations() as $relation) {
+			if ($relation->isRelatedViewType('RelatedTab')) {
+				$relatedLinks[] = [
+					'linktype' => 'DETAILVIEWRELATED',
+					'linklabel' => $relation->get('label'),
+					'linkurl' => $relation->getListUrl($recordModel),
+					'linkicon' => '',
+					'relatedModuleName' => $relation->get('relatedModuleName')
+				];
+			}
 		}
+		return $relatedLinks;
+	}
 
+	/**
+	 *
+	 * @param type $viewType
+	 * @return type
+	 */
+	public function getBlocks($viewType)
+	{
+		$recordModel = $this->getRecord();
+		$relatedLinks = [];
+		foreach ($this->getModule()->getRelations() as $relation) {
+			if ($relation->isRelatedViewType($viewType)) {
+				$relatedLinks[] = Vtiger_Link_Model::getInstanceFromValues([
+						'linklabel' => $relation->get('label'),
+						'linkurl' => $relation->getListUrl($recordModel),
+						'linkicon' => '',
+						'relatedModuleName' => $relation->get('relatedModuleName')
+				]);
+			}
+		}
 		return $relatedLinks;
 	}
 

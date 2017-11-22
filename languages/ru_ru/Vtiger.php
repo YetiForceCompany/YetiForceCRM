@@ -511,6 +511,8 @@ $languageStrings = [
 	'LBL_SELECT_MODULE' => 'Выберите модуль',
 	'LBL_SELECT_OPTION' => 'Выберите опцию',
 	'LBL_SELECT_PROGRESS' => 'Выбрать прогресс',
+	'LBL_PREV' => 'Previous',
+	'LBL_NEXT' => 'Next',
 	'LBL_SELECT_RELATED_MODULES' => 'Выберите связанные модули',
 	'LBL_SELECT_STATUS' => 'Выбрать статус',
 	'LBL_SELECT_TO_LOAD_LIST' => 'Выберите для загрузки списка',
@@ -1339,6 +1341,7 @@ $languageStrings = [
 	'LBL_DELETE_RECORD_COMPLETELY' => 'Удалить запись из системы',
 	'LBL_DELETE_RECORD_COMPLETELY_DESC' => 'Deleting a record is permanent and irreversible for all record\'s information. Are you sure you want to delete the record?',
 	'LBL_RECORD_HAS_BEEN_DELETED' => 'Запись была удалена',
+	'LBL_SHOW_INVENTORY_ROW' => 'Show additional information',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Подитог',

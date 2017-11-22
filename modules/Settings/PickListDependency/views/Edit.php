@@ -26,7 +26,7 @@ class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View
 		if ($request->isEmpty('sourceModule')) {
 			$selectedModule = $moduleModelList[0]->name;
 		} else {
-			$selectedModule = $request->getByType('sourceModule', 1);
+			$selectedModule = $request->getByType('sourceModule', 2);
 		}
 		$sourceField = $request->get('sourcefield');
 		$targetField = $request->get('targetfield');
@@ -52,7 +52,7 @@ class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View
 	public function getDependencyGraph(\App\Request $request)
 	{
 		$qualifiedName = $request->getModule(false);
-		$module = $request->getByType('sourceModule', 1);
+		$module = $request->getByType('sourceModule', 2);
 		$sourceField = $request->get('sourcefield');
 		$targetField = $request->get('targetfield');
 		$recordModel = Settings_PickListDependency_Record_Model::getInstance($module, $sourceField, $targetField);

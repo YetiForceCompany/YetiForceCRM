@@ -238,4 +238,26 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		//set the column_fields so that its available in the event handlers
 		$this->set('filename', $fileName)->set('filesize', $fileSize)->set('filetype', $fileType)->set('filedownloadcount', $fileDownloadCount);
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function delete()
+	{
+		parent::delete();
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$attachmentsIds = (new \App\Db\Query())->select(['attachmentsid'])->from('vtiger_seattachmentsrel')->where(['crmid' => $this->getId()])->column();
+		if (!empty($attachmentsIds)) {
+			$dataReader = (new \App\Db\Query())->select(['path', 'attachmentsid'])->from('vtiger_attachments')->where(['attachmentsid' => $attachmentsIds])->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				$fileName = $row['path'] . $row['attachmentsid'];
+				if (file_exists($fileName)) {
+					unlink($fileName);
+				}
+			}
+			$dbCommand->delete('vtiger_seattachmentsrel', ['crmid' => $this->getId()])->execute();
+			$dbCommand->delete('vtiger_attachments', ['attachmentsid' => $attachmentsIds])->execute();
+			$dbCommand->delete('vtiger_crmentity', ['crmid' => $attachmentsIds])->execute();
+		}
+	}
 }

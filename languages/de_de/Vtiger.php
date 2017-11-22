@@ -507,6 +507,8 @@ $languageStrings = [
 	'LBL_SELECT_FIELD' => 'Feld auswählen',
 	'LBL_SELECT_MODULE' => 'Modul auswählen',
 	'LBL_SELECT_OPTION' => 'Option auswählen',
+	'LBL_PREV' => 'Previous',
+	'LBL_NEXT' => 'Next',
 	'LBL_SELECT_RELATED_MODULES' => 'Wählen Sie verwandte Module',
 	'LBL_SELECT_STATUS' => 'Status auswählen',
 	'LBL_SELECT_TO_LOAD_LIST' => 'Liste laden',
@@ -1333,6 +1335,7 @@ $languageStrings = [
 	'LBL_DELETE_RECORD_COMPLETELY' => 'Delete record from system',
 	'LBL_DELETE_RECORD_COMPLETELY_DESC' => 'Deleting a record is permanent and irreversible for all record\'s information. Are you sure you want to delete the record?',
 	'LBL_RECORD_HAS_BEEN_DELETED' => 'Record has been deleted',
+	'LBL_SHOW_INVENTORY_ROW' => 'Show additional information',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',

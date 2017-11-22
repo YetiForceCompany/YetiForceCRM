@@ -235,19 +235,6 @@ class Products extends CRMEntity
 		}
 	}
 
-	/**
-	 * Function to unlink all the dependent entities of the given Entity by Id
-	 * @param string $moduleName
-	 * @param int $recordId
-	 */
-	public function deletePerminently($moduleName, $recordId)
-	{
-		$db = \App\Db::getInstance();
-		$db->createCommand()->update('vtiger_campaign', ['product_id' => 0], ['product_id' => $id])->execute();
-		$db->createCommand()->delete('vtiger_seproductsrel', ['or', ['productid' => $recordId], ['crmid' => $recordId]])->execute();
-		parent::deletePerminently($moduleName, $recordId);
-	}
-
 	// Function to unlink an entity with given Id from another entity
 	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{

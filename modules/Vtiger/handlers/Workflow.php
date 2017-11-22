@@ -13,7 +13,11 @@ class Vtiger_Workflow_Handler
 
 	private $workflows;
 
-	public function entityAfterRestore(App\EventHandler $eventHandler)
+	/**
+	 * EntityChangeState handler function
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityChangeState(App\EventHandler $eventHandler)
 	{
 		$this->entityAfterSave($eventHandler);
 	}

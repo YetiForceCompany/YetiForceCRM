@@ -24,8 +24,8 @@
 		</div>
 	</div>
 	<div class="popupEntriesDiv relatedContents contents-bottomscroll">
-		<input type="hidden" value="{$ORDER_BY}" id="orderBy">
-		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
+		<input type="hidden" value="{$ORDER_BY}" id="orderBy" />
+		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<div class="bottomscroll-div">
 			<table class="table table-bordered listViewEntriesTable">

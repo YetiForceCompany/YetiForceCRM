@@ -15,6 +15,7 @@ $languageStrings = [
 	// Action types 
 	'LBL_AT_UPDATE' => 'Modify',
 	'LBL_AT_DELETE' => 'Delete',
+	'LBL_AT_TRASH' => 'Move to Recycle Bin',
 	'LBL_AT_CREATE' => 'Create',
 	'LBL_AT_RESTORE' => 'Restore',
 	'LBL_AT_LINK' => 'Link',
@@ -23,6 +24,7 @@ $languageStrings = [
 	'LBL_AT_DISPLAY' => 'View',
 	'LBL_AT_UPDATE_P' => 'Modified',
 	'LBL_AT_DELETE_P' => 'Deleted',
+	'LBL_AT_TRASH_P' => 'Moved to Recycle Bin',
 	'LBL_AT_CREATE_P' => 'Created',
 	'LBL_AT_RESTORE_P' => 'Restored',
 	'LBL_AT_LINK_P' => 'Linked',

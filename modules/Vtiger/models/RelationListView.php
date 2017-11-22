@@ -168,19 +168,17 @@ class Vtiger_RelationListView_Model extends \App\Base
 	{
 		$relatedModuleName = $this->getRelatedModuleModel()->getName();
 		$queryGenerator = $this->getRelationModel()->getQueryGenerator();
-		$srcRecord = $this->get('src_record');
-		if ($relatedModuleName === $this->get('src_module') && !empty($srcRecord)) {
-			$queryGenerator->addCondition('id', $srcRecord, 'n');
+		if ($entityState = $this->get('entityState')) {
+			$queryGenerator->setStateCondition($entityState);
 		}
-		$searchParams = $this->get('search_params');
-		if ($searchParams) {
+		if ($relatedModuleName === $this->get('src_module') && !$this->isEmpty('src_record')) {
+			$queryGenerator->addCondition('id', $this->get('src_record'), 'n');
+		}
+		if ($searchParams = $this->get('search_params')) {
 			$queryGenerator->parseAdvFilter($searchParams);
 		}
-		$searchKey = $this->get('search_key');
-		$searchValue = $this->get('search_value');
-		$operator = $this->get('operator');
-		if (!empty($searchKey)) {
-			$queryGenerator->addBaseSearchConditions($searchKey, $searchValue, $operator);
+		if (!$this->isEmpty('search_key')) {
+			$queryGenerator->addBaseSearchConditions($this->get('search_key'), $this->get('search_value'), $this->get('operator'));
 		}
 	}
 

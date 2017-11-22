@@ -21,7 +21,7 @@ class OSSTimeControl_GetTCInfo_Action extends Vtiger_Action_Controller
 		}
 
 		$srecord = $request->getInteger('id');
-		$smodule = $request->getByType('sourceModule', 1);
+		$smodule = $request->getByType('sourceModule', 2);
 
 		$recordPermission = \App\Privilege::isPermitted($smodule, 'DetailView', $srecord);
 		if (!$recordPermission) {
@@ -37,7 +37,7 @@ class OSSTimeControl_GetTCInfo_Action extends Vtiger_Action_Controller
 		$moduleName = $request->getModule();
 
 		$id = $request->getInteger('id');
-		$sourceModule = $request->getByType('sourceModule', 1);
+		$sourceModule = $request->getByType('sourceModule', 2);
 
 		$sourceData = [];
 

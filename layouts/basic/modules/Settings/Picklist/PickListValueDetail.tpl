@@ -29,7 +29,7 @@
 							{assign var=PICKLIST_VALUES value=$SELECTED_PICKLISTFIELD_ALL_VALUES}
 							{foreach key=PICKLIST_KEY item=PICKLIST_VALUE from=$PICKLIST_VALUES}
 								<tr class="pickListValue" data-key-id="{$PICKLIST_KEY}" data-key="{\App\Purifier::encodeHtml($PICKLIST_VALUE)}">
-									<td class="textOverflowEllipsis"><img class="alignMiddle" src="{\App\Layout::getImagePath('drag.png')}"/>&nbsp;&nbsp;{\App\Language::translate($PICKLIST_VALUE,$SELECTED_MODULE_NAME)}</td>
+									<td class="textOverflowEllipsis"><img class="alignMiddle" src="{\App\Layout::getImagePath('drag.png')}" />&nbsp;&nbsp;{\App\Language::translate($PICKLIST_VALUE,$SELECTED_MODULE_NAME)}</td>
 								</tr>
 							{/foreach}
 							</tbody>

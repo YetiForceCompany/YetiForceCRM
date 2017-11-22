@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<br />
 	<div class="row">
@@ -33,8 +33,8 @@
 				{if $COLOR_NO_COLUMN}
 					<div class="alert alert-warning" role="alert">
 						<strong>{\App\Language::translate('LBL_WARNING',$QUALIFIED_MODULE)}!</strong> {\App\Language::translate('LBL_PICKLIST_COLOR_COL_NOT_FOUND',$QUALIFIED_MODULE)}
-						<br>
-						<br>
+						<br />
+						<br />
 						<button data-module="{$SELECTED_MODULE_NAME}" data-fieldId="{$SELECTED_PICKLIST_FIELD_ID}" class="btn btn-sm btn-primary marginLeft10 addPicklistColorColumn">{\App\Language::translate('LBL_UPDATE_COLOR_COLUMN',$QUALIFIED_MODULE)}</button>
 					</div>
 				{else}

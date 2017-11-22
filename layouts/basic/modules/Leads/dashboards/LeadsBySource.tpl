@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  ************************************************************************************/
 -->*}
-<div class="dashboardWidgetHeader">	
+<div class="dashboardWidgetHeader">
 {assign var=WIDGET_WIDTH value=$WIDGET->getWidth()}
 <div class="row">
 	<div class="col-md-8">
@@ -21,20 +21,19 @@
 		</div>
 	</div>
 </div>
-<hr class="widgetHr"/>
+<hr class="widgetHr" />
 <div class="row">
 	<div class="col-sm-6">
 		<div class="input-group input-group-sm">
 			<span class=" input-group-addon"><span class="glyphicon glyphicon-calendar iconMiddle"></span></span>
-			<input type="text" name="createdtime" title="{\App\Language::translate('Created Time', $MODULE_NAME)}" class="dateRangeField form-control widgetFilter width90" value="{implode(',', $DTIME)}"/>
+			<input type="text" name="createdtime" title="{\App\Language::translate('Created Time', $MODULE_NAME)}" class="dateRangeField form-control widgetFilter width90" value="{implode(',', $DTIME)}" />
 		</div>
 	</div>
 	<div class="col-sm-6">
 		{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
 	</div>
-</div>	
+</div>
 </div>
 <div class="dashboardWidgetContent">
 	{include file=\App\Layout::getTemplatePath('dashboards/DashBoardWidgetContents.tpl', $MODULE_NAME)}
 </div>
-

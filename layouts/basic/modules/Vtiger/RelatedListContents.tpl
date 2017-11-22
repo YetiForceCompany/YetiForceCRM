@@ -3,7 +3,7 @@
 	{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $RELATED_MODULE_NAME) MODULE_MODEL=$RELATED_MODULE}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	<div class="listViewEntriesDiv contents-bottomscroll">
-		<table class="table table-bordered listViewEntriesTable">
+		<table class="table table-bordered listViewEntriesTable {if $LIST_VIEW_MODEL && !$LIST_VIEW_MODEL->isEmpty('entityState')}listView{$LIST_VIEW_MODEL->get('entityState')}{/if}">
 			<thead>
 				<tr class="listViewHeaders">
 					{assign var=COUNT value=0}
@@ -24,12 +24,19 @@
 						</th>
 					{/foreach}
 					{if $SHOW_CREATOR_DETAIL}
-						<th>{\App\Language::translate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE->get('name'))}</th>
-						<th>{\App\Language::translate('LBL_RELATION_CREATED_USER', $RELATED_MODULE->get('name'))}</th>
-						{/if}
-						{if $SHOW_COMMENT}
-						<th>{\App\Language::translate('LBL_RELATION_COMMENT', $RELATED_MODULE->get('name'))}</th>
-						{/if}
+						<th>
+							{\App\Language::translate('LBL_RELATION_CREATED_TIME', $RELATED_MODULE->get('name'))}
+						</th>
+						<th>
+							{\App\Language::translate('LBL_RELATION_CREATED_USER', $RELATED_MODULE->get('name'))}
+						</th>
+					{/if}
+					{if $SHOW_COMMENT}
+						<th>
+							{\App\Language::translate('LBL_RELATION_COMMENT', $RELATED_MODULE->get('name'))}
+						</th>
+					{/if}
+					{if $INVENTORY_MODULE && !empty($INVENTORY_FIELDS)}<th></th>{/if}
 				</tr>
 			</thead>
 			{if $RELATED_MODULE->isQuickSearchEnabled()}
@@ -51,19 +58,20 @@
 					{/foreach}
 					<td>
 						<button type="button" class="btn btn-default removeSearchConditions">
-							<span class="glyphicon glyphicon-remove"></button>
-						</a>
+							<span class="glyphicon glyphicon-remove">
+						</button>
 					</td>
 				</tr>
 			{/if}
 			{assign var="RELATED_HEADER_COUNT" value=count($RELATED_HEADERS)}
 			{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
+				{assign var="RECORD_COLORS" value=$RELATED_RECORD->getListViewColor()}
 				<tr class="listViewEntries" data-id='{$RELATED_RECORD->getId()}'
 					{if $RELATED_RECORD->isViewable()}
 						data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}'
 					{/if}>
 					{assign var=COUNT value=0}
-					<td class="{$WIDTHTYPE} noWrap leftRecordActions">
+					<td class="{$WIDTHTYPE} noWrap leftRecordActions" {if $RECORD_COLORS['leftBorder']}style="border-left-color: {$RECORD_COLORS['leftBorder']};"{/if}>
 						{include file=\App\Layout::getTemplatePath('RelatedListLeftSide.tpl', $RELATED_MODULE_NAME)}
 					</td>
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS name=listHeaderForeach}
@@ -94,8 +102,14 @@
 					{if $SHOW_COMMENT}
 						<td class="medium" data-field-type="rel_comment" nowrap>{$RELATED_RECORD->get('rel_comment')}</td>
 					{/if}
+					{if $INVENTORY_MODULE && !empty($INVENTORY_FIELDS)}
+						{$COUNT = $COUNT+1}
+						<td class="medium" nowrap>
+							<button type="button" class="btn btn-sm btn-info popoverTooltip showInventoryRow" data-placement="left" data-content="{\App\Language::translate('LBL_SHOW_INVENTORY_ROW')}"><span class="glyphicon glyphicon-resize-vertical"></span></button>
+						</td>
+					{/if}
 				</tr>
-				{if $RELATED_RECORD->getModule()->isInventory() && !empty($INVENTORY_FIELDS)}
+				{if $INVENTORY_MODULE && !empty($INVENTORY_FIELDS)}
 					{assign var="INVENTORY_DATA" value=$RELATED_RECORD->getInventoryData()}
 					<tr class="listViewInventoryEntries hide">
 						{if $RELATED_MODULE->isQuickSearchEnabled()}
@@ -106,8 +120,10 @@
 								<thead>
 									<tr>
 										{foreach from=$INVENTORY_FIELDS item=FIELD key=NAME}
-											<th class="medium" nowrap>{\App\Language::translate($FIELD->get('label'),$RELATED_MODULE_NAME)}</th>
-											{/foreach}
+											<th class="medium" nowrap>
+												{\App\Language::translate($FIELD->get('label'),$RELATED_MODULE_NAME)}
+											</th>
+										{/foreach}
 									</tr>
 								</thead>
 								<tbody>

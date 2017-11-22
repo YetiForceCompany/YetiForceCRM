@@ -11,7 +11,7 @@
 					{foreach key=KEY item=WORKFLOW from=$WORKFLOWS}
 						<div class="row" data-workflow_id="{$WORKFLOW->id}">
 							<div class="col-md-1">
-								<input type="checkbox"  id="wf_{$WORKFLOW->id}" value="{$WORKFLOW->id}"/>
+								<input type="checkbox"  id="wf_{$WORKFLOW->id}" value="{$WORKFLOW->id}" />
 							</div>
 							<div class="col-md-11">
 								<label for="wf_{$WORKFLOW->id}">{\App\Language::translate({$WORKFLOW->description},$QUALIFIED_MODULE)}</label>

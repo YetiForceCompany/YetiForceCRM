@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<input id="addFilterUrl" type="hidden" value="{$MODULE_MODEL->getCreateFilterUrl($SOURCE_MODULE_ID)}"/>
+	<input id="addFilterUrl" type="hidden" value="{$MODULE_MODEL->getCreateFilterUrl($SOURCE_MODULE_ID)}" />
 	<div class="table-responsive">
 		<table class="table table-striped table-bordered table-condensed listViewEntriesTable">
 			<thead>
@@ -19,7 +19,7 @@
 				{foreach from=$MODULE_MODEL->getCustomViews($SOURCE_MODULE_ID) item=item key=key}
 					<tr data-cvid="{$key}" data-mod="{$item['entitytype']}">
 						<td>
-							<img src="{\App\Layout::getImagePath('drag.png')}" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+							<img src="{\App\Layout::getImagePath('drag.png')}" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
 						</td>
 						{if $item['viewname'] eq 'All'}
 							<td>{\App\Language::translate('All',$item['entitytype'])}</td>

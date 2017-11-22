@@ -6,8 +6,8 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
-	'LBL_COMPANIES' => 'Detalles de la empresa',
-	'Companies' => 'Detalles de la empresa',
+	'LBL_COMPANIES' => 'Datos de mis empresas',
+	'Companies' => 'Datos de mis empresas',
 	'LBL_COMPANIES_DESCRIPTION' => 'Gestionar los datos de la empresa',
 	// Fields
 	'LBL_ID' => 'Id',

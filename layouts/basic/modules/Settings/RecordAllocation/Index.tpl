@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<input type="hidden" id="fieldType" value="{$TYPE}"/>
+	<input type="hidden" id="fieldType" value="{$TYPE}" />
 	{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers('Public')}
 	{assign var=ALL_MODULE_LIST value=Vtiger_Module_Model::getAll([0],[],true)}
 	<div class="">

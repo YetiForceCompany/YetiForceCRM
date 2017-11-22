@@ -7,20 +7,17 @@
  * All Rights Reserved.
  *************************************************************************************/
 
-PriceBooks_RelatedList_Js("Products_RelatedList_Js",{},{
-	
+PriceBooks_RelatedList_Js("Products_RelatedList_Js", {}, {
+
 	/**
 	 * Function to get params for show event invocation
 	 */
-	getPopupParams : function(){
-		var parameters = {
-			'module' : this.relatedModulename,
-			'src_module' :this.parentModuleName ,
-			'src_record' : this.parentRecordId,
-			'view' : "ProductPriceBookPopup",
-			'src_field' : 'productsRelatedList',
-			'multi_select' : true
-		};
-		return parameters;
+	getPopupParams: function () {
+		var params = this._super();
+		if (this.moduleName === 'PriceBooks') {
+			params['view'] = "ProductPriceBookPopup";
+			params['src_field'] = 'productsRelatedList';
+		}
+		return params;
 	}
 });

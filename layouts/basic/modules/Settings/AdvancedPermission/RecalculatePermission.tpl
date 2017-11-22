@@ -11,9 +11,9 @@
 		</div>
 	</div>
 	<form class="sendByAjax">
-		<input type="hidden" name="action" value="RecalculatePermission">
-		<input type="hidden" name="module" value="{$MODULE_NAME}">
-		<input type="hidden" name="parent" value="Settings">
+		<input type="hidden" name="action" value="RecalculatePermission" />
+		<input type="hidden" name="module" value="{$MODULE_NAME}" />
+		<input type="hidden" name="parent" value="Settings" />
 		<div class="modal-body row">
 			<div class="col-xs-12">
 				<div class="col-xs-12 paddingLRZero marginBottom10px">

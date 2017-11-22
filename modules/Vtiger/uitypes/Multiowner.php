@@ -63,7 +63,7 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 			if ($rawText) {
 				$displayvalue[] = \App\Fields\Owner::getLabel($value);
 			} else {
-				$displayvalue[] = "<a href=" . $detailViewUrl . ">" . \App\Fields\Owner::getLabel($value) . "</a>&nbsp";
+				$displayvalue[] = "<a href=" . $detailViewUrl . ">" . \App\Fields\Owner::getLabel($value) . "</a>&nbsp;";
 			}
 		}
 		return implode(',', $displayvalue);

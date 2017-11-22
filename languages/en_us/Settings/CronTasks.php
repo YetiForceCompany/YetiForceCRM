@@ -59,6 +59,12 @@ $languageStrings = [
 	'LBL_CARD_DAV' => 'CardDav integration',
 	'LBL_CAL_DAV' => 'CalDav integration',
 	'LBL_CLEAR_ATTACHMENTS_TABLE' => 'Clear attachments table',
+	'LBL_SMSNOTIFIER' => 'SMS messages',
+	'LBL_CACHE' => 'Clean cache files',
+ 	'LBL_NEVER_ENDING_RECURRING_EVENTS' => 'Generate recurring events',
+ 	'LBL_BROWSING_HISTORY' => 'Delete browsing history',
+ 	'LBK_SYSTEM_WARNINGS' => 'Notifications with system warnings',
+ 	'LBL_BATCH_PROCESSES' => 'Batch processes for servicing long-lasting actions',
 ];
 $jsLanguageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Recommended frequency for Scheduled Import is 15 mins',

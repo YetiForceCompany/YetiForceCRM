@@ -10,7 +10,7 @@
 				<form class="form-horizontal recordEditView" name="QuickCreate" method="post" action="index.php">
 					<div class="modal-header">
 						<div class="pull-left">
-							<h3 class="modal-title quickCreateTitle">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:&nbsp <p class="textTransform"><b>{\App\Language::translate($SINGLE_MODULE, $MODULE)}<b></p></h3>
+							<h3 class="modal-title quickCreateTitle">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:&nbsp; <p class="textTransform"><b>{\App\Language::translate($SINGLE_MODULE, $MODULE)}<b></p></h3>
 						</div>
 						<div class="pull-right quickCreateActions pullRight">
 							{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
@@ -31,8 +31,8 @@
 						<input type="hidden" name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}' />
 					{/if}
 					<input type="hidden" id="disallowLongerThan24Hours" value="{AppConfig::module('OSSTimeControl', 'DISALLOW_LONGER_THAN_24_HOURS')}" />
-					<input type="hidden" name="module" value="{$MODULE}">
-					<input type="hidden" name="action" value="SaveAjax">
+					<input type="hidden" name="module" value="{$MODULE}" />
+					<input type="hidden" name="action" value="SaveAjax" />
 					<div class="quickCreateContent">
 						<div class="modal-body row no-margin">
 							<div class="massEditTable row no-margin">

@@ -5152,8 +5152,16 @@ html,body,.baseContainer
 	display:inline-block;
 	width:100%;
 }
-.detailViewTable .blockHeader .iconCollapse{
+.detailViewTable .blockHeader .iconCollapse, .detailViewBlockLink .blockHeader .iconCollapse{
 	padding: 10px;
+}
+.detailViewTable, .detailViewBlockLink{
+	margin-bottom: 10px;
+}
+.detailViewBlockLink .moduleIcon{
+	margin-right: 7px;
+	margin-left: 5px;
+	vertical-align: middle;
 }
 .blockHeader .iconCollapse h4{
 	display: inline-block;
@@ -5906,7 +5914,7 @@ select.form-control {
 .dropdownEntityState ul li{
 	border-left: 10px solid #fff;
 }
-.listViewAll tbody tr.listViewEntries > td:first-child{
+.listViewAll tbody tr.listViewEntries > td:first-child, .listViewAll .listViewEntriesTable tbody tr > td:first-child{
 	border-left: 10px solid #ddd;
 }
 .entityStateIcon{
@@ -5930,3 +5938,22 @@ select.form-control {
 select[readonly], select[disabled]{
 	pointer-events: none;
 }
+.relatedTabModulesList .form-group{
+	margin-bottom: 5px;
+}
+.relatedTabModulesList .panel-heading{
+	padding: 10px 15px;
+}
+.relatedTabModulesList .panel-body{
+	padding: 8px 0px 0px 0px;
+}
+.relatedTabModulesList .panel{
+	margin-bottom: 10px;
+}
+.tableBorderHeadBody thead, .tableBorderHeadBody tbody{
+	border: 1px solid #ddd;
+}
+.listViewEntriesTable .listViewSummation td.border{
+	border: 1px solid #ddd;
+}
+

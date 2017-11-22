@@ -6,14 +6,13 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-
 Vtiger_List_Js("Settings_Vtiger_List_Js", {
 	triggerDelete: function (event, url) {
 		event.stopPropagation();
 		var instance = Vtiger_List_Js.getInstance();
 		instance.DeleteRecord(url);
 	},
-	delete: function (id) {
+	deleteById: function (id) {
 		var aDeferred = jQuery.Deferred();
 		var instance = Vtiger_List_Js.getInstance();
 		var params = $.extend(instance.getDeleteParams(), {

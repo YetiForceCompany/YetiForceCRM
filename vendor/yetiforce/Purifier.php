@@ -317,6 +317,11 @@ class Purifier
 						$value = $input;
 					}
 					break;
+				case 'Integer': // Integer
+					if (($input = filter_var($input, FILTER_VALIDATE_INT)) !== false) {
+						$value = $input;
+					}
+					break;
 				default:
 					$value = Purifier::purify($value);
 					break;

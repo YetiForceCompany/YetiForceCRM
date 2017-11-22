@@ -152,8 +152,8 @@
 			{if $_FIELD_TYPE eq 'picklist' || $_FIELD_TYPE eq 'multipicklist'}
 				<select id="{$_FIELD_ID}_defaultvalue" {if $_FIELD_TYPE eq 'multipicklist'} multiple {/if} class="form-control" disabled>
 					{if $_FIELD_INFO->getFieldName() neq 'hdnTaxType' || $_FIELD_TYPE neq 'multipicklist'} <option value=" ">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option> {/if}
-					{foreach item=_PICKLIST_DETAILS from=$_FIELD_INFO->getPicklistDetails()}
-						<option value="{$_PICKLIST_DETAILS.value}">{\App\Language::translate($_PICKLIST_DETAILS.label, $REL_MODULE_MODEL->getName())}</option>
+					{foreach key=KEY item=PICKLIST_VALUE from=$_FIELD_INFO->getPicklistValues()}
+						<option value="{$KEY}">{\App\Language::translate($PICKLIST_VALUE, $REL_MODULE_MODEL->getName())}</option>
 					{/foreach}
 				</select>
 			{elseif in_array($_FIELD_TYPE, ['owner', 'sharedOwner']) || $_FIELD_UITYPE eq '52'}
@@ -171,7 +171,7 @@
 			{elseif $_FIELD_TYPE eq 'date'}
 				<input type="text" id="{$_FIELD_ID}_defaultvalue" data-date-format="{$DATE_FORMAT}" class="defaultInputTextContainer form-control col-md-2 dateField" value="" disabled/>
 			{elseif $_FIELD_TYPE eq 'datetime'}
-				<input type="text" id="{$_FIELD_ID}_defaultvalue" class="defaultInputTextContainer form-control col-md-2" value="" data-date-format="{$DATE_FORMAT}"/>
+				<input type="text" id="{$_FIELD_ID}_defaultvalue" class="defaultInputTextContainer form-control col-md-2" value="" data-date-format="{$DATE_FORMAT}" />
 			{elseif $_FIELD_TYPE eq 'boolean'}
 				<input type="checkbox" id="{$_FIELD_ID}_defaultvalue" class="" disabled/>
 			{elseif !in_array($_FIELD_TYPE,['sharedOwner','reference'])}

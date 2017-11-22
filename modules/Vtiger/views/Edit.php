@@ -107,7 +107,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		//if it is relation edit
 		$viewer->assign('IS_RELATION_OPERATION', $isRelationOperation);
 		if ($isRelationOperation) {
-			$sourceModule = $request->getByType('sourceModule', 1);
+			$sourceModule = $request->getByType('sourceModule', 2);
 			$sourceRecord = $request->getInteger('sourceRecord');
 
 			$viewer->assign('SOURCE_MODULE', $sourceModule);

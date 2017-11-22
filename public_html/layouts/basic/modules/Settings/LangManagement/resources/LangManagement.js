@@ -367,7 +367,7 @@ var Settings_Index_Js = {
 		}
 		params.async = false;
 		params.dataType = 'json';
-		AppConnector.request(params).done(
+		AppConnector.request(params).then(
 				function (data) {
 					response = data['result'];
 					var params = {

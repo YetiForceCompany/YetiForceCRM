@@ -85,7 +85,7 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => 'javascript:Settings_Vtiger_List_Js.delete(' . $this->getId() . ');',
+				'linkurl' => 'javascript:Settings_Vtiger_List_Js.deleteById(' . $this->getId() . ');',
 				'linkicon' => 'glyphicon glyphicon-trash',
 				'linkclass' => 'btn btn-sm btn-danger'
 			]

@@ -1,19 +1,19 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} --!>*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 {foreach key=index item=jsModel from=$SCRIPTS}
 	<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 {/foreach}
 {assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-<input type="hidden" id="allowedLetters" value="{$allowChars}">
-<input type="hidden" id="maxChars" value="{$passLengthMax}">
-<input type="hidden" id="minChars" value="{$passLengthMin}">
+<input type="hidden" id="allowedLetters" value="{$allowChars}" />
+<input type="hidden" id="maxChars" value="{$passLengthMax}" />
+<input type="hidden" id="minChars" value="{$passLengthMin}" />
 <div class="modelContainer modal fade" tabindex="-1">
 	<div class="modal-dialog modal-full">
 		<div class="modal-content">
 			<form class="form-horizontal recordEditView" name="QuickCreate" method="post" action="index.php">
 				<div class="modal-header">
 					<div class="pull-left">
-						<h3 class="modal-title quickCreateTitle">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:&nbsp <p class="textTransform"><b>{\App\Language::translate($SINGLE_MODULE, $MODULE)}<b></p></h3>
+						<h3 class="modal-title quickCreateTitle">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:&nbsp;<p class="textTransform"><b>{\App\Language::translate($SINGLE_MODULE, $MODULE)}<b></p></h3>
 					</div>
 					<div class="pull-right quickCreateActions pullRight">
 						{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
@@ -34,8 +34,8 @@
 				{if !empty($MAPPING_RELATED_FIELD)}
 					<input type="hidden" name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}' />
 				{/if}
-				<input type="hidden" name="module" value="{$MODULE}">
-				<input type="hidden" name="action" value="SaveAjax">
+				<input type="hidden" name="module" value="{$MODULE}" />
+				<input type="hidden" name="action" value="SaveAjax" />
 				<div class="quickCreateContent">
 					<div class="modal-body row no-margin">
 						<div class="massEditTable row no-margin">

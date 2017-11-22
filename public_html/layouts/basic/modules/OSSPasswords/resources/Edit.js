@@ -8,7 +8,6 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js",{},{
 		if(typeof form == 'undefined') {
 			form = this.getForm();
 		}
-
 		form.on(Vtiger_Edit_Js.recordPreSave, function(e, data) {
 			var password = form.find('[name="password"]').val();
 			var id = form.find('[name="record"]').val();
@@ -21,7 +20,7 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js",{},{
 					record : id
 				};
 				params.async = false;
-				AppConnector.request(params).done(
+				AppConnector.request(params).then(
 					function(data) {
 						var response = data['result'];
 						if (response['success']) {

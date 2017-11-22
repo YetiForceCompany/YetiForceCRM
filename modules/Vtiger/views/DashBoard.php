@@ -16,7 +16,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$sourceModule = $request->getByType('sourceModule', 1);
+		$sourceModule = $request->getByType('sourceModule', 2);
 		if (empty($sourceModule)) {
 			$sourceModule = $moduleName;
 		}

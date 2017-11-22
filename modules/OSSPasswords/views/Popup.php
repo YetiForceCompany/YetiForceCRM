@@ -18,7 +18,7 @@ class OSSPasswords_Popup_View extends Vtiger_Popup_View
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $this->getModule($request);
-		$sourceModule = $request->getByType('src_module', 1);
+		$sourceModule = $request->getByType('src_module', 2);
 		$sourceRecord = $request->getInteger('src_record');
 
 		$showFilter = (in_array($sourceModule, ['HelpDesk', 'Project', 'SSalesProcesses']) && $moduleName == 'OSSPasswords') ? true : false;

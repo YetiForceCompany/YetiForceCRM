@@ -30,7 +30,7 @@ class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 			$pageNumber = 1;
 		}
 		if (!$request->isEmpty('sourceModule')) {
-			$sourceModule = $request->getByType('sourceModule', 1);
+			$sourceModule = $request->getByType('sourceModule', 2);
 			$listViewModel->set('sourceModule', $sourceModule);
 		}
 

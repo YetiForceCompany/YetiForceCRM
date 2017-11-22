@@ -60,6 +60,12 @@ $languageStrings = [
 	'LBL_CARD_DAV' => 'Интеграция с CardDav',
 	'LBL_CAL_DAV' => 'Интеграция с CalDav ',
 	'LBL_CLEAR_ATTACHMENTS_TABLE' => 'Очистить вложения',
+	'LBL_SMSNOTIFIER' => 'SMS messages',
+	'LBL_CACHE' => 'Clean cache files',
+ 	'LBL_NEVER_ENDING_RECURRING_EVENTS' => 'Generate recurring events',
+ 	'LBL_BROWSING_HISTORY' => 'Delete browsing history',
+ 	'LBK_SYSTEM_WARNINGS' => 'Notifications with system warnings',
+ 	'LBL_BATCH_PROCESSES' => 'Batch processes for servicing long-lasting actions',
 ];
 $jsLanguageStrings = [
 	'FREQUENCY_NUMBER' => 'Частота указывается в целых числах',

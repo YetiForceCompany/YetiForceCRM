@@ -17,7 +17,7 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_IndexAj
 		if ($mode === 'delete' && !$currentUserModel->isAdminUser()) {
 			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
-		$sourceModule = $request->getByType('sourceModule', 1);
+		$sourceModule = $request->getByType('sourceModule', 2);
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($sourceModule, 'Save')) {
 			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
@@ -34,7 +34,7 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_IndexAj
 	public function save(\App\Request $request)
 	{
 		$data = $request->get('form');
-		$moduleName = $request->getByType('sourceModule', 1);
+		$moduleName = $request->getByType('sourceModule', 2);
 		$addToUser = $request->get('addToUser');
 		if (!is_array($data) || !$data) {
 			$result = ['success' => false, 'message' => \App\Language::translate('LBL_INVALID_DATA', $moduleName)];
@@ -53,7 +53,7 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_IndexAj
 	public function delete(\App\Request $request)
 	{
 		$data = $request->get('form');
-		$moduleName = $request->getByType('sourceModule', 1);
+		$moduleName = $request->getByType('sourceModule', 2);
 		if (!is_array($data) || !$data) {
 			$result = ['success' => false, 'message' => \App\Language::translate('LBL_INVALID_DATA', $moduleName)];
 		} else {

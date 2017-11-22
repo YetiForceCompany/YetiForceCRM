@@ -14,11 +14,11 @@
 	{assign var=MODULE_NAME value="Calendar"}
 	{if count($ACTIVITIES) neq '0'}
 		{if $PAGE_NUMBER eq 1}
-			<input type="hidden" class="totaltActivities" value="{$PAGING_MODEL->get('totalCount')}">
-			<input type="hidden" class="pageLimit" value="{$PAGING_MODEL->getPageLimit()}">
+			<input type="hidden" class="totaltActivities" value="{$PAGING_MODEL->get('totalCount')}" />
+			<input type="hidden" class="pageLimit" value="{$PAGING_MODEL->getPageLimit()}" />
 		{/if}
-		<input type="hidden" class="countActivities" value="{count($ACTIVITIES)}">
-		<input type="hidden" class="currentPage" value="{$PAGE_NUMBER}">
+		<input type="hidden" class="countActivities" value="{count($ACTIVITIES)}" />
+		<input type="hidden" class="currentPage" value="{$PAGE_NUMBER}" />
 		{foreach item=RECORD key=KEY from=$ACTIVITIES name=activities}
 			{if $PAGE_NUMBER neq 1 && $smarty.foreach.activities.first}
 				<hr>
@@ -30,7 +30,7 @@
 			{assign var=STATUS value=$RECORD->getDisplayValue('status')}
 			{assign var=SHAREDOWNER value=Vtiger_SharedOwner_UIType::getSharedOwners($RECORD->get('crmid'), $RECORD->getModuleName())}
 			<div class="activityEntries padding5">
-				<input type="hidden" class="activityId" value="{$RECORD->get('activityid')}"/>
+				<input type="hidden" class="activityId" value="{$RECORD->get('activityid')}" />
 				<div class="row">
 					<span class="col-md-6">
 						<strong title='{Vtiger_Util_Helper::formatDateTimeIntoDayString("$START_DATE $START_TIME")}'><span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;{Vtiger_Util_Helper::formatDateIntoStrings($START_DATE, $START_TIME)}</strong>
@@ -41,8 +41,8 @@
 				</div>
 				<div class="summaryViewEntries">
 					{assign var=ACTIVITY_UPPERCASE value=$RECORD->get('activitytype')|upper}
-					<img src="{Vtiger_Theme::getOrignOrDefaultImgPath($ACTIVITY_TYPE, 'Calendar')}" width="14px" class="textOverflowEllipsis" alt="{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}"/>&nbsp;&nbsp;
-					{$RECORD->getDisplayValue('activitytype')}&nbsp;-&nbsp; 
+					<img src="{Vtiger_Theme::getOrignOrDefaultImgPath($ACTIVITY_TYPE, 'Calendar')}" width="14px" class="textOverflowEllipsis" alt="{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}" />&nbsp;&nbsp;
+					{$RECORD->getDisplayValue('activitytype')}&nbsp;-&nbsp;
 					{if $RECORD->isViewable()}
 						<a href="{$RECORD->getDetailViewUrl()}" >
 							{$RECORD->getDisplayValue('subject')}</a>
@@ -62,10 +62,10 @@
 				</div>
 				<div class="row">
 					<div class="activityStatus col-md-12">
-						<input type="hidden" class="activityType" value="{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}"/>
+						<input type="hidden" class="activityType" value="{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}" />
 						{if $RECORD->get('activitytype') eq 'Task'}
 							{assign var=MODULE_NAME value=$RECORD->getModuleName()}
-							<input type="hidden" class="activityModule" value="{$RECORD->getModuleName()}"/>
+							<input type="hidden" class="activityModule" value="{$RECORD->getModuleName()}" />
 							{if !$IS_READ_ONLY && $RECORD->isEditable()}
 								<div>
 									<strong>
@@ -80,7 +80,7 @@
 							{/if}
 						{else}
 							{assign var=MODULE_NAME value="Events"}
-							<input type="hidden" class="activityModule" value="Events"/>
+							<input type="hidden" class="activityModule" value="Events" />
 							{if !$IS_READ_ONLY && $RECORD->isEditable()}
 								<div>
 									<strong><span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;<span class="value">{$RECORD->getDisplayValue('status')}</span></strong>&nbsp;&nbsp;
@@ -111,14 +111,14 @@
 								<span class="glyphicon glyphicon-map-marker"></span>&nbsp
 							</a>
 						{/if}
-						<span class="pull-right popoverTooltip delay0" data-placement="top" data-original-title="{\App\Purifier::encodeHtml($RECORD->getDisplayValue('activitytype'))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('subject'))}" 
+						<span class="pull-right popoverTooltip delay0" data-placement="top" data-original-title="{\App\Purifier::encodeHtml($RECORD->getDisplayValue('activitytype'))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('subject'))}"
 							  data-content="{\App\Language::translate('Status',$MODULE_NAME)}: {$STATUS}<br />{\App\Language::translate('Start Time','Calendar')}: {$START_DATE} {$START_TIME}<br />{\App\Language::translate('End Time','Calendar')}: {$END_DATE} {$END_TIME}
 							  {if $RECORD->get('link')}<hr />{App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('link')))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('link'))}{/if}
 							  {if $RECORD->get('process')}<br />{App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('process')))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('process'))}{/if}
 							  {if $RECORD->get('subprocess')}<br />{App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('subprocess')))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('subprocess'))}{/if}
 							  <hr />{\App\Language::translate('Created By',$MODULE_NAME)}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('smcreatorid'))}
 							  <br />{\App\Language::translate('Assigned To',$MODULE_NAME)}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('smownerid'))}
-							  {if $SHAREDOWNER}<div> 
+							  {if $SHAREDOWNER}<div>
 								  {\App\Language::translate('Share with users',$MODULE_NAME)}:&nbsp;
 								  {foreach $SHAREDOWNER item=SOWNERID name=sowner}
 									  {if $smarty.foreach.sowner.last}
@@ -130,7 +130,7 @@
 							  {/if}
 							  {if $MODULE_NAME eq 'Events'}
 								  {if count($RECORD->get('selectedusers')) > 0}
-									  <br />{\App\Language::translate('LBL_INVITE_RECORDS',$MODULE_NAME)}: 
+									  <br />{\App\Language::translate('LBL_INVITE_RECORDS',$MODULE_NAME)}:
 									  {foreach item=USER key=KEY from=$RECORD->get('selectedusers')}
 									  {if $USER}{\App\Purifier::encodeHtml(\App\Fields\Owner::getLabel($USER))}{/if}
 								  {/foreach}

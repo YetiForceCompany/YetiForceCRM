@@ -11,7 +11,7 @@ Vtiger_List_Js("OSSMailView_List_Js", {
 			params.data = {module: 'OSSMailView', action: 'BindMails'};
 			$.extend(params.data, Vtiger_List_Js.getSelectedRecordsParams());
 			params.async = false;
-			AppConnector.request(params).done(function (data) {
+			AppConnector.request(params).then(function (data) {
 				Vtiger_Helper_Js.showPnotify({
 					text: data.result,
 					delay: '4000',

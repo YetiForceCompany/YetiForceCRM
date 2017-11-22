@@ -535,4 +535,13 @@ class Products_Record_Model extends Vtiger_Record_Model
 		}
 		\App\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function delete()
+	{
+		parent::delete();
+		\App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['or', ['productid' => $this->getId()], ['crmid' => $this->getId()]])->execute();
+	}
 }

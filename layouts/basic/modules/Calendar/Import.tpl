@@ -18,17 +18,17 @@
 				<h3 id="importRecordHeader" class="modal-title">{\App\Language::translate('LBL_IMPORT_RECORDS', $MODULE)}</h3>
 			</div>
 			<form method="POST" action="index.php" enctype="multipart/form-data" id="ical_import" name="ical_import">
-				<input type="hidden" value="{$MODULE}" name="module">		
+				<input type="hidden" value="{$MODULE}" name="module" />
 				<div name='importRecordsContent'>
-					<input type="hidden" value="Import" name="view">
-					<input type="hidden" value="importResult" name="mode">
+					<input type="hidden" value="Import" name="view" />
+					<input type="hidden" value="importResult" name="mode" />
 					<div class="modal-body tabbable">
 						<div class="tab-content massEditContent">
 							<table class="massEditTable table table-bordered">
 								<tr>
 									<td class="fieldLabel alignMiddle">{\App\Language::translate('LBL_IMPORT_RECORDS', $MODULE)}</td>
 									<td class="fieldValue">
-										<input type="file" data-validation-engine="validate[required]" id="import_file" name="import_file" accept="{$SUPPORTED_FILE_TYPES_TEXT}" class="small">
+										<input type="file" data-validation-engine="validate[required]" id="import_file" name="import_file" accept="{$SUPPORTED_FILE_TYPES_TEXT}" class="small" />
 										{\App\Language::translate('LBL_IMPORT_SUPPORTED_FILE_TYPES', 'Import')}: {$SUPPORTED_FILE_TYPES_TEXT}
 									</td>
 								</tr>

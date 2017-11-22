@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <div id="treePopupContainer" class="contentsDiv paddingLeftRight10px">
-	<input type="hidden" class="triggerEventName" value="{$TRIGGER_EVENT_NAME}"/>
+	<input type="hidden" class="triggerEventName" value="{$TRIGGER_EVENT_NAME}" />
 	<input type="hidden" name="src_record" value="{$SRC_RECORD}" />
 	<input type="hidden" name="src_field" value="{$SRC_FIELD}" />
 	<input type="hidden" name="template" value="{$TEMPLATE}" />

@@ -34,14 +34,14 @@
 	</div>
 	<div class="listViewEntriesDiv contents-bottomscroll">
 		<div class="bottomscroll-div">
-			<input type="hidden" value="{$ORDER_BY}" id="orderBy">
-			<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
+			<input type="hidden" value="{$ORDER_BY}" id="orderBy" />
+			<input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
 			<div class="listViewLoadingImageBlock hide modal noprint" id="loadingListViewModal">
-				<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}"/>
+				<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}" />
 				<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 			</div>
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-			<table class="table table-bordered listViewEntriesTable {$WIDTHTYPE} {if $LIST_VIEW_MODEL && !$LIST_VIEW_MODEL->isEmpty('entityState')}listView{$LIST_VIEW_MODEL->get('entityState')}{/if}">
+			<table class="table tableBorderHeadBody listViewEntriesTable {$WIDTHTYPE} {if $LIST_VIEW_MODEL && !$LIST_VIEW_MODEL->isEmpty('entityState')}listView{$LIST_VIEW_MODEL->get('entityState')}{/if}">
 				<thead>
 					<tr class="listViewHeaders">
 						<th>
@@ -65,6 +65,7 @@
 						{/foreach}
 					</tr>
 				</thead>
+				<tbody>
 				{if $MODULE_MODEL->isQuickSearchEnabled()}
 					<tr>
 						<td class="listViewSearchTd">
@@ -115,8 +116,22 @@
 						</td>
 					</tr>
 				{/foreach}
+				</tbody>
+				<tfoot class="listViewSummation">
+					<tr>
+						<td></td>
+						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
+							<td {if !empty($LISTVIEW_HEADER->get('maxwidthcolumn'))}style="width:{$LISTVIEW_HEADER->get('maxwidthcolumn')}%"{/if} {if $LISTVIEW_HEADER@last}colspan="2"{/if} class="noWrap {if !empty($LISTVIEW_HEADER->isCalculateField())}border{/if}" >
+								{if !empty($LISTVIEW_HEADER->isCalculateField())}
+									<button class="btn btn-xs btn-default popoverTooltip" data-operator="sum" data-field="{$LISTVIEW_HEADER->getName()}" data-content="{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}">
+										<span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span>
+									</button>
+								{/if}
+							</td>
+						{/foreach}
+					</tr>
+				</tfoot>
 			</table>
-
 			<!--added this div for Temporarily -->
 			{if $LISTVIEW_ENTRIES_COUNT eq '0'}
 				<table class="emptyRecordsDiv">

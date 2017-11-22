@@ -14,18 +14,18 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				{if !$CONVERT_LEAD_FIELDS['Accounts']}
-					<input type="hidden" id="convertLeadErrorTitle" value="{App\Language::translate('LBL_CONVERT_LEAD_ERROR_TITLE',$MODULE)}"/>
-					<input id="convertLeadError" class="convertLeadError" type="hidden" value="{App\Language::translate('LBL_CONVERT_LEAD_ERROR',$MODULE)}"/>
+					<input type="hidden" id="convertLeadErrorTitle" value="{App\Language::translate('LBL_CONVERT_LEAD_ERROR_TITLE',$MODULE)}" />
+					<input id="convertLeadError" class="convertLeadError" type="hidden" value="{App\Language::translate('LBL_CONVERT_LEAD_ERROR',$MODULE)}" />
 				{else}
 					<div class="modal-header contentsBackground">
 						<button data-dismiss="modal" class="close" title="{App\Language::translate('LBL_CLOSE')}">&times;</button>
 						<h3 class="modal-title">{App\Language::translate('LBL_CONVERT_LEAD', $MODULE)}: {$RECORD->getName()}</h3>
 					</div>
 					<form class="form-horizontal" id="convertLeadForm" method="post" action="index.php">
-						<input type="hidden" name="module" value="{$MODULE}"/>
-						<input type="hidden" name="view" value="SaveConvertLead"/>
-						<input type="hidden" name="record" value="{$RECORD->getId()}"/>
-						<input type="hidden" name="modules" value=''/>
+						<input type="hidden" name="module" value="{$MODULE}" />
+						<input type="hidden" name="view" value="SaveConvertLead" />
+						<input type="hidden" name="record" value="{$RECORD->getId()}" />
+						<input type="hidden" name="modules" value='' />
 						<input type="hidden" name="create_account" value="{if $CONVERSION_CONFIG['create_always'] eq 'true'}1{/if}" />
 						<div class="modal-body accordion" id="leadAccordion">
 							{foreach item=MODULE_FIELD_MODEL key=MODULE_NAME from=$CONVERT_LEAD_FIELDS}
@@ -39,7 +39,7 @@
 													<span class="panel-title">&nbsp;{App\Language::translate('LBL_CREATING_NEW', $MODULE_NAME)}&nbsp;{App\Language::translate($SINGLE_MODULE_NAME, $MODULE_NAME)}</span>
 												</label>
 												<span class="pull-right"><i class="iconArrow{if $CONVERT_LEAD_FIELDS['Accounts'] && $MODULE_NAME == "Accounts"} glyphicon glyphicon-chevron-up {else} glyphicon glyphicon-chevron-down {/if}alignBottom"></i></span>
-											</div>	
+											</div>
 										</div>
 									</div>
 									<div id="{$MODULE_NAME}_FieldInfo" class="{$MODULE_NAME}_FieldInfo accordion-body collapse fieldInfo{if $MODULE_NAME eq 'Accounts'} in{/if}">
@@ -48,7 +48,7 @@
 												<tr>
 													<td class="fieldLabel col-xs-5">
 														<label class='muted pull-right marginRight10px'>
-															{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if} 
+															{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
 															{App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
 
 														</label>

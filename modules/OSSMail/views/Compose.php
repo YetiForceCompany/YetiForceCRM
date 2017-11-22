@@ -10,7 +10,7 @@
 /**
  * Compose view class
  */
-class OSSMail_Compose_View extends OSSMail_index_View
+class OSSMail_Compose_View extends OSSMail_Index_View
 {
 
 	/**

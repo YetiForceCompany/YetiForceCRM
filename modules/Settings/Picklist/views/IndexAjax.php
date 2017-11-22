@@ -122,7 +122,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 
 	public function getPickListValueByRole(\App\Request $request)
 	{
-		$sourceModule = $request->getByType('sourceModule', 1);
+		$sourceModule = $request->getByType('sourceModule', 2);
 		$pickFieldId = $request->get('pickListFieldId');
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickFieldId);
 		$moduleName = $request->getModule();

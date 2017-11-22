@@ -198,18 +198,6 @@ class Activity extends CRMEntity
 	}
 
 	/**
-	 * Function to unlink all the dependent entities of the given Entity by Id
-	 * @param string $moduleName
-	 * @param int $recordId
-	 */
-	public function deletePerminently($moduleName, $recordId)
-	{
-		$db = \App\Db::getInstance();
-		$db->createCommand()->delete('vtiger_activity_reminder', ['activity_id' => $recordId])->execute();
-		parent::deletePerminently($moduleName, $recordId);
-	}
-
-	/**
 	 * this function sets the status flag of activity to true or false depending on the status passed to it
 	 * @param string $status - the status of the activity flag to set
 	 * @return:: true if successful; false otherwise
