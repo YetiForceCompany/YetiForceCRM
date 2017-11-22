@@ -26,7 +26,7 @@ class Settings_Workflows_CreateEntity_View extends Settings_Vtiger_Index_View
 		$viewer->assign('MAPPING_PANEL', $request->get('mappingPanel'));
 		$viewer->assign('WORKFLOW_MODEL', $workflowModel);
 		if ($request->has('relatedModule')) {
-			$relatedModule = $request->getByType('relatedModule', 1);
+			$relatedModule = $request->getByType('relatedModule', 2);
 			$viewer->assign('RELATED_MODULE_MODEL', Vtiger_Module_Model::getInstance($relatedModule));
 		}
 		$viewer->assign('REFERENCE_FIELD_NAME', $workflowModel->getReferenceFieldName($relatedModule));

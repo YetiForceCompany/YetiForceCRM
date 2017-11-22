@@ -14,7 +14,7 @@ class Settings_Picklist_Index_View extends Settings_Vtiger_Index_View
 	public function process(\App\Request $request)
 	{
 
-		$sourceModule = $request->getByType('source_module', 1);
+		$sourceModule = $request->getByType('source_module', 2);
 		$pickListSupportedModules = Settings_Picklist_Module_Model::getPicklistSupportedModules();
 		if (empty($sourceModule)) {
 			//take the first module as the source module

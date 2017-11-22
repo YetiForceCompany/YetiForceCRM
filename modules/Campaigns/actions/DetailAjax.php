@@ -35,7 +35,7 @@ class Campaigns_DetailAjax_Action extends Vtiger_RelatedList_View
 	public function getRecordsCount(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$relatedModuleName = $request->getByType('relatedModule', 1);
+		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$parentId = $request->getInteger('record');
 		$label = $request->get('tab_label');
 

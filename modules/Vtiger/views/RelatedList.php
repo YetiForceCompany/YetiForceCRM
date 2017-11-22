@@ -26,7 +26,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPrivilegesModel->hasModulePermission($request->getByType('relatedModule'))) {
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->getByType('relatedModule', 2))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
@@ -39,7 +39,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$relatedModuleName = $request->getByType('relatedModule');
+		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$parentId = $request->getInteger('record');
 		$label = $request->get('tab_label');
 		$pageNumber = $request->getInteger('page');

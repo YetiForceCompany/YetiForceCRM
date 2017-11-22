@@ -99,7 +99,7 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 	public function getUnitPrice(\App\Request $request)
 	{
 		$record = $request->getInteger('record');
-		$recordModule = $request->getByType('recordModule');
+		$recordModule = $request->getByType('recordModule', 2);
 		if (!\App\Privilege::isPermitted($recordModule, 'EditView', $record)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
