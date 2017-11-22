@@ -89,7 +89,6 @@
 		</div>
 	</div>
 	{/if}
-	<br />
 	{/foreach}    
     
     <div class="contentHeader row no-margin">

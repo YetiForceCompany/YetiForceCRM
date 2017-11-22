@@ -1330,6 +1330,7 @@ $languageStrings = [
 	'LBL_DELETE_RECORD_COMPLETELY' => 'Usuń rekord z systemu',
 	'LBL_DELETE_RECORD_COMPLETELY_DESC' => 'Usunięcie rekordu spowoduje trwałe i nieodwracalne usunięcie wszystkich informacji o rekordzie. Czy na pewno chcesz usunąć ten rekord?',
 	'LBL_RECORD_HAS_BEEN_DELETED' => 'Rekord został usunięty',
+	'LBL_SHOW_INVENTORY_ROW' => 'Pokaż dodatkowe informacje',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',

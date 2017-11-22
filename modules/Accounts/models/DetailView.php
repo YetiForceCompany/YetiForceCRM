@@ -62,7 +62,6 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 			'linkicon' => '',
 			'related' => 'Details'
 		];
-
 		if ($moduleName === 'Leads') {
 			$showPSTab = (!AppConfig::module($moduleName, 'HIDE_SUMMARY_PRODUCTS_SERVICES')) && (\App\Module::isModuleActive('OutsourcedProducts') || \App\Module::isModuleActive('Products') || \App\Module::isModuleActive('Services') || \App\Module::isModuleActive('OSSOutsourcedServices'));
 		}
@@ -91,7 +90,6 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'countRelated' => AppConfig::relation('SHOW_RECORDS_COUNT')
 			];
 		}
-
 		if ($parentModuleModel->isTrackingEnabled()) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
@@ -112,19 +110,17 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 				'linkicon' => '',
 			];
 		}
-		$relationModels = $parentModuleModel->getRelations();
-
-		foreach ($relationModels as $relation) {
-			$link = [
-				'linktype' => 'DETAILVIEWRELATED',
-				'linklabel' => $relation->get('label'),
-				'linkurl' => $relation->getListUrl($recordModel),
-				'linkicon' => '',
-				'relatedModuleName' => $relation->get('relatedModuleName')
-			];
-			$relatedLinks[] = $link;
+		foreach ($parentModuleModel->getRelations() as $relation) {
+			if ($relation->isRelatedViewType('RelatedTab')) {
+				$relatedLinks[] = [
+					'linktype' => 'DETAILVIEWRELATED',
+					'linklabel' => $relation->get('label'),
+					'linkurl' => $relation->getListUrl($recordModel),
+					'linkicon' => '',
+					'relatedModuleName' => $relation->get('relatedModuleName')
+				];
+			}
 		}
-
 		return $relatedLinks;
 	}
 }

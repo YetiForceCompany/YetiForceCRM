@@ -70,8 +70,8 @@ jQuery(document).ready(function ($) {
 				instance.registerEvents();
 			}
 		});
-		$('body').on('LoadRelatedRecordList.PostLoad', function (e, data) {
-			if (data.params.relatedModule == 'OSSTimeControl') {
+		$('body').on('LoadRelatedRecordList.PostLoad', function (e, eventParams) {
+			if (eventParams.params.relatedModule == 'OSSTimeControl') {
 				instance.registerEvents();
 			}
 		});

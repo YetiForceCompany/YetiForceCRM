@@ -12,6 +12,7 @@
 {strip}
 	<div class="relatedContainer">
 		{assign var=RELATED_MODULE_NAME value=$RELATED_MODULE->get('name')}
+		{assign var=INVENTORY_MODULE value=$RELATED_MODULE->isInventory()}
 		<input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}" />
 		<input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}" />
 		<input type="hidden" value="{$ORDER_BY}" id="orderBy">
@@ -21,7 +22,7 @@
 		<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'>
 		<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
 		<div class="relatedHeader ">
-			<div class="btn-toolbar row">
+			<div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-12">
 					{foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
 						{if {\App\Privilege::isPermitted($RELATED_MODULE_NAME, 'CreateView')} }
@@ -36,7 +37,11 @@
 										{else}
 											onclick='{$RELATED_LINK->getUrl()|substr:strlen("javascript:")};'
 										{/if}
-										{if $IS_SELECT_BUTTON neq true && stripos($RELATED_LINK->getUrl(), 'javascript:') !== 0}name="addButton"{/if}>{if $IS_SELECT_BUTTON eq false}<span class="glyphicon glyphicon-plus icon-white"></span>{/if}&nbsp;<strong>{$RELATED_LINK->getLabel()}</strong></button>
+										{if $IS_SELECT_BUTTON neq true && stripos($RELATED_LINK->getUrl(), 'javascript:') !== 0}name="addButton"{/if}>
+									{if $IS_SELECT_BUTTON eq false}<span class="glyphicon glyphicon-plus"></span>{/if}
+									{if $IS_SELECT_BUTTON eq true}<span class="glyphicon glyphicon-search"></span>{/if}
+									&nbsp;<strong>{$RELATED_LINK->getLabel()}</strong>
+								</button>
 							</div>
 						{/if}
 					{/foreach}
