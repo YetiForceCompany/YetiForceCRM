@@ -931,12 +931,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 	},
 	registerBlockStatusCheckOnLoad: function () {
-		var blocks = this.getContentHolder().find('.detailViewTable');
+		var blocks = this.getContentHolder().find('.blockHeader');
 		var module = app.getModuleName();
 		blocks.each(function (index, block) {
 			var currentBlock = jQuery(block);
 			var headerAnimationElement = currentBlock.find('.blockToggle').not('.hide');
-			var bodyContents = currentBlock.find('.blockContent')
+			var bodyContents = currentBlock.closest('.panel').find('.blockContent')
 			var blockId = headerAnimationElement.data('id');
 			var cacheKey = module + '.' + blockId;
 			var value = app.cacheGet(cacheKey, null);
