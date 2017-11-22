@@ -22,7 +22,7 @@
 			<div class="well contentsBackground">
 				<div class="row padding1per">
 					<div class="col-md-3">{\App\Language::translate('LBL_REPORT_NAME',$MODULE)}<span class="redColor">*</span></div>
-					<div class="col-md-7 row"><input class="col-md-6 form-control" data-validation-engine='validate[required]' type="text" name="reportname" title="{\App\Language::translate('LBL_REPORT_NAME', $MODULE)}" value="{$REPORT_MODEL->get('reportname')}"/></div>
+					<div class="col-md-7 row"><input class="col-md-6 form-control" data-validation-engine='validate[required]' type="text" name="reportname" title="{\App\Language::translate('LBL_REPORT_NAME', $MODULE)}" value="{$REPORT_MODEL->get('reportname')}" /></div>
 				</div>
 				<div class="row padding1per">
 					<div class="col-md-3">{\App\Language::translate('LBL_REPORT_FOLDER',$MODULE)}<span class="redColor">*</span></div>

@@ -23,7 +23,7 @@
 			<div class="well contentsBackground">
 				<div class="row marginBottom5px">
 					<div class="col-md-3"><span class="redColor">*</span>{\App\Language::translate('LBL_REPORT_NAME',$MODULE)}</div>
-					<div class="col-md-7"><input class="col-md-6 form-control" data-validation-engine='validate[required]' type="text" name="reportname" title="{\App\Language::translate('LBL_REPORT_NAME', $MODULE)}" value="{$REPORT_MODEL->get('reportname')}"/></div>
+					<div class="col-md-7"><input class="col-md-6 form-control" data-validation-engine='validate[required]' type="text" name="reportname" title="{\App\Language::translate('LBL_REPORT_NAME', $MODULE)}" value="{$REPORT_MODEL->get('reportname')}" /></div>
 				</div>
 				<div class="row marginBottom5px paddingTop10">
 					<div class="col-md-3"><span class="redColor">*</span>{\App\Language::translate('LBL_REPORT_FOLDER',$MODULE)}</div>
@@ -149,7 +149,7 @@
 							<div class='input-group date' style='width: 185px;'>
 								{assign var=specificDate value=\App\Json::decode($SCHEDULEDREPORTS->get('schdate'))}
 								{if $specificDate[0] neq ''} {assign var=specificDate1 value=DateTimeField::convertToUserFormat($specificDate[0])} {/if}
-								<input  type="text" class="dateField form-control input-sm col-md-6" id="schdate" name="schdate" value="{$specificDate1}" data-date-format="{$CURRENT_USER->date_format}" data-validation-engine="validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"/>
+								<input  type="text" class="dateField form-control input-sm col-md-6" id="schdate" name="schdate" value="{$specificDate1}" data-date-format="{$CURRENT_USER->date_format}" data-validation-engine="validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" />
 								<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 							</div>
 						</div>
@@ -183,7 +183,7 @@
 						</div>
 						<div class='col-md-4' id='schtime'>
 							<div class="input-group time">
-								<input type='text' class='clockPicker input-sm form-control' data-format='24' name='schtime' value="{$SCHEDULEDREPORTS->get('schtime')}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"/>
+								<input type='text' class='clockPicker input-sm form-control' data-format='24' name='schtime' value="{$SCHEDULEDREPORTS->get('schtime')}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" />
 								<span class="input-group-addon cursorPointer"><i class="glyphicon glyphicon-time"></i></span>
 							</div>
 						</div>

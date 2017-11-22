@@ -11,7 +11,7 @@
 				</div>
 			</div>
 		</div>
-		<hr class="widgetHr"/>
+		<hr class="widgetHr" />
 		<div class="row" >
 			<div class="col-xs-6">
 				<select class="widgetFilter select2" name="type">

@@ -10,8 +10,8 @@
 	<div class="editViewContainer">
 		<form name="EditGroup" action="index.php" method="post" id="EditView" class="form-horizontal">
 			<input type="hidden" name="module" value="Groups">
-			<input type="hidden" name="action" value="Save">
-			<input type="hidden" name="parent" value="Settings">
+			<input type="hidden" name="action" value="Save" />
+			<input type="hidden" name="parent" value="Settings" />
 			<input type="hidden" name="record" value="{$RECORD_MODEL->getId()}">
 			<div class="widget_header row">
 				<div class="col-xs-12">

@@ -31,7 +31,7 @@
 			<div>
 				<form class="form-horizontal contentsBackground" id="importUserModule" name="importUserModule" action='index.php' method="POST" enctype="multipart/form-data">
 					<input type="hidden" name="module" value="ModuleManager" />
-					<input type="hidden" name="moduleAction" value="Import"/>
+					<input type="hidden" name="moduleAction" value="Import" />
 					<input type="hidden" name="parent" value="Settings" />
 					<input type="hidden" name="view" value="ModuleImport" />
 					<input type="hidden" name="mode" value="importUserModuleStep2" />

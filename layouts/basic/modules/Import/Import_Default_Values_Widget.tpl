@@ -41,7 +41,7 @@
 					   data-date-format="{$DATE_FORMAT}" class="defaultInputTextContainer form-control col-md-2 dateField" value="" />
 			{elseif $_FIELD_TYPE eq 'datetime'}
 				<input type="text" id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue"
-					   class="defaultInputTextContainer form-control small col-md-2" value="" data-date-format="{$DATE_FORMAT}"/>
+					   class="defaultInputTextContainer form-control small col-md-2" value="" data-date-format="{$DATE_FORMAT}" />
 			{elseif $_FIELD_TYPE eq 'boolean'}
 				<input type="checkbox" id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue" class="small" />
 			{elseif $_FIELD_TYPE eq 'reference'}

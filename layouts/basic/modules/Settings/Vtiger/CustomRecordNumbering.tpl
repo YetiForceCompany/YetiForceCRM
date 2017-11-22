@@ -60,7 +60,7 @@
 							<label class="pull-right marginRight10px"><b>{\App\Language::translate('LBL_USE_PREFIX', $QUALIFIED_MODULE)}</b></label>
 						</td>
 						<td class="fieldValue {$WIDTHTYPE}" style="border-left: none">
-							<input type="text" class="form-control" value="{$DEFAULT_MODULE_DATA['prefix']}" placeholder="{\App\Language::translate('LBL_NO_PREFIX', $QUALIFIED_MODULE)}" data-old-prefix="{$DEFAULT_MODULE_DATA['prefix']}" name="prefix" data-validation-engine="validate[funcCall[Vtiger_AlphaNumericWithSlashesCurlyBraces_Validator_Js.invokeValidation]]"/>
+							<input type="text" class="form-control" value="{$DEFAULT_MODULE_DATA['prefix']}" placeholder="{\App\Language::translate('LBL_NO_PREFIX', $QUALIFIED_MODULE)}" data-old-prefix="{$DEFAULT_MODULE_DATA['prefix']}" name="prefix" data-validation-engine="validate[funcCall[Vtiger_AlphaNumericWithSlashesCurlyBraces_Validator_Js.invokeValidation]]" />
 						</td>
 					</tr>
 					<tr>
@@ -72,7 +72,7 @@
 						<td class="fieldValue {$WIDTHTYPE}" style="border-left: none">
 							<input type="text" class="form-control" value="{$DEFAULT_MODULE_DATA['sequenceNumber']}"
 								   data-old-sequence-number="{$DEFAULT_MODULE_DATA['sequenceNumber']}" name="sequenceNumber"
-								   data-validation-engine="validate[required,funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]"/>
+								   data-validation-engine="validate[required,funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]" />
 						</td>
 					</tr>
 					<tr>
@@ -80,7 +80,7 @@
 							<label class="pull-right marginRight10px"><b>{\App\Language::translate('LBL_USE_POSTFIX', $QUALIFIED_MODULE)}</b></label>
 						</td>
 						<td class="fieldValue {$WIDTHTYPE}" style="border-left: none">
-							<input type="text" class="form-control" value="{$DEFAULT_MODULE_DATA['postfix']}" placeholder="{\App\Language::translate('LBL_NO_POSTFIX', $QUALIFIED_MODULE)}" data-old-postfix="{$DEFAULT_MODULE_DATA['postfix']}" name="postfix" data-validation-engine="validate[funcCall[Vtiger_AlphaNumericWithSlashesCurlyBraces_Validator_Js.invokeValidation]]"/>
+							<input type="text" class="form-control" value="{$DEFAULT_MODULE_DATA['postfix']}" placeholder="{\App\Language::translate('LBL_NO_POSTFIX', $QUALIFIED_MODULE)}" data-old-postfix="{$DEFAULT_MODULE_DATA['postfix']}" name="postfix" data-validation-engine="validate[funcCall[Vtiger_AlphaNumericWithSlashesCurlyBraces_Validator_Js.invokeValidation]]" />
 						</td>
 					</tr>
 				</tbody>

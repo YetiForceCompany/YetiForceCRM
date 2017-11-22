@@ -15,12 +15,12 @@
 		{assign var=INVENTORY_MODULE value=$RELATED_MODULE->isInventory()}
 		<input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}" />
 		<input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}" />
-		<input type="hidden" value="{$ORDER_BY}" id="orderBy">
-		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
+		<input type="hidden" value="{$ORDER_BY}" id="orderBy" />
+		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
 		<input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries">
 		<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 		<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'>
-		<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}"/>
+		<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}" />
 		<div class="relatedHeader ">
 			<div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-12">

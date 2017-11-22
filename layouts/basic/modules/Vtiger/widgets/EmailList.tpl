@@ -37,7 +37,7 @@
 						</div>
 					</div>
 				</div>
-				<hr class="rowHr"/>
+				<hr class="rowHr" />
 				<div class="row">
 					<div class="col-xs-6 paddingRightZero">
 						<select name="mail-type" title="{\App\Language::translate('LBL_CHANGE_MAIL_TYPE')}" class="form-control input-sm">

@@ -20,7 +20,7 @@
 				<div class="row">
 					<div>
 						<div class="button-container">
-							<input id="agree" type="submit" class="btn btn-sm btn-primary" value="{\App\Language::translate('LBL_NEXT', 'Install')}"/>
+							<input id="agree" type="submit" class="btn btn-sm btn-primary" value="{\App\Language::translate('LBL_NEXT', 'Install')}" />
 						</div>
 					</div>
 				</div>

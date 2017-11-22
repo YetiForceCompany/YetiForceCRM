@@ -10,7 +10,7 @@
 			</div>
 		</div>
 	</div>
-	<hr class="widgetHr"/>
+	<hr class="widgetHr" />
 	<div class="row" >
 		<div class="col-sm-10 form-inline">
 			<div class="input-group input-group-sm">

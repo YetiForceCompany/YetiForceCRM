@@ -6,8 +6,8 @@
 <input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
 <input type="hidden" id="nextPageExist" value="{$PAGING_MODEL->isNextPageExists()}" />
 <input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
-<input type="hidden" value="{$ORDER_BY}" id="orderBy">
-<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
+<input type="hidden" value="{$ORDER_BY}" id="orderBy" />
+<input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
 <input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
 <input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber'>
 <input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
@@ -15,7 +15,7 @@
 
 <div class="listViewEntriesDiv" style='overflow-x:auto;'>
 	<span class="listViewLoadingImageBlock hide modal" id="loadingListViewModal">
-		<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}"/>
+		<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}" />
 		<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 	</span>
 	{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}

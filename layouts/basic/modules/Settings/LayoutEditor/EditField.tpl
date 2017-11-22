@@ -7,12 +7,12 @@
 	<div class="modal-body row">
 		<div class="col-md-12">
 			<form class="form-horizontal fieldDetailsForm sendByAjax validateForm" method="POST">
-				<input type="hidden" name="module" value="LayoutEditor">
-				<input type="hidden" name="parent" value="Settings">
-				<input type="hidden" name="action" value="Field">
-				<input type="hidden" name="mode" value="save">
-				<input type="hidden" name="fieldid" value="{$FIELD_MODEL->getId()}">
-				<input type="hidden" name="sourceModule" value="{$SELECTED_MODULE_NAME}">
+				<input type="hidden" name="module" value="LayoutEditor" />
+				<input type="hidden" name="parent" value="Settings" />
+				<input type="hidden" name="action" value="Field" />
+				<input type="hidden" name="mode" value="save" />
+				<input type="hidden" name="fieldid" value="{$FIELD_MODEL->getId()}" />
+				<input type="hidden" name="sourceModule" value="{$SELECTED_MODULE_NAME}" />
 				{assign var=IS_MANDATORY value=$FIELD_MODEL->isMandatory()}
 				{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 				<strong>{App\Language::translate('LBL_LABEL_NAME', $QUALIFIED_MODULE)}:&nbsp;</strong>{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}<br />
@@ -43,7 +43,7 @@
 					</label>
 				</div>
 				<div class="checkbox">
-					<input type="hidden" name="summaryfield" value="0"/>
+					<input type="hidden" name="summaryfield" value="0" />
 					<label>
 						<input type="checkbox" name="summaryfield" {if $FIELD_MODEL->isSummaryField()} checked {/if}{strip} {/strip}
 							   {if $FIELD_MODEL->isSummaryFieldOptionDisabled()} readonly="readonly" class="optionDisabled"{/if} value="1" />&nbsp;
@@ -51,7 +51,7 @@
 					</label>
 				</div>
 				<div class="checkbox">
-					<input type="hidden" name="header_field" value="0"/>
+					<input type="hidden" name="header_field" value="0" />
 					<label>
 						<input type="checkbox" name="header_field" {if $FIELD_MODEL->isHeaderField()} checked {/if} value="btn-default" />&nbsp;
 						{App\Language::translate('LBL_HEADER_FIELD', $QUALIFIED_MODULE)}

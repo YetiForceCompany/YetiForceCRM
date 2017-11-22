@@ -7,9 +7,9 @@
 	<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
 	<input type="hidden" id="listMaxEntriesMassEdit" value="{vglobal('listMaxEntriesMassEdit')}" />
 	<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}" />
-	<input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber'>
-	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
-	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
+	<input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber' />
+	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit' />
+	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries" />
 
 	{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $MODULE_NAME)}
 	<div class="clearfix"></div>
@@ -24,10 +24,10 @@
 	</div>
 	<div class="listViewEntriesDiv contents-bottomscroll">
 		<div class="bottomscroll-div">
-			<input type="hidden" value="{$ORDER_BY}" id="orderBy">
-			<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
+			<input type="hidden" value="{$ORDER_BY}" id="orderBy" />
+			<input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
 			<div class="listViewLoadingImageBlock hide modal noprint" id="loadingListViewModal">
-				<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}"/>
+				<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}" />
 				<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 			</div>
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
@@ -48,7 +48,7 @@
 											  data-content="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}">
 											<span class="glyphicon glyphicon-info-sign"></span>
 										</span>
-										<input type="checkbox" id="searchInSubcategories{$LISTVIEW_HEADER_NAME}" title="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}" name="searchInSubcategories" class="pull-right searchInSubcategories" value="1" data-columnname="{$LISTVIEW_HEADER->getColumnName()}" {if !empty($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME]['specialOption'])} checked {/if}>
+										<input type="checkbox" id="searchInSubcategories{$LISTVIEW_HEADER_NAME}" title="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}" name="searchInSubcategories" class="pull-right searchInSubcategories" value="1" data-columnname="{$LISTVIEW_HEADER->getColumnName()}" {if !empty($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME]['specialOption'])} checked {/if} />
 									</div>
 								{/if}
 							</th>
@@ -120,4 +120,3 @@
 		</div>
 	</div>
 {/strip}
-

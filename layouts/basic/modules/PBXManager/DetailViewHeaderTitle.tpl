@@ -21,14 +21,14 @@
 							{if !empty($IMAGE_INFO.path)}
 								<img src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_INFO.path))}"alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" >
 							{else}
-								<img src="{\App\Layout::getImagePath('PBXManager48.png')}" class="summaryImg" alt="{\App\Language::translate($MODULE, $MODULE)}"/>
+								<img src="{\App\Layout::getImagePath('PBXManager48.png')}" class="summaryImg" alt="{\App\Language::translate($MODULE, $MODULE)}" />
 							{/if}
 						{/foreach}
 					{else}
-						<img src="{\App\Layout::getImagePath('PBXManager48.png')}" class="summaryImg" alt="{\App\Language::translate($MODULE, $MODULE)}"/>
+						<img src="{\App\Layout::getImagePath('PBXManager48.png')}" class="summaryImg" alt="{\App\Language::translate($MODULE, $MODULE)}" />
 					{/if}
 				{else}
-					<img src="{\App\Layout::getImagePath('PBXManager48.png')}" class="summaryImg" alt="{\App\Language::translate($MODULE, $MODULE)}"/>
+					<img src="{\App\Layout::getImagePath('PBXManager48.png')}" class="summaryImg" alt="{\App\Language::translate($MODULE, $MODULE)}" />
 				{/if}
 				{if $RECORD->get('direction') eq 'inbound'}
 					<img src="modules/PBXManager/resources/images/Incoming.png" style="position:absolute;bottom:4px;right:0;">

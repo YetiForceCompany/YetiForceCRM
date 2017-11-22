@@ -8,10 +8,10 @@
 					<h3 id="massEditHeader" class="modal-title">{\App\Language::translate('LBL_SAVE_DASHBOARD', $MODULE)}</h3>
 				</div>
 				<form class="form-horizontal validateForm sendByAjax" >
-					<input type="hidden" name="module" value="{$MODULE_NAME}">
+					<input type="hidden" name="module" value="{$MODULE_NAME}" />
 					<input type="hidden" name="action" value="Dashboard">
-					<input type="hidden" name="mode" value="save">
-					<input type="hidden" name="parent" value="Settings">
+					<input type="hidden" name="mode" value="save" />
+					<input type="hidden" name="parent" value="Settings" />
 					<input type="hidden" name="dashboardId" value="{$DASHBOARD_ID}">
 					<div class="formContainer">
 						<div class="form-group margin0px padding1per">

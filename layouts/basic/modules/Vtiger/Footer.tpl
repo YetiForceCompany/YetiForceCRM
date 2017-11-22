@@ -19,7 +19,7 @@
 </div>
 </div>
 <div class="clearfix"></div>
-<input id="activityReminder" class="hide noprint" type="hidden" value="{$ACTIVITY_REMINDER}"/>
+<input id="activityReminder" class="hide noprint" type="hidden" value="{$ACTIVITY_REMINDER}" />
 {if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}
 	<div class="infoUser">
 		{$USER_MODEL->getName()}&nbsp;(
@@ -48,7 +48,7 @@
 		</div>
 		<div class="pull-right">
 			<button type="button" class="btn-link" data-toggle="modal" data-target="#yetiforceDetails">
-				<img class="logoFooter" src="{App\Layout::getPublicUrl('layouts/resources/Logo/white_logo_yetiforce.png')}" alt="YetiForceCRM"/>
+				<img class="logoFooter" src="{App\Layout::getPublicUrl('layouts/resources/Logo/white_logo_yetiforce.png')}" alt="YetiForceCRM" />
 			</button>
 		</div>
 		{assign var=SCRIPT_TIME value=round(microtime(true) - \App\Config::$startTime, 3)}
@@ -71,7 +71,7 @@
 				<h4 class="modal-title" id="myModalLabel">YetiForceCRM {if $USER_MODEL->is_admin == 'on'}v{$YETIFORCE_VERSION}{/if} - The best open system in the world</h4>
 			</div>
 			<div class="modal-body">
-				<p class="text-center"><img  src="{App\Layout::getPublicUrl('layouts/resources/Logo/blue_yetiforce_logo.png')}" title="YetiForceCRM" alt="YetiForceCRM" style="height: 120px;"/></p>
+				<p class="text-center"><img  src="{App\Layout::getPublicUrl('layouts/resources/Logo/blue_yetiforce_logo.png')}" title="YetiForceCRM" alt="YetiForceCRM" style="height: 120px;" /></p>
 				<p>Copyright © YetiForce.com All rights reserved.</p>
 				<p>The Program is provided AS IS, without warranty. Licensed under <a href="https://github.com/YetiForceCompany/YetiForceCRM/blob/developer/licenses/LicenseEN.txt" target="_blank"><strong>YetiForce Public License 3.0</strong></a>.</p>
 				<p>YetiForce is based on two systems - <strong>VtigerCRM</strong> and <strong>SugarCRM</strong>.<br /><br /></p>

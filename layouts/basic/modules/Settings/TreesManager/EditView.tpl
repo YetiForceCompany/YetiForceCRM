@@ -2,9 +2,9 @@
 {strip}
 	<div class=" editViewContainer">
 		<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
-			<input type="hidden" name="module" value="TreesManager"/>
-			<input type="hidden" name="parent" value="Settings"/>
-			<input type="hidden" name="action" value="Save"/>
+			<input type="hidden" name="module" value="TreesManager" />
+			<input type="hidden" name="parent" value="Settings" />
+			<input type="hidden" name="action" value="Save" />
 			<input type="hidden" name="record" value="{$RECORD_ID}" />
 			<input type="hidden" id="treeLastID" value="{$LAST_ID}" />
 			<input type="hidden" id="access" value="{$ACCESS}" />
@@ -43,7 +43,7 @@
 						{/foreach}
 					</select>
 					{if !$ACCESS} 
-						<input type="text" class="fieldValue form-control hide" name="templatemodule" value="{$SOURCE_MODULE}"/>
+						<input type="text" class="fieldValue form-control hide" name="templatemodule" value="{$SOURCE_MODULE}" />
 					{/if}
 				</div>
 			</div>

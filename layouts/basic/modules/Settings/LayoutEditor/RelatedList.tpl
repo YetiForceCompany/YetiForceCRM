@@ -80,7 +80,7 @@
 										</div>
 										<h4 class="panel-title">
 											<div class="relatedModuleLabel mainBlockTableLabel">
-												<a><img src="{\App\Layout::getImagePath('drag.png')}" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/></a>
+												<a><img src="{\App\Layout::getImagePath('drag.png')}" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" /></a>
 												&nbsp;&nbsp;
 												<strong><span class="userIcon-{$RELATED_MODULE_NAME}"></span> {\App\Language::translate($MODULE_MODEL->get('label'), $RELATED_MODULE_NAME)}</strong>
 											</div>
@@ -219,7 +219,7 @@
 								<div class="form-group">
 									<label class="col-md-4 control-label">{\App\Language::translate('LBL_RELATION_LABLE', $QUALIFIED_MODULE)}:</label>
 									<div class="col-md-7">
-										<input name="label"  type="text" class="relLabel form-control"/>
+										<input name="label"  type="text" class="relLabel form-control" />
 									</div>
 								</div>
 							</div>

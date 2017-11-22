@@ -20,7 +20,7 @@
 		<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 			{if $FIELD_NAME neq 'due_date'}
 			<span class="input-group-addon notEvent HelpInfoPopover" data-placement="top" data-content="{\App\Language::translate('LBL_AUTO_FILL_DESCRIPTION', $MODULE)}">
-				<input type="checkbox" class="autofill" >
+				<input type="checkbox" class="autofill" />
 			</span>
 		{/if}
 
