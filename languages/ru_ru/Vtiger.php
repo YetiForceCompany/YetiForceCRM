@@ -1341,6 +1341,7 @@ $languageStrings = [
 	'LBL_DELETE_RECORD_COMPLETELY' => 'Удалить запись из системы',
 	'LBL_DELETE_RECORD_COMPLETELY_DESC' => 'Deleting a record is permanent and irreversible for all record\'s information. Are you sure you want to delete the record?',
 	'LBL_RECORD_HAS_BEEN_DELETED' => 'Запись была удалена',
+	'LBL_SHOW_INVENTORY_ROW' => 'Show additional information',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Подитог',
