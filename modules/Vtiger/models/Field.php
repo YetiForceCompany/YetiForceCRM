@@ -1146,6 +1146,15 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
+	 * Is summation field
+	 * @return bool
+	 */
+	public function isCalculateField()
+	{
+		return $this->getUIType() === 71 || $this->getUIType() === 7;
+	}
+
+	/**
 	 * Function returns field instance for field ID
 	 * @param int $fieldId
 	 * @param int $moduleTabId

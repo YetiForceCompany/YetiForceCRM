@@ -1331,6 +1331,7 @@ $languageStrings = [
 	'LBL_DELETE_RECORD_COMPLETELY_DESC' => 'Usunięcie rekordu spowoduje trwałe i nieodwracalne usunięcie wszystkich informacji o rekordzie. Czy na pewno chcesz usunąć ten rekord?',
 	'LBL_RECORD_HAS_BEEN_DELETED' => 'Rekord został usunięty',
 	'LBL_SHOW_INVENTORY_ROW' => 'Pokaż dodatkowe informacje',
+	'LBL_CALCULATE_SUM_FOR_THIS_FIELD' => 'Oblicz sumę dla tego pola',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Podsumowanie',
@@ -1610,4 +1611,5 @@ $jsLanguageStrings = [
 	'JS_CURRENT_MONTH' => 'Obecny miesiąc',
 	'JS_LAST_MONTH' => 'Poprzedni miesiąc',
 	'JS_CUSTOM' => 'Własny zakres dat',
+	'JS_CALCULATING_IN_PROGRESS' => 'Trwa obliczanie',
 ];

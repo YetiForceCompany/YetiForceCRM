@@ -5950,3 +5950,10 @@ select[readonly], select[disabled]{
 .relatedTabModulesList .panel{
 	margin-bottom: 10px;
 }
+.tableBorderHeadBody thead, .tableBorderHeadBody tbody{
+	border: 1px solid #ddd;
+}
+.listViewEntriesTable .listViewSummation td.border{
+	border: 1px solid #ddd;
+}
+
