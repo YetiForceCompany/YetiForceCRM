@@ -639,14 +639,14 @@ class QueryGenerator
 		$moduleTableIndexList = $this->entityModel->tab_name_index;
 		$baseTable = $this->entityModel->table_name;
 		$baseTableIndex = $moduleTableIndexList[$baseTable];
-		foreach ($this->fields as &$fieldName) {
+		foreach ($this->fields as $fieldName) {
 			if ($fieldName === 'id') {
 				continue;
 			}
 			$field = $this->getModuleField($fieldName);
 			if ($field->getFieldDataType() === 'reference') {
 				$tableJoin[$field->getTableName()] = 'INNER JOIN';
-				foreach ($this->referenceFields[$fieldName] as &$moduleName) {
+				foreach ($this->referenceFields[$fieldName] as $moduleName) {
 					if ($moduleName === 'Users' && $this->moduleName !== 'Users') {
 						$this->addJoin(['LEFT JOIN', 'vtiger_users vtiger_users' . $fieldName, "{$field->getTableName()}.{$field->getColumnName()} = vtiger_users{$fieldName}.id"]);
 						$this->addJoin(['LEFT JOIN', 'vtiger_groups vtiger_groups' . $fieldName, "{$field->getTableName()}.{$field->getColumnName()} = vtiger_groups{$fieldName}.groupid"]);
@@ -661,7 +661,7 @@ class QueryGenerator
 				$tableJoin[$field->getTableName()] = $this->entityModel->getJoinClause($field->getTableName());
 			}
 		}
-		foreach ($this->getEntityDefaultTableList() as &$table) {
+		foreach ($this->getEntityDefaultTableList() as $table) {
 			if (!isset($this->tablesList[$table])) {
 				$this->tablesList[$table] = $table;
 			}
@@ -675,7 +675,7 @@ class QueryGenerator
 				$ownerField = $this->ownerFields[0];
 			}
 		}
-		foreach ($this->getEntityDefaultTableList() as &$tableName) {
+		foreach ($this->getEntityDefaultTableList() as $tableName) {
 			$this->query->join($tableJoin[$tableName], $tableName, "$baseTable.$baseTableIndex = $tableName.{$moduleTableIndexList[$tableName]}");
 			unset($this->tablesList[$tableName]);
 		}
@@ -692,7 +692,7 @@ class QueryGenerator
 				$this->addJoin([$joinType, $tableName, "$baseTable.$baseTableIndex = $tableName.$moduleTableIndexList[$tableName]"]);
 			}
 		}
-		foreach ($this->joins as &$join) {
+		foreach ($this->joins as $join) {
 			$on = isset($join[2]) ? $join[2] : '';
 			$params = isset($join[3]) ? $join[3] : [];
 			$this->query->join($join[0], $join[1], $on, $params);
@@ -805,7 +805,7 @@ class QueryGenerator
 	 * @return QueryField\BaseField
 	 * @throws \App\Exceptions\AppException
 	 */
-	private function getQueryField($fieldName)
+	public function getQueryField($fieldName)
 	{
 		if (isset($this->queryFields[$fieldName])) {
 			return $this->queryFields[$fieldName];
