@@ -2004,11 +2004,15 @@ jQuery.Class("Vtiger_List_Js", {
 			params['action'] = 'List';
 			params['mode'] = 'calculate';
 			params['fieldName'] = button.data('field');
-			params['operator'] = button.data('operator');
+			params['calculateType'] = button.data('operator');
+			if (thisInstance.checkListRecordSelected() != true) {
+				params['selected_ids'] = thisInstance.readSelectedIds(true);
+				params['excluded_ids'] = thisInstance.readExcludedIds(true);
+			}
 			delete params['view'];
 			app.hidePopover(button);
 			AppConnector.request(params).then(function (response) {
-				if(response.success){
+				if (response.success) {
 					td.html(response.result);
 				}
 				progress.progressIndicator({mode: 'hide'});

@@ -55,7 +55,7 @@ class Vtiger_List_Action extends Vtiger_Mass_Action
 			throw new \App\Exceptions\Security('LBL_NOT_SUPPORTED_FIELD', 406);
 		}
 		$columnName = $fieldQueryModel->getColumnName();
-		switch ($request->getByType('operator')) {
+		switch ($request->getByType('calculateType')) {
 			case 'sum':
 				$value = $queryGenerator->createQuery()->sum($columnName);
 				break;

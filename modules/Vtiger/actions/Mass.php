@@ -31,7 +31,7 @@ abstract class Vtiger_Mass_Action extends Vtiger_Action_Controller
 			if (!empty($selectedIds) && !in_array($selectedIds, ['all', '"all"']) && count($selectedIds) > 0) {
 				$queryGenerator = new App\QueryGenerator($moduleName);
 				$queryGenerator->setFields(['id']);
-				$queryGenerator->addCondition('id', 'e', $selectedIds);
+				$queryGenerator->addCondition('id', $selectedIds, 'e');
 				return $queryGenerator;
 			}
 			if (!$request->isEmpty('operator')) {
