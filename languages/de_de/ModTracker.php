@@ -15,7 +15,7 @@ $languageStrings = [
 	// Action types 
 	'LBL_AT_UPDATE' => 'Ändern',
 	'LBL_AT_DELETE' => 'Löschen',
-	'LBL_AT_TRASH' => 'Move to Recycle Bin',
+	'LBL_AT_TRASH' => 'in den Papierkorb verschieben',
 	'LBL_AT_CREATE' => 'Erzeugen',
 	'LBL_AT_RESTORE' => 'Wiederherstellen',
 	'LBL_AT_LINK' => 'Verknüpfen',
@@ -24,7 +24,7 @@ $languageStrings = [
 	'LBL_AT_DISPLAY' => 'Sicht',
 	'LBL_AT_UPDATE_P' => 'geändert',
 	'LBL_AT_DELETE_P' => 'gelöscht',
-	'LBL_AT_TRASH_P' => 'Moved to Recycle Bin',
+	'LBL_AT_TRASH_P' => 'In Papierkorb verschoben',
 	'LBL_AT_CREATE_P' => 'erzeugt',
 	'LBL_AT_RESTORE_P' => 'wiederhergestellt',
 	'LBL_AT_LINK_P' => 'verküpft',

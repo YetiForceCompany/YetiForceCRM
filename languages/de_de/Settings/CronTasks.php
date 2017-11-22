@@ -61,10 +61,10 @@ $languageStrings = [
 	'LBL_CLEAR_ATTACHMENTS_TABLE' => 'Löschen der Tabelle für Anhänge',
 	'LBL_CACHE' => 'Cache',
 	'LBL_NEVER_ENDING_RECURRING_EVENTS' => 'Niemals endende wiederkehrende Ereignisse',
-	'LBL_SMSNOTIFIER' => 'SMS messages',
- 	'LBL_BROWSING_HISTORY' => 'Delete browsing history',
- 	'LBK_SYSTEM_WARNINGS' => 'Notifications with system warnings',
- 	'LBL_BATCH_PROCESSES' => 'Batch processes for servicing long-lasting actions',
+	'LBL_SMSNOTIFIER' => 'SMS Nachrichten',
+ 	'LBL_BROWSING_HISTORY' => 'Browserhistorie löschen',
+ 	'LBK_SYSTEM_WARNINGS' => 'Benachrichtungen mit Systemwarnungen',
+ 	'LBL_BATCH_PROCESSES' => 'Hintergrundverarbeitung für langlaufende Aktionen',
 ];
 $jsLanguageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'Die empfohlene Frequenz für den eingeplanten Import ist 15min',
