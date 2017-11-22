@@ -160,6 +160,13 @@ $languageStrings = [
 	'LBL_MAX_WIDTH_COLUMN' => 'Spaltenbreite [%]',
 	'LBL_EDIT_CUSTOM_FIELD' => 'Feld editieren',
 	'LBL_EXCEEDED_MAXIMUM_NUMBER_CHARACTERS_FOR_FIELD_NAME' => 'Die maximale Länge von 30 Zeichen für den Feldnamen wurde überschritten.',
+	'LBL_RELATED_TAB_TYPE' => 'Tabs',
+	'LBL_DETAIL_TOP_TYPE' => 'Details top',
+	'LBL_DETAIL_BOTTOM_TYPE' => 'Details down',
+	'LBL_SUMMARY_TOP_TYPE' => 'Summary top',
+	'LBL_SUMMARY_BOTTOM_TYPE' => 'Summary down',
+	'LBL_RELATED_VIEW_TYPE' => 'Display position',
+	'LBL_RELATED_VIEW_TYPE_DESC' => 'Select at least one display position for the block',
 ];
 
 $jsLanguageStrings = [

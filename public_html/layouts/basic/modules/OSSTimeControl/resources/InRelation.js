@@ -50,12 +50,12 @@ jQuery(document).ready(function ($) {
 				$.plot(this.chart, [chartData], options);
 			},
 			registerSwitch: function () {
-				$( ".sumaryRelatedTimeControl .switchChartContainer" ).toggle(function() {
+				$(".sumaryRelatedTimeControl .switchChartContainer").toggle(function () {
 					$(this).find('.glyphicon').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
-					$( ".chartContainer" ).hide();
-				}, function() {
+					$(".chartContainer").hide();
+				}, function () {
 					$(this).find('.glyphicon').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
-					$( ".chartContainer" ).show();
+					$(".chartContainer").show();
 				});
 			},
 			registerEvents: function () {
@@ -64,19 +64,10 @@ jQuery(document).ready(function ($) {
 				this.registerSwitch();
 			}
 		});
-		var instance = new OSSTimeControl_Calendar_Js();
-		$('div.details div.contents').on('Detail.LoadContents.PostLoad', function (e, data) {
-			if ($(data).hasClass('sumaryRelatedTimeControl')) {
-				instance.registerEvents();
-			}
-		});
-		$('body').on('LoadRelatedRecordList.PostLoad', function (e, eventParams) {
-			if (eventParams.params.relatedModule == 'OSSTimeControl') {
-				instance.registerEvents();
-			}
-		});
-		instance.registerEvents();
+
 	}
+	var instance = new OSSTimeControl_Calendar_Js();
+	instance.registerEvents();
 	window.loadInRelationTomeControl = true;
 });
 

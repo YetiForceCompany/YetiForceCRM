@@ -3,7 +3,7 @@
 	{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $RELATED_MODULE_NAME) MODULE_MODEL=$RELATED_MODULE}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	<div class="listViewEntriesDiv contents-bottomscroll">
-		<table class="table table-bordered listViewEntriesTable {if $RELATION_LIST_VIEW && !$RELATION_LIST_VIEW->isEmpty('entityState')}listView{$RELATION_LIST_VIEW->get('entityState')}{/if}">
+		<table class="table table-bordered listViewEntriesTable {if $LIST_VIEW_MODEL && !$LIST_VIEW_MODEL->isEmpty('entityState')}listView{$LIST_VIEW_MODEL->get('entityState')}{/if}">
 			<thead>
 				<tr class="listViewHeaders">
 					{assign var=COUNT value=0}

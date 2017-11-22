@@ -726,6 +726,7 @@ class Vtiger_Relation_Model extends \App\Base
 	public static function updateRelationPresence($relationId, $status)
 	{
 		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['presence' => !$status ? 1 : 0], ['relation_id' => $relationId])->execute();
+		\App\Cache::clear();
 	}
 
 	public static function removeRelationById($relationId)
@@ -736,6 +737,7 @@ class Vtiger_Relation_Model extends \App\Base
 			$db->delete('vtiger_relatedlists_fields', 'relation_id = ?', [$relationId]);
 			$db->delete('a_yf_relatedlists_inv_fields', 'relation_id = ?', [$relationId]);
 		}
+		\App\Cache::clear();
 	}
 
 	public static function updateRelationSequence($modules)
@@ -747,6 +749,7 @@ class Vtiger_Relation_Model extends \App\Base
 				], 'relation_id = ?', [$module['relationId']]
 			);
 		}
+		\App\Cache::clear();
 	}
 
 	public static function updateModuleRelatedFields($relationId, $fields)
@@ -763,7 +766,7 @@ class Vtiger_Relation_Model extends \App\Base
 				])->execute();
 			}
 		}
-		App\Cache::delete('getFieldsFromRelation', $relationId);
+		\App\Cache::clear();
 	}
 
 	public static function updateModuleRelatedInventoryFields($relationId, $fields)
@@ -779,6 +782,7 @@ class Vtiger_Relation_Model extends \App\Base
 				])->execute();
 			}
 		}
+		\App\Cache::clear();
 	}
 
 	public function isActive()
@@ -856,6 +860,7 @@ class Vtiger_Relation_Model extends \App\Base
 	public static function updateStateFavorites($relationId, $status)
 	{
 		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['favorites' => $status], ['relation_id' => $relationId])->execute();
+		\App\Cache::clear();
 	}
 
 	public function isFavorites()

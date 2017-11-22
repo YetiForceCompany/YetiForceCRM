@@ -541,7 +541,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		if ($this->relations === null) {
 			$this->relations = Vtiger_Relation_Model::getAllRelations($this, false);
 		}
-
 		// Contacts relation-tab is turned into custom block on DetailView.
 		if ($this->getName() === 'Calendar') {
 			$contactsIndex = false;
@@ -555,7 +554,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				array_splice($this->relations, $contactsIndex, 1);
 			}
 		}
-
 		return $this->relations;
 	}
 

@@ -55,7 +55,7 @@ class Calendar_InRelation_View extends Vtiger_RelatedList_View
 			$relationListView->set('entityState', $request->getByType('entityState'));
 		}
 		$viewer = $this->getViewer($request);
-		$viewer->assign('RELATION_LIST_VIEW', $relationListView);
+		$viewer->assign('LIST_VIEW_MODEL', $relationListView);
 		if (!$request->isEmpty('operator', true)) {
 			$relationListView->set('operator', $request->getByType('operator'));
 			$viewer->assign('OPERATOR', $request->getByType('operator'));

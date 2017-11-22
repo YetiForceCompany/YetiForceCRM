@@ -76,7 +76,6 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 			$relationListView->set('entityState', $request->getByType('entityState'));
 		}
 		$viewer = $this->getViewer($request);
-		$viewer->assign('RELATION_LIST_VIEW', $relationListView);
 		if (!$request->isEmpty('operator', true)) {
 			$relationListView->set('operator', $request->getByType('operator'));
 			$viewer->assign('OPERATOR', $request->getByType('operator'));
@@ -107,6 +106,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$noOfEntries = count($models);
 
 		$relationModel = $relationListView->getRelationModel();
+		$viewer->assign('LIST_VIEW_MODEL', $relationListView);
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('PARENT_RECORD', $parentRecordModel);
 		$viewer->assign('RELATED_LIST_LINKS', $links);

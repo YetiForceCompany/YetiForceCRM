@@ -1355,6 +1355,7 @@ $languageStrings = [
 	'LBL_DELETE_RECORD_COMPLETELY' => 'Borrar registro del sistema definitivamente',
 	'LBL_DELETE_RECORD_COMPLETELY_DESC' => 'Eliminar un registro es permanente e irreversible para toda la información del registro. ¿Seguro que quieres borrar el registro?',
 	'LBL_RECORD_HAS_BEEN_DELETED' => 'El registro ha sido eliminado',
+	'LBL_SHOW_INVENTORY_ROW' => 'Show additional information',
 ];
 $jsLanguageStrings = [
 	'JS_VIEWNAME_ALERT' => 'Nombre del filtro demasiado largo',

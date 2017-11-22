@@ -53,7 +53,6 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 							if (emailEnabledModule) {
 								var listInstance = new Campaigns_List_Js();
 								listInstance.registerEvents();
-								thisInstance.registerRelatedListEvents();
 							}
 							if (typeof callBack == 'function') {
 								callBack(data);
@@ -71,16 +70,8 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 			}
 		});
 	},
-	/**
-	 * Function to register related list events
-	 */
-	registerRelatedListEvents: function () {
-		var relatedController = new Campaigns_RelatedList_Js(this.getRecordId(), app.getModuleName(), this.getSelectedTab(), this.getRelatedModuleName());
-		relatedController.registerEvents();
-	},
 	registerEvents: function () {
 		this._super();
-		this.registerRelatedListEvents();
 		//Calling registerevents of campaigns list to handle checkboxs click of related records
 		var listInstance = Vtiger_List_Js.getInstance();
 		listInstance.registerEvents();
