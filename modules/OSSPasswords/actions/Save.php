@@ -13,7 +13,7 @@ class OSSPasswords_Save_Action extends Vtiger_Save_Action
 	{
 		$recordModel = $this->saveRecord($request);
 		if ($request->getBoolean('relationOperation')) {
-			$parentModuleName = $request->getByType('sourceModule');
+			$parentModuleName = $request->getByType('sourceModule',2);
 			$parentRecordId = $request->getInteger('sourceRecord');
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentRecordId, $parentModuleName);
 			$loadUrl = $parentRecordModel->getDetailViewUrl();
@@ -71,7 +71,7 @@ class OSSPasswords_Save_Action extends Vtiger_Save_Action
 			}
 		}
 		if ($request->getBoolean('relationOperation')) {
-			$parentModuleName = $request->getByType('sourceModule', 1);
+			$parentModuleName = $request->getByType('sourceModule', 2);
 			$parentModuleModel = Vtiger_Module_Model::getInstance($parentModuleName);
 			$parentRecordId = $request->getInteger('sourceRecord');
 			$relatedModule = $recordModel->getModule();

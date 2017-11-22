@@ -22,7 +22,7 @@ class PriceBooks_Popup_View extends Vtiger_Popup_View
 		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
-		$sourceModule = $request->getByType('src_module', 1);
+		$sourceModule = $request->getByType('src_module', 2);
 		$sourceField = $request->isEmpty('src_field') ? false : $request->getByType('src_field', 2);
 		$searchKey = $request->isEmpty('search_key') ? false : $request->getByType('search_key', 2);
 		$searchValue = $request->get('search_value');

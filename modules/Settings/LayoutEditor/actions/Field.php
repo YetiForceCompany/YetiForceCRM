@@ -24,7 +24,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 	public function add(\App\Request $request)
 	{
 		$type = $request->get('fieldType');
-		$moduleName = $request->getByType('sourceModule', 1);
+		$moduleName = $request->getByType('sourceModule', 2);
 		$blockId = $request->get('blockid');
 		$moduleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($moduleName);
 		$response = new Vtiger_Response();
@@ -75,7 +75,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 				'success' => true,
 				'presence' => $request->get('presence'),
 				'mandatory' => $fieldInstance->isMandatory(),
-				'label' => \App\Language::translate($fieldInstance->get('label'), $request->getByType('sourceModule', 1))]);
+				'label' => \App\Language::translate($fieldInstance->get('label'), $request->getByType('sourceModule', 2))]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}

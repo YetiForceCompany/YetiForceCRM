@@ -17,7 +17,7 @@ class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$sourceModule = $request->getByType('sourceModule', 1);
+		$sourceModule = $request->getByType('sourceModule', 2);
 		if ($request->has('record')) {
 			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($request->getInteger('record'));
 			if (!$recordModel->isViewable() || !$recordModel->getModule()->isTrackingEnabled()) {
@@ -59,7 +59,7 @@ class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
 	{
 		$records = $request->getArray('recordsId');
 		foreach ($records as $key => $record) {
-			if (!\App\Privilege::isPermitted($request->getByType('sourceModule', 1), 'DetailView', $record)) {
+			if (!\App\Privilege::isPermitted($request->getByType('sourceModule', 2), 'DetailView', $record)) {
 				unset($records[$key]);
 			}
 		}
@@ -76,7 +76,7 @@ class ModTracker_ChangesReviewedOn_Action extends Vtiger_Action_Controller
 	public function reviewChanges(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$sourceModule = $request->getByType('sourceModule', 1);
+		$sourceModule = $request->getByType('sourceModule', 2);
 		$request->set('module', $sourceModule);
 		$result = false;
 		$recordsList = Vtiger_Mass_Action::getRecordsListFromRequest($request);

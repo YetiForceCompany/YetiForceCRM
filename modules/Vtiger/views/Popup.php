@@ -24,16 +24,16 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$request->isEmpty('related_parent_module') && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('related_parent_module'))) {
+		if (!$request->isEmpty('related_parent_module') && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('related_parent_module',2))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		if (!$request->isEmpty('src_module') && (!$currentUserPrivilegesModel->isAdminUser() && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('src_module')))) {
+		if (!$request->isEmpty('src_module') && (!$currentUserPrivilegesModel->isAdminUser() && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('src_module',2)))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		if (!$request->isEmpty('related_parent_id', true) && !\App\Privilege::isPermitted($request->getByType('related_parent_module'), 'DetailView', $request->getInteger('related_parent_id'))) {
+		if (!$request->isEmpty('related_parent_id', true) && !\App\Privilege::isPermitted($request->getByType('related_parent_module',2), 'DetailView', $request->getInteger('related_parent_id'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		if (!$request->isEmpty('src_record', true) && $request->getByType('src_module', 1) !== 'Users' && !\App\Privilege::isPermitted($request->getByType('src_module'), 'DetailView', $request->getInteger('src_record'))) {
+		if (!$request->isEmpty('src_record', true) && $request->getByType('src_module', 2) !== 'Users' && !\App\Privilege::isPermitted($request->getByType('src_module',2), 'DetailView', $request->getInteger('src_record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
@@ -101,10 +101,10 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
-		$sourceModule = $request->getByType('src_module', 1);
+		$sourceModule = $request->getByType('src_module', 2);
 		$sourceField = $request->get('src_field');
 		$currencyId = $request->getInteger('currency_id');
-		$relatedParentModule = $request->isEmpty('related_parent_module', true) ? '' : $request->getByType('related_parent_module', 1);
+		$relatedParentModule = $request->isEmpty('related_parent_module', true) ? '' : $request->getByType('related_parent_module', 2);
 		$relatedParentId = $request->isEmpty('related_parent_id') ? '' : $request->getInteger('related_parent_id');
 		$filterFields = $request->get('filterFields');
 		$showSwitch = $request->getInteger('showSwitch');
@@ -299,7 +299,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 	public function getListViewCount(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$sourceModule = $request->getByType('src_module', 1);
+		$sourceModule = $request->getByType('src_module', 2);
 		$sourceField = $request->get('src_field', 1);
 		$sourceRecord = $request->isEmpty('src_record', true) ? 0 : $request->getInteger('src_record');
 		$orderBy = $request->getForSql('orderby');
@@ -307,7 +307,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		$currencyId = $request->getInteger('currency_id');
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
-		$relatedParentModule = $request->isEmpty('related_parent_module', true) ? '' : $request->getByType('related_parent_module', 1);
+		$relatedParentModule = $request->isEmpty('related_parent_module', true) ? '' : $request->getByType('related_parent_module', 2);
 		$relatedParentId = $request->isEmpty('related_parent_id') ? '' : $request->getInteger('related_parent_id');
 		if (!empty($relatedParentModule) && !empty($relatedParentId)) {
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($relatedParentId, $relatedParentModule);

@@ -22,7 +22,7 @@ abstract class Vtiger_Mass_Action extends Vtiger_Action_Controller
 		$cvId = $request->isEmpty('viewname') ? '' : $request->getByType('viewname', 2);
 		$moduleName = $request->getByType('module');
 		if (!empty($cvId) && $cvId === 'undefined' && $request->getByType('source_module') !== 'Users') {
-			$sourceModule = $request->getByType('sourceModule', 1);
+			$sourceModule = $request->getByType('sourceModule', 2);
 			$cvId = CustomView_Record_Model::getAllFilterByModule($sourceModule)->getId();
 		}
 		$customViewModel = CustomView_Record_Model::getInstanceById($cvId);

@@ -20,13 +20,13 @@ class Products_Popup_View extends Vtiger_Popup_View
 		$pageNumber = $request->getInteger('page');
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
-		$sourceModule = $request->getByType('src_module', 1);
+		$sourceModule = $request->getByType('src_module', 2);
 		$sourceField = $request->isEmpty('src_field') ? false : $request->getByType('src_field', 2);
 		$sourceRecord = $request->isEmpty('src_record') ? false : $request->getInteger('src_record');
 		$searchKey = $request->isEmpty('search_key') ? false : $request->getByType('search_key', 2);
 		$searchValue = $request->get('search_value');
 		$currencyId = $request->isEmpty('currency_id') ? false : $request->getInteger('currency_id');
-		$relatedParentModule = $request->getByType('related_parent_module', 1);
+		$relatedParentModule = $request->getByType('related_parent_module', 2);
 		$relatedParentId = $request->getInteger('related_parent_id');
 		$filterFields = $request->get('filterFields');
 

@@ -59,10 +59,10 @@ class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('TYPE', $type);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('MODULE_NAME', $request->getByType('sourceModule', 1));
-		$viewer->assign('MODULE_ID', \App\Module::getModuleId($request->getByType('sourceModule', 1)));
+		$viewer->assign('MODULE_NAME', $request->getByType('sourceModule', 2));
+		$viewer->assign('MODULE_ID', \App\Module::getModuleId($request->getByType('sourceModule', 2)));
 		$viewer->assign('INDEX', ++$index);
-		$viewer->assign('DATA', Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($type, $request->getByType('sourceModule', 1)));
+		$viewer->assign('DATA', Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($type, $request->getByType('sourceModule', 2)));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('AddPanel.tpl', $qualifiedModuleName);
 	}

@@ -28,7 +28,7 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 	{
 		parent::checkPermission($request);
 		$request->getModule(false);
-		$sourceModule = $request->getByType('sourceModule', 1);
+		$sourceModule = $request->getByType('sourceModule', 2);
 
 		if (!$sourceModule) {
 			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
@@ -50,7 +50,7 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 	 */
 	public function getModuleCustomNumberingData(\App\Request $request)
 	{
-		$sourceModule = $request->getByType('sourceModule', 1);
+		$sourceModule = $request->getByType('sourceModule', 2);
 		$moduleData = \App\Fields\RecordNumber::getNumber($sourceModule);
 
 		$response = new Vtiger_Response();
@@ -66,7 +66,7 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 	public function saveModuleCustomNumberingData(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleModel = Settings_Vtiger_CustomRecordNumberingModule_Model::getInstance($request->getByType('sourceModule', 1));
+		$moduleModel = Settings_Vtiger_CustomRecordNumberingModule_Model::getInstance($request->getByType('sourceModule', 2));
 		$moduleModel->set('prefix', $request->get('prefix'));
 		$moduleModel->set('sequenceNumber', $request->get('sequenceNumber'));
 		$moduleModel->set('postfix', $request->get('postfix'));
@@ -87,7 +87,7 @@ class Settings_Vtiger_CustomRecordNumberingAjax_Action extends Settings_Vtiger_I
 	 */
 	public function updateRecordsWithSequenceNumber(\App\Request $request)
 	{
-		$sourceModule = $request->getByType('sourceModule', 1);
+		$sourceModule = $request->getByType('sourceModule', 2);
 
 		$moduleModel = Settings_Vtiger_CustomRecordNumberingModule_Model::getInstance($sourceModule);
 		$result = $moduleModel->updateRecordsWithSequence();
