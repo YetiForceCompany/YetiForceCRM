@@ -15,7 +15,7 @@ class Settings_Workflows_Save_Action extends Settings_Vtiger_Basic_Action
 	{
 		$recordId = $request->get('record');
 		$summary = $request->get('summary');
-		$moduleName = $request->get('module_name');
+		$moduleName = $request->getByType('module_name', 2);
 		$conditions = $request->get('conditions');
 		$filterSavedInNew = $request->get('filtersavedinnew');
 		$executionCondition = $request->get('execution_condition');
