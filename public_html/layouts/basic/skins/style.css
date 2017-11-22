@@ -5956,4 +5956,7 @@ select[readonly], select[disabled]{
 .listViewEntriesTable .listViewSummation td.border{
 	border: 1px solid #ddd;
 }
+.tableBorderHeadBody{
+	margin-bottom: 0;
+}
 
