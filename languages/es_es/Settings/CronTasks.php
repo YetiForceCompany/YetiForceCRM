@@ -61,6 +61,10 @@ $languageStrings = [
 	'LBL_CACHE' => 'Caché',
 	'LBL_NEVER_ENDING_RECURRING_EVENTS' => 'Eventos recurrentes sin fin',
 	'LBL_CLEAR_ATTACHMENTS_TABLE' => 'Limpiar Tabla de archivos adjuntos'
+	'LBL_SMSNOTIFIER' => 'SMS messages',
+ 	'LBL_BROWSING_HISTORY' => 'Delete browsing history',
+ 	'LBK_SYSTEM_WARNINGS' => 'Notifications with system warnings',
+ 	'LBL_BATCH_PROCESSES' => 'Batch processes for servicing long-lasting actions',
 ];
 $jsLanguageStrings = [
 	'Recommended frequency for Scheduled Import is 15 mins' => 'La frecuencia recomendada para la importación programada es de 15 minutos',
