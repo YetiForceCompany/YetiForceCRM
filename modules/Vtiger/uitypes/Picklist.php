@@ -17,7 +17,30 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		return Vtiger_Language_Handler::getTranslatedString($value, $this->get('field')->getModuleName());
+		$moduleName = $this->getFieldModel()->getModuleName();
+		$dispalyValue = Vtiger_Language_Handler::getTranslatedString($value, $moduleName);
+		if ($rawText) {
+			return $dispalyValue;
+		}
+		$fieldName = App\Colors::sanitizeValue($this->getFieldModel()->getFieldName());
+		$value = App\Colors::sanitizeValue($value);
+		return "<span class=\"picklistValue picklistCT_{$moduleName}_{$fieldName}_{$value}\">$dispalyValue</span>";
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	{
+		$moduleName = $this->getFieldModel()->getModuleName();
+		$dispalyValue = Vtiger_Language_Handler::getTranslatedString($value, $moduleName);
+		if ($rawText) {
+			return $dispalyValue;
+		}
+		$dispalyValue = \vtlib\Functions::textLength($dispalyValue, $this->getFieldModel()->get('maxlengthtext'));
+		$fieldName = App\Colors::sanitizeValue($this->getFieldModel()->getFieldName());
+		$value = App\Colors::sanitizeValue($value);
+		return "<span class=\"picklistValue picklistCT_{$moduleName}_{$fieldName}_{$value}\">$dispalyValue</span>";
 	}
 
 	/**

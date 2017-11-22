@@ -127,7 +127,7 @@ class Colors
 	 * Sanitize value for use in css class name
 	 * @param string $value
 	 */
-	private static function sanitizeValue($value)
+	public static function sanitizeValue($value)
 	{
 		return str_replace([' ', '-', '=', '+', '@', '*', '!', '#', '$', '%', '^', '&', '(', ')', '[', ']', '{', '}', ';', ':', "\'", '"', ',', '<', '.', '>', '/', '?', '\\', '|'], '_', $value);
 	}
