@@ -39,17 +39,17 @@
 				</div>
 				<div class="col-xs-12 col-sm-6 col-md-6">
 					<div class="pull-right">
-						{if $RELATION_LIST_VIEW}
+						{if $LIST_VIEW_MODEL}
 							<div class="pull-right paddingLeft5px">
 								{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
-								<input type="hidden" class="entityState" value="{if $RELATION_LIST_VIEW->has('entityState')}{$RELATION_LIST_VIEW->get('entityState')}{else}Active{/if}">
+								<input type="hidden" class="entityState" value="{if $LIST_VIEW_MODEL->has('entityState')}{$LIST_VIEW_MODEL->get('entityState')}{else}Active{/if}">
 								<div class="dropdown dropdownEntityState">
 									<button class="btn btn-default dropdown-toggle" type="button" id="dropdownEntityState" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-										{if $RELATION_LIST_VIEW->get('entityState') === 'Archived'}
+										{if $LIST_VIEW_MODEL->get('entityState') === 'Archived'}
 											<span class="fa fa-archive"></span>
-										{elseif $RELATION_LIST_VIEW->get('entityState') === 'Trash'}
+										{elseif $LIST_VIEW_MODEL->get('entityState') === 'Trash'}
 											<span class="glyphicon glyphicon-trash"></span>
-										{elseif $RELATION_LIST_VIEW->get('entityState') === 'All'}
+										{elseif $LIST_VIEW_MODEL->get('entityState') === 'All'}
 											<span class="glyphicon glyphicon-menu-hamburger"></span>
 										{else}
 											<span class="fa fa-refresh"></span>
