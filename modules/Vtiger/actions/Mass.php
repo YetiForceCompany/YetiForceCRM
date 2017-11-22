@@ -27,7 +27,7 @@ abstract class Vtiger_Mass_Action extends Vtiger_Action_Controller
 		}
 		$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
 		if ($customViewModel) {
-			$selectedIds = $request->get('selected_ids');
+			$selectedIds = $request->getArray('selected_ids', 2);
 			if (!empty($selectedIds) && !in_array($selectedIds, ['all', '"all"']) && count($selectedIds) > 0) {
 				$queryGenerator = new App\QueryGenerator($moduleName);
 				$queryGenerator->setFields(['id']);
