@@ -9,6 +9,28 @@
  *************************************************************************************/
 
 jQuery.Class("Vtiger_RelatedList_Js", {
+	instance: false,
+	getInstance: function (parentId, parentModule, selectedRelatedTabElement, relatedModuleName) {
+		if (Vtiger_RelatedList_Js.instance == false) {
+			var moduleClassName = app.getModuleName() + "_RelatedList_Js";
+			var fallbackClassName = Vtiger_RelatedList_Js;
+			if (typeof window[moduleClassName] != 'undefined') {
+				var instance = new window[moduleClassName]();
+			} else {
+				var instance = new fallbackClassName();
+			}
+			Vtiger_RelatedList_Js.instance = instance;
+		} else {
+			var instance = Vtiger_RelatedList_Js.instance;
+		}
+		instance.parentRecordId = parentId;
+		instance.parentModuleName = parentModule;
+		instance.selectedRelatedTabElement = selectedRelatedTabElement;
+		instance.moduleName = relatedModuleName;
+		instance.relatedTabsContainer = selectedRelatedTabElement.closest('div.related');
+		instance.content = $('div.contents', instance.relatedTabsContainer.closest('div.detailViewContainer'));
+		return instance;
+	},
 	triggerMassAction: function (massActionUrl, type) {
 		var listInstance = Vtiger_List_Js.getInstance();
 		var validationResult = listInstance.checkListRecordSelected();
@@ -213,18 +235,17 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		var aDeferred = jQuery.Deferred();
 		var thisInstance = this;
 		var popupInstance = Vtiger_Popup_Js.getInstance();
-		var mainParams = this.getPopupParams()
+		var mainParams = this.getPopupParams(); 
 		$.extend(mainParams, extendParams);
 		popupInstance.show(mainParams, function (responseString) {
 			var responseData = JSON.parse(responseString);
-			var relatedIdList = Object.keys(responseData);
-			thisInstance.addRelations(relatedIdList).then(function (data) {
+			thisInstance.addRelations(responseData).then(function (data) {
+				var detail = Vtiger_Detail_Js.getInstance();
 				thisInstance.loadRelatedList().then(function (data) {
 					aDeferred.resolve(data);
 					detail.registerRelatedModulesRecordCount();
 				});
 				var selectedTab = thisInstance.getSelectedTabElement();
-				var detail = Vtiger_Detail_Js.getInstance();
 				if (selectedTab.data('link-key') == 'LBL_RECORD_SUMMARY') {
 					detail.loadWidgets();
 					detail.registerRelatedModulesRecordCount();
@@ -235,6 +256,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	},
 	addRelations: function (idList) {
 		var aDeferred = jQuery.Deferred();
+		idList = Object.keys(idList);
 		AppConnector.request({
 			module: this.parentModuleName,
 			action: 'RelationAjax',
@@ -579,7 +601,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	registerRowsEvent: function () {
 		this.content.on('click', '.listViewEntries', function (e) {
 			var target = $(e.target);
-			if(target.is('td')){
+			if (target.is('td')) {
 				document.location.href = target.closest('tr').data('recordurl');
 			}
 		});
@@ -733,12 +755,4 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		this.registerPostLoadEvents();
 		Vtiger_Helper_Js.showHorizontalTopScrollBar();
 	},
-	init: function (parentId, parentModule, selectedRelatedTabElement, relatedModuleName) {
-		this.parentRecordId = parentId;
-		this.parentModuleName = parentModule;
-		this.selectedRelatedTabElement = selectedRelatedTabElement;
-		this.moduleName = relatedModuleName;
-		this.relatedTabsContainer = selectedRelatedTabElement.closest('div.related');
-		this.content = jQuery('div.contents', this.relatedTabsContainer.closest('div.detailViewContainer'));
-	}
 })
