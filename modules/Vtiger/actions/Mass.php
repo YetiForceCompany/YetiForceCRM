@@ -26,24 +26,23 @@ abstract class Vtiger_Mass_Action extends Vtiger_Action_Controller
 			$cvId = CustomView_Record_Model::getAllFilterByModule($sourceModule)->getId();
 		}
 		$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
-		if ($customViewModel) {
-			$selectedIds = $request->getArray('selected_ids', 2);
-			if (!empty($selectedIds) && !in_array($selectedIds, ['all', '"all"']) && count($selectedIds) > 0) {
-				$queryGenerator = new App\QueryGenerator($moduleName);
-				$queryGenerator->setFields(['id']);
-				$queryGenerator->addCondition('id', $selectedIds, 'e');
-				return $queryGenerator;
-			}
-			if (!$request->isEmpty('operator')) {
-				$customViewModel->set('operator', $request->getByType('operator'));
-				$customViewModel->set('search_key', $request->getByType('search_key'));
-				$customViewModel->set('search_value', $request->get('search_value'));
-			}
-			$customViewModel->set('search_params', $request->get('search_params'));
-			return $customViewModel->getRecordsListQuery($request->get('excluded_ids'), $moduleName);
-		} else {
+		if (!$customViewModel) {
 			return false;
 		}
+		$selectedIds = $request->getArray('selected_ids', 2);
+		if ($selectedIds && $selectedIds[0] !== 'all') {
+			$queryGenerator = new App\QueryGenerator($moduleName);
+			$queryGenerator->setFields(['id']);
+			$queryGenerator->addCondition('id', $selectedIds, 'e');
+			return $queryGenerator;
+		}
+		if (!$request->isEmpty('operator')) {
+			$customViewModel->set('operator', $request->getByType('operator'));
+			$customViewModel->set('search_key', $request->getByType('search_key'));
+			$customViewModel->set('search_value', $request->get('search_value'));
+		}
+		$customViewModel->set('search_params', $request->get('search_params'));
+		return $customViewModel->getRecordsListQuery($request->get('excluded_ids'), $moduleName);
 	}
 
 	/**
@@ -53,8 +52,8 @@ abstract class Vtiger_Mass_Action extends Vtiger_Action_Controller
 	 */
 	public static function getRecordsListFromRequest(\App\Request $request)
 	{
-		$selectedIds = $request->get('selected_ids');
-		if (!empty($selectedIds) && !in_array($selectedIds, ['all', '"all"']) && count($selectedIds) > 0) {
+		$selectedIds = $request->getArray('selected_ids', 2);
+		if ($selectedIds && $selectedIds[0] !== 'all') {
 			return $selectedIds;
 		}
 		$queryGenerator = static::getQuery($request);

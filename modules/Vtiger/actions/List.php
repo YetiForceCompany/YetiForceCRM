@@ -42,8 +42,9 @@ class Vtiger_List_Action extends Vtiger_Mass_Action
 	}
 
 	/**
-	 * Function to add relation for specified source record id and related record id list
+	 * Function for calculating values for a list of records
 	 * @param \App\Request $request
+	 * @throws \App\Exceptions\Security
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function calculate(\App\Request $request)
@@ -61,7 +62,6 @@ class Vtiger_List_Action extends Vtiger_Mass_Action
 				break;
 			default:
 				throw new \App\Exceptions\NotAllowedMethod('LBL_PERMISSION_DENIED', 406);
-				break;
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($fieldModel->getDisplayValue($value));
