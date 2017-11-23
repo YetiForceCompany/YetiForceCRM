@@ -18,32 +18,19 @@ class Rss_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getSideBarLinks($linkParams)
 	{
-		$linkTypes = ['SIDEBARLINK', 'SIDEBARWIDGET'];
-		$links = Vtiger_Link_Model::getAllByType($this->getId(), $linkTypes, $linkParams);
-
-		$quickLinks = [
-			[
+		$links = Vtiger_Link_Model::getAllByType($this->getId(), ['SIDEBARLINK', 'SIDEBARWIDGET'], $linkParams);
+		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_ADD_FEED_SOURCE',
 				'linkurl' => $this->getDefaultUrl(),
-				'linkicon' => '',
-			]
-		];
-		foreach ($quickLinks as $quickLink) {
-			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
-		}
-		$quickWidgets = [
-			[
+				'linkicon' => 'fa fa-rss',
+		]);
+		$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARWIDGET',
 				'linklabel' => 'LBL_RSS_FEED_SOURCES',
-				'linkurl' => 'module=' . $this->get('name') . '&view=ViewTypes&mode=getRssWidget',
+				'linkurl' => 'module=' . $this->getName() . '&view=ViewTypes&mode=getRssWidget',
 				'linkicon' => ''
-			],
-		];
-		foreach ($quickWidgets as $quickWidget) {
-			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues($quickWidget);
-		}
-
+		]);
 		return $links;
 	}
 
