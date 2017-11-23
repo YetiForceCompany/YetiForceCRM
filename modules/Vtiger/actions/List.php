@@ -25,7 +25,7 @@ class Vtiger_List_Action extends Vtiger_Mass_Action
 	public function checkPermission(\App\Request $request)
 	{
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
 		}
 	}
 
@@ -52,6 +52,9 @@ class Vtiger_List_Action extends Vtiger_Mass_Action
 		$queryGenerator = self::getQuery($request);
 		$fieldQueryModel = $queryGenerator->getQueryField($request->getByType('fieldName', 2));
 		$fieldModel = $fieldQueryModel->getField();
+		if (!$fieldModel->isViewable()) {
+			throw new \App\Exceptions\Security('ERR_NO_ACCESS_TO_THE_FIELD', 403);
+		}
 		if (!$fieldModel->isCalculateField()) {
 			throw new \App\Exceptions\Security('LBL_NOT_SUPPORTED_FIELD', 406);
 		}
