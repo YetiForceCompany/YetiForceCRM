@@ -776,7 +776,9 @@ class QueryGenerator
 	 * Set condition
 	 * @param string $fieldName
 	 * @param mixed $value
-	 * @param string $operator {@see CustomView::ADVANCED_FILTER_OPTIONS} and {@see CustomView::STD_FILTER_CONDITIONS}
+	 * @param string $operator
+	 * @see CustomView::ADVANCED_FILTER_OPTIONS
+	 * @see CustomView::STD_FILTER_CONDITIONS
 	 */
 	public function addCondition($fieldName, $value, $operator, $groupAnd = true)
 	{

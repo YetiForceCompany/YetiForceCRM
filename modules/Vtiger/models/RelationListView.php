@@ -136,9 +136,9 @@ class Vtiger_RelationListView_Model extends \App\Base
 
 	/**
 	 * Function to get Relation query
-	 * @return \App\Db\Query
+	 * @return \App\Db\Query|\App\QueryGenerator
 	 */
-	public function getRelationQuery()
+	public function getRelationQuery($returnQueryGenerator = false)
 	{
 		if ($this->has('Query')) {
 			return $this->get('Query');
@@ -153,6 +153,9 @@ class Vtiger_RelationListView_Model extends \App\Base
 				foreach ($this->mandatoryColumns[$relationModuleName] as &$columnName) {
 					$queryGenerator->setCustomColumn($columnName);
 				}
+			}
+			if ($returnQueryGenerator) {
+				return $queryGenerator;
 			}
 			$query = $queryGenerator->createQuery();
 			$this->set('Query', $query);

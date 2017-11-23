@@ -34,7 +34,7 @@ class Vtiger_GetData_Action extends Vtiger_IndexAjax_View
 	public function process(\App\Request $request)
 	{
 		$record = $request->getInteger('record');
-		$sourceModule = $request->getByType('source_module');
+		$sourceModule = $request->getByType('source_module', 2);
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, $sourceModule);
 		if (!$recordModel->isViewable()) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);

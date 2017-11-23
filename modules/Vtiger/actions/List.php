@@ -25,7 +25,7 @@ class Vtiger_List_Action extends Vtiger_Mass_Action
 	public function checkPermission(\App\Request $request)
 	{
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
 		}
 	}
 
@@ -42,8 +42,9 @@ class Vtiger_List_Action extends Vtiger_Mass_Action
 	}
 
 	/**
-	 * Function to add relation for specified source record id and related record id list
+	 * Function for calculating values for a list of records
 	 * @param \App\Request $request
+	 * @throws \App\Exceptions\Security
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function calculate(\App\Request $request)
@@ -51,6 +52,9 @@ class Vtiger_List_Action extends Vtiger_Mass_Action
 		$queryGenerator = self::getQuery($request);
 		$fieldQueryModel = $queryGenerator->getQueryField($request->getByType('fieldName', 2));
 		$fieldModel = $fieldQueryModel->getField();
+		if (!$fieldModel->isViewable()) {
+			throw new \App\Exceptions\Security('ERR_NO_ACCESS_TO_THE_FIELD', 403);
+		}
 		if (!$fieldModel->isCalculateField()) {
 			throw new \App\Exceptions\Security('LBL_NOT_SUPPORTED_FIELD', 406);
 		}
@@ -61,7 +65,6 @@ class Vtiger_List_Action extends Vtiger_Mass_Action
 				break;
 			default:
 				throw new \App\Exceptions\NotAllowedMethod('LBL_PERMISSION_DENIED', 406);
-				break;
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($fieldModel->getDisplayValue($value));

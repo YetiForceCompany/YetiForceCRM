@@ -57,7 +57,7 @@ class Vtiger_Menu_Model
 		}
 		$moduleName = $request->getModule();
 		$view = $request->getByType('view', 1);
-		$parent = $request->getByType('parent', 1);
+		$parent = $request->getByType('parent', 2);
 		if ($parent !== 'Settings') {
 			if (empty($parent)) {
 				foreach ($parentList as &$parentItem) {

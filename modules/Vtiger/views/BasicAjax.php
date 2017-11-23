@@ -26,7 +26,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		if (!$request->isEmpty('searchModule') && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('searchModule', 1))) {
+		if (!$request->isEmpty('searchModule') && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('searchModule', 2))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
@@ -61,7 +61,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		if (!$request->isEmpty('searchModule')) {
-			$moduleName = $request->getByType('searchModule', 1);
+			$moduleName = $request->getByType('searchModule', 2);
 		}
 		$saveFilterPermitted = true;
 		$saveFilterexcludedModules = ['ModComments', 'RSS', 'Portal', 'Integration', 'PBXManager', 'DashBoard'];
@@ -138,7 +138,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$operator = (!$request->isEmpty('operator') ) ? $request->getByType('operator', 1) : false;
 			$searchModule = false;
 			if (!$request->isEmpty('searchModule', true)) {
-				$searchModule = $request->getByType('searchModule', 1);
+				$searchModule = $request->getByType('searchModule', 2);
 			}
 			$viewer->assign('SEARCH_KEY', $searchKey);
 			$viewer->assign('SEARCH_MODULE', $searchModule);

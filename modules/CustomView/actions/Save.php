@@ -23,7 +23,7 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 		if ($request->has('record') && !CustomView_Record_Model::getInstanceById($request->getInteger('record'))->isEditable()) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		if (!App\Privilege::isPermitted($request->getByType('source_module'), 'CreateCustomFilter')) {
+		if (!App\Privilege::isPermitted($request->getByType('source_module', 2), 'CreateCustomFilter')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
@@ -33,7 +33,7 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 	 */
 	public function process(\App\Request $request)
 	{
-		$moduleModel = Vtiger_Module_Model::getInstance($request->getByType('source_module'));
+		$moduleModel = Vtiger_Module_Model::getInstance($request->getByType('source_module', 2));
 		$customViewModel = $this->getCVModelFromRequest($request);
 		$response = new Vtiger_Response();
 
@@ -62,7 +62,7 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 			$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
 		} else {
 			$customViewModel = CustomView_Record_Model::getCleanInstance();
-			$customViewModel->setModule($request->getByType('source_module', 1));
+			$customViewModel->setModule($request->getByType('source_module', 2));
 		}
 		$customViewData = [
 			'cvid' => $cvId,
@@ -76,10 +76,10 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 		];
 		$selectedColumnsList = $request->get('columnslist');
 		if (empty($selectedColumnsList)) {
-			$moduleModel = Vtiger_Module_Model::getInstance($request->getByType('source_module', 1));
+			$moduleModel = Vtiger_Module_Model::getInstance($request->getByType('source_module', 2));
 			$cvIdDefault = $moduleModel->getAllFilterCvidForModule();
 			if ($cvIdDefault === false) {
-				$cvId = App\CustomView::getInstance($request->getByType('source_module', 1))->getDefaultCvId();
+				$cvId = App\CustomView::getInstance($request->getByType('source_module', 2))->getDefaultCvId();
 			}
 			$defaultCustomViewModel = CustomView_Record_Model::getInstanceById($cvIdDefault);
 			$selectedColumnsList = $defaultCustomViewModel->getSelectedFields();

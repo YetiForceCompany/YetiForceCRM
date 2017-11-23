@@ -227,7 +227,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			$viewer->assign('MODULE_NAME', $request->getModule());
 			if ($request->isAjax()) {
 				$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-				if (!$request->isEmpty('parent', true) && $request->getByType('parent', 1) === 'Settings') {
+				if (!$request->isEmpty('parent', true) && $request->getByType('parent', 2) === 'Settings') {
 					$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 				}
 			}
@@ -296,7 +296,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('VIEW', $request->getByType('view', 1));
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('PARENT_MODULE', $request->getByType('parent', 1));
+		$viewer->assign('PARENT_MODULE', $request->getByType('parent', 2));
 		$companyDetails = App\Company::getInstanceById();
 		$viewer->assign('COMPANY_DETAILS', $companyDetails);
 		$viewer->assign('COMPANY_LOGO', $companyDetails->getLogo(false, false));
