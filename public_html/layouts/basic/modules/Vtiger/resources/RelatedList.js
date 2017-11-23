@@ -618,7 +618,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		var thisInstance = this;
 		this.content.on('click', '.listViewSummation button', function () {
 			var button = $(this);
-			var td = button.closest('td');
+			var calculateValue = button.closest('td').find('.calculateValue');
 			var params = thisInstance.getCompleteParams();
 			params['action'] = 'RelationAjax';
 			params['mode'] = 'calculate';
@@ -634,9 +634,10 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			});
 			app.hidePopover(button);
 			AppConnector.request(params).then(function (response) {
-				console.log(response);
 				if (response.success) {
-					td.html(response.result);
+					calculateValue.html(response.result);
+				}else{
+					calculateValue.html('');
 				}
 				progress.progressIndicator({mode: 'hide'});
 			});

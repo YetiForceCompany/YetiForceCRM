@@ -157,6 +157,7 @@
 								<button class="btn btn-xs btn-default popoverTooltip" type="button" data-operator="sum" data-field="{$HEADER_FIELD->getName()}" data-content="{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}">
 									<span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span>
 								</button>
+								<span class="calculateValue"></span>
 							{/if}
 						</td>
 					{/foreach}

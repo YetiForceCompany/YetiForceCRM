@@ -140,6 +140,7 @@
 								<button class="btn btn-xs btn-default popoverTooltip" data-operator="sum" data-field="{$LISTVIEW_HEADER->getName()}" data-content="{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}">
 									<span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span>
 								</button>
+								<span class="calculateValue"></span>
 							{/if}
 						</td>
 					{/foreach}

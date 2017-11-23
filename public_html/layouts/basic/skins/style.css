@@ -5959,4 +5959,6 @@ select[readonly], select[disabled]{
 .tableBorderHeadBody{
 	margin-bottom: 0;
 }
-
+.calculateValue{
+	margin-left: 10px;
+}
