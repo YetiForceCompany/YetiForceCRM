@@ -51,12 +51,6 @@ class Reports_Module_Model extends Vtiger_Module_Model
 				'linkurl' => $this->getListViewUrl(),
 				'linkicon' => 'glyphicon glyphicon-list',
 		]);
-		$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARWIDGET',
-				'linklabel' => 'LBL_RECENTLY_MODIFIED',
-				'linkurl' => 'module=' . $this->get('name') . '&view=IndexAjax&mode=showActiveRecords',
-				'linkicon' => ''
-		]);
 		return $links;
 	}
 

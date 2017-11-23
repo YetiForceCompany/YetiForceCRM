@@ -16,7 +16,17 @@ class Vtiger_List_View extends Vtiger_Index_View
 	protected $listViewCount = false;
 	protected $listViewLinks = false;
 	protected $listViewHeaders = false;
+
+	/**
+	 * List view model instance
+	 * @var Vtiger_ListView_Model
+	 */
 	protected $listViewModel;
+
+	/**
+	 * List view name or id
+	 * @var int|string
+	 */
 	protected $viewName;
 
 	public function __construct()
@@ -104,6 +114,9 @@ class Vtiger_List_View extends Vtiger_Index_View
 		parent::preProcessDisplay($request);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -137,6 +150,9 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$viewer->view('ListViewContents.tpl', $moduleName);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function postProcess(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -238,7 +254,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		}
 		$searchParams = $request->get('search_params');
 		if (!empty($searchParams) && is_array($searchParams)) {
-			$transformedSearchParams = $this->listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParams);
+			$transformedSearchParams = $this->listViewModel->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 			$this->listViewModel->set('search_params', $transformedSearchParams);
 			//To make smarty to get the details easily accesible
 			foreach ($searchParams as $fieldListGroup) {
