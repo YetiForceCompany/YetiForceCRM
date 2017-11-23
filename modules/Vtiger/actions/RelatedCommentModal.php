@@ -20,7 +20,7 @@ class Vtiger_RelatedCommentModal_Action extends Vtiger_Action_Controller
 		$recordId = $request->getInteger('record');
 		$relatedRecord = $request->getByType('relid', 'Alnum');
 
-		if (!$recordId || !$relatedRecord || !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId) || (is_numeric($relatedRecord) && !\App\Privilege::isPermitted($request->getByType('relmodule', 'Standard'), 'DetailView', $relatedRecord))) {
+		if (!$recordId || !$relatedRecord || !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId) || (is_numeric($relatedRecord) && !\App\Privilege::isPermitted($request->getByType('relmodule', 2), 'DetailView', $relatedRecord))) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
@@ -34,7 +34,7 @@ class Vtiger_RelatedCommentModal_Action extends Vtiger_Action_Controller
 		$moduleName = $request->getModule();
 		$record = $request->getInteger('record');
 		$relatedRecord = $request->getByType('relid', 'Alnum');
-		$relatedModuleName = $request->getByType('relmodule', 'Standard');
+		$relatedModuleName = $request->getByType('relmodule', 2);
 
 		$rcmModel = Vtiger_RelatedCommentModal_Model::getInstance($record, $moduleName, $relatedRecord, $relatedModuleName);
 		if (!$rcmModel->isEditable()) {

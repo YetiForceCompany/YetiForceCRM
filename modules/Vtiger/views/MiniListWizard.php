@@ -27,7 +27,7 @@ class Vtiger_MiniListWizard_View extends Vtiger_Index_View
 				$viewer->assign('MODULES', $modules);
 				break;
 			case 'step2':
-				$selectedModule = $request->getByType('selectedModule', 1);
+				$selectedModule = $request->getByType('selectedModule', 2);
 				if (!\App\Privilege::isPermitted($selectedModule)) {
 					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 				}
@@ -35,7 +35,7 @@ class Vtiger_MiniListWizard_View extends Vtiger_Index_View
 				$viewer->assign('ALLFILTERS', $filters);
 				break;
 			case 'step3':
-				$selectedModule = $request->getByType('selectedModule', 1);
+				$selectedModule = $request->getByType('selectedModule', 2);
 				if (!\App\Privilege::isPermitted($selectedModule)) {
 					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 				}

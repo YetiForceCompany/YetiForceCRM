@@ -12,6 +12,9 @@
 class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -22,37 +25,56 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('updateRelation');
 		$this->exposeMethod('getRelatedListPageCount');
 		$this->exposeMethod('updateFavoriteForRecord');
+		$this->exposeMethod('calculate');
 	}
 
 	/**
-	 * Function to check permission
-	 * @param \App\Request $request
-	 * @throws \App\Exceptions\NoPermitted
+	 * {@inheritDoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$request->isEmpty('record', true) && !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 403);
+		}
 		if (!$request->isEmpty('src_record', true) && !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('src_record'))) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 403);
 		}
 		if (!$request->isEmpty('related_module', true) && !$userPrivilegesModel->hasModulePermission($request->getByType('related_module', 2))) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
 		}
-		if (!$request->isEmpty('relatedModule', true) && $request->getByType('relatedModule') !== 'ProductsAndServices' && !$userPrivilegesModel->hasModulePermission($request->getByType('relatedModule'))) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		if (!$request->isEmpty('relatedModule', true) && $request->getByType('relatedModule', 2) !== 'ProductsAndServices' && !$userPrivilegesModel->hasModulePermission($request->getByType('relatedModule', 2))) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 403);
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public function validateRequest(\App\Request $request)
+	{
+		$request->validateWriteAccess();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public function preProcess(\App\Request $request)
 	{
 		return true;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function postProcess(\App\Request $request)
 	{
 		return true;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
@@ -60,6 +82,61 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 			$this->invokeExposedMethod($mode, $request);
 			return;
 		}
+	}
+
+	/**
+	 * Get query for records list from request
+	 * @param \App\Request $request
+	 * @return \App\QueryGenerator|boolean
+	 */
+	public static function getQuery(\App\Request $request)
+	{
+		$selectedIds = $request->getArray('selected_ids', 2);
+		if ($selectedIds && $selectedIds[0] !== 'all') {
+			$queryGenerator = new App\QueryGenerator($request->getByType('relatedModule', 2));
+			$queryGenerator->setFields(['id']);
+			$queryGenerator->addCondition('id', $selectedIds, 'e');
+			return $queryGenerator;
+		}
+		$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
+		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $request->getByType('relatedModule', 2), $request->get('tab_label'));
+		if ($request->has('entityState')) {
+			$relationListView->set('entityState', $request->getByType('entityState'));
+		}
+		if (!$request->isEmpty('operator', true)) {
+			$relationListView->set('operator', $request->getByType('operator'));
+		}
+		if (!$request->isEmpty('search_key', true)) {
+			$relationListView->set('search_key', $request->getByType('search_key'));
+			$relationListView->set('search_value', $request->get('search_value'));
+		}
+		$searchParmams = $request->get('search_params');
+		if (empty($searchParmams) || !is_array($searchParmams)) {
+			$searchParmams = [];
+		}
+		$relationListView->set('search_params', $relationListView->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParmams));
+		$queryGenerator = $relationListView->getRelationQuery(true);
+		$queryGenerator->setFields(['id']);
+		$excludedIds = $request->getArray('excluded_ids', 'Integer');
+		if ($excludedIds && is_array($excludedIds)) {
+			$queryGenerator->addCondition('id', $excludedIds, 'n');
+		}
+		return $queryGenerator;
+	}
+
+	/**
+	 * Get records list from request
+	 * @param \App\Request $request
+	 * @return array
+	 */
+	public static function getRecordsListFromRequest(\App\Request $request)
+	{
+		$selectedIds = $request->getArray('selected_ids', 2);
+		if ($selectedIds && $selectedIds[0] !== 'all') {
+			return $selectedIds;
+		}
+		$queryGenerator = static::getQuery($request);
+		return $queryGenerator ? $queryGenerator->createQuery()->column() : [];
 	}
 
 	/**
@@ -129,13 +206,13 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	public function massDeleteRelation(\App\Request $request)
 	{
 		$sourceModule = $request->getModule();
-		$relatedModuleName = $request->getByType('relatedModule', 1);
+		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$sourceRecordId = $request->getInteger('src_record');
 		$pagingModel = new Vtiger_Paging_Model();
 
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, $sourceModule);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
-		$excludedIds = $request->getArray('excluded_ids');
+		$excludedIds = $request->getArray('excluded_ids', 'Integer');
 		if ('all' === $request->getRaw('selected_ids')) {
 			if (!$request->isEmpty('operator', true)) {
 				$relationListView->set('operator', $request->getByType('operator', 1));
@@ -174,13 +251,16 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	{
 		Vtiger_Loader::includeOnce('libraries.PHPExcel.PHPExcel');
 		$sourceModule = $request->getModule();
-		$relatedModuleName = $request->getByType('relatedModule', 1);
+		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$sourceRecordId = $request->getInteger('src_record');
 		$pagingModel = new Vtiger_Paging_Model();
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, $sourceModule);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName);
-		$excludedIds = $request->getArray('excluded_ids');
+		$excludedIds = $request->getArray('excluded_ids', 'Integer');
 		if ('all' === $request->getRaw('selected_ids')) {
+			if ($request->has('entityState')) {
+				$relationListView->set('entityState', $request->getByType('entityState'));
+			}
 			if (!$request->isEmpty('operator', true)) {
 				$relationListView->set('operator', $request->getByType('operator', 1));
 			}
@@ -341,7 +421,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	public function getRelatedListPageCount(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$relatedModuleName = $request->getByType('relatedModule');
+		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$parentId = $request->getInteger('record');
 		if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $parentId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -398,7 +478,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	public function updateFavoriteForRecord(\App\Request $request)
 	{
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($request->getModule());
-		$relatedModuleModel = Vtiger_Module_Model::getInstance($request->getByType('relatedModule'));
+		$relatedModuleModel = Vtiger_Module_Model::getInstance($request->getByType('relatedModule', 2));
 		$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
 
 		if (!empty($relationModel)) {
@@ -410,8 +490,33 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		$response->emit();
 	}
 
-	public function validateRequest(\App\Request $request)
+	/**
+	 * Function for calculating values for a list of related records
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\Security
+	 * @throws \App\Exceptions\NotAllowedMethod
+	 */
+	public function calculate(\App\Request $request)
 	{
-		$request->validateWriteAccess();
+		$queryGenerator = static::getQuery($request);
+		$fieldQueryModel = $queryGenerator->getQueryField($request->getByType('fieldName', 2));
+		$fieldModel = $fieldQueryModel->getField();
+		if (!$fieldModel->isViewable()) {
+			throw new \App\Exceptions\Security('ERR_NO_ACCESS_TO_THE_FIELD', 403);
+		}
+		if (!$fieldModel->isCalculateField()) {
+			throw new \App\Exceptions\Security('ERR_NOT_SUPPORTED_FIELD', 406);
+		}
+		$columnName = $fieldQueryModel->getColumnName();
+		switch ($request->getByType('calculateType')) {
+			case 'sum':
+				$value = $queryGenerator->createQuery()->sum($columnName);
+				break;
+			default:
+				throw new \App\Exceptions\NotAllowedMethod('LBL_PERMISSION_DENIED', 406);
+		}
+		$response = new Vtiger_Response();
+		$response->setResult($fieldModel->getDisplayValue($value));
+		$response->emit();
 	}
 }

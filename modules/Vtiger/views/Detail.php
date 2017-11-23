@@ -470,7 +470,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	public function showRelatedList(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$relatedModuleName = $request->getByType('relatedModule');
+		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$targetControllerClass = null;
 		if (!\App\Privilege::isPermitted($relatedModuleName)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -657,7 +657,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$pageNumber = $request->getInteger('page');
 		$limit = (int) $request->get('limit');
 		$searchParams = $request->get('search_params');
-		$relatedModuleName = $request->getByType('relatedModule', 1);
+		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$orderBy = $request->getForSql('orderby');
 		$sortOrder = $request->getForSql('sortorder');
 		$columns = $request->get('col');
@@ -771,7 +771,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$parentId = $request->getInteger('record');
-		$relatedModuleName = $request->getByType('relatedModule', 1);
+		$relatedModuleName = $request->getByType('relatedModule', 2);
 		if (!\App\Privilege::isPermitted($relatedModuleName)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}

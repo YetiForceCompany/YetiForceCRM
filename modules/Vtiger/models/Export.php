@@ -20,7 +20,7 @@ class Vtiger_Export_Model extends \App\Base
 
 	public static function getInstanceFromRequest(\App\Request $request)
 	{
-		$moduleName = $request->getByType('source_module', 1);
+		$moduleName = $request->getByType('source_module', 2);
 		if (empty($moduleName)) {
 			$moduleName = $request->getModule();
 		}
@@ -36,7 +36,7 @@ class Vtiger_Export_Model extends \App\Base
 
 	public function initialize(\App\Request $request)
 	{
-		$moduleName = $request->getByType('source_module', 1);
+		$moduleName = $request->getByType('source_module', 2);
 		if (!empty($moduleName)) {
 			$this->moduleName = $moduleName;
 			$this->moduleInstance = Vtiger_Module_Model::getInstance($moduleName);
@@ -51,7 +51,7 @@ class Vtiger_Export_Model extends \App\Base
 	 */
 	public function exportData(\App\Request $request)
 	{
-		$moduleName = $request->getByType('source_module', 1);
+		$moduleName = $request->getByType('source_module', 2);
 		$query = $this->getExportQuery($request);
 
 		$headers = [];
@@ -128,7 +128,7 @@ class Vtiger_Export_Model extends \App\Base
 	{
 		$mode = $request->getMode();
 		$cvId = $request->getByType('viewname', 2);
-		$queryGenerator = new \App\QueryGenerator($request->getByType('source_module', 1));
+		$queryGenerator = new \App\QueryGenerator($request->getByType('source_module', 2));
 		if (!empty($cvId)) {
 			$queryGenerator->initForCustomViewById($cvId);
 		}
@@ -200,7 +200,7 @@ class Vtiger_Export_Model extends \App\Base
 	 */
 	public function output(\App\Request $request, $headers, $entries)
 	{
-		$moduleName = $request->getByType('source_module', 1);
+		$moduleName = $request->getByType('source_module', 2);
 		$fileName = str_replace(' ', '_', \App\Purifier::decodeHtml(\App\Language::translate($moduleName, $moduleName))) . '.csv';
 		$exportType = $this->getExportContentType($request);
 

@@ -1356,6 +1356,7 @@ $languageStrings = [
 	'LBL_DELETE_RECORD_COMPLETELY_DESC' => 'Eliminar un registro es permanente e irreversible para toda la información del registro. ¿Seguro que quieres borrar el registro?',
 	'LBL_RECORD_HAS_BEEN_DELETED' => 'El registro ha sido eliminado',
 	'LBL_SHOW_INVENTORY_ROW' => 'Show additional information',
+	'LBL_CALCULATE_SUM_FOR_THIS_FIELD' => 'Calculate sum for this field',
 ];
 $jsLanguageStrings = [
 	'JS_VIEWNAME_ALERT' => 'Nombre del filtro demasiado largo',
@@ -1678,4 +1679,5 @@ $jsLanguageStrings = [
 	'JS_CURRENT_MONTH' => 'Mes actual',
 	'JS_LAST_MONTH' => 'Mes pasado',
 	'JS_CUSTOM' => 'Personalizado',
+	'JS_CALCULATING_IN_PROGRESS' => 'Calculating in progress',
 ];

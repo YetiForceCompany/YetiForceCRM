@@ -1992,7 +1992,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var thisInstance = this;
 		this.getListViewContentContainer().on('click', '.listViewSummation button', function () {
 			var button = $(this);
-			var td = button.closest('td');
+			var calculateValue = button.closest('td').find('.calculateValue');
 			var params = thisInstance.getDefaultParams();
 			var progress = $.progressIndicator({
 				message: app.vtranslate('JS_CALCULATING_IN_PROGRESS'),
@@ -2013,7 +2013,9 @@ jQuery.Class("Vtiger_List_Js", {
 			app.hidePopover(button);
 			AppConnector.request(params).then(function (response) {
 				if (response.success) {
-					td.html(response.result);
+					calculateValue.html(response.result);
+				}else{
+					calculateValue.html('');
 				}
 				progress.progressIndicator({mode: 'hide'});
 			});

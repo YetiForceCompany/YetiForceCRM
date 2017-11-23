@@ -1336,6 +1336,7 @@ $languageStrings = [
 	'LBL_DELETE_RECORD_COMPLETELY_DESC' => 'Löschen eines Datensatzes kann nicht wieder rückgängig gemacht werden. Sind Sie sicher?',
 	'LBL_RECORD_HAS_BEEN_DELETED' => 'Datensatz wurde gelöscht',
 	'LBL_SHOW_INVENTORY_ROW' => 'Zusätzliche Informationen anzeigen',
+	'LBL_CALCULATE_SUM_FOR_THIS_FIELD' => 'Calculate sum for this field',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',
@@ -1611,4 +1612,5 @@ $jsLanguageStrings = [
 	'JS_CURRENT_MONTH' => 'Aktueller Monat',
 	'JS_LAST_MONTH' => 'Letzter Monat',
 	'JS_CUSTOM' => 'Benutzerdefinierter Datumsbereich',
+	'JS_CALCULATING_IN_PROGRESS' => 'Calculating in progress',
 ];

@@ -1342,6 +1342,7 @@ $languageStrings = [
 	'LBL_DELETE_RECORD_COMPLETELY_DESC' => 'Deleting a record is permanent and irreversible for all record\'s information. Are you sure you want to delete the record?',
 	'LBL_RECORD_HAS_BEEN_DELETED' => 'Запись была удалена',
 	'LBL_SHOW_INVENTORY_ROW' => 'Show additional information',
+	'LBL_CALCULATE_SUM_FOR_THIS_FIELD' => 'Calculate sum for this field',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Подитог',
@@ -1663,4 +1664,5 @@ $jsLanguageStrings = [
 	'JS_CURRENT_MONTH' => 'Текущий месяц',
 	'JS_LAST_MONTH' => 'Предыдущий месяц',
 	'JS_CUSTOM' => 'Пользовательский диапазон',
+	'JS_CALCULATING_IN_PROGRESS' => 'Calculating in progress',
 ];

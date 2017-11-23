@@ -235,7 +235,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		var aDeferred = jQuery.Deferred();
 		var thisInstance = this;
 		var popupInstance = Vtiger_Popup_Js.getInstance();
-		var mainParams = this.getPopupParams(); 
+		var mainParams = this.getPopupParams();
 		$.extend(mainParams, extendParams);
 		popupInstance.show(mainParams, function (responseString) {
 			var responseData = JSON.parse(responseString);
@@ -614,6 +614,36 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			}
 		});
 	},
+	registerSummationEvent: function () {
+		var thisInstance = this;
+		this.content.on('click', '.listViewSummation button', function () {
+			var button = $(this);
+			var calculateValue = button.closest('td').find('.calculateValue');
+			var params = thisInstance.getCompleteParams();
+			params['action'] = 'RelationAjax';
+			params['mode'] = 'calculate';
+			params['fieldName'] = button.data('field');
+			params['calculateType'] = button.data('operator');
+			delete params['view'];
+			var progress = $.progressIndicator({
+				message: app.vtranslate('JS_CALCULATING_IN_PROGRESS'),
+				position: 'html',
+				blockInfo: {
+					enabled: true
+				}
+			});
+			app.hidePopover(button);
+			AppConnector.request(params).then(function (response) {
+				if (response.success) {
+					calculateValue.html(response.result);
+				}else{
+					calculateValue.html('');
+				}
+				progress.progressIndicator({mode: 'hide'});
+			});
+			progress.progressIndicator({mode: 'hide'});
+		});
+	},
 	registerPaginationEvents: function () {
 		var thisInstance = this;
 		var relatedContent = this.content;
@@ -753,6 +783,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		this.registerPaginationEvents();
 		this.registerListEvents();
 		this.registerPostLoadEvents();
+		this.registerSummationEvent();
 		Vtiger_Helper_Js.showHorizontalTopScrollBar();
 	},
 })

@@ -52,7 +52,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 			$viewer->assign('MODE', 'edit');
 		} else {
 			$workflowModel = Settings_Workflows_Record_Model::getCleanInstance($moduleName);
-			$selectedModule = $request->getByType('source_module', 1);
+			$selectedModule = $request->getByType('source_module', 2);
 			if (!empty($selectedModule)) {
 				$viewer->assign('SELECTED_MODULE', $selectedModule);
 			}
@@ -87,7 +87,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 			$selectedModule = $workFlowModel->getModule();
 			$selectedModuleName = $selectedModule->getName();
 		} else {
-			$selectedModuleName = $request->get('module_name');
+			$selectedModuleName = $request->getByType('module_name', 2);
 			$selectedModule = Vtiger_Module_Model::getInstance($selectedModuleName);
 			$workFlowModel = Settings_Workflows_Record_Model::getCleanInstance($selectedModuleName);
 		}
@@ -143,7 +143,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 			$selectedModule = $workFlowModel->getModule();
 			$selectedModuleName = $selectedModule->getName();
 		} else {
-			$selectedModuleName = $request->get('module_name');
+			$selectedModuleName = $request->getByType('module_name', 2);
 			$selectedModule = Vtiger_Module_Model::getInstance($selectedModuleName);
 			$workFlowModel = Settings_Workflows_Record_Model::getCleanInstance($selectedModuleName);
 		}

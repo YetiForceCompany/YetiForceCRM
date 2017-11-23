@@ -36,7 +36,7 @@ class Vtiger_VariablePanel_View extends Vtiger_View_Controller
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('SELECTED_MODULE', $request->getByType('selectedModule', 1));
+		$viewer->assign('SELECTED_MODULE', $request->getByType('selectedModule', 2));
 		$viewer->assign('PARSER_TYPE', $request->getByType('type', 1));
 		$viewer->assign('GRAY', true);
 		$viewer->view('VariablePanel.tpl', $moduleName);

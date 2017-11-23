@@ -15,7 +15,7 @@ class OSSTimeControl_InRelation_View extends Vtiger_RelatedList_View
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$relatedModuleName = $request->getByType('relatedModule');
+		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$parentId = $request->getInteger('record');
 		$label = $request->get('tab_label');
 		$pageNumber = $request->getInteger('page');

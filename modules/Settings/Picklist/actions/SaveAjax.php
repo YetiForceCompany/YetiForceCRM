@@ -72,7 +72,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function add(\App\Request $request)
 	{
 		$newValue = $request->get('newValue');
-		$moduleName = $request->getByType('source_module', 1);
+		$moduleName = $request->getByType('source_module', 2);
 		$moduleModel = Settings_Picklist_Module_Model::getInstance($moduleName);
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($request->getForSql('picklistName'), $moduleModel);
 		$rolesSelected = [];
@@ -104,7 +104,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function rename(\App\Request $request)
 	{
-		$moduleName = $request->getByType('source_module', 1);
+		$moduleName = $request->getByType('source_module', 2);
 		$newValue = $request->get('newValue');
 		$pickListFieldName = $request->getForSql('picklistName');
 		$oldValue = $request->get('oldValue');
@@ -128,7 +128,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 
 	public function remove(\App\Request $request)
 	{
-		$moduleName = $request->getByType('source_module', 1);
+		$moduleName = $request->getByType('source_module', 2);
 		$valueToDelete = $request->getArray('delete_value');
 		$replaceValue = $request->get('replace_value');
 		$pickListFieldName = $request->getForSql('picklistName');
