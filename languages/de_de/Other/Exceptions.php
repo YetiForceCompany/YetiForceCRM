@@ -15,5 +15,6 @@ $languageStrings = [
 	'ERR_PASSWORD_HAS_ALREADY_BEEN_USED' => 'Das Passwort wurde bereits verwendet. Das System erlaubt aus Sicherheitsgründen keine bisherigen Passwörter.',
 	'ERR_USER_EXISTS' => 'User with the same username and role already exists (%s)',
 	'ERR_NO_JSON_ENCODE' => 'No JSON encode',
+	'ERR_NO_JSON_DECODE' => 'No JSON decode',
 	'ERR_NO_SMTP_CONFIGURATION' => 'No SMTP configuration',
 ];

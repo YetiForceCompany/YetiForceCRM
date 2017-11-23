@@ -57,6 +57,6 @@ class Json
 		if (function_exists('json_encode')) {
 			return json_encode($valueToEncode);
 		}
-		throw new \App\Exceptions\AppException(\App\Language::translate('ERR_NO_JSON_DECODE'));
+		throw new \App\Exceptions\AppException(\App\Language::translate('ERR_NO_JSON_ENCODE'));
 	}
 }
