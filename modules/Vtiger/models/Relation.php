@@ -434,7 +434,7 @@ class Vtiger_Relation_Model extends \App\Base
 				if (in_array($moduleName, $referenceSubProcessInstance->getReferenceList())) {
 					$queryGenerator->addNativeCondition(['vtiger_activity.subprocess' => $this->get('parentRecord')->getId()]);
 				} else {
-					throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
+					throw new \App\Exceptions\AppException(\App\Language::translate('LBL_HANDLER_NOT_FOUND'));
 				}
 			}
 		}

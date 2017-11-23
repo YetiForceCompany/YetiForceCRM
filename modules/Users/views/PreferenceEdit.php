@@ -22,7 +22,7 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 		if (!$request->isEmpty('record', true)) {
 			$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 			if ($currentUserModel->get('id') != $request->getInteger('record') && $this->record->get('status') != 'Active') {
-				throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\AppException(\App\Language::translate('LBL_PERMISSION_DENIED'));
 			}
 		} elseif ($request->isEmpty('record')) {
 			$this->record = Vtiger_Record_Model::getCleanInstance($moduleName);
@@ -30,7 +30,7 @@ Class Users_PreferenceEdit_View extends Vtiger_Edit_View
 		if (($currentUserModel->isAdminUser() === true || ($currentUserModel->get('id') == $request->getInteger('record') && AppConfig::security('SHOW_MY_PREFERENCES')))) {
 			return true;
 		} else {
-			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_PERMISSION_DENIED'));
 		}
 	}
 

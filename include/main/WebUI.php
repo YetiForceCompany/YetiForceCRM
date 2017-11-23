@@ -167,7 +167,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			$handler = new $handlerClass();
 			if (!$handler) {
 				\App\Log::error("HandlerClass: $handlerClass", 'Loader');
-				throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND', 405);
+				throw new \App\Exceptions\AppException(\App\Language::translate('LBL_HANDLER_NOT_FOUND'), 405);
 			}
 
 			vglobal('currentModule', $moduleName);
@@ -232,7 +232,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		if (empty($moduleModel)) {
 			\App\Log::error("HandlerModule: $moduleName", 'Loader');
-			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND', 405);
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_HANDLER_NOT_FOUND'), 405);
 		}
 		$this->userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if ($this->userPrivilegesModel->hasModulePermission($moduleName)) {
@@ -240,7 +240,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			return true;
 		}
 		\App\Log::error("No permissions to the module: $moduleName", 'NoPermitted');
-		throw new \App\Exceptions\NoPermitted('LBL_NOT_ACCESSIBLE', 403);
+		throw new \App\Exceptions\NoPermitted(\App\Language::translate('LBL_NOT_ACCESSIBLE'), 403);
 	}
 
 	/**

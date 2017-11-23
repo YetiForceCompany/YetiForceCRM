@@ -16,11 +16,11 @@ class ModComments_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	{
 		//Do not allow ajax edit of existing comments
 		if (!$request->isEmpty('record', true)) {
-			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_PERMISSION_DENIED'));
 		}
 		$this->record = Vtiger_Record_Model::getCleanInstance($request->getModule());
 		if (!$this->record->isCreateable()) {
-			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED', 406);
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_PERMISSION_DENIED'), 406);
 		}
 	}
 

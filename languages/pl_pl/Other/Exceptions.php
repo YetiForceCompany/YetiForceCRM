@@ -14,4 +14,6 @@ $languageStrings = [
 	'ERR_NOT_ALLOWED_VALUE' => 'Wykryto niedozwoloną wartość, prosimy o kontakt z administratorem',
 	'ERR_PASSWORD_HAS_ALREADY_BEEN_USED' => 'Takie hasło było już kiedyś używane, system ze względów bezpieczeństwa nie pozwala na używanie takich samych haseł.',
 	'ERR_USER_EXISTS' => 'Użytkownik o takiej nazwie i roli już istnieje (%s)',
+	'ERR_NO_JSON_ENCODE' => 'No JSON encode',
+	'ERR_NO_SMTP_CONFIGURATION' => 'No SMTP configuration',
 ];
