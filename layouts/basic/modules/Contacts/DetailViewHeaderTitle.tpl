@@ -25,7 +25,7 @@
 						{/foreach}
 					</span>
 				</div>
-				<h4 class="recordLabel pushDown marginbottomZero textOverflowEllipsis" title="{$RECORD->getDisplayValue('salutationtype')}&nbsp;{$RECORD->getName()}">
+				<h4 class="recordLabel pushDown marginbottomZero textOverflowEllipsis" title="{$RECORD->getDisplayValue('salutationtype',$RECORD->getId(), true)}&nbsp;{$RECORD->getName()}">
 					{if $RECORD->getDisplayValue('salutationtype')}
 						<span class="salutation">{$RECORD->getDisplayValue('salutationtype')}</span>&nbsp;
 					{/if}
