@@ -5887,9 +5887,6 @@ select.form-control {
 .ps-scrollbar-y-rail{
 	display:none !important;
 }
-.slimScrollBar{
-	right: -300px !important;
-}
 .multiImageResult{
 	float: right;
 }

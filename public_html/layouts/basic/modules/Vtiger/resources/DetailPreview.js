@@ -4,8 +4,8 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 		$('#page').on('click', 'a', function (e) {
 			e.preventDefault();
 			var target = $(this);
-			if(!target.closest('div').hasClass('fieldValue')){
-				if(target.attr('href')){
+			if (!target.closest('div').hasClass('fieldValue')) {
+				if (target.attr('href')) {
 					parent.location.href = target.attr('href');
 				}
 			}
@@ -14,5 +14,10 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 	registerEvents: function () {
 		this._super();
 		this.registerLinkEvent();
+		app.showScrollBar($("#page"), {
+			alwaysVisible: false,
+			size: '10px',
+			position: 'right',
+		});
 	},
 });

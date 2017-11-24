@@ -10,7 +10,11 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				enabled: true
 			}
 		});
-		frame.attr('src', url.replace("view=Detail", "view=DetailPreview") + '&mode=showDetailViewByMode&requestMode=full');
+		var defaultView = '';
+		if (app.getMainParams('defaultDetailViewName')) {
+			defaultView = defaultView + '&mode=showDetailViewByMode&requestMode=' + app.getMainParams('defaultDetailViewName'); // full, summary
+		}
+		frame.attr('src', url.replace("view=Detail", "view=DetailPreview") + defaultView);
 	},
 	registerPreviewEvent: function () {
 		var thisInstance = this;
@@ -23,6 +27,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		$('#listPreviewframe').load(function () {
 			thisInstance.frameProgress.progressIndicator({mode: 'hide'});
 		});
+		$('.listViewEntriesTable .listViewEntries').first().trigger('click');
 	},
 	postLoadListViewRecordsEvents: function (container) {
 		this._super(container);
@@ -52,6 +57,8 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				return;
 			}
 			e.preventDefault();
+			$('.listViewEntriesTable .listViewEntries').removeClass('active');
+			$(this).addClass('active');
 			thisInstance.updatePreview(recordUrl);
 		});
 	},
