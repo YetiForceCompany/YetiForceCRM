@@ -461,6 +461,7 @@ $languageStrings = [
 	'LBL_RECENTLY_MODIFIED' => 'Últimas Alterações',
 	'LBL_RECORD' => 'Registro',
 	'LBL_RECORDS_LIST' => 'Lista Registros',
+	'LBL_RECORDS_PREVIEW_LIST' => 'Records preview list',
 	'LBL_RECORD_DELETE' => 'O registro que você está tentando visualizar foi apagado.',
 	'LBL_RECORD_NOT_FOUND' => 'Os registros que você está tentando acessar não foram econtrados',
 	'LBL_RECORD_SUMMARY' => 'Resumo Módulo', //Duplicated key-value pairs
@@ -1636,4 +1637,5 @@ $jsLanguageStrings = [
 	'JS_LAST_MONTH' => 'Last month',
 	'JS_CUSTOM' => 'Custom date range',
 	'JS_CALCULATING_IN_PROGRESS' => 'Calculating in progress',
+	'JS_FRAME_IN_PROGRESS' => 'Preview is loading...',
 ];
