@@ -9,19 +9,13 @@
  *************************************************************************************/
 
 jQuery.Class("Vtiger_RelatedList_Js", {
-	instance: false,
 	getInstance: function (parentId, parentModule, selectedRelatedTabElement, relatedModuleName) {
-		if (Vtiger_RelatedList_Js.instance == false) {
-			var moduleClassName = app.getModuleName() + "_RelatedList_Js";
-			var fallbackClassName = Vtiger_RelatedList_Js;
-			if (typeof window[moduleClassName] != 'undefined') {
-				var instance = new window[moduleClassName]();
-			} else {
-				var instance = new fallbackClassName();
-			}
-			Vtiger_RelatedList_Js.instance = instance;
+		var moduleClassName = app.getModuleName() + "_RelatedList_Js";
+		var fallbackClassName = Vtiger_RelatedList_Js;
+		if (typeof window[moduleClassName] != 'undefined') {
+			var instance = new window[moduleClassName]();
 		} else {
-			var instance = Vtiger_RelatedList_Js.instance;
+			var instance = new fallbackClassName();
 		}
 		instance.parentRecordId = parentId;
 		instance.parentModuleName = parentModule;
@@ -636,7 +630,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			AppConnector.request(params).then(function (response) {
 				if (response.success) {
 					calculateValue.html(response.result);
-				}else{
+				} else {
 					calculateValue.html('');
 				}
 				progress.progressIndicator({mode: 'hide'});
