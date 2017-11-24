@@ -51,6 +51,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			if (typeof recordUrl == 'undefined') {
 				return;
 			}
+			e.preventDefault();
 			thisInstance.updatePreview(recordUrl);
 		});
 	},
