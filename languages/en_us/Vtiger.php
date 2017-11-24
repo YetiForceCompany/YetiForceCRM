@@ -458,6 +458,7 @@ $languageStrings = [
 	'LBL_RECENTLY_MODIFIED' => 'Recently modified',
 	'LBL_RECORD' => 'Record',
 	'LBL_RECORDS_LIST' => 'Records list',
+	'LBL_RECORDS_PREVIEW_LIST' => 'Records preview list',
 	'LBL_RECORD_DELETE' => 'The record you are trying to view has been deleted.',
 	'LBL_RECORD_NOT_FOUND' => 'Record you are trying to access is not found',
 	'LBL_RECORD_SUMMARY' => 'Module summary', //Duplicated key-value pairs
@@ -1646,4 +1647,5 @@ $jsLanguageStrings = [
 	'JS_LAST_MONTH' => 'Last month',
 	'JS_CUSTOM' => 'Custom date range',
 	'JS_CALCULATING_IN_PROGRESS' => 'Calculating in progress',
+	'JS_FRAME_IN_PROGRESS' => 'Preview is loading...',
 ];
