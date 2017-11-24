@@ -889,6 +889,12 @@ class Vtiger_Module_Model extends \vtlib\Module
 				'linkurl' => $this->getListViewUrl(),
 				'linkicon' => 'glyphicon glyphicon-list',
 		]);
+		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'SIDEBARLINK',
+				'linklabel' => 'LBL_RECORDS_PREVIEW_LIST',
+				'linkurl' => 'index.php?module=' . $this->getName() . '&view=ListPreview',
+				'linkicon' => 'glyphicon glyphicon-list-alt',
+		]);
 		if ($userPrivilegesModel->hasModulePermission('Dashboard') && $userPrivilegesModel->hasModuleActionPermission($this->getId(), 'Dashboard')) {
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'SIDEBARLINK',
