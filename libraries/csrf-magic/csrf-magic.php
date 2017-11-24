@@ -177,7 +177,7 @@ class CSRF
 		$input = "<input type='hidden' name='" . static::$inputName . "' value=\"$tokens\"$endSlash>";
 		$buffer = preg_replace('#(<form[^>]*method\s*=\s*["\']post["\'][^>]*>)#i', '$1' . $input, $buffer);
 		if (static::$frameBreaker && !static::$isPartial) {
-			$buffer = preg_replace('/<\/head>/', '<script type="text/javascript" nonce="' . App\Session::get('CSP_TOKEN') . '">if (top != self) {top.location.href = self.location.href;}</script></head>', $buffer, $count);
+			$buffer = preg_replace('/<\/head>/', '<script type="text/javascript" nonce="' . App\Session::get('CSP_TOKEN') . '">if (top != self && top.location.origin + top.location.pathname != self.location.origin + self.location.pathname) {top.location.href = self.location.href;}</script></head>', $buffer, $count);
 		}
 		if (($js = static::$rewriteJs) && !static::$isPartial) {
 			if (!IS_PUBLIC_DIR) {
