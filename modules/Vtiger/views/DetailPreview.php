@@ -48,7 +48,9 @@ class Vtiger_DetailPreview_View extends Vtiger_Detail_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$scripts = parent::getFooterScripts($request);
+		$handlerClass = Vtiger_Loader::getComponentClassName('View', 'Detail', $moduleName);
+		$detailModel = new $handlerClass();
+		$scripts = $detailModel->getFooterScripts($request);
 		unset($scripts['modules.Vtiger.resources.DetailPreview']);
 		return array_merge($scripts, $this->checkAndConvertJsScripts([
 				'modules.Vtiger.resources.Detail',

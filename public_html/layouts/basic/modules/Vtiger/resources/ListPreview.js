@@ -18,10 +18,6 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	},
 	registerPreviewEvent: function () {
 		var thisInstance = this;
-//		Split(['#recordsList', '#listPreview'], {
-//			minSize: 400
-//		});
-//		$('#recordsListPreview .gutter').height($('.mainBody').height());
 		var height = $('.mainBody').height()
 		$('#listPreview,#recordsListPreview').height(height - 16);
 		$('#listPreviewframe').load(function () {
