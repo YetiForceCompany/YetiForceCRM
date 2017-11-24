@@ -1,5 +1,9 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	{assign var="ANNOUNCEMENTS" value=Vtiger_Module_Model::getInstance('Announcements')}
+	{if $ANNOUNCEMENTS->checkActive()}
+		{include file=\App\Layout::getTemplatePath('Announcement.tpl', $MODULE)}
+	{/if}
 	<div class="container-fluid container-fluid-main">
 		<div class="baseContainer {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
 			{if $VIEW != 'Login'}
@@ -17,6 +21,6 @@
 				{include file=\App\Layout::getTemplatePath('BodyHeader.tpl', $MODULE)}
 				<div class="basePanel noSpaces {if $LEFTPANELHIDE} menuOpen{/if}">
 					<div class="mainBody">
-					{include file=\App\Layout::getTemplatePath('BodyContent.tpl', $MODULE)}
-				{/if}
-			{/strip}
+						{include file=\App\Layout::getTemplatePath('BodyContent.tpl', $MODULE)}
+					{/if}
+				{/strip}
