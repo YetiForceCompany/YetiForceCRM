@@ -75,7 +75,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 			}
 			return \App\Purifier::encodeHtml($value);
 		}
-		return null;
+		return 0;
 	}
 
 	/**
