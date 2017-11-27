@@ -5,7 +5,7 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 			e.preventDefault();
 			var target = $(this);
 			if (!target.closest('div').hasClass('fieldValue')) {
-				if (target.attr('href')) {
+				if (target.attr('href') && target.attr('href') != '#') {
 					parent.location.href = target.attr('href');
 				}
 			}
