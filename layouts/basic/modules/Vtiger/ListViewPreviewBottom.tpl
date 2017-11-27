@@ -2,7 +2,7 @@
 {strip}
 </div>
 <div class="col-md-9" id="listPreview">
-		<iframe name="messagecontframe" class="border1px" id="listPreviewframe" frameborder="0"></iframe>
+		<iframe class="border1px" id="listPreviewframe" frameborder="0"></iframe>
 </div>
 </div>
 {/strip}

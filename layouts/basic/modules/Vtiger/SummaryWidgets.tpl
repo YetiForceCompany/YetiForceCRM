@@ -16,8 +16,7 @@
 	<input type="hidden" name="relatedModule" value="{$RELATED_MODULE_NAME}" />
 	<input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE_NAME}" />
 	{if $RELATED_MODULE_NAME && $RELATED_RECORDS}
-		{assign var=FILENAME value="SummaryWidgetsContent.tpl"}
-		{include file=\App\Layout::getTemplatePath($FILENAME, $MODULE) RELATED_RECORDS=$RELATED_RECORDS}
+		{include file=\App\Layout::getTemplatePath("SummaryWidgetsContent.tpl", $MODULE) RELATED_RECORDS=$RELATED_RECORDS}
 	{elseif $PAGING_MODEL->get('nrt') == 1}
 		<div class="summaryWidgetContainer">
 			<p class="textAlignCenter">{\App\Language::translate('LBL_NO_RELATED',$MODULE)} {\App\Language::translate($RELATED_MODULE_NAME, $RELATED_MODULE_NAME)}</p>
