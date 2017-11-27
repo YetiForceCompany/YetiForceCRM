@@ -646,7 +646,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				if ($.contains($(e.currentTarget).find('td:first-child').get(0), e.target))
 					return;
 				var recordUrl = $(this).data('recordurl');
-				this.content.find('.listViewEntriesTable .listViewEntries').removeClass('active');
+				thisInstance.content.find('.listViewEntriesTable .listViewEntries').removeClass('active');
 				$(this).addClass('active');
 				thisInstance.updatePreview(recordUrl);
 			});
