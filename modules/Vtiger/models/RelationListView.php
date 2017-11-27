@@ -421,6 +421,18 @@ class Vtiger_RelationListView_Model extends \App\Base
 			$selectLinkModel->set('_selectRelation', true)->set('_module', $relationModel->getRelationModuleModel());
 		}
 		$relatedLink = [];
+		$relatedLink['RELATEDLIST_VIEWS'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'RELATEDLIST_VIEWS',
+				'linklabel' => 'LBL_RECORDS_LIST',
+				'view' => 'List',
+				'linkicon' => 'glyphicon glyphicon-list-alt',
+		]);
+		$relatedLink['RELATEDLIST_VIEWS'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'RELATEDLIST_VIEWS',
+				'linklabel' => 'LBL_RECORDS_PREVIEW_LIST',
+				'view' => 'ListPreview',
+				'linkicon' => 'glyphicon glyphicon-blackboard',
+		]);
 		$relatedLink['LISTVIEWBASIC'] = array_merge($selectLinks, $this->getAddRelationLinks());
 		$relatedLink['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'RELATEDLIST_MASSACTIONS',

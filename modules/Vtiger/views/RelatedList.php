@@ -42,6 +42,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$parentId = $request->getInteger('record');
 		$label = $request->get('tab_label');
+		$relatedView = $request->isEmpty('relatedView', true) ? 'List' : $request->getByType('relatedView');
 		$pageNumber = $request->isEmpty('page', true) ? 1 : $request->getInteger('page');
 		$totalCount = $request->isEmpty('totalCount', true) ? false : $request->getInteger('totalCount');
 		$pagingModel = new Vtiger_Paging_Model();
@@ -86,7 +87,8 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
 		}
-		$transformedSearchParams = $relationListView->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParmams);
+		$queryGenerator = $relationListView->getQueryGenerator();
+		$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition($searchParmams);
 		$relationListView->set('search_params', $transformedSearchParams);
 		//To make smarty to get the details easily accesible
 		foreach ($searchParmams as $fieldListGroup) {
@@ -97,19 +99,22 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 				$searchParmams[$fieldName] = $fieldSearchInfo;
 			}
 		}
+		if ($relatedView === 'ListPreview') {
+			$relationListView->setFields(array_merge(['id'], $relationListView->getRelatedModuleModel()->getNameFields()));
+		}
 		$models = $relationListView->getEntries($pagingModel);
 		$links = $relationListView->getLinks();
 		$header = $relationListView->getHeaders();
-		$noOfEntries = count($models);
-
 		$relationModel = $relationListView->getRelationModel();
+
 		$viewer->assign('LIST_VIEW_MODEL', $relationListView);
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('PARENT_RECORD', $parentRecordModel);
+		$viewer->assign('RELATED_VIEW', $relatedView);
 		$viewer->assign('RELATED_LIST_LINKS', $links);
 		$viewer->assign('RELATED_HEADERS', $header);
 		$viewer->assign('RELATED_MODULE', $relationModel->getRelationModuleModel());
-		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
+		$viewer->assign('RELATED_ENTIRES_COUNT', count($models));
 		$viewer->assign('RELATION_FIELD', $relationModel->getRelationField());
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = $relationListView->getRelatedEntriesCount();

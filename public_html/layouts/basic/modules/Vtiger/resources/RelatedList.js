@@ -23,6 +23,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		instance.moduleName = relatedModuleName;
 		instance.relatedTabsContainer = selectedRelatedTabElement.closest('div.related');
 		instance.content = $('div.contents', instance.relatedTabsContainer.closest('div.detailViewContainer'));
+		instance.relatedView = instance.content.find('input.relatedView').val();
 		return instance;
 	},
 	triggerMassAction: function (massActionUrl, type) {
@@ -101,6 +102,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	content: false,
 	listSearchInstance: false,
 	detailViewContentHolder: false,
+	relatedView: false,
+	frameProgress: false,
 	setSelectedTabElement: function (tabElement) {
 		this.selectedRelatedTabElement = tabElement;
 	},
@@ -144,6 +147,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			sortorder: this.getSortOrder(),
 			orderby: this.getOrderBy(),
 			page: this.getCurrentPageNum(),
+			relatedView: this.relatedView,
 			mode: 'showRelatedList'
 		};
 		if (container.find('.pagination').length) {
@@ -221,7 +225,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	triggerDisplayTypeEvent: function () {
 		var widthType = app.cacheGet('widthType', 'narrowWidthType');
 		if (widthType) {
-			var elements = jQuery('.listViewEntriesTable').find('td,th');
+			var elements = this.content.find('.listViewEntriesTable').find('td,th');
 			elements.attr('class', widthType);
 		}
 	},
@@ -550,6 +554,21 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		}
 		return aDeferred.promise();
 	},
+	updatePreview: function (url) {
+		var frame = this.content.find('#listPreviewframe');
+		this.frameProgress = $.progressIndicator({
+			position: 'html',
+			message: app.vtranslate('JS_FRAME_IN_PROGRESS'),
+			blockInfo: {
+				enabled: true
+			}
+		});
+		var defaultView = '';
+		if (app.getMainParams('defaultDetailViewName')) {
+			defaultView = defaultView + '&mode=showDetailViewByMode&requestMode=' + app.getMainParams('defaultDetailViewName'); // full, summary
+		}
+		frame.attr('src', url.replace("view=Detail", "view=DetailPreview") + defaultView);
+	},
 	registerUnreviewedCountEvent: function () {
 		var ids = [];
 		var relatedContent = this.content;
@@ -593,20 +612,45 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		});
 	},
 	registerRowsEvent: function () {
-		this.content.on('click', '.listViewEntries', function (e) {
-			var target = $(e.target);
-			if (target.is('td')) {
-				document.location.href = target.closest('tr').data('recordurl');
-			}
-		});
-		this.content.on('click', '.showInventoryRow', function (e) {
-			var target = $(this);
-			var row = target.closest('tr');
-			var inventoryRow = row.next();
-			if (inventoryRow.hasClass('listViewInventoryEntries')) {
-				inventoryRow.toggleClass('hide');
-			}
-		});
+		var thisInstance = this;
+		this.content.off('click', '.listViewEntries');
+		if (this.relatedView == 'List') {
+			this.content.on('click', '.listViewEntries', function (e) {
+				var target = $(e.target);
+				if (target.is('td')) {
+					document.location.href = target.closest('tr').data('recordurl');
+				}
+			});
+			this.content.on('click', '.showInventoryRow', function (e) {
+				var target = $(this);
+				var row = target.closest('tr');
+				var inventoryRow = row.next();
+				if (inventoryRow.hasClass('listViewInventoryEntries')) {
+					inventoryRow.toggleClass('hide');
+				}
+			});
+		} else if (this.relatedView == 'ListPreview') {
+			this.content.on('click', '.listViewEntries', function (e) {
+				if ($(e.target).closest('div').hasClass('actions'))
+					return;
+				if ($(e.target).is('button') || $(e.target).parent().is('button'))
+					return;
+				if ($(e.target).closest('a').hasClass('noLinkBtn'))
+					return;
+				if ($(e.target, $(e.currentTarget)).is('td:first-child'))
+					return;
+				if ($(e.target).is('input[type="checkbox"]'))
+					return;
+				if ($.contains($(e.currentTarget).find('td:last-child').get(0), e.target))
+					return;
+				if ($.contains($(e.currentTarget).find('td:first-child').get(0), e.target))
+					return;
+				var recordUrl = $(this).data('recordurl');
+				this.content.find('.listViewEntriesTable .listViewEntries').removeClass('active');
+				$(this).addClass('active');
+				thisInstance.updatePreview(recordUrl);
+			});
+		}
 	},
 	registerSummationEvent: function () {
 		var thisInstance = this;
@@ -637,6 +681,14 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			});
 			progress.progressIndicator({mode: 'hide'});
 		});
+	},
+	registerPreviewEvent: function () {
+		var thisInstance = this;
+		this.content.find('#listPreviewframe').load(function () {
+			thisInstance.frameProgress.progressIndicator({mode: 'hide'});
+		});
+		this.content.find('#listPreview,#recordsListPreview').height(app.getScreenHeight() - (this.content.offset().top + $('.footerContainer').height()));
+		this.content.find('.listViewEntriesTable .listViewEntries').first().trigger('click');
 	},
 	registerPaginationEvents: function () {
 		var thisInstance = this;
@@ -684,6 +736,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		});
 	},
 	registerListEvents: function () {
+		var relatedContent = this.content;
 		var thisInstance = this;
 		this.content.on('click', '.relatedListHeaderValues', function (e) {
 			thisInstance.sortHandler($(this));
@@ -764,16 +817,25 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		this.content.off('switchChange.bootstrapSwitch').on('switchChange.bootstrapSwitch', '.switchBtn', function (e, state) {
 			thisInstance.loadRelatedList();
 		});
+		this.content.on('click', '.relatedViewGroup a', function (e) {
+			var element = $(this);
+			thisInstance.relatedView = element.data('view');
+			relatedContent.find('.pagination').data('totalCount', 0);
+			thisInstance.loadRelatedList({page: 1});
+		});
 	},
 	registerPostLoadEvents: function () {
 		app.showBtnSwitch(this.content.find('.switchBtn'));
 		app.showPopoverElementView(this.content.find('.popoverTooltip'));
+		this.registerRowsEvent();
+		if (this.relatedView == 'ListPreview') {
+			this.registerPreviewEvent();
+		}
 		this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.content, false, this);
 	},
 	registerRelatedEvents: function () {
 		this.registerUnreviewedCountEvent();
 		this.registerChangeEntityStateEvent();
-		this.registerRowsEvent();
 		this.registerPaginationEvents();
 		this.registerListEvents();
 		this.registerPostLoadEvents();
