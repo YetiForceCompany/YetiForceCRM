@@ -477,6 +477,7 @@ $languageStrings = [
 	'LBL_RECENTLY_MODIFIED' => 'Последние изменения',
 	'LBL_RECORD' => 'Запись',
 	'LBL_RECORDS_LIST' => 'Список записей',
+	'LBL_RECORDS_PREVIEW_LIST' => 'Records preview list',
 	'LBL_RECORD_DELETE' => 'Запись, которую Вы хотите посмотреть, удалена.',
 	'LBL_RECORD_NOT_FOUND' => 'Запись не найдена',
 	'LBL_REFRESH' => 'Обновить',
@@ -1665,4 +1666,5 @@ $jsLanguageStrings = [
 	'JS_LAST_MONTH' => 'Предыдущий месяц',
 	'JS_CUSTOM' => 'Пользовательский диапазон',
 	'JS_CALCULATING_IN_PROGRESS' => 'Calculating in progress',
+	'JS_FRAME_IN_PROGRESS' => 'Preview is loading...',
 ];

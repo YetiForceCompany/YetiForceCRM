@@ -1716,7 +1716,7 @@ var app = {
 	},
 	showConfirmation: function (data, element) {
 		var params = {};
-		if(data){
+		if (data) {
 			params = jQuery.extend(params, data);
 		}
 		if (element) {
@@ -1763,8 +1763,9 @@ jQuery(document).ready(function () {
 	}
 	// Instantiate Page Controller
 	var pageController = app.getPageController();
-	if (pageController)
+	if (pageController){
 		pageController.registerEvents();
+	}
 });
 $.fn.getNumberFromValue = function () {
 	return app.parseNumberToFloat($(this).val());

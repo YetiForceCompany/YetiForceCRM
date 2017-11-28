@@ -575,7 +575,7 @@ jQuery.Class("Vtiger_List_Js", {
 		var params = {
 			module: app.getModuleName(),
 			page: jQuery('#pageNumber').val(),
-			view: "List",
+			view: app.getViewName(),
 			viewname: this.getCurrentCvId(),
 			orderby: jQuery('#orderBy').val(),
 			sortorder: jQuery("#sortOrder").val(),
@@ -600,13 +600,14 @@ jQuery.Class("Vtiger_List_Js", {
 	 * Function which will give you all the list view params
 	 */
 	getListViewRecords: function (urlParams) {
-		var aDeferred = jQuery.Deferred();
+		var aDeferred = $.Deferred();
 		if (typeof urlParams == 'undefined') {
 			urlParams = {};
 		}
 		var thisInstance = this;
+		var listViewContentsContainer = $('#listViewContents');
 		var loadingMessage = jQuery('.listViewLoadingMsg').text();
-		var progressIndicatorElement = jQuery.progressIndicator({
+		var progressIndicatorElement = $.progressIndicator({
 			'message': loadingMessage,
 			'position': 'html',
 			'blockInfo': {
@@ -614,65 +615,62 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 		});
 		var defaultParams = this.getDefaultParams();
-		var urlParams = jQuery.extend(defaultParams, urlParams);
-		AppConnector.requestPjax(urlParams).then(
-				function (data) {
-					progressIndicatorElement.progressIndicator({
-						'mode': 'hide'
-					})
-					var listViewContentsContainer = jQuery('#listViewContents')
-					var searchInstance = thisInstance.getListSearchInstance();
-					listViewContentsContainer.html(data);
-					app.showSelect2ElementView(listViewContentsContainer.find('select.select2'));
-					thisInstance.registerListViewSpecialOptiopn();
-					app.changeSelectElementView(listViewContentsContainer);
-					app.showPopoverElementView(listViewContentsContainer.find('.popoverTooltip'));
-					jQuery('body').trigger(jQuery.Event('LoadRecordList.PostLoad'), data);
-					if (searchInstance !== false) {
-						searchInstance.registerBasicEvents();
-					}
-					Vtiger_Index_Js.registerMailButtons(listViewContentsContainer);
-					//thisInstance.triggerDisplayTypeEvent();
-					Vtiger_Helper_Js.showHorizontalTopScrollBar();
-
-					var selectedIds = thisInstance.readSelectedIds();
-					if (selectedIds != '') {
-						if (selectedIds == 'all') {
-							jQuery('.listViewEntriesCheckBox').each(function (index, element) {
-								jQuery(this).prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
-							});
-							jQuery('#deSelectAllMsgDiv').show();
-							var excludedIds = thisInstance.readExcludedIds();
-							if (excludedIds != '') {
-								jQuery('#listViewEntriesMainCheckBox').prop('checked', false);
-								jQuery('.listViewEntriesCheckBox').each(function (index, element) {
-									if (jQuery.inArray(jQuery(element).val(), excludedIds) != -1) {
-										jQuery(element).prop('checked', false).closest('tr').removeClass('highlightBackgroundColor');
-									}
-								});
-							}
-						} else {
-							jQuery('.listViewEntriesCheckBox').each(function (index, element) {
-								if (jQuery.inArray(jQuery(element).val(), selectedIds) != -1) {
-									jQuery(this).prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
-								}
-							});
-						}
-						thisInstance.checkSelectAll();
-					}
-					thisInstance.calculatePages().then(function (data) {
-						aDeferred.resolve(data);
-						// Let listeners know about page state change.
-						app.notifyPostAjaxReady();
-					});
-					thisInstance.registerUnreviewedCountEvent();
-					thisInstance.registerLastRelationsEvent();
-				},
-				function (textStatus, errorThrown) {
-					aDeferred.reject(textStatus, errorThrown);
-				}
-		);
+		var urlParams = $.extend(defaultParams, urlParams);
+		AppConnector.requestPjax(urlParams).then(function (data) {
+			progressIndicatorElement.progressIndicator({mode: 'hide'});
+			listViewContentsContainer.html(data);
+			$('body').trigger($.Event('LoadRecordList.PostLoad'), data);
+			thisInstance.calculatePages().then(function (data) {
+				aDeferred.resolve(data);
+				// Let listeners know about page state change.
+				app.notifyPostAjaxReady();
+			});
+			thisInstance.postLoadListViewRecordsEvents(listViewContentsContainer);
+		}, function (textStatus, errorThrown) {
+			aDeferred.reject(textStatus, errorThrown);
+		});
 		return aDeferred.promise();
+	},
+	postLoadListViewRecordsEvents: function (container) {
+		var thisInstance = this;
+		app.showSelect2ElementView(container.find('select.select2'));
+		app.changeSelectElementView(container);
+		app.showPopoverElementView(container.find('.popoverTooltip'));
+		thisInstance.registerListViewSpecialOptiopn();
+		var searchInstance = thisInstance.getListSearchInstance();
+		if (searchInstance !== false) {
+			searchInstance.registerBasicEvents();
+		}
+		Vtiger_Index_Js.registerMailButtons(container);
+		//thisInstance.triggerDisplayTypeEvent();
+		Vtiger_Helper_Js.showHorizontalTopScrollBar();
+		var selectedIds = thisInstance.readSelectedIds();
+		if (selectedIds != '') {
+			if (selectedIds == 'all') {
+				$('.listViewEntriesCheckBox').each(function (index, element) {
+					$(this).prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
+				});
+				$('#deSelectAllMsgDiv').show();
+				var excludedIds = thisInstance.readExcludedIds();
+				if (excludedIds != '') {
+					$('#listViewEntriesMainCheckBox').prop('checked', false);
+					$('.listViewEntriesCheckBox').each(function (index, element) {
+						if ($.inArray($(element).val(), excludedIds) != -1) {
+							$(element).prop('checked', false).closest('tr').removeClass('highlightBackgroundColor');
+						}
+					});
+				}
+			} else {
+				$('.listViewEntriesCheckBox').each(function (index, element) {
+					if ($.inArray($(element).val(), selectedIds) != -1) {
+						$(this).prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
+					}
+				});
+			}
+			thisInstance.checkSelectAll();
+		}
+		thisInstance.registerUnreviewedCountEvent();
+		thisInstance.registerLastRelationsEvent();
 	},
 	/**
 	 * Function to calculate number of pages
@@ -2014,7 +2012,7 @@ jQuery.Class("Vtiger_List_Js", {
 			AppConnector.request(params).then(function (response) {
 				if (response.success) {
 					calculateValue.html(response.result);
-				}else{
+				} else {
 					calculateValue.html('');
 				}
 				progress.progressIndicator({mode: 'hide'});

@@ -392,9 +392,9 @@ $languageStrings = [
 	'LBL_QUICK_CREATE' => 'Szybkie tworzenie',
 	'LBL_READ_LICENSE' => 'Licencja',
 	'LBL_REASON_FOR_CHANGING_COMMENT' => 'Powód zmiany treści komentarza',
-	'LBL_RECENTLY_MODIFIED' => 'Ostatnio zmieniane',
 	'LBL_RECORD' => 'Rekord',
 	'LBL_RECORDS_LIST' => 'Lista rekordów',
+	'LBL_RECORDS_PREVIEW_LIST' => 'Lista z podglądem',
 	'LBL_RECORD_DELETE' => 'Rekord, który chcesz podejrzeć, jest usunięty.',
 	'LBL_RECORD_NOT_FOUND' => 'Rekord, który chcesz podejrzeć, nie istnieje.',
 	'LBL_RECORD_SUMMARY' => 'Podsumowanie rekordu', //Duplicated key-value pairs
@@ -1612,4 +1612,5 @@ $jsLanguageStrings = [
 	'JS_LAST_MONTH' => 'Poprzedni miesiąc',
 	'JS_CUSTOM' => 'Własny zakres dat',
 	'JS_CALCULATING_IN_PROGRESS' => 'Trwa obliczanie',
+	'JS_FRAME_IN_PROGRESS' => 'Trwa ładowanie podglądu...',
 ];

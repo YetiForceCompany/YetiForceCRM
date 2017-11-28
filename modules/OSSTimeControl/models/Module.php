@@ -11,50 +11,41 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 
 	public function getCalendarViewUrl()
 	{
-		return 'index.php?module=' . $this->get('name') . '&view=Calendar';
+		return 'index.php?module=' . $this->getName() . '&view=Calendar';
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getSideBarLinks($linkParams)
 	{
-		$links = [];
-
-		$quickLinks = [
-			[
+		$links = Vtiger_Link_Model::getAllByType($this->getId(), ['SIDEBARLINK', 'SIDEBARWIDGET'], $linkParams);
+		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_CALENDAR_VIEW',
 				'linkurl' => $this->getCalendarViewUrl(),
-				'linkicon' => '',
-			],
-			[
+				'linkicon' => 'glyphicon glyphicon-calendar',
+		]);
+		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),
-				'linkicon' => '',
-			],
-		];
-		foreach ($quickLinks as $quickLink) {
-			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
+				'linkicon' => 'glyphicon glyphicon-list',
+		]);
+		if ($linkParams['ACTION'] === 'Calendar') {
+			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'SIDEBARWIDGET',
+					'linklabel' => 'LBL_USERS',
+					'linkurl' => 'module=' . $this->getName() . '&view=RightPanel&mode=getUsersList',
+					'linkicon' => ''
+			]);
+			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'SIDEBARWIDGET',
+					'linklabel' => 'LBL_TYPE',
+					'linkurl' => 'module=' . $this->getName() . '&view=RightPanel&mode=getTypesList',
+					'linkicon' => ''
+			]);
 		}
-
-		if ($linkParams['ACTION'] == 'Calendar') {
-			$quickWidgets = [];
-			$quickWidgets[] = [
-				'linktype' => 'SIDEBARWIDGET',
-				'linklabel' => 'LBL_USERS',
-				'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getUsersList',
-				'linkicon' => ''
-			];
-			$quickWidgets[] = [
-				'linktype' => 'SIDEBARWIDGET',
-				'linklabel' => 'LBL_TIMECONTROL_TYPE',
-				'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getTypesList',
-				'linkicon' => ''
-			];
-			foreach ($quickWidgets as $quickWidget) {
-				$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues($quickWidget);
-			}
-		}
-
 		return $links;
 	}
 

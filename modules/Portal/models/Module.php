@@ -11,15 +11,18 @@
 class Portal_Module_Model extends Vtiger_Module_Model
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getSideBarLinks($linkParams)
 	{
-		$quickLink = [
-			'linktype' => 'SIDEBARLINK',
-			'linklabel' => 'LBL_OUR_SITES_LIST',
-			'linkurl' => $this->getListViewUrl(),
-			'linkicon' => '',
-		];
-		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
+		$links = [];
+		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'SIDEBARLINK',
+				'linklabel' => 'LBL_OUR_SITES_LIST',
+				'linkurl' => $this->getListViewUrl(),
+				'linkicon' => '',
+		]);
 		return $links;
 	}
 

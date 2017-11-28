@@ -21,9 +21,45 @@
 		<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 		<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'>
 		<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}" />
+		<input type="hidden" class="relatedView" value="{$RELATED_VIEW}">
 		<div class="relatedHeader ">
 			<div class="row">
                 <div class="col-md-6 col-sm-6 col-xs-12">
+					{if $RELATED_LIST_LINKS['RELATEDLIST_VIEWS']|@count gt 0}
+						<div class="btn-group paddingRight10 relatedViewGroup">
+							{assign var=TEXT_HOLDER value=''}
+							{foreach item=RELATEDLIST_VIEW from=$RELATED_LIST_LINKS['RELATEDLIST_VIEWS']}
+								{if $RELATED_VIEW == $RELATEDLIST_VIEW->get('view')}
+									{assign var=TEXT_HOLDER value=$RELATEDLIST_VIEW->getLabel()}
+									{if $RELATEDLIST_VIEW->get('linkicon') neq ''}
+										{assign var=BTN_ICON value=$RELATEDLIST_VIEW->get('linkicon')}
+									{/if}
+								{/if} 
+							{/foreach}
+							<button class="btn btn-default dropdown-toggle relatedViewBtn" data-toggle="dropdown">
+								{if $BTN_ICON}
+									<span class="{$BTN_ICON}" aria-hidden="true"></span>
+								{else}	
+									<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+								{/if}
+								&nbsp;
+								<span class="textHolder">{\App\Language::translate($TEXT_HOLDER, $MODULE_NAME)}</span>
+								&nbsp;<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								{foreach item=RELATEDLIST_VIEW from=$RELATED_LIST_LINKS['RELATEDLIST_VIEWS']}
+									<li>
+										<a href="#" data-view="{$RELATEDLIST_VIEW->get('view')}">
+											{if $RELATEDLIST_VIEW->get('linkicon') neq ''}
+												<span class="{$RELATEDLIST_VIEW->get('linkicon')}"></span>&nbsp;&nbsp;
+											{/if}
+											{\App\Language::translate($RELATEDLIST_VIEW->getLabel(), $MODULE_NAME)}
+										</a>
+									</li>
+								{/foreach}
+							</ul>
+						</div>
+					{/if}
 					{foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
 						{if {\App\Privilege::isPermitted($RELATED_MODULE_NAME, 'CreateView')} }
 							<div class="btn-group paddingRight10">
@@ -94,11 +130,25 @@
 				&nbsp;
 			</div>
 		</div>
-		<div class="relatedContents contents-bottomscroll">
-			<div class="bottomscroll-div">
-				{assign var=FILENAME value="RelatedListContents.tpl"}
-				{include file=\App\Layout::getTemplatePath($FILENAME, $RELATED_MODULE->get('name'))}
+		{if $RELATED_VIEW === 'ListPreview'}
+			<div class="relatedContents">
+				<div id="recordsListPreview">
+					<input type="hidden" id="defaultDetailViewName" value="{AppConfig::module($MODULE, 'defaultDetailViewName')}" />
+					<div class="col-md-3" id="recordsList">
+						{include file=\App\Layout::getTemplatePath("RelatedListContents.tpl", $RELATED_MODULE->get('name'))}
+					</div>
+					<div class="col-md-9" id="listPreview">
+						<iframe class="border1px" id="listPreviewframe" frameborder="0"></iframe>
+					</div>
+
+				</div>
 			</div>
-		</div>
+		{else}
+			<div class="relatedContents contents-bottomscroll">
+				<div class="bottomscroll-div">
+					{include file=\App\Layout::getTemplatePath("RelatedListContents.tpl", $RELATED_MODULE->get('name'))}
+				</div>
+			</div>
+		{/if}
 	</div>
 {/strip}

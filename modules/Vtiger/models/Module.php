@@ -80,7 +80,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getSingularLabelKey()
 	{
-		return 'SINGLE_' . $this->get('name');
+		return 'SINGLE_' . $this->getName();
 	}
 
 	/**
@@ -283,6 +283,10 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getDefaultViewName()
 	{
+		$viewName = AppConfig::module($this->getName(), 'defaultViewName');
+		if (!empty($viewName)) {
+			return $viewName;
+		}
 		return 'List';
 	}
 
@@ -292,7 +296,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getDefaultUrl()
 	{
-		return 'index.php?module=' . $this->get('name') . '&view=' . $this->getDefaultViewName();
+		return 'index.php?module=' . $this->getName() . '&view=' . $this->getDefaultViewName();
 	}
 
 	/**
@@ -301,7 +305,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getListViewUrl()
 	{
-		return 'index.php?module=' . $this->get('name') . '&view=' . $this->getListViewName();
+		return 'index.php?module=' . $this->getName() . '&view=' . $this->getListViewName();
 	}
 
 	/**
@@ -310,7 +314,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getCreateRecordUrl()
 	{
-		return 'index.php?module=' . $this->get('name') . '&view=' . $this->getEditViewName();
+		return 'index.php?module=' . $this->getName() . '&view=' . $this->getEditViewName();
 	}
 
 	/**
@@ -319,7 +323,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getQuickCreateUrl()
 	{
-		return 'index.php?module=' . $this->get('name') . '&view=QuickCreateAjax';
+		return 'index.php?module=' . $this->getName() . '&view=QuickCreateAjax';
 	}
 
 	/**
@@ -328,7 +332,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getImportUrl()
 	{
-		return 'index.php?module=' . $this->get('name') . '&view=Import';
+		return 'index.php?module=' . $this->getName() . '&view=Import';
 	}
 
 	/**
@@ -337,7 +341,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getExportUrl()
 	{
-		return 'index.php?module=' . $this->get('name') . '&view=Export';
+		return 'index.php?module=' . $this->getName() . '&view=Export';
 	}
 
 	/**
@@ -346,7 +350,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getFindDuplicatesUrl()
 	{
-		return 'index.php?module=' . $this->get('name') . '&view=FindDuplicates';
+		return 'index.php?module=' . $this->getName() . '&view=FindDuplicates';
 	}
 
 	/**
@@ -355,7 +359,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getDashBoardUrl()
 	{
-		return 'index.php?module=' . $this->get('name') . '&view=DashBoard';
+		return 'index.php?module=' . $this->getName() . '&view=DashBoard';
 	}
 
 	/**
@@ -364,7 +368,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getDetailViewUrl($id)
 	{
-		return 'index.php?module=' . $this->get('name') . '&view=' . $this->getDetailViewName() . '&record=' . $id;
+		return 'index.php?module=' . $this->getName() . '&view=' . $this->getDetailViewName() . '&record=' . $id;
 	}
 
 	/**
@@ -374,7 +378,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getRecordFromArray($valueArray, $rawData = false)
 	{
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $this->get('name'));
+		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $this->getName());
 		$recordInstance = new $modelClassName();
 		if ($rawData !== false) {
 			foreach ($this->getFields() as $field) {
@@ -876,59 +880,42 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to get the Quick Links for the module
-	 * @param <Array> $linkParams
-	 * @return <Array> List of Vtiger_Link_Model instances
+	 * @param array $linkParams
+	 * @return Vtiger_Link_Model[]
 	 */
 	public function getSideBarLinks($linkParams)
 	{
-		$linkTypes = ['SIDEBARLINK', 'SIDEBARWIDGET'];
-		$links = Vtiger_Link_Model::getAllByType($this->getId(), $linkTypes, $linkParams);
+		$links = Vtiger_Link_Model::getAllByType($this->getId(), ['SIDEBARLINK', 'SIDEBARWIDGET'], $linkParams);
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-
-		$quickLinks = [
-			[
+		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),
-				'linkicon' => '',
-			],
-		];
-
-		if ($userPrivilegesModel->hasModulePermission('Dashboard') && $userPrivilegesModel->hasModuleActionPermission($this->getId(), 'Dashboard')) {
-			$quickLinks[] = [
+				'linkicon' => 'glyphicon glyphicon-list',
+		]);
+		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARLINK',
-				'linklabel' => 'LBL_DASHBOARD',
-				'linkurl' => $this->getDashBoardUrl(),
-				'linkicon' => '',
-			];
+				'linklabel' => 'LBL_RECORDS_PREVIEW_LIST',
+				'linkurl' => 'index.php?module=' . $this->getName() . '&view=ListPreview',
+				'linkicon' => 'glyphicon glyphicon-list-alt',
+		]);
+		if ($userPrivilegesModel->hasModulePermission('Dashboard') && $userPrivilegesModel->hasModuleActionPermission($this->getId(), 'Dashboard')) {
+			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'SIDEBARLINK',
+					'linklabel' => 'LBL_DASHBOARD',
+					'linkurl' => $this->getDashBoardUrl(),
+					'linkicon' => 'glyphicon glyphicon-blackboard',
+			]);
 		}
-
 		$treeViewModel = Vtiger_TreeView_Model::getInstance($this);
 		if ($treeViewModel->isActive()) {
-			$quickLinks[] = [
-				'linktype' => 'SIDEBARLINK',
-				'linklabel' => $treeViewModel->getName(),
-				'linkurl' => $treeViewModel->getTreeViewUrl(),
-				'linkicon' => '',
-			];
+			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'SIDEBARLINK',
+					'linklabel' => $treeViewModel->getName(),
+					'linkurl' => $treeViewModel->getTreeViewUrl(),
+					'linkicon' => '',
+			]);
 		}
-
-		foreach ($quickLinks as $quickLink) {
-			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
-		}
-
-		$quickWidgets = [
-			[
-				'linktype' => 'SIDEBARWIDGET',
-				'linklabel' => 'LBL_RECENTLY_MODIFIED',
-				'linkurl' => 'module=' . $this->get('name') . '&view=IndexAjax&mode=showActiveRecords',
-				'linkicon' => ''
-			],
-		];
-		foreach ($quickWidgets as $quickWidget) {
-			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues($quickWidget);
-		}
-
 		return $links;
 	}
 
@@ -1431,7 +1418,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if (!$moduleName) {
 			$moduleName = $request->getModule();
 		}
-		$sourceModule = $request->getByType('sourceModule',2);
+		$sourceModule = $request->getByType('sourceModule', 2);
 		if ($sourceModule && ($request->has('sourceRecord') || !$request->isEmpty('sourceRecordData'))) {
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 			if ($request->isEmpty('sourceRecord')) {

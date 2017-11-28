@@ -77,9 +77,9 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		$type = $request->get('type');
 		$actions = is_array($request->get('actions')) ? $request->get('actions') : [$request->get('actions')];
 
-		$source_Module = vtlib\Module::getInstance($source);
+		$module = vtlib\Module::getInstance($source);
 		$moduleInstance = vtlib\Module::getInstance($target);
-		$source_Module->setRelatedList($moduleInstance, $label, $actions, $type);
+		$module->setRelatedList($moduleInstance, $label, $actions, $type);
 
 		$response = new Vtiger_Response();
 		$response->emit();

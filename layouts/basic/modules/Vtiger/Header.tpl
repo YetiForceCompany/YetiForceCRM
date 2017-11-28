@@ -69,10 +69,6 @@
 				{/if}
 			</div>
 			<div id="page">
-				{assign var="ANNOUNCEMENTS" value=Vtiger_Module_Model::getInstance('Announcements')}
-				{if $ANNOUNCEMENTS->checkActive()}
-					{include file=\App\Layout::getTemplatePath('Announcement.tpl', $MODULE)}
-				{/if}
 				{if $SHOW_BODY_HEADER}
 					{include file=\App\Layout::getTemplatePath('Body.tpl', $MODULE)}
 				{/if}

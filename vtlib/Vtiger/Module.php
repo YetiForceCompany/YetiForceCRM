@@ -93,6 +93,7 @@ class Module extends ModuleBasic
 				)->execute();
 			}
 		}
+		\App\Cache::clear();
 		self::log("Setting relation with $moduleInstance->name  ... DONE");
 	}
 

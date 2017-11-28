@@ -685,11 +685,12 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			startCoordinate = coordinates[0];
 			startZoom = 6;
 		}
-		var postionTop = $('#mapid').position();
-		var positionBottom = $('.footerContainer ').position();
-		$('#mapid').css({
-			height: positionBottom.top - postionTop.top - 281
-		});
+		if($('.mainBody').length){
+			$('#mapid').height($('.mainBody').height() - ($('.detailViewTitle').height() + $('.detailViewContainer .related').height()+ 25));
+		}else{
+			$('#mapid').height($('.bodyContents').height() - ($('.detailViewTitle').height() + $('.detailViewContainer .related').height()+ 25));
+		}
+		
 		var myMap = this.registerMap(startCoordinate, startZoom);
 		var markers = L.markerClusterGroup({
 			maxClusterRadius: 10

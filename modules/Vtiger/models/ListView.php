@@ -374,7 +374,7 @@ class Vtiger_ListView_Model extends \App\Base
 	{
 		$headerFieldModels = [];
 		$headerFields = $this->getQueryGenerator()->getListViewFields();
-		foreach ($headerFields as $fieldName => &$fieldsModel) {
+		foreach ($headerFields as $fieldName => $fieldsModel) {
 			if ($fieldsModel && (!$fieldsModel->isViewable() || !$fieldsModel->getPermissions())) {
 				continue;
 			}

@@ -292,6 +292,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		$viewer->assign('LANGUAGE', \App\Language::getLanguage());
 		$viewer->assign('HTMLLANG', \App\Language::getShortLanguageName());
 		$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
+		$viewer->assign('SHOW_BREAD_CRUMBS', $this->showBreadCrumbLine());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('VIEW', $request->getByType('view', 1));
@@ -310,7 +311,29 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		return 'Header.tpl';
 	}
 
+	/**
+	 * Show body header
+	 * @return boolean
+	 */
 	protected function showBodyHeader()
+	{
+		return true;
+	}
+
+	/**
+	 * Show footer
+	 * @return boolean
+	 */
+	protected function showFooter()
+	{
+		return true;
+	}
+
+	/**
+	 * Show bread crumbs
+	 * @return boolean
+	 */
+	protected function showBreadCrumbLine()
 	{
 		return true;
 	}
@@ -331,6 +354,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer->assign('ACTIVITY_REMINDER', $currentUser->getCurrentUserActivityReminderInSeconds());
 		$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
+		$viewer->assign('SHOW_FOOTER', $this->showFooter());
 		$viewer->view('Footer.tpl');
 	}
 

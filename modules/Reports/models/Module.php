@@ -40,35 +40,17 @@ class Reports_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function returns quick links for the module
-	 * @return <Array of Vtiger_Link_Model>
+	 * {@inheritDoc}
 	 */
 	public function getSideBarLinks($linkParams = '')
 	{
-		$quickLinks = [
-			[
+		$links = [];
+		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_REPORTS',
 				'linkurl' => $this->getListViewUrl(),
-				'linkicon' => '',
-			],
-		];
-		foreach ($quickLinks as $quickLink) {
-			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
-		}
-
-		$quickWidgets = [
-			[
-				'linktype' => 'SIDEBARWIDGET',
-				'linklabel' => 'LBL_RECENTLY_MODIFIED',
-				'linkurl' => 'module=' . $this->get('name') . '&view=IndexAjax&mode=showActiveRecords',
-				'linkicon' => ''
-			],
-		];
-		foreach ($quickWidgets as $quickWidget) {
-			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues($quickWidget);
-		}
-
+				'linkicon' => 'glyphicon glyphicon-list',
+		]);
 		return $links;
 	}
 
