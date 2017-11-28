@@ -291,7 +291,7 @@ class CustomView
 			return $filter;
 		}
 		\App\Log::error(Language::translate('LBL_NO_FOUND_VIEW') . "cvId: $cvId");
-		throw new \App\Exceptions\AppException('LBL_NO_FOUND_VIEW');
+		throw new \App\Exceptions\AppException(\App\Language::translate('LBL_NO_FOUND_VIEW'));
 	}
 
 	/**
@@ -320,7 +320,7 @@ class CustomView
 			return $columnList;
 		}
 		\App\Log::error(Language::translate('LBL_NO_FOUND_VIEW') . "cvId: $cvId");
-		throw new \App\Exceptions\AppException('LBL_NO_FOUND_VIEW');
+		throw new \App\Exceptions\AppException(\App\Language::translate('LBL_NO_FOUND_VIEW'));
 	}
 
 	/**

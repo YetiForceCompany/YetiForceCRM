@@ -89,7 +89,7 @@ abstract class Vtiger_Controller
 		if (!empty($name) && $this->isMethodExposed($name)) {
 			return call_user_func_array([$this, $name], $parameters);
 		}
-		throw new \App\Exceptions\AppException('LBL_NOT_ACCESSIBLE');
+		throw new \App\Exceptions\AppException(\App\Language::translate('LBL_NOT_ACCESSIBLE'));
 	}
 
 	/**

@@ -15,12 +15,12 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_IndexAj
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$mode = $request->getMode();
 		if ($mode === 'delete' && !$currentUserModel->isAdminUser()) {
-			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_PERMISSION_DENIED'));
 		}
 		$sourceModule = $request->getByType('sourceModule', 2);
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($sourceModule, 'Save')) {
-			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_PERMISSION_DENIED'));
 		}
 	}
 

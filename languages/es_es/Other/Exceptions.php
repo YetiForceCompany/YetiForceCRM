@@ -14,4 +14,7 @@ $languageStrings = [
 	'ERR_NOT_ALLOWED_VALUE' => 'Se detectó un valor incorrecto, póngase en contacto con su administrador',
 	'ERR_PASSWORD_HAS_ALREADY_BEEN_USED' => 'Esta contraseña ya ha sido utilizada. El sistema no permite usar la misma contraseña por razones de seguridad.',
 	'ERR_USER_EXISTS' => 'Ya existe el usuario con el mismo nombre de usuario y mismo rol (%s)',
+	'ERR_NO_JSON_ENCODE' => 'No JSON encode',
+	'ERR_NO_JSON_DECODE' => 'No JSON decode',
+	'ERR_NO_SMTP_CONFIGURATION' => 'No SMTP configuration',
 ];

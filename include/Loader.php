@@ -161,7 +161,7 @@ class Vtiger_Loader
 
 		if ($throwException) {
 			\App\Log::error("Error Vtiger_Loader::getComponentClassName($componentType, $componentName, $moduleName): Handler not found");
-			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_HANDLER_NOT_FOUND'));
 		}
 		return false;
 	}

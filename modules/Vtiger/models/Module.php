@@ -1065,7 +1065,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 				if (in_array($this->getName(), $referenceSubProcessInstance->getReferenceList())) {
 					$relationField = 'subprocess';
 				} else {
-					throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
+					throw new \App\Exceptions\AppException(\App\Language::translate('LBL_HANDLER_NOT_FOUND'));
 				}
 			}
 		}

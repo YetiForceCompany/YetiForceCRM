@@ -38,7 +38,7 @@ class File
 			$method = $request->getRequestMethod();
 			$permissionFunction = $method . 'CheckPermission';
 			if (!$handler->$permissionFunction($request)) {
-				throw new \App\Exceptions\NoPermitted('LBL_NOT_ACCESSIBLE', 403);
+				throw new \App\Exceptions\NoPermitted(\App\Language::translate('LBL_NOT_ACCESSIBLE'), 403);
 			}
 			$handler->$method($request);
 		}

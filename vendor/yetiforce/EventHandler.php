@@ -287,7 +287,7 @@ class EventHandler
 				$handlerInstance->$function($this);
 			} else {
 				Log::error("Handler not found, class: {$handler['handler_class']} | $function");
-				throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
+				throw new \App\Exceptions\AppException(\App\Language::translate('LBL_HANDLER_NOT_FOUND'));
 			}
 		}
 	}
