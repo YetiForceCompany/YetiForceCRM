@@ -93,7 +93,7 @@ class OSSTimeControl_InRelation_View extends Vtiger_RelatedList_View
 		$viewer->assign('RELATED_MODULE_NAME', $relatedModuleName);
 		$viewer->view('RelatedSummary.tpl', $relatedModuleName);
 
-		$viewer->assign('LIST_VIEW_MODEL', $relationListView);
+		$viewer->assign('VIEW_MODEL', $relationListView);
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('PARENT_RECORD', $parentRecordModel);
 		$viewer->assign('RELATED_VIEW', $relatedView);

@@ -111,17 +111,17 @@
 													</div>
 													<div class="col-md-3">
 														<div class="pull-right">
-															{if $LIST_VIEW_MODEL}
+															{if $VIEW_MODEL}
 																<div class="pull-right paddingLeft5px">
 																	{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
-																	<input type="hidden" class="entityState" value="{if $LIST_VIEW_MODEL->has('entityState')}{$LIST_VIEW_MODEL->get('entityState')}{else}Active{/if}" />
+																	<input type="hidden" class="entityState" value="{if $VIEW_MODEL->has('entityState')}{$VIEW_MODEL->get('entityState')}{else}Active{/if}" />
 																	<div class="dropdown dropdownEntityState">
 																		<button class="btn btn-default dropdown-toggle" type="button" id="dropdownEntityState" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-																			{if $LIST_VIEW_MODEL->get('entityState') === 'Archived'}
+																			{if $VIEW_MODEL->get('entityState') === 'Archived'}
 																				<span class="fa fa-archive"></span>
-																			{elseif $LIST_VIEW_MODEL->get('entityState') === 'Trash'}
+																			{elseif $VIEW_MODEL->get('entityState') === 'Trash'}
 																				<span class="glyphicon glyphicon-trash"></span>
-																			{elseif $LIST_VIEW_MODEL->get('entityState') === 'All'}
+																			{elseif $VIEW_MODEL->get('entityState') === 'All'}
 																				<span class="glyphicon glyphicon-menu-hamburger"></span>
 																			{else}
 																				<span class="fa fa-refresh"></span>
@@ -166,7 +166,7 @@
 											<div class="relatedContents contents-bottomscroll">
 												<div class="bottomscroll-div">
 													{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-													<table class="table table-bordered listViewEntriesTable {if $LIST_VIEW_MODEL && !$LIST_VIEW_MODEL->isEmpty('entityState')}listView{$LIST_VIEW_MODEL->get('entityState')}{/if}">
+													<table class="table table-bordered listViewEntriesTable {if $VIEW_MODEL && !$VIEW_MODEL->isEmpty('entityState')}listView{$VIEW_MODEL->get('entityState')}{/if}">
 														<thead>
 															<tr class="listViewHeaders">
 																<th width="4%">

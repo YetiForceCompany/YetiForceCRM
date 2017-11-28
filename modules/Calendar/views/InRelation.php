@@ -88,7 +88,7 @@ class Calendar_InRelation_View extends Vtiger_RelatedList_View
 		$header = $relationListView->getHeaders();
 		$relationModel = $relationListView->getRelationModel();
 
-		$viewer->assign('LIST_VIEW_MODEL', $relationListView);
+		$viewer->assign('VIEW_MODEL', $relationListView);
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('PARENT_RECORD', $parentRecordModel);
 		$viewer->assign('RELATED_VIEW', $relatedView);
