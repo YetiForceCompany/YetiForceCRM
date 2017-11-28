@@ -8418,7 +8418,6 @@ class Base4 extends \App\Db\Importers\Base
 					[14, 'LBL_LOGS', 8, 'adminIcon-logs', 0, NULL, NULL],
 					[15, 'LBL_AUTOMATION', 10, 'adminIcon-automation', 0, NULL, NULL],
 					[16, 'LBL_MENU_SUMMARRY', 0, 'userIcon-Home', 1, 'index.php?module=Vtiger&parent=Settings&view=Index', NULL],
-					[17, 'LBL_YETIFORCE_SHOP', 1, 'adminIcon-yetiforce-shop', 1, 'https://shop.yetiforce.com/', NULL],
 				]
 			],
 			'vtiger_settings_blocks_seq' => [

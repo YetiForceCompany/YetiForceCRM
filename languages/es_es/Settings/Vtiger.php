@@ -312,7 +312,6 @@ $languageStrings = [
 	// end of custom record numbering variables
 	'LBL_SHOW_LANG_IN_LOGIN_PAGE' => 'Mostrar selección de idioma en la página de inicio de sesión',
 	'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE' => 'Mostrar selección de diseño en la página de inicio de sesión',
-	'LBL_YETIFORCE_SHOP' => 'Tienda YetiForce',
 	'RecordAllocation' => 'Asignación de registros',
 	'LBL_SELECT_ICON' => 'Seleccionar icono',
 	'LBL_ICON_NAME' => 'Nombre del icono',

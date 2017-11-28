@@ -306,7 +306,6 @@ $languageStrings = [
 	'LBL_SELECT_ICON' => 'Wybierz ikonę',
 	'LBL_ICON_NAME' => 'Nazwa ikony',
 	'LBL_ICON_EXAMPLE' => 'Przykład ikony',
-	'LBL_YETIFORCE_SHOP' => 'Sklep YetiForce',
 	'RecordAllocation' => 'Przydział rekordów',
 	'ERR_NO_REQUIRED_LIBRARY' => 'Nie znaleziono wymaganej biblioteki %s. Część funkcjonalności została zablokowana. Aby pobrać należy przejść do <a href="index.php?module=ModuleManager&parent=Settings&view=List">Moduły - instalacja</a>',
 	// System warnings
