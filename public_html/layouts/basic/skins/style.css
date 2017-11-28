@@ -5975,4 +5975,7 @@ border1px{
 	padding-right: 0;
 	margin-top: 2px;
 }
+[class*="picklistLb_"] {
+	border-radius: 7px;
+}
 
