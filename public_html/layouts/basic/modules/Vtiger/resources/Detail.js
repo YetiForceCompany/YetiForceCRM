@@ -300,10 +300,17 @@ jQuery.Class("Vtiger_Detail_Js", {
 			if (urlParams == undefined) {
 				return;
 			}
+			var queryParameters = urlParams.split('&');
+			var keyValueMap = {};
+			for (var index = 0; index < queryParameters.length; index++) {
+				var queryParam = queryParameters[index];
+				var queryParamComponents = queryParam.split('=');
+				keyValueMap[queryParamComponents[0]] = queryParamComponents[1];
+			}
 			var params = {
-				type: 'GET',
+				type: 'POST',
 				dataType: 'html',
-				data: urlParams
+				data: keyValueMap
 			};
 		}
 		var aDeferred = jQuery.Deferred();
@@ -901,7 +908,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					relatedController.setRelatedContainer(blockContent);
 					if (isEmpty) {
 						relatedController.registerRelatedEvents();
-					}else{
+					} else {
 						relatedController.registerPostLoadEvents();
 					}
 				});

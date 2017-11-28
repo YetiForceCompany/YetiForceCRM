@@ -975,12 +975,12 @@ class QueryGenerator
 		$advFilterConditionFormat = [];
 		$glueOrder = ['and', 'or'];
 		$groupIterator = 0;
-		foreach ($searchParams as &$groupInfo) {
+		foreach ($searchParams as $groupInfo) {
 			if (empty($groupInfo)) {
 				continue;
 			}
 			$groupColumnsInfo = $groupConditionInfo = [];
-			foreach ($groupInfo as &$fieldSearchInfo) {
+			foreach ($groupInfo as $fieldSearchInfo) {
 				if ($fieldSearchInfo) {
 					list ($fieldName, $operator, $fieldValue, $specialOption) = array_pad($fieldSearchInfo, 4, false);
 					$field = $this->getModuleField($fieldName);
