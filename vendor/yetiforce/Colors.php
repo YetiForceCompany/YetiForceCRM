@@ -103,7 +103,7 @@ class Colors
 								}
 								$css .= '.picklistCBr_' . $module['tabname'] . '_' . self::sanitizeValue($field->getName()) . '_' . self::sanitizeValue($item['picklistValue']) . ' { border-color: ' . $item['color'] . ' !important; }' . PHP_EOL;
 								$css .= '.picklistCBg_' . $module['tabname'] . '_' . self::sanitizeValue($field->getName()) . '_' . self::sanitizeValue($item['picklistValue']) . ' { background: ' . $item['color'] . ' !important; }' . PHP_EOL;
-								$css .= '.picklistCT_' . $module['tabname'] . '_' . self::sanitizeValue($field->getName()) . '_' . self::sanitizeValue($item['picklistValue']) . ' { color: ' . $item['color'] . ' !important; }' . PHP_EOL;
+								$css .= '.picklistCT_' . $module['tabname'] . '_' . self::sanitizeValue($field->getName()) . '_' . self::sanitizeValue($item['picklistValue']) . ' { background: ' . $item['color'] . ' !important; border-radius: 7px; padding: 4px 9px;}' . PHP_EOL;
 							}
 						}
 					}
@@ -141,7 +141,7 @@ class Colors
 		foreach (\Settings_Calendar_Module_Model::getCalendarConfig('colors') as $item) {
 			if (ltrim($item['value'], '#')) {
 				if ($item['label'] == 'Task') {
-					$css .= '.picklistCBr_Calendar_activitytype_Task { border-color: ' . $item['value'] . ' !important; }' . PHP_EOL . '.picklistCBg_Calendar_activitytype_Task { background: ' . $item['value'] . ' !important; }' . PHP_EOL . '.picklistCT_Calendar_activitytype_Task { color: ' . $item['value'] . ' !important; }';
+					$css .= '.picklistCBr_Calendar_activitytype_Task { border-color: ' . $item['value'] . ' !important; }' . PHP_EOL . '.picklistCBg_Calendar_activitytype_Task { background: ' . $item['value'] . ' !important; }' . PHP_EOL . '.picklistCT_Calendar_activitytype_Task { background: ' . $item['value'] . ' !important; }';
 				}
 				$css .= '.listCol_' . $item['label'] . ' { background: ' . $item['value'] . '; }' . PHP_EOL;
 			}
