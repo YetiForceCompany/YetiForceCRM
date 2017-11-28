@@ -1264,7 +1264,8 @@ class Vtiger_Record_Model extends \App\Base
 				'linklabel' => 'LBL_SHOW_COMPLETE_DETAILS',
 				'linkurl' => $this->getFullDetailViewUrl(),
 				'linkicon' => 'glyphicon glyphicon-th-list',
-				'linkclass' => 'btn-sm btn-default'
+				'linkclass' => 'btn-sm btn-default',
+				'linkhref' => true
 			];
 		}
 		if ($this->isEditable()) {
@@ -1273,7 +1274,8 @@ class Vtiger_Record_Model extends \App\Base
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => $this->getEditViewUrl(),
 				'linkicon' => 'glyphicon glyphicon-pencil',
-				'linkclass' => 'btn-sm btn-default'
+				'linkclass' => 'btn-sm btn-default',
+				'linkhref' => true
 			];
 		}
 		if ($this->isViewable() && $this->getModule()->isPermitted('WatchingRecords')) {
