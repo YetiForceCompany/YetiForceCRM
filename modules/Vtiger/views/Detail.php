@@ -86,52 +86,12 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$eventHandler->trigger('DetailViewBefore');
 
 		$detailViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $recordId];
-
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
 		$this->record->getWidgets($detailViewLinkParams);
-		$navigationInfo = false;
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
-		$viewer->assign('NAVIGATION', $navigationInfo);
-		$viewer->assign('NO_PAGINATION', true);
-
-		//Intially make the prev and next records as null
-		$prevRecordId = null;
-		$nextRecordId = null;
-		$found = false;
-		if ($navigationInfo) {
-			foreach ($navigationInfo as $page => $pageInfo) {
-				foreach ($pageInfo as $index => $record) {
-					//If record found then next record in the interation
-					//will be next record
-					if ($found) {
-						$nextRecordId = $record;
-						break;
-					}
-					if ($record == $recordId) {
-						$found = true;
-					}
-					//If record not found then we are assiging previousRecordId
-					//assuming next record will get matched
-					if (!$found) {
-						$prevRecordId = $record;
-					}
-				}
-				//if record is found and next record is not calculated we need to perform iteration
-				if ($found && !empty($nextRecordId)) {
-					break;
-				}
-			}
-		}
-
 		$moduleModel = $this->record->getModule();
-		if (!empty($prevRecordId)) {
-			$viewer->assign('PREVIOUS_RECORD_URL', $moduleModel->getDetailViewUrl($prevRecordId));
-		}
-		if (!empty($nextRecordId)) {
-			$viewer->assign('NEXT_RECORD_URL', $moduleModel->getDetailViewUrl($nextRecordId));
-		}
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$selectedTabLabel = $request->get('tab_label');
 		$requestMode = $request->getByType('requestMode', 1);
@@ -174,8 +134,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('IS_EDITABLE', $this->record->getRecord()->isEditable());
 		$viewer->assign('IS_DELETABLE', $this->record->getRecord()->privilegeToMoveToTrash());
 		$viewer->assign('VIEW_MODEL', $this->record);
-		$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1)];
-		$linkModels = $this->record->getSideBarLinks($linkParams);
+		$linkModels = $this->record->getSideBarLinks(['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1)]);
 		$viewer->assign('QUICK_LINKS', $linkModels);
 		$viewer->assign('DEFAULT_RECORD_VIEW', $currentUserModel->get('default_record_view'));
 
@@ -263,8 +222,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 
 	public function showDetailViewByMode(\App\Request$request)
 	{
-		$requestMode = $request->getByType('requestMode', 1);
-		if ($requestMode === 'full') {
+		if ($request->getByType('requestMode', 1) === 'full') {
 			return $this->showModuleDetailView($request);
 		}
 		return $this->showModuleBasicView($request);
