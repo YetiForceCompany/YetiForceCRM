@@ -330,6 +330,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			'prefix' => $params['prefix'],
 			'label' => $params['label'],
 		])->execute();
+		\App\Cache::clear();
 		return ['success' => true, 'data' => 'LBL_AddDataOK'];
 	}
 
@@ -355,6 +356,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		\App\Db::getInstance()->createCommand()
 			->delete('vtiger_language', ['prefix' => $prefix])
 			->execute();
+		\App\Cache::clear();
 		return true;
 	}
 
@@ -430,6 +432,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		} else {
 			$status = false;
 		}
+		\App\Cache::clear();
 		\App\Log::trace("Exiting Settings_LangManagement_Module_Model::setAsDefault() method ...");
 		return ['success' => $status, 'prefixOld' => $prefixOld];
 	}
