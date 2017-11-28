@@ -4,9 +4,9 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 		$('#page').on('click', 'a', function (e) {
 			e.preventDefault();
 			var target = $(this);
-			if (!target.closest('div').hasClass('fieldValue')) {
+			if (!target.closest('div').hasClass('fieldValue') || target.hasClass('showReferenceTooltip')) {
 				if (target.attr('href') && target.attr('href') != '#') {
-					parent.location.href = target.attr('href');
+					top.location.href = target.attr('href');
 				}
 			}
 		});

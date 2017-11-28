@@ -2,6 +2,7 @@
 {strip}
 	{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $RELATED_MODULE_NAME) MODULE_MODEL=$RELATED_MODULE}
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
+	{assign var=IS_INVENTORY value=($RELATED_VIEW === 'List' && $INVENTORY_MODULE && !empty($INVENTORY_FIELDS))}
 	<div class="listViewEntriesDiv contents-bottomscroll">
 		<table class="table tableBorderHeadBody listViewEntriesTable {if $VIEW_MODEL && !$VIEW_MODEL->isEmpty('entityState')}listView{$VIEW_MODEL->get('entityState')}{/if}">
 			<thead>
@@ -36,7 +37,7 @@
 							{\App\Language::translate('LBL_RELATION_COMMENT', $RELATED_MODULE->get('name'))}
 						</th>
 					{/if}
-					{if $INVENTORY_MODULE && !empty($INVENTORY_FIELDS)}<th></th>{/if}
+					{if $IS_INVENTORY}<th></th>{/if}
 				</tr>
 			</thead>
 			<tbody>
@@ -103,14 +104,14 @@
 						{if $SHOW_COMMENT}
 							<td class="medium" data-field-type="rel_comment" nowrap>{$RELATED_RECORD->get('rel_comment')}</td>
 						{/if}
-						{if $INVENTORY_MODULE && !empty($INVENTORY_FIELDS)}
+						{if $IS_INVENTORY}
 							{$COUNT = $COUNT+1}
 							<td class="medium" nowrap>
 								<button type="button" class="btn btn-sm btn-info popoverTooltip showInventoryRow" data-placement="left" data-content="{\App\Language::translate('LBL_SHOW_INVENTORY_ROW')}"><span class="glyphicon glyphicon-resize-vertical"></span></button>
 							</td>
 						{/if}
 					</tr>
-					{if $INVENTORY_MODULE && !empty($INVENTORY_FIELDS)}
+					{if $IS_INVENTORY}
 						{assign var="INVENTORY_DATA" value=$RELATED_RECORD->getInventoryData()}
 						<tr class="listViewInventoryEntries hide">
 							{if $RELATED_MODULE->isQuickSearchEnabled()}

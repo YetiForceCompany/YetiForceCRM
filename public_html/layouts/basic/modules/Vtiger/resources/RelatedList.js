@@ -618,7 +618,11 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			this.content.on('click', '.listViewEntries', function (e) {
 				var target = $(e.target);
 				if (target.is('td')) {
-					document.location.href = target.closest('tr').data('recordurl');
+					if(app.getViewName() == 'DetailPreview'){
+						top.document.location.href = target.closest('tr').data('recordurl');
+					}else{
+						document.location.href = target.closest('tr').data('recordurl');
+					}
 				}
 			});
 			this.content.on('click', '.showInventoryRow', function (e) {
