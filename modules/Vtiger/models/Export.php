@@ -126,11 +126,9 @@ class Vtiger_Export_Model extends \App\Base
 	 */
 	public function getExportQuery(\App\Request $request)
 	{
-		$mode = $request->getMode();
-		$cvId = $request->getByType('viewname', 2);
 		$queryGenerator = new \App\QueryGenerator($request->getByType('source_module', 2));
-		if (!empty($cvId)) {
-			$queryGenerator->initForCustomViewById($cvId);
+		if (!$request->isEmpty('viewname', true)) {
+			$queryGenerator->initForCustomViewById($request->getByType('viewname', 2));
 		}
 		$fieldInstances = $this->moduleFieldInstances;
 		$fields[] = 'id';
@@ -143,7 +141,7 @@ class Vtiger_Export_Model extends \App\Base
 		$queryGenerator->setFields($fields);
 		$query = $queryGenerator->createQuery();
 		$this->accessibleFields = $queryGenerator->getFields();
-		switch ($mode) {
+		switch ($request->getMode()) {
 			case 'ExportAllData' :
 				$query->limit(AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 				break;
