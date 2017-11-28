@@ -15,9 +15,7 @@ class Accounts_Detail_View extends Vtiger_Detail_View
 {
 
 	/**
-	 * Function to get the list of Css models to be included
-	 * @param \App\Request $request
-	 * @return Vtiger_CssScript_Model[]
+	 * {@inheritDoc}
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
@@ -28,9 +26,7 @@ class Accounts_Detail_View extends Vtiger_Detail_View
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
-	 * @param \App\Request $request
-	 * @return Vtiger_JsScript_Model[]
+	 * {@inheritDoc}
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{

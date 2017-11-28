@@ -12,12 +12,18 @@
 class Documents_Detail_View extends Vtiger_Detail_View
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('showDocumentRelations');
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		$fileIcon = \App\Layout\Icon::getIconByFileType($this->record->getRecord()->get('filetype'));
@@ -29,9 +35,7 @@ class Documents_Detail_View extends Vtiger_Detail_View
 	}
 
 	/**
-	 * Function to get Ajax is enabled or not
-	 * @param Vtiger_Record_Model record model
-	 * @return <boolean> true/false
+	 * {@inheritDoc}
 	 */
 	public function isAjaxEnabled($recordModel)
 	{
@@ -39,8 +43,7 @@ class Documents_Detail_View extends Vtiger_Detail_View
 	}
 
 	/**
-	 * Function shows basic detail for the record
-	 * @param <type> $request
+	 * {@inheritDoc}
 	 */
 	public function showModuleBasicView(\App\Request $request)
 	{
@@ -58,7 +61,6 @@ class Documents_Detail_View extends Vtiger_Detail_View
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('LIMIT', 0);
 		$viewer->assign('DATA', $data);
-
-		echo $viewer->view('DetailViewDocumentRelations.tpl', $moduleName, true);
+		return $viewer->view('DetailViewDocumentRelations.tpl', $moduleName, true);
 	}
 }

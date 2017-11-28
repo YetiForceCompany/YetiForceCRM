@@ -9,6 +9,9 @@
 class OSSEmployees_Detail_View extends Vtiger_Detail_View
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -16,9 +19,7 @@ class OSSEmployees_Detail_View extends Vtiger_Detail_View
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
-	 * @param \App\Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * {@inheritDoc}
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{

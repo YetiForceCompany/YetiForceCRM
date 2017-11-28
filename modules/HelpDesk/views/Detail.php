@@ -11,6 +11,9 @@
 class HelpDesk_Detail_View extends Vtiger_Detail_View
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -19,9 +22,7 @@ class HelpDesk_Detail_View extends Vtiger_Detail_View
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
-	 * @param \App\Request $request
-	 * @return Vtiger_JsScript_Model[]
+	 * {@inheritDoc}
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
@@ -35,9 +36,7 @@ class HelpDesk_Detail_View extends Vtiger_Detail_View
 	}
 
 	/**
-	 * Function to get the list of Css models to be included
-	 * @param \App\Request $request
-	 * @return Vtiger_CssScript_Model[]
+	 * {@inheritDoc}
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
@@ -53,9 +52,13 @@ class HelpDesk_Detail_View extends Vtiger_Detail_View
 		$moduleName = $request->getModule();
 
 		$viewer = $this->getViewer($request);
+		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission('OSSTimeControl')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
 		$moduleModel = Vtiger_Module_Model::getInstance('OSSTimeControl');
-		if ($moduleModel)
+		if ($moduleModel && $moduleModel->isActive()) {
 			$data = $moduleModel->getTimeUsers($recordId, $moduleName);
+		}
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
 		$viewer->view('charts/ShowTimeHelpDesk.tpl', $moduleName);

@@ -10,6 +10,9 @@
 class OSSPasswords_Detail_View extends Vtiger_Detail_View
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
@@ -25,9 +28,7 @@ class OSSPasswords_Detail_View extends Vtiger_Detail_View
 	}
 
 	/**
-	 * Function to get Ajax is enabled or not
-	 * @param Vtiger_Record_Model record model
-	 * @return <boolean> true/false
+	 * {@inheritDoc}
 	 */
 	public function isAjaxEnabled($recordModel)
 	{

@@ -45,6 +45,17 @@ class Vtiger_DetailPreview_View extends Vtiger_Detail_View
 	/**
 	 * {@inheritDoc}
 	 */
+	public function getHeaderCss(\App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$handlerClass = Vtiger_Loader::getComponentClassName('View', 'Detail', $moduleName);
+		$detailModel = new $handlerClass();
+		return $detailModel->getHeaderCss($request);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getFooterScripts(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
