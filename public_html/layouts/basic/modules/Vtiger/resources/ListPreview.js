@@ -18,10 +18,11 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	},
 	registerPreviewEvent: function () {
 		var thisInstance = this;
-		var height = $('.mainBody').height()
-		$('#listPreview,#recordsListPreview').height(height - 16);
+		var contentHeight = $('#listPreview,#recordsListPreview');
+		contentHeight.height($('.mainBody').height() - 16);
 		$('#listPreviewframe').load(function () {
 			thisInstance.frameProgress.progressIndicator({mode: 'hide'});
+			contentHeight.height($(this).contents().find('.bodyContents').height()+2);
 		});
 		$('.listViewEntriesTable .listViewEntries').first().trigger('click');
 	},
