@@ -240,7 +240,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			return true;
 		}
 		\App\Log::error("No permissions to the module: $moduleName", 'NoPermitted');
-		throw new \App\Exceptions\NoPermitted('LBL_NOT_ACCESSIBLE', 403);
+		throw new \App\Exceptions\NoPermitted('ERR_NOT_ACCESSIBLE', 403);
 	}
 
 	/**

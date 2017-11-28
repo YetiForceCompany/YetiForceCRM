@@ -169,7 +169,7 @@ function getReportFieldValue(ReportRun $report, $picklistArray, $dbField, $value
 			if (is_array($picklistArray[$dbField->name]) &&
 				$fieldModel->getFieldName() != 'activitytype' && !in_array(
 					$value, $picklistArray[$dbField->name])) {
-				$fieldvalue = \App\Language::translate('LBL_NOT_ACCESSIBLE');
+				$fieldvalue = \App\Language::translate('ERR_NOT_ACCESSIBLE');
 			} else {
 				$fieldvalue = \App\Language::translate($value, $module);
 			}
@@ -183,7 +183,7 @@ function getReportFieldValue(ReportRun $report, $picklistArray, $dbField, $value
 			foreach ($valueList as $value) {
 				if (is_array($picklistArray[1][$dbField->name]) && !in_array(
 						$value, $picklistArray[1][$dbField->name])) {
-					$translatedValueList[] = \App\Language::translate('LBL_NOT_ACCESSIBLE');
+					$translatedValueList[] = \App\Language::translate('ERR_NOT_ACCESSIBLE');
 				} else {
 					$translatedValueList[] = \App\Language::translate($value, $module);
 				}
