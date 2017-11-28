@@ -348,7 +348,6 @@ $languageStrings = [
 	'LBL_NOTEPAD' => 'Notatnik',
 	'LBL_NOTEPAD_CONTENT' => 'Zawartość notatnika',
 	'LBL_NOTEPAD_NAME' => 'Nazwa notatnika',
-	'LBL_NOT_ACCESSIBLE' => 'Brak dostępu',
 	'LBL_NOT_EQUAL_TO' => 'nie jest równe', //Duplicated key-value pairs
 	'LBL_Nov' => 'Lis',
 	'LBL_NO_COMMENTS' => 'Nie istnieją żadne komentarze do wyświetlenia',
