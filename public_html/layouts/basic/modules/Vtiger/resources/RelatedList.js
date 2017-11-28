@@ -684,10 +684,12 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	},
 	registerPreviewEvent: function () {
 		var thisInstance = this;
+		var contentHeight = this.content.find('#listPreview,#recordsListPreview');
+		contentHeight.height(app.getScreenHeight() - (this.content.offset().top + $('.footerContainer').height()));
 		this.content.find('#listPreviewframe').load(function () {
 			thisInstance.frameProgress.progressIndicator({mode: 'hide'});
+			contentHeight.height($(this).contents().find('.bodyContents').height()+2);
 		});
-		this.content.find('#listPreview,#recordsListPreview').height(app.getScreenHeight() - (this.content.offset().top + $('.footerContainer').height()));
 		this.content.find('.listViewEntriesTable .listViewEntries').first().trigger('click');
 	},
 	registerPaginationEvents: function () {

@@ -18,6 +18,7 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 			alwaysVisible: false,
 			size: '10px',
 			position: 'right',
+			height: $('.bodyContents').height()
 		});
 	},
 });
