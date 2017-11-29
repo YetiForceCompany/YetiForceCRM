@@ -430,7 +430,6 @@ $languageStrings = [
 	'LBL_NOTEPAD' => 'Блокнот',
 	'LBL_NOTEPAD_CONTENT' => 'Содержимое блокнота',
 	'LBL_NOTEPAD_NAME' => 'Имя блокнота',
-	'ERR_NOT_ACCESSIBLE' => 'Недоступно',
 	'LBL_NOT_EQUAL_TO' => 'не равно',
 	'LBL_Nov' => 'Ноя',
 	'LBL_NO_COMMENTS' => 'Нет комментариев',
