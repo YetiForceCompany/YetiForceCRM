@@ -11,33 +11,31 @@
 class Settings_Currency_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
-
-		$record = $request->get('record');
-		if (empty($record)) {
+		if ($request->isEmpty('record')) {
 			//get instance from currency name, Aleady deleted and adding again same currency case
 			$recordModel = Settings_Currency_Record_Model::getInstance($request->get('currency_name'));
 			if (empty($recordModel)) {
 				$recordModel = new Settings_Currency_Record_Model();
 			}
 		} else {
-			$recordModel = Settings_Currency_Record_Model::getInstance($record);
+			$recordModel = Settings_Currency_Record_Model::getInstance($request->getInteger('record'));
 		}
-
-		$fieldList = ['currency_name', 'conversion_rate', 'currency_status', 'currency_code', 'currency_symbol'];
-
-		foreach ($fieldList as $fieldName) {
-			if ($request->has($fieldName)) {
-				$recordModel->set($fieldName, $request->get($fieldName));
-			}
-		}
+		$recordModel->set('currency_name', $request->get('currency_name'));
+		$recordModel->set('currency_status', $request->getByType('currency_status'));
+		$recordModel->set('currency_symbol', $request->get('currency_symbol'));
+		$recordModel->set('currency_code', $request->getByType('currency_code'));
+		$recordModel->set('conversion_rate', $request->getByType('conversion_rate', 'NumberInUserFormat'));
 		//To make sure we are saving record as non deleted. This is useful if we are adding deleted currency
 		$recordModel->set('deleted', 0);
 		$response = new Vtiger_Response();
 		try {
-			if ($request->get('currency_status') == 'Inactive' && !empty($record)) {
-				$transforCurrencyToId = $request->get('transform_to_id');
+			if ($request->getByType('currency_status') === 'Inactive' && !$request->isEmpty('record')) {
+				$transforCurrencyToId = $request->getInteger('transform_to_id');
 				if (empty($transforCurrencyToId)) {
 					throw new Exception('Transfer currency id cannot be empty');
 				}
@@ -51,6 +49,9 @@ class Settings_Currency_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();
