@@ -426,7 +426,6 @@ $languageStrings = [
 	'LBL_NOTEPAD' => 'Notizblock',
 	'LBL_NOTEPAD_CONTENT' => 'Notizblock Inhalt',
 	'LBL_NOTEPAD_NAME' => 'Notizblock Name',
-	'ERR_NOT_ACCESSIBLE' => 'Zugriff verweigert',
 	'LBL_NOT_EQUAL_TO' => 'ungleich', //Duplicated key-value pairs
 	'LBL_Nov' => 'Nov',
 	'LBL_NO_COMMENTS' => 'Keine Kommentare',
