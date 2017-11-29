@@ -41,7 +41,7 @@ class Privilege
 			return true;
 		}
 		//Checking the Access for the Settings Module
-		if ($moduleName == 'Settings' || $moduleName === 'Administration' || $moduleName === 'System' || Request::_get('parent') === 'Settings') {
+		if ($moduleName === 'Settings' || $moduleName === 'Administration' || $moduleName === 'System' || Request::_get('parent') === 'Settings') {
 			if (!$userPrivileges['is_admin']) {
 				$permission = false;
 			} else {
@@ -114,7 +114,7 @@ class Privilege
 				\App\Log::trace('Exiting isPermitted method ... - SEC_MODULE_NO_ACTION_TOOL');
 				return false;
 			}
-			if (strlen($userPrivileges['profile_action_permission'][$tabid][$actionId]) < 1 && $userPrivileges['profile_action_permission'][$tabid][$actionId] == '') {
+			if (strlen($userPrivileges['profile_action_permission'][$tabid][$actionId]) < 1 && $userPrivileges['profile_action_permission'][$tabid][$actionId] === '') {
 				static::$isPermittedLevel = 'SEC_MODULE_RIGHTS_TO_ACTION';
 				\App\Log::trace('Exiting isPermitted method ... - SEC_MODULE_RIGHTS_TO_ACTION');
 				return true;
@@ -226,7 +226,7 @@ class Privilege
 			$recOwnId = $recordMetaData['smownerid'];
 			$recOwnType = \App\Fields\Owner::getType($recOwnId);
 
-			if ($recOwnType == 'Users') {
+			if ($recOwnType === 'Users') {
 				//Checking if the Record Owner is the current User
 				if ($userId == $recOwnId) {
 					static::$isPermittedLevel = 'SEC_RECORD_OWNER_CURRENT_USER';
@@ -243,7 +243,7 @@ class Privilege
 						}
 					}
 				}
-			} elseif ($recOwnType == 'Groups') {
+			} elseif ($recOwnType === 'Groups') {
 				//Checking if the record owner is the current user's group
 				if (in_array($recOwnId, $userPrivileges['groups'])) {
 					static::$isPermittedLevel = 'SEC_RECORD_OWNER_CURRENT_GROUP';
@@ -259,7 +259,7 @@ class Privilege
 					if ($parentRecord) {
 						$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($parentRecord);
 						$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');
-						$permissionsRelatedField = $permissionsRoleForRelatedField == '' ? [] : explode(',', $role->get('permissionsrelatedfield'));
+						$permissionsRelatedField = $permissionsRoleForRelatedField === '' ? [] : explode(',', $role->get('permissionsrelatedfield'));
 						$relatedPermission = false;
 						foreach ($permissionsRelatedField as $row) {
 							switch ($row) {
@@ -275,8 +275,7 @@ class Privilege
 									}
 									break;
 								case 3:
-									$permission = static::isPermitted($recordMetaData['setype'], 'DetailView', $id);
-									$relatedPermission = $permission == 'yes' ? true : false;
+									$relatedPermission = static::isPermitted($recordMetaData['setype'], 'DetailView', $parentRecord);
 									break;
 							}
 							if ($relatedPermission) {
