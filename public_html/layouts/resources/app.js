@@ -1722,7 +1722,7 @@ var app = {
 		if (element) {
 			element = $(element);
 			if (!params.title) {
-				params.title = element.html() + ' ' + element.data('content');
+				params.title = element.html() + ' ' + (element.data('content') ? element.data('content') : '');
 			}
 			if (!params.message) {
 				params.message = element.data('confirm');
@@ -1734,6 +1734,11 @@ var app = {
 		Vtiger_Helper_Js.showConfirmationBox(params).then(function () {
 			if (params.type == 'href') {
 				window.location.href = params.url;
+			} else if (params.type == 'reloadTab') {
+				AppConnector.request(params.url).then(function (data) {
+					Vtiger_Detail_Js.getInstance().reloadTabContent();
+				});
+				
 			}
 		});
 	},
@@ -1763,7 +1768,7 @@ jQuery(document).ready(function () {
 	}
 	// Instantiate Page Controller
 	var pageController = app.getPageController();
-	if (pageController){
+	if (pageController) {
 		pageController.registerEvents();
 	}
 });
