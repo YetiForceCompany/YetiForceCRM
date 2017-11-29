@@ -73,7 +73,7 @@ Settings_Vtiger_List_Js("Settings_PDF_List_Js", {}, {
 			e.stopPropagation();
 			e.preventDefault();
 			var templateId = jQuery(this).closest('tr').data('id');
-			Settings_PDF_List_Js.delete(templateId).then(function () {
+			Settings_PDF_List_Js.deleteById(templateId).then(function () {
 				thisInstance.registerTemplateDelete(container);
 			});
 		});
