@@ -118,7 +118,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	},
 	setRelatedContainer: function (container) {
 		this.content = container;
-		this.relatedView = this.content.find('input.relatedView').val();
+		this.relatedView = container.find('input.relatedView').val();
 	},
 	getContentHolder: function () {
 		if (this.detailViewContentHolder == false) {
@@ -614,19 +614,18 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	},
 	registerRowsEvent: function () {
 		var thisInstance = this;
-		this.content.off('click', '.listViewEntries');
 		if (this.relatedView == 'List') {
-			this.content.on('click', '.listViewEntries', function (e) {
+			this.content.find('.listViewEntries').click(function (e) {
 				var target = $(e.target);
 				if (target.is('td')) {
-					if(app.getViewName() == 'DetailPreview'){
+					if (app.getViewName() == 'DetailPreview') {
 						top.document.location.href = target.closest('tr').data('recordurl');
-					}else{
+					} else {
 						document.location.href = target.closest('tr').data('recordurl');
 					}
 				}
 			});
-			this.content.on('click', '.showInventoryRow', function (e) {
+			this.content.find('.showInventoryRow').click(function (e) {
 				var target = $(this);
 				var row = target.closest('tr');
 				var inventoryRow = row.next();
@@ -635,7 +634,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				}
 			});
 		} else if (this.relatedView == 'ListPreview') {
-			this.content.on('click', '.listViewEntries', function (e) {
+			this.content.find('.listViewEntries').click(function (e) {
 				if ($(e.target).closest('div').hasClass('actions'))
 					return;
 				if ($(e.target).is('button') || $(e.target).parent().is('button'))
@@ -693,7 +692,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		contentHeight.height(app.getScreenHeight() - (this.content.offset().top + $('.footerContainer').height()));
 		this.content.find('#listPreviewframe').load(function () {
 			thisInstance.frameProgress.progressIndicator({mode: 'hide'});
-			contentHeight.height($(this).contents().find('.bodyContents').height()+2);
+			contentHeight.height($(this).contents().find('.bodyContents').height() + 2);
 		});
 		this.content.find('.listViewEntriesTable .listViewEntries').first().trigger('click');
 	},
