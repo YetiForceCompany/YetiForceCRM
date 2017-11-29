@@ -285,23 +285,26 @@ jQuery.Class("Reservations_Calendar_Js", {
 		});
 	},
 	addCalendarEvent: function (calendarDetails, dateFormat) {
-		// convert dates to db format
-		calendarDetails.date_start.display_value = app.getDateInDBInsertFormat(dateFormat, calendarDetails.date_start.display_value);
-		calendarDetails.due_date.display_value = app.getDateInDBInsertFormat(dateFormat, calendarDetails.due_date.display_value);
+		if($.inArray(calendarDetails.assigned_user_id.value, $("#calendarUserList").val()) < 0){
+			return;
+		}
+		if($.inArray(calendarDetails.type.value, $("#timecontrolTypes").val()) < 0){
+			return;
+		}
 		var calendar = this.getCalendarView();
-		var eventObject = {};
-		eventObject.id = calendarDetails._recordId;
-		eventObject.title = calendarDetails.title.display_value;
-		eventObject.smownerid = calendarDetails.smownerid;
-		eventObject.status = calendarDetails.status;
-		eventObject.isPrivate = calendarDetails.isPrivate;
-		var startDate = calendar.fullCalendar('moment', calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value);
-		eventObject.start = startDate.toString();
-		var endDate = calendar.fullCalendar('moment', calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value);
-		var assignedUserId = calendarDetails.assigned_user_id.value;
-		eventObject.end = endDate.toString();
-		eventObject.url = 'index.php?module=Reservations&view=Detail&record=' + calendarDetails._recordId;
-		eventObject.className = 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBg_OSSTimeControl_timecontrol_type_' + calendarDetails.type.value;
+		var startDate = calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value);
+		var endDate = calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value);
+		var eventObject = {
+			id: calendarDetails._recordId,
+			title: calendarDetails.title.display_value,
+			smownerid: calendarDetails.smownerid,
+			status: calendarDetails.status,
+			isPrivate: calendarDetails.isPrivate,
+			start: startDate.toString(),
+			end: endDate.toString(),
+			url: 'index.php?module=Reservations&view=Detail&record=' + calendarDetails._recordId,
+			className: 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBg_OSSTimeControl_timecontrol_type_' + calendarDetails.type.value
+		};
 		this.getCalendarView().fullCalendar('renderEvent', eventObject);
 	},
 	getCalendarCreateView: function () {
