@@ -24,12 +24,11 @@ class Settings_Vtiger_SystemWarnings_Action extends Settings_Vtiger_Basic_Action
 	public function update(\App\Request $request)
 	{
 		$className = $request->get('id');
-		if (!class_exists($className)) {
+		if (!is_subclass_of($className, '\App\SystemWarnings\Template')) {
 			$result = false;
+		} else {
+			$result = (new $className)->update($request->get('params'));
 		}
-		$instace = new $className;
-		$result = $instace->update($request->get('params'));
-
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
