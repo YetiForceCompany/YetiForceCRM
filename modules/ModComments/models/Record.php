@@ -264,18 +264,43 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Function to get the list view actions for the comment
+	 * @return Vtiger_Link_Model[] - Associate array of Vtiger_Link_Model instances
 	 */
-	public function privilegeToDelete()
+	public function getCommentLinks()
 	{
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function privilegeToMoveToTrash()
-	{
-		return false;
+		$links = [];
+		$stateColors = AppConfig::search('LIST_ENTITY_STATE_COLOR');
+		if ($this->privilegeToArchive()) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+					'linklabel' => 'LBL_ARCHIVE_RECORD',
+					'title' => \App\Language::translate('LBL_ARCHIVE_RECORD'),
+					'linkurl' => 'javascript:app.showConfirmation({type: "reloadTab"},this)',
+					'linkdata' => [
+						'url' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Archived&sourceView=List&record=' . $this->getId(),
+						'confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC')
+					],
+					'linkicon' => 'fa fa-archive',
+					'linkclass' => 'btn-xs entityStateBtn',
+					'style' => empty($stateColors['Archived']) ? '' : "background: {$stateColors['Archived']};",
+					'showLabel' => true,
+			]);
+		}
+		if ($this->privilegeToMoveToTrash()) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+					'linklabel' => 'LBL_MOVE_TO_TRASH',
+					'title' => \App\Language::translate('LBL_MOVE_TO_TRASH'),
+					'linkurl' => 'javascript:app.showConfirmation({type: "reloadTab"},this)',
+					'linkdata' => [
+						'url' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash&sourceView=List&record=' . $this->getId(),
+						'confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')
+					],
+					'linkicon' => 'glyphicon glyphicon-trash',
+					'linkclass' => 'btn-xs entityStateBtn',
+					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
+					'showLabel' => true,
+			]);
+		}
+		return $links;
 	}
 }

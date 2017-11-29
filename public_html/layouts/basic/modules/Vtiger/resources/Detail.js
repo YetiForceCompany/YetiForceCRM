@@ -1994,40 +1994,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			commentInfoBlock.find('.commentActionsContainer').hide();
 			editCommentBlock.appendTo(commentInfoBlock).show();
 		});
-		detailContentsHolder.on('click', '.deleteComment', function (e) {
-			thisInstance.removeCommentBlockIfExists();
-			var currentTarget = jQuery(e.currentTarget);
-			var commentInfoBlock = currentTarget.closest('.singleComment');
-			var commentInfoHeader = commentInfoBlock.find('.commentInfoHeader');
-			var recordId = commentInfoHeader.data('commentid');
-			var deleteUrl = "index.php?module=ModComments&action=DeleteAjax&record=" + recordId;
-			var commentDetails = currentTarget.closest('.commentDetails');
-			var relatedComments = commentDetails.find('.commentDetails');
-			var viewThreadBlock = commentDetails.find('.viewThreadBlock');
-			if (relatedComments.length > 0 || viewThreadBlock.length > 0) {
-				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_CAN_NOT_REMOVE_COMMENT'));
-			} else {
-				Vtiger_Helper_Js.showConfirmationBox({'message': app.vtranslate('JS_DELETE_COMMENT_CONFIRMATION')}).then(function (data) {
-					AppConnector.request(deleteUrl).then(
-							function (data) {
-								if (data.success == true) {
-									commentDetails.fadeOut(400, function () {
-										commentDetails.remove();
-									});
-									thisInstance.reloadTabContent();
-									var recentCommentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel);
-									var relatedController = Vtiger_RelatedList_Js.getInstance(thisInstance.getRecordId(), app.getModuleName(), recentCommentsTab, 'ModComments');
-									relatedController.deleteRelation([recordId]);
-									thisInstance.registerRelatedModulesRecordCount(recentCommentsTab);
-								} else {
-									Vtiger_Helper_Js.showPnotify(data.error.message);
-								}
-							});
-				}, function (error, err) {
-					app.errorLog(error, err);
-				});
-			}
-		});
 		detailContentsHolder.on('click', '.detailViewSaveComment', function (e) {
 			var element = jQuery(e.currentTarget);
 			if (!element.is(":disabled")) {

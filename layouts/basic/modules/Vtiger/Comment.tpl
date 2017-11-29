@@ -84,10 +84,11 @@
 								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}
 							</button>
 						{/if}
-						{if $COMMENTS_MODULE_MODEL->isPermitted('Delete')}
-							<button type="button" class="btn btn-xs btn-danger deleteComment marginLeft5">
-								<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;{\App\Language::translate('LBL_DELETE',$MODULE_NAME)}
-							</button>
+						{assign var=LINKS value=$COMMENT->getCommentLinks()}
+						{if count($LINKS) > 0}
+							{foreach from=$LINKS item=LINK}
+								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='comment'}
+							{/foreach}
 						{/if}
 						{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
 						{if $CHILD_COMMENTS_MODEL neq null and ($CHILDS_ROOT_PARENT_ID neq $PARENT_COMMENT_ID)}
