@@ -118,6 +118,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	},
 	setRelatedContainer: function (container) {
 		this.content = container;
+		this.relatedView = this.content.find('input.relatedView').val();
 	},
 	getContentHolder: function () {
 		if (this.detailViewContentHolder == false) {
