@@ -144,8 +144,7 @@ class File
 	{
 		if (empty($this->mimeType)) {
 			static::initMimeTypes();
-			$ext = explode('.', $this->name);
-			$ext = strtolower(array_pop($ext));
+			$ext = $this->getExtension(true);
 			if (isset(self::$mimeTypes[$ext])) {
 				$this->mimeType = self::$mimeTypes[$ext];
 			} elseif (function_exists('mime_content_type')) {
@@ -175,12 +174,25 @@ class File
 	}
 
 	/**
-	 * Get extension
+	 * Get file extension
 	 * @return string
 	 */
-	public function getExtension()
+	public function getExtension($fromName = false)
 	{
+		if ($fromName) {
+			$ext = explode('.', $this->name);
+			return strtolower(array_pop($ext));
+		}
 		return pathinfo($this->path, PATHINFO_EXTENSION);
+	}
+
+	/**
+	 * Get file path
+	 * @return string
+	 */
+	public function getPath()
+	{
+		return $this->path;
 	}
 
 	/**
@@ -217,8 +229,8 @@ class File
 	 */
 	private function checkFile()
 	{
-		if ($this->error !== false && $this->error != 0) {
-			throw new \Exception('Error request: ' . $this->error);
+		if ($this->error !== false && $this->error != UPLOAD_ERR_OK) {
+			throw new \Exception('Error request: ' . $this->getErrorMessage($this->error));
 		}
 		if (empty($this->name)) {
 			throw new \Exception('Empty name');
@@ -527,5 +539,41 @@ class File
 			mkdir($filepath);
 		}
 		return $filepath . DIRECTORY_SEPARATOR;
+	}
+
+	/**
+	 * Get error message by code
+	 * @param int $code
+	 * @return string
+	 */
+	private function getErrorMessage($code)
+	{
+		switch ($code) {
+			case UPLOAD_ERR_INI_SIZE:
+				$message = 'The uploaded file exceeds the upload_max_filesize directive in php.ini';
+				break;
+			case UPLOAD_ERR_FORM_SIZE:
+				$message = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
+				break;
+			case UPLOAD_ERR_PARTIAL:
+				$message = 'The uploaded file was only partially uploaded';
+				break;
+			case UPLOAD_ERR_NO_FILE:
+				$message = 'No file was uploaded';
+				break;
+			case UPLOAD_ERR_NO_TMP_DIR:
+				$message = 'Missing a temporary folder';
+				break;
+			case UPLOAD_ERR_CANT_WRITE:
+				$message = 'Failed to write file to disk';
+				break;
+			case UPLOAD_ERR_EXTENSION:
+				$message = 'File upload stopped by extension';
+				break;
+			default:
+				$message = 'Unknown upload error';
+				break;
+		}
+		return $message;
 	}
 }
