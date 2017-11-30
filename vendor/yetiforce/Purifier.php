@@ -82,7 +82,7 @@ class Purifier
 			if (is_array($input)) {
 				$value = [];
 				foreach ($input as $k => $v) {
-					$value[$k] = static::purify($v, $ignore);
+					$value[$k] = static::purify($v);
 				}
 			} elseif (is_string($input)) {
 				static::purifyHtmlEventAttributes($input);
