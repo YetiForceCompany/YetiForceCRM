@@ -297,13 +297,15 @@ jQuery.Class("Reservations_Calendar_Js", {
 		var eventObject = {
 			id: calendarDetails._recordId,
 			title: calendarDetails.title.display_value,
-			smownerid: calendarDetails.smownerid,
-			status: calendarDetails.status,
+			smownerid: calendarDetails.assigned_user_id?calendarDetails.assigned_user_id.display_value:calendarDetails.smownerid,
+			status: calendarDetails.reservations_status?calendarDetails.reservations_status.display_value:calendarDetails.status,
 			isPrivate: calendarDetails.isPrivate,
 			start: startDate.toString(),
 			end: endDate.toString(),
 			url: 'index.php?module=Reservations&view=Detail&record=' + calendarDetails._recordId,
-			className: 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBg_OSSTimeControl_timecontrol_type_' + calendarDetails.type.value
+			className: 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBg_OSSTimeControl_timecontrol_type_' + calendarDetails.type.value,
+			totalTime: calendarDetails.sum_time.display_value,
+			type: calendarDetails.type.display_value,
 		};
 		this.getCalendarView().fullCalendar('renderEvent', eventObject);
 	},

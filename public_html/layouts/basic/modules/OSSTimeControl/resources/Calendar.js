@@ -312,7 +312,13 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 			start: startDate.toString(),
 			end: endDate.toString(),
 			url: 'index.php?module=OSSTimeControl&view=Detail&record=' + calendarDetails._recordId,
-			className: 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBg_OSSTimeControl_timecontrol_type_' + calendarDetails.timecontrol_type.value
+			className: 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBg_OSSTimeControl_timecontrol_type_' + calendarDetails.timecontrol_type.value,
+			title: calendarDetails.name.display_value,
+			totalTime: calendarDetails.sum_time.display_value,
+			number: calendarDetails.osstimecontrol_no.display_value,
+			type: calendarDetails.timecontrol_type.display_value,
+			status: calendarDetails.osstimecontrol_status.display_value,
+			smownerid: calendarDetails.assigned_user_id.display_value,
 		};
 		this.getCalendarView().fullCalendar('renderEvent', eventObject);
 	},
