@@ -344,9 +344,10 @@ jQuery.Class("Vtiger_Edit_Js", {
 				var sourceField = parentElem.find('input[class="sourceField"]');
 				var sourceFieldDisplay = sourceField.attr('name') + "_display";
 				var fieldDisplayElement = jQuery('input[name="' + sourceFieldDisplay + '"]', parentElem);
-
 				sourceField.val(selectedItemData.id);
-				fieldDisplayElement.val(selectedItemData.label).attr('readonly', true);
+				this.value = selectedItemData.label;
+				fieldDisplayElement.attr('readonly', true);
+				return false;
 			},
 			'change': function (event, ui) {
 				var element = jQuery(this);
