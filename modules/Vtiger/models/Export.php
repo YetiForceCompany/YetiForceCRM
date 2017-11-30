@@ -53,16 +53,15 @@ class Vtiger_Export_Model extends \App\Base
 	{
 		$moduleName = $request->getByType('source_module', 2);
 		$query = $this->getExportQuery($request);
-
 		$headers = [];
 		$exportBlockName = \AppConfig::module('Export', 'BLOCK_NAME');
 		//Query generator set this when generating the query
 		if (!empty($this->accessibleFields)) {
-			foreach ($this->accessibleFields as &$fieldName) {
+			foreach ($this->accessibleFields as $fieldName) {
 				if (!empty($this->moduleFieldInstances[$fieldName])) {
 					$fieldModel = $this->moduleFieldInstances[$fieldName];
 					// Check added as querygenerator is not checking this for admin users
-					if ($fieldModel && ($fieldModel->isViewEnabled() || $fieldModel->isMandatory())) { // export headers for mandatory fields
+					if ($fieldModel && $fieldModel->isViewEnabled()) { // export headers for mandatory fields
 						$header = \App\Language::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $moduleName);
 						if ($exportBlockName) {
 							$header = App\Language::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $moduleName) . '::' . $header;
@@ -72,7 +71,7 @@ class Vtiger_Export_Model extends \App\Base
 				}
 			}
 		} else {
-			foreach ($this->moduleFieldInstances as &$fieldModel) {
+			foreach ($this->moduleFieldInstances as $fieldModel) {
 				$header = \App\Language::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $moduleName);
 				if ($exportBlockName) {
 					$header = App\Language::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $moduleName) . '::' . $header;
@@ -80,7 +79,6 @@ class Vtiger_Export_Model extends \App\Base
 				$headers[] = $header;
 			}
 		}
-
 		$isInventory = $this->moduleInstance->isInventory();
 		if ($isInventory) {
 			//Get inventory headers
