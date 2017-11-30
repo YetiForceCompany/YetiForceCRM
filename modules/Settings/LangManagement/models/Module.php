@@ -19,9 +19,13 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function deleteTranslation($params)
 	{
+		$allLangs = App\Language::getAll();
 		$change = false;
 		$langkey = $params['langkey'];
 		foreach ($params['lang'] as $lang) {
+			if (!isset($allLangs[$lang])) {
+				throw new \App\Exceptions\Security('LBL_LANGUAGE_DOES_NOT_EXIST');
+			}
 			$edit = false;
 			$mod = str_replace(self::URL_SEPARATOR, '.', $params['mod']);
 			if (\AppConfig::performance('LOAD_CUSTOM_FILES')) {
@@ -39,10 +43,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 					}
 				}
 				if ($edit) {
-					$fileContent = implode("", $fileContent);
-					$filePointer = fopen($fileName, 'w+');
-					fwrite($filePointer, $fileContent);
-					fclose($filePointer);
+					file_put_contents($fileName, implode("", $fileContent));
 				}
 			}
 		}
@@ -56,7 +57,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function saveTranslation($params)
 	{
-		if ($params['is_new'] == 'true') {
+		if ($params['is_new']) {
 			$result = self::addTranslation($params);
 		} else {
 			$result = self::updateTranslation($params);
@@ -74,7 +75,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		$lang = $params['lang'];
 		$mod = $params['mod'];
 		$langkey = addslashes($params['langkey']);
-		$val = addslashes(\App\Purifier::decodeHtml($params['val']));
+		$val = addslashes($params['val']);
 		$mod = str_replace(self::URL_SEPARATOR, '.', $mod);
 
 		if (\AppConfig::performance('LOAD_CUSTOM_FILES')) {
@@ -109,15 +110,13 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 				}
 				$fileContent = $fileContent . PHP_EOL . $to_replase . PHP_EOL . '	' . $new_translation . PHP_EOL . '];';
 			}
+			file_put_contents($fileName, $fileContent);
 		} else {
 			if (\AppConfig::performance('LOAD_CUSTOM_FILES')) {
 				self::createCustomLangDirectory($params);
 			}
-			$fileContent = '<?php' . PHP_EOL;
+			file_put_contents($fileName, '<?php' . PHP_EOL);
 		}
-		$filePointer = fopen($fileName, 'w');
-		fwrite($filePointer, $fileContent);
-		fclose($filePointer);
 		if (!$fileExists) {
 			return self::addTranslation($params);
 		}
@@ -134,7 +133,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		$lang = $params['lang'];
 		$mod = $params['mod'];
 		$langkey = $params['langkey'];
-		$val = addslashes(\App\Purifier::decodeHtml($params['val']));
+		$val = addslashes($params['val']);
 		$mod = str_replace(self::URL_SEPARATOR, '.', $mod);
 		$languageStrings = $jsLanguageStrings = [];
 		$customType = \AppConfig::performance('LOAD_CUSTOM_FILES');
@@ -172,16 +171,13 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 					$start = true;
 				}
 			}
-			$fileContent = implode("", $fileContentEdit);
+			file_put_contents($fileName, implode("", $fileContentEdit));
 		} else {
 			if ($customType) {
 				self::createCustomLangDirectory($params);
 			}
-			$fileContent = '<?php' . PHP_EOL;
+			file_put_contents($fileName, '<?php' . PHP_EOL);
 		}
-		$filePointer = fopen($fileName, 'w+');
-		fwrite($filePointer, $fileContent);
-		fclose($filePointer);
 		if (!$fileExists) {
 			self::updateTranslation($params);
 		}
@@ -336,9 +332,6 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 
 	public static function saveView($params)
 	{
-		if (!is_array($params['value'])) {
-			$params['value'] = [$params['value']];
-		}
 		$value = implode(',', $params['value']);
 		\App\Db::getInstance()->createCommand()
 			->update('vtiger_field', ['helpinfo' => $value], ['fieldid' => $params['fieldid']])
@@ -346,9 +339,8 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 		return ['success' => true, 'data' => 'LBL_SUCCESSFULLY_UPDATED'];
 	}
 
-	public static function delete($params)
+	public static function delete($prefix)
 	{
-		$prefix = \App\Purifier::purifyByType($params['prefix'], 1);
 		$dir = 'languages/' . $prefix;
 		if (file_exists($dir)) {
 			self::deleteDir($dir);
@@ -400,14 +392,13 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Function to set language as default
-	 * @param array $lang
+	 * @param array $prefix
 	 * @return array
 	 */
-	public static function setAsDefault($lang)
+	public static function setAsDefault($prefix)
 	{
 		\App\Log::trace("Entering Settings_LangManagement_Module_Model::setAsDefault(" . $lang . ") method ...");
 		$db = \App\Db::getInstance();
-		$prefix = $lang['prefix'];
 		$fileName = 'config/config.inc.php';
 		$completeData = file_get_contents($fileName);
 		$updatedFields = 'default_language';
