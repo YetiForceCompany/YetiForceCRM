@@ -33,7 +33,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 	public function addTranslation(\App\Request $request)
 	{
 		if (!App\Module::getModuleId($request->getByType('mod', 2))) {
-			throw new \App\Exceptions\Security('LBL_MODULE_DOES_NOT_EXIST');
+			throw new \App\Exceptions\Security('ERR_MODULE_DOES_NOT_EXIST');
 		}
 		$params = [
 			'mod' => $request->getByType('mod', 2),
@@ -67,10 +67,10 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 	public function saveTranslation(\App\Request $request)
 	{
 		if (!isset(App\Language::getAll()[$request->getByType('lang')])) {
-			throw new \App\Exceptions\Security('LBL_LANGUAGE_DOES_NOT_EXIST');
+			throw new \App\Exceptions\Security('ERR_LANGUAGE_DOES_NOT_EXIST');
 		}
 		if (!App\Module::getModuleId($request->getByType('mod', 2))) {
-			throw new \App\Exceptions\Security('LBL_MODULE_DOES_NOT_EXIST');
+			throw new \App\Exceptions\Security('ERR_MODULE_DOES_NOT_EXIST');
 		}
 		$params = [
 			'lang' => $request->getByType('lang'),
@@ -97,7 +97,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 	public function saveView(\App\Request $request)
 	{
 		if (!App\Module::getModuleId($request->getByType('mod', 2))) {
-			throw new \App\Exceptions\Security('LBL_MODULE_DOES_NOT_EXIST');
+			throw new \App\Exceptions\Security('ERR_MODULE_DOES_NOT_EXIST');
 		}
 		$params = [
 			'fieldid' => $request->getInteger('fieldid'),
@@ -120,7 +120,7 @@ class Settings_LangManagement_SaveAjax_Action extends Settings_Vtiger_IndexAjax_
 	public function deleteTranslation(\App\Request $request)
 	{
 		if (!App\Module::getModuleId($request->getByType('mod', 2))) {
-			throw new \App\Exceptions\Security('LBL_MODULE_DOES_NOT_EXIST');
+			throw new \App\Exceptions\Security('ERR_MODULE_DOES_NOT_EXIST');
 		}
 		$params = [
 			'langkey' => $request->getByType('langkey', 'Text'),
