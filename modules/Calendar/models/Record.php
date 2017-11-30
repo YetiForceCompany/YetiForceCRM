@@ -369,4 +369,34 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		}
 		return $links;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getRecordRelatedListViewLinksLeftSide(Vtiger_RelationListView_Model $viewModel)
+	{
+		$links = parent::getRecordRelatedListViewLinksLeftSide($viewModel);
+		if ($viewModel->getRelationModel()->isEditable() && $this->isEditable()) {
+			if (in_array($this->getValueByField('activitystatus'), Calendar_Module_Model::getComponentActivityStateLabel('current'))) {
+				$links['LBL_SET_RECORD_STATUS'] = Vtiger_Link_Model::getInstanceFromValues([
+						'linklabel' => 'LBL_SET_RECORD_STATUS',
+						'linkhref' => true,
+						'linkurl' => $this->getActivityStateModalUrl(),
+						'linkicon' => 'glyphicon glyphicon-ok',
+						'linkclass' => 'btn-xs btn-default',
+						'modalView' => true
+				]);
+			}
+			if ($viewModel->getRelationModel()->isEditable() && $this->isEditable()) {
+				$links['LBL_EDIT'] = Vtiger_Link_Model::getInstanceFromValues([
+						'linklabel' => 'LBL_EDIT',
+						'linkurl' => $this->getEditViewUrl(),
+						'linkhref' => true,
+						'linkicon' => 'glyphicon glyphicon-pencil',
+						'linkclass' => 'btn-xs btn-default',
+				]);
+			}
+		}
+		return $links;
+	}
 }

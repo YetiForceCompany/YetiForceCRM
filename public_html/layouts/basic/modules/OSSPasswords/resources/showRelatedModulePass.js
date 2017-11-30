@@ -10,10 +10,12 @@ $('.show_pass').click(function (e) {
 function showRelatedListPassword(record) {
 	var element = $('#' + record);
 	var iconElement = $('a#btn_' + record + ' span');
+	var btn = $('a#btn_' + record);
+	var copybtn = $('a#copybtn_' + record);
 	var passVal = element.html(); // current value of password
 	// button labels
-	var showPassText = iconElement.data('titleShow') ? iconElement.data('titleShow') : app.vtranslate('LBL_ShowPassword');
-	var hidePassText = iconElement.data('titleHide') ? iconElement.data('titleHide') : app.vtranslate('LBL_HidePassword');
+	var showPassText = btn.data('titleShow') ? btn.data('titleShow') : app.vtranslate('LBL_ShowPassword');
+	var hidePassText = btn.data('titleHide') ? btn.data('titleHide') : app.vtranslate('LBL_HidePassword');
 
 	// if password is hashed, show it
 	if (passVal == '**********') {
@@ -32,21 +34,19 @@ function showRelatedListPassword(record) {
 				function (data) {
 					var response = data['result'];
 					if (response['success']) {
-
 						// show password
 						element.html(response['password']);
 						// change button title to 'Hide Password'
-						iconElement.attr('title', hidePassText);
+						btn.on('show.bs.popover', function () {
+							this.dataset.content = hidePassText;
+						})
 						// change icon
 						iconElement.removeClass('adminIcon-passwords-encryption');
 						iconElement.addClass('glyphicon-lock');
 						// show copy to clipboard button
-						$('a#copybtn_' + record).removeClass('hide');
+						copybtn.removeClass('hide');
 					}
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				},
-				function (data, err) {
-
 				}
 		);
 	}
@@ -55,12 +55,15 @@ function showRelatedListPassword(record) {
 		// hide password
 		element.html('**********');
 		// change button title to 'Show Password'
-		iconElement.attr('title', showPassText);
+		btn.on('show.bs.popover', function () {
+			this.dataset.content = showPassText;
+		})
+		app.showPopoverElementView(element);
 		// change icon
 		iconElement.removeClass('glyphicon-lock');
 		iconElement.addClass('adminIcon-passwords-encryption');
 		// hide copy to clipboard button
-		$('a#copybtn_' + record).addClass('hide');
+		copybtn.addClass('hide');
 	}
 }
 new Clipboard('.copy_pass', {

@@ -795,7 +795,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			}
 			thisInstance.showSelectRelationPopup(params);
 		});
-		this.content.on('click', 'a.relationDelete', function (e) {
+		this.content.on('click', 'button.relationDelete', function (e) {
 			e.stopImmediatePropagation();
 			var element = $(this);
 			Vtiger_Helper_Js.showConfirmationBox({message: app.vtranslate('JS_DELETE_CONFIRMATION')}).then(function (e) {

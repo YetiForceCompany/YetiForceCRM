@@ -98,4 +98,21 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 		}
 		\App\Log::trace('Exiting function updateListPrices...');
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getRecordRelatedListViewLinksLeftSide(Vtiger_RelationListView_Model $viewModel)
+	{
+		$links = parent::getRecordRelatedListViewLinksLeftSide($viewModel);
+		if ($viewModel->getRelationModel()->isEditable() && $this->isEditable()) {
+			$links['LBL_EDIT'] = Vtiger_Link_Model::getInstanceFromValues([
+					'linklabel' => 'LBL_EDIT',
+					'linkicon' => 'glyphicon glyphicon-pencil',
+					'linkclass' => 'btn-xs btn-default editListPrice cursorPointer',
+					'linkdata' => ['url' => 'index.php?module=PriceBooks&view=ListPriceUpdate&record=' . $viewModel->getParentRecordModel()->getId() . '&relid=' . $this->getId() . '&currentPrice=' . $this->get('listprice'), 'related-recordid' => $this->getId(), 'list-price' => $this->get('listprice')]
+			]);
+		}
+		return $links;
+	}
 }

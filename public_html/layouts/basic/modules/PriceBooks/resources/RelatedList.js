@@ -88,7 +88,7 @@ Vtiger_RelatedList_Js("PriceBooks_RelatedList_Js", {}, {
 	},
 	registerEventForEditListPrice: function () {
 		var thisInstance = this;
-		this.content.on('click', 'a.editListPrice', function (e) {
+		this.content.on('click', 'button.editListPrice', function (e) {
 			e.stopPropagation();
 			var elem = jQuery(e.currentTarget);
 			var requestUrl = elem.data('url');

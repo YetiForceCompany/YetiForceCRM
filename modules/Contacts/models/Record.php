@@ -177,4 +177,37 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 			'support_end_date' => null
 			], ['customerid' => $this->getId()])->execute();
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getRecordRelatedListViewLinksLeftSide(Vtiger_RelationListView_Model $viewModel)
+	{
+		$links = parent::getRecordRelatedListViewLinksLeftSide($viewModel);
+		if (AppConfig::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')) {
+			if (Users_Record_Model::getCurrentUserModel()->get('internal_mailer') == 1) {
+				$links['LBL_SEND_EMAIL'] = Vtiger_Link_Model::getInstanceFromValues([
+						'linklabel' => 'LBL_SEND_EMAIL',
+						'linkhref' => true,
+						'linkurl' => OSSMail_Module_Model::getComposeUrl($this->getModuleName(), $this->getId(), 'Detail', 'new'),
+						'linkicon' => 'glyphicon glyphicon-envelope',
+						'linkclass' => 'btn-xs btn-default',
+						'linktarget' => "_blank"
+				]);
+			} else {
+				$urldata = OSSMail_Module_Model::getExternalUrl($this->getModuleName(), $this->getId(), 'Detail', 'new');
+				if ($urldata && $urldata !== 'mailto:?') {
+					$links[] = Vtiger_Link_Model::getInstanceFromValues([
+							'linklabel' => 'LBL_CREATEMAIL',
+							'linkhref' => true,
+							'linkurl' => $urldata,
+							'linkicon' => 'glyphicon glyphicon-envelope',
+							'linkclass' => 'btn-xs btn-default',
+							'relatedModuleName' => 'OSSMailView'
+					]);
+				}
+			}
+		}
+		return $links;
+	}
 }
