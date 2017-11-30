@@ -334,6 +334,9 @@ class Purifier
 						$value = $input;
 					}
 					break;
+				case 'Text': // 
+					$value = is_numeric($input) || (is_string($input) && $input === strip_tags($input)) ? $input : false;
+					break;
 				default:
 					$value = Purifier::purify($value);
 					break;
