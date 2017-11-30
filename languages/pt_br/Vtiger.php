@@ -414,7 +414,6 @@ $languageStrings = [
 	'LBL_NOTEPAD' => 'Bloco de Notas',
 	'LBL_NOTEPAD_CONTENT' => 'Conteúdo Bloco Notas',
 	'LBL_NOTEPAD_NAME' => 'Nome Bloco Notas',
-	'ERR_NOT_ACCESSIBLE' => 'Acesso Negado',
 	'LBL_NOT_EQUAL_TO' => 'diferente de', //Duplicated key-value pairs
 	'LBL_Nov' => 'Nov',
 	'LBL_NO_COMMENTS' => 'Sem Comentários',

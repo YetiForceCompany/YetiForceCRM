@@ -42,7 +42,6 @@
 				</div>
 			</div>
 			<div class="commentActionsContainer row no-margin ">
-
 				{assign var="REASON_TO_EDIT" value=$COMMENT->getDisplayValue('reasontoedit')}
 				<div class="editedStatus visible-lg-block col-xs-6"  name="editStatus">
 					<p class="col-xs-6 marginLeftZero">
@@ -75,10 +74,11 @@
 								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}
 							</button>
 						{/if}
-						{if $COMMENTS_MODULE_MODEL->isPermitted('Delete')}
-							<button type="button" class="btn btn-xs btn-danger deleteComment marginLeft5">
-								<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;{\App\Language::translate('LBL_DELETE',$MODULE_NAME)}
-							</button>
+						{assign var=LINKS value=$COMMENT->getCommentLinks()}
+						{if count($LINKS) > 0}
+							{foreach from=$LINKS item=LINK}
+								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='comment'}
+							{/foreach}
 						{/if}
 					</span>
 				</div>

@@ -234,7 +234,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	public static function executeActions($account, OSSMail_Mail_Model $mail, $folder, $params = false)
 	{
 
-		\App\Log::trace('Start execute actions: ' . $account['username']);
+		\App\Log::trace('Start execute actions: ' . $account['username'], 'MailScanner');
 
 		$actions = [];
 		if ($params && array_key_exists('actions', $params)) {
@@ -250,15 +250,17 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			$handlerClass = Vtiger_Loader::getComponentClassName('ScannerAction', $action, 'OSSMailScanner');
 			$handler = new $handlerClass();
 			if ($handler) {
-				\App\Log::trace('Start action: ' . $action);
-
-				$mail->addActionResult($action, $handler->process($mail));
-
-				\App\Log::trace('End action');
+				\App\Log::trace('Start action: ' . $action, 'MailScanner');
+				try {
+					$mail->addActionResult($action, $handler->process($mail));
+				} catch (Exception $e) {
+					App\Log::error($e->getMessage(), 'MailScanner');
+				}
+				\App\Log::trace('End action', 'MailScanner');
 			}
 		}
 		$mail->postProcess();
-		\App\Log::trace('End execute actions');
+		\App\Log::trace('End execute actions', 'MailScanner');
 		return $mail->getActionResult();
 	}
 

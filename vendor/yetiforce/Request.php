@@ -150,7 +150,7 @@ class Request
 		if (is_bool($value)) {
 			return $value;
 		}
-		return strcasecmp('true', (string) $value) === 0;
+		return strcasecmp('true', (string) $value) === 0 || (string) $value === '1';
 	}
 
 	/**
@@ -211,7 +211,7 @@ class Request
 	 * @param bool|string $type
 	 * @return array
 	 */
-	public function getExploded($key, $delimiter = ',', $type = false)
+	public function getExploded($key, $delimiter = ', ', $type = false)
 	{
 		if (isset($this->purifiedValuesByExploded[$key])) {
 			return $this->purifiedValuesByExploded[$key];
@@ -243,7 +243,7 @@ class Request
 			if (!isset($this->rawValues[$key]) || $this->rawValues[$key] === '') {
 				return [];
 			}
-			$value = Purifier::purify(explode(',', $this->rawValues[$key]));
+			$value = Purifier::purify(explode(', ', $this->rawValues[$key]));
 			return $this->purifiedValuesByDateRange[$key] = ['start' => $value[0], 'end' => $value[1]];
 		}
 		return $value;

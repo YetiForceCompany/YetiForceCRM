@@ -411,7 +411,6 @@ $languageStrings = [
 	'LBL_NOTEPAD' => 'Notepad',
 	'LBL_NOTEPAD_CONTENT' => 'Notepad content',
 	'LBL_NOTEPAD_NAME' => 'Notepad name',
-	'ERR_NOT_ACCESSIBLE' => 'Access denied',
 	'LBL_NOT_EQUAL_TO' => 'not equal to', //Duplicated key-value pairs
 	'LBL_Nov' => 'Nov',
 	'LBL_NO_COMMENTS' => 'No comments',

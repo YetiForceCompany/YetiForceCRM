@@ -742,10 +742,9 @@ class QueryGenerator
 				$condition += ['vtiger_leaddetails.converted' => 0];
 				break;
 			case 'Users':
-				$condition = ['vtiger_users.status' => 'Active'];
+				$condition = [];
 				break;
 		}
-		//var_dump($condition);
 		return $condition;
 	}
 

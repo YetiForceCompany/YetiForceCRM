@@ -296,5 +296,6 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 	registerEvents: function () {
 		this._super();
 		this.usersFilter();
+		this.registerDeleteRecordClickEvent();
 	}
 });

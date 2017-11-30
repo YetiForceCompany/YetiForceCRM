@@ -390,7 +390,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => 'javascript:Settings_AutomaticAssignment_List_Js.delete(' . $this->getId() . ');',
+				'linkurl' => 'javascript:Settings_AutomaticAssignment_List_Js.deleteById(' . $this->getId() . ');',
 				'linkicon' => 'glyphicon glyphicon-trash'
 			]
 		];

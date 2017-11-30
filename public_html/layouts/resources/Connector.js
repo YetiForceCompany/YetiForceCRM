@@ -101,6 +101,12 @@ var AppConnector = {
 		params.success = function (data, status, jqXHR) {
 			if (data !== null && typeof data === 'object' && data.error) {
 				app.errorLog(data.error);
+				if (data.error.message) {
+					Vtiger_Helper_Js.showMessage({
+						text: data.error.message,
+						type: 'error'
+					});
+				}
 			}
 			aDeferred.resolve(data);
 		};

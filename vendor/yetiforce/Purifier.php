@@ -53,10 +53,10 @@ class Purifier
 	/**
 	 * Purify (Cleanup) malicious snippets of code from the input
 	 * @param string $input
-	 * @param boolean $ignore Skip cleaning of the input
+	 * @param boolean $loop Purify values in the loop
 	 * @return string
 	 */
-	public static function purify($input, $ignore = false)
+	public static function purify($input, $loop = true)
 	{
 		if (empty($input)) {
 			return $input;
@@ -65,47 +65,37 @@ class Purifier
 		if (!is_array($input)) {
 			$cacheKey = md5($input);
 			if (Cache::has('purify', $cacheKey)) {
-				$value = Cache::get('purify', $cacheKey);
-				$ignore = true; //to escape cleaning up again
+				return Cache::get('purify', $cacheKey);
 			}
 		}
-		if (!$ignore) {
-			// Initialize the instance if it has not yet done
-			if (!static::$purifyInstanceCache) {
-				$config = \HTMLPurifier_Config::createDefault();
-				$config->set('Core.Encoding', static::$defaultCharset);
-				$config->set('Cache.SerializerPermissions', 0775);
-				$config->set('Cache.SerializerPath', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib');
-				$config->set('HTML.Allowed', '');
-				static::$purifyInstanceCache = new \HTMLPurifier($config);
-			}
-			if (static::$purifyInstanceCache) {
-				// Composite type
-				if (is_array($input)) {
-					$value = [];
-					foreach ($input as $k => $v) {
-						$value[$k] = static::purify($v, $ignore);
-					}
-				} elseif (is_string($input)) {
-					$value = static::$purifyInstanceCache->purify(static::decodeHtml($input));
-					$value = static::encodeHtml(static::purifyHtmlEventAttributes(static::decodeHtml($value)));
-					Cache::save('purify', $cacheKey, $value, Cache::SHORT);
+		// Initialize the instance if it has not yet done
+		if (!static::$purifyInstanceCache) {
+			$config = \HTMLPurifier_Config::createDefault();
+			$config->set('Core.Encoding', static::$defaultCharset);
+			$config->set('Cache.SerializerPermissions', 0775);
+			$config->set('Cache.SerializerPath', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib');
+			$config->set('HTML.Allowed', '');
+			static::$purifyInstanceCache = new \HTMLPurifier($config);
+		}
+		if (static::$purifyInstanceCache) {
+			// Composite type
+			if (is_array($input)) {
+				$value = [];
+				foreach ($input as $k => $v) {
+					$value[$k] = static::purify($v, $ignore);
 				}
+			} elseif (is_string($input)) {
+				static::purifyHtmlEventAttributes($input);
+				$value = static::$purifyInstanceCache->purify(static::decodeHtml($input));
+				if ($loop) {
+					$last = '';
+					while ($last !== $value) {
+						$last = $value;
+						$value = static::purify($value, false);
+					}
+				}
+				Cache::save('purify', $cacheKey, $value, Cache::SHORT);
 			}
-		}
-		return $value;
-	}
-
-	/**
-	 * To purify malicious html event attributes
-	 * @param string $value
-	 * @return string
-	 */
-	public static function purifyHtmlEventAttributes($value)
-	{
-		if (preg_match("#<([^><]+?)([^a-z_\-]on\w*|xmlns)(\s*=\s*[^><]*)([>]*)#i", $value) || preg_match("/\b(" . static::$htmlEventAttributes . ")\s*=/i", $value) || preg_match('@<[^/>][^>]+(expression\(|j\W*a\W*v\W*a|v\W*b\W*s\W*c\W*r|&#|/\*|\*/)[^>]*>@sim', $value)) {
-			\App\Log::error('purifyHtmlEventAttributes: ' . $value, 'BadRequest');
-			throw new Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||' . $value, 406);
 		}
 		return $value;
 	}
@@ -114,10 +104,11 @@ class Purifier
 	 * Purify HTML (Cleanup) malicious snippets of code from the input
 	 *
 	 * @param string $input
-	 * @param boolean $ignore Skip cleaning of the input
+	 * @param boolean $firstEvent First verify events
+	 * @param boolean $loop Purify values in the loop
 	 * @return string
 	 */
-	public static function purifyHtml($input, $ignore = false)
+	public static function purifyHtml($input, $firstEvent = true, $loop = true)
 	{
 		if (empty($input)) {
 			return $input;
@@ -125,45 +116,66 @@ class Purifier
 		$value = $input;
 		$cacheKey = md5($input);
 		if (Cache::has('purifyHtml', $cacheKey)) {
-			$value = Cache::get('purifyHtml', $cacheKey);
-			$ignore = true; //to escape cleaning up again
+			return Cache::get('purifyHtml', $cacheKey);
 		}
-		if (!$ignore) {
-			// Initialize the instance if it has not yet done
-			if (!static::$purifyHtmlInstanceCache) {
-				$config = \HTMLPurifier_Config::createDefault();
-				$config->set('Core.Encoding', static::$defaultCharset);
-				$config->set('Cache.SerializerPermissions', 0775);
-				$config->set('Cache.SerializerPath', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib');
-				$config->set('HTML.Doctype', 'HTML 4.01 Transitional');
-				$config->set('CSS.AllowTricky', true);
-				$config->set('CSS.Proprietary', true);
-				$config->set('Core.RemoveInvalidImg', true);
-				/*
-				  $config->set('AutoFormat.RemoveEmpty', true);
-				  $config->set('AutoFormat.RemoveEmpty.RemoveNbsp', true);
-				 */
-				$config->set('HTML.SafeIframe', true);
-				$config->set('HTML.SafeEmbed', true);
-				$config->set('URI.SafeIframeRegexp', '%^(http:|https:)?//(www.youtube(?:-nocookie)?.com/embed/|player.vimeo.com/video/)%');
-				$config->set('HTML.DefinitionRev', 1);
-				$config->set('HTML.TargetBlank', true);
-				static::loadHtmlDefinition($config);
-				if (static::$collectErrors) {
-					$config->set('Core.CollectErrors', true);
-				}
-				static::$purifyHtmlInstanceCache = new \HTMLPurifier($config);
+		// Initialize the instance if it has not yet done
+		if (!static::$purifyHtmlInstanceCache) {
+			$config = \HTMLPurifier_Config::createDefault();
+			$config->set('Core.Encoding', static::$defaultCharset);
+			$config->set('Cache.SerializerPermissions', 0775);
+			$config->set('Cache.SerializerPath', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib');
+			$config->set('HTML.Doctype', 'HTML 4.01 Transitional');
+			$config->set('CSS.AllowTricky', true);
+			$config->set('CSS.Proprietary', true);
+			$config->set('Core.RemoveInvalidImg', true);
+			/*
+			  $config->set('AutoFormat.RemoveEmpty', true);
+			  $config->set('AutoFormat.RemoveEmpty.RemoveNbsp', true);
+			 */
+			$config->set('HTML.SafeIframe', true);
+			$config->set('HTML.SafeEmbed', true);
+			$config->set('URI.SafeIframeRegexp', '%^(http:|https:)?//(www.youtube(?:-nocookie)?.com/embed/|player.vimeo.com/video/)%');
+			$config->set('HTML.DefinitionRev', 1);
+			$config->set('HTML.TargetBlank', true);
+			static::loadHtmlDefinition($config);
+			if (static::$collectErrors) {
+				$config->set('Core.CollectErrors', true);
 			}
-			if (static::$purifyHtmlInstanceCache) {
-				$value = static::$purifyHtmlInstanceCache->purify(static::decodeHtml($input));
-				if (static::$collectErrors) {
-					echo static::$purifyHtmlInstanceCache->context->get('ErrorCollector')->getHTMLFormatted($config);
-				}
-				$value = static::purifyHtmlEventAttributes(static::decodeHtml($value));
-				Cache::save('purifyHtml', $cacheKey, $value, Cache::SHORT);
+			static::$purifyHtmlInstanceCache = new \HTMLPurifier($config);
+		}
+		if (static::$purifyHtmlInstanceCache) {
+			if ($firstEvent) {
+				static::purifyHtmlEventAttributes($input);
 			}
+			$value = static::decodeHtml(static::$purifyHtmlInstanceCache->purify(static::decodeHtml($input)));
+			if (static::$collectErrors) {
+				echo static::$purifyHtmlInstanceCache->context->get('ErrorCollector')->getHTMLFormatted($config);
+			}
+			if (!$firstEvent) {
+				static::purifyHtmlEventAttributes($value);
+			}
+			if ($loop) {
+				$last = '';
+				while ($last !== $value) {
+					$last = $value;
+					$value = static::purifyHtml($value, $firstEvent, false);
+				}
+			}
+			Cache::save('purifyHtml', $cacheKey, $value, Cache::SHORT);
 		}
 		return $value;
+	}
+
+	/**
+	 * To purify malicious html event attributes
+	 * @param string $value
+	 */
+	public static function purifyHtmlEventAttributes($value)
+	{
+		if (preg_match("#<([^><]+?)([^a-z_\-]on\w*|xmlns)(\s*=\s*[^><]*)([>]*)#i", $value) || preg_match("/\b(" . static::$htmlEventAttributes . ")\s*=/i", $value) || preg_match('@<[^/>][^>]+(expression\(|j\W*a\W*v\W*a|v\W*b\W*s\W*c\W*r|&#|/\*|\*/)[^>]*>@sim', $value)) {
+			\App\Log::error('purifyHtmlEventAttributes: ' . $value, 'BadRequest');
+			throw new Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||' . $value, 406);
+		}
 	}
 
 	/**
@@ -321,6 +333,9 @@ class Purifier
 					if (($input = filter_var($input, FILTER_VALIDATE_INT)) !== false) {
 						$value = $input;
 					}
+					break;
+				case 'Text': // 
+					$value = is_numeric($input) || (is_string($input) && $input === strip_tags($input)) ? $input : false;
 					break;
 				default:
 					$value = Purifier::purify($value);
