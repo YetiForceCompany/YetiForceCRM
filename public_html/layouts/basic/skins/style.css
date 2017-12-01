@@ -146,8 +146,6 @@ hr {
 	width: 65%;
 	vertical-align: top;
     padding: 5px 0 5px 5px;
-    border-top: 1px solid #dddddd;
-	border-bottom: 1px solid #dddddd;
 }
 .sk-cube-grid .sk-cube {
 	width: 33%;
@@ -5647,12 +5645,8 @@ select.form-control {
 .marginRight15{
 	margin-right: 15px;
 }
-.relatedContents .leftRecordActions .actions:hover .toolsAction{
-	display: none;
-}
 .relatedContents .leftRecordActions .actions:hover{
 	white-space: nowrap;
-	position: absolute;
 }
 .leftRecordActions .actions:hover .toolsAction,
 .rightRecordActions .actions:hover .toolsAction{

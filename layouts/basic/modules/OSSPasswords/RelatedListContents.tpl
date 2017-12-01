@@ -36,7 +36,7 @@
 			<tbody>
 				{if $RELATED_MODULE->isQuickSearchEnabled()}
 					<tr>
-						<td class="listViewSearchTd">
+						<td>
 							<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
 						</td>
 						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
