@@ -56,12 +56,10 @@
 							}).then(function (res) {
 								$('.showModal[data-module="OutsourcedProducts"]').trigger('click');
 								Vtiger_Detail_Js.getInstance().loadWidgets();
-							})
-						},
-								function () {
-									$('.showModal[data-module="OutsourcedProducts"]').trigger('click');
-								}
-						);
+							});
+						}, function () {
+							$('.showModal[data-module="OutsourcedProducts"]').trigger('click');
+						});
 					}
 				}
 			}, this));

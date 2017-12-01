@@ -1592,13 +1592,17 @@ var app = {
 						currentElement.removeAttr("disabled");
 					}
 				}
-				var id = 'globalmodal';
-				if ($('#' + id).length) {
-					var numberGlobalModal = 1;
-					while ($('#' + id).length) {
-						id = 'globalmodal' + numberGlobalModal++;
+				if (currentElement.data('modalid')) {
+					var id = currentElement.data('modalid');
+				} else {
+					var id = 'globalmodal';
+					if ($('#' + id).length) {
+						var numberGlobalModal = 1;
+						while ($('#' + id).length) {
+							id = 'globalmodal' + numberGlobalModal++;
+						}
+						modalWindowParams['id'] = id;
 					}
-					modalWindowParams['id'] = id;
 				}
 				app.showModalWindow(modalWindowParams);
 			}
@@ -1738,7 +1742,7 @@ var app = {
 				AppConnector.request(params.url).then(function (data) {
 					Vtiger_Detail_Js.getInstance().reloadTabContent();
 				});
-				
+
 			}
 		});
 	},
