@@ -37,7 +37,7 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td class="listViewSearchTd">
+					<td>
 						<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
 					</td>
 					{assign var="FILTER_FIELDS" value=$MODULE_MODEL->getFilterFields()}
