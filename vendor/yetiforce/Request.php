@@ -211,7 +211,7 @@ class Request
 	 * @param bool|string $type
 	 * @return array
 	 */
-	public function getExploded($key, $delimiter = ', ', $type = false)
+	public function getExploded($key, $delimiter = ',', $type = false)
 	{
 		if (isset($this->purifiedValuesByExploded[$key])) {
 			return $this->purifiedValuesByExploded[$key];
