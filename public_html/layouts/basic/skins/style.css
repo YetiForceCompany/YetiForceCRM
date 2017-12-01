@@ -5650,9 +5650,6 @@ select.form-control {
 .relatedContents .leftRecordActions .actions:hover .toolsAction{
 	display: none;
 }
-.relatedContents .leftRecordActions .actions:hover .actionImages{
-	background: ivory;
-}
 .relatedContents .leftRecordActions .actions:hover{
 	white-space: nowrap;
 	position: absolute;
