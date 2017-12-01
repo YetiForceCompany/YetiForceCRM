@@ -27,7 +27,6 @@
 			{assign var=START_TIME value=$RECORD->get('time_start')}
 			{assign var=END_DATE value=$RECORD->get('due_date')}
 			{assign var=END_TIME value=$RECORD->get('time_end')}
-			{assign var=STATUS value=$RECORD->getDisplayValue('status')}
 			{assign var=SHAREDOWNER value=Vtiger_SharedOwner_UIType::getSharedOwners($RECORD->get('crmid'), $RECORD->getModuleName())}
 			<div class="activityEntries padding5">
 				<input type="hidden" class="activityId" value="{$RECORD->get('activityid')}" />
@@ -112,7 +111,7 @@
 							</a>
 						{/if}
 						<span class="pull-right popoverTooltip delay0" data-placement="top" data-original-title="{\App\Purifier::encodeHtml($RECORD->getDisplayValue('activitytype'))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('subject'))}"
-							  data-content="{\App\Language::translate('Status',$MODULE_NAME)}: {$STATUS}<br />{\App\Language::translate('Start Time','Calendar')}: {$START_DATE} {$START_TIME}<br />{\App\Language::translate('End Time','Calendar')}: {$END_DATE} {$END_TIME}
+							  data-content="{\App\Language::translate('Status',$MODULE_NAME)}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('status'))}<br />{\App\Language::translate('Start Time','Calendar')}: {$START_DATE} {$START_TIME}<br />{\App\Language::translate('End Time','Calendar')}: {$END_DATE} {$END_TIME}
 							  {if $RECORD->get('link')}<hr />{App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('link')))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('link'))}{/if}
 							  {if $RECORD->get('process')}<br />{App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('process')))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('process'))}{/if}
 							  {if $RECORD->get('subprocess')}<br />{App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('subprocess')))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('subprocess'))}{/if}
