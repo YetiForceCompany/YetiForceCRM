@@ -9,35 +9,6 @@
  *
  * ****************************************************************************** */
 
-/** 	function used to get the price type for the entity (PO or Invoice)
- * 	@param string $module - module name
- * 	@param int $id - id of the PO or Invoice
- * 	@return string $pricetype - pricetype for the given entity which will be unitprice or secondprice
- */
-function getInventoryCurrencyInfo($module, $id)
-{
-	$adb = PearDatabase::getInstance();
-
-
-	\App\Log::trace("Entering into function getInventoryCurrencyInfo($module, $id).");
-
-	$focus = new $module();
-
-	$res = $adb->pquery("select currency_id, {$focus->table_name}.conversion_rate as conv_rate, vtiger_currency_info.* from {$focus->table_name} "
-		. "inner join vtiger_currency_info on {$focus->table_name}.currency_id = vtiger_currency_info.id where {$focus->table_index}=?", [$id], true);
-
-	$currency_info = [];
-	$currency_info['currency_id'] = $adb->queryResult($res, 0, 'currency_id');
-	$currency_info['conversion_rate'] = $adb->queryResult($res, 0, 'conv_rate');
-	$currency_info['currency_name'] = $adb->queryResult($res, 0, 'currency_name');
-	$currency_info['currency_code'] = $adb->queryResult($res, 0, 'currency_code');
-	$currency_info['currency_symbol'] = $adb->queryResult($res, 0, 'currency_symbol');
-
-	\App\Log::trace("Exit from function getInventoryCurrencyInfo($module, $id).");
-
-	return $currency_info;
-}
-
 /** 	Function used to get all the price details for different currencies which are associated to the given product
  * 	@param int $productid - product id to which we want to get all the associated prices
  *  @param decimal $unit_price - Unit price of the product
@@ -50,7 +21,7 @@ function getPriceDetailsForProduct($productid, $unit_price, $available = 'availa
 
 	\App\Log::trace("Entering into function getPriceDetailsForProduct($productid)");
 	if ($productid != '') {
-		$product_currency_id = getProductBaseCurrency($productid, $itemtype);
+		$currencyId = \App\Fields\Currency::getCurrencyByModule($productid, $itemtype);
 		$product_base_conv_rate = getBaseConversionRateForProduct($productid, 'edit', $itemtype);
 		// Detail View
 		if ($available == 'available_associated') {
@@ -59,7 +30,7 @@ function getPriceDetailsForProduct($productid, $unit_price, $available = 'availa
 					inner join vtiger_productcurrencyrel on vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid
 					where vtiger_currency_info.currency_status = 'Active' and vtiger_currency_info.deleted=0
 					and vtiger_productcurrencyrel.productid = ? and vtiger_currency_info.id != ?";
-			$params = [$productid, $product_currency_id];
+			$params = [$productid, $currencyId];
 		} else { // Edit View
 			$query = "select vtiger_currency_info.*, vtiger_productcurrencyrel.converted_price, vtiger_productcurrencyrel.actual_price
 					from vtiger_currency_info
@@ -87,7 +58,7 @@ function getPriceDetailsForProduct($productid, $unit_price, $available = 'availa
 			$actual_conversion_rate = $product_base_conv_rate * $conversion_rate;
 
 			$is_basecurrency = false;
-			if ($currency_id == $product_currency_id) {
+			if ($currency_id == $currencyId) {
 				$is_basecurrency = true;
 			}
 			if ($cur_value === null || $cur_value == '') {
@@ -145,25 +116,6 @@ function getPriceDetailsForProduct($productid, $unit_price, $available = 'availa
 
 	\App\Log::trace("Exit from function getPriceDetailsForProduct($productid)");
 	return $price_details;
-}
-
-/** 	Function used to get the base currency used for the given Product
- * 	@param int $productid - product id for which we want to get the id of the base currency
- *  @return int $currencyid - id of the base currency for the given product
- */
-function getProductBaseCurrency($productid, $module = 'Products')
-{
-	$adb = PearDatabase::getInstance();
-
-	if ($module == 'Services') {
-		$sql = "select currency_id from vtiger_service where serviceid=?";
-	} else {
-		$sql = "select currency_id from vtiger_products where productid=?";
-	}
-	$params = [$productid];
-	$res = $adb->pquery($sql, $params);
-	$currencyid = $adb->queryResult($res, 0, 'currency_id');
-	return $currencyid;
 }
 
 /** 	Function used to get the conversion rate for the product base currency with respect to the CRM base currency

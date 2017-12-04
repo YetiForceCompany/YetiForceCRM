@@ -104,16 +104,11 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	{
 		if ($uiType === 72 && $recordId) {
 			$moduleName = $this->get('field')->getModuleName();
-			if (!$moduleName)
+			if (!$moduleName) {
 				$moduleName = \App\Record::getType($recordId);
-			if ($this->get('field')->getName() === 'unit_price') {
-				$currencyId = getProductBaseCurrency($recordId, $moduleName);
-				$cursym_convrate = \vtlib\Functions::getCurrencySymbolandRate($currencyId);
-				$currencySymbol = $cursym_convrate['symbol'];
-			} else {
-				$currencyInfo = getInventoryCurrencyInfo($moduleName, $recordId);
-				$currencySymbol = $currencyInfo['currency_symbol'];
 			}
+			$currencyId = \App\Fields\Currency::getCurrencyByModule($recordId, $moduleName);
+			$currencySymbol = \vtlib\Functions::getCurrencySymbolandRate($currencyId)['symbol'];
 		} else {
 			$currencyModal = new CurrencyField($value);
 			$currencyModal->initialize();
