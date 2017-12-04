@@ -424,6 +424,7 @@ class PackageImport extends PackageExport
 				//module images
 				'images' => 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module",
 				'updates' => 'cache/updates',
+				'layouts/public_html' => 'public_html/layouts',
 				'layouts' => 'layouts',
 				'languages' => 'languages'
 			]);
