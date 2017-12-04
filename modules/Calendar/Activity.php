@@ -347,7 +347,7 @@ class Activity extends CRMEntity
 		$db = PearDatabase::getInstance();
 		$query = "SELECT vtiger_users.id as userid FROM vtiger_sharedcalendar
 					RIGHT JOIN vtiger_users ON vtiger_sharedcalendar.userid=vtiger_users.id and status= 'Active'
-					WHERE sharedid=? || (vtiger_users.status='Active' && vtiger_users.calendarsharedtype='public' && vtiger_users.id <> ?);";
+					WHERE sharedid=? || (vtiger_users.status='Active' && vtiger_users.id <> ?);";
 		$result = $db->pquery($query, [$sharedId, $sharedId]);
 		$numberOfRows = $db->numRows($result);
 		if ($numberOfRows !== 0) {
