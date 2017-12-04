@@ -335,17 +335,11 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	public function import($qualifiedModuleName = false)
 	{
 		$id = '';
-		if (is_array($_FILES) && $_FILES['imported_xml']['name'] != '') {
-			$xmlName = $_FILES['imported_xml']['name'];
-			$uploadedXml = $_FILES['imported_xml']['tmp_name'];
-			$xmlError = $_FILES['imported_xml']['error'];
-			$extension = end(explode('.', $xmlName));
-			$message = false;
-			if ($xmlError == UPLOAD_ERR_OK && $extension === 'xml') {
-				list($id, $message) = $this->importDataFromXML($uploadedXml);
-			} else {
-				$message = 'LBL_UPLOAD_ERROR';
-			}
+		$fileInstance = \App\Fields\File::loadFromRequest($_FILES['imported_xml']);
+		if (!$fileInstance->validate() || $fileInstance->getExtension(true) !== 'xml') {
+			$message = 'LBL_UPLOAD_ERROR';
+		} else {
+			list($id, $message) = $this->importDataFromXML($fileInstance->getPath());
 		}
 		return ['id' => $id, 'message' => \App\Language::translate($message, $qualifiedModuleName)];
 	}
@@ -370,7 +364,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 						settype($columnKey, 'string');
 						settype($columnValue, 'string');
 						if (in_array($columnKey, ['default', 'type'])) {
-							$mapping[$i][$columnKey] = $columnValue;
+							$mapping[$i][$columnKey] = $columnKey === 'default' ? \App\Purifier::purify($columnValue) : $columnValue;
 							continue;
 						}
 						$fieldObject = Settings_MappedFields_Field_Model::getInstance($columnValue, $instances[$columnKey], $mapping[$i]['type']);
