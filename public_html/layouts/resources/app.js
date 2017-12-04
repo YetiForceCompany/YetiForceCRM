@@ -577,20 +577,6 @@ var app = {
 					jQuery('.modal-backdrop:not(:first)').remove();
 				}
 				cb(modalContainer);
-
-				var modalBody = modalContainer.find('.modal-body');
-				var modalDialog = modalContainer.find('.modal-dialog');
-//				SCROLL IS WAITING FOR A FINISH
-//				$(window).resize(function () {
-//					var height = app.getScreenHeight() - modalDialog.outerHeight(true);
-//					modalBody.css('max-height', (modalBody.outerHeight() + height) + 'px');
-//					modalBody.css('overflow', 'auto');
-//					modalBody.perfectScrollbar('update');
-//				});
-//				var height = app.getScreenHeight() - modalDialog.outerHeight(true);
-//				modalBody.css('max-height', (modalBody.outerHeight() + height) + 'px');
-//				modalBody.css('overflow', 'auto');
-//				modalBody.perfectScrollbar();
 			})
 		}
 		if (data) {
