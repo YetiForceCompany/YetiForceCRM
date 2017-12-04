@@ -23,7 +23,7 @@ wget -N http://selenium-release.storage.googleapis.com/$SELENIUM_SUBDIR/selenium
 sudo mv -f ~/selenium-server-standalone-$SELENIUM_STANDALONE_VERSION.jar /usr/local/bin/selenium-server-standalone.jar
 sudo chmod 0755 /usr/local/bin/selenium-server-standalone.jar
 
-xvfb-run java -Dwebdriver.chrome.driver=/usr/local/bin/chromedriver -jar /usr/local/bin/selenium-server-standalone.jar -debug -start-maximized -server-args='-screen 0, 1920x1080x24' > /tmp/selenium.log &
+xvfb-run java -Dwebdriver.chrome.driver=/usr/local/bin/chromedriver -jar /usr/local/bin/selenium-server-standalone.jar -debug --server-args='-screen 0, 1920x1080x24' > /tmp/selenium.log &
 wget --retry-connrefused --tries=60 --waitretry=1 --output-file=/dev/null $serverUrl/wd/hub/status -O /dev/null
 if [ ! $? -eq 0 ]; then
     echo "Selenium Server not started"
