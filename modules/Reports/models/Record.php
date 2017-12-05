@@ -486,13 +486,14 @@ class Reports_Record_Model extends Vtiger_Record_Model
 		if (!empty($sortFields)) {
 			$i = 0;
 			foreach ($sortFields as $fieldInfo) {
-				$db->pquery('INSERT INTO vtiger_reportsortcol(sortcolid, reportid, columnname, sortorder) VALUES (?,?,?,?)', [$i, $this->getId(), $fieldInfo[0], $fieldInfo[1]]);
-				if (IsDateField($fieldInfo[0])) {
+				$columnname = html_entity_decode($fieldInfo[0]);
+				$db->pquery('INSERT INTO vtiger_reportsortcol(sortcolid, reportid, columnname, sortorder) VALUES (?,?,?,?)', [$i, $this->getId(), $columnname, $fieldInfo[1]]);
+				if (IsDateField($columnname)) {
 					if (empty($fieldInfo[2])) {
 						$fieldInfo[2] = 'None';
 					}
 					$db->pquery("INSERT INTO vtiger_reportgroupbycolumn(reportid, sortid, sortcolname, dategroupbycriteria)
-                        VALUES(?,?,?,?)", [$this->getId(), $i, $fieldInfo[0], $fieldInfo[2]]);
+                        VALUES(?,?,?,?)", [$this->getId(), $i, $columnname, $fieldInfo[2]]);
 				}
 				$i++;
 			}
