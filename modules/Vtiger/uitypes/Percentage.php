@@ -26,8 +26,7 @@ class Vtiger_Percentage_UIType extends Vtiger_Base_UIType
 		}
 		if ($isUserFormat) {
 			$currentUser = \App\User::getCurrentUserModel();
-			$value = str_replace($currentUser->getDetail('currency_grouping_separator'), '', $value);
-			$value = str_replace($currentUser->getDetail('currency_decimal_separator'), '.', $value);
+			$value = str_replace([$currentUser->getDetail('currency_grouping_separator'), $currentUser->getDetail('currency_decimal_separator'), ' '], ['', '.', ''], $value);
 		}
 		if (!is_numeric($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
