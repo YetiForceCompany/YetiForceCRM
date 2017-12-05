@@ -25,7 +25,7 @@ class Currency
 		if (\App\Cache::has('Currency|getCurrencyByModule', $cacheKey)) {
 			return \App\Cache::get('Currency|getCurrencyByModule', $cacheKey);
 		}
-		$instance = CRMEntity::getInstance($moduleName);
+		$instance = \CRMEntity::getInstance($moduleName);
 		$currencyId = (new \App\Db\Query())->select(['currency_id'])->from($instance->table_name)->where([$instance->table_index => $record])->scalar();
 		\App\Cache::save('Currency|getCurrencyByModule', $cacheKey, $currencyId);
 		return $currencyId;
