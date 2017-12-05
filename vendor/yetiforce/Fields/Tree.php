@@ -94,7 +94,7 @@ class Tree
 			$parentTrre = substr($parentTrre, 0, - $cut);
 			$pieces = explode('::', $parentTrre);
 			$parent = end($pieces);
-			$parentName = static::getPicklistValue($templateId, $moduleName)[$parent]['name'];
+			$parentName = static::getPicklistValue($templateId, $moduleName)[$parent];
 			$parentName = '(' . \App\Language::translate($parentName, $moduleName) . ') ';
 		}
 		$value['name'] = $parentName . \App\Language::translate($row['name'], $moduleName);
