@@ -211,7 +211,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getFieldModel()
 	{
-		return $this->getFieldModel();
+		return $this->get('field');
 	}
 
 	public function isActiveSearchView()
