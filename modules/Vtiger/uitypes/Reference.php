@@ -39,7 +39,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		if (!is_numeric($value)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;
 	}
@@ -51,7 +51,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	 */
 	public function getReferenceModule($value)
 	{
-		$fieldModel = $this->get('field');
+		$fieldModel = $this->getFieldModel();
 		$referenceModuleList = $fieldModel->getReferenceList();
 		$referenceEntityType = \App\Record::getType($value);
 		if (!empty($referenceModuleList) && in_array($referenceEntityType, $referenceModuleList)) {
@@ -111,7 +111,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		if ($rawText || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
 			return $name;
 		}
-		$name = vtlib\Functions::textLength($name, $this->get('field')->get('maxlengthtext'));
+		$name = vtlib\Functions::textLength($name, $this->getFieldModel()->get('maxlengthtext'));
 		$linkValue = "<a class='modCT_$referenceModuleName showReferenceTooltip' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . App\Language::translateSingularModuleName($referenceModuleName) . "'>$name</a>";
 		return $linkValue;
 	}
@@ -133,7 +133,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 
 	public function getListSearchTemplateName()
 	{
-		$fieldModel = $this->get('field');
+		$fieldModel = $this->getFieldModel();
 		$fieldName = $fieldModel->getName();
 		if ($fieldName === 'modifiedby') {
 			return 'uitypes/OwnerFieldSearchView.tpl';

@@ -35,7 +35,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		}
 		foreach ($value as $shownerid) {
 			if (!is_numeric($shownerid)) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 			}
 		}
 		$this->validate = true;
@@ -104,7 +104,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 			return '';
 		}
 		$display = $shownerData = [];
-		$maxLengthText = $this->get('field')->get('maxlengthtext');
+		$maxLengthText = $this->getFieldModel()->get('maxlengthtext');
 		$isAdmin = \App\User::getCurrentUserModel()->isAdmin();
 		foreach ($values as $key => $shownerid) {
 			$name = \App\Fields\Owner::getLabel($shownerid);

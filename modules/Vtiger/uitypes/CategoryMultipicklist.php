@@ -42,8 +42,8 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 			return;
 		}
 		foreach (explode(',', $value) as $row) {
-			if (substr($row, 0, 1) !== 'T' || !is_numeric(substr($row, 1))) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			if ($row && (substr($row, 0, 1) !== 'T' || !is_numeric(substr($row, 1)))) {
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 			}
 		}
 		$this->validate = true;
@@ -59,7 +59,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 	 */
 	public function getDisplayValue($tree, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$fieldModel = $this->get('field');
+		$fieldModel = $this->getFieldModel();
 		if (empty($tree)) {
 			return '';
 		}

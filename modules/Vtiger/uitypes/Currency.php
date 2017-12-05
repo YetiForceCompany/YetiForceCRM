@@ -22,7 +22,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		if ($this->get('field')->get('uitype') === 72) {
+		if ($this->getFieldModel()->get('uitype') === 72) {
 			return self::convertToDBFormat($value, null, true);
 		} else {
 			return self::convertToDBFormat($value);
@@ -47,7 +47,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 			$value = str_replace($currentUser->getDetail('currency_decimal_separator'), '.', $value);
 		}
 		if (!is_numeric($value)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;
 	}
@@ -62,7 +62,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$uiType = $this->get('field')->get('uitype');
+		$uiType = $this->getFieldModel()->get('uitype');
 		if ($value) {
 			if ($uiType === 72) {
 				// Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
@@ -103,7 +103,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	public function getDetailViewDisplayValue($value, $recordId, $uiType)
 	{
 		if ($uiType === 72 && $recordId) {
-			$moduleName = $this->get('field')->getModuleName();
+			$moduleName = $this->getFieldModel()->getModuleName();
 			if (!$moduleName) {
 				$moduleName = \App\Record::getType($recordId);
 			}

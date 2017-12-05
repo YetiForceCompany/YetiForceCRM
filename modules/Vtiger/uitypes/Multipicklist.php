@@ -42,13 +42,13 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 			$value = explode(' |##| ', $value);
 		}
 		if (!is_array($value)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		foreach ($value as $item) {
 			if (!is_string($item)) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 			} elseif ($item != strip_tags($item)) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 			}
 		}
 		$this->validate = true;
@@ -66,7 +66,7 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 		}
 		$value = explode(' |##| ', $value);
 		$trValue = [];
-		$moduleName = $this->get('field')->getModuleName();
+		$moduleName = $this->getFieldModel()->getModuleName();
 		$countValue = count($value);
 		for ($i = 0; $i < $countValue; $i++) {
 			$trValue[] = Vtiger_Language_Handler::getTranslatedString($value[$i], $moduleName);

@@ -44,7 +44,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 			list($y, $m, $d) = explode('-', $value);
 		}
 		if (!checkdate($m, $d, $y)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;
 	}
@@ -91,8 +91,8 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	{
 		if (empty($value) || $value === ' ') {
 			$value = trim($value);
-			$fieldName = $this->get('field')->getFieldName();
-			$moduleName = $this->get('field')->getModule()->getName();
+			$fieldName = $this->getFieldModel()->getFieldName();
+			$moduleName = $this->getFieldModel()->getModule()->getName();
 			//Restricted Fields for to show Default Value
 			if (($fieldName === 'birthday' && $moduleName === 'Contacts') || $moduleName === 'Products') {
 				return \App\Purifier::encodeHtml($value);

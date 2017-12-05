@@ -30,10 +30,10 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 			$value = 'http://' . $value;
 		}
 		if (!preg_match('/^([^\:]+)\:/i', $value, $m)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		if (!(filter_var($value, FILTER_VALIDATE_URL) && in_array(strtolower($m[1]), static::ALLOWED_PROTOCOLS) )) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;
 	}
@@ -66,7 +66,7 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 		if (!empty($matches[0])) {
 			$value = 'http://' . $value;
 		}
-		return '<a class="urlField cursorPointer" title="' . $value . '" href="' . $value . '" target="_blank" rel="noreferrer">' . \App\Purifier::encodeHtml(\vtlib\Functions::textLength($rawValue, $this->get('field')->get('maxlengthtext'))) . '</a>';
+		return '<a class="urlField cursorPointer" title="' . $value . '" href="' . $value . '" target="_blank" rel="noreferrer">' . \App\Purifier::encodeHtml(\vtlib\Functions::textLength($rawValue, $this->getFieldModel()->get('maxlengthtext'))) . '</a>';
 	}
 
 	/**

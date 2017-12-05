@@ -35,7 +35,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		if (!is_numeric($value)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;
 	}
@@ -92,7 +92,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$ownerName = vtlib\Functions::textLength(\App\Fields\Owner::getLabel($value), $this->get('field')->get('maxlengthtext'));
+		$ownerName = vtlib\Functions::textLength(\App\Fields\Owner::getLabel($value), $this->getFieldModel()->get('maxlengthtext'));
 		if ($rawText) {
 			return $ownerName;
 		}

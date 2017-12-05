@@ -37,7 +37,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		if (!empty($picklistValues)) {
 			return $picklistValues;
 		}
-		$params = $this->get('field')->getFieldParams();
+		$params = $this->getFieldModel()->getFieldParams();
 		$fieldInfo = \App\Field::getFieldInfo($params['field']);
 		$queryGenerator = new \App\QueryGenerator($params['module']);
 		if ($params['filterField'] !== '-') {
@@ -108,8 +108,8 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 */
 	public function getRecordValues(CRMEntity $entity, $sourceRecord, $destRecord)
 	{
-		$params = $this->get('field')->getFieldParams();
-		$fieldModel = $this->get('field');
+		$params = $this->getFieldModel()->getFieldParams();
+		$fieldModel = $this->getFieldModel();
 		// Get current value
 		$currentValue = \vtlib\Functions::getSingleFieldValue($fieldModel->getTableName(), $fieldModel->getColumnName(), $entity->tab_name_index[$fieldModel->getTableName()], $sourceRecord);
 		// Get value to added
@@ -139,9 +139,9 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 			$currentValue = self::COMMA;
 		}
 		$currentValue .= $values['relatedValue'] . self::COMMA;
-		App\Db::getInstance()->createCommand()->update($this->get('field')->get('table'), [
-			$this->get('field')->get('column') => $currentValue
-			], [$entity->tab_name_index[$this->get('field')->get('table')] => $sourceRecord]
+		App\Db::getInstance()->createCommand()->update($this->getFieldModel()->get('table'), [
+			$this->getFieldModel()->get('column') => $currentValue
+			], [$entity->tab_name_index[$this->getFieldModel()->get('table')] => $sourceRecord]
 		)->execute();
 	}
 
@@ -152,7 +152,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 */
 	public function reloadValue($sourceModule, $sourceRecord)
 	{
-		$field = $this->get('field');
+		$field = $this->getFieldModel();
 		$params = $field->getFieldParams();
 		$sourceRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule);
 
@@ -184,7 +184,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	{
 		$queryGenerator = new \App\QueryGenerator($module);
 		$queryGenerator->initForCustomViewById($view);
-		$queryGenerator->setFields([$this->get('field')->get('name')]);
+		$queryGenerator->setFields([$this->getFieldModel()->get('name')]);
 		$query = $queryGenerator->createQuery();
 		$dataReader = $query->distinct()->createCommand()->query();
 		$values = [];
@@ -222,7 +222,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$field = $this->get('field');
+		$field = $this->getFieldModel();
 		$params = $field->getFieldParams();
 		$fieldInfo = \App\Field::getFieldInfo($params['field']);
 		if (in_array($fieldInfo['uitype'], [15, 16, 33])) {

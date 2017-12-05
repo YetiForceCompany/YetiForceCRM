@@ -20,7 +20,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		if ($this->get('field')->get('uitype') === 14) {
+		if ($this->getFieldModel()->get('uitype') === 14) {
 			return self::getDBTimeFromUserValue($value);
 		}
 		return \App\Purifier::decodeHtml($value);
@@ -44,7 +44,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 		$timeFormat = 'H:i:s';
 		$d = DateTime::createFromFormat($timeFormat, $value);
 		if (!($d && $d->format($timeFormat) === $value)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;
 	}

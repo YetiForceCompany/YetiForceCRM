@@ -16,7 +16,7 @@ class Vtiger_RangeTime_UIType extends Vtiger_Base_UIType
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$result = vtlib\Functions::getRangeTime($value, !is_null($value));
-		$mode = $this->get('field')->getFieldParams();
+		$mode = $this->getFieldModel()->getFieldParams();
 		if (empty($mode)) {
 			$mode = 'short';
 		}

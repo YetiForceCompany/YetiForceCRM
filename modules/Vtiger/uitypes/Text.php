@@ -25,11 +25,11 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	 */
 	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
-		$fieldName = $this->get('field')->getFieldName();
+		$fieldName = $this->getFieldModel()->getFieldName();
 		if (!$requestFieldName) {
 			$requestFieldName = $fieldName;
 		}
-		if ($this->get('field')->getUIType() === 300) {
+		if ($this->getFieldModel()->getUIType() === 300) {
 			$value = $request->getForHtml($requestFieldName, '');
 		} else {
 			$value = $request->get($requestFieldName, '');
@@ -47,11 +47,11 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		if (!is_string($value)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		//Check for HTML tags
 		if ($this->getFieldModel()->getUIType() !== 300 && $value !== strip_tags($value)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;
 	}
@@ -61,7 +61,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$uiType = $this->get('field')->get('uitype');
+		$uiType = $this->getFieldModel()->get('uitype');
 		if ($uiType === 300) {
 			return App\Purifier::purifyHtml($value);
 		} else {

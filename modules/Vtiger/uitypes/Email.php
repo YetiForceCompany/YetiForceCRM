@@ -25,7 +25,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;
 	}
@@ -37,8 +37,8 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 	{
 		$internalMailer = (int) \App\User::getCurrentUserModel()->getDetail('internal_mailer');
 		if ($value && !$rawText) {
-			$moduleName = $this->get('field')->get('block')->module->name;
-			$fieldName = $this->get('field')->get('name');
+			$moduleName = $this->getFieldModel()->get('block')->module->name;
+			$fieldName = $this->getFieldModel()->get('name');
 			$rawValue = \App\Purifier::encodeHtml($value);
 			$value = \App\Purifier::encodeHtml(vtlib\Functions::textLength($value));
 			if ($internalMailer === 1 && \App\Privilege::isPermitted('OSSMail')) {
@@ -63,10 +63,10 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 	{
 		$internalMailer = (int) \App\User::getCurrentUserModel()->getDetail('internal_mailer');
 		if ($value && !$rawText) {
-			$moduleName = $this->get('field')->get('block')->module->name;
-			$fieldName = $this->get('field')->get('name');
+			$moduleName = $this->getFieldModel()->get('block')->module->name;
+			$fieldName = $this->getFieldModel()->get('name');
 			$rawValue = \App\Purifier::encodeHtml($value);
-			$value = \App\Purifier::encodeHtml(vtlib\Functions::textLength($value, $this->get('field')->get('maxlengthtext')));
+			$value = \App\Purifier::encodeHtml(vtlib\Functions::textLength($value, $this->getFieldModel()->get('maxlengthtext')));
 			if ($internalMailer === 1 && \App\Privilege::isPermitted('OSSMail')) {
 				$url = OSSMail_Module_Model::getComposeUrl($moduleName, $recordId, 'Detail', 'new');
 				$mailConfig = OSSMail_Module_Model::getComposeParameters();

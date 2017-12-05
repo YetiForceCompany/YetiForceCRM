@@ -100,7 +100,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$images = $this->getDisplayValue($value, $record, $recordInstance, true);
-		return !AppConfig::performance('ICON_MULTIIMAGE_VIEW') ? \vtlib\Functions::textLength($images, $this->get('field')->get('maxlengthtext')) : $images;
+		return !AppConfig::performance('ICON_MULTIIMAGE_VIEW') ? \vtlib\Functions::textLength($images, $this->getFieldModel()->get('maxlengthtext')) : $images;
 	}
 
 	/**

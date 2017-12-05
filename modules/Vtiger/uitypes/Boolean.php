@@ -40,7 +40,7 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		if (!in_array($value, [0, 1, '1', '0', 'on'])) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;
 	}
@@ -53,9 +53,9 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		if ($value === 1 || $value === '1' || strtolower($value) === 'on' || strtolower($value) === 'yes' || true === $value) {
-			return Vtiger_Language_Handler::getTranslatedString('LBL_YES', $this->get('field')->getModuleName());
+			return Vtiger_Language_Handler::getTranslatedString('LBL_YES', $this->getFieldModel()->getModuleName());
 		} else if ($value === 0 || $value === '0' || strtolower($value) === 'off' || strtolower($value) === 'no' || false === $value) {
-			return Vtiger_Language_Handler::getTranslatedString('LBL_NO', $this->get('field')->getModuleName());
+			return Vtiger_Language_Handler::getTranslatedString('LBL_NO', $this->getFieldModel()->getModuleName());
 		}
 		return \App\Purifier::encodeHtml($value);
 	}

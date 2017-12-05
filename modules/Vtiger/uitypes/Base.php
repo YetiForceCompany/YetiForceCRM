@@ -43,7 +43,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
-		$fieldName = $this->get('field')->getFieldName();
+		$fieldName = $this->getFieldModel()->getFieldName();
 		if (!$requestFieldName) {
 			$requestFieldName = $fieldName;
 		}
@@ -68,10 +68,10 @@ class Vtiger_Base_UIType extends \App\Base
 			$value = \App\Purifier::decodeHtml($value);
 		}
 		if (!is_numeric($value) && (is_string($value) && $value !== strip_tags($value))) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		if (App\Utils::getTextLength($value) > 255) {
-			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;
 	}
@@ -121,7 +121,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
-		return \App\Purifier::encodeHtml(\vtlib\Functions::textLength(\App\Purifier::decodeHtml($this->getDisplayValue($value, $record, $recordModel, $rawText), $this->get('field')->get('maxlengthtext'))));
+		return \App\Purifier::encodeHtml(\vtlib\Functions::textLength(\App\Purifier::decodeHtml($this->getDisplayValue($value, $record, $recordModel, $rawText), $this->getFieldModel()->get('maxlengthtext'))));
 	}
 
 	/**
@@ -211,7 +211,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getFieldModel()
 	{
-		return $this->get('field');
+		return $this->getFieldModel();
 	}
 
 	public function isActiveSearchView()

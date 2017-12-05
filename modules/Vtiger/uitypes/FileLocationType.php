@@ -24,7 +24,7 @@ class Vtiger_FileLocationType_UIType extends Vtiger_Picklist_UIType
 		$this->validate = false;
 		$allowedPicklist = $this->getPicklistValues();
 		if (!isset($allowedPicklist[$value])) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;
 	}
@@ -44,7 +44,7 @@ class Vtiger_FileLocationType_UIType extends Vtiger_Picklist_UIType
 	 */
 	public function getPicklistValues()
 	{
-		$moduleName = $this->get('field')->getModuleName();
+		$moduleName = $this->getFieldModel()->getModuleName();
 		return ['I' => \App\Language::translate('LBL_INTERNAL', $moduleName), 'E' => \App\Language::translate('LBL_EXTERNAL', $moduleName)];
 	}
 

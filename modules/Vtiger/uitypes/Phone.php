@@ -39,7 +39,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 			try {
 				$phoneUtil->isValidNumber($phoneUtil->parse($value));
 			} catch (\libphonenumber\NumberParseException $e) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 			}
 			$this->validate = true;
 		} else {
@@ -54,7 +54,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	{
 		$extra = '';
 		if ($recordInstance) {
-			$extra = $recordInstance->getDisplayValue($this->get('field')->getFieldName() . '_extra');
+			$extra = $recordInstance->getDisplayValue($this->getFieldModel()->getFieldName() . '_extra');
 			if ($extra) {
 				$extra = ' ' . $extra;
 			}

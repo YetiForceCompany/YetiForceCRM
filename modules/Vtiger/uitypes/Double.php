@@ -44,7 +44,7 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 			$value = str_replace($currentUser->getDetail('currency_decimal_separator'), '.', $value);
 		}
 		if (!is_numeric($value)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;
 	}
