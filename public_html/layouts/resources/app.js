@@ -871,6 +871,7 @@ var app = {
 			clearBtn: true,
 			language: language,
 			starts: convertedFirstDay,
+			autoclose: true,
 			todayHighlight: true
 		}
 		if (typeof customParams != 'undefined') {
