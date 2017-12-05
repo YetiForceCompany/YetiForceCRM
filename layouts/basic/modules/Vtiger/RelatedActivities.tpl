@@ -39,8 +39,7 @@
 					</span>
 				</div>
 				<div class="summaryViewEntries">
-					{assign var=ACTIVITY_UPPERCASE value=$RECORD->get('activitytype')|upper}
-					<img src="{Vtiger_Theme::getOrignOrDefaultImgPath($ACTIVITY_TYPE, 'Calendar')}" width="14px" class="textOverflowEllipsis" alt="{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}" />&nbsp;&nbsp;
+					<img src="{Vtiger_Theme::getOrignOrDefaultImgPath($RECORD->get('activitytype'), 'Calendar')}" width="14px" class="textOverflowEllipsis" alt="{\App\Language::translate($MODULE_NAME,$MODULE_NAME)}" />&nbsp;&nbsp;
 					{$RECORD->getDisplayValue('activitytype')}&nbsp;-&nbsp;
 					{if $RECORD->isViewable()}
 						<a href="{$RECORD->getDetailViewUrl()}" >
