@@ -150,7 +150,19 @@ class Request
 		if (is_bool($value)) {
 			return $value;
 		}
-		return strcasecmp('true', (string) $value) === 0 || (string) $value === '1';
+		if (!is_string($value)) {
+			return (bool) $value;
+		}
+		switch (strtolower($value)) {
+			case '1':
+			case 'true':
+			case 'on':
+			case 'yes':
+			case 'y':
+				return true;
+			default:
+				return false;
+		}
 	}
 
 	/**
