@@ -37,9 +37,12 @@ class Settings_PDF_Import_View extends Settings_Vtiger_Index_View
 								$imagePath = (string) $columnValue;
 								$pdfModel->set($columnKey, '');
 								break;
+							case 'header_content':
+							case 'header_content':
+							case 'footer_content':
+								$pdfModel->set($columnKey, App\Purifier::purifyHtml((string) $columnValue));
 							default:
-								$value = (string) $columnValue;
-								$pdfModel->set($columnKey, $value);
+								$pdfModel->set($columnKey, App\Purifier::purify((string) $columnValue));
 						}
 					}
 				}
