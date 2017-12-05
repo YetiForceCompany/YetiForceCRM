@@ -1050,22 +1050,28 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$nowInDBFormat = Vtiger_Datetime_UIType::getDBDateTimeValue($nowInUserFormat);
 		list($currentDate) = explode(' ', $nowInDBFormat);
 
-		$referenceLinkClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceLink', $moduleName);
+		$referenceLinkClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceExtend', $moduleName);
 		$referenceLinkInstance = new $referenceLinkClass();
 		if (in_array($this->getName(), $referenceLinkInstance->getReferenceList())) {
-			$relationField = 'link';
+			$relationField = 'linkextend';
 		} else {
-			$referenceProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceProcess', $moduleName);
+			$referenceProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceLink', $moduleName);
 			$referenceProcessInstance = new $referenceProcessClass();
 			if (in_array($this->getName(), $referenceProcessInstance->getReferenceList())) {
-				$relationField = 'process';
+				$relationField = 'link';
 			} else {
-				$referenceSubProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceSubProcess', $moduleName);
+				$referenceSubProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceProcess', $moduleName);
 				$referenceSubProcessInstance = new $referenceSubProcessClass();
 				if (in_array($this->getName(), $referenceSubProcessInstance->getReferenceList())) {
-					$relationField = 'subprocess';
+					$relationField = 'process';
 				} else {
-					throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
+					$referenceSubProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceSubProcess', $moduleName);
+					$referenceSubProcessInstance = new $referenceSubProcessClass();
+					if (in_array($this->getName(), $referenceSubProcessInstance->getReferenceList())) {
+						$relationField = 'subprocess';
+					} else {
+						throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
+					}
 				}
 			}
 		}

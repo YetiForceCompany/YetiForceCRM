@@ -1,36 +1,25 @@
 <?php
 
 /**
- * UIType ReferenceLink Field Class
+ * UIType Reference extend Field Class
  * @package YetiForce.Fields
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Vtiger_ReferenceLink_UIType extends Vtiger_Reference_UIType
+class Vtiger_ReferenceExtend_UIType extends Vtiger_Reference_UIType
 {
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function validate($value, $isUserFormat = false)
-	{
-		if ($this->validate || empty($value)) {
-			return;
-		}
-		if (!is_numeric($value)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
-		}
-		$this->validate = true;
-	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public function getReferenceList()
 	{
-		$modules = \App\ModuleHierarchy::getModulesByLevel();
-		return array_keys($modules);
+		$modules = \App\ModuleHierarchy::getModulesByLevel(3);
+		if (!empty($modules)) {
+			return array_keys($modules);
+		}
+		return [];
 	}
 
 	/**

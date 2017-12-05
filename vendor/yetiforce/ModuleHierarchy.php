@@ -84,6 +84,8 @@ class ModuleHierarchy
 				break;
 			case 68: $level = 2;
 				break;
+			case 65: $level = 3;
+				break;
 		}
 		return static::getModulesByLevel($level);
 	}
@@ -122,6 +124,8 @@ class ModuleHierarchy
 				break;
 			case 2: $return = 'subprocess';
 				break;
+			case 3: $return = 'linkextend';
+				break;
 		}
 		return $return;
 	}
@@ -152,21 +156,37 @@ class ModuleHierarchy
 				break;
 			case 2: $return = 68;
 				break;
+			case 3: $return = 65;
+				break;
 		}
 		return $return;
 	}
 
-	public static function getChildModules($moduleName)
+	/**
+	 * Get child modules
+	 * @param string $moduleName
+	 * @param int[] $hierarchy
+	 * @return string[]
+	 */
+	public static function getChildModules($moduleName, $hierarchy = [1])
 	{
 		$modules = [];
 		switch (static::getModuleLevel($moduleName)) {
 			case 0:
-				$modules = array_keys(static::getModulesByLevel(1));
+				$is1Level = in_array(1, $hierarchy);
+				$is3Level = in_array(3, $hierarchy);
+				if ($is1Level && $is3Level) {
+					$modules = array_keys(array_merge(static::getModulesByLevel(1), static::getModulesByLevel(3)));
+				} elseif ($is1Level) {
+					$modules = array_keys(static::getModulesByLevel(1));
+				} elseif ($is3Level) {
+					$modules = array_keys(static::getModulesByLevel(3));
+				}
 				break;
 			case 1:
 				if ($levelMod = static::getModulesByLevel(2)) {
-					foreach ($levelMod as $mod => &$details) {
-						if ($moduleName == $details['parentModule']) {
+					foreach ($levelMod as $mod => $details) {
+						if ($moduleName === $details['parentModule']) {
 							$modules[] = $mod;
 						}
 					}
@@ -176,6 +196,12 @@ class ModuleHierarchy
 		return $modules;
 	}
 
+	/**
+	 * Get related records by hierarchy
+	 * @param int $record
+	 * @param array $hierarchy
+	 * @return int[]
+	 */
 	public static function getRelatedRecords($record, $hierarchy)
 	{
 		$moduleName = Record::getType($record);
@@ -183,27 +209,40 @@ class ModuleHierarchy
 		if (in_array(0, $hierarchy)) {
 			$records[] = $record;
 		}
-		$fields = Field::getRelatedFieldForModule(false, $moduleName);
-		$modules = static::getChildModules($moduleName);
-		foreach ($fields as $field) {
-			if (in_array($field['name'], $modules)) {
-				$recordsByField = static::getRelatedRecordsByField($record, $field);
-				$recordsLevel1 = array_merge($recordsLevel1, $recordsByField);
+		$modules = static::getChildModules($moduleName, $hierarchy);
+		if ($modules) {
+			$fields = Field::getRelatedFieldForModule(false, $moduleName);
+			foreach ($fields as $field) {
+				if (in_array($field['name'], $modules)) {
+					$recordsByField = static::getRelatedRecordsByField($record, $field);
+					$recordsLevel1 = array_merge($recordsLevel1, $recordsByField);
+				}
 			}
 		}
 		$level = static::getModuleLevel($moduleName);
 		if (!($level == 0 && !in_array(1, $hierarchy))) {
 			$records = array_merge($records, $recordsLevel1);
 		}
-		if ($level == 0 && in_array(2, $hierarchy)) {
-			foreach ($recordsLevel1 as $record) {
-				$recordsByHierarchy = static::getRelatedRecords($record, $hierarchy);
-				$records = array_merge($records, $recordsByHierarchy);
+		if ($level === 0) {
+			if (in_array(2, $hierarchy)) {
+				foreach ($recordsLevel1 as $record) {
+					$recordsByHierarchy = static::getRelatedRecords($record, $hierarchy);
+					$records = array_merge($records, $recordsByHierarchy);
+				}
+			}
+			if (in_array(3, $hierarchy)) {
+				$records = array_merge($records, $recordsLevel1);
 			}
 		}
 		return array_unique($records);
 	}
 
+	/**
+	 * Get related records by field
+	 * @param int $record
+	 * @param array $field
+	 * @return int[]
+	 */
 	protected static function getRelatedRecordsByField($record, $field)
 	{
 		$queryGenerator = new QueryGenerator($field['name']);

@@ -7,7 +7,7 @@ return [
 		'Partners' => ['level' => 0],
 		'Competition' => ['level' => 0],
 		'OSSEmployees' => ['level' => 0],
-		'Contacts' => ['level' => 1],
+		'Contacts' => ['level' => 3],
 		'SSalesProcesses' => ['level' => 1],
 		'Project' => ['level' => 1],
 		'ServiceContracts' => ['level' => 1],

@@ -212,6 +212,8 @@ class Vtiger_Field_Model extends vtlib\Field
 							$fieldDataType = 'salutation';
 						}
 						break;
+					case 65: $fieldDataType = 'referenceExtend';
+						break;
 					case 66: $fieldDataType = 'referenceProcess';
 						break;
 					case 67: $fieldDataType = 'referenceLink';

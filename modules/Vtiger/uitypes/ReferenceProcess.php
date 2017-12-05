@@ -10,6 +10,9 @@
 class Vtiger_ReferenceProcess_UIType extends Vtiger_ReferenceLink_UIType
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getReferenceList()
 	{
 		$modules = \App\ModuleHierarchy::getModulesByLevel(1);
