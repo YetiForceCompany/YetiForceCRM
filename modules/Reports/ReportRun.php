@@ -1540,7 +1540,7 @@ class ReportRun extends CRMEntity
 			if ($sortorder === 'Ascending') {
 				$sortorder = 'ASC';
 			} elseif ($sortorder === 'Descending') {
-				$sortorder = 'ESC';
+				$sortorder = 'DESC';
 			}
 
 			if ($fieldcolname != "none") {
