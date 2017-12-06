@@ -11,14 +11,38 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 			}
 		});
 	},
+	registerSizeEvent: function (container) {
+		var inframe = $(top.document).find('#listPreviewframe');
+		var bodyContents = $('.mainContainer');
+		console.log(inframe);
+		$('#page').find('.widget_contents').on('Vtiger.Widget.FinishLoad', function (e, widgetName) {
+			inframe.height(bodyContents.height() + 33);
+			console.log('ok');
+		});
+		$('#page').on('DetailView.Tab.FinishLoad', function (e, data) {
+			inframe.height(bodyContents.height() + 33);
+			console.log('ok');
+		});
+		$('#page').on('DetailView.Tab.PostLoad', function (e, data) {
+			inframe.height(bodyContents.height() + 33);
+			console.log('ok');
+		});
+//		var inframe = $('#listPreviewframe');
+//		inframe.height($('.bodyContents').height() - 16);
+//		$('#listPreviewframe').load(function () {
+//			inframe.height($(this).contents().find('.bodyContents').height() + 2);
+//		});
+		//$('#page').trigger('DetailView.Tab.PostLoad', data);
+	},
 	registerEvents: function () {
 		this._super();
 		this.registerLinkEvent();
-		app.showScrollBar($("#page"), {
-			alwaysVisible: false,
-			size: '10px',
-			position: 'right',
-			height: $('.bodyContents').height()
-		});
+		this.registerSizeEvent($('#listPreviewframe'));
+//		app.showScrollBar($("#page"), {
+//			alwaysVisible: false,
+//			size: '10px',
+//			position: 'right',
+//			height: $('.bodyContents').height()
+//		});
 	},
 });

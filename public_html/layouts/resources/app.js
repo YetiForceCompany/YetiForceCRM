@@ -1762,6 +1762,31 @@ jQuery(document).ready(function () {
 	if (pageController) {
 		pageController.registerEvents();
 	}
+	//fixedListPrewiev
+	var currentElement = $('.fixedList');
+	var fixedList = $('.fixedList, .scrollInnerList');
+	var vtFooter = $('.vtFooter').height();
+	var fixedListSize = function() {	
+		if ($( window ).width() > 993) {
+			var height = $( window ).height() - (vtFooter + currentElement.offset().top +2);
+			fixedList.css('max-height', height);
+		}
+	}
+	$( window ).resize(function(){
+		fixedListSize();
+	});
+	//scrollfixed
+	var commactHeight = $('.commonActionsContainer').height();
+	$('.mainBody').scroll(function () {
+		if ($(this).scrollTop() >= (currentElement.offset().top + commactHeight)) {
+			currentElement.addClass('fixedListScroll');
+		} else {
+			currentElement.removeClass('fixedListScroll');
+		}
+		fixedListSize();
+	});
+		fixedListSize();
+		console.log(currentElement.offset().top);
 });
 $.fn.getNumberFromValue = function () {
 	return app.parseNumberToFloat($(this).val());
