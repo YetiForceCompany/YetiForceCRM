@@ -18,7 +18,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	protected $fieldType;
 	protected $fieldDataTypeShort;
 	protected $uitype_instance;
-	public static $referenceTypes = ['reference', 'referenceLink', 'referenceProcess', 'referenceSubProcess'];
+	public static $referenceTypes = ['reference', 'referenceLink', 'referenceProcess', 'referenceSubProcess', 'referenceExtend'];
 
 	const REFERENCE_TYPE = 'reference';
 	const OWNER_TYPE = 'owner';

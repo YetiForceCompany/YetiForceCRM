@@ -1465,6 +1465,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 					}
 				}
 			}
+
 			$sourceModelFields = $sourceModuleModel->getFields();
 			foreach ($sourceModelFields as $fieldName => $fieldModel) {
 				if ($fieldModel->isReferenceField()) {
