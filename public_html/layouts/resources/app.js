@@ -405,16 +405,24 @@ var app = {
 	},
 	showPopoverElementView: function (selectElement, params) {
 		if (typeof params == 'undefined') {
-			params = {trigger: 'manual', placement: 'bottom', html: true};
+			params = {
+				trigger: 'manual',
+				placement: 'bottom',
+				html: true,
+				template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+			};
 		}
 		params.container = 'body';
 		params.delay = 800;
 		var sparams;
 		selectElement.each(function (index, domElement) {
 			sparams = params;
-			var element = jQuery(domElement);
+			var element = $(domElement);
 			if (element.data('placement')) {
 				sparams.placement = element.data('placement');
+			}
+			if (element.data('class')) {
+				sparams.template = '<div class="popover ' + element.data('class') + '" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
 			}
 			if (element.hasClass('delay0')) {
 				sparams.delay = {show: 0, hide: 0}

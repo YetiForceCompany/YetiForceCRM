@@ -5969,4 +5969,6 @@ border1px{
 [class*="picklistLb_"] {
 	border-radius: 7px;
 }
-
+.popover.activities{
+	min-width: 400px;
+}
