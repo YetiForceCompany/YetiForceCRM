@@ -34,7 +34,7 @@ class Notification_Module_Model extends Vtiger_Module_Model
 	public function getEntries($limit = false, $conditions = false)
 	{
 		$queryGenerator = new App\QueryGenerator($this->getName());
-		$queryGenerator->setFields(['description', 'assigned_user_id', 'id', 'title', 'link', 'process', 'subprocess', 'createdtime', 'notification_type', 'smcreatorid']);
+		$queryGenerator->setFields(['description', 'assigned_user_id', 'id', 'title', 'link', 'linkextend', 'process', 'subprocess', 'createdtime', 'notification_type', 'smcreatorid']);
 		$queryGenerator->addNativeCondition(['smownerid' => \App\User::getCurrentUserId()]);
 		if (!empty($conditions)) {
 			$queryGenerator->addNativeCondition($conditions);

@@ -49,6 +49,9 @@
 								{if $RECORD->get('link')}
 									{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('link')))}: {$RECORD->getDisplayValue('link')}<br />
 								{/if}
+								{if $RECORD->get('linkextend')}
+									{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('linkextend')))}: {$RECORD->getDisplayValue('linkextend')}<br />
+								{/if}
 								{if $RECORD->get('process')}
 									{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('process')))}: {$RECORD->getDisplayValue('process')}<br />
 								{/if}
