@@ -31,12 +31,12 @@ class Gui_ListView extends \Tests\GuiBase
 		$this->url("/index.php?module=Accounts&view=List");
 
 		$this->execute([
-			'script' => '$("#Accounts_listView_row_1 .Accounts_listViewBasic_action_LBL_SHOW_QUICK_DETAILS").click();',
+			'script' => '$(".Accounts_listViewBasic_action_LBL_SHOW_QUICK_DETAILS").first().click();',
 			'args' => [],
 		]);
 
 		$this->execute([
-			'script' => '$("#Accounts_listView_row_1 .Accounts_listViewBasic_action_LBL_SHOW_COMPLETE_DETAILS").click();',
+			'script' => '$(".Accounts_listViewBasic_action_LBL_SHOW_COMPLETE_DETAILS").first().click();',
 			'args' => [],
 		]);
 
