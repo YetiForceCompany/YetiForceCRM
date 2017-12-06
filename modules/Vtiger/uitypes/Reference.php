@@ -13,10 +13,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Function to get the DB Insert Value, for the current field type with given User Value
-	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @return mixed
+	 * {@inheritDoc}
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
@@ -27,11 +24,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Verification of data
-	 * @param string $value
-	 * @param bool $isUserFormat
-	 * @return null
-	 * @throws \App\Exceptions\Security
+	 * {@inheritDoc}
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
@@ -63,14 +56,9 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param int $value
-	 * @param int $record
-	 * @param Vtiger_Record_Model $recordInstance
-	 * @param bool $rawText
-	 * @return string
+	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$referenceModule = $this->getReferenceModule($value);
 		if (!$referenceModule || empty($value)) {
@@ -81,10 +69,14 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 			return \App\Fields\Owner::getLabel($value);
 		}
 		$name = \App\Record::getLabel($value);
+		if (is_int($length)) {
+			$name = \vtlib\Functions::textLength($name, $length);
+		} elseif ($length !== true) {
+			$name = vtlib\Functions::textLength($name, vglobal('href_max_length'));
+		}
 		if ($rawText || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
 			return $name;
 		}
-		$name = vtlib\Functions::textLength($name, vglobal('href_max_length'));
 		if (\App\Record::getState($value) !== 'Active') {
 			$name = '<s>' . $name . '</s>';
 		}
@@ -93,34 +85,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the Display Value in ListView, for the current field type with given DB Insert Value
-	 * @param mixed $value
-	 * @return string
-	 */
-	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
-	{
-		$referenceModule = $this->getReferenceModule($value);
-		if (!$referenceModule || empty($value)) {
-			return '';
-		}
-		$referenceModuleName = $referenceModule->get('name');
-		if ($referenceModuleName === 'Users' || $referenceModuleName === 'Groups') {
-			return \App\Fields\Owner::getLabel($value);
-		}
-		$name = \App\Record::getLabel($value);
-		if ($rawText || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
-			return $name;
-		}
-		$name = vtlib\Functions::textLength($name, $this->getFieldModel()->get('maxlengthtext'));
-		$linkValue = "<a class='modCT_$referenceModuleName showReferenceTooltip' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . App\Language::translateSingularModuleName($referenceModuleName) . "'>$name</a>";
-		return $linkValue;
-	}
-
-	/**
-	 * Function to get the edit value in display view
-	 * @param mixed $value
-	 * @param Vtiger_Record_Model $recordModel
-	 * @return mixed
+	 * {@inheritDoc}
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
@@ -131,6 +96,9 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		return \App\Record::getLabel($value);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getListSearchTemplateName()
 	{
 		$fieldModel = $this->getFieldModel();
@@ -145,8 +113,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * {@inheritDoc}
 	 */
 	public function getTemplateName()
 	{

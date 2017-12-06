@@ -14,14 +14,51 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	const COMMA = '|#|';
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * {@inheritDoc}
+	 */
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+	{
+		$value = str_replace(self::COMMA, ', ', $value);
+		$value = substr($value, 1);
+		$value = substr($value, 0, -2);
+		if (is_int($length)) {
+			$value = \vtlib\Functions::textLength($value, $length);
+		}
+		return \App\Purifier::encodeHtml($value);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
+	{
+		$field = $this->getFieldModel();
+		$params = $field->getFieldParams();
+		$fieldInfo = \App\Field::getFieldInfo($params['field']);
+		if (in_array($fieldInfo['uitype'], [15, 16, 33])) {
+			$relModuleName = \App\Module::getModuleName($fieldInfo['tabid']);
+			$values = array_filter(explode(self::COMMA, $value));
+			foreach ($values as &$value) {
+				$value = \App\Language::translate($value, $relModuleName);
+			}
+			$values = implode(', ', $values);
+		} else {
+			return $this->getDisplayValue($value, $record, $recordModel, $rawText, $field->get('maxlengthtext'));
+		}
+		return \App\Purifier::encodeHtml(\vtlib\Functions::textLength($values, $field->get('maxlengthtext')));
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public function getTemplateName()
 	{
 		return 'uitypes/MultiReferenceValue.tpl';
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getListSearchTemplateName()
 	{
 		return 'uitypes/MultiReferenceValueFieldSearchView.tpl';
@@ -194,47 +231,5 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		}
 
 		return array_unique($values);
-	}
-
-	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param string $value
-	 * @param integer $record
-	 * @param Vtiger_Record_Model $recordInstance
-	 * @param string $rawText
-	 * @return string
-	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
-	{
-		$value = str_replace(self::COMMA, ', ', $value);
-		$value = substr($value, 1);
-		$value = substr($value, 0, -2);
-		return \App\Purifier::encodeHtml($value);
-	}
-
-	/**
-	 * Function to get the Display Value in ListView
-	 * @param string $value
-	 * @param int $record
-	 * @param Vtiger_Record_Model $recordInstance
-	 * @param bool $rawText
-	 * @return string
-	 */
-	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
-	{
-		$field = $this->getFieldModel();
-		$params = $field->getFieldParams();
-		$fieldInfo = \App\Field::getFieldInfo($params['field']);
-		if (in_array($fieldInfo['uitype'], [15, 16, 33])) {
-			$relModuleName = \App\Module::getModuleName($fieldInfo['tabid']);
-			$values = array_filter(explode(self::COMMA, $value));
-			foreach ($values as &$value) {
-				$value = \App\Language::translate($value, $relModuleName);
-			}
-			$values = \App\Purifier::encodeHtml(implode(', ', $values));
-		} else {
-			$values = $this->getDisplayValue($value, $record, $recordInstance, $rawText);
-		}
-		return \vtlib\Functions::textLength($values, $field->get('maxlengthtext'));
 	}
 }

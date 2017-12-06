@@ -10,6 +10,9 @@
 class Users_Boolean_UIType extends Vtiger_Boolean_UIType
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getDBValue($value, $recordModel = false)
 	{
 		if ($this->getFieldModel()->getFieldName() === 'is_admin') {

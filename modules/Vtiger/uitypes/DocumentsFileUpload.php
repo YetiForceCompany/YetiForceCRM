@@ -12,8 +12,7 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Function to get the Template name for the current UI Type Object
-	 * @return string - Template Name
+	 * {@inheritDoc}
 	 */
 	public function getTemplateName()
 	{
@@ -21,30 +20,22 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the value for ListView
-	 * @param string $value
-	 * @param integer $record
-	 * @param Vtiger_Record_Model
-	 * @return string
+	 * {@inheritDoc}
 	 */
-	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
-		return $this->getDisplayValue(\vtlib\Functions::textLength($value, $this->getFieldModel()->get('maxlengthtext')), $record, $recordInstance, $rawText);
+		return $this->getDisplayValue(\vtlib\Functions::textLength($value, $this->getFieldModel()->get('maxlengthtext')), $record, $recordModel, $rawText);
 	}
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param string $value
-	 * @param <Integer> $record
-	 * @param Vtiger_Record_Model
-	 * @return string
+	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$value = \App\Purifier::encodeHtml($value);
-		if ($recordInstance) {
-			$fileLocationType = $recordInstance->get('filelocationtype');
-			$fileStatus = $recordInstance->get('filestatus');
+		if ($recordModel) {
+			$fileLocationType = $recordModel->get('filelocationtype');
+			$fileStatus = $recordModel->get('filestatus');
 			if (!empty($value) && $fileStatus) {
 				if ($fileLocationType === 'I') {
 					$fileId = (new App\Db\Query())->select(['attachmentsid'])
@@ -62,10 +53,7 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the DB Insert Value, for the current field type with given User Value
-	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @return mixed
+	 * {@inheritDoc}
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{

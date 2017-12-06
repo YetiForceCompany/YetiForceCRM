@@ -89,14 +89,18 @@ class Vtiger_Base_UIType extends \App\Base
 
 	/**
 	 * Function to get the display value, for the current field type with given DB Insert Value
-	 * @param mixed $value
-	 * @param int $record
-	 * @param type $recordModel
-	 * @param Vtiger_Record_Model $rawText
+	 * @param mixed $value Field value
+	 * @param int|bool $record Record Id
+	 * @param Vtiger_Record_Model|bool $recordModel
+	 * @param bool $rawText Return text or html
+	 * @param int|bool $length Length of the text
 	 * @return mixed
 	 */
-	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
+		if (is_int($length)) {
+			$value = \vtlib\Functions::textLength($value, $length);
+		}
 		return \App\Purifier::encodeHtml($value);
 	}
 
@@ -113,23 +117,23 @@ class Vtiger_Base_UIType extends \App\Base
 
 	/**
 	 * Function to get the list value in display view
-	 * @param mixed $value
-	 * @param int $record
-	 * @param Vtiger_Record_Model $recordModel
-	 * @param bool $rawText
+	 * @param mixed $value Field value
+	 * @param int $record|bool Record Id
+	 * @param Vtiger_Record_Model|bool $recordModel
+	 * @param bool $rawText Return text or html
 	 * @return mixed
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
-		return \App\Purifier::encodeHtml(\vtlib\Functions::textLength(\App\Purifier::decodeHtml($this->getDisplayValue($value, $record, $recordModel, $rawText), $this->getFieldModel()->get('maxlengthtext'))));
+		return $this->getDisplayValue($value, $record, $recordModel, $rawText, $this->getFieldModel()->get('maxlengthtext'));
 	}
 
 	/**
 	 * Function to get the related list value in display view
-	 * @param mixed $value
-	 * @param int $record
-	 * @param Vtiger_Record_Model $recordModel
-	 * @param bool $rawText
+	 * @param mixed $value Field value
+	 * @param int $record|bool Record Id
+	 * @param Vtiger_Record_Model|bool $recordModel
+	 * @param bool $rawText Return text or html
 	 * @return mixed
 	 */
 	public function getRelatedListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)

@@ -16,10 +16,9 @@ class Documents_Field_Model extends Vtiger_Field_Model
 	 * @param string $value - value which need to be converted to display value
 	 * @return string - converted display value
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false, $length = false)
 	{
 		$fieldName = $this->getName();
-
 		if ($fieldName == 'filesize' && $recordInstance) {
 			$downloadType = $recordInstance->get('filelocationtype');
 			if ($downloadType == 'I') {
@@ -36,6 +35,6 @@ class Documents_Field_Model extends Vtiger_Field_Model
 			return $value;
 		}
 
-		return parent::getDisplayValue($value, $record, $recordInstance, $rawText);
+		return parent::getDisplayValue($value, $record, $recordInstance, $rawText, $length);
 	}
 }

@@ -13,10 +13,7 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Function to get the DB Insert Value, for the current field type with given User Value
-	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @return mixed
+	 * {@inheritDoc}
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
@@ -27,11 +24,7 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Verification of data
-	 * @param string $value
-	 * @param bool $isUserFormat
-	 * @return null
-	 * @throws \App\Exceptions\Security
+	 * {@inheritDoc}
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
@@ -49,23 +42,15 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param string $value
-	 * @param int $record
-	 * @param Vtiger_Record_Model $recordInstance
-	 * @param bool $rawText
-	 * @return string
+	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		return CurrencyField::convertToUserFormat($value);
 	}
 
 	/**
-	 * Function to get the edit value in display view
-	 * @param mixed $value
-	 * @param Vtiger_Record_Model $recordModel
-	 * @return mixed
+	 * {@inheritDoc}
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
@@ -73,8 +58,7 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * {@inheritDoc}
 	 */
 	public function getTemplateName()
 	{

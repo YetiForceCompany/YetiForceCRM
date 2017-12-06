@@ -37,33 +37,33 @@ class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($values, $record = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		if ($values === null && !is_array($values)) {
+		if ($value === null && !is_array($value)) {
 			return '';
 		}
-		foreach ($values as $value) {
-			if (self::getOwnerType($value) === 'User') {
+		foreach ($value as $row) {
+			if (self::getOwnerType($row) === 'User') {
 				$userModel = Users_Record_Model::getCleanInstance('Users');
-				$userModel->setId($value);
+				$userModel->setId($row);
 				$detailViewUrl = $userModel->getDetailViewUrl();
 				$currentUser = Users_Record_Model::getCurrentUserModel();
 				if (!$currentUser->isAdminUser()) {
-					return \App\Fields\Owner::getLabel($value);
+					return \App\Fields\Owner::getLabel($row);
 				}
 			} else {
 				$currentUser = Users_Record_Model::getCurrentUserModel();
 				if (!$currentUser->isAdminUser()) {
-					return \App\Fields\Owner::getLabel($value);
+					return \App\Fields\Owner::getLabel($row);
 				}
 				$recordModel = new Settings_Groups_Record_Model();
-				$recordModel->set('groupid', $value);
+				$recordModel->set('groupid', $row);
 				$detailViewUrl = $recordModel->getDetailViewUrl();
 			}
 			if ($rawText) {
-				$displayvalue[] = \App\Fields\Owner::getLabel($value);
+				$displayvalue[] = \App\Fields\Owner::getLabel($row);
 			} else {
-				$displayvalue[] = "<a href=" . $detailViewUrl . ">" . \App\Fields\Owner::getLabel($value) . "</a>&nbsp;";
+				$displayvalue[] = "<a href=" . $detailViewUrl . ">" . \App\Fields\Owner::getLabel($row) . "</a>&nbsp;";
 			}
 		}
 		return implode(',', $displayvalue);

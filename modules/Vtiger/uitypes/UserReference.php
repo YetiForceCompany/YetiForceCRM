@@ -27,10 +27,7 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the edit value in display view
-	 * @param mixed $value
-	 * @param Vtiger_Record_Model $recordModel
-	 * @return mixed
+	 * {@inheritDoc}
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
@@ -43,15 +40,15 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($value, $recordId = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$displayValue = $this->getEditViewDisplayValue($value, $recordInstance);
+		$displayValue = \vtlib\Functions::textLength($this->getEditViewDisplayValue($value, $recordModel), is_int($length) ? $length : false);
 		if (App\User::getCurrentUserModel()->isAdmin() && !$rawText) {
 			$recordModel = Users_Record_Model::getCleanInstance('Users');
 			$recordModel->setId($value);
-			return '<a href="' . $recordModel->getDetailViewUrl() . '">' . \vtlib\Functions::textLength($displayValue) . '</a>';
+			return '<a href="' . $recordModel->getDetailViewUrl() . '">' . $displayValue . '</a>';
 		}
-		return \vtlib\Functions::textLength($displayValue);
+		return $displayValue;
 	}
 
 	/**

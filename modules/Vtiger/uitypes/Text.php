@@ -59,9 +59,12 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$uiType = $this->getFieldModel()->get('uitype');
+		if (is_int($length)) {
+			$value = \vtlib\Functions::textLength($value, $length);
+		}
 		if ($uiType === 300) {
 			return App\Purifier::purifyHtml($value);
 		} else {

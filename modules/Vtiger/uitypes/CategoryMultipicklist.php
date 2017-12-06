@@ -14,10 +14,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 {
 
 	/**
-	 * Function to get the DB Insert Value, for the current field type with given User Value
-	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @return string
+	 * {@inheritDoc}
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
@@ -30,11 +27,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 	}
 
 	/**
-	 * Verification of data
-	 * @param string $value
-	 * @param bool $isUserFormat
-	 * @return null
-	 * @throws \App\Exceptions\Security
+	 * {@inheritDoc}
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
@@ -50,27 +43,26 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 	}
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param string $tree
-	 * @param int $record
-	 * @param Vtiger_Record_Model $recordInstance
-	 * @param boolean $rawText
-	 * @return string
+	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($tree, $record = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$fieldModel = $this->getFieldModel();
-		if (empty($tree)) {
+		if (empty($value)) {
 			return '';
 		}
+		$fieldModel = $this->getFieldModel();
 		$names = [];
-		$trees = array_filter(explode(',', $tree));
+		$trees = array_filter(explode(',', $value));
 		$treeData = \App\Fields\Tree::getPicklistValue($fieldModel->getFieldParams(), $fieldModel->getModuleName());
 		foreach ($trees as $treeId) {
 			if (isset($treeData[$treeId])) {
 				$names[] = $treeData[$treeId];
 			}
 		}
-		return \App\Purifier::encodeHtml(implode(', ', $names));
+		$value = implode(', ', $names);
+		if (is_int($length)) {
+			$value = \vtlib\Functions::textLength($value, $length);
+		}
+		return \App\Purifier::encodeHtml($value);
 	}
 }

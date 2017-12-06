@@ -41,7 +41,7 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$rawValue = $value;
 		$value = \App\Purifier::encodeHtml($value);
@@ -52,21 +52,8 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 		if ($rawText) {
 			return $value;
 		}
-		return '<a class="urlField cursorPointer" title="' . $value . '" href="' . $value . '" target="_blank" rel="noreferrer">' . \App\Purifier::encodeHtml(\vtlib\Functions::textLength($rawValue)) . '</a>';
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
-	{
-		$rawValue = $value;
-		$value = \App\Purifier::encodeHtml($value);
-		preg_match("^[\w]+:\/\/^", $rawValue, $matches);
-		if (!empty($matches[0])) {
-			$value = 'http://' . $value;
-		}
-		return '<a class="urlField cursorPointer" title="' . $value . '" href="' . $value . '" target="_blank" rel="noreferrer">' . \App\Purifier::encodeHtml(\vtlib\Functions::textLength($rawValue, $this->getFieldModel()->get('maxlengthtext'))) . '</a>';
+		$rawValue = \vtlib\Functions::textLength($rawValue, is_int($length) ? $length : false);
+		return '<a class="urlField cursorPointer" title="' . $value . '" href="' . $value . '" target="_blank" rel="noreferrer">' . \App\Purifier::encodeHtml($rawValue) . '</a>';
 	}
 
 	/**

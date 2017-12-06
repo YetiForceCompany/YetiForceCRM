@@ -229,11 +229,11 @@ class Record
 			$fieldModel = $recordModel->getModule()->getFieldByColumn($columnName);
 			$labelSearch[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel, true);
 		}
-		$label = \vtlib\Functions::textLength(implode(' ', $labelName), 254, false);
+		$label = \App\Purifier::encodeHtml(\vtlib\Functions::textLength(\App\Purifier::decodeHtml(implode(' ', $labelName)), 250, false));
 		if (empty($label)) {
 			$label = '';
 		}
-		$search = \vtlib\Functions::textLength(implode(' ', $labelSearch), 254, false);
+		$search = \App\Purifier::encodeHtml(\vtlib\Functions::textLength(\App\Purifier::decodeHtml(implode(' ', $labelSearch)), 250, false));
 		if (empty($search)) {
 			$search = '';
 		}
