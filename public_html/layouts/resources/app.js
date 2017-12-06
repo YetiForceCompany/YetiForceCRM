@@ -1326,7 +1326,12 @@ var app = {
 			moduleClassName = "Vtiger_" + view + "_Js";
 		}
 		if (typeof window[moduleClassName] != 'undefined') {
-			return new window[moduleClassName]();
+			if(typeof window[moduleClassName] == 'function'){
+				return new window[moduleClassName]();
+			}
+			if(typeof window[moduleClassName] == 'object'){
+				return window[moduleClassName];
+			}
 		}
 	},
 	/**
