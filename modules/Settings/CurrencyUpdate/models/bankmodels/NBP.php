@@ -66,27 +66,25 @@ class Settings_CurrencyUpdate_Models_NBP_BankModel extends Settings_CurrencyUpda
 				$numberOfDays++;
 			}
 		}
-
-		$xml = simplexml_load_file($newXmlSrc);
-
-		$xmlObj = $xml->children();
-
-		$num = count($xmlObj->pozycja);
-
-		for ($i = 0; $i <= $num; $i++) {
-			if (!$xmlObj->pozycja[$i]->nazwa_waluty) {
-				continue;
+		$headers = get_headers($newXmlSrc, 1);
+		if (isset($headers['Status']) && strpos($headers['Status'], '302') !== false) {
+			$xml = simplexml_load_file($newXmlSrc);
+			$xmlObj = $xml->children();
+			$num = count($xmlObj->pozycja);
+			for ($i = 0; $i <= $num; $i++) {
+				if (!$xmlObj->pozycja[$i]->nazwa_waluty) {
+					continue;
+				}
+				$currencyCode = (string) $xmlObj->pozycja[$i]->kod_waluty;
+				if ($currencyCode == 'XDR') {
+					continue;
+				}
+				$currencyName = Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($currencyCode);
+				$supportedCurrencies[$currencyName] = $currencyCode;
 			}
-			$currencyCode = (string) $xmlObj->pozycja[$i]->kod_waluty;
-
-			if ($currencyCode == 'XDR') {
-				continue;
-			}
-
-			$currencyName = Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($currencyCode);
-			$supportedCurrencies[$currencyName] = $currencyCode;
+		} else {
+			App\Log::warning('Can not connect to the server' . $newXmlSrc);
 		}
-
 		return $supportedCurrencies;
 	}
 	/*
