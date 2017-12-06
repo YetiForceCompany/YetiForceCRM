@@ -206,12 +206,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				progressInstance.progressIndicator({'mode': 'hide'});
 				Vtiger_Helper_Js.showHorizontalTopScrollBar();
 				$('.pageNumbers', thisInstance.content).tooltip();
-				$('body').trigger(jQuery.Event('LoadRelatedRecordList.PostLoad'), {
-					response: thisInstance.content,
-					params: completeParams,
-					instance: thisInstance,
-					moduleName: thisInstance.moduleName
-				});
 				thisInstance.registerPostLoadEvents();
 				if (thisInstance.listSearchInstance) {
 					thisInstance.listSearchInstance.registerBasicEvents();
@@ -569,6 +563,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			defaultView = defaultView + '&mode=showDetailViewByMode&requestMode=' + app.getMainParams('defaultDetailViewName'); // full, summary
 		}
 		frame.attr('src', url.replace("view=Detail", "view=DetailPreview") + defaultView);
+
 	},
 	registerUnreviewedCountEvent: function () {
 		var ids = [];
@@ -831,6 +826,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		});
 	},
 	registerPostLoadEvents: function () {
+		var thisInstance = this;
 		app.showBtnSwitch(this.content.find('.switchBtn'));
 		app.showPopoverElementView(this.content.find('.popoverTooltip'));
 		this.registerRowsEvent();
@@ -838,6 +834,11 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			this.registerPreviewEvent();
 		}
 		this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.content, false, this);
+		$('body').trigger($.Event('LoadRelatedRecordList.PostLoad'), {
+			response: thisInstance.content,
+			instance: thisInstance,
+			moduleName: thisInstance.moduleName
+		});
 	},
 	registerRelatedEvents: function () {
 		this.registerUnreviewedCountEvent();

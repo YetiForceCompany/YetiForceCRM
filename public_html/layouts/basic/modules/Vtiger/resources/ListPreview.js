@@ -17,12 +17,12 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		frame.attr('src', url.replace("view=Detail", "view=DetailPreview") + defaultView);
 	},
 	registerPreviewEvent: function () {
-	var thisInstance = this;
-		var inframe = $('#listPreviewframe');
-		inframe.height($('.mainBody').height() - 16);
+		var thisInstance = this;
+		var iframe = $('#listPreviewframe');
+		iframe.height($('.mainBody').height() - 16);
 		$('#listPreviewframe').load(function () {
 			thisInstance.frameProgress.progressIndicator({mode: 'hide'});
-			inframe.height($(this).contents().find('.mainBody').height()+2);
+			iframe.height($(this).contents().find('.bodyContents').height() + iframe.offset().top);
 		});
 		$('.listViewEntriesTable .listViewEntries').first().trigger('click');
 	},
@@ -59,8 +59,34 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			thisInstance.updatePreview(recordUrl);
 		});
 	},
+	updateListPreviewSize: function (currentElement) {
+		var fixedList = $('.fixedList, .scrollInnerList');
+		var vtFooter = $('.vtFooter').height();
+		if ($(window).width() > 993) {
+			var height = $(window).height() - (vtFooter + currentElement.offset().top + 2);
+			fixedList.css('max-height', height);
+		}
+	},
+	registerListPreviewScroll: function () {
+		var thisInstance = this;
+		var currentElement = $('.fixedList');
+		$(window).resize(function () {
+			thisInstance.updateListPreviewSize(currentElement);
+		});
+		var commactHeight = $('.commonActionsContainer').height();
+		$('.mainBody').scroll(function () {
+			if ($(this).scrollTop() >= (currentElement.offset().top + commactHeight)) {
+				currentElement.addClass('fixedListScroll');
+			} else {
+				currentElement.removeClass('fixedListScroll');
+			}
+			thisInstance.updateListPreviewSize(currentElement);
+		});
+		thisInstance.updateListPreviewSize(currentElement);
+	},
 	registerEvents: function () {
 		this._super();
 		this.registerPreviewEvent();
+		this.registerListPreviewScroll();
 	},
 });

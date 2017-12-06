@@ -12,27 +12,64 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 		});
 	},
 	registerSizeEvent: function (container) {
-		var inframe = $(top.document).find('#listPreviewframe');
+		console.log('registerSizeEvent');
+		var iframe = $(top.document).find('#listPreviewframe');
+		var ifrheight = iframe.height();
 		var bodyContents = $('.mainContainer');
-		console.log(inframe);
+		var bodyCon = $('.bodyContents');
 		$('#page').find('.widget_contents').on('Vtiger.Widget.FinishLoad', function (e, widgetName) {
-			inframe.height(bodyContents.height() + 33);
-			console.log('ok');
+			console.log(101);
+			if (iframe.contents().find('#listPreviewframe').length) {
+				var inif = iframe.contents().find('#listPreviewframe');
+				var inbodyCon = inif.contents().find('.contentsDiv').height();
+				ifrheight = inbodyCon + inif.offset().top + iframe.offset().top + 33
+				iframe.height(ifrheight);
+			} else {
+				ifrheight = bodyContents.height() + iframe.offset().top + 33;
+				iframe.height(ifrheight);
+			}
 		});
 		$('#page').on('DetailView.Tab.FinishLoad', function (e, data) {
-			inframe.height(bodyContents.height() + 33);
-			console.log('ok');
+			console.log(222);
+			if (iframe.contents().find('#listPreviewframe').length) {
+				var inif = iframe.contents().find('#listPreviewframe');
+				var inbodyCon = inif.contents().find('.contentsDiv').height();
+				ifrheight = inbodyCon + inif.offset().top + iframe.offset().top + 33;
+				iframe.height(ifrheight);
+			} else {
+				ifrheight = bodyContents.height() + iframe.offset().top + 33;
+				iframe.height(ifrheight);
+			}
 		});
-		$('#page').on('DetailView.Tab.PostLoad', function (e, data) {
-			inframe.height(bodyContents.height() + 33);
-			console.log('ok');
+		$('body').on('LoadRelatedRecordList.PostLoad', function (e, data) {
+			$('.blockHeader').on('click', function(){
+				console.log($(this).next('.hide').length === 0);
+				if ($(this).next('.hide').length === 0) {
+					//ifrheight = ifrheight + ($(this).next().height());
+					iframe.height(ifrheight + ($(this).next().height()));
+					console.log($(this).next().height());
+					console.log(iframe.height());
+				} else {
+					iframe.height(ifrheight);
+					console.log('else');
+					console.log(iframe.height());
+				}
+			});
 		});
-//		var inframe = $('#listPreviewframe');
-//		inframe.height($('.bodyContents').height() - 16);
-//		$('#listPreviewframe').load(function () {
-//			inframe.height($(this).contents().find('.bodyContents').height() + 2);
+//			fieldUpdatedEvent: 'Vtiger.Field.Updated',
+//	widgetPostLoad: 'Vtiger.Widget.PostLoad',
+//	//Filels list on updation of which we need to upate the detailview header
+//	updatedFields: ['company', 'designation', 'title'],
+//	//Event that will triggered before saving the ajax edit of fields
+//	fieldPreSave: 'Vtiger.Field.PreSave',
+//		$('body').on('LoadRelatedRecordList.PostLoad', function (e, data) {
+//			console.log($('.blockContent.hide'));
+//			$('.blockContent').css('background', 'red');
+////			$('.blockHeader').on('click', function () {
+////				console.log($(this).height());
+////			});
 //		});
-		//$('#page').trigger('DetailView.Tab.PostLoad', data);
+		iframe.height(bodyCon.height() + iframe.offset().top + 33);
 	},
 	registerEvents: function () {
 		this._super();
@@ -44,5 +81,5 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 //			position: 'right',
 //			height: $('.bodyContents').height()
 //		});
-	},
+	}
 });

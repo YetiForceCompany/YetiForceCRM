@@ -6007,22 +6007,3 @@ border1px{
 		border: 1px solid #dddddd;
 	}
 }
-
-
-/*.contents-topscroll,
-#reportDetails {
-	overflow-x: auto !important;
-	overflow-y: visible;
-	z-index: 10;
-	background: #fff;
-}
-.bottomscroll-div,
-.topscroll-div {
-	min-width: 100%;
-	display: table;
-	height: 2px;
-}
-.contents-bottomscroll {
-	overflow-x: auto !important;
-}
-.listViewLoadingImageB*/
