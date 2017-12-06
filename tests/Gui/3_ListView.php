@@ -36,7 +36,7 @@ class Gui_ListView extends \Tests\GuiBase
 		]);
 
 		$this->execute([
-			'script' => '$(".Accounts_listViewBasic_action_LBL_SHOW_COMPLETE_DETAILS").first().click();',
+			'script' => '$(".Accounts_listViewBasic_action_LBL_SHOW_COMPLETE_DETAILS")[0].click();',
 			'args' => [],
 		]);
 
