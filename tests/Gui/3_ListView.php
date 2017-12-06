@@ -23,6 +23,11 @@ class Gui_ListView extends \Tests\GuiBase
 			$this->logs = $module['name'];
 			$this->assertEquals($module['name'], $this->byId('module')->value());
 			$this->assertEquals('List', $this->byId('view')->value());
+			$this->execute([
+				'script' => '$(".listViewEntries")[0].click();',
+				'args' => [],
+			]);
+			$this->url("/index.php?module={$module['name']}&view=Edit");
 		}
 	}
 
@@ -36,7 +41,7 @@ class Gui_ListView extends \Tests\GuiBase
 		]);
 
 		$this->execute([
-			'script' => '$(".Accounts_listViewBasic_action_LBL_SHOW_COMPLETE_DETAILS")[0].click();',
+			'script' => '$(".listViewEntries")[0].click();',
 			'args' => [],
 		]);
 
