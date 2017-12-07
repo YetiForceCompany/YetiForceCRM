@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Countries index view class
+ * @package YetiForce.Include
+ * @license licenses/License.html
+ * @author Wojciech Brüggemann <w.bruggemann@yetiforce.com>
+ */
 class Settings_Countries_Index_View extends Settings_Vtiger_Index_View
 {
 
