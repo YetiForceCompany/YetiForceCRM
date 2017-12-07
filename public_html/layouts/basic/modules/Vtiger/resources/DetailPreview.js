@@ -17,45 +17,71 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 		var ifrheight = iframe.height();
 		var bodyContents = $('.mainContainer');
 		var bodyCon = $('.bodyContents');
-		$('#page').find('.widget_contents').on('Vtiger.Widget.FinishLoad', function (e, widgetName) {
-			console.log(101);
-			if (iframe.contents().find('#listPreviewframe').length) {
-				var inif = iframe.contents().find('#listPreviewframe');
-				var inbodyCon = inif.contents().find('.contentsDiv').height();
-				ifrheight = inbodyCon + inif.offset().top + iframe.offset().top + 33
-				iframe.height(ifrheight);
-			} else {
-				ifrheight = bodyContents.height() + iframe.offset().top + 33;
-				iframe.height(ifrheight);
-			}
-		});
+		iframe.height(ifrheight);
+//		$('#page').find('.widget_contents').on('Vtiger.Widget.FinishLoad', function (e, widgetName) {
+//			console.log('Vtiger.Widget.FinishLoad');
+//			if (iframe.contents().find('#listPreviewframe').length) {
+//				var inif = iframe.contents().find('#listPreviewframe');
+//				var inbodyCon = inif.contents().find('.contentsDiv').height();
+//				ifrheight = inbodyCon + inif.offset().top + iframe.offset().top + 33;
+//				iframe.height(ifrheight);
+//			} else {
+//				ifrheight = bodyContents.height() + iframe.offset().top + 33;
+//				iframe.height(ifrheight);
+//			}
+//		});
 		$('#page').on('DetailView.Tab.FinishLoad', function (e, data) {
-			console.log(222);
+			console.log('DetailView.Tab.FinishLoad');
+			var openBlocks = 0;
+//			$('.blockContent.hide').each(function() {
+//				$(this).removeClass('hide');
+//				console.log('usunieta');
+//			  });
+//			$('.panel').each(function() {
+//				openBlocks = openBlocks + $(this).height();
+//				console.log($(this).height());
+//				console.log($(this));
+//			  });
+//			console.log(openBlocks);
+//			console.log($('body'));
 			if (iframe.contents().find('#listPreviewframe').length) {
 				var inif = iframe.contents().find('#listPreviewframe');
-				var inbodyCon = inif.contents().find('.contentsDiv').height();
-				ifrheight = inbodyCon + inif.offset().top + iframe.offset().top + 33;
+				var inbodyCon = inif.contents().find('.detailViewContainer').height();
+				ifrheight = inbodyCon + inif.offset().top + iframe.offset().top + window.scrollY;
 				iframe.height(ifrheight);
+				console.log('if');
+//				var bodyRect = document.body.getBoundingClientRect(),
+//    elemRect = element.getBoundingClientRect(),
+//    offset   = elemRect.top - bodyRect.top;
 			} else {
-				ifrheight = bodyContents.height() + iframe.offset().top + 33;
-				iframe.height(ifrheight);
+				if ($('#detailView').has('#mapid').length === 1 || $('#detailView').has('.summaryView').length === 1) {
+					if (bodyCon.height() === bodyContents.height()) {
+						ifrheight = bodyCon.height() + 75; 
+						iframe.height(ifrheight);
+					} else {
+						ifrheight = bodyCon.height(); 
+						iframe.height(ifrheight);
+					}
+				} else {
+					ifrheight = bodyContents.height(); 
+					iframe.height(ifrheight);
+				}
 			}
 		});
-		$('body').on('LoadRelatedRecordList.PostLoad', function (e, data) {
-			$('.blockHeader').on('click', function(){
-				console.log($(this).next('.hide').length === 0);
-				if ($(this).next('.hide').length === 0) {
-					//ifrheight = ifrheight + ($(this).next().height());
-					iframe.height(ifrheight + ($(this).next().height()));
-					console.log($(this).next().height());
-					console.log(iframe.height());
-				} else {
-					iframe.height(ifrheight);
-					console.log('else');
-					console.log(iframe.height());
-				}
-			});
-		});
+//		$('body').on('LoadRelatedRecordList.PostLoad', function (e, data) {
+//			console.log($(this));
+//			$('#detailView').on('click', '.blockHeader', function(){
+//				console.log($(this).next('.hide').length === 0);
+//				if ($(this).next('.hide').length === 0) {
+//					//ifrheight = ifrheight + ($(this).next().height());
+//
+//				} else {
+//					iframe.height(ifrheight);
+//					console.log('else');
+//					console.log(iframe.height());
+//				}
+//			});
+//		});
 //			fieldUpdatedEvent: 'Vtiger.Field.Updated',
 //	widgetPostLoad: 'Vtiger.Widget.PostLoad',
 //	//Filels list on updation of which we need to upate the detailview header
@@ -69,7 +95,7 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 ////				console.log($(this).height());
 ////			});
 //		});
-		iframe.height(bodyCon.height() + iframe.offset().top + 33);
+		iframe.height(bodyCon.height() + 33);
 	},
 	registerEvents: function () {
 		this._super();

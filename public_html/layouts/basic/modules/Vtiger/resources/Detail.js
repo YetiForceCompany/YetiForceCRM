@@ -898,27 +898,57 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var blockContent = block.find('.blockContent');
 			var isEmpty = blockContent.is(':empty');
 			if (!blockContent.is(':visible')) {
+				console.log('visible');
 				blockContent.progressIndicator();
 				AppConnector.request({
 					type: 'GET',
 					dataType: 'html',
 					data: block.data('url')
 				}).then(function (response) {
+					console.log('load');
 					blockContent.html(response);
 					var relatedController = Vtiger_RelatedList_Js.getInstance(thisInstance.getRecordId(), app.getModuleName(), thisInstance.getSelectedTab(), block.data('reference'));
 					relatedController.setRelatedContainer(blockContent);
+					
+					console.log('registerPostLoadEvents');
+					var iframe = $(top.document).find('#listPreviewframe');
+					var ifrheight = iframe.height();
+					console.log('works');
+					console.log(ifrheight);
+					console.log(block.height());
+					console.log(ifrheight + block.height());
+					console.log(block.height());
+					console.log(block);
+					ifrheight = ifrheight + (block.height());
+					iframe.height(ifrheight);
+					iframe.height(ifrheight + block.height());
+					//
 					if (isEmpty) {
 						relatedController.registerRelatedEvents();
+						console.log('promif');
 					} else {
 						relatedController.registerPostLoadEvents();
+						console.log('promelse');
+						
 					}
 				});
 			}
 		});
 	},
 	registerBlockAnimationEvent: function () {
+		console.log('registerBlockAnimationEvent');
 		var detailContentsHolder = this.getContentHolder();
+		//iframe
+			var iframe = $(top.document).find('#listPreviewframe');
+			var ifrheight = iframe.height();
+			//bez tego zdarzenia nie zwijają się poprawnie listy z referencją
+		$('body').on('LoadRelatedRecordList.PostLoad', function (e, data) {
+			ifrheight = iframe.height();
+			console.log(ifrheight);
+			iframe.height(ifrheight);
+		});
 		detailContentsHolder.find('.blockHeader').click(function () {
+			console.log(ifrheight);
 			var currentTarget = $(this).find('.blockToggle').not('.hide');
 			var blockId = currentTarget.data('id');
 			var closestBlock = currentTarget.closest('.panel');
@@ -926,17 +956,42 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var data = currentTarget.data();
 			var module = app.getModuleName();
 			if (data.mode == 'show') {
+				console.log('hide');
+				//iframesizechange
+				console.log(closestBlock.height());
+				ifrheight = ifrheight - closestBlock.height();
+				iframe.height(ifrheight);
+				//
 				bodyContents.addClass('hide');
 				app.cacheSet(module + '.' + blockId, 0)
 				currentTarget.addClass('hide');
 				closestBlock.find('[data-mode="hide"]').removeClass('hide');
+				
 			} else {
+				console.log('show');
 				bodyContents.removeClass('hide');
 				app.cacheSet(module + '.' + blockId, 1)
 				currentTarget.addClass('hide');
 				closestBlock.find("[data-mode='show']").removeClass('hide');
+				if (closestBlock.data('reference')) {
+//					console.log('data');
+//					$('body').on('LoadRelatedRecordList.PostLoad', function (e, data) {
+//						console.log('works');
+//						console.log(ifrheight);
+//						console.log(closestBlock.height());
+//						console.log(ifrheight + closestBlock.height());
+//						console.log(closestBlock.height());
+//						console.log(closestBlock);
+//						ifrheight = ifrheight + (closestBlock.height());
+//						iframe.height(ifrheight);
+//					});
+				} else {
+				ifrheight = ifrheight + closestBlock.height();
+				iframe.height(ifrheight);
+				}
 			}
 		});
+
 	},
 	registerBlockStatusCheckOnLoad: function () {
 		var blocks = this.getContentHolder().find('.blockHeader');
