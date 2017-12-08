@@ -2,7 +2,7 @@
 {strip}
 	<div id="recordsListPreview">
 		<input type="hidden" id="defaultDetailViewName" value="{AppConfig::module($MODULE, 'defaultDetailViewName')}" />
-		<div class="fixedList col-md-3">
-		<div class="scrollInnerList">
+		<div class="fixedListInitial col-md-3">
+		<div class="fixedListContent">
 		<div id="recordsList">
 {/strip}

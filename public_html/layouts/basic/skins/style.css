@@ -5972,27 +5972,30 @@ border1px{
 [class*="picklistLb_"] {
 	border-radius: 7px;
 }
-.fixedList {
+.fixedListInitial {
 	padding-right: 5px;
 	max-height: max-content;
 	padding-left: 0;
 }
-.fixedListScroll {
+.fixedListInScroll {
 	position: fixed;
 	top: 48px;
 	padding-right: 27px;
 }
-.scrollInnerList {
+.fixedListContent {
 	overflow-y: auto;
 	margin-top: 2px;
 	height: max-content;
 }
-.scrollInnerList #recordsList {
+.fixedListContent #recordsList {
 	padding-left: 0;
 	padding-right: 0;
 }
-.scrollInnerList .contents-topscroll {
+.fixedListContent .contents-topscroll {
 	margin-top: -2px;
+}
+.fixedListContent .listViewSummation td {
+	padding: 0;
 }
 @media only screen and (max-width: 992px) {
 	#listPreview{
@@ -6002,15 +6005,13 @@ border1px{
 		width: 100%;
 		height: 100%;
 	}
-	.fixedList {
+	.fixedListInitial {
 		position: static;
 		padding-left: 0;
 		padding-right: 0;
-		
 	}
-	.scrollInnerList {
+	.fixedListContent {
 		margin-right: 0;
 		margin-bottom: 10px;
-		border: 1px solid #dddddd;
 	}
 }

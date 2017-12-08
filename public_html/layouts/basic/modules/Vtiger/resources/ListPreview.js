@@ -17,12 +17,14 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		frame.attr('src', url.replace("view=Detail", "view=DetailPreview") + defaultView);
 	},
 	registerPreviewEvent: function () {
+		console.log('registerPreviewEventLoad');
 		var thisInstance = this;
-		var contentHeight = $('#listPreview,#recordsListPreview');
-		contentHeight.height($('.mainBody').height() - 16);
+		var iframe = $('#listPreviewframe');
+		iframe.height($('.mainBody').height());
 		$('#listPreviewframe').load(function () {
+			console.log('registerPreviewEventLoad');
 			thisInstance.frameProgress.progressIndicator({mode: 'hide'});
-			contentHeight.height($(this).contents().find('.bodyContents').height()+2);
+			iframe.height($(this).contents().find('.bodyContents').height() +75);
 		});
 		$('.listViewEntriesTable .listViewEntries').first().trigger('click');
 	},
@@ -60,7 +62,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		});
 	},
 	updateListPreviewSize: function (currentElement) {
-		var fixedList = $('.fixedList, .scrollInnerList');
+		var fixedList = $('.fixedListInitial, .fixedListContent');
 		var vtFooter = $('.vtFooter').height();
 		if ($(window).width() > 993) {
 			var height = $(window).height() - (vtFooter + currentElement.offset().top + 2);
@@ -69,16 +71,16 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	},
 	registerListPreviewScroll: function () {
 		var thisInstance = this;
-		var currentElement = $('.fixedList');
+		var currentElement = $('.fixedListInitial');
 		$(window).resize(function () {
 			thisInstance.updateListPreviewSize(currentElement);
 		});
 		var commactHeight = $('.commonActionsContainer').height();
 		$('.mainBody').scroll(function () {
 			if ($(this).scrollTop() >= (currentElement.offset().top + commactHeight)) {
-				currentElement.addClass('fixedListScroll');
+				currentElement.addClass('fixedListInScroll');
 			} else {
-				currentElement.removeClass('fixedListScroll');
+				currentElement.removeClass('fixedListInScroll');
 			}
 			thisInstance.updateListPreviewSize(currentElement);
 		});
