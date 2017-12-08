@@ -29,7 +29,8 @@ jQuery.Class("Settings_Countries_Index_Js", {}, {
 			AppConnector.request({
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
-				action: 'UpdateStatus',
+				action: 'SaveAjax',
+				mode: 'updateStatus',
 				id: id,
 				status: status
 			}).then(function (data) {
@@ -55,7 +56,8 @@ jQuery.Class("Settings_Countries_Index_Js", {}, {
 			AppConnector.request({
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
-				action: 'UpdatePhone',
+				action: 'SaveAjax',
+				mode: 'updatePhone',
 				id: id,
 				phone: phone
 			}).then(function (data) {
@@ -81,7 +83,8 @@ jQuery.Class("Settings_Countries_Index_Js", {}, {
 			AppConnector.request({
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
-				action: 'UpdateUitype',
+				action: 'SaveAjax',
+				mode: 'updateUitype',
 				id: id,
 				uitype: uitype
 			}).then(function (data) {
@@ -106,7 +109,8 @@ jQuery.Class("Settings_Countries_Index_Js", {}, {
 			AppConnector.request({
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
-				action: 'UpdateAllStatuses',
+				action: 'SaveAjax',
+				mode: 'updateAllStatuses',
 				status: status
 			}).then(function (data) {
 				if (data.success && data.result) {
@@ -118,13 +122,15 @@ jQuery.Class("Settings_Countries_Index_Js", {}, {
 						elements.removeClass('btn-danger').addClass('btn-success');
 						elements.data('status', 0);
 					}
-					button.data('all-statuses', status)
 					Vtiger_Helper_Js.showMessage({
 						title: app.vtranslate('JS_LBL_COUNTRY'),
 						text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
 						type: 'success',
 						animation: 'show'
 					});
+				}
+				if (data.success) {
+					button.data('all-statuses', status);
 				}
 			});
 		});
@@ -150,13 +156,13 @@ jQuery.Class("Settings_Countries_Index_Js", {}, {
 		jQuery('tbody tr').each(function (i) {
 			sequenceList[++i] = jQuery(this).data('id');
 		});
-		var params = {
+		AppConnector.request({
 			sequencesList: JSON.stringify(sequenceList),
 			module: app.getModuleName(),
 			parent: app.getParentModuleName(),
-			action: 'UpdateSequence'
-		}
-		AppConnector.request(params).then(function (data) {
+			action: 'SaveAjax',
+			mode: 'updateSequence'
+		}).then(function (data) {
 			Vtiger_Helper_Js.showMessage({
 				title: app.vtranslate('JS_LBL_COUNTRY'),
 				text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
