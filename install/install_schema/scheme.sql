@@ -2564,10 +2564,12 @@ CREATE TABLE `u_yf_notification` (
   `link` int(10) DEFAULT NULL,
   `process` int(10) DEFAULT NULL,
   `subprocess` int(10) DEFAULT NULL,
+  `linkextend` int(10) DEFAULT NULL,
   PRIMARY KEY (`notificationid`),
   KEY `link` (`link`),
   KEY `process` (`process`),
   KEY `subprocess` (`subprocess`),
+  KEY `linkextend` (`linkextend`),
   CONSTRAINT `fk_1_notification` FOREIGN KEY (`notificationid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -3567,6 +3569,7 @@ CREATE TABLE `vtiger_activity` (
   `followup` int(10) DEFAULT NULL,
   `reapeat` smallint(1) DEFAULT NULL,
   `recurrence` text DEFAULT NULL,
+  `linkextend` int(10) DEFAULT NULL,
   PRIMARY KEY (`activityid`),
   KEY `activity_activityid_subject_idx` (`activityid`,`subject`),
   KEY `activity_activitytype_date_start_idx` (`activitytype`,`date_start`),
@@ -3580,6 +3583,7 @@ CREATE TABLE `vtiger_activity` (
   KEY `subprocess` (`subprocess`),
   KEY `activitytype_3` (`activitytype`,`status`),
   KEY `smownerid` (`smownerid`),
+  KEY `linkextend` (`linkextend`),
   CONSTRAINT `fk_1_vtiger_activity` FOREIGN KEY (`activityid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -5170,7 +5174,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2629 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2635 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6754,7 +6758,10 @@ CREATE TABLE `vtiger_osspasswords` (
   `password` varbinary(200) NOT NULL,
   `link_adres` varchar(255) DEFAULT NULL,
   `linkto` int(10) DEFAULT NULL,
+  `linkextend` int(10) DEFAULT NULL,
   PRIMARY KEY (`osspasswordsid`),
+  KEY `linkto` (`linkto`),
+  KEY `linkextend` (`linkextend`),
   CONSTRAINT `fk_1_vtiger_osspasswords` FOREIGN KEY (`osspasswordsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -6829,6 +6836,7 @@ CREATE TABLE `vtiger_osstimecontrol` (
   `process` int(10) DEFAULT NULL,
   `link` int(10) DEFAULT NULL,
   `subprocess` int(10) DEFAULT NULL,
+  `linkextend` int(10) DEFAULT NULL,
   PRIMARY KEY (`osstimecontrolid`),
   KEY `on_update_cascade` (`deleted`),
   KEY `osstimecontrol_status_9` (`osstimecontrol_status`,`deleted`),
@@ -6836,6 +6844,7 @@ CREATE TABLE `vtiger_osstimecontrol` (
   KEY `subprocess` (`subprocess`),
   KEY `link` (`link`),
   KEY `process` (`process`),
+  KEY `linkextend` (`linkextend`),
   CONSTRAINT `vtiger_osstimecontrol` FOREIGN KEY (`osstimecontrolid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -7805,10 +7814,13 @@ CREATE TABLE `vtiger_reservations` (
   `deleted` int(1) DEFAULT 0,
   `type` varchar(128) DEFAULT NULL,
   `subprocess` int(10) DEFAULT 0,
+  `linkextend` int(10) DEFAULT NULL,
   PRIMARY KEY (`reservationsid`),
   KEY `process` (`process`),
   KEY `link` (`link`),
   KEY `subprocess` (`subprocess`),
+  KEY `linkextend` (`linkextend`),
+  KEY `deleted` (`deleted`),
   CONSTRAINT `vtiger_reservations` FOREIGN KEY (`reservationsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

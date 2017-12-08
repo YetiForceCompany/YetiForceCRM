@@ -37,12 +37,12 @@ class IStorages_Record_Model extends Vtiger_Record_Model
 	 * @param string $fieldName - field name for which values need to get
 	 * @return string
 	 */
-	public function getDisplayValue($fieldName, $recordId = false, $rawText = false)
+	public function getDisplayValue($fieldName, $record = false, $rawText = false, $length = false)
 	{
 		// This is special field / displayed only in Products module [view=Detail relatedModule=IStorages]
-		if ($fieldName == 'qtyinstock') {
+		if ($fieldName === 'qtyinstock') {
 			return $this->get($fieldName);
 		}
-		return parent::getDisplayValue($fieldName, $recordId, $rawText);
+		return parent::getDisplayValue($fieldName, $record, $rawText, $length);
 	}
 }

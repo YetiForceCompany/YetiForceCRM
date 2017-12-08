@@ -10,7 +10,10 @@
 class HelpDesk_RangeTime_UIType extends Vtiger_RangeTime_UIType
 {
 
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$isNull = is_null($value);
 		if ($this->get('field')->getName() === 'response_time') {

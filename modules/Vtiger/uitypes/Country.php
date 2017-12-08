@@ -21,9 +21,13 @@ class Vtiger_Country_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		return \App\Purifier::encodeHtml(\App\Language::translateSingleMod($value, 'Other.Country'));
+		$value = \App\Language::translateSingleMod($value, 'Other.Country');
+		if (is_int($length)) {
+			$value = \vtlib\Functions::textLength($value, $length);
+		}
+		return \App\Purifier::encodeHtml($value);
 	}
 
 	/**

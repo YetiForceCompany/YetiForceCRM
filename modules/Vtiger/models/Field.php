@@ -18,7 +18,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	protected $fieldType;
 	protected $fieldDataTypeShort;
 	protected $uitype_instance;
-	public static $referenceTypes = ['reference', 'referenceLink', 'referenceProcess', 'referenceSubProcess'];
+	public static $referenceTypes = ['reference', 'referenceLink', 'referenceProcess', 'referenceSubProcess', 'referenceExtend'];
 
 	const REFERENCE_TYPE = 'reference';
 	const OWNER_TYPE = 'owner';
@@ -151,14 +151,15 @@ class Vtiger_Field_Model extends vtlib\Field
 	/**
 	 * Function to retieve display value for a value
 	 * @param mixed $value value which need to be converted to display value
-	 * @param bool|int $recordId
+	 * @param bool|int $record
 	 * @param bool|Vtiger_Record_Model $recordInstance
 	 * @param bool $rawText
+	 * @param int|bool $length Length of the text
 	 * @return mixed converted display value
 	 */
-	public function getDisplayValue($value, $recordId = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false, $length = false)
 	{
-		return $this->getUITypeModel()->getDisplayValue($value, $recordId, $recordInstance, $rawText);
+		return $this->getUITypeModel()->getDisplayValue($value, $record, $recordInstance, $rawText, $length);
 	}
 
 	/**
@@ -211,6 +212,8 @@ class Vtiger_Field_Model extends vtlib\Field
 						} else if ($this->getName() === 'firstname') {
 							$fieldDataType = 'salutation';
 						}
+						break;
+					case 65: $fieldDataType = 'referenceExtend';
 						break;
 					case 66: $fieldDataType = 'referenceProcess';
 						break;

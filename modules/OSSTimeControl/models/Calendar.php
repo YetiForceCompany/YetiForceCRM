@@ -18,7 +18,7 @@ class OSSTimeControl_Calendar_Model extends App\Base
 		$moduleName = 'OSSTimeControl';
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$queryGenerator = new App\QueryGenerator($moduleName);
-		$queryGenerator->setFields(['id', 'date_start', 'time_start', 'time_end', 'due_date', 'timecontrol_type', 'name', 'assigned_user_id', 'osstimecontrol_status', 'sum_time', 'osstimecontrol_no', 'process', 'link', 'subprocess']);
+		$queryGenerator->setFields(['id', 'date_start', 'time_start', 'time_end', 'due_date', 'timecontrol_type', 'name', 'assigned_user_id', 'osstimecontrol_status', 'sum_time', 'osstimecontrol_no', 'process', 'link', 'subprocess', 'linkextend']);
 		$query = $queryGenerator->createQuery();
 		if ($this->get('start') && $this->get('end')) {
 			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'), null, false);
@@ -80,6 +80,12 @@ class OSSTimeControl_Calendar_Model extends App\Base
 				$item['subprocess'] = $record['subprocess'];
 				$item['subprocl'] = \App\Record::getLabel($record['subprocess']);
 				$item['subprocm'] = \App\Record::getType($record['subprocess']);
+			}
+			//linkextend
+			if ($record['linkextend']) {
+				$item['linkextend'] = $record['linkextend'];
+				$item['linkexl'] = \App\Record::getLabel($record['linkextend']);
+				$item['linkexm'] = \App\Record::getType($record['linkextend']);
 			}
 			$item['totalTime'] = vtlib\Functions::decimalTimeFormat($record['sum_time'])['short'];
 			$item['smownerid'] = \App\Fields\Owner::getLabel($record['assigned_user_id']);

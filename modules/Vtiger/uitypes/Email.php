@@ -25,7 +25,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;
 	}
@@ -33,19 +33,18 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($value, $recordId = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$internalMailer = $currentUser->get('internal_mailer');
+		$internalMailer = (int) \App\User::getCurrentUserModel()->getDetail('internal_mailer');
 		if ($value && !$rawText) {
-			$moduleName = $this->get('field')->get('block')->module->name;
-			$fieldName = $this->get('field')->get('name');
+			$moduleName = $this->getFieldModel()->get('block')->module->name;
+			$fieldName = $this->getFieldModel()->get('name');
 			$rawValue = \App\Purifier::encodeHtml($value);
 			$value = \App\Purifier::encodeHtml(vtlib\Functions::textLength($value));
-			if ($internalMailer == 1 && \App\Privilege::isPermitted('OSSMail')) {
-				$url = OSSMail_Module_Model::getComposeUrl($moduleName, $recordId, 'Detail', 'new');
+			if ($internalMailer === 1 && \App\Privilege::isPermitted('OSSMail')) {
+				$url = OSSMail_Module_Model::getComposeUrl($moduleName, $record, 'Detail', 'new');
 				$mailConfig = OSSMail_Module_Model::getComposeParameters();
-				return "<a class = \"cursorPointer sendMailBtn\" data-url=\"$url\" data-module=\"$moduleName\" data-record=\"$recordId\" data-to=\"$rawValue\" data-popup=" . $mailConfig['popup'] . " title=" . \App\Language::translate('LBL_SEND_EMAIL') . ">$value</a>";
+				return "<a class = \"cursorPointer sendMailBtn\" data-url=\"$url\" data-module=\"$moduleName\" data-record=\"$record\" data-to=\"$rawValue\" data-popup=" . $mailConfig['popup'] . " title=" . \App\Language::translate('LBL_SEND_EMAIL') . ">$value</a>";
 			} else {
 				if ($moduleName === 'Users' && $fieldName === 'user_name') {
 					return "<a class='cursorPointer' href='mailto:" . $rawValue . "'>" . $value . "</a>";
@@ -60,16 +59,15 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$internalMailer = $currentUser->get('internal_mailer');
+		$internalMailer = (int) \App\User::getCurrentUserModel()->getDetail('internal_mailer');
 		if ($value && !$rawText) {
-			$moduleName = $this->get('field')->get('block')->module->name;
-			$fieldName = $this->get('field')->get('name');
+			$moduleName = $this->getFieldModel()->get('block')->module->name;
+			$fieldName = $this->getFieldModel()->get('name');
 			$rawValue = \App\Purifier::encodeHtml($value);
-			$value = \App\Purifier::encodeHtml(vtlib\Functions::textLength($value, $this->get('field')->get('maxlengthtext')));
-			if ($internalMailer == 1 && \App\Privilege::isPermitted('OSSMail')) {
+			$value = \App\Purifier::encodeHtml(vtlib\Functions::textLength($value, $this->getFieldModel()->get('maxlengthtext')));
+			if ($internalMailer === 1 && \App\Privilege::isPermitted('OSSMail')) {
 				$url = OSSMail_Module_Model::getComposeUrl($moduleName, $recordId, 'Detail', 'new');
 				$mailConfig = OSSMail_Module_Model::getComposeParameters();
 				return "<a class = \"cursorPointer sendMailBtn\" data-url=\"$url\" data-module=\"$moduleName\" data-record=\"$recordId\" data-to=\"$rawValue\" data-popup=" . $mailConfig['popup'] . " title=" . \App\Language::translate('LBL_SEND_EMAIL') . ">{$value}</a>";

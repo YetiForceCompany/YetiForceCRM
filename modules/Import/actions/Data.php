@@ -312,12 +312,12 @@ class Import_Data_Action extends Vtiger_Action_Controller
 					if (in_array($fieldInstance->getName(), ['Name', 'Reference'])) {
 						$value = $this->transformInventoryReference($value);
 					} elseif ($fieldInstance->getName() == 'Currency') {
-						$value = \App\Currency::getCurrencyIdByName($entityLabel);
+						$value = \App\Fields\Currency::getCurrencyIdByName($entityLabel);
 						$currencyParam = $data['currencyparam'];
 						$currencyParam = $fieldInstance->getCurrencyParam([], $currencyParam);
 						$newCurrencyParam = [];
 						foreach ($currencyParam as $key => $currencyData) {
-							$valueData = \App\Currency::getCurrencyIdByName($entityLabel);
+							$valueData = \App\Fields\Currency::getCurrencyIdByName($entityLabel);
 							if ($valueData) {
 								$currencyData['value'] = $valueData;
 								$newCurrencyParam[$valueData] = $currencyData;
@@ -514,7 +514,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 							$referenceEntityId = $this->user->id;
 						}
 					} elseif ($referenceModule === 'Currency') {
-						$referenceEntityId = \App\Currency::getCurrencyIdByName($entityLabel);
+						$referenceEntityId = \App\Fields\Currency::getCurrencyIdByName($entityLabel);
 					} else {
 						$referenceEntityId = \App\Record::getCrmIdByLabel($referenceModule, App\Purifier::decodeHtml($entityLabel));
 					}

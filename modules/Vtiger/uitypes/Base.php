@@ -43,7 +43,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
-		$fieldName = $this->get('field')->getFieldName();
+		$fieldName = $this->getFieldModel()->getFieldName();
 		if (!$requestFieldName) {
 			$requestFieldName = $fieldName;
 		}
@@ -68,10 +68,10 @@ class Vtiger_Base_UIType extends \App\Base
 			$value = \App\Purifier::decodeHtml($value);
 		}
 		if (!is_numeric($value) && (is_string($value) && $value !== strip_tags($value))) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		if (App\Utils::getTextLength($value) > 255) {
-			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;
 	}
@@ -89,14 +89,18 @@ class Vtiger_Base_UIType extends \App\Base
 
 	/**
 	 * Function to get the display value, for the current field type with given DB Insert Value
-	 * @param mixed $value
-	 * @param int $record
-	 * @param type $recordModel
-	 * @param Vtiger_Record_Model $rawText
+	 * @param mixed $value Field value
+	 * @param int|bool $record Record Id
+	 * @param Vtiger_Record_Model|bool $recordModel
+	 * @param bool $rawText Return text or html
+	 * @param int|bool $length Length of the text
 	 * @return mixed
 	 */
-	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
+		if (is_int($length)) {
+			$value = \vtlib\Functions::textLength($value, $length);
+		}
 		return \App\Purifier::encodeHtml($value);
 	}
 
@@ -113,23 +117,23 @@ class Vtiger_Base_UIType extends \App\Base
 
 	/**
 	 * Function to get the list value in display view
-	 * @param mixed $value
-	 * @param int $record
-	 * @param Vtiger_Record_Model $recordModel
-	 * @param bool $rawText
+	 * @param mixed $value Field value
+	 * @param int $record|bool Record Id
+	 * @param Vtiger_Record_Model|bool $recordModel
+	 * @param bool $rawText Return text or html
 	 * @return mixed
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
-		return \vtlib\Functions::textLength($this->getDisplayValue($value, $record, $recordModel, $rawText), $this->get('field')->get('maxlengthtext'));
+		return $this->getDisplayValue($value, $record, $recordModel, $rawText, $this->getFieldModel()->get('maxlengthtext'));
 	}
 
 	/**
 	 * Function to get the related list value in display view
-	 * @param mixed $value
-	 * @param int $record
-	 * @param Vtiger_Record_Model $recordModel
-	 * @param bool $rawText
+	 * @param mixed $value Field value
+	 * @param int $record|bool Record Id
+	 * @param Vtiger_Record_Model|bool $recordModel
+	 * @param bool $rawText Return text or html
 	 * @return mixed
 	 */
 	public function getRelatedListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)

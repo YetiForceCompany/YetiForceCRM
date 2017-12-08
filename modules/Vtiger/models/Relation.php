@@ -419,22 +419,28 @@ class Vtiger_Relation_Model extends \App\Base
 		$queryGenerator = $this->getQueryGenerator();
 		$relatedModuleName = $this->getRelationModuleName();
 		$moduleName = $this->getParentModuleModel()->getName();
-		$referenceLinkClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceLink', $relatedModuleName);
+		$referenceLinkClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceExtend', $relatedModuleName);
 		$referenceLinkInstance = new $referenceLinkClass();
 		if (in_array($moduleName, $referenceLinkInstance->getReferenceList())) {
-			$queryGenerator->addNativeCondition(['vtiger_activity.link' => $this->get('parentRecord')->getId()]);
+			$queryGenerator->addNativeCondition(['vtiger_activity.linkextend' => $this->get('parentRecord')->getId()]);
 		} else {
-			$referenceProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceProcess', $relatedModuleName);
-			$referenceProcessInstance = new $referenceProcessClass();
-			if (in_array($moduleName, $referenceProcessInstance->getReferenceList())) {
-				$queryGenerator->addNativeCondition(['vtiger_activity.process' => $this->get('parentRecord')->getId()]);
+			$referenceLinkClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceLink', $relatedModuleName);
+			$referenceLinkInstance = new $referenceLinkClass();
+			if (in_array($moduleName, $referenceLinkInstance->getReferenceList())) {
+				$queryGenerator->addNativeCondition(['vtiger_activity.link' => $this->get('parentRecord')->getId()]);
 			} else {
-				$referenceSubProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceSubProcess', $relatedModuleName);
-				$referenceSubProcessInstance = new $referenceSubProcessClass();
-				if (in_array($moduleName, $referenceSubProcessInstance->getReferenceList())) {
-					$queryGenerator->addNativeCondition(['vtiger_activity.subprocess' => $this->get('parentRecord')->getId()]);
+				$referenceProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceProcess', $relatedModuleName);
+				$referenceProcessInstance = new $referenceProcessClass();
+				if (in_array($moduleName, $referenceProcessInstance->getReferenceList())) {
+					$queryGenerator->addNativeCondition(['vtiger_activity.process' => $this->get('parentRecord')->getId()]);
 				} else {
-					throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
+					$referenceSubProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceSubProcess', $relatedModuleName);
+					$referenceSubProcessInstance = new $referenceSubProcessClass();
+					if (in_array($moduleName, $referenceSubProcessInstance->getReferenceList())) {
+						$queryGenerator->addNativeCondition(['vtiger_activity.subprocess' => $this->get('parentRecord')->getId()]);
+					} else {
+						throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
+					}
 				}
 			}
 		}

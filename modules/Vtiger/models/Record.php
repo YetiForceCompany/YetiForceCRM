@@ -294,21 +294,24 @@ class Vtiger_Record_Model extends \App\Base
 
 	/**
 	 * Function to retieve display value for a field
-	 * @param string $fieldName - field name for which values need to get
-	 * @return string
+	 * @param string $fieldName Field name for which values need to get
+	 * @param int|bool $record Record Id
+	 * @param bool $rawText
+	 * @param int|bool $length Length of the text
+	 * @return boolean
 	 */
-	public function getDisplayValue($fieldName, $recordId = false, $rawText = false)
+	public function getDisplayValue($fieldName, $record = false, $rawText = false, $length = false)
 	{
-		if (empty($recordId)) {
-			$recordId = $this->getId();
+		if (empty($record)) {
+			$record = $this->getId();
 		}
 		$fieldModel = $this->getModule()->getFieldByName($fieldName);
 		if ($fieldModel) {
-			return $fieldModel->getDisplayValue($this->get($fieldName), $recordId, $this, $rawText);
+			return $fieldModel->getDisplayValue($this->get($fieldName), $record, $this, $rawText, $length);
 		}
 		$fieldModelByColumn = $this->getModule()->getFieldByColumn($fieldName);
 		if ($fieldModelByColumn) {
-			return $fieldModelByColumn->getDisplayValue($this->get($fieldName), $recordId, $this, $rawText);
+			return $fieldModelByColumn->getDisplayValue($this->get($fieldName), $record, $this, $rawText, $length);
 		}
 		return false;
 	}

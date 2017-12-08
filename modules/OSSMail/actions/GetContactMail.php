@@ -37,7 +37,7 @@ class OSSMail_GetContactMail_Action extends Vtiger_Action_Controller
 		$searchList = OSSMailScanner_Record_Model::getEmailSearch($mod);
 		$recordModel = Vtiger_Record_Model::getInstanceById($ids, $mod);
 		$name = $recordModel->getName();
-		foreach ($searchList as &$emailField) {
+		foreach ($searchList as $emailField) {
 			$email = $recordModel->get($emailField['fieldname']);
 			if ($email != '') {
 				$fieldlabel = \App\Language::translate($emailField['fieldlabel'], $emailField['name']);

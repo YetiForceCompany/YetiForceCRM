@@ -6015,3 +6015,6 @@ border1px{
 		margin-bottom: 10px;
 	}
 }
+.popover.activities{
+	min-width: 400px;
+}

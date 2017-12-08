@@ -21,7 +21,7 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 			return;
 		}
 		if (substr($value, 0, 1) !== 'H' || !is_numeric(substr($value, 1)) || is_null(\App\PrivilegeUtil::getRoleName($value))) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;
 	}
@@ -29,13 +29,13 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($value, $recordId = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$displayValue = \App\Language::translate(\App\PrivilegeUtil::getRoleName($value), $this->get('field')->getModuleName());
+		$displayValue = \vtlib\Functions::textLength(\App\Language::translate(\App\PrivilegeUtil::getRoleName($value), $this->getFieldModel()->getModuleName()), is_int($length) ? $length : false);
 		if (\App\User::getCurrentUserModel()->isAdmin() && $rawText !== false) {
 			$roleRecordModel = new Settings_Roles_Record_Model();
 			$roleRecordModel->set('roleid', $value);
-			return '<a href="' . $roleRecordModel->getEditViewUrl() . '">' . \App\Purifier::encodeHtml(\vtlib\Functions::textLength($displayValue)) . '</a>';
+			return '<a href="' . $roleRecordModel->getEditViewUrl() . '">' . \App\Purifier::encodeHtml($displayValue) . '</a>';
 		}
 		return $displayValue;
 	}
@@ -49,7 +49,7 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 		$roleModels = Settings_Roles_Record_Model::getAll();
 		$roles = [];
 		foreach ($roleModels as $roleId => $roleModel) {
-			$roles[$roleId] = \App\Language::translate($roleModel->getName(), $this->get('field')->getModuleName());
+			$roles[$roleId] = \App\Language::translate($roleModel->getName(), $this->getFieldModel()->getModuleName());
 		}
 		return $roles;
 	}

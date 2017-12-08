@@ -71,8 +71,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 				$return['to'] = $email;
 			}
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-			$modulesLevel1 = \App\ModuleHierarchy::getModulesByLevel();
-			if (!in_array($moduleName, array_keys($modulesLevel1)) || $moduleName === 'Campaigns') {
+			if (!in_array($moduleName, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(), \App\ModuleHierarchy::getModulesByLevel(3)))) || $moduleName === 'Campaigns') {
 				$subject = '';
 				if ($type === 'new' || $moduleName === 'Campaigns') {
 					$return['title'] = $recordModel->getName();
@@ -156,9 +155,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			$url .= '?';
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			$moduleModel = $recordModel->getModule();
-
-			$modulesLevel1 = \App\ModuleHierarchy::getModulesByLevel();
-			if (!in_array($moduleName, array_keys($modulesLevel1))) {
+			if (!in_array($moduleName, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(), \App\ModuleHierarchy::getModulesByLevel(3))))) {
 				$fieldName = (new \App\Db\Query)->select(['fieldname'])->from('vtiger_field')->where(['tabid' => $moduleModel->getId(), 'uitype' => 4])->scalar();
 				if ($fieldName) {
 					$subject = 'subject=';
@@ -212,8 +209,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		if (!empty($srecord) && !empty($smoduleName)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($srecord);
 			$moduleModel = $recordModel->getModule();
-			$modulesLevel1 = \App\ModuleHierarchy::getModulesByLevel();
-			if (!in_array($smoduleName, array_keys($modulesLevel1))) {
+			if (!in_array($smoduleName, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(), \App\ModuleHierarchy::getModulesByLevel(3))))) {
 				$fieldName = (new \App\Db\Query)->select(['fieldname'])->from('vtiger_field')->where(['tabid' => $moduleModel->getId(), 'uitype' => 4])->scalar();
 				if ($fieldName) {
 					$subject .= '[' . $fieldName . ']';

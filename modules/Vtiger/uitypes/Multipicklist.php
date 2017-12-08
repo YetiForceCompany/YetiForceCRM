@@ -13,10 +13,7 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Function to get the DB Insert Value, for the current field type with given User Value
-	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @return mixed
+	 * {@inheritDoc}
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
@@ -27,11 +24,7 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Verification of data
-	 * @param string $value
-	 * @param bool $isUserFormat
-	 * @return null
-	 * @throws \App\Exceptions\Security
+	 * {@inheritDoc}
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
@@ -42,44 +35,42 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 			$value = explode(' |##| ', $value);
 		}
 		if (!is_array($value)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		foreach ($value as $item) {
 			if (!is_string($item)) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 			} elseif ($item != strip_tags($item)) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 			}
 		}
 		$this->validate = true;
 	}
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
-	 * @return <Object>
+	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		if (empty($value)) {
 			return null;
 		}
-		$value = explode(' |##| ', $value);
+		$values = explode(' |##| ', $value);
 		$trValue = [];
-		$moduleName = $this->get('field')->getModuleName();
-		$countValue = count($value);
+		$moduleName = $this->getFieldModel()->getModuleName();
+		$countValue = count($values);
 		for ($i = 0; $i < $countValue; $i++) {
-			$trValue[] = Vtiger_Language_Handler::getTranslatedString($value[$i], $moduleName);
+			$trValue[] = Vtiger_Language_Handler::getTranslatedString($values[$i], $moduleName);
 		}
-		$trValue = implode(' |##| ', $trValue);
-		return \App\Purifier::encodeHtml(str_ireplace(' |##| ', ', ', $trValue));
+		$value = str_ireplace(' |##| ', ', ', $trValue);
+		if (is_int($length)) {
+			$value = \vtlib\Functions::textLength($value, $length);
+		}
+		return \App\Purifier::encodeHtml($value);
 	}
 
 	/**
-	 * Function to get the edit value in display view
-	 * @param mixed $value
-	 * @param Vtiger_Record_Model $recordModel
-	 * @return mixed
+	 * {@inheritDoc}
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
@@ -87,14 +78,16 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * {@inheritDoc}
 	 */
 	public function getTemplateName()
 	{
 		return 'uitypes/MultiPicklist.tpl';
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getListSearchTemplateName()
 	{
 		return 'uitypes/MultiSelectFieldSearchView.tpl';

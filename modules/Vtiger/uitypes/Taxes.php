@@ -34,7 +34,7 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 		}
 		foreach ($value as $id) {
 			if (!is_numeric($id)) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $id, 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $id, 406);
 			}
 		}
 		$this->validate = true;
@@ -43,7 +43,7 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$display = [];
 		if (!empty($value)) {

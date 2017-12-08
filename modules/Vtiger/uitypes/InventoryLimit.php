@@ -30,12 +30,12 @@ class Vtiger_InventoryLimit_UIType extends Vtiger_Picklist_UIType
 			return;
 		}
 		if (!is_numeric($value)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		if (is_array($value)) {
 			foreach ($value as $value) {
 				if (!is_numeric($value)) {
-					throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+					throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 				}
 			}
 		}
@@ -45,7 +45,7 @@ class Vtiger_InventoryLimit_UIType extends Vtiger_Picklist_UIType
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$limits = $this->getPicklistValues();
 		return \App\Purifier::encodeHtml(isset($limits[$value]) ? $limits[$value] : '');

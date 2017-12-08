@@ -37,7 +37,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		if (empty($value)) {
 			return '';
@@ -62,7 +62,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 			case 80:
 				return $rawText ? Vtiger_Util_Helper::formatDateDiffInStrings($value) : '<span title="' . self::getDisplayDateTimeValue($value) . '">' . Vtiger_Util_Helper::formatDateDiffInStrings($value) . '</span>';
 		}
-		return \vtlib\Functions::textLength($this->getDisplayValue($value, $record, $recordModel, $rawText), $this->get('field')->get('maxlengthtext'));
+		return \vtlib\Functions::textLength($this->getDisplayValue($value, $record, $recordModel, $rawText), $this->getFieldModel()->get('maxlengthtext'));
 	}
 
 	/**

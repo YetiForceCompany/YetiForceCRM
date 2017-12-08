@@ -13,10 +13,7 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Function to get the DB Insert Value, for the current field type with given User Value
-	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @return mixed
+	 * {@inheritDoc}
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
@@ -28,11 +25,7 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Verification of data
-	 * @param string $value
-	 * @param bool $isUserFormat
-	 * @return null
-	 * @throws \App\Exceptions\Security
+	 * {@inheritDoc}
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
@@ -40,35 +33,35 @@ class Vtiger_Boolean_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		if (!in_array($value, [0, 1, '1', '0', 'on'])) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;
 	}
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
-	 * @return <Object>
+	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		if ($value === 1 || $value === '1' || strtolower($value) === 'on' || strtolower($value) === 'yes' || true === $value) {
-			return Vtiger_Language_Handler::getTranslatedString('LBL_YES', $this->get('field')->getModuleName());
+			return Vtiger_Language_Handler::getTranslatedString('LBL_YES', $this->getFieldModel()->getModuleName());
 		} else if ($value === 0 || $value === '0' || strtolower($value) === 'off' || strtolower($value) === 'no' || false === $value) {
-			return Vtiger_Language_Handler::getTranslatedString('LBL_NO', $this->get('field')->getModuleName());
+			return Vtiger_Language_Handler::getTranslatedString('LBL_NO', $this->getFieldModel()->getModuleName());
 		}
 		return \App\Purifier::encodeHtml($value);
 	}
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * {@inheritDoc}
 	 */
 	public function getTemplateName()
 	{
 		return 'uitypes/Boolean.tpl';
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getListSearchTemplateName()
 	{
 		return 'uitypes/BooleanFieldSearchView.tpl';

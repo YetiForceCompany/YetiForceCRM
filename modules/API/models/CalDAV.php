@@ -903,7 +903,7 @@ class API_CalDAV_Model
 				}
 			}
 			$crmid = 0;
-			$records = App\Fields\Email::findCrmidByEmail($value, array_keys(\App\ModuleHierarchy::getModulesByLevel()));
+			$records = App\Fields\Email::findCrmidByEmail($value, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(), \App\ModuleHierarchy::getModulesByLevel(3))));
 			if (!empty($records)) {
 				$record = reset($records);
 				$crmid = $record['crmid'];
