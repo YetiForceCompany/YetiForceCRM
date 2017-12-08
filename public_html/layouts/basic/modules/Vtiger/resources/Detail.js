@@ -249,7 +249,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			'Leads': 'link',
 			'Vendors': 'link',
 			'OSSEmployees': 'link',
-			'Contacts': 'process',
+			'Contacts': 'linkextend',
 			'Campaigns': 'process',
 			'HelpDesk': 'process',
 			'Projects': 'process',
@@ -318,7 +318,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		AppConnector.request(params).then(function (data) {
 			contentContainer.progressIndicator({mode: 'hide'});
 			contentContainer.html(data);
-			contentContainer.trigger(thisInstance.widgetPostLoad, {'widgetName': relatedModuleName});
+			contentContainer.trigger(thisInstance.widgetPostLoad, {'widgetName': relatedModuleName})
 			app.showPopoverElementView(contentContainer.find('.popoverTooltip'));
 			app.registerModal(contentContainer);
 			app.registerMoreContent(contentContainer.find('button.moreBtn'));
@@ -328,7 +328,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 				relatedController.registerRelatedEvents();
 				thisInstance.widgetRelatedRecordView(widgetContainer, true);
 			}
-			contentContainer.trigger('Vtiger.Widget.FinishLoad', {'widgetName': relatedModuleName})
 			aDeferred.resolve(params);
 		}, function (e) {
 			contentContainer.progressIndicator({mode: 'hide'});
@@ -898,57 +897,27 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var blockContent = block.find('.blockContent');
 			var isEmpty = blockContent.is(':empty');
 			if (!blockContent.is(':visible')) {
-				console.log('visible');
 				blockContent.progressIndicator();
 				AppConnector.request({
 					type: 'GET',
 					dataType: 'html',
 					data: block.data('url')
 				}).then(function (response) {
-					console.log('load');
 					blockContent.html(response);
 					var relatedController = Vtiger_RelatedList_Js.getInstance(thisInstance.getRecordId(), app.getModuleName(), thisInstance.getSelectedTab(), block.data('reference'));
 					relatedController.setRelatedContainer(blockContent);
-					
-//					console.log('registerPostLoadEvents');
-//					var iframe = $(top.document).find('#listPreviewframe');
-//					var ifrheight = iframe.height();
-//					console.log('works');
-//					console.log(ifrheight);
-//					console.log(block.height());
-//					console.log(ifrheight + block.height());
-//					console.log(block.height());
-//					console.log(block);
-//					ifrheight = ifrheight + (block.height());
-//					iframe.height(ifrheight);
-//					iframe.height(ifrheight + block.height());
-					//
 					if (isEmpty) {
 						relatedController.registerRelatedEvents();
-						console.log('promif');
 					} else {
 						relatedController.registerPostLoadEvents();
-						console.log('promelse');
-						
 					}
 				});
 			}
 		});
 	},
 	registerBlockAnimationEvent: function () {
-		console.log('registerBlockAnimationEvent');
 		var detailContentsHolder = this.getContentHolder();
-		//iframe
-			var iframe = $(top.document).find('#listPreviewframe');
-			var ifrheight = iframe.height();
-			//bez tego zdarzenia nie zwijają się poprawnie listy z referencją
-//		$('body').on('LoadRelatedRecordList.PostLoad', function (e, data) {
-//			ifrheight = iframe.height();
-//			console.log(ifrheight);
-//			iframe.height(ifrheight);
-//		});
 		detailContentsHolder.find('.blockHeader').click(function () {
-			console.log(ifrheight);
 			var currentTarget = $(this).find('.blockToggle').not('.hide');
 			var blockId = currentTarget.data('id');
 			var closestBlock = currentTarget.closest('.panel');
@@ -956,42 +925,17 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var data = currentTarget.data();
 			var module = app.getModuleName();
 			if (data.mode == 'show') {
-				console.log('hide');
-				//iframesizechange
-				console.log(closestBlock.height());
-				ifrheight = ifrheight - closestBlock.height();
-				iframe.height(ifrheight);
-				//
 				bodyContents.addClass('hide');
 				app.cacheSet(module + '.' + blockId, 0)
 				currentTarget.addClass('hide');
 				closestBlock.find('[data-mode="hide"]').removeClass('hide');
-				
 			} else {
-				console.log('show');
 				bodyContents.removeClass('hide');
 				app.cacheSet(module + '.' + blockId, 1)
 				currentTarget.addClass('hide');
 				closestBlock.find("[data-mode='show']").removeClass('hide');
-				if (closestBlock.data('reference')) {
-					console.log('data');
-					$('body').on('LoadRelatedRecordList.PostLoad', function (e, data) {
-						console.log('works');
-						console.log(ifrheight);
-						console.log(closestBlock.height());
-						console.log(ifrheight + closestBlock.height());
-						console.log(closestBlock.height());
-						console.log(closestBlock);
-						ifrheight = ifrheight + (closestBlock.height());
-						iframe.height(ifrheight);
-					});
-				} else {
-				ifrheight = ifrheight + closestBlock.height();
-				iframe.height(ifrheight);
-				}
 			}
 		});
-
 	},
 	registerBlockStatusCheckOnLoad: function () {
 		var blocks = this.getContentHolder().find('.blockHeader');
@@ -1689,30 +1633,31 @@ jQuery.Class("Vtiger_Detail_Js", {
 					var callBack = urlAttributes.callback;
 					delete urlAttributes.callback;
 				}
-				thisInstance.loadContents(url, urlAttributes).then(function (data) {
-					$('#page').trigger('DetailView.Tab.PostLoad', data);
-					thisInstance.deSelectAllrelatedTabs();
-					thisInstance.markTabAsSelected(tabElement);
-					app.showBtnSwitch(detailContentsHolder.find('.switchBtn'));
-					Vtiger_Helper_Js.showHorizontalTopScrollBar();
-					element.progressIndicator({'mode': 'hide'});
-					thisInstance.registerHelpInfo();
-					app.registerModal(detailContentsHolder);
-					app.registerMoreContent(detailContentsHolder.find('button.moreBtn'));
-					if (typeof callBack == 'function') {
-						callBack(data);
-					}
-					//Summary tab is clicked
-					if (tabElement.data('linkKey') == thisInstance.detailViewSummaryTabLabel) {
-						thisInstance.loadWidgets();
-					}
-					thisInstance.registerBasicEvents();
-					// Let listeners know about page state change.
-					app.notifyPostAjaxReady();
-					$('#page').trigger('DetailView.Tab.FinishLoad', data);
-				}, function () {
-					element.progressIndicator({'mode': 'hide'});
-				});
+				thisInstance.loadContents(url, urlAttributes).then(
+						function (data) {
+							thisInstance.deSelectAllrelatedTabs();
+							thisInstance.markTabAsSelected(tabElement);
+							app.showBtnSwitch(detailContentsHolder.find('.switchBtn'));
+							Vtiger_Helper_Js.showHorizontalTopScrollBar();
+							element.progressIndicator({'mode': 'hide'});
+							thisInstance.registerHelpInfo();
+							app.registerModal(detailContentsHolder);
+							app.registerMoreContent(detailContentsHolder.find('button.moreBtn'));
+							if (typeof callBack == 'function') {
+								callBack(data);
+							}
+							//Summary tab is clicked
+							if (tabElement.data('linkKey') == thisInstance.detailViewSummaryTabLabel) {
+								thisInstance.loadWidgets();
+							}
+							thisInstance.registerBasicEvents();
+							// Let listeners know about page state change.
+							app.notifyPostAjaxReady();
+						},
+						function () {
+							element.progressIndicator({'mode': 'hide'});
+						}
+				);
 			}
 		});
 	},

@@ -5965,6 +5965,10 @@ border1px{
 	padding-right: 0;
 	margin-top: 2px;
 }
+#recordsList{
+	padding-left: 0;
+	padding-right: 5px;
+}
 [class*="picklistLb_"] {
 	border-radius: 7px;
 }
@@ -5975,14 +5979,17 @@ border1px{
 }
 .fixedListScroll {
 	position: fixed;
-	top: 50px;
+	top: 48px;
 	padding-right: 27px;
 }
 .scrollInnerList {
 	overflow-y: auto;
 	margin-top: 2px;
 	height: max-content;
-	border: 1px solid #dddddd;
+}
+.scrollInnerList #recordsList {
+	padding-left: 0;
+	padding-right: 0;
 }
 .scrollInnerList .contents-topscroll {
 	margin-top: -2px;
