@@ -1,5 +1,6 @@
 # YetiForceCRM 
-[![Build Status](https://travis-ci.org/YetiForceCompany/YetiForceCRM.svg?branch=developer)](https://travis-ci.org/YetiForceCompany/YetiForceCRM) [![Analytics](https://ga-beacon.appspot.com/UA-81376231-1/welcome-page)](https://github.com/igrigorik/ga-beacon) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/189f9068-d777-44a7-9164-9242e81df88c/mini.png)](https://insight.sensiolabs.com/projects/189f9068-d777-44a7-9164-9242e81df88c) [![Scrutinizer](https://scrutinizer-ci.com/g/YetiForceCompany/YetiForceCRM/badges/quality-score.png?b=developer)](https://scrutinizer-ci.com/g/YetiForceCompany/YetiForceCRM/)  [![codecov](https://codecov.io/gh/YetiForceCompany/YetiForceCRM/branch/developer/graph/badge.svg)](https://codecov.io/gh/YetiForceCompany/YetiForceCRM)
+[![Build Status](https://travis-ci.org/YetiForceCompany/YetiForceCRM.svg?branch=developer)](https://travis-ci.org/YetiForceCompany/YetiForceCRM) [![Analytics](https://ga-beacon.appspot.com/UA-81376231-1/welcome-page)](https://github.com/igrigorik/ga-beacon) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/189f9068-d777-44a7-9164-9242e81df88c/mini.png)](https://insight.sensiolabs.com/projects/189f9068-d777-44a7-9164-9242e81df88c) [![Scrutinizer](https://scrutinizer-ci.com/g/YetiForceCompany/YetiForceCRM/badges/quality-score.png?b=developer)](https://scrutinizer-ci.com/g/YetiForceCompany/YetiForceCRM/) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FYetiForceCompany%2FYetiForceCRM.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FYetiForceCompany%2FYetiForceCRM?ref=badge_shield)
+ [![codecov](https://codecov.io/gh/YetiForceCompany/YetiForceCRM/branch/developer/graph/badge.svg)](https://codecov.io/gh/YetiForceCompany/YetiForceCRM)
 
 <a href='http://www.capterra.com/customer-relationship-management-software/reviews/159123/Yetiforce%20/YetiForce?utm_source=vendor&utm_medium=badge&utm_campaign=capterra_reviews_badge'>  <img border='0' src='https://assets.capterra.com/badge/470cd214b89233aa4e89972fa49c3253.png?v=2111411&p=159123' /></a>
 <a href='https://www.capterra.com/customer-relationship-management-software/#affordable' width="50"><img border='0' src='https://public.yetiforce.com/img/CRM-AF-2017.png' width="150" /></a>
@@ -49,3 +50,7 @@ YetiForce CRM was orginally forked from Vtiger CRM and has mechanisms that allow
 ![](https://public.yetiforce.com/img/main/8_List_Accounts.png)
 
 ![](https://public.yetiforce.com/img/main/24_Detail_Projects_Gantt_Months.png)
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FYetiForceCompany%2FYetiForceCRM.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FYetiForceCompany%2FYetiForceCRM?ref=badge_large)
