@@ -20,7 +20,7 @@
 								{\App\Purifier::encodeHtml(\App\Language::translate('LBL_ACTIONS',$QUALIFIED_MODULE))}
 							</span>
 							<span>
-								<button data-all-statuses="1" class="all-statuses btn btn-default btn-xs popoverTooltip" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_COUNTRY_ALL_STATUSES', $QUALIFIED_MODULE))}">
+								<button data-all-statuses="1" class="all-statuses btn btn-default btn-xs popoverTooltip" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_COUNTRY_TOGGLE_ALL_STATUSES', $QUALIFIED_MODULE))}">
 									<span class="glyphicon glyphicon-check"></span>
 								</button>
 							</span>
@@ -62,7 +62,7 @@
 									</button>
 								</span>
 								<span class="pull-right actions">
-									<button class="status btn {if !$ROW['status']}btn-success{else}btn-danger{/if} btn-xs popoverTooltip" data-status="{$ROW['status']}" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_COUNTRY_STATUS', $QUALIFIED_MODULE))}">
+									<button class="status btn {if !$ROW['status']}btn-success{else}btn-danger{/if} btn-xs popoverTooltip" data-status="{$ROW['status']}" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_COUNTRY_TOGGLE_STATUS', $QUALIFIED_MODULE))}">
 										<span class="glyphicon glyphicon-check"></span>
 									</button>
 								</span>

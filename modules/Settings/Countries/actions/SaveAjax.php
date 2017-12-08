@@ -49,7 +49,7 @@ class Settings_Countries_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function updateSequence(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$sequencesList = $request->getArray('sequencesList');
+		$sequencesList = $request->getArray('sequencesList', 'Standard');
 
 		$moduleModel = Settings_Countries_Module_Model::getInstance($qualifiedModuleName);
 
