@@ -910,18 +910,18 @@ jQuery.Class("Vtiger_Detail_Js", {
 					var relatedController = Vtiger_RelatedList_Js.getInstance(thisInstance.getRecordId(), app.getModuleName(), thisInstance.getSelectedTab(), block.data('reference'));
 					relatedController.setRelatedContainer(blockContent);
 					
-					console.log('registerPostLoadEvents');
-					var iframe = $(top.document).find('#listPreviewframe');
-					var ifrheight = iframe.height();
-					console.log('works');
-					console.log(ifrheight);
-					console.log(block.height());
-					console.log(ifrheight + block.height());
-					console.log(block.height());
-					console.log(block);
-					ifrheight = ifrheight + (block.height());
-					iframe.height(ifrheight);
-					iframe.height(ifrheight + block.height());
+//					console.log('registerPostLoadEvents');
+//					var iframe = $(top.document).find('#listPreviewframe');
+//					var ifrheight = iframe.height();
+//					console.log('works');
+//					console.log(ifrheight);
+//					console.log(block.height());
+//					console.log(ifrheight + block.height());
+//					console.log(block.height());
+//					console.log(block);
+//					ifrheight = ifrheight + (block.height());
+//					iframe.height(ifrheight);
+//					iframe.height(ifrheight + block.height());
 					//
 					if (isEmpty) {
 						relatedController.registerRelatedEvents();
@@ -942,11 +942,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var iframe = $(top.document).find('#listPreviewframe');
 			var ifrheight = iframe.height();
 			//bez tego zdarzenia nie zwijają się poprawnie listy z referencją
-		$('body').on('LoadRelatedRecordList.PostLoad', function (e, data) {
-			ifrheight = iframe.height();
-			console.log(ifrheight);
-			iframe.height(ifrheight);
-		});
+//		$('body').on('LoadRelatedRecordList.PostLoad', function (e, data) {
+//			ifrheight = iframe.height();
+//			console.log(ifrheight);
+//			iframe.height(ifrheight);
+//		});
 		detailContentsHolder.find('.blockHeader').click(function () {
 			console.log(ifrheight);
 			var currentTarget = $(this).find('.blockToggle').not('.hide');
@@ -974,17 +974,17 @@ jQuery.Class("Vtiger_Detail_Js", {
 				currentTarget.addClass('hide');
 				closestBlock.find("[data-mode='show']").removeClass('hide');
 				if (closestBlock.data('reference')) {
-//					console.log('data');
-//					$('body').on('LoadRelatedRecordList.PostLoad', function (e, data) {
-//						console.log('works');
-//						console.log(ifrheight);
-//						console.log(closestBlock.height());
-//						console.log(ifrheight + closestBlock.height());
-//						console.log(closestBlock.height());
-//						console.log(closestBlock);
-//						ifrheight = ifrheight + (closestBlock.height());
-//						iframe.height(ifrheight);
-//					});
+					console.log('data');
+					$('body').on('LoadRelatedRecordList.PostLoad', function (e, data) {
+						console.log('works');
+						console.log(ifrheight);
+						console.log(closestBlock.height());
+						console.log(ifrheight + closestBlock.height());
+						console.log(closestBlock.height());
+						console.log(closestBlock);
+						ifrheight = ifrheight + (closestBlock.height());
+						iframe.height(ifrheight);
+					});
 				} else {
 				ifrheight = ifrheight + closestBlock.height();
 				iframe.height(ifrheight);

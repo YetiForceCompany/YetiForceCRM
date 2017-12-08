@@ -32,27 +32,20 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 //		});
 		$('#page').on('DetailView.Tab.FinishLoad', function (e, data) {
 			console.log('DetailView.Tab.FinishLoad');
-			var openBlocks = 0;
-//			$('.blockContent.hide').each(function() {
-//				$(this).removeClass('hide');
-//				console.log('usunieta');
-//			  });
-//			$('.panel').each(function() {
-//				openBlocks = openBlocks + $(this).height();
-//				console.log($(this).height());
-//				console.log($(this));
-//			  });
 //			console.log(openBlocks);
 //			console.log($('body'));
 			if (iframe.contents().find('#listPreviewframe').length) {
+				var openBlocks = 0;
+//				$('.panel').each(function() {
+//					openBlocks = openBlocks + $(this).height();
+//					console.log($(this).height());
+//					console.log($(this));
+//				});			
 				var inif = iframe.contents().find('#listPreviewframe');
 				var inbodyCon = inif.contents().find('.detailViewContainer').height();
-				ifrheight = inbodyCon + inif.offset().top + iframe.offset().top + window.scrollY;
+				ifrheight = inbodyCon + inif.offset().top + iframe.offset().top + openBlocks;
 				iframe.height(ifrheight);
 				console.log('if');
-//				var bodyRect = document.body.getBoundingClientRect(),
-//    elemRect = element.getBoundingClientRect(),
-//    offset   = elemRect.top - bodyRect.top;
 			} else {
 				if ($('#detailView').has('#mapid').length === 1 || $('#detailView').has('.summaryView').length === 1) {
 					if (bodyCon.height() === bodyContents.height()) {
