@@ -1,21 +1,21 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-jQuery.Class("Settings_Countries_Index_Js", {}, {
+$.Class("Settings_Countries_Index_Js", {}, {
 	registerSortableEvent: function () {
 		var thisInstance = this;
-		var tbody = jQuery("tbody", jQuery('.listViewEntriesTable'));
+		var tbody = $("tbody", $('.listViewEntriesTable'));
 		tbody.sortable({
-			'helper': function (e, ui) {
+			helper: function (e, ui) {
 				//while dragging helper elements td element will take width as contents width
 				//so we are explicity saying that it has to be same width so that element will not
 				//look like distrubed
 				ui.children().each(function (index, element) {
-					element = jQuery(element);
+					element = $(element);
 					element.width(element.width());
 				})
 				return ui;
 			},
-			'containment': tbody,
-			'revert': true,
+			containment: tbody,
+			revert: true,
 			update: function (e, ui) {
 				thisInstance.registerSequenceListOnServer();
 			}
@@ -153,8 +153,8 @@ jQuery.Class("Settings_Countries_Index_Js", {}, {
 	},
 	registerSequenceListOnServer: function () {
 		var sequenceList = {};
-		jQuery('tbody tr').each(function (i) {
-			sequenceList[++i] = jQuery(this).data('id');
+		$('tbody tr').each(function (i) {
+			sequenceList[++i] = $(this).data('id');
 		});
 		AppConnector.request({
 			sequencesList: JSON.stringify(sequenceList),
