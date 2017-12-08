@@ -17,14 +17,12 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		frame.attr('src', url.replace("view=Detail", "view=DetailPreview") + defaultView);
 	},
 	registerPreviewEvent: function () {
-		console.log('registerPreviewEventLoad');
 		var thisInstance = this;
-		var iframe = $('#listPreviewframe');
-		iframe.height($('.mainBody').height());
+		var contentHeight = $('#listPreview,#recordsListPreview');
+		contentHeight.height($('.mainBody').height() - 16);
 		$('#listPreviewframe').load(function () {
-			console.log('registerPreviewEventLoad');
 			thisInstance.frameProgress.progressIndicator({mode: 'hide'});
-			iframe.height($(this).contents().find('.bodyContents').height() +75);
+			contentHeight.height($(this).contents().find('.bodyContents').height()+2);
 		});
 		$('.listViewEntriesTable .listViewEntries').first().trigger('click');
 	},
