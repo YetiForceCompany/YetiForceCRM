@@ -35,7 +35,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 		}
 		foreach ($value as $shownerid) {
 			if (!is_numeric($shownerid)) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 			}
 		}
 		$this->validate = true;
@@ -44,13 +44,13 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($values, $record = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$isAdmin = \App\User::getCurrentUserModel()->isAdmin();
-		if (empty($values)) {
+		if (empty($value)) {
 			return '';
-		} elseif (!is_array($values)) {
-			$values = explode(',', $values);
+		} elseif (!is_array($value)) {
+			$values = explode(',', $value);
 		}
 		$displayValue = [];
 		foreach ($values as $shownerid) {
@@ -90,21 +90,16 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the Display Value in ListView
-	 * @param string $value
-	 * @param int $record
-	 * @param Vtiger_Record_Model $recordInstance
-	 * @param bool $rawText
-	 * @return string
+	 * {@inheritDoc}
 	 */
-	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
 		$values = $this->getSharedOwners($record);
 		if (empty($values)) {
 			return '';
 		}
 		$display = $shownerData = [];
-		$maxLengthText = $this->get('field')->get('maxlengthtext');
+		$maxLengthText = $this->getFieldModel()->get('maxlengthtext');
 		$isAdmin = \App\User::getCurrentUserModel()->isAdmin();
 		foreach ($values as $key => $shownerid) {
 			$name = \App\Fields\Owner::getLabel($shownerid);

@@ -145,7 +145,6 @@ class Home_Module_Model extends Vtiger_Module_Model
 					} else if ($record->getModuleName() === 'HelpDesk') {
 						if (\App\Record::isExists($record->get('parent_id'))) {
 							$recordContractor = Vtiger_Record_Model::getInstanceById($record->get('parent_id'));
-							;
 							$model->set('contractor', $recordContractor);
 						}
 					}

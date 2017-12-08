@@ -39,7 +39,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 			try {
 				$phoneUtil->isValidNumber($phoneUtil->parse($value));
 			} catch (\libphonenumber\NumberParseException $e) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 			}
 			$this->validate = true;
 		} else {
@@ -50,11 +50,11 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$extra = '';
-		if ($recordInstance) {
-			$extra = $recordInstance->getDisplayValue($this->get('field')->getFieldName() . '_extra');
+		if ($recordModel) {
+			$extra = $recordModel->getDisplayValue($this->getFieldModel()->getFieldName() . '_extra');
 			if ($extra) {
 				$extra = ' ' . $extra;
 			}
@@ -82,7 +82,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
 		$rfc3966 = $international = \App\Purifier::encodeHtml($value);
 		if (AppConfig::main('phoneFieldAdvancedVerification', false)) {

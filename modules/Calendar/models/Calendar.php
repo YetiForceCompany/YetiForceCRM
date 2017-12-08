@@ -42,9 +42,10 @@ class Calendar_Calendar_Model extends App\Base
 			$queryGenerator->initForCustomViewById($this->get('customFilter'));
 		}
 		$query = $queryGenerator->createQuery();
-		$query->select(['vtiger_activity.*', 'linkmod' => 'relcrm.setype', 'processmod' => 'procrm.setype', 'subprocessmod' => 'subprocrm.setype'])
+		$query->select(['vtiger_activity.*', 'linkmod' => 'relcrm.setype', 'processmod' => 'procrm.setype', 'subprocessmod' => 'subprocrm.setype', 'linkecrmmod' => 'linkecrm.setype'])
 			->innerJoin('vtiger_activitycf', 'vtiger_activity.activityid = vtiger_activitycf.activityid')
 			->leftJoin('vtiger_crmentity relcrm', 'vtiger_activity.link = relcrm.crmid')
+			->leftJoin('vtiger_crmentity linkecrm', 'vtiger_activity.linkextend = linkecrm.crmid')
 			->leftJoin('vtiger_crmentity procrm', 'vtiger_activity.process = procrm.crmid')
 			->leftJoin('vtiger_crmentity subprocrm', 'vtiger_activity.subprocess = subprocrm.crmid');
 		if ($this->get('start') && $this->get('end')) {
@@ -133,6 +134,9 @@ class Calendar_Calendar_Model extends App\Base
 			if (!empty($record['subprocess'])) {
 				$ids[] = $record['subprocess'];
 			}
+			if (!empty($record['linkextend'])) {
+				$ids[] = $record['linkextend'];
+			}
 		}
 		$labels = \App\Record::getLabel($ids);
 
@@ -172,6 +176,9 @@ class Calendar_Calendar_Model extends App\Base
 			$item['subprocl'] = vtlib\Functions::textLength($this->getLabel($labels, $record['subprocess']));
 			$item['subprocm'] = $record['subprocessmod'];
 
+			$item['linkextend'] = $record['linkextend'];
+			$item['linkexl'] = vtlib\Functions::textLength($this->getLabel($labels, $record['linkextend']));
+			$item['linkexm'] = $record['linkecrmmod'];
 			if ($record['linkmod'] != 'Accounts' && (!empty($record['link']) || !empty($record['process']))) {
 				$findId = 0;
 				$findMod = '';

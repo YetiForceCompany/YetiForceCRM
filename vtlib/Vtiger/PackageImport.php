@@ -280,14 +280,14 @@ class PackageImport extends PackageExport
 				}
 			}
 			// Language file present in en_us folder
-			$pattern = '/languages\/' . vglobal('default_language') . '\/([^\/]+).php/';
+			$pattern = '/languages\/' . vglobal('default_language') . '\/([^\/]+)\.php/';
 			preg_match($pattern, $fileName, $matches);
 			if (count($matches)) {
 				$language_modulename = $matches[1];
 			}
 
 			// or Language file may be present in en_us/Settings folder
-			$settingsPattern = '/languages\/' . vglobal('default_language') . '\/Settings\/([^\/]+).php/';
+			$settingsPattern = '/languages\/' . vglobal('default_language') . '\/Settings\/([^\/]+)\.php/';
 			preg_match($settingsPattern, $fileName, $matches);
 			if (count($matches)) {
 				$language_modulename = $matches[1];
@@ -402,13 +402,15 @@ class PackageImport extends PackageExport
 	{
 		$module = $this->getModuleNameFromZip($zipfile);
 		if ($module !== null) {
+			$defaultLayout = \Vtiger_Viewer::getDefaultLayoutName();
 			$zip = new \App\Zip($zipfile, ['checkFiles' => false]);
 			if ($zip->statName("$module.png")) {
-				$zip->unzipFile("$module.png", 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png");
+				$zip->unzipFile("$module.png", "layouts/$defaultLayout/skins/images/$module.png");
 			}
 			$zip->unzip([
 				// Templates folder
-				'templates' => 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/$module",
+				'templates/resources' => "public_html/layouts/$defaultLayout/modules/$module/resources",
+				'templates' => "layouts/$defaultLayout/modules/$module",
 				// Cron folder
 				'cron' => "cron/modules/$module",
 				// Config
@@ -420,9 +422,9 @@ class PackageImport extends PackageExport
 				'settings/views' => "modules/Settings/$module/views",
 				'settings/models' => "modules/Settings/$module/models",
 				// Settings templates folder
-				'settings/templates' => 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module",
+				'settings/templates' => "layouts/$defaultLayout/modules/Settings/$module",
 				//module images
-				'images' => 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module",
+				'images' => "layouts/$defaultLayout/skins/images/$module",
 				'updates' => 'cache/updates',
 				'layouts' => 'layouts',
 				'languages' => 'languages'

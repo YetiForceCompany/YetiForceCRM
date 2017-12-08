@@ -9,7 +9,7 @@
 			{assign var=RECORD_ID value=$RECORD->getId()}
 			<div class="panel picklistCBr_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}" data-record="{$RECORD_ID}">
 				<div class="panel-heading picklistCBg_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}"
-					<button class="btn btn-success btn-xs pull-right showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}">
+					 <button class="btn btn-success btn-xs pull-right showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}">
 						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 					</button>
 					<img class="activityTypeIcon" src="{\App\Layout::getImagePath($RECORD->getActivityTypeIcon())}" />&nbsp;
@@ -52,6 +52,26 @@
 					{if $RECORD->get('process') neq '' }
 						<div>
 							{\App\Language::translate('FL_PROCESS',$MODULE_NAME)}: <strong>{$RECORD->getDisplayValue('process')}</strong>
+						</div>
+					{/if}
+					{if $RECORD->get('linkextend') neq ''}
+						<div>
+							{\App\Language::translate('FL_RELATION_EXTEND',$MODULE_NAME)}: <strong>{$RECORD->getDisplayValue('linkextend')}</strong>
+							{if $PERMISSION_TO_SENDE_MAIL}
+								{if $USER_MODEL->get('internal_mailer') == 1}
+									{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(\App\Record::getType($RECORD->get('linkextend')), $RECORD->get('linkextend'), 'Detail', 'new')}
+									<a target="_blank" class="pull-right btn btn-default btn-xs actionIcon" href="{$COMPOSE_URL}" title="{\App\Language::translate('LBL_SEND_EMAIL')}">
+										<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+									</a>
+								{else}
+									{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl(\App\Record::getType($RECORD->get('linkextend')), $RECORD->get('linkextend'), 'Detail', 'new')}
+									{if $URLDATA && $URLDATA != 'mailto:?'}
+										<a class="pull-right btn btn-default btn-xs actionIcon" href="{$URLDATA}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
+											<span class="glyphicon glyphicon-envelope" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
+										</a>
+									{/if}
+								{/if}
+							{/if}
 						</div>
 					{/if}
 					{if $RECORD->get('subprocess') neq '' }

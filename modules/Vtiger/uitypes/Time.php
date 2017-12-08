@@ -13,25 +13,18 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Function to get the DB Insert Value, for the current field type with given User Value
-	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @return mixed
+	 * {@inheritDoc}
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		if ($this->get('field')->get('uitype') === 14) {
+		if ($this->getFieldModel()->get('uitype') === 14) {
 			return self::getDBTimeFromUserValue($value);
 		}
 		return \App\Purifier::decodeHtml($value);
 	}
 
 	/**
-	 * Verification of data
-	 * @param string $value
-	 * @param bool $isUserFormat
-	 * @return null
-	 * @throws \App\Exceptions\Security
+	 * {@inheritDoc}
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
@@ -44,9 +37,45 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 		$timeFormat = 'H:i:s';
 		$d = DateTime::createFromFormat($timeFormat, $value);
 		if (!($d && $d->format($timeFormat) === $value)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+	{
+		$value = DateTimeField::convertToUserTimeZone(date('Y-m-d') . ' ' . $value)->format('H:i');
+		if (App\User::getCurrentUserModel()->getDetail('hour_format') === '12') {
+			return self::getTimeValueInAMorPM($value);
+		}
+		return $value;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getEditViewDisplayValue($value, $recordModel = false)
+	{
+		return $this->getDisplayValue($value);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getListSearchTemplateName()
+	{
+		return 'uitypes/TimeFieldSearchView.tpl';
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getTemplateName()
+	{
+		return 'uitypes/Time.tpl';
 	}
 
 	public static function getDBTimeFromUserValue($value)
@@ -123,46 +152,5 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 		} else {
 			return '';
 		}
-	}
-
-	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
-	 * @return $value
-	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
-	{
-		$userModel = Users_Privileges_Model::getCurrentUserModel();
-		$value = DateTimeField::convertToUserTimeZone(date('Y-m-d') . ' ' . $value);
-		$value = $value->format('H:i');
-		if ($userModel->get('hour_format') === '12') {
-			return self::getTimeValueInAMorPM($value);
-		}
-		return $value;
-	}
-
-	/**
-	 * Function to get the edit value in display view
-	 * @param mixed $value
-	 * @param Vtiger_Record_Model $recordModel
-	 * @return mixed
-	 */
-	public function getEditViewDisplayValue($value, $recordModel = false)
-	{
-		return $this->getDisplayValue($value);
-	}
-
-	public function getListSearchTemplateName()
-	{
-		return 'uitypes/TimeFieldSearchView.tpl';
-	}
-
-	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
-	 */
-	public function getTemplateName()
-	{
-		return 'uitypes/Time.tpl';
 	}
 }

@@ -11,6 +11,9 @@
 class Calendar_Picklist_UIType extends Vtiger_Picklist_UIType
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getListSearchTemplateName()
 	{
 

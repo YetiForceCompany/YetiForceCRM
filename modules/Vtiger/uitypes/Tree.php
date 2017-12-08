@@ -19,7 +19,7 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		if (substr($value, 0, 1) !== 'T' || !is_numeric(substr($value, 1))) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->get('field')->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate = true;
 	}
@@ -27,30 +27,25 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($tree, $record = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$fieldModel = $this->get('field');
+		$fieldModel = $this->getFieldModel();
 		if ($rawText) {
-			return \App\Purifier::encodeHtml(\App\Fields\Tree::getPicklistValue($fieldModel->getFieldParams(), $fieldModel->getModuleName())[$tree]);
+			$text = \App\Fields\Tree::getPicklistValue($fieldModel->getFieldParams(), $fieldModel->getModuleName())[$value];
+			if (is_int($length)) {
+				$text = \vtlib\Functions::textLength($text, $length);
+			}
+			return \App\Purifier::encodeHtml($text);
 		}
-		$value = \App\Fields\Tree::getPicklistValueImage($fieldModel->getFieldParams(), $fieldModel->getModuleName(), $tree);
+		$value = \App\Fields\Tree::getPicklistValueImage($fieldModel->getFieldParams(), $fieldModel->getModuleName(), $value);
+		$text = $value['name'];
+		if (is_int($length)) {
+			$text = \vtlib\Functions::textLength($text, $length);
+		}
 		if (isset($value['icon'])) {
-			return $value['icon'] . '' . \App\Purifier::encodeHtml($value['name']);
+			return $value['icon'] . '' . \App\Purifier::encodeHtml($text);
 		}
-		return \App\Purifier::encodeHtml($value['name']);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getListViewDisplayValue($tree, $record = false, $recordModel = false, $rawText = false)
-	{
-		$fieldModel = $this->get('field');
-		$value = \App\Fields\Tree::getPicklistValueImage($fieldModel->getFieldParams(), $fieldModel->getModuleName(), $tree);
-		if (isset($value['icon'])) {
-			return $value['icon'] . '' . \vtlib\Functions::textLength(\App\Purifier::encodeHtml($value['name']), $this->get('field')->get('maxlengthtext'));
-		}
-		return \vtlib\Functions::textLength(\App\Purifier::encodeHtml($value['name']), $this->get('field')->get('maxlengthtext'));
+		return \App\Purifier::encodeHtml($text);
 	}
 
 	/**

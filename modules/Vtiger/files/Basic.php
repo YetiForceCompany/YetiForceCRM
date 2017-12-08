@@ -29,7 +29,7 @@ abstract class Vtiger_Basic_File
 	{
 		$moduleName = $request->getModule();
 		$record = $request->getInteger('record');
-		$field = $request->getByType('field', 1);
+		$field = $request->getInteger('field');
 		if ($record) {
 			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $record) || !\App\Field::getFieldPermission($moduleName, $field)) {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);

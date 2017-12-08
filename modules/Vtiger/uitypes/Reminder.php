@@ -15,10 +15,10 @@ class Vtiger_Reminder_UIType extends Vtiger_Date_UIType
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$reminder_value = '';
-		$reminder_time = $this->getEditViewDisplayValue($value, $recordInstance);
+		$reminder_time = $this->getEditViewDisplayValue($value, $recordModel);
 		if (!empty($reminder_time[0])) {
 			$reminder_value = $reminder_time[0] . ' ' . \App\Language::translate('LBL_DAYS');
 		}

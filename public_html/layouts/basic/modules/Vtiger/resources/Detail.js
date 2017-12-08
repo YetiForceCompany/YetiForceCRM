@@ -249,7 +249,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			'Leads': 'link',
 			'Vendors': 'link',
 			'OSSEmployees': 'link',
-			'Contacts': 'process',
+			'Contacts': 'linkextend',
 			'Campaigns': 'process',
 			'HelpDesk': 'process',
 			'Projects': 'process',

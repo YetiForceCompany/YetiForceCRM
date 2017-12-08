@@ -10,6 +10,9 @@
 class Calendar_ReferenceSubProcess_UIType extends Vtiger_ReferenceSubProcess_UIType
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getReferenceList()
 	{
 		return ['SQuoteEnquiries', 'SRequirementsCards', 'SCalculations', 'SQuotes', 'SSingleOrders', 'SRecurringOrders', 'HelpDesk', 'SVendorEnquiries'];

@@ -89,7 +89,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 
 		$recordId = $this->getId();
 		if (!empty($recordId)) {
-			$baseCurrency = $this->getProductBaseCurrency($recordId, $this->getModuleName());
+			$baseCurrency = \App\Fields\Currency::getCurrencyByModule($recordId, $this->getModuleName());
 		} else {
 			$baseCurrency = \App\User::getCurrentUserModel()->getDetail('currency_id');
 		}
@@ -277,7 +277,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 	{
 		\App\Log::trace('Entering into function getPriceDetailsForProduct(' . $productId . ')');
 		if ($productId) {
-			$productCurrencyId = $this->getProductBaseCurrency($productId, $itemType);
+			$productCurrencyId = \App\Fields\Currency::getCurrencyByModule($productId, $itemType);
 			$productBaseConvRate = $this->getBaseConversionRateForProduct($productId, 'edit', $itemType);
 			// Detail View
 			if ($available == 'available_associated') {
@@ -363,24 +363,6 @@ class Products_Record_Model extends Vtiger_Record_Model
 
 		\App\Log::trace('Exit from function getPriceDetailsForProduct(' . $productId . ')');
 		return $priceDetails;
-	}
-
-	/**
-	 *
-	 * @param int $productId
-	 * @param string $module
-	 * @return int
-	 */
-	public function getProductBaseCurrency($productId, $module = 'Products')
-	{
-		$query = (new App\Db\Query());
-		if ($module === 'Services') {
-			$currencyid = $query->select(['currency_id'])->from('vtiger_service')->where(['serviceid' => $productId])->scalar();
-		} else {
-			$currencyid = $query->select(['currency_id'])->from('vtiger_products')->where(['productid' => $productId])->scalar();
-		}
-
-		return $currencyid;
 	}
 
 	public function getBaseConversionRateForProduct($productId, $mode = 'edit', $module = 'Products')
