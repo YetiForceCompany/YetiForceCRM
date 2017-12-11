@@ -20,7 +20,7 @@ class Countries extends \Tests\Base
 		$moduleModel = new \Settings_Countries_Module_Model();
 		$moduleModel->updateAllStatuses($status);
 		$exists = (new \App\Db\Query())->from('u_#__countries')->where(['status' => (int) !$status])->exists();
-		$this->assertFalse($exists);
+		$this->assertFalse($exists, 'Exists at least one record with wrong value of status');
 	}
 
 	/**
@@ -54,12 +54,12 @@ class Countries extends \Tests\Base
 		$sequence = array_combine($keys, $values);
 		$moduleModel->updateSequence($sequence);
 		$rows2 = $this->allRows();
-		$this->assertTrue($rows !== $rows2);
+		$this->assertTrue($rows !== $rows2, 'After update sequence the data is not changed');
 
 		$sequence = array_combine($originKeys, $values);
 		$moduleModel->updateSequence($sequence);
 		$rows3 = $this->allRows();
-		$this->assertTrue($rows === $rows3);
+		$this->assertTrue($rows === $rows3, 'After update original sequence the data is different than original data');
 	}
 
 	/**
@@ -72,9 +72,9 @@ class Countries extends \Tests\Base
 		$id = $row['id'];
 		$status = $row['status'] ? 0 : 1;
 		$result = $moduleModel->updateStatus($id, $status);
-		$this->assertGreaterThan(0, $result);
+		$this->assertGreaterThan(0, $result, 'There is none any results after update');
 		$status2 = $this->scalarOfField($id, 'status');
-		$this->assertEquals($status, $status2);
+		$this->assertEquals($status, $status2, 'There is none any changes after update');
 	}
 
 	/**
@@ -87,9 +87,9 @@ class Countries extends \Tests\Base
 		$id = $row['id'];
 		$phone = $row['phone'] ? 0 : 1;
 		$result = $moduleModel->updatePhone($id, $phone);
-		$this->assertGreaterThan(0, $result);
+		$this->assertGreaterThan(0, $result, 'There is none any results after update');
 		$status2 = $this->scalarOfField($id, 'phone');
-		$this->assertEquals($phone, $status2);
+		$this->assertEquals($phone, $status2, 'There is none any changes after update');
 	}
 
 	/**
@@ -102,9 +102,9 @@ class Countries extends \Tests\Base
 		$id = $row['id'];
 		$uitype = $row['uitype'] ? 0 : 1;
 		$result = $moduleModel->updateUitype($id, $uitype);
-		$this->assertGreaterThan(0, $result);
+		$this->assertGreaterThan(0, $result, 'There is none any results after update');
 		$status2 = $this->scalarOfField($id, 'uitype');
-		$this->assertEquals($uitype, $status2);
+		$this->assertEquals($uitype, $status2, 'There is none any changes after update');
 	}
 
 	/**
@@ -114,7 +114,7 @@ class Countries extends \Tests\Base
 	{
 		$allRecords = \Settings_Countries_Record_Model::getAll();
 		$count = (new \App\Db\Query())->from('u_#__countries')->count();
-		$this->assertCount($count, $allRecords);
+		$this->assertCount($count, $allRecords, 'Count of all record is different than should be');
 	}
 
 	protected function scalarOfField($id, $fieldName)
