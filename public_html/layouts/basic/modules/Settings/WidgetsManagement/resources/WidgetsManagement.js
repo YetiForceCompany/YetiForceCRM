@@ -831,7 +831,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 					var linkId = element.data('linkid');
 					var blockId = element.data('block-id');
 					var noteBookParams = {
-						'module': 'Vtiger',
+						'module': jQuery('#selectedModuleName').val(),
 						'action': 'NoteBook',
 						'mode': 'noteBookCreate',
 						'notePadName': notePadName,
