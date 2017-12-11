@@ -249,7 +249,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			'Leads': 'link',
 			'Vendors': 'link',
 			'OSSEmployees': 'link',
-			'Contacts': 'linkextend',
+			'Contacts': 'process',
 			'Campaigns': 'process',
 			'HelpDesk': 'process',
 			'Projects': 'process',
@@ -318,7 +318,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		AppConnector.request(params).then(function (data) {
 			contentContainer.progressIndicator({mode: 'hide'});
 			contentContainer.html(data);
-			contentContainer.trigger(thisInstance.widgetPostLoad, {'widgetName': relatedModuleName})
 			app.showPopoverElementView(contentContainer.find('.popoverTooltip'));
 			app.registerModal(contentContainer);
 			app.registerMoreContent(contentContainer.find('button.moreBtn'));
@@ -328,6 +327,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				relatedController.registerRelatedEvents();
 				thisInstance.widgetRelatedRecordView(widgetContainer, true);
 			}
+			contentContainer.trigger('Vtiger.Widget.FinishLoad', {'widgetName': relatedModuleName})
 			aDeferred.resolve(params);
 		}, function (e) {
 			contentContainer.progressIndicator({mode: 'hide'});
@@ -917,6 +917,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	registerBlockAnimationEvent: function () {
 		var detailContentsHolder = this.getContentHolder();
+			
 		detailContentsHolder.find('.blockHeader').click(function () {
 			var currentTarget = $(this).find('.blockToggle').not('.hide');
 			var blockId = currentTarget.data('id');
@@ -925,6 +926,17 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var data = currentTarget.data();
 			var module = app.getModuleName();
 			if (data.mode == 'show') {
+				console.log('hide');
+				//iframesizechange
+				var iframe = $(top.document).find('#listPreviewframe');
+				iframe.height(iframe.height() - bodyContents.height());
+				
+				if (iframe.contents().find('#listPreviewframe').length) {		
+					var inifr = iframe.contents().find('#listPreviewframe');
+					inifr.height(inifr.height() - bodyContents.height());
+					console.log('inif');
+				} 
+				//
 				bodyContents.addClass('hide');
 				app.cacheSet(module + '.' + blockId, 0)
 				currentTarget.addClass('hide');
@@ -934,6 +946,23 @@ jQuery.Class("Vtiger_Detail_Js", {
 				app.cacheSet(module + '.' + blockId, 1)
 				currentTarget.addClass('hide');
 				closestBlock.find("[data-mode='show']").removeClass('hide');
+				
+				if (closestBlock.data('reference')) {
+					console.log('data');
+					$('body').on('LoadRelatedRecordList.PostLoad', function (e, data) {
+						console.log(bodyContents.height());
+						var iframe = $(top.document).find('#listPreviewframe');
+						iframe.height(iframe.height() + bodyContents.height());
+					});
+				} else {
+					var iframe = $(top.document).find('#listPreviewframe');
+					iframe.height(iframe.height() + bodyContents.height());
+					if (iframe.contents().find('#listPreviewframe').length) {		
+						var inifr = iframe.contents().find('#listPreviewframe');
+						inifr.height(inifr.height() + bodyContents.height());
+						console.log('inif');
+					}
+				}
 			}
 		});
 	},
@@ -1633,31 +1662,29 @@ jQuery.Class("Vtiger_Detail_Js", {
 					var callBack = urlAttributes.callback;
 					delete urlAttributes.callback;
 				}
-				thisInstance.loadContents(url, urlAttributes).then(
-						function (data) {
-							thisInstance.deSelectAllrelatedTabs();
-							thisInstance.markTabAsSelected(tabElement);
-							app.showBtnSwitch(detailContentsHolder.find('.switchBtn'));
-							Vtiger_Helper_Js.showHorizontalTopScrollBar();
-							element.progressIndicator({'mode': 'hide'});
-							thisInstance.registerHelpInfo();
-							app.registerModal(detailContentsHolder);
-							app.registerMoreContent(detailContentsHolder.find('button.moreBtn'));
-							if (typeof callBack == 'function') {
-								callBack(data);
-							}
-							//Summary tab is clicked
-							if (tabElement.data('linkKey') == thisInstance.detailViewSummaryTabLabel) {
-								thisInstance.loadWidgets();
-							}
-							thisInstance.registerBasicEvents();
-							// Let listeners know about page state change.
-							app.notifyPostAjaxReady();
-						},
-						function () {
-							element.progressIndicator({'mode': 'hide'});
-						}
-				);
+				thisInstance.loadContents(url, urlAttributes).then(function (data) {
+					thisInstance.deSelectAllrelatedTabs();
+					thisInstance.markTabAsSelected(tabElement);
+					app.showBtnSwitch(detailContentsHolder.find('.switchBtn'));
+					Vtiger_Helper_Js.showHorizontalTopScrollBar();
+					element.progressIndicator({'mode': 'hide'});
+					thisInstance.registerHelpInfo();
+					app.registerModal(detailContentsHolder);
+					app.registerMoreContent(detailContentsHolder.find('button.moreBtn'));
+					if (typeof callBack == 'function') {
+						callBack(data);
+					}
+					//Summary tab is clicked
+					if (tabElement.data('linkKey') == thisInstance.detailViewSummaryTabLabel) {
+						thisInstance.loadWidgets();
+					}
+					thisInstance.registerBasicEvents();
+					// Let listeners know about page state change.
+					app.notifyPostAjaxReady();
+					$('#page').trigger('DetailView.Tab.FinishLoad', data);
+				}, function () {
+					element.progressIndicator({'mode': 'hide'});
+				});
 			}
 		});
 	},
