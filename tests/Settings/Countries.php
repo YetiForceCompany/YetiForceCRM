@@ -12,11 +12,28 @@ class Countries extends \Tests\Base
 
 	/**
 	 * Testing update all statuses
+	 * @param int $status
+	 * @dataProvider providerForUpdateAllStatuses
 	 */
-	public function testUpdateAllStatuses()
+	public function testUpdateAllStatuses($status)
 	{
-		$this->updateAllStatuses(1);
-		$this->updateAllStatuses(0);
+		$moduleModel = new \Settings_Countries_Module_Model();
+		$moduleModel->updateAllStatuses($status);
+		$exists = (new \App\Db\Query())->from('u_#__countries')->where(['status' => (int) !$status])->exists();
+		$this->assertFalse($exists);
+	}
+
+	/**
+	 * Data provider for testUpdateAllStatuses
+	 * @return array
+	 * @codeCoverageIgnore
+	 */
+	public function providerForUpdateAllStatuses()
+	{
+		return [
+			[1],
+			[0]
+		];
 	}
 
 	/**
@@ -45,6 +62,9 @@ class Countries extends \Tests\Base
 		$this->assertTrue($rows === $rows3);
 	}
 
+	/**
+	 * Testing update status
+	 */
 	public function testUpdateStatus()
 	{
 		$moduleModel = new \Settings_Countries_Module_Model();
@@ -57,6 +77,9 @@ class Countries extends \Tests\Base
 		$this->assertEquals($status, $status2);
 	}
 
+	/**
+	 * Testing update phone
+	 */
 	public function testUpdatePhone()
 	{
 		$moduleModel = new \Settings_Countries_Module_Model();
@@ -69,6 +92,9 @@ class Countries extends \Tests\Base
 		$this->assertEquals($phone, $status2);
 	}
 
+	/**
+	 * Testing update uitype
+	 */
 	public function testUpdateUitype()
 	{
 		$moduleModel = new \Settings_Countries_Module_Model();
@@ -81,6 +107,16 @@ class Countries extends \Tests\Base
 		$this->assertEquals($uitype, $status2);
 	}
 
+	/**
+	 * Testing get all records
+	 */
+	public function testGetAll()
+	{
+		$allRecords = \Settings_Countries_Record_Model::getAll();
+		$count = (new \App\Db\Query())->from('u_#__countries')->count();
+		$this->assertCount($count, $allRecords);
+	}
+
 	protected function scalarOfField($id, $fieldName)
 	{
 		return (new \App\Db\Query())->from('u_#__countries')->select($fieldName)->where(['id' => $id])->scalar();
@@ -89,13 +125,5 @@ class Countries extends \Tests\Base
 	protected function allRows()
 	{
 		return (new \App\Db\Query())->from('u_#__countries')->all();
-	}
-
-	protected function updateAllStatuses($status)
-	{
-		$moduleModel = new \Settings_Countries_Module_Model();
-		$moduleModel->updateAllStatuses($status);
-		$exists = (new \App\Db\Query())->from('u_#__countries')->where(['status' => (int) !$status])->exists();
-		$this->assertFalse($exists);
 	}
 }
