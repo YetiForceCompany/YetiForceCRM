@@ -17,14 +17,25 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		frame.attr('src', url.replace("view=Detail", "view=DetailPreview") + defaultView);
 	},
 	registerPreviewEvent: function () {
+		console.log('registerPreviewEvent');
 		var thisInstance = this;
-		var contentHeight = $('#listPreview,#recordsListPreview');
-		contentHeight.height($('.mainBody').height() - 16);
+		var iframe = $('#listPreviewframe');
 		$('#listPreviewframe').load(function () {
+			console.log('registerPreviewEventLoad');
 			thisInstance.frameProgress.progressIndicator({mode: 'hide'});
-			contentHeight.height($(this).contents().find('.bodyContents').height()+2);
+			iframe.height($(this).contents().find('.bodyContents').height() - 20);
 		});
-		$('.listViewEntriesTable .listViewEntries').first().trigger('click');
+		$('.listViewEntriesTable .listViewEntries').first().trigger('click');		
+		
+		
+//		var thisInstance = this;
+//		var contentHeight = $('#listPreview,#recordsListPreview');
+//		contentHeight.height($('.mainBody').height() - 16);
+//		$('#listPreviewframe').load(function () {
+//			thisInstance.frameProgress.progressIndicator({mode: 'hide'});
+//			contentHeight.height($(this).contents().find('.bodyContents').height()+2);
+//		});
+//		$('.listViewEntriesTable .listViewEntries').first().trigger('click');
 	},
 	postLoadListViewRecordsEvents: function (container) {
 		this._super(container);
