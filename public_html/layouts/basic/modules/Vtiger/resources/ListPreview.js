@@ -23,7 +23,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			thisInstance.frameProgress.progressIndicator({mode: 'hide'});
 			iframe.height($(this).contents().find('.bodyContents').height() - 20);
 		});
-		$('.listViewEntriesTable .listViewEntries').first().trigger('click');		
+		$('.listViewEntriesTable .listViewEntries').first().trigger('click');
 	},
 	postLoadListViewRecordsEvents: function (container) {
 		this._super(container);
