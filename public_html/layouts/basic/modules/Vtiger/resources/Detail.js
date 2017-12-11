@@ -917,40 +917,46 @@ jQuery.Class("Vtiger_Detail_Js", {
 	},
 	registerBlockAnimationEvent: function () {
 		var detailContentsHolder = this.getContentHolder();	
-		detailContentsHolder.find('.blockHeader').click(function () {
-			var currentTarget = $(this).find('.blockToggle').not('.hide');
-			var blockId = currentTarget.data('id');
-			var closestBlock = currentTarget.closest('.panel');
-			var bodyContents = closestBlock.find('.blockContent');
+		detailContentsHolder.find(".blockHeader").click(function () {
+			var currentTarget = $(this).find(".blockToggle").not(".hide");
+			var blockId = currentTarget.data("id");
+			var closestBlock = currentTarget.closest(".panel");
+			var bodyContents = closestBlock.find(".blockContent");
 			var data = currentTarget.data();
 			var module = app.getModuleName();
-			if (data.mode == 'show') {
-				var iframe = $(top.document).find('#listPreviewframe');
+			var iframe = $(top.document).find("#listPreviewframe");
+			var inifr = iframe.contents().find("#listPreviewframe");
+			var listIframe = iframe.contents().find(".panel-body #listPreviewframe");
+			var panelBody = listIframe.closest(".panel-body");
+			if (data.mode === "show") {
 				iframe.height(iframe.height() - bodyContents.height());
-				if (iframe.contents().find('#listPreviewframe').length) {		
-					var inifr = iframe.contents().find('#listPreviewframe');
+				if (inifr.length) {		
 					inifr.height(inifr.height() - bodyContents.height());
-				} 
-				bodyContents.addClass('hide');
-				app.cacheSet(module + '.' + blockId, 0)
-				currentTarget.addClass('hide');
-				closestBlock.find('[data-mode="hide"]').removeClass('hide');
+				}
+				if (listIframe.length) {
+					panelBody.height(panelBody.height() - bodyContents.height());
+					console.log("oki");
+				}
+				bodyContents.addClass("hide");
+				app.cacheSet(module + "." + blockId, 0)
+				currentTarget.addClass("hide");
+				closestBlock.find('[data-mode="hide"]').removeClass("hide");
 			} else {
-				bodyContents.removeClass('hide');
-				app.cacheSet(module + '.' + blockId, 1)
-				currentTarget.addClass('hide');
-				closestBlock.find("[data-mode='show']").removeClass('hide');
-				if (closestBlock.data('reference')) {
-					$('body').on('LoadRelatedRecordList.PostLoad', function (e, data) {
-						var iframe = $(top.document).find('#listPreviewframe');
+				bodyContents.removeClass("hide");
+				app.cacheSet(module + "." + blockId, 1)
+				currentTarget.addClass("hide");
+				closestBlock.find('[data-mode="show"]').removeClass("hide");
+				if (closestBlock.data("reference")) {
+					$("body").on("LoadRelatedRecordList.PostLoad", function (e, data) {
 						iframe.height(iframe.height() + bodyContents.height());
 					});
 				} else {
-					var iframe = $(top.document).find('#listPreviewframe');
 					iframe.height(iframe.height() + bodyContents.height());
-					if (iframe.contents().find('#listPreviewframe').length) {		
-						var inifr = iframe.contents().find('#listPreviewframe');
+					if (inifr.length) {		
 						inifr.height(inifr.height() + bodyContents.height());
+					}
+					if (listIframe.length) {
+						panelBody.height(panelBody.height() + bodyContents.height());
 					}
 				}
 			}
