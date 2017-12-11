@@ -1029,6 +1029,11 @@ class PackageImport extends PackageExport
 		}
 		Functions::recurseDelete($dirName);
 		Functions::recurseDelete('cache/templates_c');
+
+		\vtlib\Access::syncSharingAccess();
+		\vtlib\Deprecated::createModuleMetaFile();
+		\App\Cache::clear();
+		\App\Cache::clearOpcache();
 		file_put_contents('cache/logs/update.log', ob_get_contents(), FILE_APPEND);
 		ob_end_clean();
 	}
