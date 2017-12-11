@@ -916,8 +916,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 	},
 	registerBlockAnimationEvent: function () {
-		var detailContentsHolder = this.getContentHolder();
-			
+		var detailContentsHolder = this.getContentHolder();	
 		detailContentsHolder.find('.blockHeader').click(function () {
 			var currentTarget = $(this).find('.blockToggle').not('.hide');
 			var blockId = currentTarget.data('id');
@@ -926,17 +925,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var data = currentTarget.data();
 			var module = app.getModuleName();
 			if (data.mode == 'show') {
-				console.log('hide');
-				//iframesizechange
 				var iframe = $(top.document).find('#listPreviewframe');
 				iframe.height(iframe.height() - bodyContents.height());
-				
 				if (iframe.contents().find('#listPreviewframe').length) {		
 					var inifr = iframe.contents().find('#listPreviewframe');
 					inifr.height(inifr.height() - bodyContents.height());
-					console.log('inif');
 				} 
-				//
 				bodyContents.addClass('hide');
 				app.cacheSet(module + '.' + blockId, 0)
 				currentTarget.addClass('hide');
@@ -946,11 +940,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 				app.cacheSet(module + '.' + blockId, 1)
 				currentTarget.addClass('hide');
 				closestBlock.find("[data-mode='show']").removeClass('hide');
-				
 				if (closestBlock.data('reference')) {
-					console.log('data');
 					$('body').on('LoadRelatedRecordList.PostLoad', function (e, data) {
-						console.log(bodyContents.height());
 						var iframe = $(top.document).find('#listPreviewframe');
 						iframe.height(iframe.height() + bodyContents.height());
 					});
@@ -960,7 +951,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 					if (iframe.contents().find('#listPreviewframe').length) {		
 						var inifr = iframe.contents().find('#listPreviewframe');
 						inifr.height(inifr.height() + bodyContents.height());
-						console.log('inif');
 					}
 				}
 			}
