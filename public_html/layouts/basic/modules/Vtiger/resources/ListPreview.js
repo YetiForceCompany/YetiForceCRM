@@ -18,12 +18,12 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	},
 	registerPreviewEvent: function () {
 		var thisInstance = this;
-		var iframe = $('#listPreviewframe');
-		$('#listPreviewframe').load(function () {
-			thisInstance.frameProgress.progressIndicator({mode: 'hide'});
-			iframe.height($(this).contents().find('.bodyContents').height() - 20);
+		var iframe = $("#listPreviewframe");
+		$("#listPreviewframe").load(function () {
+			thisInstance.frameProgress.progressIndicator({mode: "hide"});
+			iframe.height($(this).contents().find(".bodyContents").height() - 20);
 		});
-		$('.listViewEntriesTable .listViewEntries').first().trigger('click');
+		$(".listViewEntriesTable .listViewEntries").first().trigger("click");
 	},
 	postLoadListViewRecordsEvents: function (container) {
 		this._super(container);
