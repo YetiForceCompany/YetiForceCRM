@@ -12,7 +12,7 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 		});
 	},
 /**
- * Function change iframes size
+ * Function changes iframes' size
  */
 	registerSizeEvent: function (container) {
 		var iframe = $(top.document).find('#listPreviewframe');
