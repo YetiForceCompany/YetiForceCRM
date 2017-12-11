@@ -11,56 +11,46 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 			}
 		});
 	},
+/**
+ * Function change iframes size
+ */
 	registerSizeEvent: function (container) {
-		console.log('registerSizeEvent');
 		var iframe = $(top.document).find('#listPreviewframe');
 		var bodyContents = $('.mainContainer');
 		var bodyCon = $('.bodyContents');
-		console.log();
 		var listIframe = iframe.contents().find('.panel-body #listPreviewframe');
 		var inifr = iframe.contents().find('#listPreviewframe');
+		//iframe from documents in records list - doesn't fit correct size and inner list doesn't enlarge outer iframe
 		if(listIframe.length) {
-			console.log('oki');
 			listIframe.height($('.detailViewContainer').height());
-			listIframe.closest('#recordsListPreview').height($('.detailViewContainer').height());
-			console.log(listIframe.closest('#recordsListPreview'));
+			iframe.height(iframe.contents().find('.detailViewContainer').height());
 		}
-
+		//widgets loader
 		$('#page').find('.widget_contents').on('Vtiger.Widget.FinishLoad', function (e, widgetName) {
-				iframe.height(bodyContents.height());
+			iframe.height(bodyContents.height() - 10);
 		});
+		//tabs loader
 		$('#page').on('DetailView.Tab.FinishLoad', function (e, data) {
-			console.log('DetailView.Tab.FinishLoad');	
-			
+			//check if tab has listpreview
 			if (iframe.contents().find('#listPreviewframe').length) {		
-				console.log('if');			
-				//var inBodyConHeight = $('#listPreviewframe').contents().find('.bodyContents').height();	
-				var ifrTop = $(top.top.document).find('#listPreviewframe');
-				var ifrTopBodyCon = $(top.top.document).find('#listPreviewframe').contents().find('.mainContainer');
-				console.log(ifrTopBodyCon);
-				console.log(bodyContents);
 				var inifr = iframe.contents().find('#listPreviewframe');
 				inifr.height($('.detailViewContainer').height());
 				iframe.height(inifr.height() + inifr.offset().top + 10);
-	
-				var inif = $('#listPreviewframe');	
+				var currentIf = $('#listPreviewframe');	
 				$('#listPreviewframe').load(function () {	
-					inif.height(inif.contents().find('.detailViewContainer').height());
-					console.log(inif.height());		
-					iframe.height(inif.height() + inif.offset().top + 15);	
+					currentIf.height(currentIf.contents().find('.detailViewContainer').height());
+					iframe.height(currentIf.height() + currentIf.offset().top + 15);	
 				});	
 				$('#page').find('.widget_contents').on('Vtiger.Widget.FinishLoad', function (e, widgetName) {
-					inif.height(bodyContents.height());
-					console.log('widgetin');
+					currentIf.height(bodyContents.height());
 				});
 			} 
 			else {
 				iframe.height(bodyContents.height() - 10);
-				console.log('else');
 				$('#page').find('.widget_contents').on('Vtiger.Widget.FinishLoad', function (e, widgetName) {
 					iframe.height(bodyContents.height() - 10);
-					console.log('widget');
 				});
+//				code responsible for map size fitting, needs finishing
 //				if ($('#detailView').has('#mapid').length === 1) {
 //					iframe.height($(window).height());
 //				}

@@ -397,7 +397,6 @@ hr {
 	margin: 0;
 }
 .mainContainer .contentsDiv {
-	min-height: 500px;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -5954,6 +5953,7 @@ select[readonly], select[disabled]{
 #listPreviewframe{
 	width:100%;
 	height:100%;
+	margin-bottom: 6px;
 }
 border1px{
 	border: 1px solid #ddd;
