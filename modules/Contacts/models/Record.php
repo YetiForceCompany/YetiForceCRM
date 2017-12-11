@@ -140,13 +140,8 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 				}
 			}
 		}
-		$imageName = (new App\Db\Query())->select(['name'])->from('vtiger_seattachmentsrel')
-				->innerJoin('vtiger_attachments', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
-				->leftJoin('vtiger_contactdetails', 'vtiger_contactdetails.contactid = vtiger_seattachmentsrel.crmid')
-				->where(['vtiger_seattachmentsrel.crmid' => $id])->scalar();
-		$imageName = \App\Purifier::decodeHtml($imageName);
 		//Inserting image information of record into base table
-		$db->createCommand()->update('vtiger_contactdetails', ['imagename' => $imageName], ['contactid' => $id])
+		$db->createCommand()->update('vtiger_contactdetails', ['imagename' => \App\Purifier::decodeHtml($this->ext['attachmentsName'])], ['contactid' => $id])
 			->execute();
 		//This is to handle the delete image for contacts
 		if ($module === 'Contacts' && $fileSaved) {
