@@ -923,9 +923,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var bodyContents = closestBlock.find(".blockContent");
 			var data = currentTarget.data();
 			var module = app.getModuleName();
-			var iframe = $(top.document).find("#listPreviewframe");
-			var inifr = iframe.contents().find("#listPreviewframe");
-			var listIframe = iframe.contents().find(".panel-body #listPreviewframe");
 			if (data.mode === "show") {
 				bodyContents.addClass("hide");
 				app.cacheSet(module + "." + blockId, 0);
