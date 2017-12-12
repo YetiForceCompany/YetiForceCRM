@@ -62,8 +62,6 @@ abstract class GuiBase extends \PHPUnit_Extensions_Selenium2TestCase
 	public function login()
 	{
 		if (!static::$isLogin) {
-			static::$isLogin = true;
-
 			$this->shareSession(true);
 			$this->url('index.php');
 			$this->byId('username')->value('demo');
@@ -73,6 +71,8 @@ abstract class GuiBase extends \PHPUnit_Extensions_Selenium2TestCase
 			$this->url('index.php?module=Home&view=DashBoard');
 			$this->assertEquals('Home', $this->byId('module')->value());
 			$this->assertEquals('DashBoard', $this->byId('view')->value());
+
+			static::$isLogin = true;
 		}
 	}
 }
