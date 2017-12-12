@@ -29,9 +29,9 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 		var mainContainer = $(".mainContainer");
 		var panelBody = inifr.closest(".panel-body");
 		//event for iframe in document record
-		inifr.contents().find('body').on('DetailView.BlockToggle.PostLoad', function (e, data) {
+		inifr.contents().find("body").on("DetailView.BlockToggle.PostLoad", function (e, data) {
 			if (inifr.closest(".panel-body").length) {
-				inifr.height(inifr.contents().find('.mainContainer').height() - 10);
+				inifr.height(inifr.contents().find(".mainContainer").height() - 10);
 				panelBody.height(inifr.height() + 100);
 				iframe.height(iframe.contents().find(".detailViewContainer").height());
 			}
@@ -41,7 +41,7 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 			iframe.height(iframe.contents().find(".detailViewContainer").height());
 		});
 		//event for toggle list's records
-		$('body').on('DetailView.BlockToggle.PostLoad', function (e, data) {
+		$("body").on("DetailView.BlockToggle.PostLoad", function (e, data) {
 			if (inifr.length) {
 				inifr.height(mainContainer.height() - 10);
 				iframe.height(inifr.height() + inifr.offset().top + 10);

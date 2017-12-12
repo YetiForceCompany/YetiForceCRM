@@ -928,16 +928,16 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var listIframe = iframe.contents().find(".panel-body #listPreviewframe");
 			if (data.mode === "show") {
 				bodyContents.addClass("hide");
-				app.cacheSet(module + "." + blockId, 0)
+				app.cacheSet(module + "." + blockId, 0);
 				currentTarget.addClass("hide");
 				closestBlock.find('[data-mode="hide"]').removeClass("hide");
 			} else {
 				bodyContents.removeClass("hide");
-				app.cacheSet(module + "." + blockId, 1)
+				app.cacheSet(module + "." + blockId, 1);
 				currentTarget.addClass("hide");
 				closestBlock.find('[data-mode="show"]').removeClass("hide");
 			}
-			$('body').trigger($.Event('DetailView.BlockToggle.PostLoad'), {
+			$("body").trigger($.Event("DetailView.BlockToggle.PostLoad"), {
 				block: bodyContents,
 				mode: data.mode
 			});
@@ -949,7 +949,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		blocks.each(function (index, block) {
 			var currentBlock = jQuery(block);
 			var headerAnimationElement = currentBlock.find('.blockToggle').not('.hide');
-			var bodyContents = currentBlock.closest('.panel').find('.blockContent')
+			var bodyContents = currentBlock.closest('.panel').find('.blockContent');
 			var blockId = headerAnimationElement.data('id');
 			var cacheKey = module + '.' + blockId;
 			var value = app.cacheGet(cacheKey, null);
