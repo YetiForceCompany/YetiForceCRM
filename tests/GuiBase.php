@@ -15,7 +15,7 @@ abstract class GuiBase extends \PHPUnit_Extensions_Selenium2TestCase
 	 * Whether is login
 	 * @var boolean
 	 */
-	private static $isLogin = false;
+	protected static $isLogin = false;
 	public static $browsers = [
 		[
 			'driver' => 'chrome',
