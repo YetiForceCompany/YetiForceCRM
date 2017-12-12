@@ -22,7 +22,6 @@ class Gui_Countries extends \Tests\GuiBase
 	public function setUp()
 	{
 		parent::setUp();
-
 		static::$id = (new \App\Db\Query())->from('u_#__countries')->select('id')->scalar();
 	}
 
@@ -42,16 +41,14 @@ class Gui_Countries extends \Tests\GuiBase
 	 */
 	public function testButtonStatus()
 	{
-		$status = $this->getValueOfField(static::$id, 'status');
-
+		$status = $this->getValueOfField('status');
 		$this->url('/index.php?module=Countries&parent=Settings&view=Index');
 		$this->execute([
 			'script' => '$("tr[data-id=' . static::$id . '] button.status").click()',
 			'args' => [],
 		]);
 		$this->url('/index.php?module=Countries&parent=Settings&view=Index');
-
-		$status2 = $this->getValueOfField(static::$id, 'status');
+		$status2 = $this->getValueOfField('status');
 		$this->assertNotEquals($status2, $status, 'Status was not changed in database');
 	}
 
@@ -60,16 +57,14 @@ class Gui_Countries extends \Tests\GuiBase
 	 */
 	public function testButtonPhone()
 	{
-		$phone = $this->getValueOfField(static::$id, 'phone');
-
+		$phone = $this->getValueOfField('phone');
 		$this->url('/index.php?module=Countries&parent=Settings&view=Index');
 		$this->execute([
 			'script' => '$("tr[data-id=' . static::$id . '] button.phone").click()',
 			'args' => [],
 		]);
 		$this->url('/index.php?module=Countries&parent=Settings&view=Index');
-
-		$phone2 = $this->getValueOfField(static::$id, 'phone');
+		$phone2 = $this->getValueOfField('phone');
 		$this->assertNotEquals($phone2, $phone, 'Phone was not changed in database');
 	}
 
@@ -78,16 +73,14 @@ class Gui_Countries extends \Tests\GuiBase
 	 */
 	public function testButtonUitype()
 	{
-		$uitype = $this->getValueOfField(static::$id, 'uitype');
-
+		$uitype = $this->getValueOfField('uitype');
 		$this->url('/index.php?module=Countries&parent=Settings&view=Index');
 		$this->execute([
 			'script' => '$("tr[data-id=' . static::$id . '] button.uitype").click()',
 			'args' => [],
 		]);
 		$this->url('/index.php?module=Countries&parent=Settings&view=Index');
-
-		$uitype2 = $this->getValueOfField(static::$id, 'uitype');
+		$uitype2 = $this->getValueOfField('uitype');
 		$this->assertNotEquals($uitype2, $uitype, 'Uitype was not changed in database');
 	}
 
@@ -101,9 +94,9 @@ class Gui_Countries extends \Tests\GuiBase
 			'script' => '$("tr[data-id=' . static::$id . '] button.to-bottom").click()',
 			'args' => [],
 		]);
-		$this->url('/index.php?module=Countries&parent=Settings&view=Index');
 
-		$sortorderid = $this->getValueOfField(static::$id, 'sortorderid');
+		$this->url('/index.php?module=Countries&parent=Settings&view=Index');
+		$sortorderid = $this->getValueOfField('sortorderid');
 
 		$this->url('/index.php?module=Countries&parent=Settings&view=Index');
 		$this->execute([
@@ -111,9 +104,7 @@ class Gui_Countries extends \Tests\GuiBase
 			'args' => [],
 		]);
 		$this->url('/index.php?module=Countries&parent=Settings&view=Index');
-
-		$sortorderid2 = $this->getValueOfField(static::$id, 'sortorderid');
-
+		$sortorderid2 = $this->getValueOfField('sortorderid');
 		$this->assertNotEquals($sortorderid2, $sortorderid, 'Field "sortorderid" was not changed in database');
 	}
 
@@ -128,18 +119,16 @@ class Gui_Countries extends \Tests\GuiBase
 			'args' => [],
 		]);
 		$this->url('/index.php?module=Countries&parent=Settings&view=Index');
-
-		$sortorderid = $this->getValueOfField(static::$id, 'sortorderid');
+		$sortorderid = $this->getValueOfField('sortorderid');
 
 		$this->url('/index.php?module=Countries&parent=Settings&view=Index');
 		$this->execute([
 			'script' => '$("tr[data-id=' . static::$id . '] button.to-bottom").click()',
 			'args' => [],
 		]);
+
 		$this->url('/index.php?module=Countries&parent=Settings&view=Index');
-
-		$sortorderid2 = $this->getValueOfField(static::$id, 'sortorderid');
-
+		$sortorderid2 = $this->getValueOfField('sortorderid');
 		$this->assertNotEquals($sortorderid2, $sortorderid, 'Field "sortorderid" was not changed in database');
 	}
 
@@ -154,21 +143,18 @@ class Gui_Countries extends \Tests\GuiBase
 			'args' => [],
 		]);
 		$this->url('/index.php?module=Countries&parent=Settings&view=Index');
-
 		$exists0 = (new \App\Db\Query())->from('u_#__countries')->where(['status' => 0])->exists();
 		$exists1 = (new \App\Db\Query())->from('u_#__countries')->where(['status' => 1])->exists();
-
 		$this->assertNotEquals($exists0, $exists1, 'There are records with status equal 0 and equal 1');
 	}
 
 	/**
 	 * Get value of field as scalar
-	 * @param int $id
 	 * @param string $fieldName
 	 * @return string
 	 */
-	private function getValueOfField($id, $fieldName)
+	private function getValueOfField($fieldName)
 	{
-		return (new \App\Db\Query())->from('u_#__countries')->select($fieldName)->where(['id' => $id])->scalar();
+		return (new \App\Db\Query())->from('u_#__countries')->select($fieldName)->where(['id' => static::$id])->scalar();
 	}
 }
