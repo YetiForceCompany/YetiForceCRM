@@ -162,7 +162,7 @@ class Gui_Countries extends \Tests\GuiBase
 	 * Get value of field as scalar
 	 * @param int $id
 	 * @param string $fieldName
-	 * @return array
+	 * @return string
 	 */
 	private function getValueOfField($id, $fieldName)
 	{
