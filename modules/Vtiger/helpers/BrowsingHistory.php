@@ -69,7 +69,8 @@ class Vtiger_BrowsingHistory_Helper
 		
 		$url = App\RequestUtil::getBrowserInfo()->requestUri;
 		parse_str( parse_url( $url, PHP_URL_QUERY), $urlQuery );
-		$validViews = ['Index', 'List', 'Detail', 'Edit'];
+
+		$validViews = ['Index', 'List', 'Detail', 'Edit', 'DashBoard', 'ListPreview', 'TreeRecords', 'Tree'];
 		
 		if (!empty($urlQuery['module']) and !empty($urlQuery['view'])) {	
 			if (in_array($urlQuery['view'],$validViews)) {
