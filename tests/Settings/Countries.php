@@ -31,10 +31,7 @@ class Countries extends \Tests\Base
 	 */
 	public function providerForUpdateAllStatuses()
 	{
-		return [
-			[1],
-			[0]
-		];
+		return [[1], [0]];
 	}
 
 	/**
