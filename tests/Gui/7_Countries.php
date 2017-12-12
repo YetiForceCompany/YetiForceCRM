@@ -29,9 +29,9 @@ class Gui_Countries extends \Tests\GuiBase
 	public function testIndex()
 	{
 		$this->url('/index.php?module=Countries&parent=Settings&view=Index');
-		$this->assertEquals('Countries', $this->byId('module')->value());
-		$this->assertEquals('Index', $this->byId('view')->value());
-		$this->assertEquals('Settings', $this->byId('parent')->value());
+		$this->assertEquals('Countries', $this->byId('module')->value(), 'There is not a correct module');
+		$this->assertEquals('Index', $this->byId('view')->value(), 'There is not a correct view');
+		$this->assertEquals('Settings', $this->byId('parent')->value(), 'There is not a correct parent');
 	}
 
 	/**
@@ -49,7 +49,7 @@ class Gui_Countries extends \Tests\GuiBase
 		$this->url('/index.php?module=Countries&parent=Settings&view=Index');
 
 		$status2 = $this->getValueOfField(self::$id, 'status');
-		$this->assertNotEquals($status2, $status);
+		$this->assertNotEquals($status2, $status, 'Status was not changed in database');
 	}
 
 	/**
@@ -67,7 +67,7 @@ class Gui_Countries extends \Tests\GuiBase
 		$this->url('/index.php?module=Countries&parent=Settings&view=Index');
 
 		$phone2 = $this->getValueOfField(self::$id, 'phone');
-		$this->assertNotEquals($phone2, $phone);
+		$this->assertNotEquals($phone2, $phone, 'Phone was not changed in database');
 	}
 
 	/**
@@ -85,7 +85,7 @@ class Gui_Countries extends \Tests\GuiBase
 		$this->url('/index.php?module=Countries&parent=Settings&view=Index');
 
 		$uitype2 = $this->getValueOfField(self::$id, 'uitype');
-		$this->assertNotEquals($uitype2, $uitype);
+		$this->assertNotEquals($uitype2, $uitype, 'Uitype was not changed in database');
 	}
 
 	/**
@@ -111,7 +111,7 @@ class Gui_Countries extends \Tests\GuiBase
 
 		$sortorderid2 = $this->getValueOfField(self::$id, 'sortorderid');
 
-		$this->assertNotEquals($sortorderid2, $sortorderid);
+		$this->assertNotEquals($sortorderid2, $sortorderid, 'Field "sortorderid" was not changed in database');
 	}
 
 	/**
@@ -137,7 +137,7 @@ class Gui_Countries extends \Tests\GuiBase
 
 		$sortorderid2 = $this->getValueOfField(self::$id, 'sortorderid');
 
-		$this->assertNotEquals($sortorderid2, $sortorderid);
+		$this->assertNotEquals($sortorderid2, $sortorderid, 'Field "sortorderid" was not changed in database');
 	}
 
 	/**
@@ -155,7 +155,7 @@ class Gui_Countries extends \Tests\GuiBase
 		$exists0 = (new \App\Db\Query())->from('u_#__countries')->where(['status' => 0])->exists();
 		$exists1 = (new \App\Db\Query())->from('u_#__countries')->where(['status' => 1])->exists();
 
-		$this->assertNotEquals($exists0, $exists1);
+		$this->assertNotEquals($exists0, $exists1, 'There are records with status equal 0 and equal 1');
 	}
 
 	/**
