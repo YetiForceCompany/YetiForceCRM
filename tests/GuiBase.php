@@ -36,6 +36,8 @@ abstract class GuiBase extends \PHPUnit_Extensions_Selenium2TestCase
 		}
 		$this->listener = new \PHPUnit_Extensions_Selenium2TestCase_ScreenshotListener($screenshotsDir);
 		$this->prepareSession();
+
+		$this->login();
 	}
 
 	/**
@@ -48,5 +50,23 @@ abstract class GuiBase extends \PHPUnit_Extensions_Selenium2TestCase
 		}
 		$this->listener->addError($this, $e, null);
 		parent::onNotSuccessfulTest($e);
+	}
+
+	/**
+	 * @codeCoverageIgnore
+	 */
+	public function login()
+	{
+		static $isLogin = false;
+
+		if (!$isLogin) {
+			$isLogin = true;
+
+			$this->shareSession(true);
+			$this->url('index.php');
+			$this->byId('username')->value('demo');
+			$this->byId('password')->value('demo');
+			$this->byTag('form')->submit();
+		}
 	}
 }
