@@ -10,6 +10,10 @@
 class Gui_Countries extends \Tests\GuiBase
 {
 
+	/**
+	 * Record ID which exists in database and will be changed
+	 * @var int
+	 */
 	protected static $id;
 
 	/**
@@ -19,8 +23,7 @@ class Gui_Countries extends \Tests\GuiBase
 	{
 		parent::setUp();
 
-		$row = (new \App\Db\Query())->from('u_#__countries')->one();
-		static::$id = $row['id'];
+		static::$id = (new \App\Db\Query())->from('u_#__countries')->select('id')->scalar();
 	}
 
 	/**
