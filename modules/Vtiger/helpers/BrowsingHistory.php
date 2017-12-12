@@ -68,25 +68,23 @@ class Vtiger_BrowsingHistory_Helper
 		}
 		
 		$url = App\RequestUtil::getBrowserInfo()->requestUri;
-		parse_str( parse_url( $url, PHP_URL_QUERY), $url_array );
-
+		parse_str( parse_url( $url, PHP_URL_QUERY), $urlQuery );
 		$validViews = ['Index', 'List', 'Detail', 'Edit'];
 		
-		if (in_array($url_array['view'],$validViews) and !empty($url_array['module']) ) {
-			if (!empty($url_array['record'])) {
-				$label = (new \App\Db\Query())->from('u_#__crmentity_label')
-				->where(['crmid' => $url_array['record']])
-				->one();
-				$title .= ' | ' . $label['label'];
+		if (!empty($urlQuery['module']) and !empty($urlQuery['view'])) {	
+			if (in_array($urlQuery['view'],$validViews)) {
+				if (!empty($urlQuery['record'])) {
+					$title .= ' | ' . App\Record::getLabel($urlQuery['record']);
+				}
+				
+				\App\Db::getInstance()->createCommand()
+					->insert('u_#__browsinghistory', [
+						'userid' => App\User::getCurrentUserId(),
+						'date' => date('Y-m-d H:i:s'),
+						'title' => $title,
+						'url' => $url
+					])->execute();
 			}
-			
-			\App\Db::getInstance()->createCommand()
-				->insert('u_#__browsinghistory', [
-					'userid' => App\User::getCurrentUserId(),
-					'date' => date('Y-m-d H:i:s'),
-					'title' => $title,
-					'url' => $url
-				])->execute();
 		}
 	}
 
