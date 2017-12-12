@@ -11,10 +11,17 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 			}
 		});
 	},
+	
+	registerWidgetEvent: function (iframe, bodyContents) {
+		$("#page").find(".widget_contents").on("Vtiger.Widget.FinishLoad", function (e, widgetName) {
+			iframe.height(bodyContents.height() - 10);
+		});
+	},
 /**
  * Function changes iframes' size
  */
 	registerSizeEvent: function (container) {
+		var thisInstance = this;
 		var iframe = $(top.document).find("#listPreviewframe");
 		var bodyContents = $(".mainContainer");
 		var bodyCon = $(".bodyContents");
@@ -26,9 +33,7 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 			iframe.height(iframe.contents().find(".detailViewContainer").height());
 		}
 		//widgets loader
-		$("#page").find(".widget_contents").on("Vtiger.Widget.FinishLoad", function (e, widgetName) {
-			iframe.height(bodyContents.height() - 10);
-		});
+		thisInstance.registerWidgetEvent(iframe, bodyContents);
 		//tabs loader
 		$("#page").on("DetailView.Tab.FinishLoad", function (e, data) {
 			//check if tab has listpreview
@@ -40,21 +45,13 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 				$("#listPreviewframe").load(function () {	
 					currentIf.height(currentIf.contents().find(".detailViewContainer").height());
 					iframe.height(currentIf.height() + currentIf.offset().top + 15);	
-				});	
-				$("#page").find(".widget_contents").on("Vtiger.Widget.FinishLoad", function (e, widgetName) {
-					currentIf.height(bodyContents.height());
 				});
+				thisInstance.registerWidgetEvent(currentIf, bodyContents);
 			} 
 			else {
 				iframe.height(bodyContents.height() - 10);
-				$("#page").find(".widget_contents").on("Vtiger.Widget.FinishLoad", function (e, widgetName) {
-					iframe.height(bodyContents.height() - 10);
-				});
+				thisInstance.registerWidgetEvent(iframe, bodyContents);
 				var map = $("#detailView").find("#mapid");
-				if (map.length) {
-					map.height(900);
-					iframe.height(bodyContents.height() - 10);
-				}
 			}
 		});
 	},
