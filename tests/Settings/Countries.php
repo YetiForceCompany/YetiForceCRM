@@ -1,8 +1,9 @@
 <?php
 /**
  * Countries test class
- * @package YetiForce.Include
- * @license licenses/License.html
+ * @package YetiForce.Test
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Wojciech Bruggemann <w.bruggemann@yetiforce.com>
  */
 namespace Tests\Settings;
@@ -42,7 +43,7 @@ class Countries extends \Tests\Base
 	public function testUpdateSequence()
 	{
 		$moduleModel = new \Settings_Countries_Module_Model();
-		$rows = $this->allRows();
+		$rows = $this->getAllRows();
 		$keys = [];
 		$values = [];
 		foreach ($rows as $row) {
@@ -53,12 +54,12 @@ class Countries extends \Tests\Base
 		shuffle($keys);
 		$sequence = array_combine($keys, $values);
 		$moduleModel->updateSequence($sequence);
-		$rows2 = $this->allRows();
+		$rows2 = $this->getAllRows();
 		$this->assertTrue($rows !== $rows2, 'After update sequence the data is not changed');
 
 		$sequence = array_combine($originKeys, $values);
 		$moduleModel->updateSequence($sequence);
-		$rows3 = $this->allRows();
+		$rows3 = $this->getAllRows();
 		$this->assertTrue($rows === $rows3, 'After update original sequence the data is different than original data');
 	}
 
@@ -73,7 +74,7 @@ class Countries extends \Tests\Base
 		$status = $row['status'] ? 0 : 1;
 		$result = $moduleModel->updateStatus($id, $status);
 		$this->assertGreaterThan(0, $result, 'There is none any results after update');
-		$status2 = $this->scalarOfField($id, 'status');
+		$status2 = $this->getValueOfField($id, 'status');
 		$this->assertEquals($status, $status2, 'There is none any changes after update');
 	}
 
@@ -88,7 +89,7 @@ class Countries extends \Tests\Base
 		$phone = $row['phone'] ? 0 : 1;
 		$result = $moduleModel->updatePhone($id, $phone);
 		$this->assertGreaterThan(0, $result, 'There is none any results after update');
-		$status2 = $this->scalarOfField($id, 'phone');
+		$status2 = $this->getValueOfField($id, 'phone');
 		$this->assertEquals($phone, $status2, 'There is none any changes after update');
 	}
 
@@ -103,7 +104,7 @@ class Countries extends \Tests\Base
 		$uitype = $row['uitype'] ? 0 : 1;
 		$result = $moduleModel->updateUitype($id, $uitype);
 		$this->assertGreaterThan(0, $result, 'There is none any results after update');
-		$status2 = $this->scalarOfField($id, 'uitype');
+		$status2 = $this->getValueOfField($id, 'uitype');
 		$this->assertEquals($uitype, $status2, 'There is none any changes after update');
 	}
 
@@ -117,12 +118,22 @@ class Countries extends \Tests\Base
 		$this->assertCount($count, $allRecords, 'Count of all record is different than should be');
 	}
 
-	protected function scalarOfField($id, $fieldName)
+	/**
+	 * Get value of field as scalar
+	 * @param int $id
+	 * @param string $fieldName
+	 * @return string
+	 */
+	private function getValueOfField($id, $fieldName)
 	{
 		return (new \App\Db\Query())->from('u_#__countries')->select($fieldName)->where(['id' => $id])->scalar();
 	}
 
-	protected function allRows()
+	/**
+	 * Get all rows
+	 * @return array
+	 */
+	private function getAllRows()
 	{
 		return (new \App\Db\Query())->from('u_#__countries')->all();
 	}
