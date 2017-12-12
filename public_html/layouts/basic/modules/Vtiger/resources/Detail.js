@@ -915,7 +915,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 	},
 	registerBlockAnimationEvent: function () {
-		var detailContentsHolder = this.getContentHolder();	
+		var detailContentsHolder = this.getContentHolder();
 		detailContentsHolder.find(".blockHeader").click(function () {
 			var currentTarget = $(this).find(".blockToggle").not(".hide");
 			var blockId = currentTarget.data("id");
@@ -926,15 +926,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var iframe = $(top.document).find("#listPreviewframe");
 			var inifr = iframe.contents().find("#listPreviewframe");
 			var listIframe = iframe.contents().find(".panel-body #listPreviewframe");
-			var panelBody = listIframe.closest(".panel-body");
 			if (data.mode === "show") {
-				iframe.height(iframe.height() - bodyContents.height());
-				if (inifr.length) {		
-					inifr.height(inifr.height() - bodyContents.height());
-				}
-				if (listIframe.length) {
-					panelBody.height(panelBody.height() - bodyContents.height());
-				}
 				bodyContents.addClass("hide");
 				app.cacheSet(module + "." + blockId, 0)
 				currentTarget.addClass("hide");
@@ -944,20 +936,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 				app.cacheSet(module + "." + blockId, 1)
 				currentTarget.addClass("hide");
 				closestBlock.find('[data-mode="show"]').removeClass("hide");
-				if (closestBlock.data("reference")) {
-					$("body").on("LoadRelatedRecordList.PostLoad", function (e, data) {
-						iframe.height(iframe.height() + bodyContents.height());
-					});
-				} else {
-					iframe.height(iframe.height() + bodyContents.height());
-					if (inifr.length) {		
-						inifr.height(inifr.height() + bodyContents.height());
-					}
-					if (listIframe.length) {
-						panelBody.height(panelBody.height() + bodyContents.height());
-					}
-				}
 			}
+			$('body').trigger($.Event('DetailView.BlockToggle.PostLoad'), {
+				block: bodyContents,
+				mode: data.mode
+			});
 		});
 	},
 	registerBlockStatusCheckOnLoad: function () {
