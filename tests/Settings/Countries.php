@@ -70,11 +70,10 @@ class Countries extends \Tests\Base
 	{
 		$moduleModel = new \Settings_Countries_Module_Model();
 		$row = (new \App\Db\Query())->from('u_#__countries')->one();
-		$id = $row['id'];
 		$status = $row['status'] ? 0 : 1;
-		$result = $moduleModel->updateStatus($id, $status);
+		$result = $moduleModel->updateStatus($row['id'], $status);
 		$this->assertGreaterThan(0, $result, 'There is none any results after update');
-		$status2 = $this->getValueOfField($id, 'status');
+		$status2 = $this->getValueOfField($row['id'], 'status');
 		$this->assertEquals($status, $status2, 'There is none any changes after update');
 	}
 
@@ -85,11 +84,10 @@ class Countries extends \Tests\Base
 	{
 		$moduleModel = new \Settings_Countries_Module_Model();
 		$row = (new \App\Db\Query())->from('u_#__countries')->one();
-		$id = $row['id'];
 		$phone = $row['phone'] ? 0 : 1;
-		$result = $moduleModel->updatePhone($id, $phone);
+		$result = $moduleModel->updatePhone($row['id'], $phone);
 		$this->assertGreaterThan(0, $result, 'There is none any results after update');
-		$status2 = $this->getValueOfField($id, 'phone');
+		$status2 = $this->getValueOfField($row['id'], 'phone');
 		$this->assertEquals($phone, $status2, 'There is none any changes after update');
 	}
 
@@ -100,11 +98,10 @@ class Countries extends \Tests\Base
 	{
 		$moduleModel = new \Settings_Countries_Module_Model();
 		$row = (new \App\Db\Query())->from('u_#__countries')->one();
-		$id = $row['id'];
 		$uitype = $row['uitype'] ? 0 : 1;
-		$result = $moduleModel->updateUitype($id, $uitype);
+		$result = $moduleModel->updateUitype($row['id'], $uitype);
 		$this->assertGreaterThan(0, $result, 'There is none any results after update');
-		$status2 = $this->getValueOfField($id, 'uitype');
+		$status2 = $this->getValueOfField($row['id'], 'uitype');
 		$this->assertEquals($uitype, $status2, 'There is none any changes after update');
 	}
 
