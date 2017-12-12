@@ -237,7 +237,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 	detailViewRecentUpdatesTabLabel: 'LBL_UPDATES',
 	detailViewRecentDocumentsTabLabel: 'Documents',
 	fieldUpdatedEvent: 'Vtiger.Field.Updated',
-	widgetPostLoad: 'Vtiger.Widget.PostLoad',
 	//Filels list on updation of which we need to upate the detailview header
 	updatedFields: ['company', 'designation', 'title'],
 	//Event that will triggered before saving the ajax edit of fields
@@ -249,7 +248,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			'Leads': 'link',
 			'Vendors': 'link',
 			'OSSEmployees': 'link',
-			'Contacts': 'process',
+			'Contacts': 'linkextend',
 			'Campaigns': 'process',
 			'HelpDesk': 'process',
 			'Projects': 'process',
@@ -935,7 +934,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 				}
 				if (listIframe.length) {
 					panelBody.height(panelBody.height() - bodyContents.height());
-					console.log("oki");
 				}
 				bodyContents.addClass("hide");
 				app.cacheSet(module + "." + blockId, 0)
@@ -2125,7 +2123,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			container.find('.mailTeaser').removeClass('hide');
 			container.find('.showMailBody .glyphicon').removeClass("glyphicon-triangle-top").addClass("glyphicon-triangle-bottom");
 		});
-		container.find('.widget_contents').on(thisInstance.widgetPostLoad, function (e, widgetName) {
+		container.find('.widget_contents').on("Vtiger.Widget.FinishLoad", function (e, widgetName) {
 			Vtiger_Index_Js.registerMailButtons(container);
 			container.find('.showMailModal').click(function (e) {
 				var progressIndicatorElement = jQuery.progressIndicator();
@@ -2153,7 +2151,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		AppConnector.request(params).then(
 				function (data) {
 					widgetDataContainer.html(data);
-					widgetDataContainer.trigger(thisInstance.widgetPostLoad, {widgetName: 'Emails'})
+					widgetDataContainer.trigger("Vtiger.Widget.FinishLoad", {widgetName: 'Emails'})
 					progress.progressIndicator({'mode': 'hide'});
 				}
 		);
@@ -2369,7 +2367,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var recentDocumentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentDocumentsTabLabel);
 			recentDocumentsTab.trigger('click');
 		});
-		detailContentsHolder.find('.widgetContentBlock[data-name="Calendar"] .widget_contents').on(thisInstance.widgetPostLoad, function (e) {
+		detailContentsHolder.find('.widgetContentBlock[data-name="Calendar"] .widget_contents').on("Vtiger.Widget.FinishLoad", function (e) {
 			var container = $(e.currentTarget).closest('.activityWidgetContainer');
 			thisInstance.reloadWidgetActivitesStats(container);
 		});
@@ -2411,7 +2409,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				progressIndicatorElement.progressIndicator({mode: 'hide'});
 			});
 		});
-		detailContentsHolder.find('.widgetContentBlock[data-type="HistoryRelation"] .widget_contents').on(thisInstance.widgetPostLoad, function (e) {
+		detailContentsHolder.find('.widgetContentBlock[data-type="HistoryRelation"] .widget_contents').on("Vtiger.Widget.FinishLoad", function (e) {
 			thisInstance.registerEmailEvents($(e.currentTarget));
 		});
 		thisInstance.registerEventForRelatedList();
