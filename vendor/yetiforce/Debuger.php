@@ -167,6 +167,7 @@ class Debuger
 				$args = rtrim($args, ',');
 			}
 			$trace .= "$sep$l {$v['file']} ({$v['line']})  >>  " . (isset($v['class']) ? $v['class'] . '->' : '') . "{$v['function']}($args)" . PHP_EOL;
+			unset($args, $val, $v, $k, $a);
 			if ($maxLevel !== 0 && $l >= $maxLevel) {
 				break;
 			}

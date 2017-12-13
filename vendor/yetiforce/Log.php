@@ -31,7 +31,7 @@ class Log extends Logger
 	public function log($message, $level, $category = '')
 	{
 		$traces = '';
-		if ($this->traceLevel > 0) {
+		if ($this->traceLevel) {
 			$traces = Debuger::getBacktrace(2, $this->traceLevel, ' - ');
 		}
 		if (static::$logToConsole) {
@@ -66,7 +66,9 @@ class Log extends Logger
 	 */
 	public static function info($message, $category = '')
 	{
-		\Yii::getLogger()->log($message, Logger::LEVEL_INFO, $category);
+		if (static::$logToFile) {
+			\Yii::getLogger()->log($message, Logger::LEVEL_INFO, $category);
+		}
 	}
 
 	/**
@@ -78,7 +80,9 @@ class Log extends Logger
 	 */
 	public static function warning($message, $category = '')
 	{
-		\Yii::getLogger()->log($message, Logger::LEVEL_WARNING, $category);
+		if (static::$logToFile) {
+			\Yii::getLogger()->log($message, Logger::LEVEL_WARNING, $category);
+		}
 	}
 
 	/**
