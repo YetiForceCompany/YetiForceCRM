@@ -9,8 +9,8 @@ $languageStrings = [
 	// Basic Strings
 	'LettersOut' => 'Correspondências Enviadas',
 	'SINGLE_LettersOut' => 'Correspondências Enviadas',
-	'LBL_ADD_RECORD' => 'Adicionar cartas enviadas',
-	'LBL_RECORDS_LIST' => 'Cartas enviadas',
+	'LBL_ADD_RECORD' => 'Add outgoing correspondence',
+	'LBL_RECORDS_LIST' => 'Outgoing correspondence',
 	// Blocks
 	'LBL_MAIN_INFORMATION' => 'Informações de Correspondências',
 	//Field Labels
@@ -22,7 +22,7 @@ $languageStrings = [
 	'Deadline for reply' => 'Data limite para resposta',
 	'Document no' => 'No. Documento',
 	'No internal' => 'No. Interno',
-	'Parent letters' => 'Cartas relacionadas a',
+	'Parent letters' => 'Correspondence related to',
 	'Overall dimensions' => 'Dimensões',
 	'Notes' => 'Notas',
 	'Related' => 'Conta/Oportunidade',
