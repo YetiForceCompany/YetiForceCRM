@@ -72,11 +72,12 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 			];
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
-		if (App\Privilege::isPermitted('OpenStreetMap') && !$recordModel->isEmpty('location')) {
+		if (!$recordModel->isEmpty('location') && App\Privilege::isPermitted('OpenStreetMap')) {
 			$basicActionLink = [
 				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'LBL_SHOW_LOCATION',
-				'linkurl' => 'javascript:Vtiger_Index_Js.showLocation(\'' . $recordModel->get('location') . '\')',
+				'linkurl' => 'javascript:Vtiger_Index_Js.showLocation(this)',
+				'linkdata' => ['location' => $recordModel->getDisplayValue('location')],
 				'linkicon' => 'glyphicon glyphicon-map-marker',
 			];
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);

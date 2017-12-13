@@ -86,7 +86,7 @@
 								{$RECORD->getDisplayValue('location')}
 							</strong>
 							{if App\Privilege::isPermitted('OpenStreetMap')}
-								<a class="pull-right btn btn-default btn-xs actionIcon" onclick="Vtiger_Index_Js.showLocation('{$RECORD->getDisplayValue('location')}')">
+								<a class="pull-right btn btn-default btn-xs actionIcon" data-location="{$RECORD->getDisplayValue('location')}" onclick="Vtiger_Index_Js.showLocation(this)">
 									<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
 								</a>
 							{/if}
