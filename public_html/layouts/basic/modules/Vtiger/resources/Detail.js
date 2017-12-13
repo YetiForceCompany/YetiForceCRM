@@ -326,7 +326,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				relatedController.registerRelatedEvents();
 				thisInstance.widgetRelatedRecordView(widgetContainer, true);
 			}
-			contentContainer.trigger('Vtiger.Widget.FinishLoad', {'widgetName': relatedModuleName})
+			app.event.trigger('Vtiger.Widget.FinishLoad', {'widgetName': relatedModuleName})
 			aDeferred.resolve(params);
 		}, function (e) {
 			contentContainer.progressIndicator({mode: 'hide'});
@@ -928,7 +928,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				currentTarget.addClass("hide");
 				closestBlock.find('[data-mode="show"]').removeClass("hide");
 			}
-			$("body").trigger($.Event("DetailView.BlockToggle.PostLoad"), {
+			app.event.trigger("DetailView.BlockToggle.PostLoad", {
 				block: bodyContents,
 				mode: data.mode
 			});
@@ -2097,7 +2097,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			container.find('.mailTeaser').removeClass('hide');
 			container.find('.showMailBody .glyphicon').removeClass("glyphicon-triangle-top").addClass("glyphicon-triangle-bottom");
 		});
-		container.find('.widget_contents').on("Vtiger.Widget.FinishLoad", function (e, widgetName) {
+		app.event.on("Vtiger.Widget.FinishLoad", function (e, widgetName) {
 			Vtiger_Index_Js.registerMailButtons(container);
 			container.find('.showMailModal').click(function (e) {
 				var progressIndicatorElement = jQuery.progressIndicator();
@@ -2125,7 +2125,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		AppConnector.request(params).then(
 				function (data) {
 					widgetDataContainer.html(data);
-					widgetDataContainer.trigger("Vtiger.Widget.FinishLoad", {widgetName: 'Emails'})
+					app.event.trigger("Vtiger.Widget.FinishLoad", {widgetName: 'Emails'})
 					progress.progressIndicator({'mode': 'hide'});
 				}
 		);
@@ -2341,7 +2341,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var recentDocumentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentDocumentsTabLabel);
 			recentDocumentsTab.trigger('click');
 		});
-		detailContentsHolder.find('.widgetContentBlock[data-name="Calendar"] .widget_contents').on("Vtiger.Widget.FinishLoad", function (e) {
+			app.event.on("Vtiger.Widget.FinishLoad", function (e) {
 			var container = $(e.currentTarget).closest('.activityWidgetContainer');
 			thisInstance.reloadWidgetActivitesStats(container);
 		});
@@ -2383,7 +2383,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				progressIndicatorElement.progressIndicator({mode: 'hide'});
 			});
 		});
-		detailContentsHolder.find('.widgetContentBlock[data-type="HistoryRelation"] .widget_contents').on("Vtiger.Widget.FinishLoad", function (e) {
+		app.event.on("Vtiger.Widget.FinishLoad", function (e) {
 			thisInstance.registerEmailEvents($(e.currentTarget));
 		});
 		thisInstance.registerEventForRelatedList();
