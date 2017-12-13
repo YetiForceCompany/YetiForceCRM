@@ -5174,7 +5174,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2637 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2638 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -5995,6 +5995,7 @@ CREATE TABLE `vtiger_lettersin` (
   `lin_dimensions` varchar(255) DEFAULT '',
   `custom_sender` varchar(255) DEFAULT NULL,
   `lin_type` varchar(255) DEFAULT NULL,
+  `cash_amount_on_delivery` decimal(25,8) DEFAULT NULL,
   PRIMARY KEY (`lettersinid`),
   CONSTRAINT `fk_1_vtiger_lettersin` FOREIGN KEY (`lettersinid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
