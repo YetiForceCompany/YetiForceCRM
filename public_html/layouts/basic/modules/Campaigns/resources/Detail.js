@@ -76,7 +76,7 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 		var listInstance = Vtiger_List_Js.getInstance();
 		listInstance.registerEvents();
 		var thisInstance = this;
-		$('body').on('LoadRelatedRecordList.PostLoad', function (e, eventParams) {
+		app.event.on('LoadRelatedRecordList.PostLoad', function (e, eventParams) {
 			var response = eventParams.response;
 			response.find('[name="selectedIds"]').data('selectedIds', "");
 			response.find('[name="excludedIds"]').data('excludedIds', "");

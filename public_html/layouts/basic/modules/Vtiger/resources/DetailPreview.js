@@ -15,7 +15,7 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 	 * Function updates iframes' size with widgets
 	 */
 	updateWidgetEvent: function (iframe, bodyContents) {
-		$("#page").find(".widget_contents").on("Vtiger.Widget.FinishLoad", function (e, widgetName) {
+		app.event.on("Vtiger.Widget.FinishLoad", function (e, widgetName) {
 			iframe.height(bodyContents.height() - 10);
 		});
 	},
@@ -37,11 +37,12 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 			}
 		});
 		//event on loading content in tab, adding records
-		$("body").on("LoadRelatedRecordList.PostLoad", function (e, data) {
+		app.event.on("LoadRelatedRecordList.PostLoad", function (e, data) {
+
 			iframe.height(iframe.contents().find(".detailViewContainer").height());
 		});
 		//event for toggle list's records
-		$("body").on("DetailView.BlockToggle.PostLoad", function (e, data) {
+		app.event.on("DetailView.BlockToggle.PostLoad", function (e, data) {
 			if (inifr.length) {
 				inifr.height(mainContainer.height() - 10);
 				iframe.height(inifr.height() + inifr.offset().top + 10);
@@ -52,7 +53,7 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 		//widgets loader
 		thisInstance.updateWidgetEvent(iframe, mainContainer);
 		//tabs loader
-		$("#page").on("DetailView.Tab.FinishLoad", function (e, data) {
+		app.event.on("DetailView.Tab.FinishLoad", function (e, data) {
 			//check if tab has listpreview
 			if (iframe.contents().find("#listPreviewframe").length) {
 				var inifr = iframe.contents().find("#listPreviewframe");
