@@ -29,6 +29,7 @@ $languageStrings = [
 	'FL_CUSTOM_SENDER' => 'Nadawca niestandardowy',
 	'FL_TYPE' => 'Rodzaj',
 	'FL_CASH_AMOUNT_ON_DELIVERY' => 'Kwota pobraniowa',
+	'FL_DATE_OF_RECEIPT' => 'Data wpływu',
 	// picklist values
 	'PLL_LOCAL_PICKUP' => 'Odbiór osobisty',
 	'PLL_POST_OFFICE_PL' => 'Poczta Polska',
