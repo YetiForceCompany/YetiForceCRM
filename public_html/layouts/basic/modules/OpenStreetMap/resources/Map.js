@@ -462,9 +462,12 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				action: 'GetMarkers',
 				srcModule: app.getModuleName(),
 				searchValue: container.find('.searchValue').val(),
-				radius: container.find('.radius').val(),
 				cache: thisInstance.getCacheParamsToRequest(),
 			};
+			var radiusValue = container.find('.radius').val();
+			if(radiusValue !== '' && parseInt(radiusValue)) {
+				params['radius'] = radiusValue;
+			}
 			$.extend(params, thisInstance.selectedParams);
 			AppConnector.request(params).then(function (response) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
