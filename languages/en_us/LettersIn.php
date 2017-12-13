@@ -7,12 +7,12 @@
  */
 $languageStrings = [
 	// Basic Strings
-	'LettersIn' => 'Letters incoming',
-	'SINGLE_LettersIn' => 'Letters incoming',
-	'LBL_ADD_RECORD' => 'Add letters incoming',
-	'LBL_RECORDS_LIST' => 'Letters incoming',
+	'LettersIn' => 'Incoming correspondence',
+	'SINGLE_LettersIn' => 'Incoming correspondence',
+	'LBL_ADD_RECORD' => 'Add incoming correspondence',
+	'LBL_RECORDS_LIST' => 'Incoming correspondence',
 	// Blocks
-	'LBL_MAIN_INFORMATION' => 'Letters Information',
+	'LBL_MAIN_INFORMATION' => 'Correspondence information',
 	//Field Labels
 	'Number' => 'Number',
 	'Title' => 'Subject',
@@ -28,6 +28,8 @@ $languageStrings = [
 	'Notes' => 'Notes',
 	'Related' => 'Account / Opportunity',
 	'Contact' => 'Contact',
+	'FL_CUSTOM_SENDER' => 'Customized sender',
+	'FL_TYPE' => 'Type',
 	// picklist values
 	'PLL_LOCAL_PICKUP' => 'Collection in person',
 	'PLL_POST_OFFICE_PL' => 'Polish Post Office',
@@ -62,4 +64,11 @@ $languageStrings = [
 	'PLL_SETTLED' => 'Settled',
 	'PLL_A' => 'A',
 	'PLL_B' => 'B',
+	'PLL_REGULAR_LETTER' => 'Regular letter',
+	'PLL_REGISTERED_LETTER' => 'Registered letter',
+	'PLL_REGULAR_PARCEL' => 'Regular parcel',
+	'PLL_LARGESIZE_PARCEL' => 'Large-size parcel',
+	'PLL_DOCUMENT' => 'Document',
+	'PLL_RETURN' => 'Return',
+	'PLL_POSTAL_ADVICE' => 'Postal advice',
 ];
