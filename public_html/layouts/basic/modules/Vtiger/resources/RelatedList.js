@@ -833,11 +833,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			this.registerPreviewEvent();
 		}
 		this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.content, false, this);
-		$('body').trigger(jQuery.Event('LoadRelatedRecordList.PostLoad'), {
-			response: thisInstance.content,
-			instance: thisInstance,
-			moduleName: thisInstance.moduleName
-		});
+		app.event.trigger("RelatedList.AfterLoad", thisInstance);
 	},
 	registerRelatedEvents: function () {
 		this.registerUnreviewedCountEvent();

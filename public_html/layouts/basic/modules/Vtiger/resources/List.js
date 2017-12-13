@@ -619,7 +619,7 @@ jQuery.Class("Vtiger_List_Js", {
 		AppConnector.requestPjax(urlParams).then(function (data) {
 			progressIndicatorElement.progressIndicator({mode: 'hide'});
 			listViewContentsContainer.html(data);
-			$('body').trigger($.Event('LoadRecordList.PostLoad'), data);
+			app.event.trigger("RecordListView.AfterLoad", data, thisInstance);
 			thisInstance.calculatePages().then(function (data) {
 				aDeferred.resolve(data);
 				// Let listeners know about page state change.

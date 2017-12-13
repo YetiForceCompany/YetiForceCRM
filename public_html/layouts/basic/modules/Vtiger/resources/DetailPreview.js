@@ -37,7 +37,7 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 			}
 		});
 		//event on loading content in tab, adding records
-		$("body").on("LoadRelatedRecordList.PostLoad", function (e, data) {
+		app.event.on('RelatedList.AfterLoad', function (event, instance) {
 			iframe.height(iframe.contents().find(".detailViewContainer").height());
 		});
 		//event for toggle list's records
@@ -52,7 +52,7 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 		//widgets loader
 		thisInstance.updateWidgetEvent(iframe, mainContainer);
 		//tabs loader
-		$("#page").on("DetailView.Tab.FinishLoad", function (e, data) {
+		app.event.on('DetailView.Tab.AfterLoad', function (event, container, instance) {
 			//check if tab has listpreview
 			if (iframe.contents().find("#listPreviewframe").length) {
 				var inifr = iframe.contents().find("#listPreviewframe");

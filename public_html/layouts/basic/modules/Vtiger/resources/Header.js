@@ -333,30 +333,25 @@ jQuery.Class("Vtiger_Header_Js", {
 					if (typeof (moduleInstance.quickCreateSave) === 'function') {
 						targetInstance = moduleInstance;
 					}
-
-					targetInstance.quickCreateSave(form).then(
-							function (data) {
-								app.hideModalWindow();
-								var parentModule = app.getModuleName();
-								var viewname = app.getViewName();
-								if ((module == parentModule) && (viewname == "List")) {
-									var listinstance = new Vtiger_List_Js();
-									listinstance.getListViewRecords();
-								}
-								submitSuccessCallbackFunction(data);
-								var registeredCallBackList = thisInstance.quickCreateCallBacks;
-								for (var index = 0; index < registeredCallBackList.length; index++) {
-									var callBack = registeredCallBackList[index];
-									callBack({
-										'data': data,
-										'name': form.find('[name="module"]').val()
-									});
-								}
-								jQuery('body').trigger(jQuery.Event('QuickCreateSave.PostLoad'), data);
-							},
-							function (error, err) {
-							}
-					);
+					targetInstance.quickCreateSave(form).then(function (data) {
+						app.hideModalWindow();
+						var parentModule = app.getModuleName();
+						var viewname = app.getViewName();
+						if ((module == parentModule) && (viewname == "List")) {
+							var listinstance = new Vtiger_List_Js();
+							listinstance.getListViewRecords();
+						}
+						submitSuccessCallbackFunction(data);
+						var registeredCallBackList = thisInstance.quickCreateCallBacks;
+						for (var index = 0; index < registeredCallBackList.length; index++) {
+							var callBack = registeredCallBackList[index];
+							callBack({
+								'data': data,
+								'name': form.find('[name="module"]').val()
+							});
+						}
+						app.event.trigger("QuickCreate.AfterSaveFinal", data, form);
+					});
 				} else {
 					//If validation fails in recordPreSaveEvent, form should submit again
 					form.removeData('submit');

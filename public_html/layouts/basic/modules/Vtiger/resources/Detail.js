@@ -411,25 +411,19 @@ jQuery.Class("Vtiger_Detail_Js", {
 			params.url = url;
 			params.data = data;
 		}
-		AppConnector.requestPjax(params).then(
-				function (responseData) {
-					detailContentsHolder.html(responseData);
-					responseData = detailContentsHolder.html();
-					//thisInstance.triggerDisplayTypeEvent();
-					thisInstance.registerBlockStatusCheckOnLoad();
-					//Make select box more usability
-					app.changeSelectElementView(detailContentsHolder);
-					//Attach date picker event to date fields
-					app.registerEventForDatePickerFields(detailContentsHolder);
-					thisInstance.getForm().validationEngine();
-					detailContentsHolder.trigger(jQuery.Event('Detail.LoadContents.PostLoad'), responseData);
-					aDeferred.resolve(responseData);
-				},
-				function () {
-
-				}
-		);
-
+		AppConnector.requestPjax(params).then(function (responseData) {
+			detailContentsHolder.html(responseData);
+			responseData = detailContentsHolder.html();
+			//thisInstance.triggerDisplayTypeEvent();
+			thisInstance.registerBlockStatusCheckOnLoad();
+			//Make select box more usability
+			app.changeSelectElementView(detailContentsHolder);
+			//Attach date picker event to date fields
+			app.registerEventForDatePickerFields(detailContentsHolder);
+			thisInstance.getForm().validationEngine();
+			app.event.trigger("DetailView.LoadContents.AfterLoad", responseData);
+			aDeferred.resolve(responseData);
+		});
 		return aDeferred.promise();
 	},
 	getUpdatefFieldsArray: function () {
@@ -1655,9 +1649,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 					thisInstance.registerBasicEvents();
 					// Let listeners know about page state change.
 					app.notifyPostAjaxReady();
-					$('#page').trigger('DetailView.Tab.FinishLoad', data);
+					app.event.trigger("DetailView.Tab.AfterLoad", data, thisInstance);
 				}, function () {
-					element.progressIndicator({'mode': 'hide'});
+					element.progressIndicator({mode: 'hide'});
 				});
 			}
 		});
