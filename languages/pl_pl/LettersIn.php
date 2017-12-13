@@ -7,10 +7,10 @@
  */
 $languageStrings = [
 	// Basic Strings
-	'LettersIn' => 'Listy przychodzące',
-	'SINGLE_LettersIn' => 'List przychodzący',
-	'LBL_ADD_RECORD' => 'Dodaj list przychodzący',
-	'LBL_RECORDS_LIST' => 'Listy przychodzące',
+	'LettersIn' => 'Korespondencja przychodząca',
+	'SINGLE_LettersIn' => 'Korespondencja przychodząca',
+	'LBL_ADD_RECORD' => 'Dodaj korespondencję przychodzącą',
+	'LBL_RECORDS_LIST' => 'Korespondencja przychodząca',
 	// Blocks
 	'LBL_MAIN_INFORMATION' => 'Informacje o korespondencji',
 	//Field Labels
