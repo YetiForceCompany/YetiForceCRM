@@ -10,12 +10,12 @@ $languageStrings = [
 	'PLL_A' => 'А',
 	'Type of document' => 'Тип документа',
 	// Basic Strings
-	'LettersOut' => 'Исходящая корреспонденция',
-	'SINGLE_LettersOut' => 'Исходящая корреспонденция',
-	'LBL_ADD_RECORD' => 'Документ',
-	'LBL_RECORDS_LIST' => 'Список документов',
+	'LettersOut' => 'Outgoing correspondence',
+	'SINGLE_LettersOut' => 'Outgoing correspondence',
+	'LBL_ADD_RECORD' => 'Add outgoing correspondence',
+	'LBL_RECORDS_LIST' => 'Outgoing correspondence',
 	// Blocks
-	'LBL_MAIN_INFORMATION' => 'Основная информация',
+	'LBL_MAIN_INFORMATION' => 'Correspondence information',
 	//Field Labels
 	'Number' => 'Номер',
 	'Title' => 'Тема',
@@ -25,7 +25,7 @@ $languageStrings = [
 	'Deadline for reply' => 'Срок для ответа',
 	'Document no' => 'Номер документа',
 	'No internal' => 'Внутренний номер',
-	'Parent letters' => 'Связан с',
+	'Parent letters' => 'Correspondence related to',
 	'Overall dimensions' => 'Формат документа',
 	'Notes' => 'Примечание',
 	'Related' => 'Организация',
