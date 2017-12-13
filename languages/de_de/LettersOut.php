@@ -7,12 +7,12 @@
  */
 $languageStrings = [
 	// Basic Strings
-	'LettersOut' => 'Ausgehender Schriftverkehr',
-	'SINGLE_LettersOut' => 'Ausgehender Schriftverkehr',
-	'LBL_ADD_RECORD' => 'Schriftverkehr hinzufügen',
-	'LBL_RECORDS_LIST' => 'Liste Schriftverkehr',
+	'LettersOut' => 'Outgoing correspondence',
+	'SINGLE_LettersOut' => 'Outgoing correspondence',
+	'LBL_ADD_RECORD' => 'Add outgoing correspondence',
+	'LBL_RECORDS_LIST' => 'Outgoing correspondence',
 	// Blocks
-	'LBL_MAIN_INFORMATION' => 'Informationen zum Schriftverkehr',
+	'LBL_MAIN_INFORMATION' => 'Correspondence information',
 	//Field Labels
 	'Number' => 'Nummer',
 	'Title' => 'Bezeichnung',
@@ -22,7 +22,7 @@ $languageStrings = [
 	'Deadline for reply' => 'Deadline für Antwort',
 	'Document no' => 'Dokumenten Nr.',
 	'No internal' => 'Interne Nr.',
-	'Parent letters' => 'gehört zu',
+	'Parent letters' => 'Correspondence related to',
 	'Overall dimensions' => 'Dimension',
 	'Notes' => 'Notizen',
 	'Related' => 'Organisation / Verkaufschance',
