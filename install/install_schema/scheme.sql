@@ -5174,7 +5174,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2636 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2637 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -5994,6 +5994,7 @@ CREATE TABLE `vtiger_lettersin` (
   `no_internal` varchar(100) DEFAULT '',
   `lin_dimensions` varchar(255) DEFAULT '',
   `custom_sender` varchar(255) DEFAULT NULL,
+  `lin_type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`lettersinid`),
   CONSTRAINT `fk_1_vtiger_lettersin` FOREIGN KEY (`lettersinid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -6067,6 +6068,16 @@ CREATE TABLE `vtiger_lin_status` (
 CREATE TABLE `vtiger_lin_status_seq` (
   `id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_lin_type` */
+
+CREATE TABLE `vtiger_lin_type` (
+  `lin_typeid` int(11) NOT NULL AUTO_INCREMENT,
+  `lin_type` varchar(255) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT 1,
+  `sortorderid` smallint(6) DEFAULT 0,
+  PRIMARY KEY (`lin_typeid`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_lin_type_doc` */
 

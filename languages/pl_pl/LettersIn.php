@@ -29,6 +29,7 @@ $languageStrings = [
 	'Related' => 'Kontrahent / Potencjalny klient',
 	'Contact' => 'Kontakt',
 	'FL_CUSTOM_SENDER' => 'Nadawca niestandardowy',
+	'FL_TYPE' => 'Rodzaj',
 	// picklist values
 	'PLL_LOCAL_PICKUP' => 'Odbiór osobisty',
 	'PLL_POST_OFFICE_PL' => 'Poczta Polska',
@@ -63,4 +64,11 @@ $languageStrings = [
 	'PLL_SETTLED' => 'Rozliczony',
 	'PLL_A' => 'A',
 	'PLL_B' => 'B',
+	'PLL_REGULAR_LETTER' => 'List zwykły',
+	'PLL_REGISTERED_LETTER' => 'List polecony',
+	'PLL_REGULAR_PARCEL' => 'Paczka zwykła',
+	'PLL_LARGESIZE_PARCEL' => 'Paczka wielkogabarytowe',
+	'PLL_DOCUMENT' => 'Dokument',
+	'PLL_RETURN' => 'Zwrot',
+	'PLL_POSTAL_ADVICE' => 'Awizo',
 ];
