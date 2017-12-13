@@ -7,12 +7,12 @@
  */
 $languageStrings = [
 	// Basic Strings
-	'LettersIn' => 'Входящая корреспонденция',
-	'SINGLE_LettersIn' => 'Входящая корреспонденция',
-	'LBL_ADD_RECORD' => 'Документ',
-	'LBL_RECORDS_LIST' => 'Список Документов',
+	'LettersIn' => 'Incoming correspondence',
+	'SINGLE_LettersIn' => 'Incoming correspondence',
+	'LBL_ADD_RECORD' => 'Add incoming correspondence',
+	'LBL_RECORDS_LIST' => 'Incoming correspondence',
 	// Blocks
-	'LBL_MAIN_INFORMATION' => 'Основная информация',
+	'LBL_MAIN_INFORMATION' => 'Correspondence information',
 	//Field Labels
 	'Number' => 'Номер',
 	'Title' => 'Тема',
@@ -28,6 +28,8 @@ $languageStrings = [
 	'Notes' => 'Примечание',
 	'Related' => 'Получатель',
 	'Contact' => 'Контакт',
+	'FL_CUSTOM_SENDER' => 'Customized sender',
+	'FL_TYPE' => 'Type',
 	// picklist values
 	'PLL_LOCAL_PICKUP' => 'Внутренняя почта',
 	'PLL_POST_OFFICE_PL' => 'Иностранная почта',
@@ -62,4 +64,11 @@ $languageStrings = [
 	'PLL_SETTLED' => 'Решение',
 	'PLL_A' => 'А',
 	'PLL_B' => 'Б',
+	'PLL_REGULAR_LETTER' => 'Regular letter',
+	'PLL_REGISTERED_LETTER' => 'Registered letter',
+	'PLL_REGULAR_PARCEL' => 'Regular parcel',
+	'PLL_LARGESIZE_PARCEL' => 'Large-size parcel',
+	'PLL_DOCUMENT' => 'Document',
+	'PLL_RETURN' => 'Return',
+	'PLL_POSTAL_ADVICE' => 'Postal advice',
 ];
