@@ -326,7 +326,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				relatedController.registerRelatedEvents();
 				thisInstance.widgetRelatedRecordView(widgetContainer, true);
 			}
-			app.event.trigger('Vtiger.Widget.FinishLoad', {'widgetName': relatedModuleName})
+			app.event.trigger("DetailView.Widget.AfterLoad", contentContainer, relatedModuleName, thisInstance);
 			aDeferred.resolve(params);
 		}, function (e) {
 			contentContainer.progressIndicator({mode: 'hide'});
@@ -909,6 +909,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 	},
 	registerBlockAnimationEvent: function () {
+		var thisInstance = this;
 		var detailContentsHolder = this.getContentHolder();
 		detailContentsHolder.find(".blockHeader").click(function () {
 			var currentTarget = $(this).find(".blockToggle").not(".hide");
@@ -928,10 +929,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				currentTarget.addClass("hide");
 				closestBlock.find('[data-mode="show"]').removeClass("hide");
 			}
-			app.event.trigger("DetailView.BlockToggle.PostLoad", {
-				block: bodyContents,
-				mode: data.mode
-			});
+			app.event.trigger("DetailView.BlockToggle.PostLoad", bodyContents, data, thisInstance);
 		});
 	},
 	registerBlockStatusCheckOnLoad: function () {
@@ -2097,7 +2095,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			container.find('.mailTeaser').removeClass('hide');
 			container.find('.showMailBody .glyphicon').removeClass("glyphicon-triangle-top").addClass("glyphicon-triangle-bottom");
 		});
-		app.event.on("Vtiger.Widget.FinishLoad", function (e, widgetName) {
+		app.event.on("DetailView.Widget.AfterLoad", function (e, widgetContent, relatedModuleName, instance, widgetContainer) {
 			Vtiger_Index_Js.registerMailButtons(container);
 			container.find('.showMailModal').click(function (e) {
 				var progressIndicatorElement = jQuery.progressIndicator();
@@ -2122,13 +2120,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 		params['mode'] = 'showEmailsList';
 		params['type'] = $('[name="mail-type"]').val();
 		params['mailFilter'] = $('[name="mailFilter"]').val();
-		AppConnector.request(params).then(
-				function (data) {
-					widgetDataContainer.html(data);
-					app.event.trigger("Vtiger.Widget.FinishLoad", {widgetName: 'Emails'})
-					progress.progressIndicator({'mode': 'hide'});
-				}
-		);
+		AppConnector.request(params).then(function (data) {
+			widgetDataContainer.html(data);
+			app.event.trigger("DetailView.Widget.AfterLoad", widgetDataContainer, 'Emails', thisInstance);
+			progress.progressIndicator({'mode': 'hide'});
+		});
 	},
 	registerEmailEvents: function (detailContentsHolder) {
 		Vtiger_Index_Js.registerMailButtons(detailContentsHolder);
@@ -2341,9 +2337,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var recentDocumentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentDocumentsTabLabel);
 			recentDocumentsTab.trigger('click');
 		});
-			app.event.on("Vtiger.Widget.FinishLoad", function (e) {
-			var container = $(e.currentTarget).closest('.activityWidgetContainer');
-			thisInstance.reloadWidgetActivitesStats(container);
+		app.event.on("DetailView.Widget.AfterLoad", function (e, widgetContent, relatedModuleName, instance) {
+			if (relatedModuleName === 'Calendar') {
+				var container = widgetContent.closest('.activityWidgetContainer');
+				thisInstance.reloadWidgetActivitesStats(container);
+			}
 		});
 		detailContentsHolder.on('click', '.moreRecentActivities', function (e) {
 			var currentTarget = $(e.currentTarget);
@@ -2383,8 +2381,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 				progressIndicatorElement.progressIndicator({mode: 'hide'});
 			});
 		});
-		app.event.on("Vtiger.Widget.FinishLoad", function (e) {
-			thisInstance.registerEmailEvents($(e.currentTarget));
+		app.event.on("DetailView.Widget.AfterLoad", function (e, widgetContent, relatedModuleName, instance) {
+			thisInstance.registerEmailEvents(widgetContent);
 		});
 		thisInstance.registerEventForRelatedList();
 		thisInstance.registerBlockAnimationEvent();

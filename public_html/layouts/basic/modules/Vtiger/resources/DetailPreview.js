@@ -15,7 +15,7 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 	 * Function updates iframes' size with widgets
 	 */
 	updateWidgetEvent: function (iframe, bodyContents) {
-		app.event.on("Vtiger.Widget.FinishLoad", function (e, widgetName) {
+		app.event.on("DetailView.Widget.AfterLoad", function (e, widgetContent, relatedModuleName, instance) {
 			iframe.height(bodyContents.height() - 10);
 		});
 	},
@@ -41,7 +41,7 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 			iframe.height(iframe.contents().find(".detailViewContainer").height());
 		});
 		//event for toggle list's records
-		app.event.on("DetailView.BlockToggle.PostLoad", function (e, data) {
+		app.event.on("DetailView.BlockToggle.PostLoad", function (e, contentContainer, data, instance) {
 			if (inifr.length) {
 				inifr.height(mainContainer.height() - 10);
 				iframe.height(inifr.height() + inifr.offset().top + 10);
