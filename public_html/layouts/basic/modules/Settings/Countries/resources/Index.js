@@ -102,10 +102,11 @@ $.Class("Settings_Countries_Index_Js", {}, {
 			});
 		});
 	},
+	allStatuses: 1,
 	registerAllStatuses: function (content) {
+		var thisInstance = this;
 		content.find('button.all-statuses').on('click', function () {
-			var button = $(this);
-			var status = button.data('all-statuses') ? 0 : 1;
+			var status = thisInstance.allStatuses ? 0 : 1;
 			AppConnector.request({
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
@@ -130,7 +131,7 @@ $.Class("Settings_Countries_Index_Js", {}, {
 					});
 				}
 				if (data.success) {
-					button.data('all-statuses', status);
+					thisInstance.allStatuses = status;
 				}
 			});
 		});

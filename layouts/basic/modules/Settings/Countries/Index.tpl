@@ -20,7 +20,7 @@
 								{\App\Purifier::encodeHtml(\App\Language::translate('LBL_ACTIONS',$QUALIFIED_MODULE))}
 							</span>
 							<span>
-								<button data-all-statuses="1" class="all-statuses btn btn-default btn-xs popoverTooltip" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_COUNTRY_TOGGLE_ALL_STATUSES', $QUALIFIED_MODULE))}">
+								<button class="all-statuses btn btn-default btn-xs popoverTooltip" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_COUNTRY_TOGGLE_ALL_STATUSES', $QUALIFIED_MODULE))}">
 									<span class="glyphicon glyphicon-check"></span>
 								</button>
 							</span>
