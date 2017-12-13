@@ -98,13 +98,13 @@ class SSalesProcesses extends Vtiger_CRMEntity
 			}
 			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\App\Module::getModuleId($moduleName));
 		} else if ($eventType == 'module.disabled') {
-
+			
 		} else if ($eventType == 'module.preuninstall') {
-
+			
 		} else if ($eventType == 'module.preupdate') {
-
+			
 		} else if ($eventType == 'module.postupdate') {
-
+			
 		}
 	}
 
@@ -269,7 +269,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 	public function getChildSales($id, &$childSalesProcesses, $depthBase)
 	{
 		\App\Log::trace('Entering getChildSales(' . $id . ',' . $depthBase . ') method ...');
-		if ($depthBase == AppConfig::module('SSalesProcesses', 'MAX_HIERARCHY_DEPTH')) {
+		if (empty($id) || $depthBase == AppConfig::module('SSalesProcesses', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting getChildSales method ... - exceeded maximum depth of hierarchy');
 			return $childSalesProcesses;
 		}

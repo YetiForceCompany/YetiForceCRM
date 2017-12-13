@@ -372,7 +372,7 @@ class Accounts extends CRMEntity
 
 		\App\Log::trace('Entering __getChildAccounts(' . $id . ',' . $depthBase . ') method ...');
 
-		if ($depthBase == AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
+		if (empty($id) || $depthBase == AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting __getChildAccounts method ... - exceeded maximum depth of hierarchy');
 			return $child_accounts;
 		}
