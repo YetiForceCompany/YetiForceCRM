@@ -30,6 +30,8 @@ $languageStrings = [
 	'Contact' => 'Contact',
 	'FL_CUSTOM_SENDER' => 'Customized sender',
 	'FL_TYPE' => 'Type',
+	'FL_CASH_AMOUNT_ON_DELIVERY' => 'Amount due on delivery',
+	'FL_DATE_OF_RECEIPT' => 'Reception date',
 	// picklist values
 	'PLL_LOCAL_PICKUP' => 'Collection in person',
 	'PLL_POST_OFFICE_PL' => 'Polish Post Office',
