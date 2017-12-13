@@ -7,12 +7,12 @@
  */
 $languageStrings = [
 	// Basic Strings
-	'LettersIn' => 'Cartas Recebidas',
-	'SINGLE_LettersIn' => 'Cartas Recebidas',
-	'LBL_ADD_RECORD' => 'Adicionar cartas recebidas',
-	'LBL_RECORDS_LIST' => 'Cartas recebidas',
+	'LettersIn' => 'Incoming correspondence',
+	'SINGLE_LettersIn' => 'Incoming correspondence',
+	'LBL_ADD_RECORD' => 'Add incoming correspondence',
+	'LBL_RECORDS_LIST' => 'Incoming correspondence',
 	// Blocks
-	'LBL_MAIN_INFORMATION' => 'Informações de Cartas',
+	'LBL_MAIN_INFORMATION' => 'Correspondence information',
 	//Field Labels
 	'Number' => 'Número',
 	'Title' => 'Assunto',
@@ -28,6 +28,8 @@ $languageStrings = [
 	'Notes' => 'Notas',
 	'Related' => 'Conta/Oportunidade',
 	'Contact' => 'Contato',
+	'FL_CUSTOM_SENDER' => 'Customized sender',
+	'FL_TYPE' => 'Type',
 	// picklist values
 	'PLL_LOCAL_PICKUP' => 'Entregue Pessoalmente',
 	'PLL_POST_OFFICE_PL' => 'ECT',
@@ -62,4 +64,11 @@ $languageStrings = [
 	'PLL_SETTLED' => 'Liquidada',
 	'PLL_A' => 'A',
 	'PLL_B' => 'B',
+	'PLL_REGULAR_LETTER' => 'Regular letter',
+	'PLL_REGISTERED_LETTER' => 'Registered letter',
+	'PLL_REGULAR_PARCEL' => 'Regular parcel',
+	'PLL_LARGESIZE_PARCEL' => 'Large-size parcel',
+	'PLL_DOCUMENT' => 'Document',
+	'PLL_RETURN' => 'Return',
+	'PLL_POSTAL_ADVICE' => 'Postal advice',
 ];
