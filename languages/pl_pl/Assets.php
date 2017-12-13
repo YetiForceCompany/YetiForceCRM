@@ -9,8 +9,6 @@ $languageStrings = [
 	// Basic Strings
 	'Assets' => 'Produkty sprzedane',
 	'SINGLE_Assets' => 'Produkt sprzedany',
-	'LBL_ADD_RECORD' => 'Dodaj rekord',
-	'LBL_RECORDS_LIST' => 'Lista rekordów',
 	// Blocks
 	'LBL_ASSET_INFORMATION' => 'Szczegóły',
 	//Field Labels

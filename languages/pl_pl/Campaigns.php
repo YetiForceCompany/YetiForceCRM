@@ -10,8 +10,6 @@ $languageStrings = [
 	'Campaign No' => 'Numer kampanii',
 	'Campaigns' => 'Kampanie',
 	'SINGLE_Campaigns' => 'Kampania marketingowa',
-	'LBL_ADD_RECORD' => 'Dodaj rekord',
-	'LBL_RECORDS_LIST' => 'Lista rekordów',
 	//FIELDS
 	'Budget Cost' => 'Budżet kampanii',
 	'Campaign Type' => 'Rodzaj kampanii',

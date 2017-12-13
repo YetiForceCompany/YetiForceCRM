@@ -8,8 +8,6 @@
 $languageStrings = [
 	// Basic Strings
 	'SINGLE_ProjectMilestone' => 'Etap projektu',
-	'LBL_ADD_RECORD' => 'Dodaj rekord',
-	'LBL_RECORDS_LIST' => 'Lista rekordów',
 	// Blocks
 	'LBL_PROJECT_MILESTONE_INFORMATION' => 'Szczegóły etapu',
 	//Field Labels

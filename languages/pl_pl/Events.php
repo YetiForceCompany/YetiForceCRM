@@ -39,7 +39,6 @@ $languageStrings = [
 	'LBL_LAST' => 'Ostatni',
 	'LBL_MONTHS_TYPE' => 'Miesięcy',
 	'LBL_ON' => 'po',
-	'LBL_RECORDS_LIST' => 'Lista rekordów', //Duplicated key-value pair
 	'LBL_RECURRENCE_INFORMATION' => 'Szczegóły powtarzalności terminu',
 	'LBL_RELATED_TO' => 'Powiązany z',
 	'LBL_REPEATEVENT' => 'Powtórz raz co',

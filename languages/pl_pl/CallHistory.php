@@ -8,8 +8,6 @@
 $languageStrings = [
 	'CallHistory' => 'Historia połączeń',
 	'SINGLE_CallHistory' => 'Historia połączenia',
-	'LBL_ADD_RECORD' => 'Dodaj rekord',
-	'LBL_RECORDS_LIST' => 'Lista rekordów',
 	//Bloks
 	'LBL_CALLHISTORY_INFORMATION' => 'Informacje o połączeniu',
 	'LBL_CUSTOM_INFORMATION' => 'Informacje dodatkowe',

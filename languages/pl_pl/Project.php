@@ -8,7 +8,6 @@
 $languageStrings = [
 	// Basic Strings
 	'SINGLE_Project' => 'Projekty',
-	'LBL_ADD_RECORD' => 'Dodaj rekord',
 	'LBL_RECORDS_LIST' => 'Lista projektów',
 	// Blocks
 	'LBL_PROJECT_INFORMATION' => 'Szczegóły projektu',
