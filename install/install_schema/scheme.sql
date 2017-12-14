@@ -5997,7 +5997,7 @@ CREATE TABLE `vtiger_lettersin` (
   `lin_type` varchar(255) DEFAULT NULL,
   `cash_amount_on_delivery` decimal(25,8) DEFAULT NULL,
   `date_of_receipt` date DEFAULT NULL,
-  `outgoing_correspondence` int(19) DEFAULT NULL,
+  `outgoing_correspondence` int(10) DEFAULT NULL,
   PRIMARY KEY (`lettersinid`),
   KEY `vtiger_lettersin_outgoing_correspondence_idx` (`outgoing_correspondence`),
   CONSTRAINT `fk_1_vtiger_lettersin` FOREIGN KEY (`lettersinid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
@@ -6030,7 +6030,7 @@ CREATE TABLE `vtiger_lettersout` (
   `cocument_no` varchar(100) DEFAULT '',
   `no_internal` varchar(100) DEFAULT '',
   `lout_dimensions` varchar(255) DEFAULT '',
-  `incoming_correspondence` int(19) DEFAULT NULL,
+  `incoming_correspondence` int(10) DEFAULT NULL,
   PRIMARY KEY (`lettersoutid`),
   KEY `vtiger_lettersout_incoming_correspondence_idx` (`incoming_correspondence`),
   CONSTRAINT `fk_1_vtiger_lettersout` FOREIGN KEY (`lettersoutid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
