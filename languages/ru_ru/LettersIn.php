@@ -9,8 +9,6 @@ $languageStrings = [
 	// Basic Strings
 	'LettersIn' => 'Incoming correspondence',
 	'SINGLE_LettersIn' => 'Incoming correspondence',
-	'LBL_ADD_RECORD' => 'Add incoming correspondence',
-	'LBL_RECORDS_LIST' => 'Incoming correspondence',
 	// Blocks
 	'LBL_MAIN_INFORMATION' => 'Correspondence information',
 	//Field Labels
@@ -33,6 +31,8 @@ $languageStrings = [
 	'FL_CASH_AMOUNT_ON_DELIVERY' => 'Amount due on delivery',
 	'FL_DATE_OF_RECEIPT' => 'Reception date',
 	'FL_OUTGOING_CORRESPONDENCE' => 'Outgoing correspondence',
+	'FL_INTERNAL_NOTES' => 'Internal notes',
+	'FL_PUBLIC_NOTES' => 'Public notes',
 	// picklist values
 	'PLL_LOCAL_PICKUP' => 'Внутренняя почта',
 	'PLL_POST_OFFICE_PL' => 'Иностранная почта',
