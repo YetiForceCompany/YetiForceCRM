@@ -747,7 +747,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function privilegeToDelete()
 	{
 		if (!isset($this->privileges['Deleted'])) {
-			$this->privileges['Deleted'] = \App\Privilege::isPermitted($this->getModuleName(), 'Delete', $this->getId()) && $this->checkLockFields();
+			$this->privileges['Deleted'] = \App\Privilege::isPermitted($this->getModuleName(), 'Delete', $this->getId());
 		}
 		return $this->privileges['Deleted'];
 	}
@@ -759,7 +759,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function privilegeToMoveToTrash()
 	{
 		if (!isset($this->privileges['MoveToTrash'])) {
-			$this->privileges['MoveToTrash'] = \App\Record::getState($this->getId()) !== 'Trash' && \App\Privilege::isPermitted($this->getModuleName(), 'MoveToTrash', $this->getId()) && $this->checkLockFields();
+			$this->privileges['MoveToTrash'] = \App\Record::getState($this->getId()) !== 'Trash' && \App\Privilege::isPermitted($this->getModuleName(), 'MoveToTrash', $this->getId());
 		}
 		return $this->privileges['MoveToTrash'];
 	}
@@ -771,7 +771,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function privilegeToArchive()
 	{
 		if (!isset($this->privileges['Archive'])) {
-			$this->privileges['Archive'] = \App\Record::getState($this->getId()) !== 'Archived' && \App\Privilege::isPermitted($this->getModuleName(), 'ArchiveRecord', $this->getId()) && $this->checkLockFields();
+			$this->privileges['Archive'] = \App\Record::getState($this->getId()) !== 'Archived' && \App\Privilege::isPermitted($this->getModuleName(), 'ArchiveRecord', $this->getId());
 		}
 		return $this->privileges['Archive'];
 	}
