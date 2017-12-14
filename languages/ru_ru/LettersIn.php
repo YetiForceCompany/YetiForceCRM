@@ -23,7 +23,6 @@ $languageStrings = [
 	'No internal' => 'Внутренний номер',
 	'Parent letters' => 'Предыдущий документ',
 	'Overall dimensions' => 'Размер',
-	'Notes' => 'Примечание',
 	'Related' => 'Получатель',
 	'Contact' => 'Контакт',
 	'FL_CUSTOM_SENDER' => 'Customized sender',

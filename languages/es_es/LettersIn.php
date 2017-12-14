@@ -23,7 +23,6 @@ $languageStrings = [
 	'No internal' => 'Número interno',
 	'Parent letters' => 'Cartas relacionadas con',
 	'Overall dimensions' => 'Dimensión',
-	'Notes' => 'Notas',
 	'Related' => 'Empresa / Oportunidad',
 	'Contact' => 'Contacto',
 	'FL_CUSTOM_SENDER' => 'Customized sender',
