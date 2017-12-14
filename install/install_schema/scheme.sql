@@ -1496,17 +1496,6 @@ CREATE TABLE `u_yf_finvoice_address` (
   `buildingnumbera` varchar(50) DEFAULT NULL,
   `localnumbera` varchar(50) DEFAULT NULL,
   `poboxa` varchar(50) DEFAULT NULL,
-  `addresslevel1c` varchar(255) DEFAULT NULL,
-  `addresslevel2c` varchar(255) DEFAULT NULL,
-  `addresslevel3c` varchar(255) DEFAULT NULL,
-  `addresslevel4c` varchar(255) DEFAULT NULL,
-  `addresslevel5c` varchar(255) DEFAULT NULL,
-  `addresslevel6c` varchar(255) DEFAULT NULL,
-  `addresslevel7c` varchar(255) DEFAULT NULL,
-  `addresslevel8c` varchar(255) DEFAULT NULL,
-  `buildingnumberc` varchar(255) DEFAULT NULL,
-  `localnumberc` varchar(255) DEFAULT NULL,
-  `poboxc` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`finvoiceaddressid`),
   CONSTRAINT `u_yf_finvoice_address_ibfk_1` FOREIGN KEY (`finvoiceaddressid`) REFERENCES `u_yf_finvoice` (`finvoiceid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
