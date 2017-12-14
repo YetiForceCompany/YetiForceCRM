@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="contentHeader">
-		<div class="pull-right">
+	<div class="fixedActionsPanel">
+		<div class="contentHeader">
 			<button class="btn btn-success generatePass" name="save" type="button">
 				<strong>{\App\Language::translate($GENERATEPASS, $MODULE)}</strong>
 			</button>&nbsp;
@@ -14,7 +14,6 @@
 				<strong>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE_NAME)}</strong>
 			</button>
 		</div>
-		<div class="clearfix"></div>
 	</div>
 </form>
 </div>
