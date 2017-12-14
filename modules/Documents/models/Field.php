@@ -12,29 +12,21 @@ class Documents_Field_Model extends Vtiger_Field_Model
 {
 
 	/**
-	 * Function to retieve display value for a value
-	 * @param string $value - value which need to be converted to display value
-	 * @return string - converted display value
+	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false, $length = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$fieldName = $this->getName();
-		if ($fieldName == 'filesize' && $recordInstance) {
-			$downloadType = $recordInstance->get('filelocationtype');
-			if ($downloadType == 'I') {
-				$filesize = $value;
-				if ($filesize < 1024)
-					$value = $filesize . ' B';
-				elseif ($filesize > 1024 && $filesize < 1048576)
-					$value = round($filesize / 1024, 2) . ' KB';
-				else if ($filesize > 1048576)
-					$value = round($filesize / (1024 * 1024), 2) . ' MB';
+		if ($fieldName === 'filesize' && $recordModel) {
+			$downloadType = $recordModel->get('filelocationtype');
+			if ($downloadType === 'I') {
+				$value = vtlib\Functions::showBytes($value);
 			} else {
 				$value = ' --';
 			}
 			return $value;
 		}
 
-		return parent::getDisplayValue($value, $record, $recordInstance, $rawText, $length);
+		return parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
 	}
 }

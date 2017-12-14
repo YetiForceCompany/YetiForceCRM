@@ -33,9 +33,7 @@ class IStorages_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to retieve display value for a field
-	 * @param string $fieldName - field name for which values need to get
-	 * @return string
+	 * {@inheritDoc}
 	 */
 	public function getDisplayValue($fieldName, $record = false, $rawText = false, $length = false)
 	{

@@ -157,9 +157,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	 * @param int|bool $length Length of the text
 	 * @return mixed converted display value
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false, $length = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		return $this->getUITypeModel()->getDisplayValue($value, $record, $recordInstance, $rawText, $length);
+		return $this->getUITypeModel()->getDisplayValue($value, $record, $recordModel, $rawText, $length);
 	}
 
 	/**

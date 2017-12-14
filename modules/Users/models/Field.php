@@ -99,17 +99,15 @@ class Users_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Function to retieve display value for a value
-	 * @param string $value - value which need to be converted to display value
-	 * @return string - converted display value
+	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false, $length = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$fieldName = $this->getFieldName();
 		if (($fieldName === 'currency_decimal_separator' || $fieldName === 'currency_grouping_separator') && ($value == '&nbsp;')) {
 			return \App\Language::translate('LBL_SPACE', 'Users');
 		}
-		return parent::getDisplayValue($value, $record, $recordInstance, $rawText, $length);
+		return parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
 	}
 
 	/**

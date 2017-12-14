@@ -1238,7 +1238,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($fieldName, $recordId = false, $rawText = false)
+	public function getDisplayValue($fieldName, $record = false, $rawText = false, $length = false)
 	{
 		switch ($fieldName) {
 			case 'foldername':
