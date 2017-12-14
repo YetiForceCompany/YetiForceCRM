@@ -9,8 +9,6 @@ $languageStrings = [
 	// Basic Strings
 	'LettersOut' => 'Correspondências Enviadas',
 	'SINGLE_LettersOut' => 'Correspondências Enviadas',
-	'LBL_ADD_RECORD' => 'Add outgoing correspondence',
-	'LBL_RECORDS_LIST' => 'Outgoing correspondence',
 	// Blocks
 	'LBL_MAIN_INFORMATION' => 'Informações de Correspondências',
 	//Field Labels
@@ -28,6 +26,7 @@ $languageStrings = [
 	'Related' => 'Conta/Oportunidade',
 	'Contact' => 'Contato',
 	'Type of document' => 'Tipo documento',
+	'FL_INCOMING_CORRESPONDENCE' => 'Incoming correspondence',
 	// picklist values
 	'PLL_LOCAL_PICKUP' => 'Entregue Pessoalmente',
 	'PLL_POST_OFFICE_PL' => 'ECT',
