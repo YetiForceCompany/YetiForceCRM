@@ -5174,7 +5174,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2641 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2642 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -6008,6 +6008,7 @@ CREATE TABLE `vtiger_lettersin` (
 CREATE TABLE `vtiger_lettersincf` (
   `lettersinid` int(10) NOT NULL,
   `internal_notes` text DEFAULT NULL,
+  `public_notes` text DEFAULT NULL,
   PRIMARY KEY (`lettersinid`),
   CONSTRAINT `fk_1_vtiger_lettersincf` FOREIGN KEY (`lettersinid`) REFERENCES `vtiger_lettersin` (`lettersinid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -32,6 +32,7 @@ $languageStrings = [
 	'FL_DATE_OF_RECEIPT' => 'Data wpływu',
 	'FL_OUTGOING_CORRESPONDENCE' => 'Korespondencja wychodząca',
 	'FL_INTERNAL_NOTES' => 'Uwagi wewnętrzne',
+	'FL_PUBLIC_NOTES' => 'Uwagi publiczne',
 	// picklist values
 	'PLL_LOCAL_PICKUP' => 'Odbiór osobisty',
 	'PLL_POST_OFFICE_PL' => 'Poczta Polska',
