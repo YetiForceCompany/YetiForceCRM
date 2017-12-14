@@ -14,7 +14,7 @@ class Assets extends CRMEntity
 	public $table_name = 'vtiger_assets';
 	public $table_index = 'assetsid';
 	public $column_fields = [];
-	protected $lockFields = ['assetstatus' => ['PLL_ACCEPTED', 'PLL_CANCELLED']];
+	protected $lockFields = [];
 
 	/** Indicator if this is a custom module or standard module */
 	public $IsCustomModule = true;
@@ -311,13 +311,13 @@ class Assets extends CRMEntity
 
 			\App\Fields\RecordNumber::setNumber($moduleName, 'ASSET', 1);
 		} else if ($eventType === 'module.disabled') {
-
+			
 		} else if ($eventType === 'module.enabled') {
-
+			
 		} else if ($eventType === 'module.preuninstall') {
-
+			
 		} else if ($eventType === 'module.preupdate') {
-
+			
 		} else if ($eventType === 'module.postupdate') {
 			\App\Fields\RecordNumber::setNumber($moduleName, 'ASSET', 1);
 		}
