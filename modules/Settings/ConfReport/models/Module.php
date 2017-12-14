@@ -357,10 +357,19 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		if (function_exists('apache_response_headers')) {
 			$headers = array_change_key_case(apache_response_headers(), CASE_UPPER);
 		} else {
+			stream_context_set_default([
+				'ssl' => [
+					'verify_peer' => false,
+					'verify_peer_name' => false,
+				],
+			]);
 			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
-			$headers = array_change_key_case(get_headers($requestUrl, 1), CASE_UPPER);
-			if (stripos($headers[0], '200') === false) {
-				$headers = [];
+			$rqheaders = get_headers($requestUrl, 1);
+			if ($rqheaders) {
+				$headers = array_change_key_case($rqheaders, CASE_UPPER);
+				if (stripos($headers[0], '200') === false) {
+					$headers = [];
+				}
 			}
 		}
 		if ($headers) {
