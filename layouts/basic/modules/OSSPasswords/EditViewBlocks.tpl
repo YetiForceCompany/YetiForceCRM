@@ -38,16 +38,6 @@
 					<span class="pull-left">
 						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 					</span>
-					<span class="pull-right">
-						<button class="btn btn-success" type="submit" id="saveBtn1">
-							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;
-							<strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE_NAME)}</strong>
-						</button>&nbsp;&nbsp;
-						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">
-							<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;
-							<strong>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE_NAME)}</strong>
-						</button>
-					</span>
 				</div>
 			</div>
 
