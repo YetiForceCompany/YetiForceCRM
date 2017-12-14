@@ -43,9 +43,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public function getOwnerName()
 	{
-		$ownerId = $this->getOwnerId();
-		$entityNames = \App\Fields\Owner::getUserLabel($ownerId);
-		return $entityNames[$ownerId];
+		return \App\Fields\Owner::getUserLabel($this->getOwnerId());
 	}
 
 	/**
