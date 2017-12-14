@@ -9,8 +9,6 @@ $languageStrings = [
 	// Basic Strings
 	'LettersOut' => 'Outgoing correspondence',
 	'SINGLE_LettersOut' => 'Outgoing correspondence',
-	'LBL_ADD_RECORD' => 'Add outgoing correspondence',
-	'LBL_RECORDS_LIST' => 'Outgoing correspondence',
 	// Blocks
 	'LBL_MAIN_INFORMATION' => 'Correspondence information',
 	//Field Labels
@@ -28,6 +26,7 @@ $languageStrings = [
 	'Related' => 'Account / Opportunity',
 	'Contact' => 'Contact',
 	'Type of document' => 'Document type',
+	'FL_INCOMING_CORRESPONDENCE' => 'Incoming correspondence',
 	// picklist values
 	'PLL_LOCAL_PICKUP' => 'Collection in person',
 	'PLL_POST_OFFICE_PL' => 'Polish Post Office',
