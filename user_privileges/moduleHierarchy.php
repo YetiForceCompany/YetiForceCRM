@@ -71,6 +71,9 @@ return [
 		],
 		'IGDNC' => [
 			'igdnid' => ['IGDN' => ['storageid' => ['storageid'], 'accountid' => ['accountid']]]
+		],
+		'Assets' => [
+			'contactid' => ['Contacts' => ['parent_id' => ['parent_id']]],
 		]
 	],
 	'modulesMap1M' => [// Base => Parent
