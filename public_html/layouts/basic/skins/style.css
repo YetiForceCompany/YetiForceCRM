@@ -4192,7 +4192,10 @@ html,body,.baseContainer
 .listViewActionsDiv .btn-toolbar > .dropdown-toggle + .dropdown-menu{
 	left: 20px;
 }
-.listViewActionsDiv .dropdown-toggle, .addButton {
+.listViewActionsDiv .dropdown-toggle {
+	margin-bottom: 7px;
+}
+.listViewActionsDiv .addButton {
 	margin-bottom: 7px;
 }
 .widget_header .dropdown-toggle + .dropdown-menu{
