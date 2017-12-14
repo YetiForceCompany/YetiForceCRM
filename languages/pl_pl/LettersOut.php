@@ -26,6 +26,7 @@ $languageStrings = [
 	'Notes' => 'Uwagi',
 	'Related' => 'Kontrahent / Potencjalny klient',
 	'Contact' => 'Kontakt',
+	'FL_INCOMING_CORRESPONDENCE' => 'Korespondencja przychodząca',
 	// picklist values
 	'PLL_LOCAL_PICKUP' => 'Odbiór osobisty',
 	'PLL_POST_OFFICE_PL' => 'Poczta Polska',
