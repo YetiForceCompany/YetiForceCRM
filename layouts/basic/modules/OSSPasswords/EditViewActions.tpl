@@ -14,6 +14,10 @@
 		<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;
 		<strong>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE_NAME)}</strong>
 	</button>
+	{foreach item=LINK from=$EDITVIEW_LINKS['EDIT_VIEW_HEADER']}
+		{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='editViewHeader'}
+		&nbsp;&nbsp;
+	{/foreach}
 </div>
 </form>
 {/strip}
