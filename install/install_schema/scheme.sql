@@ -5142,7 +5142,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2676 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2677 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -8907,6 +8907,7 @@ CREATE TABLE `vtiger_users` (
   `hour_format` varchar(30) DEFAULT 'am/pm',
   `start_hour` varchar(30) DEFAULT '10:00',
   `end_hour` varchar(30) DEFAULT '23:00',
+  `view_date_format` varchar(50) DEFAULT 'PLL_ELAPSED',
   `activity_view` varchar(200) DEFAULT 'Today',
   `lead_view` varchar(200) DEFAULT 'Today',
   `imagename` varchar(250) DEFAULT NULL,
@@ -9099,6 +9100,16 @@ CREATE TABLE `vtiger_version` (
 CREATE TABLE `vtiger_version_seq` (
   `id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_view_date_format` */
+
+CREATE TABLE `vtiger_view_date_format` (
+  `view_date_formatid` int(11) NOT NULL AUTO_INCREMENT,
+  `view_date_format` varchar(50) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT 1,
+  `sortorderid` smallint(6) DEFAULT 0,
+  PRIMARY KEY (`view_date_formatid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_visibility` */
 
