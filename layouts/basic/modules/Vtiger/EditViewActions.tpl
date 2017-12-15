@@ -10,7 +10,10 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="fixedActionsPanel">
+</form>
+</div>
+</div>
+	<div class="formActionsPanel">
 		<div class="contentHeader">
 			{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
 			<button class="btn btn-success" type="submit">
@@ -28,7 +31,4 @@
 			<div class="clearfix"></div>
 		</div>
 	</div>
-	<br />
-</form>
-</div>
 {/strip}
