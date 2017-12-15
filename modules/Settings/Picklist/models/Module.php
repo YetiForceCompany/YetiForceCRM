@@ -50,20 +50,19 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		}
 		$picklistValueId = $db->getUniqueID('vtiger_picklistvalues');
 		$sequence = (new \App\Db\Query())->from($tableName)->max('sortorderid');
-		$columnNames = $db->getTableSchema($tableName)->getColumnNames();
+		$row = [
+			($pickListFieldName . 'id') => $id,
+			$pickListFieldName => $newValue,
+			'sortorderid' => ++$sequence,
+			'presence' => 1
+		];
 		if ($fieldModel->isRoleBased()) {
-			if (in_array('color', $columnNames)) {
-				$db->createCommand()->batchInsert($tableName, $columnNames, [[$id, $newValue, 1, $picklistValueId, ++$sequence, '#E6FAD8']])->execute();
-			} else {
-				$db->createCommand()->batchInsert($tableName, $columnNames, [[$id, $newValue, 1, $picklistValueId, ++$sequence]])->execute();
-			}
-		} else {
-			if (in_array('color', $columnNames)) {
-				$db->createCommand()->batchInsert($tableName, $columnNames, [[$id, $newValue, ++$sequence, 1, '#E6FAD8']])->execute();
-			} else {
-				$db->createCommand()->batchInsert($tableName, $columnNames, [[$id, $newValue, ++$sequence, 1]])->execute();
-			}
+			$row = array_merge($row, ['picklist_valueid' => $picklistValueId]);
 		}
+		if (in_array('color', $db->getTableSchema($tableName)->getColumnNames())) {
+			$row = array_merge($row, ['color' => '#E6FAD8']);
+		}
+		$db->createCommand()->insert($tableName, $row)->execute();
 		if ($fieldModel->isRoleBased() && !empty($rolesSelected)) {
 			$picklistid = (new \App\Db\Query())->select(['picklistid'])
 				->from('vtiger_picklist')
