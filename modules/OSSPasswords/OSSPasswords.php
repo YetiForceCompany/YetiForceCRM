@@ -293,23 +293,23 @@ class OSSPasswords extends CRMEntity
 		$registerLink = false;
 		$addModTracker = false;
 
-		if ($eventType == 'module.postinstall') {
+		if ($eventType === 'module.postinstall') {
 
-		} else if ($eventType == 'module.disabled') {
+		} else if ($eventType === 'module.disabled') {
 			$registerLink = false;
 			App\EventHandler::setInActive('OSSPasswords_Secure_Handler');
-		} else if ($eventType == 'module.enabled') {
+		} else if ($eventType === 'module.enabled') {
 			$registerLink = true;
 			App\EventHandler::setActive('OSSPasswords_Secure_Handler');
-		} else if ($eventType == 'module.preuninstall') {
+		} else if ($eventType === 'module.preuninstall') {
 			\App\Log::trace('Before starting uninstall script...');
 			require_once( 'modules/Settings/' . $moduleName . '/views/uninstall.php' );
 			\App\Log::trace('After uninstall script.');
 
 			header('Location: index.php?module=Vtiger&parent=Settings&view=Index');
-		} else if ($eventType == 'module.preupdate') {
+		} else if ($eventType === 'module.preupdate') {
 
-		} else if ($eventType == 'module.postupdate') {
+		} else if ($eventType === 'module.postupdate') {
 
 		}
 

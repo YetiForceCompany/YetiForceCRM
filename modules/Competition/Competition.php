@@ -147,7 +147,7 @@ class Competition extends Vtiger_CRMEntity
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		if ($eventType == 'module.postinstall') {
+		if ($eventType === 'module.postinstall') {
 			$moduleInstance = CRMEntity::getInstance('Competition');
 			\App\Fields\RecordNumber::setNumber($moduleName, 'CMP', '1');
 			\App\Db::getInstance()->update('vtiger_tab', ['customized' => 0], ['name' => 'Competition'])->execute();
@@ -159,13 +159,13 @@ class Competition extends Vtiger_CRMEntity
 					ModComments::addWidgetTo(['Competition']);
 			}
 			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\App\Module::getModuleId('Competition'));
-		} else if ($eventType == 'module.disabled') {
+		} else if ($eventType === 'module.disabled') {
 
-		} else if ($eventType == 'module.preuninstall') {
+		} else if ($eventType === 'module.preuninstall') {
 
-		} else if ($eventType == 'module.preupdate') {
+		} else if ($eventType === 'module.preupdate') {
 
-		} else if ($eventType == 'module.postupdate') {
+		} else if ($eventType === 'module.postupdate') {
 
 		}
 	}
