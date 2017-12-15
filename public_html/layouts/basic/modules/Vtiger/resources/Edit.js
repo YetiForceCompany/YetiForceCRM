@@ -1517,25 +1517,6 @@ jQuery.Class("Vtiger_Edit_Js", {
 			container.find('[name="' + element.data('copyToField') + '"]').val(element.val());
 		});
 	},
-	updateFixedPanelClass: function () {
-		var fixedPanel = $('.fixedActionsPanel');
-		var scrolledBody = $('.contentsDiv');
-		var vtFooter = $('.vtFooter').height();
-		if ($(document).height() - (vtFooter + scrolledBody.offset().top + 2) > scrolledBody.height()) {
-			fixedPanel.addClass("fixedActionsPanelScrolloff");
-		} else {
-			fixedPanel.removeClass("fixedActionsPanelScrolloff");
-		}
-	},
-	updateFixedPanelSize: function () {
-		var thisInstance = this;
-		$(document).load(function () {
-			this.updateFixedPanelClass();
-		});
-		$(window).resize(function () {
-			thisInstance.updateFixedPanelClass();
-		});
-	},
 	/**
 	 * Function which will register basic events which will be used in quick create as well
 	 *
@@ -1557,7 +1538,6 @@ jQuery.Class("Vtiger_Edit_Js", {
 		this.registerReferenceFields(container);
 		this.registerFocusFirstField(container);
 		this.registerCopyValue(container);
-		this.updateFixedPanelSize(container);
 	},
 	registerEvents: function () {
 		var editViewForm = this.getForm();

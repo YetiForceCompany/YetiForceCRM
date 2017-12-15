@@ -6002,25 +6002,34 @@ border1px{
 .fixedListContent .listViewSummation td {
 	padding: 0;
 }
-.fixedActionsPanel {
+.formActionsPanel {
 	position: fixed;
 	bottom: 33px;
 	height: 45px;
-	width: calc(100% - 65px);
+	width: calc(100% - 50px);
 	background: #EEEEEE;
 	margin-left: -10px;
 	text-align: center;
 	border-top: 1px solid #ddd;
 	z-index: 5;
 }
-.fixedActionsPanel .contentHeader {
+.formActionsPanel .contentHeader {
 	padding: 5px;
 }
-.fixedActionsPanel .contentHeader .btn-group {
-	margin-left: 3px;
+.formActionsPanel .contentHeader .btn-group {
+	margin-right: 3px;
 }
-.fixedActionsPanelScrolloff {
-	width: calc(100% - 50px);
+.formActionsPanel .saveAndComplete {
+	margin-right: 6px;
+}
+.verticalScroll {
+	position: absolute;
+	left: 0;
+	height: calc(100vh - 128px);
+	width: 100%;
+	overflow-x: hidden;
+	padding-right: 10px;
+	padding-left: 10px
 }
 @media only screen and (max-width: 992px) {
 	#listPreview{
@@ -6041,12 +6050,12 @@ border1px{
 	}
 }
 @media only screen and (max-width: 768px) {
-	.fixedActionsPanel {
+	.formActionsPanel {
 		bottom: 17px;
-		width: calc(100% - 15px);
-	}
-	.fixedActionsPanelScrolloff {
 		width: 100%;
+	}
+	.verticalScroll {
+		height: calc(100vh - 112px);
 	}
 }
 .popover.activities{
