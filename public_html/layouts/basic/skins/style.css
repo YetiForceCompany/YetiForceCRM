@@ -6013,10 +6013,10 @@ border1px{
 	border-top: 1px solid #ddd;
 	z-index: 5;
 }
-.formActionsPanel .contentHeader {
+.formActionsPanel {
 	padding: 5px;
 }
-.formActionsPanel .contentHeader .btn-group {
+.formActionsPanel .btn-group {
 	margin-right: 3px;
 }
 .formActionsPanel .saveAndComplete {
