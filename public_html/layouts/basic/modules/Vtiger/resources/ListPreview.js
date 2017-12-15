@@ -83,9 +83,16 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		});
 		thisInstance.updateListPreviewSize(currentElement);
 	},
+	registerSplit: function () {
+		Split(['.fixedListInitial', '#listPreview'], {
+			sizes: [25, 75],
+			minSize: 200
+		});
+	},
 	registerEvents: function () {
 		this._super();
 		this.registerPreviewEvent();
 		this.registerListPreviewScroll();
+		this.registerSplit();
 	},
 });
