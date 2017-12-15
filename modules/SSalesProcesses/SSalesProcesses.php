@@ -133,10 +133,8 @@ class SSalesProcesses extends Vtiger_CRMEntity
 		$baseId = current(array_keys($salesProcessesList));
 		$salesProcessesList = [$baseId => $salesProcessesList[$baseId]];
 		$salesProcessesList[$baseId] = $this->getChildSales($baseId, $salesProcessesList[$baseId], $salesProcessesList[$baseId]['depth']);
-		$salesProcessesHierarchy = $this->getHierarchyData($id, $salesProcessesList[$baseId], $baseId, $listviewEntries, $getRawData, $getLinks);
-		$salesProcessesHierarchy = ['header' => $listviewHeader, 'entries' => $listviewEntries];
-		\App\Log::trace('Exiting getHierarchy method ...');
-		return $salesProcessesHierarchy;
+		$this->getHierarchyData($id, $salesProcessesList[$baseId], $baseId, $listviewEntries, $getRawData, $getLinks);
+		return ['header' => $listviewHeader, 'entries' => $listviewEntries];
 	}
 
 	/**

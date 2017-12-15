@@ -32,4 +32,6 @@ $languageStrings = [
 	//Picklist
 	'PLL_ACTIVE' => 'Aktywna',
 	'PLL_INACTIVE' => 'Nieaktywna',
+	//others
+	'LBL_SHOW_HIERARCHY' => 'Hierarchia',
 ];
