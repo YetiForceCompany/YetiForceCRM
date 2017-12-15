@@ -54,7 +54,6 @@ $languageStrings = [
 	'LBL_NO_DESCRIPTION' => 'Нет описания',
 	'LBL_ON' => 'в',
 	'LBL_OTHER_EVENTS' => 'Другие События',
-	'LBL_RECORDS_LIST' => 'Список',
 	'LBL_SELECT_USERS' => 'Выбор Пользователей',
 	'LBL_SELECT_USER_CALENDAR' => 'Выберите Календарь пользователя',
 	'LBL_SHARED_CALENDAR' => 'Общий Календарь',
