@@ -10,14 +10,12 @@
 ********************************************************************************/
 -->*}
 {strip}
-</form>
 </div>
 </div>
 <div class="formActionsPanel">
-	<div class="contentHeader">
-		<button class="btn btn-primary saveAndComplete" type="button">{\App\Language::translate('LBL_SAVE_AND_CLOSE', $MODULE)}</button> 
-		<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>&nbsp;&nbsp;
-		<button class="btn btn-warning" type="reset" onclick="javascript:window.history.back();"><strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong></button>
-	</div>
+	<button class="btn btn-primary saveAndComplete" type="button">{\App\Language::translate('LBL_SAVE_AND_CLOSE', $MODULE)}</button> 
+	<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>&nbsp;&nbsp;
+	<button class="btn btn-warning" type="reset" onclick="javascript:window.history.back();"><strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong></button>
 </div>
+</form>
 {/strip}
