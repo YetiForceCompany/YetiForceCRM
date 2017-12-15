@@ -1691,17 +1691,6 @@ CREATE TABLE `u_yf_finvoiceproforma` (
 
 CREATE TABLE `u_yf_finvoiceproforma_address` (
   `finvoiceproformaaddressid` int(10) NOT NULL,
-  `addresslevel1a` varchar(255) DEFAULT NULL,
-  `addresslevel2a` varchar(255) DEFAULT NULL,
-  `addresslevel3a` varchar(255) DEFAULT NULL,
-  `addresslevel4a` varchar(255) DEFAULT NULL,
-  `addresslevel5a` varchar(255) DEFAULT NULL,
-  `addresslevel6a` varchar(255) DEFAULT NULL,
-  `addresslevel7a` varchar(255) DEFAULT NULL,
-  `addresslevel8a` varchar(255) DEFAULT NULL,
-  `buildingnumbera` varchar(50) DEFAULT NULL,
-  `localnumbera` varchar(50) DEFAULT NULL,
-  `poboxa` varchar(50) DEFAULT NULL,
   `addresslevel1c` varchar(255) DEFAULT NULL,
   `addresslevel2c` varchar(255) DEFAULT NULL,
   `addresslevel3c` varchar(255) DEFAULT NULL,
