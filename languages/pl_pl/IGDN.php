@@ -17,7 +17,7 @@ $languageStrings = [
 	'FL_NUMBER' => 'Numer',
 	'FL_STORAGE' => 'Magazyn',
 	'FL_STATUS' => 'Status',
-	'FL_SSIGNLEORDERS' => 'Zamówienie jednorazowe',
+	'FL_SSIGNLEORDERS' => 'Zamówienie',
 	// Picklist
 	'PLL_DRAFT' => 'Wersja robocza',
 	'PLL_IN_REALIZATION' => 'W realizacji',
