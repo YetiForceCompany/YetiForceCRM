@@ -52,7 +52,7 @@ class Gui_ListView extends \Tests\GuiBase
 		$this->assertEquals('Accounts', $this->byId('module')->value());
 		$this->assertEquals('Edit', $this->byId('view')->value());
 
-		$this->byCssSelector('.contentHeader button.btn-success')->click();
+		$this->byCssSelector('button.btn-success')->click();
 		$this->assertEquals('Accounts', $this->byId('module')->value());
 		$this->assertEquals('Detail', $this->byId('view')->value());
 
