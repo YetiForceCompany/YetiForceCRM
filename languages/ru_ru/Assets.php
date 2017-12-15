@@ -12,8 +12,6 @@ $languageStrings = [
 	// Basic strings
 	'Assets' => 'Активы',
 	'SINGLE_Assets' => 'Актив',
-	'LBL_ADD_RECORD' => 'Актив',
-	'LBL_RECORDS_LIST' => 'Список Активов',
 	// Blocks
 	'LBL_ASSET_INFORMATION' => 'Информация об Активе',
 	//Field labels
