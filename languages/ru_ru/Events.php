@@ -43,7 +43,6 @@ $languageStrings = [
 	'LBL_LAST' => 'Последняя',
 	'LBL_MONTHS_TYPE' => 'Месяц',
 	'LBL_ON' => 'на',
-	'LBL_RECORDS_LIST' => 'Список',
 	'LBL_RECURRENCE_INFORMATION' => 'Повторить',
 	'LBL_RELATED_TO' => 'Связан с',
 	'LBL_REPEATEVENT' => 'Повторить один раз в каждые',
