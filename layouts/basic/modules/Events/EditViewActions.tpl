@@ -10,8 +10,6 @@
 ********************************************************************************/
 -->*}
 {strip}
-</div>
-</div>
 <div class="formActionsPanel">
 	<button class="btn btn-primary saveAndComplete" type="button">{\App\Language::translate('LBL_SAVE_AND_CLOSE', $MODULE)}</button> 
 	<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>&nbsp;&nbsp;
@@ -22,4 +20,6 @@
 	{/foreach}
 </div>
 </form>
+</div>
+</div>
 {/strip}
