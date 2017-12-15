@@ -44,7 +44,6 @@ $languageStrings = [
 	'LBL_MAX_UPLOAD_SIZE' => 'Максимальный размер документа',
 	'LBL_MOVE' => 'Переместить',
 	'LBL_NOTE_INFORMATION' => 'Основная информация',
-	'LBL_RECORDS_LIST' => 'Список Документов',
 	'Last Modified By' => 'Последнее изменение',
 	'MB' => 'MB',
 	'Note' => 'Описание',
