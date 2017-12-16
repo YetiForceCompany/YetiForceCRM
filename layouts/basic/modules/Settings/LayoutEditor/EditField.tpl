@@ -106,14 +106,14 @@
 									</span>
 								</div>
 							{elseif $FIELD_MODEL->getFieldDataType() eq "date"}
-								<div class="input-group date">
-									{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
-									<input type="text" class="form-control dateField" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if} name="fieldDefaultValue" data-toregister="date" data-date-format="{$USER_MODEL->get('date_format')}" data-fieldinfo='{\App\Json::encode($FIELD_INFO)}'{strip} {/strip}
-										   value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('defaultvalue'))}" />
-									<span class="input-group-addon">
-										<span class="glyphicon glyphicon-calendar"></span>
-									</span>
-								</div>
+								<select class="col-md-2 select2" name="fieldDefaultValue" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if} data-validation-engine="validate[required]" data-fieldinfo='{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}'>
+									{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$FIELD_MODEL->getDefaultDatePicklist()}
+										<option value="{\App\Purifier::encodeHtml($PICKLIST_VALUE)}" {if $FIELD_MODEL->get('defaultvalue') eq $PICKLIST_VALUE} selected {/if}>{App\Language::translate($PICKLIST_NAME, $QUALIFIED_MODULE)}</option>
+									{/foreach}
+									{if !in_array($FIELD_MODEL->get('defaultvalue'),$FIELD_MODEL->getDefaultDatePicklist())}
+										<option value="{App\Purifier::decodeHtml($FIELD_MODEL->get('defaultvalue'))}" selected="">{$FIELD_MODEL->get('defaultvalue')}</option>
+									{/if}
+								</select>
 							{elseif $FIELD_MODEL->getFieldDataType() eq "percentage"}
 								<div class="input-group">
 									<input type="number" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if}  class="form-control" name="fieldDefaultValue"{strip} {/strip}

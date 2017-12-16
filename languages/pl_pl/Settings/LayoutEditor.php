@@ -165,6 +165,14 @@ $languageStrings = [
 	'LBL_SUMMARY_BOTTOM_TYPE' => 'Podsumowanie dół',
 	'LBL_RELATED_VIEW_TYPE' => 'Miejsce wyświetlania',
 	'LBL_RELATED_VIEW_TYPE_DESC' => 'Wybierz przynajmniej jedno miejsce wyświetlania bloku',
+	'LBL_DATE_TODAY' => 'Aktualny dzień',
+	'LBL_DATE_TOMORROW' => 'Dzień jutrzejszy',
+	'LBL_DATE_YESTERDAY' => 'Dzień poprzedni',
+	'LBL_DATE_FIRST_DAY_OF_THIS_WEEK' => 'Początek tygodnia',
+	'LBL_DATE_MONDAY_NEXT_WEEK' => 'Początek następnego tygodnia',
+	'LBL_DATE_FIRST_DAY_OF_THIS_MONTH' => 'Pierwszy dzień miesiąca',
+	'LBL_DATE_LAST_DAY_OF_THIS_MONTH' => 'Ostatni dzień miesiąca',
+	'LBL_DATE_FIRST_DAY_OF_NEXT_MONTH' => 'Pierwszy dzień następnego miesiąca',
 ];
 
 $jsLanguageStrings = [

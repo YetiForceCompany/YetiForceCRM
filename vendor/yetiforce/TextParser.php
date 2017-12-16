@@ -7,6 +7,7 @@ namespace App;
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class TextParser
 {
@@ -66,7 +67,7 @@ class TextParser
 	 * List of available functions
 	 * @var string[] 
 	 */
-	protected static $baseFunctions = ['general', 'translate', 'record', 'relatedRecord', 'sourceRecord', 'organization', 'employee', 'params', 'custom', 'relatedRecordsList', 'recordsList'];
+	protected static $baseFunctions = ['general', 'translate', 'record', 'relatedRecord', 'sourceRecord', 'organization', 'employee', 'params', 'custom', 'relatedRecordsList', 'recordsList', 'date'];
 
 	/**
 	 * List of source modules
@@ -295,7 +296,7 @@ class TextParser
 			$currentLanguage = \App\Language::getLanguage();
 			\App\Language::setLanguage($this->language);
 		}
-		$this->content = preg_replace_callback('/\$\((\w+) : ([,"\[\]\&\w\s\|]+)\)\$/', function ($matches) {
+		$this->content = preg_replace_callback('/\$\((\w+) : ([,"\+\-\[\]\&\w\s\|]+)\)\$/', function ($matches) {
 			list($fullText, $function, $params) = array_pad($matches, 3, '');
 			if (in_array($function, static::$baseFunctions)) {
 				return $this->$function($params);
@@ -306,6 +307,16 @@ class TextParser
 			\App\Language::setLanguage($currentLanguage);
 		}
 		return $this;
+	}
+
+	/**
+	 * Function parse date
+	 * @param string $param
+	 * @return string
+	 */
+	public function date($param)
+	{
+		return date('Y-m-d', strtotime($param));
 	}
 
 	/**

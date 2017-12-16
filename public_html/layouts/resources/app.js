@@ -1288,7 +1288,7 @@ window.app = {
 		element.css("left", ((jQuery(window).width() - element.outerWidth()) / 2) + jQuery(window).scrollLeft() + "px");
 	},
 	getvalidationEngineOptions: function (select2Status) {
-		return Object.assign({}, app.validationEngineOptions)
+		return Object.assign({}, app.validationEngineOptions);
 	},
 	/**
 	 * Function to notify UI page ready after AJAX changes.

@@ -273,4 +273,22 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		$fieldInfo['isDefaultValueDisabled'] = $this->isDefaultValueOptionDisabled();
 		return $fieldInfo;
 	}
+
+	/**
+	 * Default date list
+	 * @return string[]
+	 */
+	public function getDefaultDatePicklist()
+	{
+		return [
+			'LBL_DATE_TODAY' => 'now',
+			'LBL_DATE_TOMORROW' => 'tomorrow',
+			'LBL_DATE_YESTERDAY' => 'yesterday',
+			'LBL_DATE_FIRST_DAY_OF_THIS_WEEK' => 'monday this week',
+			'LBL_DATE_MONDAY_NEXT_WEEK' => 'monday next week',
+			'LBL_DATE_FIRST_DAY_OF_THIS_MONTH' => 'first day of this month',
+			'LBL_DATE_LAST_DAY_OF_THIS_MONTH' => 'last day of this month',
+			'LBL_DATE_FIRST_DAY_OF_NEXT_MONTH' => 'first day of next month'
+		];
+	}
 }
