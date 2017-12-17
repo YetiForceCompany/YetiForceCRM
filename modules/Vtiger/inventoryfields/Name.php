@@ -40,14 +40,22 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	public function getEditValue($value)
+	{
+		return \App\Record::getLabel($value);
+	}
+
+	/**
 	 * Getting value to display
 	 * @return array
 	 */
 	public function limitValues()
 	{
 		return [
-			['id' => 0, 'name' => 'LBL_NO'],
-			['id' => 1, 'name' => 'LBL_YES']
+				['id' => 0, 'name' => 'LBL_NO'],
+				['id' => 1, 'name' => 'LBL_YES']
 		];
 	}
 
