@@ -148,6 +148,10 @@ class QueryGenerator
 		foreach ($this->getFields() as $fieldName) {
 			if ($model = $this->getModuleField($fieldName)) {
 				$headerFields[$fieldName] = $model;
+				if ($field = $this->getQueryField($fieldName)->getListViewFields()) {
+					$headerFields[$field->getName()] = $field;
+					$this->fields[] = $field->getName();
+				}
 			}
 		}
 		return $headerFields;
