@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * *********************************************************************************** */
 
 /**
@@ -148,5 +149,16 @@ class Users_Field_Model extends Vtiger_Field_Model
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function isWritable()
+	{
+		if ($this->getFieldName() === 'is_admin' && \App\User::getCurrentUserModel()->isAdmin()) {
+			return true;
+		}
+		return parent::isWritable();
 	}
 }

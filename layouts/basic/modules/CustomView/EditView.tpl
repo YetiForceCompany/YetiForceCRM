@@ -120,7 +120,7 @@
 					</div>
 					<div class="form-group marginbottomZero">
 						<div class="row col-md-5">
-							<label class="pull-left control-label paddingLeftMd"><span class="redColor">*</span> {\App\Language::translate('LBL_COLOR_VIEW',$MODULE)}:</label>
+							<label class="pull-left control-label paddingLeftMd">{\App\Language::translate('LBL_COLOR_VIEW',$MODULE)}:</label>
 							<div class="col-md-7">
 								<div class="input-group">
 									<input type="text" class="form-control colorPicker" name="color" value="{$CUSTOMVIEW_MODEL->get('color')}" />
