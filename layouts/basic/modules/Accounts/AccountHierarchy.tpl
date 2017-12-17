@@ -18,12 +18,13 @@
 					<h3 class="modal-title">{\App\Language::translate('LBL_SHOW_ACCOUNT_HIERARCHY', $MODULE)}</h3>
 				</div>
 				<div class="modal-body maxHeightModal">
+					<div class="table-responsive">
 						<table class="table table-bordered">
 							<thead>
 								<tr class="blockHeader">
 									{foreach item=HEADERNAME from=$ACCOUNT_HIERARCHY['header']}
 										<th>{\App\Language::translate($HEADERNAME, $MODULE)}</th>
-									{/foreach}
+										{/foreach}
 								</tr>
 							</thead>
 							<tbody>
@@ -49,6 +50,7 @@
 								{/foreach}
 							</tbody>
 						</table>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<div class=" pull-right cancelLinkContainer">

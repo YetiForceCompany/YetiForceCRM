@@ -316,7 +316,8 @@ class TextParser
 	 */
 	public function date($param)
 	{
-		return date('Y-m-d', strtotime($param));
+		$timestamp = strtotime($param);
+		return $timestamp ? date('Y-m-d', $timestamp) : '';
 	}
 
 	/**
