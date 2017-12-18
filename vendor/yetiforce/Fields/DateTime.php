@@ -24,10 +24,9 @@ class DateTime
 		switch (\App\User::getCurrentUserModel()->getDetail('view_date_format')) {
 			case 'PLL_FULL':
 				return '<span title="' . \Vtiger_Util_Helper::formatDateDiffInStrings($dateTime) . '">' . \Vtiger_Datetime_UIType::getDisplayDateTimeValue($dateTime) . '</span>';
-				break;
 			case 'PLL_ELAPSED':
 				return '<span title="' . \Vtiger_Datetime_UIType::getDisplayDateTimeValue($dateTime) . '">' . \Vtiger_Util_Helper::formatDateDiffInStrings($dateTime) . '</span>';
-				break;
 		}
+		return '-';
 	}
 }
