@@ -13,7 +13,6 @@ $languageStrings = [
 	'LBL_PROJECTS_LIST' => 'Список Проектов',
 	'Actual End Date' => 'Фактическая дата завершения',
 	'Add Project Task' => 'Проектная Задача',
-	'LBL_ADD_RECORD' => 'Проект',
 	'LBL_CHARTS' => 'Диаграммы',
 	'LBL_GANTT' => 'Диаграмма',
 	'LBL_DOWNLOAD_FILE' => 'Скачать файл',
