@@ -6,11 +6,9 @@
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
-	'LBL_RECORDS_LIST' => 'Lista',
 	// Basic Strings
 	'OutsourcedProducts' => 'Productos Subcontratados',
 	'SINGLE_OutsourcedProducts' => 'Producto Subcontratado',
-	'LBL_ADD_RECORD' => 'Añadir',
 	// Blocks
 	'LBL_INFORMATION' => 'Información sobre el Producto Subcontratado',
 	//Field Labels
