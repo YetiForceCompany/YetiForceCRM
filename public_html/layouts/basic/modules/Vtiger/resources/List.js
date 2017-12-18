@@ -2020,12 +2020,30 @@ jQuery.Class("Vtiger_List_Js", {
 		});
 	},
 	registerSplit: function (leftCon, rightCon) {
-		window.console.log('ok');
-		Split([leftCon, rightCon], {
-			sizes: [25, 75],
-			minSize: 20,
-			gutterSize: 8,
+		if ($(window).width() > 993) {
+			var split = Split([leftCon, rightCon], {
+				sizes: [25, 75],
+				minSize: 20,
+				gutterSize: 8
+			});
+		}
+		$(window).resize(function () {
+			window.console.log(split.destroy());
+			if ($(window).width() < 993) {
+				split.destroy();
+				console.log(split);
+			}
 		});
+//		var instance = Split(['#fourteen', '#fifteen', '#sixteen'], {
+//			sizes: [50, 25, 25]
+//		});
+//			instance.setSizes([33.3, 33.3, 33.3]);  // Set Sizes 33%
+//			instance.collapse(0);  // Collapse First
+//			instance.collapse(1);  // Collapse Second
+//			instance.collapse(2);  // Collapse Third
+//			instance.getSizes();  // Get Sizes
+//			instance.setSizes([50, 25, 25]);  // Reset
+//			instance.destroy();  // Destroy
 	},
 	registerEvents: function () {
 		this.breadCrumbsFilter();

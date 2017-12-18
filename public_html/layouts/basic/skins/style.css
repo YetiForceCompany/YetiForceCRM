@@ -5966,7 +5966,7 @@ border1px{
 }
 #listPreview{
 	float: right;
-	padding-left: 5px;
+	padding-left: 0;
 	padding-right: 0;
 	margin-top: 2px;
 }
@@ -5978,14 +5978,14 @@ border1px{
 	border-radius: 7px;
 }
 .fixedListInitial {
-	padding-right: 5px;
+	padding-right: 10px;
 	max-height: max-content;
 	padding-left: 0;
 }
-.fixedListInScroll {
+.fixedListOnScroll {
 	position: fixed;
 	top: 48px;
-	padding-right: 27px;
+	padding-right: 30px;
 }
 .fixedListContent {
 	overflow-y: auto;
@@ -6061,19 +6061,12 @@ border1px{
 .popover.activities{
 	min-width: 400px;
 }
-.split {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	overflow-y: auto;
-	overflow-x: hidden;
-	float: left;
-}
 .gutter {
-	background-color: #eee;
+	background-color: #a7a7a7;
 	background-repeat: no-repeat;
 	background-position: 50%;
 	position: relative;
+	margin-top: 2px;
 	z-index: 300;
 }
 .gutter:active:before {
@@ -6085,29 +6078,12 @@ border1px{
   right: 0;
   background: transparent;
 }
-/*.gutter {
-  background-repeat: no-repeat;
-  background-position: 50%;
-  float: left;
-  height: 100vh;
-  position: relative;
-  z-index: 300;
-
-}*/
-
 .gutter.gutter-horizontal {
     cursor: ew-resize;	background-image: url('images/vertical.png');
-	height: 100vh;
-}
-
-.gutter.gutter-vertical {
-    cursor: ns-resize;
-	background-image: url('images/horizontal.png');
-}
-.gutter.gutter-horizontal {
-    float: left;
-}
-/*.split.split-horizontal,
-.gutter.gutter-horizontal {
+	height: -webkit-fill-available;
 	float: left;
-}*/
+}
+.gutterOnScroll {
+	position: fixed;
+	top: 48px;
+}
