@@ -6061,3 +6061,53 @@ border1px{
 .popover.activities{
 	min-width: 400px;
 }
+.split {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	overflow-y: auto;
+	overflow-x: hidden;
+	float: left;
+}
+.gutter {
+	background-color: #eee;
+	background-repeat: no-repeat;
+	background-position: 50%;
+	position: relative;
+	z-index: 300;
+}
+.gutter:active:before {
+  content: "";
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: transparent;
+}
+/*.gutter {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  float: left;
+  height: 100vh;
+  position: relative;
+  z-index: 300;
+
+}*/
+
+.gutter.gutter-horizontal {
+    cursor: ew-resize;	background-image: url('images/vertical.png');
+	height: 100vh;
+}
+
+.gutter.gutter-vertical {
+    cursor: ns-resize;
+	background-image: url('images/horizontal.png');
+}
+.gutter.gutter-horizontal {
+    float: left;
+}
+/*.split.split-horizontal,
+.gutter.gutter-horizontal {
+	float: left;
+}*/
