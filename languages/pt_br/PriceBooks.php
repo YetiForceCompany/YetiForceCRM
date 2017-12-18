@@ -9,11 +9,9 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 $languageStrings = [
-	'LBL_ADD_RECORD' => 'Adicionar Catálogo de Preçis',
 	'LBL_ADD_TO' => 'Adicionar para',
 	'LBL_EDIT_LIST_PRICE' => 'Editar Catálogo de Preços',
 	'LBL_PRICEBOOK_INFORMATION' => 'Detalhes do Catálogo de Preço',
-	'LBL_RECORDS_LIST' => 'Lista de Catálogos de Preços',
 	'LBL_UNIT_PRICE' => 'Preço Unitário',
 	'Price Book Name' => 'Nome do Catálogo de Preços',
 	'PriceBook No' => 'No. do Catálogo de Preços',
