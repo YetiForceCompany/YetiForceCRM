@@ -73,7 +73,6 @@ $languageStrings = [
 	'LBL_PROCESS' => 'Процесс',
 	'LBL_SUB_PROCESS' => 'Подпроцесс',
 	'LBL_REMOVE_RELATION' => 'Удалить связь',
-	'LBL_ADD_RECORD' => 'Добавить запись',
 	'LBL_SELECT_RECORD' => 'Ссылка на существующую запись',
 	'LBL_ADD_CALENDAR' => 'Добавить событие',
 	'LBL_ADD_MODCOMMENTS' => 'Добавить комментарий',
