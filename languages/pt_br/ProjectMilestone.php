@@ -11,8 +11,6 @@
 $languageStrings = [
 	// Basic Strings
 	'SINGLE_ProjectMilestone' => 'Etapas de Projeto',
-	'LBL_ADD_RECORD' => 'Adicionar Etapas de Projeto',
-	'LBL_RECORDS_LIST' => 'Lista de Etapas de Projeto',
 	// Blocks
 	'LBL_PROJECT_MILESTONE_INFORMATION' => 'Detalhes das Etapas de Projeto',
 	'LBL_PROJECTS_LIST' => 'Lista de Projetos',
