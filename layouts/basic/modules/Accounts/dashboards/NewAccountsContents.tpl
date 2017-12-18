@@ -29,7 +29,7 @@
 					</div>
 					<div class="col-xs-4">
 						<span>
-							{\App\Fields\DateTime::getViewDateFormat($ACCOUNTS_MODEL['createdtime'])}
+							{\App\Fields\DateTime::formatToViewDate($ACCOUNTS_MODEL['createdtime'])}
 						</span>
 					</div>
 				</div>

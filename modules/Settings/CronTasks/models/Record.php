@@ -159,7 +159,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 			case 'lastend' :
 				$fieldValue = intval($fieldValue);
 				if ($fieldValue) {
-					$fieldValue = \App\Fields\DateTime::getViewDateFormat(date('Y-m-d H:i:s', $fieldValue));
+					$fieldValue = \App\Fields\DateTime::formatToViewDate(date('Y-m-d H:i:s', $fieldValue));
 				} else {
 					$fieldValue = '';
 				}

@@ -32,7 +32,7 @@ font-size: 75%;
 				{assign var=DUE_TIME value=$ACTIVITY->get('time_end')}
 				<p class="pull-right muted paddingLR10 marginTop5">
 					<small>
-						{\App\Fields\DateTime::getViewDateFormat("$DUE_DATE $DUE_TIME")}
+						{\App\Fields\DateTime::formatToViewDate("$DUE_DATE $DUE_TIME")}
 					</small>
 				</p>
 				{assign var=LINK value=$ACTIVITY->get('link')}

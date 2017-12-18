@@ -19,10 +19,10 @@
 				</div>
 				<div class="panel-body">
 					<div>
-						{\App\Language::translate('Start Date & Time',$MODULE_NAME)}: <strong>{Vtiger_Util_Helper::formatDateTimeIntoDayString("$START_DATE $START_TIME",$RECORD->get('allday'))}</strong>
+						{\App\Language::translate('Start Date & Time',$MODULE_NAME)}: <strong>{\App\Fields\DateTime::formatToDay("$START_DATE $START_TIME",$RECORD->get('allday'))}</strong>
 					</div>
 					<div>
-						{\App\Language::translate('Due Date',$MODULE_NAME)}: <strong>{Vtiger_Util_Helper::formatDateTimeIntoDayString("$END_DATE $END_TIME",$RECORD->get('allday'))}</strong>
+						{\App\Language::translate('Due Date',$MODULE_NAME)}: <strong>{\App\Fields\DateTime::formatToDay("$END_DATE $END_TIME",$RECORD->get('allday'))}</strong>
 					</div>
 					{if $RECORD->get('activitystatus') neq '' }
 						<div>

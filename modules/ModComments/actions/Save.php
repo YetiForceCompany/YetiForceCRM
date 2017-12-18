@@ -21,8 +21,8 @@ class ModComments_Save_Action extends Vtiger_Save_Action
 			$result[$fieldName] = $recordModel->getDisplayValue($fieldName);
 		}
 		$result['success'] = true;
-		$result['modifiedtime'] = \App\Fields\DateTime::getViewDateFormat($recordModel->get('modifiedtime'));
-		$result['modifiedtimetitle'] = Vtiger_Util_Helper::formatDateTimeIntoDayString($recordModel->get('modifiedtime'));
+		$result['modifiedtime'] = \App\Fields\DateTime::formatToViewDate($recordModel->get('modifiedtime'));
+		$result['modifiedtimetitle'] = \App\Fields\DateTime::formatToDay($recordModel->get('modifiedtime'));
 
 		$response = new Vtiger_Response();
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);

@@ -61,7 +61,7 @@
 													{/if}
 												{/foreach}
 											</span>
-											<span class="pull-right"><p class="muted"><small>{\App\Fields\DateTime::getViewDateFormat($RECENT_ACTIVITY->getParent()->get('createdtime'))}</small></p></span>
+											<span class="pull-right"><p class="muted"><small>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getParent()->get('createdtime'))}</small></p></span>
 										</div>
 									</li>
 								{else if $RECENT_ACTIVITY->isUpdate()}
@@ -70,7 +70,7 @@
 											<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()}</strong> {\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker', 'ModTracker')}</span>
 											
 											
-											<span class="pull-right"><p class="muted"><small>{\App\Fields\DateTime::getViewDateFormat($RECENT_ACTIVITY->getActivityTime())}</small></p></span>
+											<span class="pull-right"><p class="muted"><small>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</small></p></span>
 										
 											
 										</div>
@@ -105,7 +105,7 @@
 													{if \App\Privilege::isPermitted('Calendar', 'DetailView', $RELATION->getLinkedRecord()->getId())} <strong>{$RELATION->getLinkedRecord()->getName()}</strong> {else} {/if}
 												{else} <strong>{$RELATION->getLinkedRecord()->getName()}</strong> {/if}</span>
 											(<span>{\App\Language::translate($RELATION->getLinkedRecord()->getModuleName(), $RELATION->getLinkedRecord()->getModuleName())}</span>)
-											<span class="pull-right"><p class="muted no-margin"><small>{\App\Fields\DateTime::getViewDateFormat($RELATION->get('changedon'))}</small></p></span>
+											<span class="pull-right"><p class="muted no-margin"><small>{\App\Fields\DateTime::formatToViewDate($RELATION->get('changedon'))}</small></p></span>
 										</div>
 									</li>
 								{else if $RECENT_ACTIVITY->isDisplayed()}
@@ -117,7 +117,7 @@
 											</span>
 											<span class="pull-right">
 												<p class="muted no-margin">
-													<small>{\App\Fields\DateTime::getViewDateFormat($RECENT_ACTIVITY->getActivityTime())}
+													<small>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}
 													</small>
 												</p>
 											</span>

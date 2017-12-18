@@ -59,7 +59,7 @@
 					</div>
 					<div class="pull-right muted">
 						<small>
-							{\App\Fields\DateTime::getViewDateFormat($ROW['date'])}
+							{\App\Fields\DateTime::formatToViewDate($ROW['date'])}
 						</small>   
 					</div>
 					<h5 class="textOverflowEllipsis mailTitle mainFrom">

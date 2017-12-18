@@ -16,7 +16,7 @@
 					{/if}
 					<div class="pull-right">
 						<small>
-							{\App\Fields\DateTime::getViewDateFormat($ROW->get('createdtime'))}
+							{\App\Fields\DateTime::formatToViewDate($ROW->get('createdtime'))}
 						</small>
 					</div>
 					<strong>{$ROW->getTitle()}</strong>

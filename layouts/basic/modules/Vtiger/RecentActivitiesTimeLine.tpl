@@ -38,7 +38,7 @@
 										</div>
 										<div class="timeline-body row no-margin">
 											<span class="time pull-right">
-												<span>{\App\Fields\DateTime::getViewDateFormat($RECENT_ACTIVITY->getParent()->get('createdtime'))}</span>
+												<span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getParent()->get('createdtime'))}</span>
 											</span>
 											<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong> 
 											&nbsp;{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}
@@ -77,7 +77,7 @@
 										</div>
 										<div class="timeline-body row no-margin">
 											<span class="time pull-right">
-												<span>{\App\Fields\DateTime::getViewDateFormat($RECENT_ACTIVITY->getActivityTime())}</span>
+												<span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span>
 											</span>
 											<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()}&nbsp;</strong> {\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(),'ModTracker')}</span>
 											{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
@@ -139,7 +139,7 @@
 										<div class="timeline-body row no-margin">
 											<div class="pull-right">
 												<span class="time pull-right">
-													<span>{\App\Fields\DateTime::getViewDateFormat($RECENT_ACTIVITY->getActivityTime())}</span>
+													<span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span>
 												</span>
 											</div>
 											<span>
@@ -186,7 +186,7 @@
 										</div>
 										<div class="timeline-body row no-margin">
 											<span class="time pull-right">
-												<span>{\App\Fields\DateTime::getViewDateFormat($RECENT_ACTIVITY->getActivityTime())}</span>
+												<span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span>
 											</span>
 											<div class="pull-left">
 												<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>
@@ -207,7 +207,7 @@
 										</div>
 										<div class="timeline-body row no-margin">
 											<span class="time pull-right">
-												<span>{\App\Fields\DateTime::getViewDateFormat($RECENT_ACTIVITY->getActivityTime())}</span>
+												<span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span>
 											</span>
 											<div class="pull-left">
 												<strong>{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}</strong> 
@@ -227,7 +227,7 @@
 										</div>
 										<div class="timeline-body row no-margin">
 											<span class="time pull-right">
-												<span>{\App\Fields\DateTime::getViewDateFormat($RECENT_ACTIVITY->getActivityTime())}</span>
+												<span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span>
 											</span>
 											<div class="pull-left">
 												<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>

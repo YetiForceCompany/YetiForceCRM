@@ -51,14 +51,14 @@
 			<div>
 				<p>
 					<small>
-						{\App\Language::translate('LBL_CREATED_ON',$MODULE_NAME)} {Vtiger_Util_Helper::formatDateTimeIntoDayString($RECORD->get('createdtime'))}
+						{\App\Language::translate('LBL_CREATED_ON',$MODULE_NAME)} {\App\Fields\DateTime::formatToDay($RECORD->get('createdtime'))}
 					</small>
 				</p>
 			</div>
 			<div>
 				<p>
 					<small>
-						{\App\Language::translate('LBL_MODIFIED_ON',$MODULE_NAME)} {Vtiger_Util_Helper::formatDateTimeIntoDayString($RECORD->get('modifiedtime'))}
+						{\App\Language::translate('LBL_MODIFIED_ON',$MODULE_NAME)} {\App\Fields\DateTime::formatToDay($RECORD->get('modifiedtime'))}
 					</small>
 				</p>
 			</div>

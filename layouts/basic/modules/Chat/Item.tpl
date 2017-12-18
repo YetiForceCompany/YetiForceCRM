@@ -3,7 +3,7 @@
 	<div class="chatItem {if \App\User::getCurrentUserId() == $ROW['userid']}active{/if}" data-cid="{$ROW['id']}">
 		<div class="pull-right">
 			<small>
-				{\App\Fields\DateTime::getViewDateFormat($ROW['created'])}
+				{\App\Fields\DateTime::formatToViewDate($ROW['created'])}
 			</small>  
 		</div>
 		<div class="author">

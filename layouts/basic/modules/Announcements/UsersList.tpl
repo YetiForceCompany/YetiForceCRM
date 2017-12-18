@@ -23,7 +23,7 @@
 						</td>
 						<td class="text-center">
 							{if isset($USER['date'])}
-								{\App\Fields\DateTime::getViewDateFormat($USER['date'])}	
+								{\App\Fields\DateTime::formatToViewDate($USER['date'])}	
 							{/if}
 						</td>
 					</tr> 

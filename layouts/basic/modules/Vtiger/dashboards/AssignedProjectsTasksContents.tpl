@@ -23,7 +23,7 @@ font-size: 75%;
 				   - <small class='small-a'><strong>{$TASKS->getDisplayValue('account')}</strong></small>
 				{/if}
 			</div>
-			<p class='pull-right muted' style='margin-top:5px;padding-right:5px;'><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($TASKS->get('targetenddate'))}">{$TASKS->getDisplayValue('targetenddate')}</small></p>
+			<p class='pull-right muted' style='margin-top:5px;padding-right:5px;'><small title="{\App\Fields\DateTime::formatToDay($TASKS->get('targetenddate'))}">{$TASKS->getDisplayValue('targetenddate')}</small></p>
 			<div class='clearfix'></div>
 		</div>
 		<div class='clearfix'></div>
