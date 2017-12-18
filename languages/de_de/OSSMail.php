@@ -69,7 +69,6 @@ $languageStrings = [
 	'LBL_PROCESS' => 'Prozesse',
 	'LBL_SUB_PROCESS' => 'Unterprozesse',
 	'LBL_REMOVE_RELATION' => 'Beziehung löschen',
-	'LBL_ADD_RECORD' => 'Datensatz erzeugen',
 	'LBL_SELECT_RECORD' => 'Beziehung zu einem bestehenden Datensatz',
 	'LBL_ADD_CALENDAR' => 'Ereignis hinzufügen',
 	'LBL_ADD_MODCOMMENTS' => 'Kommentar hinzufügen',
