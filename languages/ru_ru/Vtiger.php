@@ -1306,7 +1306,6 @@ $languageStrings = [
 	'LBL_COPY_LABEL' => 'Название поля',
 	'LBL_AUTOMATIC' => 'Автоматически',
 	'LBL_RELATED_RECORDS_LIST' => 'Список связанных записей',
-	'LBL_RECORDS_LIST' => 'Все записи',
 	//Mail modal
 	'LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES' => 'Количество найденных адресов email',
 	'LBL_NUMBER_OF_SELECTED_RECORDS' => 'Количество выбранных записей',
