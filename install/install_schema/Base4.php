@@ -9794,7 +9794,7 @@ class Base4 extends \App\Db\Importers\Base
 					[77, 0, 76, 0, 0, 61, NULL, 0, NULL, 0, '', NULL, '', NULL],
 					[78, 0, 76, 0, 1, 51, NULL, 0, NULL, 0, '', NULL, '', NULL],
 					[79, 0, 76, 0, 2, 78, NULL, 0, NULL, 0, '', NULL, '', NULL],
-					[80, 0, 0, 2, 9, NULL, 'MEN_SECRETARY', 0, NULL, 0, 'userIcon-Secretary', NULL, NULL, NULL],
+					[80, 0, 0, 2, 9, NULL, 'MEN_ORGANIZATION', 0, NULL, 0, 'userIcon-Secretary', NULL, NULL, NULL],
 					[81, 0, 80, 0, 0, 81, NULL, 0, NULL, 0, '', NULL, '', NULL],
 					[82, 0, 80, 0, 1, 82, NULL, 0, NULL, 0, '', NULL, '', NULL],
 					[83, 0, 80, 0, 2, 84, NULL, 0, NULL, 0, '', NULL, '', NULL],
