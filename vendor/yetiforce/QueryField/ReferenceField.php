@@ -53,7 +53,7 @@ class ReferenceField extends BaseField
 		if (\AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
 			return ['=', $this->getColumnName(), $this->getValue()];
 		}
-		return $this->operatorA();
+		return parent::operatorA();
 	}
 
 	/**
