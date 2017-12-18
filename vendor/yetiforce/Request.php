@@ -338,13 +338,14 @@ class Request
 			foreach ($_SERVER as $key => $value) {
 				if (substr($key, 0, 5) === 'HTTP_') {
 					$key = str_replace(' ', '-', strtoupper(str_replace('_', ' ', substr($key, 5))));
-					$headers[$key] = $value;
-				} else {
-					$headers[$key] = $value;
 				}
+				$headers[$key] = Purifier::purifyByType($value, 'Text');
 			}
 		} else {
 			$headers = array_change_key_case(apache_request_headers(), CASE_UPPER);
+			foreach ($headers as &$value) {
+				$value = Purifier::purifyByType($value, 'Text');
+			}
 		}
 		return $this->headers = $headers;
 	}
@@ -369,7 +370,7 @@ class Request
 	 */
 	public function getRequestMethod()
 	{
-		$method = $_SERVER['REQUEST_METHOD'];
+		$method = $this->getServer('REQUEST_METHOD');
 		if ($method === 'POST' && isset($_SERVER['HTTP_X_HTTP_METHOD'])) {
 			if ($_SERVER['HTTP_X_HTTP_METHOD'] === 'DELETE') {
 				$method = 'DELETE';
@@ -380,6 +381,19 @@ class Request
 			}
 		}
 		return $method;
+	}
+
+	/**
+	 * Get server and execution environment information
+	 * @param string $key
+	 * @return boolean
+	 */
+	public function getServer($key, $default = false)
+	{
+		if (!isset($_SERVER[$key])) {
+			return $default;
+		}
+		return Purifier::purifyByType($_SERVER[$key], 'Text');
 	}
 
 	/**

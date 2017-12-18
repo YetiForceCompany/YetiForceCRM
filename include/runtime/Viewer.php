@@ -74,14 +74,14 @@ class Vtiger_Viewer extends SmartyBC
 		// We need to use {$variable nofilter} to overcome double escaping
 		static $debugViewerURI = false;
 		if (self::$debugViewer && $debugViewerURI === false) {
-			$debugViewerURI = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+			$debugViewerURI = parse_url(\App\Request::_getServer('REQUEST_URI'), PHP_URL_PATH);
 			if (!empty($_POST)) {
 				$debugViewerURI .= '?' . http_build_query($_POST);
 			} else {
-				$debugViewerURI = $_SERVER['REQUEST_URI'];
+				$debugViewerURI = \App\Request::_getServer('REQUEST_URI');
 			}
 
-			$this->log("URI: $debugViewerURI, TYPE: " . $_SERVER['REQUEST_METHOD']);
+			$this->log("URI: $debugViewerURI, TYPE: " . \App\Request::_getServer('REQUEST_METHOD'));
 		}
 	}
 

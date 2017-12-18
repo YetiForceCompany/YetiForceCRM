@@ -22,7 +22,7 @@ class NoPermittedToApi extends Security
 				'date' => date('Y-m-d H:i:s'),
 				'ip' => \App\RequestUtil::getRemoteIP(),
 				'url' => \App\RequestUtil::getBrowserInfo()->url,
-				'agent' => empty($_SERVER['HTTP_USER_AGENT']) ? '-' : $_SERVER['HTTP_USER_AGENT'],
+				'agent' => \App\Request::_getServer('HTTP_USER_AGENT', '-'),
 				'request' => json_encode($_REQUEST),
 			])->execute();
 	}

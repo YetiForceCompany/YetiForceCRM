@@ -21,9 +21,9 @@ class Csrf extends Security
 				'username' => empty($userName) ? '-' : $userName,
 				'date' => date('Y-m-d H:i:s'),
 				'ip' => \App\RequestUtil::getRemoteIP(),
-				'referer' => empty($_SERVER['HTTP_REFERER']) ? '-' : $_SERVER['HTTP_REFERER'],
+				'referer' => \App\Request::_getServer('HTTP_REFERER', '-'),
 				'url' => \App\RequestUtil::getBrowserInfo()->url,
-				'agent' => empty($_SERVER['HTTP_USER_AGENT']) ? '-' : $_SERVER['HTTP_USER_AGENT']
+				'agent' => \App\Request::_getServer('HTTP_USER_AGENT', '-')
 			])->execute();
 	}
 }

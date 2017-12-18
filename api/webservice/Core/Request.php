@@ -44,7 +44,7 @@ class Request extends \App\Request
 
 	public function contentParse($content)
 	{
-		$type = isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : $this->getHeader('Content-Type');
+		$type = isset($_SERVER['CONTENT_TYPE']) ? $this->getServer('CONTENT_TYPE') : $this->getHeader('Content-Type');
 		if (empty($type)) {
 			$type = $this->getHeader('Accept');
 		}

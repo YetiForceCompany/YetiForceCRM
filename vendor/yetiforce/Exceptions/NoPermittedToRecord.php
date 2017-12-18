@@ -26,9 +26,9 @@ class NoPermittedToRecord extends NoPermitted
 			'record' => $record,
 			'module' => $request->getModule(),
 			'url' => \App\RequestUtil::getBrowserInfo()->url,
-			'agent' => empty($_SERVER['HTTP_USER_AGENT']) ? '-' : $_SERVER['HTTP_USER_AGENT'],
+			'agent' => \App\Request::_getServer('HTTP_USER_AGENT', '-'),
 			'request' => json_encode($_REQUEST),
-			'referer' => empty($_SERVER['HTTP_REFERER']) ? '-' : $_SERVER['HTTP_REFERER'],
+			'referer' => \App\Request::_getServer('HTTP_REFERER', '-'),
 		])->execute();
 	}
 }
