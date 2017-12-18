@@ -66,22 +66,6 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			fixedList.css('max-height', height);
 		}
 	},
-	updateGutterPosition: function (container) {
-		window.console.log(container.find('#listPreview'));
-		var gutter = container.find('.gutter');
-		var listPreview = container.find('#listPreview');
-		gutter.on('mousedown', function () {
-			window.console.log('asdf');
-			$(this).on('mousemove', function (e) {
-				window.console.log($(this).position().left);
-				window.console.log($('#listPreview').position().left);
-				window.console.log($('#listPreview'));
-
-				var left = listPreview.position().left;
-				$(this).css('left', left);
-			})
-		})
-	},
 	registerListPreviewScroll: function (container) {
 		var thisInstance = this;
 		var currentElement = $('.fixedListInitial');
@@ -92,31 +76,28 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		});
 		var commactHeight = $('.commonActionsContainer').height();
 		$('.mainBody').scroll(function () {
-			console.log('scroll');
 			if ($(this).scrollTop() >= (currentElement.offset().top + commactHeight)) {
-				currentElement.addClass('fixedListInScroll');
-				var left = listPreview.position().left - 2;
-				console.log(gutter);
-				gutter.css('left', left);
-				gutter.on('mousedown', function () {
-					window.console.log('asdf');
-					$(this).on('mousemove', function (e) {
-						left = listPreview.position().left - 2;
-						$(this).css('left', left);
-						window.console.log('asdasdasdf');
+				currentElement.addClass('fixedListOnScroll');
+				if ($(window).width() > 993) {
+					gutter.addClass('gutterOnScroll');
+					gutter.css('left', listPreview.offset().left - 6);
+					gutter.on('mousedown', function () {
+						$(this).on('mousemove', function (e) {
+							$(this).css('left', listPreview.offset().left - 6);
+						})
 					})
-				})
+				}
 			} else {
-				currentElement.removeClass('fixedListInScroll');
-				left = listPreview.position().left - 2;
-				gutter.css('left', 0);
-				console.log('off');
-				gutter.off();
+				currentElement.removeClass('fixedListOnScroll');
+				if ($(window).width() > 993) {
+					gutter.removeClass('gutterOnScroll');
+					gutter.css('left', 0);
+					gutter.off();
+				}
 			}
 			thisInstance.updateListPreviewSize(currentElement);
 		});
 		thisInstance.updateListPreviewSize(currentElement);
-
 	},
 	registerEvents: function () {
 		var listViewContainer = this.getListViewContentContainer();

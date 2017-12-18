@@ -836,7 +836,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		app.event.trigger("RelatedList.AfterLoad", thisInstance);
 	},
 	registerSplit: function (leftCon, rightCon) {
-		window.console.log('ok');
 		Split([leftCon, rightCon], {
 			sizes: [25, 75],
 			minSize: 20,
