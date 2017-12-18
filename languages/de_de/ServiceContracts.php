@@ -13,8 +13,6 @@ $languageStrings = [
 	'ServiceContracts' => 'Serviceverträge',
 	'Service Contracts' => 'Serviceverträge',
 	'SINGLE_ServiceContracts' => 'Servicevertrag',
-	'LBL_ADD_RECORD' => 'Servicevertrag hinzufügen',
-	'LBL_RECORDS_LIST' => 'Liste Serviceverträge',
 	// Blocks
 	'LBL_SERVICE_CONTRACT_INFORMATION' => 'Servicevertragsdetails',
 	//Field Labels
