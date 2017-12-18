@@ -257,7 +257,6 @@ $languageStrings = [
 	'Project Management Department' => 'Departamento de Gestão de Projetos',
 	'Help Desk Department' => 'Departamento de Suporte',
 	'Human Resources Department' => 'Departamento de Recursos Humanos',
-	"Secretary's Office" => 'Departamento Administrativo',
 	'Organization' => 'Organização',
 	'Financial Department' => 'Departamento Financeiro',
 	'Production Department' => 'Departamento de Produção',
