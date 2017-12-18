@@ -143,6 +143,9 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 			$qualifiedName = "languages.$lang.$mod";
 		}
 		$fileName = Vtiger_Loader::resolveNameToPath($qualifiedName);
+		if (strstr($fileName, 'languages') === false) {
+			throw new \App\Exceptions\Security('ERR_MODULE_DOES_NOT_EXIST');
+		}
 		$fileExists = file_exists($fileName);
 		if ($fileExists) {
 			require($fileName);
