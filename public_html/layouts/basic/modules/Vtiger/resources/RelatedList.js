@@ -835,6 +835,14 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.content, false, this);
 		app.event.trigger("RelatedList.AfterLoad", thisInstance);
 	},
+	registerSplit: function (leftCon, rightCon) {
+		window.console.log('ok');
+		Split([leftCon, rightCon], {
+			sizes: [25, 75],
+			minSize: 20,
+			gutterSize: 8,
+		});
+	},
 	registerRelatedEvents: function () {
 		this.registerUnreviewedCountEvent();
 		this.registerChangeEntityStateEvent();
@@ -842,6 +850,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		this.registerListEvents();
 		this.registerPostLoadEvents();
 		this.registerSummationEvent();
+		this.registerSplit('#recordsList', '#listPreview');
 		Vtiger_Helper_Js.showHorizontalTopScrollBar();
 	},
 })

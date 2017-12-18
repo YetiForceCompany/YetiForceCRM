@@ -1997,6 +1997,14 @@ jQuery.Class("Vtiger_List_Js", {
 			});
 		});
 	},
+	registerSplit: function (leftCon, rightCon) {
+		window.console.log('ok');
+		Split([leftCon, rightCon], {
+			sizes: [25, 75],
+			minSize: 20,
+			gutterSize: 8,
+		});
+	},
 	registerEvents: function () {
 		this.breadCrumbsFilter();
 		this.registerRowClickEvent();
