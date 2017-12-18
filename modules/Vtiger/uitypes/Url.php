@@ -26,7 +26,7 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 		if ($this->validate || empty($value)) {
 			return;
 		}
-		if (strpos($value, 'www.') === 0) {
+		if (empty(parse_url($value)['scheme'])) {
 			$value = 'http://' . $value;
 		}
 		if (!preg_match('/^([^\:]+)\:/i', $value, $m)) {
