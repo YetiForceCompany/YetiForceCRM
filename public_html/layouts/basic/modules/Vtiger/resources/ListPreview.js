@@ -66,28 +66,63 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			fixedList.css('max-height', height);
 		}
 	},
-	registerListPreviewScroll: function () {
+	updateGutterPosition: function (container) {
+		window.console.log(container.find('#listPreview'));
+		var gutter = container.find('.gutter');
+		var listPreview = container.find('#listPreview');
+		gutter.on('mousedown', function () {
+			window.console.log('asdf');
+			$(this).on('mousemove', function (e) {
+				window.console.log($(this).position().left);
+				window.console.log($('#listPreview').position().left);
+				window.console.log($('#listPreview'));
+
+				var left = listPreview.position().left;
+				$(this).css('left', left);
+			})
+		})
+	},
+	registerListPreviewScroll: function (container) {
 		var thisInstance = this;
 		var currentElement = $('.fixedListInitial');
+		var gutter = container.find('.gutter');
+		var listPreview = container.find('#listPreview');
 		$(window).resize(function () {
 			thisInstance.updateListPreviewSize(currentElement);
 		});
 		var commactHeight = $('.commonActionsContainer').height();
 		$('.mainBody').scroll(function () {
+			console.log('scroll');
 			if ($(this).scrollTop() >= (currentElement.offset().top + commactHeight)) {
 				currentElement.addClass('fixedListInScroll');
+				var left = listPreview.position().left - 2;
+				console.log(gutter);
+				gutter.css('left', left);
+				gutter.on('mousedown', function () {
+					window.console.log('asdf');
+					$(this).on('mousemove', function (e) {
+						left = listPreview.position().left - 2;
+						$(this).css('left', left);
+						window.console.log('asdasdasdf');
+					})
+				})
 			} else {
 				currentElement.removeClass('fixedListInScroll');
+				left = listPreview.position().left - 2;
+				gutter.css('left', 0);
+				console.log('off');
+				gutter.off();
 			}
 			thisInstance.updateListPreviewSize(currentElement);
 		});
 		thisInstance.updateListPreviewSize(currentElement);
-		
+
 	},
 	registerEvents: function () {
+		var listViewContainer = this.getListViewContentContainer();
 		this._super();
 		this.registerPreviewEvent();
-		this.registerListPreviewScroll();
 		this.registerSplit('.fixedListInitial', '#listPreview');
+		this.registerListPreviewScroll(listViewContainer);
 	},
 });
