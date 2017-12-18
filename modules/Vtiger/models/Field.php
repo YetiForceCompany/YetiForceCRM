@@ -798,10 +798,6 @@ class Vtiger_Field_Model extends vtlib\Field
 				}
 				break;
 		}
-
-		if (in_array($fieldDataType, Vtiger_Field_Model::$referenceTypes) && AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
-			$this->fieldInfo['searchOperator'] = 'e';
-		}
 		return $this->fieldInfo;
 	}
 

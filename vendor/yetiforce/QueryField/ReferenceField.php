@@ -26,12 +26,12 @@ class ReferenceField extends BaseField
 			return [$this->fieldModel->getTableName() . $this->related['sourceField'] . '.' . $this->fieldModel->getColumnName()];
 		}
 		$relatedTableName = [];
-		foreach ($this->getTables() as &$moduleName) {
+		foreach ($this->getTables() as $moduleName) {
 			$entityFieldInfo = \App\Module::getEntityInfo($moduleName);
 			$referenceTable = $entityFieldInfo['tablename'] . $this->fieldModel->getFieldName();
 			if (count($entityFieldInfo['fieldnameArr']) > 1) {
 				$sqlString = 'CONCAT(';
-				foreach ($entityFieldInfo['fieldnameArr'] as &$column) {
+				foreach ($entityFieldInfo['fieldnameArr'] as $column) {
 					$sqlString .= "$referenceTable.$column,' ',";
 				}
 				$formattedName = new \yii\db\Expression(rtrim($sqlString, ',\' \',') . ')');
@@ -45,13 +45,25 @@ class ReferenceField extends BaseField
 	}
 
 	/**
+	 * Auto operator
+	 * @return array
+	 */
+	public function operatorA()
+	{
+		if (\AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
+			return ['=', $this->getColumnName(), $this->getValue()];
+		}
+		return $this->operatorA();
+	}
+
+	/**
 	 * Equals operator
 	 * @return array
 	 */
 	public function operatorE()
 	{
 		$condition = ['or'];
-		foreach ($this->getRelatedTableName() as &$formattedName) {
+		foreach ($this->getRelatedTableName() as $formattedName) {
 			$condition[] = ['=', $formattedName, $this->getValue()];
 		}
 		return $condition;
@@ -64,7 +76,7 @@ class ReferenceField extends BaseField
 	public function operatorN()
 	{
 		$condition = ['or'];
-		foreach ($this->getRelatedTableName() as &$formattedName) {
+		foreach ($this->getRelatedTableName() as $formattedName) {
 			$condition[] = ['<>', $formattedName, $this->getValue()];
 		}
 		return $condition;
@@ -77,7 +89,7 @@ class ReferenceField extends BaseField
 	public function operatorS()
 	{
 		$condition = ['or'];
-		foreach ($this->getRelatedTableName() as &$formattedName) {
+		foreach ($this->getRelatedTableName() as $formattedName) {
 			$condition[] = ['like', $formattedName, $this->getValue() . '%', false];
 		}
 		return $condition;
@@ -90,7 +102,7 @@ class ReferenceField extends BaseField
 	public function operatorEw()
 	{
 		$condition = ['or'];
-		foreach ($this->getRelatedTableName() as &$formattedName) {
+		foreach ($this->getRelatedTableName() as $formattedName) {
 			$condition[] = ['like', $formattedName, '%' . $this->getValue(), false];
 		}
 		return $condition;
@@ -103,7 +115,7 @@ class ReferenceField extends BaseField
 	public function operatorC()
 	{
 		$condition = ['or'];
-		foreach ($this->getRelatedTableName() as &$formattedName) {
+		foreach ($this->getRelatedTableName() as $formattedName) {
 			$condition[] = ['like', $formattedName, $this->getValue()];
 		}
 		return $condition;
@@ -116,7 +128,7 @@ class ReferenceField extends BaseField
 	public function operatorK()
 	{
 		$condition = ['or'];
-		foreach ($this->getRelatedTableName() as &$formattedName) {
+		foreach ($this->getRelatedTableName() as $formattedName) {
 			$condition[] = ['not like', $formattedName, $this->getValue()];
 		}
 		return $condition;
