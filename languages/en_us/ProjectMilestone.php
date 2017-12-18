@@ -11,8 +11,6 @@
 $languageStrings = [
 	// Basic Strings
 	'SINGLE_ProjectMilestone' => 'Project Milestone',
-	'LBL_ADD_RECORD' => 'Add record',
-	'LBL_RECORDS_LIST' => 'Project Milestones List',
 	// Blocks
 	'LBL_PROJECT_MILESTONE_INFORMATION' => 'Project Milestone Details',
 	'LBL_PROJECTS_LIST' => 'Projects List',
