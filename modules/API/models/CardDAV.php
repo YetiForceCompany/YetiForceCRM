@@ -122,7 +122,7 @@ class API_CardDAV_Model
 
 		$vcard = new Sabre\VObject\Component\VCard();
 		$vcard->PRODID = self::PRODID;
-		if ($moduleName == 'Contacts') {
+		if ($moduleName === 'Contacts') {
 			$name = $record['firstname'] . ' ' . $record['lastname'];
 			$vcard->N = [$record['lastname'], $record['firstname']];
 			$org = vtlib\Functions::getCRMRecordLabel($record['parentid']);
@@ -132,7 +132,7 @@ class API_CardDAV_Model
 			if (!empty($record['jobtitle'])) {
 				$vcard->TITLE = $record['jobtitle'];
 			}
-		} else if ($moduleName == 'OSSEmployees') {
+		} else if ($moduleName === 'OSSEmployees') {
 			$name = $record['name'] . ' ' . $record['last_name'];
 			$vcard->N = [$record['last_name'], $record['name']];
 			$vcard->ORG = App\Company::getInstanceById()->get('name');
@@ -180,7 +180,7 @@ class API_CardDAV_Model
 
 		$vcard = $this->cleanForUpdate($vcard);
 
-		if ($moduleName == 'Contacts') {
+		if ($moduleName === 'Contacts') {
 			$name = $record['firstname'] . ' ' . $record['lastname'];
 			$vcard->N = [$record['lastname'], $record['firstname']];
 			$org = vtlib\Functions::getCRMRecordLabel($record['parentid']);
@@ -190,7 +190,7 @@ class API_CardDAV_Model
 				$vcard->TITLE = $record['jobtitle'];
 			}
 		}
-		if ($moduleName == 'OSSEmployees') {
+		if ($moduleName === 'OSSEmployees') {
 			$name = $record['name'] . ' ' . $record['last_name'];
 			$vcard->N = [$record['last_name'], $record['name']];
 			$vcard->ORG = App\Company::getInstanceById()->get('name');
@@ -245,8 +245,8 @@ class API_CardDAV_Model
 		if (isset($vcard->ORG)) {
 			$lead = Vtiger_Record_Model::getCleanInstance('Leads');
 			$lead->set('assigned_user_id', $this->user->get('id'));
-			$lead->set('company', (string) $vcard->ORG);
-			$lead->set('lastname', (string) $vcard->ORG);
+			$lead->set('company', \App\Purifier::purify((string) $vcard->ORG));
+			$lead->set('lastname', \App\Purifier::purify((string) $vcard->ORG));
 			$lead->set('leadstatus', 'PLL_PENDING');
 			$lead->set('vat_id', '');
 			$lead->save();
@@ -256,16 +256,16 @@ class API_CardDAV_Model
 
 		$record = Vtiger_Record_Model::getCleanInstance($moduleName);
 		$record->set('assigned_user_id', $this->user->get('id'));
-		if ($moduleName == 'Contacts') {
-			$record->set('firstname', $head[1]);
-			$record->set('lastname', $head[0]);
-			$record->set('jobtitle', $vcard->TITLE);
-		} else if ($moduleName == 'OSSEmployees') {
-			$record->set('name', $head[1]);
-			$record->set('last_name', $head[0]);
+		if ($moduleName === 'Contacts') {
+			$record->set('firstname', \App\Purifier::purify($head[1]));
+			$record->set('lastname', \App\Purifier::purify($head[0]));
+			$record->set('jobtitle', \App\Purifier::purify($vcard->TITLE));
+		} else if ($moduleName === 'OSSEmployees') {
+			$record->set('name', \App\Purifier::purify($head[1]));
+			$record->set('last_name', \App\Purifier::purify($head[0]));
 		}
-		$record->set('description', $vcard->NOTE);
-		if ($leadId != '') {
+		$record->set('description', \App\Purifier::purify($vcard->NOTE));
+		if ($leadId) {
 			$record->set('parent_id', $leadId);
 		}
 		foreach ($this->telFields[$moduleName] as $key => $val) {
@@ -303,16 +303,15 @@ class API_CardDAV_Model
 		$vcard = Sabre\VObject\Reader::read($card['carddata']);
 		$head = $vcard->N->getParts();
 		$moduleName = $record->getModuleName();
-		$record->set('mode', 'edit');
-		if ($moduleName == 'Contacts') {
-			$record->set('firstname', $head[1]);
-			$record->set('lastname', $head[0]);
-			$record->set('jobtitle', $vcard->TITLE);
-		} else if ($moduleName == 'OSSEmployees') {
-			$record->set('name', $head[1]);
-			$record->set('last_name', $head[0]);
+		if ($moduleName === 'Contacts') {
+			$record->set('firstname', \App\Purifier::purify($head[1]));
+			$record->set('lastname', \App\Purifier::purify($head[0]));
+			$record->set('jobtitle', \App\Purifier::purify($vcard->TITLE));
+		} else if ($moduleName === 'OSSEmployees') {
+			$record->set('name', \App\Purifier::purify($head[1]));
+			$record->set('last_name', \App\Purifier::purify($head[0]));
 		}
-		$record->set('description', $vcard->NOTE);
+		$record->set('description', \App\Purifier::purify($vcard->NOTE));
 		foreach ($this->telFields[$moduleName] as $key => $val) {
 			$record->set($key, $this->getCardTel($vcard, $val));
 		}
@@ -391,7 +390,7 @@ class API_CardDAV_Model
 				$vcardType = strtoupper(trim(str_replace('VOICE', '', $vcardType), ','));
 				if ($vcardType == strtoupper($type) && $t->getValue() != '') {
 					\App\Log::trace(__METHOD__ . ' | End | return: ' . $t->getValue());
-					return $t->getValue();
+					return \App\Purifier::purify($t->getValue());
 				}
 			}
 		}
@@ -419,7 +418,7 @@ class API_CardDAV_Model
 				$vcardType = strtoupper(trim(str_replace('INTERNET', '', $vcardType), ','));
 				if ($vcardType == strtoupper($type) && $vcardType != '') {
 					\App\Log::trace(__METHOD__ . ' | End | return: ' . $e->getValue());
-					return $e->getValue();
+					return \App\Purifier::purify($e->getValue());
 				}
 			}
 		}
@@ -555,18 +554,18 @@ class API_CardDAV_Model
 			if ($type) {
 				$adr = $property->getParts();
 				$street = $adr[1] . ' ' . $adr[2];
-				if ($moduleName == 'Contacts') {
-					$record->set('addresslevel1' . $contactsPostFix, $adr[6]); //country
-					$record->set('addresslevel7' . $contactsPostFix, $adr[5]); //code
-					$record->set('addresslevel2' . $contactsPostFix, $adr[4]); //state
-					$record->set('addresslevel5' . $contactsPostFix, $adr[3]); //city
-					$record->set('addresslevel8' . $contactsPostFix, trim($street)); //street
-				} else if ($moduleName == 'OSSEmployees') {
-					$record->set($employeesSufFix . 'country', $adr[6]); //country
-					$record->set($employeesSufFix . 'code', $adr[5]); //code
-					$record->set($employeesSufFix . 'state', $adr[4]); //state
-					$record->set($employeesSufFix . 'city', $adr[3]); //city
-					$record->set($employeesSufFix . 'street', trim($street)); //street
+				if ($moduleName === 'Contacts') {
+					$record->set('addresslevel1' . $contactsPostFix, \App\Purifier::purify($adr[6])); //country
+					$record->set('addresslevel7' . $contactsPostFix, \App\Purifier::purify($adr[5])); //code
+					$record->set('addresslevel2' . $contactsPostFix, \App\Purifier::purify($adr[4])); //state
+					$record->set('addresslevel5' . $contactsPostFix, \App\Purifier::purify($adr[3])); //city
+					$record->set('addresslevel8' . $contactsPostFix, \App\Purifier::purify(trim($street))); //street
+				} else if ($moduleName === 'OSSEmployees') {
+					$record->set($employeesSufFix . 'country', \App\Purifier::purify($adr[6])); //country
+					$record->set($employeesSufFix . 'code', \App\Purifier::purify($adr[5])); //code
+					$record->set($employeesSufFix . 'state', \App\Purifier::purify($adr[4])); //state
+					$record->set($employeesSufFix . 'city', \App\Purifier::purify($adr[3])); //city
+					$record->set($employeesSufFix . 'street', \App\Purifier::purify(trim($street))); //street
 				}
 			}
 		}

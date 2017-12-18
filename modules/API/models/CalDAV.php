@@ -361,9 +361,9 @@ class API_CalDAV_Model
 				$dates = $this->getEventDates($component);
 				$record = Vtiger_Record_Model::getCleanInstance('Calendar');
 				$record->set('assigned_user_id', $this->user->get('id'));
-				$record->set('subject', (string) $component->SUMMARY);
-				$record->set('location', (string) $component->LOCATION);
-				$record->set('description', (string) $component->DESCRIPTION);
+				$record->set('subject', \App\Purifier::purify((string) $component->SUMMARY));
+				$record->set('location', \App\Purifier::purify((string) $component->LOCATION));
+				$record->set('description', \App\Purifier::purify((string) $component->DESCRIPTION));
 				$record->set('allday', $dates['allday']);
 				$record->set('date_start', $dates['date_start']);
 				$record->set('due_date', $dates['due_date']);
@@ -427,11 +427,10 @@ class API_CalDAV_Model
 			$type = (string) $component->name;
 			if ($type === 'VTODO' || $type === 'VEVENT') {
 				$dates = $this->getEventDates($component);
-				$record->set('mode', 'edit');
 				$record->set('assigned_user_id', $this->user->get('id'));
-				$record->set('subject', (string) $component->SUMMARY);
-				$record->set('location', (string) $component->LOCATION);
-				$record->set('description', (string) $component->DESCRIPTION);
+				$record->set('subject', \App\Purifier::purify((string) $component->SUMMARY));
+				$record->set('location', \App\Purifier::purify((string) $component->LOCATION));
+				$record->set('description', \App\Purifier::purify((string) $component->DESCRIPTION));
 				$record->set('allday', $dates['allday']);
 				$record->set('date_start', $dates['date_start']);
 				$record->set('due_date', $dates['due_date']);
@@ -517,8 +516,8 @@ class API_CalDAV_Model
 		if (!$startHasTime && !$endHasTime) {
 			$allday = 1;
 			$currentUser = \App\User::getCurrentUserModel();
-			$timeStart = $currentUser->getDetail('start_hour');
-			$timeEnd = $currentUser->getDetail('end_hour');
+			$timeStart = $currentUser->getDetail('start_hour') . ':00';
+			$timeEnd = $currentUser->getDetail('end_hour') . ':00';
 		}
 		return ['allday' => $allday, 'date_start' => $dateStart, 'due_date' => $dueDate, 'time_start' => $timeStart, 'time_end' => $timeEnd];
 	}
@@ -602,7 +601,7 @@ class API_CalDAV_Model
 		];
 		if ($toCrm) {
 			$return = 'Medium';
-			$value = isset($component->PRIORITY) ? $component->PRIORITY->getValue() : false;
+			$value = isset($component->PRIORITY) ? \App\Purifier::purify($component->PRIORITY->getValue()) : false;
 		} else {
 			$return = 5;
 			$values = array_flip($values);
@@ -645,7 +644,7 @@ class API_CalDAV_Model
 		if ($toCrm) {
 			$values = array_flip($values);
 			if (isset($component->STATUS)) {
-				$value = strtoupper($component->STATUS->getValue());
+				$value = strtoupper(\App\Purifier::purify($component->STATUS->getValue()));
 			}
 		} else {
 			$value = $component;
