@@ -15,8 +15,8 @@
 						</div>
 					{/if}
 					<div class="pull-right">
-						<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($ROW->get('createdtime'))}">
-							{Vtiger_Util_Helper::formatDateDiffInStrings($ROW->get('createdtime'))}
+						<small>
+							{\App\Fields\DateTime::getViewDateFormat($ROW->get('createdtime'))}
 						</small>
 					</div>
 					<strong>{$ROW->getTitle()}</strong>

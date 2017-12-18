@@ -24,7 +24,7 @@
 							<div class="timeline-body row no-margin">
 								<div class="pull-right">
 									<span class="time">
-										<span title="{$HISTORY['time']}">{Vtiger_Util_Helper::formatDateDiffInStrings($HISTORY['time'])}</span>
+										<span>{\App\Fields\DateTime::getViewDateFormat($HISTORY['time'])}</span>
 									</span>
 								</div>
 								<strong>{$HISTORY['userModel']->getName()}&nbsp;</strong>

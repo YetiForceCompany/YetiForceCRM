@@ -28,8 +28,8 @@
 						{$ACCOUNTS_MODEL['userModel']->getName()}
 					</div>
 					<div class="col-xs-4">
-						<span title="{$ACCOUNTS_MODEL['createdtime']}">
-							{Vtiger_Util_Helper::formatDateDiffInStrings($ACCOUNTS_MODEL['createdtime'])}
+						<span>
+							{\App\Fields\DateTime::getViewDateFormat($ACCOUNTS_MODEL['createdtime'])}
 						</span>
 					</div>
 				</div>

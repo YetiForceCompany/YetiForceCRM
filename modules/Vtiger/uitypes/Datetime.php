@@ -60,7 +60,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 		}
 		switch ($this->getFieldModel()->getUIType()) {
 			case 80:
-				return $rawText ? Vtiger_Util_Helper::formatDateDiffInStrings($value) : '<span title="' . self::getDisplayDateTimeValue($value) . '">' . Vtiger_Util_Helper::formatDateDiffInStrings($value) . '</span>';
+				return $rawText ? \App\Fields\DateTime::getViewDateFormat($value) : '<span title="' . self::getDisplayDateTimeValue($value) . '">' . \App\Fields\DateTime::getViewDateFormat($value) . '</span>';
 		}
 		return \vtlib\Functions::textLength($this->getDisplayValue($value, $record, $recordModel, $rawText), $this->getFieldModel()->get('maxlengthtext'));
 	}
