@@ -645,7 +645,6 @@ $languageStrings = [
 	'Sales Start Date' => 'Vertrieb Startdatum',
 	'Salutation' => 'Anrede',
 	'Secondary Email' => 'Weitere E-Mail',
-	'Secretariat' => 'Sekretariat',
 	'Self Generated' => 'Selbstgeneriert',
 	'Service Contracts' => 'Dienstleistungserträge',
 	'ServiceContracts' => 'Dienstleistungsverträge',
