@@ -2,8 +2,8 @@
 {strip}
 	<div class="chatItem {if \App\User::getCurrentUserId() == $ROW['userid']}active{/if}" data-cid="{$ROW['id']}">
 		<div class="pull-right">
-			<small title="{$ROW['created']}">
-				{Vtiger_Util_Helper::formatDateDiffInStrings($ROW['created'])}
+			<small>
+				{\App\Fields\DateTime::getViewDateFormat($ROW['created'])}
 			</small>  
 		</div>
 		<div class="author">

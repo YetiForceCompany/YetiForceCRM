@@ -59,7 +59,7 @@
 											</div>
 											<div class="inner">
 												<span class="pull-right paddingRight15">
-													<p class="muted"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getCommentedTime())}">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getCommentedTime())}</small></p>
+													<p class="muted"><small>{\App\Fields\DateTime::getViewDateFormat($COMMENT->getCommentedTime())}</small></p>
 												</span>
 												<div class="clearfix"></div>
 											</div>
@@ -83,7 +83,7 @@
 										<span class="pull-left visible-lg-block">
 											<p class="muted pull-right">
 												<small><em>{\App\Language::translate('LBL_MODIFIED',$MODULE_NAME)}</em></small>&nbsp;
-												<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getModifiedTime())}" class="commentModifiedTime">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getModifiedTime())}</small>
+												<small class="commentModifiedTime">{\App\Fields\DateTime::getViewDateFormat($COMMENT->getModifiedTime())}</small>
 											</p>
 										</span>
 									{/if}
