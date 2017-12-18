@@ -9,10 +9,8 @@
  * *********************************************************************************** */
 $languageStrings = [
 	'LBL_ADD_TO' => 'Hinzufügen zu',
-	'LBL_ADD_RECORD' => 'Preisliste hinzufügen',
 	'LBL_EDIT_LIST_PRICE' => 'Listenpreis bearbeiten',
 	'LBL_PRICEBOOK_INFORMATION' => 'Einzelheiten der Preisliste',
-	'LBL_RECORDS_LIST' => 'Liste Preislisten',
 	'LBL_UNIT_PRICE' => 'Stückpreis',
 	'Price Book Name' => 'Preislisten Name',
 	'PriceBook No' => 'Preislisten Nummer',
