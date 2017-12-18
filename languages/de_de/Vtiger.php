@@ -44,7 +44,6 @@ $languageStrings = [
 	'Production Department' => 'Produktionsabteilung',
 	'Financial Department' => 'Finanzabteilung',
 	'Organization' => 'Organisation',
-	"Secretary's Office" => 'Sekretariat',
 	'Human Resources Department' => 'Personalverwaltung',
 	'Human resources' => 'Personalverwaltung',
 	'Help Desk Department' => 'Helpdesk-Abteilung',
