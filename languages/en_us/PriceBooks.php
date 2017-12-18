@@ -9,11 +9,9 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 $languageStrings = [
-	'LBL_ADD_RECORD' => 'Add record',
 	'LBL_ADD_TO' => 'Add to',
 	'LBL_EDIT_LIST_PRICE' => 'Edit list price',
 	'LBL_PRICEBOOK_INFORMATION' => 'Price Book details',
-	'LBL_RECORDS_LIST' => 'Price Books list',
 	'LBL_UNIT_PRICE' => 'Unit price',
 	'Price Book Name' => 'Price Book name',
 	'PriceBook No' => 'Price Book number',
