@@ -11,8 +11,6 @@ $languageStrings = [
 	'ServiceContracts' => 'Service Contracts',
 	'Service Contracts' => 'Service Contracts',
 	'SINGLE_ServiceContracts' => 'Service Contract',
-	'LBL_ADD_RECORD' => 'Add record',
-	'LBL_RECORDS_LIST' => 'Service Contracts list',
 	// Blocks
 	'LBL_SERVICE_CONTRACT_INFORMATION' => 'Service Contract details',
 	//Field Labels
