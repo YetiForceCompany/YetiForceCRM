@@ -280,8 +280,6 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		this.registerListSearch();
 		this.getContainer().find('select.select2').each(function (i, obj) {
 			if (!$(obj).data('select2')) {
-				window.console.log('tttj');
-
 				app.showSelect2ElementView($(obj));
 			}
 		});
