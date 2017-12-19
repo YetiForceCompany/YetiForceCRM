@@ -42,11 +42,11 @@ class RequestUtil
 		return empty($address) ? '' : $address;
 	}
 
-	protected static $browerCache = false;
+	protected static $browserCache = false;
 
 	public static function getBrowserInfo()
 	{
-		if (static::$browerCache === false) {
+		if (static::$browserCache === false) {
 			$browserAgent = strtolower(\App\Request::_getServer('HTTP_USER_AGENT', ''));
 
 			$browser = new \stdClass;
@@ -110,8 +110,8 @@ class RequestUtil
 			$host = isset($host) ? $host : Request::_getServer('SERVER_NAME') . $port;
 			$browser->url = $protocol . '://' . $host . Request::_getServer('REQUEST_URI');
 			$browser->requestUri = ltrim(Request::_getServer('REQUEST_URI'), '/');
-			static::$browerCache = $browser;
+			static::$browserCache = $browser;
 		}
-		return static::$browerCache;
+		return static::$browserCache;
 	}
 }
