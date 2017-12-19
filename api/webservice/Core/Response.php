@@ -71,9 +71,11 @@ class Response
 		}
 		if (!empty($this->body)) {
 			if ($encryptDataTransfer) {
+				header("Content-Disposition: attachment; filename=\"api.json\"");
 				$response = $this->encryptData($this->body);
 			} else {
 				if (strpos($requestContentType, 'text/html') !== false) {
+					header("Content-Disposition: attachment; filename=\"api.html\"");
 					$response = $this->encodeHtml($this->body);
 				} else if (strpos($requestContentType, 'application/xml') !== false) {
 					header("Content-Disposition: attachment; filename=\"api.xml\"");

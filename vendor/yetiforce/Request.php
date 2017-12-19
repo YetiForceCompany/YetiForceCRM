@@ -339,12 +339,12 @@ class Request
 				if (substr($key, 0, 5) === 'HTTP_') {
 					$key = str_replace(' ', '-', strtoupper(str_replace('_', ' ', substr($key, 5))));
 				}
-				$headers[$key] = Purifier::purifyByType($value, 'Text');
+				$headers[$key] = Purifier::purify($value);
 			}
 		} else {
 			$headers = array_change_key_case(apache_request_headers(), CASE_UPPER);
 			foreach ($headers as &$value) {
-				$value = Purifier::purifyByType($value, 'Text');
+				$value = Purifier::purify($value);
 			}
 		}
 		return $this->headers = $headers;
