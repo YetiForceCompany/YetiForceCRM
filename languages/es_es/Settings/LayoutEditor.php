@@ -169,6 +169,7 @@ $languageStrings = [
 	'LBL_SUMMARY_BOTTOM_TYPE' => 'Resumen inferior',
 	'LBL_RELATED_VIEW_TYPE' => 'Mostrar posición',
 	'LBL_RELATED_VIEW_TYPE_DESC' => 'Seleccione al menos una posición de visualización para el bloque',
+	'LBL_CUSTOM_CONFIGURATION' => 'Custom configuration',
 ];
 
 $jsLanguageStrings = [
