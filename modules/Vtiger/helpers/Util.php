@@ -126,7 +126,7 @@ class Vtiger_Util_Helper
 	public static function formatDateIntoStrings($date, $time = false)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$dateTimeInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue($date . ' ' . $time);
+		$dateTimeInUserFormat = App\Fields\DateTime::formatToDisplay($date . ' ' . $time);
 
 		list($dateInUserFormat, $timeInUserFormat) = explode(' ', $dateTimeInUserFormat);
 		list($hours, $minutes) = explode(':', $timeInUserFormat);
@@ -136,8 +136,8 @@ class Vtiger_Util_Helper
 			$displayTime = Vtiger_Time_UIType::getTimeValueInAMorPM($displayTime);
 		}
 
-		$today = Vtiger_Date_UIType::getDisplayDateValue(date('Y-m-d H:i:s'));
-		$tomorrow = Vtiger_Date_UIType::getDisplayDateValue(date('Y-m-d H:i:s', strtotime('tomorrow')));
+		$today = App\Fields\Date::formatToDisplay(date('Y-m-d H:i:s'));
+		$tomorrow = App\Fields\Date::formatToDisplay(date('Y-m-d H:i:s', strtotime('tomorrow')));
 		$userDate = DateTimeField::__convertToUserFormat($date, $currentUser->get('date_format'));
 
 		if ($dateInUserFormat == $today) {
@@ -214,30 +214,6 @@ class Vtiger_Util_Helper
 		$date = date('Y-m-d H:i:s');
 		date_default_timezone_set($default_timezone);
 		return $date;
-	}
-
-	/**
-	 * Function to get the datetime value in user preferred hour format
-	 * @param <DateTime> $dateTime
-	 * @param <Vtiger_Users_Model> $userObject
-	 * @return string date and time with hour format
-	 */
-	public static function convertDateTimeIntoUsersDisplayFormat($dateTime, $userObject = null)
-	{
-		require_once 'include/runtime/LanguageHandler.php';
-		require_once 'include/runtime/Globals.php';
-		if ($userObject) {
-			$userModel = Users_Privileges_Model::getInstanceFromUserObject($userObject);
-		} else {
-			$userModel = Users_Privileges_Model::getCurrentUserModel();
-		}
-
-		$date = new DateTime($dateTime);
-		$dateTimeField = new DateTimeField($date->format('Y-m-d H:i:s'));
-
-		$date = $dateTimeField->getDisplayDate($userModel);
-		$time = $dateTimeField->getDisplayTime($userModel);
-		return $date . ' ' . $time;
 	}
 
 	/**

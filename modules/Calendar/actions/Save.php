@@ -66,7 +66,7 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 		$startDate = Vtiger_Date_UIType::getDBInsertedValue($request->get('date_start'));
 		if ($startTime) {
 			$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($startTime);
-			$startDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($request->get('date_start') . ' ' . $startTime);
+			$startDateTime = App\Fields\DateTime::formatToDb($request->get('date_start') . ' ' . $startTime);
 			list($startDate, $startTime) = explode(' ', $startDateTime);
 		}
 		$recordModel->set('date_start', $startDate);
@@ -76,7 +76,7 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 		$endDate = Vtiger_Date_UIType::getDBInsertedValue($request->get('due_date'));
 		if ($endTime) {
 			$endTime = Vtiger_Time_UIType::getTimeValueWithSeconds($endTime);
-			$endDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($request->get('due_date') . ' ' . $endTime);
+			$endDateTime = App\Fields\DateTime::formatToDb($request->get('due_date') . ' ' . $endTime);
 			list($endDate, $endTime) = explode(' ', $endDateTime);
 		}
 		$recordModel->set('time_end', $endTime);

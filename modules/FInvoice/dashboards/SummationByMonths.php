@@ -60,7 +60,7 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$rawData = $data = $response = $years = [];
 		$date = date('Y-m-01', strtotime('-23 month', strtotime(date('Y-m-d'))));
-		$displayDate = \App\Fields\Date::currentUserDisplayDate($date);
+		$displayDate = \App\Fields\Date::formatToUser($date);
 		$queryGenerator = new \App\QueryGenerator($moduleName);
 		$y = new \yii\db\Expression('extract(year FROM saledate)');
 		$m = new \yii\db\Expression('extract(month FROM saledate)');

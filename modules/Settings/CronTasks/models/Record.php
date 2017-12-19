@@ -101,7 +101,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 	public function getLastEndDateTime()
 	{
 		if ($this->get('lastend') != NULL) {
-			$lastScannedTime = Vtiger_Datetime_UIType::getDisplayDateTimeValue(date('Y-m-d H:i:s', $this->get('lastend')));
+			$lastScannedTime = App\Fields\DateTime::formatToDisplay(date('Y-m-d H:i:s', $this->get('lastend')));
 			$userModel = Users_Record_Model::getCurrentUserModel();
 			$hourFormat = $userModel->get('hour_format');
 			if ($hourFormat == '24') {

@@ -93,7 +93,7 @@ Class Calendar_Edit_View extends Vtiger_Edit_View
 			}
 		}
 		$viewer->assign('USER_CHANGED_END_DATE_TIME', $userChangedEndDateTime);
-		$viewer->assign('TOMORROWDATE', Vtiger_Date_UIType::getDisplayDateValue(date('Y-m-d', time() + 86400)));
+		$viewer->assign('TOMORROWDATE', App\Fields\Date::formatToDisplay(date('Y-m-d', time() + 86400)));
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('RECORD', $recordModel);

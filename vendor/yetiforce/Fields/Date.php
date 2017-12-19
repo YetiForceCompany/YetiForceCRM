@@ -51,10 +51,12 @@ class Date
 	 * @param Date $cur_date_val the date which should a changed to user date format.
 	 * @return Date
 	 */
-	public static function currentUserDisplayDate($value)
+	public static function formatToDisplay($value)
 	{
-		$date = new \DateTimeField($value);
-		return $date->getDisplayDate();
+		if (empty($value) || $value === '0000-00-00' || $value === '0000-00-00 00:00:00') {
+			return '';
+		}
+		return (new \DateTimeField($value))->getDisplayDate();
 	}
 
 	/**

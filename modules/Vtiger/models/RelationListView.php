@@ -326,7 +326,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 			];
 			if ($showCreatorDetail) {
 				$tree['rel_created_user'] = \App\Fields\Owner::getLabel($row['rel_created_user']);
-				$tree['rel_created_time'] = Vtiger_Datetime_UIType::getDisplayDateTimeValue($row['rel_created_time']);
+				$tree['rel_created_time'] = App\Fields\DateTime::formatToDisplay($row['rel_created_time']);
 			}
 			if ($showComment) {
 				$tree['rel_comment'] = $row['rel_comment'];

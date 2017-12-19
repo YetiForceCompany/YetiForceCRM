@@ -15,15 +15,38 @@ class DateTime
 {
 
 	/**
+	 * Function returns the date in user specified format.
+	 * @param string $value Date time
+	 * @return string
+	 */
+	public static function formatToDisplay($value)
+	{
+		if (empty($value) || $value === '0000-00-00' || $value === '0000-00-00 00:00:00') {
+			return '';
+		}
+		return (new \DateTimeField($value))->getDisplayDateTimeValue();
+	}
+
+	/**
+	 * Function to get date and time value for db format
+	 * @param string $value Date time
+	 * @return string
+	 */
+	public static function formatToDb($value)
+	{
+		return (new \DateTimeField($value))->getDBInsertDateTimeValue();
+	}
+
+	/**
 	 * The function returns the date according to the user's settings
-	 * @param string $dateTime
+	 * @param string $dateTime Date time
 	 * @return string
 	 */
 	public static function formatToViewDate($dateTime)
 	{
 		switch (\App\User::getCurrentUserModel()->getDetail('view_date_format')) {
 			case 'PLL_FULL':
-				return '<span title="' . \Vtiger_Util_Helper::formatDateDiffInStrings($dateTime) . '">' . \Vtiger_Datetime_UIType::getDisplayDateTimeValue($dateTime) . '</span>';
+				return '<span title="' . \Vtiger_Util_Helper::formatDateDiffInStrings($dateTime) . '">' . static::formatToDisplay($dateTime) . '</span>';
 			case 'PLL_ELAPSED':
 				return '<span title="' . static::formatToDay($dateTime) . '">' . \Vtiger_Util_Helper::formatDateDiffInStrings($dateTime) . '</span>';
 			case 'PLL_FULL_AND_DAY':
@@ -34,13 +57,13 @@ class DateTime
 
 	/**
 	 * Function to parse dateTime into days
-	 * @param string $dateTime
+	 * @param string $dateTime Date time
 	 * @param bool $allday
 	 * @return string
 	 */
 	public static function formatToDay($dateTime, $allday = false)
 	{
-		$dateTimeInUserFormat = explode(' ', \Vtiger_Datetime_UIType::getDisplayDateTimeValue($dateTime));
+		$dateTimeInUserFormat = explode(' ', static::formatToDisplay($dateTime));
 		if (count($dateTimeInUserFormat) === 3) {
 			list($dateInUserFormat, $timeInUserFormat, $meridiem) = $dateTimeInUserFormat;
 		} else {
