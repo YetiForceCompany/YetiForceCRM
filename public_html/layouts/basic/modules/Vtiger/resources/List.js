@@ -1997,49 +1997,6 @@ jQuery.Class("Vtiger_List_Js", {
 			});
 		});
 	},
-	registerSplit: function (container, leftCon, rightCon) {
-		var fixedList = container.find('.fixedListInitial');
-		var commactHeight = $('.commonActionsContainer').height();
-		var listPreview = container.find('#listPreview');
-		var splitsArray = [];
-		var mainBody = $('.mainBody');
-		if ($(window).width() > 993) {
-			var split = Split([leftCon, rightCon], {
-				sizes: [25, 75],
-				minSize: 20,
-				gutterSize: 8
-			});
-		}
-		splitsArray.push(split);
-		$(window).resize(function () {
-			if ($(window).width() < 993) {
-				if (container.find('.gutter').length) {
-					splitsArray[splitsArray.length - 1].destroy();
-				}
-			}
-			else {
-				if (container.find('.gutter').length !== 1) {
-					var split = Split([leftCon, rightCon], {
-						sizes: [25, 75],
-						minSize: 20,
-						gutterSize: 8
-					});
-					if (mainBody.scrollTop() >= (fixedList.offset().top + commactHeight)) {
-						var gutter = container.find('.gutter');
-						gutter.addClass('gutterOnScroll');
-						gutter.css('left', listPreview.offset().left - 6);
-						gutter.on('mousedown', function () {
-							$(this).on('mousemove', function (e) {
-								$(this).css('left', listPreview.offset().left - 6);
-							})
-						})
-					}
-					splitsArray.push(split);
-				}
-			}
-			
-		});
-	},
 	registerEvents: function () {
 		this.breadCrumbsFilter();
 		this.registerRowClickEvent();
