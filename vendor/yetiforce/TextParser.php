@@ -1137,4 +1137,14 @@ class TextParser
 		}
 		return $variables;
 	}
+
+	/**
+	 * Function checks if its TextParser type
+	 * @param string $text
+	 * @return bool
+	 */
+	public static function isVaribleToParse($text)
+	{
+		return preg_match('/\$\((\w+) : ([,"\+\-\[\]\&\w\s\|]+)\)\$/', $text);
+	}
 }

@@ -106,7 +106,7 @@
 									</span>
 								</div>
 							{elseif $FIELD_MODEL->getFieldDataType() eq "date"}
-								{assign var=IS_CUSTOM_DEFAULT_VALUE value=$FIELD_MODEL->isCustomDefaultValue()}
+								{assign var=IS_CUSTOM_DEFAULT_VALUE value=\App\TextParser::isVaribleToParse($FIELD_MODEL->get('defaultvalue'))}
 								<div class="input-group date {if $IS_CUSTOM_DEFAULT_VALUE} hide{/if}">
 									{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
 									<input type="text" class="form-control dateField" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue() || $IS_CUSTOM_DEFAULT_VALUE} disabled="" {/if} name="fieldDefaultValue" data-toregister="date" data-date-format="{$USER_MODEL->get('date_format')}" data-fieldinfo='{\App\Json::encode($FIELD_INFO)}'{strip} {/strip}
