@@ -62,18 +62,18 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 				$fieldInstance->set($key, $value);
 			}
 		}
-		$defaultValue = $request->get('fieldDefaultValue');
-		if ($fieldInstance->getFieldDataType() === 'date' && \App\TextParser::isVaribleToParse($defaultValue)) {
-			$fieldInstance->set('defaultvalue', $defaultValue);
-		} else {
-			$uitypeModel->validate($defaultValue, true);
-			$fieldInstance->set('defaultvalue', $uitypeModel->getDBValue($defaultValue));
-		}
 		if ($request->has('fieldMask')) {
 			$fieldInstance->set('fieldparams', $request->get('fieldMask'));
 		}
 		$response = new Vtiger_Response();
 		try {
+			$defaultValue = $request->get('fieldDefaultValue');
+			if ($fieldInstance->getFieldDataType() === 'date' && \App\TextParser::isVaribleToParse($defaultValue)) {
+				$fieldInstance->set('defaultvalue', $defaultValue);
+			} else {
+				$uitypeModel->validate($defaultValue, true);
+				$fieldInstance->set('defaultvalue', $uitypeModel->getDBValue($defaultValue));
+			}
 			$fieldInstance->save();
 			$response->setResult([
 				'success' => true,
@@ -81,6 +81,8 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 				'mandatory' => $fieldInstance->isMandatory(),
 				'label' => \App\Language::translate($fieldInstance->get('label'), $request->getByType('sourceModule', 2))]);
 		} catch (Exception $e) {
+			$response->setError($e->getCode(), $e->getMessage());
+		} catch (Error $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
 		$response->emit();
