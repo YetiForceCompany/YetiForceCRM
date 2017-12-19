@@ -13,12 +13,6 @@ class Purifier
 {
 
 	/**
-	 * For optimization - default_charset can be either upper / lower case.
-	 * @var bool
-	 */
-	public static $UTF8;
-
-	/**
 	 * Default charset
 	 * @var string
 	 */
@@ -359,12 +353,7 @@ class Purifier
 	 */
 	public static function encodeHtml($string)
 	{
-		if (static::$UTF8) {
-			$value = htmlspecialchars($string, ENT_QUOTES, static::$defaultCharset);
-		} else {
-			$value = str_replace(['<', '>', '"'], ['&lt;', '&gt;', '&quot;'], $string);
-		}
-		return $value;
+		return htmlspecialchars($string, ENT_QUOTES, static::$defaultCharset);
 	}
 
 	/**
@@ -374,15 +363,8 @@ class Purifier
 	 */
 	public static function decodeHtml($string)
 	{
-		if (static::$UTF8) {
-			$value = html_entity_decode($string, ENT_QUOTES, static::$defaultCharset);
-		} else {
-			$value = str_replace(['&lt;', '&gt;', '&quot;'], ['<', '>', '"'], $string);
-		}
-		return $value;
+		return html_entity_decode($string, ENT_QUOTES, static::$defaultCharset);
 	}
 }
 
 Purifier::$defaultCharset = (string) \AppConfig::main('default_charset', 'UTF-8');
-Purifier::$UTF8 = (strtoupper(Purifier::$defaultCharset) === 'UTF-8');
-
