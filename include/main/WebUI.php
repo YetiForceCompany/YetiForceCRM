@@ -210,6 +210,9 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			}
 			if (AppConfig::main('systemMode') === 'test') {
 				file_put_contents('cache/logs/request.log', print_r($request->getAll(), true));
+				if (function_exists('apache_request_headers')) {
+					file_put_contents('cache/logs/request.log', print_r(apache_request_headers(), true));
+				}
 				throw $e;
 			}
 		}
