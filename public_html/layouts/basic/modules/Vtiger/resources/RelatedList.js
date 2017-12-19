@@ -835,21 +835,24 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.content, false, this);
 		app.event.trigger("RelatedList.AfterLoad", thisInstance);
 	},
-	registerSplit: function (leftCon, rightCon) {
-		Split([leftCon, rightCon], {
-			sizes: [25, 75],
-			minSize: 20,
-			gutterSize: 8,
-		});
+	registerSplit: function (container) {
+		if (container.find('#recordsList').length && container.find('#recordsList').length) {
+			Split(['#recordsList', '#listPreview'], {
+				sizes: [25, 75],
+				minSize: 20,
+				gutterSize: 8,
+			});
+		}
 	},
 	registerRelatedEvents: function () {
+		var relatedContainer = this.getRelatedContainer();
 		this.registerUnreviewedCountEvent();
 		this.registerChangeEntityStateEvent();
 		this.registerPaginationEvents();
 		this.registerListEvents();
 		this.registerPostLoadEvents();
 		this.registerSummationEvent();
-		this.registerSplit('#recordsList', '#listPreview');
+		this.registerSplit(relatedContainer);
 		Vtiger_Helper_Js.showHorizontalTopScrollBar();
 	},
 })

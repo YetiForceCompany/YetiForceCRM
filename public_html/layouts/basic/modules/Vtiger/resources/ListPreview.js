@@ -68,16 +68,20 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	},
 	registerListPreviewScroll: function (container) {
 		var thisInstance = this;
-		var currentElement = $('.fixedListInitial');
+		var fixedList = container.find('.fixedListInitial');
 		var listPreview = container.find('#listPreview');
+		var mainBody = $('.mainBody');
 		$(window).resize(function () {
-			thisInstance.updateListPreviewSize(currentElement);
+			thisInstance.updateListPreviewSize(fixedList);
+			if (mainBody.scrollTop() >= (fixedList.offset().top + commactHeight)) {
+				container.find('.gutter').css('left', listPreview.offset().left - 6);
+			}
 		});
 		var commactHeight = $('.commonActionsContainer').height();
-		$('.mainBody').scroll(function () {
-			if ($(this).scrollTop() >= (currentElement.offset().top + commactHeight)) {
-				currentElement.addClass('fixedListOnScroll');
-				if ($(window).width() > 1092) {
+		mainBody.scroll(function () {
+			if ($(this).scrollTop() >= (fixedList.offset().top + commactHeight)) {
+				fixedList.addClass('fixedListOnScroll');
+				if ($(window).width() > 993) {
 					var gutter = container.find('.gutter');
 					gutter.addClass('gutterOnScroll');
 					gutter.css('left', listPreview.offset().left - 6);
@@ -88,17 +92,17 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 					})
 				}
 			} else {
-				currentElement.removeClass('fixedListOnScroll');
-				if ($(window).width() > 1092) {
+				fixedList.removeClass('fixedListOnScroll');
+				if ($(window).width() > 993) {
 					var gutter = container.find('.gutter');
 					gutter.removeClass('gutterOnScroll');
 					gutter.css('left', 0);
 					gutter.off();
 				}
 			}
-			thisInstance.updateListPreviewSize(currentElement);
+			thisInstance.updateListPreviewSize(fixedList);
 		});
-		thisInstance.updateListPreviewSize(currentElement);
+		thisInstance.updateListPreviewSize(fixedList);
 	},
 	registerEvents: function () {
 		var listViewContainer = this.getListViewContentContainer();

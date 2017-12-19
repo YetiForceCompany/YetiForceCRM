@@ -2020,6 +2020,11 @@ jQuery.Class("Vtiger_List_Js", {
 		});
 	},
 	registerSplit: function (container, leftCon, rightCon) {
+		var fixedList = container.find('.fixedListInitial');
+		var commactHeight = $('.commonActionsContainer').height();
+		var listPreview = container.find('#listPreview');
+		var splitsArray = [];
+		var mainBody = $('.mainBody');
 		if ($(window).width() > 993) {
 			var split = Split([leftCon, rightCon], {
 				sizes: [25, 75],
@@ -2027,38 +2032,35 @@ jQuery.Class("Vtiger_List_Js", {
 				gutterSize: 8
 			});
 		}
-		var array = [];
-		array.push(split);
-		window.console.log(array[0]);
+		splitsArray.push(split);
 		$(window).resize(function () {
-			window.console.log(container.find('.gutter').length);
-			if ($(window).width() < 990) {
+			if ($(window).width() < 993) {
 				if (container.find('.gutter').length) {
-					array[array.length - 1].destroy();
-					window.console.log('destr');
+					splitsArray[splitsArray.length - 1].destroy();
 				}
-			} else {
+			}
+			else {
 				if (container.find('.gutter').length !== 1) {
-					window.console.log('create');
 					var split = Split([leftCon, rightCon], {
 						sizes: [25, 75],
 						minSize: 20,
 						gutterSize: 8
 					});
-					array.push(split);
+					if (mainBody.scrollTop() >= (fixedList.offset().top + commactHeight)) {
+						var gutter = container.find('.gutter');
+						gutter.addClass('gutterOnScroll');
+						gutter.css('left', listPreview.offset().left - 6);
+						gutter.on('mousedown', function () {
+							$(this).on('mousemove', function (e) {
+								$(this).css('left', listPreview.offset().left - 6);
+							})
+						})
+					}
+					splitsArray.push(split);
 				}
 			}
+			
 		});
-//		var instance = Split(['#fourteen', '#fifteen', '#sixteen'], {
-//			sizes: [50, 25, 25]
-//		});
-//			instance.setSizes([33.3, 33.3, 33.3]);  // Set Sizes 33%
-//			instance.collapse(0);  // Collapse First
-//			instance.collapse(1);  // Collapse Second
-//			instance.collapse(2);  // Collapse Third
-//			instance.getSizes();  // Get Sizes
-//			instance.setSizes([50, 25, 25]);  // Reset
-//			instance.destroy();  // Destroy
 	},
 	registerEvents: function () {
 		this.breadCrumbsFilter();

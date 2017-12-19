@@ -5973,6 +5973,7 @@ border1px{
 #recordsList{
 	padding-left: 0;
 	padding-right: 5px;
+	float: left;
 }
 [class*="picklistLb_"] {
 	border-radius: 7px;
@@ -5995,6 +5996,7 @@ border1px{
 .fixedListContent #recordsList {
 	padding-left: 0;
 	padding-right: 0;
+	float: none;
 }
 .fixedListContent .contents-topscroll {
 	margin-top: -2px;
