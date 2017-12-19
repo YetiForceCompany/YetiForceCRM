@@ -71,6 +71,9 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 			listViewContainer.find('.listViewEntriesTable select').on('change', function (e) {
 				listInstance.triggerListSearch();
 			});
+			listViewContainer.find('.listViewEntriesTable .picklistSearchField').on('apply.daterangepicker', function (e) {
+				listInstance.triggerListSearch();
+			});
 			listViewContainer.find('.listViewEntriesTable .dateField').on('DatePicker.onHide', function (e, y) {
 				var prevVal = $(this).data('prevVal');
 				var value = $(this).val();
@@ -277,6 +280,8 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		this.registerListSearch();
 		this.getContainer().find('select.select2').each(function (i, obj) {
 			if (!$(obj).data('select2')) {
+				window.console.log('tttj');
+
 				app.showSelect2ElementView($(obj));
 			}
 		});
