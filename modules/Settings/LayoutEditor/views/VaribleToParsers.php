@@ -1,16 +1,16 @@
 <?php
 /**
- * EditField View Class
+ * VaribleToParsers View Class
  * @package YetiForce.Settings.View
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
- * EditField View Class
+ * VaribleToParsers View Class
  */
-class Settings_LayoutEditor_EditField_View extends Settings_Vtiger_BasicModal_View
+class Settings_LayoutEditor_VaribleToParsers_View extends Settings_Vtiger_BasicModal_View
 {
 
 	/**
@@ -21,7 +21,8 @@ class Settings_LayoutEditor_EditField_View extends Settings_Vtiger_BasicModal_Vi
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (!$currentUserModel->isAdminUser() || !Settings_LayoutEditor_Field_Model::getInstance($request->getInteger('fieldId'))->isEditable()) {
+		$fieldModel = Settings_LayoutEditor_Field_Model::getInstance($request->getInteger('fieldId'));
+		if (!$currentUserModel->isAdminUser() || !$fieldModel->isEditable() || !$fieldModel->hasDefaultValue()) {
 			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -34,12 +35,10 @@ class Settings_LayoutEditor_EditField_View extends Settings_Vtiger_BasicModal_Vi
 	{
 		$this->preProcess($request);
 		$qualifiedModuleName = $request->getModule(false);
-		$fieldId = $request->getInteger('fieldId');
-		$fieldModel = Settings_LayoutEditor_Field_Model::getInstance($fieldId);
 		$viewer = $this->getViewer($request);
-		$viewer->assign('FIELD_MODEL', $fieldModel);
-		$viewer->assign('SELECTED_MODULE_NAME', $fieldModel->getModule()->getName());
-		$viewer->view('EditField.tpl', $qualifiedModuleName);
+		$viewer->assign('VARIBLES', \App\TextParser::$variableDates);
+		$viewer->assign('DEFAULT_VALUE', $request->get('defaultValue'));
+		$viewer->view('VaribleToParsers.tpl', $qualifiedModuleName);
 		$this->postProcess($request);
 	}
 }

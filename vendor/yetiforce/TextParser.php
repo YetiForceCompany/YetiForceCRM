@@ -36,6 +36,21 @@ class TextParser
 	];
 
 	/**
+	 * Default date list
+	 * @var string[]
+	 */
+	public static $variableDates = [
+		'LBL_DATE_TODAY' => '$(date : now)$',
+		'LBL_DATE_TOMORROW' => '$(date : tomorrow)$',
+		'LBL_DATE_YESTERDAY' => '$(date : yesterday)$',
+		'LBL_DATE_FIRST_DAY_OF_THIS_WEEK' => '$(date : monday this week)$',
+		'LBL_DATE_MONDAY_NEXT_WEEK' => '$(date : monday next week)$',
+		'LBL_DATE_FIRST_DAY_OF_THIS_MONTH' => '$(date : first day of this month)$',
+		'LBL_DATE_LAST_DAY_OF_THIS_MONTH' => '$(date : last day of this month)$',
+		'LBL_DATE_FIRST_DAY_OF_NEXT_MONTH' => '$(date : first day of next month)$',
+	];
+
+	/**
 	 * Variables for entity modules
 	 * @var array 
 	 */

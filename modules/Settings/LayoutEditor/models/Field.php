@@ -275,20 +275,11 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Default date list
-	 * @return string[]
+	 * Default value - state 
+	 * @return bool
 	 */
-	public function getDefaultDatePicklist()
+	public function isCustomDefaultValue()
 	{
-		return [
-			'LBL_DATE_TODAY' => 'now',
-			'LBL_DATE_TOMORROW' => 'tomorrow',
-			'LBL_DATE_YESTERDAY' => 'yesterday',
-			'LBL_DATE_FIRST_DAY_OF_THIS_WEEK' => 'monday this week',
-			'LBL_DATE_MONDAY_NEXT_WEEK' => 'monday next week',
-			'LBL_DATE_FIRST_DAY_OF_THIS_MONTH' => 'first day of this month',
-			'LBL_DATE_LAST_DAY_OF_THIS_MONTH' => 'last day of this month',
-			'LBL_DATE_FIRST_DAY_OF_NEXT_MONTH' => 'first day of next month'
-		];
+		return preg_match('/\$\((\w+) : ([,"\+\-\[\]\&\w\s\|]+)\)\$/', $this->get('defaultvalue'));
 	}
 }
