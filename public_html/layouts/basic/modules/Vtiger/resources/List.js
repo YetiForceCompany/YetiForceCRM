@@ -2019,7 +2019,7 @@ jQuery.Class("Vtiger_List_Js", {
 			});
 		});
 	},
-	registerSplit: function (leftCon, rightCon) {
+	registerSplit: function (container, leftCon, rightCon) {
 		if ($(window).width() > 993) {
 			var split = Split([leftCon, rightCon], {
 				sizes: [25, 75],
@@ -2027,11 +2027,26 @@ jQuery.Class("Vtiger_List_Js", {
 				gutterSize: 8
 			});
 		}
+		var array = [];
+		array.push(split);
+		window.console.log(array[0]);
 		$(window).resize(function () {
-			window.console.log(split.destroy());
-			if ($(window).width() < 993) {
-				split.destroy();
-				console.log(split);
+			window.console.log(container.find('.gutter').length);
+			if ($(window).width() < 990) {
+				if (container.find('.gutter').length) {
+					array[array.length - 1].destroy();
+					window.console.log('destr');
+				}
+			} else {
+				if (container.find('.gutter').length !== 1) {
+					window.console.log('create');
+					var split = Split([leftCon, rightCon], {
+						sizes: [25, 75],
+						minSize: 20,
+						gutterSize: 8
+					});
+					array.push(split);
+				}
 			}
 		});
 //		var instance = Split(['#fourteen', '#fifteen', '#sixteen'], {

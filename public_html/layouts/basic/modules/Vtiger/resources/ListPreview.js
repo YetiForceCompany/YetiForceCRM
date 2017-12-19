@@ -69,7 +69,6 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	registerListPreviewScroll: function (container) {
 		var thisInstance = this;
 		var currentElement = $('.fixedListInitial');
-		var gutter = container.find('.gutter');
 		var listPreview = container.find('#listPreview');
 		$(window).resize(function () {
 			thisInstance.updateListPreviewSize(currentElement);
@@ -78,7 +77,8 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		$('.mainBody').scroll(function () {
 			if ($(this).scrollTop() >= (currentElement.offset().top + commactHeight)) {
 				currentElement.addClass('fixedListOnScroll');
-				if ($(window).width() > 993) {
+				if ($(window).width() > 1092) {
+					var gutter = container.find('.gutter');
 					gutter.addClass('gutterOnScroll');
 					gutter.css('left', listPreview.offset().left - 6);
 					gutter.on('mousedown', function () {
@@ -89,7 +89,8 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				}
 			} else {
 				currentElement.removeClass('fixedListOnScroll');
-				if ($(window).width() > 993) {
+				if ($(window).width() > 1092) {
+					var gutter = container.find('.gutter');
 					gutter.removeClass('gutterOnScroll');
 					gutter.css('left', 0);
 					gutter.off();
@@ -103,7 +104,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var listViewContainer = this.getListViewContentContainer();
 		this._super();
 		this.registerPreviewEvent();
-		this.registerSplit('.fixedListInitial', '#listPreview');
+		this.registerSplit(listViewContainer, '.fixedListInitial', '#listPreview');
 		this.registerListPreviewScroll(listViewContainer);
 	},
 });
