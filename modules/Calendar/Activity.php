@@ -204,13 +204,6 @@ class Activity extends CRMEntity
 	 */
 	public function setActivityReminder($status)
 	{
-		if ($status == "on") {
-			$flag = 0;
-		} elseif ($status == "off") {
-			$flag = 1;
-		} else {
-			return false;
-		}
 		\App\Db::getInstance()->createCommand()
 			->update('vtiger_activity_reminder_popup', [
 				'status' => 1

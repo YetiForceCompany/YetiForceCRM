@@ -71,15 +71,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$recordId = $request->getInteger('record');
 		$recordModel = $this->record->getRecord();
 		$this->recordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
-		$summaryInfo = [];
-		// Take first block information as summary information
-		$stucturedValues = $this->recordStructure->getStructure();
 		$fieldsInHeader = $this->recordStructure->getFieldInHeader();
-		foreach ($stucturedValues as $blockLabel => $fieldList) {
-			$summaryInfo[$blockLabel] = $fieldList;
-			break;
-		}
-
 		$eventHandler = new App\EventHandler();
 		$eventHandler->setRecordModel($recordModel);
 		$eventHandler->setModuleName($moduleName);

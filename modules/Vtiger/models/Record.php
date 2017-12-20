@@ -1488,12 +1488,8 @@ class Vtiger_Record_Model extends \App\Base
 	{
 		$colors = [];
 		$stateColors = AppConfig::search('LIST_ENTITY_STATE_COLOR');
-		$moduleConfig = AppConfig::module($this->getModuleName());
-		//var_dump($moduleConfig);
 		$state = \App\Record::getState($this->getId());
-		if (false) {
-			
-		} elseif (!empty($stateColors[$state])) {
+		if (!empty($stateColors[$state])) {
 			$colors['leftBorder'] = $stateColors[$state];
 		}
 		return $colors;
