@@ -318,7 +318,8 @@ class OSSMail_Mail_Model extends \App\Base
 		];
 		if ($attachments = $this->get('attachments')) {
 			foreach ($attachments as $attachment) {
-				if ($id = App\Fields\File::saveFromContent($attachment['attachment'], $attachment['filename'], false, $params)) {
+				$fileInstance = \App\Fields\File::loadFromContent($attachment['attachment'], $attachment['filename'], ['validateAllCodeInjection' => true]);
+				if ($fileInstance->validate() && ($id = App\Fields\File::saveFromContent($fileInstance, $params))) {
 					$files[] = $id;
 				}
 			}
