@@ -471,13 +471,14 @@ class File
 		if (isset(static::$tmpPath)) {
 			return static::$tmpPath;
 		}
+		$hash = hash('crc32', ROOT_DIRECTORY);
 		if (!empty(ini_get('upload_tmp_dir')) && is_writable(ini_get('upload_tmp_dir'))) {
-			static::$tmpPath = ini_get('upload_tmp_dir') . DIRECTORY_SEPARATOR . 'YetiForceTemp' . DIRECTORY_SEPARATOR;
+			static::$tmpPath = ini_get('upload_tmp_dir') . DIRECTORY_SEPARATOR . 'YetiForceTemp' . $hash . DIRECTORY_SEPARATOR;
 			if (!is_dir(static::$tmpPath)) {
 				mkdir(static::$tmpPath);
 			}
 		} elseif (is_writable(sys_get_temp_dir())) {
-			static::$tmpPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'YetiForceTemp' . DIRECTORY_SEPARATOR;
+			static::$tmpPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'YetiForceTemp' . $hash . DIRECTORY_SEPARATOR;
 			if (!is_dir(static::$tmpPath)) {
 				mkdir(static::$tmpPath);
 			}
