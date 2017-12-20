@@ -71,28 +71,32 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var fixedList = container.find('.fixedListInitial');
 		var listPreview = container.find('#listPreview');
 		var mainBody = $('.mainBody');
+		var listWidth = container.find('.fixedListInitial');
 		$(window).resize(function () {
 			thisInstance.updateListPreviewSize(fixedList);
 			if (mainBody.scrollTop() >= (fixedList.offset().top + commactHeight)) {
-				container.find('.gutter').css('left', listPreview.offset().left - 6);
+				container.find('.gutter').css('left', listPreview.offset().left - 8);
 			}
 		});
 		var commactHeight = $('.commonActionsContainer').height();
+		var paddingTop = 6;
+		var offset = 46 - paddingTop + commactHeight;
 		mainBody.scroll(function () {
-			if ($(this).scrollTop() >= (fixedList.offset().top + commactHeight)) {
-				fixedList.addClass('fixedListOnScroll');
+			window.console.log(fixedList.offset().top);
+			if ($(this).scrollTop() >= (fixedList.offset().top + commactHeight - paddingTop)) {
+				fixedList.css('top', $(this).scrollTop() - offset);
 				if ($(window).width() > 993) {
 					var gutter = container.find('.gutter');
 					gutter.addClass('gutterOnScroll');
-					gutter.css('left', listPreview.offset().left - 6);
+					gutter.css('left', listPreview.offset().left - 8);
 					gutter.on('mousedown', function () {
 						$(this).on('mousemove', function (e) {
-							$(this).css('left', listPreview.offset().left - 6);
+							$(this).css('left', listPreview.offset().left - 8);
 						})
 					})
 				}
 			} else {
-				fixedList.removeClass('fixedListOnScroll');
+				fixedList.css('top', 'initial');
 				if ($(window).width() > 993) {
 					var gutter = container.find('.gutter');
 					gutter.removeClass('gutterOnScroll');
@@ -133,10 +137,10 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 					if (mainBody.scrollTop() >= (fixedList.offset().top + commactHeight)) {
 						var gutter = container.find('.gutter');
 						gutter.addClass('gutterOnScroll');
-						gutter.css('left', listPreview.offset().left - 6);
+						gutter.css('left', listPreview.offset().left - 8);
 						gutter.on('mousedown', function () {
 							$(this).on('mousemove', function (e) {
-								$(this).css('left', listPreview.offset().left - 6);
+								$(this).css('left', listPreview.offset().left - 8);
 							})
 						})
 					}
