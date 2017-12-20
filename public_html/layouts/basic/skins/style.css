@@ -5966,7 +5966,7 @@ border1px{
 }
 #listPreview{
 	float: right;
-	padding-left: 0;
+	padding-left: 10px;
 	padding-right: 0;
 	margin-top: 2px;
 }
@@ -6064,7 +6064,7 @@ border1px{
 	min-width: 400px;
 }
 .gutter {
-	background-color: #a7a7a7;
+	background-color: #4979aa;
 	background-repeat: no-repeat;
 	background-position: 50%;
 	position: relative;

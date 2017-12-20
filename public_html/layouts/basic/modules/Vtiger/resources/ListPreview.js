@@ -113,7 +113,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		if ($(window).width() > 993) {
 			var split = Split([leftCon, rightCon], {
 				sizes: [25, 75],
-				minSize: 20,
+				minSize: 10,
 				gutterSize: 8
 			});
 		}
@@ -127,7 +127,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				if (container.find('.gutter').length !== 1) {
 					var split = Split([leftCon, rightCon], {
 						sizes: [25, 75],
-						minSize: 20,
+						minSize: 10,
 						gutterSize: 8
 					});
 					if (mainBody.scrollTop() >= (fixedList.offset().top + commactHeight)) {
@@ -143,7 +143,6 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 					splitsArray.push(split);
 				}
 			}
-
 		});
 	},
 	registerEvents: function () {
