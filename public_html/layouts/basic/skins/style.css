@@ -5983,11 +5983,6 @@ border1px{
 	max-height: max-content;
 	padding-left: 0;
 }
-.fixedListOnScroll {
-	position: fixed;
-	top: 48px;
-/*	padding-right: 30px;*/
-}
 .fixedListContent {
 	overflow-y: auto;
 	margin-top: 2px;
@@ -6072,13 +6067,13 @@ border1px{
 	z-index: 300;
 }
 .gutter:active:before {
-  content: "";
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  background: transparent;
+	content: "";
+	position: fixed;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	background: transparent;
 }
 .gutter.gutter-horizontal {
     cursor: ew-resize;	background-image: url('images/vertical.png');

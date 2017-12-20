@@ -100,7 +100,8 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 					var gutter = container.find('.gutter');
 					gutter.removeClass('gutterOnScroll');
 					gutter.css('left', 0);
-					gutter.off();
+					gutter.off('mousedown');
+					gutter.off('mousemove');
 				}
 			}
 			thisInstance.updateListPreviewSize(fixedList);
@@ -108,36 +109,37 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		thisInstance.updateListPreviewSize(fixedList);
 	},
 	registerSplit: function (container, leftCon, rightCon) {
-		var fixedList = container.find('.fixedListInitial');
-		var commactHeight = $('.commonActionsContainer').height();
-		var listPreview = container.find('#listPreview');
-		var splitsArray = [];
-		var mainBody = $('.mainBody');
 		if ($(window).width() > 993) {
-			var split = Split([leftCon, rightCon], {
+			var split = Split(['.fixedListInitial', '#listPreview'], {
 				sizes: [25, 75],
 				minSize: 10,
 				gutterSize: 8,
 				snapOffset: 0,
 				onDrag: function (dimension, size) {
-					window.console.log(split.getSizes()[0]);
-
-					if (split.getSizes()[1] <= 25) {
-						split.collapse(1)
+					if (split.getSizes()[1] < 25) {
+						split.collapse(1);
 					}
-
 				}
 			});
+			var gutter = container.find('.gutter');
+			gutter.on("dblclick", function () {
+				if (split.getSizes()[0] < 25) {
+					split.setSizes([25, 75]);
+				} else if (split.getSizes()[1] < 25) {
+					split.setSizes([75, 25]);
+				}
+			});
+			return split;
 		}
-		var gutter = container.find('.gutter');
-		gutter.on("dblclick", function () {
-			window.console.log('oki');
-
-			if (split.getSizes()[0] < 25) {
-				window.console.log('oki');
-				split.setSizes([25, 75]);
-			}
-		});
+	},
+	updateSplit: function (container) {
+		var thisInstance = this;
+		var fixedList = container.find('.fixedListInitial');
+		var commactHeight = container.closest('.commonActionsContainer').height();
+		var listPreview = container.find('#listPreview');
+		var splitsArray = [];
+		var mainBody = container.closest('.mainBody');
+		var split = thisInstance.registerSplit(container);
 		splitsArray.push(split);
 		$(window).resize(function () {
 			if ($(window).width() < 993) {
@@ -146,11 +148,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				}
 			} else {
 				if (container.find('.gutter').length !== 1) {
-					var split = Split([leftCon, rightCon], {
-						sizes: [25, 75],
-						minSize: 10,
-						gutterSize: 8
-					});
+					var newSplit = thisInstance.registerSplit(container);
 					if (mainBody.scrollTop() >= (fixedList.offset().top + commactHeight)) {
 						var gutter = container.find('.gutter');
 						gutter.addClass('gutterOnScroll');
@@ -158,22 +156,19 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 						gutter.on('mousedown', function () {
 							$(this).on('mousemove', function (e) {
 								$(this).css('left', listPreview.offset().left - 8);
-							})
-						})
+							});
+						});
 					}
-					splitsArray.push(split);
+					splitsArray.push(newSplit);
 				}
 			}
-		});
-		$(window).resize(function () {
-			window.console.log('asd');
 		});
 	},
 	registerEvents: function () {
 		var listViewContainer = this.getListViewContentContainer();
 		this._super();
 		this.registerPreviewEvent();
-		this.registerSplit(listViewContainer, '.fixedListInitial', '#listPreview');
+		this.updateSplit(listViewContainer);
 		this.registerListPreviewScroll(listViewContainer);
 	},
 });
