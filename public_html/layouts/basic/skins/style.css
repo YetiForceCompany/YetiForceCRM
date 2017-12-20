@@ -6084,3 +6084,23 @@ border1px{
 	position: fixed;
 	top: 48px;
 }
+.wrappedPanel {
+	display: none;
+}
+.wrappedPanelLeft {
+	display: block;
+    height: 100%;
+	width: 20px;
+    position: fixed;
+    left: 50px;
+    top: 189px;
+    background: #eeeeee;
+}
+.rotatedText {
+	transform: rotate(0.75turn);
+	width: max-content;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    right: -6px;
+}

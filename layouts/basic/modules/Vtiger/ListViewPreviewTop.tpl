@@ -2,6 +2,7 @@
 {strip}
 	<div id="recordsListPreview">
 		<input type="hidden" id="defaultDetailViewName" value="{AppConfig::module($MODULE, 'defaultDetailViewName')}" />
+		<div class="wrappedPanel"><div class="rotatedText">LISTA</div></div>
 		<div class="fixedListInitial col-md-3">
 		<div class="fixedListContent">
 		<div id="recordsList">

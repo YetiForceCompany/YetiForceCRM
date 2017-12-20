@@ -114,10 +114,18 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				sizes: [25, 75],
 				minSize: 10,
 				gutterSize: 8,
-				snapOffset: 0,
-				onDrag: function (dimension, size) {
+				snapOffset: 100,
+				onDrag: function () {
+					var wrappedPanel = container.find('.wrappedPanel');
 					if (split.getSizes()[1] < 25) {
 						split.collapse(1);
+					}
+					if (split.getSizes()[0] < 10) {
+						var gutter = container.find('.gutter');
+						console.log('gutter');
+						wrappedPanel.addClass('wrappedPanelLeft');
+					} else {
+						wrappedPanel.removeClass('wrappedPanelLeft');
 					}
 				}
 			});
@@ -125,6 +133,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			gutter.on("dblclick", function () {
 				if (split.getSizes()[0] < 25) {
 					split.setSizes([25, 75]);
+					wrappedPanel.removeClass('wrappedPanelLeft');
 				} else if (split.getSizes()[1] < 25) {
 					split.setSizes([75, 25]);
 				}
