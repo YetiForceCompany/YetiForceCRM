@@ -6089,11 +6089,11 @@ border1px{
 }
 .wrappedPanelLeft {
 	display: block;
-    height: 100%;
-	width: 20px;
-    position: fixed;
-    left: 50px;
-    top: 189px;
+    height: calc(100vh - 33px);
+    width: 20px;
+    position: absolute;
+    left: -10px;
+    top: 2px;
     background: #eeeeee;
 }
 .rotatedText {
