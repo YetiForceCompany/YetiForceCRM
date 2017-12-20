@@ -71,7 +71,6 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var fixedList = container.find('.fixedListInitial');
 		var listPreview = container.find('#listPreview');
 		var mainBody = $('.mainBody');
-		var listWidth = container.find('.fixedListInitial');
 		$(window).resize(function () {
 			thisInstance.updateListPreviewSize(fixedList);
 			if (mainBody.scrollTop() >= (fixedList.offset().top + commactHeight)) {
@@ -118,9 +117,27 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			var split = Split([leftCon, rightCon], {
 				sizes: [25, 75],
 				minSize: 10,
-				gutterSize: 8
+				gutterSize: 8,
+				snapOffset: 0,
+				onDrag: function (dimension, size) {
+					window.console.log(split.getSizes()[0]);
+
+					if (split.getSizes()[1] <= 25) {
+						split.collapse(1)
+					}
+
+				}
 			});
 		}
+		var gutter = container.find('.gutter');
+		gutter.on("dblclick", function () {
+			window.console.log('oki');
+
+			if (split.getSizes()[0] < 25) {
+				window.console.log('oki');
+				split.setSizes([25, 75]);
+			}
+		});
 		splitsArray.push(split);
 		$(window).resize(function () {
 			if ($(window).width() < 993) {
@@ -147,6 +164,9 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 					splitsArray.push(split);
 				}
 			}
+		});
+		$(window).resize(function () {
+			window.console.log('asd');
 		});
 	},
 	registerEvents: function () {
