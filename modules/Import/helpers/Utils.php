@@ -50,12 +50,6 @@ class Import_Utils_Helper
 		return vglobal('upload_maxsize');
 	}
 
-	public static function getImportDirectory()
-	{
-		$importDir = dirname(__FILE__) . '/../../../' . vglobal('import_dir');
-		return $importDir;
-	}
-
 	/**
 	 * The function takes the path of the file to be imported
 	 * @param Users_Record_Model $user
@@ -63,8 +57,7 @@ class Import_Utils_Helper
 	 */
 	public static function getImportFilePath(Users_Record_Model $user)
 	{
-		$importDirectory = self::getImportDirectory();
-		return $importDirectory . "IMPORT_" . $user->id;
+		return App\Fields\File::getTmpPath() . 'IMPORT_' . $user->id;
 	}
 
 	public static function showErrorPage($errorMessage, $errorDetails = false, $customActions = false)
@@ -152,7 +145,7 @@ class Import_Utils_Helper
 		$current_user = Users_Record_Model::getCurrentUserModel();
 
 		$uploadMaxSize = self::getMaxUploadSize();
-		$importDirectory = self::getImportDirectory();
+		$importDirectory = App\Fields\File::getTmpPath();
 		$temporaryFileName = self::getImportFilePath($current_user);
 
 		if ($_FILES['import_file']['error']) {

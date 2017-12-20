@@ -144,7 +144,7 @@ class File
 		if ($ext === 'tmp' && ($fileExt = pathinfo($name, PATHINFO_EXTENSION))) {
 			$ext = $fileExt;
 		}
-		$path = static::getTmpPath() . DIRECTORY_SEPARATOR . uniqid('YetiForceFile_', true) . '.tmp';
+		$path = tempnam(static::getTmpPath(), 'YFF');
 		$success = file_put_contents($path, $content);
 		if (!$success) {
 			return false;
@@ -357,7 +357,7 @@ class File
 		if ($this->validateAllCodeInjection || in_array($this->getShortMimeType(0), self::$phpInjection)) {
 			// Check for php code injection
 			$content = $this->getContents();
-			if (preg_match('/(<\?php?(.*?))/i', $content) === 1 || preg_match('/(<?script(.*?)language(.*?)=(.*?)"(.*?)php(.*?)"(.*?))/i', $content) === 1 || stripos($content, '<?=') !== false || stripos($content, '<%=') !== false || stripos($content, '<? ') !== false || stripos($content, '<% ') !== false) {
+			if (preg_match('/(<\?php?(.*?))/s', $content) === 1 || preg_match('/(<?script(.*?)language(.*?)=(.*?)"(.*?)php(.*?)"(.*?))/s', $content) === 1 || stripos($content, '<?=') !== false || stripos($content, '<%=') !== false || stripos($content, '<? ') !== false || stripos($content, '<% ') !== false) {
 				throw new \Exception('Error php code injection');
 			}
 			if (function_exists('exif_read_data') && ($this->mimeType === 'image/jpeg' || $this->mimeType === 'image/tiff') && in_array(exif_imagetype($this->path), [IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM])) {
@@ -472,11 +472,17 @@ class File
 			return static::$tmpPath;
 		}
 		if (!empty(ini_get('upload_tmp_dir')) && is_writable(ini_get('upload_tmp_dir'))) {
-			static::$tmpPath = ini_get('upload_tmp_dir');
+			static::$tmpPath = ini_get('upload_tmp_dir') . DIRECTORY_SEPARATOR . 'YetiForceTemp' . DIRECTORY_SEPARATOR;
+			if (!is_dir(static::$tmpPath)) {
+				mkdir(static::$tmpPath);
+			}
 		} elseif (is_writable(sys_get_temp_dir())) {
-			static::$tmpPath = sys_get_temp_dir();
+			static::$tmpPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'YetiForceTemp' . DIRECTORY_SEPARATOR;
+			if (!is_dir(static::$tmpPath)) {
+				mkdir(static::$tmpPath);
+			}
 		} elseif (is_writable(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'upload')) {
-			static::$tmpPath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'upload';
+			static::$tmpPath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'upload' . DIRECTORY_SEPARATOR;
 		}
 		return static::$tmpPath;
 	}
