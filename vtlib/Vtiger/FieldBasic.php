@@ -229,7 +229,7 @@ class FieldBasic
 		} elseif ($this->uitype === 11) {
 			$rowExtra = (new \App\Db\Query())->from('vtiger_field')->where(['fieldname' => $this->name . '_extra'])->one();
 			if ($rowExtra === false) {
-				throw new Exception('Extra field does not exist');
+				throw new \App\Exceptions\AppException('Extra field does not exist');
 			}
 			\App\Db::getInstance()->createCommand()->delete('vtiger_field', ['fieldid' => $rowExtra['fieldid']])->execute();
 		}
