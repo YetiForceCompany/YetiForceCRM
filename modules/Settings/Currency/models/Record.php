@@ -99,10 +99,8 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 				'deleted' => $this->getDeleteStatus()
 				], ['id' => $id])->execute();
 		} else {
-			$id = $db->getUniqueID($tableName);
 			$db->createCommand()
 				->insert($tableName, [
-					'id' => $id,
 					'currency_name' => $this->get('currency_name'),
 					'currency_code' => $this->get('currency_code'),
 					'currency_status' => $this->get('currency_status'),
@@ -111,6 +109,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 					'defaultid' => 0,
 					'deleted' => 0
 				])->execute();
+			$id = $db->getLastInsertID('vtiger_currency_info_id_seq');
 		}
 		self::clearCache();
 		return $id;
