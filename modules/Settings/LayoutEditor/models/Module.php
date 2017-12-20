@@ -394,7 +394,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	public function checkFieldNameCharacters($name)
 	{
-		if (preg_match('#[^a-z0-9]#is', $name) || !preg_match('/[a-z]/i', $name)) {
+		if (preg_match('#[^a-z0-9_]#is', $name) || !preg_match('/[a-z]/i', $name)) {
 			return true;
 		}
 		if (strpos($name, ' ') !== false) {
