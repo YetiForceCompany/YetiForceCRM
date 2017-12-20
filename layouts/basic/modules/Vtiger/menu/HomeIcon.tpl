@@ -10,7 +10,7 @@
 				</div>
 				<div class='{if $DEVICE == 'Desktop'}iconContainer{/if}'>
 					<span {if $DEVICE == 'Desktop'}class="iconImage" {/if}>
-						{\App\Language::translate('LBL_HOME',$moduleName)}
+						{\App\Language::translate('LBL_HOME',$MENU_MODULE)}
 					</span>
 				</div>
 				
