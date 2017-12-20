@@ -55,7 +55,7 @@ class BaseAction
 	public function checkPermission()
 	{
 		if (empty($this->controller->headers['X-TOKEN'])) {
-			throw new \Api\Core\Exception('Invalid token', 401);
+			throw new \Api\Core\Exception('No sent token', 401);
 		}
 		$apiType = strtolower($this->controller->app['type']);
 		$sessionTable = "w_#__{$apiType}_session";
