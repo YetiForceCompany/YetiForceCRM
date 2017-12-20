@@ -79,8 +79,8 @@ class Notification_NotificationsByRecipient_Dashboard extends Vtiger_IndexAjax_V
 				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
 				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
 			}
-			$time['start'] = \App\Fields\Date::formatToUser($time['start']);
-			$time['end'] = \App\Fields\Date::formatToUser($time['end']);
+			$time['start'] = \App\Fields\Date::formatToDisplay($time['start']);
+			$time['end'] = \App\Fields\Date::formatToDisplay($time['end']);
 		}
 		$data = $this->getNotificationByRecipient($time);
 		$viewer->assign('DATA', $data);
