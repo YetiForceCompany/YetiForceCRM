@@ -6086,21 +6086,32 @@ border1px{
 }
 .wrappedPanel {
 	display: none;
+	height: calc(100vh - 33px);
+    width: 20px;
+    position: absolute;
+    top: 2px;
+	background: #eeeeee;
 }
 .wrappedPanelLeft {
 	display: block;
-    height: calc(100vh - 33px);
-    width: 20px;
-    position: absolute;
-    left: -10px;
-    top: 2px;
-    background: #eeeeee;
+	left: -10px;
+}
+.wrappedPanelRight {
+	display: block;
+	right: -10px;
+	background: #4a5364;
 }
 .rotatedText {
 	transform: rotate(0.75turn);
 	width: max-content;
-    text-align: center;
+	height: max-content;
     position: absolute;
-    top: 50%;
-    right: -6px;
+    top: calc(50% - 33px);
+}
+.wrappedPanelLeft .rotatedText{
+    left: -88px;
+}
+.wrappedPanelRight .rotatedText{
+    right: -13px;
+	color: white;
 }
