@@ -683,6 +683,13 @@ class CustomView_Record_Model extends \App\Base
 							}
 							$date = new DateTimeField(trim($tempVal[$x]));
 							$val[$x] = $date->getDisplayDate();
+						} elseif ($col[4] === 'DT' && $criteria['comparator'] === 'bw') {
+							$displayValue = [];
+							foreach (explode(',', trim($tempVal[$x])) as $value) {
+								$date = new DateTimeField($value);
+								$displayValue[] = $date->getDisplayDateTimeValue();
+							}
+							$val[$x] = implode(',', $displayValue);
 						} elseif ($col[4] === 'DT') {
 							$comparator = ['e', 'n', 'b', 'a'];
 							if (in_array($criteria['comparator'], $comparator)) {
