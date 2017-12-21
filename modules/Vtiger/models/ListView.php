@@ -226,26 +226,30 @@ class Vtiger_ListView_Model extends \App\Base
 			];
 		}
 		if ($moduleModel->isPermitted('MassArchived')) {
-			$massActionLinks[] = [
-				'linktype' => 'LISTVIEWMASSACTION',
-				'linklabel' => 'LBL_MASS_ARCHIVE',
-				'linkurl' => 'javascript:',
-				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Archived&sourceView=List',
-				'linkdata' => ['confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC')],
-				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'fa fa-archive'
-			];
+			if ($moduleModel->getName() !== 'Users') {
+				$massActionLinks[] = [
+					'linktype' => 'LISTVIEWMASSACTION',
+					'linklabel' => 'LBL_MASS_ARCHIVE',
+					'linkurl' => 'javascript:',
+					'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Archived&sourceView=List',
+					'linkdata' => ['confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC')],
+					'linkclass' => 'massRecordEvent',
+					'linkicon' => 'fa fa-archive'
+				];
+			}
 		}
 		if ($moduleModel->isPermitted('MassTrash')) {
-			$massActionLinks[] = [
-				'linktype' => 'LISTVIEWMASSACTION',
-				'linklabel' => 'LBL_MASS_MOVE_TO_TRASH',
-				'linkurl' => 'javascript:',
-				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Trash&sourceView=List',
-				'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')],
-				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'glyphicon glyphicon-trash'
-			];
+			if ($moduleModel->getName() !== 'Users') {
+				$massActionLinks[] = [
+					'linktype' => 'LISTVIEWMASSACTION',
+					'linklabel' => 'LBL_MASS_MOVE_TO_TRASH',
+					'linkurl' => 'javascript:',
+					'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Trash&sourceView=List',
+					'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')],
+					'linkclass' => 'massRecordEvent',
+					'linkicon' => 'glyphicon glyphicon-trash'
+				];
+			}
 		}
 		if ($moduleModel->isPermitted('MassDelete')) {
 			$massActionLinks[] = [
