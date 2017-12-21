@@ -6115,3 +6115,13 @@ border1px{
     right: -13px;
 	color: white;
 }
+.wrappedPanelOnScroll {
+	position: fixed;
+	top: 50px;
+}
+.wrappedPanelLeft.wrappedPanelOnScroll  {
+	left: 50px;
+}
+.wrappedPanelRight.wrappedPanelOnScroll  {
+	right: 17px;
+}
