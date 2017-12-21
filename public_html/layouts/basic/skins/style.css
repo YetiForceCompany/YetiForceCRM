@@ -6121,14 +6121,23 @@ border1px{
 .wrappedPanelRight.wrappedPanelOnScroll  {
 	right: 17px;
 }
-.gutterOnResize {
-	position: absolute;
-	top: 48px;
-	right: 18px;
-} 
 .inventoryRow .input-group-addon{
 	padding: 0px 5px;
 }
 .table tr.inventoryRow td{
 	padding: 4px;
+}
+.relatedContents .wrappedPanelLeft {
+	top: 50px;
+	left: 5px;
+}
+.relatedContents .wrappedPanelRight {
+    right: 5px;
+    top: 50px;
+}
+.relatedContents .wrappedPanelLeft.wrappedPanelOnScroll  {
+	left: 50px;
+}
+.relatedContents .wrappedPanelRight.wrappedPanelOnScroll  {
+	right: 17px;
 }
