@@ -5881,9 +5881,6 @@ select.form-control {
 	margin-left: 6px;
 	font-weight: bold;
 }
-.ps-scrollbar-y-rail{
-	display:none !important;
-}
 .multiImageResult{
 	float: right;
 }
@@ -5984,7 +5981,8 @@ border1px{
 	padding-left: 0;
 }
 .fixedListContent {
-	overflow-y: auto;
+	overflow: hidden;
+	position: relative;
 	margin-top: 2px;
 	height: max-content;
 }
@@ -6103,17 +6101,15 @@ border1px{
 }
 .rotatedText {
 	transform: rotate(0.75turn);
-	width: max-content;
-	height: max-content;
     position: absolute;
-    top: calc(50% - 33px);
-}
-.wrappedPanelLeft .rotatedText{
-    left: -88px;
+	text-align: center;
 }
 .wrappedPanelRight .rotatedText{
     right: -13px;
 	color: white;
+	top: calc(50% - 33px);
+	width: max-content;
+	height: max-content;
 }
 .wrappedPanelOnScroll {
 	position: fixed;
@@ -6125,3 +6121,8 @@ border1px{
 .wrappedPanelRight.wrappedPanelOnScroll  {
 	right: 17px;
 }
+.gutterOnResize {
+	position: absolute;
+	top: 48px;
+	right: 18px;
+} 
