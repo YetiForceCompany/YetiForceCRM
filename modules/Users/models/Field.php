@@ -44,6 +44,15 @@ class Users_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
+	 * Function to check if the field is export table
+	 * @return boolean
+	 */
+	public function isExportTable()
+	{
+		return $this->isViewable() || $this->getUIType() === 99;
+	}
+
+	/**
 	 * Function to get the Webservice Field data type
 	 * @return string Data type of the field
 	 */

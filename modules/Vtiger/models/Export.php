@@ -61,7 +61,7 @@ class Vtiger_Export_Model extends \App\Base
 				if (!empty($this->moduleFieldInstances[$fieldName])) {
 					$fieldModel = $this->moduleFieldInstances[$fieldName];
 					// Check added as querygenerator is not checking this for admin users
-					if ($fieldModel && $fieldModel->isViewEnabled()) { // export headers for mandatory fields
+					if ($fieldModel && $fieldModel->isExportTable()) { // export headers for mandatory fields
 						$header = \App\Language::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $moduleName);
 						if ($exportBlockName) {
 							$header = App\Language::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $moduleName) . '::' . $header;
@@ -264,6 +264,8 @@ class Vtiger_Export_Model extends \App\Base
 				} else {
 					$value = '';
 				}
+			} elseif ($uitype === 99) {
+				$value = '';
 			} elseif ($uitype === 52 || $type === 'owner') {
 				$value = \App\Fields\Owner::getLabel($value);
 			} elseif ($uitype === 120) {
