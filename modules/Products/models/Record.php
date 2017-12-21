@@ -285,7 +285,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 			} else { // Edit View
 				$query = (new App\Db\Query())->select(['vtiger_currency_info.*', 'vtiger_productcurrencyrel.converted_price', 'vtiger_productcurrencyrel.actual_price'])->from('vtiger_currency_info')->leftJoin('vtiger_productcurrencyrel', 'vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid')->where(['vtiger_productcurrencyrel.productid' => $productId, 'vtiger_currency_info.currency_status' => 'Active', 'vtiger_currency_info.deleted' => 0]);
 			}
-
+			$priceDetails = [];
 			$dataReader = $query->createCommand()->query();
 			$i = 0;
 			while ($row = $dataReader->read()) {

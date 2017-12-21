@@ -123,14 +123,14 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			$src = trim($img->getAttribute('src'), '\'');
 			if (substr($src, 0, 5) === 'data:') {
 				if ($ids = App\Fields\File::saveFromString($src, $params)) {
-					$img->setAttribute('src', "file.php?module=Documents&action=DownloadFile&record={$ids['crmid']}&fileid={$ids['attachmentsid']}&show=true");
+					$img->setAttribute('src', "file.php?module=Documents&action=DownloadFile&record={$ids['crmid']}&fileid={$ids['attachmentsId']}&show=true");
 					$img->setAttribute('alt', '-');
 					$files[] = $ids;
 					continue;
 				}
 			} elseif (filter_var($src, FILTER_VALIDATE_URL)) {
 				if ($ids = App\Fields\File::saveFromUrl($src, $params)) {
-					$img->setAttribute('src', "file.php?module=Documents&action=DownloadFile&record={$ids['crmid']}&fileid={$ids['attachmentsid']}&show=true");
+					$img->setAttribute('src', "file.php?module=Documents&action=DownloadFile&record={$ids['crmid']}&fileid={$ids['attachmentsId']}&show=true");
 					$img->setAttribute('alt', '-');
 					$files[] = $ids;
 					continue;
@@ -139,7 +139,7 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 				$src = substr($src, 4);
 				if (isset($attachments[$src])) {
 					if ($ids = App\Fields\File::saveFromContent($attachments[$src]['attachment'], $attachments[$src]['filename'], false, $params)) {
-						$img->setAttribute('src', "file.php?module=Documents&action=DownloadFile&record={$ids['crmid']}&fileid={$ids['attachmentsid']}&show=true");
+						$img->setAttribute('src', "file.php?module=Documents&action=DownloadFile&record={$ids['crmid']}&fileid={$ids['attachmentsId']}&show=true");
 						if (!$img->hasAttribute('alt')) {
 							$img->setAttribute('alt', $attachments[$src]['filename']);
 						}

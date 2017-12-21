@@ -6126,3 +6126,9 @@ border1px{
 	top: 48px;
 	right: 18px;
 } 
+.inventoryRow .input-group-addon{
+	padding: 0px 5px;
+}
+.table tr.inventoryRow td{
+	padding: 4px;
+}

@@ -1487,15 +1487,14 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		var thisInstance = this;
 		thisInstance.getCalendarView().fullCalendar('removeEvents');
 		var view = thisInstance.getCalendarView().fullCalendar('getView');
-		var start_date = view.start.format();
-		var end_date = view.end.format();
-
+		var formatDate = app.getMainParams('userDateFormat').toUpperCase();
+		var start_date = view.start.format(formatDate);
+		var end_date = view.end.format(formatDate);
 		var parent = thisInstance.getContainer();
 		var user = parent.find('.owner').val();
 		if (user == 'all') {
 			user = '';
 		}
-
 		var params = {
 			module: 'Calendar',
 			action: 'Calendar',

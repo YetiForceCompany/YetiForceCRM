@@ -155,6 +155,7 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 				}
 			}
 			$info['price'] = (float) $recordModel->get('unit_price') * (float) $conversionRate;
+			$info['qtyPerUnit'] = $recordModel->getDisplayValue('qty_per_unit');
 		}
 		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
 		$autoCompleteField = $inventoryField->getAutoCompleteFieldsByModule($recordModuleName);

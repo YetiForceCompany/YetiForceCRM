@@ -89,7 +89,9 @@ $languageStrings = [
  	'LBL_VULNERABILITY_URL' => 'Адрес уязвимости',
 	'HTTPS_HELP_TEXT' => 'SSL - это стандартная технология безопасности для создания зашифрованного соединения между веб-сервером и браузером.',
 	'HTACCESS_HELP_TEXT' => 'Файлы .htaccess могут быть использованы для изменения настроек ПО на сервере с целью включить или отключить дополнительные сервисы. YetiForceCRM требуется доступ к этому файлу для правильного функционирования некоторых функций.',
-	'PUBLIC_HTML_HELP_TEXT' => 'Мы рекомендуем устанавливать систему таким образом, чтобы использовалась только папка public_html. Это улучшает безопасность, не позволяя доступ к непубличным папкам и файлам по прямым ссылкам'
+	'PUBLIC_HTML_HELP_TEXT' => 'Мы рекомендуем устанавливать систему таким образом, чтобы использовалась только папка public_html. Это улучшает безопасность, не позволяя доступ к непубличным папкам и файлам по прямым ссылкам',
+	'SESSION_REGENERATE_HELP_TEXT' => 'We recommend to enable the regeneration of session ID, this option makes it difficult to take over the user session. Changes should be made in the main configuration file.',
+	'LBL_TMP_DIR' => 'Temporary directory',
 ];
 $jsLanguageStrings = [
 	'JS_SPEED_TEST_START' => 'Проверяем скорость...',

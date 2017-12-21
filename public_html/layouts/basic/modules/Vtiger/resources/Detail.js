@@ -598,20 +598,18 @@ jQuery.Class("Vtiger_Detail_Js", {
 			postData['parent_comments'] = commentId;
 			postData['action'] = 'SaveAjax';
 		}
-		AppConnector.request(postData).then(
-				function (data) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					if (commentMode == 'add') {
-						thisInstance.addRelationBetweenRecords('ModComments', data.result.id, thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel))
-					}
-					aDeferred.resolve(data);
-				},
-				function (textStatus, errorThrown) {
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					element.removeAttr('disabled');
-					aDeferred.reject(textStatus, errorThrown);
-				}
-		);
+		AppConnector.request(postData).then(function (data) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			if (commentMode == 'add') {
+				thisInstance.addRelationBetweenRecords('ModComments', data.result.id, thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel))
+			}
+			app.event.trigger("DetailView.SaveComment.AfterLoad", commentInfoBlock, postData, data);
+			aDeferred.resolve(data);
+		}, function (textStatus, errorThrown) {
+			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			element.removeAttr('disabled');
+			aDeferred.reject(textStatus, errorThrown);
+		});
 	},
 	saveComment: function (e) {
 		var thisInstance = this;

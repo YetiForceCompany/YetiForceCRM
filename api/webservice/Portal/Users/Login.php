@@ -92,7 +92,7 @@ class Login extends \Api\Core\BaseAction
 	public function updateSession($row)
 	{
 		$db = \App\Db::getInstance('webservice');
-		$token = md5(time() . rand());
+		$token = md5(microtime(true) . mt_rand());
 		$params = $this->controller->request->getArray('params');
 		$language = !empty($params['language']) ? $params['language'] : (empty($row['language']) ? $this->getLanguage() : $row['language']);
 		$db->createCommand()->insert("w_#__portal_session", [

@@ -107,7 +107,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 				case 'Users':
 					$userModel = Users_Privileges_Model::getInstanceById($shownerid);
 					$userModel->setModule('Users');
-					$display[$key] = $userModel->getName();
+					$display[$key] = $name;
 					if ($userModel->get('status') === 'Inactive') {
 						$shownerData[$key]['inactive'] = true;
 					}
@@ -116,11 +116,10 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					}
 					break;
 				case 'Groups':
-					$shownerName = \App\Fields\Owner::getLabel($shownerid);
-					if (empty($shownerName)) {
+					if (empty($name)) {
 						continue;
 					}
-					$display[$key] = $shownerName;
+					$display[$key] = $name;
 					$recordModel = new Settings_Groups_Record_Model();
 					$recordModel->set('groupid', $shownerid);
 					$detailViewUrl = $recordModel->getDetailViewUrl();

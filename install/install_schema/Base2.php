@@ -1136,13 +1136,6 @@ class Base2 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_currency_info_seq' => [
-				'columns' => [
-					'id' => $this->integer(10)->notNull(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_currency_symbol_placement' => [
 				'columns' => [
 					'currency_symbol_placementid' => $this->primaryKey(10),
@@ -3268,12 +3261,6 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => ['id', 'currency_name', 'currency_code', 'currency_symbol', 'conversion_rate', 'currency_status', 'defaultid', 'deleted'],
 				'values' => [
 					[1, 'Poland, Zlotych', 'PLN', 'zł', '1.00000', 'Active', -11, 0],
-				]
-			],
-			'vtiger_currency_info_seq' => [
-				'columns' => ['id'],
-				'values' => [
-					[1],
 				]
 			],
 			'vtiger_currency_symbol_placement' => [

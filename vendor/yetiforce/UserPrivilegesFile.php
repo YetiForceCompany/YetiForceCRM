@@ -26,9 +26,13 @@ class UserPrivilegesFile
 			$userInfo = [];
 			$userFocus->column_fields["id"] = '';
 			$userFocus->id = $userid;
-			foreach ($userFocus->column_fields as $field => $value_iter) {
+			foreach ($userFocus->column_fields as $field => $value) {
 				if (isset($userFocus->$field)) {
-					$userInfo[$field] = \App\Purifier::encodeHtml($userFocus->$field);
+					if ($field === 'currency_symbol') {
+						$userInfo[$field] = $userFocus->$field;
+					} else {
+						$userInfo[$field] = \App\Purifier::encodeHtml($userFocus->$field);
+					}
 				}
 			}
 			if ($userFocus->is_admin == 'on') {

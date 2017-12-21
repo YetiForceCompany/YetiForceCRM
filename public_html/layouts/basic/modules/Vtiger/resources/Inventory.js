@@ -752,21 +752,20 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 				commentElement.html(description);
 			}
 			if (typeof recordData['autoFields']['unit'] !== 'undefined') {
-				$('input.qtyparam', parentRow).prop('checked', false);
 				switch (recordData['autoFields']['unit']) {
 					default:
-						$('.qtyparamButton', parentRow).addClass('hidden');
+						$('.qtyParamInfo', parentRow).addClass('hidden');
 						validationEngine = 'validate[required,funcCall[Vtiger_NumberUserFormat_Validator_Js.invokeValidation]]';
 						$('input.qty', parentRow).attr('data-validation-engine', validationEngine);
 						break;
 					case 'pack':
-						$('.qtyparamButton', parentRow).removeClass('hidden');
-						$('.qtyparamButton', parentRow).removeClass('active');
+						$('.qtyParamInfo', parentRow).removeClass('hidden').removeClass('active');
+						$('.qtyParamInfo', parentRow).attr('data-content', recordData['qtyPerUnit']);
 						validationEngine = 'validate[required,funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]';
 						$('input.qty', parentRow).attr('data-validation-engine', validationEngine);
 						break;
 					case 'pcs':
-						$('.qtyparamButton', parentRow).addClass('hidden');
+						$('.qtyParamInfo', parentRow).addClass('hidden');
 						validationEngine = 'validate[required,funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]';
 						$('input.qty', parentRow).attr('data-validation-engine', validationEngine);
 						break;
@@ -794,7 +793,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 				}
 			} else {
 				var value = modal.find('[name="' + param + '"]').val()
-				if(param === 'individualDiscount'){
+				if (param === 'individualDiscount') {
 					value = app.parseNumberToFloat(modal.find('[name="' + param + '"]').val());
 				}
 				info[param] = value;
@@ -1061,6 +1060,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			});
 			thisInstance.initItem(newRow);
 			Vtiger_Edit_Js.getInstance().registerAutoCompleteFields(newRow);
+			app.showPopoverElementView(newRow.find('.popoverTooltip'));
 		});
 	},
 	registerSortableItems: function () {
@@ -1162,8 +1162,7 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 			row.find('.unitPrice,.tax,.discount,.margin,.purchase').val(app.parseNumberToShow(0));
 			row.find('textarea,.valueVal').val('');
 			row.find('.valueText').text('');
-			row.find('.qtyparamButton').addClass('hidden');
-			row.find('input.qtyparam').prop('checked', false);
+			row.find('.qtyParamInfo').addClass('hidden');
 			if (!thisInstance.isGroupTaxMode()) {
 				thisInstance.setTaxParam(row, []);
 			}
@@ -1408,20 +1407,6 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		thisInstance.rowsCalculations();
 		thisInstance.updateRowSequence();
 	},
-	registerChangeQtyparam: function (container) {
-		container.on('click', '.qtyparamButton', function (e) {
-			var element = $(e.currentTarget);
-			var rowNum = element.data('rownum');
-			var qtyParamInput = $('input[name="qtyparam' + rowNum + '"]');
-			if (qtyParamInput.is(':checked')) {
-				element.removeClass('active');
-				qtyParamInput.prop('checked', false);
-			} else {
-				element.addClass('active');
-				qtyParamInput.prop('checked', true);
-			}
-		});
-	},
 	/**
 	 * Function which will register all the events
 	 */
@@ -1437,7 +1422,6 @@ jQuery.Class("Vtiger_Inventory_Js", {}, {
 		this.registerClearReferenceSelection(container);
 		this.registerShowHideExpanded(container);
 		this.registerChangeCurrency(container);
-		this.registerChangeQtyparam(container);
 	}
 });
 jQuery(document).ready(function () {

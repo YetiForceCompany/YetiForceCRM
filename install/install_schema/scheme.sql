@@ -4347,12 +4347,6 @@ CREATE TABLE `vtiger_currency_info` (
   KEY `deleted` (`deleted`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_currency_info_seq` */
-
-CREATE TABLE `vtiger_currency_info_seq` (
-  `id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_currency_symbol_placement` */
 
 CREATE TABLE `vtiger_currency_symbol_placement` (

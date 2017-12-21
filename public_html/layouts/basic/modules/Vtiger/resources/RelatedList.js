@@ -232,7 +232,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		$.extend(mainParams, extendParams);
 		popupInstance.show(mainParams, function (responseString) {
 			var responseData = JSON.parse(responseString);
-			thisInstance.addRelations(responseData).then(function (data) {
+			thisInstance.addRelations(Object.keys(responseData)).then(function (data) {
 				var detail = Vtiger_Detail_Js.getInstance();
 				thisInstance.loadRelatedList().then(function (data) {
 					aDeferred.resolve(data);
@@ -249,7 +249,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	},
 	addRelations: function (idList) {
 		var aDeferred = jQuery.Deferred();
-		idList = Object.keys(idList);
 		AppConnector.request({
 			module: this.parentModuleName,
 			action: 'RelationAjax',
