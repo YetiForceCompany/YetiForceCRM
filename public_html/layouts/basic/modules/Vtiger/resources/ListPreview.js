@@ -71,86 +71,151 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var fixedList = container.find('.fixedListInitial');
 		var listPreview = container.find('#listPreview');
 		var mainBody = $('.mainBody');
+		var wrappedPanels = container.find('.wrappedPanel');
+		var listViewEntriesDiv = container.find('.listViewEntriesDiv');
+		listViewEntriesDiv.css({
+			overflow: 'hidden',
+			position: 'relative'
+		});
+		fixedList.find('.fixedListContent').perfectScrollbar();
+		listViewEntriesDiv.perfectScrollbar();
 		$(window).resize(function () {
 			thisInstance.updateListPreviewSize(fixedList);
 			if (mainBody.scrollTop() >= (fixedList.offset().top + commactHeight)) {
-				container.find('.gutter').css('left', listPreview.offset().left - 6);
+				container.find('.gutter').css('left', listPreview.offset().left - 8);
 			}
 		});
 		var commactHeight = $('.commonActionsContainer').height();
+		var paddingTop = 6;
+		var offset = 46 - paddingTop + commactHeight;
 		mainBody.scroll(function () {
-			if ($(this).scrollTop() >= (fixedList.offset().top + commactHeight)) {
-				fixedList.addClass('fixedListOnScroll');
+			if ($(this).scrollTop() >= (fixedList.offset().top + commactHeight - paddingTop)) {
+				fixedList.css('top', $(this).scrollTop() - offset);
 				if ($(window).width() > 993) {
 					var gutter = container.find('.gutter');
+					wrappedPanels.addClass('wrappedPanelOnScroll');
 					gutter.addClass('gutterOnScroll');
-					gutter.css('left', listPreview.offset().left - 6);
+					gutter.css('left', listPreview.offset().left - 8);
 					gutter.on('mousedown', function () {
 						$(this).on('mousemove', function (e) {
-							$(this).css('left', listPreview.offset().left - 6);
-						})
-					})
+							$(this).css('left', listPreview.offset().left - 8);
+						});
+					});
 				}
 			} else {
-				fixedList.removeClass('fixedListOnScroll');
+				fixedList.css('top', 'initial');
 				if ($(window).width() > 993) {
 					var gutter = container.find('.gutter');
+					wrappedPanels.removeClass('wrappedPanelOnScroll');
 					gutter.removeClass('gutterOnScroll');
 					gutter.css('left', 0);
-					gutter.off();
+					gutter.off('mousedown');
+					gutter.off('mousemove');
 				}
 			}
 			thisInstance.updateListPreviewSize(fixedList);
 		});
 		thisInstance.updateListPreviewSize(fixedList);
 	},
-	registerSplit: function (container, leftCon, rightCon) {
+	registerSplit: function (container, fixedList, wrappedPanelLeft, wrappedPanelRight) {
+		if ($(window).width() > 993) {
+			var split = Split(['.fixedListInitial', '#listPreview'], {
+				sizes: [25, 75],
+				minSize: 10,
+				gutterSize: 8,
+				snapOffset: 100,
+				onDrag: function () {
+					var rightWidth = (400 / $(window).width()) * 100;
+					if (split.getSizes()[1] < rightWidth) {
+						split.collapse(1);
+					}
+					if (split.getSizes()[0] < 5) {
+						wrappedPanelLeft.addClass('wrappedPanelLeft');
+					} else {
+						wrappedPanelLeft.removeClass('wrappedPanelLeft');
+					}
+					if (split.getSizes()[1] < 10) {
+						wrappedPanelRight.addClass('wrappedPanelRight');
+						fixedList.width(fixedList.width() - 10);
+					} else {
+						wrappedPanelRight.removeClass('wrappedPanelRight');
+					}
+				}
+			});
+			var gutter = container.find('.gutter');
+			gutter.on("dblclick", function () {
+				if (split.getSizes()[0] < 25) {
+					split.setSizes([25, 75]);
+					wrappedPanelLeft.removeClass('wrappedPanelLeft');
+				} else if (split.getSizes()[1] < 25) {
+					split.setSizes([75, 25]);
+					wrappedPanelRight.removeClass('wrappedPanelRight');
+					gutter.css('right', 'initial');
+					fixedList.css('padding-right', '10px');
+				}
+			});
+			wrappedPanelLeft.on("dblclick", function () {
+				split.setSizes([25, 75]);
+				wrappedPanelLeft.removeClass('wrappedPanelLeft');
+			});
+			wrappedPanelRight.on("dblclick", function () {
+				split.setSizes([75, 25]);
+				wrappedPanelRight.removeClass('wrappedPanelRight');
+				gutter.css('right', 'initial');
+				fixedList.css('padding-right', '10px');
+			});
+			return split;
+		}
+	},
+	updateSplit: function (container) {
+		var thisInstance = this;
 		var fixedList = container.find('.fixedListInitial');
-		var commactHeight = $('.commonActionsContainer').height();
+		var commactHeight = container.closest('.commonActionsContainer').height();
 		var listPreview = container.find('#listPreview');
 		var splitsArray = [];
-		var mainBody = $('.mainBody');
-		if ($(window).width() > 993) {
-			var split = Split([leftCon, rightCon], {
-				sizes: [25, 75],
-				minSize: 20,
-				gutterSize: 8
-			});
-		}
+		var mainBody = container.closest('.mainBody');
+		var wrappedPanelLeft = $('.wrappedPanel')[0];
+		wrappedPanelLeft = container.find(wrappedPanelLeft);
+		var wrappedPanelRight = $('.wrappedPanel')[1];
+		wrappedPanelRight = container.find(wrappedPanelRight);
+		var split = thisInstance.registerSplit(container, fixedList, wrappedPanelLeft, wrappedPanelRight);
+		var rotatedText = container.find('.rotatedText');
+		rotatedText.first().find('.textCenter').append($('.breadcrumbsContainer .separator').nextAll().text());
+		rotatedText.first().css({
+			width: wrappedPanelLeft.height(),
+			height: wrappedPanelLeft.height()
+		});
 		splitsArray.push(split);
 		$(window).resize(function () {
 			if ($(window).width() < 993) {
 				if (container.find('.gutter').length) {
 					splitsArray[splitsArray.length - 1].destroy();
+					wrappedPanelRight.removeClass('wrappedPanelRight');
+					wrappedPanelLeft.removeClass('wrappedPanelLeft');
 				}
 			} else {
 				if (container.find('.gutter').length !== 1) {
-					var split = Split([leftCon, rightCon], {
-						sizes: [25, 75],
-						minSize: 20,
-						gutterSize: 8
-					});
+					var newSplit = thisInstance.registerSplit(container, fixedList, wrappedPanelLeft, wrappedPanelRight);
+					var gutter = container.find('.gutter');
 					if (mainBody.scrollTop() >= (fixedList.offset().top + commactHeight)) {
-						var gutter = container.find('.gutter');
 						gutter.addClass('gutterOnScroll');
-						gutter.css('left', listPreview.offset().left - 6);
+						gutter.css('left', listPreview.offset().left - 8);
 						gutter.on('mousedown', function () {
 							$(this).on('mousemove', function (e) {
-								$(this).css('left', listPreview.offset().left - 6);
-							})
-						})
+								$(this).css('left', listPreview.offset().left - 8);
+							});
+						});
 					}
-					splitsArray.push(split);
+					splitsArray.push(newSplit);
 				}
 			}
-
 		});
 	},
 	registerEvents: function () {
 		var listViewContainer = this.getListViewContentContainer();
 		this._super();
 		this.registerPreviewEvent();
-		this.registerSplit(listViewContainer, '.fixedListInitial', '#listPreview');
+		this.updateSplit(listViewContainer);
 		this.registerListPreviewScroll(listViewContainer);
 	},
 });

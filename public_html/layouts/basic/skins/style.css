@@ -5881,9 +5881,6 @@ select.form-control {
 	margin-left: 6px;
 	font-weight: bold;
 }
-.ps-scrollbar-y-rail{
-	display:none !important;
-}
 .multiImageResult{
 	float: right;
 }
@@ -5966,7 +5963,7 @@ border1px{
 }
 #listPreview{
 	float: right;
-	padding-left: 0;
+	padding-left: 10px;
 	padding-right: 0;
 	margin-top: 2px;
 }
@@ -5983,13 +5980,9 @@ border1px{
 	max-height: max-content;
 	padding-left: 0;
 }
-.fixedListOnScroll {
-	position: fixed;
-	top: 48px;
-	padding-right: 30px;
-}
 .fixedListContent {
-	overflow-y: auto;
+	overflow: hidden;
+	position: relative;
 	margin-top: 2px;
 	height: max-content;
 }
@@ -6064,7 +6057,7 @@ border1px{
 	min-width: 400px;
 }
 .gutter {
-	background-color: #a7a7a7;
+	background-color: #4979aa;
 	background-repeat: no-repeat;
 	background-position: 50%;
 	position: relative;
@@ -6089,6 +6082,50 @@ border1px{
 	position: fixed;
 	top: 48px;
 }
+.wrappedPanel {
+	display: none;
+	height: calc(100vh - 33px);
+    width: 20px;
+    position: absolute;
+    top: 2px;
+	background: #eeeeee;
+}
+.wrappedPanelLeft {
+	display: block;
+	left: -10px;
+}
+.wrappedPanelRight {
+	display: block;
+	right: -10px;
+	background: #4a5364;
+}
+.rotatedText {
+	transform: rotate(0.75turn);
+    position: absolute;
+	text-align: center;
+}
+.wrappedPanelRight .rotatedText{
+    right: -13px;
+	color: white;
+	top: calc(50% - 33px);
+	width: max-content;
+	height: max-content;
+}
+.wrappedPanelOnScroll {
+	position: fixed;
+	top: 50px;
+}
+.wrappedPanelLeft.wrappedPanelOnScroll  {
+	left: 50px;
+}
+.wrappedPanelRight.wrappedPanelOnScroll  {
+	right: 17px;
+}
+.gutterOnResize {
+	position: absolute;
+	top: 48px;
+	right: 18px;
+} 
 .inventoryRow .input-group-addon{
 	padding: 0px 5px;
 }
