@@ -17,6 +17,9 @@ class PicklistField extends BaseField
 	 */
 	public function getValue()
 	{
+		if (strpos($this->value, ',') !== false) {
+			return explode(',', $this->value);
+		}
 		return explode('##', $this->value);
 	}
 

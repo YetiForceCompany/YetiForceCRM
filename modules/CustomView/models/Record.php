@@ -444,28 +444,26 @@ class CustomView_Record_Model extends \App\Base
 							$advFitlerValue = CurrencyField::convertToDBFormat($advFitlerValue);
 						}
 					}
-
-					$temp_val = explode(",", $advFitlerValue);
-					if (($fieldType == 'date' || ($fieldType == 'time' && $fieldName != 'time_start' && $fieldName != 'time_end') || ($fieldType == 'datetime')) && ($fieldType != '' && $advFitlerValue != '' )) {
+					if (($fieldType === 'date' || ($fieldType === 'time' && $fieldName !== 'time_start' && $fieldName !== 'time_end') || ($fieldType === 'datetime')) && ($fieldType !== '' && $advFitlerValue !== '' )) {
+						$tempVal = explode(',', $advFitlerValue);
 						$val = [];
-						$countTempVal = count($temp_val);
+						$countTempVal = count($tempVal);
 						for ($x = 0; $x < $countTempVal; $x++) {
 							//if date and time given then we have to convert the date and
 							//leave the time as it is, if date only given then temp_time
 							//value will be empty
-							if (trim($temp_val[$x]) != '') {
-								$date = new DateTimeField(trim($temp_val[$x]));
-								if ($fieldType == 'date') {
-									$val[$x] = DateTimeField::convertToDBFormat(
-											trim($temp_val[$x]));
-								} elseif ($fieldType == 'datetime') {
+							if (trim($tempVal[$x]) != '') {
+								$date = new DateTimeField(trim($tempVal[$x]));
+								if ($fieldType === 'date') {
+									$val[$x] = DateTimeField::convertToDBFormat(trim($tempVal[$x]));
+								} elseif ($fieldType === 'datetime') {
 									$val[$x] = $date->getDBInsertDateTimeValue();
 								} else {
 									$val[$x] = $date->getDBInsertTimeValue();
 								}
 							}
 						}
-						$advFitlerValue = implode(",", $val);
+						$advFitlerValue = implode(',', $val);
 					}
 					if (in_array($advFilterComparator, ['om', 'wr', 'nwr'])) {
 						$advFitlerValue = '';
@@ -668,7 +666,7 @@ class CustomView_Record_Model extends \App\Base
 				$advFilterVal = html_entity_decode($relCriteriaRow['value'], ENT_QUOTES, $defaultCharset);
 				$col = explode(':', $relCriteriaRow['columnname']);
 				if ($col[4] === 'D' || ($col[4] === 'T' && $col[1] !== 'time_start' && $col[1] !== 'time_end') || ($col[4] === 'DT')) {
-					$tempVal = explode('##', $relCriteriaRow['value']);
+					$tempVal = explode(',', $relCriteriaRow['value']);
 					$val = [];
 					$countTempVal = count($tempVal);
 					for ($x = 0; $x < $countTempVal; $x++) {
@@ -683,13 +681,6 @@ class CustomView_Record_Model extends \App\Base
 							}
 							$date = new DateTimeField(trim($tempVal[$x]));
 							$val[$x] = $date->getDisplayDate();
-						} elseif ($col[4] === 'DT' && $criteria['comparator'] === 'bw') {
-							$displayValue = [];
-							foreach (explode(',', trim($tempVal[$x])) as $value) {
-								$date = new DateTimeField($value);
-								$displayValue[] = $date->getDisplayDateTimeValue();
-							}
-							$val[$x] = implode(',', $displayValue);
 						} elseif ($col[4] === 'DT') {
 							$comparator = ['e', 'n', 'b', 'a'];
 							if (in_array($criteria['comparator'], $comparator)) {
@@ -706,7 +697,7 @@ class CustomView_Record_Model extends \App\Base
 					}
 					$advFilterVal = implode(',', $val);
 				}
-				$criteria['value'] = \App\Purifier::encodeHtml(App\Purifier::decodeHtml(str_replace('##', ',', $advFilterVal)));
+				$criteria['value'] = \App\Purifier::encodeHtml(App\Purifier::decodeHtml($advFilterVal));
 				$criteria['column_condition'] = $relCriteriaRow['column_condition'];
 
 				$groupId = $relCriteriaRow['groupid'];
