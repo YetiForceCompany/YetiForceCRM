@@ -955,7 +955,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	},
 	updateSplit: function (container) {
 		if (container.find('.fixedListInitial').length) {
-			var iframe = $(top.document).find("#listPreviewframe");
 			var thisInstance = this;
 			var fixedList = container.find('.fixedListInitial');
 			var commactHeight = container.closest('.commonActionsContainer').height();
@@ -1001,10 +1000,12 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 						var currentSplit = splitsArray[splitsArray.length - 1];
 						var minWidth = (15 / $(window).width()) * 100;
 						var maxWidth = 100 - minWidth;
-						if (currentSplit.getSizes()[0] < minWidth + 5) {
-							currentSplit.setSizes([minWidth, maxWidth]);
-						} else if (currentSplit.getSizes()[1] < minWidth + 5) {
-							currentSplit.setSizes([maxWidth, minWidth]);
+						if (currentSplit !== undefined) {
+							if (currentSplit.getSizes()[0] < minWidth + 5) {
+								currentSplit.setSizes([minWidth, maxWidth]);
+							} else if (currentSplit.getSizes()[1] < minWidth + 5) {
+								currentSplit.setSizes([maxWidth, minWidth]);
+							}
 						}
 					}
 				}
