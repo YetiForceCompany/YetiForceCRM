@@ -895,7 +895,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		}
 	},
 	registerSplit: function (container, fixedList, wrappedPanelLeft, wrappedPanelRight) {
-		if ($(window).width() > 993) {
+		if ($(window).width() > 993 && container.find('.fixedListInitial').length) {
+			var thisInstance = this;
 			var split = Split(['.fixedListInitial', '#listPreview'], {
 				sizes: [25, 75],
 				minSize: 10,
@@ -940,6 +941,11 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				wrappedPanelRight.removeClass('wrappedPanelRight');
 				gutter.css('right', 'initial');
 				fixedList.css('padding-right', '10px');
+			});
+			app.event.on('RelatedList.AfterLoad', function (event, instance) {
+				thisInstance.updateSplit(container);
+				thisInstance.registerListPreviewScroll(container);
+				window.console.log('oki');
 			});
 			return split;
 		}

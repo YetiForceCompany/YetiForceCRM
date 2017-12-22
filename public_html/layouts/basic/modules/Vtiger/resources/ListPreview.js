@@ -143,6 +143,8 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 				}
 			});
 			var gutter = container.find('.gutter');
+			var leftWidth = (15 / $(window).width()) * 100;
+			var rightWidth = 100 - leftWidth;
 			gutter.on("dblclick", function () {
 				if (split.getSizes()[0] < 25) {
 					split.setSizes([25, 75]);
@@ -152,6 +154,13 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 					wrappedPanelRight.removeClass('wrappedPanelRight');
 					gutter.css('right', 'initial');
 					fixedList.css('padding-right', '10px');
+				} else if (split.getSizes()[0] > 24 && split.getSizes()[0] < 50) {
+					split.setSizes([leftWidth, rightWidth]);
+					wrappedPanelLeft.addClass('wrappedPanelLeft');
+				} else if (split.getSizes()[1] > 10 && split.getSizes()[1] < 50) {
+					split.collapse(1);
+					wrappedPanelRight.addClass('wrappedPanelRight');
+					fixedList.width(fixedList.width() - 10);
 				}
 			});
 			wrappedPanelLeft.on("dblclick", function () {
