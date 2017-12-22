@@ -13,7 +13,7 @@
 	<form class="form-horizontal" name="step4" method="post" action="Install.php">
 		<input type="hidden" name="mode" value="step5" />
 		<input type="hidden" name="lang" value="{$LANG}" />
-		<input type="hidden" name="not_allowed_logins" value="{\App\Purifier::encodeHtml(\App\Json::encode($USERNAME_BLACKLIST))}" >
+		<input type="hidden" id="not_allowed_logins" value="{\App\Purifier::encodeHtml(\App\Json::encode($USERNAME_BLACKLIST))}" >
 		<div class="row main-container">
 			<div class="inner-container">
 				<h4>{\App\Language::translate('LBL_SYSTEM_CONFIGURATION', 'Install')} </h4>
