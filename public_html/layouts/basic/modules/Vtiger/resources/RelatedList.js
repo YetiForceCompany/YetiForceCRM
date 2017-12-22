@@ -979,7 +979,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				height: wrappedPanelLeft.height()
 			});
 			if (iframe.contents().find('.fixedListInitial').length) {
-				wrappedPanel.css('top', wrappedPanel.offset().top + 80);
+				wrappedPanel.css('top', container.find('.relatedHeader').height() + 12);
+				console.log(container.find('.relatedHeader').height());
 			}
 			splitsArray.push(split);
 			$(window).resize(function () {
