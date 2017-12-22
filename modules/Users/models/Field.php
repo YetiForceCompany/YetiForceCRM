@@ -22,7 +22,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	public function isReadOnly()
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (($currentUserModel->isAdminUser() === false && $this->get('uitype') == 98) || in_array($this->get('uitype'), [115, 156])) {
+		if (($currentUserModel->isAdminUser() === false && $this->get('uitype') == 98) || $this->get('uitype') == 156) {
 			return true;
 		}
 		return parent::isReadOnly();
@@ -73,7 +73,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isAjaxEditable()
 	{
-		if (!$this->isEditable() || $this->get('uitype') === 115 || $this->get('uitype') === 105 ||
+		if (!$this->isEditable() || $this->get('uitype') === 105 ||
 			$this->get('uitype') === 106 || $this->get('uitype') === 98 || $this->get('uitype') === 101 || 'date_format' === $this->getFieldName() || 'email1' === $this->getFieldName()) {
 			return false;
 		}
