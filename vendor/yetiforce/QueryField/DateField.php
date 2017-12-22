@@ -138,4 +138,22 @@ class DateField extends BaseField
 		$value = $this->getValue();
 		return ['and', ['<=', $this->getColumnName(), $value], ['>=', 'vtiger_activity.due_date', $value]];
 	}
+
+	/**
+	 * Greater operator
+	 * @return array
+	 */
+	public function operatorGreaterthannow()
+	{
+		return ['>', $this->getColumnName(), date('Y-m-d')];
+	}
+
+	/**
+	 * Smaller operator
+	 * @return array
+	 */
+	public function operatorSmallerthannow()
+	{
+		return ['<', $this->getColumnName(), date('Y-m-d')];
+	}
 }

@@ -81,6 +81,24 @@ class DatetimeField extends DateField
 	}
 
 	/**
+	 * Greater operator
+	 * @return array
+	 */
+	public function operatorGreaterthannow()
+	{
+		return ['>', $this->getColumnName(), date('Y-m-d H:i:s')];
+	}
+
+	/**
+	 * Smaller operator
+	 * @return array
+	 */
+	public function operatorSmallerthannow()
+	{
+		return ['<', $this->getColumnName(), date('Y-m-d H:i:s')];
+	}
+
+	/**
 	 * Get value
 	 * @return mixed
 	 */

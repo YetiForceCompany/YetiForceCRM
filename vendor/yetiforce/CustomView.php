@@ -55,6 +55,8 @@ class CustomView
 	 */
 	const DATE_FILTER_CONDITIONS = [
 		'custom' => ['label' => 'LBL_CUSTOM'],
+		'smallerthannow' => ['label' => 'LBL_SMALLER_THAN_NOW'],
+		'greaterthannow' => ['label' => 'LBL_GREATER_THAN_NOW'],
 		'prevfy' => ['label' => 'LBL_PREVIOUS_FY'],
 		'thisfy' => ['label' => 'LBL_CURRENT_FY'],
 		'nextfy' => ['label' => 'LBL_NEXT_FY'],

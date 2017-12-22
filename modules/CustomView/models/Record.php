@@ -452,7 +452,7 @@ class CustomView_Record_Model extends \App\Base
 							//if date and time given then we have to convert the date and
 							//leave the time as it is, if date only given then temp_time
 							//value will be empty
-							if (trim($tempVal[$x]) != '') {
+							if (trim($tempVal[$x]) !== '' && trim($tempVal[$x]) !== '--') {
 								$date = new DateTimeField(trim($tempVal[$x]));
 								if ($fieldType === 'date') {
 									$val[$x] = DateTimeField::convertToDBFormat(trim($tempVal[$x]));
