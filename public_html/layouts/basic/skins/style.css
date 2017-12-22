@@ -6112,7 +6112,7 @@ border1px{
 .wrappedPanelRight .rotatedText{
     right: -13px;
 	color: white;
-	top: calc(50% - 33px);
+	top: calc(50% - 10px);
 	width: max-content;
 	height: max-content;
 }
