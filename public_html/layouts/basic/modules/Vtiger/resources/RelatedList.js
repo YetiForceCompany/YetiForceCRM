@@ -833,6 +833,11 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		}
 		this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.content, false, this);
 		app.event.trigger("RelatedList.AfterLoad", thisInstance);
+		if (!this.content.find('.gutter').length) {
+			thisInstance.updateSplit(this.content);
+			thisInstance.registerListPreviewScroll(this.content);
+			window.console.log(this.content.find('.gutter').length);
+		}
 	},
 	updateListPreviewSize: function (currentElement) {
 		var fixedList = $('.fixedListInitial, .fixedListContent');
@@ -921,6 +926,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				}
 			});
 			var gutter = container.find('.gutter');
+			var leftWidth = (15 / $(window).width()) * 100;
+			var rightWidth = 100 - leftWidth;
 			gutter.on("dblclick", function () {
 				if (split.getSizes()[0] < 25) {
 					split.setSizes([25, 75]);
@@ -930,6 +937,13 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 					wrappedPanelRight.removeClass('wrappedPanelRight');
 					gutter.css('right', 'initial');
 					fixedList.css('padding-right', '10px');
+				} else if (split.getSizes()[0] > 24 && split.getSizes()[0] < 50) {
+					split.setSizes([leftWidth, rightWidth]);
+					wrappedPanelLeft.addClass('wrappedPanelLeft');
+				} else if (split.getSizes()[1] > 10 && split.getSizes()[1] < 50) {
+					split.collapse(1);
+					wrappedPanelRight.addClass('wrappedPanelRight');
+					fixedList.width(fixedList.width() - 10);
 				}
 			});
 			wrappedPanelLeft.on("dblclick", function () {
@@ -941,11 +955,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				wrappedPanelRight.removeClass('wrappedPanelRight');
 				gutter.css('right', 'initial');
 				fixedList.css('padding-right', '10px');
-			});
-			app.event.on('RelatedList.AfterLoad', function (event, instance) {
-				thisInstance.updateSplit(container);
-				thisInstance.registerListPreviewScroll(container);
-				window.console.log('oki');
 			});
 			return split;
 		}
@@ -995,6 +1004,16 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 						}
 						splitsArray.push(newSplit);
 					}
+					if (container.find('.gutter').length !== 1) {
+						var currentSplit = splitsArray[splitsArray.length - 1];
+						var minWidth = (15 / $(window).width()) * 100;
+						var maxWidth = 100 - minWidth;
+						if (currentSplit.getSizes()[0] < minWidth + 5) {
+							currentSplit.setSizes([minWidth, maxWidth]);
+						} else if (currentSplit.getSizes()[1] < minWidth + 5) {
+							currentSplit.setSizes([maxWidth, minWidth]);
+						}
+					}
 				}
 			});
 		}
@@ -1007,7 +1026,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		this.registerListEvents();
 		this.registerPostLoadEvents();
 		this.registerSummationEvent();
-		this.updateSplit(relatedContainer);
 		this.registerListPreviewScroll(relatedContainer);
 	},
 })

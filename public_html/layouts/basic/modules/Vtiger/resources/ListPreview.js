@@ -217,6 +217,14 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 					}
 					splitsArray.push(newSplit);
 				}
+				var currentSplit = splitsArray[splitsArray.length - 1];
+				var minWidth = (15 / $(window).width()) * 100;
+				var maxWidth = 100 - minWidth;
+				if (currentSplit.getSizes()[0] < minWidth + 5) {
+					currentSplit.setSizes([minWidth, maxWidth]);
+				} else if (currentSplit.getSizes()[1] < minWidth + 5) {
+					currentSplit.setSizes([maxWidth, minWidth]);
+				}
 			}
 		});
 	},
