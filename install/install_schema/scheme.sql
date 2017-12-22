@@ -7949,12 +7949,12 @@ CREATE TABLE `vtiger_salesmanticketrel` (
 /*Table structure for table `vtiger_salutationtype` */
 
 CREATE TABLE `vtiger_salutationtype` (
-  `salutationid` int(10) NOT NULL AUTO_INCREMENT,
+  `salutationtypeid` int(10) NOT NULL AUTO_INCREMENT,
   `salutationtype` varchar(200) NOT NULL,
   `presence` int(1) NOT NULL DEFAULT 1,
   `picklist_valueid` int(10) NOT NULL DEFAULT 0,
   `sortorderid` int(10) DEFAULT NULL,
-  PRIMARY KEY (`salutationid`)
+  PRIMARY KEY (`salutationtypeid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_salutationtype_seq` */
