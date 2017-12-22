@@ -836,7 +836,6 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		if (!this.content.find('.gutter').length) {
 			thisInstance.updateSplit(this.content);
 			thisInstance.registerListPreviewScroll(this.content);
-			window.console.log(this.content.find('.gutter').length);
 		}
 	},
 	updateListPreviewSize: function (currentElement) {
@@ -968,15 +967,13 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			var wrappedPanelRight = container.find(wrappedPanel[1]);
 			var split = thisInstance.registerSplit(container, fixedList, wrappedPanelLeft, wrappedPanelRight);
 			var rotatedText = container.find('.rotatedText');
+			var relatedHeader = container.find('.relatedHeader');
+			wrappedPanel.css('top', relatedHeader.height() + relatedHeader.position().top + 2);
 			rotatedText.first().find('.textCenter').append($('.breadcrumbsContainer .separator').nextAll().text());
 			rotatedText.first().css({
 				width: wrappedPanelLeft.height(),
 				height: wrappedPanelLeft.height()
 			});
-			var relatedHeader = container.find('.relatedHeader');
-			window.console.log(listPreview.position().top);
-			wrappedPanel.css('top', relatedHeader.height() + relatedHeader.position().top + 2);
-
 			splitsArray.push(split);
 			$(window).resize(function () {
 				if ($(window).width() < 993) {
