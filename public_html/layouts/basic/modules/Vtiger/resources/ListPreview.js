@@ -70,13 +70,9 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var thisInstance = this;
 		var fixedList = container.find('.fixedListInitial');
 		var listPreview = container.find('#listPreview');
-		var mainBody = $('.mainBody');
+		var mainBody = container.closest('.mainBody');
 		var wrappedPanels = container.find('.wrappedPanel');
 		var listViewEntriesDiv = container.find('.listViewEntriesDiv');
-		listViewEntriesDiv.css({
-			overflow: 'hidden',
-			position: 'relative'
-		});
 		fixedList.find('.fixedListContent').perfectScrollbar();
 		listViewEntriesDiv.perfectScrollbar();
 		$(window).resize(function () {

@@ -1120,6 +1120,7 @@ td.fieldValue .input-group {
 .listViewEntriesDiv,
 .listViewEntriesDiv td {
 	overflow: visible;
+	position: relative;
 }
 .listViewEntriesTable .listViewHeaders a.listViewHeaderValues {
 	color: #444444;
