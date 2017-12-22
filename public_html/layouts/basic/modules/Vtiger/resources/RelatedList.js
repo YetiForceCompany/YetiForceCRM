@@ -851,32 +851,38 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			var thisInstance = this;
 			var fixedList = container.find('.fixedListInitial');
 			var listPreview = container.find('#listPreview');
-			var mainBody = $('.mainBody');
+			var mainBody = container.closest('.mainBody');
 			var wrappedPanels = container.find('.wrappedPanel');
 			var listViewEntriesDiv = container.find('.listViewEntriesDiv');
+			var commActHeight = $('.commonActionsContainer').height();
+			var paddingTop = 6;
+			var offset = fixedList.offset().top - commActHeight - paddingTop;
 			fixedList.find('.fixedListContent').perfectScrollbar();
 			listViewEntriesDiv.perfectScrollbar();
 			$(window).resize(function () {
 				thisInstance.updateListPreviewSize(fixedList);
-				if (mainBody.scrollTop() >= (fixedList.offset().top + commactHeight)) {
+				if (mainBody.scrollTop() >= (fixedList.offset().top + commActHeight)) {
 					container.find('.gutter').css('left', listPreview.offset().left - 8);
 				}
 			});
-			var commactHeight = $('.commonActionsContainer').height();
-			var offset = fixedList.offset().top - commactHeight;
 			mainBody.scroll(function () {
-				if ($(this).scrollTop() >= (fixedList.offset().top + commactHeight + 100)) {
-					fixedList.css('top', $(this).scrollTop() - offset);
-					if ($(window).width() > 993) {
-						var gutter = container.find('.gutter');
-						wrappedPanels.addClass('wrappedPanelOnScroll');
-						gutter.addClass('gutterOnScroll');
-						gutter.css('left', listPreview.offset().left - 8);
-						gutter.on('mousedown', function () {
-							$(this).on('mousemove', function (e) {
-								$(this).css('left', listPreview.offset().left - 8);
+				var gutter = container.find('.gutter');
+				var gutterHeight = {height: $(window).height() - (gutter.offset().top + 33)};
+				gutter.css(gutterHeight);
+				wrappedPanels.css(gutterHeight);
+				if ($(this).scrollTop() >= (fixedList.offset().top + commActHeight - paddingTop)) {
+					if (listPreview.height() + listPreview.offset().top + 33 > $(window).height()) {
+						fixedList.css('top', $(this).scrollTop() - offset);
+						if ($(window).width() > 993) {
+							wrappedPanels.addClass('wrappedPanelOnScroll');
+							gutter.addClass('gutterOnScroll');
+							gutter.css('left', listPreview.offset().left - 8);
+							gutter.on('mousedown', function () {
+								$(this).on('mousemove', function (e) {
+									$(this).css('left', listPreview.offset().left - 8);
+								});
 							});
-						});
+						}
 					}
 				} else {
 					fixedList.css('top', 'initial');
@@ -894,8 +900,9 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			thisInstance.updateListPreviewSize(fixedList);
 		}
 	},
-	registerSplit: function (container, fixedList, wrappedPanelLeft, wrappedPanelRight) {
+	registerSplit: function (container, fixedList, wrappedPanelLeft, wrappedPanelRight, wrappedPanel) {
 		if ($(window).width() > 993 && container.find('.fixedListInitial').length) {
+			var relatedHeader = container.find('.relatedHeader');
 			var split = Split(['.fixedListInitial', '#listPreview'], {
 				sizes: [25, 75],
 				minSize: 10,
@@ -917,8 +924,10 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 					} else {
 						wrappedPanelRight.removeClass('wrappedPanelRight');
 					}
+					wrappedPanel.css('top', relatedHeader.height() + relatedHeader.position().top + 2);
 				}
 			});
+			wrappedPanel.css('top', relatedHeader.height() + relatedHeader.position().top + 2);
 			var gutter = container.find('.gutter');
 			var leftWidth = (15 / $(window).width()) * 100;
 			var rightWidth = 100 - leftWidth;
@@ -964,10 +973,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			var wrappedPanel = container.find('.wrappedPanel');
 			var wrappedPanelLeft = container.find(wrappedPanel[0]);
 			var wrappedPanelRight = container.find(wrappedPanel[1]);
-			var split = thisInstance.registerSplit(container, fixedList, wrappedPanelLeft, wrappedPanelRight);
+			var split = thisInstance.registerSplit(container, fixedList, wrappedPanelLeft, wrappedPanelRight, wrappedPanel);
 			var rotatedText = container.find('.rotatedText');
-			var relatedHeader = container.find('.relatedHeader');
-			wrappedPanel.css('top', relatedHeader.height() + relatedHeader.position().top + 2);
 			rotatedText.first().find('.textCenter').append($('.breadcrumbsContainer .separator').nextAll().text());
 			rotatedText.first().css({
 				width: wrappedPanelLeft.height(),
@@ -983,7 +990,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 					}
 				} else {
 					if (container.find('.gutter').length !== 1) {
-						var newSplit = thisInstance.registerSplit(container, fixedList, wrappedPanelLeft, wrappedPanelRight);
+						var newSplit = thisInstance.registerSplit(container, fixedList, wrappedPanelLeft, wrappedPanelRight, wrappedPanel);
 						var gutter = container.find('.gutter');
 						if (mainBody.scrollTop() >= (fixedList.offset().top + commactHeight)) {
 							gutter.addClass('gutterOnScroll');
