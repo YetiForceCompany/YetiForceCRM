@@ -147,6 +147,7 @@ class File
 		$path = tempnam(static::getTmpPath(), 'YFF');
 		$success = file_put_contents($path, $content);
 		if (!$success) {
+			\App\Log::error('Error while saving the file: ' . $path, __CLASS__);
 			return false;
 		}
 		$instance = new self();
@@ -171,14 +172,17 @@ class File
 	public static function loadFromUrl($url, $param = [])
 	{
 		if (empty($url)) {
+			\App\Log::error('No url: ' . $url , __CLASS__);
 			return false;
 		}
 		$arrHeader = get_headers($url, 1);
 		if (strpos($arrHeader[0], '200 OK') === false) {
+			\App\Log::error('Error when downloading content: ' . $url . ' | ' . print_r ($arrHeader, true), __CLASS__);
 			return false;
 		}
 		$content = file_get_contents($url);
 		if (empty($content)) {
+			\App\Log::error('Url does not contain content: ' . $url , __CLASS__);
 			return false;
 		}
 		return static::loadFromContent($content, basename($url));
@@ -547,6 +551,7 @@ class File
 		$data = rawurldecode($data);
 		$rawData = $isBase64 ? base64_decode($data) : $data;
 		if (strlen($rawData) < 12) {
+			\App\Log::error('Incorrect content value: ' . $content , __CLASS__);
 			return false;
 		}
 		$fileInstance = static::loadFromContent($rawData, false, ['mimeShortType' => $contentType]);
@@ -565,7 +570,8 @@ class File
 	public static function saveFromUrl($url, $params = [])
 	{
 		$fileInstance = static::loadFromUrl($url);
-		if (empty($url)) {
+		if (empty($url) || !$fileInstance) {
+			\App\Log::error('Invalid url: ' . $url , __CLASS__);
 			return false;
 		}
 		if ($fileInstance->validate() && ($id = static::saveFromContent($fileInstance, $params))) {
