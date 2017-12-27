@@ -6094,6 +6094,7 @@ border1px{
     position: absolute;
     top: 2px;
 	background: #eeeeee;
+	z-index: 100;
 }
 .wrappedPanelLeft {
 	display: block;
