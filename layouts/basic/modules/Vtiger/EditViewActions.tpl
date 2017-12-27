@@ -10,20 +10,22 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<div>
-		<div class="pull-right">
-			<button class="btn btn-success" type="submit">
-				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;
-				<strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong>
-			</button>&nbsp;&nbsp;
-			<button class="btn btn-warning" type="reset" onclick="javascript:window.history.back();">
-				<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;
-				<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
-			</button>
-		</div>
-		<div class="clearfix"></div>
+	<div class="formActionsPanel">
+		{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
+		<button class="btn btn-success" type="submit">
+			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;
+			<strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong>
+		</button>&nbsp;&nbsp;
+		<button class="btn btn-warning" type="reset" onclick="javascript:window.history.back();">
+			<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;
+			<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
+		</button>
+		{foreach item=LINK from=$EDITVIEW_LINKS['EDIT_VIEW_HEADER']}
+			{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='editViewHeader'}
+			&nbsp;&nbsp;
+		{/foreach}
 	</div>
-	<br />
 </form>
+</div>
 </div>
 {/strip}

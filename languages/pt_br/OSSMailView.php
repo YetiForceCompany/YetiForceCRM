@@ -9,7 +9,6 @@ $languageStrings = [
 	// Basic Strings
 	'OSSMailView' => 'E-mails Corporativos',
 	'SINGLE_OSSMailView' => 'E-mail Corporativo',
-	'LBL_ADD_RECORD' => 'Adicionar registro',
 	'LBL_RECORDS_LIST' => 'Lista de e-mails',
 	// Blocks
 	'LBL_INFORMATION' => 'Informação geral',

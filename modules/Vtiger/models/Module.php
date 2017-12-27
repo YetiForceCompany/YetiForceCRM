@@ -1046,8 +1046,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 		}
 		$moduleName = 'Calendar';
 		$currentActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel('current');
-		$nowInUserFormat = Vtiger_Datetime_UIType::getDisplayDateValue(date('Y-m-d H:i:s'));
-		$nowInDBFormat = Vtiger_Datetime_UIType::getDBDateTimeValue($nowInUserFormat);
+		$nowInUserFormat = App\Fields\DateTime::formatToDisplay(date('Y-m-d H:i:s'));
+		$nowInDBFormat = App\Fields\DateTime::formatToDb($nowInUserFormat);
 		list($currentDate) = explode(' ', $nowInDBFormat);
 
 		$referenceLinkClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceExtend', $moduleName);

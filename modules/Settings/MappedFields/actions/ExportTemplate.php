@@ -18,7 +18,7 @@ class Settings_MappedFields_ExportTemplate_Action extends Settings_Vtiger_Index_
 		header('content-type: application/xml; charset=utf-8');
 		header('Pragma: public');
 		header('Cache-Control: private');
-		header('Content-Disposition: attachment; filename=' . $recordId . '_mftemplate.xml');
+		header('Content-Disposition: attachment; filename="' . $recordId . '_mftemplate.xml"');
 		header('Content-Description: PHP Generated Data');
 
 		$xml = new DOMDocument('1.0', 'utf-8');

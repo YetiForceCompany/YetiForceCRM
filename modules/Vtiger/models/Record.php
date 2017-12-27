@@ -677,7 +677,6 @@ class Vtiger_Record_Model extends \App\Base
 
 			$isPermitted = \App\Privilege::isPermitted($moduleName, 'EditView', $recordId);
 			$checkLockEdit = Users_Privileges_Model::checkLockEdit($moduleName, $this);
-
 			$this->privileges['isEditable'] = $isPermitted && $this->checkLockFields() && $checkLockEdit === false;
 		}
 		return $this->privileges['isEditable'];
@@ -748,7 +747,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function privilegeToDelete()
 	{
 		if (!isset($this->privileges['Deleted'])) {
-			$this->privileges['Deleted'] = \App\Privilege::isPermitted($this->getModuleName(), 'Delete', $this->getId()) && $this->checkLockFields();
+			$this->privileges['Deleted'] = \App\Privilege::isPermitted($this->getModuleName(), 'Delete', $this->getId());
 		}
 		return $this->privileges['Deleted'];
 	}
@@ -760,7 +759,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function privilegeToMoveToTrash()
 	{
 		if (!isset($this->privileges['MoveToTrash'])) {
-			$this->privileges['MoveToTrash'] = \App\Record::getState($this->getId()) !== 'Trash' && \App\Privilege::isPermitted($this->getModuleName(), 'MoveToTrash', $this->getId()) && $this->checkLockFields() && $this->isEditable();
+			$this->privileges['MoveToTrash'] = \App\Record::getState($this->getId()) !== 'Trash' && \App\Privilege::isPermitted($this->getModuleName(), 'MoveToTrash', $this->getId());
 		}
 		return $this->privileges['MoveToTrash'];
 	}
@@ -772,7 +771,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function privilegeToArchive()
 	{
 		if (!isset($this->privileges['Archive'])) {
-			$this->privileges['Archive'] = \App\Record::getState($this->getId()) !== 'Archived' && \App\Privilege::isPermitted($this->getModuleName(), 'ArchiveRecord', $this->getId()) && $this->checkLockFields() && $this->isEditable();
+			$this->privileges['Archive'] = \App\Record::getState($this->getId()) !== 'Archived' && \App\Privilege::isPermitted($this->getModuleName(), 'ArchiveRecord', $this->getId());
 		}
 		return $this->privileges['Archive'];
 	}
@@ -784,7 +783,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function privilegeToActivate()
 	{
 		if (!isset($this->privileges['Activate'])) {
-			$this->privileges['Activate'] = \App\Record::getState($this->getId()) !== 'Active' && \App\Privilege::isPermitted($this->getModuleName(), 'ActiveRecord', $this->getId()) && $this->isEditable();
+			$this->privileges['Activate'] = \App\Record::getState($this->getId()) !== 'Active' && \App\Privilege::isPermitted($this->getModuleName(), 'ActiveRecord', $this->getId());
 		}
 		return $this->privileges['Activate'];
 	}
@@ -1141,7 +1140,7 @@ class Vtiger_Record_Model extends \App\Base
 			\App\Log::trace('Skip the save attachment process.');
 			return false;
 		}
-		$fileName = (isset($fileDetails['original_name']) && $fileDetails['original_name'] !== null) ? $fileDetails['original_name'] : $fileDetails['name'];
+		$this->ext['attachmentsName'] = $fileName = empty($fileDetails['original_name']) ? $fileDetails['name'] : $fileDetails['original_name'];
 		$db = \App\Db::getInstance();
 		$date = date('Y-m-d H:i:s');
 		$uploadFilePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . \App\Fields\File::initStorageFileDirectory($moduleName);
@@ -1298,7 +1297,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_ACTIVATE_RECORD',
 				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Active',
-				'linkicon' => 'fa fa-refresh',
+				'linkicon' => 'fa fa-undo',
 				'style' => empty($stateColors['Active']) ? '' : "background: {$stateColors['Active']};",
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC')],
 				'linkclass' => 'btn-sm btn-default recordEvent entityStateBtn'

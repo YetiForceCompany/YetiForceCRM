@@ -14,15 +14,15 @@ class VTWorkflowApplication
 	public function __construct($action)
 	{
 		$this->request;
-		$this->name = "com_vtiger_workflow";
-		$this->label = "Workflow";
+		$this->name = 'com_vtiger_workflow';
+		$this->label = 'Workflow';
 		$this->action = $action;
-		$this->returnUrl = $_SERVER["REQUEST_URI"];
+		$this->returnUrl = \App\Request::_getServer('REQUEST_URI');
 	}
 
 	public function currentUrl()
 	{
-		return $_SERVER["REQUEST_URI"];
+		return \App\Request::_getServer('REQUEST_URI');
 	}
 
 	public function returnUrl()

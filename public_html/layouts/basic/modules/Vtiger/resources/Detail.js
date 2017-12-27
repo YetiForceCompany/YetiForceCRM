@@ -237,7 +237,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 	detailViewRecentUpdatesTabLabel: 'LBL_UPDATES',
 	detailViewRecentDocumentsTabLabel: 'Documents',
 	fieldUpdatedEvent: 'Vtiger.Field.Updated',
-	widgetPostLoad: 'Vtiger.Widget.PostLoad',
 	//Filels list on updation of which we need to upate the detailview header
 	updatedFields: ['company', 'designation', 'title'],
 	//Event that will triggered before saving the ajax edit of fields
@@ -318,7 +317,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		AppConnector.request(params).then(function (data) {
 			contentContainer.progressIndicator({mode: 'hide'});
 			contentContainer.html(data);
-			contentContainer.trigger(thisInstance.widgetPostLoad, {'widgetName': relatedModuleName})
 			app.showPopoverElementView(contentContainer.find('.popoverTooltip'));
 			app.registerModal(contentContainer);
 			app.registerMoreContent(contentContainer.find('button.moreBtn'));
@@ -328,6 +326,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				relatedController.registerRelatedEvents();
 				thisInstance.widgetRelatedRecordView(widgetContainer, true);
 			}
+			app.event.trigger("DetailView.Widget.AfterLoad", contentContainer, relatedModuleName, thisInstance);
 			aDeferred.resolve(params);
 		}, function (e) {
 			contentContainer.progressIndicator({mode: 'hide'});
@@ -412,25 +411,19 @@ jQuery.Class("Vtiger_Detail_Js", {
 			params.url = url;
 			params.data = data;
 		}
-		AppConnector.requestPjax(params).then(
-				function (responseData) {
-					detailContentsHolder.html(responseData);
-					responseData = detailContentsHolder.html();
-					//thisInstance.triggerDisplayTypeEvent();
-					thisInstance.registerBlockStatusCheckOnLoad();
-					//Make select box more usability
-					app.changeSelectElementView(detailContentsHolder);
-					//Attach date picker event to date fields
-					app.registerEventForDatePickerFields(detailContentsHolder);
-					thisInstance.getForm().validationEngine();
-					detailContentsHolder.trigger(jQuery.Event('Detail.LoadContents.PostLoad'), responseData);
-					aDeferred.resolve(responseData);
-				},
-				function () {
-
-				}
-		);
-
+		AppConnector.requestPjax(params).then(function (responseData) {
+			detailContentsHolder.html(responseData);
+			responseData = detailContentsHolder.html();
+			//thisInstance.triggerDisplayTypeEvent();
+			thisInstance.registerBlockStatusCheckOnLoad();
+			//Make select box more usability
+			app.changeSelectElementView(detailContentsHolder);
+			//Attach date picker event to date fields
+			app.registerEventForDatePickerFields(detailContentsHolder);
+			thisInstance.getForm().validationEngine();
+			app.event.trigger("DetailView.LoadContents.AfterLoad", responseData);
+			aDeferred.resolve(responseData);
+		});
 		return aDeferred.promise();
 	},
 	getUpdatefFieldsArray: function () {
@@ -916,25 +909,27 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 	},
 	registerBlockAnimationEvent: function () {
+		var thisInstance = this;
 		var detailContentsHolder = this.getContentHolder();
-		detailContentsHolder.find('.blockHeader').click(function () {
-			var currentTarget = $(this).find('.blockToggle').not('.hide');
-			var blockId = currentTarget.data('id');
-			var closestBlock = currentTarget.closest('.panel');
-			var bodyContents = closestBlock.find('.blockContent');
+		detailContentsHolder.find(".blockHeader").click(function () {
+			var currentTarget = $(this).find(".blockToggle").not(".hide");
+			var blockId = currentTarget.data("id");
+			var closestBlock = currentTarget.closest(".panel");
+			var bodyContents = closestBlock.find(".blockContent");
 			var data = currentTarget.data();
 			var module = app.getModuleName();
-			if (data.mode == 'show') {
-				bodyContents.addClass('hide');
-				app.cacheSet(module + '.' + blockId, 0)
-				currentTarget.addClass('hide');
-				closestBlock.find('[data-mode="hide"]').removeClass('hide');
+			if (data.mode === "show") {
+				bodyContents.addClass("hide");
+				app.cacheSet(module + "." + blockId, 0);
+				currentTarget.addClass("hide");
+				closestBlock.find('[data-mode="hide"]').removeClass("hide");
 			} else {
-				bodyContents.removeClass('hide');
-				app.cacheSet(module + '.' + blockId, 1)
-				currentTarget.addClass('hide');
-				closestBlock.find("[data-mode='show']").removeClass('hide');
+				bodyContents.removeClass("hide");
+				app.cacheSet(module + "." + blockId, 1);
+				currentTarget.addClass("hide");
+				closestBlock.find('[data-mode="show"]').removeClass("hide");
 			}
+			app.event.trigger("DetailView.BlockToggle.PostLoad", bodyContents, data, thisInstance);
 		});
 	},
 	registerBlockStatusCheckOnLoad: function () {
@@ -943,7 +938,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		blocks.each(function (index, block) {
 			var currentBlock = jQuery(block);
 			var headerAnimationElement = currentBlock.find('.blockToggle').not('.hide');
-			var bodyContents = currentBlock.closest('.panel').find('.blockContent')
+			var bodyContents = currentBlock.closest('.panel').find('.blockContent');
 			var blockId = headerAnimationElement.data('id');
 			var cacheKey = module + '.' + blockId;
 			var value = app.cacheGet(cacheKey, null);
@@ -1633,31 +1628,29 @@ jQuery.Class("Vtiger_Detail_Js", {
 					var callBack = urlAttributes.callback;
 					delete urlAttributes.callback;
 				}
-				thisInstance.loadContents(url, urlAttributes).then(
-						function (data) {
-							thisInstance.deSelectAllrelatedTabs();
-							thisInstance.markTabAsSelected(tabElement);
-							app.showBtnSwitch(detailContentsHolder.find('.switchBtn'));
-							Vtiger_Helper_Js.showHorizontalTopScrollBar();
-							element.progressIndicator({'mode': 'hide'});
-							thisInstance.registerHelpInfo();
-							app.registerModal(detailContentsHolder);
-							app.registerMoreContent(detailContentsHolder.find('button.moreBtn'));
-							if (typeof callBack == 'function') {
-								callBack(data);
-							}
-							//Summary tab is clicked
-							if (tabElement.data('linkKey') == thisInstance.detailViewSummaryTabLabel) {
-								thisInstance.loadWidgets();
-							}
-							thisInstance.registerBasicEvents();
-							// Let listeners know about page state change.
-							app.notifyPostAjaxReady();
-						},
-						function () {
-							element.progressIndicator({'mode': 'hide'});
-						}
-				);
+				thisInstance.loadContents(url, urlAttributes).then(function (data) {
+					thisInstance.deSelectAllrelatedTabs();
+					thisInstance.markTabAsSelected(tabElement);
+					app.showBtnSwitch(detailContentsHolder.find('.switchBtn'));
+					Vtiger_Helper_Js.showHorizontalTopScrollBar();
+					element.progressIndicator({'mode': 'hide'});
+					thisInstance.registerHelpInfo();
+					app.registerModal(detailContentsHolder);
+					app.registerMoreContent(detailContentsHolder.find('button.moreBtn'));
+					if (typeof callBack == 'function') {
+						callBack(data);
+					}
+					//Summary tab is clicked
+					if (tabElement.data('linkKey') == thisInstance.detailViewSummaryTabLabel) {
+						thisInstance.loadWidgets();
+					}
+					thisInstance.registerBasicEvents();
+					// Let listeners know about page state change.
+					app.notifyPostAjaxReady();
+					app.event.trigger("DetailView.Tab.AfterLoad", data, thisInstance);
+				}, function () {
+					element.progressIndicator({mode: 'hide'});
+				});
 			}
 		});
 	},
@@ -2102,7 +2095,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			container.find('.mailTeaser').removeClass('hide');
 			container.find('.showMailBody .glyphicon').removeClass("glyphicon-triangle-top").addClass("glyphicon-triangle-bottom");
 		});
-		container.find('.widget_contents').on(thisInstance.widgetPostLoad, function (e, widgetName) {
+		app.event.on("DetailView.Widget.AfterLoad", function (e, widgetContent, relatedModuleName, instance, widgetContainer) {
 			Vtiger_Index_Js.registerMailButtons(container);
 			container.find('.showMailModal').click(function (e) {
 				var progressIndicatorElement = jQuery.progressIndicator();
@@ -2127,13 +2120,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 		params['mode'] = 'showEmailsList';
 		params['type'] = $('[name="mail-type"]').val();
 		params['mailFilter'] = $('[name="mailFilter"]').val();
-		AppConnector.request(params).then(
-				function (data) {
-					widgetDataContainer.html(data);
-					widgetDataContainer.trigger(thisInstance.widgetPostLoad, {widgetName: 'Emails'})
-					progress.progressIndicator({'mode': 'hide'});
-				}
-		);
+		AppConnector.request(params).then(function (data) {
+			widgetDataContainer.html(data);
+			app.event.trigger("DetailView.Widget.AfterLoad", widgetDataContainer, 'Emails', thisInstance);
+			progress.progressIndicator({'mode': 'hide'});
+		});
 	},
 	registerEmailEvents: function (detailContentsHolder) {
 		Vtiger_Index_Js.registerMailButtons(detailContentsHolder);
@@ -2346,9 +2337,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var recentDocumentsTab = thisInstance.getTabByLabel(thisInstance.detailViewRecentDocumentsTabLabel);
 			recentDocumentsTab.trigger('click');
 		});
-		detailContentsHolder.find('.widgetContentBlock[data-name="Calendar"] .widget_contents').on(thisInstance.widgetPostLoad, function (e) {
-			var container = $(e.currentTarget).closest('.activityWidgetContainer');
-			thisInstance.reloadWidgetActivitesStats(container);
+		app.event.on("DetailView.Widget.AfterLoad", function (e, widgetContent, relatedModuleName, instance) {
+			if (relatedModuleName === 'Calendar') {
+				var container = widgetContent.closest('.activityWidgetContainer');
+				thisInstance.reloadWidgetActivitesStats(container);
+			}
 		});
 		detailContentsHolder.on('click', '.moreRecentActivities', function (e) {
 			var currentTarget = $(e.currentTarget);
@@ -2388,8 +2381,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 				progressIndicatorElement.progressIndicator({mode: 'hide'});
 			});
 		});
-		detailContentsHolder.find('.widgetContentBlock[data-type="HistoryRelation"] .widget_contents').on(thisInstance.widgetPostLoad, function (e) {
-			thisInstance.registerEmailEvents($(e.currentTarget));
+		app.event.on("DetailView.Widget.AfterLoad", function (e, widgetContent, relatedModuleName, instance) {
+			thisInstance.registerEmailEvents(widgetContent);
 		});
 		thisInstance.registerEventForRelatedList();
 		thisInstance.registerBlockAnimationEvent();

@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o. 
  * ********************************************************************************** */
 
 class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
@@ -43,6 +44,10 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
+	/**
+	 * Save field
+	 * @param \App\Request $request
+	 */
 	public function save(\App\Request $request)
 	{
 		$fieldId = $request->get('fieldid');
@@ -57,10 +62,6 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 			}
 		}
 		$defaultValue = $request->get('fieldDefaultValue');
-		if ($fieldInstance->getFieldDataType() === 'date') {
-			$dateInstance = new Vtiger_Date_UIType();
-			$defaultValue = $dateInstance->getDBInsertedValue($defaultValue);
-		}
 		if ($request->has('fieldMask')) {
 			$fieldInstance->set('fieldparams', $request->get('fieldMask'));
 		}

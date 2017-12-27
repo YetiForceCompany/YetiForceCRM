@@ -40,7 +40,6 @@ $languageStrings = [
 	'LBL_MAX_UPLOAD_SIZE' => 'Maximale Dateigröße fürs Hochladen',
 	'LBL_MOVE' => 'Verschieben',
 	'LBL_NOTE_INFORMATION' => 'Dokumentinformation',
-	'LBL_RECORDS_LIST' => 'Liste Dokumente',
 	'MB' => 'MB',
 	'Note' => 'Notiz',
 	'SINGLE_Documents' => 'Dokument',

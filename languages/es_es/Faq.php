@@ -15,7 +15,6 @@ $languageStrings = [
 	'Faq' => 'FAQ',
 	'Faq No' => 'ID',
 	'General' => 'General',
-	'LBL_ADD_RECORD' => 'Añadir',
 	'LBL_COMMENT_INFORMATION' => 'Comentarios',
 	'LBL_FAQ_INFORMATION' => 'Información sobre el FAQ',
 	'LBL_RECORDS_LIST' => 'Lista',

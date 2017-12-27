@@ -50,7 +50,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		if (empty($value)) {
 			return '';
 		} else {
-			$dateValue = self::getDisplayDateValue($value);
+			$dateValue = App\Fields\Date::formatToDisplay($value);
 		}
 		if ($dateValue === '--') {
 			return '';
@@ -93,28 +93,6 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 			$value = DateTimeField::convertToUserFormat($value);
 		}
 		return \App\Purifier::encodeHtml($value);
-	}
-
-	/**
-	 * Function to get Date value for Display
-	 * @param <type> $date
-	 * @return string
-	 */
-	public static function getDisplayDateValue($date)
-	{
-		$date = new DateTimeField($date);
-		return $date->getDisplayDate();
-	}
-
-	/**
-	 * Function to get DateTime value for Display
-	 * @param <type> $dateTime
-	 * @return string
-	 */
-	public static function getDisplayDateTimeValue($dateTime)
-	{
-		$date = new DateTimeField($dateTime);
-		return $date->getDisplayDateTimeValue();
 	}
 
 	/**

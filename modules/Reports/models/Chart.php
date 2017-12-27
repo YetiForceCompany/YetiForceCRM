@@ -401,7 +401,7 @@ abstract class Base_Chart extends \App\Base
 				$value = date('Y-m-d H:i:s', strtotime('first day of JANUARY ' . $value)) . ',' . date('Y-m-d', strtotime('last day of DECEMBER ' . $value)) . ' 23:59:59';
 			}
 		} elseif ($dataFieldInfo[4] == 'DT') {
-			$value = Vtiger_Date_UIType::getDisplayDateTimeValue($value);
+			$value = App\Fields\DateTime::formatToDisplay($value);
 		}
 
 		if (empty($value)) {
@@ -517,9 +517,9 @@ class PieChart extends Base_Chart
 					}
 					$label = implode(',', $labelList);
 				} else if ($fieldDataType === 'date') {
-					$label = Vtiger_Date_UIType::getDisplayDateValue($row[strtolower($legendField->get('reportlabel'))]);
+					$label = App\Fields\Date::formatToDisplay($row[strtolower($legendField->get('reportlabel'))]);
 				} else if ($fieldDataType === 'datetime') {
-					$label = Vtiger_Date_UIType::getDisplayDateTimeValue($row[strtolower($legendField->get('reportlabel'))]);
+					$label = App\Fields\DateTime::formatToDisplay($row[strtolower($legendField->get('reportlabel'))]);
 				} else {
 					$label = $row[$legend];
 				}
@@ -601,7 +601,7 @@ class VerticalbarChart extends Base_Chart
 							$m = explode(' ', $label);
 							$label = App\Language::translate('LBL_' . date('M', strtotime($m[1] . '-' . $m[0] . '-' . '1'))) . ' ' . $m[1];
 						} else {
-							$label = Vtiger_Date_UIType::getDisplayDateValue($label);
+							$label = App\Fields\Date::formatToDisplay($label);
 						}
 					} else if ($fieldDataType === 'datetime') {
 						$label = $row[$gFieldModel->get('reportlabel')];

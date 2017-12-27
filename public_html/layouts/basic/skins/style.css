@@ -310,7 +310,6 @@ hr {
 	right: 15px;
 	left: auto;
 }
-
 #headerLinks .headerLinksContainer > span a img,
 #headerLinks .headerLinksContainer > span a.userName {
 	color: #ffffff;
@@ -3650,6 +3649,7 @@ html,body,.baseContainer
 	height: 100%;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
+	overflow: hidden;
 }
 .container-fluid-main{
 	height: 100%;
@@ -4191,6 +4191,12 @@ html,body,.baseContainer
 }
 .listViewActionsDiv .btn-toolbar > .dropdown-toggle + .dropdown-menu{
 	left: 20px;
+}
+.listViewActionsDiv .dropdown-toggle {
+	margin-bottom: 7px;
+}
+.listViewActionsDiv .addButton {
+	margin-bottom: 7px;
 }
 .widget_header .dropdown-toggle + .dropdown-menu{
 	left: 15px;
@@ -5953,21 +5959,104 @@ select[readonly], select[disabled]{
 #listPreviewframe{
 	width:100%;
 	height:100%;
+	margin-bottom: 6px;
 }
 border1px{
 	border: 1px solid #ddd;
+}
+#listPreview{
+	float: right;
+	padding-left: 5px;
+	padding-right: 0;
+	margin-top: 2px;
 }
 #recordsList{
 	padding-left: 0;
 	padding-right: 5px;
 }
-#listPreview{
-	padding-left: 5px;
-	padding-right: 0;
-	margin-top: 2px;
-}
 [class*="picklistLb_"] {
 	border-radius: 7px;
+}
+.fixedListInitial {
+	padding-right: 5px;
+	max-height: max-content;
+	padding-left: 0;
+}
+.fixedListInScroll {
+	position: fixed;
+	top: 48px;
+	padding-right: 27px;
+}
+.fixedListContent {
+	overflow-y: auto;
+	margin-top: 2px;
+	height: max-content;
+}
+.fixedListContent #recordsList {
+	padding-left: 0;
+	padding-right: 0;
+}
+.fixedListContent .contents-topscroll {
+	margin-top: -2px;
+}
+.fixedListContent .listViewSummation td {
+	padding: 0;
+}
+.formActionsPanel {
+	position: fixed;
+	bottom: 33px;
+	height: 45px;
+	width: calc(100% - 50px);
+	background: #EEEEEE;
+	margin-left: -10px;
+	text-align: center;
+	border-top: 1px solid #ddd;
+	z-index: 5;
+}
+.formActionsPanel {
+	padding: 5px;
+}
+.formActionsPanel .btn-group {
+	margin-right: 3px;
+}
+.formActionsPanel .saveAndComplete {
+	margin-right: 6px;
+}
+.verticalScroll {
+	position: absolute;
+	left: 0;
+	height: calc(100vh - 128px);
+	width: 100%;
+	overflow-x: hidden;
+	padding-right: 10px;
+	padding-left: 10px
+}
+@media only screen and (max-width: 992px) {
+	#listPreview{
+		padding-left: 0;
+		padding-right: 0;
+		margin-top: 2px;
+		width: 100%;
+		height: 100%;
+	}
+	.fixedListInitial {
+		position: static;
+		padding-left: 0;
+		padding-right: 0;
+	}
+	.fixedListContent {
+		margin-right: 0;
+		margin-bottom: 10px;
+	}
+}
+@media only screen and (max-width: 768px) {
+	.formActionsPanel {
+		bottom: 17px;
+		width: 100%;
+	}
+	.verticalScroll {
+		height: calc(100vh - 112px);
+	}
 }
 .popover.activities{
 	min-width: 400px;

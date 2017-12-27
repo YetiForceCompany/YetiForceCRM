@@ -41,7 +41,6 @@ $languageStrings = [
 	'LBL_LAST' => 'Último',
 	'LBL_MONTHS_TYPE' => 'Mes(es)',
 	'LBL_ON' => 'on',
-	'LBL_RECORDS_LIST' => 'Lista', //Duplicated key-value pair
 	'LBL_RECURRENCE_INFORMATION' => 'Información de Periodicidad',
 	'LBL_RELATED_TO' => 'Relacionado con',
 	'LBL_REPEATEVENT' => 'Un vez cada',

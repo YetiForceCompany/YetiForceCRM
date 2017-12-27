@@ -8,7 +8,7 @@
 			{assign var=END_TIME value=$RECORD->get('time_end')}
 			{assign var=RECORD_ID value=$RECORD->getId()}
 			<div class="panel picklistCBr_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}" data-record="{$RECORD_ID}">
-				<div class="panel-heading picklistCBg_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}"
+				<div class="panel-heading picklistCBg_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}">
 					 <button class="btn btn-success btn-xs pull-right showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}">
 						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 					</button>
@@ -19,10 +19,10 @@
 				</div>
 				<div class="panel-body">
 					<div>
-						{\App\Language::translate('Start Date & Time',$MODULE_NAME)}: <strong>{Vtiger_Util_Helper::formatDateTimeIntoDayString("$START_DATE $START_TIME",$RECORD->get('allday'))}</strong>
+						{\App\Language::translate('Start Date & Time',$MODULE_NAME)}: <strong>{\App\Fields\DateTime::formatToDay("$START_DATE $START_TIME",$RECORD->get('allday'))}</strong>
 					</div>
 					<div>
-						{\App\Language::translate('Due Date',$MODULE_NAME)}: <strong>{Vtiger_Util_Helper::formatDateTimeIntoDayString("$END_DATE $END_TIME",$RECORD->get('allday'))}</strong>
+						{\App\Language::translate('Due Date',$MODULE_NAME)}: <strong>{\App\Fields\DateTime::formatToDay("$END_DATE $END_TIME",$RECORD->get('allday'))}</strong>
 					</div>
 					{if $RECORD->get('activitystatus') neq '' }
 						<div>
@@ -86,7 +86,7 @@
 								{$RECORD->getDisplayValue('location')}
 							</strong>
 							{if App\Privilege::isPermitted('OpenStreetMap')}
-								<a class="pull-right btn btn-default btn-xs actionIcon" onclick="Vtiger_Index_Js.showLocation('{$RECORD->getDisplayValue('location')}')">
+								<a class="pull-right btn btn-default btn-xs actionIcon" data-location="{$RECORD->getDisplayValue('location')}" onclick="Vtiger_Index_Js.showLocation(this)">
 									<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
 								</a>
 							{/if}

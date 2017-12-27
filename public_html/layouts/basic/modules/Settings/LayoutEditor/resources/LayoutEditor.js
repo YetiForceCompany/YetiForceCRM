@@ -1478,6 +1478,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				cb: function (modalContainer) {
 					thisInstance.registerFieldDetailsChange(modalContainer);
 					thisInstance.lockCheckbox(modalContainer);
+					thisInstance.registerVaribleToParsers(modalContainer);
 					app.registerEventForClockPicker(modalContainer.find('.clockPicker'));
 				},
 				sendByAjaxCb: function (formData, response) {
@@ -1506,6 +1507,36 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 					} else {
 						fieldRow.find('.fieldLabel').find('.redColor').remove();
 					}
+				}
+			});
+		});
+	},
+	registerVaribleToParsers: function (container) {
+		var thisInstance = this;
+		container.find('.configButton').on('click', function (e) {
+			container.find('.defaultValueUi .input-group').each(function (n,e) {
+				var currentElement = $(e);
+				if(currentElement.hasClass('hide')){
+					currentElement.find('input,select').prop('disabled', false);
+				}else{
+					currentElement.find('input,select').prop('disabled', true);
+				}
+				currentElement.toggleClass('hide');
+			})
+		});
+		container.find('.varibleToParsers').on('click', function (e) {
+			var input = $(e.currentTarget).closest('.input-group').find('[name="fieldDefaultValue"]');
+			var fieldId = container.find('[name="fieldid"]').val();
+			var id = 'varibleToParsersModal';
+			app.showModalWindow({
+				id: id,
+				url: 'index.php?parent=Settings&module=LayoutEditor&view=VaribleToParsers&fieldId=' + fieldId + '&defaultValue=' + input.val(),
+				cb: function (modalContainer) {
+					var select = modalContainer.find('select');
+					modalContainer.find('[name="saveButton"]').on('click', function () {
+						input.val(select.val());
+						app.hideModalWindow(null, id);
+					})
 				}
 			});
 		});

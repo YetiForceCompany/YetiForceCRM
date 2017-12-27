@@ -7,10 +7,8 @@
  */
 $languageStrings = [
 	// Basic Strings
-	'LettersIn' => 'Listy przychodzące',
-	'SINGLE_LettersIn' => 'List przychodzący',
-	'LBL_ADD_RECORD' => 'Dodaj list przychodzący',
-	'LBL_RECORDS_LIST' => 'Listy przychodzące',
+	'LettersIn' => 'Korespondencja przychodząca',
+	'SINGLE_LettersIn' => 'Korespondencja przychodząca',
 	// Blocks
 	'LBL_MAIN_INFORMATION' => 'Informacje o korespondencji',
 	//Field Labels
@@ -25,9 +23,15 @@ $languageStrings = [
 	'No internal' => 'Nr wewnętrzny',
 	'Parent letters' => 'Dotyczy korespondencji',
 	'Overall dimensions' => 'Gabaryt',
-	'Notes' => 'Uwagi',
 	'Related' => 'Kontrahent / Potencjalny klient',
 	'Contact' => 'Kontakt',
+	'FL_CUSTOM_SENDER' => 'Nadawca niestandardowy',
+	'FL_TYPE' => 'Rodzaj',
+	'FL_CASH_AMOUNT_ON_DELIVERY' => 'Kwota pobraniowa',
+	'FL_DATE_OF_RECEIPT' => 'Data wpływu',
+	'FL_OUTGOING_CORRESPONDENCE' => 'Korespondencja wychodząca',
+	'FL_INTERNAL_NOTES' => 'Uwagi wewnętrzne',
+	'FL_PUBLIC_NOTES' => 'Uwagi publiczne',
 	// picklist values
 	'PLL_LOCAL_PICKUP' => 'Odbiór osobisty',
 	'PLL_POST_OFFICE_PL' => 'Poczta Polska',
@@ -58,8 +62,19 @@ $languageStrings = [
 	'PLL_PROFORMA' => 'Faktura proforma',
 	'PLL_CORRECTION' => 'Faktura korygująca',
 	'PLL_INVOICE' => 'Faktura',
-	'PLL_NEW' => 'Nowy',
-	'PLL_SETTLED' => 'Rozliczony',
+	'PLL_IN_DEPARTMENT' => 'W oddziale',
+	'PLL_REDIRECTED_TO_ANOTHER_DEPARTMENT' => 'Przekazane do innego oddziału',
+	'PLL_REDIRECTED_TO_ANOTHER_ADDRESSEE' => 'Przekazane do innego adresata',
+	'PLL_DESTOYED_UPON_ADDRESSEES_REQUEST' => 'Zniszczone na życzenie adresata',
+	'PLL_DESTROYED_IN_ACCORDANCE_WITH_INTERNAL_PROCEDURES' => 'Zniszczone zgodnie z wew. procedurami',
+	'PLL_RETURN_TO_SENDER' => 'Zwrot do nadawcy',
 	'PLL_A' => 'A',
 	'PLL_B' => 'B',
+	'PLL_REGULAR_LETTER' => 'List zwykły',
+	'PLL_REGISTERED_LETTER' => 'List polecony',
+	'PLL_REGULAR_PARCEL' => 'Paczka zwykła',
+	'PLL_LARGESIZE_PARCEL' => 'Paczka wielkogabarytowe',
+	'PLL_DOCUMENT' => 'Dokument',
+	'PLL_RETURN' => 'Zwrot',
+	'PLL_POSTAL_ADVICE' => 'Awizo',
 ];

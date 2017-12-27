@@ -37,7 +37,7 @@ class PBXManager_ListView_Model extends Vtiger_ListView_Model
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Active&sourceView=List',
 				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'fa fa-refresh'
+				'linkicon' => 'fa fa-undo'
 			];
 		}
 		if ($moduleModel->isPermitted('MassArchived')) {

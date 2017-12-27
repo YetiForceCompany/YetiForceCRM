@@ -280,14 +280,14 @@ class PackageImport extends PackageExport
 				}
 			}
 			// Language file present in en_us folder
-			$pattern = '/languages\/' . vglobal('default_language') . '\/([^\/]+).php/';
+			$pattern = '/languages\/' . vglobal('default_language') . '\/([^\/]+)\.php/';
 			preg_match($pattern, $fileName, $matches);
 			if (count($matches)) {
 				$language_modulename = $matches[1];
 			}
 
 			// or Language file may be present in en_us/Settings folder
-			$settingsPattern = '/languages\/' . vglobal('default_language') . '\/Settings\/([^\/]+).php/';
+			$settingsPattern = '/languages\/' . vglobal('default_language') . '\/Settings\/([^\/]+)\.php/';
 			preg_match($settingsPattern, $fileName, $matches);
 			if (count($matches)) {
 				$language_modulename = $matches[1];
@@ -1029,6 +1029,11 @@ class PackageImport extends PackageExport
 		}
 		Functions::recurseDelete($dirName);
 		Functions::recurseDelete('cache/templates_c');
+
+		\vtlib\Access::syncSharingAccess();
+		\vtlib\Deprecated::createModuleMetaFile();
+		\App\Cache::clear();
+		\App\Cache::clearOpcache();
 		file_put_contents('cache/logs/update.log', ob_get_contents(), FILE_APPEND);
 		ob_end_clean();
 	}

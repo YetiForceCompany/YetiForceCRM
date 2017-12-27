@@ -26,7 +26,7 @@ class Chat_Module_Model extends Vtiger_Module_Model
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$row['created'] = date('Y-m-d H:i:s', $row['created']);
-			$row['time'] = Vtiger_Util_Helper::formatDateDiffInStrings($row['created']);
+			$row['time'] = \App\Fields\DateTime::formatToViewDate($row['created']);
 			$rows[] = $row;
 		}
 		return $rows;

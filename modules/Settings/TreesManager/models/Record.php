@@ -161,6 +161,14 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			$parenttrre = substr($row['parenttrre'], 0, - $cut);
 			$pieces = explode('::', $parenttrre);
 			$parent = (int) str_replace('T', '', end($pieces));
+			$icon = false;
+			if (!empty($row['icon'])) {
+				$basePath = '';
+				if ($row['icon'] && strpos($row['icon'], 'layouts') === 0 && !IS_PUBLIC_DIR) {
+					$basePath = 'public_html/';
+				}
+				$icon = $basePath . $row['icon'];
+			}
 			$parameters = [
 				'id' => $treeID,
 				'parent' => $parent === 0 ? '#' : $parent,
@@ -170,7 +178,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 					'key' => $row['name'],
 				],
 				'state' => ($row['state']) ? \App\Json::decode($row['state']) : '',
-				'icon' => empty($row['icon']) ? false : $row['icon']
+				'icon' => $icon
 			];
 			if ($category) {
 				$parameters['type'] = $category;

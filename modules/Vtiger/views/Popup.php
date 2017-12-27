@@ -24,16 +24,16 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$request->isEmpty('related_parent_module') && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('related_parent_module',2))) {
+		if (!$request->isEmpty('related_parent_module') && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('related_parent_module', 2))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		if (!$request->isEmpty('src_module') && (!$currentUserPrivilegesModel->isAdminUser() && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('src_module',2)))) {
+		if (!$request->isEmpty('src_module') && (!$currentUserPrivilegesModel->isAdminUser() && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('src_module', 2)))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		if (!$request->isEmpty('related_parent_id', true) && !\App\Privilege::isPermitted($request->getByType('related_parent_module',2), 'DetailView', $request->getInteger('related_parent_id'))) {
+		if (!$request->isEmpty('related_parent_id', true) && !\App\Privilege::isPermitted($request->getByType('related_parent_module', 2), 'DetailView', $request->getInteger('related_parent_id'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		if (!$request->isEmpty('src_record', true) && $request->getByType('src_module', 2) !== 'Users' && !\App\Privilege::isPermitted($request->getByType('src_module',2), 'DetailView', $request->getInteger('src_record'))) {
+		if (!$request->isEmpty('src_record', true) && $request->getByType('src_module', 2) !== 'Users' && !\App\Privilege::isPermitted($request->getByType('src_module', 2), 'DetailView', $request->getInteger('src_record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
@@ -106,7 +106,7 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 		$currencyId = $request->getInteger('currency_id');
 		$relatedParentModule = $request->isEmpty('related_parent_module', true) ? '' : $request->getByType('related_parent_module', 2);
 		$relatedParentId = $request->isEmpty('related_parent_id') ? '' : $request->getInteger('related_parent_id');
-		$filterFields = $request->get('filterFields');
+		$filterFields = $request->getArray('filterFields', 'Integer');
 		$showSwitch = $request->getInteger('showSwitch');
 		//To handle special operation when selecting record from Popup
 		$getUrl = $request->get('get_url');
@@ -147,6 +147,14 @@ class Vtiger_Popup_View extends Vtiger_Footer_View
 					$relatedParentModule = $linkModule;
 					$relatedParentId = $linkRecord;
 				}
+			}
+		} elseif (!empty($filterFields['parent_id'])) {
+			$linkRecord = $filterFields['parent_id'];
+			$linkModule = \App\Record::getType($linkRecord);
+			if (in_array($linkModule, \App\ModuleHierarchy::getModulesMap1M($moduleName))) {
+				$showSwitch = true;
+				$relatedParentModule = $linkModule;
+				$relatedParentId = $linkRecord;
 			}
 		}
 		if ($showSwitch) {

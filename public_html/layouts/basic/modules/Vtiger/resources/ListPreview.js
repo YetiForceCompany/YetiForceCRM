@@ -18,13 +18,12 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	},
 	registerPreviewEvent: function () {
 		var thisInstance = this;
-		var contentHeight = $('#listPreview,#recordsListPreview');
-		contentHeight.height($('.mainBody').height() - 16);
-		$('#listPreviewframe').load(function () {
-			thisInstance.frameProgress.progressIndicator({mode: 'hide'});
-			contentHeight.height($(this).contents().find('.bodyContents').height()+2);
+		var iframe = $("#listPreviewframe");
+		$("#listPreviewframe").load(function () {
+			thisInstance.frameProgress.progressIndicator({mode: "hide"});
+			iframe.height($(this).contents().find(".bodyContents").height() - 20);
 		});
-		$('.listViewEntriesTable .listViewEntries').first().trigger('click');
+		$(".listViewEntriesTable .listViewEntries").first().trigger("click");
 	},
 	postLoadListViewRecordsEvents: function (container) {
 		this._super(container);
@@ -59,8 +58,41 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			thisInstance.updatePreview(recordUrl);
 		});
 	},
+	updateListPreviewSize: function (currentElement) {
+		var fixedList = $('.fixedListInitial, .fixedListContent');
+		var vtFooter = $('.vtFooter').height();
+		if ($(window).width() > 993) {
+			var height = $(window).height() - (vtFooter + currentElement.offset().top + 2);
+			fixedList.css('max-height', height);
+		}
+	},
+	registerListPreviewScroll: function () {
+		var thisInstance = this;
+		var currentElement = $('.fixedListInitial');
+		$(window).resize(function () {
+			thisInstance.updateListPreviewSize(currentElement);
+		});
+		var commactHeight = $('.commonActionsContainer').height();
+		$('.mainBody').scroll(function () {
+			if ($(this).scrollTop() >= (currentElement.offset().top + commactHeight)) {
+				currentElement.addClass('fixedListInScroll');
+			} else {
+				currentElement.removeClass('fixedListInScroll');
+			}
+			thisInstance.updateListPreviewSize(currentElement);
+		});
+		thisInstance.updateListPreviewSize(currentElement);
+	},
+	registerSplit: function () {
+		Split(['.fixedListInitial', '#listPreview'], {
+			sizes: [25, 75],
+			minSize: 200
+		});
+	},
 	registerEvents: function () {
 		this._super();
 		this.registerPreviewEvent();
+		this.registerListPreviewScroll();
+		this.registerSplit();
 	},
 });

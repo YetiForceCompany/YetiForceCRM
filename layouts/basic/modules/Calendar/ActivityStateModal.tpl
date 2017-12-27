@@ -56,14 +56,14 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label">{\App\Language::translate('Start Date & Time',$MODULE_NAME)}:</label>
 								<div class="col-sm-8">
-									{Vtiger_Util_Helper::formatDateTimeIntoDayString("$START_DATE $START_TIME",$RECORD->get('allday'))}
+									{\App\Fields\DateTime::formatToDay("$START_DATE $START_TIME",$RECORD->get('allday'))}
 								</div>
 
 							</div>
 							<div class="form-group">
 								<label class="col-sm-4 control-label">{\App\Language::translate('Due Date',$MODULE_NAME)}:</label>
 								<div class="col-sm-8">
-									{Vtiger_Util_Helper::formatDateTimeIntoDayString("$END_DATE $END_TIME",$RECORD->get('allday'))}
+									{\App\Fields\DateTime::formatToDay("$END_DATE $END_TIME",$RECORD->get('allday'))}
 								</div>	
 							</div>
 							{if $RECORD->get('activitystatus') neq '' }

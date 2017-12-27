@@ -12,8 +12,6 @@ $languageStrings = [
 	// Basic Strings
 	'Assets' => 'Assets',
 	'SINGLE_Assets' => 'Asset',
-	'LBL_ADD_RECORD' => 'Add record',
-	'LBL_RECORDS_LIST' => 'Assets List',
 	// Blocks
 	'LBL_ASSET_INFORMATION' => 'Asset details',
 	//Field Labels

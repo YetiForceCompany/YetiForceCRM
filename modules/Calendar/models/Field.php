@@ -54,24 +54,24 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Customize the display value for detail view.
+	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false, $length = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		if ($recordInstance) {
-			if ($this->getName() == 'date_start') {
-				$dateTimeValue = $value . ' ' . $recordInstance->get('time_start');
+		if ($recordModel) {
+			if ($this->getName() === 'date_start') {
+				$dateTimeValue = $value . ' ' . $recordModel->get('time_start');
 				$value = $this->getUITypeModel()->getDisplayValue($dateTimeValue);
 				list($startDate, $startTime, $meridiem) = explode(' ', $value);
 				return $startDate . ' ' . $startTime . ' ' . $meridiem;
-			} else if ($this->getName() == 'due_date') {
-				$dateTimeValue = $value . ' ' . $recordInstance->get('time_end');
+			} else if ($this->getName() === 'due_date') {
+				$dateTimeValue = $value . ' ' . $recordModel->get('time_end');
 				$value = $this->getUITypeModel()->getDisplayValue($dateTimeValue);
 				list($startDate, $startTime, $meridiem) = explode(' ', $value);
 				return $startDate . ' ' . $startTime . ' ' . $meridiem;
 			}
 		}
-		return parent::getDisplayValue($value, $record, $recordInstance, $rawText, $length);
+		return parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
 	}
 
 	/**

@@ -7,6 +7,7 @@ namespace App;
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class TextParser
 {
@@ -32,6 +33,21 @@ class TextParser
 		'LBL_CUSTOM_FUNCTION' => '$(custom : ContactsPortalPass)$',
 		'LBL_RELATED_RECORDS_LIST' => '$(relatedRecordsList : Contacts|firstname,lastname,email|[[["firstname","a","Tom"]]]||5)$',
 		'LBL_RECORDS_LIST' => '$(recordsList : Contacts|firstname,lastname,email|[[["firstname","a","Tom"]]]||5)$',
+	];
+
+	/**
+	 * Default date list
+	 * @var string[]
+	 */
+	public static $variableDates = [
+		'LBL_DATE_TODAY' => '$(date : now)$',
+		'LBL_DATE_TOMORROW' => '$(date : tomorrow)$',
+		'LBL_DATE_YESTERDAY' => '$(date : yesterday)$',
+		'LBL_DATE_FIRST_DAY_OF_THIS_WEEK' => '$(date : monday this week)$',
+		'LBL_DATE_MONDAY_NEXT_WEEK' => '$(date : monday next week)$',
+		'LBL_DATE_FIRST_DAY_OF_THIS_MONTH' => '$(date : first day of this month)$',
+		'LBL_DATE_LAST_DAY_OF_THIS_MONTH' => '$(date : last day of this month)$',
+		'LBL_DATE_FIRST_DAY_OF_NEXT_MONTH' => '$(date : first day of next month)$',
 	];
 
 	/**
@@ -66,7 +82,7 @@ class TextParser
 	 * List of available functions
 	 * @var string[] 
 	 */
-	protected static $baseFunctions = ['general', 'translate', 'record', 'relatedRecord', 'sourceRecord', 'organization', 'employee', 'params', 'custom', 'relatedRecordsList', 'recordsList'];
+	protected static $baseFunctions = ['general', 'translate', 'record', 'relatedRecord', 'sourceRecord', 'organization', 'employee', 'params', 'custom', 'relatedRecordsList', 'recordsList', 'date'];
 
 	/**
 	 * List of source modules
@@ -295,7 +311,7 @@ class TextParser
 			$currentLanguage = \App\Language::getLanguage();
 			\App\Language::setLanguage($this->language);
 		}
-		$this->content = preg_replace_callback('/\$\((\w+) : ([,"\[\]\&\w\s\|]+)\)\$/', function ($matches) {
+		$this->content = preg_replace_callback('/\$\((\w+) : ([,"\+\-\[\]\&\w\s\|]+)\)\$/', function ($matches) {
 			list($fullText, $function, $params) = array_pad($matches, 3, '');
 			if (in_array($function, static::$baseFunctions)) {
 				return $this->$function($params);
@@ -306,6 +322,17 @@ class TextParser
 			\App\Language::setLanguage($currentLanguage);
 		}
 		return $this;
+	}
+
+	/**
+	 * Function parse date
+	 * @param string $param
+	 * @return string
+	 */
+	public function date($param)
+	{
+		$timestamp = strtotime($param);
+		return $timestamp ? date('Y-m-d', $timestamp) : '';
 	}
 
 	/**

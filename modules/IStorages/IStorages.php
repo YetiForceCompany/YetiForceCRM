@@ -85,16 +85,16 @@ class IStorages extends Vtiger_CRMEntity
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		if ($eventType == 'module.postinstall') {
-
-		} else if ($eventType == 'module.disabled') {
-
-		} else if ($eventType == 'module.preuninstall') {
-
-		} else if ($eventType == 'module.preupdate') {
-
-		} else if ($eventType == 'module.postupdate') {
-
+		if ($eventType === 'module.postinstall') {
+			
+		} else if ($eventType === 'module.disabled') {
+			
+		} else if ($eventType === 'module.preuninstall') {
+			
+		} else if ($eventType === 'module.preupdate') {
+			
+		} else if ($eventType === 'module.postupdate') {
+			
 		}
 	}
 
@@ -275,7 +275,7 @@ class IStorages extends Vtiger_CRMEntity
 
 		\App\Log::trace('Entering getChildIStorages(' . $id . ',' . $depthBase . ') method ...');
 
-		if ($depthBase == AppConfig::module('IStorages', 'MAX_HIERARCHY_DEPTH')) {
+		if (empty($id) || $depthBase == AppConfig::module('IStorages', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting getChildIStorages method ... - exceeded maximum depth of hierarchy');
 			return $childIStorages;
 		}

@@ -153,6 +153,15 @@ class BaseField
 	}
 
 	/**
+	 *  Get additional field model for list view
+	 * @return boolean|\Vtiger_Field_Model
+	 */
+	public function getListViewFields()
+	{
+		return false;
+	}
+
+	/**
 	 * Get order by
 	 * @return array
 	 */

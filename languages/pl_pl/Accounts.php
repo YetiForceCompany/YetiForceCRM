@@ -27,12 +27,10 @@ $languageStrings = [
 	'FL_LAST_INVOICE_DATE' => 'Data ostatniej faktury',
 	'FL_STATUS' => 'Status',
 	//OTHERS
-	'LBL_ADD_RECORD' => 'Dodaj rekord',
 	'LBL_COPY_BILLING_ADDRESS' => 'Kopiuj adres korespondencji',
 	'LBL_COPY_SHIPPING_ADDRESS' => 'Kopiuj adres dostawy',
 	'LBL_DUPLICATES_EXIST' => 'Taka nazwa firmy już istnieje',
 	'LBL_END_DATE' => 'Data zakończenia',
-	'LBL_RECORDS_LIST' => 'Lista rekordów',
 	'LBL_SHOW_ACCOUNT_HIERARCHY' => 'Hierarchia',
 	'LBL_START_DATE' => 'Data rozpoczęcia',
 	'Member Of' => 'Kontrahent nadrzędny',

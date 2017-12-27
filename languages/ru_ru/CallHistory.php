@@ -8,8 +8,6 @@
 $languageStrings = [
 	'CallHistory' => 'Журнал Вызовов',
 	'SINGLE_CallHistory' => 'Журнал Вызовов',
-	'LBL_ADD_RECORD' => 'Добавить Вызов',
-	'LBL_RECORDS_LIST' => 'Список Вызовов',
 	//Bloks
 	'LBL_CALLHISTORY_INFORMATION' => 'Основная информация',
 	'LBL_CUSTOM_INFORMATION' => 'Дополнительная информация',

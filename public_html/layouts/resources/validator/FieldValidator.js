@@ -85,7 +85,7 @@ Vtiger_Base_Validator_Js("Vtiger_Phone_Validator_Js", {}, {
 			AppConnector.request({
 				async: false,
 				data: {
-					module: form.find('[name="module"]').val(),
+					module: form.find('[name="module"]').length ? form.find('[name="module"]').val() : app.getModuleName(),
 					action: 'Fields',
 					mode: 'verifyPhoneNumber',
 					fieldName: fieldInfo.name,
@@ -264,7 +264,7 @@ Vtiger_Base_Validator_Js('Vtiger_Url_Validator_Js', {}, {
 		var result = regexp.test(fieldValue);
 		if (!result)
 		{
-			if (fieldValue.indexOf('http://') === 0 || fieldValue.indexOf('https://') === 0|| fieldValue.indexOf('ftp://') === 0|| fieldValue.indexOf('ftps://') === 0|| fieldValue.indexOf('telnet://') === 0 || fieldValue.indexOf('www.') === 0)
+			if (fieldValue.indexOf('http://') === 0 || fieldValue.indexOf('https://') === 0 || fieldValue.indexOf('ftp://') === 0 || fieldValue.indexOf('ftps://') === 0 || fieldValue.indexOf('telnet://') === 0 || fieldValue.indexOf('www.') === 0)
 			{
 				result = true;
 			}

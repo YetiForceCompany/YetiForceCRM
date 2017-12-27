@@ -8,8 +8,6 @@
 $languageStrings = [
 	'OSSSoldServices' => 'Verkaufte Dienstleistungen',
 	'SINGLE_OSSSoldServices' => 'Verkaufte Dienstleistung',
-	'LBL_RECORDS_LIST' => 'Liste Dienstleistung',
-	'LBL_ADD_RECORD' => 'Dienstleistung hinzufügen',
 	// Blocks
 	'LBL_INFORMATION' => 'Informationsblock',
 	// Field Labels

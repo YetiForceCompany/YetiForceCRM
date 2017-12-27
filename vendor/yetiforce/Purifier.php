@@ -13,12 +13,6 @@ class Purifier
 {
 
 	/**
-	 * For optimization - default_charset can be either upper / lower case.
-	 * @var bool
-	 */
-	public static $UTF8;
-
-	/**
 	 * Default charset
 	 * @var string
 	 */
@@ -44,11 +38,14 @@ class Purifier
 
 	/**
 	 * Html events attributes
-	 * @var type
+	 * @var string
 	 */
 	private static $htmlEventAttributes = 'onerror|onblur|onchange|oncontextmenu|onfocus|oninput|oninvalid|onreset|onsearch|onselect|onsubmit|onkeydown|onkeypress|onkeyup|' .
-		'onclick|ondblclick|ondrag|ondragend|ondragenter|ondragleave|ondragover|ondragstart|ondrop|onmousedown|onmousemove|onmouseout|onmouseover|' .
-		'onmouseup|onmousewheel|onscroll|onwheel|oncopy|oncut|onpaste|onload|onselectionchange|onabort|onselectstart|ondragdrop|onmouseleave|onmouseenter|onunload|onresize';
+		'onclick|ondblclick|ondrag|ondragend|ondragenter|ondragleave|ondragover|ondragstart|ondrop|onmousedown|onmousemove|onmouseout|onmouseover|onbeforepaste|onresizestart|onactivate|' .
+		'onmouseup|onmousewheel|onscroll|onwheel|oncopy|oncut|onpaste|onload|onselectionchange|onabort|onselectstart|ondragdrop|onmouseleave|onmouseenter|onunload|onresize|onmessage|' .
+		'onpropertychange|onfilterchange|onstart|onfinish|onbounce|onrowsinserted|onrowsdelete|onrowexit|onrowenter|ondatasetcomplete|ondatasetchanged|ondataavailable|oncellchange|' .
+		'onbeforeupdate|onafterupdate|onerrorupdate|onhelp|onbeforeprint|onafterprint|oncontrolselect|onfocusout|onfocusin|ondeactivate|onbeforeeditfocus|onbeforedeactivate|onbeforeactivate|' .
+		'onresizeend|onmovestart|onmoveend|onmove|onbeforecopy|onbeforecut|onbeforeunload|onhashchange|onoffline|ononline|onreadystatechange|onstop|onlosecapture';
 
 	/**
 	 * Purify (Cleanup) malicious snippets of code from the input
@@ -134,7 +131,7 @@ class Purifier
 			 */
 			$config->set('HTML.SafeIframe', true);
 			$config->set('HTML.SafeEmbed', true);
-			$config->set('URI.SafeIframeRegexp', '%^(http:|https:)?//(www.youtube(?:-nocookie)?.com/embed/|player.vimeo.com/video/)%');
+			$config->set('URI.SafeIframeRegexp', '%^(http:|https:)?//(www\.youtube(?:-nocookie)?\.com/embed/|player\.vimeo\.com/video/)%');
 			$config->set('HTML.DefinitionRev', 1);
 			$config->set('HTML.TargetBlank', true);
 			static::loadHtmlDefinition($config);
@@ -306,13 +303,13 @@ class Purifier
 					break;
 				case 'DateInUserFormat': // date in user format
 					list($y, $m, $d) = Fields\Date::explode($input, User::getCurrentUserModel()->getDetail('date_format'));
-					if (checkdate($m, $d, $y)) {
+					if (checkdate($m, $d, $y) && is_numeric($y) && is_numeric($m) && is_numeric($d)) {
 						$value = $input;
 					}
 					break;
 				case 'Date': // date in base format yyyy-mm-dd
 					list($y, $m, $d) = Fields\Date::explode($input);
-					if (checkdate($m, $d, $y)) {
+					if (checkdate($m, $d, $y) && is_numeric($y) && is_numeric($m) && is_numeric($d)) {
 						$value = $input;
 					}
 					break;
@@ -356,12 +353,7 @@ class Purifier
 	 */
 	public static function encodeHtml($string)
 	{
-		if (static::$UTF8) {
-			$value = htmlspecialchars($string, ENT_QUOTES, static::$defaultCharset);
-		} else {
-			$value = str_replace(['<', '>', '"'], ['&lt;', '&gt;', '&quot;'], $string);
-		}
-		return $value;
+		return htmlspecialchars($string, ENT_QUOTES, static::$defaultCharset);
 	}
 
 	/**
@@ -371,15 +363,8 @@ class Purifier
 	 */
 	public static function decodeHtml($string)
 	{
-		if (static::$UTF8) {
-			$value = html_entity_decode($string, ENT_QUOTES, static::$defaultCharset);
-		} else {
-			$value = str_replace(['&lt;', '&gt;', '&quot;'], ['<', '>', '"'], $string);
-		}
-		return $value;
+		return html_entity_decode($string, ENT_QUOTES, static::$defaultCharset);
 	}
 }
 
 Purifier::$defaultCharset = (string) \AppConfig::main('default_charset', 'UTF-8');
-Purifier::$UTF8 = (strtoupper(Purifier::$defaultCharset) === 'UTF-8');
-

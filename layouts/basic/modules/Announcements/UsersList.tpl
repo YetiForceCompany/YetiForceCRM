@@ -23,8 +23,7 @@
 						</td>
 						<td class="text-center">
 							{if isset($USER['date'])}
-								{Vtiger_Util_Helper::formatDateTimeIntoDayString($USER['date'])}&nbsp;
-								- {Vtiger_Util_Helper::formatDateDiffInStrings($USER['date'])}	
+								{\App\Fields\DateTime::formatToViewDate($USER['date'])}	
 							{/if}
 						</td>
 					</tr> 

@@ -67,7 +67,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 					if ($industryLeadMappedField) {
 						$industryFieldModel->set('fieldvalue', $this->get($industryLeadMappedField));
 					} else {
-						$industryFieldModel->set('fieldvalue', $fieldModel->get('defaultvalue'));
+						$industryFieldModel->set('fieldvalue', $fieldModel->getDefaultFieldValue());
 					}
 					$accountsFields[] = $industryFieldModel;
 				}

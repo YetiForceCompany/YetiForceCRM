@@ -33,7 +33,6 @@ $languageStrings = [
 	// Basic Strings
 	'OSSMailView' => 'Просмотр Почты',
 	'SINGLE_OSSMailView' => 'Просмотр Почты',
-	'LBL_ADD_RECORD' => 'Написать Письмо',
 	'LBL_RECORDS_LIST' => 'Список Писем',
 	// Blocks
 	'LBL_INFORMATION' => 'Информация',

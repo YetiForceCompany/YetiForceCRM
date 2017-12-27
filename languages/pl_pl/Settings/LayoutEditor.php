@@ -165,6 +165,7 @@ $languageStrings = [
 	'LBL_SUMMARY_BOTTOM_TYPE' => 'Podsumowanie dół',
 	'LBL_RELATED_VIEW_TYPE' => 'Miejsce wyświetlania',
 	'LBL_RELATED_VIEW_TYPE_DESC' => 'Wybierz przynajmniej jedno miejsce wyświetlania bloku',
+	'LBL_CUSTOM_CONFIGURATION' => 'Konfiguracja niestandardowa',
 ];
 
 $jsLanguageStrings = [

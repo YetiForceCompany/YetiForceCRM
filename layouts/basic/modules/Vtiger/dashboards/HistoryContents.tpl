@@ -39,7 +39,7 @@
 							</div>
 							<div class="col-md-11">
 								<p class="pull-right muted" style="padding-right:5px;">
-									<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString("$TIME")}">{Vtiger_Util_Helper::formatDateDiffInStrings("$TIME")}</small>
+									<small>{\App\Fields\DateTime::formatToViewDate("$TIME")}</small>
 								</p>
 									{assign var=DETAILVIEW_URL value=$PARENT->getDetailViewUrl()}
 									{if $HISTORY->isUpdate()}
@@ -120,7 +120,7 @@
 						</div>
 						<div class="col-md-11">
 							{assign var=COMMENT_TIME value=$HISTORY->getCommentedTime()}
-							<p class="pull-right muted" style="padding-right:5px;"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString("$COMMENT_TIME")}">{Vtiger_Util_Helper::formatDateDiffInStrings("$COMMENT_TIME")}</small></p>
+							<p class="pull-right muted" style="padding-right:5px;"><small title="{\App\Fields\DateTime::formatToDay("$COMMENT_TIME")}">{\App\Fields\DateTime::formatToViewDate("$COMMENT_TIME")}</small></p>
 							<div>
 								<strong>{$HISTORY->getCommentedByModel()->getName()}</strong> {\App\Language::translate('LBL_COMMENTED')} {\App\Language::translate('LBL_ON')} <a class="textOverflowEllipsis" href="{$HISTORY->getParentRecordModel()->getDetailViewUrl()}">{$HISTORY->getParentRecordModel()->getName()}</a>
 							</div>

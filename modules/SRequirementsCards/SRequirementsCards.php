@@ -85,7 +85,7 @@ class SRequirementsCards extends Vtiger_CRMEntity
 	public function moduleHandler($moduleName, $eventType)
 	{
 		$adb = PearDatabase::getInstance();
-		if ($eventType == 'module.postinstall') {
+		if ($eventType === 'module.postinstall') {
 			\App\Fields\RecordNumber::setNumber($moduleName, 'S-RC', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['SRequirementsCards']);
 
@@ -96,13 +96,13 @@ class SRequirementsCards extends Vtiger_CRMEntity
 					ModComments::addWidgetTo(['SRequirementsCards']);
 			}
 			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\App\Module::getModuleId($moduleName));
-		} else if ($eventType == 'module.disabled') {
+		} else if ($eventType === 'module.disabled') {
 
-		} else if ($eventType == 'module.preuninstall') {
+		} else if ($eventType === 'module.preuninstall') {
 
-		} else if ($eventType == 'module.preupdate') {
+		} else if ($eventType === 'module.preupdate') {
 
-		} else if ($eventType == 'module.postupdate') {
+		} else if ($eventType === 'module.postupdate') {
 
 		}
 	}

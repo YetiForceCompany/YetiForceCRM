@@ -166,8 +166,9 @@ class Block
 	 */
 	public static function getInstance($value, $moduleInstance = false)
 	{
-		if (\App\Cache::has('BlockInstance', $value)) {
-			$data = \App\Cache::get('BlockInstance', $value);
+		$cacheName = $value . '|' . ($moduleInstance ? $moduleInstance->id : '');
+		if (\App\Cache::has('BlockInstance', $cacheName)) {
+			$data = \App\Cache::get('BlockInstance', $cacheName);
 		} else {
 			$query = (new \App\Db\Query())->from(self::$baseTable);
 			if (Utils::isNumber($value)) {
@@ -176,7 +177,7 @@ class Block
 				$query->where(['blocklabel' => $value, 'tabid' => $moduleInstance->id]);
 			}
 			$data = $query->one();
-			\App\Cache::save('BlockInstance', $value, $data);
+			\App\Cache::save('BlockInstance', $cacheName, $data);
 		}
 		$instance = false;
 		if ($data) {

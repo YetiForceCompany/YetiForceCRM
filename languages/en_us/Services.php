@@ -9,8 +9,6 @@ $languageStrings = [
 	// Basic Strings
 	'Services' => 'Services',
 	'SINGLE_Services' => 'Service',
-	'LBL_ADD_RECORD' => 'Add record',
-	'LBL_RECORDS_LIST' => 'Services list',
 	// Blocks
 	'LBL_SERVICE_INFORMATION' => 'Service details',
 	'LBL_MORE_CURRENCIES' => 'more currencies',

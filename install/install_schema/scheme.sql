@@ -1373,17 +1373,6 @@ CREATE TABLE `u_yf_fcorectinginvoice_address` (
   `buildingnumbera` varchar(50) DEFAULT NULL,
   `localnumbera` varchar(50) DEFAULT NULL,
   `poboxa` varchar(50) DEFAULT NULL,
-  `addresslevel1c` varchar(255) DEFAULT NULL,
-  `addresslevel2c` varchar(255) DEFAULT NULL,
-  `addresslevel3c` varchar(255) DEFAULT NULL,
-  `addresslevel4c` varchar(255) DEFAULT NULL,
-  `addresslevel5c` varchar(255) DEFAULT NULL,
-  `addresslevel6c` varchar(255) DEFAULT NULL,
-  `addresslevel7c` varchar(255) DEFAULT NULL,
-  `addresslevel8c` varchar(255) DEFAULT NULL,
-  `buildingnumberc` varchar(255) DEFAULT NULL,
-  `localnumberc` varchar(255) DEFAULT NULL,
-  `poboxc` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`fcorectinginvoiceaddressid`),
   CONSTRAINT `u_yf_fcorectinginvoice_address_ibfk_1` FOREIGN KEY (`fcorectinginvoiceaddressid`) REFERENCES `u_yf_fcorectinginvoice` (`fcorectinginvoiceid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1496,17 +1485,6 @@ CREATE TABLE `u_yf_finvoice_address` (
   `buildingnumbera` varchar(50) DEFAULT NULL,
   `localnumbera` varchar(50) DEFAULT NULL,
   `poboxa` varchar(50) DEFAULT NULL,
-  `addresslevel1c` varchar(255) DEFAULT NULL,
-  `addresslevel2c` varchar(255) DEFAULT NULL,
-  `addresslevel3c` varchar(255) DEFAULT NULL,
-  `addresslevel4c` varchar(255) DEFAULT NULL,
-  `addresslevel5c` varchar(255) DEFAULT NULL,
-  `addresslevel6c` varchar(255) DEFAULT NULL,
-  `addresslevel7c` varchar(255) DEFAULT NULL,
-  `addresslevel8c` varchar(255) DEFAULT NULL,
-  `buildingnumberc` varchar(255) DEFAULT NULL,
-  `localnumberc` varchar(255) DEFAULT NULL,
-  `poboxc` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`finvoiceaddressid`),
   CONSTRAINT `u_yf_finvoice_address_ibfk_1` FOREIGN KEY (`finvoiceaddressid`) REFERENCES `u_yf_finvoice` (`finvoiceid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1605,17 +1583,6 @@ CREATE TABLE `u_yf_finvoicecost_address` (
   `buildingnumbera` varchar(50) DEFAULT NULL,
   `localnumbera` varchar(50) DEFAULT NULL,
   `poboxa` varchar(50) DEFAULT NULL,
-  `addresslevel1c` varchar(255) DEFAULT NULL,
-  `addresslevel2c` varchar(255) DEFAULT NULL,
-  `addresslevel3c` varchar(255) DEFAULT NULL,
-  `addresslevel4c` varchar(255) DEFAULT NULL,
-  `addresslevel5c` varchar(255) DEFAULT NULL,
-  `addresslevel6c` varchar(255) DEFAULT NULL,
-  `addresslevel7c` varchar(255) DEFAULT NULL,
-  `addresslevel8c` varchar(255) DEFAULT NULL,
-  `buildingnumberc` varchar(255) DEFAULT NULL,
-  `localnumberc` varchar(255) DEFAULT NULL,
-  `poboxc` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`finvoicecostaddressid`),
   CONSTRAINT `u_yf_finvoicecost_address_ibfk_1` FOREIGN KEY (`finvoicecostaddressid`) REFERENCES `u_yf_finvoicecost` (`finvoicecostid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1702,17 +1669,6 @@ CREATE TABLE `u_yf_finvoiceproforma` (
 
 CREATE TABLE `u_yf_finvoiceproforma_address` (
   `finvoiceproformaaddressid` int(10) NOT NULL,
-  `addresslevel1a` varchar(255) DEFAULT NULL,
-  `addresslevel2a` varchar(255) DEFAULT NULL,
-  `addresslevel3a` varchar(255) DEFAULT NULL,
-  `addresslevel4a` varchar(255) DEFAULT NULL,
-  `addresslevel5a` varchar(255) DEFAULT NULL,
-  `addresslevel6a` varchar(255) DEFAULT NULL,
-  `addresslevel7a` varchar(255) DEFAULT NULL,
-  `addresslevel8a` varchar(255) DEFAULT NULL,
-  `buildingnumbera` varchar(50) DEFAULT NULL,
-  `localnumbera` varchar(50) DEFAULT NULL,
-  `poboxa` varchar(50) DEFAULT NULL,
   `addresslevel1c` varchar(255) DEFAULT NULL,
   `addresslevel2c` varchar(255) DEFAULT NULL,
   `addresslevel3c` varchar(255) DEFAULT NULL,
@@ -2553,6 +2509,51 @@ CREATE TABLE `u_yf_mail_compose_data` (
   UNIQUE KEY `userid` (`userid`,`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_multicompany` */
+
+CREATE TABLE `u_yf_multicompany` (
+  `multicompanyid` int(11) NOT NULL,
+  `company_name` varchar(255) DEFAULT NULL,
+  `parent_id` int(10) DEFAULT NULL,
+  `number` varchar(32) DEFAULT NULL,
+  `mulcomp_status` varchar(255) DEFAULT NULL,
+  `email1` varchar(100) DEFAULT NULL,
+  `email2` varchar(100) DEFAULT NULL,
+  `phone` varchar(30) DEFAULT NULL,
+  `phone_extra` varchar(100) DEFAULT NULL,
+  `mobile` varchar(30) DEFAULT NULL,
+  `mobile_extra` varchar(100) DEFAULT NULL,
+  `fax` varchar(30) DEFAULT NULL,
+  `fax_extra` varchar(100) DEFAULT NULL,
+  `vat` varchar(255) DEFAULT NULL,
+  `companyid1` varchar(255) DEFAULT NULL,
+  `companyid2` varchar(255) DEFAULT NULL,
+  `buildingnumbera` varchar(50) DEFAULT NULL,
+  `localnumbera` varchar(50) DEFAULT NULL,
+  `addresslevel8a` varchar(255) DEFAULT NULL,
+  `addresslevel7a` varchar(255) DEFAULT NULL,
+  `addresslevel6a` varchar(255) DEFAULT NULL,
+  `addresslevel5a` varchar(255) DEFAULT NULL,
+  `addresslevel4a` varchar(255) DEFAULT NULL,
+  `addresslevel3a` varchar(255) DEFAULT NULL,
+  `addresslevel2a` varchar(255) DEFAULT NULL,
+  `addresslevel1a` varchar(255) DEFAULT NULL,
+  `poboxa` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`multicompanyid`),
+  KEY `multicompany_parent_id_idx` (`parent_id`),
+  CONSTRAINT `fk_1_u_yf_multicompanymulticompanyid` FOREIGN KEY (`multicompanyid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_multicompanycf` */
+
+CREATE TABLE `u_yf_multicompanycf` (
+  `multicompanyid` int(11) NOT NULL,
+  `public_notes` text DEFAULT NULL,
+  `internal_notes` text DEFAULT NULL,
+  PRIMARY KEY (`multicompanyid`),
+  CONSTRAINT `fk_1_u_yf_multicompanycfmulticompanyid` FOREIGN KEY (`multicompanyid`) REFERENCES `u_yf_multicompany` (`multicompanyid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_notification` */
 
 CREATE TABLE `u_yf_notification` (
@@ -2853,27 +2854,16 @@ CREATE TABLE `u_yf_squotes` (
 CREATE TABLE `u_yf_squotes_address` (
   `squotesaddressid` int(10) NOT NULL,
   `addresslevel1a` varchar(255) DEFAULT NULL,
-  `addresslevel1c` varchar(255) DEFAULT NULL,
   `addresslevel2a` varchar(255) DEFAULT NULL,
-  `addresslevel2c` varchar(255) DEFAULT NULL,
   `addresslevel3a` varchar(255) DEFAULT NULL,
-  `addresslevel3c` varchar(255) DEFAULT NULL,
   `addresslevel4a` varchar(255) DEFAULT NULL,
-  `addresslevel4c` varchar(255) DEFAULT NULL,
   `addresslevel5a` varchar(255) DEFAULT NULL,
-  `addresslevel5c` varchar(255) DEFAULT NULL,
   `addresslevel6a` varchar(255) DEFAULT NULL,
-  `addresslevel6c` varchar(255) DEFAULT NULL,
   `addresslevel7a` varchar(255) DEFAULT NULL,
-  `addresslevel7c` varchar(255) DEFAULT NULL,
   `addresslevel8a` varchar(255) DEFAULT NULL,
-  `addresslevel8c` varchar(255) DEFAULT NULL,
   `buildingnumbera` varchar(100) DEFAULT NULL,
   `localnumbera` varchar(100) DEFAULT NULL,
-  `buildingnumberc` varchar(100) DEFAULT NULL,
-  `localnumberc` varchar(100) DEFAULT NULL,
   `poboxa` varchar(50) DEFAULT NULL,
-  `poboxc` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`squotesaddressid`),
   CONSTRAINT `u_yf_squotes_address_ibfk_1` FOREIGN KEY (`squotesaddressid`) REFERENCES `u_yf_squotes` (`squotesid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -2971,27 +2961,16 @@ CREATE TABLE `u_yf_srecurringorders` (
 CREATE TABLE `u_yf_srecurringorders_address` (
   `srecurringordersaddressid` int(10) NOT NULL,
   `addresslevel1a` varchar(255) DEFAULT NULL,
-  `addresslevel1c` varchar(255) DEFAULT NULL,
   `addresslevel2a` varchar(255) DEFAULT NULL,
-  `addresslevel2c` varchar(255) DEFAULT NULL,
   `addresslevel3a` varchar(255) DEFAULT NULL,
-  `addresslevel3c` varchar(255) DEFAULT NULL,
   `addresslevel4a` varchar(255) DEFAULT NULL,
-  `addresslevel4c` varchar(255) DEFAULT NULL,
   `addresslevel5a` varchar(255) DEFAULT NULL,
-  `addresslevel5c` varchar(255) DEFAULT NULL,
   `addresslevel6a` varchar(255) DEFAULT NULL,
-  `addresslevel6c` varchar(255) DEFAULT NULL,
   `addresslevel7a` varchar(255) DEFAULT NULL,
-  `addresslevel7c` varchar(255) DEFAULT NULL,
   `addresslevel8a` varchar(255) DEFAULT NULL,
-  `addresslevel8c` varchar(255) DEFAULT NULL,
   `buildingnumbera` varchar(100) DEFAULT NULL,
   `localnumbera` varchar(100) DEFAULT NULL,
-  `buildingnumberc` varchar(100) DEFAULT NULL,
-  `localnumberc` varchar(100) DEFAULT NULL,
   `poboxa` varchar(50) DEFAULT NULL,
-  `poboxc` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`srecurringordersaddressid`),
   CONSTRAINT `u_yf_srecurringorders_address_ibfk_1` FOREIGN KEY (`srecurringordersaddressid`) REFERENCES `u_yf_srecurringorders` (`srecurringordersid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -3191,27 +3170,16 @@ CREATE TABLE `u_yf_ssingleorders` (
 CREATE TABLE `u_yf_ssingleorders_address` (
   `ssingleordersaddressid` int(10) NOT NULL,
   `addresslevel1a` varchar(255) DEFAULT NULL,
-  `addresslevel1c` varchar(255) DEFAULT NULL,
   `addresslevel2a` varchar(255) DEFAULT NULL,
-  `addresslevel2c` varchar(255) DEFAULT NULL,
   `addresslevel3a` varchar(255) DEFAULT NULL,
-  `addresslevel3c` varchar(255) DEFAULT NULL,
   `addresslevel4a` varchar(255) DEFAULT NULL,
-  `addresslevel4c` varchar(255) DEFAULT NULL,
   `addresslevel5a` varchar(255) DEFAULT NULL,
-  `addresslevel5c` varchar(255) DEFAULT NULL,
   `addresslevel6a` varchar(255) DEFAULT NULL,
-  `addresslevel6c` varchar(255) DEFAULT NULL,
   `addresslevel7a` varchar(255) DEFAULT NULL,
-  `addresslevel7c` varchar(255) DEFAULT NULL,
   `addresslevel8a` varchar(255) DEFAULT NULL,
-  `addresslevel8c` varchar(255) DEFAULT NULL,
   `buildingnumbera` varchar(100) DEFAULT NULL,
   `localnumbera` varchar(100) DEFAULT NULL,
-  `buildingnumberc` varchar(100) DEFAULT NULL,
-  `localnumberc` varchar(100) DEFAULT NULL,
   `poboxa` varchar(50) DEFAULT NULL,
-  `poboxc` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`ssingleordersaddressid`),
   CONSTRAINT `u_yf_ssingleorders_address_ibfk_1` FOREIGN KEY (`ssingleordersaddressid`) REFERENCES `u_yf_ssingleorders` (`ssingleordersid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -3868,7 +3836,7 @@ CREATE TABLE `vtiger_blocks` (
   PRIMARY KEY (`blockid`),
   KEY `block_tabid_idx` (`tabid`),
   CONSTRAINT `fk_1_vtiger_blocks` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=404 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=410 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_blocks_hide` */
 
@@ -4444,7 +4412,7 @@ CREATE TABLE `vtiger_customview` (
   KEY `customview_entitytype_idx` (`entitytype`),
   KEY `setdefault` (`setdefault`,`entitytype`),
   CONSTRAINT `fk_1_vtiger_customview` FOREIGN KEY (`entitytype`) REFERENCES `vtiger_tab` (`name`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_cvadvfilter` */
 
@@ -4792,7 +4760,7 @@ CREATE TABLE `vtiger_def_org_share` (
   PRIMARY KEY (`ruleid`),
   KEY `fk_1_vtiger_def_org_share` (`permission`),
   CONSTRAINT `fk_1_vtiger_def_org_share` FOREIGN KEY (`permission`) REFERENCES `vtiger_org_share_action_mapping` (`share_action_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_default_record_view` */
 
@@ -5174,7 +5142,7 @@ CREATE TABLE `vtiger_field` (
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2635 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2677 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_field_seq` */
 
@@ -5993,7 +5961,13 @@ CREATE TABLE `vtiger_lettersin` (
   `cocument_no` varchar(100) DEFAULT '',
   `no_internal` varchar(100) DEFAULT '',
   `lin_dimensions` varchar(255) DEFAULT '',
+  `custom_sender` varchar(255) DEFAULT NULL,
+  `lin_type` varchar(255) DEFAULT NULL,
+  `cash_amount_on_delivery` decimal(25,8) DEFAULT NULL,
+  `date_of_receipt` date DEFAULT NULL,
+  `outgoing_correspondence` int(10) DEFAULT NULL,
   PRIMARY KEY (`lettersinid`),
+  KEY `vtiger_lettersin_outgoing_correspondence_idx` (`outgoing_correspondence`),
   CONSTRAINT `fk_1_vtiger_lettersin` FOREIGN KEY (`lettersinid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -6001,6 +5975,8 @@ CREATE TABLE `vtiger_lettersin` (
 
 CREATE TABLE `vtiger_lettersincf` (
   `lettersinid` int(10) NOT NULL,
+  `internal_notes` text DEFAULT NULL,
+  `public_notes` text DEFAULT NULL,
   PRIMARY KEY (`lettersinid`),
   CONSTRAINT `fk_1_vtiger_lettersincf` FOREIGN KEY (`lettersinid`) REFERENCES `vtiger_lettersin` (`lettersinid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -6022,7 +5998,9 @@ CREATE TABLE `vtiger_lettersout` (
   `cocument_no` varchar(100) DEFAULT '',
   `no_internal` varchar(100) DEFAULT '',
   `lout_dimensions` varchar(255) DEFAULT '',
+  `incoming_correspondence` int(10) DEFAULT NULL,
   PRIMARY KEY (`lettersoutid`),
+  KEY `vtiger_lettersout_incoming_correspondence_idx` (`incoming_correspondence`),
   CONSTRAINT `fk_1_vtiger_lettersout` FOREIGN KEY (`lettersoutid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -6059,13 +6037,23 @@ CREATE TABLE `vtiger_lin_status` (
   `presence` int(10) NOT NULL DEFAULT 1,
   `picklist_valueid` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`lin_statusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_lin_status_seq` */
 
 CREATE TABLE `vtiger_lin_status_seq` (
   `id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_lin_type` */
+
+CREATE TABLE `vtiger_lin_type` (
+  `lin_typeid` int(11) NOT NULL AUTO_INCREMENT,
+  `lin_type` varchar(255) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT 1,
+  `sortorderid` smallint(6) DEFAULT 0,
+  PRIMARY KEY (`lin_typeid`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_lin_type_doc` */
 
@@ -6284,7 +6272,7 @@ CREATE TABLE `vtiger_modentity_num` (
   KEY `prefix` (`prefix`,`postfix`,`cur_id`),
   KEY `tabid` (`tabid`),
   KEY `tabid_2` (`tabid`,`cur_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_modtracker_basic` */
 
@@ -6388,6 +6376,16 @@ CREATE TABLE `vtiger_module_dashboard_widgets` (
   KEY `userid` (`userid`,`active`,`module`),
   CONSTRAINT `vtiger_module_dashboard_widgets_ibfk_1` FOREIGN KEY (`templateid`) REFERENCES `vtiger_module_dashboard` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_mulcomp_status` */
+
+CREATE TABLE `vtiger_mulcomp_status` (
+  `mulcomp_statusid` int(11) NOT NULL AUTO_INCREMENT,
+  `mulcomp_status` varchar(255) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT 1,
+  `sortorderid` smallint(6) DEFAULT 0,
+  PRIMARY KEY (`mulcomp_statusid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_no_of_currency_decimals` */
 
@@ -8204,7 +8202,7 @@ CREATE TABLE `vtiger_settings_field` (
   PRIMARY KEY (`fieldid`),
   KEY `fk_1_vtiger_settings_field` (`blockid`),
   CONSTRAINT `fk_1_vtiger_settings_field` FOREIGN KEY (`blockid`) REFERENCES `vtiger_settings_blocks` (`blockid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_sharedcalendar` */
 
@@ -8909,6 +8907,7 @@ CREATE TABLE `vtiger_users` (
   `hour_format` varchar(30) DEFAULT 'am/pm',
   `start_hour` varchar(30) DEFAULT '10:00',
   `end_hour` varchar(30) DEFAULT '23:00',
+  `view_date_format` varchar(50) DEFAULT 'PLL_ELAPSED',
   `activity_view` varchar(200) DEFAULT 'Today',
   `lead_view` varchar(200) DEFAULT 'Today',
   `imagename` varchar(250) DEFAULT NULL,
@@ -9101,6 +9100,16 @@ CREATE TABLE `vtiger_version` (
 CREATE TABLE `vtiger_version_seq` (
   `id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_view_date_format` */
+
+CREATE TABLE `vtiger_view_date_format` (
+  `view_date_formatid` int(11) NOT NULL AUTO_INCREMENT,
+  `view_date_format` varchar(50) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT 1,
+  `sortorderid` smallint(6) DEFAULT 0,
+  PRIMARY KEY (`view_date_formatid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_visibility` */
 
@@ -9344,7 +9353,7 @@ CREATE TABLE `yetiforce_menu` (
   KEY `role` (`role`),
   KEY `module` (`module`),
   CONSTRAINT `yetiforce_menu_ibfk_1` FOREIGN KEY (`module`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=152 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=153 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_proc_marketing` */
 

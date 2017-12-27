@@ -59,7 +59,7 @@ class Response
 		if ($this->status !== 200) {
 			$encryptDataTransfer = 0;
 		}
-		$requestContentType = strtolower($_SERVER['HTTP_ACCEPT']);
+		$requestContentType = strtolower(\App\Request::_getServer('HTTP_ACCEPT'));
 		header('Access-Control-Allow-Origin: *');
 		header('Access-Control-Allow-Methods: *');
 		header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, ' . implode(',', static::$acceptableHeaders));
@@ -71,9 +71,11 @@ class Response
 		}
 		if (!empty($this->body)) {
 			if ($encryptDataTransfer) {
+				header("Content-Disposition: attachment; filename=\"api.json\"");
 				$response = $this->encryptData($this->body);
 			} else {
 				if (strpos($requestContentType, 'text/html') !== false) {
+					header("Content-Disposition: attachment; filename=\"api.html\"");
 					$response = $this->encodeHtml($this->body);
 				} else if (strpos($requestContentType, 'application/xml') !== false) {
 					header("Content-Disposition: attachment; filename=\"api.xml\"");

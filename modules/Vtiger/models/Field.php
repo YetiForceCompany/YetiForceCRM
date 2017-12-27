@@ -157,9 +157,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	 * @param int|bool $length Length of the text
 	 * @return mixed converted display value
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false, $length = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		return $this->getUITypeModel()->getDisplayValue($value, $record, $recordInstance, $rawText, $length);
+		return $this->getUITypeModel()->getDisplayValue($value, $record, $recordModel, $rawText, $length);
 	}
 
 	/**
@@ -798,10 +798,6 @@ class Vtiger_Field_Model extends vtlib\Field
 				}
 				break;
 		}
-
-		if (in_array($fieldDataType, Vtiger_Field_Model::$referenceTypes) && AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
-			$this->fieldInfo['searchOperator'] = 'e';
-		}
 		return $this->fieldInfo;
 	}
 
@@ -1047,6 +1043,11 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getDefaultFieldValue()
 	{
+		if ($this->defaultvalue && $this->getFieldDataType() === 'date') {
+			$textParser = \App\TextParser::getInstance($this->getModuleName());
+			$textParser->setContent($this->defaultvalue)->parse();
+			return $textParser->getContent();
+		}
 		return $this->defaultvalue;
 	}
 

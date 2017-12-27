@@ -7,13 +7,28 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-var app = {
+window.app = {
 	/**
 	 * variable stores client side language strings
 	 */
 	languageString: [],
 	weekDaysArray: {Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6},
 	cacheParams: [],
+	event: new function () {
+		this.el = jQuery({});
+		this.trigger = function () {
+			this.el.trigger(arguments[0], Array.prototype.slice.call(arguments, 1));
+		}
+		this.on = function () {
+			this.el.on.apply(this.el, arguments);
+		}
+		this.one = function () {
+			this.el.one.apply(this.el, arguments);
+		}
+		this.off = function () {
+			this.el.off.apply(this.el, arguments);
+		}
+	},
 	/**
 	 * Function to get the module name. This function will get the value from element which has id module
 	 * @return : string - module name
@@ -1273,7 +1288,7 @@ var app = {
 		element.css("left", ((jQuery(window).width() - element.outerWidth()) / 2) + jQuery(window).scrollLeft() + "px");
 	},
 	getvalidationEngineOptions: function (select2Status) {
-		return app.validationEngineOptions;
+		return Object.assign({}, app.validationEngineOptions);
 	},
 	/**
 	 * Function to notify UI page ready after AJAX changes.
@@ -1326,10 +1341,10 @@ var app = {
 			moduleClassName = "Vtiger_" + view + "_Js";
 		}
 		if (typeof window[moduleClassName] != 'undefined') {
-			if(typeof window[moduleClassName] == 'function'){
+			if (typeof window[moduleClassName] == 'function') {
 				return new window[moduleClassName]();
 			}
-			if(typeof window[moduleClassName] == 'object'){
+			if (typeof window[moduleClassName] == 'object') {
 				return window[moduleClassName];
 			}
 		}

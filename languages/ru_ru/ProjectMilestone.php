@@ -10,11 +10,9 @@
  * VERSION YetiForceCRM: 1.1.0 RC
  * ********************************************************************************** */
 $languageStrings = [
-	'LBL_ADD_RECORD' => 'Контрольная точка',
 	'LBL_MILESTONES_LIST' => 'Контрольные точки',
 	'LBL_PROJECTS_LIST' => 'Список Проектов',
 	'LBL_PROJECT_MILESTONE_INFORMATION' => 'Основная информация',
-	'LBL_RECORDS_LIST' => 'Контрольные точки',
 	'LBL_TASKS_LIST' => 'Проектные задачи',
 	'Milestone Date' => 'Дата',
 	'Project Milestone Name' => 'Наименование',

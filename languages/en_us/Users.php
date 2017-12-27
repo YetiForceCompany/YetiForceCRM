@@ -339,6 +339,9 @@ $languageStrings = [
 	'LBL_NEW_PASSWORD_CRITERIA' => 'The new password must meet the following criteria:',
 	'LBL_USERS_NEED_CHANGE_PASSWORD' => 'Users who must change their passwords',
 	'LBL_NOT_CHANGE_PASS_AUTH_EXTERNAL_SYSTEM' => 'You cannot change the password, the user uses authorization on an external system',
+	'FL_VIEW_DATE_FORMAT' => 'Preview date format',
+	'PLL_FULL' => 'Full date and time',
+	'PLL_ELAPSED' => 'Time elapsed',
 ];
 
 $jsLanguageStrings = [

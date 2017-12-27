@@ -43,7 +43,6 @@ $languageStrings = [
 	'LBL_LAST' => 'Letzter',
 	'LBL_MONTHS_TYPE' => 'Monat',
 	'LBL_ON' => 'Ein',
-	'LBL_RECORDS_LIST' => 'Liste Ereignisse',
 	'LBL_RECURRENCE_INFORMATION' => 'Wiederholungdetails',
 	'LBL_RELATED_TO' => 'zugeordnet',
 	'LBL_REPEATEVENT' => 'Einmal in jeder',

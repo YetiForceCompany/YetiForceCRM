@@ -30,8 +30,8 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 				$time['end'] = date('Y-m-t');
 			}
 			// date parameters passed, convert them to YYYY-mm-dd
-			$time['start'] = \App\Fields\Date::currentUserDisplayDate($time['start']);
-			$time['end'] = \App\Fields\Date::currentUserDisplayDate($time['end']);
+			$time['start'] = \App\Fields\Date::formatToUser($time['start']);
+			$time['end'] = \App\Fields\Date::formatToUser($time['end']);
 		}
 
 		$viewer = $this->getViewer($request);

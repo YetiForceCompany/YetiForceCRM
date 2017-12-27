@@ -11,6 +11,11 @@ namespace Tests;
 abstract class GuiBase extends \PHPUnit_Extensions_Selenium2TestCase
 {
 
+	/**
+	 * Whether is login
+	 * @var boolean
+	 */
+	protected static $isLogin = false;
 	public static $browsers = [
 		[
 			'driver' => 'chrome',
@@ -36,6 +41,7 @@ abstract class GuiBase extends \PHPUnit_Extensions_Selenium2TestCase
 		}
 		$this->listener = new \PHPUnit_Extensions_Selenium2TestCase_ScreenshotListener($screenshotsDir);
 		$this->prepareSession();
+		$this->login();
 	}
 
 	/**
@@ -48,5 +54,25 @@ abstract class GuiBase extends \PHPUnit_Extensions_Selenium2TestCase
 		}
 		$this->listener->addError($this, $e, null);
 		parent::onNotSuccessfulTest($e);
+	}
+
+	/**
+	 * Testing login page display
+	 */
+	public function login()
+	{
+		if (!static::$isLogin) {
+			$this->shareSession(true);
+			$this->url('index.php');
+			$this->byId('username')->value('demo');
+			$this->byId('password')->value('demo');
+			$this->byTag('form')->submit();
+
+			$this->url('index.php?module=Home&view=DashBoard');
+			$this->assertEquals('Home', $this->byId('module')->value());
+			$this->assertEquals('DashBoard', $this->byId('view')->value());
+
+			static::$isLogin = true;
+		}
 	}
 }

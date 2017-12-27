@@ -8,7 +8,7 @@
 				<h3 class="modal-title">{\App\Language::translate('LBL_SHOW_EMPLOYEES_HIERARCHY', $MODULE)}</h3>
 			</div>
 			<div class="modal-body">
-				<div id ="hierarchyScroll" style="margin-right: 8px;">
+				<div id ="hierarchyScroll" class="table-responsive">
 					<table class="table table-bordered">
 						<thead>
 							<tr class="blockHeader">

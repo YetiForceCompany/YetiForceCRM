@@ -9,11 +9,11 @@
  *************************************************************************************/
 
 var Vtiger_Index_Js = {
-	showLocation: function (text) {
+	showLocation: function (element) {
 		app.showModalWindow(null, 'index.php?module=OpenStreetMap&view=MapModal', function (container) {
 			var mapView = new OpenStreetMap_Map_Js();
 			mapView.registerModalView(container);
-			container.find('.searchValue').val(text);
+			container.find('.searchValue').val($(element).data('location'));
 			container.find('.searchBtn').trigger('click');
 		});
 	},

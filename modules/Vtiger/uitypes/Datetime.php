@@ -44,9 +44,9 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 		}
 		switch ($this->getFieldModel()->getUIType()) {
 			case 80:
-				return $rawText ? Vtiger_Util_Helper::formatDateDiffInStrings($value) : '<span title="' . self::getDisplayDateTimeValue($value) . '">' . Vtiger_Util_Helper::formatDateDiffInStrings($value) . '</span>';
+				return $rawText ? Vtiger_Util_Helper::formatDateDiffInStrings($value) : '<span title="' . App\Fields\DateTime::formatToDisplay($value) . '">' . Vtiger_Util_Helper::formatDateDiffInStrings($value) . '</span>';
 			default:
-				return self::getDisplayDateTimeValue($value);
+				return App\Fields\DateTime::formatToDisplay($value);
 		}
 	}
 
@@ -60,32 +60,9 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 		}
 		switch ($this->getFieldModel()->getUIType()) {
 			case 80:
-				return $rawText ? Vtiger_Util_Helper::formatDateDiffInStrings($value) : '<span title="' . self::getDisplayDateTimeValue($value) . '">' . Vtiger_Util_Helper::formatDateDiffInStrings($value) . '</span>';
+				return $rawText ? \App\Fields\DateTime::formatToViewDate($value) : '<span title="' . App\Fields\DateTime::formatToDisplay($value) . '">' . \App\Fields\DateTime::formatToViewDate($value) . '</span>';
 		}
 		return \vtlib\Functions::textLength($this->getDisplayValue($value, $record, $recordModel, $rawText), $this->getFieldModel()->get('maxlengthtext'));
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public static function getDisplayDateTimeValue($date)
-	{
-		if (empty($date) || $date === '0000-00-00' || $date === '0000-00-00 00:00:00') {
-			return '';
-		}
-		$date = new DateTimeField($date);
-		return $date->getDisplayDateTimeValue();
-	}
-
-	/**
-	 * Function to get Date and Time value for Display
-	 * @param <type> $date
-	 * @return string
-	 */
-	public static function getDBDateTimeValue($date)
-	{
-		$date = new DateTimeField($date);
-		return $date->getDBInsertDateTimeValue();
 	}
 
 	/**
@@ -95,7 +72,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	 */
 	public static function getDateTimeValue($dateTime)
 	{
-		return Vtiger_Util_Helper::convertDateTimeIntoUsersDisplayFormat($dateTime);
+		return App\Fields\DateTime::formatToDisplay($dateTime);
 	}
 
 	/**

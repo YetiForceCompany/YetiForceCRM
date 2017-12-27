@@ -44,11 +44,11 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 	protected function checkLogin(\App\Request $request)
 	{
 		if (!$this->hasLogin()) {
-			$return_params = $_SERVER['QUERY_STRING'];
-			if ($return_params && !$_SESSION['return_params']) {
+			$returnUrl = $request->getServer('QUERY_STRING');
+			if ($returnUrl && !$_SESSION['return_params']) {
 				//Take the url that user would like to redirect after they have successfully logged in.
-				$return_params = urlencode($return_params);
-				App\Session::set('return_params', $return_params);
+				$returnUrl = urlencode($returnUrl);
+				App\Session::set('return_params', $returnUrl);
 			}
 			if (!$request->isAjax()) {
 				header('Location: index.php');
@@ -89,7 +89,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
 		}
 		if (AppConfig::main('forceRedirect')) {
-			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $request->getServer('HTTP_HOST') . $request->getServer('REQUEST_URI');
 			if (stripos($requestUrl, AppConfig::main('site_URL')) !== 0) {
 				header('Location: ' . AppConfig::main('site_URL'), true, 301);
 			}
@@ -210,6 +210,9 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			}
 			if (AppConfig::main('systemMode') === 'test') {
 				file_put_contents('cache/logs/request.log', print_r($request->getAll(), true));
+				if (function_exists('apache_request_headers')) {
+					file_put_contents('cache/logs/request.log', print_r(apache_request_headers(), true));
+				}
 				throw $e;
 			}
 		}

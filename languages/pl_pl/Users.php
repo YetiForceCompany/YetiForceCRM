@@ -336,8 +336,10 @@ $languageStrings = [
 	'LBL_NEW_PASSWORD_CRITERIA' => 'Nowe hasło musi spełniać następujące kryteria:',
 	'LBL_USERS_NEED_CHANGE_PASSWORD' => 'Użytkownicy którzy muszą zmienić hasło',
 	'LBL_NOT_CHANGE_PASS_AUTH_EXTERNAL_SYSTEM' => 'Nie mozna zmienić hasła, użytkownik używa autoryzacji w systemie zewnętrznym.',
+	'FL_VIEW_DATE_FORMAT' => 'Format daty podglądu',
+	'PLL_FULL' => 'Pełna data czas',
+	'PLL_ELAPSED' => 'Ile upłyneło czasu',
 ];
-
 $jsLanguageStrings = [
 	//Curency separator validation messages
 	'JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME' => 'Separator dziesiętny i grupowania nie mogą być takie same',

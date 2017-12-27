@@ -6,7 +6,7 @@
 	<div class="row mailRow" data-mailId="{$key}">
 		<div class="col-md-12" style="font-size:x-small;">
 			<div class="pull-right muted" style="font-size:x-small;">
-				<small title="{\App\Purifier::encodeHtml($item->get('date'))}">{Vtiger_Util_Helper::formatDateDiffInStrings($item->get('date'))}</small>&nbsp;&nbsp;&nbsp;&nbsp;
+				<small>{\App\Fields\DateTime::formatToViewDate($item->get('date'))}</small>&nbsp;&nbsp;&nbsp;&nbsp;
 			</div>
 			<h5 style="margin-left:2%;">{$item->get('subject')} {if count($item->get('attachments')) > 0}<img alt="{\App\Language::translate('LBL_ATTACHMENT')}" class="pull-right" src="{\App\Layout::getLayoutFile('modules/OSSMailView/attachment.png')}" />{/if}<h5>
 		</div>

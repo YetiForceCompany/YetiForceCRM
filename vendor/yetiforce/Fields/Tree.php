@@ -100,7 +100,11 @@ class Tree
 		$value['name'] = $parentName . \App\Language::translate($row['name'], $moduleName);
 		if ($row['icon']) {
 			if ($row['icon'] && strpos($row['icon'], 'layouts') === 0) {
-				$value['icon'] = '<img class="treeImageIcon" src="' . $row['icon'] . '" />';
+				$basePath = '';
+				if (!IS_PUBLIC_DIR) {
+					$basePath = 'public_html/';
+				}
+				$value['icon'] = '<img class="treeImageIcon" src="' . $basePath . $row['icon'] . '" />';
 			} else {
 				$value['icon'] = '<span class="treeImageIcon ' . $row['icon'] . '"></span>';
 			}

@@ -619,7 +619,7 @@ jQuery.Class("Vtiger_List_Js", {
 		AppConnector.requestPjax(urlParams).then(function (data) {
 			progressIndicatorElement.progressIndicator({mode: 'hide'});
 			listViewContentsContainer.html(data);
-			$('body').trigger($.Event('LoadRecordList.PostLoad'), data);
+			app.event.trigger("RecordListView.AfterLoad", data, thisInstance);
 			thisInstance.calculatePages().then(function (data) {
 				aDeferred.resolve(data);
 				// Let listeners know about page state change.
@@ -790,37 +790,15 @@ jQuery.Class("Vtiger_List_Js", {
 			aDeferred.resolve(recordCountVal);
 		} else {
 			var count = '';
-			var cvId = this.getCurrentCvId();
-			var module = app.getModuleName();
-			var parent = app.getParentModuleName();
-			var postData = {
-				"module": module,
-				"parent": parent,
-				"view": "ListAjax",
-				"viewname": cvId,
-				"mode": "getRecordsCount"
-			}
-			var listSearchInstance = this.getListSearchInstance();
-			if (listSearchInstance !== false) {
-				var searchValue = listSearchInstance.getAlphabetSearchValue();
-				postData.search_params = JSON.stringify(listSearchInstance.getListSearchParams());
-				if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
-					postData['search_key'] = listSearchInstance.getAlphabetSearchField();
-					postData['search_value'] = searchValue;
-					postData['operator'] = 's';
-				}
-			}
-			AppConnector.request(postData).then(
-					function (data) {
-						var response = JSON.parse(data);
-						jQuery("#recordsCount").val(response['result']['count']);
-						count = response['result']['count'];
-						aDeferred.resolve(count);
-					},
-					function (error, err) {
-
-					}
-			);
+			var params = this.getDefaultParams();
+			params.view = 'ListAjax';
+			params.mode = 'getRecordsCount';
+			AppConnector.request(params).then(function (data) {
+				var response = JSON.parse(data);
+				jQuery("#recordsCount").val(response['result']['count']);
+				count = response['result']['count'];
+				aDeferred.resolve(count);
+			});
 		}
 
 		return aDeferred.promise();

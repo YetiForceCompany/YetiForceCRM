@@ -79,8 +79,8 @@
 											</span>
 										</div>
 										<div class="pull-right muted">
-											<small title="{$ROW['date']}">
-												{Vtiger_Util_Helper::formatDateDiffInStrings($ROW['date'])}
+											<small>
+												{\App\Fields\DateTime::formatToViewDate($ROW['date'])}
 											</small>   
 										</div>
 										<h5 class="textOverflowEllipsis mailTitle mainFrom">

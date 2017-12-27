@@ -71,6 +71,9 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 			listViewContainer.find('.listViewEntriesTable select').on('change', function (e) {
 				listInstance.triggerListSearch();
 			});
+			listViewContainer.find('.listViewEntriesTable .picklistSearchField').on('apply.daterangepicker', function (e) {
+				listInstance.triggerListSearch();
+			});
 			listViewContainer.find('.listViewEntriesTable .dateField').on('DatePicker.onHide', function (e, y) {
 				var prevVal = $(this).data('prevVal');
 				var value = $(this).val();

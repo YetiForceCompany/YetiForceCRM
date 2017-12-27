@@ -115,7 +115,7 @@ class Ideas extends Vtiger_CRMEntity
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		if ($eventType == 'module.postinstall') {
+		if ($eventType === 'module.postinstall') {
 
 			$ModuleInstance = CRMEntity::getInstance('Ideas');
 			\App\Fields\RecordNumber::setNumber($moduleName, 'ID', '1');
@@ -127,13 +127,13 @@ class Ideas extends Vtiger_CRMEntity
 					ModComments::addWidgetTo(['Ideas']);
 			}
 			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\App\Module::getModuleId($moduleName));
-		} else if ($eventType == 'module.disabled') {
+		} else if ($eventType === 'module.disabled') {
 
-		} else if ($eventType == 'module.preuninstall') {
+		} else if ($eventType === 'module.preuninstall') {
 
-		} else if ($eventType == 'module.preupdate') {
+		} else if ($eventType === 'module.preupdate') {
 
-		} else if ($eventType == 'module.postupdate') {
+		} else if ($eventType === 'module.postupdate') {
 
 		}
 	}

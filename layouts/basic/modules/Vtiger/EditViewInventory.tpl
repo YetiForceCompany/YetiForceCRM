@@ -111,6 +111,5 @@
 				{include file=\App\Layout::getTemplatePath('EditViewInventoryItem.tpl', $MODULE)}
 			</tbody>
 		</table>
-		<br />
 	{/if}
 {/strip}

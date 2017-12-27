@@ -106,12 +106,23 @@
 									</span>
 								</div>
 							{elseif $FIELD_MODEL->getFieldDataType() eq "date"}
-								<div class="input-group date">
+								{assign var=IS_CUSTOM_DEFAULT_VALUE value=$FIELD_MODEL->isCustomDefaultValue()}
+								<div class="input-group date {if $IS_CUSTOM_DEFAULT_VALUE} hide{/if}">
 									{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
-									<input type="text" class="form-control dateField" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if} name="fieldDefaultValue" data-toregister="date" data-date-format="{$USER_MODEL->get('date_format')}" data-fieldinfo='{\App\Json::encode($FIELD_INFO)}'{strip} {/strip}
-										   value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('defaultvalue'))}" />
+									<input type="text" class="form-control dateField" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue() || $IS_CUSTOM_DEFAULT_VALUE} disabled="" {/if} name="fieldDefaultValue" data-toregister="date" data-date-format="{$USER_MODEL->get('date_format')}" data-fieldinfo='{\App\Json::encode($FIELD_INFO)}'{strip} {/strip}
+										   value="{if !$IS_CUSTOM_DEFAULT_VALUE}{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('defaultvalue'))}{/if}" />
 									<span class="input-group-addon">
 										<span class="glyphicon glyphicon-calendar"></span>
+									</span>
+									<span class="input-group-btn" title="{\App\Purifier::encodeHtml(App\Language::translate('LBL_CUSTOM_CONFIGURATION', $QUALIFIED_MODULE))}">
+										<button class="btn btn-default configButton" type="button"><span class="glyphicon glyphicon-cog"></span></button>
+									</span>
+								</div>
+								<div class="input-group {if !$IS_CUSTOM_DEFAULT_VALUE} hide{/if}">
+									<input type="text" class="form-control" name="fieldDefaultValue" {if !$FIELD_MODEL->hasDefaultValue() || !$IS_CUSTOM_DEFAULT_VALUE} disabled{/if} value="{if $IS_CUSTOM_DEFAULT_VALUE}{$FIELD_MODEL->get('defaultvalue')}{/if}" data-validation-engine="validate[required]"/>
+									<span class="input-group-btn">
+										<button class="btn btn-default varibleToParsers" type="button"><span class="glyphicon glyphicon-edit"></span></button>
+										<button class="btn btn-default active configButton" type="button" title="{\App\Purifier::encodeHtml(App\Language::translate('LBL_CUSTOM_CONFIGURATION', $QUALIFIED_MODULE))}"><span class="glyphicon glyphicon-cog"></span></button>
 									</span>
 								</div>
 							{elseif $FIELD_MODEL->getFieldDataType() eq "percentage"}
