@@ -40,30 +40,17 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 
 	public function updateDefaultPicklistValues($pickListFieldName, $oldValue, $newValue)
 	{
-		$db = PearDatabase::getInstance();
-		if ($pickListFieldName == 'activitytype')
+		if ($pickListFieldName === 'activitytype') {
 			$defaultFieldName = 'defaultactivitytype';
-		else
-			$defaultFieldName = 'defaulteventstatus';
-		$queryToGetId = sprintf('SELECT id FROM vtiger_users WHERE %s IN (', $defaultFieldName);
-		if (is_array($oldValue)) {
-			$countOldValue = count($oldValue);
-			for ($i = 0; $i < $countOldValue; $i++) {
-				$queryToGetId .= '"' . $oldValue[$i] . '"';
-				if ($i < (count($oldValue) - 1)) {
-					$queryToGetId .= ',';
-				}
-			}
-			$queryToGetId .= ')';
 		} else {
-			$queryToGetId .= '"' . $oldValue . '")';
+			$defaultFieldName = 'defaulteventstatus';
 		}
-		$result = $db->pquery($queryToGetId, []);
-		$rowCount = $db->numRows($result);
-		for ($i = 0; $i < $rowCount; $i++) {
-			$recordId = $db->queryResultRowData($result, $i);
-			$recordId = $recordId['id'];
-			$record = Vtiger_Record_Model::getInstanceById($recordId, 'Users');
+		$dataReader = (new App\Db\Query())->select(['id'])
+				->from('vtiger_users')
+				->where([$defaultFieldName => $oldValue])
+				->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$record = Vtiger_Record_Model::getInstanceById($row['id'], 'Users');
 			$record->set($defaultFieldName, $newValue);
 			$record->save();
 		}
@@ -126,6 +113,10 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response->emit();
 	}
 
+	/**
+	 * Action to remove element
+	 * @param \App\Request $request
+	 */
 	public function remove(\App\Request $request)
 	{
 		$moduleName = $request->getByType('source_module', 2);
@@ -133,7 +124,12 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$replaceValue = $request->get('replace_value');
 		$pickListFieldName = $request->getForSql('picklistName');
 		if ($moduleName === 'Events' && ($pickListFieldName === 'activitytype' || $pickListFieldName === 'activitystatus')) {
-			$this->updateDefaultPicklistValues($pickListFieldName, $valueToDelete, $replaceValue);
+			$picklistData = \App\Fields\Picklist::getValues($pickListFieldName);
+			$valuesToDelete = [];
+			foreach ($valueToDelete as $value) {
+				$valuesToDelete[] = $picklistData[$value][$pickListFieldName];
+			}
+			$this->updateDefaultPicklistValues($pickListFieldName, $valuesToDelete, $picklistData[$replaceValue][$pickListFieldName]);
 		}
 		$moduleModel = Settings_Picklist_Module_Model::getInstance($moduleName);
 		$response = new Vtiger_Response();

@@ -5,6 +5,8 @@
 /_private
 /public_html/_private
 /user_privileges/cron.php
+/user_privileges/sharing_privileges_5.php
+/user_privileges/user_privileges_5.php
 /config/csrf_secret.php
 /config/config_override.php
 /cache/templates_c

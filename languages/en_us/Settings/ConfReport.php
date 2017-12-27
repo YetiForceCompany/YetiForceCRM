@@ -70,7 +70,9 @@ $languageStrings = [
  	'LBL_VULNERABILITY_URL' => 'Vulnerability address',
 	'HTTPS_HELP_TEXT' => 'SSL is the standard security technology for establishing an encrypted link between a web server and a browser',
 	'HTACCESS_HELP_TEXT' => '.htaccess files can be used to change the server software configuration to configure and enable / disable additional services. YetiForceCRM requires access to the file to some work functions properly.',
-	'PUBLIC_HTML_HELP_TEXT' => 'We suggest that you install the system so that only the public_html folder is used. This improves data security by not having access to unpublic directories and files directly from the address'
+	'PUBLIC_HTML_HELP_TEXT' => 'We suggest that you install the system so that only the public_html folder is used. This improves data security by not having access to unpublic directories and files directly from the address',
+	'SESSION_REGENERATE_HELP_TEXT' => 'We recommend to enable the regeneration of session ID, this option makes it difficult to take over the user session. Changes should be made in the main configuration file.',
+	'LBL_TMP_DIR' => 'Temporary directory',
 ];
 $jsLanguageStrings = [
 	'JS_SPEED_TEST_START' => 'Checking speed...',

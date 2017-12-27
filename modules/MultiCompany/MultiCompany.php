@@ -238,7 +238,7 @@ class MultiCompany extends Vtiger_CRMEntity
 				if ($columnname === 'assigned_user_id') {
 					$parentInfo[$columnname] = $row['user_name'];
 				} elseif ($columnname === 'mulcomp_status') {
-					$childSalesProcessesInfo[$columnname] = \App\Language::translate($row[$columnname], 'MultiCompany');
+					$parentInfo[$columnname] = \App\Language::translate($row[$columnname], 'MultiCompany');
 				} else {
 					$parentInfo[$columnname] = $row[$columnname];
 				}

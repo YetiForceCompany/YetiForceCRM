@@ -105,7 +105,6 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$linkId = $request->getInteger('linkid');
-		$createdTime = $request->getDateRange('createdtime');
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, $moduleName);
@@ -114,12 +113,6 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		$ownerForwarded = $owner;
 		if ($owner == 'all')
 			$owner = '';
-
-		//Date conversion from user to database format
-		if (!empty($createdTime)) {
-			$dates['start'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['start']);
-			$dates['end'] = Vtiger_Date_UIType::getDBInsertedValue($createdTime['end']);
-		}
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$data = ($owner === false) ? [] : $this->getTicketsByStatus($owner);

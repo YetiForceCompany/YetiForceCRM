@@ -15,6 +15,12 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 	protected $listViewEntries = false;
 	protected $listViewHeaders = false;
 
+	/**
+	 * List view model instance
+	 * @var Settings_Vtiger_ListView_Model
+	 */
+	public $listViewModel;
+
 	public function __construct()
 	{
 		parent::__construct();

@@ -116,7 +116,7 @@ class Picklist
 			'ticketpriorities' => 'ticketpriorities_id',
 			'ticketseverities' => 'ticketseverities_id',
 			'ticketstatus' => 'ticketstatus_id',
-			'salutationtype' => 'salutationid',
+			'salutationtype' => 'salutationtypeid',
 			'faqstatus' => 'faqstatus_id',
 			'faqcategories' => 'faqcategories_id',
 			'recurring_frequency' => 'recurring_frequency_id',

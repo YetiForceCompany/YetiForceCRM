@@ -485,7 +485,7 @@ class Base4 extends \App\Db\Importers\Base
 			],
 			'vtiger_salutationtype' => [
 				'columns' => [
-					'salutationid' => $this->primaryKey(10),
+					'salutationtypeid' => $this->primaryKey(10),
 					'salutationtype' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -8355,7 +8355,7 @@ class Base4 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_salutationtype' => [
-				'columns' => ['salutationid', 'salutationtype', 'presence', 'picklist_valueid', 'sortorderid'],
+				'columns' => ['salutationtypeid', 'salutationtype', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
 					[2, 'Mr.', 1, 161, 1],
 					[3, 'Ms.', 1, 162, 2],

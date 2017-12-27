@@ -58,7 +58,11 @@ class PrivilegeFile
 		$userInstance = \CRMEntity::getInstance('Users');
 		$userInstance->retrieveEntityInfo($userId, 'Users');
 		$userInstance->column_fields['is_admin'] = $userInstance->is_admin === 'on';
-		$userInstance->column_fields = array_map('\App\Purifier::encodeHtml', $userInstance->column_fields);
+		foreach ($userInstance->column_fields as $field => $value) {
+			if ($field !== 'currency_symbol') {
+				$userInstance->column_fields[$field] = \App\Purifier::encodeHtml($value);
+			}
+		}
 		$entityData = Module::getEntityInfo('Users');
 		$displayName = '';
 		foreach ($entityData['fieldnameArr'] as $field) {

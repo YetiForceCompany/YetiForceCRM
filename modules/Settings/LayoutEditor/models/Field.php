@@ -273,13 +273,4 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		$fieldInfo['isDefaultValueDisabled'] = $this->isDefaultValueOptionDisabled();
 		return $fieldInfo;
 	}
-
-	/**
-	 * Default value - state 
-	 * @return bool
-	 */
-	public function isCustomDefaultValue()
-	{
-		return preg_match('/\$\((\w+) : ([,"\+\-\[\]\&\w\s\|]+)\)\$/', $this->get('defaultvalue'));
-	}
 }

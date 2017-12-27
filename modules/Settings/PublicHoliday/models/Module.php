@@ -112,31 +112,6 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Check if it is public holiday
-	 * @param string $date - date to be checked
-	 * @return - true if public holiday exists, false on failure
-	 */
-	public static function checkIfHoliday($date)
-	{
-
-		\App\Log::trace("Entering Settings_PublicHoliday_Module_Model::checkIfHoliday(" . $date . ") method ...");
-
-		$db = PearDatabase::getInstance();
-		$sql = 'SELECT COUNT(1) as num FROM `vtiger_publicholiday` WHERE `holidaydate` = ?;';
-		$params = [$date];
-
-		$result = $db->pquery($sql, $params);
-		$num = $db->queryResult($result, 0, 'num');
-
-		\App\Log::trace('Exiting Settings_PublicHoliday_Module_Model::checkIfHoliday() method ...');
-
-		if ($num > 0)
-			return true;
-
-		return false;
-	}
-
-	/**
 	 * @param <array> $date - start and end date to get holidays
 	 * @return - holidays count group by type if exist or false
 	 */

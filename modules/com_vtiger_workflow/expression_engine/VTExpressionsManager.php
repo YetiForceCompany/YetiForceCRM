@@ -14,11 +14,6 @@
 class VTExpressionsManager
 {
 
-	public function __construct($adb)
-	{
-		$this->adb = $adb;
-	}
-
 	/**
 	 * Cache array
 	 * @var array

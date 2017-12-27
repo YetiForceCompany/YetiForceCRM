@@ -69,9 +69,7 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('viewid', $cvId);
 		$pagingModel->set('noOfEntries', $request->getInteger('noOfEntries'));
-
 		$totalCount = (int) $request->get('totalCount');
-		$operator = '';
 		if (AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') || $totalCount == -1) {
 			$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
 			if (!$request->isEmpty('operator', true)) {

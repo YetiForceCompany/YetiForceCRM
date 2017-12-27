@@ -1120,6 +1120,7 @@ td.fieldValue .input-group {
 .listViewEntriesDiv,
 .listViewEntriesDiv td {
 	overflow: visible;
+	position: relative;
 }
 .listViewEntriesTable .listViewHeaders a.listViewHeaderValues {
 	color: #444444;
@@ -5881,9 +5882,6 @@ select.form-control {
 	margin-left: 6px;
 	font-weight: bold;
 }
-.ps-scrollbar-y-rail{
-	display:none !important;
-}
 .multiImageResult{
 	float: right;
 }
@@ -5909,6 +5907,9 @@ select.form-control {
 	border-left: 10px solid #fff;
 }
 .listViewAll tbody tr.listViewEntries > td:first-child, .listViewAll .listViewEntriesTable tbody tr > td:first-child{
+	border-left: 5px solid #ddd;
+}
+#recordsListPreview .listViewAll tbody tr.listViewEntries > td:first-child, .listViewAll .listViewEntriesTable tbody tr > td:first-child{
 	border-left: 10px solid #ddd;
 }
 .entityStateIcon{
@@ -5966,35 +5967,33 @@ border1px{
 }
 #listPreview{
 	float: right;
-	padding-left: 5px;
+	padding-left: 10px;
 	padding-right: 0;
 	margin-top: 2px;
 }
 #recordsList{
 	padding-left: 0;
 	padding-right: 5px;
+	float: left;
 }
 [class*="picklistLb_"] {
 	border-radius: 7px;
 }
 .fixedListInitial {
-	padding-right: 5px;
+	padding-right: 10px;
 	max-height: max-content;
 	padding-left: 0;
 }
-.fixedListInScroll {
-	position: fixed;
-	top: 48px;
-	padding-right: 27px;
-}
 .fixedListContent {
-	overflow-y: auto;
+	overflow: hidden;
+	position: relative;
 	margin-top: 2px;
 	height: max-content;
 }
 .fixedListContent #recordsList {
 	padding-left: 0;
 	padding-right: 0;
+	float: none;
 }
 .fixedListContent .contents-topscroll {
 	margin-top: -2px;
@@ -6060,4 +6059,89 @@ border1px{
 }
 .popover.activities{
 	min-width: 400px;
+}
+.gutter {
+	background-color: #4979aa;
+	background-repeat: no-repeat;
+	background-position: 50%;
+	position: relative;
+	margin-top: 2px;
+	z-index: 300;
+}
+.gutter:active:before {
+	content: "";
+	position: fixed;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	background: transparent;
+}
+.gutter.gutter-horizontal {
+    cursor: ew-resize;	
+	background-image: url('images/vertical.png');
+	height: calc(100vh - 33px);
+	float: left;
+}
+.gutterOnScroll {
+	position: fixed;
+	top: 48px;
+}
+.wrappedPanel {
+	display: none;
+	height: calc(100vh - 33px);
+    width: 20px;
+    position: absolute;
+    top: 2px;
+	background: #eeeeee;
+}
+.wrappedPanelLeft {
+	display: block;
+	left: -10px;
+}
+.wrappedPanelRight {
+	display: block;
+	right: -10px;
+	background: #4a5364;
+}
+.rotatedText {
+	transform: rotate(0.75turn);
+    position: absolute;
+	text-align: center;
+}
+.wrappedPanelRight .rotatedText{
+	color: #fff;
+}
+.wrappedPanelOnScroll {
+	position: fixed;
+	top: 50px;
+}
+.wrappedPanelLeft.wrappedPanelOnScroll  {
+	left: 50px;
+}
+.wrappedPanelRight.wrappedPanelOnScroll  {
+	right: 17px;
+}
+.inventoryRow .input-group-addon{
+	padding: 0px 5px;
+}
+.table tr.inventoryRow td{
+	padding: 4px;
+}
+.relatedContents .wrappedPanelLeft {
+	top: 50px;
+	left: 5px;
+}
+.relatedContents .wrappedPanelRight {
+    right: 5px;
+    top: 50px;
+}
+.relatedContents .wrappedPanelLeft.wrappedPanelOnScroll  {
+	left: 50px;
+}
+.relatedContents .wrappedPanelRight.wrappedPanelOnScroll  {
+	right: 17px;
+}
+.ps-scrollbar-y-rail {
+	z-index: 100;
 }

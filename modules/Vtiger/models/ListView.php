@@ -225,7 +225,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkicon' => 'fa fa-undo'
 			];
 		}
-		if ($moduleModel->isPermitted('MassArchived')) {
+		if ($moduleModel->isPermitted('MassArchived') && $moduleModel->getName() !== 'Users') {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ARCHIVE',
@@ -236,7 +236,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkicon' => 'fa fa-archive'
 			];
 		}
-		if ($moduleModel->isPermitted('MassTrash')) {
+		if ($moduleModel->isPermitted('MassTrash') && $moduleModel->getName() !== 'Users') {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_MOVE_TO_TRASH',

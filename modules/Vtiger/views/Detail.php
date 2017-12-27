@@ -71,21 +71,13 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$recordId = $request->getInteger('record');
 		$recordModel = $this->record->getRecord();
 		$this->recordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
-		$summaryInfo = [];
-		// Take first block information as summary information
-		$stucturedValues = $this->recordStructure->getStructure();
 		$fieldsInHeader = $this->recordStructure->getFieldInHeader();
-		foreach ($stucturedValues as $blockLabel => $fieldList) {
-			$summaryInfo[$blockLabel] = $fieldList;
-			break;
-		}
-
 		$eventHandler = new App\EventHandler();
 		$eventHandler->setRecordModel($recordModel);
 		$eventHandler->setModuleName($moduleName);
 		$eventHandler->trigger('DetailViewBefore');
 
-		$detailViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $recordId];
+		$detailViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $recordId, 'VIEW' => $request->getByType('view', 2)];
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
 		$this->record->getWidgets($detailViewLinkParams);
 
@@ -207,6 +199,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$jsFileNames = [
+			'~libraries/splitjs/split.js',
 			'modules.Vtiger.resources.RelatedList',
 			"modules.$moduleName.resources.RelatedList",
 			'modules.Vtiger.resources.Widgets',
@@ -289,7 +282,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 		$recordModel = $this->record->getRecord();
-		$detailViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $recordId];
+		$detailViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $recordId, 'VIEW' => $request->getByType('view', 2)];
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
 		$this->record->getWidgets($detailViewLinkParams);
 		$viewer = $this->getViewer($request);
@@ -762,7 +755,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$recordModel = $this->record->getRecord();
 
-		$detailViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $recordId];
+		$detailViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $recordId, 'VIEW' => $request->getByType('view', 2)];
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
 
 		$viewer = $this->getViewer($request);

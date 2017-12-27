@@ -49,6 +49,14 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 				iframe.height(mainContainer.height() - 10);
 			}
 		});
+		app.event.on("DetailView.SaveComment.AfterLoad", function (e, commentBlock, postData, response) {
+			if (inifr.length) {
+				inifr.height(mainContainer.height() - 10);
+				iframe.height(inifr.height() + inifr.offset().top + 10);
+			} else {
+				iframe.height(mainContainer.height() - 10);
+			}
+		});
 		//widgets loader
 		thisInstance.updateWidgetEvent(iframe, mainContainer);
 		//tabs loader

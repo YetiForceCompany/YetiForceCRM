@@ -128,12 +128,11 @@ class Zip extends \ZipArchive
 			if (isset($this->illegalExtensions) && in_array($extension, $this->illegalExtensions)) {
 				return true;
 			}
-			$info = pathinfo($path);
 			$stat = $this->statName($path);
 			$fileInstance = \App\Fields\File::loadFromInfo([
 					'content' => $this->getFromName($path),
 					'path' => $this->getLocalPath($path),
-					'name' => $info['basename'],
+					'name' => basename($path),
 					'size' => $stat['size'],
 					'validateAllCodeInjection' => true
 			]);

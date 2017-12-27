@@ -32,7 +32,7 @@
 								</tr>
 								<tr>
 									<td>
-										{App\Language::translate('LBL_INDUSTRY', 'Settings:Companies')}
+										{App\Language::translate('LBL_INDUSTRY', 'Settings:Companies')}&nbsp;<span class="no">*</span>
 									</td>
 									<td>
 										<select class="select2 form-control" name="company_industry" data-validation-engine="validate[required]">

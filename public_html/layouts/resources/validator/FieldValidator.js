@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o. 
  *************************************************************************************/
 Vtiger_Base_Validator_Js("Vtiger_Email_Validator_Js", {
 	/**
@@ -1184,6 +1185,33 @@ Vtiger_Base_Validator_Js("Vtiger_InputMask_Validator_Js", {
 		}
 		if (window.inputMaskValidation) {
 			var errorInfo = app.vtranslate("JS_INVALID_LENGTH");
+			this.setError(errorInfo);
+			return false;
+		}
+		return true;
+	}
+});
+Vtiger_Base_Validator_Js("Vtiger_Textparser_Validator_Js", {
+	invokeValidation: function (field, rules, i, options) {
+		var instance = new Vtiger_TextParser_Validator_Js();
+		instance.setElement(field);
+		var response = instance.validate();
+		if (response != true) {
+			return instance.getError();
+		}
+	}
+
+}, {
+	validate: function () {
+		var response = this._super();
+		if (response != true) {
+			return response;
+		}
+		var field = this.getElement();
+		var fieldValue = field.val();
+		var regex = /^\$\((\w+) : ([,"\+\-\[\]\&\w\s\|]+)\)\$$/;
+		if (!regex.test(fieldValue)) {
+			var errorInfo = app.vtranslate('JS_INVALID_LENGTH');
 			this.setError(errorInfo);
 			return false;
 		}

@@ -36,7 +36,7 @@ class Vtiger_ListPreview_View extends Vtiger_List_View
 		if (!$this->listViewModel) {
 			$this->listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $this->viewName);
 		}
-		$this->listViewModel->getQueryGenerator()->setFields(array_merge(['id'], $this->listViewModel->getModule()->getNameFields()));
+		//$this->listViewModel->getQueryGenerator()->setFields(array_merge(['id'], $this->listViewModel->getModule()->getNameFields()));
 		parent::initializeListViewContents($request, $viewer);
 	}
 

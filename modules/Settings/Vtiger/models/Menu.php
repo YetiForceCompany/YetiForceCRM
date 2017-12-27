@@ -140,15 +140,12 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 	 */
 	public static function getInstance($name)
 	{
-		$db = PearDatabase::getInstance();
-
-		$sql = sprintf('SELECT * FROM %s WHERE label = ?', self::$menusTable);
-		$params = [$name];
-
-		$result = $db->pquery($sql, $params);
-
-		if ($db->numRows($result) > 0) {
-			$rowData = $db->queryResultRowData($result, 0);
+		$rowData = (new App\Db\Query())
+			->from(self::$menusTable)
+			->where(['label' => $name])
+			->limit(1)
+			->one();
+		if ($rowData) {
 			return Settings_Vtiger_Menu_Model::getInstanceFromArray($rowData);
 		}
 		return false;

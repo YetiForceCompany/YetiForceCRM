@@ -4,7 +4,14 @@
 </div>
 </div>
 <div class="col-md-9" id="listPreview">
-		<iframe class="border1px" id="listPreviewframe" frameborder="0"></iframe>
+	<iframe class="border1px" id="listPreviewframe" frameborder="0"></iframe>
+</div>
+<div class="wrappedPanel">
+	<div class="rotatedText">
+		<div class="textCenter">
+			{\App\Language::translate('LBL_VIEW_DETAIL')}
+		</div>
+	</div>
 </div>
 </div>
 {/strip}

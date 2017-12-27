@@ -40,6 +40,7 @@ class Settings_Colors_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 	 */
 	public function getPickListView(\App\Request $request)
 	{
+		$pickListFields = $picklistValuesName = [];
 		$sourceModule = $request->getByType('source_module', 2);
 		$fieldId = $request->getInteger('fieldId');
 		if ($sourceModule) {
@@ -63,7 +64,7 @@ class Settings_Colors_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('COLOR_NO_COLUMN', $noColumn);
 		$viewer->assign('PICKLIST_FIELDS', $pickListFields);
-		$viewer->assign('SELECTED_PICKLIST_FIELDMODEL', $fieldModel);
+		$viewer->assign('SELECTED_PICKLIST_FIELDMODEL', isset($fieldModel));
 		$viewer->assign('SELECTED_PICKLIST_FIELD_ID', $fieldId);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedName);

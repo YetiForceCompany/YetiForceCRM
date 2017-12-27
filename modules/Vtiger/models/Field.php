@@ -494,6 +494,15 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
+	 * Function to check if the field is export table
+	 * @return boolean
+	 */
+	public function isExportTable()
+	{
+		return $this->isViewable();
+	}
+
+	/**
 	 * Function to check if the field is shown in detail view
 	 * @return boolean
 	 */
