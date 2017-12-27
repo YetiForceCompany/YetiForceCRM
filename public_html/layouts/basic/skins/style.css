@@ -6110,11 +6110,7 @@ border1px{
 	text-align: center;
 }
 .wrappedPanelRight .rotatedText{
-    right: -13px;
-	color: white;
-	top: calc(50% - 10px);
-	width: max-content;
-	height: max-content;
+	color: #fff;
 }
 .wrappedPanelOnScroll {
 	position: fixed;
