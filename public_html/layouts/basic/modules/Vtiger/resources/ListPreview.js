@@ -203,7 +203,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var split = thisInstance.registerSplit(container, fixedList, wrappedPanelLeft, wrappedPanelRight, commActHeight);
 		var rotatedText = container.find('.rotatedText');
 		rotatedText.first().find('.textCenter').append($('.breadcrumbsContainer .separator').nextAll().text());
-		rotatedText.first().css({
+		rotatedText.css({
 			width: wrappedPanelLeft.height(),
 			height: wrappedPanelLeft.height()
 		});
