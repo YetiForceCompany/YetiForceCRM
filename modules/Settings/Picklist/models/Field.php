@@ -41,33 +41,29 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		if ($groupMode == 'INTERSECTION') {
 			$intersectionMode = true;
 		}
-
-		$db = PearDatabase::getInstance();
 		$fieldName = $this->getName();
 		$tableName = 'vtiger_' . $fieldName;
-		$query = 'SELECT %s';
+		$query = (new App\Db\Query())->select([$fieldName]);
 		if ($intersectionMode) {
-			$query .= ',count(roleid) as rolecount ';
+			$query->addSelect(['rolecount' => new yii\db\Expression('COUNT(roleid)')]);
 		}
-		$query .= ' FROM  vtiger_role2picklist INNER JOIN %s ON vtiger_role2picklist.picklistvalueid = %s.picklist_valueid' .
-			' WHERE roleid IN (%s) order by sortid';
-		$query = sprintf($query, $fieldName, $tableName, $tableName, generateQuestionMarks($roleIdList));
+		$query->from('vtiger_role2picklist')
+			->innerJoin($tableName, "vtiger_role2picklist.picklistvalueid = {$tableName}.picklist_valueid")
+			->where(['roleid' => $roleIdList])->orderBy(['sortid' => SORT_ASC]);
 		if ($intersectionMode) {
-			$query .= ' GROUP BY picklistvalueid';
+			$query->groupBy(['picklistvalueid']);
 		}
-		$result = $db->pquery($query, $roleIdList);
+		$dataReader = $query->createCommand()->query();
 		$pickListValues = [];
-		$numRows = $db->numRows($result);
-		for ($i = 0; $i < $numRows; $i++) {
-			$rowData = $db->queryResultRowData($result, $i);
+		while ($row = $dataReader->read()) {
 			if ($intersectionMode) {
 				//not equal if specify that the picklistvalue is not present for all the roles
-				if ($rowData['rolecount'] != count($roleIdList)) {
+				if ($row['rolecount'] != count($roleIdList)) {
 					continue;
 				}
 			}
 			//Need to decode the picklist values twice which are saved from old ui
-			$pickListValues[] = \App\Purifier::decodeHtml(\App\Purifier::decodeHtml($rowData[$fieldName]));
+			$pickListValues[] = \App\Purifier::decodeHtml(\App\Purifier::decodeHtml($row[$fieldName]));
 		}
 		return $pickListValues;
 	}
