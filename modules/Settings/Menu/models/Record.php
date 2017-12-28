@@ -216,7 +216,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		foreach ($menu as $item) {
 			$content .= $this->createFilterList($item);
 		}
-		$content .= '];';
+		$content .= '];' . PHP_EOL;
 		$file = ROOT_DIRECTORY . '/user_privileges/menu_' . $roleId . '.php';
 		file_put_contents($file, $content);
 	}
