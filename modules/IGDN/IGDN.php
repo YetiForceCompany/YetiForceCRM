@@ -78,23 +78,4 @@ class IGDN extends Vtiger_CRMEntity
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
 
-	/**
-	 * Invoked when special actions are performed on the module.
-	 * @param String Module name
-	 * @param String Event Type
-	 */
-	public function moduleHandler($moduleName, $eventType)
-	{
-		if ($eventType === 'module.postinstall') {
-
-		} else if ($eventType === 'module.disabled') {
-
-		} else if ($eventType === 'module.preuninstall') {
-
-		} else if ($eventType === 'module.preupdate') {
-
-		} else if ($eventType === 'module.postupdate') {
-
-		}
-	}
 }

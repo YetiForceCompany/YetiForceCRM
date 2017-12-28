@@ -455,14 +455,6 @@ class Services extends CRMEntity
 			\App\Fields\RecordNumber::setNumber($moduleName, 'SER', 1);
 			// Mark the module as Standard module
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', [$moduleName]);
-		} else if ($eventType === 'module.disabled') {
-			
-		} else if ($eventType === 'module.enabled') {
-			
-		} else if ($eventType === 'module.preuninstall') {
-			
-		} else if ($eventType === 'module.preupdate') {
-			
 		} else if ($eventType === 'module.postupdate') {
 			$ServicesModule = vtlib\Module::getInstance('Services');
 			vtlib\Access::setDefaultSharing($ServicesModule);

@@ -261,16 +261,6 @@ class OSSEmployees extends Vtiger_CRMEntity
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(['OSSEmployees']);
 			}
-		} else if ($event_type == 'module.disabled') {
-
-		} else if ($event_type == 'module.enabled') {
-
-		} else if ($event_type == 'module.preuninstall') {
-
-		} else if ($event_type == 'module.preupdate') {
-
-		} else if ($event_type == 'module.postupdate') {
-
 		}
 	}
 }

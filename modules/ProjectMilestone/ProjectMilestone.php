@@ -311,14 +311,6 @@ class ProjectMilestone extends CRMEntity
 			// Mark the module as Standard module
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
 			\App\Fields\RecordNumber::setNumber($moduleName, 'PM', 1);
-		} else if ($eventType === 'module.disabled') {
-
-		} else if ($eventType === 'module.enabled') {
-
-		} else if ($eventType === 'module.preuninstall') {
-
-		} else if ($eventType === 'module.preupdate') {
-
 		} else if ($eventType === 'module.postupdate') {
 			\App\Fields\RecordNumber::setNumber($moduleName, 'PM', 1);
 		}

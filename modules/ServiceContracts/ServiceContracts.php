@@ -381,12 +381,6 @@ class ServiceContracts extends CRMEntity
 			App\EventHandler::setInActive('ServiceContracts_ServiceContractsHandler_Handler');
 		} else if ($eventType === 'module.enabled') {
 			App\EventHandler::setActive('ServiceContracts_ServiceContractsHandler_Handler');
-		} else if ($eventType === 'module.preuninstall') {
-			
-		} else if ($eventType === 'module.preupdate') {
-			
-		} else if ($eventType === 'module.postupdate') {
-			
 		}
 	}
 

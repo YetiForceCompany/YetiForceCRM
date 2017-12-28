@@ -42,10 +42,6 @@ class OSSMail
 			}
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_EnabledModule', 'info' => $moduleName, 'user' => $user_id, 'start_time' => date('Y-m-d H:i:s')])->execute();
-		} else if ($eventType === 'module.preuninstall') {
-			
-		} else if ($eventType === 'module.preupdate') {
-			
 		} else if ($eventType === 'module.postupdate') {
 			$OSSMail = vtlib\Module::getInstance('OSSMail');
 			if (version_compare($OSSMail->version, '1.39', '>')) {

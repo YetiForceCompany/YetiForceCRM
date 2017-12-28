@@ -331,18 +331,5 @@ class SMSNotifier extends Vtiger_CRMEntity
 		//adds sharing accsess
 		$SMSNotifierModule = vtlib\Module::getInstance('SMSNotifier');
 		vtlib\Access::setDefaultSharing($SMSNotifierModule);
-		if ($eventType === 'module.postinstall') {
-
-		} else if ($eventType === 'module.disabled') {
-
-		} else if ($eventType === 'module.enabled') {
-
-		} else if ($eventType === 'module.preuninstall') {
-
-		} else if ($eventType === 'module.preupdate') {
-
-		} else if ($eventType === 'module.postupdate') {
-
-		}
 	}
 }

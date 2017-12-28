@@ -327,14 +327,6 @@ class ProjectTask extends CRMEntity
 			}
 
 			\App\Fields\RecordNumber::setNumber($moduleName, 'PT', 1);
-		} else if ($eventType === 'module.disabled') {
-
-		} else if ($eventType === 'module.enabled') {
-
-		} else if ($eventType === 'module.preuninstall') {
-
-		} else if ($eventType === 'module.preupdate') {
-
 		} else if ($eventType === 'module.postupdate') {
 
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');

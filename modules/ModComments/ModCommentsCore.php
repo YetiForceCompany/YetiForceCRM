@@ -370,26 +370,4 @@ class ModCommentsCore extends CRMEntity
 		}
 		return $query;
 	}
-
-	/**
-	 * Invoked when special actions are performed on the module.
-	 * @param String Module name
-	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
-	 */
-	public function moduleHandler($modulename, $event_type)
-	{
-		if ($event_type == 'module.postinstall') {
-
-		} else if ($event_type == 'module.disabled') {
-
-		} else if ($event_type == 'module.enabled') {
-
-		} else if ($event_type == 'module.preuninstall') {
-
-		} else if ($event_type == 'module.preupdate') {
-
-		} else if ($event_type == 'module.postupdate') {
-
-		}
-	}
 }

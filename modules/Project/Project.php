@@ -342,14 +342,6 @@ class Project extends CRMEntity
 			}
 
 			\App\Fields\RecordNumber::setNumber($moduleName, 'PROJ', 1);
-		} else if ($eventType === 'module.disabled') {
-
-		} else if ($eventType === 'module.enabled') {
-
-		} else if ($eventType === 'module.preuninstall') {
-
-		} else if ($eventType === 'module.preupdate') {
-
 		} else if ($eventType === 'module.postupdate') {
 			$projectTabid = (new \App\Db\Query())->select(['tabid'])->from('vtiger_tab')->where(['name' => 'Project'])->scalar();
 
@@ -367,7 +359,7 @@ class Project extends CRMEntity
 
 	public static function registerLinks()
 	{
-
+		
 	}
 	/**
 	 * Here we override the parent's method,

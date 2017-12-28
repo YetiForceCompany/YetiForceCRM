@@ -107,16 +107,6 @@ class Reservations extends Vtiger_CRMEntity
 			$targetModule->setRelatedList($moduleInstance, 'Reservations', ['ADD'], 'getDependentsList');
 			$targetModule = vtlib\Module::getInstance('Vendors');
 			$targetModule->setRelatedList($moduleInstance, 'Reservations', ['ADD'], 'getDependentsList');
-		} else if ($eventType === 'module.disabled') {
-
-		} else if ($eventType === 'module.enabled') {
-
-		} else if ($eventType === 'module.preuninstall') {
-
-		} else if ($eventType === 'module.preupdate') {
-
-		} else if ($eventType === 'module.postupdate') {
-
 		}
 	}
 
