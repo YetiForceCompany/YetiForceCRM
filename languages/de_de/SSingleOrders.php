@@ -4,6 +4,7 @@
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author SkavenKF (K.Fink)
  */
 $languageStrings = [
 	'SSingleOrders' => 'Bestellungen',
@@ -19,8 +20,8 @@ $languageStrings = [
 	'LBL_STATUS' => 'Status',
 	'LBL_CLOSED_TIME' => 'Geschlossen am',
 	'LBL_RESPONSE_TIME' => 'Reaktionszeit',
-	'LBL_REALIZATION_START_DATE' => 'Start date',
-	'LBL_REALIZATION_COMPLETION_DATE' => 'Completion date',
+	'LBL_REALIZATION_START_DATE' => 'Startdatum',
+	'LBL_REALIZATION_COMPLETION_DATE' => 'Fertigstellungsdatum',
 	'LBL_ACTUAL_COMPLETION_DATE' => 'Aktuelles Fertigstellungsdatum',
 	'LBL_COMPANY_NAME' => 'Firmenname',
 	'SINGLE_SSalesProcesses' => 'Verkaufschance',

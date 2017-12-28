@@ -1344,6 +1344,7 @@ $languageStrings = [
 	'LBL_RECORD_HAS_BEEN_DELETED' => 'Datensatz wurde gelöscht',
 	'LBL_SHOW_INVENTORY_ROW' => 'Zusätzliche Informationen anzeigen',
 	'LBL_CALCULATE_SUM_FOR_THIS_FIELD' => 'Summe für dieses Feld kalkulieren',
+	'FL_RELATION_EXTEND' => 'Ansprechpartner',
 ];
 $jsLanguageStrings = [
 	'JS_SUMMARY' => 'Summe',
