@@ -75,6 +75,6 @@ class PrivilegeFile
 		$user['groups'] = PrivilegeUtil::getUserGroups($userId);
 		$user['parent_roles'] = $userRoleInfo['parentRoles'];
 		$user['parent_role_seq'] = $userRoleInfo['parentrole'];
-		file_put_contents($file, 'return ' . Utils::varExport($user) . ';', FILE_APPEND);
+		file_put_contents($file, 'return ' . Utils::varExport($user) . ';' . PHP_EOL, FILE_APPEND);
 	}
 }
