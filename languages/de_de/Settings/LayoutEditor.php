@@ -84,8 +84,8 @@ $languageStrings = [
 	'LBL_FIELD_TYPE1' => 'Zusätzlich (z.B. vtiger_accountcf)',
 	'LBL_TREE_TEMPLATE' => 'Vorlage Baumstruktur',
 	'Tree' => 'Baumstruktur',
-	'CategoryMultipicklist' => 'Tree field (multiple choice)',
-	'LBL_FIELD_MASK_INFO' => 'Standard Maskendefinition <br />9: numeric<br />a: alphabetically<br />*: Alphanumeric<br /><br />Example:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
+	'CategoryMultipicklist' => 'Strukturfeld (Mehrfachauswahl)',
+	'LBL_FIELD_MASK_INFO' => 'Standard Maskendefinition <br />9: Numerisch<br />a: Alphabetisch<br />*: Alphanumerisch<br /><br />Beispiel:<br />(99) 9999-9999<br />+48 999-999-999<br />aaa_999_aaa<br />dd/mm/yyyy',
 	'MultiReferenceValue' => 'Werte aus dem verküpften Modul',
 	'LBL_MULTI_REFERENCE_VALUE_MODULES' => 'verknüpftes Modul',
 	'LBL_MULTI_REFERENCE_VALUE_FIELDS' => 'verknüpftes Feld',
@@ -101,7 +101,7 @@ $languageStrings = [
 	'PLL_RELATED_LIST' => 'verknüpfte Einträge',
 	'PLL_DEPENDENTS_LIST' => 'abhängige Einträge',
 	'PLL_ATTACHMENTS' => 'Anhänge',
-	'PLL_SPLITED_RELATED_LIST' => 'Many to many - With separation of data',
+	'PLL_SPLITED_RELATED_LIST' => 'Many to many - Mit getrennter Datenhaltung',
 	'PLL_ADD' => 'Hinzufügen',
 	'PLL_SELECT' => 'Auswählen',
 	// inventory tab
@@ -167,7 +167,7 @@ $languageStrings = [
 	'LBL_SUMMARY_BOTTOM_TYPE' => 'Gesamt unten',
 	'LBL_RELATED_VIEW_TYPE' => 'Position anzeigen',
 	'LBL_RELATED_VIEW_TYPE_DESC' => 'Bitte mindestens ein Anzeigeposition für den Block auswählen',
-	'LBL_CUSTOM_CONFIGURATION' => 'Custom configuration',
+	'LBL_CUSTOM_CONFIGURATION' => 'Kundenspezifische Konfiguration',
 ];
 
 $jsLanguageStrings = [
