@@ -2,7 +2,6 @@
 	"name": "yetiforce/yetiforce-crm",
 	"description": "An open and innovative CRM system. Our team created for you one of the most innovative CRM systems that supports mainly business processes and allows for customization according to your needs. Be ahead of your competition and implement YetiForce!",
 	"keywords": ["YetiForceCRM", "CRM", "open source crm", "best crm", "YetiForce", "ERP", "PHP", "Customer Relation Management", "System CRM"],
-	"license": "YetiForce Public License 3.0",
 	"homepage": "https://yetiforce.com/",
 	"type": "project",
 	"support": {
