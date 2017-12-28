@@ -29,8 +29,11 @@
 	<div id="deSelectAllMsgDiv" class="alert-block msgDiv noprint">
 		<strong><a id="deSelectAllMsg">{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
 	</div>
-	<div class="listViewEntriesDiv">
-		<div>
+	<div class="contents-topscroll noprint">
+		<div class="topscroll-div"></div>
+	</div>
+	<div class="listViewEntriesDiv contents-bottomscroll">
+		<div class="bottomscroll-div">
 			<input type="hidden" value="{$ORDER_BY}" id="orderBy" />
 			<input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
 			<div class="listViewLoadingImageBlock hide modal noprint" id="loadingListViewModal">
@@ -63,56 +66,56 @@
 					</tr>
 				</thead>
 				<tbody>
-				{if $MODULE_MODEL->isQuickSearchEnabled()}
-					<tr>
-						<td class="listViewSearchTd">
-							<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
-						</td>
-						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-							<td>
-								{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
-								{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
-								{if isset($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME])}
-									{assign var=SEARCH_INFO value=$SEARCH_DETAILS[$LISTVIEW_HEADER_NAME]}
-								{else}
-									{assign var=SEARCH_INFO value=[]}
-								{/if}
-								{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $MODULE_NAME)
+					{if $MODULE_MODEL->isQuickSearchEnabled()}
+						<tr>
+							<td class="listViewSearchTd">
+								<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
+							</td>
+							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
+								<td>
+									{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
+									{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
+									{if isset($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME])}
+										{assign var=SEARCH_INFO value=$SEARCH_DETAILS[$LISTVIEW_HEADER_NAME]}
+									{else}
+										{assign var=SEARCH_INFO value=[]}
+									{/if}
+									{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $MODULE_NAME)
                     FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL}
+								</td>
+							{/foreach}
+							<td>
+								<a class="btn btn-default" href="index.php?view=List&module={$MODULE}" >
+									<span class="glyphicon glyphicon-remove"></span>
+								</a>
 							</td>
-						{/foreach}
-						<td>
-							<a class="btn btn-default" href="index.php?view=List&module={$MODULE}" >
-								<span class="glyphicon glyphicon-remove"></span>
-							</a>
-						</td>
-					</tr>
-				{/if}
-				{assign var="LISTVIEW_HEADER_COUNT" value=count($LISTVIEW_HEADERS)}
-				{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
-					{assign var="RECORD_ID" value=$LISTVIEW_ENTRY->getId()}
-					{assign var="RECORD_COLORS" value=$LISTVIEW_ENTRY->getListViewColor()}
-					<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
-						<td class="{$WIDTHTYPE} noWrap leftRecordActions" {if $RECORD_COLORS['leftBorder']}style="border-left-color: {$RECORD_COLORS['leftBorder']};"{/if}>
-							{include file=\App\Layout::getTemplatePath('ListViewLeftSide.tpl', $MODULE_NAME)}
-						</td>
-						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=listHeaderForeach}
-							{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->getFieldName()}
-							<td class="listViewEntryValue noWrap {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}" data-raw-value="{\App\Purifier::encodeHtml($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}">
-								{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->getUIType() eq '4') && $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true && $LISTVIEW_ENTRY->isViewable()}
-									<a {if $LISTVIEW_HEADER->isNameField() eq true}class="modCT_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
+						</tr>
+					{/if}
+					{assign var="LISTVIEW_HEADER_COUNT" value=count($LISTVIEW_HEADERS)}
+					{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
+						{assign var="RECORD_ID" value=$LISTVIEW_ENTRY->getId()}
+						{assign var="RECORD_COLORS" value=$LISTVIEW_ENTRY->getListViewColor()}
+						<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
+							<td class="{$WIDTHTYPE} noWrap leftRecordActions" {if $RECORD_COLORS['leftBorder']}style="border-left-color: {$RECORD_COLORS['leftBorder']};"{/if}>
+								{include file=\App\Layout::getTemplatePath('ListViewLeftSide.tpl', $MODULE_NAME)}
+							</td>
+							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=listHeaderForeach}
+								{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->getFieldName()}
+								<td class="listViewEntryValue noWrap {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}" data-raw-value="{\App\Purifier::encodeHtml($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}">
+									{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->getUIType() eq '4') && $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true && $LISTVIEW_ENTRY->isViewable()}
+										<a {if $LISTVIEW_HEADER->isNameField() eq true}class="modCT_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
+											{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)}
+										</a>
+									{else}
 										{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)}
-									</a>
-								{else}
-									{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)}
-								{/if}
+									{/if}
+								</td>
+							{/foreach}
+							<td class="{$WIDTHTYPE} noWrap rightRecordActions">
+								{include file=\App\Layout::getTemplatePath('ListViewRightSide.tpl', $MODULE_NAME)}
 							</td>
-						{/foreach}
-						<td class="{$WIDTHTYPE} noWrap rightRecordActions">
-							{include file=\App\Layout::getTemplatePath('ListViewRightSide.tpl', $MODULE_NAME)}
-						</td>
-					</tr>
-				{/foreach}
+						</tr>
+					{/foreach}
 				</tbody>
 				<tfoot class="listViewSummation">
 					<tr>
