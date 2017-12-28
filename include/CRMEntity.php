@@ -1312,11 +1312,21 @@ class CRMEntity
 
 	/**
 	 * Invoked when special actions are performed on the module.
-	 * @param String $moduleName Module name
-	 * @param String $eventType Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
+	 * @param string $moduleName Module name
+	 * @param string $eventType Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		
+		if ($moduleName && $eventType === 'module.postinstall') {
+			
+		} else if ($eventType === 'module.disabled') {
+			
+		} else if ($eventType === 'module.preuninstall') {
+			
+		} else if ($eventType === 'module.preupdate') {
+			
+		} else if ($eventType === 'module.postupdate') {
+			
+		}
 	}
 }

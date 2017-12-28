@@ -644,7 +644,7 @@ class PearDatabase
 	}
 
 	// Function to get the last insert id based on the type of database
-	public function getLastInsertID($seqname = '')
+	public function getLastInsertID()
 	{
 		$lastInsertID = $this->database->lastInsertId();
 		return $lastInsertID;

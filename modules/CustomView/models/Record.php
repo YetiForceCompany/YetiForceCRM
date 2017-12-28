@@ -408,35 +408,35 @@ class CustomView_Record_Model extends \App\Base
 		$advFilterList = $this->get('advfilterlist');
 		if (!empty($advFilterList)) {
 			foreach ($advFilterList as $groupIndex => $groupInfo) {
-				if (empty($groupInfo))
+				if (empty($groupInfo)) {
 					continue;
-
+				}
 				$groupColumns = $groupInfo['columns'];
 				$groupCondition = isset($groupInfo['condition']) ? $groupInfo['condition'] : false;
 
 				foreach ($groupColumns as $columnIndex => $columnCondition) {
-					if (empty($columnCondition))
+					if (empty($columnCondition)) {
 						continue;
-
+					}
 					$advFilterColumn = $columnCondition['columnname'];
 					$advFilterComparator = $columnCondition['comparator'];
 					$advFitlerValue = $columnCondition['value'];
 					$advFilterColumnCondition = $columnCondition['column_condition'];
 
-					$columnInfo = explode(":", $advFilterColumn);
+					$columnInfo = explode(':', $advFilterColumn);
 					$fieldName = $columnInfo[2];
 					$fieldModel = $moduleModel->getField($fieldName);
 					//Required if Events module fields are selected for the condition
 					if (!$fieldModel) {
 						$modulename = $moduleModel->get('name');
-						if ($modulename == 'Calendar') {
+						if ($modulename === 'Calendar') {
 							$eventModuleModel = Vtiger_Module_model::getInstance('Events');
 							$fieldModel = $eventModuleModel->getField($fieldName);
 						}
 					}
 					$fieldType = $fieldModel->getFieldDataType();
 
-					if ($fieldType == 'currency') {
+					if ($fieldType === 'currency') {
 						if ($fieldModel->get('uitype') == '72') {
 							// Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
 							$advFitlerValue = CurrencyField::convertToDBFormat($advFitlerValue, null, true);
@@ -481,25 +481,21 @@ class CustomView_Record_Model extends \App\Base
 
 					// Update the condition expression for the group to which the condition column belongs
 					$groupConditionExpression = '';
-					if (!empty($advFilterList[$groupIndex]["conditionexpression"])) {
-						$groupConditionExpression = $advFilterList[$groupIndex]["conditionexpression"];
+					if (!empty($advFilterList[$groupIndex]['conditionexpression'])) {
+						$groupConditionExpression = $advFilterList[$groupIndex]['conditionexpression'];
 					}
 					$groupConditionExpression = $groupConditionExpression . ' ' . $columnIndex . ' ' . $advFilterColumnCondition;
-					$advFilterList[$groupIndex]["conditionexpression"] = $groupConditionExpression;
+					$advFilterList[$groupIndex]['conditionexpression'] = $groupConditionExpression;
 				}
-
-				if (isset($advFilterList[$groupIndex]["conditionexpression"])) {
-					$groupConditionExpression = $advFilterList[$groupIndex]["conditionexpression"];
-					if (empty($groupConditionExpression)) {
-						continue; // Case when the group doesn't have any column criteria
-					}
+				if (empty($advFilterList[$groupIndex]['conditionexpression'])) {
+					continue; // Case when the group doesn't have any column criteria
 				}
 				$db->createCommand()
 					->insert('vtiger_cvadvfilter_grouping', [
 						'groupid' => $groupIndex,
 						'cvid' => $cvId,
 						'group_condition' => $groupCondition,
-						'condition_expression' => $groupConditionExpression
+						'condition_expression' => $advFilterList[$groupIndex]['conditionexpression']
 					])->execute();
 			}
 		}

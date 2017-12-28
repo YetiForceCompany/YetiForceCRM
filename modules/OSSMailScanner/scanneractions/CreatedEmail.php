@@ -138,7 +138,8 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			} elseif (substr($src, 0, 4) === 'cid:') {
 				$src = substr($src, 4);
 				if (isset($attachments[$src])) {
-					if ($ids = App\Fields\File::saveFromContent($attachments[$src]['attachment'], $attachments[$src]['filename'], false, $params)) {
+					$fileInstance = App\Fields\File::loadFromContent($attachments[$src]['attachment'], $attachments[$src]['filename']);
+					if ($fileInstance->validate() && ($ids = App\Fields\File::saveFromContent($fileInstance, $params))) {
 						$img->setAttribute('src', "file.php?module=Documents&action=DownloadFile&record={$ids['crmid']}&fileid={$ids['attachmentsId']}&show=true");
 						if (!$img->hasAttribute('alt')) {
 							$img->setAttribute('alt', $attachments[$src]['filename']);
