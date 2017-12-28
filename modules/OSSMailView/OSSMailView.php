@@ -314,10 +314,6 @@ class OSSMailView extends CRMEntity
 			$registerLink = false;
 		} else if ($eventType === 'module.enabled') {
 			$registerLink = true;
-		} else if ($eventType === 'module.preuninstall') {
-
-		} else if ($eventType === 'module.preupdate') {
-
 		} else if ($eventType === 'module.postupdate') {
 			$module = vtlib\Module::getInstance($moduleName);
 			$userName = \App\User::getCurrentUserModel()->getDetail('user_name');

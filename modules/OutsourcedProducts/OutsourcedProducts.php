@@ -117,16 +117,6 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 
 			//Showing Assets module in the related modules in the More Information Tab
 			\App\Fields\RecordNumber::setNumber($moduleName, 'UP', 1);
-		} else if ($eventType === 'module.disabled') {
-
-		} else if ($eventType === 'module.enabled') {
-
-		} else if ($eventType === 'module.preuninstall') {
-
-		} else if ($eventType === 'module.preupdate') {
-
-		} else if ($eventType === 'module.postupdate') {
-
 		}
 	}
 

@@ -96,14 +96,6 @@ class SQuoteEnquiries extends Vtiger_CRMEntity
 					ModComments::addWidgetTo(['SQuoteEnquiries']);
 			}
 			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\App\Module::getModuleId($moduleName));
-		} else if ($eventType === 'module.disabled') {
-
-		} else if ($eventType === 'module.preuninstall') {
-
-		} else if ($eventType === 'module.preupdate') {
-
-		} else if ($eventType === 'module.postupdate') {
-
 		}
 	}
 }

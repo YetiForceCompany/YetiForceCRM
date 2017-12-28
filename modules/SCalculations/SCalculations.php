@@ -96,14 +96,6 @@ class SCalculations extends Vtiger_CRMEntity
 					ModComments::addWidgetTo(['SCalculations']);
 			}
 			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\App\Module::getModuleId($moduleName));
-		} else if ($eventType === 'module.disabled') {
-
-		} else if ($eventType === 'module.preuninstall') {
-
-		} else if ($eventType === 'module.preupdate') {
-
-		} else if ($eventType === 'module.postupdate') {
-
 		}
 	}
 }

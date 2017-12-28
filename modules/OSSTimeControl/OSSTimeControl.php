@@ -106,16 +106,6 @@ class OSSTimeControl extends Vtiger_CRMEntity
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(['OSSTimeControl']);
 			}
-		} else if ($eventType === 'module.disabled') {
-
-		} else if ($eventType === 'module.enabled') {
-
-		} else if ($eventType === 'module.preuninstall') {
-
-		} else if ($eventType === 'module.preupdate') {
-
-		} else if ($eventType === 'module.postupdate') {
-
 		}
 	}
 

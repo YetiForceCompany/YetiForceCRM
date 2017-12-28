@@ -85,14 +85,6 @@ class Announcements extends Vtiger_CRMEntity
 		if ($eventType === 'module.postinstall') {
 			\App\Fields\RecordNumber::setNumber($moduleName, 'NO', '1');
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => 'Announcements'])->execute();
-		} else if ($eventType === 'module.disabled') {
-			
-		} else if ($eventType === 'module.preuninstall') {
-			
-		} else if ($eventType === 'module.preupdate') {
-			
-		} else if ($eventType === 'module.postupdate') {
-			
 		}
 	}
 }

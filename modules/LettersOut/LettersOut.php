@@ -322,16 +322,6 @@ class LettersOut extends CRMEntity
 			$dbCommand->update('vtiger_field', ['summaryfield' => 1], ['tablename' => 'vtiger_lettersout', 'columnname' => 'lout_type_doc'])->execute();
 			$dbCommand->update('vtiger_field', ['summaryfield' => 1], ['tablename' => 'vtiger_lettersout', 'columnname' => 'date_adoption'])->execute();
 			$dbCommand->update('vtiger_field', ['summaryfield' => 1], ['tablename' => 'vtiger_lettersout', 'columnname' => 'relatedid'])->execute();
-		} else if ($eventType === 'module.disabled') {
-
-		} else if ($eventType === 'module.enabled') {
-
-		} else if ($eventType === 'module.preuninstall') {
-
-		} else if ($eventType === 'module.preupdate') {
-
-		} else if ($eventType === 'module.postupdate') {
-
 		}
 	}
 }

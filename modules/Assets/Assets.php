@@ -310,14 +310,6 @@ class Assets extends CRMEntity
 			$productInstance->setRelatedlist($assetInstance, $assetLabel, ['ADD'], 'getDependentsList');
 
 			\App\Fields\RecordNumber::setNumber($moduleName, 'ASSET', 1);
-		} else if ($eventType === 'module.disabled') {
-			
-		} else if ($eventType === 'module.enabled') {
-			
-		} else if ($eventType === 'module.preuninstall') {
-			
-		} else if ($eventType === 'module.preupdate') {
-			
 		} else if ($eventType === 'module.postupdate') {
 			\App\Fields\RecordNumber::setNumber($moduleName, 'ASSET', 1);
 		}

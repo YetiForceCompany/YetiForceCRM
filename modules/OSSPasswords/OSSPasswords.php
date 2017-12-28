@@ -293,9 +293,7 @@ class OSSPasswords extends CRMEntity
 		$registerLink = false;
 		$addModTracker = false;
 
-		if ($eventType === 'module.postinstall') {
-
-		} else if ($eventType === 'module.disabled') {
+		if ($eventType === 'module.disabled') {
 			$registerLink = false;
 			App\EventHandler::setInActive('OSSPasswords_Secure_Handler');
 		} else if ($eventType === 'module.enabled') {
@@ -307,10 +305,6 @@ class OSSPasswords extends CRMEntity
 			\App\Log::trace('After uninstall script.');
 
 			header('Location: index.php?module=Vtiger&parent=Settings&view=Index');
-		} else if ($eventType === 'module.preupdate') {
-
-		} else if ($eventType === 'module.postupdate') {
-
 		}
 
 		$displayLabel = 'OSSPassword Configuration';

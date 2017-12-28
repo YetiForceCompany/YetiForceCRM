@@ -30,8 +30,6 @@ class ModComments extends ModCommentsCore
 			self::addWidgetTo(['Leads', 'Contacts', 'Accounts', 'Project', 'ProjectTask']);
 			// Mark the module as Standard module
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0,], ['name' => $moduleName])->execute();
-		} elseif ($eventType === 'module.postupdate') {
-
 		}
 	}
 
