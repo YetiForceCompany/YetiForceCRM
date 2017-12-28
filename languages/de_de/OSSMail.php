@@ -4,6 +4,7 @@
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author SkavenKF (K.Fink)
  */
 $languageStrings = [
 	'OSSMail' => 'Meine Mailbox',
@@ -78,7 +79,7 @@ $languageStrings = [
 	'LBL_SEND_MASS_EMAIL' => 'Massenmail senden',
 	'LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES' => 'Anzahl gefundener E-Mail-Adressen',
 	'LBL_NUMBER_OF_SELECTED_RECORDS' => 'Anzahl selektierter Datensätze',
-	'LBL_MINIMIZE_BAR' => 'Minimize bar',
+	'LBL_MINIMIZE_BAR' => 'Minimieren',
 	//BTN
 	'LBL_CREATEMAIL' => 'E-Mail senden',
 ];

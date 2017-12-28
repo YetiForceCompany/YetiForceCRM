@@ -4,6 +4,7 @@
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author SkavenKF (K.Fink)
  */
 $languageStrings = [
 	'OSSSoldServices' => 'Verkaufte Dienstleistungen',
@@ -28,7 +29,7 @@ $languageStrings = [
 	'LBL_GENERATE_EXTENSION' => 'Erweiterung generieren',
 	'LBL_ORDER_TIME' => 'Bestellzeit',
 	'FL_RENEWAL_INVOICE' => 'Folgerechnung',
-	'FL_CONTACT' => 'Contact',
+	'FL_CONTACT' => 'Kontakt',
 	// picklist values
 	'FL_RENEWAL' => 'Verlängern',
 	'PLL_DRAFT' => 'Entwurf',

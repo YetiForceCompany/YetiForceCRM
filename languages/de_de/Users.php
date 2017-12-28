@@ -95,7 +95,7 @@ $languageStrings = [
 	'LBL_SELECT_COUNTRY' => 'Land auswählen',
 	'LBL_SHOWN' => 'Gezeigt',
 	'LBL_SHOW' => 'Zeigen',
-	'LBL_TAG_CLOUD_DISPLAY' => 'Tag Wolke anzeigen',
+	'LBL_TAG_CLOUD_DISPLAY' => 'Tag Wolkendarstellung anzeigen',
 	'LBL_TO_CRM' => 'CRM Login',
 	'LBL_TRANSFER_GROUP' => 'Gruppe übertragen an: ',
 	'LBL_TRANSFER_OWNERSHIP' => 'Eigentümer übertragen',
@@ -345,9 +345,9 @@ $languageStrings = [
 	'LBL_NEW_PASSWORD_CRITERIA' => 'Das Passwort muss den folgenden Kriterien entsprechen:',
 	'LBL_USERS_NEED_CHANGE_PASSWORD' => 'Benutzer die ihr Passwort ändern müssen:',
 	'LBL_NOT_CHANGE_PASS_AUTH_EXTERNAL_SYSTEM' => 'Das Passwort kann nicht geändert werden, die Authentifizierung erfolgt durch ein externes System',
-	'FL_VIEW_DATE_FORMAT' => 'Preview date format',
-	'PLL_FULL' => 'Full date and time',
-	'PLL_ELAPSED' => 'Time elapsed',
+	'FL_VIEW_DATE_FORMAT' => 'Vorschau Zeitformat',
+	'PLL_FULL' => 'Volle Anzeige Zeit und Datum',
+	'PLL_ELAPSED' => 'Vergangene Zeit',
 ];
 
 $jsLanguageStrings = [

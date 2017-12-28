@@ -4,13 +4,14 @@
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author SkavenKF (K.Fink)
  */
 $languageStrings = [
 	// Basic Strings
-	'LettersIn' => 'Incoming correspondence',
-	'SINGLE_LettersIn' => 'Incoming correspondence',
+	'LettersIn' => 'Eingehende Korrespondenz',
+	'SINGLE_LettersIn' => 'Eingehende Korrespondenz',
 	// Blocks
-	'LBL_MAIN_INFORMATION' => 'Correspondence information',
+	'LBL_MAIN_INFORMATION' => 'Korrespondenzinformation',
 	//Field Labels
 	'Number' => 'Nummer',
 	'Title' => 'Bezeichnung',
@@ -25,13 +26,13 @@ $languageStrings = [
 	'Overall dimensions' => 'Dimension',
 	'Related' => 'Organisation / Verkaufschance',
 	'Contact' => 'Kontakt',
-	'FL_CUSTOM_SENDER' => 'Customized sender',
-	'FL_TYPE' => 'Type',
-	'FL_CASH_AMOUNT_ON_DELIVERY' => 'Amount due on delivery',
-	'FL_DATE_OF_RECEIPT' => 'Reception date',
-	'FL_OUTGOING_CORRESPONDENCE' => 'Outgoing correspondence',
-	'FL_INTERNAL_NOTES' => 'Internal notes',
-	'FL_PUBLIC_NOTES' => 'Public notes',
+	'FL_CUSTOM_SENDER' => 'Individueller Absender',
+	'FL_TYPE' => 'Typ',
+	'FL_CASH_AMOUNT_ON_DELIVERY' => 'Zu zahlender Betrag bei Lieferung',
+	'FL_DATE_OF_RECEIPT' => 'Empfangsdatum',
+	'FL_OUTGOING_CORRESPONDENCE' => 'Ausgehende Korrespondenz',
+	'FL_INTERNAL_NOTES' => 'Interne Notizen',
+	'FL_PUBLIC_NOTES' => 'Öffentliche Notizen',
 	// picklist values
 	'PLL_LOCAL_PICKUP' => 'Sammelstelle',
 	'PLL_POST_OFFICE_PL' => 'Polnische Postfiliale',
@@ -62,19 +63,19 @@ $languageStrings = [
 	'PLL_PROFORMA' => 'Vorläufige Rechnung',
 	'PLL_CORRECTION' => 'Korrigierte Rechnung',
 	'PLL_INVOICE' => 'Rechnung',
-	'PLL_IN_DEPARTMENT' => 'In department',
-	'PLL_REDIRECTED_TO_ANOTHER_DEPARTMENT' => 'Forwarded to another department',
-	'PLL_REDIRECTED_TO_ANOTHER_ADDRESSEE' => 'Forwarded to another addressee',
-	'PLL_DESTOYED_UPON_ADDRESSEES_REQUEST' => 'Destroyed upon addressee\'s request',
-	'PLL_DESTROYED_IN_ACCORDANCE_WITH_INTERNAL_PROCEDURES' => 'Destroyed in accordance with internal procedures',
-	'PLL_RETURN_TO_SENDER' => 'Returned to sender',
+	'PLL_IN_DEPARTMENT' => 'In Abteilung',
+	'PLL_REDIRECTED_TO_ANOTHER_DEPARTMENT' => 'An andere Abteilung weitergeleitet',
+	'PLL_REDIRECTED_TO_ANOTHER_ADDRESSEE' => 'An andere Adresse weitergeleitet',
+	'PLL_DESTOYED_UPON_ADDRESSEES_REQUEST' => 'Auf Anfrage des Empfängers vernichtet',
+	'PLL_DESTROYED_IN_ACCORDANCE_WITH_INTERNAL_PROCEDURES' => 'Gemäß interner Verfahren vernichtet',
+	'PLL_RETURN_TO_SENDER' => 'Zurück an den Absender',
 	'PLL_A' => 'A',
 	'PLL_B' => 'B',
-	'PLL_REGULAR_LETTER' => 'Regular letter',
-	'PLL_REGISTERED_LETTER' => 'Registered letter',
-	'PLL_REGULAR_PARCEL' => 'Regular parcel',
-	'PLL_LARGESIZE_PARCEL' => 'Large-size parcel',
-	'PLL_DOCUMENT' => 'Document',
-	'PLL_RETURN' => 'Return',
-	'PLL_POSTAL_ADVICE' => 'Postal advice',
+	'PLL_REGULAR_LETTER' => 'Normaler Brief',
+	'PLL_REGISTERED_LETTER' => 'Einschreiben',
+	'PLL_REGULAR_PARCEL' => 'Normales Paket',
+	'PLL_LARGESIZE_PARCEL' => 'Übergroßes Paket',
+	'PLL_DOCUMENT' => 'Dokument',
+	'PLL_RETURN' => 'Rückläufer',
+	'PLL_POSTAL_ADVICE' => 'Postalische Beratung',
 ];
