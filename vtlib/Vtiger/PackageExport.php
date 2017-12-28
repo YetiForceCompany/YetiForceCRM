@@ -388,7 +388,7 @@ class PackageExport
 	public function exportBlocks(ModuleBasic $moduleInstance)
 	{
 		$adb = \PearDatabase::getInstance();
-		$sqlresult = $adb->pquery('SELECT * FROM vtiger_blocks WHERE tabid = ?', [$moduleInstance->id]);
+		$sqlresult = $adb->pquery('SELECT * FROM vtiger_blocks WHERE tabid = ? order by sequence', [$moduleInstance->id]);
 		$resultrows = $adb->numRows($sqlresult);
 
 		if (empty($resultrows))
