@@ -488,7 +488,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 			foreach ($sortFields as $fieldInfo) {
 				$columnName = App\Purifier::decodeHtml($fieldInfo[0]);
 				$db->pquery('INSERT INTO vtiger_reportsortcol(sortcolid, reportid, columnname, sortorder) VALUES (?,?,?,?)', [$i, $this->getId(), $columnname, $fieldInfo[1]]);
-				if (IsDateField($columnName)) {
+				if (ReportUtils::isDateField($columnName)) {
 					if (empty($fieldInfo[2])) {
 						$fieldInfo[2] = 'None';
 					}
@@ -600,7 +600,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 					$moduleFieldLabel = $columnInfo[2];
 
 					list($module, $fieldLabel) = explode('__', $moduleFieldLabel, 2);
-					$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
+					$fieldInfo = ReportUtils::getFieldByReportLabel($module, $fieldLabel);
 					$fieldType = null;
 					if (!empty($fieldInfo)) {
 						$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldInfo['fieldid']);

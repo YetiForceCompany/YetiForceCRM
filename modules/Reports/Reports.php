@@ -873,7 +873,7 @@ class Reports extends CRMEntity
 				$moduleFieldLabel = $col[2];
 
 				list($module, $fieldLabel) = explode('__', $moduleFieldLabel, 2);
-				$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
+				$fieldInfo = ReportUtils::getFieldByReportLabel($module, $fieldLabel);
 				$fieldType = null;
 				if (!empty($fieldInfo)) {
 					$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldInfo['fieldid']);
@@ -1140,7 +1140,7 @@ function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_grou
 		$moduleFieldLabel = $column_info[2];
 
 		list($module, $fieldLabel) = explode('__', $moduleFieldLabel, 2);
-		$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
+		$fieldInfo = ReportUtils::getFieldByReportLabel($module, $fieldLabel);
 		$fieldType = null;
 		if (!empty($fieldInfo)) {
 			$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldInfo['fieldid']);
