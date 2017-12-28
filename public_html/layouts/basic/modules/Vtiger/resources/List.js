@@ -1999,8 +1999,12 @@ jQuery.Class("Vtiger_List_Js", {
 	},
 	registerPerfectScroll: function (container) {
 		container.find('.listViewEntriesDiv').perfectScrollbar();
+		container.find('.contents-topscroll').removeClass('contents-topscroll');
+		container.find('.contents-bottomscroll').removeClass('contents-bottomscroll');
 		app.event.on("RecordListView.AfterLoad", function () {
 			container.find('.listViewEntriesDiv').perfectScrollbar();
+			container.find('.contents-topscroll').removeClass('contents-topscroll');
+			container.find('.contents-bottomscroll').removeClass('contents-bottomscroll');
 		});
 	},
 	registerEvents: function () {
