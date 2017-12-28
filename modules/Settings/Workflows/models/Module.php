@@ -145,9 +145,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getExpressions()
 	{
-		$db = PearDatabase::getInstance();
-
-		$mem = new VTExpressionsManager($db);
+		$mem = new VTExpressionsManager();
 		return $mem->expressionFunctions();
 	}
 

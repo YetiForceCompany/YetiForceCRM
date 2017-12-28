@@ -38,10 +38,7 @@ class Settings_OSSMailScanner_Logs_View extends Settings_Vtiger_Index_View
 
 	public function getNumLog()
 	{
-		$db = PearDatabase::getInstance();
-		$limit = 30;
-		$result = $db->query("SELECT COUNT(id) as num FROM vtiger_ossmails_logs");
-		$numRecord = $db->queryResult($result, 0, 'num');
-		return ceil($numRecord / $limit);
+		$numRecord = (new App\Db\Query())->from('vtiger_ossmails_logs')->count();
+		return ceil($numRecord / 30);
 	}
 }
