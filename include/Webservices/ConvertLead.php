@@ -32,14 +32,15 @@ function vtws_convertlead($entityvalues, Users_Record_Model $user)
 	$leadIdComponents = $entityvalues['leadId'];
 	$result = $adb->pquery($sql, [$leadIdComponents]);
 	if ($result === false) {
-		\App\Log::error('Error converting a lead: ' . vtws_getWebserviceTranslatedString('LBL_' . WebServiceErrorCode::$DATABASEQUERYERROR));
-		throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, vtws_getWebserviceTranslatedString('LBL_' .
-			WebServiceErrorCode::$DATABASEQUERYERROR));
+		$translateDatabaseError = \App\Language::translate('LBL_' . WebServiceErrorCode::$DATABASEQUERYERROR, 'Webservices');
+		\App\Log::error('Error converting a lead: ' . $translateDatabaseError);
+		throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, $translateDatabaseError);
 	}
 	$rowCount = $adb->numRows($result);
 	if ($rowCount > 0) {
-		\App\Log::error('Error converting a lead: ' . vtws_getWebserviceTranslatedString('LBL_' . WebServiceErrorCode::$LEAD_ALREADY_CONVERTED));
-		throw new WebServiceException(WebServiceErrorCode::$LEAD_ALREADY_CONVERTED, vtws_getWebserviceTranslatedString('LBL_' . WebServiceErrorCode::$LEAD_ALREADY_CONVERTED));
+		$translateAlreadyConvertedError = \App\Language::translate('LBL_' . WebServiceErrorCode::$LEAD_ALREADY_CONVERTED, 'Leads');
+		\App\Log::error('Error converting a lead: ' . $translateAlreadyConvertedError);
+		throw new WebServiceException(WebServiceErrorCode::$LEAD_ALREADY_CONVERTED, $translateAlreadyConvertedError);
 	}
 
 	$eventHandler = new App\EventHandler();
