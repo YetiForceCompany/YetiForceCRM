@@ -593,7 +593,7 @@ class ReportRun extends CRMEntity
 		$fieldName = $selectedfields[3];
 		list($moduleName, $fieldLabel) = explode('__', $moduleFieldLabel, 2);
 		$fieldLabel = str_replace('__', '_', $fieldLabel);
-		$fieldInfo = getFieldByReportLabel($moduleName, $fieldLabel);
+		$fieldInfo = ReportUtils::getFieldByReportLabel($moduleName, $fieldLabel);
 
 		if ($moduleName == 'ModComments' && $fieldName == 'creator') {
 			$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_usersModComments.first_name',
@@ -601,7 +601,7 @@ class ReportRun extends CRMEntity
 			$queryColumn = "trim(case when (vtiger_usersModComments.user_name not like '' and vtiger_crmentity.crmid!='') then $concatSql end) AS ModComments_Creator";
 			$this->queryPlanner->addTable('vtiger_usersModComments');
 			$this->queryPlanner->addTable("vtiger_usersModComments");
-		} elseif (($fieldInfo['uitype'] == '10' || isReferenceUIType($fieldInfo['uitype'])) && $fieldInfo['uitype'] != '52' && $fieldInfo['uitype'] != '53') {
+		} elseif (($fieldInfo['uitype'] == '10' || ReportUtils::isReferenceUIType($fieldInfo['uitype'])) && $fieldInfo['uitype'] != '52' && $fieldInfo['uitype'] != '53') {
 			$fieldSqlColumns = $this->getReferenceFieldColumnList($moduleName, $fieldInfo);
 			if (count($fieldSqlColumns) > 0) {
 				$queryColumn = "(CASE WHEN $tableName.$columnName NOT LIKE '' THEN (CASE";
@@ -1005,7 +1005,7 @@ class ReportRun extends CRMEntity
 						$selectedfields = explode(":", $fieldcolname);
 						$moduleFieldLabel = $selectedfields[2];
 						list($moduleName, $fieldLabel) = explode('_', $moduleFieldLabel, 2);
-						$fieldInfo = getFieldByReportLabel($moduleName, $fieldLabel);
+						$fieldInfo = ReportUtils::getFieldByReportLabel($moduleName, $fieldLabel);
 						$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => $selectedfields[0] . ".first_name", 'last_name' => $selectedfields[0] . ".last_name"], 'Users');
 						// Added to handle the crmentity table name for Primary module
 						if ($selectedfields[0] == "vtiger_crmentity" . $this->primarymodule) {
@@ -1175,7 +1175,7 @@ class ReportRun extends CRMEntity
 								$fieldvalue = "vtiger_activity.status" . $this->getAdvComparator($comparator, trim($value), $datatype);
 							}
 						} else if ($comparator == 'ny') {
-							if ($fieldInfo['uitype'] == '10' || isReferenceUIType($fieldInfo['uitype']))
+							if ($fieldInfo['uitype'] == '10' || ReportUtils::isReferenceUIType($fieldInfo['uitype']))
 								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NOT NULL && " . $selectedfields[0] . "." . $selectedfields[1] . " != '' && " . $selectedfields[0] . "." . $selectedfields[1] . "  != '0')";
 							else
 								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NOT NULL && " . $selectedfields[0] . "." . $selectedfields[1] . " != '')";
@@ -1183,7 +1183,7 @@ class ReportRun extends CRMEntity
 							if ($selectedfields[0] == 'vtiger_inventoryproductrel') {
 								$selectedfields[0] = 'vtiger_inventoryproductrel' . $moduleName;
 							}
-							if ($fieldInfo['uitype'] == '10' || isReferenceUIType($fieldInfo['uitype']))
+							if ($fieldInfo['uitype'] == '10' || ReportUtils::isReferenceUIType($fieldInfo['uitype']))
 								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NULL || " . $selectedfields[0] . "." . $selectedfields[1] . " = '' || " . $selectedfields[0] . "." . $selectedfields[1] . " = '0')";
 							else
 								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NULL || " . $selectedfields[0] . "." . $selectedfields[1] . " = '')";
@@ -1199,7 +1199,7 @@ class ReportRun extends CRMEntity
 								$selectedfields[0] = 'vtiger_inventoryproductrel' . $moduleName;
 								$fieldvalue = $selectedfields[0] . "." . $selectedfields[1] . $this->getAdvComparator($comparator, $value, $datatype);
 							}
-						} elseif ($fieldInfo['uitype'] == '10' || isReferenceUIType($fieldInfo['uitype'])) {
+						} elseif ($fieldInfo['uitype'] == '10' || ReportUtils::isReferenceUIType($fieldInfo['uitype'])) {
 
 							$fieldSqlColumns = $this->getReferenceFieldColumnList($moduleName, $fieldInfo);
 							$comparatorValue = $this->getAdvComparator($comparator, trim($value), $datatype, $fieldSqlColumns[0]);
@@ -1293,7 +1293,7 @@ class ReportRun extends CRMEntity
 
 				$moduleFieldLabel = $selectedfields[3];
 				list($moduleName, $fieldLabel) = explode('__', $moduleFieldLabel, 2);
-				$fieldInfo = getFieldByReportLabel($moduleName, $fieldLabel);
+				$fieldInfo = ReportUtils::getFieldByReportLabel($moduleName, $fieldLabel);
 				$typeOfData = $fieldInfo['typeofdata'];
 				list($type) = explode('~', $typeOfData, 2);
 
@@ -1372,7 +1372,7 @@ class ReportRun extends CRMEntity
 
 				$moduleFieldLabel = $column_info[2];
 				list($module, $fieldLabel) = explode('__', $moduleFieldLabel, 2);
-				$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
+				$fieldInfo = ReportUtils::getFieldByReportLabel($module, $fieldLabel);
 				$fieldType = null;
 				if (!empty($fieldInfo)) {
 					$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldInfo['fieldid']);
@@ -2223,7 +2223,7 @@ class ReportRun extends CRMEntity
 	public function getHeaderToRaport($adb, $fld, $modules_selected)
 	{
 		list($module, $fieldLabel) = explode('__', $fld->name, 2);
-		$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
+		$fieldInfo = ReportUtils::getFieldByReportLabel($module, $fieldLabel);
 		if (!empty($fieldInfo)) {
 			$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldInfo['fieldid']);
 			$translatedLabel = \App\Language::translate($fieldModel->getFieldLabel(), $module);
@@ -2406,7 +2406,7 @@ class ReportRun extends CRMEntity
 
 					for ($i = 0; $i < $y; $i++) {
 						$fld = $adb->columnMeta($result, $i);
-						$fieldvalue = getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $fld->name);
+						$fieldvalue = ReportUtils::getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $fld->name);
 
 						//check for Roll based pick list
 						$temp_val = $fld->name;
@@ -2534,7 +2534,7 @@ class ReportRun extends CRMEntity
 
 						// Check for role based pick list
 						$temp_val = $fld->name;
-						$fieldvalue = getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $temp_val);
+						$fieldvalue = ReportUtils::getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $temp_val);
 
 						if ($fld->name == $this->primarymodule . '__LBL_ACTION' && $fieldvalue != '-') {
 							$fieldvalue = "<a href='index.php?module={$this->primarymodule}&view=Detail&record={$fieldvalue}' target='_blank'>" . \App\Language::translate('LBL_VIEW_DETAILS', 'Reports') . "</a>";
@@ -2826,7 +2826,7 @@ class ReportRun extends CRMEntity
 
 					for ($i = 0; $i < $y - 1; $i++) {
 						$fld = $adb->columnMeta($result, $i);
-						$fieldvalue = getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $fld->name);
+						$fieldvalue = ReportUtils::getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $fld->name);
 						if (($lastvalue == $fieldvalue) && $this->reporttype == "summary") {
 							if ($this->reporttype == "summary") {
 								$valtemplate .= "<td style='border-top:1px dotted #FFFFFF;'>&nbsp;</td>";
@@ -3186,7 +3186,7 @@ class ReportRun extends CRMEntity
 		}
 		$curr_symb = "";
 		$fieldLabel = ltrim(str_replace($rep_module, '', $rep_header), '__');
-		$fieldInfo = getFieldByReportLabel($rep_module, $fieldLabel);
+		$fieldInfo = ReportUtils::getFieldByReportLabel($rep_module, $fieldLabel);
 		if ($fieldInfo['uitype'] == '71') {
 			$curr_symb = " (" . \App\Language::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
 		}
