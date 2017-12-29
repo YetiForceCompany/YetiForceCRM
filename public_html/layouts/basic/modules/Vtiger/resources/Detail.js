@@ -2093,17 +2093,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			container.find('.mailTeaser').removeClass('hide');
 			container.find('.showMailBody .glyphicon').removeClass("glyphicon-triangle-top").addClass("glyphicon-triangle-bottom");
 		});
-		app.event.on("DetailView.Widget.AfterLoad", function (e, widgetContent, relatedModuleName, instance, widgetContainer) {
-			Vtiger_Index_Js.registerMailButtons(container);
-			container.find('.showMailModal').click(function (e) {
-				var progressIndicatorElement = jQuery.progressIndicator();
-				var url = $(e.currentTarget).data('url') + '&noloadlibs=1';
-				app.showModalWindow("", url, function (data) {
-					Vtiger_Index_Js.registerMailButtons(data);
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				});
-			});
-		});
 	},
 	loadMailPreviewWidget: function (widgetContent) {
 		var thisInstance = this;
@@ -2386,6 +2375,19 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.registerBlockAnimationEvent();
 		thisInstance.registerMailPreviewWidget(detailContentsHolder.find('.widgetContentBlock[data-type="EmailList"]'));
 		thisInstance.registerMailPreviewWidget(detailContentsHolder.find('.widgetContentBlock[data-type="HistoryRelation"]'));
+		app.event.on("DetailView.Widget.AfterLoad", function (e, widgetContent, relatedModuleName, instance, widgetContainer) {
+			if (relatedModuleName == 'Emails') {
+				Vtiger_Index_Js.registerMailButtons(widgetContent);
+				widgetContent.find('.showMailModal').click(function (e) {
+					var progressIndicatorElement = jQuery.progressIndicator();
+					var url = $(e.currentTarget).data('url') + '&noloadlibs=1';
+					app.showModalWindow("", url, function (data) {
+						Vtiger_Index_Js.registerMailButtons(data);
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					});
+				});
+			}
+		});
 		detailContentsHolder.on('switchChange.bootstrapSwitch', '.recentActivitiesSwitch.switchBtn', function (e, state) {
 			var currentTarget = jQuery(e.currentTarget);
 			var tabElement = thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel);

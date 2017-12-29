@@ -1,5 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-jQuery.Class("OSSMailView_preview_Js", {
+jQuery.Class("OSSMailView_Preview_Js", {
 	printMail: function () {
 		var content = window.open();
 		$(".emailPreview > div").each(function (index) {
