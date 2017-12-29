@@ -45,7 +45,6 @@ $languageStrings = [
 	'Configuration Editor' => 'Редактор конфигурации',
 	'EmailTemplate' => 'Шаблоны Почты',
 	'EMAILTEMPLATES' => 'Шаблоны Почты',
-	'LBL_TERMS_AND_CONDITIONS' => 'Сроки и условия',
 	'LBL_ACCESS_MANAGEMENT' => 'Менеджер доступа',
 	'LBL_ACTIVE' => 'Активен',
 	'LBL_ACTIVE_USERS' => 'Пользователи',
