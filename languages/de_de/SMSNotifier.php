@@ -11,6 +11,7 @@
 $languageStrings = [
 	'providertype' => 'Provider',
 	'LBL_SMS_MAX_CHARACTERS_ALLOWED' => 'SMS max 160 Zeichen erlaubt',
+	'LBL_SEREVER_CONFIG' => 'New configuration',
 	'username' => 'Benutzername',
 	'password' => 'Passwort',
 	'isactive' => 'Aktiv',
@@ -24,6 +25,11 @@ $languageStrings = [
 	'LBL_WRITE_YOUR_MESSAGE_HERE' => 'schreiben Sie die Nachricht hier',
 	'LBL_ADD_MORE_FIELDS' => 'Felder hinzufügen',
 	'LBL_SERVER_CONFIG' => 'Server Konfiguration',
+	'FL_STATUS' => 'Status',
+	'PLL_UNDEFINED' => 'Undefiniert',
+	'PLL_DELIVERED' => 'Ausgeliefert',
+	'PLL_FAILED' => 'Fehlgeschlagen',
+	'LBL_MASS_SEND_SMS_INFO' => 'Alle Texmeldungen wurden im CRON versendet',
 	//DetailView Actions
 	'LBL_CHECK_STATUS' => 'Status prüfen',
 	'message' => 'Nachricht',

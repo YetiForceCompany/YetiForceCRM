@@ -4,22 +4,22 @@
  * Settings OSSMailView index view class
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Widgets_Index_View extends Settings_Vtiger_Index_View
 {
 
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$source = $request->get('source');
-		$sourceModule = $request->get('sourceModule');
-		if ($sourceModule !== '') {
-			$source = vtlib\Functions::getModuleId($sourceModule);
-		}
-		if ($source === '') {
-			$source = App\Module::getModuleId('Accounts');
+		$source = $request->getInteger('source');
+		if (empty($source)) {
+			$source = \App\Module::getModuleId('Accounts');
 		}
 		$moduleModel = Settings_Widgets_Module_Model::getInstance($qualifiedModuleName);
 		$relatedModule = $moduleModel->getRelatedModule($source);
@@ -50,9 +50,9 @@ class Settings_Widgets_Index_View extends Settings_Vtiger_Index_View
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
-		$jsFileNames = array(
+		$jsFileNames = [
 			"modules.Settings.$moduleName.resources.$moduleName"
-		);
+		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;

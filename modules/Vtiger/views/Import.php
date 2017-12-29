@@ -27,11 +27,16 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		$this->exposeMethod('checkImportStatus');
 	}
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Import')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$userPrivilegesModel->hasModuleActionPermission($request->getModule(), 'Import') || !$userPrivilegesModel->hasModuleActionPermission($request->getModule(), 'CreateView')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -61,15 +66,10 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-
-		$jsFileNames = array(
+		$jsFileNames = [
 			'modules.Import.resources.Import'
-		);
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
+		];
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 
 	/**
@@ -126,16 +126,19 @@ class Vtiger_Import_View extends Vtiger_Index_View
 
 			$moduleName = $request->getModule();
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-			$moduleMeta = $moduleModel->getModuleMeta();
-
 			$viewer->assign('DATE_FORMAT', $user->date_format);
 			$viewer->assign('FOR_MODULE', $moduleName);
 			$viewer->assign('MODULE', 'Import');
-
 			$viewer->assign('HAS_HEADER', $hasHeader);
 			$viewer->assign('ROW_1_DATA', ($rowData && $rowData['LBL_STANDARD_FIELDS']) ? $rowData : ['LBL_STANDARD_FIELDS' => $rowData]);
 			$viewer->assign('USER_INPUT', $request);
 
+			$mandatoryFields = [];
+			foreach ($moduleModel->getMandatoryFieldModels() as $fieldName => $fieldModel) {
+				if ($fieldModel->isEditable()) {
+					$mandatoryFields[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
+				}
+			}
 			if ($moduleModel->isInventory()) {
 				$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($moduleName);
 				$inventoryFields = $inventoryFieldModel->getFields(true);
@@ -149,11 +152,11 @@ class Vtiger_Import_View extends Vtiger_Index_View
 			}
 			$importModule = Vtiger_Module_Model::getInstance('Import')->setImportModule($moduleName);
 			$viewer->assign('AVAILABLE_BLOCKS', $importModule->getFieldsByBlocks());
-			$viewer->assign('ENCODED_MANDATORY_FIELDS', \App\Json::encode($moduleMeta->getMandatoryFields()));
+			$viewer->assign('ENCODED_MANDATORY_FIELDS', \App\Json::encode($mandatoryFields));
 			$viewer->assign('SAVED_MAPS', Import_Map_Model::getAllByModule($moduleName));
 			$viewer->assign('USERS_LIST', Import_Utils_Helper::getAssignedToUserList($moduleName));
 			$viewer->assign('GROUPS_LIST', Import_Utils_Helper::getAssignedToGroupList($moduleName));
-			$viewer->assign('CREATE_RECORDS_BY_MODEL', in_array($request->get('type'), ['xml', 'zip']));
+			$viewer->assign('CREATE_RECORDS_BY_MODEL', in_array($request->getByType('type', 1), ['xml', 'zip']));
 			return $viewer->view('ImportAdvanced.tpl', 'Import');
 		} else {
 			$this->importBasicStep($request);
@@ -180,14 +183,13 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		$previousBulkSaveMode = vglobal('VTIGER_BULK_SAVE_MODE');
 		$viewer = new Vtiger_Viewer();
 		$moduleName = $request->getModule();
-		$ownerId = $request->get('foruser');
+		$ownerId = $request->getInteger('foruser');
 		$type = $request->get('type');
 		$user = Users_Record_Model::getCurrentUserModel();
-
-		if (!$user->isAdminUser() && $user->id != $ownerId) {
+		if (!$user->isAdminUser() && $user->getId() != $ownerId) {
 			$viewer->assign('MESSAGE', 'LBL_PERMISSION_DENIED');
 			$viewer->view('OperationNotPermitted.tpl', 'Vtiger');
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if (empty($type)) {
 			vglobal('VTIGER_BULK_SAVE_MODE', true);
@@ -215,7 +217,10 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		while ($recordId = $dataReader->readColumn(0)) {
 			if (App\Record::isExists($recordId)) {
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-				if ($recordModel->isDeletable()) {
+				if ($recordModel->privilegeToMoveToTrash()) {
+					$recordModel->changeState('Trash');
+					$noOfRecordsDeleted++;
+				} elseif ($recordModel->privilegeToDelete()) {
 					$recordModel->delete();
 					$noOfRecordsDeleted++;
 				}
@@ -245,7 +250,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 
 	public function cancelImport(\App\Request $request)
 	{
-		$importId = $request->get('import_id');
+		$importId = $request->getInteger('import_id');
 		$user = Users_Record_Model::getCurrentUserModel();
 
 		$importInfo = Import_Queue_Action::getImportInfoById($importId);
@@ -268,13 +273,13 @@ class Vtiger_Import_View extends Vtiger_Index_View
 
 		// Check if import on the module is locked
 		$lockInfo = Import_Lock_Action::isLockedForModule($moduleName);
-		if ($lockInfo !== null) {
+		if ($lockInfo) {
 			$lockedBy = $lockInfo['userid'];
 			if ($user->id != $lockedBy && !$user->isAdminUser()) {
 				Import_Utils_Helper::showImportLockedError($lockInfo);
-				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			} else {
-				if ($mode == 'continueImport' && $user->id == $lockedBy) {
+				if ($mode === 'continueImport' && $user->id == $lockedBy) {
 					$importController = new Import_Main_View($request, $user);
 					$importController->triggerImport(true);
 				} else {
@@ -295,7 +300,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 				Import_Main_View::showImportStatus($importInfo, $user);
 				return;
 			} else {
-				Import_Utils_Helper::showImportTableBlockedError($moduleName, $user);
+				Import_Utils_Helper::showImportTableBlockedError($moduleName);
 				return;
 			}
 		}

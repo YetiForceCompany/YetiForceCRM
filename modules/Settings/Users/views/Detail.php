@@ -12,6 +12,9 @@
 class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -19,10 +22,13 @@ class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 		if ($currentUserModel->isAdminUser() === true || ($currentUserModel->get('id') == $record && AppConfig::security('SHOW_MY_PREFERENCES'))) {
 			return true;
 		} else {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
@@ -56,12 +62,18 @@ class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 		$viewer->view('SettingsMenuEnd.tpl', $qualifiedModuleName);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function postProcess(\App\Request $request)
 	{
 		$this->postProcessSettings($request);
 		parent::postProcess($request);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -71,13 +83,16 @@ class Settings_Users_Detail_View extends Users_PreferenceDetail_View
 		parent::process($request);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			'modules.Settings.Vtiger.resources.Index'
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);

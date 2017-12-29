@@ -6,7 +6,7 @@
 				<input type="hidden" name="relatedModule" value="{$WIDGET['data']['relatedmodule']}" />
 				<div class="widgetTitle row">
 					<div class="col-xs-7">
-						<h4 class="moduleColor_{$WIDGET['label']}">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4>
+						<h4 class="modCT_{$WIDGET['label']}">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4>
 					</div>
 					<div class="col-xs-5">
 						<div class="pull-right">
@@ -14,7 +14,7 @@
 								<span class="body-icon glyphicon glyphicon-search" title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAILS','OSSMailView')}"></span>
 							</button>
 							&nbsp;
-							{if AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail')}
+							{if AppConfig::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}
 								{if $USER_MODEL->get('internal_mailer') == 1}
 									{assign var=URLDATA value=OSSMail_Module_Model::getComposeUrl($MODULE_NAME, $RECORD->getId(), 'Detail', 'new')}
 									<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$URLDATA}" data-module="{$MODULE_NAME}" data-record="{$RECORD->getId()}" data-popup="{$CONFIG['popup']}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
@@ -37,7 +37,7 @@
 						</div>
 					</div>
 				</div>
-				<hr class="rowHr"/>
+				<hr class="rowHr" />
 				<div class="row">
 					<div class="col-xs-6 paddingRightZero">
 						<select name="mail-type" title="{\App\Language::translate('LBL_CHANGE_MAIL_TYPE')}" class="form-control input-sm">

@@ -3,7 +3,7 @@
  * UIType MultiImage Field Class
  * @package YetiForce.UIType
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Michał Lorencik <m.lorencik@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -51,26 +51,21 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the Display Value
-	 * @param string $value
-	 * @param int $recordId
-	 * @param Vtiger_Record_Model $recordInstance
-	 * @param bool $noLimit
-	 * @return string
+	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($value, $recordId = false, $recordInstance = false, $noLimit = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$imageIcons = '<div class="multiImageContenDiv">';
-		if ($recordId) {
+		if ($record) {
 			if (!AppConfig::performance('ICON_MULTIIMAGE_VIEW')) {
 				$images = $this->getMultiImageQuery($value, ['name'], false)->column('name');
 				return implode(', ', $images);
 			}
-			$images = $this->getMultiImageQuery($value, [], $noLimit);
+			$images = $this->getMultiImageQuery($value, [], $length);
 			foreach ($images->all() as $attach) {
 				$imageIcons .= '<div class="contentImage" title="' . $attach['name'] . '">'
 					. '<button type="button" class="btn btn-sm btn-default imageFullModal hide"><span class="glyphicon glyphicon-fullscreen"></span></button>'
-					. '<img src="' . $this->getImagePath($attach['attachmentid'], $recordId) . '" class="multiImageListIcon"></div>';
+					. '<img src="' . $this->getImagePath($attach['attachmentid'], $record) . '" class="multiImageListIcon"></div>';
 			}
 		}
 		$imageIcons .= '</div>';
@@ -93,25 +88,25 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	 * Function to get the List Display Value
 	 * @param string $value
 	 * @param int $record
-	 * @param Vtiger_Record_Model $recordInstance
+	 * @param Vtiger_Record_Model $recordModel
 	 * @param bool $rawText
 	 * @return string
 	 */
-	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
-		$images = $this->getDisplayValue($value, $record, $recordInstance, true);
-		return !AppConfig::performance('ICON_MULTIIMAGE_VIEW') ? \vtlib\Functions::textLength($images, $this->get('field')->get('maxlengthtext')) : $images;
+		$images = $this->getDisplayValue($value, $record, $recordModel, true);
+		return !AppConfig::performance('ICON_MULTIIMAGE_VIEW') ? \vtlib\Functions::textLength($images, $this->getFieldModel()->get('maxlengthtext')) : $images;
 	}
 
 	/**
-	 * Function to get the display value in edit view
-	 * @param string $value
-	 * @param int $record
-	 * @return array
+	 * Function to get the edit value in display view
+	 * @param mixed $value
+	 * @param Vtiger_Record_Model $recordModel
+	 * @return mixed
 	 */
-	public function getEditViewDisplayValue($value, $record = false)
+	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		return $record ? $this->getMultiImageQuery($value, [], false)->all() : [];
+		return $recordModel ? $this->getMultiImageQuery($value, [], false)->all() : [];
 	}
 
 	/**

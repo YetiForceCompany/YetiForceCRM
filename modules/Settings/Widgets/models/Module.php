@@ -4,7 +4,7 @@
  * Settings Widgets Module Model class
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -69,7 +69,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getType($module = false)
 	{
-		$moduleName = vtlib\Functions::getModuleName($module);
+		$moduleName = \App\Module::getModuleName($module);
 
 		$dir = 'modules/Vtiger/widgets/';
 		$moduleModel = Vtiger_Module_Model::getInstance($module);
@@ -234,6 +234,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 				'data' => $serializeData
 			])->execute();
 		}
+		\App\Cache::delete('ModuleWidgets', $tabid);
 	}
 
 	/**
@@ -243,6 +244,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	public static function removeWidget($wid)
 	{
 		\App\Db::getInstance()->createCommand()->delete('vtiger_widgets', ['id' => $wid])->execute();
+		\App\Cache::clear();
 	}
 
 	/**
@@ -283,6 +285,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 				->update('vtiger_widgets', ['sequence' => $value['index'], 'wcol' => $value['column']], ['tabid' => $tabid, 'id' => $key])
 				->execute();
 		}
+		\App\Cache::delete('ModuleWidgets', $tabid);
 	}
 
 	/**
@@ -312,7 +315,7 @@ class Settings_Widgets_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getHeaderSwitch($index = [])
 	{
 		$data = [
-			\App\Module::getModuleId('SSalesProcesses') => [0 =>
+			\App\Module::getModuleId('SSalesProcesses') => [
 				[
 					'type' => 1,
 					'label' => \App\Language::translate('LBL_HEADERSWITCH_OPEN_CLOSED', 'SSalesProcesses'), // used only in configuration

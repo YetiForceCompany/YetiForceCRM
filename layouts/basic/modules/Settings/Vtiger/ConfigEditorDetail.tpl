@@ -13,7 +13,7 @@
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<div class="widget_header row">
 			<div class="col-md-8">
-			    {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				{\App\Language::translate('LBL_CONFIG_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
 			<div class="col-md-4">

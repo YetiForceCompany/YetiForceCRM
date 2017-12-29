@@ -23,5 +23,3 @@ class Faq_ListView_Model extends Vtiger_ListView_Model
 		return [];
 	}
 }
-
-?>

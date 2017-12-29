@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 {assign var=ACCESS_OPTIONS value=\App\Json::decode(html_entity_decode($WIDGET->get('owners')))}
 {if !is_array($ACCESS_OPTIONS.available)}
@@ -19,7 +19,7 @@
 	<span class="input-group-addon"><span class="glyphicon glyphicon-user iconMiddle margintop3" title="{\App\Language::translate('Assigned To', $MODULE_NAME)}"></span></span>
 	<select class="widgetFilter select2 width90 owner form-control input-sm" name="owner" title="{\App\Language::translate('LBL_OWNER')}"
 		{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX') && (in_array('groups', $ACCESS_OPTIONS['available']) || in_array('users', $ACCESS_OPTIONS['available']))}
-			{assign var=AJAX_URL value="index.php?module={$MODULE_NAME}&action=Fields&mode=getOwners&type=Edit"}
+			{assign var=AJAX_URL value="index.php?module={$SOURCE_MODULE}&action=Fields&mode=getOwners&fieldName=assigned_user_id"}
 			{if in_array('groups', $ACCESS_OPTIONS['available'])}
 				{assign var=AJAX_URL value=$AJAX_URL|cat:"&result[]=groups"}
 			{/if}

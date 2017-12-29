@@ -44,7 +44,7 @@ $languageStrings = [
 	'LBL_FINISH' => 'Final',
 	'LBL_IMPORT_ZIP' => 'Instalar a partir Arquivo ...',
 	'LBL_IMPORT_MODULE' => 'Instalar a partir do Vtiger',
-	'LBL_NOT_FOUND' => "Desculpe. Não encontramos nenhuma Extensão/Módulo para Versão Atual",
+	'LBL_NOT_FOUND' => 'Desculpe. Não encontramos nenhuma Extensão/Módulo para Versão Atual',
 	'LBL_INVALID_IMPORT_TRY_AGAIN' => ' fornecido para importar o módulo! Tente Novamente.',
 	'LBL_IMPORTED_MODULE' => '%s module has been imported successfully.',
 	'LBL_IMPORTING_MODULE' => 'Importando o Módulo',
@@ -84,6 +84,7 @@ $languageStrings = [
 	'LBL_LIBRARY_NO_DOWNLOAD' => 'Não Baixado',
 	'LBL_LIBRARY_NEEDS_UPDATING' => 'Atualização Necessária',
 	'LBL_NO_PERMISSION_TO_DIR' => 'Sem permissão para diretórios',
+	'LBL_ERROR_NO_VALID_PREFIX' => 'Invalid language prefix',
 ];
 $jsLanguageStrings = [
 	'JS_UPDATED_MODULE' => 'Atualizado com sucesso',

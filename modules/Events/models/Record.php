@@ -44,26 +44,32 @@ class Events_Record_Model extends Calendar_Record_Model
 		return 'index.php?module=Calendar&view=' . $module->getEditViewName() . '&record=' . $this->getId() . '&isDuplicate=true';
 	}
 
+	/**
+	 * Get invities
+	 * @return array
+	 */
 	public function getInvities()
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid=?', [(int) $this->getId()]);
-		$invitees = [];
-		while ($row = $db->getRow($result)) {
-			$invitees[] = $row;
-		}
-		return $invitees;
+		return (new \App\Db\Query())->from('u_#__activity_invitation')->where(['activityid' => (int) $this->getId()])->all();
 	}
 
+	/**
+	 * Get invition status
+	 * @param int $status
+	 * @return string
+	 */
 	static public function getInvitionStatus($status = false)
 	{
 		$statuses = [0 => 'LBL_NEEDS-ACTION', 1 => 'LBL_ACCEPTED', 2 => 'LBL_DECLINED'];
 		return $status !== false ? $statuses[$status] : $statuses;
 	}
 
+	/**
+	 * Get invite user mail data
+	 * @return array
+	 */
 	public function getInviteUserMailData()
 	{
-		$adb = PearDatabase::getInstance();
 		return []; // To do
 	}
 
@@ -73,8 +79,8 @@ class Events_Record_Model extends Calendar_Record_Model
 	 */
 	public function addRelationOperation(\App\Request $request)
 	{
-		if ($request->get('relationOperation')) {
-			$parentModuleName = $request->get('sourceModule');
+		if ($request->getBoolean('relationOperation')) {
+			$parentModuleName = $request->getByType('sourceModule', 2);
 			$parentModuleModel = Vtiger_Module_Model::getInstance($parentModuleName);
 			$parentRecordId = $request->get('sourceRecord');
 			$relatedModule = $this->getModule();

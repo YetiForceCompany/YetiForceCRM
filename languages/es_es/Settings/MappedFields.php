@@ -3,12 +3,12 @@
  * MappedFields spanish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
-	'LBL_ADD_TEMPLATE' => 'Añadir asignación',
+	'LBL_ADD_TEMPLATE' => 'Añadir Mapeo',
 	'LBL_IMPORT_TEMPLATE' => 'Importar plantilla',
-	'LBL_MAPPEDFIELDS' => 'Asignación',
+	'LBL_MAPPEDFIELDS' => 'Mapeo de campos',
 	'LBL_MAPPEDFIELDS_DESCRIPTION' => ' ',
 	'LBL_EXPORT_RECORD' => 'Exportar',
 	'LBL_MODULE' => 'Módulo',
@@ -21,7 +21,7 @@ $languageStrings = [
 	'LBL_SELECT_MODULE' => 'Seleccionar módulo',
 	'LBL_SELECT_REL_MODULE' => 'Seleccionar módulo relacionado',
 	'LBL_MF_SETTINGS' => 'Módulos',
-	'LBL_MAPPING_LIST' => 'Asignación',
+	'LBL_MAPPING_LIST' => 'Lista de Mapeos',
 	'LBL_EXCEPTIONS' => 'Excepciones',
 	'LBL_PERMISSIONS' => 'Permisos',
 	'LBL_STEP_N' => 'Paso %d',
@@ -76,7 +76,7 @@ $languageStrings = [
 	'LBL_EXAMPLE_EXPRESSION' => 'Expresión',
 	'LBL_ANNUAL_REVENUE' => 'ingresos anuales',
 	'LBL_EXPRESSION_EXAMPLE2' => "if mailingcountry == 'India' then concat(firstname,' ',lastname) else concat(lastname,' ',firstname) end",
-	'MappedFields' => 'Asignación',
+	'MappedFields' => 'Mapeo de campos',
 ];
 $jsLanguageStrings = [
 	'JS_IS_ALREADY_BEEN_MAPPED' => 'Este campo ya ha sido mapeado.',

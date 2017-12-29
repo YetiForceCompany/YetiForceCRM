@@ -4,7 +4,7 @@
  * Switch Users Action Class
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Users_SwitchUsers_Action extends Vtiger_Action_Controller
@@ -13,11 +13,11 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 	/**
 	 * Function checks permissions
 	 * @param \App\Request $request
-	 * @throws \Exception\NoPermitted
+	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$userId = $request->get('id');
+		$userId = $request->getInteger('id');
 		require('user_privileges/switchUsers.php');
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$baseUserId = $currentUserModel->getRealId();
@@ -30,10 +30,10 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 				'dusername' => '',
 				'date' => date('Y-m-d H:i:s'),
 				'ip' => \App\RequestUtil::getRemoteIP(),
-				'agent' => $_SERVER['HTTP_USER_AGENT'],
+				'agent' => $request->getServer('HTTP_USER_AGENT'),
 				'status' => 'Failed login - No permission',
 			])->execute();
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -45,7 +45,7 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$baseUserId = $currentUserModel->getId();
-		$userId = $request->get('id');
+		$userId = $request->getInteger('id');
 		$user = new Users();
 		$currentUser = $user->retrieveCurrentUserInfoFromFile($userId);
 		$name = $currentUserModel->getName();
@@ -74,10 +74,10 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 			'dusername' => $name,
 			'date' => date('Y-m-d H:i:s'),
 			'ip' => \App\RequestUtil::getRemoteIP(),
-			'agent' => $_SERVER['HTTP_USER_AGENT'],
+			'agent' => $request->getServer('HTTP_USER_AGENT'),
 			'status' => $status,
 		])->execute();
-
+		\App\CustomView::resetCurrentView();
 		header('Location: index.php');
 	}
 }

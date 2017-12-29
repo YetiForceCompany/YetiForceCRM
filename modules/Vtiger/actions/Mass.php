@@ -12,39 +12,57 @@
 abstract class Vtiger_Mass_Action extends Vtiger_Action_Controller
 {
 
-	public static function getRecordsListFromRequest(\App\Request $request)
+	/**
+	 * Get query for records list from request
+	 * @param \App\Request $request
+	 * @return \App\QueryGenerator|boolean
+	 */
+	public static function getQuery(\App\Request $request)
 	{
-		$cvId = $request->get('viewname');
-		$module = $request->get('module');
-		if (!empty($cvId) && $cvId == "undefined" && $request->get('source_module') != 'Users') {
-			$sourceModule = $request->get('sourceModule');
+		$cvId = $request->isEmpty('viewname') ? '' : $request->getByType('viewname', 2);
+		$moduleName = $request->getByType('module');
+		if (!empty($cvId) && $cvId === 'undefined' && $request->getByType('source_module', 2) !== 'Users') {
+			$sourceModule = $request->getByType('sourceModule', 2);
 			$cvId = CustomView_Record_Model::getAllFilterByModule($sourceModule)->getId();
 		}
-		$selectedIds = $request->get('selected_ids');
-		$excludedIds = $request->get('excluded_ids');
-
-		if (!empty($selectedIds) && !in_array($selectedIds, ['all', '"all"'])) {
-			if (!empty($selectedIds) && count($selectedIds) > 0) {
-				return $selectedIds;
-			}
-		}
-
 		$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
-		if ($customViewModel) {
-			$searchKey = $request->get('search_key');
-			$searchValue = $request->get('search_value');
-			$operator = $request->get('operator');
-			if (!empty($operator)) {
-				$customViewModel->set('operator', $operator);
-				$customViewModel->set('search_key', $searchKey);
-				$customViewModel->set('search_value', $searchValue);
-			}
-
-			$customViewModel->set('search_params', $request->get('search_params'));
-			return $customViewModel->getRecordIds($excludedIds, $module);
+		if (!$customViewModel) {
+			return false;
 		}
+		$selectedIds = $request->getArray('selected_ids', 2);
+		if ($selectedIds && $selectedIds[0] !== 'all') {
+			$queryGenerator = new App\QueryGenerator($moduleName);
+			$queryGenerator->setFields(['id']);
+			$queryGenerator->addCondition('id', $selectedIds, 'e');
+			return $queryGenerator;
+		}
+		if (!$request->isEmpty('operator')) {
+			$customViewModel->set('operator', $request->getByType('operator'));
+			$customViewModel->set('search_key', $request->getByType('search_key'));
+			$customViewModel->set('search_value', $request->get('search_value'));
+		}
+		$customViewModel->set('search_params', $request->get('search_params'));
+		return $customViewModel->getRecordsListQuery($request->get('excluded_ids'), $moduleName);
 	}
 
+	/**
+	 * Get records list from request
+	 * @param \App\Request $request
+	 * @return array
+	 */
+	public static function getRecordsListFromRequest(\App\Request $request)
+	{
+		$selectedIds = $request->getArray('selected_ids', 2);
+		if ($selectedIds && $selectedIds[0] !== 'all') {
+			return $selectedIds;
+		}
+		$queryGenerator = static::getQuery($request);
+		return $queryGenerator ? $queryGenerator->createQuery()->column() : [];
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();

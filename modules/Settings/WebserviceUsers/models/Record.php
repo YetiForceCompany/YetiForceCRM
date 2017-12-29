@@ -4,7 +4,7 @@
  * Record Model
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
@@ -43,7 +43,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	public function getModule()
 	{
 		if (!$this->module) {
-			$this->module = $moduleInstance = Settings_Vtiger_Module_Model::getInstance('Settings:WebserviceUsers');
+			$this->module = Settings_Vtiger_Module_Model::getInstance('Settings:WebserviceUsers');
 		}
 		return $this->module;
 	}
@@ -103,7 +103,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			case 'language':
 				$params['typeofdata'] = 'V~O';
 				$params['uitype'] = 32;
-				$params['picklistValues'] = vtlib\Language::getAll();
+				$params['picklistValues'] = \App\Language::getAll();
 				break;
 			case 'user_id':
 				$params['uitype'] = 16;
@@ -223,7 +223,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			case 'user_id':
 				return \App\Fields\Owner::getLabel($this->get($name));
 			case 'language':
-				return vtlib\Language::getAll()[$this->get($name)];
+				return \App\Language::getAll()[$this->get($name)];
 			case 'type':
 				$label = \App\Language::translate($this->getTypeValues($this->get($name)), $this->getModule()->getName(true));
 				return \vtlib\Functions::textLength($label);
@@ -252,7 +252,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => 'javascript:Vtiger_List_Js.deleteRecord(' . $this->getId() . ');',
+				'linkurl' => 'javascript:Settings_WebserviceUsers_List_Js.deleteById(' . $this->getId() . ');',
 				'linkicon' => 'glyphicon glyphicon-trash',
 				'linkclass' => 'btn btn-sm btn-danger'
 			]

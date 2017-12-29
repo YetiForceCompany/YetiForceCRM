@@ -22,7 +22,15 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 
 	public function checkPermission(\App\Request $request)
 	{
-		
+		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
+			if ($request->isEmpty('parent', true) || $request->getByType('parent', 2) !== 'Settings' || !$currentUserPrivilegesModel->isAdminUser()) {
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+			}
+		}
+		if (!$request->isEmpty('searchModule') && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('searchModule', 2))) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
 	}
 
 	public function preProcess(\App\Request $request, $display = true)
@@ -37,7 +45,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 
 	public function process(\App\Request $request)
 	{
-		$mode = $request->get('mode');
+		$mode = $request->getMode();
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
 		}
@@ -47,34 +55,33 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 	/**
 	 * Function to display the UI for advance search on any of the module
 	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function showAdvancedSearch(\App\Request $request)
 	{
-		//Modules for which search is excluded
-		$excludedModuleForSearch = array('Vtiger', 'Reports');
-
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-
-		if ($request->get('source_module')) {
-			$moduleName = $request->get('source_module');
+		if (!$request->isEmpty('searchModule')) {
+			$moduleName = $request->getByType('searchModule', 2);
+		} elseif (\App\Module::getModuleId($moduleName) === false || (!$request->isEmpty('parent', true) && $request->getByType('parent', 2) === 'Settings')) {
+			//See if it is an excluded module, If so search in home module
+			$moduleName = 'Home';
 		}
-
 		$saveFilterPermitted = true;
-		$saveFilterexcludedModules = array('ModComments', 'RSS', 'Portal', 'Integration', 'PBXManager', 'DashBoard');
-		if (in_array($moduleName, $saveFilterexcludedModules)) {
+		if (in_array($moduleName, ['ModComments', 'RSS', 'Portal', 'Integration', 'PBXManager', 'DashBoard'])) {
 			$saveFilterPermitted = false;
 		}
-
 		//See if it is an excluded module, If so search in home module
-		if (in_array($moduleName, $excludedModuleForSearch)) {
+		if (in_array($moduleName, ['Vtiger', 'Reports'])) {
 			$moduleName = 'Home';
 		}
 		$module = $request->getModule();
-
 		$customViewModel = new CustomView_Record_Model();
 		$customViewModel->setModule($moduleName);
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($moduleName)) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 
 		$viewer->assign('SEARCHABLE_MODULES', Vtiger_Module_Model::getSearchableModules());
@@ -100,13 +107,13 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 	/**
 	 * Function to display the Search Results
 	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function showSearchResults(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$advFilterList = $request->get('advfilterlist');
-
 		//used to show the save modify filter option
 		$isAdvanceSearch = false;
 		$matchingRecords = [];
@@ -126,11 +133,14 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$viewer->assign('SEARCH_MODULE', $moduleName);
 		} else {
 			$searchKey = $request->get('value');
-			$limit = $request->get('limit') != 'false' ? $request->get('limit') : false;
-			$operator = (!$request->isEmpty('operator') ) ? $request->get('operator') : false;
+			$limit = false;
+			if (!$request->isEmpty('limit', true) && $request->getBoolean('limit') !== false) {
+				$limit = $request->getInteger('limit');
+			}
+			$operator = (!$request->isEmpty('operator') ) ? $request->getByType('operator', 1) : false;
 			$searchModule = false;
-			if ($request->get('searchModule')) {
-				$searchModule = $request->get('searchModule');
+			if (!$request->isEmpty('searchModule', true)) {
+				$searchModule = $request->getByType('searchModule', 2);
 			}
 			$viewer->assign('SEARCH_KEY', $searchKey);
 			$viewer->assign('SEARCH_MODULE', $searchModule);
@@ -145,13 +155,12 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 				$matchingRecords = $matchingRecordsList;
 			}
 		}
-		$curentModule = $request->get('curentModule');
-		if (AppConfig::search('GLOBAL_SEARCH_CURRENT_MODULE_TO_TOP') && isset($matchingRecords[$curentModule])) {
-			$pushTop = $matchingRecords[$curentModule];
-			unset($matchingRecords[$curentModule]);
-			$matchingRecords = [$curentModule => $pushTop] + $matchingRecords;
+		if (AppConfig::search('GLOBAL_SEARCH_CURRENT_MODULE_TO_TOP') && isset($matchingRecords[$moduleName])) {
+			$pushTop = $matchingRecords[$moduleName];
+			unset($matchingRecords[$moduleName]);
+			$matchingRecords = [$moduleName => $pushTop] + $matchingRecords;
 		}
-		if ($request->get('html') === 'true') {
+		if ($request->getBoolean('html')) {
 			$viewer->assign('MODULE', $moduleName);
 			$viewer->assign('MATCHING_RECORDS', $matchingRecords);
 			$viewer->assign('IS_ADVANCE_SEARCH', $isAdvanceSearch);
@@ -160,7 +169,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 			$recordsList = [];
 			foreach ($matchingRecords as $module => &$modules) {
 				foreach ($modules as $recordID => $recordModel) {
-					$label = decode_html($recordModel->getName());
+					$label = $recordModel->getName();
 					$label .= ' (' . \App\Fields\Owner::getLabel($recordModel->get('smownerid')) . ')';
 					if (!$recordModel->get('permitted')) {
 						$label .= ' <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>';

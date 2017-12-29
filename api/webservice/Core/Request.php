@@ -5,7 +5,7 @@ namespace Api\Core;
  * Web service request class 
  * @package YetiForce.Webservice
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Request extends \App\Request
@@ -44,7 +44,7 @@ class Request extends \App\Request
 
 	public function contentParse($content)
 	{
-		$type = isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : $this->getHeader('Content-Type');
+		$type = isset($_SERVER['CONTENT_TYPE']) ? $this->getServer('CONTENT_TYPE') : $this->getHeader('Content-Type');
 		if (empty($type)) {
 			$type = $this->getHeader('Accept');
 		}
@@ -65,7 +65,7 @@ class Request extends \App\Request
 	{
 		$privateKey = 'file://' . ROOT_DIRECTORY . DIRECTORY_SEPARATOR . vglobal('privateKey');
 		if (!$privateKey = openssl_pkey_get_private($privateKey)) {
-			throw new \Exception\AppException('Private Key failed');
+			throw new \App\Exceptions\AppException('Private Key failed');
 		}
 		$privateKey = openssl_pkey_get_private($privateKey);
 		openssl_private_decrypt($data, $decrypted, $privateKey);

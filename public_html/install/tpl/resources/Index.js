@@ -7,10 +7,21 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  ************************************************************************************/
-jQuery.Class('Install_Index_Js', {}, {
+jQuery.Class('Install_Index_Js', {
+	fieldsCached : ['db_hostname','db_username','db_name', 	'create_db',
+		'db_root_username',	'currency_name','firstname','lastname',	'admin_email',
+		'dateformat','timezone'
+	],
+	checkUsername: function (field, rules, i, options) {
+		var logins = jQuery.parseJSON(jQuery('#not_allowed_logins').val());
+		if (jQuery.inArray(field.val(), logins) !== -1) {
+			return app.vtranslate('LBL_INVALID_USERNAME_ERROR');
+		}
+	},
+}, {
 	registerEventForStep1: function () {
 		jQuery('.bt_install').on('click', function (e) {
-			jQuery('input[name="mode"]').val('Step2');
+			jQuery('input[name="mode"]').val('step2');
 			jQuery('form[name="step1"]').submit();
 		});
 		jQuery('.bt_migrate').on('click', function (e) {
@@ -66,29 +77,24 @@ jQuery.Class('Install_Index_Js', {}, {
 		return error;
 	},
 	registerEventForStep4: function () {
-
 		var config = JSON.parse(localStorage.getItem('yetiforce_install'));
-
-		for (var field in config) {
-//		console.log(field);
-			var formField = jQuery('[name="' + field + '"]');
-
-			if ('SELECT' == jQuery(formField).prop('tagName')) {
-				jQuery(formField).val(config[field]);
-				jQuery(formField).select2('destroy');
-				jQuery(formField).select2();
-
-			} else if ('INPUT' == jQuery(formField).prop('tagName') && 'checkbox' == jQuery(formField).attr('type')) {
-
-				if (true == config[field]) {
-					jQuery(formField).prop('checked', true);
-					jQuery('.config-table tr.hide').removeClass('hide');
+		Install_Index_Js.fieldsCached.forEach(function(field){
+			if(config && typeof config[field] !== 'undefined') {
+				var formField = jQuery('[name="' + field + '"]');
+				if ('SELECT' == jQuery(formField).prop('tagName')) {
+					jQuery(formField).val(config[field]);
+					jQuery(formField).select2('destroy');
+					jQuery(formField).select2();
+				} else if ('INPUT' == jQuery(formField).prop('tagName') && 'checkbox' == jQuery(formField).attr('type')) {
+					if (true == config[field]) {
+						jQuery(formField).prop('checked', true);
+						jQuery('.config-table tr.hide').removeClass('hide');
+					}
+				} else {
+					jQuery(formField).val(config[field]);
 				}
-			} else {
-				jQuery(formField).val(config[field]);
 			}
-		}
-
+		});
 		var thisInstance = this;
 		jQuery('input[name="create_db"]').on('click', function () {
 			var userName = jQuery('#root_user');
@@ -101,7 +107,6 @@ jQuery.Class('Install_Index_Js', {}, {
 				password.addClass('hide');
 			}
 		});
-
 		function clearPasswordError() {
 			jQuery('#passwordError').html('');
 		}
@@ -256,7 +261,7 @@ jQuery.Class('Install_Index_Js', {}, {
 	},
 	changeLanguage: function (e) {
 		var target = $(e.currentTarget);
-		jQuery('input[name="mode"]').val('');
+		jQuery('input[name="mode"]').val('step1');
 		jQuery('form[name="step1"]').submit();
 	},
 	registerEvents: function () {

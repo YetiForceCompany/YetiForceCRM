@@ -19,7 +19,7 @@ Class Settings_Profiles_EditAjax_Action extends Settings_Vtiger_IndexAjax_View
 
 	public function process(\App\Request $request)
 	{
-		$mode = $request->get('mode');
+		$mode = $request->getMode();
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
 			return;
@@ -33,9 +33,9 @@ Class Settings_Profiles_EditAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$recordModel = Settings_Profiles_Record_Model::getInstanceByName($profileName, false, $recordId);
 		$response = new Vtiger_Response();
 		if (!empty($recordModel)) {
-			$response->setResult(array('success' => true, 'message' => \App\Language::translate('LBL_DUPLICATES_EXIST', $request->getModule(false))));
+			$response->setResult(['success' => true, 'message' => \App\Language::translate('LBL_DUPLICATES_EXIST', $request->getModule(false))]);
 		} else {
-			$response->setResult(array('success' => false));
+			$response->setResult(['success' => false]);
 		}
 		$response->emit();
 	}

@@ -22,7 +22,7 @@ class Settings_Workflows_DeleteAjax_Action extends Settings_Vtiger_Index_Action
 			$response->setError('LBL_DEFAULT_WORKFLOW', \App\Language::translate('LBL_CANNOT_DELETE_DEFAULT_WORKFLOW', $qualifiedModule));
 		} else {
 			$recordModel->delete();
-			$response->setResult(array('success' => 'ok'));
+			$response->setResult(['success' => 'ok']);
 		}
 		$response->emit();
 	}

@@ -4,7 +4,7 @@
  * Vtiger CreatedNotMineActivities dashboard class
  * @package YetiForce.Dashboard
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 Class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 {
@@ -14,17 +14,17 @@ Class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 
 		$moduleName = $request->getModule();
-		$page = $request->get('page');
-		$linkId = $request->get('linkid');
-		$sortOrder = $request->get('sortorder');
-		$orderBy = $request->get('orderby');
+		$page = $request->getInteger('page');
+		$linkId = $request->getInteger('linkid');
+		$sortOrder = $request->getForSql('sortorder');
+		$orderBy = $request->getForSql('orderby');
 		$data = $request->getAll();
 
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		else
-			$owner = $request->get('owner');
+			$owner = $request->getByType('owner', 2);
 
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
@@ -61,8 +61,7 @@ Class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('USER_CONDITIONS', $conditions);
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/CalendarActivitiesContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/CreatedNotMineActivities.tpl', $moduleName);

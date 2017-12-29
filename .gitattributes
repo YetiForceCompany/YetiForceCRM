@@ -8,3 +8,13 @@
 *.htaccess text eol=lf
 *.service text eol=lf
 *.html text eol=lf
+*.sql text eol=lf
+*.ini text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+
+.github/ export-ignore
+tests/ export-ignore
+.travis.yml export-ignore
+.scrutinizer.yml export-ignore
+.sensiolabs.yml export-ignore

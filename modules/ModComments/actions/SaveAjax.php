@@ -14,13 +14,13 @@ class ModComments_SaveAjax_Action extends Vtiger_SaveAjax_Action
 
 	public function checkPermission(\App\Request $request)
 	{
-		$record = $request->get('record');
 		//Do not allow ajax edit of existing comments
-		if ($record) {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+		if (!$request->isEmpty('record', true)) {
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
-		if(!App\Privilege::isPermitted($request->getModule(), 'CreateView')){
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+		$this->record = Vtiger_Record_Model::getCleanInstance($request->getModule());
+		if (!$this->record->isCreateable()) {
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -32,10 +32,9 @@ class ModComments_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$result = [];
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
 			$fieldValue = $recordModel->get($fieldName);
-			$result[$fieldName] = array('value' => $fieldValue, 'display_value' => $fieldModel->getDisplayValue($fieldValue));
+			$result[$fieldName] = ['value' => $fieldValue, 'display_value' => $fieldModel->getDisplayValue($fieldValue)];
 		}
 		$result['id'] = $recordModel->getId();
-
 		$result['_recordLabel'] = $recordModel->getName();
 		$result['_recordId'] = $recordModel->getId();
 

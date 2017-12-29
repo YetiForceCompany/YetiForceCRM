@@ -16,7 +16,7 @@ class VTSMSTask extends VTTask
 
 	public function getFieldNames()
 	{
-		return array('content', 'sms_recepient');
+		return ['content', 'sms_recepient'];
 	}
 
 	/**

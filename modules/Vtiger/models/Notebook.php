@@ -13,21 +13,21 @@ class Vtiger_Notebook_Model extends Vtiger_Widget_Model
 
 	public function getContent()
 	{
-		$data = \App\Json::decode(decode_html($this->get('data')));
+		$data = \App\Json::decode(App\Purifier::decodeHtml($this->get('data')));
 		return $data['contents'];
 	}
 
 	public function getLastSavedDate()
 	{
-		$data = \App\Json::decode(decode_html($this->get('data')));
+		$data = \App\Json::decode(App\Purifier::decodeHtml($this->get('data')));
 		return $data['lastSavedOn'];
 	}
 
-	public function save($request)
+	public function save(\App\Request$request)
 	{
 		$db = PearDatabase::getInstance();
 		$content = $request->get('contents');
-		$noteBookId = $request->get('widgetid');
+		$noteBookId = $request->getInteger('widgetid');
 		$date_var = date("Y-m-d H:i:s");
 		$date = $db->formatDate($date_var, true);
 
@@ -39,18 +39,18 @@ class Vtiger_Notebook_Model extends Vtiger_Widget_Model
 		$this->set('data', $data);
 
 
-		$db->pquery('UPDATE vtiger_module_dashboard_widgets SET data=? WHERE id=?', array($data, $noteBookId));
+		$db->pquery('UPDATE vtiger_module_dashboard_widgets SET data=? WHERE id=?', [$data, $noteBookId]);
 	}
 
 	public static function getUserInstance($widgetId)
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM vtiger_module_dashboard_widgets 
-			INNER JOIN vtiger_links ON vtiger_links.linkid = vtiger_module_dashboard_widgets.linkid 
+		$result = $db->pquery('SELECT * FROM vtiger_module_dashboard_widgets
+			INNER JOIN vtiger_links ON vtiger_links.linkid = vtiger_module_dashboard_widgets.linkid
 			WHERE linktype = ? AND vtiger_module_dashboard_widgets.id = ? AND vtiger_module_dashboard_widgets.userid = ?', ['DASHBOARDWIDGET', $widgetId, \App\User::getCurrentUserId()]);
 		$self = new self();
-		if ($db->num_rows($result)) {
-			$row = $db->query_result_rowdata($result, 0);
+		if ($db->numRows($result)) {
+			$row = $db->queryResultRowData($result, 0);
 			$self->setData($row);
 		}
 		return $self;

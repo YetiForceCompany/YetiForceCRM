@@ -4,7 +4,7 @@
  * Vtiger processes model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_Processes_Model
 {
@@ -25,14 +25,14 @@ class Vtiger_Processes_Model
 		}
 
 		$result = $db->pquery(sprintf('SELECT * FROM %s WHERE type = ?;', $processList[$process]), [$type]);
-		if ($db->num_rows($result) == 0) {
+		if ($db->numRows($result) == 0) {
 			return [];
 		}
 		$config = [];
-		$numRowsCount = $db->num_rows($result);
+		$numRowsCount = $db->numRows($result);
 		for ($i = 0; $i < $numRowsCount; ++$i) {
-			$param = $db->query_result_raw($result, $i, 'param');
-			$value = $db->query_result_raw($result, $i, 'value');
+			$param = $db->queryResultRaw($result, $i, 'param');
+			$value = $db->queryResultRaw($result, $i, 'value');
 			if ($param == 'users') {
 				$config[$param] = $value == '' ? [] : explode(',', $value);
 			} else {

@@ -3,7 +3,7 @@
  * Conf report portuguese translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'ConfReport' => 'Configurações do Servidor',
@@ -41,6 +41,7 @@ $languageStrings = [
 	'LBL_XML_LIBRARY' => 'XML',
 	'LBL_JSON_LIBRARY' => 'JSON',
 	'LBL_SESSION_LIBRARY' => 'SESSION',
+	'LBL_MYSQLND_LIBRARY' => 'MySQL Native Driver (mysqlnd)',
 	'LBL_DOM_LIBRARY' => 'DOM',
 	'LBL_MBSTRING_LIBRARY' => 'php_mbstring (exigido para mPDF)',
 	'LBL_ZIP_ARCHIVE' => 'ZIP',
@@ -60,6 +61,8 @@ $languageStrings = [
 	'LBL_CRON_PHPINI' => 'Cron - PHP configuração',
 	'LBL_CRON_LOG_FILE' => 'Cron - Logs de Erro',
 	'LBL_CRON_PHP_SAPI' => 'Cron - API sdo ervidor',
+	'LBL_OPERATING_SYSTEM' => 'Operating system',
+	'BTN_SERVER_SPEED_TEST' => 'Server speed test',
 	'LBL_ENVIRONMENTAL_INFORMATION' => 'Environment information',
 	'LBL_LIB_NAME' => 'Library name',
  	'LBL_VULNERABILITY_NAME' => 'Vulnerability name',
@@ -67,4 +70,9 @@ $languageStrings = [
 	'HTTPS_HELP_TEXT' => 'SSL is the standard security technology for establishing an encrypted link between a web server and a browser',
 	'HTACCESS_HELP_TEXT' => '.htaccess files can be used to change the server software configuration to configure and enable / disable additional services. YetiForceCRM requires access to the file to some work functions properly.',
 	'PUBLIC_HTML_HELP_TEXT' => 'We suggest that you install the system so that only the public_html folder is used. This improves data security by not having access to unpublic directories and files directly from the address',
+	'SESSION_REGENERATE_HELP_TEXT' => 'We recommend to enable the regeneration of session ID, this option makes it difficult to take over the user session. Changes should be made in the main configuration file.',
+	'LBL_TMP_DIR' => 'Temporary directory',
+];
+$jsLanguageStrings = [
+	'JS_SPEED_TEST_START' => 'Checking speed...',
 ];

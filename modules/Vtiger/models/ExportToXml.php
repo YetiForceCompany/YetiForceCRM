@@ -4,7 +4,7 @@
  * ExportToXml Model Class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
@@ -73,7 +73,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 			if (in_array($field->getName(), ['Name', 'Reference'])) {
 				$value = trim($value);
 				if (!empty($value)) {
-					$recordModule = \vtlib\Functions::getCRMRecordType($value);
+					$recordModule = \App\Record::getType($value);
 					$displayValue = \App\Record::getLabel($value);
 					if (!empty($recordModule) && !empty($displayValue)) {
 						$value = $recordModule . '::::' . $displayValue;
@@ -173,7 +173,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 			foreach ($entriesInventory as $inventory) {
 				unset($inventory['id']);
 				$xml->startElement('INVENTORY_ITEM');
-				while (list($columnName, $value) = each($inventory)) {
+				foreach ($inventory as $columnName => $value) {
 					$xml->startElement($columnName);
 					$fieldModel = $this->inventoryFields[$columnName];
 					if ($fieldModel) {

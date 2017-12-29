@@ -13,7 +13,7 @@
     <div>
 		<div class="widget_header row marginBottom10px">
 			<div class="col-sm-6">
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
 			<div class="col-sm-6">
 				<div class="btn-toolbar pull-right">
@@ -35,9 +35,9 @@
 			</div>
 		</div>
         <div class="reportsDetailHeader">
-			<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($DATE_FILTERS))}' />
+			<input type="hidden" name="date_filters" data-value='{\App\Purifier::encodeHtml(\App\Json::encode($DATE_FILTERS))}' />
             <form id="detailView" onSubmit="return false;">
-				<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($DATE_FILTERS))}' />
+				<input type="hidden" name="date_filters" data-value='{\App\Purifier::encodeHtml(\App\Json::encode($DATE_FILTERS))}' />
 				<div class="reportHeader row">
 					<div class="col-md-8">
 						<h3 class="noSpaces" >{$REPORT_MODEL->getName()}</h3>
@@ -87,13 +87,13 @@
 							{$RECORD_STRUCTURE[$key] = $BLOCK_FIELDS}
 						{/foreach}
 					{/foreach}
-					{include file='AdvanceFilter.tpl'|@vtemplate_path RECORD_STRUCTURE=$RECORD_STRUCTURE ADVANCE_CRITERIA=$SELECTED_ADVANCED_FILTER_FIELDS COLUMNNAME_API=getReportFilterColumnName}
+					{include file=\App\Layout::getTemplatePath('AdvanceFilter.tpl') RECORD_STRUCTURE=$RECORD_STRUCTURE ADVANCE_CRITERIA=$SELECTED_ADVANCED_FILTER_FIELDS COLUMNNAME_API=getReportFilterColumnName}
 					<div class="row">
 						<div class="textAlignCenter">
-							<button class="btn generateReport btn-primary" data-mode="generate" value="{\App\Language::translate('LBL_GENERATE_NOW',$MODULE)}"/>
+							<button class="btn generateReport btn-primary" data-mode="generate" value="{\App\Language::translate('LBL_GENERATE_NOW',$MODULE)}" />
 							<strong>{\App\Language::translate('LBL_GENERATE_NOW',$MODULE)}</strong>
 							</button>&nbsp;
-							<button class="btn btn-success generateReport" data-mode="save" value="{\App\Language::translate('LBL_SAVE',$MODULE)}"/>
+							<button class="btn btn-success generateReport" data-mode="save" value="{\App\Language::translate('LBL_SAVE',$MODULE)}" />
 							<strong>{\App\Language::translate('LBL_SAVE',$MODULE)}</strong>
 							</button>
 						</div>

@@ -4,7 +4,7 @@
  * Notification Record Model
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Notification_Record_Model extends Vtiger_Record_Model
@@ -142,21 +142,21 @@ class Notification_Record_Model extends Vtiger_Record_Model
 			$relatedModule = $relatedRecord['module'];
 		}
 		$notificationType = $this->get('notification_type');
-		if (!Users_Privileges_Model::isPermitted('Notification', 'DetailView')) {
-			\App\Log::warning('User ' . vtlib\Functions::getOwnerRecordLabel($this->get('assigned_user_id')) . ' has no active notifications');
+		if (!\App\Privilege::isPermitted('Notification', 'DetailView')) {
+			\App\Log::warning('User ' . \App\Fields\Owner::getLabel($this->get('assigned_user_id')) . ' has no active notifications');
 			\App\Log::trace('Exiting ' . __METHOD__ . ' - return true');
 			return false;
 		}
-		if ($notificationType !== 'PLL_USERS' && !Users_Privileges_Model::isPermitted($relatedModule, 'DetailView', $relatedId)) {
-			\App\Log::error('User ' . vtlib\Functions::getOwnerRecordLabel($this->get('assigned_user_id')) .
+		if ($notificationType !== 'PLL_USERS' && !\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedId)) {
+			\App\Log::error('User ' . \App\Fields\Owner::getLabel($this->get('assigned_user_id')) .
 				' does not have permission for this record ' . $relatedId);
 			\App\Log::trace('Exiting ' . __METHOD__ . ' - return true');
 			return false;
 		}
 		if ($notificationType !== 'PLL_USERS' && \App\Record::isExists($relatedId)) {
 			$textParser = \App\TextParser::getInstanceById($relatedId, $relatedModule);
-			$this->set('description', $textParser->withoutTranslations()->setContent($this->get('description'))->parse()->getContent());
-			$this->set('title', $textParser->setContent($this->get('title'))->parse()->getContent());
+			$this->setFromUserValue('description', $textParser->withoutTranslations()->setContent($this->get('description'))->parse()->getContent());
+			$this->setFromUserValue('title', $textParser->setContent($this->get('title'))->parse()->getContent());
 		}
 		$users = $this->get('shownerid');
 		$usersCollection = $this->isEmpty('assigned_user_id') ? [] : [$this->get('assigned_user_id')];

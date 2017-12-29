@@ -13,8 +13,8 @@ class Settings_CronTasks_Module_Model extends Settings_Vtiger_Module_Model
 
 	public $baseTable = 'vtiger_cron_task';
 	public $baseIndex = 'id';
-	public $listFields = array('sequence' => 'Sequence', 'name' => 'Cron Job', 'frequency' => 'Frequency(H:M)', 'status' => 'Status', 'laststart' => 'Last Start', 'lastend' => 'Last End');
-	public $nameFields = array('');
+	public $listFields = ['sequence' => 'Sequence', 'name' => 'Cron Job', 'frequency' => 'Frequency(H:M)', 'status' => 'Status', 'laststart' => 'Last Start', 'lastend' => 'Last End'];
+	public $nameFields = [''];
 	public $name = 'CronTasks';
 
 	/**
@@ -23,7 +23,7 @@ class Settings_CronTasks_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getEditableFieldsList()
 	{
-		return array('frequency', 'status');
+		return ['frequency', 'status'];
 	}
 
 	/**
@@ -38,9 +38,7 @@ class Settings_CronTasks_Module_Model extends Settings_Vtiger_Module_Model
 			$caseSequence .= ' WHEN ' . $db->quoteColumnName('id') . ' = ' . $db->quoteValue($recordId) . ' THEN ' . $db->quoteValue($sequence);
 		}
 		$caseSequence .= ' END';
-		$db->createCommand()
-			->update('vtiger_cron_task', ['sequence' => new yii\db\Expression($caseSequence)])
-			->execute();
+		$db->createCommand()->update('vtiger_cron_task', ['sequence' => new yii\db\Expression($caseSequence)])->execute();
 	}
 
 	public function hasCreatePermissions()

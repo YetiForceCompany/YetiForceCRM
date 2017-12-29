@@ -1,7 +1,7 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <div class="widget_header row">
 	<div class="col-xs-12">
-		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 	</div>
 </div>
 {if ($CHECKCRON[0]['status'] == 0 ) || !$CHECKCRON || ($CHECKCRON[1]['status'] == 0)}
@@ -50,7 +50,7 @@
                 <button type="button" class="close" data-dismiss="alert">×</button>
                 <h4 class="alert-heading">{\App\Language::translate('OSSMail', 'OSSMail')} - {\App\Language::translate('Alert_no_accounts_title', 'OSSMailScanner')}</h4>
                 <p>{\App\Language::translate('Alert_no_accounts_desc', 'OSSMailScanner')}</p>
-                <p><a class="btn btn-default" href="index.php?module=OSSMail&view=index">{\App\Language::translate('OSSMail','OSSMail')}</a></p>
+                <p><a class="btn btn-default" href="index.php?module=OSSMail&view=Index">{\App\Language::translate('OSSMail','OSSMail')}</a></p>
             </div>	
 		{else}
 			<table class="table tableRWD table-bordered">
@@ -93,7 +93,7 @@
 									</optgroup>
 									<optgroup label="{\App\Language::translate('Group list', 'OSSMailScanner')}">
 										{foreach item=item from=$RECORD_MODEL->getGroupList()}
-											<option value="{$item['id']}" {if $row['crm_user_id'] == $item['id'] } selected="selected"{/if} >{$item['groupname']}</option>
+											<option value="{$item['groupid']}" {if $row['crm_user_id'] == $item['groupid'] } selected="selected"{/if} >{$item['groupname']}</option>
 										{/foreach}
 									</optgroup>
 								</select>

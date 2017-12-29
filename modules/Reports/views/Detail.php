@@ -18,12 +18,12 @@ class Reports_Detail_View extends Vtiger_Index_View
 
 	public function checkPermission(\App\Request $request)
 	{
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$reportModel = Reports_Record_Model::getCleanInstance($record);
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule()) && !$reportModel->isEditable()) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -35,8 +35,8 @@ class Reports_Detail_View extends Vtiger_Index_View
 
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
-		$page = $request->get('page');
+		$recordId = $request->getInteger('record');
+		$page = $request->getInteger('page');
 
 		$detailViewModel = Reports_DetailView_Model::getInstance($moduleName, $recordId);
 		$reportModel = $detailViewModel->getRecord();
@@ -70,7 +70,7 @@ class Reports_Detail_View extends Vtiger_Index_View
 			$viewer->assign('MODULE', $primaryModule);
 			$viewer->assign('MESSAGE', 'LBL_PERMISSION_DENIED');
 			$viewer->view('OperationNotPermitted.tpl', $primaryModule);
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 
 		$detailViewLinks = $detailViewModel->getDetailViewLinks();
@@ -143,8 +143,8 @@ class Reports_Detail_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
-		$record = $request->get('record');
-		$page = $request->get('page');
+		$record = $request->getInteger('record');
+		$page = $request->getInteger('page');
 
 		$data = $this->reportData;
 		$calculation = $this->calculationFields;
@@ -190,10 +190,10 @@ class Reports_Detail_View extends Vtiger_Index_View
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			'modules.Vtiger.resources.Detail',
 			"modules.$moduleName.resources.Detail"
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);

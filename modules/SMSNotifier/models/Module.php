@@ -41,7 +41,7 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 		if ($actionName === 'EditView') {
 			return false;
 		}
-		return Users_Privileges_Model::isPermitted($this->getName(), $actionName);
+		return \App\Privilege::isPermitted($this->getName(), $actionName);
 	}
 
 	/**
@@ -57,20 +57,20 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 
 
 		if (VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
-			$settingsLinks[] = array(
+			$settingsLinks[] = [
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_WORKFLOWS',
 				'linkurl' => 'index.php?parent=Settings&module=Workflows&view=List&sourceModule=' . $this->getName(),
 				'linkicon' => $editWorkflowsImagePath
-			);
+			];
 		}
 
-		$settingsLinks[] = array(
+		$settingsLinks[] = [
 			'linktype' => 'LISTVIEWSETTING',
 			'linklabel' => \App\Language::translate('LBL_SERVER_CONFIG', $this->getName()),
 			'linkurl' => 'index.php?module=SMSNotifier&parent=Settings&view=List',
 			'linkicon' => ''
-		);
+		];
 		return $settingsLinks;
 	}
 
@@ -112,26 +112,23 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getActiveProviderInstance()
 	{
-		$cacheName = 'activeProviderInstance';
-		if (\App\Cache::has('SMSNotifierConfig', $cacheName)) {
-			return clone \App\Cache::get('SMSNotifierConfig', $cacheName);
+		if (\App\Cache::has('SMSNotifierConfig', 'activeProviderInstance')) {
+			$provider = \App\Cache::get('SMSNotifierConfig', 'activeProviderInstance');
+			return $provider ? clone $provider : $provider;
 		}
 		$provider = false;
-		$data = (new App\Db\Query())
-			->from('a_#__smsnotifier_servers')
-			->where(['isactive' => 1])
-			->one();
+		$data = (new App\Db\Query())->from('a_#__smsnotifier_servers')->where(['isactive' => 1])->one();
 		if ($data) {
 			$provider = self::getProviderInstance($data['providertype']);
 			if (!empty($data['parameters'])) {
-				$parameters = \App\Json::decode(decode_html($data['parameters']));
+				$parameters = \App\Json::decode(App\Purifier::decodeHtml($data['parameters']));
 				foreach ($parameters as $k => $v) {
 					$provider->set($k, $v);
 				}
 			}
 			$provider->set('api_key', $data['api_key']);
 		}
-		\App\Cache::save('SMSNotifierConfig', $cacheName, $provider, \App\Cache::LONG);
+		\App\Cache::save('SMSNotifierConfig', 'activeProviderInstance', $provider, \App\Cache::LONG);
 		return $provider;
 	}
 

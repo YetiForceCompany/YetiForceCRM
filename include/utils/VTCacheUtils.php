@@ -16,34 +16,6 @@ require_once 'include/runtime/Cache.php';
 class VTCacheUtils
 {
 
-	/** Tab information caching */
-	public static $_tabidinfo_cache = [];
-
-	public static function lookupTabid($module)
-	{
-		$flip_cache = array_flip(self::$_tabidinfo_cache);
-
-		if (isset($flip_cache[$module])) {
-			return $flip_cache[$module];
-		}
-		return false;
-	}
-
-	public static function lookupModulename($tabid)
-	{
-		if (isset(self::$_tabidinfo_cache[$tabid])) {
-			return self::$_tabidinfo_cache[$tabid];
-		}
-		return false;
-	}
-
-	public static function updateTabidInfo($tabid, $module)
-	{
-		if (!empty($tabid) && !empty($module)) {
-			self::$_tabidinfo_cache[$tabid] = $module;
-		}
-	}
-
 	/** All tab information caching */
 	public static $_alltabrows_cache = false;
 
@@ -79,7 +51,7 @@ class VTCacheUtils
 	public static function updateFieldInfo($tabid, $fieldname, $fieldid, $fieldlabel, $columnname, $tablename, $uitype, $typeofdata, $presence)
 	{
 
-		self::$_fieldinfo_cache[$tabid][$fieldname] = array(
+		self::$_fieldinfo_cache[$tabid][$fieldname] = [
 			'tabid' => $tabid,
 			'fieldid' => $fieldid,
 			'fieldname' => $fieldname,
@@ -89,38 +61,11 @@ class VTCacheUtils
 			'uitype' => $uitype,
 			'typeofdata' => $typeofdata,
 			'presence' => $presence,
-		);
+		];
 		Vtiger_Cache::set('fieldInfo', $tabid, self::$_fieldinfo_cache[$tabid]);
 	}
 
-	public static function lookupFieldInfo($tabid, $fieldname)
-	{
-		$fieldInfo = Vtiger_Cache::get('fieldInfo', $tabid);
-		if ($fieldInfo && isset($fieldInfo[$fieldname])) {
-			return $fieldInfo[$fieldname];
-		} else if (isset(self::$_fieldinfo_cache[$tabid]) && isset(self::$_fieldinfo_cache[$tabid][$fieldname])) {
-			return self::$_fieldinfo_cache[$tabid][$fieldname];
-		}
-
-		$field = Vtiger_Cache::get('field-' . $tabid, $fieldname);
-		if ($field) {
-			$cacheField = array(
-				'tabid' => $tabid,
-				'fieldid' => $field->getId(),
-				'fieldname' => $field->getName(),
-				'fieldlabel' => $field->get('label'),
-				'columnname' => $field->get('column'),
-				'tablename' => $field->get('table'),
-				'uitype' => (int) $field->get('uitype'),
-				'typeofdata' => $field->get('typeofdata'),
-				'presence' => $field->get('presence'),
-			);
-			return $cacheField;
-		}
-		return false;
-	}
-
-	public static function lookupFieldInfo_Module($module, $presencein = array('0', '2'))
+	public static function lookupFieldInfoModule($module, $presencein = ['0', '2'])
 	{
 		$tabid = \App\Module::getModuleId($module);
 		$modulefields = false;
@@ -146,7 +91,7 @@ class VTCacheUtils
 			foreach ($fieldInfo as $block => $blockFields) {
 				foreach ($blockFields as $field) {
 					if (in_array($field->get('presence'), $presencein)) {
-						$cacheField = array(
+						$cacheField = [
 							'tabid' => $tabid,
 							'fieldid' => $field->getId(),
 							'fieldname' => $field->getName(),
@@ -156,7 +101,7 @@ class VTCacheUtils
 							'uitype' => (int) $field->get('uitype'),
 							'typeofdata' => $field->get('typeofdata'),
 							'presence' => $field->get('presence'),
-						);
+						];
 						$modulefields[] = $cacheField;
 					}
 				}
@@ -165,212 +110,28 @@ class VTCacheUtils
 		return $modulefields;
 	}
 
-	public static function lookupFieldInfoByColumn($tabid, $columnname)
-	{
-
-		if (isset(self::$_fieldinfo_cache[$tabid])) {
-			foreach (self::$_fieldinfo_cache[$tabid] as $fieldname => $fieldinfo) {
-				if ($fieldinfo['columnname'] == $columnname) {
-					return $fieldinfo;
-				}
-			}
-		}
-
-		$fieldInfo = Vtiger_Cache::get('ModuleFields', $tabid);
-		if ($fieldInfo) {
-			foreach ($fieldInfo as $block => $blockFields) {
-				foreach ($blockFields as $field) {
-					if ($field->get('column') == $columnname) {
-						$cacheField = array(
-							'tabid' => $tabid,
-							'fieldid' => $field->getId(),
-							'fieldname' => $field->getName(),
-							'fieldlabel' => $field->get('label'),
-							'columnname' => $field->get('column'),
-							'tablename' => $field->get('table'),
-							'uitype' => (int) $field->get('uitype'),
-							'typeofdata' => $field->get('typeofdata'),
-							'presence' => $field->get('presence'),
-						);
-						return $cacheField;
-					}
-				}
-			}
-		}
-		return false;
-	}
-
-	/** Entityname information */
-	public static $_module_entityname_cache = [];
-
-	public static function updateEntityNameInfo($module, $data)
-	{
-		self::$_module_entityname_cache[$module] = $data;
-		Vtiger_Cache::set('EntityInfo', $module, self::$_module_entityname_cache[$module]);
-	}
-
-	public static function lookupEntityNameInfo($module)
-	{
-		$entityNames = Vtiger_Cache::get('EntityInfo', $module);
-		if ($entityNames) {
-			return $entityNames;
-		} else if (isset(self::$_module_entityname_cache[$module])) {
-			return self::$_module_entityname_cache[$module];
-		}
-		return false;
-	}
-
-	/** Module active column fields caching */
-	public static $_module_columnfields_cache = [];
-
-	public static function updateModuleColumnFields($module, $column_fields)
-	{
-		self::$_module_columnfields_cache[$module] = $column_fields;
-	}
-
-	public static function lookupModuleColumnFields($module)
-	{
-		if (isset(self::$_module_columnfields_cache[$module])) {
-			return self::$_module_columnfields_cache[$module];
-		}
-		return false;
-	}
-
-	/** User currency id caching */
-	public static $_usercurrencyid_cache = [];
-
-	public static function lookupUserCurrenyId($userid)
-	{
-		$current_user = vglobal('current_user');
-		if (isset($current_user) && $current_user->id == $userid) {
-			return array(
-				'currencyid' => $current_user->column_fields['currency_id']
-			);
-		}
-
-		if (isset(self::$_usercurrencyid_cache[$userid])) {
-			return self::$_usercurrencyid_cache[$userid];
-		}
-
-		return false;
-	}
-
-	public static function updateUserCurrencyId($userid, $currencyid)
-	{
-		self::$_usercurrencyid_cache[$userid] = array(
-			'currencyid' => $currencyid
-		);
-	}
-
-	/** Currency information caching */
-	public static $_currencyinfo_cache = [];
-
-	public static function lookupCurrencyInfo($currencyid)
-	{
-		if (isset(self::$_currencyinfo_cache[$currencyid])) {
-			return self::$_currencyinfo_cache[$currencyid];
-		}
-		return false;
-	}
-
-	public static function updateCurrencyInfo($currencyid, $name, $code, $symbol, $rate)
-	{
-		self::$_currencyinfo_cache[$currencyid] = array(
-			'currencyid' => $currencyid,
-			'name' => $name,
-			'code' => $code,
-			'symbol' => $symbol,
-			'rate' => $rate
-		);
-	}
-
-	/** ProfileId information caching */
-	public static $_userprofileid_cache = [];
-
-	public static function updateUserProfileId($userid, $profileid)
-	{
-		self::$_userprofileid_cache[$userid] = $profileid;
-	}
-
-	public static function lookupUserProfileId($userid)
-	{
-		if (isset(self::$_userprofileid_cache[$userid])) {
-			return self::$_userprofileid_cache[$userid];
-		}
-		return false;
-	}
-
-	/** Profile2Field information caching */
-	public static $_profile2fieldpermissionlist_cache = [];
-
-	public static function lookupProfile2FieldPermissionList($module, $profileid)
-	{
-		$pro2fld_perm = self::$_profile2fieldpermissionlist_cache;
-		if (isset($pro2fld_perm[$module]) && isset($pro2fld_perm[$module][$profileid])) {
-			return $pro2fld_perm[$module][$profileid];
-		}
-		return false;
-	}
-
-	public static function updateProfile2FieldPermissionList($module, $profileid, $value)
-	{
-		self::$_profile2fieldpermissionlist_cache[$module][$profileid] = $value;
-	}
-
-	/** Record Owner Id */
-	public static $_record_ownerid_cache = [];
-
-	public static function lookupRecordOwner($record)
-	{
-		if (isset(self::$_record_ownerid_cache[$record])) {
-			return self::$_record_ownerid_cache[$record];
-		}
-		return false;
-	}
-
-	public static function updateRecordOwner($record, $ownerId)
-	{
-		self::$_record_ownerid_cache[$record] = $ownerId;
-	}
-
-	/** Record Owner Type */
-	public static $_record_ownertype_cache = [];
-
-	public static function lookupOwnerType($ownerId)
-	{
-		if (isset(self::$_record_ownertype_cache[$ownerId])) {
-			return self::$_record_ownertype_cache[$ownerId];
-		}
-		return false;
-	}
-
-	public static function updateOwnerType($ownerId, $count)
-	{
-		self::$_record_ownertype_cache[$ownerId] = $count;
-	}
-
 	/** Related module information for Report */
 	public static $_report_listofmodules_cache = false;
 
-	public static function lookupReport_ListofModuleInfos()
+	public static function lookupReportListOfModuleInfos()
 	{
 		return self::$_report_listofmodules_cache;
 	}
 
-	public static function updateReport_ListofModuleInfos($module_list, $related_modules)
+	public static function updateReportListOfModuleInfos($module_list, $related_modules)
 	{
 		if (self::$_report_listofmodules_cache === false) {
-			self::$_report_listofmodules_cache = array(
+			self::$_report_listofmodules_cache = [
 				'module_list' => $module_list,
 				'related_modules' => $related_modules
-			);
+			];
 		}
 	}
 
 	/** Report module information based on used. */
 	public static $_reportmodule_infoperuser_cache = [];
 
-	public static function lookupReport_Info($userid, $reportid)
+	public static function lookupReportInfo($userid, $reportid)
 	{
 
 		if (isset(self::$_reportmodule_infoperuser_cache[$userid])) {
@@ -381,13 +142,13 @@ class VTCacheUtils
 		return false;
 	}
 
-	public static function updateReport_Info($userid, $reportid, $primarymodule, $secondarymodules, $reporttype, $reportname, $description, $folderid, $owner)
+	public static function updateReportInfo($userid, $reportid, $primarymodule, $secondarymodules, $reporttype, $reportname, $description, $folderid, $owner)
 	{
 		if (!isset(self::$_reportmodule_infoperuser_cache[$userid])) {
 			self::$_reportmodule_infoperuser_cache[$userid] = [];
 		}
 		if (!isset(self::$_reportmodule_infoperuser_cache[$userid][$reportid])) {
-			self::$_reportmodule_infoperuser_cache[$userid][$reportid] = array(
+			self::$_reportmodule_infoperuser_cache[$userid][$reportid] = [
 				'reportid' => $reportid,
 				'primarymodule' => $primarymodule,
 				'secondarymodules' => $secondarymodules,
@@ -396,14 +157,14 @@ class VTCacheUtils
 				'description' => $description,
 				'folderid' => $folderid,
 				'owner' => $owner
-			);
+			];
 		}
 	}
 
 	/** Report module sub-ordinate users information. */
 	public static $_reportmodule_subordinateuserid_cache = [];
 
-	public static function lookupReport_SubordinateUsers($reportid)
+	public static function lookupReportSubordinateUsers($reportid)
 	{
 		if (isset(self::$_reportmodule_subordinateuserid_cache[$reportid])) {
 			return self::$_reportmodule_subordinateuserid_cache[$reportid];
@@ -411,7 +172,7 @@ class VTCacheUtils
 		return false;
 	}
 
-	public static function updateReport_SubordinateUsers($reportid, $userids)
+	public static function updateReportSubordinateUsers($reportid, $userids)
 	{
 		self::$_reportmodule_subordinateuserid_cache[$reportid] = $userids;
 	}
@@ -419,7 +180,7 @@ class VTCacheUtils
 	/** Report module information based on used. */
 	public static $_reportmodule_scheduledinfoperuser_cache = [];
 
-	public static function lookupReport_ScheduledInfo($userid, $reportid)
+	public static function lookupReportScheduledInfo($userid, $reportid)
 	{
 
 		if (isset(self::$_reportmodule_scheduledinfoperuser_cache[$userid])) {
@@ -430,45 +191,21 @@ class VTCacheUtils
 		return false;
 	}
 
-	public static function updateReport_ScheduledInfo($userid, $reportid, $isScheduled, $scheduledFormat, $scheduledInterval, $scheduledRecipients, $scheduledTime)
+	public static function updateReportScheduledInfo($userid, $reportid, $isScheduled, $scheduledFormat, $scheduledInterval, $scheduledRecipients, $scheduledTime)
 	{
 		if (!isset(self::$_reportmodule_scheduledinfoperuser_cache[$userid])) {
 			self::$_reportmodule_scheduledinfoperuser_cache[$userid] = [];
 		}
 		if (!isset(self::$_reportmodule_scheduledinfoperuser_cache[$userid][$reportid])) {
-			self::$_reportmodule_scheduledinfoperuser_cache[$userid][$reportid] = array(
+			self::$_reportmodule_scheduledinfoperuser_cache[$userid][$reportid] = [
 				'reportid' => $reportid,
 				'isScheduled' => $isScheduled,
 				'scheduledFormat' => $scheduledFormat,
 				'scheduledInterval' => $scheduledInterval,
 				'scheduledRecipients' => $scheduledRecipients,
 				'scheduledTime' => $scheduledTime,
-			);
+			];
 		}
-	}
-
-	public static $_userSignature = [];
-
-	public static function setUserSignature($userName, $signature)
-	{
-		self::$_userSignature[$userName] = $signature;
-	}
-
-	public static function getUserSignature($userName)
-	{
-		return self::$_userSignature[$userName];
-	}
-
-	public static $_userFullName = [];
-
-	public static function setUserFullName($userName, $fullName)
-	{
-		self::$_userFullName[$userName] = $fullName;
-	}
-
-	public static function getUserFullName($userName)
-	{
-		return self::$_userFullName[$userName];
 	}
 
 	public static $_report_field_bylabel = [];

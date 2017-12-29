@@ -35,7 +35,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 			$activeReminder = $userPrivilegesModel->hasModulePermission('Calendar');
 		}
 		$selectedModule = $request->getModule();
-		$viewer->assign('CURRENTDATE', Vtiger_Date_UIType::getDisplayDateValue(date('Y-n-j')));
+		$viewer->assign('CURRENTDATE', App\Fields\Date::formatToDisplay(date('Y-n-j')));
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 		$viewer->assign('MENUS', $this->getMenu());
 		$viewer->assign('BROWSING_HISTORY', Vtiger_BrowsingHistory_Helper::getHistory());
@@ -77,7 +77,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			'~libraries/jquery/timepicker/jquery.timepicker.min.js',
 			'~libraries/jquery/clockpicker/jquery-clockpicker.js',
 			'~libraries/jquery/inputmask/jquery.inputmask.js',
@@ -102,8 +102,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 			"modules.$moduleName.resources.SearchAdvanceFilter",
 			'modules.Vtiger.resources.AdvanceSearch',
 			"modules.$moduleName.resources.AdvanceSearch",
-			'modules.Settings.DataAccess.resources.SaveResult',
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);

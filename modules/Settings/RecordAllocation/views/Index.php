@@ -4,7 +4,7 @@
  * Record allocation
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
@@ -59,10 +59,10 @@ class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('TYPE', $type);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('MODULE_NAME', $request->get('sourceModule'));
-		$viewer->assign('MODULE_ID', vtlib\Functions::getModuleId($request->get('sourceModule')));
+		$viewer->assign('MODULE_NAME', $request->getByType('sourceModule', 2));
+		$viewer->assign('MODULE_ID', \App\Module::getModuleId($request->getByType('sourceModule', 2)));
 		$viewer->assign('INDEX', ++$index);
-		$viewer->assign('DATA', Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($type, $request->get('sourceModule')));
+		$viewer->assign('DATA', Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($type, $request->getByType('sourceModule', 2)));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('AddPanel.tpl', $qualifiedModuleName);
 	}

@@ -15,7 +15,7 @@
 		<head>
 			<title>Yetiforce: {\App\Language::translate('LBL_ERROR')}</title>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-			<link rel="SHORTCUT ICON" href="{vimage_path('favicon.ico')}">
+			<link rel="SHORTCUT ICON" href="{\App\Layout::getImagePath('favicon.ico')}">
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 			<link rel="stylesheet" href="{\App\Layout::getPublicUrl('libraries/bootstrap/css/bootstrap.css')}" type="text/css" media="screen">
 			<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/jquery/jquery.js')}"></script>
@@ -25,7 +25,7 @@
 				<div style="position: relative;" >
 					<div>
 						<h2 class="alert-heading">{\App\Language::translate('LBL_ERROR')}</h2>
-						<p>{\App\Language::translate($MESSAGE)}</p>
+						<p>{\App\Purifier::encodeHtml($MESSAGE)}</p>
 						<p class="Buttons">
 							<a class="btn btn-warning" href="javascript:window.history.back();">{\App\Language::translate('LBL_GO_BACK')}</a>
 							<a class="btn btn-info" href="index.php">{\App\Language::translate('LBL_MAIN_PAGE')}</a>

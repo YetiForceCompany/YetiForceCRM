@@ -198,68 +198,6 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 		}));
 		jQuery(newForm).appendTo('body')[0].submit();
 	},
-	triggerEditPasswords: function (CHPWActionUrl, module) {
-		var thisInstance = this;
-		var listInstance = Vtiger_List_Js.getInstance();
-		var selectedCount = this.getSelectedRecordCount();
-		if (parseInt(selectedCount) == 0 || typeof selectedCount == 'undefined') {
-			alert(app.vtranslate('JS_PLEASE_SELECT_ONE_RECORD'));
-			return false;
-		}
-
-		var selectedIds = listInstance.readSelectedIds(true);
-
-		AppConnector.request(CHPWActionUrl + '&userids=' + selectedIds).then(
-				function (data) {
-					if (data) {
-						var callback = function (data) {
-							var params = app.validationEngineOptions;
-							params.onValidationComplete = function (form, valid) {
-								if (valid) {
-									thisInstance.editPasswords(form);
-								}
-								return false;
-							};
-							jQuery('#changePassword').validationEngine(app.validationEngineOptions);
-						};
-						app.showModalWindow(data, function (data) {
-							if (typeof callback == 'function') {
-								callback(data);
-							}
-						});
-					}
-				}
-		);
-	},
-	editPasswords: function (form) {
-		var new_password = form.find('[name="new_password"]');
-		var confirm_password = form.find('[name="confirm_password"]');
-		var userids = form.find('[name="userids"]').val();
-
-		if (new_password.val() == confirm_password.val()) {
-			var params = {
-				'module': app.getModuleName(),
-				'action': "SaveAjax",
-				'mode': 'editPasswords',
-				'new_password': new_password.val(),
-				'userids': userids
-			};
-			AppConnector.request(params).then(
-					function (data) {
-						if (data.success) {
-							app.hideModalWindow();
-							Vtiger_Helper_Js.showPnotify(app.vtranslate(data.result.message));
-						} else {
-							Vtiger_Helper_Js.showPnotify(data.error.message);
-							return false;
-						}
-					}
-			);
-		} else {
-			new_password.validationEngine('showPrompt', app.vtranslate('JS_REENTER_PASSWORDS'), 'error', 'topLeft', true);
-			return false;
-		}
-	}
 }, {
 	/*
 	 * Function to get Page Jump Params
@@ -268,12 +206,10 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 		var module = app.getModuleName();
 		var cvId = this.getCurrentCvId();
 		var pageCountParams = {
-			'module': module,
-			'view': "ListAjax",
-			'mode': "getPageCount",
-			'search_key': 'status',
-			'operator': 'e',
-			'search_value': jQuery('#usersFilter').val()
+			module: module,
+			view: "ListAjax",
+			mode: "getPageCount",
+			search_params: jQuery('#usersFilter').val()
 		};
 		return pageCountParams;
 	},
@@ -303,12 +239,10 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 				}
 			});
 			var params = {
-				'module': app.getModuleName(),
-				'view': 'List',
-				'parent': app.getParentModuleName(),
-				'search_key': 'status',
-				'operator': 'e',
-				'search_value': jQuery('#usersFilter').val()
+				module: app.getModuleName(),
+				view: 'List',
+				parent: app.getParentModuleName(),
+				search_params: jQuery('#usersFilter').val()
 			};
 			AppConnector.request(params).then(
 					function (data) {
@@ -334,9 +268,7 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 		params['parent'] = app.getParentModuleName();
 		params['view'] = 'Pagination';
 		params['mode'] = 'getPagination';
-		params['search_key'] = 'status';
-		params['search_value'] = jQuery('#usersFilter').val();
-		params['operator'] = "e";
+		params['search_params'] = jQuery('#usersFilter').val();
 		AppConnector.request(params).then(function (data) {
 			jQuery('.paginationDiv').html(data);
 			thisInstance.registerPageNavigationEvents();
@@ -351,17 +283,9 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 		params['view'] = 'Pagination';
 		params['page'] = pageNumber;
 		params['mode'] = 'getPagination';
-		var searchValue = this.getAlphabetSearchValue();
-		if ('status' == searchValue) {
-			params['search_key'] = 'status';
-			params['search_value'] = jQuery('#usersFilter').val();
-			params['operator'] = "e";
-		} else {
-			params['search_key'] = this.getAlphabetSearchField();
-			params['search_value'] = searchValue;
-			params['operator'] = "s";
-
-		}
+		params['search_key'] = this.getAlphabetSearchField();
+		params['search_value'] = this.getAlphabetSearchValue();
+		params['operator'] = "s";
 		params.search_params = JSON.stringify(this.getListSearchInstance().getListSearchParams());
 		params['noOfEntries'] = jQuery('#noOfEntries').val();
 		AppConnector.request(params).then(function (data) {
@@ -372,5 +296,6 @@ Vtiger_List_Js("Settings_Users_List_Js", {
 	registerEvents: function () {
 		this._super();
 		this.usersFilter();
+		this.registerDeleteRecordClickEvent();
 	}
 });

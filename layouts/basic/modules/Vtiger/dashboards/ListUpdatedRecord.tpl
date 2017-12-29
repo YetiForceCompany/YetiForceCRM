@@ -17,11 +17,11 @@
 		</div>
 		<div class="col-md-4">
 			<div class="box pull-right">
-				{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME}
+				{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
 			</div>
 		</div>
 	</div>
-	<hr class="widgetHr"/>
+	<hr class="widgetHr" />
 	<div class="row" >
 		<div class="col-md-6 pull-right">
 			<select class="widgetFilter form-control input-sm" id="listUpdatedRecordLimit" title="{\App\Language::translate('LBL_RECORDS_LIMIT')}" name="number" >
@@ -34,6 +34,6 @@
 	</div>
 </div>
 <div class="dashboardWidgetContent">
-	{include file="dashboards/ListUpdatedRecordContents.tpl"|@vtemplate_path:$MODULE_NAME}
+	{include file=\App\Layout::getTemplatePath('dashboards/ListUpdatedRecordContents.tpl', $MODULE_NAME)}
 </div>
 {/strip}

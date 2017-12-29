@@ -19,7 +19,7 @@ class Deprecated
 	public static function getFullNameFromQResult($result, $row_count, $module)
 	{
 		$adb = \PearDatabase::getInstance();
-		$rowdata = $adb->query_result_rowdata($result, $row_count);
+		$rowdata = $adb->queryResultRowData($result, $row_count);
 		$entity_field_info = \App\Module::getEntityInfo($module);
 		$fieldsName = $entity_field_info['fieldname'];
 		$name = '';
@@ -63,18 +63,18 @@ class Deprecated
 		return '';
 	}
 
-	public static function getBlockId($tabid, $label)
+	public static function getBlockId($tabId, $label)
 	{
 		$adb = \PearDatabase::getInstance();
 		$query = "select blockid from vtiger_blocks where tabid=? and blocklabel = ?";
-		$result = $adb->pquery($query, array($tabid, $label));
-		$noofrows = $adb->num_rows($result);
+		$result = $adb->pquery($query, [$tabId, $label]);
+		$noOfRows = $adb->numRows($result);
 
-		$blockid = '';
-		if ($noofrows == 1) {
-			$blockid = $adb->query_result($result, 0, "blockid");
+		$blockId = '';
+		if ($noOfRows == 1) {
+			$blockId = $adb->queryResult($result, 0, "blockid");
 		}
-		return $blockid;
+		return $blockId;
 	}
 
 	public static function createModuleMetaFile()
@@ -115,15 +115,10 @@ class Deprecated
 		if (file_exists($filename)) {
 			if (is_writable($filename)) {
 				if (!$handle = fopen($filename, 'w+')) {
-					throw new \Exception\NoPermitted("Cannot open file ($filename)");
+					throw new \App\Exceptions\NoPermitted("Cannot open file ($filename)");
 				}
-				require_once('modules/Users/CreateUserPrivilegeFile.php');
 				$newbuf = "<?php\n";
-				$newbuf .= "\$tab_info_array=" . \vtlib\Functions::varExportMin($result_array) . ";\n";
-				$newbuf .= "\$tab_seq_array=" . \vtlib\Functions::varExportMin($seq_array) . ";\n";
-				$newbuf .= "\$tab_ownedby_array=" . \vtlib\Functions::varExportMin($ownedby_array) . ";\n";
-				$newbuf .= "\$action_id_array=" . \vtlib\Functions::varExportMin($actionid_array) . ";\n";
-				$newbuf .= "\$action_name_array=" . \vtlib\Functions::varExportMin($actionname_array) . ";\n";
+				$newbuf .= "\$tab_seq_array=" . \App\Utils::varExport($seq_array) . ";\n";
 				$tabdata = [
 					'tabId' => $result_array,
 					'tabPresence' => $seq_array,
@@ -131,7 +126,7 @@ class Deprecated
 					'actionId' => $actionid_array,
 					'actionName' => $actionname_array,
 				];
-				$newbuf .= 'return ' . \vtlib\Functions::varExportMin($tabdata) . ";\n";
+				$newbuf .= 'return ' . \App\Utils::varExport($tabdata) . ";\n";
 				fputs($handle, $newbuf);
 				fclose($handle);
 			} else {
@@ -140,6 +135,7 @@ class Deprecated
 		} else {
 			\App\Log::error("The file $filename does not exist");
 		}
+		\App\Module::init();
 	}
 
 	public static function getModuleTranslationStrings($language, $module)
@@ -165,8 +161,8 @@ class Deprecated
 
 		static $cvidCache = [];
 		if (!isset($cvidCache[$module])) {
-			$qry_res = $adb->pquery("select cvid from vtiger_customview where viewname='All' and entitytype=?", array($module));
-			$cvid = $adb->query_result($qry_res, 0, "cvid");
+			$qry_res = $adb->pquery("select cvid from vtiger_customview where viewname='All' and entitytype=?", [$module]);
+			$cvid = $adb->queryResult($qry_res, 0, "cvid");
 			$cvidCache[$module] = $cvid;
 		}
 		return isset($cvidCache[$module]) ? $cvidCache[$module] : '0';
@@ -199,7 +195,7 @@ class Deprecated
 	/** Function to check the file access is made within web root directory and whether it is not from unsafe directories */
 	public static function checkFileAccessForInclusion($filepath)
 	{
-		$unsafeDirectories = array('storage', 'cache', 'test');
+		$unsafeDirectories = ['storage', 'cache', 'test'];
 		$realfilepath = realpath($filepath);
 
 		/** Replace all \\ with \ first */
@@ -215,14 +211,14 @@ class Deprecated
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || in_array($filePathParts[0], $unsafeDirectories)) {
 			\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
-			throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
+			throw new \App\Exceptions\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
 
 	/** Function to check the file deletion within the deletable (safe) directories */
 	public static function checkFileAccessForDeletion($filepath)
 	{
-		$safeDirectories = array('storage', 'cache', 'test');
+		$safeDirectories = ['storage', 'cache', 'test'];
 		$realfilepath = realpath($filepath);
 
 		/** Replace all \\ with \ first */
@@ -238,7 +234,7 @@ class Deprecated
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || !in_array($filePathParts[0], $safeDirectories)) {
 			\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
-			throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
+			throw new \App\Exceptions\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
 
@@ -248,7 +244,7 @@ class Deprecated
 		if (!self::isFileAccessible($filepath)) {
 
 			\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
-			throw new \Exception\AppException('Sorry! Attempt to access restricted file.');
+			throw new \App\Exceptions\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
 
@@ -278,20 +274,20 @@ class Deprecated
 
 	/**
 	 * This function is used to get the blockid of the settings block for a given label.
-	 * @param $label - settings label
+	 * @param string $label - settings label
 	 * @return string type value
 	 */
 	public static function getSettingsBlockId($label)
 	{
 		$adb = \PearDatabase::getInstance();
-		$blockid = '';
+		$blockId = '';
 		$query = "select blockid from vtiger_settings_blocks where label = ?";
-		$result = $adb->pquery($query, array($label));
-		$noofrows = $adb->num_rows($result);
-		if ($noofrows == 1) {
-			$blockid = $adb->query_result($result, 0, "blockid");
+		$result = $adb->pquery($query, [$label]);
+		$noOfRows = $adb->numRows($result);
+		if ($noOfRows == 1) {
+			$blockId = $adb->queryResult($result, 0, "blockid");
 		}
-		return $blockid;
+		return $blockId;
 	}
 
 	public static function getSqlForNameInDisplayFormat($input, $module, $glue = ' ')
@@ -308,11 +304,5 @@ class Deprecated
 		}
 		$sqlString = "CONCAT(" . $formattedNameListString . ")";
 		return $sqlString;
-	}
-
-	public static function return_app_list_strings_language($language, $module = 'Vtiger')
-	{
-		$strings = \Vtiger_Language_Handler::getModuleStringsFromFile($language, $module);
-		return $strings['languageStrings'];
 	}
 }

@@ -8,12 +8,6 @@
  * All Rights Reserved.
  * **************************************************************************** */
 
-interface VTExpressionEnv
-{
-
-	function get($var);
-}
-
 function __vt_add($arr)
 {
 	if (sizeof($arr) == 1) {
@@ -220,10 +214,10 @@ function __vt_sub_time($arr)
 class VTFieldExpressionEvaluater
 {
 
-	function __construct($expr)
+	public function __construct($expr)
 	{
 
-		$this->operators = array(
+		$this->operators = [
 			'+' => '__vt_add',
 			'-' => '__vt_sub',
 			'*' => '__vt_mul',
@@ -233,8 +227,8 @@ class VTFieldExpressionEvaluater
 			'>=' => '__vt_gtequals',
 			'<' => '__vt_lt',
 			'>' => '__vt_gt',
-		);
-		$this->functions = array(
+		];
+		$this->functions = [
 			'concat' => '__vt_concat',
 			'time_diff' => '__vt_time_diff',
 			'time_diffdays' => '__vt_time_diffdays',
@@ -243,19 +237,19 @@ class VTFieldExpressionEvaluater
 			'get_date' => '__vt_get_date',
 			'add_time' => '__vt_add_time',
 			'sub_time' => '__vt_sub_time'
-		);
+		];
 
 		$this->operations = array_merge($this->functions, $this->operators);
 		$this->expr = $expr;
 	}
 
-	function evaluate($env)
+	public function evaluate($env)
 	{
 		$this->env = $env;
 		return $this->exec($this->expr);
 	}
 
-	function exec($expr)
+	public function exec($expr)
 	{
 		if ($expr instanceof VTExpressionSymbol) {
 			return $this->env($expr);
@@ -270,7 +264,7 @@ class VTFieldExpressionEvaluater
 					return $this->exec($params[2]);
 				}
 			} else {
-				$params = array_map(array($this, 'exec'), $expr->getParams());
+				$params = array_map([$this, 'exec'], $expr->getParams());
 				$func = $this->operations[$op->value];
 				return $func($params);
 			}
@@ -279,7 +273,12 @@ class VTFieldExpressionEvaluater
 		}
 	}
 
-	function env($sym)
+	/**
+	 * Gets an environment variable from available sources
+	 * @param VTExpressionSymbol $sym
+	 * @return string
+	 */
+	public function env(VTExpressionSymbol $sym)
 	{
 		if ($this->env) {
 			return $this->env->get($sym->value);

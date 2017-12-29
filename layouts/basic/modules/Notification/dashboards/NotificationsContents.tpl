@@ -1,10 +1,10 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="notificationContainer">
 		{if $NOTIFICATIONS neq false}
 			<div class="notificationEntries">
 				{foreach item=ROW from=$NOTIFICATIONS}
-					{include file='NotificationsItem.tpl'|@vtemplate_path:$MODULE_NAME}
+					{include file=\App\Layout::getTemplatePath('NotificationsItem.tpl', $MODULE_NAME)}
 				{/foreach}
 			</div>
 		{else}

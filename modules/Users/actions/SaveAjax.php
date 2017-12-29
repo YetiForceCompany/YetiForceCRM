@@ -8,48 +8,40 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-Vtiger_Loader::includeOnce('~include/Webservices/Custom/ChangePassword.php');
 
 class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('userExists');
-		$this->exposeMethod('savePassword');
 		$this->exposeMethod('restoreUser');
-		$this->exposeMethod('editPasswords');
-		$this->exposeMethod('updateUserColor');
-		$this->exposeMethod('updateGroupColor');
-		$this->exposeMethod('updateModuleColor');
-		$this->exposeMethod('updateColorForProcesses');
-		$this->exposeMethod('generateColor');
-		$this->exposeMethod('activeColor');
 		$this->exposeMethod('changeAccessKey');
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
+		parent::checkPermission($request);
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$userId = $request->getInteger('userid');
 		if (!$currentUserModel->isAdminUser()) {
-			$mode = $request->getMode();
-			if ($mode === 'savePassword' && ($userId && (int) $currentUserModel->getId() !== $userId)) {
-				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
-			} else if ($mode !== 'savePassword' && ((int) $currentUserModel->getId() !== $request->getInteger('record'))) {
-				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+			if ((int) $currentUserModel->getId() !== $request->getInteger('record') && (int) $currentUserModel->getId() !== $request->getInteger('userid')) {
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		}
 	}
 
 	/**
-	 * Process
-	 * @param \App\Request $request
+	 * {@inheritDoc}
 	 */
 	public function process(\App\Request $request)
 	{
-		$mode = $request->get('mode');
+		$mode = $request->getMode();
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
 			return;
@@ -64,7 +56,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			if (!$fieldModel->isViewEnabled()) {
 				continue;
 			}
-			$fieldValue = $displayValue = Vtiger_Util_Helper::toSafeHTML($recordModel->get($fieldName));
+			$fieldValue = $displayValue = \App\Purifier::encodeHtml($recordModel->get($fieldName));
 			if ($fieldModel->getFieldDataType() !== 'currency') {
 				$displayValue = $fieldModel->getDisplayValue($fieldValue, $recordModel->getId());
 			}
@@ -76,7 +68,6 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			}
 			$result[$fieldName] = ['value' => $fieldValue, 'display_value' => $displayValue];
 		}
-
 		$result['_recordLabel'] = $recordModel->getName();
 		$result['_recordId'] = $recordModel->getId();
 
@@ -87,9 +78,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	}
 
 	/**
-	 * Function to get the record model based on the request parameters
-	 * @param \App\Request $request
-	 * @return Vtiger_Record_Model or Module specific Record Model instance
+	 * {@inheritDoc}
 	 */
 	public function getRecordModelFromRequest(\App\Request $request)
 	{
@@ -104,73 +93,6 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			$recordModel->set('is_owner', 1);
 		}
 		return $recordModel;
-	}
-
-	public function userExists(\App\Request $request)
-	{
-		$module = $request->getModule();
-		$userName = $request->get('user_name');
-		$userModuleModel = Users_Module_Model::getCleanInstance($module);
-		$status = $userModuleModel->checkDuplicateUser($userName);
-		$response = new Vtiger_Response();
-		$response->setResult($status);
-		$response->emit();
-	}
-
-	public function savePassword(\App\Request $request)
-	{
-		$module = $request->getModule();
-		$userModel = vglobal('current_user');
-		$newPassword = $request->get('new_password');
-		$oldPassword = $request->get('old_password');
-		$checkPassword = Settings_Password_Record_Model::checkPassword($newPassword);
-		if (!$checkPassword) {
-			$wsUserId = vtws_getWebserviceEntityId($module, $request->get('userid'));
-			$wsStatus = vtws_changePassword($wsUserId, $oldPassword, $newPassword, $newPassword, $userModel);
-		}
-		$response = new Vtiger_Response();
-		if ($checkPassword) {
-			$response->setError($checkPassword, $checkPassword);
-		} elseif ($wsStatus['message']) {
-			$response->setResult($wsStatus);
-		} else {
-			$response->setError('JS_PASSWORD_INCORRECT_OLD', 'JS_PASSWORD_INCORRECT_OLD');
-		}
-		$response->emit();
-	}
-
-	/**
-	 * Mass edit users passwords
-	 * @param \App\Request $request
-	 * @throws WebServiceException
-	 */
-	public function editPasswords(\App\Request $request)
-	{
-		$module = $request->getModule();
-		$userModel = vglobal('current_user');
-		$newPassword = $request->get('new_password');
-		$oldPassword = $request->get('old_password');
-		$userIds = $request->get('userids');
-
-		$checkPassword = Settings_Password_Record_Model::checkPassword($newPassword);
-
-		if (!$checkPassword) {
-			foreach ($userIds as $userId) {
-				$wsUserId = vtws_getWebserviceEntityId($module, $userId);
-				$wsStatus = vtws_changePassword($wsUserId, $oldPassword, $newPassword, $newPassword, $userModel);
-			}
-		}
-
-		$response = new Vtiger_Response();
-		if ($checkPassword) {
-			$response->setError($checkPassword, $checkPassword);
-		} else if ($wsStatus['message']) {
-			$response->setResult($wsStatus);
-		} else {
-			$response->setError('JS_PASSWORD_INCORRECT_OLD', 'JS_PASSWORD_INCORRECT_OLD');
-		}
-
-		$response->emit();
 	}
 	/*
 	 * To restore a user
@@ -187,87 +109,13 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$recordModel->save();
 
 		$db = PearDatabase::getInstance();
-		$db->pquery("UPDATE vtiger_users SET deleted=? WHERE id=?", array(0, $record));
+		$db->pquery("UPDATE vtiger_users SET deleted=? WHERE id=?", [0, $record]);
 
 		$userModuleModel = Users_Module_Model::getInstance($moduleName);
 		$listViewUrl = $userModuleModel->getListViewUrl();
 
 		$response = new Vtiger_Response();
-		$response->setResult(array('message' => \App\Language::translate('LBL_USER_RESTORED_SUCCESSFULLY', $moduleName), 'listViewUrl' => $listViewUrl));
-		$response->emit();
-	}
-
-	public function updateUserColor(\App\Request $request)
-	{
-		$params = $request->get('params');
-		Users_Colors_Model::updateUserColor($params);
-		$response = new Vtiger_Response();
-		$response->setResult(array(
-			'success' => true,
-			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
-		));
-		$response->emit();
-	}
-
-	public function updateGroupColor(\App\Request $request)
-	{
-		$params = $request->get('params');
-		Users_Colors_Model::updateGroupColor($params);
-		$response = new Vtiger_Response();
-		$response->setResult(array(
-			'success' => true,
-			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
-		));
-		$response->emit();
-	}
-
-	public function updateModuleColor(\App\Request $request)
-	{
-		$params = $request->get('params');
-		Users_Colors_Model::updateModuleColor($params);
-		$response = new Vtiger_Response();
-		$response->setResult(array(
-			'success' => true,
-			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
-		));
-		$response->emit();
-	}
-
-	public function generateColor(\App\Request $request)
-	{
-		$params = $request->get('params');
-
-		$response = new Vtiger_Response();
-		$response->setResult([
-			'success' => true,
-			'color' => Users_Colors_Model::generateColor($params),
-			'message' => App\Language::translate('LBL_GENERATED_COLOR', $request->getModule(false))
-		]);
-		$response->emit();
-	}
-
-	public function updateColorForProcesses(\App\Request $request)
-	{
-		$params = $request->get('params');
-		Users_Colors_Model::updateColor($params);
-		$response = new Vtiger_Response();
-		$response->setResult(array(
-			'success' => true,
-			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
-		));
-		$response->emit();
-	}
-
-	public function activeColor(\App\Request $request)
-	{
-		$params = $request->get('params');
-		$color = Users_Colors_Model::activeColor($params);
-		$response = new Vtiger_Response();
-		$response->setResult(array(
-			'success' => true,
-			'color' => $color,
-			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
-		));
+		$response->setResult(['message' => \App\Language::translate('LBL_USER_RESTORED_SUCCESSFULLY', $moduleName), 'listViewUrl' => $listViewUrl]);
 		$response->emit();
 	}
 
@@ -284,13 +132,10 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			$entity = $recordModel->getEntity();
 			$entity->createAccessKey();
 
-			require_once('modules/Users/CreateUserPrivilegeFile.php');
-			createUserPrivilegesfile($recordId);
-
 			require("user_privileges/user_privileges_$recordId.php");
 			$newAccessKey = $user_info['accesskey'];
 			if ($newAccessKey != $oldAccessKey) {
-				$response->setResult(array('message' => \App\Language::translate('LBL_ACCESS_KEY_UPDATED_SUCCESSFULLY', $moduleName), 'accessKey' => $newAccessKey));
+				$response->setResult(['message' => \App\Language::translate('LBL_ACCESS_KEY_UPDATED_SUCCESSFULLY', $moduleName), 'accessKey' => $newAccessKey]);
 			} else {
 				$response->setError(\App\Language::translate('LBL_FAILED_TO_UPDATE_ACCESS_KEY', $moduleName));
 			}

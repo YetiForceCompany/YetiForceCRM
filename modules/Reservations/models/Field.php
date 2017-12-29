@@ -4,7 +4,7 @@
  * Reservations field model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Reservations_Field_Model extends Vtiger_Field_Model
 {
@@ -14,7 +14,7 @@ class Reservations_Field_Model extends Vtiger_Field_Model
 	 * @param string Data base value
 	 * @return string value
 	 */
-	public function getEditViewDisplayValue($value, $record = false)
+	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		$fieldName = $this->getName();
 
@@ -27,7 +27,7 @@ class Reservations_Field_Model extends Vtiger_Field_Model
 				return DateTimeField::convertToUserFormat(date('Y-m-d', strtotime("+$minutes minutes")));
 			}
 		}
-		return parent::getEditViewDisplayValue($value, $record);
+		return parent::getEditViewDisplayValue($value, $recordModel);
 	}
 
 	/**
@@ -40,20 +40,20 @@ class Reservations_Field_Model extends Vtiger_Field_Model
 		$fieldName = $this->getName();
 
 		switch ($fieldName) {
-			case 'due_date': $funcName = array('name' => 'dateAndTimeGreaterThanDependentField',
-					'params' => ['date_start', 'time_start', 'due_date', 'time_end']);
+			case 'due_date': $funcName = ['name' => 'dateAndTimeGreaterThanDependentField',
+					'params' => ['date_start', 'time_start', 'due_date', 'time_end']];
 				array_push($validator, $funcName);
 				break;
-			case 'date_start': $funcName = array('name' => 'dateAndTimeGreaterThanDependentField',
-					'params' => ['date_start', 'time_start', 'due_date', 'time_end']);
+			case 'date_start': $funcName = ['name' => 'dateAndTimeGreaterThanDependentField',
+					'params' => ['date_start', 'time_start', 'due_date', 'time_end']];
 				array_push($validator, $funcName);
 				break;
-			case 'time_start': $funcName = array('name' => 'dateAndTimeGreaterThanDependentField',
-					'params' => ['date_start', 'time_start', 'due_date', 'time_end']);
+			case 'time_start': $funcName = ['name' => 'dateAndTimeGreaterThanDependentField',
+					'params' => ['date_start', 'time_start', 'due_date', 'time_end']];
 				array_push($validator, $funcName);
 				break;
-			case 'time_end': $funcName = array('name' => 'dateAndTimeGreaterThanDependentField',
-					'params' => ['date_start', 'time_start', 'due_date', 'time_end']);
+			case 'time_end': $funcName = ['name' => 'dateAndTimeGreaterThanDependentField',
+					'params' => ['date_start', 'time_start', 'due_date', 'time_end']];
 				array_push($validator, $funcName);
 				break;
 			default : $validator = parent::getValidator();

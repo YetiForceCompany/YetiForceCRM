@@ -4,7 +4,7 @@
  * Export to XML Class for PDF Settings
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
 class Settings_Workflows_ExportWorkflow_Action extends Settings_Vtiger_Index_Action
@@ -20,7 +20,7 @@ class Settings_Workflows_ExportWorkflow_Action extends Settings_Vtiger_Index_Act
 		header('content-type: application/xml; charset=utf-8');
 		header('Pragma: public');
 		header('Cache-Control: private');
-		header('Content-Disposition: attachment; filename=' . $recordId . '_workflow.xml');
+		header('Content-Disposition: attachment; filename="' . $recordId . '_workflow.xml"');
 		header('Content-Description: PHP Generated Data');
 
 		$xml = new DOMDocument('1.0', 'utf-8');

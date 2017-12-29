@@ -4,7 +4,7 @@
  * Settings RealizationProcesses SaveGeneral action class
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_RealizationProcesses_SaveGeneral_Action extends Settings_Vtiger_Index_Action
 {
@@ -27,9 +27,9 @@ class Settings_RealizationProcesses_SaveGeneral_Action extends Settings_Vtiger_I
 		$moduleName = $request->getModule(false);
 		try {
 			if (Settings_RealizationProcesses_Module_Model::updateStatusNotModify($moduleId, $status)) {
-				$response->setResult(array('success' => true, 'message' => \App\Language::translate('LBL_SAVE_CONFIG_OK', $moduleName)));
+				$response->setResult(['success' => true, 'message' => \App\Language::translate('LBL_SAVE_CONFIG_OK', $moduleName)]);
 			} else {
-				$response->setResult(array('success' => false, 'message' => \App\Language::translate('LBL_SAVE_CONFIG_ERROR', $moduleName)));
+				$response->setResult(['success' => false, 'message' => \App\Language::translate('LBL_SAVE_CONFIG_ERROR', $moduleName)]);
 			}
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());

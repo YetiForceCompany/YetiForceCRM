@@ -17,7 +17,7 @@ class Settings_Groups_Module_Model extends Settings_Vtiger_Module_Model
 
 	public $baseTable = 'vtiger_groups';
 	public $baseIndex = 'groupid';
-	public $listFields = array('groupname' => 'Name', 'description' => 'Description');
+	public $listFields = ['groupname' => 'Name', 'description' => 'Description'];
 	public $name = 'Groups';
 
 	/**

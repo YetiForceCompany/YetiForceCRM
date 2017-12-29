@@ -3,15 +3,31 @@
 /**
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class KnowledgeBase_PreviewContent_View extends Vtiger_Index_View
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
+	public function checkPermission(\App\Request $request)
+	{
+		$recordId = $request->getInteger('record');
+		if (!$recordId) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+	}
+
 	public function process(\App\Request $request, $display = true)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		// Exctracts type from record field 'views'
@@ -30,7 +46,7 @@ class KnowledgeBase_PreviewContent_View extends Vtiger_Index_View
 		$viewer->assign('TEMPLATE', $template);
 		$viewer->assign('CONTENT', $content);
 		$viewer->assign('RECORD', $recordModel);
-		$viewer->assign('VIEW', $request->get('view'));
+		$viewer->assign('VIEW', $request->getByType('view', 1));
 		$viewer->assign('MODULE_NAME', $moduleName);
 		if ($display) {
 			$viewer->view('ContentsView.tpl', $moduleName);

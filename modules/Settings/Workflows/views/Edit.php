@@ -52,7 +52,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 			$viewer->assign('MODE', 'edit');
 		} else {
 			$workflowModel = Settings_Workflows_Record_Model::getCleanInstance($moduleName);
-			$selectedModule = $request->get('source_module');
+			$selectedModule = $request->getByType('source_module', 2);
 			if (!empty($selectedModule)) {
 				$viewer->assign('SELECTED_MODULE', $selectedModule);
 			}
@@ -87,7 +87,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 			$selectedModule = $workFlowModel->getModule();
 			$selectedModuleName = $selectedModule->getName();
 		} else {
-			$selectedModuleName = $request->get('module_name');
+			$selectedModuleName = $request->getByType('module_name', 2);
 			$selectedModule = Vtiger_Module_Model::getInstance($selectedModuleName);
 			$workFlowModel = Settings_Workflows_Record_Model::getCleanInstance($selectedModuleName);
 		}
@@ -96,7 +96,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		foreach ($requestData as $name => $value) {
 			if ($name == 'schdayofweek' || $name == 'schdayofmonth' || $name == 'schannualdates') {
 				if (is_string($value)) { // need to save these as json data
-					$value = array($value);
+					$value = [$value];
 				}
 			}
 			if ($name == 'summary')
@@ -130,7 +130,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->view('Step2.tpl', $qualifiedModuleName);
 	}
 
-	public function Step3(\App\Request $request)
+	public function step3(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -143,7 +143,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 			$selectedModule = $workFlowModel->getModule();
 			$selectedModuleName = $selectedModule->getName();
 		} else {
-			$selectedModuleName = $request->get('module_name');
+			$selectedModuleName = $request->getByType('module_name', 2);
 			$selectedModule = Vtiger_Module_Model::getInstance($selectedModuleName);
 			$workFlowModel = Settings_Workflows_Record_Model::getCleanInstance($selectedModuleName);
 		}
@@ -165,7 +165,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			'libraries.jquery.clipboardjs.clipboard',
 			'modules.Settings.Vtiger.resources.Edit',
 			"modules.Settings.$moduleName.resources.Edit",
@@ -175,7 +175,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 			"modules.Settings.$moduleName.resources.AdvanceFilter",
 			'~libraries/jquery/ckeditor/ckeditor.js',
 			'modules.Vtiger.resources.CkEditor',
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);

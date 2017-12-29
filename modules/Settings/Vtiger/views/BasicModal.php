@@ -4,7 +4,7 @@
  * Basic Modal Class
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_Vtiger_BasicModal_View extends Settings_Vtiger_IndexAjax_View
@@ -13,7 +13,7 @@ class Settings_Vtiger_BasicModal_View extends Settings_Vtiger_IndexAjax_View
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
-		$viewName = $request->get('view');
+		$viewName = $request->getByType('view', 1);
 		echo '<div class="modal fade modal' . $moduleName . '' . $viewName . '" id="modal' . $viewName . '"><div class="modal-dialog ' . $this->getSize($request) . '"><div class="modal-content">';
 		foreach ($this->getModalCss($request) as $style) {
 			echo '<link rel="stylesheet" href="' . $style->getHref() . '">';
@@ -43,12 +43,12 @@ class Settings_Vtiger_BasicModal_View extends Settings_Vtiger_IndexAjax_View
 	public function getModalScripts(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$viewName = $request->get('view');
+		$viewName = $request->getByType('view', 1);
 
-		$scripts = array(
+		$scripts = [
 			"modules.Settings.Vtiger.resources.$viewName",
 			"modules.Settings.$moduleName.resources.$viewName",
-		);
+		];
 
 		$scriptInstances = $this->checkAndConvertJsScripts($scripts);
 		return $scriptInstances;
@@ -57,7 +57,7 @@ class Settings_Vtiger_BasicModal_View extends Settings_Vtiger_IndexAjax_View
 	public function getModalCss(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$viewName = $request->get('view');
+		$viewName = $request->getByType('view', 1);
 		$cssFileNames = [
 			"modules.Settings.$moduleName.$viewName",
 			"modules.Settings.Vtiger.$viewName",

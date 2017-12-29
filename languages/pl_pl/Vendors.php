@@ -3,7 +3,7 @@
  * Vendors polish translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'LBL_TO_LC' => 'do',
@@ -22,8 +22,6 @@ $languageStrings = [
 	'308-Sales-Books' => '308-Sprzedaż-Ksiązki',
 	'Email' => 'Mail podstawowy',
 	'GL Account' => 'Konto GL ',
-	'LBL_ADD_RECORD' => 'Dodaj rekord',
-	'LBL_RECORDS_LIST' => 'Lista rekordów',
 	'LBL_VENDOR_INFORMATION' => 'Szczegóły dostawcy',
 	'Phone' => 'Telefon podstawowy',
 	'SINGLE_Vendors' => 'Dostawca',

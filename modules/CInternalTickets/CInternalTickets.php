@@ -3,7 +3,7 @@
  * CInternalTickets CRMEntity Class
  * @package YetiForce.CRMEntity
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 include_once 'modules/Vtiger/CRMEntity.php';
@@ -73,23 +73,4 @@ class CInternalTickets extends Vtiger_CRMEntity
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
 
-	/**
-	 * Invoked when special actions are performed on the module.
-	 * @param String Module name
-	 * @param String Event Type
-	 */
-	public function vtlib_handler($moduleName, $eventType)
-	{
-		if ($eventType == 'module.postinstall') {
-			
-		} else if ($eventType == 'module.disabled') {
-			
-		} else if ($eventType == 'module.preuninstall') {
-			
-		} else if ($eventType == 'module.preupdate') {
-			
-		} else if ($eventType == 'module.postupdate') {
-			
-		}
-	}
 }

@@ -17,7 +17,7 @@ class Settings_Roles_Module_Model extends Settings_Vtiger_Module_Model
 
 	public $baseTable = 'vtiger_role';
 	public $baseIndex = 'roleid';
-	public $listFields = array('roleid' => 'Role Id', 'rolename' => 'Name');
+	public $listFields = ['roleid' => 'Role Id', 'rolename' => 'Name'];
 	public $name = 'Roles';
 
 	/**

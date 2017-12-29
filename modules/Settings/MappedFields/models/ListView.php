@@ -4,7 +4,7 @@
  * List View Model Class for MappedFields Settings
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -43,8 +43,8 @@ class Settings_MappedFields_ListView_Model extends Settings_Vtiger_ListView_Mode
 		$listViewRecordModels = [];
 		while ($row = $dataReader->read()) {
 			$recordModel = new $recordModelClass();
-			$moduleName = vtlib\Functions::getModuleName($row['tabid']);
-			$relModuleName = vtlib\Functions::getModuleName($row['reltabid']);
+			$moduleName = \App\Module::getModuleName($row['tabid']);
+			$relModuleName = \App\Module::getModuleName($row['reltabid']);
 			$row['tabid'] = \App\Language::translate($moduleName, $moduleName);
 			$row['reltabid'] = \App\Language::translate($relModuleName, $relModuleName);
 			$recordModel->setData($row);

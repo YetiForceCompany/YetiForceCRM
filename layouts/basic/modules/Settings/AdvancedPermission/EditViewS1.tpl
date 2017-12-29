@@ -1,8 +1,8 @@
 {strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<div class="row widget_header">
 		<div class="col-xs-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			{\App\Language::translate('LBL_ADVANCED_PERMISSION_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	</div>
@@ -10,9 +10,9 @@
 		<form name="EditAdvPermission" action="index.php" method="post" id="EditView" class="form-horizontal">
 			<input type="hidden" name="module" value="AdvancedPermission">
 			<input type="hidden" name="parent" value="Settings" />
-			<input type="hidden" name="action" value="Save">
-			<input type="hidden" name="record" value="{$RECORD_ID}">
-			<input type="hidden" name="mode" value="step1">
+			<input type="hidden" name="action" value="Save" />
+			<input type="hidden" name="record" value="{$RECORD_ID}" />
+			<input type="hidden" name="mode" value="step1" />
 			<div class="form-group">
 				<label class="col-sm-2 control-label">
 					<span class="redColor">*</span> {\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}

@@ -5,7 +5,7 @@ namespace App;
  * Json class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Json
@@ -35,7 +35,7 @@ class Json
 		if (function_exists('json_decode')) {
 			return json_decode($encodedValue, $objectDecodeType);
 		}
-		throw new \Exception\AppException('ERR_NO_JSON_DECODE');
+		throw new \App\Exceptions\AppException('ERR_NO_JSON_DECODE');
 	}
 
 	/**
@@ -57,6 +57,6 @@ class Json
 		if (function_exists('json_encode')) {
 			return json_encode($valueToEncode);
 		}
-		throw new \Exception\AppException('ERR_NO_JSON_ENCODE');
+		throw new \App\Exceptions\AppException('ERR_NO_JSON_ENCODE');
 	}
 }

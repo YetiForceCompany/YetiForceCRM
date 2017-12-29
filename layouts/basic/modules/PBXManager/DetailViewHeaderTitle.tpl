@@ -21,14 +21,14 @@
 							{if !empty($IMAGE_INFO.path)}
 								<img src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_INFO.path))}"alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" >
 							{else}
-								<img src="{vimage_path('PBXManager48.png')}" class="summaryImg" alt="{\App\Language::translate($MODULE, $MODULE)}"/>
+								<img src="{\App\Layout::getImagePath('PBXManager48.png')}" class="summaryImg" alt="{\App\Language::translate($MODULE, $MODULE)}" />
 							{/if}
 						{/foreach}
 					{else}
-						<img src="{vimage_path('PBXManager48.png')}" class="summaryImg" alt="{\App\Language::translate($MODULE, $MODULE)}"/>
+						<img src="{\App\Layout::getImagePath('PBXManager48.png')}" class="summaryImg" alt="{\App\Language::translate($MODULE, $MODULE)}" />
 					{/if}
 				{else}
-					<img src="{vimage_path('PBXManager48.png')}" class="summaryImg" alt="{\App\Language::translate($MODULE, $MODULE)}"/>
+					<img src="{\App\Layout::getImagePath('PBXManager48.png')}" class="summaryImg" alt="{\App\Language::translate($MODULE, $MODULE)}" />
 				{/if}
 				{if $RECORD->get('direction') eq 'inbound'}
 					<img src="modules/PBXManager/resources/images/Incoming.png" style="position:absolute;bottom:4px;right:0;">
@@ -43,6 +43,18 @@
 		<span class="col-md-4 margin0px">
 			<span class="row">
 				<span class="recordLabel pushDown" title="{$RECORD->getName()}">
+					{assign var=RECORD_STATE value=\App\Record::getState($RECORD->getId())}
+					{if $RECORD_STATE !== 'Active'}
+						&nbsp;&nbsp;
+						{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
+						<span class="label label-default" {if $COLOR[$RECORD_STATE]}style="background-color: {$COLOR[$RECORD_STATE]};"{/if}>
+							{if \App\Record::getState($RECORD->getId()) === 'Trash'}
+								{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}
+							{else}
+								{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}
+							{/if}
+						</span>
+					{/if}
 					{assign var=NAME_FIELDS value=$MODULE_MODEL->getNameFields()}
 					{foreach from=$MODULE_MODEL->getNameFields() item=NAME_FIELD }
 						{assign var=FIELD_MODEL value=$MODULE_MODEL->getFieldByColumn($NAME_FIELD)}
@@ -51,10 +63,10 @@
 
 							{if $RECORDID}
 								{assign var=MODULE value=$RECORD->get('customertype')}
-								{assign var=ENTITY_NAMES value=getEntityName($MODULE, array($RECORDID))}
+								{assign var=ENTITY_NAMES value=\App\Fields\Owner::getUserLabel($RECORDID, $MODULE)}
 								{assign var=CALLERNAME value=$ENTITY_NAMES[$RECORDID]}
 							{else}
-								{assign var=CALLERNAME value=$RECORD->get("customernumber")}
+								{assign var=CALLERNAME value=$RECORD->getDisplayValue("customernumber")}
 							{/if}
 
 							{assign var=CALLER_INFO value=PBXManager_Record_Model::lookUpRelatedWithNumber($RECORD->get('customernumber'))}
@@ -74,7 +86,7 @@
 								</span><br /></strong>
 							{/if}    
 							{if $FIELD_NAME}
-							&nbsp;{$FIELD_NAME}:&nbsp;<span class="title_label muted">{$RECORD->get('customernumber')}
+							&nbsp;{$FIELD_NAME}:&nbsp;<span class="title_label muted">{$RECORD->getDisplayValue('customernumber')}
 							</span>
 							{/if}
 						{/if}
@@ -91,7 +103,7 @@
 				</span>
 			</span>
 		</span>
-		{include file='DetailViewHeaderFields.tpl'|@vtemplate_path:$MODULE_NAME}
+		{include file=\App\Layout::getTemplatePath('DetailViewHeaderFields.tpl', $MODULE_NAME)}
 	</div>
 {/strip}
 

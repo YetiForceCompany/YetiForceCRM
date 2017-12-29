@@ -23,8 +23,7 @@ class Events_Save_Action extends Calendar_Save_Action
 		$data = $recordModel->getData();
 		$recordModel->save();
 		$recordModel->addRelationOperation($request);
-
-		if ($request->get('reapeat') === 'on') {
+		if ($request->getBoolean('reapeat')) {
 			$recurringEvents = Events_RecuringEvents_Model::getInstanceFromRequest($request);
 			if ($request->isEmpty('record')) {
 				App\Db::getInstance()->createCommand()->update('vtiger_activity', ['followup' => $recordModel->getId()], ['activityid' => $recordModel->getId()])->execute();
@@ -47,7 +46,7 @@ class Events_Save_Action extends Calendar_Save_Action
 	public function getRecordModelFromRequest(\App\Request $request)
 	{
 		$recordModel = parent::getRecordModelFromRequest($request);
-		if ((int) $request->get('typeSaving') === Events_RecuringEvents_Model::UPDATE_THIS_EVENT) {
+		if (!$request->isEmpty('typeSaving') && $request->getInteger('typeSaving') === Events_RecuringEvents_Model::UPDATE_THIS_EVENT) {
 			$recordModel->set('recurrence', $recordModel->getPreviousValue('recurrence'));
 		}
 		return $recordModel;

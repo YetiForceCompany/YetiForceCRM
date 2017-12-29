@@ -25,7 +25,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 	{
 		$systemMode = vglobal('systemMode');
 		if ($systemMode == 'demo') {
-			throw new \Exception\AppException('LBL_ERROR_IMPORT_IN_DEMO');
+			throw new \App\Exceptions\AppException('LBL_ERROR_IMPORT_IN_DEMO');
 		}
 
 		$mode = $request->getMode();
@@ -50,9 +50,9 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			"modules.Settings.$moduleName.resources.ModuleImport"
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);

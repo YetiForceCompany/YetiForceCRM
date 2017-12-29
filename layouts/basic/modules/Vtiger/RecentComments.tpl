@@ -44,18 +44,22 @@
 										<div class="row">
 											<div class="paddingLeftMd">
 												{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
-												<img class="alignMiddle pull-left" width="48" alt="" src="{if !empty($IMAGE_PATH)}{$IMAGE_PATH}{else}{vimage_path('DefaultUserIcon.png')}{/if}">
+												{if $IMAGE_PATH}
+													<img class="userImage pull-left" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_PATH))}" >
+												{else}	
+													<span class="glyphicon glyphicon-user userImage pull-left" aria-hidden="true"></span>
+												{/if}
 											</div>
 											<div class="col-xs-8 commentorInfo">
 												{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
 												<span class="commentorName"><strong>{$COMMENTOR->getName()}</strong></span>
 												<div class="commentInfoContent">
-													{nl2br($COMMENT->get('commentcontent'))}
+													{$COMMENT->getDisplayValue('commentcontent')}
 												</div>
 											</div>
 											<div class="inner">
 												<span class="pull-right paddingRight15">
-													<p class="muted"><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getCommentedTime())}">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getCommentedTime())}</small></p>
+													<p class="muted"><small>{\App\Fields\DateTime::formatToViewDate($COMMENT->getCommentedTime())}</small></p>
 												</span>
 												<div class="clearfix"></div>
 											</div>
@@ -63,7 +67,7 @@
 									</div>
 								</div>
 								<div class="commentActionsContainer">
-									{assign var="REASON_TO_EDIT" value=$COMMENT->get('reasontoedit')}
+									{assign var="REASON_TO_EDIT" value=$COMMENT->getDisplayValue('reasontoedit')}
 									<div class="pull-left {if empty($REASON_TO_EDIT)}hide {/if}editStatus"  name="editStatus">
 										<span class="pull-left paddingRight10 visible-lg-block">
 											<p class="muted">
@@ -79,7 +83,7 @@
 										<span class="pull-left visible-lg-block">
 											<p class="muted pull-right">
 												<small><em>{\App\Language::translate('LBL_MODIFIED',$MODULE_NAME)}</em></small>&nbsp;
-												<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($COMMENT->getModifiedTime())}" class="commentModifiedTime">{Vtiger_Util_Helper::formatDateDiffInStrings($COMMENT->getModifiedTime())}</small>
+												<small class="commentModifiedTime">{\App\Fields\DateTime::formatToViewDate($COMMENT->getModifiedTime())}</small>
 											</p>
 										</span>
 									{/if}
@@ -91,7 +95,7 @@
 														<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>&nbsp;
 														{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}
 													</button>
-													{if Users_Privileges_Model::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
+													{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
 														<button type="button" class="btn btn-xs btn-primary editComment feedback marginLeft5">
 															<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;
 															{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}
@@ -114,7 +118,7 @@
 					</div>
 				{/foreach}
 			{else}
-				{include file="NoComments.tpl"|@vtemplate_path}
+				{include file=\App\Layout::getTemplatePath('NoComments.tpl')}
 			{/if}
 		</div>
 		{if !$IS_READ_ONLY && $PAGING_MODEL->isNextPageExists()}
@@ -149,7 +153,7 @@
 			<div class="hide basicEditCommentBlock" >
 				<div class="row">
 					<div class="col-md-12 marginTop10 marginBottom10px">
-						<input type="text" name="reasonToEdit" title="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" class="input-block-level form-control"/>
+						<input type="text" name="reasonToEdit" title="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" class="input-block-level form-control" />
 					</div>
 				</div>
 				<div class="row">

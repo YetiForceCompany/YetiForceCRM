@@ -3,24 +3,19 @@
  * Users spanish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'Users' => 'Usuarios',
 	'USER_MAIL_EXIST' => 'Ya existe un usuario con esta dirección de correo electrónico',
-	'LBL_USERS_COLORS' => 'Colores del usuario',
-	'LBL_USERS_COLORS_DESCRIPTION' => ' ',
-	'LBL_UPDATE_COLOR' => 'Cambiar color',
-	'LBL_COLOR' => 'Color',
-	'LBL_GENERATE_COLOR' => 'Generar color aleatorio',
-	'LBL_GENERATED_COLOR' => 'Color generado',
-	'LBL_EDIT_COLOR' => 'Editar color',
-	'LBL_SELECT_COLOR' => 'Seleccionar color:',
-	'LBL_SAVE_COLOR' => 'Color guardado',
-	'LBL_GROUPS_COLORS' => 'Grupo de colores',
 	'LBL_GROUP_NAME' => 'Nombre del grupo',
-	'LBL_COLORS' => 'Colores',
 	'LBL_PRIORITY' => 'Prioridad',
+	'LBL_PICKLISTS' => 'Desplegables',
+	'LBL_WARNING' => 'Alerta',
+	'LBL_SELECT_PICKLIST' => 'Seleccione desplegable',
+	'LBL_PICKLIST_COLOR_COL_NOT_FOUND' => 'La funcionalidad de color no se ha activado para esta lista de selección',
+	'LBL_UPDATE_COLOR_COLUMN' => 'Color actualizado',
+	'LBL_ITEM' => 'Valor',
 	'LBL_MODULE' => 'Módulo',
 	'LBL_LDAP_RECOMMENDED_INFO' => 'No recomendamos seleccionar usuarios con permisos de administrador para la autorización de LDAP. En caso de problemas de autorización debe haber un usuario que pueda iniciar sesión sin integración LDAP.',
 	//Auth
@@ -50,7 +45,7 @@ $languageStrings = [
 	'LBL_LOCK_DRAG' => 'Bloquear arrastre',
 ];
 $jsLanguageStrings = [
-	'JS_USER_MAIL_EXIST' => 'Ya existe un usuario con esta dirección de correo electrónico',
+	'JS_PLEASE_SELECT_MODULE' => 'Por favor, seleccione un módulo',
 	'JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME' => 'El separador decimal y el separador de agrupación no pueden ser iguales',
 	'Changed password successfully' => 'Contraseña modificada correctamente',
 ];

@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <div class="dashboardWidgetHeader">
 	<div class="row">
 		<div class="col-md-8">
@@ -6,7 +6,7 @@
 		</div>
 		<div class="col-md-4">
 			<div class="box pull-right">
-				{if Users_Privileges_Model::isPermitted('Accounts', 'CreateView')}
+				{if \App\Privilege::isPermitted('Accounts', 'CreateView')}
 					<a class="btn btn-xs btn-default" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Accounts'); return false;">
 						<span class='glyphicon glyphicon-plus' border='0' title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
 					</a>
@@ -22,14 +22,14 @@
 			</div>
 		</div>
 	</div>
-	<hr class="widgetHr"/>
+	<hr class="widgetHr" />
 	<div class="row">
 		<div class="col-sm-6">
-			{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
+			{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
 		</div>
 	</div>
 </div>
 <div class="dashboardWidgetContent noSpaces">
-	{include file="dashboards/NeglectedAccountsContents.tpl"|@vtemplate_path:$MODULE_NAME}
+	{include file=\App\Layout::getTemplatePath('dashboards/NeglectedAccountsContents.tpl', $MODULE_NAME)}
 </div>
 

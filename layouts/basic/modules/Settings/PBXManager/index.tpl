@@ -12,7 +12,7 @@
 	<div id="AsteriskServerDetails">
 		<div class="widget_header row">
 			<div class="col-md-8">
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
 			{assign var=MODULE_MODEL value=Settings_PBXManager_Module_Model::getCleanInstance()}
 			<div class="col-md-4">
@@ -39,9 +39,9 @@
 						<tr><td width="25%"><label class="muted pull-right marginRight10px">{\App\Language::translate($FIELD_NAME,$QUALIFIED_MODULE)}</label></td>
 							<td style="border-left: none;"><span>{$RECORD_MODEL->get($FIELD_NAME)}</span></td></tr>
 								{/foreach}
-				<input type="hidden" name="module" value="PBXManager"/>
-				<input type="hidden" name="action" value="SaveAjax"/>
-				<input type="hidden" name="parent" value="Settings"/>
+				<input type="hidden" name="module" value="PBXManager" />
+				<input type="hidden" name="action" value="SaveAjax" />
+				<input type="hidden" name="parent" value="Settings" />
 				<input type="hidden" class="recordid" name="id" value="{$RECORD_ID}">
 				</tbody>
 			</table>

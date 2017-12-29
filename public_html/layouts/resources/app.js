@@ -7,13 +7,28 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-var app = {
+window.app = {
 	/**
 	 * variable stores client side language strings
 	 */
 	languageString: [],
 	weekDaysArray: {Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6},
 	cacheParams: [],
+	event: new function () {
+		this.el = jQuery({});
+		this.trigger = function () {
+			this.el.trigger(arguments[0], Array.prototype.slice.call(arguments, 1));
+		}
+		this.on = function () {
+			this.el.on.apply(this.el, arguments);
+		}
+		this.one = function () {
+			this.el.one.apply(this.el, arguments);
+		}
+		this.off = function () {
+			this.el.off.apply(this.el, arguments);
+		}
+	},
 	/**
 	 * Function to get the module name. This function will get the value from element which has id module
 	 * @return : string - module name
@@ -256,9 +271,7 @@ var app = {
 			}
 			params.language.maximumSelected = formatSelectionExceeds;
 		}
-
 		if (typeof selectElement.attr('multiple') != 'undefined' && !params.placeholder) {
-			params.tags = "true";
 			params.placeholder = app.vtranslate('JS_SELECT_SOME_OPTIONS');
 		} else if (!params.placeholder) {
 			params.placeholder = app.vtranslate('JS_SELECT_AN_OPTION');
@@ -367,6 +380,9 @@ var app = {
 				select.parent().append(selectNew);
 				select.prop('disabled', true);
 			}
+			if (select.hasClass('tags')) {
+				params.tags = true;
+			}
 			select.select2(params)
 					.on("select2:open", function (e) {
 						if (select.data('unselecting')) {
@@ -404,16 +420,24 @@ var app = {
 	},
 	showPopoverElementView: function (selectElement, params) {
 		if (typeof params == 'undefined') {
-			params = {trigger: 'manual', placement: 'bottom', html: true};
+			params = {
+				trigger: 'manual',
+				placement: 'auto',
+				html: true,
+				template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+			};
 		}
 		params.container = 'body';
 		params.delay = 800;
 		var sparams;
 		selectElement.each(function (index, domElement) {
 			sparams = params;
-			var element = jQuery(domElement);
+			var element = $(domElement);
 			if (element.data('placement')) {
 				sparams.placement = element.data('placement');
+			}
+			if (element.data('class')) {
+				sparams.template = '<div class="popover ' + element.data('class') + '" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
 			}
 			if (element.hasClass('delay0')) {
 				sparams.delay = {show: 0, hide: 0}
@@ -576,19 +600,6 @@ var app = {
 					jQuery('.modal-backdrop:not(:first)').remove();
 				}
 				cb(modalContainer);
-
-				var modalBody = modalContainer.find('.modal-body');
-				var modalDialog = modalContainer.find('.modal-dialog');
-				$(window).resize(function () {
-					var height = app.getScreenHeight() - modalDialog.outerHeight(true);
-					modalBody.css('max-height', (modalBody.outerHeight() + height) + 'px');
-					modalBody.css('overflow', 'auto');
-					modalBody.perfectScrollbar('update');
-				});
-				var height = app.getScreenHeight() - modalDialog.outerHeight(true);
-				modalBody.css('max-height', (modalBody.outerHeight() + height) + 'px');
-				modalBody.css('overflow', 'auto');
-				modalBody.perfectScrollbar();
 			})
 		}
 		if (data) {
@@ -657,8 +668,17 @@ var app = {
 						blockInfo: {'enabled': true}
 					});
 					var formData = form.serializeFormData();
-					AppConnector.request(formData).then(function (data) {
-						sendByAjaxCb(formData, data);
+					AppConnector.request(formData).then(function (responseData) {
+						sendByAjaxCb(formData, responseData);
+						if (responseData.success && responseData.result) {
+							if (responseData.result.notify) {
+								Vtiger_Helper_Js.showMessage(responseData.result.notify);
+							}
+							if (responseData.result.procesStop) {
+								progressIndicatorElement.progressIndicator({'mode': 'hide'});
+								return false;
+							}
+						}
 						app.hideModalWindow();
 						progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					});
@@ -818,23 +838,6 @@ var app = {
 
 		return year + '-' + month + '-' + day;
 	},
-	registerEventForTextAreaFields: function (parentElement) {
-		if (typeof parentElement == 'undefined') {
-			parentElement = jQuery('body');
-		}
-
-		parentElement = jQuery(parentElement);
-
-		if (parentElement.is('textarea')) {
-			var element = parentElement;
-		} else {
-			var element = jQuery('textarea', parentElement);
-		}
-		if (element.length == 0) {
-			return;
-		}
-		element.autosize();
-	},
 	registerEventForDatePickerFields: function (parentElement, registerForAddon, customParams) {
 		if (typeof parentElement == 'undefined') {
 			parentElement = jQuery('body');
@@ -874,6 +877,7 @@ var app = {
 			clearBtn: true,
 			language: language,
 			starts: convertedFirstDay,
+			autoclose: true,
 			todayHighlight: true
 		}
 		if (typeof customParams != 'undefined') {
@@ -903,7 +907,7 @@ var app = {
 		ranges[app.vtranslate('JS_LAST_7_DAYS')] = [moment().subtract(6, 'days'), moment()];
 		ranges[app.vtranslate('JS_CURRENT_MONTH')] = [moment().startOf('month'), moment().endOf('month')];
 		ranges[app.vtranslate('JS_LAST_MONTH')] = [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')];
-		if($.fn.datepicker.dates[language] == undefined){
+		if ($.fn.datepicker.dates[language] == undefined) {
 			var langCodes = Object.keys($.fn.datepicker.dates);
 			language = langCodes[0];
 		}
@@ -1267,7 +1271,7 @@ var app = {
 		element.css("left", ((jQuery(window).width() - element.outerWidth()) / 2) + jQuery(window).scrollLeft() + "px");
 	},
 	getvalidationEngineOptions: function (select2Status) {
-		return app.validationEngineOptions;
+		return Object.assign({}, app.validationEngineOptions);
 	},
 	/**
 	 * Function to notify UI page ready after AJAX changes.
@@ -1320,7 +1324,12 @@ var app = {
 			moduleClassName = "Vtiger_" + view + "_Js";
 		}
 		if (typeof window[moduleClassName] != 'undefined') {
-			return new window[moduleClassName]();
+			if (typeof window[moduleClassName] == 'function') {
+				return new window[moduleClassName]();
+			}
+			if (typeof window[moduleClassName] == 'object') {
+				return window[moduleClassName];
+			}
 		}
 	},
 	/**
@@ -1440,7 +1449,9 @@ var app = {
 		params['module'] = app.getModuleName();
 		params['parent'] = app.getParentModuleName();
 		params['action'] = 'SaveAjax';
-		params['mode'] = mode;
+		if (mode) {
+			params['mode'] = mode;
+		}
 		params['param'] = param;
 		if (addToParams != undefined) {
 			for (var i in addToParams) {
@@ -1580,13 +1591,17 @@ var app = {
 						currentElement.removeAttr("disabled");
 					}
 				}
-				var id = 'globalmodal';
-				if ($('#' + id).length) {
-					var numberGlobalModal = 1;
-					while ($('#' + id).length) {
-						id = 'globalmodal' + numberGlobalModal++;
+				if (currentElement.data('modalid')) {
+					var id = currentElement.data('modalid');
+				} else {
+					var id = 'globalmodal';
+					if ($('#' + id).length) {
+						var numberGlobalModal = 1;
+						while ($('#' + id).length) {
+							id = 'globalmodal' + numberGlobalModal++;
+						}
+						modalWindowParams['id'] = id;
 					}
-					modalWindowParams['id'] = id;
 				}
 				app.showModalWindow(modalWindowParams);
 			}
@@ -1697,9 +1712,37 @@ var app = {
 	clearBrowsingHistory: function () {
 		AppConnector.request({
 			module: app.getModuleName(),
-			action: 'browsingHistory',
+			action: 'BrowsingHistory',
 		}).then(function (response) {
 			$('ul.historyList').remove();
+		});
+	},
+	showConfirmation: function (data, element) {
+		var params = {};
+		if (data) {
+			params = jQuery.extend(params, data);
+		}
+		if (element) {
+			element = $(element);
+			if (!params.title) {
+				params.title = element.html() + ' ' + (element.data('content') ? element.data('content') : '');
+			}
+			if (!params.message) {
+				params.message = element.data('confirm');
+			}
+			if (!params.url) {
+				params.url = element.data('url');
+			}
+		}
+		Vtiger_Helper_Js.showConfirmationBox(params).then(function () {
+			if (params.type == 'href') {
+				window.location.href = params.url;
+			} else if (params.type == 'reloadTab') {
+				AppConnector.request(params.url).then(function (data) {
+					Vtiger_Detail_Js.getInstance().reloadTabContent();
+				});
+
+			}
 		});
 	},
 }
@@ -1728,8 +1771,9 @@ jQuery(document).ready(function () {
 	}
 	// Instantiate Page Controller
 	var pageController = app.getPageController();
-	if (pageController)
+	if (pageController) {
 		pageController.registerEvents();
+	}
 });
 $.fn.getNumberFromValue = function () {
 	return app.parseNumberToFloat($(this).val());

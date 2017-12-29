@@ -5,7 +5,7 @@ namespace App;
  * Modules hierarchy basic class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class ModuleHierarchy
@@ -29,28 +29,25 @@ class ModuleHierarchy
 
 	public static function getModulesHierarchy()
 	{
-		static::init();
+
 		return static::$hierarchy['modulesHierarchy'];
 	}
 
 	public static function getModuleLevel($moduleName)
 	{
-		static::init();
 		return isset(static::$hierarchy['modulesHierarchy'][$moduleName]) ? static::$hierarchy['modulesHierarchy'][$moduleName]['level'] : false;
 	}
 
 	public static function getModulesMap1M($moduleName)
 	{
-		static::init();
 		if (isset(static::$hierarchy['modulesMap1M'][$moduleName])) {
 			return static::$hierarchy['modulesMap1M'][$moduleName];
 		}
-		return false;
+		return [];
 	}
 
 	public static function getModulesMapMMBase()
 	{
-		static::init();
 		if (isset(static::$hierarchy['modulesMapMMBase'])) {
 			return static::$hierarchy['modulesMapMMBase'];
 		}
@@ -59,7 +56,6 @@ class ModuleHierarchy
 
 	public static function getModulesMapMMCustom($moduleName)
 	{
-		static::init();
 		if (isset(static::$hierarchy['modulesMapMMCustom'][$moduleName])) {
 			return static::$hierarchy['modulesMapMMCustom'][$moduleName];
 		}
@@ -68,7 +64,6 @@ class ModuleHierarchy
 
 	public static function getModulesByLevel($level = 0)
 	{
-		static::init();
 		if (isset(static::$modulesByLevels[$level])) {
 			return static::$modulesByLevels[$level];
 		}
@@ -89,13 +84,14 @@ class ModuleHierarchy
 				break;
 			case 68: $level = 2;
 				break;
+			case 65: $level = 3;
+				break;
 		}
 		return static::getModulesByLevel($level);
 	}
 
 	public static function accessModulesByLevel($level = 0, $actionName = 'EditView')
 	{
-		static::init();
 		$modules = [];
 		if (isset(static::$modulesByLevels[$level])) {
 			foreach (static::$modulesByLevels[$level] as $module => &$details) {
@@ -109,7 +105,6 @@ class ModuleHierarchy
 
 	public static function accessModulesByParent($parent, $actionName = 'EditView')
 	{
-		static::init();
 		$modules = [];
 		foreach (static::$hierarchy['modulesHierarchy'] as $module => &$details) {
 			if (Privilege::isPermitted($module, $actionName)) {
@@ -129,14 +124,21 @@ class ModuleHierarchy
 				break;
 			case 2: $return = 'subprocess';
 				break;
+			case 3: $return = 'linkextend';
+				break;
 		}
 		return $return;
 	}
 
+	/**
+	 * The function takes a hierarchy relationship
+	 * @param string $moduleName
+	 * @param boolean $field
+	 * @return array
+	 */
 	public static function getRelationFieldByHierarchy($moduleName, $field = false)
 	{
-		static::init();
-		if ($field != false && isset(static::$hierarchy['modulesMapRelatedFields'][$moduleName][$field])) {
+		if ($field !== false && isset(static::$hierarchy['modulesMapRelatedFields'][$moduleName][$field])) {
 			return static::$hierarchy['modulesMapRelatedFields'][$moduleName][$field];
 		}
 		if (isset(static::$hierarchy['modulesMapRelatedFields'][$moduleName])) {
@@ -154,22 +156,37 @@ class ModuleHierarchy
 				break;
 			case 2: $return = 68;
 				break;
+			case 3: $return = 65;
+				break;
 		}
 		return $return;
 	}
 
-	public static function getChildModules($moduleName)
+	/**
+	 * Get child modules
+	 * @param string $moduleName
+	 * @param int[] $hierarchy
+	 * @return string[]
+	 */
+	public static function getChildModules($moduleName, $hierarchy = [1])
 	{
-		static::init();
 		$modules = [];
 		switch (static::getModuleLevel($moduleName)) {
 			case 0:
-				$modules = array_keys(static::getModulesByLevel(1));
+				$is1Level = in_array(1, $hierarchy);
+				$is3Level = in_array(3, $hierarchy);
+				if ($is1Level && $is3Level) {
+					$modules = array_keys(array_merge(static::getModulesByLevel(1), static::getModulesByLevel(3)));
+				} elseif ($is1Level) {
+					$modules = array_keys(static::getModulesByLevel(1));
+				} elseif ($is3Level) {
+					$modules = array_keys(static::getModulesByLevel(3));
+				}
 				break;
 			case 1:
 				if ($levelMod = static::getModulesByLevel(2)) {
-					foreach ($levelMod as $mod => &$details) {
-						if ($moduleName == $details['parentModule']) {
+					foreach ($levelMod as $mod => $details) {
+						if ($moduleName === $details['parentModule']) {
 							$modules[] = $mod;
 						}
 					}
@@ -179,6 +196,12 @@ class ModuleHierarchy
 		return $modules;
 	}
 
+	/**
+	 * Get related records by hierarchy
+	 * @param int $record
+	 * @param array $hierarchy
+	 * @return int[]
+	 */
 	public static function getRelatedRecords($record, $hierarchy)
 	{
 		$moduleName = Record::getType($record);
@@ -186,27 +209,40 @@ class ModuleHierarchy
 		if (in_array(0, $hierarchy)) {
 			$records[] = $record;
 		}
-		$fields = Field::getRelatedFieldForModule(false, $moduleName);
-		$modules = static::getChildModules($moduleName);
-		foreach ($fields as $field) {
-			if (in_array($field['name'], $modules)) {
-				$recordsByField = static::getRelatedRecordsByField($record, $field);
-				$recordsLevel1 = array_merge($recordsLevel1, $recordsByField);
+		$modules = static::getChildModules($moduleName, $hierarchy);
+		if ($modules) {
+			$fields = Field::getRelatedFieldForModule(false, $moduleName);
+			foreach ($fields as $field) {
+				if (in_array($field['name'], $modules)) {
+					$recordsByField = static::getRelatedRecordsByField($record, $field);
+					$recordsLevel1 = array_merge($recordsLevel1, $recordsByField);
+				}
 			}
 		}
 		$level = static::getModuleLevel($moduleName);
 		if (!($level == 0 && !in_array(1, $hierarchy))) {
 			$records = array_merge($records, $recordsLevel1);
 		}
-		if ($level == 0 && in_array(2, $hierarchy)) {
-			foreach ($recordsLevel1 as $record) {
-				$recordsByHierarchy = static::getRelatedRecords($record, $hierarchy);
-				$records = array_merge($records, $recordsByHierarchy);
+		if ($level === 0) {
+			if (in_array(2, $hierarchy)) {
+				foreach ($recordsLevel1 as $record) {
+					$recordsByHierarchy = static::getRelatedRecords($record, $hierarchy);
+					$records = array_merge($records, $recordsByHierarchy);
+				}
+			}
+			if (in_array(3, $hierarchy)) {
+				$records = array_merge($records, $recordsLevel1);
 			}
 		}
 		return array_unique($records);
 	}
 
+	/**
+	 * Get related records by field
+	 * @param int $record
+	 * @param array $field
+	 * @return int[]
+	 */
 	protected static function getRelatedRecordsByField($record, $field)
 	{
 		$queryGenerator = new QueryGenerator($field['name']);
@@ -215,3 +251,5 @@ class ModuleHierarchy
 		return $queryGenerator->createQuery()->column();
 	}
 }
+
+ModuleHierarchy::init();

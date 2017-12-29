@@ -4,7 +4,7 @@
  * 
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Settings_WebserviceApps_Module_Model extends Settings_Vtiger_Module_Model
@@ -14,28 +14,24 @@ class Settings_WebserviceApps_Module_Model extends Settings_Vtiger_Module_Model
 	 * Webservice apps types
 	 * @return string[]
 	 */
-	static public function getTypes()
+	public static function getTypes()
 	{
 		return ['Portal'];
 	}
 
-	static public function getServers()
+	public static function getServers()
 	{
-
-		$db = \App\Db::getInstance('webservice');
-		$query = new \App\Db\Query();
-		$query->from('w_#__servers');
-		return $query->createCommand($db)->queryAllByGroup(true);
+		return (new \App\Db\Query())->from('w_#__servers')
+				->createCommand(\App\Db::getInstance('webservice'))
+				->queryAllByGroup(1);
 	}
 
-	static public function getActiveServers($type = '')
+	public static function getActiveServers($type = '')
 	{
-		$db = \App\Db::getInstance('webservice');
-		$query = new \App\Db\Query();
-		$query->from('w_#__servers')->andWhere(['status' => 1]);
+		$query = (new \App\Db\Query())->from('w_#__servers')->andWhere(['status' => 1]);
 		if (!empty($type)) {
 			$query->andWhere(['type' => $type]);
 		}
-		return $query->createCommand($db)->queryAllByGroup(1);
+		return $query->createCommand(\App\Db::getInstance('webservice'))->queryAllByGroup(1);
 	}
 }

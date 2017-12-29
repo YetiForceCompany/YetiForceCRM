@@ -3,13 +3,11 @@
  * CallHistory german translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'CallHistory' => 'Anrufhistorie',
 	'SINGLE_CallHistory' => 'Anrufhistorie',
-	'LBL_ADD_RECORD' => 'Eintrag hinzufügen',
-	'LBL_RECORDS_LIST' => 'Liste Anfrufe',
 	//Bloks
 	'LBL_CALLHISTORY_INFORMATION' => 'Information zur Anrufhistorie',
 	'LBL_CUSTOM_INFORMATION' => 'Zusätzliche Informationen',

@@ -1,8 +1,8 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <div class="menuConfigContainer">
 	<div class="widget_header row">
 		<div class="col-md-7">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			{\App\Language::translate('LBL_MENU_BUILDER_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 		<div class="col-md-5 row">
@@ -25,7 +25,7 @@
 	{/if}
 	<div class="treeMenuContainer">
 		<input type="hidden" id="treeLastID" value="{$LASTID}" />
-		<input type="hidden" name="tree" id="treeValues" value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($DATA))}' />
+		<input type="hidden" name="tree" id="treeValues" value='{\App\Purifier::encodeHtml(\App\Json::encode($DATA))}' />
 		<div id="treeContent"></div>
 	</div>
 	<div class="modal fade copyMenuModal">

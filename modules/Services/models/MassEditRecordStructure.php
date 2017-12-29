@@ -15,5 +15,3 @@ class Services_MassEditRecordStructure_Model extends Products_MassEditRecordStru
 {
 	
 }
-
-?>

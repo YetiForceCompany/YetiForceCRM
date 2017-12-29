@@ -11,8 +11,6 @@ $languageStrings = [
 	// Basic Strings
 	'Assets' => 'Bestandsverwaltung',
 	'SINGLE_Assets' => 'Bestand',
-	'LBL_ADD_RECORD' => 'Neue Bestandsverwaltung',
-	'LBL_RECORDS_LIST' => 'Bestandsverwaltung',
 	// Blocks
 	'LBL_ASSET_INFORMATION' => 'Bestand Details',
 	//Field Labels
@@ -28,6 +26,7 @@ $languageStrings = [
 	'FL_RENEWAL' => 'Verlängerung',
 	'LBL_SET_RENEWAL' => 'Verlängerung setzen',
 	'FL_RENEWAL_INVOICE' => 'Folgerechnung',
+	'FL_CONTACT' => 'Contact',
 	/* picklist values */
 	'PLL_DRAFT' => 'Entwurf',
 	'PLL_ACCEPTED' => 'bestätigt',

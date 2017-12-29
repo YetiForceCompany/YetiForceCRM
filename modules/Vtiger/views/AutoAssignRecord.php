@@ -4,7 +4,7 @@
  * Auto assign record View Class
  * @package YetiForce.ModalView
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_AutoAssignRecord_View extends Vtiger_BasicModal_View
@@ -14,7 +14,7 @@ class Vtiger_AutoAssignRecord_View extends Vtiger_BasicModal_View
 	 * Checking permission 
 	 * @param \App\Request $request
 	 * @return boolean
-	 * @throws \Exception\NoPermitted
+	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
 	{
@@ -25,7 +25,7 @@ class Vtiger_AutoAssignRecord_View extends Vtiger_BasicModal_View
 				return true;
 			}
 		}
-		throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 	}
 
 	/**

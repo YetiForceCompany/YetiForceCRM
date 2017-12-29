@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 jQuery.Class("Reservations_Calendar_Js", {
 	registerUserListWidget: function () {
 		var thisInstance = new Reservations_Calendar_Js();
@@ -111,12 +111,19 @@ jQuery.Class("Reservations_Calendar_Js", {
 			},
 			eventRender: function (event, element) {
 				app.showPopoverElementView(element.find('.fc-content'), {
-					title: event.title + '<a href="index.php?module=' + event.module + '&view=Detail&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-th-list"></span></a>',
+					title: event.title + '<a href="index.php?module=Reservations&view=Edit&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-pencil"></span></a>' + '<a href="index.php?module=Reservations&view=Detail&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-th-list"></span></a>',
 					container: 'body',
 					html: true,
 					placement: 'auto right',
 					template: '<div class="popover calendarPopover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
-					content: '<i class="icon-time"></i> ' + app.vtranslate('JS_START_DATE') + ': ' + event.start.format('YYYY-MM-DD ' + popoverTimeFormat) + '<br /><i class="icon-time"></i> ' + app.vtranslate('JS_END_DATE') + ': ' + event.end.format('YYYY-MM-DD ' + popoverTimeFormat)
+					content: '<div><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start.format('YYYY-MM-DD ' + popoverTimeFormat) + '</div>' +
+							'<div><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end.format('YYYY-MM-DD ' + popoverTimeFormat) + '</div>' +
+							'<div><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_TOTAL_TIME') + '</label>: ' + event.totalTime + '</div>' +
+							'<div><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> <label>' + app.vtranslate('JS_TYPE') + '</label>: ' + event.type + '</div>' +
+							(event.status ? '<div><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> <label>' + app.vtranslate('JS_STATUS') + '</label>: ' + app.vtranslate(event.status) + '</div>' : '') +
+							(event.company ? '<div><span class="userIcon-Accounts" aria-hidden="true"></span> <label>' + app.vtranslate('JS_COMPANY') + '</label>: ' + event.company + '</div>' : '') +
+							(event.process ? '<div><span class="userIcon-' + event.processType + '" aria-hidden="true"></span> <label>' + event.processLabel + '</label>: <a target="_blank" href="index.php?module=' + event.processType + '&view=Detail&record=' + event.processId + '">' + event.process + '</a></div>' : '') +
+							(event.smownerid ? '<div><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
 				});
 				element.find('.fc-content, .fc-info').click(function () {
 					var event = $(this).closest('.fc-event');
@@ -238,7 +245,7 @@ jQuery.Class("Reservations_Calendar_Js", {
 			if (timeFormat == 24) {
 				var defaultTimeFormat = 'HH:mm';
 			} else {
-				defaultTimeFormat = 'hh:mm tt';
+				defaultTimeFormat = 'hh:mm A';
 			}
 			var startDateInstance = Date.parse(date);
 			var startDateString = moment(date).format(dateFormat);
@@ -278,21 +285,28 @@ jQuery.Class("Reservations_Calendar_Js", {
 		});
 	},
 	addCalendarEvent: function (calendarDetails, dateFormat) {
-		// convert dates to db format
-		calendarDetails.date_start.display_value = app.getDateInDBInsertFormat(dateFormat, calendarDetails.date_start.display_value);
-		calendarDetails.due_date.display_value = app.getDateInDBInsertFormat(dateFormat, calendarDetails.due_date.display_value);
+		if($.inArray(calendarDetails.assigned_user_id.value, $("#calendarUserList").val()) < 0){
+			return;
+		}
+		if($.inArray(calendarDetails.type.value, $("#timecontrolTypes").val()) < 0){
+			return;
+		}
 		var calendar = this.getCalendarView();
-
-		var eventObject = {};
-		eventObject.id = calendarDetails._recordId;
-		eventObject.title = calendarDetails.title.display_value;
-		var startDate = calendar.fullCalendar('moment', calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value);
-		eventObject.start = startDate.toString();
-		var endDate = calendar.fullCalendar('moment', calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value);
-		var assignedUserId = calendarDetails.assigned_user_id.value;
-		eventObject.end = endDate.toString();
-		eventObject.url = 'index.php?module=Reservations&view=Detail&record=' + calendarDetails._recordId;
-		eventObject.className = 'userCol_' + calendarDetails.assigned_user_id.value + ' calCol_' + calendarDetails.type.value;
+		var startDate = calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value);
+		var endDate = calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value);
+		var eventObject = {
+			id: calendarDetails._recordId,
+			title: calendarDetails.title.display_value,
+			smownerid: calendarDetails.assigned_user_id?calendarDetails.assigned_user_id.display_value:calendarDetails.smownerid,
+			status: calendarDetails.reservations_status?calendarDetails.reservations_status.display_value:calendarDetails.status,
+			isPrivate: calendarDetails.isPrivate,
+			start: startDate.toString(),
+			end: endDate.toString(),
+			url: 'index.php?module=Reservations&view=Detail&record=' + calendarDetails._recordId,
+			className: 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBg_OSSTimeControl_timecontrol_type_' + calendarDetails.type.value,
+			totalTime: calendarDetails.sum_time.display_value,
+			type: calendarDetails.type.display_value,
+		};
 		this.getCalendarView().fullCalendar('renderEvent', eventObject);
 	},
 	getCalendarCreateView: function () {

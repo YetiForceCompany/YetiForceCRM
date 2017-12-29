@@ -2,13 +2,12 @@
 namespace App;
 
 \Vtiger_Loader::includeOnce('~/modules/com_vtiger_workflow/VTJsonCondition.php');
-\Vtiger_Loader::includeOnce('~/include/Webservices/Retrieve.php');
 
 /**
  * Advanced privilege class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class PrivilegeAdvanced
@@ -42,7 +41,7 @@ class PrivilegeAdvanced
 				'members' => array_flip($users)
 			];
 		}
-		$content = '<?php return ' . \vtlib\Functions::varExportMin($cache) . ';' . PHP_EOL;
+		$content = '<?php return ' . Utils::varExport($cache) . ';' . PHP_EOL;
 		file_put_contents(static::$cacheFile, $content, LOCK_EX);
 	}
 
@@ -78,7 +77,7 @@ class PrivilegeAdvanced
 				continue;
 			}
 			static::$webservice = false;
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			$recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			$test = (new \VTJsonCondition())->evaluate($privilege['conditions'], $recordModel);
 			static::$webservice = true;
 			if ($test) {

@@ -4,7 +4,7 @@
  * Notifications Dashboard Class
  * @package YetiForce.Dashboard
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Notification_NotificationsByRecipient_Dashboard extends Vtiger_IndexAjax_View
@@ -71,7 +71,7 @@ class Notification_NotificationsByRecipient_Dashboard extends Vtiger_IndexAjax_V
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$widget = Vtiger_Widget_Model::getInstance($request->get('linkid'), Users_Record_Model::getCurrentUserModel()->getId());
+		$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), Users_Record_Model::getCurrentUserModel()->getId());
 		$time = $request->getDateRange('time');
 		if (empty($time)) {
 			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
@@ -79,16 +79,15 @@ class Notification_NotificationsByRecipient_Dashboard extends Vtiger_IndexAjax_V
 				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
 				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
 			}
-			$time['start'] = \App\Fields\DateTime::currentUserDisplayDate($time['start']);
-			$time['end'] = \App\Fields\DateTime::currentUserDisplayDate($time['end']);
+			$time['start'] = \App\Fields\Date::formatToDisplay($time['start']);
+			$time['end'] = \App\Fields\Date::formatToDisplay($time['end']);
 		}
 		$data = $this->getNotificationByRecipient($time);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DTIME', $time);
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/DashBoardWidgetContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/NotificationsBySenderRecipient.tpl', $moduleName);

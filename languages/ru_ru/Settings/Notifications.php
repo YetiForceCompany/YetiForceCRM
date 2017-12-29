@@ -3,15 +3,15 @@
  * Notifications russian translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
-	'LBL_EXCEPTIONS' => 'Exceptions',
+	'LBL_EXCEPTIONS' => 'Исключения',
 	'LBL_NOTIFICATIONS_CONFIGURATION' => 'Настройка уведомлений',
-	'LBL_ADD_MEMBERS' => 'Add members to notifications',
-	'LBL_SELECT_MEMBERS' => 'Select members for notifications',
-	'LBL_MEMBERS' => 'Members',
-	'LBL_LOCK' => 'Lock',
-	'LBL_NOTICE_CONFIG_WARNING' => 'Watching modules is enabled in configuration. Disable it to manage notifications.',
+	'LBL_ADD_MEMBERS' => 'Добавить участников для уведомлений',
+	'LBL_SELECT_MEMBERS' => 'Выбрать участников для уведомлений',
+	'LBL_MEMBERS' => 'Участники',
+	'LBL_LOCK' => 'Заблокировать',
+	'LBL_NOTICE_CONFIG_WARNING' => 'Отслеживание модулей включено в настройках сайта. Отключите его, чтобы управлять уведомлениями.',
 ];
 $jsLanguageStrings = [];

@@ -2,7 +2,7 @@
 /**
  * @package YetiForce.Webservice
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 chdir(__DIR__ . '/../');
 
@@ -12,7 +12,7 @@ AppConfig::iniSet('error_log', ROOT_DIRECTORY . '/cache/logs/webservice.log');
 \App\Config::$requestMode = 'API';
 try {
 	if (!in_array('webservice', $enabledServices)) {
-		throw new Exception\NoPermittedToApi('Webservice - Service is not active', 403);
+		throw new \App\Exceptions\NoPermittedToApi('Webservice - Service is not active', 403);
 	}
 	$controller = Api\Controller::getInstance();
 	$process = $controller->preProcess();
@@ -22,7 +22,7 @@ try {
 	$controller->postProcess();
 } catch (\Api\Core\Exception $e) {
 	$e->handleError();
-} catch (Exception\NoPermittedToApi $e) {
+} catch (\App\Exceptions\NoPermittedToApi $e) {
 	echo json_encode([
 		'status' => 0,
 		'error' => [

@@ -34,7 +34,7 @@ class Settings_Vtiger_TaxAjax_Action extends Settings_Vtiger_Basic_Action
 			$taxRecordModel = Settings_Vtiger_TaxRecord_Model::getInstanceById($taxId, $type);
 		}
 
-		$fields = array('taxlabel', 'percentage', 'deleted');
+		$fields = ['taxlabel', 'percentage', 'deleted'];
 		foreach ($fields as $fieldName) {
 			if ($request->has($fieldName)) {
 				$taxRecordModel->set($fieldName, $request->get($fieldName));
@@ -47,7 +47,7 @@ class Settings_Vtiger_TaxAjax_Action extends Settings_Vtiger_Basic_Action
 		try {
 			$taxId = $taxRecordModel->save();
 			$recordModel = Settings_Vtiger_TaxRecord_Model::getInstanceById($taxId, $type);
-			$response->setResult(array_merge(array('_editurl' => $recordModel->getEditTaxUrl(), 'type' => $recordModel->getType(), 'row_type' => $currentUser->get('rowheight')), $recordModel->getData()));
+			$response->setResult(array_merge(['_editurl' => $recordModel->getEditTaxUrl(), 'type' => $recordModel->getType(), 'row_type' => $currentUser->get('rowheight')], $recordModel->getData()));
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
@@ -64,9 +64,9 @@ class Settings_Vtiger_TaxAjax_Action extends Settings_Vtiger_Basic_Action
 		$exists = Settings_Vtiger_TaxRecord_Model::checkDuplicate($taxLabel, $taxId, $type);
 
 		if (!$exists) {
-			$result = array('success' => false);
+			$result = ['success' => false];
 		} else {
-			$result = array('success' => true, 'message' => \App\Language::translate('LBL_TAX_NAME_EXIST', $qualifiedModuleName));
+			$result = ['success' => true, 'message' => \App\Language::translate('LBL_TAX_NAME_EXIST', $qualifiedModuleName)];
 		}
 
 		$response = new Vtiger_Response();

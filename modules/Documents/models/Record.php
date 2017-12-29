@@ -9,9 +9,16 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+/**
+ * Class Documents_Record_Model
+ */
 class Documents_Record_Model extends Vtiger_Record_Model
 {
 
+	/**
+	 * Get download file url
+	 * @return string
+	 */
 	public function getDownloadFileURL()
 	{
 		if ($this->get('filelocationtype') == 'I') {
@@ -22,6 +29,10 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
+	/**
+	 * Check file integrity url
+	 * @return string
+	 */
 	public function checkFileIntegrityURL()
 	{
 		return "javascript:Documents_Detail_Js.checkFileIntegrity('index.php?module=" . $this->getModuleName() . "&action=CheckFileIntegrity&record=" . $this->getId() . "')";
@@ -46,6 +57,10 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		return $returnValue;
 	}
 
+	/**
+	 * Get file details
+	 * @return array
+	 */
 	public function getFileDetails()
 	{
 		return (new \App\Db\Query())->from('vtiger_attachments')
@@ -95,37 +110,43 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		echo $fileContent;
 	}
 
+	/**
+	 * Update file status
+	 * @param int $status
+	 */
 	public function updateFileStatus($status)
 	{
 		App\Db::getInstance()->createCommand()->update('vtiger_notes', ['filestatus' => $status], ['notesid' => $this->get('id')])->execute();
 	}
 
+	/**
+	 * Update download count
+	 */
 	public function updateDownloadCount()
 	{
-		$db = PearDatabase::getInstance();
 		$notesId = $this->get('id');
-
-		$result = $db->pquery("SELECT filedownloadcount FROM vtiger_notes WHERE notesid = ?", array($notesId));
-		$downloadCount = $db->query_result($result, 0, 'filedownloadcount') + 1;
-
-		$db->pquery("UPDATE vtiger_notes SET filedownloadcount = ? WHERE notesid = ?", array($downloadCount, $notesId));
+		$downloadCount = (new \App\Db\Query())->select(['filedownloadcount'])->from('vtiger_notes')->where(['notesid' => $notesId])->scalar();
+		$downloadCount++;
+		\App\Db::getInstance()->createCommand()->update('vtiger_notes', ['filedownloadcount' => $downloadCount], ['notesid' => $notesId]);
 	}
 
+	/**
+	 * Get download count update url
+	 * @return string
+	 */
 	public function getDownloadCountUpdateUrl()
 	{
 		return "index.php?module=Documents&action=UpdateDownloadCount&record=" . $this->getId();
 	}
 
+	/**
+	 * Get reference module by doc id
+	 * @param int $record
+	 * @return array
+	 */
 	public static function getReferenceModuleByDocId($record)
 	{
-		$db = PearDatabase::getInstance();
-		$sql = 'SELECT DISTINCT vtiger_crmentity.setype 
-			   FROM vtiger_crmentity INNER JOIN vtiger_senotesrel 
-				   ON vtiger_senotesrel.crmid = vtiger_crmentity.crmid 
-			   WHERE vtiger_crmentity.deleted = 0 
-				 AND vtiger_senotesrel.notesid = ?';
-		$result = $db->pquery($sql, [$record]);
-		return $db->getArrayColumn($result);
+		return (new App\Db\Query())->select(['vtiger_crmentity.setype'])->from('vtiger_crmentity')->innerJoin('vtiger_senotesrel', 'vtiger_senotesrel.crmid = vtiger_crmentity.crmid')->where(['vtiger_crmentity.deleted' => 0, 'vtiger_senotesrel.notesid' => $record])->distinct()->column();
 	}
 
 	public static function getFileIconByFileType($fileType)
@@ -216,5 +237,27 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		}
 		//set the column_fields so that its available in the event handlers
 		$this->set('filename', $fileName)->set('filesize', $fileSize)->set('filetype', $fileType)->set('filedownloadcount', $fileDownloadCount);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function delete()
+	{
+		parent::delete();
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$attachmentsIds = (new \App\Db\Query())->select(['attachmentsid'])->from('vtiger_seattachmentsrel')->where(['crmid' => $this->getId()])->column();
+		if (!empty($attachmentsIds)) {
+			$dataReader = (new \App\Db\Query())->select(['path', 'attachmentsid'])->from('vtiger_attachments')->where(['attachmentsid' => $attachmentsIds])->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				$fileName = $row['path'] . $row['attachmentsid'];
+				if (file_exists($fileName)) {
+					unlink($fileName);
+				}
+			}
+			$dbCommand->delete('vtiger_seattachmentsrel', ['crmid' => $this->getId()])->execute();
+			$dbCommand->delete('vtiger_attachments', ['attachmentsid' => $attachmentsIds])->execute();
+			$dbCommand->delete('vtiger_crmentity', ['crmid' => $attachmentsIds])->execute();
+		}
 	}
 }

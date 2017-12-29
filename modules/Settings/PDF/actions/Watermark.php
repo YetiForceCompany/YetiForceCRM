@@ -4,7 +4,7 @@
  * Returns special functions for PDF Settings
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -13,11 +13,11 @@ class Settings_PDF_Watermark_Action extends Settings_Vtiger_Index_Action
 
 	public function __construct()
 	{
-		$this->exposeMethod('Delete');
-		$this->exposeMethod('Upload');
+		$this->exposeMethod('delete');
+		$this->exposeMethod('upload');
 	}
 
-	public function Delete(\App\Request $request)
+	public function delete(\App\Request $request)
 	{
 		$recordId = $request->get('id');
 		$pdfModel = Vtiger_PDF_Model::getInstanceById($recordId);
@@ -28,7 +28,7 @@ class Settings_PDF_Watermark_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	public function Upload(\App\Request $request)
+	public function upload(\App\Request $request)
 	{
 		$templateId = $request->get('template_id');
 		$newName = basename($_FILES['watermark']['name'][0]);

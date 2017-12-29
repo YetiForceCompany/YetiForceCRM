@@ -1,5 +1,5 @@
 {strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<div class="warningsIndexPage">
 		<div class="row">
 			<div class="col-md-9 marginRight10">
@@ -14,7 +14,7 @@
 					<input class="switchBtn" type="checkbox" title="{\App\Language::translate('LBL_WARNINGS_SWITCH',$MODULE)}" data-size="normal" data-label-width="5" data-handle-width="90" data-on-text="{\App\Language::translate('LBL_ACTIVE',$MODULE)}" data-off-text="{\App\Language::translate('LBL_ALL')}">
 				</div>
 				<hr>
-				<input type="hidden" id="treeValues" value="{Vtiger_Util_Helper::toSafeHTML($FOLDERS)}">
+				<input type="hidden" id="treeValues" value="{\App\Purifier::encodeHtml($FOLDERS)}">
 				<div id="jstreeContainer"></div>
 			</div>
 		</div>

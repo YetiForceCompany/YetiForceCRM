@@ -4,7 +4,7 @@
  * Mail scanner action creating mail
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
@@ -14,7 +14,7 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser() || !$request->has('record')) {
-			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -29,7 +29,7 @@ class Settings_OSSMailScanner_Folders_View extends Vtiger_BasicModal_View
 		$qualifiedModuleName = $request->getModule(false);
 		$record = $request->get('record');
 		$mailDetail = OSSMail_Record_Model::getMailAccountDetail($record);
-		$mailModuleActive = vtlib\Functions::getModuleId('OSSMail');
+		$mailModuleActive = \App\Module::getModuleId('OSSMail');
 		$folders = [];
 		if ($mailModuleActive) {
 			$mailRecordModel = Vtiger_Record_Model::getCleanInstance('OSSMail');

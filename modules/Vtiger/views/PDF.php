@@ -4,18 +4,28 @@
  * Export PDF Modal View Class
  * @package YetiForce.ModalView
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_PDF_View extends Vtiger_BasicModal_View
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'ExportPdf')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'ExportPdf')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+		if (!$request->isEmpty('record') && !\App\Privilege::isPermitted($moduleName, 'DetailView', $request->getInteger('record'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -23,9 +33,8 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 	{
 		$this->preProcess($request);
 		$moduleName = $request->getModule();
-		$allRecords = [];
-		$recordId = $request->get('record');
-		$view = $request->get('fromview');
+		$recordId = $request->getInteger('record');
+		$view = $request->getByType('fromview', 1);
 		$allRecords = Vtiger_Mass_Action::getRecordsListFromRequest($request);
 
 		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);

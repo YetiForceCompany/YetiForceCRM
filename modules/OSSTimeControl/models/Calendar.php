@@ -4,7 +4,7 @@
  * OSSTimeControl calendar model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSTimeControl_Calendar_Model extends App\Base
 {
@@ -18,7 +18,7 @@ class OSSTimeControl_Calendar_Model extends App\Base
 		$moduleName = 'OSSTimeControl';
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$queryGenerator = new App\QueryGenerator($moduleName);
-		$queryGenerator->setFields(['id', 'date_start', 'time_start', 'time_end', 'due_date', 'timecontrol_type', 'name', 'assigned_user_id']);
+		$queryGenerator->setFields(['id', 'date_start', 'time_start', 'time_end', 'due_date', 'timecontrol_type', 'name', 'assigned_user_id', 'osstimecontrol_status', 'sum_time', 'osstimecontrol_no', 'process', 'link', 'subprocess', 'linkextend']);
 		$query = $queryGenerator->createQuery();
 		if ($this->get('start') && $this->get('end')) {
 			$dbStartDateOject = DateTimeField::convertToDBTimeZone($this->get('start'), null, false);
@@ -57,8 +57,38 @@ class OSSTimeControl_Calendar_Model extends App\Base
 		while ($record = $dataReader->read()) {
 			$item = [];
 			$item['id'] = $record['id'];
-			$item['title'] = $record['name'];
+			$item['title'] = \App\Purifier::encodeHtml($record['name']);
 			$item['url'] = 'index.php?module=OSSTimeControl&view=Detail&record=' . $record['id'];
+			$item['status'] = \App\Language::translate($record['osstimecontrol_status'], 'OSSTimeControl');
+			$item['type'] = \App\Language::translate($record['timecontrol_type'], 'OSSTimeControl');
+			$item['number'] = $record['osstimecontrol_no'];
+			//Relation
+			if ($record['link']) {
+				$item['link'] = $record['link'];
+				$item['linkl'] = \App\Record::getLabel($record['link']);
+				// / migoi
+				$item['linkm'] = \App\Record::getType($record['link']);
+			}
+			//Process
+			if ($record['process']) {
+				$item['process'] = $record['process'];
+				$item['procl'] = \App\Record::getLabel($record['process']);
+				$item['procm'] = \App\Record::getType($record['process']);
+			}
+			//Subprocess
+			if ($record['subprocess']) {
+				$item['subprocess'] = $record['subprocess'];
+				$item['subprocl'] = \App\Record::getLabel($record['subprocess']);
+				$item['subprocm'] = \App\Record::getType($record['subprocess']);
+			}
+			//linkextend
+			if ($record['linkextend']) {
+				$item['linkextend'] = $record['linkextend'];
+				$item['linkexl'] = \App\Record::getLabel($record['linkextend']);
+				$item['linkexm'] = \App\Record::getType($record['linkextend']);
+			}
+			$item['totalTime'] = vtlib\Functions::decimalTimeFormat($record['sum_time'])['short'];
+			$item['smownerid'] = \App\Fields\Owner::getLabel($record['assigned_user_id']);
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
 			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
 			$dateTimeComponents = explode(' ', $userDateTimeString);
@@ -73,7 +103,7 @@ class OSSTimeControl_Calendar_Model extends App\Base
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 			$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 			$item['end'] = $dataBaseDateFormatedString . ' ' . $dateTimeComponents[1];
-			$item['className'] = ' userCol_' . $record['assigned_user_id'] . ' calCol_' . $record['timecontrol_type'];
+			$item['className'] = ' ownerCBg_' . $record['assigned_user_id'] . ' picklistCBr_OSSTimeControl_timecontrol_type_' . $record['timecontrol_type'];
 			$result[] = $item;
 		}
 		return $result;
@@ -101,6 +131,6 @@ class OSSTimeControl_Calendar_Model extends App\Base
 	 */
 	public static function getCalendarTypes()
 	{
-		return \App\Fields\Picklist::getPickListValues('timecontrol_type');
+		return \App\Fields\Picklist::getValuesName('timecontrol_type');
 	}
 }

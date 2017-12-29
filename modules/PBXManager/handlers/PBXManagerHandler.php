@@ -42,10 +42,10 @@ class PBXManager_PBXManagerHandler_Handler
 	}
 
 	/**
-	 * EntityAfterRestore handler function
+	 * EntityChangeState handler function
 	 * @param App\EventHandler $eventHandler
 	 */
-	public function entityAfterRestore(App\EventHandler $eventHandler)
+	public function entityChangeState(App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		$values = [

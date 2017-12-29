@@ -3,7 +3,8 @@
  * FInvoiceCost german translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author skavenkf (K.Fink)
  */
 $languageStrings = [
 	'FInvoiceCost' => 'Rechnungskosten',
@@ -12,6 +13,8 @@ $languageStrings = [
 	'LBL_CUSTOM_INFORMATION' => 'Systeminformationen',
 	'LBL_INVOICE_ADDRESS' => 'Rechnungsadresse',
 	'LBL_ADDRESS_DELIVERY_INFORMATION' => 'Lieferadresse',
+	'LBL_DESCRIPTION_BLOCK' => 'Beschreibung',
+	'LBL_ATTENTION_BLOCK' => 'Kommentare',
 	//FIELDS
 	'FL_SUBJECT' => 'Betreff',
 	'FL_PAYMENT_DATE' => 'Zahlungsdatum',
@@ -25,6 +28,7 @@ $languageStrings = [
 	'FL_STATUS' => 'Status',
 	'FL_PAYMENT_STATUS' => 'Zahlungsstatus',
 	'FL_INVOICE_TYPE' => 'Rechnungstyp',
+	'FL_CATEGORY' => 'Kategorie',
 	//PICKLIST VALUES
 	'PLL_TRANSFER' => 'Überweisung',
 	'PLL_WIRE_TRANSFER' => 'Banküberweisung',

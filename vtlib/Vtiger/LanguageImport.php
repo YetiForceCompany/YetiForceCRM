@@ -52,7 +52,7 @@ class LanguageImport extends LanguageExport
 		$this->initImport($zipfile, $overwrite);
 
 		// Call module import function
-		$this->import_Language($zipfile);
+		$this->importLanguage($zipfile);
 	}
 
 	/**
@@ -70,13 +70,17 @@ class LanguageImport extends LanguageExport
 	 * Import Module
 	 * @access private
 	 */
-	public function import_Language($zipfile)
+	public function importLanguage($zipfile)
 	{
 		$name = $this->_modulexml->name;
 		$prefix = $this->_modulexml->prefix;
 		$label = $this->_modulexml->label;
 
 		self::log("Importing $label [$prefix] ... STARTED");
+		if (strpos($prefix, '/') !== false) {
+			\App\Log::error("Importing $label ... Wrong prefix - [$prefix]");
+			return;
+		}
 		$vtiger6format = false;
 		$zip = new \App\Zip($zipfile);
 		for ($i = 0; $i < $zip->numFiles; $i++) {
@@ -112,7 +116,7 @@ class LanguageImport extends LanguageExport
 					}
 				}
 				// vtiger6 format
-				else if ($targetdir === 'modules' || $targetdir === 'modules/Settings' || $targetdir === 'modules' . DIRECTORY_SEPARATOR . 'Settings') {
+				else if (in_array($targetdir, ['modules', 'modules' . DIRECTORY_SEPARATOR . 'Settings', 'modules' . DIRECTORY_SEPARATOR . 'Other'])) {
 					$vtiger6format = true;
 					$dounzip = true;
 				}

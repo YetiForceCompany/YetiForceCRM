@@ -4,7 +4,7 @@
  * Widget show accounts by industry
  * @package YetiForce.Dashboard
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
@@ -20,11 +20,11 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 	public function getSearchParams($industry, $assignedto, $dates)
 	{
 		$listSearchParams = [];
-		$conditions = array(array('industry', 'e', $industry));
+		$conditions = [['industry', 'e', $industry]];
 		if ($assignedto != '')
-			array_push($conditions, array('assigned_user_id', 'e', $assignedto));
+			array_push($conditions, ['assigned_user_id', 'e', $assignedto]);
 		if (!empty($dates)) {
-			array_push($conditions, array('createdtime', 'bw', $dates['start'] . ',' . $dates['end']));
+			array_push($conditions, ['createdtime', 'bw', $dates['start'] . ',' . $dates['end']]);
 		}
 		$listSearchParams[] = $conditions;
 		return '&search_params=' . App\Json::encode($listSearchParams);
@@ -43,8 +43,7 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		$query = new \App\Db\Query();
 		$query->select([
 				'count' => new \yii\db\Expression('COUNT(*)'),
-				'industryvalue' => new \yii\db\Expression("CASE WHEN vtiger_account.industry IS NULL OR vtiger_account.industry = '' THEN '' 
-						ELSE vtiger_account.industry END")])
+				'industryvalue' => new \yii\db\Expression("CASE WHEN vtiger_account.industry IS NULL OR vtiger_account.industry = '' THEN '' ELSE vtiger_account.industry END")])
 			->from('vtiger_account')
 			->innerJoin('vtiger_crmentity', 'vtiger_account.accountid = vtiger_crmentity.crmid')
 			->innerJoin('vtiger_industry', 'vtiger_account.industry = vtiger_industry.industry')
@@ -81,15 +80,12 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-
-		$linkId = $request->get('linkid');
-		$data = $request->get('data');
-
+		$linkId = $request->getInteger('linkid');
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Accounts');
 		else
-			$owner = $request->get('owner');
+			$owner = $request->getByType('owner', 2);
 		$ownerForwarded = $owner;
 		if ($owner == 'all')
 			$owner = '';
@@ -129,8 +125,7 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 		$viewer->assign('OWNER', $ownerForwarded);
 
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/DashBoardWidgetContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/AccountsByIndustry.tpl', $moduleName);

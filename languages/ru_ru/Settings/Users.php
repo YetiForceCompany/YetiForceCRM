@@ -3,27 +3,21 @@
  * Users russian translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
-	'LBL_COLORS_DESCRIPTION' => 'Настройка цветов пользователей',
 	'Users' => 'Пользователи',
 	'USER_MAIL_EXIST' => 'Пользователь с такой электронной почтой уже существует',
-	'LBL_USERS_COLORS' => 'Цвет пользователей',
-	'LBL_USERS_COLORS_DESCRIPTION' => 'Настройка цвета пользователя',
-	'LBL_UPDATE_COLOR' => 'Изменить цвет',
-	'LBL_COLOR' => 'Цвет',
-	'LBL_GENERATE_COLOR' => 'Генерировать случайный цвет',
-	'LBL_GENERATED_COLOR' => 'Генератор цветов',
-	'LBL_EDIT_COLOR' => 'Редактировать цвет',
-	'LBL_SELECT_COLOR' => 'Выберите цвет:',
-	'LBL_SAVE_COLOR' => 'Сохранить цвет',
-	'LBL_GROUPS_COLORS' => 'Группа цветов',
 	'LBL_GROUP_NAME' => 'Название группы',
-	'LBL_COLORS' => 'Цвета',
 	'LBL_PRIORITY' => 'Приоритет',
+	'LBL_PICKLISTS' => 'Списки',
+	'LBL_WARNING' => 'Предупреждение',
+	'LBL_SELECT_PICKLIST' => 'Выбрать список',
+	'LBL_PICKLIST_COLOR_COL_NOT_FOUND' => 'Функционал цветов не был активирован для данного списка.',
+	'LBL_UPDATE_COLOR_COLUMN' => 'Активировать',
+	'LBL_ITEM' => 'Значение',
 	'LBL_MODULE' => 'Модуль',
-	'LBL_LDAP_RECOMMENDED_INFO' => 'We do not recommend selecting users with admin permissions for LDAP authorization. In case of authorization problems there must be a user who is able to log in without LDAP integration.',
+	'LBL_LDAP_RECOMMENDED_INFO' => 'Мы рекомендуем не выбирать пользователей с административными правами для авторизации через LDAP. В случае проблем с авторизацией должен быть пользователь, способный войти в систему без LDAP.',
 	//Auth
 	'LBL_AUTHORIZATION' => 'LDAP',
 	'LBL_AUTHORIZATION_DESCRIPTION' => 'Настройка способа Авторизации',
@@ -51,7 +45,7 @@ $languageStrings = [
 	'LBL_LOCK_DRAG' => 'Блокировать перемещение',
 ];
 $jsLanguageStrings = [
-	'JS_USER_MAIL_EXIST' => 'Пользователь с такой электронной почтой уже существует',
+	'JS_PLEASE_SELECT_MODULE' => 'Пожалуйста, выберите модуль',
 	'JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME' => 'Разделитель десятичных и тысячных не могут быть одинаковыми',
 	'Changed password successfully' => 'Пароль успешно изменен',
 ];

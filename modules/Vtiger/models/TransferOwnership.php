@@ -4,7 +4,7 @@
  * Vtiger TransferOwnership model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_TransferOwnership_Model extends \App\Base
 {
@@ -31,7 +31,7 @@ class Vtiger_TransferOwnership_Model extends \App\Base
 				$field = $relModData[2];
 				foreach ($recordIds as $recordId) {
 					$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $basicModule);
-					if ($recordModel->get($field) != 0 && vtlib\Functions::getCRMRecordType($recordModel->get($field)) == $relatedModule) {
+					if ($recordModel->get($field) != 0 && \App\Record::getType($recordModel->get($field)) == $relatedModule) {
 						$relatedIds[] = $recordModel->get($field);
 					}
 				}
@@ -86,19 +86,21 @@ class Vtiger_TransferOwnership_Model extends \App\Base
 		$flag = ModTracker::isTrackingEnabledForModule($module);
 		if ($flag) {
 			foreach ($relatedModuleRecordIds as $record) {
-				$db->createCommand()->insert('vtiger_modtracker_basic', [
-					'crmid' => $record,
-					'module' => $module,
-					'whodid' => $currentUser->id,
-					'changedon' => date('Y-m-d H:i:s', time())
-				])->execute();
-				$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
-				$db->createCommand()->insert('vtiger_modtracker_detail', [
-					'id' => $id,
-					'fieldname' => 'assigned_user_id',
-					'postvalue' => $transferOwnerId,
-					'prevalue' => $oldOwners[$record]['smownerid']
-				])->execute();
+				if (\App\Privilege::isPermitted($module, 'DetailView', $record)) {
+					$db->createCommand()->insert('vtiger_modtracker_basic', [
+						'crmid' => $record,
+						'module' => $module,
+						'whodid' => $currentUser->id,
+						'changedon' => date('Y-m-d H:i:s', time())
+					])->execute();
+					$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
+					$db->createCommand()->insert('vtiger_modtracker_detail', [
+						'id' => $id,
+						'fieldname' => 'assigned_user_id',
+						'postvalue' => $transferOwnerId,
+						'prevalue' => $oldOwners[$record]['smownerid']
+					])->execute();
+				}
 			}
 		}
 	}
@@ -126,7 +128,7 @@ class Vtiger_TransferOwnership_Model extends \App\Base
 			if ($fieldModel->isReferenceField()) {
 				$referenceList = $fieldModel->getReferenceList();
 				foreach ($referenceList as $relation) {
-					if (Users_Privileges_Model::isPermitted($relation, 'EditView')) {
+					if (\App\Privilege::isPermitted($relation, 'EditView')) {
 						$relatedModules[] = ['name' => $relation, 'field' => $fieldName];
 					}
 				}
@@ -143,7 +145,7 @@ class Vtiger_TransferOwnership_Model extends \App\Base
 		$relations = $moduleModel->getRelations();
 		foreach ($relations as $relation) {
 			$relationModule = $relation->getRelationModuleName();
-			if (Users_Privileges_Model::isPermitted($relationModule, 'EditView')) {
+			if (\App\Privilege::isPermitted($relationModule, 'EditView')) {
 				$relatedModules[] = [
 					'name' => $relationModule,
 					'type' => $relation->getRelationType(),

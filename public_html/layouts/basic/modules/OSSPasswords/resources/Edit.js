@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 Vtiger_Edit_Js("OSSPasswords_Edit_Js",{},{
 	/**
 	 * Function to register recordpresave event
@@ -8,7 +8,6 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js",{},{
 		if(typeof form == 'undefined') {
 			form = this.getForm();
 		}
-
 		form.on(Vtiger_Edit_Js.recordPreSave, function(e, data) {
 			var password = form.find('[name="password"]').val();
 			var id = form.find('[name="record"]').val();
@@ -21,7 +20,7 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js",{},{
 					record : id
 				};
 				params.async = false;
-				AppConnector.request(params).done(
+				AppConnector.request(params).then(
 					function(data) {
 						var response = data['result'];
 						if (response['success']) {
@@ -44,7 +43,7 @@ Vtiger_Edit_Js("OSSPasswords_Edit_Js",{},{
 			params.data = { module: 'OSSPasswords', action: 'CheckPass', 'password': password , 'id': id};
 			params.async = false;
 			params.dataType = 'json';
-			AppConnector.request(params).done(
+			AppConnector.request(params).then(
 				function(data) {
 					if ( data.result.success == false ) {
 						var params = {

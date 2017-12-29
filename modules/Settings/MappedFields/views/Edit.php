@@ -4,7 +4,7 @@
  * Edit View Class for MappedFields Settings
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_MappedFields_Edit_View extends Settings_Vtiger_Index_View
@@ -56,7 +56,7 @@ class Settings_MappedFields_Edit_View extends Settings_Vtiger_Index_View
 				$viewer->view('Step4.tpl', $qualifiedModuleName);
 				break;
 			case 'step3':
-				$moduleSourceName = vtlib\Functions::getModuleName($moduleInstance->get('tabid'));
+				$moduleSourceName = \App\Module::getModuleName($moduleInstance->get('tabid'));
 				$moduleModel = Vtiger_Module_Model::getInstance($moduleSourceName);
 				$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 				$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());

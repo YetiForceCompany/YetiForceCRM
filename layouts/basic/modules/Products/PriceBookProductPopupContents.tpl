@@ -22,12 +22,12 @@
 		</div>
 	{/if}
 	<div class="popupEntriesDiv relatedContents contents-bottomscroll">
-		<input type="hidden" value="{$ORDER_BY}" id="orderBy">
-		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
-		<input type="hidden" value="{$SOURCE_FIELD}" id="sourceField">
-		<input type="hidden" value="{$SOURCE_RECORD}" id="sourceRecord">
-		<input type="hidden" value="{$SOURCE_MODULE}" id="parentModule">
-		<input type="hidden" value="PriceBook_Products_Popup_Js" id="popUpClassName"/>
+		<input type="hidden" value="{$ORDER_BY}" id="orderBy" />
+		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
+		<input type="hidden" value="{$SOURCE_FIELD}" id="sourceField" />
+		<input type="hidden" value="{$SOURCE_RECORD}" id="sourceRecord" />
+		<input type="hidden" value="{$SOURCE_MODULE}" id="parentModule" />
+		<input type="hidden" value="PriceBook_Products_Popup_Js" id="popUpClassName" />
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<div class="bottomscroll-div">
 			<table class="table table-bordered listViewEntriesTable">
@@ -38,8 +38,8 @@
 						</th>
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							<th class="{$WIDTHTYPE}">
-								<a class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $ORDER_BY eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('column')}">{\App\Language::translate($LISTVIEW_HEADER->get('label'), $MODULE_NAME)}
-									{if $ORDER_BY eq $LISTVIEW_HEADER->get('column')}<img class="sortImage" src="{vimage_path( $SORT_IMAGE, $MODULE_NAME)}">{else}<img class="hide sortingImage" src="{vimage_path( 'downArrowSmall.png', $MODULE_NAME)}">{/if}</a>
+								<a class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $ORDER_BY eq $LISTVIEW_HEADER->getColumnName()}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->getColumnName()}">{\App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $MODULE_NAME)}
+									{if $ORDER_BY eq $LISTVIEW_HEADER->getColumnName()}<img class="sortImage" src="{\App\Layout::getImagePath( $SORT_IMAGE, $MODULE_NAME)}">{else}<img class="hide sortingImage" src="{\App\Layout::getImagePath( 'downArrowSmall.png', $MODULE_NAME)}">{/if}</a>
 							</th>
 						{/foreach}
 						<th class="listViewHeaderValues noSorting {$WIDTHTYPE}">{\App\Language::translate('LBL_LIST_PRICE',$MODULE)}</th>
@@ -52,12 +52,12 @@
 							<input class="entryCheckBox" title="{\App\Language::translate('LBL_SELECT_RECORD')}" type="checkbox" />
 						</td>
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-							{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
+							{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->getFieldName()}
 							<td class="listViewEntryValue {$WIDTHTYPE}">
-								{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4') && $LISTVIEW_ENTRY->isViewable()}
-									<a>{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}</a>
+								{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->getUIType() eq '4') && $LISTVIEW_ENTRY->isViewable()}
+									<a>{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}</a>
 								{else}
-									<a>{$LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME)}</a>
+									<a>{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}</a>
 								{/if}
 							</td>
 						{/foreach}

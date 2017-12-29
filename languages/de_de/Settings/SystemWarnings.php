@@ -3,7 +3,8 @@
  * System warnings german translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author skavenkf (K.Fink) 
  */
 $languageStrings = [
 	// Folders
@@ -14,11 +15,11 @@ $languageStrings = [
 	'LBL_LIBRARY_PHPEXCEL' => 'PHPExcel Library',
 	'LBL_CONFIG_REPORT' => 'Server Konfiguration',
 	'LBL_CONFIG_REPORT_LINK' => 'Fehlende Library zeigen',
-	'LBL_CONFIG_REPORT_DESC' => 'Der Server wurde nicht korrekt konfiguriert. Das System kann dadurch instabil sein und eingegeben Daten eventuell fehlerhaft. Mehr Informationen finden Sie in folgenden Artikel <a target="_blank" href="https://yetiforce.com/pl/wdro%C5%BCeniowiec/instalacja-aktualizacja/99-wymagania-dla-serwera-www.html"><u>on server requirements at yetiforce.com</u></a>',
+	'LBL_CONFIG_REPORT_DESC' => 'Der Server wurde nicht korrekt konfiguriert. Das System kann dadurch instabil sein und eingegeben Daten eventuell fehlerhaft. Mehr Informationen finden Sie in folgenden Artikel <a target="_blank" rel="noreferrer" href="https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements"><u>on server requirements at yetiforce.com</u></a>',
 	'LBL_NEWSLETTER' => 'Newsletter',
-	'LBL_NEWSLETTER_DESC' => 'Sign up for YetiForce\’s free newsletter. Keep up with all latest features in the system, and find out more about the CRM sector. We will send you information about new versions, updates, events, new additions to the system, and much more.<br />Join our community and stay up to date.<br />Internet connection is required to sign up.',
+	'LBL_NEWSLETTER_DESC' => 'Anmelden für den kostenlosen YetiForce Newsletter. Werden Sie über die aktuellen Systemfunktionen im CRM Bereich informiert. Wir senden Ihnen Informationen über neue Versionen, Updates, Events, Neuentwicklungen, und vieles mehr.<br />Treten Sie unserer Community bei und bleiben Sie auf dem aktuellen Stand.<br />Eine Internetverbindung wird für die Anmeldung benötigt.',
 	'LBL_STATS' => 'Statistische Informationen senden',
-	'LBL_STATS_DESC' => 'Help us improve YetiForce and our services through by us anonymous information about your current CRM version. <br />Data that we collect includes: <ul><li>your instance’s unique key generated only for the purpose of newsletter</li><li>system version</li><li>language</li><li>time zone</li></ul>We treat security matters extremely seriously and we ensure that collected data is only used for statistical purposes.<br />Join us and build YetiForce\’s community with us.',
+	'LBL_STATS_DESC' => 'Helfen Sie uns YetiForce und unsere Services zu verbessern indem Sie Anonyme Daten über Ihr CRM System zukommen lassen. Die von uns gesammelten Daten enthalten folgendes: <ul><li>Die eindeutige CRM Instanznummer für den Newsletter</li><li>System Version</li><li>Sprache</li><li>Zeitzone</li></ul>Wir behandeln die Daten unter hohen Sicherheitsaspekten und versichern das diese ausschließlich für statistische Zwecke verwendet werden.<br />Hilfen Sie uns und unserer Community.',
 	// Alerts
 	'LBL_SAVE_TO_NEWSLETTER' => 'Für Newsletter anmelden',
 	'LBL_REMIND_LATER' => 'Später erinnern',
@@ -29,9 +30,9 @@ $languageStrings = [
 	'BTN_REMOVE_IGNORE' => 'Entfernen von Ignorieren',
 	'LBL_MISSING_LIBRARY' => 'Fehlende Bibliothek erkannt. Einige Funktionen wurden deaktiviert. Um sie zu aktivieren bitte die Bibliothek herunterladen. Wenn der CRM keine Internetverbindung hat, können Sie die Dateien herunterladen oder kopieren Sie sie in Ordner %s .',
 	'BTN_DOWNLOAD_LIBRARY' => 'Download Library',
-	'LBL_SERVER_HTTPS' => 'HTTPS encryption',
-	'BTN_CONFIGURE_HTTPS' => 'Recommended configuration',
-	'LBL_MISSING_HTTPS' => 'Your connection to the server is not encrypted. If the connection is not established through the HTTPS protocol the communication may be intercepted or altered by third parties. The recommended configuration can be found in the "Web server requirements" article in the documentation.',
-	'LBL_DISK_USAGE' => 'Disk space available',
-	'LBL_DISK_FULL' => 'There is not enough free space on your disk, so the system may stop working. Directory path: %s',
+	'LBL_SERVER_HTTPS' => 'HTTPS Encryption',
+	'BTN_CONFIGURE_HTTPS' => 'Empfohlene Konfiguration',
+	'LBL_MISSING_HTTPS' => 'Die Serververbindung ist nicht verschlüsselt. Wenn die Verbindung nicht durch eine HTTPS Verbindung gesichert ist, kann diese von anderen abgegriffen und verändert werden. Die empfohlene Konfiguration kann unter dem "Web server requirements" Artikel in der Dokumentation gefunden werden.',
+	'LBL_DISK_USAGE' => 'Verfügbarer Speicherplatz',
+	'LBL_DISK_FULL' => 'Systemstabilität gefährdet (%s of %s). Es ist kein Speicherplatz mehr frei. Laufwerkspfad: %s',
 ];

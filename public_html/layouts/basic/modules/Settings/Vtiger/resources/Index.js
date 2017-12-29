@@ -37,7 +37,7 @@ jQuery.Class("Settings_Vtiger_Index_Js", {
 							container.find('.iconExample').html('<span class="' + data.element.value + '" aria-hidden="true"></span>');
 						} else if (type === 'image') {
 							container.find('.iconName').text(data.text);
-							container.find('#iconName').val(data.text);
+							container.find('#iconName').val(data.element.value);
 							container.find('.iconExample').html('<img width="24px" src="' + data.element.value + '"/>')
 						}
 						return data.text;

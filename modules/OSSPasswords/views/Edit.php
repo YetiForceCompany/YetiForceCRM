@@ -4,7 +4,7 @@
  * OSSPasswords edit view class
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 Class OSSPasswords_Edit_View extends Vtiger_Edit_View
 {
@@ -18,11 +18,11 @@ Class OSSPasswords_Edit_View extends Vtiger_Edit_View
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			'modules.OSSPasswords.resources.gen_pass',
 			'libraries.jquery.clipboardjs.clipboard',
 			'modules.OSSPasswords.resources.zClipDetailView'
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($jsScriptInstances, $headerScriptInstances);
@@ -42,7 +42,7 @@ Class OSSPasswords_Edit_View extends Vtiger_Edit_View
 			$viewer->assign('ENCRYPTED', false);
 			$viewer->assign('ENC_KEY', '');
 		}
-		$viewer->assign('VIEW', $request->get('view'));
+		$viewer->assign('VIEW', $request->getByType('view', 1));
 		// widget button
 		// get min, max, allow_chars from vtiger_passwords_config
 		$passwordConfig = (new App\Db\Query())->from('vtiger_passwords_config')->one();

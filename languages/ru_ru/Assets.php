@@ -12,8 +12,6 @@ $languageStrings = [
 	// Basic strings
 	'Assets' => 'Активы',
 	'SINGLE_Assets' => 'Актив',
-	'LBL_ADD_RECORD' => 'Актив',
-	'LBL_RECORDS_LIST' => 'Список Активов',
 	// Blocks
 	'LBL_ASSET_INFORMATION' => 'Информация об Активе',
 	//Field labels
@@ -30,6 +28,7 @@ $languageStrings = [
 	'FL_RENEWAL' => 'Обновление',
 	'LBL_SET_RENEWAL' => 'Обновить',
 	'FL_RENEWAL_INVOICE' => 'Счет',
+	'FL_CONTACT' => 'Contact',
 	// picklist values
 	'PLL_DRAFT' => 'Черновик',
 	'PLL_WAITING_FOR_VERIFICATION' => 'В ожидании проверки',
@@ -40,10 +39,10 @@ $languageStrings = [
 	'PLL_WAITING_FOR_RENEWAL' => 'Ожидает обновления',
 	'PLL_RENEWED' => 'Обновлено',
 	'PLL_NOT_RENEWED' => 'Не обновлено',
-	'PLL_NOT_APPLICABLE' => 'Не согласовано',
-	'PLL_RENEWED_VERIFICATION' => 'Renewed (verification)',
-	'PLL_NOT_RENEWED_VERIFICATION' => 'Not renewed (verification)',
-	'PLL_NOT_APPLICABLE_VERIFICATION' => 'Not applicable (verification)',
+	'PLL_NOT_APPLICABLE' => 'Не пригодно',
+	'PLL_RENEWED_VERIFICATION' => 'Обновлено (на согласовании)',
+	'PLL_NOT_RENEWED_VERIFICATION' => 'Не обновлено (на согласовании)',
+	'PLL_NOT_APPLICABLE_VERIFICATION' => 'Не пригодно (на согласовании)',
 	//YetiForce
 	'description' => 'Описание',
 	'attentions' => 'Комментарии',

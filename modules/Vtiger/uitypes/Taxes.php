@@ -4,30 +4,46 @@
  * UIType Taxes Field Class
  * @package YetiForce.Fieldsss
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author YetiForce.com
  */
 class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * {@inheritDoc}
 	 */
-	public function getTemplateName()
+	public function getDBValue($value, $recordModel = false)
 	{
-		return 'uitypes/Taxes.tpl';
+		if (is_array($value)) {
+			$value = implode(',', $value);
+		}
+		return \App\Purifier::decodeHtml($value);
 	}
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param string $value
-	 * @param int $record
-	 * @param Vtiger_Record_Model $recordInstance
-	 * @param bool $rawText
-	 * @return string
+	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function validate($value, $isUserFormat = false)
+	{
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		if (!is_array($value)) {
+			$value = [$value];
+		}
+		foreach ($value as $id) {
+			if (!is_numeric($id)) {
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $id, 406);
+			}
+		}
+		$this->validate = true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$display = [];
 		if (!empty($value)) {
@@ -35,16 +51,13 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 			$values = explode(',', $value);
 			$display = array_intersect_key($taxes, array_flip($values));
 		}
-		return implode(', ', $display);
+		return \App\Purifier::encodeHtml(implode(', ', $display));
 	}
 
 	/**
-	 * Function to get the display value in edit view
-	 * @param string $value
-	 * @param int $record - Record ID
-	 * @return array
+	 * {@inheritDoc}
 	 */
-	public function getEditViewDisplayValue($value, $record = false)
+	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		$display = [];
 		if (!empty($value)) {
@@ -52,7 +65,7 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 			$taxes = $this->getPicklistValues();
 			foreach ($values as $tax) {
 				if (isset($taxes[$tax])) {
-					$display[] = $tax;
+					$display[] = \App\Purifier::encodeHtml($tax);
 				}
 			}
 		}
@@ -62,7 +75,7 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	public static function getValues($value)
 	{
 		$values = explode(',', $value);
-		$taxs = self::getTaxes();
+		$taxs = Vtiger_Inventory_Model::getGlobalTaxes();
 		$display = [];
 
 		foreach ($values as $tax) {
@@ -75,21 +88,12 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get taxes
-	 * @return array
-	 */
-	public static function getTaxes()
-	{
-		return Vtiger_Inventory_Model::getGlobalTaxes();
-	}
-
-	/**
 	 * Function to get all the available picklist values for the current field
 	 * @return array List of picklist values if the field
 	 */
 	public function getPicklistValues()
 	{
-		$taxes = self::getTaxes();
+		$taxes = Vtiger_Inventory_Model::getGlobalTaxes();
 		foreach ($taxes as $key => $tax) {
 			$taxes[$key] = $tax['name'] . ' - ' . $tax['value'] . '%';
 		}
@@ -97,8 +101,7 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * {@inheritDoc}
 	 */
 	public function getListSearchTemplateName()
 	{
@@ -106,16 +109,10 @@ class Vtiger_Taxes_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the DB Insert Value, for the current field type with given User Value
-	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @return mixed
+	 * {@inheritDoc}
 	 */
-	public function getDBValue($value, $recordModel = false)
+	public function getTemplateName()
 	{
-		if (is_array($value)) {
-			$value = implode(',', $value);
-		}
-		return $value;
+		return 'uitypes/Taxes.tpl';
 	}
 }

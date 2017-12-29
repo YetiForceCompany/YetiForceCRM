@@ -14,25 +14,25 @@ class Vtiger_RelationListView_Model extends \App\Base
 
 	/**
 	 * Relation model instance
-	 * @var Vtiger_Relation_Model 
+	 * @var Vtiger_Relation_Model
 	 */
 	protected $relationModel;
 
 	/**
 	 * Parent record model instance
-	 * @var Vtiger_Record_Model 
+	 * @var Vtiger_Record_Model
 	 */
 	protected $parentRecordModel;
 
 	/**
 	 * Related module model instance
-	 * @var Vtiger_Module_Model 
+	 * @var Vtiger_Module_Model
 	 */
 	protected $relatedModuleModel;
 
 	/**
 	 * Mandatory columns
-	 * @var array 
+	 * @var array
 	 */
 	protected $mandatoryColumns = [];
 
@@ -136,9 +136,9 @@ class Vtiger_RelationListView_Model extends \App\Base
 
 	/**
 	 * Function to get Relation query
-	 * @return \App\Db\Query
+	 * @return \App\Db\Query|\App\QueryGenerator
 	 */
-	public function getRelationQuery()
+	public function getRelationQuery($returnQueryGenerator = false)
 	{
 		if ($this->has('Query')) {
 			return $this->get('Query');
@@ -154,6 +154,9 @@ class Vtiger_RelationListView_Model extends \App\Base
 					$queryGenerator->setCustomColumn($columnName);
 				}
 			}
+			if ($returnQueryGenerator) {
+				return $queryGenerator;
+			}
 			$query = $queryGenerator->createQuery();
 			$this->set('Query', $query);
 			return $query;
@@ -168,19 +171,17 @@ class Vtiger_RelationListView_Model extends \App\Base
 	{
 		$relatedModuleName = $this->getRelatedModuleModel()->getName();
 		$queryGenerator = $this->getRelationModel()->getQueryGenerator();
-		$srcRecord = $this->get('src_record');
-		if ($relatedModuleName === $this->get('src_module') && !empty($srcRecord)) {
-			$queryGenerator->addCondition('id', $srcRecord, 'n');
+		if ($entityState = $this->get('entityState')) {
+			$queryGenerator->setStateCondition($entityState);
 		}
-		$searchParams = $this->get('search_params');
-		if ($searchParams) {
+		if ($relatedModuleName === $this->get('src_module') && !$this->isEmpty('src_record')) {
+			$queryGenerator->addCondition('id', $this->get('src_record'), 'n');
+		}
+		if ($searchParams = $this->get('search_params')) {
 			$queryGenerator->parseAdvFilter($searchParams);
 		}
-		$searchKey = $this->get('search_key');
-		$searchValue = $this->get('search_value');
-		$operator = $this->get('operator');
-		if (!empty($searchKey)) {
-			$queryGenerator->addBaseSearchConditions($searchKey, $searchValue, $operator);
+		if (!$this->isEmpty('search_key')) {
+			$queryGenerator->addBaseSearchConditions($this->get('search_key'), $this->get('search_value'), $this->get('operator'));
 		}
 	}
 
@@ -195,7 +196,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 		$relationModuleModel = $relationModel->getRelationModuleModel();
 		$pageLimit = $pagingModel->getPageLimit();
 		$query = $this->getRelationQuery();
-		if ($pagingModel->get('limit') !== 'no_limit') {
+		if ($pagingModel->get('limit') !== 0) {
 			$query->limit($pageLimit + 1)->offset($pagingModel->getStartIndex());
 		}
 		$rows = $query->all();
@@ -208,7 +209,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 			$pagingModel->set('nextPageExists', false);
 		}
 		$relatedRecordList = [];
-		foreach ($rows as &$row) {
+		foreach ($rows as $row) {
 			$recordModel = $relationModuleModel->getRecordFromArray($row);
 			$this->getEntryExtend($recordModel);
 			$relatedRecordList[$row['id']] = $recordModel;
@@ -325,7 +326,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 			];
 			if ($showCreatorDetail) {
 				$tree['rel_created_user'] = \App\Fields\Owner::getLabel($row['rel_created_user']);
-				$tree['rel_created_time'] = Vtiger_Datetime_UIType::getDisplayDateTimeValue($row['rel_created_time']);
+				$tree['rel_created_time'] = App\Fields\DateTime::formatToDisplay($row['rel_created_time']);
 			}
 			if ($showComment) {
 				$tree['rel_comment'] = $row['rel_comment'];
@@ -406,18 +407,47 @@ class Vtiger_RelationListView_Model extends \App\Base
 		return $createViewUrl;
 	}
 
+	/**
+	 * Function to get the links for related list
+	 * @return Vtiger_Link_Model[]
+	 */
 	public function getLinks()
 	{
 		$relationModel = $this->getRelationModel();
+		$relatedModuleName = $relationModel->getRelationModuleModel()->getName();
+		$id = $this->getParentRecordModel()->getId();
 		$selectLinks = $this->getSelectRelationLinks();
 		foreach ($selectLinks as $selectLinkModel) {
 			$selectLinkModel->set('_selectRelation', true)->set('_module', $relationModel->getRelationModuleModel());
 		}
-		$addLinks = $this->getAddRelationLinks();
-
-		$links = array_merge($selectLinks, $addLinks);
 		$relatedLink = [];
-		$relatedLink['LISTVIEWBASIC'] = $links;
+		$relatedLink['RELATEDLIST_VIEWS'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'RELATEDLIST_VIEWS',
+				'linklabel' => 'LBL_RECORDS_LIST',
+				'view' => 'List',
+				'linkicon' => 'glyphicon glyphicon-list-alt',
+		]);
+		$relatedLink['RELATEDLIST_VIEWS'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'RELATEDLIST_VIEWS',
+				'linklabel' => 'LBL_RECORDS_PREVIEW_LIST',
+				'view' => 'ListPreview',
+				'linkicon' => 'glyphicon glyphicon-blackboard',
+		]);
+		$relatedLink['LISTVIEWBASIC'] = array_merge($selectLinks, $this->getAddRelationLinks());
+		$relatedLink['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'RELATEDLIST_MASSACTIONS',
+				'linklabel' => 'LBL_MASS_DELETE',
+				'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module=Campaigns&action=RelationAjax&mode=massDeleteRelation&src_record={$id}&relatedModule={$relatedModuleName}')",
+				'linkclass' => '',
+				'linkicon' => ''
+		]);
+		$relatedLink['RELATEDLIST_MASSACTIONS_ADV'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'RELATEDLIST_MASSACTIONS_ADV',
+				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
+				'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module=Campaigns&action=RelationAjax&mode=exportToExcel&src_record={$id}&relatedModule={$relatedModuleName}','sendByForm')",
+				'linkclass' => '',
+				'linkicon' => ''
+		]);
 		return $relatedLink;
 	}
 
@@ -435,14 +465,14 @@ class Vtiger_RelationListView_Model extends \App\Base
 			return $selectLinkModel;
 		}
 
-		$selectLinkList = array(
-			array(
+		$selectLinkList = [
+			[
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => \App\Language::translate('LBL_SELECT_RELATION', $relatedModel->getName()),
 				'linkurl' => '',
-				'linkicon' => '',
-			)
-		);
+				'linkicon' => 'glyphicon glyphicon-open',
+			]
+		];
 
 		foreach ($selectLinkList as $selectLink) {
 			$selectLinkModel[] = Vtiger_Link_Model::getInstanceFromValues($selectLink);
@@ -469,14 +499,14 @@ class Vtiger_RelationListView_Model extends \App\Base
 				'linklabel' => App\Language::translate('LBL_ADD_EVENT'),
 				'linkurl' => $this->getCreateEventRecordUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-plus'
 			];
 			$addLinkList[] = [
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => App\Language::translate('LBL_ADD_TASK'),
 				'linkurl' => $this->getCreateTaskRecordUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-plus'
 			];
 		} else {
 			$addLinkList = [[
@@ -486,7 +516,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 				'linklabel' => App\Language::translate('LBL_ADD_RELATION'),
 				'linkurl' => $this->getCreateViewUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),
-				'linkicon' => ''
+				'linkicon' => 'glyphicon glyphicon-plus'
 			]];
 		}
 		if ($relatedModel->get('label') === 'Documents') {
@@ -516,8 +546,8 @@ class Vtiger_RelationListView_Model extends \App\Base
 			else if ($moduleName === 'Services')
 				$query .= "SELECT currency_id FROM vtiger_service WHERE serviceid = ?)";
 
-			$result = $db->pquery($query, array($recordId));
-			return $db->query_result($result, 0, 'currency_symbol');
+			$result = $db->pquery($query, [$recordId]);
+			return $db->queryResult($result, 0, 'currency_symbol');
 		} else {
 			$fieldInfo = $fieldModel->getFieldInfo();
 			return $fieldInfo['currency_symbol'];

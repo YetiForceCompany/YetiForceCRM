@@ -13,17 +13,17 @@
 	<div class="">
 		<div class='widget_header row '>
 			<div class="col-xs-12">
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
 		</div>
 		<div class="contents">
 			<br />
 			<form id="pickListDependencyForm" class="form-horizontal" method="POST">
 				{if !empty($MAPPED_VALUES)}
-					<input type="hidden" class="editDependency" value="true"/>
-					<input type="hidden" name="sourceModule" value="{$SELECTED_MODULE}"/>
-					<input type="hidden" name="sourceField" value="{$RECORD_MODEL->get('sourcefield')}"/>
-					<input type="hidden" name="targetField" value="{$RECORD_MODEL->get('targetfield')}"/>
+					<input type="hidden" class="editDependency" value="true" />
+					<input type="hidden" name="sourceModule" value="{$SELECTED_MODULE}" />
+					<input type="hidden" name="sourceField" value="{$RECORD_MODEL->get('sourcefield')}" />
+					<input type="hidden" name="targetField" value="{$RECORD_MODEL->get('targetfield')}" />
 				{/if}
 				<div class="row">
 					<div class="col-md-12">
@@ -82,7 +82,7 @@
 				</div>
 				<div id="dependencyGraph">
 					{if $DEPENDENCY_GRAPH}
-						{include file='DependencyGraph.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+						{include file=\App\Layout::getTemplatePath('DependencyGraph.tpl', $QUALIFIED_MODULE)}
 					{/if}
 				</div>
 			</form>

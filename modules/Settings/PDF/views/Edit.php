@@ -4,7 +4,7 @@
  * Edit View Class for PDF Settings
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -30,15 +30,13 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-
-		$recordId = $request->get('record');
-		if ($recordId) {
-			$pdfModel = Vtiger_PDF_Model::getInstanceById($recordId);
-			$viewer->assign('RECORDID', $recordId);
+		if (!$request->isEmpty('record', true)) {
+			$pdfModel = Vtiger_PDF_Model::getInstanceById($request->getInteger('record'));
+			$viewer->assign('RECORDID', $request->getInteger('record'));
 			$viewer->assign('MODE', 'edit');
 			$selectedModuleName = $pdfModel->get('module_name');
 		} else {
-			$selectedModuleName = $request->get('source_module');
+			$selectedModuleName = $request->getByType('source_module', 2);
 			$pdfModel = Settings_PDF_Record_Model::getCleanInstance();
 		}
 		$viewer->assign('SELECTED_MODULE', $selectedModuleName);
@@ -48,7 +46,7 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->assign('SOURCE_MODULE', $selectedModuleName);
 		switch ($step) {
 			case 'step8':
-				$viewer->assign('WATERMARK_TEXT', Vtiger_mPDF_Pdf::WATERMARK_TYPE_TEXT);
+				$viewer->assign('WATERMARK_TEXT', Vtiger_Mpdf_Pdf::WATERMARK_TYPE_TEXT);
 				$viewer->view('Step8.tpl', $qualifiedModuleName);
 				break;
 

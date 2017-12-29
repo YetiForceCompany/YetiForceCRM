@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{assign var="CRON_ACTIVE" value=$CRON_INFO->getStatus()}
 	{assign var="IS_PERMITTED" value=\App\Privilege::isPermitted($MODULE, 'ReceivingMailNotifications')}
@@ -27,7 +27,7 @@
 												<span title="{\App\Language::translate('LBL_SELECT_ALL')}" class="fa {if $IS_ALL_EMAIL_NOTICE}fa-envelope sandNoticeOn{else}fa-envelope-o sandNoticeOff{/if} fa-lg marginTB3 cursorPointer sentNotice"></span>
 											{/if}
 											<span class="pull-right marginIcon">
-												<input type="checkbox" {if $SELECT_ALL_MODULES} checked {/if} class="selectAllModules" title="{\App\Language::translate('LBL_SELECT_ALL')}">
+												<input type="checkbox" {if $SELECT_ALL_MODULES} checked {/if} class="selectAllModules" title="{\App\Language::translate('LBL_SELECT_ALL')}" />
 											</span>
 										</div>
 									</th>
@@ -39,7 +39,7 @@
 									<tr data-id="{$MODULE_ID}">
 										<td><strong>{\App\Language::translate($MODULE_INFO->getName(), $MODULE_INFO->getName())}</strong>
 											<span class="pull-right marginIcon">
-												<input type="checkbox" {if in_array($MODULE_ID, $WATCHING_MODULES)}checked {/if} name="modules" class="watchingModule" {if $WATCHING_MODEL->isLock($MODULE_ID)}disabled{/if} value="{$MODULE_ID}">
+												<input type="checkbox" {if in_array($MODULE_ID, $WATCHING_MODULES)}checked {/if} name="modules" class="watchingModule" {if $WATCHING_MODEL->isLock($MODULE_ID)}disabled{/if} value="{$MODULE_ID}" />
 											</span>
 											{if $CRON_ACTIVE && $IS_PERMITTED}
 												<span title="{\App\Language::translate('LBL_SENT_NOTIFICATIONS', $MODULE)}" class="fa {if in_array($MODULE_ID, $SCHEDULE_DATA.modules)}fa-envelope sandNoticeOn{else}fa-envelope-o sandNoticeOff{/if} fa-lg pull-right marginTB3 cursorPointer" data-val=""></span>
@@ -69,7 +69,7 @@
 				</select>
 			</div>
 			<div class="pull-left col-xs-1 paddingLRZero">
-				<a href="#" class="infoPopover pull-left" title="" data-placement="top" data-original-title="{\App\Language::translate('LBL_RECEIVING_MAIL_NOTIFICATIONS', $MODULE)}" data-content="{Vtiger_Util_Helper::toSafeHTML($POPOVER_CONTENT)}">&nbsp;<span class="glyphicon glyphicon-info-sign"></span></a>
+				<a href="#" class="infoPopover pull-left" title="" data-placement="top" data-original-title="{\App\Language::translate('LBL_RECEIVING_MAIL_NOTIFICATIONS', $MODULE)}" data-content="{\App\Purifier::encodeHtml($POPOVER_CONTENT)}">&nbsp;<span class="glyphicon glyphicon-info-sign"></span></a>
 			</div>
 		{/if}
 		<div class="col-md-6 col-sm-6 pull-right">

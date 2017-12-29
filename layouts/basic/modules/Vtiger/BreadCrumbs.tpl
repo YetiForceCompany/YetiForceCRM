@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{if AppConfig::main('breadcrumbs') eq  'true'}
 		<div class="breadCrumbs" >
@@ -29,18 +29,6 @@
 							{assign var="ITEM_PREV" value=$item['name']}
 						{/foreach}
 					</h2>
-				</div>
-			{/if}
-			{assign var="MENUSCOLOR" value=Users_Colors_Model::getModulesColors(true)}
-			{if $MENUSCOLOR}
-				<div class="menusColorContainer">
-					<style>
-						{foreach item=item from=$MENUSCOLOR}
-							.moduleColor_{$item.module}{
-								color: {$item.color} !important;
-							}
-						{/foreach}
-					</style>
 				</div>
 			{/if}
 		</div>

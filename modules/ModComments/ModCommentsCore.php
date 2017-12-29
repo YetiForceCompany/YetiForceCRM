@@ -19,49 +19,49 @@ class ModCommentsCore extends CRMEntity
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('vtiger_modcommentscf', 'modcommentsid');
+	public $customFieldTable = ['vtiger_modcommentscf', 'modcommentsid'];
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_modcomments', 'vtiger_modcommentscf');
+	public $tab_name = ['vtiger_crmentity', 'vtiger_modcomments', 'vtiger_modcommentscf'];
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public $tab_name_index = Array(
+	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_modcomments' => 'modcommentsid',
-		'vtiger_modcommentscf' => 'modcommentsid');
+		'vtiger_modcommentscf' => 'modcommentsid'];
 
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public $list_fields = Array(
+	public $list_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Comment' => Array('modcomments', 'commentcontent'),
-		'Assigned To' => Array('crmentity', 'smownerid')
-	);
-	public $list_fields_name = Array(
+		'Comment' => ['modcomments', 'commentcontent'],
+		'Assigned To' => ['crmentity', 'smownerid']
+	];
+	public $list_fields_name = [
 		/* Format: Field Label => fieldname */
 		'Comment' => 'commentcontent',
 		'Assigned To' => 'assigned_user_id'
-	);
+	];
 	// Make the field link to detail view
 	public $list_link_field = 'commentcontent';
 	// For Popup listview and UI type support
-	public $search_fields = Array(
+	public $search_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Comment' => Array('modcomments', 'commentcontent')
-	);
-	public $search_fields_name = Array(
+		'Comment' => ['modcomments', 'commentcontent']
+	];
+	public $search_fields_name = [
 		/* Format: Field Label => fieldname */
 		'Comment' => 'commentcontent'
-	);
+	];
 	// For Popup window record selection
-	public $popup_fields = Array('commentcontent');
+	public $popup_fields = ['commentcontent'];
 	// Should contain field labels
 	//var $detailview_links = Array ('Comment');
 	// For Alphabetical search
@@ -69,14 +69,14 @@ class ModCommentsCore extends CRMEntity
 	// Column value to use on detail view record text display
 	public $def_detailview_recname = 'commentcontent';
 	// Required Information for enabling Import feature
-	public $required_fields = Array('assigned_user_id' => 1);
+	public $required_fields = ['assigned_user_id' => 1];
 	// Callback function list during Importing
-	public $special_functions = Array('set_import_assigned_user');
+	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = '';
 	public $default_sort_order = 'DESC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public $mandatory_fields = Array('createdtime', 'modifiedtime', 'commentcontent');
+	public $mandatory_fields = ['createdtime', 'modifiedtime', 'commentcontent'];
 
 	public function __construct()
 	{
@@ -90,7 +90,7 @@ class ModCommentsCore extends CRMEntity
 
 		$sortorder = $this->default_sort_order;
 		if (!\App\Request::_isEmpty('sorder'))
-			$sortorder = $this->db->sql_escape_string(\App\Request::_get('sorder'));
+			$sortorder = $this->db->sqlEscapeString(\App\Request::_get('sorder'));
 		else if ($_SESSION[$currentModule . '_Sort_Order'])
 			$sortorder = $_SESSION[$currentModule . '_Sort_Order'];
 
@@ -108,7 +108,7 @@ class ModCommentsCore extends CRMEntity
 
 		$orderby = $use_default_order_by;
 		if (!\App\Request::_isEmpty('order_by'))
-			$orderby = $this->db->sql_escape_string(\App\Request::_get('order_by'));
+			$orderby = $this->db->sqlEscapeString(\App\Request::_get('order_by'));
 		else if ($_SESSION[$currentModule . '_Order_By'])
 			$orderby = $_SESSION[$currentModule . '_Order_By'];
 		return $orderby;
@@ -149,12 +149,12 @@ class ModCommentsCore extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($module));
-		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", [$module]);
+		$linkedFieldsCount = $this->db->numRows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
-			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
-			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
+			$related_module = $this->db->queryResult($linkedModulesQuery, $i, 'relmodule');
+			$columnname = $this->db->queryResult($linkedModulesQuery, $i, 'columnname');
 
 			$other = CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
@@ -221,7 +221,7 @@ class ModCommentsCore extends CRMEntity
 	/**
 	 * Create query to export the records.
 	 */
-	public function create_export_query($where)
+	public function createExportQuery($where)
 	{
 		$current_user = vglobal('current_user');
 
@@ -245,13 +245,13 @@ class ModCommentsCore extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($thismodule));
-		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", [$thismodule]);
+		$linkedFieldsCount = $this->db->numRows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
-			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
-			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
-			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
+			$related_module = $this->db->queryResult($linkedModulesQuery, $i, 'relmodule');
+			$fieldname = $this->db->queryResult($linkedModulesQuery, $i, 'fieldname');
+			$columnname = $this->db->queryResult($linkedModulesQuery, $i, 'columnname');
 
 			$other = CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
@@ -280,9 +280,9 @@ class ModCommentsCore extends CRMEntity
 	/**
 	 * Transform the value while exporting (if required)
 	 */
-	public function transform_export_value($key, $value)
+	public function transformExportValue($key, $value)
 	{
-		return parent::transform_export_value($key, $value);
+		return parent::transformExportValue($key, $value);
 	}
 
 	/**
@@ -332,63 +332,42 @@ class ModCommentsCore extends CRMEntity
 
 		return $query;
 	}
-	/*
-	 * Function to get the secondary query part of a report
-	 * @param - $module primary module name
-	 * @param - $secmodule secondary module name
-	 * returns the query string formed on fetching the related data for report for secondary module
-	 */
 
-	public function generateReportsSecQuery($module, $secmodule, $queryplanner)
+	/**
+	 * Function to get the secondary query part of a report
+	 * @param string $module
+	 * @param string $secmodule
+	 * @param ReportRunQueryPlanner $queryPlanner
+	 * @return string
+	 */
+	public function generateReportsSecQuery($module, $secmodule, ReportRunQueryPlanner $queryplanner)
 	{
 		$matrix = $queryplanner->newDependencyMatrix();
 
-		$matrix->setDependency('vtiger_crmentityModComments', array('vtiger_groupsModComments', 'vtiger_usersModComments', 'vtiger_contactdetailsRelModComments', 'vtiger_modcommentsRelModComments'));
-		$matrix->setDependency('vtiger_modcomments', array('vtiger_crmentityModComments'));
+		$matrix->setDependency('vtiger_crmentityModComments', ['vtiger_groupsModComments', 'vtiger_usersModComments', 'vtiger_contactdetailsRelModComments', 'vtiger_modcommentsRelModComments']);
+		$matrix->setDependency('vtiger_modcomments', ['vtiger_crmentityModComments']);
 
 		if (!$queryplanner->requireTable("vtiger_modcomments", $matrix)) {
 			return '';
 		}
 
-		$query = $this->getRelationQuery($module, $secmodule, "vtiger_modcomments", "modcommentsid", $queryplanner);
+		$query = $this->getRelationQuery($module, $secmodule, 'vtiger_modcomments', 'modcommentsid', $queryplanner);
 
-		if ($queryplanner->requireTable("vtiger_crmentityModComments", $matrix)) {
-			$query .= " left join vtiger_crmentity as vtiger_crmentityModComments on vtiger_crmentityModComments.crmid=vtiger_modcomments.modcommentsid and vtiger_crmentityModComments.deleted=0";
+		if ($queryplanner->requireTable('vtiger_crmentityModComments', $matrix)) {
+			$query .= ' left join vtiger_crmentity as vtiger_crmentityModComments on vtiger_crmentityModComments.crmid=vtiger_modcomments.modcommentsid and vtiger_crmentityModComments.deleted=0';
 		}
-		if ($queryplanner->requireTable("vtiger_groupsModComments")) {
-			$query .= " left join vtiger_groups vtiger_groupsModComments on vtiger_groupsModComments.groupid = vtiger_crmentityModComments.smownerid";
+		if ($queryplanner->requireTable('vtiger_groupsModComments')) {
+			$query .= ' left join vtiger_groups vtiger_groupsModComments on vtiger_groupsModComments.groupid = vtiger_crmentityModComments.smownerid';
 		}
-		if ($queryplanner->requireTable("vtiger_usersModComments")) {
-			$query .= " left join vtiger_users as vtiger_usersModComments on vtiger_usersModComments.id = vtiger_crmentityModComments.smownerid";
+		if ($queryplanner->requireTable('vtiger_usersModComments')) {
+			$query .= ' left join vtiger_users as vtiger_usersModComments on vtiger_usersModComments.id = vtiger_crmentityModComments.smownerid';
 		}
-		if ($queryplanner->requireTable("vtiger_contactdetailsRelModComments")) {
-			$query .= " left join vtiger_contactdetails as vtiger_contactdetailsRelModComments on vtiger_contactdetailsRelModComments.contactid = vtiger_crmentityModComments.crmid";
+		if ($queryplanner->requireTable('vtiger_contactdetailsRelModComments')) {
+			$query .= ' left join vtiger_contactdetails as vtiger_contactdetailsRelModComments on vtiger_contactdetailsRelModComments.contactid = vtiger_crmentityModComments.crmid';
 		}
-		if ($queryplanner->requireTable("vtiger_modcommentsRelModComments")) {
-			$query .= " left join vtiger_modcomments as vtiger_modcommentsRelModComments on vtiger_modcommentsRelModComments.modcommentsid = vtiger_crmentityModComments.crmid";
+		if ($queryplanner->requireTable('vtiger_modcommentsRelModComments')) {
+			$query .= ' left join vtiger_modcomments as vtiger_modcommentsRelModComments on vtiger_modcommentsRelModComments.modcommentsid = vtiger_crmentityModComments.crmid';
 		}
 		return $query;
-	}
-
-	/**
-	 * Invoked when special actions are performed on the module.
-	 * @param String Module name
-	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
-	 */
-	public function vtlib_handler($modulename, $event_type)
-	{
-		if ($event_type == 'module.postinstall') {
-			
-		} else if ($event_type == 'module.disabled') {
-			
-		} else if ($event_type == 'module.enabled') {
-			
-		} else if ($event_type == 'module.preuninstall') {
-			
-		} else if ($event_type == 'module.preupdate') {
-			
-		} else if ($event_type == 'module.postupdate') {
-			
-		}
 	}
 }

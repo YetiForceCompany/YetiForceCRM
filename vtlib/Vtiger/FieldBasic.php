@@ -81,7 +81,7 @@ class FieldBasic
 	}
 
 	/** Cache (Record) the schema changes to improve performance */
-	static $__cacheSchemaChanges = [];
+	public static $__cacheSchemaChanges = [];
 
 	/**
 	 * Get unique id for this instance
@@ -184,12 +184,31 @@ class FieldBasic
 		])->execute();
 		Profile::initForField($this);
 		if (!empty($this->columntype)) {
-			Utils::AddColumn($this->table, $this->column, $this->columntype);
+			Utils::addColumn($this->table, $this->column, $this->columntype);
 			if ($this->uitype === 10) {
 				$db->createCommand()->createIndex("{$this->table}_{$this->column}_idx", $this->table, $this->column)->execute();
 			}
 		}
+		$this->createAdditionalField();
 		self::log("Creating field $this->name ... DONE");
+	}
+
+	/**
+	 * Create additional fields
+	 */
+	public function createAdditionalField()
+	{
+		if ($this->uitype === 11) {
+			$fieldInstance = new Field();
+			$fieldInstance->name = $this->name . '_extra';
+			$fieldInstance->table = $this->table;
+			$fieldInstance->label = 'FL_PHONE_CUSTOM_INFORMATION';
+			$fieldInstance->column = $this->column . '_extra';
+			$fieldInstance->uitype = 1;
+			$fieldInstance->displaytype = 3;
+			$fieldInstance->typeofdata = 'V~O';
+			$fieldInstance->save($this->block);
+		}
 	}
 
 	public function __update()
@@ -207,6 +226,12 @@ class FieldBasic
 		\App\Db::getInstance()->createCommand()->delete('vtiger_field', ['fieldid' => $this->id])->execute();
 		if ($this->uitype === 10) {
 			\App\Db::getInstance()->createCommand()->delete('vtiger_fieldmodulerel', ['fieldid' => $this->id])->execute();
+		} elseif ($this->uitype === 11) {
+			$rowExtra = (new \App\Db\Query())->from('vtiger_field')->where(['fieldname' => $this->name . '_extra'])->one();
+			if ($rowExtra === false) {
+				throw new \App\Exceptions\AppException('Extra field does not exist');
+			}
+			\App\Db::getInstance()->createCommand()->delete('vtiger_field', ['fieldid' => $rowExtra['fieldid']])->execute();
 		}
 		self::log("Deleteing Field $this->name ... DONE");
 	}
@@ -299,8 +324,8 @@ class FieldBasic
 	}
 
 	/**
-	 * Set Summaryfield information for this instance. 
-	 * @param Integer Summaryfield value 
+	 * Set Summaryfield information for this instance.
+	 * @param Integer Summaryfield value
 	 */
 	public function setSummaryField($value)
 	{
@@ -316,9 +341,9 @@ class FieldBasic
 	 * @param Boolean true appends linebreak, false to avoid it
 	 * @access private
 	 */
-	static function log($message, $delim = true)
+	public static function log($message, $delim = true)
 	{
-		Utils::Log($message, $delim);
+		Utils::log($message, $delim);
 	}
 
 	/**

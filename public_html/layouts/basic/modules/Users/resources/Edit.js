@@ -60,20 +60,10 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 	passCheckCache: {},
 	//Hold the conditions for a hour format
 	hourFormatConditionMapping: false,
-	registerWidthChangeEvent: function () {
-		var widthType = app.cacheGet('widthType', 'narrowWidthType');
-		jQuery('#currentWidthType').html(jQuery('li[data-class="' + widthType + '"]').html());
-		jQuery('#widthType').on('click', 'li', function (e) {
-			var value = jQuery(e.currentTarget).data('class');
-			app.cacheSet('widthType', value);
-			jQuery('#currentWidthType').html(jQuery(e.currentTarget).html());
-			window.location.reload();
-		});
-	},
 	registerHourFormatChangeEvent: function () {
 
 	},
-	getHourValues: function(list, currentValue) {
+	getHourValues: function (list, currentValue) {
 		var options = '';
 		for (var key in list) {
 			//IE Browser consider the prototype properties also, it should consider has own properties only.
@@ -115,12 +105,7 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 	registerRecordPreSaveEvent: function (form) {
 		var thisInstance = this;
 		form.on(Vtiger_Edit_Js.recordPreSave, function (e, data) {
-			var userName = jQuery('input[name="user_name"]').val();
-			var newPassword = jQuery('input[name="user_password"]').val();
-			var confirmPassword = jQuery('input[name="confirm_password"]').val();
 			var record = jQuery('input[name="record"]').val();
-			var email = jQuery('[name="email1"]').val();
-			var pass = jQuery('[name="user_password"]').val();
 			var progressIndicatorElement = jQuery.progressIndicator({
 				'message': app.vtranslate('JS_SAVE_LOADER_INFO'),
 				'position': 'html',
@@ -128,154 +113,60 @@ Vtiger_Edit_Js("Users_Edit_Js", {
 					'enabled': true
 				}
 			});
-			thisInstance.checkEmail(email).then(
-					function (data) {
-					},
-					function (data, error) {
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
-						e.preventDefault();
-					}
-			);
-			if (record == '') {
-				if (newPassword != confirmPassword) {
-					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_REENTER_PASSWORDS'));
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					e.preventDefault();
-				}
-				if (!(userName in thisInstance.duplicateCheckCache)) {
-					thisInstance.checkDuplicateUser(userName).then(
-							function (data) {
-								if (data.result) {
-									thisInstance.duplicateCheckCache[userName] = data.result;
-									progressIndicatorElement.progressIndicator({'mode': 'hide'});
-									Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_USER_EXISTS'));
-									e.preventDefault();
-								}
-							},
-							function (data, error) {
-								thisInstance.duplicateCheckCache[userName] = data.result;
-								InitialFormData = form.serialize();
-								//form.submit();
-							}
-					);
-				} else if (thisInstance.duplicateCheckCache[userName] == true) {
-					Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_USER_EXISTS'));
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					e.preventDefault();
-				}
-
-				if (thisInstance.passCheckCache.name != pass) {
-					thisInstance.checkPass(pass).then(
-							function (data) {
-								thisInstance.passCheckCache = {name: pass, result: data.result};
-								Vtiger_Helper_Js.showPnotify(data.result);
-								e.preventDefault();
-							},
-							function (data, error) {
-								thisInstance.passCheckCache = {name: pass, result: data.result};
-							}
-					);
-				} else if (thisInstance.passCheckCache.result != false) {
-					Vtiger_Helper_Js.showPnotify(thisInstance.passCheckCache.result);
-					e.preventDefault();
-				}
+			if (record == '' && jQuery('input[name="user_password"]').val() != jQuery('input[name="confirm_password"]').val()) {
+				Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_REENTER_PASSWORDS'));
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				e.preventDefault();
 			}
+			thisInstance.verifyFormData().then(function (data) {
+				if (data.result.message) {
+					Vtiger_Helper_Js.showPnotify(data.result.message);
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					e.preventDefault();
+				}
+			}, function (data, error) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				e.preventDefault();
+			});
 		});
 	},
-	checkEmail: function (email) {
+	verifyFormData: function () {
 		var aDeferred = jQuery.Deferred();
 		var thisInstance = this;
-		if (thisInstance.userExistCheckCache.name != email) {
-			thisInstance.userExist(email).then(
-					function (data) {
-						thisInstance.userExistCheckCache = {name: email, status: data.result};
-						aDeferred.resolve(true);
-					},
-					function (data, error) {
-						thisInstance.userExistCheckCache = {name: email, status: data.result};
-						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_USER_MAIL_EXIST'));
-						aDeferred.reject();
-					}
-			);
-		} else if (!thisInstance.userExistCheckCache.status) {
-			Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_USER_MAIL_EXIST'));
+		thisInstance.verifyData().then(function (data) {
+			aDeferred.resolve(data);
+		}, function (data, error) {
 			aDeferred.reject();
-		}
+		});
 		return aDeferred.promise();
 	},
-	registerCalendarSharedType: function (form) {
-		form.find('select[name="calendarsharedtype"]').on('change', function (e) {
-			var type = jQuery(e.currentTarget).val();
-			if (type == 'seletedusers') {
-				form.find('#selectUsers').show();
+	verifyData: function () {
+		var aDeferred = jQuery.Deferred();
+		AppConnector.request({
+			async: false,
+			data: {
+				module: 'Users',
+				action: 'VerifyData',
+				email: jQuery('[name="email1"]').val(),
+				userName: jQuery('input[name="user_name"]').val(),
+				record: jQuery('input[name="record"]').val(),
+				password: jQuery('input[name="user_password"]').val(),
+
+			}
+		}).done(function (data) {
+			if (data.result) {
+				aDeferred.resolve(data);
 			} else {
-				form.find('#selectUsers').hide();
+				aDeferred.reject(data);
 			}
 		});
-	},
-	checkDuplicateUser: function (userName) {
-		var aDeferred = jQuery.Deferred();
-		var params = {
-			'module': app.getModuleName(),
-			'action': "SaveAjax",
-			'mode': 'userExists',
-			'user_name': userName
-		};
-		AppConnector.request(params).then(
-				function (data) {
-					if (data.result) {
-						aDeferred.resolve(data);
-					} else {
-						aDeferred.reject(data);
-					}
-				}
-		);
-		return aDeferred.promise();
-	},
-	userExist: function (email) {
-		var aDeferred = jQuery.Deferred();
-		var params = {},
-				userId = jQuery('[name="record"]').val();
-		params.data = {module: 'Users', action: 'CheckUserEmail', email: email, cUser: userId};
-		params.async = false;
-		if (email) {
-			AppConnector.request(params).done(
-					function (data) {
-						if (data.result) {
-							aDeferred.resolve(data);
-						} else {
-							aDeferred.reject(data);
-						}
-					}
-			);
-		}
-		return aDeferred.promise();
-	},
-	checkPass: function (pass) {
-		var aDeferred = jQuery.Deferred();
-		var params = {};
-		if (pass.length) {
-			params.data = {module: 'Users', action: 'CheckUserPass', pass: pass};
-			params.async = false;
-			AppConnector.request(params).done(
-					function (data) {
-						if (data.result) {
-							aDeferred.resolve(data);
-						} else {
-							aDeferred.reject(data);
-						}
-					}
-			);
-		}
 		return aDeferred.promise();
 	},
 	registerEvents: function () {
 		this._super();
 		var form = this.getForm();
-		this.registerWidthChangeEvent();
 		this.triggerHourFormatChangeEvent(form);
 		this.registerRecordPreSaveEvent(form);
-		this.registerCalendarSharedType(form);
 		Users_Edit_Js.registerChangeEventForCurrencySeparator();
 	}
 });

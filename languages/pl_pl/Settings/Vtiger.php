@@ -3,7 +3,7 @@
  * Vtiger polish translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'Allows you to Configure Cron Task' => 'Wywołuje okresowo kolejno zdefiniowane zadania w celu automatyzacji procesów w systemie CRM.',
@@ -160,7 +160,6 @@ $languageStrings = [
 	'LBL_PASSWORD_DESCRIPTION' => 'Ustaw złożoności hasła dla użytkowników systemu',
 	'LBL_ARRANGE_RELATED_TABS' => 'Moduły - widżety',
 	'LBL_About_YetiForce' => 'YetiForce',
-	'LBL_DATAACCESS' => 'Walidacja dostępu',
 	'LangManagement' => 'Edytor języków',
 	'License' => 'Licencja',
 	'Mail Scanner' => 'Skaner poczty',
@@ -192,7 +191,6 @@ $languageStrings = [
 	'LBL_SEARCH_SETUP_DESCRIPTION' => ' ',
 	'LBL_GLOBALPERMISSION_DESCRIPTION' => ' ',
 	'LBL_LANGMANAGEMENT_DESCRIPTION' => ' ',
-	'LBL_DATAACCESS_DESCRIPTION' => ' ',
 	'LBL_OSSPASSWORD_CONFIGURATION_DESCRIPTION' => ' ',
 	'LBL_LICENSE_DESCRIPTION' => ' ',
 	'LBL_PROJECT_TEMPLATES_DESCRIPTION' => ' ',
@@ -279,7 +277,7 @@ $languageStrings = [
 	'LBL_POPUP_TYPE' => 'Wygląd okna popup z listą rekordów. 1 - podstawowe, 2 - rozszerzone',
 	'LBL_SHOWING_BREADCRUMBS' => 'Pokazywanie menu okruszkowego',
 	'LBL_SHOW_RESPONSE_TIME' => 'Informacja o czasie wygenerowania strony',
-	'LBL_TITLE_MAX_LENGTH' => 'Maksymalna długośc tytułu',
+	'LBL_TITLE_MAX_LENGTH' => 'Maksymalna długość tytułu',
 	'LBL_MINIMUM_CRON_FREQUENCY' => 'Minimalna częstotliwość crona [min]',
 	'LBL_LIST_MAX_ENTRIES_MASSEDIT' => 'Maksymalna liczba rekordów w masowej edycji',
 	'LBL_BG_CLOSING_MODAL' => 'Włączenie zamykania modalnego okna poprzez kliknięcie na tło',
@@ -308,7 +306,6 @@ $languageStrings = [
 	'LBL_SELECT_ICON' => 'Wybierz ikonę',
 	'LBL_ICON_NAME' => 'Nazwa ikony',
 	'LBL_ICON_EXAMPLE' => 'Przykład ikony',
-	'LBL_YETIFORCE_SHOP' => 'Sklep YetiForce',
 	'RecordAllocation' => 'Przydział rekordów',
 	'ERR_NO_REQUIRED_LIBRARY' => 'Nie znaleziono wymaganej biblioteki %s. Część funkcjonalności została zablokowana. Aby pobrać należy przejść do <a href="index.php?module=ModuleManager&parent=Settings&view=List">Moduły - instalacja</a>',
 	// System warnings
@@ -345,10 +342,10 @@ $languageStrings = [
 	'LBL_FIELD_NAME' => 'Nazwa pola',
 	'LBL_HEIGHT_LOGO' => 'Wysokość loga',
 	'LBL_SECURITY' => 'Bezpieczeństwo',
-	'LBL_LOG_ACCESS_TO_RECORD' => 'Braku dostepu do rekordów',
-	'LBL_LOG_ACCESS_FOR_ADMIN' => 'Braku dostepu do administracji',
-	'LBL_LOG_ACCESS_FOR_API' => 'Braku dostepu do api',
-	'LBL_LOG_ACCESS_FOR_USER' => 'Ogólny brak dostepu do systemu',
+	'LBL_LOG_ACCESS_TO_RECORD' => 'Braku dostępu do rekordów',
+	'LBL_LOG_ACCESS_FOR_ADMIN' => 'Braku dostępu do administracji',
+	'LBL_LOG_ACCESS_FOR_API' => 'Braku dostępu do api',
+	'LBL_LOG_ACCESS_FOR_USER' => 'Ogólny brak dostępu do systemu',
 	//Pluralized
 	'PLU_USERS_0' => 'Użytkownik',
 	'PLU_USERS_1' => 'Użytkowników',

@@ -4,7 +4,7 @@
  * UIType MultiReferenceValue Field Class
  * @package YetiForce.Fields
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -14,14 +14,51 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	const COMMA = '|#|';
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * {@inheritDoc}
+	 */
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+	{
+		$value = str_replace(self::COMMA, ', ', $value);
+		$value = substr($value, 1);
+		$value = substr($value, 0, -2);
+		if (is_int($length)) {
+			$value = \vtlib\Functions::textLength($value, $length);
+		}
+		return \App\Purifier::encodeHtml($value);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
+	{
+		$field = $this->getFieldModel();
+		$params = $field->getFieldParams();
+		$fieldInfo = \App\Field::getFieldInfo($params['field']);
+		if (in_array($fieldInfo['uitype'], [15, 16, 33])) {
+			$relModuleName = \App\Module::getModuleName($fieldInfo['tabid']);
+			$values = array_filter(explode(self::COMMA, $value));
+			foreach ($values as &$value) {
+				$value = \App\Language::translate($value, $relModuleName);
+			}
+			$values = implode(', ', $values);
+		} else {
+			return $this->getDisplayValue($value, $record, $recordModel, $rawText, $field->get('maxlengthtext'));
+		}
+		return \App\Purifier::encodeHtml(\vtlib\Functions::textLength($values, $field->get('maxlengthtext')));
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public function getTemplateName()
 	{
 		return 'uitypes/MultiReferenceValue.tpl';
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getListSearchTemplateName()
 	{
 		return 'uitypes/MultiReferenceValueFieldSearchView.tpl';
@@ -37,7 +74,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		if (!empty($picklistValues)) {
 			return $picklistValues;
 		}
-		$params = $this->get('field')->getFieldParams();
+		$params = $this->getFieldModel()->getFieldParams();
 		$fieldInfo = \App\Field::getFieldInfo($params['field']);
 		$queryGenerator = new \App\QueryGenerator($params['module']);
 		if ($params['filterField'] !== '-') {
@@ -108,8 +145,8 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 */
 	public function getRecordValues(CRMEntity $entity, $sourceRecord, $destRecord)
 	{
-		$params = $this->get('field')->getFieldParams();
-		$fieldModel = $this->get('field');
+		$params = $this->getFieldModel()->getFieldParams();
+		$fieldModel = $this->getFieldModel();
 		// Get current value
 		$currentValue = \vtlib\Functions::getSingleFieldValue($fieldModel->getTableName(), $fieldModel->getColumnName(), $entity->tab_name_index[$fieldModel->getTableName()], $sourceRecord);
 		// Get value to added
@@ -139,9 +176,9 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 			$currentValue = self::COMMA;
 		}
 		$currentValue .= $values['relatedValue'] . self::COMMA;
-		App\Db::getInstance()->createCommand()->update($this->get('field')->get('table'), [
-			$this->get('field')->get('column') => $currentValue
-			], [$entity->tab_name_index[$this->get('field')->get('table')] => $sourceRecord]
+		App\Db::getInstance()->createCommand()->update($this->getFieldModel()->get('table'), [
+			$this->getFieldModel()->get('column') => $currentValue
+			], [$entity->tab_name_index[$this->getFieldModel()->get('table')] => $sourceRecord]
 		)->execute();
 	}
 
@@ -152,7 +189,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	 */
 	public function reloadValue($sourceModule, $sourceRecord)
 	{
-		$field = $this->get('field');
+		$field = $this->getFieldModel();
 		$params = $field->getFieldParams();
 		$sourceRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecord, $sourceModule);
 
@@ -184,7 +221,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	{
 		$queryGenerator = new \App\QueryGenerator($module);
 		$queryGenerator->initForCustomViewById($view);
-		$queryGenerator->setFields([$this->get('field')->get('name')]);
+		$queryGenerator->setFields([$this->getFieldModel()->get('name')]);
 		$query = $queryGenerator->createQuery();
 		$dataReader = $query->distinct()->createCommand()->query();
 		$values = [];
@@ -194,48 +231,5 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		}
 
 		return array_unique($values);
-	}
-
-	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param string $value
-	 * @param integer $record
-	 * @param Vtiger_Record_Model $recordInstance
-	 * @param string $rawText
-	 * @return string
-	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
-	{
-		$value = str_replace(self::COMMA, ', ', $value);
-		$value = substr($value, 1);
-		$value = substr($value, 0, -2);
-
-		return $value;
-	}
-
-	/**
-	 * Function to get the Display Value in ListView
-	 * @param string $value
-	 * @param int $record
-	 * @param Vtiger_Record_Model $recordInstance
-	 * @param bool $rawText
-	 * @return string
-	 */
-	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
-	{
-		$field = $this->get('field');
-		$params = $field->getFieldParams();
-		$fieldInfo = \App\Field::getFieldInfo($params['field']);
-		if (in_array($fieldInfo['uitype'], [15, 16, 33])) {
-			$relModuleName = \vtlib\Functions::getModuleName($fieldInfo['tabid']);
-			$values = array_filter(explode(self::COMMA, $value));
-			foreach ($values as &$value) {
-				$value = \App\Language::translate($value, $relModuleName);
-			}
-			$values = implode(', ', $values);
-		} else {
-			$values = $this->getDisplayValue($value, $record, $recordInstance, $rawText);
-		}
-		return \vtlib\Functions::textLength($values, $field->get('maxlengthtext'));
 	}
 }

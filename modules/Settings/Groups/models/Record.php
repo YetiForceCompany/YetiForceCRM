@@ -185,9 +185,10 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 			}
 			foreach ($add as &$tabId) {
 				$db->createCommand()->insert('vtiger_group2modules', ['groupid' => $groupId, 'tabid' => $tabId])->execute();
-				\App\Privilege::setUpdater(vtlib\Functions::getModuleName($tabId));
+				\App\Privilege::setUpdater(\App\Module::getModuleName($tabId));
 			}
 		}
+		\App\Cache::clear();
 		$this->recalculate($oldUsersList);
 		$eventHandler = new App\EventHandler();
 		$eventHandler->setParams([
@@ -207,7 +208,6 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$php_max_execution_time = vglobal('php_max_execution_time');
 		set_time_limit($php_max_execution_time);
-		require_once('modules/Users/CreateUserPrivilegeFile.php');
 
 		$userIdsList = [];
 		foreach ($oldUsersList as $userId => $userRecordModel) {
@@ -220,7 +220,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		}
 
 		foreach ($userIdsList as $userId) {
-			createUserPrivilegesfile($userId);
+			\App\UserPrivilegesFile::createUserPrivilegesfile($userId);
 		}
 	}
 
@@ -231,7 +231,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getUsersList($nonAdmin = false)
 	{
-		$userIdsList = $usersList = [];
+		$userIdsList = [];
 		$members = $this->getMembers();
 
 		if (isset($members['Users'])) {
@@ -295,26 +295,22 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		return $userIdsList;
 	}
 
+	/**
+	 * TransferOwnership
+	 * @param Settings_Groups_Record_Model|Users_Record_Model $transferToGroup
+	 */
 	protected function transferOwnership($transferToGroup)
 	{
-		$db = App\Db::getInstance();
 		$groupId = $this->getId();
 		$transferGroupId = $transferToGroup->getId();
 
-		$db->createCommand()->update('vtiger_crmentity', ['smownerid' => $transferGroupId], ['smownerid' => $groupId])->execute();
-
-		//update workflow tasks Assigned User from Deleted Group to Transfer Owner
-		$newOwnerModel = $this->getInstance($transferGroupId);
-		if (!$newOwnerModel) {
-			$newOwnerModel = Users_Record_Model::getInstanceById($transferGroupId, 'Users');
-		}
-		$ownerModel = $this->getInstance($groupId);
-		vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel);
+		App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['smownerid' => $transferGroupId], ['smownerid' => $groupId])->execute();
+		App\Fields\Owner::transferOwnership($groupId, $transferGroupId);
 	}
 
 	/**
 	 * Function to delete the group
-	 * @param <Settings_Groups_Record_Model> $transferToGroup
+	 * @param Settings_Groups_Record_Model $transferToGroup
 	 */
 	public function delete($transferToGroup)
 	{
@@ -336,6 +332,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		$db->createCommand()->delete('vtiger_reportsharing', ['shareid' => $groupId, 'setype' => 'groups'])->execute();
 		$db->createCommand()->delete('vtiger_group2modules', ['groupid' => $groupId])->execute();
 		$db->createCommand()->delete('vtiger_groups', ['groupid' => $groupId])->execute();
+		\App\Cache::clear();
 	}
 
 	/**
@@ -346,20 +343,20 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	{
 
 		$links = [];
-		$recordLinks = array(
-			array(
+		$recordLinks = [
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
 				'linkicon' => 'glyphicon glyphicon-pencil'
-			),
-			array(
+			],
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => "javascript:Settings_Vtiger_List_Js.triggerDelete(event,'" . $this->getDeleteActionUrl() . "')",
 				'linkicon' => 'glyphicon glyphicon-trash'
-			)
-		);
+			]
+		];
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
@@ -436,7 +433,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 			$data['group_members'] = [$data['group_members']];
 		}
 		foreach ($data['modules'] as $tabId) {
-			$modules[] = vtlib\Functions::getModuleName($tabId);
+			$modules[] = \App\Module::getModuleName($tabId);
 		}
 		$modules = implode(',', $modules);
 		$data['modules'] = $modules;

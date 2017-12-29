@@ -4,7 +4,7 @@
  * Settings Password index view class
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 Class Settings_Password_Index_View extends Settings_Vtiger_Index_View
 {
@@ -15,7 +15,7 @@ Class Settings_Password_Index_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('DETAIL', Settings_Password_Record_Model::getPassDetail());
+		$viewer->assign('DETAIL', Settings_Password_Record_Model::getUserPassConfig());
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 
@@ -24,9 +24,9 @@ Class Settings_Password_Index_View extends Settings_Vtiger_Index_View
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			"modules.Settings.$moduleName.resources.Password"
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);

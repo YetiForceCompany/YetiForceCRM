@@ -5,7 +5,7 @@ namespace App\SystemWarnings\SystemRequirements;
  * Https system warnings class
  * @package YetiForce.SystemWarning
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Sławomir Kłos <s.klos@yetiforce.com>
  */
 class ServerHttps extends \App\SystemWarnings\Template
@@ -19,7 +19,11 @@ class ServerHttps extends \App\SystemWarnings\Template
 	 */
 	public function process()
 	{
-		if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
+		if (\App\Config::$requestMode !== 'WebUI') {
+			$this->status = 1;
+			return;
+		}
+		if (\App\RequestUtil::getBrowserInfo()->https) {
 			$this->status = 1;
 		} else {
 			$this->status = 0;

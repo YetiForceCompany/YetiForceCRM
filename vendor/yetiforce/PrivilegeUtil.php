@@ -5,7 +5,7 @@ namespace App;
  * Privilege Util basic class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class PrivilegeUtil
@@ -19,12 +19,12 @@ class PrivilegeUtil
 	 */
 	public static function getParentRecordOwner($tabid, $parModId, $recordId)
 	{
-		\App\Log::trace("Entering getParentRecordOwner($tabid,$parModId,$recordId) method ...");
+		Log::trace("Entering getParentRecordOwner($tabid,$parModId,$recordId) method ...");
 		$parentRecOwner = [];
-		$parentTabName = \vtlib\Functions::getModuleName($parModId);
-		$relTabName = \vtlib\Functions::getModuleName($tabid);
-		$fn_name = 'get' . $relTabName . 'Related' . $parentTabName;
-		$entId = static::$fn_name($recordId);
+		$parentTabName = Module::getModuleName($parModId);
+		$relTabName = Module::getModuleName($tabid);
+		$fnName = 'get' . $relTabName . 'Related' . $parentTabName;
+		$entId = static::$fnName($recordId);
 		if ($entId != '') {
 			$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($entId);
 			if ($recordMetaData) {
@@ -33,7 +33,7 @@ class PrivilegeUtil
 				$parentRecOwner[$type] = $ownerId;
 			}
 		}
-		\App\Log::trace('Exiting getParentRecordOwner method ...');
+		Log::trace('Exiting getParentRecordOwner method ...');
 		return $parentRecOwner;
 	}
 
@@ -83,13 +83,11 @@ class PrivilegeUtil
 	public static function getAllDefaultSharingAction()
 	{
 		if (static::$defaultSharingActionCache === false) {
-			\App\Log::trace('getAllDefaultSharingAction');
+			Log::trace('getAllDefaultSharingAction');
 			static::$defaultSharingActionCache = (new \App\Db\Query())->select(['tabid', 'permission'])->from('vtiger_def_org_share')->createCommand()->queryAllByGroup(0);
 		}
 		return static::$defaultSharingActionCache;
 	}
-
-	protected static $usersByRoleCache = [];
 
 	/**
 	 * Function to get the vtiger_role related user ids
@@ -98,11 +96,12 @@ class PrivilegeUtil
 	 */
 	public static function getUsersByRole($roleId)
 	{
-		if (isset(static::$usersByRoleCache[$roleId])) {
-			return static::$usersByRoleCache[$roleId];
+		if (Cache::has('getUsersByRole', $roleId)) {
+			return Cache::get('getUsersByRole', $roleId);
 		}
 		$users = (new \App\Db\Query())->select(['userid'])->from('vtiger_user2role')->where(['roleid' => $roleId])->column();
-		static::$usersByRoleCache[$roleId] = $users;
+		$users = array_map('intval', $users);
+		Cache::save('getUsersByRole', $roleId, $users);
 		return $users;
 	}
 
@@ -113,8 +112,8 @@ class PrivilegeUtil
 	 */
 	public static function getUsersNameByRole($roleId)
 	{
-		if (\App\Cache::has('getUsersNameByRole', $roleId)) {
-			return \App\Cache::get('getUsersNameByRole', $roleId);
+		if (Cache::has('getUsersNameByRole', $roleId)) {
+			return Cache::get('getUsersNameByRole', $roleId);
 		}
 		$users = static::getUsersByRole($roleId);
 		$roleRelatedUsers = [];
@@ -123,11 +122,9 @@ class PrivilegeUtil
 				$roleRelatedUsers[$userId] = Fields\Owner::getUserLabel($userId);
 			}
 		}
-		\App\Cache::save('getUsersNameByRole', $roleId, $roleRelatedUsers);
+		Cache::save('getUsersNameByRole', $roleId, $roleRelatedUsers);
 		return $users;
 	}
-
-	protected static $roleByUsersCache = [];
 
 	/**
 	 * Function to get the role related user ids
@@ -135,13 +132,13 @@ class PrivilegeUtil
 	 */
 	public static function getRoleByUsers($userId)
 	{
-		if (isset(static::$roleByUsersCache[$userId])) {
-			return static::$roleByUsersCache[$userId];
+		if (Cache::has('getRoleByUsers', $userId)) {
+			return Cache::get('getRoleByUsers', $userId);
 		}
 		$roleId = (new \App\Db\Query())->select('roleid')
 			->from('vtiger_user2role')->where(['userid' => $userId])
 			->scalar();
-		static::$roleByUsersCache[$userId] = $roleId;
+		Cache::save('getRoleByUsers', $userId, $roleId);
 		return $roleId;
 	}
 
@@ -156,40 +153,8 @@ class PrivilegeUtil
 			return Cache::get('UserGroups', $userId);
 		}
 		$groupIds = (new \App\Db\Query())->select('groupid')->from('vtiger_users2group')->where(['userid' => $userId])->column();
+		$groupIds = array_map('intval', $groupIds);
 		Cache::save('UserGroups', $userId, $groupIds);
-		return $groupIds;
-	}
-
-	/**
-	 * Function to get role groups
-	 * @param string $roleId
-	 * @return array
-	 */
-	public static function getRoleGroups($roleId)
-	{
-		if (Cache::has('RoleGroups', $roleId)) {
-			return Cache::get('RoleGroups', $roleId);
-		}
-		$groupIds = (new \App\Db\Query())->select('groupid')->from('vtiger_group2role')->where(['roleid' => $roleId])->column();
-		Cache::save('RoleGroups', $roleId, $groupIds);
-		return $groupIds;
-	}
-
-	/**
-	 * Function to get role subordinates groups
-	 * @param string $roleId
-	 * @return array
-	 */
-	public static function getRoleSubordinatesGroups($roleId)
-	{
-		if (Cache::has('RoleSubordinatesGroups', $roleId)) {
-			return Cache::get('RoleSubordinatesGroups', $roleId);
-		}
-
-		$roles = self::getParentRole($roleId);
-		$roles [] = $roleId;
-		$groupIds = (new \App\Db\Query())->select(['groupid'])->from('vtiger_group2rs')->where(['roleandsubid' => $roles])->column();
-		Cache::save('RoleSubordinatesGroups', $roleId, $groupIds);
 		return $groupIds;
 	}
 
@@ -209,6 +174,7 @@ class PrivilegeUtil
 			->from('vtiger_role2profile')
 			->where(['roleid' => $roleId])
 			->column();
+		$profiles = array_map('intval', $profiles);
 		Cache::staticSave('getProfilesByRole', $roleId, $profiles);
 		return $profiles;
 	}
@@ -220,7 +186,7 @@ class PrivilegeUtil
 	 */
 	public static function getProfilesByUser($userId)
 	{
-		$roleId = \App\PrivilegeUtil::getRoleByUsers($userId);
+		$roleId = static::getRoleByUsers($userId);
 		return static::getProfilesByRole($roleId);
 	}
 
@@ -255,8 +221,6 @@ class PrivilegeUtil
 		return static::$membersCache;
 	}
 
-	protected static $usersByMemberCache = [];
-
 	/**
 	 * Get list of users based on members, eg. Users:2, Roles:H2
 	 * @param string $member
@@ -264,8 +228,8 @@ class PrivilegeUtil
 	 */
 	public static function getUserByMember($member)
 	{
-		if (isset(static::$usersByMemberCache[$member])) {
-			return static::$usersByMemberCache[$member];
+		if (Cache::has('getUserByMember', $member)) {
+			return Cache::get('getUserByMember', $member);
 		}
 		list($type, $id) = explode(':', $member);
 		$users = [];
@@ -283,24 +247,24 @@ class PrivilegeUtil
 				$users = array_merge($users, static::getUsersByRoleAndSubordinate($id));
 				break;
 		}
-		return static::$usersByMemberCache[$member] = array_unique($users);
+		$users = array_unique($users);
+		Cache::save('getUserByMember', $member, $users, Cache::LONG);
+		return $users;
 	}
-
-	protected static $usersByGroupCache = [];
 
 	/**
 	 * Get list of users based on group id
 	 * @param int $groupId
+	 * @param bool|array $subGroups
 	 * @param int $i
 	 * @return array
 	 */
-	public static function getUsersByGroup($groupId, $i = 0)
+	public static function getUsersByGroup($groupId, $subGroups = false, $i = 0)
 	{
-		if (isset(static::$usersByGroupCache[$roleId])) {
-			return static::$usersByGroupCache[$roleId];
+		$cacheKey = $groupId . ($subGroups === false ? '' : '#');
+		if (Cache::has('getUsersByGroup', $cacheKey)) {
+			return Cache::get('getUsersByGroup', $cacheKey);
 		}
-		$users = [];
-		$adb = \PearDatabase::getInstance();
 		//Retreiving from the user2grouptable
 		$users = (new \App\Db\Query())->select(['userid'])->from('vtiger_users2group')->where(['groupid' => $groupId])->column();
 		//Retreiving from the vtiger_group2role
@@ -315,20 +279,40 @@ class PrivilegeUtil
 			$roleUsers = static::getUsersByRoleAndSubordinate($roleId);
 			$users = array_merge($users, $roleUsers);
 		}
-		if ($i < 5) {
+		if ($i < 10) {
+			if ($subGroups === true) {
+				$subGroups = [];
+			}
 			//Retreving from group2group
 			$dataReader = (new \App\Db\Query())->select(['containsgroupid'])->from('vtiger_group2grouprel')->where(['groupid' => $groupId])->createCommand()->query();
-			while ($roleId = $dataReader->readColumn(0)) {
-				$roleUsers = static::getUsersByGroup($containsGroupId, $i++);
-				$users = array_merge($users, $roleUsers);
+			$containsGroups = [];
+			while ($containsGroupId = $dataReader->readColumn(0)) {
+				$roleUsers = static::getUsersByGroup($containsGroupId, $subGroups, $i++);
+				if ($subGroups === false) {
+					$containsGroups = array_merge($containsGroups, $roleUsers);
+				} else {
+					$containsGroups = array_merge($containsGroups, $roleUsers['users']);
+					if (!isset($subGroups[$containsGroupId])) {
+						$subGroups[$containsGroupId] = $containsGroups;
+					}
+					foreach ($roleUsers['subGroups'] as $key => $value) {
+						if (!isset($subGroups[$key])) {
+							$subGroups[$key] = $containsGroups;
+						}
+					}
+				}
+			}
+			if ($containsGroups) {
+				$users = array_merge($users, $containsGroups);
 			}
 		} else {
-			\App\Log::warning('Exceeded the recursive limit, a loop might have been created. Group ID:' . $groupId);
+			Log::warning('Exceeded the recursive limit, a loop might have been created. Group ID:' . $groupId);
 		}
-		return static::$usersByGroupCache[$groupId] = array_unique($users);
+		$users = array_unique($users);
+		$return = ($subGroups === false ? $users : ['users' => $users, 'subGroups' => $subGroups]);
+		Cache::save('getUsersByGroup', $cacheKey, $return, Cache::LONG);
+		return $return;
 	}
-
-	protected static $usersBySubordinateCache = [];
 
 	/**
 	 * Function to get the roles and subordinate users
@@ -337,22 +321,21 @@ class PrivilegeUtil
 	 */
 	public static function getUsersByRoleAndSubordinate($roleId)
 	{
-		if (isset(static::$usersBySubordinateCache[$roleId])) {
-			return static::$usersBySubordinateCache[$roleId];
+		if (Cache::has('getUsersByRoleAndSubordinate', $roleId)) {
+			return Cache::get('getUsersByRoleAndSubordinate', $roleId);
 		}
 		$roleInfo = static::getRoleDetail($roleId);
 		$parentRole = $roleInfo['parentrole'];
 		$users = (new \App\Db\Query())->select(['vtiger_user2role.userid'])->from('vtiger_user2role')->innerJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid')
 				->where(['like', 'vtiger_role.parentrole', "$parentRole%", false])->column();
-		static::$usersBySubordinateCache[$roleId] = $users;
+		$users = array_map('intval', $users);
+		Cache::save('getUsersByRoleAndSubordinate', $roleId, $users, Cache::LONG);
 		return $users;
 	}
 
-	protected static $roleInfoCache = [];
-
 	/**
 	 * Function to get the vtiger_role information of the specified vtiger_role
-	 * @param $roleid -- RoleId :: Type varchar
+	 * @param $roleId -- RoleId :: Type varchar
 	 * @returns $roleInfoArray-- RoleInfoArray in the following format:
 	 */
 	public static function getRoleDetail($roleId)
@@ -401,8 +384,8 @@ class PrivilegeUtil
 	 */
 	public static function getRoleSubordinates($roleId)
 	{
-		if (\App\Cache::has('getRoleSubordinates', $roleId)) {
-			return \App\Cache::get('getRoleSubordinates', $roleId);
+		if (Cache::has('getRoleSubordinates', $roleId)) {
+			return Cache::get('getRoleSubordinates', $roleId);
 		}
 		$roleDetails = static::getRoleDetail($roleId);
 		$roleSubordinates = (new \App\Db\Query())
@@ -411,7 +394,7 @@ class PrivilegeUtil
 			->where(['like', 'parentrole', $roleDetails['parentrole'] . '::%', false])
 			->column();
 
-		\App\Cache::save('getRoleSubordinates', $roleId, $roleSubordinates, \App\Cache::LONG);
+		Cache::save('getRoleSubordinates', $roleId, $roleSubordinates, Cache::LONG);
 		return $roleSubordinates;
 	}
 
@@ -485,10 +468,10 @@ class PrivilegeUtil
 	 * @param int $userId
 	 * @return array
 	 */
-	public static function getCombinedUserTabsPermissions($userId)
+	public static function getCombinedUserModulesPermissions($userId)
 	{
-		if (Cache::staticHas('getCombinedUserTabsPermissions', $userId)) {
-			return Cache::staticGet('getCombinedUserTabsPermissions', $userId);
+		if (Cache::staticHas('getCombinedUserModulesPermissions', $userId)) {
+			return Cache::staticGet('getCombinedUserModulesPermissions', $userId);
 		}
 		$profArr = static::getProfilesByUser($userId);
 		$profileId = array_shift($profArr);
@@ -506,12 +489,102 @@ class PrivilegeUtil
 				}
 			}
 		}
-		$homeTabid = \App\Module::getModuleId('Home');
+		$homeTabid = Module::getModuleId('Home');
 		if (!isset($userTabPerrArr[$homeTabid])) {
 			$userTabPerrArr[$homeTabid] = 0;
 		}
-		Cache::staticSave('getCombinedUserTabsPermissions', $userId, $userTabPerrArr);
+		Cache::staticSave('getCombinedUserModulesPermissions', $userId, $userTabPerrArr);
 		return $userTabPerrArr;
+	}
+
+	/**
+	 * Function to get all the vtiger_tab utility action permission for the specified vtiger_profile
+	 * @param integer $profileid
+	 * @return array
+	 */
+	public static function getUtilityPermissions($profileid)
+	{
+		$permissions = [];
+		$dataReader = (new Db\Query())
+				->from('vtiger_profile2utility')
+				->where(['profileid' => $profileid])
+				->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$permissions[$row['tabid']][$row['activityid']] = $row['permission'];
+		}
+		return $permissions;
+	}
+
+	/**
+	 * Function to get the Profile Action Permissions for the specified vtiger_profileid
+	 * @param integer $profileid
+	 * @return array
+	 */
+	public static function getStandardPermissions($profileid)
+	{
+		$permissions = [];
+		$dataReader = (new Db\Query())
+				->from('vtiger_profile2standardpermissions')
+				->where(['profileid' => $profileid])
+				->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$permissions[$row['tabid']][$row['operation']] = $row['permissions'];
+		}
+		return $permissions;
+	}
+
+	/**
+	 * Function to get the Standard and Utility Profile Action Permissions for the specified vtiger_profileid
+	 * @param integer $profileid
+	 * @return array
+	 */
+	public static function getAllProfilePermissions($profileid)
+	{
+		if (Cache::staticHas(__METHOD__, $profileid)) {
+			return Cache::staticGet(__METHOD__, $profileid);
+		}
+		$allActions = static::getStandardPermissions($profileid);
+		$utilityActions = static::getUtilityPermissions($profileid);
+		foreach ($utilityActions as $tabid => $utilityAction) {
+			$actionTabs = $allActions[$tabid];
+			foreach ($utilityAction as $utilityId => $utilityPermission) {
+				$actionTabs[$utilityId] = $utilityPermission;
+			}
+			$allActions[$tabid] = $actionTabs;
+		}
+		Cache::staticSave(__METHOD__, $profileid, $allActions);
+		return $allActions;
+	}
+
+	/**
+	 * To retreive the vtiger_tab acion permissions of the specifed user from the various vtiger_profiles associated with the user
+	 * @param integer $userId
+	 * @return array
+	 */
+	public static function getCombinedUserActionsPermissions($userId)
+	{
+		$profiles = static::getProfilesByUser($userId);
+		$actionPermissions = [];
+		if (isset($profiles[0])) {
+			$actionPermissions = static::getAllProfilePermissions($profiles[0]);
+			unset($profiles[0]);
+		}
+		if (is_array($profiles)) {
+			foreach ($profiles as $profileId) {
+				$tempActionPerrArr = static::getAllProfilePermissions($profileId);
+				foreach ($actionPermissions as $tabId => $permissionsInModule) {
+					foreach ($permissionsInModule as $actionId => $permission) {
+						if ($permission == 1) {
+							$nowPermission = $tempActionPerrArr[$tabId][$actionId];
+							if ($nowPermission == 0 && $nowPermission != "") {
+								$actionPermissions[$tabId][$actionId] = $nowPermission;
+							}
+						}
+					}
+				}
+			}
+		}
+		return $actionPermissions;
 	}
 
 	protected static $dataShareStructure = [
@@ -542,10 +615,10 @@ class PrivilegeUtil
 	public static function getDatashare($type, $tabId, $data)
 	{
 		$cacheKey = "$type|$tabId|" . (is_array($data) ? implode(',', $data) : $data);
-		if (\App\Cache::staticHas('getDatashare', $cacheKey)) {
-			return \App\Cache::staticGet('getDatashare', $cacheKey);
+		if (Cache::staticHas('getDatashare', $cacheKey)) {
+			return Cache::staticGet('getDatashare', $cacheKey);
 		}
-		$structure = self::$dataShareStructure[$type];
+		$structure = static::$dataShareStructure[$type];
 		$query = (new \App\Db\Query())->select([$structure[0] . '.*'])->from($structure[0])
 			->innerJoin('vtiger_datashare_module_rel', "$structure[0].shareid = vtiger_datashare_module_rel.shareid")
 			->where(['vtiger_datashare_module_rel.tabid' => $tabId]);
@@ -553,7 +626,7 @@ class PrivilegeUtil
 			$query->andWhere([$structure[1] => $data]);
 		}
 		$rows = $query->all();
-		\App\Cache::staticSave('getDatashare', $cacheKey, $rows);
+		Cache::staticSave('getDatashare', $cacheKey, $rows);
 		return $rows;
 	}
 
@@ -569,7 +642,7 @@ class PrivilegeUtil
 	 */
 	public static function getUserModuleSharingObjects($module, $userid, $defOrgShare, $currentUserRoles, $parentRoles, $currentUserGroups)
 	{
-		$modTabId = \App\Module::getModuleId($module);
+		$modTabId = Module::getModuleId($module);
 		$modShareWritePermission = $modShareReadPermission = ['ROLE' => [], 'GROUP' => []];
 		$modDefOrgShare = null;
 		if (isset($defOrgShare[$modTabId])) {
@@ -581,7 +654,7 @@ class PrivilegeUtil
 			$roleWritePer = $roleWritePer = $rsWritePer = $grpReadPer = $grpWritePer = $roleReadPer = [];
 			//Retreiving from vtiger_role to vtiger_role
 			$rows = static::getDatashare('role2role', $modTabId, $currentUserRoles);
-			foreach ($rows as &$row) {
+			foreach ($rows as $row) {
 				$shareRoleId = $row['share_roleid'];
 				$shareIdRoleMembers = [];
 				$shareIdRoles = [];
@@ -591,15 +664,15 @@ class PrivilegeUtil
 				if ($row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($roleReadPer[$shareRoleId])) {
-							$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
 					}
 					if (!isset($role_write_per[$shareRoleId])) {
-						$roleWritePer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+						$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 					}
 				} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
 					if (!isset($roleReadPer[$shareRoleId])) {
-						$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+						$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 					}
 				}
 			}
@@ -612,7 +685,7 @@ class PrivilegeUtil
 			}
 			array_push($parRoleList, $currentUserRoles);
 			$rows = static::getDatashare('role2rs', $modTabId, $parRoleList);
-			foreach ($rows as &$row) {
+			foreach ($rows as $row) {
 				$shareRoleId = $row['share_roleid'];
 				$shareIdRoleMembers = [];
 				$shareIdRoles = [];
@@ -622,15 +695,15 @@ class PrivilegeUtil
 				if ($row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($roleReadPer[$shareRoleId])) {
-							$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
 					}
 					if (!isset($role_write_per[$shareRoleId])) {
-						$roleWritePer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+						$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 					}
 				} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
 					if (!isset($roleReadPer[$shareRoleId])) {
-						$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+						$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 					}
 				}
 			}
@@ -651,15 +724,15 @@ class PrivilegeUtil
 					if ($row['permission'] === 1) {
 						if ($modDefOrgShare === 3) {
 							if (!isset($roleReadPer[$shareRoleId])) {
-								$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+								$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 							}
 						}
 						if (!isset($role_write_per[$shareRoleId])) {
-							$roleWritePer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+							$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
 					} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
 						if (!isset($roleReadPer[$shareRoleId])) {
-							$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
 					}
 				}
@@ -667,7 +740,7 @@ class PrivilegeUtil
 			//Get roles from Role2Us
 			if (!empty($userid)) {
 				$rows = static::getDatashare('role2user', $modTabId, $userid);
-				foreach ($rows as &$row) {
+				foreach ($rows as $row) {
 					$shareRoleId = $row['share_roleid'];
 					$shareIdRoleMembers = [];
 					$shareIdRoles = [];
@@ -677,40 +750,40 @@ class PrivilegeUtil
 					if ($row['permission'] === 1) {
 						if ($modDefOrgShare === 3) {
 							if (!isset($roleReadPer[$shareRoleId])) {
-								$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+								$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 							}
 						}
 						if (!isset($role_write_per[$shareRoleId])) {
-							$roleWritePer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+							$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
 					} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
 						if (!isset($roleReadPer[$shareRoleId])) {
-							$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
 					}
 				}
 			}
 			//Retreiving from rs to vtiger_role
 			$rows = static::getDatashare('rs2role', $modTabId, $currentUserRoles);
-			foreach ($rows as &$row) {
+			foreach ($rows as $row) {
 				$shareRoleId = $row['share_roleid'];
-				$shareRoleIds = getRoleAndSubordinatesRoleIds($row['share_roleandsubid']);
+				$shareRoleIds = static::getRoleSubordinates($row['share_roleandsubid']);
 				$shareIdRoleMembers = [];
-				$shareIdRoles = [];
-				foreach ($shareRoleIds as &$shareRoleId) {
+				$shareIdRoles = [$row['share_roleandsubid']];
+				foreach ($shareRoleIds as $shareRoleId) {
 					$shareIdRoles[] = $shareRoleId;
 					if ($row['permission'] === 1) {
 						if ($modDefOrgShare === 3) {
 							if (!isset($roleReadPer[$shareRoleId])) {
-								$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+								$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 							}
 						}
 						if (!isset($role_write_per[$shareRoleId])) {
-							$roleWritePer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+							$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
 					} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
 						if (!isset($roleReadPer[$shareRoleId])) {
-							$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
 					}
 				}
@@ -719,25 +792,25 @@ class PrivilegeUtil
 			}
 			//Retreiving from rs to rs
 			$rows = static::getDatashare('rs2rs', $modTabId, $parRoleList);
-			foreach ($rows as &$row) {
+			foreach ($rows as $row) {
 				$share_rsid = $row['share_roleandsubid'];
-				$shareRoleIds = getRoleAndSubordinatesRoleIds($share_rsid);
+				$shareRoleIds = static::getRoleSubordinates($share_rsid);
 				$shareIdRoleMembers = [];
-				$shareIdRoles = [];
-				foreach ($shareRoleIds as &$shareRoleId) {
+				$shareIdRoles = [$share_rsid];
+				foreach ($shareRoleIds as $shareRoleId) {
 					$shareIdRoles[] = $shareRoleId;
 					if ($row['permission'] === 1) {
 						if ($modDefOrgShare === 3) {
 							if (!isset($roleReadPer[$shareRoleId])) {
-								$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+								$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 							}
 						}
 						if (!isset($role_write_per[$shareRoleId])) {
-							$roleWritePer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+							$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
 					} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
 						if (!isset($roleReadPer[$shareRoleId])) {
-							$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
 					}
 				}
@@ -746,24 +819,24 @@ class PrivilegeUtil
 			}
 			//Get roles from Rs2Grp 
 			$rows = static::getDatashare('rs2group', $modTabId, $groupList);
-			foreach ($rows as &$row) {
-				$shareRoleIds = getRoleAndSubordinatesRoleIds($share_rsid);
+			foreach ($rows as $row) {
+				$shareRoleIds = static::getRoleSubordinates($share_rsid);
 				$shareIdRoleMembers = [];
-				$shareIdRoles = [];
-				foreach ($shareRoleIds as &$shareRoleId) {
+				$shareIdRoles = [$share_rsid];
+				foreach ($shareRoleIds as $shareRoleId) {
 					$shareIdRoles[] = $shareRoleId;
 					if ($row['permission'] === 1) {
 						if ($modDefOrgShare === 3) {
 							if (!isset($roleReadPer[$shareRoleId])) {
-								$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+								$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 							}
 						}
 						if (!isset($role_write_per[$shareRoleId])) {
-							$roleWritePer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+							$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
 					} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
 						if (!isset($roleReadPer[$shareRoleId])) {
-							$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
 					}
 				}
@@ -772,25 +845,25 @@ class PrivilegeUtil
 			}
 			//Get roles from Rs2Us 
 			$rows = static::getDatashare('rs2user', $modTabId, $userid);
-			foreach ($rows as &$row) {
+			foreach ($rows as $row) {
 				$share_rsid = $row['share_roleandsubid'];
-				$shareRoleIds = getRoleAndSubordinatesRoleIds($share_rsid);
+				$shareRoleIds = static::getRoleSubordinates($share_rsid);
 				$shareIdRoleMembers = [];
-				$shareIdRoles = [];
-				foreach ($shareRoleIds as &$shareRoleId) {
+				$shareIdRoles = [$share_rsid];
+				foreach ($shareRoleIds as $shareRoleId) {
 					$shareIdRoles[] = $shareRoleId;
 					if ($row['permission'] === 1) {
 						if ($modDefOrgShare === 3) {
 							if (!isset($roleReadPer[$shareRoleId])) {
-								$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+								$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 							}
 						}
 						if (!isset($role_write_per[$shareRoleId])) {
-							$roleWritePer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+							$roleWritePer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
 					} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
 						if (!isset($roleReadPer[$shareRoleId])) {
-							$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+							$roleReadPer[$shareRoleId] = static::getUsersByRole($shareRoleId);
 						}
 					}
 				}
@@ -810,10 +883,9 @@ class PrivilegeUtil
 				if ($row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($grpReadPer[$shareGrpId])) {
-							$focusGrpUsers = new \GetGroupUsers();
-							$focusGrpUsers->getAllUsersInGroup($shareGrpId);
-							$grpReadPer[$shareGrpId] = $focusGrpUsers->group_users;
-							foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
+							$usersByGroup = static::getUsersByGroup($shareGrpId, true);
+							$grpReadPer[$shareGrpId] = $usersByGroup['users'];
+							foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
 								if (!isset($grpReadPer[$subgrpid])) {
 									$grpReadPer[$subgrpid] = $subgrpusers;
 								}
@@ -824,10 +896,9 @@ class PrivilegeUtil
 						}
 					}
 					if (!isset($grpWritePer[$shareGrpId])) {
-						$focusGrpUsers = new \GetGroupUsers();
-						$focusGrpUsers->getAllUsersInGroup($shareGrpId);
-						$grpWritePer[$shareGrpId] = $focusGrpUsers->group_users;
-						foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
+						$usersByGroup = static::getUsersByGroup($shareGrpId, true);
+						$grpWritePer[$shareGrpId] = $usersByGroup['users'];
+						foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
 							if (!isset($grpWritePer[$subgrpid])) {
 								$grpWritePer[$subgrpid] = $subgrpusers;
 							}
@@ -838,10 +909,9 @@ class PrivilegeUtil
 					}
 				} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
 					if (!isset($grpReadPer[$shareGrpId])) {
-						$focusGrpUsers = new \GetGroupUsers();
-						$focusGrpUsers->getAllUsersInGroup($shareGrpId);
-						$grpReadPer[$shareGrpId] = $focusGrpUsers->group_users;
-						foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
+						$usersByGroup = static::getUsersByGroup($shareGrpId, true);
+						$grpReadPer[$shareGrpId] = $usersByGroup['users'];
+						foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
 							if (!isset($grpReadPer[$subgrpid])) {
 								$grpReadPer[$subgrpid] = $subgrpusers;
 							}
@@ -865,10 +935,9 @@ class PrivilegeUtil
 				if ($row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($grpReadPer[$shareGrpId])) {
-							$focusGrpUsers = new \GetGroupUsers();
-							$focusGrpUsers->getAllUsersInGroup($shareGrpId);
-							$grpReadPer[$shareGrpId] = $focusGrpUsers->group_users;
-							foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
+							$usersByGroup = static::getUsersByGroup($shareGrpId, true);
+							$grpReadPer[$shareGrpId] = $usersByGroup['users'];
+							foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
 								if (!isset($grpReadPer[$subgrpid])) {
 									$grpReadPer[$subgrpid] = $subgrpusers;
 								}
@@ -879,10 +948,9 @@ class PrivilegeUtil
 						}
 					}
 					if (!isset($grpWritePer[$shareGrpId])) {
-						$focusGrpUsers = new \GetGroupUsers();
-						$focusGrpUsers->getAllUsersInGroup($shareGrpId);
-						$grpWritePer[$shareGrpId] = $focusGrpUsers->group_users;
-						foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
+						$usersByGroup = static::getUsersByGroup($shareGrpId, true);
+						$grpWritePer[$shareGrpId] = $usersByGroup['users'];
+						foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
 							if (!isset($grpWritePer[$subgrpid])) {
 								$grpWritePer[$subgrpid] = $subgrpusers;
 							}
@@ -893,10 +961,9 @@ class PrivilegeUtil
 					}
 				} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
 					if (!isset($grpReadPer[$shareGrpId])) {
-						$focusGrpUsers = new \GetGroupUsers();
-						$focusGrpUsers->getAllUsersInGroup($shareGrpId);
-						$grpReadPer[$shareGrpId] = $focusGrpUsers->group_users;
-						foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
+						$usersByGroup = static::getUsersByGroup($shareGrpId, true);
+						$grpReadPer[$shareGrpId] = $usersByGroup['users'];
+						foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
 							if (!isset($grpReadPer[$subgrpid])) {
 								$grpReadPer[$subgrpid] = $subgrpusers;
 							}
@@ -920,10 +987,9 @@ class PrivilegeUtil
 				if ($row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($grpReadPer[$shareGrpId])) {
-							$focusGrpUsers = new \GetGroupUsers();
-							$focusGrpUsers->getAllUsersInGroup($shareGrpId);
-							$grpReadPer[$shareGrpId] = $focusGrpUsers->group_users;
-							foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
+							$usersByGroup = static::getUsersByGroup($shareGrpId, true);
+							$grpReadPer[$shareGrpId] = $usersByGroup['users'];
+							foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
 								if (!isset($grpReadPer[$subgrpid])) {
 									$grpReadPer[$subgrpid] = $subgrpusers;
 								}
@@ -934,10 +1000,9 @@ class PrivilegeUtil
 						}
 					}
 					if (!isset($grpWritePer[$shareGrpId])) {
-						$focusGrpUsers = new \GetGroupUsers();
-						$focusGrpUsers->getAllUsersInGroup($shareGrpId);
-						$grpWritePer[$shareGrpId] = $focusGrpUsers->group_users;
-						foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
+						$usersByGroup = static::getUsersByGroup($shareGrpId, true);
+						$grpWritePer[$shareGrpId] = $usersByGroup['users'];
+						foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
 							if (!isset($grpWritePer[$subgrpid])) {
 								$grpWritePer[$subgrpid] = $subgrpusers;
 							}
@@ -948,10 +1013,9 @@ class PrivilegeUtil
 					}
 				} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
 					if (!isset($grpReadPer[$shareGrpId])) {
-						$focusGrpUsers = new \GetGroupUsers();
-						$focusGrpUsers->getAllUsersInGroup($shareGrpId);
-						$grpReadPer[$shareGrpId] = $focusGrpUsers->group_users;
-						foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
+						$usersByGroup = static::getUsersByGroup($shareGrpId, true);
+						$grpReadPer[$shareGrpId] = $usersByGroup['users'];
+						foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
 							if (!isset($grpReadPer[$subgrpid])) {
 								$grpReadPer[$subgrpid] = $subgrpusers;
 							}
@@ -975,10 +1039,9 @@ class PrivilegeUtil
 				if ($row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($grpReadPer[$shareGrpId])) {
-							$focusGrpUsers = new \GetGroupUsers();
-							$focusGrpUsers->getAllUsersInGroup($shareGrpId);
-							$grpReadPer[$shareGrpId] = $focusGrpUsers->group_users;
-							foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
+							$usersByGroup = static::getUsersByGroup($shareGrpId, true);
+							$grpReadPer[$shareGrpId] = $usersByGroup['users'];
+							foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
 								if (!isset($grpReadPer[$subgrpid])) {
 									$grpReadPer[$subgrpid] = $subgrpusers;
 								}
@@ -989,10 +1052,9 @@ class PrivilegeUtil
 						}
 					}
 					if (!isset($grpWritePer[$shareGrpId])) {
-						$focusGrpUsers = new \GetGroupUsers();
-						$focusGrpUsers->getAllUsersInGroup($shareGrpId);
-						$grpWritePer[$shareGrpId] = $focusGrpUsers->group_users;
-						foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
+						$usersByGroup = static::getUsersByGroup($shareGrpId, true);
+						$grpWritePer[$shareGrpId] = $usersByGroup['users'];
+						foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
 							if (!isset($grpWritePer[$subgrpid])) {
 								$grpWritePer[$subgrpid] = $subgrpusers;
 							}
@@ -1003,10 +1065,9 @@ class PrivilegeUtil
 					}
 				} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
 					if (!isset($grpReadPer[$shareGrpId])) {
-						$focusGrpUsers = new \GetGroupUsers();
-						$focusGrpUsers->getAllUsersInGroup($shareGrpId);
-						$grpReadPer[$shareGrpId] = $focusGrpUsers->group_users;
-						foreach ($focusGrpUsers->group_subgroups as $subgrpid => $subgrpusers) {
+						$usersByGroup = static::getUsersByGroup($shareGrpId, true);
+						$grpReadPer[$shareGrpId] = $usersByGroup['users'];
+						foreach ($usersByGroup['subGroups'] as $subgrpid => $subgrpusers) {
 							if (!isset($grpReadPer[$subgrpid])) {
 								$grpReadPer[$subgrpid] = $subgrpusers;
 							}
@@ -1125,5 +1186,53 @@ class PrivilegeUtil
 			'write' => $modShareWritePermission,
 			'sharingrules' => $shareIdMembers,
 		];
+	}
+
+	/**
+	 * Get all groups by user id
+	 * @param int $userId
+	 * @return int[]
+	 */
+	public static function getAllGroupsByUser($userId)
+	{
+		if (Cache::has('getAllGroupsByUser', $userId)) {
+			return Cache::get('getAllGroupsByUser', $userId);
+		}
+		$userGroups = static::getUserGroups($userId);
+		$userRole = static::getRoleByUsers($userId);
+		$roleGroups = (new \App\Db\Query())->select('groupid')->from('vtiger_group2role')->where(['roleid' => $userRole])->column();
+		$roles = static::getParentRole($userRole);
+		$roles[] = $userRole;
+		$rsGroups = (new \App\Db\Query())->select(['groupid'])->from('vtiger_group2rs')->where(['roleandsubid' => $roles])->column();
+		$allGroups = array_unique(array_merge($userGroups, $roleGroups, $rsGroups));
+		$parentGroups = [];
+		foreach ($allGroups as $groupId) {
+			$parentGroups = array_merge($parentGroups, static::getParentGroups($groupId));
+		}
+		if ($parentGroups) {
+			$allGroups = array_unique(array_merge($allGroups, $parentGroups));
+		}
+		Cache::save('getAllGroupsByUser', $userId, $allGroups, Cache::LONG);
+		return $allGroups;
+	}
+
+	/**
+	 * Get parent grioups by group id
+	 * @param int $groupId
+	 * @param int $i
+	 * @return int[]
+	 */
+	public static function getParentGroups($groupId, $i = 0)
+	{
+		$groups = [];
+		if ($i < 10) {
+			$dataReader = (new \App\Db\Query())->select(['groupid'])->from('vtiger_group2grouprel')->where(['containsgroupid' => $groupId])->createCommand()->query();
+			while ($parentGroupId = $dataReader->readColumn(0)) {
+				$groups = array_merge($groups, [$parentGroupId], static::getParentGroups($parentGroupId, $i++));
+			}
+		} else {
+			Log::warning('Exceeded the recursive limit, a loop might have been created. Group ID:' . $groupId);
+		}
+		return $groups;
 	}
 }

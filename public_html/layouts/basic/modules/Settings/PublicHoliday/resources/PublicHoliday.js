@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 jQuery.Class('Settings_PublicHoliday_Js', {
 }, {
@@ -14,7 +14,6 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 			});
 		});
 	},
-
 	/**
 	 * Delete chosen holiday date
 	 */
@@ -41,7 +40,7 @@ jQuery.Class('Settings_PublicHoliday_Js', {
 					params['view'] = 'Configuration';
 					params['parent'] = app.getParentModuleName();
 					params['async'] = false;
-					AppConnector.request(params).done(function (data) {
+					AppConnector.request(params).then(function (data) {
 						jQuery('.contentsDiv').html(data);
 						thisInstance.registerEvents();
 						progressIndicatorElement.progressIndicator({'mode': 'hide'});

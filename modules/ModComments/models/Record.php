@@ -56,11 +56,11 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 				} else
 					return '';
 			} else if ($isMailConverterType == 1) {
-				return vimage_path('MailConverterComment.png');
+				return \App\Layout::getImagePath('MailConverterComment.png');
 			} else {
 				$imagePath = $commentor->getImageDetails();
 				if (!empty($imagePath[0]['name'])) {
-					return $imagePath[0]['path'] . '_' . $imagePath[0]['name'];
+					return $imagePath[0]['path'];
 				}
 			}
 		}
@@ -82,7 +82,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the parent Comment Model
-	 * @return <Vtiger_Record_Model>
+	 * @return Vtiger_Record_Model
 	 */
 	public function getParentCommentModel()
 	{
@@ -95,7 +95,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function returns the parent Record Model(Contacts, Accounts etc)
-	 * @return <Vtiger_Record_Model>
+	 * @return Vtiger_Record_Model
 	 */
 	public function getParentRecordModel()
 	{
@@ -163,13 +163,13 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		$queryGenerator->setSourceRecord($parentRecordId);
 		$queryGenerator->addNativeCondition(['related_to' => $parentRecordId]);
 		$query = $queryGenerator->createQuery()->orderBy(['vtiger_crmentity.createdtime' => SORT_DESC]);
-		if ($pagingModel->get('limit') !== 'no_limit') {
+		if ($pagingModel->get('limit') !== 0) {
 			$query->limit($pagingModel->getPageLimit())->offset($pagingModel->getStartIndex());
 		}
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$recordInstance = new self();
-			$recordInstance->setData($row);
+			$recordInstance->setData($row)->setModuleFromInstance($queryGenerator->getModuleModel());
 			$recordInstances[] = $recordInstance;
 		}
 		return $recordInstances;
@@ -202,7 +202,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		$recordInstances = [];
 		while ($row = $dataReader->read()) {
 			$recordInstance = new self();
-			$recordInstance->setData($row);
+			$recordInstance->setData($row)->setModuleFromInstance($queryGenerator->getModuleModel());
 			$recordInstances[] = $recordInstance;
 		}
 		return $recordInstances;
@@ -248,8 +248,8 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		if (empty($parentCommentId))
 			return;
 		$queryGenerator = new \App\QueryGenerator('ModComments');
-		$queryGenerator->setFields(array('parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
-			'assigned_user_id', 'commentcontent', 'creator', 'reasontoedit', 'userid'));
+		$queryGenerator->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
+			'assigned_user_id', 'commentcontent', 'creator', 'reasontoedit', 'userid']);
 		//Condition are directly added as query_generator transforms the
 		//reference field and searches their entity names
 		$queryGenerator->addNativeCondition(['parent_comments' => $parentCommentId, 'related_to' => $this->get('related_to')]);
@@ -257,18 +257,50 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		$recordInstances = [];
 		while ($row = $datareader->read()) {
 			$recordInstance = new self();
-			$recordInstance->setData($row);
+			$recordInstance->setData($row)->setModuleFromInstance($queryGenerator->getModuleModel());
 			$recordInstances[] = $recordInstance;
 		}
 		return $recordInstances;
 	}
 
 	/**
-	 * Function to get details for user have the permissions to do actions
-	 * @return boolean - true/false
+	 * Function to get the list view actions for the comment
+	 * @return Vtiger_Link_Model[] - Associate array of Vtiger_Link_Model instances
 	 */
-	public function isDeletable()
+	public function getCommentLinks()
 	{
-		return false;
+		$links = [];
+		$stateColors = AppConfig::search('LIST_ENTITY_STATE_COLOR');
+		if ($this->privilegeToArchive()) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+					'linklabel' => 'LBL_ARCHIVE_RECORD',
+					'title' => \App\Language::translate('LBL_ARCHIVE_RECORD'),
+					'linkurl' => 'javascript:app.showConfirmation({type: "reloadTab"},this)',
+					'linkdata' => [
+						'url' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Archived&sourceView=List&record=' . $this->getId(),
+						'confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC')
+					],
+					'linkicon' => 'fa fa-archive',
+					'linkclass' => 'btn-xs entityStateBtn',
+					'style' => empty($stateColors['Archived']) ? '' : "background: {$stateColors['Archived']};",
+					'showLabel' => true,
+			]);
+		}
+		if ($this->privilegeToMoveToTrash()) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues([
+					'linklabel' => 'LBL_MOVE_TO_TRASH',
+					'title' => \App\Language::translate('LBL_MOVE_TO_TRASH'),
+					'linkurl' => 'javascript:app.showConfirmation({type: "reloadTab"},this)',
+					'linkdata' => [
+						'url' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash&sourceView=List&record=' . $this->getId(),
+						'confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')
+					],
+					'linkicon' => 'glyphicon glyphicon-trash',
+					'linkclass' => 'btn-xs entityStateBtn',
+					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
+					'showLabel' => true,
+			]);
+		}
+		return $links;
 	}
 }

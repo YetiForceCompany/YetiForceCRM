@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o. 
  * ********************************************************************************** */
 
 class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
@@ -24,7 +25,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 	public function add(\App\Request $request)
 	{
 		$type = $request->get('fieldType');
-		$moduleName = $request->get('sourceModule');
+		$moduleName = $request->getByType('sourceModule', 2);
 		$blockId = $request->get('blockid');
 		$moduleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($moduleName);
 		$response = new Vtiger_Response();
@@ -43,10 +44,15 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
+	/**
+	 * Save field
+	 * @param \App\Request $request
+	 */
 	public function save(\App\Request $request)
 	{
 		$fieldId = $request->get('fieldid');
 		$fieldInstance = Vtiger_Field_Model::getInstance($fieldId);
+		$uitypeModel = $fieldInstance->getUITypeModel();
 		$fields = ['presence', 'quickcreate', 'summaryfield', 'helpinfo', 'generatedtype', 'masseditable', 'header_field', 'displaytype', 'maxlengthtext', 'maxwidthcolumn'];
 		foreach ($request->getAll() as $key => $value) {
 			if ($key == 'mandatory') {
@@ -56,27 +62,27 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 				$fieldInstance->set($key, $value);
 			}
 		}
-		$defaultValue = $request->get('fieldDefaultValue');
-		if ($fieldInstance->getFieldDataType() === 'date') {
-			$dateInstance = new Vtiger_Date_UIType();
-			$defaultValue = $dateInstance->getDBInsertedValue($defaultValue);
-		}
 		if ($request->has('fieldMask')) {
 			$fieldInstance->set('fieldparams', $request->get('fieldMask'));
 		}
-		if (is_array($defaultValue)) {
-			$defaultValue = implode(' |##| ', $defaultValue);
-		}
-		$fieldInstance->set('defaultvalue', $defaultValue);
 		$response = new Vtiger_Response();
 		try {
+			$defaultValue = $request->get('fieldDefaultValue');
+			if ($fieldInstance->getFieldDataType() === 'date' && \App\TextParser::isVaribleToParse($defaultValue)) {
+				$fieldInstance->set('defaultvalue', $defaultValue);
+			} else {
+				$uitypeModel->validate($defaultValue, true);
+				$fieldInstance->set('defaultvalue', $uitypeModel->getDBValue($defaultValue));
+			}
 			$fieldInstance->save();
 			$response->setResult([
 				'success' => true,
 				'presence' => $request->get('presence'),
 				'mandatory' => $fieldInstance->isMandatory(),
-				'label' => \App\Language::translate($fieldInstance->get('label'), $request->get('sourceModule'))]);
+				'label' => \App\Language::translate($fieldInstance->get('label'), $request->getByType('sourceModule', 2))]);
 		} catch (Exception $e) {
+			$response->setError($e->getCode(), $e->getMessage());
+		} catch (Error $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
 		$response->emit();
@@ -96,7 +102,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 
 		try {
 			$fieldInstance->delete();
-			$response->setResult(array('success' => true));
+			$response->setResult(['success' => true]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
@@ -111,7 +117,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		Settings_LayoutEditor_Block_Model::updateFieldSequenceNumber($updatedFieldsList);
 
 		$response = new Vtiger_Response();
-		$response->setResult(array('success' => true));
+		$response->setResult(['success' => true]);
 		$response->emit();
 	}
 
@@ -125,7 +131,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 			foreach ($fieldIds as $fieldId) {
 				$fieldModel = Settings_LayoutEditor_Field_Model::getInstance($fieldId);
 				$fieldInfo = $fieldModel->getFieldInfo();
-				$responseData[] = array_merge(array('id' => $fieldModel->getId(), 'blockid' => $fieldModel->get('block')->id, 'customField' => $fieldModel->isCustomField()), $fieldInfo);
+				$responseData[] = array_merge(['id' => $fieldModel->getId(), 'blockid' => $fieldModel->get('block')->id, 'customField' => $fieldModel->isCustomField()], $fieldInfo);
 			}
 			$response->setResult($responseData);
 		} catch (Exception $e) {

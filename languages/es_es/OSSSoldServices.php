@@ -3,13 +3,11 @@
  * OSSSoldServices spanish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'OSSSoldServices' => 'Servicios Contratados',
 	'SINGLE_OSSSoldServices' => 'Servicio Contratado',
-	'LBL_RECORDS_LIST' => 'Lista',
-	'LBL_ADD_RECORD' => 'Añadir',
 	// Blocks
 	'LBL_INFORMATION' => 'Información sobre el Servicio Contratado',
 	// Field Labels
@@ -28,8 +26,9 @@ $languageStrings = [
 	'Where bought' => 'Donde compró',
 	'Services' => 'Servicios',
 	'LBL_GENERATE_EXTENSION' => 'Generar extensión',
-	'LBL_ORDER_TIME' => 'Fecha de pedido',
+	'LBL_ORDER_TIME' => 'Tiempo de ejecución',
 	'FL_RENEWAL_INVOICE' => 'Factura de renovación',
+	'FL_CONTACT' => 'Contacto',
 	// picklist values
 	'FL_RENEWAL' => 'Renovación',
 	'PLL_DRAFT' => 'Borrador',

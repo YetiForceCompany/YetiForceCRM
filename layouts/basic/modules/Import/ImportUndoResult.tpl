@@ -12,7 +12,7 @@
 {strip}
 	<div class='widget_header row '>
 		<div class="col-xs-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
 	</div>
 	<div class="col-md-3 col-sm-2"></div>
@@ -25,7 +25,7 @@
 				<input type="hidden" name="module" value="{$FOR_MODULE}" />
 				{if $ERROR_MESSAGE neq ''}
 					<div class="alert alert-warning">
-						{$ERROR_MESSAGE}rewtwerterte ert ewrtewrgetr
+						{$ERROR_MESSAGE}
 					</div>
 				{/if}
 				<div class="form-group">
@@ -42,7 +42,7 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				{include file='Import_Done_Buttons.tpl'|@vtemplate_path:'Import'}
+				{include file=\App\Layout::getTemplatePath('Import_Done_Buttons.tpl', 'Import')}
 			</div>
 		</div>
 	</div>

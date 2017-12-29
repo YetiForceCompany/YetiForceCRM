@@ -4,7 +4,7 @@
  * Record Model
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
@@ -61,7 +61,7 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 	public function getModule()
 	{
 		if (!$this->module) {
-			$this->module = $moduleInstance = Settings_Vtiger_Module_Model::getInstance('Settings:PBX');
+			$this->module = Settings_Vtiger_Module_Model::getInstance('Settings:PBX');
 		}
 		return $this->module;
 	}
@@ -119,7 +119,7 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => 'javascript:Vtiger_List_Js.deleteRecord(' . $this->getId() . ');',
+				'linkurl' => 'javascript:Settings_Vtiger_List_Js.deleteById(' . $this->getId() . ');',
 				'linkicon' => 'glyphicon glyphicon-trash',
 				'linkclass' => 'btn btn-sm btn-danger'
 			]

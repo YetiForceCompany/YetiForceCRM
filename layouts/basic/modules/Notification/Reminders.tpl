@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<style>
 		{foreach item=VALUE key=NAME from=$COLORS}
@@ -32,7 +32,7 @@
 										{$FULL_TEXT}
 										{assign var=SHOW_BUTTON value=false}
 									{else}
-										{Vtiger_Util_Helper::toSafeHTML(strip_tags($FULL_TEXT))|substr:0:200}
+										{strip_tags($FULL_TEXT)|substr:0:200}
 										{assign var=SHOW_BUTTON value=true}
 									{/if}
 								</span>
@@ -45,8 +45,24 @@
 							</div>
 						</div>
 						<div class="col-xs-12 paddingLRZero marginBottom5 ">
+							<div class="col-xs-12 paddingLRZero textOverflowEllipsis">
+								{if $RECORD->get('link')}
+									{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('link')))}: {$RECORD->getDisplayValue('link')}<br />
+								{/if}
+								{if $RECORD->get('linkextend')}
+									{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('linkextend')))}: {$RECORD->getDisplayValue('linkextend')}<br />
+								{/if}
+								{if $RECORD->get('process')}
+									{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('process')))}: {$RECORD->getDisplayValue('process')}<br />
+								{/if}
+								{if $RECORD->get('subprocess')}
+									{\App\Language::translateSingularModuleName(\App\Record::getType($RECORD->get('subprocess')))}: {$RECORD->getDisplayValue('subprocess')}
+								{/if}
+							</div>
+						</div>
+						<div class="col-xs-12 paddingLRZero marginBottom5 ">
 							<div class="col-xs-10 paddingLRZero textOverflowEllipsis">
-								<strong class="">{\App\Language::translate($RECORD->getModule()->getField('smcreatorid')->get('label'),$MODULE_NAME)}: {$RECORD->getCreatorUser()}</strong>
+								<strong class="">{\App\Language::translate('Created By',$MODULE_NAME)}: {$RECORD->getCreatorUser()}</strong>
 							</div>
 							<div class="col-xs-2 paddingLRZero">
 								<button type="button" class="btn btn-success btn-xs pull-right setAsMarked" title="{\App\Language::translate('LBL_MARK_AS_READ',$MODULE_NAME)}">

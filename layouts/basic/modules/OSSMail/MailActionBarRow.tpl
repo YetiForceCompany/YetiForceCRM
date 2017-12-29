@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="rowRelatedRecord" data-id="{$RELATED['id']}" data-module="{$RELATED['module']}">
 		<a href="{$URL}index.php?module={$RELATED['module']}&amp;view=Detail&amp;record={$RELATED['id']}" title="{\App\Language::translate('SINGLE_'|cat:$RELATED['module'],$RELATED['module'])}: {$RELATED['label']}" target="_blank">
@@ -8,27 +8,27 @@
 			</span>
 		</a>
 		<div class="pull-right rowActions">
-			{if Users_Privileges_Model::isPermitted('Calendar','CreateView')}
+			{if \App\Privilege::isPermitted('Calendar','CreateView')}
 				<button class="addRelatedRecord" data-module="Calendar" title="{\App\Language::translate('LBL_ADD_CALENDAR',$MODULE_NAME)}">
 					<span class="userIcon-Calendar" aria-hidden="true"></span>
 				</button>
 			{/if}
-			{if Users_Privileges_Model::isPermitted('ModComments','CreateView')}
+			{if \App\Privilege::isPermitted('ModComments','CreateView')}
 				<button class="addRelatedRecord" data-module="ModComments" title="{\App\Language::translate('LBL_ADD_MODCOMMENTS',$MODULE_NAME)}">
 					<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
 				</button>
 			{/if}
-			{if in_array($RELATED['module'], ['HelpDesk','Project']) &&  Users_Privileges_Model::isPermitted('HelpDesk','CreateView')}
+			{if in_array($RELATED['module'], ['HelpDesk','Project']) &&  \App\Privilege::isPermitted('HelpDesk','CreateView')}
 				<button class="addRelatedRecord" data-module="HelpDesk" title="{\App\Language::translate('LBL_ADD_HELPDESK',$MODULE_NAME)}">
 					<span class="userIcon-HelpDesk" aria-hidden="true"></span>
 				</button>
 			{/if}
-			{if in_array($RELATED['module'], ['Accounts','Contacts','Leads']) && Users_Privileges_Model::isPermitted('Products','DetailView')}
+			{if in_array($RELATED['module'], ['Accounts','Contacts','Leads']) && \App\Privilege::isPermitted('Products','DetailView')}
 				<button class="selectRecord" data-type="1" data-module="Products" title="{\App\Language::translate('LBL_ADD_PRODUCTS',$MODULE_NAME)}">
 					<span class="userIcon-Products" aria-hidden="true"></span>
 				</button>
 			{/if}
-			{if in_array($RELATED['module'], ['Accounts','Contacts','Leads']) &&  Users_Privileges_Model::isPermitted('Services','DetailView')}
+			{if in_array($RELATED['module'], ['Accounts','Contacts','Leads']) &&  \App\Privilege::isPermitted('Services','DetailView')}
 				<button class="selectRecord" data-type="1" data-module="Services" title="{\App\Language::translate('LBL_ADD_SERVICES',$MODULE_NAME)}">
 					<span class="userIcon-Services" aria-hidden="true"></span>
 				</button>

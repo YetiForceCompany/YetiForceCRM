@@ -1,7 +1,7 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{if !empty($ITEM_DATA['name'])}
-		{assign var="REFERENCE_MODULE" value=vtlib\Functions::getCRMRecordType($ITEM_DATA['name'])}
+		{assign var="REFERENCE_MODULE" value=\App\Record::getType($ITEM_DATA['name'])}
 	{elseif $MAIN_PARAMS}
 		{assign var="REFERENCE_MODULE" value=$INVENTORY_FIELD->getDefaultModule($MAIN_PARAMS)}
 	{/if}
@@ -9,7 +9,7 @@
 		<tr class="inventoryRow" numrow="{$ROW_NO}">
 			<td>
 				<span class="glyphicon glyphicon-trash deleteRow cursorPointer {if !$IS_OPTIONAL_ITEMS && $KEY == 0 }hide{/if}" title="{\App\Language::translate('LBL_DELETE',$MODULE)}"></span>
-				&nbsp;&nbsp;<a class="dragHandle"><img src="{vimage_path('drag.png')}" border="0" alt="{\App\Language::translate('LBL_DRAG',$MODULE)}"/></a>
+				&nbsp;&nbsp;<a class="dragHandle"><img src="{\App\Layout::getImagePath('drag.png')}" border="0" alt="{\App\Language::translate('LBL_DRAG',$MODULE)}" /></a>
 				<input name="seq{$ROW_NO}" type="hidden" value="{$ROW_NO}" class="sequence" />
 				{if $COUNT_FIELDS2 > 0}
 					<br /><br />
@@ -21,7 +21,7 @@
 			{foreach item=FIELD from=$FIELDS[1]}
 				<td class="col{$FIELD->getName()}{if !$FIELD->isEditable()} hide{/if} textAlignRight fieldValue">
 					{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
-					{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE ITEM_VALUE=$ITEM_DATA[$FIELD->get('columnname')]}
+					{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE) ITEM_VALUE=$ITEM_DATA[$FIELD->get('columnname')]}
 				</td>
 			{/foreach}
 		</tr>
@@ -30,7 +30,7 @@
 				<td class="colExpanded" colspan="{$COUNT_FIELDS1+1}">
 					{foreach item=FIELD from=$FIELDS[2]}
 						{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
-						{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE ITEM_VALUE=$ITEM_DATA[$FIELD->get('columnname')]}
+						{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE) ITEM_VALUE=$ITEM_DATA[$FIELD->get('columnname')]}
 					{/foreach}
 				</td>
 			</tr>

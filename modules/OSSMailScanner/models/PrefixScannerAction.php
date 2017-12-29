@@ -1,32 +1,41 @@
 <?php
-
 /**
  * Base for action creating relations on the basis of prefix
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+
+/**
+ * Base for action creating relations on the basis of prefix
  */
 abstract class OSSMailScanner_PrefixScannerAction_Model
 {
 
 	public $prefix, $moduleName, $mail, $tableName, $tableColumn;
 
+	/**
+	 * Process
+	 */
 	public abstract function process(OSSMail_Mail_Model $mail);
 
+	/**
+	 * Find and bind
+	 * @return boolean|int
+	 */
 	public function findAndBind()
 	{
-		$db = PearDatabase::getInstance();
 		$mailId = $this->mail->getMailCrmId();
 		if (!$mailId) {
 			return 0;
 		}
 		$returnIds = [];
-		$result = $db->pquery('SELECT crmid FROM vtiger_ossmailview_relation WHERE ossmailviewid = ?;', [$mailId]);
-		while ($crmid = $db->getSingleValue($result)) {
-			$type = \App\Record::getType($crmid);
-			if ($type == $this->moduleName) {
-				$returnIds[] = $crmid;
+		$query = (new \App\Db\Query())->select(['crmid'])->from('vtiger_ossmailview_relation')->where(['ossmailviewid' => $mailId]);
+		$dataReader = $query->createCommand()->query();
+		while ($crmId = $dataReader->readColumn(0)) {
+			if (\App\Record::getType($crmId) === $this->moduleName) {
+				$returnIds[] = $crmId;
 			}
 		}
 		if (!empty($returnIds)) {
@@ -40,6 +49,10 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 		return $this->add();
 	}
 
+	/**
+	 * Add
+	 * @return array
+	 */
 	protected function add()
 	{
 		$returnIds = [];

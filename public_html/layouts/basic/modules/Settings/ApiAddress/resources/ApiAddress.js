@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 	registerChangeApi: function (content) {
 		content.find('#change_api').on('change', function () {
@@ -21,7 +21,7 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 			params.data = {module: 'ApiAddress', parent: 'Settings', action: 'SaveConfig', 'elements': elements}
 			params.async = false;
 			params.dataType = 'json';
-			AppConnector.request(params).done(
+			AppConnector.request(params).then(
 				function (data) {
 					var response = data['result'];
 					var parametres = {
@@ -61,7 +61,7 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 			params.data = {module: 'ApiAddress', parent: 'Settings', action: 'SaveConfig', 'elements': elements}
 			params.async = false;
 			params.dataType = 'json';
-			AppConnector.request(params).done(
+			AppConnector.request(params).then(
 					function (data) {
 						var response = data['result'];
 						if (response['success']) {
@@ -99,7 +99,7 @@ jQuery.Class("Settings_ApiAddress_Configuration_Js", {}, {
 			params.data = {module: 'ApiAddress', parent: 'Settings', action: 'SaveConfig', 'elements': elements}
 			params.async = false;
 			params.dataType = 'json';
-			AppConnector.request(params).done(
+			AppConnector.request(params).then(
 					function (data) {
 						var response = data['result'];
 						if (response['success']) {

@@ -4,7 +4,7 @@ namespace Api\Portal\Users;
 /**
  * Users Login action class
  * @package YetiForce.WebserviceAction
- * @license licenses/License.html
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Login extends \Api\Core\BaseAction
@@ -48,11 +48,7 @@ class Login extends \Api\Core\BaseAction
 		if ($row['password_t'] !== $this->controller->request->get('password')) {
 			throw new \Api\Core\Exception('Invalid user password', 401);
 		}
-		$db->createCommand()
-			->update('w_#__portal_user', [
-				'login_time' => date('Y-m-d H:i:s')
-				], ['id' => $row['id']])
-			->execute();
+		$db->createCommand()->update('w_#__portal_user', ['login_time' => date('Y-m-d H:i:s')], ['id' => $row['id']])->execute();
 		$row = $this->updateSession($row);
 		$userModel = \App\User::getUserModel($row['user_id']);
 		return [
@@ -69,7 +65,7 @@ class Login extends \Api\Core\BaseAction
 				'hour_format' => $userModel->getDetail('hour_format'),
 				'start_hour' => $userModel->getDetail('start_hour'),
 				'date_format' => $userModel->getDetail('date_format'),
-				'date_format_js' => \App\Fields\DateTime::currentUserJSDateFormat($userModel->getDetail('date_format')),
+				'date_format_js' => \App\Fields\Date::currentUserJSDateFormat($userModel->getDetail('date_format')),
 				'dayoftheweek' => $userModel->getDetail('dayoftheweek'),
 				'time_zone' => $userModel->getDetail('time_zone'),
 				'currency_id' => $userModel->getDetail('currency_id'),
@@ -96,7 +92,7 @@ class Login extends \Api\Core\BaseAction
 	public function updateSession($row)
 	{
 		$db = \App\Db::getInstance('webservice');
-		$token = md5(time() . rand());
+		$token = md5(microtime(true) . mt_rand());
 		$params = $this->controller->request->getArray('params');
 		$language = !empty($params['language']) ? $params['language'] : (empty($row['language']) ? $this->getLanguage() : $row['language']);
 		$db->createCommand()->insert("w_#__portal_session", [

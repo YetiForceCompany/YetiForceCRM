@@ -14,7 +14,7 @@
 		<form id="EditView" name="EditProfile" action="index.php" method="post" class="form-horizontal">
 			<div class="widget_header row"> 
 				<div class="col-md-8">
-				    {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				</div> 
 				<div class="col-md-4 btn-toolbar">
 					<div class="pull-right"> 
@@ -27,8 +27,8 @@
 			<input type="hidden" name="action" value="Save" />
 			<input type="hidden" name="parent" value="Settings" />
 			{assign var=RECORD_ID value=$RECORD_MODEL->getId()}
-			<input type="hidden" name="record" value="{$RECORD_ID}" />
-			<input type="hidden" name="mode" value="{$MODE}" />
+			{if $RECORD_ID}<input type="hidden" name="record" value="{$RECORD_ID}" />{/if}
+			{if $MODE}<input type="hidden" name="mode" value="{$MODE}" />{/if}
 			<input type="hidden" name="viewall" {if $RECORD_MODEL->hasGlobalReadPermission()}value="1"{else}value="0"{/if}  />
 			<input type="hidden" name="editall" {if $RECORD_MODEL->hasGlobalWritePermission()}value="1"{else}value="0"{/if} />
 			<div class="">
@@ -138,7 +138,7 @@
 																			<input type="hidden" name="permissions[{$TABID}][fields][{$FIELD_ID}]" data-range-input="{$FIELD_ID}" value="{$RECORD_MODEL->getModuleFieldPermissionValue($PROFILE_MODULE, $FIELD_MODEL)}" readonly="true">
 																			<div class="mini-slider-control editViewMiniSlider pull-left" data-locked="{$FIELD_LOCKED}" data-range="{$FIELD_ID}" data-value="{$RECORD_MODEL->getModuleFieldPermissionValue($PROFILE_MODULE, $FIELD_MODEL)}"></div>
 																			<div class="pull-left">
-																				{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if} {\App\Language::translate($FIELD_MODEL->get('label'), $MODULE_NAME)}
+																				{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if} {\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
 																			</div>
 																		</div>
 																		{if $smarty.foreach.fields.last OR ($COUNTER+1) % 3 == 0}
@@ -164,7 +164,7 @@
 																				<input type="hidden" name="permissions[16][fields][{$FIELD_ID}]" data-range-input="{$FIELD_ID}" value="{$RECORD_MODEL->getModuleFieldPermissionValue($EVENT_MODULE, $FIELD_MODEL)}" readonly="true">
 																				<div class="mini-slider-control editViewMiniSlider pull-left" data-locked="{$FIELD_LOCKED}" data-range="{$FIELD_ID}" data-value="{$RECORD_MODEL->getModuleFieldPermissionValue($EVENT_MODULE, $FIELD_MODEL)}"></div>
 																				<div class="pull-left">
-																					{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if} {\App\Language::translate($FIELD_MODEL->get('label'), $MODULE_NAME)}
+																					{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if} {\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
 																				</div>
 																			</div>
 																			{if $smarty.foreach.fields.last OR ($COUNTER+1) % 3 == 0}

@@ -23,7 +23,7 @@ class Vtiger_Viewer extends SmartyBC
 	/**
 	 * log message into the file if in debug mode.
 	 * @param type $message
-	 * @param type $delimiter 
+	 * @param type $delimiter
 	 */
 	protected function log($message, $delimiter = '\n')
 	{
@@ -74,14 +74,14 @@ class Vtiger_Viewer extends SmartyBC
 		// We need to use {$variable nofilter} to overcome double escaping
 		static $debugViewerURI = false;
 		if (self::$debugViewer && $debugViewerURI === false) {
-			$debugViewerURI = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+			$debugViewerURI = parse_url(\App\Request::_getServer('REQUEST_URI'), PHP_URL_PATH);
 			if (!empty($_POST)) {
 				$debugViewerURI .= '?' . http_build_query($_POST);
 			} else {
-				$debugViewerURI = $_SERVER['REQUEST_URI'];
+				$debugViewerURI = \App\Request::_getServer('REQUEST_URI');
 			}
 
-			$this->log("URI: $debugViewerURI, TYPE: " . $_SERVER['REQUEST_METHOD']);
+			$this->log("URI: $debugViewerURI, TYPE: " . \App\Request::_getServer('REQUEST_METHOD'));
 		}
 	}
 
@@ -129,10 +129,10 @@ class Vtiger_Viewer extends SmartyBC
 					$moduleHierarchyParts = explode('/', $moduleName);
 					$actualModuleName = $moduleHierarchyParts[count($moduleHierarchyParts) - 1];
 					$baseModuleName = $moduleHierarchyParts[0];
-					$fallBackOrder = array(
+					$fallBackOrder = [
 						"$actualModuleName",
 						"$baseModuleName/Vtiger"
-					);
+					];
 					foreach ($fallBackOrder as $fallBackModuleName) {
 						$intermediateFallBackFileName = 'modules/' . $fallBackModuleName . '/' . $templateName;
 						$intermediateFallBackFilePath = $templateDir . DIRECTORY_SEPARATOR . $intermediateFallBackFileName;
@@ -213,10 +213,4 @@ class Vtiger_Viewer extends SmartyBC
 		self::$instance = $instance;
 		return $instance;
 	}
-}
-
-function vtemplate_path($templateName, $moduleName = '')
-{
-	$viewerInstance = Vtiger_Viewer::getInstance();
-	return $viewerInstance->getTemplatePath($templateName, $moduleName);
 }

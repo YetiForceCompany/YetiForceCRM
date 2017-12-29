@@ -2,7 +2,7 @@
 // $Id: iCalendar_components.php,v 1.8 2005/07/21 22:31:44 defacer Exp $
 require_once('include/utils/utils.php');
 
-class iCalendar_component
+class IcalendarComponent
 {
 
 	public $name = NULL;
@@ -27,12 +27,12 @@ class iCalendar_component
 		}
 	}
 
-	public function get_name()
+	public function getNameICal()
 	{
 		return $this->name;
 	}
 
-	public function add_property($name, $value = NULL, $parameters = NULL)
+	public function addProperty($name, $value = NULL, $parameters = NULL)
 	{
 
 		// Uppercase first of all
@@ -50,15 +50,15 @@ class iCalendar_component
 
 		// Create a property object of the correct class
 		if ($xname) {
-			$property = new iCalendar_property_x;
-			$property->set_name($name);
+			$property = new IcalendarPropertyX;
+			$property->setName($name);
 		} else {
-			$classname = 'iCalendar_property_' . strtolower(str_replace('-', '_', $name));
+			$classname = 'IcalendarProperty' . ucfirst(strtolower(str_replace('-', '', $name)));
 			$property = new $classname;
 		}
 		// If $value is NULL, then this property must define a default value.
 		if ($value === NULL) {
-			$value = $property->default_value();
+			$value = $property->defaultValueICal();
 			if ($value === NULL) {
 				return false;
 			}
@@ -66,33 +66,33 @@ class iCalendar_component
 
 		// Set this property's parent component to ourselves, because some
 		// properties behave differently according to what component they apply to.
-		$property->set_parent_component($this->name);
+		$property->setParentComponent($this->name);
 
 		// Set parameters before value; this helps with some properties which
 		// accept a VALUE parameter, and thus change their default value type.
 		// The parameters must be valid according to property specifications
 		if (!empty($parameters)) {
 			foreach ($parameters as $paramname => $paramvalue) {
-				if (!$property->set_parameter($paramname, $paramvalue)) {
+				if (!$property->setParameterICal($paramname, $paramvalue)) {
 					return false;
 				}
 			}
 
 			// Some parameters interact among themselves (e.g. ENCODING and VALUE)
 			// so make sure that after the dust settles, these invariants hold true
-			if (!$property->invariant_holds()) {
+			if (!$property->invariantHolds()) {
 				return false;
 			}
 		}
 
 		// $value MUST be valid according to the property data type
-		if (!$property->set_value($value)) {
+		if (!$property->setValueICal($value)) {
 			return false;
 		}
 
 		// If this property is restricted to only once, blindly overwrite value
 		if (!$xname && $this->valid_properties[$name] & RFC2445_ONCE) {
-			$this->properties[$name] = array($property);
+			$this->properties[$name] = [$property];
 		}
 
 		// Otherwise add it to the instance array for this property
@@ -101,7 +101,7 @@ class iCalendar_component
 		}
 
 		// Finally: after all these, does the component invariant hold?
-		if (!$this->invariant_holds()) {
+		if (!$this->invariantHolds()) {
 			// If not, completely undo the property addition
 			array_pop($this->properties[$name]);
 			if (empty($this->properties[$name])) {
@@ -113,15 +113,15 @@ class iCalendar_component
 		return true;
 	}
 
-	public function add_component($component)
+	public function addComponent($component)
 	{
 
 		// With the detailed interface, you can add only components with this function
-		if (!is_object($component) || !is_subclass_of($component, 'iCalendar_component')) {
+		if (!is_object($component) || !is_subclass_of($component, 'IcalendarComponent')) {
 			return false;
 		}
 
-		$name = $component->get_name();
+		$name = $component->getNameICal();
 
 		// Only valid components as specified by this component are allowed
 		if (!in_array($name, $this->valid_components)) {
@@ -134,23 +134,23 @@ class iCalendar_component
 		return true;
 	}
 
-	public function get_property_list($name)
+	public function getPropertyList($name)
 	{
-		
+
 	}
 
-	public function invariant_holds()
+	public function invariantHolds()
 	{
 		return true;
 	}
 
-	public function is_valid()
+	public function isValidICal()
 	{
 		// If we have any child components, check that they are all valid
 		if (!empty($this->components)) {
 			foreach ($this->components as $component => $instances) {
 				foreach ($instances as $number => $instance) {
-					if (!$instance->is_valid()) {
+					if (!$instance->isValidICal()) {
 						return false;
 					}
 				}
@@ -160,9 +160,9 @@ class iCalendar_component
 		// that have not been set and do not have a default value
 		foreach ($this->valid_properties as $property => $propdata) {
 			if (($propdata & RFC2445_REQUIRED) && empty($this->properties[$property])) {
-				$classname = 'iCalendar_property_' . strtolower(str_replace('-', '_', $property));
+				$classname = 'IcalendarProperty' . ucfirst(strtolower(str_replace('-', '', $property)));
 				$object = new $classname;
-				if ($object->default_value() === NULL) {
+				if ($object->defaultValueICal() === NULL) {
 					return false;
 				}
 				unset($object);
@@ -175,7 +175,7 @@ class iCalendar_component
 	public function serialize()
 	{
 		// Check for validity of the object
-		if (!$this->is_valid()) {
+		if (!$this->isValidICal()) {
 			return false;
 		}
 
@@ -183,7 +183,7 @@ class iCalendar_component
 		// have not been given explicit values. In that case, set them to defaults.
 		foreach ($this->valid_properties as $property => $propdata) {
 			if (($propdata & RFC2445_REQUIRED) && empty($this->properties[$property])) {
-				$this->add_property($property);
+				$this->addProperty($property);
 			}
 		}
 
@@ -212,11 +212,16 @@ class iCalendar_component
 		return $string;
 	}
 
-	public function assign_values($activity)
+	/**
+	 * Assign values
+	 * @param array $activity
+	 * @return boolean
+	 */
+	public function assignValues($activity)
 	{
 		foreach ($this->mapping_arr as $key => $components) {
 			if (!is_array($components['component']) && empty($components['function'])) {
-				$this->add_property($key, $activity[$components['component']]);
+				$this->addProperty($key, $activity[$components['component']]);
 			} else if (is_array($components['component']) && empty($components['function'])) {
 				$component = '';
 				foreach ($components['component'] as $comp) {
@@ -224,7 +229,7 @@ class iCalendar_component
 						$component .= ',';
 					$component .= $activity[$comp];
 				}
-				$this->add_property($key, $component);
+				$this->addProperty($key, $component);
 			} else if (!empty($components['function'])) {
 				$function = $components['function'];
 				$this->$function($activity);
@@ -293,10 +298,10 @@ class iCalendar_component
 			}
 			if (!empty($ical_activity['VALARM'])) {
 				$temp = str_replace("P", '', $ical_activity['VALARM']['TRIGGER']);
-				//if there is negative value then ignore it because in vtiger even though its negative or postiview we 
+				//if there is negative value then ignore it because in vtiger even though its negative or postiview we
 				//make reminder to be before the event
 				$temp = str_replace("-", '', $temp);
-				$durationTypeCharacters = array('W', 'D', 'T', 'H', 'M', 'S');
+				$durationTypeCharacters = ['W', 'D', 'T', 'H', 'M', 'S'];
 				$reminder_time = 0;
 				foreach ($durationTypeCharacters as $durationType) {
 					if (strpos($temp, $durationType) === false) {
@@ -340,7 +345,7 @@ class iCalendar_component
 			$activity['visibility'] = 'Private';
 		}
 		if (array_key_exists('taskpriority', $activity)) {
-			$priorityMap = array('1' => 'Low', '5' => 'Medium', '9' => 'High');
+			$priorityMap = ['1' => 'Low', '5' => 'Medium', '9' => 'High'];
 			$priorityval = $activity['taskpriority'];
 			if (array_key_exists($priorityval, $priorityMap))
 				$activity['taskpriority'] = $priorityMap[$priorityval];
@@ -372,57 +377,57 @@ class iCalendar_component
 	}
 }
 
-class iCalendar extends iCalendar_component
+class Icalendar extends IcalendarComponent
 {
 
 	public $name = 'VCALENDAR';
 
 	public function construct()
 	{
-		$this->valid_properties = array(
+		$this->valid_properties = [
 			'CALSCALE' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'METHOD' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'PRODID' => RFC2445_REQUIRED | RFC2445_ONCE,
 			'VERSION' => RFC2445_REQUIRED | RFC2445_ONCE,
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 
-		$this->valid_components = array(
+		$this->valid_components = [
 			'VEVENT', 'VTODO', 'VTIMEZONE'
-		);
+		];
 		parent::construct();
 	}
 }
 
-class iCalendar_event extends iCalendar_component
+class IcalendarEvent extends IcalendarComponent
 {
 
 	public $name = 'VEVENT';
 	public $properties;
-	public $mapping_arr = array(
-		'CLASS' => array('component' => 'visibility', 'type' => 'string'),
-		'DTSTART' => array('component' => array('date_start', 'time_start'), 'function' => 'iCalendar_event_dtstart', 'type' => 'datetime'),
-		'DTEND' => array('component' => array('due_date', 'time_end'), 'function' => 'iCalendar_event_dtend', 'type' => 'datetime'),
-		'DTSTAMP' => array('component' => array('date_start', 'time_start'), 'function' => 'iCalendar_event_dtstamp', 'type' => 'datetime'),
-		'LOCATION' => array('component' => 'location', 'type' => 'string'),
-		'ORGANIZER' => array('component' => 'activityid', 'function' => 'icalendar_event_organizer', 'type' => 'user'),
-		'STATUS' => array('component' => 'activitystatus', 'type' => 'string'),
-		'SUMMARY' => array('component' => 'subject', 'type' => 'string'),
-		'PRIORITY' => array('component' => 'priority', 'type' => 'string'),
-		'ATTENDEE' => array('component' => 'activityid', 'function' => 'iCalendar_event_attendee', 'type' => 'user'),
-		'RESOURCES' => array('component' => array('location', 'activitystatus'), 'type' => 'string'),
-		'DESCRIPTION' => array('component' => 'description', 'type' => 'string'),
-	);
-	public $field_mapping_arr = array(
+	public $mapping_arr = [
+		'CLASS' => ['component' => 'visibility', 'type' => 'string'],
+		'DTSTART' => ['component' => ['date_start', 'time_start'], 'function' => 'iCalendarEventDtStart', 'type' => 'datetime'],
+		'DTEND' => ['component' => ['due_date', 'time_end'], 'function' => 'iCalendarEventDtEnd', 'type' => 'datetime'],
+		'DTSTAMP' => ['component' => ['date_start', 'time_start'], 'function' => 'iCalendarEventDtStamp', 'type' => 'datetime'],
+		'LOCATION' => ['component' => 'location', 'type' => 'string'],
+		'ORGANIZER' => ['component' => 'activityid', 'function' => 'icalendarEventOrganizer', 'type' => 'user'],
+		'STATUS' => ['component' => 'activitystatus', 'type' => 'string'],
+		'SUMMARY' => ['component' => 'subject', 'type' => 'string'],
+		'PRIORITY' => ['component' => 'priority', 'type' => 'string'],
+		'ATTENDEE' => ['component' => 'activityid', 'function' => 'iCalendarEventAttendee', 'type' => 'user'],
+		'RESOURCES' => ['component' => ['location', 'activitystatus'], 'type' => 'string'],
+		'DESCRIPTION' => ['component' => 'description', 'type' => 'string'],
+	];
+	public $field_mapping_arr = [
 		'priority' => 'taskpriority'
-	);
+	];
 
 	public function construct()
 	{
 
-		$this->valid_components = array('VALARM');
+		$this->valid_components = ['VALARM'];
 
-		$this->valid_properties = array(
+		$this->valid_properties = [
 			'CLASS' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'CREATED' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'DESCRIPTION' => RFC2445_OPTIONAL | RFC2445_ONCE,
@@ -461,12 +466,12 @@ class iCalendar_event extends iCalendar_component
 			'RDATE' => RFC2445_OPTIONAL,
 			'RRULE' => RFC2445_OPTIONAL,
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 
 		parent::construct();
 	}
 
-	public function invariant_holds()
+	public function invariantHolds()
 	{
 		// DTEND and DURATION must not appear together
 		if (isset($this->properties['DTEND']) && isset($this->properties['DURATION'])) {
@@ -488,14 +493,14 @@ class iCalendar_event extends iCalendar_component
 		return true;
 	}
 
-	public function iCalendar_event_dtstamp($activity)
+	public function iCalendarEventDtStamp($activity)
 	{
-		$components = gmdate('Ymd', strtotime($activity['date_start'] . " " . $activity['time_start'])) . "T" . gmdate('His', strtotime($activity['date_start'] . " " . $activity['time_start'])) . "Z";
-		$this->add_property("DTSTAMP", $components);
+		$components = gmdate('Ymd', strtotime($activity['date_start'] . ' ' . $activity['time_start'])) . 'T' . gmdate('His', strtotime($activity['date_start'] . " " . $activity['time_start'])) . 'Z';
+		$this->addProperty('DTSTAMP', $components);
 		return true;
 	}
 
-	public function iCalendar_event_dtstart($activity)
+	public function iCalendarEventDtStart($activity)
 	{
 		$time = str_replace(':', '', $activity['time_start']);
 		if (strlen($time) < 6) {
@@ -504,11 +509,11 @@ class iCalendar_event extends iCalendar_component
 			}
 		}
 		$components = str_replace('-', '', $activity['date_start']) . 'T' . $time . 'Z';
-		$this->add_property("DTSTART", $components);
+		$this->addProperty('DTSTART', $components);
 		return true;
 	}
 
-	public function iCalendar_event_dtend($activity)
+	public function iCalendarEventDtEnd($activity)
 	{
 		$time = str_replace(':', '', $activity['time_end']);
 		if (strlen($time) < 6) {
@@ -517,55 +522,60 @@ class iCalendar_event extends iCalendar_component
 			}
 		}
 		$components = str_replace('-', '', $activity['due_date']) . 'T' . $time . 'Z';
-		$this->add_property("DTEND", $components);
+		$this->addProperty('DTEND', $components);
 		return true;
 	}
 
-	public function iCalendar_event_attendee($activity)
+	/**
+	 * iCalendar event attendee
+	 * @param array $activity
+	 * @return boolean
+	 */
+	public function iCalendarEventAttendee($activity)
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid=?', array($activity['id']));
-		while ($row = $adb->getRow($result)) {
+		$query = (new App\Db\Query())->from('u_#__activity_invitation')->where(['activityid' => $activity['id']]);
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			if (!empty($row['email'])) {
-				$this->add_property('ATTENDEE', 'mailto:' . $row['email'], ['CN' => vtlib\Functions::getCRMRecordLabel($row['crmid'])]);
+				$this->addProperty('ATTENDEE', 'mailto:' . $row['email'], ['CN' => vtlib\Functions::getCRMRecordLabel($row['crmid'])]);
 			}
 		}
 		return true;
 	}
 
-	public function icalendar_event_organizer($activity)
+	public function icalendarEventOrganizer($activity)
 	{
 		$email = App\Fields\Email::getUserMail($activity['assigned_user_id']);
-		$this->add_property('ORGANIZER', 'mailto:' . $email);
+		$this->addProperty('ORGANIZER', 'mailto:' . $email);
 		return true;
 	}
 }
 
-class iCalendar_todo extends iCalendar_component
+class IcalendarTodo extends IcalendarComponent
 {
 
 	public $name = 'VTODO';
 	public $properties;
-	public $mapping_arr = array(
-		'DESCRIPTION' => array('component' => 'description', 'type' => 'string'),
-		//'DTSTAMP'		=>	array('component'=>array('date_start','time_start'),'function'=>'iCalendar_event_dtstamp','type'=>'datetime'),
-		'DTSTART' => array('component' => array('date_start', 'time_start'), 'function' => 'iCalendar_event_dtstart', 'type' => 'datetime'),
-		'DUE' => array('component' => array('due_date'), 'function' => 'iCalendar_event_dtend', 'type' => 'datetime'),
-		'STATUS' => array('component' => 'status', 'type' => 'string'),
-		'SUMMARY' => array('component' => 'subject', 'type' => 'string'),
-		'PRIORITY' => array('component' => 'priority', 'type' => 'string'),
-		'RESOURCES' => array('component' => array('status'), 'type' => 'string'),
-	);
-	public $field_mapping_arr = array(
+	public $mapping_arr = [
+		'DESCRIPTION' => ['component' => 'description', 'type' => 'string'],
+		//'DTSTAMP'		=>	array('component'=>array('date_start','time_start'),'function'=>'iCalendarEventDtStamp','type'=>'datetime'),
+		'DTSTART' => ['component' => ['date_start', 'time_start'], 'function' => 'iCalendarEventDtStart', 'type' => 'datetime'],
+		'DUE' => ['component' => ['due_date'], 'function' => 'iCalendarEventDtEnd', 'type' => 'datetime'],
+		'STATUS' => ['component' => 'status', 'type' => 'string'],
+		'SUMMARY' => ['component' => 'subject', 'type' => 'string'],
+		'PRIORITY' => ['component' => 'priority', 'type' => 'string'],
+		'RESOURCES' => ['component' => ['status'], 'type' => 'string'],
+	];
+	public $field_mapping_arr = [
 		'status' => 'activitystatus',
 		'priority' => 'taskpriority'
-	);
+	];
 
 	public function construct()
 	{
 
 		$this->valid_components = [];
-		$this->valid_properties = array(
+		$this->valid_properties = [
 			'CLASS' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'COMPLETED' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'CREATED' => RFC2445_OPTIONAL | RFC2445_ONCE,
@@ -599,19 +609,19 @@ class iCalendar_todo extends iCalendar_component
 			'RDATE' => RFC2445_OPTIONAL,
 			'RRULE' => RFC2445_OPTIONAL,
 			'XPROP' => RFC2445_OPTIONAL
-		);
+		];
 
 		parent::construct();
 	}
 
-	public function iCalendar_event_dtstamp($activity)
+	public function iCalendarEventDtStamp($activity)
 	{
-		$components = gmdate('Ymd', strtotime($activity['date_start'] . " " . $activity['time_start'])) . "T" . gmdate('His', strtotime($activity['date_start'] . " " . $activity['time_start'])) . "Z";
-		$this->add_property("DTSTAMP", $components);
+		$components = gmdate('Ymd', strtotime($activity['date_start'] . ' ' . $activity['time_start'])) . 'T' . gmdate('His', strtotime($activity['date_start'] . ' ' . $activity['time_start'])) . 'Z';
+		$this->addProperty('DTSTAMP', $components);
 		return true;
 	}
 
-	public function iCalendar_event_dtstart($activity)
+	public function iCalendarEventDtStart($activity)
 	{
 		$time = str_replace(':', '', $activity['time_start']);
 		if (strlen($time) < 6) {
@@ -620,53 +630,53 @@ class iCalendar_todo extends iCalendar_component
 			}
 		}
 		$components = str_replace('-', '', $activity['date_start']) . 'T' . $time . 'Z';
-		$this->add_property("DTSTART", $components);
+		$this->addProperty('DTSTART', $components);
 		return true;
 	}
 
-	public function iCalendar_event_dtend($activity)
+	public function iCalendarEventDtEnd($activity)
 	{
 		$components = str_replace('-', '', $activity['due_date']) . 'T000000Z';
-		$this->add_property("DUE", $components);
+		$this->addProperty('DUE', $components);
 		return true;
 	}
 }
 
-class iCalendar_journal extends iCalendar_component
+class IcalendarJournal extends IcalendarComponent
 {
-	
+
 }
 
-class iCalendar_freebusy extends iCalendar_component
+class IcalendarFreebusy extends IcalendarComponent
 {
-	
+
 }
 
-class iCalendar_alarm extends iCalendar_component
+class IcalendarAlarm extends IcalendarComponent
 {
 
 	public $name = 'VALARM';
 	public $properties;
-	public $mapping_arr = array(
-		'TRIGGER' => array('component' => 'reminder_time', 'function' => 'iCalendar_event_trigger'),
-	);
+	public $mapping_arr = [
+		'TRIGGER' => ['component' => 'reminder_time', 'function' => 'iCalendarEventTrigger'],
+	];
 
 	public function construct()
 	{
 
 		$this->valid_components = [];
-		$this->valid_properties = array(
+		$this->valid_properties = [
 			'TRIGGER' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'DESCRIPTION' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'ACTION' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'X-WR-ALARMUID' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			RFC2445_XNAME => RFC2445_OPTIONAL
-		);
+		];
 
 		parent::construct();
 	}
 
-	public function iCalendar_event_trigger($activity)
+	public function iCalendarEventTrigger($activity)
 	{
 		$reminder_time = $activity['reminder_time'];
 		if ($reminder_time > 60) {
@@ -675,14 +685,14 @@ class iCalendar_alarm extends iCalendar_component
 		} else {
 			$reminder = $reminder_time . 'M';
 		}
-		$this->add_property('ACTION', 'DISPLAY');
-		$this->add_property('TRIGGER', 'PT' . $reminder);
-		$this->add_property('DESCRIPTION', 'Reminder');
+		$this->addProperty('ACTION', 'DISPLAY');
+		$this->addProperty('TRIGGER', 'PT' . $reminder);
+		$this->addProperty('DESCRIPTION', 'Reminder');
 		return true;
 	}
 }
 
-class iCalendar_timezone extends iCalendar_component
+class IcalendarTimezone extends IcalendarComponent
 {
 
 	public $name = 'VTIMEZONE';
@@ -691,7 +701,7 @@ class iCalendar_timezone extends iCalendar_component
 	public function construct()
 	{
 		$this->valid_components = [];
-		$this->valid_properties = array(
+		$this->valid_properties = [
 			'TZID' => RFC2445_REQUIRED | RFC2445_ONCE,
 			'LAST-MODIFIED' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'TZURL' => RFC2445_OPTIONAL | RFC2445_ONCE,
@@ -700,7 +710,7 @@ class iCalendar_timezone extends iCalendar_component
 			'TZOFFSETFROM' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'TZOFFSETTO' => RFC2445_OPTIONAL | RFC2445_ONCE,
 			'X-PROP' => RFC2445_OPTIONAL
-		);
+		];
 
 		parent::construct();
 	}

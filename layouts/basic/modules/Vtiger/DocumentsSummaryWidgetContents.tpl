@@ -23,7 +23,6 @@
 	{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
 		{assign var=DOWNLOAD_FILE_URL value=$RELATED_RECORD->getDownloadFileURL()}
 		{assign var=DOWNLOAD_STATUS value=$RELATED_RECORD->get('filestatus')}
-		{assign var=DOWNLOAD_LOCATION_TYPE value=$RELATED_RECORD->get('filelocationtype')}
 		<div class="recentActivitiesContainer" id="relatedDocuments">
 			<ul class="unstyled">
 				<li>
@@ -37,7 +36,7 @@
 							{if $DOWNLOAD_STATUS eq 1}
 								{$RELATED_RECORD->getDisplayValue('filename', $RELATED_RECORD->getId(), $RELATED_RECORD)}
 							{else}
-								{$RELATED_RECORD->get('filename')} 
+								{\App\Purifier::encodeHtml($RELATED_RECORD->get('filename'))} 
 							{/if}
 						</span>
 					</div>

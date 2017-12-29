@@ -4,7 +4,7 @@
  * OSSMailView ListView model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSMailView_Module_Model extends Vtiger_Module_Model
 {
@@ -28,10 +28,10 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 
 	public function isPermitted($actionName)
 	{
-		if ($actionName == 'EditView' || $actionName == 'CreateView') {
+		if ($actionName === 'EditView' || $actionName === 'CreateView') {
 			return false;
 		} else {
-			return ($this->isActive() && Users_Privileges_Model::isPermitted($this->getName(), $actionName));
+			return ($this->isActive() && \App\Privilege::isPermitted($this->getName(), $actionName));
 		}
 	}
 
@@ -63,11 +63,11 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 
 		$response = [];
 
-		$numRowsCount = $db->num_rows($result);
+		$numRowsCount = $db->numRows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
-			$saleStage = $db->query_result($result, $i, 'ossmailview_sendtype');
+			$saleStage = $db->queryResult($result, $i, 'ossmailview_sendtype');
 			$response[$i][0] = $saleStage;
-			$response[$i][1] = $db->query_result($result, $i, 'count');
+			$response[$i][1] = $db->queryResult($result, $i, 'count');
 			$response[$i][2] = \App\Language::translate($saleStage, $this->getName());
 		}
 		return $response;
@@ -75,7 +75,7 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 
 	public function getPreviewViewUrl($id)
 	{
-		return 'index.php?module=' . $this->get('name') . '&view=preview&record=' . $id;
+		return 'index.php?module=' . $this->get('name') . '&view=Preview&record=' . $id;
 	}
 
 	public function isQuickCreateSupported()

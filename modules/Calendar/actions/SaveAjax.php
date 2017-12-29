@@ -27,10 +27,10 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		foreach ($fieldModelList as $fieldName => &$fieldModel) {
 			$value = $recordModel->get($fieldName);
 			if (!is_array($value)) {
-				$fieldValue = Vtiger_Util_Helper::toSafeHTML($value);
+				$fieldValue = \App\Purifier::encodeHtml($value);
 			} else {
 				foreach ($value as $key => $item) {
-					$fieldValue[$key] = Vtiger_Util_Helper::toSafeHTML($item);
+					$fieldValue[$key] = \App\Purifier::encodeHtml($item);
 				}
 			}
 			$result[$fieldName] = [];
@@ -83,11 +83,11 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 				$result[$fieldName]['value'] = $fieldValue;
 				$result[$fieldName]['display_value'] = $dateTimeComponents[1];
 			} elseif (is_array($recordModel->get($fieldName)) && $fieldModel->getFieldDataType() === 'sharedOwner') {
-				$recordFieldValue = Vtiger_Util_Helper::toSafeHTML(implode(',', $recordModel->get($fieldName)));
+				$recordFieldValue = \App\Purifier::encodeHtml(implode(',', $recordModel->get($fieldName)));
 				$result[$fieldName]['value'] = $result[$fieldName]['display_value'] = $fieldModel->getDisplayValue($recordFieldValue, $recordModel->getId(), $recordModel);
 			} else if ('time_start' !== $fieldName && 'time_end' !== $fieldName && 'duration_hours' !== $fieldName) {
 				$result[$fieldName]['value'] = $fieldValue;
-				$result[$fieldName]['display_value'] = decode_html($fieldModel->getDisplayValue($fieldValue, $recordModel->getId(), $recordModel));
+				$result[$fieldName]['display_value'] = App\Purifier::decodeHtml($fieldModel->getDisplayValue($fieldValue, $recordModel->getId(), $recordModel));
 			} else {
 				$result[$fieldName]['value'] = $result[$fieldName]['display_value'] = $fieldValue;
 			}
@@ -117,7 +117,7 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			$startTime = Vtiger_Time_UIType::getTimeValueWithSeconds($request->get('time_start'));
 			$startDate = Vtiger_Date_UIType::getDBInsertedValue($request->get('date_start'));
 			if ($startTime) {
-				$startDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($request->get('date_start') . " " . $startTime);
+				$startDateTime = App\Fields\DateTime::formatToDb($request->get('date_start') . " " . $startTime);
 				list($startDate, $startTime) = explode(' ', $startDateTime);
 			}
 			$recordModel->set('date_start', $startDate);
@@ -130,7 +130,7 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			$endDate = Vtiger_Date_UIType::getDBInsertedValue($request->get('due_date'));
 			if ($endTime) {
 				$endTime = Vtiger_Time_UIType::getTimeValueWithSeconds($endTime);
-				$endDateTime = Vtiger_Datetime_UIType::getDBDateTimeValue($request->get('due_date') . " " . $endTime);
+				$endDateTime = App\Fields\DateTime::formatToDb($request->get('due_date') . " " . $endTime);
 				list($endDate, $endTime) = explode(' ', $endDateTime);
 			}
 			$recordModel->set('time_end', $endTime);

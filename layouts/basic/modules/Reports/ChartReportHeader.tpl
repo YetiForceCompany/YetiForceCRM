@@ -11,10 +11,10 @@
 -->*}
 {strip}
     <div class="">
-		<input type="hidden" name="date_filters" data-value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($DATE_FILTERS))}' />
+		<input type="hidden" name="date_filters" data-value='{\App\Purifier::encodeHtml(\App\Json::encode($DATE_FILTERS))}' />
 		<div class="widget_header row marginBottom10px">
 			<div class="col-sm-8">
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
 			<div class="col-sm-4">
 				<div class="btn-toolbar pull-right">
@@ -47,10 +47,10 @@
 					<input type="hidden" name="folderid" value="{$REPORT_MODEL->get('folderid')}" />
 					<input type="hidden" name="reports_description" value="{$REPORT_MODEL->get('reports_description')}" />
 					<input type="hidden" name="primary_module" value="{$PRIMARY_MODULE}" />
-					<input type="hidden" name="secondary_modules" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($SECONDARY_MODULES))}" />
-					<input type="hidden" name="advanced_filter" id="advanced_filter" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($ADVANCED_FILTERS))}" />
+					<input type="hidden" name="secondary_modules" value="{\App\Purifier::encodeHtml(\App\Json::encode($SECONDARY_MODULES))}" />
+					<input type="hidden" name="advanced_filter" id="advanced_filter" value="{\App\Purifier::encodeHtml(\App\Json::encode($ADVANCED_FILTERS))}" />
 					<input type="hidden" name='groupbyfield' value={$CHART_MODEL->getGroupByField()} />
-					<input type="hidden" name='datafields' value={Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($CHART_MODEL->getDataFields()))} />
+					<input type="hidden" name='datafields' value={\App\Purifier::encodeHtml(\App\Json::encode($CHART_MODEL->getDataFields()))} />
 					<input type="hidden" name='charttype' value="{$CHART_MODEL->getChartType()}" />
 
 					{assign var=RECORD_STRUCTURE value=[]}
@@ -91,7 +91,7 @@
 							<br />
 
 							<div class='hide'>
-								{include file="chartReportHiddenContents.tpl"|vtemplate_path:$MODULE}
+								{include file=\App\Layout::getTemplatePath('chartReportHiddenContents.tpl', $MODULE)}
 							</div>
 						</div>
 						<div class="clearfix">
@@ -103,12 +103,12 @@
 								</button>
 							</div>
 							<div id='filterContainer' class='form-group '{if $filterConditionNotExists eq true} style="display: none"{/if}>
-								{include file='AdvanceFilter.tpl'|@vtemplate_path RECORD_STRUCTURE=$RECORD_STRUCTURE ADVANCE_CRITERIA=$SELECTED_ADVANCED_FILTER_FIELDS COLUMNNAME_API=getReportFilterColumnName}
+								{include file=\App\Layout::getTemplatePath('AdvanceFilter.tpl') RECORD_STRUCTURE=$RECORD_STRUCTURE ADVANCE_CRITERIA=$SELECTED_ADVANCED_FILTER_FIELDS COLUMNNAME_API=getReportFilterColumnName}
 							</div>
 						</div>
 					</div>
 					<div class="row textAlignCenter">
-						<button type="button" class="btn btn-success generateReport" data-mode="save" value="{\App\Language::translate('LBL_SAVE',$MODULE)}"/>
+						<button type="button" class="btn btn-success generateReport" data-mode="save" value="{\App\Language::translate('LBL_SAVE',$MODULE)}" />
 						<strong>{\App\Language::translate('LBL_SAVE',$MODULE)}</strong>
 						</button>
 					</div>

@@ -1,5 +1,5 @@
 {strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
     {assign var='count' value=0}
 	<div class="container-fluid bodyHeader noSpaces commonActionsContainer{if $LEFTPANELHIDE} menuOpen{/if}">
 		<div class="row noSpaces">
@@ -29,7 +29,7 @@
 													{/if}
 													<div class="col-xs-4{if $count % 3 != 2} paddingRightZero{/if}">
 														<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{\App\Language::translate($singularLabel,$NAME)}">
-															<span class="userIcon-{$NAME}"></span><span>{\App\Language::translate($singularLabel,$NAME)}</span>
+															<span class="modCT_{$NAME} userIcon-{$NAME}"></span><span>{\App\Language::translate($singularLabel,$NAME)}</span>
 														</a>
 													</div>
 													{if $count % 3 == 2}
@@ -60,10 +60,10 @@
 								<div class="modal-content">
 									<div class="modal-header">
 										<button type="button" class="btn btn-warning pull-right marginLeft10" data-dismiss="modal" aria-hidden="true">&times;</button>
-										<h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>&nbsp;&nbsp;{\App\Language::translate('Chat','Chat')}</h4>
+										<h4 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_CHAT')}</h4>
 									</div>
 									<div class="modal-body">
-										{include file="Items.tpl"|@vtemplate_path:'Chat'}
+										{include file=\App\Layout::getTemplatePath('Items.tpl', 'Chat')}
 									</div>
 									<div class="modal-footer pinToDown">
                                         <input type="text" class="form-control message" /><br />
@@ -83,7 +83,7 @@
 						<a class="btn btn-default btn-sm showHistoryBtn popoverTooltip dropdownMenu hidden-xs hidden-sm" data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#">
 							<i class="fa fa-history" aria-hidden="true"></i>
 						</a>
-						{include file='BrowsingHistory.tpl'|@vtemplate_path:$MODULE}
+						{include file=\App\Layout::getTemplatePath('BrowsingHistory.tpl', $MODULE)}
 					{/if}
 					{foreach key=index item=obj from=$MENU_HEADER_LINKS}
 						{if $obj->linktype == 'HEADERLINK'}
@@ -210,7 +210,7 @@
 								<div class="headerLinksMails" id="OSSMailBoxInfo" {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true" data-interval="{$CONFIG['timeCheckingMail']}"{/if}>
 									<div class="btn-group">
 										{if count($AUTOLOGINUSERS) eq 1}
-											<a type="button" class="btn btn-sm btn-default" title="{$MAIN_MAIL.username}" href="index.php?module=OSSMail&view=index">
+											<a type="button" class="btn btn-sm btn-default" title="{$MAIN_MAIL.username}" href="index.php?module=OSSMail&view=Index">
 												<div class="hidden-xs">
 													{$ITEM.username}
 													<span class="mail_user_name">{$MAIN_MAIL.username}</span>

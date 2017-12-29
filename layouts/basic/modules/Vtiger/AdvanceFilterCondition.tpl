@@ -29,20 +29,20 @@
 								{assign var=columnNameApi value=getCustomViewColumnName}
 							{/if}
 							<option value="{$FIELD_MODEL->$columnNameApi()}" data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_NAME}"
-									{if isset($CONDITION_INFO['columnname']) && decode_html($FIELD_MODEL->$columnNameApi()) eq decode_html($CONDITION_INFO['columnname'])}
+									{if isset($CONDITION_INFO['columnname']) && App\Purifier::decodeHtml($FIELD_MODEL->$columnNameApi()) eq App\Purifier::decodeHtml($CONDITION_INFO['columnname'])}
 										{assign var=FIELD_TYPE value=$FIELD_MODEL->getFieldType()}
 										{assign var=SELECTED_FIELD_MODEL value=$FIELD_MODEL}
 										{if $FIELD_MODEL->getFieldDataType() == 'reference'}
 											{$FIELD_TYPE='V'}
 										{/if}
-										{$FIELD_INFO['value'] = decode_html($CONDITION_INFO['value'])}
+										{$FIELD_INFO['value'] = App\Purifier::decodeHtml($CONDITION_INFO['value'])}
 										selected="selected"
 									{/if}
 									{if ($MODULE_MODEL->get('name') eq 'Calendar') && ($FIELD_NAME eq 'activitytype')}
 										{$FIELD_INFO['picklistvalues']['Task'] = \App\Language::translate('Task', 'Calendar')}
 									{/if}
 									{if $FIELD_MODEL->getFieldDataType() eq 'reference'}
-										{assign var=referenceList value=$FIELD_MODEL->getWebserviceFieldObject()->getReferenceList()}
+										{assign var=referenceList value=$FIELD_MODEL->getReferenceList()}
 										{if is_array($referenceList) && in_array('Users', $referenceList)}
 											{assign var=USERSLIST value=[]}
 											{assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
@@ -53,12 +53,12 @@
 											{$FIELD_INFO['type'] = 'picklist'}
 										{/if}
 									{/if}
-									data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}' 
+									data-fieldinfo='{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}' 
 									{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}>
 								{if $SOURCE_MODULE neq $MODULE_MODEL->get('name')}
-									({\App\Language::translate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {\App\Language::translate($FIELD_MODEL->get('label'), $MODULE_MODEL->get('name'))}
+									({\App\Language::translate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_MODEL->get('name'))}
 								{else}
-									{\App\Language::translate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
+									{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}
 								{/if}
 							</option>
 						{/foreach}
@@ -76,17 +76,17 @@
 								{assign var=columnNameApi value=getCustomViewColumnName}
 							{/if}
 							<option value="{$FIELD_MODEL->$columnNameApi()}" data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_NAME}"
-									{if isset($CONDITION_INFO['columnname']) && decode_html($FIELD_MODEL->$columnNameApi()) eq $CONDITION_INFO['columnname']}
+									{if isset($CONDITION_INFO['columnname']) && App\Purifier::decodeHtml($FIELD_MODEL->$columnNameApi()) eq $CONDITION_INFO['columnname']}
 										{assign var=FIELD_TYPE value=$FIELD_MODEL->getFieldType()}
 										{assign var=SELECTED_FIELD_MODEL value=$FIELD_MODEL}
 										{if $FIELD_MODEL->getFieldDataType() == 'reference'}
 											{$FIELD_TYPE='V'}
 										{/if}
-										{$FIELD_INFO['value'] = decode_html($CONDITION_INFO['value'])}
+										{$FIELD_INFO['value'] = App\Purifier::decodeHtml($CONDITION_INFO['value'])}
 										selected="selected"
 									{/if}
 									{if $FIELD_MODEL->getFieldDataType() eq 'reference'}
-										{assign var=referenceList value=$FIELD_MODEL->getWebserviceFieldObject()->getReferenceList()}
+										{assign var=referenceList value=$FIELD_MODEL->getReferenceList()}
 										{if is_array($referenceList) && in_array('Users', $referenceList)}
 											{assign var=USERSLIST value=[]}
 											{assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
@@ -97,11 +97,11 @@
 											{$FIELD_INFO['type'] = 'picklist'}
 										{/if}
 									{/if}
-									data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}' >
+									data-fieldinfo='{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}' >
 								{if $SOURCE_MODULE neq $MODULE_MODEL->get('name')}
-									({\App\Language::translate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {\App\Language::translate($FIELD_MODEL->get('label'), $MODULE_MODEL->get('name'))}
+									({\App\Language::translate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_MODEL->get('name'))}
 								{else}
-									{\App\Language::translate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
+									{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}
 								{/if}
 							</option>
 						{/foreach}

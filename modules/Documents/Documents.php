@@ -14,52 +14,52 @@ class Documents extends CRMEntity
 
 	public $table_name = 'vtiger_notes';
 	public $table_index = 'notesid';
-	public $default_note_name_dom = array('Meeting vtiger_notes', 'Reminder');
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_notes', 'vtiger_notescf');
-	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_notes' => 'notesid', 'vtiger_senotesrel' => 'notesid', 'vtiger_notescf' => 'notesid');
+	public $default_note_name_dom = ['Meeting vtiger_notes', 'Reminder'];
+	public $tab_name = ['vtiger_crmentity', 'vtiger_notes', 'vtiger_notescf'];
+	public $tab_name_index = ['vtiger_crmentity' => 'crmid', 'vtiger_notes' => 'notesid', 'vtiger_senotesrel' => 'notesid', 'vtiger_notescf' => 'notesid'];
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('vtiger_notescf', 'notesid');
+	public $customFieldTable = ['vtiger_notescf', 'notesid'];
 	public $column_fields = [];
 	// This is used to retrieve related vtiger_fields from form posts.
-	public $additional_column_fields = Array('', '', '', '');
+	public $additional_column_fields = ['', '', '', ''];
 	// This is the list of vtiger_fields that are in the lists.
-	public $list_fields = Array(
-		'Title' => Array('notes' => 'title'),
-		'File Name' => Array('notes' => 'filename'),
-		'Modified Time' => Array('crmentity' => 'modifiedtime'),
-		'Assigned To' => Array('crmentity' => 'smownerid'),
-		'Folder Name' => Array('attachmentsfolder' => 'folderid')
-	);
-	public $list_fields_name = Array(
+	public $list_fields = [
+		'Title' => ['notes' => 'title'],
+		'File Name' => ['notes' => 'filename'],
+		'Modified Time' => ['crmentity' => 'modifiedtime'],
+		'Assigned To' => ['crmentity' => 'smownerid'],
+		'Folder Name' => ['attachmentsfolder' => 'folderid']
+	];
+	public $list_fields_name = [
 		'Title' => 'notes_title',
 		'File Name' => 'filename',
 		'Modified Time' => 'modifiedtime',
 		'Assigned To' => 'assigned_user_id',
 		'Folder Name' => 'folderid'
-	);
+	];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = ['notes_title', 'filename', 'modifiedtime', 'assigned_user_id', 'folderid', 'filelocationtype', 'filestatus'];
-	public $search_fields = Array(
-		'Title' => Array('notes' => 'notes_title'),
-		'File Name' => Array('notes' => 'filename'),
-		'Assigned To' => Array('crmentity' => 'smownerid'),
-		'Folder Name' => Array('attachmentsfolder' => 'foldername')
-	);
-	public $search_fields_name = Array(
+	public $search_fields = [
+		'Title' => ['notes' => 'notes_title'],
+		'File Name' => ['notes' => 'filename'],
+		'Assigned To' => ['crmentity' => 'smownerid'],
+		'Folder Name' => ['attachmentsfolder' => 'foldername']
+	];
+	public $search_fields_name = [
 		'Title' => 'notes_title',
 		'File Name' => 'filename',
 		'Assigned To' => 'assigned_user_id',
 		'Folder Name' => 'folderid'
-	);
+	];
 	public $list_link_field = 'notes_title';
 	public $old_filename = '';
-	public $mandatory_fields = Array('notes_title', 'createdtime', 'modifiedtime', 'filename', 'filesize', 'filetype', 'filedownloadcount', 'assigned_user_id');
+	public $mandatory_fields = ['notes_title', 'createdtime', 'modifiedtime', 'filename', 'filesize', 'filetype', 'filedownloadcount', 'assigned_user_id'];
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = '';
 	public $default_sort_order = 'DESC';
@@ -72,7 +72,7 @@ class Documents extends CRMEntity
 
 		\App\Log::trace('Entering getSortOrder() method ...');
 		if (\App\Request::_has('sorder'))
-			$sorder = $this->db->sql_escape_string(\App\Request::_get('sorder'));
+			$sorder = $this->db->sqlEscapeString(\App\Request::_get('sorder'));
 		else
 			$sorder = (($_SESSION['NOTES_SORT_ORDER'] != '') ? ($_SESSION['NOTES_SORT_ORDER']) : ($this->default_sort_order));
 		\App\Log::trace('Exiting getSortOrder() method ...');
@@ -93,7 +93,7 @@ class Documents extends CRMEntity
 		}
 
 		if (\App\Request::_has('order_by'))
-			$order_by = $this->db->sql_escape_string(\App\Request::_get('order_by'));
+			$order_by = $this->db->sqlEscapeString(\App\Request::_get('order_by'));
 		else
 			$order_by = (($_SESSION['NOTES_ORDER_BY'] != '') ? ($_SESSION['NOTES_ORDER_BY']) : ($use_default_order_by));
 		\App\Log::trace('Exiting getOrderBy method ...');
@@ -107,7 +107,7 @@ class Documents extends CRMEntity
 	public function getSortOrderForFolder($folderId)
 	{
 		if (\App\Request::_has('sorder') && \App\Request::_get('folderid') == $folderId) {
-			$sorder = $this->db->sql_escape_string(\App\Request::_get('sorder'));
+			$sorder = $this->db->sqlEscapeString(\App\Request::_get('sorder'));
 		} elseif (is_array($_SESSION['NOTES_FOLDER_SORT_ORDER']) &&
 			!empty($_SESSION['NOTES_FOLDER_SORT_ORDER'][$folderId])) {
 			$sorder = $_SESSION['NOTES_FOLDER_SORT_ORDER'][$folderId];
@@ -128,7 +128,7 @@ class Documents extends CRMEntity
 			$use_default_order_by = $this->default_order_by;
 		}
 		if (\App\Request::_has('order_by') && \App\Request::_get('folderid') == $folderId) {
-			$order_by = $this->db->sql_escape_string(\App\Request::_get('order_by'));
+			$order_by = $this->db->sqlEscapeString(\App\Request::_get('order_by'));
 		} elseif (is_array($_SESSION['NOTES_FOLDER_ORDER_BY']) &&
 			!empty($_SESSION['NOTES_FOLDER_ORDER_BY'][$folderId])) {
 			$order_by = $_SESSION['NOTES_FOLDER_ORDER_BY'][$folderId];
@@ -142,19 +142,19 @@ class Documents extends CRMEntity
 	 * @param reference variable - where condition is passed when the query is executed
 	 * Returns Export Documents Query.
 	 */
-	public function create_export_query($where)
+	public function createExportQuery($where)
 	{
 
 		$current_user = vglobal('current_user');
-		\App\Log::trace('Entering create_export_query(' . $where . ') method ...');
+		\App\Log::trace('Entering createExportQuery(' . $where . ') method ...');
 
 		include('include/utils/ExportUtils.php');
 		//To get the Permitted fields query and the permitted fields list
 		$sql = getPermittedFieldsQuery('Documents', 'detail_view');
 		$fields_list = getFieldsListFromQuery($sql);
 
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
-				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' =>
+				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
 		$query = "SELECT $fields_list, case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name" .
 			" FROM vtiger_notes
 				inner join vtiger_crmentity
@@ -177,10 +177,11 @@ class Documents extends CRMEntity
 	/*
 	 * Function to get the primary query part of a report
 	 * @param - $module Primary module name
+	 * @param ReportRunQueryPlanner $queryplanner
 	 * returns the query string formed on fetching the related data for report for primary module
 	 */
 
-	public function generateReportsQuery($module, $queryplanner)
+	public function generateReportsQuery($module, ReportRunQueryPlanner $queryplanner)
 	{
 		$moduletable = $this->table_name;
 		$moduleindex = $this->tab_name_index[$moduletable];
@@ -209,20 +210,21 @@ class Documents extends CRMEntity
 		}
 		return $query;
 	}
-	/*
-	 * Function to get the secondary query part of a report
-	 * @param - $module primary module name
-	 * @param - $secmodule secondary module name
-	 * returns the query string formed on fetching the related data for report for secondary module
-	 */
 
-	public function generateReportsSecQuery($module, $secmodule, $queryplanner)
+	/**
+	 * Function to get the secondary query part of a report
+	 * @param string $module
+	 * @param string $secmodule
+	 * @param ReportRunQueryPlanner $queryPlanner
+	 * @return string
+	 */
+	public function generateReportsSecQuery($module, $secmodule, ReportRunQueryPlanner $queryplanner)
 	{
 
 		$matrix = $queryplanner->newDependencyMatrix();
 
-		$matrix->setDependency('vtiger_crmentityDocuments', array('vtiger_groupsDocuments', 'vtiger_usersDocuments', 'vtiger_lastModifiedByDocuments'));
-		$matrix->setDependency('vtiger_notes', array('vtiger_crmentityDocuments', '`vtiger_trees_templates_data`'));
+		$matrix->setDependency('vtiger_crmentityDocuments', ['vtiger_groupsDocuments', 'vtiger_usersDocuments', 'vtiger_lastModifiedByDocuments']);
+		$matrix->setDependency('vtiger_notes', ['vtiger_crmentityDocuments', '`vtiger_trees_templates_data`']);
 
 		if (!$queryplanner->requireTable('vtiger_notes', $matrix)) {
 			return '';
@@ -264,64 +266,43 @@ class Documents extends CRMEntity
 		return $relTables[$secmodule];
 	}
 
-	// Function to unlink an entity with given Id from another entity
+	/**
+	 * Function to unlink an entity with given Id from another entity
+	 * @param int $id
+	 * @param string $returnModule
+	 * @param int $returnId
+	 * @param boolean $relatedName
+	 */
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
 		if (empty($returnModule) || empty($returnId))
 			return;
-		if ($returnModule == 'Accounts') {
+		if ($returnModule === 'Accounts') {
 			$subQuery = (new \App\Db\Query())->select(['contactid'])->from('vtiger_contactdetails')->where(['parentid' => $returnId]);
 			App\Db::getInstance()->createCommand()->delete('vtiger_senotesrel', ['and', ['notesid' => $id], ['or', ['crmid' => $returnId], ['crmid' => $subQuery]]])->execute();
 		} else {
 			App\Db::getInstance()->createCommand()->delete('vtiger_senotesrel', ['notesid' => $id, 'crmid' => $returnId])->execute();
-			parent::deleteRelatedFromDB($relatedName, $id, $returnModule, $returnId);
+			parent::deleteRelatedFromDB($id, $returnModule, $returnId);
 		}
 	}
 
 	/**
 	 * Check the existence of folder by folderid
+	 * @param int $folderId
+	 * @return bool
 	 */
-	public function isFolderPresent($folderid)
+	public function isFolderPresent($folderId)
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT tree FROM `vtiger_trees_templates_data` WHERE tree = ?', array($folderid));
-		if (!empty($result) && $adb->num_rows($result) > 0)
-			return true;
-		return false;
+		return (new \App\Db\Query())->select(['tree'])->from('vtiger_trees_templates_data')->where(['tree' => $folderId])->exists();
 	}
 
 	/**
 	 * Get Folder Default
+	 * @return string
 	 */
 	public function getFolderDefault()
 	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT `tree`,`name` FROM
-				`vtiger_trees_templates_data` 
-			INNER JOIN `vtiger_field` 
-				ON `vtiger_trees_templates_data`.`templateid` = `vtiger_field`.`fieldparams` 
-			WHERE `vtiger_field`.`columnname` = ? 
-				AND `vtiger_field`.`tablename` = ?
-				AND `vtiger_trees_templates_data`.`name` = ?;', array('folderid', 'vtiger_notes', 'Default'));
-		return $adb->query_result($result, 0, 'tree');
-	}
-
-	/**
-	 * Customizing the restore procedure.
-	 */
-	public function restore($modulename, $id)
-	{
-		parent::restore($modulename, $id);
-
-		$adb = PearDatabase::getInstance();
-		$fresult = $adb->pquery('SELECT folderid FROM vtiger_notes WHERE notesid = ?', array($id));
-		if (!empty($fresult) && $adb->num_rows($fresult)) {
-			$folderid = $adb->query_result($fresult, 0, 'folderid');
-			if (!$this->isFolderPresent($folderid)) {
-				// Re-link to default folder
-				$adb->pquery('UPDATE vtiger_notes set folderid = ? WHERE notesid = ?', array(self::getFolderDefault()));
-			}
-		}
+		return (new \App\Db\Query())->select(['tree', 'name'])->from('vtiger_trees_templates_data')->innerJoin('vtiger_field', 'vtiger_trees_templates_data.templateid = vtiger_field.fieldparams')->where(['vtiger_field.columnname' => 'folderid', 'vtiger_field.tablename' => 'vtiger_notes', 'vtiger_trees_templates_data.name' => 'Default'])->scalar();
 	}
 
 	/**

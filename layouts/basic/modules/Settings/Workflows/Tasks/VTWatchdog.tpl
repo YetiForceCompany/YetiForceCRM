@@ -1,10 +1,10 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="row padding-bottom1per">
 		<span class="col-md-3">{\App\Language::translate('LBL_SELECT_ACTION_TYPE', $QUALIFIED_MODULE)}</span>
 		<div class="col-md-9">
 			<select class="chzn-select form-control" name="type" data-validation-engine="validate[required]">
-				{foreach from=\App\Fields\Picklist::getPickListValues('notification_type') key=KEY item=ITEM}
+				{foreach from=\App\Fields\Picklist::getValuesName('notification_type') key=KEY item=ITEM}
 					<option {if $TASK_OBJECT->type eq $ITEM}selected{/if} value="{$ITEM}">{\App\Language::translate($ITEM, $TASK_OBJECT->srcWatchdogModule)}</option>
 				{/foreach}
 			</select>
@@ -38,7 +38,7 @@
 	</div>
 	<hr/>
 	<div class="row">
-		{include file='VariablePanel.tpl'|@vtemplate_path SELECTED_MODULE=$SOURCE_MODULE PARSER_TYPE='mail' GRAY=true}
+		{include file=\App\Layout::getTemplatePath('VariablePanel.tpl') SELECTED_MODULE=$SOURCE_MODULE PARSER_TYPE='mail' GRAY=true}
 	</div>
 	<hr/>
 	<div class="row padding-bottom1per">

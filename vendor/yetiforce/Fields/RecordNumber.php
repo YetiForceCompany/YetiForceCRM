@@ -5,7 +5,7 @@ namespace App\Fields;
  * Record number class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -103,6 +103,11 @@ class RecordNumber
 		return str_replace(['{{YYYY}}', '{{YY}}', '{{MM}}', '{{M}}', '{{DD}}', '{{D}}'], [date('Y'), date('y'), date('m'), date('n'), date('d'), date('j')], $content);
 	}
 
+	/**
+	 * Function updates module number
+	 * @param int $curId
+	 * @param int $tabId
+	 */
 	public static function updateNumber($curId, $tabId)
 	{
 		\App\Db::getInstance()->createCommand()

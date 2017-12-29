@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="col-xs-12 paddingLRZero">
 		{if count($DASHBOARD_TYPES) > 1}
@@ -18,6 +18,6 @@
 			</ul>
 		{/if}
 	</div>
-	{include file='dashboards/DashBoardButtons.tpl'|@vtemplate_path:$MODULE}
+	{include file=\App\Layout::getTemplatePath('dashboards/DashBoardButtons.tpl', $MODULE)}
 	<div class="col-xs-12 paddingLRZero">
 {/strip}

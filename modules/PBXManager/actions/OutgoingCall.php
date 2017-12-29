@@ -12,20 +12,23 @@
 class PBXManager_OutgoingCall_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
-
-		if (!$permission) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
 	public function process(\App\Request $request)
 	{
 		$serverModel = PBXManager_Server_Model::getInstance();
-		$gateway = $serverModel->get("gateway");
+		$gateway = $serverModel->get('gateway');
 		$response = new Vtiger_Response();
 		$user = Users_Record_Model::getCurrentUserModel();
 		$userNumber = $user->phone_crm_extension;
@@ -33,9 +36,8 @@ class PBXManager_OutgoingCall_Action extends Vtiger_Action_Controller
 		if ($gateway && $userNumber) {
 			try {
 				$number = $request->get('number');
-				$recordId = $request->get('record');
 				$connector = $serverModel->getConnector();
-				$result = $connector->call($number, $recordId);
+				$result = $connector->call($number);
 				$response->setResult($result);
 			} catch (Exception $e) {
 				throw new Exception($e);

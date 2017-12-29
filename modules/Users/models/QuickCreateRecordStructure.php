@@ -26,7 +26,7 @@ class Users_QuickCreateRecordStructure_Model extends Vtiger_QuickCreateRecordStr
 		$moduleModel = $this->getModule();
 
 		$fieldModelList = [];
-		$quickCreateFields = array('user_name', 'email1', 'first_name', 'last_name', 'user_password', 'confirm_password', 'roleid', 'is_admin', 'status');
+		$quickCreateFields = ['user_name', 'email1', 'first_name', 'last_name', 'user_password', 'confirm_password', 'roleid', 'is_admin', 'status'];
 		foreach ($quickCreateFields as $field) {
 			$fieldModelList[$field] = $moduleModel->getField($field);
 		}

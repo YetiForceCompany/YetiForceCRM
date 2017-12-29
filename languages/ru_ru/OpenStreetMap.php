@@ -3,25 +3,25 @@
  * OpenStreetMap russian translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
-	'LBL_GROUP_BY' => 'Group',
-	'LBL_GROUP_NEIGHBOURS' => 'Group neighboring elements',
-	'LBL_NOT_FOUND_PLACE' => 'Place not found',
-	'LBL_SEARCH_VALUE_DESCRIPTION' => 'City, street, building number ...',
-	'LBL_IN_RADIUS' => 'Within radius [km]',
-	'LBL_CALCULATE_TRACK' => 'Set route',
-	'LBL_START' => 'Start',
-	'LBL_END' => 'End',
-	'LBL_CALCULATE_ROUTE_HEADER_BLOCK' => 'Set route',
-	'LBL_DISTANCE' => 'Distance [km]',
-	'LBL_TRAVEL_TIME' => 'Time [min]',
-	'LBL_INSTRUCTION' => 'Manual',
-	'LBL_SEARCH_IN_RADIUS' => 'Search in radius',
-	'LBL_COPY_TO_CLIPBOARD' => 'Copy to clipboard',
-	'LBL_CLIPBOARD' => 'Clipboard',
-	'LBL_INDIRECT_POINT' => 'Indirect point',
+	'LBL_GROUP_BY' => 'Группировка',
+	'LBL_GROUP_NEIGHBOURS' => 'Группировка соседних элементов',
+	'LBL_NOT_FOUND_PLACE' => 'Место не найдено',
+	'LBL_SEARCH_VALUE_DESCRIPTION' => 'Город, улица, номер дома...',
+	'LBL_IN_RADIUS' => 'В радиусе [км]',
+	'LBL_CALCULATE_TRACK' => 'Проложить маршрут',
+	'LBL_START' => 'Старт',
+	'LBL_END' => 'Финиш',
+	'LBL_CALCULATE_ROUTE_HEADER_BLOCK' => 'Маршрут',
+	'LBL_DISTANCE' => 'Дистанция [км]',
+	'LBL_TRAVEL_TIME' => 'Время [мин]',
+	'LBL_INSTRUCTION' => 'Инструкция',
+	'LBL_SEARCH_IN_RADIUS' => 'Поиск в радиусе',
+	'LBL_COPY_TO_CLIPBOARD' => 'Скопировать в буфер',
+	'LBL_CLIPBOARD' => 'Буфер обмена',
+	'LBL_INDIRECT_POINT' => 'Дополнительная точка',
 	//Errors
-	'ERR_ADDRESS_NOT_FOUND' => 'Address not found',
+	'ERR_ADDRESS_NOT_FOUND' => 'Адрес не найден',
 ];

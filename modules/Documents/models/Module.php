@@ -65,7 +65,7 @@ class Documents_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get Alphabet Search Field 
+	 * Function to get Alphabet Search Field
 	 */
 	public function getAlphabetSearchField()
 	{
@@ -82,34 +82,34 @@ class Documents_Module_Model extends Vtiger_Module_Model
 		$settingsLinks = [];
 
 		if (VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
-			$settingsLinks[] = array(
+			$settingsLinks[] = [
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_WORKFLOWS',
 				'linkurl' => 'index.php?parent=Settings&module=Workflows&view=List&sourceModule=' . $this->getName(),
 				'linkicon' => $editWorkflowsImagePath
-			);
+			];
 		}
-		$settingsLinks[] = array(
+		$settingsLinks[] = [
 			'linktype' => 'LISTVIEWSETTING',
 			'linklabel' => 'LBL_EDIT_FIELDS',
 			'linkurl' => 'index.php?parent=Settings&module=LayoutEditor&sourceModule=' . $this->getName(),
 			'linkicon' => $layoutEditorImagePath
-		);
+		];
 
-		$settingsLinks[] = array(
+		$settingsLinks[] = [
 			'linktype' => 'LISTVIEWSETTING',
 			'linklabel' => 'LBL_EDIT_PICKLIST_VALUES',
 			'linkurl' => 'index.php?parent=Settings&module=Picklist&source_module=' . $this->getName(),
 			'linkicon' => ''
-		);
+		];
 
 		if ($this->hasSequenceNumberField()) {
-			$settingsLinks[] = array(
+			$settingsLinks[] = [
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_MODULE_SEQUENCE_NUMBERING',
 				'linkurl' => 'index.php?parent=Settings&module=Vtiger&view=CustomRecordNumbering&sourceModule=' . $this->getName(),
 				'linkicon' => ''
-			);
+			];
 		}
 
 		return $settingsLinks;

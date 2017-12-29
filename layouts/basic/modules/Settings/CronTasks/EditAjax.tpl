@@ -57,7 +57,7 @@
 								{assign var=FIELD_VALUE value=($VALUES[0]*60)+$VALUES[1]}
 							{/if}
 							<div class="col-xs-6 col-sm-4 paddingLRZero">
-								<input type="text" class="form-control" value="{$FIELD_VALUE}" data-validation-engine="validate[required,funcCall[Vtiger_WholeNumberGreaterThanZero_Validator_Js.invokeValidation]]" id="frequencyValue"/></div>
+								<input type="text" class="form-control" value="{$FIELD_VALUE}" data-validation-engine="validate[required,funcCall[Vtiger_WholeNumberGreaterThanZero_Validator_Js.invokeValidation]]" id="frequencyValue" /></div>
 							<div class="col-xs-6 col-sm-8 paddingLRZero">
 								<select class="chzn-select form-control" id="time_format">
 									<optgroup>
@@ -72,7 +72,7 @@
 						<div class="alert alert-info">{\App\Language::translate($RECORD_MODEL->get('description'),$QUALIFIED_MODULE)}</div>
 					{/if}
 				</div>
-				{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
+				{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $MODULE)}
 			</form>
 		</div>		
 	</div>		

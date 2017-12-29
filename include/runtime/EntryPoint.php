@@ -36,11 +36,12 @@ abstract class Vtiger_EntryPoint
 	/**
 	 * Set login data.
 	 */
-	public function setLogin($login)
+	public function setLogin()
 	{
-		if ($this->login)
-			throw new \Exception\AppException('Login is already set.');
-		$this->login = $login;
+		if ($this->login) {
+			throw new \App\Exceptions\AppException('Login is already set.');
+		}
+		$this->login = true;
 	}
 
 	/**
@@ -48,7 +49,7 @@ abstract class Vtiger_EntryPoint
 	 */
 	public function hasLogin()
 	{
-		return $this->getLogin() ? true : false;
+		return $this->getLogin();
 	}
 
 	abstract public function process(\App\Request $request);

@@ -15,11 +15,11 @@ class Vtiger_RemoveWidget_Action extends Vtiger_IndexAjax_View
 	public function process(\App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$linkId = $request->get('linkid');
+		$linkId = $request->getInteger('linkid');
 		$response = new Vtiger_Response();
 
 		if ($request->has('widgetid')) {
-			$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($request->get('widgetid'), $currentUser->getId());
+			$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($request->getInteger('widgetid'), $currentUser->getId());
 		} else {
 			$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		}
@@ -34,7 +34,7 @@ class Vtiger_RemoveWidget_Action extends Vtiger_IndexAjax_View
 				'deleteFromList' => $widget->get('deleteFromList')
 			]);
 		} else {
-			$response->setError(\App\Language::translate('LBL_CAN_NOT_REMOVE_DEFAULT_WIDGET', $moduleName));
+			$response->setError(\App\Language::translate('LBL_CAN_NOT_REMOVE_DEFAULT_WIDGET', $request->getModule()));
 		}
 		$response->emit();
 	}

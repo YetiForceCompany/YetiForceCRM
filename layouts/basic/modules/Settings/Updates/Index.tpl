@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 
 <style>
 	.blockHeader th{
@@ -13,7 +13,7 @@
 <div class="">
 	<div class="widget_header row">
 		<div class="col-md-7">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			{if isset($SELECTED_PAGE)}
 				{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
 			{/if}

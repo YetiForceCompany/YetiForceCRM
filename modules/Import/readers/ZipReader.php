@@ -4,7 +4,7 @@
  * ZipReader class
  * @package YetiForce.Reader
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Import_ZipReader_Reader extends Import_FileReader_Reader
@@ -19,15 +19,15 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 	 * @param \App\Request $request
 	 * @param Users_Record_Model $user
 	 */
-	public function __construct(\App\Request $request, $user)
+	public function __construct(\App\Request $request, Users_Record_Model $user)
 	{
-		$instance = Vtiger_Cache::get('ZipReader', $request->get('module') . $user->id);
+		$instance = Vtiger_Cache::get('ZipReader', $request->getModule() . $user->id);
 		if (!empty($instance)) {
 			$this->setInstanceProperties($instance);
 			$this->request = $request;
 			return;
 		}
-		$this->moduleName = $request->get('module');
+		$this->moduleName = $request->getModule();
 		$this->extension = $request->get('extension');
 		parent::__construct($request, $user);
 		$this->initialize($request, $user);
@@ -57,7 +57,7 @@ class Import_ZipReader_Reader extends Import_FileReader_Reader
 		}
 		if ($this->extension && file_exists($zipfile) && !file_exists($this->importFolderLocation)) {
 			mkdir($this->importFolderLocation);
-			$zip = new \App\Zip($zipfile, ['onlyExtension' => $this->extension]);
+			$zip = new \App\Zip($zipfile, ['onlyExtensions' => [$this->extension]]);
 			$this->filelist = $zip->unzip($this->importFolderLocation);
 			unlink($zipfile);
 		} elseif (is_dir($this->importFolderLocation)) {

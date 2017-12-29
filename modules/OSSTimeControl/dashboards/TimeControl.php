@@ -4,7 +4,7 @@
  * OSSTimeControl TimeControl dashboard class
  * @package YetiForce.Dashboard
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 {
@@ -14,9 +14,9 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		$conditions = [];
 		$listSearchParams = [];
 		if ($assignedto != '')
-			array_push($conditions, array('assigned_user_id', 'e', $assignedto));
+			array_push($conditions, ['assigned_user_id', 'e', $assignedto]);
 		if (!empty($date)) {
-			array_push($conditions, array('due_date', 'bw', $date . ',' . $date . ''));
+			array_push($conditions, ['due_date', 'bw', $date . ',' . $date . '']);
 		}
 		$listSearchParams[] = $conditions;
 		return '&search_params=' . json_encode($listSearchParams);
@@ -142,8 +142,8 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		$loggedUserId = $currentUser->get('id');
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$linkId = $request->get('linkid');
-		$user = $request->get('user');
+		$linkId = $request->getInteger('linkid');
+		$user = $request->getByType('user', 2);
 		$time = $request->getDateRange('time');
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		if (empty($time)) {
@@ -152,8 +152,8 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
 				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
 			}
-			$time['start'] = \App\Fields\DateTime::currentUserDisplayDate($time['start']);
-			$time['end'] = \App\Fields\DateTime::currentUserDisplayDate($time['end']);
+			$time['start'] = \App\Fields\Date::formatToDisplay($time['start']);
+			$time['end'] = \App\Fields\Date::formatToDisplay($time['end']);
 		}
 		if (empty($user)) {
 			$user = $loggedUserId;
@@ -192,8 +192,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('LOGGEDUSERID', $loggedUserId);
 		$viewer->assign('SOURCE_MODULE', 'OSSTimeControl');
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/TimeControlContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/TimeControl.tpl', $moduleName);

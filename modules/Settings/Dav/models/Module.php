@@ -4,7 +4,7 @@
  * Settings dav module model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -87,7 +87,7 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 	public function deleteKey($params)
 	{
 		$adb = PearDatabase::getInstance();
-		$adb->pquery('DELETE dav_calendars FROM dav_calendars LEFT JOIN dav_principals ON dav_calendars.principaluri = dav_principals.uri WHERE dav_principals.userid = ?;', array($params['user']));
+		$adb->pquery('DELETE dav_calendars FROM dav_calendars LEFT JOIN dav_principals ON dav_calendars.principaluri = dav_principals.uri WHERE dav_principals.userid = ?;', [$params['user']]);
 		$db = App\Db::getInstance();
 		$db->createCommand()->delete('dav_users', ['userid' => $params['user']])->execute();
 		$db->createCommand()->delete('dav_principals', ['userid' => $params['user']])->execute();

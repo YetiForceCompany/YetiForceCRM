@@ -2,7 +2,7 @@
 /**
  * @package YetiForce.CRMEntity
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 include_once 'modules/Vtiger/CRMEntity.php';
@@ -17,36 +17,36 @@ class SSalesProcesses extends Vtiger_CRMEntity
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('u_yf_ssalesprocessescf', 'ssalesprocessesid');
+	public $customFieldTable = ['u_yf_ssalesprocessescf', 'ssalesprocessesid'];
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public $tab_name = Array('vtiger_crmentity', 'u_yf_ssalesprocesses', 'u_yf_ssalesprocessescf', 'vtiger_entity_stats');
+	public $tab_name = ['vtiger_crmentity', 'u_yf_ssalesprocesses', 'u_yf_ssalesprocessescf', 'vtiger_entity_stats'];
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public $tab_name_index = Array(
+	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'u_yf_ssalesprocesses' => 'ssalesprocessesid',
 		'u_yf_ssalesprocessescf' => 'ssalesprocessesid',
-		'vtiger_entity_stats' => 'crmid');
+		'vtiger_entity_stats' => 'crmid'];
 
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public $list_fields = Array(
+	public $list_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'LBL_SUBJECT' => Array('ssalesprocesses', 'subject'),
-		'Assigned To' => Array('crmentity', 'smownerid')
-	);
-	public $list_fields_name = Array(
+		'LBL_SUBJECT' => ['ssalesprocesses', 'subject'],
+		'Assigned To' => ['crmentity', 'smownerid']
+	];
+	public $list_fields_name = [
 		/* Format: Field Label => fieldname */
 		'LBL_SUBJECT' => 'subject',
 		'Assigned To' => 'assigned_user_id',
-	);
+	];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
@@ -55,26 +55,26 @@ class SSalesProcesses extends Vtiger_CRMEntity
 	// Make the field link to detail view
 	public $list_link_field = 'subject';
 	// For Popup listview and UI type support
-	public $search_fields = Array(
+	public $search_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'LBL_SUBJECT' => Array('ssalesprocesses', 'subject'),
-		'Assigned To' => Array('vtiger_crmentity', 'assigned_user_id'),
-	);
-	public $search_fields_name = Array(
+		'LBL_SUBJECT' => ['ssalesprocesses', 'subject'],
+		'Assigned To' => ['vtiger_crmentity', 'assigned_user_id'],
+	];
+	public $search_fields_name = [
 		/* Format: Field Label => fieldname */
 		'LBL_SUBJECT' => 'subject',
 		'Assigned To' => 'assigned_user_id',
-	);
+	];
 	// For Popup window record selection
-	public $popup_fields = Array('subject');
+	public $popup_fields = ['subject'];
 	// For Alphabetical search
 	public $def_basicsearch_col = 'subject';
 	// Column value to use on detail view record text display
 	public $def_detailview_recname = 'subject';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public $mandatory_fields = Array('subject', 'assigned_user_id');
+	public $mandatory_fields = ['subject', 'assigned_user_id'];
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
 
@@ -83,10 +83,10 @@ class SSalesProcesses extends Vtiger_CRMEntity
 	 * @param String Module name
 	 * @param String Event Type
 	 */
-	public function vtlib_handler($moduleName, $eventType)
+	public function moduleHandler($moduleName, $eventType)
 	{
 		$adb = PearDatabase::getInstance();
-		if ($eventType == 'module.postinstall') {
+		if ($eventType === 'module.postinstall') {
 			\App\Fields\RecordNumber::setNumber($moduleName, 'S-SP', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['SSalesProcesses']);
 
@@ -94,17 +94,9 @@ class SSalesProcesses extends Vtiger_CRMEntity
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
-					ModComments::addWidgetTo(array('SSalesProcesses'));
+					ModComments::addWidgetTo(['SSalesProcesses']);
 			}
-			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(vtlib\Functions::getModuleId($moduleName));
-		} else if ($eventType == 'module.disabled') {
-			
-		} else if ($eventType == 'module.preuninstall') {
-			
-		} else if ($eventType == 'module.preupdate') {
-			
-		} else if ($eventType == 'module.postupdate') {
-			
+			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\App\Module::getModuleId($moduleName));
 		}
 	}
 
@@ -133,18 +125,16 @@ class SSalesProcesses extends Vtiger_CRMEntity
 		$baseId = current(array_keys($salesProcessesList));
 		$salesProcessesList = [$baseId => $salesProcessesList[$baseId]];
 		$salesProcessesList[$baseId] = $this->getChildSales($baseId, $salesProcessesList[$baseId], $salesProcessesList[$baseId]['depth']);
-		$salesProcessesHierarchy = $this->getHierarchyData($id, $salesProcessesList[$baseId], $baseId, $listviewEntries, $getRawData, $getLinks);
-		$salesProcessesHierarchy = ['header' => $listviewHeader, 'entries' => $listviewEntries];
-		\App\Log::trace('Exiting getHierarchy method ...');
-		return $salesProcessesHierarchy;
+		$this->getHierarchyData($id, $salesProcessesList[$baseId], $baseId, $listviewEntries, $getRawData, $getLinks);
+		return ['header' => $listviewHeader, 'entries' => $listviewEntries];
 	}
 
 	/**
 	 * Function to create array of all the sales in the hierarchy
 	 * @param integer $id - Id of the record highest in hierarchy
-	 * @param array $salesProcessesInfoBase 
+	 * @param array $salesProcessesInfoBase
 	 * @param integer $salesProcessesId - ssalesprocessesid
-	 * @param array $listviewEntries 
+	 * @param array $listviewEntries
 	 * returns All the parent sales of the given Sale in array format
 	 */
 	public function getHierarchyData($id, $salesProcessesInfoBase, $salesProcessesId, &$listviewEntries, $getRawData = false, $getLinks = true)
@@ -163,7 +153,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 		foreach ($listColumns as $colname) {
 			// Permission to view sales is restricted, avoid showing field values (except sales name)
 			if (\App\Field::getFieldPermission('SSalesProcesses', $colname)) {
-				$data = $salesProcessesInfoBase[$colname];
+				$data = \App\Purifier::encodeHtml($salesProcessesInfoBase[$colname]);
 				if ($getRawData === false) {
 					if ($colname == 'subject') {
 						if ($salesProcessesId != $id) {
@@ -269,7 +259,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 	public function getChildSales($id, &$childSalesProcesses, $depthBase)
 	{
 		\App\Log::trace('Entering getChildSales(' . $id . ',' . $depthBase . ') method ...');
-		if ($depthBase == AppConfig::module('SSalesProcesses', 'MAX_HIERARCHY_DEPTH')) {
+		if (empty($id) || $depthBase == AppConfig::module('SSalesProcesses', 'MAX_HIERARCHY_DEPTH')) {
 			\App\Log::error('Exiting getChildSales method ... - exceeded maximum depth of hierarchy');
 			return $childSalesProcesses;
 		}

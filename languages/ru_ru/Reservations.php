@@ -3,7 +3,7 @@
  * Reservations russian translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'SINGLE_Reservations' => 'Бронирование',
@@ -30,8 +30,8 @@ $languageStrings = [
 	'LBL_MEETING_ROOMS' => 'Конференция',
 	'LBL_EQUIPMENT' => 'Оборудование',
 	'LBL_CARS' => 'Автомобили',
-	'PLL_DRAFT' => 'Draft',
-	'PLL_CANCELLED' => 'Cancelled',
+	'PLL_DRAFT' => 'Драфт',
+	'PLL_CANCELLED' => 'Отменено',
 ];
 $jsLanguageStrings = [
 	'MSG_ERROR_NUMBER' => 'Допустимые символы: [0-9]',
@@ -39,4 +39,14 @@ $jsLanguageStrings = [
 	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'Количество часов должно быть меньше, чем 24 часа',
 	'JS_START_DATE' => 'Дата начала',
 	'JS_END_DATE' => 'Дата окончания',
+	'JS_COMPANY' => 'Компания',
+ 	'JS_TOTAL_TIME' => 'Общее время',
+ 	'PLL_ACCEPTED' => 'На утверждение',
+ 	'PLL_TO_APPROVAL' => 'Утверждено',
+ 	'PLL_DRAFT' => 'Драфт',
+ 	'PLL_CANCELLED' => 'Отменено',
+ 	'JS_ASSIGNED_TO' => 'Привязано к',
+ 	'JS_TYPE' => 'Тип',
+ 	'JS_YES' => 'Да',
+ 	'JS_NO' => 'Нет',
 ];

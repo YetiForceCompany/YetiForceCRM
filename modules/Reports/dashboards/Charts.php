@@ -4,7 +4,7 @@
  * Wdiget to show chart from reports
  * @package YetiForce.Dashboard
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Reports_Charts_Dashboard extends Vtiger_IndexAjax_View
@@ -14,7 +14,7 @@ class Reports_Charts_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$moduleName = $request->getModule();
-		$widgetId = $request->get('widgetid');
+		$widgetId = $request->getInteger('widgetid');
 		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($widgetId, $currentUser->getId());
 
 		$data = [];
@@ -34,8 +34,7 @@ class Reports_Charts_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('CHART_TYPE', $typeChart);
 		$viewer->assign('SCRIPTS', $this->getScripts($typeChart));
 		$viewer->assign('DATA', $data);
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/ChartsContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/Charts.tpl', $moduleName);
@@ -44,9 +43,9 @@ class Reports_Charts_Dashboard extends Vtiger_IndexAjax_View
 
 	public function getScripts($chartType)
 	{
-		$jsFileNames = array(
+		$jsFileNames = [
 			'modules.Reports.resources.TypeCharts',
-		);
+		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		return $jsScriptInstances;
 	}

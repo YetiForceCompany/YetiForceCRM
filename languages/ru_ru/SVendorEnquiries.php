@@ -3,11 +3,13 @@
  * SVendorEnquiries russian translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'SQuoteEnquiries' => 'Запросы',
 	'SINGLE_SQuoteEnquiries' => 'Запрос',
+	'SINGLE_SVendorEnquiries' => 'Запрос поставщику',
+	'SVendorEnquiries' => 'Запросы поставщикам',
 	//BLOCKS
 	'LBL_QUOTESENQUIRES_INFORMATION' => 'Основная информация',
 	'LBL_CUSTOM_INFORMATION' => 'Системная информация',
@@ -18,13 +20,13 @@ $languageStrings = [
 	'LBL_SUBJECT' => 'Тема',
 	'LBL_NUMBER' => 'Номер',
 	'LBL_STATUS' => 'Статус',
-	'LBL_RESPONSE_TIME' => 'Respone time',
+	'LBL_RESPONSE_TIME' => 'Время реакции',
 	'SINGLE_SSalesProcesses' => 'Сделка',
-	'FL_TOTAL_PRICE' => 'Net Total',
-	'FL_MARGINP' => 'Total margin percentage',
-	'FL_MARGIN' => 'Total margin',
-	'FL_VENDOR' => 'Vendor',
-	'FL_SCALCULATIONS' => 'Calculation',
+	'FL_TOTAL_PRICE' => 'Net Общее',
+	'FL_MARGINP' => 'Общий процент прибыли',
+	'FL_MARGIN' => 'Общая прибыль',
+	'FL_VENDOR' => 'Поставщик',
+	'FL_SCALCULATIONS' => 'Расчёт',
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Черновик',
 	'PLL_IN_REALIZATION' => 'В работе',

@@ -21,15 +21,27 @@
 								<img src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_INFO.path))}" class="pushDown" alt="{$RECORD->getName()}" title="{$RECORD->getName()}" width="65" height="80" align="left"><br />
 							{/if}
 						{foreachelse}
-							<span class="detailViewIcon userIcon-{$MODULE}" {if $COLORLISTHANDLERS}style="background-color: {$COLORLISTHANDLERS['background']};color: {$COLORLISTHANDLERS['text']};"{/if}></span>
+							<span class="detailViewIcon userIcon-{$MODULE}"></span>
 						{/foreach}
 					</span>
 				</div>
-				<h4 class="recordLabel pushDown marginbottomZero textOverflowEllipsis" title="{$RECORD->getDisplayValue('salutationtype')}&nbsp;{$RECORD->getName()}">
+				<h4 class="recordLabel pushDown marginbottomZero textOverflowEllipsis" title="{$RECORD->getDisplayValue('salutationtype',$RECORD->getId(), true)}&nbsp;{$RECORD->getName()}">
 					{if $RECORD->getDisplayValue('salutationtype')}
 						<span class="salutation">{$RECORD->getDisplayValue('salutationtype')}</span>&nbsp;
 					{/if}
-					<span class="moduleColor_{$MODULE_NAME}">{$RECORD->getName()}</span>
+					<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
+					{assign var=RECORD_STATE value=\App\Record::getState($RECORD->getId())}
+					{if $RECORD_STATE !== 'Active'}
+						&nbsp;&nbsp;
+						{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
+						<span class="label label-default" {if $COLOR[$RECORD_STATE]}style="background-color: {$COLOR[$RECORD_STATE]};"{/if}>
+							{if \App\Record::getState($RECORD->getId()) === 'Trash'}
+								{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}
+							{else}
+								{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}
+							{/if}
+						</span>
+					{/if}
 				</h4>
 			</div>
 			<div class="paddingLeft5px">
@@ -45,6 +57,6 @@
 				</div>
 			</div>
 		</div>
-		{include file='DetailViewHeaderFields.tpl'|@vtemplate_path:$MODULE_NAME}
+		{include file=\App\Layout::getTemplatePath('DetailViewHeaderFields.tpl', $MODULE_NAME)}
 	</div>
 {/strip}

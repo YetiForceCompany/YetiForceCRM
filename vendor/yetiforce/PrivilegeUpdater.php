@@ -5,7 +5,7 @@ namespace App;
  * Global privileges basic class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class PrivilegeUpdater
@@ -161,7 +161,7 @@ class PrivilegeUpdater
 		}
 		$insert = $update = $row = false;
 		$query = new \App\Db\Query();
-		$row = $query->from('s_#__privileges_updater')->where(['module' => $moduleName, 'type' => 1])->one();
+		$row = $query->from('s_#__privileges_updater')->where(['module' => $moduleName, 'type' => 1])->limit(1)->one();
 		if ($row) {
 			if ($record === false) {
 				if ($row['crmid'] != 0) {
@@ -174,7 +174,7 @@ class PrivilegeUpdater
 		} elseif ($record === false) {
 			$insert = true;
 		} else {
-			$row = $query->from('s_#__privileges_updater')->where(['module' => $moduleName, 'type' => 0, 'crmid' => $record])->one();
+			$row = $query->from('s_#__privileges_updater')->where(['module' => $moduleName, 'type' => 0, 'crmid' => $record])->limit(1)->one();
 			if ($row === false) {
 				$insert = true;
 				$params['type'] = 0;
@@ -195,7 +195,7 @@ class PrivilegeUpdater
 	public static function setAllUpdater()
 	{
 		$modules = \vtlib\Functions::getAllModules();
-		foreach ($modules as &$module) {
+		foreach ($modules as $module) {
 			static::setUpdater($module['name']);
 		}
 		PrivilegeAdvanced::reloadCache();
@@ -211,7 +211,7 @@ class PrivilegeUpdater
 	 */
 	public static function updateOnRecordSave(\Vtiger_Record_Model $record)
 	{
-		if (\AppConfig::security('CACHING_PERMISSION_TO_RECORD')) {
+		if (!\AppConfig::security('CACHING_PERMISSION_TO_RECORD')) {
 			return false;
 		}
 		static::setUpdater($record->getModuleName(), $record->getId(), 6, 0);

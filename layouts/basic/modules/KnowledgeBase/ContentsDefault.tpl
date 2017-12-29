@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="col-xs-12 paddingLRZero">
 		<h4>{\App\Language::translate('LBL_LIST_RECORDS',$MODULE_NAME)}</h4>
@@ -22,11 +22,7 @@
 						{foreach item=HEADER from=$HEADERS}
 							{assign var=HEADERNAME value=$HEADER->get('name')}
 							<td>
-								{if $HEADER->getFieldDataType() eq 'sharedOwner' ||  $HEADER->getFieldDataType() eq 'tree'}
-									{$ENTRY->getDisplayValue($HEADERNAME)}
-								{else}
-									{$ENTRY->get($HEADERNAME)}
-								{/if}
+								{$ENTRY->getDisplayValue($HEADERNAME)}
 							</td>
 						{/foreach}
 						<td>

@@ -78,8 +78,10 @@ class VTTaskManager
 	 */
 	public function retrieveTask($taskId)
 	{
-		$task = (new \App\Db\Query())->select(['task'])->from('com_vtiger_workflowtasks')->where(['task_id' => $taskId])->scalar();
-		$task = $this->unserializeTask($task);
+		$row = (new \App\Db\Query())->select(['task_id', 'workflow_id', 'task'])->from('com_vtiger_workflowtasks')->where(['task_id' => $taskId])->one();
+		$task = $this->unserializeTask($row['task']);
+		$task->workflowId = $row['workflow_id'];
+		$task->id = $row['task_id'];
 		return $task;
 	}
 
@@ -92,11 +94,14 @@ class VTTaskManager
 		if (\App\Cache::staticHas('getTasksForWorkflow', $workflowId)) {
 			return \App\Cache::staticGet('getTasksForWorkflow', $workflowId);
 		}
-		$rows = (new \App\Db\Query())->select(['task'])->from('com_vtiger_workflowtasks')->where(['workflow_id' => $workflowId])->column();
+		$dataReader = (new \App\Db\Query())->select(['task_id', 'workflow_id', 'task'])->from('com_vtiger_workflowtasks')->where(['workflow_id' => $workflowId])->createCommand()->query();
 		$tasks = [];
-		foreach ($rows as &$task) {
-			$this->requireTask(self::taskName($task));
-			$tasks[] = unserialize($task);
+		while ($row = $dataReader->read()) {
+			$this->requireTask(self::taskName($row['task']));
+			$task = unserialize($row['task']);
+			$task->workflowId = $row['workflow_id'];
+			$task->id = $row['task_id'];
+			$tasks[] = $task;
 		}
 		\App\Cache::staticGet('getTasksForWorkflow', $workflowId, $tasks);
 		return $tasks;
@@ -117,7 +122,7 @@ class VTTaskManager
 	 * Return all tasks
 	 * @return array
 	 */
-	function getTasks()
+	public function getTasks()
 	{
 		$result = (new \App\Db\Query())->select(['task'])->from('com_vtiger_workflowtasks')->all();
 		return $this->getTasksForResult($result);
@@ -195,7 +200,7 @@ abstract class VTTask
 	 * Task contents
 	 * @var Vtiger_Record_Model
 	 */
-	var $contents;
+	public $contents;
 
 	/**
 	 * Do task
@@ -256,9 +261,9 @@ abstract class VTTask
 	 */
 	public function formatTimeForTimePicker($time)
 	{
-		list($h, $m, $s) = explode(':', $time);
+		list($h, $m) = explode(':', $time);
 		$mn = str_pad($m - $m % 15, 2, 0, STR_PAD_LEFT);
-		$AM_PM = array('am', 'pm');
+		$AM_PM = ['am', 'pm'];
 		return str_pad(($h % 12), 2, 0, STR_PAD_LEFT) . ':' . $mn . $AM_PM[($h / 12) % 2];
 	}
 }
@@ -273,7 +278,7 @@ class VTTaskType
 	 * Data array
 	 * @var array
 	 */
-	var $data;
+	public $data;
 
 	/**
 	 * Return value for $data key

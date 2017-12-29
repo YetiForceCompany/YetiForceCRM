@@ -65,7 +65,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	 * Workflow triggers list
 	 * @var array
 	 */
-	static $triggerTypes = [
+	public static $triggerTypes = [
 		1 => 'ON_FIRST_SAVE',
 		4 => 'ON_MODIFY',
 		3 => 'ON_EVERY_SAVE',
@@ -120,7 +120,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getSupportedModules()
 	{
-		$moduleModels = Vtiger_Module_Model::getAll(array(0, 2));
+		$moduleModels = Vtiger_Module_Model::getAll([0, 2]);
 		$supportedModuleModels = [];
 		foreach ($moduleModels as $tabId => $moduleModel) {
 			if ($moduleModel->isWorkflowSupported()) {
@@ -145,9 +145,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getExpressions()
 	{
-		$db = PearDatabase::getInstance();
-
-		$mem = new VTExpressionsManager($db);
+		$mem = new VTExpressionsManager();
 		return $mem->expressionFunctions();
 	}
 
@@ -175,9 +173,9 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 
 	/**
 	 * Delete all worklflows associated with module
-	 * @param vtlib\Module Instnace of module to use
+	 * @param vtlib\ModuleBasic $moduleInstance
 	 */
-	static function deleteForModule($moduleInstance)
+	public static function deleteForModule(vtlib\ModuleBasic $moduleInstance)
 	{
 		\App\Db::getInstance()->createCommand()->delete('com_vtiger_workflows', ['module_name' => $moduleInstance->name])->execute();
 	}
@@ -234,8 +232,6 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function importTaskMethod(array &$method, array &$messages)
 	{
-		$db = PearDatabase::getInstance();
-
 		if (!file_exists($method['function_path'])) {
 			$scriptData = base64_decode($method['script_content']);
 			if (file_put_contents($method['function_path'], $scriptData) === false) {

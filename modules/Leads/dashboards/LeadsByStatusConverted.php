@@ -15,11 +15,11 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
 	public function getSearchParams($value, $assignedto, $dates)
 	{
 		$listSearchParams = [];
-		$conditions = array(array('leadstatus', 'e', $value));
+		$conditions = [['leadstatus', 'e', $value]];
 		if ($assignedto != '')
-			array_push($conditions, array('assigned_user_id', 'e', $assignedto));
+			array_push($conditions, ['assigned_user_id', 'e', $assignedto]);
 		if (!empty($dates)) {
-			array_push($conditions, array('createdtime', 'bw', $dates['start'] . ' 00:00:00,' . $dates['end'] . ' 23:59:59'));
+			array_push($conditions, ['createdtime', 'bw', $dates['start'] . ' 00:00:00,' . $dates['end'] . ' 23:59:59']);
 		}
 		$listSearchParams[] = $conditions;
 		return '&search_params=' . json_encode($listSearchParams);
@@ -30,16 +30,13 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-
-		$linkId = $request->get('linkid');
-		$data = $request->get('data');
+		$linkId = $request->getInteger('linkid');
 		$createdTime = $request->getDateRange('createdtime');
-
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Leads');
 		else
-			$owner = $request->get('owner');
+			$owner = $request->getByType('owner', 2);
 		$ownerForwarded = $owner;
 		if ($owner == 'all') {
 			$owner = '';
@@ -75,9 +72,7 @@ class Leads_LeadsByStatusConverted_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 		$viewer->assign('OWNER', $ownerForwarded);
-
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/DashBoardWidgetContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/LeadsByStatusConverted.tpl', $moduleName);

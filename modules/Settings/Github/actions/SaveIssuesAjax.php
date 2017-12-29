@@ -4,7 +4,7 @@
  * Save issue to github
  * @package YetiForce.Github
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Settings_Github_SaveIssuesAjax_Action extends Settings_Vtiger_Basic_Action
@@ -18,7 +18,7 @@ class Settings_Github_SaveIssuesAjax_Action extends Settings_Vtiger_Basic_Action
 		$success = $clientModel->createIssue($body, $title);
 		$success = $success ? true : false;
 		$responce = new Vtiger_Response();
-		$responce->setResult(array('success' => $success));
+		$responce->setResult(['success' => $success]);
 		$responce->emit();
 	}
 

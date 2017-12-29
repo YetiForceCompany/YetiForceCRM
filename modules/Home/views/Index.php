@@ -11,6 +11,9 @@
 class Home_Index_View extends Vtiger_Index_View
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);

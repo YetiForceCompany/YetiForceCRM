@@ -44,17 +44,17 @@ class Settings_Leads_Module_Model extends Vtiger_Module_Model
 			$restrictedUitypes = $this->getRestrictedUitypes();
 			$selectedGeneratedTypes = [1, 2];
 			$dataReader = (new \App\Db\Query())->select('fieldid')
-				->from('vtiger_field')
-				->where([
-					'presence' => $presense,
-					'tabid' => $selectedTabidsList,
-					'generatedtype' => $selectedGeneratedTypes
-				])
-				->andWhere(['and', ['NOT IN', 'uitype', $restrictedUitypes], ['NOT IN', 'fieldname', $restrictedFieldNames]])
-				->createCommand()->query();
+					->from('vtiger_field')
+					->where([
+						'presence' => $presense,
+						'tabid' => $selectedTabidsList,
+						'generatedtype' => $selectedGeneratedTypes
+					])
+					->andWhere(['and', ['NOT IN', 'uitype', $restrictedUitypes], ['NOT IN', 'fieldname', $restrictedFieldNames]])
+					->createCommand()->query();
 			$this->supportedFieldIdsList = [];
 			while ($field = $dataReader->readColumn(0)) {
-				$this->supportedFieldIdsList []= $field;
+				$this->supportedFieldIdsList [] = $field;
 			}
 		}
 		return $this->supportedFieldIdsList;
@@ -66,7 +66,7 @@ class Settings_Leads_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getRestrictedUitypes()
 	{
-		return array(4, 51, 52, 53, 57, 58, 69, 70);
+		return [4, 51, 52, 53, 57, 58, 69, 70];
 	}
 
 	/**

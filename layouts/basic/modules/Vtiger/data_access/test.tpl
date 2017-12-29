@@ -1,3 +1,0 @@
-{strip}
-test
-{/strip}

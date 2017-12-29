@@ -1,9 +1,9 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 
 <div id="supportProcessesContainer" class=" supportProcessesContainer">
 	<div class="widget_header row">
 		<div class="col-xs-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			{\App\Language::translate('LBL_MARKETING_PROCESSES_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	</div>
@@ -147,7 +147,7 @@
 						<td><label>{\App\Language::translate('LBL_LEAD_STATUS', $QUALIFIED_MODULE)}</label></td>
 						<td class="col-md-6">
 							<select class="chzn-select configField" multiple data-type="lead" name="status">
-								{foreach  item=ITEM from=App\Fields\Picklist::getPickListValues('leadstatus')}
+								{foreach  item=ITEM from=App\Fields\Picklist::getValuesName('leadstatus')}
 									<option value="{$ITEM}" {if in_array($ITEM, $LEAD['status'])} selected {/if}  >{\App\Language::translate($ITEM,'Leads')}</option>
 								{/foreach}
 							</select>
@@ -157,7 +157,7 @@
 						<td><label>{\App\Language::translate('LBL_LEAD_CONVERT_STATUS', $QUALIFIED_MODULE)}</label></td>
 						<td class="col-md-6">
 							<select class="chzn-select configField" multiple data-type="lead" name="convert_status">
-								{foreach  item=ITEM from=App\Fields\Picklist::getPickListValues('leadstatus')}
+								{foreach  item=ITEM from=App\Fields\Picklist::getValuesName('leadstatus')}
 									<option value="{$ITEM}" {if in_array($ITEM, $LEAD['convert_status'])} selected {/if}  >{\App\Language::translate($ITEM,'Leads')}</option>
 								{/foreach}
 							</select>

@@ -14,10 +14,10 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Base module tools
-	 * @var string[] 
+	 * @var string[]
 	 */
 	public static $baseModuleTools = ['Import', 'Export', 'DuplicatesHandling', 'CreateCustomFilter',
-		'DuplicateRecord', 'MassEdit', 'MassDelete', 'MassAddComment', 'MassTransferOwnership',
+		'DuplicateRecord', 'MassEdit', 'MassArchived', 'MassActive', 'MassDelete', 'MassAddComment', 'MassTransferOwnership',
 		'ReadRecord', 'WorkflowTrigger', 'Dashboard', 'CreateDashboardFilter',
 		'QuickExportToExcel', 'ExportPdf',
 		'RecordMapping', 'RecordMappingList', 'FavoriteRecords', 'WatchingRecords',
@@ -25,7 +25,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Base module tools exceptions
-	 * @var array 
+	 * @var array
 	 */
 	public static $baseModuleToolsExceptions = [
 		'Documents' => ['notAllowed' => ['Import', 'DuplicatesHandling']],
@@ -77,7 +77,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get the url of new module import 
+	 * Function to get the url of new module import
 	 */
 	public static function getUserModuleImportUrl()
 	{
@@ -85,7 +85,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to disable a module 
+	 * Function to disable a module
 	 * @param type $moduleName - name of the module
 	 */
 	public function disableModule($moduleName)
@@ -105,12 +105,22 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
+	 * Function to check module name
+	 * @param string $name
+	 * @return boolean
+	 */
+	public static function checkModuleName($name)
+	{
+		return (bool) ($name === 'Settings' || preg_match('/[^A-Za-z]/i', $name));
+	}
+
+	/**
 	 * Static Function to get the instance of Vtiger Module Model for all the modules
 	 * @return <Array> - List of Vtiger Module Model or sub class instances
 	 */
 	public static function getAll($presence = [], $restrictedModulesList = [], $isEntityType = false)
 	{
-		return parent::getAll(array(0, 1), self::getNonVisibleModulesList());
+		return parent::getAll([0, 1], self::getNonVisibleModulesList());
 	}
 
 	/**

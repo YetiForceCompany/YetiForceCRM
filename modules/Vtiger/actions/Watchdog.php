@@ -4,43 +4,47 @@
  * Watchdog Action Class
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Watchdog_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		if (empty($recordId)) {
-			if (!Users_Privileges_Model::isPermitted($moduleName, 'WatchingModule')) {
-				throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			if (!App\Privilege::isPermitted($moduleName, 'WatchingModule')) {
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		} else {
-			if (!Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordId) || !Users_Privileges_Model::isPermitted($moduleName, 'WatchingRecords')) {
-				throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			if (!App\Privilege::isPermitted($moduleName, 'DetailView', $recordId) || !App\Privilege::isPermitted($moduleName, 'WatchingRecords')) {
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		}
 		if ($request->has('user')) {
 			$userList = array_keys(\App\Fields\Owner::getInstance()->getAccessibleUsers());
-			if (!in_array($request->get('user'), $userList)) {
-				throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			if (!in_array($request->getInteger('user'), $userList)) {
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		}
-		return true;
 	}
 
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$record = $request->get('record');
-		$state = $request->get('state');
+		$record = $request->getInteger('record');
+		$state = $request->getInteger('state');
 		$user = false;
 		if ($request->has('user')) {
-			$user = $request->get('user');
+			$user = $request->getInteger('user');
 		}
 		if (empty($record)) {
 			$watchdog = Vtiger_Watchdog_Model::getInstance($moduleName, $user);

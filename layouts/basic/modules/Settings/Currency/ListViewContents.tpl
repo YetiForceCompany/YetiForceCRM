@@ -15,8 +15,8 @@
 	<input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
 	<input type="hidden" id="nextPageExist" value="{$PAGING_MODEL->isNextPageExists()}" />
 	<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
-	<input type="hidden" value="{$ORDER_BY}" id="orderBy">
-	<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
+	<input type="hidden" value="{$ORDER_BY}" id="orderBy" />
+	<input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
 	<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
 	<input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber'>
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
@@ -24,7 +24,7 @@
 
 	<div class="listViewEntriesDiv" style='overflow-x:auto;'>
 		<span class="listViewLoadingImageBlock hide modal" id="loadingListViewModal">
-			<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}"/>
+			<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}" />
 			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 		</span>
 		{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
@@ -49,7 +49,7 @@
 						>
 						<td width="1%" nowrap class="{$WIDTHTYPE}">
 							{if $MODULE eq 'CronTasks'}
-								<img src="{vimage_path('drag.png')}" class="alignTop" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
+								<img src="{\App\Layout::getImagePath('drag.png')}" class="alignTop" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
 							{/if}
 						</td>
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
@@ -65,26 +65,21 @@
 								{else}
 									&nbsp;{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
 								{/if}
-								{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
-								</td><td nowrap class="{$WIDTHTYPE}">
-									<div class="pull-right actions">
-										<span class="actionImages">
-											{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
-												{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}
-												<a {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="{$RECORD_LINK_URL|substr:strlen("javascript:")};
-														if (event.stopPropagation){ldelim}
-																	event.stopPropagation();{rdelim} else{ldelim}
-																				event.cancelBubble = true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}>
-													<i class="{$RECORD_LINK->getIcon()} alignMiddle" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></i>
-												</a>
-												{if !$RECORD_LINK@last}
-													&nbsp;&nbsp;
-												{/if}
-											{/foreach}
-										</span>
-									</div>
-								</td>
-							{/if}
+								{if $LAST_COLUMN}
+									</td>
+									<td nowrap class="{$WIDTHTYPE}">
+										{assign var=LINKS value=$LISTVIEW_ENTRY->getRecordLinks()}
+										{if count($LINKS) > 0}
+											<div class="actions">
+												<div class="pull-right">
+													{foreach from=$LINKS item=LINK}
+														{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $QUALIFIED_MODULE) BUTTON_VIEW='listViewBasic' MODULE=$QUALIFIED_MODULE}
+													{/foreach}
+												</div>
+											</div>
+										{/if}
+									</td>
+								{/if}
 							</td>
 						{/foreach}
 					</tr>

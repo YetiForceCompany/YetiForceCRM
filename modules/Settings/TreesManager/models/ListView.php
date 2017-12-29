@@ -4,7 +4,7 @@
  * Settings TreesManager ListView model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_TreesManager_ListView_Model extends Settings_Vtiger_ListView_Model
 {
@@ -59,7 +59,7 @@ class Settings_TreesManager_ListView_Model extends Settings_Vtiger_ListView_Mode
 			$record = new $recordModelClass();
 			$record->setData($row);
 
-			$recordModule = vtlib\Functions::getModuleName($row['module']);
+			$recordModule = \App\Module::getModuleName($row['module']);
 			$record->set('module', \App\Language::translate($recordModule, $recordModule));
 
 			if (method_exists($record, 'getModule') && method_exists($record, 'setModule')) {

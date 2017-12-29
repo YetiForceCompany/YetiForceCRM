@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <div class="modal fade AddNewTranslationMondal" tabindex="-1" role="dialog" aria-labelledby="AddTranslation" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">	
@@ -21,7 +21,7 @@
 					<div class="form-group">
 						<label for="variable" class="col-sm-4 control-label">{\App\Language::translate('LBL_variable', $QUALIFIED_MODULE)}:</label>
 						<div class="col-sm-8">
-							<input id="variable" name="variable" class="form-control" type="text" placeholder="{\App\Language::translate('LBL_variable', $QUALIFIED_MODULE)}"/>
+							<input id="variable" name="variable" class="form-control" type="text" placeholder="{\App\Language::translate('LBL_variable', $QUALIFIED_MODULE)}" />
 						</div>
 					</div>
 					<div class="add_translation_block">

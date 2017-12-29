@@ -1,11 +1,14 @@
 <?php
-
 /**
  * IStorages products table with storages hierarchy parser class
  * @package YetiForce.TextParser
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+
+/**
+ * Class IStorages_ProductsTableHierarchy_TextParser
  */
 class IStorages_ProductsTableHierarchy_TextParser extends \App\TextParser\Base
 {
@@ -24,10 +27,9 @@ class IStorages_ProductsTableHierarchy_TextParser extends \App\TextParser\Base
 	{
 		$html = '';
 		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('limit', 'no_limit');
+		$pagingModel->set('limit', 0);
 		$relationModuleName = 'Products';
 		$columns = ['Product Name', 'FL_EAN_13', 'Product Category'];
-		$db = PearDatabase::getInstance();
 		// Products from main storage
 		$relationListView = Vtiger_RelationListView_Model::getInstance($this->textParser->recordModel, $relationModuleName);
 		// Summary table with products from all storages
@@ -65,10 +67,8 @@ class IStorages_ProductsTableHierarchy_TextParser extends \App\TextParser\Base
 		$storageSubjectList = rtrim($storageSubjectList, ', ');
 		// Gets the sum of products quantity in all storages
 		$productsQty = [];
-		$query = sprintf('SELECT qtyinstock, relcrmid, crmid FROM u_yf_istorages_products WHERE crmid IN (%s)', generateQuestionMarks($storageIdsArray));
-		$result = $db->pquery($query, [$storageIdsArray]);
-
-		while ($row = $db->getRow($result)) {
+		$dataReader = (new \App\Db\Query())->select(['qtyinstock', 'relcrmid', 'crmid'])->from('u_#__istorages_products')->where(['crmid' => $storageIdsArray])->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$productId = $row['relcrmid'];
 			$storageId = $row['crmid'];
 			$qty = $row['qtyinstock'];

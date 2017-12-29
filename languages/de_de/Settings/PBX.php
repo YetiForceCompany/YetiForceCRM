@@ -3,7 +3,8 @@
  * PBX german translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author skavenkf (K.Fink) 
  */
 $languageStrings = [
 	'LBL_NAME' => 'Name',
@@ -15,7 +16,7 @@ $languageStrings = [
 	//Mixpbx
 	'LBL_URL' => 'Serveradresse',
 	'LBL_USERNAME' => 'Login',
-	'LBL_PASSWORD' => 'Paßwort',
+	'LBL_PASSWORD' => 'Passwort',
 ];
 $jsLanguageStrings = [
 	'JS_SAVE_SUCCESS' => 'Änderungen Sichern',

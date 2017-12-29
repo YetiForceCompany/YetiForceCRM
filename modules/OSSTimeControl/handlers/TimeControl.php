@@ -3,13 +3,12 @@
  * Time Control Handler Class
  * @package YetiForce.Handler
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
 Vtiger_Loader::includeOnce('~~include/Webservices/Utils.php');
-Vtiger_Loader::includeOnce('~~include/Webservices/Retrieve.php');
 
 class OSSTimeControl_TimeControl_Handler
 {
@@ -65,10 +64,10 @@ class OSSTimeControl_TimeControl_Handler
 	}
 
 	/**
-	 * EntityAfterRestore handler function
+	 * EntityChangeState handler function
 	 * @param App\EventHandler $eventHandler
 	 */
-	public function entityAfterRestore(App\EventHandler $eventHandler)
+	public function entityChangeState(App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		$wfs = new VTWorkflowManager();

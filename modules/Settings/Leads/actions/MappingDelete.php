@@ -18,8 +18,8 @@ class Settings_Leads_MappingDelete_Action extends Settings_Vtiger_Index_Action
 
 		$response = new Vtiger_Response();
 		if ($recordId) {
-			Settings_Leads_Mapping_Model::deleteMapping(array($recordId));
-			$response->setResult(array(\App\Language::translate('LBL_DELETED_SUCCESSFULLY', $qualifiedModuleName)));
+			Settings_Leads_Mapping_Model::deleteMapping([$recordId]);
+			$response->setResult([\App\Language::translate('LBL_DELETED_SUCCESSFULLY', $qualifiedModuleName)]);
 		} else {
 			$response->setError(\App\Language::translate('LBL_INVALID_MAPPING', $qualifiedModuleName));
 		}

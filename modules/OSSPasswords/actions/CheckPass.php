@@ -4,7 +4,7 @@
  * OSSPasswords CheckPass action class
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSPasswords_CheckPass_Action extends Vtiger_Action_Controller
 {
@@ -15,7 +15,7 @@ class OSSPasswords_CheckPass_Action extends Vtiger_Action_Controller
 		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
 
 		if (!$permission) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -29,9 +29,9 @@ class OSSPasswords_CheckPass_Action extends Vtiger_Action_Controller
 		$passOK = $recordModel->checkPassword($password);
 
 		if ($passOK['error'] === true) {
-			$result = array('success' => false, 'message' => $passOK['message']);
+			$result = ['success' => false, 'message' => $passOK['message']];
 		} else {
-			$result = array('success' => true, 'message' => '');
+			$result = ['success' => true, 'message' => ''];
 		}
 
 		$response = new Vtiger_Response();

@@ -4,7 +4,7 @@
  * Advanced Filter Class
  * @package YetiForce.Helpers
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -32,7 +32,7 @@ class Vtiger_AdvancedFilter_Helper
 	 */
 	public static function getAdvancedFilterOptions()
 	{
-		return array(
+		return [
 			'is' => 'is',
 			'is not' => 'is not',
 			'contains' => 'contains',
@@ -67,7 +67,7 @@ class Vtiger_AdvancedFilter_Helper
 			'None' => 'None',
 			'is Watching Record' => 'is Watching Record',
 			'is Not Watching Record' => 'is Not Watching Record',
-		);
+		];
 	}
 
 	/**
@@ -126,16 +126,16 @@ class Vtiger_AdvancedFilter_Helper
 		if (!empty($conditions)) {
 			foreach ($conditions as $index => $info) {
 				if (!($info['groupid'])) {
-					$firstGroup[] = array('columnname' => $info['fieldname'], 'comparator' => $info['operation'], 'value' => $info['value'],
-						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid']);
+					$firstGroup[] = ['columnname' => $info['fieldname'], 'comparator' => $info['operation'], 'value' => $info['value'],
+						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid']];
 				} else {
-					$secondGroup[] = array('columnname' => $info['fieldname'], 'comparator' => $info['operation'], 'value' => $info['value'],
-						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid']);
+					$secondGroup[] = ['columnname' => $info['fieldname'], 'comparator' => $info['operation'], 'value' => $info['value'],
+						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid']];
 				}
 			}
 		}
-		$transformedConditions[1] = array('columns' => $firstGroup);
-		$transformedConditions[2] = array('columns' => $secondGroup);
+		$transformedConditions[1] = ['columns' => $firstGroup];
+		$transformedConditions[2] = ['columns' => $secondGroup];
 		return $transformedConditions;
 	}
 
@@ -146,14 +146,14 @@ class Vtiger_AdvancedFilter_Helper
 			foreach ($conditions as $index => $condition) {
 				$columns = $condition['columns'];
 				if ($index == '1' && empty($columns)) {
-					$wfCondition[] = array('fieldname' => '', 'operation' => '', 'value' => '', 'valuetype' => '',
-						'joincondition' => '', 'groupid' => '0');
+					$wfCondition[] = ['fieldname' => '', 'operation' => '', 'value' => '', 'valuetype' => '',
+						'joincondition' => '', 'groupid' => '0'];
 				}
 				if (!empty($columns) && is_array($columns)) {
 					foreach ($columns as $column) {
-						$wfCondition[] = array('fieldname' => $column['columnname'], 'operation' => $column['comparator'],
+						$wfCondition[] = ['fieldname' => $column['columnname'], 'operation' => $column['comparator'],
 							'value' => $column['value'], 'valuetype' => $column['valuetype'], 'joincondition' => $column['column_condition'],
-							'groupjoin' => $condition['condition'], 'groupid' => $column['groupid']);
+							'groupjoin' => $condition['condition'], 'groupid' => $column['groupid']];
 					}
 				}
 			}
@@ -174,74 +174,4 @@ class Vtiger_AdvancedFilter_Helper
 
 	protected static $recordStructure = false;
 
-	public static function getRecordStructure($recordModel)
-	{
-		$recordId = $recordModel->getId();
-		if (isset(self::$recordStructure[$recordId])) {
-			return self::$recordStructure[$recordId];
-		}
-		$values = [];
-		$moduleModel = $recordModel->getModule();
-		$blockModelList = $moduleModel->getBlocks();
-		foreach ($blockModelList as $blockLabel => $blockModel) {
-			$fieldModelList = $blockModel->getFields();
-			if (!empty($fieldModelList)) {
-				$values[$blockLabel] = [];
-				foreach ($fieldModelList as $fieldName => $fieldModel) {
-					if ($fieldModel->isViewable()) {
-						if (in_array($moduleModel->getName(), array('Calendar', 'Events')) && $fieldName != 'modifiedby' && $fieldModel->getDisplayType() == 3) {
-							/* Restricting the following fields(Event module fields) for "Calendar" module
-							 * time_start, time_end, eventstatus, activitytype,	visibility, duration_hours,
-							 * duration_minutes, reminder_time, notime
-							 */
-							continue;
-						}
-						if (!empty($recordId)) {
-							//Set the fieldModel with the valuetype for the client side.
-							$fieldValueType = $recordModel->getFieldFilterValueType($fieldName);
-							$fieldInfo = $fieldModel->getFieldInfo();
-							$fieldInfo['workflow_valuetype'] = $fieldValueType;
-							$fieldModel->setFieldInfo($fieldInfo);
-						}
-						// This will be used during editing task like email, sms etc
-						$fieldModel->set('workflow_columnname', "$(record : $fieldName)$");
-						$values[$blockLabel][$fieldName] = clone $fieldModel;
-					}
-				}
-			}
-		}
-		//All the reference fields should also be sent
-		$fields = $moduleModel->getFieldsByType(array('reference', 'owner', 'multireference'));
-		foreach ($fields as $parentFieldName => $field) {
-			$type = $field->getFieldDataType();
-			$referenceModules = $field->getReferenceList();
-			if ($type === 'owner') {
-				$referenceModules = array('Users');
-			}
-			foreach ($referenceModules as $refModule) {
-				$moduleModel = Vtiger_Module_Model::getInstance($refModule);
-				$blockModelList = $moduleModel->getBlocks();
-				foreach ($blockModelList as $blockLabel => $blockModel) {
-					$fieldModelList = $blockModel->getFields();
-					if (!empty($fieldModelList)) {
-						foreach ($fieldModelList as $fieldName => $fieldModel) {
-							if ($fieldModel->isViewable()) {
-								$name = "$(relatedRecord : $parentFieldName|$fieldName|$refModule)$";
-								$fieldModel->set('workflow_columnname', $name);
-								if (!empty($recordId)) {
-									$fieldValueType = $recordModel->getFieldFilterValueType($name);
-									$fieldInfo = $fieldModel->getFieldInfo();
-									$fieldInfo['workflow_valuetype'] = $fieldValueType;
-									$fieldModel->setFieldInfo($fieldInfo);
-								}
-								$values[$field->get('label')][$name] = clone $fieldModel;
-							}
-						}
-					}
-				}
-			}
-		}
-		self::$recordStructure[$recordId] = $values;
-		return $values;
-	}
 }

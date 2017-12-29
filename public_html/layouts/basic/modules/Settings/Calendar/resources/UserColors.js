@@ -1,72 +1,7 @@
-/* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 var Settings_UserColors_Js = {
 	initEvants: function () {
-		$('.UserColors .updateColor').click(Settings_UserColors_Js.updateColor);
 		$('.UserColors #update_event').click(Settings_UserColors_Js.updateEvent);
-		$('.UserColors .generateColor').click(Settings_UserColors_Js.generateColor);
-	},
-	generateColor: function (e) {
-		var target = $(e.currentTarget);
-		var closestTrElement = target.closest('tr');
-		var params = {
-			'id': closestTrElement.data('id'),
-			'table': closestTrElement.data('table'),
-			'field': closestTrElement.data('field'),
-		}
-		app.saveAjax('generateColor', params).then(function (data) {
-			Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
-			closestTrElement.find('.calendarColor').css('background', data.result.color);
-			closestTrElement.data('color', data.result.color);
-		});
-	},
-	updateColor: function (e) {
-		var target = $(e.currentTarget);
-		var closestTrElement = target.closest('tr');
-		var editColorModal = jQuery('.UserColors .editColorContainer');
-		var clonedContainer = editColorModal.clone(true, true);
-		var metod = target.data('metod');
-
-		var callBackFunction = function (data) {
-			data.find('.editColorContainer').removeClass('hide').show();
-			var selectedColor = data.find('.selectedColor');
-			selectedColor.val(closestTrElement.data('color'));
-			//register color picker
-			var params = {
-				flat: true,
-				color: closestTrElement.data('color'),
-				onChange: function (hsb, hex, rgb) {
-					selectedColor.val('#' + hex);
-				}
-			};
-			if (typeof customParams != 'undefined') {
-				params = jQuery.extend(params, customParams);
-			}
-			data.find('.calendarColorPicker').ColorPicker(params);
-
-			//save the user calendar with color
-			data.find('[name="saveButton"]').click(function (e) {
-				var progress = $.progressIndicator({
-					'message': app.vtranslate('Update labels'),
-					'blockInfo': {
-						'enabled': true
-					}
-				});
-				Settings_UserColors_Js.registerSaveEvent(metod, {
-					'color': selectedColor.val(),
-					'id': closestTrElement.data('id'),
-					'table': closestTrElement.data('table'),
-					'field': closestTrElement.data('field'),
-				});
-				closestTrElement.find('.calendarColor').css('background', selectedColor.val());
-				closestTrElement.data('color', selectedColor.val());
-				progress.progressIndicator({'mode': 'hide'});
-			});
-		}
-		app.showModalWindow(clonedContainer, function (data) {
-			if (typeof callBackFunction == 'function') {
-				callBackFunction(data);
-			}
-		}, {'width': '1000px'});
 	},
 	updateEvent: function (e) {
 		var progress = $.progressIndicator({
@@ -77,11 +12,11 @@ var Settings_UserColors_Js = {
 		});
 		var target = $(e.currentTarget);
 		var metod = target.data('metod');
+		var value = 0;
 		if (target.prop('checked')) {
 			value = 1;
-		} else
-			value = 0;
-		params = {};
+		}			
+		var params = {};
 		params.color = value;
 		params.id = target.attr('id');
 		params = jQuery.extend({}, params);
@@ -99,7 +34,7 @@ var Settings_UserColors_Js = {
 		}
 		params.async = false;
 		params.dataType = 'json';
-		AppConnector.request(params).done(
+		AppConnector.request(params).then(
 				function (data) {
 					var response = data['result'];
 					var params = {
@@ -116,7 +51,6 @@ var Settings_UserColors_Js = {
 		);
 	},
 	registerSaveWorkingDays: function (content) {
-		var thisInstance = this;
 		content.find('.workignDaysField').change(function (e) {
 			var target = $(e.currentTarget);
 			var params = {};
@@ -131,7 +65,6 @@ var Settings_UserColors_Js = {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
 			});
 		});
-
 	},
 	registerEvents: function () {
 		Settings_UserColors_Js.initEvants();

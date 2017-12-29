@@ -5,7 +5,7 @@ namespace App;
  * Mail basic class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Mail
@@ -169,7 +169,7 @@ class Mail
 		$attachments = [];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$name = decode_html($row['name']);
+			$name = Purifier::decodeHtml($row['name']);
 			$filePath = realpath(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $row['path'] . $row['attachmentsid'] . '_' . $name);
 			if (is_file($filePath)) {
 				$attachments[$filePath] = $name;

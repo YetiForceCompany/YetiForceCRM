@@ -4,37 +4,39 @@
  * UIType Company Field Class
  * @package YetiForce.UIType
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 class Vtiger_CompanySelect_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Function to get the Template name for the current UI Type Object
-	 * @return string - Template Name
+	 * {@inheritDoc}
 	 */
-	public function getTemplateName()
+	public function validate($value, $isUserFormat = false)
 	{
-		return 'uitypes/CompanySelect.tpl';
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		if (!is_numeric($value)) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+		}
+		$this->validate = true;
 	}
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param string $tree
-	 * @param int $record
-	 * @param Vtiger_Record_Model $recordInstance
-	 * @param boolean $rawText
-	 * @return string
+	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($values, $record = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$namesOfCompany = '';
-		if (!empty($values)) {
-			$companiesList = $this->getPicklistValues();
-			$namesOfCompany = $companiesList[$values[0]]['name'];
+		if (!empty($value)) {
+			$namesOfCompany = $this->getPicklistValues()[$value[0]]['name'];
 		}
-		return $namesOfCompany;
+		if (is_int($length)) {
+			$namesOfCompany = \vtlib\Functions::textLength($namesOfCompany, $length);
+		}
+		return \App\Purifier::encodeHtml($namesOfCompany);
 	}
 
 	/**
@@ -47,8 +49,15 @@ class Vtiger_CompanySelect_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * {@inheritDoc}
+	 */
+	public function getTemplateName()
+	{
+		return 'uitypes/CompanySelect.tpl';
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public function getListSearchTemplateName()
 	{

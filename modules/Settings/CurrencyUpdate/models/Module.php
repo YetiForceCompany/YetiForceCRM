@@ -3,7 +3,7 @@
 /**
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
@@ -59,7 +59,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 		$numToConvert = $dataReader->count();
 		if ($numToConvert >= 1) {
 			$selectBankId = $this->getActiveBankId();
-			$activeBankName = 'Settings_CurrencyUpdate_models_' . $this->getActiveBankName() . '_BankModel';
+			$activeBankName = 'Settings_CurrencyUpdate_Models_' . $this->getActiveBankName() . '_BankModel';
 			$currIds = [];
 			$otherCurrencyCode = [];
 			while ($row = $dataReader->read()) {
@@ -170,7 +170,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 	 * @return <Array> - array containing currency rates
 	 */
 
-	public function getRatesHistory($bankId, $dateCur, $request)
+	public function getRatesHistory($bankId, $dateCur, \App\Request $request)
 	{
 		$query = new App\Db\Query();
 		$query->select(['exchange', 'currency_name', 'currency_code', 'currency_symbol', 'fetch_date', 'exchange_date'])
@@ -199,7 +199,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 	public function getSupportedCurrencies($bankName = null)
 	{
 		if (!$bankName) {
-			$bankName = 'Settings_CurrencyUpdate_models_' . $this->getActiveBankName() . '_BankModel';
+			$bankName = 'Settings_CurrencyUpdate_Models_' . $this->getActiveBankName() . '_BankModel';
 		}
 		$bank = new $bankName();
 
@@ -214,7 +214,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 	public function getUnSupportedCurrencies($bankName = null)
 	{
 		if (!$bankName) {
-			$bankName = 'Settings_CurrencyUpdate_models_' . $this->getActiveBankName() . '_BankModel';
+			$bankName = 'Settings_CurrencyUpdate_Models_' . $this->getActiveBankName() . '_BankModel';
 		}
 		$bank = new $bankName();
 		$supported = $bank->getSupportedCurrencies($bankName);

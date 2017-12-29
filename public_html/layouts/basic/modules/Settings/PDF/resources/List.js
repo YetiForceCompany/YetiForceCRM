@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 Settings_Vtiger_List_Js("Settings_PDF_List_Js", {}, {
 	getListContainer: function () {
 		return jQuery('#listViewContainer');
@@ -52,7 +52,11 @@ Settings_Vtiger_List_Js("Settings_PDF_List_Js", {}, {
 	registerAddNewTemplate: function (container) {
 		jQuery('#addButton', container).on('click', function () {
 			var selectedModule = jQuery('#moduleFilter option:selected').val();
-			window.location.href = jQuery(this).data('url') + '&source_module=' + selectedModule;
+			var url = jQuery(this).data('url');
+			if (selectedModule.length) {
+				url += '&source_module=' + selectedModule;
+			}
+			window.location.href = url ;
 		});
 	},
 	registerImportTemplate: function (container) {
@@ -69,7 +73,7 @@ Settings_Vtiger_List_Js("Settings_PDF_List_Js", {}, {
 			e.stopPropagation();
 			e.preventDefault();
 			var templateId = jQuery(this).closest('tr').data('id');
-			Vtiger_List_Js.deleteRecord(templateId).then(function () {
+			Settings_PDF_List_Js.deleteById(templateId).then(function () {
 				thisInstance.registerTemplateDelete(container);
 			});
 		});

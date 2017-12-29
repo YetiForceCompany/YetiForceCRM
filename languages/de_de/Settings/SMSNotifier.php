@@ -1,43 +1,28 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * *********************************************************************************** */
+/**
+ * SMSNotifier german translation
+ * @package YetiForce.Languages
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author skavenkf (K.Fink) 
+ */
 $languageStrings = [
-	'Enter new data' => 'Neue Daten eingeben',
-	'LBL_INFORMGRAD_ACCOUNT_NUMBER' => 'Organisationsnr.',
-	'LBL_SMS_SENDER' => 'Sender',
-	'LBL_SMSPM_AUTH_HASH' => 'Authentification Hash',
-	'LBL_SMS_TIME' => 'Zeit (min)',
-	'No' => 'Nein',
-	'Yes' => 'Ja',
-	'User Name' => 'Username',
-	'Provider' => 'Provider',
-	'LBL_ADD_RECORD' => 'SMSAnbieter hinzufügen',
-	'SMSNotifier' => 'SMS Anbieter Konfiguration',
-	'LBL_ADD_CONFIGURATION' => 'Neue Konfiguration',
-	'LBL_EDIT_CONFIGURATION' => 'Konfiguration bearbeiten',
-	'LBL_SELECT_ONE' => 'Einen auswählen',
-	//Fields
-	'providertype' => 'Anbieter',
-	'isactive' => 'Aktiv',
-	'username' => 'Benutzername',
-	'password' => 'Passwort',
-	'api_id' => 'API Id',
-	'from' => 'From',
-	'mo' => ''
+	'FL_PROVIDER' => 'Provider',
+	'FL_STATUS' => 'Status',
+	'FL_SMSAPI_FROM' => 'Message type',
+	'FL_API_KEY' => 'Api key',
+	'PLL_INACTIVE' => 'Inactive',
+	'PLL_ACTIVE' => 'Active',
+	'LBL_ADD_RECORD' => 'New configuration',
+	'LBL_SMSNOTIFIER' => 'SMS provider configuration',
+	'LBL_SMSNOTIFIER_DESCRIPTION' => ' ',
+	'LBL_ADD_CONFIGURATION' => 'New configuration',
+	'LBL_EDIT_CONFIGURATION' => 'Edit configuration',
+	'BTN_SAVE' => 'Save',
+	'BTN_CLOSE' => 'Cancel',
 ];
-
 $jsLanguageStrings = [
-	'LBL_INFORMGRAD_ACCOUNT_NUMBER' => 'Organisationsnr.',
-	'LBL_SMSPM_AUTH_HASH' => 'Authentification Hash',
-	'LBL_SMS_TIME' => 'Zeit (min)',
-	'LBL_SMS_SENDER' => 'Sender',
-	'LBL_DELETE_CONFIRMATION' => 'Sind Sie sicher, dass Sie diese SMS Anbieter Konfiguration löschen möchten',
-	'JS_RECORD_DELETED_SUCCESSFULLY' => 'SMS Anbieter erfolgreich gelöscht',
-	'JS_CONFIGURATION_SAVED' => 'SMS Anbieter Konfiguration gespeichert',
+	'LBL_DELETE_CONFIRMATION' => 'Are you sure you want to delete this configuration?',
+	'JS_RECORD_DELETED_SUCCESSFULLY' => 'Configuration removed successfully',
+	'JS_SAVE_SUCCESS' => 'Saved',
 ];

@@ -3,14 +3,14 @@
  * FInvoiceProforma russian translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'FInvoiceProforma' => 'Предварительные счета',
 	'SINGLE_FInvoiceProforma' => 'Предварительный счет',
 	//BLOCKS
-	'LBL_CUSTOM_INFORMATION' => 'System information',
-	'LBL_ADDRESS_DELIVERY_INFORMATION' => 'Delivery address',
+	'LBL_CUSTOM_INFORMATION' => 'Системная информация',
+	'LBL_ADDRESS_DELIVERY_INFORMATION' => 'Адрес доставки',
 	//FIELDS
 	'FL_SUBJECT' => 'Предмет',
 	'FL_PAYMENT_DATE' => 'Срок',
@@ -24,5 +24,5 @@ $languageStrings = [
 	'FL_GROSS' => 'Валовый',
 	//PICKLIST VALUES
 	'PLL_TRANSFER' => 'Банковский перевод',
-	'PLL_CASH' => 'Налиные',
+	'PLL_CASH' => 'Наличные',
 ];

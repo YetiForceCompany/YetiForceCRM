@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{if count($ACCOUNTS) > 0}
 		{if $PAGING_MODEL->getCurrentPage() eq 1}
@@ -16,12 +16,12 @@
 			{foreach from=$ACCOUNTS key=RECORD_ID item=ACCOUNTS_MODEL}
 				<div class="col-xs-12 paddingLRZero">
 					<div class="col-xs-4 textOverflowEllipsis">
-						{if Users_Privileges_Model::isPermitted($MODULE_NAME, 'DetailView', $RECORD_ID)}
+						{if \App\Privilege::isPermitted($MODULE_NAME, 'DetailView', $RECORD_ID)}
 							<a href="index.php?module=Accounts&view=Detail&record={$RECORD_ID}">
-								<b>{$ACCOUNTS_MODEL['accountname']}</b>
+								<b>{\App\Purifier::encodeHtml($ACCOUNTS_MODEL['accountname'])}</b>
 							</a>
 						{else}
-							{$ACCOUNTS_MODEL['accountname']}
+							{\App\Purifier::encodeHtml($ACCOUNTS_MODEL['accountname'])}
 						{/if}
 					</div>
 					<div class="col-xs-4 textOverflowEllipsis">

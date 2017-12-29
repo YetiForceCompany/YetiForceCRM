@@ -11,22 +11,27 @@
 class Vtiger_MergeRecord_View extends Vtiger_Popup_View
 {
 
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
-		$records = $request->get('records');
-		$records = explode(',', $records);
-		$module = $request->getModule();
-		$moduleModel = Vtiger_Module_Model::getInstance($module);
+		$records = $request->getExploded('records');
+		$moduleName = $request->getModule();
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$fieldModels = $moduleModel->getFields();
 
-		foreach ($records as $record) {
-			$recordModels[] = Vtiger_Record_Model::getInstanceById($record);
+		foreach ($records as $recordId) {
+			if (\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
+				$recordModels[] = Vtiger_Record_Model::getInstanceById($recordId);
+			}
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORDS', $records);
 		$viewer->assign('RECORDMODELS', $recordModels);
 		$viewer->assign('FIELDS', $fieldModels);
-		$viewer->assign('MODULE', $module);
-		$viewer->view('MergeRecords.tpl', $module);
+		$viewer->assign('MODULE', $moduleName);
+		$viewer->view('MergeRecords.tpl', $moduleName);
 	}
 }

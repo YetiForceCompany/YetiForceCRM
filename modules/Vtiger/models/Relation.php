@@ -192,6 +192,25 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
+	 * Get related view type
+	 * @return string[]
+	 */
+	public function getRelatedViewType()
+	{
+		return explode(',', $this->get('view_type'));
+	}
+
+	/**
+	 * Check related view type
+	 * @param string $type
+	 * @return boolean
+	 */
+	public function isRelatedViewType($type)
+	{
+		return strpos($this->get('view_type'), $type) !== false;
+	}
+
+	/**
 	 * Get relation list model instance
 	 * @param Vtiger_Module_Model $parentModuleModel
 	 * @param Vtiger_Module_Model $relatedModuleModel
@@ -236,7 +255,7 @@ class Vtiger_Relation_Model extends \App\Base
 	/**
 	 * Get query form relation
 	 * @return \App\QueryGenerator
-	 * @throws \Exception\NotAllowedMethod
+	 * @throws \App\Exceptions\NotAllowedMethod
 	 */
 	public function getQuery()
 	{
@@ -247,7 +266,7 @@ class Vtiger_Relation_Model extends \App\Base
 			$this->$functionName();
 		} else {
 			App\Log::error("Not exist relation: $functionName in " . __METHOD__);
-			throw new \Exception\NotAllowedMethod('LBL_NOT_EXIST_RELATION: ' . $functionName);
+			throw new \App\Exceptions\NotAllowedMethod('LBL_NOT_EXIST_RELATION: ' . $functionName);
 		}
 		if ($this->showCreatorDetail()) {
 			$queryGenerator->setCustomColumn('rel_created_user');
@@ -393,29 +412,35 @@ class Vtiger_Relation_Model extends \App\Base
 
 	/**
 	 * Get Activities for related module
-	 * @throws \Exception\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	public function getActivities()
 	{
 		$queryGenerator = $this->getQueryGenerator();
 		$relatedModuleName = $this->getRelationModuleName();
 		$moduleName = $this->getParentModuleModel()->getName();
-		$referenceLinkClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceLink', $relatedModuleName);
+		$referenceLinkClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceExtend', $relatedModuleName);
 		$referenceLinkInstance = new $referenceLinkClass();
 		if (in_array($moduleName, $referenceLinkInstance->getReferenceList())) {
-			$queryGenerator->addNativeCondition(['vtiger_activity.link' => $this->get('parentRecord')->getId()]);
+			$queryGenerator->addNativeCondition(['vtiger_activity.linkextend' => $this->get('parentRecord')->getId()]);
 		} else {
-			$referenceProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceProcess', $relatedModuleName);
-			$referenceProcessInstance = new $referenceProcessClass();
-			if (in_array($moduleName, $referenceProcessInstance->getReferenceList())) {
-				$queryGenerator->addNativeCondition(['vtiger_activity.process' => $this->get('parentRecord')->getId()]);
+			$referenceLinkClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceLink', $relatedModuleName);
+			$referenceLinkInstance = new $referenceLinkClass();
+			if (in_array($moduleName, $referenceLinkInstance->getReferenceList())) {
+				$queryGenerator->addNativeCondition(['vtiger_activity.link' => $this->get('parentRecord')->getId()]);
 			} else {
-				$referenceSubProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceSubProcess', $relatedModuleName);
-				$referenceSubProcessInstance = new $referenceSubProcessClass();
-				if (in_array($moduleName, $referenceSubProcessInstance->getReferenceList())) {
-					$queryGenerator->addNativeCondition(['vtiger_activity.subprocess' => $this->get('parentRecord')->getId()]);
+				$referenceProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceProcess', $relatedModuleName);
+				$referenceProcessInstance = new $referenceProcessClass();
+				if (in_array($moduleName, $referenceProcessInstance->getReferenceList())) {
+					$queryGenerator->addNativeCondition(['vtiger_activity.process' => $this->get('parentRecord')->getId()]);
 				} else {
-					throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
+					$referenceSubProcessClass = Vtiger_Loader::getComponentClassName('UIType', 'ReferenceSubProcess', $relatedModuleName);
+					$referenceSubProcessInstance = new $referenceSubProcessClass();
+					if (in_array($moduleName, $referenceSubProcessInstance->getReferenceList())) {
+						$queryGenerator->addNativeCondition(['vtiger_activity.subprocess' => $this->get('parentRecord')->getId()]);
+					} else {
+						throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
+					}
 				}
 			}
 		}
@@ -500,7 +525,7 @@ class Vtiger_Relation_Model extends \App\Base
 	 * Function which will specify whether the relation is deletable
 	 * @return boolean
 	 */
-	public function isDeletable()
+	public function privilegeToDelete()
 	{
 		return $this->getRelationModuleModel()->isPermitted('RemoveRelation');
 	}
@@ -627,7 +652,7 @@ class Vtiger_Relation_Model extends \App\Base
 		$relationModels = [];
 		$relationModelClassName = Vtiger_Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
 		$privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		foreach ($relationList as &$row) {
+		foreach ($relationList as $row) {
 			// Skip relation where target module does not exits or is no permitted for view.
 			if ($permissions && !$privilegesModel->hasModuleActionPermission($row['moduleid'], 'DetailView')) {
 				continue;
@@ -693,35 +718,10 @@ class Vtiger_Relation_Model extends \App\Base
 		if (array_key_exists("$relatedModuleName::$parentModuleName", $map)) {
 			$fieldMap = $map["$relatedModuleName::$parentModuleName"];
 			$fieldModel = $recordModel->getField($fieldMap[1]);
-			$value = $fieldModel->getEditViewDisplayValue($recordModel->get($fieldMap[1]));
+			$value = $fieldModel->getEditViewDisplayValue($recordModel->get($fieldMap[1]), $recordModel);
 			$fields = ['key' => $fieldMap[0], 'name' => strip_tags($value)];
 		}
 		return $fields;
-	}
-
-	public static function updateRelationSequenceAndPresence($relatedInfoList, $sourceModuleTabId)
-	{
-		$db = PearDatabase::getInstance();
-		$query = 'UPDATE vtiger_relatedlists SET sequence=CASE ';
-		$relation_ids = [];
-		foreach ($relatedInfoList as $relatedInfo) {
-			$relation_id = $relatedInfo['relation_id'];
-			$relation_ids[] = $relation_id;
-			$sequence = $relatedInfo['sequence'];
-			$presence = $relatedInfo['presence'];
-			$query .= ' WHEN relation_id=' . $relation_id . ' THEN ' . $sequence;
-		}
-		$query .= ' END , ';
-		$query .= ' presence = CASE ';
-		foreach ($relatedInfoList as $relatedInfo) {
-			$relation_id = $relatedInfo['relation_id'];
-			$relation_ids[] = $relation_id;
-			$sequence = $relatedInfo['sequence'];
-			$presence = $relatedInfo['presence'];
-			$query .= ' WHEN relation_id=' . $relation_id . ' THEN ' . $presence;
-		}
-		$query .= ' END WHERE tabid=? && relation_id IN (' . generateQuestionMarks($relation_ids) . ')';
-		$db->pquery($query, array($sourceModuleTabId, $relation_ids));
 	}
 
 	/**
@@ -731,7 +731,8 @@ class Vtiger_Relation_Model extends \App\Base
 	 */
 	public static function updateRelationPresence($relationId, $status)
 	{
-		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['presence' => $status === '0' ? 1 : 0], ['relation_id' => $relationId])->execute();
+		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['presence' => !$status ? 1 : 0], ['relation_id' => $relationId])->execute();
+		\App\Cache::clear();
 	}
 
 	public static function removeRelationById($relationId)
@@ -742,6 +743,7 @@ class Vtiger_Relation_Model extends \App\Base
 			$db->delete('vtiger_relatedlists_fields', 'relation_id = ?', [$relationId]);
 			$db->delete('a_yf_relatedlists_inv_fields', 'relation_id = ?', [$relationId]);
 		}
+		\App\Cache::clear();
 	}
 
 	public static function updateRelationSequence($modules)
@@ -753,6 +755,7 @@ class Vtiger_Relation_Model extends \App\Base
 				], 'relation_id = ?', [$module['relationId']]
 			);
 		}
+		\App\Cache::clear();
 	}
 
 	public static function updateModuleRelatedFields($relationId, $fields)
@@ -769,7 +772,7 @@ class Vtiger_Relation_Model extends \App\Base
 				])->execute();
 			}
 		}
-		App\Cache::delete('getFieldsFromRelation', $relationId);
+		\App\Cache::clear();
 	}
 
 	public static function updateModuleRelatedInventoryFields($relationId, $fields)
@@ -785,6 +788,7 @@ class Vtiger_Relation_Model extends \App\Base
 				])->execute();
 			}
 		}
+		\App\Cache::clear();
 	}
 
 	public function isActive()
@@ -862,6 +866,7 @@ class Vtiger_Relation_Model extends \App\Base
 	public static function updateStateFavorites($relationId, $status)
 	{
 		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['favorites' => $status], ['relation_id' => $relationId])->execute();
+		\App\Cache::clear();
 	}
 
 	public function isFavorites()

@@ -3,18 +3,18 @@
  * Companies spanish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
-	'LBL_COMPANIES' => 'Detalles de la empresa',
-	'Companies' => 'Detalles de la empresa',
+	'LBL_COMPANIES' => 'Datos de mis empresas',
+	'Companies' => 'Datos de mis empresas',
 	'LBL_COMPANIES_DESCRIPTION' => 'Gestionar los datos de la empresa',
 	// Fields
 	'LBL_ID' => 'Id',
 	'LBL_NAME' => 'Nombre completo de la empresa',
 	'LBL_SHORT_NAME' => 'Nombre abreviado de la empresa',
 	'LBL_PHONE' => 'Teléfono',
-	'LBL_VATID' => 'ID de IVA',
+	'LBL_VATID' => 'NIF',
 	'LBL_EMAIL' => 'Correo',
 	'LBL_CITY' => 'Ciudad',
 	'LBL_STREET' => 'Calle',

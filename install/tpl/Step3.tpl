@@ -11,13 +11,13 @@
 -->*}
 {strip}
 	<form class="form-horizontal" name="step3" method="post" action="Install.php">
-		<input type="hidden" name="mode" value="Step4" />
+		<input type="hidden" name="mode" value="step4" />
 		<input type="hidden" name="lang" value="{$LANG}" />
 
 		<div class="row main-container">
 			<div class="inner-container">
 				<div class="pull-right">
-					<a class="helpBtn" href="https://yetiforce.com/en/implementer/installation-updates/103-web-server-requirements.html" target="_blank">
+					<a class="helpBtn" href="https://yetiforce.com/en/implementer/installation-updates/103-web-server-requirements.html" target="_blank" rel="noreferrer">
 						<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
 					</a>
 				</div>

@@ -1,17 +1,17 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="listViewPageDiv" id="listViewContainer">
 		<div class="listViewTopMenuDiv">
 			<div class="row widget_header">
 				<div class="col-xs-12">
-					{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 					{\App\Language::translate('LBL_PDF_DESCRIPTION', $QUALIFIED_MODULE)}
 				</div>
 			</div>
 			{if Settings_ModuleManager_Library_Model::checkLibrary('mPDF')}
 				<div class="alert alert-danger" role="alert">
 					<div>
-						<h4>{\App\Language::translate('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger','mPDF')}</h4>
+						<h4>{\App\Language::translateArgs('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger','mPDF')}</h4>
 					</div>
 				</div>
 				<hr>
@@ -41,7 +41,7 @@
 					</select>
 				</div>
 				<div class="col-md-4 btn-toolbar">
-					{include file='ListViewActions.tpl'|@vtemplate_path}
+					{include file=\App\Layout::getTemplatePath('ListViewActions.tpl')}
 				</div>
 			</div>
 		</div>

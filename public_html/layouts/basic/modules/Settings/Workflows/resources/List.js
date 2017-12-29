@@ -27,7 +27,7 @@ Settings_Vtiger_List_Js("Settings_Workflows_List_Js",{
 				var postData = {
 					"module": module,
 					"action": "TaskAjax",
-					"mode": "ChangeStatusAllTasks",
+					"mode": "changeStatusAllTasks",
 					"record": recordId,
 					"status": status,
 					"parent": app.getParentModuleName()

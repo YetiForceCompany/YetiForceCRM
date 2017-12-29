@@ -3,7 +3,7 @@
  * OSSTimeControl spanish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'PLL_HOLIDAY' => 'Vacaciones',
@@ -67,17 +67,17 @@ $languageStrings = [
 	'Data verification' => 'Verificación de Datos',
 	'Information completing' => 'Completando información',
 	'Company presentation' => 'Presentación de la empresa',
-	'Product/service presentation' => 'Presentación de producto/servicio',
+	'Product/service presentation' => 'Presentación de Producto / Servicio',
 	'Calculations preparation' => 'Preparación de cálculos',
 	'Quote preparation' => 'Preparación de la cotización',
-	'Order/Service preparation' => 'Preparación del Pedido/Servicio',
+	'Order/Service preparation' => 'Preparación del Pedido / Servicio',
 	'Project preparation' => 'Preparación del proyecto',
 	'Task realization' => 'Realización de tareas',
 	'Event realization' => 'Realización de eventos',
 	'Support' => 'Soporte',
 	'Document Verification' => 'Verificación de documentos',
-	'Visits at Organizations' => 'Visitas a Cuentas',
-	'Trips to Organizations' => 'Viajes a Cuentas',
+	'Visits at Organizations' => 'Visitas a Empresas',
+	'Trips to Organizations' => 'Viajes a Empresas',
 	'Office work' => 'Trabajo de oficina',
 	'Administrative work' => 'Trabajo administrativo',
 	'Accounting work' => 'Trabajo de contabilidad',
@@ -106,4 +106,8 @@ $jsLanguageStrings = [
 	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'El tiempo de trabajo no puede exceder las 24 horas',
 	'JS_START_DATE' => 'Fecha inicio',
 	'JS_END_DATE' => 'Fecha fin',
+	'JS_TOTAL_TIME' => 'Tiempo Total',
+	'JS_ASSIGNED_TO' => 'Asignado a',
+	'JS_TYPE' => 'Tipo',
+	'JS_NUMBER' => 'Número',
 ];

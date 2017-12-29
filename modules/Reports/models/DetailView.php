@@ -41,29 +41,29 @@ class Reports_DetailView_Model extends Vtiger_DetailView_Model
 		$moduleName = $moduleModel->getName();
 
 		$detailViewLinks = [];
-		$printPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Print');
+		$printPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'Print');
 		if ($printPermission) {
-			$detailViewLinks[] = array(
+			$detailViewLinks[] = [
 				'linklabel' => \App\Language::translate('LBL_REPORT_PRINT', $moduleName),
 				'linkurl' => $recordModel->getReportPrintURL(),
 				'linkicon' => 'fa fa-print'
-			);
+			];
 		}
 
-		$exportPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Export');
+		$exportPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'Export');
 		if ($exportPermission) {
-			$detailViewLinks[] = array(
+			$detailViewLinks[] = [
 				'linklabel' => \App\Language::translate('LBL_REPORT_CSV', $moduleName),
 				'linkurl' => $recordModel->getReportCSVURL(),
 				'linkicon' => 'fa fa-file-text-o'
-			);
+			];
 
 			if (!Settings_ModuleManager_Library_Model::checkLibrary('PHPExcel')) {
-				$detailViewLinks[] = array(
+				$detailViewLinks[] = [
 					'linklabel' => \App\Language::translate('LBL_REPORT_EXPORT_EXCEL', $moduleName),
 					'linkurl' => $recordModel->getReportExcelURL(),
 					'linkicon' => 'fa fa-file-excel-o'
-				);
+				];
 			}
 		}
 
@@ -85,12 +85,12 @@ class Reports_DetailView_Model extends Vtiger_DetailView_Model
 		$widgets = [];
 
 		if ($moduleModel->isTrackingEnabled()) {
-			$widgets[] = array(
+			$widgets[] = [
 				'linktype' => 'DETAILVIEWWIDGET',
 				'linklabel' => 'LBL_RECENT_ACTIVITIES',
 				'linkurl' => 'module=' . $this->getModuleName() . '&view=Detail&record=' . $this->getRecord()->getId() .
 				'&mode=showRecentActivities&page=1&limit=5',
-			);
+			];
 		}
 
 		$widgetLinks = [];

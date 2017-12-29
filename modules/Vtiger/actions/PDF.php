@@ -4,7 +4,7 @@
  * Returns special functions for PDF Settings
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Adrian Koń <a.kon@yetiforce.com>
@@ -12,11 +12,16 @@
 class Vtiger_PDF_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'ExportPdf')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'ExportPdf')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -30,7 +35,7 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 
 	public function process(\App\Request $request)
 	{
-		$mode = $request->get('mode');
+		$mode = $request->getMode();
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
 			return;
@@ -40,16 +45,16 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 	public function validateRecords(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$records = $request->get('records');
+		$records = $request->getArray('records');
 		$templates = $request->get('templates');
 		$allRecords = count($records);
 		$output = ['valid_records' => [], 'message' => \App\Language::translate('LBL_VALID_RECORDS', $moduleName, 0, $allRecords)];
 
 		if (!empty($templates) && count($templates) > 0) {
 			foreach ($templates as $templateId) {
-				$templateRecord = Vtiger_PDF_Model::getInstanceById($templateId);
+				$templateRecord = Vtiger_PDF_Model::getInstanceById((int) $templateId);
 				foreach ($records as $recordId) {
-					if (!$templateRecord->checkFiltersForRecord(intval($recordId))) {
+					if (\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId) && !$templateRecord->checkFiltersForRecord(intval($recordId))) {
 						if (($key = array_search($recordId, $records)) !== false) {
 							unset($records[$key]);
 						}
@@ -57,7 +62,6 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 				}
 			}
 			$selectedRecords = count($records);
-
 			$output = ['valid_records' => $records, 'message' => \App\Language::translate('LBL_VALID_RECORDS', $moduleName, $selectedRecords, $allRecords)];
 		}
 		$response = new Vtiger_Response();
@@ -69,9 +73,9 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
-		$templateIds = explode(',', $request->get('template'));
-		$singlePdf = $request->get('single_pdf') == 1 ? true : false;
-		$emailPdf = $request->get('email_pdf') == 1 ? true : false;
+		$templateIds = $request->getExploded('template');
+		$singlePdf = $request->getInteger('single_pdf') === 1 ? true : false;
+		$emailPdf = $request->getInteger('email_pdf') === 1 ? true : false;
 
 		if (!is_array($recordId)) {
 			$recordId = [$recordId];
@@ -83,24 +87,29 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 			$template = Vtiger_PDF_Model::getInstanceById($templateIds[0]);
 			$generateOnePdf = $template->get('one_pdf');
 		}
-
 		if ($selectedOneTemplate && $recordsAmount == 1) {
+			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId[0])) {
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			}
 			if ($emailPdf) {
 				$filePath = 'cache/pdf/' . $recordId[0] . '_' . time() . '.pdf';
 				Vtiger_PDF_Model::exportToPdf($recordId[0], $moduleName, $templateIds[0], $filePath, 'F');
 				if (file_exists($filePath)) {
-					header('Location: index.php?module=OSSMail&view=compose&pdf_path=' . $filePath);
+					header('Location: index.php?module=OSSMail&view=Compose&pdf_path=' . $filePath);
 				} else {
-					throw new \Exception\AppException(\App\Language::translate('LBL_EXPORT_ERROR', 'Settings:PDF'));
+					throw new \App\Exceptions\AppException('LBL_EXPORT_ERROR');
 				}
 			} else {
 				Vtiger_PDF_Model::exportToPdf($recordId[0], $moduleName, $templateIds[0]);
 			}
 		} else if ($selectedOneTemplate && $recordsAmount > 1 && $generateOnePdf) {
+			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			}
 			Vtiger_PDF_Model::exportToPdf($recordId, $moduleName, $templateIds[0]);
 		} else {
 			if ($singlePdf) {
-				$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'mPDF', $moduleName);
+				$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'Mpdf', $moduleName);
 				$pdf = new $handlerClass();
 				$styles = '';
 				$headers = '';
@@ -109,6 +118,9 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 				$body = '';
 				$origLanguage = vglobal('default_language');
 				foreach ($recordId as $index => $record) {
+					if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $record)) {
+						throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+					}
 					$templateIdsTemp = $templateIds;
 					$pdf->setRecordId($recordId[0]);
 					$pdf->setModuleName($moduleName);
@@ -172,7 +184,10 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 				$origLanguage = vglobal('default_language');
 				foreach ($templateIds as $id) {
 					foreach ($recordId as $record) {
-						$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'mPDF', $moduleName);
+						if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $record)) {
+							throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+						}
+						$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'Mpdf', $moduleName);
 						$pdf = new $handlerClass();
 						$pdf->setTemplateId($id);
 						$pdf->setRecordId($record);
@@ -222,10 +237,12 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 	 */
 	public function hasValidTemplate(\App\Request $request)
 	{
-		$recordId = $request->get('record');
-		$moduleName = $request->get('modulename');
-		$view = $request->get('view');
-
+		$recordId = $request->getInteger('record');
+		$moduleName = $request->getModule();
+		$view = $request->getByType('view');
+		if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
 		$pdfModel = new Vtiger_PDF_Model();
 		$pdfModel->setMainRecordId($recordId);
 		$valid = $pdfModel->checkActiveTemplates($recordId, $moduleName, $view);

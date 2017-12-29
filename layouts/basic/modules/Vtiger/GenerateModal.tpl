@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header">
 		<button class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
@@ -6,7 +6,7 @@
 	</div>
 	<div class="modal-body text-center">
 		{if $VIEW eq 'List'}
-			<input type="hidden" name="all_records" id="all_records" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($ALL_RECORDS))}" />
+			<input type="hidden" name="all_records" id="all_records" value="{\App\Purifier::encodeHtml(\App\Json::encode($ALL_RECORDS))}" />
 			<div class="form-group">
 				<div class="radio-inline">
 					<label>

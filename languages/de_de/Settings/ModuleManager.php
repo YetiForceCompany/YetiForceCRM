@@ -3,7 +3,8 @@
  * Module manager german translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author skavenkf (K.Fink)
  */
 $languageStrings = [
 	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Fehler beim Upload',
@@ -42,7 +43,7 @@ $languageStrings = [
 	'LBL_FINISH' => 'Beenden',
 	'LBL_IMPORT_ZIP' => 'Zip-Datei importieren',
 	'LBL_IMPORT_MODULE' => 'Modul importieren',
-	'LBL_NOT_FOUND' => "Leider ist derzeit für die aktuelle Version Ihres CRM keine Erweiterung verfügbar",
+	'LBL_NOT_FOUND' => 'Leider ist derzeit für die aktuelle Version Ihres CRM keine Erweiterung verfügbar',
 	'LBL_INVALID_IMPORT_TRY_AGAIN' => ' für Modulimport zur Verfügung gestellt! Versuchen Sie es erneut.',
 	'LBL_IMPORTED_MODULE' => '%s Modul wurde erfolgreich importiert.',
 	'LBL_IMPORTING_MODULE' => 'Module wird importiert',
@@ -82,6 +83,7 @@ $languageStrings = [
 	'LBL_LIBRARY_NO_DOWNLOAD' => 'Nicht heruntergeladen',
 	'LBL_LIBRARY_NEEDS_UPDATING' => 'Update erforderlich',
 	'LBL_NO_PERMISSION_TO_DIR' => 'Keine Berechtigung für die Verzeichnisse',
+	'LBL_ERROR_NO_VALID_PREFIX' => 'Invalid language prefix',
 ];
 $jsLanguageStrings = [
 	'JS_UPDATED_MODULE' => 'Update Erfolgreich',
@@ -89,7 +91,7 @@ $jsLanguageStrings = [
 	'JS_IMPORTED_MODULE' => 'Installation Erfolgreich',
 	'JS_IMPORT_SUCCESSFULL' => 'Installation Erfolgreich',
 	'JS_FOR_INSTALLATION' => 'für Installation',
-	'JS_CLICK_HERE' => 'Hier Klicken',
+	'JS_CLICK_HERE' => 'Hier klicken',
 	'JS_ON' => 'Ein',
 	'JS_REMOVED_MODULE' => 'Gelöschtes Modul',
 	'JS_SPECIAL_CHARACTERS_NOT_ALLOWED' => 'Sonderzeichen wie & < > \' " : , sind nicht erlaubt',

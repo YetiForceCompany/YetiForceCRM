@@ -3,7 +3,7 @@
  * SRecurringOrders spanish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'SRecurringOrders' => 'Órdenes de Venta Recurrentes',
@@ -23,7 +23,7 @@ $languageStrings = [
 	'LBL_REALIZATION_START_DATE' => 'Fecha inicio de la realización',
 	'LBL_REALIZATION_COMPLETION_DATE' => 'Fecha fin de la realización',
 	'LBL_ACTUAL_COMPLETION_DATE' => 'Fecha de finalización real',
-	'LBL_COMPANY_NAME' => 'Nombre de empresa',
+	'LBL_COMPANY_NAME' => 'Nombre de la Empresa',
 	'SINGLE_SSalesProcesses' => 'Oportunidad',
 	'LBL_END_PERIOD' => 'Periodo final',
 	'LBL_FREQUENCY' => 'Frecuencia',

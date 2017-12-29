@@ -12,7 +12,7 @@
 {strip}
 <div class='widget_header row '>
 	<div class="col-xs-12">
-		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+		{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 	</div>
 </div>
 {literal}
@@ -69,7 +69,6 @@ jQuery(document).ready(function() {
 									<td width="10%">:</td>
 									<td width="10%">{$IMPORT_RESULT.UPDATED}</td>
 								</tr>
-								{if in_array($FOR_MODULE, $INVENTORY_MODULES) eq FALSE}
 								<tr>
 									<td>{\App\Language::translate('LBL_NUMBER_OF_RECORDS_SKIPPED', $MODULE)}</td>
 									<td width="10%">:</td>
@@ -80,7 +79,6 @@ jQuery(document).ready(function() {
 									<td width="10%">:</td>
 									<td width="10%">{$IMPORT_RESULT.MERGED}</td>
 								</tr>
-								{/if}
 							</table>
 						</td>
 					</tr>

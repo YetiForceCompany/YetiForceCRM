@@ -3,7 +3,7 @@
  * SSingle orders portuguese translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'SSingleOrders' => 'Pedidos de Vendas',
@@ -19,8 +19,8 @@ $languageStrings = [
 	'LBL_STATUS' => 'Status',
 	'LBL_CLOSED_TIME' => 'Hora do Fechamento',
 	'LBL_RESPONSE_TIME' => 'Tempo de resposta',
-	'LBL_REALIZATION_START_DATE' => 'Data de Início da execução',
-	'LBL_REALIZATION_COMPLETION_DATE' => 'Data de conclusão da execução',
+	'LBL_REALIZATION_START_DATE' => 'Start date',
+	'LBL_REALIZATION_COMPLETION_DATE' => 'Completion date',
 	'LBL_ACTUAL_COMPLETION_DATE' => 'Data de conclusão real',
 	'LBL_COMPANY_NAME' => 'Nome da Empresa',
 	'SINGLE_SSalesProcesses' => 'Oportunidade',

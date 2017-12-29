@@ -3,7 +3,7 @@
  * BruteForce russian translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'BruteForce' => 'Защита от подбора пароля',
@@ -23,8 +23,8 @@ $languageStrings = [
 	'LBL_USERS_FOR_NOTIFICATIONS' => 'Пользователи для уведомления',
 	'LBL_BRUTEFORCE_ACTIVE' => 'Активный',
 	'LBL_VIEW_SHOW' => 'Защита от подбора пароля',
-	'LBL_SENT_NOTIFICATIONS' => 'Send notifications',
+	'LBL_SENT_NOTIFICATIONS' => 'Отправленные уведомления',
 ];
 $jsLanguageStrings = [
-	'JS_COULD_NOT_FINNISH_REACTION' => 'Error. Save failed.',
+	'JS_COULD_NOT_FINNISH_REACTION' => 'Ошибка. Не удалось сохранить.',
 ];

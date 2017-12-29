@@ -6,52 +6,56 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vtiger_Date_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
-	 */
-	public function getTemplateName()
-	{
-		return 'uitypes/Date.tpl';
-	}
-
-	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
-	 * @return <Object>
-	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
-	{
-		if (empty($value)) {
-			return $value;
-		} else {
-			$dateValue = self::getDisplayDateValue($value);
-		}
-
-		if ($dateValue == '--') {
-			return "";
-		} else {
-			return $dateValue;
-		}
-	}
-
-	/**
-	 * Function to get the DB Insert Value, for the current field type with given User Value
-	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @return mixed
+	 * {@inheritDoc}
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
 		if (!empty($value)) {
 			return self::getDBInsertedValue($value);
+		}
+		return '';
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function validate($value, $isUserFormat = false)
+	{
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		if ($isUserFormat) {
+			list($y, $m, $d) = App\Fields\Date::explode($value, App\User::getCurrentUserModel()->getDetail('date_format'));
 		} else {
+			list($y, $m, $d) = explode('-', $value);
+		}
+		if (!checkdate($m, $d, $y)) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+		}
+		$this->validate = true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+	{
+		if (empty($value)) {
 			return '';
+		} else {
+			$dateValue = App\Fields\Date::formatToDisplay($value);
+		}
+		if ($dateValue === '--') {
+			return '';
+		} else {
+			return $dateValue;
 		}
 	}
 
@@ -66,21 +70,17 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the display value in edit view
-	 * @param $value
-	 * @return converted value
+	 * {@inheritDoc}
 	 */
-	public function getEditViewDisplayValue($value, $record = false)
+	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		if (empty($value) || $value === ' ') {
 			$value = trim($value);
-			$fieldInstance = $this->get('field')->getWebserviceFieldObject();
-			$moduleName = $this->get('field')->getModule()->getName();
-			$fieldName = $fieldInstance->getFieldName();
-
+			$fieldName = $this->getFieldModel()->getFieldName();
+			$moduleName = $this->getFieldModel()->getModule()->getName();
 			//Restricted Fields for to show Default Value
 			if (($fieldName === 'birthday' && $moduleName === 'Contacts') || $moduleName === 'Products') {
-				return $value;
+				return \App\Purifier::encodeHtml($value);
 			}
 
 			//Special Condition for field 'support_end_date' in Contacts Module
@@ -92,33 +92,22 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 		} else {
 			$value = DateTimeField::convertToUserFormat($value);
 		}
-		return $value;
+		return \App\Purifier::encodeHtml($value);
 	}
 
 	/**
-	 * Function to get Date value for Display
-	 * @param <type> $date
-	 * @return string
+	 * {@inheritDoc}
 	 */
-	public static function getDisplayDateValue($date)
-	{
-		$date = new DateTimeField($date);
-		return $date->getDisplayDate();
-	}
-
-	/**
-	 * Function to get DateTime value for Display
-	 * @param <type> $dateTime
-	 * @return string
-	 */
-	public static function getDisplayDateTimeValue($dateTime)
-	{
-		$date = new DateTimeField($dateTime);
-		return $date->getDisplayDateTimeValue();
-	}
-
 	public function getListSearchTemplateName()
 	{
 		return 'uitypes/DateFieldSearchView.tpl';
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getTemplateName()
+	{
+		return 'uitypes/Date.tpl';
 	}
 }

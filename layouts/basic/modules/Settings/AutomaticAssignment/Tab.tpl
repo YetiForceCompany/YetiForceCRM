@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="row padding20">
 		{assign var=FIELD_MODEL value=$RECORD_MODEL->getFieldInstanceByName($FIELD_NAME)}
@@ -15,11 +15,11 @@
 			{assign var=FIELD_MODEL value=$FIELD_MODEL->set('fieldvalue',$RECORD_MODEL->get($FIELD_NAME))}
 			<form id="formValue" class="">
 				<label class="col-sm-2 col-md-2 col-lg-1 control-label">
-					{\App\Language::translate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}
+					{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}
 				</label>
 				<div class="col-sm-5 col-md-4 controls">
 					<div class="input-group fieldContainer" data-name="{$FIELD_MODEL->getName()}" data-dbname="{$FIELD_NAME}">
-						{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(), $SOURCE_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$SOURCE_MODULE}
+						{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $SOURCE_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$SOURCE_MODULE}
 						<div class="input-group-btn" id="basic-addon">
 							<button type="button" class="btn btn-success saveValue" id="saveValue" title="{\App\Language::translate('BTN_ADD', $QUALIFIED_MODULE)}">
 								<span>{\App\Language::translate('BTN_SAVE', $QUALIFIED_MODULE)}</span>
@@ -45,11 +45,11 @@
 				</div>
 				<div class="form-group fieldToShowHide{if !$RECORD_MODEL->get($FIELD_NAME)} hide{/if}">
 					<label class="col-xs-12">
-						{\App\Language::translate($FIELD_MODEL->get('label'), $SOURCE_MODULE)}<span class="redColor"> *</span>
+						{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}<span class="redColor"> *</span>
 					</label>
 					<div class="col-md-5 col-lg-4">
 						<div class="input-group fieldContainer" data-name="{$FIELD_MODEL->getName()}" data-dbname="{$FIELD_NAME}">
-							{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(), $SOURCE_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$SOURCE_MODULE}
+							{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $SOURCE_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$SOURCE_MODULE}
 							<div class="input-group-btn" id="basic-addon">
 								<button type="button" class="btn btn-success saveValue" id="saveValue" title="{\App\Language::translate('BTN_ADD', $QUALIFIED_MODULE)}">
 									<span>{\App\Language::translate('BTN_SAVE', $QUALIFIED_MODULE)}</span>
@@ -78,7 +78,7 @@
 							<div class="filterConditionsDiv">
 								<div class="row">
 									<span class="col-md-12">
-										{include file='AdvanceFilter.tpl'|@vtemplate_path}
+										{include file=\App\Layout::getTemplatePath('AdvanceFilter.tpl')}
 									</span>
 								</div>
 							</div>
@@ -101,7 +101,7 @@
 									<strong>{\App\Language::translate($LABEL, $QUALIFIED_MODULE)}</strong>
 									<div class="col-xs-8 pull-right controls">
 										<div class="input-group col-xs-12 fieldContainer" data-name="{$FIELD_MODEL->getName()}" data-dbname="{$FIELD_NAME}">
-											{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getListSearchTemplateName(), $SOURCE_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$SOURCE_MODULE}
+											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getListSearchTemplateName(), $SOURCE_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$SOURCE_MODULE}
 											<div class="input-group-btn" id="basic-addon">
 												<button type="button" class="btn btn-success saveValue" id="saveValue" title="{\App\Language::translate('BTN_ADD', $QUALIFIED_MODULE)}">
 													<span class="glyphicon glyphicon-plus"></span>

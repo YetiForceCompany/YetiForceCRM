@@ -2,13 +2,13 @@
 /**
  * @package YetiForce.Webservice
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 chdir(__DIR__ . '/../');
 require('include/ConfigUtils.php');
 if (!in_array('dav', $enabledServices)) {
 	require('include/main/WebUI.php');
-	$apiLog = new \Exception\NoPermittedToApi();
+	$apiLog = new \App\Exceptions\NoPermittedToApi();
 	$apiLog->stop('Dav - Service is not active');
 }
 AppConfig::iniSet('error_log', ROOT_DIRECTORY . '/cache/logs/davPhpError.log');

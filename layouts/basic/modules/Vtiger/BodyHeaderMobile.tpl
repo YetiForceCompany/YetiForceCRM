@@ -1,5 +1,5 @@
 {strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<div class="actionMenu" aria-hidden="true">
 		{if AppConfig::performance('BROWSING_HISTORY_WORKING')}
 			<div class="row">
@@ -11,7 +11,7 @@
 						<a data-placement="left" data-toggle="dropdown" class="btn btn-default btn-sm showHistoryBtn" title="{\App\Language::translate('LBL_PAGES_HISTORY')}" aria-expanded="false" href="#">
 							<span class="fa fa-history" aria-hidden="true"></span>
 						</a>
-						{include file='BrowsingHistory.tpl'|@vtemplate_path:$MODULE}
+						{include file=\App\Layout::getTemplatePath('BrowsingHistory.tpl', $MODULE)}
 					</div>
 				</div>
 			</div>
@@ -45,7 +45,7 @@
 				</div>
 			</div>
 		{/if}
-		{if Users_Privileges_Model::isPermitted('Notification', 'DetailView')}
+		{if \App\Privilege::isPermitted('Notification', 'DetailView')}
 			<div class="row">
 				<div class="isBadge notificationsNotice popoverTooltip quickAction{if AppConfig::module('Home', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
 					<div class="pull-left">

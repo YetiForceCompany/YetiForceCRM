@@ -4,7 +4,7 @@
  * Vtiger Workflow action class
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_Workflow_Action extends Vtiger_Action_Controller
 {
@@ -15,16 +15,19 @@ class Vtiger_Workflow_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('execute');
 	}
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
-
-		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordId);
-		if (!$recordPermission) {
-			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		if ($request->isEmpty('record')) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		return true;
+		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
 	}
 
 	public function process(\App\Request $request)
@@ -39,9 +42,9 @@ class Vtiger_Workflow_Action extends Vtiger_Action_Controller
 	public function execute(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$ids = $request->get('ids');
-		$user = $request->get('user');
+		$user = $request->getInteger('user');
 		Vtiger_WorkflowTrigger_Model::execute($moduleName, $record, $ids, $user);
 		$response = new Vtiger_Response();
 		$response->setResult(true);

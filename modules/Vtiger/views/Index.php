@@ -17,16 +17,15 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 		parent::__construct();
 	}
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		if (!empty($moduleName)) {
-			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-			$permission = $userPrivilegesModel->hasModulePermission($moduleName);
-
-			if (!$permission) {
-				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
-			}
+		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -37,11 +36,11 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 		$moduleName = $request->getModule();
 		if (!empty($moduleName)) {
 			$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-			$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->get('view')];
+			$linkParams = ['MODULE' => $moduleName, 'ACTION' => $request->getByType('view', 1)];
 			$linkModels = $moduleModel->getSideBarLinks($linkParams);
 			$viewer->assign('QUICK_LINKS', $linkModels);
 		}
-		$viewer->assign('CURRENT_VIEW', $request->get('view'));
+		$viewer->assign('CURRENT_VIEW', $request->getByType('view', 1));
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}
@@ -76,8 +75,8 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$view = $request->get('view');
-		$jsFileNames = array(
+		$view = $request->getByType('view', 1);
+		$jsFileNames = [
 			'modules.Vtiger.resources.Vtiger',
 			'modules.Vtiger.resources.' . $view,
 			"modules.$moduleName.resources.$moduleName",
@@ -85,7 +84,7 @@ class Vtiger_Index_View extends Vtiger_Basic_View
 			'libraries.jquery.ckeditor.ckeditor',
 			'libraries.jquery.ckeditor.adapters.jquery',
 			'modules.Vtiger.resources.CkEditor',
-		);
+		];
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 

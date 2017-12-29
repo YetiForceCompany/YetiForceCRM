@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 jQuery.Class('Settings_Widgets_Index_Js', {
 }, {
 	getTabId: function () {
@@ -16,8 +16,10 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 			app.showBtnSwitch(wizardContainer.find('.switchBtn'));
 			if (type == 'RelatedModule') {
 				thisInstance.loadFilters(wizardContainer);
+				thisInstance.relatedModuleFields(wizardContainer);
 				wizardContainer.find("select[name='relatedmodule']").change(function () {
 					thisInstance.changeRelatedModule();
+					thisInstance.relatedModuleFields(wizardContainer);
 				});
 			}
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
@@ -114,7 +116,7 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 			params.async = true;
 		}
 		params.dataType = 'json';
-		AppConnector.request(params).done(
+		AppConnector.request(params).then(
 				function (data) {
 					var response = data['result'];
 					var params = {
@@ -157,6 +159,32 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 			}
 		}
 	},
+	relatedModuleFields: function (container) {
+		var relatedModule = container.find("select[name='relatedmodule']").val();
+		var relatedfields = container.find("select[name='relatedfields']");
+		relatedfields.find('optgroup').each(function (index, optgroup) {
+			optgroup = $(optgroup);
+			if (relatedModule != optgroup.data('module')) {
+				optgroup.addClass("hide");
+				optgroup.attr("disabled", "disabled");
+			} else {
+				optgroup.removeClass('hide');
+				optgroup.removeAttr("disabled");
+			}
+			optgroup.find('option').each(function (index, option) {
+			option = $(option);
+			if (relatedModule != option.data('module')) {
+				option.addClass("hide");
+				option.attr("disabled", "disabled");
+			} else {
+				option.removeClass('hide');
+				option.removeAttr("disabled");
+			}
+		});
+		});
+		relatedfields.trigger('chosen:updated');
+	},
+
 	changeRelatedModule: function (e) {
 		var thisInstance = this;
 		var form = jQuery('.form-modalAddWidget');
@@ -197,8 +225,10 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 				app.showPopoverElementView(wizardContainer.find('.HelpInfoPopover'));
 				if (thisInstance.getType() == 'RelatedModule') {
 					thisInstance.loadFilters(wizardContainer);
+					thisInstance.relatedModuleFields(wizardContainer);
 					wizardContainer.find("select[name='relatedmodule']").change(function () {
 						thisInstance.changeRelatedModule();
+						thisInstance.relatedModuleFields(wizardContainer);
 					});
 				}
 				var form = jQuery('form', wizardContainer);

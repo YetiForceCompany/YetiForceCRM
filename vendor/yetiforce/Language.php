@@ -5,7 +5,7 @@ namespace App;
  * Language basic class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 class Language
@@ -13,19 +13,19 @@ class Language
 
 	/**
 	 * Current language
-	 * @var string 
+	 * @var string
 	 */
 	private static $language = false;
 
 	/**
 	 * Short current language
-	 * @var string 
+	 * @var string
 	 */
 	private static $shortLanguage = false;
 
 	/**
 	 * Pluralize cache
-	 * @var array 
+	 * @var array
 	 */
 	private static $pluralizeCache = [];
 
@@ -99,6 +99,25 @@ class Language
 	}
 
 	/**
+	 * Translation function based on only one file
+	 * @param string $key
+	 * @param string $moduleName
+	 * @param string|bool $language
+	 * @return string
+	 */
+	public static function translateSingleMod($key, $moduleName = 'Vtiger', $language = false)
+	{
+		if (!$language) {
+			$language = static::getLanguage();
+		}
+		$commonStrings = \Vtiger_Language_Handler::getModuleStringsFromFile($language, $moduleName);
+		if (!empty($commonStrings['languageStrings'][$key])) {
+			return stripslashes($commonStrings['languageStrings'][$key]);
+		}
+		return $key;
+	}
+
+	/**
 	 * Functions that gets pluralized translated string
 	 * @param string $key String which need to be translated
 	 * @param string $moduleName Module scope in which the translation need to be check
@@ -158,7 +177,7 @@ class Language
 	 * - 3 or more forms : key_X with X indented for each plural form
 	 * @see https://www.i18next.com/plurals.html for some examples
 	 * @see http://docs.translatehouse.org/projects/localization-guide/en/latest/l10n/pluralforms.html?id=l10n/pluralforms for whole plural rules used by getText
-	 * 
+	 *
 	 * @param float $count Quantityu for plural determination
 	 * @return string Pluralized key to look for
 	 */
@@ -171,19 +190,19 @@ class Language
 			$lang = static::getShortLanguageName();
 		}
 		//No plural form
-		if (in_array($lang, array('ay', 'bo', 'cgg', 'dz', 'id', 'ja', 'jbo', 'ka', 'km', 'ko', 'lo', 'ms', 'my', 'sah', 'su', 'th', 'tt', 'ug', 'vi', 'wo', 'zh'))) {
+		if (in_array($lang, ['ay', 'bo', 'cgg', 'dz', 'id', 'ja', 'jbo', 'ka', 'km', 'ko', 'lo', 'ms', 'my', 'sah', 'su', 'th', 'tt', 'ug', 'vi', 'wo', 'zh'])) {
 			return '_0';
 		}
 		//Two plural forms
-		if (in_array($lang, array('ach', 'ak', 'am', 'arn', 'br', 'fa', 'fil', 'fr', 'gun', 'ln', 'mfe', 'mg', 'mi', 'oc', 'pt_br', 'tg', 'ti', 'tr', 'uz', 'wa'))) {
+		if (in_array($lang, ['ach', 'ak', 'am', 'arn', 'br', 'fa', 'fil', 'fr', 'gun', 'ln', 'mfe', 'mg', 'mi', 'oc', 'pt_br', 'tg', 'ti', 'tr', 'uz', 'wa'])) {
 			return ($count > 1) ? '_1' : '_0';
 		}
-		if (in_array($lang, array(
+		if (in_array($lang, [
 				'af', 'an', 'anp', 'as', 'ast', 'az', 'bg', 'bn', 'brx', 'ca', 'da', 'de', 'doi', 'dz', 'el', 'en', 'eo', 'es', 'et', 'eu', 'ff', 'fi', 'fo', 'fur', 'fy',
 				'gl', 'gu', 'ha', 'he', 'hi', 'hne', 'hu', 'hy', 'ia', 'it', 'kk', 'kl', 'kn', 'ku', 'ky', 'lb', 'mai', 'mk', 'ml', 'mn', 'mni', 'mr', 'nah', 'nap',
 				'nb', 'ne', 'nl', 'nn', 'nso', 'or', 'pa', 'pap', 'pms', 'ps', 'pt', 'rm', 'rw', 'sat', 'sco', 'sd', 'se', 'si', 'so', 'son', 'sq', 'sv', 'sw',
 				'ta', 'te', 'tk', 'ur', 'yo'
-			))) {
+			])) {
 			return ($count !== 1) ? '_1' : '_0';
 		}
 		switch ($lang) {
@@ -346,33 +365,34 @@ class Language
 	 */
 	public static function getLanguageLabel($name)
 	{
-		return (new \App\Db\Query())->select(['label'])->from('vtiger_language')->where(['prefix' => $name])->scalar();
+		if (Cache::has('getLanguageLabel', $name)) {
+			return Cache::get('getLanguageLabel', $name);
+		}
+		$label = (new \App\Db\Query())->select(['label'])->from('vtiger_language')->where(['prefix' => $name])->scalar();
+		Cache::save('getLanguageLabel', $name, $label);
+		return $label;
 	}
 
 	/**
 	 * Function return languange
-	 * @param boolean|array $condition
+	 * @param boolean $active
+	 * @param boolean $allData
 	 * @return array
 	 */
-	public static function getAll($condition = false)
+	public static function getAll($active = true, $allData = false)
 	{
-		if (is_array($condition)) {
-			$cacheKey = implode(',', $condition);
-		} else {
-			$cacheKey = $condition;
-		}
+		$cacheKey = intval($active) . ':' . intval($allData);
 		if (Cache::has('getAll', $cacheKey)) {
 			return Cache::get('getAll', $cacheKey);
 		}
-
 		$query = (new Db\Query())->from('vtiger_language');
-		if ($condition) {
-			$query->where($condition);
+		if ($active) {
+			$query->where(['active' => 1]);
 		}
-		$output = [];
-		$dataReader = $query->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$output[$row['prefix']] = $row;
+		if ($allData) {
+			$output = $query->indexBy('prefix')->all();
+		} else {
+			$output = $query->select(['prefix', 'label'])->createCommand()->queryAllByGroup();
 		}
 		Cache::save('getAll', $cacheKey, $output);
 		return $output;

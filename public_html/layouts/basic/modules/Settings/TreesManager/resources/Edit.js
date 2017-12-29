@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 	jstreeInstance: false,
 	jstreeLastID: 0,
@@ -26,7 +26,14 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 		$('.saveTree').click(function (e) {
 			jstreeInstance.jstree('deselect_all', true)
 			var json = jstreeInstance.jstree("get_json");
-			$('#treeValues').val(JSON.stringify(json));
+			var forSave = [];
+			$.each(json, function (index, value) {
+				if (value.text == value.li_attr.text) {
+					value.text = value.li_attr.key;
+				}
+				forSave[index] = value;
+			});
+			$('#treeValues').val(JSON.stringify(forSave));
 			editContainer.submit();
 		});
 		$('.addNewElement').keydown(function (event) {
@@ -84,8 +91,12 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 							action: function (data) {
 								var instanceTree = $.jstree.reference(data.reference);
 								var node = instanceTree.get_node(data.reference);
-								Settings_Vtiger_Index_Js.selectIcon().then(function(data){
-									thisInstance.jstreeInstance.jstree(true).set_icon(node.id, data['name']);
+								Settings_Vtiger_Index_Js.selectIcon().then(function (data) {
+									if (data['name'] == '-') {
+										thisInstance.jstreeInstance.jstree(true).set_icon(node.id, false);
+									}else{
+										thisInstance.jstreeInstance.jstree(true).set_icon(node.id, data['name']);
+									}
 								});
 							}
 						},
@@ -123,8 +134,7 @@ jQuery.Class('Settings_TreesManager_Edit_Js', {}, {
 												obj = inst.get_node(data.reference);
 										if (inst.is_selected(obj)) {
 											inst.cut(inst.get_top_selected());
-										}
-										else {
+										} else {
 											inst.cut(obj);
 										}
 									}

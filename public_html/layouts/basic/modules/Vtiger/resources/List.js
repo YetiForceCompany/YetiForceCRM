@@ -114,7 +114,7 @@ jQuery.Class("Vtiger_List_Js", {
 			};
 			AppConnector.request(actionParams).then(
 					function (data) {
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+						progressIndicatorElement.progressIndicator({mode: 'hide'});
 						if (data) {
 							var callback = function (data) {
 								var params = app.validationEngineOptions;
@@ -173,7 +173,7 @@ jQuery.Class("Vtiger_List_Js", {
 			var form = $('<form method="POST" action="' + massActionUrl + '">');
 			form.append($('<input />', {name: "module", value: module}));
 			form.append($('<input />', {name: "action", value: "QuickExport"}));
-			form.append($('<input />', {name: "mode", value: "ExportToExcel"}));
+			form.append($('<input />', {name: "mode", value: "exportToExcel"}));
 			if (typeof csrfMagicName !== 'undefined') {
 				form.append($('<input />', {name: csrfMagicName, value: csrfMagicToken}));
 			}
@@ -184,7 +184,7 @@ jQuery.Class("Vtiger_List_Js", {
 			form.submit();
 			Vtiger_Helper_Js.showMessage({text: app.vtranslate('JS_STARTED_GENERATING_FILE'), type: 'info'})
 
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({mode: 'hide'});
 		} else {
 			listInstance.noRecordSelectedAlert();
 		}
@@ -232,148 +232,18 @@ jQuery.Class("Vtiger_List_Js", {
 		}
 		return this.getRelatedModulesContainer;
 	},
-	massDeleteRecords: function (url, instance) {
-		var listInstance = Vtiger_List_Js.getInstance();
-		if (typeof instance != "undefined") {
-			listInstance = instance;
-		}
-		var validationResult = listInstance.checkListRecordSelected();
-		if (validationResult != true) {
-			// Compute selected ids, excluded ids values, along with cvid value and pass as url parameters
-			var selectedIds = listInstance.readSelectedIds(true);
-			var excludedIds = listInstance.readExcludedIds(true);
-			var cvId = listInstance.getCurrentCvId();
-			var message = app.vtranslate('LBL_MASS_DELETE_CONFIRMATION');
-			Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-					function (e) {
-
-						var deleteURL = url + '&viewname=' + cvId + '&selected_ids=' + selectedIds + '&excluded_ids=' + excludedIds;
-						var listViewInstance = Vtiger_List_Js.getInstance();
-
-						if (listViewInstance.getListSearchInstance()) {
-							var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
-							deleteURL += "&search_params=" + JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
-							if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
-								deleteURL += '&search_key=' + listViewInstance.getListSearchInstance().getAlphabetSearchField();
-								deleteURL += '&search_value=' + searchValue;
-								deleteURL += '&operator=s';
-							}
-						}
-
-						var deleteMessage = app.vtranslate('JS_RECORDS_ARE_GETTING_DELETED');
-						var progressIndicatorElement = jQuery.progressIndicator({
-							'message': deleteMessage,
-							'position': 'html',
-							'blockInfo': {
-								'enabled': true
-							}
-						});
-						AppConnector.request(deleteURL).then(
-								function (data) {
-									progressIndicatorElement.progressIndicator({
-										'mode': 'hide'
-									});
-									listInstance.postMassDeleteRecords();
-									if (data.error) {
-										var params = {
-											text: app.vtranslate(data.error.message),
-											title: app.vtranslate('JS_LBL_PERMISSION')
-										}
-										Vtiger_Helper_Js.showPnotify(params);
-									}
-								},
-								function (error) {
-									console.log('Error: ' + error)
-								}
-						);
-					},
-					function (error, err) {
-						Vtiger_List_Js.clearList();
-					})
-		} else {
-			listInstance.noRecordSelectedAlert();
-		}
-	},
-	deleteRecord: function (recordId) {
-		var aDeferred = jQuery.Deferred();
-		var listInstance = Vtiger_List_Js.getInstance();
-		var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
-		Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
-				function (e) {
-					var module = app.getModuleName();
-					var postData = listInstance.getDeafultDeleteParam();
-					postData.record = recordId;
-					var deleteMessage = app.vtranslate('JS_RECORD_GETTING_DELETED');
-					var progressIndicatorElement = jQuery.progressIndicator({
-						'message': deleteMessage,
-						'position': 'html',
-						'blockInfo': {
-							'enabled': true
-						}
-					});
-					AppConnector.request(postData).then(
-							function (data) {
-								progressIndicatorElement.progressIndicator({
-									'mode': 'hide'
-								})
-								if (data.success) {
-									var paginationObject = $('.pagination');
-									var totalCount = paginationObject.data('totalCount');
-									if (totalCount != '') {
-										totalCount--;
-										paginationObject.data('totalCount', totalCount);
-									}
-									var orderBy = jQuery('#orderBy').val();
-									var sortOrder = jQuery("#sortOrder").val();
-									var pageNumber = parseInt($('#pageNumber').val());
-									if ($('#noOfEntries').val() == 1 && pageNumber != 1) {
-										pageNumber--;
-									}
-									var urlParams = {
-										viewname: data.result.viewname,
-										orderby: orderBy,
-										sortorder: sortOrder,
-										page: pageNumber,
-									};
-									jQuery('#recordsCount').val('');
-									jQuery('#totalPageCount').text('');
-									listInstance.getListViewRecords(urlParams).then(function () {
-										listInstance.updatePagination(pageNumber);
-										aDeferred.resolve();
-									});
-								} else {
-									var params = {
-										text: app.vtranslate(data.error.message),
-										title: app.vtranslate('JS_LBL_PERMISSION')
-									};
-									Vtiger_Helper_Js.showPnotify(params);
-								}
-							},
-							function (error, err) {
-
-							}
-					);
-				},
-				function (error, err) {
-				}
-		);
-		return aDeferred.promise();
-	},
 	triggerMassAction: function (massActionUrl, callBackFunction, beforeShowCb, css) {
-
 		if (typeof beforeShowCb == 'undefined') {
 			beforeShowCb = function () {
 				return true;
 			};
 		}
-
 		if (typeof beforeShowCb == 'object') {
 			css = beforeShowCb;
 			beforeShowCb = function () {
 				return true;
 			};
 		}
-
 		var listInstance = Vtiger_List_Js.getInstance();
 		var validationResult = listInstance.checkListRecordSelected();
 		if (validationResult != true) {
@@ -387,7 +257,6 @@ jQuery.Class("Vtiger_List_Js", {
 				"selected_ids": selectedIds,
 				"excluded_ids": excludedIds
 			};
-
 			var listViewInstance = Vtiger_List_Js.getInstance();
 			if (listViewInstance.getListSearchInstance()) {
 				var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
@@ -398,44 +267,42 @@ jQuery.Class("Vtiger_List_Js", {
 					postData['operator'] = 's';
 				}
 			}
-
 			var actionParams = {
 				"type": "POST",
 				"url": massActionUrl,
 				"dataType": "html",
 				"data": postData
 			};
-
 			if (typeof css == 'undefined') {
 				css = {};
 			}
 			var css = jQuery.extend({'text-align': 'left'}, css);
-
-			AppConnector.request(actionParams).then(
-					function (data) {
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
-						if (data) {
-							var result = beforeShowCb(data);
-							if (!result) {
-								return;
-							}
-							app.showModalWindow(data, function (data) {
-								if (typeof callBackFunction == 'function') {
-									callBackFunction(data);
-									//listInstance.triggerDisplayTypeEvent();
-								}
-							}, css)
-
-						}
-					},
-					function (error, err) {
-						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			AppConnector.request(actionParams).then(function (data) {
+				progressIndicatorElement.progressIndicator({mode: 'hide'});
+				if (data) {
+					var result = beforeShowCb(data);
+					if (!result) {
+						return;
 					}
-			);
+					app.showModalWindow(data, function (data) {
+						if (typeof callBackFunction == 'function') {
+							callBackFunction(data);
+							//listInstance.triggerDisplayTypeEvent();
+						}
+					}, css)
+				}
+			}, function (error, err) {
+				progressIndicatorElement.progressIndicator({mode: 'hide'});
+				Vtiger_Helper_Js.showPnotify({
+					title: app.vtranslate('JS_MESSAGE'),
+					text: err,
+					animation: 'show',
+					type: 'error'
+				});
+			});
 		} else {
 			listInstance.noRecordSelectedAlert();
 		}
-
 	},
 	triggerMassEdit: function (massEditUrl) {
 		var selectedCount = this.getSelectedRecordCount();
@@ -514,7 +381,7 @@ jQuery.Class("Vtiger_List_Js", {
 	showDuplicateSearchForm: function (url) {
 		var progressIndicatorElement = jQuery.progressIndicator();
 		app.showModalWindow("", url, function () {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			progressIndicatorElement.progressIndicator({mode: 'hide'});
 			Vtiger_List_Js.registerDuplicateSearchButtonEvent();
 		});
 	},
@@ -578,7 +445,7 @@ jQuery.Class("Vtiger_List_Js", {
 			}
 		});
 		app.showModalWindow(null, url, function () {
-			progressIndicatorElement.progressIndicator({'mode': 'hide'})
+			progressIndicatorElement.progressIndicator({mode: 'hide'})
 		});
 	},
 	showMap: function () {
@@ -705,20 +572,17 @@ jQuery.Class("Vtiger_List_Js", {
 		return this.filterSelectElement;
 	},
 	getDefaultParams: function () {
-		var pageNumber = jQuery('#pageNumber').val();
-		var module = app.getModuleName();
-		var parent = app.getParentModuleName();
-		var cvId = this.getCurrentCvId();
-		var orderBy = jQuery('#orderBy').val();
-		var sortOrder = jQuery("#sortOrder").val();
 		var params = {
-			module: module,
-			parent: parent,
-			page: pageNumber,
-			view: "List",
-			viewname: cvId,
-			orderby: orderBy,
-			sortorder: sortOrder
+			module: app.getModuleName(),
+			page: jQuery('#pageNumber').val(),
+			view: app.getViewName(),
+			viewname: this.getCurrentCvId(),
+			orderby: jQuery('#orderBy').val(),
+			sortorder: jQuery("#sortOrder").val(),
+			entityState: jQuery("#entityState").val(),
+		}
+		if (app.getParentModuleName()) {
+			params.parent = app.getParentModuleName();
 		}
 		var listSearchInstance = this.getListSearchInstance();
 		if (listSearchInstance !== false) {
@@ -732,92 +596,81 @@ jQuery.Class("Vtiger_List_Js", {
 		}
 		return params;
 	},
-	getDeafultDeleteParam: function () {
-		return {
-			module: app.getModuleName(),
-			action: 'DeleteAjax',
-			parent: app.getParentModuleName()
-		};
-	},
 	/*
 	 * Function which will give you all the list view params
 	 */
 	getListViewRecords: function (urlParams) {
-		var aDeferred = jQuery.Deferred();
+		var aDeferred = $.Deferred();
 		if (typeof urlParams == 'undefined') {
 			urlParams = {};
 		}
-
 		var thisInstance = this;
+		var listViewContentsContainer = $('#listViewContents');
 		var loadingMessage = jQuery('.listViewLoadingMsg').text();
-		var progressIndicatorElement = jQuery.progressIndicator({
+		var progressIndicatorElement = $.progressIndicator({
 			'message': loadingMessage,
 			'position': 'html',
 			'blockInfo': {
 				'enabled': true
 			}
 		});
-
 		var defaultParams = this.getDefaultParams();
-		var urlParams = jQuery.extend(defaultParams, urlParams);
-		AppConnector.requestPjax(urlParams).then(
-				function (data) {
-					progressIndicatorElement.progressIndicator({
-						'mode': 'hide'
-					})
-					var listViewContentsContainer = jQuery('#listViewContents')
-					var searchInstance = thisInstance.getListSearchInstance();
-					listViewContentsContainer.html(data);
-					app.showSelect2ElementView(listViewContentsContainer.find('select.select2'));
-					thisInstance.registerListViewSpecialOptiopn();
-					app.changeSelectElementView(listViewContentsContainer);
-					app.showPopoverElementView(listViewContentsContainer.find('.popoverTooltip'));
-					jQuery('body').trigger(jQuery.Event('LoadRecordList.PostLoad'), data);
-					if (searchInstance !== false) {
-						searchInstance.registerBasicEvents();
-					}
-					Vtiger_Index_Js.registerMailButtons(listViewContentsContainer);
-					//thisInstance.triggerDisplayTypeEvent();
-					Vtiger_Helper_Js.showHorizontalTopScrollBar();
-
-					var selectedIds = thisInstance.readSelectedIds();
-					if (selectedIds != '') {
-						if (selectedIds == 'all') {
-							jQuery('.listViewEntriesCheckBox').each(function (index, element) {
-								jQuery(this).prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
-							});
-							jQuery('#deSelectAllMsgDiv').show();
-							var excludedIds = thisInstance.readExcludedIds();
-							if (excludedIds != '') {
-								jQuery('#listViewEntriesMainCheckBox').prop('checked', false);
-								jQuery('.listViewEntriesCheckBox').each(function (index, element) {
-									if (jQuery.inArray(jQuery(element).val(), excludedIds) != -1) {
-										jQuery(element).prop('checked', false).closest('tr').removeClass('highlightBackgroundColor');
-									}
-								});
-							}
-						} else {
-							jQuery('.listViewEntriesCheckBox').each(function (index, element) {
-								if (jQuery.inArray(jQuery(element).val(), selectedIds) != -1) {
-									jQuery(this).prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
-								}
-							});
-						}
-						thisInstance.checkSelectAll();
-					}
-					thisInstance.calculatePages().then(function (data) {
-						aDeferred.resolve(data);
-						// Let listeners know about page state change.
-						app.notifyPostAjaxReady();
-					});
-					thisInstance.registerUnreviewedCountEvent();
-					thisInstance.registerLastRelationsEvent();
-				},
-				function (textStatus, errorThrown) {
-					aDeferred.reject(textStatus, errorThrown);
-				}
-		);
+		var urlParams = $.extend(defaultParams, urlParams);
+		AppConnector.requestPjax(urlParams).then(function (data) {
+			progressIndicatorElement.progressIndicator({mode: 'hide'});
+			listViewContentsContainer.html(data);
+			app.event.trigger("RecordListView.AfterLoad", data, thisInstance);
+			thisInstance.calculatePages().then(function (data) {
+				aDeferred.resolve(data);
+				// Let listeners know about page state change.
+				app.notifyPostAjaxReady();
+			});
+			thisInstance.postLoadListViewRecordsEvents(listViewContentsContainer);
+		}, function (textStatus, errorThrown) {
+			aDeferred.reject(textStatus, errorThrown);
+		});
 		return aDeferred.promise();
+	},
+	postLoadListViewRecordsEvents: function (container) {
+		var thisInstance = this;
+		app.showSelect2ElementView(container.find('select.select2'));
+		app.changeSelectElementView(container);
+		app.showPopoverElementView(container.find('.popoverTooltip'));
+		thisInstance.registerListViewSpecialOptiopn();
+		var searchInstance = thisInstance.getListSearchInstance();
+		if (searchInstance !== false) {
+			searchInstance.registerBasicEvents();
+		}
+		Vtiger_Index_Js.registerMailButtons(container);
+		//thisInstance.triggerDisplayTypeEvent();
+		Vtiger_Helper_Js.showHorizontalTopScrollBar();
+		var selectedIds = thisInstance.readSelectedIds();
+		if (selectedIds != '') {
+			if (selectedIds == 'all') {
+				$('.listViewEntriesCheckBox').each(function (index, element) {
+					$(this).prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
+				});
+				$('#deSelectAllMsgDiv').show();
+				var excludedIds = thisInstance.readExcludedIds();
+				if (excludedIds != '') {
+					$('#listViewEntriesMainCheckBox').prop('checked', false);
+					$('.listViewEntriesCheckBox').each(function (index, element) {
+						if ($.inArray($(element).val(), excludedIds) != -1) {
+							$(element).prop('checked', false).closest('tr').removeClass('highlightBackgroundColor');
+						}
+					});
+				}
+			} else {
+				$('.listViewEntriesCheckBox').each(function (index, element) {
+					if ($.inArray($(element).val(), selectedIds) != -1) {
+						$(this).prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
+					}
+				});
+			}
+			thisInstance.checkSelectAll();
+		}
+		thisInstance.registerUnreviewedCountEvent();
+		thisInstance.registerLastRelationsEvent();
 	},
 	/**
 	 * Function to calculate number of pages
@@ -937,37 +790,15 @@ jQuery.Class("Vtiger_List_Js", {
 			aDeferred.resolve(recordCountVal);
 		} else {
 			var count = '';
-			var cvId = this.getCurrentCvId();
-			var module = app.getModuleName();
-			var parent = app.getParentModuleName();
-			var postData = {
-				"module": module,
-				"parent": parent,
-				"view": "ListAjax",
-				"viewname": cvId,
-				"mode": "getRecordsCount"
-			}
-			var listSearchInstance = this.getListSearchInstance();
-			if (listSearchInstance !== false) {
-				var searchValue = listSearchInstance.getAlphabetSearchValue();
-				postData.search_params = JSON.stringify(listSearchInstance.getListSearchParams());
-				if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
-					postData['search_key'] = listSearchInstance.getAlphabetSearchField();
-					postData['search_value'] = searchValue;
-					postData['operator'] = 's';
-				}
-			}
-			AppConnector.request(postData).then(
-					function (data) {
-						var response = JSON.parse(data);
-						jQuery("#recordsCount").val(response['result']['count']);
-						count = response['result']['count'];
-						aDeferred.resolve(count);
-					},
-					function (error, err) {
-
-					}
-			);
+			var params = this.getDefaultParams();
+			params.view = 'ListAjax';
+			params.mode = 'getRecordsCount';
+			AppConnector.request(params).then(function (data) {
+				var response = JSON.parse(data);
+				jQuery("#recordsCount").val(response['result']['count']);
+				count = response['result']['count'];
+				aDeferred.resolve(count);
+			});
 		}
 
 		return aDeferred.promise();
@@ -1259,7 +1090,7 @@ jQuery.Class("Vtiger_List_Js", {
 						pageCount = 1;
 					}
 					element.text(pageCount);
-					element.progressIndicator({'mode': 'hide'});
+					element.progressIndicator({mode: 'hide'});
 				});
 			}
 		})
@@ -1762,17 +1593,116 @@ jQuery.Class("Vtiger_List_Js", {
 			window.location.href = recordUrl;
 		});
 	},
-	/*
-	 * Function to register the list view delete record click event
-	 */
-	registerDeleteRecordClickEvent: function () {
+	registerRecordEvents: function () {
 		var thisInstance = this;
 		var listViewContentDiv = this.getListViewContentContainer();
-		listViewContentDiv.on('click', '.deleteRecordButton', function (e) {
-			var elem = jQuery(e.currentTarget);
-			var recordId = elem.closest('tr').data('id');
-			Vtiger_List_Js.deleteRecord(recordId);
-			e.stopPropagation();
+		listViewContentDiv.on('click', '.recordEvent', function (event) {
+			var target = $(this);
+			var recordId = target.closest('tr').data('id');
+			var params = {};
+			if (target.data('confirm')) {
+				params.message = target.data('confirm');
+				params.title = target.html() + ' ' + target.data('content');
+			} else {
+				params.message = target.data('content');
+			}
+			Vtiger_Helper_Js.showConfirmationBox(params).then(function (e) {
+				var progressIndicatorElement = jQuery.progressIndicator({
+					position: 'html',
+					blockInfo: {
+						enabled: true
+					}
+				});
+				AppConnector.request(target.data('url') + '&sourceView=List&record=' + recordId).then(function (data) {
+					progressIndicatorElement.progressIndicator({
+						mode: 'hide'
+					});
+					if (data && data.success) {
+						if (data.result.notify) {
+							Vtiger_Helper_Js.showMessage(data.result.notify);
+						}
+						var paginationObject = $('.pagination');
+						var totalCount = paginationObject.data('totalCount');
+						if (totalCount != '') {
+							totalCount--;
+							paginationObject.data('totalCount', totalCount);
+						}
+						var orderBy = jQuery('#orderBy').val();
+						var sortOrder = jQuery("#sortOrder").val();
+						var pageNumber = parseInt($('#pageNumber').val());
+						if ($('#noOfEntries').val() == 1 && pageNumber != 1) {
+							pageNumber--;
+						}
+						var urlParams = {
+							viewname: data.result.viewname,
+							orderby: orderBy,
+							sortorder: sortOrder,
+							page: pageNumber,
+						};
+						$('#recordsCount').val('');
+						$('#totalPageCount').text('');
+						thisInstance.getListViewRecords(urlParams).then(function () {
+							thisInstance.updatePagination(pageNumber);
+						});
+					} else {
+						Vtiger_Helper_Js.showPnotify({
+							text: app.vtranslate(data.error.message),
+							title: app.vtranslate('JS_LBL_PERMISSION')
+						});
+					}
+				});
+			});
+			event.stopPropagation();
+		});
+	},
+	registerMassRecordsEvents: function () {
+		var thisInstance = this;
+		jQuery('.listViewActionsDiv').on('click', '.massRecordEvent', function (event) {
+			var target = $(this);
+			var listInstance = Vtiger_List_Js.getInstance();
+			var validationResult = listInstance.checkListRecordSelected();
+			if (validationResult != true) {
+				var params = {};
+				if (target.data('confirm')) {
+					params.message = target.data('confirm');
+					params.title = target.html();
+				} else {
+					params.message = target.html();
+				}
+				Vtiger_Helper_Js.showConfirmationBox(params).then(function (e) {
+					var progressIndicatorElement = jQuery.progressIndicator();
+					var postData = {
+						viewname: listInstance.getCurrentCvId(),
+						selected_ids: listInstance.readSelectedIds(true),
+						excluded_ids: listInstance.readExcludedIds(true)
+					};
+					var listViewInstance = Vtiger_List_Js.getInstance();
+					if (listViewInstance.getListSearchInstance()) {
+						var searchValue = listViewInstance.getListSearchInstance().getAlphabetSearchValue();
+						postData.search_params = JSON.stringify(listViewInstance.getListSearchInstance().getListSearchParams());
+						if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+							postData['search_key'] = listViewInstance.getListSearchInstance().getAlphabetSearchField();
+							postData['search_value'] = searchValue;
+							postData['operator'] = 's';
+						}
+					}
+					AppConnector.request({
+						type: "POST",
+						url: target.data('url'),
+						data: postData
+					}).then(function (data) {
+						progressIndicatorElement.progressIndicator({mode: 'hide'});
+						if (data && data.result && data.result.notify) {
+							Vtiger_Helper_Js.showMessage(data.result.notify);
+						}
+						thisInstance.getListViewRecords();
+					}, function (error, err) {
+						progressIndicatorElement.progressIndicator({mode: 'hide'});
+					});
+				});
+			} else {
+				listInstance.noRecordSelectedAlert();
+			}
 		});
 	},
 	/*
@@ -1930,7 +1860,7 @@ jQuery.Class("Vtiger_List_Js", {
 			} else {
 				thisInstance.showPagingInfo();
 			}
-			element.parent().progressIndicator({'mode': 'hide'});
+			element.parent().progressIndicator({mode: 'hide'});
 		})
 	},
 	showPagingInfo: function () {
@@ -2016,6 +1946,57 @@ jQuery.Class("Vtiger_List_Js", {
 			Vtiger_Helper_Js.showHorizontalTopScrollBar();
 		});
 	},
+	registerChangeEntityStateEvent: function () {
+		var thisInstance = this;
+		$('.dropdownEntityState a').click(function (e) {
+			var element = $(this);
+			$('#entityState').val(element.data('value'));
+			app.setMainParams('pageNumber', '1');
+			app.setMainParams('pageToJump', '1');
+			$('#recordsCount').val('');
+			$('#totalPageCount').text("");
+			$('.pagination').data('totalCount', 0);
+			$('#dropdownEntityState').find('span').attr('class', element.find('span').attr('class'));
+			thisInstance.getListViewRecords().then(function (data) {
+				thisInstance.calculatePages().then(function () {
+					thisInstance.updatePagination();
+				});
+			});
+		});
+	},
+	registerSummationEvent: function () {
+		var thisInstance = this;
+		this.getListViewContentContainer().on('click', '.listViewSummation button', function () {
+			var button = $(this);
+			var calculateValue = button.closest('td').find('.calculateValue');
+			var params = thisInstance.getDefaultParams();
+			var progress = $.progressIndicator({
+				message: app.vtranslate('JS_CALCULATING_IN_PROGRESS'),
+				position: 'html',
+				blockInfo: {
+					enabled: true
+				}
+			});
+			params['action'] = 'List';
+			params['mode'] = 'calculate';
+			params['fieldName'] = button.data('field');
+			params['calculateType'] = button.data('operator');
+			if (thisInstance.checkListRecordSelected() != true) {
+				params['selected_ids'] = thisInstance.readSelectedIds(true);
+				params['excluded_ids'] = thisInstance.readExcludedIds(true);
+			}
+			delete params['view'];
+			app.hidePopover(button);
+			AppConnector.request(params).then(function (response) {
+				if (response.success) {
+					calculateValue.html(response.result);
+				} else {
+					calculateValue.html('');
+				}
+				progress.progressIndicator({mode: 'hide'});
+			});
+		});
+	},
 	registerEvents: function () {
 		this.breadCrumbsFilter();
 		this.registerRowClickEvent();
@@ -2024,11 +2005,13 @@ jQuery.Class("Vtiger_List_Js", {
 		this.registerCheckBoxClickEvent();
 		this.registerSelectAllClickEvent();
 		this.registerDeselectAllClickEvent();
-		this.registerDeleteRecordClickEvent();
+		this.registerRecordEvents();
+		this.registerMassRecordsEvents();
 		this.registerHeadersClickEvent();
 		this.registerMassActionSubmitEvent();
 		this.changeCustomFilterElementView();
 		this.registerChangeCustomFilterEvent();
+		this.registerChangeEntityStateEvent();
 		this.registerDuplicateFilterClickEvent();
 		this.registerEditFilterClickEvent();
 		this.registerDeleteFilterClickEvent();
@@ -2041,7 +2024,7 @@ jQuery.Class("Vtiger_List_Js", {
 		Vtiger_Helper_Js.showHorizontalTopScrollBar();
 		this.registerUrlFieldClickEvent();
 		this.registerEventForTotalRecordsCount();
-
+		this.registerSummationEvent();
 		//Just reset all the checkboxes on page load: added for chrome issue.
 		var listViewContainer = this.getListViewContentContainer();
 		listViewContainer.find('#listViewEntriesMainCheckBox,.listViewEntriesCheckBox').prop('checked', false);

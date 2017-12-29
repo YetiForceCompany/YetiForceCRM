@@ -3,7 +3,7 @@
  * SystemWarnings polish translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	// Folders
@@ -14,7 +14,7 @@ $languageStrings = [
 	'LBL_LIBRARY_PHPEXCEL' => 'Biblioteka PHPExcel',
 	'LBL_CONFIG_REPORT' => 'Konfiguracja serwera',
 	'LBL_CONFIG_REPORT_LINK' => 'Pokaż brakującą konfigurację',
-	'LBL_CONFIG_REPORT_DESC' => 'Konfiguracja serwera nie została poprawnie ustawiona. Mogą wystąpić problemy z działaniem systemu, lub wprowadzane dane mogą zostać uszkodzone, lub usunięte. Więcej informacji znajduje się w artykule <a target="_blank" href="https://yetiforce.com/pl/wdro%C5%BCeniowiec/instalacja-aktualizacja/99-wymagania-dla-serwera-www.html"><u>Wymagania dla serwera WWW na stronie yetiforce.com</u></a>',
+	'LBL_CONFIG_REPORT_DESC' => 'Konfiguracja serwera nie została poprawnie ustawiona. Mogą wystąpić problemy z działaniem systemu, lub wprowadzane dane mogą zostać uszkodzone, lub usunięte. Więcej informacji znajduje się w artykule <a target="_blank" rel="noreferrer" href="https://yetiforce.com/pl/baza-wiedzy/dokumentacja/dokumentacja-wdrozeniowa/item/wymagania-dla-serwera-www"><u>Wymagania dla serwera WWW na stronie yetiforce.com</u></a>',
 	'LBL_NEWSLETTER' => 'Newsletter',
 	'LBL_NEWSLETTER_DESC' => 'Zapisz się do darmowego newslettera YetiForce. Bądź na bieżąco z nowościami w systemie i poznaj lepiej branżę CRM. Będziemy dzielić się z Tobą informacjami o nowych wersjach, aktualizacjach, wydarzeniach, nowinkach w systemie i nie tylko.<br />Przyłącz się do naszej społeczności i nie pozostawaj w tyle.<br />Wysłanie zgłoszenia wymaga połączenia z Internetem.',
 	'LBL_STATS' => 'Wyślij informacje statystyczne',
@@ -33,5 +33,5 @@ $languageStrings = [
 	'BTN_CONFIGURE_HTTPS' => 'Zalecana konfiguracja',
 	'LBL_MISSING_HTTPS' => 'Wykryto, że połączenie z serwerem nie jest szyfrowane. Jeśli połączenie z serwerem nie zostało nawiązane za pomocą protokołu HTTPS komunikacja może zostać podsłuchana lub zmieniona przez osoby postronne. Zalecaną konfigurację można znaleźć w dokumentacji w temacie "Wymagania dla serwera WWW."',
 	'LBL_DISK_USAGE' => 'Ilość wolnego miejsca',
-	'LBL_DISK_FULL' => 'Mało wolnego miejsca na dysku, brak wystarczającej ilości miejsca na dysku spowoduje że system przestanie działać. Ścieżka do katalodu: %s',
+	'LBL_DISK_FULL' => 'Mało wolnego miejsca na dysku (%s z %s), brak wystarczającej ilości miejsca na dysku spowoduje że system przestanie działać. Ścieżka do katalodu: %s',
 ];

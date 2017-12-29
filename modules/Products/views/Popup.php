@@ -4,7 +4,7 @@
  * Popup View Class for Products
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Products_Popup_View extends Vtiger_Popup_View
@@ -16,25 +16,25 @@ class Products_Popup_View extends Vtiger_Popup_View
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $this->getModule($request);
-		$cvId = $request->get('cvid');
-		$pageNumber = $request->get('page');
-		$orderBy = $request->get('orderby');
-		$sortOrder = $request->get('sortorder');
-		$sourceModule = $request->get('src_module');
-		$sourceField = $request->get('src_field');
-		$sourceRecord = $request->get('src_record');
-		$searchKey = $request->get('search_key');
+		$cvId = $request->getByType('cvid', 2);
+		$pageNumber = $request->getInteger('page');
+		$orderBy = $request->getForSql('orderby');
+		$sortOrder = $request->getForSql('sortorder');
+		$sourceModule = $request->getByType('src_module', 2);
+		$sourceField = $request->isEmpty('src_field') ? false : $request->getByType('src_field', 2);
+		$sourceRecord = $request->isEmpty('src_record') ? false : $request->getInteger('src_record');
+		$searchKey = $request->isEmpty('search_key') ? false : $request->getByType('search_key', 2);
 		$searchValue = $request->get('search_value');
-		$currencyId = $request->get('currency_id');
-		$relatedParentModule = $request->get('related_parent_module');
-		$relatedParentId = $request->get('related_parent_id');
+		$currencyId = $request->isEmpty('currency_id') ? false : $request->getInteger('currency_id');
+		$relatedParentModule = $request->getByType('related_parent_module', 2);
+		$relatedParentId = $request->getInteger('related_parent_id');
 		$filterFields = $request->get('filterFields');
 
 		//To handle special operation when selecting record from Popup
 		$getUrl = $request->get('get_url');
 
 		//Check whether the request is in multi select mode
-		$multiSelectMode = $request->get('multi_select');
+		$multiSelectMode = $request->getBoolean('multi_select');
 		if (empty($multiSelectMode)) {
 			$multiSelectMode = false;
 		}
@@ -43,7 +43,7 @@ class Products_Popup_View extends Vtiger_Popup_View
 			$cvId = '0';
 		}
 		if (empty($pageNumber)) {
-			$pageNumber = '1';
+			$pageNumber = 1;
 		}
 
 		$pagingModel = new Vtiger_Paging_Model();
@@ -101,7 +101,7 @@ class Products_Popup_View extends Vtiger_Popup_View
 		}
 		// Limit the choice of products/services only to the ones related to currently selected Opportunity - second step.
 		if (Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit($sourceModule)) {
-			$salesProcessId = $request->get('salesprocessid');
+			$salesProcessId = $request->getInteger('salesprocessid');
 			if (empty($salesProcessId))
 				$salesProcessId = -1;
 			$listViewModel->set('salesprocessid', $salesProcessId);

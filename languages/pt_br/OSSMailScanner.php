@@ -3,7 +3,7 @@
  * OSSMail scanner portuguese translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'OSSMailScanner' => 'Escanear Mensagem',
@@ -120,7 +120,7 @@ $languageStrings = [
 	'stop_user' => 'Escaneamento parou pelo',
 	'Email_Subject' => 'Notificação: O CRON está sendo executado há bastante tempo',
 	'Email_Body' => 'Olá<br /><br />CRON está executando durante muito tempo, verifique se o sistema de e-mail está funcionando corretamente.<br /><br />Administração',
-	'Email_FromName' => 'Intranet Dialo CRON',
+	'Email_FromName' => 'Mail Scanner',
 	'JS_info_restart_ok' => 'O CRON foi desbloqueado',
 	'permissions_all' => 'Visível para todos',
 	'permissions_vtiger' => 'Baseado nas permissões do YetiForce',

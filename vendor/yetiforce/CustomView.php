@@ -7,7 +7,7 @@ use \App\Db;
  * Custom view class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class CustomView
@@ -51,10 +51,12 @@ class CustomView
 	];
 
 	/**
-	 * Data filter list 
+	 * Data filter list
 	 */
 	const DATE_FILTER_CONDITIONS = [
 		'custom' => ['label' => 'LBL_CUSTOM'],
+		'smallerthannow' => ['label' => 'LBL_SMALLER_THAN_NOW'],
+		'greaterthannow' => ['label' => 'LBL_GREATER_THAN_NOW'],
 		'prevfy' => ['label' => 'LBL_PREVIOUS_FY'],
 		'thisfy' => ['label' => 'LBL_CURRENT_FY'],
 		'nextfy' => ['label' => 'LBL_NEXT_FY'],
@@ -120,7 +122,11 @@ class CustomView
 	 */
 	public static function setCurrentPage($moduleName, $viewId, $start)
 	{
-		$_SESSION['lvs'][$moduleName][$viewId]['start'] = $start;
+		if (empty($start)) {
+			unset($_SESSION['lvs'][$moduleName][$viewId]['start']);
+		} else {
+			$_SESSION['lvs'][$moduleName][$viewId]['start'] = $start;
+		}
 	}
 
 	/**
@@ -164,7 +170,11 @@ class CustomView
 	 */
 	public static function setSorder($moduleName, $order)
 	{
-		$_SESSION['lvs'][$moduleName]['sorder'] = $order;
+		if (empty($order)) {
+			unset($_SESSION['lvs'][$moduleName]['sorder']);
+		} else {
+			$_SESSION['lvs'][$moduleName]['sorder'] = $order;
+		}
 	}
 
 	/**
@@ -182,11 +192,15 @@ class CustomView
 	/**
 	 * Set sorted by
 	 * @param string $moduleName
-	 * @param string $order
+	 * @param string $sortby
 	 */
-	public static function setSortby($moduleName, $order)
+	public static function setSortby($moduleName, $sortby)
 	{
-		$_SESSION['lvs'][$moduleName]['sortby'] = $order;
+		if (empty($sortby)) {
+			unset($_SESSION['lvs'][$moduleName]['sortby']);
+		} else {
+			$_SESSION['lvs'][$moduleName]['sortby'] = $sortby;
+		}
 	}
 
 	/**
@@ -264,7 +278,7 @@ class CustomView
 	/**
 	 * Get custom view from file
 	 * @param string $cvId
-	 * @throws \Exception\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	public function getCustomViewFromFile($cvId)
 	{
@@ -279,14 +293,14 @@ class CustomView
 			return $filter;
 		}
 		\App\Log::error(Language::translate('LBL_NO_FOUND_VIEW') . "cvId: $cvId");
-		throw new \Exception\AppException('LBL_NO_FOUND_VIEW');
+		throw new \App\Exceptions\AppException('LBL_NO_FOUND_VIEW');
 	}
 
 	/**
 	 * Columns list by cvid
 	 * @param mixed $cvId
 	 * @return array
-	 * @throws \Exception\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	public function getColumnsListByCvid($cvId)
 	{
@@ -308,7 +322,7 @@ class CustomView
 			return $columnList;
 		}
 		\App\Log::error(Language::translate('LBL_NO_FOUND_VIEW') . "cvId: $cvId");
-		throw new \Exception\AppException('LBL_NO_FOUND_VIEW');
+		throw new \App\Exceptions\AppException('LBL_NO_FOUND_VIEW');
 	}
 
 	/**
@@ -653,5 +667,24 @@ class CustomView
 		}
 		Cache::save('CustomViewInfo', $mixed, $info);
 		return $info;
+	}
+
+	/**
+	 * Reset current views configuration in session
+	 * @param type $moduleName
+	 */
+	public static function resetCurrentView($moduleName = false)
+	{
+		if (\App\Session::has('lvs')) {
+			if ($moduleName) {
+				$lvs = \App\Session::get('lvs');
+				if (isset($lvs[$moduleName])) {
+					unset($lvs[$moduleName]);
+					\App\Session::set('lvs', $lvs);
+				}
+			} else {
+				\App\Session::set('lvs', []);
+			}
+		}
 	}
 }

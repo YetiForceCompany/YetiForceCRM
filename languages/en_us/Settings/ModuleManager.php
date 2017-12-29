@@ -45,7 +45,7 @@ $languageStrings = [
 	'LBL_FINISH' => 'Finish',
 	'LBL_IMPORT_ZIP' => 'Install from file',
 	'LBL_IMPORT_MODULE' => 'Install from Vtiger',
-	'LBL_NOT_FOUND' => "Sorry, no extensions are currently available for the current version of your CRM",
+	'LBL_NOT_FOUND' => 'Sorry, no extensions are currently available for the current version of your CRM',
 	'LBL_INVALID_IMPORT_TRY_AGAIN' => ' provided for module import! Try again.',
 	'LBL_IMPORTED_MODULE' => '%s module has been imported successfully.',
 	'LBL_IMPORTING_MODULE' => 'Importing module',
@@ -85,6 +85,7 @@ $languageStrings = [
 	'LBL_LIBRARY_NO_DOWNLOAD' => 'Not downloaded',
 	'LBL_LIBRARY_NEEDS_UPDATING' => 'Update required',
 	'LBL_NO_PERMISSION_TO_DIR' => 'No permission to directories',
+	'LBL_ERROR_NO_VALID_PREFIX' => 'Invalid language prefix',
 ];
 $jsLanguageStrings = [
 	'JS_UPDATED_MODULE' => 'Update Successful',

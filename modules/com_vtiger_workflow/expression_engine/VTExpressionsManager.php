@@ -14,11 +14,6 @@
 class VTExpressionsManager
 {
 
-	function __construct($adb)
-	{
-		$this->adb = $adb;
-	}
-
 	/**
 	 * Cache array
 	 * @var array
@@ -30,7 +25,7 @@ class VTExpressionsManager
 	 * @param string $key
 	 * @param mixed $value
 	 */
-	static function addToCache($key, $value)
+	public static function addToCache($key, $value)
 	{
 		self::$cache[$key] = $value;
 	}
@@ -40,7 +35,7 @@ class VTExpressionsManager
 	 * @param string $key
 	 * @return mixed|boolean
 	 */
-	static function fromCache($key)
+	public static function fromCache($key)
 	{
 		if (isset(self::$cache[$key]))
 			return self::$cache[$key];
@@ -50,7 +45,7 @@ class VTExpressionsManager
 	/**
 	 * Clear cache array
 	 */
-	static function clearCache()
+	public static function clearCache()
 	{
 		self::$cache = [];
 	}
@@ -60,14 +55,12 @@ class VTExpressionsManager
 	 * @param string $moduleName
 	 * @return array
 	 */
-	function fields($moduleName)
+	public function fields($moduleName)
 	{
-		$current_user = vglobal('current_user');
-		$result = vtws_describe($moduleName, $current_user);
-		$fields = $result['fields'];
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$arr = [];
-		foreach ($fields as $field) {
-			$arr[$field['name']] = $field['label'];
+		foreach ($moduleModel->getFields() as $fieldName => $fieldModel) {
+			$arr[$fieldName] = $fieldModel->getFieldLabel();
 		}
 		return $arr;
 	}
@@ -76,7 +69,7 @@ class VTExpressionsManager
 	 * Get expression functions
 	 * @return array
 	 */
-	function expressionFunctions()
+	public function expressionFunctions()
 	{
 		return ['concat' => 'concat(a,b)', 'time_diffdays(a,b)' => 'time_diffdays(a,b)', 'time_diffdays(a)' => 'time_diffdays(a)', 'time_diff(a,b)' => 'time_diff(a,b)', 'time_diff(a)' => 'time_diff(a)',
 			'add_days' => 'add_days(datefield, noofdays)', 'sub_days' => 'sub_days(datefield, noofdays)', 'add_time(timefield, minutes)' => 'add_time(timefield, minutes)', 'sub_time(timefield, minutes)' => 'sub_time(timefield, minutes)',

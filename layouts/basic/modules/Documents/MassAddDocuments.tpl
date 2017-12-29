@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header">
 		<button data-dismiss="modal" class="close" type="button" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
@@ -21,6 +21,6 @@
 				</div>
 			</div>
 		</div>
-		{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
+		{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $MODULE)}
 	</form>
 {/strip}

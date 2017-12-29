@@ -3,7 +3,7 @@
  * CFixedAssets german translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 $languageStrings = [
@@ -34,6 +34,18 @@ $languageStrings = [
 	'FL_NUMBER_REPAIR' => 'Anzahl Reparaturen',
 	'FL_DATE_OF_LAST_REPAIR' => 'Datum der letzten Reparatur',
 	'FL_CURRENT_ODOMETER_READING' => 'Aktueller Kilometerstand',
+	'FL_MAX_FUEL_CONSUPTION' => 'Maximaler Benzinverbrauch',
+	'FL_TYPE_OIL' => 'Öl Art',
+	'FL_CURRENT_ODOMETER_READING_PORTERS' => 'Aktueller Kilometerstand bei Abgabe',
+	'FL_PERIOD_CAR_REVIEW' => 'MOT Testperiode',
+	'FL_DATE_CAR_REVIEW' => 'MOT Testdaten',
+	'FL_NUMBER_FUEL_CARD' => 'Nummer der Tankkarte',
+	'FL_DATE_INSURANCE' => 'Versicherungsdatum',
+	'FL_COST_INSURANCE_OC' => 'Kostend der Haftpflichtversicherung',
+	'FL_COST_INSURANCE_AC' => 'Kosten Unfallversicherung',
+	'FL_COST_INSURANCE_NW' => 'Kosten Versicherung gegen Personschäden',
+	'FL_NUMBER_MOTOHOURS' => 'Moto Stundenanzahl',
+	'FL_EQUIPMENT' => 'Ausstattung',
 	// Picklist
 	'PLL_UNAVAILABLE' => 'Nicht verfügbar',
 	'PLL_AVAILABLE' => 'Verfügbar',

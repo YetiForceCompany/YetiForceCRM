@@ -8,16 +8,8 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Settings_Profiles_Save_Action extends Vtiger_Action_Controller
+class Settings_Profiles_Save_Action extends Settings_Vtiger_Basic_Action
 {
-
-	public function checkPermission(\App\Request $request)
-	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		if (!$currentUser->isAdminUser()) {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
-		}
-	}
 
 	public function process(\App\Request $request)
 	{
