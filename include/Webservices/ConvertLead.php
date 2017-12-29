@@ -18,6 +18,12 @@ Vtiger_Loader::includeOnce('include.runtime.Globals');
 class WebservicesConvertLead
 {
 
+	/**
+	 * The function convert the lead
+	 * @param string $entityvalues
+	 * @param Users_Record_Model $user
+	 * @return int
+	 */
 	public static function vtws_convertlead($entityvalues, Users_Record_Model $user)
 	{
 		$adb = PearDatabase::getInstance();
@@ -204,7 +210,13 @@ class WebservicesConvertLead
 		return $entity;
 	}
 
-//function to handle the transferring of related records for lead
+	/**
+	 * function to handle the transferring of related records for lead
+	 * @param int $leadIdComponents
+	 * @param int $entityIds
+	 * @param string $entityvalues
+	 * @return boolean
+	 */
 	public static function vtws_convertLeadTransferHandler($leadIdComponents, $entityIds, $entityvalues)
 	{
 		try {
@@ -216,6 +228,12 @@ class WebservicesConvertLead
 		return true;
 	}
 
+	/**
+	 * The function updates the status convert lead
+	 * @param int $entityIds
+	 * @param int $leadId
+	 * @param Users_Record_Model $user
+	 */
 	public static function vtws_updateConvertLeadStatus($entityIds, $leadId, Users_Record_Model $user)
 	{
 		$adb = PearDatabase::getInstance();
