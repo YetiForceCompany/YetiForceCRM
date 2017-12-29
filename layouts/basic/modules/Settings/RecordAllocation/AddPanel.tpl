@@ -1,11 +1,11 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{if empty($ALL_ACTIVEUSER_LIST)}
 		{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers('Public')}
 	{/if}
 	{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance($MODULE_NAME)->getAccessibleGroups('Public')}
 	<div class="panelItem">
-		<input type="hidden" id="{$MODULE_NAME}{$INDEX}" class="moduleAllocationData" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($DATA))}" />
+		<input type="hidden" id="{$MODULE_NAME}{$INDEX}" class="moduleAllocationData" value="{\App\Purifier::encodeHtml(\App\Json::encode($DATA))}" />
 		<div class="panel panel-default" data-index="{$INDEX}" data-moduleid="{$MODULE_ID}" data-modulename="{$MODULE_NAME}">
 			<div class="panel-heading">
 				<div class="row">

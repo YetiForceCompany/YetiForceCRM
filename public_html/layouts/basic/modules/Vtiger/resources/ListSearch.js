@@ -1,20 +1,20 @@
-/* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 jQuery.Class("YetiForce_ListSearch_Js", {
-	getInstance: function (container, noEvents) {
+	getInstance: function (container, noEvents, reletedInstance) {
 		var module = app.getModuleName();
 		var moduleClassName = module + '_ListSearch_Js';
 		var basicClassName = 'YetiForce_ListSearch_Js';
 		if (typeof window[moduleClassName] != 'undefined') {
-			var instance = new window[moduleClassName](container, noEvents);
+			var instance = new window[moduleClassName](container, noEvents, reletedInstance);
 		} else {
-			var instance = new window[basicClassName](container, noEvents);
+			var instance = new window[basicClassName](container, noEvents, reletedInstance);
 		}
 		return instance;
 	}
 }, {
 	container: false,
-	init: function (container, noEvents) {
-		var thisInstance = this;
+	reletedInstance: false,
+	init: function (container, noEvents, reletedInstance) {
 		if (typeof container == 'undefined') {
 			container = jQuery('.bodyContents');
 		}
@@ -22,6 +22,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		if (noEvents != true && this.getContainer().find('[data-trigger="listSearch"]').length) {
 			this.initialize();
 		}
+		this.reletedInstance = reletedInstance;
 	},
 	setContainer: function (container) {
 		this.container = container;
@@ -68,6 +69,9 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 
 		if (app.getMainParams('autoRefreshListOnChange') == '1') {
 			listViewContainer.find('.listViewEntriesTable select').on('change', function (e) {
+				listInstance.triggerListSearch();
+			});
+			listViewContainer.find('.listViewEntriesTable .picklistSearchField').on('apply.daterangepicker', function (e) {
 				listInstance.triggerListSearch();
 			});
 			listViewContainer.find('.listViewEntriesTable .dateField').on('DatePicker.onHide', function (e, y) {
@@ -171,7 +175,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 				if (searchValue == null) {
 					searchValue = "";
 				} else {
-					searchValue = searchValue.join(',');
+					searchValue = searchValue.join('##');
 				}
 			}
 			searchValue = searchValue.trim();
@@ -183,7 +187,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 			var searchOperator = 'a';
 			if (fieldInfo.hasOwnProperty("searchOperator")) {
 				searchOperator = fieldInfo.searchOperator;
-			} else if (jQuery.inArray(fieldInfo.type, ['modules', 'time', 'userCreator', 'owner', 'picklist', 'tree', 'boolean', 'fileLocationType', 'userRole', 'companySelect','multiReferenceValue']) >= 0) {
+			} else if (jQuery.inArray(fieldInfo.type, ['modules', 'time', 'userCreator', 'owner', 'picklist', 'tree', 'boolean', 'fileLocationType', 'userRole', 'companySelect', 'multiReferenceValue']) >= 0) {
 				searchOperator = 'e';
 			} else if (fieldInfo.type == "date" || fieldInfo.type == "datetime") {
 				searchOperator = 'bw';
@@ -227,7 +231,10 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 	getInstanceByView: function () {
 		var viewName = app.getViewName();
 		var instance = false;
-		if (viewName === 'Detail') {
+		if (this.reletedInstance) {
+			instance = this.reletedInstance;
+			instance.reloadFunctionName = 'loadRelatedList';
+		} else if (viewName === 'Detail') {
 			instance = Vtiger_Detail_Js.getInstance();
 			instance.reloadFunctionName = 'loadRelatedList';
 		} else if (viewName == 'List') {

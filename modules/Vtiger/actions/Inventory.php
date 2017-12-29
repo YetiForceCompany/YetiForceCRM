@@ -4,7 +4,7 @@
  * Basic Inventory Action Class
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -22,14 +22,13 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
 	public function process(\App\Request $request)
 	{
 		$mode = $request->getMode();
-
 		if ($mode) {
 			$this->invokeExposedMethod($mode, $request);
 		}
@@ -42,7 +41,10 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 	public function checkLimits(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
+		if (!\App\Privilege::isPermitted($moduleName, 'EditView', $record)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
 		$currency = $request->get('currency');
 		$price = $request->get('price');
 		$limitFieldName = 'creditlimit';
@@ -87,7 +89,6 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 			$viewer->assign('TOTALS', $totalPrice);
 			$html = $viewer->view('InventoryLimitAlert.tpl', $moduleName, true);
 		}
-
 		$response->setResult([
 			'status' => $status,
 			'html' => $html
@@ -97,10 +98,12 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 
 	public function getUnitPrice(\App\Request $request)
 	{
-		$record = $request->get('record');
-		$recordModule = $request->get('recordModule');
+		$record = $request->getInteger('record');
+		$recordModule = $request->getByType('recordModule', 2);
+		if (!\App\Privilege::isPermitted($recordModule, 'EditView', $record)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
 		$unitPriceValues = false;
-
 		if (in_array($recordModule, ['Products', 'Services'])) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $recordModule);
 			$unitPriceValues = $recordModel->getListPriceValues($record);
@@ -112,10 +115,10 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 
 	public function getDetails(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$idList = $request->get('idlist');
-		$currencyId = $request->get('currency_id');
-		$fieldName = $request->get('fieldname');
+		$currencyId = $request->getInteger('currency_id');
+		$fieldName = $request->getByType('fieldname');
 		$moduleName = $request->getModule();
 
 		if (empty($idList)) {
@@ -132,11 +135,14 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 
 	public function getRecordDetail($recordId, $currencyId, $moduleName, $fieldName)
 	{
+		if (!\App\Privilege::isPermitted($moduleName, 'EditView', $recordId)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		$recordModuleName = $recordModel->getModuleName();
 		$info = [
 			'id' => $recordId,
-			'name' => decode_html($recordModel->getName()),
+			'name' => App\Purifier::decodeHtml($recordModel->getName()),
 			'description' => $recordModel->get('description'),
 		];
 		if (in_array($recordModuleName, ['Products', 'Services'])) {
@@ -149,6 +155,7 @@ class Vtiger_Inventory_Action extends Vtiger_Action_Controller
 				}
 			}
 			$info['price'] = (float) $recordModel->get('unit_price') * (float) $conversionRate;
+			$info['qtyPerUnit'] = $recordModel->getDisplayValue('qty_per_unit');
 		}
 		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
 		$autoCompleteField = $inventoryField->getAutoCompleteFieldsByModule($recordModuleName);

@@ -18,12 +18,11 @@ namespace vtlib;
 class LinkData
 {
 
-	protected $input;
 	protected $link;
 	protected $user;
 	protected $module;
 
-	public function __construct($link, $user, $input = null)
+	public function __construct($link, $user)
 	{
 		$this->link = $link;
 		$this->user = $user;

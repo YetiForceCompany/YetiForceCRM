@@ -12,14 +12,17 @@
 class Calendar_Calendar_View extends Vtiger_Index_View
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
-
-		if (!$permission) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		if (!$userPrivilegesModel->hasModulePermission($moduleName)) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -42,10 +45,10 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
-		$jsFileNames = array(
+		$jsFileNames = [
 			'~libraries/fullcalendar/fullcalendar.js',
 			'modules.Calendar.resources.CalendarView',
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
@@ -57,10 +60,10 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 		$headerCssInstances = parent::getHeaderCss($request);
 
 
-		$cssFileNames = array(
+		$cssFileNames = [
 			'~libraries/fullcalendar/fullcalendar.min.css',
 			'~libraries/fullcalendar/fullcalendarCRM.css',
-		);
+		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
 

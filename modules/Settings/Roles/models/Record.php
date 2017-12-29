@@ -152,22 +152,12 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 
 	/**
 	 * Function returns profiles related to the current role
-	 * @return <Array> - profile ids
+	 * @return array - profile ids
 	 */
 	public function getProfileIdList()
 	{
 
-		$db = PearDatabase::getInstance();
-		$query = 'SELECT profileid FROM vtiger_role2profile WHERE roleid=?';
-
-		$result = $db->pquery($query, array($this->getId()));
-		$num_rows = $db->num_rows($result);
-
-		$profilesList = [];
-		for ($i = 0; $i < $num_rows; $i++) {
-			$profilesList[] = $db->query_result($result, $i, 'profileid');
-		}
-		return $profilesList;
+		return (new App\Db\Query())->select(['profileid'])->from('vtiger_role2profile')->where(['roleid' => $this->getId()])->column();
 	}
 
 	/**
@@ -181,10 +171,10 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			return false;
 		}
 		$row = (new App\Db\Query())->select(['directly_related_to_role', 'vtiger_profile.profileid'])
-				->from('vtiger_role2profile')
-				->innerJoin('vtiger_profile', 'vtiger_profile.profileid = vtiger_role2profile.profileid')
-				->where(['vtiger_role2profile.roleid' => $this->getId()])
-				->one();
+			->from('vtiger_role2profile')
+			->innerJoin('vtiger_profile', 'vtiger_profile.profileid = vtiger_role2profile.profileid')
+			->where(['vtiger_role2profile.roleid' => $this->getId()])
+			->one();
 		if ($row && (int) $row['directly_related_to_role'] === 1) {
 			return $row['profileid'];
 		}
@@ -300,7 +290,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			$roleId = 'H' . $roleIdNumber;
 		}
 		$parentRole = $this->getParent();
-		if ($parentRole != null) {
+		if ($parentRole !== null) {
 			$this->set('depth', $parentRole->getDepth() + 1);
 			$this->set('parentrole', $parentRole->getParentRoleString() . '::' . $roleId);
 		}
@@ -337,20 +327,19 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 				->all();
 
 			$db->createCommand()->batchInsert('vtiger_role2picklist', ['roleid', 'picklistvalueid', 'picklistid', 'sortid'], $insertedData)->execute();
+			$this->set('roleid', $roleId);
 		}
 		$profileIds = $this->get('profileIds');
 		$oldRole = Vtiger_Cache::get('RolesArray', $roleId);
 		if ($oldRole !== false) {
-			if ($profileIds === false ||
-				$oldRole['listrelatedrecord'] != $this->get('listrelatedrecord') ||
+			$oldProfileIds = $this->getProfileIdList();
+			if ($oldRole['listrelatedrecord'] != $this->get('listrelatedrecord') ||
 				$oldRole['previewrelatedrecord'] != $this->get('previewrelatedrecord') ||
 				$oldRole['editrelatedrecord'] != $this->get('editrelatedrecord') ||
 				$oldRole['permissionsrelatedfield'] != $permissionsRelatedField ||
-				$oldRole['searchunpriv'] != $searchunpriv) {
-					if (!empty(array_merge(array_diff($profileIds, $oldProfileIds), array_diff($oldProfileIds, $profileIds)))) {
-						$oldProfileIds = array_keys($this->getProfiles());
-						\App\Privilege::setAllUpdater();
-					}
+				$oldRole['searchunpriv'] != $searchunpriv ||
+				($profileIds && !empty(array_merge(array_diff($profileIds, $oldProfileIds), array_diff($oldProfileIds, $profileIds))))) {
+				\App\Privilege::setAllUpdater();
 			}
 		}
 		if (empty($profileIds)) {
@@ -384,15 +373,6 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		$db->createCommand()->delete('vtiger_role2profile', ['roleid' => $roleId])->execute();
 		$db->createCommand()->delete('vtiger_group2role', ['roleid' => $roleId])->execute();
 		$db->createCommand()->delete('vtiger_group2rs', ['roleandsubid' => $roleId])->execute();
-		/*
-		  $noOfUsers = $db->num_rows($user_result);
-		  $array_users = [];
-		  if($noOfUsers > 0) {
-		  for($i=0; $i<$noOfUsers; ++$i) {
-		  $array_users[] = $db->query_result($user_result, $i, 'userid');
-		  }
-		  }
-		 */
 		//delete handling for sharing rules
 		deleteRoleRelatedSharingRules($roleId);
 		$db->createCommand()->delete('vtiger_role', ['roleid' => $roleId])->execute();
@@ -408,10 +388,9 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			$roleModel->save();
 		}
 		if (is_array($array_users)) {
-			require_once('modules/Users/CreateUserPrivilegeFile.php');
 			foreach ($array_users as $userid) {
-				createUserPrivilegesfile($userid);
-				createUserSharingPrivilegesfile($userid);
+				\App\UserPrivilegesFile::createUserPrivilegesfile($userid);
+				\App\UserPrivilegesFile::createUserSharingPrivilegesfile($userid);
 			}
 		}
 		\App\Privilege::setAllUpdater();
@@ -426,20 +405,20 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 
 		$links = [];
 		if ($this->getParent()) {
-			$recordLinks = array(
-				array(
+			$recordLinks = [
+				[
 					'linktype' => 'LISTVIEWRECORD',
 					'linklabel' => 'LBL_EDIT_RECORD',
 					'linkurl' => $this->getListViewEditUrl(),
 					'linkicon' => 'glyphicon glyphicon-pencil'
-				),
-				array(
+				],
+				[
 					'linktype' => 'LISTVIEWRECORD',
 					'linklabel' => 'LBL_DELETE_RECORD',
 					'linkurl' => $this->getDeleteActionUrl(),
 					'linkicon' => 'glyphicon glyphicon-trash'
-				)
-			);
+				]
+			];
 			foreach ($recordLinks as $recordLink) {
 				$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 			}
@@ -457,7 +436,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$query = (new App\Db\Query())->from('vtiger_role');
 		if (!$baseRole) {
-			$query->where(['<>', 'depth' , 0]);
+			$query->where(['<>', 'depth', 0]);
 		}
 		$dataReader = $query->orderBy(['parentrole' => SORT_DESC])
 				->createCommand()->query();
@@ -533,9 +512,9 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	public function getUsers()
 	{
 		$userIds = (new App\Db\Query())->select(['userid'])
-				->from('vtiger_user2role')
-				->where(['roleid' => $this->getId()])
-				->column();
+			->from('vtiger_user2role')
+			->where(['roleid' => $this->getId()])
+			->column();
 		$usersList = [];
 		foreach ($userIds as $userId) {
 			$usersList[$userId] = Users_Record_Model::getInstanceById($userId, 'Users');

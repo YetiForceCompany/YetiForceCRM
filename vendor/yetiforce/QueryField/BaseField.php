@@ -7,7 +7,7 @@ use App\Log;
  * Base Query Field Class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class BaseField
@@ -141,6 +141,24 @@ class BaseField
 			return $this->fullColumnName;
 		}
 		return $this->fullColumnName = $this->getTableName() . '.' . $this->fieldModel->getColumnName();
+	}
+
+	/**
+	 * Get field model
+	 * @return \Vtiger_Field_Model
+	 */
+	public function getField()
+	{
+		return $this->fieldModel;
+	}
+
+	/**
+	 *  Get additional field model for list view
+	 * @return boolean|\Vtiger_Field_Model
+	 */
+	public function getListViewFields()
+	{
+		return false;
 	}
 
 	/**

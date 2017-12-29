@@ -21,7 +21,7 @@ class Rss_ViewTypes_View extends Vtiger_BasicModal_View
 
 	public function process(\App\Request $request)
 	{
-		$mode = $request->get('mode');
+		$mode = $request->getMode();
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
 			return;
@@ -34,7 +34,7 @@ class Rss_ViewTypes_View extends Vtiger_BasicModal_View
 	 */
 	public function getRssWidget(\App\Request $request)
 	{
-		$module = $request->get('module');
+		$module = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($module);
 		$rssSources = $moduleModel->getRssSources();
 		$viewer = $this->getViewer($request);

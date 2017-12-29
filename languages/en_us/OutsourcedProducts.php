@@ -3,14 +3,12 @@
  * OutsourcedProducts english translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
-	'LBL_RECORDS_LIST' => 'Records List',
 	// Basic Strings
 	'OutsourcedProducts' => 'Outsourced Products',
 	'SINGLE_OutsourcedProducts' => 'Outsourced Product',
-	'LBL_ADD_RECORD' => 'Add record',
 	// Blocks
 	'LBL_INFORMATION' => 'Outsourced Products',
 	//Field Labels

@@ -3,7 +3,8 @@
  * Mail german translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author skavenkf (K.Fink) 
  */
 $languageStrings = [
 	'LBL_AUTOLOGIN' => 'E-Mail – Auto Login',
@@ -16,8 +17,8 @@ $languageStrings = [
 	'LBL_USER_LIST' => 'Benutzerliste',
 	'LBL_CONFIGURATION' => 'Konfiguration',
 	'LBL_SHOW_MAIL_ICON' => 'Zeige E-Mail Icon',
-	'LBL_SHOW_MAIL_ACCOUNTS' => 'Zeige dem aktuellen Benutzer zugeordnete Email-Konten',
-	'LBL_NUMBER_UNREAD_EMAILS' => 'Zeige Anzahl der ungelesenen EMails',
+	'LBL_SHOW_MAIL_ACCOUNTS' => 'Zeige dem aktuellen Benutzer zugeordnete E-Mail-Konten',
+	'LBL_NUMBER_UNREAD_EMAILS' => 'Zeige Anzahl der ungelesenen E-Mails',
 	'LBL_MAIL_ICON_CONFIG' => 'E-Mail Icon',
 	'LBL_AUTOLOGIN_ACTIVE' => 'Auto login erlauben?',
 	'LBL_ADD_SIGNATURE' => 'Signature hinzufügen',
@@ -28,16 +29,16 @@ $languageStrings = [
 	//Mail queue	
 	'LBL_PRIORITY' => 'Priorität',
 	'LBL_CREATED_BY' => 'Erzeugt von',
-	'LBL_SMTP_NAME' => 'Smtp Name',
+	'LBL_SMTP_NAME' => 'SMTP Name',
 	'LBL_CONTENT' => 'Inhalt',
 	'LBL_PENDING_ACCEPTANCE' => 'Wartet auf Bestätigung',
 	'LBL_WAITING_TO_BE_SENT' => 'Wartet auf Versenden',
 	'LBL_ERROR_DURING_SENDING' => 'Fehler beim Senden',
-	'LBL_EMAIL_DETAIL' => 'Email message details',
+	'LBL_EMAIL_DETAIL' => 'E-Mail message details',
 	'LBL_ACCEPTANCE_RECORD' => 'Datensatz bestätigen',
 	'LBL_ATTACHMENTS' => 'Anhänge',
 	'LBL_FROM' => 'Von',
-	'LBL_SEND_EMAIL_MANUALLY' => 'Email manuell versenden',
+	'LBL_SEND_EMAIL_MANUALLY' => 'E-Mail manuell versenden',
 	'LBL_SMTP' => 'SMTP',
 	'LBL_MASS_ACCEPT' => 'Massenbestätigung',
 	'LBL_MANUAl_MASS_MAILING' => 'Manuelle Massenmail',

@@ -4,16 +4,21 @@
  * OSSMailScanner SaveWidgetConfig action class
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSMailScanner_SaveWidgetConfig_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermittedForAdmin
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
-			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -24,7 +29,7 @@ class OSSMailScanner_SaveWidgetConfig_Action extends Vtiger_Action_Controller
 		$conf_type = $request->get('conf_type');
 		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
 		$recordModel->setConfigWidget($conf_type, $param, $val);
-		$result = array('success' => true, 'data' => \App\Language::translate('JS_save_config_info', 'OSSMailScanner'));
+		$result = ['success' => true, 'data' => \App\Language::translate('JS_save_config_info', 'OSSMailScanner')];
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

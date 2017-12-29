@@ -4,7 +4,7 @@
  * Basic TreeView View Class
  * @package YetiForce.TreeView
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_TreeRecords_View extends Vtiger_Index_View
@@ -53,7 +53,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 	public function process(\App\Request $request)
 	{
 		$branches = $request->get('branches');
-		$filter = $request->get('filter');
+		$filter = $request->getByType('filter', 2);
 		if (empty($branches)) {
 			return;
 		}
@@ -64,7 +64,7 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		$treeViewModel = Vtiger_TreeView_Model::getInstance($moduleModel);
 
 		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('limit', 'no_limit');
+		$pagingModel->set('limit', 0);
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $filter);
 		$listViewModel->set('search_params', $treeViewModel->getSearchParams($branches));
 

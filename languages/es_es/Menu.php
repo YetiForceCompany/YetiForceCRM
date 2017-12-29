@@ -3,7 +3,7 @@
  * Menu spanish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'LBL_QUICK_CREATE_MODULE' => 'Creación rápida',
@@ -18,7 +18,7 @@ $languageStrings = [
 	'MEN_ACCOUNTING' => 'Contabilidad',
 	'MEN_HUMAN_RESOURCES' => 'Recursos Humanos',
 	'MEN_COMPANY' => 'Empresa',
-	'MEN_SECRETARY' => 'Secretaría',
+	'MEN_ORGANIZATION' => 'Organization',
 	'MEN_DATABESES' => 'Bases de datos',
 	'MEN_TEAMWORK' => 'Trabajo de equipo',
 	'MEN_PRODUCTBASE' => 'Base de datos de Productos',

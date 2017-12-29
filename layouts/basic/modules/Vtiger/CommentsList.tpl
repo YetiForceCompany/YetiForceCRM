@@ -23,23 +23,21 @@
 					{/if}	
 				{/while}
 			{/if}
-
 			{if is_array($PARENT_COMMENTS)}
 				{foreach key=Index item=COMMENT from=$PARENT_COMMENTS}
 					{assign var=PARENT_COMMENT_ID value=$COMMENT->getId()}
 					<li class="commentDetails">
-						{include file='Comment.tpl'|@vtemplate_path COMMENT=$COMMENT COMMENT_MODULE_MODEL=$COMMENTS_MODULE_MODEL}
-
+						{include file=\App\Layout::getTemplatePath('Comment.tpl') COMMENT=$COMMENT COMMENT_MODULE_MODEL=$COMMENTS_MODULE_MODEL}
 						{if $CHILDS_ROOT_PARENT_MODEL}
 							{if $CHILDS_ROOT_PARENT_MODEL->getId() eq $PARENT_COMMENT_ID}		
 								{assign var=CHILD_COMMENTS_MODEL value=$CHILDS_ROOT_PARENT_MODEL->getChildComments()}
-								{include file='CommentsListIteration.tpl'|@vtemplate_path CHILD_COMMENTS_MODEL=$CHILD_COMMENTS_MODEL}
+								{include file=\App\Layout::getTemplatePath('CommentsListIteration.tpl') CHILD_COMMENTS_MODEL=$CHILD_COMMENTS_MODEL}
 							{/if}
 						{/if}
 					</li>	
 				{/foreach}
 			{else}
-				{include file='Comment.tpl'|@vtemplate_path COMMENT=$PARENT_COMMENTS}
+				{include file=\App\Layout::getTemplatePath('Comment.tpl') COMMENT=$PARENT_COMMENTS}
 			{/if}
 		</ul>
 	{/if}

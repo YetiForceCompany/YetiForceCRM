@@ -4,7 +4,7 @@
  * TotalEmails class
  * @package YetiForce.SummaryBlock
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author YetiForce.com
  */
 class TotalEmails
@@ -16,12 +16,12 @@ class TotalEmails
 
 	/**
 	 * Function get number of emails
-	 * @param Vtiger_Record_Model $instance
+	 * @param Vtiger_Record_Model $recordModel
 	 * @return int - Number of emails
 	 */
-	public function process(Vtiger_Record_Model $instance)
+	public function process(Vtiger_Record_Model $recordModel)
 	{
-		$relationListView = Vtiger_RelationListView_Model::getInstance($instance, $this->reference);
+		$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, $this->reference);
 		return (int) $relationListView->getRelatedEntriesCount();
 	}
 }

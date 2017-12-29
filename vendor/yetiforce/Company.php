@@ -5,7 +5,7 @@ namespace App;
  * Company basic class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Company extends Base
@@ -49,7 +49,7 @@ class Company extends Base
 		if (Cache::has('CompanyLogo', $type)) {
 			return Cache::get('CompanyLogo', $type);
 		}
-		$logoName = decode_html($this->get($type ? $type : 'logo_main'));
+		$logoName = Purifier::decodeHtml($this->get($type ? $type : 'logo_main'));
 		if (!$logoName) {
 			return false;
 		}
@@ -60,13 +60,15 @@ class Company extends Base
 		if ($fullUrl) {
 			$logoURL = \AppConfig::main('site_URL') . $logoURL;
 		}
+		$path = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, static::$logoPath) . $logoName;
 		$logoModel = new \Vtiger_Image_Model();
 		$logoModel->setData([
 			'imageUrl' => $logoURL,
-			'imagePath' => ROOT_DIRECTORY . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, static::$logoPath) . $logoName,
+			'imagePath' => $path,
 			'alt' => $logoName,
 			'imageName' => $logoName,
 			'title' => Language::translate('LBL_COMPANY_LOGO_TITLE'),
+			'fileExists' => file_exists($path),
 		]);
 		Cache::save('CompanyLogo', $type, $logoModel);
 		return $logoModel;

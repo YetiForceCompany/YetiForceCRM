@@ -23,7 +23,7 @@
 					<input type="hidden" name="action" value="MassSaveAjax" />
 					<input type="hidden" name="viewname" value="{$VIEWNAME}" />
 					<input type="hidden" name="selected_ids" value='{\App\Json::encode($SELECTED_IDS)}'>
-					<input type="hidden" name="excluded_ids" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($EXCLUDED_IDS))}">
+					<input type="hidden" name="excluded_ids" value="{\App\Purifier::encodeHtml(\App\Json::encode($EXCLUDED_IDS))}">
 					<input type="hidden" name="search_key" value= "{$SEARCH_KEY}" />
 					<input type="hidden" name="operator" value="{$OPERATOR}" />
 					<input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />
@@ -45,7 +45,7 @@
 											{assign var=PHONE_FIELD_NAME value=$PHONE_FIELD->get('name')}
 											<option value="{$PHONE_FIELD_NAME}">
 												{if !empty($SINGLE_RECORD)}
-													{assign var=FIELD_VALUE value=$SINGLE_RECORD->get($PHONE_FIELD_NAME)}
+													{assign var=FIELD_VALUE value=$SINGLE_RECORD->getDisplayValue($PHONE_FIELD_NAME)}
 												{/if}
 												{\App\Language::translate($PHONE_FIELD->get('label'), $SOURCE_MODULE)}{if !empty($FIELD_VALUE)} ({$FIELD_VALUE}){/if}
 											</option>

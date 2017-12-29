@@ -31,7 +31,7 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 
 	public function showFieldLayout(\App\Request $request)
 	{
-		$sourceModule = $request->get('sourceModule');
+		$sourceModule = $request->getByType('sourceModule', 2);
 		$supportedModulesList = Settings_LayoutEditor_Module_Model::getSupportedModules();
 
 		if (empty($sourceModule)) {
@@ -78,7 +78,7 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 
 	public function showRelatedListLayout(\App\Request $request)
 	{
-		$sourceModule = $request->get('sourceModule');
+		$sourceModule = $request->getByType('sourceModule', 2);
 		$supportedModulesList = Settings_LayoutEditor_Module_Model::getSupportedModules();
 
 		if (empty($sourceModule)) {

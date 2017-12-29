@@ -4,13 +4,13 @@
  * Basic TreeView Model Class
  * @package YetiForce.TreeView
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_TreeView_Model extends \App\Base
 {
 
-	static $_cached_instance;
+	public static $_cached_instance;
 
 	/**
 	 * Function to get the Module Name
@@ -62,7 +62,7 @@ class Vtiger_TreeView_Model extends \App\Base
 			->where(['uitype' => 302, 'tabid' => \App\Module::getModuleId($this->getModuleName())])
 			->one();
 		if (!$fieldTemp) {
-			vtlib\Functions::throwNewException(\App\Language::translate('ERR_TREE_NOT_FOUND', $this->getModuleName()));
+			throw new \App\Exceptions\AppException('ERR_TREE_NOT_FOUND');
 		}
 		$this->set('fieldTemp', $fieldTemp);
 		return $fieldTemp;

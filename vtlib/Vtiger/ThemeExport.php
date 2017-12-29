@@ -22,7 +22,7 @@ class ThemeExport extends Package
 	 * Generate unique id for insertion
 	 * @access private
 	 */
-	static function __getUniqueId()
+	public static function __getUniqueId()
 	{
 		$adb = \PearDatabase::getInstance();
 		return $adb->getUniqueID(self::TABLENAME);
@@ -53,7 +53,7 @@ class ThemeExport extends Package
 		$this->__initExport($layoutName, $themeName);
 
 		// Call layout export function
-		$this->export_Theme($layoutName, $themeName);
+		$this->exportTheme($layoutName, $themeName);
 
 		$this->__finishExport();
 
@@ -87,16 +87,16 @@ class ThemeExport extends Package
 	 * Export Language Handler
 	 * @access private
 	 */
-	public function export_Theme($layoutName, $themeName)
+	public function exportTheme($layoutName, $themeName)
 	{
 		$adb = \PearDatabase::getInstance();
 
-		$sqlresult = $adb->pquery("SELECT * FROM vtiger_layoutskins WHERE name = ?", array($themeName));
-		$layoutresultrow = $adb->fetch_array($sqlresult);
+		$sqlresult = $adb->pquery("SELECT * FROM vtiger_layoutskins WHERE name = ?", [$themeName]);
+		$layoutresultrow = $adb->fetchArray($sqlresult);
 
-		$resultThemename = decode_html($layoutresultrow['name']);
-		$resultThemelabel = decode_html($layoutresultrow['label']);
-		$resultthemeparent = decode_html($layoutresultrow['parent']);
+		$resultThemename = \App\Purifier::decodeHtml($layoutresultrow['name']);
+		$resultThemelabel = \App\Purifier::decodeHtml($layoutresultrow['label']);
+		$resultthemeparent = \App\Purifier::decodeHtml($layoutresultrow['parent']);
 
 		if (!empty($resultThemename)) {
 			$themeName = $resultThemename;
@@ -123,7 +123,7 @@ class ThemeExport extends Package
 		$this->outputNode('theme', 'type');
 
 		// Export dependency information
-		$this->export_Dependencies();
+		$this->exportDependencies();
 
 		$this->closeNode('module');
 	}
@@ -132,7 +132,7 @@ class ThemeExport extends Package
 	 * Export vtiger dependencies
 	 * @access private
 	 */
-	public function export_Dependencies()
+	public function exportDependencies()
 	{
 		$maxVersion = false;
 		$this->openNode('dependencies');
@@ -146,18 +146,18 @@ class ThemeExport extends Package
 	 * Initialize Language Schema
 	 * @access private
 	 */
-	static function __initSchema()
+	public static function __initSchema()
 	{
-		$hastable = Utils::CheckTable(self::TABLENAME);
+		$hastable = Utils::checkTable(self::TABLENAME);
 		if (!$hastable) {
-			Utils::CreateTable(
+			Utils::createTable(
 				self::TABLENAME, '(id INT NOT NULL PRIMARY KEY,
                             name VARCHAR(50), label VARCHAR(30), parent VARCHAR(100), lastupdated DATETIME, isdefault INT(1), active INT(1))', true
 			);
 			$adb = \PearDatabase::getInstance();
 			foreach (vglobal('languages') as $langkey => $langlabel) {
 				$uniqueid = self::__getUniqueId();
-				$adb->pquery('INSERT INTO ' . self::TABLENAME . '(id,name,label,parent,lastupdated,active) VALUES(?,?,?,?,?,?)', Array($uniqueid, $langlabel, $langkey, $langlabel, date('Y-m-d H:i:s', time()), 1));
+				$adb->pquery('INSERT INTO ' . self::TABLENAME . '(id,name,label,parent,lastupdated,active) VALUES(?,?,?,?,?,?)', [$uniqueid, $langlabel, $langkey, $langlabel, date('Y-m-d H:i:s', time()), 1]);
 			}
 		}
 	}
@@ -165,7 +165,7 @@ class ThemeExport extends Package
 	/**
 	 * Register language pack information.
 	 */
-	static function register($label, $name = '', $parent = '', $isdefault = false, $isactive = true, $overrideCore = false)
+	public static function register($label, $name = '', $parent = '', $isdefault = false, $isactive = true, $overrideCore = false)
 	{
 		self::__initSchema();
 
@@ -181,7 +181,7 @@ class ThemeExport extends Package
 		$query = sprintf('SELECT * FROM %s WHERE name = ?', self::TABLENAME);
 		$checkres = $adb->pquery($query, [$name]);
 		$datetime = date('Y-m-d H:i:s');
-		if ($adb->num_rows($checkres)) {
+		if ($adb->numRows($checkres)) {
 			$adb->update(self::TABLENAME, [
 				'label' => $label,
 				'name' => $name,
@@ -189,7 +189,7 @@ class ThemeExport extends Package
 				'lastupdated' => $datetime,
 				'isdefault' => $useisdefault,
 				'active' => $useisactive,
-				], 'id=?', [$adb->query_result($checkres, 0, 'id')]
+				], 'id=?', [$adb->queryResult($checkres, 0, 'id')]
 			);
 		} else {
 			$adb->insert(self::TABLENAME, [

@@ -9,33 +9,80 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 require_once('VTJsonCondition.php');
-require_once 'include/utils/ConfigReader.php';
 require_once 'include/runtime/Cache.php';
 
 class VTWorkflowManager
 {
 
-	static $ON_FIRST_SAVE = 1;
-	static $ONCE = 2;
-	static $ON_EVERY_SAVE = 3;
-	static $ON_MODIFY = 4;
-	static $ON_DELETE = 5;
-	static $ON_SCHEDULE = 6;
-	static $MANUAL = 7;
-	static $TRIGGER = 8;
-	static $BLOCK_EDIT = 9;
-	static $ON_RELATED = 10;
+	/**
+	 * On first save
+	 * @var int
+	 */
+	public static $ON_FIRST_SAVE = 1;
 
-	public function __construct($adb = false)
-	{
-		$this->adb = $adb;
-	}
+	/**
+	 * Once
+	 * @var int
+	 */
+	public static $ONCE = 2;
 
-	public function save($workflow)
+	/**
+	 * On every save
+	 * @var int
+	 */
+	public static $ON_EVERY_SAVE = 3;
+
+	/**
+	 * On modify
+	 * @var int
+	 */
+	public static $ON_MODIFY = 4;
+
+	/**
+	 * On delete
+	 * @var int
+	 */
+	public static $ON_DELETE = 5;
+
+	/**
+	 * On schedule
+	 * @var int
+	 */
+	public static $ON_SCHEDULE = 6;
+
+	/**
+	 * Manual
+	 * @var int
+	 */
+	public static $MANUAL = 7;
+
+	/**
+	 * Trigger
+	 * @var int
+	 */
+	public static $TRIGGER = 8;
+
+	/**
+	 * Block edit
+	 * @var int
+	 */
+	public static $BLOCK_EDIT = 9;
+
+	/**
+	 * On related
+	 * @var int
+	 */
+	public static $ON_RELATED = 10;
+
+	/**
+	 * Save workflow data
+	 * @param Workflow $workflow
+	 */
+	public function save(Workflow $workflow)
 	{
 		if (isset($workflow->id)) {
 			$wf = $workflow;
-			if ($wf->filtersavedinnew == null)
+			if ($wf->filtersavedinnew === null)
 				$wf->filtersavedinnew = 5;
 			App\Db::getInstance()->createCommand()->update('com_vtiger_workflows', [
 				'module_name' => $wf->moduleName,
@@ -54,7 +101,7 @@ class VTWorkflowManager
 		} else {
 			$db = App\Db::getInstance();
 			$wf = $workflow;
-			if ($wf->filtersavedinnew == null)
+			if ($wf->filtersavedinnew === null)
 				$wf->filtersavedinnew = 5;
 			$db->createCommand()->insert('com_vtiger_workflows', [
 				'module_name' => $wf->moduleName,
@@ -75,6 +122,10 @@ class VTWorkflowManager
 		}
 	}
 
+	/**
+	 * Return workflows
+	 * @return Workflow[]
+	 */
 	public function getWorkflows()
 	{
 		$query = (new \App\Db\Query())
@@ -103,11 +154,7 @@ class VTWorkflowManager
 	 */
 	public function getScheduledWorkflowsCount()
 	{
-		$adb = $this->adb;
-		$query = 'SELECT count(*) AS count FROM com_vtiger_workflows WHERE execution_condition = ?';
-		$params = array(VTWorkflowManager::$ON_SCHEDULE);
-		$result = $adb->pquery($query, $params);
-		return $adb->query_result($result, 0, 'count');
+		return (new \App\Db\Query())->from('com_vtiger_workflows')->where(['execution_condition' => VTWorkflowManager::$ON_SCHEDULE])->count();
 	}
 
 	/**
@@ -119,6 +166,12 @@ class VTWorkflowManager
 		return 10;
 	}
 
+	/**
+	 * Return workflows for module
+	 * @param string $moduleName
+	 * @param string $executionCondition
+	 * @return Workflow[]
+	 */
 	public function getWorkflowsForModule($moduleName, $executionCondition = false)
 	{
 		if (\App\Cache::has('WorkflowsForModule', $moduleName)) {
@@ -140,6 +193,11 @@ class VTWorkflowManager
 		return $this->getWorkflowsForResult($rows);
 	}
 
+	/**
+	 * Return workflows for provided rows
+	 * @param array $rows
+	 * @return Workflow[]
+	 */
 	protected function getWorkflowsForResult($rows)
 	{
 		$workflows = [];
@@ -154,15 +212,15 @@ class VTWorkflowManager
 		return $workflows;
 	}
 
+	/**
+	 * Return workflow instance
+	 * @param string $type
+	 * @return \workflowClass
+	 */
 	protected function getWorkflowInstance($type = 'basic')
 	{
-		$configReader = new ConfigReader('modules/com_vtiger_workflow/config.inc', 'workflowConfig');
-		$workflowTypeConfig = $configReader->getConfig($type);
-		$workflowClassPath = $workflowTypeConfig['classpath'];
-		$workflowClass = $workflowTypeConfig['class'];
-
-		require_once $workflowClassPath;
-		$workflow = new $workflowClass();
+		require_once 'modules/com_vtiger_workflow/VTWorkflowManager.php';
+		$workflow = new Workflow();
 		return $workflow;
 	}
 
@@ -186,14 +244,23 @@ class VTWorkflowManager
 		}
 	}
 
+	/**
+	 * Delete workflow
+	 * @param int $id
+	 */
 	public function delete($id)
 	{
-		$adb = $this->adb;
-		$adb->pquery("DELETE FROM com_vtiger_workflowtasks WHERE workflow_id IN
-							(SELECT workflow_id FROM com_vtiger_workflows WHERE workflow_id=? AND (defaultworkflow IS NULL OR defaultworkflow != 1))", array($id));
-		$adb->pquery("DELETE FROM com_vtiger_workflows WHERE workflow_id=? AND (defaultworkflow IS NULL OR defaultworkflow != 1)", array($id));
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$subQuery = (new \App\Db\Query())->select('workflow_id')->from('com_vtiger_workflows')->where(['workflow_id' => $id])->andWhere(['or', ['defaultworkflow' => null], ['<>', 'defaultworkflow', 1]]);
+		$dbCommand->delete('com_vtiger_workflowtasks', ['workflow_id' => $subQuery])->execute();
+		$dbCommand->delete('com_vtiger_workflows', ['and', ['workflow_id' => $id], ['or', ['defaultworkflow' => null], ['<>', 'defaultworkflow', 1]]])->execute();
 	}
 
+	/**
+	 * Create new workflow in module
+	 * @param string $moduleName
+	 * @return Workflow
+	 */
 	public function newWorkflow($moduleName)
 	{
 		$workflow = $this->getWorkflowInstance();
@@ -221,7 +288,7 @@ class VTWorkflowManager
 		$exp['schdayofweek'] = $workflow->schdayofweek;
 		$exp['schannualdates'] = $workflow->schannualdates;
 		$exp['tasks'] = [];
-		$tm = new VTTaskManager($this->adb);
+		$tm = new VTTaskManager();
 		$tasks = $tm->getTasksForWorkflow($workflow->id);
 		foreach ($tasks as $task) {
 			unset($task->id);
@@ -249,7 +316,7 @@ class VTWorkflowManager
 		$workflow->schdayofweek = $data['schdayofweek'];
 		$workflow->schannualdates = $data['schannualdates'];
 		$this->save($workflow);
-		$tm = new VTTaskManager($this->adb);
+		$tm = new VTTaskManager();
 		$tasks = $data['tasks'];
 		foreach ($tasks as $taskStr) {
 			$task = $tm->unserializeTask($taskStr);
@@ -261,8 +328,9 @@ class VTWorkflowManager
 
 	/**
 	 * Update the Next trigger timestamp for a workflow
+	 * @param Workflow $workflow
 	 */
-	public function updateNexTriggerTime($workflow)
+	public function updateNexTriggerTime(Workflow $workflow)
 	{
 		$nextTriggerTime = $workflow->getNextTriggerTime();
 		$workflow->setNextTriggerTime($nextTriggerTime);
@@ -270,8 +338,8 @@ class VTWorkflowManager
 
 	/**
 	 * Function to get workflows modules those are supporting comments
-	 * @param <String> $moduleName
-	 * @return <Array> list of Workflow models
+	 * @param string $moduleName
+	 * @return array list of Workflow models
 	 */
 	public function getWorkflowsForModuleSupportingComments($moduleName)
 	{
@@ -303,22 +371,66 @@ class VTWorkflowManager
 	}
 }
 
+/**
+ * Workflow class
+ */
 class Workflow
 {
 
-	static $SCHEDULED_HOURLY = 1;
-	static $SCHEDULED_DAILY = 2;
-	static $SCHEDULED_WEEKLY = 3;
-	static $SCHEDULED_ON_SPECIFIC_DATE = 4;
-	static $SCHEDULED_MONTHLY_BY_DATE = 5;
-	static $SCHEDULED_MONTHLY_BY_WEEKDAY = 6;
-	static $SCHEDULED_ANNUALLY = 7;
+	/**
+	 * Scheduled hourly
+	 * @var int
+	 */
+	public static $SCHEDULED_HOURLY = 1;
 
+	/**
+	 * Scheduled daily
+	 * @var int
+	 */
+	public static $SCHEDULED_DAILY = 2;
+
+	/**
+	 * Scheduled weekly
+	 * @var int
+	 */
+	public static $SCHEDULED_WEEKLY = 3;
+
+	/**
+	 * Scheduled on specific date
+	 * @var int
+	 */
+	public static $SCHEDULED_ON_SPECIFIC_DATE = 4;
+
+	/**
+	 * Scheduled monthly by date
+	 * @var int
+	 */
+	public static $SCHEDULED_MONTHLY_BY_DATE = 5;
+
+	/**
+	 * Scheduled monthly by weekday
+	 * @var int
+	 */
+	public static $SCHEDULED_MONTHLY_BY_WEEKDAY = 6;
+
+	/**
+	 * Scheduled annually
+	 * @var int
+	 */
+	public static $SCHEDULED_ANNUALLY = 7;
+
+	/**
+	 * Constructor
+	 */
 	public function __construct()
 	{
 		$this->conditionStrategy = new VTJsonCondition();
 	}
 
+	/**
+	 * Setup workflow
+	 * @param array $row
+	 */
 	public function setup($row)
 	{
 		$this->id = isset($row['workflow_id']) ? $row['workflow_id'] : '';
@@ -353,6 +465,11 @@ class Workflow
 		}
 	}
 
+	/**
+	 * Check if workfow is completed for record
+	 * @param int $recordId
+	 * @return boolean
+	 */
 	public function isCompletedForRecord($recordId)
 	{
 		$isExistsActivateDonce = (new \App\Db\Query())->from('com_vtiger_workflow_activatedonce')->where(['entity_id' => $recordId, 'workflow_id' => $this->id])->exists();
@@ -367,6 +484,10 @@ class Workflow
 		}
 	}
 
+	/**
+	 * Mark workflow as completed for record
+	 * @param int $recordId
+	 */
 	public function markAsCompletedForRecord($recordId)
 	{
 		\App\Db::getInstance()->createCommand()
@@ -380,7 +501,7 @@ class Workflow
 	 * Perform tasks
 	 * @param Vtiger_Record_Model $recordModel
 	 */
-	public function performTasks($recordModel)
+	public function performTasks(Vtiger_Record_Model $recordModel)
 	{
 		require_once('modules/com_vtiger_workflow/VTTaskManager.php');
 		require_once('modules/com_vtiger_workflow/VTTaskQueue.php');
@@ -391,12 +512,12 @@ class Workflow
 		foreach ($tasks as &$task) {
 			if ($task->active) {
 				$trigger = $task->trigger;
-				if ($trigger != null) {
+				if ($trigger !== null) {
 					$delay = strtotime($recordModel->get($trigger['field'])) + $trigger['days'] * 86400;
 				} else {
 					$delay = 0;
 				}
-				if ($task->executeImmediately == true) {
+				if ($task->executeImmediately === true) {
 					$task->doTask($recordModel);
 				} else {
 					$hasContents = $task->hasContents($recordModel);
@@ -408,9 +529,14 @@ class Workflow
 		}
 	}
 
+	/**
+	 * Execution condition as label
+	 * @param string $label
+	 * @return string
+	 */
 	public function executionConditionAsLabel($label = null)
 	{
-		if ($label == null) {
+		if ($label === null) {
 			$arr = ['ON_FIRST_SAVE', 'ONCE', 'ON_EVERY_SAVE', 'ON_MODIFY', 'ON_DELETE', 'ON_SCHEDULE', 'MANUAL', 'TRIGGER', 'BLOCK_EDIT', 'ON_RELATED'];
 			return $arr[$this->executionCondition - 1];
 		} else {
@@ -420,40 +546,67 @@ class Workflow
 		}
 	}
 
+	/**
+	 * Sets next trigger time
+	 * @param timestamp $time
+	 */
 	public function setNextTriggerTime($time)
 	{
 		if ($time) {
-			$db = PearDatabase::getInstance();
-			$db->pquery("UPDATE com_vtiger_workflows SET nexttrigger_time=? WHERE workflow_id=?", array($time, $this->id));
+			\App\Db::getInstance()->createCommand()->update('com_vtiger_workflows', ['nexttrigger_time' => $time], ['workflow_id' => $this->id])->execute();
 			$this->nexttrigger_time = $time;
 		}
 	}
 
+	/**
+	 * Return next trigger timestamp
+	 * @return timestamp
+	 */
 	public function getNextTriggerTimeValue()
 	{
 		return $this->nexttrigger_time;
 	}
 
+	/**
+	 * Return schedule type
+	 * @return int
+	 */
 	public function getWFScheduleType()
 	{
 		return ($this->executionCondition == 6 ? $this->schtypeid : 0);
 	}
 
+	/**
+	 * Return workflow schedule timestamp
+	 * @return timestamp
+	 */
 	public function getWFScheduleTime()
 	{
 		return $this->schtime;
 	}
 
+	/**
+	 * Return workflow schedule day
+	 * @return int
+	 */
 	public function getWFScheduleDay()
 	{
 		return $this->schdayofmonth;
 	}
 
+	/**
+	 * Return workflow schedule week
+	 * @return int
+	 */
 	public function getWFScheduleWeek()
 	{
 		return $this->schdayofweek;
 	}
 
+	/**
+	 * Return workflow schedule annual dates
+	 * @return bool
+	 */
 	public function getWFScheduleAnnualDates()
 	{
 		return $this->schannualdates;
@@ -461,8 +614,8 @@ class Workflow
 
 	/**
 	 * Function gets the next trigger for the workflows
-	 * @global <String> $default_timezone
-	 * @return type
+	 * @global string $default_timezone
+	 * @return timestamp
 	 */
 	public function getNextTriggerTime()
 	{
@@ -524,22 +677,24 @@ class Workflow
 
 	/**
 	 * get next trigger Time For weekly
-	 * @param type $scheduledDaysOfWeek
-	 * @param type $scheduledTime
-	 * @return <time>
+	 * @param json $scheduledDaysOfWeek
+	 * @param time $scheduledTime
+	 * @return time
 	 */
 	public function getNextTriggerTimeForWeekly($scheduledDaysOfWeek, $scheduledTime)
 	{
-		$weekDays = array('1' => 'Monday', '2' => 'Tuesday', '3' => 'Wednesday', '4' => 'Thursday', '5' => 'Friday', '6' => 'Saturday', '7' => 'Sunday');
+		$weekDays = ['1' => 'Monday', '2' => 'Tuesday', '3' => 'Wednesday', '4' => 'Thursday', '5' => 'Friday', '6' => 'Saturday', '7' => 'Sunday'];
 		$currentTime = time();
 		$currentWeekDay = date('N', $currentTime);
 		if ($scheduledDaysOfWeek) {
 			$scheduledDaysOfWeek = \App\Json::decode($scheduledDaysOfWeek);
 			if (is_array($scheduledDaysOfWeek)) {
-				// algorithm :
-				//1. First sort all the weekdays(stored as 0,1,2,3 etc in db) and find the closest weekday which is greater than currentWeekDay
-				//2. If found, set the next trigger date to the next weekday value in the same week.
-				//3. If not found, set the trigger date to the next first value.
+				/*
+				  algorithm :
+				  1. First sort all the weekdays(stored as 0,1,2,3 etc in db) and find the closest weekday which is greater than currentWeekDay
+				  2. If found, set the next trigger date to the next weekday value in the same week.
+				  3. If not found, set the trigger date to the next first value.
+				 */
 				$nextTriggerWeekDay = null;
 				sort($scheduledDaysOfWeek);
 				foreach ($scheduledDaysOfWeek as $index => $weekDay) {
@@ -566,7 +721,7 @@ class Workflow
 					}
 				}
 
-				if ($nextTime == null) {
+				if ($nextTime === null) {
 					if (!empty($nextTriggerWeekDay)) {
 						$nextTime = date("Y-m-d H:i:s", strtotime($weekDays[$nextTriggerWeekDay] . ' ' . $scheduledTime));
 					} else {
@@ -580,9 +735,9 @@ class Workflow
 
 	/**
 	 * get next triggertime for monthly
-	 * @param type $scheduledDayOfMonth
-	 * @param type $scheduledTime
-	 * @return <time>
+	 * @param int $scheduledDayOfMonth
+	 * @param int $scheduledTime
+	 * @return time
 	 */
 	public function getNextTriggerTimeForMonthlyByDate($scheduledDayOfMonth, $scheduledTime)
 	{
@@ -590,16 +745,18 @@ class Workflow
 		if ($scheduledDayOfMonth) {
 			$scheduledDaysOfMonth = \App\Json::decode($scheduledDayOfMonth);
 			if (is_array($scheduledDaysOfMonth)) {
-				// algorithm :
-				//1. First sort all the days in ascending order and find the closest day which is greater than currentDayOfMonth
-				//2. If found, set the next trigger date to the found value which is in the same month.
-				//3. If not found, set the trigger date to the next month's first selected value.
+				/*
+				  algorithm :
+				  1. First sort all the days in ascending order and find the closest day which is greater than currentDayOfMonth
+				  2. If found, set the next trigger date to the found value which is in the same month.
+				  3. If not found, set the trigger date to the next month's first selected value.
+				 */
 				$nextTriggerDay = null;
 				sort($scheduledDaysOfMonth);
 				foreach ($scheduledDaysOfMonth as $day) {
 					if ($day == $currentDayOfMonth) {
 						$currentTime = time();
-						$schTime = strtotime($date = date('Y') . '-' . date('m') . '-' . $day . ' ' . $scheduledTime);
+						$schTime = strtotime(date('Y') . '-' . date('m') . '-' . $day . ' ' . $scheduledTime);
 						if ($schTime > $currentTime) {
 							$nextTriggerDay = $day;
 							break;
@@ -625,9 +782,9 @@ class Workflow
 
 	/**
 	 * to get next trigger time for weekday of the month
-	 * @param type $scheduledWeekDayOfMonth
-	 * @param type $scheduledTime
-	 * @return <time>
+	 * @param int $scheduledWeekDayOfMonth
+	 * @param timestamp $scheduledTime
+	 * @return time
 	 */
 	public function getNextTriggerTimeForMonthlyByWeekDay($scheduledWeekDayOfMonth, $scheduledTime)
 	{
@@ -650,9 +807,9 @@ class Workflow
 
 	/**
 	 * to get next trigger time
-	 * @param type $annualDates
-	 * @param type $scheduledTime
-	 * @return <time>
+	 * @param json $annualDates
+	 * @param timestamp $scheduledTime
+	 * @return time
 	 */
 	public function getNextTriggerTimeForAnnualDates($annualDates, $scheduledTime)
 	{

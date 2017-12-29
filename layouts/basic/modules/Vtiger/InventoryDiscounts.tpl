@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{assign var="AGGREGATION" value=$CONFIG['aggregation']}
 	<div class="modelContainer modal fade">
@@ -12,7 +12,7 @@
 					<input type="hidden" class="discountsType" value="{$AGGREGATION_TYPE}" />
 					{foreach item=DISCOUNTID from=$CONFIG['discounts']}
 						{assign var="DISCOUNT_TYPE_TPL" value="InventoryDiscountsType"|cat:$DISCOUNTID|cat:".tpl"}
-						{include file=$DISCOUNT_TYPE_TPL|@vtemplate_path:$MODULE}
+						{include file=\App\Layout::getTemplatePath($DISCOUNT_TYPE_TPL, $MODULE)}
 					{/foreach}
 					{if count($GLOBAL_DISCOUNTS) == 0 && $GROUP_DISCOUNT == 0 && $DISCOUNT_TYPE != '0'}
 						<div class="alert alert-danger" role="alert">

@@ -49,14 +49,20 @@ class Import_Data_Action extends Vtiger_Action_Controller
 		$this->user = $user;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		return;
@@ -127,7 +133,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	public function initializeImport()
 	{
 		$lockInfo = Import_Lock_Action::isLockedForModule($this->module);
-		if ($lockInfo !== null) {
+		if ($lockInfo) {
 			if ($lockInfo['userid'] != $this->user->id) {
 				Import_Utils_Helper::showImportLockedError($lockInfo);
 				return false;
@@ -306,12 +312,12 @@ class Import_Data_Action extends Vtiger_Action_Controller
 					if (in_array($fieldInstance->getName(), ['Name', 'Reference'])) {
 						$value = $this->transformInventoryReference($value);
 					} elseif ($fieldInstance->getName() == 'Currency') {
-						$value = \App\Currency::getCurrencyIdByName($entityLabel);
+						$value = \App\Fields\Currency::getCurrencyIdByName($entityLabel);
 						$currencyParam = $data['currencyparam'];
 						$currencyParam = $fieldInstance->getCurrencyParam([], $currencyParam);
 						$newCurrencyParam = [];
 						foreach ($currencyParam as $key => $currencyData) {
-							$valueData = \App\Currency::getCurrencyIdByName($entityLabel);
+							$valueData = \App\Fields\Currency::getCurrencyIdByName($entityLabel);
 							if ($valueData) {
 								$currencyData['value'] = $valueData;
 								$newCurrencyParam[$valueData] = $currencyData;
@@ -332,7 +338,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	{
 		if (!empty($value)) {
 			if ($this->currentInventoryRawData['name']) {
-				list($entityName, $recordId) = $this->transformInventoryReference($this->currentInventoryRawData['name'], true);
+				list($entityName) = $this->transformInventoryReference($this->currentInventoryRawData['name'], true);
 			}
 			if ($entityName) {
 				if ($this->inventoryFieldMapData[$mapData['field']] && $this->inventoryFieldMapData[$mapData['field']][$entityName]) {
@@ -349,7 +355,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 					$type = $fieldObject->getFieldDataType();
 					switch ($type) {
 						case 'picklist':
-							$picklist = $fieldObject->getPicklistValues();
+							$picklist = $fieldObject->getValuesName();
 							if (in_array($value, $picklist)) {
 								$value = array_search($value, $picklist);
 							} elseif (array_key_exists($value, $picklist)) {
@@ -489,7 +495,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 				$referenceModuleName = trim($fieldValueDetails[0]);
 				$entityLabel = trim($fieldValueDetails[1]);
 				if (\App\Module::isModuleActive($referenceModuleName)) {
-					$entityId = \App\Record::getCrmIdByLabel($referenceModuleName, decode_html($entityLabel));
+					$entityId = \App\Record::getCrmIdByLabel($referenceModuleName, App\Purifier::decodeHtml($entityLabel));
 				} else {
 					$referenceModuleName = $defaultFieldValues[$fieldName];
 					$referencedModules = $fieldInstance->getReferenceList();
@@ -508,9 +514,9 @@ class Import_Data_Action extends Vtiger_Action_Controller
 							$referenceEntityId = $this->user->id;
 						}
 					} elseif ($referenceModule === 'Currency') {
-						$referenceEntityId = \App\Currency::getCurrencyIdByName($entityLabel);
+						$referenceEntityId = \App\Fields\Currency::getCurrencyIdByName($entityLabel);
 					} else {
-						$referenceEntityId = \App\Record::getCrmIdByLabel($referenceModule, decode_html($entityLabel));
+						$referenceEntityId = \App\Record::getCrmIdByLabel($referenceModule, App\Purifier::decodeHtml($entityLabel));
 					}
 					if ($referenceEntityId) {
 						$entityId = $referenceEntityId;
@@ -758,7 +764,6 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			$emailSubject = 'Yetiforce- Scheduled Data Import Report for ' . $importDataController->module;
 			$viewer = new Vtiger_Viewer();
 			$viewer->assign('FOR_MODULE', $importDataController->module);
-			$viewer->assign('INVENTORY_MODULES', getInventoryModules());
 			$viewer->assign('IMPORT_RESULT', $importStatusCount);
 			$importResult = $viewer->view('Import_Result_Details.tpl', 'Import', true);
 			$importResult = str_replace('align="center"', '', $importResult);
@@ -787,7 +792,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			$userId = $importInfo['user_id'];
 			$user = new Users();
 			$user->id = $userId;
-			$user->retrieve_entity_info($userId, 'Users');
+			$user->retrieveEntityInfo($userId, 'Users');
 
 			$scheduledImports[$importId] = new Import_Data_Action($importInfo, $user);
 		}
@@ -912,7 +917,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 	 */
 	public function convertInventoryDataToObject($inventoryData = [])
 	{
-		$inventoryModel = new \App\Base();
+		$inventoryModel = new \App\Request([], false);
 		$inventoryFieldModel = Vtiger_InventoryField_Model::getInstance($this->module);
 		$jsonFields = $inventoryFieldModel->getJsonFields();
 		foreach ($inventoryData as $index => $data) {

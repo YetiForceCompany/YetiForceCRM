@@ -14,7 +14,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 
 	/**
 	 * Page title
-	 * @var type 
+	 * @var type
 	 */
 	protected $pageTitle = 'LBL_SYSTEM_SETTINGS';
 
@@ -22,7 +22,6 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	{
 		Settings_Vtiger_Tracker_Model::addBasic('view');
 		parent::__construct();
-		$this->exposeMethod('DonateUs');
 		$this->exposeMethod('index');
 		$this->exposeMethod('github');
 		$this->exposeMethod('systemWarnings');
@@ -30,11 +29,15 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$this->exposeMethod('security');
 	}
 
+	/**
+	 * Checking permissions
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermittedForAdmin
+	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (!$currentUserModel->isAdminUser()) {
-			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+		if (!Users_Record_Model::getCurrentUserModel()->isAdminUser()) {
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -101,7 +104,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$warnings = \App\SystemWarnings::getWarnings('all');
 
 		$viewer->assign('WARNINGS_COUNT', count($warnings));
-		$viewer->assign('WARNINGS', !Vtiger_Session::has('SystemWarnings') ? $warnings : []);
+		$viewer->assign('WARNINGS', !App\Session::has('SystemWarnings') ? $warnings : []);
 		$viewer->assign('USERS_COUNT', $usersCount);
 		$viewer->assign('SECURITY_COUNT', $this->getSecurityCount());
 		$viewer->assign('ALL_WORKFLOWS', $allWorkflows);
@@ -117,7 +120,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$clientModel = Settings_Github_Client_Model::getInstance();
 		$isAuthor = $request->get('author');
 		$isAuthor = $isAuthor == 'true' ? true : false;
-		$pageNumber = $request->get('page');
+		$pageNumber = $request->getInteger('page');
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
 		}
@@ -146,16 +149,9 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$viewer->view('Github.tpl', $qualifiedModuleName);
 	}
 
-	public function DonateUs(\App\Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$qualifiedModuleName = $request->getModule(false);
-		$viewer->view('DonateUs.tpl', $qualifiedModuleName);
-	}
-
 	/**
 	 * Displays warnings system
-	 * 
+	 *
 	 * @param \App\Request $request
 	 */
 	public function systemWarnings(\App\Request $request)
@@ -171,7 +167,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 
 	/**
 	 * Displays security information
-	 * 
+	 *
 	 * @param \App\Request $request
 	 */
 	public function security(\App\Request $request)
@@ -186,14 +182,14 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		try {
 			$viewer->assign('SENSIOLABS', $checker->check(ROOT_DIRECTORY));
 		} catch (RuntimeException $exc) {
-			
+
 		}
 		$viewer->view('Security.tpl', $qualifiedModuleName);
 	}
 
 	/**
 	 * Displays a list of system warnings
-	 * 
+	 *
 	 * @param \App\Request $request
 	 */
 	public function getWarningsList(\App\Request $request)
@@ -241,7 +237,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			'modules.Vtiger.resources.Vtiger',
 			'libraries.jquery.ckeditor.ckeditor',
 			'libraries.jquery.ckeditor.adapters.jquery',
@@ -254,7 +250,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 			"modules.Settings.$moduleName.resources.$moduleName",
 			'modules.Settings.Vtiger.resources.Index',
 			"modules.Settings.$moduleName.resources.Index",
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		return array_merge($headerScriptInstances, $jsScriptInstances);
@@ -268,11 +264,11 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = array(
+		$cssFileNames = [
 			'libraries.jquery.jstree.themes.proton.style',
 			'~libraries/jquery/datatables/media/css/jquery.dataTables_themeroller.css',
 			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.css',
-		);
+		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		return array_merge($cssInstances, $headerCssInstances);
 	}

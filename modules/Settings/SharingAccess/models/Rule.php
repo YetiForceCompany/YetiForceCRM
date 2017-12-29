@@ -3,7 +3,7 @@
  * Settings SharingAccess rule model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 
 /**
@@ -19,17 +19,17 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 	const READ_ONLY_PERMISSION = 0;
 	const READ_WRITE_PERMISSION = 1;
 
-	static $allPermissions = [
+	public static $allPermissions = [
 		self::READ_ONLY_PERMISSION => 'Read Only',
 		self::READ_WRITE_PERMISSION => 'Read Write'
 	];
-	static $ruleMemberToRelationMapping = [
+	public static $ruleMemberToRelationMapping = [
 		self::RULE_TYPE_GROUPS => Settings_SharingAccess_RuleMember_Model::RULE_MEMBER_TYPE_GROUPS,
 		self::RULE_TYPE_ROLE => Settings_SharingAccess_RuleMember_Model::RULE_MEMBER_TYPE_ROLES,
 		self::RULE_TYPE_ROLE_AND_SUBORDINATES => Settings_SharingAccess_RuleMember_Model::RULE_MEMBER_TYPE_ROLE_AND_SUBORDINATES,
 		self::RULE_TYPE_USERS => Settings_SharingAccess_RuleMember_Model::RULE_MEMBER_TYPE_USERS
 	];
-	static $dataShareTableColArr = [
+	public static $dataShareTableColArr = [
 		self::RULE_TYPE_GROUPS => [
 			self::RULE_TYPE_GROUPS => [
 				'table' => 'vtiger_datashare_grp2grp',
@@ -160,38 +160,30 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 		return $this->module;
 	}
 
+	/**
+	 * Function to get rules
+	 * @return array
+	 */
 	protected function getRuleComponents()
 	{
 		if (!isset($this->rule_details) && $this->getId()) {
-			$db = PearDatabase::getInstance();
-
 			$relationTypeComponents = explode('::', $this->get('relationtype'));
 			$sourceType = $relationTypeComponents[0];
 			$targetType = $relationTypeComponents[1];
-
 			$tableColumnInfo = self::$dataShareTableColArr[$sourceType][$targetType];
 			$tableName = $tableColumnInfo['table'];
 			$sourceColumnName = $tableColumnInfo['source_id'];
 			$targetColumnName = $tableColumnInfo['target_id'];
-
-			$sql = sprintf('SELECT * FROM %s WHERE shareid = ?', $tableName);
-			$params = array($this->getId());
-			$result = $db->pquery($sql, $params);
-			if ($db->num_rows($result)) {
-				$sourceId = $db->query_result($result, 0, $sourceColumnName);
+			$row = (new App\Db\Query())->from($tableName)->where(['shareid' => $this->getId()])
+				->one();
+			if ($row) {
 				$sourceMemberType = self::$ruleMemberToRelationMapping[$sourceType];
-				$qualifiedSourceId = Settings_SharingAccess_RuleMember_Model::getQualifiedId($sourceMemberType, $sourceId);
-				$sourceMember = Settings_SharingAccess_RuleMember_Model::getInstance($qualifiedSourceId);
-				$this->rule_details['source_member'] = $sourceMember;
-
-				$targetId = $db->query_result($result, 0, $targetColumnName);
+				$qualifiedSourceId = Settings_SharingAccess_RuleMember_Model::getQualifiedId($sourceMemberType, $row[$sourceColumnName]);
+				$this->rule_details['source_member'] = Settings_SharingAccess_RuleMember_Model::getInstance($qualifiedSourceId);
 				$targetMemberType = self::$ruleMemberToRelationMapping[$targetType];
-				$qualifiedTargetId = Settings_SharingAccess_RuleMember_Model::getQualifiedId($targetMemberType, $targetId);
-				$targetMember = Settings_SharingAccess_RuleMember_Model::getInstance($qualifiedTargetId);
-				$this->rule_details['target_member'] = $targetMember;
-
-				$this->rule_details['permission'] = $db->query_result($result, 0, 'permission');
-				;
+				$qualifiedTargetId = Settings_SharingAccess_RuleMember_Model::getQualifiedId($targetMemberType, $row[$targetColumnName]);
+				$this->rule_details['target_member'] = Settings_SharingAccess_RuleMember_Model::getInstance($qualifiedTargetId);
+				$this->rule_details['permission'] = $row['permission'];
 			}
 		}
 		return $this->rule_details;
@@ -320,20 +312,20 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 	{
 
 		$links = [];
-		$recordLinks = array(
-			array(
+		$recordLinks = [
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => 'javascript:app.showModalWindow(null, "' . $this->getEditViewUrl() . '");',
 				'linkicon' => 'glyphicon glyphicon-pencil'
-			),
-			array(
+			],
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => 'javascript:app.showModalWindow(null, "' . $this->getDeleteActionUrl() . '");',
 				'linkicon' => 'glyphicon glyphicon-trash'
-			)
-		);
+			]
+		];
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
@@ -376,7 +368,7 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 		$sourceColumnName = $tableColumnName['source_id'];
 		$targetColumnName = $tableColumnName['target_id'];
 
-		$this->set('relationtype', implode('::', array($sourceType, $targetType)));
+		$this->set('relationtype', implode('::', [$sourceType, $targetType]));
 
 		$db->createCommand()->insert($tableName, [
 			'shareid' => $ruleId,
@@ -392,20 +384,17 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 		Settings_SharingAccess_Module_Model::recalculateSharingRules();
 	}
 
+	/**
+	 * Delete the rule
+	 */
 	public function delete()
 	{
-		$db = PearDatabase::getInstance();
+		$dbCommand = App\Db::getInstance()->createCommand();
 		$ruleId = $this->getId();
-
 		$relationTypeComponents = explode('::', $this->get('relationtype'));
-		$sourceType = $relationTypeComponents[0];
-		$targetType = $relationTypeComponents[1];
-		$tableColumnInfo = self::$dataShareTableColArr[$sourceType][$targetType];
-		$tableName = $tableColumnInfo['table'];
-
-		$db->delete($tableName, 'shareid = ?', [$ruleId]);
-		$db->delete('vtiger_datashare_module_rel', 'shareid = ?', [$ruleId]);
-
+		$tableColumnInfo = self::$dataShareTableColArr[$relationTypeComponents[0]][$relationTypeComponents[1]];
+		$dbCommand->delete($tableColumnInfo['table'], ['shareid' => $ruleId])->execute();
+		$dbCommand->delete('vtiger_datashare_module_rel', ['shareid' => $ruleId])->execute();
 		Settings_SharingAccess_Module_Model::recalculateSharingRules();
 	}
 
@@ -425,20 +414,15 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 
 	/**
 	 * Function to get all the rules
-	 * @return <Array> - Array of Settings_Groups_Record_Model instances
+	 * @return Settings_Groups_Record_Model[]
 	 */
 	public static function getAllByModule($moduleModel)
 	{
-		$db = PearDatabase::getInstance();
-
-		$sql = 'SELECT * FROM vtiger_datashare_module_rel WHERE tabid = ?';
-		$params = array($moduleModel->getId());
-		$result = $db->pquery($sql, $params);
-		$noOfRules = $db->num_rows($result);
-
+		$dataReader = (new App\Db\Query())->from('vtiger_datashare_module_rel')
+				->where(['tabid' => $moduleModel->getId()])
+				->createCommand()->query();
 		$ruleModels = [];
-		for ($i = 0; $i < $noOfRules; ++$i) {
-			$row = $db->query_result_rowdata($result, $i);
+		while ($row = $dataReader->read()) {
 			$ruleModel = new self();
 			$ruleModels[$row['shareid']] = $ruleModel->setData($row)->setModuleFromInstance($moduleModel);
 		}

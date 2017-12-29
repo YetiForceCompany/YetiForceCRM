@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{assign var="AGGREGATION" value=$CONFIG['aggregation']}
 	<div class="modelContainer modal fade">
@@ -12,7 +12,7 @@
 					<input type="hidden" class="taxsType" value="{$AGGREGATION_TYPE}" />
 					{foreach item=TAXID from=$CONFIG['taxs']}
 						{assign var="TAX_TYPE_TPL" value="InventoryTaxesType"|cat:$TAXID|cat:".tpl"}
-						{include file=$TAX_TYPE_TPL|@vtemplate_path:$MODULE}
+						{include file=\App\Layout::getTemplatePath($TAX_TYPE_TPL, $MODULE)}
 					{/foreach}
 					<hr/>
 					<div class="row">

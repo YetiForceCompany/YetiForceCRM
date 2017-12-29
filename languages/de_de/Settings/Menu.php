@@ -3,9 +3,10 @@
  * Menu german translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author skavenkf (K.Fink)
  */
-$languageStrings = array(
+$languageStrings = [
 	'LBL_MENU_BUILDER' => 'Menü - Konfiguration',
 	'LBL_MENU_BUILDER_DESCRIPTION' => 'Erzeuge und verwalte Menüeinträge.',
 	'LBL_DEFAULT_MENU' => 'Standard Menü',
@@ -59,10 +60,10 @@ $languageStrings = array(
 	//End Remove modal
 	'LBL_MORE_INFO' => 'Hier klicken, für mehr Information',
 	'LBL_COPY_MENU' => 'Menü kopieren',
-);
-$jsLanguageStrings = array(
+];
+$jsLanguageStrings = [
 	'JS_EDIT' => 'Ändern',
 	'JS_REMOVE' => 'Löschen',
 	'JS_NO_DATA' => 'Kein Menü',
 	'JS_TEST_HOTKEY_OK' => 'Hotkey funktioniert richtig.',
-);
+];

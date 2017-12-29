@@ -3,7 +3,7 @@
  * Travis CI test script
  * @package YetiForce.Test
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 chdir(__DIR__ . '/../');
@@ -37,7 +37,7 @@ AppConfig::iniSet('post_max_size', '200M');
 AppConfig::iniSet('upload_max_filesize', '200M');
 AppConfig::iniSet('max_input_vars', 10000);
 AppConfig::iniSet('xdebug.enable', 'On');
-Vtiger_Session::init();
+App\Session::init();
 
 if (IS_WINDOWS) {
 	$userForus = CRMEntity::getInstance('Users');

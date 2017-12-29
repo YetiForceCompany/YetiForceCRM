@@ -36,7 +36,7 @@
 								<div class="textAlignCenter">{\App\Language::translate('LBL_PLEASE_SELECT_MODULE',$MODULE)}</div>
 							{else}
 								<input type="hidden" name="labelFields" data-value='{\App\Json::encode($SOURCE_MODULE_MODEL->getNameFields())}' />
-								{include file='AdvanceFilter.tpl'|@vtemplate_path}
+								{include file=\App\Layout::getTemplatePath('AdvanceFilter.tpl')}
 							{/if}	
 						</form>
 					</div>
@@ -49,13 +49,13 @@
 						<button class="btn hide btn-success pull-right" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceSave">
 							<strong>{\App\Language::translate('LBL_SAVE_FILTER', $MODULE)}</strong>
 						</button>
-						{if Users_Privileges_Model::isPermitted($SOURCE_MODULE, 'CreateCustomFilter')}
+						{if \App\Privilege::isPermitted($SOURCE_MODULE, 'CreateCustomFilter')}
 							<button class="btn btn-success pull-right" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceIntiateSave">
 								<strong>{\App\Language::translate('LBL_SAVE_AS_FILTER', $MODULE)}</strong>
 							</button>
 						{/if}
 						<div class="col-xs-3 pull-right">
-							<input class="zeroOpacity pull-left form-control" type="text" title="{\App\Language::translate('LBL_FILTER_NAME')}" value="" name="viewname" placeholder="{\App\Language::translate('LBL_FILTER_NAME')}"/>
+							<input class="zeroOpacity pull-left form-control" type="text" title="{\App\Language::translate('LBL_FILTER_NAME')}" value="" name="viewname" placeholder="{\App\Language::translate('LBL_FILTER_NAME')}" />
 						</div>
 					{/if}
 				</div>

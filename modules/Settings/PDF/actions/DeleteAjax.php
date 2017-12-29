@@ -4,7 +4,7 @@
  * Delete Action Class for PDF Settings
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -18,9 +18,9 @@ class Settings_PDF_DeleteAjax_Action extends Settings_Vtiger_Index_Action
 		$response = new Vtiger_Response();
 		$recordModel = Vtiger_PDF_Model::getInstanceById($recordId);
 		if (Settings_PDF_Record_Model::delete($recordModel)) {
-			$response->setResult(array('success' => 'true'));
+			$response->setResult(['success' => 'true']);
 		} else {
-			$response->setResult(array('success' => 'false'));
+			$response->setResult(['success' => 'false']);
 		}
 		$response->emit();
 	}

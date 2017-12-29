@@ -11,6 +11,9 @@
 class HelpDesk_Detail_View extends Vtiger_Detail_View
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -19,43 +22,29 @@ class HelpDesk_Detail_View extends Vtiger_Detail_View
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
-	 * @param \App\Request $request
-	 * @return Vtiger_JsScript_Model[]
-	 */
-	public function getFooterScripts(\App\Request $request)
-	{
-		$jsFileNames = array(
-			'~libraries/jquery/flot/jquery.flot.min.js',
-			'~libraries/jquery/flot/jquery.flot.resize.js',
-			'~libraries/jquery/flot/jquery.flot.stack.min.js',
-			'~libraries/jquery/flot/jquery.flot.valuelabels.min.js',
-		);
-		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
-	}
-
-	/**
-	 * Function to get the list of Css models to be included
-	 * @param \App\Request $request
-	 * @return Vtiger_CssScript_Model[]
+	 * {@inheritDoc}
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
-		$cssFileNames = array(
+		$cssFileNames = [
 			'~libraries/jquery/flot/jquery.flot.valuelabels.css',
-		);
+		];
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($cssFileNames));
 	}
 
 	public function showCharts(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 
 		$viewer = $this->getViewer($request);
+		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission('OSSTimeControl')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
 		$moduleModel = Vtiger_Module_Model::getInstance('OSSTimeControl');
-		if ($moduleModel)
+		if ($moduleModel && $moduleModel->isActive()) {
 			$data = $moduleModel->getTimeUsers($recordId, $moduleName);
+		}
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
 		$viewer->view('charts/ShowTimeHelpDesk.tpl', $moduleName);

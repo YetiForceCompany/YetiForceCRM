@@ -41,28 +41,28 @@ class ModComments_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getSettingLinks()
 	{
-		vimport('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
+		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
 		$editWorkflowsImagePath = Vtiger_Theme::getImagePath('EditWorkflows.png');
 		$settingsLinks = [];
 
 
 		if (VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
-			$settingsLinks[] = array(
+			$settingsLinks[] = [
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_WORKFLOWS',
 				'linkurl' => 'index.php?parent=Settings&module=Workflows&view=List&sourceModule=' . $this->getName(),
 				'linkicon' => $editWorkflowsImagePath
-			);
+			];
 		}
 		return $settingsLinks;
 	}
 
 	/**
 	 * Delete coments associated with module
-	 * @param vtlib\Module Instnace of module to use
+	 * @param vtlib\ModuleBasic Instnace of module to use
 	 */
-	static function deleteForModule($moduleInstance)
+	public static function deleteForModule(vtlib\ModuleBasic $moduleInstance)
 	{
 		$db = PearDatabase::getInstance();
 		$db->delete('vtiger_modcomments', 'related_to IN(SELECT crmid FROM vtiger_crmentity WHERE setype=?)', [$moduleInstance->name]);

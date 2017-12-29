@@ -3,7 +3,7 @@
  * Layout class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 namespace App;
@@ -20,9 +20,8 @@ class Layout
 	 */
 	public static function getActiveLayout()
 	{
-		$layout = \Vtiger_Session::get('layout');
-		if (!empty($layout)) {
-			return $layout;
+		if (Session::has('layout')) {
+			return Session::get('layout');
 		}
 		return \AppConfig::main('defaultLayout');
 	}
@@ -81,5 +80,27 @@ class Layout
 			$basePath = 'public_html/';
 		}
 		return $basePath . $name;
+	}
+
+	/**
+	 * The function get path  to the image
+	 * @param string $imageName
+	 * @return array
+	 */
+	public static function getImagePath($imageName)
+	{
+		$args = func_get_args();
+		return call_user_func_array(['Vtiger_Theme', 'getImagePath'], $args);
+	}
+
+	/**
+	 * Function takes a template path
+	 * @param string $templateName
+	 * @param string $moduleName
+	 * @return array
+	 */
+	public static function getTemplatePath($templateName, $moduleName = '')
+	{
+		return \Vtiger_Viewer::getInstance()->getTemplatePath($templateName, $moduleName);
 	}
 }

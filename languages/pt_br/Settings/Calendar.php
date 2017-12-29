@@ -3,7 +3,7 @@
  * Calendar portuguese translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'Calendar' => 'Agenda',
@@ -23,8 +23,6 @@ $languageStrings = [
 	'LBL_CALENDAR_CONFIG' => 'Agenda - Configuração',
 	'LBL_CALENDAR_CONFIG_DESCRIPTION' => ' ',
 	'LBL_USER_COLORS' => 'Cores de Usuários',
-	'LBL_CALENDAR_COLORS' => 'Cores da Agenda',
-	'LBL_CALENDAR_TYPE' => 'Tipo Agenda',
 	'PLL_BREAK_TIME' => 'Intervalo Trabalho',
 	'PLL_HOLIDAY_TIME' => 'Feriados',
 	'LBL_SAVE_CHANGES' => 'Alterações salvas',

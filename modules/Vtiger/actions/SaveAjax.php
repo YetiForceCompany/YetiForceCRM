@@ -21,21 +21,15 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 		$recordModel = $this->saveRecord($request);
 		$fieldModelList = $recordModel->getModule()->getFields();
 		$result = [];
-		foreach ($fieldModelList as $fieldName => &$fieldModel) {
+		foreach ($fieldModelList as $fieldName => $fieldModel) {
+			if (!$fieldModel->isViewable()) {
+				continue;
+			}
 			$recordFieldValue = $recordModel->get($fieldName);
-
-			if (is_array($recordFieldValue) && $fieldModel->getFieldDataType() === 'multipicklist') {
-				$recordFieldValue = implode(' |##| ', $recordFieldValue);
-			} elseif (is_array($recordFieldValue) && in_array($fieldModel->getFieldDataType(), ['sharedOwner', 'taxes'])) {
-				$recordFieldValue = implode(',', $recordFieldValue);
-			}
-			$fieldValue = $displayValue = Vtiger_Util_Helper::toSafeHTML($recordFieldValue);
-			if ($fieldModel->getFieldDataType() === 'currency') {
-				$displayValue = Vtiger_Util_Helper::toSafeHTML($fieldModel->getDisplayValue($recordFieldValue, $recordModel->getId()));
-			} else {
-				$displayValue = $fieldModel->getDisplayValue($recordFieldValue, $recordModel->getId(), $recordModel);
-			}
-			$result[$fieldName] = ['value' => $fieldValue, 'display_value' => $displayValue];
+			$result[$fieldName] = [
+				'value' => \App\Purifier::encodeHtml($recordFieldValue),
+				'display_value' => $fieldModel->getDisplayValue($recordFieldValue, $recordModel->getId(), $recordModel)
+			];
 		}
 		$result['_recordLabel'] = $recordModel->getName();
 		$result['_recordId'] = $recordModel->getId();
@@ -55,13 +49,11 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 	 */
 	public function getRecordModelFromRequest(\App\Request $request)
 	{
-		$recordId = $request->get('record');
-		if (!empty($recordId)) {
-			$moduleName = $request->getModule();
-			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-			$fieldModel = $recordModel->getModule()->getFieldByName($request->get('field'));
+		if (!$request->isEmpty('record')) {
+			$recordModel = $this->record ? $this->record : Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
+			$fieldModel = $recordModel->getModule()->getFieldByName($request->getByType('field', 2));
 			if ($fieldModel && $fieldModel->isEditable()) {
-				$recordModel->set($fieldModel->getName(), $fieldModel->getUITypeModel()->getDBValue($request->get('value'), $recordModel));
+				$fieldModel->getUITypeModel()->setValueFromRequest($request, $recordModel, 'value');
 				if ($request->getBoolean('setRelatedFields') && $fieldModel->isReferenceField()) {
 					$recordModel = $this->setRelatedFieldsInHierarchy($recordModel, $fieldModel->getName());
 				}
@@ -78,7 +70,7 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 	 * @param string $fieldName
 	 * @return \Vtiger_Record_Model
 	 */
-	public function setRelatedFieldsInHierarchy($recordModel, $fieldName)
+	public function setRelatedFieldsInHierarchy(Vtiger_Record_Model $recordModel, $fieldName)
 	{
 		$fieldValue = $recordModel->get($fieldName);
 		$relatedModules = \App\ModuleHierarchy::getRelationFieldByHierarchy($recordModel->getModuleName(), $fieldName);

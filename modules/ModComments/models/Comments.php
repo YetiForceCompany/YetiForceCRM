@@ -12,7 +12,7 @@ class ModComments_CommentsModel
 {
 
 	private $data;
-	static $ownerNamesCache = [];
+	public static $ownerNamesCache = [];
 
 	public function __construct($datarow)
 	{
@@ -36,6 +36,6 @@ class ModComments_CommentsModel
 
 	public function content()
 	{
-		return decode_html($this->data['commentcontent']);
+		return App\Purifier::decodeHtml($this->data['commentcontent']);
 	}
 }

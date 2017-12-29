@@ -3,13 +3,11 @@
  * CallHistory spanish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'CallHistory' => 'Histórico de llamadas',
 	'SINGLE_CallHistory' => 'Histórico de la llamada',
-	'LBL_ADD_RECORD' => 'Añadir',
-	'LBL_RECORDS_LIST' => 'Lista',
 	//Bloks
 	'LBL_CALLHISTORY_INFORMATION' => 'Información sobre el históricos de la llamada',
 	'LBL_CUSTOM_INFORMATION' => 'Información adicional',

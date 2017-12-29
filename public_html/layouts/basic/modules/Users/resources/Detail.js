@@ -9,61 +9,6 @@
  *************************************************************************************/
 
 Vtiger_Detail_Js("Users_Detail_Js", {
-	triggerChangePassword: function (CHPWActionUrl, module) {
-		AppConnector.request(CHPWActionUrl).then(
-				function (data) {
-					if (data) {
-						var callback = function (data) {
-							var params = app.validationEngineOptions;
-							params.onValidationComplete = function (form, valid) {
-								if (valid) {
-									Users_Detail_Js.savePassword(form);
-								}
-								return false;
-							};
-							jQuery('#changePassword').validationEngine(app.validationEngineOptions);
-						};
-						app.showModalWindow(data, function (data) {
-							if (typeof callback == 'function') {
-								callback(data);
-							}
-						});
-					}
-				}
-		);
-	},
-	savePassword: function (form) {
-		var new_password = form.find('[name="new_password"]');
-		var confirm_password = form.find('[name="confirm_password"]');
-		var old_password = form.find('[name="old_password"]');
-		var userid = form.find('[name="userid"]').val();
-
-		if (new_password.val() == confirm_password.val()) {
-			var params = {
-				'module': app.getModuleName(),
-				'action': "SaveAjax",
-				'mode': 'savePassword',
-				'old_password': old_password.val(),
-				'new_password': new_password.val(),
-				'userid': userid
-			};
-			AppConnector.request(params).then(
-					function (data) {
-						if (data.success) {
-							app.hideModalWindow();
-							Vtiger_Helper_Js.showPnotify({text: app.vtranslate(data.result.message), type: 'success'});
-						} else {
-							//old_password.validationEngine('showPrompt', app.vtranslate(data.error.message) , 'error','topLeft',true);
-							Vtiger_Helper_Js.showPnotify(data.error.message);
-							return false;
-						}
-					}
-			);
-		} else {
-			new_password.validationEngine('showPrompt', app.vtranslate('JS_REENTER_PASSWORDS'), 'error', 'topLeft', true);
-			return false;
-		}
-	},
 	/*
 	 * function to trigger delete record action
 	 * @params: delete record url.
@@ -247,7 +192,7 @@ Vtiger_Detail_Js("Users_Detail_Js", {
 			params.data = data;
 			params.async = false;
 			params.dataType = 'json';
-			AppConnector.request(params).done(
+			AppConnector.request(params).then(
 					function (reponseData) {
 						aDeferred.resolve(reponseData);
 					}

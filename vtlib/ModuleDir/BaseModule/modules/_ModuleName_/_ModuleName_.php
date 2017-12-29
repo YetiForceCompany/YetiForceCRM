@@ -81,17 +81,17 @@ class _ModuleName_ extends Vtiger_CRMEntity
 	 * @param String Module name
 	 * @param String Event Type
 	 */
-	public function vtlib_handler($moduleName, $eventType)
+	public function moduleHandler($moduleName, $eventType)
 	{
-		if ($eventType == 'module.postinstall') {
+		if ($eventType === 'module.postinstall') {
 			
-		} else if ($eventType == 'module.disabled') {
+		} else if ($eventType === 'module.disabled') {
 			
-		} else if ($eventType == 'module.preuninstall') {
+		} else if ($eventType === 'module.preuninstall') {
 			
-		} else if ($eventType == 'module.preupdate') {
+		} else if ($eventType === 'module.preupdate') {
 			
-		} else if ($eventType == 'module.postupdate') {
+		} else if ($eventType === 'module.postupdate') {
 			
 		}
 	}

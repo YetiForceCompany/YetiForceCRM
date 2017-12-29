@@ -5,7 +5,7 @@ namespace Importers;
  * Class that imports base database
  * @package YetiForce.Install
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Base2 extends \App\Db\Importers\Base
@@ -53,6 +53,9 @@ class Base2 extends \App\Db\Importers\Base
 					'last_invoice_date' => $this->date(),
 					'active' => $this->smallInteger(1)->defaultValue(0),
 					'accounts_status' => $this->stringType(),
+					'phone_extra' => $this->stringType(100),
+					'fax_extra' => $this->stringType(100),
+					'otherphone_extra' => $this->stringType(100),
 				],
 				'columns_mysql' => [
 					'active' => $this->tinyInteger(1)->defaultValue(0),
@@ -387,12 +390,14 @@ class Base2 extends \App\Db\Importers\Base
 					'ssalesprocessesid' => $this->integer(10),
 					'assets_renew' => $this->stringType(),
 					'renewalinvoice' => $this->integer(10),
+					'contactid' => $this->integer(19),
 				],
 				'index' => [
 					['parent_id', 'parent_id'],
 					['product', 'product'],
 					['ssalesprocessesid', 'ssalesprocessesid'],
 					['renewalinvoice', 'renewalinvoice'],
+					['contactid_idx', 'contactid'],
 				],
 				'primaryKeys' => [
 					['assets_pk', 'assetsid']
@@ -573,61 +578,6 @@ class Base2 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_calendar_default_activitytypes' => [
-				'columns' => [
-					'id' => $this->integer(10)->notNull(),
-					'module' => $this->stringType(50),
-					'fieldname' => $this->stringType(50),
-					'defaultcolor' => $this->stringType(50),
-					'active' => $this->smallInteger(1)->defaultValue(0),
-				],
-				'columns_mysql' => [
-					'active' => $this->tinyInteger(1)->defaultValue(0),
-				],
-				'primaryKeys' => [
-					['calendar_default_activitytypes_pk', 'id']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_calendar_default_activitytypes_seq' => [
-				'columns' => [
-					'id' => $this->integer(10)->notNull(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_calendar_user_activitytypes' => [
-				'columns' => [
-					'id' => $this->primaryKey(10),
-					'defaultid' => $this->integer(10),
-					'userid' => $this->integer(10),
-					'color' => $this->stringType(50),
-					'visible' => $this->integer(10)->defaultValue(0),
-				],
-				'index' => [
-					['userid', 'userid'],
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_calendarsharedtype' => [
-				'columns' => [
-					'calendarsharedtypeid' => $this->primaryKey(10),
-					'calendarsharedtype' => $this->stringType(200)->notNull(),
-					'sortorderid' => $this->integer(10),
-					'presence' => $this->integer(10)->notNull()->defaultValue(1),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_calendarsharedtype_seq' => [
-				'columns' => [
-					'id' => $this->integer(10)->notNull(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_callduration' => [
 				'columns' => [
 					'calldurationid' => $this->primaryKey(10),
@@ -663,6 +613,8 @@ class Base2 extends \App\Db\Importers\Base
 					'subscriberid' => $this->stringType(100),
 					'destination' => $this->integer(10),
 					'source' => $this->integer(10),
+					'from_number_extra' => $this->stringType(100),
+					'to_number_extra' => $this->stringType(100),
 				],
 				'index' => [
 					['source', 'source'],
@@ -879,6 +831,8 @@ class Base2 extends \App\Db\Importers\Base
 					'decision_maker' => $this->smallInteger(1)->defaultValue(0),
 					'sum_time' => $this->decimal('10,2')->defaultValue(0),
 					'active' => $this->smallInteger(1)->defaultValue(0),
+					'phone_extra' => $this->stringType(100),
+					'mobile_extra' => $this->stringType(100),
 				],
 				'columns_mysql' => [
 					'dav_status' => $this->tinyInteger(1)->defaultValue(1),
@@ -1182,13 +1136,6 @@ class Base2 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_currency_info_seq' => [
-				'columns' => [
-					'id' => $this->integer(10)->notNull(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_currency_symbol_placement' => [
 				'columns' => [
 					'currency_symbol_placementid' => $this->primaryKey(10),
@@ -1328,39 +1275,6 @@ class Base2 extends \App\Db\Importers\Base
 				],
 				'primaryKeys' => [
 					['cvstdfilter_pk', 'cvid']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_dataaccess' => [
-				'columns' => [
-					'dataaccessid' => $this->primaryKey(5),
-					'module_name' => $this->stringType(25),
-					'summary' => $this->stringType()->notNull(),
-					'data' => $this->text(),
-					'presence' => $this->smallInteger(1)->defaultValue(1),
-				],
-				'columns_mysql' => [
-					'presence' => $this->tinyInteger(1)->defaultValue(1),
-				],
-				'index' => [
-					['module_name', 'module_name'],
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_dataaccess_cnd' => [
-				'columns' => [
-					'dataaccess_cndid' => $this->primaryKey(10),
-					'dataaccessid' => $this->integer(10)->notNull(),
-					'fieldname' => $this->stringType()->notNull(),
-					'comparator' => $this->stringType()->notNull(),
-					'val' => $this->stringType(),
-					'required' => $this->smallInteger(3)->notNull(),
-					'field_type' => $this->stringType(100)->notNull(),
-				],
-				'columns_mysql' => [
-					'required' => $this->tinyInteger(3)->notNull(),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2909,54 +2823,9 @@ class Base2 extends \App\Db\Importers\Base
 			'vtiger_calendar_config' => [
 				'columns' => ['type', 'name', 'label', 'value'],
 				'values' => [
-					['colors', 'break', 'PLL_BREAK_TIME', '#ffd000'],
-					['colors', 'holiday', 'PLL_HOLIDAY_TIME', '#00d4f5'],
-					['colors', 'work', 'PLL_WORKING_TIME', '#FFD500'],
 					['colors', 'Task', 'Task', '#00d4f5'],
 					['reminder', 'update_event', 'LBL_UPDATE_EVENT', '0'],
 					['info', 'notworkingdays', 'LBL_NOTWORKING_DAYS', NULL],
-				]
-			],
-			'vtiger_calendar_default_activitytypes' => [
-				'columns' => ['id', 'module', 'fieldname', 'defaultcolor', 'active'],
-				'values' => [
-					[1, 'Events', 'Events', '#17309A', 1],
-					[2, 'Calendar', 'Tasks', '#3A87AD', 1],
-					[4, 'Contacts', 'End of support for contact', '#953B39', 1],
-					[5, 'Contacts', 'Birthdays of contacts', '#545252', 1],
-					[7, 'Project', 'Project', '#C71585', 1],
-					[8, 'ProjectTask', 'Project Task', '#006400', 1],
-				]
-			],
-			'vtiger_calendar_default_activitytypes_seq' => [
-				'columns' => ['id'],
-				'values' => [
-					[8],
-				]
-			],
-			'vtiger_calendar_user_activitytypes' => [
-				'columns' => ['id', 'defaultid', 'userid', 'color', 'visible'],
-				'values' => [
-					[1, 1, 1, '#00ff0d', 1],
-					[2, 2, 1, '#0810ff', 1],
-					[4, 4, 1, '#953B39', 0],
-					[5, 5, 1, '#545252', 0],
-					[7, 7, 1, '#C71585', 0],
-					[8, 8, 1, '#006400', 0],
-				]
-			],
-			'vtiger_calendarsharedtype' => [
-				'columns' => ['calendarsharedtypeid', 'calendarsharedtype', 'sortorderid', 'presence'],
-				'values' => [
-					[1, 'public', 1, 1],
-					[2, 'private', 2, 1],
-					[3, 'seletedusers', 3, 1],
-				]
-			],
-			'vtiger_calendarsharedtype_seq' => [
-				'columns' => ['id'],
-				'values' => [
-					[3],
 				]
 			],
 			'vtiger_callduration' => [
@@ -3164,7 +3033,7 @@ class Base2 extends \App\Db\Importers\Base
 					[3, 'LBL_SEND_REMINDER', 'cron/SendReminder.php', 900, NULL, NULL, 1, 'Calendar', 12, 'Recommended frequency for SendReminder is 15 mins'],
 					[4, 'LBL_CURRENCY_UPDATE', 'modules/Settings/CurrencyUpdate/cron/CurrencyUpdateCron.php', 86400, NULL, NULL, 1, 'CurrencyUpdate', 3, 'Recommended frequency for Currency Update is 24 hours'],
 					[5, 'LBL_MAILER', 'cron/Mailer.php', 300, NULL, NULL, 1, 'Vtiger', 8, NULL],
-					[6, 'LBL_HANDLER_UPDATER', 'cron/HandlerUpdater.php', 60, NULL, NULL, 1, 'Vtiger', 2, NULL],
+					[6, 'LBL_HANDLER_UPDATER', 'cron/HandlerUpdater.php', 60, NULL, NULL, 0, 'Vtiger', 2, NULL],
 					[7, 'LBL_BROWSING_HISTORY', 'cron/BrowsingHistory.php', 86400, NULL, NULL, 1, 'Vtiger', 29, NULL],
 					[8, 'LBL_SCHEDULED_IMPORT', 'cron/modules/Import/ScheduledImport.php', 900, NULL, NULL, 1, 'Import', 4, 'Recommended frequency for MailScanner is 15 mins'],
 					[9, 'LBL_SCHEDULE_REPORTS', 'cron/modules/Reports/ScheduleReports.php', 900, NULL, NULL, 1, 'Reports', 24, 'Recommended frequency for ScheduleReports is 15 mins'],
@@ -3392,12 +3261,6 @@ class Base2 extends \App\Db\Importers\Base
 				'columns' => ['id', 'currency_name', 'currency_code', 'currency_symbol', 'conversion_rate', 'currency_status', 'defaultid', 'deleted'],
 				'values' => [
 					[1, 'Poland, Zlotych', 'PLN', 'zł', '1.00000', 'Active', -11, 0],
-				]
-			],
-			'vtiger_currency_info_seq' => [
-				'columns' => ['id'],
-				'values' => [
-					[1],
 				]
 			],
 			'vtiger_currency_symbol_placement' => [
@@ -3862,35 +3725,6 @@ class Base2 extends \App\Db\Importers\Base
 					[110, 3, 'u_yf_svendorenquiries:category:category:SVendorEnquiries_Category:V'],
 					[110, 4, 'vtiger_crmentity:smownerid:assigned_user_id:SVendorEnquiries_Assigned_To:V'],
 					[110, 5, 'vtiger_crmentity:createdtime:createdtime:SVendorEnquiries_Created_Time:DT'],
-				]
-			],
-			'vtiger_dataaccess' => [
-				'columns' => ['dataaccessid', 'module_name', 'summary', 'data', 'presence'],
-				'values' => [
-					[1, 'HelpDesk', 'Adding time period to status change', 'a:1:{i:0;a:3:{s:2:"an";s:25:"Vtiger!!show_quick_create";s:7:"modules";s:14:"OSSTimeControl";s:2:"cf";b:1;}}', 1],
-					[3, 'ProjectTask', 'Adding time period to status change', 'a:1:{i:0;a:3:{s:2:"an";s:25:"Vtiger!!show_quick_create";s:7:"modules";s:14:"OSSTimeControl";s:2:"cf";b:1;}}', 1],
-					[5, 'ProjectTask', 'Date validation', 'a:1:{i:0;a:2:{s:2:"cf";b:0;s:2:"an";s:22:"Vtiger!!check_taskdate";}}', 1],
-					[6, 'ProjectTask', 'Check parent task', 'a:1:{i:0;a:3:{s:2:"an";s:24:"Vtiger!!check_taskstatus";s:6:"status";a:2:{i:0;s:4:"Open";i:1;s:11:"In Progress";}s:2:"cf";b:1;}}', 1],
-					[7, 'Leads', 'Check if there are any tasks that are not closed', 'a:1:{i:0;a:4:{s:2:"an";s:21:"Vtiger!!check_alltask";s:6:"status";a:5:{i:0;s:11:"Not Started";i:1;s:11:"In Progress";i:2;s:13:"Pending Input";i:3;s:8:"Deferred";i:4;s:7:"Planned";}s:7:"message";s:67:"There are unsolved tasks, complete them to be able to change status";s:2:"cf";b:1;}}', 1],
-					[9, 'All', 'Check whether all mandatory fields in quick edit are filled in', 'a:1:{i:0;a:2:{s:2:"cf";b:0;s:2:"an";s:26:"Vtiger!!validate_mandatory";}}', 1],
-					[10, 'HelpDesk', 'Lock edit on the status', 'a:1:{i:0;a:2:{s:2:"cf";b:0;s:2:"an";s:21:"Vtiger!!blockEditView";}}', 1],
-					[11, 'Accounts', 'Check for duplicates', 'a:1:{i:0;a:2:{s:2:"cf";b:0;s:2:"an";s:24:"Accounts!!unique_account";}}', 1],
-					[12, 'Leads', 'Check for duplicates', 'a:1:{i:0;a:8:{s:2:"an";s:20:"Vtiger!!unique_value";s:5:"what1";s:6:"vat_id";s:6:"where1";a:2:{i:0;s:23:"vtiger_account=vat_id=6";i:1;s:27:"vtiger_leaddetails=vat_id=7";}s:5:"info0";s:0:"";s:5:"info1";s:0:"";s:5:"info2";s:0:"";s:8:"locksave";s:1:"3";s:2:"cf";b:1;}}', 1],
-					[14, 'IStorages', 'Check for parent storage', 'a:1:{i:0;a:2:{s:2:"cf";b:0;s:2:"an";s:20:"IStorages!!checkType";}}', 0],
-					[15, 'IStorages', 'Prevents parents loop', 'a:1:{i:0;a:2:{s:2:"cf";b:0;s:2:"an";s:25:"IStorages!!checkHierarchy";}}', 0],
-				]
-			],
-			'vtiger_dataaccess_cnd' => [
-				'columns' => ['dataaccess_cndid', 'dataaccessid', 'fieldname', 'comparator', 'val', 'required', 'field_type'],
-				'values' => [
-					[37, 1, 'ticketstatus', 'has changed', 'Open', 1, 'picklist'],
-					[39, 3, 'projecttaskstatus', 'has changed', 'Open', 1, 'picklist'],
-					[42, 5, 'projectmilestoneid', 'is not empty', '', 1, 'reference'],
-					[46, 7, 'leadstatus', 'is', 'PLL_LEAD_ACQUIRED', 1, 'picklist'],
-					[50, 10, 'ticketstatus', 'is', 'Rejected', 0, 'picklist'],
-					[51, 10, 'ticketstatus', 'is', 'Closed', 0, 'picklist'],
-					[52, 11, 'accountname', 'is not empty', '', 1, 'string'],
-					[53, 12, 'vat_id', 'is not empty', '', 1, 'string'],
 				]
 			],
 			'vtiger_datashare_relatedmodules' => [
@@ -5931,8 +5765,7 @@ class Base2 extends \App\Db\Importers\Base
 				'values' => [
 					[3, 'EntityAfterSave', 'Vtiger_Workflow_Handler', 1, '', '', 5, 0],
 					[4, 'EntityAfterRestore', 'Vtiger_Workflow_Handler', 1, '', '', 5, 0],
-					[8, 'EntityBeforeDelete', 'ModTracker_ModTrackerHandler_Handler', 1, '', '', 5, 32],
-					[9, 'EntityAfterRestore', 'ModTracker_ModTrackerHandler_Handler', 1, '', '', 5, 32],
+					[8, 'EntityChangeState', 'ModTracker_ModTrackerHandler_Handler', 1, '', '', 5, 32],
 					[10, 'EntityAfterSave', 'PBXManager_PBXManagerHandler_Handler', 1, 'Contacts,Accounts,Leads', '', 5, 33],
 					[11, 'EntityAfterDelete', 'PBXManager_PBXManagerHandler_Handler', 1, 'Contacts,Accounts,Leads', '', 5, 33],
 					[12, 'EntityAfterRestore', 'PBXManager_PBXManagerHandler_Handler', 1, 'Contacts,Accounts,Leads', '', 5, 33],
@@ -6415,7 +6248,6 @@ class Base2 extends \App\Db\Importers\Base
 					[29, 692, 'dayoftheweek', 'vtiger_users', 1, 16, 'dayoftheweek', 'Starting Day of the week', 1, 2, 'Monday', 100, 7, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 693, 'callduration', 'vtiger_users', 1, 16, 'callduration', 'Default Call Duration', 1, 2, '30', 100, 10, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 694, 'othereventduration', 'vtiger_users', 1, 16, 'othereventduration', 'Other Event Duration', 1, 2, '30', 100, 8, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[29, 699, 'calendarsharedtype', 'vtiger_users', 1, 16, 'calendarsharedtype', 'Calendar Shared Type', 1, 2, 'Public', 100, 13, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[6, 700, 'isconvertedfromlead', 'vtiger_account', 1, 56, 'isconvertedfromlead', 'Is Converted From Lead', 1, 2, 'no', 100, 1, 196, 2, 'C~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[4, 701, 'isconvertedfromlead', 'vtiger_contactdetails', 1, 56, 'isconvertedfromlead', 'Is Converted From Lead', 1, 2, 'no', 100, 5, 5, 2, 'C~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 703, 'default_record_view', 'vtiger_users', 1, 16, 'default_record_view', 'Default Record View', 1, 2, 'Summary', 100, 19, 79, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],

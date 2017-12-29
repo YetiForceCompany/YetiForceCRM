@@ -1,10 +1,10 @@
 {strip}
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<div class="container-fluid userDetailsContainer">
 		<div class="row padding0">
 			<div class="col-md-2 noSpaces">
 				<a class="companyLogoContainer" href="index.php">
-					<img class="img-responsive logo" src="{$COMPANY_LOGO->get('imageUrl')}" title="{$COMPANY_DETAILS->get('name')}" alt="{$COMPANY_LOGO->get('alt')}"/>
+					<img class="img-responsive logo" src="{$COMPANY_LOGO->get('imageUrl')}" title="{$COMPANY_DETAILS->get('name')}" alt="{$COMPANY_LOGO->get('alt')}" />
 				</a>
 			</div>
 			<div class="col-md-10 userDetails">
@@ -21,7 +21,7 @@
 		</div>
 	</div>
 	<div class="menuContainer {if $DEVICE == 'Desktop'}slimScrollMenu{/if}">
-		{include file='Menu.tpl'|@vtemplate_path:$MODULE DEVICE=$DEVICE}
+		{include file=\App\Layout::getTemplatePath('Menu.tpl', $MODULE) DEVICE=$DEVICE}
 	</div>
 {/strip}
 

@@ -4,7 +4,7 @@
  * 
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mriusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_LoginHistory_ListView_Model extends Settings_Vtiger_ListView_Model
@@ -22,7 +22,7 @@ class Settings_LoginHistory_ListView_Model extends Settings_Vtiger_ListView_Mode
 			->from($module->baseTable);
 		$search_key = $this->get('search_key');
 		$value = $this->get('search_value');
-		if (!empty($search_key) && !empty($value)) {
+		if (!empty($search_key) && !empty($value) && in_array($search_key, array_keys($module->listFields))) {
 			if ('other' === $value) {
 				$subQuery = (new \App\Db\Query())->select('user_name')->from('vtiger_users');
 				$query->where(['not in', "$module->baseTable.$search_key", $subQuery]);

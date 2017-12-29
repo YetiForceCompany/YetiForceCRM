@@ -25,7 +25,7 @@ class VTConditionalExpression
 
 	private function evalGate($tree)
 	{
-		if (in_array($tree[0], array("and", "or"))) {
+		if (in_array($tree[0], ["and", "or"])) {
 			switch ($tree[0]) {
 				case "and":
 					return $this->evalGate($tree[1]) && $this->evalGate($tree[2]);
@@ -59,12 +59,12 @@ class VTConditionalExpression
 
 class VTParseFailed extends Exception
 {
-	
+
 }
 
 /**
  * This is a simple parser for conditional expressions used to trigger workflow actions.
- * 
+ *
  */
 class VTConditionalParser
 {
@@ -81,26 +81,26 @@ class VTConditionalParser
 		$tokens = [];
 		foreach ($matches as $arr) {
 			$tokenVal = $arr[0];
-			if (in_array($tokenVal, array("and", "or", "=", "(", ")"))) {
+			if (in_array($tokenVal, ["and", "or", "=", "(", ")"])) {
 				$tokenType = "op";
 			} else if (is_numeric($tokenVal)) {
 				$tokenType = "num";
 			} else {
 				$tokenType = "sym";
 			}
-			$tokens[] = array($tokenType, $tokenVal);
+			$tokens[] = [$tokenType, $tokenVal];
 		}
 		return $tokens;
 	}
 
 	public function parse()
 	{
-		$op = array(
-			"and" => array("op", "and"),
-			"or" => array("op", "or"),
-			"=" => array("op", "="),
-			"(" => array("op", "("),
-			")" => array("op", ")"));
+		$op = [
+			"and" => ["op", "and"],
+			"or" => ["op", "or"],
+			"=" => ["op", "="],
+			"(" => ["op", "("],
+			")" => ["op", ")"]];
 
 		if ($this->peek() == $op['(']) {
 			$this->nextToken();
@@ -111,9 +111,9 @@ class VTConditionalParser
 		} else {
 			$left = $this->cond();
 		}
-		if (sizeof($this->tokens) > $this->pos && in_array($this->peek(), array($op["and"], $op["or"]))) {
+		if (sizeof($this->tokens) > $this->pos && in_array($this->peek(), [$op["and"], $op["or"]])) {
 			$nt = $this->nextToken();
-			return array($nt[1], $left, $this->parse());
+			return [$nt[1], $left, $this->parse()];
 		} else {
 			return $left;
 		}
@@ -124,7 +124,7 @@ class VTConditionalParser
 		$left = $this->nextToken();
 		$operator = $this->nextToken();
 		$right = $this->nextToken();
-		return array($operator[1], $left, $right);
+		return [$operator[1], $left, $right];
 	}
 
 	private function peek()
@@ -134,7 +134,7 @@ class VTConditionalParser
 
 	private function nextToken()
 	{
-		$this->pos+=1;
+		$this->pos += 1;
 		return $this->tokens[$this->pos - 1];
 	}
 }

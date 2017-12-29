@@ -11,24 +11,27 @@
 class Users_TransferOwner_View extends Vtiger_Index_View
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-
 		if (!$currentUserModel->isAdminUser()) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userid = $request->get('record');
-
+		$userid = $request->getInteger('record');
 		$userRecordModel = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$usersList = $userRecordModel->getActiveAdminUsers(true);
-
 		if (array_key_exists($userid, $usersList)) {
 			unset($usersList[$userid]);
 		}

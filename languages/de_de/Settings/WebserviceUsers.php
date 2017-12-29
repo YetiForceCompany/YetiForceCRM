@@ -3,7 +3,8 @@
  * Webservice users german translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author skavenkf (K.Fink) 
  */
 $languageStrings = [
 	'WebserviceUsers' => 'Webservice - Users',
@@ -12,7 +13,7 @@ $languageStrings = [
 	'FL_SERVER' => 'Server',
 	'FL_STATUS' => 'Status',
 	'FL_LOGIN' => 'Login',
-	'FL_PASSWORD' => 'Paßwort',
+	'FL_PASSWORD' => 'Passwort',
 	'FL_TYPE' => 'Typ',
 	'FL_LOGIN_TIME' => 'Login Zeit',
 	'FL_LOGOUT_TIME' => 'Logout Zeit',

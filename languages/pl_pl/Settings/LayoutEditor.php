@@ -3,7 +3,7 @@
  * LayoutEditor polish translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'Calendar' => 'Do wykonania',
@@ -157,6 +157,15 @@ $languageStrings = [
 	'LBL_MAX_LENGTH_TEXT' => 'Maksymalna długość tekstu',
 	'LBL_MAX_WIDTH_COLUMN' => 'Szerokość kolumny [%]',
 	'LBL_EDIT_CUSTOM_FIELD' => 'Edytuj pole',
+	'LBL_EXCEEDED_MAXIMUM_NUMBER_CHARACTERS_FOR_FIELD_NAME' => 'Przekroczono dozwoloną długość nazwy pola, maks 30 znaków',
+	'LBL_RELATED_TAB_TYPE' => 'Zakładki',
+	'LBL_DETAIL_TOP_TYPE' => 'Szczegóły góra',
+	'LBL_DETAIL_BOTTOM_TYPE' => 'Szczegóły dól',
+	'LBL_SUMMARY_TOP_TYPE' => 'Podsumowanie góra',
+	'LBL_SUMMARY_BOTTOM_TYPE' => 'Podsumowanie dół',
+	'LBL_RELATED_VIEW_TYPE' => 'Miejsce wyświetlania',
+	'LBL_RELATED_VIEW_TYPE_DESC' => 'Wybierz przynajmniej jedno miejsce wyświetlania bloku',
+	'LBL_CUSTOM_CONFIGURATION' => 'Konfiguracja niestandardowa',
 ];
 
 $jsLanguageStrings = [

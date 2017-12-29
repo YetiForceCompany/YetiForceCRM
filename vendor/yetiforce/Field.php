@@ -5,7 +5,7 @@ namespace App;
  * Field basic class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -39,13 +39,14 @@ class Field
 			if ($profileList) {
 				$query->andWhere(['vtiger_profile2field.profileid' => $profileList]);
 			}
-			$fields = $query->all();
+			$fields = $query->indexBy('fieldname')->all();
 			Cache::save(__METHOD__ . User::getCurrentUserId(), $tabId, $fields);
 		}
+
 		if ($readOnly) {
 			return $fields;
 		}
-		foreach ($fields as $key => &$field) {
+		foreach ($fields as $key => $field) {
 			if ($field['readonly']) {
 				unset($fields[$key]);
 			}
@@ -179,7 +180,7 @@ class Field
 			$query = (new Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.uitype', 'vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldname', 'vtiger_field.tablename', 'vtiger_tab.name'])
 				->from('vtiger_field')
 				->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')
-				->where(['vtiger_tab.presence' => 0, 'vtiger_field.uitype' => [66, 67, 68]]);
+				->where(['vtiger_tab.presence' => 0, 'vtiger_field.uitype' => [65, 66, 67, 68]]);
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				foreach (ModuleHierarchy::getModulesByUitype($row['uitype']) as $module => $value) {
@@ -254,5 +255,19 @@ class Field
 			}
 		}
 		return $fieldInfo;
+	}
+
+	/**
+	 * Get fields type from uitype
+	 * @return array
+	 */
+	public static function getFieldsTypeFromUIType()
+	{
+		if (Cache::has('getFieldsTypeFromUIType', '')) {
+			return Cache::get('getFieldsTypeFromUIType', '');
+		}
+		$fieldTypeMapping = (new Db\Query())->from('vtiger_ws_fieldtype')->indexBy('uitype')->all();
+		Cache::save('getFieldsTypeFromUIType', '', $fieldTypeMapping, Cache::LONG);
+		return $fieldTypeMapping;
 	}
 }

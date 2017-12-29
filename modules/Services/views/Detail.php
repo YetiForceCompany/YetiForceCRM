@@ -22,11 +22,11 @@ class Services_Detail_View extends Products_Detail_View
 		unset($headerScriptInstances[$moduleDetailFile]);
 		unset($headerScriptInstances[$moduleRelatedListFile]);
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			'modules.Products.resources.Edit',
 			'modules.Products.resources.Detail',
 			'modules.Products.resources.RelatedList',
-		);
+		];
 		$jsFileNames[] = $modulePopUpFile;
 		$jsFileNames[] = $moduleDetailFile;
 		$jsFileNames[] = $moduleRelatedListFile;

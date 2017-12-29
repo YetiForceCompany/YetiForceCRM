@@ -1,24 +1,36 @@
 {strip}
-{*<!--
-/*********************************************************************************
-** The contents of this file are subject to the vtiger CRM Public License Version 1.0
-* ("License"); You may not use this file except in compliance with the License
-* The Original Code is:  vtiger CRM Open Source
-* The Initial Developer of the Original Code is vtiger.
-* Portions created by vtiger are Copyright (C) vtiger.
-* All Rights Reserved.
-* Contributor(s): YetiForce.com
-********************************************************************************/
--->*}
+	{*<!--
+	/*********************************************************************************
+	** The contents of this file are subject to the vtiger CRM Public License Version 1.0
+	* ("License"); You may not use this file except in compliance with the License
+	* The Original Code is:  vtiger CRM Open Source
+	* The Initial Developer of the Original Code is vtiger.
+	* Portions created by vtiger are Copyright (C) vtiger.
+	* All Rights Reserved.
+	* Contributor(s): YetiForce.com
+	********************************************************************************/
+	-->*}
 	<div class="col-md-12 paddingLRZero row">
 		<div class="col-xs-12 col-sm-12 col-md-8">
 			<div class="moduleIcon">
-				<span class="detailViewIcon {$EXTENSION_ICON}" {if $COLORLISTHANDLERS}style="background-color: {$COLORLISTHANDLERS['background']};color: {$COLORLISTHANDLERS['text']};"{/if}></span>
+				<span class="detailViewIcon {$EXTENSION_ICON}"></span>
 			</div>
-		
+
 			<div class="paddingLeft5px">
 				<h4 class="recordLabel textOverflowEllipsis pushDown marginbottomZero" title="{$RECORD->getName()}">
-					<span class="moduleColor_{$MODULE_NAME}">{$RECORD->getName()}</span>
+					<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
+					{assign var=RECORD_STATE value=\App\Record::getState($RECORD->getId())}
+					{if $RECORD_STATE !== 'Active'}
+						&nbsp;&nbsp;
+						{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
+						<span class="label label-default" {if $COLOR[$RECORD_STATE]}style="background-color: {$COLOR[$RECORD_STATE]};"{/if}>
+							{if \App\Record::getState($RECORD->getId()) === 'Trash'}
+								{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}
+							{else}
+								{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}
+							{/if}
+						</span>
+					{/if}
 				</h4>
 				{if $MODULE_NAME}
 					<div class="paddingLeft5px">
@@ -33,6 +45,6 @@
 				{/if}
 			</div>
 		</div>
-		{include file='DetailViewHeaderFields.tpl'|@vtemplate_path:$MODULE_NAME}
+		{include file=\App\Layout::getTemplatePath('DetailViewHeaderFields.tpl', $MODULE_NAME)}
 	</div>
 {/strip}

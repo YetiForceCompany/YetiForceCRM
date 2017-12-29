@@ -1,5 +1,0 @@
-deny from all
-<Files ~ "\.(mp3|ogg|wav)$">
-	Order allow,deny
-	Allow from all
-</Files>

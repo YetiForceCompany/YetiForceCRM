@@ -1,11 +1,11 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal fade" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<form class="form-modalAddWidget form-horizontal validateForm">
-					<input type="hidden" name="wid" value="{$WID}">
-					<input type="hidden" name="type" value="{$TYPE}">
+					<input type="hidden" name="wid" value="{$WID}" />
+					<input type="hidden" name="type" value="{$TYPE}" />
 					<div class="modal-header">
 						<button type="button" data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}">×</button>
 						<h3 id="massEditHeader" class="modal-title">{\App\Language::translate('Add widget', $QUALIFIED_MODULE)}</h3>
@@ -33,19 +33,34 @@
 								</div>
 							</div>
 							<div class="form-group form-group-sm">
-								<label class="col-md-4 control-label">{\App\Language::translate('Limit entries', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{\App\Language::translate('Limit entries info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('Limit entries', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
+								<label class="col-md-4 control-label">{\App\Language::translate('LBL_SELECTING_FIELDS', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{\App\Language::translate('LBL_SELECTING_FIELDS_INFO', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('LBL_SELECTING_FIELDS', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 								<div class="col-md-7 controls">
-									<input name="limit" class="form-control" type="text" value="{$WIDGETINFO['data']['limit']}"/>
+									<select name="relatedfields" multiple class="chzn-select form-control col-md-12" data-validation-engine="validate[required]">
+										{foreach from=$RELATEDMODULES item=RELATED_MODULE key=key}
+											{foreach from=Vtiger_Module_Model::getInstance($RELATED_MODULE['name'])->getFieldsByBlocks() key=BLOCK_NAME item=FIELDS}
+												<optgroup label="{\App\Language::translate($BLOCK_NAME, $RELATED_MODULE['name'])}" data-module="{$RELATED_MODULE['related_tabid']}">
+													{foreach from=$FIELDS item=FIELD_MODEL key=FIELD_NAME}
+														<option value="{$RELATED_MODULE['related_tabid']}::{$FIELD_NAME}" {if $WIDGETINFO['data']['relatedfields'] && in_array($RELATED_MODULE['related_tabid']|cat:'::'|cat:$FIELD_NAME, $WIDGETINFO['data']['relatedfields'])}selected{/if} data-module="{$RELATED_MODULE['related_tabid']}">{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATED_MODULE['name'])}</option>
+													{/foreach}
+												</optgroup>
+											{/foreach}
+										{/foreach}
+									</select>
 								</div>
 							</div>
 							<div class="form-group form-group-sm">
-								<label class="col-md-4 control-label">{\App\Language::translate('Columns', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{\App\Language::translate('Columns info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('Columns', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
+								<label class="col-md-4 control-label">{\App\Language::translate('LBL_VIEW_TYPE', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{\App\Language::translate('LBL_VIEW_TYPE_INFO', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('LBL_VIEW_TYPE', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
 								<div class="col-md-7 controls">
-									<select name="columns" class="select2 form-control marginLeftZero">
-										{foreach from=$MODULE_MODEL->getColumns() item=item key=key}
-											<option value="{$item}" {if $WIDGETINFO['data']['columns'] == $item}selected{/if} >{$item}</option>
-										{/foreach}
+									<select name="viewtype" class="select2">
+										<option value="List" {if $WIDGETINFO['data']['viewtype'] == 'List'}selected{/if}>{\App\Language::translate('LBL_LIST', $QUALIFIED_MODULE)}</option>
+										<option value="Summary" {if $WIDGETINFO['data']['viewtype'] == 'Summary'}selected{/if}>{\App\Language::translate('LBL_SUMMARY', $QUALIFIED_MODULE)}</option>
 									</select>
+								</div>
+							</div>		
+							<div class="form-group form-group-sm">
+								<label class="col-md-4 control-label">{\App\Language::translate('Limit entries', $QUALIFIED_MODULE)}<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{\App\Language::translate('Limit entries info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('Limit entries', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>:</label>
+								<div class="col-md-7 controls">
+									<input name="limit" class="form-control" type="text" value="{$WIDGETINFO['data']['limit']}" />
 								</div>
 							</div>
 							<div class="form-group form-group-sm form-switch-mini">
@@ -107,7 +122,7 @@
 							</div>
 						</div>
 					</div>
-					{include file='ModalFooter.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+					{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $QUALIFIED_MODULE)}
 				</form>
 			</div>
 		</div>

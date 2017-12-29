@@ -4,7 +4,7 @@
  * Save Action Class for PDF Settings
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -13,29 +13,23 @@ class Settings_PDF_Save_Action extends Settings_Vtiger_Index_Action
 
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->get('record');
-		$step = $request->get('step');
-		$moduleName = $request->get('module_name');
-
-		if ($recordId) {
-			$pdfModel = Vtiger_PDF_Model::getInstanceById($recordId, $moduleName);
+		$step = $request->getByType('step', 2);
+		if ($request->isEmpty('record', true)) {
+			$pdfModel = Settings_PDF_Record_Model::getCleanInstance($request->getByType('module_name', 2));
 		} else {
-			$pdfModel = Settings_PDF_Record_Model::getCleanInstance($moduleName);
+			$pdfModel = Vtiger_PDF_Model::getInstanceById($request->getInteger('record'), $request->getByType('module_name', 2));
 		}
-
 		$stepFields = Settings_PDF_Module_Model::getFieldsByStep($step);
 		foreach ($stepFields as $field) {
-			if ($field == 'body_content') {
+			if ($field === 'body_content' || $field === 'header_content' || $field === 'footer_content') {
 				$value = $request->getForHtml($field);
 			} else {
 				$value = $request->get($field);
 			}
-
 			if (is_array($value)) {
 				$value = implode(',', $value);
 			}
-
-			if ($field === 'module_name' && $pdfModel->get('module_name') != $value) {
+			if ($field === 'module_name' && $pdfModel->get('module_name') !== $value) {
 				// change of main module, overwrite existing conditions
 				$pdfModel->deleteConditions();
 			}

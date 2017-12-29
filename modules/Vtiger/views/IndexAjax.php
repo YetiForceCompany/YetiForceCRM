@@ -14,7 +14,6 @@ class Vtiger_IndexAjax_View extends Vtiger_Index_View
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('showActiveRecords');
 	}
 
 	public function preProcess(\App\Request $request, $display = true)
@@ -29,7 +28,7 @@ class Vtiger_IndexAjax_View extends Vtiger_Index_View
 
 	public function process(\App\Request $request)
 	{
-		$mode = $request->get('mode');
+		$mode = $request->getMode();
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
 			return;
@@ -55,7 +54,7 @@ class Vtiger_IndexAjax_View extends Vtiger_Index_View
 
 	public function getRecordsListFromRequest(\App\Request $request)
 	{
-		$cvId = $request->get('cvid');
+		$cvId = $request->getByType('cvid', 2);
 		$selectedIds = $request->get('selected_ids');
 		$excludedIds = $request->get('excluded_ids');
 
@@ -65,19 +64,16 @@ class Vtiger_IndexAjax_View extends Vtiger_Index_View
 			}
 		}
 		if (!empty($cvId) && $cvId == 'undefined') {
-			$sourceModule = $request->get('sourceModule');
+			$sourceModule = $request->getByType('sourceModule', 2);
 			$cvId = CustomView_Record_Model::getAllFilterByModule($sourceModule)->getId();
 		}
 
 		$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
 		if ($customViewModel) {
-			$searchKey = $request->get('search_key');
-			$searchValue = $request->get('search_value');
-			$operator = $request->get('operator');
-			if (!empty($operator)) {
-				$customViewModel->set('operator', $operator);
-				$customViewModel->set('search_key', $searchKey);
-				$customViewModel->set('search_value', $searchValue);
+			if (!$request->isEmpty('operator', true)) {
+				$customViewModel->set('operator', $request->getByType('operator', 1));
+				$customViewModel->set('search_key', $request->getByType('search_key', 1));
+				$customViewModel->set('search_value', $request->get('search_value'));
 			}
 			if ($request->has('search_params')) {
 				$customViewModel->set('search_params', $request->get('search_params'));

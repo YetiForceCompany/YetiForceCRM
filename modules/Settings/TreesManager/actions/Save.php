@@ -4,18 +4,10 @@
  * Settings TreesManager save action class
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-class Settings_TreesManager_Save_Action extends Vtiger_Action_Controller
+class Settings_TreesManager_Save_Action extends Settings_Vtiger_Basic_Action
 {
-
-	public function checkPermission(\App\Request $request)
-	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		if (!$currentUser->isAdminUser()) {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
-		}
-	}
 
 	/**
 	 * Save tree

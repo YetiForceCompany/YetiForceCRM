@@ -2,14 +2,14 @@
 /**
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
 
 /**
  * Class for connection to Narodowy Bank Polski currency exchange rates
  */
-class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpdate_AbstractBank_Model
+class Settings_CurrencyUpdate_Models_NBP_BankModel extends Settings_CurrencyUpdate_AbstractBank_Model
 {
 	/*
 	 * Returns bank name
@@ -66,31 +66,29 @@ class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpda
 				$numberOfDays++;
 			}
 		}
-
-		$xml = simplexml_load_file($newXmlSrc);
-
-		$xmlObj = $xml->children();
-
-		$num = count($xmlObj->pozycja);
-
-		for ($i = 0; $i <= $num; $i++) {
-			if (!$xmlObj->pozycja[$i]->nazwa_waluty) {
-				continue;
+		$headers = get_headers($newXmlSrc, 1);
+		if (isset($headers['Status']) && strpos($headers['Status'], '302') !== false) {
+			$xml = simplexml_load_file($newXmlSrc);
+			$xmlObj = $xml->children();
+			$num = count($xmlObj->pozycja);
+			for ($i = 0; $i <= $num; $i++) {
+				if (!$xmlObj->pozycja[$i]->nazwa_waluty) {
+					continue;
+				}
+				$currencyCode = (string) $xmlObj->pozycja[$i]->kod_waluty;
+				if ($currencyCode == 'XDR') {
+					continue;
+				}
+				$currencyName = Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($currencyCode);
+				$supportedCurrencies[$currencyName] = $currencyCode;
 			}
-			$currencyCode = (string) $xmlObj->pozycja[$i]->kod_waluty;
-
-			if ($currencyCode == 'XDR') {
-				continue;
-			}
-
-			$currencyName = Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($currencyCode);
-			$supportedCurrencies[$currencyName] = $currencyCode;
+		} else {
+			App\Log::warning('Can not connect to the server' . $newXmlSrc);
 		}
-
 		return $supportedCurrencies;
 	}
 	/*
-	 * Returns banks main currency 
+	 * Returns banks main currency
 	 */
 
 	public function getMainCurrencyCode()
@@ -101,7 +99,7 @@ class Settings_CurrencyUpdate_models_NBP_BankModel extends Settings_CurrencyUpda
 	 * Fetch exchange rates
 	 * @param <Array> $currencies - list of systems active currencies
 	 * @param <Date> $date - date for which exchange is fetched
-	 * @param boolean $cron - if true then it is fired by server and crms currency conversion rates are updated 
+	 * @param boolean $cron - if true then it is fired by server and crms currency conversion rates are updated
 	 */
 
 	public function getRates($otherCurrencyCode, $dateParam, $cron = false)

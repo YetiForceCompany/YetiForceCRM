@@ -4,7 +4,7 @@
  * IStorages storage products table parser class
  * @package YetiForce.TextParser
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class IStorages_ProductsTable_TextParser extends \App\TextParser\Base
@@ -26,7 +26,7 @@ class IStorages_ProductsTable_TextParser extends \App\TextParser\Base
 		$relationModuleName = 'Products';
 		$relationListView = Vtiger_RelationListView_Model::getInstance($this->textParser->recordModel, $relationModuleName);
 		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('limit', 'no_limit');
+		$pagingModel->set('limit', 0);
 		$entries = $relationListView->getEntries($pagingModel);
 		$headers = $relationListView->getHeaders();
 		$columns = ['Product Name', 'FL_EAN_13', 'Product Category'];

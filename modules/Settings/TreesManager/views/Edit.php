@@ -4,7 +4,7 @@
  * Settings TreesManager edit view class
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_TreesManager_Edit_View extends Settings_Vtiger_Index_View
 {
@@ -45,10 +45,10 @@ class Settings_TreesManager_Edit_View extends Settings_Vtiger_Index_View
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			'libraries.jquery.jstree.jstree',
 			"modules.Settings.$moduleName.resources.Edit",
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
@@ -58,9 +58,9 @@ class Settings_TreesManager_Edit_View extends Settings_Vtiger_Index_View
 	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = array(
+		$cssFileNames = [
 			'libraries.jquery.jstree.themes.proton.style',
-		);
+		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		return array_merge($cssInstances, $headerCssInstances);
 	}

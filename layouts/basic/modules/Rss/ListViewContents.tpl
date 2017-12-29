@@ -13,7 +13,7 @@
 	<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}" />
 	<div class="listViewEntriesDiv">
 		<span class="listViewLoadingImageBlock hide modal" id="loadingListViewModal">
-			<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}"/>
+			<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}" />
 			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 		</span>
 		<div class="feedContainer">
@@ -39,7 +39,7 @@
 					</div>
 				</div>
 				<div class="feedListContainer pushDown" style="overflow: auto;"> 
-					{include file='RssFeedContents.tpl'|@vtemplate_path:$MODULE}
+					{include file=\App\Layout::getTemplatePath('RssFeedContents.tpl', $MODULE)}
 				</div>
 			{else}
 				<table class="emptyRecordsDiv">

@@ -1,5 +1,5 @@
 {strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	{if AppConfig::security('CHANGE_LOGIN_PASSWORD')}
 		{assign var=ICON value=Vtiger_Menu_Model::getMenuIcon($MENU, Vtiger_Menu_Model::vtranslateMenu($MENU['name'],$MENU_MODULE))}
 		<li class="menuLabel {if !$HASCHILDS}hasParentMenu{/if}" data-id="{$MENU['id']}" role="menuitem" tabindex="{$TABINDEX}" 
@@ -20,7 +20,7 @@
 				<ul class="slimScrollSubMenu nav subMenu {if $MENU['active'] || $PARENT_MODULE == $MENU['id']}in{/if}" role="menu" aria-hidden="true">
 			{/if}
 			<li class="menuPanel">
-				<button name="changePass" data-url="index.php?module=Users&view=ChangePassword&record={$USER_MODEL->getRealId()}" 
+				<button name="changePass" data-url="index.php?module=Users&view=PasswordModal&mode=change&record={$USER_MODEL->getRealId()}" 
 						class=" btn btn-block btn-default showModal" type="button">
 					{Vtiger_Menu_Model::vtranslateMenu('LBL_CHANGE_LOGIN_PASSWORD',$MENU_MODULE)}
 				</button>

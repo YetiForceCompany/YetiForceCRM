@@ -4,7 +4,7 @@
  * Settings ConfReport module model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -13,7 +13,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	 * variable has all the files and folder that should be writable
 	 * @var <Array>
 	 */
-	public static $writableFilesAndFolders = array(
+	public static $writableFilesAndFolders = [
 		'Configuration directory' => 'config/',
 		'Configuration file' => 'config/config.inc.php',
 		'User privileges directory' => 'user_privileges/',
@@ -40,13 +40,13 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		'Contact image directory' => 'storage/Contacts/',
 		'MailView attachments directory' => 'storage/OSSMailView/',
 		'Roundcube directory' => 'public_html/modules/OSSMail/',
-	);
+	];
 
 	/**
 	 * List of libraries
 	 * @var array
 	 */
-	public static $library = array(
+	public static $library = [
 		'LBL_IMAP_SUPPORT' => ['type' => 'f', 'name' => 'imap_open', 'mandatory' => true],
 		'LBL_ZLIB_SUPPORT' => ['type' => 'f', 'name' => 'gzinflate', 'mandatory' => true],
 		'LBL_PDO_SUPPORT' => ['type' => 'e', 'name' => 'pdo_mysql', 'mandatory' => true],
@@ -66,7 +66,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		'LBL_LDAP_LIBRARY' => ['type' => 'f', 'name' => 'ldap_connect', 'mandatory' => false],
 		'LBL_OPCACHE_LIBRARY' => ['type' => 'f', 'name' => 'opcache_get_configuration', 'mandatory' => false],
 		'LBL_APCU_LIBRARY' => ['type' => 'e', 'name' => 'apcu', 'mandatory' => false],
-	);
+	];
 
 	public static function getConfigurationLibrary()
 	{
@@ -89,7 +89,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getStabilityConf($instalMode = false, $onlyError = false)
 	{
 		$directiveValues = [
-			'PHP' => ['prefer' => '5.5.0'],
+			'PHP' => ['prefer' => '7.0.0'],
 			'error_reporting' => ['prefer' => 'E_ALL & ~E_NOTICE'],
 			'output_buffering' => ['prefer' => 'On'],
 			'max_execution_time' => ['prefer' => '600'],
@@ -118,15 +118,14 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['max_allowed_packet'] = ['prefer' => '10 MB']; // MySQL
 		}
 		if (extension_loaded('suhosin')) {
-			$directiveValues['suhosin.session.encrypt'] = array('prefer' => 'Off');
-			$directiveValues['suhosin.request.max_vars'] = array('prefer' => '5000');
-			$directiveValues['suhosin.post.max_vars'] = array('prefer' => '5000');
-			$directiveValues['suhosin.post.max_value_length'] = array('prefer' => '1500000');
+			$directiveValues['suhosin.session.encrypt'] = ['prefer' => 'Off'];
+			$directiveValues['suhosin.request.max_vars'] = ['prefer' => '5000'];
+			$directiveValues['suhosin.post.max_vars'] = ['prefer' => '5000'];
+			$directiveValues['suhosin.post.max_value_length'] = ['prefer' => '1500000'];
 		}
 		if (ini_get('file_uploads') != '1' && stripos(ini_get('file_uploads'), 'Off') !== false)
 			$directiveValues['file_uploads']['status'] = true;
 		$directiveValues['file_uploads']['current'] = static::getFlag(ini_get('file_uploads'));
-
 		if (ini_get('output_buffering') !== 'On') {
 			$directiveValues['output_buffering']['status'] = true;
 		}
@@ -172,7 +171,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		$directiveValues['mbstring.func_overload']['current'] = static::getFlag(ini_get('mbstring.func_overload'));
 
-		$errorReporting = stripos(ini_get('error_reporting'), '_') === false ? \App\Exceptions\ErrorHandler::error2string(ini_get('error_reporting')) : ini_get('error_reporting');
+		$errorReporting = stripos(ini_get('error_reporting'), '_') === false ? \App\ErrorHandler::error2string(ini_get('error_reporting')) : ini_get('error_reporting');
 		if (in_array('E_NOTICE', $errorReporting)) {
 			$directiveValues['error_reporting']['status'] = true;
 		}
@@ -204,7 +203,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		$directiveValues['max_input_vars']['current'] = ini_get('max_input_vars');
 
-		if (version_compare(PHP_VERSION, '5.5.0', '<')) {
+		if (version_compare(PHP_VERSION, '7.0.0', '<')) {
 			$directiveValues['PHP']['status'] = true;
 		}
 		$directiveValues['PHP']['current'] = PHP_VERSION;
@@ -313,6 +312,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			],
 			'session_regenerate_id' => [
 				'prefer' => 'On',
+				'help' => 'SESSION_REGENERATE_HELP_TEXT',
 				'current' => static::getFlag(AppConfig::main('session_regenerate_id')),
 				'status' => AppConfig::main('session_regenerate_id') !== null && !AppConfig::main('session_regenerate_id')
 			],
@@ -326,7 +326,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'Header: Referrer-Policy' => ['prefer' => 'no-referrer', 'current' => '?'],
 			'Header: Expect-CT' => ['prefer' => 'enforce; max-age=3600', 'current' => '?'],
 			'Header: Referrer-Policy' => ['prefer' => 'same-origin', 'current' => '?'],
-			'Header: Strict-Transport-Security' => ['prefer' => 'max-age=15768000; includeSubDomains; preload', 'current' => '?'],
+			'Header: Strict-Transport-Security' => ['prefer' => 'max-age=31536000; includeSubDomains; preload', 'current' => '?'],
 		];
 		if (IS_PUBLIC_DIR === true) {
 			$directiveValues['public_html']['current'] = static::getFlag(true);
@@ -357,10 +357,19 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		if (function_exists('apache_response_headers')) {
 			$headers = array_change_key_case(apache_response_headers(), CASE_UPPER);
 		} else {
-			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-			$headers = array_change_key_case(get_headers($requestUrl, 1), CASE_UPPER);
-			if (stripos($headers[0], 'ok') === false) {
-				$headers = [];
+			stream_context_set_default([
+				'ssl' => [
+					'verify_peer' => false,
+					'verify_peer_name' => false,
+				],
+			]);
+			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
+			$rqheaders = get_headers($requestUrl, 1);
+			if ($rqheaders) {
+				$headers = array_change_key_case($rqheaders, CASE_UPPER);
+				if (stripos($headers[0], '200') === false) {
+					$headers = [];
+				}
 			}
 		}
 		if ($headers) {
@@ -384,7 +393,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['Header: Referrer-Policy']['current'] = $headers['REFERRER-POLICY'];
 			$directiveValues['Header: Expect-CT']['status'] = strtolower($headers['EXPECT-CT']) !== 'enforce; max-age=3600';
 			$directiveValues['Header: Expect-CT']['current'] = $headers['EXPECT-CT'];
-			$directiveValues['Header: Strict-Transport-Security']['status'] = strtolower($headers['STRICT-TRANSPORT-SECURITY']) !== 'max-age=15768000; includesubdomains; preload';
+			$directiveValues['Header: Strict-Transport-Security']['status'] = strtolower($headers['STRICT-TRANSPORT-SECURITY']) !== 'max-age=31536000; includesubdomains; preload';
 			$directiveValues['Header: Strict-Transport-Security']['current'] = $headers['STRICT-TRANSPORT-SECURITY'];
 		}
 		if ($onlyError) {
@@ -406,16 +415,18 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 
 		$params = [
 			'LBL_OPERATING_SYSTEM' => \AppConfig::main('systemMode') === 'demo' ? php_uname('s') : php_uname(),
-			'LBL_PHPINI' => php_ini_loaded_file(),
-			'LBL_LOG_FILE' => ini_get('error_log'),
+			'LBL_PHP_SAPI' => PHP_SAPI,
+			'LBL_TMP_DIR' => App\Fields\File::getTmpPath(),
 			'LBL_CRM_DIR' => ROOT_DIRECTORY,
-			'LBL_PHP_SAPI' => PHP_SAPI
+			'LBL_LOG_FILE' => ini_get('error_log'),
+			'LBL_PHPINI' => php_ini_loaded_file(),
 		];
 		if (file_exists('user_privileges/cron.php')) {
 			include 'user_privileges/cron.php';
-			$params['LBL_CRON_PHP'] = $vphp;
+
 			$params['LBL_CRON_PHPINI'] = $ini;
 			$params['LBL_CRON_LOG_FILE'] = $log;
+			$params['LBL_CRON_PHP'] = $vphp;
 			$params['LBL_CRON_PHP_SAPI'] = $sapi;
 		}
 		return $params;

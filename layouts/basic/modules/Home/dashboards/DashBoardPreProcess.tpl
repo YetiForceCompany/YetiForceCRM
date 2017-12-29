@@ -10,11 +10,11 @@
 ********************************************************************************/
 -->*}
 {strip}
-	{include file="Header.tpl"|vtemplate_path:$MODULE}
+	{include file=\App\Layout::getTemplatePath('Header.tpl', $MODULE)}
 	<div class="bodyContents">
 		<div class="mainContainer">
 			<div class="contentsDiv col-md-12 marginLeftZero dashboardContainer">
-				{include file="dashboards/DashBoardHeader.tpl"|vtemplate_path:$MODULE_NAME DASHBOARDHEADER_TITLE=\App\Language::translate($MODULE, $MODULE)}
+				{include file=\App\Layout::getTemplatePath('dashboards/DashBoardHeader.tpl', $MODULE_NAME) DASHBOARDHEADER_TITLE=\App\Language::translate($MODULE, $MODULE)}
 				<div class="dashboardViewContainer">
 					{if count($DASHBOARD_TYPES) > 1}
 						<ul class="nav nav-tabs massEditTabs selectDashboard">
@@ -34,6 +34,6 @@
 							</ul>
 						{/if}
 					</div>
-					{include file='dashboards/DashBoardButtons.tpl'|@vtemplate_path:$MODULE}
+					{include file=\App\Layout::getTemplatePath('dashboards/DashBoardButtons.tpl', $MODULE)}
 					<div class="col-xs-12 paddingLRZero">
 {/strip}

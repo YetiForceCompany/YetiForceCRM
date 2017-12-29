@@ -25,8 +25,8 @@
 	font-size: 15px !important;	
 }
 .goToFullFormPassword{		
-		margin-right: 7px;
-	}
+	margin-right: 7px;
+}
 .generatePass{
 	width: 125px;
 	margin-right: 5px;		
@@ -123,6 +123,29 @@ hr {
 	width: 45px;
 	height: 45px;
 	margin: 10px auto;
+}
+.pull-right .btn-group .createRecordFromFilter {
+	margin-left: 6px;
+}
+.item .addButton {
+	margin-right: 6px;
+}
+.carousel-inner .item table {
+	margin-bottom: 10px;
+	width:100%;
+}
+.summaryViewEntries .fieldLabel {
+	width: 	35%;
+	vertical-align: top;
+    padding: 5px 0 5px 5%;
+    border-top: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
+	border-bottom: 1px solid #dddddd;
+}
+.summaryViewEntries .fieldValue {
+	width: 65%;
+	vertical-align: top;
+    padding: 5px 0 5px 5px;
 }
 .sk-cube-grid .sk-cube {
 	width: 33%;
@@ -287,7 +310,6 @@ hr {
 	right: 15px;
 	left: auto;
 }
-
 #headerLinks .headerLinksContainer > span a img,
 #headerLinks .headerLinksContainer > span a.userName {
 	color: #ffffff;
@@ -356,7 +378,7 @@ hr {
 }
 .commonActionsContainer .dropdown-menu.commonActionsButtonDropDown {
 	min-width: 715px;
-	top: 28px;
+	top: 50px;
 	margin: 0;
 	padding-top: 0;
 }
@@ -835,11 +857,13 @@ li.ui-timepicker-selected,
 	padding: 5px 0 5px 5%;
 	border-top: 1px solid #dddddd;
 	border-right: 1px solid #dddddd;
+	width: 35%;
 }
 .summaryView .summaryViewEntries .fieldValue {
 	vertical-align: top;
 	padding: 5px 0 5px 5px; /*ie fix from 5px 0 5px 5%*/
 	border-top: 1px solid #dddddd;
+	width: 65%;
 }
 .summaryView .summaryViewEntries:hover .summaryViewEdit {
 	opacity: 1;
@@ -1096,6 +1120,7 @@ td.fieldValue .input-group {
 .listViewEntriesDiv,
 .listViewEntriesDiv td {
 	overflow: visible;
+	position: relative;
 }
 .listViewEntriesTable .listViewHeaders a.listViewHeaderValues {
 	color: #444444;
@@ -2620,31 +2645,6 @@ i {
 	cursor: pointer;
 	text-decoration: none !important;
 }
-.marginTB3{
-	margin-top: 3px;
-	margin-bottom: 3px;
-}
-.marginLeft5{
-	margin-left:5px;
-}
-.marginLeft10{
-	margin-left:10px;
-}
-.marginLeft20{
-	margin-left: 20px;
-}
-.marginbottomZero {
-	margin-bottom: 0 !important;
-}
-.marginLeftZero {
-	margin-left: 0 !important;
-}
-.marginRightZero {
-	margin-right: 0 !important;
-}
-.clearfix {
-	clear: both !important;
-}
 textarea {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -2663,28 +2663,6 @@ table.summary-table .summaryViewEdit{
 	padding-bottom: 2px;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
-.margin0px {
-	margin: 0 !important;
-}
-.padding10 {
-	padding: 10px;
-	padding-bottom: 0;
-}
-.padding20 {
-	padding: 20px;
-}
-.padding6 {
-	padding: 6px 12px !important;
-}
-.top10 {
-	top: -10px;
-}
-.relative {
-	position: relative;
-}
-.pushDown {
-	margin-top: 7px;
 }
 .boxSizingBorderBox {
 	-webkit-box-sizing: border-box;
@@ -2735,47 +2713,8 @@ table.summary-table .summaryViewEdit{
 	background: #ffffff;
 	border: 1px solid #dddddd;
 }
-.textAlignCenter {
-	text-align: center;
-}
-.textAlignRight {
-	text-align: right;
-}
 .alignMiddle, .tableMiddle td, tableMiddle th {
 	vertical-align: middle !important;
-}
-.alignTop {
-	vertical-align: top;
-}
-.padding1per {
-	padding: 1%;
-}
-.paddingTop20 {
-	padding-top: 20px;
-}
-.paddingTop10 {
-	padding-top: 10px;
-}
-.padding20px {
-	padding: 20px;
-}
-.padding-bottom1per {
-	padding-bottom: 1%;
-}
-.paddingBottom20{
-	padding-bottom: 20px;
-}
-.paddingBottom10{
-	padding-bottom: 10px;
-}
-.marginBottom10px {
-	margin-bottom: 10px !important;
-}
-.displayInlineBlock {
-	display: inline-block;
-}
-.backgroundImageNone {
-	background-image: none;
 }
 .liStyleNone {
 	list-style: none outside none;
@@ -2906,25 +2845,6 @@ td.listViewEntryValue .row input {
 	white-space: nowrap;
 	overflow: hidden;
 }
-.paddingLRZero {
-	padding-left: 0px;
-	padding-right: 0px;
-}
-.paddingLefttZero {
-	padding-left: 0 !important;
-}
-.paddingRightZero {
-	padding-right: 0 !important;
-}
-.paddingRight10{
-	padding-right: 10px !important;
-}
-.paddingRight15{
-	padding-right: 15px !important;
-}
-.padding5{
-	padding: 5px !important;
-}
 .input-group.input-group-sm > .input-group-addon img {
 	width: 15px;
 }
@@ -3045,16 +2965,6 @@ table.dataTable .form-control {
 }
 .calendarRightPanel .widgetContainer ul {
 	margin-top: 5px;
-	margin-bottom: 5px;
-}
-.paddingLR10{
-	padding-left:10px !important;
-	padding-right: 10px !important;
-}
-.paddingLeft5px{
-	padding-left: 5px;
-}
-.marginBottom5px {
 	margin-bottom: 5px;
 }
 .detailViewTable  .fieldValue:hover  .summaryViewEdit {
@@ -3205,27 +3115,6 @@ span[name=existingImages] img{
 .mailRows hr{
 	margin: 0;
 }
-.paddingLeftMd{
-	padding-left: 15px;
-}
-.marginRight10{
-	margin-right: 10px;
-}
-.marginRight20{
-	margin-right: 20px;
-}
-.marginRightMinus20{
-	margin-right:-20px;
-}
-.marginTop2{
-	margin-top: 2px !important;
-}
-.marginTop5{
-	margin-top: 5px !important;
-}
-.marginTopMinus10{
-	margin-top:-10px;
-}
 .fieldLabel .referenceMandatory{
 	margin-right: -12px;
 }
@@ -3345,6 +3234,7 @@ span[name=existingImages] img{
 	color: #337AB7;
 	float: right;
 	margin-left: 5px;
+	margin-bottom: 0;
 	list-style: none;
 	padding: 8px 5px;
 }
@@ -3478,9 +3368,6 @@ span[name=existingImages] img{
 	-webkit-box-shadow: 0px 0px 8px -1px rgba(156,156,156,1);
 	-moz-box-shadow: 0px 0px 8px -1px rgba(156,156,156,1);
 	box-shadow: 0px 0px 8px -1px rgba(156,156,156,1);
-}
-.modal-blg {
-	width: 90%;
 }
 .modal-blg iframe{
 	height: 420px;
@@ -3763,6 +3650,7 @@ html,body,.baseContainer
 	height: 100%;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
+	overflow: hidden;
 }
 .container-fluid-main{
 	height: 100%;
@@ -4195,12 +4083,10 @@ html,body,.baseContainer
 	font-size: 12px;
 }
 .modalEditStatus .form-horizontal .form-group,
-#modalEditFieldByModal .form-horizontal .form-group,
 #modalEditStatus .form-horizontal .form-group{
 	margin-bottom: 2px;
 }
 .modalEditStatus .form-horizontal .form-group .control-label,
-#modalEditFieldByModal .form-horizontal .form-group .control-label,
 #modalEditStatus .form-horizontal .form-group .control-label{
 	padding-top: 0;
 }
@@ -4263,12 +4149,12 @@ html,body,.baseContainer
 .chosen-container-multi .chosen-choices li.search-choice .search-choice-close{
 	top: 8px;
 }
-.referenceGroup .referenceModulesListGroup .chosen-container{
+.referenceGroup .referenceModulesListGroup .chosen-container, .phoneGroup .chosen-container{
 	min-width: 100px !important;
     text-align: left;
 	height: 32px;
 }
-.referenceGroup .referenceModulesListGroup .chosen-container .chosen-single{
+.referenceGroup .referenceModulesListGroup .chosen-container .chosen-single , .phoneGroup .chosen-container .chosen-single{
 	border: 0;
 	height: 32px;
 	border-radius: 0;
@@ -4302,10 +4188,16 @@ html,body,.baseContainer
 .listViewActionsDiv .btn-group button,
 .listViewActionsDiv .pagination > li > span,
 .listViewActionsDiv .pageInfo {
-	max-height:34px;
+	max-height:35px;
 }
 .listViewActionsDiv .btn-toolbar > .dropdown-toggle + .dropdown-menu{
 	left: 20px;
+}
+.listViewActionsDiv .dropdown-toggle {
+	margin-bottom: 7px;
+}
+.listViewActionsDiv .addButton {
+	margin-bottom: 7px;
 }
 .widget_header .dropdown-toggle + .dropdown-menu{
 	left: 15px;
@@ -4325,7 +4217,6 @@ html,body,.baseContainer
 	width: 8%;
 }
 .modalEditStatus .popover.fade,
-#modalEditFieldByModal .popover.fade,
 #modalEditStatus .popover.fade
 {
 	min-width: 400px;
@@ -4403,6 +4294,9 @@ html,body,.baseContainer
 	}
 }
 @media screen and (min-width: 1200px) {
+	#quickCreate .modal-body{
+		max-height: none !important;
+	}
 	#mediumNav,
 	#shortNav,
 	#headerLinksCompact {
@@ -4425,6 +4319,9 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (max-width: 992px) {
+	.modalRightSiteBar{
+		width: 60%;
+	}
 	.listViewActionsDiv .btn-toolbar,
 	.editViewContainer .btn-toolbar{
 		margin-bottom: 5px;
@@ -4651,6 +4548,9 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (min-width: 992px) {
+	.modalRightSiteBar{
+		width: 40%;
+	}
 	.conditionList .conditionField{
 		padding-left: 0;
 	}
@@ -4780,6 +4680,9 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (min-width: 768px) {
+	.width1per7{
+		width: 14.28%;
+	}
 	.basePanel.menuOpen{
 		left:180px;
 		width: calc(100% - 180px);
@@ -4841,6 +4744,9 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (max-width: 768px) {
+	.width1per7{
+		width: 100%;
+	}
 	.mainBody{
 		bottom:17px;
 	}
@@ -4953,6 +4859,9 @@ html,body,.baseContainer
 	}
 }
 @media only screen and (max-width: 480px){
+	.modalRightSiteBar{
+		width: 100%;
+	}
 	.detailViewToolbar{
 		text-align: center !important;
 	}
@@ -5227,10 +5136,7 @@ html,body,.baseContainer
 .inventoryItems .colName {
 	width: 25%;
 }
-.modal-full{
-	width: 95% !important;
-	max-width: 1250px;
-}
+
 .dateTimeField .date{
 	margin-right: -2px;
 }
@@ -5242,9 +5148,6 @@ html,body,.baseContainer
 	border-top-left-radius:0px !important;
 	border-bottom-left-radius:0px !important;
 }
-#quickCreate .modal-body{
-	max-height: none !important;
-}
 .hideToggleSiteBarRightButton{
 	right: 0px !important;
 }
@@ -5254,8 +5157,16 @@ html,body,.baseContainer
 	display:inline-block;
 	width:100%;
 }
-.detailViewTable .blockHeader .iconCollapse{
+.detailViewTable .blockHeader .iconCollapse, .detailViewBlockLink .blockHeader .iconCollapse{
 	padding: 10px;
+}
+.detailViewTable, .detailViewBlockLink{
+	margin-bottom: 10px;
+}
+.detailViewBlockLink .moduleIcon{
+	margin-right: 7px;
+	margin-left: 5px;
+	vertical-align: middle;
 }
 .blockHeader .iconCollapse h4{
 	display: inline-block;
@@ -5326,7 +5237,6 @@ select.form-control {
 	padding-right: 0.8em !important;
 }
 .width1per7{
-	width: 14.28%;
 	float: left;
 }
 .quickCreateContent .addedNearCalendarEvent td{
@@ -5397,12 +5307,6 @@ select.form-control {
 .knowledgePresentation .knowledgePresentationRow {
 	margin: 0 !important;
 }
-.danger-color{
-	color: #d9534f !important;
-}
-.info-color{
-	color: #5bc0de !important;
-}
 .detailViewContainer .chosen-container,
 .editViewContainer .chosen-container{
 	height: auto;
@@ -5455,12 +5359,6 @@ select.form-control {
 }
 .modalNotificationConfig .checkbox{
 	margin: 5px 0;
-}
-.font-small{
-	font-size: small;
-}
-.dispaly-inline{
-	display: inline;
 }
 .narrow.fieldValue .referenceGroup button.btn{
 	height: 27px;
@@ -5545,39 +5443,13 @@ select.form-control {
 	text-align: center;
 	vertical-align: middle;
 }
-.timeline .userImage{
+.timeline .userImage, .commentInfoHeader .userImage{
 	margin: 0 auto;
 	width: 40px;
 	height: 40px;
 	padding: 2px;
 	border: 2px solid #d2d6de;
-}
-.bgBlue{
-	background: #337ab7 !important;
-	color: #fff !important;
-}
-.bgWarning{
-	background: #fcf8e3 !important;
-}
-.bgDanger{
-	color: #fff !important;
-	background-color: #d9534f !important;
-}
-.bgGreen{
-	background: #5cb85c !important;
-	color: #fff !important;
-}
-.bgOrange{
-	background: #f0ad4e !important;
-	color: #fff !important;
-}
-.bgAzure{
-	background: #3EB1F7 !important;
-	color: #fff !important;
-}
-.bgDarkBlue{
-	background: #001f3f !important;
-	color: #fff !important;
+	font-size: 32px;
 }
 .bodyHeader .rightHeaderBtn{
 	margin-top: 7px;
@@ -5780,15 +5652,8 @@ select.form-control {
 .marginRight15{
 	margin-right: 15px;
 }
-.relatedContents .leftRecordActions .actions:hover .toolsAction{
-	display: none;
-}
-.relatedContents .leftRecordActions .actions:hover .actionImages{
-	background: ivory;
-}
 .relatedContents .leftRecordActions .actions:hover{
 	white-space: nowrap;
-	position: absolute;
 }
 .leftRecordActions .actions:hover .toolsAction,
 .rightRecordActions .actions:hover .toolsAction{
@@ -5813,6 +5678,9 @@ select.form-control {
 }
 .listViewEntries{
 	background: #fff;
+}
+.listViewEntries:hover{
+	background: #dddddd20;
 }
 .leftRecordActions{
 	background: inherit;
@@ -5878,7 +5746,6 @@ select.form-control {
 }
 .modalRightSiteBar{
 	margin: 0;
-	width: 40%;
 	height: 100%;
     right: 0px;
     top: 0px;
@@ -6015,12 +5882,6 @@ select.form-control {
 	margin-left: 6px;
 	font-weight: bold;
 }
-.ps-scrollbar-y-rail{
-	display:none !important;
-}
-.slimScrollBar{
-	right: -300px !important;
-}
 .multiImageResult{
 	float: right;
 }
@@ -6038,4 +5899,250 @@ select.form-control {
 }
 .daterangepicker .calendar th,.daterangepicker .calendar td{
 	min-width: 30px;
+}
+.detailViewActionsBtn .btn-group{
+	margin-left: 15px;
+}
+.dropdownEntityState ul li{
+	border-left: 10px solid #fff;
+}
+.listViewAll tbody tr.listViewEntries > td:first-child, .listViewAll .listViewEntriesTable tbody tr > td:first-child{
+	border-left: 5px solid #ddd;
+}
+#recordsListPreview .listViewAll tbody tr.listViewEntries > td:first-child, .listViewAll .listViewEntriesTable tbody tr > td:first-child{
+	border-left: 10px solid #ddd;
+}
+.entityStateIcon{
+	background: #d2d6de;
+	color: #fff !important;
+}
+.entityStateBtn  {
+	color: #fff !important;
+	border-color: transparent;
+}
+.jstree-container-ul .jstree-leaf .jstree-icon.jstree-themeicon{
+	line-height: 20px;
+    font-size: 16px;
+	background-size: 18px !important;
+}
+.treeImageIcon{
+	margin-right: 6px;
+	font-size: 16px;
+	width: 16px;
+}
+select[readonly], select[disabled]{
+	pointer-events: none;
+}
+.relatedTabModulesList .form-group{
+	margin-bottom: 5px;
+}
+.relatedTabModulesList .panel-heading{
+	padding: 10px 15px;
+}
+.relatedTabModulesList .panel-body{
+	padding: 8px 0px 0px 0px;
+}
+.relatedTabModulesList .panel{
+	margin-bottom: 10px;
+}
+.tableBorderHeadBody thead, .tableBorderHeadBody tbody{
+	border: 1px solid #ddd;
+}
+.listViewEntriesTable .listViewSummation td.border{
+	border: 1px solid #ddd;
+}
+.tableBorderHeadBody{
+	margin-bottom: 0;
+}
+.calculateValue{
+	margin-left: 10px;
+}
+#listPreviewframe{
+	width:100%;
+	height:100%;
+	margin-bottom: 6px;
+}
+border1px{
+	border: 1px solid #ddd;
+}
+#listPreview{
+	float: right;
+	padding-left: 10px;
+	padding-right: 0;
+	margin-top: 2px;
+}
+#recordsList{
+	padding-left: 0;
+	padding-right: 5px;
+	float: left;
+}
+[class*="picklistLb_"] {
+	border-radius: 7px;
+}
+.fixedListInitial {
+	padding-right: 10px;
+	max-height: max-content;
+	padding-left: 0;
+}
+.fixedListContent {
+	overflow: hidden;
+	position: relative;
+	margin-top: 2px;
+	height: max-content;
+}
+.fixedListContent #recordsList {
+	padding-left: 0;
+	padding-right: 0;
+	float: none;
+}
+.fixedListContent .contents-topscroll {
+	margin-top: -2px;
+}
+.fixedListContent .listViewSummation td {
+	padding: 0;
+}
+.formActionsPanel {
+	position: fixed;
+	bottom: 33px;
+	height: 45px;
+	width: calc(100% - 50px);
+	background: #EEEEEE;
+	margin-left: -10px;
+	text-align: center;
+	border-top: 1px solid #ddd;
+	z-index: 5;
+}
+.formActionsPanel {
+	padding: 5px;
+}
+.formActionsPanel .btn-group {
+	margin-right: 3px;
+}
+.formActionsPanel .saveAndComplete {
+	margin-right: 6px;
+}
+.verticalScroll {
+	position: absolute;
+	left: 0;
+	height: calc(100vh - 128px);
+	width: 100%;
+	overflow-x: hidden;
+	padding-right: 10px;
+	padding-left: 10px
+}
+@media only screen and (max-width: 992px) {
+	#listPreview{
+		padding-left: 0;
+		padding-right: 0;
+		margin-top: 2px;
+		width: 100%;
+		height: 100%;
+	}
+	.fixedListInitial {
+		position: static;
+		padding-left: 0;
+		padding-right: 0;
+	}
+	.fixedListContent {
+		margin-right: 0;
+		margin-bottom: 10px;
+	}
+}
+@media only screen and (max-width: 768px) {
+	.formActionsPanel {
+		bottom: 17px;
+		width: 100%;
+	}
+	.verticalScroll {
+		height: calc(100vh - 112px);
+	}
+}
+.popover.activities{
+	min-width: 400px;
+}
+.gutter {
+	background-color: #4979aa;
+	background-repeat: no-repeat;
+	background-position: 50%;
+	position: relative;
+	margin-top: 2px;
+	z-index: 300;
+}
+.gutter:active:before {
+	content: "";
+	position: fixed;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	background: transparent;
+}
+.gutter.gutter-horizontal {
+    cursor: ew-resize;	
+	background-image: url('images/vertical.png');
+	height: calc(100vh - 33px);
+	float: left;
+}
+.gutterOnScroll {
+	position: fixed;
+	top: 48px;
+}
+.wrappedPanel {
+	display: none;
+	height: calc(100vh - 33px);
+    width: 20px;
+    position: absolute;
+    top: 2px;
+	background: #eeeeee;
+	z-index: 100;
+}
+.wrappedPanelLeft {
+	display: block;
+	left: -10px;
+}
+.wrappedPanelRight {
+	display: block;
+	right: -10px;
+	background: #4a5364;
+}
+.rotatedText {
+	transform: rotate(0.75turn);
+    position: absolute;
+	text-align: center;
+}
+.wrappedPanelRight .rotatedText{
+	color: #fff;
+}
+.wrappedPanelOnScroll {
+	position: fixed;
+	top: 50px;
+}
+.wrappedPanelLeft.wrappedPanelOnScroll  {
+	left: 50px;
+}
+.wrappedPanelRight.wrappedPanelOnScroll  {
+	right: 17px;
+}
+.inventoryRow .input-group-addon{
+	padding: 0px 5px;
+}
+.table tr.inventoryRow td{
+	padding: 4px;
+}
+.relatedContents .wrappedPanelLeft {
+	top: 50px;
+	left: 5px;
+}
+.relatedContents .wrappedPanelRight {
+    right: 5px;
+    top: 50px;
+}
+.relatedContents .wrappedPanelLeft.wrappedPanelOnScroll  {
+	left: 50px;
+}
+.relatedContents .wrappedPanelRight.wrappedPanelOnScroll  {
+	right: 17px;
+}
+.ps-scrollbar-y-rail {
+	z-index: 100;
 }

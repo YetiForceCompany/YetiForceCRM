@@ -20,7 +20,7 @@ class Install_InitSchema_Model
 	public function initialize()
 	{
 		$this->db = PearDatabase::getInstance();
-		$this->initializeDatabase($this->sql_directory, array('scheme', 'data'));
+		$this->initializeDatabase($this->sql_directory, ['scheme', 'data']);
 		$this->setDefaultUsersAccess();
 		$currencyName = $_SESSION['config_file_info']['currency_name'];
 		$currencyCode = $_SESSION['config_file_info']['currency_code'];
@@ -29,7 +29,7 @@ class Install_InitSchema_Model
 		$this->db->pquery('UPDATE vtiger_version SET `current_version` = ?, `old_version` = ? ;', [\App\Version::get(), \App\Version::get()]);
 
 		// recalculate all sharing rules for users
-		vimport('~include/utils/UserInfoUtil.php');
+		Vtiger_Loader::includeOnce('~include/utils/UserInfoUtil.php');
 		RecalculateSharingRules();
 	}
 
@@ -55,7 +55,7 @@ class Install_InitSchema_Model
 		$insert_query = substr_count($splitQueries, 'INSERT INTO');
 		$alter_query = substr_count($splitQueries, 'ALTER TABLE');
 		$executed_query = 0;
-		$queries = $this->_splitQueries($splitQueries);
+		$queries = $this->splitQueries($splitQueries);
 		foreach ($queries as $query) {
 			// Trim any whitespace.
 			$query = trim($query);
@@ -70,7 +70,7 @@ class Install_InitSchema_Model
 			}
 		}
 		$this->db->query('SET FOREIGN_KEY_CHECKS = 1;');
-		return array('status' => $return, 'create' => $create_query, 'insert' => $insert_query, 'alter' => $alter_query, 'executed' => $executed_query);
+		return ['status' => $return, 'create' => $create_query, 'insert' => $insert_query, 'alter' => $alter_query, 'executed' => $executed_query];
 	}
 
 	/**
@@ -78,25 +78,25 @@ class Install_InitSchema_Model
 	 */
 	public function setDefaultUsersAccess()
 	{
-		$adminPassword = $_SESSION['config_file_info']['password'];
 		$this->db->update('vtiger_users', [
+			'user_name' => $_SESSION['config_file_info']['user_name'],
 			'date_format' => $_SESSION['config_file_info']['dateformat'],
 			'time_zone' => $_SESSION['config_file_info']['timezone'],
 			'first_name' => $_SESSION['config_file_info']['firstname'],
 			'last_name' => $_SESSION['config_file_info']['lastname'],
 			'email1' => $_SESSION['config_file_info']['admin_email'],
-			'accesskey' => vtws_generateRandomAccessKey(16),
+			'accesskey' => \App\Encryption::generatePassword(20, 'lbn'),
 			'language' => $_SESSION['default_language']
 			]
 		);
-		$newUser = new Users();
-		$newUser->retrieve_entity_info(1, 'Users');
-		$newUser->change_password('admin', $adminPassword, false);
-		require_once('modules/Users/CreateUserPrivilegeFile.php');
-		createUserPrivilegesfile(1);
+		$userRecordModel = Users_Record_Model::getInstanceById(1, 'Users');
+		$userRecordModel->set('user_password', $_SESSION['config_file_info']['password']);
+		$userRecordModel->save();
+		require_once('vendor/yetiforce/UserPrivilegesFile.php');
+		\App\UserPrivilegesFile::createUserPrivilegesfile(1);
 	}
 
-	public function _splitQueries($query)
+	public function splitQueries($query)
 	{
 		$buffer = [];
 		$queries = [];
@@ -193,18 +193,18 @@ class Install_InitSchema_Model
 
 		$config_directory = $source_directory . 'config.inc.php';
 		if (!file_exists($config_directory)) {
-			return array('result' => false, 'text' => 'LBL_ERROR_NO_CONFIG');
+			return ['result' => false, 'text' => 'LBL_ERROR_NO_CONFIG'];
 		}
 
 		if (!file_exists($source_directory . 'vtigerversion.php')) {
-			return array('result' => false, 'text' => 'LBL_ERROR_NO_CONFIG');
+			return ['result' => false, 'text' => 'LBL_ERROR_NO_CONFIG'];
 		}
 
 		include_once $this->migration_schema . $system . '.php';
 		$migrationObject = new $system;
 		include_once $source_directory . 'vtigerversion.php';
 		if ($vtiger_current_version != $migrationObject->version) {
-			return array('result' => false, 'text' => 'LBL_ERROR_WRONG_VERSION');
+			return ['result' => false, 'text' => 'LBL_ERROR_WRONG_VERSION'];
 		}
 
 		include_once $config_directory;
@@ -228,7 +228,7 @@ class Install_InitSchema_Model
 
 		$configFile = new Install_ConfigFileUtils_Model($configFileParameters);
 		$configFile->createConfigFile();
-		return array('result' => true);
+		return ['result' => true];
 	}
 
 	public function copyFiles($source, $dest)
@@ -248,7 +248,7 @@ class Install_InitSchema_Model
 	public function deleteFiles($files = [])
 	{
 		if (!is_array($files)) {
-			$files = array($files);
+			$files = [$files];
 		}
 		foreach ($files as $file) {
 			$this->deleteDirFile($file);
@@ -262,9 +262,9 @@ class Install_InitSchema_Model
 		if ($rootDirectory && strpos($src, $rootDirectory) === false) {
 			$src = $rootDirectory . $src;
 		}
-		if (!file_exists($src) || !$rootDirectory)
+		if (!file_exists($src) || !$rootDirectory) {
 			return;
-		@chmod($src, 0777);
+		}
 		\App\Log::trace("Exiting VT620_to_YT::testest(" . $src . ") method ...");
 		if (is_dir($src)) {
 			$dir = new DirectoryIterator($src);

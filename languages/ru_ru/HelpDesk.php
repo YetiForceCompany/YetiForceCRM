@@ -9,6 +9,9 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 $languageStrings = [
+	'Services' => 'услуги',
+	'Administrative' => 'администрирование',
+	'Support' => 'поддержка',
 	'LBL_SET_SERVICE_CONTRACTS_REFERENCE_DESC' => 'Нажмите эту кнопку, чтобы связать это соглашение с уведомлением',
 	'LBL_ACCOUNTS_NO_ACTIVE_SERVICE_CONTRACTS' => 'SLA не активен',
 	'LBL_NO_SERVICE_CONTRACTS_IN_HELPDESK' => 'Не подключен SLA',
@@ -26,7 +29,6 @@ $languageStrings = [
 	'Hi' => 'Привет',
 	'High' => 'Высокий',
 	'Hours' => 'Часов',
-	'LBL_ADD_RECORD' => 'Заявка',
 	'LBL_ALTBODY' => 'Это тело в обычном тексте для не-HTML почтовых клиентов',
 	'LBL_CHARTS' => 'Диаграммы',
 	'LBL_CONVERT_FAQ' => 'Преобразовать в ЧаВо',
@@ -45,7 +47,6 @@ $languageStrings = [
 	'LBL_NOTICE_UPDATED' => 'изменено (',
 	'LBL_NOTICE_WELCOME' => 'Добро пожаловать в систему',
 	'LBL_PASSWORD' => 'Пароль:',
-	'LBL_RECORDS_LIST' => 'Список Заявок',
 	'LBL_REGARDS' => 'С уважением',
 	'LBL_RELATED_TO' => 'Связан с',
 	'LBL_RESPOND' => 'Пожалуйста ответьте на следующую заявку как можно скорее.',
@@ -92,9 +93,9 @@ $languageStrings = [
 	'Record Id' => 'Номер записи',
 	'ticketpriorities' => 'Приоритет',
 	'LBL_NO_ACCOUNTS_IN_HELPDESK' => 'Тикет не связан с какой-либо счетом. Пожалуйста, создайте связь.',
-	'LBL_ACCOUNTS_NO_ACTIVE_SERVICE_CONTRACTS' => 'The Account has no active SLA',
-	'LBL_NO_SERVICE_CONTRACTS_IN_HELPDESK' => 'The ticket is not related to any SLA.',
-	'LBL_SET_SERVICE_CONTRACTS_REFERENCE_DESC' => 'Pressing this button will relate this SLA to ticket.',
+	'LBL_ACCOUNTS_NO_ACTIVE_SERVICE_CONTRACTS' => 'К аккаунту не привязаны SLA',
+	'LBL_NO_SERVICE_CONTRACTS_IN_HELPDESK' => 'Тикет не связан ни с одним SLA.',
+	'LBL_SET_SERVICE_CONTRACTS_REFERENCE_DESC' => 'Нажатие этой кнопки привяжет данный SLA к тикету.',
 	// FIELDS
 	'FL_SERVICE_CONTRACTS' => 'Соглашение об уровне обслуживания',
 	'FL_SERVICE_CONTRACTS_TYPE' => 'Тип соглашения об уровне обслуживания',

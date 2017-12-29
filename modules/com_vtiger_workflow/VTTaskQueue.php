@@ -15,17 +15,12 @@
 class VTTaskQueue
 {
 
-	public function __construct($adb = false)
-	{
-		$this->adb = $adb;
-	}
-
 	/**
 	 * Queue a task for execution.
 	 *
 	 * @param $taskId The id of the task to queue
 	 * @param $entityId The id of the crm entity the task is assiciated with.
-	 * @param $when The time after which the task should be executed. This is 
+	 * @param $when The time after which the task should be executed. This is
 	 *        an optional value with a default value of 0.
 	 */
 	public function queueTask($taskId, $entityId, $when = 0, $taskContents = false)
@@ -49,15 +44,14 @@ class VTTaskQueue
 	 */
 	public function getReadyTasks()
 	{
-		$adb = $this->adb;
 		$time = time();
-		$result = $adb->pquery('SELECT task_id, entity_id, task_contents FROM com_vtiger_workflowtask_queue WHERE do_after<?', array($time));
-		$it = new SqlResultIterator($adb, $result);
+		$query = (new \App\Db\Query())->select(['task_id', 'entity_id', 'task_contents'])->from('com_vtiger_workflowtask_queue')->andWhere(['<', 'do_after', $time]);
 		$arr = [];
-		foreach ($it as $row) {
-			$arr[] = array($row->task_id, $row->entity_id, $row->task_contents);
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$arr[] = [$row['task_id'], $row['entity_id'], $row['task_contents']];
 		}
-		$adb->pquery("delete from com_vtiger_workflowtask_queue where do_after<?", array($time));
+		\App\Db::getInstance()->createCommand()->delete('com_vtiger_workflowtask_queue', ['<', 'do_after', $time])->execute();
 		return $arr;
 	}
 }

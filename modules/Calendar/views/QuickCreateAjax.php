@@ -15,32 +15,26 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-
 		$moduleList = ['Calendar', 'Events'];
 
 		$quickCreateContents = [];
 		foreach ($moduleList as $module) {
 			$info = [];
-
 			$recordModel = Vtiger_Record_Model::getCleanInstance($module);
 			$moduleModel = $recordModel->getModule();
 
 			$fieldList = $moduleModel->getFields();
-			$requestFieldList = array_intersect_key($request->getAll(), $fieldList);
-
-			foreach ($requestFieldList as $fieldName => $fieldValue) {
+			foreach (array_intersect($request->getKeys(), array_keys($fieldList)) as $fieldName) {
 				$fieldModel = $fieldList[$fieldName];
-				if ($fieldModel->isEditable()) {
-					$recordModel->set($fieldName, $fieldModel->getDBValue($fieldValue));
+				if ($fieldModel->isWritable()) {
+					$fieldModel->getUITypeModel()->setValueFromRequest($request, $recordModel);
 				}
 			}
-
 			$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
 			$recordStructure = $recordStructureInstance->getStructure();
 			$fieldValues = [];
 			$sourceRelatedField = $moduleModel->getValuesFromSource($request);
-			foreach ($sourceRelatedField as $fieldName => &$fieldValue) {
-
+			foreach ($sourceRelatedField as $fieldName => $fieldValue) {
 				if (isset($recordStructure[$fieldName])) {
 					$fieldvalue = $recordStructure[$fieldName]->get('fieldvalue');
 					if (empty($fieldvalue)) {
@@ -60,7 +54,7 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 			$info['moduleModel'] = $moduleModel;
 			$quickCreateContents[$module] = $info;
 		}
-		$picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependencyDatasource($moduleName);
+		$picklistDependencyDatasource = \App\Fields\Picklist::getPicklistDependencyDatasource($moduleName);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUICKCREATE_LINKS', Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['QUICKCREATE_VIEW_HEADER']));

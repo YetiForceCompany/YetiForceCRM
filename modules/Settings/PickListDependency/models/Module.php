@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
-vimport('~~modules/PickList/DependentPickListUtils.php');
+Vtiger_Loader::includeOnce('~~modules/PickList/DependentPickListUtils.php');
 
 class Settings_PickListDependency_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -38,11 +38,6 @@ class Settings_PickListDependency_Module_Model extends Settings_Vtiger_Module_Mo
 	public function isPagingSupported()
 	{
 		return false;
-	}
-
-	public static function getAvailablePicklists($module)
-	{
-		return Vtiger_DependencyPicklist::getAvailablePicklists($module);
 	}
 
 	public static function getPicklistSupportedModules()

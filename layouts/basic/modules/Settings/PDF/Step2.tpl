@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="pdfTemplateContents">
 		<form name="EditPdfTemplate" action="index.php" method="post" id="pdf_step2" class="form-horizontal">
@@ -89,7 +89,7 @@
 					<div class="col-sm-6 controls">
 						<select class="select2 form-control" id="language" name="language">
 							<option value="">{\App\Language::translate('LBL_DEFAULT')}</option>
-							{foreach from=vtlib\Language::getAll() key=CODE item=NAME}
+							{foreach from=\App\Language::getAll() key=CODE item=NAME}
 								<option value="{$CODE}" {if $PDF_MODEL->get('language') eq $CODE} selected="selected" {/if}>
 									{\App\Language::translate($NAME, $QUALIFIED_MODULE)}
 								</option>

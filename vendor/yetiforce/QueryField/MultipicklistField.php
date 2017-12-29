@@ -5,7 +5,7 @@ namespace App\QueryField;
  * Multipicklist Query Field Class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -49,7 +49,7 @@ class MultipicklistField extends BaseField
 	public function getValue()
 	{
 		$value = $this->value;
-		$valueArray = explode(',', $value);
+		$valueArray = explode('##', $value);
 		if (in_array($this->operator, ['e', 'n'])) {
 			foreach ($this->getCombinations($valueArray) as $key => $value) {
 				$valueArray[$key] = ltrim($value, $this->separator);

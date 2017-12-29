@@ -3,7 +3,7 @@
  * CallHistory model class
  * @package YetiForce.CRMEntity
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 include_once 'modules/Vtiger/CRMEntity.php';
 
@@ -16,42 +16,42 @@ class CallHistory extends Vtiger_CRMEntity
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('vtiger_callhistorycf', 'callhistoryid');
-	public $related_tables = Array('vtiger_callhistorycf' => Array('callhistoryid', 'vtiger_callhistory', 'callhistoryid'));
+	public $customFieldTable = ['vtiger_callhistorycf', 'callhistoryid'];
+	public $related_tables = ['vtiger_callhistorycf' => ['callhistoryid', 'vtiger_callhistory', 'callhistoryid']];
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_callhistory', 'vtiger_callhistorycf');
+	public $tab_name = ['vtiger_crmentity', 'vtiger_callhistory', 'vtiger_callhistorycf'];
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public $tab_name_index = Array(
+	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_callhistory' => 'callhistoryid',
-		'vtiger_callhistorycf' => 'callhistoryid');
+		'vtiger_callhistorycf' => 'callhistoryid'];
 
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public $list_fields = Array(
+	public $list_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'LBL_TO_NUMBER' => Array('callhistory', 'to_number'),
-		'LBL_FROM_NUMBER' => Array('callhistory', 'from_number'),
-		'LBL_DURATION' => Array('callhistory', 'duration'),
-		'LBL_TYPE' => Array('callhistory', 'callhistorytype'),
-		'LBL_START_TIME' => Array('callhistory', 'start_time'),
-	);
-	public $list_fields_name = Array(
+		'LBL_TO_NUMBER' => ['callhistory', 'to_number'],
+		'LBL_FROM_NUMBER' => ['callhistory', 'from_number'],
+		'LBL_DURATION' => ['callhistory', 'duration'],
+		'LBL_TYPE' => ['callhistory', 'callhistorytype'],
+		'LBL_START_TIME' => ['callhistory', 'start_time'],
+	];
+	public $list_fields_name = [
 		/* Format: Field Label => fieldname */
 		'LBL_TO_NUMBER' => 'to_number',
 		'LBL_FROM_NUMBER' => 'from_number',
 		'LBL_DURATION' => 'duration',
 		'LBL_TYPE' => 'callhistorytype',
 		'LBL_START_TIME' => 'start_time',
-	);
+	];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
@@ -60,52 +60,33 @@ class CallHistory extends Vtiger_CRMEntity
 	// Make the field link to detail view
 	public $list_link_field = 'to_number';
 	// For Popup listview and UI type support
-	public $search_fields = Array(
+	public $search_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'LBL_TO_NUMBER' => Array('callhistory', 'to_number'),
-		'LBL_FROM_NUMBER' => Array('callhistory', 'from_number'),
-		'LBL_DURATION' => Array('callhistory', 'duration'),
-		'LBL_TYPE' => Array('callhistory', 'callhistorytype'),
-		'LBL_START_TIME' => Array('callhistory', 'start_time'),
-	);
-	public $search_fields_name = Array(
+		'LBL_TO_NUMBER' => ['callhistory', 'to_number'],
+		'LBL_FROM_NUMBER' => ['callhistory', 'from_number'],
+		'LBL_DURATION' => ['callhistory', 'duration'],
+		'LBL_TYPE' => ['callhistory', 'callhistorytype'],
+		'LBL_START_TIME' => ['callhistory', 'start_time'],
+	];
+	public $search_fields_name = [
 		/* Format: Field Label => fieldname */
 		'LBL_TO_NUMBER' => 'to_number',
 		'LBL_FROM_NUMBER' => 'from_number',
 		'LBL_DURATION' => 'duration',
 		'LBL_TYPE' => 'callhistorytype',
 		'LBL_START_TIME' => 'start_time',
-	);
+	];
 	// For Popup window record selection
-	public $popup_fields = Array('to_number');
+	public $popup_fields = ['to_number'];
 	// For Alphabetical search
 	public $def_basicsearch_col = 'to_number';
 	// Column value to use on detail view record text display
 	public $def_detailview_recname = 'to_number';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public $mandatory_fields = Array('to_number', 'assigned_user_id');
+	public $mandatory_fields = ['to_number', 'assigned_user_id'];
 	public $default_order_by = '';
 	public $default_sort_order = 'DESC';
 
-	/**
-	 * Invoked when special actions are performed on the module.
-	 * @param String Module name
-	 * @param String Event Type
-	 */
-	public function vtlib_handler($moduleName, $eventType)
-	{
-		if ($eventType == 'module.postinstall') {
-			
-		} else if ($eventType == 'module.disabled') {
-			
-		} else if ($eventType == 'module.preuninstall') {
-			
-		} else if ($eventType == 'module.preupdate') {
-			
-		} else if ($eventType == 'module.postupdate') {
-			
-		}
-	}
 }

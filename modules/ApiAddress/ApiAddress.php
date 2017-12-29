@@ -1,10 +1,13 @@
 <?php
-
 /**
  * ApiAddress model class
  * @package YetiForce.CRMEntity
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ */
+
+/**
+ * Class ApiAddress
  */
 class ApiAddress
 {
@@ -14,29 +17,15 @@ class ApiAddress
 	 * @param String Module name
 	 * @param String Event Type
 	 */
-	public function vtlib_handler($moduleName, $eventType)
+	public function moduleHandler($moduleName, $eventType)
 	{
 		require_once('include/utils/utils.php');
-		$adb = PearDatabase::getInstance();
 		$registerLink = false;
-		if ($eventType == 'module.postinstall') {
+		if ($eventType === 'module.postinstall') {
 			//Add Assets Module to Customer Portal
-			$adb = PearDatabase::getInstance();
 			$registerLink = true;
-
-			$adb->query("UPDATE vtiger_tab SET customized=0 WHERE name='$moduleName'");
-			$sql = "INSERT INTO `vtiger_apiaddress` ( `nominatim`, `key`, `source`, `min_length` ) VALUES ( ?, ?, ?, ?);";
-			$adb->pquery($sql, array(0, 0, 'https://api.opencagedata.com/geocode/v1/', 3), true);
-		} else if ($eventType == 'module.disabled') {
-			
-		} else if ($eventType == 'module.enabled') {
-			
-		} else if ($eventType == 'module.preuninstall') {
-			
-		} else if ($eventType == 'module.preupdate') {
-			
-		} else if ($eventType == 'module.postupdate') {
-			
+			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
+			\App\Db::getInstance()->createCommand()->insert('vtiger_apiaddress', ['nominatim' => 0, 'key' => 0, 'source' => 'https://api.opencagedata.com/geocode/v1/', 'min_length' => 3])->execute();
 		}
 		$displayLabel = 'LBL_API_ADDRESS';
 		if ($registerLink) {

@@ -22,7 +22,7 @@ class Field extends FieldBasic
 	 */
 	public function getPicklistValues()
 	{
-		return \App\Fields\Picklist::getPickListValues($this->name);
+		return \App\Fields\Picklist::getValuesName($this->name);
 	}
 
 	/**
@@ -36,7 +36,7 @@ class Field extends FieldBasic
 		// Non-Role based picklist values
 		if ($this->uitype === 16) {
 			$this->setNoRolePicklistValues($values);
-			return;
+			return true;
 		}
 		$db = \App\Db::getInstance();
 		$picklistTable = 'vtiger_' . $this->name;
@@ -71,7 +71,7 @@ class Field extends FieldBasic
 		// Add value to picklist now
 		$picklistValues = self::getPicklistValues();
 		$sortid = 0;
-		foreach ($values as &$value) {
+		foreach ($values as $value) {
 			if (in_array($value, $picklistValues)) {
 				continue;
 			}
@@ -86,7 +86,7 @@ class Field extends FieldBasic
 			$query = (new \App\Db\Query)->select('roleid')->from('vtiger_role');
 			$roleIds = $query->column();
 			$insertedData = [];
-			foreach ($roleIds as &$value) {
+			foreach ($roleIds as $value) {
 				$insertedData [] = [$value, $newPicklistValueId, $newPicklistId, $sortid];
 			}
 			$db->createCommand()
@@ -106,7 +106,7 @@ class Field extends FieldBasic
 	{
 
 		$db = \App\Db::getInstance();
-		$pickListNameIDs = array('recurring_frequency', 'payment_duration');
+		$pickListNameIDs = ['recurring_frequency', 'payment_duration'];
 		$picklistTable = 'vtiger_' . $this->name;
 		$picklistIdCol = $this->name . 'id';
 		if (in_array($this->name, $pickListNameIDs)) {
@@ -180,7 +180,7 @@ class Field extends FieldBasic
 		$db = \App\Db::getInstance();
 		foreach ($moduleNames as &$relmodule) {
 			$db->createCommand()->delete('vtiger_fieldmodulerel', ['fieldid' => $this->id, 'module' => $this->getModuleName(), 'relmodule' => $relmodule])->execute();
-			Utils::Log("Unsetting $this->name relation with $relmodule ... DONE");
+			Utils::log("Unsetting $this->name relation with $relmodule ... DONE");
 		}
 		return true;
 	}
@@ -237,9 +237,10 @@ class Field extends FieldBasic
 
 	/**
 	 * Get Field instances related to module
-	 * @param Module Instance of module to use
+	 * @param ModuleBasic $moduleInstance
+	 * @return self
 	 */
-	public static function getAllForModule($moduleInstance)
+	public static function getAllForModule(ModuleBasic $moduleInstance)
 	{
 		$moduleId = $moduleInstance->id;
 		if (\App\Cache::has('AllFieldForModule', $moduleId)) {
@@ -262,23 +263,23 @@ class Field extends FieldBasic
 
 	/**
 	 * Delete fields associated with the module
-	 * @param Module Instance of module
+	 * @param ModuleBasic $moduleInstance
 	 * @access private
 	 */
-	public static function deleteForModule($moduleInstance)
+	public static function deleteForModule(ModuleBasic $moduleInstance)
 	{
 		self::deletePickLists($moduleInstance);
 		self::deleteUiType10Fields($moduleInstance);
 		$db = \App\Db::getInstance();
 		$db->createCommand()->delete('vtiger_field', ['tabid' => $moduleInstance->id])->execute();
 		$db->createCommand()->delete('vtiger_fieldmodulerel', ['or', "module = '$moduleInstance->name'", "relmodule = '$moduleInstance->name'"])->execute();
-		self::log("Deleting fields of the module ... DONE");
+		self::log('Deleting fields of the module ... DONE');
 	}
 
 	public function setTreeTemplate($tree, $moduleInstance)
 	{
 		$db = \App\Db::getInstance();
-		$db->createCommand()->insert('vtiger_trees_templates', ['name' => $tree->name, 'module' => $moduleInstance->id, 'access' => $tree->access])->execute();
+		$db->createCommand()->insert('vtiger_trees_templates', ['name' => (string) $tree->name, 'module' => $moduleInstance->id, 'access' => $tree->access])->execute();
 		$templateId = $db->getLastInsertID('vtiger_trees_templates_templateid_seq');
 
 		foreach ($tree->tree_values->tree_value as $treeValue) {

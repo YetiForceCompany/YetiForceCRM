@@ -46,9 +46,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 					->where(['vtiger_crmentity.deleted' => 0, "vtiger_activity.$fieldName" => $id, 'vtiger_activity.status' => Calendar_Module_Model::getComponentActivityStateLabel('current')])
 					->orderBy(['date_start' => SORT_ASC])->limit(1)->one();
 			if ($row) {
-				$date = new DateTime(date('Y-m-d'));
-				$diff = $date->diff(new DateTime($row['date_start']));
-				$db->createCommand()->update('vtiger_entity_stats', ['crmactivity' => (int) $diff->format("%r%a")], ['crmid' => $id])->execute();
+				$db->createCommand()->update('vtiger_entity_stats', ['crmactivity' => (int) \App\Fields\Date::getDiff(date('Y-m-d'), $row['date_start'], '%r%a')], ['crmid' => $id])->execute();
 			} else {
 				$db->createCommand()->update(('vtiger_entity_stats'), ['crmactivity' => null], ['crmid' => $id])->execute();
 			}
@@ -61,7 +59,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getName()
 	{
-		$name = $this->get('subject');
+		$name = \App\Purifier::encodeHtml($this->get('subject'));
 		if (empty($name)) {
 			$name = parent::getName();
 		}
@@ -77,7 +75,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	public function setActivityReminder($reminderSent = 0, $recurId = '', $reminderMode = '')
 	{
 		$moduleInstance = CRMEntity::getInstance($this->getModuleName());
-		$moduleInstance->activity_reminder($this->getId(), $this->get('reminder_time'), $reminderSent, $recurId, $reminderMode);
+		$moduleInstance->activityReminder($this->getId(), $this->get('reminder_time'), $reminderSent, $recurId, $reminderMode);
 	}
 
 	/**
@@ -318,14 +316,33 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to remove record
+	 * {@inheritDoc}
+	 */
+	public function changeState($state)
+	{
+		parent::changeState();
+		$stateId = 0;
+		switch ($state) {
+			case 'Active':
+				$stateId = 0;
+				break;
+			case 'Trash':
+				$stateId = 1;
+				break;
+			case 'Archived':
+				$stateId = 2;
+				break;
+		}
+		\App\Db::getInstance()->createCommand()->update('vtiger_activity', ['deleted' => $stateId], ['activityid' => $this->getId()])->execute();
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public function delete()
 	{
 		parent::delete();
-		App\Db::getInstance()->createCommand()
-			->update('vtiger_activity', ['deleted' => 1], ['activityid' => $this->getId()])
-			->execute();
+		\App\Db::getInstance()->createCommand()->delete('vtiger_activity_reminder', ['activity_id' => $this->getId()])->execute();
 	}
 
 	/**
@@ -349,6 +366,36 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		}
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
+		}
+		return $links;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getRecordRelatedListViewLinksLeftSide(Vtiger_RelationListView_Model $viewModel)
+	{
+		$links = parent::getRecordRelatedListViewLinksLeftSide($viewModel);
+		if ($viewModel->getRelationModel()->isEditable() && $this->isEditable()) {
+			if (in_array($this->getValueByField('activitystatus'), Calendar_Module_Model::getComponentActivityStateLabel('current'))) {
+				$links['LBL_SET_RECORD_STATUS'] = Vtiger_Link_Model::getInstanceFromValues([
+						'linklabel' => 'LBL_SET_RECORD_STATUS',
+						'linkhref' => true,
+						'linkurl' => $this->getActivityStateModalUrl(),
+						'linkicon' => 'glyphicon glyphicon-ok',
+						'linkclass' => 'btn-xs btn-default',
+						'modalView' => true
+				]);
+			}
+			if ($viewModel->getRelationModel()->isEditable() && $this->isEditable()) {
+				$links['LBL_EDIT'] = Vtiger_Link_Model::getInstanceFromValues([
+						'linklabel' => 'LBL_EDIT',
+						'linkurl' => $this->getEditViewUrl(),
+						'linkhref' => true,
+						'linkicon' => 'glyphicon glyphicon-pencil',
+						'linkclass' => 'btn-xs btn-default',
+				]);
+			}
 		}
 		return $links;
 	}

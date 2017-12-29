@@ -10,8 +10,6 @@
 $languageStrings = [
 	// Basic Strings
 	'SINGLE_ProjectMilestone' => 'Projekt Meilenstein',
-	'LBL_ADD_RECORD' => 'Meilenstein hinzufügen',
-	'LBL_RECORDS_LIST' => 'Liste Meilensteine',
 	// Blocks
 	'LBL_PROJECT_MILESTONE_INFORMATION' => 'Projekt Meilenstein Details',
 	'LBL_PROJECTS_LIST' => 'Liste Projekte',

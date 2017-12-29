@@ -29,5 +29,3 @@ class Accounts_MassEditRecordStructure_Model extends Vtiger_MassEditRecordStruct
 		}
 	}
 }
-
-?>

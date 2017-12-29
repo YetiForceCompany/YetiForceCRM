@@ -17,11 +17,15 @@ class Settings_Vtiger_Basic_Action extends Vtiger_Action_Controller
 		$this->exposeMethod('updateFieldPinnedStatus');
 	}
 
+	/**
+	 * Checking permissions
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermittedForAdmin
+	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (!$currentUserModel->isAdminUser()) {
-			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+		if (!Users_Record_Model::getCurrentUserModel()->isAdminUser()) {
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -47,7 +51,7 @@ class Settings_Vtiger_Basic_Action extends Vtiger_Action_Controller
 		}
 
 		$response = new Vtiger_Response();
-		$response->setResult(array('SUCCESS' => 'OK'));
+		$response->setResult(['SUCCESS' => 'OK']);
 		$response->emit();
 	}
 

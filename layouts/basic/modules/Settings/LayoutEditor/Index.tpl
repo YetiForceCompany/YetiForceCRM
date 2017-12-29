@@ -14,7 +14,7 @@
         <input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
         <div class="widget_header row">
 			<div class="col-md-6">
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 				{if isset($SELECTED_PAGE)}
 					{App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
 				{/if}
@@ -68,7 +68,7 @@
                                 <div class="row layoutBlockHeader no-margin">
                                     <div class="blockLabel col-md-6 col-sm-6 padding10 marginLeftZero">
                                         {if $IS_BLOCK_SORTABLE}
-											<img class="alignMiddle" src="{vimage_path('drag.png')}" alt=""/>&nbsp;&nbsp;
+											<img class="alignMiddle" src="{\App\Layout::getImagePath('drag.png')}" alt="" />&nbsp;&nbsp;
 										{/if}
                                         <strong>{App\Language::translate($BLOCK_LABEL_KEY, $SELECTED_MODULE_NAME)}</strong>
                                     </div>
@@ -118,18 +118,18 @@
                                                             <div class="col-xs-2 col-sm-2">&nbsp;
                                                                 {if $FIELD_MODEL->isEditable()}
                                                                     <a>
-                                                                        <img src="{vimage_path('drag.png')}" border="0" alt="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+                                                                        <img src="{\App\Layout::getImagePath('drag.png')}" border="0" alt="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
                                                                     </a>
                                                                 {/if}
                                                             </div>
                                                             <div class="col-xs-10 col-sm-10 marginLeftZero fieldContainer" style="word-wrap: break-word;">
-                                                                <span class="fieldLabel">{App\Language::translate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}&nbsp;[{$FIELD_MODEL->get('name')}]
+                                                                <span class="fieldLabel">{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}&nbsp;[{$FIELD_MODEL->getName()}]
 																	{if $IS_MANDATORY}
 																		<span class="redColor">*</span>
 																	{/if}
 																</span>
 																<span class="pull-right actions">
-																	<input type="hidden" value="{$FIELD_MODEL->get('name')}" id="relatedFieldValue{$FIELD_MODEL->get('id')}" />
+																	<input type="hidden" value="{$FIELD_MODEL->getName()}" id="relatedFieldValue{$FIELD_MODEL->get('id')}" />
 																	<button class="btn btn-primary btn-xs copyFieldLabel pull-right marginLeft5" data-target="relatedFieldValue{$FIELD_MODEL->get('id')}">
 																		<span class="glyphicon glyphicon-copy" title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
 																	</button>
@@ -161,12 +161,12 @@
 															<div class="col-xs-2 col-sm-2">&nbsp;
 																{if $FIELD_MODEL->isEditable()}
 																	<a>
-																		<img src="{vimage_path('drag.png')}" border="0" alt="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}"/>
+																		<img src="{\App\Layout::getImagePath('drag.png')}" border="0" alt="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
 																	</a>
 																{/if}
 															</div>
 															<div class="col-xs-10 col-sm-10 marginLeftZero fieldContainer" style="word-wrap: break-word;">
-																<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}&nbsp;[{$FIELD_MODEL->get('name')}]
+																<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}&nbsp;[{$FIELD_MODEL->getName()}]
 																	{if $IS_MANDATORY}
 																		<span class="redColor">*</span>
 																	{/if}
@@ -175,7 +175,7 @@
 																	<button class="btn btn-primary btn-xs copyFieldLabel pull-right marginLeft5" data-target="relatedFieldValue{$FIELD_MODEL->get('id')}">
 																		<span class="glyphicon glyphicon-copy" title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
 																	</button>
-																	<input type="hidden" value="{$FIELD_MODEL->get('name')}" id="relatedFieldValue{$FIELD_MODEL->get('id')}" />
+																	<input type="hidden" value="{$FIELD_MODEL->getName()}" id="relatedFieldValue{$FIELD_MODEL->get('id')}" />
 																	{if $FIELD_MODEL->isEditable()}
 																		<button class="btn btn-success btn-xs editFieldDetails marginLeft5">
 																			<span class="glyphicon glyphicon-pencil" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
@@ -199,15 +199,15 @@
 						{/foreach}
 					</div>
 					<input type="hidden" class="inActiveFieldsArray" value='{\App\Json::encode($IN_ACTIVE_FIELDS)}' />
-					{include file='NewCustomBlock.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
-					{include file='NewCustomField.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
-					{include file='AddBlockModal.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
-					{include file='CreateFieldModal.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
-					{include file='InactiveFieldModal.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+					{include file=\App\Layout::getTemplatePath('NewCustomBlock.tpl', $QUALIFIED_MODULE)}
+					{include file=\App\Layout::getTemplatePath('NewCustomField.tpl', $QUALIFIED_MODULE)}
+					{include file=\App\Layout::getTemplatePath('AddBlockModal.tpl', $QUALIFIED_MODULE)}
+					{include file=\App\Layout::getTemplatePath('CreateFieldModal.tpl', $QUALIFIED_MODULE)}
+					{include file=\App\Layout::getTemplatePath('InactiveFieldModal.tpl', $QUALIFIED_MODULE)}
 				</div>
 				{if $IS_INVENTORY}
 					<div class="tab-pane" id="inventoryViewLayout">
-						{include file='Inventory.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+						{include file=\App\Layout::getTemplatePath('Inventory.tpl', $QUALIFIED_MODULE)}
 					</div>	
 				{/if}
 			</div>

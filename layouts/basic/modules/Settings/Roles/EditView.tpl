@@ -10,19 +10,18 @@
 	<div class="">
 		<div class="row widget_header">
 			<div class="col-xs-12">
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				{if isset($SELECTED_PAGE)}
 					{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
 				{/if}
-			</div> 
+			</div>
 		</div>
 		<form name="EditRole" action="index.php" method="post" id="EditView" class="form-horizontal">
-			<input type="hidden" name="module" value="Roles">
-			<input type="hidden" name="action" value="Save">
-			<input type="hidden" name="parent" value="Settings">
+			<input type="hidden" name="module" value="Roles" />
+			<input type="hidden" name="action" value="Save" />
+			<input type="hidden" name="parent" value="Settings" />
 			{assign var=RECORD_ID value=$RECORD_MODEL->getId()}
 			<input type="hidden" name="record" value="{$RECORD_ID}" />
-			<input type="hidden" name="mode" value="{$MODE}">
 			{assign var=HAS_PARENT value="{if $RECORD_MODEL->getParent()}true{/if}"}
 			{if $HAS_PARENT}
 				<input type="hidden" name="parent_roleid" value="{$RECORD_MODEL->getParent()->getId()}">
@@ -33,7 +32,7 @@
 						<label class=""><span class="redColor">*</span><strong>{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}: </strong></label>
 					</div>
 					<div class=" col-md-7 ">
-						<input type="text" class="fieldValue form-control" name="rolename" id="profilename" value="{$RECORD_MODEL->getName()}" data-validation-engine="validate[required]"/>
+						<input type="text" class="fieldValue form-control" name="rolename" id="profilename" value="{$RECORD_MODEL->getName()}" data-validation-engine="validate[required]" />
 					</div>
 				</div><br />
 				<div class="row">
@@ -88,7 +87,7 @@
 					<label class="col-md-4"><strong>{\App\Language::translate('LBL_POSSIBLE_CHANGE_OWNER_OF_RECORD',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
 						<div class="pull-left">
-							<input type="checkbox" value="1" {if $RECORD_MODEL->get('changeowner')} checked="" {/if} name="change_owner" class="alignTop"/>
+							<input type="checkbox" value="1" {if $RECORD_MODEL->get('changeowner')} checked="" {/if} name="change_owner" class="alignTop" />
 						</div>
 					</div>
 				</div>
@@ -132,7 +131,7 @@
 					<label class="col-md-4"><strong>{\App\Language::translate('LBL_PERMISSIONS_TO_EDIT_RELATED_RECORDS',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
 						<div class="pull-left">
-							<input type="checkbox" value="1" {if $RECORD_MODEL->get('editrelatedrecord')} checked="" {/if} name="editRelatedRecord" class="alignTop"/>
+							<input type="checkbox" value="1" {if $RECORD_MODEL->get('editrelatedrecord')} checked="" {/if} name="editRelatedRecord" class="alignTop" />
 						</div>
 					</div>
 				</div>
@@ -153,7 +152,7 @@
 					<label class="col-md-4"><strong>{\App\Language::translate('LBL_SHOW_GLOBAL_SEARCH_ADVANCED',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
 						<div class="pull-left">
-							<input type="checkbox" value="1" {if $RECORD_MODEL->get('globalsearchadv')} checked="" {/if} name="globalSearchAdvanced" class="alignTop"/>
+							<input type="checkbox" value="1" {if $RECORD_MODEL->get('globalsearchadv')} checked="" {/if} name="globalSearchAdvanced" class="alignTop" />
 						</div>
 					</div>
 				</div>
@@ -174,7 +173,7 @@
 					<label class="col-md-4"><strong>{\App\Language::translate('LBL_AUTO_ASSIGN_RECORDS',$QUALIFIED_MODULE)}:</strong></label>
 					<div class="col-md-7 fieldValue">
 						<div class="pull-left">
-							<input type="checkbox" value="1" {if $RECORD_MODEL->get('auto_assign')} checked="" {/if} name="auto_assign" class="alignTop"/>
+							<input type="checkbox" value="1" {if $RECORD_MODEL->get('auto_assign')} checked="" {/if} name="auto_assign" class="alignTop" />
 						</div>
 					</div>
 				</div>

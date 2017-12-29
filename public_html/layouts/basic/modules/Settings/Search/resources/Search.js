@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 var Settings_Index_Js = {
 	updatedBlockFieldsList: [],
 	initEvants: function () {
@@ -24,7 +24,7 @@ var Settings_Index_Js = {
 		if(!closestTrElement.hasClass('ui-sortable-handle')){
 			closestTrElement = closestTrElement.prev();
 		}
-		Settings_Index_Js.registerSaveEvent('UpdateLabels', {
+		Settings_Index_Js.registerSaveEvent('updateLabels', {
 			'tabid': closestTrElement.data('tabid'),
 		});
 	},
@@ -32,20 +32,16 @@ var Settings_Index_Js = {
 		var target = $(e.currentTarget);
 		var tabId = target.data('tabid');
 		var closestTrElement = target.closest('tr');
-		var l = jQuery('.elementLabels'+tabId).addClass('hide');
+		jQuery('.elementLabels'+tabId).addClass('hide');
 		var e = jQuery('.elementEdit'+tabId).removeClass('hide');
-		Settings_Index_Js.registerSelectElement(l.find('select'));
 		Settings_Index_Js.registerSelectElement(e.find('select'));
 	},
 	save: function (e) {
 		var target = $(e.currentTarget);
-		var closestTrElement = target.closest('tr');
-		var name = target.attr("name");
-		var value = target.val();
-		Settings_Index_Js.registerSaveEvent('Save', {
-			'name': name,
-			'value': value,
-			'tabid': closestTrElement.data('tabid'),
+		Settings_Index_Js.registerSaveEvent('save', {
+			name: target.attr('name'),
+			value: target.val(),
+			tabid: target.data('tabid'),
 		});		
 	},
 	registerSaveEvent: function (mode, data) {
@@ -67,7 +63,7 @@ var Settings_Index_Js = {
 		}
 		params.async = false;
 		params.dataType = 'json';
-		AppConnector.request(params).done(
+		AppConnector.request(params).then(
 				function (data) {
 					var response = data['result'];
 					var params = {
@@ -148,7 +144,7 @@ var Settings_Index_Js = {
 		params['module'] = app.getModuleName();
 		params['parent'] = app.getParentModuleName();
 		params['action'] = 'SaveAjax';
-		params['mode'] = 'SaveSequenceNumber';
+		params['mode'] = 'saveSequenceNumber';
 		params['updatedFields'] = thisInstance.updatedBlockFieldsList;
 
 		AppConnector.request(params).then(

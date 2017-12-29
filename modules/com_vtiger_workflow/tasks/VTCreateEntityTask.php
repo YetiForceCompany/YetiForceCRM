@@ -17,7 +17,7 @@ class VTCreateEntityTask extends VTTask
 
 	public function getFieldNames()
 	{
-		return array('entity_type', 'reference_field', 'field_value_mapping', 'mappingPanel');
+		return ['entity_type', 'reference_field', 'field_value_mapping', 'mappingPanel'];
 	}
 
 	/**
@@ -26,7 +26,6 @@ class VTCreateEntityTask extends VTTask
 	 */
 	public function doTask($recordModel)
 	{
-		$current_user = vglobal('current_user');
 		$moduleName = $recordModel->getModuleName();
 		$recordId = $recordModel->getId();
 		$entityType = $this->entity_type;
@@ -39,10 +38,8 @@ class VTCreateEntityTask extends VTTask
 		}
 		if (!empty($entityType) && !empty($fieldValueMapping) && count($fieldValueMapping) > 0 && !$this->mappingPanel) {
 			$newRecordModel = Vtiger_Record_Model::getCleanInstance($entityType);
-			$entityModuleHandler = vtws_getModuleHandlerFromName($entityType, $current_user);
-			$handlerMeta = $entityModuleHandler->getMeta();
-			$ownerFields = $handlerMeta->getOwnerFields();
-			foreach ($fieldValueMapping as &$fieldInfo) {
+			$ownerFields = array_keys($newRecordModel->getModule()->getFieldsByType('owner'));
+			foreach ($fieldValueMapping as $fieldInfo) {
 				$fieldName = $fieldInfo['fieldname'];
 				$referenceModule = $fieldInfo['modulename'];
 				$fieldValueType = $fieldInfo['valuetype'];
@@ -74,20 +71,18 @@ class VTCreateEntityTask extends VTTask
 					}
 				}
 				if (in_array($fieldName, $ownerFields) && !is_numeric($fieldValue)) {
-					$userId = getUserId_Ol($fieldValue);
+					$userId = App\User::getUserIdByName($fieldValue);
 					$groupId = \App\Fields\Owner::getGroupId($fieldValue);
-
-					if ($userId == 0 && $groupId == 0) {
+					if (!$userId && !$groupId) {
 						$fieldValue = $recordModel->get($fieldName);
 					} else {
-						$fieldValue = ($userId == 0) ? $groupId : $userId;
+						$fieldValue = (!$userId) ? $groupId : $userId;
 					}
 				}
 				$newRecordModel->set($fieldName, $fieldValue);
 			}
 			$newRecordModel->set($this->reference_field, $recordId);
 			// To handle cyclic process
-			//$newEntity->_from_workflow = true;
 			$newRecordModel->save();
 			relateEntities($recordModel->getEntity(), $moduleName, $recordId, $entityType, $newRecordModel->getId());
 		} elseif ($entityType && $this->mappingPanel) {
@@ -154,13 +149,12 @@ class VTCreateEntityTask extends VTTask
 				}
 			}
 			if (in_array($fieldName, $ownerFields) && !is_numeric($fieldValue)) {
-				$userId = getUserId_Ol($fieldValue);
+				$userId = App\User::getUserIdByName($fieldValue);
 				$groupId = \App\Fields\Owner::getGroupId($fieldValue);
-
-				if ($userId == 0 && $groupId == 0) {
+				if (!$userId && !$groupId) {
 					$fieldValue = $parentRecordModel->get($fieldName);
 				} else {
-					$fieldValue = ($userId == 0) ? $groupId : $userId;
+					$fieldValue = (!$userId) ? $groupId : $userId;
 				}
 			}
 			$recordModel->set($fieldName, $fieldValue);
@@ -189,7 +183,7 @@ class VTCreateEntityTask extends VTTask
 				$invDat[$name . $i] = $value;
 			}
 		}
-		$recordModel->setInventoryRawData(new App\Base($invDat));
+		$recordModel->setInventoryRawData(new App\Request($invDat, false));
 		return $recordModel;
 	}
 }

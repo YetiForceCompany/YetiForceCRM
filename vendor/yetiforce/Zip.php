@@ -3,7 +3,7 @@
  * A file archive, compressed with Zip.
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 namespace App;
@@ -39,10 +39,10 @@ class Zip extends \ZipArchive
 	{
 		if ($fileName) {
 			if (!file_exists($fileName) || !$this->open($fileName)) {
-				throw new Exceptions\AppException('Unable to open the zip file');
+				throw new \App\Exceptions\AppException('Unable to open the zip file');
 			}
 			if (!$this->checkFreeSpace()) {
-				throw new Exceptions\AppException('The content of the zip file is too large');
+				throw new \App\Exceptions\AppException('The content of the zip file is too large');
 			}
 			foreach ($options as $key => $value) {
 				$this->$key = $value;
@@ -54,7 +54,7 @@ class Zip extends \ZipArchive
 	 * Function to extract files
 	 * @param string $toDir Target directory
 	 * @return string[] Unpacked files
-	 * @throws Exceptions\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	public function unzip($toDir)
 	{
@@ -88,10 +88,10 @@ class Zip extends \ZipArchive
 			}
 		} else {
 			if (!is_dir($toDir)) {
-				throw new Exceptions\AppException('Directory not found, and unable to create it');
+				throw new \App\Exceptions\AppException('Directory not found, and unable to create it');
 			}
 			if (!is_writable($toDir)) {
-				throw new Exceptions\AppException('No permissions to create files');
+				throw new \App\Exceptions\AppException('No permissions to create files');
 			}
 			for ($i = 0; $i < $this->numFiles; $i++) {
 				$path = $this->getNameIndex($i);
@@ -128,12 +128,11 @@ class Zip extends \ZipArchive
 			if (isset($this->illegalExtensions) && in_array($extension, $this->illegalExtensions)) {
 				return true;
 			}
-			$info = pathinfo($path);
 			$stat = $this->statName($path);
 			$fileInstance = \App\Fields\File::loadFromInfo([
 					'content' => $this->getFromName($path),
 					'path' => $this->getLocalPath($path),
-					'name' => $info['basename'],
+					'name' => basename($path),
 					'size' => $stat['size'],
 					'validateAllCodeInjection' => true
 			]);
@@ -185,7 +184,7 @@ class Zip extends \ZipArchive
 	 */
 	public function checkFreeSpace()
 	{
-		$df = disk_free_space(ROOT_DIRECTORY);
+		$df = disk_free_space(ROOT_DIRECTORY . DIRECTORY_SEPARATOR);
 		$size = 0;
 		for ($i = 0; $i < $this->numFiles; $i++) {
 			$stat = $this->statIndex($i);

@@ -27,10 +27,10 @@
 					<div class="form-group margin0px padding1per">
 						<label class="col-sm-3 control-label">{\App\Language::translate('LBL_NOTEPAD_CONTENT', $MODULE)}</label>
 						<div class="col-sm-8 controls">
-							<textarea type="text" name="notePadContent" class="form-control" style="resize: none;"/>
+							<textarea type="text" name="notePadContent" class="form-control" style="resize: none;" />
 						</div>
 					</div>
-						{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
+						{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $MODULE)}
 				</form>
 			</div>
 		</div>

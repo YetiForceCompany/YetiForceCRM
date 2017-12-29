@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <div class="modal fade bs-example-modal-lg" role="dialog" tabindex="-1">
 	<div class="modal-dialog modal-lg">
@@ -8,7 +8,7 @@
 				<h3 class="modal-title">{\App\Language::translate('LBL_VIEW_DETAIL', $MODULE)} - {$RECORD->getName()}</h3>
 			</div>
 			<div class="modal-body">
-				{include file='DetailViewBlockView.tpl'|@vtemplate_path:$MODULE_NAME RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
+				{include file=\App\Layout::getTemplatePath('DetailViewBlockView.tpl', $MODULE_NAME) RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
 			</div>
 			<div class="modal-footer">
 				<div class="pull-right cancelLinkContainer" style="margin-top:0px;">

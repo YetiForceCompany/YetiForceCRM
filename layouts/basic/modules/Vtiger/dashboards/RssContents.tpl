@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<table class="table table-condensed table-bordered">
 		<thead>
@@ -11,7 +11,7 @@
 		<tbody>
 			{foreach from=$LIST_SUCJECTS item=SUBJECT}
 				<tr>
-					<td><a href="{$SUBJECT['link']}"><strong title="{Vtiger_Util_Helper::toSafeHTML($SUBJECT['fullTitle'])}">{$SUBJECT['title']}</strong></a></td>
+					<td><a href="{$SUBJECT['link']}"><strong title="{\App\Purifier::encodeHtml($SUBJECT['fullTitle'])}">{$SUBJECT['title']}</strong></a></td>
 					<td>{$SUBJECT['source']}</td>
 					<td>{$SUBJECT['date']}</td>
 				</tr>

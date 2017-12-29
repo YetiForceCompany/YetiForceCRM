@@ -20,7 +20,7 @@
 		</td>
 		<td>
             <div id="savedMapsContainer" class="textAlignRight pull-right">
-				{include file="Import_Saved_Maps.tpl"|@vtemplate_path:'Import'}
+				{include file=\App\Layout::getTemplatePath('Import_Saved_Maps.tpl', 'Import')}
 			</div>
         </td>
 	</tr>
@@ -68,7 +68,7 @@
 									</td>
 								{/if}
 								<td class="cellLabel">
-									<span>{\vtlib\Functions::textLength($_FIELD_VALUE)}</span>
+									<span>{\App\Purifier::encodeHtml(\vtlib\Functions::textLength($_FIELD_VALUE))}</span>
 								</td>
 								<td class="cellLabel">
 									<input type="hidden" name="row_counter" value="{$_COUNTER}" />
@@ -79,8 +79,8 @@
 											<optgroup label="{$TRANSLATED_BLOCK}">
 												{foreach key=_FIELD_NAME item=_FIELD_INFO from=$_FIELDS}
 													{assign var="_TRANSLATED_FIELD_LABEL" value=\App\Language::translate($_FIELD_INFO->get('label'),$FOR_MODULE)}
-													<option value="{$_FIELD_NAME}" 
-															{if $HEADER_FIELD_LABELS && decode_html($HEADER_FIELD_LABELS[0]) eq $TRANSLATED_BLOCK && decode_html($HEADER_FIELD_LABELS[1]) eq $_TRANSLATED_FIELD_LABEL} selected {elseif !$HEADER_FIELD_LABELS && decode_html($_HEADER_NAME) eq $_TRANSLATED_FIELD_LABEL} selected {/if} 
+													<option value="{$_FIELD_NAME}"
+															{if $HEADER_FIELD_LABELS && App\Purifier::decodeHtml($HEADER_FIELD_LABELS[0]) eq $TRANSLATED_BLOCK && App\Purifier::decodeHtml($HEADER_FIELD_LABELS[1]) eq $_TRANSLATED_FIELD_LABEL} selected {elseif !$HEADER_FIELD_LABELS && App\Purifier::decodeHtml($_HEADER_NAME) eq $_TRANSLATED_FIELD_LABEL} selected {/if}
 															data-label="{$_TRANSLATED_FIELD_LABEL}">{$_TRANSLATED_FIELD_LABEL}
 														{if $_FIELD_INFO->isMandatory() eq 'true'}&nbsp; (*){/if}</option>
 													{/foreach}
@@ -101,13 +101,13 @@
 		<td align="right" colspan="2">
 			<div class="row">
 				<div class="col-xs-8">
-					<input type="checkbox" title="{\App\Language::translate('LBL_SAVE_AS_CUSTOM_MAPPING', $MODULE)}" name="save_map" id="save_map"/>&nbsp;{\App\Language::translate('LBL_SAVE_AS_CUSTOM_MAPPING', $MODULE)}&nbsp;&nbsp;
+					<input type="checkbox" title="{\App\Language::translate('LBL_SAVE_AS_CUSTOM_MAPPING', $MODULE)}" name="save_map" id="save_map" />&nbsp;{\App\Language::translate('LBL_SAVE_AS_CUSTOM_MAPPING', $MODULE)}&nbsp;&nbsp;
 				</div>
 				<div class="col-xs-4">
-					<input class="form-control" type="text" name="save_map_as" id="save_map_as"/>
+					<input class="form-control" type="text" name="save_map_as" id="save_map_as" />
 				</div>
 			</div>
 		</td>
 	</tr>
 </table>
-{include file="Import_Default_Values_Widget.tpl"|@vtemplate_path:'Import'}
+{include file=\App\Layout::getTemplatePath('Import_Default_Values_Widget.tpl', 'Import')}

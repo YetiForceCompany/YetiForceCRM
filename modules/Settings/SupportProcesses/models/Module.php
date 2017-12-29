@@ -4,7 +4,7 @@
  * Settings SupportProcesses module model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -22,7 +22,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 	public static function getTicketStatus()
 	{
 		\App\Log::trace("Entering Settings_SupportProcesses_Module_Model::getTicketStatus() method ...");
-		$return = App\Fields\Picklist::getPickListValues('ticketstatus');
+		$return = App\Fields\Picklist::getValuesName('ticketstatus');
 		\App\Log::trace("Exiting Settings_SupportProcesses_Module_Model::getTicketStatus() method ...");
 		return $return;
 	}
@@ -72,7 +72,7 @@ class Settings_SupportProcesses_Module_Model extends Settings_Vtiger_Module_Mode
 	public static function getAllTicketStatus()
 	{
 		\App\Log::trace(__METHOD__);
-		return App\Fields\Picklist::getPickListValues('ticketstatus');
+		return App\Fields\Picklist::getValuesName('ticketstatus');
 	}
 
 	public static function getOpenTicketStatus()

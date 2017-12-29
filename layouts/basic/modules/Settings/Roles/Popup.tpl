@@ -29,7 +29,7 @@
 						</div>
 					</div>
 					{assign var="ROLE" value=$ROOT_ROLE}
-					{include file=vtemplate_path("RoleTree.tpl", "Settings:Roles")}
+					{include file=\App\Layout::getTemplatePath('RoleTree.tpl', 'Settings:Roles')}
 				</li>
 			</ul>
 		</div>

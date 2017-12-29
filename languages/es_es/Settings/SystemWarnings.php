@@ -3,7 +3,7 @@
  * SystemWarnings spanish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	// Folders
@@ -14,7 +14,7 @@ $languageStrings = [
 	'LBL_LIBRARY_PHPEXCEL' => 'Librería PHPExcel',
 	'LBL_CONFIG_REPORT' => 'Configuración del servidor',
 	'LBL_CONFIG_REPORT_LINK' => 'Mostrar librería que falta',
-	'LBL_CONFIG_REPORT_DESC' => 'El servidor no se ha configurado correctamente. El sistema puede funcionar incorrectamente, o los datos introducidos pueden estar dañados o eliminados. Más información en el artículo <a target="_blank" href="https://yetiforce.com/pl/wdro%C5%BCeniowiec/instalacja-aktualizacja/99-wymagania-dla-serwera-www.html"><u>Requisitos del servidor en yetiforce.com</u></a>',
+	'LBL_CONFIG_REPORT_DESC' => 'El servidor no se ha configurado correctamente. El sistema puede funcionar incorrectamente, o los datos introducidos pueden estar dañados o eliminados. Más información en el artículo <a target="_blank" rel="noreferrer" href="https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements"><u>Requisitos del servidor en yetiforce.com</u></a>',
 	'LBL_NEWSLETTER' => 'Boletín',
 	'LBL_NEWSLETTER_DESC' => 'Suscríbete al boletín gratuito de YetiForce. Manténgase al día con las últimas características del sistema, y obtenga más información sobre el sector CRM. Le enviaremos información sobre nuevas versiones, actualizaciones, eventos, nuevas incorporaciones al sistema y mucho más.<br />Únase a nuestra comunidad y manténgase actualizado.<br />Se requiere conexión a Internet para registrarse.',
 	'LBL_STATS' => 'Enviar información estadística',
@@ -33,5 +33,5 @@ $languageStrings = [
 	'BTN_CONFIGURE_HTTPS' => 'Configuración recomendada',
 	'LBL_MISSING_HTTPS' => 'Su conexión con el servidor no está cifrada. Si la conexión no se establece mediante el protocolo HTTPS, la comunicación puede ser interceptada o alterada por terceros. La configuración recomendada se encuentra en el artículo "Requisitos de servidor Web" de la documentación.',
 	'LBL_DISK_USAGE' => 'Espacio en disco disponible',
-	'LBL_DISK_FULL' => 'No hay suficiente espacio libre en el disco, por lo que el sistema puede dejar de funcionar. Ruta del directorio: %s',
+	'LBL_DISK_FULL' => 'No hay suficiente espacio libre en el disco (%s of %s), por lo que el sistema puede dejar de funcionar. Ruta del directorio: %s',
 ];

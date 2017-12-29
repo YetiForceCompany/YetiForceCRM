@@ -3,16 +3,14 @@
  * LettersIn spanish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	// Basic Strings
-	'LettersIn' => 'Cartas entrantes',
-	'SINGLE_LettersIn' => 'Carta entrante',
-	'LBL_ADD_RECORD' => 'Añadir',
-	'LBL_RECORDS_LIST' => 'Lista',
+	'LettersIn' => 'Incoming correspondence',
+	'SINGLE_LettersIn' => 'Incoming correspondence',
 	// Blocks
-	'LBL_MAIN_INFORMATION' => 'Información sobre Carta entrante',
+	'LBL_MAIN_INFORMATION' => 'Correspondence information',
 	//Field Labels
 	'Number' => 'ID',
 	'Title' => 'Asunto',
@@ -25,9 +23,15 @@ $languageStrings = [
 	'No internal' => 'Número interno',
 	'Parent letters' => 'Cartas relacionadas con',
 	'Overall dimensions' => 'Dimensión',
-	'Notes' => 'Notas',
-	'Related' => 'Cuenta / Oportunidad',
+	'Related' => 'Empresa / Oportunidad',
 	'Contact' => 'Contacto',
+	'FL_CUSTOM_SENDER' => 'Customized sender',
+	'FL_TYPE' => 'Type',
+	'FL_CASH_AMOUNT_ON_DELIVERY' => 'Amount due on delivery',
+	'FL_DATE_OF_RECEIPT' => 'Reception date',
+	'FL_OUTGOING_CORRESPONDENCE' => 'Outgoing correspondence',
+	'FL_INTERNAL_NOTES' => 'Internal notes',
+	'FL_PUBLIC_NOTES' => 'Public notes',
 	// picklist values
 	'PLL_LOCAL_PICKUP' => 'Recogida en persona',
 	'PLL_POST_OFFICE_PL' => 'Oficina de Correos de Polonia',
@@ -58,8 +62,19 @@ $languageStrings = [
 	'PLL_PROFORMA' => 'Factura de proforma',
 	'PLL_CORRECTION' => 'Corrección de la factura',
 	'PLL_INVOICE' => 'Factura',
-	'PLL_NEW' => 'Nuevo',
-	'PLL_SETTLED' => 'Establecido',
+	'PLL_IN_DEPARTMENT' => 'In department',
+	'PLL_REDIRECTED_TO_ANOTHER_DEPARTMENT' => 'Forwarded to another department',
+	'PLL_REDIRECTED_TO_ANOTHER_ADDRESSEE' => 'Forwarded to another addressee',
+	'PLL_DESTOYED_UPON_ADDRESSEES_REQUEST' => 'Destroyed upon addressee\'s request',
+	'PLL_DESTROYED_IN_ACCORDANCE_WITH_INTERNAL_PROCEDURES' => 'Destroyed in accordance with internal procedures',
+	'PLL_RETURN_TO_SENDER' => 'Returned to sender',
 	'PLL_A' => 'A',
 	'PLL_B' => 'B',
+	'PLL_REGULAR_LETTER' => 'Regular letter',
+	'PLL_REGISTERED_LETTER' => 'Registered letter',
+	'PLL_REGULAR_PARCEL' => 'Regular parcel',
+	'PLL_LARGESIZE_PARCEL' => 'Large-size parcel',
+	'PLL_DOCUMENT' => 'Document',
+	'PLL_RETURN' => 'Return',
+	'PLL_POSTAL_ADVICE' => 'Postal advice',
 ];

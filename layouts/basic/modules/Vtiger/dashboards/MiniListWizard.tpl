@@ -16,7 +16,7 @@
 				<div class="modal-content">
 					<div class="modal-header contentsBackground">
 						<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
-						<h3 class="modal-title" id="massEditHeader">{\App\Language::translate('LBL_MINI_LIST', $MODULE)} {\App\Language::translate($MODULE, $MODULE)}</h3>
+						<h3 class="modal-title" id="massEditHeader">{\App\Language::translate('LBL_MINI_LIST','Home')} {\App\Language::translate($MODULE, $MODULE)}</h3>
 					</div>
 					<form class="form-horizontal" method="post" action="javascript:;">
 						<div class="modal-body">
@@ -26,7 +26,7 @@
 							<table class="table table-bordered">
 								<tbody>
 									<tr>
-										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{App\Language::translate('LBL_WIDGET_NAME')}</td>
+										<td class="fieldLabel alignMiddle textAlignCenter" nowrap>{App\Language::translate('LBL_WIDGET_NAME','Home')}</td>
 										<td class="fieldValue">
 											<input type="text" class="form-control" name="widgetTitle" value="">
 										</td>
@@ -69,7 +69,7 @@
 								</tbody>
 							</table>
 						</div>
-						{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
+						{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $MODULE)}
 					</form>
 				</div>
 			</div>

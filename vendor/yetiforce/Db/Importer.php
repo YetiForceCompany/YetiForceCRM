@@ -8,7 +8,7 @@ use App\Exceptions;
  * Class that imports structure and data to database
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Importer
@@ -112,7 +112,7 @@ class Importer
 			} catch (\Exception $e) {
 				$this->logs .= " | Error(1) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 				if ($this->dieOnError) {
-					throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
+					throw new \App\Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 				}
 			}
 			if ($indexes = $this->getIndexes($importer, $table)) {
@@ -124,7 +124,7 @@ class Importer
 					} catch (\Exception $e) {
 						$this->logs .= " | Error(2) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 						if ($this->dieOnError) {
-							throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
+							throw new \App\Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 						}
 					}
 				}
@@ -138,7 +138,7 @@ class Importer
 					} catch (\Exception $e) {
 						$this->logs .= " | Error(3) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 						if ($this->dieOnError) {
-							throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
+							throw new \App\Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 						}
 					}
 				}
@@ -172,6 +172,9 @@ class Importer
 	 */
 	public function getColumns(Base $importer, $table)
 	{
+		if (empty($table['columns'])) {
+			return [];
+		}
 		$type = $importer->db->getDriverName();
 		$columns = $table['columns'];
 		if (isset($table['columns_' . $type])) {
@@ -226,7 +229,7 @@ class Importer
 			} catch (\Exception $e) {
 				$this->logs .= " | Error(4) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 				if ($this->dieOnError) {
-					throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
+					throw new \App\Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 				}
 			}
 		}
@@ -254,7 +257,7 @@ class Importer
 			} catch (\Exception $e) {
 				$this->logs .= " | Error(5) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 				if ($this->dieOnError) {
-					throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
+					throw new \App\Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 				}
 			}
 		}
@@ -277,13 +280,13 @@ class Importer
 				} catch (\Exception $e) {
 					$this->logs .= " | Error(6) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 					if ($this->dieOnError) {
-						throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
+						throw new \App\Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 					}
 				}
 				if ($this->redundantTables && isset($importer->data[$tableName . '_seq'])) {
 					$this->logs .= "   > Error: redundant table {$tableName}_seq !!!\n";
 					if ($this->dieOnError) {
-						throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
+						throw new \App\Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 					}
 				}
 			}
@@ -446,7 +449,7 @@ class Importer
 	/**
 	 * Update tables structure
 	 * @param Base $importer
-	 * @throws Exceptions\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	public function updateTables(Base $importer)
 	{
@@ -479,7 +482,7 @@ class Importer
 			} catch (\Exception $e) {
 				$this->logs .= " | Error(7) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 				if ($this->dieOnError) {
-					throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
+					throw new \App\Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 				}
 			}
 			if ($indexes = $this->getIndexes($importer, $table)) {
@@ -511,7 +514,7 @@ class Importer
 					} catch (\Exception $e) {
 						$this->logs .= " | Error(8) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 						if ($this->dieOnError) {
-							throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
+							throw new \App\Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 						}
 					}
 				}
@@ -519,10 +522,10 @@ class Importer
 			if (isset($table['primaryKeys'])) {
 				$dbPrimaryKeys = $importer->db->getPrimaryKey($tableName);
 				foreach ($table['primaryKeys'] as $primaryKey) {
-					$status = false;
+					$status = true;
 					foreach ($dbPrimaryKeys as $dbPrimaryKey) {
-						if (is_string($primaryKey[1]) ? !(count($dbPrimaryKey) === 1 && $primaryKey[1] === $dbPrimaryKey[0]) : array_diff($primaryKey[1], $dbPrimaryKey)) {
-							$status = true;
+						if (is_string($primaryKey[1]) ? !(count($dbPrimaryKey) !== 1 && $primaryKey[1] !== $dbPrimaryKey[0]) : !array_diff($primaryKey[1], $dbPrimaryKey)) {
+							$status = false;
 						}
 					}
 					if ($status) {
@@ -530,7 +533,7 @@ class Importer
 						try {
 							if (isset($dbPrimaryKeys[$primaryKey[0]])) {
 								$dbCommand->dropPrimaryKey($primaryKey[0], $tableName)->execute();
-							} else {
+							} elseif ($dbPrimaryKeys) {
 								$dbCommand->dropPrimaryKey(key($dbPrimaryKeys), $tableName)->execute();
 							}
 							$dbCommand->addPrimaryKey($primaryKey[0], $tableName, $primaryKey[1])->execute();
@@ -538,7 +541,7 @@ class Importer
 						} catch (\Exception $e) {
 							$this->logs .= " | Error(10) [{$e->getMessage()}] in \n{$e->getTraceAsString()} !!!\n";
 							if ($this->dieOnError) {
-								throw new Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
+								throw new \App\Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 							}
 						}
 					}

@@ -4,7 +4,7 @@
  * Action to save dashboard
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Settings_WidgetsManagement_Dashboard_Action extends Settings_Vtiger_IndexAjax_View
@@ -29,7 +29,7 @@ class Settings_WidgetsManagement_Dashboard_Action extends Settings_Vtiger_IndexA
 	{
 		$dashboardId = $request->get('dashboardId');
 		if ($dashboardId === Settings_WidgetsManagement_Module_Model::getDefaultDashboard()) {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 		Settings_WidgetsManagement_Module_Model::deleteDashboard($dashboardId);
 		$response = new Vtiger_Response();

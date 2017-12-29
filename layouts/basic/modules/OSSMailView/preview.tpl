@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{if !$NOLOADLIBS}
 		{include file="modules/Vtiger/Header.tpl"}
@@ -14,7 +14,7 @@
 							<h3 class='col-md-4 pushDown'>{\App\Language::translate('emailPreviewHeader',$MODULENAME)}</h3>
 							<div class='pull-right'>
 								<div class="btn-toolbar" >
-									{if AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail')}
+									{if AppConfig::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}
 										{if $USER_MODEL->get('internal_mailer') == 1}
 											{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}	
 											{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($SMODULENAME, $SRECORD, 'Detail')}
@@ -46,7 +46,7 @@
 											</a>
 										{/if}
 									{/if}
-									{if Users_Privileges_Model::isPermitted($MODULENAME, 'PrintMail')}
+									{if \App\Privilege::isPermitted($MODULENAME, 'PrintMail')}
 										<span class="btn-group">
 											<button id="previewPrint" onclick="OSSMailView_preview_Js.printMail();" type="button" name="previewPrint" class="btn btn-sm btn-default" data-mode="previewPrint">
 												<span class="glyphicon glyphicon-print" aria-hidden="true"></span>&nbsp;&nbsp;
@@ -161,7 +161,7 @@
 		</div>
 	{/if}
 	{if !$NOLOADLIBS}
-		{include file='JSResources.tpl'|vtemplate_path}
+		{include file=\App\Layout::getTemplatePath('JSResources.tpl')}
 	{/if}
 {/strip}
 {if !$ISMODAL}

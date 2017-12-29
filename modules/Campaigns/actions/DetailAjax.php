@@ -9,19 +9,8 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Campaigns_DetailAjax_Action extends Vtiger_BasicAjax_Action
+class Campaigns_DetailAjax_Action extends Vtiger_RelatedList_View
 {
-
-	public function checkPermission(\App\Request $request)
-	{
-		$moduleName = $request->getModule();
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
-
-		if (!$permission) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
-		}
-	}
 
 	public function __construct()
 	{
@@ -31,7 +20,7 @@ class Campaigns_DetailAjax_Action extends Vtiger_BasicAjax_Action
 
 	public function process(\App\Request $request)
 	{
-		$mode = $request->get('mode');
+		$mode = $request->getMode();
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
 			return;
@@ -46,8 +35,8 @@ class Campaigns_DetailAjax_Action extends Vtiger_BasicAjax_Action
 	public function getRecordsCount(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$relatedModuleName = $request->get('relatedModule');
-		$parentId = $request->get('record');
+		$relatedModuleName = $request->getByType('relatedModule', 2);
+		$parentId = $request->getInteger('record');
 		$label = $request->get('tab_label');
 
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
@@ -55,7 +44,7 @@ class Campaigns_DetailAjax_Action extends Vtiger_BasicAjax_Action
 		$count = $relationListView->getRelatedEntriesCount();
 		$result = [];
 		$result['module'] = $moduleName;
-		$result['viewname'] = $request->get('viewname');
+		$result['viewname'] = $request->getByType('viewname', 2);
 		$result['count'] = $count;
 
 		$response = new Vtiger_Response();

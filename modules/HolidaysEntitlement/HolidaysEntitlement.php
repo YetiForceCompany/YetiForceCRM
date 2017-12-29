@@ -3,107 +3,163 @@
  * HolidaysEntitlement class
  * @package YetiForce.CRMEntity
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 include_once 'modules/Vtiger/CRMEntity.php';
 
+/**
+ * Class HolidaysEntitlement
+ */
 class HolidaysEntitlement extends Vtiger_CRMEntity
 {
 
+	/**
+	 * Table name
+	 * @var string
+	 */
 	public $table_name = 'vtiger_holidaysentitlement';
+
+	/**
+	 * Table index
+	 * @var string
+	 */
 	public $table_index = 'holidaysentitlementid';
+
+	/**
+	 * Column fields
+	 * @var array
+	 */
 	public $column_fields = [];
 
 	/**
 	 * Mandatory table for supporting custom fields.
+	 * @var array
 	 */
-	public $customFieldTable = Array('vtiger_holidaysentitlementcf', 'holidaysentitlementid');
+	public $customFieldTable = ['vtiger_holidaysentitlementcf', 'holidaysentitlementid'];
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
+	 * @var array
 	 */
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_holidaysentitlement', 'vtiger_holidaysentitlementcf');
+	public $tab_name = ['vtiger_crmentity', 'vtiger_holidaysentitlement', 'vtiger_holidaysentitlementcf'];
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
+	 * @var array
 	 */
-	public $tab_name_index = Array(
+	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_holidaysentitlement' => 'holidaysentitlementid',
-		'vtiger_holidaysentitlementcf' => 'holidaysentitlementid');
+		'vtiger_holidaysentitlementcf' => 'holidaysentitlementid'];
 
 	/**
 	 * Mandatory for Listing (Related listview)
+	 * @var array
 	 */
-	public $list_fields = Array(
+	public $list_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
-		// tablename should not have prefix 'vtiger_'
-		'LBL_NO' => Array('holidaysentitlement', 'holidaysentitlement_no'),
-		'LBL_EMPLOYEE' => Array('holidaysentitlement', 'ossemployeesid'),
-		'Assigned To' => Array('crmentity', 'smownerid')
-	);
-	public $list_fields_name = Array(
-		/* Format: Field Label => fieldname */
-		'LBL_NO' => 'holidaysentitlement_no',
-		'LBL_EMPLOYEE' => 'ossemployeesid',
-		'Assigned To' => 'assigned_user_id',
-	);
+// tablename should not have prefix 'vtiger_'
+		'LBL_NO' => ['holidaysentitlement', 'holidaysentitlement_no'],
+		'LBL_EMPLOYEE' => ['holidaysentitlement', 'ossemployeesid'],
+		'Assigned To' => ['crmentity', 'smownerid']
+	];
 
 	/**
-	 * @var string[] List of fields in the RelationListView
+	 * List fields name
+	 * @var array
 	 */
-	public $relationFields = ['holidaysentitlement_no', 'ossemployeesid', 'assigned_user_id'];
-	// Make the field link to detail view
-	public $list_link_field = 'subject';
-	// For Popup listview and UI type support
-	public $search_fields = Array(
-		/* Format: Field Label => Array(tablename, columnname) */
-		// tablename should not have prefix 'vtiger_'
-		'LBL_NO' => Array('holidaysentitlement', 'holidaysentitlement_no'),
-		'LBL_EMPLOYEE' => Array('holidaysentitlement', 'ossemployeesid'),
-		'Assigned To' => Array('crmentity', 'assigned_user_id'),
-	);
-	public $search_fields_name = Array(
+	public $list_fields_name = [
 		/* Format: Field Label => fieldname */
 		'LBL_NO' => 'holidaysentitlement_no',
 		'LBL_EMPLOYEE' => 'ossemployeesid',
 		'Assigned To' => 'assigned_user_id',
-	);
-	// For Popup window record selection
-	public $popup_fields = Array('ossemployeesid');
-	// For Alphabetical search
+	];
+
+	/**
+	 *  List of fields in the RelationListView
+	 * @var string[]
+	 */
+	public $relationFields = ['holidaysentitlement_no', 'ossemployeesid', 'assigned_user_id'];
+
+	/**
+	 * Make the field link to detail view
+	 * @var string
+	 */
+	public $list_link_field = 'subject';
+
+	/**
+	 * For Popup listview and UI type support
+	 * @var array
+	 */
+	public $search_fields = [
+		/* Format: Field Label => Array(tablename, columnname) */
+// tablename should not have prefix 'vtiger_'
+		'LBL_NO' => ['holidaysentitlement', 'holidaysentitlement_no'],
+		'LBL_EMPLOYEE' => ['holidaysentitlement', 'ossemployeesid'],
+		'Assigned To' => ['crmentity', 'assigned_user_id'],
+	];
+
+	/**
+	 * Search fields name
+	 * @var array
+	 */
+	public $search_fields_name = [
+		/* Format: Field Label => fieldname */
+		'LBL_NO' => 'holidaysentitlement_no',
+		'LBL_EMPLOYEE' => 'ossemployeesid',
+		'Assigned To' => 'assigned_user_id',
+	];
+
+	/**
+	 * For Popup window record selection
+	 * @var array
+	 */
+	public $popup_fields = ['ossemployeesid'];
+
+	/**
+	 * For Alphabetical search
+	 * @var string
+	 */
 	public $def_basicsearch_col = 'ossemployeesid';
-	// Column value to use on detail view record text display
+
+	/**
+	 * Column value to use on detail view record text display
+	 * @var string
+	 */
 	public $def_detailview_recname = 'ossemployeesid';
-	// Used when enabling/disabling the mandatory fields for the module.
-	// Refers to vtiger_field.fieldname values.
-	public $mandatory_fields = Array('ossemployeesid', 'assigned_user_id', 'holidaysentitlement_year', 'days');
+
+	/**
+	 * Used when enabling/disabling the mandatory fields for the module. Refers to vtiger_field.fieldname values.
+	 * @var array
+	 */
+	public $mandatory_fields = ['ossemployeesid', 'assigned_user_id', 'holidaysentitlement_year', 'days'];
+
+	/**
+	 * Default order by
+	 * @var string
+	 */
 	public $default_order_by = '';
+
+	/**
+	 * Default sort order
+	 * @var string
+	 */
 	public $default_sort_order = 'ASC';
 
 	/**
 	 * Invoked when special actions are performed on the module.
-	 * @param String Module name
-	 * @param String Event Type
+	 * @param string Module name
+	 * @param string Event Type
 	 */
-	public function vtlib_handler($moduleName, $eventType)
+	public function moduleHandler($moduleName, $eventType)
 	{
-		$adb = PearDatabase::getInstance();
-		if ($eventType == 'module.postinstall') {
+		if ($eventType === 'module.postinstall') {
 			$moduleInstance = CRMEntity::getInstance('HolidaysEntitlement');
 			\App\Fields\RecordNumber::setNumber($moduleName, 'HE', '1');
-			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array('HolidaysEntitlement'));
+			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => 'HolidaysEntitlement'])->execute();
 			$moduleInstance = vtlib\Module::getInstance('HolidaysEntitlement');
 			$targetModule = vtlib\Module::getInstance('OSSEmployees');
-			$targetModule->setRelatedList($moduleInstance, 'HolidaysEntitlement', array('ADD'), 'getDependentsList');
-		} else if ($eventType == 'module.disabled') {
-			
-		} else if ($eventType == 'module.preuninstall') {
-			
-		} else if ($eventType == 'module.preupdate') {
-			
-		} else if ($eventType == 'module.postupdate') {
-			
+			$targetModule->setRelatedList($moduleInstance, 'HolidaysEntitlement', ['ADD'], 'getDependentsList');
 		}
 	}
 }

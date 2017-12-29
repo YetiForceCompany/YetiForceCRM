@@ -1,9 +1,9 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div>
 		<div class="widget_header row">
 			<div class="col-md-12">
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 				&nbsp;{\App\Language::translate('LBL_BRUTEFORCE_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
 		</div>
@@ -20,7 +20,7 @@
 								<div class="form-group">
 									<label class="col-sm-3 control-label">{\App\Language::translate('LBL_BRUTEFORCE_ACTIVE', $QUALIFIED_MODULE)}</label>
 									<div class="col-sm-8 col-md-9">
-										<input type="checkbox" id="active" name="active" class="switchBtn" title="{\App\Language::translate('LBL_BRUTEFORCE_ACTIVE', $QUALIFIED_MODULE)}" {if $CONFIG.active} checked {/if} data-size="small" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}"/>
+										<input type="checkbox" id="active" name="active" class="switchBtn" title="{\App\Language::translate('LBL_BRUTEFORCE_ACTIVE', $QUALIFIED_MODULE)}" {if $CONFIG.active} checked {/if} data-size="small" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}" />
 									</div>
 								</div>
 								<div class="form-group">
@@ -38,7 +38,7 @@
 								<div class="form-group marginbottomZero">
 									<label class="col-sm-3 control-label">{\App\Language::translate('LBL_SENT_NOTIFICATIONS', $QUALIFIED_MODULE)}</label>
 									<div class="col-sm-9">
-										<input type="checkbox" id="sent" name="sent" class="switchBtn" {if $CONFIG.sent} checked {/if} title="{\App\Language::translate('LBL_SENT_NOTIFICATIONS', $QUALIFIED_MODULE)}" data-size="small" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}"/>
+										<input type="checkbox" id="sent" name="sent" class="switchBtn" {if $CONFIG.sent} checked {/if} title="{\App\Language::translate('LBL_SENT_NOTIFICATIONS', $QUALIFIED_MODULE)}" data-size="small" data-label-width="5" data-on-text="{\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}" data-off-text="{\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}" />
 										<div class="selectedUsersForm{if !$CONFIG.sent} hide{/if}">
 											<label class="control-label">{\App\Language::translate('LBL_USERS_FOR_NOTIFICATIONS', $QUALIFIED_MODULE)}</label>
 											<select class="chzn-select form-control" name="selectedUsers" multiple id="selectedUsers" title="{\App\Language::translate('LBL_USERS_FOR_NOTIFICATIONS', $QUALIFIED_MODULE)}" >

@@ -7,7 +7,7 @@ use \yii\log\Logger;
  * Logger class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Log extends Logger
@@ -31,7 +31,7 @@ class Log extends Logger
 	public function log($message, $level, $category = '')
 	{
 		$traces = '';
-		if ($this->traceLevel > 0) {
+		if ($this->traceLevel) {
 			$traces = Debuger::getBacktrace(2, $this->traceLevel, ' - ');
 		}
 		if (static::$logToConsole) {
@@ -66,7 +66,9 @@ class Log extends Logger
 	 */
 	public static function info($message, $category = '')
 	{
-		\Yii::getLogger()->log($message, Logger::LEVEL_INFO, $category);
+		if (static::$logToFile) {
+			\Yii::getLogger()->log($message, Logger::LEVEL_INFO, $category);
+		}
 	}
 
 	/**
@@ -78,7 +80,9 @@ class Log extends Logger
 	 */
 	public static function warning($message, $category = '')
 	{
-		\Yii::getLogger()->log($message, Logger::LEVEL_WARNING, $category);
+		if (static::$logToFile) {
+			\Yii::getLogger()->log($message, Logger::LEVEL_WARNING, $category);
+		}
 	}
 
 	/**
@@ -156,5 +160,26 @@ class Log extends Logger
 			$query->orderBy(['id' => SORT_DESC]);
 			return $query->all($db);
 		}
+	}
+
+	/**
+	 * Get last logs
+	 * @return string
+	 */
+	public static function getlastLogs()
+	{
+		$content = '';
+		$i = 0;
+		foreach (\Yii::getLogger()->messages as $message) {
+			$level = \yii\log\Logger::getLevelName($message[1]);
+			$category = $message[2];
+			$content .= "#$i [$level] {$message[0]}";
+			if ($category) {
+				$content .= ' || ' . $category;
+			}
+			$content .= PHP_EOL;
+			$i++;
+		}
+		return $content;
 	}
 }

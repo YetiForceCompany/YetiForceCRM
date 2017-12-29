@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -14,7 +14,7 @@
 		<input type="hidden" id="isActiveCategory" value="{$SELECTABLE_CATEGORY}" />
 		<input type="hidden" id="relationType" value="{$RELATION_TYPE}" />
 		<input type="hidden" id="relatedModule" value="{$MODULE}" />
-		<input type="hidden" name="tree" id="treePopupValues" value="{Vtiger_Util_Helper::toSafeHTML($TREE)}" />
+		<input type="hidden" name="tree" id="treePopupValues" value="{\App\Purifier::encodeHtml($TREE)}" />
 		{if count($TREE) != 0}
 			<div class="col-md-12 marginBottom10px">
 				<div class="col-md-12" id="treePopupContents"></div>

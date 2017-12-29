@@ -9,15 +9,25 @@
  * ********************************************************************************** */
 require_once('modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
+/**
+ * Class VTSendNotificationTask
+ */
 class VTSendNotificationTask extends VTTask
 {
 
-	// Sending email takes more time, this should be handled via queue all the time.
+	/**
+	 * Sending email takes more time, this should be handled via queue all the time.
+	 * @var bool
+	 */
 	public $executeImmediately = true;
 
+	/**
+	 * Get field names
+	 * @return array
+	 */
 	public function getFieldNames()
 	{
-		return array("template");
+		return ['template'];
 	}
 
 	/**
@@ -26,19 +36,22 @@ class VTSendNotificationTask extends VTTask
 	 */
 	public function doTask($recordModel)
 	{
-		if (is_numeric($this->template) && $this->template > 0) {
-			$db = PearDatabase::getInstance();
+		if (is_numeric($this->template) && $this->template) {
 			$entityId = $recordModel->getId();
-			$sql = 'SELECT vtiger_activity.*, vtiger_crmentity.description, vtiger_crmentity.smownerid as assigned_user_id,  vtiger_crmentity.modifiedtime, vtiger_crmentity.createdtime, vtiger_activity_reminder.reminder_time FROM vtiger_activity INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid LEFT JOIN vtiger_activity_reminder ON vtiger_activity_reminder.activity_id = vtiger_activity.activityid WHERE vtiger_crmentity.deleted = 0 AND vtiger_activity.activityid = ?';
-			$result = $db->pquery($sql, array($entityId));
+			$result = (new \App\Db\Query())
+					->select(['vtiger_activity.*', 'vtiger_crmentity.description', 'vtiger_crmentity.smownerid as assigned_user_id', 'vtiger_crmentity.modifiedtime', 'vtiger_crmentity.createdtime', 'vtiger_activity_reminder.reminder_time'])
+					->from('vtiger_activity')
+					->innerJoin('vtiger_crmentity', 'vtiger_activity.activityid = vtiger_crmentity.crmid')
+					->leftJoin('vtiger_activity_reminder', 'vtiger_activity_reminder.activity_id = vtiger_activity.activityid')
+					->where(['vtiger_crmentity.deleted' => 0, 'tiger_activity.activityid' => $entityId])->all();
 
 			$moduleModel = $recordModel->getModule();
 			$moduleModel->setEventFieldsForExport();
 			$moduleModel->setTodoFieldsForExport();
 			$exportData = new Calendar_Export_Model();
 			$iCal = $exportData->output('', $result, $moduleModel, '', true);
-			$result_invitees = $db->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid = ?', array($entityId));
-			while ($recordinfo = $db->fetch_array($result_invitees)) {
+			$resultInvitees = (new \App\Db\Query())->from('u_#__activity_invitation')->where(['activityid' => $entityId])->createCommand()->query();
+			while ($recordinfo = $resultInvitees->read()) {
 				$userModel = App\User::getUserModel($recordinfo['inviteeid']);
 				if ($userModel->getDetail('status') === 'Active') {
 					\App\Mailer::sendFromTemplate([

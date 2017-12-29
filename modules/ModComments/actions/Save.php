@@ -16,17 +16,13 @@ class ModComments_Save_Action extends Vtiger_Save_Action
 	{
 		$request->set('assigned_user_id', App\User::getCurrentUserId());
 		$recordModel = $this->saveRecord($request);
-		$responseFieldsToSent = array('reasontoedit', 'commentcontent');
-		$fieldModelList = $recordModel->getModule()->getFields();
-		foreach ($responseFieldsToSent as &$fieldName) {
-			$fieldModel = $fieldModelList[$fieldName];
-			$fieldValue = $recordModel->get($fieldName);
-			$result[$fieldName] = Vtiger_Util_Helper::toSafeHTML($fieldModel->getDisplayValue($fieldValue));
+		$responseFieldsToSent = ['reasontoedit', 'commentcontent'];
+		foreach ($responseFieldsToSent as $fieldName) {
+			$result[$fieldName] = $recordModel->getDisplayValue($fieldName);
 		}
-
 		$result['success'] = true;
-		$result['modifiedtime'] = Vtiger_Util_Helper::formatDateDiffInStrings($recordModel->get('modifiedtime'));
-		$result['modifiedtimetitle'] = Vtiger_Util_Helper::formatDateTimeIntoDayString($recordModel->get('modifiedtime'));
+		$result['modifiedtime'] = \App\Fields\DateTime::formatToViewDate($recordModel->get('modifiedtime'));
+		$result['modifiedtimetitle'] = \App\Fields\DateTime::formatToDay($recordModel->get('modifiedtime'));
 
 		$response = new Vtiger_Response();
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);

@@ -13,8 +13,6 @@ $languageStrings = [
 	'Campaign No' => 'Кампания №',
 	'Campaigns' => 'Кампании',
 	'SINGLE_Campaigns' => 'Кампания',
-	'LBL_ADD_RECORD' => 'Кампания',
-	'LBL_RECORDS_LIST' => 'Список Кампаний',
 	//FIELDS
 	'Budget Cost' => 'Бюджет',
 	'Campaign Type' => 'Тип',

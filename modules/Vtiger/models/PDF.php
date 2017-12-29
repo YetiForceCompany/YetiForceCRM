@@ -4,7 +4,7 @@
  * Basic PDF Model Class
  * @package YetiForce.PDF
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
@@ -12,10 +12,34 @@
 class Vtiger_PDF_Model extends \App\Base
 {
 
+	/**
+	 * Table name
+	 * @var string
+	 */
 	public static $baseTable = 'a_yf_pdf';
+
+	/**
+	 * Table index
+	 * @var string
+	 */
 	public static $baseIndex = 'pdfid';
+
+	/**
+	 * Records cache
+	 * @var array
+	 */
 	protected $recordCache = [];
+
+	/**
+	 * Current record id
+	 * @var int
+	 */
 	protected $recordId;
+
+	/**
+	 * View to picklist assigment array
+	 * @var array
+	 */
 	protected $viewToPicklistValue = ['Detail' => 'PLL_DETAILVIEW', 'List' => 'PLL_LISTVIEW'];
 
 	/**
@@ -24,7 +48,7 @@ class Vtiger_PDF_Model extends \App\Base
 	 */
 	public function getWatermarkType()
 	{
-		return [Vtiger_mPDF_Pdf::WATERMARK_TYPE_TEXT => 'PLL_TEXT', Vtiger_mPDF_Pdf::WATERMARK_TYPE_IMAGE => 'PLL_IMAGE'];
+		return [Vtiger_Mpdf_Pdf::WATERMARK_TYPE_TEXT => 'PLL_TEXT', Vtiger_Mpdf_Pdf::WATERMARK_TYPE_IMAGE => 'PLL_IMAGE'];
 	}
 
 	/**
@@ -43,9 +67,14 @@ class Vtiger_PDF_Model extends \App\Base
 	public function getName()
 	{
 		$displayName = $this->get('primary_name');
-		return Vtiger_Util_Helper::toSafeHTML(decode_html($displayName));
+		return \App\Purifier::encodeHtml(App\Purifier::decodeHtml($displayName));
 	}
 
+	/**
+	 *  Return key value
+	 * @param string $key
+	 * @return mixed
+	 */
 	public function get($key)
 	{
 		if ($key === 'conditions' && !is_array(parent::get($key))) {
@@ -55,6 +84,11 @@ class Vtiger_PDF_Model extends \App\Base
 		}
 	}
 
+	/**
+	 * Return raw key value
+	 * @param string $key
+	 * @return mixed
+	 */
 	public function getRaw($key)
 	{
 		return parent::get($key);
@@ -89,6 +123,10 @@ class Vtiger_PDF_Model extends \App\Base
 		$this->recordId = $id;
 	}
 
+	/**
+	 * Return module instance or false
+	 * @return object|false
+	 */
 	public function getModule()
 	{
 		return Vtiger_Module_Model::getInstance($this->get('module_name'));
@@ -112,14 +150,21 @@ class Vtiger_PDF_Model extends \App\Base
 		}
 	}
 
+	/**
+	 * Return available templates for record
+	 * @param int $recordId
+	 * @param string $view
+	 * @param string $moduleName
+	 * @return array
+	 */
 	public function getActiveTemplatesForRecord($recordId, $view, $moduleName = false)
 	{
 
-		if (!isRecordExists($recordId)) {
+		if (!\App\Record::isExists($recordId)) {
 			return [];
 		}
 		if (!$moduleName) {
-			$moduleName = vtlib\Functions::getCRMRecordType($recordId);
+			$moduleName = \App\Record::getType($recordId);
 		}
 
 		$templates = $this->getTemplatesByModule($moduleName);
@@ -132,6 +177,12 @@ class Vtiger_PDF_Model extends \App\Base
 		return $templates;
 	}
 
+	/**
+	 * Return available templates for module
+	 * @param string $moduleName
+	 * @param string $view
+	 * @return array
+	 */
 	public function getActiveTemplatesForModule($moduleName, $view)
 	{
 		$templates = $this->getTemplatesByModule($moduleName);
@@ -208,15 +259,23 @@ class Vtiger_PDF_Model extends \App\Base
 		return false;
 	}
 
+	/**
+	 * Remove conditions for current record
+	 */
 	public function deleteConditions()
 	{
-		$db = PearDatabase::getInstance();
-		$db->update(self::$baseTable, [
-			'conditions' => ''
-			], self::$baseIndex . ' = ? LIMIT 1', [$this->getId()]
-		);
+		\App\Db::getInstance()->createCommand()
+			->update(self::$baseTable, [
+				'conditions' => '',
+				], [self::$baseIndex => $this->getId()])
+			->execute();
 	}
 
+	/**
+	 * Check if is visible for provided view
+	 * @param string $view
+	 * @return boolean
+	 */
 	public function isVisible($view)
 	{
 		$visibility = explode(',', $this->get('visibility'));
@@ -237,7 +296,7 @@ class Vtiger_PDF_Model extends \App\Base
 		if (\App\Cache::staticHas(__METHOD__, $key)) {
 			return \App\Cache::staticGet(__METHOD__, $key);
 		}
-		vimport('~/modules/com_vtiger_workflow/VTJsonCondition.php');
+		Vtiger_Loader::includeOnce('~/modules/com_vtiger_workflow/VTJsonCondition.php');
 		$conditionStrategy = new VTJsonCondition();
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		$conditions = htmlspecialchars_decode($this->getRaw('conditions'));
@@ -246,6 +305,10 @@ class Vtiger_PDF_Model extends \App\Base
 		return $test;
 	}
 
+	/**
+	 * Check if user has permissions to record
+	 * @return boolean
+	 */
 	public function checkUserPermissions()
 	{
 		$permissions = $this->get('template_members');
@@ -409,16 +472,25 @@ class Vtiger_PDF_Model extends \App\Base
 	 */
 	public static function exportToPdf($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '')
 	{
-		$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'mPDF', $moduleName);
+		$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'Mpdf', $moduleName);
 		$pdf = new $handlerClass();
 		$pdf->export($recordId, $moduleName, $templateId, $filePath, $saveFlag);
 	}
 
+	/**
+	 * Attach current record to email
+	 * @param string $salt
+	 */
 	public static function attachToEmail($salt)
 	{
-		header('Location: index.php?module=OSSMail&view=compose&pdf_path=' . $salt);
+		header('Location: index.php?module=OSSMail&view=Compose&pdf_path=' . $salt);
 	}
 
+	/**
+	 * Compress files and send to browser
+	 * @param array $fileNames
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public static function zipAndDownload(array $fileNames)
 	{
 
@@ -434,7 +506,7 @@ class Vtiger_PDF_Model extends \App\Base
 		//create the file and throw the error if unsuccessful
 		if ($zip->open($zipPath . $zipName, ZIPARCHIVE::CREATE) !== true) {
 			\App\Log::error("cannot open <$zipPath.$zipName>\n");
-			throw new \Exception\NoPermitted("cannot open <$zipPath.$zipName>");
+			throw new \App\Exceptions\NoPermitted("cannot open <$zipPath.$zipName>");
 		}
 
 		//add each files of $file_name array to archive

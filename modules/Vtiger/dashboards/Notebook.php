@@ -20,21 +20,18 @@ class Vtiger_Notebook_Dashboard extends Vtiger_IndexAjax_View
 		if ($widget && !$request->has('widgetid')) {
 			$widgetId = $widget->get('id');
 		} else {
-			$widgetId = $request->get('widgetid');
+			$widgetId = $request->getInteger('widgetid');
 		}
 
 		$widget = Vtiger_Notebook_Model::getUserInstance($widgetId);
 
-		$mode = $request->get('mode');
+		$mode = $request->getMode();
 		if ($mode == 'save') {
 			$widget->save($request);
 		}
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
-
-
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/NotebookContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/Notebook.tpl', $moduleName);

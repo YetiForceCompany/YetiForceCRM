@@ -3,12 +3,11 @@
  * Project polish translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	// Basic Strings
 	'SINGLE_Project' => 'Projekty',
-	'LBL_ADD_RECORD' => 'Dodaj rekord',
 	'LBL_RECORDS_LIST' => 'Lista projektów',
 	// Blocks
 	'LBL_PROJECT_INFORMATION' => 'Szczegóły projektu',

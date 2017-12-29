@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{if empty($VIEWNAME)}
 		{assign var=VIEWNAME value='list'}
@@ -25,7 +25,7 @@
 										<div>
 											<div class="col-md-3 recentComments textAlignCenter pushUpandDown2per"><span>{\App\Language::translate('LBL_PAGE')}</span></div>
 											<div class="col-md-3 recentComments">
-												<input type="text" id="pageToJump" class="listViewPagingInput textAlignCenter form-control" title="{\App\Language::translate('LBL_LISTVIEW_PAGE_JUMP')}" value="{$PAGE_NUMBER}"/>
+												<input type="text" id="pageToJump" class="listViewPagingInput textAlignCenter form-control" title="{\App\Language::translate('LBL_LISTVIEW_PAGE_JUMP')}" value="{$PAGE_NUMBER}" />
 											</div>
 											<div class="col-md-2 recentComments textAlignCenter pushUpandDown2per">
 												{\App\Language::translate('LBL_OF')}

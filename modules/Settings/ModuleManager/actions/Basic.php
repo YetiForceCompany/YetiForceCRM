@@ -43,7 +43,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 			} else {
 				$moduleManagerModel->disableModule($moduleName);
 			}
-		} catch (\Exception\NotAllowedMethod $e) {
+		} catch (\App\Exceptions\NotAllowedMethod $e) {
 			$response->setError($e->getMessage());
 		}
 		$response->emit();
@@ -71,7 +71,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
 		unlink($uploadFileName);
 
-		$result = array('success' => true, 'importModuleName' => $importModuleName);
+		$result = ['success' => true, 'importModuleName' => $importModuleName];
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
@@ -103,7 +103,7 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
 		unlink($uploadFileName);
 
-		$result = array('success' => true, 'importModuleName' => $importModuleName);
+		$result = ['success' => true, 'importModuleName' => $importModuleName];
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
@@ -114,32 +114,45 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 		$request->validateWriteAccess();
 	}
 
+	/**
+	 * Action to check module name
+	 * @param \App\Request $request
+	 */
 	public function checkModuleName(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleName = $request->get('moduleName');
 		$module = vtlib\Module::getInstance($moduleName);
 		if ($module) {
-			$result = array('success' => false, 'text' => \App\Language::translate('LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER', $qualifiedModuleName));
-		} elseif (preg_match('/[^A-Za-z]/i', $moduleName)) {
-			$result = array('success' => false, 'text' => \App\Language::translate('LBL_INVALID_MODULE_NAME', $qualifiedModuleName));
+			$result = ['success' => false, 'text' => \App\Language::translate('LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER', $qualifiedModuleName)];
+		} elseif (Settings_ModuleManager_Module_Model::checkModuleName($moduleName)) {
+			$result = ['success' => false, 'text' => \App\Language::translate('LBL_INVALID_MODULE_NAME', $qualifiedModuleName)];
 		} else {
-			$result = array('success' => true);
+			$result = ['success' => true];
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
 	}
 
+	/**
+	 * Action to create module
+	 * @param \App\Request $request
+	 */
 	public function createModule(\App\Request $request)
 	{
 		$formData = $request->get('formData');
-		$moduleManagerModel = new Settings_ModuleManager_Module_Model();
-		$result = array('success' => true, 'text' => ucfirst($formData['module_name']));
-		try {
-			$moduleManagerModel->createModule($formData);
-		} catch (Exception $e) {
-			$result = array('success' => false, 'text' => $e->getMessage());
+		$moduleName = $formData['module_name'];
+		if (!Settings_ModuleManager_Module_Model::checkModuleName($moduleName)) {
+			$result = ['success' => true, 'text' => ucfirst($moduleName)];
+			$moduleManagerModel = new Settings_ModuleManager_Module_Model();
+			try {
+				$moduleManagerModel->createModule($formData);
+			} catch (Exception $e) {
+				$result = ['success' => false, 'text' => $e->getMessage()];
+			}
+		} else {
+			$result = ['success' => false, 'text' => \App\Language::translate('LBL_INVALID_MODULE_NAME', $request->getModule(false))];
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);
@@ -150,13 +163,55 @@ class Settings_ModuleManager_Basic_Action extends Settings_Vtiger_IndexAjax_View
 	{
 		$moduleName = $request->get('forModule');
 		$moduleInstance = vtlib\Module::getInstance($moduleName);
-		if ($moduleInstance) {
+		if ($moduleInstance && (int) $moduleInstance->customized === 1) {
 			$moduleInstance->delete();
-			$result = array('success' => true);
-		} else
-			$result = array('success' => false);
+			$result = ['success' => true];
+		} else {
+			$result = ['success' => false];
+		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);
+		$response->emit();
+	}
+
+	public function updateColor(\App\Request $request)
+	{
+		$id = $request->getInteger('id');
+		$color = $request->get('color');
+		if (!$color) {
+			$color = \App\Colors::getRandomColor();
+		}
+		\App\Colors::updateModuleColor($id, $color);
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'success' => true,
+			'color' => $color,
+			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
+		]);
+		$response->emit();
+	}
+
+	public function removeColor(\App\Request $request)
+	{
+		\App\Colors::updateModuleColor($request->getInteger('id'), '');
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'success' => true,
+			'color' => $color,
+			'message' => \App\Language::translate('LBL_REMOVED_COLOR', $request->getModule(false))
+		]);
+		$response->emit();
+	}
+
+	public function activeColor(\App\Request $request)
+	{
+		$color = \App\Colors::activeModuleColor($request->getInteger('id'), $request->get('status'), $request->get('color'));
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'success' => true,
+			'color' => $color,
+			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
+		]);
 		$response->emit();
 	}
 }

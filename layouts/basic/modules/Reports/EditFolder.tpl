@@ -25,7 +25,7 @@
 					<div class="modal-body">
 						<div class="row verticalBottomSpacing">
 							<span class="col-md-4"><span class="redColor">*</span>{\App\Language::translate('LBL_FOLDER_NAME', $MODULE)}</span>
-							<span class="col-md-7 row"><input data-validation-engine='validate[required]' id="foldername" title="{\App\Language::translate('LBL_FOLDER_NAME', $MODULE)}" name="foldername" class="form-control" type="text" value="{\App\Language::translate($FOLDER_MODEL->getName(), $MODULE)}"/></span>
+							<span class="col-md-7 row"><input data-validation-engine='validate[required]' id="foldername" title="{\App\Language::translate('LBL_FOLDER_NAME', $MODULE)}" name="foldername" class="form-control" type="text" value="{\App\Language::translate($FOLDER_MODEL->getName(), $MODULE)}" /></span>
 						</div>
 						<div class="row">
 							<span class="col-md-4">{\App\Language::translate('LBL_FOLDER_DESCRIPTION', $MODULE)}</span>
@@ -34,7 +34,7 @@
 							</span>
 						</div>
 					</div>
-					{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
+					{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $MODULE)}
 				</form>
 			</div>
 		</div>

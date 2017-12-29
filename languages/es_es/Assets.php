@@ -12,8 +12,6 @@ $languageStrings = [
 	// Basic Strings
 	'Assets' => 'Activos',
 	'SINGLE_Assets' => 'Activo',
-	'LBL_ADD_RECORD' => 'Añadir',
-	'LBL_RECORDS_LIST' => 'Lista',
 	// Blocks
 	'LBL_ASSET_INFORMATION' => 'Información sobre el Activo',
 	//Field Labels
@@ -29,6 +27,7 @@ $languageStrings = [
 	'FL_RENEWAL' => 'Renovación',
 	'LBL_SET_RENEWAL' => 'Activar renovación',
 	'FL_RENEWAL_INVOICE' => 'Factura de renovación',
+	'FL_CONTACT' => 'Contacto',
 	/* picklist values */
 	'PLL_DRAFT' => 'Borrador',
 	'PLL_ACCEPTED' => 'Aceptado',
@@ -48,7 +47,7 @@ $languageStrings = [
 	'attentions' => 'Comentarios',
 	'BLOCK_INFORMATION_TIME' => 'Información de Tiempos',
 	'LBL_GENERATE_EXTENSION' => 'Generar extensión',
-	'LBL_ORDER_TIME' => 'Tiempo de Pedido',
+	'LBL_ORDER_TIME' => 'Tiempo de ejecución',
 	'LBL_EXPIRING_SOLD_PRODUCTS' => 'Caducidad de productos vendidos',
 	'LBL_CHANGE_STATUS' => 'Cambiar Estado',
 ];

@@ -5,7 +5,7 @@ namespace App;
  * Modules basic class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Module
@@ -13,7 +13,22 @@ class Module
 
 	protected static $moduleEntityCacheById = [];
 
-	static public function getEntityInfo($mixed = false)
+	/**
+	 * Cache for tabdata.php
+	 * @var array 
+	 */
+	protected static $tabdataCache;
+
+	/**
+	 * Init tabdataCache
+	 */
+	public static function init()
+	{
+		static::$tabdataCache = require 'user_privileges/tabdata.php';
+		static::$tabdataCache['tabName'] = array_flip(static::$tabdataCache['tabId']);
+	}
+
+	public static function getEntityInfo($mixed = false)
 	{
 		$entity = false;
 		if ($mixed) {
@@ -48,7 +63,7 @@ class Module
 		return $entity;
 	}
 
-	static public function getAllEntityModuleInfo($sort = false)
+	public static function getAllEntityModuleInfo($sort = false)
 	{
 		if (empty(static::$moduleEntityCacheById)) {
 			static::getEntityInfo();
@@ -67,7 +82,7 @@ class Module
 
 	protected static $isModuleActiveCache = [];
 
-	static public function isModuleActive($moduleName)
+	public static function isModuleActive($moduleName)
 	{
 		if (isset(static::$isModuleActiveCache[$moduleName])) {
 			return static::$isModuleActiveCache[$moduleName];
@@ -79,32 +94,40 @@ class Module
 			static::$isModuleActiveCache[$moduleName] = true;
 			return true;
 		}
-		$tabPresence = static::getTabData('tabPresence');
 		$moduleId = static::getModuleId($moduleName);
-		$isActive = (isset($tabPresence[$moduleId]) && $tabPresence[$moduleId] == 0) ? true : false;
+		$isActive = (isset(static::$tabdataCache['tabPresence'][$moduleId]) && static::$tabdataCache['tabPresence'][$moduleId] == 0) ? true : false;
 		static::$isModuleActiveCache[$moduleName] = $isActive;
 		return $isActive;
 	}
 
-	protected static $tabdataCache = false;
-
-	static public function getTabData($type)
+	/**
+	 * Get module id by module name
+	 * @param string $moduleName
+	 * @return int|bool
+	 */
+	public static function getModuleId($moduleName)
 	{
-		if (static::$tabdataCache === false) {
-			static::$tabdataCache = require 'user_privileges/tabdata.php';
-		}
-		return isset(static::$tabdataCache[$type]) ? static::$tabdataCache[$type] : false;
+		return isset(static::$tabdataCache['tabId'][$moduleName]) ? static::$tabdataCache['tabId'][$moduleName] : false;
 	}
 
-	public static function getModuleId($name)
-	{
-		$tabId = static::getTabData('tabId');
-		return isset($tabId[$name]) ? $tabId[$name] : false;
-	}
-
+	/**
+	 * Get module nane by module id
+	 * @param int $tabId
+	 * @return string|bool
+	 */
 	public static function getModuleName($tabId)
 	{
-		return \vtlib\Functions::getModuleName($tabId);
+		return isset(static::$tabdataCache['tabName'][$tabId]) ? static::$tabdataCache['tabName'][$tabId] : false;
+	}
+
+	/**
+	 * Get module owner by module id
+	 * @param int $tabId
+	 * @return int
+	 */
+	public static function getModuleOwner($tabId)
+	{
+		return isset(static::$tabdataCache['tabOwnedby'][$tabId]) ? static::$tabdataCache['tabOwnedby'][$tabId] : false;
 	}
 
 	/**
@@ -141,18 +164,48 @@ class Module
 	 */
 	public static function getSqlForNameInDisplayFormat($moduleName)
 	{
+		$db = \App\Db::getInstance();
 		$entityFieldInfo = static::getEntityInfo($moduleName);
 		$fieldsName = $entityFieldInfo['fieldnameArr'];
 		if (count($fieldsName) > 1) {
 			$sqlString = 'CONCAT(';
 			foreach ($fieldsName as &$column) {
-				$sqlString .= "{$entityFieldInfo['tablename']}.$column,' ',";
+				$sqlString .= "{$db->quoteTableName($entityFieldInfo['tablename'])}.{$db->quoteColumnName($column)},' ',";
 			}
 			$formattedName = new \yii\db\Expression(rtrim($sqlString, ',\' \',') . ')');
 		} else {
 			$fieldsName = array_pop($fieldsName);
-			$formattedName = "{$entityFieldInfo['tablename']}.$fieldsName";
+			$formattedName = "{$db->quoteTableName($entityFieldInfo['tablename'])}.{$db->quoteColumnName($fieldsName)}";
 		}
 		return $formattedName;
 	}
+
+	/**
+	 * Function to get a action id for a given action name
+	 * @param string $action
+	 * @return int|null
+	 */
+	public static function getActionId($action)
+	{
+		if (empty($action)) {
+			return null;
+		}
+		if (Cache::has('getActionId', $action)) {
+			return Cache::get('getActionId', $action);
+		}
+		$actionIds = static::$tabdataCache['actionId'];
+		if (isset($actionIds[$action])) {
+			$actionId = $actionIds[$action];
+		}
+		if (empty($actionId)) {
+			$actionId = (new Db\Query())->select(['actionid'])->from('vtiger_actionmapping')->where(['actionname' => $action])->scalar();
+		}
+		if (is_numeric($actionId)) {
+			$actionId = (int) $actionId;
+		}
+		Cache::save('getActionId', $action, $actionId, Cache::LONG);
+		return $actionId;
+	}
 }
+
+Module::init();

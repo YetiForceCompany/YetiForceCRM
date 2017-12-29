@@ -12,12 +12,24 @@
 class PriceBooks_ListPriceUpdate_View extends Vtiger_BasicModal_View
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($moduleName)) {
-			throw new \Exception\AppException(\App\Language::translate($moduleName) . ' ' . \App\Language::translate('LBL_NOT_ACCESSIBLE'));
+		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+		$recordId = $request->getInteger('record');
+		if (!$recordId) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -25,8 +37,8 @@ class PriceBooks_ListPriceUpdate_View extends Vtiger_BasicModal_View
 	{
 		parent::preProcess($request);
 		$moduleName = $request->getModule();
-		$priceBookId = $request->get('record');
-		$relId = $request->get('relid');
+		$priceBookId = $request->getInteger('record');
+		$relId = $request->getInteger('relid');
 		$currentPrice = $request->get('currentPrice');
 
 		$viewer = $this->getViewer($request);

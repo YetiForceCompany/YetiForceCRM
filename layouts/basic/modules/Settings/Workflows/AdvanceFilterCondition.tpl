@@ -26,18 +26,18 @@
 						{assign var=columnNameApi value=getCustomViewColumnName}
 					{/if}
 					<option value="{$FIELD_MODEL->$columnNameApi()}" data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_NAME}"
-					{if decode_html($FIELD_MODEL->$columnNameApi()) eq $CONDITION_INFO['columnname']}
+					{if App\Purifier::decodeHtml($FIELD_MODEL->$columnNameApi()) eq $CONDITION_INFO['columnname']}
 						{assign var=FIELD_TYPE value=$FIELD_MODEL->getFieldDataType()}
 						{assign var=SELECTED_FIELD_MODEL value=$FIELD_MODEL}
-						{$FIELD_INFO['value'] = decode_html($CONDITION_INFO['value'])}
+						{$FIELD_INFO['value'] = App\Purifier::decodeHtml($CONDITION_INFO['value'])}
 						selected="selected"
 					{/if}
-					data-fieldinfo='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($FIELD_INFO))}' 
+					data-fieldinfo='{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}' 
                     {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}>
 					{if $SELECTED_MODULE_NAME neq $MODULE_MODEL->get('name')} 
-						({\App\Language::translate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {\App\Language::translate($FIELD_MODEL->get('label'), $MODULE_MODEL->get('name'))}
+						({\App\Language::translate($MODULE_MODEL->get('name'), $MODULE_MODEL->get('name'))})  {\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_MODEL->get('name'))}
 					{else}
-						{\App\Language::translate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}
+						{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}
 					{/if}
 				</option>
 				{/foreach}

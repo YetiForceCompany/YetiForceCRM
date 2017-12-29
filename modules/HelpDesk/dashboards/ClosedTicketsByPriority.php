@@ -4,11 +4,12 @@
  * Widget showing ticket which have closed. We can filter by users or date 
  * @package YetiForce.Dashboard
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 {
+
 	/**
 	 * Return search params (use to in bulding address URL to listview)
 	 * @param string $priority
@@ -46,10 +47,10 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
 		$listViewUrl = $moduleModel->getListViewUrl();
 		$query = (new App\Db\Query())->select([
-			'count' => new \yii\db\Expression('COUNT(*)'),
-			'priority',
-			'vtiger_ticketpriorities.color'
-		])->from('vtiger_troubletickets')
+				'count' => new \yii\db\Expression('COUNT(*)'),
+				'priority',
+				'vtiger_ticketpriorities.color'
+			])->from('vtiger_troubletickets')
 			->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.ticketid = vtiger_crmentity.crmid')
 			->innerJoin('vtiger_ticketstatus', 'vtiger_troubletickets.status = vtiger_ticketstatus.ticketstatus')
 			->innerJoin('vtiger_ticketpriorities', 'vtiger_ticketpriorities.ticketpriorities = vtiger_troubletickets.priority')
@@ -87,21 +88,21 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$linkId = $request->get('linkid');
+		$linkId = $request->getInteger('linkid');
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
-		$time = $request->get('time');
-		$owner = $request->get('owner');
+		$time = $request->getDateRange('time');
+		$owner = $request->getByType('owner', 2);
 		if (empty($owner)) {
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		}
 		if (empty($time)) {
 			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
-			if($time === false) {
+			if ($time === false) {
 				$time['start'] = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
 				$time['end'] = date('Y-m-d', mktime(23, 59, 59, date('m') + 1, 0, date('Y')));
 			}
-			$time['start'] = \App\Fields\DateTime::currentUserDisplayDate($time['start']);
-			$time['end'] = \App\Fields\DateTime::currentUserDisplayDate($time['end']);
+			$time['start'] = \App\Fields\Date::formatToDisplay($time['start']);
+			$time['end'] = \App\Fields\Date::formatToDisplay($time['end']);
 		}
 		$data = $this->getTicketsByPriority($time, $owner);
 		$viewer->assign('WIDGET', $widget);
@@ -109,8 +110,7 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('DTIME', $time);
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/DashBoardWidgetContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/ClosedTicketsByPriority.tpl', $moduleName);

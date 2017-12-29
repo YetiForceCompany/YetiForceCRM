@@ -38,7 +38,7 @@ class Settings_Groups_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 		}
 
 		$response = new Vtiger_Response();
-		$result = array('success' => true);
+		$result = ['success' => true];
 
 		$response->setResult($result);
 		$response->emit();

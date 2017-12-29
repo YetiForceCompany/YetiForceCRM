@@ -5,13 +5,17 @@ namespace App;
  * Text parser class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class TextParser
 {
 
-	/** @var array Examples of supported variables */
+	/**
+	 * Examples of supported variables
+	 * @var array
+	 */
 	public static $variableExamples = [
 		'LBL_ORGANIZATION_NAME' => '$(organization : name)$',
 		'LBL_ORGANIZATION_LOGO' => '$(organization : mailLogo)$',
@@ -20,16 +24,36 @@ class TextParser
 		'LBL_PORTAL_DETAIL_VIEW_URL' => '$(record : PortalDetailViewURL)$',
 		'LBL_RECORD_ID' => '$(record : RecordId)$',
 		'LBL_RECORD_LABEL' => '$(record : RecordLabel)$',
-		'LBL_LIST_OF_CHANGES_IN_RECORD' => '(record: ChangesListChanges)',
-		'LBL_LIST_OF_NEW_VALUES_IN_RECORD' => '(record: ChangesListValues)',
+		'LBL_LIST_OF_CHANGES_IN_RECORD' => '$(record : ChangesListChanges)$',
+		'LBL_LIST_OF_NEW_VALUES_IN_RECORD' => '$(record : ChangesListValues)$',
 		'LBL_RECORD_COMMENT' => '$(record : Comments 5)$, $(record : Comments)$',
 		'LBL_RELATED_RECORD_LABEL' => '$(relatedRecord : parent_id|email1|Accounts)$, $(relatedRecord : parent_id|email1)$',
 		'LBL_OWNER_EMAIL' => '$(relatedRecord : assigned_user_id|email1|Users)$',
 		'LBL_SOURCE_RECORD_LABEL' => '$(sourceRecord : RecordLabel)$',
 		'LBL_CUSTOM_FUNCTION' => '$(custom : ContactsPortalPass)$',
+		'LBL_RELATED_RECORDS_LIST' => '$(relatedRecordsList : Contacts|firstname,lastname,email|[[["firstname","a","Tom"]]]||5)$',
+		'LBL_RECORDS_LIST' => '$(recordsList : Contacts|firstname,lastname,email|[[["firstname","a","Tom"]]]||5)$',
 	];
 
-	/** @var array Variables for entity modules */
+	/**
+	 * Default date list
+	 * @var string[]
+	 */
+	public static $variableDates = [
+		'LBL_DATE_TODAY' => '$(date : now)$',
+		'LBL_DATE_TOMORROW' => '$(date : tomorrow)$',
+		'LBL_DATE_YESTERDAY' => '$(date : yesterday)$',
+		'LBL_DATE_FIRST_DAY_OF_THIS_WEEK' => '$(date : monday this week)$',
+		'LBL_DATE_MONDAY_NEXT_WEEK' => '$(date : monday next week)$',
+		'LBL_DATE_FIRST_DAY_OF_THIS_MONTH' => '$(date : first day of this month)$',
+		'LBL_DATE_LAST_DAY_OF_THIS_MONTH' => '$(date : last day of this month)$',
+		'LBL_DATE_FIRST_DAY_OF_NEXT_MONTH' => '$(date : first day of next month)$',
+	];
+
+	/**
+	 * Variables for entity modules
+	 * @var array 
+	 */
 	public static $variableGeneral = [
 		'LBL_CURRENT_DATE' => '$(general : CurrentDate)$',
 		'LBL_CURRENT_TIME' => '$(general : CurrentTime)$',
@@ -40,7 +64,10 @@ class TextParser
 		'LBL_TRANSLATE' => '$(translate : Accounts|LBL_COPY_BILLING_ADDRESS)$, $(translate : LBL_SECONDS)$',
 	];
 
-	/** @var array Variables for entity modules */
+	/**
+	 * Variables for entity modules
+	 * @var array 
+	 */
 	public static $variableEntity = [
 		'CrmDetailViewURL' => 'LBL_CRM_DETAIL_VIEW_URL',
 		'PortalDetailViewURL' => 'LBL_PORTAL_DETAIL_VIEW_URL',
@@ -51,45 +78,94 @@ class TextParser
 		'Comments' => 'LBL_RECORD_COMMENT'
 	];
 
-	/** @var string[] List of available functions */
-	protected static $baseFunctions = ['general', 'translate', 'record', 'relatedRecord', 'sourceRecord', 'organization', 'employee', 'params', 'custom'];
+	/**
+	 * List of available functions
+	 * @var string[] 
+	 */
+	protected static $baseFunctions = ['general', 'translate', 'record', 'relatedRecord', 'sourceRecord', 'organization', 'employee', 'params', 'custom', 'relatedRecordsList', 'recordsList', 'date'];
 
-	/** @var string[] List of source modules */
+	/**
+	 * List of source modules
+	 * @var string[] 
+	 */
 	public static $sourceModules = [
 		'Campaigns' => ['Leads', 'Accounts', 'Contacts', 'Vendors', 'Partners', 'Competition']
 	];
 	private static $recordVariable;
 	private static $relatedVariable;
 
-	/** @var int Record id */
+	/**
+	 * Record id
+	 * @var int 
+	 */
 	public $record;
 
-	/** @var string Module name */
+	/**
+	 * Module name
+	 * @var string 
+	 */
 	public $moduleName;
 
-	/** @var \Vtiger_Record_Model Record model */
+	/**
+	 * Record model
+	 * @var \Vtiger_Record_Model 
+	 */
 	public $recordModel;
 
-	/** @var string|null Parser type */
+	/**
+	 * Parser type
+	 * @var string|null
+	 */
 	public $type;
 
-	/** @var \Vtiger_Record_Model Source record model */
+	/**
+	 * Source record model
+	 * @var \Vtiger_Record_Model
+	 * 
+	 */
 	protected $sourceRecordModel;
 
-	/** @var string Content */
+	/**
+	 * Content
+	 *  @var string
+	 */
 	protected $content;
 
-	/** @var string Rwa content */
+	/**
+	 * Rwa content
+	 * @var string
+	 */
 	protected $rawContent;
 
-	/** @var bool without translations */
+	/**
+	 * without translations
+	 * @var bool 
+	 */
 	protected $withoutTranslations = false;
 
-	/** @var string Language content */
+	/**
+	 * Language content
+	 * @var string
+	 */
 	protected $language;
 
-	/** @var array Additional params */
+	/**
+	 * Additional params
+	 * @var array
+	 */
 	protected $params;
+
+	/**
+	 * Separator to display data when there are several values
+	 * @var string 
+	 */
+	public $relatedRecordSeparator = ',';
+
+	/**
+	 * Is the parsing text content html?
+	 * @var bool
+	 */
+	public $isHtml = true;
 
 	/**
 	 * Get instanace by record id
@@ -139,7 +215,7 @@ class TextParser
 
 	/**
 	 * Set without translations
-	 * @param string $content
+	 * @param string $type
 	 * @return $this
 	 */
 	public function withoutTranslations($type = true)
@@ -235,8 +311,8 @@ class TextParser
 			$currentLanguage = \App\Language::getLanguage();
 			\App\Language::setLanguage($this->language);
 		}
-		$this->content = preg_replace_callback('/\$\((\w+) : ([\&\w\s\|]+)\)\$/', function ($matches) {
-			list($fullText, $function, $params) = $matches;
+		$this->content = preg_replace_callback('/\$\((\w+) : ([,"\+\-\[\]\&\w\s\|]+)\)\$/', function ($matches) {
+			list($fullText, $function, $params) = array_pad($matches, 3, '');
 			if (in_array($function, static::$baseFunctions)) {
 				return $this->$function($params);
 			}
@@ -246,6 +322,17 @@ class TextParser
 			\App\Language::setLanguage($currentLanguage);
 		}
 		return $this;
+	}
+
+	/**
+	 * Function parse date
+	 * @param string $param
+	 * @return string
+	 */
+	public function date($param)
+	{
+		$timestamp = strtotime($param);
+		return $timestamp ? date('Y-m-d', $timestamp) : '';
 	}
 
 	/**
@@ -303,15 +390,17 @@ class TextParser
 		$company = Company::getInstanceById($id);
 		if ($fieldName === 'mailLogo' || $fieldName === 'loginLogo') {
 			$fieldName = ($fieldName === 'mailLogo') ? 'logo_mail' : 'logo_main';
-			$logo = $company->getLogo($fieldName, true);
-			if (!$logo) {
+			$logo = $company->getLogo($fieldName);
+			if (!$logo || $logo->get('fileExists') === false) {
 				return '';
 			}
-			$logoName = $logo->get('imageUrl');
+			$path = $logo->get('imagePath');
 			$logoTitle = $company->get('name');
 			$logoAlt = Language::translate('LBL_COMPANY_LOGO_TITLE');
 			$logoHeight = $company->get($fieldName . '_height');
-			return "<img class=\"organizationLogo\" src=\"$logoName\" title=\"$logoTitle\" alt=\"$logoAlt\" height=\"{$logoHeight}px\">";
+			$type = pathinfo($path, PATHINFO_EXTENSION);
+			$base64 = base64_encode(file_get_contents($path));
+			return "<img class=\"organizationLogo\" src=\"data:image/$type;base64,$base64\" title=\"$logoTitle\" alt=\"$logoAlt\" height=\"{$logoHeight}px\">";
 		} elseif (in_array($fieldName, ['logo_login', 'logo_main', 'logo_mail'])) {
 			return Company::$logoPath . $company->get($fieldName);
 		}
@@ -371,7 +460,7 @@ class TextParser
 	/**
 	 * Parsing record data
 	 * @param string $key
-	 * @return mixed
+	 * @return string
 	 */
 	protected function record($key, $isPermitted = true)
 	{
@@ -384,7 +473,7 @@ class TextParser
 			if (!$fieldModel || !$this->useValue($fieldModel, $this->moduleName)) {
 				return '';
 			}
-			return $this->recordDisplayValue($this->recordModel->get($key), $fieldModel);
+			return $this->getDisplayValueByField($fieldModel);
 		}
 		switch ($key) {
 			case 'CrmDetailViewURL' :
@@ -408,28 +497,32 @@ class TextParser
 					if (!$fieldModel) {
 						continue;
 					}
-					$oldValue = $this->recordDisplayValue($oldValue, $fieldModel);
-					$currentValue = $this->recordDisplayValue($this->recordModel->get($fieldName), $fieldModel);
+					$oldValue = $this->getDisplayValueByField($fieldModel, $oldValue);
+					$currentValue = $this->getDisplayValueByField($fieldModel);
 					if ($this->withoutTranslations !== true) {
 						$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ' ';
-						$value .= Language::translate('LBL_FROM') . " $oldValue " . Language::translate('LBL_TO') . " $currentValue" . PHP_EOL;
+						$value .= Language::translate('LBL_FROM') . " $oldValue " . Language::translate('LBL_TO') . " $currentValue" . ($this->isHtml ? '<br />' : PHP_EOL);
 					} else {
-						$value .= "$(translate: $this->moduleName|{$fieldModel->getFieldLabel()})$ $(translate: LBL_FROM)$ $oldValue $(translate: LBL_TO)$ " .
-							$currentValue . PHP_EOL;
+						$value .= "\$(translate : $this->moduleName|{$fieldModel->getFieldLabel()})\$ \$(translate : LBL_FROM)\$ $oldValue \$(translate : LBL_TO)\$ " . $currentValue . ($this->isHtml ? '<br />' : PHP_EOL);
 					}
 				}
 				return $value;
 			case 'ChangesListValues':
-				foreach ($this->recordModel->getPreviousValue() as $fieldName => $oldValue) {
+				$changes = $this->recordModel->getPreviousValue();
+				if (empty($changes)) {
+					$changes = array_filter($this->recordModel->getData());
+					unset($changes['createdtime'], $changes['modifiedtime'], $changes['id'], $changes['newRecord'], $changes['modifiedby']);
+				}
+				foreach ($changes as $fieldName => $oldValue) {
 					$fieldModel = $this->recordModel->getModule()->getField($fieldName);
-					if (!$fieldModel) {
+					if (!$fieldModel || $oldValue !== '') {
 						continue;
 					}
-					$currentValue = $this->recordDisplayValue($this->recordModel->get($fieldName), $fieldModel);
+					$currentValue = $this->getDisplayValueByField($fieldModel);
 					if ($this->withoutTranslations !== true) {
-						$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ": $currentValue" . PHP_EOL;
+						$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ": $currentValue" . ($this->isHtml ? '<br />' : PHP_EOL);
 					} else {
-						$value .= "$(translate: $this->moduleName|{$fieldModel->getFieldLabel()})$: $currentValue" . PHP_EOL;
+						$value .= "\$(translate : $this->moduleName|{$fieldModel->getFieldLabel()})\$: $currentValue" . ($this->isHtml ? '<br />' : PHP_EOL);
 					}
 				}
 				return $value;
@@ -454,7 +547,7 @@ class TextParser
 	{
 		list($fieldName, $relatedField, $relatedModule) = explode('|', $params);
 		if (!isset($this->recordModel) ||
-			!\Users_Privileges_Model::isPermitted($this->moduleName, 'DetailView', $this->record) ||
+			!Privilege::isPermitted($this->moduleName, 'DetailView', $this->record) ||
 			$this->recordModel->isEmpty($fieldName)) {
 			return '';
 		}
@@ -463,14 +556,34 @@ class TextParser
 			return '';
 		}
 		if ($relatedModule === 'Users') {
-			$userRecordModel = \Users_Privileges_Model::getInstanceById($relatedId);
-			$instance = static::getInstanceByModel($userRecordModel);
-			foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
-				if (isset($this->$key)) {
-					$instance->$key = $this->$key;
+			$ownerType = Fields\Owner::getType($relatedId);
+			if ($ownerType === 'Users') {
+				$userRecordModel = \Users_Privileges_Model::getInstanceById($relatedId);
+				if ($userRecordModel->get('status') === 'Active') {
+					$instance = static::getInstanceByModel($userRecordModel);
+					foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
+						if (isset($this->$key)) {
+							$instance->$key = $this->$key;
+						}
+					}
+					return $instance->record($relatedField, false);
+				}
+				return '';
+			}
+			$return = [];
+			foreach (PrivilegeUtil::getUsersByGroup($relatedId) as $userId) {
+				$userRecordModel = \Users_Privileges_Model::getInstanceById($userId);
+				if ($userRecordModel->get('status') === 'Active') {
+					$instance = static::getInstanceByModel($userRecordModel);
+					foreach (['withoutTranslations', 'language', 'emailoptout'] as $key) {
+						if (isset($this->$key)) {
+							$instance->$key = $this->$key;
+						}
+					}
+					$return[] = $instance->record($relatedField, false);
 				}
 			}
-			return $instance->record($relatedField, false);
+			return implode($this->relatedRecordSeparator, $return);
 		}
 		$moduleName = Record::getType($relatedId);
 		if (!empty($moduleName)) {
@@ -495,8 +608,7 @@ class TextParser
 	 */
 	protected function sourceRecord($fieldName)
 	{
-
-		if (empty($this->sourceRecordModel) || !\Users_Privileges_Model::isPermitted($this->sourceRecordModel->getModuleName(), 'DetailView', $this->sourceRecordModel->getId())) {
+		if (empty($this->sourceRecordModel) || !Privilege::isPermitted($this->sourceRecordModel->getModuleName(), 'DetailView', $this->sourceRecordModel->getId())) {
 			return '';
 		}
 		$instance = static::getInstanceByModel($this->sourceRecordModel);
@@ -505,34 +617,162 @@ class TextParser
 				$instance->$key = $this->$key;
 			}
 		}
-
 		return $instance->record($fieldName);
 	}
 
 	/**
-	 * Get record display value
-	 * @param mixed $value
-	 * @param \Vtiger_Field_Model $fieldModel
+	 * Parsing related records list
+	 * @param string $params Parameter construction: RelatedModuleName|Columns|Conditions|CustomViewIdOrName|Limit, Example: Contacts|firstname,lastname,modifiedtime|[[["firstname","a","Tom"]]]||2
 	 * @return string
 	 */
-	protected function recordDisplayValue($value, \Vtiger_Field_Model $fieldModel)
+	protected function relatedRecordsList($params)
 	{
-		if ($value === '' || !$fieldModel->isViewEnabled()) {
+		list($reletedModuleName, $columns, $conditions, $viewIdOrName, $limit) = array_pad(explode('|', $params), 5, '');
+		$relationListView = \Vtiger_RelationListView_Model::getInstance($this->recordModel, $reletedModuleName, '');
+		if (!$relationListView || !Privilege::isPermitted($reletedModuleName)) {
+			return '';
+		}
+		$pagingModel = new \Vtiger_Paging_Model();
+		if ((int) $limit) {
+			$pagingModel->set('limit', (int) $limit);
+		}
+		if ($viewIdOrName) {
+			if (!is_numeric($viewIdOrName)) {
+				$customView = CustomView::getInstance($reletedModuleName);
+				if ($cvId = $customView->getViewIdByName($viewIdOrName)) {
+					$viewIdOrName = $cvId;
+				} else {
+					$viewIdOrName = false;
+					Log::warning("No view found. Module: $reletedModuleName, view name: $viewIdOrName", 'TextParser');
+				}
+			}
+			if ($viewIdOrName) {
+				$relationListView->getQueryGenerator()->initForCustomViewById($viewIdOrName);
+			}
+		}
+		if ($columns) {
+			$relationListView->setFields($columns);
+		}
+		if ($conditions) {
+			$transformedSearchParams = $relationListView->getQueryGenerator()->parseBaseSearchParamsToCondition(Json::decode($conditions));
+			$relationListView->set('search_params', $transformedSearchParams);
+		}
+		$rows = $headers = '';
+		$fields = $relationListView->getHeaders();
+		foreach ($fields as $fieldModel) {
+			if ($fieldModel->isViewable()) {
+				$headers .= '<th>' . \App\Language::translate($fieldModel->getFieldLabel(), $reletedModuleName) . '</th>';
+			}
+		}
+		foreach ($relationListView->getEntries($pagingModel) as $reletedRecordModel) {
+			$rows .= '<tr>';
+			foreach ($fields as $fieldModel) {
+				$value = $this->getDisplayValueByField($fieldModel, $reletedRecordModel);
+				if ($value !== false) {
+					$rows .= "<td>$value</td>";
+				}
+			}
+			$rows .= '</tr>';
+		}
+		return empty($rows) ? '' : "<table><thead><tr>{$headers}</tr></thead><tbody>{$rows}</tbody></table>";
+	}
+
+	/**
+	 * Parsing records list
+	 * @param string $params Parameter construction: ModuleName|Columns|Conditions|CustomViewIdOrName|Limit, Example: Contacts|firstname,lastname,modifiedtime|[[["firstname","a","Tom"]]]||2
+	 * @return string
+	 */
+	protected function recordsList($params)
+	{
+		list($moduleName, $columns, $conditions, $viewIdOrName, $limit) = array_pad(explode('|', $params), 5, '');
+		$cvId = 0;
+		if ($viewIdOrName) {
+			if (!is_numeric($viewIdOrName)) {
+				$customView = CustomView::getInstance($moduleName);
+				if ($cvIdByName = $customView->getViewIdByName($viewIdOrName)) {
+					$viewIdOrName = $cvIdByName;
+				} else {
+					$viewIdOrName = false;
+					Log::warning("No view found. Module: $moduleName, view name: $viewIdOrName", 'TextParser');
+				}
+			}
+			if ($viewIdOrName) {
+				$cvId = $viewIdOrName;
+			}
+		}
+		$listView = \Vtiger_ListView_Model::getInstance($moduleName, $cvId);
+		$pagingModel = new \Vtiger_Paging_Model();
+		if ((int) $limit) {
+			$pagingModel->set('limit', (int) $limit);
+		}
+		if ($columns) {
+			$listView->getQueryGenerator()->setFields(explode(',', $columns));
+		}
+		if ($conditions) {
+			$transformedSearchParams = $listView->getQueryGenerator()->parseBaseSearchParamsToCondition(Json::decode($conditions));
+			$listView->set('search_params', $transformedSearchParams);
+		}
+		$rows = $headers = '';
+		$fields = $listView->getListViewHeaders();
+		foreach ($fields as $fieldModel) {
+			$headers .= '<th>' . \App\Language::translate($fieldModel->getFieldLabel(), $moduleName) . '</th>';
+		}
+		foreach ($listView->getListViewEntries($pagingModel) as $reletedRecordModel) {
+			$rows .= '<tr>';
+			foreach ($fields as $fieldModel) {
+				$value = $this->getDisplayValueByField($fieldModel, $reletedRecordModel);
+				if ($value !== false) {
+					$rows .= "<td>$value</td>";
+				}
+			}
+			$rows .= '</tr>';
+		}
+		return empty($rows) ? '' : "<table><thead><tr>{$headers}</tr></thead><tbody>{$rows}</tbody></table>";
+	}
+
+	/**
+	 * Get record display value
+	 * @param \Vtiger_Field_Model $fieldModel
+	 * @param |mixed\Vtiger_Record_Model $value
+	 * @return boolean|string
+	 */
+	protected function getDisplayValueByField(\Vtiger_Field_Model $fieldModel, $value = false)
+	{
+		$recordModel = $this->recordModel;
+		if ($value === false) {
+			$value = $this->recordModel->get($fieldModel->getName(), $this->recordModel->getId(), $this->recordModel, true);
+			if (!$fieldModel->isViewEnabled()) {
+				return '-';
+			}
+		} elseif (is_object($value)) {
+			$recordModel = $value;
+			$value = $value->get($fieldModel->getName(), $value->getId(), $value, true);
+			if (!$fieldModel->isViewEnabled()) {
+				return false;
+			}
+		}
+		if ($value === '') {
 			return '-';
 		}
 		if ($this->withoutTranslations !== true) {
-			return $fieldModel->getDisplayValue($value, $this->record, $this->recordModel, true);
+			return $fieldModel->getDisplayValue($value, $recordModel->getId(), $recordModel, true);
 		}
+		return $this->getDisplayValueByType($value, $recordModel, $fieldModel);
+	}
+
+	protected function getDisplayValueByType($value, \Vtiger_Record_Model $recordModel, \Vtiger_Field_Model $fieldModel)
+	{
 		switch ($fieldModel->getFieldDataType()) {
 			case 'boolean':
 				$value = ($value === 1) ? 'LBL_YES' : 'LBL_NO';
+				$value = "$(translate : $value)$";
 				break;
 			case 'multipicklist':
 				$value = explode(' |##| ', $value);
 				$trValue = [];
 				$countValue = count($value);
 				for ($i = 0; $i < $countValue; $i++) {
-					$trValue[] = "$(translate : $this->moduleName|{$value[$i]})$";
+					$trValue[] = "$(translate : {$recordModel->getModuleName()}|{$value[$i]})$";
 				}
 				if (is_array($trValue)) {
 					$trValue = implode(' |##| ', $trValue);
@@ -540,11 +780,11 @@ class TextParser
 				$value = str_ireplace(' |##| ', ', ', $trValue);
 				break;
 			case 'picklist':
-				$value = "$(translate : $this->moduleName|$value)$";
+				$value = "$(translate : {$recordModel->getModuleName()}|$value)$";
 				break;
 			case 'time':
-				$userModel = Users_Privileges_Model::getCurrentUserModel();
-				$value = DateTimeField::convertToUserTimeZone(date('Y-m-d') . ' ' . $value)->format('H:i:s');
+				$userModel = \Users_Privileges_Model::getCurrentUserModel();
+				$value = \DateTimeField::convertToUserTimeZone(date('Y-m-d') . ' ' . $value)->format('H:i:s');
 				if ($userModel->get('hour_format') === '12') {
 					if ($value) {
 						list($hours, $minutes, $seconds) = explode(':', $value);
@@ -568,8 +808,7 @@ class TextParser
 			case 'tree':
 				$template = $fieldModel->getFieldParams();
 				$row = Fields\Tree::getValueByTreeId($template, $value);
-				$parentName = '';
-				$name = '';
+				$value = $parentName = '';
 				if ($row) {
 					if ($row['depth'] > 0) {
 						$parenttrre = $row['parenttrre'];
@@ -577,16 +816,15 @@ class TextParser
 						end($pieces);
 						$parent = prev($pieces);
 						$parentRow = Fields\Tree::getValueByTreeId($template, $parent);
-						$parentName = "($(translate : $this->moduleName|{$parentRow['name']})$) ";
+						$parentName = "($(translate : {$recordModel->getModuleName()}|{$parentRow['name']})$) ";
 					}
-					$name = $parentName . "$(translate : $this->moduleName|{$row['name']})$";
+					$value = $parentName . "$(translate : {$recordModel->getModuleName()}|{$row['name']})$";
 				}
 				break;
 			default:
-				return $fieldModel->getDisplayValue($value, $this->record, $this->recordModel, true);
-				break;
+				return $fieldModel->getDisplayValue($value, $recordModel->getId(), $recordModel, true);
 		}
-		return "$(translate : $value)$";
+		return $value;
 	}
 
 	/**
@@ -864,5 +1102,49 @@ class TextParser
 			}
 		}
 		return $variables;
+	}
+
+	/**
+	 * Get related modules list
+	 * @return array
+	 */
+	public function getRelatedListVariable()
+	{
+		$moduleModel = \Vtiger_Module_Model::getInstance($this->moduleName);
+		$variables = [];
+		$relationModels = $moduleModel->getRelations();
+		foreach ($relationModels as $relation) {
+			$variables[] = [
+				'key' => '$(relatedRecordsList : ' . $relation->get('relatedModuleName') . ')$',
+				'label' => Language::translate($relation->get('label'), $relation->get('relatedModuleName'))
+			];
+		}
+		return $variables;
+	}
+
+	/**
+	 * Get base modules list
+	 * @return array
+	 */
+	public function getBaseListVariable()
+	{
+		$variables = [];
+		foreach (\vtlib\Functions::getAllModules() as $module) {
+			$variables[] = [
+				'key' => "$(recordsList : {$module['name']})$",
+				'label' => Language::translate($module['name'], $module['name'])
+			];
+		}
+		return $variables;
+	}
+
+	/**
+	 * Function checks if its TextParser type
+	 * @param string $text
+	 * @return bool
+	 */
+	public static function isVaribleToParse($text)
+	{
+		return preg_match('/^\$\((\w+) : ([,"\+\-\[\]\&\w\s\|]+)\)\$$/', $text);
 	}
 }

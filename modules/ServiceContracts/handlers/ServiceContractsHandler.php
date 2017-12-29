@@ -4,7 +4,7 @@
  * 
  * @package YetiForce.Handler
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class ServiceContracts_ServiceContractsHandler_Handler
@@ -44,7 +44,7 @@ class ServiceContracts_ServiceContractsHandler_Handler
 					while ($contractId = $dataReader->readColumn(0)) {
 						$scFocus = CRMEntity::getInstance('ServiceContracts');
 						$scFocus->id = $contractId;
-						$scFocus->retrieve_entity_info($contractId, 'ServiceContracts');
+						$scFocus->retrieveEntityInfo($contractId, 'ServiceContracts');
 
 						$prevUsedUnits = $scFocus->column_fields['used_units'];
 						if (empty($prevUsedUnits))
@@ -71,7 +71,7 @@ class ServiceContracts_ServiceContractsHandler_Handler
 				$scFocus->updateServiceContractState($contractId);
 			} else {
 				$scFocus->id = $contractId;
-				$scFocus->retrieve_entity_info($contractId, 'ServiceContracts');
+				$scFocus->retrieveEntityInfo($contractId, 'ServiceContracts');
 				$scFocus->calculateProgress();
 			}
 		}

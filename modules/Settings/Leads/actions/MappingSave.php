@@ -24,7 +24,7 @@ class Settings_Leads_MappingSave_Action extends Settings_Vtiger_Index_Action
 		$response = new Vtiger_Response();
 		if ($mapping) {
 			$mappingModel->save($mapping);
-			$result = array('status' => true);
+			$result = ['status' => true];
 		} else {
 			$result['status'] = false;
 		}

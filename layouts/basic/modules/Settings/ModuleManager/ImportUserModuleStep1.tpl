@@ -13,7 +13,7 @@
 	<div class="" id="importModules">
 		<div class="widget_header row">
 			<div class="col-xs-12">
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				{if isset($SELECTED_PAGE)}
 					{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
 				{/if}
@@ -31,7 +31,7 @@
 			<div>
 				<form class="form-horizontal contentsBackground" id="importUserModule" name="importUserModule" action='index.php' method="POST" enctype="multipart/form-data">
 					<input type="hidden" name="module" value="ModuleManager" />
-					<input type="hidden" name="moduleAction" value="Import"/>
+					<input type="hidden" name="moduleAction" value="Import" />
 					<input type="hidden" name="parent" value="Settings" />
 					<input type="hidden" name="view" value="ModuleImport" />
 					<input type="hidden" name="mode" value="importUserModuleStep2" />

@@ -8,9 +8,9 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-vimport('~modules/Calendar/iCal/ical-parser-class.php');
+Vtiger_Loader::includeOnce('~modules/Calendar/iCal/ical-parser-class.php');
 
-class Import_ICSReader_Reader extends iCal
+class Import_ICSReader_Reader extends Ical
 {
 
 	/**
@@ -32,5 +32,3 @@ class Import_ICSReader_Reader extends iCal
 		return true;
 	}
 }
-
-?>

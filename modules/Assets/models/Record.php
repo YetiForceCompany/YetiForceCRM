@@ -4,25 +4,12 @@
  * Record Class for Assets
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Assets_Record_Model extends Vtiger_Record_Model
 {
-
-	protected $privileges = ['editFieldByModal' => true];
-
-	public function getFieldToEditByModal()
-	{
-		return [
-			'addClass' => 'btn-danger',
-			'iconClass' => 'glyphicon-modal-window',
-			'listViewClass' => 'danger-color',
-			'titleTag' => 'LBL_SET_RECORD_STATUS',
-			'name' => 'assets_renew',
-		];
-	}
 
 	public function updateRenewal()
 	{

@@ -15,13 +15,19 @@ class ModComments_MassSaveAjax_Action extends Vtiger_Mass_Action
 	/**
 	 * Function to check permission
 	 * @param \App\Request $request
-	 * @throws \Exception\NoPermitted
+	 * @throws \App\Exceptions\NoPermitted
+	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Save')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'CreateView')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+		$sourceModule = $request->getByType('source_module', 2);
+		$moduleModel = Vtiger_Module_Model::getInstance($sourceModule);
+		if (!$moduleModel->isCommentEnabled() || !$currentUserPriviligesModel->hasModuleActionPermission($sourceModule, 'MassAddComment')) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -32,7 +38,7 @@ class ModComments_MassSaveAjax_Action extends Vtiger_Mass_Action
 	public function process(\App\Request $request)
 	{
 		$recordModels = $this->getRecordModelsFromRequest($request);
-		$relationModel = Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance($request->get('source_module')), Vtiger_Module_Model::getInstance($request->getModule()));
+		$relationModel = Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance($request->getByType('source_module', 2)), Vtiger_Module_Model::getInstance($request->getModule()));
 		foreach ($recordModels as $relatedRecordId => &$recordModel) {
 			$recordModel->save();
 			$relationModel->addRelation($relatedRecordId, $recordModel->getId());
@@ -51,10 +57,10 @@ class ModComments_MassSaveAjax_Action extends Vtiger_Mass_Action
 	{
 
 		$moduleName = $request->getModule();
-		$recordIds = $this->getRecordsListFromRequest($request);
+		$recordIds = self::getRecordsListFromRequest($request);
 		$recordModels = [];
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		foreach ($recordIds as &$recordId) {
+		foreach ($recordIds as $recordId) {
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 			$recordModel->set('commentcontent', $request->get('commentcontent'));
 			$recordModel->set('related_to', $recordId);

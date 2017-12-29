@@ -13,8 +13,8 @@ class Import_VCardReader_Reader extends Import_FileReader_Reader
 {
 
 	protected $vCardPattern = '/BEGIN:VCARD.*?END:VCARD/si';
-	protected $skipLabels = array('BEGIN', 'END', 'VERSION');
-	static $fileContents = null;
+	protected $skipLabels = ['BEGIN', 'END', 'VERSION'];
+	public static $fileContents = null;
 
 	public function hasHeader()
 	{

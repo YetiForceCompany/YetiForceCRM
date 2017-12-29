@@ -9,27 +9,34 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-Class Settings_Users_Edit_View extends Users_PreferenceEdit_View
+class Settings_Users_Edit_View extends Users_PreferenceEdit_View
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$record = $request->get('record');
-		if (!empty($record) && $currentUserModel->get('id') != $record) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
-			if ($recordModel->get('status') != 'Active') {
-				throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+		if (!$request->isEmpty('record', true)) {
+			$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
+			if ($currentUserModel->get('id') != $request->getInteger('record') && $this->record->get('status') != 'Active') {
+				throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 			}
+		} elseif ($request->isEmpty('record')) {
+			$this->record = Vtiger_Record_Model::getCleanInstance($moduleName);
 		}
-		if (($currentUserModel->isAdminUser() === true || ($currentUserModel->get('id') == $record && AppConfig::security('SHOW_MY_PREFERENCES')))) {
+		if (($currentUserModel->isAdminUser() === true || ($currentUserModel->get('id') == $request->getInteger('record') && AppConfig::security('SHOW_MY_PREFERENCES')))) {
 			return true;
 		} else {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
@@ -71,20 +78,18 @@ Class Settings_Users_Edit_View extends Users_PreferenceEdit_View
 		parent::postProcess($request);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
-		$jsFileNames = array(
+		$jsFileNames = [
 			'modules.Settings.Vtiger.resources.Index'
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
-	}
-
-	public function process(\App\Request $request)
-	{
-		parent::process($request);
 	}
 }

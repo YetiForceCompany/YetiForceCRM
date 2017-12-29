@@ -7,7 +7,7 @@ use vtlib\Functions;
  * Record basic class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -17,9 +17,10 @@ class Record
 	/**
 	 * Get label
 	 * @param mixed $mixedId
+	 * @param bool|string $moduleName
 	 * @return mixed
 	 */
-	public static function getLabel($mixedId)
+	public static function getLabel($mixedId, $moduleName = false)
 	{
 		$multiMode = is_array($mixedId);
 		$ids = $multiMode ? $mixedId : [$mixedId];
@@ -39,7 +40,7 @@ class Record
 				if ($id && !Cache::has('recordLabel', $id)) {
 					$metainfo = Functions::getCRMRecordMetadata($id);
 					$computeLabel = static::computeLabels($metainfo['setype'], $id);
-					$recordLabel = \vtlib\Functions::textLength(decode_html($computeLabel[$id]), 254, false);
+					$recordLabel = \vtlib\Functions::textLength(Purifier::encodeHtml($computeLabel[$id]), 254, false);
 					Cache::save('recordLabel', $id, $recordLabel);
 				}
 			}
@@ -49,7 +50,7 @@ class Record
 			if (Cache::has('recordLabel', $id)) {
 				$result[$id] = Cache::get('recordLabel', $id);
 			} else {
-				$result[$id] = NULL;
+				$result[$id] = null;
 			}
 		}
 		return $multiMode ? $result : array_shift($result);
@@ -179,8 +180,8 @@ class Record
 		$labelInfo = static::computeLabels($moduleName, $id, true);
 		if (!empty($labelInfo)) {
 			$db = \App\Db::getInstance();
-			$label = \vtlib\Functions::textLength(decode_html($labelInfo[$id]['name']), 254, false);
-			$search = \vtlib\Functions::textLength(decode_html($labelInfo[$id]['search']), 254, false);
+			$label = \vtlib\Functions::textLength(Purifier::decodeHtml($labelInfo[$id]['name']), 254, false);
+			$search = \vtlib\Functions::textLength(Purifier::decodeHtml($labelInfo[$id]['search']), 254, false);
 			if (!is_numeric($label) && empty($label)) {
 				$label = '';
 			}
@@ -219,20 +220,20 @@ class Record
 	{
 		$metaInfo = \App\Module::getEntityInfo($recordModel->getModuleName());
 		$labelName = [];
-		foreach ($metaInfo['fieldnameArr'] as &$columnName) {
+		foreach ($metaInfo['fieldnameArr'] as $columnName) {
 			$fieldModel = $recordModel->getModule()->getFieldByColumn($columnName);
-			$labelName[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel);
+			$labelName[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel, true);
 		}
 		$labelSearch = [];
-		foreach ($metaInfo['searchcolumnArr'] as &$columnName) {
+		foreach ($metaInfo['searchcolumnArr'] as $columnName) {
 			$fieldModel = $recordModel->getModule()->getFieldByColumn($columnName);
-			$labelSearch[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel);
+			$labelSearch[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel, true);
 		}
-		$label = \vtlib\Functions::textLength(implode(' ', $labelName), 254, false);
+		$label = \App\Purifier::encodeHtml(\vtlib\Functions::textLength(\App\Purifier::decodeHtml(implode(' ', $labelName)), 250, false));
 		if (empty($label)) {
 			$label = '';
 		}
-		$search = \vtlib\Functions::textLength(implode(' ', $labelSearch), 254, false);
+		$search = \App\Purifier::encodeHtml(\vtlib\Functions::textLength(\App\Purifier::decodeHtml(implode(' ', $labelSearch)), 250, false));
 		if (empty($search)) {
 			$search = '';
 		}
@@ -271,7 +272,27 @@ class Record
 	public static function getType($recordId)
 	{
 		$metadata = Functions::getCRMRecordMetadata($recordId);
-		return $metadata ? $metadata['setype'] : NULL;
+		return $metadata ? $metadata['setype'] : null;
+	}
+
+	/**
+	 * Get record state
+	 * @param int $recordId
+	 * @return string
+	 */
+	public static function getState($recordId)
+	{
+		$metadata = Functions::getCRMRecordMetadata($recordId);
+		switch ($metadata['deleted']) {
+			default:
+			case 0:
+				return 'Active';
+			case 1:
+				return 'Trash';
+			case 2:
+				return 'Archived';
+		}
+		return null;
 	}
 
 	/**

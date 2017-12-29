@@ -11,7 +11,7 @@
 class Settings_PBXManager_Record_Model extends Settings_Vtiger_Record_Model
 {
 
-	const tableName = 'vtiger_pbxmanager_gateway';
+	const TABLE_NAME = 'vtiger_pbxmanager_gateway';
 
 	public function getId()
 	{
@@ -28,7 +28,7 @@ class Settings_PBXManager_Record_Model extends Settings_Vtiger_Record_Model
 		return new Settings_PBXManager_Module_Model;
 	}
 
-	static function getCleanInstance()
+	public static function getCleanInstance()
 	{
 		return new self;
 	}
@@ -36,11 +36,11 @@ class Settings_PBXManager_Record_Model extends Settings_Vtiger_Record_Model
 	public static function getInstance()
 	{
 		$serverModel = new self();
-		$row = (new \App\Db\Query())->from(self::tableName)->one();
+		$row = (new \App\Db\Query())->from(self::TABLE_NAME)->one();
 		if ($row !== false) {
 			$serverModel->set('gateway', $row['gateway']);
 			$serverModel->set('id', $row['id']);
-			$parameters = \App\Json::decode(decode_html($row['parameters']));
+			$parameters = \App\Json::decode(App\Purifier::decodeHtml($row['parameters']));
 			foreach ($parameters as $fieldName => $fieldValue) {
 				$serverModel->set($fieldName, $fieldValue);
 			}
@@ -51,11 +51,11 @@ class Settings_PBXManager_Record_Model extends Settings_Vtiger_Record_Model
 
 	public static function getInstanceById($recordId, $qualifiedModuleName)
 	{
-		$row = (new \App\Db\Query())->from(self::tableName)->where(['id' => $recordId])->one();
+		$row = (new \App\Db\Query())->from(self::TABLE_NAME)->where(['id' => $recordId])->one();
 		if ($row !== false) {
 			$recordModel = new self();
 			$recordModel->setData($row);
-			$parameters = \App\Json::decode(decode_html($recordModel->get('parameters')));
+			$parameters = \App\Json::decode(App\Purifier::decodeHtml($recordModel->get('parameters')));
 			foreach ($parameters as $fieldName => $fieldValue) {
 				$recordModel->set($fieldName, $fieldValue);
 			}
@@ -67,7 +67,7 @@ class Settings_PBXManager_Record_Model extends Settings_Vtiger_Record_Model
 	public function save()
 	{
 		$db = App\Db::getInstance();
-		$parameters = '';
+		$parameters = [];
 		$selectedGateway = $this->get('gateway');
 		foreach (PBXManager_PBXManager_Connector::getSettingsParameters() as $field => $type) {
 			$parameters[$field] = $this->get($field);
@@ -79,9 +79,9 @@ class Settings_PBXManager_Record_Model extends Settings_Vtiger_Record_Model
 		];
 		$id = $this->getId();
 		if ($id) {
-			$db->createCommand()->update(self::tableName, $params, ['id' => $id])->execute();
+			$db->createCommand()->update(self::TABLE_NAME, $params, ['id' => $id])->execute();
 		} else {
-			$db->createCommand()->insert(self::tableName, $params)->execute();
+			$db->createCommand()->insert(self::TABLE_NAME, $params)->execute();
 		}
 	}
 }

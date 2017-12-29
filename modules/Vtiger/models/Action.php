@@ -14,31 +14,61 @@
 class Vtiger_Action_Model extends \App\Base
 {
 
-	public static $standardActions = array(0 => 'Save', 1 => 'EditView', 2 => 'Delete', 3 => 'index', 4 => 'DetailView', 7 => 'CreateView');
-	public static $nonConfigurableActions = array('Save', 'index', 'SavePriceBook', 'SaveVendor',
+	/**
+	 * Standard actions
+	 * @var array
+	 */
+	public static $standardActions = [0 => 'Save', 1 => 'EditView', 2 => 'Delete', 3 => 'index', 4 => 'DetailView', 7 => 'CreateView'];
+
+	/**
+	 * Non configurable actions
+	 * @var array
+	 */
+	public static $nonConfigurableActions = ['Save', 'index', 'SavePriceBook', 'SaveVendor',
 		'DetailViewAjax', 'PriceBookEditView', 'QuickCreate', 'VendorEditView',
 		'DeletePriceBook', 'DeleteVendor', 'Popup', 'PriceBookDetailView',
-		'VendorDetailView', 'Merge');
-	public static $utilityActions = array(5 => 'Import', 6 => 'Export', 8 => 'Merge', 9 => 'ConvertLead', 10 => 'DuplicatesHandling');
+		'VendorDetailView', 'Merge'];
 
+	/**
+	 * Utility actions
+	 * @var array
+	 */
+	public static $utilityActions = [5 => 'Import', 6 => 'Export', 8 => 'Merge', 9 => 'ConvertLead', 10 => 'DuplicatesHandling'];
+
+	/**
+	 * Return action id
+	 * @return int
+	 */
 	public function getId()
 	{
 		return $this->get('actionid');
 	}
 
+	/**
+	 * Return action name
+	 * @return string
+	 */
 	public function getName()
 	{
 		return $this->get('actionname');
 	}
 
+	/**
+	 * Check if is a utility tool
+	 * @return boolean
+	 */
 	public function isUtilityTool()
 	{
 		return false;
 	}
 
+	/**
+	 * Check if module is enabled
+	 * @param Vtiger_Module_Model $module
+	 * @return boolean
+	 */
 	public function isModuleEnabled($module)
 	{
-		$db = PearDatabase::getInstance();
 		if (!$module->isEntityModule()) {
 			return false;
 		}
@@ -46,15 +76,18 @@ class Vtiger_Action_Model extends \App\Base
 			return true;
 		}
 		$tabId = $module->getId();
-		$sql = 'SELECT 1 FROM vtiger_profile2standardpermissions WHERE tabid = ? && operation = ? LIMIT 1';
-		$params = array($tabId, $this->getId());
-		$result = $db->pquery($sql, $params);
-		if ($result && $db->num_rows($result) > 0) {
+		$query = (new App\Db\Query())->select(['profileid'])->from('vtiger_profile2standardpermissions')->where(['tabid' => $tabId, 'operation' => $this->getId()]);
+		if ($query->count()) {
 			return true;
 		}
 		return false;
 	}
 
+	/**
+	 * Create instance from record row
+	 * @param array $row
+	 * @return Vtiger_Action_Model
+	 */
 	public static function getInstanceFromRow($row)
 	{
 		$className = 'Vtiger_Action_Model';
@@ -66,8 +99,18 @@ class Vtiger_Action_Model extends \App\Base
 		return $actionModel->setData($row);
 	}
 
+	/**
+	 * Cached instances
+	 * @var array
+	 */
 	protected static $cachedInstances = NULL;
 
+	/**
+	 * Return instance
+	 * @param int $value
+	 * @param bool $force
+	 * @return Vtiger_Action_Model|null
+	 */
 	public static function getInstance($value, $force = false)
 	{
 		if (!self::$cachedInstances || $force) {
@@ -87,23 +130,31 @@ class Vtiger_Action_Model extends \App\Base
 		return null;
 	}
 
+	/**
+	 * Return instance by id or name
+	 * @param int|string $value
+	 * @return Vtiger_Action_Model|null
+	 */
 	public static function getInstanceWithIdOrName($value)
 	{
-		$db = PearDatabase::getInstance();
-
+		$query = (new App\Db\Query())->from('vtiger_actionmapping');
 		if (vtlib\Utils::isNumber($value)) {
-			$sql = 'SELECT * FROM vtiger_actionmapping WHERE actionid=? LIMIT 1';
+			$query->where(['actionid' => $value])->limit(1);
 		} else {
-			$sql = 'SELECT * FROM vtiger_actionmapping WHERE actionname=?';
+			$query->where(['actionname' => $value]);
 		}
-		$params = array($value);
-		$result = $db->pquery($sql, $params);
-		if ($db->getRowCount($result) > 0) {
-			return self::getInstanceFromRow($db->getRow($result));
+		$row = $query->one();
+		if ($row) {
+			return self::getInstanceFromRow($db->getRow($row));
 		}
 		return null;
 	}
 
+	/**
+	 * Return all instances
+	 * @param bool $configurable
+	 * @return Vtiger_Action_Model[]
+	 */
 	public static function getAll($configurable = false)
 	{
 		if (\App\Cache::has('Actions', 'all')) {
@@ -126,39 +177,41 @@ class Vtiger_Action_Model extends \App\Base
 		return $actionModels;
 	}
 
+	/**
+	 * Function to get all instances models of basic action
+	 * @param boolean $configurable
+	 * @return self[]
+	 */
 	public static function getAllBasic($configurable = false)
 	{
-		$db = PearDatabase::getInstance();
-
-		$basicActionIds = array_keys(self::$standardActions);
-		$sql = sprintf('SELECT * FROM vtiger_actionmapping WHERE actionid IN (%s)', generateQuestionMarks($basicActionIds));
-		$params = $basicActionIds;
+		$query = (new App\Db\Query())->from('vtiger_actionmapping')
+			->where(['actionid' => array_keys(self::$standardActions)]);
 		if ($configurable) {
-			$sql .= ' AND actionname NOT IN (' . generateQuestionMarks(self::$nonConfigurableActions) . ')';
-			$params = array_merge($params, self::$nonConfigurableActions);
+			$query->andWhere(['NOT IN', 'actionname', self::$nonConfigurableActions]);
 		}
-		$result = $db->pquery($sql, $params);
 		$actionModels = [];
-		while ($row = $db->getRow($result)) {
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$actionModels[] = self::getInstanceFromRow($row);
 		}
 		return $actionModels;
 	}
 
+	/**
+	 * Function to get all instances models of utility action
+	 * @param boolean $configurable
+	 * @return self[]
+	 */
 	public static function getAllUtility($configurable = false)
 	{
-		$db = PearDatabase::getInstance();
-
-		$basicActionIds = array_keys(self::$standardActions);
-		$sql = sprintf('SELECT * FROM vtiger_actionmapping WHERE actionid NOT IN (%s)', generateQuestionMarks($basicActionIds));
-		$params = $basicActionIds;
+		$query = (new App\Db\Query())->from('vtiger_actionmapping')
+			->where(['NOT IN', 'actionid', array_keys(self::$standardActions)]);
 		if ($configurable) {
-			$sql .= ' AND actionname NOT IN (' . generateQuestionMarks(self::$nonConfigurableActions) . ')';
-			$params = array_merge($params, self::$nonConfigurableActions);
+			$query->andWhere(['NOT IN', 'actionname', self::$nonConfigurableActions]);
 		}
-		$result = $db->pquery($sql, $params);
 		$actionModels = [];
-		while ($row = $db->getRow($result)) {
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$actionModels[] = self::getInstanceFromRow($row);
 		}
 		return $actionModels;

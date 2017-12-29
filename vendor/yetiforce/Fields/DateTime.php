@@ -1,44 +1,89 @@
 <?php
+/**
+ * Tools for datetime class
+ * @package YetiForce.App
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author Arkadiusz Sołek <a.solek@yetiforce.com>
+ */
 namespace App\Fields;
 
+/**
+ * DateTime class
+ */
 class DateTime
 {
 
-	public static $jsDateFormat = [
-		'dd-mm-yyyy' => 'd-m-Y',
-		'mm-dd-yyyy' => 'm-d-Y',
-		'yyyy-mm-dd' => 'Y-m-d',
-		'dd.mm.yyyy' => 'd.m.Y',
-		'mm.dd.yyyy' => 'm.d.Y',
-		'yyyy.mm.dd' => 'Y.m.d',
-		'dd/mm/yyyy' => 'd/m/Y',
-		'mm/dd/yyyy' => 'm/d/Y',
-		'yyyy/mm/dd' => 'Y/m/d',
-	];
-
-	public static function currentUserJSDateFormat($format = false)
+	/**
+	 * Function returns the date in user specified format.
+	 * @param string $value Date time
+	 * @return string
+	 */
+	public static function formatToDisplay($value)
 	{
-		if ($format) {
-			return static::$jsDateFormat[$format];
-		} else {
-			return static::$jsDateFormat[\App\User::getCurrentUserModel()->getDetail('date_format')];
+		if (empty($value) || $value === '0000-00-00' || $value === '0000-00-00 00:00:00') {
+			return '';
 		}
+		return (new \DateTimeField($value))->getDisplayDateTimeValue();
 	}
 
 	/**
-	 * This function returns the date in user specified format.
-	 * limitation is that mm-dd-yyyy and dd-mm-yyyy will be considered same by this API.
-	 * As in the date value is on mm-dd-yyyy and user date format is dd-mm-yyyy then the mm-dd-yyyy
-	 * value will be return as the API will be considered as considered as in same format.
-	 * this due to the fact that this API tries to consider the where given date is in user date
-	 * format. we need a better gauge for this case.
-	 * @global Users $current_user
-	 * @param Date $cur_date_val the date which should a changed to user date format.
-	 * @return Date
+	 * Function to get date and time value for db format
+	 * @param string $value Date time
+	 * @return string
 	 */
-	public static function currentUserDisplayDate($value)
+	public static function formatToDb($value)
 	{
-		$date = new \DateTimeField($value);
-		return $date->getDisplayDate();
+		return (new \DateTimeField($value))->getDBInsertDateTimeValue();
+	}
+
+	/**
+	 * The function returns the date according to the user's settings
+	 * @param string $dateTime Date time
+	 * @return string
+	 */
+	public static function formatToViewDate($dateTime)
+	{
+		switch (\App\User::getCurrentUserModel()->getDetail('view_date_format')) {
+			case 'PLL_FULL':
+				return '<span title="' . \Vtiger_Util_Helper::formatDateDiffInStrings($dateTime) . '">' . static::formatToDisplay($dateTime) . '</span>';
+			case 'PLL_ELAPSED':
+				return '<span title="' . static::formatToDay($dateTime) . '">' . \Vtiger_Util_Helper::formatDateDiffInStrings($dateTime) . '</span>';
+			case 'PLL_FULL_AND_DAY':
+				return '<span title="' . \Vtiger_Util_Helper::formatDateDiffInStrings($dateTime) . '">' . static::formatToDay($dateTime) . '</span>';
+		}
+		return '-';
+	}
+
+	/**
+	 * Function to parse dateTime into days
+	 * @param string $dateTime Date time
+	 * @param bool $allday
+	 * @return string
+	 */
+	public static function formatToDay($dateTime, $allday = false)
+	{
+		$dateTimeInUserFormat = explode(' ', static::formatToDisplay($dateTime));
+		if (count($dateTimeInUserFormat) === 3) {
+			list($dateInUserFormat, $timeInUserFormat, $meridiem) = $dateTimeInUserFormat;
+		} else {
+			list($dateInUserFormat, $timeInUserFormat) = $dateTimeInUserFormat;
+			$meridiem = '';
+		}
+		$formatedDate = $dateInUserFormat;
+		$dateDay = \App\Language::translate(\DateTimeField::getDayFromDate($dateTime), 'Calendar');
+		if (!$allday) {
+			$timeInUserFormat = explode(':', $timeInUserFormat);
+			if (count($timeInUserFormat) === 3) {
+				list($hours, $minutes, $seconds) = $timeInUserFormat;
+			} else {
+				list($hours, $minutes) = $timeInUserFormat;
+				$seconds = '';
+			}
+			$displayTime = $hours . ':' . $minutes . ' ' . $meridiem;
+			$formatedDate .= ' ' . \App\Language::translate('LBL_AT') . ' ' . $displayTime;
+		}
+		$formatedDate .= " ($dateDay)";
+		return $formatedDate;
 	}
 }

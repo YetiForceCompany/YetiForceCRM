@@ -16,14 +16,6 @@ class Reports_List_View extends Vtiger_Index_View
 	protected $listViewEntries = false;
 	protected $listViewCount = false;
 
-	public function checkPermission(\App\Request $request)
-	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
-		}
-	}
-
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
@@ -36,23 +28,23 @@ class Reports_List_View extends Vtiger_Index_View
 		$listViewModel = new Reports_ListView_Model();
 		$listViewModel->set('module', $moduleModel);
 
-		$folderId = $request->get('viewname');
+		$folderId = $request->getByType('viewname', 2);
 		if (empty($folderId) || $folderId == 'undefined') {
 			$folderId = 'All';
 		}
-		$sortBy = $request->get('sortorder');
-		$orderBy = $request->get('orderby');
+		$sortBy = $request->getForSql('sortorder');
+		$orderBy = $request->getForSql('orderby');
 
 		$listViewModel->set('folderid', $folderId);
 		$listViewModel->set('orderby', $orderBy);
 		$listViewModel->set('sortorder', $sortBy);
 
 		$linkModels = $listViewModel->getListViewLinks(false);
-		$pageNumber = $request->get('page');
+		$pageNumber = $request->getInteger('page');
 		$listViewMassActionModels = $listViewModel->getListViewMassActions(false);
 
 		if (empty($pageNumber)) {
-			$pageNumber = '1';
+			$pageNumber = 1;
 		}
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
@@ -73,7 +65,7 @@ class Reports_List_View extends Vtiger_Index_View
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('LISTVIEW_MASSACTIONS', $listViewMassActionModels);
 		$viewer->assign('LISTVIEW_ENTRIES_COUNT', $noOfEntries);
-
+		$viewer->assign('VIEW_MODEL', $listViewModel);
 
 		if (!$this->listViewCount) {
 			$this->listViewCount = $listViewModel->getListViewCount();
@@ -102,14 +94,14 @@ class Reports_List_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$folderId = $request->get('viewname');
+		$folderId = $request->getByType('viewname', 2);
 		if (empty($folderId) || $folderId == 'undefined') {
 			$folderId = 'All';
 		}
-		$pageNumber = $request->get('page');
-		$orderBy = $request->get('orderby');
+		$pageNumber = $request->getInteger('page');
+		$orderBy = $request->getForSql('orderby');
 
-		$sortOrder = $request->get('sortorder');
+		$sortOrder = $request->getForSql('sortorder');
 		if ($sortOrder == "ASC") {
 			$nextSortOrder = "DESC";
 			$sortImage = "glyphicon glyphicon-chevron-down";
@@ -128,7 +120,7 @@ class Reports_List_View extends Vtiger_Index_View
 		}
 		$listViewMassActionModels = $listViewModel->getListViewMassActions(false);
 		if (empty($pageNumber)) {
-			$pageNumber = '1';
+			$pageNumber = 1;
 		}
 		$viewer->assign('MODULE', $moduleName);
 		$pagingModel = new Vtiger_Paging_Model();
@@ -199,10 +191,10 @@ class Reports_List_View extends Vtiger_Index_View
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			'modules.Vtiger.resources.List',
 			"modules.$moduleName.resources.List",
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
@@ -216,7 +208,7 @@ class Reports_List_View extends Vtiger_Index_View
 	public function getRecordsCount(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$cvId = $request->get('viewname');
+		$cvId = $request->getByType('viewname', 2);
 		$count = $this->getListViewCount($request);
 
 		$result = [];
@@ -236,7 +228,7 @@ class Reports_List_View extends Vtiger_Index_View
 	 */
 	public function getListViewCount(\App\Request $request)
 	{
-		$folderId = $request->get('viewname');
+		$folderId = $request->getByType('viewname', 2);
 		if (empty($folderId)) {
 			$folderId = 'All';
 		}

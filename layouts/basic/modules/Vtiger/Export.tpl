@@ -12,7 +12,7 @@
 {strip}
 	<div class='widget_header row '>
 		<div class="col-xs-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
 	</div>
     <div>
@@ -21,8 +21,8 @@
             <input type="hidden" name="source_module" value="{$SOURCE_MODULE}" />
             <input type="hidden" name="action" value="ExportData" />
             <input type="hidden" name="viewname" value="{$VIEWID}" />
-            <input type="hidden" name="selected_ids" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($SELECTED_IDS))}">
-            <input type="hidden" name="excluded_ids" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($EXCLUDED_IDS))}">
+            <input type="hidden" name="selected_ids" value="{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_IDS))}">
+            <input type="hidden" name="excluded_ids" value="{\App\Purifier::encodeHtml(\App\Json::encode($EXCLUDED_IDS))}">
             <input type="hidden" id="page" name="page" value="{$PAGE}" />
             <input type="hidden" name="search_key" value= "{$SEARCH_KEY}" />
             <input type="hidden" name="operator" value="{$OPERATOR}" />

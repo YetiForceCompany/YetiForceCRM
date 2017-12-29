@@ -124,10 +124,11 @@ class Filter
 
 	/**
 	 * Get the column value to use in custom view tables.
-	 * @param Field Instance of the field
+	 * @param FieldBasic $fieldInstance
+	 * @return string
 	 * @access private
 	 */
-	public function __getColumnValue($fieldInstance)
+	public function __getColumnValue(FieldBasic $fieldInstance)
 	{
 		$tod = explode('~', $fieldInstance->typeofdata);
 		$displayinfo = $fieldInstance->getModuleName() . '_' . str_replace(' ', '_', $fieldInstance->label) . ':' . $tod[0];
@@ -137,10 +138,11 @@ class Filter
 
 	/**
 	 * Add the field to this filer instance
-	 * @param Field Instance of the field
-	 * @param Integer Index count to use
+	 * @param FieldBasic $fieldInstance
+	 * @param int $index
+	 * @return $this
 	 */
-	public function addField($fieldInstance, $index = 0)
+	public function addField(FieldBasic $fieldInstance, $index = 0)
 	{
 		$cvcolvalue = $this->__getColumnValue($fieldInstance);
 		$db = \App\Db::getInstance();
@@ -156,13 +158,14 @@ class Filter
 
 	/**
 	 * Add rule to this filter instance
-	 * @param Field Instance of the field
+	 * @param FieldBasic $fieldInstance
 	 * @param String One of [EQUALS, NOT_EQUALS, STARTS_WITH, ENDS_WITH, CONTAINS, DOES_NOT_CONTAINS, LESS_THAN, 
 	 *                       GREATER_THAN, LESS_OR_EQUAL, GREATER_OR_EQUAL]
 	 * @param String Value to use for comparision
 	 * @param Integer Index count to use
+	 * @return $this
 	 */
-	public function addRule($fieldInstance, $comparator, $comparevalue, $index = 0, $group = 1, $condition = 'and')
+	public function addRule(FieldBasic $fieldInstance, $comparator, $comparevalue, $index = 0, $group = 1, $condition = 'and')
 	{
 		if (empty($comparator))
 			return $this;
@@ -181,7 +184,7 @@ class Filter
 			'groupid' => $group,
 			'column_condition' => $condition
 		])->execute();
-		Utils::Log("Adding Condition " . self::translateComparator($comparator, true) . " on $fieldInstance->name of $this->name filter ... DONE");
+		Utils::log('Adding Condition ' . self::translateComparator($comparator, true) . " on $fieldInstance->name of $this->name filter ... DONE");
 		return $this;
 	}
 
@@ -248,7 +251,7 @@ class Filter
 	 */
 	public static function log($message, $delim = true)
 	{
-		Utils::Log($message, $delim);
+		Utils::log($message, $delim);
 	}
 
 	/**
@@ -274,9 +277,10 @@ class Filter
 
 	/**
 	 * Get all instances of filter for the module
-	 * @param Module Instance of module
+	 * @param ModuleBasic $moduleInstance
+	 * @return self
 	 */
-	public static function getAllForModule($moduleInstance)
+	public static function getAllForModule(ModuleBasic $moduleInstance)
 	{
 		$instances = false;
 		$dataReader = (new \App\Db\Query())->from('vtiger_customview')
@@ -292,9 +296,9 @@ class Filter
 
 	/**
 	 * Delete filter associated for module
-	 * @param Module Instance of module
+	 * @param ModuleBasic $moduleInstance
 	 */
-	public static function deleteForModule($moduleInstance)
+	public static function deleteForModule(ModuleBasic $moduleInstance)
 	{
 		$cvids = (new \App\Db\Query())->from('vtiger_customview')
 			->where(['entitytype' => $moduleInstance->name])

@@ -4,7 +4,7 @@
  * Module model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class CallHistory_Module_Model extends Vtiger_Module_Model
 {
@@ -29,10 +29,11 @@ class CallHistory_Module_Model extends Vtiger_Module_Model
 	 */
 	public function isPermitted($actionName)
 	{
-		if ($actionName == 'EditView' || $actionName == 'Edit' || $actionName == 'CreateView')
+		if ($actionName === 'EditView' || $actionName === 'Edit' || $actionName === 'CreateView') {
 			return false;
-		else
-			return ($this->isActive() && Users_Privileges_Model::isPermitted($this->getName(), $actionName));
+		} else {
+			return ($this->isActive() && \App\Privilege::isPermitted($this->getName(), $actionName));
+		}
 	}
 
 	/**
@@ -44,18 +45,18 @@ class CallHistory_Module_Model extends Vtiger_Module_Model
 		if (!$this->isEntityModule()) {
 			return [];
 		}
-		vimport('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
+		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
 		$editWorkflowsImagePath = Vtiger_Theme::getImagePath('EditWorkflows.png');
 		$settingsLinks = [];
 
 		if (VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
-			$settingsLinks[] = array(
+			$settingsLinks[] = [
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_WORKFLOWS',
 				'linkurl' => 'index.php?parent=Settings&module=Workflows&view=List&sourceModule=' . $this->getName(),
 				'linkicon' => $editWorkflowsImagePath
-			);
+			];
 		}
 		return $settingsLinks;
 	}

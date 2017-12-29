@@ -13,7 +13,6 @@ $languageStrings = [
 	'LBL_SUMMARY' => 'Resumen',
 	// Basic Strings
 	'SINGLE_Project' => 'Proyecto',
-	'LBL_ADD_RECORD' => 'Añadir',
 	'LBL_RECORDS_LIST' => 'Lista',
 	// Blocks
 	'LBL_PROJECT_INFORMATION' => 'Información sobre el Proyecto',
@@ -36,6 +35,7 @@ $languageStrings = [
 	'description' => 'Descripción',
 	'Related to' => 'Relacionado con',
 	'FL_MEMBER_OF' => 'Proyecto padre',
+	'ServiceContracts' => 'Contrato de servicio',
 	//Summary Information
 	'LBL_TASKS_OPEN' => 'Tareas abiertas',
 	'LBL_TASKS_DUE' => 'Tareas pendientes',

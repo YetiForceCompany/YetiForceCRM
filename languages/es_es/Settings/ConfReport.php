@@ -3,7 +3,7 @@
  * ConfReport spanish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'ConfReport' => 'Configuración del servidor',
@@ -12,7 +12,7 @@ $languageStrings = [
 	'LBL_PARAMETER' => 'Parámetro',
 	'LBL_VALUE' => 'Configuración actual',
 	'LBL_RECOMMENDED' => 'Configuración recomendada',
-	'LBL_SECURITY_ADVISORIES_CHECKER' => 'Security vulnerabilities in used libraries',
+	'LBL_SECURITY_ADVISORIES_CHECKER' => 'Inspector de vulnerabilidades de seguridad',
 	'LBL_FILES_PERMISSIONS' => 'Archivos/Carpetas',
 	'LBL_FILE' => 'Nombre',
 	'LBL_PATH' => 'Ruta',
@@ -41,8 +41,8 @@ $languageStrings = [
 	'LBL_MYSQLND_LIBRARY' => 'MySQL Native Driver (mysqlnd)',
 	'LBL_SESSION_LIBRARY' => 'SESSION',
 	'LBL_DOM_LIBRARY' => 'DOM',
-	'LBL_MBSTRING_LIBRARY' => 'Mbstring (required for mPDF)',
-	'LBL_EXIF_LIBRARY' => 'Exif (improves security of uploaded files)',
+	'LBL_MBSTRING_LIBRARY' => 'Mbstring (Requerido para mPDF)',
+	'LBL_EXIF_LIBRARY' => 'Exif (Mejora la seguridad de los archivos subidos)',
 	'LBL_ZIP_ARCHIVE' => 'ZIP',
 	'LBL_SPACE' => 'Capacidad',
 	'LBL_SPACE_TOTAL' => 'Total',
@@ -61,12 +61,17 @@ $languageStrings = [
 	'LBL_CRON_LOG_FILE' => 'Cron - Registros de errores',
 	'LBL_CRON_PHP_SAPI' => 'Cron - API del servidor',
 	'LBL_ENVIRONMENTAL_INFORMATION' => 'Información del entorno',
-	'LBL_LIB_NAME' => 'Library name',
- 	'LBL_VULNERABILITY_NAME' => 'Vulnerability name',
- 	'LBL_VULNERABILITY_URL' => 'Vulnerability address',
+	'LBL_OPERATING_SYSTEM' => 'Operating system',
+	'BTN_SERVER_SPEED_TEST' => 'Server speed test',
+	'LBL_LIB_NAME' => 'Nombre de la librería',
+	'LBL_VULNERABILITY_NAME' => 'Vulnerabilidad',
+	'LBL_VULNERABILITY_URL' => 'Info de la vulnerabilidad',
+	'CVE' => 'CVE',
 	'HTTPS_HELP_TEXT' => 'SSL is the standard security technology for establishing an encrypted link between a web server and a browser',
 	'HTACCESS_HELP_TEXT' => '.htaccess files can be used to change the server software configuration to configure and enable / disable additional services. YetiForceCRM requires access to the file to some work functions properly.',
 	'PUBLIC_HTML_HELP_TEXT' => 'We suggest that you install the system so that only the public_html folder is used. This improves data security by not having access to unpublic directories and files directly from the address',
+	'SESSION_REGENERATE_HELP_TEXT' => 'We recommend to enable the regeneration of session ID, this option makes it difficult to take over the user session. Changes should be made in the main configuration file.',
+	'LBL_TMP_DIR' => 'Temporary directory',
 	'LBL_OPERATING_SYSTEM' => 'S.O.',
 	'LBL_SECURITY' => 'Seguridad',
 	'LBL_SYSTEM_SECURITY' => 'Seguridad del sistema',

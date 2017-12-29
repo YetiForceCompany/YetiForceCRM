@@ -12,7 +12,7 @@
 {strip}
 <div class="">
 	<div class="widget_header row">
-		<div class="col-md-10">{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}</div>
+		<div class="col-md-10">{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}</div>
 		<div class="col-md-2">
 			<button class="btn btn-info pull-right" type="button" onclick='window.location.href="{$RECORD_MODEL->getEditViewUrl()}"'>{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
 		</div>
@@ -32,8 +32,8 @@
 					<span name="description" id="description"><strong>{$RECORD_MODEL->getDescription()}</strong></span>
 				</div>
 			</div><br />
-            {assign var="ENABLE_IMAGE_PATH" value="{vimage_path('Enable.png')}"}
-            {assign var="DISABLE_IMAGE_PATH" value="{vimage_path('Disable.png')}"}
+            {assign var="ENABLE_IMAGE_PATH" value="{\App\Layout::getImagePath('Enable.png')}"}
+            {assign var="DISABLE_IMAGE_PATH" value="{\App\Layout::getImagePath('Disable.png')}"}
             <div class="summaryWidgetContainer">
                 <div class="row">
                     <div class="col-md-3 row">
@@ -156,7 +156,7 @@
 													</span>
 												{/if}
 												<span style="margin-left: 25px">
-												{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if} {\App\Language::translate($FIELD_MODEL->get('label'), $PROFILE_MODULE->getName())}
+												{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if} {\App\Language::translate($FIELD_MODEL->getFieldLabel(), $PROFILE_MODULE->getName())}
 												</span>
 											</td>
 											{if $smarty.foreach.fields.last OR ($COUNTER+1) % 3 == 0}

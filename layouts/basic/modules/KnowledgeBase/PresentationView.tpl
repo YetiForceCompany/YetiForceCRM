@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<input type="hidden" id="popupValue" value="{$IS_POPUP}" />
 	<div class="{if $IS_POPUP === false}col-xs-12 {/if}knowledgePresentation">
@@ -13,7 +13,7 @@
 									<h5>{$smarty.foreach.carousel.iteration}/{$smarty.foreach.carousel.total}</h5>
 								</div>
 								<div class="knowledgePresentationText col-xs-12">
-									{$SLIDE}
+									{\App\Purifier::encodeHtml($SLIDE)}
 								</div>
 							</div>
 						</div>

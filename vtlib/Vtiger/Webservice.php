@@ -22,36 +22,21 @@ class Webservice
 	 * @param Boolean true appends linebreak, false to avoid it
 	 * @access private
 	 */
-	static function log($message, $delim = true)
+	public static function log($message, $delim = true)
 	{
-		Utils::Log($message, $delim);
+		Utils::log($message, $delim);
 	}
 
 	/**
 	 * Initialize webservice for the given module
-	 * @param Module Instance of the module.
+	 * @param \vtlib\ModuleBasic $moduleInstance
 	 */
-	static function initialize($moduleInstance)
+	public static function initialize(ModuleBasic $moduleInstance)
 	{
 		if ($moduleInstance->isentitytype) {
 			if (function_exists('vtws_addDefaultModuleTypeEntity')) {
 				vtws_addDefaultModuleTypeEntity($moduleInstance->name);
 				self::log("Initializing webservices support ...DONE");
-			}
-		}
-	}
-
-	/**
-	 * Initialize webservice for the given module
-	 * @param Module Instance of the module.
-	 */
-	static function uninitialize($moduleInstance)
-	{
-		if ($moduleInstance->isentitytype) {
-
-			if (function_exists('vtws_deleteWebserviceEntity')) {
-				vtws_deleteWebserviceEntity($moduleInstance->name);
-				self::log("De-Initializing webservices support ...DONE");
 			}
 		}
 	}

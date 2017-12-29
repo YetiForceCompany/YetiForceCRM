@@ -3,7 +3,7 @@
  * Basic class to handle files
  * @package YetiForce.Files
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -22,14 +22,13 @@ class Users_Image_File
 	{
 		$record = $request->get('record');
 		if (empty($record)) {
-			throw new \Exception\NoPermitted('Not Acceptable', 406);
+			throw new \App\Exceptions\NoPermitted('Not Acceptable', 406);
 		}
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, $request->getModule());
 		$path = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $recordModel->getImagePath();
 		$file = App\Fields\File::loadFromPath($path);
 		header('Content-Type: ' . $file->getMimeType());
 		header("Content-Transfer-Encoding: binary");
-		//header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 		readfile($path);
 	}
 
@@ -40,7 +39,7 @@ class Users_Image_File
 		$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		// Check for operation access.
-		$allowed = Users_Privileges_Model::isPermitted($moduleName, 'Save', $record);
+		$allowed = \App\Privilege::isPermitted($moduleName, 'Save', $record);
 		if ($allowed) {
 			// Deny access if not administrator or account-owner or self
 			if (!$currentUserModel->isAdminUser()) {
@@ -52,12 +51,12 @@ class Users_Image_File
 			}
 		}
 		if (!$allowed) {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 
 	public function post(\App\Request $request)
 	{
-
+		
 	}
 }

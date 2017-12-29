@@ -4,13 +4,13 @@
  * Coordiante model
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class OpenStreetMap_Coordinate_Model extends \App\Base
 {
 
-	const earthRadius = 6378137;
+	const EARTH_RADIUS = 6378137;
 
 	/**
 	 * Function to get instance
@@ -44,7 +44,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 	 */
 	private function getMargins($coordinates, $radius)
 	{
-		$earthRadius = static::earthRadius;
+		$earthRadius = static::EARTH_RADIUS;
 		$lat = $coordinates['lat'];
 		$long = $coordinates['lon'];
 		$radius *= 1000;
@@ -117,7 +117,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 
 	/**
 	 * Function to get params url
-	 * @param <Vtiger_Record_Model> $recordModel
+	 * @param Vtiger_Record_Model $recordModel
 	 * @param string $type a,b or c
 	 * @return array
 	 */
@@ -134,7 +134,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 
 	/**
 	 * Function to get coordinates for record
-	 * @param <Vtiger_Record_Model> $recordModel
+	 * @param Vtiger_Record_Model $recordModel
 	 * @return array
 	 */
 	public function getCoordinatesByRecord($recordModel)
@@ -173,7 +173,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		$html = '';
 		foreach ($row as $fieldName => $value) {
 			if (!empty($value)) {
-				$html .= $value . '<br />';
+				$html .= \App\Purifier::encodeHtml($value) . '<br />';
 			}
 		}
 		return $html;
@@ -216,7 +216,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		$fields = AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		foreach ($fields[$moduleName] as $fieldName) {
 			if (!empty($data[$fieldName])) {
-				$html .= $data[$fieldName] . '<br />';
+				$html .= \App\Purifier::encodeHtml($data[$fieldName]) . '<br />';
 			}
 		}
 		$html .= '</span></a></b><input type=hidden class="coordinates" data-lon="' . $data['lon'] . '" data-lat="' . $data['lat'] . '">';

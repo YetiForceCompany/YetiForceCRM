@@ -12,9 +12,12 @@
 class Products_Detail_View extends Vtiger_Detail_View
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function showModuleDetailView(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
@@ -27,11 +30,17 @@ class Products_Detail_View extends Vtiger_Detail_View
 		return parent::showModuleDetailView($request);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function showModuleBasicView(\App\Request $request)
 	{
 		return $this->showModuleDetailView($request);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
@@ -41,11 +50,10 @@ class Products_Detail_View extends Vtiger_Detail_View
 		unset($headerScriptInstances[$moduleDetailFile]);
 		unset($headerScriptInstances[$moduleRelatedListFile]);
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			'~libraries/jquery/jquery.cycle.min.js',
-			'modules.PriceBooks.resources.Detail',
 			'modules.PriceBooks.resources.RelatedList',
-		);
+		];
 
 		$jsFileNames[] = $moduleDetailFile;
 		$jsFileNames[] = $moduleRelatedListFile;

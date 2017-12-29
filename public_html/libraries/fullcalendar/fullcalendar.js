@@ -7,11 +7,9 @@
 (function (factory) {
 	if (typeof define === 'function' && define.amd) {
 		define(['jquery', 'moment'], factory);
-	}
-	else if (typeof exports === 'object') { // Node/CommonJS
+	} else if (typeof exports === 'object') { // Node/CommonJS
 		module.exports = factory(require('jquery'), require('moment'));
-	}
-	else {
+	} else {
 		factory(jQuery, moment);
 	}
 })(function ($, moment) {
@@ -84,8 +82,7 @@
 
 				if ($.isPlainObject(val)) {
 					combinedVal = $.extend(combinedVal || {}, val); // merge new properties
-				}
-				else if (val != null) { // a non-null non-undefined atomic option
+				} else if (val != null) { // a non-null non-undefined atomic option
 					combinedVal = null; // signal to use the atomic value
 				}
 			}
@@ -129,8 +126,7 @@
 								overrides.views[subName] = {};
 							}
 							overrides.views[subName][name] = subVal; // record the value in the `views` object
-						}
-						else { // a non-View-Option-Hash property
+						} else { // a non-View-Option-Hash property
 							if (!subObj) {
 								subObj = {};
 							}
@@ -141,8 +137,7 @@
 					if (subObj) { // non-View-Option-Hash properties? transfer them as-is
 						overrides[name] = subObj;
 					}
-				}
-				else {
+				} else {
 					overrides[name] = val; // transfer normal options as-is
 				}
 			}
@@ -211,7 +206,7 @@
 
 // Given a total available height to fill, have `els` (essentially child rows) expand to accomodate.
 // By default, all elements that are shorter than the recommended height are expanded uniformly, not considering
-// any other els that are already too tall. if `shouldRedistribute` is on, it considers these tall rows and 
+// any other els that are already too tall. if `shouldRedistribute` is on, it considers these tall rows and
 // reduces the available height.
 	function distributeHeight(els, availableHeight, shouldRedistribute) {
 
@@ -237,8 +232,7 @@
 				flexEls.push(el);
 				flexOffsets.push(naturalOffset);
 				flexHeights.push($(el).height());
-			}
-			else {
+			} else {
 				// this element stretches past recommended height (non-expandable). mark the space as occupied.
 				usedHeight += naturalOffset;
 			}
@@ -397,8 +391,7 @@
 
 		if (getIsLeftRtlScrollbars() && el.css('direction') == 'rtl') { // is the scrollbar on the left side?
 			widths.left = leftRightWidth;
-		}
-		else {
+		} else {
 			widths.right = leftRightWidth;
 		}
 
@@ -515,8 +508,7 @@
 			if (subjectStart >= constraintStart) {
 				segStart = subjectStart.clone();
 				isStart = true;
-			}
-			else {
+			} else {
 				segStart = constraintStart.clone();
 				isStart = false;
 			}
@@ -524,8 +516,7 @@
 			if (subjectEnd <= constraintEnd) {
 				segEnd = subjectEnd.clone();
 				isEnd = true;
-			}
-			else {
+			} else {
 				segEnd = constraintEnd.clone();
 				isEnd = false;
 			}
@@ -605,11 +596,9 @@
 
 		if (end != null) { // given start, end
 			return end.diff(start, unit, true);
-		}
-		else if (moment.isDuration(start)) { // given duration
+		} else if (moment.isDuration(start)) { // given duration
 			return start.as(unit);
-		}
-		else { // given { start, end } range object
+		} else { // given { start, end } range object
 			return start.end.diff(start.start, unit, true);
 		}
 	}
@@ -777,8 +766,7 @@
 			var last = +new Date() - timestamp;
 			if (last < wait && last > 0) {
 				timeoutId = setTimeout(later, wait - last);
-			}
-			else {
+			} else {
 				timeoutId = null;
 				func.apply(context, args);
 				if (!timeoutId) {
@@ -856,11 +844,9 @@
 		if (moment.isMoment(input)) {
 			mom = moment.apply(null, args); // clone it
 			transferAmbigs(input, mom); // the ambig flags weren't transfered with the clone
-		}
-		else if (isNativeDate(input) || input === undefined) {
+		} else if (isNativeDate(input) || input === undefined) {
 			mom = moment.apply(null, args); // will be local
-		}
-		else { // "parsing" is required
+		} else { // "parsing" is required
 			isAmbigTime = false;
 			isAmbigZone = false;
 
@@ -871,13 +857,11 @@
 					args = [input]; // for when we pass it on to moment's constructor
 					isAmbigTime = true;
 					isAmbigZone = true;
-				}
-				else if ((ambigMatch = ambigTimeOrZoneRegex.exec(input))) {
+				} else if ((ambigMatch = ambigTimeOrZoneRegex.exec(input))) {
 					isAmbigTime = !ambigMatch[5]; // no time part?
 					isAmbigZone = true;
 				}
-			}
-			else if ($.isArray(input)) {
+			} else if ($.isArray(input)) {
 				// arrays have no timezone information, so assume ambiguous zone
 				isAmbigZone = true;
 			}
@@ -885,24 +869,20 @@
 
 			if (parseAsUTC || isAmbigTime) {
 				mom = moment.utc.apply(moment, args);
-			}
-			else {
+			} else {
 				mom = moment.apply(null, args);
 			}
 
 			if (isAmbigTime) {
 				mom._ambigTime = true;
 				mom._ambigZone = true; // ambiguous time always means ambiguous zone
-			}
-			else if (parseZone) { // let's record the inputted zone somehow
+			} else if (parseZone) { // let's record the inputted zone somehow
 				if (isAmbigZone) {
 					mom._ambigZone = true;
-				}
-				else if (isSingleString) {
+				} else if (isSingleString) {
 					if (mom.utcOffset) {
 						mom.utcOffset(input); // if not a valid zone, will assign UTC
-					}
-					else {
+					} else {
 						mom.zone(input); // for moment-pre-2.9
 					}
 				}
@@ -942,8 +922,7 @@
 
 		if (input == null && typeof weekCalc === 'function') { // custom function only works for getter
 			return weekCalc(this);
-		}
-		else if (weekCalc === 'ISO') {
+		} else if (weekCalc === 'ISO') {
 			return oldMomentProto.isoWeek.apply(this, arguments); // ISO getter/setter
 		}
 
@@ -976,8 +955,7 @@
 				seconds: this.seconds(),
 				milliseconds: this.milliseconds()
 			});
-		}
-		else { // setter
+		} else { // setter
 
 			this._ambigTime = false; // mark that the moment now has a time
 
@@ -1166,8 +1144,7 @@
 		if (units) {
 			a = commonlyAmbiguate([this, input], true); // normalize timezones but don't erase times
 			return oldMomentProto.isSame.call(a[0], a[1], units);
-		}
-		else {
+		} else {
 			input = fc.moment.parseZone(input); // normalize input
 			return oldMomentProto.isSame.call(this, input) &&
 					Boolean(this._ambigTime) === Boolean(input._ambigTime) &&
@@ -1225,8 +1202,7 @@
 			mom = moms[i];
 			if (!preserveTime && anyAmbigTime && !mom._ambigTime) {
 				moms[i] = mom.clone().stripTime();
-			}
-			else if (anyAmbigZone && !mom._ambigZone) {
+			} else if (anyAmbigZone && !mom._ambigZone) {
 				moms[i] = mom.clone().stripZone();
 			}
 		}
@@ -1237,15 +1213,13 @@
 	function transferAmbigs(src, dest) {
 		if (src._ambigTime) {
 			dest._ambigTime = true;
-		}
-		else if (dest._ambigTime) {
+		} else if (dest._ambigTime) {
 			dest._ambigTime = false;
 		}
 
 		if (src._ambigZone) {
 			dest._ambigZone = true;
-		}
-		else if (dest._ambigZone) {
+		} else if (dest._ambigZone) {
 			dest._ambigZone = false;
 		}
 	}
@@ -1339,14 +1313,12 @@
 
 		if (typeof chunk === 'string') { // a literal string
 			return chunk;
-		}
-		else if ((token = chunk.token)) { // a token, like "YYYY"
+		} else if ((token = chunk.token)) { // a token, like "YYYY"
 			if (tokenOverrides[token]) {
 				return tokenOverrides[token](date); // use our custom token
 			}
 			return oldMomentFormat(date, token);
-		}
-		else if (chunk.maybe) { // a grouping of other chunks that must be non-zero
+		} else if (chunk.maybe) { // a grouping of other chunks that must be non-zero
 			maybeStr = formatDateWithChunks(date, chunk.maybe);
 			if (maybeStr.match(/[1-9]/)) {
 				return maybeStr;
@@ -1428,8 +1400,7 @@
 		if (middleStr1 || middleStr2) {
 			if (isRTL) {
 				middleStr = middleStr2 + separator + middleStr1;
-			}
-			else {
+			} else {
 				middleStr = middleStr1 + separator + middleStr2;
 			}
 		}
@@ -1462,8 +1433,7 @@
 
 		if (typeof chunk === 'string') { // a literal string
 			return chunk;
-		}
-		else if ((token = chunk.token)) {
+		} else if ((token = chunk.token)) {
 			unit = similarUnitMap[token.charAt(0)];
 			// are the dates the same for this unit of measurement?
 			if (unit && date1.isSame(date2, unit)) {
@@ -1501,14 +1471,11 @@
 		while ((match = chunker.exec(formatStr))) {
 			if (match[1]) { // a literal string inside [ ... ]
 				chunks.push(match[1]);
-			}
-			else if (match[2]) { // non-zero formatting inside ( ... )
+			} else if (match[2]) { // non-zero formatting inside ( ... )
 				chunks.push({maybe: chunkFormatString(match[2])});
-			}
-			else if (match[3]) { // a formatting token
+			} else if (match[3]) { // a formatting token
 				chunks.push({token: match[3]});
-			}
-			else if (match[5]) { // an unenclosed literal string
+			} else if (match[5]) { // an unenclosed literal string
 				chunks.push(match[5]);
 			}
 		}
@@ -1668,11 +1635,9 @@
 			top = options.top || 0;
 			if (options.left !== undefined) {
 				left = options.left;
-			}
-			else if (options.right !== undefined) {
+			} else if (options.right !== undefined) {
 				left = options.right - width; // derive the left value from the right value
-			}
-			else {
+			} else {
 				left = 0;
 			}
 
@@ -1680,8 +1645,7 @@
 				viewportEl = windowEl;
 				viewportTop = 0; // the window is always at the top left
 				viewportLeft = 0; // (and .offset() won't work if called here)
-			}
-			else {
+			} else {
 				viewportOffset = viewportEl.offset();
 				viewportTop = viewportOffset.top;
 				viewportLeft = viewportOffset.left;
@@ -1719,12 +1683,12 @@
 	/* A "coordinate map" converts pixel coordinates into an associated cell, which has an associated date
 	 ------------------------------------------------------------------------------------------------------------------------
 	 Common interface:
-	 
+
 	 CoordMap.prototype = {
 	 build: function() {},
 	 getCell: function(x, y) {}
 	 };
-	 
+
 	 */
 
 	/* Coordinate map for a grid component
@@ -1933,8 +1897,7 @@
 				if (ev) {
 					this.originX = ev.pageX;
 					this.originY = ev.pageY;
-				}
-				else {
+				} else {
 					// if no starting information was given, origin will be the topleft corner of the screen.
 					// if so, dx/dy in the future will be the absolute coordinates.
 					this.originX = 0;
@@ -2095,16 +2058,14 @@
 				// mouse must be completely in bounds for velocity to happen.
 				if (topCloseness >= 0 && topCloseness <= 1) {
 					topVel = topCloseness * this.scrollSpeed * -1; // negative. for scrolling up
-				}
-				else if (bottomCloseness >= 0 && bottomCloseness <= 1) {
+				} else if (bottomCloseness >= 0 && bottomCloseness <= 1) {
 					topVel = bottomCloseness * this.scrollSpeed;
 				}
 
 				// translate horizontal closeness into velocity
 				if (leftCloseness >= 0 && leftCloseness <= 1) {
 					leftVel = leftCloseness * this.scrollSpeed * -1; // negative. for scrolling left
-				}
-				else if (rightCloseness >= 0 && rightCloseness <= 1) {
+				} else if (rightCloseness >= 0 && rightCloseness <= 1) {
 					leftVel = rightCloseness * this.scrollSpeed;
 				}
 			}
@@ -2135,8 +2096,7 @@
 				if (el.scrollTop() <= 0) { // already scrolled all the way up?
 					this.scrollTopVel = 0;
 				}
-			}
-			else if (this.scrollTopVel > 0) { // scrolling down?
+			} else if (this.scrollTopVel > 0) { // scrolling down?
 				if (el.scrollTop() + el[0].clientHeight >= el[0].scrollHeight) { // already scrolled all the way down?
 					this.scrollTopVel = 0;
 				}
@@ -2146,8 +2106,7 @@
 				if (el.scrollLeft() <= 0) { // already scrolled all the left?
 					this.scrollLeftVel = 0;
 				}
-			}
-			else if (this.scrollLeftVel > 0) { // scrolling right?
+			} else if (this.scrollLeftVel > 0) { // scrolling right?
 				if (el.scrollLeft() + el[0].clientWidth >= el[0].scrollWidth) { // already scrolled all the way right?
 					this.scrollLeftVel = 0;
 				}
@@ -2255,8 +2214,7 @@
 				}
 
 				this.coordAdjust = diffPoints(point, origPoint); // point - origPoint
-			}
-			else {
+			} else {
 				this.origCell = null;
 				this.coordAdjust = null;
 			}
@@ -2446,8 +2404,7 @@
 						duration: revertDuration,
 						complete: complete
 					});
-				}
-				else {
+				} else {
 					complete();
 				}
 			}
@@ -2583,8 +2540,7 @@
 
 			if (typeof cells === 'string') {
 				return prependHtml + cells + appendHtml;
-			}
-			else { // a jQuery <tr> element
+			} else { // a jQuery <tr> element
 				return cells.prepend(prependHtml).append(appendHtml);
 			}
 		},
@@ -2606,14 +2562,11 @@
 
 			if (specificName && (renderer = view[specificName])) {
 				provider = view;
-			}
-			else if (specificName && (renderer = this[specificName])) {
+			} else if (specificName && (renderer = this[specificName])) {
 				provider = this;
-			}
-			else if ((renderer = view[generalName])) {
+			} else if ((renderer = view[generalName])) {
 				provider = view;
-			}
-			else if ((renderer = this[generalName])) {
+			} else if ((renderer = this[generalName])) {
 				provider = this;
 			}
 
@@ -2653,7 +2606,7 @@
 		externalDragStartProxy: null, // binds the Grid's scope to externalDragStart (in DayGrid.events)
 
 		// derived from options
-		colHeadFormat: null, 
+		colHeadFormat: null,
 		eventTimeFormat: null,
 		displayEventTime: null,
 		displayEventEnd: null,
@@ -2741,8 +2694,7 @@
 		diffDates: function (a, b) {
 			if (this.largeUnit) {
 				return diffByUnit(a, b, this.largeUnit);
-			}
-			else {
+			} else {
 				return diffDayTime(a, b);
 			}
 		},
@@ -2760,8 +2712,7 @@
 				if (typeof row === 'number') { // a single-number offset
 					col = row % this.colCnt;
 					row = Math.floor(row / this.colCnt);
-				}
-				else { // an object with row/col properties
+				} else { // an object with row/col properties
 					col = row.col;
 					row = row.row;
 				}
@@ -2935,8 +2886,7 @@
 							selectionRange = _this.computeSelection(origCell, cell);
 							if (selectionRange) {
 								_this.renderSelection(selectionRange);
-							}
-							else {
+							} else {
 								disableCursor();
 							}
 						}
@@ -3135,7 +3085,7 @@
 		headHtml: function () {
 			return '' +
 					// <--------   YetiForce Sp. z o.o.   -------->
-					//'<div class="fc-row ' + this.view.widgetHeaderClass + '">' 
+					//'<div class="fc-row ' + this.view.widgetHeaderClass + '">'
 					'<div class="fc-row ">'
 					// <--------   YetiForce Sp. z o.o.   -------->
 					+
@@ -3186,11 +3136,9 @@
 						'fc-today',
 						view.highlightStateClass
 						);
-			}
-			else if (date < today) {
+			} else if (date < today) {
 				classes.push('fc-past');
-			}
-			else {
+			} else {
 				classes.push('fc-future');
 			}
 
@@ -3225,8 +3173,7 @@
 
 				if (isBgEvent(seg.event)) {
 					bgSegs.push(seg);
-				}
-				else {
+				} else {
 					fgSegs.push(seg);
 				}
 			}
@@ -3370,23 +3317,22 @@
 						mousedown: function (seg, ev) {
 							if ($(ev.target).is('.fc-resizer') && view.isEventResizable(seg.event)) {
 								_this.segResizeMousedown(seg, ev, $(ev.target).is('.fc-start-resizer'));
-							}
-							else if (view.isEventDraggable(seg.event)) {
+							} else if (view.isEventDraggable(seg.event)) {
 								_this.segDragMousedown(seg, ev);
 							}
 						}
 					},
-			function (name, func) {
-				// attach the handler to the container element and only listen for real event elements via bubbling
-				_this.el.on(name, '.fc-event-container > *', function (ev) {
-					var seg = $(this).data('fc-seg'); // grab segment data. put there by View::renderEvents
+					function (name, func) {
+						// attach the handler to the container element and only listen for real event elements via bubbling
+						_this.el.on(name, '.fc-event-container > *', function (ev) {
+							var seg = $(this).data('fc-seg'); // grab segment data. put there by View::renderEvents
 
-					// only call the handlers if there is not a drag/resize in progress
-					if (seg && !_this.isDraggingSeg && !_this.isResizingSeg) {
-						return func.call(this, seg, ev); // `this` will be the event element
+							// only call the handlers if there is not a drag/resize in progress
+							if (seg && !_this.isDraggingSeg && !_this.isResizingSeg) {
+								return func.call(this, seg, ev); // `this` will be the event element
+							}
+						});
 					}
-				});
-			}
 			);
 		},
 		// Updates internal state and triggers handlers for when an event element is moused over
@@ -3462,8 +3408,7 @@
 					// if a valid drop location, have the subclass render a visual indication
 					if (dropLocation && view.renderDrag(dropLocation, seg)) {
 						mouseFollower.hide(); // if the subclass is already using a mock event "helper", hide our own
-					}
-					else {
+					} else {
 						mouseFollower.show(); // otherwise, have the helper follow the mouse (no snapping)
 					}
 
@@ -3544,8 +3489,7 @@
 				if (dropLocation.end) {
 					dropLocation.end.add(delta);
 				}
-			}
-			else {
+			} else {
 				// if switching from day <-> timed, start should be reset to the dropped date, and the end cleared
 				dropLocation = {
 					start: dragEnd.clone(),
@@ -3607,8 +3551,7 @@
 					dropLocation = _this.computeExternalDrop(cell, meta);
 					if (dropLocation) {
 						_this.renderDrag(dropLocation); // called without a seg parameter
-					}
-					else { // invalid drop cell
+					} else { // invalid drop cell
 						disableCursor();
 					}
 				},
@@ -3705,8 +3648,7 @@
 						if (!calendar.isEventRangeAllowed(resizeLocation, event)) {
 							disableCursor();
 							resizeLocation = null;
-						}
-						else if (resizeLocation.start.isSame(event.start) && resizeLocation.end.isSame(eventEnd)) {
+						} else if (resizeLocation.start.isSame(event.start) && resizeLocation.end.isSame(eventEnd)) {
 							resizeLocation = null;
 						}
 					}
@@ -3791,8 +3733,7 @@
 
 				if (type == 'start') { // resizing the start?
 					range.start = range.end.clone().subtract(defaultDuration);
-				}
-				else { // resizing the end?
+				} else { // resizing the end?
 					range.end = range.start.clone().add(defaultDuration);
 				}
 			}
@@ -3830,8 +3771,7 @@
 			if (this.displayEventTime && range.start.hasTime()) {
 				if (displayEnd && range.end) {
 					return this.view.formatRange(range, formatStr);
-				}
-				else {
+				} else {
 					return range.start.format(formatStr);
 				}
 			}
@@ -4007,8 +3947,7 @@
 
 			if (rangeToSegsFunc) {
 				segs = rangeToSegsFunc(eventRange);
-			}
-			else {
+			} else {
 				segs = this.rangeToSegs(eventRange); // defined by the subclass
 			}
 
@@ -4101,8 +4040,7 @@
 		if (eventProps) {
 			if (typeof eventProps === 'object') {
 				eventProps = $.extend({}, eventProps); // make a copy
-			}
-			else { // something like 1 or true. still signal event creation
+			} else { // something like 1 or true. still signal event creation
 				eventProps = {};
 			}
 
@@ -4149,7 +4087,7 @@
 	 ----------------------------------------------------------------------------------------------------------------------*/
 
 	var DayGrid = Grid.extend({
-		numbersVisible: false, 
+		numbersVisible: false,
 		bottomCoordPadding: 0, // hack for extending the hit area for the last row of the coordinate grid
 		breakOnWeeks: null, // should create a new row for each week? set by outside view
 
@@ -4243,11 +4181,9 @@
 		computeColHeadFormat: function () {
 			if (this.rowCnt > 1) { // more than one week row. day numbers will be in each cell
 				return 'ddd'; // "Sat"
-			}
-			else if (this.colCnt > 1) { // multiple days, so full single date string WON'T be in title text
+			} else if (this.colCnt > 1) { // multiple days, so full single date string WON'T be in title text
 				return this.view.opt('dayOfMonthFormat'); // "Sat 12/10"
-			}
-			else { // single day, so full single date string will probably be in title text
+			} else { // single day, so full single date string will probably be in title text
 				return 'dddd'; // "Saturday"
 			}
 		},
@@ -4282,8 +4218,7 @@
 					}
 				}
 				rowCnt = Math.ceil(cellDates.length / colCnt);
-			}
-			else {
+			} else {
 				rowCnt = 1;
 				colCnt = cellDates.length;
 			}
@@ -4302,8 +4237,7 @@
 			while (date.isBefore(this.end)) { // loop each day from start to end
 				if (view.isHiddenDay(date)) {
 					offsets.push(offset + 0.5); // mark that it's between offsets
-				}
-				else {
+				} else {
 					offset++;
 					offsets.push(offset);
 					dates.push(date.clone());
@@ -4389,8 +4323,7 @@
 					if (isRTL) {
 						seg.leftCol = colCnt - segLast - 1;
 						seg.rightCol = colCnt - segFirst - 1;
-					}
-					else {
+					} else {
 						seg.leftCol = segFirst;
 						seg.rightCol = segLast;
 					}
@@ -4411,11 +4344,9 @@
 
 			if (day < 0) {
 				return offsets[0] - 1;
-			}
-			else if (day >= offsets.length) {
+			} else if (day >= offsets.length) {
 				return offsets[offsets.length - 1] + 1;
-			}
-			else {
+			} else {
 				return offsets[day];
 			}
 		},
@@ -4479,8 +4410,7 @@
 				// If there is an original segment, match the top position. Otherwise, put it at the row's top level
 				if (sourceSeg && sourceSeg.row === row) {
 					skeletonTop = sourceSeg.el.position().top;
-				}
-				else {
+				} else {
 					skeletonTop = rowEl.find('.fc-content-skeleton tbody').position().top;
 				}
 
@@ -4732,8 +4662,7 @@
 								'rowspan',
 								parseInt(td.attr('rowspan') || 1, 10) + 1
 								);
-					}
-					else {
+					} else {
 						td = $('<td/>');
 						tr.append(td);
 					}
@@ -4764,8 +4693,7 @@
 						td = $('<td class="fc-event-container"/>').append(seg.el);
 						if (seg.leftCol != seg.rightCol) {
 							td.attr('colspan', seg.rightCol - seg.leftCol + 1);
-						}
-						else { // a single-column segment
+						} else { // a single-column segment
 							loneCellMatrix[i][col] = td;
 						}
 
@@ -4899,11 +4827,9 @@
 
 				if (!levelLimit) {
 					rowLevelLimit = false;
-				}
-				else if (typeof levelLimit === 'number') {
+				} else if (typeof levelLimit === 'number') {
 					rowLevelLimit = levelLimit;
-				}
-				else {
+				} else {
 					rowLevelLimit = this.computeRowLevelLimit(row);
 				}
 
@@ -4917,7 +4843,7 @@
 		// `row` is the row number.
 		computeRowLevelLimit: function (row) {
 			var rowEl = this.rowEls.eq(row); // the containing "fake" row div
-			var rowHeight = rowEl.height(); 
+			var rowHeight = rowEl.height();
 			var trEls = this.rowStructs[row].tbodyEl.children();
 			var i, trEl;
 			var trHeight;
@@ -5078,8 +5004,7 @@
 
 						if (clickOption === 'popover') {
 							_this.showSegPopover(cell, moreEl, reslicedAllSegs);
-						}
-						else if (typeof clickOption === 'string') { // a view name
+						} else if (typeof clickOption === 'string') { // a view name
 							view.calendar.zoomTo(date, clickOption);
 						}
 					});
@@ -5094,8 +5019,7 @@
 
 			if (this.rowCnt == 1) {
 				topEl = view.el; // will cause the popover to cover any sort of header
-			}
-			else {
+			} else {
 				topEl = this.rowEls.eq(cell.row); // will align with top of row
 			}
 
@@ -5118,8 +5042,7 @@
 			// We use the moreWrap instead of the <td> to avoid border confusion.
 			if (this.isRTL) {
 				options.right = moreWrap.offset().left + moreWrap.outerWidth() + 1; // +1 to be over cell border
-			}
-			else {
+			} else {
 				options.left = moreWrap.offset().left - 1; // -1 to be over cell border
 			}
 
@@ -5195,8 +5118,7 @@
 
 			if (typeof opt === 'function') {
 				return opt(num);
-			}
-			else {
+			} else {
 				return '+' + num + ' ' + opt;
 			}
 		},
@@ -5342,8 +5264,7 @@
 		computeColHeadFormat: function () {
 			if (this.colCnt > 1) { // multiple days, so full single date string WON'T be in title text
 				return this.view.opt('dayOfMonthFormat'); // "Sat 12/10"
-			}
-			else { // single day, so full single date string will probably be in title text
+			} else { // single day, so full single date string will probably be in title text
 				return 'dddd'; // "Saturday"
 			}
 		},
@@ -5489,8 +5410,7 @@
 			if (slatRemainder) { // time spans part-way into the slot
 				slatBottom = this.slatTops[slatIndex + 1];
 				return slatTop + (slatBottom - slatTop) * slatRemainder; // part-way between slots
-			}
-			else {
+			} else {
 				return slatTop;
 			}
 		},
@@ -5523,8 +5443,7 @@
 				this.applyDragOpacity(this.helperEl);
 
 				return true; // signal that a helper has been rendered
-			}
-			else {
+			} else {
 				// otherwise, just render a highlight
 				this.renderHighlight(
 						this.view.calendar.ensureVisibleEventRange(dropLocation) // needs to be a proper range
@@ -5595,8 +5514,7 @@
 		renderSelection: function (range) {
 			if (this.view.opt('selectHelper')) { // this setting signals that a mock helper event should be rendered
 				this.renderRangeHelper(range);
-			}
-			else {
+			} else {
 				this.renderHighlight(range);
 			}
 		},
@@ -5808,77 +5726,76 @@
 							'<span><i class="icon-time"></i> ' + htmlEscape(timeText) + '</span>' +
 							'</div>' : '') +
 					(event.title ? '<div class="fc-title"><i class="' + eventIcon + '"></i> ' + event.title + '</div>' : '') +
-					(event.accname ? '<div class="fc-parentlabel"><i class="calIcon modIcon_Accounts"></i>' + event.accname + '</div>' : '') +
-					(event.linkl ? '<div class="fc-parentlabel"><i class="calIcon modIcon_' + event.linkm + '"></i> ' + event.linkl + '</div>' : '') +
+					(event.accname ? '<div class="fc-parentlabel"><i class="calIcon userIcon-Accounts"></i>' + event.accname + '</div>' : '') +
+					(event.linkl ? '<div class="fc-parentlabel"><i class="calIcon userIcon-' + event.linkm + '"></i> ' + event.linkl + '</div>' : '') +
 					'</div>' +
 					'<div class="fc-bg"/>' +
-							(isResizableFromEnd ?
-									'<div class="fc-resizer fc-end-resizer" />' :
-									''
-									) +
-							'</a>';
-				},
-				// <--------   YetiForce Sp. z o.o.   -------->
+					(isResizableFromEnd ?
+							'<div class="fc-resizer fc-end-resizer" />' :
+							''
+							) +
+					'</a>';
+		},
+		// <--------   YetiForce Sp. z o.o.   -------->
 
-				// Generates an object with CSS properties/values that should be applied to an event segment element.
-				// Contains important positioning-related properties that should be applied to any event element, customized or not.
-				generateSegPositionCss: function (seg) {
-					var shouldOverlap = this.view.opt('slotEventOverlap');
-					var backwardCoord = seg.backwardCoord; // the left side if LTR. the right side if RTL. floating-point
-					var forwardCoord = seg.forwardCoord; // the right side if LTR. the left side if RTL. floating-point
-					var props = this.generateSegVerticalCss(seg); // get top/bottom first
-					var left; // amount of space from left edge, a fraction of the total width
-					var right; // amount of space from right edge, a fraction of the total width
+		// Generates an object with CSS properties/values that should be applied to an event segment element.
+		// Contains important positioning-related properties that should be applied to any event element, customized or not.
+		generateSegPositionCss: function (seg) {
+			var shouldOverlap = this.view.opt('slotEventOverlap');
+			var backwardCoord = seg.backwardCoord; // the left side if LTR. the right side if RTL. floating-point
+			var forwardCoord = seg.forwardCoord; // the right side if LTR. the left side if RTL. floating-point
+			var props = this.generateSegVerticalCss(seg); // get top/bottom first
+			var left; // amount of space from left edge, a fraction of the total width
+			var right; // amount of space from right edge, a fraction of the total width
 
-					if (shouldOverlap) {
-						// double the width, but don't go beyond the maximum forward coordinate (1.0)
-						forwardCoord = Math.min(1, backwardCoord + (forwardCoord - backwardCoord) * 2);
-					}
+			if (shouldOverlap) {
+				// double the width, but don't go beyond the maximum forward coordinate (1.0)
+				forwardCoord = Math.min(1, backwardCoord + (forwardCoord - backwardCoord) * 2);
+			}
 
-					if (this.isRTL) {
-						left = 1 - forwardCoord;
-						right = backwardCoord;
-					}
-					else {
-						left = backwardCoord;
-						right = 1 - forwardCoord;
-					}
+			if (this.isRTL) {
+				left = 1 - forwardCoord;
+				right = backwardCoord;
+			} else {
+				left = backwardCoord;
+				right = 1 - forwardCoord;
+			}
 
-					props.zIndex = seg.level + 1; // convert from 0-base to 1-based
-					props.left = left * 100 + '%';
-					props.right = right * 100 + '%';
+			props.zIndex = seg.level + 1; // convert from 0-base to 1-based
+			props.left = left * 100 + '%';
+			props.right = right * 100 + '%';
 
-					if (shouldOverlap && seg.forwardPressure) {
-						// add padding to the edge so that forward stacked events don't cover the resizer's icon
-						props[this.isRTL ? 'marginLeft' : 'marginRight'] = 10 * 2; // 10 is a guesstimate of the icon's width
-					}
+			if (shouldOverlap && seg.forwardPressure) {
+				// add padding to the edge so that forward stacked events don't cover the resizer's icon
+				props[this.isRTL ? 'marginLeft' : 'marginRight'] = 10 * 2; // 10 is a guesstimate of the icon's width
+			}
 
-					return props;
-				},
-				// Generates an object with CSS properties for the top/bottom coordinates of a segment element
-				generateSegVerticalCss: function (seg) {
-					return {
-						top: seg.top,
-						bottom: -seg.bottom // flipped because needs to be space beyond bottom edge of event container
-					};
-				},
-				// Given a flat array of segments, return an array of sub-arrays, grouped by each segment's col
-				groupSegCols: function (segs) {
-					var segCols = [];
-					var i;
+			return props;
+		},
+		// Generates an object with CSS properties for the top/bottom coordinates of a segment element
+		generateSegVerticalCss: function (seg) {
+			return {
+				top: seg.top,
+				bottom: -seg.bottom // flipped because needs to be space beyond bottom edge of event container
+			};
+		},
+		// Given a flat array of segments, return an array of sub-arrays, grouped by each segment's col
+		groupSegCols: function (segs) {
+			var segCols = [];
+			var i;
 
-					for (i = 0; i < this.colCnt; i++) {
-						segCols.push([]);
-					}
+			for (i = 0; i < this.colCnt; i++) {
+				segCols.push([]);
+			}
 
-					for (i = 0; i < segs.length; i++) {
-						segCols[segs[i].col].push(segs[i]);
-					}
+			for (i = 0; i < segs.length; i++) {
+				segCols[segs[i].col].push(segs[i]);
+			}
 
-					return segCols;
-				}
+			return segCols;
+		}
 
-			});
+	});
 
 
 // Given an array of segments that are all in the same column, sets the backwardCoord and forwardCoord on each.
@@ -5999,8 +5916,7 @@
 
 				// if there are no forward segments, this segment should butt up against the edge
 				seg.forwardCoord = 1;
-			}
-			else {
+			} else {
 
 				// sort highest pressure first
 				forwardSegs.sort(compareForwardSlotSegs);
@@ -6100,8 +6016,7 @@
 				nextDayThreshold: null,
 				isHiddenDayHash: null,
 				// document handlers, bound to `this` object
-				documentMousedownProxy: null, 
-
+				documentMousedownProxy: null,
 
 				constructor: function (calendar, type, options, intervalDuration) {
 
@@ -6134,7 +6049,7 @@
 							calendar,
 							[name, thisObj || this].concat(
 							Array.prototype.slice.call(arguments, 2), // arguments beyond thisObj
-							[this] 
+							[this]
 							)
 							);
 				},
@@ -6164,8 +6079,7 @@
 					if (/year|month|week|day/.test(intervalUnit)) { // whole-days?
 						intervalStart.stripTime();
 						intervalEnd.stripTime();
-					}
-					else { // needs to have a time?
+					} else { // needs to have a time?
 						if (!intervalStart.hasTime()) {
 							intervalStart = this.calendar.rezoneDate(intervalStart); // convert to current timezone, with 00:00
 						}
@@ -6224,7 +6138,7 @@
 				computeTitle: function () {
 					return this.formatRange(
 							{start: this.intervalStart, end: this.intervalEnd},
-					this.opt('titleFormat') || this.computeTitleFormat(),
+							this.opt('titleFormat') || this.computeTitleFormat(),
 							this.opt('titleRangeSeparator')
 							);
 				},
@@ -6233,14 +6147,11 @@
 				computeTitleFormat: function () {
 					if (this.intervalUnit == 'year') {
 						return 'YYYY';
-					}
-					else if (this.intervalUnit == 'month') {
+					} else if (this.intervalUnit == 'month') {
 						return this.opt('monthYearFormat'); // like "September 2014"
-					}
-					else if (this.intervalDuration.as('days') > 1) {
+					} else if (this.intervalDuration.as('days') > 1) {
 						return 'll'; // multi-day range. shorter, like "Sep 9 - 10 2014"
-					}
-					else {
+					} else {
 						return 'LL'; // one day. longer, like "September 9 2014"
 					}
 				},
@@ -6515,8 +6426,7 @@
 
 					if (custom === false) { // means don't render at all
 						el = null;
-					}
-					else if (custom && custom !== true) {
+					} else if (custom && custom !== true) {
 						el = $(custom);
 					}
 
@@ -6910,8 +6820,7 @@
 						if (typeof defaults === 'function') { // a class
 							viewClass = defaults;
 							defaultsChain.unshift(viewClass.defaults || {});
-						}
-						else { // an options object
+						} else { // an options object
 							defaultsChain.unshift(defaults);
 						}
 						overridesChain.unshift(overrides);
@@ -7066,11 +6975,9 @@
 				localeData._fullCalendar_weekCalc = (function (weekCalc) {
 					if (typeof weekCalc === 'function') {
 						return weekCalc;
-					}
-					else if (weekCalc === 'local') {
+					} else if (weekCalc === 'local') {
 						return weekCalc;
-					}
-					else if (weekCalc === 'iso' || weekCalc === 'ISO') {
+					} else if (weekCalc === 'iso' || weekCalc === 'ISO') {
 						return 'ISO';
 					}
 				})(options.weekNumberCalculation);
@@ -7097,18 +7004,15 @@
 						if (mom.hasTime()) { // don't give ambiguously-timed moments a local zone
 							mom.local();
 						}
-					}
-					else if (options.timezone === 'UTC') {
+					} else if (options.timezone === 'UTC') {
 						mom = fc.moment.utc.apply(null, arguments); // process as UTC
-					}
-					else {
+					} else {
 						mom = fc.moment.parseZone.apply(null, arguments); // let the input decide the zone
 					}
 
 					if ('_locale' in mom) { // moment 2.8 and above
 						mom._locale = localeData;
-					}
-					else { // pre-moment-2.8
+					} else { // pre-moment-2.8
 						mom._lang = localeData;
 					}
 
@@ -7145,21 +7049,19 @@
 				t.getEventEnd = function (event) {
 					if (event.end) {
 						return event.end.clone();
-					}
-					else {
+					} else {
 						return t.getDefaultEventEnd(event.allDay, event.start);
 					}
 				};
 
 
 				// Given an event's allDay status and start date, return swhat its fallback end date should be.
-				t.getDefaultEventEnd = function (allDay, start) { 
+				t.getDefaultEventEnd = function (allDay, start) {
 					var end = start.clone();
 
 					if (allDay) {
 						end.stripTime().add(t.defaultAllDayEventDuration);
-					}
-					else {
+					} else {
 						end.add(t.defaultTimedEventDuration);
 					}
 
@@ -7215,8 +7117,7 @@
 
 				if (options.defaultDate != null) {
 					date = t.moment(options.defaultDate);
-				}
-				else {
+				} else {
 					date = t.getNow();
 				}
 
@@ -7224,8 +7125,7 @@
 				function render() {
 					if (!content) {
 						initialRender();
-					}
-					else if (elementVisible()) {
+					} else if (elementVisible()) {
 						// mainly for the public API
 						calcSize();
 						renderView();
@@ -7239,15 +7139,13 @@
 
 					if (options.isRTL) {
 						element.addClass('fc-rtl');
-					}
-					else {
+					} else {
 						element.addClass('fc-ltr');
 					}
 
 					if (options.theme) {
 						element.addClass('ui-widget');
-					}
-					else {
+					} else {
 						element.addClass('fc-unthemed');
 					}
 
@@ -7396,11 +7294,9 @@
 				function _calcSize() { // assumes elementVisible
 					if (typeof options.contentHeight === 'number') { // exists and not 'auto'
 						suggestedViewHeight = options.contentHeight;
-					}
-					else if (typeof options.height === 'number') { // exists and not 'auto'
+					} else if (typeof options.height === 'number') { // exists and not 'auto'
 						suggestedViewHeight = options.height - (headerElement ? headerElement.outerHeight(true) : 0);
-					}
-					else {
+					} else {
 						suggestedViewHeight = Math.round(content.width() / Math.max(options.aspectRatio, .5));
 					}
 				}
@@ -7443,8 +7339,7 @@
 				function getAndRenderEvents() {
 					if (!options.lazyFetching || isFetchNeeded(currentView.start, currentView.end)) {
 						fetchAndRenderEvents();
-					}
-					else {
+					} else {
 						renderEvents();
 					}
 				}
@@ -7484,8 +7379,7 @@
 					var now = t.getNow();
 					if (now.isWithin(currentView.intervalStart, currentView.intervalEnd)) {
 						header.disableButton('today');
-					}
-					else {
+					} else {
 						header.enableButton('today');
 					}
 				}
@@ -7501,11 +7395,9 @@
 					start = t.moment(start);
 					if (end) {
 						end = t.moment(end);
-					}
-					else if (start.hasTime()) {
+					} else if (start.hasTime()) {
 						end = start.clone().add(t.defaultTimedEventDuration);
-					}
-					else {
+					} else {
 						end = start.clone().add(t.defaultAllDayEventDuration);
 					}
 
@@ -7674,7 +7566,7 @@
 					next: "next",
 					prevYear: "prev year",
 					nextYear: "next year",
-					year: 'year', 
+					year: 'year',
 					today: 'today',
 					month: 'month',
 					week: 'week',
@@ -7835,8 +7727,7 @@
 
 					if (fcOptions.isRTL) {
 						format += ' ddd'; // for RTL, add day-of-week to end
-					}
-					else {
+					} else {
 						format = 'ddd ' + format; // for LTR, add day-of-week to beginning
 					}
 					return format;
@@ -7877,7 +7768,7 @@
 
 
 // options that should be computed off live calendar options (considers override options)
-			var instanceComputableOptions = { 
+			var instanceComputableOptions = {
 
 				// Produces format strings for results like "Mo 16"
 				smallDayDateFormat: function (options) {
@@ -7990,8 +7881,7 @@
 								if (buttonName == 'title') {
 									groupChildren = groupChildren.add($('<h2>&nbsp;</h2>')); // we always want it to take up height
 									isOnlyButtons = false;
-								}
-								else {
+								} else {
 									viewSpec = calendar.getViewSpec(buttonName);
 
 									if (viewSpec) {
@@ -8001,8 +7891,7 @@
 										viewsWithButtons.push(buttonName);
 										overrideText = viewSpec.buttonTextOverride;
 										defaultText = viewSpec.buttonTextDefault;
-									}
-									else if (calendar[buttonName]) { // a calendar method
+									} else if (calendar[buttonName]) { // a calendar method
 										buttonClick = function () {
 											calendar[buttonName]();
 										};
@@ -8017,14 +7906,11 @@
 
 										if (overrideText) {
 											innerHtml = htmlEscape(overrideText);
-										}
-										else if (themeIcon && options.theme) {
+										} else if (themeIcon && options.theme) {
 											innerHtml = "<span class='ui-icon ui-icon-" + themeIcon + "'></span>";
-										}
-										else if (normalIcon && !options.theme) {
+										} else if (normalIcon && !options.theme) {
 											innerHtml = "<span class='fc-icon fc-icon-" + normalIcon + "'></span>";
-										}
-										else {
+										} else {
 											innerHtml = htmlEscape(defaultText);
 										}
 
@@ -8102,8 +7988,7 @@
 								}
 								groupEl.append(groupChildren);
 								sectionEl.append(groupEl);
-							}
-							else {
+							} else {
 								sectionEl.append(groupChildren); // 1 or 0 children
 							}
 						});
@@ -8250,8 +8135,7 @@
 
 									if (isArraySource) { // array sources have already been convert to Event Objects
 										abstractEvent = eventInput;
-									}
-									else {
+									} else {
 										abstractEvent = buildEventFromInput(eventInput, source);
 									}
 
@@ -8291,8 +8175,7 @@
 						if (res === true) {
 							// the fetcher is in charge. made its own async request
 							return;
-						}
-						else if (typeof res == 'object') {
+						} else if (typeof res == 'object') {
 							// the fetcher returned a new source. process it
 							_fetchEventSource(res, callback);
 							return;
@@ -8313,11 +8196,9 @@
 										popLoading();
 									}
 							);
-						}
-						else if ($.isArray(events)) {
+						} else if ($.isArray(events)) {
 							callback(events);
-						}
-						else {
+						} else {
 							callback();
 						}
 					} else {
@@ -8332,8 +8213,7 @@
 							if ($.isFunction(source.data)) {
 								// supplied as a function that returns a key/value object
 								customData = source.data();
-							}
-							else {
+							} else {
 								// supplied as a straight key/value object
 								customData = source.data;
 							}
@@ -8405,11 +8285,9 @@
 
 					if ($.isFunction(sourceInput) || $.isArray(sourceInput)) {
 						source = {events: sourceInput};
-					}
-					else if (typeof sourceInput === 'string') {
+					} else if (typeof sourceInput === 'string') {
 						source = {url: sourceInput};
-					}
-					else if (typeof sourceInput === 'object') {
+					} else if (typeof sourceInput === 'object') {
 						source = $.extend({}, sourceInput); // shallow copy
 					}
 
@@ -8420,8 +8298,7 @@
 								source.className = source.className.split(/\s+/);
 							}
 							// otherwise, assumed to be an array
-						}
-						else {
+						} else {
 							source.className = [];
 						}
 
@@ -8481,8 +8358,7 @@
 					event.start = t.moment(event.start);
 					if (event.end) {
 						event.end = t.moment(event.end);
-					}
-					else {
+					} else {
 						event.end = null;
 					}
 
@@ -8550,8 +8426,7 @@
 						filter = function () {
 							return true;
 						}; // will always match
-					}
-					else if (!$.isFunction(filter)) { // an event ID
+					} else if (!$.isFunction(filter)) { // an event ID
 						eventID = filter + '';
 						filter = function (event) {
 							return event._id == eventID;
@@ -8577,8 +8452,7 @@
 				function clientEvents(filter) {
 					if ($.isFunction(filter)) {
 						return $.grep(cache, filter);
-					}
-					else if (filter != null) { // not null, not undefined. an event ID
+					} else if (filter != null) { // not null, not undefined. an event ID
 						filter += '';
 						return $.grep(cache, function (e) {
 							return e._id == filter;
@@ -8641,12 +8515,10 @@
 					if (input.className) {
 						if (typeof input.className == 'string') {
 							out.className = input.className.split(/\s+/);
-						}
-						else { // assumed to be an array
+						} else { // assumed to be an array
 							out.className = input.className;
 						}
-					}
-					else {
+					} else {
 						out.className = [];
 					}
 
@@ -8667,8 +8539,7 @@
 						out.start = start ? moment.duration(start) : null; // will be a Duration or null
 						out.end = end ? moment.duration(end) : null; // will be a Duration or null
 						out._recurring = true; // our internal marker
-					}
-					else {
+					} else {
 
 						if (start) {
 							start = t.moment(start);
@@ -8724,8 +8595,7 @@
 					if (!props.end) {
 						if (options.forceEventDuration) {
 							props.end = t.getDefaultEventEnd(props.allDay, props.start);
-						}
-						else {
+						} else {
 							props.end = null;
 						}
 					}
@@ -8743,8 +8613,7 @@
 						if (range.end) {
 							range.end.stripTime();
 						}
-					}
-					else {
+					} else {
 						if (!range.start.hasTime()) {
 							range.start = t.rezoneDate(range.start); // will assign a 00:00 time
 						}
@@ -8828,8 +8697,7 @@
 
 								date.add(1, 'days');
 							}
-						}
-						else {
+						} else {
 							events.push(abstractEvent); // return the original event. will be a one-item array
 						}
 					}
@@ -8863,11 +8731,9 @@
 					function diffDates(date1, date0) { // date1 - date0
 						if (largeUnit) {
 							return diffByUnit(date1, date0, largeUnit);
-						}
-						else if (newProps.allDay) {
+						} else if (newProps.allDay) {
 							return diffDay(date1, date0);
-						}
-						else {
+						} else {
 							return diffDayTime(date1, date0);
 						}
 					}
@@ -8905,8 +8771,7 @@
 					if (newProps.end) {
 						endDelta = diffDates(newProps.end, oldProps.end);
 						durationDelta = endDelta.subtract(startDelta);
-					}
-					else {
+					} else {
 						durationDelta = null;
 					}
 
@@ -8985,8 +8850,7 @@
 						// strip or ensure the end date
 						if (clearEnd) {
 							newProps.end = null;
-						}
-						else if (durationDelta && !newProps.end) { // the duration translation requires an end date
+						} else if (durationDelta && !newProps.end) { // the duration translation requires an end date
 							newProps.end = t.getDefaultEventEnd(newProps.allDay, newProps.start);
 						}
 
@@ -9124,8 +8988,7 @@
 
 					if (event) {
 						return isEventRangeAllowed(range, event);
-					}
-					else { // treat it as a selection
+					} else { // treat it as a selection
 
 						range = ensureVisibleEventRange(range); // ensure a proper range with an end for isSelectionRangeAllowed
 
@@ -9500,8 +9363,7 @@
 				setGridHeight: function (height, isAuto) {
 					if (isAuto) {
 						undistributeHeight(this.dayGrid.rowEls); // let the rows be their natural height with no expanding
-					}
-					else {
+					} else {
 						distributeHeight(this.dayGrid.rowEls, height, true); // true = compensate for height-hogging rows
 					}
 				},
@@ -9663,8 +9525,7 @@
 							this.dayGrid.coordMap,
 							this.timeGrid.coordMap
 						]);
-					}
-					else {
+					} else {
 						this.coordMap = this.timeGrid.coordMap;
 					}
 				},
@@ -9772,8 +9633,7 @@
 								htmlEscape(weekText) +
 								'</span>' +
 								'</th>';
-					}
-					else {
+					} else {
 						return '<th class="fc-axis ' + this.widgetHeaderClass + '" ' + this.axisStyleAttr() + '></th>';
 					}
 				},
@@ -9859,8 +9719,7 @@
 							// and reapply the desired height to the scroller.
 							scrollerHeight = this.computeScrollerHeight(totalHeight);
 							this.scrollerEl.height(scrollerHeight);
-						}
-						else { // no scrollbars
+						} else { // no scrollbars
 							// still, force a height and display the bottom rule (marks the end of day)
 							this.scrollerEl.height(scrollerHeight).css('overflow', 'hidden'); // in case <hr> goes outside
 							this.bottomRuleEl.show();
@@ -9897,8 +9756,7 @@
 					for (i = 0; i < events.length; i++) {
 						if (events[i].allDay) {
 							dayEvents.push(events[i]);
-						}
-						else {
+						} else {
 							timedEvents.push(events[i]);
 						}
 					}
@@ -9939,8 +9797,7 @@
 				renderDrag: function (dropLocation, seg) {
 					if (dropLocation.start.hasTime()) {
 						return this.timeGrid.renderDrag(dropLocation, seg);
-					}
-					else if (this.dayGrid) {
+					} else if (this.dayGrid) {
 						return this.dayGrid.renderDrag(dropLocation, seg);
 					}
 				},
@@ -9958,8 +9815,7 @@
 				renderSelection: function (range) {
 					if (range.start.hasTime() || range.end.hasTime()) {
 						this.timeGrid.renderSelection(range);
-					}
-					else if (this.dayGrid) {
+					} else if (this.dayGrid) {
 						this.dayGrid.renderSelection(range);
 					}
 				},

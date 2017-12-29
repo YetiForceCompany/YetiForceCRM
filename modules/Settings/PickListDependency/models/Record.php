@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
-vimport('~~modules/PickList/DependentPickListUtils.php');
+Vtiger_Loader::includeOnce('~~modules/PickList/DependentPickListUtils.php');
 
 class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -81,7 +81,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 
 	private function getPickListValues($fieldName)
 	{
-		return App\Fields\Picklist::getPickListValues($fieldName);
+		return App\Fields\Picklist::getValuesName($fieldName);
 	}
 
 	public function getSourcePickListValues()
@@ -132,7 +132,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 	private function loadFieldLabels()
 	{
 		$tabId = \App\Module::getModuleId($this->get('sourceModule'));
-		$fieldNames = array($this->get('sourcefield'), $this->get('targetfield'));
+		$fieldNames = [$this->get('sourcefield'), $this->get('targetfield')];
 		$dataReader = (new App\Db\Query())->select(['fieldlabel', 'fieldname'])
 				->from('vtiger_field')
 				->where(['fieldname' => $fieldNames, 'tabid' => $tabId])

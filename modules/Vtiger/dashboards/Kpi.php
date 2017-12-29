@@ -4,7 +4,7 @@
  * Vtiger Kpi dashboard class
  * @package YetiForce.Dashboard
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_Kpi_Dashboard extends Vtiger_IndexAjax_View
 {
@@ -14,7 +14,7 @@ class Vtiger_Kpi_Dashboard extends Vtiger_IndexAjax_View
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$linkId = $request->get('linkid');
+		$linkId = $request->getInteger('linkid');
 
 		$kpiHelper = new Vtiger_Kpi_Helper($request);
 		$data = $kpiHelper->getData($request);
@@ -30,8 +30,7 @@ class Vtiger_Kpi_Dashboard extends Vtiger_IndexAjax_View
 
 		//Include special script and css needed for this widget
 		$viewer->assign('CURRENTUSER', $currentUser);
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/KpiContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/Kpi.tpl', $moduleName);

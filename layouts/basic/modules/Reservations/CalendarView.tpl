@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <input type="hidden" id="currentView" value="{$VIEW}" />
 <input type="hidden" id="activity_view" value="{$CURRENT_USER->get('activity_view')}" />
@@ -17,10 +17,10 @@
 <div class="rowContent paddingLRZero col-xs-12">
 	<div class="widget_header row marginbottomZero marginRightMinus20">
 		<div class="pull-left paddingLeftMd">
-			{include file='ButtonViewLinks.tpl'|@vtemplate_path LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions pull-left paddingLeftMd'}
+			{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions pull-left paddingLeftMd'}
 		</div>
 		<div class="col-xs-10">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE_NAME}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
 	</div>
 	<div class="bottom_margin paddingRight15">

@@ -25,9 +25,9 @@ Class Services_Edit_View extends Products_Edit_View
 		unset($headerScriptInstances[$modulePopUpFile]);
 
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			'modules.Products.resources.Edit',
-		);
+		];
 		$jsFileNames[] = $modulePopUpFile;
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);

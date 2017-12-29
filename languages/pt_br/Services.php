@@ -3,14 +3,12 @@
  * Services portuguese translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	// Basic Strings
 	'Services' => 'Serviços',
 	'SINGLE_Services' => 'Serviço',
-	'LBL_ADD_RECORD' => 'Adicionar Serviço',
-	'LBL_RECORDS_LIST' => 'Lista de Serviços',
 	// Blocks
 	'LBL_SERVICE_INFORMATION' => 'Detalhes do Serviço',
 	'LBL_MORE_CURRENCIES' => 'outras moedas',

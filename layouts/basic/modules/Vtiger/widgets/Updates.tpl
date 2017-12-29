@@ -1,12 +1,12 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="summaryWidgetContainer">
-		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{Vtiger_Util_Helper::toSafeHTML($WIDGET['url'])}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
+		<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}" data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}">
 			<div class="widget_header">
 				<div class="row">
 					<div class="col-xs-9 col-md-5 col-sm-6">
 						<div class="widgetTitle textOverflowEllipsis">
-							<h4 class="moduleColor_{$WIDGET['label']}">
+							<h4 class="modCT_{$WIDGET['label']}">
 								{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}
 							</h4>
 						</div>
@@ -30,7 +30,7 @@
 						</div>
 					</div>
 				</div>
-				<hr class="widgetHr"/>
+				<hr class="widgetHr" />
 			</div>
 			<div class="widget_contents">
 			</div>

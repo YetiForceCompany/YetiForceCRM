@@ -1,0 +1,82 @@
+build:
+    environment:
+        php:
+            version: 7.1
+            
+filter: 
+    excluded_paths:
+        - tests/*
+        - '*.min.js'
+        - '*.min.*.js'
+checks:
+    php:
+        verify_property_names: true
+        simplify_boolean_return: true
+        return_doc_comments: true
+        return_doc_comment_if_not_inferrable: true
+        remove_extra_empty_lines: true
+        properties_in_camelcaps: true
+        parameters_in_camelcaps: true
+        phpunit_assertions: true
+        parameter_doc_comments: true
+        param_doc_comment_if_not_inferrable: true
+        overriding_parameter: true
+        no_short_variable_names:
+            minimum: '3'
+        no_short_method_names:
+            minimum: '3'
+        no_long_variable_names:
+            maximum: '20'
+        no_goto: true
+        naming_conventions:
+            local_variable: '^[a-z][a-zA-Z0-9]*$'
+            abstract_class_name: ^Abstract|Factory$
+            utility_class_name: 'Utils?$'
+            constant_name: '^[A-Z][A-Z0-9]*(?:_[A-Z0-9]+)*$'
+            property_name: '^[a-z][a-zA-Z0-9]*$'
+            method_name: '^(?:[a-z]|__)[a-zA-Z0-9]*$'
+            parameter_name: '^[a-z][a-zA-Z0-9]*$'
+            interface_name: '^[A-Z][a-zA-Z0-9]*Interface$'
+            type_name: '^[A-Z][a-zA-Z0-9]*$'
+            exception_name: '^[A-Z][a-zA-Z0-9]*Exception$'
+            isser_method_name: '^(?:is|has|should|may|supports)'
+        more_specific_types_in_doc_comments: true
+        fix_use_statements:
+            remove_unused: true
+            preserve_multiple: false
+            preserve_blanklines: false
+            order_alphabetically: false
+        fix_line_ending: true
+        check_method_contracts:
+            verify_interface_like_constraints: true
+            verify_documented_constraints: true
+            verify_parent_constraints: true
+    javascript:
+        no_loop_var_assign: true
+        no_var: true
+        no_param_assign: true
+        no_implicit_undefined_return: true
+        no_else_return: true
+        no_alert: true
+        eqeqeq: true
+coding_style:
+    php:
+        indentation:
+            general:
+                use_tabs: true
+        spaces:
+            around_operators:
+                concatenation: true
+                
+tools:
+    sensiolabs_security_checker: true
+    
+build:
+    nodes:
+        tests: true
+        analysis:
+            tests:
+                override:
+                    -
+                        command: phpcs-run
+                        use_website_config: true

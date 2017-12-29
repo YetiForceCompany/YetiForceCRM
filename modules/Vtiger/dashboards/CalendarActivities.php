@@ -25,10 +25,10 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 
 		$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel();
 
-		$page = $request->get('page');
-		$linkId = $request->get('linkid');
-		$sortOrder = $request->get('sortorder');
-		$orderBy = $request->get('orderby');
+		$page = $request->getInteger('page');
+		$linkId = $request->getInteger('linkid');
+		$sortOrder = $request->getForSql('sortorder');
+		$orderBy = $request->getForSql('orderby');
 
 		$params = ['status' => [
 				$stateActivityLabels['not_started'],
@@ -41,7 +41,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 			]
 		];
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
-		$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Calendar', $request->get('owner'));
+		$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Calendar', $request->getByType('owner', 2));
 
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
@@ -51,15 +51,9 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$calendarActivities = ($owner === false) ? [] : $moduleModel->getCalendarActivities('upcoming', $pagingModel, $owner, false, $params);
-
-		$colorList = [];
-		foreach ($calendarActivities as $activityModel) {
-			$colorList[$activityModel->getId()] = Settings_DataAccess_Module_Model::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
-		}
 		$msgLabel = 'LBL_NO_SCHEDULED_ACTIVITIES';
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('SOURCE_MODULE', 'Calendar');
-		$viewer->assign('COLOR_LIST', $colorList);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('ACTIVITIES', $calendarActivities);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
@@ -73,8 +67,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('LISTVIEWLINKS', true);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('USER_CONDITIONS', $conditions);
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/CalendarActivitiesContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/CalendarActivities.tpl', $moduleName);

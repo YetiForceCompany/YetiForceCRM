@@ -3,7 +3,7 @@
  * ServiceContracts spanish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'LBL_SUMMARY' => 'Resumen',
@@ -11,8 +11,6 @@ $languageStrings = [
 	'ServiceContracts' => 'Contratos de servicio',
 	'Service Contracts' => 'Contratos de servicio',
 	'SINGLE_ServiceContracts' => 'Contrato de servicio',
-	'LBL_ADD_RECORD' => 'Añadir',
-	'LBL_RECORDS_LIST' => 'Lista',
 	// Blocks
 	'LBL_SERVICE_CONTRACT_INFORMATION' => 'Información sobre el Contrato de servicio',
 	//Field Labels

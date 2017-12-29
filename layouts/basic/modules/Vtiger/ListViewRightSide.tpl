@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{assign var=LINKS value=$LISTVIEW_ENTRY->getRecordListViewLinksRightSide()}
 	{if count($LINKS) > 0}
@@ -6,7 +6,7 @@
 		<div class="actions">
 			<div class=" {if $ONLY_ONE}pull-right{else}hide actionImages{/if}">
 				{foreach from=$LINKS item=LINK}
-					{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='listViewBasic'}
+					{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewBasic'}
 				{/foreach}
 			</div>
 			{if !$ONLY_ONE}

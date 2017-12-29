@@ -7,7 +7,7 @@ return [
 		'Partners' => ['level' => 0],
 		'Competition' => ['level' => 0],
 		'OSSEmployees' => ['level' => 0],
-		'Contacts' => ['level' => 1],
+		'Contacts' => ['level' => 3],
 		'SSalesProcesses' => ['level' => 1],
 		'Project' => ['level' => 1],
 		'ServiceContracts' => ['level' => 1],
@@ -71,11 +71,20 @@ return [
 		],
 		'IGDNC' => [
 			'igdnid' => ['IGDN' => ['storageid' => ['storageid'], 'accountid' => ['accountid']]]
+		],
+		'Assets' => [
+			'contactid' => ['Contacts' => ['parent_id' => ['parent_id']]],
 		]
 	],
 	'modulesMap1M' => [// Base => Parent
 		'Contacts' => ['Accounts'],
 		'HelpDesk' => ['Accounts', 'Vendors'],
+		'SSalesProcesses' => ['Accounts'],
+		'SQuotes' => ['SSalesProcesses'],
+		'FInvoice' => ['Accounts'],
+		'SSingleOrders' => ['SSalesProcesses'],
+		'SRecurringOrders' => ['SSalesProcesses', 'SQuotes'],
+		'FBookkeeping' => ['Accounts'],
 		'Project' => ['Accounts'],
 		'ProjectTask' => ['Project'],
 		'ProjectMilestone' => ['Project'],

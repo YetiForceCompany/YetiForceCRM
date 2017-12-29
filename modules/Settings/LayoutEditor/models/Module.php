@@ -13,6 +13,18 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 {
 
 	/**
+	 * Related view types
+	 * @var string[]
+	 */
+	private static $relatedViewType = [
+		'RelatedTab' => 'LBL_RELATED_TAB_TYPE',
+		'DetailTop' => 'LBL_DETAIL_TOP_TYPE',
+		'DetailBottom' => 'LBL_DETAIL_BOTTOM_TYPE',
+		'SummaryTop' => 'LBL_SUMMARY_TOP_TYPE',
+		'SummaryBottom' => 'LBL_SUMMARY_BOTTOM_TYPE',
+	];
+
+	/**
 	 * Function that returns all the fields for the module
 	 * @return <Array of Vtiger_Field_Model> - list of field models
 	 */
@@ -104,7 +116,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	{
 		$fieldTypesInfo = [];
 		$addFieldSupportedTypes = $this->getAddSupportedFieldTypes();
-		$lengthSupportedFieldTypes = array('Text', 'Decimal', 'Integer', 'Currency');
+		$lengthSupportedFieldTypes = ['Text', 'Decimal', 'Integer', 'Currency'];
 		foreach ($addFieldSupportedTypes as $fieldType) {
 			$details = [];
 			if (in_array($fieldType, $lengthSupportedFieldTypes)) {
@@ -160,6 +172,9 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		if ($this->checkFieldNameIsAnException($name, $params['sourceModule'])) {
 			throw new Exception(\App\Language::translate('LBL_FIELD_NAME_IS_RESERVED', 'Settings::LayoutEditor'), 512);
 		}
+		if (strlen($name) > 30) {
+			throw new Exception(\App\Language::translate('LBL_EXCEEDED_MAXIMUM_NUMBER_CHARACTERS_FOR_FIELD_NAME', 'Settings::LayoutEditor'), 512);
+		}
 		$supportedFieldTypes = $this->getAddSupportedFieldTypes();
 		if (!in_array($fieldType, $supportedFieldTypes)) {
 			throw new Exception(\App\Language::translate('LBL_WRONG_FIELD_TYPE', 'Settings::LayoutEditor'), 513);
@@ -191,9 +206,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$uitype = $details['uitype'];
 		$typeofdata = $details['typeofdata'];
 		$dbType = $details['dbType'];
-
-		$quickCreate = in_array($moduleName, getInventoryModules()) ? 3 : 1;
-
 		$fieldModel = new Settings_LayoutEditor_Field_Model();
 		$fieldModel->set('name', $columnName)
 			->set('table', $tableName)
@@ -201,7 +213,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			->set('uitype', $uitype)
 			->set('label', $label)
 			->set('typeofdata', $typeofdata)
-			->set('quickcreate', $quickCreate)
+			->set('quickcreate', 1)
 			->set('fieldparams', $fieldParams ? \App\Json::encode($fieldParams) : '')
 			->set('columntype', $dbType);
 
@@ -210,24 +222,26 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		}
 		$blockModel = Vtiger_Block_Model::getInstance($blockId, $this);
 		$blockModel->addField($fieldModel);
-
 		if ($fieldType === 'Picklist' || $fieldType === 'MultiSelectCombo') {
 			$pickListValues = $params['pickListValues'];
-			if (is_string($pickListValues))
+			if (is_string($pickListValues)) {
 				$pickListValues = [$pickListValues];
+			}
 			$fieldModel->setPicklistValues($pickListValues);
 		}
 		if ($fieldType === 'Related1M') {
-			if (!is_array($params['referenceModule']))
+			if (!is_array($params['referenceModule'])) {
 				$moduleList[] = $params['referenceModule'];
-			else
+			} else {
 				$moduleList = $params['referenceModule'];
+			}
 			$fieldModel->setRelatedModules($moduleList);
 			foreach ($moduleList as $module) {
 				$targetModule = vtlib\Module::getInstance($module);
-				$targetModule->setRelatedList($this, $moduleName, array('Add'), 'getDependentsList');
+				$targetModule->setRelatedList($this, $moduleName, ['Add'], 'getDependentsList');
 			}
 		}
+		App\Cache::clear();
 		return $fieldModel;
 	}
 
@@ -380,7 +394,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	public function checkFieldNameCharacters($name)
 	{
-		if (preg_match('#[^a-z0-9]#is', $name) || !preg_match('/[a-z]/i', $name)) {
+		if (preg_match('#[^a-z0-9_]#is', $name) || !preg_match('/[a-z]/i', $name)) {
 			return true;
 		}
 		if (strpos($name, ' ') !== false) {
@@ -404,7 +418,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	{
 		$tabId = [$this->getId()];
 		if ($this->getName() === 'Calendar' || $this->getName() === 'Events') {
-			$tabId = [vtlib\Functions::getModuleId('Calendar'), vtlib\Functions::getModuleId('Events')];
+			$tabId = [\App\Module::getModuleId('Calendar'), \App\Module::getModuleId('Events')];
 		}
 		$count = (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $tabId])
 			->andWhere(['or', ['fieldname' => $fieldName], ['columnname' => $fieldName]])
@@ -480,7 +494,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function isSortableAllowed()
 	{
 		$moduleName = $this->getName();
-		if (in_array($moduleName, array('Calendar', 'Events'))) {
+		if (in_array($moduleName, ['Calendar', 'Events'])) {
 			return false;
 		}
 		return true;
@@ -493,7 +507,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function isBlockSortableAllowed()
 	{
 		$moduleName = $this->getName();
-		if (in_array($moduleName, array('Calendar', 'Events'))) {
+		if (in_array($moduleName, ['Calendar', 'Events'])) {
 			return false;
 		}
 		return true;
@@ -506,11 +520,11 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function isFieldsSortableAllowed($blockName)
 	{
 		$moduleName = $this->getName();
-		$blocksEliminatedArray = array('HelpDesk' => array('LBL_TICKET_RESOLUTION', 'LBL_COMMENTS'),
-			'Faq' => array('LBL_COMMENT_INFORMATION'),
-			'Calendar' => array('LBL_TASK_INFORMATION', 'LBL_DESCRIPTION_INFORMATION'),
-			'Events' => array('LBL_EVENT_INFORMATION', 'LBL_REMINDER_INFORMATION', 'LBL_RECURRENCE_INFORMATION', 'LBL_RELATED_TO', 'LBL_DESCRIPTION_INFORMATION', 'LBL_INVITE_RECORDS'));
-		if (in_array($moduleName, array('Calendar', 'Events', 'HelpDesk', 'Faq'))) {
+		$blocksEliminatedArray = ['HelpDesk' => ['LBL_TICKET_RESOLUTION', 'LBL_COMMENTS'],
+			'Faq' => ['LBL_COMMENT_INFORMATION'],
+			'Calendar' => ['LBL_TASK_INFORMATION', 'LBL_DESCRIPTION_INFORMATION'],
+			'Events' => ['LBL_EVENT_INFORMATION', 'LBL_REMINDER_INFORMATION', 'LBL_RECURRENCE_INFORMATION', 'LBL_RELATED_TO', 'LBL_DESCRIPTION_INFORMATION', 'LBL_INVITE_RECORDS']];
+		if (in_array($moduleName, ['Calendar', 'Events', 'HelpDesk', 'Faq'])) {
 			if (!empty($blocksEliminatedArray[$moduleName])) {
 				if (in_array($blockName, $blocksEliminatedArray[$moduleName])) {
 					return false;
@@ -527,7 +541,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		if ($this->relations === null) {
 			$this->relations = Vtiger_Relation_Model::getAllRelations($this, false);
 		}
-
 		// Contacts relation-tab is turned into custom block on DetailView.
 		if ($this->getName() === 'Calendar') {
 			$contactsIndex = false;
@@ -541,7 +554,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				array_splice($this->relations, $contactsIndex, 1);
 			}
 		}
-
 		return $this->relations;
 	}
 
@@ -552,7 +564,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getTreeTemplates($sourceModule)
 	{
-		$sourceModule = vtlib\Functions::getModuleId($sourceModule);
+		$sourceModule = \App\Module::getModuleId($sourceModule);
 		$query = (new \App\Db\Query())->select('templateid, name')->from('vtiger_trees_templates')->where(['module' => $sourceModule])->orWhere(['like', 'share', ",$sourceModule,"]);
 		$treeList = [];
 		$dataReader = $query->createCommand()->query();
@@ -574,10 +586,10 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 	public static function getRelationsActions()
 	{
-		$actionList = array(
+		$actionList = [
 			'ADD' => 'PLL_ADD',
 			'SELECT' => 'PLL_SELECT',
-		);
+		];
 		return $actionList;
 	}
 
@@ -593,5 +605,25 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$fields[] = $row['fieldname'];
 		}
 		return $fields;
+	}
+
+	/**
+	 * Update related view type
+	 * @param int $relationId
+	 * @param string[] $type
+	 */
+	public static function updateRelatedViewType($relationId, $type)
+	{
+		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['view_type' => implode(',', $type)], ['relation_id' => $relationId])->execute();
+		\App\Cache::clear();
+	}
+
+	/**
+	 * Get related view types
+	 * @return string[]
+	 */
+	public static function getRelatedViewTypes()
+	{
+		return static::$relatedViewType;
 	}
 }

@@ -14,10 +14,10 @@
 {assign var=ACCESSIBLE_GROUPS value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
 {assign var=CURRENTUSERID value=$CURRENTUSER->getId()}
 <div class="dashboardWidgetHeader">
-	{include file="dashboards/WidgetHeadeAccessible.tpl"|@vtemplate_path:$MODULE_NAME}
+	{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeadeAccessible.tpl', $MODULE_NAME)}
 </div>
 <div name="history" class="dashboardWidgetContent">
-	{include file="dashboards/AssignedProjectsTasksContents.tpl"|@vtemplate_path:$MODULE_NAME WIDGET=$WIDGET}
+	{include file=\App\Layout::getTemplatePath('dashboards/AssignedProjectsTasksContents.tpl', $MODULE_NAME) WIDGET=$WIDGET}
 </div>
 {/strip}
 <script type='text/javascript'>

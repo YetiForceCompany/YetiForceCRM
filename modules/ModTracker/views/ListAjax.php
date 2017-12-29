@@ -11,11 +11,27 @@
 class ModTracker_ListAjax_View extends Vtiger_IndexAjax_View
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
+	public function checkPermission(\App\Request $request)
+	{
+		$recordId = $request->getInteger('parent_id');
+		if (!$recordId) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $recordId)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+	}
+
 	public function process(\App\Request $request)
 	{
-		$parentRecordId = $request->get('parent_id');
-		$pageNumber = $request->get('page');
-		$limit = $request->get('limit');
+		$parentRecordId = $request->getInteger('parent_id');
+		$pageNumber = $request->getInteger('page');
+		$limit = $request->getInteger('limit');
 		$moduleName = $request->getModule();
 
 		if (empty($pageNumber)) {

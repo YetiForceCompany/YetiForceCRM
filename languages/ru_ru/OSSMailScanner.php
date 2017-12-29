@@ -3,7 +3,7 @@
  * OSSMailScanner russian translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'show_identities' => 'Показать тождества',
@@ -63,11 +63,11 @@ $languageStrings = [
 	'MailView config' => 'Настройки',
 	'General Configuration' => 'Основные настройки',
 	'Search email configuration' => 'Настройки поиска адресов электронной почты',
-	'LBL_TICKET_REOPEN' => 'Create/Open ticket',
-	'LBL_OPEN_TICKET' => 'Open ticket and set "Wait for response" status',
-	'LBL_CREATE_TICKET' => 'Create new ticket',
-	'LBL_NO_ACTION' => 'Relate to current ticket (if relating action is added)',
-	'LBL_CONFTAB_CHANGE_TICKET_STATUS' => 'What should the scanner do when we receive a mail regarding a ticket that has been closed?',
+	'LBL_TICKET_REOPEN' => 'Открыть тикет',
+	'LBL_OPEN_TICKET' => 'Открыть тикет и установить статус "Ожидает ответа"',
+	'LBL_CREATE_TICKET' => 'Создать новый тикет',
+	'LBL_NO_ACTION' => 'Установить связь с текущим тикетом (если добавляется действие, устанавливающее отношение)',
+	'LBL_CONFTAB_CHANGE_TICKET_STATUS' => 'Что должен сделать сканнер, когда мы получим письмо о том, что тикет был закрыт?',
 	'Alert_no_module_title' => 'Модуль, Сканер почты, не установлен или отключен',
 	'Alert_no_module_desc' => 'Необходимо установить или активировать модуль Сканер почты',
 	'Alert_no_accounts_title' => 'Учетные записи электронной почты не найдены',
@@ -123,7 +123,7 @@ $languageStrings = [
 	'stop_user' => 'Сканирование остановил',
 	'Email_Subject' => 'Уведомление: Обработчик работает слишком долго',
 	'Email_Body' => 'Здравствуйте!<br /><br />Обработчик работает слишком долго, проверьте правильность работы сканера почты<br /><br />С уважением, Администратор!',
-	'Email_FromName' => 'Обработчик',
+	'Email_FromName' => 'Mail Scanner',
 	'JS_info_restart_ok' => 'Обработчик разблокирован',
 	'permissions_all' => 'Видимо для всех',
 	'permissions_vtiger' => 'На основании прав доступа в системе',

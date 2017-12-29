@@ -5,7 +5,7 @@ namespace App\SystemWarnings;
  * System warnings template abstract class
  * @package YetiForce.SystemWarning
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 abstract class Template
@@ -128,7 +128,7 @@ abstract class Template
 		}
 		$refClass = new \ReflectionClass($this);
 		$className = $refClass->getShortName();
-		$path = vtemplate_path("{$this->getFolder(false)}/{$className}.tpl", 'Settings:SystemWarnings');
+		$path = \App\Layout::getTemplatePath("{$this->getFolder(false)}/{$className}.tpl", 'Settings:SystemWarnings');
 		$this->tpl = $path;
 		return $path;
 	}

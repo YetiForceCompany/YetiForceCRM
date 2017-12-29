@@ -3,7 +3,7 @@
  * DownloadFile class to handle files
  * @package YetiForce.Files
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -21,7 +21,7 @@ class Documents_DownloadFile_File extends Vtiger_Basic_File
 	public function getCheckPermission(\App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
-			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		return true;
 	}

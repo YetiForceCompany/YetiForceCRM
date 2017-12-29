@@ -4,7 +4,7 @@
  * Settings mail autologin model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Mail_Autologin_Model
 {
@@ -24,7 +24,12 @@ class Settings_Mail_Autologin_Model
 				->createCommand()->queryColumn();
 	}
 
-	public function updateUsersAutologin($id, $users)
+	/**
+	 * Update users autologin
+	 * @param int $id
+	 * @param array $users
+	 */
+	public static function updateUsersAutologin($id, $users)
 	{
 		if (!$users) {
 			$users = [];
@@ -37,8 +42,7 @@ class Settings_Mail_Autologin_Model
 			foreach ($users as $user) {
 				$insertData [] = [$id, $user];
 			}
-			$db->createCommand()->batchInsert('roundcube_users_autologin', ['rcuser_id', 'crmuser_id'], $insertData)
-				->execute();
+			$db->createCommand()->batchInsert('roundcube_users_autologin', ['rcuser_id', 'crmuser_id'], $insertData)->execute();
 		}
 	}
 

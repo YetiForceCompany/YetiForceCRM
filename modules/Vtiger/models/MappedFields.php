@@ -4,7 +4,7 @@
  * Basic MappedFields Model Class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_MappedFields_Model extends \App\Base
@@ -71,17 +71,17 @@ class Vtiger_MappedFields_Model extends \App\Base
 	{
 
 		\App\Log::trace('Entering ' . __METHOD__ . '(' . $recordId . ',' . $view . ',' . $moduleName . ') method ...');
-		if (!isRecordExists($recordId)) {
+		if (!\App\Record::isExists($recordId)) {
 			\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 			return [];
 		}
 		if (!$moduleName) {
-			$moduleName = vtlib\Functions::getCRMRecordType($recordId);
+			$moduleName = \App\Record::getType($recordId);
 		}
 
 		$templates = $this->getTemplatesByModule($moduleName);
 		foreach ($templates as $id => &$template) {
-			if (!$template->checkFiltersForRecord($recordId) || !$template->checkUserPermissions() || !Users_Privileges_Model::isPermitted($template->getRelatedName(), 'EditView')) {
+			if (!$template->checkFiltersForRecord($recordId) || !$template->checkUserPermissions() || !\App\Privilege::isPermitted($template->getRelatedName(), 'EditView')) {
 				unset($templates[$id]);
 			}
 		}
@@ -122,7 +122,6 @@ class Vtiger_MappedFields_Model extends \App\Base
 		\App\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ',' . $view . ') method ...');
 		$templates = $this->getTemplatesByModule($moduleName);
 		foreach ($templates as $id => &$template) {
-			$active = true;
 			if (!$template->checkUserPermissions()) {
 				unset($templates[$id]);
 			}
@@ -141,7 +140,7 @@ class Vtiger_MappedFields_Model extends \App\Base
 			return false;
 		}
 
-		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', \vtlib\Functions::getModuleName($tabId));
+		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', \App\Module::getModuleName($tabId));
 		$mf = new $handlerClass();
 		$mf->setData($row);
 		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
@@ -226,12 +225,12 @@ class Vtiger_MappedFields_Model extends \App\Base
 
 	public function getName()
 	{
-		return vtlib\Functions::getModuleName($this->get('tabid'));
+		return \App\Module::getModuleName($this->get('tabid'));
 	}
 
 	public function getRelatedName()
 	{
-		return vtlib\Functions::getModuleName($this->get('reltabid'));
+		return \App\Module::getModuleName($this->get('reltabid'));
 	}
 
 	/**
@@ -245,7 +244,7 @@ class Vtiger_MappedFields_Model extends \App\Base
 		if (\App\Cache::staticHas(__METHOD__, $key)) {
 			return \App\Cache::staticGet(__METHOD__, $key);
 		}
-		vimport('~/modules/com_vtiger_workflow/VTJsonCondition.php');
+		Vtiger_Loader::includeOnce('~/modules/com_vtiger_workflow/VTJsonCondition.php');
 		$conditionStrategy = new VTJsonCondition();
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		$test = $conditionStrategy->evaluate($this->getRaw('conditions'), $recordModel);

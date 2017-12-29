@@ -18,9 +18,9 @@ class Project_ProjectWidget_Dashboard extends Vtiger_IndexAjax_View
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
-		$cssFileNames = array(
+		$cssFileNames = [
 			//Place your widget specific css files here
-		);
+		];
 		$headerCssScriptInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		return $headerCssScriptInstances;
 	}
@@ -29,22 +29,22 @@ class Project_ProjectWidget_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$listSearchParams = [];
 		$conditions = [];
-		array_push($conditions, array("sales_stage", "e", $stage));
+		array_push($conditions, ["sales_stage", "e", $stage]);
 		if ($assignedto == '') {
 			$currenUserModel = Users_Record_Model::getCurrentUserModel();
 			$assignedto = $currenUserModel->getId();
 		}
 		if ($assignedto != 'all') {
-			$ownerType = vtws_getOwnerType($assignedto);
+			$ownerType = \App\Fields\Owner::getType($assignedto);
 			if ($ownerType == 'Users')
-				array_push($conditions, array("assigned_user_id", "e", \App\Fields\Owner::getUserLabel($assignedto)));
+				array_push($conditions, ["assigned_user_id", "e", \App\Fields\Owner::getUserLabel($assignedto)]);
 			else {
 				$groupName = \App\Fields\Owner::getGroupName($assignedto);
-				array_push($conditions, array("assigned_user_id", "e", $groupName));
+				array_push($conditions, ["assigned_user_id", "e", $groupName]);
 			}
 		}
 		if (!empty($dates)) {
-			array_push($conditions, array("closingdate", "bw", $dates['start'] . ',' . $dates['end']));
+			array_push($conditions, ["closingdate", "bw", $dates['start'] . ',' . $dates['end']]);
 		}
 		$listSearchParams[] = $conditions;
 		return '&search_params=' . json_encode($listSearchParams);
@@ -55,10 +55,9 @@ class Project_ProjectWidget_Dashboard extends Vtiger_IndexAjax_View
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-
-		$linkId = $request->get('linkid');
-		$owner = $request->get('owner');
-		$dates = $request->get('expectedclosedate');
+		$linkId = $request->getInteger('linkid');
+		$owner = $request->getByType('owner', 2);
+		$dates = $request->getDateRange('expectedclosedate');
 
 		//Date conversion from user to database format
 		if (!empty($dates)) {
@@ -83,9 +82,7 @@ class Project_ProjectWidget_Dashboard extends Vtiger_IndexAjax_View
 		//Include special script and css needed for this widget
 		$viewer->assign('STYLES', $this->getHeaderCss($request));
 		$viewer->assign('CURRENTUSER', $currentUser);
-
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/CampaignsWidget.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/CampaignsWidget.tpl', $moduleName);

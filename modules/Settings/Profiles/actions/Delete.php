@@ -23,7 +23,7 @@ class Settings_Profiles_Delete_Action extends Settings_Vtiger_Basic_Action
 		}
 
 		$response = new Vtiger_Response();
-		$result = array('success' => true);
+		$result = ['success' => true];
 
 		$response->setResult($result);
 		$response->emit();

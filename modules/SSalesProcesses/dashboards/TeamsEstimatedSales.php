@@ -4,7 +4,7 @@
  * Widget show estimated value sale
  * @package YetiForce.Dashboard
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_View
@@ -85,9 +85,9 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$linkId = $request->get('linkid');
-		$time = $request->get('time');
-		$compare = $request->get('compare') === 'true';
+		$linkId = $request->getInteger('linkid');
+		$time = $request->getDateRange('time');
+		$compare = $request->getBoolean('compare');
 		$widget = Vtiger_Widget_Model::getInstance($linkId, \App\User::getCurrentUserId());
 		if (empty($time)) {
 			$time = ['start' => ''];
@@ -95,8 +95,8 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 			$time['end'] = $date->format('Y-m-d');
 			$date->modify('-30 days');
 			$time['start'] = $date->format('Y-m-d');
-			$time['start'] = \App\Fields\DateTime::currentUserDisplayDate($time['start']);
-			$time['end'] = \App\Fields\DateTime::currentUserDisplayDate($time['end']);
+			$time['start'] = \App\Fields\Date::formatToDisplay($time['start']);
+			$time['end'] = \App\Fields\Date::formatToDisplay($time['end']);
 		}
 		$timeSting = implode(',', $time);
 
@@ -111,7 +111,7 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 			}
 			$endPeriod->modify("-1 days");
 			$start->modify("-{$interval} days");
-			$previousTime = \App\Fields\DateTime::currentUserDisplayDate($start->format('Y-m-d')) . ',' . \App\Fields\DateTime::currentUserDisplayDate($endPeriod->format('Y-m-d'));
+			$previousTime = \App\Fields\Date::formatToDisplay($start->format('Y-m-d')) . ',' . \App\Fields\Date::formatToDisplay($endPeriod->format('Y-m-d'));
 			$previousData = $this->getEstimatedValue($previousTime, $compare);
 			if (!empty($data) || !empty($previousData)) {
 				list($data, $previousData) = $this->parseData($data, $previousData);
@@ -123,9 +123,7 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 		$viewer->assign('DATA', $data);
 		$viewer->assign('DTIME', $timeSting);
 		$viewer->assign('COMPARE', $compare);
-
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/DashBoardWidgetContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/TeamsEstimatedSales.tpl', $moduleName);

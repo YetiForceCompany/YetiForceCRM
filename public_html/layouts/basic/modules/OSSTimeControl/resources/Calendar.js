@@ -1,7 +1,6 @@
-/* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 jQuery.Class("OSSTimeControl_Calendar_Js", {
 	registerUserListWidget: function () {
-		var thisInstance = new OSSTimeControl_Calendar_Js();
 		var widgetContainer = $('.widgetContainer');
 		widgetContainer.hover(
 				function () {
@@ -12,7 +11,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 		);
 		this.registerColorField(widgetContainer.find('#calendarUserList'), 'userCol');
 		this.registerColorField(widgetContainer.find('#timecontrolTypes'), 'listCol');
-		widgetContainer.find('.select2').on('change', function(){
+		widgetContainer.find('.select2').on('change', function () {
 			$(this).closest('.siteBarContent').find('.refreshHeader').removeClass('hide');
 		});
 	},
@@ -37,8 +36,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 		var eventLimit = jQuery('#eventLimit').val();
 		if (eventLimit == 'true') {
 			eventLimit = true;
-		}
-		else if (eventLimit == 'false') {
+		} else if (eventLimit == 'false') {
 			eventLimit = false;
 		} else {
 			eventLimit = parseInt(eventLimit) + 1;
@@ -111,14 +109,27 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 				thisInstance.updateEvent(event, delta, revertFunc);
 			},
 			eventRender: function (event, element) {
-				element.find('.fc-content').popover({
-					title: event.title,
-					placement: 'auto right',
-					html: true,
-					trigger: 'hover',
-					delay: 500,
+				app.showPopoverElementView(element.find('.fc-content'), {
+					title: event.title + '<a href="index.php?module=OSSTimeControl&view=Edit&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-pencil"></span></a>' + '<a href="index.php?module=OSSTimeControl&view=Detail&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-th-list"></span></a>',
 					container: 'body',
-					content: '<i class="icon-time"></i> ' + app.vtranslate('JS_START_DATE') + ': ' + event.start.format('YYYY-MM-DD ' + popoverTimeFormat) + '<br /><i class="icon-time"></i> ' + app.vtranslate('JS_END_DATE') + ': ' + event.end.format('YYYY-MM-DD ' + popoverTimeFormat)
+					html: true,
+					placement: 'auto right',
+					template: '<div class="popover calendarPopover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
+					content: '<div><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start.format('YYYY-MM-DD ' + popoverTimeFormat) + '</div>' +
+							'<div><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end.format('YYYY-MM-DD ' + popoverTimeFormat) + '</div>' +
+							'<div><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_TOTAL_TIME') + '</label>: ' + event.totalTime + '</div>' +
+							'<div><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span> <label>' + app.vtranslate('JS_NUMBER') + '</label>: ' + event.number + '</div>' +
+							'<div><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> <label>' + app.vtranslate('JS_TYPE') + '</label>: ' + event.type + '</div>' +
+							(event.status ? '<div><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span> <label>' + app.vtranslate('JS_STATUS') + '</label>: ' + event.status + '</div>' : '') +
+							(event.linkl ? '<div><span class="userIcon-' + event.linkm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION') + '</label>: <a target="_blank" href="index.php?module=' + event.linkm + '&view=Detail&record=' + event.link + '">' + event.linkl + '</a></div>' : '') +
+							(event.linkexl ? '<div><span class="userIcon-' + event.linkexm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION_EXTEND') + '</label>: <a target="_blank" href="index.php?module=' + event.linkexm + '&view=Detail&record=' + event.linkextend + '">' + event.linkexl + '</a></div>' : '') +
+							(event.procl ? '<div><span class="userIcon-' + event.procm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_PROCESS') + '</label>: <a target="_blank" href="index.php?module=' + event.procm + '&view=Detail&record=' + event.process + '">' + event.procl + '</a></div>' : '') +
+							(event.subprocl ? '<div><span class="userIcon-' + event.subprocm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_SUB_PROCESS') + '</label>: <a target="_blank" href="index.php?module=' + event.subprocm + '&view=Detail&record=' + event.subprocess + '">' + event.subprocl + '</a></div>' : '') +
+							(event.smownerid ? '<div><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
+				});
+				element.find('.fc-content, .fc-info').click(function () {
+					var event = $(this).closest('.fc-event');
+					window.location.href = event.attr('href');
 				});
 			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
@@ -145,32 +156,31 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 			eventLimitText: app.vtranslate('JS_MORE')
 		});
 	},
-	registerRefreshEvent: function() {
+	registerRefreshEvent: function () {
 		var thisInstance = this;
 		$(".refreshCalendar").click(function () {
 			$(this).closest('.refreshHeader').addClass('hide');
 			thisInstance.loadCalendarData();
 		});
 	},
-	registerButtonSelectAll: function(){
+	registerButtonSelectAll: function () {
 		var selectBtn = $('.selectAllBtn');
-		
+
 		selectBtn.click(function (e) {
 			var selectAllLabel = $(this).find('.selectAll');
 			var deselectAllLabel = $(this).find('.deselectAll');
-			
-			if(selectAllLabel.hasClass('hide')){
+
+			if (selectAllLabel.hasClass('hide')) {
 				selectAllLabel.removeClass('hide');
 				deselectAllLabel.addClass('hide');
 				$(this).closest('.quickWidget').find('select option').prop("selected", false);
-			}
-			else{
+			} else {
 				$(this).closest('.quickWidget').find('select option').prop("selected", true);
 				deselectAllLabel.removeClass('hide');
 				selectAllLabel.addClass('hide');
 			}
 			$(this).closest('.quickWidget').find('select').trigger("change");
-		});	
+		});
 	},
 	loadCalendarData: function (allEvents) {
 		var progressInstance = jQuery.progressIndicator();
@@ -246,7 +256,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 			if (timeFormat == 24) {
 				var defaultTimeFormat = 'HH:mm';
 			} else {
-				defaultTimeFormat = 'hh:mm tt';
+				defaultTimeFormat = 'hh:mm A';
 			}
 			var startDateInstance = Date.parse(date);
 			var startDateString = moment(date).format(dateFormat);
@@ -282,26 +292,35 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 			var headerInstance = new Vtiger_Header_Js();
 			headerInstance.handleQuickCreateData(data, {callbackFunction: function (data) {
 					thisInstance.addCalendarEvent(data.result, dateFormat);
-					
+
 				}});
 			jQuery('.modal-body').css({'max-height': app.getScreenHeight(70) + 'px', 'overflow-y': 'auto'});
 		});
 	},
 	addCalendarEvent: function (calendarDetails, dateFormat) {
-		// convert dates to db format
-		calendarDetails.date_start.display_value = moment(calendarDetails.date_start.display_value).format(dateFormat);
-		calendarDetails.due_date.display_value = moment(calendarDetails.due_date.display_value).format(dateFormat);
+		if($.inArray(calendarDetails.assigned_user_id.value, $("#calendarUserList").val()) < 0){
+			return;
+		}
+		if($.inArray(calendarDetails.timecontrol_type.value, $("#timecontrolTypes").val()) < 0){
+			return;
+		}
 		var calendar = this.getCalendarView();
-
-		var eventObject = {};
-		eventObject.id = calendarDetails._recordId;
-		eventObject.title = calendarDetails.name.display_value;
-		var startDate = calendar.fullCalendar('moment', calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value);
-		eventObject.start = startDate.toString();
-		var endDate = calendar.fullCalendar('moment', calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value);
-		eventObject.end = endDate.toString();
-		eventObject.url = 'index.php?module=OSSTimeControl&view=Detail&record=' + calendarDetails._recordId;
-		eventObject.className = 'userCol_' + calendarDetails.assigned_user_id.value + ' calCol_' + calendarDetails.timecontrol_type.value;
+		var startDate = calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value);
+		var endDate = calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value);
+		var eventObject = {
+			id: calendarDetails._recordId,
+			title: calendarDetails.name.display_value,
+			start: startDate.toString(),
+			end: endDate.toString(),
+			url: 'index.php?module=OSSTimeControl&view=Detail&record=' + calendarDetails._recordId,
+			className: 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBg_OSSTimeControl_timecontrol_type_' + calendarDetails.timecontrol_type.value,
+			title: calendarDetails.name.display_value,
+			totalTime: calendarDetails.sum_time.display_value,
+			number: calendarDetails.osstimecontrol_no.display_value,
+			type: calendarDetails.timecontrol_type.display_value,
+			status: calendarDetails.osstimecontrol_status.display_value,
+			smownerid: calendarDetails.assigned_user_id.display_value,
+		};
 		this.getCalendarView().fullCalendar('renderEvent', eventObject);
 	},
 	getCalendarCreateView: function () {
@@ -352,9 +371,9 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 			thisInstance.loadCalendarData();
 		});
 	},
-	registerCalendarScroll: function(){
+	registerCalendarScroll: function () {
 		var calendarContainer = $('.bodyContents');
-		app.showScrollBar(calendarContainer,{
+		app.showScrollBar(calendarContainer, {
 			railVisible: true,
 			alwaysVisible: true,
 			position: 'left'

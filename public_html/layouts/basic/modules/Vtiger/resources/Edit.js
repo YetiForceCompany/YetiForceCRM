@@ -75,7 +75,6 @@ jQuery.Class("Vtiger_Edit_Js", {
 		return this;
 	},
 	getPopUpParams: function (container) {
-		var params = {};
 		var sourceModule = app.getModuleName();
 		var popupReferenceModule = jQuery('input[name="popupReferenceModule"]', container).val();
 		var sourceFieldElement = jQuery('input[class="sourceField"]', container);
@@ -85,7 +84,6 @@ jQuery.Class("Vtiger_Edit_Js", {
 		if (sourceRecordElement.length > 0) {
 			sourceRecordId = sourceRecordElement.val();
 		}
-
 		var isMultiple = false;
 		if (sourceFieldElement.data('multiple') == true) {
 			isMultiple = true;
@@ -110,7 +108,13 @@ jQuery.Class("Vtiger_Edit_Js", {
 			src_record: sourceRecordId,
 			filterFields: filterFields,
 		}
+		$.each(['link', 'process'], function (index, value) {
+			var fieldElement = formElement.find('[name="' + value + '"]');
+			if (fieldElement.length && fieldElement.val() != '' && fieldElement.val() != 0) {
+				params[value] = fieldElement.val();
+			}
 
+		});
 		if (isMultiple) {
 			params.multi_select = true;
 		}
@@ -193,6 +197,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 				$.each(mappingRelatedField, function (key, value) {
 					if (response[value[0]] != 0 && !thisInstance.getMappingValuesFromUrl(key)) {
 						var mapFieldElement = formElement.find('[name="' + key + '"]');
+						var fieldinfo = mapFieldElement.data('fieldinfo');
 						if (mapFieldElement.is('select')) {
 							if (mapFieldElement.find('option[value="' + response[value[0]] + '"]').length) {
 								mapFieldElement.val(response[value[0]]).trigger("chosen:updated").change();
@@ -204,15 +209,17 @@ jQuery.Class("Vtiger_Edit_Js", {
 						}
 						var mapFieldDisplayElement = formElement.find('input[name="' + key + '_display"]');
 						if (mapFieldDisplayElement.length > 0) {
-							mapFieldDisplayElement.val(response[value[0] + '_label']).attr('readonly', true);
-							var referenceModulesList = formElement.find('#' + thisInstance.moduleName + '_editView_fieldName_' + key + '_dropDown');
-							if (referenceModulesList.length > 0 && value[1]) {
-								referenceModulesList.val(value[1]).change().trigger("chosen:updated");
+							mapFieldDisplayElement.val(data['result']['displayData'][value[0]]).attr('readonly', true);
+							if (fieldinfo.type !== 'tree') {
+								var referenceModulesList = formElement.find('#' + thisInstance.moduleName + '_editView_fieldName_' + key + '_dropDown');
+								if (referenceModulesList.length > 0 && value[1]) {
+									referenceModulesList.val(value[1]).change().trigger("chosen:updated");
+								}
+								thisInstance.setReferenceFieldValue(mapFieldDisplayElement.closest('.fieldValue'), {
+									name: data['result']['displayData'][value[0]],
+									id: response[value[0]]
+								});
 							}
-							thisInstance.setReferenceFieldValue(mapFieldDisplayElement.closest('.fieldValue'), {
-								name: response[value[0] + '_label'],
-								id: response[value[0]]
-							});
 						}
 					}
 				});
@@ -275,7 +282,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		if (sourceRecordElement.length > 0) {
 			sourceRecordId = sourceRecordElement.val();
 		}
-		urlOrParams = 'module=' + moduleName + '&view=TreePopup&template=' + sourceFieldElement.data('treetemplate') + '&src_field=' + sourceFieldElement.attr('name') + '&src_record=' + sourceRecordId + '&multiple=' + sourceFieldElement.data('multiple')+'&value='+sourceFieldElement.val();
+		urlOrParams = 'module=' + moduleName + '&view=TreePopup&template=' + sourceFieldElement.data('treetemplate') + '&src_field=' + sourceFieldElement.attr('name') + '&src_record=' + sourceRecordId + '&multiple=' + sourceFieldElement.data('multiple') + '&value=' + sourceFieldElement.val();
 		var popupInstance = Vtiger_Popup_Js.getInstance();
 		popupInstance.show(urlOrParams, function (data) {
 			var responseData = JSON.parse(data);
@@ -307,17 +314,13 @@ jQuery.Class("Vtiger_Edit_Js", {
 				var searchValue = request.term;
 				var parentElem = inputElement.closest('.fieldValue');
 				var sourceFieldElement = jQuery('input[class="sourceField"]', parentElem);
-				var allValues = sourceFieldElement.data('allvalues');
+				var fieldInfo = sourceFieldElement.data('fieldinfo');
+				var allValues = fieldInfo.picklistvalues;
 				var reponseDataList = [];
 				for (var id in allValues) {
 					var name = allValues[id][0];
-					if (name.toLowerCase().indexOf(searchValue) >= 0) {
-						var parent = allValues[id][1];
-						var label = '';
-						if (parent != '')
-							var label = '(' + allValues[parent][0] + ') ';
-						label = label + name;
-						reponseDataList.push({"label": label, "value": name, "id": id});
+					if (allValues[id].toLowerCase().indexOf(searchValue) >= 0) {
+						reponseDataList.push({label: allValues[id], value: id, id: id});
 					}
 				}
 				if (reponseDataList.length <= 0) {
@@ -341,9 +344,10 @@ jQuery.Class("Vtiger_Edit_Js", {
 				var sourceField = parentElem.find('input[class="sourceField"]');
 				var sourceFieldDisplay = sourceField.attr('name') + "_display";
 				var fieldDisplayElement = jQuery('input[name="' + sourceFieldDisplay + '"]', parentElem);
-
 				sourceField.val(selectedItemData.id);
-				fieldDisplayElement.val(selectedItemData.label).attr('readonly', true);
+				this.value = selectedItemData.label;
+				fieldDisplayElement.attr('readonly', true);
+				return false;
 			},
 			'change': function (event, ui) {
 				var element = jQuery(this);
@@ -790,16 +794,11 @@ jQuery.Class("Vtiger_Edit_Js", {
 		var sourceModule = data['source_module'];
 		var noAddress = true;
 		var errorMsg;
-		thisInstance.getRecordDetails(data).then(
-				function (data) {
-					var response = data['result'];
-					thisInstance.addressFieldsData = response['data'];
-					thisInstance.copyAddress(from, to, true, sourceModule);
-				},
-				function (error, err) {
-
-				}
-		);
+		thisInstance.getRecordDetails(data).then(function (data) {
+			var response = data['result'];
+			thisInstance.addressFieldsData = response;
+			thisInstance.copyAddress(from, to, true, sourceModule);
+		});
 	},
 	/**
 	 * Function to copy address between fields
@@ -820,8 +819,8 @@ jQuery.Class("Vtiger_Edit_Js", {
 			var nameElementFrom = addressMapping[key] + from;
 			var nameElementTo = addressMapping[key] + to;
 			if (relatedRecord) {
-				var fromElement = thisInstance.addressFieldsData[nameElementFrom];
-				var fromElementLable = thisInstance.addressFieldsData[nameElementFrom + '_label'];
+				var fromElement = thisInstance.addressFieldsData['data'][nameElementFrom];
+				var fromElementLable = thisInstance.addressFieldsData['displayData'][nameElementFrom];
 			} else {
 				var fromElement = formElement.find('[name="' + nameElementFrom + '"]').val();
 				var fromElementLable = formElement.find('[name="' + nameElementFrom + '_display"]').val();
@@ -862,7 +861,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		thisInstance.getRecordDetails(data).then(
 				function (data) {
 					var response = data['result'];
-					thisInstance.mapAddressDetails(response['data'], container);
+					thisInstance.mapAddressDetails(response, container);
 				},
 				function (error, err) {
 
@@ -871,29 +870,28 @@ jQuery.Class("Vtiger_Edit_Js", {
 	mapAddressDetails: function (result, container) {
 		for (var key in result) {
 			if (key.indexOf("addresslevel") != -1) {
-
 				if (container.find('[name="' + key + '"]').length != 0) {
-					container.find('[name="' + key + '"]').val(result[key]);
+					container.find('[name="' + key + '"]').val(result['data'][key]);
 					container.find('[name="' + key + '"]').attr('readonly', true);
-					container.find('[name="' + key + '_display"]').val(result[key + '_label']);
+					container.find('[name="' + key + '_display"]').val(result['displayData'][key]);
 					container.find('[name="' + key + '_display"]').attr('readonly', true);
 				}
-				if (container.find('[name="' + key + 'a"]').length != 0 && container.find('[name="' + key + 'a"]').val() == 0 && result[key] != 0) {
-					container.find('[name="' + key + 'a"]').val(result[key]);
+				if (container.find('[name="' + key + 'a"]').length != 0 && container.find('[name="' + key + 'a"]').val() == 0 && result['data'][key] != 0) {
+					container.find('[name="' + key + 'a"]').val(result['data'][key]);
 					container.find('[name="' + key + 'a"]').attr('readonly', true);
-					container.find('[name="' + key + 'a_display"]').val(result[key + '_label']);
+					container.find('[name="' + key + 'a_display"]').val(result['displayData'][key]);
 					container.find('[name="' + key + 'a_display"]').attr('readonly', true);
 				}
-				if (container.find('[name="' + key + 'b"]').length != 0 && container.find('[name="' + key + 'b"]').val() == 0 && result[key] != 0) {
-					container.find('[name="' + key + 'b"]').val(result[key]);
+				if (container.find('[name="' + key + 'b"]').length != 0 && container.find('[name="' + key + 'b"]').val() == 0 && result['data'][key] != 0) {
+					container.find('[name="' + key + 'b"]').val(result['data'][key]);
 					container.find('[name="' + key + 'b"]').attr('readonly', true);
-					container.find('[name="' + key + 'b_display"]').val(result[key + '_label']);
+					container.find('[name="' + key + 'b_display"]').val(result['displayData'][key]);
 					container.find('[name="' + key + 'b_display"]').attr('readonly', true);
 				}
-				if (container.find('[name="' + key + 'c"]').length != 0 && container.find('[name="' + key + 'c"]').val() == 0 && result[key] != 0) {
-					container.find('[name="' + key + 'c"]').val(result[key]);
+				if (container.find('[name="' + key + 'c"]').length != 0 && container.find('[name="' + key + 'c"]').val() == 0 && result['data'][key] != 0) {
+					container.find('[name="' + key + 'c"]').val(result['data'][key]);
 					container.find('[name="' + key + 'c"]').attr('readonly', true);
-					container.find('[name="' + key + 'c_display"]').val(result[key + '_label']);
+					container.find('[name="' + key + 'c_display"]').val(result['displayData'][key]);
 					container.find('[name="' + key + 'c_display"]').attr('readonly', true);
 				}
 			}
@@ -994,18 +992,8 @@ jQuery.Class("Vtiger_Edit_Js", {
 	 * Function to check the view permission of a record after save
 	 */
 	registerRecordPreSaveEventEvent: function (form) {
-		if (Vtiger_Edit_Js.SaveResultInstance == false) {
-			Vtiger_Edit_Js.SaveResultInstance = new SaveResult();
-		}
-		var formElement = this.getForm();
-		var formData = formElement.serializeFormData();
-		if (Vtiger_Edit_Js.SaveResultInstance.recordValue == false) {
-			Vtiger_Edit_Js.SaveResultInstance.loadFormData(formData);
-		}
 		form.on(Vtiger_Edit_Js.recordPreSave, function (e, data) {
-			if (Vtiger_Edit_Js.SaveResultInstance.checkData(form.serializeFormData(), form) == false) {
-				e.preventDefault();
-			}
+
 		});
 	},
 	/**
@@ -1322,7 +1310,6 @@ jQuery.Class("Vtiger_Edit_Js", {
 		if (!apiData) {
 			return false;
 		}
-
 		jQuery('.api_address_autocomplete').each(function () {
 			jQuery(this).autocomplete({
 				source: function (request, response) {
@@ -1344,7 +1331,11 @@ jQuery.Class("Vtiger_Edit_Js", {
 				select: function (event, ui) {
 					for (var key in ui.item.components) {
 						var addressType = thisInstance.addressFieldsMappingFromApi[key];
-						jQuery(this).parents('.blockContainer').find('[name^="' + addressType + '"]').val(ui.item.components[key]);
+						var element = jQuery(this).parents('.blockContainer').find('[name^="' + addressType + '"]');
+						element.val(ui.item.components[key]);
+						if (element.is("select")) {
+							element.val(element.find('option[data-code="' + ui.item.components[key].toUpperCase() + '"]').val()).trigger('chosen:updated');
+						}
 					}
 				}
 			}).data("ui-autocomplete")._renderItem = function (ul, item) {
@@ -1357,17 +1348,19 @@ jQuery.Class("Vtiger_Edit_Js", {
 		});
 	},
 	addressFieldsMappingFromApi: {
-		'house_number': 'buildingnumber',
-		'local_number': 'localnumber',
-		'country': 'addresslevel1',
-		'state': 'addresslevel2',
-		'powiat': 'addresslevel3',
-		'county': 'addresslevel4',
-		'city': 'addresslevel5',
-		'region_city': 'addresslevel6',
-		'postcode': 'addresslevel7',
-		'road': 'addresslevel8',
-		'village': 'addresslevel5'
+		country_code: 'addresslevel1',
+		state: 'addresslevel2',
+		state_district: 'addresslevel3',
+		county: 'addresslevel4',
+		village: 'addresslevel5',
+		city: 'addresslevel5',
+		neighbourhood: 'addresslevel6',
+		city_district: 'addresslevel6',
+		suburb: 'addresslevel6',
+		postcode: 'addresslevel7',
+		road: 'addresslevel8',
+		house_number: 'buildingnumber',
+		local_number: 'localnumber',
 	},
 	setEnabledFields: function (element) {
 		var fieldValue = element.closest('.fieldValue');
@@ -1518,6 +1511,12 @@ jQuery.Class("Vtiger_Edit_Js", {
 			}
 		});
 	},
+	registerCopyValue: function (container) {
+		container.find('.fieldValue [data-copy-to-field]').change(function (e) {
+			var element = jQuery(e.currentTarget);
+			container.find('[name="' + element.data('copyToField') + '"]').val(element.val());
+		});
+	},
 	/**
 	 * Function which will register basic events which will be used in quick create as well
 	 *
@@ -1538,6 +1537,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		this.registerHelpInfo();
 		this.registerReferenceFields(container);
 		this.registerFocusFirstField(container);
+		this.registerCopyValue(container);
 	},
 	registerEvents: function () {
 		var editViewForm = this.getForm();

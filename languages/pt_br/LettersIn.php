@@ -3,16 +3,14 @@
  * Letters in portuguese translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	// Basic Strings
-	'LettersIn' => 'Cartas Recebidas',
-	'SINGLE_LettersIn' => 'Cartas Recebidas',
-	'LBL_ADD_RECORD' => 'Adicionar cartas recebidas',
-	'LBL_RECORDS_LIST' => 'Cartas recebidas',
+	'LettersIn' => 'Incoming correspondence',
+	'SINGLE_LettersIn' => 'Incoming correspondence',
 	// Blocks
-	'LBL_MAIN_INFORMATION' => 'Informações de Cartas',
+	'LBL_MAIN_INFORMATION' => 'Correspondence information',
 	//Field Labels
 	'Number' => 'Número',
 	'Title' => 'Assunto',
@@ -25,9 +23,15 @@ $languageStrings = [
 	'No internal' => 'No. Interno',
 	'Parent letters' => 'Carta relacionada a',
 	'Overall dimensions' => 'Dimensões',
-	'Notes' => 'Notas',
 	'Related' => 'Conta/Oportunidade',
 	'Contact' => 'Contato',
+	'FL_CUSTOM_SENDER' => 'Customized sender',
+	'FL_TYPE' => 'Type',
+	'FL_CASH_AMOUNT_ON_DELIVERY' => 'Amount due on delivery',
+	'FL_DATE_OF_RECEIPT' => 'Reception date',
+	'FL_OUTGOING_CORRESPONDENCE' => 'Outgoing correspondence',
+	'FL_INTERNAL_NOTES' => 'Internal notes',
+	'FL_PUBLIC_NOTES' => 'Public notes',
 	// picklist values
 	'PLL_LOCAL_PICKUP' => 'Entregue Pessoalmente',
 	'PLL_POST_OFFICE_PL' => 'ECT',
@@ -58,8 +62,19 @@ $languageStrings = [
 	'PLL_PROFORMA' => 'Fatura Proforma',
 	'PLL_CORRECTION' => 'Fatura Correção',
 	'PLL_INVOICE' => 'Fatura',
-	'PLL_NEW' => 'Nova',
-	'PLL_SETTLED' => 'Liquidada',
+	'PLL_IN_DEPARTMENT' => 'In department',
+	'PLL_REDIRECTED_TO_ANOTHER_DEPARTMENT' => 'Forwarded to another department',
+	'PLL_REDIRECTED_TO_ANOTHER_ADDRESSEE' => 'Forwarded to another addressee',
+	'PLL_DESTOYED_UPON_ADDRESSEES_REQUEST' => 'Destroyed upon addressee\'s request',
+	'PLL_DESTROYED_IN_ACCORDANCE_WITH_INTERNAL_PROCEDURES' => 'Destroyed in accordance with internal procedures',
+	'PLL_RETURN_TO_SENDER' => 'Returned to sender',
 	'PLL_A' => 'A',
 	'PLL_B' => 'B',
+	'PLL_REGULAR_LETTER' => 'Regular letter',
+	'PLL_REGISTERED_LETTER' => 'Registered letter',
+	'PLL_REGULAR_PARCEL' => 'Regular parcel',
+	'PLL_LARGESIZE_PARCEL' => 'Large-size parcel',
+	'PLL_DOCUMENT' => 'Document',
+	'PLL_RETURN' => 'Return',
+	'PLL_POSTAL_ADVICE' => 'Postal advice',
 ];

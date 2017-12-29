@@ -11,8 +11,6 @@ $languageStrings = [
 	// Basic Strings
 	'SINGLE_ProjectTask' => 'Projektaufgabe',
 	'Project Task' => 'Projektaufgaben',
-	'LBL_ADD_RECORD' => 'Projektaufgabe hinzufügen',
-	'LBL_RECORDS_LIST' => 'Liste Projektaufgaben',
 	'Worked Hours' => 'Zeit gearbeitet',
 	'Start Date' => 'Startdatum',
 	'Target End Date' => 'Ziel Enddatum',
@@ -21,7 +19,7 @@ $languageStrings = [
 	'Parent ID' => 'Übergeordnete Aufgabe',
 	'Project Task Number' => 'Projekt Aufgabennummer',
 	'description' => 'Beschreibung',
-	'FL_TOTAL_TIME_H' => 'Total working time',
+	'FL_TOTAL_TIME_H' => 'Gesamte Arbeitszeit',
 	'Project Task No' => 'Projekt Aufgabennr.',
 	'Project Task Name' => 'Projekt Aufgabenname',
 	'LBL_ESTIMATED_WORK_TIME' => 'geschätzter Aufwand',

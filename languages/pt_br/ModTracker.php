@@ -15,6 +15,7 @@ $languageStrings = [
 	// Action types 
 	'LBL_AT_UPDATE' => 'Modificar',
 	'LBL_AT_DELETE' => 'Apagar',
+	'LBL_AT_TRASH' => 'Move to Recycle Bin',
 	'LBL_AT_CREATE' => 'Criar',
 	'LBL_AT_RESTORE' => 'Restaurar',
 	'LBL_AT_LINK' => 'Relacionar',
@@ -23,6 +24,7 @@ $languageStrings = [
 	'LBL_AT_DISPLAY' => 'Visualizar',
 	'LBL_AT_UPDATE_P' => 'Modificado',
 	'LBL_AT_DELETE_P' => 'Apagado',
+	'LBL_AT_TRASH_P' => 'Moved to Recycle Bin',
 	'LBL_AT_CREATE_P' => 'Criado',
 	'LBL_AT_RESTORE_P' => 'Restaurado',
 	'LBL_AT_LINK_P' => 'Relacionado',
@@ -36,4 +38,14 @@ $languageStrings = [
 	'LBL_NUMBER_UNREAD_CHANGES' => 'Quantidade de alterações não lidas',
 	'LBL_REVIEW_CHANGES_LIMIT_DESCRIPTION' => 'Devido limite dados atualizados ter excedido, a ação foi incluída na fila de tarefas do CRON.',
 	'LBL_ESTIMATED_TIME' => 'Tempo estimado',
+	//Status
+	'LBL_CREATED' => 'Criado',
+	'LBL_UPDATED' => 'Atualizado',
+	'LBL_DISPLAYED' => 'Exibido',
+	'LBL_ADDED' => 'adicionado',
+	'LBL_REMOVED' => 'removido',
+	'LBL_CONVERTED_FROM_LEAD' => 'Convertido do Lead',
+	'LBL_DELETED' => 'Deleted record',
+	'LBL_ACTIVE' => 'Restored record',
+	'LBL_ARCHIVED' => 'Archived record',
 ];

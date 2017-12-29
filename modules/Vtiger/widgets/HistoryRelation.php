@@ -4,7 +4,7 @@
  * Class for history widget
  * @package YetiForce.Widget
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -68,13 +68,11 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 	 */
 	public static function getHistory(\App\Request $request, Vtiger_Paging_Model $pagingModel)
 	{
-		$recordId = $request->get('record');
-		$type = $request->get('type');
-		if (empty($type)) {
+		$recordId = $request->getInteger('record');
+		if ($request->isEmpty('type')) {
 			return [];
 		}
-
-		$query = static::getQuery($recordId, $request->getModule(), $type);
+		$query = static::getQuery($recordId, $request->getModule(), $request->get('type'));
 		if (empty($query)) {
 			return [];
 		}
@@ -105,7 +103,7 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 			if (!$request->getBoolean('isFullscreen')) {
 				$body = vtlib\Functions::textLength($body, 100);
 			} else {
-				$body = str_replace(['<p></p>', '<p class="MsoNormal">'], ["\r\n", "\r\n"], decode_html(App\Purifier::purify($body)));
+				$body = str_replace(['<p></p>', '<p class="MsoNormal">'], ["\r\n", "\r\n"], App\Purifier::decodeHtml(App\Purifier::purify($body)));
 				$body = nl2br(vtlib\Functions::textLength($body, 500), false);
 			}
 			$row['body'] = $body;

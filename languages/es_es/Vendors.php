@@ -28,8 +28,6 @@ $languageStrings = [
 	'308-Sales-Books' => '308-Ventas-Libros',
 	'Email' => 'Correo',
 	'GL Account' => 'Cuenta GL',
-	'LBL_ADD_RECORD' => 'Añadir',
-	'LBL_RECORDS_LIST' => 'Lista',
 	'LBL_VENDOR_INFORMATION' => 'Detalles del proveedor',
 	'Phone' => 'Teléfono',
 	'SINGLE_Vendors' => 'Proveedor',
@@ -37,8 +35,8 @@ $languageStrings = [
 	'Vendor No' => 'ID',
 	'Vendors' => 'Proveedores',
 	'Website' => 'Sitio web',
-	'LBL_BUILDING_NUMBER' => 'Número de edificio',
-	'LBL_LOCAL_NUMBER' => 'Número de oficina',
+	'LBL_BUILDING_NUMBER' => 'Número del edificio<br />(Ej: 32)',
+	'LBL_LOCAL_NUMBER' => 'Número de la Oficina<br />(Ej: 2B)',
 ];
 
 $jsLanguageStrings = [

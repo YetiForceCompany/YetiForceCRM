@@ -80,6 +80,13 @@ $languageStrings = [
 	'OpenRecord' => 'Открыть запись',
 	'CloseRecord' => 'Закрыть запись',
 	'ReviewingUpdates' => 'Просмотр истории изменений',
+	'MassArchived' => 'Массовая архивация',
+	'MassActive' => 'Массовая активация',
+	'ArchiveRecord' => 'Архивировать запись',
+	'ActiveRecord' => 'Активировать запись',
+	'TimeLineList' => 'История изменений',
+	'MoveToTrash' => 'Отправить в корзину',
+	'MassTrash' => 'Массово отправить в корзину',
 	//end Actions
 	'Profile Related to Sales' => 'Профиль связанный с продажами',
 	'Profile Related to Support' => 'Профиль связанный с поддержкой',

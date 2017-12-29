@@ -3,7 +3,7 @@
  * Reservations portuguese translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'SINGLE_Reservations' => 'Reserva',
@@ -39,4 +39,14 @@ $jsLanguageStrings = [
 	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'O número de horas deve ser menor que 24h',
 	'JS_START_DATE' => 'Data Inícial',
 	'JS_END_DATE' => 'Data Final',
+	'JS_COMPANY' => 'Company',
+ 	'JS_TOTAL_TIME' => 'Total time',
+ 	'PLL_ACCEPTED' => 'For approval',
+ 	'PLL_TO_APPROVAL' => 'Approved',
+ 	'PLL_DRAFT' => 'Draft',
+ 	'PLL_CANCELLED' => 'Cancelled',
+ 	'JS_ASSIGNED_TO' => 'Assigned to',
+ 	'JS_TYPE' => 'Type',
+ 	'JS_YES' => 'Yes',
+ 	'JS_NO' => 'No',
 ];

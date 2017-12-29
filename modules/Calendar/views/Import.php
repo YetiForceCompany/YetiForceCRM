@@ -8,12 +8,12 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-vimport('~modules/Calendar/iCal/iCalendar_rfc2445.php');
-vimport('~modules/Calendar/iCal/iCalendar_components.php');
-vimport('~modules/Calendar/iCal/iCalendar_properties.php');
-vimport('~modules/Calendar/iCal/iCalendar_parameters.php');
-vimport('~modules/Calendar/iCal/ical-parser-class.php');
-vimport('~modules/Calendar/iCalLastImport.php');
+Vtiger_Loader::includeOnce('~modules/Calendar/iCal/iCalendar_rfc2445.php');
+Vtiger_Loader::includeOnce('~modules/Calendar/iCal/iCalendar_components.php');
+Vtiger_Loader::includeOnce('~modules/Calendar/iCal/iCalendar_properties.php');
+Vtiger_Loader::includeOnce('~modules/Calendar/iCal/iCalendar_parameters.php');
+Vtiger_Loader::includeOnce('~modules/Calendar/iCal/ical-parser-class.php');
+Vtiger_Loader::includeOnce('~modules/Calendar/iCalLastImport.php');
 
 class Calendar_Import_View extends Vtiger_Import_View
 {
@@ -80,19 +80,19 @@ class Calendar_Import_View extends Vtiger_Import_View
 		$request->set('type', 'ics');
 
 		if (Import_Utils_Helper::validateFileUpload($request)) {
-			$lastImport = new iCalLastImport();
+			$lastImport = new IcalLastImport();
 			$lastImport->clearRecords($userId);
 
 			$eventModule = 'Events';
 			$todoModule = 'Calendar';
 
-			$skipFields = array(
-				$eventModule => array('duration_hours'),
-				$todoModule => array('activitystatus')
-			);
+			$skipFields = [
+				$eventModule => ['duration_hours'],
+				$todoModule => ['activitystatus']
+			];
 
 			$requiredFields = [];
-			$modules = array($eventModule, $todoModule);
+			$modules = [$eventModule, $todoModule];
 			$calendarModel = Vtiger_Module_Model::getInstance($moduleName);
 
 			foreach ($modules as $module) {
@@ -102,16 +102,16 @@ class Calendar_Import_View extends Vtiger_Import_View
 				$skipCount[$module] = 0;
 			}
 
-			$ical = new iCal();
+			$ical = new Ical();
 			$icalActivities = $ical->iCalReader("IMPORT_" . $userId);
 			$noOfActivities = count($icalActivities);
 
 			for ($i = 0; $i < $noOfActivities; $i++) {
 				if ($icalActivities[$i]['TYPE'] == 'VEVENT') {
-					$activity = new iCalendar_event;
+					$activity = new IcalendarEvent;
 					$module = $eventModule;
 				} else {
-					$activity = new iCalendar_todo;
+					$activity = new IcalendarTodo;
 					$module = $todoModule;
 				}
 
@@ -121,7 +121,7 @@ class Calendar_Import_View extends Vtiger_Import_View
 					$activityFieldsList['visibility'] = ' ';
 				}
 				if (array_key_exists('taskpriority', $activityFieldsList)) {
-					$priorityMap = array('0' => 'Medium', '1' => 'High', '2' => 'Medium', '3' => 'Low');
+					$priorityMap = ['0' => 'Medium', '1' => 'High', '2' => 'Medium', '3' => 'Low'];
 					$priorityval = $activityFieldsList['taskpriority'];
 					if (array_key_exists($priorityval, $priorityMap))
 						$activityFieldsList['taskpriority'] = $priorityMap[$priorityval];
@@ -145,8 +145,8 @@ class Calendar_Import_View extends Vtiger_Import_View
 				}
 				$recordModel->save();
 
-				$lastImport = new iCalLastImport();
-				$lastImport->setFields(array('userid' => $userId, 'entitytype' => $todoModule, 'crmid' => $recordModel->getId()));
+				$lastImport = new IcalLastImport();
+				$lastImport->setFields(['userid' => $userId, 'entitytype' => $todoModule, 'crmid' => $recordModel->getId()]);
 				$lastImport->save();
 
 				if (!empty($icalActivities[$i]['VALARM'])) {
@@ -180,7 +180,7 @@ class Calendar_Import_View extends Vtiger_Import_View
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$moduleName = $request->getModule();
 
-		$lastImport = new iCalLastImport();
+		$lastImport = new IcalLastImport();
 		$returnValue = $lastImport->undo($moduleName, $currentUserModel->getId());
 		if (!empty($returnValue)) {
 			$undoStatus = true;

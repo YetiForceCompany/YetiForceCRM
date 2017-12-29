@@ -11,12 +11,12 @@
 -->*}
 {strip}
     <div id="popupPageContainer" class="contentsDiv">
-        <div class="paddingLeftRight10px">{include file='PopupSearch.tpl'|@vtemplate_path:$MODULE_NAME}
+        <div class="paddingLeftRight10px">{include file=\App\Layout::getTemplatePath('PopupSearch.tpl', $MODULE_NAME)}
             <form id="popupPage" action="javascript:void(0)">
-                <div id="popupContents">{include file='ProductPriceBookPopupContents.tpl'|@vtemplate_path:$PARENT_MODULE}</div>
+                <div id="popupContents">{include file=\App\Layout::getTemplatePath('ProductPriceBookPopupContents.tpl', $PARENT_MODULE)}</div>
             </form>
         </div>
-        <input type="hidden" class="triggerEventName" value="{$TRIGGER_EVENT_NAME}"/>
+        <input type="hidden" class="triggerEventName" value="{$TRIGGER_EVENT_NAME}" />
     </div>
 </div>
 {/strip}

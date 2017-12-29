@@ -16,32 +16,21 @@
         <div class="detailViewTitle" id="userPageHeader">
             <div class="widget_header row">
                 <div class="col-md-8">
-                    {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
                 </div>
                 <div class="col-md-4">
                     <div class="pull-right detailViewButtoncontainer">
-						<div class="btn-toolbar pull-right">
-                           							
-							{foreach item=DETAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}
-								<div class="btn-group">
-								<button class="btn btn-default"
-										{if $DETAIL_VIEW_BASIC_LINK->isPageLoadLink()}
-											onclick="window.location.href='{$DETAIL_VIEW_BASIC_LINK->getUrl()}'"
-										{else}
-											onclick={$DETAIL_VIEW_BASIC_LINK->getUrl()}
-										{/if}>
-									<strong>{\App\Language::translate($DETAIL_VIEW_BASIC_LINK->getLabel(), $MODULE_NAME)}</strong>
-								</button>
-								</div>
+						<div class="btn-toolbar pull-right">		
+							{foreach item=LINK from=$DETAILVIEW_LINKS['DETAIL_VIEW_ADDITIONAL']}
+								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewBasic'}
 							{/foreach}
-							
-							{if $DETAILVIEW_LINKS['DETAILVIEW']|@count gt 0}
+							{if $DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']|@count gt 0}
 								<span class="btn-group">
 									<button class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
 										<strong>{\App\Language::translate('LBL_MORE', $MODULE_NAME)}</strong>&nbsp;&nbsp;<i class="caret"></i>
 									</button>
 									<ul class="dropdown-menu pull-right">
-										{foreach item=DETAIL_VIEW_LINK from=$DETAILVIEW_LINKS['DETAILVIEW']}
+										{foreach item=DETAIL_VIEW_LINK from=$DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']}
 											{if $DETAIL_VIEW_LINK->getLabel() eq 'Delete'}
 												{if $USER_MODEL->isAdminUser() && $USER_MODEL->getId() neq $RECORD->getId()}
 													<li id="{$MODULE_NAME}_detailView_moreAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($DETAIL_VIEW_LINK->getLabel())}">

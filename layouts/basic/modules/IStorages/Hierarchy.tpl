@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div id="accountHierarchyContainer" class="modelContainer modal fade" tabindex="-1">
 		<div class="modal-dialog modal-lg">
@@ -8,7 +8,7 @@
 					<h3 class="modal-title">{\App\Language::translate('LBL_SHOW_HIERARCHY', $MODULE)}</h3>
 				</div>
 				<div class="modal-body">
-					<div id ="hierarchyScroll" style="margin-right: 8px;">
+					<div id ="hierarchyScroll" class="table-responsive">
 						<table class="table table-bordered">
 							<thead>
 								<tr class="blockHeader">

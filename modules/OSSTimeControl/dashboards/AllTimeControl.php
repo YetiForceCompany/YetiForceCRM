@@ -4,7 +4,7 @@
  * Wdiget to show work time
  * @package YetiForce.Dashboard
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
@@ -39,12 +39,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			$accessibleUsers[$user] = Users_Record_Model::getInstanceById($user, 'Users')->getName();
 			$user = [$user];
 		}
-		$db = PearDatabase::getInstance();
-		$sql = "SELECT timecontrol_type, color FROM vtiger_timecontrol_type";
-		$result = $db->query($sql);
-		while ($row = $db->fetch_array($result)) {
-			$colors[$row['timecontrol_type']] = $row['color'];
-		}
+		$colors = (new App\Db\Query())->select(['timecontrol_type', 'color'])->from('vtiger_timecontrol_type')->createCommand()->queryAllByGroup(0);
 		$module = 'OSSTimeControl';
 		$param[] = $module;
 		$param = array_merge($param, $user);
@@ -114,9 +109,9 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 		$loggedUserId = $currentUser->get('id');
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$linkId = $request->get('linkid');
-		$user = $request->get('owner');
-		$time = $request->get('time');
+		$linkId = $request->getInteger('linkid');
+		$user = $request->getByType('owner', 2);
+		$time = $request->getDateRange('time');
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		if (empty($time)) {
 			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
@@ -124,8 +119,8 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 				$time['start'] = vtlib\Functions::currentUserDisplayDateNew();
 				$time['end'] = vtlib\Functions::currentUserDisplayDateNew();
 			} else {
-				$time['start'] = \App\Fields\DateTime::currentUserDisplayDate($time['start']);
-				$time['end'] = \App\Fields\DateTime::currentUserDisplayDate($time['end']);
+				$time['start'] = \App\Fields\Date::formatToDisplay($time['start']);
+				$time['end'] = \App\Fields\Date::formatToDisplay($time['end']);
 			}
 		}
 		if (empty($user)) {
@@ -145,8 +140,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('LOGGEDUSERID', $loggedUserId);
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/TimeControlContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/AllTimeControl.tpl', $moduleName);

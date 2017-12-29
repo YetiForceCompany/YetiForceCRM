@@ -4,7 +4,7 @@
  * OSSPasswords GetPass action class
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSPasswords_GetPass_Action extends Vtiger_Action_Controller
 {
@@ -15,14 +15,14 @@ class OSSPasswords_GetPass_Action extends Vtiger_Action_Controller
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 		if (!$permission) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		if ($record) {
-			$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $record);
+			$recordPermission = \App\Privilege::isPermitted($moduleName, 'DetailView', $record);
 			if (!$recordPermission) {
-				throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		}
 	}
@@ -30,7 +30,7 @@ class OSSPasswords_GetPass_Action extends Vtiger_Action_Controller
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 
 		if ($record) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
@@ -40,9 +40,9 @@ class OSSPasswords_GetPass_Action extends Vtiger_Action_Controller
 
 		$pass = $recordModel->getPassword($record);
 		if ($pass === false) {
-			$result = array('success' => false);
+			$result = ['success' => false];
 		} else {
-			$result = array('success' => true, 'password' => $pass);
+			$result = ['success' => true, 'password' => $pass];
 		}
 
 		$response = new Vtiger_Response();

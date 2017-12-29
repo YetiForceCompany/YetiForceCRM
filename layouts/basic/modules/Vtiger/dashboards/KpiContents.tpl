@@ -1,7 +1,7 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 {if count($DATA) gt 0 }
-	<input class="widgetData" type="hidden" value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($DATA))}' />
+	<input class="widgetData" type="hidden" value='{\App\Purifier::encodeHtml(\App\Json::encode($DATA))}' />
 	<div class="widgetDescContainer" style="margin-left: 10px;">
 		<h4>Usługa: {$KPILIST[$DSERVICE]}</h4>
 		<h4>Typ: {$KPITYPES[$DTYPE]}</h4>

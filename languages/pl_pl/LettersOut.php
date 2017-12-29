@@ -3,14 +3,12 @@
  * LettersOut polish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	// Basic Strings
-	'LettersOut' => 'Listy wychodzące',
-	'SINGLE_LettersOut' => 'List wychodzący',
-	'LBL_ADD_RECORD' => 'Dodaj list wychodzący',
-	'LBL_RECORDS_LIST' => 'Listy wychodzące',
+	'LettersOut' => 'Korespondencje wychodzące',
+	'SINGLE_LettersOut' => 'Korespondencja wychodząca',
 	// Blocks
 	'LBL_MAIN_INFORMATION' => 'Informacje o korespondencji',
 	//Field Labels
@@ -28,6 +26,7 @@ $languageStrings = [
 	'Notes' => 'Uwagi',
 	'Related' => 'Kontrahent / Potencjalny klient',
 	'Contact' => 'Kontakt',
+	'FL_INCOMING_CORRESPONDENCE' => 'Korespondencja przychodząca',
 	// picklist values
 	'PLL_LOCAL_PICKUP' => 'Odbiór osobisty',
 	'PLL_POST_OFFICE_PL' => 'Poczta Polska',

@@ -15,9 +15,23 @@
 class Settings_Vtiger_MenuItem_Model extends \App\Base
 {
 
+	/**
+	 * Table name
+	 * @var string
+	 */
 	protected static $itemsTable = 'vtiger_settings_field';
+
+	/**
+	 * Table index
+	 * @var string
+	 */
 	protected static $itemId = 'fieldid';
-	public static $transformedUrlMapping = array(
+
+	/**
+	 * Url mapping array
+	 * @var array
+	 */
+	public static $transformedUrlMapping = [
 		'index.php?module=Administration&action=index&parenttab=Settings' => 'index.php?module=Users&parent=Settings&view=List',
 		'index.php?module=Settings&action=listroles&parenttab=Settings' => 'index.php?module=Roles&parent=Settings&view=Index',
 		'index.php?module=Settings&action=ListProfiles&parenttab=Settings' => 'index.php?module=Profiles&parent=Settings&view=List',
@@ -44,7 +58,7 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 		'index.php?module=ModTracker&action=BasicSettings&parenttab=Settings&formodule=ModTracker' => 'index.php?module=Settings&submodule=ModTracker&view=Index',
 		'index.php?module=CronTasks&action=ListCronJobs&parenttab=Settings' => 'index.php?module=CronTasks&parent=Settings&view=List',
 		'index.php?module=ExchangeConnector&action=index&parenttab=Settings' => 'index.php?module=ExchangeConnector&parent=Settings&view=Index'
-	);
+	];
 
 	/**
 	 * Function to get the Id of the menu item
@@ -93,7 +107,7 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 	public function getUrl()
 	{
 		$url = $this->get('linkto');
-		$url = decode_html($url);
+		$url = App\Purifier::decodeHtml($url);
 		if (isset(self::$transformedUrlMapping[$url])) {
 			$url = self::$transformedUrlMapping[$url];
 		}
@@ -131,7 +145,7 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 	}
 
 	/**
-	 * Function which will update the pin status 
+	 * Function which will update the pin status
 	 * @param boolean $pinned - true to enable , false to disable
 	 */
 	private function updatePinStatus($pinned = false)
@@ -173,24 +187,17 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 	/**
 	 * Function to get the instance of the Menu Item model, given name and Menu instance
 	 * @param string $name
-	 * @param <Settings_Vtiger_Menu_Model> $menuModel
+	 * @param bool|Settings_Vtiger_Menu_Model $menuModel
 	 * @return Settings_Vtiger_MenuItem_Model instance
 	 */
 	public static function getInstance($name, $menuModel = false)
 	{
-		$db = PearDatabase::getInstance();
-
-		$sql = sprintf('SELECT * FROM %s WHERE name = ?', self::$itemsTable);
-		$params = [$name];
-
+		$query = (new \App\Db\Query())->from(self::$itemsTable)->where(['name' => $name]);
 		if ($menuModel) {
-			$sql .= ' WHERE blockid = ?';
-			$params[] = $menuModel->getId();
+			$query->andWhere(['blockid' => $menuModel->getId()]);
 		}
-		$result = $db->pquery($sql, $params);
-
-		if ($db->num_rows($result) > 0) {
-			$rowData = $db->query_result_rowdata($result, 0);
+		$rowData = $query->one();
+		if ($rowData) {
 			$menuItem = Settings_Vtiger_MenuItem_Model::getInstanceFromArray($rowData);
 			if ($menuModel) {
 				$menuItem->setMenuFromInstance($menuModel);
@@ -204,25 +211,18 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 
 	/**
 	 * Function to get the instance of the Menu Item model, given item id and Menu instance
-	 * @param string $name
-	 * @param <Settings_Vtiger_Menu_Model> $menuModel
+	 * @param int $id
+	 * @param bool|Settings_Vtiger_Menu_Model $menuModel
 	 * @return Settings_Vtiger_MenuItem_Model instance
 	 */
 	public static function getInstanceById($id, $menuModel = false)
 	{
-		$db = PearDatabase::getInstance();
-
-		$sql = sprintf('SELECT * FROM %s WHERE %s = ?', self::$itemsTable, self::$itemId);
-		$params = array($id);
-
+		$query = (new \App\Db\Query())->from(self::$itemsTable)->where([self::$itemId => $id]);
 		if ($menuModel) {
-			$sql .= ' WHERE blockid = ?';
-			$params[] = $menuModel->getId();
+			$query->andWhere(['blockid' => $menuModel->getId()]);
 		}
-		$result = $db->pquery($sql, $params);
-
-		if ($db->num_rows($result) > 0) {
-			$rowData = $db->query_result_rowdata($result, 0);
+		$rowData = $query->one();
+		if ($rowData) {
 			$menuItem = Settings_Vtiger_MenuItem_Model::getInstanceFromArray($rowData);
 			if ($menuModel) {
 				$menuItem->setMenuFromInstance($menuModel);
@@ -236,15 +236,12 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 
 	/**
 	 * Static function to get the list of all the items of the given Menu, all items if Menu is not specified
-	 * @param <Settings_Vtiger_Menu_Model> $menuModel
-	 * @return array - List of <Settings_Vtiger_MenuItem_Model> instances
+	 * @param \Settings_Vtiger_Menu_Model $menuModel
+	 * @param bool $onlyActive
+	 * @return \Settings_Vtiger_MenuItem_Model[] instances
 	 */
 	public static function getAll($menuModel = false, $onlyActive = true)
 	{
-		$skipMenuItemList = ['LBL_AUDIT_TRAIL', 'LBL_SYSTEM_INFO', 'LBL_PROXY_SETTINGS', 'LBL_DEFAULT_MODULE_VIEW',
-			'LBL_FIELDFORMULAS', 'LBL_FIELDS_ACCESS', 'LBL_MAIL_MERGE', 'NOTIFICATIONSCHEDULERS',
-			'INVENTORYNOTIFICATION', 'ModTracker', 'LBL_WORKFLOW_LIST', 'LBL_TOOLTIP_MANAGEMENT'];
-		$query = (new App\Db\Query())->from(self::$itemsTable);
 		$conditionsSqls = [];
 		if ($menuModel !== false) {
 			$conditionsSqls['blockid'] = $menuModel->getId();
@@ -252,6 +249,15 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 		if ($onlyActive) {
 			$conditionsSqls['active'] = 0;
 		}
+		$cacheName = 'getAll:' . implode(':', $conditionsSqls);
+		if (\App\Cache::staticHas(__METHOD__, $cacheName)) {
+			return \App\Cache::staticGet(__METHOD__, $cacheName);
+		}
+		$skipMenuItemList = ['LBL_AUDIT_TRAIL', 'LBL_SYSTEM_INFO', 'LBL_PROXY_SETTINGS', 'LBL_DEFAULT_MODULE_VIEW',
+			'LBL_FIELDFORMULAS', 'LBL_FIELDS_ACCESS', 'LBL_MAIL_MERGE', 'NOTIFICATIONSCHEDULERS',
+			'INVENTORYNOTIFICATION', 'ModTracker', 'LBL_WORKFLOW_LIST', 'LBL_TOOLTIP_MANAGEMENT'];
+		$query = (new App\Db\Query())->from(self::$itemsTable);
+
 		if (count($conditionsSqls) > 0) {
 			$query->where($conditionsSqls);
 		}
@@ -269,11 +275,12 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 			}
 			$menuItemModels[$fieldId] = $menuItem;
 		}
+		\App\Cache::staticSave(__METHOD__, $cacheName, $menuItemModels);
 		return $menuItemModels;
 	}
 
 	/**
-	 * Function to get the pinned items 
+	 * Function to get the pinned items
 	 * @param array of fieldids.
 	 * @return array - List of <Settings_Vtiger_MenuItem_Model> instances
 	 */

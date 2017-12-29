@@ -9,12 +9,17 @@
  * *********************************************************************************** */
 chdir(dirname(__FILE__) . '/../../../');
 include_once 'include/main/WebUI.php';
-vimport('include.http.Request');
 
 class PBXManager_PBXManager_Callbacks
 {
 
-	public function validateRequest($vtigersecretkey, $request)
+	/**
+	 * Validate request
+	 * @param string $vtigersecretkey
+	 * @param \App\Request $request
+	 * @return boolean
+	 */
+	public function validateRequest($vtigersecretkey, \App\Request $request)
 	{
 		if ($vtigersecretkey == $request->get('vtigersignature')) {
 			return true;

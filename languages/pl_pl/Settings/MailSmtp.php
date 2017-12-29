@@ -3,7 +3,7 @@
  * MailSmtp polish translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'MailSmtp' => 'Konfiguracja - SMTP',
@@ -39,5 +39,5 @@ $languageStrings = [
 	'LBL_CREATE_SMTP' => 'Utwórz SMTP',
 	'LBL_SMTP_DETAIL' => 'Szczegóły SMTP',
 	'LBL_INDIVIDUAL_DELIVERY_INFO' => 'Wiadomości email będą wysyłane oddzielnie do każdego z odbiorców',
-	'LBL_OPTIONS_INFO' => "Przykładowe parametry dodatkowe(Json):<br /> {<br />  &quot;ssl&quot;: {<br />    &quot;verify_peer&quot;:false,<br />    &quot;verify_peer_name&quot;:false,<br />    &quot;allow_self_signed&quot;:true<br />  }<br />}",
+	'LBL_OPTIONS_INFO' => 'Przykładowe parametry dodatkowe(Json):<br /> {<br />  &quot;ssl&quot;: {<br />    &quot;verify_peer&quot;:false,<br />    &quot;verify_peer_name&quot;:false,<br />    &quot;allow_self_signed&quot;:true<br />  }<br />}',
 ];

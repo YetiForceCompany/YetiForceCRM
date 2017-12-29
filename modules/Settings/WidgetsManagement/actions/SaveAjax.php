@@ -3,7 +3,7 @@
 /**
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -13,14 +13,14 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_IndexAj
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$mode = $request->get('mode');
+		$mode = $request->getMode();
 		if ($mode === 'delete' && !$currentUserModel->isAdminUser()) {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
-		$sourceModule = $request->get('sourceModule');
+		$sourceModule = $request->getByType('sourceModule', 2);
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($sourceModule, 'Save')) {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -34,10 +34,10 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_IndexAj
 	public function save(\App\Request $request)
 	{
 		$data = $request->get('form');
-		$moduleName = $request->get('sourceModule');
+		$moduleName = $request->getByType('sourceModule', 2);
 		$addToUser = $request->get('addToUser');
 		if (!is_array($data) || !$data) {
-			$result = array('success' => false, 'message' => \App\Language::translate('LBL_INVALID_DATA', $moduleName));
+			$result = ['success' => false, 'message' => \App\Language::translate('LBL_INVALID_DATA', $moduleName)];
 		} else {
 			if (!$data['action'])
 				$data['action'] = 'saveDetails';
@@ -53,9 +53,9 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_IndexAj
 	public function delete(\App\Request $request)
 	{
 		$data = $request->get('form');
-		$moduleName = $request->get('sourceModule');
+		$moduleName = $request->getByType('sourceModule', 2);
 		if (!is_array($data) || !$data) {
-			$result = array('success' => false, 'message' => \App\Language::translate('LBL_INVALID_DATA', $moduleName));
+			$result = ['success' => false, 'message' => \App\Language::translate('LBL_INVALID_DATA', $moduleName)];
 		} else {
 			$action = $data['action'];
 			if (!$action) {

@@ -5,7 +5,7 @@ namespace App\Db;
  * Class that repaire structure and data in database
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Fixer
@@ -59,5 +59,41 @@ class Fixer
 			}
 		}
 		\App\Log::trace('Exiting ' . __METHOD__);
+	}
+
+	/**
+	 * Add missing entries in vtiger_profile2utility
+	 */
+	public static function baseModuleTools()
+	{
+		$missing = $curentProfile2utility = [];
+		foreach ((new \App\Db\Query())->from('vtiger_profile2utility')->all() as $row) {
+			$curentProfile2utility[$row['profileid']][$row['tabid']][$row['activityid']] = $row['permission'];
+		}
+		$profileIds = \vtlib\Profile::getAllIds();
+		$moduleIds = array_keys(\vtlib\Functions::getAllModules());
+		$baseActionIds = array_map('App\Module::getActionId', \Settings_ModuleManager_Module_Model::$baseModuleTools);
+		$exceptions = \Settings_ModuleManager_Module_Model::getBaseModuleToolsExceptions();
+		foreach ($profileIds as $profileId) {
+			foreach ($moduleIds as $moduleId) {
+				foreach ($baseActionIds as $actionId) {
+					if (!isset($curentProfile2utility[$profileId][$moduleId][$actionId])) {
+						$missing[] = ['profileid' => $profileId, 'tabid' => $moduleId, 'activityid' => $actionId];
+					}
+				}
+			}
+		}
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		foreach ($missing as $row) {
+			if (isset($exceptions[$row['tabid']]['allowed'])) {
+				if (!isset($exceptions[$row['tabid']]['allowed'][$row['activityid']])) {
+					continue;
+				}
+			} elseif (isset($exceptions[$row['tabid']]['notAllowed']) && ($exceptions[$row['tabid']]['notAllowed'] === false || isset($exceptions[$row['tabid']]['notAllowed'][$row['activityid']]))) {
+				continue;
+			}
+			$dbCommand->insert('vtiger_profile2utility', ['profileid' => $row['profileid'], 'tabid' => $row['tabid'], 'activityid' => $row['activityid'], 'permission' => 1,])->execute();
+		}
+		RecalculateSharingRules();
 	}
 }

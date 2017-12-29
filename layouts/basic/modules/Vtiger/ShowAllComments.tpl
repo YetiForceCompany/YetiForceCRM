@@ -53,7 +53,7 @@
 {/if}	
 <div class="commentContainer">
 	<div class="commentsList commentsBody  col-md-12 paddingLRZero">
-	{include file='CommentsList.tpl'|@vtemplate_path COMMENT_MODULE_MODEL=$COMMENTS_MODULE_MODEL}
+	{include file=\App\Layout::getTemplatePath('CommentsList.tpl') COMMENT_MODULE_MODEL=$COMMENTS_MODULE_MODEL}
 	</div>
 	<div class="hide basicAddCommentBlock marginTop10 marginBottom10px">
 		<div class="row">
@@ -79,7 +79,7 @@
 	<div class="hide basicEditCommentBlock" >
 		<div class="row">
 			<div class="col-md-12 marginTop10 marginBottom10px">
-				<input type="text" name="reasonToEdit" title="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" class="input-block-level form-control"/>
+				<input type="text" name="reasonToEdit" title="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_REASON_FOR_CHANGING_COMMENT', $MODULE_NAME)}" class="input-block-level form-control" />
 			</div>
 		</div>
 		<div class="row">

@@ -15,7 +15,7 @@
 <input type="hidden" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}" />
 <input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
 <input type="hidden" id="nextPageExist" value="{$PAGING_MODEL->isNextPageExists()}" />
-<input type="hidden" id="pageNumber" value= "{$PAGE_NUMBER}"/>
+<input type="hidden" id="pageNumber" value= "{$PAGE_NUMBER}" />
 <input type="hidden" id="pageLimit" value= "{$PAGING_MODEL->getPageLimit()}" />
 <input type="hidden" id="noOfEntries" value= "{$LISTVIEW_ENTRIES_COUNT}" />
 <input type="hidden" id="duplicateSearchFields" value={\App\Json::encode($DUPLICATE_SEARCH_FIELDS)} />
@@ -44,7 +44,7 @@
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 					{if $LISTVIEW_HEADER->get('name') neq 'id'}
 						<th class="text-center" nowrap >
-							<a class="listViewHeaderValues">{\App\Language::translate($LISTVIEW_HEADER->get('label'), $MODULE)}</a>
+							<a class="listViewHeaderValues">{\App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $MODULE)}</a>
 						</th>
 					{/if}
 				{/foreach}
@@ -60,13 +60,13 @@
 			{foreach item=RECORD key=KEY from=$LISTVIEW_ENTRY name=listview}
 				<tr class="listViewEntries" data-id='{$RECORD.id}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
 					<td width="5%" style='border-bottom:1px solid #DDD;'>
-						<input type="checkbox" value="{$RECORD.id}" title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox"/>
+						<input type="checkbox" value="{$RECORD.id}" title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox" />
 					</td>
 					{assign var=sameRowValues value=true}
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 						{if $LISTVIEW_HEADER->get('name') neq 'id'}
 							<td nowrap style='border-bottom:1px solid #DDD;'>
-								{$LISTVIEW_HEADER->getDisplayValue($RECORD[$LISTVIEW_HEADER->getFieldName()], $RECORD.id,false,true)}
+								{$LISTVIEW_HEADER->getDisplayValue($RECORD[$LISTVIEW_HEADER->get('name')], $RECORD.id,false,true)}
 							</td>
 						{/if}
 					{/foreach}
@@ -76,7 +76,7 @@
 						</a>
 					</td>
 					<td style='border-bottom:1px solid #DDD;'>
-						<input type="checkbox" data-id='{$RECORD.id}' name="mergeRecord" data-group="{$GROUP_NAME}"/>
+						<input type="checkbox" data-id='{$RECORD.id}' name="mergeRecord" data-group="{$GROUP_NAME}" />
 					</td>
 					{if $recordCount eq 0}
 						<td align='center' rowspan="{$groupCount}" style="border-left:1px solid #DDD;border-bottom:1px solid #DDD;vertical-align: middle;text-align: center">

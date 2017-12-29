@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <script type="text/javascript">
 	Vtiger_KpiBarchat_Widget_Js('Vtiger_Kpi_Widget_Js',{},{});
 </script>
@@ -22,11 +22,11 @@
 				<td class="widgeticons col-md-5" align="right">
 					<div class="box pull-right">
 						<a name="dfilter">
-							<i class='icon-cog' border='0' align="absmiddle" title="{\App\Language::translate('LBL_FILTER')}" alt="{\App\Language::translate('LBL_FILTER')}"/>
+							<i class='icon-cog' border='0' align="absmiddle" title="{\App\Language::translate('LBL_FILTER')}" alt="{\App\Language::translate('LBL_FILTER')}" />
 						</a>
 						<!--
 						<a class="dprint" name="dprint">
-							<i class='icon-print' border='0' align="absmiddle" title="{\App\Language::translate('LBL_PRINT')}" alt="{\App\Language::translate('LBL_PRINT')}"/>
+							<i class='icon-print' border='0' align="absmiddle" title="{\App\Language::translate('LBL_PRINT')}" alt="{\App\Language::translate('LBL_PRINT')}" />
 						</a>
 						-->
 						<a href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data">
@@ -53,7 +53,7 @@
 				</span>
 			</span>
 			<span class="col-md-8">
-				<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRange widgetFilter" />
+				<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter" />
 			</span>
 		</div>
 		<div class="row">
@@ -89,6 +89,6 @@
 	</div>
 </div>
 <div class="dashboardWidgetContent">
-	{include file="dashboards/KpiContents.tpl"|@vtemplate_path:$MODULE_NAME}
+	{include file=\App\Layout::getTemplatePath('dashboards/KpiContents.tpl', $MODULE_NAME)}
 </div>
 {/strip}

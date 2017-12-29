@@ -24,7 +24,7 @@
 							<div class="col-sm-7 controls">
 								<select class="select2 form-control" data-validation-engine="validate[ required]" title="{\App\Language::translate('LBL_TRANSFER_OWNERSHIP', $MODULE)}" name="transferOwnerId" id="transferOwnerId"
 									{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')} 
-										data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&type=Edit" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
+										data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName=assigned_user_id" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
 									{/if}>
 									{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 										<option value="{$USER_MODEL->get('id')}" data-picklistvalue="{$USER_MODEL->getName()}">
@@ -80,7 +80,7 @@
 						</div>
 						<div class="alert alert-info" role="alert">{\App\Language::translate('LBL_TRANSFER_OWNERSHIP_DESC',$MODULE)}</div>
 					</div>
-					{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
+					{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $MODULE)}
 				</form>
 			</div>
 		</div>

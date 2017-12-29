@@ -12,26 +12,35 @@
 class Vtiger_ProcessDuplicates_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$module = $request->getModule();
-		$records = $request->get('records');
-		if ($records) {
-			foreach ($records as $record) {
-				$recordPermission = Users_Privileges_Model::isPermitted($module, 'EditView', $record);
-				if (!$recordPermission) {
-					throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
-				}
+		$moduleName = $request->getModule();
+		if (!\App\Privilege::isPermitted($moduleName, 'DuplicatesHandling', $request->getInteger('primaryRecord'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		$records = $request->getArray('records');
+		foreach ($records as $record) {
+			if (!is_numeric($record) || !\App\Privilege::isPermitted($moduleName, 'EditView', $record)) {
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		}
 	}
 
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$records = $request->get('records');
-		$primaryRecord = $request->get('primaryRecord');
+		$records = $request->getArray('records');
+		$primaryRecord = $request->getInteger('primaryRecord');
 		$primaryRecordModel = Vtiger_Record_Model::getInstanceById($primaryRecord, $moduleName);
 
 		$fields = $moduleModel->getFields();
@@ -42,11 +51,13 @@ class Vtiger_ProcessDuplicates_Action extends Vtiger_Action_Controller
 			}
 		}
 		$primaryRecordModel->save();
-
-		$deleteRecords = array_diff($records, array($primaryRecord));
+		$deleteRecords = array_diff($records, [$primaryRecord]);
 		foreach ($deleteRecords as $deleteRecord) {
 			$record = Vtiger_Record_Model::getInstanceById($deleteRecord, $moduleName);
-			if ($record->isDeletable()) {
+			if ($record->privilegeToMoveToTrash()) {
+				$primaryRecordModel->transferRelationInfoOfRecords([$deleteRecord]);
+				$record->changeState('Trash');
+			} elseif ($record->privilegeToDelete()) {
 				$primaryRecordModel->transferRelationInfoOfRecords([$deleteRecord]);
 				$record->delete();
 			}

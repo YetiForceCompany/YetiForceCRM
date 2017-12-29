@@ -298,7 +298,7 @@ Vtiger_Field_Js('Vtiger_Owner_Field_Js', {}, {
 			for (var option in optionGroupValues) {
 				html += '<option value="' + option + '" ';
 				//comparing with the value instead of key , because saved value is giving username instead of id.
-				if (optionGroupValues[option] == selectedOption) {
+				if (option == selectedOption) {
 					html += ' selected ';
 				}
 				html += '>' + optionGroupValues[option] + '</option>';

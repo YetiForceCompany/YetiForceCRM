@@ -6,70 +6,84 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+/**
+ * Class Vtiger_Multiowner_UIType
+ */
 class Vtiger_Multiowner_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * {@inheritDoc}
 	 */
-	public function getTemplateName()
+	public function validate($value, $isUserFormat = false)
 	{
-		return 'uitypes/MultiOwner.tpl';
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		if (!is_array($value)) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+		}
+		foreach ($value as $shownerid) {
+			if (!is_numeric($shownerid)) {
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+			}
+		}
+		$this->validate = true;
 	}
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
-	 * @return <Object>
+	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($values, $record = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		if ($values === null && !is_array($values))
-			return;
-		foreach ($values as $value) {
-			if (self::getOwnerType($value) === 'User') {
+		if ($value === null && !is_array($value)) {
+			return '';
+		}
+		foreach ($value as $row) {
+			if (self::getOwnerType($row) === 'User') {
 				$userModel = Users_Record_Model::getCleanInstance('Users');
-				$userModel->set('id', $value);
+				$userModel->setId($row);
 				$detailViewUrl = $userModel->getDetailViewUrl();
 				$currentUser = Users_Record_Model::getCurrentUserModel();
 				if (!$currentUser->isAdminUser()) {
-					return \App\Fields\Owner::getLabel($value);
+					return \App\Fields\Owner::getLabel($row);
 				}
 			} else {
 				$currentUser = Users_Record_Model::getCurrentUserModel();
 				if (!$currentUser->isAdminUser()) {
-					return \App\Fields\Owner::getLabel($value);
+					return \App\Fields\Owner::getLabel($row);
 				}
 				$recordModel = new Settings_Groups_Record_Model();
-				$recordModel->set('groupid', $value);
+				$recordModel->set('groupid', $row);
 				$detailViewUrl = $recordModel->getDetailViewUrl();
 			}
 			if ($rawText) {
-				$displayvalue[] = \App\Fields\Owner::getLabel($value);
+				$displayvalue[] = \App\Fields\Owner::getLabel($row);
 			} else {
-				$displayvalue[] = "<a href=" . $detailViewUrl . ">" . \App\Fields\Owner::getLabel($value) . "</a>&nbsp";
+				$displayvalue[] = "<a href=" . $detailViewUrl . ">" . \App\Fields\Owner::getLabel($row) . "</a>&nbsp;";
 			}
 		}
-		$displayvalue = implode(',', $displayvalue);
-		return $displayvalue;
+		return implode(',', $displayvalue);
 	}
 
 	/**
 	 * Function to know owner is either User or Group
-	 * @param <Integer> userId/GroupId
+	 * @param integer $id userId/GroupId
 	 * @return string User/Group
 	 */
 	public static function getOwnerType($id)
 	{
-		$db = PearDatabase::getInstance();
+		return \App\Fields\Owner::getType($id);
+	}
 
-		$result = $db->pquery('SELECT 1 FROM vtiger_users WHERE id = ?', array($id));
-		if ($db->num_rows($result) > 0) {
-			return 'User';
-		}
-		return 'Group';
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getTemplateName()
+	{
+		return 'uitypes/MultiOwner.tpl';
 	}
 }

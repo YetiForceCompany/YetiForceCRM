@@ -5,7 +5,7 @@ namespace App;
  * Debuger basic class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 use DebugBar;
@@ -16,12 +16,12 @@ class Debuger
 {
 
 	protected static $debugBar;
-	
+
 	/**
 	 * Base path of files javascript
 	 */
 	const BASE_PATH_JAVASCRIPT = 'vendor/php-debugbar/src/DebugBar/Resources';
-	
+
 	/**
 	 * Initiating debugging console
 	 * @return \App\DebugBar\Debuger
@@ -44,10 +44,11 @@ class Debuger
 	 * Function to get path of files javascript 
 	 * @return string
 	 */
-	public static function getJavascriptPath(){
+	public static function getJavascriptPath()
+	{
 		return Layout::getPublicUrl(self::BASE_PATH_JAVASCRIPT);
 	}
-	
+
 	/**
 	 * Get Debuger instance
 	 * @return \App\DebugBar\Debuger
@@ -166,6 +167,7 @@ class Debuger
 				$args = rtrim($args, ',');
 			}
 			$trace .= "$sep$l {$v['file']} ({$v['line']})  >>  " . (isset($v['class']) ? $v['class'] . '->' : '') . "{$v['function']}($args)" . PHP_EOL;
+			unset($args, $val, $v, $k, $a);
 			if ($maxLevel !== 0 && $l >= $maxLevel) {
 				break;
 			}

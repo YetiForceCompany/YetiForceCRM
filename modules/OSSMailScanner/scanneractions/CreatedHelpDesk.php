@@ -1,15 +1,23 @@
 <?php
-
 /**
  * Mail scanner action creating HelpDesk
  * @package YetiForce.MailScanner
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+
+/**
+ * Mail scanner action creating HelpDesk
  */
 class OSSMailScanner_CreatedHelpDesk_ScannerAction
 {
 
+	/**
+	 * Process
+	 * @param OSSMail_Mail_Model $mail
+	 * @return string
+	 */
 	public function process(OSSMail_Mail_Model $mail)
 	{
 		$id = 0;
@@ -23,13 +31,11 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 				}
 			}
 		}
-		$create = true;
-		$db = PearDatabase::getInstance();
-		if ($prefix !== false) {
-			$result = $db->pquery('SELECT ticketid FROM vtiger_troubletickets where ticket_no = ? LIMIT 1', [$prefix]);
-			$create = $db->getRowCount($result) == 0;
+		$exists = false;
+		if ($prefix) {
+			$exists = (new App\Db\Query())->select(['ticketid'])->from('vtiger_troubletickets')->where(['ticket_no' => $prefix])->limit(1)->exists();
 		}
-		if ($create) {
+		if (!$exists) {
 			$id = $this->add($mail);
 		}
 		return $id;
@@ -46,22 +52,14 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 		$parentId = (int) $mail->findEmailAdress('fromaddress', 'Accounts', false);
 		$record = Vtiger_Record_Model::getCleanInstance('HelpDesk');
 
-		$db = PearDatabase::getInstance();
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		if (empty($parentId) && !empty($contactId)) {
-			$resultAccount = $db->pquery('SELECT parentid FROM vtiger_contactdetails where contactid = ? LIMIT 1', [$contactId]);
-			if ($db->getRowCount($resultAccount)) {
-				$parentId = $db->getSingleValue($resultAccount);
-			}
+			$parentId = (new App\Db\Query())->select(['parentid'])->from('vtiger_contactdetails')->where(['contactid' => $contactId])->limit(1)->scalar();
 		}
-		if (!empty($parentId)) {
+		if ($parentId) {
 			$record->set('parent_id', $parentId);
-
-			$query = 'SELECT vtiger_servicecontracts.servicecontractsid, vtiger_servicecontracts.priority FROM vtiger_servicecontracts '
-				. 'INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_servicecontracts.servicecontractsid '
-				. 'WHERE vtiger_crmentity.deleted = ? && vtiger_servicecontracts.sc_related_to = ? LIMIT 1';
-			$result = $db->pquery($query, [0, $parentId]);
-			if ($db->getRowCount($result)) {
-				$serviceContracts = $db->getRow($result);
+			$serviceContracts = (new App\Db\Query())->select(['vtiger_servicecontracts.servicecontractsid', 'vtiger_servicecontracts.priority'])->from('vtiger_servicecontracts')->innerJoin('vtiger_crmentity', 'vtiger_servicecontracts.servicecontractsid = vtiger_crmentity.crmid')->where(['vtiger_crmentity.deleted' => 0, 'vtiger_servicecontracts.sc_related_to' => $parentId])->limit(1)->one();
+			if ($serviceContracts) {
 				$record->set('servicecontractsid', $serviceContracts['servicecontractsid']);
 				$record->set('ticketpriorities', $serviceContracts['priority']);
 			}
@@ -71,7 +69,6 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 		$record->set('ticket_title', \App\Purifier::purify($mail->get('subject')));
 		$record->set('description', \App\Purifier::purifyHtml($mail->get('body')));
 		$record->set('ticketstatus', 'Open');
-		$record->set('id', '');
 		$record->save();
 		$id = $record->getId();
 
@@ -82,20 +79,13 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 
 		if ($mailId = $mail->getMailCrmId()) {
 			(new OSSMailView_Relation_Model())->addRelation($mailId, $id, $mail->get('udate_formated'));
-			$result = $db->pquery('SELECT documentsid FROM vtiger_ossmailview_files WHERE ossmailviewid = ?;', [$mailId]);
-			while ($documentId = $db->getSingleValue($result)) {
-				$db->insert('vtiger_senotesrel', [
-					'crmid' => $id,
-					'notesid' => $documentId
-				]);
+			$query = (new App\Db\Query())->select(['documentsid'])->from('vtiger_ossmailview_files')->where(['ossmailviewid' => $mailId]);
+			$dataReader = $query->createCommand()->query();
+			while ($documentId = $dataReader->readColumn(0)) {
+				$dbCommand->insert('vtiger_senotesrel', ['crmid' => $id, 'notesid' => $documentId])->execute();
 			}
 		}
-		$db->update('vtiger_crmentity', [
-			'createdtime' => $mail->get('udate_formated'),
-			'smcreatorid' => $accountOwner,
-			'modifiedby' => $accountOwner
-			], 'crmid = ?', [$id]
-		);
+		$dbCommand->update('vtiger_crmentity', ['createdtime' => $mail->get('udate_formated'), 'smcreatorid' => $accountOwner, 'modifiedby' => $accountOwner], ['crmid' => $id])->execute();
 		return $id;
 	}
 }

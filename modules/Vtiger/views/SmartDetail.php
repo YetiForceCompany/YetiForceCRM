@@ -3,25 +3,26 @@
 class Vtiger_SmartDetail_View extends Vtiger_IndexAjax_View
 {
 
+	/**
+	 * Checking permissions
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermittedToRecord
+	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
-
-		$recordPermission = Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordId);
-		if (!$recordPermission) {
-			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		if ($request->isEmpty('record', true)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		return true;
+		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
 	}
 
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
-
 		if (!$this->record) {
-			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $recordId);
+			$this->record = Vtiger_DetailView_Model::getInstance($moduleName, $request->getInteger('record'));
 		}
 		$recordModel = $this->record->getRecord();
 		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
@@ -30,7 +31,7 @@ class Vtiger_SmartDetail_View extends Vtiger_IndexAjax_View
 		$moduleModel = $recordModel->getModule();
 
 		$viewer = $this->getViewer($request);
-		$viewer->assign('VIEW', $request->get('view'));
+		$viewer->assign('VIEW', $request->getByType('view', 1));
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());

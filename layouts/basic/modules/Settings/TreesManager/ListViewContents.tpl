@@ -1,4 +1,4 @@
- {*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+ {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
  
 {strip}
 <input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
@@ -6,8 +6,8 @@
 <input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
 <input type="hidden" id="nextPageExist" value="{$PAGING_MODEL->isNextPageExists()}" />
 <input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
-<input type="hidden" value="{$ORDER_BY}" id="orderBy">
-<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
+<input type="hidden" value="{$ORDER_BY}" id="orderBy" />
+<input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
 <input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
 <input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber'>
 <input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
@@ -15,7 +15,7 @@
 
 <div class="listViewEntriesDiv" style='overflow-x:auto;'>
 	<span class="listViewLoadingImageBlock hide modal" id="loadingListViewModal">
-		<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}"/>
+		<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}" />
 		<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 	</span>
 	{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
@@ -40,7 +40,7 @@
 			 >
 			<td width="1%" nowrap class="{$WIDTHTYPE}">
 				{if $MODULE eq 'CronTasks'}
-					<img src="{vimage_path('drag.png')}" class="alignTop" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
+					<img src="{\App\Layout::getImagePath('drag.png')}" class="alignTop" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
 				{/if}
 			</td>
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}

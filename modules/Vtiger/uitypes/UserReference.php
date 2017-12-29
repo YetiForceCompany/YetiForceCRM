@@ -6,48 +6,56 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * {@inheritDoc}
+	 */
+	public function validate($value, $isUserFormat = false)
+	{
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		if (!is_numeric($value) || \App\User::isExists($value)) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+		}
+		$this->validate = true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getEditViewDisplayValue($value, $recordModel = false)
+	{
+		if ($value) {
+			return \App\Fields\Owner::getLabel($value);
+		}
+		return '';
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+	{
+		$displayValue = \vtlib\Functions::textLength($this->getEditViewDisplayValue($value, $recordModel), is_int($length) ? $length : false);
+		if (App\User::getCurrentUserModel()->isAdmin() && !$rawText) {
+			$recordModel = Users_Record_Model::getCleanInstance('Users');
+			$recordModel->setId($value);
+			return '<a href="' . $recordModel->getDetailViewUrl() . '">' . $displayValue . '</a>';
+		}
+		return $displayValue;
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public function getTemplateName()
 	{
 		return 'uitypes/Reference.tpl';
-	}
-
-	/**
-	 * Function to get the display value in detail view
-	 * @param <Integer> crmid of record
-	 * @return string
-	 */
-	public function getEditViewDisplayValue($value, $record = false)
-	{
-		if ($value) {
-			$userName = \App\Fields\Owner::getLabel($value);
-			return $userName;
-		}
-	}
-
-	/**
-	 * Function to get display value
-	 * @param string $value
-	 * @param <Number> $recordId
-	 * @return string display value
-	 */
-	public function getDisplayValue($value, $recordId = false, $recordInstance = false, $rawText = false)
-	{
-		$displayValue = $this->getEditViewDisplayValue($value);
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if ($currentUserModel->isAdminUser() && $rawText === false) {
-			$recordModel = Users_Record_Model::getCleanInstance('Users');
-			$recordModel->set('id', $value);
-			return '<a href="' . $recordModel->getDetailViewUrl() . '">' . \vtlib\Functions::textLength($displayValue) . '</a>';
-		}
-		return $displayValue;
 	}
 }

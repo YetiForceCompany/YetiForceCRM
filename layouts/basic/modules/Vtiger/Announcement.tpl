@@ -1,5 +1,5 @@
 {strip}
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {assign var="AMODULE" value='Announcements'}
 	<div id="announcements">
 		{foreach item=ANNOUNCEMENT from=$ANNOUNCEMENTS->getAnnouncements()}
@@ -8,10 +8,10 @@
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h4 class="modal-title">{$ANNOUNCEMENT->get('subject')}</h4>
+								<h4 class="modal-title">{$ANNOUNCEMENT->getDisplayValue('subject')}</h4>
 							</div>
 							<div class="modal-body">
-								{$ANNOUNCEMENT->get('description')}
+								{$ANNOUNCEMENT->getDisplayValue('description')}
 							</div>
 							<div class="modal-footer">
 								{if !$ANNOUNCEMENT->get('is_mandatory')}

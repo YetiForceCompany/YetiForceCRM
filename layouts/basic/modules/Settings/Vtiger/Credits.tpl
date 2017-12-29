@@ -2,7 +2,7 @@
 	<div class="settingsIndexPage">
 		<div class="widget_header row">
 			<div class="col-xs-12">
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 			</div>
 			<div class="col-xs-12">
 				{\App\Language::translate('LBL_CREDITS_DESCRIPTION', $QUALIFIED_MODULE)}

@@ -3,7 +3,7 @@
 /**
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
@@ -26,7 +26,7 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			return;
 		}
 		$id = $request->get('id');
-		$type = $request->get('view');
+		$type = $request->getByType('view', 1);
 		if (empty($id)) {
 			$recordModel = new Settings_Inventory_Record_Model();
 		} else {
@@ -37,6 +37,9 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			if ($request->has($fieldName) && !in_array($fieldName, ['module', 'parent', 'view', '__vtrftk', 'action'])) {
 				$recordModel->set($fieldName, $fieldValue);
 			}
+		}
+		if ($type === 'Discounts') {
+			$recordModel->set('value', CurrencyField::convertToDBFormat($recordModel->get('value')));
 		}
 		$recordModel->setType($type);
 
@@ -56,14 +59,14 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$qualifiedModuleName = $request->getModule(false);
 		$id = $request->get('id');
 		$name = $request->get('name');
-		$type = $request->get('view');
+		$type = $request->getByType('view', 1);
 
 		$exists = Settings_Inventory_Record_Model::checkDuplicate($name, $id, $type);
 
 		if (!$exists) {
-			$result = array('success' => false);
+			$result = ['success' => false];
 		} else {
-			$result = array('success' => true, 'message' => \App\Language::translate('LBL_NAME_EXIST', $qualifiedModuleName));
+			$result = ['success' => true, 'message' => \App\Language::translate('LBL_NAME_EXIST', $qualifiedModuleName)];
 		}
 
 		$response = new Vtiger_Response();
@@ -82,9 +85,9 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$status = $recordModel->delete();
 
 		if (!$status) {
-			$result = array('success' => false);
+			$result = ['success' => false];
 		} else {
-			$result = array('success' => true, 'message' => \App\Language::translate('LBL_DELETE_OK', $qualifiedModuleName));
+			$result = ['success' => true, 'message' => \App\Language::translate('LBL_DELETE_OK', $qualifiedModuleName)];
 		}
 
 		$response = new Vtiger_Response();
@@ -101,9 +104,9 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$status = $recordModel->setConfig($type, $params['param']);
 
 		if (!$status) {
-			$result = array('success' => false);
+			$result = ['success' => false];
 		} else {
-			$result = array('success' => true);
+			$result = ['success' => true];
 		}
 
 		$response = new Vtiger_Response();

@@ -3,7 +3,7 @@
  * Date time range class
  * @package YetiForce.Include
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 require_once 'include/utils/utils.php';
 
@@ -28,30 +28,25 @@ class DateTimeRange
 			$dateObject = new DateTime($dateObject);
 		}
 		$thisMonth = $dateObject->format('m');
-
 		$today = $dateObject->format('Y-m-d');
 		$todayName = $dateObject->format('l');
-
 		switch ($type) {
 			case 'today':
 				$dateValue[0] = $today;
 				$dateValue[1] = $today;
 				break;
-
 			case 'yesterday':
 				$dateObject->modify('last day');
 				$yesterday = $dateObject->format('Y-m-d');
 				$dateValue[0] = $yesterday;
 				$dateValue[1] = $yesterday;
 				break;
-
 			case 'tomorrow':
 				$dateObject->modify('tomorrow');
 				$tomorrow = $dateObject->format('Y-m-d');
 				$dateValue[0] = $tomorrow;
 				$dateValue[1] = $tomorrow;
 				break;
-
 			case 'thisweek':
 				if ($todayName == $weekStartDay) {
 					$dateObject->modify('-0 week ' . $weekStartDay);
@@ -64,7 +59,6 @@ class DateTimeRange
 				$dateValue[0] = $thisWeekStart;
 				$dateValue[1] = $thisWeekEnd;
 				break;
-
 			case 'lastweek':
 				if ($todayName == $weekStartDay) {
 					$dateObject->modify('-1 week ' . $weekStartDay);
@@ -77,7 +71,6 @@ class DateTimeRange
 				$dateValue[0] = $lastWeekStart;
 				$dateValue[1] = $lastWeekEnd;
 				break;
-
 			case 'nextweek':
 				if ($todayName == $weekStartDay) {
 					$dateObject->modify('+1 week ' . $weekStartDay);
@@ -90,14 +83,12 @@ class DateTimeRange
 				$dateValue[0] = $nextWeekStart;
 				$dateValue[1] = $nextWeekEnd;
 				break;
-
 			case 'thismonth':
 				$currentMonthStart = $dateObject->format('Y-m-01');
 				$currentMonthEnd = $dateObject->format('Y-m-t');
 				$dateValue[0] = $currentMonthStart;
 				$dateValue[1] = $currentMonthEnd;
 				break;
-
 			case 'lastmonth':
 				$dateObject->modify('last month');
 				$lastMonthStart = $dateObject->format('Y-m-01');
@@ -105,7 +96,6 @@ class DateTimeRange
 				$dateValue[0] = $lastMonthStart;
 				$dateValue[1] = $lastMonthEnd;
 				break;
-
 			case 'nextmonth':
 				$dateObject->modify('next month');
 				$nextMonthStart = $dateObject->format('Y-m-01');
@@ -113,120 +103,100 @@ class DateTimeRange
 				$dateValue[0] = $nextMonthStart;
 				$dateValue[1] = $nextMonthEnd;
 				break;
-
 			case 'next7days':
 				$dateObject->modify('+6 days');
 				$next7days = $dateObject->format('Y-m-d');
 				$dateValue[0] = $today;
 				$dateValue[1] = $next7days;
 				break;
-
 			case 'next15days':
 				$dateObject->modify('+14 days');
 				$next15days = $dateObject->format('Y-m-d');
 				$dateValue[0] = $today;
 				$dateValue[1] = $next15days;
 				break;
-
 			case 'next30days':
 				$dateObject->modify('+29 days');
 				$next30days = $dateObject->format('Y-m-d');
 				$dateValue[0] = $today;
 				$dateValue[1] = $next30days;
 				break;
-
 			case 'next60days':
 				$dateObject->modify('+59 days');
 				$next60days = $dateObject->format('Y-m-d');
 				$dateValue[0] = $today;
 				$dateValue[1] = $next60days;
 				break;
-
 			case 'next90days':
 				$dateObject->modify('+89 days');
 				$next90days = $dateObject->format('Y-m-d');
 				$dateValue[0] = $today;
 				$dateValue[1] = $next90days;
 				break;
-
 			case 'next120days':
 				$dateObject->modify('+119 days');
 				$next120days = $dateObject->format('Y-m-d');
 				$dateValue[0] = $today;
 				$dateValue[1] = $next120days;
 				break;
-
 			case 'last7days':
 				$dateObject->modify('-6 days');
 				$last7days = $dateObject->format('Y-m-d');
 				$dateValue[0] = $last7days;
 				$dateValue[1] = $today;
 				break;
-
 			case 'last15days':
 				$dateObject->modify('-14 days');
 				$last15days = $dateObject->format('Y-m-d');
 				$dateValue[0] = $last15days;
 				$dateValue[1] = $today;
 				break;
-
 			case 'last30days':
 				$dateObject->modify('-29 days');
 				$last30days = $dateObject->format('Y-m-d');
 				$dateValue[0] = $last30days;
 				$dateValue[1] = $today;
 				break;
-
 			case 'last60days':
 				$dateObject->modify('-59 days');
 				$last60days = $dateObject->format('Y-m-d');
 				$dateValue[0] = $last60days;
 				$dateValue[1] = $today;
 				break;
-
 			case 'last90days':
 				$dateObject->modify('-89 days');
 				$last90days = $dateObject->format('Y-m-d');
 				$dateValue[0] = $last90days;
 				$dateValue[1] = $today;
 				break;
-
 			case 'last120days':
 				$dateObject->modify('-119 days');
 				$last120days = $dateObject->format('Y-m-d');
 				$dateValue[0] = $last120days;
 				$dateValue[1] = $today;
 				break;
-
 			case 'thisfy':
 				$dateValue = self::getPresentYearRange($dateObject);
 				break;
-
 			case 'prevfy':
 				$dateValue = self::getPreviousYearRange($dateObject);
 				break;
-
 			case 'nextfy':
 				$dateValue = self::getNextYearRange($dateObject);
 				break;
-
 			case 'nextfq':
 				$dateValue = self::getNextQuarterRange($thisMonth, $dateObject);
 				break;
-
 			case 'prevfq':
 				$dateValue = self::getPreviousQuarterRange($thisMonth, $dateObject);
 				break;
-
 			case 'thisfq':
 				$dateValue = self::getPresentQuarterRange($thisMonth, $dateObject);
 				break;
-
 			default:
 				$dateValue[0] = '';
 				$dateValue[1] = '';
 		}
-
 		return $dateValue;
 	}
 
@@ -243,7 +213,7 @@ class DateTimeRange
 			$dateObject = new DateTime($dateObject);
 		}
 
-		return array($dateObject->format('Y-01-01'), $dateObject->format('Y-12-31'));
+		return [$dateObject->format('Y-01-01'), $dateObject->format('Y-12-31')];
 	}
 
 	/**
@@ -260,7 +230,7 @@ class DateTimeRange
 		}
 		$dateObject->modify('next year');
 
-		return array($dateObject->format('Y-01-01'), $dateObject->format('Y-12-31'));
+		return [$dateObject->format('Y-01-01'), $dateObject->format('Y-12-31')];
 	}
 
 	/**
@@ -277,7 +247,7 @@ class DateTimeRange
 		}
 		$dateObject->modify('last year');
 
-		return array($dateObject->format('Y-01-01'), $dateObject->format('Y-12-31'));
+		return [$dateObject->format('Y-01-01'), $dateObject->format('Y-12-31')];
 	}
 
 	/**

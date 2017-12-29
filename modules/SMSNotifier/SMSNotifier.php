@@ -21,49 +21,49 @@ class SMSNotifier extends Vtiger_CRMEntity
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('vtiger_smsnotifiercf', 'smsnotifierid');
+	public $customFieldTable = ['vtiger_smsnotifiercf', 'smsnotifierid'];
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_smsnotifier', 'vtiger_smsnotifiercf');
+	public $tab_name = ['vtiger_crmentity', 'vtiger_smsnotifier', 'vtiger_smsnotifiercf'];
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public $tab_name_index = Array(
+	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_smsnotifier' => 'smsnotifierid',
-		'vtiger_smsnotifiercf' => 'smsnotifierid');
+		'vtiger_smsnotifiercf' => 'smsnotifierid'];
 
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public $list_fields = Array(
+	public $list_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Message' => Array('smsnotifier', 'message'),
-		'Assigned To' => Array('crmentity', 'smownerid')
-	);
-	public $list_fields_name = Array(
+		'Message' => ['smsnotifier', 'message'],
+		'Assigned To' => ['crmentity', 'smownerid']
+	];
+	public $list_fields_name = [
 		/* Format: Field Label => fieldname */
 		'Message' => 'message',
 		'Assigned To' => 'assigned_user_id'
-	);
+	];
 	// Make the field link to detail view
 	public $list_link_field = 'message';
 	// For Popup listview and UI type support
-	public $search_fields = Array(
+	public $search_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Message' => Array('smsnotifier', 'message')
-	);
-	public $search_fields_name = Array(
+		'Message' => ['smsnotifier', 'message']
+	];
+	public $search_fields_name = [
 		/* Format: Field Label => fieldname */
 		'Message' => 'message'
-	);
+	];
 	// For Popup window record selection
-	public $popup_fields = Array('message');
+	public $popup_fields = ['message'];
 	// Should contain field labels
 	//var $detailview_links = Array ('Message');
 	// For Alphabetical search
@@ -71,14 +71,14 @@ class SMSNotifier extends Vtiger_CRMEntity
 	// Column value to use on detail view record text display
 	public $def_detailview_recname = 'message';
 	// Required Information for enabling Import feature
-	public $required_fields = Array('assigned_user_id' => 1);
+	public $required_fields = ['assigned_user_id' => 1];
 	// Callback function list during Importing
-	public $special_functions = Array('set_import_assigned_user');
+	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = '';
 	public $default_sort_order = 'DESC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public $mandatory_fields = Array('createdtime', 'modifiedtime', 'message', 'assigned_user_id');
+	public $mandatory_fields = ['createdtime', 'modifiedtime', 'message', 'assigned_user_id'];
 
 	public function __construct()
 	{
@@ -134,13 +134,13 @@ class SMSNotifier extends Vtiger_CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($module));
-		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", [$module]);
+		$linkedFieldsCount = $this->db->numRows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
-			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
-			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
-			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
+			$related_module = $this->db->queryResult($linkedModulesQuery, $i, 'relmodule');
+			$fieldname = $this->db->queryResult($linkedModulesQuery, $i, 'fieldname');
+			$columnname = $this->db->queryResult($linkedModulesQuery, $i, 'columnname');
 
 			\vtlib\Deprecated::checkFileAccessForInclusion("modules/$related_module/$related_module.php");
 			require_once("modules/$related_module/$related_module.php");
@@ -206,7 +206,7 @@ class SMSNotifier extends Vtiger_CRMEntity
 	/**
 	 * Create query to export the records.
 	 */
-	public function create_export_query($where)
+	public function createExportQuery($where)
 	{
 		$current_user = vglobal('current_user');
 		$thismodule = \App\Request::_get('module');
@@ -231,13 +231,13 @@ class SMSNotifier extends Vtiger_CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($thismodule));
-		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", [$thismodule]);
+		$linkedFieldsCount = $this->db->numRows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
-			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
-			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
-			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
+			$related_module = $this->db->queryResult($linkedModulesQuery, $i, 'relmodule');
+			$fieldname = $this->db->queryResult($linkedModulesQuery, $i, 'fieldname');
+			$columnname = $this->db->queryResult($linkedModulesQuery, $i, 'columnname');
 
 			\vtlib\Deprecated::checkFileAccessForInclusion("modules/$related_module/$related_module.php");
 			require_once("modules/$related_module/$related_module.php");
@@ -268,9 +268,9 @@ class SMSNotifier extends Vtiger_CRMEntity
 	/**
 	 * Transform the value while exporting (if required)
 	 */
-	public function transform_export_value($key, $value)
+	public function transformExportValue($key, $value)
 	{
-		return parent::transform_export_value($key, $value);
+		return parent::transformExportValue($key, $value);
 	}
 
 	/**
@@ -326,23 +326,10 @@ class SMSNotifier extends Vtiger_CRMEntity
 	 * @param string Module name
 	 * @param string Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	public function vtlib_handler($modulename, $eventType)
+	public function moduleHandler($modulename, $eventType)
 	{
 		//adds sharing accsess
 		$SMSNotifierModule = vtlib\Module::getInstance('SMSNotifier');
 		vtlib\Access::setDefaultSharing($SMSNotifierModule);
-		if ($eventType == 'module.postinstall') {
-			
-		} else if ($eventType == 'module.disabled') {
-			
-		} else if ($eventType == 'module.enabled') {
-			
-		} else if ($eventType == 'module.preuninstall') {
-			
-		} else if ($eventType == 'module.preupdate') {
-			
-		} else if ($eventType == 'module.postupdate') {
-			
-		}
 	}
 }

@@ -93,13 +93,11 @@ class ModTracker_Field_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get Display Value
-	 * @param <type> $value
-	 * @return string
+	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		return $this->getFieldInstance()->getDisplayValue($value, $record, $recordInstance, $rawText);
+		return $this->getFieldInstance()->getDisplayValue($value, $record, $recordModel, $rawText, $length);
 	}
 
 	/**

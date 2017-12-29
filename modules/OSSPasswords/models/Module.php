@@ -4,7 +4,7 @@
  * OSSPasswords module model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSPasswords_Module_Model extends Vtiger_Module_Model
 {
@@ -19,12 +19,12 @@ class OSSPasswords_Module_Model extends Vtiger_Module_Model
 		$settingLinks = parent::getSettingLinks();
 
 		if ($currentUserModel->isAdminUser()) {
-			$settingLinks[] = array(
+			$settingLinks[] = [
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_PASS_CONFIGURATION',
 				'linkurl' => 'index.php?module=OSSPasswords&view=ConfigurePass&parent=Settings',
 				'linkicon' => ''
-			);
+			];
 		}
 		return $settingLinks;
 	}

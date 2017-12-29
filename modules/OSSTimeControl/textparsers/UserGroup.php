@@ -4,7 +4,7 @@
  * Time control user group parser class
  * @package YetiForce.TextParser
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class OSSTimeControl_UserGroup_TextParser extends \App\TextParser\Base
@@ -68,8 +68,6 @@ class OSSTimeControl_UserGroup_TextParser extends \App\TextParser\Base
 
 	public function getRoleName($userId)
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT rolename FROM vtiger_role INNER JOIN vtiger_user2role ON vtiger_user2role.roleid = vtiger_role.roleid WHERE vtiger_user2role.userid = ?', [$userId]);
-		return $db->getSingleValue($result);
+		return (new \App\Db\Query())->select(['rolename'])->from('vtiger_role')->innerJoin('vtiger_user2role', 'vtiger_role.roleid = vtiger_user2role.roleid')->where(['vtiger_user2role.userid' => $userId])->scalar();
 	}
 }

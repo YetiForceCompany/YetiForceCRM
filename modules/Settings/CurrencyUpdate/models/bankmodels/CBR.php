@@ -2,14 +2,14 @@
 /**
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
 
 /**
  * Class for connection to Central Bank of Russia currency exchange rates
  */
-class Settings_CurrencyUpdate_models_CBR_BankModel extends Settings_CurrencyUpdate_AbstractBank_Model
+class Settings_CurrencyUpdate_Models_CBR_BankModel extends Settings_CurrencyUpdate_AbstractBank_Model
 {
 	/*
 	 * Returns bank name
@@ -38,7 +38,7 @@ class Settings_CurrencyUpdate_models_CBR_BankModel extends Settings_CurrencyUpda
 		$source = $this->getSource();
 
 		$client = new \SoapClient($source[0]);
-		$curs = $client->GetCursOnDate(array("On_date" => date('Y-m-d')));
+		$curs = $client->GetCursOnDate(["On_date" => date('Y-m-d')]);
 		$ratesXml = new \SimpleXMLElement($curs->GetCursOnDateResult->any);
 
 		foreach ($ratesXml->ValuteData[0] as $currency) {
@@ -52,7 +52,7 @@ class Settings_CurrencyUpdate_models_CBR_BankModel extends Settings_CurrencyUpda
 		return $supportedCurrencies;
 	}
 	/*
-	 * Returns banks main currency 
+	 * Returns banks main currency
 	 */
 
 	public function getMainCurrencyCode()
@@ -63,7 +63,7 @@ class Settings_CurrencyUpdate_models_CBR_BankModel extends Settings_CurrencyUpda
 	 * Fetch exchange rates
 	 * @param <Array> $currencies - list of systems active currencies
 	 * @param <Date> $date - date for which exchange is fetched
-	 * @param boolean $cron - if true then it is fired by server and crms currency conversion rates are updated 
+	 * @param boolean $cron - if true then it is fired by server and crms currency conversion rates are updated
 	 */
 
 	public function getRates($otherCurrencyCode, $dateParam, $cron = false)
@@ -82,7 +82,7 @@ class Settings_CurrencyUpdate_models_CBR_BankModel extends Settings_CurrencyUpda
 
 		$source = $this->getSource();
 		$client = new \SoapClient($source[0]);
-		$curs = $client->GetCursOnDate(array('On_date' => $dateCur));
+		$curs = $client->GetCursOnDate(['On_date' => $dateCur]);
 		$ratesXml = new \SimpleXMLElement($curs->GetCursOnDateResult->any);
 
 		$datePublicationOfFile = $dateCur;

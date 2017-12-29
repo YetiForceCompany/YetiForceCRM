@@ -21,36 +21,36 @@ class ProjectTask extends CRMEntity
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('vtiger_projecttaskcf', 'projecttaskid');
+	public $customFieldTable = ['vtiger_projecttaskcf', 'projecttaskid'];
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_projecttask', 'vtiger_projecttaskcf');
+	public $tab_name = ['vtiger_crmentity', 'vtiger_projecttask', 'vtiger_projecttaskcf'];
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public $tab_name_index = Array(
+	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_projecttask' => 'projecttaskid',
-		'vtiger_projecttaskcf' => 'projecttaskid');
+		'vtiger_projecttaskcf' => 'projecttaskid'];
 
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public $list_fields = Array(
+	public $list_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Project Task Name' => Array('projecttask', 'projecttaskname'),
-		'Start Date' => Array('projecttask', 'startdate'),
-		'End Date' => Array('projecttask', 'enddate'),
-		'Type' => Array('projecttask', 'projecttasktype'),
-		'Progress' => Array('projecttask', 'projecttaskprogress'),
-		'Assigned To' => Array('crmentity', 'smownerid'),
-		'FL_TOTAL_TIME_H' => Array('projecttask', 'sum_time')
-	);
-	public $list_fields_name = Array(
+		'Project Task Name' => ['projecttask', 'projecttaskname'],
+		'Start Date' => ['projecttask', 'startdate'],
+		'End Date' => ['projecttask', 'enddate'],
+		'Type' => ['projecttask', 'projecttasktype'],
+		'Progress' => ['projecttask', 'projecttaskprogress'],
+		'Assigned To' => ['crmentity', 'smownerid'],
+		'FL_TOTAL_TIME_H' => ['projecttask', 'sum_time']
+	];
+	public $list_fields_name = [
 		/* Format: Field Label => fieldname */
 		'Project Task Name' => 'projecttaskname',
 		'Start Date' => 'startdate',
@@ -59,7 +59,7 @@ class ProjectTask extends CRMEntity
 		'Progress' => 'projecttaskprogress',
 		'Assigned To' => 'assigned_user_id',
 		'FL_TOTAL_TIME_H' => 'sum_time'
-	);
+	];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
@@ -68,36 +68,36 @@ class ProjectTask extends CRMEntity
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'projecttaskname';
 	// For Popup listview and UI type support
-	public $search_fields = Array(
+	public $search_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Project Task Name' => Array('projecttask', 'projecttaskname'),
-		'Start Date' => Array('projecttask', 'startdate'),
-		'Type' => Array('projecttask', 'projecttasktype'),
-		'Assigned To' => Array('crmentity', 'smownerid')
-	);
-	public $search_fields_name = Array(
+		'Project Task Name' => ['projecttask', 'projecttaskname'],
+		'Start Date' => ['projecttask', 'startdate'],
+		'Type' => ['projecttask', 'projecttasktype'],
+		'Assigned To' => ['crmentity', 'smownerid']
+	];
+	public $search_fields_name = [
 		/* Format: Field Label => fieldname */
 		'Project Task Name' => 'projecttaskname',
 		'Start Date' => 'startdate',
 		'Type' => 'projecttasktype',
 		'Assigned To' => 'assigned_user_id'
-	);
+	];
 	// For Popup window record selection
-	public $popup_fields = Array('projecttaskname');
+	public $popup_fields = ['projecttaskname'];
 	// For Alphabetical search
 	public $def_basicsearch_col = 'projecttaskname';
 	// Column value to use on detail view record text display
 	public $def_detailview_recname = 'projecttaskname';
 	// Required Information for enabling Import feature
-	public $required_fields = Array('projecttaskname' => 1);
+	public $required_fields = ['projecttaskname' => 1];
 	// Callback function list during Importing
-	public $special_functions = Array('set_import_assigned_user');
+	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = '';
 	public $default_sort_order = 'DESC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public $mandatory_fields = Array('createdtime', 'modifiedtime', 'projecttaskname', 'projectid', 'assigned_user_id');
+	public $mandatory_fields = ['createdtime', 'modifiedtime', 'projecttaskname', 'projectid', 'assigned_user_id'];
 
 	/**
 	 * Get list view query (send more WHERE clause condition if required)
@@ -134,12 +134,12 @@ class ProjectTask extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($module));
-		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", [$module]);
+		$linkedFieldsCount = $this->db->numRows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
-			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
-			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
+			$related_module = $this->db->queryResult($linkedModulesQuery, $i, 'relmodule');
+			$columnname = $this->db->queryResult($linkedModulesQuery, $i, 'columnname');
 
 			$other = CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
@@ -204,7 +204,7 @@ class ProjectTask extends CRMEntity
 	/**
 	 * Create query to export the records.
 	 */
-	public function create_export_query($where)
+	public function createExportQuery($where)
 	{
 		$current_user = vglobal('current_user');
 
@@ -228,12 +228,12 @@ class ProjectTask extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($thismodule));
-		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", [$thismodule]);
+		$linkedFieldsCount = $this->db->numRows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
-			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
-			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
+			$related_module = $this->db->queryResult($linkedModulesQuery, $i, 'relmodule');
+			$columnname = $this->db->queryResult($linkedModulesQuery, $i, 'columnname');
 
 			$other = CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
@@ -255,9 +255,9 @@ class ProjectTask extends CRMEntity
 	/**
 	 * Transform the value while exporting
 	 */
-	public function transform_export_value($key, $value)
+	public function transformExportValue($key, $value)
 	{
-		return parent::transform_export_value($key, $value);
+		return parent::transformExportValue($key, $value);
 	}
 
 	/**
@@ -310,45 +310,33 @@ class ProjectTask extends CRMEntity
 
 	/**
 	 * Invoked when special actions are performed on the module.
-	 * @param String Module name
-	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
+	 * @param string $moduleName Module name
+	 * @param string $eventType Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	public function vtlib_handler($modulename, $event_type)
+	public function moduleHandler($moduleName, $eventType)
 	{
-		$adb = PearDatabase::getInstance();
-		if ($event_type == 'module.postinstall') {
-			$projectTaskResult = $adb->pquery('SELECT tabid FROM vtiger_tab WHERE name=?', array('ProjectTask'));
-			$projecttaskTabid = $adb->query_result($projectTaskResult, 0, 'tabid');
-
+		if ($eventType === 'module.postinstall') {
 			// Mark the module as Standard module
-			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
+			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
 
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
-					ModComments::addWidgetTo(array('ProjectTask'));
+					ModComments::addWidgetTo(['ProjectTask']);
 			}
 
-			\App\Fields\RecordNumber::setNumber($modulename, 'PT', 1);
-		} else if ($event_type == 'module.disabled') {
-			
-		} else if ($event_type == 'module.enabled') {
-			
-		} else if ($event_type == 'module.preuninstall') {
-			
-		} else if ($event_type == 'module.preupdate') {
-			
-		} else if ($event_type == 'module.postupdate') {
+			\App\Fields\RecordNumber::setNumber($moduleName, 'PT', 1);
+		} else if ($eventType === 'module.postupdate') {
 
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
-					ModComments::addWidgetTo(array('ProjectTask'));
+					ModComments::addWidgetTo(['ProjectTask']);
 			}
 
-			\App\Fields\RecordNumber::setNumber($modulename, 'PT', 1);
+			\App\Fields\RecordNumber::setNumber($moduleName, 'PT', 1);
 		}
 	}
 
@@ -356,7 +344,7 @@ class ProjectTask extends CRMEntity
 	 * Function to check the module active and user action permissions before showing as link in other modules
 	 * like in more actions of detail view(Projects).
 	 */
-	static function isLinkPermitted($linkData)
+	public static function isLinkPermitted($linkData)
 	{
 		$moduleName = "ProjectTask";
 		if (\App\Module::isModuleActive($moduleName) && isPermitted($moduleName, 'EditView') == 'yes') {

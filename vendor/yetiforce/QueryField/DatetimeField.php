@@ -5,7 +5,7 @@ namespace App\QueryField;
  * Date time Query Field Class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class DatetimeField extends DateField
@@ -78,6 +78,24 @@ class DatetimeField extends DateField
 	public function operatorA()
 	{
 		return ['>', $this->getColumnName(), $this->getValue() . ' 23:59:59'];
+	}
+
+	/**
+	 * Greater operator
+	 * @return array
+	 */
+	public function operatorGreaterthannow()
+	{
+		return ['>', $this->getColumnName(), date('Y-m-d H:i:s')];
+	}
+
+	/**
+	 * Smaller operator
+	 * @return array
+	 */
+	public function operatorSmallerthannow()
+	{
+		return ['<', $this->getColumnName(), date('Y-m-d H:i:s')];
 	}
 
 	/**

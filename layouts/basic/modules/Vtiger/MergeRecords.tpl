@@ -48,8 +48,7 @@
 										</td>
 										{foreach item=RECORD from=$RECORDMODELS name=recordList}
 											<td>
-												<input {if $smarty.foreach.recordList.index eq 0}checked{/if} type=radio name="{$FIELD->getName()}"
-																								 data-id="{$RECORD->getId()}" value="{$RECORD->get($FIELD->getName())}" style='bottom:1px;position:relative;'/>
+												<input {if $smarty.foreach.recordList.index eq 0}checked{/if} type=radio name="{$FIELD->getName()}" data-id="{$RECORD->getId()}" value="{\App\Purifier::encodeHtml($RECORD->get($FIELD->getName()))}" style='bottom:1px;position:relative;'/>
 												&nbsp;&nbsp;{$RECORD->getDisplayValue($FIELD->getName())}
 											</td>
 										{/foreach}

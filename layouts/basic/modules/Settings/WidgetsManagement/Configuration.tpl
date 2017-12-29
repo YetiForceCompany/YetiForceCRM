@@ -1,10 +1,10 @@
 ﻿{strip}
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <div class="" id="widgetsManagementEditorContainer">
 	<input id="selectedModuleName" type="hidden" value="{$SELECTED_MODULE_NAME}" />
 	<div class="widget_header row">
 		<div class="col-md-9">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			{\App\Language::translate('LBL_WIDGETS_MANAGEMENT_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 		<div class="col-md-3">
@@ -116,14 +116,14 @@
 									{assign var=WIDGETS_AUTHORIZATION value=$WIDGETS_AUTHORIZATION_INFO.$AUTHORIZATION_KEY}
 									{foreach item=WIDGET_MODEL from=$WIDGETS_AUTHORIZATION name=fieldlist}
 										{if $smarty.foreach.fieldlist.index % 2 eq 0}
-											{include file="WidgetConfig.tpl"|@vtemplate_path:$QUALIFIED_MODULE}
+											{include file=\App\Layout::getTemplatePath('WidgetConfig.tpl', $QUALIFIED_MODULE)}
 										{/if}
 									{/foreach}
 								</ul>
 								<ul name="sortable2" class="connectedSortable col-md-6" style="list-style-type: none; margin: 0; min-height: 1px;padding:2px;">
 									{foreach item=WIDGET_MODEL from=$WIDGETS_AUTHORIZATION name=fieldlist1}
 										{if $smarty.foreach.fieldlist1.index % 2 neq 0}
-											{include file="WidgetConfig.tpl"|@vtemplate_path:$QUALIFIED_MODULE}
+											{include file=\App\Layout::getTemplatePath('WidgetConfig.tpl', $QUALIFIED_MODULE)}
 										{/if}
 									{/foreach}
 								</ul>
@@ -156,7 +156,7 @@
 										</div>
 									</div>
 								</div>
-								{include file='ModalFooter.tpl'|@vtemplate_path:'Vtiger'}
+								{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', 'Vtiger')}
 							</form>
 						</div>
 					</div>
@@ -322,7 +322,7 @@
 										</div>	
 									</div>
 								</div>
-								{include file='ModalFooter.tpl'|@vtemplate_path:'Vtiger'}
+								{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', 'Vtiger')}
 							</form>
 						</div>
 					</div>

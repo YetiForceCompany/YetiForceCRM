@@ -3,7 +3,7 @@
  * Reports polish translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'PRIMARY_MODULE' => 'Podstawowy moduł',
@@ -93,9 +93,9 @@ $languageStrings = [
 	'LBL_SELECT_CHART_TYPE' => 'Wybierz rodzaj wykresu',
 	'LBL_CLICK_THROUGH_NOT_AVAILABLE' => 'Opcja serii kliknięć nie jest dostępna, ponieważ wybrano więcej niż jednen moduł.',
 	'LBL_TOTAL_SUM_OF' => 'Suma całkowita w %',
-	'LBL_AVG_OF' => 'Średnia w %',
-	'LBL_MIN_OF' => 'Minimum w %',
-	'LBL_MAX_OF' => 'Maksimum w %',
+	'LBL_AVG_OF' => 'Średnia w %s',
+	'LBL_MIN_OF' => 'Minimum w %s',
+	'LBL_MAX_OF' => 'Maksimum w %s',
 	'LBL_RECORD_COUNT' => 'Liczba rekordów',
 	'LBL_PIE_CHART' => 'Diagram kołowy',
 	'LBL_VERTICAL_BAR_CHART' => 'Wykres słupkowy poziomy',

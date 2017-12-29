@@ -3,13 +3,13 @@
  * Privileges updater cron
  * @package YetiForce.Cron
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 $limit = AppConfig::performance('CRON_MAX_NUMBERS_RECORD_PRIVILEGES_UPDATER');
 $dataReader = (new \App\Db\Query())->select('crmid, setype')
 		->from('vtiger_crmentity')
-		->where(['users' => null])
+		->where(['or', ['users' => ''], ['users' => null]])
 		->limit($limit)
 		->createCommand()->query();
 while ($row = $dataReader->read()) {
@@ -21,7 +21,7 @@ while ($row = $dataReader->read()) {
 }
 $dataReader = (new \App\Db\Query())
 		->from('u_#__crmentity_search_label')
-		->where(['userid' => ''])
+		->where(['or', ['userid' => ''], ['userid' => null]])
 		->limit($limit)
 		->createCommand()->query();
 while ($row = $dataReader->read()) {
