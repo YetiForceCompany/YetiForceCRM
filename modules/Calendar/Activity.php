@@ -20,7 +20,6 @@
  * ******************************************************************************
  * Contributor(s): YetiForce.com
  */
-require_once('modules/Calendar/CalendarCommon.php');
 
 // Task is used to store customer information.
 class Activity extends CRMEntity
