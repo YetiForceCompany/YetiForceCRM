@@ -19,7 +19,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 		if ($branches) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($id, $this->getName());
 			$project['id'] = $id;
-			$project['text'] = $recordModel->get('projectname');
+			$project['text'] = \App\Purifier::encodeHtml($recordModel->get('projectname'));
 			$project['priority'] = $recordModel->get('projectpriority');
 			$project['priority_label'] = \App\Language::translate($recordModel->get('projectpriority'), $this->getName());
 			$project['type'] = 'project';
@@ -55,7 +55,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 			$link['type'] = 1;
 			$link['source'] = $row['projectid'];
 			$projectmilestone['id'] = $row['id'];
-			$projectmilestone['text'] = $row['projectmilestonename'];
+			$projectmilestone['text'] = \App\Purifier::encodeHtml($row['projectmilestonename']);
 			$projectmilestone['parent'] = $row['projectid'];
 			$projectmilestone['module'] = 'ProjectMilestone';
 			if ($row['projectmilestonedate']) {
@@ -104,7 +104,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 			$link['id'] = $row['id'];
 			$link['target'] = $row['id'];
 			$projecttask['id'] = $row['id'];
-			$projecttask['text'] = $row['projecttaskname'];
+			$projecttask['text'] = \App\Purifier::encodeHtml($row['projecttaskname']);
 			if ($row['parentid']) {
 				$link['type'] = 0;
 				$link['source'] = $row['parentid'];

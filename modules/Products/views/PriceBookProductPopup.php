@@ -18,7 +18,7 @@ class Products_PriceBookProductPopup_View extends Vtiger_Popup_View
 		$this->initializeListViewContents($request, $viewer);
 
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('TRIGGER_EVENT_NAME', $request->get('triggerEventName'));
+		$viewer->assign('TRIGGER_EVENT_NAME', $request->getByType('triggerEventName', 2));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 
 		$viewer->view('PriceBookProductPopup.tpl', 'Products');
@@ -32,7 +32,7 @@ class Products_PriceBookProductPopup_View extends Vtiger_Popup_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->get('module');
+		$moduleName = $request->getByType('module');
 		$jsServices = [];
 		if ($moduleName === 'Services') {
 			$jsServices = ['modules.Products.resources.ProductsPopup'];
@@ -53,21 +53,21 @@ class Products_PriceBookProductPopup_View extends Vtiger_Popup_View
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
-		$cvId = $request->get('cvid');
-		$pageNumber = $request->get('page');
-		$orderBy = $request->get('orderby');
-		$sortOrder = $request->get('sortorder');
-		$sourceModule = $request->get('src_module');
-		$sourceField = $request->get('src_field');
-		$sourceRecord = $request->get('src_record');
-		$searchKey = $request->get('search_key');
+		$cvId = $request->getByType('cvid', 2);
+		$pageNumber = $request->getInteger('page');
+		$orderBy = $request->getForSql('orderby');
+		$sortOrder = $request->getForSql('sortorder');
+		$sourceModule = $request->getByType('src_module', 2);
+		$sourceField = $request->isEmpty('src_field') ? false : $request->getByType('src_field', 2);
+		$sourceRecord = $request->isEmpty('src_record') ? false : $request->getInteger('src_record');
+		$searchKey = $request->isEmpty('search_key') ? false : $request->getByType('search_key', 2);
 		$searchValue = $request->get('search_value');
 
 		if (empty($cvId)) {
 			$cvId = '0';
 		}
 		if (empty($pageNumber)) {
-			$pageNumber = '1';
+			$pageNumber = 1;
 		}
 
 		$pagingModel = new Vtiger_Paging_Model();
@@ -129,31 +129,24 @@ class Products_PriceBookProductPopup_View extends Vtiger_Popup_View
 			$sortImage = "upArrowSmall.png";
 		}
 		$viewer->assign('MODULE', $request->getModule());
-
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->assign('SOURCE_FIELD', $sourceField);
 		$viewer->assign('SOURCE_RECORD', $sourceRecord);
 		//PARENT_MODULE is used for only translations
 		$viewer->assign('PARENT_MODULE', 'Products');
-
 		$viewer->assign('SEARCH_KEY', $searchKey);
 		$viewer->assign('SEARCH_VALUE', $searchValue);
-
 		$viewer->assign('ORDER_BY', $orderBy);
 		$viewer->assign('SORT_ORDER', $sortOrder);
 		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
 		$viewer->assign('SORT_IMAGE', $sortImage);
-
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
-
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
-
 		$viewer->assign('LISTVIEW_ENTRIES_COUNT', $noOfEntries);
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
-
 		$viewer->assign('VIEW', 'PriceBookProductPopup');
 	}
 }

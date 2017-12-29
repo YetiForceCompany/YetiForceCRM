@@ -82,7 +82,7 @@ class Settings_Vtiger_ListView_Model extends \App\Base
 			}
 		}
 		if (!empty($orderBy)) {
-			if ($this->getForSql('sortorder') === 'DASC') {
+			if ($this->getForSql('sortorder') === 'DESC') {
 				$listQuery->orderBy([$orderBy => SORT_DESC]);
 			} else {
 				$listQuery->orderBy([$orderBy => SORT_ASC]);

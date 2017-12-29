@@ -8,7 +8,6 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-include_once 'include/Webservices/Create.php';
 include_once 'include/utils/utils.php';
 
 class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
@@ -32,24 +31,27 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 		}
 	}
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
-
-		if (!$permission) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
 	public function checkModuleViewPermission(\App\Request $request)
 	{
 		$response = new Vtiger_Response();
-		$modules = array('Contacts', 'Leads');
-		$view = $request->get('view');
+		$modules = ['Contacts', 'Leads'];
+		$view = $request->getByType('view', 1);
 		Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		foreach ($modules as $module) {
-			if (Users_Privileges_Model::isPermitted($module, $view)) {
+			if (\App\Privilege::isPermitted($module, $view)) {
 				$result['modules'][$module] = true;
 			} else {
 				$result['modules'][$module] = false;
@@ -75,11 +77,11 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 				$callerid = $recordModel->get('customer');
 				if ($callerid) {
 					$moduleName = $recordModel->get('customertype');
-					if (!Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $callerid)) {
+					if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $callerid)) {
 						$name = $recordModel->get('customernumber') . \App\Language::translate('LBL_HIDDEN', 'PBXManager');
 						$recordModel->set('callername', $name);
 					} else {
-						$entityNames = getEntityName($moduleName, array($callerid));
+						$entityNames = \App\Record::getLabel($callerid, $moduleName);
 						$callerName = $entityNames[$callerid];
 						$recordModel->set('callername', $callerName);
 					}
@@ -89,7 +91,7 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 				if ($direction == 'inbound') {
 					$userid = $recordModel->get('user');
 					if ($userid) {
-						$entityNames = getEntityName('Users', array($userid));
+						$entityNames = \App\Fields\Owner::getUserLabel($userid);
 						$userName = $entityNames[$userid];
 						$recordModel->set('answeredby', $userName);
 					}
@@ -104,20 +106,22 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 
 	public function createRecord(\App\Request $request)
 	{
-		$user = Users_Record_Model::getCurrentUserModel();
-		$moduleName = $request->get('modulename');
+		$moduleName = $request->getByType('modulename', 1);
+		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'CreateView')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
 		$name = explode("@", $request->get('email'));
 		$element['lastname'] = $name[0];
 		$element['email'] = $request->get('email');
 		$element['phone'] = $request->get('number');
-		$element['assigned_user_id'] = vtws_getWebserviceEntityId('Users', $user->id);
 
 		$moduleInstance = Vtiger_Module_Model::getInstance($moduleName);
 		$mandatoryFieldModels = $moduleInstance->getMandatoryFieldModels();
 		foreach ($mandatoryFieldModels as $mandatoryField) {
 			$fieldName = $mandatoryField->get('name');
 			$fieldType = $mandatoryField->getFieldDataType();
-			$defaultValue = decode_html($mandatoryField->get('defaultvalue'));
+			$defaultValue = App\Purifier::decodeHtml($mandatoryField->getDefaultFieldValue());
 			if (!empty($element[$fieldName])) {
 				continue;
 			} else {
@@ -128,21 +132,26 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 				$element[$fieldName] = $fieldValue;
 			}
 		}
-
-		$entity = vtws_create($moduleName, $element, $user);
-		$this->updateCustomerInPhoneCalls($entity, $request);
+		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
+		$recordModel->setData($element);
+		$recordModel->save();
+		$this->updateCustomerInPhoneCalls($recordModel->getId(), $request);
 		$response = new Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
 	}
 
-	public function updateCustomerInPhoneCalls($customer, $request)
+	/**
+	 * Updates the customer in phone call
+	 * @param int $id
+	 * @param \App\Request $request
+	 */
+	public function updateCustomerInPhoneCalls($id, \App\Request $request)
 	{
-		$id = vtws_getIdComponents($customer['id']);
 		$sourceuuid = $request->get('callid');
 		$module = $request->get('modulename');
 		$recordModel = PBXManager_Record_Model::getInstanceBySourceUUID($sourceuuid);
-		$recordModel->updateCallDetails(array('customer' => $id[1], 'customertype' => $module));
+		$recordModel->updateCallDetails(['customer' => $id, 'customertype' => $module]);
 	}
 
 	public function getCallStatus($request)
@@ -157,7 +166,7 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 	public function checkPermissionForPolling(\App\Request $request)
 	{
 		Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$callPermission = Users_Privileges_Model::isPermitted('PBXManager', 'ReceiveIncomingCalls');
+		$callPermission = \App\Privilege::isPermitted('PBXManager', 'ReceiveIncomingCalls');
 
 		$serverModel = PBXManager_Server_Model::getInstance();
 		$gateway = $serverModel->get("gateway");
@@ -175,5 +184,3 @@ class PBXManager_IncomingCallPoll_Action extends Vtiger_Action_Controller
 		$response->emit();
 	}
 }
-
-?>

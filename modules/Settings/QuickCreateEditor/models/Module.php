@@ -4,28 +4,33 @@
  * Settings QuickCreateEditor module model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_QuickCreateEditor_Module_Model extends Vtiger_Module_Model
 {
 
+	/**
+	 * Update sequence number for quickcreate
+	 * @param array $blockFieldSequence
+	 * @return int
+	 */
 	public static function updateFieldSequenceNumber($blockFieldSequence)
 	{
-		$fieldIdList = [];
-		$db = PearDatabase::getInstance();
-
-		$query = 'UPDATE vtiger_field SET ';
-		$query .= ' quickcreatesequence= CASE ';
-		foreach ($blockFieldSequence as $newFieldSequence) {
-			$fieldId = $newFieldSequence['fieldid'];
-			$sequence = $newFieldSequence['sequence'];
-			$fieldIdList[] = $fieldId;
-
-			$query .= ' WHEN fieldid=' . $fieldId . ' THEN ' . $sequence;
+		$db = \App\Db::getInstance();
+		$result = 0;
+		if ($blockFieldSequence) {
+			$caseExpression = 'CASE';
+			foreach ($blockFieldSequence as $newFieldSequence) {
+				$caseExpression .= " WHEN fieldid = {$db->quoteValue($newFieldSequence['fieldid'])} THEN {$db->quoteValue($newFieldSequence['sequence'])}";
+				$fieldIdList[] = $newFieldSequence['fieldid'];
+			}
+			$caseExpression .= ' END';
+			$result = $db->createCommand()->update('vtiger_field', ['quickcreatesequence' => new \yii\db\Expression($caseExpression)], ['fieldid' => $fieldIdList])->execute();
+			if ($result) {
+				$fieldInfo = \App\Field::getFieldInfo($newFieldSequence['fieldid']);
+				\App\Cache::delete('AllFieldForModule', $fieldInfo['tabid']);
+			}
 		}
-
-		$query .= ' END ';
-		$query .= sprintf(' WHERE fieldid IN (%s)', generateQuestionMarks($fieldIdList));
-		$db->pquery($query, array($fieldIdList));
+		return $result;
 	}
 }

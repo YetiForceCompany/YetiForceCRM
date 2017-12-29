@@ -18,7 +18,7 @@ class VTJsonCondition
 	 * @param Vtiger_Record_Model $recordModel
 	 * @return string
 	 */
-	public function evaluate($condition, $recordModel)
+	public function evaluate($condition, Vtiger_Record_Model $recordModel)
 	{
 		$expr = \App\Json::decode($condition);
 		$finalResult = TRUE;
@@ -35,7 +35,10 @@ class VTJsonCondition
 				if (count($matches) == 0) {
 					$expressionResults[$conditionGroup][$i]['result'] = $this->checkCondition($recordModel, $cond);
 				} else {
-					list($full, $referenceField, $referenceModule, $fieldname) = $matches;
+					$referenceField = $matches[1];
+					$referenceModule = $matches[2];
+					$fieldname = $matches[3];
+
 					$referenceFieldId = $recordModel->get($referenceField);
 					if (!empty($referenceFieldId)) {
 						if ($referenceModule === 'Users') {
@@ -56,12 +59,8 @@ class VTJsonCondition
 			foreach ($expressionResults as $groupId => &$groupExprResultSet) {
 				$groupResult = TRUE;
 				foreach ($groupExprResultSet as &$exprResult) {
-					if (isset($exprResult['result'])) {
-						$result = $exprResult['result'];
-					}
-					if (isset($exprResult['logicaloperator'])) {
-						$logicalOperator = $exprResult['logicaloperator'];
-					}
+					$result = $exprResult['result'];
+					$logicalOperator = $exprResult['logicaloperator'];
 					if (isset($result)) { // Condition to skip last condition
 						if (!empty($logicalOperator)) {
 							switch ($logicalOperator) {
@@ -97,7 +96,7 @@ class VTJsonCondition
 		return $finalResult;
 	}
 
-	function startsWith($str, $subStr)
+	public function startsWith($str, $subStr)
 	{
 		$sl = strlen($str);
 		$ssl = strlen($subStr);
@@ -108,7 +107,7 @@ class VTJsonCondition
 		}
 	}
 
-	function endsWith($str, $subStr)
+	public function endsWith($str, $subStr)
 	{
 		$sl = strlen($str);
 		$ssl = strlen($subStr);
@@ -127,7 +126,7 @@ class VTJsonCondition
 	 * @return boolean
 	 * @throws Exception
 	 */
-	public function checkCondition($recordModel, $cond, $referredRecordModel = null)
+	public function checkCondition(Vtiger_Record_Model $recordModel, $cond, Vtiger_Record_Model $referredRecordModel = null)
 	{
 		$condition = $cond['operation'];
 		if (empty($condition)) {
@@ -135,7 +134,7 @@ class VTJsonCondition
 		}
 		if ($cond['fieldname'] === 'date_start' || $cond['fieldname'] === 'due_date') {
 			$fieldName = $cond['fieldname'];
-			$dateTimePair = array('date_start' => 'time_start', 'due_date' => 'time_end');
+			$dateTimePair = ['date_start' => 'time_start', 'due_date' => 'time_end'];
 			if (!$recordModel->isEmpty($dateTimePair[$fieldName])) {
 				$fieldValue = $recordModel->get($fieldName) . ' ' . $recordModel->get($dateTimePair[$fieldName]);
 			} else {
@@ -148,7 +147,7 @@ class VTJsonCondition
 		$value = trim(html_entity_decode($cond['value']));
 		$expressionType = $cond['valuetype'];
 		if ($expressionType === 'fieldname') {
-			if ($referredEntityData !== null) {
+			if ($referredRecordModel !== null) {
 				$value = $referredRecordModel->get($value);
 			} else {
 				$value = $recordModel->get($value);
@@ -158,7 +157,7 @@ class VTJsonCondition
 			$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($value)));
 			$expression = $parser->expression();
 			$exprEvaluater = new VTFieldExpressionEvaluater($expression);
-			if ($referredEntityData !== null) {
+			if ($referredRecordModel !== null) {
 				$value = $exprEvaluater->evaluate($referredRecordModel);
 			} else {
 				$value = $exprEvaluater->evaluate($recordModel);
@@ -168,17 +167,6 @@ class VTJsonCondition
 		if ($fieldInstance) {
 			switch ($fieldInstance->getFieldDataType()) {
 				case 'datetime':
-					//Convert the DB Date Time Format to User Date Time Format
-					/*
-					  $rawFieldValue = $fieldValue;
-					  $date = new DateTimeField($fieldValue);
-					  $fieldValue = $date->getDisplayDateTimeValue();
-					  $valueArray = explode(' ', $value);
-					  if (count($valueArray) == 1) {
-					  $fieldValueArray = explode(' ', $fieldValue);
-					  $fieldValue = $fieldValueArray[0];
-					  }
-					 */
 					$fieldValue = $recordModel->getDisplayName($fieldInstance->getName());
 					break;
 				case 'date':
@@ -188,7 +176,7 @@ class VTJsonCondition
 					}
 					break;
 				case 'time':
-					$value = $value . ':00'; // time fields will not have seconds appended to it, so we are adding 
+					$value = $value . ':00'; // time fields will not have seconds appended to it, so we are adding
 					break;
 				case 'multiReferenceValue':
 					$value = Vtiger_MultiReferenceValue_UIType::COMMA . $value . Vtiger_MultiReferenceValue_UIType::COMMA;
@@ -203,7 +191,7 @@ class VTJsonCondition
 					break;
 				case 'owner':
 					if ($condition === 'is' || $condition === 'is not') {
-						//To avoid again checking whether it is user or not 
+						//To avoid again checking whether it is user or not
 						if (strpos($value, ',') !== false) {
 							$value = explode(',', $value);
 						} elseif ($value) {

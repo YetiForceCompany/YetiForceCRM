@@ -4,7 +4,7 @@
  * Detail View Model for KnowledgeBase
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
  */
 class KnowledgeBase_DetailView_Model extends Vtiger_DetailView_Model
@@ -25,7 +25,7 @@ class KnowledgeBase_DetailView_Model extends Vtiger_DetailView_Model
 				'related' => 'Summary'
 			],
 			[
-				'linktype' => 'DETAILVIEWBASIC',
+				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linkurl' => 'javascript:KnowledgeBase_Popup_Js.getInstance().showPresentationContent(' . $recordId . ');',
 				'linkicon' => 'glyphicon glyphicon-resize-full',
 				'title' => \App\Language::translate('LBL_FULL_SCREEN', $moduleName),

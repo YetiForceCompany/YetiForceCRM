@@ -42,7 +42,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 		$dataReader = $query->createCommand()->query();
 		$comments = [];
 		while ($row = $dataReader->read()) {
-			if (Users_Privileges_Model::isPermitted($row['setype'], 'DetailView', $row['related_to'])) {
+			if (\App\Privilege::isPermitted($row['setype'], 'DetailView', $row['related_to'])) {
 				$commentModel = Vtiger_Record_Model::getCleanInstance('ModComments');
 				$commentModel->setData($row);
 				$time = $commentModel->get('createdtime');
@@ -128,40 +128,30 @@ class Home_Module_Model extends Vtiger_Module_Model
 			$model->setData($row);
 			$model->setId($row['crmid']);
 			if ($row['parent_id']) {
-				if (isRecordExists($row['parent_id'])) {
+				if (\App\Record::isExists($row['parent_id'])) {
 					$record = Vtiger_Record_Model::getInstanceById($row['parent_id']);
-					if ($record->getModuleName() == 'Accounts') {
+					if ($record->getModuleName() === 'Accounts') {
 						$model->set('contractor', $record);
-					} else if ($record->getModuleName() == 'Project') {
-						if (isRecordExists($record->get('linktoaccountscontacts'))) {
+					} else if ($record->getModuleName() === 'Project') {
+						if (\App\Record::isExists($record->get('linktoaccountscontacts'))) {
 							$recordContractor = Vtiger_Record_Model::getInstanceById($record->get('linktoaccountscontacts'));
 							$model->set('contractor', $recordContractor);
 						}
-					} else if ($record->getModuleName() == 'ServiceContracts') {
-						if (isRecordExists($record->get('sc_realted_to'))) {
+					} else if ($record->getModuleName() === 'ServiceContracts') {
+						if (\App\Record::isExists($record->get('sc_realted_to'))) {
 							$recordContractor = Vtiger_Record_Model::getInstanceById($record->get('sc_realted_to'));
 							$model->set('contractor', $recordContractor);
 						}
-					} else if ($record->getModuleName() == 'HelpDesk') {
-						if (isRecordExists($record->get('parent_id'))) {
+					} else if ($record->getModuleName() === 'HelpDesk') {
+						if (\App\Record::isExists($record->get('parent_id'))) {
 							$recordContractor = Vtiger_Record_Model::getInstanceById($record->get('parent_id'));
-							;
 							$model->set('contractor', $recordContractor);
 						}
 					}
 				}
 			}
-
-			$contactsA = getActivityRelatedContacts($row['activityid']);
-			if (count($contactsA)) {
-				foreach ($contactsA as $j => $rcA2) {
-					$contactsA[$j] = '<a href="index.php?module=Contacts&view=Detail&record=' . $j . '">' . $rcA2 . '</a>';
-					$model->set('contact_id', $contactsA);
-				}
-			}
 			$activities[] = $model;
 		}
-
 		$pagingModel->calculatePageRange($dataReader->count());
 		if ($dataReader->count() > $pagingModel->getPageLimit()) {
 			array_pop($activities);
@@ -169,7 +159,6 @@ class Home_Module_Model extends Vtiger_Module_Model
 		} else {
 			$pagingModel->set('nextPageExists', false);
 		}
-
 		return $activities;
 	}
 
@@ -187,9 +176,9 @@ class Home_Module_Model extends Vtiger_Module_Model
 		if (!$user) {
 			$user = $currentUser->getId();
 		}
-		$nowInUserFormat = Vtiger_Datetime_UIType::getDisplayDateTimeValue(date('Y-m-d H:i:s'));
-		$nowInDBFormat = Vtiger_Datetime_UIType::getDBDateTimeValue($nowInUserFormat);
-		list($currentDate, $currentTime) = explode(' ', $nowInDBFormat);
+		$nowInUserFormat = App\Fields\DateTime::formatToDisplay(date('Y-m-d H:i:s'));
+		$nowInDBFormat = App\Fields\DateTime::formatToDb($nowInUserFormat);
+		list($currentDate) = explode(' ', $nowInDBFormat);
 		$query = (new App\Db\Query())
 			->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.smownerid', 'vtiger_crmentity.setype', 'vtiger_projecttask.*'])
 			->from('vtiger_projecttask')
@@ -216,10 +205,10 @@ class Home_Module_Model extends Vtiger_Module_Model
 			$model->setData($row);
 			$model->setId($row['crmid']);
 			if ($row['projectid']) {
-				if (isRecordExists($row['projectid'])) {
+				if (\App\Record::isExists($row['projectid'])) {
 					$record = Vtiger_Record_Model::getInstanceById($row['projectid'], 'Project');
-					if (isRecordExists($record->get('linktoaccountscontacts'))) {
-						$model->set('account', '<a href="index.php?module=' . vtlib\Functions::getCRMRecordType($record->get('linktoaccountscontacts')) . '&view=Detail&record=' . $record->get('linktoaccountscontacts') . '">' . vtlib\Functions::getCRMRecordLabel($record->get('linktoaccountscontacts')) . '</a>');
+					if (\App\Record::isExists($record->get('linktoaccountscontacts'))) {
+						$model->set('account', '<a href="index.php?module=' . \App\Record::getType($record->get('linktoaccountscontacts')) . '&view=Detail&record=' . $record->get('linktoaccountscontacts') . '">' . vtlib\Functions::getCRMRecordLabel($record->get('linktoaccountscontacts')) . '</a>');
 					}
 				}
 			}
@@ -276,7 +265,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 			while ($row = $dataReader->read()) {
 				$moduleName = $row['module'];
 				$recordId = $row['crmid'];
-				if (Users_Privileges_Model::isPermitted($moduleName, 'DetailView', $recordId)) {
+				if (\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
 					$modTrackerRecorModel = new ModTracker_Record_Model();
 					$modTrackerRecorModel->setData($row)->setParent($recordId, $moduleName);
 					$time = $modTrackerRecorModel->get('changedon');

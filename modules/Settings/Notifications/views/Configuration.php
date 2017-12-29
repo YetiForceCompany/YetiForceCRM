@@ -4,7 +4,7 @@
  * Configuration notifications
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -19,7 +19,7 @@ class Settings_Notifications_Configuration_View extends Settings_Vtiger_Index_Vi
 	{
 		$srcModule = $request->get('srcModule');
 		$modules = Vtiger_Watchdog_Model::getSupportedModules();
-		if (!$request->has('srcModule')) {
+		if ($request->isEmpty('srcModule')) {
 			reset($modules);
 			$srcModule = key($modules);
 		}

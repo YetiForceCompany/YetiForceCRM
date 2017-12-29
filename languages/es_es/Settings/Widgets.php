@@ -3,7 +3,7 @@
  * Widgets spanish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'Widgets' => 'Módulos – Widgets en Resumen',
@@ -49,6 +49,12 @@ $languageStrings = [
 	'Filter info' => 'Habilitar el filtrado de datos por desplegable',
 	'None' => 'Ninguno',
 	'ProductsServices' => 'Servicios de los productos',
+	'LBL_SELECTING_FIELDS' => 'Campos seleccionados',
+	'LBL_SELECTING_FIELDS_INFO' => 'Los nombres de campo de un módulo seleccionado se mostrarán en la vista.',
+	'LBL_VIEW_TYPE' => 'Vista',
+	'LBL_VIEW_TYPE_INFO' => 'Tipo de visualización del widget.',
+	'LBL_LIST' => 'Lista',
+	'LBL_SUMMARY' => 'Resumen',
 	'LBL_SELECT_BUTTON_INFO' => 'Habilitar el botón de selección visible',
 	'LBL_CONDITION' => 'Condición',
 	'LBL_CONDITION_INFO' => 'Seleccione la condición para mostrar los registros',

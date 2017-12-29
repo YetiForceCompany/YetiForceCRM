@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 Vtiger_Detail_Js("OSSEmployees_Detail_Js", {
 	employeeHierarchyResponseCache: {},
@@ -26,6 +26,5 @@ Vtiger_Detail_Js("OSSEmployees_Detail_Js", {
 }, {
 	registerEvents: function () {
 		this._super();
-		this.registerHoliday();
 	}
 });

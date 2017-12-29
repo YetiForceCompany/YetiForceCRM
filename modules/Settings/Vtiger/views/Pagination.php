@@ -4,7 +4,7 @@
  * Settings OSSMailView index view class
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 {
@@ -15,30 +15,31 @@ class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 		$this->exposeMethod('getPagination');
 	}
 
+	/**
+	 * Pagination
+	 * @param \App\Request $request
+	 */
 	public function getPagination(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$pageNumber = $request->get('page');
+		$pageNumber = $request->getInteger('page');
 		$searchResult = $request->get('searchResult');
 		$qualifiedModuleName = $request->getModule(false);
-		$sourceModule = $request->get('sourceModule');
 		$listViewModel = Settings_Vtiger_ListView_Model::getInstance($qualifiedModuleName);
 		if (empty($pageNumber)) {
-			$pageNumber = '1';
+			$pageNumber = 1;
 		}
-		if (!empty($sourceModule)) {
+		if (!$request->isEmpty('sourceModule')) {
+			$sourceModule = $request->getByType('sourceModule', 2);
 			$listViewModel->set('sourceModule', $sourceModule);
-		}
-		if (!empty($forModule)) {
-			$listViewModel->set('formodule', $forModule);
 		}
 
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
-		$pagingModel->set('viewid', $request->get('viewname'));
+		$pagingModel->set('viewid', $request->getByType('viewname', 2));
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
-		$operator = $request->get('operator');
+		$operator = $request->getByType('operator', 1);
 		if (!empty($operator)) {
 			$listViewModel->set('operator', $operator);
 			$viewer->assign('OPERATOR', $operator);

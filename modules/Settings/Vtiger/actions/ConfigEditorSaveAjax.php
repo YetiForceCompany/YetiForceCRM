@@ -23,7 +23,7 @@ class Settings_Vtiger_ConfigEditorSaveAjax_Action extends Settings_Vtiger_Basic_
 			$status = $moduleModel->save();
 
 			if ($status === true) {
-				$response->setResult(array($status));
+				$response->setResult([$status]);
 			} else {
 				$response->setError(\App\Language::translate($status, $qualifiedModuleName));
 			}

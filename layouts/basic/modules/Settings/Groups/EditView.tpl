@@ -10,14 +10,12 @@
 	<div class="editViewContainer">
 		<form name="EditGroup" action="index.php" method="post" id="EditView" class="form-horizontal">
 			<input type="hidden" name="module" value="Groups">
-			<input type="hidden" name="action" value="Save">
-			<input type="hidden" name="parent" value="Settings">
+			<input type="hidden" name="action" value="Save" />
+			<input type="hidden" name="parent" value="Settings" />
 			<input type="hidden" name="record" value="{$RECORD_MODEL->getId()}">
-			<input type="hidden" name="mode" value="{$MODE}">
-
 			<div class="widget_header row">
 				<div class="col-xs-12">
-					{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 					{if isset($SELECTED_PAGE)}
 						{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
 					{/if}

@@ -5,7 +5,7 @@ namespace Importers;
  * Class that imports base database
  * @package YetiForce.Install
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Base1 extends \App\Db\Importers\Base
@@ -89,7 +89,7 @@ class Base1 extends \App\Db\Importers\Base
 					'task' => $this->text(),
 				],
 				'index' => [
-					['com_vtiger_workflowtasks_idx', 'task_id', true],
+					['workflow_id', 'workflow_id'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -881,6 +881,29 @@ class Base1 extends \App\Db\Importers\Base
 				],
 				'primaryKeys' => [
 					['competitioncf_pk', 'competitionid']
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'u_#__countries' => [
+				'columns' => [
+					'id' => $this->primaryKey(5)->unsigned(),
+					'name' => $this->stringType(50)->notNull(),
+					'code' => $this->char(2)->notNull(),
+					'status' => $this->smallInteger(1)->unsigned()->defaultValue(0),
+					'sortorderid' => $this->smallInteger(5)->unsigned()->notNull(),
+					'phone' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
+					'uitype' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
+				],
+				'columns_mysql' => [
+					'status' => $this->tinyInteger(1)->unsigned()->defaultValue(0),
+					'phone' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(0),
+					'uitype' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(0),
+				],
+				'index' => [
+					['code', 'code'],
+					['phone', ['status', 'phone']],
+					['uitype', ['status', 'uitype']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -3596,6 +3619,7 @@ class Base1 extends \App\Db\Importers\Base
 			],
 		];
 		$this->foreignKey = [
+			['com_vtiger_workflowtasks_ibfk_1', 'com_vtiger_workflowtasks', 'workflow_id', 'com_vtiger_workflows', 'workflow_id', 'CASCADE', 'RESTRICT'],
 			['dav_addressbooks_ibfk_1', 'dav_addressbooks', 'principaluri', 'dav_principals', 'uri', 'CASCADE', 'RESTRICT'],
 			['dav_calendarobjects_ibfk_1', 'dav_calendarobjects', 'calendarid', 'dav_calendars', 'id', 'CASCADE', 'RESTRICT'],
 			['dav_cards_ibfk_1', 'dav_cards', 'addressbookid', 'dav_addressbooks', 'id', 'CASCADE', 'RESTRICT'],
@@ -4181,7 +4205,7 @@ class Base1 extends \App\Db\Importers\Base
 			<table border="0"><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
 						<div><i>$(translate : HelpDesk|SINGLE_HelpDesk)$ $(translate : HelpDesk|LBL_NOTICE_CREATED)$ </i></div>
 						</td>
-						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : modifiedby)$. <a href="$(record%20%3A%20PortalDetailViewURL)$"> $(record : ticket_no)$:$(record : ticket_title)$</a> $(record : ChangesListChanges)$</td>
+						<td style="padding-bottom:10px;font-family:Arial, \'Sans-serif\';font-size:13px;color:#222;">$(record : modifiedby)$. <a href="$(record%20%3A%20CrmDetailViewURL)$"> $(record : ticket_no)$:$(record : ticket_title)$</a> $(record : ChangesListChanges)$</td>
 					</tr><tr><td style="padding:0 1em 10px 0;font-family:Arial, \'Sans-serif\';font-size:13px;color:#888;white-space:nowrap;">
 						<div><i>$(translate : HelpDesk|Status)$</i></div>
 						</td>

@@ -9,17 +9,7 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 require_once('include/Webservices/Utils.php');
-require_once("include/Webservices/VtigerCRMObject.php");
-require_once("include/Webservices/VtigerCRMObjectMeta.php");
-require_once("include/Webservices/DataTransform.php");
 require_once("include/Webservices/WebServiceError.php");
-require_once 'include/Webservices/ModuleTypes.php';
-require_once('include/Webservices/Create.php');
-require_once 'include/Webservices/DescribeObject.php';
-require_once 'include/Webservices/WebserviceField.php';
-require_once 'include/Webservices/EntityMeta.php';
-require_once 'include/Webservices/VtigerWebserviceObject.php';
-
 require_once("modules/Users/Users.php");
 
 class VTCreateTodoTask extends VTTask
@@ -32,7 +22,7 @@ class VTCreateTodoTask extends VTTask
 		return ['todo', 'description', 'time', 'days_start', 'days_end', 'status', 'priority', 'days', 'direction_start', 'datefield_start', 'direction_end', 'datefield_end', 'sendNotification', 'assigned_user_id', 'days', 'doNotDuplicate', 'duplicateStatus', 'updateDates'];
 	}
 
-	function getAdmin()
+	public function getAdmin()
 	{
 		$user = Users::getActiveAdminUser();
 		$currentUser = vglobal('current_user');
@@ -172,6 +162,20 @@ class VTCreateTodoTask extends VTTask
 		if ($field) {
 			$fields[$field] = $recordModel->getId();
 		}
+		if ($parentRecord = \App\Record::getParentRecord($recordModel->getId())) {
+			$parentModuleName = \App\Record::getType($parentRecord);
+			$field = \App\ModuleHierarchy::getMappingRelatedField($parentModuleName);
+			if ($field) {
+				$fields[$field] = $parentRecord;
+			}
+			if ($parentRecord = \App\Record::getParentRecord($parentRecord)) {
+				$parentModuleName = \App\Record::getType($parentRecord);
+				$field = \App\ModuleHierarchy::getMappingRelatedField($parentModuleName);
+				if ($field) {
+					$fields[$field] = $parentRecord;
+				}
+			}
+		}
 		$newRecordModel = Vtiger_Record_Model::getCleanInstance('Calendar');
 		$newRecordModel->setData($fields);
 		$newRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
@@ -189,7 +193,7 @@ class VTCreateTodoTask extends VTTask
 		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 	}
 
-	static function conv12to24hour($timeStr)
+	public static function conv12to24hour($timeStr)
 	{
 		$arr = [];
 		preg_match('/(\d{1,2}):(\d{1,2})(am|pm)/', $timeStr, $arr);
@@ -203,6 +207,6 @@ class VTCreateTodoTask extends VTTask
 
 	public function getTimeFieldList()
 	{
-		return array('time');
+		return ['time'];
 	}
 }

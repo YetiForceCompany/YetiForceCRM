@@ -1,6 +1,6 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="media noticeRow" data-id="{$ROW->getId()}" data-type="{$ROW->get('type')}">
+	<div class="media noticeRow" data-id="{$ROW->getId()}" data-type="{\App\Purifier::encodeHtml($ROW->get('type'))}">
 		{assign var=ICON value=$ROW->getIcon()}
 		<div class="media-body wordBreakAll">
 			<div class="panel panel-default">
@@ -8,15 +8,15 @@
 					{if $ICON}
 						<div class="pull-left">
 							{if $ICON['type'] == 'image'}
-								<img width="22px" class="top2px {$ICON['class']}" title="{$ICON['title']}" alt="{$ICON['title']}" src="{$ICON['src']}"/>
+								<img width="22px" class="top2px {$ICON['class']}" title="{$ICON['title']}" alt="{$ICON['title']}" src="{$ICON['src']}" />
 							{else}
 								<span class="noticeIcon {$ICON['class']}" title="{$ICON['title']}" alt="{$ICON['title']}" aria-hidden="true"></span>
 							{/if}&nbsp;&nbsp;
 						</div>
 					{/if}
 					<div class="pull-right">
-						<small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($ROW->get('createdtime'))}">
-							{Vtiger_Util_Helper::formatDateDiffInStrings($ROW->get('createdtime'))}
+						<small>
+							{\App\Fields\DateTime::formatToViewDate($ROW->get('createdtime'))}
 						</small>
 					</div>
 					<strong>{$ROW->getTitle()}</strong>

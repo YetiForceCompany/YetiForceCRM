@@ -4,7 +4,7 @@
  * Settings GlobalPermission record model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_GlobalPermission_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -60,11 +60,10 @@ class Settings_GlobalPermission_Record_Model extends Settings_Vtiger_Record_Mode
 	{
 		$php_max_execution_time = vglobal('php_max_execution_time');
 		set_time_limit($php_max_execution_time);
-		vimport('~~modules/Users/CreateUserPrivilegeFile.php');
 		$userIdsList = Settings_Profiles_Record_Model::getUsersList();
 		if ($userIdsList) {
 			foreach ($userIdsList as $userId) {
-				createUserPrivilegesfile($userId);
+				\App\UserPrivilegesFile::createUserPrivilegesfile($userId);
 			}
 		}
 	}

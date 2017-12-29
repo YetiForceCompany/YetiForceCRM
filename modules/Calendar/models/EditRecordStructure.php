@@ -45,12 +45,6 @@ class Calendar_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Mode
 								if ($moduleModel->getName() != 'Calendar') {
 									$fieldValue = $fieldValue . ' ' . $recordModel->get('time_end');
 								}
-							} else if ($fieldName === 'visibility' && empty($fieldValue)) {
-								$currentUserModel = Users_Record_Model::getCurrentUserModel();
-								$sharedType = $currentUserModel->get('calendarsharedtype');
-								if ($sharedType === 'public' || $sharedType === 'selectedusers') {
-									$fieldValue = 'Public';
-								}
 							} else if ($fieldName === 'activitystatus' && empty($fieldValue)) {
 								$currentUserModel = Users_Record_Model::getCurrentUserModel();
 								$defaulteventstatus = $currentUserModel->get('defaulteventstatus');

@@ -1,12 +1,12 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <div class="">
 	<div class="form-horizontal">
 		<div class="form-group row">
 			<label for="langs_list" class="control-label col-md-1" >{\App\Language::translate('Language',$QUALIFIED_MODULE)}:</label>
 			<div class="col-md-3">
 				<select multiple="multiple" class="form-control" id="langs_list">
-					{foreach from=$LANGS item=LANG key=ID}
-						<option value="{$LANG['prefix']}" {if $MODULE_MODEL->parse_data($LANG['prefix'],$REQUEST->get('lang'))}selected{/if}>{$LANG['label']}</option>
+					{foreach from=$LANGS item=LABEL key=PREFIX}
+						<option value="{$PREFIX}" {if in_array($PREFIX,$SELECTED_LANGS)}selected{/if}>{$LABEL}</option>
 					{/foreach}
 				</select>
 			</div>
@@ -15,12 +15,12 @@
 				<select class="form-control mods_list" id="mods_list">
 					<optgroup label="{\App\Language::translate('Modules',$QUALIFIED_MODULE)}">
 						{foreach from=$MODS['mods'] item=MOD key=ID}
-							<option value="{$ID}" {if $ID == $REQUEST->get('mod')}selected{/if}>{\App\Language::translate($MOD,$MOD)}</option>
+							<option value="{$ID}" {if $ID == $SELECTED_MODE}selected{/if}>{\App\Language::translate($MOD,$MOD)}</option>
 						{/foreach}
 					</optgroup>
 					<optgroup label="{\App\Language::translate('LBL_SYSTEM_SETTINGS','Vtiger')}">
 						{foreach from=$MODS['settings'] item=MOD key=ID}
-							<option value="{$ID}" {if $ID == $REQUEST->get('mod')}selected{/if}>{\App\Language::translate($MOD,$MOD)}</option>
+							<option value="{$ID}" {if $ID == $SELECTED_MODE}selected{/if}>{\App\Language::translate($MOD,$MOD)}</option>
 						{/foreach}
 					</optgroup>
 				</select>
@@ -30,7 +30,7 @@
 					<input type="checkbox" class="show_differences" name="show_differences" {if $SD == 1}checked{/if} value="1">&nbsp;{\App\Language::translate('LBL_SHOW_MISSING_TRANSLATIONS', $QUALIFIED_MODULE)}
 				</label>
 			</div>
-			<button class="btn btn-primary add_translation col-md-2 pull-right {if $REQUEST->get('lang') eq ''}hide{/if}">{\App\Language::translate('LBL_ADD_Translate', $QUALIFIED_MODULE)}</button>
+			<button class="btn btn-primary add_translation col-md-2 pull-right {if empty($SELECTED_LANGS)}hide{/if}">{\App\Language::translate('LBL_ADD_Translate', $QUALIFIED_MODULE)}</button>
 		</div>
 	</div>
 </div>

@@ -3,7 +3,7 @@
  * Widgets english translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'Widgets' => 'Modules – Widgets',
@@ -49,6 +49,12 @@ $languageStrings = [
 	'Filter info' => 'Enable data filtering by selection list',
 	'None' => 'None',
 	'ProductsServices' => 'Products services',
+	'LBL_SELECTING_FIELDS' => 'Selecting fields',
+	'LBL_SELECTING_FIELDS_INFO' => 'Field names from a selected module to be displayed in the view.',
+	'LBL_VIEW_TYPE' => 'View',
+	'LBL_VIEW_TYPE_INFO' => 'Widget display type.',
+	'LBL_LIST' => 'List',
+	'LBL_SUMMARY' => 'Summary',
 	'LBL_SELECT_BUTTON_INFO' => 'Enable visible select button',
 	'LBL_CONDITION' => 'Condition',
 	'LBL_CONDITION_INFO' => 'Select condition for showing records',

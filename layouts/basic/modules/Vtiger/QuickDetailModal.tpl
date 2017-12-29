@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-body col-md-12">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -6,11 +6,11 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="moduleIcon">
-						<span class="detailViewIcon userIcon-{$MODULE_NAME}" {if $COLORLISTHANDLERS}style="background-color: {$COLORLISTHANDLERS['background']};color: {$COLORLISTHANDLERS['text']};"{/if}></span>
+						<span class="detailViewIcon userIcon-{$MODULE_NAME}"></span>
 					</div>
 					<div class="paddingLeft5px">
 						<h4 class="recordLabel textOverflowEllipsis pushDown marginbottomZero" title='{$RECORD->getName()}'>
-							<span class="moduleColor_{$MODULE_NAME}">{$RECORD->getName()}</span>
+							<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
 						</h4>
 						{if $MODULE_NAME}
 							<div class="paddingLeft5px">

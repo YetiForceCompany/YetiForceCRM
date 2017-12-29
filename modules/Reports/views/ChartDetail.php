@@ -14,12 +14,12 @@ class Reports_ChartDetail_View extends Vtiger_Index_View
 
 	public function checkPermission(\App\Request $request)
 	{
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$reportModel = Reports_Record_Model::getCleanInstance($record);
 
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule()) && !$reportModel->isEditable()) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -27,7 +27,7 @@ class Reports_ChartDetail_View extends Vtiger_Index_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 
 		$this->record = $detailViewModel = Reports_DetailView_Model::getInstance($moduleName, $recordId);
 
@@ -47,7 +47,7 @@ class Reports_ChartDetail_View extends Vtiger_Index_View
 			$viewer->assign('MODULE', $primaryModule);
 			$viewer->assign('MESSAGE', 'LBL_PERMISSION_DENIED');
 			$viewer->view('OperationNotPermitted.tpl', $primaryModule);
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 
 		// Advanced filter conditions
@@ -97,7 +97,7 @@ class Reports_ChartDetail_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 
 		$reportModel = Reports_Record_Model::getInstanceById($record);
 		$reportChartModel = Reports_Chart_Model::getInstanceById($reportModel);
@@ -135,7 +135,7 @@ class Reports_ChartDetail_View extends Vtiger_Index_View
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			'modules.Vtiger.resources.Detail',
 			"modules.Vtiger.resources.dashboards.Widget",
 			"modules.$moduleName.resources.Detail",
@@ -154,7 +154,7 @@ class Reports_ChartDetail_View extends Vtiger_Index_View
 			'~libraries/jquery/jqplot/plugins/jqplot.pointLabels.min.js',
 			'~libraries/jquery/jqplot/plugins/jqplot.highlighter.min.js',
 			'~libraries/jquery/jqplot/plugins/jqplot.pieRenderer.min.js'
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
@@ -170,9 +170,9 @@ class Reports_ChartDetail_View extends Vtiger_Index_View
 	{
 		$parentHeaderCssScriptInstances = parent::getHeaderCss($request);
 
-		$headerCss = array(
+		$headerCss = [
 			'~libraries/jquery/jqplot/jquery.jqplot.min.css',
-		);
+		];
 		$cssScripts = $this->checkAndConvertCssStyles($headerCss);
 		$headerCssScriptInstances = array_merge($parentHeaderCssScriptInstances, $cssScripts);
 		return $headerCssScriptInstances;

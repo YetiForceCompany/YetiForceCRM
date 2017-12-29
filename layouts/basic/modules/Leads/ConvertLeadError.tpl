@@ -14,7 +14,7 @@
 	<head>
 		<title>Yetiforce: {\App\Language::translate('LBL_ERROR')}</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="SHORTCUT ICON" href="{vimage_path('favicon.ico')}">
+		<link rel="SHORTCUT ICON" href="{\App\Layout::getImagePath('favicon.ico')}">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" href="libraries/bootstrap3/css/bootstrap.css" type="text/css" media="screen">
 		<script type="text/javascript" src="libraries/jquery/jquery.min.js"></script>

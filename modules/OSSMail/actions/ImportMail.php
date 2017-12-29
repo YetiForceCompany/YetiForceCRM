@@ -4,15 +4,20 @@
  * OSSMail ImportMail action class
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSMail_ImportMail_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -22,7 +27,7 @@ class OSSMail_ImportMail_Action extends Vtiger_Action_Controller
 		$mailScanMail = $scannerModel->manualScanMail($request->get('params'));
 		$return = false;
 		if ($mailScanMail['CreatedEmail']) {
-			$return = $mailScanMail['CreatedEmail'];
+			$return = $mailScanMail['CreatedEmail']['mailViewId'];
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($return);

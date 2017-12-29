@@ -3,7 +3,7 @@
  * Calendar russian translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'PLL_HOLIDAY_TIME' => 'Отпуск',
@@ -26,8 +26,6 @@ $languageStrings = [
 	'LBL_CALENDAR_CONFIG' => 'Календарь - Настройка',
 	'LBL_CALENDAR_CONFIG_DESCRIPTION' => 'Менеджер Календаря, позволяет настраивать календарь по своему вкусу',
 	'LBL_USER_COLORS' => 'Цвет Пользователя',
-	'LBL_CALENDAR_COLORS' => 'Цвета Календаря',
-	'LBL_CALENDAR_TYPE' => 'Тип Календаря',
 	'LBL_BREAK_TIME' => 'Обед',
 	'LBL_HOLIDAY' => 'Праздник',
 	'LBL_SAVE_CHANGES' => 'Изменения сохранены',

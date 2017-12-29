@@ -26,6 +26,11 @@ $languageStrings = [
 	'LBL_WRITE_YOUR_MESSAGE_HERE' => 'write your message here',
 	'LBL_ADD_MORE_FIELDS' => 'Add more fields',
 	'LBL_SERVER_CONFIG' => 'Server configuration',
+	'FL_STATUS' => 'Status',
+	'PLL_UNDEFINED' => 'Undefined',
+	'PLL_DELIVERED' => 'Delivered',
+	'PLL_FAILED' => 'Failed',
+	'LBL_MASS_SEND_SMS_INFO' => 'All text messages are sent in cron',
 	//DetailView Actions
 	'LBL_CHECK_STATUS' => 'Check status',
 	'message' => 'Message',

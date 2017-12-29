@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 		<div class="authModal modal fade" tabindex="-1">
 			<div  class="authModalContent validationEngineContainer ">
@@ -73,7 +73,7 @@
 			</div>
 		{/if}
 		<div class="listViewActions pull-right paginationDiv paddingLeft5px">
-			{include file='Pagination.tpl'|@vtemplate_path}
+			{include file=\App\Layout::getTemplatePath('Pagination.tpl')}
 		</div>
 		<div class="col-sm-4 pull-right">
 			{if $GITHUB_CLIENT_MODEL->isAuthorized()}
@@ -96,12 +96,12 @@
 				{foreach from=$GITHUB_ISSUES item=ISSUE}
 					<tr class="">
 						<td>
-							<a href="{$ISSUE->get('html_url')}" target="_blank">
+							<a href="{$ISSUE->get('html_url')}" target="_blank" rel="noreferrer">
 								{$ISSUE->get('title')}
 							</a>
 						</td>
 						<td>
-							<a href="{$ISSUE->get('user')->html_url}" target="_blank">
+							<a href="{$ISSUE->get('user')->html_url}" target="_blank" rel="noreferrer">
 								{$ISSUE->get('user')->login}
 							</a>
 						</td>
@@ -111,7 +111,7 @@
 						<td>
 							<div class="pull-right actions">
 								<span class="actionImages">
-									<a href="{$ISSUE->get('html_url')}" target="_blank">
+									<a href="{$ISSUE->get('html_url')}" target="_blank" rel="noreferrer">
 										<span title="" class="glyphicon glyphicon-th-list alignMiddle"></span>
 									</a>
 								</span>

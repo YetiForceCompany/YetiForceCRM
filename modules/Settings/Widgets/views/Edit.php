@@ -4,7 +4,7 @@
  * Settings OSSMailView index view class
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Widgets_Edit_View extends Settings_Vtiger_Index_View
 {
@@ -20,7 +20,7 @@ class Settings_Widgets_Edit_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('SOURCE', $WidgetInfo['tabid']);
-		$viewer->assign('SOURCEMODULE', vtlib\Functions::getModuleName($WidgetInfo['tabid']));
+		$viewer->assign('SOURCEMODULE', \App\Module::getModuleName($WidgetInfo['tabid']));
 		$viewer->assign('WID', $wid);
 		$viewer->assign('WIDGETINFO', $WidgetInfo);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);

@@ -3,13 +3,12 @@
  * OSSMail view portuguese translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	// Basic Strings
 	'OSSMailView' => 'E-mails Corporativos',
 	'SINGLE_OSSMailView' => 'E-mail Corporativo',
-	'LBL_ADD_RECORD' => 'Adicionar registro',
 	'LBL_RECORDS_LIST' => 'Lista de e-mails',
 	// Blocks
 	'LBL_INFORMATION' => 'Informação geral',
@@ -57,9 +56,15 @@ $languageStrings = [
 	'RC user' => 'Usuário RC',
 	'FromID' => 'Id Remetente',
 	'ToID' => 'Id Destinatário',
+	'LBL_SHOW_PREVIEW_EMAIL' => 'Show email preview',
+	'LBL_SHOW_PREVIEW_EMAILS' => 'Show all emails preview',
+	'LBL_CHANGE_FILTER' => 'Change filter',
 	'LBL_FILTER_ALL' => 'Todos',
 	'LBL_FILTER_ACCOUNTS' => 'Todos na Conta',
 	'LBL_FILTER_CONTACTS' => 'Todos no Contato',
+	'LBL_EXPAND_ALL' => 'Expand all',
+	'LBL_COLLAPSE_ALL' => 'Collapse all',
+	'LBL_COUNT_ALL_MAILS' => 'Number of all emails',
 	'LBL_VERIFY' => 'Para verificação',
 	'LBL_REL_MOD' => 'Módulos relacionados',
 	'LBL_BindMailsOK' => 'Marcar e-mails para vincular a próxima ativação das mensagens do CRON a serem gravados',
@@ -82,6 +87,8 @@ $languageStrings = [
 	'Current month' => 'Mês atual',
 	'Previous month' => 'Mês anterior',
 	'LBL_ORGINAL_MAIL_CONTENT' => 'Conteúdo mensagem original',
+	'BTN_RESET_RELATED_MAILS' => 'Reset related emails',
+	'LBL_SET_RELOAD_RELATIONS' => 'Marked for relation reload',
 ];
 $jsLanguageStrings = [
 	'From' => 'De',

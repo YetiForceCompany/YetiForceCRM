@@ -3,7 +3,7 @@
  * OSSEmployees spanish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'OSSEmployees' => 'Empleados',
@@ -46,7 +46,7 @@ $languageStrings = [
 	'Inactive' => 'Inactivo',
 	'Average daily working time' => 'Promedio de trabajo diario',
 	'LBL_USER_EXISTS' => 'El empleado ya existe',
-	'FL_POSITION' => 'Posición',
+	'FL_POSITION' => 'Puesto de trabajo',
 	'FL_SECONDARY_PHONE' => 'Teléfono secundario',
 	'FL_RBH' => 'RBH'
 ];

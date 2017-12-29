@@ -19,13 +19,13 @@ class Leads_LeadsCreated_Dashboard extends Vtiger_IndexAjax_View
 	public function getFooterScripts(\App\Request $request)
 	{
 
-		$jsFileNames = array(
+		$jsFileNames = [
 //			'~libraries/jquery/jqplot/plugins/jqplot.cursor.min.js',
 //			'~libraries/jquery/jqplot/plugins/jqplot.dateAxisRenderer.min.js',
 //			'~libraries/jquery/jqplot/plugins/jqplot.logAxisRenderer.min.js',
 //			'~libraries/jquery/jqplot/plugins/jqplot.canvasTextRenderer.min.js',
 //			'~libraries/jquery/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js'
-		);
+		];
 
 		$headerScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		return $headerScriptInstances;
@@ -37,9 +37,9 @@ class Leads_LeadsCreated_Dashboard extends Vtiger_IndexAjax_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
-		$linkId = $request->get('linkid');
-		$createdTime = $request->get('createdtime');
-		$owner = $request->get('owner');
+		$linkId = $request->getInteger('linkid');
+		$createdTime = $request->getDateRange('createdtime');
+		$owner = $request->getByType('owner', 2);
 
 		//Date conversion from user to database format
 		if (!empty($createdTime)) {
@@ -62,8 +62,7 @@ class Leads_LeadsCreated_Dashboard extends Vtiger_IndexAjax_View
 
 		$accessibleUsers = \App\Fields\Owner::getInstance('Leads', $currentUser)->getAccessibleUsersForModule();
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/DashBoardWidgetContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/LeadsCreated.tpl', $moduleName);

@@ -138,10 +138,10 @@ class Block
 
 	/**
 	 * Add field to this block
-	 * @param Field Instance of field to add to this block.
+	 * @param FieldBasic $fieldInstance
 	 * @return Reference to this block instance
 	 */
-	public function addField($fieldInstance)
+	public function addField(FieldBasic $fieldInstance)
 	{
 		$fieldInstance->save($this);
 		return $this;
@@ -155,7 +155,7 @@ class Block
 	 */
 	public static function log($message, $delim = true)
 	{
-		Utils::Log($message, $delim);
+		Utils::log($message, $delim);
 	}
 
 	/**
@@ -166,8 +166,9 @@ class Block
 	 */
 	public static function getInstance($value, $moduleInstance = false)
 	{
-		if (\App\Cache::has('BlockInstance', $value)) {
-			$data = \App\Cache::get('BlockInstance', $value);
+		$cacheName = $value . '|' . ($moduleInstance ? $moduleInstance->id : '');
+		if (\App\Cache::has('BlockInstance', $cacheName)) {
+			$data = \App\Cache::get('BlockInstance', $cacheName);
 		} else {
 			$query = (new \App\Db\Query())->from(self::$baseTable);
 			if (Utils::isNumber($value)) {
@@ -176,7 +177,7 @@ class Block
 				$query->where(['blocklabel' => $value, 'tabid' => $moduleInstance->id]);
 			}
 			$data = $query->one();
-			\App\Cache::save('BlockInstance', $value, $data);
+			\App\Cache::save('BlockInstance', $cacheName, $data);
 		}
 		$instance = false;
 		if ($data) {
@@ -188,9 +189,10 @@ class Block
 
 	/**
 	 * Get all block instances associated with the module
-	 * @param \Module Module Instance of the module
+	 * @param ModuleBasic $moduleInstance
+	 * @return self
 	 */
-	public static function getAllForModule($moduleInstance)
+	public static function getAllForModule(ModuleBasic $moduleInstance)
 	{
 		if (\App\Cache::has('BlocksForModule', $moduleInstance->id)) {
 			$blocks = \App\Cache::get('BlocksForModule', $moduleInstance->id);
@@ -212,10 +214,10 @@ class Block
 
 	/**
 	 * Delete all blocks associated with module
-	 * @param \Module Module Instnace of module to use
+	 * @param ModuleBasic $moduleInstance
 	 * @param boolean true to delete associated fields, false otherwise
 	 */
-	public static function deleteForModule($moduleInstance, $recursive = true)
+	public static function deleteForModule(ModuleBasic $moduleInstance, $recursive = true)
 	{
 		$db = \App\Db::getInstance();
 		if ($recursive) {

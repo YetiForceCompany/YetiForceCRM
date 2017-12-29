@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header row no-margin">
 		<div class="col-xs-12 paddingLRZero">
@@ -11,9 +11,9 @@
 		</div>
 	</div>
 	<form class="sendByAjax">
-		<input type="hidden" name="action" value="RecalculatePermission">
-		<input type="hidden" name="module" value="{$MODULE_NAME}">
-		<input type="hidden" name="parent" value="Settings">
+		<input type="hidden" name="action" value="RecalculatePermission" />
+		<input type="hidden" name="module" value="{$MODULE_NAME}" />
+		<input type="hidden" name="parent" value="Settings" />
 		<div class="modal-body row">
 			<div class="col-xs-12">
 				<div class="col-xs-12 paddingLRZero marginBottom10px">
@@ -31,6 +31,6 @@
 				</div>
 			</div>
 		</div>
-		{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
+		{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $MODULE)}
 	</form>
 {/strip}

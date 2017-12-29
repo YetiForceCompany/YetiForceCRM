@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
  
 jQuery.Class('Settings_RealizationProcesses_Js', {
 }, {
@@ -20,7 +20,7 @@ jQuery.Class('Settings_RealizationProcesses_Js', {
 			};
 			params.async = false;
 			params.dataType = 'json';
-			AppConnector.request(params).done(
+			AppConnector.request(params).then(
 				function(data) {
 				var response = data['result'];
 				if ( response['success']) {

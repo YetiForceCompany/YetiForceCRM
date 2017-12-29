@@ -5,7 +5,7 @@ namespace App\SystemWarnings\SystemRequirements;
  * Disk usage system warnings class
  * @package YetiForce.SystemWarning
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class DiskUsage extends \App\SystemWarnings\Template
@@ -21,13 +21,12 @@ class DiskUsage extends \App\SystemWarnings\Template
 	public function process()
 	{
 		$this->status = 1;
-		$dir = '';
-		$total = disk_total_space(ROOT_DIRECTORY);
-		$free = disk_free_space(ROOT_DIRECTORY);
-		$used = $total - $free;
-		if (($used / $total * 100) > $this->precentAlert) {
+		$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
+		$total = disk_total_space($dir);
+		$free = disk_free_space($dir);
+		$used = ($total - $free) / $total * 100;
+		if ($used > $this->precentAlert) {
 			$this->status = 0;
-			$dir = ROOT_DIRECTORY;
 		} else {
 			foreach (\Settings_ConfReport_Module_Model::$writableFilesAndFolders as $value) {
 				if ($this->status === 0) {
@@ -37,8 +36,8 @@ class DiskUsage extends \App\SystemWarnings\Template
 				if (is_dir($path)) {
 					$total = disk_total_space($path);
 					$free = disk_free_space($path);
-					$used = $total - $free;
-					if (($used / $total * 100) > $this->precentAlert) {
+					$used = ($total - $free) / $total * 100;
+					if ($used > $this->precentAlert) {
 						$this->status = 0;
 						$dir = $path;
 					}
@@ -46,7 +45,7 @@ class DiskUsage extends \App\SystemWarnings\Template
 			}
 		}
 		if ($this->status === 0) {
-			$this->description = \App\Language::translateArgs('LBL_DISK_FULL', 'Settings:SystemWarnings', $dir);
+			$this->description = \App\Language::translateArgs('LBL_DISK_FULL', 'Settings:SystemWarnings', \vtlib\Functions::showBytes($free), \vtlib\Functions::showBytes($total), $dir);
 		}
 	}
 }

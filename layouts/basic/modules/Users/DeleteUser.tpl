@@ -33,7 +33,7 @@
 										<td class="fieldValue">
 											<select class="chzn-select form-control" name="tranfer_owner_id" data-validation-engine="validate[ required]" >
 												{foreach item=USER_MODEL key=USER_ID from=$USER_LIST}
-													<option value="{$USER_ID}" >{$USER_MODEL->getName()}</option>
+													<option value="{$USER_ID}" >{\App\Purifier::encodeHtml($USER_MODEL->getName())}</option>
 												{/foreach}
 											</select>
 										</td>
@@ -42,7 +42,7 @@
 										<tr>
 											<td colspan="2" style="padding-left: 20px;">
 												<div class='checkbox'>
-													<input type="checkbox" class="checkbox" name="deleteUserPermanent" value="1" >&nbsp;{\App\Language::translate('LBL_DELETE_USER_PERMANENTLY',$MODULE)} 
+													<input type="checkbox" class="checkbox" name="deleteUserPermanent" value="true" >&nbsp;{\App\Language::translate('LBL_DELETE_USER_PERMANENTLY',$MODULE)} 
 												</div>
 											</td>
 										</tr>
@@ -51,7 +51,7 @@
 							</div>
 						</div>
 					</div>
-					{include file='ModalFooter.tpl'|@vtemplate_path:$MODULE}
+					{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', $MODULE)}
 				</form>
 			</div>
 		</div>

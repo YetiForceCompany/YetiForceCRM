@@ -4,7 +4,7 @@
  * Settings TreesManager record model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -79,20 +79,20 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	public function getRecordLinks()
 	{
 		$links = [];
-		$recordLinks = array(
-			array(
+		$recordLinks = [
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => $this->getEditViewUrl(),
 				'linkicon' => 'glyphicon glyphicon-pencil'
-			),
-			array(
+			],
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE',
 				'linkurl' => "javascript:Settings_Vtiger_List_Js.triggerDelete(event,'" . $this->getDeleteUrl() . "');",
 				'linkicon' => 'glyphicon glyphicon-trash'
-			)
-		);
+			]
+		];
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
@@ -161,12 +161,24 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			$parenttrre = substr($row['parenttrre'], 0, - $cut);
 			$pieces = explode('::', $parenttrre);
 			$parent = (int) str_replace('T', '', end($pieces));
+			$icon = false;
+			if (!empty($row['icon'])) {
+				$basePath = '';
+				if ($row['icon'] && strpos($row['icon'], 'layouts') === 0 && !IS_PUBLIC_DIR) {
+					$basePath = 'public_html/';
+				}
+				$icon = $basePath . $row['icon'];
+			}
 			$parameters = [
 				'id' => $treeID,
 				'parent' => $parent === 0 ? '#' : $parent,
 				'text' => \App\Language::translate($row['name'], $module),
+				'li_attr' => [
+					'text' => \App\Language::translate($row['name'], $module),
+					'key' => $row['name'],
+				],
 				'state' => ($row['state']) ? \App\Json::decode($row['state']) : '',
-				'icon' => $row['icon']
+				'icon' => $icon
 			];
 			if ($category) {
 				$parameters['type'] = $category;
@@ -175,8 +187,9 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 				}
 			}
 			$tree[] = $parameters;
-			if ($treeID > $lastId)
+			if ($treeID > $lastId) {
 				$lastId = $treeID;
+			}
 		}
 		$this->set('lastId', $lastId);
 		return $tree;
@@ -207,7 +220,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$db = App\Db::getInstance();
 		$templateId = $this->getId();
-		$share = $this->get('share') ? ',' . implode(',', $this->get('share')) . ',' : '';
+		$share = static::getShareFromArray($this->get('share'));
 		if (empty($templateId)) {
 			$db->createCommand()
 				->insert('vtiger_trees_templates', ['name' => $this->get('name'), 'module' => $this->get('module'), 'share' => $share])
@@ -316,16 +329,24 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getInstanceById($record)
 	{
-		$db = PearDatabase::getInstance();
-		$sql = 'SELECT * FROM vtiger_trees_templates WHERE templateid = ?';
-		$params = array($record);
-		$result = $db->pquery($sql, $params);
-		if ($db->getRowCount($result) > 0) {
+		$row = (new \App\Db\Query())->from('vtiger_trees_templates')->where(['templateid' => $record])
+			->one();
+		if ($row) {
 			$instance = new self();
-			$instance->setData($db->getRow($result));
+			$instance->setData($row);
 			return $instance;
 		}
 		return null;
+	}
+
+	/**
+	 * Get share string from array
+	 * @param array()|null $share
+	 * @return string
+	 */
+	public static function getShareFromArray($share)
+	{
+		return $share ? ',' . implode(',', $share) . ',' : '';
 	}
 
 	/**
@@ -333,6 +354,6 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function clearCache()
 	{
-		\App\Cache::delete('TreeData', $this->getId());
+		\App\Cache::delete('TreeValuesById', $this->getId());
 	}
 }

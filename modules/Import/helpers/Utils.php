@@ -11,14 +11,14 @@
 class Import_Utils_Helper
 {
 
-	static $AUTO_MERGE_NONE = 0;
-	static $AUTO_MERGE_IGNORE = 1;
-	static $AUTO_MERGE_OVERWRITE = 2;
-	static $AUTO_MERGE_MERGEFIELDS = 3;
-	static $supportedFileExtensions = ['csv', 'vcf', 'ical', 'xml', 'ics'];
-	static $supportedFileExtensionsByModule = ['Contacts' => ['csv', 'vcf'], 'Calendar' => ['csv', 'ical', 'ics'], 'Default' => ['csv', 'xml', 'zip']];
+	public static $AUTO_MERGE_NONE = 0;
+	public static $AUTO_MERGE_IGNORE = 1;
+	public static $AUTO_MERGE_OVERWRITE = 2;
+	public static $AUTO_MERGE_MERGEFIELDS = 3;
+	public static $supportedFileExtensions = ['csv', 'vcf', 'ical', 'xml', 'ics'];
+	public static $supportedFileExtensionsByModule = ['Contacts' => ['csv', 'vcf'], 'Calendar' => ['csv', 'ical', 'ics'], 'Default' => ['csv', 'xml', 'zip']];
 
-	public function getSupportedFileExtensions($moduleName = null)
+	public static function getSupportedFileExtensions($moduleName = null)
 	{
 		if (!$moduleName) {
 			return self::$supportedFileExtensions;
@@ -50,16 +50,14 @@ class Import_Utils_Helper
 		return vglobal('upload_maxsize');
 	}
 
-	public static function getImportDirectory()
+	/**
+	 * The function takes the path of the file to be imported
+	 * @param Users_Record_Model $user
+	 * @return string
+	 */
+	public static function getImportFilePath(Users_Record_Model $user)
 	{
-		$importDir = dirname(__FILE__) . '/../../../' . vglobal('import_dir');
-		return $importDir;
-	}
-
-	public static function getImportFilePath($user)
-	{
-		$importDirectory = self::getImportDirectory();
-		return $importDirectory . "IMPORT_" . $user->id;
+		return App\Fields\File::getTmpPath() . 'IMPORT_' . $user->id;
 	}
 
 	public static function showErrorPage($errorMessage, $errorDetails = false, $customActions = false)
@@ -78,18 +76,22 @@ class Import_Utils_Helper
 	{
 
 		$errorMessage = \App\Language::translate('ERR_MODULE_IMPORT_LOCKED', 'Import');
-		$errorDetails = array(\App\Language::translate('LBL_MODULE_NAME', 'Import') => \App\Module::getModuleName($lockInfo['tabid']),
+		$errorDetails = [\App\Language::translate('LBL_MODULE_NAME', 'Import') => \App\Module::getModuleName($lockInfo['tabid']),
 			\App\Language::translate('LBL_USER_NAME', 'Import') => \App\Fields\Owner::getUserLabel($lockInfo['userid']),
-			\App\Language::translate('LBL_LOCKED_TIME', 'Import') => $lockInfo['locked_since']);
+			\App\Language::translate('LBL_LOCKED_TIME', 'Import') => $lockInfo['locked_since']];
 
 		self::showErrorPage($errorMessage, $errorDetails);
 	}
 
-	public static function showImportTableBlockedError($moduleName, $user)
+	/**
+	 * Shows import errors in the table
+	 * @param string $moduleName
+	 */
+	public static function showImportTableBlockedError($moduleName)
 	{
 
 		$errorMessage = \App\Language::translate('ERR_UNIMPORTED_RECORDS_EXIST', 'Import');
-		$customActions = array('LBL_CLEAR_DATA' => "location.href='index.php?module={$moduleName}&view=Import&mode=clearCorruptedData'");
+		$customActions = ['LBL_CLEAR_DATA' => "location.href='index.php?module={$moduleName}&view=Import&mode=clearCorruptedData'"];
 
 		self::showErrorPage($errorMessage, '', $customActions);
 	}
@@ -133,12 +135,17 @@ class Import_Utils_Helper
 		return false;
 	}
 
-	public static function validateFileUpload($request)
+	/**
+	 * Validates uploads file
+	 * @param \App\Request $request
+	 * @return boolean
+	 */
+	public static function validateFileUpload(\App\Request $request)
 	{
 		$current_user = Users_Record_Model::getCurrentUserModel();
 
 		$uploadMaxSize = self::getMaxUploadSize();
-		$importDirectory = self::getImportDirectory();
+		$importDirectory = App\Fields\File::getTmpPath();
 		$temporaryFileName = self::getImportFilePath($current_user);
 
 		if ($_FILES['import_file']['error']) {
@@ -178,7 +185,7 @@ class Import_Utils_Helper
 		return true;
 	}
 
-	static function fileUploadErrorMessage($error_code)
+	public static function fileUploadErrorMessage($error_code)
 	{
 		switch ($error_code) {
 			case 1:

@@ -14,8 +14,6 @@ $languageStrings = [
 	'Campaign No' => 'ID',
 	'Campaigns' => 'Campañas',
 	'SINGLE_Campaigns' => 'Campaña de Marketing',
-	'LBL_ADD_RECORD' => 'Añadir',
-	'LBL_RECORDS_LIST' => 'Lista',
 	//FIELDS
 	'Budget Cost' => 'Presupuesto de Campaña',
 	'Campaign Type' => 'Tipo de Campaña',

@@ -11,9 +11,9 @@
 -->*}
 {strip}
 <div id="popupPageContainer" class="contentsDiv">
-	<div class="navbar-form">{include file='PopupSearch.tpl'|vtemplate_path:$MODULE}</div>
-	<div id="popupContents" class="paddingLeftRight10px">{include file='PopupContents.tpl'|vtemplate_path:$MODULE_NAME}</div>
-	<input type="hidden" class="triggerEventName" value="{$TRIGGER_EVENT_NAME}"/>
+	<div class="navbar-form">{include file=\App\Layout::getTemplatePath('PopupSearch.tpl', $MODULE)}</div>
+	<div id="popupContents" class="paddingLeftRight10px">{include file=\App\Layout::getTemplatePath('PopupContents.tpl', $MODULE_NAME)}</div>
+	<input type="hidden" class="triggerEventName" value="{$TRIGGER_EVENT_NAME}" />
 </div>
 </div>
 {/strip}

@@ -4,7 +4,7 @@
  * Vtiger menu model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_Menu_Model
 {
@@ -56,8 +56,8 @@ class Vtiger_Menu_Model
 			require('user_privileges/menu_0.php');
 		}
 		$moduleName = $request->getModule();
-		$view = $request->get('view');
-		$parent = $request->get('parent');
+		$view = $request->getByType('view', 1);
+		$parent = $request->getByType('parent', 2);
 		if ($parent !== 'Settings') {
 			if (empty($parent)) {
 				foreach ($parentList as &$parentItem) {
@@ -84,7 +84,7 @@ class Vtiger_Menu_Model
 			}
 
 			if ($pageTitle) {
-				$breadcrumbs[] = ['name' => App\Language::translate($pageTitle, $moduleName)];
+				$breadcrumbs[] = ['name' => $pageTitle];
 			} elseif ($view == 'Edit' && $request->get('record') === '') {
 				$breadcrumbs[] = ['name' => App\Language::translate('LBL_VIEW_CREATE', $moduleName)];
 			} elseif ($view != '' && $view != 'index' && $view != 'Index') {
@@ -92,9 +92,9 @@ class Vtiger_Menu_Model
 			} elseif ($view == '') {
 				$breadcrumbs[] = ['name' => App\Language::translate('LBL_HOME', $moduleName)];
 			}
-			if ($request->get('record') != '') {
+			if ($moduleModel && $request->get('record') != '' && $moduleModel->isEntityModule()) {
 				$recordLabel = vtlib\Functions::getCRMRecordLabel($request->get('record'));
-				if ($recordLabel != '') {
+				if ($recordLabel !== '') {
 					$breadcrumbs[] = ['name' => $recordLabel];
 				}
 			}

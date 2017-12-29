@@ -22,7 +22,6 @@ class Install_ConfigFileUtils_Model
 	private $cacheDir;
 	private $vtCharset = 'UTF-8';
 	private $currencyName;
-	private $adminEmail;
 	private $default_language;
 	private $timezone;
 
@@ -46,9 +45,6 @@ class Install_ConfigFileUtils_Model
 		if (isset($configFileParameters['site_URL'])) {
 			$this->siteUrl = $configFileParameters['site_URL'];
 		}
-		if (isset($configFileParameters['admin_email'])) {
-			$this->adminEmail = $configFileParameters['admin_email'];
-		}
 		if (isset($configFileParameters['currency_name'])) {
 			$this->currencyName = $configFileParameters['currency_name'];
 		}
@@ -65,7 +61,7 @@ class Install_ConfigFileUtils_Model
 		$this->cacheDir = 'cache/';
 	}
 
-	static function getDbDefaultPort($dbType)
+	public static function getDbDefaultPort($dbType)
 	{
 		if (Install_Utils_Model::isMySQL($dbType)) {
 			return "3306";

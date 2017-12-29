@@ -6,45 +6,49 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vtiger_Delete_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * Record model instance
+	 * @var Vtiger_Record_Model
+	 */
+	protected $record;
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$record = $request->get('record');
-
-		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPrivilegesModel->isPermitted($moduleName, 'Delete', $record)) {
-			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+		if ($request->isEmpty('record', true)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
+		if (!$this->record->privilegeToDelete()) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
-		$ajaxDelete = $request->get('ajaxDelete');
-
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-		$moduleModel = $recordModel->getModule();
-
-		$recordModel->delete();
-
-		$listViewUrl = $moduleModel->getListViewUrl();
-		if ($ajaxDelete) {
+		$listViewUrl = $this->record->getModule()->getListViewUrl();
+		$this->record->delete();
+		if ($request->getByType('sourceView') === 'List') {
+			$response = new Vtiger_Response();
+			$response->setResult(['notify' => ['type' => 'success', 'text' => \App\Language::translate('LBL_RECORD_HAS_BEEN_DELETED')]]);
+			$response->emit();
+		} elseif ($request->getBoolean('ajaxDelete')) {
 			$response = new Vtiger_Response();
 			$response->setResult($listViewUrl);
-			return $response;
+			$response->emit();
 		} else {
 			header("Location: $listViewUrl");
 		}
-	}
-
-	public function validateRequest(\App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

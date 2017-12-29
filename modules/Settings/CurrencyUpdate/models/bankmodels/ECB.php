@@ -2,14 +2,14 @@
 /**
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
 
 /**
  * Class for connection to European Central Bank currency exchange rates
  */
-class Settings_CurrencyUpdate_models_ECB_BankModel extends Settings_CurrencyUpdate_AbstractBank_Model
+class Settings_CurrencyUpdate_Models_ECB_BankModel extends Settings_CurrencyUpdate_AbstractBank_Model
 {
 	/*
 	 * Returns bank name
@@ -47,7 +47,7 @@ class Settings_CurrencyUpdate_models_ECB_BankModel extends Settings_CurrencyUpda
 		return $supportedCurrencies;
 	}
 	/*
-	 * Returns banks main currency 
+	 * Returns banks main currency
 	 */
 
 	public function getMainCurrencyCode()
@@ -58,7 +58,7 @@ class Settings_CurrencyUpdate_models_ECB_BankModel extends Settings_CurrencyUpda
 	 * Fetch exchange rates
 	 * @param <Array> $currencies - list of systems active currencies
 	 * @param <Date> $date - date for which exchange is fetched
-	 * @param boolean $cron - if true then it is fired by server and crms currency conversion rates are updated 
+	 * @param boolean $cron - if true then it is fired by server and crms currency conversion rates are updated
 	 */
 
 	public function getRates($otherCurrencyCode, $dateParam, $cron = false)
@@ -77,7 +77,7 @@ class Settings_CurrencyUpdate_models_ECB_BankModel extends Settings_CurrencyUpda
 		// 0 - last 90 days
 		// 1 - historical data from year 1999
 		// we speed script choosing the smaller file for our needs
-		$source = $this->getSource(); //explode( '*|*', $this->getBankSource() );
+		$source = $this->getSource();
 		// how old is the currency rate
 		$now = time(); // or your date as well
 		$rateDay = strtotime($dateParam);

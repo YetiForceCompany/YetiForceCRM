@@ -6,41 +6,61 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vtiger_Url_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * Allowed url protocols
+	 * @var array string[]
+	 */
+	const ALLOWED_PROTOCOLS = ['http', 'https', 'ftp', 'ftps', 'telnet'];
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function validate($value, $isUserFormat = false)
+	{
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		if (empty(parse_url($value)['scheme'])) {
+			$value = 'http://' . $value;
+		}
+		if (!preg_match('/^([^\:]+)\:/i', $value, $m)) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+		}
+		if (!(filter_var($value, FILTER_VALIDATE_URL) && in_array(strtolower($m[1]), static::ALLOWED_PROTOCOLS) )) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+		}
+		$this->validate = true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+	{
+		$rawValue = $value;
+		$value = \App\Purifier::encodeHtml($value);
+		preg_match("^[\w]+:\/\/^", $value, $matches);
+		if (empty($matches[0])) {
+			$value = 'http://' . $value;
+		}
+		if ($rawText) {
+			return $value;
+		}
+		$rawValue = \vtlib\Functions::textLength($rawValue, is_int($length) ? $length : false);
+		return '<a class="urlField cursorPointer" title="' . $value . '" href="' . $value . '" target="_blank" rel="noreferrer">' . \App\Purifier::encodeHtml($rawValue) . '</a>';
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public function getTemplateName()
 	{
 		return 'uitypes/Url.tpl';
-	}
-
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
-	{
-		$matchPattern = "^[\w]+:\/\/^";
-		preg_match($matchPattern, $value, $matches);
-		if (!empty($matches[0])) {
-			$value = '<a class="urlField cursorPointer" title="' . $value . '" href="' . $value . '" target="_blank">' . \vtlib\Functions::textLength($value) . '</a>';
-		} else {
-			$value = '<a class="urlField cursorPointer" title="' . $value . '" href="http://' . $value . '" target="_blank">' . \vtlib\Functions::textLength($value) . '</a>';
-		}
-		return $value;
-	}
-
-	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
-	{
-		$matchPattern = "^[\w]+:\/\/^";
-		preg_match($matchPattern, $value, $matches);
-		if (!empty($matches[0])) {
-			$value = '<a class="urlField cursorPointer" title="' . $value . '" href="' . $value . '" target="_blank">' . \vtlib\Functions::textLength($value, $this->get('field')->get('maxlengthtext')) . '</a>';
-		} else {
-			$value = '<a class="urlField cursorPointer" title="' . $value . '" href="http://' . $value . '" target="_blank">' . \vtlib\Functions::textLength($value, $this->get('field')->get('maxlengthtext')) . '</a>';
-		}
-		return $value;
 	}
 }

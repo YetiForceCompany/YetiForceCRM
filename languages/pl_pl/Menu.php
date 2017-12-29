@@ -3,7 +3,7 @@
  * Menu polish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'LBL_QUICK_CREATE_MODULE' => 'Szybkie tworzenie',
@@ -17,7 +17,7 @@ $languageStrings = [
 	'MEN_SUPPORT' => 'Wsparcie',
 	'MEN_ACCOUNTING' => 'Księgowość',
 	'MEN_COMPANY' => 'Firma',
-	'MEN_SECRETARY' => 'Sekretariat',
+	'MEN_ORGANIZATION' => 'Organizacja',
 	'MEN_DATABESES' => 'Bazy danych',
 	'MEN_TEAMWORK' => 'Praca grupowa',
 	'MEN_PRODUCTBASE' => 'Baza produktów',

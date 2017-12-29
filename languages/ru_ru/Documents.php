@@ -44,7 +44,6 @@ $languageStrings = [
 	'LBL_MAX_UPLOAD_SIZE' => 'Максимальный размер документа',
 	'LBL_MOVE' => 'Переместить',
 	'LBL_NOTE_INFORMATION' => 'Основная информация',
-	'LBL_RECORDS_LIST' => 'Список Документов',
 	'Last Modified By' => 'Последнее изменение',
 	'MB' => 'MB',
 	'Note' => 'Описание',
@@ -54,7 +53,7 @@ $languageStrings = [
 	'ossdc_status' => 'Статус',
 	'LBL_EMAIL_FILE_AS_ATTACHMENT' => 'Отправить Документ по Почте',
 	'LBL_RELATIONS' => 'Связан с',
-	'LBL_MASS_ADD' => 'Mass add'
+	'LBL_MASS_ADD' => 'Массовая загрузка'
 ];
 $jsLanguageStrings = [
 	'JS_ARE_YOU_SURE_YOU_WANT_TO_MOVE_DOCUMENTS_TO' => 'Вы уверены, что хотите переместить файлы в',

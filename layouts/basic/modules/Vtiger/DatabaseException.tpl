@@ -1,11 +1,11 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!DOCTYPE html>
 	<html>
 		<head>
 			<title>Yetiforce: {\App\Language::translate('LBL_ERROR')}</title>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-			<link rel="SHORTCUT ICON" href="{vimage_path('favicon.ico')}">
+			<link rel="SHORTCUT ICON" href="{\App\Layout::getImagePath('favicon.ico')}">
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 			<link rel="stylesheet" href="{\App\Layout::getPublicUrl('libraries/bootstrap/css/bootstrap.css')}" type="text/css" media="screen">
 			<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/jquery/jquery.js')}"></script>

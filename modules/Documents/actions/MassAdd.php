@@ -4,27 +4,24 @@
  * Action to mass upload files
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Documents_MassAdd_Action extends Vtiger_Mass_Action
 {
 
 	/**
-	 * Function to check permission
-	 * @param \App\Request $request
-	 * @throws \Exception\NoPermitted
+	 * {@inheritDoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		if (!Users_Privileges_Model::isPermitted($request->getModule(), 'CreateView')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		if (!\App\Privilege::isPermitted($request->getModule(), 'CreateView')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
 	/**
-	 * Process
-	 * @param \App\Request $request
+	 * {@inheritDoc}
 	 */
 	public function process(\App\Request $request)
 	{

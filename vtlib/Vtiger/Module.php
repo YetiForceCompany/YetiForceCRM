@@ -18,15 +18,6 @@ class Module extends ModuleBasic
 {
 
 	/**
-	 * Function to get the Module/Tab id
-	 * @return int
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
-
-	/**
 	 * Get related list sequence to use
 	 * @return int
 	 */
@@ -102,6 +93,7 @@ class Module extends ModuleBasic
 				)->execute();
 			}
 		}
+		\App\Cache::clear();
 		self::log("Setting relation with $moduleInstance->name  ... DONE");
 	}
 
@@ -125,7 +117,7 @@ class Module extends ModuleBasic
 
 	/**
 	 * Add custom link for a module page
-	 * @param String Type can be like 'DETAILVIEW', 'LISTVIEW' etc..
+	 * @param String Type can be like 'DETAIL_VIEW_BASIC', 'LISTVIEW' etc..
 	 * @param String Label to use for display
 	 * @param String HREF value to use for generated link
 	 * @param String Path to the image file (relative or absolute)
@@ -141,7 +133,7 @@ class Module extends ModuleBasic
 
 	/**
 	 * Delete custom link of a module
-	 * @param String Type can be like 'DETAILVIEW', 'LISTVIEW' etc..
+	 * @param String Type can be like 'DETAIL_VIEW_BASIC', 'LISTVIEW' etc..
 	 * @param String Display label to lookup
 	 * @param String URL value to lookup
 	 */
@@ -159,27 +151,11 @@ class Module extends ModuleBasic
 	}
 
 	/**
-	 * Get all the custom links related to this module for exporting.
-	 */
-	public function getLinksForExport()
-	{
-		return Link::getAllForExport($this->id);
-	}
-
-	/**
 	 * Initialize webservice setup for this module instance.
 	 */
 	public function initWebservice()
 	{
 		Webservice::initialize($this);
-	}
-
-	/**
-	 * De-Initialize webservice setup for this module instance.
-	 */
-	public function deinitWebservice()
-	{
-		Webservice::uninitialize($this);
 	}
 
 	public function createFiles(Field $entityField)
@@ -261,20 +237,20 @@ class Module extends ModuleBasic
 	}
 
 	/**
-	 * Fire the event for the module (if vtlib_handler is defined)
+	 * Fire the event for the module (if moduleHandler is defined)
 	 */
 	public static function fireEvent($modulename, $eventType)
 	{
 		$return = true;
 		$instance = self::getClassInstance((string) $modulename);
 		if ($instance) {
-			if (method_exists($instance, 'vtlib_handler')) {
-				self::log("Invoking vtlib_handler for $eventType ...START");
-				$fire = $instance->vtlib_handler((string) $modulename, (string) $eventType);
+			if (method_exists($instance, 'moduleHandler')) {
+				self::log("Invoking moduleHandler for $eventType ...START");
+				$fire = $instance->moduleHandler((string) $modulename, (string) $eventType);
 				if ($fire !== null && $fire !== true) {
 					$return = false;
 				}
-				self::log("Invoking vtlib_handler for $eventType ...DONE");
+				self::log("Invoking moduleHandler for $eventType ...DONE");
 			}
 		}
 		return $return;
@@ -296,10 +272,38 @@ class Module extends ModuleBasic
 		$fire = self::fireEvent($moduleName, $eventType);
 		if ($fire) {
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['presence' => $enableDisable], ['name' => $moduleName])->execute();
+			\App\Cache::delete('moduleTabs', 'all');
 			Deprecated::createModuleMetaFile();
-			vtlib_RecreateUserPrivilegeFiles();
+			\Settings_GlobalPermission_Record_Model::recalculate();
 			$menuRecordModel = new \Settings_Menu_Record_Model();
 			$menuRecordModel->refreshMenuFiles();
 		}
+	}
+
+	/**
+	 * Check if this module is customized
+	 * @return bool
+	 */
+	public function isCustomizable()
+	{
+		return $this->customized === 1 ? true : false;
+	}
+
+	/**
+	 * Check if this module is upgradable
+	 * @return bool
+	 */
+	public function isModuleUpgradable()
+	{
+		return $this->isCustomizable() ? true : false;
+	}
+
+	/**
+	 * Check if this module is exportable
+	 * @return bool
+	 */
+	public function isExportable()
+	{
+		return $this->isCustomizable() ? true : false;
 	}
 }

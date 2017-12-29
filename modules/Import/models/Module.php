@@ -14,13 +14,13 @@ class Import_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Import table prefix
-	 * @var string 
+	 * @var string
 	 */
 	const IMPORT_TABLE_PREFIX = 'u_yf_import_';
 
 	/**
 	 * Auto marge state
-	 * @var int 
+	 * @var int
 	 */
 	const AUTO_MERGE_NONE = 0;
 	const AUTO_MERGE_IGNORE = 1;
@@ -29,7 +29,7 @@ class Import_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Components name
-	 * @var array 
+	 * @var array
 	 */
 	public static $componentReader = [
 		'csv' => 'CSVReader',
@@ -39,7 +39,7 @@ class Import_Module_Model extends Vtiger_Module_Model
 		'xml' => 'XmlReader',
 		'zip' => 'ZipReader'
 	];
-	public static $supportedFileEncoding = array(
+	public static $supportedFileEncoding = [
 		'UTF-8' => 'UTF-8',
 		'ISO-8859-1' => 'ISO-8859-1',
 		'Windows-1250' => 'Windows-1250',
@@ -51,7 +51,7 @@ class Import_Module_Model extends Vtiger_Module_Model
 		'Windows-1256' => 'Windows-1256',
 		'Windows-1257' => 'Windows-1257',
 		'Windows-1258' => 'Windows-1258',
-	);
+	];
 	public static $supportedDelimiters = [',' => 'comma', ';' => 'semicolon'];
 	public static $supportedFileExtensions = ['csv', 'vcf', 'ical', 'xml', 'ics'];
 	public static $supportedFileExtensionsByModule = ['Contacts' => ['csv', 'vcf', 'xml', 'zip'], 'Calendar' => ['csv', 'ical', 'ics'], 'Default' => ['csv', 'xml', 'zip']];
@@ -145,11 +145,11 @@ class Import_Module_Model extends Vtiger_Module_Model
 
 	/**
 	 * Get file reader
-	 * @param type $request
-	 * @param type $user
+	 * @param \App\Request $request
+	 * @param Users_Record_Model $user
 	 * @return \Import_FileReader_Reader
 	 */
-	public static function getFileReader($request, $user)
+	public static function getFileReader(\App\Request $request, Users_Record_Model $user)
 	{
 		$type = $request->get('type');
 		if ($componentName = static::$componentReader[$type]) {
@@ -250,7 +250,7 @@ class Import_Module_Model extends Vtiger_Module_Model
 	public static function isUserImportBlocked($user)
 	{
 		$tableName = self::getDbTableName($user);
-		if (vtlib\Utils::CheckTable($tableName)) {
+		if (vtlib\Utils::checkTable($tableName)) {
 			return (new \App\Db\Query())->from($tableName)->where(['temp_status' => Import_Data_Action::IMPORT_RECORD_NONE])->exists();
 		}
 		return false;

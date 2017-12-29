@@ -13,7 +13,6 @@ $languageStrings = [
 	'LBL_SUMMARY' => 'Work time summary',
 	// Basic Strings
 	'SINGLE_Project' => 'Project',
-	'LBL_ADD_RECORD' => 'Add record',
 	'LBL_RECORDS_LIST' => 'Projects list',
 	// Blocks
 	'LBL_PROJECT_INFORMATION' => 'Project details',

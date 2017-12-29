@@ -12,43 +12,65 @@
 class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 {
 
+	/**
+	 * Return currency id
+	 * @return int|null
+	 */
 	public function getId()
 	{
 		return $this->get('id');
 	}
 
+	/**
+	 * Return currency name
+	 * @return string
+	 */
 	public function getName()
 	{
 		return $this->get('currency_name');
 	}
 
+	/**
+	 * Check if currency is base
+	 * @return bool
+	 */
 	public function isBaseCurrency()
 	{
 		return ($this->get('defaultid') != '-11') ? false : true;
 	}
 
+	/**
+	 * Return record actions links
+	 * @return array
+	 */
 	public function getRecordLinks()
 	{
 		if ($this->isBaseCurrency()) {
-			//NO Edit and delete link for base currency 
+			//NO Edit and delete link for base currency
 			return [];
 		}
-		$editLink = array(
+		$editLink = [
 			'linkurl' => "javascript:Settings_Currency_Js.triggerEdit(event, '" . $this->getId() . "')",
 			'linklabel' => 'LBL_EDIT',
+			'linkclass' => 'btn-info btn-sm',
 			'linkicon' => 'glyphicon glyphicon-pencil'
-		);
+		];
 		$editLinkInstance = Vtiger_Link_Model::getInstanceFromValues($editLink);
 
-		$deleteLink = array(
+		$deleteLink = [
 			'linkurl' => "javascript:Settings_Currency_Js.triggerDelete(event,'" . $this->getId() . "')",
 			'linklabel' => 'LBL_DELETE',
+			'linkclass' => 'btn-sm btn-danger',
 			'linkicon' => 'glyphicon glyphicon-trash'
-		);
+		];
 		$deleteLinkInstance = Vtiger_Link_Model::getInstanceFromValues($deleteLink);
-		return array($editLinkInstance, $deleteLinkInstance);
+		return [$editLinkInstance, $deleteLinkInstance];
 	}
 
+	/**
+	 * return delete state of record
+	 * @return int
+	 */
 	public function getDeleteStatus()
 	{
 		if ($this->has('deleted')) {
@@ -58,11 +80,15 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 		return 0;
 	}
 
+	/**
+	 * Populate changes to database
+	 * @return int
+	 */
 	public function save()
 	{
 		$db = \App\Db::getInstance();
 		$id = $this->getId();
-		$tableName = Settings_Currency_Module_Model::tableName;
+		$tableName = Settings_Currency_Module_Model::TABLE_NAME;
 		if (!empty($id)) {
 			$db->createCommand()->update($tableName, [
 				'currency_name' => $this->get('currency_name'),
@@ -73,10 +99,8 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 				'deleted' => $this->getDeleteStatus()
 				], ['id' => $id])->execute();
 		} else {
-			$id = $db->getUniqueID($tableName);
 			$db->createCommand()
 				->insert($tableName, [
-					'id' => $id,
 					'currency_name' => $this->get('currency_name'),
 					'currency_code' => $this->get('currency_code'),
 					'currency_status' => $this->get('currency_status'),
@@ -85,6 +109,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 					'defaultid' => 0,
 					'deleted' => 0
 				])->execute();
+			$id = $db->getLastInsertID('vtiger_currency_info_id_seq');
 		}
 		self::clearCache();
 		return $id;
@@ -98,9 +123,14 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 		\App\Cache::delete('Currency', 'List');
 	}
 
+	/**
+	 * Returns instance of self
+	 * @param int $id
+	 * @return \self
+	 */
 	public static function getInstance($id)
 	{
-		$db = (new App\Db\Query())->from(Settings_Currency_Module_Model::tableName);
+		$db = (new App\Db\Query())->from(Settings_Currency_Module_Model::TABLE_NAME);
 		if (vtlib\Utils::isNumber($id)) {
 			$query = $db->where(['id' => $id]);
 		} else {
@@ -114,31 +144,27 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 		return $instance;
 	}
 
+	/**
+	 * Return all non mapped currences
+	 * @param array $includedIds
+	 * @return  \Settings_Currency_Record_Model[]
+	 */
 	public static function getAllNonMapped($includedIds = [])
 	{
-		$db = PearDatabase::getInstance();
 		if (!is_array($includedIds)) {
 			if (!empty($includedIds)) {
-				$includedIds = array($includedIds);
+				$includedIds = [$includedIds];
 			} else {
 				$includedIds = [];
 			}
 		}
-
-		$query = 'SELECT vtiger_currencies.* FROM vtiger_currencies 
-                    LEFT JOIN vtiger_currency_info ON vtiger_currency_info.currency_name = vtiger_currencies.currency_name
-                    WHERE vtiger_currency_info.currency_name IS NULL or vtiger_currency_info.deleted=1';
-		$params = [];
+		$query = (new \App\Db\Query())->select(['vtiger_currencies.*'])->from('vtiger_currencies')->leftJoin('vtiger_currency_info', 'vtiger_currency_info.currency_name = vtiger_currencies.currency_name')->where(['or', ['vtiger_currency_info.currency_name' => null], ['vtiger_currency_info.deleted' => 1]]);
 		if (!empty($includedIds)) {
-			$params = $includedIds;
-			$query .= ' or vtiger_currency_info.id IN(' . generateQuestionMarks($includedIds) . ')';
+			$query->orWhere(['vtiger_currency_info.id' => $includedIds]);
 		}
-		$result = $db->pquery($query, $params);
 		$currencyModelList = [];
-		$num_rows = $db->num_rows($result);
-
-		for ($i = 0; $i < $num_rows; $i++) {
-			$row = $db->query_result_rowdata($result, $i);
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$modelInstance = new self();
 			$modelInstance->setData($row);
 			$currencyModelList[$row['currencyid']] = $modelInstance;
@@ -146,9 +172,14 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 		return $currencyModelList;
 	}
 
+	/**
+	 * Return currences
+	 * @param array $excludedIds
+	 * @return  \Settings_Currency_Record_Model[]
+	 */
 	public static function getAll($excludedIds = [])
 	{
-		$query = (new App\Db\Query())->from(Settings_Currency_Module_Model::tableName)
+		$query = (new App\Db\Query())->from(Settings_Currency_Module_Model::TABLE_NAME)
 			->where(['deleted' => 0, 'currency_status' => 'Active']);
 		if (!empty($excludedIds)) {
 			$query->andWhere(['<>', 'id', $excludedIds]);

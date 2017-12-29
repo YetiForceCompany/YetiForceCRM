@@ -3,7 +3,7 @@
  * Events polish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 /* NOTE: Should be inline with Calendar language translation but few variations */
 
@@ -39,7 +39,6 @@ $languageStrings = [
 	'LBL_LAST' => 'Ostatni',
 	'LBL_MONTHS_TYPE' => 'Miesięcy',
 	'LBL_ON' => 'po',
-	'LBL_RECORDS_LIST' => 'Lista rekordów', //Duplicated key-value pair
 	'LBL_RECURRENCE_INFORMATION' => 'Szczegóły powtarzalności terminu',
 	'LBL_RELATED_TO' => 'Powiązany z',
 	'LBL_REPEATEVENT' => 'Powtórz raz co',

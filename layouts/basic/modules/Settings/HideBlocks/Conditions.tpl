@@ -1,9 +1,9 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <div class="targetFieldsTableContainer">
 	<div class="widget_header row">
 		<div class="col-xs-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			{\App\Language::translate('LBL_HIDEBLOCKS_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	</div>
@@ -18,17 +18,17 @@
 		<div class="clearfix"></div>
 	{else}
 		<form method="post" action="index.php">
-			<input type="hidden" name="module" value="{$MODULE}"/>
-			<input type="hidden" name="parent" value="Settings"/>
+			<input type="hidden" name="module" value="{$MODULE}" />
+			<input type="hidden" name="parent" value="Settings" />
 			<input type="hidden" name="action" value="Save" />
-			<input type="hidden" name="record" value="{$RECORD_ID}"/>
-			<input type="hidden" name="blockid" value="{$BLOCKID}"/>
-			<input type="hidden" name="enabled" value="{$ENABLED}"/>
-			<input type="hidden" name="views" value="{$VIEWS}"/>
-			<input type="hidden" name="conditions" class="advanced_filter" value="{$ENABLED}"/>
+			<input type="hidden" name="record" value="{$RECORD_ID}" />
+			<input type="hidden" name="blockid" value="{$BLOCKID}" />
+			<input type="hidden" name="enabled" value="{$ENABLED}" />
+			<input type="hidden" name="views" value="{$VIEWS}" />
+			<input type="hidden" name="conditions" class="advanced_filter" value="{$ENABLED}" />
 			<div class="listViewEntriesDiv contents-bottomscroll" style="overflow-x: visible !important;">
 				<div class="bottomscroll-div">
-					{include file='AdvanceFilter.tpl'|@vtemplate_path RECORD_STRUCTURE=$RECORD_STRUCTURE}
+					{include file=\App\Layout::getTemplatePath('AdvanceFilter.tpl') RECORD_STRUCTURE=$RECORD_STRUCTURE}
 				</div>
 			</div>
 			<br />	

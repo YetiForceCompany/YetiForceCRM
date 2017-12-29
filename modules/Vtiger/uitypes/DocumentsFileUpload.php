@@ -12,8 +12,7 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Function to get the Template name for the current UI Type Object
-	 * @return string - Template Name
+	 * {@inheritDoc}
 	 */
 	public function getTemplateName()
 	{
@@ -21,41 +20,32 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the value for ListView
-	 * @param string $value
-	 * @param integer $record
-	 * @param Vtiger_Record_Model
-	 * @return string
+	 * {@inheritDoc}
 	 */
-	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
-		return $this->getDisplayValue(\vtlib\Functions::textLength($value, $this->get('field')->get('maxlengthtext')), $record, $recordInstance, $rawText);
+		return $this->getDisplayValue(\vtlib\Functions::textLength($value, $this->getFieldModel()->get('maxlengthtext')), $record, $recordModel, $rawText);
 	}
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param string $value
-	 * @param <Integer> $record
-	 * @param <Vtiger_Record_Model>
-	 * @return string
+	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		if ($recordInstance) {
-			$fileLocationType = $recordInstance->get('filelocationtype');
-			$fileStatus = $recordInstance->get('filestatus');
+		$value = \App\Purifier::encodeHtml($value);
+		if ($recordModel) {
+			$fileLocationType = $recordModel->get('filelocationtype');
+			$fileStatus = $recordModel->get('filestatus');
 			if (!empty($value) && $fileStatus) {
 				if ($fileLocationType === 'I') {
 					$fileId = (new App\Db\Query())->select(['attachmentsid'])
-						->from('vtiger_seattachmentsrel')
-						->where(['crmid' => $record])
-						->scalar();
+							->from('vtiger_seattachmentsrel')->where(['crmid' => $record])->scalar();
 					if ($fileId) {
-						$value = '<a href="file.php?module=Documents&action=DownloadFile&record=' . $record . '&fileid=' . $fileId . '"' .
+						return '<a href="file.php?module=Documents&action=DownloadFile&record=' . $record . '&fileid=' . $fileId . '"' .
 							' title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
 					}
 				} else {
-					$value = '<a href="' . $value . '" target="_blank" title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
+					return '<a href="' . $value . '" target="_blank" title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
 				}
 			}
 		}
@@ -63,21 +53,17 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 	}
 
 	/**
-	 * Function to get the DB Insert Value, for the current field type with given User Value
-	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @return mixed
+	 * {@inheritDoc}
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
 		if ($value === null) {
 			$fileName = (new App\Db\Query())->select(['filename'])->from('vtiger_notes')->where(['notesid' => $this->id])->one();
 			if ($fileName) {
-				return decode_html($fileName);
+				return App\Purifier::decodeHtml($fileName);
 			}
-			return $value;
-		} else {
-			return decode_html($value);
+			return '';
 		}
+		return App\Purifier::decodeHtml($value);
 	}
 }

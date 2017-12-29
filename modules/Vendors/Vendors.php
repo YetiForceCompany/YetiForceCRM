@@ -14,52 +14,52 @@ class Vendors extends CRMEntity
 
 	public $table_name = 'vtiger_vendor';
 	public $table_index = 'vendorid';
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_vendor', 'vtiger_vendoraddress', 'vtiger_vendorcf', 'vtiger_entity_stats');
-	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_vendor' => 'vendorid', 'vtiger_vendoraddress' => 'vendorid', 'vtiger_vendorcf' => 'vendorid', 'vtiger_entity_stats' => 'crmid');
+	public $tab_name = ['vtiger_crmentity', 'vtiger_vendor', 'vtiger_vendoraddress', 'vtiger_vendorcf', 'vtiger_entity_stats'];
+	public $tab_name_index = ['vtiger_crmentity' => 'crmid', 'vtiger_vendor' => 'vendorid', 'vtiger_vendoraddress' => 'vendorid', 'vtiger_vendorcf' => 'vendorid', 'vtiger_entity_stats' => 'crmid'];
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('vtiger_vendorcf', 'vendorid');
+	public $customFieldTable = ['vtiger_vendorcf', 'vendorid'];
 	public $column_fields = [];
-	public $related_tables = Array(
-		'vtiger_vendorcf' => Array('vendorid', 'vtiger_vendor', 'vendorid'),
-		'vtiger_vendoraddress' => Array('vendorid', 'vtiger_vendor', 'vendorid'),
-	);
+	public $related_tables = [
+		'vtiger_vendorcf' => ['vendorid', 'vtiger_vendor', 'vendorid'],
+		'vtiger_vendoraddress' => ['vendorid', 'vtiger_vendor', 'vendorid'],
+	];
 	//Pavani: Assign value to entity_table
 	public $entity_table = 'vtiger_crmentity';
 	// This is the list of vtiger_fields that are in the lists.
-	public $list_fields = Array(
-		'Vendor Name' => Array('vendor' => 'vendorname'),
-		'Phone' => Array('vendor' => 'phone'),
-		'Email' => Array('vendor' => 'email'),
-		'Category' => Array('vendor' => 'category')
-	);
-	public $list_fields_name = Array(
+	public $list_fields = [
+		'Vendor Name' => ['vendor' => 'vendorname'],
+		'Phone' => ['vendor' => 'phone'],
+		'Email' => ['vendor' => 'email'],
+		'Category' => ['vendor' => 'category']
+	];
+	public $list_fields_name = [
 		'Vendor Name' => 'vendorname',
 		'Phone' => 'phone',
 		'Email' => 'email',
 		'Category' => 'category'
-	);
+	];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = ['vendorname', 'phone', 'email', 'category'];
 	public $list_link_field = 'vendorname';
-	public $search_fields = Array(
-		'Vendor Name' => Array('vendor' => 'vendorname'),
-		'Phone' => Array('vendor' => 'phone')
-	);
-	public $search_fields_name = Array(
+	public $search_fields = [
+		'Vendor Name' => ['vendor' => 'vendorname'],
+		'Phone' => ['vendor' => 'phone']
+	];
+	public $search_fields_name = [
 		'Vendor Name' => 'vendorname',
 		'Phone' => 'phone'
-	);
+	];
 	//Specifying required fields for vendors
 	public $required_fields = [];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public $mandatory_fields = Array('createdtime', 'modifiedtime', 'vendorname', 'assigned_user_id');
+	public $mandatory_fields = ['createdtime', 'modifiedtime', 'vendorname', 'assigned_user_id'];
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
@@ -71,11 +71,11 @@ class Vendors extends CRMEntity
 	 * @param reference variable - where condition is passed when the query is executed
 	 * Returns Export Vendors Query.
 	 */
-	public function create_export_query($where)
+	public function createExportQuery($where)
 	{
 
 		$current_user = vglobal('current_user');
-		\App\Log::trace('Entering create_export_query(' . $where . ') method ...');
+		\App\Log::trace('Entering createExportQuery(' . $where . ') method ...');
 
 		include('include/utils/ExportUtils.php');
 
@@ -102,7 +102,7 @@ class Vendors extends CRMEntity
 		else
 			$query .= sprintf('  WHERE %s', $where_auto);
 
-		\App\Log::trace('Exiting create_export_query method ...');
+		\App\Log::trace('Exiting createExportQuery method ...');
 		return $query;
 	}
 
@@ -131,10 +131,10 @@ class Vendors extends CRMEntity
 				// IN clause to avoid duplicate entries
 				$sel_result = $adb->pquery("select $id_field from $rel_table where $entity_id_field=? " .
 					" and $id_field not in (select $id_field from $rel_table where $entity_id_field=?)", [$transferId, $entityId]);
-				$res_cnt = $adb->num_rows($sel_result);
+				$res_cnt = $adb->numRows($sel_result);
 				if ($res_cnt > 0) {
 					for ($i = 0; $i < $res_cnt; $i++) {
-						$id_field_value = $adb->query_result($sel_result, $i, $id_field);
+						$id_field_value = $adb->queryResult($sel_result, $i, $id_field);
 						$adb->update($rel_table, [$entity_id_field => $entityId], $entity_id_field . ' = ? and ' . $id_field . ' = ?', [$transferId, $id_field_value]);
 					}
 				}
@@ -145,10 +145,11 @@ class Vendors extends CRMEntity
 	/*
 	 * Function to get the primary query part of a report
 	 * @param - $module Primary module name
+	 * @param ReportRunQueryPlanner $queryPlanner
 	 * returns the query string formed on fetching the related data for report for primary module
 	 */
 
-	public function generateReportsQuery($module, $queryPlanner)
+	public function generateReportsQuery($module, ReportRunQueryPlanner $queryPlanner)
 	{
 		$moduletable = $this->table_name;
 		$moduleindex = $this->table_index;
@@ -174,20 +175,21 @@ class Vendors extends CRMEntity
 		}
 		return $query;
 	}
-	/*
-	 * Function to get the secondary query part of a report
-	 * @param - $module primary module name
-	 * @param - $secmodule secondary module name
-	 * returns the query string formed on fetching the related data for report for secondary module
-	 */
 
-	public function generateReportsSecQuery($module, $secmodule, $queryplanner)
+	/**
+	 * Function to get the secondary query part of a report
+	 * @param string $module
+	 * @param string $secmodule
+	 * @param ReportRunQueryPlanner $queryPlanner
+	 * @return string
+	 */
+	public function generateReportsSecQuery($module, $secmodule, ReportRunQueryPlanner $queryplanner)
 	{
 
 		$matrix = $queryplanner->newDependencyMatrix();
 
-		$matrix->setDependency('vtiger_crmentityVendors', array('vtiger_usersVendors', 'vtiger_lastModifiedByVendors'));
-		$matrix->setDependency('vtiger_vendor', array('vtiger_crmentityVendors', 'vtiger_vendorcf', 'vtiger_email_trackVendors'));
+		$matrix->setDependency('vtiger_crmentityVendors', ['vtiger_usersVendors', 'vtiger_lastModifiedByVendors']);
+		$matrix->setDependency('vtiger_vendor', ['vtiger_crmentityVendors', 'vtiger_vendorcf', 'vtiger_email_trackVendors']);
 		if (!$queryplanner->requireTable('vtiger_vendor', $matrix)) {
 			return '';
 		}
@@ -209,42 +211,31 @@ class Vendors extends CRMEntity
 		}
 		return $query;
 	}
-	/*
-	 * Function to get the relation tables for related modules
-	 * @param - $secmodule secondary module name
-	 * returns the array with table names and fieldnames storing relations between module and this module
-	 */
-
-	public function setRelationTables($secmodule = false)
-	{
-		$relTables = array(
-			'Products' => array('vtiger_products' => array('vendor_id', 'productid'), 'vtiger_vendor' => 'vendorid'),
-			'Contacts' => array('vtiger_vendorcontactrel' => array('vendorid', 'contactid'), 'vtiger_vendor' => 'vendorid'),
-			'Campaigns' => ['vtiger_campaign_records' => ['crmid', 'campaignid'], 'vtiger_vendor' => 'vendorid'],
-		);
-		if ($secmodule === false) {
-			return $relTables;
-		}
-		return $relTables[$secmodule];
-	}
 
 	/**
-	 * Function to unlink all the dependent entities of the given Entity by Id
-	 * @param string $moduleName
-	 * @param int $recordId
+	 * Function to get the relation tables for related modules
+	 * @param boolean|string $secModule secondary module name
+	 * @return array with table names and fieldnames storing relations between module and this module
 	 */
-	public function deletePerminently($moduleName, $recordId)
+	public function setRelationTables($secModule = false)
 	{
-		\App\Db::getInstance()->createCommand()->update('vtiger_products', ['vendor_id' => 0], ['vendor_id' => $recordId])->execute();
-		parent::deletePerminently($moduleName, $recordId);
+		$relTables = [
+			'Products' => ['vtiger_products' => ['vendor_id', 'productid'], 'vtiger_vendor' => 'vendorid'],
+			'Contacts' => ['vtiger_vendorcontactrel' => ['vendorid', 'contactid'], 'vtiger_vendor' => 'vendorid'],
+			'Campaigns' => ['vtiger_campaign_records' => ['crmid', 'campaignid'], 'vtiger_vendor' => 'vendorid'],
+		];
+		if ($secModule === false) {
+			return $relTables;
+		}
+		return $relTables[$secModule];
 	}
 
-	public function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
+	public function saveRelatedModule($module, $crmid, $with_module, $with_crmids, $relatedName = false)
 	{
 		if (!is_array($with_crmids))
 			$with_crmids = [$with_crmids];
 		if (!in_array($with_module, ['Contacts', 'Products', 'Campaigns'])) {
-			parent::save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName);
+			parent::saveRelatedModule($module, $crmid, $with_module, $with_crmids, $relatedName);
 		} else {
 			foreach ($with_crmids as $with_crmid) {
 				if ($with_module === 'Contacts') {

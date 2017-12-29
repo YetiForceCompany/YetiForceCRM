@@ -5,7 +5,7 @@ namespace Importers;
  * Class that imports base database
  * @package YetiForce.Install
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Base4 extends \App\Db\Importers\Base
@@ -301,10 +301,16 @@ class Base4 extends \App\Db\Importers\Base
 					'due_date' => $this->date(),
 					'time_end' => $this->stringType(50),
 					'sum_time' => $this->decimal('10,2')->defaultValue(0),
-					'relatedida' => $this->integer(10)->defaultValue(0),
-					'relatedidb' => $this->integer(10)->defaultValue(0),
+					'link' => $this->integer(10)->defaultValue(0),
+					'process' => $this->integer(10)->defaultValue(0),
 					'deleted' => $this->integer(1)->defaultValue(0),
 					'type' => $this->stringType(128),
+					'subprocess' => $this->integer(10)->defaultValue(0),
+				],
+				'index' => [
+					['process', 'process'],
+					['link', 'link'],
+					['subprocess', 'subprocess'],
 				],
 				'primaryKeys' => [
 					['reservations_pk', 'reservationsid']
@@ -479,7 +485,7 @@ class Base4 extends \App\Db\Importers\Base
 			],
 			'vtiger_salutationtype' => [
 				'columns' => [
-					'salutationid' => $this->primaryKey(10),
+					'salutationtypeid' => $this->primaryKey(10),
 					'salutationtype' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
@@ -795,16 +801,6 @@ class Base4 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_shareduserinfo' => [
-				'columns' => [
-					'userid' => $this->integer(10)->notNull()->defaultValue(0),
-					'shareduserid' => $this->integer(10)->notNull()->defaultValue(0),
-					'color' => $this->stringType(50),
-					'visible' => $this->integer(10)->defaultValue(1),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_shorturls' => [
 				'columns' => [
 					'id' => $this->primaryKey(10),
@@ -1024,6 +1020,7 @@ class Base4 extends \App\Db\Importers\Base
 					'status' => $this->stringType(200)->notNull(),
 					'presence' => $this->integer(1)->notNull()->defaultValue(1),
 					'picklist_valueid' => $this->integer(10)->notNull()->defaultValue(0),
+					'sortorderid' => $this->integer(10)->defaultValue(0),
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1579,21 +1576,23 @@ class Base4 extends \App\Db\Importers\Base
 				'columns' => [
 					'id' => $this->primaryKey(10),
 					'user_name' => $this->stringType(32),
-					'user_password' => $this->stringType(200),
-					'cal_color' => $this->stringType(25)->defaultValue('#E6FAD8'),
 					'first_name' => $this->stringType(30),
 					'last_name' => $this->stringType(30),
-					'reports_to_id' => $this->integer(10)->unsigned(),
+					'email1' => $this->stringType(100),
 					'is_admin' => $this->stringType(3)->defaultValue(0),
+					'status' => $this->stringType(25),
+					'deleted' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
+					'language' => $this->stringType(36),
+					'user_password' => $this->stringType(200),
+					'internal_mailer' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
+					'reports_to_id' => $this->integer(10)->unsigned(),
+					'modified_user_id' => $this->stringType(36),
 					'currency_id' => $this->integer(10)->notNull()->defaultValue(1),
 					'description' => $this->text(),
 					'date_entered' => $this->timestamp()->null(),
 					'date_modified' => $this->timestamp()->null(),
-					'modified_user_id' => $this->stringType(36),
-					'email1' => $this->stringType(100),
-					'status' => $this->stringType(25),
-					'user_preferences' => $this->text(),
-					'tz' => $this->stringType(30),
+					'date_password_change' => $this->dateTime(),
+					'force_password_change' => $this->smallInteger(1)->defaultValue(0),
 					'holidays' => $this->stringType(60),
 					'namedays' => $this->stringType(60),
 					'workdays' => $this->stringType(30),
@@ -1605,27 +1604,20 @@ class Base4 extends \App\Db\Importers\Base
 					'activity_view' => $this->stringType(200)->defaultValue('Today'),
 					'lead_view' => $this->stringType(200)->defaultValue('Today'),
 					'imagename' => $this->stringType(250),
-					'deleted' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(0),
-					'confirm_password' => $this->stringType(300),
-					'internal_mailer' => $this->smallInteger(1)->unsigned()->notNull()->defaultValue(1),
 					'reminder_interval' => $this->stringType(100),
 					'reminder_next_time' => $this->stringType(100),
-					'crypt_type' => $this->stringType(20)->notNull()->defaultValue('MD5'),
-					'accesskey' => $this->stringType(36),
 					'theme' => $this->stringType(100),
-					'language' => $this->stringType(36),
+					'tz' => $this->stringType(30),
 					'time_zone' => $this->stringType(200),
 					'currency_grouping_pattern' => $this->stringType(100),
 					'currency_decimal_separator' => $this->stringType(2),
 					'currency_grouping_separator' => $this->stringType(2),
 					'currency_symbol_placement' => $this->stringType(20),
-					'phone_crm_extension' => $this->stringType(100),
 					'no_of_currency_decimals' => $this->smallInteger(1)->unsigned(),
 					'truncate_trailing_zeros' => $this->smallInteger(1)->unsigned(),
 					'dayoftheweek' => $this->stringType(100),
 					'callduration' => $this->smallInteger(3)->unsigned(),
 					'othereventduration' => $this->smallInteger(3)->unsigned(),
-					'calendarsharedtype' => $this->stringType(100),
 					'default_record_view' => $this->stringType(10),
 					'leftpanelhide' => $this->smallInteger(3)->unsigned(),
 					'rowheight' => $this->stringType(10),
@@ -1636,10 +1628,17 @@ class Base4 extends \App\Db\Importers\Base
 					'available' => $this->smallInteger(1)->defaultValue(0),
 					'auto_assign' => $this->smallInteger(1)->defaultValue(0),
 					'records_limit' => $this->integer(10),
+					'phone_crm_extension' => $this->stringType(100),
+					'phone_crm_extension_extra' => $this->stringType(100),
+					'accesskey' => $this->stringType(36),
+					'confirm_password' => $this->stringType(200),
+					'cal_color' => $this->stringType(25),
+					'user_preferences' => $this->text(),
 				],
 				'columns_mysql' => [
 					'deleted' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(0),
 					'internal_mailer' => $this->tinyInteger(1)->unsigned()->notNull()->defaultValue(1),
+					'force_password_change' => $this->tinyInteger(1)->defaultValue(0),
 					'no_of_currency_decimals' => $this->tinyInteger(1)->unsigned(),
 					'truncate_trailing_zeros' => $this->tinyInteger(1)->unsigned(),
 					'leftpanelhide' => $this->tinyInteger(3)->unsigned(),
@@ -1719,6 +1718,7 @@ class Base4 extends \App\Db\Importers\Base
 					'verification' => $this->text(),
 					'sum_time' => $this->decimal('10,2')->defaultValue(0),
 					'active' => $this->smallInteger(1)->defaultValue(0),
+					'phone_extra' => $this->stringType(100),
 				],
 				'columns_mysql' => [
 					'active' => $this->tinyInteger(1)->defaultValue(0),
@@ -1887,64 +1887,9 @@ class Base4 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_ws_entity_fieldtype' => [
-				'columns' => [
-					'fieldtypeid' => $this->primaryKey(10),
-					'table_name' => $this->stringType(50)->notNull(),
-					'field_name' => $this->stringType(50)->notNull(),
-					'fieldtype' => $this->stringType(200)->notNull(),
-				],
-				'index' => [
-					['vtiger_idx_1_tablename_fieldname', ['table_name', 'field_name'], true],
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_ws_entity_fieldtype_seq' => [
-				'columns' => [
-					'id' => $this->integer(10)->notNull(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_ws_entity_name' => [
-				'columns' => [
-					'entity_id' => $this->integer(10)->notNull(),
-					'name_fields' => $this->stringType(50)->notNull(),
-					'index_field' => $this->stringType(50)->notNull(),
-					'table_name' => $this->stringType(50)->notNull(),
-				],
-				'primaryKeys' => [
-					['ws_entity_name_pk', 'entity_id']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_ws_entity_referencetype' => [
-				'columns' => [
-					'fieldtypeid' => $this->integer(10)->notNull(),
-					'type' => $this->stringType(25)->notNull(),
-				],
-				'primaryKeys' => [
-					['ws_entity_referencetype_pk', ['fieldtypeid', 'type']]
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_ws_entity_seq' => [
 				'columns' => [
 					'id' => $this->integer(10)->notNull(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_ws_entity_tables' => [
-				'columns' => [
-					'webservice_entity_id' => $this->integer(10)->notNull(),
-					'table_name' => $this->stringType(50)->notNull(),
-				],
-				'primaryKeys' => [
-					['ws_entity_tables_pk', ['webservice_entity_id', 'table_name']]
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2233,8 +2178,6 @@ class Base4 extends \App\Db\Importers\Base
 			['fk_1_vtiger_vendorcf', 'vtiger_vendorcf', 'vendorid', 'vtiger_vendor', 'vendorid', 'CASCADE', 'RESTRICT'],
 			['fk_2_vtiger_vendorcontactrel', 'vtiger_vendorcontactrel', 'vendorid', 'vtiger_vendor', 'vendorid', 'CASCADE', 'RESTRICT'],
 			['vtiger_widgets_ibfk_1', 'vtiger_widgets', 'tabid', 'vtiger_tab', 'tabid', 'CASCADE', 'RESTRICT'],
-			['vtiger_fk_1_actors_referencetype', 'vtiger_ws_entity_referencetype', 'fieldtypeid', 'vtiger_ws_entity_fieldtype', 'fieldtypeid', 'CASCADE', 'RESTRICT'],
-			['fk_1_vtiger_ws_actor_tables', 'vtiger_ws_entity_tables', 'webservice_entity_id', 'vtiger_ws_entity', 'id', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_referencetype', 'vtiger_ws_referencetype', 'fieldtypeid', 'vtiger_ws_fieldtype', 'fieldtypeid', 'CASCADE', 'RESTRICT'],
 			['fk_1_vtiger_osscurrencies', 'yetiforce_currencyupdate', 'currency_id', 'vtiger_currency_info', 'id', 'CASCADE', 'RESTRICT'],
 			['yetiforce_mail_quantities_ibfk_1', 'yetiforce_mail_quantities', 'userid', 'roundcube_users', 'user_id', 'CASCADE', 'RESTRICT'],
@@ -8412,7 +8355,7 @@ class Base4 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_salutationtype' => [
-				'columns' => ['salutationid', 'salutationtype', 'presence', 'picklist_valueid', 'sortorderid'],
+				'columns' => ['salutationtypeid', 'salutationtype', 'presence', 'picklist_valueid', 'sortorderid'],
 				'values' => [
 					[2, 'Mr.', 1, 161, 1],
 					[3, 'Ms.', 1, 162, 2],
@@ -8475,7 +8418,6 @@ class Base4 extends \App\Db\Importers\Base
 					[14, 'LBL_LOGS', 8, 'adminIcon-logs', 0, NULL, NULL],
 					[15, 'LBL_AUTOMATION', 10, 'adminIcon-automation', 0, NULL, NULL],
 					[16, 'LBL_MENU_SUMMARRY', 0, 'userIcon-Home', 1, 'index.php?module=Vtiger&parent=Settings&view=Index', NULL],
-					[17, 'LBL_YETIFORCE_SHOP', 1, 'adminIcon-yetiforce-shop', 1, 'https://shop.yetiforce.com/', NULL],
 				]
 			],
 			'vtiger_settings_blocks_seq' => [
@@ -8520,11 +8462,10 @@ class Base4 extends \App\Db\Importers\Base
 					[40, 2, 'LBL_MENU_BUILDER', 'adminIcon-menu-configuration', 'LBL_MENU_BUILDER_DESCRIPTION', 'index.php?module=Menu&view=Index&parent=Settings', 14, 0, 1, NULL],
 					[41, 2, 'LBL_ARRANGE_RELATED_TABS', 'adminIcon-modules-relations', 'LBL_ARRANGE_RELATED_TABS', 'index.php?module=LayoutEditor&parent=Settings&view=Index&mode=showRelatedListLayout', 4, 0, 1, NULL],
 					[44, 8, 'Mail Scanner', 'adminIcon-mail-scanner', 'LBL_MAIL_SCANNER_DESCRIPTION', 'index.php?module=OSSMailScanner&parent=Settings&view=Index', 3, 0, 0, NULL],
-					[45, 14, 'Mail Logs', 'adminIcon-mail-download-history', 'LBL_MAIL_LOGS_DESCRIPTION', 'index.php?module=OSSMailScanner&parent=Settings&view=logs', 4, 0, 0, NULL],
+					[45, 14, 'Mail Logs', 'adminIcon-mail-download-history', 'LBL_MAIL_LOGS_DESCRIPTION', 'index.php?module=OSSMailScanner&parent=Settings&view=Logs', 4, 0, 0, NULL],
 					[46, 8, 'Mail View', 'adminIcon-oss_mailview', 'LBL_MAIL_VIEW_DESCRIPTION', 'index.php?module=OSSMailView&parent=Settings&view=index', 21, 0, 0, NULL],
 					[49, 9, 'License', 'adminIcon-license', 'LBL_LICENSE_DESCRIPTION', 'index.php?module=Vtiger&parent=Settings&view=License', 4, 0, 0, NULL],
 					[51, 7, 'OSSPassword Configuration', 'adminIcon-passwords-encryption', 'LBL_OSSPASSWORD_CONFIGURATION_DESCRIPTION', 'index.php?module=OSSPasswords&view=ConfigurePass&parent=Settings', 3, 0, 0, NULL],
-					[52, 15, 'LBL_DATAACCESS', 'adminIcon-recording-control', 'LBL_DATAACCESS_DESCRIPTION', 'index.php?module=DataAccess&parent=Settings&view=Index', 2, 0, 0, NULL],
 					[53, 4, 'LangManagement', 'adminIcon-languages-and-translations', 'LBL_LANGMANAGEMENT_DESCRIPTION', 'index.php?module=LangManagement&parent=Settings&view=Index', 1, 0, 0, NULL],
 					[54, 1, 'GlobalPermission', 'adminIcon-special-access', 'LBL_GLOBALPERMISSION_DESCRIPTION', 'index.php?module=GlobalPermission&parent=Settings&view=Index', 7, 0, 0, NULL],
 					[56, 13, 'Search Setup', 'adminIcon-search-configuration', 'LBL_SEARCH_SETUP_DESCRIPTION', 'index.php?module=Search&parent=Settings&view=Index', 1, 0, 0, NULL],
@@ -8536,7 +8477,6 @@ class Base4 extends \App\Db\Importers\Base
 					[62, 7, 'LBL_BRUTEFORCE', 'adminIcon-brute-force', 'LBL_BRUTEFORCE_DESCRIPTION', 'index.php?module=BruteForce&parent=Settings&view=Index', 2, 0, 0, NULL],
 					[63, 14, 'LBL_UPDATES_HISTORY', 'adminIcon-server-updates', 'LBL_UPDATES_HISTORY_DESCRIPTION', 'index.php?parent=Settings&module=Updates&view=Index', 2, 0, 0, NULL],
 					[65, 14, 'LBL_CONFREPORT', 'adminIcon-server-configuration', 'LBL_CONFREPORT_DESCRIPTION', 'index.php?parent=Settings&module=ConfReport&view=Index', 1, 0, 0, NULL],
-					[66, 12, 'LBL_ACTIVITY_TYPES', 'adminIcon-calendar-types', 'LBL_ACTIVITY_TYPES_DESCRIPTION', 'index.php?parent=Settings&module=Calendar&view=ActivityTypes', 1, 0, 0, NULL],
 					[67, 2, 'LBL_WIDGETS_MANAGEMENT', 'adminIcon-widgets-configuration', 'LBL_WIDGETS_MANAGEMENT_DESCRIPTION', 'index.php?module=WidgetsManagement&parent=Settings&view=Configuration', 15, 0, 0, NULL],
 					[70, 2, 'LBL_TREES_MANAGER', 'adminIcon-field-folders', 'LBL_TREES_MANAGER_DESCRIPTION', 'index.php?module=TreesManager&parent=Settings&view=List', 11, 0, 0, NULL],
 					[71, 2, 'LBL_MODTRACKER_SETTINGS', 'adminIcon-modules-track-chanegs', 'LBL_MODTRACKER_SETTINGS_DESCRIPTION', 'index.php?module=ModTracker&parent=Settings&view=List', 5, 0, 0, NULL],
@@ -8897,7 +8837,6 @@ class Base4 extends \App\Db\Importers\Base
 					[41, 'ProjectMilestone', 0, -1, 'ProjectMilestone', NULL, NULL, 0, 0, 1, '3.0', 'Support', NULL, 0, 0],
 					[42, 'ProjectTask', 0, -1, 'ProjectTask', NULL, NULL, 0, 0, 1, '3.1', 'Support', NULL, 0, 0],
 					[43, 'Project', 0, -1, 'Project', NULL, NULL, 0, 0, 1, '3.3', 'Support', NULL, 0, 0],
-					[44, 'RecycleBin', 0, -1, 'Recycle Bin', NULL, NULL, 0, 0, 0, '1.5', 'Tools', NULL, 0, 0],
 					[45, 'SMSNotifier', 0, -1, 'SMSNotifier', NULL, NULL, 0, 0, 1, '1.9', 'Tools', NULL, 0, 0],
 					[48, 'OSSMail', 1, -1, 'OSSMail', NULL, NULL, 0, 0, 0, '1.50', 'Tools', NULL, 0, 0],
 					[50, 'Password', 0, -1, 'Password', NULL, NULL, 0, 0, 0, '1.00', '', NULL, 0, 0],
@@ -8974,8 +8913,6 @@ class Base4 extends \App\Db\Importers\Base
 					[41, 'vtiger_max_version', '6.*'],
 					[42, 'vtiger_min_version', '6.0.0rc'],
 					[43, 'vtiger_min_version', '6.0.0rc'],
-					[44, 'vtiger_min_version', '6.0.0rc'],
-					[44, 'vtiger_max_version', '6.*'],
 					[45, 'vtiger_min_version', '6.0.0rc'],
 					[45, 'vtiger_max_version', '6.*'],
 					[48, 'vtiger_min_version', '6.0.0'],
@@ -9343,9 +9280,9 @@ class Base4 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_users' => [
-				'columns' => ['id', 'user_name', 'user_password', 'cal_color', 'first_name', 'last_name', 'reports_to_id', 'is_admin', 'currency_id', 'description', 'date_entered', 'date_modified', 'modified_user_id', 'email1', 'status', 'user_preferences', 'tz', 'holidays', 'namedays', 'workdays', 'weekstart', 'date_format', 'hour_format', 'start_hour', 'end_hour', 'activity_view', 'lead_view', 'imagename', 'deleted', 'confirm_password', 'internal_mailer', 'reminder_interval', 'reminder_next_time', 'crypt_type', 'accesskey', 'theme', 'language', 'time_zone', 'currency_grouping_pattern', 'currency_decimal_separator', 'currency_grouping_separator', 'currency_symbol_placement', 'phone_crm_extension', 'no_of_currency_decimals', 'truncate_trailing_zeros', 'dayoftheweek', 'callduration', 'othereventduration', 'calendarsharedtype', 'default_record_view', 'leftpanelhide', 'rowheight', 'defaulteventstatus', 'defaultactivitytype', 'is_owner', 'emailoptout', 'available', 'auto_assign', 'records_limit'],
+				'columns' => ['id', 'user_name', 'user_password', 'cal_color', 'first_name', 'last_name', 'reports_to_id', 'is_admin', 'currency_id', 'description', 'date_entered', 'date_modified', 'modified_user_id', 'email1', 'status', 'user_preferences', 'tz', 'holidays', 'namedays', 'workdays', 'weekstart', 'date_format', 'hour_format', 'start_hour', 'end_hour', 'activity_view', 'lead_view', 'imagename', 'deleted', 'confirm_password', 'internal_mailer', 'reminder_interval', 'reminder_next_time', 'accesskey', 'theme', 'language', 'time_zone', 'currency_grouping_pattern', 'currency_decimal_separator', 'currency_grouping_separator', 'currency_symbol_placement', 'phone_crm_extension', 'no_of_currency_decimals', 'truncate_trailing_zeros', 'dayoftheweek', 'callduration', 'othereventduration', 'default_record_view', 'leftpanelhide', 'rowheight', 'defaulteventstatus', 'defaultactivitytype', 'is_owner', 'emailoptout', 'available', 'auto_assign', 'records_limit'],
 				'values' => [
-					[1, 'admin', '$1$ad000000$hzXFXvL3XVlnUE/X.1n9t/', '#E6FAD8', '', 'Administrator', 0, 'on', 1, '', 'NOW()', 'NOW()', NULL, 'help@yetiforce.com', 'Active', NULL, NULL, NULL, NULL, NULL, NULL, 'yyyy-mm-dd', '24', '08:00', '23:00', 'This Month', 'Today', '', 0, '$1$ad000000$nYTnfhTZRmUP.wQT9y1AE.', 1, '15 Minutes', NULL, 'PHP5.3MD5', 'aOFXop10GCJ1uw0P', 'twilight', 'en_us', 'Europe/Sarajevo', '123456789', ',', ' ', '1.0$', '', 2, 1, 'Monday', 60, 60, 'private', 'Summary', 0, 'medium', 'PLL_PLANNED', 'Meeting', '1', 1, 1, 0, NULL],
+					[1, 'admin', '$1$ad000000$hzXFXvL3XVlnUE/X.1n9t/', '#E6FAD8', '', 'Administrator', 0, 'on', 1, '', 'NOW()', 'NOW()', NULL, 'help@yetiforce.com', 'Active', NULL, NULL, NULL, NULL, NULL, NULL, 'yyyy-mm-dd', '24', '08:00', '23:00', 'This Month', 'Today', '', 0, '$1$ad000000$nYTnfhTZRmUP.wQT9y1AE.', 1, '15 Minutes', NULL, 'aOFXop10GCJ1uw0P', 'twilight', 'en_us', 'Europe/Sarajevo', '123456789', ',', ' ', '1.0$', '', 2, 1, 'Monday', 60, 60, 'Summary', 0, 'medium', 'PLL_PLANNED', 'Meeting', '1', 1, 1, 0, NULL],
 				]
 			],
 			'vtiger_users2group' => [
@@ -9642,38 +9579,10 @@ class Base4 extends \App\Db\Importers\Base
 					[98, 'SVendorEnquiries', 'include/Webservices/VtigerModuleOperation.php', 'VtigerModuleOperation', 1],
 				]
 			],
-			'vtiger_ws_entity_fieldtype' => [
-				'columns' => ['fieldtypeid', 'table_name', 'field_name', 'fieldtype'],
-				'values' => [
-					[1, 'vtiger_attachmentsfolder', 'createdby', 'reference'],
-				]
-			],
-			'vtiger_ws_entity_fieldtype_seq' => [
-				'columns' => ['id'],
-				'values' => [
-					[8],
-				]
-			],
-			'vtiger_ws_entity_name' => [
-				'columns' => ['entity_id', 'name_fields', 'index_field', 'table_name'],
-				'values' => [
-					[20, 'groupname', 'groupid', 'vtiger_groups'],
-					[21, 'currency_name', 'id', 'vtiger_currency_info'],
-					[22, 'foldername', 'folderid', 'vtiger_attachmentsfolder'],
-				]
-			],
 			'vtiger_ws_entity_seq' => [
 				'columns' => ['id'],
 				'values' => [
 					[92],
-				]
-			],
-			'vtiger_ws_entity_tables' => [
-				'columns' => ['webservice_entity_id', 'table_name'],
-				'values' => [
-					[20, 'vtiger_groups'],
-					[21, 'vtiger_currency_info'],
-					[22, 'vtiger_attachmentsfolder'],
 				]
 			],
 			'vtiger_ws_fieldtype' => [
@@ -9742,7 +9651,6 @@ class Base4 extends \App\Db\Importers\Base
 					[11, 'describe', 'include/Webservices/DescribeObject.php', 'vtws_describe', 'GET', 0],
 					[13, 'convertlead', 'include/Webservices/ConvertLead.php', 'vtws_convertlead', 'POST', 0],
 					[14, 'revise', 'include/Webservices/Revise.php', 'vtws_revise', 'POST', 0],
-					[15, 'changePassword', 'include/Webservices/ChangePassword.php', 'vtws_changePassword', 'POST', 0],
 					[16, 'deleteUser', 'include/Webservices/DeleteUser.php', 'vtws_deleteUser', 'POST', 0],
 				]
 			],
@@ -9886,7 +9794,7 @@ class Base4 extends \App\Db\Importers\Base
 					[77, 0, 76, 0, 0, 61, NULL, 0, NULL, 0, '', NULL, '', NULL],
 					[78, 0, 76, 0, 1, 51, NULL, 0, NULL, 0, '', NULL, '', NULL],
 					[79, 0, 76, 0, 2, 78, NULL, 0, NULL, 0, '', NULL, '', NULL],
-					[80, 0, 0, 2, 9, NULL, 'MEN_SECRETARY', 0, NULL, 0, 'userIcon-Secretary', NULL, NULL, NULL],
+					[80, 0, 0, 2, 9, NULL, 'MEN_ORGANIZATION', 0, NULL, 0, 'userIcon-Secretary', NULL, NULL, NULL],
 					[81, 0, 80, 0, 0, 81, NULL, 0, NULL, 0, '', NULL, '', NULL],
 					[82, 0, 80, 0, 1, 82, NULL, 0, NULL, 0, '', NULL, '', NULL],
 					[83, 0, 80, 0, 2, 84, NULL, 0, NULL, 0, '', NULL, '', NULL],
@@ -9943,7 +9851,6 @@ class Base4 extends \App\Db\Importers\Base
 					[142, 0, 71, 0, 3, 107, NULL, 0, NULL, 0, '', NULL, '', NULL],
 					[143, 0, 131, 0, 2, 108, 'IGRNC', 0, NULL, 0, '', NULL, '', NULL],
 					[144, 0, 131, 0, 3, 109, 'IGDNC', 0, NULL, 0, '', NULL, '', NULL],
-					[145, 0, 84, 0, 24, 44, '', 0, NULL, 0, '', NULL, '', NULL],
 					[146, 0, 84, 0, 14, 112, '', 0, NULL, 0, '', NULL, '', NULL],
 					[147, 0, 76, 0, 3, 113, '', 0, NULL, 0, '', NULL, '', NULL],
 					[148, 0, 76, 0, 4, 114, '', 0, NULL, 0, '', NULL, '', NULL],

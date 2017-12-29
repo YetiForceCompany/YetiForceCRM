@@ -13,7 +13,7 @@
 	<div class="" id="importModules">
 		<div class='widget_header row '>
 			<div class="col-xs-12">
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				{if isset($SELECTED_PAGE)}
 					{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
 				{/if}
@@ -24,7 +24,7 @@
 				<div id="vtlib_modulemanager_import_div">
 					<form method="POST" action="index.php">
 						<input type="hidden" name="module" value="ModuleManager">
-						<input type="hidden" name="parent" value="Settings">
+						<input type="hidden" name="parent" value="Settings" />
 						{if $MODULEIMPORT_ERROR neq ''}
 							<div class="alert alert-warning">
 								<div class="modal-header">
@@ -123,7 +123,7 @@
 							<div class="modal-footer">
 								{if $MODULEIMPORT_EXISTS eq 'true' || $MODULEIMPORT_DIR_EXISTS eq 'true'}
 									<input type="hidden" name="view" value="List">
-									<button class="btn btn-success" class="crmbutton small delete" 
+									<button class="btn btn-success" class="crmbutton small delete"
 											onclick="this.form.mode.value = '';">
 										<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
 									</button>

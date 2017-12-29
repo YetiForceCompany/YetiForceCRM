@@ -10,23 +10,23 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<input type="hidden" id="parentModule" value="{$SOURCE_MODULE}"/>
-	<input type="hidden" id="sourceRecord" value="{$SOURCE_RECORD}"/>
-	<input type="hidden" id="sourceField" value="{$SOURCE_FIELD}"/>
+	<input type="hidden" id="parentModule" value="{$SOURCE_MODULE}" />
+	<input type="hidden" id="sourceRecord" value="{$SOURCE_RECORD}" />
+	<input type="hidden" id="sourceField" value="{$SOURCE_FIELD}" />
 	<input type="hidden" id="url" value="{$GETURL}" />
 	<input type="hidden" id="multi_select" value="{$MULTI_SELECT}" />
 	<input type="hidden" id="currencyId" value="{$CURRENCY_ID}" />
-	<input type="hidden" id="relatedParentModule" value="{$RELATED_PARENT_MODULE}"/>
-	<input type="hidden" id="relatedParentId" value="{$RELATED_PARENT_ID}"/>
+	<input type="hidden" id="relatedParentModule" value="{$RELATED_PARENT_MODULE}" />
+	<input type="hidden" id="relatedParentId" value="{$RELATED_PARENT_ID}" />
 	<div class="popupContainer row">
 		<div class="paddingLeftMd form-group pull-left">
 			<h3 class="popupModuleName">{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</h3>
 			<form class="popupSearchContainer form-inline" onsubmit="return false;" method="POST">
-				<input class="col-md-2" type="hidden" id="searchfield"/>
-				<input class="col-md-2" type="hidden" id="searchvalue"/>
+				<input class="col-md-2" type="hidden" id="searchfield" />
+				<input class="col-md-2" type="hidden" id="searchvalue" />
 			</form>
 		</div>
-		{include file='PopupSearchActions.tpl'|vtemplate_path:$MODULE_NAME}
+		{include file=\App\Layout::getTemplatePath('PopupSearchActions.tpl', $MODULE_NAME)}
 		<div class="col-md-4 form-group pull-right">
 			{if $SOURCE_MODULE neq 'PriceBooks' && $SOURCE_FIELD neq 'productsRelatedList'}
 				<div class="popupPaging">
@@ -51,7 +51,7 @@
 													<div>
 														<div class="col-md-4 recentComments textAlignCenter pushUpandDown2per"><span>{\App\Language::translate('LBL_PAGE',$moduleName)}</span></div>
 														<div class="col-md-3 recentComments">
-															<input type="text" id="pageToJump" class="listViewPagingInput textAlignCenter" title="{\App\Language::translate('LBL_LISTVIEW_PAGE_JUMP')}" value="{$PAGE_NUMBER}"/>
+															<input type="text" id="pageToJump" class="listViewPagingInput textAlignCenter" title="{\App\Language::translate('LBL_LISTVIEW_PAGE_JUMP')}" value="{$PAGE_NUMBER}" />
 														</div>
 														<div class="col-md-2 recentComments textAlignCenter pushUpandDown2per">
 															{\App\Language::translate('LBL_OF',$moduleName)}

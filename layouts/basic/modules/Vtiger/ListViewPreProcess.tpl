@@ -10,21 +10,21 @@
 ********************************************************************************/
 -->*}
 {strip}
-	{include file="Header.tpl"|vtemplate_path:$MODULE}
+	{include file=\App\Layout::getTemplatePath('Header.tpl', $MODULE)}
 	<div class="bodyContents">
 		<div class="mainContainer">
 			<div class="contentsDiv">
 				<div class="widget_header row marginBottom10px">
 					<div class="col-sm-6 col-xs-12">
-						{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 					</div>
 					<div class="col-sm-6 col-xs-12">
 						<div class="pull-right">
 							{foreach item=LINK from=$HEADER_LINKS['LIST_VIEW_HEADER']}
-								{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='listViewHeader'}
+								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewHeader'}
 							{/foreach}
 						</div>
 					</div>
 				</div>
-				{include file="ListViewHeader.tpl"|vtemplate_path:$MODULE}
+				{include file=\App\Layout::getTemplatePath('ListViewHeader.tpl', $MODULE)}
 			{/strip}

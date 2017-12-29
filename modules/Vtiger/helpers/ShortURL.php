@@ -25,7 +25,7 @@ class Vtiger_ShortURL_Helper
 	 * 	));
 	 */
 
-	static function generateURL(array $options)
+	public static function generateURL(array $options)
 	{
 		$site_URL = AppConfig::main('site_URL');
 		if (!isset($options['onetime']))
@@ -34,7 +34,7 @@ class Vtiger_ShortURL_Helper
 		return rtrim($site_URL, '/') . "/shorturl.php?id=" . $uid;
 	}
 
-	static function generate(array $options)
+	public static function generate(array $options)
 	{
 		$db = PearDatabase::getInstance();
 
@@ -50,23 +50,23 @@ class Vtiger_ShortURL_Helper
 		}
 
 		$sql = "INSERT INTO vtiger_shorturls(uid, handler_path, handler_class, handler_function, handler_data, onetime) VALUES (?,?,?,?,?,?)";
-		$params = array($uid, $handlerPath, $handlerClass, $handlerFn, json_encode($handlerData), $options['onetime']);
+		$params = [$uid, $handlerPath, $handlerClass, $handlerFn, json_encode($handlerData), $options['onetime']];
 
 		$db->pquery($sql, $params);
 		return $uid;
 	}
 
-	static function handle($uid)
+	public static function handle($uid)
 	{
 		$db = PearDatabase::getInstance();
 
-		$rs = $db->pquery('SELECT * FROM vtiger_shorturls WHERE uid=?', array($uid));
-		if ($rs && $db->num_rows($rs)) {
-			$record = $db->fetch_array($rs);
-			$handlerPath = decode_html($record['handler_path']);
-			$handlerClass = decode_html($record['handler_class']);
-			$handlerFn = decode_html($record['handler_function']);
-			$handlerData = json_decode(decode_html($record['handler_data']), true);
+		$rs = $db->pquery('SELECT * FROM vtiger_shorturls WHERE uid=?', [$uid]);
+		if ($rs && $db->numRows($rs)) {
+			$record = $db->fetchArray($rs);
+			$handlerPath = App\Purifier::decodeHtml($record['handler_path']);
+			$handlerClass = App\Purifier::decodeHtml($record['handler_class']);
+			$handlerFn = App\Purifier::decodeHtml($record['handler_function']);
+			$handlerData = json_decode(App\Purifier::decodeHtml($record['handler_data']), true);
 
 			\vtlib\Deprecated::checkFileAccessForInclusion($handlerPath);
 			require_once $handlerPath;
@@ -75,35 +75,38 @@ class Vtiger_ShortURL_Helper
 
 			// Delete onetime URL
 			if ($record['onetime'])
-				$db->pquery('DELETE FROM vtiger_shorturls WHERE id=?', array($record['id']));
-			call_user_func(array($handler, $handlerFn), $handlerData);
+				$db->pquery('DELETE FROM vtiger_shorturls WHERE id=?', [$record['id']]);
+			call_user_func([$handler, $handlerFn], $handlerData);
 		} else {
 			echo '<h3>Link you have used is invalid or has expired. .</h3>';
 		}
 	}
 
 	/**
-	 * Function will send tracker image of 1X1 pixel transparent Image 
+	 * Function will send tracker image of 1X1 pixel transparent Image
 	 */
-	static function sendTrackerImage()
+	public static function sendTrackerImage()
 	{
 		header('Content-Type: image/png');
 		echo base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII=');
 	}
 
-	public function getInstance($id)
+	/**
+	 * Return object instance
+	 * @param int $id
+	 * @return Vtiger_ShortURL_Helper
+	 */
+	public static function getInstance($id)
 	{
-		$db = PearDatabase::getInstance();
 		$self = new self();
-		$rs = $db->pquery('SELECT * FROM vtiger_shorturls WHERE uid=?', array($id));
-		if ($rs && $db->num_rows($rs)) {
-			$row = $db->fetch_array($rs);
+		$row = (new App\Db\Query())->from('vtiger_shorturls')->where(['uid' => $id])->one();
+		if ($row) {
 			$self->id = $row['id'];
 			$self->uid = $row['uid'];
 			$self->handler_path = $row['handler_path'];
 			$self->handler_class = $row['handler_class'];
 			$self->handler_function = $row['handler_function'];
-			$self->handler_data = json_decode(decode_html($row['handler_data']), true);
+			$self->handler_data = App\Json::decode(App\Purifier::decodeHtml($row['handler_data']), true);
 		}
 		return $self;
 	}
@@ -127,6 +130,6 @@ class Vtiger_ShortURL_Helper
 	public function delete()
 	{
 		$db = PearDatabase::getInstance();
-		$db->pquery('DELETE FROM vtiger_shorturls WHERE id=?', array($this->id));
+		$db->pquery('DELETE FROM vtiger_shorturls WHERE id=?', [$this->id]);
 	}
 }

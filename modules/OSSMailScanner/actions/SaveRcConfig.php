@@ -4,16 +4,21 @@
  * OSSMailScanner SaveRcConfig action class
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSMailScanner_SaveRcConfig_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermittedForAdmin
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
-			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -23,7 +28,7 @@ class OSSMailScanner_SaveRcConfig_Action extends Vtiger_Action_Controller
 		$type = $request->get('type');
 		$vale = $request->get('vale');
 		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
-		$result = array('success' => true, 'data' => $recordModel->setConfigWidget($conf_type, $type, $vale));
+		$result = ['success' => true, 'data' => $recordModel->setConfigWidget($conf_type, $type, $vale)];
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

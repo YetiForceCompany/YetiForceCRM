@@ -11,7 +11,7 @@
 -->*}
 
 <div class="dashboardWidgetHeader">
-	{include file="dashboards/WidgetHeader.tpl"|@vtemplate_path:$MODULE_NAME SETTING_EXIST=true}
+	{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeader.tpl', $MODULE_NAME) SETTING_EXIST=true}
 	<div class="row filterContainer hide" style="position:absolute;z-index:100001">
 		<div class="row">
 			<span class="col-md-5">
@@ -20,7 +20,7 @@
 				</span>
 			</span>
 			<span class="col-md-4">
-				<input type="text" name="createdtime" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRange widgetFilter" />
+				<input type="text" name="createdtime" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter" />
 			</span>
 		</div>
 		<div class="row">
@@ -48,5 +48,5 @@
 	</div>
 </div>
 <div class="dashboardWidgetContent">
-	{include file="dashboards/DashBoardWidgetContents.tpl"|@vtemplate_path:$MODULE_NAME}
+	{include file=\App\Layout::getTemplatePath('dashboards/DashBoardWidgetContents.tpl', $MODULE_NAME)}
 </div>

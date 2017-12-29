@@ -12,8 +12,30 @@ class Vtiger_Password_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Function to get the Template name for the current UI Type Object
-	 * @return string - Template Name
+	 * {@inheritDoc}
+	 */
+	public function validate($value, $isUserFormat = false)
+	{
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		$res = Settings_Password_Record_Model::checkPassword($value);
+		if ($res !== false) {
+			throw new \App\Exceptions\Security($res, 406);
+		}
+		$this->validate = true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function convertToSave($value, Vtiger_Record_Model $recordModel)
+	{
+		return $recordModel->encryptPassword($value);
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public function getTemplateName()
 	{

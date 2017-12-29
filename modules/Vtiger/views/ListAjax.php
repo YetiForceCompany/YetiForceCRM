@@ -31,7 +31,7 @@ class Vtiger_ListAjax_View extends Vtiger_List_View
 
 	public function process(\App\Request $request)
 	{
-		$mode = $request->get('mode');
+		$mode = $request->getMode();
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
 			return;
@@ -95,15 +95,15 @@ class Vtiger_ListAjax_View extends Vtiger_List_View
 			}
 			$this->listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
 		}
-		$searchKey = $request->get('search_key');
-		$searchValue = $request->get('search_value');
-		$operator = $request->get('operator');
-		if (!empty($operator)) {
-			$this->listViewModel->set('operator', $operator);
+		if (!$request->isEmpty('operator', true)) {
+			$this->listViewModel->set('operator', $request->getByType('operator', 1));
 		}
-		if (!empty($searchKey) && !empty($searchValue)) {
-			$this->listViewModel->set('search_key', $searchKey);
-			$this->listViewModel->set('search_value', $searchValue);
+		if (!$request->isEmpty('search_key', true) && !$request->isEmpty('search_value', true)) {
+			$this->listViewModel->set('search_key', $request->getByType('search_key', 1));
+			$this->listViewModel->set('search_value', $request->get('search_value'));
+		}
+		if ($request->has('entityState')) {
+			$this->listViewModel->set('entityState', $request->getByType('entityState'));
 		}
 		$searchParmams = $request->get('search_params');
 		if (!empty($searchParmams) && is_array($searchParmams)) {

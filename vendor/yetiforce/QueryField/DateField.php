@@ -5,7 +5,7 @@ namespace App\QueryField;
  * Date Query Field Class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class DateField extends BaseField
@@ -137,5 +137,23 @@ class DateField extends BaseField
 	{
 		$value = $this->getValue();
 		return ['and', ['<=', $this->getColumnName(), $value], ['>=', 'vtiger_activity.due_date', $value]];
+	}
+
+	/**
+	 * Greater operator
+	 * @return array
+	 */
+	public function operatorGreaterthannow()
+	{
+		return ['>', $this->getColumnName(), date('Y-m-d')];
+	}
+
+	/**
+	 * Smaller operator
+	 * @return array
+	 */
+	public function operatorSmallerthannow()
+	{
+		return ['<', $this->getColumnName(), date('Y-m-d')];
 	}
 }

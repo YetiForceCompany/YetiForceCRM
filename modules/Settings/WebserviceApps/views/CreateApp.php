@@ -4,19 +4,11 @@
  * Create Key
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Settings_WebserviceApps_CreateApp_View extends Settings_Vtiger_BasicModal_View
 {
-
-	public function checkPermission(\App\Request $request)
-	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (!$currentUserModel->isAdminUser()) {
-			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
-		}
-	}
 
 	public function getSize(\App\Request $request)
 	{
@@ -52,9 +44,9 @@ class Settings_WebserviceApps_CreateApp_View extends Settings_Vtiger_BasicModal_
 	public function getModalScripts(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$scripts = array(
+		$scripts = [
 			"modules.Settings.$moduleName.resources.Edit",
-		);
+		];
 		$scriptInstances = $this->checkAndConvertJsScripts($scripts);
 		return $scriptInstances;
 	}

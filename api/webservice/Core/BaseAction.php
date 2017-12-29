@@ -5,7 +5,7 @@ namespace Api\Core;
  * Base action class
  * @package YetiForce.WebserviceAction
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class BaseAction
@@ -55,13 +55,13 @@ class BaseAction
 	public function checkPermission()
 	{
 		if (empty($this->controller->headers['X-TOKEN'])) {
-			throw new \Api\Core\Exception('Invalid token', 401);
+			throw new \Api\Core\Exception('No sent token', 401);
 		}
 		$apiType = strtolower($this->controller->app['type']);
 		$sessionTable = "w_#__{$apiType}_session";
 		$userTable = "w_#__{$apiType}_user";
 		$db = \App\Db::getInstance('webservice');
-		$row = (new \App\Db\Query())->from($userTable)
+		$row = (new \App\Db\Query())->select(["$userTable.*", "$sessionTable.id", 'sessionLanguage' => "$sessionTable.language", "$sessionTable.created", "$sessionTable.changed", "$sessionTable.params"])->from($userTable)
 			->innerJoin($sessionTable, "$sessionTable.user_id = $userTable.id")
 			->where(["$sessionTable.id" => $this->controller->headers['X-TOKEN'], "$userTable.status" => 1])
 			->one($db);

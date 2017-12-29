@@ -3,7 +3,7 @@
  * PaymentsIn spanish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'PaymentsIn' => 'Pagos recibidos',
@@ -39,7 +39,7 @@ $languageStrings = [
 	'Amount' => 'Cantidad',
 	'Date' => 'Fecha de vigencia (de la moneda)',
 	'DateK' => 'Fecha de contabilidad',
-	'Kontrahent' => 'Cuenta',
+	'Kontrahent' => 'Empresa',
 	'Currancy operation' => 'Las transacciones de divisas',
 	'Amount operation' => 'Cantidad de divisas',
 	'Liczba transakcji:' => 'Cantidad de transacciones:',
@@ -54,7 +54,7 @@ $languageStrings = [
 	'Alior' => 'Alior Bank',
 	'Pekao' => 'Pekao SA',
 	'BOS' => 'Bank Ochrony Środowiska',
-	'Kontrahent address' => 'Dirección de Cuenta',
+	'Kontrahent address' => 'Dirección de Empresa',
 	'Pocztowy' => 'Bank Pocztowy SA',
 	'Deutsche' => 'Deutsche Bank',
 	'RaboBank' => 'Rabobank Polska SA',

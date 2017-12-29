@@ -3,7 +3,7 @@
  * OSSMailScanner spanish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'LBL_PAGE_NUMBER' => 'Ir a la página número',
@@ -18,6 +18,7 @@ $languageStrings = [
 	'INBOX' => 'Bandeja de entrada',
 	'Junk' => 'Basura',
 	'Sent' => 'Enviado',
+	'ERR_INCORRECT_ACCESS_DATA' => 'Datos de acceso incorrectos',
 	'LBL_INFO_ABOUT_FOLDERS_TO_REMOVE' => 'Las carpetas a continuación serán eliminadas después de guardar',
 ];
 $jsLanguageStrings = [

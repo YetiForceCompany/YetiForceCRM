@@ -11,10 +11,10 @@
 class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 {
 
-	static $STATUS_DISABLED = 0;
-	static $STATUS_ENABLED = 1;
-	static $STATUS_RUNNING = 2;
-	static $STATUS_COMPLETED = 3;
+	public static $STATUS_DISABLED = 0;
+	public static $STATUS_ENABLED = 1;
+	public static $STATUS_RUNNING = 2;
+	public static $STATUS_COMPLETED = 3;
 
 	/**
 	 * Function to get Id of this record instance
@@ -101,7 +101,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 	public function getLastEndDateTime()
 	{
 		if ($this->get('lastend') != NULL) {
-			$lastScannedTime = Vtiger_Datetime_UIType::getDisplayDateTimeValue(date('Y-m-d H:i:s', $this->get('lastend')));
+			$lastScannedTime = App\Fields\DateTime::formatToDisplay(date('Y-m-d H:i:s', $this->get('lastend')));
 			$userModel = Users_Record_Model::getCurrentUserModel();
 			$hourFormat = $userModel->get('hour_format');
 			if ($hourFormat == '24') {
@@ -135,12 +135,14 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$fieldValue = $this->get($fieldName);
 		switch ($fieldName) {
-			case 'frequency' : $fieldValue = intval($fieldValue);
+			case 'frequency' :
+				$fieldValue = intval($fieldValue);
 				$hours = str_pad((int) (($fieldValue / (60 * 60))), 2, 0, STR_PAD_LEFT);
 				$minutes = str_pad((int) (($fieldValue % (60 * 60)) / 60), 2, 0, STR_PAD_LEFT);
 				$fieldValue = $hours . ':' . $minutes;
 				break;
-			case 'status' : $fieldValue = intval($fieldValue);
+			case 'status' :
+				$fieldValue = intval($fieldValue);
 				$moduleModel = $this->getModule();
 				if ($fieldValue === Settings_CronTasks_Record_Model::$STATUS_COMPLETED) {
 					$fieldLabel = 'LBL_COMPLETED';
@@ -154,9 +156,10 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 				$fieldValue = \App\Language::translate($fieldLabel, $moduleModel->getParentName() . ':' . $moduleModel->getName());
 				break;
 			case 'laststart' :
-			case 'lastend' : $fieldValue = intval($fieldValue);
+			case 'lastend' :
+				$fieldValue = intval($fieldValue);
 				if ($fieldValue) {
-					$fieldValue = dateDiffAsString($fieldValue, time());
+					$fieldValue = \App\Fields\DateTime::formatToViewDate(date('Y-m-d H:i:s', $fieldValue));
 				} else {
 					$fieldValue = '';
 				}
@@ -165,7 +168,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 		return $fieldValue;
 	}
 	/*
-	 * Function to get Edit view url 
+	 * Function to get Edit view url
 	 */
 
 	public function getEditViewUrl()
@@ -231,14 +234,14 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 
 		$links = [];
 
-		$recordLinks = array(
-			array(
+		$recordLinks = [
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => "javascript:Settings_CronTasks_List_Js.triggerEditEvent('" . $this->getEditViewUrl() . "')",
 				'linkicon' => 'glyphicon glyphicon-pencil'
-			)
-		);
+			]
+		];
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}

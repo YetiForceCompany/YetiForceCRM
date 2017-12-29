@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 {assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 {assign var=ACCESSIBLE_GROUPS value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
@@ -10,17 +10,17 @@
 		</div>
 		<div class="col-xs-4">
 			<div class="box pull-right">
-				{if Users_Privileges_Model::isPermitted('Calendar', 'CreateView')}
+				{if \App\Privilege::isPermitted('Calendar', 'CreateView')}
 					<a class="btn btn-default btn-xs" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
 							return false;">
 						<span class='glyphicon glyphicon-plus' border='0' title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
 					</a>
 				{/if}
-				{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME}
+				{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
 			</div>
 		</div>
 	</div>
-	<hr class="widgetHr"/>
+	<hr class="widgetHr" />
 	<div class="row" >
 		<div class="col-sm-6">
 			{if AppConfig::module('Calendar','DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE') == 'list'}
@@ -46,7 +46,7 @@
 			{/if}
 		</div>
 		<div class="col-sm-6">
-			{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
+			{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
 		</div>
 	</div>
 	<div class="row marginTop2">
@@ -64,6 +64,6 @@
 	</div>
 </div>
 <div class="dashboardWidgetContent dashboardWidgetCalendar">
-	{include file="dashboards/CalendarContents.tpl"|@vtemplate_path:$MODULE_NAME WIDGET=$WIDGET}
+	{include file=\App\Layout::getTemplatePath('dashboards/CalendarContents.tpl', $MODULE_NAME) WIDGET=$WIDGET}
 </div>
 {/strip}

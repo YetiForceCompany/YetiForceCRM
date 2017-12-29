@@ -31,16 +31,16 @@
 						{\App\Language::translate('LBL_CREATED_IN_OLD_LOOK_CANNOT_BE_EDITED',$QUALIFIED_MODULE)}
 					</div>
 					<div class="">
-						<span class="col-md-6"><input type="radio" name="conditionstype" class="alignMiddle" checked=""/>&nbsp;&nbsp;<span class="alignMiddle">{\App\Language::translate('LBL_USE_EXISTING_CONDITIONS',$QUALIFIED_MODULE)}</span></span>
-						<span class="col-md-6"><input type="radio" id="enableAdvanceFilters" name="conditionstype" class="alignMiddle recreate"/>&nbsp;&nbsp;<span class="alignMiddle">{\App\Language::translate('LBL_RECREATE_CONDITIONS',$QUALIFIED_MODULE)}</span></span>
+						<span class="col-md-6"><input type="radio" name="conditionstype" class="alignMiddle" checked="" />&nbsp;&nbsp;<span class="alignMiddle">{\App\Language::translate('LBL_USE_EXISTING_CONDITIONS',$QUALIFIED_MODULE)}</span></span>
+						<span class="col-md-6"><input type="radio" id="enableAdvanceFilters" name="conditionstype" class="alignMiddle recreate" />&nbsp;&nbsp;<span class="alignMiddle">{\App\Language::translate('LBL_RECREATE_CONDITIONS',$QUALIFIED_MODULE)}</span></span>
 					</div><br />
 				{/if}
 				<div id="advanceFilterContainer" {if $IS_FILTER_SAVED_NEW == false} class="zeroOpacity conditionsContainer padding1per" {else} class="row conditionsContainer padding1per" {/if}>
 					<h5 class="padding-bottom1per col-md-10"><strong>{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS',$MODULE)}</strong></h5>
 					<div class="col-md-10" >
-						{include file='AdvanceFilter.tpl'|@vtemplate_path RECORD_STRUCTURE=$RECORD_STRUCTURE}
+						{include file=\App\Layout::getTemplatePath('AdvanceFilter.tpl') RECORD_STRUCTURE=$RECORD_STRUCTURE}
 					</div>
-					{include file="FieldExpressions.tpl"|@vtemplate_path:$QUALIFIED_MODULE EXECUTION_CONDITION=$WORKFLOW_MODEL->get('execution_condition')}
+					{include file=\App\Layout::getTemplatePath('FieldExpressions.tpl', $QUALIFIED_MODULE) EXECUTION_CONDITION=$WORKFLOW_MODEL->get('execution_condition')}
 				</div>
 			</div><br />
 			<div class="pull-right">

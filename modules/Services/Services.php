@@ -22,12 +22,12 @@ class Services extends CRMEntity
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('vtiger_servicecf', 'serviceid');
+	public $customFieldTable = ['vtiger_servicecf', 'serviceid'];
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_service', 'vtiger_servicecf');
+	public $tab_name = ['vtiger_crmentity', 'vtiger_service', 'vtiger_servicecf'];
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
@@ -40,53 +40,53 @@ class Services extends CRMEntity
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public $list_fields = Array(
+	public $list_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Service No' => Array('service' => 'service_no'),
-		'Service Name' => Array('service' => 'servicename'),
-		'Commission Rate' => Array('service' => 'commissionrate'),
-		'No of Units' => Array('service' => 'qty_per_unit'),
-		'Price' => Array('service' => 'unit_price')
-	);
-	public $list_fields_name = Array(
+		'Service No' => ['service' => 'service_no'],
+		'Service Name' => ['service' => 'servicename'],
+		'Commission Rate' => ['service' => 'commissionrate'],
+		'No of Units' => ['service' => 'qty_per_unit'],
+		'Price' => ['service' => 'unit_price']
+	];
+	public $list_fields_name = [
 		/* Format: Field Label => fieldname */
 		'Service No' => 'service_no',
 		'Service Name' => 'servicename',
 		'Commission Rate' => 'commissionrate',
 		'No of Units' => 'qty_per_unit',
 		'Price' => 'unit_price'
-	);
+	];
 	// Make the field link to detail view
 	public $list_link_field = 'servicename';
 	// For Popup listview and UI type support
-	public $search_fields = Array(
+	public $search_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Service No' => Array('service' => 'service_no'),
-		'Service Name' => Array('service' => 'servicename'),
-		'Price' => Array('service' => 'unit_price')
-	);
-	public $search_fields_name = Array(
+		'Service No' => ['service' => 'service_no'],
+		'Service Name' => ['service' => 'servicename'],
+		'Price' => ['service' => 'unit_price']
+	];
+	public $search_fields_name = [
 		/* Format: Field Label => fieldname */
 		'Service No' => 'service_no',
 		'Service Name' => 'servicename',
 		'Price' => 'unit_price'
-	);
+	];
 
 	/** @var string[] List of fields in the RelationListView */
 	public $relationFields = ['service_no', 'servicename', 'unit_price'];
 	// For Popup window record selection
-	public $popup_fields = Array('servicename', 'service_usageunit', 'unit_price');
+	public $popup_fields = ['servicename', 'service_usageunit', 'unit_price'];
 	// For Alphabetical search
 	public $def_basicsearch_col = 'servicename';
 	// Column value to use on detail view record text display
 	public $def_detailview_recname = 'servicename';
 	// Required Information for enabling Import feature
-	public $required_fields = Array('servicename' => 1);
+	public $required_fields = ['servicename' => 1];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public $mandatory_fields = Array('servicename', 'assigned_user_id');
+	public $mandatory_fields = ['servicename', 'assigned_user_id'];
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
 	public $unit_price;
@@ -169,7 +169,7 @@ class Services extends CRMEntity
 	/**
 	 * Create query to export the records.
 	 */
-	public function create_export_query($where)
+	public function createExportQuery($where)
 	{
 		$current_user = vglobal('current_user');
 
@@ -204,9 +204,9 @@ class Services extends CRMEntity
 	/**
 	 * Transform the value while exporting
 	 */
-	public function transform_export_value($key, $value)
+	public function transformExportValue($key, $value)
 	{
-		return parent::transform_export_value($key, $value);
+		return parent::transformExportValue($key, $value);
 	}
 
 	/**
@@ -268,11 +268,11 @@ class Services extends CRMEntity
 
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
-		$rel_table_arr = Array("PriceBooks" => "vtiger_pricebookproductrel", "Documents" => "vtiger_senotesrel");
+		$rel_table_arr = ["PriceBooks" => "vtiger_pricebookproductrel", "Documents" => "vtiger_senotesrel"];
 
-		$tbl_field_arr = Array("vtiger_inventoryproductrel" => "id", "vtiger_pricebookproductrel" => "pricebookid", "vtiger_senotesrel" => "notesid");
+		$tbl_field_arr = ["vtiger_inventoryproductrel" => "id", "vtiger_pricebookproductrel" => "pricebookid", "vtiger_senotesrel" => "notesid"];
 
-		$entity_tbl_field_arr = Array("vtiger_inventoryproductrel" => "productid", "vtiger_pricebookproductrel" => "productid", "vtiger_senotesrel" => "crmid");
+		$entity_tbl_field_arr = ["vtiger_inventoryproductrel" => "productid", "vtiger_pricebookproductrel" => "productid", "vtiger_senotesrel" => "crmid"];
 
 		foreach ($transferEntityIds as $transferId) {
 			foreach ($rel_table_arr as $rel_module => $rel_table) {
@@ -280,12 +280,12 @@ class Services extends CRMEntity
 				$entity_id_field = $entity_tbl_field_arr[$rel_table];
 				// IN clause to avoid duplicate entries
 				$sel_result = $adb->pquery("select $id_field from $rel_table where $entity_id_field=? " .
-					" and $id_field not in (select $id_field from $rel_table where $entity_id_field=?)", array($transferId, $entityId));
-				$res_cnt = $adb->num_rows($sel_result);
+					" and $id_field not in (select $id_field from $rel_table where $entity_id_field=?)", [$transferId, $entityId]);
+				$res_cnt = $adb->numRows($sel_result);
 				if ($res_cnt > 0) {
 					for ($i = 0; $i < $res_cnt; $i++) {
-						$id_field_value = $adb->query_result($sel_result, $i, $id_field);
-						$adb->pquery("update $rel_table set $entity_id_field=? where $entity_id_field=? and $id_field=?", array($entityId, $transferId, $id_field_value));
+						$id_field_value = $adb->queryResult($sel_result, $i, $id_field);
+						$adb->pquery("update $rel_table set $entity_id_field=? where $entity_id_field=? and $id_field=?", [$entityId, $transferId, $id_field_value]);
 					}
 				}
 			}
@@ -297,15 +297,16 @@ class Services extends CRMEntity
 	/*
 	 * Function to get the primary query part of a report
 	 * @param - $module primary module name
+	 * @param ReportRunQueryPlanner $queryPlanner
 	 * returns the query string formed on fetching the related data for report for secondary module
 	 */
 
-	public function generateReportsQuery($module, $queryPlanner)
+	public function generateReportsQuery($module, ReportRunQueryPlanner $queryPlanner)
 	{
 		$current_user = vglobal('current_user');
 
 		$matrix = $queryPlanner->newDependencyMatrix();
-		$matrix->setDependency('vtiger_seproductsrel', array('vtiger_crmentityRelServices', 'vtiger_accountRelServices', 'vtiger_leaddetailsRelServices', 'vtiger_servicecf'));
+		$matrix->setDependency('vtiger_seproductsrel', ['vtiger_crmentityRelServices', 'vtiger_accountRelServices', 'vtiger_leaddetailsRelServices', 'vtiger_servicecf']);
 		$query = 'from vtiger_service
 				inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_service.serviceid';
 		if ($queryPlanner->requireTable('vtiger_servicecf')) {
@@ -352,52 +353,53 @@ class Services extends CRMEntity
 		}
 		return $query;
 	}
-	/*
-	 * Function to get the secondary query part of a report
-	 * @param - $module primary module name
-	 * @param - $secmodule secondary module name
-	 * returns the query string formed on fetching the related data for report for secondary module
-	 */
 
-	public function generateReportsSecQuery($module, $secmodule, $queryPlanner)
+	/**
+	 * Function to get the secondary query part of a report
+	 * @param string $module
+	 * @param string $secmodule
+	 * @param ReportRunQueryPlanner $queryPlanner
+	 * @return string
+	 */
+	public function generateReportsSecQuery($module, $secmodule, ReportRunQueryPlanner $queryPlanner)
 	{
 		$current_user = vglobal('current_user');
 		$matrix = $queryPlanner->newDependencyMatrix();
-		$matrix->setDependency('vtiger_service', array('actual_unit_price', 'vtiger_currency_info', 'vtiger_productcurrencyrel', 'vtiger_servicecf', 'vtiger_crmentityServices'));
-		$matrix->setDependency('vtiger_crmentityServices', array('vtiger_usersServices', 'vtiger_groupsServices', 'vtiger_lastModifiedByServices'));
+		$matrix->setDependency('vtiger_service', ['actual_unit_price', 'vtiger_currency_info', 'vtiger_productcurrencyrel', 'vtiger_servicecf', 'vtiger_crmentityServices']);
+		$matrix->setDependency('vtiger_crmentityServices', ['vtiger_usersServices', 'vtiger_groupsServices', 'vtiger_lastModifiedByServices']);
 		if (!$queryPlanner->requireTable("vtiger_service", $matrix)) {
 			return '';
 		}
-		$query = $this->getRelationQuery($module, $secmodule, "vtiger_service", "serviceid", $queryPlanner);
-		if ($queryPlanner->requireTable("innerService")) {
-			$query .= " LEFT JOIN (
+		$query = $this->getRelationQuery($module, $secmodule, 'vtiger_service', 'serviceid', $queryPlanner);
+		if ($queryPlanner->requireTable('innerService')) {
+			$query .= ' LEFT JOIN (
 			SELECT vtiger_service.serviceid,
-			(CASE WHEN (vtiger_service.currency_id = " . $current_user->currency_id . " ) THEN vtiger_service.unit_price
+			(CASE WHEN (vtiger_service.currency_id = ' . $current_user->currency_id . ' ) THEN vtiger_service.unit_price
 			WHEN (vtiger_productcurrencyrel.actual_price IS NOT NULL) THEN vtiger_productcurrencyrel.actual_price
-			ELSE (vtiger_service.unit_price / vtiger_currency_info.conversion_rate) * " . $current_user->conv_rate . " END
+			ELSE (vtiger_service.unit_price / vtiger_currency_info.conversion_rate) * ' . $current_user->conv_rate . ' END
 			) AS actual_unit_price FROM vtiger_service
             LEFT JOIN vtiger_currency_info ON vtiger_service.currency_id = vtiger_currency_info.id
             LEFT JOIN vtiger_productcurrencyrel ON vtiger_service.serviceid = vtiger_productcurrencyrel.productid
-			AND vtiger_productcurrencyrel.currencyid = " . $current_user->currency_id . ")
-            AS innerService ON innerService.serviceid = vtiger_service.serviceid";
+			AND vtiger_productcurrencyrel.currencyid = ' . $current_user->currency_id . ')
+            AS innerService ON innerService.serviceid = vtiger_service.serviceid';
 		}
-		if ($queryPlanner->requireTable("vtiger_crmentityServices", $matrix)) {
-			$query .= " left join vtiger_crmentity as vtiger_crmentityServices on vtiger_crmentityServices.crmid=vtiger_service.serviceid and vtiger_crmentityServices.deleted=0";
+		if ($queryPlanner->requireTable('vtiger_crmentityServices', $matrix)) {
+			$query .= ' left join vtiger_crmentity as vtiger_crmentityServices on vtiger_crmentityServices.crmid=vtiger_service.serviceid and vtiger_crmentityServices.deleted=0';
 		}
-		if ($queryPlanner->requireTable("vtiger_servicecf")) {
-			$query .= " left join vtiger_servicecf on vtiger_service.serviceid = vtiger_servicecf.serviceid";
+		if ($queryPlanner->requireTable('vtiger_servicecf')) {
+			$query .= ' left join vtiger_servicecf on vtiger_service.serviceid = vtiger_servicecf.serviceid';
 		}
-		if ($queryPlanner->requireTable("vtiger_usersServices")) {
-			$query .= " left join vtiger_users as vtiger_usersServices on vtiger_usersServices.id = vtiger_crmentityServices.smownerid";
+		if ($queryPlanner->requireTable('vtiger_usersServices')) {
+			$query .= ' left join vtiger_users as vtiger_usersServices on vtiger_usersServices.id = vtiger_crmentityServices.smownerid';
 		}
-		if ($queryPlanner->requireTable("vtiger_groupsServices")) {
-			$query .= " left join vtiger_groups as vtiger_groupsServices on vtiger_groupsServices.groupid = vtiger_crmentityServices.smownerid";
+		if ($queryPlanner->requireTable('vtiger_groupsServices')) {
+			$query .= ' left join vtiger_groups as vtiger_groupsServices on vtiger_groupsServices.groupid = vtiger_crmentityServices.smownerid';
 		}
-		if ($queryPlanner->requireTable("vtiger_lastModifiedByServices")) {
-			$query .= " left join vtiger_users as vtiger_lastModifiedByServices on vtiger_lastModifiedByServices.id = vtiger_crmentityServices.modifiedby ";
+		if ($queryPlanner->requireTable('vtiger_lastModifiedByServices')) {
+			$query .= ' left join vtiger_users as vtiger_lastModifiedByServices on vtiger_lastModifiedByServices.id = vtiger_crmentityServices.modifiedby ';
 		}
-		if ($queryPlanner->requireTable("vtiger_createdbyServices")) {
-			$query .= " left join vtiger_users as vtiger_createdbyServices on vtiger_createdbyServices.id = vtiger_crmentityServices.smcreatorid ";
+		if ($queryPlanner->requireTable('vtiger_createdbyServices')) {
+			$query .= ' left join vtiger_users as vtiger_createdbyServices on vtiger_createdbyServices.id = vtiger_crmentityServices.smcreatorid ';
 		}
 		return $query;
 	}
@@ -409,10 +411,10 @@ class Services extends CRMEntity
 
 	public function setRelationTables($secmodule = false)
 	{
-		$relTables = array(
-			'PriceBooks' => array('vtiger_pricebookproductrel' => array('productid', 'pricebookid'), 'vtiger_service' => 'serviceid'),
-			'Documents' => array('vtiger_senotesrel' => array('crmid', 'notesid'), 'vtiger_service' => 'serviceid'),
-		);
+		$relTables = [
+			'PriceBooks' => ['vtiger_pricebookproductrel' => ['productid', 'pricebookid'], 'vtiger_service' => 'serviceid'],
+			'Documents' => ['vtiger_senotesrel' => ['crmid', 'notesid'], 'vtiger_service' => 'serviceid'],
+		];
 		if ($secmodule === false) {
 			return $relTables;
 		}
@@ -420,59 +422,40 @@ class Services extends CRMEntity
 	}
 
 	/**
-	 * Function to unlink all the dependent entities of the given Entity by Id
-	 * @param string $moduleName
-	 * @param int $recordId
-	 */
-	public function deletePerminently($moduleName, $recordId)
-	{
-		\App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['or', ['productid' => $recordId], ['crmid' => $recordId]])->execute();
-		parent::deletePerminently($moduleName, $recordId);
-	}
-
-	/**
 	 * Invoked when special actions are performed on the module.
 	 * @param String Module name
 	 * @param String Event Type
 	 */
-	public function vtlib_handler($moduleName, $eventType)
+	public function moduleHandler($moduleName, $eventType)
 	{
 
 		require_once('include/utils/utils.php');
 		$adb = PearDatabase::getInstance();
 
-		if ($eventType == 'module.postinstall') {
+		if ($eventType === 'module.postinstall') {
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
 			$moduleInstance->allowSharing();
 
 			$ttModuleInstance = vtlib\Module::getInstance('HelpDesk');
-			$ttModuleInstance->setRelatedList($moduleInstance, 'Services', array('select'));
+			$ttModuleInstance->setRelatedList($moduleInstance, 'Services', ['select']);
 
 			$leadModuleInstance = vtlib\Module::getInstance('Leads');
-			$leadModuleInstance->setRelatedList($moduleInstance, 'Services', array('select'));
+			$leadModuleInstance->setRelatedList($moduleInstance, 'Services', ['select']);
 
 			$accModuleInstance = vtlib\Module::getInstance('Accounts');
-			$accModuleInstance->setRelatedList($moduleInstance, 'Services', array('select'));
+			$accModuleInstance->setRelatedList($moduleInstance, 'Services', ['select']);
 
 			$conModuleInstance = vtlib\Module::getInstance('Contacts');
-			$conModuleInstance->setRelatedList($moduleInstance, 'Services', array('select'));
+			$conModuleInstance->setRelatedList($moduleInstance, 'Services', ['select']);
 
 			$pbModuleInstance = vtlib\Module::getInstance('PriceBooks');
-			$pbModuleInstance->setRelatedList($moduleInstance, 'Services', array('select'), 'getPricebookServices');
+			$pbModuleInstance->setRelatedList($moduleInstance, 'Services', ['select'], 'getPricebookServices');
 
 			// Initialize module sequence for the module
 			\App\Fields\RecordNumber::setNumber($moduleName, 'SER', 1);
 			// Mark the module as Standard module
-			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($moduleName));
-		} else if ($eventType == 'module.disabled') {
-			
-		} else if ($eventType == 'module.enabled') {
-			
-		} else if ($eventType == 'module.preuninstall') {
-			
-		} else if ($eventType == 'module.preupdate') {
-			
-		} else if ($eventType == 'module.postupdate') {
+			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', [$moduleName]);
+		} else if ($eventType === 'module.postupdate') {
 			$ServicesModule = vtlib\Module::getInstance('Services');
 			vtlib\Access::setDefaultSharing($ServicesModule);
 		}

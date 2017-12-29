@@ -3,7 +3,7 @@
  * CFixedAssets spanish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'CFixedAssets' => 'Gestión de Flota',
@@ -33,8 +33,20 @@ $languageStrings = [
 	'FL_CURRENT_ODOMETER_READING' => 'Lectura actual del cuentakilómetros',
 	'FL_DATE_OF_LAST_REPAIR' => 'Fecha de la última reparación',
 	'FL_NUMBER_REPAIR' => 'Número de reparación',
+	'FL_MAX_FUEL_CONSUPTION' => 'Consumo máx. de conbustible',
+	'FL_TYPE_OIL' => 'Tipo de conbustible',
+	'FL_CURRENT_ODOMETER_READING_PORTERS' => 'Odómetro actual',
+	'FL_PERIOD_CAR_REVIEW' => 'Periodo de ITV',
+	'FL_DATE_CAR_REVIEW' => 'Fecha de próxima ITV',
+	'FL_NUMBER_FUEL_CARD' => 'Número de tarjeta de combustible',
+	'FL_DATE_INSURANCE' => 'Fecha de seguro',
+	'FL_COST_INSURANCE_OC' => 'Coste del seguro obligatorio',
+	'FL_COST_INSURANCE_AC' => 'Cobertura del seguro (accidente)',
+	'FL_COST_INSURANCE_NW' => 'Cobertura del seguro (lesiones personales)',
+	'FL_NUMBER_MOTOHOURS' => 'Nº de horas Moto',
+	'FL_EQUIPMENT' => 'Equipamiento',
 	// Picklist
-	'PLL_UNAVAILABLE' => 'Indisponible',
+	'PLL_UNAVAILABLE' => 'No disponible',
 	'PLL_AVAILABLE' => 'Disponible',
 	'PLL_DEMAGED' => 'Dañado',
 	'PLL_IN_USE' => 'En uso',

@@ -5,7 +5,7 @@ namespace App;
  * Mailer basic class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Mailer
@@ -173,7 +173,7 @@ class Mailer
 	public function setSmtp()
 	{
 		if (!$this->smtp) {
-			throw new Exceptions\AppException('ERR_NO_SMTP_CONFIGURATION');
+			throw new \App\Exceptions\AppException('ERR_NO_SMTP_CONFIGURATION');
 		}
 		switch ($this->smtp['mailer_type']) {
 			case 'smtp': $this->mailer->isSMTP();
@@ -196,9 +196,7 @@ class Mailer
 		if ($this->smtp['options']) {
 			$this->mailer->SMTPOptions = Json::decode($this->smtp['options'], true);
 		}
-		if ($this->smtp['from_email']) {
-			$this->mailer->From = $this->smtp['from_email'];
-		}
+		$this->mailer->From = $this->smtp['from_email'] ? $this->smtp['from_email'] : $this->smtp['username'];
 		if ($this->smtp['from_name']) {
 			$this->mailer->FromName = $this->smtp['from_name'];
 		}
@@ -405,13 +403,14 @@ class Mailer
 		}
 		if ($mailer->getSmtp('individual_delivery')) {
 			foreach (Json::decode($rowQueue['to']) as $email => $name) {
-				$separateMailer = clone $mailer;
+				$separateMailer = $mailer->cloneMailer();
 				if (is_numeric($email)) {
 					$email = $name;
 					$name = '';
 				}
 				$separateMailer->to($email, $name);
 				$status = $separateMailer->send();
+				unset($separateMailer);
 				if (!$status) {
 					return false;
 				}
@@ -425,6 +424,7 @@ class Mailer
 				$mailer->to($email, $name);
 			}
 			$status = $mailer->send();
+			unset($mailer);
 		}
 		if ($status) {
 			foreach ($attachmentsToRemove as $file) {
@@ -476,5 +476,16 @@ class Mailer
 		imap_append($mbox, \OSSMail_Record_Model::$imapConnectMailbox, $this->mailer->getSentMIMEMessage(), "\\Seen");
 		imap_close($mbox);
 		return true;
+	}
+
+	/**
+	 * Clone the mailer object for individual shipment
+	 * @return \App\Mailer
+	 */
+	public function cloneMailer()
+	{
+		$clonedThis = clone $this;
+		$clonedThis->mailer = clone $this->mailer;
+		return $clonedThis;
 	}
 }

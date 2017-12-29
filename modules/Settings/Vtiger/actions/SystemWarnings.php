@@ -4,7 +4,7 @@
  * System warnings basic action class
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_Vtiger_SystemWarnings_Action extends Settings_Vtiger_Basic_Action
@@ -24,12 +24,11 @@ class Settings_Vtiger_SystemWarnings_Action extends Settings_Vtiger_Basic_Action
 	public function update(\App\Request $request)
 	{
 		$className = $request->get('id');
-		if (!class_exists($className)) {
+		if (!is_subclass_of($className, '\App\SystemWarnings\Template')) {
 			$result = false;
+		} else {
+			$result = (new $className)->update($request->get('params'));
 		}
-		$instace = new $className;
-		$result = $instace->update($request->get('params'));
-
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
@@ -41,7 +40,7 @@ class Settings_Vtiger_SystemWarnings_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function cancel(\App\Request $request)
 	{
-		Vtiger_Session::set('SystemWarnings', true);
+		App\Session::set('SystemWarnings', true);
 		$response = new Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();

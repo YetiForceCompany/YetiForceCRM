@@ -11,15 +11,18 @@
 class Portal_Module_Model extends Vtiger_Module_Model
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getSideBarLinks($linkParams)
 	{
-		$quickLink = array(
-			'linktype' => 'SIDEBARLINK',
-			'linklabel' => 'LBL_OUR_SITES_LIST',
-			'linkurl' => $this->getListViewUrl(),
-			'linkicon' => '',
-		);
-		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
+		$links = [];
+		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'SIDEBARLINK',
+				'linklabel' => 'LBL_OUR_SITES_LIST',
+				'linkurl' => $this->getListViewUrl(),
+				'linkicon' => '',
+		]);
 		return $links;
 	}
 
@@ -47,10 +50,10 @@ class Portal_Module_Model extends Vtiger_Module_Model
 	{
 		$db = PearDatabase::getInstance();
 
-		$result = $db->pquery('SELECT portalname, portalurl FROM vtiger_portal WHERE portalid = ?', array($recordId));
+		$result = $db->pquery('SELECT portalname, portalurl FROM vtiger_portal WHERE portalid = ?', [$recordId]);
 
-		$data['bookmarkName'] = $db->query_result($result, 0, 'portalname');
-		$data['bookmarkUrl'] = $db->query_result($result, 0, 'portalurl');
+		$data['bookmarkName'] = $db->queryResult($result, 0, 'portalname');
+		$data['bookmarkUrl'] = $db->queryResult($result, 0, 'portalurl');
 
 		return $data;
 	}
@@ -63,9 +66,9 @@ class Portal_Module_Model extends Vtiger_Module_Model
 	public function getWebsiteUrl($recordId)
 	{
 		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT portalurl FROM vtiger_portal WHERE portalid=?', array($recordId));
+		$result = $db->pquery('SELECT portalurl FROM vtiger_portal WHERE portalid=?', [$recordId]);
 
-		return $db->query_result($result, 0, 'portalurl');
+		return $db->queryResult($result, 0, 'portalurl');
 	}
 
 	public function getAllRecords()
@@ -85,31 +88,29 @@ class Portal_Module_Model extends Vtiger_Module_Model
 		return $record;
 	}
 
+	/**
+	 * Delete records
+	 * @param \App\Request $request
+	 */
 	public function deleteRecords(\App\Request $request)
 	{
-		$searchValue = $request->get('search_value');
+		$searchValue = $request->getForSql('search_value');
 		$selectedIds = $request->get('selected_ids');
 		$excludedIds = $request->get('excluded_ids');
-
-		$db = PearDatabase::getInstance();
-
-		$query = 'DELETE FROM vtiger_portal';
 		$params = [];
-
 		if (!empty($selectedIds) && $selectedIds != 'all' && count($selectedIds) > 0) {
-			$query .= sprintf(' WHERE portalid IN (%s)', generateQuestionMarks($selectedIds));
-			$params = $selectedIds;
+			$params = ['portalid' => $selectedIds];
 		} else if ($selectedIds == 'all') {
 			if (empty($searchValue) && count($excludedIds) > 0) {
-				$query .= sprintf(' WHERE portalid NOT IN ()', generateQuestionMarks($excludedIds));
-				$params = $excludedIds;
+				$params = ['not in', 'portalid', $excludedIds];
 			} else if (!empty($searchValue) && count($excludedIds) < 1) {
-				$query .= sprintf(" WHERE portalname LIKE '%s'", "%$searchValue%");
+				$params = ['like', 'portalname', $searchValue];
 			} else if (!empty($searchValue) && count($excludedIds) > 0) {
-				$query .= sprintf(" WHERE portalname LIKE '%s' && portalid NOT IN (%s)", "%$searchValue%", generateQuestionMarks($excludedIds));
-				$params = $excludedIds;
+				$params = ['and'];
+				$params [] = ['like', 'portalname', $searchValue];
+				$params [] = ['not in', 'portalid', $excludedIds];
 			}
 		}
-		$db->pquery($query, $params);
+		App\Db::getInstance()->createCommand()->delete('vtiger_portal', $params)->execute();
 	}
 }

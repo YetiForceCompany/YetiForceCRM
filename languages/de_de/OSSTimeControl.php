@@ -3,7 +3,7 @@
  * OSSTimeControl german translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'MSG_EDIT_OK' => 'Sie haben Änderungen an der Konfiguration vorgenommen.',
@@ -90,8 +90,8 @@ $languageStrings = [
 	'LBL_NATIONAL_INFO' => 'Anzahl gesetzlicher Urlaubstage',
 	'LBL_WORKEDDAYS_INFO' => 'Anzahl Arbeitstage',
 	'LBL_HOLIDAYDAYS_INFO' => 'Anzahl Urlaubstage',
-	'LBL_AVERAGEWORKTIME_INFO' => 'Durschnittliche Arbeitszeit',
-	'LBL_AVERAGEBREAKTIME_INFO' => 'Durschnittliche Pausenzeit',
+	'LBL_AVERAGEWORKTIME_INFO' => 'Durchschnittliche Arbeitszeit',
+	'LBL_AVERAGEBREAKTIME_INFO' => 'Durchschnittliche Pausenzeit',
 	'LBL_WORKDAYS_INFO' => 'Arbeitstage',
 	'LBL_SUM' => 'Summe',
 	'LBL_SUM_OF_WORKING_TIME_DIVIDED_INTO_USERS' => 'Arbeitszeitgrafik unterteilt in Benutzer',
@@ -102,4 +102,8 @@ $jsLanguageStrings = [
 	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'Arbeitszeit kann nicht länger als 24 Stunden sein',
 	'JS_START_DATE' => 'Startdatum & Zeit',
 	'JS_END_DATE' => 'Enddatum & Zeit',
+	'JS_TOTAL_TIME' => 'Gesamtzeit',
+ 	'JS_ASSIGNED_TO' => 'zuständig',
+	'JS_TYPE' => 'Typ',
+	'JS_NUMBER' => 'Nummer',
 ];

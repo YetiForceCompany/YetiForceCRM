@@ -22,19 +22,6 @@
 
 require_once('include/utils/utils.php'); //new
 require_once 'include/runtime/Cache.php';
-
-function getEntityName($module, $ids, $compute = true)
-{
-	if ($module == 'Users' || $module == 'Groups') {
-		return \App\Fields\Owner::getLabel($ids);
-	} elseif ($compute) {
-		return \App\Record::computeLabels($module, $ids);
-	} else {
-		return \App\Record::getLabel($ids);
-	}
-}
-// vtiger cache utility
 require_once('include/utils/VTCacheUtils.php');
-// vtlib customization: Extended vtiger CRM utlitiy functions
 require_once('include/utils/VtlibUtils.php');
 

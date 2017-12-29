@@ -11,12 +11,17 @@
 Class ModComments_Edit_View extends Vtiger_Edit_View
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$record = $request->get('record');
-		if (!empty($record) || !Users_Privileges_Model::isPermitted($moduleName, 'EditView')) {
-			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		$record = $request->getInteger('record');
+		if ($record || !\App\Privilege::isPermitted($moduleName, 'EditView')) {
+			throw new \App\Exceptions\NoPermitted('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 }

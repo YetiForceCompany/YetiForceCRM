@@ -17,7 +17,7 @@ class VTEmailTask extends VTTask
 
 	public function getFieldNames()
 	{
-		return array('subject', 'content', 'recepient', 'emailcc', 'emailbcc', 'fromEmail', 'smtp', 'emailoptout');
+		return ['subject', 'content', 'recepient', 'emailcc', 'emailbcc', 'fromEmail', 'smtp', 'emailoptout'];
 	}
 
 	/**

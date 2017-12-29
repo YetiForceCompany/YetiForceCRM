@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<form id="pdfExportModal" action="index.php?module={$MODULE_NAME}&action=PDF&mode=generate" target="_blank" method="POST">
 	<div class="modal-header">
@@ -6,7 +6,7 @@
 		<h3 id="massEditHeader" class="modal-title">{\App\Language::translate('LBL_GENERATE_PDF_FILE', $MODULE_NAME)}</h3>
 	</div>
 	<div class="modal-body">
-		<input type="hidden" name="all_records" id="all_records" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($ALL_RECORDS))}" />
+		<input type="hidden" name="all_records" id="all_records" value="{\App\Purifier::encodeHtml(\App\Json::encode($ALL_RECORDS))}" />
 		<input type="hidden" name="selectedRecords" value="[]" />
 		<input type="hidden" name="validRecords" value="[]" />
 		<input type="hidden" name="template" value="[]" />

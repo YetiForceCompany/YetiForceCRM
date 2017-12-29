@@ -15,13 +15,14 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 	/**
 	 * Check Permission
 	 * @param \App\Request $request
-	 * @throws \Exception\NoPermitted
+	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$sourceModule = $request->get('source_module');
-		if (!\App\Privilege::isPermitted($sourceModule, 'CreateView') || !\App\Privilege::isPermitted($sourceModule, 'MassSendSMS') || !SMSNotifier_Module_Model::checkServer()) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		$sourceModule = $request->getByType('source_module', 2);
+		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'CreateView') || !$currentUserPriviligesModel->hasModuleActionPermission($sourceModule, 'MassSendSMS') || !SMSNotifier_Module_Model::checkServer()) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -31,9 +32,9 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 	 */
 	public function process(\App\Request $request)
 	{
-		$sourceModule = $request->get('source_module');
+		$sourceModule = $request->getByType('source_module', 2);
 		$queryGenerator = $this->getRecordsListQueryFromRequest($request);
-		$phoneFieldList = $fields = $request->get('fields');
+		$phoneFieldList = $fields = $request->getArray('fields');
 		$fields[] = 'id';
 
 		$queryGenerator->setFields($fields);
@@ -72,9 +73,9 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 	 */
 	public function getRecordsListQueryFromRequest(\App\Request $request)
 	{
-		$cvId = $request->get('viewname');
+		$cvId = $request->getByType('viewname', 2);
 		$module = $request->getModule();
-		$sourceModule = $request->get('source_module');
+		$sourceModule = $request->getByType('source_module', 2);
 		$selectedIds = $request->get('selected_ids');
 		$excludedIds = $request->get('excluded_ids');
 
@@ -88,9 +89,9 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 
 		$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
 		if ($customViewModel) {
-			$searchKey = $request->get('search_key');
+			$searchKey = $request->getByType('search_key', 2);
 			$searchValue = $request->get('search_value');
-			$operator = $request->get('operator');
+			$operator = $request->getByType('operator', 1);
 			if (!empty($operator)) {
 				$customViewModel->set('operator', $operator);
 				$customViewModel->set('search_key', $searchKey);

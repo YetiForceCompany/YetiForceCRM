@@ -14,24 +14,24 @@ class Rss_MakeDefaultAjax_Action extends Vtiger_Action_Controller
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->isPermitted($moduleName, 'ListView', $record)) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 
 		$recordModel = Rss_Record_Model::getInstanceById($recordId, $moduleName);
 		$recordModel->makeDefault();
 
 		$response = new Vtiger_Response();
-		$response->setResult(array('message' => 'JS_RSS_MADE_AS_DEFAULT', 'record' => $recordId, 'module' => $moduleName));
+		$response->setResult(['message' => 'JS_RSS_MADE_AS_DEFAULT', 'record' => $recordId, 'module' => $moduleName]);
 		$response->emit();
 	}
 }

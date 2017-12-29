@@ -3,7 +3,7 @@
  * OSSMailScanner english translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'OSSMailScanner' => 'Mail Scanner',
@@ -119,7 +119,7 @@ $languageStrings = [
 	'stop_user' => 'Scanning stopped by',
 	'Email_Subject' => 'Notification: CRON runs too long',
 	'Email_Body' => 'Hello<br /><br />CRON is running too long, check if mail system works correctly.<br /><br />Greets Admin',
-	'Email_FromName' => 'YetiForce CRON',
+	'Email_FromName' => 'Mail Scanner',
 	'JS_info_restart_ok' => 'Cron unlocked',
 	'permissions_all' => 'Visible to all',
 	'permissions_vtiger' => 'Based on vtiger permissions',

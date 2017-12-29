@@ -17,10 +17,9 @@
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
  * All Rights Reserved.
  * Contributor(s): ______________________________________..
- * ****************************************************************************** 
+ * ******************************************************************************
  * Contributor(s): YetiForce.com
  */
-require_once('modules/Calendar/CalendarCommon.php');
 
 // Task is used to store customer information.
 class Activity extends CRMEntity
@@ -29,11 +28,11 @@ class Activity extends CRMEntity
 	public $table_name = "vtiger_activity";
 	public $table_index = 'activityid';
 	public $reminder_table = 'vtiger_activity_reminder';
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_activity', 'vtiger_activitycf');
-	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_activity' => 'activityid', 'vtiger_activity_reminder' => 'activity_id', 'vtiger_activitycf' => 'activityid');
+	public $tab_name = ['vtiger_crmentity', 'vtiger_activity', 'vtiger_activitycf'];
+	public $tab_name_index = ['vtiger_crmentity' => 'crmid', 'vtiger_activity' => 'activityid', 'vtiger_activity_reminder' => 'activity_id', 'vtiger_activitycf' => 'activityid'];
 	public $column_fields = [];
 	// This is used to retrieve related vtiger_fields from form posts.
-	public $additional_column_fields = Array('assigned_user_name', 'assigned_user_id', 'contactname', 'contact_phone', 'contact_email', 'parent_name');
+	public $additional_column_fields = ['assigned_user_name', 'assigned_user_id', 'contactname', 'contact_phone', 'contact_email', 'parent_name'];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
@@ -52,20 +51,20 @@ class Activity extends CRMEntity
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('vtiger_activitycf', 'activityid');
+	public $customFieldTable = ['vtiger_activitycf', 'activityid'];
 	// This is the list of vtiger_fields that are in the lists.
-	public $list_fields = Array(
-		'Close' => Array('activity' => 'status'),
-		'Type' => Array('activity' => 'activitytype'),
-		'Subject' => Array('activity' => 'subject'),
-		'Related to' => Array('activity' => 'link'),
-		'Start Date' => Array('activity' => 'date_start'),
-		'Start Time' => Array('activity', 'time_start'),
-		'End Date' => Array('activity' => 'due_date'),
-		'End Time' => Array('activity', 'time_end'),
-		'Assigned To' => Array('crmentity' => 'smownerid')
-	);
-	public $range_fields = Array(
+	public $list_fields = [
+		'Close' => ['activity' => 'status'],
+		'Type' => ['activity' => 'activitytype'],
+		'Subject' => ['activity' => 'subject'],
+		'Related to' => ['activity' => 'link'],
+		'Start Date' => ['activity' => 'date_start'],
+		'Start Time' => ['activity', 'time_start'],
+		'End Date' => ['activity' => 'due_date'],
+		'End Time' => ['activity', 'time_end'],
+		'Assigned To' => ['crmentity' => 'smownerid']
+	];
+	public $range_fields = [
 		'name',
 		'date_modified',
 		'start_date',
@@ -78,8 +77,8 @@ class Activity extends CRMEntity
 		'duehours',
 		'dueminutes',
 		'location'
-	);
-	public $list_fields_name = Array(
+	];
+	public $list_fields_name = [
 		'Close' => 'status',
 		'Type' => 'activitytype',
 		'Subject' => 'subject',
@@ -90,7 +89,7 @@ class Activity extends CRMEntity
 		'Start Date' => 'date_start',
 		'Start Time' => 'time_start',
 		'End Date' => 'due_date',
-		'End Time' => 'time_end');
+		'End Time' => 'time_end'];
 	public $list_link_field = 'subject';
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = 'date_start';
@@ -124,7 +123,7 @@ class Activity extends CRMEntity
 
 		\App\Log::trace('Entering getSortOrder() method ...');
 		if (\App\Request::_has('sorder'))
-			$sorder = $this->db->sql_escape_string(\App\Request::_get('sorder'));
+			$sorder = $this->db->sqlEscapeString(\App\Request::_get('sorder'));
 		else
 			$sorder = (($_SESSION['ACTIVITIES_SORT_ORDER'] != '') ? ($_SESSION['ACTIVITIES_SORT_ORDER']) : ($this->default_sort_order));
 		\App\Log::trace('Exiting getSortOrder method ...');
@@ -146,10 +145,10 @@ class Activity extends CRMEntity
 		}
 
 		if (\App\Request::_has('order_by'))
-			$order_by = $this->db->sql_escape_string(\App\Request::_get('order_by'));
+			$order_by = $this->db->sqlEscapeString(\App\Request::_get('order_by'));
 		else
 			$order_by = (($_SESSION['ACTIVITIES_ORDER_BY'] != '') ? ($_SESSION['ACTIVITIES_ORDER_BY']) : ($use_default_order_by));
-		\App\Log::trace("Exiting getOrderBy method ...");
+		\App\Log::trace('Exiting getOrderBy method ...');
 		return $order_by;
 	}
 
@@ -161,13 +160,13 @@ class Activity extends CRMEntity
 	 * @param  integer   $recurid         - recuring eventid
 	 * @param  string    $reminderMode    - string like 'edit'
 	 */
-	public function activity_reminder($activityId, $reminderTime, $reminderSent = 0, $recurid, $reminderMode = '')
+	public function activityReminder($activityId, $reminderTime, $reminderSent = 0, $recurid, $reminderMode = '')
 	{
 
 		\App\Log::trace("Entering vtiger_activity_reminder($activityId,$reminderTime,$reminderSent,$recurid,$reminderMode) method ...");
 		//Check for vtiger_activityid already present in the reminder_table
 		$query = sprintf('SELECT activity_id FROM %s WHERE activity_id = ?', $this->reminder_table);
-		$resultExist = $this->db->pquery($query, array($activityId));
+		$resultExist = $this->db->pquery($query, [$activityId]);
 
 		if ($reminderMode == 'edit') {
 			if ($this->db->getRowCount($resultExist) > 0) {
@@ -198,31 +197,12 @@ class Activity extends CRMEntity
 	}
 
 	/**
-	 * Function to unlink all the dependent entities of the given Entity by Id
-	 * @param string $moduleName
-	 * @param int $recordId
-	 */
-	public function deletePerminently($moduleName, $recordId)
-	{
-		$db = \App\Db::getInstance();
-		$db->createCommand()->delete('vtiger_activity_reminder', ['activity_id' => $recordId])->execute();
-		parent::deletePerminently($moduleName, $recordId);
-	}
-
-	/**
 	 * this function sets the status flag of activity to true or false depending on the status passed to it
 	 * @param string $status - the status of the activity flag to set
 	 * @return:: true if successful; false otherwise
 	 */
 	public function setActivityReminder($status)
 	{
-		if ($status == "on") {
-			$flag = 0;
-		} elseif ($status == "off") {
-			$flag = 1;
-		} else {
-			return false;
-		}
 		\App\Db::getInstance()->createCommand()
 			->update('vtiger_activity_reminder_popup', [
 				'status' => 1
@@ -230,70 +210,71 @@ class Activity extends CRMEntity
 			->execute();
 		return true;
 	}
-	/*
-	 * Function to get the secondary query part of a report
-	 * @param - $module primary module name
-	 * @param - $secmodule secondary module name
-	 * returns the query string formed on fetching the related data for report for secondary module
-	 */
 
-	public function generateReportsSecQuery($module, $secmodule, $queryPlanner)
+	/**
+	 * Function to get the secondary query part of a report
+	 * @param string $module
+	 * @param string $secmodule
+	 * @param ReportRunQueryPlanner $queryPlanner
+	 * @return string
+	 */
+	public function generateReportsSecQuery($module, $secmodule, ReportRunQueryPlanner $queryPlanner)
 	{
 		$matrix = $queryPlanner->newDependencyMatrix();
-		$matrix->setDependency('vtiger_crmentityCalendar', array('vtiger_groupsCalendar', 'vtiger_usersCalendar', 'vtiger_lastModifiedByCalendar'));
-		$matrix->setDependency('vtiger_activity', array('vtiger_activitycf', 'vtiger_activity_reminder'));
+		$matrix->setDependency('vtiger_crmentityCalendar', ['vtiger_groupsCalendar', 'vtiger_usersCalendar', 'vtiger_lastModifiedByCalendar']);
+		$matrix->setDependency('vtiger_activity', ['vtiger_activitycf', 'vtiger_activity_reminder']);
 
 		if (!$queryPlanner->requireTable('vtiger_activity', $matrix)) {
 			return '';
 		}
 		$moduleLevel = App\ModuleHierarchy::getModuleLevel($module);
 		if ($moduleLevel === false) {
-			$query = $this->getRelationQuery($module, $secmodule, "vtiger_activity", "activityid", $queryPlanner);
+			$query = $this->getRelationQuery($module, $secmodule, 'vtiger_activity', 'activityid', $queryPlanner);
 		} else {
 			$field = App\ModuleHierarchy::getMappingRelatedField($module);
 			$query = " LEFT JOIN vtiger_activity ON vtiger_activity.$field = vtiger_crmentity.crmid";
 		}
 
-		if ($queryPlanner->requireTable("vtiger_crmentityCalendar", $matrix)) {
-			$query .= " left join vtiger_crmentity as vtiger_crmentityCalendar on vtiger_crmentityCalendar.crmid=vtiger_activity.activityid and vtiger_crmentityCalendar.deleted=0";
+		if ($queryPlanner->requireTable('vtiger_crmentityCalendar', $matrix)) {
+			$query .= ' left join vtiger_crmentity as vtiger_crmentityCalendar on vtiger_crmentityCalendar.crmid=vtiger_activity.activityid and vtiger_crmentityCalendar.deleted=0';
 		}
-		if ($queryPlanner->requireTable("vtiger_contactdetailsCalendar")) {
-			$query .= " 	left join vtiger_contactdetails as vtiger_contactdetailsCalendar on vtiger_contactdetailsCalendar.contactid= vtiger_activity.link";
+		if ($queryPlanner->requireTable('vtiger_contactdetailsCalendar')) {
+			$query .= ' 	left join vtiger_contactdetails as vtiger_contactdetailsCalendar on vtiger_contactdetailsCalendar.contactid= vtiger_activity.link';
 		}
-		if ($queryPlanner->requireTable("vtiger_activitycf")) {
-			$query .= " 	left join vtiger_activitycf on vtiger_activitycf.activityid = vtiger_activity.activityid";
+		if ($queryPlanner->requireTable('vtiger_activitycf')) {
+			$query .= ' 	left join vtiger_activitycf on vtiger_activitycf.activityid = vtiger_activity.activityid';
 		}
-		if ($queryPlanner->requireTable("vtiger_activity_reminder")) {
-			$query .= " 	left join vtiger_activity_reminder on vtiger_activity_reminder.activity_id = vtiger_activity.activityid";
+		if ($queryPlanner->requireTable('vtiger_activity_reminder')) {
+			$query .= ' 	left join vtiger_activity_reminder on vtiger_activity_reminder.activity_id = vtiger_activity.activityid';
 		}
-		if ($queryPlanner->requireTable("vtiger_accountRelCalendar")) {
-			$query .= " 	left join vtiger_account as vtiger_accountRelCalendar on vtiger_accountRelCalendar.accountid=vtiger_activity.link";
+		if ($queryPlanner->requireTable('vtiger_accountRelCalendar')) {
+			$query .= ' 	left join vtiger_account as vtiger_accountRelCalendar on vtiger_accountRelCalendar.accountid=vtiger_activity.link';
 		}
-		if ($queryPlanner->requireTable("vtiger_leaddetailsRelCalendar")) {
-			$query .= " 	left join vtiger_leaddetails as vtiger_leaddetailsRelCalendar on vtiger_leaddetailsRelCalendar.leadid = vtiger_activity.link";
+		if ($queryPlanner->requireTable('vtiger_leaddetailsRelCalendar')) {
+			$query .= ' 	left join vtiger_leaddetails as vtiger_leaddetailsRelCalendar on vtiger_leaddetailsRelCalendar.leadid = vtiger_activity.link';
 		}
-		if ($queryPlanner->requireTable("vtiger_troubleticketsRelCalendar")) {
-			$query .= " left join vtiger_troubletickets as vtiger_troubleticketsRelCalendar on vtiger_troubleticketsRelCalendar.ticketid = vtiger_activity.process";
+		if ($queryPlanner->requireTable('vtiger_troubleticketsRelCalendar')) {
+			$query .= ' left join vtiger_troubletickets as vtiger_troubleticketsRelCalendar on vtiger_troubleticketsRelCalendar.ticketid = vtiger_activity.process';
 		}
-		if ($queryPlanner->requireTable("vtiger_campaignRelCalendar")) {
-			$query .= " 	left join vtiger_campaign as vtiger_campaignRelCalendar on vtiger_campaignRelCalendar.campaignid = vtiger_activity.process";
+		if ($queryPlanner->requireTable('vtiger_campaignRelCalendar')) {
+			$query .= ' 	left join vtiger_campaign as vtiger_campaignRelCalendar on vtiger_campaignRelCalendar.campaignid = vtiger_activity.process';
 		}
-		if ($queryPlanner->requireTable("vtiger_groupsCalendar")) {
-			$query .= " left join vtiger_groups as vtiger_groupsCalendar on vtiger_groupsCalendar.groupid = vtiger_crmentityCalendar.smownerid";
+		if ($queryPlanner->requireTable('vtiger_groupsCalendar')) {
+			$query .= ' left join vtiger_groups as vtiger_groupsCalendar on vtiger_groupsCalendar.groupid = vtiger_crmentityCalendar.smownerid';
 		}
-		if ($queryPlanner->requireTable("vtiger_usersCalendar")) {
-			$query .= " 	left join vtiger_users as vtiger_usersCalendar on vtiger_usersCalendar.id = vtiger_crmentityCalendar.smownerid";
+		if ($queryPlanner->requireTable('vtiger_usersCalendar')) {
+			$query .= ' 	left join vtiger_users as vtiger_usersCalendar on vtiger_usersCalendar.id = vtiger_crmentityCalendar.smownerid';
 		}
-		if ($queryPlanner->requireTable("vtiger_lastModifiedByCalendar")) {
-			$query .= "  left join vtiger_users as vtiger_lastModifiedByCalendar on vtiger_lastModifiedByCalendar.id = vtiger_crmentityCalendar.modifiedby ";
+		if ($queryPlanner->requireTable('vtiger_lastModifiedByCalendar')) {
+			$query .= '  left join vtiger_users as vtiger_lastModifiedByCalendar on vtiger_lastModifiedByCalendar.id = vtiger_crmentityCalendar.modifiedby ';
 		}
-		if ($queryPlanner->requireTable("vtiger_createdbyCalendar")) {
-			$query .= " left join vtiger_users as vtiger_createdbyCalendar on vtiger_createdbyCalendar.id = vtiger_crmentityCalendar.smcreatorid ";
+		if ($queryPlanner->requireTable('vtiger_createdbyCalendar')) {
+			$query .= ' left join vtiger_users as vtiger_createdbyCalendar on vtiger_createdbyCalendar.id = vtiger_crmentityCalendar.smcreatorid ';
 		}
 		return $query;
 	}
 
-	public function getNonAdminAccessControlQuery($module, $user, $scope = '')
+	public function getNonAdminAccessControlQuery($module, Users $user, $scope = '')
 	{
 		require('user_privileges/user_privileges_' . $user->id . '.php');
 		require('user_privileges/sharing_privileges_' . $user->id . '.php');
@@ -345,13 +326,7 @@ class Activity extends CRMEntity
 		$result = $db->pquery($query, []);
 		if (is_object($result)) {
 			$query = "REPLACE INTO $tableName (id) SELECT userid as id FROM vtiger_sharedcalendar WHERE sharedid = ?";
-			$result = $db->pquery($query, array($user->id));
-
-			//For newly created users, entry will not be there in vtiger_sharedcalendar table
-			//so, consider the users whose having the calendarsharedtype is public
-			$query = "REPLACE INTO $tableName (id) SELECT id FROM vtiger_users WHERE calendarsharedtype = ?";
-			$result = $db->pquery($query, array('public'));
-
+			$result = $db->pquery($query, [$user->id]);
 			if (is_object($result)) {
 				return true;
 			}
@@ -359,23 +334,23 @@ class Activity extends CRMEntity
 		return false;
 	}
 
-	protected function getListViewAccessibleUsers($sharedid)
+	protected function getListViewAccessibleUsers($sharedId)
 	{
 		$db = PearDatabase::getInstance();
-		;
 		$query = "SELECT vtiger_users.id as userid FROM vtiger_sharedcalendar
 					RIGHT JOIN vtiger_users ON vtiger_sharedcalendar.userid=vtiger_users.id and status= 'Active'
-					WHERE sharedid=? || (vtiger_users.status='Active' && vtiger_users.calendarsharedtype='public' && vtiger_users.id <> ?);";
-		$result = $db->pquery($query, array($sharedid, $sharedid));
-		if ($db->num_rows($result) != 0) {
-			for ($j = 0; $j < $db->num_rows($result); $j++) {
-				$userid[] = $db->query_result($result, $j, 'userid');
+					WHERE sharedid=? || (vtiger_users.status='Active' && vtiger_users.id <> ?);";
+		$result = $db->pquery($query, [$sharedId, $sharedId]);
+		$numberOfRows = $db->numRows($result);
+		if ($numberOfRows !== 0) {
+			for ($j = 0; $j < $numberOfRows; $j++) {
+				$userId[] = $db->queryResult($result, $j, 'userid');
 			}
-			$shared_ids = implode(",", $userid);
+			$sharedIds = implode(',', $userId);
 		}
-		$userid[] = $sharedid;
-		$shared_ids = implode(",", $userid);
-		return $shared_ids;
+		$userId[] = $sharedId;
+		$sharedIds = implode(',', $userId);
+		return $sharedIds;
 	}
 
 	public function deleteRelatedDependent($module, $crmid, $withModule, $withCrmid)

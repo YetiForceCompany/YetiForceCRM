@@ -4,7 +4,7 @@
  * Products SummaryWidget model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Products_SummaryWidget_Model
 {
@@ -21,14 +21,17 @@ class Products_SummaryWidget_Model
 	public function getProductsServices(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$fromModule = $request->get('fromModule');
-		$record = $request->get('record');
-		$mod = $request->get('mod');
+		$record = $request->getInteger('record');
+		$mod = $request->getByType('mod', 1);
+		if (!\App\Privilege::isPermitted($fromModule, 'DetailView', $record) || !\App\Privilege::isPermitted($mod)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
 		if (!in_array($mod, self::MODULES)) {
-			throw new \Exception\AppException('Not supported Module');
+			throw new \App\Exceptions\AppException('Not supported Module');
 		}
 		$limit = 10;
-		if (!empty($request->get('limit'))) {
-			$limit = $request->get('limit');
+		if (!empty($request->getInteger('limit'))) {
+			$limit = $request->getInteger('limit');
 		}
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', 0);

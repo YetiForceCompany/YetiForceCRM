@@ -4,7 +4,7 @@
  * Mail scanner action bind Project
  * @package YetiForce.MailScanner
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class OSSMailScanner_BindProject_ScannerAction extends OSSMailScanner_PrefixScannerAction_Model

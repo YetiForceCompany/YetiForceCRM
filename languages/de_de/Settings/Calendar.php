@@ -3,7 +3,8 @@
  * Calendar german translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author skavenkf (K.Fink) 
  */
 $languageStrings = [
 	'Calendar' => 'Kalender',
@@ -26,8 +27,6 @@ $languageStrings = [
 	'LBL_CALENDAR_CONFIG' => 'Kalendar - Konfiguration',
 	'LBL_CALENDAR_CONFIG_DESCRIPTION' => ' ',
 	'LBL_USER_COLORS' => 'Benutzerfarben',
-	'LBL_CALENDAR_COLORS' => 'Kalenderfarben',
-	'LBL_CALENDAR_TYPE' => 'Kalendertyp',
 	'PLL_BREAK_TIME' => 'Öffnungszeit',
 	'PLL_HOLIDAY_TIME' => 'Ferien',
 	'LBL_SAVE_CHANGES' => 'Änderungen Sichern',

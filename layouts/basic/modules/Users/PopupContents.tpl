@@ -24,8 +24,8 @@
 		</div>
 	</div>
 	<div class="popupEntriesDiv relatedContents contents-bottomscroll">
-		<input type="hidden" value="{$ORDER_BY}" id="orderBy">
-		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
+		<input type="hidden" value="{$ORDER_BY}" id="orderBy" />
+		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 		<div class="bottomscroll-div">
 			<table class="table table-bordered listViewEntriesTable">
@@ -38,8 +38,8 @@
 						{/if}
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							<th class="{$WIDTHTYPE}">
-								<a href="javascript:void(0);" class="listViewHeaderValues {if !$LISTVIEW_HEADER->isListviewSortable()} noSorting {/if}" data-nextsortorderval="{if $ORDER_BY eq $LISTVIEW_HEADER->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('column')}">{\App\Language::translate($LISTVIEW_HEADER->get('label'), $MODULE)}
-									{if $ORDER_BY eq $LISTVIEW_HEADER->get('column')}<img class="sortImage" src="{vimage_path( $SORT_IMAGE, $MODULE)}">{else}<img class="hide sortingImage" src="{vimage_path( 'downArrowSmall.png', $MODULE)}">{/if}</a>
+								<a href="javascript:void(0);" class="listViewHeaderValues {if !$LISTVIEW_HEADER->isListviewSortable()} noSorting {/if}" data-nextsortorderval="{if $ORDER_BY eq $LISTVIEW_HEADER->getColumnName()}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->getColumnName()}">{\App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $MODULE)}
+									{if $ORDER_BY eq $LISTVIEW_HEADER->getColumnName()}<img class="sortImage" src="{\App\Layout::getImagePath( $SORT_IMAGE, $MODULE)}">{else}<img class="hide sortingImage" src="{\App\Layout::getImagePath( 'downArrowSmall.png', $MODULE)}">{/if}</a>
 							</th>
 						{/foreach}
 					</tr>
@@ -53,10 +53,10 @@
 							</td>
 						{/if}
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-							{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
+							{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->getFieldName()}
 							<td class="listViewEntryValue {$WIDTHTYPE}">
-								{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->get('uitype') eq '4') && $LISTVIEW_ENTRY->isViewable()}
-									<a {if $LISTVIEW_HEADER->isNameField() eq true}class="moduleColor_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
+								{if ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->getUIType() eq '4') && $LISTVIEW_ENTRY->isViewable()}
+									<a {if $LISTVIEW_HEADER->isNameField() eq true}class="modCT_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
 										{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)}
 									</a>
 								{else}
@@ -72,7 +72,7 @@
 		<!--added this div for Temporarily -->
 		{if $LISTVIEW_ENTRIES_COUNT eq '0'}
 			<div class="row">
-				<div class="emptyRecordsDiv">{\App\Language::translate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA', $MODULE)}.</div>
+				<div class="emptyRecordsDiv">{\App\Language::translate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA')}.</div>
 			</div>
 		{/if}
 	</div>

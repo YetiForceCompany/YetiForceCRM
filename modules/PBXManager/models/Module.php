@@ -34,7 +34,7 @@ class PBXManager_Module_Model extends Vtiger_Module_Model
 		if ($actionName == 'EditView' || $actionName == 'CreateView')
 			return false;
 		else
-			return ($this->isActive() && Users_Privileges_Model::isPermitted($this->getName(), $actionName));
+			return ($this->isActive() && \App\Privilege::isPermitted($this->getName(), $actionName));
 	}
 
 	/**
@@ -46,26 +46,26 @@ class PBXManager_Module_Model extends Vtiger_Module_Model
 		if (!$this->isEntityModule()) {
 			return [];
 		}
-		vimport('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
+		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
 
 		$editWorkflowsImagePath = Vtiger_Theme::getImagePath('EditWorkflows.png');
 		$settingsLinks = [];
 
 		if (VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
-			$settingsLinks[] = array(
+			$settingsLinks[] = [
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_WORKFLOWS',
 				'linkurl' => 'index.php?parent=Settings&module=Workflows&view=List&sourceModule=' . $this->getName(),
 				'linkicon' => $editWorkflowsImagePath
-			);
+			];
 		}
 
-		$settingsLinks[] = array(
+		$settingsLinks[] = [
 			'linktype' => 'LISTVIEWSETTINGS',
 			'linklabel' => 'LBL_SERVER_CONFIGURATION',
 			'linkurl' => 'index.php?parent=Settings&module=PBXManager&view=Index',
 			'linkicon' => ''
-		);
+		];
 		return $settingsLinks;
 	}
 
@@ -82,5 +82,3 @@ class PBXManager_Module_Model extends Vtiger_Module_Model
 		return false;
 	}
 }
-
-?>

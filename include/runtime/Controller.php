@@ -25,9 +25,9 @@ abstract class Vtiger_Controller
 		return true;
 	}
 
-	abstract function getViewer(\App\Request $request);
+	abstract public function getViewer(\App\Request $request);
 
-	abstract function process(\App\Request $request);
+	abstract public function process(\App\Request $request);
 
 	public function validateRequest(\App\Request $request)
 	{
@@ -87,9 +87,9 @@ abstract class Vtiger_Controller
 		$parameters = func_get_args();
 		$name = array_shift($parameters);
 		if (!empty($name) && $this->isMethodExposed($name)) {
-			return call_user_func_array(array($this, $name), $parameters);
+			return call_user_func_array([$this, $name], $parameters);
 		}
-		throw new \Exception\AppException('LBL_NOT_ACCESSIBLE');
+		throw new \App\Exceptions\AppException('ERR_NOT_ACCESSIBLE');
 	}
 
 	/**
@@ -114,14 +114,14 @@ abstract class Vtiger_Controller
 		header('X-XSS-Protection: 1; mode=block');
 		header('X-Content-Type-Options: nosniff');
 		header('Referrer-Policy: no-referrer');
-		header('Strict-Transport-Security: max-age=15768000; includeSubDomains; preload');
+		header('Strict-Transport-Security: max-age=31536000; includeSubDomains; preload');
 		header('Expect-CT: enforce; max-age=3600');
 		header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 		header('X-Robots-Tag: none');
 		header('X-Permitted-Cross-Domain-Policies: none');
 		if (AppConfig::security('CSP_ACTIVE')) {
-			// 'nonce-" . Vtiger_Session::get('CSP_TOKEN') . "'
-			header("Content-Security-Policy: default-src 'self'; img-src 'self' data: a.tile.openstreetmap.org b.tile.openstreetmap.org c.tile.openstreetmap.org; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' blob:; form-action 'self' ;");
+			// 'nonce-" . App\Session::get('CSP_TOKEN') . "'
+			header("Content-Security-Policy: default-src 'self' blob:; img-src 'self' data: a.tile.openstreetmap.org b.tile.openstreetmap.org c.tile.openstreetmap.org; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' blob:; form-action 'self' ;connect-src 'self' api.opencagedata.com;");
 		}
 		if ($keys = AppConfig::security('HPKP_KEYS')) {
 			header('Public-Key-Pins: pin-sha256="' . implode('"; pin-sha256="', $keys) . '"; max-age=10000;');
@@ -142,11 +142,16 @@ abstract class Vtiger_Action_Controller extends Vtiger_Controller
 		parent::__construct();
 	}
 
-	abstract function checkPermission(\App\Request $request);
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
+	abstract public function checkPermission(\App\Request $request);
 
 	public function getViewer(\App\Request $request)
 	{
-		throw new \Exception\AppException('Action - implement getViewer - JSONViewer');
+		throw new \App\Exceptions\AppException('Action - implement getViewer - JSONViewer');
 	}
 
 	public function validateRequest(\App\Request $request)
@@ -170,6 +175,15 @@ abstract class Vtiger_Action_Controller extends Vtiger_Controller
 	}
 
 	public function postProcess(\App\Request $request)
+	{
+		return true;
+	}
+
+	/**
+	 * Process action
+	 * @param \App\Request $request
+	 */
+	public function process(\App\Request $request)
 	{
 		return true;
 	}
@@ -213,7 +227,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			$viewer->assign('MODULE_NAME', $request->getModule());
 			if ($request->isAjax()) {
 				$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-				if ($request->get('parent') === 'Settings') {
+				if (!$request->isEmpty('parent', true) && $request->getByType('parent', 2) === 'Settings') {
 					$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 				}
 			}
@@ -255,7 +269,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			return $this->breadcrumbTitle;
 		}
 		if (isset($this->pageTitle)) {
-			return $this->pageTitle;
+			return App\Language::translate($this->pageTitle, $request->getModule(false));
 		}
 		return '';
 	}
@@ -278,11 +292,12 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		$viewer->assign('LANGUAGE', \App\Language::getLanguage());
 		$viewer->assign('HTMLLANG', \App\Language::getShortLanguageName());
 		$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
+		$viewer->assign('SHOW_BREAD_CRUMBS', $this->showBreadCrumbLine());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('VIEW', $request->get('view'));
+		$viewer->assign('VIEW', $request->getByType('view', 1));
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('PARENT_MODULE', $request->get('parent'));
+		$viewer->assign('PARENT_MODULE', $request->getByType('parent', 2));
 		$companyDetails = App\Company::getInstanceById();
 		$viewer->assign('COMPANY_DETAILS', $companyDetails);
 		$viewer->assign('COMPANY_LOGO', $companyDetails->getLogo(false, false));
@@ -296,7 +311,29 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		return 'Header.tpl';
 	}
 
+	/**
+	 * Show body header
+	 * @return boolean
+	 */
 	protected function showBodyHeader()
+	{
+		return true;
+	}
+
+	/**
+	 * Show footer
+	 * @return boolean
+	 */
+	protected function showFooter()
+	{
+		return true;
+	}
+
+	/**
+	 * Show bread crumbs
+	 * @return boolean
+	 */
+	protected function showBreadCrumbLine()
 	{
 		return true;
 	}
@@ -317,6 +354,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer->assign('ACTIVITY_REMINDER', $currentUser->getCurrentUserActivityReminderInSeconds());
 		$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
+		$viewer->assign('SHOW_FOOTER', $this->showFooter());
 		$viewer->view('Footer.tpl');
 	}
 
@@ -338,6 +376,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/jquery/jquery-ui/jquery-ui.css',
 			'~libraries/jquery/selectize/css/selectize.bootstrap3.css',
 			'~libraries/jquery/select2/select2.css',
+			'~libraries/simplebar/dist/simplebar.css',
 			'~libraries/jquery/perfect-scrollbar/css/perfect-scrollbar.css',
 			'~libraries/jquery/select2/select2-bootstrap.css',
 			'~libraries/jquery/posabsolute-jQuery-Validation-Engine/css/validationEngine.jquery.css',
@@ -347,9 +386,13 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/footable/css/footable.core.css',
 			'~libraries/jquery/timepicker/jquery.timepicker.css',
 			'~libraries/jquery/clockpicker/bootstrap-clockpicker.css',
+			'~layouts/resources/colors/calendar.css',
+			'~layouts/resources/colors/owners.css',
+			'~layouts/resources/colors/modules.css',
+			'~layouts/resources/colors/picklists.css',
+			'~layouts/resources/styleTemplate.css',
 		];
-		$headerCssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		return $headerCssInstances;
+		return $this->checkAndConvertCssStyles($cssFileNames);
 	}
 
 	/**
@@ -363,8 +406,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'libraries.jquery.jquery',
 			'libraries.jquery.jquery-migrate'
 		];
-		$jsScriptInstances = $this->checkAndConvertJsScripts($headerScriptInstances);
-		return $jsScriptInstances;
+		return $this->checkAndConvertJsScripts($headerScriptInstances);
 	}
 
 	public function getFooterScripts(\App\Request $request)
@@ -378,6 +420,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/jquery/jstorage.js',
 			'~libraries/jquery/perfect-scrollbar/js/perfect-scrollbar.jquery.js',
 			'~libraries/jquery/rochal-jQuery-slimScroll/jquery.slimscroll.js',
+			'~libraries/simplebar/dist/simplebar.js',
 			'~libraries/jquery/pnotify/pnotify.custom.js',
 			'~libraries/jquery/jquery.hoverIntent.minified.js',
 			'~libraries/bootstrap3/js/bootstrap.js',
@@ -405,8 +448,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			$fileName = "~libraries/jquery/posabsolute-jQuery-Validation-Engine/js/languages/jquery.validationEngine-en.js";
 		}
 		$jsFileNames[] = $fileName;
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		return $jsScriptInstances;
+		return $this->checkAndConvertJsScripts($jsFileNames);
 	}
 
 	public function checkAndConvertJsScripts($jsFileNames)

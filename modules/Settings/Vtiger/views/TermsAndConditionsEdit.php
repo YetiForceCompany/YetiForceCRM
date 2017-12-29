@@ -13,7 +13,7 @@ class Settings_Vtiger_TermsAndConditionsEdit_View extends Settings_Vtiger_Index_
 
 	/**
 	 * Page title
-	 * @var type 
+	 * @var type
 	 */
 	protected $pageTitle = 'INVENTORYTERMSANDCONDITIONS';
 
@@ -40,9 +40,9 @@ class Settings_Vtiger_TermsAndConditionsEdit_View extends Settings_Vtiger_Index_
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			"modules.Settings.$moduleName.resources.TermsAndConditions"
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);

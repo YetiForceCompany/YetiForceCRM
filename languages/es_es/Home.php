@@ -28,13 +28,26 @@ $languageStrings = [
 	'LBL_WATCHDOG' => 'Seguimiento de los cambios',
 	'LBL_SEND_NOTIFICATION_MAIL' => 'Enviar vía email',
 	'Home page' => 'Página inicial',
-	'LBL_CRON_LAUNCHING_FREQUENCY' => 'Frecuencia de ejecución de Cron',
-	'LBL_CRON' => 'Cron',
 	'LBL_NOTIFICATION_SETTINGS' => 'Configuración de notificaciones',
 	'LBL_TYPE_NOTIFICATIONS' => 'Tipos de notificación',
 	'LBL_TIME' => 'Tiempos',
 	'LBL_NOTIFICATION_BY_SENDER' => 'Número de notificaciones por remitente',
 	'LBL_NOTIFICATION_BY_RECIPIENT' => 'Número de notificaciones por destinatario',
+	//Widgets
+	'LBL_MINI_LIST' => 'Mini lista',
+	'LBL_FILTERING_BY_DATE' => 'Filtrar por fecha del campo',
+	'LBL_BAR_DIVIDED_FIELD' => 'Campo de la barra dividida',
+	'LBL_TIMELINE_BY_DATE' => 'Línea del tiempo por fecha',
+	'LBL_WIDGET_NAME' => 'Nombre del Widget',
+	'LBL_SELECT_CHART' => 'Seleccione gráfico',
+	'LBL_VALUE_TYPE' => 'Tipo de valor',
+	'LBL_VALUE_FIELD' => 'Tipo de campo',
+	'LBL_NUMBER_OF_RECORDS' => 'Nº de registros',
+	'LBL_SUM' => 'Sum',
+	'LBL_GROUP_FIELD' => 'Agrupar por el campo',
+	'LBL_GROUP_VALUES' => 'División de valores de agrupamiento',
+	'LBL_FILTER_BY_OWNER' => 'Filtrar por propietario',
+	'LBL_ALL_OWNERS' => 'Todos',
 ];
 
 $jsLanguageStrings = [

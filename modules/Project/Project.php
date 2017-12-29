@@ -21,36 +21,36 @@ class Project extends CRMEntity
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('vtiger_projectcf', 'projectid');
+	public $customFieldTable = ['vtiger_projectcf', 'projectid'];
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_project', 'vtiger_projectcf', 'vtiger_entity_stats');
+	public $tab_name = ['vtiger_crmentity', 'vtiger_project', 'vtiger_projectcf', 'vtiger_entity_stats'];
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public $tab_name_index = Array(
+	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_project' => 'projectid',
 		'vtiger_projectcf' => 'projectid',
-		'vtiger_entity_stats' => 'crmid');
+		'vtiger_entity_stats' => 'crmid'];
 
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public $list_fields = Array(
+	public $list_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Project Name' => Array('project', 'projectname'),
-		'Start Date' => Array('project', 'startdate'),
-		'Status' => Array('project', 'projectstatus'),
-		'Type' => Array('project', 'projecttype'),
-		'Assigned To' => Array('crmentity', 'smownerid'),
-		'Total time [Sum]' => Array('project', 'sum_time_all')
-	);
-	public $list_fields_name = Array(
+		'Project Name' => ['project', 'projectname'],
+		'Start Date' => ['project', 'startdate'],
+		'Status' => ['project', 'projectstatus'],
+		'Type' => ['project', 'projecttype'],
+		'Assigned To' => ['crmentity', 'smownerid'],
+		'Total time [Sum]' => ['project', 'sum_time_all']
+	];
+	public $list_fields_name = [
 		/* Format: Field Label => fieldname */
 		'Project Name' => 'projectname',
 		'Start Date' => 'startdate',
@@ -58,7 +58,7 @@ class Project extends CRMEntity
 		'Type' => 'projecttype',
 		'Assigned To' => 'assigned_user_id',
 		'Total time [Sum]' => 'sum_time'
-	);
+	];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
@@ -67,36 +67,36 @@ class Project extends CRMEntity
 	// Make the field link to detail view from list view (Fieldname)
 	public $list_link_field = 'projectname';
 	// For Popup listview and UI type support
-	public $search_fields = Array(
+	public $search_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Project Name' => Array('project', 'projectname'),
-		'Start Date' => Array('project', 'startdate'),
-		'Status' => Array('project', 'projectstatus'),
-		'Type' => Array('project', 'projecttype'),
-	);
-	public $search_fields_name = Array(
+		'Project Name' => ['project', 'projectname'],
+		'Start Date' => ['project', 'startdate'],
+		'Status' => ['project', 'projectstatus'],
+		'Type' => ['project', 'projecttype'],
+	];
+	public $search_fields_name = [
 		/* Format: Field Label => fieldname */
 		'Project Name' => 'projectname',
 		'Start Date' => 'startdate',
 		'Status' => 'projectstatus',
 		'Type' => 'projecttype',
-	);
+	];
 	// For Popup window record selection
-	public $popup_fields = Array('projectname');
+	public $popup_fields = ['projectname'];
 	// For Alphabetical search
 	public $def_basicsearch_col = 'projectname';
 	// Column value to use on detail view record text display
 	public $def_detailview_recname = 'projectname';
 	// Required Information for enabling Import feature
-	public $required_fields = Array('projectname' => 1);
+	public $required_fields = ['projectname' => 1];
 	// Callback function list during Importing
-	public $special_functions = Array('set_import_assigned_user');
+	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public $mandatory_fields = Array('createdtime', 'modifiedtime', 'projectname', 'assigned_user_id');
+	public $mandatory_fields = ['createdtime', 'modifiedtime', 'projectname', 'assigned_user_id'];
 
 	/**
 	 * Get list view query (send more WHERE clause condition if required)
@@ -133,12 +133,12 @@ class Project extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($module));
-		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", [$module]);
+		$linkedFieldsCount = $this->db->numRows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
-			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
-			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
+			$related_module = $this->db->queryResult($linkedModulesQuery, $i, 'relmodule');
+			$columnname = $this->db->queryResult($linkedModulesQuery, $i, 'columnname');
 
 			$other = CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
@@ -203,7 +203,7 @@ class Project extends CRMEntity
 	/**
 	 * Create query to export the records.
 	 */
-	public function create_export_query($where)
+	public function createExportQuery($where)
 	{
 		$current_user = vglobal('current_user');
 
@@ -227,12 +227,12 @@ class Project extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($thismodule));
-		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", [$thismodule]);
+		$linkedFieldsCount = $this->db->numRows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
-			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
-			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
+			$related_module = $this->db->queryResult($linkedModulesQuery, $i, 'relmodule');
+			$columnname = $this->db->queryResult($linkedModulesQuery, $i, 'columnname');
 
 			$other = CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
@@ -254,9 +254,9 @@ class Project extends CRMEntity
 	/**
 	 * Transform the value while exporting
 	 */
-	public function transform_export_value($key, $value)
+	public function transformExportValue($key, $value)
 	{
-		return parent::transform_export_value($key, $value);
+		return parent::transformExportValue($key, $value);
 	}
 
 	/**
@@ -312,65 +312,52 @@ class Project extends CRMEntity
 	 * @param String Module name
 	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
-	public function vtlib_handler($modulename, $event_type)
+	public function moduleHandler($moduleName, $eventType)
 	{
-		if ($event_type == 'module.postinstall') {
-			$adb = PearDatabase::getInstance();
+		if ($eventType === 'module.postinstall') {
 
-			$moduleInstance = vtlib\Module::getInstance($modulename);
-			$projectsResult = $adb->pquery('SELECT tabid FROM vtiger_tab WHERE name=?', array('Project'));
-			$projectTabid = $adb->query_result($projectsResult, 0, 'tabid');
+			$moduleInstance = vtlib\Module::getInstance($moduleName);
+			$projectTabid = (new \App\Db\Query())->select(['tabid'])->from('vtiger_tab')->where(['name' => 'Project'])->scalar();
 
 			// Mark the module as Standard module
-			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
+			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
 
 			// Add Project module to the related list of Accounts module
 			$accountsModuleInstance = vtlib\Module::getInstance('Accounts');
-			$accountsModuleInstance->setRelatedList($moduleInstance, 'Projects', Array('ADD', 'SELECT'), 'getDependentsList');
+			$accountsModuleInstance->setRelatedList($moduleInstance, 'Projects', ['ADD', 'SELECT'], 'getDependentsList');
 
 			// Add Project module to the related list of Accounts module
 			$contactsModuleInstance = vtlib\Module::getInstance('Contacts');
-			$contactsModuleInstance->setRelatedList($moduleInstance, 'Projects', Array('ADD', 'SELECT'), 'getDependentsList');
+			$contactsModuleInstance->setRelatedList($moduleInstance, 'Projects', ['ADD', 'SELECT'], 'getDependentsList');
 
 			// Add Project module to the related list of HelpDesk module
 			$helpDeskModuleInstance = vtlib\Module::getInstance('HelpDesk');
-			$helpDeskModuleInstance->setRelatedList($moduleInstance, 'Projects', Array('SELECT'), 'getRelatedList');
+			$helpDeskModuleInstance->setRelatedList($moduleInstance, 'Projects', ['SELECT'], 'getRelatedList');
 
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
-					ModComments::addWidgetTo(array('Project'));
+					ModComments::addWidgetTo(['Project']);
 			}
 
-			\App\Fields\RecordNumber::setNumber($modulename, 'PROJ', 1);
-		} else if ($event_type == 'module.disabled') {
-			
-		} else if ($event_type == 'module.enabled') {
-			
-		} else if ($event_type == 'module.preuninstall') {
-			
-		} else if ($event_type == 'module.preupdate') {
-			
-		} else if ($event_type == 'module.postupdate') {
-			$adb = PearDatabase::getInstance();
-
-			$projectsResult = $adb->pquery('SELECT tabid FROM vtiger_tab WHERE name=?', array('Project'));
-			$projectTabid = $adb->query_result($projectsResult, 0, 'tabid');
+			\App\Fields\RecordNumber::setNumber($moduleName, 'PROJ', 1);
+		} else if ($eventType === 'module.postupdate') {
+			$projectTabid = (new \App\Db\Query())->select(['tabid'])->from('vtiger_tab')->where(['name' => 'Project'])->scalar();
 
 			// Add Comments widget to Project module
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
-					ModComments::addWidgetTo(array('Project'));
+					ModComments::addWidgetTo(['Project']);
 			}
 
-			\App\Fields\RecordNumber::setNumber($modulename, 'PROJ', 1);
+			\App\Fields\RecordNumber::setNumber($moduleName, 'PROJ', 1);
 		}
 	}
 
-	static function registerLinks()
+	public static function registerLinks()
 	{
 		
 	}
@@ -379,52 +366,56 @@ class Project extends CRMEntity
 	 * This is done because the related lists for this module use a custom query
 	 * that queries the child module's table (column of the uitype10 field)
 	 *
-	 * @see data/CRMEntity#save_related_module($module, $crmid, $with_module, $with_crmid)
+	 * @see data/CRMEntity#saveRelatedModule($module, $crmid, $with_module, $with_crmid)
 	 */
-	//function save_related_module($module, $crmid, $with_module, $with_crmid) {    }
 
 	/**
 	 * Here we override the parent's method
 	 * This is done because the related lists for this module use a custom query
 	 * that queries the child module's table (column of the uitype10 field)
 	 *
-	 * @see data/CRMEntity#delete_related_module($module, $crmid, $with_module, $with_crmid)
+	 * @see data/CRMEntity#deleteRelatedModule($module, $crmid, $with_module, $with_crmid)
 	 */
-	public function delete_related_module($module, $crmid, $with_module, $with_crmid)
+	public function deleteRelatedModule($module, $crmid, $with_module, $with_crmid)
 	{
-		if (!in_array($with_module, array('ProjectMilestone', 'ProjectTask'))) {
-			parent::delete_related_module($module, $crmid, $with_module, $with_crmid);
+		if (!in_array($with_module, ['ProjectMilestone', 'ProjectTask'])) {
+			parent::deleteRelatedModule($module, $crmid, $with_module, $with_crmid);
 			return;
 		}
 		$destinationModule = \App\Request::_get('destination_module');
 		if (empty($destinationModule))
 			$destinationModule = $with_module;
 		if (!is_array($with_crmid))
-			$with_crmid = Array($with_crmid);
+			$with_crmid = [$with_crmid];
 		foreach ($with_crmid as $relcrmid) {
 			$child = CRMEntity::getInstance($destinationModule);
-			$child->retrieve_entity_info($relcrmid, $destinationModule);
+			$child->retrieveEntityInfo($relcrmid, $destinationModule);
 			$child->mode = 'edit';
 			$child->column_fields['projectid'] = '';
 			$child->save($destinationModule, $relcrmid);
 		}
 	}
 
-	/** Function to unlink an entity with given Id from another entity */
-	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
+	/**
+	 * Function to unlink an entity with given Id from another entity
+	 * @param int $id
+	 * @param string $returnModule
+	 * @param int $returnId
+	 * @param boolean $relatedName
+	 */
+	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-		$currentModule = vglobal('currentModule');
-		if ($relatedName == 'getManyToMany') {
-			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
+		if ($relatedName === 'getManyToMany') {
+			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
 		} else {
-			parent::deleteRelatedFromDB(vglobal('currentModule'), $id, $return_module, $return_id);
+			parent::deleteRelatedFromDB($id, $returnModule, $returnId);
 			$dataReader = (new \App\Db\Query())->select(['tabid', 'tablename', 'columnname'])
 					->from('vtiger_field')
-					->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $currentModule, 'relmodule' => $return_module])])
+					->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => vglobal('currentModule'), 'relmodule' => $returnModule])])
 					->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				App\Db::getInstance()->createCommand()
-					->update($row['tablename'], [$row['columnname'] => null], [$row['columnname'] => $return_id, CRMEntity::getInstance(App\Module::getModuleName($row['tabid']))->table_index => $id])
+					->update($row['tablename'], [$row['columnname'] => null], [$row['columnname'] => $returnId, CRMEntity::getInstance(App\Module::getModuleName($row['tabid']))->table_index => $id])
 					->execute();
 			}
 		}
@@ -438,36 +429,31 @@ class Project extends CRMEntity
 	 */
 	public function transferRelatedRecords($module, $transferEntityIds, $entityId)
 	{
-		$adb = PearDatabase::getInstance();
-
 		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
-		$rel_table_arr = Array("ProjectTask" => "vtiger_projecttask", 'ProjectMilestone' => 'vtiger_projectmilestone',
-			"Documents" => "vtiger_senotesrel", "Attachments" => "vtiger_seattachmentsrel");
+		$relTableArr = ['ProjectTask' => 'vtiger_projecttask', 'ProjectMilestone' => 'vtiger_projectmilestone',
+			'Documents' => 'vtiger_senotesrel', 'Attachments' => 'vtiger_seattachmentsrel'];
 
-		$tbl_field_arr = Array("vtiger_projecttask" => "projecttaskid", 'vtiger_projectmilestone' => 'projectmilestoneid',
-			"vtiger_senotesrel" => "notesid", "vtiger_seattachmentsrel" => "attachmentsid");
+		$tblFieldArr = ['vtiger_projecttask' => 'projecttaskid', 'vtiger_projectmilestone' => 'projectmilestoneid',
+			'vtiger_senotesrel' => 'notesid', 'vtiger_seattachmentsrel' => 'attachmentsid'];
 
-		$entity_tbl_field_arr = Array("vtiger_projecttask" => "projectid", 'vtiger_projectmilestone' => 'projectid',
-			"vtiger_senotesrel" => "crmid", "vtiger_seattachmentsrel" => "crmid");
+		$entityTblFieldArr = ['vtiger_projecttask' => 'projectid', 'vtiger_projectmilestone' => 'projectid',
+			'vtiger_senotesrel' => 'crmid', 'vtiger_seattachmentsrel' => 'crmid'];
 
 		foreach ($transferEntityIds as $transferId) {
-			foreach ($rel_table_arr as $rel_module => $rel_table) {
-				$id_field = $tbl_field_arr[$rel_table];
-				$entity_id_field = $entity_tbl_field_arr[$rel_table];
+			foreach ($relTableArr as $relModule => $relTable) {
+				$idField = $tblFieldArr[$relTable];
+				$entityIdField = $entityTblFieldArr[$relTable];
 				// IN clause to avoid duplicate entries
-				$sel_result = $adb->pquery("select $id_field from $rel_table where $entity_id_field=? " .
-					" and $id_field not in (select $id_field from $rel_table where $entity_id_field=?)", array($transferId, $entityId));
-				$res_cnt = $adb->num_rows($sel_result);
-				if ($res_cnt > 0) {
-					for ($i = 0; $i < $res_cnt; $i++) {
-						$id_field_value = $adb->query_result($sel_result, $i, $id_field);
-						$adb->pquery("update $rel_table set $entity_id_field=? where $entity_id_field=? and $id_field=?", array($entityId, $transferId, $id_field_value));
-					}
+				$subQuery = (new App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $entityId]);
+				$query = (new \App\Db\Query())->select([$idField])->from($relTable)->where([$entityIdField => $transferId])->andWhere(['not in', $idField, $subQuery]);
+				$dataReader = $query->createCommand()->query();
+				while ($idFieldValue = $dataReader->readColumn(0)) {
+					\App\Db::getInstance()->createCommand()->update($relTable, [$entityIdField => $entityId], [$entityIdField => $transferId, $idField => $idFieldValue])->execute();
 				}
 			}
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
-		\App\Log::trace("Exiting transferRelatedRecords...");
+		\App\Log::trace('Exiting transferRelatedRecords...');
 	}
 }

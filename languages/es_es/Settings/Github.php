@@ -3,7 +3,7 @@
  * Github spanish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'LBL_ID_CLIENT' => 'ID de cliente',
@@ -11,10 +11,13 @@ $languageStrings = [
 	'LBL_NOT_AUTHORIZED' => 'Se requiere autorización para acceder a todas las funciones del módulo.',
 	'LBL_TITLE' => 'Título',
 	'LBL_AUTHOR' => 'Autor',
+	'LBL_ADD_ISSUES' => 'Añadir',
 	'LBL_TITLE_ADD_ISSUE' => 'Añadir',
 	'LBL_ADD_ISSUE' => 'Añadir tarea',
 	'LBL_CLOSED' => 'Cerrado',
 	'LBL_OPEN' => 'Abierto',
+	'closed' => 'Cerrado',
+	'open' => 'Abierto',
 	'LBL_ME' => 'Solo yo',
 	'LBL_ERROR_CONNECTED' => 'Se ha producido un error al conectarse a www.api.github.com, compruebe la configuración de conexión a Internet y firewall',
 	'LBL_CONFIRM_REGULATIONS' => 'He leído las reglas de adición de nuevos temas: <a href="https://yetiforce.com/en/developer-documentation/bugs/126-issues.html">enlace</a>',

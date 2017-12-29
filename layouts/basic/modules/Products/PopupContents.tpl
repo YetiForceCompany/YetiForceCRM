@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{if $INVENTORY_LIMITED_FROM_POTENTIALS}
 		<div class="alert alert-info no-margin">
@@ -6,5 +6,5 @@
 			{\App\Language::translate('LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO', $MODULE)}
 		</div>
 	{/if}
-	{include file=vtemplate_path('PopupContents.tpl','Vtiger')}
+	{include file=\App\Layout::getTemplatePath('PopupContents.tpl','Vtiger')}
 {/strip}

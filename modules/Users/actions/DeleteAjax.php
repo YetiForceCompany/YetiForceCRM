@@ -8,36 +8,37 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-vimport('~include/Webservices/Custom/DeleteUser.php');
 
 class Users_DeleteAjax_Action extends Vtiger_Delete_Action
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$ownerId = $request->get('userid');
-		$newOwnerId = $request->get('transfer_user_id');
-		if ($request->get('mode') === 'permanent') {
-			Users_Record_Model::deleteUserPermanently($ownerId, $newOwnerId);
+		$userId = $request->getInteger('userid');
+		$transformUserId = $request->getInteger('transfer_user_id');
+		if ($request->getMode() === 'permanent') {
+			Users_Record_Model::deleteUserPermanently($userId, $transformUserId);
 		} else {
-			$userId = vtws_getWebserviceEntityId($moduleName, $ownerId);
-			$transformUserId = vtws_getWebserviceEntityId($moduleName, $newOwnerId);
-
-			$userModel = Users_Record_Model::getCurrentUserModel();
-
-			vtws_deleteUser($userId, $transformUserId, $userModel);
-
-			if ($request->get('permanent') === '1')
-				Users_Record_Model::deleteUserPermanently($ownerId, $newOwnerId);
+			$userObj = new Users();
+			$userObj->transformOwnerShipAndDelete($userId, $transformUserId);
+			if ($request->getBoolean('permanent')) {
+				Users_Record_Model::deleteUserPermanently($userId, $transformUserId);
+			}
 		}
 		$userModuleModel = Users_Module_Model::getInstance($moduleName);
 		$listViewUrl = $userModuleModel->getListViewUrl();

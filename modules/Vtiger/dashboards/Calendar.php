@@ -4,7 +4,7 @@
  * Vtiger calendar dashboard class
  * @package YetiForce.Dashboard
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_Calendar_Dashboard extends Vtiger_IndexAjax_View
 {
@@ -16,14 +16,14 @@ class Vtiger_Calendar_Dashboard extends Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 		$data = $request->getAll();
 
-		$page = $request->get('page');
-		$linkId = $request->get('linkid');
+		$page = $request->getInteger('page');
+		$linkId = $request->getInteger('linkid');
 
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner'))
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		else
-			$owner = $request->get('owner');
+			$owner = $request->getByType('owner', 2);
 
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
@@ -42,13 +42,11 @@ class Vtiger_Calendar_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('DATA', $data);
 		$viewer->assign('DEFAULTDATE', $defaultDate);
 		$viewer->assign('OWNER', $owner);
-		$viewer->assign('VIEW', $request->get('view'));
+		$viewer->assign('VIEW', $request->getByType('view'));
 
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$viewer->assign('CURRENT_USER', $currentUserModel);
-
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/CalendarContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/Calendar.tpl', $moduleName);

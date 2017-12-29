@@ -3,7 +3,7 @@
  * LangManagement russian translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'LBL_UNTRANSLATED_LABELS' => 'Не переведенные переменные',
@@ -23,7 +23,7 @@ $languageStrings = [
 	'LBL_Lang_ac_user' => 'Пользователя',
 	'LBL_Lang_action' => 'Действия',
 	'LBL_SaveDataOK' => 'Изменения сохранены',
-	'LBL_DeleteDataOK' => 'Язык удален',
+	'LBL_DeleteDataOK' => 'Перевод удалён',
 	'LBL_AddDataOK' => 'Новый язык добавлен',
 	'LBL_ADD_LANG' => 'Добавить язык',
 	'LBL_ADD_Translate' => 'Добавить переменную',
@@ -41,7 +41,7 @@ $languageStrings = [
 	'LBL_UpdateTranslationOK' => 'Перевод обновлен',
 	'LBL_AddTranslationOK' => 'Новая переменная добавлена',
 	'LBL_DeleteTranslationOK' => 'Переменная удалена',
-	'LBL_DELETE_TRANSLATION_FAILED' => 'Removing translation unsuccessful',
+	'LBL_DELETE_TRANSLATION_FAILED' => 'Не удалось удалить перевод',
 	'Modules' => 'Модули',
 	'Module' => 'Модуль',
 	'Language' => 'Язык',
@@ -61,7 +61,7 @@ $languageStrings = [
 	'LBL_LANGUAGE' => 'Язык',
 	'LBL_SHOW' => 'Показать',
 	'LBL_STATS_INFO' => 'Представленные статистические значения определяют соотношение количества непереведенных меток для всех меток, которые существуют в файле базового языка в процентах.',
-	'LBL_CUSTOM_TYPE_INFO' => 'Custom mode is enabled. You cannot modify source language files. All modifications will take place in the custom/ directory.',
+	'LBL_CUSTOM_TYPE_INFO' => 'Включен пользовательский режим. Вы не можете редактировать языковые файлы. Все модификации будут сохранены в папку custom/ .',
 ];
 $jsLanguageStrings = [
 	'JS_NOTRANSLATION' => 'Не найдено ни одной записи',

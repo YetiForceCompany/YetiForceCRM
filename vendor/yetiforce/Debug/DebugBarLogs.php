@@ -62,11 +62,11 @@ class DebugBarLogs implements DataCollectorInterface, MessagesAggregateInterface
 		if (!is_string($traces)) {
 			$traces = $this->getDataFormatter()->formatVar($traces);
 		}
-		$this->messages[] = array(
+		$this->messages[] = [
 			'message' => $message,
 			'label' => $label,
 			'trace' => $traces
-		);
+		];
 	}
 
 	/**
@@ -101,10 +101,10 @@ class DebugBarLogs implements DataCollectorInterface, MessagesAggregateInterface
 	public function collect()
 	{
 		$messages = $this->getMessages();
-		return array(
+		return [
 			'count' => count($messages),
 			'messages' => $messages
-		);
+		];
 	}
 
 	/**
@@ -121,17 +121,17 @@ class DebugBarLogs implements DataCollectorInterface, MessagesAggregateInterface
 	public function getWidgets()
 	{
 		$name = $this->getName();
-		return array(
-			"$name" => array(
+		return [
+			"$name" => [
 				'icon' => 'list-alt',
 				"widget" => "PhpDebugBar.Widgets.DebugLogsWidget",
 				"map" => "$name.messages",
 				"default" => "[]"
-			),
-			"$name:badge" => array(
+			],
+			"$name:badge" => [
 				"map" => "$name.count",
 				"default" => "null"
-			)
-		);
+			]
+		];
 	}
 }

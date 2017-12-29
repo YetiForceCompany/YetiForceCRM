@@ -11,6 +11,20 @@
 class Vtiger_FindDuplicates_View extends Vtiger_List_View
 {
 
+	/**
+	 * Check Permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
+	public function checkPermission(\App\Request $request)
+	{
+		$moduleName = $request->getModule();
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$userPrivilegesModel->hasModuleActionPermission($moduleName, 'DuplicatesHandling')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+	}
+
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
@@ -59,18 +73,18 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View
 		$viewer = $this->getViewer($request);
 		$module = $request->getModule();
 		$moduleModel = Vtiger_Module_Model::getInstance($module);
-		$massActionLink = array(
+		$massActionLink = [
 			'linktype' => 'LISTVIEWBASIC',
 			'linklabel' => 'LBL_DELETE',
 			'linkurl' => 'Javascript:Vtiger_FindDuplicates_Js.massDeleteRecords("index.php?module=' . $module . '&action=MassDelete")',
 			'linkicon' => ''
-		);
+		];
 		$massActionLinks[] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
 		$viewer->assign('LISTVIEW_LINKS', $massActionLinks);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
-		$pageNumber = $request->get('page');
+		$pageNumber = $request->getInteger('page');
 		if (empty($pageNumber)) {
-			$pageNumber = '1';
+			$pageNumber = 1;
 		}
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
@@ -79,7 +93,7 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View
 		$dataModelInstance->set('fields', $duplicateSearchFields);
 		$ignoreEmpty = $request->get('ignoreEmpty');
 		$ignoreEmptyValue = false;
-		if ($ignoreEmpty == 'on' || $ignoreEmpty == 'true' || $ignoreEmpty == '1') {
+		if ($ignoreEmpty === 'on' || $ignoreEmpty == 'true' || $ignoreEmpty == '1') {
 			$ignoreEmptyValue = true;
 		}
 		$dataModelInstance->set('ignoreEmpty', $ignoreEmptyValue);
@@ -130,7 +144,7 @@ class Vtiger_FindDuplicates_View extends Vtiger_List_View
 		$dataModelInstance = Vtiger_FindDuplicate_Model::getInstance($moduleName);
 		$ignoreEmpty = $request->get('ignoreEmpty');
 		$ignoreEmptyValue = false;
-		if ($ignoreEmpty == 'on' || $ignoreEmpty == 'true' || $ignoreEmpty == '1') {
+		if ($ignoreEmpty === 'on' || $ignoreEmpty == 'true' || $ignoreEmpty == '1') {
 			$ignoreEmptyValue = true;
 		}
 		$dataModelInstance->set('ignoreEmpty', $ignoreEmptyValue);

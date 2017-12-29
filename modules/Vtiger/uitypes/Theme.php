@@ -6,30 +6,43 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vtiger_Theme_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * {@inheritDoc}
 	 */
-	public function getTemplateName()
+	public function validate($value, $isUserFormat = false)
 	{
-		return 'uitypes/Theme.tpl';
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		$allSkins = Vtiger_Theme::getAllSkins();
+		if (!isset($allSkins[$value])) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+		}
+		$this->validate = true;
 	}
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
-	 * @return <Object>
+	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$allSkins = Vtiger_Theme::getAllSkins();
 		$skinColor = $allSkins[$value];
 		$value = ucfirst($value);
-		return "<div class='col-md-4' style='width:230px; background-color:$skinColor;' title='$value'>&nbsp;</div>";
+		return "<div style='width:99%; background-color:$skinColor;' title='$value'>&nbsp;</div>";
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getTemplateName()
+	{
+		return 'uitypes/Theme.tpl';
 	}
 }

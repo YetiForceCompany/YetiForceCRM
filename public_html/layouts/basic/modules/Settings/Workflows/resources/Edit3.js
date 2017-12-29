@@ -529,20 +529,9 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 				app.showSelect2ElementView(fieldSpecificUi);
 			}
 		} else if (fieldSpecificUi.is('input.dateField')) {
-			var calendarType = fieldSpecificUi.data('calendarType');
-			if (calendarType == 'range') {
-				var customParams = {
-					calendars: 3,
-					mode: 'range',
-					className: 'rangeCalendar',
-					onChange: function (formated) {
-						fieldSpecificUi.val(formated.join(','));
-					}
-				}
-				app.registerEventForDatePickerFields(fieldSpecificUi, false, customParams);
-			} else {
-				app.registerEventForDatePickerFields(fieldSpecificUi);
-			}
+			app.registerEventForDatePickerFields(fieldSpecificUi);
+		} else if (fieldSpecificUi.is('input.dateRangeField')) {
+			app.registerDateRangePickerFields(fieldSpecificUi,{ranges: false});
 		}
 		return this;
 	},
@@ -597,9 +586,12 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
 				view: 'CreateEntity',
-				relatedModule: jQuery(e.currentTarget).val(),
 				for_workflow: jQuery('[name="for_workflow"]').val(),
 				mappingPanel: app.getMainParams('mappingPanel')
+			}
+			var relatedModule =  jQuery(e.currentTarget).val();
+			if (relatedModule) {
+				params['relatedModule'] = relatedModule;
 			}
 			var progressIndicatorElement = jQuery.progressIndicator({
 				position: 'html',

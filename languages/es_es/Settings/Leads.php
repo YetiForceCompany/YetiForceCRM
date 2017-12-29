@@ -3,7 +3,7 @@
  * Leads spanish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'Leads' => 'Potenciales',
@@ -19,11 +19,11 @@ $languageStrings = [
 	'LBL_DELETED_SUCCESSFULLY' => 'Eliminado correctamente',
 	'LBL_FIELD_LABEL' => 'Etiqueta del campo',
 	'LBL_FIELD_TYPE' => 'Tipo de campo',
-	'LBL_INVALID_MAPPING' => 'Asignación no válida',
+	'LBL_INVALID_MAPPING' => 'Mapeo no válido',
 	'LBL_MAPPING_WITH_OTHER_MODULES' => 'Mapeo con otros Módulos',
 	'LBL_NONE' => 'Ninguno',
 	'LBL_OPPORTUNITIES' => 'Oportunidades',
-	'LBL_ORGANIZATIONS' => 'Cuentas',
+	'LBL_ORGANIZATIONS' => 'Empresas',
 	'LBL_SAVED_SUCCESSFULLY' => 'Guardado correctamente',
 	'multiSelectCombo' => 'Desplegable de selección múltiple',
 	'percent' => 'Por ciento',
@@ -35,7 +35,7 @@ $languageStrings = [
 	'text' => 'Cadena de texto',
 	'time' => 'Hora',
 	'url' => 'Url',
-	'LBL_CONVERSION_TO_ACCOUNT' => 'Convertir en Cuenta',
+	'LBL_CONVERSION_TO_ACCOUNT' => 'Convertir a Empresa',
 	'sharedOwner' => ' ',
 ];
 
@@ -48,7 +48,7 @@ $jsLanguageStrings = [
 	'JS_email' => 'Correo',
 	'JS_integer' => 'Entero',
 	'JS_IS_ALREADY_BEEN_MAPPED' => 'ya ha sido asignado',
-	'JS_MAPPING_DELETED_SUCCESSFULLY' => 'Asignación eliminada correctamente',
+	'JS_MAPPING_DELETED_SUCCESSFULLY' => 'Mapeo eliminado correctamente',
 	'JS_multiSelectCombo' => 'Desplegable de selección múltiple',
 	'JS_NONE' => 'Ninguno',
 	'JS_None' => 'Ninguno',
@@ -62,6 +62,6 @@ $jsLanguageStrings = [
 	'JS_time' => 'Hora',
 	'JS_url' => 'Url',
 	'JS_WITH' => 'con',
-	'JS_MAPPING_SAVED_SUCCESSFULLY' => 'Asignación de campo guardada',
+	'JS_MAPPING_SAVED_SUCCESSFULLY' => 'Mapeo de campo guardado satisfactoriamente',
 	'JS_sharedOwner' => ' ',
 ];

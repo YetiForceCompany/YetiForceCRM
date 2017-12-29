@@ -9,11 +9,9 @@
  * Contributor(s): YetiForce.com, Itop.es
  * ********************************************************************************** */
 $languageStrings = [
-	'LBL_ADD_RECORD' => 'Añadir',
 	'LBL_ADD_TO' => 'Añadir a',
 	'LBL_EDIT_LIST_PRICE' => 'Editar Tarifas',
 	'LBL_PRICEBOOK_INFORMATION' => 'Información sobre Tarifas',
-	'LBL_RECORDS_LIST' => 'Lista',
 	'LBL_UNIT_PRICE' => 'Precio unitario',
 	'Price Book Name' => 'Nombre de la Tarifa',
 	'PriceBook No' => 'ID',

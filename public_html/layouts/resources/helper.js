@@ -140,17 +140,19 @@ jQuery.Class("Vtiger_Helper_Js", {
 	/*
 	 * Function to show the confirmation messagebox
 	 */
-	showConfirmationBox: function (data) {
+	showConfirmationBox: function (params) {
 		var aDeferred = jQuery.Deferred();
 		bootbox.setLocale(this.getLangCode());
-		var bootBoxModal = bootbox.confirm(data['message'], function (result) {
-			if (result) {
-				aDeferred.resolve();
-			} else {
-				aDeferred.reject();
+		var baseParams = {
+			callback: function (result) {
+				if (result) {
+					aDeferred.resolve();
+				} else {
+					aDeferred.reject();
+				}
 			}
-		});
-
+		}
+		var bootBoxModal = bootbox.confirm($.extend(baseParams, params));
 		bootBoxModal.on('hidden', function (e) {
 			//In Case of multiple modal. like mass edit and quick create, if bootbox is shown and hidden , it will remove
 			// modal open
@@ -165,8 +167,10 @@ jQuery.Class("Vtiger_Helper_Js", {
 		if (typeof params.type == "undefined") {
 			params.type = 'info';
 		}
+		if (typeof params.title == "undefined") {
+			params.title = app.vtranslate('JS_MESSAGE');
+		}
 		params.animation = "show";
-		params.title = app.vtranslate('JS_MESSAGE');
 		Vtiger_Helper_Js.showPnotify(params);
 	},
 	/*

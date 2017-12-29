@@ -145,7 +145,7 @@ class CSRF
 	 * Rewrites <form> on the fly to add CSRF tokens to them. This can also
 	 * inject our JavaScript library.
 	 */
-	public static function obHandler($buffer, $flags)
+	public static function obHandler($buffer)
 	{
 		if (!static::$isHtml) {
 			// not HTML until proven otherwise
@@ -177,19 +177,19 @@ class CSRF
 		$input = "<input type='hidden' name='" . static::$inputName . "' value=\"$tokens\"$endSlash>";
 		$buffer = preg_replace('#(<form[^>]*method\s*=\s*["\']post["\'][^>]*>)#i', '$1' . $input, $buffer);
 		if (static::$frameBreaker && !static::$isPartial) {
-			$buffer = preg_replace('/<\/head>/', '<script type="text/javascript" nonce="' . Vtiger_Session::get('CSP_TOKEN') . '">if (top != self) {top.location.href = self.location.href;}</script></head>', $buffer, $count);
+			$buffer = preg_replace('/<\/head>/', '<script type="text/javascript" nonce="' . App\Session::get('CSP_TOKEN') . '">if (top != self && top.location.origin + top.location.pathname != self.location.origin + self.location.pathname) {top.location.href = self.location.href;}</script></head>', $buffer, $count);
 		}
 		if (($js = static::$rewriteJs) && !static::$isPartial) {
 			if (!IS_PUBLIC_DIR) {
 				$js = 'public_html/' . $js;
 			}
 			$buffer = preg_replace(
-				'/<\/head>/', '<script type="text/javascript" nonce="' . Vtiger_Session::get('CSP_TOKEN') . '">' .
+				'/<\/head>/', '<script type="text/javascript" nonce="' . App\Session::get('CSP_TOKEN') . '">' .
 				'var csrfMagicToken = "' . $tokens . '";' .
 				'var csrfMagicName = "' . static::$inputName . '";</script>' .
 				'<script src="' . $js . '" type="text/javascript"></script></head>', $buffer, $count
 			);
-			$script = '<script type="text/javascript" nonce="' . Vtiger_Session::get('CSP_TOKEN') . '">CsrfMagic.end();</script>';
+			$script = '<script type="text/javascript" nonce="' . App\Session::get('CSP_TOKEN') . '">CsrfMagic.end();</script>';
 			$buffer = preg_replace('/<\/body>/', $script . '</body>', $buffer, $count);
 			if (!$count) {
 				$buffer .= $script;
@@ -228,7 +228,7 @@ class CSRF
 				$tokens = 'hidden';
 			}
 			call_user_func(static::$callback, $tokens);
-			throw new Exception('Hidden');
+			exit;
 		}
 		return $ok;
 	}
@@ -321,7 +321,7 @@ class CSRF
 	 * This should be helpful in production. For debigging use csrf_callback().
 	 * It is configurable by setting $GLOBALS['csrf']['callback'] in this file
 	 */
-	public static function responseForIllegalAccess($tokens)
+	public static function responseForIllegalAccess()
 	{
 		echo 'Invalid request - Response For Illegal Access';
 	}
@@ -343,6 +343,8 @@ class CSRF
 
 	/**
 	 * Checks if a token is valid.
+	 * @param int $token
+	 * @return boolean
 	 */
 	public static function checkToken($token)
 	{
@@ -351,7 +353,8 @@ class CSRF
 		list($type, $value) = explode(':', $token, 2);
 		if (strpos($value, ',') === false)
 			return false;
-		list($x, $time) = explode(',', $token, 2);
+		$tokenExplode = explode(',', $token, 2);
+		$time = $tokenExplode[1];
 		if (static::$expires) {
 			if (time() > $time + static::$expires)
 				return false;
@@ -445,7 +448,7 @@ class CSRF
 	/**
 	 * Generates a random string as the hash of time, microtime, and mt_rand.
 	 */
-	public static function generateSecret($len = 32)
+	public static function generateSecret()
 	{
 		$r = '';
 		for ($i = 0; $i < 32; $i++) {

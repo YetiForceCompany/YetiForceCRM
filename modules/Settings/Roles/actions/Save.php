@@ -9,21 +9,8 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Settings_Roles_Save_Action extends Vtiger_Action_Controller
+class Settings_Roles_Save_Action extends Settings_Vtiger_Basic_Action
 {
-
-	/**
-	 * Checking permission
-	 * @param \App\Request $request
-	 * @throws \Exception\AppException
-	 */
-	public function checkPermission(\App\Request $request)
-	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		if (!$currentUser->isAdminUser()) {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
-		}
-	}
 
 	/**
 	 * Process
@@ -69,7 +56,7 @@ class Settings_Roles_Save_Action extends Vtiger_Action_Controller
 			if ($roleProfiles) {
 				foreach ($roleProfiles as $profileId) {
 					$profileRecordModel = Settings_Profiles_Record_Model::getInstanceById($profileId);
-					$profileRecordModel->recalculate(array($recordId));
+					$profileRecordModel->recalculate([$recordId]);
 				}
 			}
 		}

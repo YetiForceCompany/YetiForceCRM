@@ -11,19 +11,25 @@
 class Users_Logout_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		return true;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$eventHandler = new App\EventHandler();
 		$eventHandler->trigger('UserLogoutBefore');
 		if (AppConfig::main('session_regenerate_id')) {
-			Vtiger_Session::regenerateId(true); // to overcome session id reuse.
+			App\Session::regenerateId(true); // to overcome session id reuse.
 		}
-		Vtiger_Session::destroy();
+		App\Session::destroy();
 
 		//Track the logout History
 		$moduleName = $request->getModule();

@@ -4,7 +4,7 @@
  * Services TreeView Model Class
  * @package YetiForce.TreeView
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Services_TreeView_Model extends Vtiger_TreeView_Model
@@ -18,7 +18,7 @@ class Services_TreeView_Model extends Vtiger_TreeView_Model
 	private function getRecords()
 	{
 		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('limit', 'no_limit');
+		$pagingModel->set('limit', 0);
 		$listViewModel = Vtiger_ListView_Model::getInstance($this->getModuleName());
 		$listEntries = $listViewModel->getListViewEntries($pagingModel);
 		$tree = [];

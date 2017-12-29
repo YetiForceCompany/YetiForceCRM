@@ -3,7 +3,7 @@
  * Request basic class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 namespace App;
@@ -13,12 +13,6 @@ namespace App;
  */
 class Request
 {
-
-	/**
-	 * Cleared request data
-	 * @var array 
-	 */
-	protected $parseValues = [];
 
 	/**
 	 * Raw request data
@@ -39,17 +33,58 @@ class Request
 	protected static $request;
 
 	/**
+	 * Purified request values for get
+	 * @var array
+	 */
+	protected $purifiedValuesByGet = [];
+
+	/**
+	 * Purified request values for type
+	 * @var array
+	 */
+	protected $purifiedValuesByType = [];
+
+	/**
+	 * Purified request values for integer
+	 * @var array
+	 */
+	protected $purifiedValuesByInteger = [];
+
+	/**
+	 * Purified request values for array
+	 * @var array
+	 */
+	protected $purifiedValuesByArray = [];
+
+	/**
+	 * Purified request values for exploded
+	 * @var array
+	 */
+	protected $purifiedValuesByExploded = [];
+
+	/**
+	 * Purified request values for date range
+	 * @var array
+	 */
+	protected $purifiedValuesByDateRange = [];
+
+	/**
+	 * Purified request values for date html
+	 * @var array
+	 */
+	protected $purifiedValuesByHtml = [];
+
+	/**
 	 * Constructor
 	 * @param array $rawValues
-	 * @param array $parseValues
+	 * @param bool $overwrite
 	 */
-	public function __construct($rawValues, $parseValues = [])
+	public function __construct($rawValues, $overwrite = true)
 	{
 		$this->rawValues = $rawValues;
-		if ($parseValues) {
-			$this->parseValues = $parseValues;
+		if ($overwrite) {
+			static::$request = $this;
 		}
-		static::$request = $this;
 	}
 
 	/**
@@ -60,19 +95,47 @@ class Request
 	 */
 	public function get($key, $value = '')
 	{
-		if (isset($this->parseValues[$key])) {
-			return $this->parseValues[$key];
+		if (isset($this->purifiedValuesByGet[$key])) {
+			return $this->purifiedValuesByGet[$key];
 		}
 		if (isset($this->rawValues[$key])) {
 			$value = $this->rawValues[$key];
+		} else {
+			return $value;
 		}
 		if (is_string($value) && (strpos($value, '[') === 0 || strpos($value, '{') === 0)) {
-			$value = Json::decode($value);
+			$decodeValue = Json::decode($value);
+			if (isset($decodeValue)) {
+				$value = $decodeValue;
+			}
 		}
 		if ($value) {
 			$value = Purifier::purify($value);
 		}
-		return $this->parseValues[$key] = $value;
+		return $this->purifiedValuesByGet[$key] = $value;
+	}
+
+	/**
+	 * Purify by data type
+	 * 
+	 * Type list:
+	 * Standard - only words
+	 * 1 - only words
+	 * Alnum - word and int
+	 * 2 - word and int
+	 * @param string $key Key name
+	 * @param int|string $type Data type that is only acceptable, default only words 'Standard'
+	 * @return boolean|mixed
+	 */
+	public function getByType($key, $type = 1)
+	{
+		if (isset($this->purifiedValuesByType[$key])) {
+			return $this->purifiedValuesByType[$key];
+		}
+		if (isset($this->rawValues[$key])) {
+			return $this->purifiedValuesByType[$key] = Purifier::purifyByType($this->rawValues[$key], $type);
+		}
+		return false;
 	}
 
 	/**
@@ -87,7 +150,7 @@ class Request
 		if (is_bool($value)) {
 			return $value;
 		}
-		return strcasecmp('true', (string) $value) === 0;
+		return strcasecmp('true', (string) $value) === 0 || (string) $value === '1';
 	}
 
 	/**
@@ -98,37 +161,90 @@ class Request
 	 */
 	public function getInteger($key, $value = 0)
 	{
-		if (isset($this->parseValues[$key])) {
-			return $this->parseValues[$key];
+		if (isset($this->purifiedValuesByInteger[$key])) {
+			return $this->purifiedValuesByInteger[$key];
 		}
-		if (isset($this->rawValues[$key])) {
-			$value = $this->rawValues[$key];
+		if (!isset($this->rawValues[$key])) {
+			return $value;
 		}
-		settype($value, 'integer');
-		return $this->parseValues[$key] = $value;
+		if (($value = filter_var($this->rawValues[$key], FILTER_VALIDATE_INT)) !== false) {
+			return $this->purifiedValuesByInteger[$key] = $value;
+		}
+		throw new \App\Exceptions\BadRequest("ERR_NOT_ALLOWED_VALUE||$key||{$this->rawValues[$key]}", 406);
 	}
 
 	/**
 	 * Function to get the array values for a given key
 	 * @param string $key
+	 * @param mixed $type
 	 * @param array $value
 	 * @return array
 	 */
-	public function getArray($key, $value = [])
+	public function getArray($key, $type = false, $value = [])
 	{
-		if (isset($this->parseValues[$key])) {
-			return $this->parseValues[$key];
+		if (isset($this->purifiedValuesByArray[$key])) {
+			return $this->purifiedValuesByArray[$key];
 		}
 		if (isset($this->rawValues[$key])) {
 			$value = $this->rawValues[$key];
 			if (is_string($value) && (strpos($value, '[') === 0 || strpos($value, '{') === 0)) {
-				$value = Json::decode($value);
+				$decodeValue = Json::decode($value);
+				if (isset($decodeValue)) {
+					$value = $decodeValue;
+				} else {
+					\App\Log::warning('Invalid data format, problem encountered while decoding JSON. Data should be in JSON format. Data: ' . $value);
+				}
+			}
+			if ($value) {
+				$value = $type ? Purifier::purifyByType($value, $type) : Purifier::purify($value);
 			}
 			settype($value, 'array');
-			if ($value) {
-				$value = Purifier::purify($value);
+			return $this->purifiedValuesByArray[$key] = $value;
+		}
+		return $value;
+	}
+
+	/**
+	 * Function to get the exploded values for a given key
+	 * @param string $key
+	 * @param string $delimiter
+	 * @param bool|string $type
+	 * @return array
+	 */
+	public function getExploded($key, $delimiter = ',', $type = false)
+	{
+		if (isset($this->purifiedValuesByExploded[$key])) {
+			return $this->purifiedValuesByExploded[$key];
+		}
+		if (isset($this->rawValues[$key])) {
+			if ($this->rawValues[$key] === '') {
+				return [];
 			}
-			return $this->parseValues[$key] = $value;
+			$value = explode($delimiter, $this->rawValues[$key]);
+			if ($value) {
+				$value = $type ? Purifier::purifyByType($value, $type) : Purifier::purify($value);
+			}
+			return $this->purifiedValuesByExploded[$key] = $value;
+		}
+		return $value;
+	}
+
+	/**
+	 * Function to get the date range values for a given key
+	 * @param string $key
+	 * @return array
+	 */
+	public function getDateRange($key)
+	{
+		if (isset($this->purifiedValuesByDateRange[$key])) {
+			return $this->purifiedValuesByDateRange[$key];
+		}
+		if (isset($this->rawValues[$key])) {
+			if (!isset($this->rawValues[$key]) || $this->rawValues[$key] === '') {
+				return [];
+			}
+			$value = Purifier::purify(explode(', ', $this->rawValues[$key]));
+			return $this->purifiedValuesByDateRange[$key] = ['start' => $value[0], 'end' => $value[1]];
 		}
 		return $value;
 	}
@@ -141,8 +257,8 @@ class Request
 	 */
 	public function getForHtml($key, $value = '')
 	{
-		if (isset($this->parseValues["html_$key"])) {
-			return $this->parseValues["html_$key"];
+		if (isset($this->purifiedValuesByHtml[$key])) {
+			return $this->purifiedValuesByHtml[$key];
 		}
 		if (isset($this->rawValues[$key])) {
 			$value = $this->rawValues[$key];
@@ -150,7 +266,7 @@ class Request
 		if ($value) {
 			$value = \App\Purifier::purifyHtml($value);
 		}
-		return $this->parseValues["html_$key"] = $value;
+		return $this->purifiedValuesByHtml[$key] = $value;
 	}
 
 	/**
@@ -170,7 +286,7 @@ class Request
 	 */
 	public function getMode()
 	{
-		return $this->get('mode');
+		return $this->getByType('mode', 2);
 	}
 
 	/**
@@ -182,7 +298,7 @@ class Request
 		foreach ($this->rawValues as $key => $value) {
 			$this->get($key);
 		}
-		return $this->parseValues;
+		return $this->purifiedValuesByGet;
 	}
 
 	/**
@@ -205,9 +321,6 @@ class Request
 		if (isset($this->rawValues[$key])) {
 			return $this->rawValues[$key];
 		}
-		if (isset($this->parseValues[$key])) {
-			return $this->parseValues[$key];
-		}
 		return $defaultValue;
 	}
 
@@ -225,13 +338,14 @@ class Request
 			foreach ($_SERVER as $key => $value) {
 				if (substr($key, 0, 5) === 'HTTP_') {
 					$key = str_replace(' ', '-', strtoupper(str_replace('_', ' ', substr($key, 5))));
-					$headers[$key] = $value;
-				} else {
-					$headers[$key] = $value;
 				}
+				$headers[$key] = Purifier::purify($value);
 			}
 		} else {
 			$headers = array_change_key_case(apache_request_headers(), CASE_UPPER);
+			foreach ($headers as &$value) {
+				$value = Purifier::purify($value);
+			}
 		}
 		return $this->headers = $headers;
 	}
@@ -252,21 +366,34 @@ class Request
 	/**
 	 * Get request method
 	 * @return string
-	 * @throws Exceptions\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	public function getRequestMethod()
 	{
-		$method = $_SERVER['REQUEST_METHOD'];
+		$method = $this->getServer('REQUEST_METHOD');
 		if ($method === 'POST' && isset($_SERVER['HTTP_X_HTTP_METHOD'])) {
 			if ($_SERVER['HTTP_X_HTTP_METHOD'] === 'DELETE') {
 				$method = 'DELETE';
 			} else if ($_SERVER['HTTP_X_HTTP_METHOD'] === 'PUT') {
 				$method = 'PUT';
 			} else {
-				throw new Exceptions\AppException('Unexpected Header');
+				throw new \App\Exceptions\AppException('Unexpected Header');
 			}
 		}
 		return $method;
+	}
+
+	/**
+	 * Get server and execution environment information
+	 * @param string $key
+	 * @return boolean
+	 */
+	public function getServer($key, $default = false)
+	{
+		if (!isset($_SERVER[$key])) {
+			return $default;
+		}
+		return Purifier::purifyByType($_SERVER[$key], 'Text');
 	}
 
 	/**
@@ -276,10 +403,9 @@ class Request
 	 */
 	public function getModule($raw = true)
 	{
-		$moduleName = $this->get('module');
+		$moduleName = $this->getByType('module', 2);
 		if (!$raw) {
-			$parentModule = $this->get('parent');
-			if ($parentModule === 'Settings') {
+			if (!$this->isEmpty('parent', true) && ($parentModule = $this->getByType('parent', 2)) === 'Settings') {
 				$moduleName = "$parentModule:$moduleName";
 			}
 		}
@@ -293,20 +419,22 @@ class Request
 	 */
 	public function has($key)
 	{
-		return isset($this->rawValues[$key]) || isset($this->parseValues[$key]);
+		return isset($this->rawValues[$key]);
 	}
 
 	/**
 	 * Function to check if the key is empty.
 	 * @param string $key
+	 * @param boolean $emptyFunction
 	 * @return boolean
 	 */
-	public function isEmpty($key)
+	public function isEmpty($key, $emptyFunction = false)
 	{
-		if (isset($this->parseValues[$key])) {
-			return $this->parseValues[$key] === '';
+		if ($emptyFunction) {
+			return empty($this->rawValues[$key]);
+		} else {
+			return !isset($this->rawValues[$key]) || $this->rawValues[$key] === '';
 		}
-		return $this->get($key, '') === '';
 	}
 
 	/**
@@ -317,7 +445,7 @@ class Request
 	 */
 	public function set($key, $value)
 	{
-		$this->parseValues[$key] = $value;
+		$this->rawValues[$key] = $this->purifiedValuesByGet[$key] = $this->purifiedValuesByInteger[$key] = $this->purifiedValuesByType[$key] = $this->purifiedValuesByHtml[$key] = $value;
 		return $this;
 	}
 
@@ -327,12 +455,39 @@ class Request
 	 */
 	public function delete($key)
 	{
-		if (isset($this->parseValues[$key])) {
-			unset($this->parseValues[$key]);
+		if (isset($this->purifiedValuesByGet[$key])) {
+			unset($this->purifiedValuesByGet[$key]);
+		}
+		if (isset($this->purifiedValuesByInteger[$key])) {
+			unset($this->purifiedValuesByInteger[$key]);
+		}
+		if (isset($this->purifiedValuesByType[$key])) {
+			unset($this->purifiedValuesByType[$key]);
+		}
+		if (isset($this->purifiedValuesByHtml[$key])) {
+			unset($this->purifiedValuesByHtml[$key]);
+		}
+		if (isset($this->purifiedValuesByArray[$key])) {
+			unset($this->purifiedValuesByArray[$key]);
+		}
+		if (isset($this->purifiedValuesByDateRange[$key])) {
+			unset($this->purifiedValuesByDateRange[$key]);
+		}
+		if (isset($this->purifiedValuesByExploded[$key])) {
+			unset($this->purifiedValuesByExploded[$key]);
 		}
 		if (isset($this->rawValues[$key])) {
 			unset($this->rawValues[$key]);
 		}
+	}
+
+	/**
+	 * Get all request keys
+	 * @return array
+	 */
+	public function getKeys()
+	{
+		return array_keys($this->rawValues);
 	}
 
 	/**
@@ -351,7 +506,7 @@ class Request
 
 	/**
 	 * Validating read access request
-	 * @throws \Exception\Csrf
+	 * @throws \App\Exceptions\Csrf
 	 */
 	public function validateReadAccess()
 	{
@@ -359,7 +514,7 @@ class Request
 		// Referer check if present - to over come 
 		if (isset($_SERVER['HTTP_REFERER']) && $user) {//Check for user post authentication.
 			if ((stripos($_SERVER['HTTP_REFERER'], \AppConfig::main('site_URL')) !== 0) && ($this->get('module') != 'Install')) {
-				throw new \Exception\Csrf('Illegal request');
+				throw new \App\Exceptions\Csrf('Illegal request');
 			}
 		}
 	}
@@ -367,17 +522,17 @@ class Request
 	/**
 	 * Validating write access request
 	 * @param boolean $skipRequestTypeCheck
-	 * @throws \Exception\Csrf
+	 * @throws \App\Exceptions\Csrf
 	 */
 	public function validateWriteAccess($skipRequestTypeCheck = false)
 	{
 		if (!$skipRequestTypeCheck) {
 			if ($_SERVER['REQUEST_METHOD'] !== 'POST')
-				throw new \Exception\Csrf('Invalid request - validate Write Access');
+				throw new \App\Exceptions\Csrf('Invalid request - validate Write Access');
 		}
 		$this->validateReadAccess();
 		if (class_exists('CSRF') && !\CSRF::check(false)) {
-			throw new \Exception\Csrf('Unsupported request');
+			throw new \App\Exceptions\Csrf('Unsupported request');
 		}
 	}
 
@@ -399,7 +554,7 @@ class Request
 	 * @param string $name
 	 * @param null|array $arguments
 	 * @return mied
-	 * @throws Exceptions\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	public static function __callStatic($name, $arguments = null)
 	{
@@ -408,7 +563,7 @@ class Request
 		}
 		$function = ltrim($name, '_');
 		if (!method_exists(static::$request, $function)) {
-			throw new Exceptions\AppException('Method not found');
+			throw new \App\Exceptions\AppException('Method not found');
 		}
 		if (empty($arguments)) {
 			return static::$request->$function();

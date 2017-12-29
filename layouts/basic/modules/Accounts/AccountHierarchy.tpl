@@ -18,12 +18,13 @@
 					<h3 class="modal-title">{\App\Language::translate('LBL_SHOW_ACCOUNT_HIERARCHY', $MODULE)}</h3>
 				</div>
 				<div class="modal-body maxHeightModal">
+					<div class="table-responsive">
 						<table class="table table-bordered">
 							<thead>
 								<tr class="blockHeader">
 									{foreach item=HEADERNAME from=$ACCOUNT_HIERARCHY['header']}
 										<th>{\App\Language::translate($HEADERNAME, $MODULE)}</th>
-									{/foreach}
+										{/foreach}
 								</tr>
 							</thead>
 							<tbody>
@@ -31,7 +32,7 @@
 									<tr {if $smarty.foreach.hierarchyEntries.first} class="bgAzure" {/if} data-id="{$RECORD_ID}">
 										{foreach item=LISTFIELDS from=$ENTRIES}
 											<td>
-												{if $LISTFIELDS['fieldname'] == 'active' && Users_Privileges_Model::isPermitted($MODULE, 'EditView', $RECORD_ID)}
+												{if $LISTFIELDS['fieldname'] === 'active' && \App\Privilege::isPermitted($MODULE, 'EditView', $RECORD_ID)}
 													<button class="btn{if !empty($LISTFIELDS['rawData'])} btn-success {else} btn-warning {if isset($LAST_MODIFIED[$RECORD_ID])} popoverTooltip {/if}{/if}btn-xs toChangeBtn" data-record-id="{$RECORD_ID}"
 															data-fieldname="{$LISTFIELDS['fieldname']}"
 															{if empty($LISTFIELDS['rawData']) && isset($LAST_MODIFIED[$RECORD_ID])}
@@ -49,6 +50,7 @@
 								{/foreach}
 							</tbody>
 						</table>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<div class=" pull-right cancelLinkContainer">

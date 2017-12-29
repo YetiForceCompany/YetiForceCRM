@@ -3,7 +3,7 @@
  * SalesProcesses spanish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'LBL_SALES_PROCESSES' => 'Ventas',
@@ -16,7 +16,7 @@ $languageStrings = [
 	'LBL_STATUSES_CLOSED_POTENTIAL' => 'Estados que determinan que la oportunidad está cerrada',
 	'LBL_ASSETS' => 'Productos vendidos',
 	'LBL_STATUSES_CLOSED_ASSETS' => 'Estados que determinan que el producto vendido está cerrado',
-	'LBL_CREATE_POTENTIALS' => 'Bloqueó la creación de Oportunidades para Cuentas en las que \'Asignado a\' no es un usuario',
+	'LBL_CREATE_POTENTIALS' => 'Bloqueó la creación de Oportunidades para Empresas en las que \'Asignado a\' no es un usuario',
 	'SalesProcesses' => 'Procesos de ventas',
 	'LBL_SQUOTEENQUIRIES' => 'Consultas de ventas',
 	'LBL_SREQUIREMENTSCARD' => 'Requisitos de ventas',

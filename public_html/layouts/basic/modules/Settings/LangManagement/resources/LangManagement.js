@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 var Settings_Index_Js = {
 	initEvants: function () {
 		$('.LangManagement .add_lang').click(Settings_Index_Js.ShowLangMondal);
@@ -33,20 +33,24 @@ var Settings_Index_Js = {
 				'enabled': true
 			}
 		});
-		var url = '';
+		var param = {
+			module: 'LangManagement',
+			parent: app.getParentModuleName(),
+			view: 'Edit'
+		};
 		if ($(".LangManagement " + position + " #langs_list").val() != undefined) {
-			url += '&lang=' + $(".LangManagement " + position + " #langs_list").val();
+			param.lang = $(".LangManagement " + position + " #langs_list").val();
 		}
 		if ($(".LangManagement #mods_list").val() != undefined) {
-			url += '&mod=' + $(".LangManagement " + position + " #mods_list").val();
+			param.mod = $(".LangManagement " + position + " #mods_list").val();
 		}
 		if (document.showDiff == true) {
-			url += '&sd=1';
+			param.sd = 1;
 		}
 		if (typeof tpl != 'undefined') {
-			url += '&tpl=' + tpl;
+			param.tpl = tpl;
 		}
-		$.get("index.php?module=LangManagement&parent=Settings&view=Edit" + url, function (data) {
+		AppConnector.request(param).then(function (data) {
 			jQuery(position).html(data);
 			Settings_Index_Js.initEditLang(tpl, position);
 			progress.progressIndicator({'mode': 'hide'});
@@ -249,7 +253,6 @@ var Settings_Index_Js = {
 		Settings_Index_Js.LoadEditLang(e);
 	},
 	initEvant: function (element) {
-		element.find('input[type=checkbox]').change(Settings_Index_Js.CheckboxChange);
 		var options = {
 			title: app.vtranslate('LBL_AreYouSure'),
 			trigger: 'manual',
@@ -284,11 +287,6 @@ var Settings_Index_Js = {
 				$(e.currentTarget).popover('hide');
 			});
 		});
-	},
-	CheckboxChange: function (e) {
-		var target = $(e.currentTarget);
-		var closestTrElement = target.closest('tr');
-		Settings_Index_Js.registerSaveEvent('save', {'type': 'Checkbox', 'name': target.data('name'), 'prefix': closestTrElement.data('prefix'), 'val': target.is(':checked')});
 	},
 	ShowLangMondal: function (e) {
 		var target = $(e.currentTarget);
@@ -332,10 +330,7 @@ var Settings_Index_Js = {
 	AddTranslationMondal: function (e) {
 		var currentTarget = $(e.currentTarget);
 		var container = currentTarget.closest('.modalContainer');
-		var SaveEvent = Settings_Index_Js.registerSaveEvent('addTranslation', {
-			'mod': $(".LangManagement #mods_list").val(),
-			'form_data': container.find(".AddTranslationForm").serializeFormData()
-		});
+		var SaveEvent = Settings_Index_Js.registerSaveEvent('addTranslation',$.extend({mod: $(".LangManagement #mods_list").val()}, container.find(".AddTranslationForm").serializeFormData()));
 		if (SaveEvent.resp) {
 			container.find('.AddNewTranslationMondal').modal('hide');
 		}
@@ -365,11 +360,11 @@ var Settings_Index_Js = {
 			parent: app.getParentModuleName(),
 			action: 'SaveAjax',
 			mode: mode,
-			params: data
 		}
+		params.data = $.extend(params.data, data);
 		params.async = false;
 		params.dataType = 'json';
-		AppConnector.request(params).done(
+		AppConnector.request(params).then(
 				function (data) {
 					response = data['result'];
 					var params = {
@@ -398,7 +393,7 @@ var Settings_Index_Js = {
 				parent: app.getParentModuleName(),
 				action: 'GetChart',
 				langBase: jQuery('[name="langs_basic"]').val(),
-				langs: jQuery.isArray(langs) ? langs.join(',') : langs
+				langs: langs
 			}
 			AppConnector.request(params).then(
 					function (data) {

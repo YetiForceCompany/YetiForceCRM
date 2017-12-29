@@ -16,7 +16,7 @@
 			<span class="text-right">
 				<a href="javascript:HelpDesk_Detail_Js.setAccountsReference();">
 					<strong> [ <span class="glyphicon glyphicon-search" aria-hidden="true"></span> ]</strong>
-				</a>		
+				</a>
 			</span>
 		</div>
 	{elseif AppConfig::module('HelpDesk','CHECK_SERVICE_CONTRACTS_EXISTS') && Vtiger_Module_Model::getInstance('ServiceContracts')->isActive() && $RECORD->get('servicecontractsid') == 0}
@@ -39,11 +39,23 @@
 	<div class="col-md-12 paddingLRZero row">
 		<div class="col-xs-12 col-sm-12 col-md-8">
 			<div class="moduleIcon">
-				<span class="detailViewIcon userIcon-{$MODULE}" {if $COLORLISTHANDLERS}style="background-color: {$COLORLISTHANDLERS['background']};color: {$COLORLISTHANDLERS['text']};"{/if}></span>
+				<span class="detailViewIcon userIcon-{$MODULE}"></span>
 			</div>
 			<div class="paddingLeft5px detailViewHeaderFieldInformation">
 				<h4 class="recordLabel margin0px textOverflowEllipsis" title="{$RECORD->getName()}">
-					<span class="moduleColor_{$MODULE_NAME}">{$RECORD->getName()}</span>
+					<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
+					{assign var=RECORD_STATE value=\App\Record::getState($RECORD->getId())}
+					{if $RECORD_STATE !== 'Active'}
+						&nbsp;&nbsp;
+						{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
+						<span class="label label-default" {if $COLOR[$RECORD_STATE]}style="background-color: {$COLOR[$RECORD_STATE]};"{/if}>
+							{if \App\Record::getState($RECORD->getId()) === 'Trash'}
+								{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}
+							{else}
+								{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}
+							{/if}
+						</span>
+					{/if}
 				</h4>
 				{assign var=RELATED_TO value=$RECORD->get('parent_id')}
 				{if !empty($RELATED_TO)}
@@ -77,6 +89,6 @@
 				{/if}
 			</div>
 		</div>
-		{include file='DetailViewHeaderFields.tpl'|@vtemplate_path:$MODULE_NAME}
+		{include file=\App\Layout::getTemplatePath('DetailViewHeaderFields.tpl', $MODULE_NAME)}
 	</div>
 {/strip}

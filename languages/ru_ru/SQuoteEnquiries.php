@@ -3,7 +3,7 @@
  * SQuoteEnquiries russian translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'SQuoteEnquiries' => 'Запросы',
@@ -18,7 +18,7 @@ $languageStrings = [
 	'LBL_SUBJECT' => 'Тема',
 	'LBL_NUMBER' => 'Номер',
 	'LBL_STATUS' => 'Статус',
-	'LBL_RESPONSE_TIME' => 'Respone time',
+	'LBL_RESPONSE_TIME' => 'Время ответа',
 	'SINGLE_SSalesProcesses' => 'Сделка',
 	//PICKLIST VALUES
 	'PLL_DRAFT' => 'Черновик',

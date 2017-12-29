@@ -53,7 +53,7 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 	public function getUrl()
 	{
 		$url = $this->get('linkto');
-		$url = decode_html($url);
+		$url = App\Purifier::decodeHtml($url);
 		$url .= '&block=' . $this->getId();
 		return $url;
 	}
@@ -109,9 +109,9 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 
 	/**
 	 * Array with instances, kay as number id element of menu
-	 * @var array 
+	 * @var array
 	 */
-	static $cacheInstance = false;
+	public static $cacheInstance = false;
 
 	/**
 	 * Static Function to get the instance of Settings Menu model for given menu id
@@ -140,15 +140,12 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 	 */
 	public static function getInstance($name)
 	{
-		$db = PearDatabase::getInstance();
-
-		$sql = sprintf('SELECT * FROM %s WHERE label = ?', self::$menusTable);
-		$params = [$name];
-
-		$result = $db->pquery($sql, $params);
-
-		if ($db->num_rows($result) > 0) {
-			$rowData = $db->query_result_rowdata($result, 0);
+		$rowData = (new App\Db\Query())
+			->from(self::$menusTable)
+			->where(['label' => $name])
+			->limit(1)
+			->one();
+		if ($rowData) {
 			return Settings_Vtiger_Menu_Model::getInstanceFromArray($rowData);
 		}
 		return false;

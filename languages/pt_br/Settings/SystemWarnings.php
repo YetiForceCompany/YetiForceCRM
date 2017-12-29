@@ -3,7 +3,7 @@
  * System warnings portuguese translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	// Folders
@@ -14,7 +14,7 @@ $languageStrings = [
 	'LBL_LIBRARY_PHPEXCEL' => 'Biblioteca PHPExcel',
 	'LBL_CONFIG_REPORT' => 'Configurações do Servidor',
 	'LBL_CONFIG_REPORT_LINK' => 'Mostrar bibliotecas faltantes',
-	'LBL_CONFIG_REPORT_DESC' => 'O servidor não foi configurado corretamente. O sistema talvez apresentou mal funcionamento ou os dados enviados foram corrompidos ou removidos. Mais informações no artigo <a href=\"https://yetiforce.com/pl/wdro%C5%BCeniowiec/instalacja-aktualizacja/99-wymagania-dla-serwera-www.html\"><u>sobre requisitos de sistema no yetiforce.com</u></a>',
+	'LBL_CONFIG_REPORT_DESC' => 'O servidor não foi configurado corretamente. O sistema talvez apresentou mal funcionamento ou os dados enviados foram corrompidos ou removidos. Mais informações no artigo <a href=\"https://www.yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements\"><u>sobre requisitos de sistema no yetiforce.com</u></a>',
 	'LBL_NEWSLETTER' => 'Boletim Informativo',
 	'LBL_NEWSLETTER_DESC' => 'Inscreva-se no Boletim informativo gratuito do YetiForce. Mantenha-se informado sobre as últimas atualizações do sistema, e as novidades do setor de CRM. Enviaremos infomrações sobre novas versões, atualizações, eventos, novos recursos do sistema e muito mais.<br />Junte-se a nossa comunidade e mantenha-se atualizado.<br />Conexão a internet é necessário para se inscrever.',
 	'LBL_STATS' => 'Enviar informações estatísticas',
@@ -31,5 +31,5 @@ $languageStrings = [
 	'BTN_CONFIGURE_HTTPS' => 'Recommended configuration',
 	'LBL_MISSING_HTTPS' => 'Your connection to the server is not encrypted. If the connection is not established through the HTTPS protocol the communication may be intercepted or altered by third parties. The recommended configuration can be found in the "Web server requirements" article in the documentation.',
 	'LBL_DISK_USAGE' => 'Disk space available',
-	'LBL_DISK_FULL' => 'There is not enough free space on your disk, so the system may stop working. Directory path: %s',
+	'LBL_DISK_FULL' => 'There is not enough free space on your disk (%s of %s), so the system may stop working. Directory path: %s',
 ];

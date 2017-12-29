@@ -4,11 +4,19 @@
  * Settings menu module model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Menu_Module_Model
 {
 
+	/**
+	 * Fields to edit
+	 * @var strung[] 
+	 */
+	protected $editFields = [
+		'id', 'role', 'parentid', 'type', 'sequence', 'module', 'label', 'newwindow',
+		'dataurl', 'showicon', 'icon', 'sizeicon', 'hotkey', 'filters', 'edit'
+	];
 	protected $types = [
 		0 => 'Module',
 		1 => 'Shortcut',
@@ -30,6 +38,15 @@ class Settings_Menu_Module_Model
 	{
 		$instance = new self();
 		return $instance;
+	}
+
+	/**
+	 * Function to get editable fields
+	 * @return string[]
+	 */
+	public function getEditFields()
+	{
+		return $this->editFields;
 	}
 
 	public function getMenuTypes($key = false)
@@ -96,7 +113,7 @@ class Settings_Menu_Module_Model
 
 	public function getModulesList()
 	{
-		$notInParam = "('Home','Reports','RecycleBin','OSSMail','Portal','Rss')";
+		$notInParam = "('Home','Reports','OSSMail','Portal','Rss')";
 		$query = (new \App\Db\Query())->select('tabid, name')->from('vtiger_tab')
 			->where(['not in', 'name', ['Users', 'ModComments']])
 			->andWhere(['or', 'isentitytype = 1', "name IN $notInParam"])

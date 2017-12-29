@@ -4,7 +4,7 @@
  * Settings SharingAccess SaveAjax action class
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 Class Settings_SharingAccess_SaveAjax_Action extends Settings_Vtiger_Save_Action
 {
@@ -17,21 +17,18 @@ Class Settings_SharingAccess_SaveAjax_Action extends Settings_Vtiger_Save_Action
 		$postValues = [];
 		$prevValues = [];
 		foreach ($modulePermissions as $tabId => $permission) {
+			$permission = (int) $permission;
 			$moduleModel = Settings_SharingAccess_Module_Model::getInstance($tabId);
-			$permissionOld = $moduleModel->get('permission');
+			$permissionOld = (int) $moduleModel->get('permission');
 			$moduleModel->set('permission', $permission);
-			if ($permissionOld != $permission) {
+			if ($permissionOld !== $permission) {
 				$prevValues[$tabId] = $permissionOld;
-				$postValues[$tabId] = $moduleModel->get('permission');
-				if ($permissionOld == 3 || $moduleModel->get('permission') == 3) {
-					\App\Privilege::setUpdater(vtlib\Functions::getModuleName($tabId));
+				$postValues[$tabId] = (int) $moduleModel->get('permission');
+				if ($permissionOld === 3 || (int) $moduleModel->get('permission') == 3) {
+					\App\Privilege::setUpdater(\App\Module::getModuleName($tabId));
 				}
 			}
-			try {
-				$moduleModel->save();
-			} catch (\Exception\AppException $e) {
-				
-			}
+			$moduleModel->save();
 		}
 		Settings_Vtiger_Tracker_Model::addDetail($prevValues, $postValues);
 		Settings_SharingAccess_Module_Model::recalculateSharingRules();

@@ -24,9 +24,9 @@ class Vtiger_Loader
 	 * @param string $qualifiedName
 	 * @return string Absolute File Name
 	 */
-	static function resolveNameToPath($qualifiedName, $fileExtension = 'php')
+	public static function resolveNameToPath($qualifiedName, $fileExtension = 'php')
 	{
-		$allowedExtensions = array('php', 'js', 'css', 'less');
+		$allowedExtensions = ['php', 'js', 'css', 'less'];
 		$file = '';
 		if (!in_array($fileExtension, $allowedExtensions)) {
 			return '';
@@ -51,7 +51,7 @@ class Vtiger_Loader
 	 * @param string $qualifiedName
 	 * @return boolean
 	 */
-	static function includeOnce($qualifiedName)
+	public static function includeOnce($qualifiedName)
 	{
 
 		if (isset(self::$includeCache[$qualifiedName])) {
@@ -78,7 +78,7 @@ class Vtiger_Loader
 		return $success;
 	}
 
-	static function includePath($qualifiedName)
+	public static function includePath($qualifiedName)
 	{
 		// Already included?
 		if (isset(self::$includePathCache[$qualifiedName])) {
@@ -98,7 +98,7 @@ class Vtiger_Loader
 	 * @param string $componentName
 	 * @param string $moduleName
 	 * @return string Required Class Name
-	 * @throws \Exception\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	public static function getComponentClassName($componentType, $componentName, $moduleName = 'Vtiger', $throwException = true)
 	{
@@ -161,7 +161,7 @@ class Vtiger_Loader
 
 		if ($throwException) {
 			\App\Log::error("Error Vtiger_Loader::getComponentClassName($componentType, $componentName, $moduleName): Handler not found");
-			throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
+			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
 		}
 		return false;
 	}
@@ -195,8 +195,4 @@ class Vtiger_Loader
 	}
 }
 
-function vimport($qualifiedName)
-{
-	return Vtiger_Loader::includeOnce($qualifiedName);
-}
 spl_autoload_register('Vtiger_Loader::autoLoad');

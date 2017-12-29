@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="row main-container">
 		<div class="inner-container">
@@ -20,7 +20,7 @@
 				<div class="row">
 					<div>
 						<div class="button-container">
-							<input id="agree" type="submit" class="btn btn-sm btn-primary" value="{\App\Language::translate('LBL_NEXT', 'Install')}"/>
+							<input id="agree" type="submit" class="btn btn-sm btn-primary" value="{\App\Language::translate('LBL_NEXT', 'Install')}" />
 						</div>
 					</div>
 				</div>

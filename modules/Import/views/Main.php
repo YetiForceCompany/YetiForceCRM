@@ -19,8 +19,8 @@ class Import_Main_View extends Vtiger_View_Controller
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPrivilegesModel->hasModulePermission($request->get('module'))) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -63,7 +63,7 @@ class Import_Main_View extends Vtiger_View_Controller
 		if (!$batchImport) {
 			if (!$importDataController->initializeImport()) {
 				Import_Utils_Helper::showErrorPage(\App\Language::translate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
-				throw new \Exception\AppException(\App\Language::translate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
+				throw new \App\Exceptions\AppException('ERR_FAILED_TO_LOCK_MODULE');
 			}
 		}
 
@@ -78,13 +78,13 @@ class Import_Main_View extends Vtiger_View_Controller
 	 * Show import status
 	 * @param array $importInfo
 	 * @param Users_Record_Model $user
-	 * @throws \Exception\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	public static function showImportStatus($importInfo, $user)
 	{
 		if (empty($importInfo)) {
 			Import_Utils_Helper::showErrorPage(\App\Language::translate('ERR_IMPORT_INTERRUPTED', 'Import'));
-			throw new \Exception\AppException(\App\Language::translate('ERR_IMPORT_INTERRUPTED', 'Import'));
+			throw new \App\Exceptions\AppException('ERR_IMPORT_INTERRUPTED');
 		}
 		$importDataController = new Import_Data_Action($importInfo, $user);
 		if ($importInfo['temp_status'] === Import_Queue_Action::$IMPORT_STATUS_HALTED ||
@@ -115,7 +115,6 @@ class Import_Main_View extends Vtiger_View_Controller
 		$viewer->assign('MODULE', 'Import');
 		$viewer->assign('IMPORT_ID', $importId);
 		$viewer->assign('IMPORT_RESULT', $importStatusCount);
-		$viewer->assign('INVENTORY_MODULES', getInventoryModules());
 		$viewer->assign('CONTINUE_IMPORT', $continueImport);
 
 		$viewer->view('ImportStatus.tpl', 'Import');
@@ -131,7 +130,6 @@ class Import_Main_View extends Vtiger_View_Controller
 		$viewer->assign('MODULE', 'Import');
 		$viewer->assign('OWNER_ID', $ownerId);
 		$viewer->assign('IMPORT_RESULT', $importStatusCount);
-		$viewer->assign('INVENTORY_MODULES', getInventoryModules());
 		$viewer->assign('TYPE', $importInfo['type']);
 		$viewer->assign('MERGE_ENABLED', $importInfo['merge_type']);
 
@@ -211,14 +209,17 @@ class Import_Main_View extends Vtiger_View_Controller
 		Import_Queue_Action::add($this->request, $this->user);
 	}
 
-	public static function deleteMap($request)
+	/**
+	 * Delete map
+	 * @param \App\Request $request
+	 */
+	public static function deleteMap(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$mapId = $request->get('mapid');
+		$mapId = $request->getInteger('mapid');
 		if (!empty($mapId)) {
 			Import_Map_Model::markAsDeleted($mapId);
 		}
-
 		$viewer = new Vtiger_Viewer();
 		$viewer->assign('FOR_MODULE', $moduleName);
 		$viewer->assign('MODULE', 'Import');
@@ -226,5 +227,3 @@ class Import_Main_View extends Vtiger_View_Controller
 		$viewer->view('Import_Saved_Maps.tpl', 'Import');
 	}
 }
-
-?>

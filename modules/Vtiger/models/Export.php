@@ -4,7 +4,7 @@
  * Export Model Class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Export_Model extends \App\Base
@@ -20,7 +20,7 @@ class Vtiger_Export_Model extends \App\Base
 
 	public static function getInstanceFromRequest(\App\Request $request)
 	{
-		$moduleName = $request->get('source_module');
+		$moduleName = $request->getByType('source_module', 2);
 		if (empty($moduleName)) {
 			$moduleName = $request->getModule();
 		}
@@ -36,7 +36,7 @@ class Vtiger_Export_Model extends \App\Base
 
 	public function initialize(\App\Request $request)
 	{
-		$moduleName = $request->get('source_module');
+		$moduleName = $request->getByType('source_module', 2);
 		if (!empty($moduleName)) {
 			$this->moduleName = $moduleName;
 			$this->moduleInstance = Vtiger_Module_Model::getInstance($moduleName);
@@ -51,18 +51,17 @@ class Vtiger_Export_Model extends \App\Base
 	 */
 	public function exportData(\App\Request $request)
 	{
-		$moduleName = $request->get('source_module');
+		$moduleName = $request->getByType('source_module', 2);
 		$query = $this->getExportQuery($request);
-
 		$headers = [];
 		$exportBlockName = \AppConfig::module('Export', 'BLOCK_NAME');
 		//Query generator set this when generating the query
 		if (!empty($this->accessibleFields)) {
-			foreach ($this->accessibleFields as &$fieldName) {
+			foreach ($this->accessibleFields as $fieldName) {
 				if (!empty($this->moduleFieldInstances[$fieldName])) {
 					$fieldModel = $this->moduleFieldInstances[$fieldName];
 					// Check added as querygenerator is not checking this for admin users
-					if ($fieldModel && ($fieldModel->isViewEnabled() || $fieldModel->isMandatory())) { // export headers for mandatory fields
+					if ($fieldModel && $fieldModel->isExportTable()) { // export headers for mandatory fields
 						$header = \App\Language::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $moduleName);
 						if ($exportBlockName) {
 							$header = App\Language::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $moduleName) . '::' . $header;
@@ -72,7 +71,7 @@ class Vtiger_Export_Model extends \App\Base
 				}
 			}
 		} else {
-			foreach ($this->moduleFieldInstances as &$fieldModel) {
+			foreach ($this->moduleFieldInstances as $fieldModel) {
 				$header = \App\Language::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $moduleName);
 				if ($exportBlockName) {
 					$header = App\Language::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $moduleName) . '::' . $header;
@@ -80,7 +79,6 @@ class Vtiger_Export_Model extends \App\Base
 				$headers[] = $header;
 			}
 		}
-
 		$isInventory = $this->moduleInstance->isInventory();
 		if ($isInventory) {
 			//Get inventory headers
@@ -126,11 +124,9 @@ class Vtiger_Export_Model extends \App\Base
 	 */
 	public function getExportQuery(\App\Request $request)
 	{
-		$mode = $request->getMode();
-		$cvId = $request->get('viewname');
-		$queryGenerator = new \App\QueryGenerator($request->get('source_module'));
-		if (!empty($cvId)) {
-			$queryGenerator->initForCustomViewById($cvId);
+		$queryGenerator = new \App\QueryGenerator($request->getByType('source_module', 2));
+		if (!$request->isEmpty('viewname', true)) {
+			$queryGenerator->initForCustomViewById($request->getByType('viewname', 2));
 		}
 		$fieldInstances = $this->moduleFieldInstances;
 		$fields[] = 'id';
@@ -143,7 +139,7 @@ class Vtiger_Export_Model extends \App\Base
 		$queryGenerator->setFields($fields);
 		$query = $queryGenerator->createQuery();
 		$this->accessibleFields = $queryGenerator->getFields();
-		switch ($mode) {
+		switch ($request->getMode()) {
 			case 'ExportAllData' :
 				$query->limit(AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 				break;
@@ -151,7 +147,7 @@ class Vtiger_Export_Model extends \App\Base
 			case 'ExportCurrentPage' :
 				$pagingModel = new Vtiger_Paging_Model();
 				$limit = $pagingModel->getPageLimit();
-				$currentPage = $request->get('page');
+				$currentPage = $request->getInteger('page');
 				if (empty($currentPage)) {
 					$currentPage = 1;
 				}
@@ -198,10 +194,10 @@ class Vtiger_Export_Model extends \App\Base
 	 * @param array $headers - output file header
 	 * @param array $entries - outfput file data
 	 */
-	public function output($request, $headers, $entries)
+	public function output(\App\Request $request, $headers, $entries)
 	{
-		$moduleName = $request->get('source_module');
-		$fileName = str_replace(' ', '_', decode_html(\App\Language::translate($moduleName, $moduleName))) . '.csv';
+		$moduleName = $request->getByType('source_module', 2);
+		$fileName = str_replace(' ', '_', \App\Purifier::decodeHtml(\App\Language::translate($moduleName, $moduleName))) . '.csv';
 		$exportType = $this->getExportContentType($request);
 
 		header("Content-Disposition: attachment; filename=\"$fileName\"");
@@ -248,7 +244,7 @@ class Vtiger_Export_Model extends \App\Base
 				unset($arr[$fieldName]);
 				continue;
 			}
-			$value = trim(decode_html($value), "\"");
+			$value = trim(App\Purifier::decodeHtml($value), "\"");
 			$uitype = $fieldInfo->get('uitype');
 			$fieldname = $fieldInfo->get('name');
 
@@ -268,20 +264,21 @@ class Vtiger_Export_Model extends \App\Base
 				} else {
 					$value = '';
 				}
+			} elseif ($uitype === 99) {
+				$value = '';
 			} elseif ($uitype === 52 || $type === 'owner') {
-				$value = Vtiger_Util_Helper::getOwnerName($value);
+				$value = \App\Fields\Owner::getLabel($value);
 			} elseif ($uitype === 120) {
 				$uitypeInstance = new Vtiger_SharedOwner_UIType;
-				$owners = $uitypeInstance->getEditViewDisplayValue([], $recordId);
 				$values = [];
-				foreach ($owners as $owner) {
-					$values[] = Vtiger_Util_Helper::getOwnerName($owner);
+				foreach ($uitypeInstance->getSharedOwners($recordId) as $owner) {
+					$values[] = \App\Fields\Owner::getLabel($owner);
 				}
 				$value = implode(',', $values);
 			} elseif ($type === 'reference') {
 				$value = trim($value);
 				if (!empty($value)) {
-					$recordModule = \vtlib\Functions::getCRMRecordType($value);
+					$recordModule = \App\Record::getType($value);
 					$displayValueArray = \App\Record::computeLabels($recordModule, $value);
 					if (!empty($displayValueArray)) {
 						foreach ($displayValueArray as $k => $v) {
@@ -316,7 +313,7 @@ class Vtiger_Export_Model extends \App\Base
 			if (in_array($field->getName(), ['Name', 'Reference'])) {
 				$value = trim($value);
 				if (!empty($value)) {
-					$recordModule = \vtlib\Functions::getCRMRecordType($value);
+					$recordModule = \App\Record::getType($value);
 					$displayValue = \App\Record::getLabel($value);
 					if (!empty($recordModule) && !empty($displayValue)) {
 						$value = $recordModule . '::::' . $displayValue;
@@ -338,13 +335,15 @@ class Vtiger_Export_Model extends \App\Base
 					case 'currencyparam':
 						$field = $inventoryFields['currency'];
 						$valueData = $field->getCurrencyParam([], $valueParam);
-						$valueNewData = [];
-						foreach ($valueData as $currencyId => &$data) {
-							$currencyName = vtlib\Functions::getCurrencyName($currencyId, false);
-							$data['value'] = $currencyName;
-							$valueNewData[$currencyName] = $data;
+						if (is_array($valueData)) {
+							$valueNewData = [];
+							foreach ($valueData as $currencyId => $data) {
+								$currencyName = vtlib\Functions::getCurrencyName($currencyId, false);
+								$data['value'] = $currencyName;
+								$valueNewData[$currencyName] = $data;
+							}
+							$valueParam = \App\Json::encode($valueNewData);
 						}
-						$valueParam = \App\Json::encode($valueNewData);
 						break;
 					default:
 						break;

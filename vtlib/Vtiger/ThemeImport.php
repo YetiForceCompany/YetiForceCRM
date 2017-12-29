@@ -29,7 +29,7 @@ class ThemeImport extends ThemeExport
 	 * Initialize Import
 	 * @access private
 	 */
-	public function initImport($zipfile, $overwrite)
+	public function initImport($zipfile, $overwrite = true)
 	{
 		$this->__initSchema();
 		$name = $this->getModuleNameFromZip($zipfile);
@@ -46,7 +46,7 @@ class ThemeImport extends ThemeExport
 		$this->initImport($zipfile, $overwrite);
 
 		// Call module import function
-		$this->import_Theme($zipfile);
+		$this->importTheme($zipfile);
 	}
 
 	/**
@@ -64,7 +64,7 @@ class ThemeImport extends ThemeExport
 	 * Import Module
 	 * @access private
 	 */
-	public function import_Theme($zipfile)
+	public function importTheme($zipfile)
 	{
 		$name = $this->_modulexml->name;
 		$label = $this->_modulexml->label;

@@ -15,15 +15,16 @@ class Vtiger_NoteBook_Action extends Vtiger_Action_Controller
 	/**
 	 * Function to check permission
 	 * @param \App\Request $request
-	 * @throws \Exception\NoPermittedForAdmin
+	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
-	public function checkPermission(\App\Request $request) {
+	public function checkPermission(\App\Request $request)
+	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUserModel->isAdminUser()) {
-			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
-	
+
 	public function __construct()
 	{
 		$this->exposeMethod('noteBookCreate');
@@ -31,9 +32,7 @@ class Vtiger_NoteBook_Action extends Vtiger_Action_Controller
 
 	public function process(\App\Request $request)
 	{
-		$mode = $request->getMode();
-
-		if ($mode) {
+		if ($mode = $request->getMode()) {
 			$this->invokeExposedMethod($mode, $request);
 		}
 	}
@@ -43,16 +42,16 @@ class Vtiger_NoteBook_Action extends Vtiger_Action_Controller
 		$dataValue['contents'] = $request->get('notePadContent');
 		$dataValue['lastSavedOn'] = date('Y-m-d H:i:s');
 		$data = \App\Json::encode((object) $dataValue);
-		$size = \App\Json::encode(['width' => $request->get('width'), 'height' => $request->get('height')]);
+		$size = \App\Json::encode(['width' => $request->getInteger('width'), 'height' => $request->getInteger('height')]);
 		$db = \App\Db::getInstance();
 		$db->createCommand()
 			->insert('vtiger_module_dashboard', [
-				'linkid' => $request->get('linkId'),
-				'blockid' => $request->get('blockid'),
+				'linkid' => $request->getInteger('linkId'),
+				'blockid' => $request->getInteger('blockid'),
 				'filterid' => 0,
 				'title' => $request->get('notePadName'),
 				'data' => $data,
-				'isdefault' => $request->get('isdefault'),
+				'isdefault' => $request->getInteger('isdefault'),
 				'size' => $size
 			])->execute();
 		$result = [];

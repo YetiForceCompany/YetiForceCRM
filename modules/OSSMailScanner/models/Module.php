@@ -4,7 +4,7 @@
  * OSSMailScanner module model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSMailScanner_Module_Model extends Vtiger_Module_Model
 {
@@ -23,16 +23,17 @@ class OSSMailScanner_Module_Model extends Vtiger_Module_Model
 
 	public function getSettingLinks()
 	{
-		vimport('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
+		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
 		$layoutEditorImagePath = Vtiger_Theme::getImagePath('LayoutEditor.gif');
 		$settingsLinks = [];
-		$db = PearDatabase::getInstance();
-		$result = $db->query("SELECT fieldid FROM vtiger_settings_field WHERE name = 'OSSMailScanner' AND description = 'OSSMailScanner'");
-
+		$fieldId = (new App\Db\Query())->select(['fieldid'])
+			->from('vtiger_settings_field')
+			->where(['name' => 'OSSMailScanner', 'description' => 'OSSMailScanner'])
+			->scalar();
 		$settingsLinks[] = [
 			'linktype' => 'LISTVIEWSETTING',
 			'linklabel' => 'LBL_MODULE_CONFIGURATION',
-			'linkurl' => 'index.php?module=OSSMailScanner&parent=Settings&view=Index&block=4&fieldid=' . $db->getSingleValue($result),
+			'linkurl' => 'index.php?module=OSSMailScanner&parent=Settings&view=Index&block=4&fieldid=' . $fieldId,
 			'linkicon' => $layoutEditorImagePath
 		];
 		return $settingsLinks;

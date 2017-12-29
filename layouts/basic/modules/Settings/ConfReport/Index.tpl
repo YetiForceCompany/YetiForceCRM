@@ -1,9 +1,9 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 
 <div class="">
 	<div class="widget_header row">
 		<div class="col-xs-10">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			{App\Language::translate('LBL_CONFREPORT_DESCRIPTION', $MODULE)}
 		</div>
 		<div class="col-xs-2">
@@ -185,7 +185,7 @@
 
         </div>
 		{* check config module *}
-		{if \App\Module::isModuleActive('OSSMail')}
+		{if \App\Module::isModuleActive('OSSMail') && Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission('OSSMail')}
 			<div class='editViewContainer tab-pane' id="check_config">
 				<iframe id="roundcube_interface" style="width: 100%; min-height: 590px;" src="index.php?module=OSSMail&view=CheckConfig" frameborder="0"> </iframe>
 			</div>

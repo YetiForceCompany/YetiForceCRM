@@ -3,7 +3,7 @@
  * ModuleManager polish translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'LBL_ERROR_MOVE_UPLOADED_FILE' => 'Błąd podczas wgrywania plików',
@@ -30,7 +30,7 @@ $languageStrings = [
 	'LBL_LICENSE' => 'Licencja',
 	'LBL_MODULE_NAME' => 'Nazwa pakietu',
 	'LBL_NO_LICENSE_PROVIDED' => 'Brak licencji producenta',
-	'LBL_NOT_FOUND' => "Przykro nam, nie ma aktualnie rozszerzeń dla Twojej wersji systemu CRM",
+	'LBL_NOT_FOUND' => 'Przykro nam, nie ma aktualnie rozszerzeń dla Twojej wersji systemu CRM',
 	'LBL_PROCEED_WITH_IMPORT' => 'Czy chcesz kontynuować import?',
 	'LBL_PUBLISHED_ON' => 'Opublikowany przez',
 	'LBL_PUBLISHER' => 'Opublikowane',
@@ -80,6 +80,7 @@ $languageStrings = [
 	'LBL_LIBRARY_NO_DOWNLOAD' => 'Niepobrana',
 	'LBL_LIBRARY_NEEDS_UPDATING' => 'Wymaga aktualizacji',
 	'LBL_NO_PERMISSION_TO_DIR' => 'Brak uprawnień do katalogów',
+	'LBL_ERROR_NO_VALID_PREFIX' => 'Nieprawidłowy prefix języka',
 ];
 $jsLanguageStrings = [
 	'JS_UPDATED_MODULE' => 'Aktualizacja przebiegła pomyślnie.',

@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-$mod_strings = Array(
+$mod_strings = [
 	'ModComments' => 'Comments',
 	'SINGLE_ModComments' => 'Comment',
 	'LBL_MODCOMMENTS_INFORMATION' => 'Comments Information',
@@ -27,6 +27,4 @@ $mod_strings = Array(
 	'LBL_MINE' => 'Mine',
 	'LBL_LAST5' => 'Last 5',
 	'ModComments ID' => 'Comments ID ',
-);
-
-?>
+];

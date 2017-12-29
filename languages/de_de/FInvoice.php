@@ -3,7 +3,8 @@
  * FInvoice german translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author skavenkf (K.Fink)
  */
 $languageStrings = [
 	'FInvoice' => 'Rechnungen',
@@ -34,7 +35,7 @@ $languageStrings = [
 	'PLL_CASH' => 'Bar',
 	'PLL_AWAITING_PAYMENT' => 'Zahlung erwartet',
 	'PLL_PARTIALLY_PAID' => 'Teilweise gezahlt',
-	'PLL_FULLY_PAID' => 'Vollstöndig gezahlt',
+	'PLL_FULLY_PAID' => 'Vollständig gezahlt',
 	'PLL_DOMESTIC_INVOICE' => 'Inländische Rechnung',
 	'PLL_FOREIGN_INVOICE' => 'Fremdwährungsrechnung',
 	'PLL_IC_INVOICE' => 'Gemeinschaftliche Warenrechnung',

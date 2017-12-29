@@ -3,7 +3,7 @@
  * PDF spanish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'PLL_TEXT' => 'Texto',
@@ -38,7 +38,7 @@ $languageStrings = [
 	'LBL_META_CREATOR' => 'Creador',
 	'LBL_META_SUBJECT' => 'Asunto',
 	'LBL_META_KEYWORDS' => 'Palabras claves',
-	'PLL_COMPANY_NAME' => 'Nombre de la empresa',
+	'PLL_COMPANY_NAME' => 'Nombre de la Empresa',
 	'PLL_USER_CREATING' => 'Usuario que genera el documento',
 	'LBL_METATAGS' => 'Etiquetas meta automáticas',
 	'LBL_PAGE_FORMAT' => 'Formato del documento',
@@ -65,7 +65,7 @@ $languageStrings = [
 	'LBL_RELATED_MODULES' => 'Módulos relacionados',
 	'LBL_RELATED_MODULES_FIELDS' => 'Campos de módulos relacionados',
 	'LBL_SPECIAL_FUNCTIONS' => 'Funciones especiales',
-	'LBL_COMPANY_FIELDS' => 'Detalles de la empresa',
+	'LBL_COMPANY_FIELDS' => 'Detalles de la Empresa',
 	'LBL_LABEL' => 'Etiqueta',
 	'LBL_FIELD' => 'Valor',
 	'LBL_HEADER_DETAILS' => 'Editar encabezado',

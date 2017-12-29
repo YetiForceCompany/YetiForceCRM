@@ -3,7 +3,7 @@
  * Basic file to handle files
  * @package YetiForce.Files
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 define('ROOT_DIRECTORY', __DIR__ !== DIRECTORY_SEPARATOR ? __DIR__ : '');
@@ -16,7 +16,6 @@ try {
 	$webUI->process(App\Request::init());
 } catch (Exception $e) {
 	\App\Log::error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
-	//var_dump($e->getMessage());
 	header('HTTP/1.1 400 Bad Request');
 }
 

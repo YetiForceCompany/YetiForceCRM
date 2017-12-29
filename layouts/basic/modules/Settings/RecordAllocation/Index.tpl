@@ -1,6 +1,6 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<input type="hidden" id="fieldType" value="{$TYPE}"/>
+	<input type="hidden" id="fieldType" value="{$TYPE}" />
 	{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers('Public')}
 	{assign var=ALL_MODULE_LIST value=Vtiger_Module_Model::getAll([0],[],true)}
 	<div class="">
@@ -20,7 +20,7 @@
 			{assign 'MODULE_NAME' $MODULE_MODEL->getName()}
 			{assign var=DATA value=Settings_RecordAllocation_Module_Model::getRecordAllocationByModule($TYPE, $MODULE_NAME)}
 			{if $DATA}
-				{include file='AddPanel.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+				{include file=\App\Layout::getTemplatePath('AddPanel.tpl', $QUALIFIED_MODULE)}
 			{/if}
 		{/foreach}
 	</div>

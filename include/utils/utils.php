@@ -24,7 +24,6 @@ require_once 'include/utils/ListViewUtils.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/utils/InventoryUtils.php';
 require_once 'include/utils/SearchUtils.php';
-require_once 'include/events/SqlResultIterator.php';
 require_once 'include/fields/DateTimeField.php';
 require_once 'include/fields/DateTimeRange.php';
 require_once 'include/fields/CurrencyField.php';
@@ -59,7 +58,7 @@ function getColumnFields($module)
 	\App\Log::trace('Entering getColumnFields(' . $module . ') method ...');
 
 	// Lookup in cache for information
-	$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
+	$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
 
 	if ($cachedModuleFields === false) {
 		$fieldsInfo = vtlib\Functions::getModuleFieldInfos($module);
@@ -72,14 +71,14 @@ function getColumnFields($module)
 			}
 		}
 		// For consistency get information from cache
-		$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
+		$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
 	}
 
 	if ($module == 'Calendar') {
-		$cachedEventsFields = VTCacheUtils::lookupFieldInfo_Module('Events');
+		$cachedEventsFields = VTCacheUtils::lookupFieldInfoModule('Events');
 		if (!$cachedEventsFields) {
 			getColumnFields('Events');
-			$cachedEventsFields = VTCacheUtils::lookupFieldInfo_Module('Events');
+			$cachedEventsFields = VTCacheUtils::lookupFieldInfoModule('Events');
 		}
 
 		if (!$cachedModuleFields) {
@@ -100,117 +99,6 @@ function getColumnFields($module)
 	return $column_fld;
 }
 
-/** Function to get a userid for outlook
- * @param $username -- username :: Type string
- * @returns $user_id -- user id :: Type integer
- */
-//outlook security
-function getUserId_Ol($username)
-{
-
-	\App\Log::trace('Entering getUserId_Ol(' . $username . ') method ...');
-	\App\Log::trace('in getUserId_Ol ' . $username);
-	$cache = Vtiger_Cache::getInstance();
-	if ($cache->getUserId($username) || $cache->getUserId($username) === 0) {
-		return $cache->getUserId($username);
-	} else {
-		$adb = PearDatabase::getInstance();
-		$sql = 'select id from vtiger_users where user_name=?';
-		$result = $adb->pquery($sql, array($username));
-		$num_rows = $adb->num_rows($result);
-		if ($num_rows > 0) {
-			$user_id = $adb->query_result($result, 0, 'id');
-		} else {
-			$user_id = 0;
-		}
-		\App\Log::trace('Exiting getUserId_Ol method ...');
-		$cache->setUserId($username, $user_id);
-		return $user_id;
-	}
-}
-
-/** Function to get a action id for a given action name
- * @param $action -- action name :: Type string
- * @returns $actionid -- action id :: Type integer
- */
-//outlook security
-
-function getActionid($action)
-{
-
-	\App\Log::trace('Entering getActionid(' . $action . ') method ...');
-
-	if (empty($action)) {
-		return null;
-	}
-	$actionid = Vtiger_Cache::get('getActionid', $action);
-	if ($actionid) {
-		\App\Log::trace('Exiting getActionid method ... - ' . $actionid);
-		return $actionid;
-	}
-	$actionIds = \App\Module::getTabData('actionId');
-	if (isset($actionIds[$action])) {
-		$actionid = $actionIds[$action];
-	}
-	if (empty($actionid)) {
-		$db = PearDatabase::getInstance();
-		$query = 'select actionid from vtiger_actionmapping where actionname=?';
-		$result = $db->pquery($query, [$action]);
-		$actionid = $db->getSingleValue($result);
-	}
-	Vtiger_Cache::set('getActionid', $action, $actionid);
-	\App\Log::trace('Exiting getActionid method ... - ' . $actionid);
-	return $actionid;
-}
-
-/** Function to get a action for a given action id
- * @param $action id -- action id :: Type integer
- * @returns $actionname-- action name :: Type string
- */
-function getActionname($actionid)
-{
-
-	\App\Log::trace('Entering getActionname(' . $actionid . ') method ...');
-	$adb = PearDatabase::getInstance();
-
-	$actionName = Vtiger_Cache::get('getActionName', $actionid);
-	if ($actionName) {
-		\App\Log::trace('Exiting getActionname method ...');
-		return $actionName;
-	}
-	if (file_exists('user_privileges/tabdata.php') && (filesize('user_privileges/tabdata.php') != 0)) {
-		include('user_privileges/tabdata.php');
-		$actionName = $action_name_array[$actionid];
-	} else {
-		$query = 'select actionname from vtiger_actionmapping where actionid=? and securitycheck=0';
-		$result = $adb->pquery($query, array($actionid));
-		$actionName = $adb->getSingleValue($result);
-	}
-	Vtiger_Cache::set('getActionName', $actionid, $actionName);
-	\App\Log::trace('Exiting getActionname method ...');
-	return $actionName;
-}
-
-/** Function to get a user id or group id for a given entity
- * @param $record -- entity id :: Type integer
- * @returns $ownerArr -- owner id :: Type array
- */
-function getRecordOwnerId($record)
-{
-
-	\App\Log::trace("Entering getRecordOwnerId($record) method ...");
-	$ownerArr = [];
-
-	$recordMetaData = vtlib\Functions::getCRMRecordMetadata($record);
-	if ($recordMetaData) {
-		$ownerId = $recordMetaData['smownerid'];
-		$type = \App\Fields\Owner::getType($ownerId);
-		$ownerArr[$type] = $ownerId;
-	}
-	\App\Log::trace('Exiting getRecordOwnerId method ...');
-	return $ownerArr;
-}
-
 // Return Question mark
 function _questionify($v)
 {
@@ -228,25 +116,6 @@ function generateQuestionMarks($items_list)
 	} else {
 		return implode(',', array_map('_questionify', explode(',', $items_list)));
 	}
-}
-
-/**
- * Function to find the UI type of a field based on the uitype id
- */
-function is_uitype($uitype, $reqtype)
-{
-	$ui_type_arr = array(
-		'_date_' => array(5, 6, 23, 70),
-		'_picklist_' => array(15, 16, 52, 53, 54, 55, 59, 62, 63, 66, 68, 76, 77, 78, 80, 98, 101, 115, 357),
-		'_users_list_' => array(52),
-	);
-
-	if ($ui_type_arr[$reqtype] !== null) {
-		if (in_array($uitype, $ui_type_arr[$reqtype])) {
-			return true;
-		}
-	}
-	return false;
 }
 
 /**
@@ -285,7 +154,7 @@ function formatForSqlLike($str, $flag = 0, $is_field = false)
 			}
 		}
 	}
-	return $adb->sql_escape_string($str);
+	return $adb->sqlEscapeString($str);
 }
 
 /** Function to get on clause criteria for duplicate check queries */
@@ -321,22 +190,22 @@ function getRelationTables($module, $secmodule)
 	$primary_obj = CRMEntity::getInstance($module);
 	$secondary_obj = CRMEntity::getInstance($secmodule);
 
-	$ui10_query = $adb->pquery("SELECT vtiger_field.tabid AS tabid,vtiger_field.tablename AS tablename, vtiger_field.columnname AS columnname FROM vtiger_field INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid WHERE (vtiger_fieldmodulerel.module=? && vtiger_fieldmodulerel.relmodule=?) || (vtiger_fieldmodulerel.module=? && vtiger_fieldmodulerel.relmodule=?)", array($module, $secmodule, $secmodule, $module));
-	if ($adb->num_rows($ui10_query) > 0) {
-		$ui10_tablename = $adb->query_result($ui10_query, 0, 'tablename');
-		$ui10_columnname = $adb->query_result($ui10_query, 0, 'columnname');
+	$ui10_query = $adb->pquery("SELECT vtiger_field.tabid AS tabid,vtiger_field.tablename AS tablename, vtiger_field.columnname AS columnname FROM vtiger_field INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid WHERE (vtiger_fieldmodulerel.module=? && vtiger_fieldmodulerel.relmodule=?) || (vtiger_fieldmodulerel.module=? && vtiger_fieldmodulerel.relmodule=?)", [$module, $secmodule, $secmodule, $module]);
+	if ($adb->numRows($ui10_query) > 0) {
+		$ui10_tablename = $adb->queryResult($ui10_query, 0, 'tablename');
+		$ui10_columnname = $adb->queryResult($ui10_query, 0, 'columnname');
 
 		if ($primary_obj->table_name == $ui10_tablename) {
-			$reltables = array($ui10_tablename => array("" . $primary_obj->table_index . "", "$ui10_columnname"));
+			$reltables = [$ui10_tablename => ["" . $primary_obj->table_index . "", "$ui10_columnname"]];
 		} else if ($secondary_obj->table_name == $ui10_tablename) {
-			$reltables = array($ui10_tablename => array("$ui10_columnname", "" . $secondary_obj->table_index . ""), "" . $primary_obj->table_name . "" => "" . $primary_obj->table_index . "");
+			$reltables = [$ui10_tablename => ["$ui10_columnname", "" . $secondary_obj->table_index . ""], "" . $primary_obj->table_name . "" => "" . $primary_obj->table_index . ""];
 		} else {
 			if (isset($secondary_obj->tab_name_index[$ui10_tablename])) {
 				$rel_field = $secondary_obj->tab_name_index[$ui10_tablename];
-				$reltables = array($ui10_tablename => array("$ui10_columnname", "$rel_field"), "" . $primary_obj->table_name . "" => "" . $primary_obj->table_index . "");
+				$reltables = [$ui10_tablename => ["$ui10_columnname", "$rel_field"], "" . $primary_obj->table_name . "" => "" . $primary_obj->table_index . ""];
 			} else {
 				$rel_field = $primary_obj->tab_name_index[$ui10_tablename];
-				$reltables = array($ui10_tablename => array("$rel_field", "$ui10_columnname"), "" . $primary_obj->table_name . "" => "" . $primary_obj->table_index . "");
+				$reltables = [$ui10_tablename => ["$rel_field", "$ui10_columnname"], "" . $primary_obj->table_name . "" => "" . $primary_obj->table_index . ""];
 			}
 		}
 	} else {
@@ -349,7 +218,7 @@ function getRelationTables($module, $secmodule)
 	if (is_array($reltables) && !empty($reltables)) {
 		$rel_array = $reltables;
 	} else {
-		$rel_array = array("vtiger_crmentityrel" => array("crmid", "relcrmid"), "" . $primary_obj->table_name . "" => "" . $primary_obj->table_index . "");
+		$rel_array = ["vtiger_crmentityrel" => ["crmid", "relcrmid"], "" . $primary_obj->table_name . "" => "" . $primary_obj->table_index . ""];
 	}
 	return $rel_array;
 }
@@ -358,10 +227,9 @@ function getRelationTables($module, $secmodule)
  * This function returns no value but handles the delete functionality of each entity.
  * Input Parameter are $module - module name, $return_module - return module name, $focus - module object, $record - entity id, $return_id - return entity id.
  */
-function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRecordId, $sourceRecordId, $relatedName = false)
+function DeleteEntity($destinationModule, $sourceModule, CRMEntity $focus, $destinationRecordId, $sourceRecordId, $relatedName = false)
 {
 	\App\Log::trace("Entering DeleteEntity method ($destinationModule, $sourceModule, $destinationRecordId, $sourceRecordId)");
-	require_once('include/events/include.php');
 	if ($destinationModule != $sourceModule && !empty($sourceModule) && !empty($sourceRecordId)) {
 		$eventHandler = new App\EventHandler();
 		$eventHandler->setModuleName($sourceModule);
@@ -375,13 +243,13 @@ function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRec
 		$eventHandler->trigger('EntityBeforeUnLink');
 
 		$focus->unlinkRelationship($destinationRecordId, $sourceModule, $sourceRecordId, $relatedName);
-		$focus->trackUnLinkedInfo($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId);
+		$focus->trackUnLinkedInfo($sourceRecordId);
 
 		$eventHandler->trigger('EntityAfterUnLink');
 	} else {
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->isPermitted($destinationModule, 'Delete', $destinationRecordId)) {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 		$focus->trash($destinationModule, $destinationRecordId);
 	}
@@ -391,7 +259,7 @@ function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRec
 /**
  * Function to related two records of different entity types
  */
-function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds, $relatedName = false)
+function relateEntities(CRMEntity $focus, $sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds, $relatedName = false)
 {
 	\App\Log::trace("Entering relateEntities method ($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds)");
 	if (!is_array($destinationRecordIds))
@@ -409,21 +277,11 @@ function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModu
 		$data['destinationRecordId'] = $destinationRecordId;
 		$eventHandler->setParams($data);
 		$eventHandler->trigger('EntityBeforeLink');
-		$focus->save_related_module($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId, $relatedName);
+		$focus->saveRelatedModule($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId, $relatedName);
 		CRMEntity::trackLinkedInfo($sourceRecordId);
 		$eventHandler->trigger('EntityAfterLink');
 	}
 	\App\Log::trace("Exiting relateEntities method ...");
-}
-
-/**
- * Function to check if a given record exists (not deleted)
- * @param integer $recordId - record id
- */
-function isRecordExists($recordId, $cache = true)
-{
-	$recordMetaData = vtlib\Functions::getCRMRecordMetadata($recordId);
-	return (isset($recordMetaData) && $recordMetaData['deleted'] == 0 ) ? true : false;
 }
 
 /** Function to set date values compatible to database (YY_MM_DD)
@@ -435,7 +293,7 @@ function getValidDBInsertDateValue($value)
 
 	\App\Log::trace("Entering getValidDBInsertDateValue(" . $value . ") method ...");
 	$value = trim($value);
-	$delim = array('/', '.');
+	$delim = ['/', '.'];
 	foreach ($delim as $delimiter) {
 		$x = strpos($value, $delimiter);
 		if ($x === false)
@@ -452,7 +310,7 @@ function getValidDBInsertDateValue($value)
 		$m = '0' . $m;
 	if (strlen($d) == 1)
 		$d = '0' . $d;
-	$value = implode('-', array($y, $m, $d));
+	$value = implode('-', [$y, $m, $d]);
 
 	if (strlen($y) < 4) {
 		$insert_date = DateTimeField::convertToDBFormat($value);
@@ -493,60 +351,6 @@ function getValidDBInsertDateTimeValue($value)
 	}
 }
 
-/** Function to return block name
- * @param Integer -- $blockid
- * @return String - Block Name
- */
-function getBlockName($blockid)
-{
-	$adb = PearDatabase::getInstance();
-
-	$blockname = VTCacheUtils::lookupBlockLabelWithId($blockid);
-
-	if (!empty($blockid) && $blockname === false) {
-		$block_res = $adb->pquery('SELECT blocklabel FROM vtiger_blocks WHERE blockid = ?', array($blockid));
-		if ($adb->num_rows($block_res)) {
-			$blockname = $adb->query_result($block_res, 0, 'blocklabel');
-		} else {
-			$blockname = '';
-		}
-		VTCacheUtils::updateBlockLabelWithId($blockname, $blockid);
-	}
-	return $blockname;
-}
-
-/**
- * Function to get the approximate difference between two date time values as string
- */
-function dateDiffAsString($d1, $d2)
-{
-	$currentModule = vglobal('currentModule');
-
-	$dateDiff = dateDiff($d1, $d2);
-
-	$years = $dateDiff['years'];
-	$months = $dateDiff['months'];
-	$days = $dateDiff['days'];
-	$hours = $dateDiff['hours'];
-	$minutes = $dateDiff['minutes'];
-	$seconds = $dateDiff['seconds'];
-
-	if ($years > 0) {
-		$diffString = "$years " . \App\Language::translate('LBL_YEARS', $currentModule);
-	} elseif ($months > 0) {
-		$diffString = "$months " . \App\Language::translate('LBL_MONTHS', $currentModule);
-	} elseif ($days > 0) {
-		$diffString = "$days " . \App\Language::translate('LBL_DAYS', $currentModule);
-	} elseif ($hours > 0) {
-		$diffString = "$hours " . \App\Language::translate('LBL_HOURS', $currentModule);
-	} elseif ($minutes > 0) {
-		$diffString = "$minutes " . \App\Language::translate('LBL_MINUTES', $currentModule);
-	} else {
-		$diffString = "$seconds " . \App\Language::translate('LBL_SECONDS', $currentModule);
-	}
-	return $diffString;
-}
-
 //Get the User selected NumberOfCurrencyDecimals
 function getCurrencyDecimalPlaces()
 {
@@ -557,69 +361,4 @@ function getCurrencyDecimalPlaces()
 	} else {
 		return 2;
 	}
-}
-
-function getInventoryModules()
-{
-	$inventoryModules = [];
-	return $inventoryModules;
-}
-
-/**
- * Function to get the list of Contacts related to an activity
- * @param Integer $activityId
- * @return Array $contactsList - List of Contact ids, mapped to Contact Names
- */
-function getActivityRelatedContacts($activityId)
-{
-	$adb = PearDatabase::getInstance();
-
-	$query = 'SELECT link FROM vtiger_activity WHERE activityid=?';
-	$result = $adb->pquery($query, array($activityId));
-
-	$noOfContacts = $adb->num_rows($result);
-	$contactsList = [];
-	for ($i = 0; $i < $noOfContacts; ++$i) {
-		$contactId = $adb->query_result($result, $i, 'link');
-		$displayValueArray = getEntityName('Contacts', $contactId);
-		if (!empty($displayValueArray)) {
-			foreach ($displayValueArray as $key => $field_value) {
-				$contact_name = $field_value;
-			}
-		} else {
-			$contact_name = '';
-		}
-		$contactsList[$contactId] = $contact_name;
-	}
-	return $contactsList;
-}
-
-/** Function to get the difference between 2 datetime strings or millisecond values */
-function dateDiff($d1, $d2)
-{
-	$d1 = (is_string($d1) ? strtotime($d1) : $d1);
-	$d2 = (is_string($d2) ? strtotime($d2) : $d2);
-
-	$diffSecs = abs($d1 - $d2);
-	$baseYear = min(date("Y", $d1), date("Y", $d2));
-	$diff = mktime(0, 0, $diffSecs, 1, 1, $baseYear);
-	return array(
-		"years" => date("Y", $diff) - $baseYear,
-		"months_total" => (date("Y", $diff) - $baseYear) * 12 + date("n", $diff) - 1,
-		"months" => date("n", $diff) - 1,
-		"days_total" => floor($diffSecs / (3600 * 24)),
-		"days" => date("j", $diff) - 1,
-		"hours_total" => floor($diffSecs / 3600),
-		"hours" => date("G", $diff),
-		"minutes_total" => floor($diffSecs / 60),
-		"minutes" => (int) date("i", $diff),
-		"seconds_total" => $diffSecs,
-		"seconds" => (int) date("s", $diff)
-	);
-}
-
-/** call back function to change the array values in to lower case */
-function lower_array(&$string)
-{
-	$string = strtolower(trim($string));
 }

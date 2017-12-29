@@ -3,7 +3,7 @@
  * AutomaticAssignment polish translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'LBL_AUTOMATIC_ASSIGNMENT' => 'Automatyczny przydział rekordów',
@@ -33,8 +33,8 @@ $languageStrings = [
 	'LBL_NOTE' => 'Informacja!',
 	'LBL_VALUE_INFO' => 'W poniższym polu ustawia się wartość dla wybranego pola modułu.',
 	'LBL_ROLES_INFO' => 'Z wybranych poniżej ról tworzona jest lista użytkowników wstępnie możliwych do przypisania.',
-	'LBL_SMOWNERS_INFO' => 'Z wybranych poniżej użytkowników, grup tworzona jest lista użytkowników wstępnie możliwych do przypisania. Ta lista użytkowników jet tworzona tylko wtedy, gdy brak uzytkowników wyselekcjonownych z ról.',
-	'LBL_ASSIGN_INFO' => 'Ustaw domyślnego właściciela rekordu. Zadana tu wartość zostanie przypisana do rekordu w momencie, gdy nieznaleziono użytkownika, który może zostać przypisany',
+	'LBL_SMOWNERS_INFO' => 'Z wybranych poniżej użytkowników, grup tworzona jest lista użytkowników wstępnie możliwych do przypisania. Ta lista użytkowników jest tworzona tylko wtedy, gdy brak użytkowników wyselekcjonownych z ról.',
+	'LBL_ASSIGN_INFO' => 'Ustaw domyślnego właściciela rekordu. Zadana tu wartość zostanie przypisana do rekordu w momencie, gdy nie znaleziono użytkownika, który może zostać przypisany',
 	'LBL_CONDITIONS_INFO' => 'Ustaw warunki wyszukiwania rekordów. W celu weselekcjonowania jednego użytkownika z dostępnej listy użytkowników zliczana jest ilość rekordów w danym module przypisanych do danych użytkowników. Użytkownik o najmniejszej liczbie rekordów zostaje przypisany do rekordu.',
 	'LBL_ROLEID_INFO' => 'Ustaw jeden z dwóch trybów pracy: SYSTEMOWY - wykorzystywany przez takie mechanizmy jak zadania workflow czy handlery; NIESYSTEMOWY –  umożliwia przypisanie rekordu ręcznie przez użytkownika.',
 ];

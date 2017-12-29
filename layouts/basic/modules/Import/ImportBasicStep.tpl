@@ -17,7 +17,7 @@
         <input type="hidden" name="mode" value="uploadAndParse" />
 	<div class='widget_header row '>
 		<div class="col-xs-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
 	</div>
 		<div class="col-xs-12 searchUIBasic paddingLRZero" style='margin:0 !important'>
@@ -29,18 +29,18 @@
 				</div>
 			{/if}
 			<div class="importContents col-xs-12">
-					{include file='Import_Step1.tpl'|@vtemplate_path:'Import'}
+					{include file=\App\Layout::getTemplatePath('Import_Step1.tpl', 'Import')}
 			</div>
 			<div class="importContents col-xs-12">
-				{include file='Import_Step2.tpl'|@vtemplate_path:'Import'}
+				{include file=\App\Layout::getTemplatePath('Import_Step2.tpl', 'Import')}
 			</div>
             {if $DUPLICATE_HANDLING_NOT_SUPPORTED neq 'true'}
 				<div class="importContents col-xs-12">
-					{include file='Import_Step3.tpl'|@vtemplate_path:'Import'}
+					{include file=\App\Layout::getTemplatePath('Import_Step3.tpl', 'Import')}
 				</div>
             {/if}
 			<div class="col-xs-12 paddingBottom10">
-				{include file='Import_Basic_Buttons.tpl'|@vtemplate_path:'Import'}
+				{include file=\App\Layout::getTemplatePath('Import_Basic_Buttons.tpl', 'Import')}
 			</div>
         </div>
     </form>

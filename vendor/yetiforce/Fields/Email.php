@@ -5,7 +5,7 @@ namespace App\Fields;
  * Tools for email class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Email
@@ -31,14 +31,25 @@ class Email
 		}
 	}
 
+	/**
+	 * Find crm id by email.
+	 * @param string|int $value
+	 * @param array $allowedModules
+	 * @param array $skipModules
+	 * @return string
+	 */
 	public static function findCrmidByEmail($value, $allowedModules = [], $skipModules = [])
 	{
 		$db = \PearDatabase::getInstance();
 		$rows = $ids = $params = $fields = [];
 		$query = '';
 		$countWhere = 0;
-		$result = $db->query('SELECT vtiger_field.columnname,vtiger_field.tablename,vtiger_field.fieldlabel,vtiger_field.tabid,vtiger_tab.name FROM vtiger_field INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_field.tabid WHERE vtiger_tab.presence = 0 && vtiger_field.presence <> 1 && (uitype = 13 || uitype = 104)');
-		while ($row = $db->getRow($result)) {
+		$dataReader = (new \App\Db\Query())->select(['vtiger_field.columnname', 'vtiger_field.tablename', 'vtiger_field.fieldlabel', 'vtiger_field.tabid', 'vtiger_tab.name'])
+				->from('vtiger_field')->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')
+				->where(['vtiger_tab.presence' => 0])
+				->andWhere(['<>', 'vtiger_field.presence', 1])
+				->andWhere(['or', ['uitype' => 13], ['uitype' => 104]])->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$fields[$row['name']][$row['tablename']][$row['columnname']] = $row;
 		}
 		foreach ($fields as $moduleName => &$moduleFields) {
@@ -86,6 +97,11 @@ class Email
 		return $rows;
 	}
 
+	/**
+	 * Get user mail.
+	 * @param int $userId
+	 * @return string
+	 */
 	public static function getUserMail($userId)
 	{
 		$userModel = \App\User::getUserModel($userId);

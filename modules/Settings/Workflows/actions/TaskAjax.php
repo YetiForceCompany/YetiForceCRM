@@ -15,10 +15,10 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('Delete');
-		$this->exposeMethod('ChangeStatus');
-		$this->exposeMethod('ChangeStatusAllTasks');
-		$this->exposeMethod('Save');
+		$this->exposeMethod('delete');
+		$this->exposeMethod('changeStatus');
+		$this->exposeMethod('changeStatusAllTasks');
+		$this->exposeMethod('save');
 	}
 
 	public function process(\App\Request $request)
@@ -30,19 +30,19 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 		}
 	}
 
-	public function Delete(\App\Request $request)
+	public function delete(\App\Request $request)
 	{
 		$record = $request->get('task_id');
 		if (!empty($record)) {
 			$taskRecordModel = Settings_Workflows_TaskRecord_Model::getInstance($record);
 			$taskRecordModel->delete();
 			$response = new Vtiger_Response();
-			$response->setResult(array('ok'));
+			$response->setResult(['ok']);
 			$response->emit();
 		}
 	}
 
-	public function ChangeStatus(\App\Request $request)
+	public function changeStatus(\App\Request $request)
 	{
 		$record = $request->get('task_id');
 		if (!empty($record)) {
@@ -54,12 +54,12 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 				$taskObject->active = false;
 			$taskRecordModel->save();
 			$response = new Vtiger_Response();
-			$response->setResult(array('ok'));
+			$response->setResult(['ok']);
 			$response->emit();
 		}
 	}
 
-	public function ChangeStatusAllTasks(\App\Request $request)
+	public function changeStatusAllTasks(\App\Request $request)
 	{
 		$record = $request->get('record');
 		$status = $request->get('status');
@@ -76,12 +76,12 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 				$taskRecordModel->save();
 			}
 			$response = new Vtiger_Response();
-			$response->setResult(array('success' => true, 'count' => count($taskList)));
+			$response->setResult(['success' => true, 'count' => count($taskList)]);
 			$response->emit();
 		}
 	}
 
-	public function Save(\App\Request $request)
+	public function save(\App\Request $request)
 	{
 
 		$workflowId = $request->get('for_workflow');
@@ -105,10 +105,10 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 			$checkSelectDate = $request->get('check_select_date');
 
 			if (!empty($checkSelectDate)) {
-				$trigger = array(
+				$trigger = [
 					'days' => ($request->get('select_date_direction') == 'after' ? 1 : -1) * (int) $request->get('select_date_days'),
 					'field' => $request->get('select_date_field')
-				);
+				];
 				$taskObject->trigger = $trigger;
 			} else {
 				$taskObject->trigger = null;
@@ -161,7 +161,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_IndexAjax_View
 
 			$taskRecordModel->save();
 			$response = new Vtiger_Response();
-			$response->setResult(array('for_workflow' => $workflowId));
+			$response->setResult(['for_workflow' => $workflowId]);
 			$response->emit();
 		}
 	}

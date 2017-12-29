@@ -4,19 +4,24 @@
  * Calendar action class
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
-
-		if (!$permission) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		if (!$userPrivilegesModel->hasModulePermission($request->getModule())) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+		if ($request->getMode() === 'updateEvent' && ($request->isEmpty('id', true) || !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('id')))) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -38,18 +43,18 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 	public function getEvents(\App\Request $request)
 	{
 		$record = Calendar_Calendar_Model::getCleanInstance();
-		$record->set('user', $request->get('user'));
+		$record->set('user', $request->getArray('user'));
 		$record->set('types', $request->getArray('types'));
-		$record->set('time', $request->get('time'));
-		if ($request->get('start') && $request->get('end')) {
-			$record->set('start', $request->get('start'));
-			$record->set('end', $request->get('end'));
+		$record->set('time', $request->getByType('time'));
+		if ($request->has('start') && $request->has('end')) {
+			$record->set('start', $request->getByType('start', 'DateInUserFormat'));
+			$record->set('end', $request->getByType('end', 'DateInUserFormat'));
 		}
 		if ($request->has('filters')) {
 			$record->set('filters', $request->get('filters'));
 		}
 		if ($request->get('widget')) {
-			$record->set('customFilter', $request->get('customFilter'));
+			$record->set('customFilter', $request->getByType('customFilter', 2));
 			$entity = $record->getEntityCount();
 		} else {
 			$entity = $record->getEntity();
@@ -63,42 +68,34 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 	public function updateEvent(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->get('id');
-		$actionname = 'EditView';
-		if (isPermitted($moduleName, $actionname, $recordId) === 'no') {
-			$succes = false;
-		} else {
-			$delta = $request->get('delta');
+		$recordId = $request->getInteger('id');
+		$delta = $request->getArray('delta');
 
-			$start = DateTimeField::convertToDBTimeZone($request->get('start'));
-			$date_start = $start->format('Y-m-d');
-			$time_start = $start->format('H:i:s');
-			$succes = false;
-			if (!empty($recordId)) {
-				try {
-					$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-					$recordData = $recordModel->entity->column_fields;
-					$end = self::changeDateTime($recordData['due_date'] . ' ' . $recordData['time_end'], $delta);
-					$due_date = $end['date'];
-					$time_end = $end['time'];
-					$recordModel->set('id', $recordId);
-					$recordModel->set('date_start', $date_start);
-					$recordModel->set('due_date', $due_date);
-					if ($request->get('allDay') == 'true') {
-						$recordModel->set('allday', 1);
-						$start = self::changeDateTime($recordData['date_start'] . ' ' . $recordData['time_start'], $delta);
-						$recordModel->set('date_start', $start['date']);
-					} else {
-						$recordModel->set('time_start', $time_start);
-						$recordModel->set('time_end', $time_end);
-						$recordModel->set('allday', 0);
-					}
-					$recordModel->save();
-					$succes = true;
-				} catch (Exception $e) {
-					$succes = false;
-				}
+		$start = DateTimeField::convertToDBTimeZone($request->get('start'));
+		$date_start = $start->format('Y-m-d');
+		$time_start = $start->format('H:i:s');
+		try {
+			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+			$recordData = $recordModel->entity->column_fields;
+			$end = self::changeDateTime($recordData['due_date'] . ' ' . $recordData['time_end'], $delta);
+			$due_date = $end['date'];
+			$time_end = $end['time'];
+			$recordModel->setId($recordId);
+			$recordModel->set('date_start', $date_start);
+			$recordModel->set('due_date', $due_date);
+			if ($request->getBoolean('allDay')) {
+				$recordModel->set('allday', 1);
+				$start = self::changeDateTime($recordData['date_start'] . ' ' . $recordData['time_start'], $delta);
+				$recordModel->set('date_start', $start['date']);
+			} else {
+				$recordModel->set('time_start', $time_start);
+				$recordModel->set('time_end', $time_end);
+				$recordModel->set('allday', 0);
 			}
+			$recordModel->save();
+			$succes = true;
+		} catch (Exception $e) {
+			$succes = false;
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($succes);

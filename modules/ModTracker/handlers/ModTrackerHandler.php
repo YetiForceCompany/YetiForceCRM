@@ -28,12 +28,12 @@ class ModTracker_ModTrackerHandler_Handler
 			unset($delta['createdtime'], $delta['modifiedtime'], $delta['id'], $delta['newRecord'], $delta['modifiedby']);
 			$status = ModTracker::$CREATED;
 			$watchdogTitle = 'LBL_CREATED';
-			$watchdogMessage = '(recordChanges: listOfAllValues)';
+			$watchdogMessage = '$(record : ChangesListValues)$';
 		} else {
 			$delta = $recordModel->getPreviousValue();
 			$status = ModTracker::$UPDATED;
 			$watchdogTitle = 'LBL_UPDATED';
-			$watchdogMessage = '(recordChanges: listOfAllChanges)';
+			$watchdogMessage = '$(record : ChangesListValues)$';
 		}
 		if (empty($delta)) {
 			return false;
@@ -92,8 +92,8 @@ class ModTracker_ModTrackerHandler_Handler
 		if (AppConfig::module('ModTracker', 'WATCHDOG')) {
 			$watchdogTitle = 'LBL_ADDED';
 			$watchdogMessage = '<a href="index.php?module=' . $params['sourceModule'] . '&view=Detail&record=' . $params['sourceRecordId'] . '">' . vtlib\Functions::getCRMRecordLabel($params['sourceRecordId']) . '</a>';
-			$watchdogMessage .= ' (translate: [LBL_WITH]) ';
-			$watchdogMessage .= '<a href="index.php?module=' . $params['destinationModule'] . '&view=Detail&record=' . $params['destinationRecordId'] . '">(general: RecordLabel)</a>';
+			$watchdogMessage .= ' $(translate : LBL_WITH)$ ';
+			$watchdogMessage .= '<a href="index.php?module=' . $params['destinationModule'] . '&view=Detail&record=' . $params['destinationRecordId'] . '">$(record : RecordLabel)$</a>';
 			$this->addNotification($params['destinationModule'], $params['destinationRecordId'], $watchdogTitle, $watchdogMessage);
 		}
 	}
@@ -112,8 +112,8 @@ class ModTracker_ModTrackerHandler_Handler
 		if (AppConfig::module('ModTracker', 'WATCHDOG')) {
 			$watchdogTitle = 'LBL_REMOVED';
 			$watchdogMessage = '<a href="index.php?module=' . $params['sourceModule'] . '&view=Detail&record=' . $params['sourceRecordId'] . '">' . vtlib\Functions::getCRMRecordLabel($params['sourceRecordId']) . '</a>';
-			$watchdogMessage .= ' (translate: [LBL_WITH]) ';
-			$watchdogMessage .= '<a href="index.php?module=' . $params['destinationModule'] . '&view=Detail&record=' . $params['destinationRecordId'] . '">(general: RecordLabel)</a>';
+			$watchdogMessage .= ' $(translate : LBL_WITH)$ ';
+			$watchdogMessage .= '<a href="index.php?module=' . $params['destinationModule'] . '&view=Detail&record=' . $params['destinationRecordId'] . '">$(record : RecordLabel)$</a>';
 			$this->addNotification($params['destinationModule'], $params['destinationRecordId'], $watchdogTitle, $watchdogMessage);
 		}
 	}
@@ -138,19 +138,35 @@ class ModTracker_ModTrackerHandler_Handler
 	}
 
 	/**
-	 * EntityAfterRestore handler function
+	 * EntityChangeState handler function
 	 * @param App\EventHandler $eventHandler
 	 */
-	public function entityAfterRestore(App\EventHandler $eventHandler)
+	public function entityChangeState(App\EventHandler $eventHandler)
 	{
-		$recordId = $eventHandler->getRecordModel()->getId();
+		if (!ModTracker::isTrackingEnabledForModule($eventHandler->getModuleName())) {
+			return false;
+		}
+		$recordModel = $eventHandler->getRecordModel();
+		$recordId = $recordModel->getId();
+		$status = 0;
+		switch ($recordModel->get('deleted')) {
+			case 'Active':
+				$status = ModTracker::$ACTIVE;
+				break;
+			case 'Trash':
+				$status = ModTracker::$TRASH;
+				break;
+			case 'Archived':
+				$status = ModTracker::$ARCHIVED;
+				break;
+		}
 		$db = \App\Db::getInstance();
 		$db->createCommand()->insert('vtiger_modtracker_basic', [
 			'crmid' => $recordId,
 			'module' => $eventHandler->getModuleName(),
 			'whodid' => \App\User::getCurrentUserRealId(),
 			'changedon' => date('Y-m-d H:i:s'),
-			'status' => ModTracker::$RESTORED,
+			'status' => $status,
 			'last_reviewed_users' => '#' . \App\User::getCurrentUserRealId() . '#'
 		])->execute();
 		$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
@@ -159,15 +175,19 @@ class ModTracker_ModTrackerHandler_Handler
 		if ($isExists) {
 			$db->createCommand()->update('vtiger_crmentity', ['was_read' => 0], ['crmid' => $recordId])->execute();
 		}
-		$this->addNotification($eventHandler->getModuleName(), $recordId, 'LBL_RESTORED');
+		$this->addNotification($eventHandler->getModuleName(), $recordId, ModTracker_Record_Model::$statusLabel[$status]);
 	}
 
 	/**
 	 * EntityBeforeDelete handler function
 	 * @param App\EventHandler $eventHandler
+	 * @return boolean
 	 */
 	public function entityBeforeDelete(App\EventHandler $eventHandler)
 	{
+		if (!ModTracker::isTrackingEnabledForModule($eventHandler->getModuleName())) {
+			return false;
+		}
 		$recordId = $eventHandler->getRecordModel()->getId();
 		$db = \App\Db::getInstance();
 		$db->createCommand()->insert('vtiger_modtracker_basic', [
@@ -184,7 +204,7 @@ class ModTracker_ModTrackerHandler_Handler
 		if ($isExists) {
 			$db->createCommand()->update('vtiger_crmentity', ['was_read' => 0], ['crmid' => $recordId])->execute();
 		}
-		$this->addNotification($eventHandler->getModuleName(), $recordId, 'LBL_REMOVED');
+		$this->addNotification($eventHandler->getModuleName(), $recordId, ModTracker_Record_Model::$statusLabel[$status]);
 	}
 
 	/**

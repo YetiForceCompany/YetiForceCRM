@@ -4,7 +4,7 @@
  * Notification Record Model
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -34,7 +34,7 @@ class Notification_Module_Model extends Vtiger_Module_Model
 	public function getEntries($limit = false, $conditions = false)
 	{
 		$queryGenerator = new App\QueryGenerator($this->getName());
-		$queryGenerator->setFields(['description', 'assigned_user_id', 'id', 'title', 'link', 'process', 'subprocess', 'createdtime', 'notification_type', 'smcreatorid']);
+		$queryGenerator->setFields(['description', 'assigned_user_id', 'id', 'title', 'link', 'linkextend', 'process', 'subprocess', 'createdtime', 'notification_type', 'smcreatorid']);
 		$queryGenerator->addNativeCondition(['smownerid' => \App\User::getCurrentUserId()]);
 		if (!empty($conditions)) {
 			$queryGenerator->addNativeCondition($conditions);

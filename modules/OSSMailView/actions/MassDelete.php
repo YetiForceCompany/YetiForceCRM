@@ -4,17 +4,22 @@
  * Mass delete action class
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class OSSMailView_MassDelete_Action extends Vtiger_Mass_Action
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'MassDelete')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -35,13 +40,13 @@ class OSSMailView_MassDelete_Action extends Vtiger_Mass_Action
 		$recordModel = new OSSMailView_Record_Model();
 		$recordModel->setModule($moduleName);
 
-		$recordIds = $this->getRecordsListFromRequest($request);
+		$recordIds = self::getRecordsListFromRequest($request);
 
 		$permission = true;
 		foreach ($recordIds as $recordId) {
-			if (Users_Privileges_Model::isPermitted($moduleName, 'Delete', $recordId)) {
-				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName); // YTfixme: not 100% sure thats whats expected
-				$recordModel->delete_rel($recordId);
+			if (\App\Privilege::isPermitted($moduleName, 'Delete', $recordId)) {
+				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+				$recordModel->deleteRel($recordId);
 				$recordModel->delete();
 			} else {
 				$permission = false;
@@ -49,10 +54,10 @@ class OSSMailView_MassDelete_Action extends Vtiger_Mass_Action
 		}
 
 		if (!$permission) {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 
-		$cvId = $request->get('viewname');
+		$cvId = $request->getByType('viewname', 2);
 		$response = new Vtiger_Response();
 		$response->setResult(['viewname' => $cvId, 'module' => $moduleName]);
 		$response->emit();

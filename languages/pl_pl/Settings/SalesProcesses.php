@@ -3,12 +3,12 @@
  * SalesProcesses polish translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'LBL_SALES_PROCESSES' => 'Sprzedaż',
 	'LBL_SALES_PROCESSES_DESCRIPTION' => ' ',
-	'LBL_LIMIT_PRODUCT_AND_SERVICE' => 'Ogranicz wybór produktów/usług tylko do powiązanych z aktualnie wybraną Szansą sprzedaży. Dotyczy modułów: Zapytania ofertowe, Karty wymagań, Kalkulacje, Oferty, Zamówienia jednorazowe, Zamówienia okresowe.',
+	'LBL_LIMIT_PRODUCT_AND_SERVICE' => 'Ogranicz wybór produktów/usług tylko do powiązanych z aktualnie wybraną Szansą sprzedaży. Dotyczy modułów: Zapytania ofertowe, Karty wymagań, Kalkulacje, Oferty, Zamówienia, Zamówienia okresowe.',
 	'LBL_PRODUCTS_AND_SERVICES_POPUP' => 'Wybór produktów i usług',
 	'LBL_UPDATE_SHARED_PERMISSIONS' => 'Aktualizacja uprawnień współdzielonych w szansie sprzedaży z produktu/usługi, podczas powiazywania szansy sprzedaży z produktem/usługą.',
 	'LBL_STATUSES_CLOSED_CALCULATION' => 'Statusy określające zamknięcie kalkulacji',

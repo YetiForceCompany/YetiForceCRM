@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <div class="dashboardWidgetHeader">
 	{foreach key=index item=cssModel from=$STYLES}
 		<link rel="{$cssModel->getRel()}" href="{$cssModel->getHref()}" type="{$cssModel->getType()}" media="{$cssModel->getMedia()}" />
@@ -26,6 +26,6 @@
 </div>
 
 <div class="dashboardWidgetContent">
-	{include file="dashboards/ChartsContents.tpl"|@vtemplate_path:$MODULE_NAME}
+	{include file=\App\Layout::getTemplatePath('dashboards/ChartsContents.tpl', $MODULE_NAME)}
 </div>
 

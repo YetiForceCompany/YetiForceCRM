@@ -51,9 +51,9 @@ class Vtiger_DashBoard_Model extends \App\Base
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$currentUserPrivilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
-
-		if ($action == 'Header')
+		if ($action === 'Header') {
 			$action = 0;
+		}
 		$query = (new \App\Db\Query())->select('vtiger_links.*, mdw.userid, mdw.data, mdw.active, mdw.title, mdw.size, mdw.filterid,
 					mdw.id AS widgetid, mdw.position, vtiger_links.linkid AS id, mdw.limit, mdw.cache, mdw.owners, mdw.isdefault')
 			->from('vtiger_links')
@@ -64,15 +64,16 @@ class Vtiger_DashBoard_Model extends \App\Base
 
 		while ($row = $dataReader->read()) {
 			$row['linkid'] = $row['id'];
-			if ($row['linklabel'] == 'Mini List') {
-				if (!$row['isdefault'])
+			if ($row['linklabel'] === 'Mini List') {
+				if (!$row['isdefault']) {
 					$row['deleteFromList'] = true;
+				}
 				$minilistWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
 				$minilistWidgetModel = new Vtiger_MiniList_Model();
 				$minilistWidgetModel->setWidgetModel($minilistWidget);
 				$minilistWidget->set('title', $minilistWidgetModel->getTitle());
 				$widgets[] = $minilistWidget;
-			} elseif ($row['linklabel'] == 'ChartFilter') {
+			} elseif ($row['linklabel'] === 'ChartFilter') {
 				if (!$row['isdefault'])
 					$row['deleteFromList'] = true;
 				$charFilterWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
@@ -91,7 +92,7 @@ class Vtiger_DashBoard_Model extends \App\Base
 			$filterid = $widget->get('filterid');
 			$module = $this->getModuleNameFromLink($url, $label);
 
-			if ($module == 'Home' && !empty($filterid) && !empty($data)) {
+			if ($module === 'Home' && !empty($filterid) && !empty($data)) {
 				$filterData = \App\Json::decode(htmlspecialchars_decode($data));
 				$module = $filterData['module'];
 			}
@@ -208,11 +209,11 @@ class Vtiger_DashBoard_Model extends \App\Base
 		while ($row = $dataReader->read()) {
 			$tabId = $row['module'] ? $row['module'] : $row['tabid'];
 			if (!isset($modules[$tabId])) {
-				$modules[$tabId] = vtlib\Functions::getModuleName($tabId);
+				$modules[$tabId] = \App\Module::getModuleName($tabId);
 			}
 		}
 		ksort($modules);
-		if ($moduleName && ($tabId = vtlib\Functions::getModuleId($moduleName))) {
+		if ($moduleName && ($tabId = \App\Module::getModuleId($moduleName))) {
 			unset($modules[$tabId]);
 			$modules = array_merge([$tabId => $moduleName], $modules);
 		}

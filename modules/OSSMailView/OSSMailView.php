@@ -4,7 +4,7 @@
  * OSSMailView CRMEntity class
  * @package YetiForce.CRMEntity
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSMailView extends CRMEntity
 {
@@ -19,36 +19,36 @@ class OSSMailView extends CRMEntity
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('vtiger_ossmailviewcf', 'ossmailviewid');
+	public $customFieldTable = ['vtiger_ossmailviewcf', 'ossmailviewid'];
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_ossmailview', 'vtiger_ossmailviewcf');
-	public $related_tables = Array('vtiger_ossmailviewcf' => Array('ossmailviewid', 'vtiger_ossmailview', 'ossmailviewid'));
+	public $tab_name = ['vtiger_crmentity', 'vtiger_ossmailview', 'vtiger_ossmailviewcf'];
+	public $related_tables = ['vtiger_ossmailviewcf' => ['ossmailviewid', 'vtiger_ossmailview', 'ossmailviewid']];
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
-	public $tab_name_index = Array(
+	public $tab_name_index = [
 		'vtiger_crmentity' => 'crmid',
 		'vtiger_ossmailview' => 'ossmailviewid',
-		'vtiger_ossmailviewcf' => 'ossmailviewid');
+		'vtiger_ossmailviewcf' => 'ossmailviewid'];
 
 	/**
 	 * Mandatory for Listing (Related listview)
 	 */
-	public $list_fields = Array(
+	public $list_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'number' => Array('ossmailview' => 'ossmailview_no'),
-		'From' => Array('ossmailview' => 'from_email'),
-		'Subject' => Array('ossmailview' => 'subject'),
-		'To' => Array('ossmailview' => 'to_email'),
-		'SendType' => Array('ossmailview' => 'ossmailview_sendtype'),
-		'Assigned To' => Array('ossmailview' => 'assigned_user_id')
-	);
-	public $list_fields_name = Array(
+		'number' => ['ossmailview' => 'ossmailview_no'],
+		'From' => ['ossmailview' => 'from_email'],
+		'Subject' => ['ossmailview' => 'subject'],
+		'To' => ['ossmailview' => 'to_email'],
+		'SendType' => ['ossmailview' => 'ossmailview_sendtype'],
+		'Assigned To' => ['ossmailview' => 'assigned_user_id']
+	];
+	public $list_fields_name = [
 		/* Format: Field Label => fieldname */
 		'number' => 'ossmailview_no',
 		'From' => 'from_email',
@@ -56,7 +56,7 @@ class OSSMailView extends CRMEntity
 		'To' => 'to_email',
 		'SendType' => 'ossmailview_sendtype',
 		'Assigned To' => 'assigned_user_id'
-	);
+	];
 
 	/**
 	 * @var string[] List of fields in the RelationListView
@@ -65,17 +65,17 @@ class OSSMailView extends CRMEntity
 	// Make the field link to detail view
 	public $list_link_field = 'subject';
 	// For Popup listview and UI type support
-	public $search_fields = Array(
+	public $search_fields = [
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'number' => Array('ossmailview' => 'ossmailview_no'),
-		'From' => Array('ossmailview' => 'from_email'),
-		'Subject' => Array('ossmailview' => 'subject'),
-		'To' => Array('ossmailview' => 'to_email'),
-		'SendType' => Array('ossmailview' => 'ossmailview_sendtype'),
-		'Assigned To' => Array('ossmailview' => 'assigned_user_id')
-	);
-	public $search_fields_name = Array(
+		'number' => ['ossmailview' => 'ossmailview_no'],
+		'From' => ['ossmailview' => 'from_email'],
+		'Subject' => ['ossmailview' => 'subject'],
+		'To' => ['ossmailview' => 'to_email'],
+		'SendType' => ['ossmailview' => 'ossmailview_sendtype'],
+		'Assigned To' => ['ossmailview' => 'assigned_user_id']
+	];
+	public $search_fields_name = [
 		/* Format: Field Label => fieldname */
 		'number' => 'ossmailview_no',
 		'From' => 'from_email',
@@ -83,18 +83,18 @@ class OSSMailView extends CRMEntity
 		'To' => 'to_email',
 		'SendType' => 'ossmailview_sendtype',
 		'Assigned To' => 'assigned_user_id'
-	);
+	];
 	// For Popup window record selection
-	public $popup_fields = Array('from', 'subject', 'ossmailview_sendtype');
+	public $popup_fields = ['from', 'subject', 'ossmailview_sendtype'];
 	// For Alphabetical search
 	public $def_basicsearch_col = 'subject';
 	// Required Information for enabling Import feature
-	public $required_fields = Array('subject' => 1);
+	public $required_fields = ['subject' => 1];
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public $mandatory_fields = Array('subject', 'from');
+	public $mandatory_fields = ['subject', 'from'];
 	// Callback function list during Importing
-	public $special_functions = Array('set_import_assigned_user');
+	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = '';
 	public $default_sort_order = 'DESC';
 	public $unit_price;
@@ -125,12 +125,12 @@ class OSSMailView extends CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($module));
-		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", [$module]);
+		$linkedFieldsCount = $this->db->numRows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
-			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
-			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
+			$related_module = $this->db->queryResult($linkedModulesQuery, $i, 'relmodule');
+			$columnname = $this->db->queryResult($linkedModulesQuery, $i, 'columnname');
 
 			$other = CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
@@ -191,7 +191,7 @@ class OSSMailView extends CRMEntity
 	/**
 	 * Create query to export the records.
 	 */
-	public function create_export_query($where)
+	public function createExportQuery($where)
 	{
 		$current_user = vglobal('current_user');
 
@@ -234,11 +234,11 @@ class OSSMailView extends CRMEntity
 	/**
 	 * Transform the value while exporting
 	 */
-	public function transform_export_value($key, $value)
+	public function transformExportValue($key, $value)
 	{
 		if ($key == 'owner')
 			return \App\Fields\Owner::getLabel($value);
-		return parent::transform_export_value($key, $value);
+		return parent::transformExportValue($key, $value);
 	}
 
 	/**
@@ -291,38 +291,33 @@ class OSSMailView extends CRMEntity
 
 	/**
 	 * Invoked when special actions are performed on the module.
-	 * @param String Module name
-	 * @param String Event Type
+	 * @param string $moduleName Module name
+	 * @param string $eventType Event Type
 	 */
-	public function vtlib_handler($moduleName, $eventType)
+	public function moduleHandler($moduleName, $eventType)
 	{
 		require_once('include/utils/utils.php');
-		$adb = PearDatabase::getInstance();
-		if ($eventType == 'module.postinstall') {
+		$dbCommand = App\Db::getInstance()->createCommand();
+		if ($eventType === 'module.postinstall') {
 			\App\Fields\RecordNumber::setNumber($moduleName, 'M_', 1);
 			$displayLabel = 'OSSMailView';
-			$adb->query("UPDATE vtiger_tab SET customized=0 WHERE name='$displayLabel'");
-
-			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('email_list', 'widget_limit', '10'));
-			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('email_list', 'target', '_blank'));
-			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('email_list', 'permissions', 'vtiger'));
-			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(vtlib\Functions::getModuleId($moduleName));
+			$dbCommand->update('vtiger_tab', ['customized' => 0], ['name' => $displayLabel])->execute();
+			$dbCommand->insert('vtiger_ossmailscanner_config', ['conf_type' => 'email_list', 'parameter' => 'widget_limit', 'value' => '10'])->execute();
+			$dbCommand->insert('vtiger_ossmailscanner_config', ['conf_type' => 'email_list', 'parameter' => 'target', 'value' => '_blank'])->execute();
+			$dbCommand->insert('vtiger_ossmailscanner_config', ['conf_type' => 'email_list', 'parameter' => 'permissions', 'value' => 'vtiger'])->execute();
+			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\App\Module::getModuleId($moduleName));
 			$registerLink = true;
-			$Module = vtlib\Module::getInstance($moduleName);
-			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
-			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_InstallModule', $moduleName . ' ' . $Module->version, $user_id), false);
-		} else if ($eventType == 'module.disabled') {
+			$module = vtlib\Module::getInstance($moduleName);
+			$userName = \App\User::getCurrentUserModel()->getDetail('user_name');
+			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_InstallModule', 'info' => $moduleName . ' ' . $module->version, 'user' => $userName])->execute();
+		} else if ($eventType === 'module.disabled') {
 			$registerLink = false;
-		} else if ($eventType == 'module.enabled') {
+		} else if ($eventType === 'module.enabled') {
 			$registerLink = true;
-		} else if ($eventType == 'module.preuninstall') {
-			
-		} else if ($eventType == 'module.preupdate') {
-			
-		} else if ($eventType == 'module.postupdate') {
-			$Module = vtlib\Module::getInstance($moduleName);
-			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
-			App\Db::getInstance()->createCommand()->insert('vtiger_ossmails_logs', ['action' => 'Action_UpdateModule', 'info' => $moduleName . ' ' . $Module->version, 'user' => $user_id, 'start_time' => date('Y-m-d H:i:s')])->execute();
+		} else if ($eventType === 'module.postupdate') {
+			$module = vtlib\Module::getInstance($moduleName);
+			$userName = \App\User::getCurrentUserModel()->getDetail('user_name');
+			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_UpdateModule', 'info' => $moduleName . ' ' . $module->version, 'user' => $userName, 'start_time' => date('Y-m-d H:i:s')])->execute();
 		}
 		$displayLabel = 'Mail View';
 		if ($registerLink) {
@@ -333,7 +328,7 @@ class OSSMailView extends CRMEntity
 				'linkto' => 'index.php?module=OSSMailView&parent=Settings&view=index'
 			]);
 		} else {
-			$adb->pquery("DELETE FROM vtiger_settings_field WHERE name=?", array($displayLabel));
+			$dbCommand->delete('vtiger_settings_field', ['name' => $displayLabel])->execute();
 		}
 	}
 }

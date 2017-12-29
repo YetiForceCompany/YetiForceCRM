@@ -4,7 +4,7 @@
  * Settings OSSMailView index view class
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 {
@@ -19,10 +19,14 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 		}
 	}
 
+	/**
+	 * Create widget - first step
+	 * @param \App\Request $request
+	 */
 	public function createStep1(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$sourceModule = $request->get('mod');
+		$sourceModule = $request->getInteger('mod');
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleModel = Settings_Widgets_Module_Model::getInstance($qualifiedModuleName);
@@ -50,7 +54,7 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 				'limit' => 5, 'relatedmodule' => '', 'columns' => '', 'action' => '', 'switchHeader' => '', 'filter' => '', 'checkbox' => ''
 			], 'nomargin' => '', 'label' => ''
 		]);
-		$viewer->assign('SOURCEMODULE', vtlib\Functions::getModuleName($tabId));
+		$viewer->assign('SOURCEMODULE', \App\Module::getModuleName($tabId));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
@@ -74,7 +78,7 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 		$type = $WidgetInfo['type'];
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SOURCE', $WidgetInfo['tabid']);
-		$viewer->assign('SOURCEMODULE', vtlib\Functions::getModuleName($WidgetInfo['tabid']));
+		$viewer->assign('SOURCEMODULE', \App\Module::getModuleName($WidgetInfo['tabid']));
 		$viewer->assign('WID', $wid);
 		$viewer->assign('WIDGETINFO', $WidgetInfo);
 		$viewer->assign('TYPE', $type);

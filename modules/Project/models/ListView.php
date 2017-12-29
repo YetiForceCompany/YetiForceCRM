@@ -23,14 +23,14 @@ class Project_ListView_Model extends Vtiger_ListView_Model
 	{
 		$links = parent::getListViewLinks($linkParams);
 
-		$quickLinks = array(
-			array(
+		$quickLinks = [
+			[
 				'linktype' => 'LISTVIEWQUICK',
 				'linklabel' => 'Tasks List',
 				'linkurl' => $this->getModule()->getDefaultUrl(),
 				'linkicon' => ''
-			),
-		);
+			],
+		];
 		foreach ($quickLinks as $quickLink) {
 			$links['LISTVIEWQUICK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
 		}

@@ -4,24 +4,11 @@
  * Sen mail manually action model class
  * @package YetiForce.Settings.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 class Settings_Mail_SendManuallyAjax_Action extends Settings_Vtiger_IndexAjax_View
 {
-
-	/**
-	 * Checking permission 
-	 * @param \App\Request $request
-	 * @throws \Exception\NoPermittedForAdmin
-	 */
-	public function checkPermission(\App\Request $request)
-	{
-		$currentUserModel = \App\User::getCurrentUserModel();
-		if (!$currentUserModel->isAdmin()) {
-			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
-		}
-	}
 
 	/**
 	 * Process

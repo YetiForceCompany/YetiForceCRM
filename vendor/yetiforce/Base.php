@@ -5,7 +5,7 @@ namespace App;
  * Base class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Base
@@ -64,7 +64,11 @@ class Base
 		if (!isset($this->value[$key])) {
 			return $value;
 		}
-		$value = settype($this->value[$key], 'array');
+		if (is_string($this->value[$key]) && (strpos($this->value[$key], '[') === 0 || strpos($this->value[$key], '{') === 0)) {
+			$value = Json::decode($this->value[$key]);
+		} else {
+			$value = settype($this->value[$key], 'array');
+		}
 		return $value;
 	}
 

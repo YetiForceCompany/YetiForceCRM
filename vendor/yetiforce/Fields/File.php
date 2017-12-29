@@ -5,7 +5,7 @@ namespace App\Fields;
  * File class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class File
@@ -30,10 +30,22 @@ class File
 	private static $phpInjection = ['image'];
 
 	/**
+	 * Directory path used for temporary files
+	 * @var string
+	 */
+	private static $tmpPath;
+
+	/**
 	 * File path
 	 * @var string 
 	 */
 	private $path;
+
+	/**
+	 * File extension
+	 * @var string
+	 */
+	private $ext;
 
 	/**
 	 * File mime type
@@ -72,6 +84,20 @@ class File
 	private $validateAllCodeInjection = false;
 
 	/**
+	 * Load file instance from file info
+	 * @param array $fileInfo
+	 * @return \self
+	 */
+	public static function loadFromInfo($fileInfo)
+	{
+		$instance = new self();
+		foreach ($fileInfo as $key => $value) {
+			$instance->$key = $fileInfo[$key];
+		}
+		return $instance;
+	}
+
+	/**
 	 * Load file instance from request
 	 * @param array $file
 	 * @return \self
@@ -94,25 +120,72 @@ class File
 	 */
 	public static function loadFromPath($path, $separator = DIRECTORY_SEPARATOR)
 	{
-		$info = pathinfo($path);
 		$instance = new self();
-		$instance->name = $info['basename'];
+		$instance->name = basename($path);
 		$instance->path = $path;
 		return $instance;
 	}
 
 	/**
-	 * Load file instance from file info
+	 * Load file instance from content
 	 * @param array $fileInfo
 	 * @return \self
 	 */
-	public static function loadFromInfo($fileInfo)
+	public static function loadFromContent($content, $name = false, $param = [])
 	{
+		$ext = 'tmp';
+		if (empty($name)) {
+			static::initMimeTypes();
+			if (!empty($param['mimeShortType']) && !($ext = array_search($param['mimeShortType'], static::$mimeTypes))) {
+				list($type, $ext) = explode('/', $param['mimeShortType']);
+			}
+			$name = uniqid() . '.' . $ext;
+		}
+		if ($ext === 'tmp' && ($fileExt = pathinfo($name, PATHINFO_EXTENSION))) {
+			$ext = $fileExt;
+		}
+		$path = tempnam(static::getTmpPath(), 'YFF');
+		$success = file_put_contents($path, $content);
+		if (!$success) {
+			\App\Log::error('Error while saving the file: ' . $path, __CLASS__);
+			return false;
+		}
 		$instance = new self();
-		foreach ($fileInfo as $key => $value) {
-			$instance->$key = $fileInfo[$key];
+		$instance->name = $name;
+		$instance->path = $path;
+		$instance->ext = $ext;
+		if (isset($param['mimeShortType'])) {
+			$instance->mimeType = $param['mimeShortType'];
+		}
+		foreach ($param as $key => $value) {
+			$instance->$key = $value;
 		}
 		return $instance;
+	}
+
+	/**
+	 * Load file instance from url
+	 * @param type $url
+	 * @param type $param
+	 * @return boolean
+	 */
+	public static function loadFromUrl($url, $param = [])
+	{
+		if (empty($url)) {
+			\App\Log::error('No url: ' . $url , __CLASS__);
+			return false;
+		}
+		$arrHeader = get_headers($url, 1);
+		if (strpos($arrHeader[0], '200 OK') === false) {
+			\App\Log::error('Error when downloading content: ' . $url . ' | ' . print_r ($arrHeader, true), __CLASS__);
+			return false;
+		}
+		$content = file_get_contents($url);
+		if (empty($content)) {
+			\App\Log::error('Url does not contain content: ' . $url , __CLASS__);
+			return false;
+		}
+		return static::loadFromContent($content, basename($url));
 	}
 
 	/**
@@ -137,6 +210,15 @@ class File
 	}
 
 	/**
+	 * Get file name
+	 * @return string
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
+
+	/**
 	 * Get mime type
 	 * @return string 
 	 */
@@ -144,8 +226,7 @@ class File
 	{
 		if (empty($this->mimeType)) {
 			static::initMimeTypes();
-			$ext = explode('.', $this->name);
-			$ext = strtolower(array_pop($ext));
+			$ext = $this->getExtension(true);
 			if (isset(self::$mimeTypes[$ext])) {
 				$this->mimeType = self::$mimeTypes[$ext];
 			} elseif (function_exists('mime_content_type')) {
@@ -175,12 +256,28 @@ class File
 	}
 
 	/**
-	 * Get extension
+	 * Get file extension
 	 * @return string
 	 */
-	public function getExtension()
+	public function getExtension($fromName = false)
 	{
-		return pathinfo($this->path, PATHINFO_EXTENSION);
+		if (isset($this->ext)) {
+			return $this->ext;
+		}
+		if ($fromName) {
+			$ext = explode('.', $this->name);
+			return $this->ext = strtolower(array_pop($ext));
+		}
+		return $this->ext = strtolower(pathinfo($this->path, PATHINFO_EXTENSION));
+	}
+
+	/**
+	 * Get file path
+	 * @return string
+	 */
+	public function getPath()
+	{
+		return $this->path;
 	}
 
 	/**
@@ -217,8 +314,8 @@ class File
 	 */
 	private function checkFile()
 	{
-		if ($this->error !== false && $this->error != 0) {
-			throw new \Exception('Error request: ' . $this->error);
+		if ($this->error !== false && $this->error != UPLOAD_ERR_OK) {
+			throw new \Exception('Error request: ' . $this->getErrorMessage($this->error));
 		}
 		if (empty($this->name)) {
 			throw new \Exception('Empty name');
@@ -264,7 +361,7 @@ class File
 		if ($this->validateAllCodeInjection || in_array($this->getShortMimeType(0), self::$phpInjection)) {
 			// Check for php code injection
 			$content = $this->getContents();
-			if (preg_match('/(<\?php?(.*?))/i', $content) === 1 || preg_match('/(<?script(.*?)language(.*?)=(.*?)"(.*?)php(.*?)"(.*?))/i', $content) === 1 || stripos($content, '<?=') !== false || stripos($content, '<? ') !== false || stripos($content, '<% ') !== false) {
+			if (preg_match('/(<\?php?(.*?))/s', $content) === 1 || preg_match('/(<?script(.*?)language(.*?)=(.*?)"(.*?)php(.*?)"(.*?))/s', $content) === 1 || stripos($content, '<?=') !== false || stripos($content, '<%=') !== false || stripos($content, '<? ') !== false || stripos($content, '<% ') !== false) {
 				throw new \Exception('Error php code injection');
 			}
 			if (function_exists('exif_read_data') && ($this->mimeType === 'image/jpeg' || $this->mimeType === 'image/tiff') && in_array(exif_imagetype($this->path), [IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM])) {
@@ -293,7 +390,7 @@ class File
 				}
 			}
 		} else {
-			if (preg_match('/(<\?php?(.*?))/i', $data) === 1 || preg_match('/(<?script(.*?)language(.*?)=(.*?)"(.*?)php(.*?)"(.*?))/i', $data) === 1 || stripos($data, '<?=') !== false || stripos($data, '<? ') !== false || stripos($data, '<% ') !== false) {
+			if (preg_match('/(<\?php?(.*?))/i', $data) === 1 || preg_match('/(<?script(.*?)language(.*?)=(.*?)"(.*?)php(.*?)"(.*?))/i', $data) === 1 || stripos($data, '<?=') !== false || stripos($data, '<%=') !== false || stripos($data, '<? ') !== false || stripos($data, '<% ') !== false) {
 				return false;
 			}
 		}
@@ -328,6 +425,18 @@ class File
 	}
 
 	/**
+	 * Delete file
+	 * @return bool
+	 */
+	public function delete()
+	{
+		if (file_exists($this->path)) {
+			return unlink($this->path);
+		}
+		return false;
+	}
+
+	/**
 	 * Function to sanitize the upload file name when the file name is detected to have bad extensions
 	 * @param string $fileName File name to be sanitized
 	 * @param string|boolean $badFileExtensions
@@ -355,6 +464,32 @@ class File
 			$newFileName .= '.txt';
 		}
 		return $newFileName;
+	}
+
+	/**
+	 * Get temporary directory path
+	 * @return string
+	 */
+	public static function getTmpPath()
+	{
+		if (isset(static::$tmpPath)) {
+			return static::$tmpPath;
+		}
+		$hash = hash('crc32', ROOT_DIRECTORY);
+		if (!empty(ini_get('upload_tmp_dir')) && is_writable(ini_get('upload_tmp_dir'))) {
+			static::$tmpPath = ini_get('upload_tmp_dir') . DIRECTORY_SEPARATOR . 'YetiForceTemp' . $hash . DIRECTORY_SEPARATOR;
+			if (!is_dir(static::$tmpPath)) {
+				mkdir(static::$tmpPath);
+			}
+		} elseif (is_writable(sys_get_temp_dir())) {
+			static::$tmpPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'YetiForceTemp' . $hash . DIRECTORY_SEPARATOR;
+			if (!is_dir(static::$tmpPath)) {
+				mkdir(static::$tmpPath);
+			}
+		} elseif (is_writable(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'upload')) {
+			static::$tmpPath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'upload' . DIRECTORY_SEPARATOR;
+		}
+		return static::$tmpPath;
 	}
 
 	/**
@@ -416,14 +551,14 @@ class File
 		$data = rawurldecode($data);
 		$rawData = $isBase64 ? base64_decode($data) : $data;
 		if (strlen($rawData) < 12) {
+			\App\Log::error('Incorrect content value: ' . $content , __CLASS__);
 			return false;
 		}
-		static::initMimeTypes();
-		if (!$ext = array_search($contentType, self::$mimeTypes)) {
-			list($type, $ext) = explode('/', $contentType);
+		$fileInstance = static::loadFromContent($rawData, false, ['mimeShortType' => $contentType]);
+		if ($fileInstance->validate() && ($id = static::saveFromContent($fileInstance, $params))) {
+			return $id;
 		}
-		$fileName = uniqid() . '.' . $ext;
-		return static::saveFromContent($rawData, $fileName, $contentType, $params);
+		return false;
 	}
 
 	/**
@@ -434,51 +569,42 @@ class File
 	 */
 	public static function saveFromUrl($url, $params = [])
 	{
-		if (empty($url)) {
+		$fileInstance = static::loadFromUrl($url);
+		if (empty($url) || !$fileInstance) {
+			\App\Log::error('Invalid url: ' . $url , __CLASS__);
 			return false;
 		}
-		$arrHeader = @get_headers($url, 1);
-		if (strpos($arrHeader[0], '200') === false) {
-			return false;
+		if ($fileInstance->validate() && ($id = static::saveFromContent($fileInstance, $params))) {
+			return $id;
 		}
-		$content = file_get_contents($url);
-		if (empty($content)) {
-			return false;
-		}
-		return static::saveFromContent($content, basename($url), false, $params);
+		return false;
 	}
 
 	/**
 	 * Create document from content
-	 * @param string $content
-	 * @param string $fileName
-	 * @param string|boolean $contentType
+	 * @param \self $file
 	 * @param array $params
-	 * @return boolean|array
+	 * @return boolean
 	 */
-	public static function saveFromContent($content, $fileName, $contentType = false, $params = [])
+	public static function saveFromContent(self $file, $params = [])
 	{
-		$name = \vtlib\Functions::textLength($fileName, 50, false);
-		$filePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'upload' . DIRECTORY_SEPARATOR . $name;
-		$success = file_put_contents($filePath, $content);
-		if (!$success) {
-			return false;
-		}
+		$fileName = \vtlib\Functions::textLength($file->getName(), 50, false);
 		$record = \Vtiger_Record_Model::getCleanInstance('Documents');
 		$record->setData($params);
 		$record->set('notes_title', $fileName);
-		$record->set('filename', $name);
+		$record->set('filename', $file->getName());
 		$record->set('filestatus', 1);
 		$record->set('filelocationtype', 'I');
 		$record->set('folderid', 'T2');
 		$record->file = [
 			'name' => $fileName,
-			'size' => filesize($filePath),
-			'type' => $contentType ? $contentType : static::getMimeContentType($filePath),
-			'tmp_name' => $filePath,
+			'size' => $file->getSize(),
+			'type' => $file->getMimeType(),
+			'tmp_name' => $file->getPath(),
 			'error' => 0
 		];
 		$record->save();
+		$file->delete();
 		if (isset($record->ext['attachmentsId'])) {
 			return array_merge(['crmid' => $record->getId()], $record->ext);
 		}
@@ -527,5 +653,41 @@ class File
 			mkdir($filepath);
 		}
 		return $filepath . DIRECTORY_SEPARATOR;
+	}
+
+	/**
+	 * Get error message by code
+	 * @param int $code
+	 * @return string
+	 */
+	private function getErrorMessage($code)
+	{
+		switch ($code) {
+			case UPLOAD_ERR_INI_SIZE:
+				$message = 'The uploaded file exceeds the upload_max_filesize directive in php.ini';
+				break;
+			case UPLOAD_ERR_FORM_SIZE:
+				$message = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
+				break;
+			case UPLOAD_ERR_PARTIAL:
+				$message = 'The uploaded file was only partially uploaded';
+				break;
+			case UPLOAD_ERR_NO_FILE:
+				$message = 'No file was uploaded';
+				break;
+			case UPLOAD_ERR_NO_TMP_DIR:
+				$message = 'Missing a temporary folder';
+				break;
+			case UPLOAD_ERR_CANT_WRITE:
+				$message = 'Failed to write file to disk';
+				break;
+			case UPLOAD_ERR_EXTENSION:
+				$message = 'File upload stopped by extension';
+				break;
+			default:
+				$message = 'Unknown upload error';
+				break;
+		}
+		return $message;
 	}
 }

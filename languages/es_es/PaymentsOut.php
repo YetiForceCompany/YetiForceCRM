@@ -3,7 +3,7 @@
  * PaymentsOut spanish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'PaymentsOut' => 'Pagos realizados',
@@ -39,7 +39,7 @@ $languageStrings = [
 	'Amount' => 'Cantidad',
 	'Account' => 'Número de cuenta',
 	'Date' => 'Fecha',
-	'Kontrahent' => 'Cuenta',
+	'Kontrahent' => 'Empresa',
 	'Liczba transakcji:' => 'Cantidad de transacciones:',
 	'Title' => 'Asunto',
 	'NEXT' => 'Siguiente',

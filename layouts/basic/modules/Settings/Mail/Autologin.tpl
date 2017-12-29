@@ -1,20 +1,20 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 
 <div class="autologinContainer">
 	<div class="widget_header row">
 		<div class="col-xs-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			&nbsp;{\App\Language::translate('LBL_AUTOLOGIN_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	</div>
 	{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
-	<ul id="tabs" class="nav nav-tabs nav-justified" data-tabs="tabs">
-		<li class="active"><a href="#user_list" data-toggle="tab">{\App\Language::translate('LBL_USER_LIST', $QUALIFIED_MODULE)} </a></li>
-		<li><a href="#configuration" data-toggle="tab">{\App\Language::translate('LBL_CONFIGURATION', $QUALIFIED_MODULE)} </a></li>
+	<ul id="tabs" class="nav nav-tabs nav-justified" role="tablist">
+		<li role="presentation" class="active"><a href="#userListTab"  aria-controls="userListTab" role="tab" data-toggle="tab">{\App\Language::translate('LBL_USER_LIST', $QUALIFIED_MODULE)} </a></li>
+		<li role="presentation"><a href="#configurationTab"  aria-controls="configurationTab" role="tab" data-toggle="tab">{\App\Language::translate('LBL_CONFIGURATION', $QUALIFIED_MODULE)} </a></li>
 	</ul>
 	<br />
 	<div class="tab-content">
-		<div class="editViewContainer tab-pane active" id="user_list">
+		<div role="tabpanel" class="tab-pane active" id="userListTab">
 			<table class="table table-bordered table-condensed themeTableColor userTable">
 				<thead>
 					<tr class="blockHeader" >
@@ -27,7 +27,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{foreach from=$MODULE_MODEL->getAccountsList() key=KEY item=ITEM}	
+					{foreach from=$MODULE_MODEL->getAccountsList() key=KEY item=ITEM}
 						{assign var=USERS value=$MODULE_MODEL->getAutologinUsers($ITEM.user_id)}
 						<tr data-id="{$ITEM.user_id}">
 							<td><label>{$ITEM.username}</label></td>
@@ -41,9 +41,9 @@
 						</tr>
 					{/foreach}
 				</tbody>
-			</table>	
+			</table>
 		</div>
-		<div class="tab-pane" id="configuration">
+		<div role="tabpanel" class="tab-pane" id="configurationTab">
 			{assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('autologin')}
 			<div class="pull-left pagination-centered ">
 				<input class="configCheckbox" type="checkbox" name="autologinActive" id="autologinActive" value="1" {if $CONFIG['autologinActive']=='true'}checked=""{/if}>

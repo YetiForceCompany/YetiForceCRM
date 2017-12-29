@@ -46,7 +46,7 @@ class Import_ListView_Model extends Vtiger_ListView_Model
 		$this->loadListViewOrderBy();
 		$pageLimit = $pagingModel->getPageLimit();
 		$query = $this->getQueryGenerator()->createQuery();
-		if ($pagingModel->get('limit') !== 'no_limit') {
+		if ($pagingModel->get('limit') !== 0) {
 			$query->limit($pageLimit + 1)->offset($pagingModel->getStartIndex());
 		}
 		$query = $this->addLastImportedRecordConditions($query);
@@ -60,10 +60,8 @@ class Import_ListView_Model extends Vtiger_ListView_Model
 			$pagingModel->set('nextPageExists', false);
 		}
 		$listViewRecordModels = [];
-		foreach ($rows as &$row) {
-			$recordModel = $moduleModel->getRecordFromArray($row);
-			$recordModel->colorList = Settings_DataAccess_Module_Model::executeColorListHandlers($moduleModel->get('name'), $row['id'], $recordModel);
-			$listViewRecordModels[$row['id']] = $recordModel;
+		foreach ($rows as $row) {
+			$listViewRecordModels[$row['id']] = $moduleModel->getRecordFromArray($row);
 		}
 		unset($rows);
 		return $listViewRecordModels;

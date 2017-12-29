@@ -4,43 +4,34 @@
  * Wdiget to show new accounts
  * @package YetiForce.Dashboard
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 {
 
-	private function getAccounts($moduleName, $user, $time, $pagingModel)
+	/**
+	 * Function to get the newest accounts
+	 * @param string $moduleName
+	 * @param integer|array $user
+	 * @param array $time
+	 * @param Vtiger_Paging_Model $pagingModel
+	 * @return array
+	 */
+	private function getAccounts($moduleName, $user, $time, Vtiger_Paging_Model $pagingModel)
 	{
-		$time['start'] = DateTimeField::convertToDBFormat($time['start']);
-		$time['end'] = DateTimeField::convertToDBFormat($time['end']);
-		$time['start'] .= ' 00:00:00';
-		$time['end'] .= ' 23:59:59';
-		$sql = 'SELECT vtiger_crmentity.crmid ,vtiger_account.accountname, vtiger_crmentity.smownerid,	vtiger_crmentity.createdtime 
-			FROM vtiger_account
-			INNER JOIN vtiger_crmentity ON vtiger_account.accountid = vtiger_crmentity.crmid
-			WHERE vtiger_crmentity.setype = ? AND vtiger_crmentity.createdtime >= ? AND vtiger_crmentity.createdtime <= ? AND vtiger_crmentity.deleted = ?';
-		$params = [$moduleName, $time['start'], $time['end'], 0];
-		if (is_array($user)) {
-			$sql .= ' AND vtiger_crmentity.smownerid IN (' . generateQuestionMarks($user) . ') ';
-			$params = array_merge($params, $user);
-		} else {
-			$sql .= ' AND vtiger_crmentity.smownerid = ? ';
-			$params[] = $user;
-		}
-		$sql .= \App\PrivilegeQuery::getAccessConditions($moduleName);
-		$sql .= ' ORDER BY  vtiger_crmentity.createdtime DESC LIMIT ? OFFSET ?';
-
-		$params[] = $pagingModel->getPageLimit();
-		$params[] = $pagingModel->getStartIndex();
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery($sql, $params);
+		$queryGenerator = new App\QueryGenerator($moduleName);
+		$queryGenerator->setFields(['id', 'accountname', 'assigned_user_id', 'createdtime']);
+		$queryGenerator->addCondition('assigned_user_id', $user, 'e');
+		$queryGenerator->addCondition('createdtime', implode(',', $time), 'bw');
+		$queryGenerator->setLimit($pagingModel->getPageLimit());
+		$queryGenerator->setOffset($pagingModel->getStartIndex());
+		$queryGenerator->setOrder('createdtime', 'DESC');
+		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		$newAccounts = [];
-		while ($row = $db->getRow($result)) {
-			$row['userModel'] = Users_Privileges_Model::getInstanceById($row['smownerid']);
-			$time = new DateTimeField($row['createdtime']);
-			$row['createdtime'] = $time->getFullcalenderDateTimevalue();
-			$newAccounts[$row['crmid']] = $row;
+		while ($row = $dataReader->read()) {
+			$row['userModel'] = Users_Privileges_Model::getInstanceById($row['assigned_user_id']);
+			$newAccounts[$row['id']] = $row;
 		}
 		return $newAccounts;
 	}
@@ -49,8 +40,8 @@ class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$moduleName = $request->getModule();
-		$linkId = $request->get('linkid');
-		$user = $request->get('owner');
+		$linkId = $request->getInteger('linkid');
+		$user = $request->getByType('owner', 2);
 		$time = $request->getArray('time');
 		if (empty($time)) {
 			$time['start'] = vtlib\Functions::currentUserDisplayDateNew();
@@ -65,17 +56,16 @@ class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 		if ($user == 'all') {
 			$user = array_keys($accessibleUsers);
 		}
-		$page = $request->get('page');
+		$page = $request->getInteger('page');
 		if (empty($page)) {
 			$page = 1;
 		}
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', (int) $widget->get('limit'));
-		$newAccounts = $this->getAccounts($moduleName, $user, $time, $pagingModel);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('WIDGET', $widget);
-		$viewer->assign('NEW_ACCOUNTS', $newAccounts);
+		$viewer->assign('NEW_ACCOUNTS', $this->getAccounts($moduleName, $user, $time, $pagingModel));
 		$viewer->assign('DTIME', $time);
 		$viewer->assign('OWNER', $user);
 		$viewer->assign('MODULE_NAME', $moduleName);
@@ -83,8 +73,7 @@ class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/NewAccountsContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/NewAccounts.tpl', $moduleName);

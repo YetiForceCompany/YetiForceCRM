@@ -4,7 +4,7 @@
  * Mail cction bar class
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class OSSMail_MailActionBar_View extends Vtiger_Index_View
@@ -23,13 +23,13 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$uid = $request->get('uid');
+		$uid = $request->getInteger('uid');
 		$folder = $request->get('folder');
 		$params = null; // YTfixme - non existent
 
 		$account = OSSMail_Record_Model::getAccountByHash($request->getForSql('rcId'));
 		if (!$account) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		$rcId = $account['user_id'];
 		$mailViewModel = OSSMailView_Record_Model::getCleanInstance('OSSMailView');
@@ -38,8 +38,8 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 			$mailModel = Vtiger_Record_Model::getCleanInstance('OSSMail');
 			$mbox = $mailModel->imapConnect($account['username'], $account['password'], $account['mail_host'], $folder);
 			$return = OSSMailScanner_Record_Model::executeActions($account, $mailModel->getMail($mbox, $uid), $folder, $params);
-			if (isset($return['CreatedEmail'])) {
-				$record = $return['CreatedEmail'];
+			if (!empty($return['CreatedEmail'])) {
+				$record = $return['CreatedEmail']['mailViewId'];
 			}
 		}
 		$viewer = $this->getViewer($request);

@@ -5,7 +5,7 @@ namespace App;
  * Request Utils basic class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class RequestUtil
@@ -23,17 +23,17 @@ class RequestUtil
 
 	public static function getRemoteIP($onlyIP = false)
 	{
-		$address = $_SERVER['REMOTE_ADDR'];
+		$address = Request::_getServer('REMOTE_ADDR');
 		if ($onlyIP) {
 			return empty($address) ? '' : $address;
 		}
 		// append the NGINX X-Real-IP header, if set
 		if (!empty($_SERVER['HTTP_X_REAL_IP'])) {
-			$remoteIp[] = 'X-Real-IP: ' . $_SERVER['HTTP_X_REAL_IP'];
+			$remoteIp[] = 'X-Real-IP: ' . Request::_getServer('HTTP_X_REAL_IP');
 		}
 		foreach (static::$ipFields as $key) {
 			if (isset($_SERVER[$key])) {
-				$remoteIp[] = "$key: {$_SERVER[$key]}";
+				$remoteIp[] = "$key: " . Request::_getServer($key);
 			}
 		}
 		if (!empty($remoteIp)) {
@@ -42,12 +42,12 @@ class RequestUtil
 		return empty($address) ? '' : $address;
 	}
 
-	protected static $browerCache = false;
+	protected static $browserCache = false;
 
 	public static function getBrowserInfo()
 	{
-		if (static::$browerCache === false) {
-			$browserAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
+		if (static::$browserCache === false) {
+			$browserAgent = strtolower(\App\Request::_getServer('HTTP_USER_AGENT', ''));
 
 			$browser = new \stdClass;
 			$browser->ver = 0;
@@ -96,22 +96,22 @@ class RequestUtil
 				$browser->lang = 'en';
 
 			$browser->https = false;
-			if (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off') {
+			if (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off') {
 				$browser->https = true;
 			}
-			if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https') {
+			if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https') {
 				$browser->https = true;
 			}
-			$sp = strtolower($_SERVER['SERVER_PROTOCOL']);
+			$sp = strtolower(Request::_getServer('SERVER_PROTOCOL'));
 			$protocol = substr($sp, 0, strpos($sp, '/')) . (($browser->https) ? 's' : '');
 			$port = (int) $_SERVER['SERVER_PORT'];
 			$port = ((!$browser->https && $port === 80) || ($browser->https && $port === 443)) ? '' : ':' . $port;
-			$host = isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null);
-			$host = isset($host) ? $host : $_SERVER['SERVER_NAME'] . $port;
-			$browser->url = $protocol . '://' . $host . $_SERVER['REQUEST_URI'];
-			$browser->requestUri = ltrim($_SERVER['REQUEST_URI'], '/');
-			static::$browerCache = $browser;
+			$host = Request::_getServer('HTTP_X_FORWARDED_HOST', Request::_getServer('HTTP_HOST', ''));
+			$host = isset($host) ? $host : Request::_getServer('SERVER_NAME') . $port;
+			$browser->url = $protocol . '://' . $host . Request::_getServer('REQUEST_URI');
+			$browser->requestUri = ltrim(Request::_getServer('REQUEST_URI'), '/');
+			static::$browserCache = $browser;
 		}
-		return static::$browerCache;
+		return static::$browserCache;
 	}
 }

@@ -5,9 +5,9 @@ dist: trusty
 language: php
 
 php:
+  - 7.2
   - 7.1
   - 7.0
-  - 5.6
   - nightly
   
 matrix:
@@ -15,6 +15,7 @@ matrix:
   allow_failures:
     - php: hhvm
     - php: nightly
+    - php: 7.2
     
 branches:
   only:
@@ -29,41 +30,42 @@ mysql:
   encoding: utf8
   
 before_script:
-- |
-    if [[ ${TRAVIS_PHP_VERSION:0:3} == "5.6" ]]; then
-        sudo wget https://phar.phpunit.de/phpunit-5.7.phar
-        sudo chmod +x phpunit-5.7.phar
-        sudo mv phpunit-5.7.phar /usr/local/bin/phpunit
-    else
-        sudo wget https://phar.phpunit.de/phpunit-6.2.phar
-        sudo chmod +x phpunit-6.2.phar
-        sudo mv phpunit-6.2.phar /usr/local/bin/phpunit
-    fi
-- /usr/local/bin/phpunit --version
-- composer install --no-dev
-- sudo wget https://scrutinizer-ci.com/ocular.phar
-- sudo chmod +x ocular.phar
-- sudo mv ocular.phar /usr/local/bin/ocular
-- mysql -e "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION'"
-- mysql -e "create database IF NOT EXISTS yetiforce;" -uroot
-- cp tests/config.inc.txt config/config.inc.php
-- cp tests/debug.txt config/debug.php
-- cp tests/developer.txt config/developer.php
-- cp tests/.htaccess .htaccess
+- sudo wget https://phar.phpunit.de/phpunit-6.2.phar
+- sudo chmod +x phpunit-6.2.phar
+- sudo mv phpunit-6.2.phar /usr/local/bin/phpunit
+- sudo chmod -R 777 tests/setup/
+- ./tests/setup/before_script.sh
+- ./tests/setup/apache.sh
+- ./tests/setup/selenium.sh
   
 script:
 - cd tests
-- /usr/local/bin/phpunit --debug --verbose --coverage-text --coverage-clover=coverage.clover
+- /usr/local/bin/phpunit --debug --verbose
     
 after_script:
-- cd ..
-- cat tests/LoginPage.txt
-- cat tests/DetailView.txt
-- cat tests/EditView.txt
-- cat tests/records.log
-- cat cache/logs/request.log
-- cat cache/logs/phpError.log
-- cat cache/logs/system.log
-- cat cache/logs/Importer.log
-- php ocular code-coverage:upload --format=php-clover coverage.clover
-- bash <(curl -s https://codecov.io/bash) 
+- sudo cat /var/log/apache2/error.log
+- sudo cat /var/log/apache2/access.log
+- sudo cat /var/log/apache2/other_vhosts_access.log
+- cat ../tests/records.log
+- cat ../cache/logs/errors.log
+- cat ../cache/logs/request.log
+- cat ../cache/logs/phpError.log
+- cat ../cache/logs/system.log
+- cat ../cache/logs/Importer.log
+- cat ../cache/logs/webserviceDebug.log
+- cat ../cache/logs/webserviceErrors.log
+- php ocular code-coverage:upload --format=php-clover coverage.xml
+- bash <(curl -s https://codecov.io/bash)
+- sudo ls -all ../screenshots
+- |
+    if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.1" ]]; then
+      zip -r coverageHtml.zip coverageHtml/ > /dev/null
+      sudo apt-get install ncftp > /dev/null
+      ncftpput -R -v -u $AFU -p $AFP $AFA / coverageHtml.zip > /dev/null
+      ncftpput -R -v -u $AFU -p $AFP $AFA / ../screenshots > /dev/null
+      ncftpput -R -v -u $AFU -p $AFP $AFA / ../cache/logs/errors.log > /dev/null
+      ncftpput -R -v -u $AFU -p $AFP $AFA / ../cache/logs/system.log > /dev/null
+      ncftpput -R -v -u $AFU -p $AFP $AFA / ../cache/logs/phpError.log > /dev/null
+      ncftpput -R -v -u $AFU -p $AFP $AFA / ../cache/logs/webserviceDebug.log > /dev/null
+      ncftpput -R -v -u $AFU -p $AFP $AFA / ../cache/logs/webserviceErrors.log > /dev/null
+    fi

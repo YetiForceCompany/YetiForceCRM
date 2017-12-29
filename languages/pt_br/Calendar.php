@@ -52,7 +52,6 @@ $languageStrings = [
 	'LBL_MINUTES' => 'Minutos',
 	'LBL_ON' => 'em',
 	'LBL_OTHER_EVENTS' => 'Outros Eventos',
-	'LBL_RECORDS_LIST' => 'Lista Agenda', //Duplicated key-value pair
 	'LBL_RESULT' => 'Resultado',
 	'LBL_SELECT_ACTIVITY_TYPE' => 'Seleciona Tipo Atividade',
 	'LBL_SELECT_CALENDAR_COLOR' => 'Selecionar Cor Agenda',

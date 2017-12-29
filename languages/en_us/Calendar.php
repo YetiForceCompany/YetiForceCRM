@@ -53,7 +53,6 @@ $languageStrings = [
 	'LBL_MINUTES' => 'Minutes',
 	'LBL_ON' => 'on',
 	'LBL_OTHER_EVENTS' => 'Other Events',
-	'LBL_RECORDS_LIST' => 'Calendar list', //Duplicated key-value pair
 	'LBL_RESULT' => 'Result',
 	'LBL_SELECT_ACTIVITY_TYPE' => 'Select activity type',
 	'LBL_SELECT_CALENDAR_COLOR' => 'Select Calendar color',

@@ -148,7 +148,7 @@ $languageStrings = [
 	'Sales stage - Negotiations' => 'Этап продаж - Переговоры',
 	'LBL_UPDATE_DATES_BASE_DATE_CHANGES' => 'Обновление даты генерируемых событий при изменении базовой даты',
 	'LBL_CURRENT_USER' => 'В настоящее время авторизованный пользователь',
-	'LBL_SELECT_TEMPLATE' => 'Select template',
+	'LBL_SELECT_TEMPLATE' => 'Выбрать шаблон',
 	//workflow trigger types
 	'ONCE' => 'Только один раз, когда все условия будут выполнены',
 	'ON_EVERY_SAVE' => 'Каждый раз, когда запись сохраняется (например. Создания, модификации)',
@@ -175,7 +175,7 @@ $languageStrings = [
 	'LBL_UPDATE_WORK_TIME_AUTOMATICALLY' => 'Автоматическое обновление рабочего времени',
 	'LBL_UPDATE_WORK_TIME' => 'Обновление рабочего времени',
 	'LBL_UPDATE_RELATED_FIELD' => 'Обновление связанных записей',
-	'LBL_AUTO_ASSIGN' => 'Auto assign record',
+	'LBL_AUTO_ASSIGN' => 'Автоматическое связывание записей',
 	//workflow add time
 	'Current Date' => 'Текущая дата',
 	'Current Time' => 'Текущее время',
@@ -207,8 +207,8 @@ $languageStrings = [
 	'LBL_WATCHDOG' => 'Отслеживать изменения',
 	'LBL_UPDATE_WORK_TIME' => 'Обновление рабочего времени',
 	'LBL_SKIP_CURRENT_USER' => 'Пропустить текущего пользователя',
-	'LBL_LIST_OF_CHANGES_IN_RECORD' => 'List of changes in record',
-	'LBL_LIST_OF_NEW_VALUES_IN_RECORD' => 'List of new values in record',
+	'LBL_LIST_OF_CHANGES_IN_RECORD' => 'Список изменений в записи',
+	'LBL_LIST_OF_NEW_VALUES_IN_RECORD' => 'Список новых значений в записи',
 	//VTWatchdog
 	'LBL_SELECT_ACTION_TYPE' => 'Выберите тип уведомления',
 	'LBL_SELECT_RECIPIENTS' => 'Получатели',
@@ -244,9 +244,9 @@ $languageStrings = [
 	'Security risk has been detected - Brute Force' => 'Уведомление о попытке подбора пароля',
 	'Backup has been made' => 'Уведомление - Резервное копирование выполнено',
 	'Notify Account On New comment added to ticket' => 'Уведомлять пользователя портала о новом комментарии в Заявке',
-	'LBL_OWNER_REKORD' => 'Record Owner',
+	'LBL_OWNER_REKORD' => 'Владелец',
 	'LBL_SMTP' => 'SMTP',
-	'LBL_CHECK_EMAIL_OPTOUT' => 'Verify if recipient agreed to receive e-mails',
+	'LBL_CHECK_EMAIL_OPTOUT' => 'Получатель согласен принимать почтовые сообщения?',
 ];
 
 $jsLanguageStrings = [

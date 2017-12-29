@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{foreach key=KEY item=INVENTORY_ROW from=$INVENTORY_ROWS}
 		{assign var="DISCOUNT" value=$DISCOUNT + $INVENTORY_ROW['discount']}
@@ -11,7 +11,7 @@
 					<thead>
 						<tr>
 							<th>
-								<img src="{vimage_path('Discount24.png')}" alt="{\App\Language::translate('LBL_DISCOUNT', $MODULE_NAME)}" />&nbsp;&nbsp;
+								<img src="{\App\Layout::getImagePath('Discount24.png')}" alt="{\App\Language::translate('LBL_DISCOUNT', $MODULE_NAME)}" />&nbsp;&nbsp;
 								<strong>{\App\Language::translate('LBL_DISCOUNTS_SUMMARY',$MODULE_NAME)}</strong>
 							</th>
 						</tr>
@@ -32,7 +32,7 @@
 					<thead>
 						<tr>
 							<th colspan="2">
-								<img src="{vimage_path('Tax24.png')}" alt="{\App\Language::translate('LBL_TAX', $MODULE_NAME)}" />&nbsp;&nbsp;
+								<img src="{\App\Layout::getImagePath('Tax24.png')}" alt="{\App\Language::translate('LBL_TAX', $MODULE_NAME)}" />&nbsp;&nbsp;
 								<strong>{\App\Language::translate('LBL_TAX_SUMMARY',$MODULE_NAME)}</strong>
 							</th>
 						</tr>

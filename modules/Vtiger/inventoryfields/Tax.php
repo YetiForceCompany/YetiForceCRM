@@ -4,7 +4,7 @@
  * Inventory Tax Field Class
  * @package YetiForce.Fields
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
@@ -36,5 +36,18 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 			return 'hide';
 		}
 		return '';
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getValueFromRequest(&$insertData, \App\Request $request, $i)
+	{
+		$column = $this->getColumnName();
+		if (empty($column) || $column === '-' || !$request->has($column . $i)) {
+			return false;
+		}
+		$insertData[$column] = CurrencyField::convertToDBFormat($request->getByType($column . $i, 'NumberInUserFormat'), null, true);
+		$insertData['taxparam'] = \App\Json::encode($request->getArray('taxparam' . $i));
 	}
 }

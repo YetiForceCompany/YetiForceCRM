@@ -3,15 +3,13 @@
  * Campaigns polish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'Campaign Name' => 'Nazwa kampanii',
 	'Campaign No' => 'Numer kampanii',
 	'Campaigns' => 'Kampanie',
 	'SINGLE_Campaigns' => 'Kampania marketingowa',
-	'LBL_ADD_RECORD' => 'Dodaj rekord',
-	'LBL_RECORDS_LIST' => 'Lista rekordów',
 	//FIELDS
 	'Budget Cost' => 'Budżet kampanii',
 	'Campaign Type' => 'Rodzaj kampanii',

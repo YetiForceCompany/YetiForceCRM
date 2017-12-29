@@ -9,13 +9,13 @@
  * ********************************************************************************** */
 namespace vtlib;
 
-require_once('vtlib/thirdparty/dZip.inc.php');
+require_once('vtlib/thirdparty/Dzip.inc.php');
 
 /**
- * Wrapper class over dZip.
+ * Wrapper class over dzip.
  * @package vtlib
  */
-class Zip extends \dZip
+class Zip extends \Dzip
 {
 
 	/**
@@ -28,8 +28,7 @@ class Zip extends \dZip
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		header("Cache-Control: private", false);
 		header("Content-Type: application/zip");
-		header("Content-Disposition: attachment; filename='" . basename($zipfileName) . "';");
-		//header("Content-Transfer-Encoding: binary");
+		header('Content-Disposition: attachment; filename="' . basename($zipfileName) . '";');
 		// For details on this workaround check here the ticket
 		// http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/5298
 		$disk_file_size = filesize($zipfileName);
@@ -92,7 +91,7 @@ class Zip extends \dZip
 		while (false !== ($file = readdir($dir))) {
 			if ($file != '.' && $file != '..' &&
 				$file != '.svn' && $file != 'CVS') {
-				// Exclude the file/directory 
+				// Exclude the file/directory
 				if (!empty($excludeList) && in_array("$dirname$file", $excludeList))
 					continue;
 
@@ -100,7 +99,7 @@ class Zip extends \dZip
 					$this->copyDirectoryFromDisk("$dirname$file", $zipdirname, $excludeList, $basedirname);
 				} else {
 					$zippath = $dirname;
-					if ($zipdirname != null && $zipdirname != '') {
+					if ($zipdirname !== null && $zipdirname !== '') {
 						$zipdirname = $this->__fixDirSeparator($zipdirname);
 						$zippath = $zipdirname . $this->__getRelativePath($basedirname, $dirname);
 					}

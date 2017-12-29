@@ -3,7 +3,8 @@
  * ServiceContracts german translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author SkavenKF (K.Fink)
  */
 $languageStrings = [
 	'LBL_SUMMARY' => 'Zusammenfassung der Arbeitszeit',
@@ -13,8 +14,6 @@ $languageStrings = [
 	'ServiceContracts' => 'Serviceverträge',
 	'Service Contracts' => 'Serviceverträge',
 	'SINGLE_ServiceContracts' => 'Servicevertrag',
-	'LBL_ADD_RECORD' => 'Servicevertrag hinzufügen',
-	'LBL_RECORDS_LIST' => 'Liste Serviceverträge',
 	// Blocks
 	'LBL_SERVICE_CONTRACT_INFORMATION' => 'Servicevertragsdetails',
 	//Field Labels

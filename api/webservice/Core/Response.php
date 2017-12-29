@@ -5,7 +5,7 @@ namespace Api\Core;
  * Web service response class 
  * @package YetiForce.Webservice
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Response
@@ -40,7 +40,7 @@ class Response
 		$this->body = $body;
 	}
 
-	private function _requestStatus()
+	private function requestStatus()
 	{
 		$status = [
 			200 => 'OK',
@@ -59,25 +59,29 @@ class Response
 		if ($this->status !== 200) {
 			$encryptDataTransfer = 0;
 		}
-		$requestContentType = strtolower($_SERVER['HTTP_ACCEPT']);
+		$requestContentType = strtolower(\App\Request::_getServer('HTTP_ACCEPT'));
 		header('Access-Control-Allow-Origin: *');
 		header('Access-Control-Allow-Methods: *');
 		header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, ' . implode(',', static::$acceptableHeaders));
 		header("Content-Type: $requestContentType");
-		header('HTTP/1.1 ' . $this->status . ' ' . $this->_requestStatus());
+		header('HTTP/1.1 ' . $this->status . ' ' . $this->requestStatus());
 		header('Encrypted: ' . $encryptDataTransfer);
 		foreach ($this->headers as $key => $header) {
 			header($key . ': ' . $header);
 		}
 		if (!empty($this->body)) {
 			if ($encryptDataTransfer) {
+				header("Content-Disposition: attachment; filename=\"api.json\"");
 				$response = $this->encryptData($this->body);
 			} else {
 				if (strpos($requestContentType, 'text/html') !== false) {
+					header("Content-Disposition: attachment; filename=\"api.html\"");
 					$response = $this->encodeHtml($this->body);
 				} else if (strpos($requestContentType, 'application/xml') !== false) {
+					header("Content-Disposition: attachment; filename=\"api.xml\"");
 					$response = $this->encodeXml($this->body);
 				} else {
+					header("Content-Disposition: attachment; filename=\"api.json\"");
 					$response = $this->encodeJson($this->body);
 				}
 			}
@@ -129,7 +133,7 @@ class Response
 		return $xml->asXML();
 	}
 
-	function toXml($data, &$xmlData)
+	public function toXml($data, &$xmlData)
 	{
 		foreach ($data as $key => $value) {
 			if (is_numeric($key)) {

@@ -15,27 +15,27 @@ class Vtiger_Response
 	/**
 	 * Emit response wrapper as raw string
 	 */
-	static $EMIT_RAW = 0;
+	public static $EMIT_RAW = 0;
 
 	/**
 	 * Emit response wrapper as json string
 	 */
-	static $EMIT_JSON = 1;
+	public static $EMIT_JSON = 1;
 
 	/**
 	 * Emit response wrapper as html string
 	 */
-	static $EMIT_HTML = 2;
+	public static $EMIT_HTML = 2;
 
 	/**
 	 * Emit response wrapper as string/jsonstring
 	 */
-	static $EMIT_JSONTEXT = 3;
+	public static $EMIT_JSONTEXT = 3;
 
 	/**
 	 * Emit response wrapper as padded-json
 	 */
-	static $EMIT_JSONP = 4;
+	public static $EMIT_JSONP = 4;
 
 	/**
 	 * Error data.
@@ -71,7 +71,7 @@ class Vtiger_Response
 	{
 		if ($message === null)
 			$message = $code;
-		$error = array('code' => $code, 'message' => $message, 'trace' => $trace);
+		$error = ['code' => $code, 'message' => $message, 'trace' => $trace];
 		$this->error = $error;
 	}
 

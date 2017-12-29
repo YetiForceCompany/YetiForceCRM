@@ -64,8 +64,8 @@
 	</div>
 	<div class="hide repeatUI" >
 		<input type="hidden" name="typeSaving">
-		<input id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->get('name')}" type="hidden" name="{$FIELD_MODEL->getFieldName()}" 
-			   value="{$FIELD_MODEL->get('fieldvalue')}" />
+		<input id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}" type="hidden" name="{$FIELD_MODEL->getFieldName()}" 
+			   value="{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}" />
 		{assign var="RECURRING_INFORMATION" value=Vtiger_Recurrence_UIType::getRecurringInfo($FIELD_MODEL->get('fieldvalue'))}
 		<div class="clearfix">
 			<div class="col-xs-4 paddingLRZero marginBottom10px">

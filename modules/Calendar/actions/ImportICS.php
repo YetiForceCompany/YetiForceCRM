@@ -8,24 +8,30 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
-vimport('~modules/Calendar/iCal/iCalendar_rfc2445.php');
-vimport('~modules/Calendar/iCal/iCalendar_components.php');
-vimport('~modules/Calendar/iCal/iCalendar_properties.php');
-vimport('~modules/Calendar/iCal/iCalendar_parameters.php');
-vimport('~modules/Calendar/iCal/ical-parser-class.php');
-vimport('~modules/Calendar/iCalLastImport.php');
+Vtiger_Loader::includeOnce('~modules/Calendar/iCal/iCalendar_rfc2445.php');
+Vtiger_Loader::includeOnce('~modules/Calendar/iCal/iCalendar_components.php');
+Vtiger_Loader::includeOnce('~modules/Calendar/iCal/iCalendar_properties.php');
+Vtiger_Loader::includeOnce('~modules/Calendar/iCal/iCalendar_parameters.php');
+Vtiger_Loader::includeOnce('~modules/Calendar/iCal/ical-parser-class.php');
+Vtiger_Loader::includeOnce('~modules/Calendar/iCalLastImport.php');
 
 class Calendar_ImportICS_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
-
-		if (!$permission) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		if (!$userPrivilegesModel->hasModulePermission($moduleName)) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+		if (!\App\Privilege::isPermitted($moduleName, 'EditView')) {
+			throw new \App\Exceptions\NoPermitted('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 
@@ -38,18 +44,18 @@ class Calendar_ImportICS_Action extends Vtiger_Action_Controller
 			$currentUserModel = Users_Record_Model::getCurrentUserModel();
 			$userId = $currentUserModel->getId();
 
-			$lastImport = new iCalLastImport();
+			$lastImport = new IcalLastImport();
 			$lastImport->clearRecords($userId);
 
 			$eventModule = 'Events';
 			$todoModule = 'Calendar';
-			$skipFields = array(
-				$eventModule => array('duration_hours'),
-				$todoModule => array('activitystatus')
-			);
+			$skipFields = [
+				$eventModule => ['duration_hours'],
+				$todoModule => ['activitystatus']
+			];
 
 			$requiredFields = [];
-			$modules = array($eventModule, $todoModule);
+			$modules = [$eventModule, $todoModule];
 			$calendarModel = Vtiger_Module_Model::getInstance($moduleName);
 
 			foreach ($modules as $module) {
@@ -59,16 +65,16 @@ class Calendar_ImportICS_Action extends Vtiger_Action_Controller
 				$skipCount[$module] = 0;
 			}
 
-			$ical = new iCal();
+			$ical = new Ical();
 			$icalActivities = $ical->iCalReader($ics);
 			$noOfActivities = count($icalActivities);
 
 			for ($i = 0; $i < $noOfActivities; $i++) {
 				if ($icalActivities[$i]['TYPE'] == 'VEVENT') {
-					$activity = new iCalendar_event;
+					$activity = new IcalendarEvent;
 					$module = $eventModule;
 				} else {
-					$activity = new iCalendar_todo;
+					$activity = new IcalendarTodo;
 					$module = $todoModule;
 				}
 
@@ -88,8 +94,8 @@ class Calendar_ImportICS_Action extends Vtiger_Action_Controller
 				}
 				$recordModel->save();
 
-				$lastImport = new iCalLastImport();
-				$lastImport->setFields(array('userid' => $userId, 'entitytype' => $todoModule, 'crmid' => $recordModel->getId()));
+				$lastImport = new IcalLastImport();
+				$lastImport->setFields(['userid' => $userId, 'entitytype' => $todoModule, 'crmid' => $recordModel->getId()]);
 				$lastImport->save();
 
 				if (!empty($icalActivities[$i]['VALARM'])) {

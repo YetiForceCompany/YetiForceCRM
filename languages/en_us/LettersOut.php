@@ -3,16 +3,14 @@
  * LettersOut english translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	// Basic Strings
-	'LettersOut' => 'Letters outgoing',
-	'SINGLE_LettersOut' => 'Letters outgoing',
-	'LBL_ADD_RECORD' => 'Add letters outgoing',
-	'LBL_RECORDS_LIST' => 'Letters outgoing',
+	'LettersOut' => 'Outgoing correspondence',
+	'SINGLE_LettersOut' => 'Outgoing correspondence',
 	// Blocks
-	'LBL_MAIN_INFORMATION' => 'Letters Information',
+	'LBL_MAIN_INFORMATION' => 'Correspondence information',
 	//Field Labels
 	'Number' => 'Number',
 	'Title' => 'Subject',
@@ -22,12 +20,13 @@ $languageStrings = [
 	'Deadline for reply' => 'Deadline for reply',
 	'Document no' => 'Document No.',
 	'No internal' => 'Internal No.',
-	'Parent letters' => 'Letters related to',
+	'Parent letters' => 'Correspondence related to',
 	'Overall dimensions' => 'Dimension',
 	'Notes' => 'Notes',
 	'Related' => 'Account / Opportunity',
 	'Contact' => 'Contact',
 	'Type of document' => 'Document type',
+	'FL_INCOMING_CORRESPONDENCE' => 'Incoming correspondence',
 	// picklist values
 	'PLL_LOCAL_PICKUP' => 'Collection in person',
 	'PLL_POST_OFFICE_PL' => 'Polish Post Office',

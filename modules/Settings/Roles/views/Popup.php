@@ -15,7 +15,7 @@ class Settings_Roles_Popup_View extends Vtiger_Footer_View
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		if (!$currentUser->isAdminUser()) {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -34,7 +34,7 @@ class Settings_Roles_Popup_View extends Vtiger_Footer_View
 		$viewer->assign('SOURCE_ROLE', $sourceRole);
 		$viewer->assign('ROOT_ROLE', $rootRole);
 		$viewer->assign('ROLES', $allRoles);
-		$viewer->assign('VIEW', $request->get('view'));
+		$viewer->assign('VIEW', $request->getByType('view', 1));
 		$viewer->assign('TYPE', $request->get('type'));
 		$viewer->assign('MODULE_NAME', $moduleName);
 
@@ -51,12 +51,12 @@ class Settings_Roles_Popup_View extends Vtiger_Footer_View
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			'modules.Settings.Vtiger.resources.Popup',
 			"modules.Settings.$moduleName.resources.Popup",
 			"modules.Settings.$moduleName.resources.$moduleName",
 			'libraries.jquery.jquery_windowmsg',
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);

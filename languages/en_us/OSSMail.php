@@ -3,7 +3,7 @@
  * OSSMail english translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'OSSMail' => 'My mailbox',
@@ -64,11 +64,11 @@ $languageStrings = [
 	'To' => 'To',
 	'LBL_MAIL_NOT_FOUND_IN_DB' => 'Mail not found in the database.',
 	'LBL_IMPORT_MAIL_MANUALLY' => 'Import mail manually',
-	'LBL_RELATIONS' => 'Companies/Contacts',
+	'LBL_RELATIONS' => 'Companies',
+	'LBL_RELATIONS_EXTEND' => 'Contacts',
 	'LBL_PROCESS' => 'Processes',
 	'LBL_SUB_PROCESS' => 'Subprocesses',
 	'LBL_REMOVE_RELATION' => 'Remove relation',
-	'LBL_ADD_RECORD' => 'Create record',
 	'LBL_SELECT_RECORD' => 'Relate to existing record',
 	'LBL_ADD_CALENDAR' => 'Add event',
 	'LBL_ADD_MODCOMMENTS' => 'Add comment',

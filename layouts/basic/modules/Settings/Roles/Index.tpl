@@ -10,7 +10,7 @@
 <div class="">
 	<div class="widget_header row">
 		<div class="col-xs-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				{if isset($SELECTED_PAGE)}
 					{\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
 				{/if}
@@ -26,7 +26,7 @@
 					</div>
 				</div>
 				{assign var="ROLE" value=$ROOT_ROLE}
-				{include file=vtemplate_path("RoleTree.tpl", "Settings:Roles")}
+				{include file=\App\Layout::getTemplatePath('RoleTree.tpl', 'Settings:Roles')}
 			</li>
 		</ul>
 	</div>

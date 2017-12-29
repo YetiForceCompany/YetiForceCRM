@@ -12,8 +12,6 @@ $languageStrings = [
 	// Basic Strings
 	'Assets' => 'Ativos',
 	'SINGLE_Assets' => 'Ativo',
-	'LBL_ADD_RECORD' => 'Adicionar Registro',
-	'LBL_RECORDS_LIST' => 'Lista de Ativos',
 	// Blocks
 	'LBL_ASSET_INFORMATION' => 'Detalhes do Ativo',
 	//Field Labels
@@ -29,6 +27,7 @@ $languageStrings = [
 	'FL_RENEWAL' => 'Renovação',
 	'LBL_SET_RENEWAL' => 'Definir Renovação',
 	'FL_RENEWAL_INVOICE' => 'Fatura de Renovação',
+	'FL_CONTACT' => 'Contact',
 	/* picklist values */
 	'PLL_DRAFT' => 'Rascunho',
 	'PLL_ACCEPTED' => 'Aceito',

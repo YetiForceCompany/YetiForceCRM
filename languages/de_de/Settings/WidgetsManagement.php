@@ -3,7 +3,8 @@
  * Widgets management german translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author skavenkf (K.Fink)
  */
 $languageStrings = [
 	'LBL_CHOISE_AUTHORIZED' => 'Rolle wählen',
@@ -32,6 +33,8 @@ $languageStrings = [
 	'LBL_VIEW_CONFIGURATION' => 'Konfigurationssicht',
 	'LBL_WIDGET_ADDED' => 'Widget wurde dem Block erfolgreich hinzugefügt ',
 	'LBL_CACHE_WIDGET' => 'Cache',
+	'LBL_TICK_SIZE' => 'Tick size (y)',
+	'LBL_MAXIMUM_VALUE' => 'Maximaler Wert (y)',
 	'LBL_SHOW_USERS' => 'Benutzernamen anzeigen',
 	'LBL_TITLE_WIDGET' => 'Widgetname',
 	'LBL_ADDRESS_RSS' => 'RSS Addresse',

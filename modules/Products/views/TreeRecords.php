@@ -4,7 +4,7 @@
  * Products TreeView View Class
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Products_TreeRecords_View extends Vtiger_TreeRecords_View
@@ -19,9 +19,9 @@ class Products_TreeRecords_View extends Vtiger_TreeRecords_View
 
 	public function process(\App\Request $request)
 	{
-		$branches = $request->get('branches');
-		$filter = $request->get('filter');
-		$category = $request->get('category');
+		$branches = $request->getArray('branches');
+		$filter = $request->getByType('filter', 2);
+		$category = $request->getArray('category');
 		if (empty($branches) && empty($category)) {
 			return;
 		}
@@ -36,7 +36,7 @@ class Products_TreeRecords_View extends Vtiger_TreeRecords_View
 		}
 
 		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('limit', 'no_limit');
+		$pagingModel->set('limit', 0);
 		$listViewModel = Vtiger_ListView_Model::getInstance($baseModuleName, $filter);
 		$queryGenerator = $listViewModel->get('query_generator');
 		if (!empty($branches)) {

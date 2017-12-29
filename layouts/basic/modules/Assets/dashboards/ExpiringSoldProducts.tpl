@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <div class="dashboardWidgetHeader">
 	<div class="row">
 		<div class="col-md-8">
@@ -6,9 +6,9 @@
 		</div>
 		<div class="col-md-4">
 			<div class="box pull-right">
-				{if Users_Privileges_Model::isPermitted($MODULE_NAME, 'CreateView')}
+				{if \App\Privilege::isPermitted($MODULE_NAME, 'CreateView')}
 					<a class="btn btn-default btn-xs" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('{$MODULE_NAME}'); return false;">
-						<i class='glyphicon glyphicon-plus' border='0' title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}"/>
+						<i class='glyphicon glyphicon-plus' border='0' title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}"></i>
 					</a>
 				{/if}
 				<a class="btn btn-default btn-xs" href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data">
@@ -22,7 +22,7 @@
 			</div>
 		</div>
 	</div>
-	<hr class="widgetHr"/>
+	<hr class="widgetHr" />
 	<div class="row" >
 		<div class="col-md-12">
 			<div class="pull-right">
@@ -32,5 +32,5 @@
 	</div>
 </div>
 <div class="dashboardWidgetContent">
-	{include file="dashboards/ExpiringSoldProductsContents.tpl"|@vtemplate_path:$MODULE_NAME}
+	{include file=\App\Layout::getTemplatePath('dashboards/ExpiringSoldProductsContents.tpl', $MODULE_NAME)}
 </div>

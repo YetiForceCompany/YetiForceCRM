@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <input type="hidden" id="filterAll" value='{$FILTERS}'>
 <input type="hidden" id="checkboxAll" value='{$CHECKBOXS}'>
@@ -7,7 +7,7 @@
 	<input type="hidden" name="tabid" value="{$SOURCE}">
 	<div class="widget_header row">
 		<div class="col-md-8">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			{\App\Language::translate('LBL_MODULE_DESC', $QUALIFIED_MODULE)}
 		</div>
 		<div class="pull-right col-md-4 h3">
@@ -36,11 +36,11 @@
 						<div class="padding1per border1px">
 							<div class="row">
 								<div class="col-md-5">
-									<img class="alignMiddle" src="{vimage_path('drag.png')}" /> &nbsp;&nbsp;{\App\Language::translate($WIDGET['type'], $QUALIFIED_MODULE)}
+									<img class="alignMiddle" src="{\App\Layout::getImagePath('drag.png')}" /> &nbsp;&nbsp;{\App\Language::translate($WIDGET['type'], $QUALIFIED_MODULE)}
 								</div>
 								<div class="col-md-5">
 									{if $WIDGET['label'] eq '' && isset($WIDGET['data']['relatedmodule'])}
-										{\App\Language::translate(vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule']),vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule']))}
+										{\App\Language::translate(\App\Module::getModuleName($WIDGET['data']['relatedmodule']),\App\Module::getModuleName($WIDGET['data']['relatedmodule']))}
 									{else}	
 										{\App\Language::translate($WIDGET['label'], $SOURCEMODULE)}&nbsp;
 									{/if}									

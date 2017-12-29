@@ -3,7 +3,7 @@
  * CFixedAssets english translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'CFixedAssets' => 'Fixed assets',
@@ -30,6 +30,21 @@ $languageStrings = [
 	'FL_TIMING_CHANGE' => 'Camshaft replacement period',
 	'FL_OIL_TYPE' => 'Oil replacement period',
 	'FL_AVARAGE_FUEL_CONSUPTION' => 'Avg fuel consumption per 100 km',
+	'FL_CURRENT_ODOMETER_READING' => 'Current odometer reading',
+	'FL_NUMBER_REPAIR' => 'Number of repairs',
+	'FL_DATE_OF_LAST_REPAIR' => 'Last repair date',
+	'FL_MAX_FUEL_CONSUPTION' => 'Max fuel consumption',
+	'FL_TYPE_OIL' => 'Oil type',
+	'FL_CURRENT_ODOMETER_READING_PORTERS' => 'Current odometer reading at reception',
+	'FL_PERIOD_CAR_REVIEW' => 'MOT test period',
+	'FL_DATE_CAR_REVIEW' => 'MOT test data',
+	'FL_NUMBER_FUEL_CARD' => 'Fuel card number',
+	'FL_DATE_INSURANCE' => 'Insurance date',
+	'FL_COST_INSURANCE_OC' => 'Liability Insurance cost',
+	'FL_COST_INSURANCE_AC' => 'Collision Coverage insurance cost',
+	'FL_COST_INSURANCE_NW' => 'Personal Injury Protection insurance cost',
+	'FL_NUMBER_MOTOHOURS' => 'Moto hours number',
+	'FL_EQUIPMENT' => 'Equipment',
 	// Picklist
 	'PLL_UNAVAILABLE' => 'Unavailable',
 	'PLL_AVAILABLE' => 'Available',

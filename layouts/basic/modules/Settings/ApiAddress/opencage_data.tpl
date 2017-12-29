@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <hr>
 {if $API_INFO["key"] }
 	<div class="col-xs-3 apiAdrress" data-api-name="{$API_NAME}">
@@ -14,7 +14,7 @@
 		<input name="key" type="text" class="api form-control" placeholder="{\App\Language::translate('LBL_ENTER_KEY_APPLICATION', $MODULENAME)}">
 	</div>
 	<div class="col-xs-6">
-		<a class="btn btn-primary" href="https://developer.opencagedata.com/" target="_blank">{\App\Language::translate('OpenCage Geocoder', $MODULENAME)}</a>
+		<a class="btn btn-primary" href="https://developer.opencagedata.com/" target="_blank" rel="noreferrer">{\App\Language::translate('OpenCage Geocoder', $MODULENAME)}</a>
 		<button type="button" class="btn btn-success save" id="save">{\App\Language::translate('LBL_SAVE', $MODULENAME)}</button>
 	</div>
 {/if}

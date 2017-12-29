@@ -15,11 +15,6 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	{
 		parent::__construct();
 	}
-	//Note : To get the right hook for immediate parent in PHP,
-	// specially in case of deep hierarchy
-	/* function preProcessParentTplName(\App\Request $request) {
-	  return parent::preProcessTplName($request);
-	  } */
 
 	/**
 	 * Function to determine file existence in relocated module folder (under vtiger6)
@@ -32,7 +27,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	protected function checkFileUriInRelocatedMouldesFolder($fileuri)
 	{
 		if (strpos($fileuri, '?') !== false) {
-			list ($filename, $query) = explode('?', $fileuri);
+			list ($filename) = explode('?', $fileuri);
 		} else {
 			$filename = $fileuri;
 		}
@@ -40,8 +35,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 		if (strpos($filename, 'modules') === 0) {
 			$filename = $filename;
 		}
-
-		return file_exists($filename);
+		return file_exists(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . $filename);
 	}
 
 	/**
@@ -72,7 +66,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 			];
 		}
 		if ($userModel->isAdminUser()) {
-			if ($request->get('parent') != 'Settings') {
+			if ($request->getByType('parent', 2) !== 'Settings') {
 				$headerLinks[] = [
 					'linktype' => 'HEADERLINK',
 					'linklabel' => 'LBL_SYSTEM_SETTINGS',
@@ -122,10 +116,13 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
-		$headerScripts = Vtiger_Link_Model::getAllByType(vtlib\Link::IGNORE_MODULE, array('HEADERSCRIPT'));
+		$headerScripts = Vtiger_Link_Model::getAllByType(vtlib\Link::IGNORE_MODULE, ['HEADERSCRIPT']);
 		foreach ($headerScripts as $headerType => $headerScripts) {
 			foreach ($headerScripts as $headerScript) {
 				if ($this->checkFileUriInRelocatedMouldesFolder($headerScript->linkurl)) {
+					if (!IS_PUBLIC_DIR) {
+						$headerScript->linkurl = 'public_html/' . $headerScript->linkurl;
+					}
 					$headerScriptInstances[] = Vtiger_JsScript_Model::getInstanceFromLinkObject($headerScript);
 				}
 			}

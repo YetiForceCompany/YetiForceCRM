@@ -14,7 +14,7 @@
 		<form id="leadsMapping" method="POST">
 			<div class="row widget_header settingsHeader marginBottom5">
 				<span class="col-sm-12 col-xs-12 col-md-8">
-					{include file='BreadCrumbs.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 				</span>
 				<span class="col-xs-12 col-sm-12 col-md-4 ">
 					<span class="pull-right">
@@ -41,7 +41,7 @@
 						{foreach key=MAPPING_ID item=MAPPING_ARRAY from=$MODULE_MODEL->getMapping()  name="mappingLoop"}
 							<tr class="listViewEntries" sequence-number="{$smarty.foreach.mappingLoop.iteration}">
 								<td>
-									<input type="hidden" name="mapping[{$smarty.foreach.mappingLoop.iteration}][mappingId]" value="{$MAPPING_ID}"/>
+									<input type="hidden" name="mapping[{$smarty.foreach.mappingLoop.iteration}][mappingId]" value="{$MAPPING_ID}" />
 									<select class="leadsFields select2" name="mapping[{$smarty.foreach.mappingLoop.iteration}][lead]">
 										<option data-type="{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}" value="0" label="{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
 										{foreach key=FIELD_TYPE item=FIELDS_INFO from=$LEADS_MODULE_MODEL->getFields()}

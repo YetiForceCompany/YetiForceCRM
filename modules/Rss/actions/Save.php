@@ -16,7 +16,7 @@ class Rss_Save_Action extends Vtiger_Save_Action
 	{
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserModel->hasModulePermission($request->getModule())) {
-			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 

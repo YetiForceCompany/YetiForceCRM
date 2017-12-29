@@ -6,11 +6,16 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * *********************************************************************************** */
 
 class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View
 {
 
+	/**
+	 * Process
+	 * @param \App\Request $request
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -18,9 +23,10 @@ class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View
 
 		$moduleModelList = Settings_PickListDependency_Module_Model::getPicklistSupportedModules();
 
-		$selectedModule = $request->get('sourceModule');
-		if (empty($selectedModule)) {
+		if ($request->isEmpty('sourceModule')) {
 			$selectedModule = $moduleModelList[0]->name;
+		} else {
+			$selectedModule = $request->getByType('sourceModule', 2);
 		}
 		$sourceField = $request->get('sourcefield');
 		$targetField = $request->get('targetfield');
@@ -46,7 +52,7 @@ class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View
 	public function getDependencyGraph(\App\Request $request)
 	{
 		$qualifiedName = $request->getModule(false);
-		$module = $request->get('sourceModule');
+		$module = $request->getByType('sourceModule', 2);
 		$sourceField = $request->get('sourcefield');
 		$targetField = $request->get('targetfield');
 		$recordModel = Settings_PickListDependency_Record_Model::getInstance($module, $sourceField, $targetField);
@@ -72,9 +78,9 @@ class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
-		$jsFileNames = array(
+		$jsFileNames = [
 			'~libraries/jquery/malihu-custom-scrollbar/js/jquery.mCustomScrollbar.concat.min.js',
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
@@ -85,9 +91,9 @@ class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 
-		$cssFileNames = array(
+		$cssFileNames = [
 			'~libraries/jquery/malihu-custom-scrollbar/css/jquery.mCustomScrollbar.css',
-		);
+		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
 

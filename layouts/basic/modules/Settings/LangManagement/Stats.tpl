@@ -1,20 +1,20 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <div class="statsContainer">
 	<div class="form-horizontal">
 		<div class="form-group">
 			<label for="langs_list" class="control-label col-md-2" >{\App\Language::translate('LBL_BASE_LANGUAGE',$QUALIFIED_MODULE)}:</label>
 			<div class="col-md-3">
 				<select class="form-control selectize" name="langs_basic">
-					{foreach from=$LANGS item=LANG key=ID}
-						<option value="{$LANG['prefix']}">{$LANG['label']}</option>
+					{foreach from=$LANGS item=LABEL key=PREFIX}
+						<option value="{$PREFIX}">{$LABEL}</option>
 					{/foreach}
 				</select>
 			</div>
 			<label class="col-md-2 control-label">{\App\Language::translate('LBL_LANGUAGE',$QUALIFIED_MODULE)}:</label>
 			<div class="col-md-3">
 				<select multiple="multiple" class="form-control selectize" name="langs" placeholder="{\App\Language::translate('LBL_SELECT_SOME_OPTIONS',$QUALIFIED_MODULE)}" >
-					{foreach from=$LANGS item=LANG key=ID}
-						<option value="{$LANG['prefix']}">{$LANG['label']}</option>
+					{foreach from=$LANGS item=LABEL key=PREFIX}
+						<option value="{$PREFIX}">{$LABEL}</option>
 					{/foreach}
 				</select>
 			</div>

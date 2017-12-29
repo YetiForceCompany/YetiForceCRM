@@ -207,7 +207,7 @@ class Vtiger_Link_Model extends vtlib\Link
 		//Check if the link is not javascript
 		if (!$this->isPageLoadLink()) {
 			//To convert single quotes and double quotes
-			$url = Vtiger_Util_Helper::toSafeHTML($url);
+			$url = \App\Purifier::encodeHtml($url);
 			return $url;
 		}
 		$module = $parent = false;
@@ -283,7 +283,7 @@ class Vtiger_Link_Model extends vtlib\Link
 
 		$url = implode('&', $parametersParts);
 		//To convert single quotes and double quotes
-		$url = Vtiger_Util_Helper::toSafeHTML($url);
+		$url = \App\Purifier::encodeHtml($url);
 		return $url;
 	}
 
@@ -333,9 +333,9 @@ class Vtiger_Link_Model extends vtlib\Link
 		if (strpos($linkModel->linkurl, '_layoutName_') !== false) {
 			$filePath1 = str_replace('_layoutName_', \App\Layout::getActiveLayout(), $linkModel->linkurl);
 			$filePath2 = str_replace('_layoutName_', \App\Layout::getActiveLayout(), $linkModel->linkurl);
-			if (is_file(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $filePath1)) {
+			if (is_file(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . $filePath1)) {
 				$linkModel->linkurl = $filePath1;
-			} else if (is_file(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $filePath2)) {
+			} else if (is_file(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . $filePath2)) {
 				$linkModel->linkurl = $filePath2;
 			}
 		}
@@ -356,26 +356,15 @@ class Vtiger_Link_Model extends vtlib\Link
 			$links = parent::getAllByType($tabid, $type, $parameters);
 			Vtiger_Cache::set('links-' . $tabid, $type, $links);
 		}
-
 		$linkModels = [];
 		foreach ($links as $linkType => $linkObjects) {
 			foreach ($linkObjects as $linkObject) {
 				$queryParams = vtlib\Functions::getQueryParams($linkObject->linkurl);
-				if (!(isset($queryParams['module']) && !Users_Privileges_Model::isPermitted($queryParams['module']))) {
+				if (($type === false || in_array($linkType, $type)) && !(isset($queryParams['module']) && !\App\Privilege::isPermitted($queryParams['module']))) {
 					$linkModels[$linkType][] = self::getInstanceFromLinkObject($linkObject);
 				}
 			}
 		}
-
-		if (!is_array($type)) {
-			$type = array($type);
-		}
-
-		$diffTypes = array_diff($type, array_keys($linkModels));
-		foreach ($diffTypes as $linkType) {
-			$linkModels[$linkType] = [];
-		}
-
 		return $linkModels;
 	}
 

@@ -4,7 +4,7 @@
  * Browsing history
  * @package YetiForce.Helpers
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Michał Lorencik <m.lorencik@yetiforce.com>
  */
 class Vtiger_BrowsingHistory_Helper
@@ -66,17 +66,27 @@ class Vtiger_BrowsingHistory_Helper
 		if (empty(App\User::getCurrentUserId())) {
 			return false;
 		}
+
 		$url = App\RequestUtil::getBrowserInfo()->requestUri;
-		if (empty($url)) {
-			$url = '/';
+		parse_str(parse_url($url, PHP_URL_QUERY), $urlQuery);
+
+		$validViews = ['Index', 'List', 'Detail', 'Edit', 'DashBoard', 'ListPreview', 'TreeRecords', 'Tree'];
+
+		if (!empty($urlQuery['module']) && !empty($urlQuery['view'])) {
+			if (in_array($urlQuery['view'], $validViews)) {
+				if (!empty($urlQuery['record'])) {
+					$title .= ' | ' . App\Record::getLabel($urlQuery['record']);
+				}
+
+				\App\Db::getInstance()->createCommand()
+					->insert('u_#__browsinghistory', [
+						'userid' => App\User::getCurrentUserId(),
+						'date' => date('Y-m-d H:i:s'),
+						'title' => $title,
+						'url' => $url
+					])->execute();
+			}
 		}
-		\App\Db::getInstance()->createCommand()
-			->insert('u_#__browsinghistory', [
-				'userid' => App\User::getCurrentUserId(),
-				'date' => date('Y-m-d H:i:s'),
-				'title' => $title,
-				'url' => $url
-			])->execute();
 	}
 
 	/**

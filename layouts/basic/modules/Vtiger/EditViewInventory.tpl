@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{assign var="INVENTORY_FIELD" value=Vtiger_InventoryField_Model::getInstance($MODULE)}
 	{assign var="FIELDS" value=$INVENTORY_FIELD->getFields(true)}
@@ -49,7 +49,7 @@
 							<th {if !$FIELD->isEditable()}class="hide"{/if}>
 								<span class="inventoryLineItemHeader">{\App\Language::translate($FIELD->get('label'), $MODULE)}</span>&nbsp;&nbsp;
 								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
-								{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE ITEM_VALUE=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
+								{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE) ITEM_VALUE=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
 							</th>
 						{/foreach}
 					</tr>
@@ -73,11 +73,11 @@
 				<tbody>
 					{foreach key=KEY item=ITEM_DATA from=$INVENTORY_ROWS}
 						{assign var="ROW_NO" value=$KEY+1}
-						{include file='EditViewInventoryItem.tpl'|@vtemplate_path:$MODULE}
+						{include file=\App\Layout::getTemplatePath('EditViewInventoryItem.tpl', $MODULE)}
 					{foreachelse}
 						{if !$IS_OPTIONAL_ITEMS}
 							{assign var="ROW_NO" value=1}
-							{include file='EditViewInventoryItem.tpl'|@vtemplate_path:$MODULE}
+							{include file=\App\Layout::getTemplatePath('EditViewInventoryItem.tpl', $MODULE)}
 						{/if}
 					{/foreach}
 				</tbody>
@@ -103,14 +103,13 @@
 				</tfoot>
 			</table>
 		</div>
-		{include file='EditViewInventorySummary.tpl'|@vtemplate_path:$MODULE}
+		{include file=\App\Layout::getTemplatePath('EditViewInventorySummary.tpl', $MODULE)}
 		{assign var="ITEM_DATA" value=$RECORD->getInventoryDefaultDataFields()}
 		<table id="blackIthemTable" class="noValidate hide">
 			<tbody>
 				{assign var="ROW_NO" value='_NUM_'}
-				{include file='EditViewInventoryItem.tpl'|@vtemplate_path:$MODULE}
+				{include file=\App\Layout::getTemplatePath('EditViewInventoryItem.tpl', $MODULE)}
 			</tbody>
 		</table>
-		<br />
 	{/if}
 {/strip}

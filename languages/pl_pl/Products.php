@@ -3,7 +3,7 @@
  * Products polish translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	// Field Labels
@@ -35,7 +35,6 @@ $languageStrings = [
 	'Hardware' => 'Sprzęt',
 	'Hours' => 'Godzin',
 	'Impressions' => 'Nakład',
-	'LBL_ADD_RECORD' => 'Dodaj rekord',
 	'LBL_ADD_TO_PRICEBOOKS' => 'Dodaj do cennika', //Duplicated key-value pairs
 	'Lb' => 'St',
 	'LBL_IMAGE_INFORMATION' => 'Szczegóły galerii produktu',
@@ -44,7 +43,6 @@ $languageStrings = [
 	'LBL_PRICES' => 'Cena produktu',
 	'LBL_PRODUCT_INFORMATION' => 'Szczegóły produktu',
 	'LBL_PRODUCTSMOD_DISABLED' => 'Włącz moduł Produkty, aby zobaczyć produkty',
-	'LBL_RECORDS_LIST' => 'Lista rekordów',
 	'LBL_RESET_PRICE' => 'Wyczyść ceny',
 	'LBL_RESET' => 'Wyczyść',
 	'LBL_STOCK_INFORMATION' => 'Szczegóły magazynowe produktu',

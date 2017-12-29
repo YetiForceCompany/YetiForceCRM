@@ -3,23 +3,23 @@
  * CMileageLogbook russian translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
-	'CMileageLogbook' => 'Mileage log book',
-	'SINGLE_CMileageLogbook' => 'Mileage log book',
+	'CMileageLogbook' => 'Журнал учета пробега',
+	'SINGLE_CMileageLogbook' => 'Журнал учета пробега',
 	//BLOCKS
-	'LBL_ADDITIONAL_INFORMATION' => 'Additional information',
-	'LBL_BASIC_INFORMATION' => 'Basic information',
-	'LBL_DESCRIPTION_BLOCK' => 'Description',
-	'LBL_ATTENTION_BLOCK' => 'Notes',
+	'LBL_ADDITIONAL_INFORMATION' => 'Дополнительная информация',
+	'LBL_BASIC_INFORMATION' => 'Основная информация',
+	'LBL_DESCRIPTION_BLOCK' => 'Описание',
+	'LBL_ATTENTION_BLOCK' => 'Примечания',
 	//FIELDS
-	'FL_SUBJECT' => 'Subject',
-	'FL_STATUS' => 'Status',
-	'FL_NUMBER_KILOMETERS' => 'Number of kilometers',
+	'FL_SUBJECT' => 'Тема',
+	'FL_STATUS' => 'Статус',
+	'FL_NUMBER_KILOMETERS' => 'Количество км',
 	//PickList
-	'PLL_DRAFT' => 'Draft',
-	'PLL_FOR_APPROVAL' => 'For approval',
-	'PLL_ACCEPTED' => 'Accepted',
-	'PLL_CANCELLED' => 'Cancelled',
+	'PLL_DRAFT' => 'Драфт',
+	'PLL_FOR_APPROVAL' => 'На утверждении',
+	'PLL_ACCEPTED' => 'Утверждено',
+	'PLL_CANCELLED' => 'Отклонено',
 ];

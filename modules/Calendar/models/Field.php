@@ -25,8 +25,8 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 		$fieldName = $this->getName();
 
 		switch ($fieldName) {
-			case 'due_date': $funcName = array('name' => 'greaterThanDependentField',
-					'params' => array('date_start'));
+			case 'due_date': $funcName = ['name' => 'greaterThanDependentField',
+					'params' => ['date_start']];
 				array_push($validator, $funcName);
 				break;
 			// NOTE: Letting user to add pre or post dated Event.
@@ -54,24 +54,24 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Customize the display value for detail view.
+	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		if ($recordInstance) {
-			if ($this->getName() == 'date_start') {
-				$dateTimeValue = $value . ' ' . $recordInstance->get('time_start');
+		if ($recordModel) {
+			if ($this->getName() === 'date_start') {
+				$dateTimeValue = $value . ' ' . $recordModel->get('time_start');
 				$value = $this->getUITypeModel()->getDisplayValue($dateTimeValue);
 				list($startDate, $startTime, $meridiem) = explode(' ', $value);
 				return $startDate . ' ' . $startTime . ' ' . $meridiem;
-			} else if ($this->getName() == 'due_date') {
-				$dateTimeValue = $value . ' ' . $recordInstance->get('time_end');
+			} else if ($this->getName() === 'due_date') {
+				$dateTimeValue = $value . ' ' . $recordModel->get('time_end');
 				$value = $this->getUITypeModel()->getDisplayValue($dateTimeValue);
 				list($startDate, $startTime, $meridiem) = explode(' ', $value);
 				return $startDate . ' ' . $startTime . ' ' . $meridiem;
 			}
 		}
-		return parent::getDisplayValue($value, $record, $recordInstance, $rawText);
+		return parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
 	}
 
 	/**
@@ -79,7 +79,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	 * @param string Data base value
 	 * @return string value
 	 */
-	public function getEditViewDisplayValue($value, $record = false)
+	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		$fieldName = $this->getName();
 
@@ -97,7 +97,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 				return DateTimeField::convertToUserFormat(date('Y-m-d', strtotime("+$minutes minutes")));
 			}
 		}
-		return parent::getEditViewDisplayValue($value, $record);
+		return parent::getEditViewDisplayValue($value, $recordModel);
 	}
 
 	/**
@@ -108,7 +108,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	{
 
 		$filterOpsByFieldType = parent::getAdvancedFilterOpsByFieldType();
-		$filterOpsByFieldType['O'] = array('e', 'n');
+		$filterOpsByFieldType['O'] = ['e', 'n'];
 
 		return $filterOpsByFieldType;
 	}

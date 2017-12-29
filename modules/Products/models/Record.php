@@ -23,14 +23,13 @@ class Products_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get values of more currencies listprice
-	 * @return <Array> of listprice values
+	 * @return array of listprice values
 	 */
-	static function getListPriceValues($id)
+	public static function getListPriceValues($id)
 	{
-		$db = PearDatabase::getInstance();
-		$listPrice = $db->pquery('SELECT * FROM vtiger_productcurrencyrel WHERE productid = ?', [$id]);
+		$dataReader = (new App\Db\Query())->from('vtiger_productcurrencyrel')->where(['productid' => $id])->createCommand()->query();
 		$listpriceValues = [];
-		while ($row = $db->fetch_array($listPrice)) {
+		while ($row = $dataReader->read()) {
 			$listpriceValues[$row['currencyid']] = CurrencyField::convertToUserFormat($row['actual_price'], null, true);
 		}
 		return $listpriceValues;
@@ -49,13 +48,13 @@ class Products_Record_Model extends Vtiger_Record_Model
 			LEFT JOIN vtiger_seproductsrel ON vtiger_seproductsrel.crmid = vtiger_products.productid AND vtiger_products.discontinued = 1 AND vtiger_seproductsrel.setype='Products'
 			LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			WHERE vtiger_crmentity.deleted = 0 AND vtiger_seproductsrel.productid = ? ", array($this->getId()));
+			WHERE vtiger_crmentity.deleted = 0 AND vtiger_seproductsrel.productid = ? ", [$this->getId()]);
 
 		$subProductList = [];
 
-		$numRowsCount = $db->num_rows($result);
+		$numRowsCount = $db->numRows($result);
 		for ($i = 0; $i < $numRowsCount; $i++) {
-			$subProductId = $db->query_result($result, $i, 'productid');
+			$subProductId = $db->queryResult($result, $i, 'productid');
 			$subProductList[] = Vtiger_Record_Model::getInstanceById($subProductId, 'Products');
 		}
 
@@ -79,7 +78,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get base currency details
-	 * @return <Array>
+	 * @return Array
 	 */
 	public function getBaseCurrencyDetails()
 	{
@@ -90,12 +89,11 @@ class Products_Record_Model extends Vtiger_Record_Model
 
 		$recordId = $this->getId();
 		if (!empty($recordId)) {
-			$baseCurrency = $this->getProductBaseCurrency($recordId, $this->getModuleName());
+			$baseCurrency = \App\Fields\Currency::getCurrencyByModule($recordId, $this->getModuleName());
 		} else {
-			$currentUserModel = Users_Record_Model::getCurrentUserModel();
-			$baseCurrency = \vtlib\Functions::userCurrencyId($currentUserModel->getId());
+			$baseCurrency = \App\User::getCurrentUserModel()->getDetail('currency_id');
 		}
-		$baseCurrencyDetails = array('currencyid' => $baseCurrency);
+		$baseCurrencyDetails = ['currencyid' => $baseCurrency];
 
 		$baseCurrencySymbolDetails = \vtlib\Functions::getCurrencySymbolandRate($baseCurrency);
 		$baseCurrencyDetails = array_merge($baseCurrencyDetails, $baseCurrencySymbolDetails);
@@ -106,32 +104,27 @@ class Products_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get Image Details
-	 * @return <array> Image Details List
+	 * @return array Image Details List
 	 */
 	public function getImageDetails()
 	{
-		$db = PearDatabase::getInstance();
 		$imageDetails = [];
 		$recordId = $this->getId();
 
 		if ($recordId) {
-			$sql = "SELECT vtiger_attachments.*, vtiger_crmentity.setype FROM vtiger_attachments
-						INNER JOIN vtiger_seattachmentsrel ON vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
-						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_attachments.attachmentsid
-						WHERE vtiger_crmentity.setype = 'Products Image' AND vtiger_seattachmentsrel.crmid = ?";
+			$query = (new \App\Db\Query())
+					->select(['vtiger_attachments.*', 'vtiger_crmentity.setype'])->from('vtiger_attachments')->innerJoin('vtiger_seattachmentsrel', 'vtiger_attachments.attachmentsid = vtiger_seattachmentsrel.attachmentsid')->innerJoin('vtiger_crmentity', 'vtiger_attachments.attachmentsid = vtiger_crmentity.crmid')->where(['vtiger_crmentity.setype' => 'Products Image', 'vtiger_seattachmentsrel.crmid' => $recordId]);
 
-			$result = $db->pquery($sql, array($recordId));
-			$count = $db->num_rows($result);
-
+			$dataReader = $query->createCommand()->query();
 			$imageOriginalNamesList = [];
 
-			for ($i = 0; $i < $count; $i++) {
-				$imageIdsList[] = $db->query_result($result, $i, 'attachmentsid');
-				$imagePathList[] = $db->query_result($result, $i, 'path');
-				$imageName = $db->query_result($result, $i, 'name');
+			while ($row = $dataReader->read()) {
+				$imageIdsList[] = $row['attachmentsid'];
+				$imagePathList[] = $row['path'];
+				$imageName = $row['name'];
 
-				//decode_html - added to handle UTF-8 characters in file names
-				$imageOriginalNamesList[] = decode_html($imageName);
+				//App\Purifier::decodeHtml - added to handle UTF-8 characters in file names
+				$imageOriginalNamesList[] = App\Purifier::decodeHtml($imageName);
 
 				//urlencode - added to handle special characters like #, %, etc.,
 				$imageNamesList[] = $imageName;
@@ -140,12 +133,12 @@ class Products_Record_Model extends Vtiger_Record_Model
 			if (is_array($imageOriginalNamesList)) {
 				$countOfImages = count($imageOriginalNamesList);
 				for ($j = 0; $j < $countOfImages; $j++) {
-					$imageDetails[] = array(
+					$imageDetails[] = [
 						'id' => $imageIdsList[$j],
 						'orgname' => $imageOriginalNamesList[$j],
 						'path' => $imagePathList[$j] . $imageIdsList[$j],
 						'name' => $imageNamesList[$j]
-					);
+					];
 				}
 			}
 		}
@@ -253,10 +246,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 			return $activeStatus;
 		}
 		$recordId = $this->getId();
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT discontinued FROM vtiger_products WHERE productid = ?', array($recordId));
-		$activeStatus = $db->query_result($result, 'discontinued');
-		return $activeStatus;
+		return (new \App\Db\Query())->select(['discontinued'])->from('vtiger_products')->where(['productid' => $recordId])->scalar();
 	}
 
 	/**
@@ -283,148 +273,112 @@ class Products_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
-	public function getPriceDetailsForProduct($productid, $unit_price, $available = 'available', $itemtype = 'Products')
+	public function getPriceDetailsForProduct($productId, $unitPrice, $available = 'available', $itemType = 'Products')
 	{
-		$adb = PearDatabase::getInstance();
-
-		\App\Log::trace("Entering into function getPriceDetailsForProduct($productid)");
-		if ($productid != '') {
-			$product_currency_id = $this->getProductBaseCurrency($productid, $itemtype);
-			$product_base_conv_rate = $this->getBaseConversionRateForProduct($productid, 'edit', $itemtype);
+		\App\Log::trace('Entering into function getPriceDetailsForProduct(' . $productId . ')');
+		if ($productId) {
+			$productCurrencyId = \App\Fields\Currency::getCurrencyByModule($productId, $itemType);
+			$productBaseConvRate = $this->getBaseConversionRateForProduct($productId, 'edit', $itemType);
 			// Detail View
 			if ($available == 'available_associated') {
-				$query = "select vtiger_currency_info.*, vtiger_productcurrencyrel.converted_price, vtiger_productcurrencyrel.actual_price
-					from vtiger_currency_info
-					inner join vtiger_productcurrencyrel on vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid
-					where vtiger_currency_info.currency_status = 'Active' and vtiger_currency_info.deleted=0
-					and vtiger_productcurrencyrel.productid = ? and vtiger_currency_info.id != ?";
-				$params = array($productid, $product_currency_id);
+				$query = (new App\Db\Query())->select(['vtiger_currency_info.*', 'vtiger_productcurrencyrel.converted_price', 'vtiger_productcurrencyrel.actual_price'])->from('vtiger_currency_info')->innerJoin('vtiger_productcurrencyrel', 'vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid')->where(['vtiger_currency_info.currency_status' => 'Active', 'vtiger_currency_info.deleted' => 0, 'vtiger_productcurrencyrel.productid' => $productId])->andWhere(['<>', 'vtiger_currency_info.id', $productCurrencyId]);
 			} else { // Edit View
-				$query = "select vtiger_currency_info.*, vtiger_productcurrencyrel.converted_price, vtiger_productcurrencyrel.actual_price
-					from vtiger_currency_info
-					left join vtiger_productcurrencyrel
-					on vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid and vtiger_productcurrencyrel.productid = ?
-					where vtiger_currency_info.currency_status = 'Active' and vtiger_currency_info.deleted=0";
-				$params = array($productid);
+				$query = (new App\Db\Query())->select(['vtiger_currency_info.*', 'vtiger_productcurrencyrel.converted_price', 'vtiger_productcurrencyrel.actual_price'])->from('vtiger_currency_info')->leftJoin('vtiger_productcurrencyrel', 'vtiger_currency_info.id = vtiger_productcurrencyrel.currencyid')->where(['vtiger_productcurrencyrel.productid' => $productId, 'vtiger_currency_info.currency_status' => 'Active', 'vtiger_currency_info.deleted' => 0]);
 			}
-
-			$res = $adb->pquery($query, $params);
-			$rows_rew = $adb->num_rows($res);
-			for ($i = 0; $i < $rows_rew; $i++) {
-				$price_details[$i]['productid'] = $productid;
-				$price_details[$i]['currencylabel'] = $adb->query_result($res, $i, 'currency_name');
-				$price_details[$i]['currencycode'] = $adb->query_result($res, $i, 'currency_code');
-				$price_details[$i]['currencysymbol'] = $adb->query_result($res, $i, 'currency_symbol');
-				$currency_id = $adb->query_result($res, $i, 'id');
-				$price_details[$i]['curid'] = $currency_id;
-				$price_details[$i]['curname'] = 'curname' . $adb->query_result($res, $i, 'id');
-				$cur_value = $adb->query_result($res, $i, 'actual_price');
+			$priceDetails = [];
+			$dataReader = $query->createCommand()->query();
+			$i = 0;
+			while ($row = $dataReader->read()) {
+				$priceDetails[$i]['productid'] = $productId;
+				$priceDetails[$i]['currencylabel'] = $row['currency_name'];
+				$priceDetails[$i]['currencycode'] = $row['currency_code'];
+				$priceDetails[$i]['currencysymbol'] = $row['currency_symbol'];
+				$currencyId = $row['id'];
+				$priceDetails[$i]['curid'] = $currencyId;
+				$priceDetails[$i]['curname'] = 'curname' . $row['id'];
+				$curValue = $row['actual_price'];
 
 				// Get the conversion rate for the given currency, get the conversion rate of the product currency to base currency.
 				// Both together will be the actual conversion rate for the given currency.
-				$conversion_rate = $adb->query_result($res, $i, 'conversion_rate');
-				$actual_conversion_rate = $product_base_conv_rate * $conversion_rate;
+				$conversionRate = $row['conversion_rate'];
+				$actualConversionRate = $productBaseConvRate * $conversionRate;
 
-				$is_basecurrency = false;
-				if ($currency_id == $product_currency_id) {
-					$is_basecurrency = true;
+				$isBaseCurrency = false;
+				if ($currencyId == $productCurrencyId) {
+					$isBaseCurrency = true;
 				}
 
-				if ($cur_value === null || $cur_value === '') {
-					$price_details[$i]['check_value'] = false;
-					if ($unit_price !== null) {
-						$cur_value = CurrencyField::convertFromMasterCurrency($unit_price, $actual_conversion_rate);
+				if ($curValue === null || $curValue === '') {
+					$priceDetails[$i]['check_value'] = false;
+					if ($unitPrice !== null) {
+						$curValue = CurrencyField::convertFromMasterCurrency($unitPrice, $actualConversionRate);
 					} else {
-						$cur_value = '0';
+						$curValue = '0';
 					}
 				} else {
-					$price_details[$i]['check_value'] = true;
+					$priceDetails[$i]['check_value'] = true;
 				}
-				$price_details[$i]['curvalue'] = CurrencyField::convertToUserFormat($cur_value, null, true);
-				$price_details[$i]['conversionrate'] = $actual_conversion_rate;
-				$price_details[$i]['is_basecurrency'] = $is_basecurrency;
+				$priceDetails[$i]['curvalue'] = CurrencyField::convertToUserFormat($curValue, null, true);
+				$priceDetails[$i]['conversionrate'] = $actualConversionRate;
+				$priceDetails[$i]['is_basecurrency'] = $isBaseCurrency;
+				$i++;
 			}
 		} else {
-			if ($available == 'available') { // Create View
-				$current_user = vglobal('current_user');
+			if ($available === 'available') { // Create View
+				$userCurrencyId = \App\User::getCurrentUserModel()->getDetail('currency_id');
+				$query = (new App\Db\Query())->from('vtiger_currency_info')->where(['currency_status' => 'Active', 'deleted' => 0]);
 
-				$user_currency_id = \vtlib\Functions::userCurrencyId($current_user->id);
-
-				$query = "select vtiger_currency_info.* from vtiger_currency_info
-					where vtiger_currency_info.currency_status = 'Active' and vtiger_currency_info.deleted=0";
-				$params = [];
-
-				$res = $adb->pquery($query, $params);
-				$rows_res = $adb->num_rows($res);
-				for ($i = 0; $i < $rows_res; $i++) {
-					$price_details[$i]['currencylabel'] = $adb->query_result($res, $i, 'currency_name');
-					$price_details[$i]['currencycode'] = $adb->query_result($res, $i, 'currency_code');
-					$price_details[$i]['currencysymbol'] = $adb->query_result($res, $i, 'currency_symbol');
-					$currency_id = $adb->query_result($res, $i, 'id');
-					$price_details[$i]['curid'] = $currency_id;
-					$price_details[$i]['curname'] = 'curname' . $adb->query_result($res, $i, 'id');
+				$dataReader = $query->createCommand()->query();
+				$i = 0;
+				while ($row = $dataReader->read()) {
+					$priceDetails[$i]['currencylabel'] = $row['currency_name'];
+					$priceDetails[$i]['currencycode'] = $row['currency_code'];
+					$priceDetails[$i]['currencysymbol'] = $row['currency_symbol'];
+					$currencyId = $row['id'];
+					$priceDetails[$i]['curid'] = $currencyId;
+					$priceDetails[$i]['curname'] = 'curname' . $row['id'];
 
 					// Get the conversion rate for the given currency, get the conversion rate of the product currency(logged in user's currency) to base currency.
 					// Both together will be the actual conversion rate for the given currency.
-					$conversion_rate = $adb->query_result($res, $i, 'conversion_rate');
-					$user_cursym_convrate = \vtlib\Functions::getCurrencySymbolandRate($user_currency_id);
-					$product_base_conv_rate = 1 / $user_cursym_convrate['rate'];
-					$actual_conversion_rate = $product_base_conv_rate * $conversion_rate;
+					$conversionRate = $row['conversion_rate'];
+					$userCurSymConvRate = \vtlib\Functions::getCurrencySymbolandRate($userCurrencyId);
+					$productBaseConvRate = 1 / $userCurSymConvRate['rate'];
+					$actualConversionRate = $productBaseConvRate * $conversionRate;
 
-					$price_details[$i]['check_value'] = false;
-					$price_details[$i]['curvalue'] = '0';
-					$price_details[$i]['conversionrate'] = $actual_conversion_rate;
+					$priceDetails[$i]['check_value'] = false;
+					$priceDetails[$i]['curvalue'] = '0';
+					$priceDetails[$i]['conversionrate'] = $actualConversionRate;
 
-					$is_basecurrency = false;
-					if ($currency_id == $user_currency_id) {
-						$is_basecurrency = true;
+					$isBaseCurrency = false;
+					if ($currencyId === $userCurrencyId) {
+						$isBaseCurrency = true;
 					}
-					$price_details[$i]['is_basecurrency'] = $is_basecurrency;
+					$priceDetails[$i]['is_basecurrency'] = $isBaseCurrency;
+					$i++;
 				}
 			} else {
-				\App\Log::trace("Product id is empty. we cannot retrieve the associated prices.");
+				\App\Log::trace('Product id is empty. we cannot retrieve the associated prices.');
 			}
 		}
 
-		\App\Log::trace("Exit from function getPriceDetailsForProduct($productid)");
-		return $price_details;
+		\App\Log::trace('Exit from function getPriceDetailsForProduct(' . $productId . ')');
+		return $priceDetails;
 	}
 
-	public function getProductBaseCurrency($productid, $module = 'Products')
+	public function getBaseConversionRateForProduct($productId, $mode = 'edit', $module = 'Products')
 	{
-		$adb = PearDatabase::getInstance();
-		if ($module == 'Services') {
-			$sql = 'select currency_id from vtiger_service where serviceid=?';
-		} else {
-			$sql = 'select currency_id from vtiger_products where productid=?';
-		}
-		$res = $adb->pquery($sql, [$productid]);
-		$currencyid = $adb->query_result($res, 0, 'currency_id');
-		return $currencyid;
-	}
-
-	public function getBaseConversionRateForProduct($productid, $mode = 'edit', $module = 'Products')
-	{
-		$adb = PearDatabase::getInstance();
-		$current_user = vglobal('current_user');
-		if ($mode == 'edit') {
-			if ($module == 'Services') {
-				$sql = 'select conversion_rate from vtiger_service inner join vtiger_currency_info
-					on vtiger_service.currency_id = vtiger_currency_info.id where vtiger_service.serviceid=?';
+		$query = (new \App\Db\Query());
+		if ($mode === 'edit') {
+			if ($module === 'Services') {
+				$convRate = $query->select(['conversion_rate'])->from('vtiger_service')->innerJoin('vtiger_currency_info', 'vtiger_service.currency_id = vtiger_currency_info.id')->where(['vtiger_service.serviceid' => $productId])->scalar();
 			} else {
-				$sql = 'select conversion_rate from vtiger_products inner join vtiger_currency_info
-					on vtiger_products.currency_id = vtiger_currency_info.id where vtiger_products.productid=?';
+				$convRate = $query->select(['conversion_rate'])->from('vtiger_products')->innerJoin('vtiger_currency_info', 'vtiger_products.currency_id = vtiger_currency_info.id')->where(['vtiger_products.productid' => $productId])->scalar();
 			}
-			$params = array($productid);
 		} else {
-			$sql = 'select conversion_rate from vtiger_currency_info where id=?';
-			$params = array(\vtlib\Functions::userCurrencyId($current_user->id));
+			$convRate = $query->select(['conversion_rate'])->from('vtiger_currency_info')->where(['id' => \App\User::getCurrentUserModel()->getDetail('currency_id')])->scalar();
 		}
 
-		$res = $adb->pquery($sql, $params);
-		$conv_rate = $adb->query_result($res, 0, 'conversion_rate');
-
-		return 1 / $conv_rate;
+		return 1 / $convRate;
 	}
 
 	/**
@@ -443,7 +397,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 	{
 		parent::saveToDb();
 		//Inserting into product_taxrel table
-		if (\App\Request::_get('ajxaction') != 'DETAILVIEW' && \App\Request::_get('action') != 'MassSave' && \App\Request::_get('action') != 'ProcessDuplicates') {
+		if (\App\Request::_get('ajxaction') != 'DETAIL_VIEW_BASIC' && \App\Request::_get('action') != 'MassSave' && \App\Request::_get('action') != 'ProcessDuplicates') {
 			$this->insertPriceInformation();
 		}
 		// Update unit price value in vtiger_productcurrencyrel
@@ -455,7 +409,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Update unit price 
+	 * Update unit price
 	 */
 	public function updateUnitPrice()
 	{
@@ -544,7 +498,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 				->createCommand()->query();
 		$productImageMap = [];
 		while ($imageName = $dataReader->readColumn(0)) {
-			$productImageMap [] = decode_html($imageName);
+			$productImageMap [] = App\Purifier::decodeHtml($imageName);
 		}
 		$db->createCommand()->update('vtiger_products', ['imagename' => implode(",", $productImageMap)], ['productid' => $id])
 			->execute();
@@ -562,5 +516,14 @@ class Products_Record_Model extends Vtiger_Record_Model
 			}
 		}
 		\App\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function delete()
+	{
+		parent::delete();
+		\App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['or', ['productid' => $this->getId()], ['crmid' => $this->getId()]])->execute();
 	}
 }

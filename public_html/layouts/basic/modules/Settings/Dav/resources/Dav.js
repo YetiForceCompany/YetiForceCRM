@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 jQuery.Class('Settings_DAV_Js', {}, {
 	//This will store the MenuEditor Container
 	mobileContainer: false,
@@ -15,7 +15,6 @@ jQuery.Class('Settings_DAV_Js', {}, {
 		var container = jQuery('#DavKeysContainer');
 		var editColorModal = container.find('.addKeyContainer');
 		var clonedContainer = editColorModal.clone(true, true);
-
 		var callBackFunction = function (data) {
 			data.find('.addKeyContainer').removeClass('hide').show();
 			app.showSelect2ElementView(data.find('.select')); // chzn-select select2
@@ -60,7 +59,7 @@ jQuery.Class('Settings_DAV_Js', {}, {
 		}
 		params.async = false;
 		params.dataType = 'json';
-		AppConnector.request(params).done(
+		AppConnector.request(params).then(
 				function (data) {
 					var response = data['result'];
 					var params = {

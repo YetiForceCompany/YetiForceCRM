@@ -4,7 +4,7 @@
  * FInvoice Summation By User Dashboard Class
  * @package YetiForce.Dashboard
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -17,12 +17,12 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 	 */
 	public function process(\App\Request $request)
 	{
-		$linkId = $request->get('linkid');
+		$linkId = $request->getInteger('linkid');
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$userId = $currentUser->getId();
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $userId);
 		if ($request->has('time')) {
-			$time = $request->get('time');
+			$time = $request->getDateRange('time');
 		} else {
 			$time = Settings_WidgetsManagement_Module_Model::getDefaultDate($widget);
 			if ($time === false) {
@@ -30,8 +30,8 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 				$time['end'] = date('Y-m-t');
 			}
 			// date parameters passed, convert them to YYYY-mm-dd
-			$time['start'] = \App\Fields\DateTime::currentUserDisplayDate($time['start']);
-			$time['end'] = \App\Fields\DateTime::currentUserDisplayDate($time['end']);
+			$time['start'] = \App\Fields\Date::formatToDisplay($time['start']);
+			$time['end'] = \App\Fields\Date::formatToDisplay($time['end']);
 		}
 
 		$viewer = $this->getViewer($request);
@@ -46,8 +46,7 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('PARAM', $param);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('CURRENTUSER', $currentUser);
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/SummationByUserContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/SummationByUser.tpl', $moduleName);

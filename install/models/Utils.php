@@ -22,7 +22,7 @@ class Install_Utils_Model
 			'db_username' => '',
 			'db_password' => '',
 			'db_name' => '',
-			'admin_name' => 'admin',
+			'admin_name' => 'admin' . rand(100, 999),
 			'admin_lastname' => 'Administrator',
 			'admin_password' => '',
 			'admin_email' => '',
@@ -49,11 +49,20 @@ class Install_Utils_Model
 	}
 
 	/**
+	 * Returns list of countries
+	 * @return array
+	 */
+	public static function getCountryList()
+	{
+		return require 'install/models/Country.php';
+	}
+
+	/**
 	 * Function checks if its mysql type
 	 * @param type $dbType
 	 * @return type
 	 */
-	static function isMySQL($dbType)
+	public static function isMySQL($dbType)
 	{
 		return (stripos($dbType, 'mysql') === 0);
 	}

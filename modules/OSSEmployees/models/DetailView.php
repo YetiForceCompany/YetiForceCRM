@@ -4,7 +4,7 @@
  * OSSEmployees DetailView model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSEmployees_DetailView_Model extends Vtiger_DetailView_Model
 {
@@ -22,7 +22,7 @@ class OSSEmployees_DetailView_Model extends Vtiger_DetailView_Model
 			'linkurl' => 'javascript:OSSEmployees_Detail_Js.triggerEmployeeHierarchy("' . $linkURL . '");',
 			'linkicon' => 'glyphicon glyphicon-user'
 		];
-		$linkModelLists['DETAILVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($linkModel);
+		$linkModelLists['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($linkModel);
 		return $linkModelLists;
 	}
 }

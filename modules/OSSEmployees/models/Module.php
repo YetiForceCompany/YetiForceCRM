@@ -4,7 +4,7 @@
  * OSSEmployees module model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSEmployees_Module_Model extends Vtiger_Module_Model
 {
@@ -46,7 +46,7 @@ class OSSEmployees_Module_Model extends Vtiger_Module_Model
 	public function getBarChartColors($chartData)
 	{
 		$i = 0;
-		$colors = array('#4bb2c5', '#EAA228', '#c5b47f');
+		$colors = ['#4bb2c5', '#EAA228', '#c5b47f'];
 		foreach ($chartData as $key => $value) {
 			$result[$key] = $colors[$i];
 			$i++;

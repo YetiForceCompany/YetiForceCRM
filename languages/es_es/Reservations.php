@@ -3,7 +3,7 @@
  * Reservations spanish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'SINGLE_Reservations' => 'Reserva',
@@ -23,7 +23,7 @@ $languageStrings = [
 	'LBL_RESERVATIONS_TYPE' => 'Tipo de reserva',
 	'PLL_ACCEPTED' => 'Aceptado',
 	'PLL_TO_APPROVAL' => 'Por aprobar',
-	'LBL_RELATEDA' => 'Cuenta',
+	'LBL_RELATEDA' => 'Empresa',
 	'LBL_RELATEDB' => 'Proceso',
 	'LBL_TYPE' => 'Tipo',
 	'LBL_MEETING_ROOMS' => 'Salas de reuniones',
@@ -38,4 +38,14 @@ $jsLanguageStrings = [
 	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'El número de horas debe ser menor de 24h',
 	'JS_START_DATE' => 'Fecha inicio',
 	'JS_END_DATE' => 'Fecha fin',
+	'JS_COMPANY' => 'Empresa',
+	'JS_TOTAL_TIME' => 'Tiempo total',
+	'PLL_ACCEPTED' => 'Por aprobar',
+	'PLL_TO_APPROVAL' => 'Aprobado',
+	'PLL_DRAFT' => 'Borrador',
+	'PLL_CANCELLED' => 'Cancelado',
+	'JS_ASSIGNED_TO' => 'Asignado a',
+	'JS_TYPE' => 'Tipo',
+	'JS_YES' => 'Si',
+	'JS_NO' => 'No',
 ];

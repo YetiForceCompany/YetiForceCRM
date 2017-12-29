@@ -1,6 +1,6 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
-{include file="EditViewBlocks.tpl"|@vtemplate_path:$MODULE}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{include file=\App\Layout::getTemplatePath('EditViewBlocks.tpl', $MODULE)}
 {if $MODULE_TYPE == '1'}
-	{include file='EditViewInventory.tpl'|@vtemplate_path:$MODULE}
+	{include file=\App\Layout::getTemplatePath('EditViewInventory.tpl', $MODULE)}
 {/if}
-{include file="EditViewActions.tpl"|@vtemplate_path:$MODULE}
+{include file=\App\Layout::getTemplatePath('EditViewActions.tpl', $MODULE)}

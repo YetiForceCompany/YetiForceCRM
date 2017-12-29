@@ -3,16 +3,15 @@
  * LettersOut german translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author SkavenKF (K.Fink)
  */
 $languageStrings = [
 	// Basic Strings
-	'LettersOut' => 'Ausgehender Schriftverkehr',
-	'SINGLE_LettersOut' => 'Ausgehender Schriftverkehr',
-	'LBL_ADD_RECORD' => 'Schriftverkehr hinzufügen',
-	'LBL_RECORDS_LIST' => 'Liste Schriftverkehr',
+	'LettersOut' => 'Ausgehende Korrespondenz',
+	'SINGLE_LettersOut' => 'Ausgehende Korrespondenz',
 	// Blocks
-	'LBL_MAIN_INFORMATION' => 'Informationen zum Schriftverkehr',
+	'LBL_MAIN_INFORMATION' => 'Korrespondenz Information',
 	//Field Labels
 	'Number' => 'Nummer',
 	'Title' => 'Bezeichnung',
@@ -22,12 +21,13 @@ $languageStrings = [
 	'Deadline for reply' => 'Deadline für Antwort',
 	'Document no' => 'Dokumenten Nr.',
 	'No internal' => 'Interne Nr.',
-	'Parent letters' => 'gehört zu',
+	'Parent letters' => 'Korrespondenz zugehörig zu',
 	'Overall dimensions' => 'Dimension',
 	'Notes' => 'Notizen',
 	'Related' => 'Organisation / Verkaufschance',
 	'Contact' => 'Kontakt',
 	'Type of document' => 'Dokumentenart',
+	'FL_INCOMING_CORRESPONDENCE' => 'Eingehende Korrespondenz',
 	// picklist values
 	'PLL_LOCAL_PICKUP' => 'Sammelstelle',
 	'PLL_POST_OFFICE_PL' => 'Polnische Postfiliale',

@@ -25,7 +25,7 @@ class Access
 	 */
 	public static function log($message, $delim = true)
 	{
-		Utils::Log($message, $delim);
+		Utils::log($message, $delim);
 	}
 
 	/**
@@ -42,11 +42,11 @@ class Access
 
 	/**
 	 * Enable or Disable sharing access control to module
-	 * @param Module Instance of the module to use
+	 * @param ModuleBasic $moduleInstance
 	 * @param Boolean true to enable sharing access, false disable sharing access
 	 * @access private
 	 */
-	public static function allowSharing($moduleInstance, $enable = true)
+	public static function allowSharing(ModuleBasic $moduleInstance, $enable = true)
 	{
 		$ownedBy = $enable ? 0 : 1;
 		\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['ownedby' => $ownedBy], ['tabid' => $moduleInstance->id])->execute();
@@ -55,11 +55,11 @@ class Access
 
 	/**
 	 * Initialize sharing access.
-	 * @param Module Instance of the module to use
+	 * @param ModuleBasic $moduleInstance
 	 * @access private
 	 * @internal This method is called from Module during creation.
 	 */
-	public static function initSharing($moduleInstance)
+	public static function initSharing(ModuleBasic $moduleInstance)
 	{
 		$query = (new \App\Db\Query)->select(['share_action_id'])->from('vtiger_org_share_action_mapping')
 			->where(['share_action_name' => ['Public: Read Only', 'Public: Read, Create/Edit', 'Public: Read, Create/Edit, Delete', 'Private']]);
@@ -71,28 +71,28 @@ class Access
 		\App\Db::getInstance()->createCommand()
 			->batchInsert('vtiger_org_share_action2tab', ['share_action_id', 'tabid'], $insertedData)
 			->execute();
-		self::log("Setting up sharing access options ... DONE");
+		self::log('Setting up sharing access options ... DONE');
 	}
 
 	/**
 	 * Delete sharing access setup for module
-	 * @param Module Instance of module to use
+	 * @param ModuleBasic $moduleInstance
 	 * @access private
 	 * @internal This method is called from Module during deletion.
 	 */
-	public static function deleteSharing($moduleInstance)
+	public static function deleteSharing(ModuleBasic $moduleInstance)
 	{
 		\App\Db::getInstance()->createCommand()->delete('vtiger_org_share_action2tab', ['tabid' => $moduleInstance->id])->execute();
-		self::log("Deleting sharing access ... DONE");
+		self::log('Deleting sharing access ... DONE');
 	}
 
 	/**
 	 * Set default sharing for a module
-	 * @param Module Instance of the module
+	 * @param ModuleBasic $moduleInstance
 	 * @param String Permission text should be one of ['Public_ReadWriteDelete', 'Public_ReadOnly', 'Public_ReadWrite', 'Private']
 	 * @access private
 	 */
-	public static function setDefaultSharing($moduleInstance, $permissionText = 'Public_ReadWriteDelete')
+	public static function setDefaultSharing(ModuleBasic $moduleInstance, $permissionText = 'Public_ReadWriteDelete')
 	{
 		$permissionText = strtolower($permissionText);
 
@@ -121,15 +121,15 @@ class Access
 
 	/**
 	 * Enable tool for module.
-	 * @param Module Instance of module to use
+	 * @param ModuleBasic $moduleInstance
 	 * @param String Tool (action name) like Import, Export, Merge
 	 * @param Boolean true to enable tool, false to disable
 	 * @param Integer (optional) profile id to use, false applies to all profile.
 	 * @access private
 	 */
-	public static function updateTool($moduleInstance, $toolAction, $flag, $profileid = false)
+	public static function updateTool(ModuleBasic $moduleInstance, $toolAction, $flag, $profileid = false)
 	{
-		$actionId = getActionid($toolAction);
+		$actionId = \App\Module::getActionId($toolAction);
 		if ($actionId) {
 			$permission = ($flag === true) ? '0' : '1';
 
@@ -160,11 +160,11 @@ class Access
 
 	/**
 	 * Delete tool (actions) of the module
-	 * @param Module Instance of module to use
+	 * @param ModuleBasic $moduleInstance
 	 */
-	public static function deleteTools($moduleInstance)
+	public static function deleteTools(ModuleBasic $moduleInstance)
 	{
 		\App\Db::getInstance()->createCommand()->delete('vtiger_profile2utility', ['tabid' => $moduleInstance->id])->execute();
-		self::log("Deleting tools ... DONE");
+		self::log('Deleting tools ... DONE');
 	}
 }

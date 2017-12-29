@@ -45,7 +45,7 @@
 	<div style="width: 80%; margin: auto; text-align:center; margin-bottom:20px;">
 		{\App\Language::translate('LBL_TOTAL_TIME')}<br />
 		{\App\Language::translate('LBL_USER')}<br />
-		<input class="chartData" type="hidden" value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($DATA))}' />
+		<input class="chartData" type="hidden" value='{\App\Purifier::encodeHtml(\App\Json::encode($DATA))}' />
 		<div id="timeEmployees" style="height:400px;width:100%;"></div>
 	</div>
 {else}

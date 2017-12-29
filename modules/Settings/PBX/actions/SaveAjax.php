@@ -4,7 +4,7 @@
  * Save pbx record
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_PBX_SaveAjax_Action extends Settings_Vtiger_Save_Action
@@ -16,9 +16,8 @@ class Settings_PBX_SaveAjax_Action extends Settings_Vtiger_Save_Action
 	 */
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->getInteger('record');
-		if ($recordId) {
-			$recordModel = Settings_PBX_Record_Model::getInstanceById($recordId);
+		if (!$request->isEmpty('record', true)) {
+			$recordModel = Settings_PBX_Record_Model::getInstanceById($request->getInteger('record'));
 		} else {
 			$recordModel = Settings_PBX_Record_Model::getCleanInstance();
 		}

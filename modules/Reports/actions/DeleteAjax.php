@@ -8,21 +8,26 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Reports_DeleteAjax_Action extends Vtiger_DeleteAjax_Action
+class Reports_DeleteAjax_Action extends Vtiger_Delete_Action
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
-	
+
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$response = new Vtiger_Response();
-		$recordModel = Reports_Record_Model::getInstanceById($request->get('record'), $moduleName);
+		$recordModel = Reports_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 		if (!$recordModel->isDefault() && $recordModel->isEditable()) {
 			$recordModel->delete();
 			$response->setResult([App\Language::translate('LBL_REPORTS_DELETED_SUCCESSFULLY', $moduleName)]);

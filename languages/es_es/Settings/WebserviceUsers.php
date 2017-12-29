@@ -3,7 +3,7 @@
  * WebserviceUsers spanish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'WebserviceUsers' => 'Servicio Web - Usuarios',
@@ -22,9 +22,9 @@ $languageStrings = [
 	'BTN_SAVE' => 'Guardar',
 	'BTN_CLOSE' => 'Cancelar',
 	'PLL_USER_PERMISSIONS' => 'Permisos basados en el usuario',
-	'PLL_ACCOUNTS_RELATED_RECORDS' => 'Todos los registros de la cuenta asignados directamente al contacto',
-	'PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY' => 'Todos los registros de la cuenta asignados directamente al contacto y cuentas a nivel inferior en jerarquía',
-	'PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY' => 'Todos los registros de la cuenta asignados directamente al contacto y cuentas en jerarquía',
+	'PLL_ACCOUNTS_RELATED_RECORDS' => 'Todos los registros de las Empresas asignados directamente al Contacto',
+	'PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY' => 'Todos los registros de las Empresas asignados directamente al Contacto y Empresas a nivel inferior en jerarquía',
+	'PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY' => 'Todos los registros de las Empresas asignados directamente al Contacto y Empresa en jerarquía',
 	'PLL_ACTIVE' => 'Activo',
 	'PLL_INACTIVE' => 'Inactivo',
 	'LBL_CREATE_RECORD' => 'Crear un nuevo usuario',

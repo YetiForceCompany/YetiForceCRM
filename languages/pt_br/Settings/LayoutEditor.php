@@ -120,7 +120,7 @@ $languageStrings = [
 	'LBL_PARAMS_MODULES' => 'Módulos',
 	'LBL_PARAMS_LIMIT' => 'Limite',
 	'LBL_PARAMS_LIMIT_CONDITIONS' => 'Campos Obrigatórios',
-'LBL_DISPLAY_TYPE' => 'Tipo de campo',
+	'LBL_DISPLAY_TYPE' => 'Tipo de campo',
 	'LBL_DISPLAYTYPE_ALL' => 'Visível em todos os lugares',
 	'LBL_DISPLAYTYPE_READONLY' => 'Somente leitura',
 	'LBL_DISPLAYTYPE_ONLY_DETAIL' => 'Visivel na visão detalhada',
@@ -156,7 +156,16 @@ $languageStrings = [
 	'LBL_ADVANCED_BLOCK_FIELDS' => 'Campos bloco avançado',
 	'LBL_ADD_ADVANCED_BLOCK_FIELDS' => 'Adicionar campos de bloco de avançados',
 	'LBL_MAX_LENGTH_TEXT' => 'Comprimento máximo do texto',
-	'LBL_MAX_WIDTH_COLUMN' => 'Largura da coluna [%]'
+	'LBL_MAX_WIDTH_COLUMN' => 'Largura da coluna [%]',
+	'LBL_EXCEEDED_MAXIMUM_NUMBER_CHARACTERS_FOR_FIELD_NAME' => 'You exceeded the maximum number of 30 characters for field name.',
+	'LBL_RELATED_TAB_TYPE' => 'Tabs',
+	'LBL_DETAIL_TOP_TYPE' => 'Details top',
+	'LBL_DETAIL_BOTTOM_TYPE' => 'Details down',
+	'LBL_SUMMARY_TOP_TYPE' => 'Summary top',
+	'LBL_SUMMARY_BOTTOM_TYPE' => 'Summary down',
+	'LBL_RELATED_VIEW_TYPE' => 'Display position',
+	'LBL_RELATED_VIEW_TYPE_DESC' => 'Select at least one display position for the block',
+	'LBL_CUSTOM_CONFIGURATION' => 'Custom configuration',
 ];
 
 $jsLanguageStrings = [
