@@ -19,9 +19,10 @@ require_once 'include/utils/VtlibUtils.php';
 class WebservicesUtils
 {
 
-	/** 	Function used to get the lead related Notes and Attachments with other entities Account, Contact and Potential
-	 * 	@param integer $id - leadid
-	 * 	@param integer $relatedId -  related entity id (accountid / contactid)
+	/**
+	 * Function used to get the lead related Notes and Attachments with other entities Account, Contact and Potential
+	 * @param integer $id - leadid
+	 * @param integer $relatedId -  related entity id (accountid / contactid)
 	 */
 	public static function vtws_getRelatedNotesAttachments($id, $relatedId)
 	{
@@ -48,10 +49,11 @@ class WebservicesUtils
 		return true;
 	}
 
-	/** 	Function used to save the lead related products with other entities Account, Contact and Potential
-	 * 	$leadid - leadid
-	 * 	$relatedid - related entity id (accountid/contactid/potentialid)
-	 * 	$setype - related module(Accounts/Contacts)
+	/**
+	 * Function used to save the lead related products with other entities Account, Contact and Potential
+	 * $leadid - leadid
+	 * $relatedid - related entity id (accountid/contactid/potentialid)
+	 * $setype - related module(Accounts/Contacts)
 	 */
 	public static function vtws_saveLeadRelatedProducts($leadId, $relatedId, $setype)
 	{
@@ -78,10 +80,11 @@ class WebservicesUtils
 		return true;
 	}
 
-	/** 	Function used to save the lead related services with other entities Account, Contact and Potential
-	 * 	$leadid - leadid
-	 * 	$relatedid - related entity id (accountid/contactid/potentialid)
-	 * 	$setype - related module(Accounts/Contacts)
+	/**
+	 * Function used to save the lead related services with other entities Account, Contact and Potential
+	 * $leadid - leadid
+	 * $relatedid - related entity id (accountid/contactid/potentialid)
+	 * $setype - related module(Accounts/Contacts)
 	 */
 	public static function vtws_saveLeadRelations($leadId, $relatedId, $setype)
 	{
@@ -137,11 +140,12 @@ class WebservicesUtils
 		return null;
 	}
 
-	/** 	Function used to get the lead related activities with other entities Account and Contact
-	 * 	@param integer $leadId - lead entity id
-	 * 	@param integer $accountId - related account id
-	 * 	@param integer $contactId -  related contact id
-	 * 	@param integer $relatedId - related entity id to which the records need to be transferred
+	/**
+	 * Function used to get the lead related activities with other entities Account and Contact
+	 * @param integer $leadId - lead entity id
+	 * @param integer $accountId - related account id
+	 * @param integer $contactId -  related contact id
+	 * @param integer $relatedId - related entity id to which the records need to be transferred
 	 */
 	public static function vtws_getRelatedActivities($leadId, $accountId, $contactId, $relatedId)
 	{
@@ -198,6 +202,11 @@ class WebservicesUtils
 		static::vtws_transferRelatedRecords($leadId, $relatedId);
 	}
 
+	/**
+	 * The function transfers the comments
+	 * @param int $sourceRecordId
+	 * @param int $destinationRecordId
+	 */
 	public static function vtws_transferComments($sourceRecordId, $destinationRecordId)
 	{
 		if (\App\Module::isModuleActive('ModComments')) {
@@ -206,6 +215,11 @@ class WebservicesUtils
 		}
 	}
 
+	/**
+	 * The function transfers related records
+	 * @param int $sourceRecordId
+	 * @param int $destinationRecordId
+	 */
 	public static function vtws_transferRelatedRecords($sourceRecordId, $destinationRecordId)
 	{
 		$db = \App\Db::getInstance();
