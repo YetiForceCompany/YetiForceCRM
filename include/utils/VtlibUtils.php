@@ -203,54 +203,6 @@ function __vtlib_get_modulevar_value($module, $varname)
 }
 
 /**
- * Get picklist values that is accessible by all roles.
- */
-function vtlib_getPicklistValues_AccessibleToAll($fieldColumnname)
-{
-
-	\App\Log::trace('Entering ' . __METHOD__ . '(' . print_r($fieldColumnname, true) . ') method ...');
-	$adb = PearDatabase::getInstance();
-
-	$columnname = $adb->quote($fieldColumnname, false);
-	$tablename = 'vtiger_' . $fieldColumnname;
-	// Gather all the roles (except H1 which is organization role)
-	$roleres = $adb->query("SELECT roleid FROM vtiger_role WHERE roleid != 'H1'");
-	$roleresCount = $adb->numRows($roleres);
-	$allroles = [];
-	if ($roleresCount) {
-		for ($index = 0; $index < $roleresCount; ++$index)
-			$allroles[] = $adb->queryResult($roleres, $index, 'roleid');
-	}
-	sort($allroles);
-
-	// Get all the picklist values associated to roles (except H1 - organization role).
-	$picklistres = $adb->query(
-		"SELECT $columnname as pickvalue, roleid FROM $tablename
-		INNER JOIN vtiger_role2picklist ON $tablename.picklist_valueid=vtiger_role2picklist.picklistvalueid
-		WHERE roleid != 'H1'");
-
-	$picklistresCount = $adb->numRows($picklistres);
-
-	$picklistval_roles = [];
-	if ($picklistresCount) {
-		while ($row = $adb->getRow($picklistres)) {
-			$picklistval_roles[$row['pickvalue']][] = $row['roleid'];
-		}
-	}
-	// Collect picklist value which is associated to all the roles.
-	$allrolevalues = [];
-	foreach ($picklistval_roles as $picklistval => $pickvalroles) {
-		sort($pickvalroles);
-		$diff = array_diff($pickvalroles, $allroles);
-		if (empty($diff))
-			$allrolevalues[] = $picklistval;
-	}
-
-	\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
-	return $allrolevalues;
-}
-
-/**
  * Check if give path is writeable.
  */
 function vtlib_isWriteable($path)
