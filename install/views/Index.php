@@ -270,12 +270,8 @@ class Install_Index_View extends Vtiger_View_Controller
 
 	public function cleanInstallationFiles()
 	{
-		$languagesList = Users_Module_Model::getLanguagesList();
-		foreach ($languagesList as $key => $value) {
-			$langPath = "languages/$key/Install.php";
-			if (file_exists($langPath)) {
-				unlink($langPath);
-			}
+		foreach (glob('languages/*/Install.php') as $path) {
+			unlink($path);
 		}
 		\vtlib\Functions::recurseDelete('install');
 		\vtlib\Functions::recurseDelete('public_html/install');
