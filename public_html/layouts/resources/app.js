@@ -838,23 +838,6 @@ window.app = {
 
 		return year + '-' + month + '-' + day;
 	},
-	registerEventForTextAreaFields: function (parentElement) {
-		if (typeof parentElement == 'undefined') {
-			parentElement = jQuery('body');
-		}
-
-		parentElement = jQuery(parentElement);
-
-		if (parentElement.is('textarea')) {
-			var element = parentElement;
-		} else {
-			var element = jQuery('textarea', parentElement);
-		}
-		if (element.length == 0) {
-			return;
-		}
-		element.autosize();
-	},
 	registerEventForDatePickerFields: function (parentElement, registerForAddon, customParams) {
 		if (typeof parentElement == 'undefined') {
 			parentElement = jQuery('body');
