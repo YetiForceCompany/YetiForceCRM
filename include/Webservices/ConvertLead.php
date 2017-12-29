@@ -114,7 +114,7 @@ class WebservicesConvertLead
 			static::vtws_convertLeadTransferHandler($leadIdComponents, $entityIds, $entityvalues);
 
 			$relatedId = $entityIds[$entityvalues['transferRelatedRecordsTo']];
-			vtws_getRelatedActivities($leadIdComponents, $accountId, $contactId, $relatedId);
+			\WebservicesUtils::vtws_getRelatedActivities($leadIdComponents, $accountId, $contactId, $relatedId);
 			static::vtws_updateConvertLeadStatus($entityIds, $entityvalues['leadId'], $user);
 
 			$eventHandler->addParams('entityIds', $entityIds);
@@ -164,11 +164,11 @@ class WebservicesConvertLead
 				}
 			}
 			do {
-				$entityField = vtws_getFieldfromFieldId($row[$column], $targetModuleModel);
+				$entityField = \WebservicesUtils::vtws_getFieldfromFieldId($row[$column], $targetModuleModel);
 				if ($entityField === null) {
 					continue;
 				}
-				$leadField = vtws_getFieldfromFieldId($row['leadfid'], $recordModel->getModule());
+				$leadField = \WebservicesUtils::vtws_getFieldfromFieldId($row['leadfid'], $recordModel->getModule());
 				if ($leadField === null) {
 					continue;
 				}
@@ -221,7 +221,7 @@ class WebservicesConvertLead
 	{
 		try {
 			$entityidComponents = $entityIds[$entityvalues['transferRelatedRecordsTo']];
-			vtws_transferLeadRelatedRecords($leadIdComponents, $entityidComponents, $entityvalues['transferRelatedRecordsTo']);
+			\WebservicesUtils::vtws_transferLeadRelatedRecords($leadIdComponents, $entityidComponents, $entityvalues['transferRelatedRecordsTo']);
 		} catch (Exception $e) {
 			return false;
 		}
