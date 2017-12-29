@@ -3,7 +3,7 @@
  * Search config
  * @package YetiForce.Config
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $CONFIG = [
 	// Auto select current module in global search (true/false)
@@ -22,4 +22,10 @@ $CONFIG = [
 	'GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH' => 3,
 	// Global search - Show operator
 	'GLOBAL_SEARCH_OPERATOR' => true,
+	// Colors for record state will be displayed in list view, history, and preview.
+	'LIST_ENTITY_STATE_COLOR' => [
+		'Archived' => '#0032a2',
+		'Trash' => '#ab0505',
+		'Active' => '#009405',
+	],
 ];

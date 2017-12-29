@@ -3,7 +3,7 @@
  * EditField View Class
  * @package YetiForce.Settings.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
@@ -12,19 +12,20 @@
  */
 class Settings_LayoutEditor_EditField_View extends Settings_Vtiger_BasicModal_View
 {
+
 	/**
 	 * Check permission to view
 	 * @param \App\Request $request
-	 * @throws \Exception\NoPermittedForAdmin
+	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		if (!$currentUserModel->isAdminUser() && !Settings_LayoutEditor_Field_Model::getInstance($request->get('fieldId')->isEditable())) {
-			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+		if (!$currentUserModel->isAdminUser() || !Settings_LayoutEditor_Field_Model::getInstance($request->getInteger('fieldId'))->isEditable()) {
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
-	
+
 	/**
 	 * Main proccess view
 	 * @param \App\Request $request
@@ -33,7 +34,7 @@ class Settings_LayoutEditor_EditField_View extends Settings_Vtiger_BasicModal_Vi
 	{
 		$this->preProcess($request);
 		$qualifiedModuleName = $request->getModule(false);
-		$fieldId = $request->get('fieldId');
+		$fieldId = $request->getInteger('fieldId');
 		$fieldModel = Settings_LayoutEditor_Field_Model::getInstance($fieldId);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('FIELD_MODEL', $fieldModel);

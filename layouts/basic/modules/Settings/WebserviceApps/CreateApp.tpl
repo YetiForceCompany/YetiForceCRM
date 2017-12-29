@@ -1,9 +1,9 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-content validationEngineContainer" id="EditView">
 		<form>
 			<input class="recordEditView" type="hidden">
-			<input type="hidden" name="mappingRelatedField" value="{Vtiger_Util_Helper::toSafeHTML($MAPPING_RELATED_FIELD)}"/>
+			<input type="hidden" name="mappingRelatedField" value="{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}" />
 			<div class="modal-header row no-margin">
 				<div class="col-xs-12 paddingLRZero">
 					<div class="col-xs-8 paddingLRZero">
@@ -105,6 +105,6 @@
 				</div>
 			</div>
 		</form>
-		{include file='ModalFooter.tpl'|@vtemplate_path}
+		{include file=\App\Layout::getTemplatePath('ModalFooter.tpl')}
 	</div>
 {/strip}

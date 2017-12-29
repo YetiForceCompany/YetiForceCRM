@@ -6,32 +6,46 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Function to get the Template name for the current UI Type object
-	 * @return string - Template Name
+	 * {@inheritDoc}
+	 */
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+	{
+		if ($value === '') {
+			return '';
+		}
+		$moduleName = $this->getFieldModel()->getModuleName();
+		$dispalyValue = Vtiger_Language_Handler::getTranslatedString($value, $moduleName);
+		if (is_int($length)) {
+			$dispalyValue = \vtlib\Functions::textLength($dispalyValue, $length);
+		}
+		if ($rawText) {
+			return $dispalyValue;
+		}
+		$fieldName = App\Colors::sanitizeValue($this->getFieldModel()->getFieldName());
+		$value = App\Colors::sanitizeValue($value);
+		return "<span class=\"picklistValue picklistLb_{$moduleName}_{$fieldName}_{$value}\">$dispalyValue</span>";
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getListSearchTemplateName()
+	{
+		return 'uitypes/PickListFieldSearchView.tpl';
+	}
+
+	/**
+	 * {@inheritDoc}
 	 */
 	public function getTemplateName()
 	{
 		return 'uitypes/Picklist.tpl';
-	}
-
-	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
-	 * @return <Object>
-	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
-	{
-		return Vtiger_Language_Handler::getTranslatedString($value, $this->get('field')->getModuleName());
-	}
-
-	public function getListSearchTemplateName()
-	{
-		return 'uitypes/PickListFieldSearchView.tpl';
 	}
 }

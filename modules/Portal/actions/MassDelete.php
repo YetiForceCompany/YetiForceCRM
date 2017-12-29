@@ -9,14 +9,14 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Portal_MassDelete_Action extends Vtiger_MassDelete_Action
+class Portal_MassDelete_Action extends Vtiger_Mass_Action
 {
 
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -27,7 +27,7 @@ class Portal_MassDelete_Action extends Vtiger_MassDelete_Action
 		Portal_Module_Model::deleteRecords($request);
 
 		$response = new Vtiger_Response();
-		$result = array('message' => \App\Language::translate('LBL_BOOKMARKS_DELETED_SUCCESSFULLY', $module));
+		$result = ['message' => \App\Language::translate('LBL_BOOKMARKS_DELETED_SUCCESSFULLY', $module)];
 		$response->setResult($result);
 		$response->emit();
 	}

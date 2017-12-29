@@ -21,13 +21,13 @@ class VTWorkflowUtils
 	 * User stack
 	 * @var array
 	 */
-	static $userStack;
+	public static $userStack;
 
 	/**
 	 * Logged in user id
 	 * @var int
 	 */
-	static $loggedInUser;
+	public static $loggedInUser;
 
 	/**
 	 * Constructor
@@ -102,23 +102,6 @@ class VTWorkflowUtils
 	public function currentUser()
 	{
 		return $current_user;
-	}
-
-	/**
-	 * The webservice entity type of an EntityData object
-	 */
-	public function toWSModuleName($entityData)
-	{
-		$moduleName = $entityData->getModuleName();
-		if ($moduleName == 'Activity') {
-			$arr = array('Task' => 'Calendar');
-			$type = \vtlib\Functions::getActivityType($entityData->getId());
-			$moduleName = $arr[$type];
-			if ($moduleName === null) {
-				$moduleName = 'Events';
-			}
-		}
-		return $moduleName;
 	}
 
 	/**

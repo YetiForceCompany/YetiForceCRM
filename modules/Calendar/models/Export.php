@@ -3,7 +3,7 @@
  * Calendar export model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 Vtiger_Loader::includeOnce('modules.Calendar.iCal.iCalendar_rfc2445');
 Vtiger_Loader::includeOnce('modules.Calendar.iCal.iCalendar_components');
@@ -20,12 +20,12 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 	 */
 	public function getExportQuery(\App\Request $request)
 	{
-		$moduleName = $request->get('source_module');
-		$cvId = $request->get('viewname');
+		$moduleName = $request->getByType('source_module', 2);
+		$cvId = $request->getByType('viewname', 2);
 		$listInstance = Vtiger_ListView_Model::getInstance($moduleName, $cvId);
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
-		$operator = $request->get('operator');
+		$operator = $request->getByType('operator', 1);
 		if (!empty($operator)) {
 			$listInstance->set('operator', $operator);
 		}
@@ -77,7 +77,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 	 */
 	public function exportData(\App\Request $request)
 	{
-		$moduleName = $request->get('source_module');
+		$moduleName = $request->getByType('source_module', 2);
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$moduleModel->setEventFieldsForExport();
 		$moduleModel->setTodoFieldsForExport();
@@ -93,9 +93,9 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 	 * @param array $dataReader
 	 * @param Vtiger_Module_Model $moduleModel
 	 */
-	public function outputData($request, $dataReader, $moduleModel, $fileName, $toFile = false)
+	public function outputData(\App\Request $request, $dataReader, $moduleModel, $fileName, $toFile = false)
 	{
-		$timeZone = new iCalendar_timezone;
+		$timeZone = new IcalendarTimezone;
 		$timeZoneId = explode('/', date_default_timezone_get());
 
 		if (!empty($timeZoneId[1])) {
@@ -104,17 +104,17 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 			$zoneId = $timeZoneId[0];
 		}
 
-		$timeZone->add_property('TZID', $zoneId);
-		$timeZone->add_property('TZOFFSETTO', date('O'));
+		$timeZone->addProperty('TZID', $zoneId);
+		$timeZone->addProperty('TZOFFSETTO', date('O'));
 
 		if (date('I') == 1) {
-			$timeZone->add_property('DAYLIGHTC', date('I'));
+			$timeZone->addProperty('DAYLIGHTC', date('I'));
 		} else {
-			$timeZone->add_property('STANDARDC', date('I'));
+			$timeZone->addProperty('STANDARDC', date('I'));
 		}
 
-		$myiCal = new iCalendar;
-		$myiCal->add_component($timeZone);
+		$myiCal = new Icalendar;
+		$myiCal->addComponent($timeZone);
 
 		while ($row = $dataReader->read()) {
 			$eventFields = $row;
@@ -127,7 +127,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 					 * http://kigkonsult.se/iCalcreator/docs/using.html#PRIORITY
 					 */
 					if ($fieldName == 'priority') {
-						$priorityMap = array('High' => '1', 'Medium' => '2', 'Low' => '3');
+						$priorityMap = ['High' => '1', 'Medium' => '2', 'Low' => '3'];
 						$priorityval = $eventFields[$fieldName];
 						$icalZeroPriority = 0;
 						if (array_key_exists($priorityval, $priorityMap))
@@ -141,17 +141,17 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 				}
 				$temp['id'] = $id;
 
-				$iCalTask = new iCalendar_event;
-				$iCalTask->assign_values($temp);
+				$iCalTask = new IcalendarEvent;
+				$iCalTask->assignValues($temp);
 
-				$iCalAlarm = new iCalendar_alarm;
-				$iCalAlarm->assign_values($temp);
-				$iCalTask->add_component($iCalAlarm);
+				$iCalAlarm = new IcalendarAlarm;
+				$iCalAlarm->assignValues($temp);
+				$iCalTask->addComponent($iCalAlarm);
 			} else {
 				$temp = $moduleModel->get('todoFields');
 				foreach ($temp as $fieldName => $access) {
 					if ($fieldName == 'priority') {
-						$priorityMap = array('High' => '1', 'Medium' => '2', 'Low' => '3');
+						$priorityMap = ['High' => '1', 'Medium' => '2', 'Low' => '3'];
 						$priorityval = $eventFields[$fieldName];
 						$icalZeroPriority = 0;
 						if (array_key_exists($priorityval, $priorityMap))
@@ -161,10 +161,10 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 					} else
 						$temp[$fieldName] = $eventFields[$fieldName];
 				}
-				$iCalTask = new iCalendar_todo;
-				$iCalTask->assign_values($temp);
+				$iCalTask = new IcalendarTodo;
+				$iCalTask->assignValues($temp);
 			}
-			$myiCal->add_component($iCalTask);
+			$myiCal->addComponent($iCalTask);
 		}
 		if ($toFile) {
 			return $myiCal->serialize();
@@ -172,7 +172,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 			$exportType = $this->getExportContentType($request);
 			// Send the right content type and filename
 			header("Content-type: $exportType");
-			header("Content-Disposition: attachment; filename={$fileName}.ics");
+			header("Content-Disposition: attachment; filename=\"{$fileName}.ics\"");
 			echo $myiCal->serialize();
 		}
 	}

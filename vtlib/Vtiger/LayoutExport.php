@@ -22,7 +22,7 @@ class LayoutExport extends Package
 	 * Generate unique id for insertion
 	 * @access private
 	 */
-	static function __getUniqueId()
+	public static function __getUniqueId()
 	{
 		$adb = \PearDatabase::getInstance();
 		return $adb->getUniqueID(self::TABLENAME);
@@ -53,7 +53,7 @@ class LayoutExport extends Package
 		$this->__initExport($layoutName);
 
 		// Call layout export function
-		$this->export_Layout($layoutName);
+		$this->exportLayout($layoutName);
 
 		$this->__finishExport();
 
@@ -87,15 +87,15 @@ class LayoutExport extends Package
 	 * Export Layout Handler
 	 * @access private
 	 */
-	public function export_Layout($layoutName)
+	public function exportLayout($layoutName)
 	{
 		$adb = \PearDatabase::getInstance();
 		$query = sprintf('SELECT * FROM %s WHERE name = ?', self::TABLENAME);
 		$sqlresult = $adb->pquery($query, [$layoutName]);
-		$layoutresultrow = $adb->fetch_array($sqlresult);
+		$layoutresultrow = $adb->fetchArray($sqlresult);
 
-		$layoutname = decode_html($layoutresultrow['name']);
-		$layoutlabel = decode_html($layoutresultrow['label']);
+		$layoutname = \App\Purifier::decodeHtml($layoutresultrow['name']);
+		$layoutlabel = \App\Purifier::decodeHtml($layoutresultrow['label']);
 
 		$this->openNode('module');
 		$this->outputNode(date('Y-m-d H:i:s'), 'exporttime');
@@ -104,7 +104,7 @@ class LayoutExport extends Package
 		$this->outputNode('layout', 'type');
 
 		// Export dependency information
-		$this->export_Dependencies();
+		$this->exportDependencies();
 		$this->closeNode('module');
 	}
 
@@ -112,7 +112,7 @@ class LayoutExport extends Package
 	 * Export vtiger dependencies
 	 * @access private
 	 */
-	public function export_Dependencies()
+	public function exportDependencies()
 	{
 		$maxVersion = false;
 		$this->openNode('dependencies');
@@ -125,7 +125,7 @@ class LayoutExport extends Package
 	/**
 	 * Register layout pack information.
 	 */
-	static function register($name, $label = '', $isdefault = false, $isactive = true, $overrideCore = false)
+	public static function register($name, $label = '', $isdefault = false, $isactive = true, $overrideCore = false)
 	{
 		$prefix = trim($prefix);
 		// We will not allow registering core layouts unless forced
@@ -161,7 +161,7 @@ class LayoutExport extends Package
 		self::log("Registering Layout $name ... DONE");
 	}
 
-	static function deregister($name)
+	public static function deregister($name)
 	{
 		if (strtolower($name) == 'basic')
 			return;

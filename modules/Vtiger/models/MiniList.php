@@ -21,7 +21,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 
 	/**
 	 * Search condition
-	 * @var array 
+	 * @var array
 	 */
 	protected $searchParams = [];
 
@@ -32,7 +32,7 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 
 		// Decode data if not done already.
 		if (is_string($this->extraData)) {
-			$this->extraData = \App\Json::decode(decode_html($this->extraData));
+			$this->extraData = \App\Json::decode(App\Purifier::decodeHtml($this->extraData));
 		}
 		if ($this->extraData === null) {
 			throw new Exception("Invalid data");
@@ -86,9 +86,9 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 		if (empty($title)) {
 			$db = PearDatabase::getInstance();
 			$suffix = '';
-			$customviewrs = $db->pquery('SELECT viewname FROM vtiger_customview WHERE cvid=?', array($this->widgetModel->get('filterid')));
-			if ($db->num_rows($customviewrs)) {
-				$customview = $db->fetch_array($customviewrs);
+			$customviewrs = $db->pquery('SELECT viewname FROM vtiger_customview WHERE cvid=?', [$this->widgetModel->get('filterid')]);
+			if ($db->numRows($customviewrs)) {
+				$customview = $db->fetchArray($customviewrs);
 				$suffix = ' - ' . \App\Language::translate($customview['viewname'], $this->getTargetModule());
 			}
 			return $prefix . \App\Language::translate($this->getTargetModuleModel()->label, $this->getTargetModule()) . $suffix;

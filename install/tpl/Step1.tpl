@@ -27,11 +27,11 @@
 				</div>
 				<hr>
 				<div class="pull-right">
-					<a class="helpBtn" href="https://yetiforce.com/en/implementer/installation-updates.html" target="_blank">
+					<a class="helpBtn" href="https://yetiforce.com/en/implementer/installation-updates.html" target="_blank" rel="noreferrer">
 						<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
 					</a>
 				</div>
-				<input type="hidden" name="mode" value="Step2" />
+				<input type="hidden" name="mode" value="step2" />
 				<div class="col-md-4 welcome-image">
 					<img src="../{\App\Layout::getPublicUrl('layouts/resources/Logo/logo_yetiforce.png')}" alt="Yetiforce Logo"/>
 				</div>

@@ -4,7 +4,7 @@
  * Reservations calendar model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Reservations_Calendar_Model extends \App\Base
 {
@@ -60,12 +60,26 @@ class Reservations_Calendar_Model extends \App\Base
 		}
 		\App\PrivilegeQuery::getConditions($query, $module);
 		$query->orderBy(['date_start' => SORT_ASC, 'time_start' => SORT_ASC]);
+		$fieldType = Vtiger_Field_Model::getInstance('type', Vtiger_Module_Model::getInstance('Reservations'));
 		$dataReader = $query->createCommand()->query();
 		$result = [];
 		while ($record = $dataReader->read()) {
 			$crmid = $record['reservationsid'];
 			$item['id'] = $crmid;
-			$item['title'] = $record['title'];
+			$item['title'] = \App\Purifier::encodeHtml($record['title']);
+			$item['type'] = $fieldType->getDisplayValue($record['type']);
+			$item['status'] = \App\Purifier::encodeHtml($record['reservations_status']);
+			$item['totalTime'] = vtlib\Functions::decimalTimeFormat($record['sum_time'])['short'];
+			$item['smownerid'] = \App\Fields\Owner::getLabel($record['smownerid']);
+			if ($record['relatedida']) {
+				$item['company'] = \App\Record::getLabel($record['relatedida']);
+			}
+			if ($record['relatedidb']) {
+				$item['process'] = \App\Record::getLabel($record['relatedidb']);
+				$item['processId'] = $record['relatedidb'];
+				$item['processType'] = \App\Record::getType($record['relatedidb']);
+				$item['processLabel'] = \App\Language::translate(\App\Record::getType($record['relatedidb']));
+			}
 			$item['url'] = 'index.php?module=Reservations&view=Detail&record=' . $crmid;
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
 			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
@@ -81,7 +95,7 @@ class Reservations_Calendar_Model extends \App\Base
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 			$dataBaseDateFormatedString = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 			$item['end'] = $dataBaseDateFormatedString . ' ' . $dateTimeComponents[1];
-			$item['className'] = ' userCol_' . $record['smownerid'] . ' calCol_' . $record['type'];
+			$item['className'] = ' ownerCBg_' . $record['smownerid'];
 			$result[] = $item;
 		}
 		return $result;

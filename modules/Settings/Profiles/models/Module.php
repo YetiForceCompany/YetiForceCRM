@@ -17,7 +17,7 @@ class Settings_Profiles_Module_Model extends Settings_Vtiger_Module_Model
 
 	public $baseTable = 'vtiger_profile';
 	public $baseIndex = 'profileid';
-	public $listFields = array('profilename' => 'Name', 'description' => 'Description');
+	public $listFields = ['profilename' => 'Name', 'description' => 'Description'];
 
 	const GLOBAL_ACTION_VIEW = 1;
 	const GLOBAL_ACTION_EDIT = 2;
@@ -55,6 +55,6 @@ class Settings_Profiles_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getNonVisibleModulesList()
 	{
-		return ['ModTracker', 'Users', 'Import', 'Home', 'OSSMailScanner'];
+		return ['ModTracker', 'Import', 'Home', 'OSSMailScanner'];
 	}
 }

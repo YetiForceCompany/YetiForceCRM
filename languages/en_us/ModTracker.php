@@ -15,6 +15,7 @@ $languageStrings = [
 	// Action types 
 	'LBL_AT_UPDATE' => 'Modify',
 	'LBL_AT_DELETE' => 'Delete',
+	'LBL_AT_TRASH' => 'Move to Recycle Bin',
 	'LBL_AT_CREATE' => 'Create',
 	'LBL_AT_RESTORE' => 'Restore',
 	'LBL_AT_LINK' => 'Link',
@@ -23,6 +24,7 @@ $languageStrings = [
 	'LBL_AT_DISPLAY' => 'View',
 	'LBL_AT_UPDATE_P' => 'Modified',
 	'LBL_AT_DELETE_P' => 'Deleted',
+	'LBL_AT_TRASH_P' => 'Moved to Recycle Bin',
 	'LBL_AT_CREATE_P' => 'Created',
 	'LBL_AT_RESTORE_P' => 'Restored',
 	'LBL_AT_LINK_P' => 'Linked',
@@ -36,4 +38,14 @@ $languageStrings = [
 	'LBL_NUMBER_UNREAD_CHANGES' => 'Number of unread changes',
 	'LBL_REVIEW_CHANGES_LIMIT_DESCRIPTION' => 'Due to exceeding the limit of updated data the action was added to cron tasks queue.',
 	'LBL_ESTIMATED_TIME' => 'Estimated time',
+	//Status
+	'LBL_CREATED' => 'created',
+	'LBL_UPDATED' => 'updated',
+	'LBL_DISPLAYED' => 'Displayed',
+	'LBL_ADDED' => 'added',
+	'LBL_REMOVED' => 'removed',
+	'LBL_CONVERTED_FROM_LEAD' => 'Converted from lead',
+	'LBL_DELETED' => 'Deleted record',
+	'LBL_ACTIVE' => 'Restored record',
+	'LBL_ARCHIVED' => 'Archived record',
 ];

@@ -14,7 +14,7 @@ require_once 'modules/PickList/PickListUtils.php';
 class Vtiger_DependencyPicklist
 {
 
-	static function getDependentPicklistFields($module = '')
+	public static function getDependentPicklistFields($module = '')
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -22,63 +22,40 @@ class Vtiger_DependencyPicklist
 			$result = $adb->pquery('SELECT DISTINCT sourcefield, targetfield, tabid FROM vtiger_picklist_dependency', []);
 		} else {
 			$tabId = \App\Module::getModuleId($module);
-			$result = $adb->pquery('SELECT DISTINCT sourcefield, targetfield, tabid FROM vtiger_picklist_dependency WHERE tabid=?', array($tabId));
+			$result = $adb->pquery('SELECT DISTINCT sourcefield, targetfield, tabid FROM vtiger_picklist_dependency WHERE tabid=?', [$tabId]);
 		}
-		$noofrows = $adb->num_rows($result);
+		$noofrows = $adb->numRows($result);
 
 		$dependentPicklists = [];
 		if ($noofrows > 0) {
 			for ($i = 0; $i < $noofrows; ++$i) {
-				$fieldTabId = $adb->query_result($result, $i, 'tabid');
-				$sourceField = $adb->query_result($result, $i, 'sourcefield');
-				$targetField = $adb->query_result($result, $i, 'targetfield');
+				$fieldTabId = $adb->queryResult($result, $i, 'tabid');
+				$sourceField = $adb->queryResult($result, $i, 'sourcefield');
+				$targetField = $adb->queryResult($result, $i, 'targetfield');
 
 				if (\vtlib\Functions::getModuleFieldId($fieldTabId, $sourceField) === false || \vtlib\Functions::getModuleFieldId($fieldTabId, $targetField) === false) {
 					continue;
 				}
 
-				$fieldResult = $adb->pquery('SELECT fieldlabel FROM vtiger_field WHERE fieldname = ?', array($sourceField));
-				$sourceFieldLabel = $adb->query_result($fieldResult, 0, 'fieldlabel');
+				$fieldResult = $adb->pquery('SELECT fieldlabel FROM vtiger_field WHERE fieldname = ?', [$sourceField]);
+				$sourceFieldLabel = $adb->queryResult($fieldResult, 0, 'fieldlabel');
 
-				$fieldResult = $adb->pquery('SELECT fieldlabel FROM vtiger_field WHERE fieldname = ?', array($targetField));
-				$targetFieldLabel = $adb->query_result($fieldResult, 0, 'fieldlabel');
+				$fieldResult = $adb->pquery('SELECT fieldlabel FROM vtiger_field WHERE fieldname = ?', [$targetField]);
+				$targetFieldLabel = $adb->queryResult($fieldResult, 0, 'fieldlabel');
 				$forModule = \App\Module::getModuleName($fieldTabId);
-				$dependentPicklists[] = array(
+				$dependentPicklists[] = [
 					'sourcefield' => $sourceField,
 					'sourcefieldlabel' => \App\Language::translate($sourceFieldLabel, $forModule),
 					'targetfield' => $targetField,
 					'targetfieldlabel' => \App\Language::translate($targetFieldLabel, $forModule),
 					'module' => $forModule
-				);
+				];
 			}
 		}
 		return $dependentPicklists;
 	}
 
-	static function getAvailablePicklists($module)
-	{
-		$adb = PearDatabase::getInstance();
-
-		$tabId = \App\Module::getModuleId($module);
-
-		$query = "select vtiger_field.fieldlabel,vtiger_field.fieldname" .
-			" FROM vtiger_field inner join vtiger_picklist on vtiger_field.fieldname = vtiger_picklist.name" .
-			" where displaytype=1 and vtiger_field.tabid=? and vtiger_field.uitype in ('15','16') " .
-			" and vtiger_field.presence in (0,2) ORDER BY vtiger_picklist.picklistid ASC";
-
-		$result = $adb->pquery($query, array($tabId));
-		$noofrows = $adb->num_rows($result);
-
-		$fieldlist = [];
-		if ($noofrows > 0) {
-			for ($i = 0; $i < $noofrows; ++$i) {
-				$fieldlist[$adb->query_result($result, $i, "fieldname")] = $adb->query_result($result, $i, "fieldlabel");
-			}
-		}
-		return $fieldlist;
-	}
-
-	static function savePickListDependencies($module, $dependencyMap)
+	public static function savePickListDependencies($module, $dependencyMap)
 	{
 		$db = App\Db::getInstance();
 		$tabId = \App\Module::getModuleId($module);
@@ -128,7 +105,7 @@ class Vtiger_DependencyPicklist
 		}
 	}
 
-	static function deletePickListDependencies($module, $sourceField, $targetField)
+	public static function deletePickListDependencies($module, $sourceField, $targetField)
 	{
 		App\Db::getInstance()->createCommand()->delete('vtiger_picklist_dependency', [
 			'tabid' => \App\Module::getModuleId($module),
@@ -137,7 +114,7 @@ class Vtiger_DependencyPicklist
 		])->execute();
 	}
 
-	static function getPickListDependency($module, $sourceField, $targetField)
+	public static function getPickListDependency($module, $sourceField, $targetField)
 	{
 		$dependencyMap['sourcefield'] = $sourceField;
 		$dependencyMap['targetfield'] = $targetField;
@@ -154,13 +131,13 @@ class Vtiger_DependencyPicklist
 		return $dependencyMap;
 	}
 
-	static function getJSPicklistDependencyDatasource($module)
+	public static function getJSPicklistDependencyDatasource($module)
 	{
 		$picklistDependencyDatasource = \App\Fields\Picklist::getPicklistDependencyDatasource($module);
 		return \App\Json::encode($picklistDependencyDatasource);
 	}
 
-	static function checkCyclicDependency($module, $sourceField, $targetField)
+	public static function checkCyclicDependency($module, $sourceField, $targetField)
 	{
 		// If another parent field exists for the same target field - 2 parent fields should not be allowed for a target field
 		return (new App\Db\Query())->from('vtiger_picklist_dependency')
@@ -168,7 +145,7 @@ class Vtiger_DependencyPicklist
 				->exists();
 	}
 
-	static function getDependentPickListModules()
+	public static function getDependentPickListModules()
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -182,12 +159,10 @@ class Vtiger_DependencyPicklist
 					GROUP BY vtiger_field.tabid HAVING count(*) > 1';
 		// END
 		$result = $adb->pquery($query, []);
-		while ($row = $adb->fetch_array($result)) {
+		while ($row = $adb->fetchArray($result)) {
 			$modules[$row['tablabel']] = $row['tabname'];
 		}
 		ksort($modules);
 		return $modules;
 	}
 }
-
-?>

@@ -4,11 +4,14 @@
  * OSSEmployees detail view class
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSEmployees_Detail_View extends Vtiger_Detail_View
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -16,9 +19,7 @@ class OSSEmployees_Detail_View extends Vtiger_Detail_View
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
-	 * @param \App\Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * {@inheritDoc}
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
@@ -34,9 +35,9 @@ class OSSEmployees_Detail_View extends Vtiger_Detail_View
 		unset($headerScriptInstances[$moduleEditFile]);
 		unset($headerScriptInstances[$moduleDetailFile]);
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			"modules.$moduleName.resources.Detail",
-		);
+		];
 		$jsFileNames[] = $moduleEditFile;
 		$jsFileNames[] = $modulePopUpFile;
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

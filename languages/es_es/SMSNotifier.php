@@ -26,6 +26,11 @@ $languageStrings = [
 	'LBL_WRITE_YOUR_MESSAGE_HERE' => 'escriba su mensaje aquí',
 	'LBL_ADD_MORE_FIELDS' => 'Añadir más campos',
 	'LBL_SERVER_CONFIG' => 'Configuración del servidor',
+	'FL_STATUS' => 'Estado',
+	'PLL_UNDEFINED' => 'Indefinido',
+	'PLL_DELIVERED' => 'Enviado',
+	'PLL_FAILED' => 'Fallído',
+	'LBL_MASS_SEND_SMS_INFO' => 'Todos los mensajes serán enviados mediante CRON',
 	//DetailView Actions
 	'LBL_CHECK_STATUS' => 'Comprobar estado',
 	'message' => 'Mensaje',

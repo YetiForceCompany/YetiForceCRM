@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="">
 		<table class="table table-striped">
@@ -23,8 +23,7 @@
 						</td>
 						<td class="text-center">
 							{if isset($USER['date'])}
-								{Vtiger_Util_Helper::formatDateTimeIntoDayString($USER['date'])}&nbsp;
-								- {Vtiger_Util_Helper::formatDateDiffInStrings($USER['date'])}	
+								{\App\Fields\DateTime::formatToViewDate($USER['date'])}	
 							{/if}
 						</td>
 					</tr> 

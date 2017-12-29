@@ -1,7 +1,9 @@
 <?php
 
-//The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html
-
+/**
+ * @copyright YetiForce Sp. z o.o.
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ */
 class OSSPasswords_InRelation_View extends Vtiger_RelatedList_View
 {
 

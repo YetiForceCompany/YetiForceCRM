@@ -5,7 +5,7 @@ namespace Importers;
  * Class that imports base database
  * @package YetiForce.Install
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Base3 extends \App\Db\Importers\Base
@@ -282,14 +282,11 @@ class Base3 extends \App\Db\Importers\Base
 			],
 			'vtiger_import_locks' => [
 				'columns' => [
-					'vtiger_import_lock_id' => $this->integer(10)->notNull(),
+					'vtiger_import_lock_id' => $this->primaryKey(10)->unsigned(),
 					'userid' => $this->integer(10)->notNull(),
 					'tabid' => $this->smallInteger(5)->notNull(),
 					'importid' => $this->integer(10)->notNull(),
 					'locked_since' => $this->dateTime(),
-				],
-				'primaryKeys' => [
-					['import_locks_pk', 'vtiger_import_lock_id']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -574,6 +571,9 @@ class Base3 extends \App\Db\Importers\Base
 					'buildingnumbera' => $this->stringType(100),
 					'localnumbera' => $this->stringType(100),
 					'poboxa' => $this->stringType(50),
+					'phone_extra' => $this->stringType(100),
+					'mobile_extra' => $this->stringType(100),
+					'fax_extra' => $this->stringType(100),
 				],
 				'primaryKeys' => [
 					['leadaddress_pk', 'leadaddressid']
@@ -1420,6 +1420,9 @@ class Base3 extends \App\Db\Importers\Base
 					'secondary_phone' => $this->stringType(25),
 					'position' => $this->stringType(),
 					'rbh' => $this->decimal('25,8'),
+					'business_phone_extra' => $this->stringType(100),
+					'private_phone_extra' => $this->stringType(100),
+					'secondary_phone_extra' => $this->stringType(100),
 				],
 				'columns_mysql' => [
 					'dav_status' => $this->tinyInteger(1)->defaultValue(1),
@@ -1688,12 +1691,14 @@ class Base3 extends \App\Db\Importers\Base
 					'ssalesprocessesid' => $this->integer(10),
 					'osssoldservices_renew' => $this->stringType(),
 					'renewalinvoice' => $this->integer(10),
+					'contactid' => $this->integer(19),
 				],
 				'index' => [
 					['parent_id', 'parent_id'],
 					['serviceid', 'serviceid'],
 					['ssalesprocessesid', 'ssalesprocessesid'],
 					['renewalinvoice', 'renewalinvoice'],
+					['contactid_idx', 'contactid'],
 				],
 				'primaryKeys' => [
 					['osssoldservices_pk', 'osssoldservicesid']
@@ -1962,6 +1967,7 @@ class Base3 extends \App\Db\Importers\Base
 					'user' => $this->stringType(100),
 					'customernumber' => $this->stringType(100),
 					'customertype' => $this->stringType(100),
+					'customernumber_extra' => $this->stringType(100),
 				],
 				'index' => [
 					['index_sourceuuid', 'sourceuuid'],
@@ -2939,7 +2945,7 @@ class Base3 extends \App\Db\Importers\Base
 					[3, 'Deutsch', 'de_de', 'DE Deutsch', '2014-11-21 11:20:40', NULL, 0, 1],
 					[4, 'Portuguese', 'pt_br', 'Brazilian Portuguese', '2017-06-05 11:20:40', NULL, 0, 1],
 					[5, 'Russian', 'ru_ru', 'Russian', '2015-01-13 15:12:39', NULL, 0, 1],
-					[6, 'French', 'fr_fr', 'French', '2016-04-29 12:20:00', NULL, 0, 1],
+					[6, 'Italian', 'it_it', 'Italian', '2017-12-23 15:12:39', NULL, 0, 1],
 					[7, 'Spanish', 'es_es', 'ES Spanish', '2017-03-11 00:00:00', NULL, 0, 1],
 				]
 			],

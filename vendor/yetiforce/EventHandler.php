@@ -5,7 +5,7 @@ namespace App;
  * Event Handler main class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class EventHandler
@@ -271,7 +271,7 @@ class EventHandler
 	/**
 	 * Trigger an event
 	 * @param string $name Event name
-	 * @throws \Exception\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	public function trigger($name)
 	{
@@ -287,7 +287,7 @@ class EventHandler
 				$handlerInstance->$function($this);
 			} else {
 				Log::error("Handler not found, class: {$handler['handler_class']} | $function");
-				throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
+				throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
 			}
 		}
 	}

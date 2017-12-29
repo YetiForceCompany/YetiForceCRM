@@ -23,9 +23,9 @@
 
 <div>
 	<div class="checkbox">
-		<input type="hidden" name=set_reminder value=0 />
+		<input type="hidden" name="set_reminder" value=0 />
 		<label>
-			<input type=checkbox name=set_reminder {if $REMINDER_VALUES neq ''}checked{/if} title="{\App\Language::translate('Send Reminder', $MODULE)}" value=1 />&nbsp;&nbsp;
+			<input type="checkbox" name="set_reminder" {if $REMINDER_VALUES neq ''}checked{/if} title="{\App\Language::translate('Send Reminder', $MODULE)}" value=1 />&nbsp;&nbsp;
 		</label>
 	</div>
 	<div class="{if $REMINDER_VALUES neq ''}show{else}hide{/if} col-md-12">
@@ -40,9 +40,9 @@
 			<div style="float:left;margin-top:5px">
 				&nbsp;{\App\Language::translate('LBL_DAYS', $MODULE)}&nbsp;&nbsp;
 			</div>
-			
+
 		</div>
-	
+
 		<div class="col-xs-3 ">
 			<div>
 				<select class="chzn-select input-mini" name="remhrs" title="{\App\Language::translate('LBL_REMAIND_HOURS', $MODULE)}" >
@@ -54,7 +54,7 @@
 			<div style="float:left;margin-top:5px">
 				&nbsp;{\App\Language::translate('LBL_HOURS', $MODULE)}&nbsp;&nbsp;
 			</div>
-			
+
 		</div>
 		<div class="col-xs-3 ">
 			<div>
@@ -68,7 +68,7 @@
 				&nbsp;{\App\Language::translate('LBL_MINUTES', $MODULE)}&nbsp;&nbsp;
 			</div>
 		</div>
-	
+
 	</div>
 	<div class="clearfix"></div>
 </div>

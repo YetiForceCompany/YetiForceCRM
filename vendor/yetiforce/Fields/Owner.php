@@ -5,7 +5,7 @@ namespace App\Fields;
  * Owner class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -115,6 +115,13 @@ class Owner
 		return $accessibleUser;
 	}
 
+	/**
+	 * Get accessible
+	 * @param string $private
+	 * @param boolean $fieldType
+	 * @param boolean $translate
+	 * @return array
+	 */
 	public function getAccessible($private = '', $fieldType = false, $translate = false)
 	{
 		return [
@@ -123,6 +130,13 @@ class Owner
 		];
 	}
 
+	/**
+	 * Get allocation
+	 * @param string $mode
+	 * @param string $private
+	 * @param string $fieldType
+	 * @return array
+	 */
 	public function getAllocation($mode, $private = '', $fieldType)
 	{
 		if (\App\Request::_get('parent') != 'Settings') {
@@ -180,7 +194,7 @@ class Owner
 					$fullName .= ' ' . $row[$field];
 				}
 				$row['fullName'] = trim($fullName);
-				$tempResult[$row['id']] = $row;
+				$tempResult[$row['id']] = array_map('\App\Purifier::encodeHtml', $row);
 			}
 			\App\Cache::save('getUsers', $cacheKey, $tempResult);
 		}
@@ -241,7 +255,8 @@ class Owner
 		return $query;
 	}
 
-	/** Function returns the user key in user array
+	/**
+	 * Function returns the user key in user array
 	 * @param $addBlank -- boolean:: Type boolean
 	 * @param $status -- user status:: Type string
 	 * @param $assignedUser -- user id:: Type string or array
@@ -335,7 +350,7 @@ class Owner
 			$tempResult[''] = '';
 		}
 		while ($row = $dataReader->read()) {
-			$tempResult[$row['groupid']] = \App\Purifier::decodeHtml($row['groupname']);
+			$tempResult[$row['groupid']] = $row['groupname'];
 		}
 		\App\Cache::save('OwnerGroups', $cacheKey, $tempResult);
 		\App\Log::trace('Exiting getGroups method ...');
@@ -343,7 +358,7 @@ class Owner
 	}
 
 	/**
-	 * Function returns List of Accessible Users for a Module
+	 * Function returns list of accessible users for a module
 	 * @return <Array of Users_Record_Model>
 	 */
 	public function getAccessibleGroupForModule()
@@ -363,7 +378,7 @@ class Owner
 	}
 
 	/**
-	 * Function returns List of Accessible Users for a Module
+	 * Function returns list of accessible users for a module
 	 * @param string $module
 	 * @return <Array of Users_Record_Model>
 	 */
@@ -383,6 +398,12 @@ class Owner
 		return $users;
 	}
 
+	/**
+	 * Get users and group for module list
+	 * @param boolean  $view
+	 * @param boolean  $conditions
+	 * @return array
+	 */
 	public function getUsersAndGroupForModuleList($view = false, $conditions = false)
 	{
 		$queryGenerator = new \App\QueryGenerator($this->moduleName, $this->currentUser->getId());
@@ -420,6 +441,11 @@ class Owner
 		return ['users' => $users, 'group' => $groups];
 	}
 
+	/**
+	 * The function retrieves all users with active status
+	 * @param string $status
+	 * @return string
+	 */
 	public static function getAllUsers($status = 'Active')
 	{
 		$instance = new self();
@@ -428,6 +454,11 @@ class Owner
 
 	protected static $usersIdsCache = [];
 
+	/**
+	 * The function retrieves user ids with active status
+	 * @param string $status
+	 * @return array
+	 */
 	public static function getUsersIds($status = 'Active')
 	{
 		if (!isset(self::$usersIdsCache[$status])) {
@@ -448,6 +479,11 @@ class Owner
 	protected static $groupLabelCache = [];
 	protected static $groupIdCache = [];
 
+	/**
+	 * Function gets labels
+	 * @param int|array $mixedId
+	 * @return int|array
+	 */
 	public static function getLabel($mixedId)
 	{
 		$multiMode = is_array($mixedId);
@@ -480,6 +516,11 @@ class Owner
 		return $multiMode ? $result : array_shift($result);
 	}
 
+	/**
+	 * The function gets the group names
+	 * @param int $id
+	 * @return string
+	 */
 	public static function getGroupName($id)
 	{
 		if (isset(self::$groupLabelCache[$id])) {
@@ -497,7 +538,7 @@ class Owner
 	}
 
 	/**
-	 * Function to get the Group Id for a given group groupname
+	 * Function to get the group id for a given group groupname
 	 * @param string $name
 	 * @return int
 	 */
@@ -515,6 +556,12 @@ class Owner
 		return $id;
 	}
 
+	/**
+	 * The function gets the user label
+	 * @param int $id
+	 * @param boolean $single
+	 * @return string|boolean
+	 */
 	public static function getUserLabel($id, $single = false)
 	{
 		if (isset(self::$userLabelCache[$id])) {
@@ -562,5 +609,102 @@ class Owner
 		$result = $isExists ? 'Users' : 'Groups';
 		self::$typeCache[$id] = $result;
 		return $result;
+	}
+
+	/**
+	 * Transfer ownership records
+	 * @param int $oldId
+	 * @param int $newId
+	 */
+	public static function transferOwnership($oldId, $newId)
+	{
+		$db = \App\Db::getInstance();
+		//Updating the smcreatorid,smownerid, modifiedby, smcreatorid in vtiger_crmentity
+		$db->createCommand()->update('vtiger_crmentity', ['smcreatorid' => $newId], ['smcreatorid' => $oldId, 'setype' => 'ModComments'])->execute();
+		$db->createCommand()->update('vtiger_crmentity', ['smownerid' => $newId], ['smownerid' => $oldId, 'setype' => 'ModComments'])->execute();
+		$db->createCommand()->update('vtiger_crmentity', ['modifiedby' => $newId], ['modifiedby' => $oldId])->execute();
+		//updating the vtiger_import_maps
+		$db->createCommand()->update('vtiger_import_maps', ['date_modified' => date('Y-m-d H:i:s'), 'assigned_user_id' => $newId], ['assigned_user_id' => $oldId])->execute();
+		$db->createCommand()->delete('vtiger_users2group', ['userid' => $oldId])->execute();
+
+		$dataReader = (new \App\Db\Query())->select(['tabid', 'fieldname', 'tablename', 'columnname'])
+				->from('vtiger_field')
+				->leftJoin('vtiger_fieldmodulerel', 'vtiger_field.fieldid = vtiger_fieldmodulerel.fieldid')
+				->where(['or', ['uitype' => [52, 53, 77, 101]], ['uitype' => 10, 'relmodule' => 'Users']])
+				->createCommand()->query();
+		$columnList = [];
+		while ($row = $dataReader->read()) {
+			$column = $row['tablename'] . '.' . $row['columnname'];
+			if (!in_array($column, $columnList)) {
+				$columnList[] = $column;
+				if ($row['columnname'] === 'smcreatorid' || $row['columnname'] === 'smownerid') {
+					$db->createCommand()->update($row['tablename'], [$row['columnname'] => $newId], ['and', [$row['columnname'] => $oldId], ['<>', 'setype', 'ModComments']])
+						->execute();
+				} else {
+					$db->createCommand()->update($row['tablename'], [$row['columnname'] => $newId], [$row['columnname'] => $oldId])
+						->execute();
+				}
+			}
+		}
+		static::transferOwnershipForWorkflow($oldId, $newId);
+	}
+
+	/**
+	 * Transfer ownership workflow tasks
+	 * @param type $oldId
+	 * @param type $newId
+	 */
+	private static function transferOwnershipForWorkflow($oldId, $newId)
+	{
+		$db = \App\Db::getInstance();
+		$ownerName = static::getLabel($oldId);
+		$newOwnerName = static::getLabel($newId);
+		//update workflow tasks Assigned User from Deleted User to Transfer User
+
+		$nameSearchValue = '"fieldname":"assigned_user_id","value":"' . $ownerName . '"';
+		$idSearchValue = '"fieldname":"assigned_user_id","value":"' . $oldId . '"';
+		$fieldSearchValue = 's:16:"assigned_user_id"';
+		$dataReader = (new \App\Db\Query())->select(['task', 'task_id', 'workflow_id'])->from('com_vtiger_workflowtasks')
+				->where(['or like', 'task', [$nameSearchValue, $idSearchValue, $fieldSearchValue]])
+				->createCommand()->query();
+		require_once("modules/com_vtiger_workflow/VTTaskManager.php");
+		while ($row = $dataReader->read()) {
+			$task = $row['task'];
+			$taskComponents = explode(':', $task);
+			$classNameWithDoubleQuotes = $taskComponents[2];
+			$className = str_replace('"', '', $classNameWithDoubleQuotes);
+			require_once 'modules/com_vtiger_workflow/tasks/' . $className . '.php';
+			$unserializeTask = unserialize($task);
+			if (array_key_exists('field_value_mapping', $unserializeTask)) {
+				$fieldMapping = \App\Json::decode($unserializeTask->field_value_mapping);
+				if (!empty($fieldMapping)) {
+					foreach ($fieldMapping as $key => $condition) {
+						if ($condition['fieldname'] == 'assigned_user_id') {
+							$value = $condition['value'];
+							if (is_numeric($value) && $value == $oldId) {
+								$condition['value'] = $newId;
+							} else if ($value == $ownerName) {
+								$condition['value'] = $newOwnerName;
+							}
+						}
+						$fieldMapping[$key] = $condition;
+					}
+					$updatedTask = \App\Json::encode($fieldMapping);
+					$unserializeTask->field_value_mapping = $updatedTask;
+					$serializeTask = serialize($unserializeTask);
+					$db->createCommand()->update('com_vtiger_workflowtasks', ['task' => $serializeTask], ['workflow_id' => $row['workflow_id'], 'task_id' => $row['task_id']])->execute();
+				}
+			} else {
+				//For VTCreateTodoTask and VTCreateEventTask
+				if (array_key_exists('assigned_user_id', $unserializeTask)) {
+					$value = $unserializeTask->assigned_user_id;
+					if ($value == $oldId) {
+						$unserializeTask->assigned_user_id = $newId;
+					}
+					$serializeTask = serialize($unserializeTask);
+					$db->createCommand()->update('com_vtiger_workflowtasks', ['task' => $serializeTask], ['workflow_id' => $row['workflow_id'], 'task_id' => $row['task_id']])->execute();
+				}
+			}
+		}
 	}
 }

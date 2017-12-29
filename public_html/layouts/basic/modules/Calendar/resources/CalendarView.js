@@ -145,7 +145,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			},
 			eventRender: function (event, element) {
 				app.showPopoverElementView(element.find('.fc-content'), {
-					title: event.title + '<a href="index.php?module=' + event.module + '&view=Detail&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-th-list"></span></a>',
+					title: event.title + '<a href="index.php?module=' + event.module + '&view=Edit&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-pencil"></span></a>' + '<a href="index.php?module=' + event.module + '&view=Detail&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-th-list"></span></a>',
 					container: 'body',
 					html: true,
 					placement: 'auto',
@@ -155,7 +155,8 @@ jQuery.Class("Calendar_CalendarView_Js", {
 							(event.lok ? '<div><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> <label>' + app.vtranslate('JS_LOCATION') + '</label>: ' + event.lok + '</div>' : '') +
 							(event.pri ? '<div><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> <label>' + app.vtranslate('JS_PRIORITY') + '</label>: ' + app.vtranslate('JS_' + event.pri) + '</div>' : '') +
 							'<div><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> <label>' + app.vtranslate('JS_STATUS') + '</label>: ' + app.vtranslate('JS_' + event.sta) + '</div>' +
-							(event.accname ? '<div><span class="calIcon modIcon_Accounts" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ACCOUNTS') + '</label>: ' + event.accname + '</div>' : '') +
+							(event.accname ? '<div><span class="userIcon-Accounts" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ACCOUNTS') + '</label>: ' + event.accname + '</div>' : '') +
+							(event.linkexl ? '<div><span class="userIcon-' + event.linkexm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION_EXTEND') + '</label>: <a target="_blank" href="index.php?module=' + event.linkexm + '&view=Detail&record=' + event.linkextend + '">' + event.linkexl + '</a></div>' : '') +
 							(event.linkl ? '<div><span class="userIcon-' + event.linkm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_RELATION') + '</label>: <a target="_blank" href="index.php?module=' + event.linkm + '&view=Detail&record=' + event.link + '">' + event.linkl + '</a></div>' : '') +
 							(event.procl ? '<div><span class="userIcon-' + event.procm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_PROCESS') + '</label>: <a target="_blank" href="index.php?module=' + event.procm + '&view=Detail&record=' + event.process + '">' + event.procl + '</a></div>' : '') +
 							(event.subprocl ? '<div><span class="userIcon-' + event.subprocm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_SUB_PROCESS') + '</label>: <a target="_blank" href="index.php?module=' + event.subprocm + '&view=Detail&record=' + event.subprocess + '">' + event.subprocl + '</a></div>' : '') +
@@ -366,7 +367,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			if (timeFormat == 24) {
 				var defaultTimeFormat = 'HH:mm';
 			} else {
-				defaultTimeFormat = 'hh:mm tt';
+				defaultTimeFormat = 'hh:mm A';
 			}
 			var startDateString = moment(startDate).format(dateFormat);
 			var startTimeString = moment(startDate).format(defaultTimeFormat);
@@ -386,32 +387,38 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		});
 	},
 	addCalendarEvent: function (calendarDetails) {
+		if($.inArray(calendarDetails.assigned_user_id.value, $("#calendarUserList").val()) < 0 && $.inArray(calendarDetails.assigned_user_id.value, $("#calendarGroupList").val()) < 0){
+			return;
+		}
+		if($.inArray(calendarDetails.activitytype.value, $("#calendarActivityTypeList").val()) < 0){
+			return;
+		}
 		var state = $('.fc-toolbar input.switchBtn').bootstrapSwitch('state');
-		var eventObject = {};
 		var calendar = this.getCalendarView();
-
 		var taskstatus = $.inArray(calendarDetails.activitystatus.value, ['PLL_POSTPONED', 'PLL_CANCELLED', 'PLL_COMPLETED']);
 		if (state == true && taskstatus >= 0 || state != true && taskstatus == -1) {
 			return false;
 		}
-		eventObject.id = calendarDetails._recordId;
-		eventObject.title = calendarDetails.subject.display_value;
-		var startDate = calendar.fullCalendar('moment', calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value);
-		eventObject.start = startDate.toString();
-		var endDate = calendar.fullCalendar('moment', calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value);
-		var assignedUserId = calendarDetails.assigned_user_id.value;
-		eventObject.end = endDate.toString();
-		eventObject.url = 'index.php?module=Calendar&view=Detail&record=' + calendarDetails._recordId;
-		eventObject.activitytype = calendarDetails.activitytype.value;
-
-		if ('on' == calendarDetails.allday.value)
-			eventObject.allDay = true;
-		else
-			eventObject.allDay = false;
-		eventObject.state = calendarDetails.state.value;
-		eventObject.vis = calendarDetails.visibility.value;
-		eventObject.sta = calendarDetails.activitystatus.value;
-		eventObject.className = 'userCol_' + calendarDetails.assigned_user_id.value + ' calCol_' + calendarDetails.activitytype.value;
+		var startDate = calendar.fullCalendar('moment', calendarDetails.date_start.value + ' ' + calendarDetails.time_start.value);
+		var endDate = calendar.fullCalendar('moment', calendarDetails.due_date.value + ' ' + calendarDetails.time_end.value);
+		var eventObject = {
+			id: calendarDetails._recordId,
+			title: calendarDetails.subject.display_value,
+			start: startDate.toString(),
+			end: endDate.toString(),
+			url: 'index.php?module=Calendar&view=Detail&record=' + calendarDetails._recordId,
+			activitytype: calendarDetails.activitytype.value,
+			allDay: calendarDetails.allday.value == 'on',
+			state: calendarDetails.state.value,
+			vis: calendarDetails.visibility.value,
+			sta: calendarDetails.activitystatus.value,
+			className: 'ownerCBg_' + calendarDetails.assigned_user_id.value + ' picklistCBr_Calendar_activitytype_' + calendarDetails.activitytype.value,
+			start_display: calendarDetails.date_start.display_value + ' ' + calendarDetails.time_start.display_value,
+			end_display: calendarDetails.due_date.display_value + ' ' + calendarDetails.time_end.display_value,
+			smownerid: calendarDetails.assigned_user_id.display_value,
+			pri: calendarDetails.taskpriority.value,
+			lok: calendarDetails.location.display_value
+		};
 		this.getCalendarView().fullCalendar('renderEvent', eventObject);
 	},
 	getCalendarCreateView: function () {

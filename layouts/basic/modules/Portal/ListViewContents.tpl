@@ -10,10 +10,10 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<input type="hidden" id="pageNumber" value="{$CURRENT_PAGE}">
+	<input type="hidden" id="pageNumber" value="{$CURRENT_PAGE}" />
 	<input type="hidden" id="totalCount" value="{$PAGING_INFO['recordCount']}" />
 	<input type="hidden" id="totalPageCount" value="{$PAGING_INFO['pageCount']}" />
-	<input type="hidden" id="recordsCount" value="{$PAGING_INFO['recordCount']}"/>
+	<input type="hidden" id="recordsCount" value="{$PAGING_INFO['recordCount']}" />
 	<input type="hidden" id="selectedIds" name="selectedIds" />
 	<input type="hidden" id="excludedIds" name="excludedIds" />
 	<input type="hidden" id="alphabetValue" value="{$ALPHABET_VALUE}" />
@@ -29,16 +29,13 @@
 	<div id="deSelectAllMsgDiv" class="alert-block msgDiv noprint">
 		<strong><a id="deSelectAllMsg">{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
 	</div>
-	<div class="contents-topscroll noprint stick" data-position="top">
-		<div class="topscroll-div"></div>
-	</div>
 	<div class="listViewContentDiv" id="listViewContents">
-		<div class="listViewEntriesDiv contents-bottomscroll">
-			<div class="bottomscroll-div">
-				<input type="hidden" value="{$COLUMN_NAME}" id="orderBy">
-				<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
+		<div class="listViewEntriesDiv">
+			<div data-simplebar>
+				<input type="hidden" value="{$COLUMN_NAME}" id="orderBy" />
+				<input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
 				<span class="listViewLoadingImageBlock hide modal noprint" id="loadingListViewModal">
-					<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}"/>
+					<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}" />
 					<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 				</span>
 				{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
@@ -49,7 +46,7 @@
 								<input type="checkbox" title="{\App\Language::translate('LBL_SELECT_ALL')}" id="listViewEntriesMainCheckBox" />
 							</th>
 							<th nowrap>
-								<a href="javascript:void(0);" id="portalname" class="portalListViewHeader" 
+								<a href="javascript:void(0);" id="portalname" class="portalListViewHeader"
 								   data-nextsortorderval="{if $COLUMN_NAME eq 'portalname'}{$NEXT_SORT_ORDER}{else}ASC{/if}">{\App\Language::translate('LBL_BOOKMARK_NAME', $MODULE)}
 									&nbsp;&nbsp;{if $COLUMN_NAME eq 'portalname'}<img class="{$SORT_IMAGE} icon-white">{/if}</a>
 							</th>
@@ -76,7 +73,7 @@
 									<a href="index.php?module=Portal&view=Detail&record={$RECORD_ID}" sl-processed="1">{$LISTVIEW_ENTRY->get('portalname')}</a>
 								</td>
 								<td class="listViewEntryValue {$WIDTHTYPE}" nowrap>
-									<a class="urlField cursorPointer" href="{if substr($LISTVIEW_ENTRY->get('portalurl'), 0, 4) neq 'http'}//{/if}{$LISTVIEW_ENTRY->get('portalurl')}" target="_blank" sl-processed="1">{$LISTVIEW_ENTRY->get('portalurl')}</a>
+									<a class="urlField cursorPointer" href="{if substr($LISTVIEW_ENTRY->get('portalurl'), 0, 4) neq 'http'}//{/if}{$LISTVIEW_ENTRY->get('portalurl')}" target="_blank" rel="noreferrer" sl-processed="1">{$LISTVIEW_ENTRY->get('portalurl')}</a>
 								</td>
 								<td class="listViewEntryValue {$WIDTHTYPE}" nowrap>{$LISTVIEW_ENTRY->get('createdtime')}</td>
 								<td nowrap class="{$WIDTHTYPE}">

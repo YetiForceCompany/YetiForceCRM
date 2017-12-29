@@ -3,7 +3,7 @@
  * Documents polish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'Active' => 'Link aktywny',
@@ -38,8 +38,6 @@ $languageStrings = [
 	'LBL_MAX_UPLOAD_SIZE' => 'Maksymalny rozmiar pliku',
 	'LBL_MOVE' => 'Masowa zmiana katalogu',
 	'LBL_NOTE_INFORMATION' => 'Informacje podstawowe',
-	'LBL_RECORDS_LIST' => 'Lista rekordów',
-	'LBL_RECORDS_LIST' => 'Lista rekordów',
 	'MB' => 'MB',
 	'Note' => 'Opis',
 	'SINGLE_Documents' => 'Dokument',

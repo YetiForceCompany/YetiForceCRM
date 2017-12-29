@@ -99,7 +99,7 @@ function rfc2445_is_valid_value($value, $type)
 			if (!is_string($value)) {
 				return false;
 			}
-			$valid_schemes = array('ftp', 'http', 'ldap', 'gopher', 'mailto', 'news', 'nntp', 'telnet', 'wais', 'file', 'prospero');
+			$valid_schemes = ['ftp', 'http', 'ldap', 'gopher', 'mailto', 'news', 'nntp', 'telnet', 'wais', 'file', 'prospero'];
 
 			$pos = strpos($value, ':');
 			if (!$pos) {
@@ -410,7 +410,7 @@ function rfc2445_is_valid_value($value, $type)
 
 			// Special case: BYSETPOS is only valid if another BY option is specified
 			if (isset($vars['BYSETPOS'])) {
-				$options = array('BYSECOND', 'BYMINUTE', 'BYHOUR', 'BYDAY', 'BYMONTHDAY', 'BYYEARDAY', 'BYWEEKNO', 'BYMONTH');
+				$options = ['BYSECOND', 'BYMINUTE', 'BYHOUR', 'BYDAY', 'BYMONTHDAY', 'BYYEARDAY', 'BYWEEKNO', 'BYMONTH'];
 				$defined = array_keys($vars);
 				$common = array_intersect($options, $defined);
 				if (empty($common)) {
@@ -741,7 +741,7 @@ function rfc2445_do_value_formatting($value, $type)
 			break;
 		case RFC2445_TYPE_TEXT:
 			// Escape entities
-			$value = strtr($value, array("\n" => '\\n', '\\' => '\\\\', ',' => '\\,', ';' => '\\;'));
+			$value = strtr($value, ["\n" => '\\n', '\\' => '\\\\', ',' => '\\,', ';' => '\\;']);
 			break;
 	}
 	return $value;
@@ -757,7 +757,7 @@ function rfc2445_undo_value_formatting($value, $type)
 			break;
 		case RFC2445_TYPE_TEXT:
 			// Unescape entities
-			$value = strtr($value, array('\\n' => "\n", '\\N' => "\n", '\\\\' => '\\', '\\,' => ',', '\\;' => ';'));
+			$value = strtr($value, ['\\n' => "\n", '\\N' => "\n", '\\\\' => '\\', '\\,' => ',', '\\;' => ';']);
 			break;
 	}
 	return $value;
@@ -797,5 +797,3 @@ function rfc2445_guid()
 
 	return $random;
 }
-
-?>

@@ -4,7 +4,7 @@
  * Vtiger EmailList widget class
  * @package YetiForce.Widget
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_EmailList_Widget extends Vtiger_Basic_Widget
 {
@@ -13,7 +13,7 @@ class Vtiger_EmailList_Widget extends Vtiger_Basic_Widget
 
 	public function getUrl()
 	{
-		return 'module=OSSMailView&view=widget&smodule=' . $this->Module . '&srecord=' . $this->Record . '&mode=showEmailsList&type=All&mailFilter=All&limit=' . $this->Data['limit'];
+		return 'module=OSSMailView&view=Widget&smodule=' . $this->Module . '&srecord=' . $this->Record . '&mode=showEmailsList&type=All&mailFilter=All&limit=' . $this->Data['limit'];
 	}
 
 	public function getConfigTplName()

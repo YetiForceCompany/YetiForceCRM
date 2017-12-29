@@ -12,11 +12,15 @@
 class Reports_MoveReports_Action extends Vtiger_Mass_Action
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -24,7 +28,7 @@ class Reports_MoveReports_Action extends Vtiger_Mass_Action
 	{
 		$parentModule = 'Reports';
 		$reportIdsList = Reports_Record_Model::getRecordsListFromRequest($request);
-		$folderId = $request->get('folderid');
+		$folderId = $request->getInteger('folderid');
 
 		if (!empty($reportIdsList)) {
 			foreach ($reportIdsList as $reportId) {
@@ -38,7 +42,7 @@ class Reports_MoveReports_Action extends Vtiger_Mass_Action
 		}
 		$response = new Vtiger_Response();
 		if (empty($reportsMoveDenied)) {
-			$response->setResult(array(\App\Language::translate('LBL_REPORTS_MOVED_SUCCESSFULLY', $parentModule)));
+			$response->setResult([\App\Language::translate('LBL_REPORTS_MOVED_SUCCESSFULLY', $parentModule)]);
 		} else {
 			$response->setError($reportsMoveDenied, \App\Language::translate('LBL_DENIED_REPORTS', $parentModule));
 		}

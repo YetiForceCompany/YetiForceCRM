@@ -23,7 +23,7 @@
 					<input type="hidden" name="source_module" value="{$SOURCE_MODULE}" />
 					<input type="hidden" name="action" value="SaveAjax" />
 					<input type="hidden" name="mode" value="remove" />
-					<input type="hidden" name="picklistName" value="{$FIELD_MODEL->get('name')}" />
+					<input type="hidden" name="picklistName" value="{$FIELD_MODEL->getName()}" />
 					<div class="modal-body tabbable">
 						<div class="form-group">
 							<div class="col-md-3 control-label">{\App\Language::translate('LBL_ITEMS_TO_DELETE',$QUALIFIED_MODULE)}</div>

@@ -3,13 +3,12 @@
  * OSSMailView spanish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	// Basic Strings
 	'OSSMailView' => 'Correos corporativos',
 	'SINGLE_OSSMailView' => 'Correo corporativo',
-	'LBL_ADD_RECORD' => 'Añadir',
 	'LBL_RECORDS_LIST' => 'Lista',
 	// Blocks
 	'LBL_INFORMATION' => 'Información sobre el Correo corporativo',
@@ -56,8 +55,14 @@ $languageStrings = [
 	'RC user' => 'Usuario RC',
 	'FromID' => 'Identificación del remitente',
 	'ToID' => 'Identificación del receptor',
+	'LBL_SHOW_PREVIEW_EMAIL' => 'Mostrar vista previa del correo',
+	'LBL_SHOW_PREVIEW_EMAILS' => 'Mostrar vista previa de todos los correos',
+	'LBL_CHANGE_FILTER' => 'Cambiar filtro',
+	'LBL_EXPAND_ALL' => 'Expandir todo',
+	'LBL_COLLAPSE_ALL' => 'Colapsar todo',
+	'LBL_COUNT_ALL_MAILS' => 'Cantidad de correos',
 	'LBL_FILTER_ALL' => 'Todo',
-	'LBL_FILTER_ACCOUNTS' => 'Todos en: Cuentas',
+	'LBL_FILTER_ACCOUNTS' => 'Todos en: Empresas',
 	'LBL_FILTER_CONTACTS' => 'Todos en: Contactos',
 	'LBL_VERIFY' => 'Verificación relacionada',
 	'LBL_REL_MOD' => 'Módulos relacionados',
@@ -81,6 +86,8 @@ $languageStrings = [
 	'Current month' => 'Mes actual',
 	'Previous month' => 'Mes previo',
 	'LBL_ORGINAL_MAIL_CONTENT' => 'Contenido del correo original',
+	'BTN_RESET_RELATED_MAILS' => 'Restablecer correos electrónicos relacionados',
+	'LBL_SET_RELOAD_RELATIONS' => 'Marcar para recargar las relaciones',
 ];
 $jsLanguageStrings = [
 	'From' => 'De',

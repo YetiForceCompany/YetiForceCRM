@@ -4,7 +4,7 @@
  * Basic PDF Model Class
  * @package YetiForce.PDF
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
@@ -48,7 +48,7 @@ class Vtiger_PDF_Model extends \App\Base
 	 */
 	public function getWatermarkType()
 	{
-		return [Vtiger_mPDF_Pdf::WATERMARK_TYPE_TEXT => 'PLL_TEXT', Vtiger_mPDF_Pdf::WATERMARK_TYPE_IMAGE => 'PLL_IMAGE'];
+		return [Vtiger_Mpdf_Pdf::WATERMARK_TYPE_TEXT => 'PLL_TEXT', Vtiger_Mpdf_Pdf::WATERMARK_TYPE_IMAGE => 'PLL_IMAGE'];
 	}
 
 	/**
@@ -67,7 +67,7 @@ class Vtiger_PDF_Model extends \App\Base
 	public function getName()
 	{
 		$displayName = $this->get('primary_name');
-		return Vtiger_Util_Helper::toSafeHTML(decode_html($displayName));
+		return \App\Purifier::encodeHtml(App\Purifier::decodeHtml($displayName));
 	}
 
 	/**
@@ -160,11 +160,11 @@ class Vtiger_PDF_Model extends \App\Base
 	public function getActiveTemplatesForRecord($recordId, $view, $moduleName = false)
 	{
 
-		if (!isRecordExists($recordId)) {
+		if (!\App\Record::isExists($recordId)) {
 			return [];
 		}
 		if (!$moduleName) {
-			$moduleName = vtlib\Functions::getCRMRecordType($recordId);
+			$moduleName = \App\Record::getType($recordId);
 		}
 
 		$templates = $this->getTemplatesByModule($moduleName);
@@ -472,7 +472,7 @@ class Vtiger_PDF_Model extends \App\Base
 	 */
 	public static function exportToPdf($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '')
 	{
-		$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'mPDF', $moduleName);
+		$handlerClass = Vtiger_Loader::getComponentClassName('Pdf', 'Mpdf', $moduleName);
 		$pdf = new $handlerClass();
 		$pdf->export($recordId, $moduleName, $templateId, $filePath, $saveFlag);
 	}
@@ -483,13 +483,13 @@ class Vtiger_PDF_Model extends \App\Base
 	 */
 	public static function attachToEmail($salt)
 	{
-		header('Location: index.php?module=OSSMail&view=compose&pdf_path=' . $salt);
+		header('Location: index.php?module=OSSMail&view=Compose&pdf_path=' . $salt);
 	}
 
 	/**
 	 * Compress files and send to browser
 	 * @param array $fileNames
-	 * @throws \Exception\NoPermitted
+	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public static function zipAndDownload(array $fileNames)
 	{
@@ -506,7 +506,7 @@ class Vtiger_PDF_Model extends \App\Base
 		//create the file and throw the error if unsuccessful
 		if ($zip->open($zipPath . $zipName, ZIPARCHIVE::CREATE) !== true) {
 			\App\Log::error("cannot open <$zipPath.$zipName>\n");
-			throw new \Exception\NoPermitted("cannot open <$zipPath.$zipName>");
+			throw new \App\Exceptions\NoPermitted("cannot open <$zipPath.$zipName>");
 		}
 
 		//add each files of $file_name array to archive

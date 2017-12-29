@@ -22,20 +22,20 @@
 					<input type="hidden" name="source_module" value="{$SOURCE_MODULE}" />
 					<input type="hidden" name="action" value="ExportData" />
 					<input type="hidden" name="viewname" value="{$VIEWID}" />
-					<input type="hidden" name="selected_ids" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($SELECTED_IDS))}">
-					<input type="hidden" name="excluded_ids" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($EXCLUDED_IDS))}">
+					<input type="hidden" name="selected_ids" value="{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_IDS))}">
+					<input type="hidden" name="excluded_ids" value="{\App\Purifier::encodeHtml(\App\Json::encode($EXCLUDED_IDS))}">
 					<input type="hidden" id="page" name="page" value="{$PAGE}" />
 					<div name='exportCalendar'>
-						<input type="hidden" value="export" name="view">
+						<input type="hidden" value="export" name="view" />
 						<div class="modal-body tabbable">
 							<div class="tab-content massEditContent">
 								<table class="massEditTable table table-bordered">
 									<tr>
 										<td class="fieldLabel alignMiddle">
-											<input type="radio" name="exportCalendar" value = "iCal" checked> {\App\Language::translate('ICAL_FORMAT', $MODULE)}
+											<input type="radio" name="exportCalendar" value = "iCal" checked /> {\App\Language::translate('ICAL_FORMAT', $MODULE)}
 										</td>
 										<td class="fieldValue">
-											<input type="text" name="filename" class="form-control" id="filename" value='yetiforce.calendar'>
+											<input type="text" name="filename" class="form-control" id="filename" value='yetiforce.calendar' />
 										</td>
 									</tr>
 								</table>

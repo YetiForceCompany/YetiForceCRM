@@ -9,19 +9,34 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-Class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
+class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 {
+
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
+	public function checkPermission(\App\Request $request)
+	{
+		if (\App\User::getCurrentUserModel()->isAdmin()) {
+			return;
+		}
+		if (($request->get('duplicate') !== '1') && $request->has('record') && !CustomView_Record_Model::getInstanceById($request->getInteger('record'))->isEditable()) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+	}
 
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$moduleName = $request->get('source_module');
+		$moduleName = $request->getByType('source_module', 2);
 		$module = $request->getModule();
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$duplicate = $request->get('duplicate');
 
 		if (is_numeric($moduleName)) {
-			$moduleName = vtlib\Functions::getModuleName($moduleName);
+			$moduleName = \App\Module::getModuleName($moduleName);
 		}
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
@@ -48,11 +63,6 @@ Class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', $advanceFilterOpsByFieldType);
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$recordStructure = $recordStructureInstance->getStructure();
-		// for Inventory module we should now allow item details block
-		if (in_array($moduleName, getInventoryModules())) {
-			$itemsBlock = "LBL_ITEM_DETAILS";
-			unset($recordStructure[$itemsBlock]);
-		}
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		// Added to show event module custom fields
 		if ($moduleName == 'Calendar') {

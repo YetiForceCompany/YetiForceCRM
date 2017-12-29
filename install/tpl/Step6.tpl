@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<form class="form-horizontal" name="step6" method="post" action="Install.php">
-		<input type="hidden" name="mode" value="Step7" />
+		<input type="hidden" name="mode" value="step7" />
 		<input type="hidden" name="auth_key" value="{$AUTH_KEY}" />
 		<input type="hidden" name="lang" value="{$LANG}" />
 		<div class="row main-container">
@@ -32,12 +32,12 @@
 								</tr>
 								<tr>
 									<td>
-										{App\Language::translate('LBL_INDUSTRY', 'Settings:Companies')}
+										{App\Language::translate('LBL_INDUSTRY', 'Settings:Companies')}&nbsp;<span class="no">*</span>
 									</td>
 									<td>
 										<select class="select2 form-control" name="company_industry" data-validation-engine="validate[required]">
 											<option value="{$ITEM}">{App\Language::translate($ITEM)}</option>
-											{foreach from=$INDUSTRY item=ITEM}
+											{foreach from=Install_Utils_Model::getIndustryList() item=ITEM}
 												<option value="{$ITEM}">{App\Language::translate($ITEM)}</option>
 											{/foreach}
 										</select>
@@ -80,7 +80,11 @@
 										{App\Language::translate('LBL_COUNTRY', 'Settings:Companies')}&nbsp;<span class="no">*</span>
 									</td>
 									<td>
-										<input type="text" name="company_country" class="form-control" data-validation-engine="validate[required]">
+										<select class="select2 form-control" name="company_country" data-validation-engine="validate[required]">
+											{foreach from=Install_Utils_Model::getCountryList() item=ITEM}
+												<option value="{$ITEM}">{\App\Language::translateSingleMod($ITEM,'Other.Country')}</option>
+											{/foreach}
+										</select>
 									</td>
 								</tr>
 								<tr>

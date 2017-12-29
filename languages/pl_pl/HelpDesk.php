@@ -3,7 +3,7 @@
  * HelpDesk polish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	// Fields
@@ -28,7 +28,6 @@ $languageStrings = [
 	'High' => 'Wysoki',
 	'Hi' => 'Witaj',
 	'Hours' => 'Godzin',
-	'LBL_ADD_RECORD' => 'Dodaj rekord',
 	'LBL_ALTBODY' => 'To jest treść emaila w formie tekstowej dla programów pocztowych nie obsługujących HTML',
 	'LBL_CONVERT_FAQ' => 'Konwertuj na instrukcje',
 	'LBL_COULDNOT_CLOSED' => 'Zgłoszenie nie może być',
@@ -38,7 +37,6 @@ $languageStrings = [
 	'LBL_LOGIN_REVOKED' => 'Twój login wygasł. Skontaktuj się z Administratorem.',
 	'LBL_MAIL_COULDNOT_SENT' => 'Wiadomość nie może zostać wysłana',
 	'LBL_PASSWORD' => 'Hasło :',
-	'LBL_RECORDS_LIST' => 'Lista rekordów',
 	'LBL_REGARDS' => 'Z poważaniem',
 	'LBL_RELATED_TO' => 'Powiązany z',
 	'LBL_RESPOND' => 'Odpowiemy na niniejsze zgłoszenie w najbliższym terminie.',

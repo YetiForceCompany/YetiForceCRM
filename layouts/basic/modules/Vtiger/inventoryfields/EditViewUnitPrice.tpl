@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{assign var=VALUE value=$FIELD->getValue($ITEM_VALUE)}
 	<div class="input-group input-group-sm">
@@ -8,8 +8,8 @@
 
 		{assign var=PRICEBOOK_MODULE_MODEL value=Vtiger_Module_Model::getInstance('PriceBooks')}
 		{if $PRICEBOOK_MODULE_MODEL->isPermitted('DetailView')}
-			<span class="input-group-addon priceBookPopup cursorPointer">
-				<span class="userIcon-PriceBooks"  data-popup="Popup" data-module-name="PriceBooks" alt="{\App\Language::translate('PriceBooks',$MODULE)}" title="{\App\Language::translate('PriceBooks',$MODULE)}"/></span>
+			<span class="input-group-addon priceBookPopup cursorPointer popoverTooltip" data-content="{\App\Language::translate('PriceBooks',$MODULE)}">
+				<span class="userIcon-PriceBooks"  data-popup="Popup" data-module-name="PriceBooks" alt="{\App\Language::translate('PriceBooks',$MODULE)}"/></span>
 			</span>
 		{/if}
 	</div>

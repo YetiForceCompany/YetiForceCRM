@@ -16,16 +16,15 @@ class Vtiger_ListUpdatedRecord_Dashboard extends Vtiger_IndexAjax_View
 
 	public function process(\App\Request $request)
 	{
-
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
-
 		$moduleName = $request->getModule();
-		if ($request->get('number'))
-			$number = $request->get('number');
-		else
+		if (!$request->isEmpty('number')) {
+			$number = $request->getInteger('number');
+		} else {
 			$number = 'all';
-		$linkId = $request->get('linkid');
+		}
+		$linkId = $request->getInteger('linkid');
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		$data = $request->getAll();
 
@@ -38,9 +37,7 @@ class Vtiger_ListUpdatedRecord_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('LIST', $recordList);
 		$viewer->assign('DATA', $data);
-
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/ListUpdatedRecordContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/ListUpdatedRecord.tpl', $moduleName);

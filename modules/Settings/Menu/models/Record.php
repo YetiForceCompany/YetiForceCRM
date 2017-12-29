@@ -4,7 +4,7 @@
  * Settings menu record model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -76,9 +76,13 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		$params = [];
 		$sqlCol = '';
 		$role = 0;
+		$editFields = $settingsModel->getEditFields();
 		if ($edit) {
 			$data = $this->getData();
 			foreach ($data as $key => $item) {
+				if (!in_array($key, $editFields)) {
+					throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||' . $key, 406);
+				}
 				if (is_array($item)) {
 					$item = implode(',', $item);
 				}
@@ -95,6 +99,9 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 			$db->createCommand()->update('yetiforce_menu', $params, ['id' => $this->getId()])->execute();
 		} else {
 			foreach ($this->getData() as $key => $item) {
+				if (!in_array($key, $editFields)) {
+					throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||' . $key, 406);
+				}
 				if (is_array($item)) {
 					$item = implode(',', $item);
 				}
@@ -209,7 +216,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		foreach ($menu as $item) {
 			$content .= $this->createFilterList($item);
 		}
-		$content .= '];';
+		$content .= '];' . PHP_EOL;
 		$file = ROOT_DIRECTORY . '/user_privileges/menu_' . $roleId . '.php';
 		file_put_contents($file, $content);
 	}

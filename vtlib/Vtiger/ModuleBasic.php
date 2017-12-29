@@ -197,9 +197,6 @@ class ModuleBasic
 			Access::deleteTools($this);
 			Filter::deleteForModule($this);
 			Block::deleteForModule($this);
-			if (method_exists($this, 'deinitWebservice')) {
-				$this->deinitWebservice();
-			}
 		}
 		$this->deleteIcons();
 		$this->unsetAllRelatedList($moduleInstance);
@@ -215,6 +212,7 @@ class ModuleBasic
 		$this->deleteModuleTables();
 		$this->deleteCRMEntityRel();
 		Profile::deleteForModule($this);
+		\App\Fields\Tree::deleteForModule($this->id);
 		Link::deleteAll($this->id);
 		\Settings_Vtiger_Module_Model::deleteSettingsFieldBymodule($this->name);
 		$this->deleteDir($moduleInstance);
@@ -296,9 +294,9 @@ class ModuleBasic
 
 	/**
 	 * Set entity identifier field for this module
-	 * @param \Field Instance of field to use
+	 * @param FieldBasic $fieldInstance
 	 */
-	public function setEntityIdentifier($fieldInstance)
+	public function setEntityIdentifier(FieldBasic $fieldInstance)
 	{
 		$db = \App\Db::getInstance();
 
@@ -384,7 +382,7 @@ class ModuleBasic
 	public function disableTools($tools)
 	{
 		if (is_string($tools)) {
-			$tools = Array(0 => $tools);
+			$tools = [0 => $tools];
 		}
 		foreach ($tools as $tool) {
 			Access::updateTool($this, $tool, false);
@@ -393,9 +391,10 @@ class ModuleBasic
 
 	/**
 	 * Add block to this module
-	 * @param vtlib\Block Instance of block to add
+	 * @param Block $blockInstance
+	 * @return $this
 	 */
-	public function addBlock($blockInstance)
+	public function addBlock(Block $blockInstance)
 	{
 		$blockInstance->save($this);
 		return $this;
@@ -403,12 +402,22 @@ class ModuleBasic
 
 	/**
 	 * Add filter to this module
-	 * @param vtlib\Filter Instance of filter to add
+	 * @param Filter $filterInstance
+	 * @return $this
 	 */
-	public function addFilter($filterInstance)
+	public function addFilter(Filter $filterInstance)
 	{
 		$filterInstance->save($this);
 		return $this;
+	}
+
+	/**
+	 * Function to get the Module/Tab id
+	 * @return int
+	 */
+	public function getId()
+	{
+		return $this->id;
 	}
 
 	/**
@@ -426,21 +435,29 @@ class ModuleBasic
 	}
 
 	/**
+	 * Get all the custom links related to this module for exporting.
+	 */
+	public function getLinksForExport()
+	{
+		return Link::getAllForExport($this->id);
+	}
+
+	/**
 	 * Helper function to log messages
 	 * @param String Message to log
 	 * @param Boolean true appends linebreak, false to avoid it
 	 * @access private
 	 */
-	static function log($message, $delimit = true)
+	public static function log($message, $delimit = true)
 	{
-		Utils::Log($message, $delimit);
+		Utils::log($message, $delimit);
 	}
 
 	/**
 	 * Synchronize the menu information to flat file
 	 * @access private
 	 */
-	static function syncfile()
+	public static function syncfile()
 	{
 		self::log('Updating tabdata file ... ', false);
 		Deprecated::createModuleMetaFile();
@@ -487,32 +504,13 @@ class ModuleBasic
 	public function deleteFromCRMEntity()
 	{
 		self::log(__METHOD__ . ' | Start');
-
-		$query = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['setype' => $this->name, 'deleted' => 0]);
+		$query = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['setype' => $this->name]);
 		$dataReader = $query->createCommand()->query();
 		while ($id = $dataReader->readColumn(0)) {
 			$recordModel = \Vtiger_Record_Model::getInstanceById($id, $this->name);
 			$recordModel->delete();
 		}
-		$deleteRecords = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['setype' => $this->name, 'deleted' => 1])->column();
-		if ($deleteRecords) {
-			$this->removeRecordsFromTrash($deleteRecords);
-		}
 		self::log(__METHOD__ . ' | END');
-	}
-
-	/**
-	 * Function to remove records from trash
-	 * @param int[] $deletedRecords
-	 */
-	public function removeRecordsFromTrash($deletedRecords)
-	{
-		$recordsId = array_splice($deletedRecords, 0, 700);
-		$recycleBinModule = new \RecycleBin_Module_Model();
-		$recycleBinModule->deleteRecords($recordsId);
-		if ($deletedRecords) {
-			$this->removeRecordsFromTrash($deletedRecords);
-		}
 	}
 
 	/**
@@ -556,9 +554,9 @@ class ModuleBasic
 
 	/**
 	 * Function to remove files related to a module
-	 * @param  string $path - dir path
+	 * @param  ModuleBasic $moduleInstance
 	 */
-	public function deleteDir($moduleInstance)
+	public function deleteDir(ModuleBasic $moduleInstance)
 	{
 		self::log(__METHOD__ . ' | Start');
 		Functions::recurseDelete("config/modules/{$moduleInstance->name}.php");

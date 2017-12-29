@@ -3,7 +3,7 @@
  * Multi image class to handle files
  * @package YetiForce.Files
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
@@ -29,13 +29,13 @@ class Vtiger_MultiImage_File extends Vtiger_Basic_File
 	 * View image
 	 * @param \App\Request $request
 	 * @return string|boolean
-	 * @throws \Exception\NoPermitted
+	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function get(\App\Request $request)
 	{
 		$attachmentId = $request->getInteger('attachment');
 		if (empty($attachmentId)) {
-			throw new \Exception\NoPermitted('Not Acceptable', 406);
+			throw new \App\Exceptions\NoPermitted('Not Acceptable', 406);
 		}
 		$data = (new App\Db\Query())->from('u_#__attachments')->where(['attachmentid' => $attachmentId, 'crmid' => $request->getInteger('record')])->one();
 		if ($data) {

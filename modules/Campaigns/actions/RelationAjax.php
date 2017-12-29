@@ -6,10 +6,25 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 {
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function checkPermission(\App\Request $request)
+	{
+		parent::checkPermission($request);
+		if (!$request->isEmpty('sourceRecord', true) && !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('sourceRecord'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		if (!$request->isEmpty('relatedRecord', true) && !\App\Privilege::isPermitted($request->getByType('relatedModule', 2), 'DetailView', $request->getInteger('relatedRecord'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+	}
 
 	public function __construct()
 	{
@@ -24,9 +39,13 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	 */
 	public function addRelationsFromRelatedModuleViewId(\App\Request $request)
 	{
-		$sourceRecordId = $request->get('sourceRecord');
-		$relatedModuleName = $request->get('relatedModule');
-		$viewId = $request->get('viewId');
+		$sourceRecordId = $request->getInteger('sourceRecord');
+		$relatedModuleName = $request->getByType('relatedModule', 2);
+		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPriviligesModel->hasModulePermission($relatedModuleName)) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+		$viewId = $request->getByType('viewId', 2);
 		if ($viewId) {
 			$sourceModuleModel = Vtiger_Module_Model::getInstance($request->getModule());
 			$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModuleName);
@@ -40,7 +59,7 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 				}
 				if (empty($relatedRecordIdsList)) {
 					$response = new Vtiger_Response();
-					$response->setResult(array(false));
+					$response->setResult([false]);
 					$response->emit();
 				} else {
 					foreach ($relatedRecordIdsList as $relatedRecordId) {
@@ -57,21 +76,19 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 	 */
 	public function updateStatus(\App\Request $request)
 	{
-		$relatedModuleName = $request->get('relatedModule');
-		$relatedRecordId = $request->get('relatedRecord');
+		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$status = $request->get('status');
 		$response = new Vtiger_Response();
-
-		if ($relatedRecordId && $status && $status < 5) {
+		if ($status && $status < 5) {
 			$sourceModuleModel = Vtiger_Module_Model::getInstance($request->getModule());
 			$relatedModuleModel = Vtiger_Module_Model::getInstance($relatedModuleName);
 
 			$relationModel = Vtiger_Relation_Model::getInstance($sourceModuleModel, $relatedModuleModel);
-			$relationModel->updateStatus($request->get('sourceRecord'), array($relatedRecordId => $status));
+			$relationModel->updateStatus($request->getInteger('sourceRecord'), [$request->getInteger('relatedRecord') => $status]);
 
-			$response->setResult(array(true));
+			$response->setResult([true]);
 		} else {
-			$response->setError($code);
+			$response->setError(false);
 		}
 		$response->emit();
 	}

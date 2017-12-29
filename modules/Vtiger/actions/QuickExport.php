@@ -4,22 +4,27 @@
  * Vtiger QuickExport action class
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'QuickExportToExcel')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
 	public function __construct()
 	{
-		$this->exposeMethod('ExportToExcel');
+		$this->exposeMethod('exportToExcel');
 	}
 
 	public function process(\App\Request $request)
@@ -31,12 +36,12 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		}
 	}
 
-	public function ExportToExcel(\App\Request $request)
+	public function exportToExcel(\App\Request $request)
 	{
 		Vtiger_Loader::includeOnce('libraries.PHPExcel.PHPExcel');
 		$module = $request->getModule(false); //this is the type of things in the current view
-		$filter = $request->get('viewname'); //this is the cvid of the current custom filter
-		$recordIds = $this->getRecordsListFromRequest($request); //this handles the 'all' situation.
+		$filter = $request->getByType('viewname', 2); //this is the cvid of the current custom filter
+		$recordIds = self::getRecordsListFromRequest($request); //this handles the 'all' situation.
 		//set up our spreadsheet to write out to
 		$workbook = new PHPExcel();
 		$worksheet = $workbook->setActiveSheetIndex(0);
@@ -52,8 +57,8 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		$headers = $queryGenerator->getListViewFields();
 		$customView = CustomView_Record_Model::getInstanceById($filter);
 		//get the column headers, they go in row 0 of the spreadsheet
-		foreach ($headers as &$fieldsModel) {
-			$worksheet->setCellValueExplicitByColumnAndRow($col, $row, decode_html(App\Language::translate($fieldsModel->getFieldLabel(), $module)), PHPExcel_Cell_DataType::TYPE_STRING);
+		foreach ($headers as $fieldsModel) {
+			$worksheet->setCellValueExplicitByColumnAndRow($col, $row, App\Purifier::decodeHtml(App\Language::translate($fieldsModel->getFieldLabel(), $module)), PHPExcel_Cell_DataType::TYPE_STRING);
 			$col++;
 		}
 		$row++;
@@ -62,24 +67,26 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 		foreach ($recordIds as $id) {
 			$col = 0;
 			$record = Vtiger_Record_Model::getInstanceById($id, $module);
-			foreach ($headers as &$fieldsModel) {
+			if (!$record->isViewable()) {
+				continue;
+			}
+			foreach ($headers as $fieldsModel) {
 				//depending on the uitype we might want the raw value, the display value or something else.
 				//we might also want the display value sans-links so we can use strip_tags for that
 				//phone numbers need to be explicit strings
-				$value = $record->getDisplayValue($fieldsModel->getFieldName());
+				$value = $record->getDisplayValue($fieldsModel->getFieldName(), $id, true);
 				switch ($fieldsModel->getUIType()) {
 					case 25:
 					case 7:
 						if ($fieldsModel->getFieldName() === 'sum_time') {
-							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, strip_tags($value), PHPExcel_Cell_DataType::TYPE_STRING);
+							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, PHPExcel_Cell_DataType::TYPE_STRING);
 						} else {
-							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, strip_tags($value), PHPExcel_Cell_DataType::TYPE_NUMERIC);
+							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, PHPExcel_Cell_DataType::TYPE_NUMERIC);
 						}
 						break;
 					case 71:
 					case 72:
-						$rawValue = $record->get($fieldsModel->getFieldName());
-						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, strip_tags($rawValue), PHPExcel_Cell_DataType::TYPE_NUMERIC);
+						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $record->get($fieldsModel->getFieldName()), PHPExcel_Cell_DataType::TYPE_NUMERIC);
 						break;
 					case 6://datetimes
 					case 23:
@@ -88,13 +95,12 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 						$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY HH:MM:SS'); //format the date to the users preference
 						break;
 					default:
-						$worksheet->setCellValueExplicitByColumnAndRow($col, $row, decode_html(strip_tags($value)), PHPExcel_Cell_DataType::TYPE_STRING);
+						$worksheet->setCellValueExplicitByColumnAndRow($col, $row, App\Purifier::decodeHtml($value), PHPExcel_Cell_DataType::TYPE_STRING);
 				}
 				$col++;
 			}
 			$row++;
 		}
-
 		//having written out all the data lets have a go at getting the columns to auto-size
 		$col = 0;
 		$row = 1;
@@ -117,7 +123,7 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 
 		header('Content-Type: application/x-msexcel');
 		header('Content-Length: ' . filesize($tempFileName));
-		$filename = \App\Language::translate($module, $module) . '-' . \App\Language::translate(decode_html($customView->get('viewname')), $module) . ".xls";
+		$filename = \App\Language::translate($module, $module) . '-' . \App\Language::translate(App\Purifier::decodeHtml($customView->get('viewname')), $module) . ".xls";
 		header("Content-Disposition: attachment; filename=\"$filename\"");
 
 		$fp = fopen($tempFileName, 'rb');

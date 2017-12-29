@@ -5,7 +5,7 @@ namespace App\TextParser;
  * Oustanding deadlines class
  * @package YetiForce.TextParser
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class OverdueDeadlines extends Base
@@ -68,7 +68,7 @@ class OverdueDeadlines extends Base
 				$fieldModel = $fields[$column];
 				if ($column == 'link') {
 					$linkId = $recordModel->get('link');
-					if (!empty($linkId) && isRecordExists($linkId)) {
+					if (!empty($linkId) && \App\Record::isExists($linkId)) {
 						$processRecordModel = \Vtiger_Record_Model::getInstanceById($linkId);
 						$value = $processRecordModel->getName();
 					} else {

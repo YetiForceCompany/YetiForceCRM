@@ -3,7 +3,8 @@
  * Widgets german translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author skavenkf (K.Fink) 
  */
 $languageStrings = [
 	'Widgets' => 'Übersichtsseite Zusammenfassung',
@@ -53,6 +54,12 @@ $languageStrings = [
 	'Add button info' => 'Knopf hinzufügen, um einen Datensatz in der Widget Datensatzansicht hinzu zufügen',
 	'No left margin info' => 'Deaktiviere linken Rand im Widget.',
 	'ProductsServices' => 'Produkte Dienstleistungen',
+	'LBL_SELECTING_FIELDS' => 'Felder auswählen',
+	'LBL_SELECTING_FIELDS_INFO' => 'Feldnamen eines gewählten Moduls welche in der Sicht angezeigt werden sollen.',
+	'LBL_VIEW_TYPE' => 'Sicht',
+	'LBL_VIEW_TYPE_INFO' => 'Widget Anzeigeart.',
+	'LBL_LIST' => 'Liste',
+	'LBL_SUMMARY' => 'Zusammenfassung',
 	'LBL_SELECT_BUTTON_INFO' => 'Aktivieren Sichtbarkeit Wählen Button',
 	'LBL_CONDITION' => 'Bedingung',
 	'LBL_CONDITION_INFO' => 'Bedingung wählen um Datensätze anzuzeigen',

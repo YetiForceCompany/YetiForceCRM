@@ -4,7 +4,7 @@
  * Vtiger PreviewMail widget class
  * @package YetiForce.Widget
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_PreviewMail_Widget extends Vtiger_Basic_Widget
 {
@@ -14,7 +14,7 @@ class Vtiger_PreviewMail_Widget extends Vtiger_Basic_Widget
 
 	public function getUrl()
 	{
-		return 'module=' . $this->Module . '&view=sview&noloadlibs=true&record=' . $this->Record;
+		return 'module=' . $this->Module . '&view=Sview&noloadlibs=true&record=' . $this->Record;
 	}
 
 	public function getWidget()

@@ -8,22 +8,45 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class iCalLastImport
+/**
+ * Class IcalLastImport
+ */
+class IcalLastImport
 {
 
+	/**
+	 * Table name
+	 * @var string
+	 */
 	public $tableName = 'vtiger_ical_import';
-	public $fields = array('id', 'userid', 'entitytype', 'crmid');
+
+	/**
+	 * Fields
+	 * @var array
+	 */
+	public $fields = ['id', 'userid', 'entitytype', 'crmid'];
+
+	/**
+	 * Field data
+	 * @var array
+	 */
 	public $fieldData = [];
 
+	/**
+	 * Clear user records
+	 * @param int $userId
+	 */
 	public function clearRecords($userId)
 	{
-		$adb = PearDatabase::getInstance();
-		if (vtlib\Utils::CheckTable($this->tableName)) {
-			$query = sprintf('DELETE FROM %s WHERE userid = ?', $this->tableName);
-			$adb->pquery($query, array($userId));
+		if (vtlib\Utils::checkTable($this->tableName)) {
+			\App\Db::getInstance()->createCommand()->delete($this->tableName, ['userid' => $userId])->execute();
 		}
 	}
 
+	/**
+	 * Set fields
+	 * @param array $data
+	 */
 	public function setFields($data)
 	{
 		if (!empty($data)) {
@@ -33,6 +56,10 @@ class iCalLastImport
 		}
 	}
 
+	/**
+	 * Save
+	 * @return null
+	 */
 	public function save()
 	{
 		$adb = PearDatabase::getInstance();
@@ -40,8 +67,8 @@ class iCalLastImport
 		if (count($this->fieldData) == 0)
 			return;
 
-		if (!vtlib\Utils::CheckTable($this->tableName)) {
-			vtlib\Utils::CreateTable(
+		if (!vtlib\Utils::checkTable($this->tableName)) {
+			vtlib\Utils::createTable(
 				$this->tableName, "(id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 					userid INT NOT NULL,
 					entitytype VARCHAR(200) NOT NULL,
@@ -50,18 +77,20 @@ class iCalLastImport
 
 		$fieldNames = array_keys($this->fieldData);
 		$fieldValues = array_values($this->fieldData);
-		$adb->pquery('INSERT INTO ' . $this->tableName . '(' . implode(',', $fieldNames) . ') VALUES (' . generateQuestionMarks($fieldValues) . ')', array($fieldValues));
+		$adb->pquery('INSERT INTO ' . $this->tableName . '(' . implode(',', $fieldNames) . ') VALUES (' . generateQuestionMarks($fieldValues) . ')', [$fieldValues]);
 	}
 
+	/**
+	 * Undo
+	 * @param string $moduleName
+	 * @param int $userId
+	 * @return int|bool
+	 */
 	public function undo($moduleName, $userId)
 	{
-		$adb = PearDatabase::getInstance();
-		if (vtlib\Utils::CheckTable($this->tableName)) {
-			$query = sprintf('UPDATE vtiger_crmentity SET deleted=1 WHERE crmid IN (SELECT crmid FROM %s WHERE userid = ? && entitytype = ?)', $this->tableName);
-			$result = $adb->pquery($query, [$userId, $moduleName]);
-			return $adb->getAffectedRowCount($result);
+		if (vtlib\Utils::checkTable($this->tableName)) {
+			$selectResult = (new \App\Db\Query())->select(['crmid'])->from($this->tableName)->where(['userid' => $userId, 'entitytype' => $moduleName])->column();
+			return \App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['deleted' => 1], ['crmid' => $selectResult])->execute();
 		}
 	}
 }
-
-?>

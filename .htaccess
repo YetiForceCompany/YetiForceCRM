@@ -1,5 +1,7 @@
 RedirectMatch 403 (?i).*\.log$
-SetEnv HTACCESS_TEST on
+<IfModule mod_env.c>
+	SetEnv HTACCESS_TEST on
+</IfModule>
 <IfModule mod_autoindex.c>
 	Options -Indexes -MultiViews
 </ifModule>
@@ -25,7 +27,6 @@ SetEnv HTACCESS_TEST on
 	php_flag	display_errors				Off
 	php_value	error_log					cache/logs/phpError.log
 	php_value	memory_limit				512M
-	php_flag	output_buffering			On
 	php_flag    zlib.output_compression		Off
 	php_flag	file_uploads				On
 	php_value   upload_max_filesize			100M
@@ -55,7 +56,6 @@ SetEnv HTACCESS_TEST on
 	php_flag	display_errors				Off
 	php_value	error_log					cache/logs/phpError.log
 	php_value	memory_limit				512M
-	php_flag	output_buffering			On
 	php_flag    zlib.output_compression		Off
 	php_flag	file_uploads				On
 	php_value   upload_max_filesize			100M
@@ -79,17 +79,17 @@ SetEnv HTACCESS_TEST on
 	php_value	session.gc_probability		1
 </IfModule>
 <IfModule mod_headers.c>
-  <IfModule mod_env.c>
 	Header unset Server
 	Header unset X-Powered-By
-    SetEnv modHeadersAvailable true
-  </IfModule>
+	<IfModule mod_env.c>
+		SetEnv modHeadersAvailable true
+	</IfModule>
 </IfModule>
 <ifModule ModSecurity.c>
-  SecServerSignature ''
+	SecServerSignature ''
 </ifModule>
 <IfModule mod_dir.c>
-  DirectoryIndex index.php
+	DirectoryIndex index.php
 </IfModule>
 ########################
 # <FilesMatch "\.(inc|php|php3|php4|php5|php6|phtml|phps)$">

@@ -78,12 +78,6 @@ Vtiger_Detail_Js("Accounts_Detail_Js", {}, {
 			thisInstance.registerButtons(container);
 		});
 	},
-	/**
-	 * Number of records in hierarchy
-	 * @license licenses/License.html
-	 * @package YetiForce.Detail
-	 * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
-	 */
 	registerHierarchyRecordCount: function () {
 		var hierarchyButton = $('.detailViewTitle .hierarchy');
 		if (hierarchyButton.length) {

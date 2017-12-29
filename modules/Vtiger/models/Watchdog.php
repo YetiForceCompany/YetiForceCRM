@@ -4,7 +4,7 @@
  * Watching Model Class
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -233,7 +233,6 @@ class Vtiger_Watchdog_Model extends \App\Base
 		} else {
 			$isExists = $this->isWatchingModuleConfig($member);
 		}
-		$state = intval($state);
 		if ($isExists && $state === 1) {
 			return true;
 		}
@@ -432,7 +431,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 				}
 			}
 		}
-		$content = '<?php return ' . \vtlib\Functions::varExportMin($cache) . ';' . PHP_EOL;
+		$content = '<?php return ' . \App\Utils::varExport($cache) . ';' . PHP_EOL;
 		file_put_contents(static::$cacheFile, $content, LOCK_EX);
 	}
 

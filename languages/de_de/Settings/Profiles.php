@@ -77,6 +77,13 @@ $languageStrings = [
 	'OpenRecord' => 'Datensatz öffnen',
 	'CloseRecord' => 'Datensatz schließen',
 	'ReviewingUpdates' => 'Anzeige der Änderungshistorie',
+	'MassArchived' => 'Massenarchivierung',
+	'MassActive' => 'Massenaktivierung',
+	'ArchiveRecord' => 'Datensatz archivieren',
+	'ActiveRecord' => 'Datensatz wiederherstellen',
+	'TimeLineList' => 'Historie in Datensatzliste',
+	'MoveToTrash' => 'Move to Recycle Bin',
+	'MassTrash' => 'Mass move to Recycle Bin',
 	//end Actions
 	'Profile Related to Sales' => 'zugeordnetes Profil für den Vertrieb',
 	'Profile Related to Support' => 'zugeordnetes Profil für den Support',

@@ -17,7 +17,7 @@ class Rss_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get the id of the Record
-	 * @return <Number> - Report Id
+	 * @return int - Report Id
 	 */
 	public function getId()
 	{
@@ -26,8 +26,8 @@ class Rss_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to set the id of the Record
-	 * @param <type> $value - id value
-	 * @return <Object> - current instance
+	 * @param int $value - id value
+	 * @return Rss_Record_Model - current instance
 	 */
 	public function setId($value)
 	{
@@ -98,11 +98,7 @@ class Rss_Record_Model extends Vtiger_Record_Model
 	 */
 	public function delete()
 	{
-		$db = PearDatabase::getInstance();
-		$recordId = $this->getId();
-
-		$sql = 'DELETE FROM vtiger_rss where rssid = ?';
-		$db->pquery($sql, array($recordId));
+		\App\Db::getInstance()->createCommand()->delete('vtiger_rss', ['rssid' => $this->getId()])->execute();
 	}
 
 	/**
@@ -110,14 +106,10 @@ class Rss_Record_Model extends Vtiger_Record_Model
 	 */
 	public function makeDefault()
 	{
-		$db = PearDatabase::getInstance();
 		$recordId = $this->getId();
-
-		$sql = 'UPDATE vtiger_rss set starred = 0';
-		$db->pquery($sql, []);
-
-		$sql = 'UPDATE vtiger_rss set starred = 1 where rssid = ?';
-		$db->pquery($sql, array($recordId));
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$dbCommand->update('vtiger_rss', ['starred' => 0])->execute();
+		$dbCommand->update('vtiger_rss', ['starred' => 0], ['rssid' => $recordId])->execute();
 	}
 
 	/**
@@ -147,8 +139,8 @@ class Rss_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to set the sender address to the record
-	 * @param <array> $rssItems
-	 * @return <array> $items
+	 * @param array $rssItems
+	 * @return array $items
 	 */
 	public function setSenderInfo(&$rssItems)
 	{
@@ -160,7 +152,7 @@ class Rss_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function to get clean record instance by using moduleName
 	 * @param string $qualifiedModuleName
-	 * @return <Settings_SMSNotifier_Record_Model>
+	 * @return Rss_Record_Model
 	 */
 	static public function getCleanInstance($qualifiedModuleName)
 	{
@@ -171,7 +163,7 @@ class Rss_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function to validate the rss url
 	 * @param string $url
-	 * @return <boolean> 
+	 * @return boolean
 	 */
 	public function validateRssUrl($url)
 	{
@@ -193,17 +185,12 @@ class Rss_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getDefaultRss()
 	{
-		$db = PearDatabase::getInstance();
-
-		$result = $db->pquery('SELECT rssid FROM vtiger_rss where starred = 1', []);
-		$recordId = $db->query_result($result, '0', 'rssid');
+		$recordId = (new \App\Db\Query())->select(['rssid'])->from('vtiger_rss')->where(['starred' => 1])->scalar();
 		if ($recordId) {
 			$this->setId($recordId);
 		} else {
-			$result = $db->pquery('SELECT rssid FROM vtiger_rss', []);
-			$recordId = $db->query_result($result, '0', 'rssid');
+			$recordId = (new \App\Db\Query())->select(['rssid'])->from('vtiger_rss')->scalar();
 			$this->setId($recordId);
 		}
 	}
-
 }

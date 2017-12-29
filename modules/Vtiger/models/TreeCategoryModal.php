@@ -4,13 +4,13 @@
  * Basic TreeCategoryModal Model Class
  * @package YetiForce.TreeCategoryModal
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_TreeCategoryModal_Model extends \App\Base
 {
 
-	static $_cached_instance;
+	public static $_cached_instance;
 
 	/**
 	 * Function to get the Module Name
@@ -77,7 +77,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 	{
 		$srcModuleModel = Vtiger_Module_Model::getInstance($this->get('srcModule'));
 		$relationModel = Vtiger_Relation_Model::getInstance($srcModuleModel, $this->get('module'));
-		return $relationModel->isDeletable();
+		return $relationModel->privilegeToDelete();
 	}
 
 	public function getTreeData()
@@ -143,7 +143,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($this->get('srcRecord'), $this->get('srcModule'));
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $this->getModuleName());
 		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('limit', 'no_limit');
+		$pagingModel->set('limit', 0);
 		$entries = $relationListView->getEntries($pagingModel);
 
 		vglobal('currentModule', $currentModule);
@@ -163,7 +163,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 			$listViewModel->set('src_record', $this->get('srcRecord'));
 		}
 		$pagingModel = new Vtiger_Paging_Model();
-		$pagingModel->set('limit', 'no_limit');
+		$pagingModel->set('limit', 0);
 		$listViewModel->get('query_generator')->setField($this->getTreeField()['fieldname']);
 		$listEntries = $listViewModel->getListViewEntries($pagingModel);
 		return $listEntries;

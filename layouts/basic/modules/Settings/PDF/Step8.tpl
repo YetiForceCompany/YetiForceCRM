@@ -1,10 +1,10 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="pdfTemplateContents">
 		<form name="EditPdfTemplate" action="index.php" method="post" id="pdf_step8" class="form-horizontal" enctype="multipart/form-data">
 			<input type="hidden" name="module" value="PDF">
-			<input type="hidden" name="action" value="Save">
-			<input type="hidden" name="parent" value="Settings">
+			<input type="hidden" name="action" value="Save" />
+			<input type="hidden" name="parent" value="Settings" />
 			<input type="hidden" class="step" value="8" />
 			<input type="hidden" name="record" value="{$RECORDID}" />
 			<input type="hidden" name="watermark_image" value="{$PDF_MODEL->get('watermark_image')}" />

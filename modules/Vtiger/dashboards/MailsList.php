@@ -4,7 +4,7 @@
  * Vtiger MailsList dashboard class
  * @package YetiForce.Dashboard
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_MailsList_Dashboard extends Vtiger_IndexAjax_View
 {
@@ -14,8 +14,8 @@ class Vtiger_MailsList_Dashboard extends Vtiger_IndexAjax_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$user = $request->get('user');
-		$linkId = $request->get('linkid');
+		$user = $request->getByType('user', 2);
+		$linkId = $request->getInteger('linkid');
 		$data = $request->getAll();
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		$viewer->assign('MODULE_NAME', $moduleName);
@@ -23,8 +23,7 @@ class Vtiger_MailsList_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('USER', $user);
 		$viewer->assign('ACCOUNTSLIST', OSSMail_Record_Model::getAccountsList(false, true));
 		$viewer->assign('DATA', $data);
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/MailsListContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/MailsList.tpl', $moduleName);

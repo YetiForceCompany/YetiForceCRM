@@ -12,38 +12,32 @@
 class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-
-		if (!(Users_Privileges_Model::isPermitted($moduleName, 'CreateView'))) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$userPrivilegesModel->hasModuleActionPermission($request->getModule(), 'CreateView')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		$moduleModel = $recordModel->getModule();
-
 		$fieldList = $moduleModel->getFields();
-		$requestFieldList = array_intersect_key($request->getAll(), $fieldList);
-
-		foreach ($requestFieldList as $fieldName => $fieldValue) {
+		foreach (array_intersect($request->getKeys(), array_keys($fieldList)) as $fieldName) {
 			$fieldModel = $fieldList[$fieldName];
-			if ($fieldModel->isEditable()) {
-				$recordModel->set($fieldName, $fieldModel->getDBValue($fieldValue));
+			if ($fieldModel->isWritable()) {
+				$fieldModel->getUITypeModel()->setValueFromRequest($request, $recordModel);
 			}
 		}
-
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE);
-		$picklistDependencyDatasource = \App\Fields\Picklist::getPicklistDependencyDatasource($moduleName);
-
-		$viewer = $this->getViewer($request);
-
-		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));
 		$recordStructure = $recordStructureInstance->getStructure();
 		$mappingRelatedField = \App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName);
 
@@ -63,6 +57,8 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 				}
 			}
 		}
+		$viewer = $this->getViewer($request);
+		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode(\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName)));
 		$viewer->assign('QUICKCREATE_LINKS', Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['QUICKCREATE_VIEW_HEADER']));
 		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode($mappingRelatedField));
 		$viewer->assign('SOURCE_RELATED_FIELD', $fieldValues);
@@ -73,10 +69,9 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-		$viewer->assign('VIEW', $request->get('view'));
+		$viewer->assign('VIEW', $request->getByType('view', 1));
 		$viewer->assign('MODE', 'edit');
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
-
 		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Vtiger_Util_Helper::getMaxUploadSize());
 		$viewer->assign('MAX_UPLOAD_LIMIT', vglobal('upload_maxsize'));
 		echo $viewer->view('QuickCreate.tpl', $moduleName, true);
@@ -84,15 +79,11 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 
 	public function getFooterScripts(\App\Request $request)
 	{
-
 		$moduleName = $request->getModule();
-
-		$jsFileNames = array(
+		$jsFileNames = [
 			"modules.$moduleName.resources.Edit"
-		);
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		return $jsScriptInstances;
+		];
+		return $this->checkAndConvertJsScripts($jsFileNames);
 	}
 
 	public function validateRequest(\App\Request $request)

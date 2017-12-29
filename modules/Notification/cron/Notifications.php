@@ -3,17 +3,21 @@
  * Cron - Send notifications via mail
  * @package YetiForce.Cron
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 require_once 'include/main/WebUI.php';
-$db = PearDatabase::getInstance();
 $notifications = new Cron_Notification();
-$result = $db->query('SELECT * FROM u_yf_watchdog_schedule');
-while ($row = $db->getRow($result)) {
+$query = (new \App\Db\Query())->from('u_#__watchdog_schedule');
+
+$dataReader = $query->createCommand()->query();
+
+while ($row = $dataReader->read()) {
 	$notifications->executeScheduled($row);
 }
-$notifications->markAsRead();
+if (\AppConfig::module('Notification', 'AUTO_MARK_NOTIFICATIONS_READ_AFTER_EMAIL_SEND')) {
+	$notifications->markAsRead();
+}
 
 class Cron_Notification
 {

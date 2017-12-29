@@ -9,12 +9,6 @@
  * ********************************************************************************** */
 require_once('include/Webservices/Utils.php');
 require_once("include/Webservices/WebServiceError.php");
-require_once 'include/Webservices/ModuleTypes.php';
-require_once('include/Webservices/Create.php');
-require_once 'include/Webservices/DescribeObject.php';
-require_once 'include/Webservices/WebserviceField.php';
-require_once 'include/Webservices/EntityMeta.php';
-require_once 'include/Webservices/VtigerWebserviceObject.php';
 require_once("modules/Users/Users.php");
 
 class VTCreateEventTask extends VTTask
@@ -24,10 +18,10 @@ class VTCreateEventTask extends VTTask
 
 	public function getFieldNames()
 	{
-		return array('eventType', 'eventName', 'description', 'sendNotification',
+		return ['eventType', 'eventName', 'description', 'sendNotification',
 			'startTime', 'startDays', 'startDirection', 'startDatefield',
 			'endTime', 'endDays', 'endDirection', 'endDatefield',
-			'status', 'priority', 'assigned_user_id');
+			'status', 'priority', 'assigned_user_id'];
 	}
 
 	public function getAdmin()
@@ -79,7 +73,7 @@ class VTCreateEventTask extends VTTask
 			}
 		}
 		$textParser = \App\TextParser::getInstanceByModel($recordModel);
-		$fields = array(
+		$fields = [
 			'activitytype' => $this->eventType,
 			'description' => $textParser->setContent($this->description)->parse()->getContent(),
 			'subject' => $textParser->setContent($this->eventName)->parse()->getContent(),
@@ -91,11 +85,25 @@ class VTCreateEventTask extends VTTask
 			'time_end' => self::convertToDBFormat($this->endTime),
 			'due_date' => $endDate,
 			'duration_hours' => 0
-		);
+		];
 		$id = $recordModel->getId();
 		$field = \App\ModuleHierarchy::getMappingRelatedField($moduleName);
 		if ($field) {
 			$fields[$field] = $id;
+		}
+		if ($parentRecord = \App\Record::getParentRecord($id)) {
+			$parentModuleName = \App\Record::getType($parentRecord);
+			$field = \App\ModuleHierarchy::getMappingRelatedField($parentModuleName);
+			if ($field) {
+				$fields[$field] = $parentRecord;
+			}
+			if ($parentRecord = \App\Record::getParentRecord($parentRecord)) {
+				$parentModuleName = \App\Record::getType($parentRecord);
+				$field = \App\ModuleHierarchy::getMappingRelatedField($parentModuleName);
+				if ($field) {
+					$fields[$field] = $parentRecord;
+				}
+			}
 		}
 		$newRecordModel = Vtiger_Record_Model::getCleanInstance('Events');
 		$newRecordModel->setData($fields);
@@ -147,6 +155,6 @@ class VTCreateEventTask extends VTTask
 
 	public function getTimeFieldList()
 	{
-		return array('startTime', 'endTime');
+		return ['startTime', 'endTime'];
 	}
 }

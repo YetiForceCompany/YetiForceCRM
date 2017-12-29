@@ -3,7 +3,8 @@
  * Trees manager german translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author skavenkf (K.Fink) 
  */
 $languageStrings = [
 	'LBL_ADD_RECORD' => 'Hinzufügen',
@@ -21,7 +22,7 @@ $languageStrings = [
 	'LBL_SELECT_REPLACE_TREE_ITEM' => 'Ändere Eintrag in Baumstruktur:',
 	'Category' => 'Kategorie',
 	'Reservations' => 'Einschränkungen',
-	'LBL_SHARE_WITH' => 'Share with',
+	'LBL_SHARE_WITH' => 'Teilen mit',
 ];
 $jsLanguageStrings = [
 	'JS_TREE_DELETED_SUCCESSFULLY' => 'Vorlage erfolgreich gelöscht',

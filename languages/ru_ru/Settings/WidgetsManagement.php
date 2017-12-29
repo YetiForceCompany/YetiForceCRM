@@ -3,7 +3,7 @@
  * WidgetsManagement russian translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'LBL_MAXIMUM_VALUE' => 'Максимальное значение',
@@ -39,16 +39,16 @@ $languageStrings = [
 	'LBL_ADDRESS_RSS' => 'RSS канал',
 	'LBL_ADD_CHANNEL' => 'Добавить канал',
 	'LBL_ADD_RSS' => 'RSS',
-	'LBL_ADD_CHART_FILTER' => 'Chart from filter',
-	'LBL_NOTIFICATION_BY_SENDER' => 'Number of notifications by sender',
-	'LBL_NOTIFICATION_BY_RECIPIENT' => 'Number of notifications by recipient',
-	'LBL_DEFAULT_DATE' => 'Default date',
-	'PLL_CURRENT_DAY' => 'Current day',
-	'PLL_CURRENT_WEEK' => 'Current week',
-	'PLL_CURRENT_MONTH' => 'Current month',
-	'PLL_CURRENT_YEAR' => 'Current year',
-	'LBL_SAVE_DASHBOARD' => 'Save dashboard',
-	'LBL_NAME_DASHBOARD' => 'Dashboard name',
+	'LBL_ADD_CHART_FILTER' => 'Диаграмма из фильтра',
+	'LBL_NOTIFICATION_BY_SENDER' => 'Количество уведомлений по отправителю',
+	'LBL_NOTIFICATION_BY_RECIPIENT' => 'Количество уведомлений по получателю',
+	'LBL_DEFAULT_DATE' => 'Дата по умолчанию',
+	'PLL_CURRENT_DAY' => 'Текущий день',
+	'PLL_CURRENT_WEEK' => 'Текущая неделя',
+	'PLL_CURRENT_MONTH' => 'Текущий месяц',
+	'PLL_CURRENT_YEAR' => 'Текущий год',
+	'LBL_SAVE_DASHBOARD' => 'Сохранить панель',
+	'LBL_NAME_DASHBOARD' => 'Название панели',
 ];
 $jsLanguageStrings = [
 	'JS_BLOCK_ADDED' => 'Блок Виджетов успешно добавлен',

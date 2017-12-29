@@ -12,8 +12,6 @@ $languageStrings = [
 	// Basic Strings
 	'SINGLE_ProjectTask' => 'Project Task',
 	'Project Task' => 'Project Tasks',
-	'LBL_ADD_RECORD' => 'Add record',
-	'LBL_RECORDS_LIST' => 'Project Task List',
 	'Start Date' => 'Start Date',
 	'Target End Date' => 'Target End Date',
 	'End Date' => 'End Date',

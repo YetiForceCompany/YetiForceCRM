@@ -3,7 +3,7 @@
  * Password polish translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'Password' => 'Konfiguracja hasła',
@@ -18,4 +18,8 @@ $languageStrings = [
 	'LBL_ERROR' => 'Błąd podczas zapisu',
 	'LBL_SAVE_OK' => 'Dane zostały zapisane',
 	'characters' => 'znaków',
+	'LBL_PASSWORD_CHANGE_TIME' => 'Wymuś zmianę hasła co',
+	'LBL_PASSWORD_CHANGE_TIME_DESC' => '0 - bez ograniczenia, 356 - rok, 30 - miesiąc. Po tym okresie system będzie pokazywał przy każdym logowaniu okno zmiany hasła.',
+	'LBL_TIME_TO_CHANGE_PASSWORD' => 'Maksymalny okres zmiany hasła (dni)',
+	'LBL_TIME_TO_CHANGE_PASSWORD_DESC' => 'Po upływie czasu konto zostanie zablokowane bez możliwości zalogowania się do systemu.',
 ];

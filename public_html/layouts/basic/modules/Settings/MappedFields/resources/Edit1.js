@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit1_Js", {}, {
 	init: function () {
 		this.initialize();
@@ -48,7 +48,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit1_Js", {}, {
 					'enabled': true
 				}
 			});
-			app.saveAjax('step1', saveData).done(function (data) {
+			app.saveAjax('step1', saveData).then(function (data) {
 				if (data.success == true) {
 					if (!data.result.id && data.result.message) {
 						Settings_Vtiger_Index_Js.showMessage({text: data.result.message, type: 'error'});
@@ -64,18 +64,13 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit1_Js", {}, {
 					}
 
 					formData['record'] = data.result.id;
-					AppConnector.request(formData).done(
-							function (data) {
-								form.hide();
-								progressIndicatorElement.progressIndicator({
-									'mode': 'hide'
-								})
-								aDeferred.resolve(data);
-							},
-							function (error, err) {
-								app.errorLog(error, err);
-							}
-					);
+					AppConnector.request(formData).done(function (data) {
+						form.hide();
+						progressIndicatorElement.progressIndicator({
+							'mode': 'hide'
+						})
+						aDeferred.resolve(data);
+					});
 				}
 			});
 		}

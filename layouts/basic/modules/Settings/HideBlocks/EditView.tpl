@@ -1,14 +1,14 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <div class="targetFieldsTableContainer">
 	<div class="widget_header row">
 		<div class="col-xs-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			{\App\Language::translate('LBL_HIDEBLOCKS_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	</div>
 	<form method="post" action="index.php?module={$MODULE}&parent=Settings&view=Conditions">
-	<input type="hidden" name="record" value="{$RECORD_ID}"/>
+	<input type="hidden" name="record" value="{$RECORD_ID}" />
 	<div class="listViewEntriesDiv contents-bottomscroll" style="overflow-x: visible !important;">
 		<div class="bottomscroll-div table-responsive">
 			<table class="table table-bordered" width="100%" name="targetModuleFields">

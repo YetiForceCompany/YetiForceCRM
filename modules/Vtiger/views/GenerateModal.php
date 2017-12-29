@@ -3,7 +3,7 @@
 /**
  * @package YetiForce.ModalView
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_GenerateModal_View extends Vtiger_BasicModal_View
@@ -16,24 +16,20 @@ class Vtiger_GenerateModal_View extends Vtiger_BasicModal_View
 
 	public function process(\App\Request $request)
 	{
-
-		\App\Log::trace('Entering ' . __METHOD__ . '() method ...');
-
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
-		$view = $request->get('fromview');
+		$view = $request->getByType('fromview', 1);
 		$viewer = $this->getViewer($request);
 		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 		$mfModel = new $handlerClass();
-		if ($view == 'List') {
+		if ($view === 'List') {
 			$allRecords = Vtiger_Mass_Action::getRecordsListFromRequest($request);
 			$templates = $mfModel->getActiveTemplatesForModule($moduleName, $view);
 			$viewer->assign('ALL_RECORDS', $allRecords);
 		} else {
+			$recordId = $request->getInteger('record');
 			$templates = $mfModel->getActiveTemplatesForRecord($recordId, $view, $moduleName);
 			$viewer->assign('RECORD', $recordId);
 		}
-
 		$viewer->assign('TEMPLATES', $templates);
 		$viewer->assign('VIEW', $view);
 		$viewer->assign('MODULE_NAME', $moduleName);
@@ -41,6 +37,5 @@ class Vtiger_GenerateModal_View extends Vtiger_BasicModal_View
 		$this->preProcess($request);
 		$viewer->view('GenerateModal.tpl', $moduleName);
 		$this->postProcess($request);
-		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 	}
 }

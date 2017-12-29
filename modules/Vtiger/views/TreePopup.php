@@ -4,16 +4,15 @@
  * Vtiger TreePopup view class
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_TreePopup_View extends Vtiger_Footer_View
 {
 
 	public function checkPermission(\App\Request $request)
 	{
-		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		if (!$request->isEmpty('src_record') && !\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('src_record'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -36,30 +35,31 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $this->getModule($request);
-		$template = $request->get('template');
-		$srcField = $request->get('src_field');
-		$srcRecord = $request->get('src_record');
+		$template = $request->getInteger('template');
+		$srcField = $request->getByType('src_field', 1);
 		$value = $request->get('value');
 		$type = false;
 		if (!empty($template)) {
 			$recordModel = Settings_TreesManager_Record_Model::getInstanceById($template);
 		} else {
-			throw new \Exception\AppException(\App\Language::translate('ERR_TREE_NOT_FOUND', $moduleName));
+			throw new \App\Exceptions\AppException(\App\Language::translate('ERR_TREE_NOT_FOUND', $moduleName));
 		}
 		if (!$recordModel) {
-			throw new \Exception\AppException(\App\Language::translate('ERR_TREE_NOT_FOUND', $moduleName));
+			throw new \App\Exceptions\AppException(\App\Language::translate('ERR_TREE_NOT_FOUND', $moduleName));
 		}
 		if ($request->get('multiple')) {
 			$type = 'category';
 		}
 		$tree = $recordModel->getTree($type, $value);
 		$viewer->assign('TREE', \App\Json::encode($tree));
-		$viewer->assign('SRC_RECORD', $srcRecord);
+		if (!$request->isEmpty('src_record')) {
+			$viewer->assign('SRC_RECORD', $request->getInteger('src_record'));
+		}
 		$viewer->assign('SRC_FIELD', $srcField);
 		$viewer->assign('TEMPLATE', $template);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('IS_MULTIPLE', $request->get('multiple'));
-		$viewer->assign('TRIGGER_EVENT_NAME', $request->get('triggerEventName'));
+		$viewer->assign('TRIGGER_EVENT_NAME', $request->getByType('triggerEventName', 2));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('TreePopup.tpl', $moduleName);
 	}
@@ -81,17 +81,17 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
-		$jsFileNames = array('~libraries/jquery/jstree/jstree.js');
+		$jsFileNames = ['~libraries/jquery/jstree/jstree.js'];
 		if ($request->get('multiple')) {
 			$jsFileNames[] = '~libraries/jquery/jstree/jstree.category.js';
 			$jsFileNames[] = '~libraries/jquery/jstree/jstree.checkbox.js';
 		}
-		$jsFileNames = array_merge($jsFileNames, array(
+		$jsFileNames = array_merge($jsFileNames, [
 			'libraries.jquery.jquery_windowmsg',
 			'~libraries/jquery/clockpicker/jquery-clockpicker.js',
 			'modules.Vtiger.resources.TreePopup',
 			"modules.$moduleName.resources.TreePopup",
-		));
+		]);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
@@ -101,9 +101,9 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = array(
+		$cssFileNames = [
 			'~libraries/jquery/jstree/themes/proton/style.css',
-		);
+		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);
 		return $headerCssInstances;

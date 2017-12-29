@@ -4,7 +4,7 @@
  * HighTasks class
  * @package YetiForce.SummaryBlock
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class HighTasks
 {
@@ -13,18 +13,17 @@ class HighTasks
 	public $sequence = 8;
 	public $reference = 'ProjectTask';
 
-	public function process($instance)
+	/**
+	 * Process
+	 * @param Vtiger_Record_Model $recordModel
+	 * @return int
+	 */
+	public function process(Vtiger_Record_Model $recordModel)
 	{
 
-		\App\Log::trace("Entering HighTasks::process() method ...");
-		$adb = PearDatabase::getInstance();
-		$query = 'SELECT COUNT(projecttaskid) as count 
-				FROM vtiger_projecttask
-						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_projecttask.projecttaskid
-						WHERE vtiger_projecttask.projectid = ? && vtiger_projecttask.projecttaskpriority = ? && vtiger_crmentity.deleted=0';
-		$result = $adb->pquery($query, array($instance->getId(), 'high'));
-		$count = $adb->query_result($result, 0, 'count');
-		\App\Log::trace("Exiting HighTasks::process() method ...");
+		\App\Log::trace('Entering HighTasks::process() method ...');
+		$count = (new App\Db\Query())->from('vtiger_projecttask')->innerJoin('vtiger_crmentity', 'vtiger_projecttask.projecttaskid = vtiger_crmentity.crmid')->where(['vtiger_projecttask.projectid' => $recordModel->getId(), 'vtiger_projecttask.projecttaskpriority' => 'high', 'vtiger_crmentity.deleted' => 0])->count();
+		\App\Log::trace('Exiting HighTasks::process() method ...');
 		return $count;
 	}
 }

@@ -1,15 +1,15 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header">
 		<button class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">x</button>
 		<h4 class="modal-title">{\App\Language::translate('LBL_ADD_FILES', $MODULE_NAME)}</h4>
 	</div>
 	<form class="form-horizontal" id="fileUploadForm" name="fileUploadForm" method="post" action="file.php" enctype="multipart/form-data">
-		<input type="hidden" name="module" value="{$MODULE_NAME}">
-		<input type="hidden" name="action" value="MultiImage">
-		<input type="hidden" name="field" value="{$INPUT_NAME}">
-		<input type="hidden" name="fileType" value="{$FILE_TYPE}">
-		<input type="hidden" name="record" value="{$RECORD}">
+		<input type="hidden" name="module" value="{$MODULE_NAME}" />
+		<input type="hidden" name="action" value="MultiImage" />
+		<input type="hidden" name="field" value="{$INPUT_NAME}" />
+		<input type="hidden" name="fileType" value="{$FILE_TYPE}" />
+		<input type="hidden" name="record" value="{$RECORD}" />
 		<input type="hidden" id="maxUploadFileSize" class="maxUploadFileSize" value={\AppConfig::main('upload_maxsize')}>
 		<div class="modal-body">
 			<div>

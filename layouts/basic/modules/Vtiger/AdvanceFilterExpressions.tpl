@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{if !$MODULE_MODEL}
 		{assign var=MODULE_MODEL value=Vtiger_Module_Model::getInstance($SOURCE_MODULE)}
@@ -23,9 +23,9 @@
 		<div id="advanceFilterContainer" class="row conditionsContainer padding1per">
 			<h5 class="padding-bottom1per col-md-10"><strong>{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS',$MODULE)}</strong></h5>
 			<div class="col-md-10" >
-				{include file='AdvanceFilter.tpl'|@vtemplate_path}
+				{include file=\App\Layout::getTemplatePath('AdvanceFilter.tpl')}
 			</div>
-			{include file="FieldExpressions.tpl"|@vtemplate_path}
+			{include file=\App\Layout::getTemplatePath('FieldExpressions.tpl')}
 		</div>
 	</div>
 {/strip}

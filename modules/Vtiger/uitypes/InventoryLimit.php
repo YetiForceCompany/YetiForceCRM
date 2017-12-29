@@ -4,24 +4,51 @@
  * UIType InventoryLimit Field Class
  * @package YetiForce.Fields
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author YetiForce.com
  */
 class Vtiger_InventoryLimit_UIType extends Vtiger_Picklist_UIType
 {
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param string $value
-	 * @param int $record
-	 * @param Vtiger_Record_Model $recordInstance
-	 * @param bool $rawText
-	 * @return string
+	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function getDBValue($value, $recordModel = false)
+	{
+		if (is_array($value)) {
+			$value = implode(',', $value);
+		}
+		return \App\Purifier::decodeHtml($value);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function validate($value, $isUserFormat = false)
+	{
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		if (!is_numeric($value)) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+		}
+		if (is_array($value)) {
+			foreach ($value as $value) {
+				if (!is_numeric($value)) {
+					throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+				}
+			}
+		}
+		$this->validate = true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$limits = $this->getPicklistValues();
-		return isset($limits[$value]) ? $limits[$value] : '';
+		return \App\Purifier::encodeHtml(isset($limits[$value]) ? $limits[$value] : '');
 	}
 
 	/**
@@ -61,19 +88,5 @@ class Vtiger_InventoryLimit_UIType extends Vtiger_Picklist_UIType
 			$limits[$key] = $limit['value'] . ' - ' . $limit['name'];
 		}
 		return $limits;
-	}
-
-	/**
-	 * Function to get the DB Insert Value, for the current field type with given User Value
-	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @return mixed
-	 */
-	public function getDBValue($value, $recordModel = false)
-	{
-		if (is_array($value)) {
-			$value = implode(',', $value);
-		}
-		return $value;
 	}
 }

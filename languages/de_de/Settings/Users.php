@@ -3,24 +3,20 @@
  * Users german translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author skavenkf (K.Fink)
  */
 $languageStrings = [
 	'Users' => 'Benutzer',
 	'USER_MAIL_EXIST' => 'Benutzer mit dieser E-Mail-Adresse existiert bereits',
-	'LBL_COLORS' => 'Farben',
-	'LBL_USERS_COLORS' => 'Benutzerfarben',
-	'LBL_USERS_COLORS_DESCRIPTION' => ' ',
-	'LBL_UPDATE_COLOR' => 'Farbe ändern',
-	'LBL_COLOR' => 'Farbe',
-	'LBL_GENERATE_COLOR' => 'Zufällige Farbe ermitteln',
-	'LBL_GENERATED_COLOR' => 'Farbe generiert',
-	'LBL_EDIT_COLOR' => 'Farbe bearbeiten',
-	'LBL_SELECT_COLOR' => 'Farbe wählen:',
-	'LBL_SAVE_COLOR' => 'Farbe gesichert',
-	'LBL_GROUPS_COLORS' => 'Farbgruppe',
 	'LBL_GROUP_NAME' => 'Gruppenname',
 	'LBL_PRIORITY' => 'Priorität',
+	'LBL_PICKLISTS' => 'Auswahllisten',
+	'LBL_WARNING' => 'Warnung',
+	'LBL_SELECT_PICKLIST' => 'Wähle Auswahlliste',
+	'LBL_PICKLIST_COLOR_COL_NOT_FOUND' => 'Farbfunktion wurde für diese Auswahlliste noch nicht aktiviert',
+	'LBL_UPDATE_COLOR_COLUMN' => 'Aktivieren',
+	'LBL_ITEM' => 'Wert',
 	'LBL_LDAP_RECOMMENDED_INFO' => 'Wir empfehlen keine Benutzer mit Adminberechtigung für die LDAP Anmeldung zu wählen. Zur Lösung von Anmeldeproblemen sollten dies Benutzer sein, welche keine LDAP Authentifizierung benötigen.',
 	//Auth
 	'LBL_AUTHORIZATION' => 'LDAP',
@@ -47,9 +43,10 @@ $languageStrings = [
 	'LBL_LOCK_RIGHT_MENU' => 'Rechte Maustaste sperren',
 	'LBL_LOCK_SELECT_TEXT' => 'Selektieren sperren',
 	'LBL_LOCK_DRAG' => 'Verschieben sperren',
+	'LBL_CHANGE_ACCESS_KEY' => 'Zugriffsschlüssel ändern ',
 ];
 $jsLanguageStrings = [
-	'JS_USER_MAIL_EXIST' => 'Benutzer mit dieser E-Mail-Adresse existiert bereits',
+	'JS_PLEASE_SELECT_MODULE' => 'Bitte Modul wählen',
 	'JS_DECIMAL_SEPARATOR_AND_GROUPING_SEPARATOR_CANT_BE_SAME' => 'Dezimaltrennzeichen und Zifferngruppierungs-Trennzeichen kann nicht gleich sein',
 	'Changed password successfully' => 'Passwort erfolgreich geändert',
 ];

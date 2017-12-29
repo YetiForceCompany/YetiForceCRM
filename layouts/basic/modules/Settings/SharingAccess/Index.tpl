@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <div class="" id="sharingAccessContainer">
 	<div class="contents">
@@ -10,7 +10,7 @@
 			
 				<div class="widget_header row">
 					<div class="col-md-8">
-					    {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 					</div>
 					<div class="col-md-4">
 						<button class="btn btn-success pull-right hide" type="submit" name="saveButton"><strong>{\App\Language::translate('LBL_APPLY_NEW_SHARING_RULES', $QUALIFIED_MODULE)}</strong></button>
@@ -60,8 +60,8 @@
 								<div class="row">
 									<div class="col-md-3">&nbsp;</div>
 									<div class="col-md-6">
-										<button type="button" class="btn btn-xs btn-default vtButton arrowDown row" data-handlerfor="fields" data-togglehandler="{$TABID}-rules"><img src="{vimage_path('Arrow-down.png')}" alt=""></img></button>
-										<button type="button" class="btn btn-xs btn-default vtButton arrowUp row hide" data-handlerfor="fields" data-togglehandler="{$TABID}-rules"><img src="{vimage_path('Arrow-up.png')}" alt=""></img></button>
+										<button type="button" class="btn btn-xs btn-default vtButton arrowDown row" data-handlerfor="fields" data-togglehandler="{$TABID}-rules"><img src="{\App\Layout::getImagePath('Arrow-down.png')}" alt=""></img></button>
+										<button type="button" class="btn btn-xs btn-default vtButton arrowUp row hide" data-handlerfor="fields" data-togglehandler="{$TABID}-rules"><img src="{\App\Layout::getImagePath('Arrow-up.png')}" alt=""></img></button>
 									</div>
 								</div>
 							</td>

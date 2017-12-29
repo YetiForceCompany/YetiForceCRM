@@ -11,20 +11,28 @@
 class Campaigns_Detail_View extends Vtiger_Detail_View
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('showCountRecords');
 	}
 
-	public function showCountRecords($request)
+	/**
+	 * Shows quantity of records
+	 * @param \App\Request $request
+	 * @return string
+	 */
+	public function showCountRecords(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
-		$relatedModules = $request->get('relatedModules');
+		$recordId = $request->getInteger('record');
+		$relatedModules = $request->getByType('relatedModules');
 		$relatedModulesNames = [];
 		foreach ($relatedModules as $tabId) {
-			$relatedModulesNames[$tabId] = vtlib\Functions::getModuleName($tabId);
+			$relatedModulesNames[$tabId] = \App\Module::getModuleName($tabId);
 		}
 		$countRecords = Vtiger_CountRecords_Widget::getCountRecords($relatedModulesNames, $recordId);
 		$viewer = $this->getViewer($request);
@@ -35,21 +43,19 @@ class Campaigns_Detail_View extends Vtiger_Detail_View
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
-	 * @param \App\Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * {@inheritDoc}
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			'modules.Vtiger.resources.List',
 			"modules.$moduleName.resources.List",
 			'modules.CustomView.resources.CustomView',
 			"modules.$moduleName.resources.CustomView",
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);

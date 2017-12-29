@@ -4,7 +4,7 @@
  * Settings OSSMailView index view class
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Index_View
 {
@@ -14,7 +14,7 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 
 		\App\Log::trace(__METHOD__ . ' | Start');
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$sourceModule = $request->get('sourceModule');
+		$sourceModule = $request->getByType('sourceModule', 2);
 		$widgetsManagementModel = new Settings_WidgetsManagement_Module_Model();
 		$dashboardModules = $widgetsManagementModel->getSelectableDashboard();
 

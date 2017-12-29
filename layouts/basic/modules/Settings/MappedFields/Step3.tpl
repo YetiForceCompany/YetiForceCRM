@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="mfTemplateContents">
 		<form name="editMFTemplate" action="index.php" method="post" id="mf_step3" class="form-horizontal">
@@ -12,7 +12,7 @@
 			<div class="col-md-12 paddingLRZero">
 				<div class="panel panel-default">
 					<div class="panel-body padding0">
-						{include file='AdvanceFilterExpressions.tpl'|@vtemplate_path}
+						{include file=\App\Layout::getTemplatePath('AdvanceFilterExpressions.tpl')}
 					</div>
 					<div class="panel-footer clearfix">
 						<div class="btn-toolbar pull-right">

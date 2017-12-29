@@ -5,7 +5,7 @@ namespace App\Fields;
  * Tools for email class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Email
@@ -31,6 +31,13 @@ class Email
 		}
 	}
 
+	/**
+	 * Find crm id by email.
+	 * @param string|int $value
+	 * @param array $allowedModules
+	 * @param array $skipModules
+	 * @return string
+	 */
 	public static function findCrmidByEmail($value, $allowedModules = [], $skipModules = [])
 	{
 		$db = \PearDatabase::getInstance();
@@ -90,6 +97,11 @@ class Email
 		return $rows;
 	}
 
+	/**
+	 * Get user mail.
+	 * @param int $userId
+	 * @return string
+	 */
 	public static function getUserMail($userId)
 	{
 		$userModel = \App\User::getUserModel($userId);

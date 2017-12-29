@@ -12,8 +12,6 @@ $languageStrings = [
 	// Basic Strings
 	'SINGLE_ProjectTask' => 'Tarefa Projeto',
 	'Project Task' => 'Tarefas Projeto',
-	'LBL_ADD_RECORD' => 'Adicionar registro',
-	'LBL_RECORDS_LIST' => 'Lista Tarefa Projeto',
 	'Start Date' => 'Data Início',
 	'Target End Date' => 'Data Final Alvo',
 	'End Date' => 'Data Final',

@@ -18,7 +18,7 @@
 {assign var=IS_INTERNAL_LOCATION_TYPE value=$FILE_LOCATION_TYPE_FIELD->get('fieldvalue') neq 'E'}
 {assign var=IS_EXTERNAL_LOCATION_TYPE value=$FILE_LOCATION_TYPE_FIELD->get('fieldvalue') eq 'E'}
 
-{assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
+{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
 {assign var=RAW_FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 {if $IS_INTERNAL_LOCATION_TYPE}
 	{$RAW_FIELD_INFO['type'] = 'file'}

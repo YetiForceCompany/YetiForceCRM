@@ -3,7 +3,7 @@
  * Widgets russian translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'Select button info' => 'Включить видимую кнопку выбора',
@@ -50,6 +50,12 @@ $languageStrings = [
 	'Filter info' => 'Включить фильтрацию данных по выбранному Фильтру',
 	'None' => 'Нет',
 	'ProductsServices' => 'Товары и Услуги',
+	'LBL_SELECTING_FIELDS' => 'Selecting fields',
+	'LBL_SELECTING_FIELDS_INFO' => 'Field names from a selected module to be displayed in the view.',
+	'LBL_VIEW_TYPE' => 'View',
+	'LBL_VIEW_TYPE_INFO' => 'Widget display type.',
+	'LBL_LIST' => 'List',
+	'LBL_SUMMARY' => 'Summary',
 	'LBL_SELECT_BUTTON_INFO' => 'Включить видимую кнопку выбора',
 	'LBL_CONDITION' => 'Состояние',
 	'LBL_CONDITION_INFO' => 'Выбор условий для показа записи',

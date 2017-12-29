@@ -111,9 +111,6 @@
 .userIcon-AllAccounts:before {
 	content: "\e947";
 }
-.userIcon-RecycleBin:before {
-	content: "\e948";
-}
 .userIcon-FInvoice:before {
 	content: "\e93f";
 }

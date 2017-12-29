@@ -3,7 +3,7 @@
  * IIDN spanish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'IIDN' => 'Albaranes de Compra Interna',
@@ -16,7 +16,7 @@ $languageStrings = [
 	'FL_STORAGE' => 'Almacenamiento',
 	'FL_STATUS' => 'Estado',
 	'PLL_DRAFT' => 'Borrador',
-	'PLL_IN_REALIZATION' => 'En progreso',
+	'PLL_IN_REALIZATION' => 'En proceso',
 	'PLL_OBJECTIONS' => 'Objeciones',
 	'PLL_FOR_APPROVAL' => 'Por Aprobar',
 	'PLL_CANCELLED' => 'Cancelado',

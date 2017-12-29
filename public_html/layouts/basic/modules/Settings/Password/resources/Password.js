@@ -1,28 +1,13 @@
-/* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 var Settings_Password_Js = {
 	loadAction: function() {
-        jQuery("#big_letters").change(function() {
+        jQuery("#big_letters,#small_letters,#numbers,#special").change(function() {
 			Settings_Password_Js.saveConf(jQuery(this).attr('name'), jQuery(this).is(':checked'));
         });
-        jQuery("#small_letters").change(function() {
-			Settings_Password_Js.saveConf(jQuery(this).attr('name'), jQuery(this).is(':checked'));
-        });
-        jQuery("#numbers").change(function() {
-			Settings_Password_Js.saveConf(jQuery(this).attr('name'), jQuery(this).is(':checked'));
-        });
-        jQuery("#special").change(function() {
-			Settings_Password_Js.saveConf(jQuery(this).attr('name'), jQuery(this).is(':checked'));
-        });
-        jQuery("#min_length").change(function() {
+        jQuery("#min_length,#max_length,#change_time,#lock_time").change(function() {
 			Settings_Password_Js.saveConf(jQuery(this).attr('name'), jQuery(this).val());
         });
-        jQuery("#max_length").change(function() {
-			Settings_Password_Js.saveConf(jQuery(this).attr('name'), jQuery(this).val());
-        });		
-		jQuery('#min_length').keyup(function () {  
-			this.value = this.value.replace(/[^0-9\.]/g,''); 
-		});
-		jQuery('#max_length').keyup(function () {  
+		jQuery('#min_length,#max_length,#change_time,#lock_time').keyup(function () {  
 			this.value = this.value.replace(/[^0-9\.]/g,''); 
 		});
 	},

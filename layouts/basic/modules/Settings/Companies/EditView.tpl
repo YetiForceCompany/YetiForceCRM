@@ -1,8 +1,8 @@
 {strip} 
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<div class="row widget_header">
 		<div class="col-xs-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			{App\Language::translate('LBL_COMPANIES_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	</div>
@@ -11,9 +11,9 @@
 			{if $COMPANY_COLUMNS}
 				<input type="hidden" name="module" value="Companies">
 				<input type="hidden" name="parent" value="Settings" />
-				<input type="hidden" name="action" value="SaveAjax">
+				<input type="hidden" name="action" value="SaveAjax" />
 				<input type="hidden" name="mode" value="updateCompany">
-				<input type="hidden" name="record" value="{$RECORD_ID}">
+				<input type="hidden" name="record" value="{$RECORD_ID}" />
 				{foreach from=$COMPANY_COLUMNS item=COLUMN}
 					<div class="form-group">
 						{if $COLUMN eq 'default'}
@@ -31,8 +31,19 @@
 							</label>
 							<div class="col-sm-10">
 								<select class="select2 form-control" name="industry">
-									{foreach from=$INDUSTRY_LIST item=ITEM}
+									{foreach from=Settings_Companies_Module_Model::getIndustryList() item=ITEM}
 										<option value="{$ITEM}"  {if $RECORD_MODEL->get('industry') == $ITEM}selected="true"{/if}>{App\Language::translate($ITEM)}</option>
+									{/foreach}
+								</select>
+							</div>
+						{elseif $COLUMN eq 'country'}
+							<label class="col-sm-2 control-label">
+								{App\Language::translate('LBL_COUNTRY', $QUALIFIED_MODULE)}
+							</label>
+							<div class="col-sm-10">
+								<select class="select2 form-control" name="country">
+									{foreach from=\App\Fields\Country::getAll() item=ITEM}
+										<option value="{$ITEM['name']}" {if $RECORD_MODEL->get('country') == $ITEM['name']}selected="true"{/if}>{\App\Language::translateSingleMod($ITEM['name'],'Other.Country')}</option>
 									{/foreach}
 								</select>
 							</div>
@@ -41,9 +52,7 @@
 								{App\Language::translate('LBL_'|cat:$COLUMN|upper, $QUALIFIED_MODULE)}
 							</label>
 							<div class="col-sm-10">
-								<input class="form-control" {if $COLUMN eq 'id'} readonly {/if}
-									   {if $COLUMN eq 'name' }data-validation-engine="validate[required]"{/if}
-									   name="{$COLUMN}" value="{$RECORD_MODEL->get($COLUMN)}" >
+								<input class="form-control" name="{$COLUMN}" {if $COLUMN eq 'id'} readonly {/if} {if $COLUMN eq 'name' }data-validation-engine="validate[required]"{/if} value="{\App\Purifier::encodeHtml($RECORD_MODEL->get($COLUMN))}" >
 							</div>
 						{else}
 							<div class="col-sm-3">

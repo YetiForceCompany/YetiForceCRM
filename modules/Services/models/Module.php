@@ -20,7 +20,7 @@ class Services_Module_Model extends Products_Module_Model
 	 */
 	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
 	{
-		$supportedModulesList = array('Leads', 'Accounts', 'HelpDesk');
+		$supportedModulesList = ['Leads', 'Accounts', 'HelpDesk'];
 		if (($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList') || in_array($sourceModule, $supportedModulesList) || Vtiger_Module_Model::getInstance($sourceModule)->isInventory()) {
 			$condition = ['and', ['vtiger_service.discontinued' => 1]];
 			if ($sourceModule == 'PriceBooks' && $field == 'priceBookRelatedList') {

@@ -4,7 +4,7 @@
  * Browsing History Action Class
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Michał Lorencik <m.lorencik@yetiforce.com>
  */
 class Vtiger_BrowsingHistory_Action extends Vtiger_Action_Controller
@@ -13,12 +13,12 @@ class Vtiger_BrowsingHistory_Action extends Vtiger_Action_Controller
 	/**
 	 * Checking permission
 	 * @param \App\Request $request
-	 * @throws \Exception\NoPermitted
+	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Request $request)
 	{
 		if (!AppConfig::performance('BROWSING_HISTORY_WORKING')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 

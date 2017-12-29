@@ -20,9 +20,9 @@ Class Events_Edit_View extends Calendar_Edit_View
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 
-		$jsFileNames = array(
+		$jsFileNames = [
 			'modules.Calendar.resources.Edit'
-		);
+		];
 
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

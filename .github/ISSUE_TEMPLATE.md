@@ -1,5 +1,4 @@
-
-<!--- Before you create a new issue, please check out our [manual] (https://yetiforce.com/en/github/issues/126-issues.html) --->
+<!--- Before you create a new issue, please check out our [manual] (https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/how-to-report-bugs) --->
 
 #### Issue
 <!--- Provide a more detailed introduction to the issue itself, and why you consider it to be a bug. Descriptions can be provided in English or Polish (remember to add [PL] for Polish in the title). -->

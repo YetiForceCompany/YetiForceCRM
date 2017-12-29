@@ -19,7 +19,7 @@ class PriceBooks_PopupAjax_View extends PriceBooks_Popup_View
 		$this->exposeMethod('getPageCount');
 	}
 
-	public function preProcess(\App\Request $request)
+	public function preProcess(\App\Request $request, $display = true)
 	{
 		return true;
 	}
@@ -31,7 +31,7 @@ class PriceBooks_PopupAjax_View extends PriceBooks_Popup_View
 
 	public function process(\App\Request $request)
 	{
-		$mode = $request->get('mode');
+		$mode = $request->getMode();
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);
 			return;

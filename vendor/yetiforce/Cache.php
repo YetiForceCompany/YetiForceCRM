@@ -5,7 +5,7 @@ namespace App;
  * Cache main class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Cache
@@ -17,6 +17,12 @@ class Cache
 	const LONG = 3600;
 	const MEDIUM = 300;
 	const SHORT = 60;
+
+	/**
+	 * Clean the opcache after the script finishes
+	 * @var bool
+	 */
+	public static $clearOpcache = false;
 
 	/**
 	 * Initialize cache class.
@@ -62,7 +68,10 @@ class Cache
 	 */
 	public static function save($nameSpace, $key, $value = null, $duration = self::MEDIUM)
 	{
-		return static::$pool->save("$nameSpace-$key", $value, $duration);
+		if (!static::$pool->save("$nameSpace-$key", $value, $duration)) {
+			Log::warning("Error writing to cache. Key: $nameSpace-$keym | Value: " . var_export($value, true));
+		}
+		return $value;
 	}
 
 	/**
@@ -137,5 +146,22 @@ class Cache
 	public static function staticClear()
 	{
 		static::$staticPool->clear();
+	}
+
+	/**
+	 * Clear the opcache after the script finishes
+	 * @return boolean
+	 */
+	public static function clearOpcache()
+	{
+		if (static::$clearOpcache) {
+			return false;
+		}
+		register_shutdown_function(function () {
+			if (function_exists('opcache_reset')) {
+				opcache_reset();
+			}
+		});
+		static::$clearOpcache = true;
 	}
 }

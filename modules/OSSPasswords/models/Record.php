@@ -4,7 +4,7 @@
  * OSSPasswords record model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSPasswords_Record_Model extends Vtiger_Record_Model
 {
@@ -22,22 +22,22 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
 		// check if passwords are encrypted
 		if (file_exists('modules/OSSPasswords/config.ini.php')) {
 			$config = parse_ini_file('modules/OSSPasswords/config.ini.php');
-			$sql = "SELECT AES_DECRYPT(`password`, '{$config['key']}') AS `password` 
-                FROM `vtiger_osspasswords` 
+			$sql = "SELECT AES_DECRYPT(`password`, '{$config['key']}') AS `password`
+                FROM `vtiger_osspasswords`
                 WHERE `osspasswordsid` = ? LIMIT 1;";
 		} else {
-			$sql = "SELECT `password` 
-                FROM `vtiger_osspasswords` 
+			$sql = "SELECT `password`
+                FROM `vtiger_osspasswords`
                 WHERE `osspasswordsid` = ? LIMIT 1;";
 		}
 
-		$params = array($recordId);
+		$params = [$recordId];
 		$result = $db->pquery($sql, $params, true);
 
-		if ($db->num_rows($result) == 1)
-			return $db->query_result($result, 0, 'password');
-		else if ($db->num_rows($result) == 0)
-			return $db->query_result($result, 0, '');
+		if ($db->numRows($result) == 1)
+			return $db->queryResult($result, 0, 'password');
+		else if ($db->numRows($result) == 0)
+			return $db->queryResult($result, 0, '');
 
 		return false;
 	}
@@ -48,7 +48,7 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
 	 * @return - true/false
 	 */
 
-	public function write_php_ini($array, $file)
+	public function writePhpIni($array, $file)
 	{
 		$res = [];
 		$res[] = ';<?php exit;';
@@ -95,7 +95,7 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
 		$passLength = strlen($password);
 
 		if ($passLength == 0) {
-			return array('error' => true, 'message' => \App\Language::translate('LBL_NULLPASS', 'OSSPasswords'));
+			return ['error' => true, 'message' => \App\Language::translate('LBL_NULLPASS', 'OSSPasswords')];
 		}
 
 		$config = $this->getConfiguration();
@@ -103,9 +103,9 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
 		$max = $config['pass_length_max'];
 
 		if ($passLength < $min)
-			return array('error' => true, 'message' => \App\Language::translate('LBL_PASS_TOOSHORT', 'OSSPasswords'));
+			return ['error' => true, 'message' => \App\Language::translate('LBL_PASS_TOOSHORT', 'OSSPasswords')];
 		else if ($passLength > $max)
-			return array('error' => true, 'message' => \App\Language::translate('LBL_PASS_TOOLONG', 'OSSPasswords'));
+			return ['error' => true, 'message' => \App\Language::translate('LBL_PASS_TOOLONG', 'OSSPasswords')];
 
 		$onlyStars = true;
 		for ($i = 0; $i < $passLength; $i++) {
@@ -116,8 +116,8 @@ class OSSPasswords_Record_Model extends Vtiger_Record_Model
 		}
 
 		if ($onlyStars)
-			return array('error' => true, 'message' => \App\Language::translate('LBL_ONLY_STARS', 'OSSPasswords'));
+			return ['error' => true, 'message' => \App\Language::translate('LBL_ONLY_STARS', 'OSSPasswords')];
 
-		return array('error' => false, 'message' => '');
+		return ['error' => false, 'message' => ''];
 	}
 }

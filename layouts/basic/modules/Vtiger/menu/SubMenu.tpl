@@ -1,5 +1,5 @@
 {strip}
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {if isset($MENU['childs']) && $MENU['childs']|@count neq 0}
 	{assign var=MENUS value=$MENU['childs']}
 	{if $DEVICE == 'Desktop'}
@@ -16,7 +16,7 @@
 			{else}
 				{assign var=HASCHILDS value='false'}
 			{/if}
-			{include file='menu/'|cat:$MENU.type|cat:'.tpl'|@vtemplate_path:$MODULE DEVICE=$DEVICE}
+			{include file=\App\Layout::getTemplatePath('menu/'|cat:$MENU.type|cat:'.tpl', $MODULE) DEVICE=$DEVICE}
 		{/foreach}
 	{if $DEVICE == 'Desktop'}
 		</ul>

@@ -4,7 +4,7 @@
  * Tree Category Modal Class
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
@@ -12,14 +12,12 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 
 	public function checkPermission(\App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPrivilegesModel->hasModulePermission($moduleName)) {
-			throw new \Exception\AppException(\App\Language::translate($moduleName) . ' ' . \App\Language::translate('LBL_NOT_ACCESSIBLE'));
+		$recordId = $request->getInteger('src_record');
+		if (!$recordId) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-
-		if (!Users_Privileges_Model::isPermitted($request->get('src_module'), 'DetailView', $request->get('src_record'))) {
-			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+		if (!\App\Privilege::isPermitted($request->getByType('src_module', 2), 'DetailView', $recordId)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
@@ -38,8 +36,8 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 		$this->preProcess($request);
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$srcRecord = $request->get('src_record');
-		$srcModule = $request->get('src_module');
+		$srcRecord = $request->getInteger('src_record');
+		$srcModule = $request->getByType('src_module', 2);
 
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$treeCategoryModel = Vtiger_TreeCategoryModal_Model::getInstance($moduleModel);

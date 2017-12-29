@@ -3,7 +3,7 @@
  * OSSTime control portuguese translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'PLL_HOLIDAY' => 'Feriado',
@@ -107,4 +107,8 @@ $jsLanguageStrings = [
 	'JS_HOURS_SHOULD_BE_SMALLER_THAN' => 'O tempo de trabalho não pode execeder 24 horas',
 	'JS_START_DATE' => 'Data Inicial',
 	'JS_END_DATE' => 'Data Final',
+	'JS_TOTAL_TIME' => 'Total time',
+ 	'JS_ASSIGNED_TO' => 'Assigned to',
+	'JS_TYPE' => 'Type',
+	'JS_NUMBER' => 'Number',
 ];

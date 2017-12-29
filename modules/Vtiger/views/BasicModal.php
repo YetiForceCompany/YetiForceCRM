@@ -4,20 +4,18 @@
  * Basic Modal Class
  * @package YetiForce.Modal
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 {
 
-	public function checkPermission(\App\Request $request)
-	{
-		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
-		}
-	}
+	/**
+	 * Additional classes for the modal window
+	 * @var string
+	 */
+	protected $modalClass = '';
 
 	public function getSize(\App\Request $request)
 	{
@@ -27,8 +25,8 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
-		$viewName = $request->get('view');
-		echo '<div class="modal fade modal' . $moduleName . '' . $viewName . '" id="modal' . $viewName . '"><div class="modal-dialog ' . $this->getSize($request) . '"><div class="modal-content">';
+		$viewName = $request->getByType('view', 1);
+		echo '<div class="modal fade modal' . $moduleName . '' . $viewName . ' ' . $this->modalClass . '" id="modal' . $viewName . '"><div class="modal-dialog ' . $this->getSize($request) . '"><div class="modal-content">';
 		foreach ($this->getModalCss($request) as $style) {
 			echo '<link rel="stylesheet" href="' . $style->getHref() . '">';
 		}
@@ -52,12 +50,12 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 	public function getModalScripts(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$viewName = $request->get('view');
+		$viewName = $request->getByType('view', 1);
 
-		$scripts = array(
+		$scripts = [
 			"modules.Vtiger.resources.$viewName",
 			"modules.$moduleName.resources.$viewName"
-		);
+		];
 
 		$scriptInstances = $this->checkAndConvertJsScripts($scripts);
 		return $scriptInstances;
@@ -66,7 +64,7 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 	public function getModalCss(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$viewName = $request->get('view');
+		$viewName = $request->getByType('view', 1);
 		$cssFileNames = [
 			"modules.$moduleName.$viewName",
 			"modules.Vtiger.$viewName",

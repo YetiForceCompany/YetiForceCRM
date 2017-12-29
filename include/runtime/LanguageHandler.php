@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * ********************************************************************************** */
 
 /**
@@ -28,7 +29,7 @@ class Vtiger_Language_Handler
 		if (!$currentLanguage) {
 			$currentLanguage = \App\Language::getLanguage();
 		}
-		//decoding for Start Date & Time and End Date & Time 
+		//decoding for Start Date & Time and End Date & Time
 		if (!is_array($key)) {
 			$key = App\Purifier::decodeHtml($key);
 		}
@@ -41,10 +42,9 @@ class Vtiger_Language_Handler
 				$translatedString = self::getLanguageTranslatedString($defaultLanguage, $key, $module);
 			}
 		}
-
 		// If translation is not found then return label
 		if ($translatedString === null) {
-			$translatedString = $key;
+			$translatedString = \App\Purifier::encodeHtml($key);
 		}
 		return $translatedString;
 	}
@@ -176,7 +176,7 @@ class Vtiger_Language_Handler
 	{
 		$userSelectedLanguage = \App\Language::getLanguage();
 		$defaultLanguage = vglobal('default_language');
-		$languages = array($userSelectedLanguage);
+		$languages = [$userSelectedLanguage];
 		//To merge base language and user selected language translations
 		if ($userSelectedLanguage != $defaultLanguage) {
 			array_push($languages, $defaultLanguage);
@@ -213,15 +213,6 @@ class Vtiger_Language_Handler
 
 		return $resultantLanguageString;
 		;
-	}
-
-	/**
-	 * Function to returns all language information
-	 * @return <Array>
-	 */
-	public static function getAllLanguages()
-	{
-		return vtlib\Language::getAll();
 	}
 
 	public static function getTranslateSingularModuleName($moduleName)

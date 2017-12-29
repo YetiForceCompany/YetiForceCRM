@@ -43,7 +43,7 @@ class Portal_ListView_Model extends Vtiger_ListView_Model
 			$listViewEntries[$row['portalid']] = [];
 			$listViewEntries[$row['portalid']]['portalname'] = $row['portalname'];
 			$listViewEntries[$row['portalid']]['portalurl'] = $row['portalurl'];
-			$listViewEntries[$row['portalid']]['createdtime'] = Vtiger_Date_UIType::getDisplayDateValue($row['createdtime']);
+			$listViewEntries[$row['portalid']]['createdtime'] = App\Fields\Date::formatToDisplay($row['createdtime']);
 		}
 		$index = 0;
 		foreach ($listViewEntries as $recordId => $record) {
@@ -85,14 +85,14 @@ class Portal_ListView_Model extends Vtiger_ListView_Model
 		else
 			$nextPageExists = false;
 
-		$result = array(
+		$result = [
 			'startSequence' => $startSequence,
 			'endSequence' => $endSequence,
 			'recordCount' => $recordCount,
 			'pageCount' => $pageCount,
 			'nextPageExists' => $nextPageExists,
 			'pageLimit' => $pageLimit
-		);
+		];
 
 		return $result;
 	}

@@ -12,11 +12,16 @@
 class Reports_CheckDuplicate_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -24,22 +29,21 @@ class Reports_CheckDuplicate_Action extends Vtiger_Action_Controller
 	{
 		$moduleName = $request->getModule();
 		$reportName = $request->get('reportname');
-		$record = $request->get('record');
 
-		if ($record) {
+
+		if (!$request->isEmpty('record', true)) {
+			$record = $request->getInteger('record');
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
+			$recordModel->set('reportid', $record);
 		} else {
 			$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		}
-
 		$recordModel->set('reportname', $reportName);
-		$recordModel->set('reportid', $record);
-		$recordModel->set('isDuplicate', $request->get('isDuplicate'));
-
+		$recordModel->set('isDuplicate', $request->getBoolean('isDuplicate'));
 		if (!$recordModel->checkDuplicate()) {
-			$result = array('success' => false);
+			$result = ['success' => false];
 		} else {
-			$result = array('success' => true, 'message' => \App\Language::translate('LBL_DUPLICATES_EXIST', $moduleName));
+			$result = ['success' => true, 'message' => \App\Language::translate('LBL_DUPLICATES_EXIST', $moduleName)];
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);

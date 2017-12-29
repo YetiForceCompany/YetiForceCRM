@@ -6,16 +6,22 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * ********************************************************************************** */
 
 class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 {
 
+	/**
+	 * Function to check whether the current field is editable
+	 * @return boolean
+	 */
 	public function isEditable()
 	{
-		$nonEditablePickListValues = array('duration_minutes', 'payment_duration', 'recurring_frequency', 'visibility');
-		if (in_array($this->getName(), $nonEditablePickListValues))
+		$nonEditablePickListValues = ['duration_minutes', 'payment_duration', 'recurring_frequency', 'visibility'];
+		if ((!in_array($this->get('displaytype'), [1, 10]) && $this->getName() !== 'salutationtype') || !in_array($this->get('presence'), [0, 2]) || in_array($this->getName(), $nonEditablePickListValues) || ($this->getFieldDataType() !== 'picklist' && $this->getFieldDataType() !== 'multipicklist') || $this->getModuleName() === 'Users') {
 			return false;
+		}
 		return true;
 	}
 
@@ -35,33 +41,29 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		if ($groupMode == 'INTERSECTION') {
 			$intersectionMode = true;
 		}
-
-		$db = PearDatabase::getInstance();
 		$fieldName = $this->getName();
 		$tableName = 'vtiger_' . $fieldName;
-		$query = 'SELECT %s';
+		$query = (new App\Db\Query())->select([$fieldName]);
 		if ($intersectionMode) {
-			$query .= ',count(roleid) as rolecount ';
+			$query->addSelect(['rolecount' => new yii\db\Expression('COUNT(roleid)')]);
 		}
-		$query .= ' FROM  vtiger_role2picklist INNER JOIN %s ON vtiger_role2picklist.picklistvalueid = %s.picklist_valueid' .
-			' WHERE roleid IN (%s) order by sortid';
-		$query = sprintf($query, $fieldName, $tableName, $tableName, generateQuestionMarks($roleIdList));
+		$query->from('vtiger_role2picklist')
+			->innerJoin($tableName, "vtiger_role2picklist.picklistvalueid = {$tableName}.picklist_valueid")
+			->where(['roleid' => $roleIdList])->orderBy(['sortid' => SORT_ASC]);
 		if ($intersectionMode) {
-			$query .= ' GROUP BY picklistvalueid';
+			$query->groupBy(['picklistvalueid']);
 		}
-		$result = $db->pquery($query, $roleIdList);
+		$dataReader = $query->createCommand()->query();
 		$pickListValues = [];
-		$num_rows = $db->num_rows($result);
-		for ($i = 0; $i < $num_rows; $i++) {
-			$rowData = $db->query_result_rowdata($result, $i);
+		while ($row = $dataReader->read()) {
 			if ($intersectionMode) {
 				//not equal if specify that the picklistvalue is not present for all the roles
-				if ($rowData['rolecount'] != count($roleIdList)) {
+				if ($row['rolecount'] != count($roleIdList)) {
 					continue;
 				}
 			}
 			//Need to decode the picklist values twice which are saved from old ui
-			$pickListValues[] = decode_html(decode_html($rowData[$fieldName]));
+			$pickListValues[] = \App\Purifier::decodeHtml(\App\Purifier::decodeHtml($row[$fieldName]));
 		}
 		return $pickListValues;
 	}

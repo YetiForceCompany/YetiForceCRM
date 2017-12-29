@@ -11,12 +11,17 @@
 class Documents_MoveDocuments_View extends Vtiger_Index_View
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 
-		if (!Users_Privileges_Model::isPermitted($moduleName, 'EditView')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		if (!\App\Privilege::isPermitted($moduleName, 'EditView')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -30,11 +35,11 @@ class Documents_MoveDocuments_View extends Vtiger_Index_View
 		$viewer->assign('FOLDERS', $moduleModel->getAllFolders());
 		$viewer->assign('SELECTED_IDS', $request->get('selected_ids'));
 		$viewer->assign('EXCLUDED_IDS', $request->get('excluded_ids'));
-		$viewer->assign('VIEWNAME', $request->get('viewname'));
+		$viewer->assign('VIEWNAME', $request->getByType('viewname', 2));
 
-		$searchKey = $request->get('search_key');
+		$searchKey = $request->getByType('search_key', 2);
 		$searchValue = $request->get('search_value');
-		$operator = $request->get('operator');
+		$operator = $request->getByType('operator', 1);
 		if (!empty($operator)) {
 			$viewer->assign('OPERATOR', $operator);
 			$viewer->assign('ALPHABET_VALUE', $searchValue);

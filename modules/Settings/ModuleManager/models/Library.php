@@ -4,7 +4,7 @@
  * Module Manager Library class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_ModuleManager_Library_Model
@@ -77,7 +77,6 @@ class Settings_ModuleManager_Library_Model
 
 	/**
 	 * Download all missing libraries
-	 * @throws \Exception\NoPermitted
 	 */
 	public static function downloadAll()
 	{
@@ -96,7 +95,7 @@ class Settings_ModuleManager_Library_Model
 	{
 		if (!static::$libraries[$name]) {
 			App\Log::warning('Library does not exist: ' . $name);
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 
 		$lib = static::$libraries[$name];
@@ -138,7 +137,6 @@ class Settings_ModuleManager_Library_Model
 	/**
 	 * Function to update library
 	 * @param string $name
-	 * @throws \Exception\NoPermitted
 	 */
 	public static function update($name)
 	{

@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 jQuery.Class("OpenStreetMap_Map_Js", {}, {
 	container: false,
 	mapInstance: false,
@@ -318,11 +318,12 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			minLength: '3',
 			source: function (request, response) {
 				AppConnector.request({
-					module: app.getModuleName(),
+					module: searchModule.val(),
+					curentModule: app.getModuleName(),
+					searchModule: searchModule.val(),
 					view: 'BasicAjax',
 					mode: 'showSearchResults',
 					value: searchValue.val(),
-					searchModule: searchModule.val(),
 					html: false,
 				}).then(function (responseAjax) {
 					responseAjax = JSON.parse(responseAjax);
@@ -461,9 +462,12 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 				action: 'GetMarkers',
 				srcModule: app.getModuleName(),
 				searchValue: container.find('.searchValue').val(),
-				radius: container.find('.radius').val(),
 				cache: thisInstance.getCacheParamsToRequest(),
 			};
+			var radiusValue = container.find('.radius').val();
+			if(radiusValue !== '' && parseInt(radiusValue)) {
+				params['radius'] = radiusValue;
+			}
 			$.extend(params, thisInstance.selectedParams);
 			AppConnector.request(params).then(function (response) {
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
@@ -684,11 +688,12 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 			startCoordinate = coordinates[0];
 			startZoom = 6;
 		}
-		var postionTop = $('#mapid').position();
-		var positionBottom = $('.footerContainer ').position();
-		$('#mapid').css({
-			height: positionBottom.top - postionTop.top - 281
-		});
+		if($('.mainBody').length){
+			$('#mapid').height($('.mainBody').height() - ($('.detailViewTitle').height() + $('.detailViewContainer .related').height()+ 25));
+		}else{
+			$('#mapid').height($('.bodyContents').height() - ($('.detailViewTitle').height() + $('.detailViewContainer .related').height()+ 25));
+		}
+		
 		var myMap = this.registerMap(startCoordinate, startZoom);
 		var markers = L.markerClusterGroup({
 			maxClusterRadius: 10

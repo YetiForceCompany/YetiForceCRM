@@ -872,7 +872,7 @@ jQuery.Class("Vtiger_Popup_Js", {
 				if (searchValue == null) {
 					searchValue = "";
 				} else {
-					searchValue = searchValue.join(',');
+					searchValue = searchValue.join('##');
 				}
 			}
 			searchValue = searchValue.trim();

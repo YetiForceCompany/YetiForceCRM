@@ -1,9 +1,9 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <div class="" id="widgetsManagementEditorContainer">
 	<div class="widget_header row">
 		<div class="col-md-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			{\App\Language::translate('LBL_PUBLIC_HOLIDAY_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 	</div>
@@ -48,9 +48,9 @@
 						</thead>
 						<tbody>
 						{foreach item=HOLIDAY from=$HOLIDAYS}
-							<tr class="holidayElement" data-holiday-id="{$HOLIDAY['id']}" data-holiday-type="{$HOLIDAY['type']}" data-holiday-name="{$HOLIDAY['name']}" data-holiday-date="{\App\Fields\DateTime::currentUserDisplayDate($HOLIDAY['date'])}">
+							<tr class="holidayElement" data-holiday-id="{$HOLIDAY['id']}" data-holiday-type="{$HOLIDAY['type']}" data-holiday-name="{$HOLIDAY['name']}" data-holiday-date="{\App\Fields\Date::formatToDisplay($HOLIDAY['date'])}">
 								<td>
-									<span class="fieldLabel marginLeft20">{\App\Fields\DateTime::currentUserDisplayDate($HOLIDAY['date'])}</span>
+									<span class="fieldLabel marginLeft20">{\App\Fields\Date::formatToDisplay($HOLIDAY['date'])}</span>
 								</td>
 								<td>
 									<span class="fieldLabel marginLeft20">{\App\Language::translate($HOLIDAY['day'], $QUALIFIED_MODULE)}</span>
@@ -94,7 +94,7 @@
 										<span class="redColor">*</span>
 									</div>
 									<div class="col-sm-6 controls">
-										<input type="text" name="holidayDate" class="dateField form-control" data-date-format="{$CURRENTUSER->column_fields['date_format']}" value="{\App\Fields\DateTime::currentUserDisplayDate(date('Y-m-d'))}" required >
+										<input type="text" name="holidayDate" class="dateField form-control" data-date-format="{$CURRENTUSER->column_fields['date_format']}" value="{\App\Fields\Date::formatToDisplay(date('Y-m-d'))}" required >
 
 									</div>
 								</div>
@@ -120,7 +120,7 @@
 									</div>
 								</div>
 							</div>
-							{include file='ModalFooter.tpl'|@vtemplate_path:'Vtiger'}
+							{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', 'Vtiger')}
 						</form>
 					</div>
 				</div>

@@ -19,8 +19,8 @@
 		<input type="hidden" name="folderid" value="{$REPORT_MODEL->get('folderid')}" />
 		<input type="hidden" name="description" value="{$REPORT_MODEL->get('description')}" />
 		<input type="hidden" name="primary_module" value="{$PRIMARY_MODULE}" />
-		<input type="hidden" name="secondary_modules" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($SECONDARY_MODULES))}" />
-		<input type="hidden" name="selected_fields" id="seleted_fields" value='{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($SELECTED_FIELDS))}' />
+		<input type="hidden" name="secondary_modules" value="{\App\Purifier::encodeHtml(\App\Json::encode($SECONDARY_MODULES))}" />
+		<input type="hidden" name="selected_fields" id="seleted_fields" value='{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_FIELDS))}' />
 		<input type="hidden" name="selected_sort_fields" id="selected_sort_fields" value="" />
 		<input type="hidden" name="calculation_fields" id="calculation_fields" value="" />
 		<input type="hidden" id="maxReportColumn" value="{AppConfig::module('Reports','MAX_REPORT_COLUMN')}" />
@@ -29,10 +29,10 @@
 		<input type="hidden" name="enable_schedule" value="{$REPORT_MODEL->get('enable_schedule')}">
 		<input type="hidden" name="schtime" value="{$REPORT_MODEL->get('schtime')}">
 		<input type="hidden" name="schdate" value="{$REPORT_MODEL->get('schdate')}">
-		<input type="hidden" name="schdayoftheweek" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($REPORT_MODEL->get('schdayoftheweek')))}">
-		<input type="hidden" name="schdayofthemonth" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($REPORT_MODEL->get('schdayofthemonth')))}">
-		<input type="hidden" name="schannualdates" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($REPORT_MODEL->get('schannualdates')))}">
-		<input type="hidden" name="recipients" value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($REPORT_MODEL->get('recipients')))}">
+		<input type="hidden" name="schdayoftheweek" value="{\App\Purifier::encodeHtml(\App\Json::encode($REPORT_MODEL->get('schdayoftheweek')))}">
+		<input type="hidden" name="schdayofthemonth" value="{\App\Purifier::encodeHtml(\App\Json::encode($REPORT_MODEL->get('schdayofthemonth')))}">
+		<input type="hidden" name="schannualdates" value="{\App\Purifier::encodeHtml(\App\Json::encode($REPORT_MODEL->get('schannualdates')))}">
+		<input type="hidden" name="recipients" value="{\App\Purifier::encodeHtml(\App\Json::encode($REPORT_MODEL->get('recipients')))}">
         <input type="hidden" name="specificemails" value="{$REPORT_MODEL->get('specificemails')}">
 		<input type="hidden" name="schtypeid" value="{$REPORT_MODEL->get('schtypeid')}">
 		<input type="hidden" name="scheduleFileType" value="{$REPORT_MODEL->get('scheduleFileType')}">
@@ -46,7 +46,7 @@
 							{foreach key=BLOCK_LABEL item=BLOCK from=$PRIMARY_MODULE}
 								<optgroup label='{\App\Language::translate($PRIMARY_MODULE_NAME,$MODULE)}-{\App\Language::translate($BLOCK_LABEL,$PRIMARY_MODULE_NAME)}'>
 								{foreach key=FIELD_KEY item=FIELD_LABEL from=$BLOCK}
-									<option value="{$FIELD_KEY}" {if !empty($SELECTED_FIELDS) && in_array($FIELD_KEY,array_map('decode_html',$SELECTED_FIELDS))}selected=""{/if}>{\App\Language::translate($PRIMARY_MODULE_NAME, $PRIMARY_MODULE_NAME)} {\App\Language::translate($FIELD_LABEL, $PRIMARY_MODULE_NAME)}</option>
+									<option value="{$FIELD_KEY}" {if !empty($SELECTED_FIELDS) && in_array($FIELD_KEY,array_map('App\Purifier::decodeHtml',$SELECTED_FIELDS))}selected=""{/if}>{\App\Language::translate($PRIMARY_MODULE_NAME, $PRIMARY_MODULE_NAME)} {\App\Language::translate($FIELD_LABEL, $PRIMARY_MODULE_NAME)}</option>
 								{/foreach}
 								</optgroup>
 							{/foreach}
@@ -55,7 +55,7 @@
 							{foreach key=BLOCK_LABEL item=BLOCK from=$SECONDARY_MODULE}
 								<optgroup label='{\App\Language::translate($SECONDARY_MODULE_NAME,$MODULE)}-{\App\Language::translate($BLOCK_LABEL,$SECONDARY_MODULE_NAME)}'>
 								{foreach key=FIELD_KEY item=FIELD_LABEL from=$BLOCK}
-									<option value="{$FIELD_KEY}"{if !empty($SELECTED_FIELDS) && in_array($FIELD_KEY,array_map('decode_html',$SELECTED_FIELDS))}selected=""{/if}>{\App\Language::translate($SECONDARY_MODULE_NAME, $SECONDARY_MODULE_NAME)} {\App\Language::translate($FIELD_LABEL, $SECONDARY_MODULE_NAME)}</option>
+									<option value="{$FIELD_KEY}"{if !empty($SELECTED_FIELDS) && in_array($FIELD_KEY,array_map('App\Purifier::decodeHtml',$SELECTED_FIELDS))}selected=""{/if}>{\App\Language::translate($SECONDARY_MODULE_NAME, $SECONDARY_MODULE_NAME)} {\App\Language::translate($FIELD_LABEL, $SECONDARY_MODULE_NAME)}</option>
 								{/foreach}
 								</optgroup>
 							{/foreach}
@@ -75,7 +75,7 @@
 				{assign var=ROW_VAL value=1}
 				{foreach key=SELECTED_SORT_FIELD_KEY item=SELECTED_SORT_FIELD_VALUE from=$SELECTED_SORT_FIELDS}
 					<div class="paddingTop20 col-xs-12 marginBottom10px paddingLRZero sortFieldRow">
-						{include file='RelatedFields.tpl'|@vtemplate_path:$MODULE ROW_VAL=$ROW_VAL}
+						{include file=\App\Layout::getTemplatePath('RelatedFields.tpl', $MODULE) ROW_VAL=$ROW_VAL}
 						{assign var=ROW_VAL value=($ROW_VAL+1)}
 					</div>
 				{/foreach}
@@ -83,7 +83,7 @@
 				{assign var=SELECTED_SORT_FIELDS_COUNT value=count($SELECTED_SORT_FEILDS_ARRAY)}
 				{while $SELECTED_SORT_FIELDS_COUNT lt 3 }
 					<div class="col-xs-12 marginBottom10px paddingLRZero sortFieldRow">
-						{include file='RelatedFields.tpl'|@vtemplate_path:$MODULE ROW_VAL=$ROW_VAL}
+						{include file=\App\Layout::getTemplatePath('RelatedFields.tpl', $MODULE) ROW_VAL=$ROW_VAL}
 						{assign var=ROW_VAL value=($ROW_VAL+1)}
 						{assign var=SELECTED_SORT_FIELDS_COUNT value=($SELECTED_SORT_FIELDS_COUNT+1)}
 					</div>

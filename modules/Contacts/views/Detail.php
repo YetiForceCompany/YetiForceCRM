@@ -6,21 +6,34 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Contacts_Detail_View extends Vtiger_Detail_View
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function showModuleDetailView(\App\Request $request)
 	{
-		$recordId = $request->get('record');
-		$moduleName = $request->getModule();
-
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-
+		if (!$this->record) {
+			$this->record = Vtiger_DetailView_Model::getInstance($request->getModule(), $request->getInteger('record'));
+		}
 		$viewer = $this->getViewer($request);
-		$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
+		$viewer->assign('IMAGE_DETAILS', $this->record->getRecord()->getImageDetails());
 
 		return parent::showModuleDetailView($request);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getHeaderCss(\App\Request $request)
+	{
+		$cssFileNames = [
+			'~libraries/jquery/flot/jquery.flot.valuelabels.css',
+		];
+		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($cssFileNames));
 	}
 }

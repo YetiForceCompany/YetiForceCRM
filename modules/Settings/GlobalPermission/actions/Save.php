@@ -4,7 +4,7 @@
  * Settings GlobalPermission save action class
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_GlobalPermission_Save_Action extends Settings_Vtiger_Save_Action
 {
@@ -13,14 +13,6 @@ class Settings_GlobalPermission_Save_Action extends Settings_Vtiger_Save_Action
 	{
 		Settings_Vtiger_Tracker_Model::setRecordId(\App\Request::_get('profileID'));
 		parent::__construct();
-	}
-
-	public function checkPermission(\App\Request $request)
-	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		if (!$currentUser->isAdminUser()) {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
-		}
 	}
 
 	public function process(\App\Request $request)
@@ -44,7 +36,7 @@ class Settings_GlobalPermission_Save_Action extends Settings_Vtiger_Save_Action
 		Settings_GlobalPermission_Record_Model::save($profileID, $globalactionid, $checked);
 		Settings_Vtiger_Tracker_Model::addDetail($prev, $post);
 		$response = new Vtiger_Response();
-		$response->setResult(array('success' => true, 'message' => \App\Language::translate('LBL_SAVE_OK', $request->getModule(false))));
+		$response->setResult(['success' => true, 'message' => \App\Language::translate('LBL_SAVE_OK', $request->getModule(false))]);
 		$response->emit();
 	}
 }

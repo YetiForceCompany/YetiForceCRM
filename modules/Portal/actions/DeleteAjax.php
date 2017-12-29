@@ -8,23 +8,26 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Portal_DeleteAjax_Action extends Vtiger_DeleteAjax_Action
+class Portal_DeleteAjax_Action extends Vtiger_Action_Controller
 {
 
 	public function checkPermission(\App\Request $request)
 	{
-		return true;
+		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
 	}
 
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$module = $request->getModule();
 		$moduleModel = new Portal_Module_Model();
 		$moduleModel->deleteRecord($recordId);
 
 		$response = new Vtiger_Response();
-		$response->setResult(array('message' => \App\Language::translate('LBL_RECORD_DELETED_SUCCESSFULLY', $module)));
+		$response->setResult(['message' => \App\Language::translate('LBL_RECORD_DELETED_SUCCESSFULLY', $module)]);
 		$response->emit();
 	}
 }

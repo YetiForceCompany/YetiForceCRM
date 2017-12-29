@@ -6,14 +6,38 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-
-Vtiger_List_Js("Settings_Vtiger_List_Js",{
-	triggerDelete : function(event,url){
+Vtiger_List_Js("Settings_Vtiger_List_Js", {
+	triggerDelete: function (event, url) {
 		event.stopPropagation();
 		var instance = Vtiger_List_Js.getInstance();
 		instance.DeleteRecord(url);
-	}
-},{
+	},
+	deleteById: function (id) {
+		var aDeferred = jQuery.Deferred();
+		var instance = Vtiger_List_Js.getInstance();
+		var params = $.extend(instance.getDeleteParams(), {
+			record: id,
+		});
+		AppConnector.request(params).then(function (data) {
+			if (data.success) {
+				$('#recordsCount').val('');
+				$('#totalPageCount').text('');
+				instance.getListViewRecords().then(function () {
+					instance.updatePagination();
+				});
+			}
+			aDeferred.resolve(data);
+		});
+		return aDeferred.promise();
+	},
+}, {
+	getDeleteParams: function () {
+		return {
+			module: app.getModuleName(),
+			parent: app.getParentModuleName(),
+			action: "DeleteAjax"
+		};
+	},
 	/*
 	 * Function to register the list view container
 	 */
@@ -23,77 +47,77 @@ Vtiger_List_Js("Settings_Vtiger_List_Js",{
 		}
 		return this.listViewContainer;
 	},
-	
+
 	/*
 	 * Function to register the list view delete record click event
 	 */
-	DeleteRecord: function(url){
+	DeleteRecord: function (url) {
 		var thisInstance = this;
-		var css = jQuery.extend({'text-align' : 'left'},css);
-			
-		AppConnector.request(url).then(
-			function(data) {
-				if(data) {
-					app.showModalWindow(data,function(container){
-						thisInstance.postDeleteAction(container);
-					});
-				}
-			},
-			function(error,err){
+		var css = jQuery.extend({'text-align': 'left'}, css);
 
-			}
+		AppConnector.request(url).then(
+				function (data) {
+					if (data) {
+						app.showModalWindow(data, function (container) {
+							thisInstance.postDeleteAction(container);
+						});
+					}
+				},
+				function (error, err) {
+
+				}
 		);
 	},
-	
+
 	/**
 	 * Function to load list view after deletion of record from list view
 	 */
-	postDeleteAction : function(container){
+	postDeleteAction: function (container) {
 		var thisInstance = this;
 		var deleteConfirmForm = jQuery(container).find('#DeleteModal');
-		deleteConfirmForm.on('submit', function(e){
+		deleteConfirmForm.on('submit', function (e) {
 			e.preventDefault();
 			var deleteActionUrl = deleteConfirmForm.serializeFormData();
 			AppConnector.request(deleteActionUrl).then(
-				function() {
-					app.hideModalWindow();
-					var params = {
-						text: app.vtranslate('JS_RECORD_DELETED_SUCCESSFULLY')
-					};
-					Settings_Vtiger_Index_Js.showMessage(params);
-					jQuery('#recordsCount').val('');
-					jQuery('#totalPageCount').text('');
-					thisInstance.getListViewRecords().then(function(){
-						thisInstance.updatePagination();
-					});
-				},
-				function(error,err){
-					app.hideModalWindow();
-				}
+					function () {
+						app.hideModalWindow();
+						var params = {
+							text: app.vtranslate('JS_RECORD_DELETED_SUCCESSFULLY')
+						};
+						Settings_Vtiger_Index_Js.showMessage(params);
+						jQuery('#recordsCount').val('');
+						jQuery('#totalPageCount').text('');
+						thisInstance.getListViewRecords().then(function () {
+							thisInstance.updatePagination();
+						});
+					},
+					function (error, err) {
+						app.hideModalWindow();
+					}
 			);
 		})
 	},
-	
+
 	/**
 	 * Function to get Page Jump Params
 	 */
-	getPageJumpParams : function(){
+	getPageJumpParams: function () {
 		var module = app.getModuleName();
 		var cvId = this.getCurrentCvId();
 		var pageCountParams = {
-			'module' : module,
-			'parent' : "Settings",
-			'action' : "ListAjax",
-			'mode' : "getPageCount",
+			'module': module,
+			'parent': "Settings",
+			'action': "ListAjax",
+			'mode': "getPageCount",
 			"viewname": cvId
 		}
 		var sourceModule = jQuery('#moduleFilter').val();
-		if(typeof sourceModule != 'undefined'){
+		if (typeof sourceModule != 'undefined') {
 			pageCountParams['sourceModule'] = sourceModule;
 		}
 		return pageCountParams;
 	},
-	registerEvents : function() {
+	registerEvents: function () {
 		//this.triggerDisplayTypeEvent();
 		this.registerRowClickEvent();
 		this.registerCheckBoxClickEvent();

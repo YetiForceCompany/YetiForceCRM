@@ -4,7 +4,7 @@
  * Settings ModTracker save action class
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_ModTracker_Save_Action extends Settings_Vtiger_Index_Action
 {
@@ -24,9 +24,9 @@ class Settings_ModTracker_Save_Action extends Settings_Vtiger_Index_Action
 
 		$response = new Vtiger_Response();
 		if ($status == 'true') {
-			$response->setResult(array('success' => true, 'message' => \App\Language::translate('LBL_TRACK_CHANGES_ENABLED', $request->getModule(false))));
+			$response->setResult(['success' => true, 'message' => \App\Language::translate('LBL_TRACK_CHANGES_ENABLED', $request->getModule(false))]);
 		} else {
-			$response->setResult(array('success' => true, 'message' => \App\Language::translate('LBL_TRACK_CHANGES_DISABLE', $request->getModule(false))));
+			$response->setResult(['success' => true, 'message' => \App\Language::translate('LBL_TRACK_CHANGES_DISABLE', $request->getModule(false))]);
 		}
 		$response->emit();
 	}

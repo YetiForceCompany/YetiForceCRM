@@ -4,7 +4,7 @@
  * List View Model Class for Mail Settings
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
 class Settings_Mail_ListView_Model extends Settings_Vtiger_ListView_Model
@@ -28,29 +28,29 @@ class Settings_Mail_ListView_Model extends Settings_Vtiger_ListView_Model
 		$query = (new \App\Db\Query())->select($listFields)
 			->from($module->baseTable);
 		$searchParams = $this->get('searchParams');
+		$fieldsToFilter = $module->getFilterFields();
 		if (!empty($searchParams)) {
 			foreach ($searchParams as $key => $value) {
-				if ('' !== $value['value']) {
+				if ('' !== $value['value'] && in_array($key, $fieldsToFilter)) {
 					$query->andWhere([$key => $value['value']]);
 				}
 			}
 		}
-
 		$startIndex = $pagingModel->getStartIndex();
 		$pageLimit = $pagingModel->getPageLimit();
 		$orderBy = $this->getForSql('orderby');
-		if (!empty($orderBy)) {
-			$query->orderBy(sprintf('%s %s ', $orderBy, $this->getForSql('sortorder')));
+		if (!empty($orderBy) && in_array($orderBy, $listFields)) {
+			if ($this->getForSql('sortorder') === 'DESC') {
+				$query->orderBy([$orderBy => SORT_DESC]);
+			} else {
+				$query->orderBy([$orderBy => SORT_ASC]);
+			}
 		}
 		$query->limit($pageLimit + 1)->offset($startIndex);
 		$dataReader = $query->createCommand()->query();
 		$listViewRecordModels = [];
 		while ($row = $dataReader->read()) {
 			$recordModel = new $recordModelClass();
-			$moduleName = \App\Module::getModuleName($row['tabid']);
-			$relModuleName = \App\Module::getModuleName($row['reltabid']);
-			$row['tabid'] = \App\Language::translate($moduleName, $moduleName);
-			$row['reltabid'] = \App\Language::translate($relModuleName, $relModuleName);
 			$recordModel->setData($row);
 			$listViewRecordModels[$recordModel->getId()] = $recordModel;
 		}

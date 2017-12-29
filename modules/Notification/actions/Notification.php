@@ -4,30 +4,35 @@
  * Notification Action Class
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.c
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Notification_Notification_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * Function to check permission
+	 * @param \App\Request $request
+	 * @throws \App\Exceptions\NoPermitted
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$id = $request->get('id');
-		if (!empty($id)) {
+		if ($id) {
 			$notice = Notification_NoticeEntries_Model::getInstanceById($id);
 			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 			if ($userPrivilegesModel->getId() != $notice->getUserId()) {
-				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
 		}
 		$mode = $request->getMode();
-		if ($mode == 'createMessage' && !Users_Privileges_Model::isPermitted('Notification', 'CreateView')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
-		} elseif ($mode == 'createMail' && (!Users_Privileges_Model::isPermitted('Notification', 'NotificationCreateMail') || !AppConfig::main('isActiveSendingMails') || !Users_Privileges_Model::isPermitted('OSSMail'))) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
-		} elseif (in_array($mode, ['setMark', 'saveWatchingModules']) && !Users_Privileges_Model::isPermitted('Notification', 'DetailView')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		if ($mode === 'createMessage' && !\App\Privilege::isPermitted('Notification', 'CreateView')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		} elseif ($mode === 'createMail' && (!\App\Privilege::isPermitted('Notification', 'NotificationCreateMail') || !AppConfig::main('isActiveSendingMails') || !\App\Privilege::isPermitted('OSSMail'))) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		} elseif (in_array($mode, ['setMark', 'saveWatchingModules']) && !\App\Privilege::isPermitted('Notification', 'DetailView')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
@@ -49,7 +54,7 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 			$this->invokeExposedMethod($mode, $request);
 			return;
 		}
-		throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 	}
 
 	public function setMark(\App\Request $request)
@@ -59,7 +64,7 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 			$ids = [$ids];
 		}
 		foreach ($ids as $id) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($id);
+			$recordModel = Vtiger_Record_Model::getInstanceById($id, $request->getModule());
 			$recordModel->setMarked();
 		}
 
@@ -75,7 +80,7 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 		Vtiger_Watchdog_Model::setSchedulerByUser($request->get('sendNotifications'), $request->get('frequency'));
 		if (!empty($selectedModules)) {
 			foreach ($selectedModules as $moduleId) {
-				$watchdogModel = Vtiger_Watchdog_Model::getInstance($moduleId);
+				$watchdogModel = Vtiger_Watchdog_Model::getInstance((int) $moduleId);
 				$watchdogModel->changeModuleState(1);
 			}
 		} else {
@@ -93,7 +98,7 @@ class Notification_Notification_Action extends Vtiger_Action_Controller
 	public function createMail(\App\Request $request)
 	{
 		$accessibleUsers = \App\Fields\Owner::getInstance()->getAccessibleUsers();
-		$content = $request->get('message');
+		$content = $request->getForHtml('message');
 		$subject = $request->get('title');
 		$users = $request->get('users');
 		if (!is_array($users)) {

@@ -11,6 +11,9 @@
 class Project_Detail_View extends Vtiger_Detail_View
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -21,7 +24,7 @@ class Project_Detail_View extends Vtiger_Detail_View
 
 	public function showCharts(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 
 		$viewer = $this->getViewer($request);
@@ -36,7 +39,7 @@ class Project_Detail_View extends Vtiger_Detail_View
 
 	public function showGantt(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 
 		$viewer = $this->getViewer($request);
@@ -48,33 +51,14 @@ class Project_Detail_View extends Vtiger_Detail_View
 	}
 
 	/**
-	 * Function to get the list of Css models to be included
-	 * @param \App\Request $request
-	 * @return Vtiger_CssScript_Model[]
+	 * {@inheritDoc}
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
-		$cssFileNames = array(
+		$cssFileNames = [
 			'~libraries/gantt/skins/dhtmlxgantt_broadway.css',
 			'~libraries/jquery/flot/jquery.flot.valuelabels.css',
-		);
+		];
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($cssFileNames));
-	}
-
-	/**
-	 * Function to get the list of Script models to be included
-	 * @param \App\Request $request
-	 * @return Vtiger_JsScript_Model[]
-	 */
-	public function getFooterScripts(\App\Request $request)
-	{
-		$jsFileNames = array(
-			'~libraries/gantt/dhtmlxgantt.js',
-			'~libraries/jquery/flot/jquery.flot.min.js',
-			'~libraries/jquery/flot/jquery.flot.resize.js',
-			'~libraries/jquery/flot/jquery.flot.stack.min.js',
-			'~libraries/jquery/flot/jquery.flot.valuelabels.min.js',
-		);
-		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
 }

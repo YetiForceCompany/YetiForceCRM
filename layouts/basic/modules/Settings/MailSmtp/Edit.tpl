@@ -1,8 +1,8 @@
-{strip} 
-	{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{strip}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<div class="row widget_header">
 		<div class="col-xs-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			{if $RECORD_ID}
 				{App\Language::translate('LBL_MAILSMTP_EDIT', $QUALIFIED_MODULE)}
 			{/if}
@@ -15,17 +15,17 @@
 				<h4 class="alert-heading">{\App\Language::translate('LBL_ERROR', $QUALIFIED_MODULE)}</h4>
 				<p></p>
 			</div>
-			<input type="hidden" name="module" value="MailSmtp">
+			<input type="hidden" name="module" value="MailSmtp" />
 			<input type="hidden" name="parent" value="Settings" />
-			<input type="hidden" name="action" value="Save">
-			<input type="hidden" name="mode" value="save">
-			<input type="hidden" name="record" value="{$RECORD_ID}">
+			<input type="hidden" name="action" value="Save" />
+			<input type="hidden" name="mode" value="save" />
+			<input type="hidden" name="record" value="{$RECORD_ID}" />
 			<div class="form-group">
 				<label class="control-label col-md-3">
 					{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)} <span class="redColor"> *
 				</label>
 				<div class="controls col-md-8">
-					</span><input class="form-control" type="text" name="name" value="{$RECORD_MODEL->get('name')}" data-validation-engine="validate[required]"> 
+					</span><input class="form-control" type="text" name="name" value="{$RECORD_MODEL->get('name')}" data-validation-engine="validate[required]">
 				</div>
 			</div>
 			<div class="form-group">
@@ -217,8 +217,8 @@
 					<div class="controls col-md-8">
 						<input type="checkbox" name="smtp_validate_cert" value="1" {if $RECORD_MODEL->get('smtp_validate_cert') eq 1} checked {/if}>
 					</div>
-				</div> 
-			</div>	
+				</div>
+			</div>
 			<div class="row">
 				<div class="col-md-5 pull-right">
 					<span class="pull-right">

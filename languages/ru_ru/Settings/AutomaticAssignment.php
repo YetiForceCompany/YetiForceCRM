@@ -3,31 +3,44 @@
  * AutomaticAssignment russian translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
-	'LBL_AUTOMATIC_ASSIGNMENT' => 'Auto assign records',
-	'AutomaticAssignment' => 'Auto assign records',
+	'LBL_AUTOMATIC_ASSIGNMENT' => 'Автоматическое присвоение записей',
+	'AutomaticAssignment' => 'Автоматическое присвоение записей',
 	'LBL_AUTOMATICASSIGNMENT_DESCRIPTION' => ' ',
 	// Fields
-	'FL_FIELD' => 'Field name',
-	'FL_MODULE' => 'Module',
-	'FL_VALUE' => 'Value',
-	'FL_ROLES' => 'Roles',
-	'FL_SMOWNERS' => 'Record owner',
-	'FL_SHOWNERS' => 'Share with',
+	'FL_FIELD' => 'Название поля',
+	'FL_MODULE' => 'Модуль',
+	'FL_VALUE' => 'Значение',
+	'FL_ROLES' => 'Роли',
+	'FL_SMOWNERS' => 'Владелец записи',
+	'FL_SHOWNERS' => 'Поделиться с',
+	'FL_ASSIGN' => 'Настройки по умолчанию',
+	'FL_CONDITIONS' => 'Условия поиска записей',
+	'FL_MODE' => 'Режим',
 	// Others
-	'LBL_CREATE_RECORD' => 'Create record',
-	'BTN_NEXT' => 'Next',
-	'BTN_CLOSE' => 'Close',
-	'BTN_ADD' => 'Add',
-	'LBL_CHANGE_ROLE_TYPE' => 'Change role type',
-	'LBL_CHANGE_RECORD_STATE' => 'Change record state',
-	'BTN_SAVE' => 'Save',
-	'LBL_INCLUDE_USERS_RECORD_LIMIT' => 'Include user\'s record limit',
+	'LBL_CREATE_RECORD' => 'Создать запись',
+	'BTN_NEXT' => 'Далее',
+	'BTN_CLOSE' => 'Закрыть',
+	'BTN_ADD' => 'Добавить',
+	'LBL_CHANGE_ROLE_TYPE' => 'Изменить тип роли',
+	'LBL_CHANGE_RECORD_STATE' => 'Изменить статус записи',
+	'BTN_SAVE' => 'Сохранить',
+	'LBL_INCLUDE_USERS_RECORD_LIMIT' => 'Включить лимит записей пользователя',
+	'LBL_SET_DEFAULT_USER' => 'Установить пользователя по умолчанию',
+	'LBL_DEACTIVATE_SYSTEM_MODE' => 'Деактивировать системный режим',
+	'LBL_SYSTEM' => 'Система',
+	'LBL_NOTE' => 'Важно!',
+	'LBL_VALUE_INFO' => 'Следующее поле устанавливает значение для поля в выбранном модуле.',
+	'LBL_ROLES_INFO' => 'Список предустановленных пользователей создаётся из ролей, указанных ниже.',
+	'LBL_SMOWNERS_INFO' => 'Список предустановленных пользователей создаётся из групп пользователей, указанных ниже. Данный список пользователей создаётся только в том случае, если из ролей не выбрано ни одного пользователя.',
+	'LBL_ASSIGN_INFO' => 'Значение, указанное здесь, будет присвоено записи, если система не сможет найти пользователя, который должен быть присвоен записи.',
+	'LBL_CONDITIONS_INFO' => 'Настроить условия поиска записей. Чтобы выбрать пользователя из списка доступных, система подсчитывает количество записей, привязанных к пользователю в модуле. Пользователь с минимальным количеством записей будет привязан к текущей записи.',
+	'LBL_ROLEID_INFO' => 'Установить один из следующих режимов: СИСТЕМА - пользователь назначается задачами бизнес-процессов и обработчиками; НЕ СИСТЕМА –  позволяет пользователю вручную привязывать записи.',
 ];
 $jsLanguageStrings = [
-	'JS_STATE_CONFIRMATION' => 'Are you sure you want to change record state?',
-	'JS_SAVE_SUCCESS' => 'Changes saved successfully',
+	'JS_STATE_CONFIRMATION' => 'Вы уверены, что хотите изменить статус записи?',
+	'JS_SAVE_SUCCESS' => 'Изменения успешно сохранены!',
 ];
 

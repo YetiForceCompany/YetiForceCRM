@@ -37,7 +37,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<div class="col-md-3 control-label">
+							<div class="col-md-3 control-label fieldLabelForm">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_LABEL_NAME', $QUALIFIED_MODULE)}
 							</div>
@@ -47,7 +47,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<div class="col-md-3 control-label">
+							<div class="col-md-3 control-label fieldNameForm">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_FIELD_NAME', $QUALIFIED_MODULE)}
 							</div>
@@ -74,7 +74,7 @@
 								{App\Language::translate('LBL_LENGTH', $QUALIFIED_MODULE)}
 							</div>
 							<div class="col-md-8 controls">
-								<input type="text" name="fieldLength" value="" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" class="form-control"/>
+								<input type="text" name="fieldLength" value="" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" class="form-control" />
 							</div>
 						</div>
 						<div class="form-group supportedType decimalsupported hide">
@@ -83,7 +83,7 @@
 								{App\Language::translate('LBL_DECIMALS', $QUALIFIED_MODULE)}
 							</div>
 							<div class="col-md-8 controls">
-								<input type="text" name="decimal" value="" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" class="form-control"/>
+								<input type="text" name="decimal" value="" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" class="form-control" />
 							</div>
 						</div>
 						<div class="form-group supportedType preDefinedValueExists hide">
@@ -196,7 +196,7 @@
 							</div>
 						</div>
 					</div>
-					{include file='ModalFooter.tpl'|@vtemplate_path:'Vtiger'}
+					{include file=\App\Layout::getTemplatePath('ModalFooter.tpl', 'Vtiger')}
 				</form>
 			</div>
 		</div>

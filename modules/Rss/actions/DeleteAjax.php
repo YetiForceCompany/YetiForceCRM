@@ -14,13 +14,13 @@ class Rss_DeleteAjax_Action extends Vtiger_Delete_Action
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 
 		$recordModel = Rss_Record_Model::getInstanceById($recordId, $moduleName);
 		$recordModel->delete();
 
 		$response = new Vtiger_Response();
-		$response->setResult(array('record' => $recordId, 'module' => $moduleName));
+		$response->setResult(['record' => $recordId, 'module' => $moduleName]);
 		$response->emit();
 	}
 }

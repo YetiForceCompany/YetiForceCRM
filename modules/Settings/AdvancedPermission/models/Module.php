@@ -4,7 +4,7 @@
  * Advanced permission module model class
  * @package YetiForce.Settings.Module
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_AdvancedPermission_Module_Model extends Settings_Vtiger_Module_Model
@@ -12,7 +12,7 @@ class Settings_AdvancedPermission_Module_Model extends Settings_Vtiger_Module_Mo
 
 	public $baseTable = 'a_yf_adv_permission';
 	public $baseIndex = 'id';
-	public $listFields = array('name' => 'LBL_NAME', 'tabid' => 'LBL_MODULE', 'status' => 'LBL_STATUS', 'action' => 'LBL_ACTION', 'priority' => 'LBL_PRIORITY');
+	public $listFields = ['name' => 'LBL_NAME', 'tabid' => 'LBL_MODULE', 'status' => 'LBL_STATUS', 'action' => 'LBL_ACTION', 'priority' => 'LBL_PRIORITY'];
 	public $name = 'AdvancedPermission';
 	public static $status = [0 => 'FL_ACTIVE', 1 => 'FL_INACTIVE'];
 	public static $action = [0 => 'FL_UNLOCK_RECORD', 1 => 'FL_LOCK_RECORD'];

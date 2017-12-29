@@ -115,21 +115,20 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				});
 			}
 		});
-
 		relatedList.on('click', '.inActiveRelationModule', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var relatedModule = currentTarget.closest('.relatedModule');
 			relatedModule.find('.activeRelationModule').removeClass('hide').show();
 			currentTarget.hide();
-			thisInstance.changeStatusRelatedModule(relatedModule.data('relation-id'), 0);
-		})
+			thisInstance.changeStatusRelatedModule(relatedModule.data('relation-id'), false);
+		});
 		relatedList.on('click', '.activeRelationModule', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var relatedModule = currentTarget.closest('.relatedModule');
 			relatedModule.find('.inActiveRelationModule').removeClass('hide').show();
 			currentTarget.hide();
-			thisInstance.changeStatusRelatedModule(relatedModule.data('relation-id'), 1);
-		})
+			thisInstance.changeStatusRelatedModule(relatedModule.data('relation-id'), true);
+		});
 		relatedList.on('click', '.removeRelation', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var relatedModule = currentTarget.closest('.relatedModule');
@@ -140,11 +139,21 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			var currentTarget = jQuery(e.currentTarget);
 			var relatedModule = currentTarget.closest('.relatedModule');
 			var selectedFields = thisInstance.updateSelectedFields(currentTarget);
-		})
+		});
 		relatedList.on('click', '.addToFavorites', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			thisInstance.changeStateFavorites(currentTarget);
-		})
+		});
+		relatedList.on('change', '.relatedViewType', function (e) {
+			var currentTarget = $(this);
+			var value = currentTarget.val();
+			if (!value) {
+				currentTarget.validationEngine('showPrompt', app.vtranslate('JS_PLEASE_SELECT_ATLEAST_ONE_OPTION'));
+				return false;
+			}
+			currentTarget.validationEngine('hide');
+			thisInstance.changeRelatedViewType(currentTarget);
+		});
 		relatedList.on('click', '.addRelation', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
 			var container = currentTarget.closest('#relatedTabOrder');
@@ -213,6 +222,32 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			}
 		});
 	},
+	changeRelatedViewType: function (currentTarget) {
+		var relatedModule = currentTarget.closest('.relatedModule');
+		AppConnector.request({
+			module: app.getModuleName(),
+			parent: app.getParentModuleName(),
+			action: 'Relation',
+			mode: 'updateRelatedViewType',
+			relationId: relatedModule.data('relation-id'),
+			types: currentTarget.val(),
+		}).then(function (data) {
+			if (data.success) {
+				Settings_Vtiger_Index_Js.showMessage({
+					text: data.result.text
+				});
+			} else {
+				Settings_Vtiger_Index_Js.showMessage({
+					type: 'error',
+					text: data.error.message
+				});
+			}
+		}, function (error) {
+			Settings_Vtiger_Index_Js.showMessage({
+				text: error.message
+			});
+		});
+	},
 	changeStateFavorites: function (currentTarget) {
 		var thisInstance = this;
 		var relatedModule = currentTarget.closest('.relatedModule');
@@ -245,8 +280,6 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		);
 	},
 	changeStatusRelatedModule: function (relationId, status) {
-		var thisInstance = this;
-
 		var params = {};
 		params['module'] = app.getModuleName();
 		params['parent'] = app.getParentModuleName();
@@ -254,11 +287,10 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		params['mode'] = 'changeStatusRelation';
 		params['relationId'] = relationId;
 		params['status'] = status;
-
 		AppConnector.request(params).then(
 				function (data) {
 					var params = {};
-					if (status == 1) {
+					if (status) {
 						params['text'] = app.vtranslate('JS_SAVED_CHANGE_STATUS_1');
 					} else {
 						params['text'] = app.vtranslate('JS_SAVED_CHANGE_STATUS_0');
@@ -268,6 +300,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				function (error) {
 					var params = {};
 					params['text'] = error;
+					params['type'] = 'error';
 					Settings_Vtiger_Index_Js.showMessage(params);
 				}
 		);
@@ -619,27 +652,24 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 						}
 						var saveButton = form.find(':submit');
 						saveButton.attr('disabled', 'disabled');
-						thisInstance.addCustomField(blockId, form).then(
-								function (data) {
-									var result = data['result'];
-									var params = {};
-									if (data['success']) {
-										app.hideModalWindow();
-										params['text'] = app.vtranslate('JS_CUSTOM_FIELD_ADDED');
-										Settings_Vtiger_Index_Js.showMessage(params);
-										thisInstance.showCustomField(result);
-									} else {
-										var message = data['error']['message'];
-										if (data['error']['code'] != 513) {
-											var errorField = form.find('[name="fieldName"]');
-										} else {
-											var errorField = form.find('[name="fieldLabel"]');
-										}
-										errorField.validationEngine('showPrompt', message, 'error', 'topLeft', true);
-										saveButton.removeAttr('disabled');
-									}
-								}
-						);
+						thisInstance.addCustomField(blockId, form).then(function (data) {
+							var result = data['result'];
+							var params = {};
+							if (data['success']) {
+								app.hideModalWindow();
+								params['text'] = app.vtranslate('JS_CUSTOM_FIELD_ADDED');
+								Settings_Vtiger_Index_Js.showMessage(params);
+								thisInstance.showCustomField(result);
+							} else {
+								var message = data['error']['message'];
+								Vtiger_Helper_Js.showPnotify({
+									title: data['error']['code'] != 513 ? form.find('.fieldNameForm').text() : form.find('.fieldLabelForm').text(),
+									type: 'error',
+									text: data['error']['message']
+								});
+								saveButton.removeAttr('disabled');
+							}
+						});
 					}
 					//To prevent form submit
 					return false;
@@ -1448,6 +1478,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				cb: function (modalContainer) {
 					thisInstance.registerFieldDetailsChange(modalContainer);
 					thisInstance.lockCheckbox(modalContainer);
+					thisInstance.registerVaribleToParsers(modalContainer);
 					app.registerEventForClockPicker(modalContainer.find('.clockPicker'));
 				},
 				sendByAjaxCb: function (formData, response) {
@@ -1476,6 +1507,36 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 					} else {
 						fieldRow.find('.fieldLabel').find('.redColor').remove();
 					}
+				}
+			});
+		});
+	},
+	registerVaribleToParsers: function (container) {
+		var thisInstance = this;
+		container.find('.configButton').on('click', function (e) {
+			container.find('.defaultValueUi .input-group').each(function (n,e) {
+				var currentElement = $(e);
+				if(currentElement.hasClass('hide')){
+					currentElement.find('input,select').prop('disabled', false);
+				}else{
+					currentElement.find('input,select').prop('disabled', true);
+				}
+				currentElement.toggleClass('hide');
+			})
+		});
+		container.find('.varibleToParsers').on('click', function (e) {
+			var input = $(e.currentTarget).closest('.input-group').find('[name="fieldDefaultValue"]');
+			var fieldId = container.find('[name="fieldid"]').val();
+			var id = 'varibleToParsersModal';
+			app.showModalWindow({
+				id: id,
+				url: 'index.php?parent=Settings&module=LayoutEditor&view=VaribleToParsers&fieldId=' + fieldId + '&defaultValue=' + input.val(),
+				cb: function (modalContainer) {
+					var select = modalContainer.find('select');
+					modalContainer.find('[name="saveButton"]').on('click', function () {
+						input.val(select.val());
+						app.hideModalWindow(null, id);
+					})
 				}
 			});
 		});
@@ -2014,10 +2075,10 @@ Vtiger_Base_Validator_Js("Vtiger_FieldLabel_Validator_Js", {
 		return this.validateValue(fieldValue);
 	},
 	validateValue: function (fieldValue) {
-		var specialChars = /[&\<\>\:\'\"\,\_]/;
+		var specialChars = /[&\<\>\:\'\"\,]/;
 
 		if (specialChars.test(fieldValue)) {
-			var errorInfo = app.vtranslate('JS_SPECIAL_CHARACTERS') + " & < > ' \" : , _ " + app.vtranslate('JS_NOT_ALLOWED');
+			var errorInfo = app.vtranslate('JS_SPECIAL_CHARACTERS') + " & < > ' \" : , " + app.vtranslate('JS_NOT_ALLOWED');
 			this.setError(errorInfo);
 			return false;
 		}

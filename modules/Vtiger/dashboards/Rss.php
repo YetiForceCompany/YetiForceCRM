@@ -4,7 +4,7 @@
  * Widget to display RSS
  * @package YetiForce.Dashboard
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Vtiger_Rss_Dashboard extends Vtiger_IndexAjax_View
@@ -19,11 +19,11 @@ class Vtiger_Rss_Dashboard extends Vtiger_IndexAjax_View
 		if ($widget && !$request->has('widgetid')) {
 			$widgetId = $widget->get('id');
 		} else {
-			$widgetId = $request->get('widgetid');
+			$widgetId = $request->getInteger('widgetid');
 		}
 		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($widgetId, $currentUser->getId());
 		$data = $widget->get('data');
-		$data = \App\Json::decode(decode_html($data));
+		$data = \App\Json::decode(App\Purifier::decodeHtml($data));
 		$listSubjects = [];
 		foreach ($data['channels'] as $rss) {
 			try {
@@ -48,8 +48,7 @@ class Vtiger_Rss_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('LIST_SUCJECTS', $listSubjects);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$content = $request->get('content');
-		if (!empty($content)) {
+		if ($request->has('content')) {
 			$viewer->view('dashboards/RssContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/RssHeader.tpl', $moduleName);

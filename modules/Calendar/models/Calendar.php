@@ -4,7 +4,7 @@
  * Calendar Model Class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author YetiForce.com
  */
 class Calendar_Calendar_Model extends App\Base
@@ -42,9 +42,10 @@ class Calendar_Calendar_Model extends App\Base
 			$queryGenerator->initForCustomViewById($this->get('customFilter'));
 		}
 		$query = $queryGenerator->createQuery();
-		$query->select(['vtiger_activity.*', 'linkmod' => 'relcrm.setype', 'processmod' => 'procrm.setype', 'subprocessmod' => 'subprocrm.setype'])
+		$query->select(['vtiger_activity.*', 'linkmod' => 'relcrm.setype', 'processmod' => 'procrm.setype', 'subprocessmod' => 'subprocrm.setype', 'linkecrmmod' => 'linkecrm.setype'])
 			->innerJoin('vtiger_activitycf', 'vtiger_activity.activityid = vtiger_activitycf.activityid')
 			->leftJoin('vtiger_crmentity relcrm', 'vtiger_activity.link = relcrm.crmid')
+			->leftJoin('vtiger_crmentity linkecrm', 'vtiger_activity.linkextend = linkecrm.crmid')
 			->leftJoin('vtiger_crmentity procrm', 'vtiger_activity.process = procrm.crmid')
 			->leftJoin('vtiger_crmentity subprocrm', 'vtiger_activity.subprocess = subprocrm.crmid');
 		if ($this->get('start') && $this->get('end')) {
@@ -133,6 +134,9 @@ class Calendar_Calendar_Model extends App\Base
 			if (!empty($record['subprocess'])) {
 				$ids[] = $record['subprocess'];
 			}
+			if (!empty($record['linkextend'])) {
+				$ids[] = $record['linkextend'];
+			}
 		}
 		$labels = \App\Record::getLabel($ids);
 
@@ -142,15 +146,15 @@ class Calendar_Calendar_Model extends App\Base
 			$activitytype = $record['activitytype'];
 			$item['id'] = $crmid;
 			$item['module'] = $this->getModuleName();
-			$item['title'] = $record['subject'];
+			$item['title'] = \App\Purifier::encodeHtml($record['subject']);
 			$item['url'] = 'index.php?module=' . $this->getModuleName() . '&view=Detail&record=' . $crmid;
 			$item['set'] = $record['activitytype'] == 'Task' ? 'Task' : 'Event';
-			$item['lok'] = $record['location'];
-			$item['pri'] = $record['priority'];
-			$item['sta'] = $record['status'];
-			$item['vis'] = $record['visibility'];
-			$item['state'] = $record['state'];
-			$item['smownerid'] = vtlib\Functions::getOwnerRecordLabel($record['smownerid']);
+			$item['lok'] = \App\Purifier::encodeHtml($record['location']);
+			$item['pri'] = \App\Purifier::encodeHtml($record['priority']);
+			$item['sta'] = \App\Purifier::encodeHtml($record['status']);
+			$item['vis'] = \App\Purifier::encodeHtml($record['visibility']);
+			$item['state'] = \App\Purifier::encodeHtml($record['state']);
+			$item['smownerid'] = \App\Fields\Owner::getLabel($record['smownerid']);
 
 			//translate
 			$item['labels']['sta'] = \App\Language::translate($record['status'], $this->getModuleName());
@@ -172,6 +176,9 @@ class Calendar_Calendar_Model extends App\Base
 			$item['subprocl'] = vtlib\Functions::textLength($this->getLabel($labels, $record['subprocess']));
 			$item['subprocm'] = $record['subprocessmod'];
 
+			$item['linkextend'] = $record['linkextend'];
+			$item['linkexl'] = vtlib\Functions::textLength($this->getLabel($labels, $record['linkextend']));
+			$item['linkexm'] = $record['linkecrmmod'];
 			if ($record['linkmod'] != 'Accounts' && (!empty($record['link']) || !empty($record['process']))) {
 				$findId = 0;
 				$findMod = '';
@@ -194,7 +201,7 @@ class Calendar_Calendar_Model extends App\Base
 					if ($dataReader->count()) {
 						$row = $dataReader->read();
 						$item['accid'] = $row['accountid'];
-						$item['accname'] = $row['accountname'];
+						$item['accname'] = \App\Purifier::encodeHtml($row['accountname']);
 					}
 				}
 			}
@@ -218,6 +225,7 @@ class Calendar_Calendar_Model extends App\Base
 			//Conveting the date format in to Y-m-d . since full calendar expects in the same format
 			$endDateFormated = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
 
+			$item['start_date'] = $record['date_start'];
 			$item['start'] = $startDateFormated . ' ' . $startTimeFormated;
 			$item['end'] = $endDateFormated . ' ' . $endTimeFormated;
 
@@ -225,10 +233,10 @@ class Calendar_Calendar_Model extends App\Base
 			$item['start_display'] = $startDateTimeDisplay;
 			$item['end_display'] = $endDateTimeDisplay;
 			$item['hour_start'] = $startTimeDisplay;
-			$hours = vtlib\Functions::getDateTimeHoursDiff($item['start'], $item['end']);
+			$hours = \App\Fields\Date::getDiff($item['start'], $item['end'], 'hours');
 			$item['hours'] = vtlib\Functions::decimalTimeFormat($hours)['short'];
 			$item['allDay'] = $record['allday'] == 1 ? true : false;
-			$item['className'] = ' userCol_' . $record['smownerid'] . ' calCol_' . $activitytype;
+			$item['className'] = ' ownerCBg_' . $record['smownerid'] . ' picklistCBr_Calendar_activitytype_' . $activitytype;
 			$return[] = $item;
 		}
 		return $return;
@@ -270,7 +278,7 @@ class Calendar_Calendar_Model extends App\Base
 					$return[$date]['start'] = $date;
 					$return[$date]['date'] = $date;
 					$return[$date]['event'][$activitytype]['count'] += 1;
-					$return[$date]['event'][$activitytype]['className'] = '  fc-draggable calCol_' . $activitytype;
+					$return[$date]['event'][$activitytype]['className'] = '  fc-draggable picklistCBg_Calendar_activitytype_' . $activitytype;
 					$return[$date]['event'][$activitytype]['label'] = \App\Language::translate($activitytype, $this->getModuleName());
 					$return[$date]['type'] = 'widget';
 				}
@@ -297,11 +305,11 @@ class Calendar_Calendar_Model extends App\Base
 
 	public static function getCalendarTypes()
 	{
-		$calendarConfig = Array(
+		$calendarConfig = [
 			'PLL_WORKING_TIME',
 			'PLL_BREAK_TIME',
 			'PLL_HOLIDAY'
-		);
+		];
 		return $calendarConfig;
 	}
 }

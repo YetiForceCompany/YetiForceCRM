@@ -3,13 +3,11 @@
  * OSSSoldServices russian translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'OSSSoldServices' => 'Реализация Услуг',
 	'SINGLE_OSSSoldServices' => 'Реализация Услуг',
-	'LBL_RECORDS_LIST' => 'Список Услуг',
-	'LBL_ADD_RECORD' => 'Услуга',
 	// Blocks
 	'LBL_INFORMATION' => 'Основная информация',
 	// Field labels
@@ -30,6 +28,7 @@ $languageStrings = [
 	'LBL_GENERATE_EXTENSION' => 'Создать Предложение',
 	'LBL_ORDER_TIME' => 'Время Заказа',
 	'FL_RENEWAL_INVOICE' => 'Возобновляемый счет',
+	'FL_CONTACT' => 'Contact',
 	// picklist values
 	'FL_RENEWAL' => 'Возобновление',
 	'PLL_DRAFT' => 'Черновик',
@@ -43,9 +42,9 @@ $languageStrings = [
 	'PLL_NOT_RENEWED' => 'Не возобновляется',
 	'PLL_NOT_APPLICABLE' => 'Непригодный',
 	'LBL_SET_RENEWAL' => 'Установить возобновление',
-	'PLL_RENEWED_VERIFICATION' => 'Renewed (verification)',
-	'PLL_NOT_RENEWED_VERIFICATION' => 'Not renewed (verification)',
-	'PLL_NOT_APPLICABLE_VERIFICATION' => 'Not applicable (verification)',
+	'PLL_RENEWED_VERIFICATION' => 'Возобновление (на утверждении)',
+	'PLL_NOT_RENEWED_VERIFICATION' => 'Не возобновлено (на утверждении)',
+	'PLL_NOT_APPLICABLE_VERIFICATION' => 'Непригодно (на утверждении)',
 ];
 
 

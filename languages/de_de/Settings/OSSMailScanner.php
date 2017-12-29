@@ -3,7 +3,8 @@
  * Oss mail scanner german translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author skavenkf (K.Fink)
  */
 $languageStrings = [
 	'LBL_PAGE_NUMBER' => 'Gehe zur Seite',
@@ -13,10 +14,11 @@ $languageStrings = [
 	'LBL_VIEW_LOGS' => 'E-Mail Protokolle',
 	'CRM Archive' => 'CRM Archiv',
 	'CRM Archive Sent' => 'CRM Archiv Gesendet',
-	'Drafts' => 'Drafts',
+	'Drafts' => 'Entwurf',
 	'INBOX' => 'INBOX',
 	'Junk' => 'JUNK',
 	'Sent' => 'SENT',
+	'ERR_INCORRECT_ACCESS_DATA' => 'Fehlerhafter Datenzugriff',
 	'LBL_INFO_ABOUT_FOLDERS_TO_REMOVE' => 'Die unten aufgeführten Verzeichnisse werden nach dem Sichern gelöscht',
 ];
 $jsLanguageStrings = [

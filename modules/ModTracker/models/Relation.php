@@ -60,7 +60,7 @@ class ModTracker_Relation_Model extends Vtiger_Record_Model
 		$db->createCommand()->insert('u_#__reviewed_queue', [
 			'id' => $id,
 			'userid' => $currentUserModel->getRealId(),
-			'tabid' => \vtlib\Functions::getModuleId($module),
+			'tabid' => \App\Module::getModuleId($module),
 			'data' => \App\Json::encode($data),
 			'time' => date('Y-m-d H:i:s')
 		])->execute();

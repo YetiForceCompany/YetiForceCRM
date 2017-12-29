@@ -1,16 +1,16 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <div class="">
 	<div class="clearfix treeView">
 		<div class="widget_header row">
 			<div class="col-md-8">
-				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
 		</div>
 		<form>
 			<table>
 				<tr>
 					<td><label class="control-label">{\App\Language::translate('Widget list limit', 'OSSMailView')}</label></td>
-					<td><input id="tab_email_view_widget_limit" class="form-control validate[custom[integer]]" value="{$WIDGET_CFG['email_list']['widget_limit']}"/></td>
+					<td><input id="tab_email_view_widget_limit" class="form-control validate[custom[integer]]" value="{$WIDGET_CFG['email_list']['widget_limit']}" /></td>
 				</tr>
 				<tr>
 					<td><label class="control-label">{\App\Language::translate('List open email', 'OSSMailView')}</label>&nbsp;</td>

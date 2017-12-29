@@ -158,17 +158,9 @@ class Users_Privileges_Model extends Users_Record_Model
 	}
 
 	/**
-	 * Function to check permission for a Module/Action/Record
-	 * @param string $moduleName
-	 * @param string $actionName
-	 * @param <Number> $record
-	 * @return Boolean
+	 * Gets the last access to the registry
+	 * @return string
 	 */
-	public static function isPermitted($moduleName, $actionName = null, $record = false)
-	{
-		return \App\Privilege::isPermitted($moduleName, $actionName, $record);
-	}
-
 	public static function getLastPermittedAccessLog()
 	{
 		return vglobal('isPermittedLog');
@@ -200,7 +192,6 @@ class Users_Privileges_Model extends Users_Record_Model
 		}
 		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
 		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
-		Vtiger_Loader::includeOnce('~~include/Webservices/Retrieve.php');
 		$workflows = (new VTWorkflowManager())->getWorkflowsForModule($moduleName, VTWorkflowManager::$BLOCK_EDIT);
 		if (count($workflows)) {
 			foreach ($workflows as &$workflow) {
@@ -347,7 +338,7 @@ class Users_Privileges_Model extends Users_Record_Model
 				if ($fieldModel->isReferenceField() && count(array_intersect($parentModule, $fieldModel->getReferenceList())) > 0) {
 					$recordModel = Vtiger_Record_Model::getInstanceById($record);
 					$value = $recordModel->get($fieldName);
-					if ($value != '' && $value != 0) {
+					if (!empty($value) && \App\Record::isExists($value)) {
 						$parentRecord = $value;
 						continue;
 					}
@@ -380,7 +371,7 @@ class Users_Privileges_Model extends Users_Record_Model
 								$relatedPermission = in_array($currentUserId, Vtiger_SharedOwner_UIType::getSharedOwners($id, $recordMetaData['setype']));
 								break;
 							case 2:
-								$permission = isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id);
+								$permission = \App\Privilege::isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id, $currentUserId);
 								$relatedPermission = $permission == 'yes' ? true : false;
 								break;
 							case 3:
@@ -421,7 +412,7 @@ class Users_Privileges_Model extends Users_Record_Model
 								$relatedPermission = in_array($currentUserId, Vtiger_SharedOwner_UIType::getSharedOwners($id, $recordMetaData['setype']));
 								break;
 							case 2:
-								$permission = isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id);
+								$permission = \App\Privilege::isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id, $currentUserId);
 								$relatedPermission = $permission == 'yes' ? true : false;
 								break;
 							case 3:

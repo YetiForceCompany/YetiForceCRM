@@ -6,32 +6,39 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Users_DeleteImage_Action extends Vtiger_Action_Controller
 {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function checkPermission(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
 		$record = $request->getInteger('id');
-		if (!(Users_Privileges_Model::isPermitted($moduleName, 'EditView', $record) && Users_Privileges_Model::isPermitted($moduleName, 'Delete', $record))) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		if (!(\App\Privilege::isPermitted($moduleName, 'EditView', $record) && \App\Privilege::isPermitted($moduleName, 'Delete', $record))) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->get('record');
-		$imageId = $request->get('imageid');
+		$recordId = $request->getInteger('record');
+		$imageId = $request->getInteger('imageid');
 
 		$response = new Vtiger_Response();
 		if ($recordId) {
 			$recordModel = Users_Record_Model::getInstanceById($recordId, $moduleName);
 			$status = $recordModel->deleteImage($imageId);
 			if ($status) {
-				$response->setResult(array(\App\Language::translate('LBL_IMAGE_DELETED_SUCCESSFULLY', $moduleName)));
+				$response->setResult([\App\Language::translate('LBL_IMAGE_DELETED_SUCCESSFULLY', $moduleName)]);
 			}
 		} else {
 			$response->setError(\App\Language::translate('LBL_IMAGE_NOT_DELETED', $moduleName));

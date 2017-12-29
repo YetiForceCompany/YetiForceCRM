@@ -5,7 +5,7 @@ namespace App;
  * Debuger basic class
  * @package YetiForce.App
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 use DebugBar;
@@ -167,6 +167,7 @@ class Debuger
 				$args = rtrim($args, ',');
 			}
 			$trace .= "$sep$l {$v['file']} ({$v['line']})  >>  " . (isset($v['class']) ? $v['class'] . '->' : '') . "{$v['function']}($args)" . PHP_EOL;
+			unset($args, $val, $v, $k, $a);
 			if ($maxLevel !== 0 && $l >= $maxLevel) {
 				break;
 			}

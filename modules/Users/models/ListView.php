@@ -19,17 +19,17 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 	 */
 	public function getListViewLinks($linkParams)
 	{
-		$linkTypes = array('LISTVIEWBASIC', 'LISTVIEW', 'LISTVIEWSETTING');
+		$linkTypes = ['LISTVIEWBASIC', 'LISTVIEW', 'LISTVIEWSETTING'];
 		$links = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), $linkTypes, $linkParams);
 
-		$basicLinks = array(
-			array(
+		$basicLinks = [
+			[
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => 'LBL_ADD_RECORD',
 				'linkurl' => $this->getModule()->getCreateRecordUrl(),
 				'linkicon' => ''
-			)
-		);
+			]
+		];
 		foreach ($basicLinks as $basicLink) {
 			$links['LISTVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicLink);
 		}
@@ -52,13 +52,13 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		$privilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 
 		$massActionLinks = [];
-		if ($linkParams['MODULE'] == 'Users' && $linkParams['ACTION'] == 'List' && vtlib\Functions::userIsAdministrator($privilegesModel)) {
-			$massActionLinks[] = array(
+		if ($linkParams['MODULE'] === 'Users' && $linkParams['ACTION'] === 'List' && $privilegesModel->isAdminUser()) {
+			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
-				'linklabel' => 'LBL_MASS_PWD_EDIT',
-				'linkurl' => 'javascript:Settings_Users_List_Js.triggerEditPasswords("index.php?module=Users&view=EditAjax&mode=editPasswords", "' . $linkParams['MODULE'] . '")',
-				'linkicon' => ''
-			);
+				'linklabel' => 'BTN_MASS_RESET_PASSWORD',
+				'linkurl' => 'index.php?module=Users&view=PasswordModal&mode=massReset',
+				'linkicon' => 'glyphicon glyphicon-repeat'
+			];
 		}
 		foreach ($massActionLinks as $massActionLink) {
 			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
@@ -71,18 +71,6 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		}
 
 		return $links;
-	}
-
-	/**
-	 * Load list view conditions
-	 */
-	public function loadListViewCondition()
-	{
-		$searchKey = $this->get('search_key');
-		if ($searchKey && $searchKey === 'status') {
-			$this->get('query_generator')->deletedCondition = false;
-		}
-		parent::loadListViewCondition();
 	}
 
 	/**
@@ -146,22 +134,22 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 	public function getAdvancedLinks()
 	{
 		$moduleModel = $this->getModule();
-		$createPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'CreateView');
+		$createPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'CreateView');
 		$advancedLinks = [];
-		$importPermission = Users_Privileges_Model::isPermitted($moduleModel->getName(), 'Import');
+		$importPermission = \App\Privilege::isPermitted($moduleModel->getName(), 'Import');
 		if ($importPermission && $createPermission) {
-			$advancedLinks[] = array(
+			$advancedLinks[] = [
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_IMPORT',
 				'linkurl' => $moduleModel->getImportUrl(),
-				'linkicon' => ''
-			);
-			$advancedLinks[] = array(
+				'linkicon' => 'glyphicon glyphicon-import'
+			];
+			$advancedLinks[] = [
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_EXPORT',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerExportAction("' . $moduleModel->getExportUrl() . '")',
-				'linkicon' => ''
-			);
+				'linkicon' => 'glyphicon glyphicon-export'
+			];
 		}
 
 		return $advancedLinks;

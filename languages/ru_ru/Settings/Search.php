@@ -3,7 +3,7 @@
  * Search russian translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'Search Setup' => 'Поиск - Настройка',
@@ -18,7 +18,7 @@ $languageStrings = [
 	'Update labels' => 'Обновить',
 	'LBL_SAVE_CHANGES_SEARCHING' => 'Изменения сохранены',
 	'LBL_SAVE_CHANGES_LABLE' => 'Изменения в конфигурации поиска сохранены, вы должны обновить этот модуль, чтобы увидеть изменения в системе.',
-	'Update has been completed' => 'Selected module updated successfully. Changes will be realized via CRON. Label update time depends on the amount of data.',
+	'Update has been completed' => 'Выбранный модуль был успешно обновлен. Изменения будут реализованы с помощью CRON. Скорость обновления меток зависит от объёма данных.',
 	'LBL_SAVE_MODULE_SEQUENCE' => 'Сохранить последовательность модулей',
 	'LBL_TURN_ON' => 'Включить',
 	'LBL_TURN_OFF' => 'Отключить',

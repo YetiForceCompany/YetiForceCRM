@@ -9,6 +9,9 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 $languageStrings = [
+	'Services' => 'services',
+	'Administrative' => 'administrative',
+	'Support' => 'support',
 	'PLL_SUBMITTED_COMMENTS' => 'Comentários submetidos',
 	'PLL_FOR_APPROVAL' => 'Para aprovação',
 	'PLL_TO_CLOSE' => 'Para fechar',
@@ -24,7 +27,6 @@ $languageStrings = [
 	'High' => 'Alta',
 	'Hi' => 'Olá',
 	'Hours' => 'Horas',
-	'LBL_ADD_RECORD' => 'Abrir Ticket',
 	'LBL_ALTBODY' => 'Este é o corpo em texto puro para clientes de email não-HTML',
 	'LBL_CONVERT_FAQ' => 'Converter para FAQ',
 	'LBL_COULDNOT_CLOSED' => 'Ticket não pôde ser',
@@ -34,7 +36,6 @@ $languageStrings = [
 	'LBL_LOGIN_REVOKED' => 'Seu acesso foi revogado. Por favor, entre em contato com o administrador.',
 	'LBL_MAIL_COULDNOT_SENT' => 'E-mail não pode ser enviado.',
 	'LBL_PASSWORD' => 'Senha:',
-	'LBL_RECORDS_LIST' => 'Lista de Ticket',
 	'LBL_REGARDS' => 'Cordialmente',
 	'LBL_RELATED_TO' => 'Relacionado à',
 	'LBL_RESPOND' => 'Por favor, responda o Chamado acima o mais breve possível.',

@@ -4,7 +4,7 @@
  * VTUpdateWorkTime Class
  * @package YetiForce.Workflow
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class VTUpdateWorkTime extends VTTask
 {
@@ -26,9 +26,8 @@ class VTUpdateWorkTime extends VTTask
 			vglobal('workflowIdsAlreadyDone', []);
 		}
 		$globalIds = vglobal('workflowIdsAlreadyDone');
-		$referenceIds = [];
 		$referenceName = OSSTimeControl_Record_Model::$referenceFieldsToTime;
-
+		$referenceIds = [];
 		foreach ($referenceName as $name) {
 			if ($recordModel->get($name)) {
 				$referenceIds[$recordModel->get($name)] = $name;
@@ -47,7 +46,6 @@ class VTUpdateWorkTime extends VTTask
 				}
 			}
 		}
-
 		$referenceIds = array_diff_key($referenceIds, array_flip($globalIds));
 		$metasData = vtlib\Functions::getCRMRecordMetadata(array_keys($referenceIds));
 		$modulesHierarchy = array_keys(App\ModuleHierarchy::getModulesHierarchy());

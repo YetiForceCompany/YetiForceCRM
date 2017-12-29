@@ -18,11 +18,11 @@
 			<input type="hidden" class="step" value="1" />
 			<input type="hidden" name="isDuplicate" value="{$IS_DUPLICATE}" />
 			<input type="hidden" name="record" value="{$RECORD_ID}" />
-			<input type="hidden" id="relatedModules" data-value="{Vtiger_Util_Helper::toSafeHTML(\App\Json::encode($RELATED_MODULES))}" >
+			<input type="hidden" id="relatedModules" data-value="{\App\Purifier::encodeHtml(\App\Json::encode($RELATED_MODULES))}" >
 			<div class="well contentsBackground">
 				<div class="row padding1per">
 					<div class="col-md-3">{\App\Language::translate('LBL_REPORT_NAME',$MODULE)}<span class="redColor">*</span></div>
-					<div class="col-md-7 row"><input class="col-md-6 form-control" data-validation-engine='validate[required]' type="text" name="reportname" title="{\App\Language::translate('LBL_REPORT_NAME', $MODULE)}" value="{$REPORT_MODEL->get('reportname')}"/></div>
+					<div class="col-md-7 row"><input class="col-md-6 form-control" data-validation-engine='validate[required]' type="text" name="reportname" title="{\App\Language::translate('LBL_REPORT_NAME', $MODULE)}" value="{$REPORT_MODEL->get('reportname')}" /></div>
 				</div>
 				<div class="row padding1per">
 					<div class="col-md-3">{\App\Language::translate('LBL_REPORT_FOLDER',$MODULE)}<span class="redColor">*</span></div>

@@ -47,7 +47,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getHeaders()
 	{
-		return array('Leads' => 'Leads', 'Type' => 'Type', 'Accounts' => 'Accounts');
+		return ['Leads' => 'Leads', 'Type' => 'Type', 'Accounts' => 'Accounts'];
 	}
 
 	/**
@@ -56,12 +56,12 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getDetailViewLinks()
 	{
-		return array(Vtiger_Link_Model::getInstanceFromValues(array(
-				'linktype' => 'DETAILVIEW',
+		return [Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => 'javascript:Settings_LeadMapping_Js.triggerEdit("' . $this->getEditViewUrl() . '")',
 				'linkicon' => ''
-		)));
+		])];
 	}
 
 	/**
@@ -70,12 +70,12 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getMappingLinks()
 	{
-		return array(Vtiger_Link_Model::getInstanceFromValues(array(
-				'linktype' => 'DETAILVIEW',
+		return [Vtiger_Link_Model::getInstanceFromValues([
+				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'LBL_DELETE',
 				'linkurl' => 'javascript:Settings_LeadMapping_Js.triggerDelete(event,"' . $this->getMappingDeleteUrl() . '")',
 				'linkicon' => ''
-		)));
+		])];
 	}
 
 	/**
@@ -103,11 +103,11 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 				$fieldLabelsList = $this->getFieldsInfo(array_unique($fieldIdsList));
 			}
 			foreach ($mapping as $mappingId => $mappingDetails) {
-				$finalMapping[$mappingId] = array(
+				$finalMapping[$mappingId] = [
 					'editable' => $mappingDetails['editable'],
 					'Leads' => $fieldLabelsList[$mappingDetails['leadfid']],
 					'Accounts' => $fieldLabelsList[$mappingDetails['accountfid']]
-				);
+				];
 			}
 
 			$this->mapping = $finalMapping;

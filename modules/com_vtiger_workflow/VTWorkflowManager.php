@@ -9,7 +9,6 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 require_once('VTJsonCondition.php');
-require_once 'include/utils/ConfigReader.php';
 require_once 'include/runtime/Cache.php';
 
 class VTWorkflowManager
@@ -19,61 +18,61 @@ class VTWorkflowManager
 	 * On first save
 	 * @var int
 	 */
-	static $ON_FIRST_SAVE = 1;
+	public static $ON_FIRST_SAVE = 1;
 
 	/**
 	 * Once
 	 * @var int
 	 */
-	static $ONCE = 2;
+	public static $ONCE = 2;
 
 	/**
 	 * On every save
 	 * @var int
 	 */
-	static $ON_EVERY_SAVE = 3;
+	public static $ON_EVERY_SAVE = 3;
 
 	/**
 	 * On modify
 	 * @var int
 	 */
-	static $ON_MODIFY = 4;
+	public static $ON_MODIFY = 4;
 
 	/**
 	 * On delete
 	 * @var int
 	 */
-	static $ON_DELETE = 5;
+	public static $ON_DELETE = 5;
 
 	/**
 	 * On schedule
 	 * @var int
 	 */
-	static $ON_SCHEDULE = 6;
+	public static $ON_SCHEDULE = 6;
 
 	/**
 	 * Manual
 	 * @var int
 	 */
-	static $MANUAL = 7;
+	public static $MANUAL = 7;
 
 	/**
 	 * Trigger
 	 * @var int
 	 */
-	static $TRIGGER = 8;
+	public static $TRIGGER = 8;
 
 	/**
 	 * Block edit
 	 * @var int
 	 */
-	static $BLOCK_EDIT = 9;
+	public static $BLOCK_EDIT = 9;
 
 	/**
 	 * On related
 	 * @var int
 	 */
-	static $ON_RELATED = 10;
+	public static $ON_RELATED = 10;
 
 	/**
 	 * Save workflow data
@@ -220,13 +219,8 @@ class VTWorkflowManager
 	 */
 	protected function getWorkflowInstance($type = 'basic')
 	{
-		$configReader = new ConfigReader('modules/com_vtiger_workflow/config.inc', 'workflowConfig');
-		$workflowTypeConfig = $configReader->getConfig($type);
-		$workflowClassPath = $workflowTypeConfig['classpath'];
-		$workflowClass = $workflowTypeConfig['class'];
-
-		require_once $workflowClassPath;
-		$workflow = new $workflowClass();
+		require_once 'modules/com_vtiger_workflow/VTWorkflowManager.php';
+		$workflow = new Workflow();
 		return $workflow;
 	}
 
@@ -334,8 +328,9 @@ class VTWorkflowManager
 
 	/**
 	 * Update the Next trigger timestamp for a workflow
+	 * @param Workflow $workflow
 	 */
-	public function updateNexTriggerTime($workflow)
+	public function updateNexTriggerTime(Workflow $workflow)
 	{
 		$nextTriggerTime = $workflow->getNextTriggerTime();
 		$workflow->setNextTriggerTime($nextTriggerTime);
@@ -386,43 +381,43 @@ class Workflow
 	 * Scheduled hourly
 	 * @var int
 	 */
-	static $SCHEDULED_HOURLY = 1;
+	public static $SCHEDULED_HOURLY = 1;
 
 	/**
 	 * Scheduled daily
 	 * @var int
 	 */
-	static $SCHEDULED_DAILY = 2;
+	public static $SCHEDULED_DAILY = 2;
 
 	/**
 	 * Scheduled weekly
 	 * @var int
 	 */
-	static $SCHEDULED_WEEKLY = 3;
+	public static $SCHEDULED_WEEKLY = 3;
 
 	/**
 	 * Scheduled on specific date
 	 * @var int
 	 */
-	static $SCHEDULED_ON_SPECIFIC_DATE = 4;
+	public static $SCHEDULED_ON_SPECIFIC_DATE = 4;
 
 	/**
 	 * Scheduled monthly by date
 	 * @var int
 	 */
-	static $SCHEDULED_MONTHLY_BY_DATE = 5;
+	public static $SCHEDULED_MONTHLY_BY_DATE = 5;
 
 	/**
 	 * Scheduled monthly by weekday
 	 * @var int
 	 */
-	static $SCHEDULED_MONTHLY_BY_WEEKDAY = 6;
+	public static $SCHEDULED_MONTHLY_BY_WEEKDAY = 6;
 
 	/**
 	 * Scheduled annually
 	 * @var int
 	 */
-	static $SCHEDULED_ANNUALLY = 7;
+	public static $SCHEDULED_ANNUALLY = 7;
 
 	/**
 	 * Constructor
@@ -688,7 +683,7 @@ class Workflow
 	 */
 	public function getNextTriggerTimeForWeekly($scheduledDaysOfWeek, $scheduledTime)
 	{
-		$weekDays = array('1' => 'Monday', '2' => 'Tuesday', '3' => 'Wednesday', '4' => 'Thursday', '5' => 'Friday', '6' => 'Saturday', '7' => 'Sunday');
+		$weekDays = ['1' => 'Monday', '2' => 'Tuesday', '3' => 'Wednesday', '4' => 'Thursday', '5' => 'Friday', '6' => 'Saturday', '7' => 'Sunday'];
 		$currentTime = time();
 		$currentWeekDay = date('N', $currentTime);
 		if ($scheduledDaysOfWeek) {
@@ -761,7 +756,7 @@ class Workflow
 				foreach ($scheduledDaysOfMonth as $day) {
 					if ($day == $currentDayOfMonth) {
 						$currentTime = time();
-						$schTime = strtotime($date = date('Y') . '-' . date('m') . '-' . $day . ' ' . $scheduledTime);
+						$schTime = strtotime(date('Y') . '-' . date('m') . '-' . $day . ' ' . $scheduledTime);
 						if ($schTime > $currentTime) {
 							$nextTriggerDay = $day;
 							break;

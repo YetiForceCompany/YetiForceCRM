@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-class Install_Index_view extends Vtiger_View_Controller
+class Install_Index_View extends Vtiger_View_Controller
 {
 
 	protected $debug = false;
@@ -25,9 +25,14 @@ class Install_Index_view extends Vtiger_View_Controller
 		return false;
 	}
 
-	public function setLanguage($request)
+	/**
+	 * Set language
+	 * @param \App\Request $request
+	 * @return \App\Request
+	 */
+	public function setLanguage(\App\Request $request)
 	{
-		if (!$request->get('lang')) {
+		if (!$request->getByType('lang', 1)) {
 
 			$lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
 
@@ -46,13 +51,13 @@ class Install_Index_view extends Vtiger_View_Controller
 	{
 		parent::__construct();
 		//Install
-		$this->exposeMethod('Step1');
-		$this->exposeMethod('Step2');
-		$this->exposeMethod('Step3');
-		$this->exposeMethod('Step4');
-		$this->exposeMethod('Step5');
-		$this->exposeMethod('Step6');
-		$this->exposeMethod('Step7');
+		$this->exposeMethod('step1');
+		$this->exposeMethod('step2');
+		$this->exposeMethod('step3');
+		$this->exposeMethod('step4');
+		$this->exposeMethod('step5');
+		$this->exposeMethod('step6');
+		$this->exposeMethod('step7');
 		//Migrate
 		$this->exposeMethod('mStep0');
 		$this->exposeMethod('mStep1');
@@ -68,19 +73,19 @@ class Install_Index_view extends Vtiger_View_Controller
 		$request = $this->setLanguage($request);
 
 		$configFileName = 'config/config.inc.php';
-		if ($request->getMode() !== 'Step7' && is_file($configFileName) && filesize($configFileName) > 10) {
+		if ($request->getMode() !== 'step7' && is_file($configFileName) && filesize($configFileName) > 10) {
 			$defaultModule = vglobal('default_module');
 			$defaultModuleInstance = Vtiger_Module_Model::getInstance($defaultModule);
 			$defaultView = $defaultModuleInstance->getDefaultViewName();
 			header('Location:../index.php?module=' . $defaultModule . '&view=' . $defaultView);
 		}
-		$_SESSION['default_language'] = $defaultLanguage = ($request->get('lang')) ? $request->get('lang') : 'en_us';
+		$_SESSION['default_language'] = $defaultLanguage = ($request->getByType('lang', 1)) ? $request->getByType('lang', 1) : 'en_us';
 		vglobal('default_language', $defaultLanguage);
 
 		$this->viewer = new Vtiger_Viewer();
 		$this->viewer->setTemplateDir('install/tpl/');
 		$this->viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
-		$this->viewer->assign('LANG', $request->get('lang'));
+		$this->viewer->assign('LANG', $request->getByType('lang', 1));
 		$this->viewer->assign('HTMLLANG', substr($defaultLanguage, 0, 2));
 		$this->viewer->assign('LANGUAGE', $defaultLanguage);
 		$this->viewer->assign('STYLES', $this->getHeaderCss($request));
@@ -101,19 +106,19 @@ class Install_Index_view extends Vtiger_View_Controller
 		if (!empty($mode) && $this->isMethodExposed($mode)) {
 			return $this->$mode($request);
 		}
-		$this->Step1($request);
+		$this->step1($request);
 	}
 
 	public function postProcess(\App\Request $request)
 	{
 		$this->viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
 		echo $this->viewer->fetch('InstallPostProcess.tpl');
-		if ($request->getMode() === 'Step7') {
+		if ($request->getMode() === 'step7') {
 			$this->cleanInstallationFiles();
 		}
 	}
 
-	public function Step1(\App\Request $request)
+	public function step1(\App\Request $request)
 	{
 		$isMigrate = false;
 		if (is_dir('install/migrate_schema/')) {
@@ -127,24 +132,31 @@ class Install_Index_view extends Vtiger_View_Controller
 		echo $this->viewer->fetch('Step1.tpl');
 	}
 
-	public function Step2(\App\Request $request)
+	public function step2(\App\Request $request)
 	{
+		if ($_SESSION['default_language'] === 'pl_pl') {
+			$license = file_get_contents('licenses/LicensePL.txt');
+		} else {
+			$license = file_get_contents('licenses/LicenseEN.txt');
+		}
+		$this->viewer->assign('LICENSE', nl2br($license));
 		echo $this->viewer->fetch('Step2.tpl');
 	}
 
-	public function Step3(\App\Request $request)
+	public function step3(\App\Request $request)
 	{
 		$this->viewer->assign('FAILED_FILE_PERMISSIONS', Settings_ConfReport_Module_Model::getPermissionsFiles(true));
 		echo $this->viewer->fetch('Step3.tpl');
 	}
 
-	public function Step4(\App\Request $request)
+	public function step4(\App\Request $request)
 	{
 		$this->viewer->assign('CURRENCIES', Install_Utils_Model::getCurrencyList());
 		require_once 'modules/Users/UserTimeZonesArray.php';
 		$this->viewer->assign('TIMEZONES', UserTimeZones::getTimeZones());
 
 		$defaultParameters = Install_Utils_Model::getDefaultPreInstallParameters();
+		$this->viewer->assign('USERNAME_BLACKLIST', require 'config/username_blacklist.php');
 		$this->viewer->assign('DB_HOSTNAME', $defaultParameters['db_hostname']);
 		$this->viewer->assign('DB_USERNAME', $defaultParameters['db_username']);
 		$this->viewer->assign('DB_PASSWORD', $defaultParameters['db_password']);
@@ -153,18 +165,17 @@ class Install_Index_view extends Vtiger_View_Controller
 		$this->viewer->assign('ADMIN_LASTNAME', $defaultParameters['admin_lastname']);
 		$this->viewer->assign('ADMIN_PASSWORD', $defaultParameters['admin_password']);
 		$this->viewer->assign('ADMIN_EMAIL', $defaultParameters['admin_email']);
-
 		echo $this->viewer->fetch('Step4.tpl');
 	}
 
-	public function Step5(\App\Request $request)
+	public function step5(\App\Request $request)
 	{
 		set_time_limit(60); // Override default limit to let install complete.
 		$requestData = $request->getAll();
 		foreach ($requestData as $name => $value) {
 			$_SESSION['config_file_info'][$name] = $value;
 		}
-		$_SESSION['default_language'] = $request->get('lang');
+		$_SESSION['default_language'] = $request->getByType('lang', 1);
 		$_SESSION['timezone'] = $request->get('timezone');
 		$authKey = $_SESSION['config_file_info']['authentication_key'] = sha1(microtime());
 
@@ -195,17 +206,16 @@ class Install_Index_view extends Vtiger_View_Controller
 		echo $this->viewer->fetch('Step5.tpl');
 	}
 
-	public function Step6(\App\Request $request)
+	public function step6(\App\Request $request)
 	{
 		// Create configuration file
 		$configFile = new Install_ConfigFileUtils_Model($_SESSION['config_file_info']);
 		$configFile->createConfigFile();
 		$this->viewer->assign('AUTH_KEY', $_SESSION['config_file_info']['authentication_key']);
-		$this->viewer->assign('INDUSTRY', Install_Utils_Model::getIndustryList());
 		echo $this->viewer->fetch('Step6.tpl');
 	}
 
-	public function Step7(\App\Request $request)
+	public function step7(\App\Request $request)
 	{
 		AppConfig::iniSet('display_errors', 'On');
 		AppConfig::iniSet('max_execution_time', 0);
@@ -213,13 +223,14 @@ class Install_Index_view extends Vtiger_View_Controller
 		$dbconfig = AppConfig::main('dbconfig');
 		if (!(empty($dbconfig) || empty($dbconfig['db_name']) || $dbconfig['db_name'] == '_DBC_TYPE_')) {
 			if ($_SESSION['config_file_info']['authentication_key'] !== $request->get('auth_key')) {
-				throw new \Exception\AppException('ERR_NOT_AUTHORIZED_TO_PERFORM_THE_OPERATION');
+				throw new \App\Exceptions\AppException('ERR_NOT_AUTHORIZED_TO_PERFORM_THE_OPERATION');
 			}
 			// Initialize and set up tables
 			$initSchema = new Install_InitSchema_Model();
 			$initSchema->initialize();
 			$initSchema->setCompanyDetails($request);
 
+			$this->viewer->assign('USER_NAME', $_SESSION['config_file_info']['user_name']);
 			$this->viewer->assign('PASSWORD', $_SESSION['config_file_info']['password']);
 			$this->viewer->assign('APPUNIQUEKEY', $this->retrieveConfiguredAppUniqueKey());
 			$this->viewer->assign('CURRENT_VERSION', \App\Version::get());
@@ -238,85 +249,6 @@ class Install_Index_view extends Vtiger_View_Controller
 		$this->viewer->assign('EXAMPLE_DIRECTORY', $rootDirectory);
 		$this->viewer->assign('SCHEMALISTS', $schemaLists);
 		echo $this->viewer->fetch('mStep0.tpl');
-	}
-
-	public function mStep1(\App\Request $request)
-	{
-		$initSchema = new Install_InitSchema_Model();
-		$schemaLists = $initSchema->getMigrationSchemaList();
-		$rootDirectory = getcwd();
-		if (substr($rootDirectory, -1) != '/') {
-			$rootDirectory = $rootDirectory . '/';
-		}
-		$this->viewer->assign('EXAMPLE_DIRECTORY', $rootDirectory);
-		$this->viewer->assign('SCHEMALISTS', $schemaLists);
-		echo $this->viewer->fetch('mStep1.tpl');
-	}
-
-	public function mStep2(\App\Request $request)
-	{
-		$initSchema = new Install_InitSchema_Model();
-		$schemaLists = $initSchema->getMigrationSchemaList();
-		$rootDirectory = getcwd();
-		if (substr($rootDirectory, -1) != '/') {
-			$rootDirectory = $rootDirectory . '/';
-		}
-		$this->viewer->assign('EXAMPLE_DIRECTORY', $rootDirectory);
-		$this->viewer->assign('SCHEMALISTS', $schemaLists);
-		echo $this->viewer->fetch('mStep2.tpl');
-	}
-
-	public function mStep3(\App\Request $request)
-	{
-		$system = $request->get('system');
-		$source_directory = $request->get('source_directory');
-		$username = $request->get('username');
-		$password = $request->get('password');
-		$errorText = '';
-		$loginStatus = false;
-
-		$migrationURL = 'Install.php?mode=execute&ajax=true&system=' . $system . '&user=' . $username;
-		$initSchema = new Install_InitSchema_Model();
-		$createConfig = $initSchema->createConfig($source_directory, $username, $password, $system);
-		if ($createConfig['result']) {
-			include('config/config.inc.php');
-			$adb = new PearDatabase($dbconfig['db_type'], $dbconfig['db_hostname'], $dbconfig['db_name'], $dbconfig['db_username'], $dbconfig['db_password']);
-			vglobal('adb', $adb);
-			$query = "SELECT crypt_type, user_name FROM vtiger_users WHERE user_name=?";
-			$result = $adb->requirePsSingleResult($query, array($username), true);
-			if ($adb->num_rows($result) > 0) {
-				$crypt_type = $adb->query_result($result, 0, 'crypt_type');
-				$salt = substr($username, 0, 2);
-				if ($crypt_type == 'MD5') {
-					$salt = '$1$' . $salt . '$';
-				} elseif ($crypt_type == 'BLOWFISH') {
-					$salt = '$2$' . $salt . '$';
-				} elseif ($crypt_type == 'PHP5.3MD5') {
-					$salt = '$1$' . str_pad($salt, 9, '0');
-				}
-				$encrypted_password = crypt($password, $salt);
-				$query = "SELECT 1 from vtiger_users where user_name=? && user_password=? && status = ?";
-				$result = $adb->requirePsSingleResult($query, array($username, $encrypted_password, 'Active'), true);
-				if ($adb->num_rows($result) > 0) {
-					$loginStatus = true;
-				}
-			}
-			if (!$loginStatus) {
-				$errorText = 'LBL_WRONG_USERNAME_OR_PASSWORD';
-				file_put_contents('config/config.inc.php', '');
-			}
-		} else {
-			$errorText = $createConfig['text'];
-		}
-		$this->viewer->assign('MIGRATIONURL', $migrationURL);
-		$this->viewer->assign('ERRORTEXT', $errorText);
-		$this->viewer->assign('MIGRATIONRESULT', $migrationResult);
-		echo $this->viewer->fetch('mStep3.tpl');
-		if ($loginStatus) {
-			echo $this->viewer->fetch('mStep3Pre.tpl');
-			$migrationResult = $initSchema->executeMigrationSchema($system, $username, $source_directory);
-			echo $this->viewer->fetch('mStep3Post.tpl');
-		}
 	}
 
 	// Helper function as configuration file is still not loaded.
@@ -338,12 +270,8 @@ class Install_Index_view extends Vtiger_View_Controller
 
 	public function cleanInstallationFiles()
 	{
-		$languagesList = Users_Module_Model::getLanguagesList();
-		foreach ($languagesList as $key => $value) {
-			$langPath = "languages/$key/Install.php";
-			if (file_exists($langPath)) {
-				unlink($langPath);
-			}
+		foreach (glob('languages/*/Install.php') as $path) {
+			unlink($path);
 		}
 		\vtlib\Functions::recurseDelete('install');
 		\vtlib\Functions::recurseDelete('public_html/install');
@@ -363,10 +291,10 @@ class Install_Index_view extends Vtiger_View_Controller
 	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = array(
+		$cssFileNames = [
 			'~install/tpl/resources/css/style.css',
 			'~install/tpl/resources/css/mkCheckbox.css',
-		);
+		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		return array_merge($headerCssInstances, $cssInstances);
 	}
@@ -378,13 +306,13 @@ class Install_Index_view extends Vtiger_View_Controller
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
-		if ($request->getMode() === 'Step7') {
+		if ($request->getMode() === 'step7') {
 			return [];
 		}
 		$headerScriptInstances = parent::getFooterScripts($request);
-		$jsFileNames = array(
+		$jsFileNames = [
 			'~install/tpl/resources/Index.js',
-		);
+		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		return array_merge($headerScriptInstances, $jsScriptInstances);
 	}

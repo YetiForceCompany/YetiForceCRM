@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{assign var=COUNT value=count($RECOLDLIST)}
 	<div class="modelContainer modal fade" tabindex="-1">
@@ -42,7 +42,7 @@
 												</button>
 											</div>
 											<div class="pull-right">
-												{if AppConfig::main('isActiveSendingMails') && Users_Privileges_Model::isPermitted('OSSMail')}
+												{if AppConfig::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}
 													{if $USER_MODEL->get('internal_mailer') == 1}
 														{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($SMODULENAME, $SRECORD, 'Detail')}
 														<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=reply" data-popup="{$POPUP}" title="{\App\Language::translate('LBL_REPLY','OSSMailView')}">
@@ -79,8 +79,8 @@
 											</span>
 										</div>
 										<div class="pull-right muted">
-											<small title="{$ROW['date']}">
-												{Vtiger_Util_Helper::formatDateDiffInStrings($ROW['date'])}
+											<small>
+												{\App\Fields\DateTime::formatToViewDate($ROW['date'])}
 											</small>   
 										</div>
 										<h5 class="textOverflowEllipsis mailTitle mainFrom">

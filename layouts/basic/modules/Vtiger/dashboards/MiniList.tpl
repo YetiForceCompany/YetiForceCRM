@@ -18,28 +18,28 @@
 			</div>
 			<div class="col-md-4">
 				<div class="box pull-right">
-					{include file="dashboards/DashboardHeaderIcons.tpl"|@vtemplate_path:$MODULE_NAME}
+					{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
 				</div>
 			</div>
 		</div>
-		<hr class="widgetHr"/>
+		<hr class="widgetHr" />
 		<div class="row" >
 			<div class="col-sm-6">
 				{if $FILTER_FIELD}
 					<div class="widgetFilterByField">
-						{include file=vtemplate_path($FILTER_FIELD->getUITypeModel()->getListSearchTemplateName(),$BASE_MODULE) MODULE=$BASE_MODULE FIELD_MODEL=$FILTER_FIELD SEARCH_INFO=[] USER_MODEL=$USER_MODEL}
+						{include file=\App\Layout::getTemplatePath($FILTER_FIELD->getUITypeModel()->getListSearchTemplateName(), $BASE_MODULE) MODULE=$BASE_MODULE FIELD_MODEL=$FILTER_FIELD SEARCH_INFO=[] USER_MODEL=$USER_MODEL}
 					</div>
 				{/if}
 			</div>
 			<div class="col-sm-6 pull-right">
-				{include file="dashboards/SelectAccessibleTemplate.tpl"|@vtemplate_path:$MODULE_NAME}
+				{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
 			</div>
 		</div>
 	</div>
 	<div class="dashboardWidgetContent">
-		{include file="dashboards/MiniListContents.tpl"|@vtemplate_path:$MODULE_NAME}
+		{include file=\App\Layout::getTemplatePath('dashboards/MiniListContents.tpl', $MODULE_NAME)}
 	</div>
 	<div class="dashboardWidgetFooter">
-		{include file="dashboards/MiniListFooter.tpl"|@vtemplate_path:$MODULE_NAME}
+		{include file=\App\Layout::getTemplatePath('dashboards/MiniListFooter.tpl', $MODULE_NAME)}
 	</div>
 {/strip}

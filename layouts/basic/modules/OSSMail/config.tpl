@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<script type="text/javascript" src="libraries/bootstrap/js/bootstrap-tab.js"></script>
 	<style>
@@ -8,7 +8,7 @@
 	</style>
 	<div class='widget_header row '>
 		<div class="col-xs-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 		</div>
 	</div>
 	<ul id="tabs" class="nav nav-tabs" data-tabs="tabs" style="margin: 0px;">
@@ -20,7 +20,7 @@
 				<br />
 				<div class="alert alert-danger" role="alert">
 					<div>
-						<h4>{\App\Language::translate('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger','roundcube')}</h4>
+						<h4>{\App\Language::translateArgs('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger','roundcube')}</h4>
 					</div>
 				</div>
 			{elseif !\App\Module::isModuleActive('OSSMail')}	

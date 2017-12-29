@@ -3,7 +3,7 @@
  * Leads polish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'Verification data' => 'Wymagają weryfikacji',
@@ -22,7 +22,6 @@ $languageStrings = [
 	'Junk Lead' => 'Śmieciowy',
 	'Building number' => 'Numer budynku',
 	'Local number' => 'Numer lokalu',
-	'LBL_ADD_RECORD' => 'Dodaj rekord',
 	'LBL_CONVERT_LEAD' => 'Konwertuj na kontrahenta',
 	'LBL_CONVERT_LEAD_ERROR_TITLE' => 'Moduły wyłączone',
 	'LBL_CONVERT_LEAD_ERROR' => 'Musisz wybrać albo kontakt albo kontrahenta, by móc konwertować do kontrahenta',
@@ -33,7 +32,6 @@ $languageStrings = [
 	'LBL_LEADS_FIELD_MAPPING' => 'Mapowanie pól',
 	'LBL_MANDATORY_FIELDS_ARE_EMPTY' => 'Wymagane pola są puste',
 	'LBL_LEAD_ALREADY_CONVERTED' => 'Lead był już konwertowany',
-	'LBL_RECORDS_LIST' => 'Lista rekordów',
 	'LBL_TRANSFER_RELATED_RECORD' => 'Transferuj powiązane rekordy do',
 	'Lead No' => 'Nr',
 	'Leads' => 'Leady',

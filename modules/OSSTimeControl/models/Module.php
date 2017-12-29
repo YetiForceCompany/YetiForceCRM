@@ -4,57 +4,48 @@
  * OSSTimeControl module model class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 {
 
 	public function getCalendarViewUrl()
 	{
-		return 'index.php?module=' . $this->get('name') . '&view=Calendar';
+		return 'index.php?module=' . $this->getName() . '&view=Calendar';
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getSideBarLinks($linkParams)
 	{
-		$links = [];
-
-		$quickLinks = [
-			[
+		$links = Vtiger_Link_Model::getAllByType($this->getId(), ['SIDEBARLINK', 'SIDEBARWIDGET'], $linkParams);
+		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_CALENDAR_VIEW',
 				'linkurl' => $this->getCalendarViewUrl(),
-				'linkicon' => '',
-			],
-			[
+				'linkicon' => 'glyphicon glyphicon-calendar',
+		]);
+		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),
-				'linkicon' => '',
-			],
-		];
-		foreach ($quickLinks as $quickLink) {
-			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues($quickLink);
+				'linkicon' => 'glyphicon glyphicon-list',
+		]);
+		if ($linkParams['ACTION'] === 'Calendar') {
+			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'SIDEBARWIDGET',
+					'linklabel' => 'LBL_USERS',
+					'linkurl' => 'module=' . $this->getName() . '&view=RightPanel&mode=getUsersList',
+					'linkicon' => ''
+			]);
+			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'SIDEBARWIDGET',
+					'linklabel' => 'LBL_TYPE',
+					'linkurl' => 'module=' . $this->getName() . '&view=RightPanel&mode=getTypesList',
+					'linkicon' => ''
+			]);
 		}
-
-		if ($linkParams['ACTION'] == 'Calendar') {
-			$quickWidgets = [];
-			$quickWidgets[] = [
-				'linktype' => 'SIDEBARWIDGET',
-				'linklabel' => 'LBL_USERS',
-				'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getUsersList',
-				'linkicon' => ''
-			];
-			$quickWidgets[] = [
-				'linktype' => 'SIDEBARWIDGET',
-				'linklabel' => 'LBL_TIMECONTROL_TYPE',
-				'linkurl' => 'module=' . $this->get('name') . '&view=RightPanel&mode=getTypesList',
-				'linkicon' => ''
-			];
-			foreach ($quickWidgets as $quickWidget) {
-				$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues($quickWidget);
-			}
-		}
-
 		return $links;
 	}
 
@@ -106,7 +97,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 					'vtiger_crmentity.smownerid',
 					'time' => new \yii\db\Expression('SUM(vtiger_osstimecontrol.sum_time)')
 				])->from('vtiger_osstimecontrol')->innerJoin('vtiger_crmentity', 'vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid')
-				->where(['vtiger_crmentity.deleted' => 0, "vtiger_osstimecontrol.$fieldName" => $id, 'vtiger_osstimecontrol.osstimecontrol_status' => OSSTimeControl_Record_Model::recalculateStatus])
+				->where(['vtiger_crmentity.deleted' => 0, "vtiger_osstimecontrol.$fieldName" => $id, 'vtiger_osstimecontrol.osstimecontrol_status' => OSSTimeControl_Record_Model::RECALCULATE_STATUS])
 				->groupBy('smownerid');
 			App\PrivilegeQuery::getConditions($query, $this->getName());
 			$dataReader = $query->createCommand()->query();

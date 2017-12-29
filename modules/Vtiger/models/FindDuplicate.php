@@ -76,7 +76,7 @@ class Vtiger_FindDuplicate_Model extends \App\Base
 		foreach ($fields as $fieldName) {
 			$fieldModel = $moduleModel->getField($fieldName);
 			$orderby [$fieldName] = SORT_DESC;
-			$duplicateCheckClause []= $fieldModel->getTableName() . '.' . $fieldModel->getColumnName() . ' = duplicates.' . $fieldModel->getFieldName();
+			$duplicateCheckClause [] = $fieldModel->getTableName() . '.' . $fieldModel->getColumnName() . ' = duplicates.' . $fieldModel->getFieldName();
 		}
 		$query->innerJoin(['duplicates' => $subQuery], implode(' AND ', $duplicateCheckClause));
 		$query->orderBy($orderby);
@@ -115,10 +115,8 @@ class Vtiger_FindDuplicate_Model extends \App\Base
 			if ($i != 0) {
 				$slicedArray = [];
 				foreach ($fields as $diffColumn) {
-					$slicedArray[$diffColumn] = $row[$diffColumn];
+					$slicedArray[$diffColumn] = strtolower(trim($row[$diffColumn]));
 				}
-				array_walk($temp, 'lower_array');
-				array_walk($slicedArray, 'lower_array');
 				$arrDiff = array_diff($temp, $slicedArray);
 				if (count($arrDiff) > 0) {
 					$groupCount++;
@@ -129,7 +127,7 @@ class Vtiger_FindDuplicate_Model extends \App\Base
 			}
 			foreach ($row as $field => $value) {
 				if (in_array($field, $fields)) {
-					$temp[$field] = $value;
+					$temp[$field] = strtolower(trim($value));
 				}
 				$resultRow[$field] = $value;
 			}
@@ -173,7 +171,7 @@ class Vtiger_FindDuplicate_Model extends \App\Base
 		$dataReader = $findDuplicatesModel->getQuery()->createCommand()->query();
 		$recordIds = [];
 		while ($record = $dataReader->read()) {
-			$recordIds []= $record['id'];
+			$recordIds [] = $record['id'];
 		}
 		return array_diff($recordIds, $request->get('excluded_ids'));
 	}

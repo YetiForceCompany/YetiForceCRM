@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 jQuery(function () {
 	if ($('#OSSMailBoxInfo').data('numberunreademails') != undefined) {
 		window.stopScanMails = false;
@@ -26,7 +26,7 @@ function registerUserList() {
 						if (app.getModuleName() == 'OSSMail') {
 							location.reload();
 						} else {
-							window.location.href = "index.php?module=OSSMail&view=index";
+							window.location.href = "index.php?module=OSSMail&view=Index";
 						}
 					}
 			);
@@ -82,7 +82,7 @@ function startCheckMails() {
 function checkMails(users) {
 	var params = {
 		'module': 'OSSMail',
-		'action': "checkMails",
+		'action': "CheckMails",
 		'users': users,
 	};
 	var reloadSelect = false;

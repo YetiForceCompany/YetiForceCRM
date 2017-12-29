@@ -12,5 +12,3 @@ class Events_Datetime_UIType extends Calendar_Datetime_UIType
 {
 	
 }
-
-?>

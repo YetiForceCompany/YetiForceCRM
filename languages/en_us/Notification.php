@@ -3,7 +3,7 @@
  * Notification english translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'Notification' => 'Notification',
@@ -38,8 +38,12 @@ $languageStrings = [
 	'FL_TYPE' => 'Type',
 	'LBL_MARK_AS_READ' => 'Mark as read',
 	'LBL_NO_NOTIFICATIONS' => 'No notifications',
+	'LBL_CRON_LAUNCHING_FREQUENCY' => 'Cron launching frequency',
+	'LBL_MODULES' => 'Modules',
+	'LBL_SENT_NOTIFICATIONS' => 'Send notifications',
 	'LBL_NOTIFICATION_SETTINGS' => 'Notification settings',
 	'LBL_UNREAD' => 'Unread',
+	'LBL_NO_UNREAD_NOTIFICATIONS' => 'No unread notifications',
 ];
 $jsLanguageStrings = [
 	'JS_MARKED_AS_READ' => 'Marked as read',

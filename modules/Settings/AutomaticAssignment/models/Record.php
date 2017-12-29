@@ -4,7 +4,7 @@
  * Automatic Assignment Record Model Class
  * @package YetiForce.Settings.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_Model
@@ -102,6 +102,15 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	public function getEditFields()
 	{
 		return ['roleid' => 'FL_MODE', 'value' => 'FL_VALUE', 'roles' => 'FL_ROLES', 'smowners' => 'FL_SMOWNERS', 'assign' => 'FL_ASSIGN', 'conditions' => 'FL_CONDITIONS'];
+	}
+
+	/**
+	 * Function declare fields to edit
+	 * @return string[]
+	 */
+	public function getEditableFields()
+	{
+		return ['id', 'tabid', 'field', 'roleid', 'value', 'roles', 'smowners', 'assign', 'conditions', 'user_limit', 'active'];
 	}
 
 	/**
@@ -339,12 +348,16 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	{
 		$db = App\Db::getInstance('admin');
 		$params = [];
+		$fieldsToEdit = $this->getEditableFields();
 		foreach ($this->getData() as $key => $value) {
+			if (!in_array($key, $fieldsToEdit)) {
+				throw new \App\Exceptions\BadRequest('ERR_NOT_ALLOWED_VALUE||' . $key, 406);
+			}
 			$params[$key] = $this->getValueToSave($key, $value);
 		}
 		if ($params && empty($this->getId())) {
-			$seccess = $db->createCommand()->insert($this->getTable(), $params)->execute();
-			if ($seccess) {
+			$success = $db->createCommand()->insert($this->getTable(), $params)->execute();
+			if ($success) {
 				$this->rawData = $params;
 				$this->set('id', $db->getLastInsertID($this->getTable() . '_id_seq'));
 			}
@@ -377,7 +390,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => 'javascript:Vtiger_List_Js.deleteRecord(' . $this->getId() . ');',
+				'linkurl' => 'javascript:Settings_AutomaticAssignment_List_Js.deleteById(' . $this->getId() . ');',
 				'linkicon' => 'glyphicon glyphicon-trash'
 			]
 		];
@@ -477,7 +490,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 		}
 		if (empty($users)) {
 			$smowners = $this->get('smowners') ? explode(',', $this->get('smowners')) : [];
-			foreach ($smowners as $key => $user) {
+			foreach ($smowners as $user) {
 				if (\App\Fields\Owner::getType($user) !== 'Users') {
 					$users = array_merge($users, \App\PrivilegeUtil::getUsersByGroup($user));
 				} else {

@@ -4,7 +4,7 @@
  * Settings menu SaveAjax action class
  * @package YetiForce.Action
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 {
@@ -26,10 +26,10 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$recordModel->initialize($data);
 		$recordModel->save();
 		$response = new Vtiger_Response();
-		$response->setResult(array(
+		$response->setResult([
 			'success' => true,
 			'message' => \App\Language::translate('LBL_ITEM_ADDED_TO_MENU', $request->getModule(false))
-		));
+		]);
 		$response->emit();
 	}
 
@@ -41,10 +41,10 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$recordModel->set('edit', true);
 		$recordModel->save($data);
 		$response = new Vtiger_Response();
-		$response->setResult(array(
+		$response->setResult([
 			'success' => true,
 			'message' => \App\Language::translate('LBL_SAVED_MENU', $request->getModule(false))
-		));
+		]);
 		$response->emit();
 	}
 
@@ -54,10 +54,10 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$settingsModel = Settings_Menu_Record_Model::getCleanInstance();
 		$settingsModel->removeMenu($data);
 		$response = new Vtiger_Response();
-		$response->setResult(array(
+		$response->setResult([
 			'success' => true,
 			'message' => \App\Language::translate('LBL_REMOVED_MENU_ITEM', $request->getModule(false))
-		));
+		]);
 		$response->emit();
 	}
 
@@ -67,10 +67,10 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$recordModel = Settings_Menu_Record_Model::getCleanInstance();
 		$recordModel->saveSequence($data, true);
 		$response = new Vtiger_Response();
-		$response->setResult(array(
+		$response->setResult([
 			'success' => true,
 			'message' => \App\Language::translate('LBL_SAVED_MAP_MENU', $request->getModule(false))
-		));
+		]);
 		$response->emit();
 	}
 
@@ -85,10 +85,10 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 		$recordModel = Settings_Menu_Record_Model::getCleanInstance();
 		$recordModel->copyMenu($fromRole, $toRole);
 		$response = new Vtiger_Response();
-		$response->setResult(array(
+		$response->setResult([
 			'success' => true,
 			'message' => \App\Language::translate('LBL_SAVED_MAP_MENU', $request->getModule(false))
-		));
+		]);
 
 		$response->emit();
 	}

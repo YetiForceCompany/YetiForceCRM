@@ -3,7 +3,7 @@
  * Install polish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'LANGNAME' => 'Polski',
@@ -14,7 +14,7 @@ $languageStrings = [
 	'ERR_UNABLE_CREATE_DATABASE' => 'Nie można utworzyć bazy danych',
 	'LBL_ADMIN_INFORMATION' => 'Informacje dotyczące administratora',
 	'LBL_ADMIN_USER_INFORMATION' => 'Informacje dotyczące administratora',
-	'LBL_CONFIRM_CONFIGURATION_SETTINGS' => 'Potwierdż wprowadzoną konfiguracje',
+	'LBL_CONFIRM_CONFIGURATION_SETTINGS' => 'Potwierdź wprowadzoną konfiguracje',
 	'LBL_CREATE_NEW_DB' => 'Utwórz nową bazę danych',
 	'LBL_CURRENCIES' => 'Waluta',
 	'LBL_CURRENCY' => 'Waluta',
@@ -60,7 +60,7 @@ $languageStrings = [
 	'LBL_WELCOME' => 'Witamy',
 	'LBL_ZLIB_SUPPORT' => 'Wsparcie dla Zlib',
 	'MSG_DB_PARAMETERS_INVALID' => 'Określony użytkownik bazy danych, hasło, nazwa hosta, typ bazy danych lub port jest nieprawidłowy',
-	'MSG_DB_ROOT_USER_NOT_AUTHORIZED' => 'Wiadomość: Określony użytkownik root bazy danych nie ma uprawnień do tworzenia bazy danych lub nazwy bazy danych zawiera znaki specjalne. Spróbuj zmienić ustawienia bazy danych',
+	'MSG_DB_ROOT_USER_NOT_AUTHORIZED' => 'Wiadomość: Określony użytkownik root bazy danych nie ma uprawnień do tworzenia bazy danych lub nazwa bazy danych zawiera znaki specjalne. Spróbuj zmienić ustawienia bazy danych',
 	'MSG_DB_USER_NOT_AUTHORIZED' => 'Określony użytkownik bazy danych nie ma dostępu, aby połączyć się z serwerem bazy danych z hosta',
 	'MSG_LIST_REASONS' => 'Może to wynikać z następujących powodów',
 	'LBL_PDO_SUPPORT' => 'Wsparcie dla PDO',
@@ -109,5 +109,6 @@ $jsLanguageStrings = [
 	'LBL_MANDATORY_FIELDS_ERROR' => 'Uwaga! Pola wymagane są puste.',
 	'LBL_PASS_REENTER_ERROR' => 'Należy ponownie wpisać hasło. Pole Hasło i Powtórz hasło nie zgadzają się.',
 	'LBL_INVALID_EMAIL_ERROR' => 'Uwaga! Niepoprawny adres email.',
+	'LBL_INVALID_USERNAME_ERROR' => 'Niedozwolona nazwa uzytkownika.',
 	'LBL_RESOLVE_ERROR' => 'Proszę naprawić błąd przed kontynuowaniem instalacji',
 ];

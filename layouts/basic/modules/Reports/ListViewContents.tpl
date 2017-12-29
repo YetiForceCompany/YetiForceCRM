@@ -27,14 +27,10 @@
 <div id="deSelectAllMsgDiv" class="alert-block msgDiv">
 	<strong><a id="deSelectAllMsg">{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
 </div>
-
-<div class="contents-topscroll noprint stick" data-position="top">
-	<div class="topscroll-div"></div>
-</div>
-<div class="listViewEntriesDiv contents-bottomscroll">
-	<div class="bottomscroll-div">
-	<input type="hidden" value="{$ORDER_BY}" id="orderBy">
-	<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
+<div class="listViewEntriesDiv">
+ <div data-simplebar>
+	<input type="hidden" value="{$ORDER_BY}" id="orderBy" />
+	<input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
 	<p class="listViewLoadingMsg hide">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS', $MODULE)}........</p>
 	{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 	<table class="table table-bordered listViewEntriesTable {$WIDTHTYPE}">
@@ -60,7 +56,7 @@
 			{foreach key=LISTVIEW_HEADER_KEY item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 				{assign var=REPORT_MODEL value=Reports_Record_Model::getCleanInstance($LISTVIEW_ENTRY->getId())}
 				<td nowrap class="{$WIDTHTYPE}">
-					<a href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">{\App\Language::translate($LISTVIEW_ENTRY->get($LISTVIEW_HEADER_KEY), $MODULE)}</a>
+					<a href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADER_KEY)}</a>
 					{if $LISTVIEW_HEADER@last}
 						</td><td nowrap class="{$WIDTHTYPE}">
 						<div class="pull-right actions">

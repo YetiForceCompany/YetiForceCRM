@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{assign var="INVENTORY_FIELD" value=Vtiger_InventoryField_Model::getInstance($MODULE_NAME)}
 	{assign var="FIELDS" value=$INVENTORY_FIELD->getFields(true, [], 'Detail')}
@@ -28,7 +28,7 @@
 							<th>
 								<span class="inventoryLineItemHeader">{\App\Language::translate($FIELD->get('label'), $MODULE_NAME)}:</span>&nbsp;
 								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$MODULE_NAME)}
-								{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE_NAME ITEM_VALUE=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
+								{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME) ITEM_VALUE=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
 							</th>
 						{/foreach}
 					</tr>
@@ -50,13 +50,13 @@
 				{foreach key=KEY item=INVENTORY_ROW from=$INVENTORY_ROWS}
 					{assign var="ROW_NO" value=$KEY+1}
 					{if $INVENTORY_ROW['name']}
-						{assign var="ROW_MODULE" value=vtlib\Functions::getCRMRecordType($INVENTORY_ROW['name'])}
+						{assign var="ROW_MODULE" value=\App\Record::getType($INVENTORY_ROW['name'])}
 					{/if}
 					<tr>
 						{foreach item=FIELD from=$FIELDS[1]}
 							<td {if in_array($FIELD->getName(), $FIELDS_TEXT_ALIGN_RIGHT)}class="textAlignRight"{/if}>
 								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$MODULE_NAME)}
-								{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE_NAME ITEM_VALUE=$INVENTORY_ROW[$FIELD->get('columnname')]}
+								{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME) ITEM_VALUE=$INVENTORY_ROW[$FIELD->get('columnname')]}
 							</td>
 						{/foreach}
 					</tr>
@@ -75,6 +75,6 @@
 				</tr>
 			</tfoot>
 		</table>
-		{include file='DetailViewInventorySummary.tpl'|@vtemplate_path:$MODULE_NAME}
+		{include file=\App\Layout::getTemplatePath('DetailViewInventorySummary.tpl', $MODULE_NAME)}
 	{/if}
 {/strip}

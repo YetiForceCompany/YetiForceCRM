@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 Settings_PDF_Edit_Js("Settings_PDF_Edit8_Js", {}, {
 	step8Container: false,
 	advanceFilterInstance: false,
@@ -106,7 +106,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit8_Js", {}, {
 			var xhr = new XMLHttpRequest();
 
 			// Open the connection.
-			xhr.open('POST', 'index.php?module=PDF&parent=Settings&action=Watermark&mode=Upload', true);
+			xhr.open('POST', 'index.php?module=PDF&parent=Settings&action=Watermark&mode=upload', true);
 
 			// Set up a handler for when the request finishes.
 			xhr.onload = function () {
@@ -134,7 +134,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit8_Js", {}, {
 				parent: app.getParentModuleName(),
 				module: app.getModuleName(),
 				action: 'Watermark',
-				mode: 'Delete',
+				mode: 'delete',
 				id: form.find('[name="record"]').val()
 			};
 			params.dataType = 'json';

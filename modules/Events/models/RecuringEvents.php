@@ -4,7 +4,7 @@
  * Recurring Events Class
  * @package YetiForce.Model
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 class Events_RecuringEvents_Model extends \App\Base
@@ -227,7 +227,7 @@ class Events_RecuringEvents_Model extends \App\Base
 				$records = $this->getRecords($this->recordModel->get('followup'));
 				foreach ($records as $recordId => $data) {
 					if ($recordId !== $this->templateRecordId) {
-						Vtiger_Record_Model::getInstanceById($recordId)->delete();
+						Vtiger_Record_Model::getInstanceById($recordId)->changeState('Trash');
 					}
 				}
 				break;
@@ -244,7 +244,7 @@ class Events_RecuringEvents_Model extends \App\Base
 						$omittedRecords [] = $recordId;
 						continue;
 					}
-					Vtiger_Record_Model::getInstanceById($recordId)->delete();
+					Vtiger_Record_Model::getInstanceById($recordId)->changeState('Trash');
 				}
 				break;
 			case self::UPDATE_THIS_EVENT:

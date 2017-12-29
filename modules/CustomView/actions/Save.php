@@ -13,24 +13,27 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 {
 
 	/**
-	 * Function to check permission
-	 * @param \App\Request $request
-	 * @throws \Exception\NoPermitted
+	 * {@inheritDoc}
 	 */
 	public function checkPermission(\App\Request $request)
 	{
-		if (!App\Privilege::isPermitted($request->get('source_module'), 'CreateCustomFilter')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		if (\App\User::getCurrentUserModel()->isAdmin()) {
+			return;
+		}
+		if ($request->has('record') && !CustomView_Record_Model::getInstanceById($request->getInteger('record'))->isEditable()) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+		if (!App\Privilege::isPermitted($request->getByType('source_module', 2), 'CreateCustomFilter')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
 	/**
-	 * Main process action
-	 * @param \App\Request $request
+	 * {@inheritDoc}
 	 */
 	public function process(\App\Request $request)
 	{
-		$moduleModel = Vtiger_Module_Model::getInstance($request->get('source_module'));
+		$moduleModel = Vtiger_Module_Model::getInstance($request->getByType('source_module', 2));
 		$customViewModel = $this->getCVModelFromRequest($request);
 		$response = new Vtiger_Response();
 
@@ -38,7 +41,7 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 			$customViewModel->save();
 			$cvId = $customViewModel->getId();
 			\App\Cache::delete('CustomView_Record_ModelgetInstanceById', $cvId);
-			$response->setResult(array('id' => $cvId, 'listviewurl' => $moduleModel->getListViewUrl() . '&viewname=' . $cvId));
+			$response->setResult(['id' => $cvId, 'listviewurl' => $moduleModel->getListViewUrl() . '&viewname=' . $cvId]);
 		} else {
 			$response->setError(\App\Language::translate('LBL_CUSTOM_VIEW_NAME_DUPLICATES_EXIST', $request->getModule()));
 		}
@@ -53,31 +56,30 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 	 */
 	private function getCVModelFromRequest(\App\Request $request)
 	{
-		$cvId = $request->get('record');
+		$cvId = $request->getInteger('record');
 
 		if (!empty($cvId)) {
 			$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
 		} else {
 			$customViewModel = CustomView_Record_Model::getCleanInstance();
-			$customViewModel->setModule($request->get('source_module'));
+			$customViewModel->setModule($request->getByType('source_module', 2));
 		}
-		$setmetrics = empty($request->get('setmetrics')) ? 0 : $request->get('setmetrics');
-		$customViewData = array(
+		$customViewData = [
 			'cvid' => $cvId,
 			'viewname' => $request->get('viewname'),
-			'setdefault' => $request->get('setdefault'),
-			'setmetrics' => $setmetrics,
-			'status' => $request->get('status'),
-			'featured' => $request->get('featured'),
+			'setdefault' => $request->getInteger('setdefault'),
+			'setmetrics' => $request->isEmpty('setmetrics') ? 0 : $request->getInteger('setmetrics'),
+			'status' => $request->getInteger('status', 0),
+			'featured' => $request->getInteger('featured', 0),
 			'color' => $request->get('color'),
 			'description' => $request->get('description')
-		);
+		];
 		$selectedColumnsList = $request->get('columnslist');
 		if (empty($selectedColumnsList)) {
-			$moduleModel = Vtiger_Module_Model::getInstance($request->get('source_module'));
+			$moduleModel = Vtiger_Module_Model::getInstance($request->getByType('source_module', 2));
 			$cvIdDefault = $moduleModel->getAllFilterCvidForModule();
 			if ($cvIdDefault === false) {
-				$cvId = App\CustomView::getInstance($request->get('source_module'))->getDefaultCvId();
+				$cvId = App\CustomView::getInstance($request->getByType('source_module', 2))->getDefaultCvId();
 			}
 			$defaultCustomViewModel = CustomView_Record_Model::getInstanceById($cvIdDefault);
 			$selectedColumnsList = $defaultCustomViewModel->getSelectedFields();
@@ -95,6 +97,9 @@ class CustomView_Save_Action extends Vtiger_Action_Controller
 		return $customViewModel->setData($customViewData);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();

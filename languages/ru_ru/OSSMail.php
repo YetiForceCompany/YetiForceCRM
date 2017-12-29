@@ -3,7 +3,7 @@
  * OSSMail russian translation
  * @package YetiForce.Languages
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
 	'LBL_SEND_MASS_EMAIL' => 'Массовая отправка электронной почты',
@@ -68,11 +68,11 @@ $languageStrings = [
 	'To' => 'Для',
 	'LBL_MAIL_NOT_FOUND_IN_DB' => 'Почта не найдена в базе данных.',
 	'LBL_IMPORT_MAIL_MANUALLY' => 'Импорт почты вручную',
-	'LBL_RELATIONS' => 'Контрагенты / Контакты',
+	'LBL_RELATIONS' => 'Контрагенты',
+	'LBL_RELATIONS_EXTEND' => 'Контакты',
 	'LBL_PROCESS' => 'Процесс',
 	'LBL_SUB_PROCESS' => 'Подпроцесс',
 	'LBL_REMOVE_RELATION' => 'Удалить связь',
-	'LBL_ADD_RECORD' => 'Добавить запись',
 	'LBL_SELECT_RECORD' => 'Ссылка на существующую запись',
 	'LBL_ADD_CALENDAR' => 'Добавить событие',
 	'LBL_ADD_MODCOMMENTS' => 'Добавить комментарий',

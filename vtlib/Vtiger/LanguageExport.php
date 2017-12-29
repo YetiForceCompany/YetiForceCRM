@@ -88,10 +88,10 @@ class LanguageExport extends Package
 	private function generateLangMainfest($prefix)
 	{
 		$db = \PearDatabase::getInstance();
-		$sqlresult = $db->pquery('SELECT * FROM vtiger_language WHERE prefix = ?', array($prefix));
-		$languageresultrow = $db->fetch_array($sqlresult);
-		$langname = decode_html($languageresultrow['name']);
-		$langlabel = decode_html($languageresultrow['label']);
+		$sqlresult = $db->pquery('SELECT * FROM vtiger_language WHERE prefix = ?', [$prefix]);
+		$languageresultrow = $db->fetchArray($sqlresult);
+		$langname = \App\Purifier::decodeHtml($languageresultrow['name']);
+		$langlabel = \App\Purifier::decodeHtml($languageresultrow['label']);
 		$this->openNode('module');
 		$this->outputNode('language', 'type');
 		$this->outputNode($langname, 'name');
@@ -117,16 +117,16 @@ class LanguageExport extends Package
 	 */
 	public static function __initSchema()
 	{
-		$hastable = Utils::CheckTable(self::TABLENAME);
+		$hastable = Utils::checkTable(self::TABLENAME);
 		if (!$hastable) {
-			Utils::CreateTable(
+			Utils::createTable(
 				self::TABLENAME, '(id INT NOT NULL PRIMARY KEY,
 				name VARCHAR(50), prefix VARCHAR(10), label VARCHAR(30), lastupdated DATETIME, sequence INT, isdefault INT(1), active INT(1))', true
 			);
 			$adb = \PearDatabase::getInstance();
 			foreach (vglobal('languages') as $langkey => $langlabel) {
 				$uniqueid = self::__getUniqueId();
-				$adb->pquery('INSERT INTO ' . self::TABLENAME . '(id,name,prefix,label,lastupdated,active) VALUES(?,?,?,?,?,?)', Array($uniqueid, $langlabel, $langkey, $langlabel, date('Y-m-d H:i:s', time()), 1));
+				$adb->pquery('INSERT INTO ' . self::TABLENAME . '(id,name,prefix,label,lastupdated,active) VALUES(?,?,?,?,?,?)', [$uniqueid, $langlabel, $langkey, $langlabel, date('Y-m-d H:i:s', time()), 1]);
 			}
 		}
 	}
@@ -149,8 +149,7 @@ class LanguageExport extends Package
 		$adb = \PearDatabase::getInstance();
 		$checkres = $adb->pquery(sprintf('SELECT id FROM %s WHERE prefix = ?', self::TABLENAME), [$prefix]);
 		$datetime = date('Y-m-d H:i:s');
-		if ($adb->num_rows($checkres)) {
-			$id = $adb->query_result($checkres, 0, 'id');
+		if ($adb->numRows($checkres)) {
 			$adb->update(self::TABLENAME, [
 				'label' => $label,
 				'name' => $name,

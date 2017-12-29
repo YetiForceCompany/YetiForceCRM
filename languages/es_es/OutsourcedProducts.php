@@ -3,16 +3,14 @@
  * OutsourcedProducts spanish translation
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 $languageStrings = [
-	'LBL_RECORDS_LIST' => 'Lista',
 	// Basic Strings
-	'OutsourcedProducts' => 'Productos Extranjeros',
-	'SINGLE_OutsourcedProducts' => 'Producto Extranjero',
-	'LBL_ADD_RECORD' => 'Añadir',
+	'OutsourcedProducts' => 'Productos Subcontratados',
+	'SINGLE_OutsourcedProducts' => 'Producto Subcontratado',
 	// Blocks
-	'LBL_INFORMATION' => 'Información sobre el Producto Extranjero',
+	'LBL_INFORMATION' => 'Información sobre el Producto Subcontratado',
 	//Field Labels
 	'Assigned To' => 'Asignado a',
 	'LBL_RODZAJUMOWY' => 'Tipo de acuerdo',

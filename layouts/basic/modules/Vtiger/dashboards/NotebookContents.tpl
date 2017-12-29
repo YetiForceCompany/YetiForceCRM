@@ -12,7 +12,7 @@
 		<div class="dashboard_notebookWidget_view row">
 			<div class="">
 				<span class="col-md-10 muted">
-					<i>{\App\Language::translate('LBL_LAST_SAVED_ON', $MODULE)}</i> {Vtiger_Util_Helper::formatDateTimeIntoDayString($WIDGET->getLastSavedDate())}
+					<i>{\App\Language::translate('LBL_LAST_SAVED_ON', $MODULE)}</i> {\App\Fields\DateTime::formatToDay($WIDGET->getLastSavedDate())}
 				</span>
 				<span class="col-md-2">
 					<span class="pull-right">
@@ -31,7 +31,7 @@
 		<div class="dashboard_notebookWidget_text" style="display:none;">
 			<div class="row">
 				<span class="col-md-10 muted">
-					<i>{\App\Language::translate('LBL_LAST_SAVED_ON', $MODULE)}</i> {Vtiger_Util_Helper::formatDateTimeIntoDayString($WIDGET->getLastSavedDate())}
+					<i>{\App\Language::translate('LBL_LAST_SAVED_ON', $MODULE)}</i> {\App\Fields\DateTime::formatToDay($WIDGET->getLastSavedDate())}
 				</span>
 				<span class="col-md-2">
 					<span class="pull-right">

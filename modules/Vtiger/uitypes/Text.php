@@ -6,43 +6,77 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Vtiger_Text_UIType extends Vtiger_Base_UIType
 {
 
 	/**
-	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
-	 * @return <Object>
+	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	public function getDBValue($value, $recordModel = false)
 	{
-		$uiType = $this->get('field')->get('uitype');
-		if ($uiType === 300) {
-			return \App\Purifier::purifyHtml($value);
+		return \App\Purifier::decodeHtml($value);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function setValueFromRequest(\App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
+	{
+		$fieldName = $this->getFieldModel()->getFieldName();
+		if (!$requestFieldName) {
+			$requestFieldName = $fieldName;
+		}
+		if ($this->getFieldModel()->getUIType() === 300) {
+			$value = $request->getForHtml($requestFieldName, '');
 		} else {
-			return nl2br($value);
+			$value = $request->get($requestFieldName, '');
+		}
+		$this->validate($value);
+		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function validate($value, $isUserFormat = false)
+	{
+		if ($this->validate || empty($value)) {
+			return;
+		}
+		if (!is_string($value)) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+		}
+		//Check for HTML tags
+		if ($this->getFieldModel()->getUIType() !== 300 && $value !== strip_tags($value)) {
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+		}
+		$this->validate = true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+	{
+		$uiType = $this->getFieldModel()->get('uitype');
+		if (is_int($length)) {
+			$value = \vtlib\Functions::textLength($value, $length);
+		}
+		if ($uiType === 300) {
+			return App\Purifier::purifyHtml($value);
+		} else {
+			return nl2br(\App\Purifier::encodeHtml($value));
 		}
 	}
 
 	/**
-	 * Function to get the Template name for the current UI Type Object
-	 * @return string - Template Name
+	 * {@inheritDoc}
 	 */
 	public function getTemplateName()
 	{
 		return 'uitypes/Text.tpl';
-	}
-
-	/**
-	 * Function to get the DB Insert Value, for the current field type with given User Value
-	 * @param mixed $value
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @return mixed
-	 */
-	public function getDBValue($value, $recordModel = false)
-	{
-		return \vtlib\Functions::fromHTML($value, true);
 	}
 }

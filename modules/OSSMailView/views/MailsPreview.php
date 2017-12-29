@@ -4,7 +4,7 @@
  *
  * @package YetiForce.View
  * @copyright YetiForce Sp. z o.o.
- * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
+ * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 Class OSSMailView_MailsPreview_View extends Vtiger_IndexAjax_View
@@ -15,26 +15,26 @@ Class OSSMailView_MailsPreview_View extends Vtiger_IndexAjax_View
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
 		if (!$permission) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 
-		$srecord = $request->get('srecord');
-		$smodule = $request->get('smodule');
+		$srecord = $request->getInteger('srecord');
+		$smodule = $request->getByType('smodule');
 
-		$recordPermission = Users_Privileges_Model::isPermitted($smodule, 'DetailView', $srecord);
+		$recordPermission = \App\Privilege::isPermitted($smodule, 'DetailView', $srecord);
 		if (!$recordPermission) {
-			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
 	public function process(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$srecord = $request->get('srecord');
-		$smodule = $request->get('smodule');
+		$srecord = $request->getInteger('srecord');
+		$smodule = $request->getByType('smodule');
 		$type = $request->get('type');
-		$mode = $request->get('mode');
-		$record = $request->get('record');
+		$mode = $request->getMode();
+		$record = $request->getInteger('record');
 		$mailFilter = $request->get('mailFilter');
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
 		$config = OSSMail_Module_Model::getComposeParameters();

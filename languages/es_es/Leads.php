@@ -24,9 +24,8 @@ $languageStrings = [
 	'Industry' => 'Industria',
 	'Sub industry' => 'Delegación',
 	'Junk Lead' => 'Potencial no deseado',
-	'Building number' => 'Número de edificio',
-	'Local number' => 'Número',
-	'LBL_ADD_RECORD' => 'Añadir',
+	'Building number' => 'Número del edificio<br />(Ej: 32)',
+	'Local number' => 'Número de la Oficina<br />(Ej: 2B)',
 	'LBL_CONVERT_LEAD' => 'Convertir Potencial',
 	'LBL_CONVERT_LEAD_ERROR_TITLE' => 'Módulos deshabilitados',
 	'LBL_CONVERT_LEAD_ERROR' => 'Tiene que activar la Empresa o el Contacto para poder convertir el Potencial',
@@ -37,7 +36,6 @@ $languageStrings = [
 	'LBL_LEADS_FIELD_MAPPING' => 'Mapeo de campos de Potenciales',
 	'LBL_MANDATORY_FIELDS_ARE_EMPTY' => 'Los campos obligatorios están vacios',
 	'LBL_LEAD_ALREADY_CONVERTED' => 'El Potencial ha sido convertido',
-	'LBL_RECORDS_LIST' => 'Lista',
 	'LBL_TRANSFER_RELATED_RECORD' => 'Transferir registros relacionados a',
 	'Lead No' => 'ID',
 	'Leads' => 'Potenciales',
@@ -58,13 +56,13 @@ $languageStrings = [
 	'Warm' => 'Cálido',
 	'Website' => 'Sitio web',
 	/* YetiForce Lead Status */
-	'PLL_TO_REALIZE' => 'En Proceso',
+	'PLL_TO_REALIZE' => 'A procesar',
 	'PLL_CONTACTS_IN_THE_FUTURE' => 'Contactar en el futuro',
 	'LBL_LEAD_UNTAPPED' => 'Potencial no adquirido',
 	'PLL_LEAD_UNTAPPED' => 'Indeciso',
 	'PLL_LEAD_ACQUIRED' => 'Para conversión',
 	'PLL_PENDING' => 'Pendiente',
-	'PLL_IN_REALIZATION' => 'En progreso',
+	'PLL_IN_REALIZATION' => 'En proceso',
 	'PLL_INCORRECT' => 'Incorrecto',
 	/* YetiForce */
 	'Contact Information' => 'Información de contacto',
@@ -100,12 +98,12 @@ $languageStrings = [
 	'Total time worked' => 'Cantidad de tiempo trabajado',
 	'Total contacts' => 'Cantidad de contactos',
 	'Attention' => 'Notas',
-	"Attorney General's Office" => "Oficina del Procurador General",
+	"Attorney General's Office" => 'Oficina del Procurador General',
 	'LBL_RELATION' => 'Relación',
 	'LBL_LEGAL_FORM' => 'Forma legal',
-	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => 'Al menos dos cuentas cumplen con los requisitos para la vinculación, vaya a: (Administración> Procesos> Marketing> procesos de conversión) %s',
+	'LBL_TOO_MANY_ACCOUNTS_TO_CONVERT' => 'Al menos dos Empresas cumplen con los requisitos para la vinculación, vaya a: (Administración> Procesos> Marketing> procesos de conversión) %s',
 ];
 
 $jsLanguageStrings = [
-	'JS_SELECT_ORGANIZATION' => 'Seleccione Cuenta para continuar',
+	'JS_SELECT_ORGANIZATION' => 'Seleccione una Empresa para continuar',
 ];

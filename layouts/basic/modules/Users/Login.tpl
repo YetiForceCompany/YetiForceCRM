@@ -9,8 +9,8 @@
 *
  ********************************************************************************/
 -->*}
-{assign var="_DefaultLoginTemplate" value=vtemplate_path('Login.Default.tpl', 'Users')}
-{assign var="_CustomLoginTemplate" value=vtemplate_path('Login.Custom.tpl', 'Users')}
+{assign var="_DefaultLoginTemplate" value=\App\Layout::getTemplatePath('Login.Default.tpl', 'Users')}
+{assign var="_CustomLoginTemplate" value=\App\Layout::getTemplatePath('Login.Custom.tpl', 'Users')}
 {assign var="_CustomLoginTemplateFullPath" value="layouts/basic/$_CustomLoginTemplate"}
 
 {if file_exists($_CustomLoginTemplateFullPath)}

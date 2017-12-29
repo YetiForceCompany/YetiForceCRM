@@ -22,7 +22,7 @@ class Install_Utils_Model
 			'db_username' => '',
 			'db_password' => '',
 			'db_name' => '',
-			'admin_name' => 'admin',
+			'admin_name' => 'admin' . rand(100, 999),
 			'admin_lastname' => 'Administrator',
 			'admin_password' => '',
 			'admin_email' => '',
@@ -46,6 +46,15 @@ class Install_Utils_Model
 	public static function getIndustryList()
 	{
 		return require 'install/models/Industry.php';
+	}
+
+	/**
+	 * Returns list of countries
+	 * @return array
+	 */
+	public static function getCountryList()
+	{
+		return require 'install/models/Country.php';
 	}
 
 	/**

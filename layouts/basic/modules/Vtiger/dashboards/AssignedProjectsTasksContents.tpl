@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 2.0 that can be found in the following directory: licenses/License.html or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 <style type="text/css">
 small.small-a{
@@ -9,7 +9,7 @@ font-size: 75%;
 	{foreach from=$PROJECTSTASKS key=INDEX item=TASKS}
 	<div>
 		<div class='pull-left'>
-			<image style="margin-left: 4px;" alt="{\App\Language::translate('ProjectTask')}" src="{vimage_path('ProjectTask.png')}" width="24px" />&nbsp;&nbsp;
+			<image style="margin-left: 4px;" alt="{\App\Language::translate('ProjectTask')}" src="{\App\Layout::getImagePath('ProjectTask.png')}" width="24px" />&nbsp;&nbsp;
 		</div>
 		<div>
 			<div class='pull-left'>
@@ -20,11 +20,10 @@ font-size: 75%;
 				   <br /><small class='small-a'><strong>{$TASKS->getDisplayValue('projectid')}</strong></small>
 				{/if}
 				{if $ACCOUNT}
-				   - <small class='small-a'><strong>{$ACCOUNT}</strong></small>
+				   - <small class='small-a'><strong>{$TASKS->getDisplayValue('account')}</strong></small>
 				{/if}
 			</div>
-			{assign var=TARGETENDDATE value=$TASKS->get('targetenddate')}
-			<p class='pull-right muted' style='margin-top:5px;padding-right:5px;'><small title="{Vtiger_Util_Helper::formatDateTimeIntoDayString($TARGETENDDATE)}">{$TARGETENDDATE}</small></p>
+			<p class='pull-right muted' style='margin-top:5px;padding-right:5px;'><small title="{\App\Fields\DateTime::formatToDay($TASKS->get('targetenddate'))}">{$TASKS->getDisplayValue('targetenddate')}</small></p>
 			<div class='clearfix'></div>
 		</div>
 		<div class='clearfix'></div>
