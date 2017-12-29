@@ -13,7 +13,6 @@ $languageStrings = [
 	'Configuration Editor' => 'Editor de Configuração',
 	'EmailTemplate' => 'Modelo de Email',
 	'EMAILTEMPLATES' => 'Modelos de E-mail',
-	'LBL_TERMS_AND_CONDITIONS' => 'Prazos e Condições',
 	'LBL_ACCESS_MANAGEMENT' => 'Gerenciar Acesso',
 	'LBL_ACTIVE' => 'Ativo',
 	'LBL_ACTIVE_USERS' => 'Usuários',
