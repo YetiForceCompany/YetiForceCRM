@@ -70,6 +70,9 @@ jQuery.Class('Vtiger_BasicSearch_Js', {}, {
 		params.mode = 'showSearchResults';
 		params.limit = this.reduceNumberResults;
 		params.html = this.returnHtml;
+		if(app.getParentModuleName()){
+			params.parent = app.getParentModuleName()
+		}
 		if (this.mainConatiner.find('input[data-operator]').length && this.mainConatiner.find('input[data-operator]').data('operator') != '') {
 			params.operator = this.mainConatiner.find('input[data-operator]').data('operator');
 		}
