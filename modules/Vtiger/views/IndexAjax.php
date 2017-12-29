@@ -14,7 +14,6 @@ class Vtiger_IndexAjax_View extends Vtiger_Index_View
 	public function __construct()
 	{
 		parent::__construct();
-		//$this->exposeMethod('showActiveRecords');
 	}
 
 	public function preProcess(\App\Request $request, $display = true)
