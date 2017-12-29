@@ -286,13 +286,14 @@ class UserPrivilegesFile
 	 */
 	public static function populateSharingtmptables($userid)
 	{
-		$adb = \PearDatabase::getInstance();
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userid . '.php');
+
 		require('user_privileges/sharing_privileges_' . $userid . '.php');
 		//Deleting from the existing vtiger_tables
 		$tableArr = ['vtiger_tmp_read_user_sharing_per', 'vtiger_tmp_write_user_sharing_per', 'vtiger_tmp_read_group_sharing_per', 'vtiger_tmp_write_group_sharing_per', 'vtiger_tmp_read_user_rel_sharing_per', 'vtiger_tmp_write_user_rel_sharing_per', 'vtiger_tmp_read_group_rel_sharing_per', 'vtiger_tmp_write_group_rel_sharing_per'];
-		foreach ($tableArr as $tabname) {
-			$adb->delete($tabname, 'userid = ?', [$userid]);
+		foreach ($tableArr as $tableName) {
+			$dbCommand->delete($tableName, ['userid' => $userid])->execute();
 		}
 		// Look up for modules for which sharing access is enabled.
 		$modules = \vtlib\Functions::getAllModules(true, true, 0, false, 0);
@@ -325,73 +326,64 @@ class UserPrivilegesFile
 	/**
 	 * Function to populate the read/wirte Sharing permissions data for the specified user into the database
 	 * @param string $enttype
-	 * @param int $userid
+	 * @param int $userId
 	 * @param string $module
 	 * @param string $pertype
-	 * @param boolean $var_name_arr
+	 * @param boolean $varArr
 	 */
-	public static function populateSharingPrivileges($enttype, $userid, $module, $pertype, $var_name_arr = false)
+	public static function populateSharingPrivileges($enttype, $userId, $module, $pertype, $varArr = false)
 	{
-		$adb = \PearDatabase::getInstance();
 		$tabId = Module::getModuleId($module);
-		if (!$var_name_arr) {
-			\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userid . '.php');
-			require('user_privileges/sharing_privileges_' . $userid . '.php');
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		if ($varArr === false) {
+			\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userId . '.php');
+			require('user_privileges/sharing_privileges_' . $userId . '.php');
+			// Lookup for the variable if not set through function argument
+			$varArr = $$varName;
 		}
-		if ($enttype == 'USER') {
-			if ($pertype == 'read') {
+		if ($enttype === 'USER') {
+			if ($pertype === 'read') {
 				$tableName = 'vtiger_tmp_read_user_sharing_per';
 				$varName = $module . '_share_read_permission';
-			} elseif ($pertype == 'write') {
+			} elseif ($pertype === 'write') {
 				$tableName = 'vtiger_tmp_write_user_sharing_per';
 				$varName = $module . '_share_write_permission';
 			}
-			// Lookup for the variable if not set through function argument
-			if (!$var_name_arr) {
-				$var_name_arr = $$varName;
-			}
 			$useArrr = [];
-			if (sizeof($var_name_arr['ROLE']) > 0) {
-				foreach ($var_name_arr['ROLE'] as $roleId => $roleUsers) {
-					foreach ($roleUsers as $userId) {
-						if (!in_array($userId, $useArrr)) {
-							$query = "insert into " . $tableName . " values(?,?,?)";
-							$adb->pquery($query, [$userid, $tabId, $userId]);
-							$useArrr[] = $userId;
+			if (!empty($varArr['ROLE'])) {
+				foreach ($varArr['ROLE'] as $roleUsers) {
+					foreach ($roleUsers as $sharedUserId) {
+						if (!in_array($sharedUserId, $useArrr) && $userId != $sharedUserId) {
+							$dbCommand->insert($tableName, ['userid' => $userId, 'tabid' => $tabId, 'shareduserid' => $sharedUserId])->execute();
+							$useArrr[] = $sharedUserId;
 						}
 					}
 				}
 			}
-			if (sizeof($var_name_arr['GROUP']) > 0) {
-				foreach ($var_name_arr['GROUP'] as $grpId => $grpUsers) {
-					foreach ($grpUsers as $userId) {
-						if (!in_array($userId, $useArrr)) {
-							$query = "insert into " . $tableName . " values(?,?,?)";
-							$adb->pquery($query, [$userid, $tabId, $userId]);
-							$useArrr[] = $userId;
+			if (!empty($varArr['GROUP'])) {
+				foreach ($varArr['GROUP'] as $grpUsers) {
+					foreach ($grpUsers as $sharedUserId) {
+						if (!in_array($sharedUserId, $useArrr)) {
+							$dbCommand->insert($tableName, ['userid' => $userId, 'tabid' => $tabId, 'shareduserid' => $sharedUserId])->execute();
+							$useArrr[] = $sharedUserId;
 						}
 					}
 				}
 			}
-		} elseif ($enttype == 'GROUP') {
-			if ($pertype == 'read') {
+		} elseif ($enttype === 'GROUP') {
+			if ($pertype === 'read') {
 				$tableName = 'vtiger_tmp_read_group_sharing_per';
 				$varName = $module . '_share_read_permission';
-			} elseif ($pertype == 'write') {
+			} elseif ($pertype === 'write') {
 				$tableName = 'vtiger_tmp_write_group_sharing_per';
 				$varName = $module . '_share_write_permission';
 			}
-			// Lookup for the variable if not set through function argument
-			if (!$var_name_arr) {
-				$var_name_arr = $$varName;
-			}
 			$grpArr = [];
-			if (sizeof($var_name_arr['GROUP']) > 0) {
-				foreach ($var_name_arr['GROUP'] as $grpid => $grpusers) {
-					if (!in_array($grpid, $grpArr)) {
-						$query = "insert into " . $tableName . " values(?,?,?)";
-						$adb->pquery($query, [$userid, $tabId, $grpid]);
-						$grpArr[] = $grpid;
+			if (!empty($varArr['GROUP'])) {
+				foreach ($varArr['GROUP'] as $groupId => $grpusers) {
+					if (!in_array($groupId, $grpArr)) {
+						$dbCommand->insert($tableName, ['userid' => $userId, 'tabid' => $tabId, 'shareduserid' => $groupId])->execute();
+						$grpArr[] = $groupId;
 					}
 				}
 			}
@@ -405,71 +397,62 @@ class UserPrivilegesFile
 	 * @param string $module
 	 * @param string $relmodule
 	 * @param string $pertype
-	 * @param boolean $var_name_arr
+	 * @param boolean $varArr
 	 */
-	public static function populateRelatedSharingPrivileges($enttype, $userid, $module, $relmodule, $pertype, $var_name_arr = false)
+	public static function populateRelatedSharingPrivileges($enttype, $userId, $module, $relmodule, $pertype, $varArr = false)
 	{
-		$adb = \PearDatabase::getInstance();
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		$tabId = Module::getModuleId($module);
 		$relTabId = Module::getModuleId($relmodule);
-		if (!$var_name_arr) {
-			\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userid . '.php');
-			require('user_privileges/sharing_privileges_' . $userid . '.php');
+		if ($varArr === false) {
+			\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userId . '.php');
+			require('user_privileges/sharing_privileges_' . $userId . '.php');
+			// Lookup for the variable if not set through function argument
+			$varArr = $$varName;
 		}
-		if ($enttype == 'USER') {
-			if ($pertype == 'read') {
+		if ($enttype === 'USER') {
+			if ($pertype === 'read') {
 				$tableName = 'vtiger_tmp_read_user_rel_sharing_per';
 				$varName = $module . '_' . $relmodule . '_share_read_permission';
-			} elseif ($pertype == 'write') {
+			} elseif ($pertype === 'write') {
 				$tableName = 'vtiger_tmp_write_user_rel_sharing_per';
 				$varName = $module . '_' . $relmodule . '_share_write_permission';
 			}
-			// Lookup for the variable if not set through function argument
-			if (!$var_name_arr) {
-				$var_name_arr = $$varName;
-			}
 			$userArr = [];
-			if (sizeof($var_name_arr['ROLE']) > 0) {
-				foreach ($var_name_arr['ROLE'] as $roleId => $roleUsers) {
-					foreach ($roleUsers as $userId) {
-						if (!in_array($userId, $userArr)) {
-							$query = "insert into " . $tableName . " values(?,?,?,?)";
-							$adb->pquery($query, [$userid, $tabId, $relTabId, $userId]);
-							$userArr[] = $userId;
+			if (!empty($varArr['ROLE'])) {
+				foreach ($varArr['ROLE'] as $roleUsers) {
+					foreach ($roleUsers as $sharedUserId) {
+						if (!in_array($sharedUserId, $userArr) && $userId != $sharedUserId) {
+							$dbCommand->insert($tableName, ['userid' => $userId, 'tabid' => $tabId, 'relatedtabid' => $relTabId, 'shareduserid' => $sharedUserId])->execute();
+							$userArr[] = $sharedUserId;
 						}
 					}
 				}
 			}
-			if (sizeof($var_name_arr['GROUP']) > 0) {
-				foreach ($var_name_arr['GROUP'] as $grpId => $grpUsers) {
-					foreach ($grpUsers as $userId) {
-						if (!in_array($userId, $userArr)) {
-							$query = "insert into " . $tableName . " values(?,?,?,?)";
-							$adb->pquery($query, [$userid, $tabId, $relTabId, $userId]);
-							$userArr[] = $userId;
+			if (!empty($varArr['GROUP'])) {
+				foreach ($varArr['GROUP'] as $grpUsers) {
+					foreach ($grpUsers as $sharedUserId) {
+						if (!in_array($sharedUserId, $userArr)) {
+							$dbCommand->insert($tableName, ['userid' => $userId, 'tabid' => $tabId, 'relatedtabid' => $relTabId, 'shareduserid' => $sharedUserId])->execute();
+							$userArr[] = $sharedUserId;
 						}
 					}
 				}
 			}
-		} elseif ($enttype == 'GROUP') {
-			if ($pertype == 'read') {
+		} elseif ($enttype === 'GROUP') {
+			if ($pertype === 'read') {
 				$tableName = 'vtiger_tmp_read_group_rel_sharing_per';
 				$varName = $module . '_' . $relmodule . '_share_read_permission';
-			} elseif ($pertype == 'write') {
+			} elseif ($pertype === 'write') {
 				$tableName = 'vtiger_tmp_write_group_rel_sharing_per';
 				$varName = $module . '_' . $relmodule . '_share_write_permission';
 			}
-			// Lookup for the variable if not set through function argument
-			if (!$var_name_arr) {
-				$var_name_arr = $$varName;
-			}
 			$grpArr = [];
-			if (sizeof($var_name_arr['GROUP']) > 0) {
-				foreach ($var_name_arr['GROUP'] as $grpId => $grpUsers) {
-					if (!in_array($grpId, $grpArr)) {
-						$query = "insert into " . $tableName . " values(?,?,?,?)";
-						$adb->pquery($query, [$userid, $tabId, $relTabId, $grpId]);
-						$grpArr[] = $grpId;
+			if (!empty($varArr['GROUP'])) {
+				foreach ($varArr['GROUP'] as $groupId => $grpUsers) {
+					if (!in_array($groupId, $grpArr)) {
+						$dbCommand->insert($tableName, ['userid' => $userId, 'tabid' => $tabId, 'relatedtabid' => $relTabId, 'shareduserid' => $groupId])->execute();
+						$grpArr[] = $groupId;
 					}
 				}
 			}
