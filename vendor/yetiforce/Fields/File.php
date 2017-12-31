@@ -7,6 +7,7 @@ namespace App\Fields;
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class File
 {
@@ -172,17 +173,17 @@ class File
 	public static function loadFromUrl($url, $param = [])
 	{
 		if (empty($url)) {
-			\App\Log::error('No url: ' . $url , __CLASS__);
+			\App\Log::error('No url: ' . $url, __CLASS__);
 			return false;
 		}
 		$arrHeader = get_headers($url, 1);
 		if (strpos($arrHeader[0], '200 OK') === false) {
-			\App\Log::error('Error when downloading content: ' . $url . ' | ' . print_r ($arrHeader, true), __CLASS__);
+			\App\Log::error('Error when downloading content: ' . $url . ' | ' . print_r($arrHeader, true), __CLASS__);
 			return false;
 		}
 		$content = file_get_contents($url);
 		if (empty($content)) {
-			\App\Log::error('Url does not contain content: ' . $url , __CLASS__);
+			\App\Log::error('Url does not contain content: ' . $url, __CLASS__);
 			return false;
 		}
 		return static::loadFromContent($content, basename($url));
@@ -551,7 +552,7 @@ class File
 		$data = rawurldecode($data);
 		$rawData = $isBase64 ? base64_decode($data) : $data;
 		if (strlen($rawData) < 12) {
-			\App\Log::error('Incorrect content value: ' . $content , __CLASS__);
+			\App\Log::error('Incorrect content value: ' . $content, __CLASS__);
 			return false;
 		}
 		$fileInstance = static::loadFromContent($rawData, false, ['mimeShortType' => $contentType]);
@@ -571,7 +572,7 @@ class File
 	{
 		$fileInstance = static::loadFromUrl($url);
 		if (empty($url) || !$fileInstance) {
-			\App\Log::error('Invalid url: ' . $url , __CLASS__);
+			\App\Log::error('Invalid url: ' . $url, __CLASS__);
 			return false;
 		}
 		if ($fileInstance->validate() && ($id = static::saveFromContent($fileInstance, $params))) {
@@ -689,5 +690,20 @@ class File
 				break;
 		}
 		return $message;
+	}
+
+	/**
+	 * Image Data URI
+	 * @param string $image
+	 * @return string
+	 */
+	public static function getDataUri($image)
+	{
+		$mime = self::getMimeContentType($image);
+		$mimeParts = explode('/', $mime);
+		if ($mime && file_exists($image) && isset(self::$allowedFormats[$mimeParts[0]]) && in_array($mimeParts[1], self::$allowedFormats[$mimeParts[0]])) {
+			return "data:$mime;base64," . base64_encode(file_get_contents($image));
+		}
+		return '';
 	}
 }
