@@ -32,5 +32,3 @@ commit_failure_conditions:
 # Configure rules.
 rules:
     # Disable a rule
-    php.duplicated_code:
-        enabled: false
