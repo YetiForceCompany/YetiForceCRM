@@ -163,7 +163,7 @@ class Documents extends CRMEntity
 				LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid=vtiger_users.id " .
 			" LEFT JOIN vtiger_groups ON vtiger_crmentity.smownerid=vtiger_groups.groupid "
 		;
-		$query .= getNonAdminAccessControlQuery('Documents', $current_user);
+		$query .= $this->getNonAdminAccessControlQuery('Documents', $current_user);
 		$where_auto = ' vtiger_crmentity.deleted=0';
 		if ($where != '')
 			$query .= "  WHERE ($where) && " . $where_auto;

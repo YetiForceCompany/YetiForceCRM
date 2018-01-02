@@ -1667,7 +1667,7 @@ class ReportRun extends CRMEntity
 					if (count($secondarymodule) > 1) {
 						$query .= $focQuery . $this->getReportsNonAdminAccessControlQuery($value, $current_user, $value);
 					} else {
-						$query .= $focQuery . getNonAdminAccessControlQuery($value, $current_user, $value);
+						$query .= $focQuery . CRMEntity::getInstance($value)->getNonAdminAccessControlQuery($value, $current_user, $value);
 						;
 					}
 				}
@@ -1785,7 +1785,7 @@ class ReportRun extends CRMEntity
 				$query .= ' left join ' . $customTable['refTable'] . ' as ' . $customTable['reference'] . ' on ' . $customTable['reference'] . '.' . $customTable['refIndex'] . ' = ' . $customTable['table'] . '.' . $customTable['field'];
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				' WHERE vtiger_crmentity.deleted=0 and vtiger_leaddetails.converted=0';
 		} else if ($module == 'Accounts') {
 			$query = 'from vtiger_account
@@ -1829,7 +1829,7 @@ class ReportRun extends CRMEntity
 				$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				' WHERE vtiger_crmentity.deleted=0 ';
 		} else if ($module == 'Contacts') {
 			$query = 'from vtiger_contactdetails
@@ -1881,7 +1881,7 @@ class ReportRun extends CRMEntity
 				$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				' WHERE vtiger_crmentity.deleted=0';
 		}
 
@@ -1929,8 +1929,8 @@ class ReportRun extends CRMEntity
 				$query .= ' left join ' . $customTable['refTable'] . ' as ' . $customTable['reference'] . ' on ' . $customTable['reference'] . '.' . $customTable['refIndex'] . ' = ' . $customTable['table'] . '.' . $customTable['field'];
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) . '
-				WHERE vtiger_crmentity.deleted=0';
+				CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				' WHERE vtiger_crmentity.deleted=0';
 		} else if ($module == 'HelpDesk') {
 			$matrix = $this->queryPlanner->newDependencyMatrix();
 
@@ -1985,7 +1985,7 @@ class ReportRun extends CRMEntity
 				$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				' WHERE vtiger_crmentity.deleted=0 ';
 		} else if ($module == 'Calendar') {
 
@@ -2040,7 +2040,7 @@ class ReportRun extends CRMEntity
 				$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				' WHERE vtiger_crmentity.deleted=0 ';
 		} else if ($module == 'Campaigns') {
 			$query = 'from vtiger_campaign
@@ -2080,7 +2080,7 @@ class ReportRun extends CRMEntity
 				$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				' WHERE vtiger_crmentity.deleted=0';
 		} else if ($module == 'OSSTimeControl') {
 			$query = 'FROM vtiger_osstimecontrol
@@ -2106,7 +2106,7 @@ class ReportRun extends CRMEntity
 
 				$query = $focus->generateReportsQuery($module, $this->queryPlanner) .
 					$this->getRelatedModulesQuery($module, $this->secondarymodule) .
-					getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+					CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 					' WHERE vtiger_crmentity.deleted=0';
 			}
 		}
