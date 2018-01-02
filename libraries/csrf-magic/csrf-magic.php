@@ -228,7 +228,6 @@ class CSRF
 				$tokens = 'hidden';
 			}
 			call_user_func(static::$callback, $tokens);
-			exit;
 		}
 		return $ok;
 	}
@@ -323,7 +322,7 @@ class CSRF
 	 */
 	public static function responseForIllegalAccess()
 	{
-		echo 'Invalid request - Response For Illegal Access';
+		throw new \App\Exceptions\AppException('Invalid request - Response For Illegal Access');
 	}
 
 	/**
