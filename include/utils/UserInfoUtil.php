@@ -225,46 +225,6 @@ function getSubordinateRoleAndUsers($roleId)
 	return $subRoleAndUsers;
 }
 
-function getWriteSharingGroupsList($module)
-{
-
-	\App\Log::trace("Entering getWriteSharingGroupsList(" . $module . ") method ...");
-	$adb = PearDatabase::getInstance();
-	$currentUser = vglobal('current_user');
-	$grpArray = [];
-	$tabId = \App\Module::getModuleId($module);
-	$query = "select sharedgroupid from vtiger_tmp_write_group_sharing_per where userid=? and tabid=?";
-	$result = $adb->pquery($query, [$currentUser->id, $tabId]);
-	$numRows = $adb->numRows($result);
-	for ($i = 0; $i < $numRows; $i++) {
-		$grpId = $adb->queryResult($result, $i, 'sharedgroupid');
-		$grpArray[] = $grpId;
-	}
-	$shareGrpList = constructList($grpArray, 'INTEGER');
-	\App\Log::trace("Exiting getWriteSharingGroupsList method ...");
-	return $shareGrpList;
-}
-
-function constructList($array, $data_type)
-{
-
-	\App\Log::trace("Entering constructList(" . $array . "," . $data_type . ") method ...");
-	$list = [];
-	if (sizeof($array) > 0) {
-		$i = 0;
-		foreach ($array as $value) {
-			if ($data_type == "INTEGER") {
-				array_push($list, $value);
-			} elseif ($data_type == "VARCHAR") {
-				array_push($list, "'" . $value . "'");
-			}
-			$i++;
-		}
-	}
-	\App\Log::trace("Exiting constructList method ...");
-	return $list;
-}
-
 function getListViewSecurityParameter($module)
 {
 
