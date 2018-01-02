@@ -174,7 +174,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	public static function getNonAdminAccessControlQuery($module)
 	{
 		$currentUser = vglobal('current_user');
-		return getNonAdminAccessControlQuery($module, $currentUser);
+		return CRMEntity::getInstance($module)->getNonAdminAccessControlQuery($module, $currentUser);
 	}
 
 	protected static $lockEditCache = [];

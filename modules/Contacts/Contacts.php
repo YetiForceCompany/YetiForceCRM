@@ -147,7 +147,7 @@ class Contacts extends CRMEntity
                         	        ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 				LEFT JOIN vtiger_contactdetails vtiger_contactdetails2
 					ON vtiger_contactdetails2.contactid = vtiger_contactdetails.reportsto";
-		$query .= getNonAdminAccessControlQuery('Contacts', $current_user);
+		$query .= $this->getNonAdminAccessControlQuery('Contacts', $current_user);
 		$where_auto = " vtiger_crmentity.deleted = 0 ";
 
 		if ($where != '')
