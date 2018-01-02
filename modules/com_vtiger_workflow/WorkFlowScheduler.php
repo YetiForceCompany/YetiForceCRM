@@ -36,10 +36,10 @@ class WorkFlowScheduler
 
 	/**
 	 * Get workflow query
-	 * @param Workflow $workflow
+	 * @param \Workflow $workflow
 	 * @return \App\Db\Query
 	 */
-	public function getWorkflowQuery($workflow)
+	public function getWorkflowQuery(\Workflow $workflow)
 	{
 		$conditions = \App\Json::decode(App\Purifier::decodeHtml($workflow->test));
 
