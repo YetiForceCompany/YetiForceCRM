@@ -56,10 +56,9 @@ class OSSMailView_Module_Model extends Vtiger_Module_Model
 			$params[] = $dateFilter['start'] . ' 00:00:00';
 			$params[] = $dateFilter['end'] . ' 23:59:59';
 		}
-
 		$result = $db->pquery('SELECT COUNT(*) count, ossmailview_sendtype FROM vtiger_ossmailview
 						INNER JOIN vtiger_crmentity ON vtiger_ossmailview.ossmailviewid = vtiger_crmentity.crmid
-						AND deleted = 0 ' . Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName()) . $ownerSql . $dateFilterSql . ' GROUP BY ossmailview_sendtype', $params);
+						AND deleted = 0 ' . CRMEntity::getInstance($this->getName())->getNonAdminAccessControlQuery($this->getName(), vglobal('current_user')) . $ownerSql . $dateFilterSql . ' GROUP BY ossmailview_sendtype', $params);
 
 		$response = [];
 

@@ -166,17 +166,6 @@ class Users_Privileges_Model extends Users_Record_Model
 		return vglobal('isPermittedLog');
 	}
 
-	/**
-	 * Function returns non admin access control check query
-	 * @param string $module
-	 * @return string
-	 */
-	public static function getNonAdminAccessControlQuery($module)
-	{
-		$currentUser = vglobal('current_user');
-		return CRMEntity::getInstance($module)->getNonAdminAccessControlQuery($module, $currentUser);
-	}
-
 	protected static $lockEditCache = [];
 
 	public static function checkLockEdit($moduleName, Vtiger_Record_Model $recordModel)

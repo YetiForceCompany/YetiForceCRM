@@ -205,37 +205,6 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function to get the list of recently visisted records
-	 * @param <Number> $limit
-	 * @return <Array> - List of Calendar_Record_Model
-	 */
-	public function getRecentRecords($limit = 10)
-	{
-		$db = PearDatabase::getInstance();
-
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$deletedCondition = parent::getDeletedRecordCondition();
-		$nonAdminQuery .= Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName());
-
-		$query = 'SELECT * FROM vtiger_crmentity ';
-		if ($nonAdminQuery) {
-			$query .= " INNER JOIN vtiger_activity ON vtiger_crmentity.crmid = vtiger_activity.activityid " . $nonAdminQuery;
-		}
-		$query .= ' WHERE setype=? && %s && modifiedby = ? ORDER BY modifiedtime DESC LIMIT ?';
-		$params = [$this->getName(), $currentUserModel->id, $limit];
-		$query = sprintf($query, $deletedCondition);
-		$result = $db->pquery($query, $params);
-		$noOfRows = $db->numRows($result);
-		$recentRecords = [];
-		for ($i = 0; $i < $noOfRows; ++$i) {
-			$row = $db->queryResultRowData($result, $i);
-			$row['id'] = $row['crmid'];
-			$recentRecords[$row['id']] = $this->getRecordFromArray($row);
-		}
-		return $recentRecords;
-	}
-
-	/**
 	 * Function returns Calendar Reminder record models
 	 * @return \Calendar_Record_Model[]
 	 */

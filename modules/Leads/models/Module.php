@@ -13,42 +13,6 @@ class Leads_Module_Model extends Vtiger_Module_Model
 {
 
 	/**
-	 * Function returns deleted records condition
-	 */
-	public function getDeletedRecordCondition()
-	{
-		return 'vtiger_crmentity.deleted = 0 && vtiger_leaddetails.converted = 0';
-	}
-
-	/**
-	 * Function to get the list of recently visisted records
-	 * @param <Number> $limit
-	 * @return <Array> - List of Vtiger_Record_Model or Module Specific Record Model instances
-	 */
-	public function getRecentRecords($limit = 10)
-	{
-		$db = PearDatabase::getInstance();
-
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$deletedCondition = $this->getDeletedRecordCondition();
-		$query = 'SELECT * FROM vtiger_crmentity ' .
-			' INNER JOIN vtiger_leaddetails ON
-                vtiger_leaddetails.leadid = vtiger_crmentity.crmid
-                WHERE setype=? && ' . $deletedCondition . ' && modifiedby = ? ORDER BY modifiedtime DESC LIMIT ?';
-		$params = [$this->get('name'), $currentUserModel->id, $limit];
-		$result = $db->pquery($query, $params);
-		$noOfRows = $db->numRows($result);
-
-		$recentRecords = [];
-		for ($i = 0; $i < $noOfRows; ++$i) {
-			$row = $db->queryResultRowData($result, $i);
-			$row['id'] = $row['crmid'];
-			$recentRecords[$row['id']] = $this->getRecordFromArray($row);
-		}
-		return $recentRecords;
-	}
-
-	/**
 	 * Function returns the Number of Leads created per week
 	 * @param type $data
 	 * @return <Array>

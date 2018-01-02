@@ -670,39 +670,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Function to get the list of recently visisted records
-	 * @param <Number> $limit
-	 * @return <Array> - List of Vtiger_Record_Model or Module Specific Record Model instances
-	 */
-	public function getRecentRecords($limit = 10)
-	{
-		$db = PearDatabase::getInstance();
-
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$deletedCondition = $this->getDeletedRecordCondition();
-		$nonAdminQuery .= Users_Privileges_Model::getNonAdminAccessControlQuery($this->getName());
-		$query = sprintf('SELECT * FROM vtiger_crmentity %s WHERE setype=? && %s && modifiedby = ? ORDER BY modifiedtime DESC LIMIT ?', $nonAdminQuery, $deletedCondition);
-		$params = [$this->getName(), $currentUserModel->id, $limit];
-		$result = $db->pquery($query, $params);
-
-		$recentRecords = [];
-		while ($row = $db->getRow($result)) {
-			$row['id'] = $row['crmid'];
-			$recentRecords[$row['id']] = $this->getRecordFromArray($row);
-		}
-		return $recentRecords;
-	}
-
-	/**
-	 * Function that returns deleted records condition
-	 * @return string
-	 */
-	public function getDeletedRecordCondition()
-	{
-		return 'vtiger_crmentity.deleted = 0';
-	}
-
-	/**
 	 * Funtion that returns fields that will be showed in the record selection popup
 	 * @return <Array of fields>
 	 */
