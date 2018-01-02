@@ -214,7 +214,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 
 		$directiveValues['date.timezone']['current'] = ini_get('date.timezone'); //Roundcube
 		try {
-			$tz = new DateTimeZone(ini_get('date.timezone'));
+			new DateTimeZone(ini_get('date.timezone'));
 		} catch (Exception $e) {
 			$directiveValues['date.timezone']['current'] = \App\Language::translate('LBL_INVALID_TIME_ZONE', 'Settings::ConfReport') . ini_get('date.timezone');
 			$directiveValues['date.timezone']['status'] = true;
