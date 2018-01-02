@@ -706,4 +706,45 @@ class File
 		}
 		return '';
 	}
+
+	/**
+	 * Check if give path is writeable.
+	 * @param string $path
+	 * @return boolean
+	 */
+	public static function isWriteable($path)
+	{
+		$path = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $path;
+		if (is_dir($path)) {
+			return static::isDirWriteable($path);
+		} else {
+			return is_writable($path);
+		}
+	}
+
+	/**
+	 * Check if given directory is writeable.
+	 * NOTE: The check is made by trying to create a random file in the directory.
+	 * @param string $dirPath
+	 * @return boolean
+	 */
+	public static function isDirWriteable($dirPath)
+	{
+		if (is_dir($dirPath)) {
+			do {
+				$tmpFile = 'tmpfile' . time() . '-' . rand(1, 1000) . '.tmp';
+				// Continue the loop unless we find a name that does not exists already.
+				$useFilename = "$dirPath/$tmpFile";
+				if (!file_exists($useFilename))
+					break;
+			} while (true);
+			$fh = fopen($useFilename, 'a');
+			if ($fh) {
+				fclose($fh);
+				unlink($useFilename);
+				return true;
+			}
+		}
+		return false;
+	}
 }

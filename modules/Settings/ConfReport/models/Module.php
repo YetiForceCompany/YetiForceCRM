@@ -458,7 +458,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		$permissions = [];
 		require_once ROOT_DIRECTORY . '/include/utils/VtlibUtils.php';
 		foreach ($writableFilesAndFolders as $index => $value) {
-			$isWriteable = vtlib_isWriteable($value);
+			$isWriteable = \App\Fields\File::isWriteable($value);
 			if (!$isWriteable || !$onlyError) {
 				$permissions[$index]['permission'] = 'TruePermission';
 				$permissions[$index]['path'] = $value;
