@@ -20,7 +20,6 @@
  * Contributor(s): YetiForce.com.
  * ****************************************************************************** */
 require_once 'include/database/PearDatabase.php';
-require_once 'include/utils/ListViewUtils.php';
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/utils/InventoryUtils.php';
 require_once 'include/utils/SearchUtils.php';
