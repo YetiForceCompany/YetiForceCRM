@@ -154,7 +154,6 @@ class UserPrivilegesFile
 	 */
 	public static function getRelatedModuleSharingArray($par_mod, $share_mod, $mod_sharingrule_members, $mod_share_read_per, $mod_share_write_per, $def_org_share)
 	{
-		$adb = \PearDatabase::getInstance();
 		$relatedModSharingPermission = [];
 		$modShareReadPermission = [];
 		$modShareWritePermission = [];
@@ -170,9 +169,14 @@ class UserPrivilegesFile
 			$grpReadPer = [];
 			$grpWritePer = [];
 			foreach ($mod_sharingrule_members as $sharingid => $sharingInfoArr) {
-				$query = "select vtiger_datashare_relatedmodule_permission.* from vtiger_datashare_relatedmodule_permission inner join vtiger_datashare_relatedmodules on vtiger_datashare_relatedmodules.datashare_relatedmodule_id=vtiger_datashare_relatedmodule_permission.datashare_relatedmodule_id where vtiger_datashare_relatedmodule_permission.shareid=? and vtiger_datashare_relatedmodules.tabid=? and vtiger_datashare_relatedmodules.relatedto_tabid=?";
-				$result = $adb->pquery($query, [$sharingid, $parModId, $shareModId]);
-				$sharePermission = $adb->queryResult($result, 0, 'permission');
+				$sharePermission = (new Db\Query())->select(['vtiger_datashare_relatedmodule_permission.permission'])
+						->from('vtiger_datashare_relatedmodule_permission')
+						->innerJoin('vtiger_datashare_relatedmodules', 'vtiger_datashare_relatedmodules.datashare_relatedmodule_id = vtiger_datashare_relatedmodule_permission.datashare_relatedmodule_id')
+						->where([
+							'vtiger_datashare_relatedmodule_permission.shareid' => $sharingid,
+							'vtiger_datashare_relatedmodules.tabid' => $parModId,
+							'vtiger_datashare_relatedmodules.relatedto_tabid' => $shareModId
+						])->scalar();
 				foreach ($sharingInfoArr as $shareType => $shareEntArr) {
 					foreach ($shareEntArr as $key => $shareEntId) {
 						if ($shareType == 'ROLE') {
@@ -382,7 +386,7 @@ class UserPrivilegesFile
 			if (!empty($varArr['GROUP'])) {
 				foreach ($varArr['GROUP'] as $groupId => $grpusers) {
 					if (!in_array($groupId, $grpArr)) {
-						$dbCommand->insert($tableName, ['userid' => $userId, 'tabid' => $tabId, 'shareduserid' => $groupId])->execute();
+						$dbCommand->insert($tableName, ['userid' => $userId, 'tabid' => $tabId, 'sharedgroupid' => $groupId])->execute();
 						$grpArr[] = $groupId;
 					}
 				}
@@ -451,7 +455,7 @@ class UserPrivilegesFile
 			if (!empty($varArr['GROUP'])) {
 				foreach ($varArr['GROUP'] as $groupId => $grpUsers) {
 					if (!in_array($groupId, $grpArr)) {
-						$dbCommand->insert($tableName, ['userid' => $userId, 'tabid' => $tabId, 'relatedtabid' => $relTabId, 'shareduserid' => $groupId])->execute();
+						$dbCommand->insert($tableName, ['userid' => $userId, 'tabid' => $tabId, 'relatedtabid' => $relTabId, 'sharedgroupid' => $groupId])->execute();
 						$grpArr[] = $groupId;
 					}
 				}
