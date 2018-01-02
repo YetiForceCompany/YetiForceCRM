@@ -2523,6 +2523,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 				}
 		);
 	},
+	updateWindowHeight: function (currentHeight, frame) {
+		frame.height(currentHeight);
+	},
 	registerEvents: function () {
 		var thisInstance = this;
 		thisInstance.refreshRelatedList();

@@ -901,65 +901,71 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		}
 	},
 	registerSplit: function (container, fixedList, wrappedPanelLeft, wrappedPanelRight, wrappedPanel) {
-		if ($(window).width() > 993 && container.find('.fixedListInitial').length) {
-			var relatedHeader = container.find('.relatedHeader');
-			var split = Split(['.fixedListInitial', '#listPreview'], {
-				sizes: [25, 75],
-				minSize: 10,
-				gutterSize: 8,
-				snapOffset: 100,
-				onDrag: function () {
-					var rightWidth = (400 / $(window).width()) * 100;
-					if (split.getSizes()[1] < rightWidth) {
-						split.collapse(1);
-					}
-					if (split.getSizes()[0] < 5) {
-						wrappedPanelLeft.addClass('wrappedPanelLeft');
-					} else {
-						wrappedPanelLeft.removeClass('wrappedPanelLeft');
-					}
-					if (split.getSizes()[1] < 10) {
-						wrappedPanelRight.addClass('wrappedPanelRight');
-						fixedList.width(fixedList.width() - 10);
-					} else {
-						wrappedPanelRight.removeClass('wrappedPanelRight');
-					}
+		if ($(window).width() > 993) {
+			$('.recordsListPreview').each(function (index) {
+				if (!$(this).find('.gutter').length) {
+					var relatedHeader = container.find('.relatedHeader');
+					var split = Split([$('.fixedListInitial')[index], $('.listPreview')[index]], {
+						sizes: [25, 75],
+						minSize: 10,
+						gutterSize: 8,
+						snapOffset: 100,
+						onDrag: function () {
+							var rightWidth = (400 / $(window).width()) * 100;
+							if (split.getSizes()[1] < rightWidth) {
+								split.collapse(1);
+							}
+							if (split.getSizes()[0] < 5) {
+								wrappedPanelLeft.addClass('wrappedPanelLeft');
+							} else {
+								wrappedPanelLeft.removeClass('wrappedPanelLeft');
+							}
+							if (split.getSizes()[1] < 10) {
+								wrappedPanelRight.addClass('wrappedPanelRight');
+								fixedList.width(fixedList.width() - 10);
+							} else {
+								wrappedPanelRight.removeClass('wrappedPanelRight');
+							}
+							wrappedPanel.css('top', relatedHeader.height() + relatedHeader.position().top + 2);
+						}
+					});
 					wrappedPanel.css('top', relatedHeader.height() + relatedHeader.position().top + 2);
+					var gutter = container.find('.gutter');
+					var recordsListPreview = container.find("#recordsListPreview");
+					gutter.height(recordsListPreview.height());
+					var leftWidth = (15 / $(window).width()) * 100;
+					var rightWidth = 100 - leftWidth;
+					gutter.on("dblclick", function () {
+						if (split.getSizes()[0] < 25) {
+							split.setSizes([25, 75]);
+							wrappedPanelLeft.removeClass('wrappedPanelLeft');
+						} else if (split.getSizes()[1] < 25) {
+							split.setSizes([75, 25]);
+							wrappedPanelRight.removeClass('wrappedPanelRight');
+							gutter.css('right', 'initial');
+							fixedList.css('padding-right', '10px');
+						} else if (split.getSizes()[0] > 24 && split.getSizes()[0] < 50) {
+							split.setSizes([leftWidth, rightWidth]);
+							wrappedPanelLeft.addClass('wrappedPanelLeft');
+						} else if (split.getSizes()[1] > 10 && split.getSizes()[1] < 50) {
+							split.collapse(1);
+							wrappedPanelRight.addClass('wrappedPanelRight');
+							fixedList.width(fixedList.width() - 10);
+						}
+					});
+					wrappedPanelLeft.on("dblclick", function () {
+						split.setSizes([25, 75]);
+						wrappedPanelLeft.removeClass('wrappedPanelLeft');
+					});
+					wrappedPanelRight.on("dblclick", function () {
+						split.setSizes([75, 25]);
+						wrappedPanelRight.removeClass('wrappedPanelRight');
+						gutter.css('right', 'initial');
+						fixedList.css('padding-right', '10px');
+					});
+					return split;
 				}
 			});
-			wrappedPanel.css('top', relatedHeader.height() + relatedHeader.position().top + 2);
-			var gutter = container.find('.gutter');
-			var leftWidth = (15 / $(window).width()) * 100;
-			var rightWidth = 100 - leftWidth;
-			gutter.on("dblclick", function () {
-				if (split.getSizes()[0] < 25) {
-					split.setSizes([25, 75]);
-					wrappedPanelLeft.removeClass('wrappedPanelLeft');
-				} else if (split.getSizes()[1] < 25) {
-					split.setSizes([75, 25]);
-					wrappedPanelRight.removeClass('wrappedPanelRight');
-					gutter.css('right', 'initial');
-					fixedList.css('padding-right', '10px');
-				} else if (split.getSizes()[0] > 24 && split.getSizes()[0] < 50) {
-					split.setSizes([leftWidth, rightWidth]);
-					wrappedPanelLeft.addClass('wrappedPanelLeft');
-				} else if (split.getSizes()[1] > 10 && split.getSizes()[1] < 50) {
-					split.collapse(1);
-					wrappedPanelRight.addClass('wrappedPanelRight');
-					fixedList.width(fixedList.width() - 10);
-				}
-			});
-			wrappedPanelLeft.on("dblclick", function () {
-				split.setSizes([25, 75]);
-				wrappedPanelLeft.removeClass('wrappedPanelLeft');
-			});
-			wrappedPanelRight.on("dblclick", function () {
-				split.setSizes([75, 25]);
-				wrappedPanelRight.removeClass('wrappedPanelRight');
-				gutter.css('right', 'initial');
-				fixedList.css('padding-right', '10px');
-			});
-			return split;
 		}
 	},
 	updateSplit: function (container) {
