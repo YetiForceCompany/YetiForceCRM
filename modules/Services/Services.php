@@ -92,36 +92,6 @@ class Services extends CRMEntity
 	public $unit_price;
 
 	/**
-	 * Get list view query.
-	 */
-	public function getListQuery($module, $where = '')
-	{
-		$query = "SELECT vtiger_crmentity.*, $this->table_name.*";
-
-		// Select Custom Field Table Columns if present
-		if (!empty($this->customFieldTable))
-			$query .= ', ' . $this->customFieldTable[0] . '.* ';
-
-		$query .= " FROM $this->table_name";
-
-		$query .= "	INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $this->table_name.$this->table_index";
-
-		// Consider custom table join as well.
-		if (!empty($this->customFieldTable)) {
-			$query .= " INNER JOIN " . $this->customFieldTable[0] . " ON " . $this->customFieldTable[0] . '.' . $this->customFieldTable[1] .
-				" = $this->table_name.$this->table_index";
-		}
-		$query .= " LEFT JOIN vtiger_groups
-						ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-					LEFT JOIN vtiger_users
-						ON vtiger_users.id = vtiger_crmentity.smownerid ";
-		$current_user = vglobal('current_user');
-		$query .= $this->getNonAdminAccessControlQuery($module, $current_user);
-		$query .= sprintf('WHERE vtiger_crmentity.deleted = 0 %s', $where);
-		return $query;
-	}
-
-	/**
 	 * Apply security restriction (sharing privilege) query part for List view.
 	 */
 	public function getListViewSecurityParameter($module)
