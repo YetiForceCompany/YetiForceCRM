@@ -9648,7 +9648,7 @@ class Base4 extends \App\Db\Importers\Base
 					[5, 'delete', 'include/Webservices/Delete.php', 'vtws_delete', 'POST', 0],
 					[9, 'listtypes', 'include/Webservices/ModuleTypes.php', 'vtws_listtypes', 'GET', 0],
 					[11, 'describe', 'include/Webservices/DescribeObject.php', 'vtws_describe', 'GET', 0],
-					[13, 'convertlead', 'include/Webservices/ConvertLead.php', 'vtws_convertlead', 'POST', 0],
+					[13, 'convertlead', 'include/Webservices/ConvertLead.php', 'vtwsConvertlead', 'POST', 0],
 					[14, 'revise', 'include/Webservices/Revise.php', 'vtws_revise', 'POST', 0],
 					[16, 'deleteUser', 'include/Webservices/DeleteUser.php', 'vtws_deleteUser', 'POST', 0],
 				]

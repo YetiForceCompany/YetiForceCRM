@@ -24,7 +24,7 @@ class WebservicesUtils
 	 * @param integer $id - leadid
 	 * @param integer $relatedId -  related entity id (accountid / contactid)
 	 */
-	public static function vtws_getRelatedNotesAttachments($id, $relatedId)
+	public static function vtwsGetRelatedNotesAttachments($id, $relatedId)
 	{
 		$adb = PearDatabase::getInstance();
 		$db = \App\Db::getInstance();
@@ -55,7 +55,7 @@ class WebservicesUtils
 	 * $relatedid - related entity id (accountid/contactid/potentialid)
 	 * $setype - related module(Accounts/Contacts)
 	 */
-	public static function vtws_saveLeadRelatedProducts($leadId, $relatedId, $setype)
+	public static function vtwsSaveLeadRelatedProducts($leadId, $relatedId, $setype)
 	{
 		$db = \App\Db::getInstance();
 		$dataReader = (new \App\Db\Query())->select(['productid'])
@@ -86,7 +86,7 @@ class WebservicesUtils
 	 * $relatedid - related entity id (accountid/contactid/potentialid)
 	 * $setype - related module(Accounts/Contacts)
 	 */
-	public static function vtws_saveLeadRelations($leadId, $relatedId, $setype)
+	public static function vtwsSaveLeadRelations($leadId, $relatedId, $setype)
 	{
 		$db = \App\Db::getInstance();
 		$dataReader = (new App\Db\Query())->from('vtiger_crmentityrel')->where(['crmid' => $leadId])
@@ -125,12 +125,12 @@ class WebservicesUtils
 	}
 
 	/**
-	 * vtws_getFieldfromFieldId
+	 * vtwsGetFieldfromFieldId
 	 * @param int $fieldId
 	 * @param Vtiger_Module_Model $moduleModel
 	 * @return null|Vtiger_Field_Model
 	 */
-	public static function vtws_getFieldfromFieldId($fieldId, Vtiger_Module_Model $moduleModel)
+	public static function vtwsGetFieldfromFieldId($fieldId, Vtiger_Module_Model $moduleModel)
 	{
 		foreach ($moduleModel->getFields() as $field) {
 			if ($fieldId == $field->getId()) {
@@ -147,7 +147,7 @@ class WebservicesUtils
 	 * @param integer $contactId -  related contact id
 	 * @param integer $relatedId - related entity id to which the records need to be transferred
 	 */
-	public static function vtws_getRelatedActivities($leadId, $accountId, $contactId, $relatedId)
+	public static function vtwsGetRelatedActivities($leadId, $accountId, $contactId, $relatedId)
 	{
 
 		if (empty($leadId) || empty($relatedId) || (empty($accountId) && empty($contactId))) {
@@ -169,7 +169,7 @@ class WebservicesUtils
 	 * @param $relatedid - related entity id (contactid/accountid)
 	 * @return Boolean true on success, false otherwise.
 	 */
-	public static function vtws_saveLeadRelatedCampaigns($leadId, $relatedId)
+	public static function vtwsSaveLeadRelatedCampaigns($leadId, $relatedId)
 	{
 		$db = \App\Db::getInstance();
 		$rowCount = $db->createCommand()->update('vtiger_campaign_records', [
@@ -188,18 +188,18 @@ class WebservicesUtils
 	 * @param $relatedid - related entity id (contactid/accountid)
 	 * @param $setype - related module(Accounts/Contacts)
 	 */
-	public static function vtws_transferLeadRelatedRecords($leadId, $relatedId, $seType)
+	public static function vtwsTransferLeadRelatedRecords($leadId, $relatedId, $seType)
 	{
 
 		if (empty($leadId) || empty($relatedId) || empty($seType)) {
 			throw new WebServiceException(WebServiceErrorCode::$LEAD_RELATED_UPDATE_FAILED, "Failed to move related Records");
 		}
-		static::vtws_getRelatedNotesAttachments($leadId, $relatedId);
-		static::vtws_saveLeadRelatedProducts($leadId, $relatedId, $seType);
-		static::vtws_saveLeadRelations($leadId, $relatedId, $seType);
-		static::vtws_saveLeadRelatedCampaigns($leadId, $relatedId);
-		static::vtws_transferComments($leadId, $relatedId);
-		static::vtws_transferRelatedRecords($leadId, $relatedId);
+		static::vtwsGetRelatedNotesAttachments($leadId, $relatedId);
+		static::vtwsSaveLeadRelatedProducts($leadId, $relatedId, $seType);
+		static::vtwsSaveLeadRelations($leadId, $relatedId, $seType);
+		static::vtwsSaveLeadRelatedCampaigns($leadId, $relatedId);
+		static::vtwsTransferComments($leadId, $relatedId);
+		static::vtwsTransferRelatedRecords($leadId, $relatedId);
 	}
 
 	/**
@@ -207,7 +207,7 @@ class WebservicesUtils
 	 * @param int $sourceRecordId
 	 * @param int $destinationRecordId
 	 */
-	public static function vtws_transferComments($sourceRecordId, $destinationRecordId)
+	public static function vtwsTransferComments($sourceRecordId, $destinationRecordId)
 	{
 		if (\App\Module::isModuleActive('ModComments')) {
 			CRMEntity::getInstance('ModComments');
@@ -220,7 +220,7 @@ class WebservicesUtils
 	 * @param int $sourceRecordId
 	 * @param int $destinationRecordId
 	 */
-	public static function vtws_transferRelatedRecords($sourceRecordId, $destinationRecordId)
+	public static function vtwsTransferRelatedRecords($sourceRecordId, $destinationRecordId)
 	{
 		$db = \App\Db::getInstance();
 		//PBXManager

@@ -24,7 +24,7 @@ class WebservicesConvertLead
 	 * @param Users_Record_Model $user
 	 * @return int
 	 */
-	public static function vtws_convertlead($entityvalues, Users_Record_Model $user)
+	public static function vtwsConvertlead($entityvalues, Users_Record_Model $user)
 	{
 		$adb = PearDatabase::getInstance();
 
@@ -69,7 +69,7 @@ class WebservicesConvertLead
 
 				$entityObjectValues = [];
 				$entityObjectValues['assigned_user_id'] = $entityvalues['assignedTo'];
-				$entityObjectValues = static::vtws_populateConvertLeadEntities($entityvalue, $entityObjectValues, $recordModel, $leadInfo);
+				$entityObjectValues = static::vtwsPopulateConvertLeadEntities($entityvalue, $entityObjectValues, $recordModel, $leadInfo);
 
 				//update the contacts relation
 				if ($entityvalue['name'] == 'Contacts') {
@@ -111,11 +111,11 @@ class WebservicesConvertLead
 			$accountId = $entityIds['Accounts'];
 			$contactId = $entityIds['Contacts'];
 
-			static::vtws_convertLeadTransferHandler($leadIdComponents, $entityIds, $entityvalues);
+			static::vtwsConvertLeadTransferHandler($leadIdComponents, $entityIds, $entityvalues);
 
 			$relatedId = $entityIds[$entityvalues['transferRelatedRecordsTo']];
-			\WebservicesUtils::vtws_getRelatedActivities($leadIdComponents, $accountId, $contactId, $relatedId);
-			static::vtws_updateConvertLeadStatus($entityIds, $entityvalues['leadId'], $user);
+			\WebservicesUtils::vtwsGetRelatedActivities($leadIdComponents, $accountId, $contactId, $relatedId);
+			static::vtwsUpdateConvertLeadStatus($entityIds, $entityvalues['leadId'], $user);
 
 			$eventHandler->addParams('entityIds', $entityIds);
 			$eventHandler->trigger('EntityAfterConvertLead');
@@ -139,7 +139,7 @@ class WebservicesConvertLead
 	 * @param string $leadinfo
 	 * @return entity array
 	 */
-	public static function vtws_populateConvertLeadEntities($entityvalue, $entity, Vtiger_Record_Model $recordModel, $leadinfo)
+	public static function vtwsPopulateConvertLeadEntities($entityvalue, $entity, Vtiger_Record_Model $recordModel, $leadinfo)
 	{
 		$targetModuleModel = Vtiger_Module_Model::getInstance($entityvalue['name']);
 		$adb = PearDatabase::getInstance();
@@ -164,11 +164,11 @@ class WebservicesConvertLead
 				}
 			}
 			do {
-				$entityField = \WebservicesUtils::vtws_getFieldfromFieldId($row[$column], $targetModuleModel);
+				$entityField = \WebservicesUtils::vtwsGetFieldfromFieldId($row[$column], $targetModuleModel);
 				if ($entityField === null) {
 					continue;
 				}
-				$leadField = \WebservicesUtils::vtws_getFieldfromFieldId($row['leadfid'], $recordModel->getModule());
+				$leadField = \WebservicesUtils::vtwsGetFieldfromFieldId($row['leadfid'], $recordModel->getModule());
 				if ($leadField === null) {
 					continue;
 				}
@@ -184,7 +184,7 @@ class WebservicesConvertLead
 				}
 			}
 
-			$entity = static::vtws_validateConvertLeadEntityMandatoryValues($entity, $targetModuleModel);
+			$entity = static::vtwsValidateConvertLeadEntityMandatoryValues($entity, $targetModuleModel);
 		}
 		return $entity;
 	}
@@ -195,7 +195,7 @@ class WebservicesConvertLead
 	 * @param Vtiger_Module_Model $targetModuleModel
 	 * @return string
 	 */
-	public static function vtws_validateConvertLeadEntityMandatoryValues($entity, Vtiger_Module_Model $targetModuleModel)
+	public static function vtwsValidateConvertLeadEntityMandatoryValues($entity, Vtiger_Module_Model $targetModuleModel)
 	{
 		$mandatoryFields = $targetModuleModel->getMandatoryFieldModels();
 		foreach ($mandatoryFields as $field => $fieldModel) {
@@ -217,11 +217,11 @@ class WebservicesConvertLead
 	 * @param string $entityvalues
 	 * @return boolean
 	 */
-	public static function vtws_convertLeadTransferHandler($leadIdComponents, $entityIds, $entityvalues)
+	public static function vtwsConvertLeadTransferHandler($leadIdComponents, $entityIds, $entityvalues)
 	{
 		try {
 			$entityidComponents = $entityIds[$entityvalues['transferRelatedRecordsTo']];
-			\WebservicesUtils::vtws_transferLeadRelatedRecords($leadIdComponents, $entityidComponents, $entityvalues['transferRelatedRecordsTo']);
+			\WebservicesUtils::vtwsTransferLeadRelatedRecords($leadIdComponents, $entityidComponents, $entityvalues['transferRelatedRecordsTo']);
 		} catch (Exception $e) {
 			return false;
 		}
@@ -234,7 +234,7 @@ class WebservicesConvertLead
 	 * @param int $leadId
 	 * @param Users_Record_Model $user
 	 */
-	public static function vtws_updateConvertLeadStatus($entityIds, $leadId, Users_Record_Model $user)
+	public static function vtwsUpdateConvertLeadStatus($entityIds, $leadId, Users_Record_Model $user)
 	{
 		$adb = PearDatabase::getInstance();
 
