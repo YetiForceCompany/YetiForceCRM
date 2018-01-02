@@ -268,55 +268,6 @@ class Reports extends CRMEntity
 	}
 	// END
 
-	/** Function to get the Listview of Reports
-	 *  This function accepts no argument
-	 *  This generate the Reports view page and returns a string
-	 *  contains HTML
-	 */
-	public function sgetRptFldr($mode = '')
-	{
-
-		$mod_strings = vglobal('mod_strings');
-		$adb = PearDatabase::getInstance();
-
-		$returndata = [];
-		$sql = "select * from vtiger_reportfolder order by folderid";
-		$result = $adb->pquery($sql, []);
-		$reportfldrow = $adb->fetchArray($result);
-		if ($mode != '') {
-			// Fetch detials of all reports of folder at once
-			$reportsInAllFolders = $this->sgetRptsforFldr(false);
-
-			do {
-				if ($reportfldrow["state"] == $mode) {
-					$details = [];
-					$details['state'] = $reportfldrow["state"];
-					$details['id'] = $reportfldrow["folderid"];
-					$details['name'] = ($mod_strings[$reportfldrow["foldername"]] == '' ) ? $reportfldrow["foldername"] : $mod_strings[$reportfldrow["foldername"]];
-					$details['description'] = $reportfldrow["description"];
-					$details['fname'] = popup_decode_html($details['name']);
-					$details['fdescription'] = popup_decode_html($reportfldrow["description"]);
-					$details['details'] = $reportsInAllFolders[$reportfldrow["folderid"]];
-					$returndata[] = $details;
-				}
-			} while ($reportfldrow = $adb->fetchArray($result));
-		} else {
-			do {
-				$details = [];
-				$details['state'] = $reportfldrow["state"];
-				$details['id'] = $reportfldrow["folderid"];
-				$details['name'] = ($mod_strings[$reportfldrow["foldername"]] == '' ) ? $reportfldrow["foldername"] : $mod_strings[$reportfldrow["foldername"]];
-				$details['description'] = $reportfldrow["description"];
-				$details['fname'] = popup_decode_html($details['name']);
-				$details['fdescription'] = popup_decode_html($reportfldrow["description"]);
-				$returndata[] = $details;
-			} while ($reportfldrow = $adb->fetchArray($result));
-		}
-
-		\App\Log::trace("Reports :: ListView->Successfully returned vtiger_report folder HTML");
-		return $returndata;
-	}
-
 	/** Function to get all Reports when in list view
 	 *  This function accepts the folderid,paramslist
 	 *  This Generates the Reports under each Reports module
