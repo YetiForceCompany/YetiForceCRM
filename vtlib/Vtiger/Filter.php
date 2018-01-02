@@ -259,7 +259,7 @@ class Filter
 	 * @param mixed filterid or filtername
 	 * @param Module Instance of the module to use when filtername is used
 	 */
-	public static function getInstance($value, $moduleInstance = false)
+	public static function getInstance($value, Module $moduleInstance)
 	{
 		$instance = false;
 		if (Utils::isNumber($value)) {
