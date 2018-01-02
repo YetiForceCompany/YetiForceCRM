@@ -693,16 +693,16 @@ class File
 	}
 
 	/**
-	 * Image Data URI
-	 * @param string $image
+	 * Get image base data
+	 * @param string $path
 	 * @return string
 	 */
-	public static function getDataUri($image)
+	public static function getImageBaseData($path)
 	{
-		$mime = self::getMimeContentType($image);
+		$mime = static::getMimeContentType($path);
 		$mimeParts = explode('/', $mime);
-		if ($mime && file_exists($image) && isset(self::$allowedFormats[$mimeParts[0]]) && in_array($mimeParts[1], self::$allowedFormats[$mimeParts[0]])) {
-			return "data:$mime;base64," . base64_encode(file_get_contents($image));
+		if ($mime && file_exists($path) && isset(static::$allowedFormats[$mimeParts[0]]) && in_array($mimeParts[1], static::$allowedFormats[$mimeParts[0]])) {
+			return "data:$mime;base64," . base64_encode(file_get_contents($path));
 		}
 		return '';
 	}

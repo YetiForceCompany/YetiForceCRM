@@ -117,7 +117,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 			case 'logo_login':
 			case 'logo_main':
 			case 'logo_mail':
-				$src = \App\Fields\File::getDataUri($this->getLogoPath($value));
+				$src = \App\Fields\File::getImageBaseData($this->getLogoPath($value));
 				$value = "<img src='$src' class='alignMiddle'/>";
 				break;
 		}
@@ -159,7 +159,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$links = [];
 		$recordLinks = [
-				[
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),

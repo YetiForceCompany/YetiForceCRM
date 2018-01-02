@@ -53,10 +53,17 @@ class Company extends Base
 		if (!$logoName) {
 			return false;
 		}
+		$logoURL = static::$logoPath . $logoName;
+		if (IS_PUBLIC_DIR) {
+			$logoURL = str_replace('public_html/', '', $logoURL);
+		}
+		if ($fullUrl) {
+			$logoURL = \AppConfig::main('site_URL') . $logoURL;
+		}
 		$path = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, static::$logoPath) . $logoName;
 		$logoModel = new \Vtiger_Image_Model();
 		$logoModel->setData([
-			'imageUrl' => \App\Fields\File::getDataUri($path),
+			'imageUrl' => $logoURL,
 			'imagePath' => $path,
 			'alt' => $logoName,
 			'imageName' => $logoName,

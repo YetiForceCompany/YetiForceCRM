@@ -394,11 +394,10 @@ class TextParser
 			if (!$logo || $logo->get('fileExists') === false) {
 				return '';
 			}
-			$path = $logo->get('imagePath');
 			$logoTitle = $company->get('name');
 			$logoAlt = Language::translate('LBL_COMPANY_LOGO_TITLE');
 			$logoHeight = $company->get($fieldName . '_height');
-			$src = \App\Fields\File::getDataUri($path);
+			$src = \App\Fields\File::getImageBaseData($logo->get('imagePath'));
 			return "<img class=\"organizationLogo\" src=\"$src\" title=\"$logoTitle\" alt=\"$logoAlt\" height=\"{$logoHeight}px\">";
 		} elseif (in_array($fieldName, ['logo_login', 'logo_main', 'logo_mail'])) {
 			return Company::$logoPath . $company->get($fieldName);
