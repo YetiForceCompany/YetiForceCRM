@@ -168,33 +168,6 @@ class Deprecated
 		return isset($cvidCache[$module]) ? $cvidCache[$module] : '0';
 	}
 
-	/**
-	 * Function to check the file access is made within web root directory and whether it is not from unsafe directories
-	 * @param string $templateFile
-	 * @param string $path
-	 * @return string
-	 */
-	public static function getSmartyCompiledTemplateFile($templateFile, $path = null)
-	{
-		if ($path === null) {
-			$path = ROOT_DIRECTORY . '/cache/templates_c/';
-		}
-
-		$compiledFile = null;
-		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
-			/* @var $item \SplFileInfo */
-			if ($item->isDir()) {
-				continue;
-			}
-			$file = $item->getFilename();
-			if (strripos($file, $templateFile . '.php') == (strlen($file) - strlen($templateFile . '.php'))) {
-				$compiledFile = $item->getPathname();
-				break;
-			}
-		}
-		return $compiledFile;
-	}
-
 	/** Function to check the file access is made within web root directory and whether it is not from unsafe directories */
 	public static function checkFileAccessForInclusion($filepath)
 	{
