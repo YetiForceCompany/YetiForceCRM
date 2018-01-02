@@ -248,37 +248,30 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				$directiveValues['mysql.connect_timeout']['status'] = true;
 			$directiveValues['mysql.connect_timeout']['current'] = ini_get('mysql.connect_timeout');
 
-			$db = PearDatabase::getInstance();
-			$result = $db->query('SELECT @@max_allowed_packet');
-			$maxAllowedPacket = $db->getSingleValue($result);
+			$maxAllowedPacket = (new \App\Db\Query())->select(new yii\db\Expression('@@max_allowed_packet'))->scalar();
 			if ($maxAllowedPacket < 16777216) {
 				$directiveValues['max_allowed_packet']['status'] = true;
 			}
 			$directiveValues['max_allowed_packet']['current'] = vtlib\Functions::showBytes($maxAllowedPacket);
-
-			$result = $db->query('SELECT @@innodb_lock_wait_timeout');
-			$innodbLockWaitTimeout = $db->getSingleValue($result);
+			$innodbLockWaitTimeout = (new \App\Db\Query())->select(new yii\db\Expression('@@innodb_lock_wait_timeout'))->scalar();
 			if ($innodbLockWaitTimeout < 600) {
 				$directiveValues['innodb_lock_wait_timeout']['status'] = true;
 			}
 			$directiveValues['innodb_lock_wait_timeout']['current'] = $innodbLockWaitTimeout;
 
-			$result = $db->query('SELECT @@wait_timeout');
-			$waitTimeout = $db->getSingleValue($result);
+			$waitTimeout = (new \App\Db\Query())->select(new yii\db\Expression('@@wait_timeout'))->scalar();
 			if ($waitTimeout < 600) {
 				$directiveValues['wait_timeout']['status'] = true;
 			}
 			$directiveValues['wait_timeout']['current'] = $waitTimeout;
 
-			$result = $db->query('SELECT @@interactive_timeout');
-			$interactiveTimeout = $db->getSingleValue($result);
+			$interactiveTimeout = (new \App\Db\Query())->select(new yii\db\Expression('@@interactive_timeout'))->scalar();
 			if ($interactiveTimeout < 600) {
 				$directiveValues['interactive_timeout']['status'] = true;
 			}
 			$directiveValues['interactive_timeout']['current'] = $interactiveTimeout;
 
-			$result = $db->query('SELECT @@sql_mode');
-			$directiveValues['sql_mode']['current'] = $db->getSingleValue($result);
+			$directiveValues['sql_mode']['current'] = (new \App\Db\Query())->select(new yii\db\Expression('@@sql_mode'))->scalar();
 		}
 		if ($onlyError) {
 			foreach ($directiveValues as $key => $value) {

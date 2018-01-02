@@ -84,18 +84,19 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 		return $key;
 	}
 
+	/**
+	 * Function to delete key
+	 * @param array $params
+	 */
 	public function deleteKey($params)
 	{
-		$adb = PearDatabase::getInstance();
-		$adb->pquery('DELETE dav_calendars FROM dav_calendars LEFT JOIN dav_principals ON dav_calendars.principaluri = dav_principals.uri WHERE dav_principals.userid = ?;', [$params['user']]);
-		$db = App\Db::getInstance();
-		$db->createCommand()->delete('dav_users', ['userid' => $params['user']])->execute();
-		$db->createCommand()->delete('dav_principals', ['userid' => $params['user']])->execute();
-
-		$user = Users_Record_Model::getInstanceById($params['user'], 'Users');
-		$user_name = $user->get('user_name');
-		$davStorageDir = vglobal('davStorageDir');
-		vtlib\Functions::recurseDelete($davStorageDir . '/' . $user_name);
+		$dbCommand = App\Db::getInstance()->createCommand();
+		$dbCommand->delete('dav_calendars', ['principaluri' => (new \App\Db\Query())->select(['uri'])->from('dav_principals')->where(['userid' => $params['user']])])->execute();
+		$dbCommand->delete('dav_users', ['userid' => $params['user']])->execute();
+		$dbCommand->delete('dav_principals', ['userid' => $params['user']])->execute();
+		$userName = App\User::getUserModel($params['user'])->getDetail('user_name');
+		$davStorageDir = AppConfig::main('davStorageDir');
+		vtlib\Functions::recurseDelete($davStorageDir . '/' . $userName);
 	}
 
 	public function getTypes()
@@ -105,10 +106,6 @@ class Settings_Dav_Module_Model extends Settings_Vtiger_Module_Model
 
 	public function createUserDirectory($params)
 	{
-		$user = Users_Record_Model::getInstanceById($params['user'], 'Users');
-		$user_name = $user->get('user_name');
-		$path = '/' . $user_name . '/';
-		$davStorageDir = vglobal('davStorageDir');
-		@mkdir($davStorageDir . $path);
+		@mkdir(AppConfig::main('davStorageDir') . '/' . App\User::getUserModel($params['user'])->getDetail('user_name') . '/');
 	}
 }
