@@ -241,6 +241,9 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			}
 		});
 	},
+	updateWindowHeight: function (height, frame) {
+		frame.height(height);
+	},
 	registerEvents: function () {
 		var listViewContainer = this.getListViewContentContainer();
 		this._super();
