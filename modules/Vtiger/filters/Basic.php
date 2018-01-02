@@ -24,7 +24,7 @@ class Vtiger_Basic_Filter
 		return $this->cvstdFilter;
 	}
 
-	public function getAdvftCriteria($cv)
+	public function getAdvftCriteria(\Vtiger_Basic_Filter $cv)
 	{
 		$columnindex = 0;
 		$advft_criteria = [];
