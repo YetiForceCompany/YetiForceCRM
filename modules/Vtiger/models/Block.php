@@ -159,7 +159,7 @@ class Vtiger_Block_Model extends vtlib\Block
 		return $blockModelList;
 	}
 
-	public static function getInstance($value, $moduleInstance = false)
+	public static function getInstance($value, \vtlib\Module $moduleInstance)
 	{
 		$blockInstance = parent::getInstance($value, $moduleInstance);
 		$blockModel = self::getInstanceFromBlockObject($blockInstance);
