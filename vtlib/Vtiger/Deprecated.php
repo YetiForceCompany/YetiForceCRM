@@ -168,28 +168,31 @@ class Deprecated
 		return isset($cvidCache[$module]) ? $cvidCache[$module] : '0';
 	}
 
-	public static function getSmartyCompiledTemplateFile($template_file, $path = null)
+	/**
+	 * Function to check the file access is made within web root directory and whether it is not from unsafe directories
+	 * @param string $templateFile
+	 * @param string $path
+	 * @return string
+	 */
+	public static function getSmartyCompiledTemplateFile($templateFile, $path = null)
 	{
 		if ($path === null) {
 			$path = ROOT_DIRECTORY . '/cache/templates_c/';
 		}
-		$mydir = @opendir($path);
-		$compiled_file = null;
-		while (false !== ($file = readdir($mydir)) && $compiled_file === null) {
-			if ($file != '.' && $file != '..' && $file != '.svn') {
-				if (is_dir($path . $file)) {
-					chdir('.');
-					$compiled_file = self::getSmartyCompiledTemplateFile($template_file, $path . $file . '/');
-				} else {
-					// Check if the file name matches the required template fiel name
-					if (strripos($file, $template_file . '.php') == (strlen($file) - strlen($template_file . '.php'))) {
-						$compiled_file = $path . $file;
-					}
-				}
+
+		$compiledFile = null;
+		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
+			/* @var $item \SplFileInfo */
+			if ($item->isDir()) {
+				continue;
+			}
+			$file = $item->getFilename();
+			if (strripos($file, $templateFile . '.php') == (strlen($file) - strlen($templateFile . '.php'))) {
+				$compiledFile = $item->getPathname();
+				break;
 			}
 		}
-		@closedir($mydir);
-		return $compiled_file;
+		return $compiledFile;
 	}
 
 	/** Function to check the file access is made within web root directory and whether it is not from unsafe directories */
