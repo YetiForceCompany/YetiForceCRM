@@ -47,6 +47,8 @@ $languageStrings = [
 	'LBL_MBSTRING_LIBRARY' => 'Mbstring (wymagane dla mPDF)',
 	'LBL_EXIF_LIBRARY' => 'Exif (poprawia bezpieczeństwo wgrywanych plików)',
 	'LBL_ZIP_ARCHIVE' => 'ZIP',
+	'LBL_FILEINFO_LIBRARY' => 'FileInfo',
+	'LBL_LIBICONV_LIBRARY' => 'Libiconv',
 	'LBL_SPACE' => 'Pojemność',
 	'LBL_SPACE_TOTAL' => 'Całkowita',
 	'LBL_SPACE_FREE' => 'Wolnych',
@@ -74,6 +76,7 @@ $languageStrings = [
 	'PUBLIC_HTML_HELP_TEXT' => 'Zalecamy aby domena kierowała do katalogu public_html, dzięki temu pliki systemu oraz twoje dane nie będą publiczne i nikt nie będzie mógł ich pobrać.',
 	'SESSION_REGENERATE_HELP_TEXT' => 'Zalecamy aby regenerowanie identyfikatora sesji było włączone, opcja ta utrudnia przejęcie sesji użytkowników. Zmiany należy dokonać w głównym pliku konfiguracyjnym.',
 	'LBL_TMP_DIR' => 'Tymczasowy katalog',
+	'LBL_INVALID_TIME_ZONE' => 'Nieprawidłowa strefa czasowa: ',
 ];
 $jsLanguageStrings = [
 	'JS_SPEED_TEST_START' => 'Trwa sprawdzanie szybkości...',

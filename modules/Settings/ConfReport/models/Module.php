@@ -53,7 +53,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		'LBL_OPEN_SSL' => ['type' => 'e', 'name' => 'openssl', 'mandatory' => true],
 		'LBL_CURL' => ['type' => 'e', 'name' => 'curl', 'mandatory' => true],
 		'LBL_GD_LIBRARY' => ['type' => 'e', 'name' => 'gd', 'mandatory' => true],
-		'LBL_PCRE_LIBRARY' => ['type' => 'e', 'name' => 'pcre', 'mandatory' => true],
+		'LBL_PCRE_LIBRARY' => ['type' => 'e', 'name' => 'pcre', 'mandatory' => true], //Roundcube
 		'LBL_XML_LIBRARY' => ['type' => 'e', 'name' => 'xml', 'mandatory' => true],
 		'LBL_JSON_LIBRARY' => ['type' => 'e', 'name' => 'json', 'mandatory' => true],
 		'LBL_SESSION_LIBRARY' => ['type' => 'e', 'name' => 'session', 'mandatory' => true],
@@ -64,6 +64,8 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		'LBL_MYSQLND_LIBRARY' => ['type' => 'e', 'name' => 'mysqlnd', 'mandatory' => true],
 		'LBL_EXIF_LIBRARY' => ['type' => 'f', 'name' => 'exif_read_data', 'mandatory' => false],
 		'LBL_LDAP_LIBRARY' => ['type' => 'f', 'name' => 'ldap_connect', 'mandatory' => false],
+		'LBL_FILEINFO_LIBRARY' => ['type' => 'e', 'name' => 'fileinfo', 'mandatory' => false], //Roundcube
+		'LBL_LIBICONV_LIBRARY' => ['type' => 'e', 'name' => 'iconv', 'mandatory' => false], //Roundcube
 		'LBL_OPCACHE_LIBRARY' => ['type' => 'f', 'name' => 'opcache_get_configuration', 'mandatory' => false],
 		'LBL_APCU_LIBRARY' => ['type' => 'e', 'name' => 'apcu', 'mandatory' => false],
 	];
@@ -107,7 +109,9 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'session.gc_maxlifetime' => ['prefer' => '21600'],
 			'session.gc_divisor' => ['prefer' => '500'],
 			'session.gc_probability' => ['prefer' => '1'],
-			'mbstring.func_overload' => ['prefer' => 'Off'],
+			'mbstring.func_overload' => ['prefer' => 'Off'], //Roundcube
+			'date.timezone' => ['prefer' => ''], //Roundcube
+			'allow_url_fopen' => ['prefer' => 'On'], //Roundcube
 		];
 		if (!$instalMode && App\Db::getInstance()->getDriverName() === 'mysql') {
 			$directiveValues['mysql.connect_timeout'] = ['prefer' => '600'];
@@ -118,7 +122,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['max_allowed_packet'] = ['prefer' => '10 MB']; // MySQL
 		}
 		if (extension_loaded('suhosin')) {
-			$directiveValues['suhosin.session.encrypt'] = ['prefer' => 'Off'];
+			$directiveValues['suhosin.session.encrypt'] = ['prefer' => 'Off']; //Roundcube
 			$directiveValues['suhosin.request.max_vars'] = ['prefer' => '5000'];
 			$directiveValues['suhosin.post.max_vars'] = ['prefer' => '5000'];
 			$directiveValues['suhosin.post.max_value_length'] = ['prefer' => '1500000'];
@@ -166,7 +170,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['session.auto_start']['status'] = true;
 		}
 		$directiveValues['session.auto_start']['current'] = static::getFlag(ini_get('session.auto_start'));
-		if (ini_get('mbstring.func_overload') == '1' || stripos(ini_get('mbstring.func_overload'), 'On') !== false) {
+		if (ini_get('mbstring.func_overload') == '1' || stripos(ini_get('mbstring.func_overload'), 'On') !== false) {//Roundcube
 			$directiveValues['mbstring.func_overload']['status'] = true;
 		}
 		$directiveValues['mbstring.func_overload']['current'] = static::getFlag(ini_get('mbstring.func_overload'));
@@ -207,8 +211,20 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['PHP']['status'] = true;
 		}
 		$directiveValues['PHP']['current'] = PHP_VERSION;
+
+		$directiveValues['date.timezone']['current'] = ini_get('date.timezone'); //Roundcube
+		try {
+			$tz = new DateTimeZone(ini_get('date.timezone'));
+		} catch (Exception $e) {
+			$directiveValues['date.timezone']['current'] = \App\Language::translate('LBL_INVALID_TIME_ZONE', 'Settings::ConfReport') . ini_get('date.timezone');
+			$directiveValues['date.timezone']['status'] = true;
+		}
+		if (ini_get('allow_url_fopen') != '1' && stripos(ini_get('allow_url_fopen'), 'Off') !== false) {
+			$directiveValues['allow_url_fopen']['status'] = true;
+		}
+		$directiveValues['allow_url_fopen']['current'] = static::getFlag(ini_get('allow_url_fopen'));
 		if (extension_loaded('suhosin')) {
-			if (ini_get('suhosin.session.encrypt') == '1' || stripos(ini_get('suhosin.session.encrypt'), 'On') !== false)
+			if (ini_get('suhosin.session.encrypt') == '1' || stripos(ini_get('suhosin.session.encrypt'), 'On') !== false)//Roundcube
 				$directiveValues['suhosin.session.encrypt']['status'] = true;
 			$directiveValues['suhosin.session.encrypt']['current'] = static::getFlag(ini_get('suhosin.session.encrypt'));
 

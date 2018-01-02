@@ -18,9 +18,6 @@
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#Configuration">{App\Language::translate('LBL_YETIFORCE_ENGINE', $MODULE)}</a></li>
         <li><a data-toggle="tab" href="#Permissions">{App\Language::translate('LBL_FILES_PERMISSIONS', $MODULE)}</a></li>
-			{if \App\Module::isModuleActive('OSSMail')}
-			<li><a href="#check_config" data-toggle="tab">{App\Language::translate('LBL_CHECK_CONFIG', $MODULE)}</a></li>
-			{/if}
     </ul>
     <div class="tab-content">
         <div id="Configuration" class="tab-pane fade in active">
@@ -182,13 +179,6 @@
 					{/foreach}
 				</tbody>
 			</table>
-
         </div>
-		{* check config module *}
-		{if \App\Module::isModuleActive('OSSMail') && Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission('OSSMail')}
-			<div class='editViewContainer tab-pane' id="check_config">
-				<iframe id="roundcube_interface" style="width: 100%; min-height: 590px;" src="index.php?module=OSSMail&view=CheckConfig" frameborder="0"> </iframe>
-			</div>
-		{/if}
     </div>
 </div>
