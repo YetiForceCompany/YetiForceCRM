@@ -725,23 +725,23 @@ class File
 	/**
 	 * Check if given directory is writeable.
 	 * NOTE: The check is made by trying to create a random file in the directory.
-	 * @param string $dirpath
+	 * @param string $dirPath
 	 * @return boolean
 	 */
-	public static function isDirWriteable($dirpath)
+	public static function isDirWriteable($dirPath)
 	{
-		if (is_dir($dirpath)) {
+		if (is_dir($dirPath)) {
 			do {
-				$tmpfile = 'vtiger' . time() . '-' . rand(1, 1000) . '.tmp';
+				$tmpFile = 'tmpfile' . time() . '-' . rand(1, 1000) . '.tmp';
 				// Continue the loop unless we find a name that does not exists already.
-				$usefilename = "$dirpath/$tmpfile";
-				if (!file_exists($usefilename))
+				$useFilename = "$dirPath/$tmpFile";
+				if (!file_exists($useFilename))
 					break;
 			} while (true);
-			$fh = @fopen($usefilename, 'a');
+			$fh = fopen($useFilename, 'a');
 			if ($fh) {
 				fclose($fh);
-				unlink($usefilename);
+				unlink($useFilename);
 				return true;
 			}
 		}
