@@ -60,6 +60,11 @@ class VTExpressionParser
 		}
 	}
 
+	/**
+	 * The function returns a queue of tokens
+	 * @param int $n
+	 * @return VTExpressionTokenizer
+	 */
 	public function la($n = 1)
 	{
 		for ($i = sizeof($this->tokenQueue); $i < $n; $i++) {
@@ -83,7 +88,14 @@ class VTExpressionParser
 		$this->consume('SYMBOL', new VTExpressionSymbol($sym));
 	}
 
-	public function check($token, $label, $value)
+	/**
+	 * The function returns labels and values
+	 * @param \VTExpressionToken $token
+	 * @param string $label
+	 * @param string $value
+	 * @return type
+	 */
+	public function check(\VTExpressionToken $token, $label, $value)
 	{
 		return $token->label == $label && $token->value == $value;
 	}

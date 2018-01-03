@@ -271,62 +271,6 @@ class VTWorkflowManager
 	}
 
 	/**
-	 * Export a workflow as a json encoded string
-	 *
-	 * @param $workflow The workflow instance to export.
-	 */
-	public function serializeWorkflow($workflow)
-	{
-		$exp = [];
-		$exp['moduleName'] = $workflow->moduleName;
-		$exp['description'] = $workflow->description;
-		$exp['test'] = $workflow->test;
-		$exp['executionCondition'] = $workflow->executionCondition;
-		$exp['schtypeid'] = $workflow->schtypeid;
-		$exp['schtime'] = $workflow->schtime;
-		$exp['schdayofmonth'] = $workflow->schdayofmonth;
-		$exp['schdayofweek'] = $workflow->schdayofweek;
-		$exp['schannualdates'] = $workflow->schannualdates;
-		$exp['tasks'] = [];
-		$tm = new VTTaskManager();
-		$tasks = $tm->getTasksForWorkflow($workflow->id);
-		foreach ($tasks as $task) {
-			unset($task->id);
-			unset($task->workflowId);
-			$exp['tasks'][] = serialize($task);
-		}
-		return \App\Json::encode($exp);
-	}
-
-	/**
-	 * Import a json encoded string as a workflow object
-	 *
-	 * @return The Workflow instance representing the imported workflow.
-	 */
-	public function deserializeWorkflow($str)
-	{
-		$data = \App\Json::decode($str);
-		$workflow = $this->newWorkflow($data['moduleName']);
-		$workflow->description = $data['description'];
-		$workflow->test = $data['test'];
-		$workflow->executionCondition = $data['executionCondition'];
-		$workflow->schtypeid = $data['schtypeid'];
-		$workflow->schtime = $data['schtime'];
-		$workflow->schdayofmonth = $data['schdayofmonth'];
-		$workflow->schdayofweek = $data['schdayofweek'];
-		$workflow->schannualdates = $data['schannualdates'];
-		$this->save($workflow);
-		$tm = new VTTaskManager();
-		$tasks = $data['tasks'];
-		foreach ($tasks as $taskStr) {
-			$task = $tm->unserializeTask($taskStr);
-			$task->workflowId = $workflow->id;
-			$tm->saveTask($task);
-		}
-		return $workflow;
-	}
-
-	/**
 	 * Update the Next trigger timestamp for a workflow
 	 * @param Workflow $workflow
 	 */
@@ -334,40 +278,6 @@ class VTWorkflowManager
 	{
 		$nextTriggerTime = $workflow->getNextTriggerTime();
 		$workflow->setNextTriggerTime($nextTriggerTime);
-	}
-
-	/**
-	 * Function to get workflows modules those are supporting comments
-	 * @param string $moduleName
-	 * @return array list of Workflow models
-	 */
-	public function getWorkflowsForModuleSupportingComments($moduleName)
-	{
-		if (App\Cache::staticHas('WorkflowsForModuleSupportingComments', $moduleName)) {
-			return App\Cache::staticGet('WorkflowsForModuleSupportingComments', $moduleName);
-		}
-		$query = (new \App\Db\Query())
-			->select(['workflow_id', 'module_name', 'summary', 'test', 'execution_condition', 'defaultworkflow', 'type', 'filtersavedinnew'])
-			->from('com_vtiger_workflows')
-			->where(['module_name' => $moduleName])
-			->andWhere(['like', 'test', '_VT_add_comment']);
-		$workflowModels = $this->getWorkflowsForResult($query->all());
-
-		$commentSupportedWorkflowModels = [];
-		foreach ($workflowModels as $workflowId => &$workflowModel) {
-			$conditions = \App\Json::decode($workflowModel->test);
-			if (is_array($conditions)) {
-				foreach ($conditions as $key => $conditionInfo) {
-					if ($conditionInfo['fieldname'] === '_VT_add_comment') {
-						unset($conditions[$key]);
-						$workflowModel->test = \App\Json::encode($conditions);
-						$commentSupportedWorkflowModels[$workflowId] = $workflowModel;
-					}
-				}
-			}
-		}
-		App\Cache::staticSave('WorkflowsForModuleSupportingComments', $moduleName, $commentSupportedWorkflowModels);
-		return $commentSupportedWorkflowModels;
 	}
 }
 
