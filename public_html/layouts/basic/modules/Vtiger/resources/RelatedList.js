@@ -900,12 +900,10 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			thisInstance.updateListPreviewSize(fixedList);
 		}
 	},
-	registerSplit: function (outerContainer) {
-		var thisInstance = this;
+	registerSplit: function (container) {
 		if ($(window).width() > 993) {
-			var container = thisInstance.content.find('.recordsListPreview');
 			if (container.length && !container.find('.gutter').length) {
-				var relatedHeader = outerContainer.find('.relatedHeader');
+				var relatedHeader = container.find('.relatedHeader');
 				var fixedList = container.find('.fixedListInitial');
 				var wrappedPanel = container.find('.wrappedPanel');
 				var wrappedPanelLeft = container.find(wrappedPanel[0]);
