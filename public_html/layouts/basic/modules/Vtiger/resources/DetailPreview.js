@@ -13,14 +13,14 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 	},
 	/**
 	 * Function redirects to current iframe's parent
-	 * @returns {undefined}
+	 * 
 	 */
 	updateParentFrame: function () {
 		parent.app.getPageController().updateWindowHeight($(".mainContainer").height(), $(window.frameElement));
 	},
 	/**
 	 * Function sets correct size of iframes
-	 * @returns {undefined}
+	 * 
 	 */
 	updateWindowHeight: function (currentHeight, frame) {
 		var thisInstance = this;
@@ -37,7 +37,7 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 	},
 	/**
 	 * Register events, which impact on iframes' size
-	 * @returns {undefined}
+	 * 
 	 */
 	registerSizeEvent: function () {
 		var thisInstance = this;
