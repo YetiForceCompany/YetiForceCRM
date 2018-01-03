@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  ************************************************************************************/
 
 Vtiger_Barchat_Widget_Js('Report_Verticalbarchart_Js', {}, {
@@ -46,8 +47,9 @@ Vtiger_Barchat_Widget_Js('Report_Verticalbarchart_Js', {}, {
 		}
 		return this.plotContainer;
 	},
-	init: function () {
-		this._super(jQuery('#reportContentsDiv'));
+	init: function (container, reload, chartClassName) {
+		container = container ? container : '#reportContentsDiv';
+		this._super(jQuery(container), reload, chartClassName);
 	},
 	generateChartData: function () {
 		var jsonData = this.getContainer().find('input[name=data]').val();
