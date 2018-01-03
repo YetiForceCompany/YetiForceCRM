@@ -219,35 +219,17 @@ class PackageExport
 
 	/**
 	 * Function copies language files to zip
-	 * @param <vtlib\Zip> $zip
+	 * @param \vtlib\Zip $zip
 	 * @param string $module
 	 */
 	public function __copyLanguageFiles(Zip $zip, $module)
 	{
-		$languageFolder = 'languages';
-		if ($dir = @opendir($languageFolder)) {  // open languages folder
-			while (($langName = readdir($dir)) !== false) {
-				if ($langName != '..' && $langName != '.' && is_dir($languageFolder . "/" . $langName)) {
-					$langDir = @opendir($languageFolder . '/' . $langName);  //open languages/en_us folder
-					while (($moduleLangFile = readdir($langDir)) !== false) {
-						$langFilePath = $languageFolder . '/' . $langName . '/' . $moduleLangFile;
-						if (is_file($langFilePath) && $moduleLangFile === $module . '.php') { //check if languages/en_us/module.php file exists
-							$zip->copyFileFromDisk($languageFolder . '/' . $langName . '/', $languageFolder . '/' . $langName . '/', $moduleLangFile);
-						} else if (is_dir($langFilePath) && $moduleLangFile == 'Settings') {
-							$settingsLangDir = @opendir($langFilePath);
-							while ($settingLangFileName = readdir($settingsLangDir)) {
-								$settingsLangFilePath = $languageFolder . '/' . $langName . '/' . $moduleLangFile . '/' . $settingLangFileName;
-								if (is_file($settingsLangFilePath) && $settingLangFileName === $module . '.php') {  //check if languages/en_us/Settings/module.php file exists
-									$zip->copyFileFromDisk($languageFolder . '/' . $langName . '/' . $moduleLangFile . '/', $languageFolder . '/' . $langName . '/' . $moduleLangFile . '/', $settingLangFileName);
-								}
-							}
-							closedir($settingsLangDir);
-						}
-					}
-					closedir($langDir);
-				}
+		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator('languages', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
+			/* @var $item \SplFileInfo */
+			if ($item->isFile() && $item->getFilename() === $module . '.php') {
+				$path = $item->getPath();
+				$zip->copyFileFromDisk($path, $path, $item->getFilename());
 			}
-			closedir($dir);
 		}
 	}
 
