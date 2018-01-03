@@ -2,7 +2,7 @@
 Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	frameProgress: false,
 	updatePreview: function (url) {
-		var frame = $('#listPreviewframe');
+		var frame = $('.listPreviewframe');
 		this.frameProgress = $.progressIndicator({
 			position: 'html',
 			message: app.vtranslate('JS_FRAME_IN_PROGRESS'),
@@ -18,8 +18,8 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	},
 	registerPreviewEvent: function () {
 		var thisInstance = this;
-		var iframe = $("#listPreviewframe");
-		$("#listPreviewframe").load(function () {
+		var iframe = $(".listPreviewframe");
+		$(".listPreviewframe").load(function () {
 			thisInstance.frameProgress.progressIndicator({mode: "hide"});
 			iframe.height($(this).contents().find(".bodyContents").height() - 20);
 		});
@@ -69,7 +69,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	registerListPreviewScroll: function (container) {
 		var thisInstance = this;
 		var fixedList = container.find('.fixedListInitial');
-		var listPreview = container.find('#listPreview');
+		var listPreview = container.find('.listPreview');
 		var mainBody = container.closest('.mainBody');
 		var wrappedPanels = container.find('.wrappedPanel');
 		var listViewEntriesDiv = container.find('.listViewEntriesDiv');
@@ -125,8 +125,8 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			var maxWidth = 100 - minWidth;
 			var thWidth = container.find('.listViewEntriesDiv .listViewHeaders th').first();
 			thWidth = ((thWidth.width() + thWidth.next().width() + 62) / $(window).width()) * 100;
-			var iframe = container.find('#listPreviewframe');
-			var split = Split(['.fixedListInitial', '#listPreview'], {
+			var iframe = container.find('.listPreviewframe');
+			var split = Split(['.fixedListInitial', '.listPreview'], {
 				sizes: [thWidth, 100 - thWidth],
 				minSize: 10,
 				gutterSize: 8,
@@ -193,7 +193,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var thisInstance = this;
 		var fixedList = container.find('.fixedListInitial');
 		var commActHeight = container.closest('.commonActionsContainer').height();
-		var listPreview = container.find('#listPreview');
+		var listPreview = container.find('.listPreview');
 		var splitsArray = [];
 		var mainBody = container.closest('.mainBody');
 		var wrappedPanelLeft = $('.wrappedPanel')[0];

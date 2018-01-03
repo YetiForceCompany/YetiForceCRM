@@ -549,7 +549,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		return aDeferred.promise();
 	},
 	updatePreview: function (url) {
-		var frame = this.content.find('#listPreviewframe');
+		var frame = this.content.find('.listPreviewframe');
 		this.frameProgress = $.progressIndicator({
 			position: 'html',
 			message: app.vtranslate('JS_FRAME_IN_PROGRESS'),
@@ -681,9 +681,9 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	},
 	registerPreviewEvent: function () {
 		var thisInstance = this;
-		var contentHeight = this.content.find('#listPreview,#recordsListPreview');
+		var contentHeight = this.content.find('.listPreview,.recordsListPreview');
 		contentHeight.height(app.getScreenHeight() - (this.content.offset().top + $('.footerContainer').height()));
-		this.content.find('#listPreviewframe').load(function () {
+		this.content.find('.listPreviewframe').load(function () {
 			thisInstance.frameProgress.progressIndicator({mode: 'hide'});
 			contentHeight.height($(this).contents().find('.bodyContents').height() + 2);
 		});
@@ -850,7 +850,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		if (container.find('.fixedListInitial').length) {
 			var thisInstance = this;
 			var fixedList = container.find('.fixedListInitial');
-			var listPreview = container.find('#listPreview');
+			var listPreview = container.find('.listPreview');
 			var mainBody = container.closest('.mainBody');
 			var wrappedPanels = container.find('.wrappedPanel');
 			var listViewEntriesDiv = container.find('.listViewEntriesDiv');
@@ -931,7 +931,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 					});
 					wrappedPanel.css('top', relatedHeader.height() + relatedHeader.position().top + 2);
 					var gutter = container.find('.gutter');
-					var recordsListPreview = container.find("#recordsListPreview");
+					var recordsListPreview = container.find(".recordsListPreview");
 					gutter.height(recordsListPreview.height());
 					var leftWidth = (15 / $(window).width()) * 100;
 					var rightWidth = 100 - leftWidth;
@@ -973,7 +973,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			var thisInstance = this;
 			var fixedList = container.find('.fixedListInitial');
 			var commactHeight = container.closest('.commonActionsContainer').height();
-			var listPreview = container.find('#listPreview');
+			var listPreview = container.find('.listPreview');
 			var splitsArray = [];
 			var mainBody = container.closest('.mainBody');
 			var wrappedPanel = container.find('.wrappedPanel');
