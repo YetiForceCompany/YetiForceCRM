@@ -171,7 +171,7 @@ class API_CalDAV_Model
 			$record['visibility'] = AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV');
 		}
 		$component->add($vcalendar->createProperty('CLASS', $record['visibility'] == 'Private' ? 'PRIVATE' : 'PUBLIC'));
-		$component->add($vcalendar->createProperty('PRIORITY', $this->getPriority($record['priority'], false)));
+		$component->add($vcalendar->createProperty('PRIORITY', $this->getPriorityFromDav($record['priority'])));
 
 		$status = $this->getStatusFromDav($record['status'], $calType);
 		if ($status) {
@@ -250,7 +250,7 @@ class API_CalDAV_Model
 				$component->LOCATION = $record['location'];
 				$component->DESCRIPTION = $record['description'];
 				$component->CLASS = $record['visibility'] == 'Private' ? 'PRIVATE' : 'PUBLIC';
-				$component->PRIORITY = $this->getPriority($record['priority'], false);
+				$component->PRIORITY = $this->getPriorityFromDav($record['priority']);
 				$status = $this->getStatusFromDav($record['status'], $calType);
 				if ($status)
 					$component->STATUS = $status;
@@ -375,7 +375,7 @@ class API_CalDAV_Model
 				} else {
 					$record->set('activitytype', 'Meeting');
 				}
-				$record->set('taskpriority', $this->getPriority($component));
+				$record->set('taskpriority', $this->getPriorityFromCrm($component));
 				$record->set('visibility', $this->getVisibility($component));
 				$record->set('state', $this->getState($component));
 
@@ -442,7 +442,7 @@ class API_CalDAV_Model
 				} else {
 					$record->set('activitytype', 'Meeting');
 				}
-				$record->set('taskpriority', $this->getPriority($component));
+				$record->set('taskpriority', $this->getPriorityFromCrm($component));
 				$record->set('visibility', $this->getVisibility($component));
 				$record->set('state', $this->getState($component));
 
@@ -587,26 +587,39 @@ class API_CalDAV_Model
 	}
 
 	/**
-	 * Get priority
-	 * @param string|Sabre\VObject\Component $component
-	 * @param boolean $toCrm
-	 * @return int|string
+	 * Get priority from crm
+	 * @param Sabre\VObject\Component $component
+	 * @return string
 	 */
-	public function getPriority($component, $toCrm = true)
+	public function getPriorityFromCrm(\Sabre\VObject\Component $component)
 	{
 		$values = [
 			1 => 'High',
 			5 => 'Medium',
 			9 => 'Low'
 		];
-		if ($toCrm) {
-			$return = 'Medium';
-			$value = isset($component->PRIORITY) ? \App\Purifier::purify($component->PRIORITY->getValue()) : false;
-		} else {
-			$return = 5;
-			$values = array_flip($values);
-			$value = $component;
+		$return = 'Medium';
+		$value = isset($component->PRIORITY) ? \App\Purifier::purify($component->PRIORITY->getValue()) : false;
+		if ($value && isset($values[$value])) {
+			$return = $values[$value];
 		}
+		return $return;
+	}
+
+	/**
+	 * Get priority from dav
+	 * @param string $component
+	 * @return int
+	 */
+	public function getPriorityFromDav($component)
+	{
+		$values = [
+			'High' => 1,
+			'Medium' => 5,
+			'Low' => 9
+		];
+		$return = 5;
+		$value = $component;
 		if ($value && isset($values[$value])) {
 			$return = $values[$value];
 		}
