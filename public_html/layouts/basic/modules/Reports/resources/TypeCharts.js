@@ -47,9 +47,9 @@ Vtiger_Barchat_Widget_Js('Report_Verticalbarchart_Js', {}, {
 		}
 		return this.plotContainer;
 	},
-	init: function (container, reload, chartClassName) {
+	init: function (container, reload) {
 		container = container ? container : '#reportContentsDiv';
-		this._super(jQuery(container), reload, chartClassName);
+		this._super(jQuery(container), reload);
 	},
 	generateChartData: function () {
 		var jsonData = this.getContainer().find('input[name=data]').val();
@@ -135,8 +135,9 @@ Vtiger_Pie_Widget_Js('Report_Piechart_Js', {}, {
 		}
 		return this.plotContainer;
 	},
-	init: function () {
-		this._super(jQuery('#reportContentsDiv'));
+	init: function (container, reload) {
+		container = container ? container : '#reportContentsDiv';
+		this._super(jQuery(container), reload);
 	},
 	generateData: function () {
 
