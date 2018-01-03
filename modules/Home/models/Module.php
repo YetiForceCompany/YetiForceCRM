@@ -111,7 +111,9 @@ class Home_Module_Model extends Vtiger_Module_Model
 			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
 			$query->andWhere(['and', ['vtiger_crmentity.smcreatorid' => $paramsMore['user']], ['NOT IN', 'vtiger_crmentity.smownerid', $paramsMore['user']]]);
 		}
-
+		if (isset($paramsMore['activitytype'])) {
+			$query->andWhere(['vtiger_activity.activitytype' => $paramsMore['activitytype']]);
+		}
 		if ($user !== 'all' && !empty($user)) {
 			settype($user, 'int');
 			$subQuery = (new \App\Db\Query())->select('crmid')->from('u_yf_crmentity_showners')->innerJoin('vtiger_activity', 'u_yf_crmentity_showners.crmid=vtiger_activity.activityid')->where(['userid' => $user])->distinct('crmid');
