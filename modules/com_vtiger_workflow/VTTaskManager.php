@@ -62,7 +62,7 @@ class VTTaskManager
 	{
 		$taskTypeInstance = VTTaskType::getInstanceFromTaskType($taskType);
 		$taskClass = $taskTypeInstance->get('classname');
-		$this->requireTask($taskClass, $taskTypeInstance);
+		require_once($taskTypeInstance->get('classpath'));
 		$task = new $taskClass();
 		$task->workflowId = $workflowId;
 		$task->summary = "";
@@ -97,7 +97,10 @@ class VTTaskManager
 		$dataReader = (new \App\Db\Query())->select(['task_id', 'workflow_id', 'task'])->from('com_vtiger_workflowtasks')->where(['workflow_id' => $workflowId])->createCommand()->query();
 		$tasks = [];
 		while ($row = $dataReader->read()) {
-			$this->requireTask(self::taskName($row['task']));
+			$taskType = self::taskName($row['task']);
+			if (!empty($taskType)) {
+				require_once("tasks/$taskType.php");
+			}
 			$task = unserialize($row['task']);
 			$task->workflowId = $row['workflow_id'];
 			$task->id = $row['task_id'];
@@ -114,7 +117,10 @@ class VTTaskManager
 	 */
 	public function unserializeTask($str)
 	{
-		$this->requireTask(self::taskName($str));
+		$taskType = self::taskName($str);
+		if (!empty($taskType)) {
+			require_once("tasks/$taskType.php");
+		}
 		return unserialize($str);
 	}
 
@@ -137,7 +143,10 @@ class VTTaskManager
 	{
 		$tasks = [];
 		foreach ($result as $row) {
-			$this->requireTask(self::taskName($row['task']));
+			$taskType = self::taskName($row['task']);
+			if (!empty($taskType)) {
+				require_once("tasks/$taskType.php");
+			}
 			$tasks[] = unserialize($row['task']);
 		}
 		return $tasks;
@@ -153,23 +162,6 @@ class VTTaskManager
 		$matches = [];
 		preg_match('/"([^"]+)"/', $serializedTask, $matches);
 		return $matches[1];
-	}
-
-	/**
-	 * Require task
-	 * @param string $taskType
-	 * @param VTTaskType $taskTypeInstance
-	 */
-	private function requireTask($taskType, \VTTaskType $taskTypeInstance)
-	{
-		if (!empty($taskTypeInstance)) {
-			$taskClassPath = $taskTypeInstance->get('classpath');
-			require_once($taskClassPath);
-		} else {
-			if (!empty($taskType)) {
-				require_once("tasks/$taskType.php");
-			}
-		}
 	}
 
 	/**
