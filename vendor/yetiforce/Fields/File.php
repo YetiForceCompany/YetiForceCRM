@@ -14,19 +14,19 @@ class File
 
 	/**
 	 * Allowed formats
-	 * @var string[] 
+	 * @var string[]
 	 */
 	private static $allowedFormats = ['image' => ['jpeg', 'png', 'jpg', 'pjpeg', 'x-png', 'gif', 'bmp', 'x-ms-bmp']];
 
 	/**
 	 * Mime types
-	 * @var string[] 
+	 * @var string[]
 	 */
 	private static $mimeTypes;
 
 	/**
 	 * What file types to validate by php injection
-	 * @var string[]  
+	 * @var string[]
 	 */
 	private static $phpInjection = ['image'];
 
@@ -38,7 +38,7 @@ class File
 
 	/**
 	 * File path
-	 * @var string 
+	 * @var string
 	 */
 	private $path;
 
@@ -50,37 +50,37 @@ class File
 
 	/**
 	 * File mime type
-	 * @var string 
+	 * @var string
 	 */
 	private $mimeType;
 
 	/**
 	 * File short mime type
-	 * @var string 
+	 * @var string
 	 */
 	private $mimeShortType;
 
 	/**
 	 * Size
-	 * @var int 
+	 * @var int
 	 */
 	private $size;
 
 	/**
 	 * File content
-	 * @var string 
+	 * @var string
 	 */
 	private $content;
 
 	/**
 	 * Error code
-	 * @var int|bool 
+	 * @var int|bool
 	 */
 	private $error = false;
 
 	/**
 	 * Validate all files by code injection
-	 * @var bool 
+	 * @var bool
 	 */
 	private $validateAllCodeInjection = false;
 
@@ -129,8 +129,10 @@ class File
 
 	/**
 	 * Load file instance from content
-	 * @param array $fileInfo
-	 * @return \self
+	 * @param string $content
+	 * @param string $name
+	 * @param string[] $param
+	 * @return boolean|\self
 	 */
 	public static function loadFromContent($content, $name = false, $param = [])
 	{
@@ -166,8 +168,8 @@ class File
 
 	/**
 	 * Load file instance from url
-	 * @param type $url
-	 * @param type $param
+	 * @param string $url
+	 * @param string[] $param
 	 * @return boolean
 	 */
 	public static function loadFromUrl($url, $param = [])
@@ -176,12 +178,17 @@ class File
 			\App\Log::error('No url: ' . $url, __CLASS__);
 			return false;
 		}
-		$arrHeader = get_headers($url, 1);
-		if (strpos($arrHeader[0], '200 OK') === false) {
-			\App\Log::error('Error when downloading content: ' . $url . ' | ' . print_r($arrHeader, true), __CLASS__);
+		try {
+			$responsse = \Requests::get($url);
+			if ($responsse->status_code !== 200) {
+				\App\Log::error('Error when downloading content: ' . $url . ' | Status code: ' . $responsse->status_code, __CLASS__);
+				return false;
+			}
+			$content = $responsse->body;
+		} catch (\Exception $exc) {
+			\App\Log::error('Error when downloading content: ' . $url . ' | ' . $exc->getMessage(), __CLASS__);
 			return false;
 		}
-		$content = file_get_contents($url);
 		if (empty($content)) {
 			\App\Log::error('Url does not contain content: ' . $url, __CLASS__);
 			return false;
@@ -221,7 +228,7 @@ class File
 
 	/**
 	 * Get mime type
-	 * @return string 
+	 * @return string
 	 */
 	public function getMimeType()
 	{
@@ -282,7 +289,7 @@ class File
 	}
 
 	/**
-	 * Validate whether the file is safe 
+	 * Validate whether the file is safe
 	 * @param boolean|string $type
 	 * @return boolean
 	 * @throws \Exception
