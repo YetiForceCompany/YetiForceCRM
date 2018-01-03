@@ -158,21 +158,20 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			if (!in_array($moduleName, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(), \App\ModuleHierarchy::getModulesByLevel(3))))) {
 				$fieldName = (new \App\Db\Query)->select(['fieldname'])->from('vtiger_field')->where(['tabid' => $moduleModel->getId(), 'uitype' => 4])->scalar();
 				if ($fieldName) {
-					$subject = 'subject=';
+					$subject = "subject=[$fieldName] ";
 					if ($type == 'new') {
 						switch ($moduleName) {
 							case 'HelpDesk':
-								$subject .= $recordModel->get('ticket_title') . ' ';
+								$subject .= $recordModel->get('ticket_title');
 								break;
 							case 'SSalesProcesses':
-								$subject .= $recordModel->get('subject') . ' ';
+								$subject .= $recordModel->get('subject');
 								break;
 							case 'Project':
-								$subject .= $recordModel->get('projectname') . ' ';
+								$subject .= $recordModel->get('projectname');
 								break;
 						}
 					}
-					$subject .= '[' . $fieldName . ']';
 					$url .= $subject;
 				}
 			}
@@ -212,7 +211,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			if (!in_array($smoduleName, array_keys(array_merge(\App\ModuleHierarchy::getModulesByLevel(), \App\ModuleHierarchy::getModulesByLevel(3))))) {
 				$fieldName = (new \App\Db\Query)->select(['fieldname'])->from('vtiger_field')->where(['tabid' => $moduleModel->getId(), 'uitype' => 4])->scalar();
 				if ($fieldName) {
-					$subject .= '[' . $fieldName . ']';
+					$subject = "[$fieldName] $subject";
 				}
 			}
 		}
