@@ -177,7 +177,7 @@ class API_CalDAV_Model
 		if ($status) {
 			$component->add($vcalendar->createProperty('STATUS', $status));
 		}
-		$state = $this->getState($record['state'], false);
+		$state = $this->getStateFromDav($record['state']);
 		if ($state) {
 			$component->add($vcalendar->createProperty('TRANSP', $state));
 		}
@@ -254,7 +254,7 @@ class API_CalDAV_Model
 				$status = $this->getStatusFromDav($record['status'], $calType);
 				if ($status)
 					$component->STATUS = $status;
-				$state = $this->getState($record['state'], false);
+				$state = $this->getStateFromDav($record['state']);
 				if ($state)
 					$component->TRANSP = $state;
 				if (isset($component->SEQUENCE)) {
@@ -377,7 +377,7 @@ class API_CalDAV_Model
 				}
 				$record->set('taskpriority', $this->getPriorityFromCrm($component));
 				$record->set('visibility', $this->getVisibility($component));
-				$record->set('state', $this->getState($component));
+				$record->set('state', $this->getStateFromCrm($component));
 
 				$exclusion = AppConfig::module('API', 'CALDAV_EXCLUSION_FROM_DAV');
 				if ($exclusion !== false) {
@@ -444,7 +444,7 @@ class API_CalDAV_Model
 				}
 				$record->set('taskpriority', $this->getPriorityFromCrm($component));
 				$record->set('visibility', $this->getVisibility($component));
-				$record->set('state', $this->getState($component));
+				$record->set('state', $this->getStateFromCrm($component));
 
 				$exclusion = AppConfig::module('API', 'CALDAV_EXCLUSION_FROM_DAV');
 				if ($exclusion !== false) {
@@ -533,34 +533,41 @@ class API_CalDAV_Model
 	}
 
 	/**
-	 * Get state
-	 * @param string|Sabre\VObject\Component $component
-	 * @param boolean $toCrm
+	 * Get state from crm
+	 * @param Sabre\VObject\Component $component
 	 * @return string
 	 */
-	public function getState($component, $toCrm = true)
+	public function getStateFromCrm(\Sabre\VObject\Component $component)
 	{
 		$state = '';
-		if ($toCrm) {
-			if (isset($component->TRANSP)) {
-				switch ($component->TRANSP->getValue()) {
-					case 'OPAQUE':
-						$state = 'PLL_OPAQUE';
-						break;
-					case 'TRANSPARENT':
-						$state = 'PLL_TRANSPARENT';
-						break;
-				}
-			}
-		} else {
-			switch ($component) {
-				case 'PLL_OPAQUE':
-					$state = 'OPAQUE';
+		if (isset($component->TRANSP)) {
+			switch ($component->TRANSP->getValue()) {
+				case 'OPAQUE':
+					$state = 'PLL_OPAQUE';
 					break;
-				case 'PLL_TRANSPARENT':
-					$state = 'TRANSPARENT';
+				case 'TRANSPARENT':
+					$state = 'PLL_TRANSPARENT';
 					break;
 			}
+		}
+		return $state;
+	}
+
+	/**
+	 * Get state from dav
+	 * @param string $component
+	 * @return string
+	 */
+	public function getStateFromDav($component)
+	{
+		$state = '';
+		switch ($component) {
+			case 'PLL_OPAQUE':
+				$state = 'OPAQUE';
+				break;
+			case 'PLL_TRANSPARENT':
+				$state = 'TRANSPARENT';
+				break;
 		}
 		return $state;
 	}
