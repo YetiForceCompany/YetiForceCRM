@@ -56,7 +56,7 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 		app.event.on("DetailView.SaveComment.AfterLoad DetailView.SaveComment.AfterUpdate", function () {
 			thisInstance.updateParentFrame();
 		});
-		app.event.on("DetailView.Widget.AfterLoad DetailView.summaryWidget.AfterShowMore", function () {
+		app.event.on("DetailView.Widget.AfterLoad DetailView.UpdatesWidget.AddMore", function () {
 			thisInstance.updateParentFrame();
 		});
 	},
