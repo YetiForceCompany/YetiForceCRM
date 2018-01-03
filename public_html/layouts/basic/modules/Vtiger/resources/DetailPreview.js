@@ -11,9 +11,17 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 			}
 		});
 	},
+	/**
+	 * Function redirects to current iframe's parent
+	 * @returns {undefined}
+	 */
 	updateParentFrame: function () {
 		parent.app.getPageController().updateWindowHeight($(".mainContainer").height(), $(window.frameElement));
 	},
+	/**
+	 * Function sets correct size of iframes
+	 * @returns {undefined}
+	 */
 	updateWindowHeight: function (currentHeight, frame) {
 		var thisInstance = this;
 		var relatedContents = frame.closest('.relatedContents');
@@ -23,16 +31,17 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 			currentHeight = fixedListHeight;
 		}
 		relatedContents.find(".gutter,.wrappedPanel,.fixedListInitial,.listPreview,.recordsListPreview").height(currentHeight);
-		if (window.parent) {
+		if (window.frameElement) {
 			thisInstance.updateParentFrame();
 		}
 	},
 	/**
-	 * Function changes iframes' size
+	 * Register events, which impact on iframes' size
+	 * @returns {undefined}
 	 */
 	registerSizeEvent: function () {
 		var thisInstance = this;
-		if (window.parent) {
+		if (window.frameElement) {
 			thisInstance.updateParentFrame();
 		}
 		app.event.on('RelatedList.AfterLoad', function () {
@@ -42,6 +51,12 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 			thisInstance.updateParentFrame();
 		});
 		app.event.on('DetailView.Tab.AfterLoad', function () {
+			thisInstance.updateParentFrame();
+		});
+		app.event.on("DetailView.SaveComment.AfterLoad DetailView.SaveComment.AfterUpdate", function () {
+			thisInstance.updateParentFrame();
+		});
+		app.event.on("DetailView.Widget.AfterLoad DetailView.summaryWidget.AfterShowMore", function () {
 			thisInstance.updateParentFrame();
 		});
 	},

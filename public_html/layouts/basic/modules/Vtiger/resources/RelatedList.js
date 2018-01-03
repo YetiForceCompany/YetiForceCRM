@@ -904,14 +904,12 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 		var thisInstance = this;
 		if ($(window).width() > 993) {
 			var container = thisInstance.content.find('.recordsListPreview');
-			window.console.log(container);
 			if (container.length && !container.find('.gutter').length) {
 				var relatedHeader = outerContainer.find('.relatedHeader');
 				var fixedList = container.find('.fixedListInitial');
 				var wrappedPanel = container.find('.wrappedPanel');
 				var wrappedPanelLeft = container.find(wrappedPanel[0]);
 				var wrappedPanelRight = container.find(wrappedPanel[1]);
-				window.console.log(relatedHeader);
 				var split = Split([container.find('.fixedListInitial')[0], container.find('.listPreview')[0]], {
 					sizes: [25, 75],
 					minSize: 10,

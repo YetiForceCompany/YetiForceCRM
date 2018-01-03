@@ -603,7 +603,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			if (commentMode == 'add') {
 				thisInstance.addRelationBetweenRecords('ModComments', data.result.id, thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel))
 			}
-			app.event.trigger("DetailView.SaveComment.AfterLoad", commentInfoBlock, postData, data);
+			app.event.trigger("DetailView.SaveComment.AfterAjax", commentInfoBlock, postData, data);
 			aDeferred.resolve(data);
 		}, function (textStatus, errorThrown) {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
@@ -1929,6 +1929,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					jQuery('<ul class="liStyleNone"><li class="commentDetails">' + data + '</li></ul>').prependTo(closestAddCommentBlock.closest('.contents').find('.commentsList'));
 				}
 				commentInfoBlock.find('.commentActionsContainer').show();
+				app.event.trigger("DetailView.SaveComment.AfterLoad", commentInfoBlock, data);
 			});
 		} else if (mode == "edit") {
 			var modifiedTime = commentInfoBlock.find('.commentModifiedTime');
@@ -1948,6 +1949,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			commentInfoContent.show();
 			commentInfoBlock.find('.commentActionsContainer').show();
 			closestAddCommentBlock.remove();
+			app.event.trigger("DetailView.SaveComment.AfterUpdate", commentInfoBlock, data);
 		}
 	},
 	registerCommentEvents: function (detailContentsHolder) {
@@ -2292,6 +2294,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						container.find('#moreLink').html(dataContainer.find('#moreLink').html());
 						container.find('#updates ul').append(dataContainer.find('#updates ul').html());
 						app.registerMoreContent(container.find('button.moreBtn'));
+						app.event.trigger("DetailView.summaryWidget.AfterShowMore", data, thisInstance);
 					}
 			);
 		});
