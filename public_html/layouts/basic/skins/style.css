@@ -5075,9 +5075,9 @@ html,body,.baseContainer
 .widgetContainer select[multiple]{
 	height: 0px;
 }
-.alphabetBtnContainer{
+/*.alphabetBtnContainer{
 	width: auto;
-}
+}*/
 .detailViewTitle .btn-toolbar .btn-group:first-child {
 	margin:0;
 }
@@ -5687,7 +5687,6 @@ select.form-control {
 .leftRecordActions .actions .actionImages a{
 	color: inherit;
 }
-.listViewSearchTd,
 .widthMin{
 	width: 1%;
 }
@@ -6143,4 +6142,16 @@ border1px{
 }
 .ps-scrollbar-y-rail {
 	z-index: 100;
+}
+.listViewSearchTd {
+	
+}
+.flexWrapper .listRemoveBtn {
+	margin-left: 8px;
+}
+.reducePadding {
+	padding: 0px !important;
+}
+.flexWrapper {
+	display: flex;
 }
