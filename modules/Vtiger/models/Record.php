@@ -890,18 +890,6 @@ class Vtiger_Record_Model extends \App\Base
 		return $summaryBlocks;
 	}
 
-	public function trackView()
-	{
-		$db = PearDatabase::getInstance();
-		$id = $this->getId();
-		\App\Log::trace("Track the viewing of a detail record: vtiger_tracker (user_id, module_name, item_id)($id)");
-		if ($id != '') {
-			$updateQuery = "UPDATE vtiger_crmentity SET viewedtime=? WHERE crmid=?;";
-			$updateParams = [date('Y-m-d H:i:s'), $this->getId()];
-			$db->pquery($updateQuery, $updateParams);
-		}
-	}
-
 	/**
 	 * Function to set record module field values
 	 * @param parent record model
@@ -1059,17 +1047,16 @@ class Vtiger_Record_Model extends \App\Base
 		return $this->inventoryData;
 	}
 
-	public static function getInventoryDataById($ID, $moduleName)
+	/**
+	 * Function to get data of inventory for record
+	 * @param int $id
+	 * @param string $moduleName
+	 * @return array
+	 */
+	public static function getInventoryDataById($id, $moduleName)
 	{
-		$db = PearDatabase::getInstance();
-		$inventoryField = Vtiger_InventoryField_Model::getInstance($moduleName);
-		$table = $inventoryField->getTableName('data');
-		$result = $db->pquery(sprintf('SELECT * FROM %s WHERE id = ? ORDER BY seq', $table), [$ID]);
-		$fields = [];
-		while ($row = $db->fetchArray($result)) {
-			$fields[] = $row;
-		}
-		return $fields;
+		$table = Vtiger_InventoryField_Model::getInstance($moduleName)->getTableName('data');
+		return (new \App\Db\Query())->from($table)->where(['id' => $id])->orderBy(['seq' => SORT_ASC])->all();
 	}
 
 	/**
