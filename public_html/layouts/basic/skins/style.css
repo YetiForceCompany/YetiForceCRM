@@ -1915,6 +1915,7 @@ th.htColHeader,
 	z-index: 1000023 !important;
 	min-width: 200px;
 	word-wrap: break-word;
+	position: fixed;
 }
 .popover-content .fieldLabel {
 	width: 35%;
@@ -6144,3 +6145,4 @@ border1px{
 .ps-scrollbar-y-rail {
 	z-index: 100;
 }
+
