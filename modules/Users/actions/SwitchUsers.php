@@ -45,7 +45,7 @@ class Users_SwitchUsers_Action extends Vtiger_Action_Controller
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$baseUserId = $currentUserModel->getId();
-		$userId = $request->getInteger('id');
+		$userId = (int) $request->getInteger('id');
 		$user = new Users();
 		$currentUser = $user->retrieveCurrentUserInfoFromFile($userId);
 		$name = $currentUserModel->getName();
