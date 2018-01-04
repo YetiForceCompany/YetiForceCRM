@@ -32,6 +32,7 @@
 			<table class="table table-bordered listViewEntriesTable">
 				<thead>
 					<tr class="listViewHeaders">
+						<th class="{$WIDTHTYPE}"></th>
 						{if $MULTI_SELECT}
 							<th class="{$WIDTHTYPE}">
 								<input type="checkbox" title="{\App\Language::translate('LBL_SELECT_ALL_CURRENTPAGE')}" class="selectAllInCurrentPage" />
@@ -43,12 +44,12 @@
 									{if $ORDER_BY eq $LISTVIEW_HEADER->getColumnName()}<img class="sortImage" alt="{\App\Language::translate('LBL_SORT_ASCENDING')}" src="{\App\Layout::getImagePath( $SORT_IMAGE, $MODULE_NAME)}">{else}<img class="hide sortingImage" alt="{\App\Language::translate('LBL_SORT_DESCENDING')}" src="{\App\Layout::getImagePath( 'downArrowSmall.png', $MODULE_NAME)}">{/if}</a>
 							</th>
 						{/foreach}
-						<th class="{$WIDTHTYPE}"></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						{if $MULTI_SELECT}
+						<td class="{$WIDTHTYPE}"><button class="btn btn-default" data-trigger="listSearch">{\App\Language::translate('LBL_SEARCH', $MODULE_NAME )}</button></td>
+							{if $MULTI_SELECT}
 							<td class="{$WIDTHTYPE}"></td>
 						{/if}
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
@@ -57,12 +58,12 @@
 								{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $MODULE_NAME) FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$USER_MODEL}
 							</td>
 						{/foreach}
-						<td class="{$WIDTHTYPE}"><button class="btn btn-default" data-trigger="listSearch">{\App\Language::translate('LBL_SEARCH', $MODULE_NAME )}</button></td>
 					</tr>
 
 					{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=popupListView}
 						<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}" data-name='{$LISTVIEW_ENTRY->getName()}' data-info='{\App\Json::encode($LISTVIEW_ENTRY->getRawData())}'
 							{if $GETURL neq '' } data-url='{$LISTVIEW_ENTRY->$GETURL()}' {/if}  id="{$MODULE_NAME}_popUpListView_row_{$smarty.foreach.popupListView.index+1}">
+							<td class="{$WIDTHTYPE}"></td>
 							{if $MULTI_SELECT}
 								<td class="{$WIDTHTYPE}">
 									<input class="entryCheckBox" title="{\App\Language::translate('LBL_SELECT_RECORD')}" type="checkbox" />
@@ -82,8 +83,6 @@
 									{/if}
 								</td>
 							{/foreach}
-							<td class="{$WIDTHTYPE}"></td>
-
 						</tr>
 					{/foreach}
 				</tbody>
