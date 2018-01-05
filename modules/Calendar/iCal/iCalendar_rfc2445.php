@@ -737,22 +737,6 @@ function rfc2445_do_value_formatting($value, $type)
 	return $value;
 }
 
-function rfc2445_undo_value_formatting($value, $type)
-{
-	switch ($type) {
-		case RFC2445_TYPE_CAL_ADDRESS:
-		case RFC2445_TYPE_URI:
-			// Trim beginning and end double quote
-			$value = substr($value, 1, strlen($value) - 2);
-			break;
-		case RFC2445_TYPE_TEXT:
-			// Unescape entities
-			$value = strtr($value, ['\\n' => "\n", '\\N' => "\n", '\\\\' => '\\', '\\,' => ',', '\\;' => ';']);
-			break;
-	}
-	return $value;
-}
-
 // This is cheating: GUIDs have nothing to do with RFC 2445
 
 function rfc2445_guid()
