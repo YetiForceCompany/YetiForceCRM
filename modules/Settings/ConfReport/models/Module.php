@@ -306,6 +306,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			],
 			'session.cookie_httponly' => [
 				'prefer' => 'On',
+				'help' => 'SESSION_COOKIE_HTTPONLY_HELP_TEXT',
 				'current' => static::getFlag(ini_get('session.cookie_httponly')),
 				'status' => ini_get('session.cookie_httponly') != 1 && stripos(ini_get('session.cookie_httponly'), 'Off') !== false
 			],

@@ -66,6 +66,7 @@ $languageStrings = [
  	'LBL_VULNERABILITY_NAME' => 'Vulnerability name',
  	'LBL_VULNERABILITY_URL' => 'Vulnerability address',
 	'HTTPS_HELP_TEXT' => 'SSL is the standard security technology for establishing an encrypted link between a web server and a browser',
+	'SESSION_COOKIE_HTTPONLY_HELP_TEXT' => 'This means that cookies are only available through the HTTP protocol. In other words, the cookie file will not be available for scripting languages such as JavaScript. This setting can help reduce identity theft through XSS attacks.',
 	'HTACCESS_HELP_TEXT' => '.htaccess files can be used to change the server software configuration to configure and enable / disable additional services. YetiForceCRM requires access to the file to some work functions properly.',
 	'PUBLIC_HTML_HELP_TEXT' => 'We suggest that you install the system so that only the public_html folder is used. This improves data security by not having access to unpublic directories and files directly from the address'
 ];
