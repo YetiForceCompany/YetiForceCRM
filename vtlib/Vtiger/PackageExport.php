@@ -224,7 +224,7 @@ class PackageExport
 	 */
 	public function __copyLanguageFiles(Zip $zip, $module)
 	{
-		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator('languages', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
+		foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator('languages', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			/* @var $item \SplFileInfo */
 			if ($item->isFile() && $item->getFilename() === $module . '.php') {
 				$path = $item->getPath() . DIRECTORY_SEPARATOR;
