@@ -14437,7 +14437,6 @@ var DayGridEventRenderer = /** @class */ (function (_super) {
         var timeHtml = '';
         var timeText;
         var titleHtml;
-		console.log(seg);
         classes.unshift('fc-day-grid-event', 'fc-h-event');
         // Only display a timed events time if it is the starting segment
         if (seg.isStart) {

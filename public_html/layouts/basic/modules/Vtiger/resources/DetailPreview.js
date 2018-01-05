@@ -1,6 +1,9 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
-	registerLinkEvent: function (container) {
+	/**
+	 * Redirects to the clicked link from the iframe.
+	 */
+	registerLinkEvent: function () {
 		$('#page').on('click', 'a', function (e) {
 			e.preventDefault();
 			var target = $(this);
@@ -12,15 +15,15 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 		});
 	},
 	/**
-	 * Function redirects to current iframe's parent
-	 * 
+	 * Redirects to the current iframe's parent.
 	 */
 	updateParentFrame: function () {
 		parent.app.getPageController().updateWindowHeight($(".mainContainer").height(), $(window.frameElement));
 	},
 	/**
-	 * Function sets correct size of iframes
-	 * 
+	 * Function sets the correct iframe's size.
+	 * @param {$} currentHeight - ifrmae's body height to be set.
+	 * @param {$} frame - ifrmae's height to be changed.
 	 */
 	updateWindowHeight: function (currentHeight, frame) {
 		var thisInstance = this;
@@ -36,8 +39,7 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 		}
 	},
 	/**
-	 * Register events, which impact on iframes' size
-	 * 
+	 * Register events, which impact on the iframe's size.
 	 */
 	registerSizeEvent: function () {
 		var thisInstance = this;
@@ -60,6 +62,9 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 			thisInstance.updateParentFrame();
 		});
 	},
+	/**
+	 * Registers DetailPreview's events.
+	 */
 	registerEvents: function () {
 		this._super();
 		this.registerLinkEvent();
