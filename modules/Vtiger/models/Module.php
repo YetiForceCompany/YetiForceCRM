@@ -168,7 +168,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	{
 		$instance = Vtiger_Cache::get('module', $mixed);
 		if (!$instance) {
-			$instance = false;
+			$instance = null;
 			$moduleObject = parent::getInstance($mixed);
 			if ($moduleObject) {
 				$instance = self::getInstanceFromModuleObject($moduleObject);

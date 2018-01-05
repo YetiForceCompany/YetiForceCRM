@@ -161,10 +161,10 @@ class Block
 	/**
 	 * Get instance of block
 	 * @param int|string block id or block label
-	 * @param \Module Module Instance of the module if block label is passed
+	 * @param \vtlib\Module Module Instance of the module if block label is passed
 	 * @return \self
 	 */
-	public static function getInstance($value, $moduleInstance = false)
+	public static function getInstance($value, \vtlib\Module $moduleInstance = null)
 	{
 		$cacheName = $value . '|' . ($moduleInstance ? $moduleInstance->id : '');
 		if (\App\Cache::has('BlockInstance', $cacheName)) {

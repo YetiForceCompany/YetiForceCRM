@@ -206,7 +206,7 @@ class Module extends ModuleBasic
 	 */
 	public static function getInstance($value)
 	{
-		$instance = false;
+		$instance = null;
 		$data = Functions::getModuleData($value);
 		if ($data) {
 			$instance = new self();

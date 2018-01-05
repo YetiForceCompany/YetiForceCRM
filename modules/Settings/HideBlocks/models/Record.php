@@ -214,6 +214,6 @@ class Settings_HideBlocks_Record_Model extends Settings_Vtiger_Record_Model
 		if (!empty($tabid)) {
 			return Vtiger_Module_Model::getInstance($tabid);
 		}
-		return false;
+		return null;
 	}
 }

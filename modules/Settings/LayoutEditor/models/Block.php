@@ -70,7 +70,7 @@ class Settings_LayoutEditor_Block_Model extends Vtiger_Block_Model
 			], ['fieldid' => $fieldIdList])->execute();
 	}
 
-	public static function getInstance($value, $moduleInstance = false)
+	public static function getInstance($value, \vtlib\Module $moduleInstance = null)
 	{
 		$blockInstance = parent::getInstance($value, $moduleInstance);
 		$blockModel = self::getInstanceFromBlockObject($blockInstance);
