@@ -6204,11 +6204,7 @@ var DayTableMixin = /** @class */ (function (_super) {
     DayTableMixin.prototype.renderHeadHtml = function () {
         var theme = this.view.calendar.theme;
         return '' +
-			// <--------   YetiForce Sp. z o.o.   -------->
-            //'<div class="fc-row ' + theme.getClass('headerRow') + '">' +
-			'<div class="fc-row ">'
-			// <--------   YetiForce Sp. z o.o.   -------->
-			+
+            '<div class="fc-row ' + theme.getClass('headerRow') + '">' +
             '<table class="' + theme.getClass('tableGrid') + '">' +
             '<thead>' +
             this.renderHeadTrHtml() +
@@ -7361,10 +7357,7 @@ var BasicView = /** @class */ (function (_super) {
             (this.opt('columnHeader') ?
                 '<thead class="fc-head">' +
                     '<tr>' +
-					// <--------   YetiForce Sp. z o.o.   -------->
-                    //'<td class="fc-head-container ' + theme.getClass('widgetHeader') + '">&nbsp;</td>' +
-					'<td>' +
-					// <--------   YetiForce Sp. z o.o.   -------->
+                    '<td class="fc-head-container ' + theme.getClass('widgetHeader') + '">&nbsp;</td>' +
                     '</tr>' +
                     '</thead>' :
                 '') +
@@ -11372,11 +11365,8 @@ var AgendaView = /** @class */ (function (_super) {
             (this.opt('columnHeader') ?
                 '<thead class="fc-head">' +
                     '<tr>' +
-					// <--------   YetiForce Sp. z o.o.   -------->
-                    //'<td class="fc-head-container ' + theme.getClass('widgetHeader') + '">&nbsp;</td>' +
-                    '<td>' +
-					// <--------   YetiForce Sp. z o.o.   -------->
-				'</tr>' +
+                    '<td class="fc-head-container ' + theme.getClass('widgetHeader') + '">&nbsp;</td>' +
+                    '</tr>' +
                     '</thead>' :
                 '') +
             '<tbody class="fc-body">' +
@@ -13795,73 +13785,40 @@ var TimeGridEventRenderer = /** @class */ (function (_super) {
             fullTimeText = this.getTimeText(seg.footprint, 'LT');
             startTimeText = this.getTimeText(seg.footprint, null, false); // displayEnd=false
         }
-						// <--------   YetiForce Sp. z o.o.   -------->
-
-//        return '<a class="' + classes.join(' ') + '"' +
-//            (eventDef.url ?
-//                ' href="' + util_1.htmlEscape(eventDef.url) + '"' :
-//                '') +
-//            (skinCss ?
-//                ' style="' + skinCss + '"' :
-//                '') +
-//            '>' +
-//            '<div class="fc-content">' +
-//            (timeText ?
-//                '<div class="fc-time"' +
-//                    ' data-start="' + util_1.htmlEscape(startTimeText) + '"' +
-//                    ' data-full="' + util_1.htmlEscape(fullTimeText) + '"' +
-//                    '>' +
-//                    '<span>' + util_1.htmlEscape(timeText) + '</span>' +
-//                    '</div>' :
-//                '') +
-//            (eventDef.title ?
-//                '<div class="fc-title">' +
-//                    util_1.htmlEscape(eventDef.title) +
-//                    '</div>' :
-//                '') +
-//            '</div>' +
-//            '<div class="fc-bg"/>' +
-//            /* TODO: write CSS for this
-//            (isResizableFromStart ?
-//              '<div class="fc-resizer fc-start-resizer" />' :
-//              ''
-//              ) +
-//            */
-//            (isResizableFromEnd ?
-//                '<div class="fc-resizer fc-end-resizer" />' :
-//                '') +
-//            '</a>';
-			// Only display a timed events time if it is the starting segment
-		// <--------   YetiForce Sp. z o.o.   -------->
-			var eventIcon = 'icon-calendar';
-			if (eventDef.set == 'Task') {
-				eventIcon = 'icon-tasks'
-			}
-			return '<a class="' + classes.join(' ') + '"' +
-					(eventDef.url ?
-							' href="' + util_1.htmlEscape(eventDef.url) + '"' :
-							''
-							) +
-					(skinCss ?
-							' style="' + skinCss + '"' :
-							''
-							) +
-					'>' +
-					'<span class="fc-info"><i class="icon-info-sign"></i></span><div class="fc-content">' +
-					(timeText ?
-							'<div class="fc-time"' + ' data-start="' + util_1.htmlEscape(startTimeText) + '"' + ' data-full="' + util_1.htmlEscape(fullTimeText) + '"' + '>' +
-							'<span><i class="icon-time"></i> ' + util_1.htmlEscape(timeText) + '</span>' +
-							'</div>' : '') +
-					(eventDef.title ? '<div class="fc-title"><i class="' + eventIcon + '"></i> ' + eventDef.title + '</div>' : '') +
-					(eventDef.accname ? '<div class="fc-parentlabel"><i class="calIcon userIcon-Accounts"></i>' + eventDef.accname + '</div>' : '') +
-					(eventDef.linkl ? '<div class="fc-parentlabel"><i class="calIcon userIcon-' + eventDef.linkm + '"></i> ' + eventDef.linkl + '</div>' : '') +
-					'</div>' +
-					'<div class="fc-bg"/>' +
-					(isResizableFromEnd ?
-							'<div class="fc-resizer fc-end-resizer" />' :
-							''
-							) +
-					'</a>';
+        return '<a class="' + classes.join(' ') + '"' +
+            (eventDef.url ?
+                ' href="' + util_1.htmlEscape(eventDef.url) + '"' :
+                '') +
+            (skinCss ?
+                ' style="' + skinCss + '"' :
+                '') +
+            '>' +
+            '<div class="fc-content">' +
+            (timeText ?
+                '<div class="fc-time"' +
+                    ' data-start="' + util_1.htmlEscape(startTimeText) + '"' +
+                    ' data-full="' + util_1.htmlEscape(fullTimeText) + '"' +
+                    '>' +
+                    '<span>' + util_1.htmlEscape(timeText) + '</span>' +
+                    '</div>' :
+                '') +
+            (eventDef.title ?
+                '<div class="fc-title">' +
+                    util_1.htmlEscape(eventDef.title) +
+                    '</div>' :
+                '') +
+            '</div>' +
+            '<div class="fc-bg"/>' +
+            /* TODO: write CSS for this
+            (isResizableFromStart ?
+              '<div class="fc-resizer fc-start-resizer" />' :
+              ''
+              ) +
+            */
+            (isResizableFromEnd ?
+                '<div class="fc-resizer fc-end-resizer" />' :
+                '') +
+            '</a>';
     };
     // Given segments that are assumed to all live in the *same column*,
     // compute their verical/horizontal coordinates and assign to their elements.
@@ -14479,87 +14436,41 @@ var DayGridEventRenderer = /** @class */ (function (_super) {
         var skinCss = util_1.cssToStr(this.getSkinCss(eventDef));
         var timeHtml = '';
         var timeText;
-		// <--------   YetiForce Sp. z o.o.   -------->
-        //var titleHtml;
-		// <--------   YetiForce Sp. z o.o.   -------->
+        var titleHtml;
+		console.log(seg);
         classes.unshift('fc-day-grid-event', 'fc-h-event');
         // Only display a timed events time if it is the starting segment
         if (seg.isStart) {
             timeText = this.getTimeText(seg.footprint);
-			if (timeText) {
+            if (timeText) {
                 timeHtml = '<span class="fc-time">' + util_1.htmlEscape(timeText) + '</span>';
             }
         }
-		// <--------   YetiForce Sp. z o.o.   -------->
-//        titleHtml =
-//            '<span class="fc-title">' +
-//                (util_1.htmlEscape(eventDef.title || '') || '&nbsp;') + // we always want one line of height
-//                '</span>';
-//        return '<a class="' + classes.join(' ') + '"' +
-//            (eventDef.url ?
-//                ' href="' + util_1.htmlEscape(eventDef.url) + '"' :
-//                '') +
-//            (skinCss ?
-//                ' style="' + skinCss + '"' :
-//                '') +
-//            '>' +
-//            '<div class="fc-content">' +
-//            (this.dayGrid.isRTL ?
-//                titleHtml + ' ' + timeHtml : // put a natural space in between
-//                timeHtml + ' ' + titleHtml //
-//            ) +
-//            '</div>' +
-//            (isResizableFromStart ?
-//                '<div class="fc-resizer fc-start-resizer" />' :
-//                '') +
-//            (isResizableFromEnd ?
-//                '<div class="fc-resizer fc-end-resizer" />' :
-//                '') +
-//            '</a>';
-//			
-			if (eventDef.type == 'widget') { //Calendar widget
-				var addHtml = '';
-				addHtml = '<div class="cell-calendar">';
-				for (var i in eventDef.eventDef) {
-					addHtml += '<a class="" href="javascript:;"' +
-							' data-date="' + eventDef.date + '"' + ' data-type="' + i + '" title="' + eventDef.event[i].label + '">' +
-							'<span class="' + eventDef.eventDef[i].className + ((eventDef.width <= 20) ? ' small-badge' : '') + ((eventDef.width >= 24) ? ' big-badge' : '') + ' badge">' + eventDef.event[i].count + '</span>' +
-							'</a>\n';
-				}
-				addHtml += '</div>';
-				return addHtml;
-			}
-			console.log(eventDef);
-			console.log(eventDef.dateProfile.start._f);
-			if (eventDef.dateProfile.start.format('HHH') != '000') {
-				timeText = this.getTimeText(seg.footprint);
-				if (timeText) {
-					timeHtml = '<span class="fc-time">' + util_1.htmlEscape(timeText) + '</span>';
-				}
-			}
-				titleHtml = '<span class="fc-title">' + eventDef.title + '</span>';
-			return '<div data-id="' + eventDef.id + '" data-module="' + eventDef.module + '" class="' + classes.join(' ') + '"' +
-					(eventDef.url ?
-							' href="' + util_1.htmlEscape(eventDef.url) + '"' :
-							''
-							) +
-					(skinCss ?
-							' style="' + skinCss + '"' :
-							''
-							) +
-					'>' + '<div class="pull-left"><span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span></div>' +
-					'<div class="pull-right fc-info"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></div>' +
-					'<div class="fc-content">' + timeHtml + '' + titleHtml + '</div>' +
-					(isResizableFromStart ?
-							'<div class="fc-resizer fc-start-resizer" />' :
-							''
-							) +
-					(isResizableFromEnd ?
-							'<div class="fc-resizer fc-end-resizer" />' :
-							''
-							) +
-					'</div>';
-		// <--------   YetiForce Sp. z o.o.   -------->
+        titleHtml =
+            '<span class="fc-title">' +
+                (util_1.htmlEscape(eventDef.title || '') || '&nbsp;') + // we always want one line of height
+                '</span>';
+        return '<a class="' + classes.join(' ') + '"' +
+            (eventDef.url ?
+                ' href="' + util_1.htmlEscape(eventDef.url) + '"' :
+                '') +
+            (skinCss ?
+                ' style="' + skinCss + '"' :
+                '') +
+            '>' +
+            '<div class="fc-content">' +
+            (this.dayGrid.isRTL ?
+                titleHtml + ' ' + timeHtml : // put a natural space in between
+                timeHtml + ' ' + titleHtml //
+            ) +
+            '</div>' +
+            (isResizableFromStart ?
+                '<div class="fc-resizer fc-start-resizer" />' :
+                '') +
+            (isResizableFromEnd ?
+                '<div class="fc-resizer fc-end-resizer" />' :
+                '') +
+            '</a>';
     };
     return DayGridEventRenderer;
 }(EventRenderer_1.default));
