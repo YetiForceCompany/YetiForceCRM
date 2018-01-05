@@ -150,7 +150,7 @@ class CurrencyField
 			$value = substr($value, 1);
 		}
 		$self = new self($value);
-		$formattedValue = $self->getDisplayValue(null, $skipConversion);
+		$formattedValue = $self->getDisplayValue(null, $skipConversion, $skipFormatting);
 		if ($currencySymbol === false) {
 			$currencySymbol = $self->currencySymbol;
 		}
