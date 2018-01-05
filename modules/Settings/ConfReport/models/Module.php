@@ -312,6 +312,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			],
 			'session.use_only_cookies' => [
 				'prefer' => 'On',
+				'help' => 'SESSION_USE_ONLY_COOKIES_HELP_TEXT',
 				'current' => static::getFlag(ini_get('session.use_only_cookies')),
 				'status' => ini_get('session.use_only_cookies') != 1 && stripos(ini_get('session.use_only_cookies'), 'Off') !== false
 			],
