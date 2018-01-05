@@ -319,6 +319,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			],
 			'expose_php' => [
 				'prefer' => 'Off',
+				'help' => 'EXPOSE_PHP_HELP_TEXT',
 				'current' => static::getFlag(ini_get('expose_php')),
 				'status' => ini_get('expose_php') == 1 || stripos(ini_get('expose_php'), 'On') !== false
 			],
