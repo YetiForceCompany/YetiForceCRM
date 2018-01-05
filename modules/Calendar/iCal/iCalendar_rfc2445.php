@@ -58,16 +58,6 @@ function rfc2445_fold($string)
 	return $retval;
 }
 
-function rfc2445_unfold($string)
-{
-	$getStringLength = strlen(RFC2445_WSP);
-	for ($i = 0; $getStringLength; $i < ++$i) {
-		$string = str_replace(RFC2445_CRLF . substr(RFC2445_WSP, $i, 1), '', $string);
-	}
-
-	return $string;
-}
-
 function rfc2445_is_xname($name)
 {
 
