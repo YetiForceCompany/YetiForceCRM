@@ -4,6 +4,7 @@
 	"keywords": ["YetiForceCRM", "CRM", "open source crm", "best crm", "YetiForce", "ERP", "PHP", "Customer Relation Management", "System CRM"],
 	"homepage": "https://yetiforce.com/",
 	"type": "project",
+	"license": "MIT",
 	"support": {
 		"issues": "https://github.com/YetiForceCompany/YetiForceCRM/issues",
 		"wiki": "https://yetiforce.com/en/documentation.html",
