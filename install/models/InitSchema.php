@@ -167,7 +167,7 @@ class Install_InitSchema_Model
 		$migrationObject->process();
 		$return = $migrationObject->postProcess();
 		vtlib\Access::syncSharingAccess();
-		vtlib\Deprecated::createModuleMetaFile();
+		\App\Module::createModuleMetaFile();
 		return $return;
 	}
 
