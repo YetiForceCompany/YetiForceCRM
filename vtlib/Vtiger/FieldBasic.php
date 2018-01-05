@@ -52,7 +52,7 @@ class FieldBasic
 	 * @param \vtlib\Module $moduleInstance Module Instance of module to which this field belongs
 	 * @param \vtlib\Block $blockInstance Instance of block to which this field belongs
 	 */
-	public function initialize($valuemap, $moduleInstance = false, $blockInstance = false)
+	public function initialize($valuemap, $moduleInstance = null, $blockInstance = false)
 	{
 		$this->id = (int) $valuemap['fieldid'];
 		$this->tabid = (int) $valuemap['tabid'];
