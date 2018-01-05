@@ -72,6 +72,7 @@ $languageStrings = [
 	'LBL_VULNERABILITY_NAME' => 'Nazwa podatności',
 	'LBL_VULNERABILITY_URL' => 'Adres',
 	'HTTPS_HELP_TEXT' => 'SSL to technologia zabezpieczeń służąca do tworzenia zaszyfrowanego połączenia między serwerem internetowym a przeglądarką. Zalecamy włączenie jej aby uniemożliwić podsłuchiwanie komunikacji pomiędzy Tobą a serwerem.',
+	'DISPLAY_ERRORS_HELP_TEXT' => 'Oznacza to, czy komunikaty o błędach i ostrzeżeniach będą wysyłane do przeglądarki. Informacje te często zawierają poufne techniczne informacje o systemie i nigdy nie powinny być pokazywane niezaufanym źródłom. Tą opcję włącza się tylko podczas rozwijania systemu w celu zobaczenia błędów i ostrzeżeń.',
 	'SESSION_COOKIE_HTTPONLY_HELP_TEXT' => 'Oznacza to, że pliki cookie są dostępne tylko za pośrednictwem protokołu HTTP. Innymi słowy, plik cookie nie będzie dostępny dla języków skryptowych, takich jak JavaScript. To ustawienie może skutecznie pomóc w ograniczeniu kradzieży tożsamości poprzez ataki XSS.',
 	'SESSION_USE_ONLY_COOKIES_HELP_TEXT' => 'Oznacza to, czy system będzie używał tylko ciasteczek do przechowywania identyfikatora sesji po stronie klienta. Włączenie tego ustawienia zapobiega atakom polegającym na przekazywaniu identyfikatorów sesji w adresach URL.',
 	'HTACCESS_HELP_TEXT' => 'Plik .htaccess jest nieaktywny, jest on potrzebny do prawidłowej obsługi wszystkich integracji oraz do zabezpieczenia dostępu do katalogów z danymi użytkownika.',

@@ -71,6 +71,7 @@ $languageStrings = [
 	'LBL_VULNERABILITY_NAME' => 'Name der Schwachstelle',
 	'LBL_VULNERABILITY_URL' => 'Adresse der Schwachstelle',
 	'HTTPS_HELP_TEXT' => 'SSL ist die Standard Sicherheitstechnologie für die verschlüsselte Verbindung zwischen dem Webserver und dem Browser',
+	'DISPLAY_ERRORS_HELP_TEXT' => 'This means that error messages and warnings will be sent to the browser. This information often contains confidential technical information about the system and should never be displayed to untrusted sources. This option should only be enabled to see errors and warnings when developing the system.',
 	'SESSION_COOKIE_HTTPONLY_HELP_TEXT' => 'This means that cookies are only available through the HTTP protocol. In other words, the cookie file will not be available for scripting languages such as JavaScript. This setting can help reduce identity theft through XSS attacks.',
 	'SESSION_USE_ONLY_COOKIES_HELP_TEXT' => 'This means that the system will only use cookies to store the session ID on the client\'s side. Enabling this setting prevents attacks that involve passing session IDs in URL addresses.',
 	'HTACCESS_HELP_TEXT' => '.htaccess Dateien können verwendet werden um die Servereinstellungen anzupassen. YetiForceCRM benötigt den Zugriff auf die Dateien um korrekt zu funktionieren.',

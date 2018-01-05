@@ -293,6 +293,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		$directiveValues = [
 			'display_errors' => [
 				'prefer' => 'Off',
+				'help' => 'DISPLAY_ERRORS_HELP_TEXT',
 				'current' => static::getFlag(ini_get('display_errors')),
 				'status' => \AppConfig::main('systemMode') !== 'demo' && (ini_get('display_errors') == 1 || stripos(ini_get('display_errors'), 'On') !== false)
 			],
