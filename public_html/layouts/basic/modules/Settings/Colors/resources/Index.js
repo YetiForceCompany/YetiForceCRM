@@ -639,7 +639,8 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 		container.find('.pickListModules').on('change', function (e) {
 			var selectedModule = jQuery(e.currentTarget).val();
 			if (selectedModule.length <= 0) {
-				Settings_Vtiger_Index_Js.showMessage({'type': 'error', 'text': app.vtranslate('JS_PLEASE_SELECT_MODULE')});
+				jQuery('#picklistsColorsTab').trigger('click');
+				return false;
 			}
 			var progressIndicatorElement = jQuery.progressIndicator({
 				'position': 'html',
