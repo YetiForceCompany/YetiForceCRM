@@ -31,7 +31,7 @@ class IcalendarParameter
 		}
 	}
 
-	public function isValidValue(&$parent_property, $parameter, $value)
+	public function isValidValue(\IcalendarProperty &$parent_property, $parameter, $value)
 	{
 		switch ($parameter) {
 			// These must all be a URI

@@ -285,8 +285,9 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		$this->generateFileMenu(0);
 		foreach ($allRoles as $role) {
 			$roleId = str_replace('H', '', $role->getId());
-			if (file_exists('user_privileges/menu_' . $roleId . '.php'))
+			if (file_exists('user_privileges/menu_' . $roleId . '.php')) {
 				$this->generateFileMenu($roleId);
+			}
 		}
 	}
 

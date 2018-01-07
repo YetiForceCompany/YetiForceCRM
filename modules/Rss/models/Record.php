@@ -109,7 +109,7 @@ class Rss_Record_Model extends Vtiger_Record_Model
 		$recordId = $this->getId();
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		$dbCommand->update('vtiger_rss', ['starred' => 0])->execute();
-		$dbCommand->update('vtiger_rss', ['starred' => 0], ['rssid' => $recordId])->execute();
+		$dbCommand->update('vtiger_rss', ['starred' => 1], ['rssid' => $recordId])->execute();
 	}
 
 	/**

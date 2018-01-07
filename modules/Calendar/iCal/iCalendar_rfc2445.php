@@ -58,16 +58,6 @@ function rfc2445_fold($string)
 	return $retval;
 }
 
-function rfc2445_unfold($string)
-{
-	$getStringLength = strlen(RFC2445_WSP);
-	for ($i = 0; $getStringLength; $i < ++$i) {
-		$string = str_replace(RFC2445_CRLF . substr(RFC2445_WSP, $i, 1), '', $string);
-	}
-
-	return $string;
-}
-
 function rfc2445_is_xname($name)
 {
 
@@ -742,22 +732,6 @@ function rfc2445_do_value_formatting($value, $type)
 		case RFC2445_TYPE_TEXT:
 			// Escape entities
 			$value = strtr($value, ["\n" => '\\n', '\\' => '\\\\', ',' => '\\,', ';' => '\\;']);
-			break;
-	}
-	return $value;
-}
-
-function rfc2445_undo_value_formatting($value, $type)
-{
-	switch ($type) {
-		case RFC2445_TYPE_CAL_ADDRESS:
-		case RFC2445_TYPE_URI:
-			// Trim beginning and end double quote
-			$value = substr($value, 1, strlen($value) - 2);
-			break;
-		case RFC2445_TYPE_TEXT:
-			// Unescape entities
-			$value = strtr($value, ['\\n' => "\n", '\\N' => "\n", '\\\\' => '\\', '\\,' => ',', '\\;' => ';']);
 			break;
 	}
 	return $value;

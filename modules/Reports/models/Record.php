@@ -479,21 +479,19 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 */
 	public function saveSortFields()
 	{
-		$db = PearDatabase::getInstance();
-
+		$db = \App\Db::getInstance();
 		$sortFields = $this->get('sortFields');
-
 		if (!empty($sortFields)) {
 			$i = 0;
+			$dbCommand = $db->createCommand();
 			foreach ($sortFields as $fieldInfo) {
 				$columnName = App\Purifier::decodeHtml($fieldInfo[0]);
-				$db->pquery('INSERT INTO vtiger_reportsortcol(sortcolid, reportid, columnname, sortorder) VALUES (?,?,?,?)', [$i, $this->getId(), $columnname, $fieldInfo[1]]);
+				$dbCommand->insert('vtiger_reportsortcol', ['sortcolid' => $i, 'reportid' => $this->getId(), 'columnname' => $columnName, 'sortorder' => $fieldInfo[1]])->execute();
 				if (ReportUtils::isDateField($columnName)) {
 					if (empty($fieldInfo[2])) {
 						$fieldInfo[2] = 'None';
 					}
-					$db->pquery('INSERT INTO vtiger_reportgroupbycolumn(reportid, sortid, sortcolname, dategroupbycriteria)
-                        VALUES(?,?,?,?)', [$this->getId(), $i, $columnName, $fieldInfo[2]]);
+					$dbCommand->insert('vtiger_reportgroupbycolumn', ['reportid' => $this->getId(), 'sortid' => $i, 'sortcolname' => $columnName, 'dategroupbycriteria' => $fieldInfo[2]])->execute();
 				}
 				$i++;
 			}

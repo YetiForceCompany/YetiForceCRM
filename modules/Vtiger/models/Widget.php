@@ -250,14 +250,17 @@ class Vtiger_Widget_Model extends \App\Base
 		}
 	}
 
+	/**
+	 * Remove widget from list in dashboard. Removing is possible only for widgets from filters
+	 * @param integer $id
+	 */
 	public static function removeWidgetFromList($id)
 	{
-		$db = PearDatabase::getInstance();
-		$query = "SELECT templateid FROM vtiger_module_dashboard_widgets WHERE id = ?";
-		$result = $db->pquery($query, [$id]);
-		$templateId = $db->getSingleValue($result);
-		if ($templateId)
-			$db->delete('vtiger_module_dashboard', 'id = ?', [$templateId]);
-		$db->delete('vtiger_module_dashboard_widgets', 'id = ?', [$id]);
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$templateId = (new App\Db\Query())->select(['templateid'])->from('vtiger_module_dashboard_widgets')->where(['id' => $id])->scalar();
+		if ($templateId) {
+			$dbCommand->delete('vtiger_module_dashboard', ['id' => $templateId])->execute();
+		}
+		$dbCommand->delete('vtiger_module_dashboard_widgets', ['id' => $id])->execute();
 	}
 }

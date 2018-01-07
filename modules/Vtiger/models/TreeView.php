@@ -120,10 +120,12 @@ class Vtiger_TreeView_Model extends \App\Base
 	public function getTreeList()
 	{
 		$tree = [];
-		$db = PearDatabase::getInstance();
 		$lastId = 0;
-		$result = $db->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', [$this->getTemplate()]);
-		while ($row = $db->getRow($result)) {
+		$dataReader = (new App\Db\Query())
+				->from('vtiger_trees_templates_data')
+				->where(['templateid' => $this->getTemplate()])
+				->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$treeID = (int) ltrim($row['tree'], 'T');
 			$pieces = explode('::', $row['parenttrre']);
 			end($pieces);

@@ -359,4 +359,18 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			])->execute();
 		}
 	}
+
+	/**
+	 * Returns basic information about atachments for this mail
+	 * @return array
+	 */
+	public function getAtachments()
+	{
+		return (new App\Db\Query())->select(['name' => 'vtiger_notes.title', 'file' => 'vtiger_notes.filename', 'id' => 'vtiger_notes.notesid'])
+				->from('vtiger_notes')
+				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_notes.notesid')
+				->leftJoin('vtiger_ossmailview_files', 'vtiger_ossmailview_files.documentsid = vtiger_notes.notesid')
+				->where(['vtiger_crmentity.deleted' => 0, 'vtiger_ossmailview_files.ossmailviewid' => $this->getId()])
+				->all();
+	}
 }

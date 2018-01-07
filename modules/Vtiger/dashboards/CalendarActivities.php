@@ -35,6 +35,9 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 				$stateActivityLabels['in_realization']
 			]
 		];
+		if (!$request->isEmpty('activitytype') && $request->getByType('activitytype') !== 'all') {
+			$params['activitytype'] = $request->getByType('activitytype');
+		}
 		$conditions = [
 			'condition' => [
 				'vtiger_activity.status' => $params['status']

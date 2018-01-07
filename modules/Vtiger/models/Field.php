@@ -890,29 +890,6 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
-	 * Added function that returns the folders in a Document
-	 * @return <Array>
-	 */
-	public function getDocumentFolders()
-	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery("SELECT `tree`,`name` FROM
-				`vtiger_trees_templates_data`
-			INNER JOIN `vtiger_field`
-				ON `vtiger_trees_templates_data`.`templateid` = `vtiger_field`.`fieldparams`
-			WHERE `vtiger_field`.`columnname` = ?
-				AND `vtiger_field`.`tablename` = ?;", ['folderid', 'vtiger_notes']);
-		$rows = $adb->numRows($result);
-		$folders = [];
-		for ($i = 0; $i < $rows; $i++) {
-			$folderId = $adb->queryResult($result, $i, 'tree');
-			$folderName = $adb->queryResult($result, $i, 'name');
-			$folders[$folderId] = $folderName;
-		}
-		return $folders;
-	}
-
-	/**
 	 * Function checks if the current Field is Read/Write
 	 * @return boolean
 	 */

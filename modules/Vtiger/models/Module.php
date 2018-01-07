@@ -232,13 +232,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getAllFilterCvidForModule()
 	{
-		$db = PearDatabase::getInstance();
-
-		$result = $db->pquery("SELECT cvid FROM vtiger_customview WHERE viewname = 'All' AND entitytype = ?", [$this->getName()]);
-		if ($result->rowCount()) {
-			return $db->getSingleValue($result);
-		}
-		return false;
+		return (new \App\Db\Query())->select(['cvid'])->from(['vtiger_customview'])
+				->where(['viewname' => 'All', 'entitytype' => $this->getName()])
+				->scalar();
 	}
 
 	/**

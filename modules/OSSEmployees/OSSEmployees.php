@@ -47,6 +47,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 		'LBL_BUSINESSPHONE' => ['ossemployees', 'business_phone'],
 		'LBL_BUSINESSMAIL' => ['ossemployees', 'business_mail'],
 		'Assigned To' => ['crmentity', 'smownerid'],
+		'FL_POSITION' => Array('crmentity', 'position'),
 	];
 	public $list_fields_name = [
 		/* Format: Field Label => fieldname */
@@ -55,6 +56,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 		'LBL_BUSINESSPHONE' => 'business_phone',
 		'LBL_BUSINESSMAIL' => 'business_mail',
 		'Assigned To' => 'assigned_user_id',
+		'FL_POSITION' => 'position',
 	];
 
 	/**
@@ -70,6 +72,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 		'LBL_BUSINESSPHONE' => ['ossemployees', 'business_phone'],
 		'LBL_BUSINESSMAIL' => ['ossemployees', 'business_mail'],
 		'Assigned To' => ['crmentity', 'smownerid'],
+		'FL_POSITION' => Array('crmentity', 'position'),
 	];
 	public $search_fields_name = [
 		'LBL_LASTNAME' => 'last_name',
@@ -77,6 +80,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 		'LBL_BUSINESSPHONE' => 'business_phone',
 		'LBL_BUSINESSMAIL' => 'business_mail',
 		'Assigned To' => 'assigned_user_id',
+		'FL_POSITION' => 'position',
 	];
 	// For Popup window record selection
 	public $popup_fields = ['last_name'];

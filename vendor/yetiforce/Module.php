@@ -206,6 +206,58 @@ class Module
 		Cache::save('getActionId', $action, $actionId, Cache::LONG);
 		return $actionId;
 	}
-}
 
+	/**
+	 * Function to create file about modules 
+	 * @throws \App\Exceptions\NoPermitted
+	 */
+	public static function createModuleMetaFile()
+	{
+		$tabNames = $tabPresence = $tabOwned = [];
+		Cache::delete('moduleTabs', 'all');
+		$allModules = \vtlib\Functions::getAllModules(false, true);
+		foreach ($allModules as $moduleInfo) {
+			$tabid = (int) $moduleInfo['tabid'];
+			$tabNames[$moduleInfo['name']] = $tabid;
+			$tabPresence[$tabid] = (int) $moduleInfo['presence'];
+			$tabOwned[$tabid] = (int) $moduleInfo['ownedby'];
+		}
+		//Constructing the actionname=>actionid array
+		$actionAll = [];
+		$dataReader = (new Db\Query())->from(['vtiger_actionmapping'])->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$actionname = $row['actionname'];
+			$actionid = (int) $row['actionid'];
+			$actionAll[$actionname] = $actionid;
+			if ((int) $row['securitycheck'] === 0) {
+				$actionSecure[$actionid] = $actionname;
+			}
+		}
+		$filename = 'user_privileges/tabdata.php';
+		if (file_exists($filename)) {
+			if (is_writable($filename)) {
+				if (!$handle = fopen($filename, 'w+')) {
+					throw new Exceptions\NoPermitted("Cannot open file ($filename)");
+				}
+				$newbuf = "<?php\n";
+				$newbuf .= "\$tab_seq_array=" . Utils::varExport($tabPresence) . ";\n";
+				$tabdata = [
+					'tabId' => $tabNames,
+					'tabPresence' => $tabPresence,
+					'tabOwnedby' => $tabOwned,
+					'actionId' => $actionAll,
+					'actionName' => $actionSecure,
+				];
+				$newbuf .= 'return ' . Utils::varExport($tabdata) . ";\n";
+				fputs($handle, $newbuf);
+				fclose($handle);
+			} else {
+				Log::error("The file $filename is not writable");
+			}
+		} else {
+			Log::error("The file $filename does not exist");
+		}
+		static::init();
+	}
+}
 Module::init();

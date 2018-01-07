@@ -37,27 +37,19 @@ class Products_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to get subproducts for this record
-	 * @return <Array> of subproducts
+	 * @return array of subproducts
 	 */
 	public function getSubProducts()
 	{
-		$db = PearDatabase::getInstance();
-
-		$result = $db->pquery("SELECT vtiger_products.productid FROM vtiger_products
-			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_products.productid
-			LEFT JOIN vtiger_seproductsrel ON vtiger_seproductsrel.crmid = vtiger_products.productid AND vtiger_products.discontinued = 1 AND vtiger_seproductsrel.setype='Products'
-			LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
-			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-			WHERE vtiger_crmentity.deleted = 0 AND vtiger_seproductsrel.productid = ? ", [$this->getId()]);
-
+		$subProducts = (new \App\Db\Query())->select(['vtiger_products.productid'])->from(['vtiger_products'])
+			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_products.productid')
+			->leftJoin('vtiger_seproductsrel', 'vtiger_seproductsrel.crmid = vtiger_products.productid AND vtiger_products.discontinued = :p1 AND vtiger_seproductsrel.setype= :p2', [':p1' => 1, ':p2' => 'Products'])
+			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_seproductsrel.productid' => $this->getId()])
+			->column();
 		$subProductList = [];
-
-		$numRowsCount = $db->numRows($result);
-		for ($i = 0; $i < $numRowsCount; $i++) {
-			$subProductId = $db->queryResult($result, $i, 'productid');
-			$subProductList[] = Vtiger_Record_Model::getInstanceById($subProductId, 'Products');
+		foreach ($subProducts as $productId) {
+			$subProductList[] = Vtiger_Record_Model::getInstanceById($productId, 'Products');
 		}
-
 		return $subProductList;
 	}
 

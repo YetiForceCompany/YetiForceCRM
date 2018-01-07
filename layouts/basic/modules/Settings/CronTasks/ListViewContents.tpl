@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce Sp. z o.o.
 ********************************************************************************/
 -->*}
 {strip}
@@ -59,7 +59,7 @@
 								{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 								{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
 								<td class="listViewEntryValue {$WIDTHTYPE}"  >
-									&nbsp; {\App\Language::translate($LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME), $QUALIFIED_MODULE)}
+									&nbsp; {$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
 									{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
 									</td><td nowrap class="{$WIDTHTYPE}">
 										<div class="pull-right actions">
