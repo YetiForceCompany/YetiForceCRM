@@ -47,11 +47,8 @@
 			<table class="table tableBorderHeadBody listViewEntriesTable {$WIDTHTYPE}">
 				<thead>
 					<tr class="listViewHeaders">
-						<th width="2%">
+						<th width="2%" colspan="2">
 							<input type="checkbox" id="listViewEntriesMainCheckBox" title="{\App\Language::translate('LBL_SELECT_ALL')}" />
-						</th>
-						<th width="5%" nowrap>
-							<a href="javascript:void(0);" class="listViewHeaderValues">{\App\Language::translate('LBL_USER_LIST_DETAILS', $MODULE)}</a>
 						</th>
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							<th class="noWrap {if $COLUMN_NAME eq $LISTVIEW_HEADER->getColumnName()}columnSorted{/if}">
@@ -59,13 +56,13 @@
 									&nbsp;&nbsp;{if $COLUMN_NAME eq $LISTVIEW_HEADER->getColumnName()}&nbsp;&nbsp;<span class="{$SORT_IMAGE}"></span>{/if}</a>
 							</th>
 						{/foreach}
-						<th></th>
+						<th>{\App\Language::translate('LBL_ACTIONS')}</th>
 					</tr>
 				</thead>
 				<tbody>
 					{if $MODULE_MODEL->isQuickSearchEnabled()}
 						<tr>
-							<td class="listViewSearchTd">
+							<td class="listViewSearchTd" colspan="2">
 								<div class="flexWrapper">
 									<a class="btn btn-default" href="javascript:void(0);" data-trigger="listSearch">
 										<span class="glyphicon glyphicon-search"></span>
@@ -75,7 +72,6 @@
 									</a>
 								</div>
 							</td>
-							<td></td>
 							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=SEARCH_HEADERS}
 								<td>
 									{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
@@ -89,10 +85,10 @@
 					{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
 						<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
 							<td  width="2%" class="{$WIDTHTYPE}">
-								<input type="hidden" name="deleteActionUrl" value="{$LISTVIEW_ENTRY->getDeleteUrl()}">
-								{if $LISTVIEW_ENTRY->isEditable()}
-									<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox" />
-								{/if}
+									<input type="hidden" name="deleteActionUrl" value="{$LISTVIEW_ENTRY->getDeleteUrl()}">
+									{if $LISTVIEW_ENTRY->isEditable()}
+										<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}" class="listViewEntriesCheckBox" />
+									{/if}
 							</td>
 							<td width="5%" class="{$WIDTHTYPE}">
 								<div class="row">
