@@ -43,17 +43,26 @@ class VtlibUtils
 
 	/**
 	 * Setup mandatory (requried) module variable values in the module class.
+	 * @param string $module
+	 * @param  $focus
 	 */
 	public static function vtlib_setup_modulevars($module, $focus)
 	{
 
 		$checkfor = ['table_name', 'table_index', 'related_tables', 'popup_fields', 'IsCustomModule'];
 		foreach ($checkfor as $check) {
-			if (!isset($focus->$check))
+			if (!isset($focus->$check)) {
 				$focus->$check = __vtlib_get_modulevar_value($module, $check);
+			}
 		}
 	}
 
+	/**
+	 *
+	 * @param string $module
+	 * @param array $varname
+	 * @return array
+	 */
 	public static function __vtlib_get_modulevar_value($module, $varname)
 	{
 		$mod_var_mapping = [
