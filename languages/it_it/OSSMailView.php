@@ -12,8 +12,8 @@ $languageStrings = [
 	'LBL_ADD_RECORD' => 'Aggiungi',
 	'LBL_RECORDS_LIST' => 'Lista delle email',
 	// Blocks
-	'LBL_INFORMATION' => 'General Information',
-	'LBL_ORIGN_MESSAGE' => 'Original message',
+	'LBL_INFORMATION' => 'Informazioni',
+	'LBL_ORIGN_MESSAGE' => 'Messaggio originale',
 	//Field Labels
 	'relatedid' => 'Collegato a',
 	'number' => 'Numero',
