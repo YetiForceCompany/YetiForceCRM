@@ -46,7 +46,7 @@ class DigestAuth
 		$this->api->response->setStatus(401);
 	}
 
-	public function getDigestHash($username)
+	public function getDigestHash($realm, $username)
 	{
 		$stmt = $this->pdo->prepare(sprintf('SELECT digesta1 FROM %s WHERE username = ?', $this->tableName));
 		$stmt->execute([$username]);
