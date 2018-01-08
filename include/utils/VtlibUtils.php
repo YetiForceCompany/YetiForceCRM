@@ -18,6 +18,8 @@ class VtlibUtils
 
 	/**
 	 * Fetch module active information at one shot, but return all the information fetched.
+	 * @param boolen $force
+	 * @return array
 	 */
 	public static function vtlib_prefetchModuleActiveInfo($force = true)
 	{
@@ -58,7 +60,7 @@ class VtlibUtils
 	}
 
 	/**
-	 *
+	 * The function gets the value of the module
 	 * @param string $module
 	 * @param array $varname
 	 * @return array
