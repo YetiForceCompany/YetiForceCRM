@@ -6149,3 +6149,6 @@ border1px{
 .flexWrapper {
 	display: flex;
 }
+#popupPageContainer {
+	overflow-y: auto;
+}
