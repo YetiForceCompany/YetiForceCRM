@@ -54,7 +54,7 @@ class VtlibUtils
 		$checkfor = ['table_name', 'table_index', 'related_tables', 'popup_fields', 'IsCustomModule'];
 		foreach ($checkfor as $check) {
 			if (!isset($focus->$check)) {
-				$focus->$check = __vtlib_get_modulevar_value($module, $check);
+				$focus->$check = static::__vtlib_get_modulevar_value($module, $check);
 			}
 		}
 	}
