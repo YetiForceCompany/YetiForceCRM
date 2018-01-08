@@ -15,21 +15,21 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 		});
 	},
 	/**
-	 * Redirects to the current iframe's parent.
+	 * Redirects to the current iframe parent.
 	 */
 	updateParentFrame: function () {
 		parent.app.getPageController().updateWindowHeight($(".mainContainer").height(), $(window.frameElement));
 	},
 	/**
-	 * Function sets the correct iframe's size.
-	 * @param {$} currentHeight - ifrmae's body height to be set.
-	 * @param {$} frame - ifrmae's height to be changed.
+	 * Function sets the correct iframe size.
+	 * @param {$} currentHeight - ifrmae body height to be set.
+	 * @param {$} frame - ifrmae height to be changed.
 	 */
 	updateWindowHeight: function (currentHeight, frame) {
 		var thisInstance = this;
 		var relatedContents = frame.closest('.relatedContents');
-		frame.height(currentHeight);
 		var fixedListHeight = relatedContents.find(".fixedListContent").height();
+		frame.height(currentHeight);
 		if (fixedListHeight > currentHeight) {
 			currentHeight = fixedListHeight;
 		}
@@ -39,31 +39,17 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 		}
 	},
 	/**
-	 * Register events, which impact on the iframe's size.
+	 * Creates ResizeSensor, which detects size changes.
 	 */
 	registerSizeEvent: function () {
 		var thisInstance = this;
-		if (window.frameElement) {
-			thisInstance.updateParentFrame();
-		}
-		app.event.on('RelatedList.AfterLoad', function () {
-			thisInstance.updateParentFrame();
-		});
-		app.event.on("DetailView.BlockToggle.PostLoad", function () {
-			thisInstance.updateParentFrame();
-		});
-		app.event.on('DetailView.Tab.AfterLoad', function () {
-			thisInstance.updateParentFrame();
-		});
-		app.event.on("DetailView.SaveComment.AfterLoad DetailView.SaveComment.AfterUpdate", function () {
-			thisInstance.updateParentFrame();
-		});
-		app.event.on("DetailView.Widget.AfterLoad DetailView.UpdatesWidget.AddMore", function () {
+		var wrapper = $('.mainContainer ');
+		new ResizeSensor(wrapper, function () {
 			thisInstance.updateParentFrame();
 		});
 	},
 	/**
-	 * Registers DetailPreview's events.
+	 * Registers DetailPreview events.
 	 */
 	registerEvents: function () {
 		this._super();
