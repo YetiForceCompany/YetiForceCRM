@@ -168,10 +168,9 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			},
 			eventClick: function (calEvent, jsEvent, view) {
 				jsEvent.preventDefault();
-				var linkSplit = $(this).context.href.split("=");
-				var recordNumber = linkSplit[linkSplit.length - 1];
+				var link = new URL($(this).context.href);
 				var progressInstance = jQuery.progressIndicator({blockInfo: {enabled: true}});
-				var url = 'index.php?module=Calendar&view=ActivityStateModal&record=' + recordNumber;
+				var url = 'index.php?module=Calendar&view=ActivityStateModal&record=' + link.searchParams.get("record");
 				var callbackFunction = function (data) {
 					progressInstance.progressIndicator({mode: 'hide'});
 				};
