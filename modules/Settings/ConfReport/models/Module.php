@@ -91,7 +91,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getStabilityConf($instalMode = false, $onlyError = false)
 	{
 		$directiveValues = [
-			'PHP' => ['prefer' => '7.0.0'],
+			'PHP' => ['prefer' => '7.0.x'],
 			'error_reporting' => ['prefer' => 'E_ALL & ~E_NOTICE'],
 			'output_buffering' => ['prefer' => 'On'],
 			'max_execution_time' => ['prefer' => '600'],
@@ -304,6 +304,11 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				'prefer' => 'On',
 				'current' => static::getFlag(ini_get('session.use_strict_mode')),
 				'status' => ini_get('session.use_strict_mode') != 1 && stripos(ini_get('session.use_strict_mode'), 'Off') !== false
+			],
+			'session.use_trans_sid' => [
+				'prefer' => 'Off',
+				'current' => static::getFlag(ini_get('session.use_trans_sid')),
+				'status' => ini_get('session.use_trans_sid') == 1 || stripos(ini_get('session.use_trans_sid'), 'On') !== false
 			],
 			'session.cookie_httponly' => [
 				'prefer' => 'On',
