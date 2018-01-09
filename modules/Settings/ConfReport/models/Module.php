@@ -91,7 +91,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getStabilityConf($instalMode = false, $onlyError = false)
 	{
 		$directiveValues = [
-			'PHP' => ['prefer' => '7.0.0'],
+			'PHP' => ['prefer' => '7.0.x'],
 			'error_reporting' => ['prefer' => 'E_ALL & ~E_NOTICE'],
 			'output_buffering' => ['prefer' => 'On'],
 			'max_execution_time' => ['prefer' => '600'],
@@ -293,6 +293,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		$directiveValues = [
 			'display_errors' => [
 				'prefer' => 'Off',
+				'help' => 'DISPLAY_ERRORS_HELP_TEXT',
 				'current' => static::getFlag(ini_get('display_errors')),
 				'status' => \AppConfig::main('systemMode') !== 'demo' && (ini_get('display_errors') == 1 || stripos(ini_get('display_errors'), 'On') !== false)
 			],
@@ -304,18 +305,26 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				'current' => static::getFlag(ini_get('session.use_strict_mode')),
 				'status' => ini_get('session.use_strict_mode') != 1 && stripos(ini_get('session.use_strict_mode'), 'Off') !== false
 			],
+			'session.use_trans_sid' => [
+				'prefer' => 'Off',
+				'current' => static::getFlag(ini_get('session.use_trans_sid')),
+				'status' => ini_get('session.use_trans_sid') == 1 || stripos(ini_get('session.use_trans_sid'), 'On') !== false
+			],
 			'session.cookie_httponly' => [
 				'prefer' => 'On',
+				'help' => 'SESSION_COOKIE_HTTPONLY_HELP_TEXT',
 				'current' => static::getFlag(ini_get('session.cookie_httponly')),
 				'status' => ini_get('session.cookie_httponly') != 1 && stripos(ini_get('session.cookie_httponly'), 'Off') !== false
 			],
 			'session.use_only_cookies' => [
 				'prefer' => 'On',
+				'help' => 'SESSION_USE_ONLY_COOKIES_HELP_TEXT',
 				'current' => static::getFlag(ini_get('session.use_only_cookies')),
 				'status' => ini_get('session.use_only_cookies') != 1 && stripos(ini_get('session.use_only_cookies'), 'Off') !== false
 			],
 			'expose_php' => [
 				'prefer' => 'Off',
+				'help' => 'EXPOSE_PHP_HELP_TEXT',
 				'current' => static::getFlag(ini_get('expose_php')),
 				'status' => ini_get('expose_php') == 1 || stripos(ini_get('expose_php'), 'On') !== false
 			],

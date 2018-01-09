@@ -11,7 +11,7 @@
 $languageStrings = [
 	'Active' => 'Active',
 	'Document No' => 'Document no.',
-	'Documents' => 'Documents',
+	'Documents' => 'Documenti',
 	'Download Count' => 'Download count',
 	'Download Type' => 'Download type',
 	'File Name' => 'File name/www',

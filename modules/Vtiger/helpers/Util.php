@@ -239,19 +239,6 @@ class Vtiger_Util_Helper
 		return $time;
 	}
 
-	/**
-	 * Function gets the CRM's base Currency information according to user preference
-	 * @return Array
-	 */
-	public static function getCurrentInfoOfUser()
-	{
-		$db = PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$result = $db->pquery('SELECT * FROM vtiger_currency_info WHERE id = ?', [$currentUser->get('currency_id')]);
-		if ($db->numRows($result))
-			return $db->queryResultRowData($result, 0);
-	}
-
 	public static function transferListSearchParamsToFilterCondition($searchParams, $moduleModel)
 	{
 		if (empty($searchParams)) {

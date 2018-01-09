@@ -3220,14 +3220,11 @@ span[name=existingImages] img{
 .paginationDiv .listViewBasicAction.dropdown-menu{
 	width: 35%;
 }
-.listViewEntriesTable .picklistSearchField{
+.listViewEntriesTable .picklistSearchField, .listViewEntriesTable .searchField{
 	min-width: 150px;
 }
-.listViewEntriesTable .boolenSearchField{
+.listViewEntriesTable .boolenSearchField {
 	min-width: 90px;
-}
-.listViewEntriesTable .searchField{
-	min-width: 70px;
 }
 .paginationDiv .pageInfo {
 	border: 1px solid #ddd;
@@ -5076,9 +5073,9 @@ html,body,.baseContainer
 .widgetContainer select[multiple]{
 	height: 0px;
 }
-.alphabetBtnContainer{
+/*.alphabetBtnContainer{
 	width: auto;
-}
+}*/
 .detailViewTitle .btn-toolbar .btn-group:first-child {
 	margin:0;
 }
@@ -5688,7 +5685,6 @@ select.form-control {
 .leftRecordActions .actions .actionImages a{
 	color: inherit;
 }
-.listViewSearchTd,
 .widthMin{
 	width: 1%;
 }
@@ -6145,4 +6141,3 @@ border1px{
 .ps-scrollbar-y-rail {
 	z-index: 100;
 }
-

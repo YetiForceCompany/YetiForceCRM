@@ -182,23 +182,18 @@ class Vtiger_MappedFields_Model extends \App\Base
 	 */
 	public function getMapping()
 	{
-
 		\App\Log::trace('Entering ' . __METHOD__ . '() method ...');
 		if (!$this->mapping) {
-			$db = PearDatabase::getInstance();
-			$query = sprintf('SELECT * FROM %s WHERE %s = ?;', self::$mappingTable, self::$mappingIndex);
-			$result = $db->pquery($query, [$this->getId()]);
-			$mapping = $db->getArray($result);
+			$dataReader = (new App\Db\Query())->from(self::$mappingTable)->where([self::$mappingIndex => $this->getId()])
+					->createCommand()->query();
 			$finalMapping = [];
-			if ($mapping) {
-				foreach ($mapping as $mappingId => $mappingDetails) {
-					$finalMapping[$mappingId] = [
-						'type' => $mappingDetails['type'],
-						'default' => $mappingDetails['default'],
-						'source' => Settings_MappedFields_Field_Model::getInstance($mappingDetails['source'], $this->getModule(), $mappingDetails['type']),
-						'target' => Settings_MappedFields_Field_Model::getInstance($mappingDetails['target'], $this->getRelatedModule(), $mappingDetails['type'])
-					];
-				}
+			while ($mappingDetails = $dataReader->read()) {
+				$finalMapping[] = [
+					'type' => $mappingDetails['type'],
+					'default' => $mappingDetails['default'],
+					'source' => Settings_MappedFields_Field_Model::getInstance($mappingDetails['source'], $this->getModule(), $mappingDetails['type']),
+					'target' => Settings_MappedFields_Field_Model::getInstance($mappingDetails['target'], $this->getRelatedModule(), $mappingDetails['type'])
+				];
 			}
 			$this->mapping = $finalMapping;
 		}

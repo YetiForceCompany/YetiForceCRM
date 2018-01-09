@@ -9,11 +9,6 @@
 <input type="hidden" id="eventLimit" value="{$EVENT_LIMIT}" />
 <input type="hidden" id="weekView" value="{$WEEK_VIEW}" />
 <input type="hidden" id="dayView" value="{$DAY_VIEW}" />
-<style>
-{foreach from=Settings_Calendar_Module_Model::getUserColors('colors') item=ITEM}
-	.userCol_{$ITEM.id}{ background: {$ITEM.color}!important;}
-{/foreach}
-</style>
 <div class="rowContent paddingLRZero col-xs-12">
 	<div class="widget_header row marginbottomZero marginRightMinus20">
 		<div class="pull-left paddingLeftMd">

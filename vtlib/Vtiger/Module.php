@@ -272,8 +272,7 @@ class Module extends ModuleBasic
 		$fire = self::fireEvent($moduleName, $eventType);
 		if ($fire) {
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['presence' => $enableDisable], ['name' => $moduleName])->execute();
-			\App\Cache::delete('moduleTabs', 'all');
-			Deprecated::createModuleMetaFile();
+			\App\Module::createModuleMetaFile();
 			\Settings_GlobalPermission_Record_Model::recalculate();
 			$menuRecordModel = new \Settings_Menu_Record_Model();
 			$menuRecordModel->refreshMenuFiles();

@@ -49,7 +49,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		}
 		$query->from('vtiger_role2picklist')
 			->innerJoin($tableName, "vtiger_role2picklist.picklistvalueid = {$tableName}.picklist_valueid")
-			->where(['vtiger_role2picklist.roleid' => $roleIdList])->orderBy(['sortid' => SORT_ASC]);
+			->where(['vtiger_role2picklist.roleid' => $roleIdList])->orderBy(['vtiger_role2picklist.sortid' => SORT_ASC]);
 		if ($intersectionMode) {
 			$query->groupBy(['picklistvalueid']);
 		}

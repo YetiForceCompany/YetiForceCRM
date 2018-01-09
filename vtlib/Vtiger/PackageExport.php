@@ -224,7 +224,7 @@ class PackageExport
 	 */
 	public function __copyLanguageFiles(Zip $zip, $module)
 	{
-		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator('languages', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
+		foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator('languages', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			/* @var $item \SplFileInfo */
 			if ($item->isFile() && $item->getFilename() === $module . '.php') {
 				$path = $item->getPath() . DIRECTORY_SEPARATOR;
@@ -347,7 +347,7 @@ class PackageExport
 			$focus = \CRMEntity::getInstance($modulename);
 
 			// Setup required module variables which is need for vtlib API's
-			vtlib_setup_modulevars($modulename, $focus);
+			\VtlibUtils::vtlib_setup_modulevars($modulename, $focus);
 			$tables = $focus->tab_name;
 			if (($key = array_search('vtiger_crmentity', $tables)) !== false) {
 				unset($tables[$key]);

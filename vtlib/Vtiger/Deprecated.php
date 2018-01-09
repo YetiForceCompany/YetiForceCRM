@@ -77,67 +77,6 @@ class Deprecated
 		return $blockId;
 	}
 
-	public static function createModuleMetaFile()
-	{
-		$adb = \PearDatabase::getInstance();
-		$result = $adb->pquery('select * from vtiger_tab');
-		$result_array = $seq_array = $ownedby_array = [];
-
-		while ($row = $adb->getRow($result)) {
-			$tabid = (int) $row['tabid'];
-			$tabname = $row['name'];
-			$presence = (int) $row['presence'];
-			$ownedby = (int) $row['ownedby'];
-			$result_array[$tabname] = $tabid;
-			$seq_array[$tabid] = $presence;
-			$ownedby_array[$tabid] = $ownedby;
-		}
-		//Constructing the actionname=>actionid array
-		$actionid_array = [];
-		$result = $adb->pquery('select * from vtiger_actionmapping');
-		while ($row = $adb->getRow($result)) {
-			$actionname = $row['actionname'];
-			$actionid = (int) $row['actionid'];
-			$actionid_array[$actionname] = $actionid;
-		}
-
-		//Constructing the actionid=>actionname array with securitycheck=0
-		$actionname_array = [];
-		$result = $adb->pquery('select * from vtiger_actionmapping where securitycheck=0');
-		while ($row = $adb->getRow($result)) {
-			$actionname = $row['actionname'];
-			$actionid = (int) $row['actionid'];
-			$actionname_array[$actionid] = $actionname;
-		}
-
-		$filename = 'user_privileges/tabdata.php';
-
-		if (file_exists($filename)) {
-			if (is_writable($filename)) {
-				if (!$handle = fopen($filename, 'w+')) {
-					throw new \App\Exceptions\NoPermitted("Cannot open file ($filename)");
-				}
-				$newbuf = "<?php\n";
-				$newbuf .= "\$tab_seq_array=" . \App\Utils::varExport($seq_array) . ";\n";
-				$tabdata = [
-					'tabId' => $result_array,
-					'tabPresence' => $seq_array,
-					'tabOwnedby' => $ownedby_array,
-					'actionId' => $actionid_array,
-					'actionName' => $actionname_array,
-				];
-				$newbuf .= 'return ' . \App\Utils::varExport($tabdata) . ";\n";
-				fputs($handle, $newbuf);
-				fclose($handle);
-			} else {
-				\App\Log::error("The file $filename is not writable");
-			}
-		} else {
-			\App\Log::error("The file $filename does not exist");
-		}
-		\App\Module::init();
-	}
-
 	public static function getModuleTranslationStrings($language, $module)
 	{
 		static $cachedModuleStrings = [];

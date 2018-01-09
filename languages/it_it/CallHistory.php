@@ -6,10 +6,10 @@
  * @license YetiForce Public License 2.0 (licenses/License.html or yetiforce.com)
  */
 $languageStrings = [
-	'CallHistory' => 'Call history',
-	'SINGLE_CallHistory' => 'Call history',
-	'LBL_ADD_RECORD' => 'Add record',
-	'LBL_RECORDS_LIST' => 'Record list',
+	'CallHistory' => 'Cronologia chiamate',
+	'SINGLE_CallHistory' => 'Cronologia chiamate',
+	'LBL_ADD_RECORD' => 'Aggiungi',
+	'LBL_RECORDS_LIST' => 'Lista record',
 	//Bloks
 	'LBL_CALLHISTORY_INFORMATION' => 'Call history information',
 	'LBL_CUSTOM_INFORMATION' => 'Additional information',

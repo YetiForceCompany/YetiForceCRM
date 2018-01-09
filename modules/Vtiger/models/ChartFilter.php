@@ -538,12 +538,10 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 	{
 		$title = $this->widgetModel->get('title');
 		if (empty($title)) {
-			$db = PearDatabase::getInstance();
 			$suffix = '';
-			$customviewrs = $db->pquery('SELECT viewname FROM vtiger_customview WHERE cvid=?', [$this->widgetModel->get('filterid')]);
-			if ($db->numRows($customviewrs)) {
-				$customview = $db->fetchArray($customviewrs);
-				$suffix = ' - ' . \App\Language::translate($customview['viewname'], $this->getTargetModule());
+			$viewName = (new App\Db\Query())->select(['viewname'])->from(['vtiger_customview'])->where(['cvid' => $this->widgetModel->get('filterid')])->scalar();
+			if ($viewName) {
+				$suffix = ' - ' . \App\Language::translate($viewName, $this->getTargetModule());
 				if (!empty($this->extraData['groupField'])) {
 					$groupFieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
 					$suffix .= ' - ' . \App\Language::translate($groupFieldModel->getFieldLabel(), $this->getTargetModule());

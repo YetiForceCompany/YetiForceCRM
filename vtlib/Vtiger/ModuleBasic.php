@@ -460,7 +460,7 @@ class ModuleBasic
 	public static function syncfile()
 	{
 		self::log('Updating tabdata file ... ', false);
-		Deprecated::createModuleMetaFile();
+		\App\Module::createModuleMetaFile();
 		self::log('DONE');
 	}
 
@@ -475,7 +475,7 @@ class ModuleBasic
 		$db->createCommand()->delete('vtiger_relatedlists', ['or', ['tabid' => $this->id], ['related_tabid' => $this->id]])->execute();
 		if ($ids) {
 			$db->createCommand()->delete('vtiger_relatedlists_fields', ['relation_id' => $ids])->execute();
-			$db->createCommand()->delete('a_yf_relatedlists_inv_fields', ['relation_id' => $ids])->execute();
+			$db->createCommand()->delete('a_#__relatedlists_inv_fields', ['relation_id' => $ids])->execute();
 		}
 		self::log(__METHOD__ . ' | END');
 	}

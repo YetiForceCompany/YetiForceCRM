@@ -399,7 +399,7 @@ class CRMEntity
 	public function updateMissingSeqNumber($module)
 	{
 		\App\Log::trace("Entered updateMissingSeqNumber function");
-		vtlib_setup_modulevars($module, $this);
+		\VtlibUtils::vtlib_setup_modulevars($module, $this);
 		$tabid = \App\Module::getModuleId($module);
 		if (!\App\Fields\RecordNumber::isModuleSequenceConfigured($tabid))
 			return;
@@ -678,7 +678,7 @@ class CRMEntity
 		$adb = PearDatabase::getInstance();
 		$primary = CRMEntity::getInstance($module);
 
-		vtlib_setup_modulevars($module, $primary);
+		\VtlibUtils::vtlib_setup_modulevars($module, $primary);
 		$moduletable = $primary->table_name;
 		$moduleindex = $primary->table_index;
 		$modulecftable = $primary->customFieldTable[0];
@@ -722,7 +722,7 @@ class CRMEntity
 					for ($j = 0; $j < $countNumRows; $j++) {
 						$rel_mod = $adb->queryResult($ui10_modules_query, $j, 'relmodule');
 						$rel_obj = CRMEntity::getInstance($rel_mod);
-						vtlib_setup_modulevars($rel_mod, $rel_obj);
+						\VtlibUtils::vtlib_setup_modulevars($rel_mod, $rel_obj);
 
 						$rel_tab_name = $rel_obj->table_name;
 						$rel_tab_index = $rel_obj->table_index;
@@ -740,7 +740,7 @@ class CRMEntity
 					for ($j = 0; $j < $countNumRows; $j++) {
 						$rel_mod = $adb->queryResult($ui10_modules_query, $j, 'relmodule');
 						$rel_obj = CRMEntity::getInstance($rel_mod);
-						vtlib_setup_modulevars($rel_mod, $rel_obj);
+						\VtlibUtils::vtlib_setup_modulevars($rel_mod, $rel_obj);
 
 						$rel_tab_name = $rel_obj->table_name;
 						$rel_tab_index = $rel_obj->table_index;
@@ -803,7 +803,7 @@ class CRMEntity
 		$adb = PearDatabase::getInstance();
 		$secondary = CRMEntity::getInstance($secmodule);
 
-		vtlib_setup_modulevars($secmodule, $secondary);
+		\VtlibUtils::vtlib_setup_modulevars($secmodule, $secondary);
 
 		$tablename = $secondary->table_name;
 		$tableindex = $secondary->table_index;
@@ -838,7 +838,7 @@ class CRMEntity
 					for ($j = 0; $j < $rows_ui10_modules_query; $j++) {
 						$rel_mod = $adb->queryResult($ui10_modules_query, $j, 'relmodule');
 						$rel_obj = CRMEntity::getInstance($rel_mod);
-						vtlib_setup_modulevars($rel_mod, $rel_obj);
+						\VtlibUtils::vtlib_setup_modulevars($rel_mod, $rel_obj);
 
 						$rel_tab_name = $rel_obj->table_name;
 						$rel_tab_index = $rel_obj->table_index;
@@ -855,7 +855,7 @@ class CRMEntity
 					for ($j = 0; $j < $countNumRows; $j++) {
 						$rel_mod = $adb->queryResult($ui10_modules_query, $j, 'relmodule');
 						$rel_obj = CRMEntity::getInstance($rel_mod);
-						vtlib_setup_modulevars($rel_mod, $rel_obj);
+						\VtlibUtils::vtlib_setup_modulevars($rel_mod, $rel_obj);
 
 						$rel_tab_name = $rel_obj->table_name;
 						$rel_tab_index = $rel_obj->table_index;
@@ -1201,7 +1201,7 @@ class CRMEntity
 		//as mysql query optimizer puts crmentity on the left side and considerably slow down
 		$query = preg_replace('/\s+/', ' ', $query);
 		if (strripos($query, ' WHERE ') !== false) {
-			vtlib_setup_modulevars($this->moduleName, $this);
+			\VtlibUtils::vtlib_setup_modulevars($this->moduleName, $this);
 			$query = str_ireplace(' WHERE ', " WHERE $this->table_name.$this->table_index > 0  AND ", $query);
 		}
 		return $query;
@@ -1318,15 +1318,15 @@ class CRMEntity
 	public function moduleHandler($moduleName, $eventType)
 	{
 		if ($moduleName && $eventType === 'module.postinstall') {
-			
+
 		} else if ($eventType === 'module.disabled') {
-			
+
 		} else if ($eventType === 'module.preuninstall') {
-			
+
 		} else if ($eventType === 'module.preupdate') {
-			
+
 		} else if ($eventType === 'module.postupdate') {
-			
+
 		}
 	}
 }

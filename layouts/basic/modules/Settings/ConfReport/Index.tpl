@@ -21,132 +21,142 @@
     </ul>
     <div class="tab-content">
         <div id="Configuration" class="tab-pane fade in active">
-			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
-				<thead>
-					<tr class="blockHeader">
-						<th colspan="1" class="mediumWidthType">
-							<span>{App\Language::translate('LBL_LIBRARY', $MODULE)}</span>
-						</th>
-						<th colspan="1" class="mediumWidthType">
-							<span>{App\Language::translate('LBL_INSTALLED', $MODULE)}</span>
-						</th>
-						<th colspan="1" class="mediumWidthType">
-							<span>{App\Language::translate('LBL_MANDATORY', $MODULE)}</span>
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					{foreach from=Settings_ConfReport_Module_Model::getConfigurationLibrary() key=key item=item}
-						<tr {if $item.status == 'LBL_NO'}class="danger"{/if}>
-							<td>
-								<label>{App\Language::translate($key,$MODULE)}</label>
-								{if isset($item.help) && $item.status}<a href="#" class="popoverTooltip pull-right" data-trigger="focus" data-placement="rigth" data-content="{App\Language::translate($item.help, $MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
-							</td>
-							<td><label>{App\Language::translate($item.status, $MODULE)}</label></td>
-							<td><label>
-									{if $item.mandatory}
-										{App\Language::translate('LBL_MANDATORY', $MODULE)}
-									{else}
-										{App\Language::translate('LBL_OPTIONAL', $MODULE)}
-									{/if}
-								</label></td>
-						</tr>
-					{/foreach}
-				</tbody>
-			</table>
-			<br />
-			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
-				<thead>
-					<tr class="blockHeader">
-						<th colspan="3" class="mediumWidthType">
-							<span>{App\Language::translate('LBL_SYSTEM_STABILITY', $MODULE)}</span>
-						</th>
-					</tr>
-					<tr class="blockHeader">
-						<th colspan="1" class="mediumWidthType">
-							<span>{App\Language::translate('LBL_PARAMETER', $MODULE)}</span>
-						</th>
-						<th colspan="1" class="mediumWidthType">
-							<span>{App\Language::translate('LBL_RECOMMENDED', $MODULE)}</span>
-						</th>
-						<th colspan="1" class="mediumWidthType">
-							<span>{App\Language::translate('LBL_VALUE', $MODULE)}</span>
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					{foreach from=Settings_ConfReport_Module_Model::getStabilityConf() key=key item=item}
-						<tr {if $item.status}class="danger"{/if}>
-							<td>
-								<label>{$key}</label>
-								{if isset($item.help) && $item.status}<a href="#" class="popoverTooltip pull-right" data-trigger="focus" data-placement="rigth" data-content="{App\Language::translate($item.help, $MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
-							</td>
-							<td><label>{App\Language::translate($item.prefer, $MODULE)}</label></td>
-							<td><label>{App\Language::translate($item.current, $MODULE)}</label></td>
-						</tr>
-					{/foreach}
-				</tbody>
-			</table>
-			<br />
-			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
-				<thead>
-					<tr class="blockHeader">
-						<th colspan="3" class="mediumWidthType">
-							<span>{App\Language::translate('LBL_SYSTEM_SECURITY', $MODULE)}</span>
-						</th>
-					</tr>
-					<tr class="blockHeader">
-						<th colspan="1" class="mediumWidthType">
-							<span>{App\Language::translate('LBL_PARAMETER', $MODULE)}</span>
-						</th>
-						<th colspan="1" class="mediumWidthType">
-							<span>{App\Language::translate('LBL_RECOMMENDED', $MODULE)}</span>
-						</th>
-						<th colspan="1" class="mediumWidthType">
-							<span>{App\Language::translate('LBL_VALUE', $MODULE)}</span>
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					{foreach from=Settings_ConfReport_Module_Model::getSecurityConf() key=key item=item}
-						<tr {if $item.status}class="danger"{/if}>
-							<td>
-								<label>{$key}</label>
-								{if isset($item.help) && $item.status}<a href="#" class="popoverTooltip pull-right" data-trigger="focus" data-placement="rigth" data-content="{App\Language::translate($item.help, $MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
-							</td>
-							<td><label>{App\Language::translate($item.prefer, $MODULE)}</label></td>
-							<td><label>{App\Language::translate($item.current, $MODULE)}</label></td>
-						</tr>
-					{/foreach}
-				</tbody>
-			</table>
-			<br />
-			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
-				<thead>
-					<tr class="blockHeader">
-						<th colspan="2" class="mediumWidthType">
-							{App\Language::translate('LBL_ENVIRONMENTAL_INFORMATION', $MODULE)}
-						</th>
-					</tr>
-					<tr class="blockHeader">
-						<th colspan="1" class="mediumWidthType">
-							<span>{App\Language::translate('LBL_PARAMETER', $MODULE)}</span>
-						</th>
-						<th colspan="1" class="mediumWidthType">
-							<span>{App\Language::translate('LBL_VALUE', $MODULE)}</span>
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					{foreach from=Settings_ConfReport_Module_Model::getSystemInfo() key=key item=item}
-						<tr>
-							<td><label>{App\Language::translate($key, $MODULE)}</label></td>
-							<td><label>{$item}</label></td>
-						</tr>
-					{/foreach}
-				</tbody>
-			</table>
-			<br />
+			<div class="row">
+				<div class="col-md-6">
+					<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
+						<thead>
+							<tr class="blockHeader">
+								<th colspan="1" class="mediumWidthType">
+									<span>{App\Language::translate('LBL_LIBRARY', $MODULE)}</span>
+								</th>
+								<th colspan="1" class="mediumWidthType">
+									<span>{App\Language::translate('LBL_INSTALLED', $MODULE)}</span>
+								</th>
+								<th colspan="1" class="mediumWidthType">
+									<span>{App\Language::translate('LBL_MANDATORY', $MODULE)}</span>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{foreach from=Settings_ConfReport_Module_Model::getConfigurationLibrary() key=key item=item}
+								<tr {if $item.status == 'LBL_NO'}class="danger"{/if}>
+									<td>
+										<label>{App\Language::translate($key,$MODULE)}</label>
+										{if isset($item.help) && $item.status}<a href="#" class="popoverTooltip pull-right" data-trigger="focus" data-placement="rigth" data-content="{App\Language::translate($item.help, $MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
+									</td>
+									<td><label>{App\Language::translate($item.status, $MODULE)}</label></td>
+									<td><label>
+											{if $item.mandatory}
+												{App\Language::translate('LBL_MANDATORY', $MODULE)}
+											{else}
+												{App\Language::translate('LBL_OPTIONAL', $MODULE)}
+											{/if}
+										</label></td>
+								</tr>
+							{/foreach}
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-6">
+					<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
+						<thead>
+							<tr class="blockHeader">
+								<th colspan="3" class="mediumWidthType">
+									<span>{App\Language::translate('LBL_SYSTEM_SECURITY', $MODULE)}</span>
+								</th>
+							</tr>
+							<tr class="blockHeader">
+								<th colspan="1" class="mediumWidthType">
+									<span>{App\Language::translate('LBL_PARAMETER', $MODULE)}</span>
+								</th>
+								<th colspan="1" class="mediumWidthType">
+									<span>{App\Language::translate('LBL_RECOMMENDED', $MODULE)}</span>
+								</th>
+								<th colspan="1" class="mediumWidthType">
+									<span>{App\Language::translate('LBL_VALUE', $MODULE)}</span>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{foreach from=Settings_ConfReport_Module_Model::getSecurityConf() key=key item=item}
+								<tr {if $item.status}class="danger"{/if}>
+									<td>
+										<label>{$key}</label>
+										{if isset($item.help) && $item.status}<a href="#" class="popoverTooltip pull-right" data-trigger="focus" data-placement="rigth" data-content="{App\Language::translate($item.help, $MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
+									</td>
+									<td><label>{App\Language::translate($item.prefer, $MODULE)}</label></td>
+									<td><label>{App\Language::translate($item.current, $MODULE)}</label></td>
+								</tr>
+							{/foreach}
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<br />
+					<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
+						<thead>
+							<tr class="blockHeader">
+								<th colspan="3" class="mediumWidthType">
+									<span>{App\Language::translate('LBL_SYSTEM_STABILITY', $MODULE)}</span>
+								</th>
+							</tr>
+							<tr class="blockHeader">
+								<th colspan="1" class="mediumWidthType">
+									<span>{App\Language::translate('LBL_PARAMETER', $MODULE)}</span>
+								</th>
+								<th colspan="1" class="mediumWidthType">
+									<span>{App\Language::translate('LBL_RECOMMENDED', $MODULE)}</span>
+								</th>
+								<th colspan="1" class="mediumWidthType">
+									<span>{App\Language::translate('LBL_VALUE', $MODULE)}</span>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{foreach from=Settings_ConfReport_Module_Model::getStabilityConf() key=key item=item}
+								<tr {if $item.status}class="danger"{/if}>
+									<td>
+										<label>{$key}</label>
+										{if isset($item.help) && $item.status}<a href="#" class="popoverTooltip pull-right" data-trigger="focus" data-placement="rigth" data-content="{App\Language::translate($item.help, $MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
+									</td>
+									<td><label>{App\Language::translate($item.prefer, $MODULE)}</label></td>
+									<td><label>{App\Language::translate($item.current, $MODULE)}</label></td>
+								</tr>
+							{/foreach}
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-6">
+					<br />
+					<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
+						<thead>
+							<tr class="blockHeader">
+								<th colspan="2" class="mediumWidthType">
+									{App\Language::translate('LBL_ENVIRONMENTAL_INFORMATION', $MODULE)}
+								</th>
+							</tr>
+							<tr class="blockHeader">
+								<th colspan="1" class="mediumWidthType">
+									<span>{App\Language::translate('LBL_PARAMETER', $MODULE)}</span>
+								</th>
+								<th colspan="1" class="mediumWidthType">
+									<span>{App\Language::translate('LBL_VALUE', $MODULE)}</span>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{foreach from=Settings_ConfReport_Module_Model::getSystemInfo() key=key item=item}
+								<tr>
+									<td><label>{App\Language::translate($key, $MODULE)}</label></td>
+									<td><label>{$item}</label></td>
+								</tr>
+							{/foreach}
+						</tbody>
+					</table>
+				</div>
+			</div>
         </div>
         <div id="Permissions" class="tab-pane fade">
 			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">

@@ -23,34 +23,35 @@ class Vtiger_Notebook_Model extends Vtiger_Widget_Model
 		return $data['lastSavedOn'];
 	}
 
+	/**
+	 * Function to update the widget
+	 * @param \App\Request $request
+	 */
 	public function save(\App\Request$request)
 	{
-		$db = PearDatabase::getInstance();
 		$content = $request->get('contents');
 		$noteBookId = $request->getInteger('widgetid');
-		$date_var = date("Y-m-d H:i:s");
-		$date = $db->formatDate($date_var, true);
-
 		$dataValue = [];
 		$dataValue['contents'] = strip_tags($content);
-		$dataValue['lastSavedOn'] = $date;
-
+		$dataValue['lastSavedOn'] = date('Y-m-d H:i:s');
 		$data = \App\Json::encode((object) $dataValue);
 		$this->set('data', $data);
-
-
-		$db->pquery('UPDATE vtiger_module_dashboard_widgets SET data=? WHERE id=?', [$data, $noteBookId]);
+		App\Db::getInstance()->createCommand()->update('vtiger_module_dashboard_widgets', ['data' => $data], ['id' => $noteBookId])->execute();
 	}
 
+	/**
+	 * Function to get info about widget
+	 * @param int $widgetId
+	 * @return \self
+	 */
 	public static function getUserInstance($widgetId)
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT * FROM vtiger_module_dashboard_widgets
-			INNER JOIN vtiger_links ON vtiger_links.linkid = vtiger_module_dashboard_widgets.linkid
-			WHERE linktype = ? AND vtiger_module_dashboard_widgets.id = ? AND vtiger_module_dashboard_widgets.userid = ?', ['DASHBOARDWIDGET', $widgetId, \App\User::getCurrentUserId()]);
+		$row = (new \App\Db\Query())->from('vtiger_module_dashboard_widgets')
+			->innerJoin('vtiger_links', 'vtiger_links.linkid = vtiger_module_dashboard_widgets.linkid')
+			->where(['vtiger_links.linktype' => 'DASHBOARDWIDGET', 'vtiger_module_dashboard_widgets.id' => $widgetId, 'vtiger_module_dashboard_widgets.userid' => \App\User::getCurrentUserId()])
+			->one();
 		$self = new self();
-		if ($db->numRows($result)) {
-			$row = $db->queryResultRowData($result, 0);
+		if ($row) {
 			$self->setData($row);
 		}
 		return $self;

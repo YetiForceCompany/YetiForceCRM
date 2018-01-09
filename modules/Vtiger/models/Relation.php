@@ -735,25 +735,29 @@ class Vtiger_Relation_Model extends \App\Base
 		\App\Cache::clear();
 	}
 
+	/**
+	 * Removes relation between modules 
+	 * @param integer $relationId
+	 */
 	public static function removeRelationById($relationId)
 	{
-		$db = PearDatabase::getInstance();
 		if ($relationId) {
-			$db->delete('vtiger_relatedlists', 'relation_id = ?', [$relationId]);
-			$db->delete('vtiger_relatedlists_fields', 'relation_id = ?', [$relationId]);
-			$db->delete('a_yf_relatedlists_inv_fields', 'relation_id = ?', [$relationId]);
+			$dbCommand = App\Db::getInstance()->createCommand();
+			$dbCommand->delete('vtiger_relatedlists', ['relation_id' => $relationId])->execute();
+			$dbCommand->delete('vtiger_relatedlists_fields', ['relation_id' => $relationId])->execute();
+			App\Db::getInstance('admin')->createCommand()->delete('a_yf_relatedlists_inv_fields', ['relation_id' => $relationId])->execute();
 		}
 		\App\Cache::clear();
 	}
-
+	/**
+	 * Function to save sequence of relation
+	 * @param array $modules
+	 */
 	public static function updateRelationSequence($modules)
 	{
-		$db = PearDatabase::getInstance();
+		$dbCommand = App\Db::getInstance()->createCommand();
 		foreach ($modules as $module) {
-			$db->update('vtiger_relatedlists', [
-				'sequence' => (int) $module['index'] + 1
-				], 'relation_id = ?', [$module['relationId']]
-			);
+			$dbCommand->update('vtiger_relatedlists', ['sequence' => (int) $module['index'] + 1], ['relation_id' => $module['relationId']])->execute();
 		}
 		\App\Cache::clear();
 	}

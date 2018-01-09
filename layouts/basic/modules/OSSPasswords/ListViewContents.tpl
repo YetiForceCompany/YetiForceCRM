@@ -54,8 +54,13 @@
 				</thead>
 				{if $MODULE_MODEL->isQuickSearchEnabled()}
 					<tr>
-						<td>
-							<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
+						<td class="listViewSearchTd">
+							<div class="flexWrapper">
+								<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
+								<a class="btn btn-default pull-right listRemoveBtn" href="index.php?view=List&module={$MODULE}" >
+									<span class="glyphicon glyphicon-remove"></span>
+								</a>
+							</div>
 						</td>
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							<td>
@@ -64,11 +69,7 @@
                     FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$USER_MODEL}
 							</td>
 						{/foreach}
-						<td>
-							<a class="btn btn-default" href="index.php?view=List&module={$MODULE}" >
-								<span class="glyphicon glyphicon-remove"></span>
-							</a>
-						</td>
+						<td class="reducePadding"></td>
 					</tr>
 				{/if}
 				{assign var="LISTVIEW_HEADER_COUNT" value=count($LISTVIEW_HEADERS)}
