@@ -6141,3 +6141,7 @@ border1px{
 .ps-scrollbar-y-rail {
 	z-index: 100;
 }
+.fc-row.fc-week {
+	min-height: 50px;
+	max-height: calc(100vh/10);
+}
