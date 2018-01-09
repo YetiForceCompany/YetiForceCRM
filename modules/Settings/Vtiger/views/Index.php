@@ -228,9 +228,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
-	 * @param \App\Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * {@inheritDoc}
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{
@@ -257,9 +255,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	}
 
 	/**
-	 * Retrieves css styles that need to loaded in the page
-	 * @param \App\Request $request - request model
-	 * @return <array> - array of Vtiger_CssScript_Model
+	 * {@inheritDoc}
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{

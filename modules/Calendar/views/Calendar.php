@@ -55,6 +55,9 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 		return $headerScriptInstances;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);

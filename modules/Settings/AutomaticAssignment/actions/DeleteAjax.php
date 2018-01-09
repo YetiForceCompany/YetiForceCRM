@@ -16,8 +16,7 @@ class Settings_AutomaticAssignment_DeleteAjax_Action extends Settings_Vtiger_Del
 	 */
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->get('record');
-		$recordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($recordId);
+		$recordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($request->getInteger('record'));
 		$recordModel->delete();
 
 		$responceToEmit = new Vtiger_Response();
