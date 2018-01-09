@@ -10,10 +10,6 @@
 ********************************************************************************/
 -->*}
 {strip}
-
-	<button type="button" class="btn btn-success addButton addCron"><span class="glyphicon glyphicon-plus"></span> {\App\Language::translate('LBL_ADD_CRON', $QUALIFIED_MODULE)}</button>
-	<br />
-	<br />
 	<input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
 	<input type="hidden" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}" />
 	<input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
