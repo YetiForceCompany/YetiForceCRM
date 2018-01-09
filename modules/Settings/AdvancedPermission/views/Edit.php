@@ -36,15 +36,13 @@ class Settings_AdvancedPermission_Edit_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$record = $request->get('record');
-
-		if (!empty($record)) {
-			$recordModel = Settings_AdvancedPermission_Record_Model::getInstance($record);
-		} else {
+		if ($request->isEmpty('record')) {
 			$recordModel = new Settings_AdvancedPermission_Record_Model();
+		} else {
+			$recordModel = Settings_AdvancedPermission_Record_Model::getInstance($request->getInteger('record'));
+			$viewer->assign('RECORD_ID', $request->getInteger('record'));
 		}
 		$viewer->assign('RECORD_MODEL', $recordModel);
-		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('EditViewS1.tpl', $qualifiedModuleName);
 	}
@@ -56,7 +54,7 @@ class Settings_AdvancedPermission_Edit_View extends Settings_Vtiger_Index_View
 	public function step2(\App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-		$record = $request->get('record');
+		$record = $request->getInteger('record');
 		$recordModel = Settings_AdvancedPermission_Record_Model::getInstance($record);
 		$selectedModule = \App\Module::getModuleName($recordModel->get('tabid'));
 		$moduleModel = Vtiger_Module_Model::getInstance($selectedModule);
