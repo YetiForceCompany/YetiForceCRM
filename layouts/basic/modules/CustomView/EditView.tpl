@@ -25,7 +25,7 @@
 		<div class='widget_header row customViewHeader'>
 			<div class="col-sm-5 col-xs-12">
 				{if !$RECORD_ID}
-					{assign var=BREADCRUMB_TITLE value='LBL_VIEW_CREATE'}
+					{assign var=BREADCRUMB_TITLE value=\App\Language::translate('LBL_VIEW_CREATE',$MODULE)}
 				{else}
 					{assign var=BREADCRUMB_TITLE value=$CUSTOMVIEW_MODEL->get('viewname')}
 				{/if}

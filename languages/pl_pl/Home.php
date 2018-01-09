@@ -44,4 +44,5 @@ $languageStrings = [
 	'LBL_GROUP_VALUES' => 'Podziel wartości grupowania',
 	'LBL_FILTER_BY_OWNER' => 'Filtruj po włascicielu',
 	'LBL_ALL_OWNERS' => 'Wszyscy',
+	'LBL_BAR_DIVIDED_FIELD' => 'Pole dzielenia wartości',
 ];
