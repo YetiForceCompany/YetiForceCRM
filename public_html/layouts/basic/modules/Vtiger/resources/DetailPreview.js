@@ -22,8 +22,8 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 	},
 	/**
 	 * Function sets the correct iframe size.
-	 * @param {$} currentHeight - ifrmae body height to be set.
-	 * @param {$} frame - ifrmae height to be changed.
+	 * @param {jQuery} currentHeight - ifrmae body height to be set.
+	 * @param {jQuery} frame - ifrmae height to be changed.
 	 */
 	updateWindowHeight: function (currentHeight, frame) {
 		var thisInstance = this;

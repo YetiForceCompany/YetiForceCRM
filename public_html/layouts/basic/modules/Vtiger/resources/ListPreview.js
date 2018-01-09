@@ -34,7 +34,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	},
 	/**
 	 * Executes event listener.
-	 * @param {$} container - current container for reference.
+	 * @param {jQuery} container - current container for reference.
 	 */
 	postLoadListViewRecordsEvents: function (container) {
 		this._super(container);
@@ -74,7 +74,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	},
 	/**
 	 * Registers list events.
-	 * @param {$} container - current container for reference.
+	 * @param {jQuery} container - current container for reference.
 	 */
 	registerListEvents: function (container) {
 		var fixedList = container.find('.fixedListInitial');
@@ -126,7 +126,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	},
 	/**
 	 * Registers split object and executes its events listeners.
-	 * @param {$} container - current container for reference.
+	 * @param {jQuery} container - current container for reference.
 	 * @returns {Split} A split object.
 	 */
 	registerSplit: function (container) {
@@ -175,7 +175,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	},
 	/**
 	 * Registers split's events.
-	 * @param {$} container - current container for reference.
+	 * @param {jQuery} container - current container for reference.
 	 * @param {Split} split - a split object.
 	 */
 	registerSplitEvents: function (container, split) {
@@ -217,7 +217,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	},
 	/**
 	 * Adds the split and deletes it on resize.
-	 * @param {$} container - current container for reference.
+	 * @param {jQuery} container - current container for reference.
 	 */
 	toggleSplit: function (container) {
 		var thisInstance = this;
@@ -268,8 +268,8 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	},
 	/**
 	 * Sets the correct parent iframe's size.
-	 * @param {$} currentHeight - ifrmae's body height to be set.
-	 * @param {$} frame - ifrmae's height to be changed.
+	 * @param {jQuery} currentHeight - ifrmae's body height to be set.
+	 * @param {jQuery} frame - ifrmae's height to be changed.
 	 */
 	updateWindowHeight: function (height, frame) {
 		frame.height(height);
