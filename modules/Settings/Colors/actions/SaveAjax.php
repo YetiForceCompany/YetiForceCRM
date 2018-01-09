@@ -152,13 +152,15 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function activeModuleColor(\App\Request $request)
 	{
-		$response = new Vtiger_Response();
-		$response->setResult([
-			'success' => true,
-			'color' => \App\Colors::activeModuleColor($request->getInteger('record'), $request->getByType('status', 'Text'), $request->getByType('color', 'Color')),
-			'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
-		]);
-		$response->emit();
+		if ($request->get('color') !== '#') {
+			$response = new Vtiger_Response();
+			$response->setResult([
+				'success' => true,
+				'color' => \App\Colors::activeModuleColor($request->getInteger('record'), $request->getByType('status', 'Text'), $request->isEmpty('color') ? '' : $request->getByType('color', 'Color')),
+				'message' => \App\Language::translate('LBL_SAVE_COLOR', $request->getModule(false))
+			]);
+			$response->emit();
+		}
 	}
 
 	/**
@@ -261,7 +263,7 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function removeCalendarColor(\App\Request $request)
 	{
 		$params = [];
-		$params['id'] = $request->getByType('id', 'Text');
+		$params['id'] = $request->getByType('id', 'Alnum');
 		$params['color'] = '';
 		Settings_Calendar_Module_Model::updateCalendarConfig($params);
 		$response = new Vtiger_Response();
