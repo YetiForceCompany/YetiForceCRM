@@ -3,10 +3,11 @@ jQuery.Class("Settings_MarketingProcesses_Index_Js", {}, {
 	registerChangeVal: function (content) {
 		content.find('.configField').change(function (e) {
 			var target = $(e.currentTarget);
-			if (target.attr('type') == 'checkbox') {
-				var val = this.checked;
+			var val;
+			if (target.attr('type') === 'checkbox') {
+				val = this.checked;
 			} else {
-				var val = target.val() != null ? target.val() : '';
+				val = target.val() != null ? target.val() : '';
 			}
 			AppConnector.request({
 				module: app.getModuleName(),
@@ -14,7 +15,7 @@ jQuery.Class("Settings_MarketingProcesses_Index_Js", {}, {
 				action: 'SaveAjax',
 				mode: 'updateConfig',
 				type: target.data('type'),
-				param: target.data('name'),
+				param: target.attr('name'),
 				value: val
 			}).then(function (data) {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
