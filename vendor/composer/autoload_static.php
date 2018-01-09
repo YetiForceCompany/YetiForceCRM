@@ -211,13 +211,6 @@ class ComposerStaticInitYT
 				0 => __DIR__ . '/..' . '/doctrine/collections/lib',
 			],
 		],
-		'C' =>
-		[
-			'Composer\\CustomDirectoryInstaller' =>
-			[
-				0 => __DIR__ . '/..' . '/mnsami/composer-custom-directory-installer/src',
-			],
-		],
 	];
 	public static $classMap = [
 		'EasyPeasyICS' => __DIR__ . '/..' . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',

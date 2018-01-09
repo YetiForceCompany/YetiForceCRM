@@ -10,5 +10,4 @@ return [
 	'Recurr' => [$vendorDir . '/simshaun/recurr/src'],
 	'HTMLPurifier' => [$vendorDir . '/ezyang/htmlpurifier/library'],
 	'Doctrine\\Common\\Collections\\' => [$vendorDir . '/doctrine/collections/lib'],
-	'Composer\\CustomDirectoryInstaller' => [$vendorDir . '/mnsami/composer-custom-directory-installer/src'],
 ];
