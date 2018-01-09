@@ -29,7 +29,7 @@ class Settings_Calendar_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 
 	public function updateNotWorkingDays(\App\Request $request)
 	{
-		Settings_Calendar_Module_Model::updateNotWorkingDays($request->getArrayr('param', 'Alnum'));
+		Settings_Calendar_Module_Model::updateNotWorkingDays($request->getArray('param', 'Alnum'));
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,
