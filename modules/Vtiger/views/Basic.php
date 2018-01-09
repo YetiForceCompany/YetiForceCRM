@@ -108,9 +108,4 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
 	}
-
-	public function getGuiderModels(\App\Request $request)
-	{
-		return [];
-	}
 }
