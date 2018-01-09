@@ -1,10 +1,411 @@
 
+v3.8.0 (2017-12-18)
+-------------------
+
+- new settings for month/agenda/basic views (#3078):
+  - `columnHeaderFormat` (renamed from `columnFormat`)
+  - `columnHeaderText`
+  - `columnHeaderHtml`
+- TypeScript definition file (scheduler.d.ts) included in npm package (#3889)
+- codebase using SASS, though not taking advantage of it yet (#3463)
+- codebase fully ported to TypeScript / Webpack
+- Afrikaans locale fix (#3862)
+
+
+v3.7.0 (2017-11-13)
+-------------------
+
+Bugfixes:
+- `render` method does not re-adjust calendar dimension (#3893)
+- when custom view navigates completely into hidden weekends, JS error ([scheduler-375])
+
+Other:
+- in themes.html demo, fixed broken Bootswatch themes (#3917)
+- moved JavaScript codebase over to TypeScript
+  (same external API; embedded typedefs coming soon)
+
+[scheduler-375]: https://github.com/fullcalendar/fullcalendar-scheduler/issues/375
+
+
+v3.6.2 (2017-10-23)
+-------------------
+
+Bugfixes:
+- Google Calendar event sources not calling `loading` callback (#3884)
+- `eventDataTransform` w/ eventConstraint shouldn't be called during event resizing (#3859)
+- `navLinks` would go to the previously navigated date (#3869)
+- `nowIndicator` arrow would repeatedly render (#3872)
+- fc-content-skeleton DOM element would repeatedly render on navigation in agenda view
+
+
+v3.6.1 (2017-10-11)
+-------------------
+
+Bugfixes:
+- JSON feed event sources always requesting current page (#3865)
+- multi-day events appearing multiple times in more+ popover (#3856)
+
+
+v3.6.0 (2017-10-10)
+-------------------
+
+Features:
+- `agendaEventMinHeight` for guaranteeing height (#961, #3788) thx @Stafie
+- `columnHeader` can be set to `false` to hide headings (#3438, #3787) thx @caseyjhol
+- export all View classes (#2851, #3831)
+- `updateEvent`, update complex attributes (#2864)
+- Albanian locale (#3847) thx @alensaqe
+
+Bugfixes:
+- objects used as non-standard Event properties ignored by `updateEvent` (#3839)
+- listDay error if event goes over period (#3843)
+- `validDays` with `hiddenDays`, js error when no days active (#3846)
+- json feed Event Source object no longer has `url` property (#3845)
+- `updateEvent`, allDay to timed, when no end, wrong end date (#3144)
+- `removeEvents` by `_id` stopped working (#3828)
+- correct `this` context in FuncEventSource (#3848) thx @declspec
+- js event not received in unselect callback when selecting another cell (#3832)
+
+Incompatibilities:
+- The `viewRender` callback might now be fired AFTER events have been rendered
+  to the DOM. However, the eventRender/eventAfterRender/eventAfterAllRender callbacks
+  will always be fired after `viewRender`, just as before.
+- The internal `Grid` class (accessed via `$.fullCalendar.Grid`) has been removed.
+  For monkeypatching, use DayGrid/TimeGrid directly.
+
+
+v3.5.1 (2017-09-06)
+-------------------
+
+- fixed loading trigger not firing (#3810)
+- fixed overaggressively fetching events, on option changes (#3820)
+- fixed event object `date` property being discarded (tho still parsed) (#3819)
+- fixed event object `_id` property being discarded (#3811)
+
+
+v3.5.0 (2017-08-30)
+-------------------
+
+Features:
+- Bootstrap 3 theme support (#2334, #3566)
+	- via `themeSystem: 'bootstrap3'` (the `theme` option is deprecated)
+	- new `bootstrapGlyphicons` option
+	- jQuery UI "Cupertino" theme no longer included in zip archive
+	- improved theme switcher on demo page (#1436)
+	(big thanks to @joankaradimov)
+- 25% event rendering performance improvement across the board (#2524)
+- console message for unknown method/calendar (#3253)
+- Serbian cyrilic/latin (#3656)
+- available via Packagist (#2999, #3617)
+
+Bugfixes:
+- slot time label invisible when minTime starts out of alignment (#2786)
+- bug with inverse-background event rendering when out of range (#3652)
+- wrongly disabled prev/next when current date outside of validRange (#3686, #3651)
+- updateEvent, error when changing allDay from false to true (#3518)
+- updateEvent doesn't support ID changes (#2928)
+- Promise then method doesn't forward result (#3744)
+- Korean typo (#3693)
+- fixed switching from any view to listview, eventAfterRender isn't called (#3751)
+
+Incompatibilities:
+- Event Objects obtained from clientEvents or various callbacks are no longer
+  references to internally used objects. Rather, they are static object copies.
+- `clientEvents` method no longer returns events in same order as received.
+  Do not depend on order.
+
+
+v3.4.0 (2017-04-27)
+-------------------
+
+- composer.json for Composer (PHP package manager) (#3617)
+- fix toISOString for locales with non-trivial postformatting (#3619)
+- fix for nested inverse-background events (#3609)
+- Estonian locale (#3600)
+- fixed Latvian localization (#3525)
+- internal refactor of async systems
+
+
+v3.3.1 (2017-04-01)
+-------------------
+
+Bugfixes:
+- stale calendar title when navigate away from then back to the a view (#3604)
+- js error when gotoDate immediately after calendar initialization (#3598)
+- agenda view scrollbars causes misalignment in jquery 3.2.1 (#3612)
+- navigation bug when trying to navigate to a day of another week (#3610)
+- dateIncrement not working when duration and dateIncrement have different units
+
+
+v3.3.0 (2017-03-23)
+-------------------
+
+Features:
+- `visibleRange` - complete control over view's date range (#2847, #3105, #3245)
+- `validRange` - restrict date range (#429)
+- `changeView` - pass in a date or visibleRange as second param (#3366)
+- `dateIncrement` - customize prev/next jump (#2710)
+- `dateAlignment` - custom view alignment, like start-of-week (#3113)
+- `dayCount` - force a fixed number-of-days, even with hiddenDays (#2753)
+- `showNonCurrentDates` - option to hide day cells for prev/next months (#437)
+- can define a defaultView with a duration/visibleRange/dayCount with needing
+  to create a custom view in the `views` object. Known as a "Generic View".
+
+Behavior Changes:
+- when custom view is specified with duration `{days:7}`,
+  it will no longer align with the start of the week. (#2847)
+- when `gotoDate` is called on a custom view with a duration of multiple days,
+  the view will always shift to begin with the given date. (#3515)
+
+Bugfixes:
+- event rendering when excessive `minTime`/`maxTime` (#2530)
+- event dragging not shown when excessive `minTime`/`maxTime` (#3055)
+- excessive `minTime`/`maxTime` not reflected in event fetching (#3514)
+	- when minTime is negative, or maxTime beyond 24 hours, when event data is requested
+	  via a function or a feed, the given data params will have time parts.
+- external event dragging via touchpunch broken (#3544)
+- can't make an immediate new selection after existing selection, with mouse.
+  introduced in v3.2.0 (#3558)
+
+
+v3.2.0 (2017-02-14)
+-------------------
+
+Features:
+- `selectMinDistance`, threshold before a mouse selection begins (#2428)
+
+Bugfixes:
+- iOS 10, unwanted scrolling while dragging events/selection (#3403)
+- dayClick triggered when swiping on touch devices (#3332)
+- dayClick not functioning on Firefix mobile (#3450)
+- title computed incorrectly for views with no weekends (#2884)
+- unwanted scrollbars in month-view when non-integer width (#3453, #3444)
+- incorrect date formatting for locales with non-standlone month/day names (#3478)
+- date formatting, incorrect omission of trailing period for certain locales (#2504, #3486)
+- formatRange should collapse same week numbers (#3467)
+- Taiwanese locale updated (#3426)
+- Finnish noEventsMessage updated (#3476)
+- Croatian (hr) buttonText is blank (#3270)
+- JSON feed PHP example, date range math bug (#3485)
+
+
+v3.1.0 (2016-12-05)
+-------------------
+
+- experimental support for implicitly batched ("debounced") event rendering (#2938)
+	- `eventRenderWait` (off by default)
+- new `footer` option, similar to header toolbar (#654, #3299)
+- event rendering batch methods (#3351):
+	- `renderEvents`
+	- `updateEvents`
+- more granular touch settings (#3377):
+	- `eventLongPressDelay`
+	- `selectLongPressDelay`
+- eventDestroy not called when removing the popover (#3416, #3419)
+- print stylesheet and gcal extension now offered as minified (#3415)
+- fc-today in agenda header cells (#3361, #3365)
+- height-related options in tandem with other options (#3327, #3384)
+- Kazakh locale (#3394)
+- Afrikaans locale (#3390)
+- internal refactor related to timing of rendering and firing handlers.
+  calls to rerender the current date-range and events from within handlers
+  might not execute immediately. instead, will execute after handler finishes.
+
+
+v3.0.1 (2016-09-26)
+-------------------
+
+Bugfixes:
+- list view rendering event times incorrectly (#3334)
+- list view rendering events/days out of order (#3347)
+- events with no title rendering as "undefined"
+- add .fc scope to table print styles (#3343)
+- "display no events" text fix for German (#3354)
+
+
+v3.0.0 (2016-09-04)
+-------------------
+
+Features:
+- List View (#560)
+	- new views: `listDay`, `listWeek`, `listMonth`, `listYear`, and simply `list`
+	- `listDayFormat`
+	- `listDayAltFormat`
+	- `noEventsMessage`
+- Clickable day/week numbers for easier navigation (#424)
+	- `navLinks`
+	- `navLinkDayClick`
+	- `navLinkWeekClick`
+- Programmatically allow/disallow user interactions:
+	- `eventAllow` (#2740)
+	- `selectAllow` (#2511)
+- Option to display week numbers in cells (#3024)
+	- `weekNumbersWithinDays` (set to `true` to activate)
+- When week calc is ISO, default first day-of-week to Monday (#3255)
+- Macedonian locale (#2739)
+- Malay locale
+
+Breaking Changes:
+- IE8 support dropped
+- jQuery: minimum support raised to v2.0.0
+- MomentJS: minimum support raised to v2.9.0
+- `lang` option renamed to `locale`
+- dist files have been renamed to be more consistent with MomentJS:
+	- `lang/` -> `locale/`
+	- `lang-all.js` -> `locale-all.js`
+- behavior of moment methods no longer affected by ambiguousness:
+	- `isSame`
+	- `isBefore`
+	- `isAfter`
+- View-Option-Hashes no longer supported (deprecated in 2.2.4)
+- removed `weekMode` setting
+- removed `axisFormat` setting
+- DOM structure of month/basic-view day cell numbers changed
+
+Bugfixes:
+- `$.fullCalendar.version` incorrect (#3292)
+
+Build System:
+- using gulp instead of grunt (faster)
+- using npm internally for dependencies instead of bower
+- changed repo directory structure
+
+
+v2.9.1 (2016-07-31)
+-------------------
+
+- multiple definitions for businessHours (#2686)
+- businessHours for single day doesn't display weekends (#2944)
+- height/contentHeight can accept a function or 'parent' for dynamic value (#3271)
+- fix +more popover clipped by overflow (#3232)
+- fix +more popover positioned incorrectly when scrolled (#3137)
+- Norwegian Nynorsk translation (#3246)
+- fix isAnimating JS error (#3285)
+
+
+v2.9.0 (2016-07-10)
+-------------------
+
+- Setters for (almost) all options (#564).
+  See [docs](http://fullcalendar.io/docs/utilities/dynamic_options/) for more info.
+- Travis CI improvements (#3266)
+
+
+v2.8.0 (2016-06-19)
+-------------------
+
+- getEventSources method (#3103, #2433)
+- getEventSourceById method (#3223)
+- refetchEventSources method (#3103, #1328, #254)
+- removeEventSources method (#3165, #948)
+- prevent flicker when refetchEvents is called (#3123, #2558)
+- fix for removing event sources that share same URL (#3209)
+- jQuery 3 support (#3197, #3124)
+- Travis CI integration (#3218)
+- EditorConfig for promoting consistent code style (#141)
+- use en dash when formatting ranges (#3077)
+- height:auto always shows scrollbars in month view on FF (#3202)
+- new languages:
+	- Basque (#2992)
+	- Galician (#194)
+	- Luxembourgish (#2979)
+
+
+v2.7.3 (2016-06-02)
+-------------------
+
+internal enhancements that plugins can benefit from:
+- EventEmitter not correctly working with stopListeningTo
+- normalizeEvent hook for manipulating event data
+
+
+v2.7.2 (2016-05-20)
+-------------------
+
+- fixed desktops/laptops with touch support not accepting mouse events for
+  dayClick/dragging/resizing (#3154, #3149)
+- fixed dayClick incorrectly triggered on touch scroll (#3152)
+- fixed touch event dragging wrongfully beginning upon scrolling document (#3160)
+- fixed minified JS still contained comments
+- UI change: mouse users must hover over an event to reveal its resizers
+
+
+v2.7.1 (2016-05-01)
+-------------------
+
+- dayClick not firing on touch devices (#3138)
+- icons for prev/next not working in MS Edge (#2852)
+- fix bad languages troubles with firewalls (#3133, #3132)
+- update all dev dependencies (#3145, #3010, #2901, #251)
+- git-ignore npm debug logs (#3011)
+- misc automated test updates (#3139, #3147)
+- Google Calendar htmlLink not always defined (#2844)
+
+
+v2.7.0 (2016-04-23)
+-------------------
+
+touch device support (#994):
+	- smoother scrolling
+	- interactions initiated via "long press":
+		- event drag-n-drop
+		- event resize
+		- time-range selecting
+	- `longPressDelay`
+
+
+v2.6.1 (2016-02-17)
+-------------------
+
+- make `nowIndicator` positioning refresh on window resize
+
+
+v2.6.0 (2016-01-07)
+-------------------
+
+- current time indicator (#414)
+- bundled with most recent version of moment (2.11.0)
+- UMD wrapper around lang files now handles commonjs (#2918)
+- fix bug where external event dragging would not respect eventOverlap
+- fix bug where external event dropping would not render the whole-day highlight
+
+
+v2.5.0 (2015-11-30)
+-------------------
+
+- internal timezone refactor. fixes #2396, #2900, #2945, #2711
+- internal "grid" system refactor. improved API for plugins.
+
+
+v2.4.0 (2015-08-16)
+-------------------
+
+- add new buttons to the header via `customButtons` ([225])
+- control stacking order of events via `eventOrder` ([364])
+- control frequency of slot text via `slotLabelInterval` ([946])
+- `displayEventTime` ([1904])
+- `on` and `off` methods ([1910])
+- renamed `axisFormat` to `slotLabelFormat`
+
+[225]: https://code.google.com/p/fullcalendar/issues/detail?id=225
+[364]: https://code.google.com/p/fullcalendar/issues/detail?id=364
+[946]: https://code.google.com/p/fullcalendar/issues/detail?id=946
+[1904]: https://code.google.com/p/fullcalendar/issues/detail?id=1904
+[1910]: https://code.google.com/p/fullcalendar/issues/detail?id=1910
+
+
+v2.3.2 (2015-06-14)
+-------------------
+
+- minor code adjustment in preparation for plugins
+
+
 v2.3.1 (2015-03-08)
 -------------------
 
 - Fix week view column title for en-gb ([PR220])
 - Publish to NPM ([2447])
-- Detangle bower from npm package([PR179])
+- Detangle bower from npm package ([PR179])
 
 [PR220]: https://github.com/arshaw/fullcalendar/pull/220
 [2447]: https://code.google.com/p/fullcalendar/issues/detail?id=2447

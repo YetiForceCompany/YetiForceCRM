@@ -1915,6 +1915,7 @@ th.htColHeader,
 	z-index: 1000023 !important;
 	min-width: 200px;
 	word-wrap: break-word;
+	position: fixed;
 }
 .popover-content .fieldLabel {
 	width: 35%;
@@ -6139,16 +6140,4 @@ border1px{
 }
 .ps-scrollbar-y-rail {
 	z-index: 100;
-}
-.flexWrapper .listRemoveBtn {
-	margin-left: 8px;
-}
-.reducePadding {
-	padding: 0px !important;
-}
-.flexWrapper {
-	display: flex;
-}
-#popupPageContainer {
-	overflow-y: auto;
 }

@@ -164,19 +164,21 @@ jQuery.Class("Calendar_CalendarView_Js", {
 							'<div><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> <label>' + app.vtranslate('JS_VISIBILITY') + '</label>: ' + app.vtranslate('JS_' + event.vis) + '</div>' +
 							(event.smownerid ? '<div><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
 				});
-				element.find('.fc-content, .fc-info').click(function () {
-					var progressInstance = jQuery.progressIndicator({blockInfo: {enabled: true}});
-					var event = $(this).closest('.fc-event');
-					var url = 'index.php?module=Calendar&view=ActivityStateModal&record=' + event.data('id');
-					var callbackFunction = function (data) {
-						progressInstance.progressIndicator({mode: 'hide'});
-					};
-					var modalWindowParams = {
-						url: url,
-						cb: callbackFunction
-					};
-					app.showModalWindow(modalWindowParams);
-				});
+
+			},
+			eventClick: function (calEvent, jsEvent, view) {
+				jsEvent.preventDefault();
+				var link = new URL($(this).context.href);
+				var progressInstance = jQuery.progressIndicator({blockInfo: {enabled: true}});
+				var url = 'index.php?module=Calendar&view=ActivityStateModal&record=' + link.searchParams.get("record");
+				var callbackFunction = function (data) {
+					progressInstance.progressIndicator({mode: 'hide'});
+				};
+				var modalWindowParams = {
+					url: url,
+					cb: callbackFunction
+				};
+				app.showModalWindow(modalWindowParams);
 			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
 				app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
@@ -387,10 +389,10 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		});
 	},
 	addCalendarEvent: function (calendarDetails) {
-		if($.inArray(calendarDetails.assigned_user_id.value, $("#calendarUserList").val()) < 0 && $.inArray(calendarDetails.assigned_user_id.value, $("#calendarGroupList").val()) < 0){
+		if ($.inArray(calendarDetails.assigned_user_id.value, $("#calendarUserList").val()) < 0 && $.inArray(calendarDetails.assigned_user_id.value, $("#calendarGroupList").val()) < 0) {
 			return;
 		}
-		if($.inArray(calendarDetails.activitytype.value, $("#calendarActivityTypeList").val()) < 0){
+		if ($.inArray(calendarDetails.activitytype.value, $("#calendarActivityTypeList").val()) < 0) {
 			return;
 		}
 		var state = $('.fc-toolbar input.switchBtn').bootstrapSwitch('state');
