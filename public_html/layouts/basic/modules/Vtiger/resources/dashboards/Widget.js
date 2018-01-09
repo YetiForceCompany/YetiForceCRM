@@ -305,6 +305,11 @@ jQuery.Class('Vtiger_Widget_Js', {
 	getFilterData: function () {
 		return {};
 	},
+
+	/**
+	 * Refresh widget
+	 * @returns {undefined}
+	 */
 	refreshWidget: function () {
 		var thisInstance = this;
 		var parent = this.getContainer();
@@ -320,27 +325,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 			params.data = {};
 			widgetFilters.each(function (index, domElement) {
 				var widgetFilter = jQuery(domElement);
-				if (widgetFilter.is('.dateRange')) {
-					var dateRangeVal = widgetFilter.val();
-					//If not value exists for date field then dont send the value
-					if (dateRangeVal.length <= 0) {
-						return true;
-					}
-					var name = widgetFilter.attr('name');
-					var dateRangeValComponents = dateRangeVal.split(',');
-					params.data[name] = {};
-					params.data[name].start = dateRangeValComponents[0];
-					params.data[name].end = dateRangeValComponents[1];
+				var filterType = widgetFilter.attr('type');
+				var filterName = widgetFilter.attr('name');
+				if ('checkbox' == filterType) {
+					var filterValue = widgetFilter.is(':checked');
+					params.data[filterName] = filterValue;
 				} else {
-					var filterType = widgetFilter.attr('type');
-					var filterName = widgetFilter.attr('name');
-					if ('checkbox' == filterType) {
-						var filterValue = widgetFilter.is(':checked');
-						params.data[filterName] = filterValue;
-					} else {
-						var filterValue = widgetFilter.val();
-						params.data[filterName] = filterValue;
-					}
+					var filterValue = widgetFilter.val();
+					params.data[filterName] = filterValue;
 				}
 			});
 		}
