@@ -31,7 +31,7 @@ class Settings_Calendar_UserColors_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$jsFileNames = [
 			"modules.Settings.$moduleName.resources.UserColors",
-			'~libraries/jquery/colorpicker/js/colorpicker.js'
+			'~libraries/js/colorpicker/js/colorpicker.js'
 		];
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
@@ -42,7 +42,7 @@ class Settings_Calendar_UserColors_View extends Settings_Vtiger_Index_View
 	public function getHeaderCss(\App\Request $request)
 	{
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
-				'~libraries/jquery/colorpicker/css/colorpicker.css'
+				'~libraries/js/colorpicker/css/colorpicker.css'
 		]));
 	}
 }

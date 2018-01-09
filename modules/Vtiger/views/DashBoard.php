@@ -136,24 +136,24 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$jsFileNames = [
-			'~libraries/jquery/gridster/jquery.gridster.js',
-			'~libraries/jquery/flot/jquery.flot.js',
-			'~libraries/jquery/flot/jquery.flot.pie.js',
-			'~libraries/jquery/flot/jquery.flot.stack.js',
-			'~libraries/jquery/jqplot/jquery.jqplot.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.canvasTextRenderer.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.canvasAxisTickRenderer.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.pieRenderer.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.barRenderer.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.categoryAxisRenderer.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.pointLabels.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.canvasAxisLabelRenderer.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.funnelRenderer.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.donutRenderer.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.barRenderer.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.logAxisRenderer.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.enhancedLegendRenderer.js',
-			'~libraries/jquery/jqplot/plugins/jqplot.enhancedPieLegendRenderer.js',
+			'~libraries/js/gridster/jquery.gridster.js',
+			'~libraries/js/flot/jquery.flot.js',
+			'~libraries/js/flot/jquery.flot.pie.js',
+			'~libraries/js/flot/jquery.flot.stack.js',
+			'~libraries/js/jqplot/jquery.jqplot.js',
+			'~libraries/js/jqplot/plugins/jqplot.canvasTextRenderer.js',
+			'~libraries/js/jqplot/plugins/jqplot.canvasAxisTickRenderer.js',
+			'~libraries/js/jqplot/plugins/jqplot.pieRenderer.js',
+			'~libraries/js/jqplot/plugins/jqplot.barRenderer.js',
+			'~libraries/js/jqplot/plugins/jqplot.categoryAxisRenderer.js',
+			'~libraries/js/jqplot/plugins/jqplot.pointLabels.js',
+			'~libraries/js/jqplot/plugins/jqplot.canvasAxisLabelRenderer.js',
+			'~libraries/js/jqplot/plugins/jqplot.funnelRenderer.js',
+			'~libraries/js/jqplot/plugins/jqplot.donutRenderer.js',
+			'~libraries/js/jqplot/plugins/jqplot.barRenderer.js',
+			'~libraries/js/jqplot/plugins/jqplot.logAxisRenderer.js',
+			'~libraries/js/jqplot/plugins/jqplot.enhancedLegendRenderer.js',
+			'~libraries/js/jqplot/plugins/jqplot.enhancedPieLegendRenderer.js',
 			'modules.Vtiger.resources.DashBoard',
 			'modules.' . $moduleName . '.resources.DashBoard',
 			'modules.Vtiger.resources.dashboards.Widget',
@@ -170,8 +170,8 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 	public function getHeaderCss(\App\Request $request)
 	{
 		$headerCss = [
-			'~libraries/jquery/gridster/jquery.gridster.css',
-			'~libraries/jquery/jqplot/jquery.jqplot.css',
+			'~libraries/js/gridster/jquery.gridster.css',
+			'~libraries/js/jqplot/jquery.jqplot.css',
 			'~libraries/fullcalendar/fullcalendar.css',
 			'~libraries/fullcalendar/fullcalendarCRM.css'
 		];

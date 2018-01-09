@@ -35,7 +35,7 @@ class Settings_Colors_Index_View extends Settings_Vtiger_Index_View
 	public function getHeaderCss(\App\Request $request)
 	{
 		$cssFileNames = [
-			'~libraries/jquery/colorpicker/css/colorpicker.css'
+			'~libraries/js/colorpicker/css/colorpicker.css'
 		];
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($cssFileNames));
 	}
@@ -49,7 +49,7 @@ class Settings_Colors_Index_View extends Settings_Vtiger_Index_View
 	{
 		$jsFileNames = [
 			'modules.Settings.'.$request->getModule().'.resources.Colors',
-			'~libraries/jquery/colorpicker/js/colorpicker.js'
+			'~libraries/js/colorpicker/js/colorpicker.js'
 		];
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}

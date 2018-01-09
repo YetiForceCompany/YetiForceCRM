@@ -78,10 +78,10 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 		$moduleName = $request->getModule();
 
 		$jsFileNames = [
-			'~libraries/jquery/timepicker/jquery.timepicker.min.js',
-			'~libraries/jquery/clockpicker/jquery-clockpicker.js',
-			'~libraries/jquery/inputmask/jquery.inputmask.js',
-			'~libraries/jquery/mousetrap/mousetrap.min.js',
+			'~libraries/js/timepicker/jquery.timepicker.min.js',
+			'~libraries/js/clockpicker/jquery-clockpicker.js',
+			'~libraries/js/inputmask/jquery.inputmask.js',
+			'~libraries/js/mousetrap/mousetrap.min.js',
 			'modules.Vtiger.resources.Menu',
 			'modules.Vtiger.resources.Header',
 			'modules.Vtiger.resources.Edit',
@@ -93,7 +93,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 			'~layouts/resources/validator/BaseValidator.js',
 			'~layouts/resources/validator/FieldValidator.js',
 			"modules.$moduleName.resources.validator.FieldValidator",
-			'libraries.jquery.jquery_windowmsg',
+			'libraries.js.jquery_windowmsg',
 			'modules.Vtiger.resources.BasicSearch',
 			"modules.$moduleName.resources.BasicSearch",
 			'modules.Vtiger.resources.AdvanceFilter',

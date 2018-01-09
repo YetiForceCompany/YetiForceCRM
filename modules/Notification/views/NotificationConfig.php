@@ -62,8 +62,8 @@ class Notification_NotificationConfig_View extends Vtiger_BasicModal_View
 	{
 		$parentScriptInstances = parent::getModalScripts($request);
 		$scripts = [
-			'~libraries/jquery/datatables/media/js/jquery.dataTables.min.js',
-			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.min.js'
+			'~libraries/js/datatables/media/js/jquery.dataTables.min.js',
+			'~libraries/js/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.min.js'
 		];
 		$modalInstances = $this->checkAndConvertJsScripts($scripts);
 		$scriptInstances = array_merge($modalInstances, $parentScriptInstances);

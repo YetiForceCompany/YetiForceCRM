@@ -371,21 +371,21 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'skins.icons.userIcons',
 			'skins.icons.adminIcons',
 			'skins.icons.additionalIcons',
-			'~libraries/jquery/chosen/chosen.css',
-			'~libraries/jquery/chosen/chosen.bootstrap.css',
-			'~libraries/jquery/jquery-ui/jquery-ui.css',
-			'~libraries/jquery/selectize/css/selectize.bootstrap3.css',
-			'~libraries/jquery/select2/select2.css',
+			'~libraries/js/chosen/chosen.css',
+			'~libraries/js/chosen/chosen.bootstrap.css',
+			'~libraries/js/jquery-ui/jquery-ui.css',
+			'~libraries/js/selectize/css/selectize.bootstrap3.css',
+			'~libraries/js/select2/select2.css',
 			'~libraries/simplebar/dist/simplebar.css',
-			'~libraries/jquery/perfect-scrollbar/css/perfect-scrollbar.css',
-			'~libraries/jquery/select2/select2-bootstrap.css',
-			'~libraries/jquery/posabsolute-jQuery-Validation-Engine/css/validationEngine.jquery.css',
-			'~libraries/jquery/pnotify/pnotify.custom.css',
-			'~libraries/jquery/datepicker/css/bootstrap-datepicker3.css',
-			'~libraries/jquery/daterangepicker/daterangepicker.css',
+			'~libraries/js/perfect-scrollbar/css/perfect-scrollbar.css',
+			'~libraries/js/select2/select2-bootstrap.css',
+			'~libraries/js/posabsolute-jQuery-Validation-Engine/css/validationEngine.jquery.css',
+			'~libraries/js/pnotify/pnotify.custom.css',
+			'~libraries/js/datepicker/css/bootstrap-datepicker3.css',
+			'~libraries/js/daterangepicker/daterangepicker.css',
 			'~libraries/footable/css/footable.core.css',
-			'~libraries/jquery/timepicker/jquery.timepicker.css',
-			'~libraries/jquery/clockpicker/bootstrap-clockpicker.css',
+			'~libraries/js/timepicker/jquery.timepicker.css',
+			'~libraries/js/clockpicker/bootstrap-clockpicker.css',
 			'~layouts/resources/colors/calendar.css',
 			'~layouts/resources/colors/owners.css',
 			'~layouts/resources/colors/modules.css',
@@ -403,8 +403,8 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	public function getHeaderScripts(\App\Request $request)
 	{
 		$headerScriptInstances = [
-			'libraries.jquery.jquery',
-			'libraries.jquery.jquery-migrate'
+			'libraries.js.jquery',
+			'libraries.js.jquery-migrate'
 		];
 		return $this->checkAndConvertJsScripts($headerScriptInstances);
 	}
@@ -417,29 +417,29 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	public function getFooterScripts(\App\Request $request)
 	{
 		$jsFileNames = [
-			'~libraries/jquery/jquery.blockUI.js',
-			'~libraries/jquery/chosen/chosen.jquery.js',
-			'~libraries/jquery/select2/select2.full.js',
-			'~libraries/jquery/jquery-ui/jquery-ui.js',
-			'~libraries/jquery/jquery.class.js',
-			'~libraries/jquery/jstorage.js',
-			'~libraries/jquery/perfect-scrollbar/js/perfect-scrollbar.jquery.js',
-			'~libraries/jquery/rochal-jQuery-slimScroll/jquery.slimscroll.js',
+			'~libraries/js/jquery.blockUI.js',
+			'~libraries/js/chosen/chosen.jquery.js',
+			'~libraries/js/select2/select2.full.js',
+			'~libraries/js/jquery-ui/jquery-ui.js',
+			'~libraries/js/jquery.class.js',
+			'~libraries/js/jstorage.js',
+			'~libraries/js/perfect-scrollbar/js/perfect-scrollbar.jquery.js',
+			'~libraries/js/rochal-jQuery-slimScroll/jquery.slimscroll.js',
 			'~libraries/simplebar/dist/simplebar.js',
-			'~libraries/jquery/pnotify/pnotify.custom.js',
-			'~libraries/jquery/jquery.hoverIntent.minified.js',
+			'~libraries/js/pnotify/pnotify.custom.js',
+			'~libraries/js/jquery.hoverIntent.minified.js',
 			'~libraries/bootstrap3/js/bootstrap.js',
 			'~libraries/bootstrap3/js/bootstrap-switch.js',
 			'~libraries/bootstrap3/js/bootbox.js',
-			'~libraries/jquery/selectize/js/selectize.js',
-			'~libraries/jquery/posabsolute-jQuery-Validation-Engine/js/jquery.validationEngine.js',
-			'~libraries/jquery/moment.js',
-			'~libraries/jquery/datepicker/js/bootstrap-datepicker.js',
-			'~libraries/jquery/datepicker/locales/' . \App\Language::getLanguage() . '.min.js',
-			'~libraries/jquery/daterangepicker/daterangepicker.js',
-			'~libraries/jquery/jquery.ba-outside-events.js',
-			'~libraries/jquery/jquery.placeholder.js',
-			'~libraries/jquery/dompurify/purify.js',
+			'~libraries/js/selectize/js/selectize.js',
+			'~libraries/js/posabsolute-jQuery-Validation-Engine/js/jquery.validationEngine.js',
+			'~libraries/js/moment.js',
+			'~libraries/js/datepicker/js/bootstrap-datepicker.js',
+			'~libraries/js/datepicker/locales/' . \App\Language::getLanguage() . '.min.js',
+			'~libraries/js/daterangepicker/daterangepicker.js',
+			'~libraries/js/jquery.ba-outside-events.js',
+			'~libraries/js/jquery.placeholder.js',
+			'~libraries/js/dompurify/purify.js',
 			'~libraries/footable/js/footable.js',
 			'~layouts/resources/jquery.additions.js',
 			'~layouts/resources/app.js',
@@ -448,9 +448,9 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~layouts/resources/ProgressIndicator.js',
 		];
 		$languageHandlerShortName = \App\Language::getShortLanguageName();
-		$fileName = "~libraries/jquery/posabsolute-jQuery-Validation-Engine/js/languages/jquery.validationEngine-$languageHandlerShortName.js";
+		$fileName = "~libraries/js/posabsolute-jQuery-Validation-Engine/js/languages/jquery.validationEngine-$languageHandlerShortName.js";
 		if (!file_exists(Vtiger_Loader::resolveNameToPath($fileName, 'js'))) {
-			$fileName = "~libraries/jquery/posabsolute-jQuery-Validation-Engine/js/languages/jquery.validationEngine-en.js";
+			$fileName = "~libraries/js/posabsolute-jQuery-Validation-Engine/js/languages/jquery.validationEngine-en.js";
 		}
 		$jsFileNames[] = $fileName;
 		return $this->checkAndConvertJsScripts($jsFileNames);

@@ -237,11 +237,11 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 
 		$jsFileNames = [
 			'modules.Vtiger.resources.Vtiger',
-			'libraries.jquery.ckeditor.ckeditor',
-			'libraries.jquery.ckeditor.adapters.jquery',
-			'libraries.jquery.jstree.jstree',
-			'~libraries/jquery/datatables/media/js/jquery.dataTables.js',
-			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.js',
+			'libraries.js.ckeditor.ckeditor',
+			'libraries.js.ckeditor.adapters.jquery',
+			'libraries.js.jstree.jstree',
+			'~libraries/js/datatables/media/js/jquery.dataTables.js',
+			'~libraries/js/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.js',
 			'modules.Vtiger.resources.CkEditor',
 			'modules.Settings.Vtiger.resources.Vtiger',
 			'modules.Settings.Vtiger.resources.Edit',
@@ -261,9 +261,9 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [
-			'libraries.jquery.jstree.themes.proton.style',
-			'~libraries/jquery/datatables/media/css/jquery.dataTables_themeroller.css',
-			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.css',
+			'libraries.js.jstree.themes.proton.style',
+			'~libraries/js/datatables/media/css/jquery.dataTables_themeroller.css',
+			'~libraries/js/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.css',
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		return array_merge($cssInstances, $headerCssInstances);

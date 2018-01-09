@@ -31,7 +31,7 @@ class Home_DashBoard_View extends Vtiger_DashBoard_View
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = [
-			'~libraries/jquery/boxslider/jqueryBxslider.js'
+			'~libraries/js/boxslider/jqueryBxslider.js'
 		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

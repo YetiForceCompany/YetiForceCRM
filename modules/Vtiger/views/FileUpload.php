@@ -61,7 +61,7 @@ class Vtiger_FileUpload_View extends Vtiger_BasicModal_View
 	{
 		$headerScriptInstances = parent::getModalScripts($request);
 		$scripts = [
-			'libraries.jquery.multiplefileupload.jquery_MultiFile'
+			'libraries.js.multiplefileupload.jquery_MultiFile'
 		];
 		$scriptInstances = $this->checkAndConvertJsScripts($scripts);
 		return array_merge($scriptInstances, $headerScriptInstances);

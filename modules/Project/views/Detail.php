@@ -57,7 +57,7 @@ class Project_Detail_View extends Vtiger_Detail_View
 	{
 		$cssFileNames = [
 			'~libraries/gantt/skins/dhtmlxgantt_broadway.css',
-			'~libraries/jquery/flot/jquery.flot.valuelabels.css',
+			'~libraries/js/flot/jquery.flot.valuelabels.css',
 		];
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($cssFileNames));
 	}

@@ -50,7 +50,7 @@ class Settings_CustomView_Index_View extends Settings_Vtiger_Index_View
 	public function getFooterScripts(\App\Request $request)
 	{
 		$jsFileNames = [
-			'~libraries/jquery/colorpicker/js/colorpicker.js',
+			'~libraries/js/colorpicker/js/colorpicker.js',
 			'modules.CustomView.resources.CustomView'
 		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -66,7 +66,7 @@ class Settings_CustomView_Index_View extends Settings_Vtiger_Index_View
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [
-			'~libraries/jquery/colorpicker/css/colorpicker.css'
+			'~libraries/js/colorpicker/css/colorpicker.css'
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		return array_merge($headerCssInstances, $cssInstances);

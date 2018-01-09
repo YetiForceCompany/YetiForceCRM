@@ -61,7 +61,7 @@ class Vtiger_ListPreview_View extends Vtiger_List_View
 	public function getHeaderCss(\App\Request $request)
 	{
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
-				'~libraries/jquery/splitjs/split.css'
+				'~libraries/js/splitjs/split.css'
 		]));
 	}
 }
