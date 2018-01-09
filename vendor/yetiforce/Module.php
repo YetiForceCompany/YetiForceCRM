@@ -15,7 +15,7 @@ class Module
 
 	/**
 	 * Cache for tabdata.php
-	 * @var array 
+	 * @var array
 	 */
 	protected static $tabdataCache;
 
@@ -87,10 +87,7 @@ class Module
 		if (isset(static::$isModuleActiveCache[$moduleName])) {
 			return static::$isModuleActiveCache[$moduleName];
 		}
-		$moduleAlwaysActive = ['Administration', 'CustomView', 'Settings', 'Users', 'Migration',
-			'Utilities', 'uploads', 'Import', 'System', 'com_vtiger_workflow', 'PickList'
-		];
-		if (in_array($moduleName, $moduleAlwaysActive)) {
+		if (in_array($moduleName, ['CustomView', 'Users', 'Import', 'com_vtiger_workflow', 'PickList'])) {
 			static::$isModuleActiveCache[$moduleName] = true;
 			return true;
 		}
@@ -208,7 +205,7 @@ class Module
 	}
 
 	/**
-	 * Function to create file about modules 
+	 * Function to create file about modules
 	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public static function createModuleMetaFile()
@@ -260,4 +257,5 @@ class Module
 		static::init();
 	}
 }
+
 Module::init();
