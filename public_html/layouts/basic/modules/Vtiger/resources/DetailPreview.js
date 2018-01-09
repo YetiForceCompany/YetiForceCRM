@@ -43,8 +43,7 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 	 */
 	registerSizeEvent: function () {
 		var thisInstance = this;
-		var wrapper = $('.mainContainer ');
-		new ResizeSensor(wrapper, function () {
+		new ResizeSensor($('.mainContainer'), function () {
 			thisInstance.updateParentFrame();
 		});
 	},
