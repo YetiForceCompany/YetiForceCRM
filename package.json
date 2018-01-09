@@ -1,0 +1,23 @@
+{
+	"name": "yetiforcecrm",
+	"version": "4.3.39",
+	"description": "The most affordable CRM system",
+	"main": "app.js",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/YetiForceCompany/YetiForceCRM.git"
+	},
+	"author": "YetiForceCompany",
+	"license": "YetiForce Public License v3",
+	"dependencies": {
+		"fullcalendar": "3.8.0",
+		"jquery": "2.2.4",
+		"moment": "2.18.1"
+	},
+	"resolutions": {},
+	"bugs": {
+		"url": "https://github.com/YetiForceCompany/YetiForceCRM/issues"
+	},
+	"homepage": "https://github.com/YetiForceCompany/YetiForceCRM#readme",
+	"devDependencies": {}
+}
