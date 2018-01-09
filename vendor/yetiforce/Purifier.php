@@ -330,8 +330,11 @@ class Purifier
 						$value = $input;
 					}
 					break;
-				case 'Text': // 
+				case 'Text': //
 					$value = is_numeric($input) || (is_string($input) && $input === strip_tags($input)) ? $input : false;
+					break;
+				case 'Color': // colors
+					$value = preg_match('/^(#[0-9a-fA-F]{6})$/', $input) ? $input : false;
 					break;
 				default:
 					$value = Purifier::purify($value);
