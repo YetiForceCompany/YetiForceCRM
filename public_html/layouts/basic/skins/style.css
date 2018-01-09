@@ -1368,8 +1368,7 @@ td.fieldValue .input-group {
 .LineItemDirectPriceReduction {
 	width: 65% !important;
 }
-th.htColHeader,
-.handsontable thead th {
+th.htColHeader {
 	background-color: #f5f5f5;
 	background-image: -moz-linear-gradient(top, #f6f6f6, #f3f3f4);
 	background-image: -ms-linear-gradient(top, #f6f6f6, #f3f3f4);
