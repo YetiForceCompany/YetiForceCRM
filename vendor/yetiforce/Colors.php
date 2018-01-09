@@ -115,16 +115,6 @@ class Colors
 	}
 
 	/**
-	 * Validates format color
-	 * @param string $value
-	 * @return boolean
-	 */
-	public static function checkFormatValue($value)
-	{
-		return preg_match('/^(#[0-9a-fA-F]{6})$/', $value);
-	}
-
-	/**
 	 * Sanitize value for use in css class name
 	 * @param string $value
 	 */
