@@ -193,7 +193,7 @@ class SMSNotifier extends Vtiger_CRMEntity
 			\vtlib\Deprecated::checkFileAccessForInclusion("modules/$related_module/$related_module.php");
 			require_once("modules/$related_module/$related_module.php");
 			$other = new $related_module();
-			\VtlibUtils::vtlib_setup_modulevars($related_module, $other);
+			\VtlibUtils::vtlibSetupModulevars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";
 		}

@@ -21,7 +21,7 @@ class VtlibUtils
 	 * @param boolen $force
 	 * @return array
 	 */
-	public static function vtlib_prefetchModuleActiveInfo($force = true)
+	public static function vtlibPrefetchModuleActiveInfo($force = true)
 	{
 		// Look up if cache has information
 		$tabrows = VTCacheUtils::lookupAllTabsInfo();
@@ -48,13 +48,13 @@ class VtlibUtils
 	 * @param string $module
 	 * @param  $focus
 	 */
-	public static function vtlib_setup_modulevars($module, $focus)
+	public static function vtlibSetupModulevars($module, $focus)
 	{
 
 		$checkfor = ['table_name', 'table_index', 'related_tables', 'popup_fields', 'IsCustomModule'];
 		foreach ($checkfor as $check) {
 			if (!isset($focus->$check)) {
-				$focus->$check = static::__vtlib_get_modulevar_value($module, $check);
+				$focus->$check = static::__vtlibGetModulevarValue($module, $check);
 			}
 		}
 	}
@@ -65,7 +65,7 @@ class VtlibUtils
 	 * @param array $varname
 	 * @return array
 	 */
-	public static function __vtlib_get_modulevar_value($module, $varname)
+	public static function __vtlibGetModulevarValue($module, $varname)
 	{
 		$mod_var_mapping = [
 			'Accounts' =>
