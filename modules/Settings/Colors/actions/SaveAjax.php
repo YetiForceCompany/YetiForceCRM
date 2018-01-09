@@ -40,7 +40,7 @@ class Settings_Colors_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function updateUserColor(\App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
-		if ($request->has('color')) {
+		if (!$request->has('color')) {
 			$color = \App\Colors::getRandomColor();
 		} else {
 			$color = $request->getByType('color', 'Color');
