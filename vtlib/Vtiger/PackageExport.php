@@ -347,7 +347,7 @@ class PackageExport
 			$focus = \CRMEntity::getInstance($modulename);
 
 			// Setup required module variables which is need for vtlib API's
-			\VtlibUtils::vtlib_setup_modulevars($modulename, $focus);
+			\VtlibUtils::vtlibSetupModulevars($modulename, $focus);
 			$tables = $focus->tab_name;
 			if (($key = array_search('vtiger_crmentity', $tables)) !== false) {
 				unset($tables[$key]);
