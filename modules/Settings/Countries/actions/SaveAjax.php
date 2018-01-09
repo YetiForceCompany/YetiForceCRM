@@ -31,11 +31,8 @@ class Settings_Countries_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function updateAllStatuses(\App\Request $request)
 	{
-		$qualifiedModuleName = $request->getModule(false);
 		$status = (int) $request->getBoolean('status');
-
-		$moduleModel = Settings_Countries_Module_Model::getInstance($qualifiedModuleName);
-
+		$moduleModel = Settings_Countries_Module_Model::getInstance($request->getModule(false));
 		$response = new Vtiger_Response();
 		$result = $moduleModel->updateAllStatuses($status);
 		$response->setResult($result > 0);
@@ -48,13 +45,9 @@ class Settings_Countries_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function updateSequence(\App\Request $request)
 	{
-		$qualifiedModuleName = $request->getModule(false);
-		$sequencesList = $request->getArray('sequencesList', 'Integer');
-
-		$moduleModel = Settings_Countries_Module_Model::getInstance($qualifiedModuleName);
-
+		$moduleModel = Settings_Countries_Module_Model::getInstance($request->getModule(false));
 		$response = new Vtiger_Response();
-		if ($sequencesList) {
+		if ($sequencesList = $request->getArray('sequencesList', 'Integer')) {
 			$moduleModel->updateSequence($sequencesList);
 			$response->setResult([true]);
 		} else {
@@ -70,14 +63,10 @@ class Settings_Countries_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function updateStatus(\App\Request $request)
 	{
-		$qualifiedModuleName = $request->getModule(false);
-		$id = $request->getInteger('id');
 		$status = (int) $request->getBoolean('status');
-
-		$moduleModel = Settings_Countries_Module_Model::getInstance($qualifiedModuleName);
-
+		$moduleModel = Settings_Countries_Module_Model::getInstance($request->getModule(false));
 		$response = new Vtiger_Response();
-		$result = $moduleModel->updateStatus($id, $status);
+		$result = $moduleModel->updateStatus($request->getInteger('id'), $status);
 		$response->setResult($result > 0);
 		$response->emit();
 	}
@@ -88,14 +77,10 @@ class Settings_Countries_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function updatePhone(\App\Request $request)
 	{
-		$qualifiedModuleName = $request->getModule(false);
-		$id = $request->getInteger('id');
 		$phone = (int) $request->getBoolean('phone');
-
-		$moduleModel = Settings_Countries_Module_Model::getInstance($qualifiedModuleName);
-
+		$moduleModel = Settings_Countries_Module_Model::getInstance($request->getModule(false));
 		$response = new Vtiger_Response();
-		$result = $moduleModel->updatePhone($id, $phone);
+		$result = $moduleModel->updatePhone($request->getInteger('id'), $phone);
 		$response->setResult($result > 0);
 		$response->emit();
 	}

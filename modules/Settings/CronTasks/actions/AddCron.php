@@ -14,9 +14,8 @@ class Settings_CronTasks_AddCron_Action extends Settings_Vtiger_Index_Action
 	public function process(\App\Request $request)
 	{
 		vtlib\Cron::register(
-			$request->get('cron_name'), $request->get('path'), $this->calculateFrequency($request->get('frequency_value'), $request->get('time_format')), $request->get('cron_module'), $request->get('status'), $this->getSquence(), $request->get('description')
+			$request->getByType('cron_name', 'Text'), $request->getByType('path', 'Text'), $this->calculateFrequency($request->getInteger('frequency_value'), $request->getByType('time_format')), $request->getByType('cron_module', 2), $request->getInteger('status'), $this->getSquence(), $request->getByType('description', 'Text')
 		);
-
 		header('Location: index.php?module=CronTasks&parent=Settings&view=List');
 	}
 

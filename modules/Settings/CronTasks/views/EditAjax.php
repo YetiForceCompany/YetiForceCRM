@@ -13,7 +13,7 @@ class Settings_CronTasks_EditAjax_View extends Settings_Vtiger_IndexAjax_View
 
 	public function process(\App\Request $request)
 	{
-		$recordId = $request->get('record');
+		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 

@@ -11,7 +11,7 @@ class Settings_CurrencyUpdate_SaveActiveBank_Action extends Settings_Vtiger_Basi
 
 	public function process(\App\Request $request)
 	{
-		$id = $request->get('id');
+		$id = $request->getInteger('id');
 		$qualifiedModule = $request->getModule(false);
 		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
 

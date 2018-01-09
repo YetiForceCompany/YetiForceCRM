@@ -13,19 +13,14 @@ class Settings_CronTasks_UpdateSequence_Action extends Settings_Vtiger_Index_Act
 
 	public function process(\App\Request $request)
 	{
-		$qualifiedModuleName = $request->getModule(false);
-		$sequencesList = $request->get('sequencesList');
-
-		$moduleModel = Settings_CronTasks_Module_Model::getInstance($qualifiedModuleName);
-
+		$moduleModel = Settings_CronTasks_Module_Model::getInstance($request->getModule(false));
 		$response = new Vtiger_Response();
-		if ($sequencesList) {
+		if ($sequencesList = $request->getArray('sequencesList', 'Integer')) {
 			$moduleModel->updateSequence($sequencesList);
 			$response->setResult([true]);
 		} else {
 			$response->setError();
 		}
-
 		$response->emit();
 	}
 }

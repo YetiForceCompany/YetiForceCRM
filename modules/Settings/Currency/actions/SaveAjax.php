@@ -18,16 +18,16 @@ class Settings_Currency_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	{
 		if ($request->isEmpty('record')) {
 			//get instance from currency name, Aleady deleted and adding again same currency case
-			$recordModel = Settings_Currency_Record_Model::getInstance($request->get('currency_name'));
+			$recordModel = Settings_Currency_Record_Model::getInstance($request->getByType('currency_name', 'Text'));
 			if (empty($recordModel)) {
 				$recordModel = new Settings_Currency_Record_Model();
 			}
 		} else {
 			$recordModel = Settings_Currency_Record_Model::getInstance($request->getInteger('record'));
 		}
-		$recordModel->set('currency_name', $request->get('currency_name'));
+		$recordModel->set('currency_name', $request->getByType('currency_name', 'Text'));
 		$recordModel->set('currency_status', $request->getByType('currency_status'));
-		$recordModel->set('currency_symbol', $request->get('currency_symbol'));
+		$recordModel->set('currency_symbol', $request->getByType('currency_symbol', 'Text'));
 		$recordModel->set('currency_code', $request->getByType('currency_code'));
 		$recordModel->set('conversion_rate', $request->getByType('conversion_rate', 'NumberInUserFormat'));
 		//To make sure we are saving record as non deleted. This is useful if we are adding deleted currency
