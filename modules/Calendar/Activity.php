@@ -381,6 +381,7 @@ class Activity extends CRMEntity
 					break;
 				}
 			}
+			$dataReader->close();
 		}
 		foreach ($results as $row) {
 			App\Db::getInstance()->createCommand()
