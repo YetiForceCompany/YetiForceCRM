@@ -6,18 +6,34 @@
   "flags": [],
   "linkedModules": [],
   "topLevelPatterns": [
+    "css-element-queries@^1.0.1",
     "font-awesome@>=4.7.0",
     "fullcalendar@3.8.0",
-    "jquery@2.2.4",
-    "moment@>=2.18.1"
+    "jquery@<3.0.0",
+    "moment@>=2.18.1",
+    "select2-bootstrap-theme@^0.1.0-beta.10",
+    "select2@^4.0.6-rc.1",
+    "simplebar@^2.5.1",
+    "split.js@^1.3.5"
   ],
   "lockfileEntries": {
+    "almond@~0.3.1": "https://registry.yarnpkg.com/almond/-/almond-0.3.3.tgz#a0e7c95ac7624d6417b4494b1e68bff693168a20",
+    "css-element-queries@^1.0.1": "https://registry.yarnpkg.com/css-element-queries/-/css-element-queries-1.0.1.tgz#dd14970dd66a7634ec59028fee3820f2a7eff8a8",
     "font-awesome@>=4.7.0": "https://registry.yarnpkg.com/font-awesome/-/font-awesome-4.7.0.tgz#8fa8cf0411a1a31afd07b06d2902bb9fc815a133",
     "fullcalendar@3.8.0": "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-3.8.0.tgz#4c0fe494a62b0a8d640c6de8eb883b49a212b5dc",
+    "jquery-mousewheel@~3.1.13": "https://registry.yarnpkg.com/jquery-mousewheel/-/jquery-mousewheel-3.1.13.tgz#06f0335f16e353a695e7206bf50503cb523a6ee5",
     "jquery@2 - 3": "https://registry.yarnpkg.com/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787",
-    "jquery@2.2.4": "https://registry.yarnpkg.com/jquery/-/jquery-2.2.4.tgz#2c89d6889b5eac522a7eea32c14521559c6cbf02",
+    "jquery@<3.0.0": "https://registry.yarnpkg.com/jquery/-/jquery-2.2.4.tgz#2c89d6889b5eac522a7eea32c14521559c6cbf02",
+    "lodash.debounce@^4.0.8": "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af",
     "moment@>=2.18.1": "https://registry.yarnpkg.com/moment/-/moment-2.20.1.tgz#d6eb1a46cbcc14a2b2f9434112c1ff8907f313fd",
-    "moment@^2.9.0": "https://registry.yarnpkg.com/moment/-/moment-2.20.1.tgz#d6eb1a46cbcc14a2b2f9434112c1ff8907f313fd"
+    "moment@^2.9.0": "https://registry.yarnpkg.com/moment/-/moment-2.20.1.tgz#d6eb1a46cbcc14a2b2f9434112c1ff8907f313fd",
+    "object-assign@^4.1.1": "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863",
+    "resize-observer-polyfill@^1.4.2": "https://registry.yarnpkg.com/resize-observer-polyfill/-/resize-observer-polyfill-1.5.0.tgz#660ff1d9712a2382baa2cad450a4716209f9ca69",
+    "scrollbarwidth@^0.1.3": "https://registry.yarnpkg.com/scrollbarwidth/-/scrollbarwidth-0.1.3.tgz#1b0de64e288c38c427f4a01fe00a462a04b94fdf",
+    "select2-bootstrap-theme@^0.1.0-beta.10": "https://registry.yarnpkg.com/select2-bootstrap-theme/-/select2-bootstrap-theme-0.1.0-beta.10.tgz#b9426ecfc03bf4a235e76a132377574310469ac0",
+    "select2@^4.0.6-rc.1": "https://registry.yarnpkg.com/select2/-/select2-4.0.6-rc.1.tgz#aa6c3038a7f0f2e91ffade38f0a21c15e1813276",
+    "simplebar@^2.5.1": "https://registry.yarnpkg.com/simplebar/-/simplebar-2.5.1.tgz#a59e5aa283afe1f2a89b48ebc052613e1e456fef",
+    "split.js@^1.3.5": "https://registry.yarnpkg.com/split.js/-/split.js-1.3.5.tgz#62e2ce66d2cf91cc774aa5f0749ff25138039f50"
   },
   "files": [],
   "artifacts": {}
