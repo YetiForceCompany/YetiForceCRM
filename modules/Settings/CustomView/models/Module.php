@@ -23,6 +23,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 		while ($row = $dataReader->read()) {
 			$moduleEntity[$row['cvid']] = $row;
 		}
+		$dataReader->close();
 		return $moduleEntity;
 	}
 
@@ -46,6 +47,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 			$members = explode(':', $user);
 			$users[$members[0]][] = $user;
 		}
+		$dataReader->close();
 		return $users;
 	}
 
@@ -98,7 +100,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 		if (is_numeric($cvId)) {
 			$db->createCommand()->delete('vtiger_customview', ['cvid' => $cvId])->execute();
 			$db->createCommand()->delete('vtiger_user_module_preferences', ['default_cvid' => $cvId])->execute();
-			// To Delete the mini list widget associated with the filter 
+			// To Delete the mini list widget associated with the filter
 			$db->createCommand()->delete('vtiger_module_dashboard_widgets', ['filterid' => $cvId])->execute();
 		}
 	}
@@ -168,6 +170,7 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 		while ($row = $dataReader->read()) {
 			$modulesList[$row['tabid']] = $row['entitytype'];
 		}
+		$dataReader->close();
 		return $modulesList;
 	}
 

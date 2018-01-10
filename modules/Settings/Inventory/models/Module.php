@@ -45,6 +45,7 @@ class Settings_Inventory_Module_Model extends \App\Base
 		while ($row = $dataReader->read()) {
 			$output[$row['param']] = $row['value'];
 		}
+		$dataReader->close();
 		\App\Log::trace('End ' . __METHOD__);
 		return $output;
 	}

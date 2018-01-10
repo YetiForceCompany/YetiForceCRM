@@ -539,6 +539,7 @@ class ServiceContracts extends CRMEntity
 					->update($row['tablename'], [$row['columnname'] => null], [$row['columnname'] => $returnId, CRMEntity::getInstance(App\Module::getModuleName($row['tabid']))->table_index => $id])
 					->execute();
 			}
+			$dataReader->close();
 		}
 	}
 

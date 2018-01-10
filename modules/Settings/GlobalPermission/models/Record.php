@@ -38,6 +38,7 @@ class Settings_GlobalPermission_Record_Model extends Settings_Vtiger_Record_Mode
 			$globalPermissions[$profileid]['profilename'] = $profilename;
 			$globalPermissions[$profileid]['description'] = $description;
 		}
+		$dataReader->close();
 		return $globalPermissions;
 	}
 

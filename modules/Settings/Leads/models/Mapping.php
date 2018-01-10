@@ -93,7 +93,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 			while ($row = $dataReader->read()) {
 				$mapping[$row['cfmid']] = $row;
 			}
-
+			$dataReader->close();
 			$finalMapping = $fieldIdsList = [];
 			foreach ($mapping as $mappingDetails) {
 				array_push($fieldIdsList, $mappingDetails['leadfid'], $mappingDetails['accountfid']);
@@ -142,6 +142,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 			}
 			$fieldLabelsList[$rowData['fieldid']] = $fieldInfo;
 		}
+		$dataReader->close();
 		return $fieldLabelsList;
 	}
 
@@ -217,6 +218,7 @@ class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 				$restrictedIdsList[] = $accountfId;
 			}
 		}
+		$dataReader->close();
 		return $restrictedIdsList;
 	}
 

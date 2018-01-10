@@ -61,7 +61,7 @@ class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 			$bankTab[$i]['active'] = $row['active'];
 			$i++;
 		}
-
+		$dataReader->close();
 		// number of currencies
 		$curr_num = $moduleModel->getCurrencyNum();
 		// get info about main currency

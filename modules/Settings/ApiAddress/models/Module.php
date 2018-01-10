@@ -20,6 +20,7 @@ class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model
 		while ($row = $dataReader->read()) {
 			$rawData[$row['type']][$row['name']] = $row['val'];
 		}
+		$dataReader->close();
 		return $rawData;
 	}
 
