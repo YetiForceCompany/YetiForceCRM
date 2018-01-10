@@ -138,6 +138,7 @@ class Calendar_Calendar_Model extends App\Base
 				$ids[] = $record['linkextend'];
 			}
 		}
+		$dataReader->close();
 		$labels = \App\Record::getLabel($ids);
 
 		foreach ($records as &$record) {
@@ -284,6 +285,7 @@ class Calendar_Calendar_Model extends App\Base
 				}
 			}
 		}
+		$dataReader->close();
 		return array_values($return);
 	}
 

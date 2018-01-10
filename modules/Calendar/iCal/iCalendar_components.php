@@ -540,6 +540,7 @@ class IcalendarEvent extends IcalendarComponent
 				$this->addProperty('ATTENDEE', 'mailto:' . $row['email'], ['CN' => vtlib\Functions::getCRMRecordLabel($row['crmid'])]);
 			}
 		}
+		$dataReader->close();
 		return true;
 	}
 
