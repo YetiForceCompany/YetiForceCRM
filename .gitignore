@@ -17,7 +17,10 @@
 /layouts/basic/modules/Settings/TestData
 /public_html/modules/OSSMail/roundcube/
 /public_html/libraries/gantt/
+/public_html/libraries/jquery/
 /public_html/libraries/font-awesome/
+/public_html/libraries/moment/
+/public_html/libraries/fullcalendar/
 /libraries/PHPExcel/
 /libraries/mPDF/
 /vendor/*/

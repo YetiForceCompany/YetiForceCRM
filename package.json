@@ -1,18 +1,18 @@
 {
-	"name": "yetiforcecrm",
-	"version": "4.3.39",
-	"description": "The most affordable CRM system",
-	"main": "app.js",
+	"name": "YetiForceCRM",
+	"keywords": ["YetiForceCRM", "CRM", "open source crm", "best crm", "YetiForce", "ERP", "PHP", "Customer Relation Management", "System CRM"],
+	"description": "An open and innovative CRM system. Our team created for you one of the most innovative CRM systems that supports mainly business processes and allows for customization according to your needs. Be ahead of your competition and implement YetiForce!",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/YetiForceCompany/YetiForceCRM.git"
 	},
-	"author": "YetiForceCompany",
+	"author": "YetiForceCompany <info@yetiforce.com> (https://yetiforce.com)",
 	"license": "YetiForce Public License v3",
 	"dependencies": {
-		"fullcalendar": "3.8.0",
 		"jquery": "2.2.4",
-		"moment": "2.18.1"
+		"font-awesome": ">=4.7.0",
+		"moment": ">=2.18.1",
+		"fullcalendar": "3.8.0"
 	},
 	"resolutions": {},
 	"bugs": {

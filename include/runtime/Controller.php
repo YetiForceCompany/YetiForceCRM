@@ -403,7 +403,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	public function getHeaderScripts(\App\Request $request)
 	{
 		$headerScriptInstances = [
-			'libraries.js.jquery',
+			'libraries.jquery.dist.jquery',
 			'libraries.js.jquery-migrate'
 		];
 		return $this->checkAndConvertJsScripts($headerScriptInstances);
@@ -433,7 +433,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/bootstrap3/js/bootbox.js',
 			'~libraries/js/selectize/js/selectize.js',
 			'~libraries/js/posabsolute-jQuery-Validation-Engine/js/jquery.validationEngine.js',
-			'~libraries/js/moment.js',
+			'~libraries/moment/min/moment.min.js',
 			'~libraries/js/datepicker/js/bootstrap-datepicker.js',
 			'~libraries/js/datepicker/locales/' . \App\Language::getLanguage() . '.min.js',
 			'~libraries/js/daterangepicker/daterangepicker.js',
