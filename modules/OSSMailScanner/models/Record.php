@@ -155,6 +155,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				$return[$row['conf_type']][$row['parameter']] = $row['value'];
 			}
 		}
+		$dataReader->close();
 		return $return;
 	}
 
@@ -377,6 +378,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				'fieldname' => $row['fieldname']
 			];
 		}
+		$dataReader->close();
 		return $return;
 	}
 
@@ -548,6 +550,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				'info' => $row['info'],
 			];
 		}
+		$dataReader->close();
 		return $output;
 	}
 

@@ -36,6 +36,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			$row['actions'] = empty($row['actions']) ? [] : explode(',', $row['actions']);
 			$users[] = $row;
 		}
+		$dataReader->close();
 		return $users;
 	}
 

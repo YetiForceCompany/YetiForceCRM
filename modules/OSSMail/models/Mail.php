@@ -284,6 +284,7 @@ class OSSMail_Mail_Model extends \App\Base
 								while (($crmid = $dataReader->readColumn(0)) !== false) {
 									$ids[] = $crmid;
 								}
+								$dataReader->close();
 								$return = array_merge($return, $ids);
 							}
 							if (empty($ids)) {
@@ -340,6 +341,6 @@ class OSSMail_Mail_Model extends \App\Base
 	 */
 	public function postProcess()
 	{
-		
+
 	}
 }
