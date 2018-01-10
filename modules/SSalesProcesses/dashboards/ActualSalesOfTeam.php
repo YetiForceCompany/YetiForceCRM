@@ -56,6 +56,7 @@ class SSalesProcesses_ActualSalesOfTeam_Dashboard extends SSalesProcesses_TeamsE
 				$listView . $this->getSearchParams($row, $time)
 			];
 		}
+		$dataReader->close();
 		return $data;
 	}
 }

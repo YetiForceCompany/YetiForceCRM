@@ -44,6 +44,7 @@ class Rss_Module_Model extends Vtiger_Module_Model
 			$row['id'] = $row['rssid'];
 			$records[$row['id']] = $this->getRecordFromArray($row);
 		}
+		$dataReader->close();
 		return $records;
 	}
 }

@@ -45,3 +45,4 @@ while ($row = $dataReader->read()) {
 		}
 	}
 }
+$dataReader->close();

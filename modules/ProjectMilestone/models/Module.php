@@ -44,6 +44,7 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 			$recordProgress = ($row['estimated_work_time'] * (int) $row['projecttaskprogress']) / 100;
 			$progressInHours += $recordProgress;
 		}
+		$dataReader->close();
 		if (!$estimatedWorkTime) {
 			return;
 		}

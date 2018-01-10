@@ -32,6 +32,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 		while ($row = $dataReader->read()) {
 			$listpriceValues[$row['currencyid']] = CurrencyField::convertToUserFormat($row['actual_price'], null, true);
 		}
+		$dataReader->close();
 		return $listpriceValues;
 	}
 
@@ -121,6 +122,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 				//urlencode - added to handle special characters like #, %, etc.,
 				$imageNamesList[] = $imageName;
 			}
+			$dataReader->close();
 
 			if (is_array($imageOriginalNamesList)) {
 				$countOfImages = count($imageOriginalNamesList);
@@ -302,6 +304,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 				$priceDetails[$i]['is_basecurrency'] = $isBaseCurrency;
 				$i++;
 			}
+			$dataReader->close();
 		} else {
 			if ($available === 'available') { // Create View
 				$userCurrencyId = \App\User::getCurrentUserModel()->getDetail('currency_id');
@@ -335,6 +338,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 					$priceDetails[$i]['is_basecurrency'] = $isBaseCurrency;
 					$i++;
 				}
+				$dataReader->close();
 			} else {
 				\App\Log::trace('Product id is empty. we cannot retrieve the associated prices.');
 			}
@@ -479,6 +483,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 		while ($imageName = $dataReader->readColumn(0)) {
 			$productImageMap [] = App\Purifier::decodeHtml($imageName);
 		}
+		$dataReader->close();
 		$db->createCommand()->update('vtiger_products', ['imagename' => implode(",", $productImageMap)], ['productid' => $id])
 			->execute();
 		//Remove the deleted vtiger_attachments from db - Products
