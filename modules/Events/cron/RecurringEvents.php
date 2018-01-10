@@ -23,5 +23,6 @@ while ($row = $dataReader->read()) {
 		$recurringEvents->updateNeverEndingEvents($row['followup']);
 	}
 }
+$dataReader->close();
 
 

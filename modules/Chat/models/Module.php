@@ -29,11 +29,12 @@ class Chat_Module_Model extends Vtiger_Module_Model
 			$row['time'] = \App\Fields\DateTime::formatToViewDate($row['created']);
 			$rows[] = $row;
 		}
+		$dataReader->close();
 		return $rows;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param string $message
 	 */
 	public static function add($message)

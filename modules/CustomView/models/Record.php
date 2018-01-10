@@ -706,6 +706,7 @@ class CustomView_Record_Model extends \App\Base
 			}
 			$i++;
 		}
+		$dataReader->close();
 		// Clear the condition (and/or) for last group, if any.
 		if (!empty($advFtCriteria[$i - 1]['condition']))
 			$advFtCriteria[$i - 1]['condition'] = '';
@@ -847,6 +848,7 @@ class CustomView_Record_Model extends \App\Base
 			}
 			$customViews[$row['cvid']] = $customView->setData($row)->setModule($row['entitytype']);
 		}
+		$dataReader->close();
 
 		$filterDir = 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'filters';
 		if ($moduleName && file_exists($filterDir)) {
