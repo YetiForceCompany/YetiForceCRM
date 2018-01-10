@@ -172,8 +172,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		$headerCss = [
 			'~libraries/js/gridster/jquery.gridster.css',
 			'~libraries/js/jqplot/jquery.jqplot.css',
-			'~libraries/fullcalendar/dist/fullcalendar.css',
-			'~libraries/fullcalendar/dist/fullcalendarCRM.css'
+			'~libraries/fullcalendar/dist/fullcalendar.css'
 		];
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($headerCss));
 	}

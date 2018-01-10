@@ -58,8 +58,7 @@ class Reservations_Calendar_View extends Vtiger_Index_View
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [
-			'~libraries/fullcalendar/dist/fullcalendar.min.css',
-			'~libraries/fullcalendar/dist/fullcalendarCRM.css',
+			'~libraries/fullcalendar/dist/fullcalendar.min.css'
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
