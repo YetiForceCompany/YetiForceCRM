@@ -98,6 +98,7 @@ class Reservations_Calendar_Model extends \App\Base
 			$item['className'] = ' ownerCBg_' . $record['smownerid'];
 			$result[] = $item;
 		}
+		$dataReader->close();
 		return $result;
 	}
 

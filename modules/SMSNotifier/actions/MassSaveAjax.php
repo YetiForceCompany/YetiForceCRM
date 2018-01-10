@@ -55,6 +55,7 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 				$recordIds[] = $row['id'];
 			}
 		}
+		$dataReader->close();
 		$toNumbers = array_unique($toNumbers);
 		$response = new Vtiger_Response();
 		if (!empty($toNumbers)) {
@@ -67,7 +68,7 @@ class SMSNotifier_MassSaveAjax_Action extends Vtiger_Mass_Action
 	}
 
 	/**
-	 * Function gets query of records list 
+	 * Function gets query of records list
 	 * @param \App\Request $request
 	 * @return \App\QueryGenerator
 	 */

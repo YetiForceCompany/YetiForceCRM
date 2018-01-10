@@ -298,6 +298,7 @@ class Reports_ScheduleReports_Model extends \App\Base
 		while ($recordId = $dataReader->readColumn(0)) {
 			$scheduledReports[] = self::getInstanceById($recordId);
 		}
+		$dataReader->close();
 		return $scheduledReports;
 	}
 

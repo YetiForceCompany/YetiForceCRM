@@ -127,6 +127,7 @@ class Vtiger_DependencyPicklist
 				'targetvalues' => \App\Json::decode(html_entity_decode($row['targetvalues']))
 			];
 		}
+		$dataReader->close();
 		$dependencyMap['valuemapping'] = $valueMapping;
 		return $dependencyMap;
 	}

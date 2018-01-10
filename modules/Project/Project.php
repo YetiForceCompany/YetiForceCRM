@@ -361,6 +361,7 @@ class Project extends CRMEntity
 					->update($row['tablename'], [$row['columnname'] => null], [$row['columnname'] => $returnId, CRMEntity::getInstance(App\Module::getModuleName($row['tabid']))->table_index => $id])
 					->execute();
 			}
+			$dataReader->close();
 		}
 	}
 
@@ -394,6 +395,7 @@ class Project extends CRMEntity
 				while ($idFieldValue = $dataReader->readColumn(0)) {
 					\App\Db::getInstance()->createCommand()->update($relTable, [$entityIdField => $entityId], [$entityIdField => $transferId, $idField => $idFieldValue])->execute();
 				}
+				$dataReader->close();
 			}
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);

@@ -295,6 +295,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 				$childSalesProcesses[$childAccId] = $childSalesProcessesInfo;
 				$this->getChildSales($childAccId, $childSalesProcesses[$childAccId], $depth);
 			}
+			$dataReader->close();
 		}
 
 		\App\Log::trace('Exiting getChildSales method ...');

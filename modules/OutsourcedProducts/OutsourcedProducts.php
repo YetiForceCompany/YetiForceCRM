@@ -148,6 +148,7 @@ class OutsourcedProducts extends Vtiger_CRMEntity
 				while ($idFieldValue = $dataReader->readColumn(0)) {
 					$dbCommand->update($relTable, [$entityIdField => $entityId], [$entityIdField => $transferId, $idField => $idFieldValue])->execute();
 				}
+				$dataReader->close();
 			}
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);

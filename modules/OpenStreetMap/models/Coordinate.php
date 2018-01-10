@@ -201,6 +201,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 				];
 			}
 		}
+		$dataReader->close();
 		return $coordinates;
 	}
 
@@ -360,6 +361,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 				];
 			}
 		}
+		$dataReader->close();
 		return $coordinates;
 	}
 
@@ -450,6 +452,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 				];
 			}
 		}
+		$dataReader->close();
 		return $coordinates;
 	}
 
@@ -468,6 +471,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		while ($row = $dataReader->read()) {
 			$records[$row['module_name']] = $row['count'];
 		}
+		$dataReader->close();
 		return $records;
 	}
 
@@ -537,6 +541,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		while ($row = $dataReader->read()) {
 			$records [] = $row['id'];
 		}
+		$dataReader->close();
 		$this->deleteCache();
 		$this->saveCache($records);
 		return $dataReader->count();
