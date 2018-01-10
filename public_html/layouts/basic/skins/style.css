@@ -6144,3 +6144,18 @@ border1px{
 	min-height: 50px;
 	max-height: calc(100vh/10);
 }
+.flexWrapper {
+	display: flex;
+}
+.flexWrapper .listRemoveBtn {
+	margin-left: 8px;
+}
+.fc-event {
+	color: #353c44 !important;
+}
+#popupPageContainer {
+	overflow-y: auto;
+}
+.reducePadding {
+	padding: 0px !important;
+}
