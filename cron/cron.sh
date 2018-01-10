@@ -7,4 +7,12 @@
 # All Rights Reserved.
 #
 # ********************************************************************************
-wget http://localhost:APACHEPORT/cron/intimateTaskStatus.php -O intimatelog.txt
+
+export CRM_ROOT_DIR=`dirname "$0"`/..
+export USE_PHP=php
+#export USE_PHP=/usr/local/php53/bin/php
+#export USE_PHP=/usr/local/php56/bin/php56
+
+cd $CRM_ROOT_DIR
+# TO RUN ALL CORN JOBS
+$USE_PHP -f cron.php 
