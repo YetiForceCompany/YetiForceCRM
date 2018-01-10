@@ -181,6 +181,7 @@ class CRMEntity
 						(int) $tabid, $row['fieldname'], (int) $row['fieldid'], $row['fieldlabel'], $row['columnname'], $row['tablename'], (int) $row['uitype'], $row['typeofdata'], (int) $row['presence']
 					);
 				}
+				$dataReader->close();
 				// Get only active field information
 				$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
 			}
@@ -351,6 +352,7 @@ class CRMEntity
 			App\Db::getInstance()->createCommand()
 				->update($row['tablename'], [$row['columnname'] => 0], [$row['columnname'] => $withCrmid, CRMEntity::getInstance($row['name'])->table_index => $crmid])->execute();
 		}
+		$dataReader->close();
 	}
 
 	public function deleteRelatedM2M($module, $crmid, $withModule, $withCrmid)

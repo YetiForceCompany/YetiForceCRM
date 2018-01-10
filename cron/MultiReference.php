@@ -49,6 +49,7 @@ foreach ($rows as &$multireference) {
 					->execute();
 			}
 		}
+		$dataReader->close();
 	} else {
 		if (\App\Record::isExists($multireference['lastid'], $multireference['source_module'])) {
 			if (in_array($multireference['lastid'], $executed)) {

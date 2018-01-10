@@ -34,8 +34,8 @@ class RecordsList extends \Api\Core\BaseAction
 				}
 			}
 			$records[$row['id']] = $record;
-			$dataReader->close();
 		}
+		$dataReader->close();
 		foreach ($fieldsModel as $fieldName => &$fieldModel) {
 			$headers[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
 		}

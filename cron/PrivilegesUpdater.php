@@ -19,6 +19,8 @@ while ($row = $dataReader->read()) {
 		return;
 	}
 }
+$dataReader->close();
+
 $dataReader = (new \App\Db\Query())
 		->from('u_#__crmentity_search_label')
 		->where(['or', ['userid' => ''], ['userid' => null]])
@@ -31,6 +33,8 @@ while ($row = $dataReader->read()) {
 		return;
 	}
 }
+$dataReader->close();
+
 $dataReader = (new \App\Db\Query())
 		->from('s_#__privileges_updater')
 		->orderBy(['priority' => SORT_DESC])
@@ -64,6 +68,7 @@ while ($row = $dataReader->read()) {
 				return;
 			}
 		}
+		$dataReaderCrm->close();
 	}
 	$db->createCommand()->delete('s_#__privileges_updater', [
 		'module' => $row['module'],
@@ -71,4 +76,5 @@ while ($row = $dataReader->read()) {
 		'crmid' => $crmid
 	])->execute();
 }
+$dataReader->close();
 
