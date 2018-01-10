@@ -49,6 +49,7 @@ class Settings_Vtiger_CustomRecordNumberingModule_Model extends Vtiger_Module_Mo
 		while ($row = $dataReader->read()) {
 			$modulesModels[$row['tabid']] = Settings_Vtiger_CustomRecordNumberingModule_Model::getInstance($row['name'], $row['tabid']);
 		}
+		$dataReader->close();
 
 		return $modulesModels;
 	}

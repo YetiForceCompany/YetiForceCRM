@@ -94,6 +94,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 				$picklistValue = $row[$this->getFieldName()];
 				$fieldPickListValues[$picklistValue] = \App\Language::translate($picklistValue, $this->getModuleName());
 			}
+			$dataReader->close();
 			return $fieldPickListValues;
 		}
 		return parent::getPicklistValues($skipCheckingRole);

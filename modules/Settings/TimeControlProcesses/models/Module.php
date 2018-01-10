@@ -28,6 +28,7 @@ class Settings_TimeControlProcesses_Module_Model extends \App\Base
 		while ($row = $dataReader->read()) {
 			$output[$row['type']][$row['param']] = $row['value'];
 		}
+		$dataReader->close();
 		$this->setData($output);
 		\App\Log::trace('End ' . __METHOD__);
 		return $this;

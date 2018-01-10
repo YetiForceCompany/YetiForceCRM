@@ -74,6 +74,7 @@ class Settings_SharingAccess_Action_Model extends \App\Base
 			$actionModel->setData($row);
 			$actionModels[] = $actionModel;
 		}
+		$dataReader->close();
 		return $actionModels;
 	}
 }

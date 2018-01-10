@@ -275,6 +275,7 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 			}
 			$menuItemModels[$fieldId] = $menuItem;
 		}
+		$dataReader->close();
 		\App\Cache::staticSave(__METHOD__, $cacheName, $menuItemModels);
 		return $menuItemModels;
 	}
@@ -302,6 +303,7 @@ class Settings_Vtiger_MenuItem_Model extends \App\Base
 			$menuItem->setMenu($rowData['blockid']);
 			$menuItemModels[$rowData[self::$itemId]] = $menuItem;
 		}
+		$dataReader->close();
 		return $menuItemModels;
 	}
 

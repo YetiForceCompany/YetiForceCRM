@@ -99,6 +99,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 				$role->setData($row);
 				$roles[$role->getId()] = $role;
 			}
+			$dataReader->close();
 			$this->children = $roles;
 		}
 		return $this->children;
@@ -127,6 +128,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 				$role->setData($row);
 				$roles[$role->getId()] = $role;
 			}
+			$dataReader->close();
 			$this->children = $roles;
 		}
 		return $this->children;
@@ -147,6 +149,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			$role->setData($row);
 			$roles[$role->getId()] = $role;
 		}
+		$dataReader->close();
 		return $roles;
 	}
 
@@ -446,6 +449,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			$role->setData($row);
 			$roles[$role->getId()] = $role;
 		}
+		$dataReader->close();
 		return $roles;
 	}
 

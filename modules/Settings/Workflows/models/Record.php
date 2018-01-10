@@ -467,6 +467,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 				}
 			}
 		}
+		$dataReader->close();
 		foreach ($skipFieldsList as $tabModuleName => $fieldInfo) {
 			$dependentFieldInfo = $dependentFields[$tabModuleName];
 			if ($dependentFieldInfo['fieldname'] != $fieldInfo['fieldname']) {
