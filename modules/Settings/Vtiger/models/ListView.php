@@ -101,6 +101,7 @@ class Settings_Vtiger_ListView_Model extends \App\Base
 			}
 			$listViewRecordModels[$record->getId()] = $record;
 		}
+		$dataReader->close();
 		if ($moduleModel->isPagingSupported()) {
 			$pagingModel->calculatePageRange($dataReader->count());
 		}
@@ -138,9 +139,9 @@ class Settings_Vtiger_ListView_Model extends \App\Base
 
 		return $basicLinks;
 	}
-	/*	 * * 
-	 * Function which will get the list view count  
-	 * @return - number of records 
+	/*	 * *
+	 * Function which will get the list view count
+	 * @return - number of records
 	 */
 
 	public function getListViewCount()

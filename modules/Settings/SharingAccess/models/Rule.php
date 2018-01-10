@@ -426,6 +426,7 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 			$ruleModel = new self();
 			$ruleModels[$row['shareid']] = $ruleModel->setData($row)->setModuleFromInstance($moduleModel);
 		}
+		$dataReader->close();
 		return $ruleModels;
 	}
 }

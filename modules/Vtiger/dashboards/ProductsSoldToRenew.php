@@ -143,6 +143,7 @@ class Vtiger_ProductsSoldToRenew_Dashboard extends Vtiger_IndexAjax_View
 			while ($row = $dataReader->read()) {
 				$this->listviewRecords[$row['id']] = $this->getTargetModuleModel()->getRecordFromArray($row);
 			}
+			$dataReader->close();
 		}
 		return $this->listviewRecords;
 	}

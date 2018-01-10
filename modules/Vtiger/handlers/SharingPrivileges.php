@@ -38,6 +38,7 @@ class Vtiger_SharingPrivileges_Handler
 					while ($row = $dataReader->read()) {
 						$usersExist[$row['crmid']][$row['userid']] = true;
 					}
+					$dataReader->close();
 					foreach ($records as &$record) {
 						if (!isset($usersExist[$record][$addUser])) {
 							$db->createCommand()
