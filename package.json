@@ -24,6 +24,8 @@
 		"fullcalendar": "3.8.0",
 		"jquery": "<3.0.0",
 		"moment": ">=2.18.1",
+		"select2": "^4.0.6-rc.1",
+		"select2-bootstrap-theme": "^0.1.0-beta.10",
 		"simplebar": "^2.5.1",
 		"split.js": "^1.3.5"
 	},
