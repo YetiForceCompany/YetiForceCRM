@@ -90,6 +90,7 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 				'color' => $color
 			];
 		}
+		$dataReader->close();
 		$response['ticks'] = $ticks;
 		$response['chart'] = $rawData;
 		return $response;

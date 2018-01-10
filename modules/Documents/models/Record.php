@@ -255,6 +255,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 					unlink($fileName);
 				}
 			}
+			$dataReader->close();
 			$dbCommand->delete('vtiger_seattachmentsrel', ['crmid' => $this->getId()])->execute();
 			$dbCommand->delete('vtiger_attachments', ['attachmentsid' => $attachmentsIds])->execute();
 			$dbCommand->delete('vtiger_crmentity', ['crmid' => $attachmentsIds])->execute();

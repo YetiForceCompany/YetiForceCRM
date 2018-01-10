@@ -57,6 +57,7 @@ class Campaigns_RelationAjax_Action extends Vtiger_RelationAjax_Action
 				while ($row = $dataReader->read()) {
 					$relatedRecordIdsList[] = $row['id'];
 				}
+				$dataReader->close();
 				if (empty($relatedRecordIdsList)) {
 					$response = new Vtiger_Response();
 					$response->setResult([false]);

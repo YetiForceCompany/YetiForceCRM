@@ -178,6 +178,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		while ($row = $dataReader->read()) {
 			$invities[$row['inviteesid']] = $row;
 		}
+		$dataReader->close();
 		if (!empty($inviteesRequest)) {
 			foreach ($inviteesRequest as &$invitation) {
 				if (isset($invities[$invitation[2]])) {

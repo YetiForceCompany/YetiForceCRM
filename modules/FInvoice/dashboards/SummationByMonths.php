@@ -77,6 +77,7 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 		while ($row = $dataReader->read()) {
 			$rawData[$row['y']][] = [$row['m'], (int) $row['s']];
 		}
+		$dataReader->close();
 
 		$this->conditions = ['condition' => ['>', 'saledate', $date]];
 		foreach ($rawData as $y => $raw) {
