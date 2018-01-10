@@ -482,7 +482,7 @@ CREATE TABLE `l_yf_profile` (
   `log_time` varchar(20) NOT NULL,
   `trace` text DEFAULT NULL,
   `level` varchar(255) DEFAULT NULL,
-  `duration` decimal(3,3) NOT NULL,
+  `duration` decimal(7,3) NOT NULL,
   KEY `id` (`id`),
   KEY `category` (`category`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
