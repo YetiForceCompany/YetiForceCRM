@@ -114,6 +114,7 @@ class Import_Map_Model extends \App\Base
 			$importMap = Import_Map_Model::getInstanceFromDb($row, $current_user);
 			$savedMaps[$importMap->getId()] = $importMap;
 		}
+		$dataReader->close();
 		return $savedMaps;
 	}
 }
