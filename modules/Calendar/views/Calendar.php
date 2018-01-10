@@ -46,7 +46,7 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = [
-			'~libraries/fullcalendar/fullcalendar.js',
+			'~libraries/fullcalendar/dist/fullcalendar.js',
 			'modules.Calendar.resources.CalendarView',
 		];
 
@@ -64,8 +64,8 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 
 
 		$cssFileNames = [
-			'~libraries/fullcalendar/fullcalendar.min.css',
-			'~libraries/fullcalendar/fullcalendarCRM.css',
+			'~libraries/fullcalendar/dist/fullcalendar.min.css',
+			'~libraries/fullcalendar/dist/fullcalendarCRM.css',
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
