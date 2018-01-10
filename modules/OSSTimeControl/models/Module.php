@@ -84,6 +84,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 			];
 			$count++;
 		}
+		$dataReader->close();
 		return ['totalTime' => $totalTime, 'userTime' => $userTime];
 	}
 
@@ -113,6 +114,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 				$data[$i]['data'][0][1] = $row['time'];
 				++$i;
 			}
+			$dataReader->close();
 			$response['ticks'] = $ticks;
 			$response['chart'] = $data;
 		}

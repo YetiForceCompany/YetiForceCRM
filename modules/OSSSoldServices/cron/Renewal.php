@@ -16,3 +16,4 @@ while ($recordId = $dataReader->readColumn(0)) {
 	$recordModel = Vtiger_Record_Model::getInstanceById($recordId, 'OSSSoldServices');
 	$recordModel->updateRenewal();
 }
+$dataReader->close();

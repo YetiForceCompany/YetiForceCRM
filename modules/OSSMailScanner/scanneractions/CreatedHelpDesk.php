@@ -84,6 +84,7 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction
 			while ($documentId = $dataReader->readColumn(0)) {
 				$dbCommand->insert('vtiger_senotesrel', ['crmid' => $id, 'notesid' => $documentId])->execute();
 			}
+			$dataReader->close();
 		}
 		$dbCommand->update('vtiger_crmentity', ['createdtime' => $mail->get('udate_formated'), 'smcreatorid' => $accountOwner, 'modifiedby' => $accountOwner], ['crmid' => $id])->execute();
 		return $id;

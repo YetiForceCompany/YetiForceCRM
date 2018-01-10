@@ -41,6 +41,7 @@ if ($lastUpdatedCrmId !== false) {
 		}
 		$lastUpdatedCrmId = $row['crmid'];
 	}
+	$dataReader->close();
 	$lastRecordId = $db->getUniqueID('vtiger_crmentity', 'crmid', false);
 	if ($lastRecordId === $lastUpdatedCrmId) {
 		$db->createCommand()->update('u_#__openstreetmap_address_updater', ['crmid' => $lastUpdatedCrmId])->execute();
