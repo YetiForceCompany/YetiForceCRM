@@ -30,6 +30,7 @@ while ($row = $dataReader->read()) {
 		return;
 	}
 }
+$dataReader->close();
 $dataReader = (new App\Db\Query())->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.setype'])
 		->from('vtiger_crmentity')
 		->innerJoin('vtiger_tab', 'vtiger_tab.name = vtiger_crmentity.setype')
@@ -45,7 +46,7 @@ while ($row = $dataReader->read()) {
 		return;
 	}
 }
-
+$dataReader->close();
 $dataReader = (new App\Db\Query())->select(['vtiger_crmentity.crmid', 'u_#__crmentity_label.label', 'u_#__crmentity_search_label.searchlabel'])
 		->from('vtiger_crmentity')
 		->leftJoin('u_#__crmentity_label', ' u_#__crmentity_label.crmid = vtiger_crmentity.crmid')
@@ -65,3 +66,4 @@ while ($row = $dataReader->read()) {
 		return;
 	}
 }
+$dataReader->close();
