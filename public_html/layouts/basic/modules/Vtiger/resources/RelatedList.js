@@ -736,15 +736,16 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 	},
 	registerListEvents: function () {
 		var relatedContent = this.content;
+		var contentBlock = this.content.closest('.widgetContentBlock');
 		var thisInstance = this;
 		this.content.on('click', '.relatedListHeaderValues', function (e) {
 			thisInstance.sortHandler($(this));
 		});
 		this.content.on('click', 'a.favorites', function (e) {
 			var progressInstance = jQuery.progressIndicator({
-				'position': 'html',
-				'blockInfo': {
-					'enabled': true
+				position: 'html',
+				blockInfo: {
+					enabled: true
 				}
 			});
 			var element = $(this);
@@ -769,7 +770,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 				}
 			});
 		});
-		this.content.on('click', '[name="addButton"]', function (e) {
+		contentBlock.on('click', '[name="addButton"]', function (e) {
 			var element = $(this);
 			if (element.hasClass('quickCreateSupported') != true) {
 				window.location.href = element.data('url');
@@ -777,7 +778,7 @@ jQuery.Class("Vtiger_RelatedList_Js", {
 			}
 			thisInstance.addRelatedRecord(element);
 		})
-		this.content.on('click', 'button.selectRelation', function (e) {
+		contentBlock.on('click', 'button.selectRelation', function (e) {
 			var restrictionsField = $(this).data('rf');
 			var params = {};
 			if (restrictionsField && Object.keys(restrictionsField).length > 0) {
