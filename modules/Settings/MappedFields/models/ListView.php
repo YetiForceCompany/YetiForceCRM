@@ -57,6 +57,7 @@ class Settings_MappedFields_ListView_Model extends Settings_Vtiger_ListView_Mode
 		} else {
 			$pagingModel->set('nextPageExists', false);
 		}
+		$dataReader->close();
 		return $listViewRecordModels;
 	}
 	/*

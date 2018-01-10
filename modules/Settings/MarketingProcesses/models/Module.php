@@ -38,6 +38,7 @@ class Settings_MarketingProcesses_Module_Model extends \App\Base
 				$config[$param] = $value;
 			}
 		}
+		$dataReader->close();
 		Vtiger_Cache::set('MarketingProcesses', $type, $config);
 		return $config;
 	}

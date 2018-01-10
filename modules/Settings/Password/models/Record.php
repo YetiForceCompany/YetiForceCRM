@@ -24,6 +24,7 @@ class Settings_Password_Record_Model extends Vtiger_Record_Model
 			while ($row = $dataReader->read()) {
 				$detail[$row['type']] = $row['val'];
 			}
+			$dataReader->close();
 			\App\Cache::save('UserPasswordgConfig', '', $detail);
 		}
 		return $type ? $detail[$type] : $detail;

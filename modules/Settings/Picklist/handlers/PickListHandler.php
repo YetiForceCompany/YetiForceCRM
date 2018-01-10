@@ -51,6 +51,7 @@ class Settings_Picklist_PickListHandler_Handler
 				'tabid' => $tabId
 			])->execute();
 		}
+		$dataReader->close();
 		$fieldModel = Vtiger_Field_Model::getInstance($pickListFieldName, $moduleModel);
 		$advFiltercolumnName = $fieldModel->getCustomViewColumnName();
 		$reportFilterColumnName = $fieldModel->getReportFilterColumnName();
@@ -74,6 +75,7 @@ class Settings_Picklist_PickListHandler_Handler
 				'groupid' => $row['groupid']
 			])->execute();
 		}
+		$dataReader->close();
 		//update reportsFilter values
 		$dataReader = (new \App\Db\Query())->select(['queryid', 'value', 'columnindex', 'groupid'])->from('vtiger_relcriteria')
 				->where(['columnname' => $reportFilterColumnName])
@@ -93,6 +95,7 @@ class Settings_Picklist_PickListHandler_Handler
 				'groupid' => $row['groupid']
 			])->execute();
 		}
+		$dataReader->close();
 		//update Workflows values
 		$dataReader = (new \App\Db\Query())->select(['workflow_id', 'test'])->from('com_vtiger_workflows')->where([
 				'and',
@@ -125,6 +128,7 @@ class Settings_Picklist_PickListHandler_Handler
 					->execute();
 			}
 		}
+		$dataReader->close();
 		//update workflow task
 		$dataReader = (new \App\Db\Query())->select(['task', 'task_id', 'workflow_id'])
 				->from('com_vtiger_workflowtasks')
@@ -187,6 +191,7 @@ class Settings_Picklist_PickListHandler_Handler
 				}
 			}
 		}
+		$dataReader->close();
 	}
 
 	/**
@@ -225,6 +230,7 @@ class Settings_Picklist_PickListHandler_Handler
 				'groupid' => $row['groupid']
 			])->execute();
 		}
+		$dataReader->close();
 		//update reportsFilter values
 		$dataReader = (new \App\Db\Query())->select(['queryid', 'value', 'columnindex', 'groupid'])->from('vtiger_relcriteria')
 				->where(['columnname' => $reportFilterColumnName])
@@ -246,6 +252,7 @@ class Settings_Picklist_PickListHandler_Handler
 				'groupid' => $row['groupid']
 			])->execute();
 		}
+		$dataReader->close();
 		foreach ($valueToDelete as $value) {
 			//update Workflows values
 			$dataReader = (new \App\Db\Query())->select(['workflow_id', 'test'])->from('com_vtiger_workflows')->where([
@@ -279,6 +286,7 @@ class Settings_Picklist_PickListHandler_Handler
 					$dbCommand->update('com_vtiger_workflows', ['test' => $condtion], ['workflow_id' => $row['workflow_id']])->execute();
 				}
 			}
+			$dataReader->close();
 		}
 		foreach ($valueToDelete as $value) {
 			//update workflow task
@@ -345,6 +353,7 @@ class Settings_Picklist_PickListHandler_Handler
 					}
 				}
 			}
+			$dataReader->close();
 		}
 	}
 }

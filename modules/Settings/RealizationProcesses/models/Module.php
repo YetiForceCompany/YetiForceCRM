@@ -40,6 +40,7 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 			}
 			$return[$moduleName]['status'] = $status;
 		}
+		$dataReader->close();
 
 		\App\Log::trace('Exiting Settings_RealizationProcesses_Module_Model::getStatusNotModify() method ...');
 		return $return;

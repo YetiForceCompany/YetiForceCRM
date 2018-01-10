@@ -27,6 +27,7 @@ class Settings_Mail_Config_Model
 		while ($row = $dataReader->read()) {
 			$config[$row['name']] = $row['value'];
 		}
+		$dataReader->close();
 		return $config;
 	}
 
