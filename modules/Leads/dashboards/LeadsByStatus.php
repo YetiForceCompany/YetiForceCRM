@@ -71,6 +71,7 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 			$name[] = $row['leadstatusvalue'];
 			$i++;
 		}
+		$dataReader->close();
 		if ($data) {
 			$response['chart'] = $data;
 			$response['ticks'] = $ticks;

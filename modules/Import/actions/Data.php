@@ -294,6 +294,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			$this->importedRecordInfo[$rowId] = $entityInfo;
 			$this->updateImportStatus($rowId, $entityInfo);
 		}
+		$dataReader->close();
 		return true;
 	}
 
@@ -745,6 +746,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 					break;
 			}
 		}
+		$dataReader->close();
 		return $statusCount;
 	}
 
@@ -832,6 +834,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 					$importRecords['failed'][] = $record;
 				}
 			}
+			$dataReader->close();
 		}
 		return $importRecords;
 	}

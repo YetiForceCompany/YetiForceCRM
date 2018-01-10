@@ -57,6 +57,7 @@ class KnowledgeBase_Tree_Model extends \App\Base
 				$lastId = $treeID;
 			}
 		}
+		$dataReader->close();
 		$this->lastIdinTree = $lastId;
 		return $folders;
 	}

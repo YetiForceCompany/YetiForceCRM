@@ -49,6 +49,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 				$comments[$time] = $commentModel;
 			}
 		}
+		$dataReader->close();
 		return $comments;
 	}
 
@@ -161,6 +162,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 		} else {
 			$pagingModel->set('nextPageExists', false);
 		}
+		$dataReader->close();
 		return $activities;
 	}
 
@@ -223,7 +225,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 		} else {
 			$pagingModel->set('nextPageExists', false);
 		}
-
+		$dataReader->close();
 		return $projecttasks;
 	}
 
@@ -274,6 +276,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 					$activites[$time] = $modTrackerRecorModel;
 				}
 			}
+			$dataReader->close();
 		}
 		$history = array_merge($activites, $comments);
 

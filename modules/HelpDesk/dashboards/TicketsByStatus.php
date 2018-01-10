@@ -67,6 +67,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 			if (!in_array($row['statusvalue'], $status))
 				$status[] = $row['statusvalue'];
 		}
+		$dataReader->close();
 		if (!empty($tickets)) {
 			$counter = 0;
 			$result = [];

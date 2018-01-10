@@ -61,6 +61,7 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			$name[] = $row['industryvalue'];
 			$i++;
 		}
+		$dataReader->close();
 		if ($data) {
 			$response['chart'] = $data;
 			$response['ticks'] = $ticks;
