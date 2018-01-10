@@ -188,7 +188,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 				$dataReader->close();
 				\App\Log::trace('End ' . __METHOD__);
 				return false;
-			} elseif ($numberRows == 1) {
+			} elseif ($numberRows === 1) {
 				\App\Log::trace('End ' . __METHOD__);
 				return (int) $dataReader->readColumn(0);
 			}

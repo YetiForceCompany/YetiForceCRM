@@ -922,6 +922,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 				$comments[$time] = $commentModel;
 			}
 		}
+		$dataReader->close();
 		return $comments;
 	}
 
@@ -962,6 +963,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 				$activites[$time] = $modTrackerRecorModel;
 			}
 		}
+		$dataReader->close();
 		$history = array_merge($activites, $comments);
 		$dateTime = [];
 		foreach ($history as $time => $model) {
