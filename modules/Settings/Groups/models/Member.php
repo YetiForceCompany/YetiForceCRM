@@ -97,6 +97,7 @@ class Settings_Groups_Member_Model extends \App\Base
 				$member = new self();
 				$members[$qualifiedId] = $member->set('id', $qualifiedId)->set('name', $name)->set('userId', $userId);
 			}
+			$dataReader->close();
 		}
 
 		if ($type == self::MEMBER_TYPE_GROUPS) {
@@ -111,6 +112,7 @@ class Settings_Groups_Member_Model extends \App\Base
 				$member = new self();
 				$members[$qualifiedId] = $member->set('id', $qualifiedId)->set('name', $name)->set('groupId', $row['groupid']);
 			}
+			$dataReader->close();
 		}
 
 		if ($type == self::MEMBER_TYPE_ROLES) {
@@ -125,6 +127,7 @@ class Settings_Groups_Member_Model extends \App\Base
 				$member = new self();
 				$members[$qualifiedId] = $member->set('id', $qualifiedId)->set('name', $name)->set('roleId', $row['roleid']);
 			}
+			$dataReader->close();
 		}
 
 		if ($type == self::MEMBER_TYPE_ROLE_AND_SUBORDINATES) {
@@ -139,6 +142,7 @@ class Settings_Groups_Member_Model extends \App\Base
 				$member = new self();
 				$members[$qualifiedId] = $member->set('id', $qualifiedId)->set('name', $name)->set('roleId', $row['roleid']);
 			}
+			$dataReader->close();
 		}
 
 		return $members;
@@ -175,7 +179,7 @@ class Settings_Groups_Member_Model extends \App\Base
 	public static function getAllByGroup($groupModel)
 	{
 		$members = [];
-		if(!empty($groupModel->getId())) {
+		if (!empty($groupModel->getId())) {
 			$members[self::MEMBER_TYPE_USERS] = self::getAllByTypeForGroup($groupModel, self::MEMBER_TYPE_USERS);
 			$members[self::MEMBER_TYPE_GROUPS] = self::getAllByTypeForGroup($groupModel, self::MEMBER_TYPE_GROUPS);
 			$members[self::MEMBER_TYPE_ROLES] = self::getAllByTypeForGroup($groupModel, self::MEMBER_TYPE_ROLES);

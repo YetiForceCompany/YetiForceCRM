@@ -110,6 +110,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 			while ($row = $dataReader->read()) {
 				$modules[$row['tabid']] = $row['name'];
 			}
+			$dataReader->close();
 			$this->modules = $modules;
 		}
 		return $this->modules;
@@ -377,6 +378,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 			$group->setData($row);
 			$groups[$group->getId()] = $group;
 		}
+		$dataReader->close();
 		return $groups;
 	}
 

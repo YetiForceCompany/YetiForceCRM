@@ -68,6 +68,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 				$currIds[] = $id;
 				$otherCurrencyCode[$code] = $id;
 			}
+			$dataReader->close();
 			$currNum = (new \App\Db\Query())->from('yetiforce_currencyupdate')
 				->where(['exchange_date' => $dateCur, 'currency_id' => $currIds, 'bank_id' => $selectBankId])
 				->count(1);
@@ -99,6 +100,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 				$db->createCommand()->delete('yetiforce_currencyupdate_banks', ['id' => $id])->execute();
 			}
 		}
+		$dataReader->close();
 		foreach (new DirectoryIterator(__DIR__ . '/bankmodels/') as $fileInfo) {
 			$fileName = $fileInfo->getFilename();
 			$extension = end(explode('.', $fileName));
@@ -227,6 +229,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 			$code = $row['currency_code'];
 			$unsupported[$name] = $code;
 		}
+		$dataReader->close();
 		return array_diff($unsupported, $supported);
 	}
 	/*

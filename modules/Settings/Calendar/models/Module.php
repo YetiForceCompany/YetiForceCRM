@@ -23,6 +23,7 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 				'value' => $row['value']
 			];
 		}
+		$dataReader->close();
 		if ($type == 'colors') {
 			$calendarConfig = array_merge($calendarConfig, self::getPicklistValue());
 		}

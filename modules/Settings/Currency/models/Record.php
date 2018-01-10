@@ -169,6 +169,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 			$modelInstance->setData($row);
 			$currencyModelList[$row['currencyid']] = $modelInstance;
 		}
+		$dataReader->close();
 		return $currencyModelList;
 	}
 
@@ -189,6 +190,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 		while ($row = $dataReader->read()) {
 			$instanceList[$row['id']] = new Settings_Currency_Record_Model($row);
 		}
+		$dataReader->close();
 		return $instanceList;
 	}
 }

@@ -263,6 +263,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 				$output['php'][$mod . '|' . $row['fieldlabel']][$lang] = stripslashes($variablesFromFile['php'][$mod . '|' . $row['fieldlabel']][$lang]);
 			}
 		}
+		$dataReader->close();
 		return $output;
 	}
 

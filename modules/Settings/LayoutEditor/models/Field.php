@@ -256,6 +256,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 			}
 			$fieldModelsList[] = $fieldModel;
 		}
+		$dataReader->close();
 		return $fieldModelsList;
 	}
 
