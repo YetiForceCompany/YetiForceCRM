@@ -19,10 +19,13 @@
 	"author": "YetiForceCompany <info@yetiforce.com> (https://yetiforce.com)",
 	"license": "YetiForce Public License v3",
 	"dependencies": {
+		"css-element-queries": "^1.0.1",
 		"font-awesome": ">=4.7.0",
 		"fullcalendar": "3.8.0",
-		"jquery": "2.2.4",
-		"moment": ">=2.18.1"
+		"jquery": "<3.0.0",
+		"moment": ">=2.18.1",
+		"simplebar": "^2.5.1",
+		"split.js": "^1.3.5"
 	},
 	"resolutions": {},
 	"bugs": {
