@@ -30,12 +30,13 @@ class Accounts_NeglectedAccounts_Dashboard extends Vtiger_IndexAjax_View
 		$queryGenerator->setLimit($pagingModel->getPageLimit());
 		$queryGenerator->setOffset($pagingModel->getStartIndex());
 		$dataReader = $queryGenerator->createQuery()->orderBy(new yii\db\Expression('vtiger_entity_stats.crmactivity IS NULL'))
-			->addOrderBy(['vtiger_entity_stats.crmactivity' => SORT_ASC])->createCommand()->query();
+				->addOrderBy(['vtiger_entity_stats.crmactivity' => SORT_ASC])->createCommand()->query();
 		$accounts = [];
 		while ($row = $dataReader->read()) {
 			$row['userModel'] = Users_Privileges_Model::getInstanceById($row['assigned_user_id']);
 			$accounts[$row['id']] = $row;
 		}
+		$dataReader->close();
 		$this->conditions = [
 			'condition' => ['or', ['vtiger_entity_stats.crmactivity' => null], ['<', 'vtiger_entity_stats.crmactivity', 0]],
 			'join' => [['LEFT JOIN', 'vtiger_entity_stats', 'vtiger_entity_stats.crmid = vtiger_crmentity.crmid']]

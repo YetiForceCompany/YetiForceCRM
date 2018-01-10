@@ -47,6 +47,7 @@ function deleteRoleRelatedSharingRules($roleId)
 		while ($shareid = $dataReader->readColumn(0)) {
 			deleteSharingRule($shareid);
 		}
+		$dataReader->close();
 	}
 	\App\Log::trace("Exiting deleteRoleRelatedSharingRules method ...");
 }
