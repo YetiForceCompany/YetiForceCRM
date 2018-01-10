@@ -77,6 +77,7 @@ class WebservicesUtils
 				return false;
 			}
 		}
+		$dataReader->close();
 		return true;
 	}
 
@@ -105,6 +106,7 @@ class WebservicesUtils
 				return false;
 			}
 		}
+		$dataReader->close();
 		$dataReader = (new App\Db\Query())->from('vtiger_crmentityrel')->where(['relcrmid' => $leadId])
 				->createCommand()->query();
 		if ($dataReader->count() === 0) {
@@ -121,6 +123,7 @@ class WebservicesUtils
 				return false;
 			}
 		}
+		$dataReader->close();
 		return true;
 	}
 

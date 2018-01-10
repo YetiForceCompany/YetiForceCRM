@@ -181,10 +181,10 @@ class CRMEntity
 						(int) $tabid, $row['fieldname'], (int) $row['fieldid'], $row['fieldlabel'], $row['columnname'], $row['tablename'], (int) $row['uitype'], $row['typeofdata'], (int) $row['presence']
 					);
 				}
-				$dataReader->close();
 				// Get only active field information
 				$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
 			}
+			$dataReader->close();
 		}
 
 		if ($cachedModuleFields) {
@@ -435,6 +435,7 @@ class CRMEntity
 						$sequenceNumber += 1;
 						$returninfo['updatedrecords'] = $returninfo['updatedrecords'] + 1;
 					}
+					$dataReader->close();
 					if ($oldNumber != $sequenceNumber) {
 						\App\Fields\RecordNumber::updateNumber($sequenceNumber, $tabid);
 					}
