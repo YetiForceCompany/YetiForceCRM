@@ -63,6 +63,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 			$recordInstance->setData($row)->setParent($row['crmid'], $row['module']);
 			$recordInstances[] = $recordInstance;
 		}
+		$dataReader->close();
 		return $recordInstances;
 	}
 
@@ -146,6 +147,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		while ($row = $dataReader->read()) {
 			$changes[$row['crmid']][] = $row;
 		}
+		$dataReader->close();
 		$unreviewed = [];
 		foreach ($changes as $crmId => $rows) {
 			$all = $mails = 0;
@@ -330,6 +332,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 				$fieldInstance->setData($row)->setParent($this)->setFieldInstance($fieldModel);
 				$fieldInstances[] = $fieldInstance;
 			}
+			$dataReader->close();
 		}
 		return $fieldInstances;
 	}

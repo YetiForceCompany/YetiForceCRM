@@ -172,6 +172,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			$recordInstance->setData($row)->setModuleFromInstance($queryGenerator->getModuleModel());
 			$recordInstances[] = $recordInstance;
 		}
+		$dataReader->close();
 		return $recordInstances;
 	}
 
@@ -205,6 +206,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			$recordInstance->setData($row)->setModuleFromInstance($queryGenerator->getModuleModel());
 			$recordInstances[] = $recordInstance;
 		}
+		$dataReader->close();
 		return $recordInstances;
 	}
 
@@ -260,6 +262,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			$recordInstance->setData($row)->setModuleFromInstance($queryGenerator->getModuleModel());
 			$recordInstances[] = $recordInstance;
 		}
+		$dataReader->close();
 		return $recordInstances;
 	}
 

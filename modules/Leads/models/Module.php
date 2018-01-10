@@ -85,6 +85,7 @@ class Leads_Module_Model extends Vtiger_Module_Model
 			$response[$i][2] = $leadStatusVal;
 			$i++;
 		}
+		$dataReader->close();
 		return $response;
 	}
 

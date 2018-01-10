@@ -66,6 +66,7 @@ class Notification_NotificationsBySender_Dashboard extends Vtiger_IndexAjax_View
 				$listView . $this->getSearchParams($accessibleUsers[$row['smcreatorid']], $time)
 			];
 		}
+		$dataReader->close();
 		return $data;
 	}
 

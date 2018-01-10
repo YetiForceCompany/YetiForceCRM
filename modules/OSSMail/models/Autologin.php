@@ -28,6 +28,7 @@ class OSSMail_Autologin_Model
 			$account['active'] = ($rcUser && $rcUser == $account['rcuser_id']) ? true : false;
 			$users[$account['rcuser_id']] = $account;
 		}
+		$dataReader->close();
 		return $users;
 	}
 }
