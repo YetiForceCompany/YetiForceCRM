@@ -154,6 +154,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 					break;
 				}
 			}
+			$dataReader->close();
 		}
 		foreach ($results as $row) {
 			App\Db::getInstance()->createCommand()
@@ -182,6 +183,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 					break;
 				}
 			}
+			$dataReader->close();
 		}
 		foreach ($results as $result) {
 			$focusObj = CRMEntity::getInstance($row['name']);

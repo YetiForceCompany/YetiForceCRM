@@ -72,7 +72,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 			if (!in_array($row['due_date'], $days))
 				$days[] = $row['due_date'];
 		}
-
+		$dataReader->close();
 		if ($dataReader->count() > 0) {
 			$dataReader = (new App\Db\Query())->select(['timecontrol_type', 'color'])
 					->from('vtiger_timecontrol_type')
@@ -81,6 +81,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 			while ($row = $dataReader->read()) {
 				$colors[$row['timecontrol_type']] = $row['color'];
 			}
+			$dataReader->close();
 
 			$counter = 0;
 			$result = [];
@@ -133,6 +134,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 			$response['ticks'] = $ticks;
 			$response['days'] = $days;
 		}
+		$dataReader->close();
 		return $response;
 	}
 

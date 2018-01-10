@@ -100,6 +100,7 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 			$response['chart'] = $result;
 			$response['ticks'] = $ticks;
 		}
+		$dataReader->close();
 		return $response;
 	}
 

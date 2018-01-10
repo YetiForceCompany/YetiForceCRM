@@ -106,6 +106,7 @@ class OSSTimeControl_Calendar_Model extends App\Base
 			$item['className'] = ' ownerCBg_' . $record['assigned_user_id'] . ' picklistCBr_OSSTimeControl_timecontrol_type_' . $record['timecontrol_type'];
 			$result[] = $item;
 		}
+		$dataReader->close();
 		return $result;
 	}
 

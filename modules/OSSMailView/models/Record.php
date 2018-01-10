@@ -110,6 +110,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 				'bodyRaw' => $row['content'],
 			];
 		}
+		$dataReader->close();
 		return $return;
 	}
 
@@ -198,6 +199,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			$dbCommand->update('vtiger_crmentity', ['deleted' => 1], ['crmid' => $row['documentsid']])->execute();
 			$dbCommand->update('vtiger_crmentity', ['deleted' => 1], ['crmid' => $row['attachmentsid']])->execute();
 		}
+		$dataReader->close();
 	}
 
 	public function bindSelectedRecords($selectedIds)
@@ -285,6 +287,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 				'label' => \App\Record::getLabel($row['crmid'])
 			];
 		}
+		$dataReader->close();
 		return $relations;
 	}
 
