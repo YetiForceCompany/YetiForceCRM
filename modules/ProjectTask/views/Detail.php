@@ -15,9 +15,18 @@ class ProjectTask_Detail_View extends Vtiger_Detail_View
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
-		$cssFileNames = [
-			'~libraries/js/flot/jquery.flot.valuelabels.css',
-		];
-		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($cssFileNames));
+		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
+				'~libraries/js/flot/jquery.flot.valuelabels.css',
+		]));
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getFooterScripts(\App\Request $request)
+	{
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+				'~libraries/gantt/dhtmlxgantt.js',
+		]));
 	}
 }
