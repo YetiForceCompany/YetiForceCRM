@@ -20,6 +20,7 @@
 	"license": "YetiForce Public License v3",
 	"dependencies": {
 		"bootstrap-chosen": "^1.4.2",
+		"bootstrap-datepicker": "^1.7.1",
 		"chosen-js": "^1.8.2",
 		"ckeditor": "^4.8.0",
 		"clipboard": "^1.7.1",
