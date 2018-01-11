@@ -182,7 +182,7 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 		try {
 			$viewer->assign('SENSIOLABS', $checker->check(ROOT_DIRECTORY));
 		} catch (RuntimeException $exc) {
-
+			
 		}
 		$viewer->view('Security.tpl', $qualifiedModuleName);
 	}
@@ -237,8 +237,8 @@ class Settings_Vtiger_Index_View extends Vtiger_Basic_View
 
 		$jsFileNames = [
 			'modules.Vtiger.resources.Vtiger',
-			'libraries.js.ckeditor.ckeditor',
-			'libraries.js.ckeditor.adapters.jquery',
+			'libraries.ckeditor.ckeditor',
+			'libraries.ckeditor.adapters.jquery',
 			'libraries.js.jstree.jstree',
 			'~libraries/js/datatables/media/js/jquery.dataTables.js',
 			'~libraries/js/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.js',
