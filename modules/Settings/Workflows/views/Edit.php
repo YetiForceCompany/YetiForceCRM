@@ -173,7 +173,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 			"modules.Settings.$moduleName.resources.Edit2",
 			"modules.Settings.$moduleName.resources.Edit3",
 			"modules.Settings.$moduleName.resources.AdvanceFilter",
-			'~libraries/js/ckeditor/ckeditor.js',
+			'~libraries/ckeditor/ckeditor.js',
 			'modules.Vtiger.resources.CkEditor',
 		];
 

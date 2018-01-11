@@ -19,6 +19,7 @@
 	"author": "YetiForceCompany <info@yetiforce.com> (https://yetiforce.com)",
 	"license": "YetiForce Public License v3",
 	"dependencies": {
+		"ckeditor": "^4.8.0",
 		"css-element-queries": "^1.0.1",
 		"font-awesome": ">=4.7.0",
 		"fullcalendar": "3.8.0",
