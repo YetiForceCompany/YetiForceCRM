@@ -34,6 +34,10 @@
 /public_html/libraries/ckeditor/
 /public_html/libraries/chosen-js/
 /public_html/libraries/bootstrap-chosen/
+/public_html/libraries/clipboard/
+/public_html/libraries/good-listener/
+/public_html/libraries/select/
+/public_html/libraries/tiny-emitter/
 /libraries/PHPExcel/
 /libraries/mPDF/
 /vendor/*/

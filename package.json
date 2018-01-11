@@ -22,6 +22,7 @@
 		"bootstrap-chosen": "^1.4.2",
 		"chosen-js": "^1.8.2",
 		"ckeditor": "^4.8.0",
+		"clipboard": "^1.7.1",
 		"css-element-queries": "^1.0.1",
 		"font-awesome": ">=4.7.0",
 		"fullcalendar": "3.8.0",
