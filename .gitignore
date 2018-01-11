@@ -32,6 +32,8 @@
 /public_html/libraries/select2/
 /public_html/libraries/select2-bootstrap-theme/
 /public_html/libraries/ckeditor/
+/public_html/libraries/chosen-js/
+/public_html/libraries/bootstrap-chosen/
 /libraries/PHPExcel/
 /libraries/mPDF/
 /vendor/*/

@@ -19,6 +19,8 @@
 	"author": "YetiForceCompany <info@yetiforce.com> (https://yetiforce.com)",
 	"license": "YetiForce Public License v3",
 	"dependencies": {
+		"bootstrap-chosen": "^1.4.2",
+		"chosen-js": "^1.8.2",
 		"ckeditor": "^4.8.0",
 		"css-element-queries": "^1.0.1",
 		"font-awesome": ">=4.7.0",
