@@ -6147,7 +6147,7 @@ border1px{
 .flexWrapper {
 	display: flex;
 }
-.flexWrapper .listRemoveBtn {
+.flexWrapper .listRemoveBtn, .flexWrapper .removeSearchConditions {
 	margin-left: 8px;
 }
 .fc-event {
