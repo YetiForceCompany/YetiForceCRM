@@ -73,6 +73,7 @@ tools:
     
 build:
     tests:
+        tests: false
         stop_on_failure: false
         override:
             command: "php -v"
