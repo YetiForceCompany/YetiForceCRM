@@ -6159,6 +6159,6 @@ border1px{
 .reducePadding {
 	padding: 0px !important;
 }
-.listViewSearchTd {
+.listViewSearchTd, .listSearchTd {
 	width: 80px;
 }
