@@ -371,8 +371,8 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'skins.icons.userIcons',
 			'skins.icons.adminIcons',
 			'skins.icons.additionalIcons',
-			'~libraries/js/chosen/chosen.css',
-			'~libraries/js/chosen/chosen.bootstrap.css',
+			'~libraries/chosen-js/chosen.css',
+			'~libraries/bootstrap-chosen/bootstrap-chosen.css',
 			'~libraries/js/jquery-ui/jquery-ui.css',
 			'~libraries/js/selectize/css/selectize.bootstrap3.css',
 			'~libraries/select2/dist/css/select2.css',
@@ -418,7 +418,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	{
 		$jsFileNames = [
 			'~libraries/js/jquery.blockUI.js',
-			'~libraries/js/chosen/chosen.jquery.js',
+			'~libraries/chosen-js/chosen.jquery.js',
 			'~libraries/select2/dist/js/select2.full.js',
 			'~libraries/js/jquery-ui/jquery-ui.js',
 			'~libraries/js/jquery.class.js',

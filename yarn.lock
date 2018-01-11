@@ -6,6 +6,14 @@ almond@~0.3.1:
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/almond/-/almond-0.3.3.tgz#a0e7c95ac7624d6417b4494b1e68bff693168a20"
 
+bootstrap-chosen@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/bootstrap-chosen/-/bootstrap-chosen-1.4.2.tgz#d7a184b21ecd952d586982339c60128f8827334d"
+
+chosen-js@^1.8.2:
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/chosen-js/-/chosen-js-1.8.2.tgz#bfd8ed1266ef667fbbc453c7e5b88d4c470e897e"
+
 ckeditor@^4.8.0:
   version "4.8.0"
   resolved "https://registry.yarnpkg.com/ckeditor/-/ckeditor-4.8.0.tgz#5d450fa02a68d5a143cf5619754fbf0c04cad426"
