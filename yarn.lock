@@ -18,9 +18,21 @@ ckeditor@^4.8.0:
   version "4.8.0"
   resolved "https://registry.yarnpkg.com/ckeditor/-/ckeditor-4.8.0.tgz#5d450fa02a68d5a143cf5619754fbf0c04cad426"
 
+clipboard@^1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/clipboard/-/clipboard-1.7.1.tgz#360d6d6946e99a7a1fef395e42ba92b5e9b5a16b"
+  dependencies:
+    good-listener "^1.2.2"
+    select "^1.1.2"
+    tiny-emitter "^2.0.0"
+
 css-element-queries@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/css-element-queries/-/css-element-queries-1.0.1.tgz#dd14970dd66a7634ec59028fee3820f2a7eff8a8"
+
+delegate@^3.1.2:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/delegate/-/delegate-3.2.0.tgz#b66b71c3158522e8ab5744f720d8ca0c2af59166"
 
 font-awesome@>=4.7.0:
   version "4.7.0"
@@ -32,6 +44,12 @@ fullcalendar@3.8.0:
   dependencies:
     jquery "2 - 3"
     moment "^2.9.0"
+
+good-listener@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/good-listener/-/good-listener-1.2.2.tgz#d53b30cdf9313dffb7dc9a0d477096aa6d145c50"
+  dependencies:
+    delegate "^3.1.2"
 
 jquery-mousewheel@~3.1.13:
   version "3.1.13"
@@ -76,6 +94,10 @@ select2@^4.0.6-rc.1:
     almond "~0.3.1"
     jquery-mousewheel "~3.1.13"
 
+select@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/select/-/select-1.1.2.tgz#0e7350acdec80b1108528786ec1d4418d11b396d"
+
 simplebar@^2.5.1:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/simplebar/-/simplebar-2.5.1.tgz#a59e5aa283afe1f2a89b48ebc052613e1e456fef"
@@ -88,3 +110,7 @@ simplebar@^2.5.1:
 split.js@^1.3.5:
   version "1.3.5"
   resolved "https://registry.yarnpkg.com/split.js/-/split.js-1.3.5.tgz#62e2ce66d2cf91cc774aa5f0749ff25138039f50"
+
+tiny-emitter@^2.0.0:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/tiny-emitter/-/tiny-emitter-2.0.2.tgz#82d27468aca5ade8e5fd1e6d22b57dd43ebdfb7c"
