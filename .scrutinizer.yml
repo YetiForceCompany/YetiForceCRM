@@ -72,10 +72,11 @@ tools:
     sensiolabs_security_checker: true
     
 build:
+    tests: false
     nodes:
-        tests: false
-        stop_on_failure: false
         analysis:
             tests:
                 override:
-                    command: "php -v"
+                    -
+                        command: phpcs-run
+                        use_website_config: true
