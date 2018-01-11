@@ -74,9 +74,8 @@ tools:
 build:
     nodes:
         tests: false
+        stop_on_failure: false
         analysis:
             tests:
                 override:
-                    -
-                        command: phpcs-run
-                        use_website_config: true
+                    command: "php -v"
