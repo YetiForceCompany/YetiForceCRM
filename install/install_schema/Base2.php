@@ -6103,7 +6103,7 @@ class Base2 extends \App\Db\Importers\Base
 					[29, 479, 'last_name', 'vtiger_users', 1, 2, 'last_name', 'Last Name', 1, 0, '', 30, 4, 77, 1, 'V~M', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 480, 'roleid', 'vtiger_user2role', 1, 98, 'roleid', 'Role', 1, 0, '', 200, 8, 77, 1, 'V~M', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 481, 'email1', 'vtiger_users', 1, 104, 'email1', 'Email', 1, 0, '', 100, 2, 77, 1, 'E~M', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[29, 482, 'status', 'vtiger_users', 1, 115, 'status', 'Status', 1, 0, 'Active', 100, 10, 77, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[29, 482, 'status', 'vtiger_users', 1, 115, 'status', 'Status', 1, 0, 'Active', 100, 10, 77, 1, 'V~M', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 483, 'activity_view', 'vtiger_users', 1, 16, 'activity_view', 'Default Activity View', 1, 0, 'This Month', 100, 6, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 484, 'lead_view', 'vtiger_users', 1, 16, 'lead_view', 'Default Lead View', 1, 0, '', 100, 9, 77, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 485, 'hour_format', 'vtiger_users', 1, 16, 'hour_format', 'Calendar Hour Format', 1, 0, '24', 100, 3, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
