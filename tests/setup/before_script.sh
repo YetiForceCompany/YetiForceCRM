@@ -1,12 +1,11 @@
 sudo wget https://phar.phpunit.de/phpunit-6.2.phar
 sudo chmod +x phpunit-6.2.phar
 sudo mv phpunit-6.2.phar /usr/local/bin/phpunit
-sudo chmod -R 777 tests/setup/
 /usr/local/bin/phpunit --version
 composer install
-sudo apt-key adv --fetch-keys http://dl.yarnpkg.com/debian/pubkey.gpg
-sudo apt-get update -qq
-sudo apt-get install -y -qq yarn
+#sudo apt-key adv --fetch-keys http://dl.yarnpkg.com/debian/pubkey.gpg
+#sudo apt-get update -qq
+#sudo apt-get install -y -qq yarn
 yarn install --force --modules-folder "./public_html/libraries"
 sudo wget https://scrutinizer-ci.com/ocular.phar
 sudo chmod +x ocular.phar
