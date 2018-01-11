@@ -385,7 +385,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/js/daterangepicker/daterangepicker.css',
 			'~libraries/footable/css/footable.core.css',
 			'~libraries/js/timepicker/jquery.timepicker.css',
-			'~libraries/js/clockpicker/bootstrap-clockpicker.css',
+			'~libraries/clockpicker/dist/bootstrap-clockpicker.css',
 			'~layouts/resources/colors/calendar.css',
 			'~layouts/resources/colors/owners.css',
 			'~layouts/resources/colors/modules.css',
