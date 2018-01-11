@@ -39,6 +39,8 @@
 /public_html/libraries/select/
 /public_html/libraries/tiny-emitter/
 /public_html/libraries/clockpicker/
+/public_html/libraries/datatables.net/
+/public_html/libraries/datatables.net-bs/
 /libraries/PHPExcel/
 /libraries/mPDF/
 /vendor/*/

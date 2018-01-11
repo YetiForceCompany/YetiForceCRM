@@ -25,6 +25,8 @@
 		"clipboard": "^1.7.1",
 		"clockpicker": "^0.0.7",
 		"css-element-queries": "^1.0.1",
+		"datatables.net": "^1.10.16",
+		"datatables.net-bs": "^1.10.16",
 		"font-awesome": ">=4.7.0",
 		"fullcalendar": "3.8.0",
 		"jquery": "<3.0.0",
