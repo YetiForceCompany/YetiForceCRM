@@ -186,7 +186,7 @@ window.app = {
 		});
 
 		// Improve the display of default text (placeholder)
-		var chosenSelectConainer = jQuery('.chosen-container-multi .default').css('width', '100%');
+		var chosenSelectConainer = jQuery('.chosen-container-multi .default, .chosen-container').css('width', '100%');
 		return chosenSelectConainer;
 	},
 	/**

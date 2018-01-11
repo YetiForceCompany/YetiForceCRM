@@ -88,7 +88,7 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 		}
 		$jsFileNames = array_merge($jsFileNames, [
 			'libraries.js.jquery_windowmsg',
-			'~libraries/js/clockpicker/jquery-clockpicker.js',
+			'~libraries/clockpicker/dist/jquery-clockpicker.js',
 			'modules.Vtiger.resources.TreePopup',
 			"modules.$moduleName.resources.TreePopup",
 		]);

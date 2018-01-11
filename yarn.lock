@@ -26,6 +26,10 @@ clipboard@^1.7.1:
     select "^1.1.2"
     tiny-emitter "^2.0.0"
 
+clockpicker@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/clockpicker/-/clockpicker-0.0.7.tgz#32d02c3a6cb00a3b6ea6d1ec2c5fc147d7bec06e"
+
 css-element-queries@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/css-element-queries/-/css-element-queries-1.0.1.tgz#dd14970dd66a7634ec59028fee3820f2a7eff8a8"
