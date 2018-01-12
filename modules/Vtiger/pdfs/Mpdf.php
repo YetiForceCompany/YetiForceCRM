@@ -32,7 +32,19 @@ class Vtiger_Mpdf_Pdf extends Vtiger_AbstractPDF_Pdf
 	public function __construct($mode = '', $format = 'A4', $defaultFontSize = 0, $defaultFont = '', $orientation = 'P', $leftMargin = 15, $rightMargin = 15, $topMargin = 16, $bottomMargin = 16, $headerMargin = 9, $footerMargin = 9)
 	{
 		$this->setLibraryName('mPDF');
-		$this->pdf = new mPDF($mode, $format . '-' . $orientation, $defaultFontSize, $defaultFont, $leftMargin, $rightMargin, $topMargin, $bottomMargin, $headerMargin, $footerMargin, $orientation);
+		$this->pdf = new \Mpdf\Mpdf([
+			'mode' => $mode,
+			'format' => $format,
+			'default_font_size' => $defaultFontSize,
+			'default_font' => $defaultFont,
+			'margin_left' => $leftMargin,
+			'margin_right' => $rightMargin,
+			'margin_top' => $topMargin,
+			'margin_bottom' => $bottomMargin,
+			'margin_header' => $headerMargin,
+			'margin_footer' => $footerMargin,
+			'orientation' => $orientation,
+		]);
 	}
 
 	/**
