@@ -3285,7 +3285,6 @@ class ReportRun extends CRMEntity
 
 	public function writeReportToExcelFile($fileName, $filterlist = '')
 	{
-		require_once("libraries/PHPExcel/PHPExcel.php");
 		$workbook = new PHPExcel();
 		$worksheet = $workbook->setActiveSheetIndex(0);
 		$reportData = $this->GenerateReport("PDF", $filterlist);

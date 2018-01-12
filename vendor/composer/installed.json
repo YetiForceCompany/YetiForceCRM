@@ -1,1313 +1,1542 @@
 [
-	{
-		"name": "sabre/uri",
-		"version": "1.2.1",
-		"version_normalized": "1.2.1.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/sabre-io/uri.git",
-			"reference": "ada354d83579565949d80b2e15593c2371225e61"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/sabre-io/uri/zipball/ada354d83579565949d80b2e15593c2371225e61",
-			"reference": "ada354d83579565949d80b2e15593c2371225e61",
-			"shasum": ""
-		},
-		"require": {
-			"php": ">=5.4.7"
-		},
-		"require-dev": {
-			"phpunit/phpunit": ">=4.0,<6.0",
-			"sabre/cs": "~1.0.0"
-		},
-		"time": "2017-02-20T19:59:28+00:00",
-		"type": "library",
-		"installation-source": "dist",
-		"autoload": {
-			"files": [
-				"lib/functions.php"
-			],
-			"psr-4": {
-				"Sabre\\Uri\\": "lib/"
-			}
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"BSD-3-Clause"
-		],
-		"authors": [
-			{
-				"name": "Evert Pot",
-				"email": "me@evertpot.com",
-				"homepage": "http://evertpot.com/",
-				"role": "Developer"
-			}
-		],
-		"description": "Functions for making sense out of URIs.",
-		"homepage": "http://sabre.io/uri/",
-		"keywords": [
-			"rfc3986",
-			"uri",
-			"url"
-		]
-	},
-	{
-		"name": "sabre/xml",
-		"version": "1.5.0",
-		"version_normalized": "1.5.0.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/sabre-io/xml.git",
-			"reference": "59b20e5bbace9912607481634f97d05a776ffca7"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/sabre-io/xml/zipball/59b20e5bbace9912607481634f97d05a776ffca7",
-			"reference": "59b20e5bbace9912607481634f97d05a776ffca7",
-			"shasum": ""
-		},
-		"require": {
-			"ext-dom": "*",
-			"ext-xmlreader": "*",
-			"ext-xmlwriter": "*",
-			"lib-libxml": ">=2.6.20",
-			"php": ">=5.5.5",
-			"sabre/uri": ">=1.0,<3.0.0"
-		},
-		"require-dev": {
-			"phpunit/phpunit": "*",
-			"sabre/cs": "~1.0.0"
-		},
-		"time": "2016-10-09T22:57:52+00:00",
-		"type": "library",
-		"installation-source": "dist",
-		"autoload": {
-			"psr-4": {
-				"Sabre\\Xml\\": "lib/"
-			},
-			"files": [
-				"lib/Deserializer/functions.php",
-				"lib/Serializer/functions.php"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"BSD-3-Clause"
-		],
-		"authors": [
-			{
-				"name": "Evert Pot",
-				"email": "me@evertpot.com",
-				"homepage": "http://evertpot.com/",
-				"role": "Developer"
-			},
-			{
-				"name": "Markus Staab",
-				"email": "markus.staab@redaxo.de",
-				"role": "Developer"
-			}
-		],
-		"description": "sabre/xml is an XML library that you may not hate.",
-		"homepage": "https://sabre.io/xml/",
-		"keywords": [
-			"XMLReader",
-			"XMLWriter",
-			"dom",
-			"xml"
-		]
-	},
-	{
-		"name": "sabre/event",
-		"version": "3.0.0",
-		"version_normalized": "3.0.0.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/sabre-io/event.git",
-			"reference": "831d586f5a442dceacdcf5e9c4c36a4db99a3534"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/sabre-io/event/zipball/831d586f5a442dceacdcf5e9c4c36a4db99a3534",
-			"reference": "831d586f5a442dceacdcf5e9c4c36a4db99a3534",
-			"shasum": ""
-		},
-		"require": {
-			"php": ">=5.5"
-		},
-		"require-dev": {
-			"phpunit/phpunit": "*",
-			"sabre/cs": "~0.0.4"
-		},
-		"time": "2015-11-05T20:14:39+00:00",
-		"type": "library",
-		"installation-source": "dist",
-		"autoload": {
-			"psr-4": {
-				"Sabre\\Event\\": "lib/"
-			},
-			"files": [
-				"lib/coroutine.php",
-				"lib/Loop/functions.php",
-				"lib/Promise/functions.php"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"BSD-3-Clause"
-		],
-		"authors": [
-			{
-				"name": "Evert Pot",
-				"email": "me@evertpot.com",
-				"homepage": "http://evertpot.com/",
-				"role": "Developer"
-			}
-		],
-		"description": "sabre/event is a library for lightweight event-based programming",
-		"homepage": "http://sabre.io/event/",
-		"keywords": [
-			"EventEmitter",
-			"async",
-			"events",
-			"hooks",
-			"plugin",
-			"promise",
-			"signal"
-		]
-	},
-	{
-		"name": "sabre/http",
-		"version": "4.2.3",
-		"version_normalized": "4.2.3.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/sabre-io/http.git",
-			"reference": "0295f9a3ee39be97e0898592fc19e42421e0cd93"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/sabre-io/http/zipball/0295f9a3ee39be97e0898592fc19e42421e0cd93",
-			"reference": "0295f9a3ee39be97e0898592fc19e42421e0cd93",
-			"shasum": ""
-		},
-		"require": {
-			"ext-ctype": "*",
-			"ext-mbstring": "*",
-			"php": ">=5.4",
-			"sabre/event": ">=1.0.0,<4.0.0",
-			"sabre/uri": "~1.0"
-		},
-		"require-dev": {
-			"phpunit/phpunit": "~4.3",
-			"sabre/cs": "~0.0.1"
-		},
-		"suggest": {
-			"ext-curl": " to make http requests with the Client class"
-		},
-		"time": "2017-06-12T07:53:04+00:00",
-		"type": "library",
-		"installation-source": "dist",
-		"autoload": {
-			"files": [
-				"lib/functions.php"
-			],
-			"psr-4": {
-				"Sabre\\HTTP\\": "lib/"
-			}
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"BSD-3-Clause"
-		],
-		"authors": [
-			{
-				"name": "Evert Pot",
-				"email": "me@evertpot.com",
-				"homepage": "http://evertpot.com/",
-				"role": "Developer"
-			}
-		],
-		"description": "The sabre/http library provides utilities for dealing with http requests and responses. ",
-		"homepage": "https://github.com/fruux/sabre-http",
-		"keywords": [
-			"http"
-		]
-	},
-	{
-		"name": "sabre/dav",
-		"version": "3.1.3",
-		"version_normalized": "3.1.3.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/sabre-io/dav.git",
-			"reference": "8a266c7b5e140da79529414b9cde2a2d058b536b"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/sabre-io/dav/zipball/8a266c7b5e140da79529414b9cde2a2d058b536b",
-			"reference": "8a266c7b5e140da79529414b9cde2a2d058b536b",
-			"shasum": ""
-		},
-		"require": {
-			"ext-ctype": "*",
-			"ext-date": "*",
-			"ext-dom": "*",
-			"ext-iconv": "*",
-			"ext-mbstring": "*",
-			"ext-pcre": "*",
-			"ext-simplexml": "*",
-			"ext-spl": "*",
-			"lib-libxml": ">=2.7.0",
-			"php": ">=5.5.0",
-			"sabre/event": ">=2.0.0, <4.0.0",
-			"sabre/http": "^4.2.1",
-			"sabre/uri": "~1.0",
-			"sabre/vobject": "~4.0",
-			"sabre/xml": "~1.0"
-		},
-		"require-dev": {
-			"evert/phpdoc-md": "~0.1.0",
-			"phpunit/phpunit": "> 4.8, <=6.0.0",
-			"sabre/cs": "~0.0.5"
-		},
-		"suggest": {
-			"ext-curl": "*",
-			"ext-pdo": "*"
-		},
-		"time": "2016-04-07T01:02:57+00:00",
-		"bin": [
-			"bin/sabredav",
-			"bin/naturalselection"
-		],
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "3.1.0-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-4": {
-				"Sabre\\DAV\\": "lib/DAV/",
-				"Sabre\\DAVACL\\": "lib/DAVACL/",
-				"Sabre\\CalDAV\\": "lib/CalDAV/",
-				"Sabre\\CardDAV\\": "lib/CardDAV/"
-			}
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"BSD-3-Clause"
-		],
-		"authors": [
-			{
-				"name": "Evert Pot",
-				"email": "me@evertpot.com",
-				"homepage": "http://evertpot.com/",
-				"role": "Developer"
-			}
-		],
-		"description": "WebDAV Framework for PHP",
-		"homepage": "http://sabre.io/",
-		"keywords": [
-			"CalDAV",
-			"CardDAV",
-			"WebDAV",
-			"framework",
-			"iCalendar"
-		]
-	},
-	{
-		"name": "rmccue/requests",
-		"version": "v1.7.0",
-		"version_normalized": "1.7.0.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/rmccue/Requests.git",
-			"reference": "87932f52ffad70504d93f04f15690cf16a089546"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/rmccue/Requests/zipball/87932f52ffad70504d93f04f15690cf16a089546",
-			"reference": "87932f52ffad70504d93f04f15690cf16a089546",
-			"shasum": ""
-		},
-		"require": {
-			"php": ">=5.2"
-		},
-		"require-dev": {
-			"requests/test-server": "dev-master"
-		},
-		"time": "2016-10-13T00:11:37+00:00",
-		"type": "library",
-		"installation-source": "dist",
-		"autoload": {
-			"psr-0": {
-				"Requests": "library/"
-			}
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"ISC"
-		],
-		"authors": [
-			{
-				"name": "Ryan McCue",
-				"homepage": "http://ryanmccue.info"
-			}
-		],
-		"description": "A HTTP library written in PHP, for human beings.",
-		"homepage": "http://github.com/rmccue/Requests",
-		"keywords": [
-			"curl",
-			"fsockopen",
-			"http",
-			"idna",
-			"ipv6",
-			"iri",
-			"sockets"
-		]
-	},
-	{
-		"name": "smarty/smarty",
-		"version": "v3.1.31",
-		"version_normalized": "3.1.31.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/smarty-php/smarty.git",
-			"reference": "c7d42e4a327c402897dd587871434888fde1e7a9"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/smarty-php/smarty/zipball/c7d42e4a327c402897dd587871434888fde1e7a9",
-			"reference": "c7d42e4a327c402897dd587871434888fde1e7a9",
-			"shasum": ""
-		},
-		"require": {
-			"php": ">=5.2"
-		},
-		"time": "2016-12-14T21:57:25+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "3.1.x-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"files": [
-				"libs/bootstrap.php"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"LGPL-3.0"
-		],
-		"authors": [
-			{
-				"name": "Monte Ohrt",
-				"email": "monte@ohrt.com"
-			},
-			{
-				"name": "Uwe Tews",
-				"email": "uwe.tews@googlemail.com"
-			},
-			{
-				"name": "Rodney Rehm",
-				"email": "rodney.rehm@medialize.de"
-			}
-		],
-		"description": "Smarty - the compiling PHP template engine",
-		"homepage": "http://www.smarty.net",
-		"keywords": [
-			"templating"
-		]
-	},
-	{
-		"name": "ezyang/htmlpurifier",
-		"version": "v4.9.3",
-		"version_normalized": "4.9.3.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/ezyang/htmlpurifier.git",
-			"reference": "95e1bae3182efc0f3422896a3236e991049dac69"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/95e1bae3182efc0f3422896a3236e991049dac69",
-			"reference": "95e1bae3182efc0f3422896a3236e991049dac69",
-			"shasum": ""
-		},
-		"require": {
-			"php": ">=5.2"
-		},
-		"require-dev": {
-			"simpletest/simpletest": "^1.1"
-		},
-		"time": "2017-06-03T02:28:16+00:00",
-		"type": "library",
-		"installation-source": "dist",
-		"autoload": {
-			"psr-0": {
-				"HTMLPurifier": "library/"
-			},
-			"files": [
-				"library/HTMLPurifier.composer.php"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"LGPL"
-		],
-		"authors": [
-			{
-				"name": "Edward Z. Yang",
-				"email": "admin@htmlpurifier.org",
-				"homepage": "http://ezyang.com"
-			}
-		],
-		"description": "Standards compliant HTML filter written in PHP",
-		"homepage": "http://htmlpurifier.org/",
-		"keywords": [
-			"html"
-		]
-	},
-	{
-		"name": "doctrine/collections",
-		"version": "v1.4.0",
-		"version_normalized": "1.4.0.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/doctrine/collections.git",
-			"reference": "1a4fb7e902202c33cce8c55989b945612943c2ba"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/doctrine/collections/zipball/1a4fb7e902202c33cce8c55989b945612943c2ba",
-			"reference": "1a4fb7e902202c33cce8c55989b945612943c2ba",
-			"shasum": ""
-		},
-		"require": {
-			"php": "^5.6 || ^7.0"
-		},
-		"require-dev": {
-			"doctrine/coding-standard": "~0.1@dev",
-			"phpunit/phpunit": "^5.7"
-		},
-		"time": "2017-01-03T10:49:41+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "1.3.x-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-0": {
-				"Doctrine\\Common\\Collections\\": "lib/"
-			}
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"MIT"
-		],
-		"authors": [
-			{
-				"name": "Roman Borschel",
-				"email": "roman@code-factory.org"
-			},
-			{
-				"name": "Benjamin Eberlei",
-				"email": "kontakt@beberlei.de"
-			},
-			{
-				"name": "Guilherme Blanco",
-				"email": "guilhermeblanco@gmail.com"
-			},
-			{
-				"name": "Jonathan Wage",
-				"email": "jonwage@gmail.com"
-			},
-			{
-				"name": "Johannes Schmitt",
-				"email": "schmittjoh@gmail.com"
-			}
-		],
-		"description": "Collections Abstraction library",
-		"homepage": "http://www.doctrine-project.org",
-		"keywords": [
-			"array",
-			"collections",
-			"iterator"
-		]
-	},
-	{
-		"name": "psr/log",
-		"version": "1.0.2",
-		"version_normalized": "1.0.2.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/php-fig/log.git",
-			"reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
-			"reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
-			"shasum": ""
-		},
-		"require": {
-			"php": ">=5.3.0"
-		},
-		"time": "2016-10-10T12:19:37+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "1.0.x-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-4": {
-				"Psr\\Log\\": "Psr/Log/"
-			}
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"MIT"
-		],
-		"authors": [
-			{
-				"name": "PHP-FIG",
-				"homepage": "http://www.php-fig.org/"
-			}
-		],
-		"description": "Common interface for logging libraries",
-		"homepage": "https://github.com/php-fig/log",
-		"keywords": [
-			"log",
-			"psr",
-			"psr-3"
-		]
-	},
-	{
-		"name": "phpmailer/phpmailer",
-		"version": "v5.2.25",
-		"version_normalized": "5.2.25.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/PHPMailer/PHPMailer.git",
-			"reference": "2baf20b01690fba8cf720c1ebcf9b988eda50915"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/2baf20b01690fba8cf720c1ebcf9b988eda50915",
-			"reference": "2baf20b01690fba8cf720c1ebcf9b988eda50915",
-			"shasum": ""
-		},
-		"require": {
-			"ext-ctype": "*",
-			"php": ">=5.0.0"
-		},
-		"require-dev": {
-			"doctrine/annotations": "1.2.*",
-			"jms/serializer": "0.16.*",
-			"phpdocumentor/phpdocumentor": "2.*",
-			"phpunit/phpunit": "4.8.*",
-			"symfony/debug": "2.8.*",
-			"symfony/filesystem": "2.8.*",
-			"symfony/translation": "2.8.*",
-			"symfony/yaml": "2.8.*",
-			"zendframework/zend-cache": "2.5.1",
-			"zendframework/zend-config": "2.5.1",
-			"zendframework/zend-eventmanager": "2.5.1",
-			"zendframework/zend-filter": "2.5.1",
-			"zendframework/zend-i18n": "2.5.1",
-			"zendframework/zend-json": "2.5.1",
-			"zendframework/zend-math": "2.5.1",
-			"zendframework/zend-serializer": "2.5.*",
-			"zendframework/zend-servicemanager": "2.5.*",
-			"zendframework/zend-stdlib": "2.5.1"
-		},
-		"suggest": {
-			"league/oauth2-google": "Needed for Google XOAUTH2 authentication"
-		},
-		"time": "2017-08-28T11:12:07+00:00",
-		"type": "library",
-		"installation-source": "dist",
-		"autoload": {
-			"classmap": [
-				"class.phpmailer.php",
-				"class.phpmaileroauth.php",
-				"class.phpmaileroauthgoogle.php",
-				"class.smtp.php",
-				"class.pop3.php",
-				"extras/EasyPeasyICS.php",
-				"extras/ntlm_sasl_client.php"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"LGPL-2.1"
-		],
-		"authors": [
-			{
-				"name": "Jim Jagielski",
-				"email": "jimjag@gmail.com"
-			},
-			{
-				"name": "Marcus Bointon",
-				"email": "phpmailer@synchromedia.co.uk"
-			},
-			{
-				"name": "Andy Prevost",
-				"email": "codeworxtech@users.sourceforge.net"
-			},
-			{
-				"name": "Brent R. Matzelle"
-			}
-		],
-		"description": "PHPMailer is a full-featured email creation and transfer class for PHP"
-	},
-	{
-		"name": "simshaun/recurr",
-		"version": "v3.0.2",
-		"version_normalized": "3.0.2.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/simshaun/recurr.git",
-			"reference": "7d0e8942cb1d00d4bc11d5eb87fa990d77b0de61"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/simshaun/recurr/zipball/7d0e8942cb1d00d4bc11d5eb87fa990d77b0de61",
-			"reference": "7d0e8942cb1d00d4bc11d5eb87fa990d77b0de61",
-			"shasum": ""
-		},
-		"require": {
-			"doctrine/collections": "~1.3",
-			"php": ">=5.5.0"
-		},
-		"require-dev": {
-			"phpunit/phpunit": "~4.5"
-		},
-		"time": "2017-08-03T23:25:58+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "0.x-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-0": {
-				"Recurr": "src/"
-			}
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"MIT"
-		],
-		"authors": [
-			{
-				"name": "Shaun Simmons",
-				"email": "shaun@envysphere.com",
-				"homepage": "http://envysphere.com"
-			}
-		],
-		"description": "PHP library for working with recurrence rules",
-		"homepage": "https://github.com/simshaun/recurr",
-		"keywords": [
-			"dates",
-			"events",
-			"recurrence",
-			"recurring",
-			"rrule"
-		]
-	},
-	{
-		"name": "symfony/debug",
-		"version": "v3.3.6",
-		"version_normalized": "3.3.6.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/symfony/debug.git",
-			"reference": "7c13ae8ce1e2adbbd574fc39de7be498e1284e13"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/symfony/debug/zipball/7c13ae8ce1e2adbbd574fc39de7be498e1284e13",
-			"reference": "7c13ae8ce1e2adbbd574fc39de7be498e1284e13",
-			"shasum": ""
-		},
-		"require": {
-			"php": ">=5.5.9",
-			"psr/log": "~1.0"
-		},
-		"conflict": {
-			"symfony/http-kernel": ">=2.3,<2.3.24|~2.4.0|>=2.5,<2.5.9|>=2.6,<2.6.2"
-		},
-		"require-dev": {
-			"symfony/http-kernel": "~2.8|~3.0"
-		},
-		"time": "2017-07-28T15:27:31+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "3.3-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-4": {
-				"Symfony\\Component\\Debug\\": ""
-			},
-			"exclude-from-classmap": [
-				"/Tests/"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"MIT"
-		],
-		"authors": [
-			{
-				"name": "Fabien Potencier",
-				"email": "fabien@symfony.com"
-			},
-			{
-				"name": "Symfony Community",
-				"homepage": "https://symfony.com/contributors"
-			}
-		],
-		"description": "Symfony Debug Component",
-		"homepage": "https://symfony.com"
-	},
-	{
-		"name": "symfony/console",
-		"version": "v3.3.6",
-		"version_normalized": "3.3.6.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/symfony/console.git",
-			"reference": "b0878233cb5c4391347e5495089c7af11b8e6201"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/symfony/console/zipball/b0878233cb5c4391347e5495089c7af11b8e6201",
-			"reference": "b0878233cb5c4391347e5495089c7af11b8e6201",
-			"shasum": ""
-		},
-		"require": {
-			"php": ">=5.5.9",
-			"symfony/debug": "~2.8|~3.0",
-			"symfony/polyfill-mbstring": "~1.0"
-		},
-		"conflict": {
-			"symfony/dependency-injection": "<3.3"
-		},
-		"require-dev": {
-			"psr/log": "~1.0",
-			"symfony/config": "~3.3",
-			"symfony/dependency-injection": "~3.3",
-			"symfony/event-dispatcher": "~2.8|~3.0",
-			"symfony/filesystem": "~2.8|~3.0",
-			"symfony/http-kernel": "~2.8|~3.0",
-			"symfony/process": "~2.8|~3.0"
-		},
-		"suggest": {
-			"psr/log": "For using the console logger",
-			"symfony/event-dispatcher": "",
-			"symfony/filesystem": "",
-			"symfony/process": ""
-		},
-		"time": "2017-07-29T21:27:59+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "3.3-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-4": {
-				"Symfony\\Component\\Console\\": ""
-			},
-			"exclude-from-classmap": [
-				"/Tests/"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"MIT"
-		],
-		"authors": [
-			{
-				"name": "Fabien Potencier",
-				"email": "fabien@symfony.com"
-			},
-			{
-				"name": "Symfony Community",
-				"homepage": "https://symfony.com/contributors"
-			}
-		],
-		"description": "Symfony Console Component",
-		"homepage": "https://symfony.com"
-	},
-	{
-		"name": "symfony/var-dumper",
-		"version": "v3.3.6",
-		"version_normalized": "3.3.6.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/symfony/var-dumper.git",
-			"reference": "b2623bccb969ad595c2090f9be498b74670d0663"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/symfony/var-dumper/zipball/b2623bccb969ad595c2090f9be498b74670d0663",
-			"reference": "b2623bccb969ad595c2090f9be498b74670d0663",
-			"shasum": ""
-		},
-		"require": {
-			"php": ">=5.5.9",
-			"symfony/polyfill-mbstring": "~1.0"
-		},
-		"conflict": {
-			"phpunit/phpunit": "<4.8.35|<5.4.3,>=5.0"
-		},
-		"require-dev": {
-			"ext-iconv": "*",
-			"twig/twig": "~1.34|~2.4"
-		},
-		"suggest": {
-			"ext-iconv": "To convert non-UTF-8 strings to UTF-8 (or symfony/polyfill-iconv in case ext-iconv cannot be used).",
-			"ext-symfony_debug": ""
-		},
-		"time": "2017-07-28T06:06:09+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "3.3-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"files": [
-				"Resources/functions/dump.php"
-			],
-			"psr-4": {
-				"Symfony\\Component\\VarDumper\\": ""
-			},
-			"exclude-from-classmap": [
-				"/Tests/"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"MIT"
-		],
-		"authors": [
-			{
-				"name": "Nicolas Grekas",
-				"email": "p@tchwork.com"
-			},
-			{
-				"name": "Symfony Community",
-				"homepage": "https://symfony.com/contributors"
-			}
-		],
-		"description": "Symfony mechanism for exploring and dumping PHP variables",
-		"homepage": "https://symfony.com",
-		"keywords": [
-			"debug",
-			"dump"
-		]
-	},
-	{
-		"name": "symfony/polyfill-mbstring",
-		"version": "v1.6.0",
-		"version_normalized": "1.6.0.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/symfony/polyfill-mbstring.git",
-			"reference": "2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296",
-			"reference": "2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296",
-			"shasum": ""
-		},
-		"require": {
-			"php": ">=5.3.3"
-		},
-		"suggest": {
-			"ext-mbstring": "For best performance"
-		},
-		"time": "2017-10-11T12:05:26+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "1.6-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-4": {
-				"Symfony\\Polyfill\\Mbstring\\": ""
-			},
-			"files": [
-				"bootstrap.php"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"MIT"
-		],
-		"authors": [
-			{
-				"name": "Nicolas Grekas",
-				"email": "p@tchwork.com"
-			},
-			{
-				"name": "Symfony Community",
-				"homepage": "https://symfony.com/contributors"
-			}
-		],
-		"description": "Symfony polyfill for the Mbstring extension",
-		"homepage": "https://symfony.com",
-		"keywords": [
-			"compatibility",
-			"mbstring",
-			"polyfill",
-			"portable",
-			"shim"
-		]
-	},
-	{
-		"name": "giggsey/locale",
-		"version": "1.4",
-		"version_normalized": "1.4.0.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/giggsey/Locale.git",
-			"reference": "e351a72ad6af6b41b690efdeffe1138fe5cc8b9c"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/giggsey/Locale/zipball/e351a72ad6af6b41b690efdeffe1138fe5cc8b9c",
-			"reference": "e351a72ad6af6b41b690efdeffe1138fe5cc8b9c",
-			"shasum": ""
-		},
-		"require": {
-			"php": ">=5.3.2"
-		},
-		"require-dev": {
-			"pear/pear-core-minimal": "^1.9",
-			"pear/pear_exception": "^1.0",
-			"pear/versioncontrol_git": "^0.5",
-			"phing/phing": "~2.7",
-			"phpunit/phpunit": "^4.8|^5.0",
-			"satooshi/php-coveralls": "^1.0",
-			"symfony/console": "^2.8|^3.0",
-			"symfony/filesystem": "^2.8|^3.0",
-			"symfony/finder": "^2.8|^3.0",
-			"symfony/process": "^2.8|^3.0"
-		},
-		"time": "2017-11-01T21:34:27+00:00",
-		"type": "library",
-		"installation-source": "dist",
-		"autoload": {
-			"psr-4": {
-				"Giggsey\\Locale\\": "src/"
-			}
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"MIT"
-		],
-		"authors": [
-			{
-				"name": "Joshua Gigg",
-				"email": "giggsey@gmail.com",
-				"homepage": "http://giggsey.com/"
-			}
-		],
-		"description": "Locale functions required by libphonenumber-for-php"
-	},
-	{
-		"name": "composer/ca-bundle",
-		"version": "1.1.0",
-		"version_normalized": "1.1.0.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/composer/ca-bundle.git",
-			"reference": "943b2c4fcad1ef178d16a713c2468bf7e579c288"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/composer/ca-bundle/zipball/943b2c4fcad1ef178d16a713c2468bf7e579c288",
-			"reference": "943b2c4fcad1ef178d16a713c2468bf7e579c288",
-			"shasum": ""
-		},
-		"require": {
-			"ext-openssl": "*",
-			"ext-pcre": "*",
-			"php": "^5.3.2 || ^7.0"
-		},
-		"require-dev": {
-			"phpunit/phpunit": "^4.8.35",
-			"psr/log": "^1.0",
-			"symfony/process": "^2.5 || ^3.0 || ^4.0"
-		},
-		"time": "2017-11-29T09:37:33+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "1.x-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-4": {
-				"Composer\\CaBundle\\": "src"
-			}
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"MIT"
-		],
-		"authors": [
-			{
-				"name": "Jordi Boggiano",
-				"email": "j.boggiano@seld.be",
-				"homepage": "http://seld.be"
-			}
-		],
-		"description": "Lets you find a path to the system CA bundle, and includes a fallback to the Mozilla CA bundle.",
-		"keywords": [
-			"cabundle",
-			"cacert",
-			"certificate",
-			"ssl",
-			"tls"
-		]
-	},
-	{
-		"name": "sensiolabs/security-checker",
-		"version": "v4.1.6",
-		"version_normalized": "4.1.6.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/sensiolabs/security-checker.git",
-			"reference": "387b6a3b723ba35588b33d5f8d14e28ed608bd30"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/387b6a3b723ba35588b33d5f8d14e28ed608bd30",
-			"reference": "387b6a3b723ba35588b33d5f8d14e28ed608bd30",
-			"shasum": ""
-		},
-		"require": {
-			"composer/ca-bundle": "^1.0",
-			"symfony/console": "~2.7|~3.0|~4.0"
-		},
-		"time": "2017-10-29T18:48:08+00:00",
-		"bin": [
-			"security-checker"
-		],
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "4.1-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-0": {
-				"SensioLabs\\Security": ""
-			}
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"MIT"
-		],
-		"authors": [
-			{
-				"name": "Fabien Potencier",
-				"email": "fabien.potencier@gmail.com"
-			}
-		],
-		"description": "A security checker for your composer.lock"
-	},
-	{
-		"name": "sabre/vobject",
-		"version": "4.1.4",
-		"version_normalized": "4.1.4.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/sabre-io/vobject.git",
-			"reference": "6484b9d660822c5e221c76122ce8ea658ecc9c5b"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/sabre-io/vobject/zipball/6484b9d660822c5e221c76122ce8ea658ecc9c5b",
-			"reference": "6484b9d660822c5e221c76122ce8ea658ecc9c5b",
-			"shasum": ""
-		},
-		"require": {
-			"ext-mbstring": "*",
-			"php": ">=5.5",
-			"sabre/xml": ">=1.5 <3.0"
-		},
-		"require-dev": {
-			"phpunit/phpunit": "> 4.8.35, <6.0.0",
-			"sabre/cs": "^1.0.0"
-		},
-		"suggest": {
-			"hoa/bench": "If you would like to run the benchmark scripts"
-		},
-		"time": "2017-12-22T14:16:56+00:00",
-		"bin": [
-			"bin/vobject",
-			"bin/generate_vcards"
-		],
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "4.0.x-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-4": {
-				"Sabre\\VObject\\": "lib/"
-			}
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"BSD-3-Clause"
-		],
-		"authors": [
-			{
-				"name": "Evert Pot",
-				"email": "me@evertpot.com",
-				"homepage": "http://evertpot.com/",
-				"role": "Developer"
-			},
-			{
-				"name": "Dominik Tobschall",
-				"email": "dominik@fruux.com",
-				"homepage": "http://tobschall.de/",
-				"role": "Developer"
-			},
-			{
-				"name": "Ivan Enderlin",
-				"email": "ivan.enderlin@hoa-project.net",
-				"homepage": "http://mnt.io/",
-				"role": "Developer"
-			}
-		],
-		"description": "The VObject library for PHP allows you to easily parse and manipulate iCalendar and vCard objects",
-		"homepage": "http://sabre.io/vobject/",
-		"keywords": [
-			"availability",
-			"freebusy",
-			"iCalendar",
-			"ical",
-			"ics",
-			"jCal",
-			"jCard",
-			"recurrence",
-			"rfc2425",
-			"rfc2426",
-			"rfc2739",
-			"rfc4770",
-			"rfc5545",
-			"rfc5546",
-			"rfc6321",
-			"rfc6350",
-			"rfc6351",
-			"rfc6474",
-			"rfc6638",
-			"rfc6715",
-			"rfc6868",
-			"vCalendar",
-			"vCard",
-			"vcf",
-			"xCal",
-			"xCard"
-		]
-	},
-	{
-		"name": "giggsey/libphonenumber-for-php",
-		"version": "8.8.8",
-		"version_normalized": "8.8.8.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/giggsey/libphonenumber-for-php.git",
-			"reference": "502d5e5e2fea5f5c58782558d04e664607a3dffd"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/502d5e5e2fea5f5c58782558d04e664607a3dffd",
-			"reference": "502d5e5e2fea5f5c58782558d04e664607a3dffd",
-			"shasum": ""
-		},
-		"require": {
-			"ext-mbstring": "*",
-			"giggsey/locale": "^1.2",
-			"php": ">=5.3.2"
-		},
-		"require-dev": {
-			"pear/pear-core-minimal": "^1.9",
-			"pear/pear_exception": "^1.0",
-			"pear/versioncontrol_git": "^0.5",
-			"phing/phing": "^2.7",
-			"phpunit/phpunit": "^4.8|^5.0",
-			"satooshi/php-coveralls": "^1.0",
-			"symfony/console": "^2.8|^3.0"
-		},
-		"time": "2017-12-06T20:11:38+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "8.x-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-4": {
-				"libphonenumber\\": "src/"
-			},
-			"exclude-from-classmap": [
-				"/src/data/",
-				"/src/carrier/data/",
-				"/src/geocoding/data/",
-				"/src/timezone/data/"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"Apache-2.0"
-		],
-		"authors": [
-			{
-				"name": "Joshua Gigg",
-				"email": "giggsey@gmail.com",
-				"homepage": "https://giggsey.com/"
-			}
-		],
-		"description": "PHP Port of Google's libphonenumber",
-		"homepage": "https://github.com/giggsey/libphonenumber-for-php",
-		"keywords": [
-			"geocoding",
-			"geolocation",
-			"libphonenumber",
-			"mobile",
-			"phonenumber",
-			"validation"
-		]
-	}
+    {
+        "name": "sabre/uri",
+        "version": "1.2.1",
+        "version_normalized": "1.2.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sabre-io/uri.git",
+            "reference": "ada354d83579565949d80b2e15593c2371225e61"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sabre-io/uri/zipball/ada354d83579565949d80b2e15593c2371225e61",
+            "reference": "ada354d83579565949d80b2e15593c2371225e61",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4.7"
+        },
+        "require-dev": {
+            "phpunit/phpunit": ">=4.0,<6.0",
+            "sabre/cs": "~1.0.0"
+        },
+        "time": "2017-02-20T19:59:28+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "lib/functions.php"
+            ],
+            "psr-4": {
+                "Sabre\\Uri\\": "lib/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Evert Pot",
+                "email": "me@evertpot.com",
+                "homepage": "http://evertpot.com/",
+                "role": "Developer"
+            }
+        ],
+        "description": "Functions for making sense out of URIs.",
+        "homepage": "http://sabre.io/uri/",
+        "keywords": [
+            "rfc3986",
+            "uri",
+            "url"
+        ]
+    },
+    {
+        "name": "sabre/xml",
+        "version": "1.5.0",
+        "version_normalized": "1.5.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sabre-io/xml.git",
+            "reference": "59b20e5bbace9912607481634f97d05a776ffca7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sabre-io/xml/zipball/59b20e5bbace9912607481634f97d05a776ffca7",
+            "reference": "59b20e5bbace9912607481634f97d05a776ffca7",
+            "shasum": ""
+        },
+        "require": {
+            "ext-dom": "*",
+            "ext-xmlreader": "*",
+            "ext-xmlwriter": "*",
+            "lib-libxml": ">=2.6.20",
+            "php": ">=5.5.5",
+            "sabre/uri": ">=1.0,<3.0.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "*",
+            "sabre/cs": "~1.0.0"
+        },
+        "time": "2016-10-09T22:57:52+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Sabre\\Xml\\": "lib/"
+            },
+            "files": [
+                "lib/Deserializer/functions.php",
+                "lib/Serializer/functions.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Evert Pot",
+                "email": "me@evertpot.com",
+                "homepage": "http://evertpot.com/",
+                "role": "Developer"
+            },
+            {
+                "name": "Markus Staab",
+                "email": "markus.staab@redaxo.de",
+                "role": "Developer"
+            }
+        ],
+        "description": "sabre/xml is an XML library that you may not hate.",
+        "homepage": "https://sabre.io/xml/",
+        "keywords": [
+            "XMLReader",
+            "XMLWriter",
+            "dom",
+            "xml"
+        ]
+    },
+    {
+        "name": "sabre/event",
+        "version": "3.0.0",
+        "version_normalized": "3.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sabre-io/event.git",
+            "reference": "831d586f5a442dceacdcf5e9c4c36a4db99a3534"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sabre-io/event/zipball/831d586f5a442dceacdcf5e9c4c36a4db99a3534",
+            "reference": "831d586f5a442dceacdcf5e9c4c36a4db99a3534",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.5"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "*",
+            "sabre/cs": "~0.0.4"
+        },
+        "time": "2015-11-05T20:14:39+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Sabre\\Event\\": "lib/"
+            },
+            "files": [
+                "lib/coroutine.php",
+                "lib/Loop/functions.php",
+                "lib/Promise/functions.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Evert Pot",
+                "email": "me@evertpot.com",
+                "homepage": "http://evertpot.com/",
+                "role": "Developer"
+            }
+        ],
+        "description": "sabre/event is a library for lightweight event-based programming",
+        "homepage": "http://sabre.io/event/",
+        "keywords": [
+            "EventEmitter",
+            "async",
+            "events",
+            "hooks",
+            "plugin",
+            "promise",
+            "signal"
+        ]
+    },
+    {
+        "name": "sabre/http",
+        "version": "4.2.3",
+        "version_normalized": "4.2.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sabre-io/http.git",
+            "reference": "0295f9a3ee39be97e0898592fc19e42421e0cd93"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sabre-io/http/zipball/0295f9a3ee39be97e0898592fc19e42421e0cd93",
+            "reference": "0295f9a3ee39be97e0898592fc19e42421e0cd93",
+            "shasum": ""
+        },
+        "require": {
+            "ext-ctype": "*",
+            "ext-mbstring": "*",
+            "php": ">=5.4",
+            "sabre/event": ">=1.0.0,<4.0.0",
+            "sabre/uri": "~1.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.3",
+            "sabre/cs": "~0.0.1"
+        },
+        "suggest": {
+            "ext-curl": " to make http requests with the Client class"
+        },
+        "time": "2017-06-12T07:53:04+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "lib/functions.php"
+            ],
+            "psr-4": {
+                "Sabre\\HTTP\\": "lib/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Evert Pot",
+                "email": "me@evertpot.com",
+                "homepage": "http://evertpot.com/",
+                "role": "Developer"
+            }
+        ],
+        "description": "The sabre/http library provides utilities for dealing with http requests and responses. ",
+        "homepage": "https://github.com/fruux/sabre-http",
+        "keywords": [
+            "http"
+        ]
+    },
+    {
+        "name": "sabre/dav",
+        "version": "3.1.3",
+        "version_normalized": "3.1.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sabre-io/dav.git",
+            "reference": "8a266c7b5e140da79529414b9cde2a2d058b536b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sabre-io/dav/zipball/8a266c7b5e140da79529414b9cde2a2d058b536b",
+            "reference": "8a266c7b5e140da79529414b9cde2a2d058b536b",
+            "shasum": ""
+        },
+        "require": {
+            "ext-ctype": "*",
+            "ext-date": "*",
+            "ext-dom": "*",
+            "ext-iconv": "*",
+            "ext-mbstring": "*",
+            "ext-pcre": "*",
+            "ext-simplexml": "*",
+            "ext-spl": "*",
+            "lib-libxml": ">=2.7.0",
+            "php": ">=5.5.0",
+            "sabre/event": ">=2.0.0, <4.0.0",
+            "sabre/http": "^4.2.1",
+            "sabre/uri": "~1.0",
+            "sabre/vobject": "~4.0",
+            "sabre/xml": "~1.0"
+        },
+        "require-dev": {
+            "evert/phpdoc-md": "~0.1.0",
+            "phpunit/phpunit": "> 4.8, <=6.0.0",
+            "sabre/cs": "~0.0.5"
+        },
+        "suggest": {
+            "ext-curl": "*",
+            "ext-pdo": "*"
+        },
+        "time": "2016-04-07T01:02:57+00:00",
+        "bin": [
+            "bin/sabredav",
+            "bin/naturalselection"
+        ],
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.1.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Sabre\\DAV\\": "lib/DAV/",
+                "Sabre\\DAVACL\\": "lib/DAVACL/",
+                "Sabre\\CalDAV\\": "lib/CalDAV/",
+                "Sabre\\CardDAV\\": "lib/CardDAV/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Evert Pot",
+                "email": "me@evertpot.com",
+                "homepage": "http://evertpot.com/",
+                "role": "Developer"
+            }
+        ],
+        "description": "WebDAV Framework for PHP",
+        "homepage": "http://sabre.io/",
+        "keywords": [
+            "CalDAV",
+            "CardDAV",
+            "WebDAV",
+            "framework",
+            "iCalendar"
+        ]
+    },
+    {
+        "name": "rmccue/requests",
+        "version": "v1.7.0",
+        "version_normalized": "1.7.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/rmccue/Requests.git",
+            "reference": "87932f52ffad70504d93f04f15690cf16a089546"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/rmccue/Requests/zipball/87932f52ffad70504d93f04f15690cf16a089546",
+            "reference": "87932f52ffad70504d93f04f15690cf16a089546",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2"
+        },
+        "require-dev": {
+            "requests/test-server": "dev-master"
+        },
+        "time": "2016-10-13T00:11:37+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Requests": "library/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "ISC"
+        ],
+        "authors": [
+            {
+                "name": "Ryan McCue",
+                "homepage": "http://ryanmccue.info"
+            }
+        ],
+        "description": "A HTTP library written in PHP, for human beings.",
+        "homepage": "http://github.com/rmccue/Requests",
+        "keywords": [
+            "curl",
+            "fsockopen",
+            "http",
+            "idna",
+            "ipv6",
+            "iri",
+            "sockets"
+        ]
+    },
+    {
+        "name": "smarty/smarty",
+        "version": "v3.1.31",
+        "version_normalized": "3.1.31.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/smarty-php/smarty.git",
+            "reference": "c7d42e4a327c402897dd587871434888fde1e7a9"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/smarty-php/smarty/zipball/c7d42e4a327c402897dd587871434888fde1e7a9",
+            "reference": "c7d42e4a327c402897dd587871434888fde1e7a9",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2"
+        },
+        "time": "2016-12-14T21:57:25+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.1.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "libs/bootstrap.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-3.0"
+        ],
+        "authors": [
+            {
+                "name": "Monte Ohrt",
+                "email": "monte@ohrt.com"
+            },
+            {
+                "name": "Uwe Tews",
+                "email": "uwe.tews@googlemail.com"
+            },
+            {
+                "name": "Rodney Rehm",
+                "email": "rodney.rehm@medialize.de"
+            }
+        ],
+        "description": "Smarty - the compiling PHP template engine",
+        "homepage": "http://www.smarty.net",
+        "keywords": [
+            "templating"
+        ]
+    },
+    {
+        "name": "ezyang/htmlpurifier",
+        "version": "v4.9.3",
+        "version_normalized": "4.9.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/ezyang/htmlpurifier.git",
+            "reference": "95e1bae3182efc0f3422896a3236e991049dac69"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/95e1bae3182efc0f3422896a3236e991049dac69",
+            "reference": "95e1bae3182efc0f3422896a3236e991049dac69",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2"
+        },
+        "require-dev": {
+            "simpletest/simpletest": "^1.1"
+        },
+        "time": "2017-06-03T02:28:16+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "HTMLPurifier": "library/"
+            },
+            "files": [
+                "library/HTMLPurifier.composer.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL"
+        ],
+        "authors": [
+            {
+                "name": "Edward Z. Yang",
+                "email": "admin@htmlpurifier.org",
+                "homepage": "http://ezyang.com"
+            }
+        ],
+        "description": "Standards compliant HTML filter written in PHP",
+        "homepage": "http://htmlpurifier.org/",
+        "keywords": [
+            "html"
+        ]
+    },
+    {
+        "name": "doctrine/collections",
+        "version": "v1.4.0",
+        "version_normalized": "1.4.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/doctrine/collections.git",
+            "reference": "1a4fb7e902202c33cce8c55989b945612943c2ba"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/doctrine/collections/zipball/1a4fb7e902202c33cce8c55989b945612943c2ba",
+            "reference": "1a4fb7e902202c33cce8c55989b945612943c2ba",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^5.6 || ^7.0"
+        },
+        "require-dev": {
+            "doctrine/coding-standard": "~0.1@dev",
+            "phpunit/phpunit": "^5.7"
+        },
+        "time": "2017-01-03T10:49:41+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.3.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Doctrine\\Common\\Collections\\": "lib/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Roman Borschel",
+                "email": "roman@code-factory.org"
+            },
+            {
+                "name": "Benjamin Eberlei",
+                "email": "kontakt@beberlei.de"
+            },
+            {
+                "name": "Guilherme Blanco",
+                "email": "guilhermeblanco@gmail.com"
+            },
+            {
+                "name": "Jonathan Wage",
+                "email": "jonwage@gmail.com"
+            },
+            {
+                "name": "Johannes Schmitt",
+                "email": "schmittjoh@gmail.com"
+            }
+        ],
+        "description": "Collections Abstraction library",
+        "homepage": "http://www.doctrine-project.org",
+        "keywords": [
+            "array",
+            "collections",
+            "iterator"
+        ]
+    },
+    {
+        "name": "psr/log",
+        "version": "1.0.2",
+        "version_normalized": "1.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/php-fig/log.git",
+            "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+            "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2016-10-10T12:19:37+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Psr\\Log\\": "Psr/Log/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "PHP-FIG",
+                "homepage": "http://www.php-fig.org/"
+            }
+        ],
+        "description": "Common interface for logging libraries",
+        "homepage": "https://github.com/php-fig/log",
+        "keywords": [
+            "log",
+            "psr",
+            "psr-3"
+        ]
+    },
+    {
+        "name": "phpmailer/phpmailer",
+        "version": "v5.2.25",
+        "version_normalized": "5.2.25.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/PHPMailer/PHPMailer.git",
+            "reference": "2baf20b01690fba8cf720c1ebcf9b988eda50915"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/2baf20b01690fba8cf720c1ebcf9b988eda50915",
+            "reference": "2baf20b01690fba8cf720c1ebcf9b988eda50915",
+            "shasum": ""
+        },
+        "require": {
+            "ext-ctype": "*",
+            "php": ">=5.0.0"
+        },
+        "require-dev": {
+            "doctrine/annotations": "1.2.*",
+            "jms/serializer": "0.16.*",
+            "phpdocumentor/phpdocumentor": "2.*",
+            "phpunit/phpunit": "4.8.*",
+            "symfony/debug": "2.8.*",
+            "symfony/filesystem": "2.8.*",
+            "symfony/translation": "2.8.*",
+            "symfony/yaml": "2.8.*",
+            "zendframework/zend-cache": "2.5.1",
+            "zendframework/zend-config": "2.5.1",
+            "zendframework/zend-eventmanager": "2.5.1",
+            "zendframework/zend-filter": "2.5.1",
+            "zendframework/zend-i18n": "2.5.1",
+            "zendframework/zend-json": "2.5.1",
+            "zendframework/zend-math": "2.5.1",
+            "zendframework/zend-serializer": "2.5.*",
+            "zendframework/zend-servicemanager": "2.5.*",
+            "zendframework/zend-stdlib": "2.5.1"
+        },
+        "suggest": {
+            "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
+        },
+        "time": "2017-08-28T11:12:07+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "class.phpmailer.php",
+                "class.phpmaileroauth.php",
+                "class.phpmaileroauthgoogle.php",
+                "class.smtp.php",
+                "class.pop3.php",
+                "extras/EasyPeasyICS.php",
+                "extras/ntlm_sasl_client.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-2.1"
+        ],
+        "authors": [
+            {
+                "name": "Jim Jagielski",
+                "email": "jimjag@gmail.com"
+            },
+            {
+                "name": "Marcus Bointon",
+                "email": "phpmailer@synchromedia.co.uk"
+            },
+            {
+                "name": "Andy Prevost",
+                "email": "codeworxtech@users.sourceforge.net"
+            },
+            {
+                "name": "Brent R. Matzelle"
+            }
+        ],
+        "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
+    },
+    {
+        "name": "simshaun/recurr",
+        "version": "v3.0.2",
+        "version_normalized": "3.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/simshaun/recurr.git",
+            "reference": "7d0e8942cb1d00d4bc11d5eb87fa990d77b0de61"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/simshaun/recurr/zipball/7d0e8942cb1d00d4bc11d5eb87fa990d77b0de61",
+            "reference": "7d0e8942cb1d00d4bc11d5eb87fa990d77b0de61",
+            "shasum": ""
+        },
+        "require": {
+            "doctrine/collections": "~1.3",
+            "php": ">=5.5.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.5"
+        },
+        "time": "2017-08-03T23:25:58+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Recurr": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Shaun Simmons",
+                "email": "shaun@envysphere.com",
+                "homepage": "http://envysphere.com"
+            }
+        ],
+        "description": "PHP library for working with recurrence rules",
+        "homepage": "https://github.com/simshaun/recurr",
+        "keywords": [
+            "dates",
+            "events",
+            "recurrence",
+            "recurring",
+            "rrule"
+        ]
+    },
+    {
+        "name": "symfony/debug",
+        "version": "v3.3.6",
+        "version_normalized": "3.3.6.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/debug.git",
+            "reference": "7c13ae8ce1e2adbbd574fc39de7be498e1284e13"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/debug/zipball/7c13ae8ce1e2adbbd574fc39de7be498e1284e13",
+            "reference": "7c13ae8ce1e2adbbd574fc39de7be498e1284e13",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.5.9",
+            "psr/log": "~1.0"
+        },
+        "conflict": {
+            "symfony/http-kernel": ">=2.3,<2.3.24|~2.4.0|>=2.5,<2.5.9|>=2.6,<2.6.2"
+        },
+        "require-dev": {
+            "symfony/http-kernel": "~2.8|~3.0"
+        },
+        "time": "2017-07-28T15:27:31+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.3-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Component\\Debug\\": ""
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony Debug Component",
+        "homepage": "https://symfony.com"
+    },
+    {
+        "name": "symfony/console",
+        "version": "v3.3.6",
+        "version_normalized": "3.3.6.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/console.git",
+            "reference": "b0878233cb5c4391347e5495089c7af11b8e6201"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/console/zipball/b0878233cb5c4391347e5495089c7af11b8e6201",
+            "reference": "b0878233cb5c4391347e5495089c7af11b8e6201",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.5.9",
+            "symfony/debug": "~2.8|~3.0",
+            "symfony/polyfill-mbstring": "~1.0"
+        },
+        "conflict": {
+            "symfony/dependency-injection": "<3.3"
+        },
+        "require-dev": {
+            "psr/log": "~1.0",
+            "symfony/config": "~3.3",
+            "symfony/dependency-injection": "~3.3",
+            "symfony/event-dispatcher": "~2.8|~3.0",
+            "symfony/filesystem": "~2.8|~3.0",
+            "symfony/http-kernel": "~2.8|~3.0",
+            "symfony/process": "~2.8|~3.0"
+        },
+        "suggest": {
+            "psr/log": "For using the console logger",
+            "symfony/event-dispatcher": "",
+            "symfony/filesystem": "",
+            "symfony/process": ""
+        },
+        "time": "2017-07-29T21:27:59+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.3-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Component\\Console\\": ""
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony Console Component",
+        "homepage": "https://symfony.com"
+    },
+    {
+        "name": "symfony/var-dumper",
+        "version": "v3.3.6",
+        "version_normalized": "3.3.6.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/var-dumper.git",
+            "reference": "b2623bccb969ad595c2090f9be498b74670d0663"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/var-dumper/zipball/b2623bccb969ad595c2090f9be498b74670d0663",
+            "reference": "b2623bccb969ad595c2090f9be498b74670d0663",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.5.9",
+            "symfony/polyfill-mbstring": "~1.0"
+        },
+        "conflict": {
+            "phpunit/phpunit": "<4.8.35|<5.4.3,>=5.0"
+        },
+        "require-dev": {
+            "ext-iconv": "*",
+            "twig/twig": "~1.34|~2.4"
+        },
+        "suggest": {
+            "ext-iconv": "To convert non-UTF-8 strings to UTF-8 (or symfony/polyfill-iconv in case ext-iconv cannot be used).",
+            "ext-symfony_debug": ""
+        },
+        "time": "2017-07-28T06:06:09+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.3-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "Resources/functions/dump.php"
+            ],
+            "psr-4": {
+                "Symfony\\Component\\VarDumper\\": ""
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Nicolas Grekas",
+                "email": "p@tchwork.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony mechanism for exploring and dumping PHP variables",
+        "homepage": "https://symfony.com",
+        "keywords": [
+            "debug",
+            "dump"
+        ]
+    },
+    {
+        "name": "symfony/polyfill-mbstring",
+        "version": "v1.6.0",
+        "version_normalized": "1.6.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/polyfill-mbstring.git",
+            "reference": "2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296",
+            "reference": "2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "suggest": {
+            "ext-mbstring": "For best performance"
+        },
+        "time": "2017-10-11T12:05:26+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.6-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Polyfill\\Mbstring\\": ""
+            },
+            "files": [
+                "bootstrap.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Nicolas Grekas",
+                "email": "p@tchwork.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony polyfill for the Mbstring extension",
+        "homepage": "https://symfony.com",
+        "keywords": [
+            "compatibility",
+            "mbstring",
+            "polyfill",
+            "portable",
+            "shim"
+        ]
+    },
+    {
+        "name": "giggsey/locale",
+        "version": "1.4",
+        "version_normalized": "1.4.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/giggsey/Locale.git",
+            "reference": "e351a72ad6af6b41b690efdeffe1138fe5cc8b9c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/giggsey/Locale/zipball/e351a72ad6af6b41b690efdeffe1138fe5cc8b9c",
+            "reference": "e351a72ad6af6b41b690efdeffe1138fe5cc8b9c",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.2"
+        },
+        "require-dev": {
+            "pear/pear-core-minimal": "^1.9",
+            "pear/pear_exception": "^1.0",
+            "pear/versioncontrol_git": "^0.5",
+            "phing/phing": "~2.7",
+            "phpunit/phpunit": "^4.8|^5.0",
+            "satooshi/php-coveralls": "^1.0",
+            "symfony/console": "^2.8|^3.0",
+            "symfony/filesystem": "^2.8|^3.0",
+            "symfony/finder": "^2.8|^3.0",
+            "symfony/process": "^2.8|^3.0"
+        },
+        "time": "2017-11-01T21:34:27+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Giggsey\\Locale\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Joshua Gigg",
+                "email": "giggsey@gmail.com",
+                "homepage": "http://giggsey.com/"
+            }
+        ],
+        "description": "Locale functions required by libphonenumber-for-php"
+    },
+    {
+        "name": "composer/ca-bundle",
+        "version": "1.1.0",
+        "version_normalized": "1.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/composer/ca-bundle.git",
+            "reference": "943b2c4fcad1ef178d16a713c2468bf7e579c288"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/composer/ca-bundle/zipball/943b2c4fcad1ef178d16a713c2468bf7e579c288",
+            "reference": "943b2c4fcad1ef178d16a713c2468bf7e579c288",
+            "shasum": ""
+        },
+        "require": {
+            "ext-openssl": "*",
+            "ext-pcre": "*",
+            "php": "^5.3.2 || ^7.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^4.8.35",
+            "psr/log": "^1.0",
+            "symfony/process": "^2.5 || ^3.0 || ^4.0"
+        },
+        "time": "2017-11-29T09:37:33+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Composer\\CaBundle\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jordi Boggiano",
+                "email": "j.boggiano@seld.be",
+                "homepage": "http://seld.be"
+            }
+        ],
+        "description": "Lets you find a path to the system CA bundle, and includes a fallback to the Mozilla CA bundle.",
+        "keywords": [
+            "cabundle",
+            "cacert",
+            "certificate",
+            "ssl",
+            "tls"
+        ]
+    },
+    {
+        "name": "sensiolabs/security-checker",
+        "version": "v4.1.6",
+        "version_normalized": "4.1.6.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sensiolabs/security-checker.git",
+            "reference": "387b6a3b723ba35588b33d5f8d14e28ed608bd30"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/387b6a3b723ba35588b33d5f8d14e28ed608bd30",
+            "reference": "387b6a3b723ba35588b33d5f8d14e28ed608bd30",
+            "shasum": ""
+        },
+        "require": {
+            "composer/ca-bundle": "^1.0",
+            "symfony/console": "~2.7|~3.0|~4.0"
+        },
+        "time": "2017-10-29T18:48:08+00:00",
+        "bin": [
+            "security-checker"
+        ],
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "4.1-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "SensioLabs\\Security": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien.potencier@gmail.com"
+            }
+        ],
+        "description": "A security checker for your composer.lock"
+    },
+    {
+        "name": "sabre/vobject",
+        "version": "4.1.4",
+        "version_normalized": "4.1.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/sabre-io/vobject.git",
+            "reference": "6484b9d660822c5e221c76122ce8ea658ecc9c5b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/sabre-io/vobject/zipball/6484b9d660822c5e221c76122ce8ea658ecc9c5b",
+            "reference": "6484b9d660822c5e221c76122ce8ea658ecc9c5b",
+            "shasum": ""
+        },
+        "require": {
+            "ext-mbstring": "*",
+            "php": ">=5.5",
+            "sabre/xml": ">=1.5 <3.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "> 4.8.35, <6.0.0",
+            "sabre/cs": "^1.0.0"
+        },
+        "suggest": {
+            "hoa/bench": "If you would like to run the benchmark scripts"
+        },
+        "time": "2017-12-22T14:16:56+00:00",
+        "bin": [
+            "bin/vobject",
+            "bin/generate_vcards"
+        ],
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "4.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Sabre\\VObject\\": "lib/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Evert Pot",
+                "email": "me@evertpot.com",
+                "homepage": "http://evertpot.com/",
+                "role": "Developer"
+            },
+            {
+                "name": "Dominik Tobschall",
+                "email": "dominik@fruux.com",
+                "homepage": "http://tobschall.de/",
+                "role": "Developer"
+            },
+            {
+                "name": "Ivan Enderlin",
+                "email": "ivan.enderlin@hoa-project.net",
+                "homepage": "http://mnt.io/",
+                "role": "Developer"
+            }
+        ],
+        "description": "The VObject library for PHP allows you to easily parse and manipulate iCalendar and vCard objects",
+        "homepage": "http://sabre.io/vobject/",
+        "keywords": [
+            "availability",
+            "freebusy",
+            "iCalendar",
+            "ical",
+            "ics",
+            "jCal",
+            "jCard",
+            "recurrence",
+            "rfc2425",
+            "rfc2426",
+            "rfc2739",
+            "rfc4770",
+            "rfc5545",
+            "rfc5546",
+            "rfc6321",
+            "rfc6350",
+            "rfc6351",
+            "rfc6474",
+            "rfc6638",
+            "rfc6715",
+            "rfc6868",
+            "vCalendar",
+            "vCard",
+            "vcf",
+            "xCal",
+            "xCard"
+        ]
+    },
+    {
+        "name": "giggsey/libphonenumber-for-php",
+        "version": "8.8.9",
+        "version_normalized": "8.8.9.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/giggsey/libphonenumber-for-php.git",
+            "reference": "44e2fb8ee3a62c3fd00fb8a37fe0bad394992c2e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/44e2fb8ee3a62c3fd00fb8a37fe0bad394992c2e",
+            "reference": "44e2fb8ee3a62c3fd00fb8a37fe0bad394992c2e",
+            "shasum": ""
+        },
+        "require": {
+            "ext-mbstring": "*",
+            "giggsey/locale": "^1.2",
+            "php": ">=5.3.2"
+        },
+        "require-dev": {
+            "pear/pear-core-minimal": "^1.9",
+            "pear/pear_exception": "^1.0",
+            "pear/versioncontrol_git": "^0.5",
+            "phing/phing": "^2.7",
+            "phpunit/phpunit": "^4.8|^5.0",
+            "satooshi/php-coveralls": "^1.0",
+            "symfony/console": "^2.8|^3.0"
+        },
+        "time": "2018-01-09T19:14:30+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "8.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "libphonenumber\\": "src/"
+            },
+            "exclude-from-classmap": [
+                "/src/data/",
+                "/src/carrier/data/",
+                "/src/geocoding/data/",
+                "/src/timezone/data/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "Apache-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Joshua Gigg",
+                "email": "giggsey@gmail.com",
+                "homepage": "https://giggsey.com/"
+            }
+        ],
+        "description": "PHP Port of Google's libphonenumber",
+        "homepage": "https://github.com/giggsey/libphonenumber-for-php",
+        "keywords": [
+            "geocoding",
+            "geolocation",
+            "libphonenumber",
+            "mobile",
+            "phonenumber",
+            "validation"
+        ]
+    },
+    {
+        "name": "phpoffice/phpexcel",
+        "version": "1.8.1",
+        "version_normalized": "1.8.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/PHPOffice/PHPExcel.git",
+            "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
+            "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
+            "shasum": ""
+        },
+        "require": {
+            "ext-xml": "*",
+            "ext-xmlwriter": "*",
+            "php": ">=5.2.0"
+        },
+        "time": "2015-05-01T07:00:55+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "PHPExcel": "Classes/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL"
+        ],
+        "authors": [
+            {
+                "name": "Maarten Balliauw",
+                "homepage": "http://blog.maartenballiauw.be"
+            },
+            {
+                "name": "Mark Baker"
+            },
+            {
+                "name": "Franck Lefevre",
+                "homepage": "http://blog.rootslabs.net"
+            },
+            {
+                "name": "Erik Tilt"
+            }
+        ],
+        "description": "PHPExcel - OpenXML - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
+        "homepage": "http://phpexcel.codeplex.com",
+        "keywords": [
+            "OpenXML",
+            "excel",
+            "php",
+            "spreadsheet",
+            "xls",
+            "xlsx"
+        ]
+    },
+    {
+        "name": "paragonie/random_compat",
+        "version": "v2.0.11",
+        "version_normalized": "2.0.11.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/paragonie/random_compat.git",
+            "reference": "5da4d3c796c275c55f057af5a643ae297d96b4d8"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/paragonie/random_compat/zipball/5da4d3c796c275c55f057af5a643ae297d96b4d8",
+            "reference": "5da4d3c796c275c55f057af5a643ae297d96b4d8",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "4.*|5.*"
+        },
+        "suggest": {
+            "ext-libsodium": "Provides a modern crypto API that can be used to generate random bytes."
+        },
+        "time": "2017-09-27T21:40:39+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "lib/random.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Paragon Initiative Enterprises",
+                "email": "security@paragonie.com",
+                "homepage": "https://paragonie.com"
+            }
+        ],
+        "description": "PHP 5.x polyfill for random_bytes() and random_int() from PHP 7",
+        "keywords": [
+            "csprng",
+            "pseudorandom",
+            "random"
+        ]
+    },
+    {
+        "name": "setasign/fpdi",
+        "version": "1.6.2",
+        "version_normalized": "1.6.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Setasign/FPDI.git",
+            "reference": "a6ad58897a6d97cc2d2cd2adaeda343b25a368ea"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Setasign/FPDI/zipball/a6ad58897a6d97cc2d2cd2adaeda343b25a368ea",
+            "reference": "a6ad58897a6d97cc2d2cd2adaeda343b25a368ea",
+            "shasum": ""
+        },
+        "suggest": {
+            "setasign/fpdf": "FPDI will extend this class but as it is also possible to use \"tecnickcom/tcpdf\" as an alternative there's no fixed dependency configured.",
+            "setasign/fpdi-fpdf": "Use this package to automatically evaluate dependencies to FPDF.",
+            "setasign/fpdi-tcpdf": "Use this package to automatically evaluate dependencies to TCPDF."
+        },
+        "time": "2017-05-11T14:25:49+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "filters/",
+                "fpdi.php",
+                "fpdf_tpl.php",
+                "fpdi_pdf_parser.php",
+                "pdf_context.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jan Slabon",
+                "email": "jan.slabon@setasign.com",
+                "homepage": "https://www.setasign.com"
+            }
+        ],
+        "description": "FPDI is a collection of PHP classes facilitating developers to read pages from existing PDF documents and use them as templates in FPDF. Because it is also possible to use FPDI with TCPDF, there are no fixed dependencies defined. Please see suggestions for packages which evaluates the dependencies automatically.",
+        "homepage": "https://www.setasign.com/fpdi",
+        "keywords": [
+            "fpdf",
+            "fpdi",
+            "pdf"
+        ]
+    },
+    {
+        "name": "mpdf/mpdf",
+        "version": "v7.0.3",
+        "version_normalized": "7.0.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/mpdf/mpdf.git",
+            "reference": "5681a0cae1eea197143d5d27f06e19b0523cd8d6"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/mpdf/mpdf/zipball/5681a0cae1eea197143d5d27f06e19b0523cd8d6",
+            "reference": "5681a0cae1eea197143d5d27f06e19b0523cd8d6",
+            "shasum": ""
+        },
+        "require": {
+            "ext-gd": "*",
+            "ext-mbstring": "*",
+            "paragonie/random_compat": "^1.4|^2.0",
+            "php": "^5.6 || ~7.0.0 || ~7.1.0 || ~7.2.0",
+            "psr/log": "^1.0",
+            "setasign/fpdi": "1.6.*"
+        },
+        "require-dev": {
+            "mockery/mockery": "^0.9.5",
+            "phpunit/phpunit": "^5.0",
+            "squizlabs/php_codesniffer": "^2.7.0",
+            "tracy/tracy": "^2.4"
+        },
+        "suggest": {
+            "ext-bcmath": "Needed for generation of some types of barcodes",
+            "ext-xml": "Needed mainly for SVG manipulation",
+            "ext-zlib": "Needed for compression of embedded resources, such as fonts"
+        },
+        "time": "2018-01-03T07:32:36+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-development": "7.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Mpdf\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0"
+        ],
+        "authors": [
+            {
+                "name": "Matěj Humpál",
+                "role": "Developer, maintainer"
+            },
+            {
+                "name": "Ian Back",
+                "role": "Developer (retired)"
+            }
+        ],
+        "description": "A PHP class to generate PDF files from HTML with Unicode/UTF-8 and CJK support",
+        "homepage": "https://mpdf.github.io",
+        "keywords": [
+            "pdf",
+            "php",
+            "utf-8"
+        ]
+    }
 ]

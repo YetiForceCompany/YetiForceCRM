@@ -15,9 +15,9 @@ class Settings_ModuleManager_Library_Model
 	 * @var array
 	 */
 	public static $libraries = [
-		'mPDF' => ['dir' => 'libraries/mPDF/', 'url' => 'https://github.com/YetiForceCompany/lib_mPDF', 'name' => 'lib_mPDF'],
+		'mPDF' => ['dir' => 'vendor/mpdf/mpdf/', 'url' => 'https://github.com/YetiForceCompany/lib_mPDF', 'name' => 'lib_mPDF'],
 		'roundcube' => ['dir' => 'public_html/modules/OSSMail/roundcube/', 'url' => 'https://github.com/YetiForceCompany/lib_roundcube', 'name' => 'lib_roundcube'],
-		'PHPExcel' => ['dir' => 'libraries/PHPExcel/', 'url' => 'https://github.com/YetiForceCompany/lib_PHPExcel', 'name' => 'lib_PHPExcel'],
+		'PHPExcel' => ['dir' => 'vendor/phpoffice/phpexcel/', 'url' => 'https://github.com/YetiForceCompany/lib_PHPExcel', 'name' => 'lib_PHPExcel'],
 		'Gantt' => ['dir' => 'public_html/libraries/gantt/', 'url' => 'https://github.com/YetiForceCompany/lib_gantt', 'name' => 'lib_gantt'],
 	];
 
