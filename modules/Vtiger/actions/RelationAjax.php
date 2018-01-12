@@ -249,7 +249,6 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	 */
 	public function exportToExcel(\App\Request $request)
 	{
-		Vtiger_Loader::includeOnce('libraries.PHPExcel.PHPExcel');
 		$sourceModule = $request->getModule();
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$sourceRecordId = $request->getInteger('src_record');
