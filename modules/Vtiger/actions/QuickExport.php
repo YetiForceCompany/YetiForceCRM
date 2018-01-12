@@ -38,7 +38,6 @@ class Vtiger_QuickExport_Action extends Vtiger_Mass_Action
 
 	public function exportToExcel(\App\Request $request)
 	{
-		Vtiger_Loader::includeOnce('libraries.PHPExcel.PHPExcel');
 		$module = $request->getModule(false); //this is the type of things in the current view
 		$filter = $request->getByType('viewname', 2); //this is the cvid of the current custom filter
 		$recordIds = self::getRecordsListFromRequest($request); //this handles the 'all' situation.
