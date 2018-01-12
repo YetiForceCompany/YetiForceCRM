@@ -33,6 +33,7 @@ class Users_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
 			if ($fieldModelList) {
 				$values[$blockLabel] = [];
 				foreach ($fieldModelList as $fieldName => $fieldModel) {
+					$fieldModel->set('rocordId', $recordId);
 					if (empty($recordId) && ($fieldModel->get('uitype') == 99 || $fieldModel->get('uitype') == 106)) {
 						$fieldModel->set('editable', true);
 					}

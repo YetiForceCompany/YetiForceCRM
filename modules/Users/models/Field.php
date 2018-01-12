@@ -141,8 +141,10 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 */
 	public function isEditable()
 	{
-		$isEditable = $this->get('editable');
-		if (!$isEditable) {
+		if (($this->get('uitype') === 115 && (!\App\User::getCurrentUserModel()->isAdmin() || \App\User::getCurrentUserId() === $this->get('rocordId')))) {
+			return false;
+		}
+		if (!$this->get('editable')) {
 			$this->set('editable', parent::isEditable());
 		}
 		return $this->get('editable');
