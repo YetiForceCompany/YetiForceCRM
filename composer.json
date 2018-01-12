@@ -49,7 +49,8 @@
 		"symfony/console": "v3.3.6",
 		"symfony/debug": "v3.3.6",
 		"giggsey/libphonenumber-for-php": "*",
-		"phpoffice/phpexcel": "^1.8"
+		"phpoffice/phpexcel": "^1.8",
+		"mpdf/mpdf": "^7.0"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "6.*",
