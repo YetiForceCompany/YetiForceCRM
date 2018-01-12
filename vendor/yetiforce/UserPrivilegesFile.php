@@ -31,7 +31,7 @@ class UserPrivilegesFile
 					if ($field === 'currency_symbol') {
 						$userInfo[$field] = $userFocus->$field;
 					} else {
-						$userInfo[$field] = \App\Purifier::encodeHtml($userFocus->$field);
+						$userInfo[$field] = is_numeric($userFocus->$field) ? $userFocus->$field : \App\Purifier::encodeHtml($userFocus->$field);
 					}
 				}
 			}
