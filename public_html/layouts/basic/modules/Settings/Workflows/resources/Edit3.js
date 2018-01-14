@@ -489,9 +489,15 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		var fieldUiHolder = row.find('.fieldUiHolder');
 		var fieldInfo = selectedOption.data('fieldinfo');
 		var fieldValueMapping = this.getFieldValueMapping();
-		if (fieldValueMapping != '' && typeof fieldValueMapping[fieldInfo.name] != 'undefined') {
-			fieldInfo.value = fieldValueMapping[fieldInfo.name]['value'];
-			fieldInfo.workflow_valuetype = fieldValueMapping[fieldInfo.name]['valuetype'];
+		var selectField = '';
+		if (fieldValueMapping && typeof fieldValueMapping[fieldInfo.name] != 'undefined') {
+			selectField = fieldValueMapping[fieldInfo.name];
+		} else if (fieldValueMapping && typeof fieldValueMapping[fieldSelect.val()] != 'undefined') {
+			selectField = fieldValueMapping[fieldSelect.val()];
+		}
+		if (selectField) {
+			fieldInfo.value = selectField['value'];
+			fieldInfo.workflow_valuetype = selectField['valuetype'];
 		} else {
 			fieldInfo.workflow_valuetype = 'rawtext';
 		}
@@ -517,7 +523,6 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 			fieldSpecificUi.find('[name="' + fieldName + '"]').removeAttr('data-validation-engine');
 		}
 		fieldUiHolder.html(fieldSpecificUi);
-
 		if (fieldSpecificUi.is('input.select2')) {
 			var tagElements = fieldSpecificUi.data('tags');
 			var params = {tags: tagElements, tokenSeparators: [","]}
@@ -531,7 +536,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 		} else if (fieldSpecificUi.is('input.dateField')) {
 			app.registerEventForDatePickerFields(fieldSpecificUi);
 		} else if (fieldSpecificUi.is('input.dateRangeField')) {
-			app.registerDateRangePickerFields(fieldSpecificUi,{ranges: false});
+			app.registerDateRangePickerFields(fieldSpecificUi, {ranges: false});
 		}
 		return this;
 	},
@@ -589,7 +594,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 				for_workflow: jQuery('[name="for_workflow"]').val(),
 				mappingPanel: app.getMainParams('mappingPanel')
 			}
-			var relatedModule =  jQuery(e.currentTarget).val();
+			var relatedModule = jQuery(e.currentTarget).val();
 			if (relatedModule) {
 				params['relatedModule'] = relatedModule;
 			}
