@@ -598,18 +598,18 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to delete corresponding image
-	 * @param <type> $imageId
+	 * @param int $imageId
 	 */
 	public function deleteImage($imageId)
 	{
-		$db = PearDatabase::getInstance();
-
-		$checkResult = $db->pquery('SELECT smid FROM vtiger_salesmanattachmentsrel WHERE attachmentsid = ?', [$imageId]);
-		$smId = $db->queryResult($checkResult, 0, 'smid');
-
+		$smId = (int) (new App\Db\Query())->select(['smid'])
+				->from('vtiger_salesmanattachmentsrel')
+				->where(['attachmentsid' => $imageId])
+				->scalar();
 		if ($this->getId() === $smId) {
-			$db->pquery('DELETE FROM vtiger_attachments WHERE attachmentsid = ?', [$imageId]);
-			$db->pquery('DELETE FROM vtiger_salesmanattachmentsrel WHERE attachmentsid = ?', [$imageId]);
+			$dbCommand = App\Db::getInstance()->createCommand();
+			$dbCommand->delete('vtiger_attachments', ['attachmentsid' => $imageId])->execute();
+			$dbCommand->delete('vtiger_salesmanattachmentsrel', ['attachmentsid' => $imageId])->execute();
 			return true;
 		}
 		return false;
