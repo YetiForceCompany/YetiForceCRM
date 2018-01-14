@@ -206,7 +206,7 @@ class Settings_Vtiger_Module_Model extends \App\Base
 		$sequence = (new App\Db\Query())->from('vtiger_settings_field')->where(['blockid' => $blockId])
 			->max('sequence');
 		$params['blockid'] = $blockId;
-		$params['sequence'] = $sequence;
+		$params['sequence'] = ((int) $sequence) + 1;
 		$db->createCommand()->insert('vtiger_settings_field', $params)->execute();
 	}
 

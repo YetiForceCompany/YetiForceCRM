@@ -90,22 +90,7 @@ class Deprecated
 		return $cachedModuleStrings[$module];
 	}
 
-	/**
-	 * This function is used to get cvid of default "all" view for any module.
-	 * @return a cvid of a module
-	 */
-	public static function getIdOfCustomViewByNameAll($module)
-	{
-		$adb = \PearDatabase::getInstance();
 
-		static $cvidCache = [];
-		if (!isset($cvidCache[$module])) {
-			$qry_res = $adb->pquery("select cvid from vtiger_customview where viewname='All' and entitytype=?", [$module]);
-			$cvid = $adb->queryResult($qry_res, 0, "cvid");
-			$cvidCache[$module] = $cvid;
-		}
-		return isset($cvidCache[$module]) ? $cvidCache[$module] : '0';
-	}
 
 	/** Function to check the file access is made within web root directory and whether it is not from unsafe directories */
 	public static function checkFileAccessForInclusion($filepath)
@@ -189,19 +174,20 @@ class Deprecated
 
 	/**
 	 * This function is used to get the blockid of the settings block for a given label.
-	 * @param string $label - settings label
-	 * @return string type value
+	 * @param string $label
+	 * @return int
 	 */
 	public static function getSettingsBlockId($label)
 	{
-		$adb = \PearDatabase::getInstance();
-		$blockId = '';
-		$query = "select blockid from vtiger_settings_blocks where label = ?";
-		$result = $adb->pquery($query, [$label]);
-		$noOfRows = $adb->numRows($result);
-		if ($noOfRows == 1) {
-			$blockId = $adb->queryResult($result, 0, "blockid");
+		$blockId = 0;
+		$dataReader = (new \App\Db\Query())->select(['blockid'])
+				->from('vtiger_settings_blocks')
+				->where(['label' => $label])
+				->createCommand()->query();
+		if ($dataReader->count() === 1) {
+			$blockId = $dataReader->readColumn(0);
 		}
+		$dataReader->close();
 		return $blockId;
 	}
 
