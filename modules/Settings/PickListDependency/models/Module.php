@@ -55,9 +55,8 @@ class Settings_PickListDependency_Module_Model extends Settings_Vtiger_Module_Mo
 		while ($row = $dataReader->read()) {
 			$modules[$row['tablabel']] = $row['tabname'];
 		}
-		$dataReader->close();
-		ksort($modules);
 
+		ksort($modules);
 		$modulesModelsList = [];
 		foreach ($modules as $moduleLabel => $moduleName) {
 			$instance = new Vtiger_Module_Model();
@@ -65,6 +64,7 @@ class Settings_PickListDependency_Module_Model extends Settings_Vtiger_Module_Mo
 			$instance->label = $moduleLabel;
 			$modulesModelsList[] = $instance;
 		}
+		$dataReader->close();
 		return $modulesModelsList;
 	}
 }
