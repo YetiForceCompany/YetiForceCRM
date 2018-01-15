@@ -138,8 +138,8 @@ class Settings_PublicHoliday_Module_Model extends Settings_Vtiger_Module_Model
 			while ($row = $dataReader->read()) {
 				$return[$row['holidaytype']] = $row['count'];
 			}
-			$dataReader->close();
 		}
+		$dataReader->close();
 		\App\Log::trace("Exiting Settings_PublicHoliday_Module_Model::getHolidayGroupType() method ...");
 		return $return;
 	}
