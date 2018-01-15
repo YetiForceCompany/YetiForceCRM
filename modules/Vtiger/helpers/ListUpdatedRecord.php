@@ -40,10 +40,10 @@ class ListUpdatedRecord
 			$row['setype'] = \App\Language::translate($row['setype'], $row['setype']);
 			$recordList [] = $row;
 		}
-		$dataReader->close();
 		if (empty($recordList)) {
 			return false;
 		}
+		$dataReader->close();
 		return $recordList;
 	}
 }

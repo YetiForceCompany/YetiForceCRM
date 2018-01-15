@@ -101,10 +101,10 @@ class Settings_Vtiger_ListView_Model extends \App\Base
 			}
 			$listViewRecordModels[$record->getId()] = $record;
 		}
-		$dataReader->close();
 		if ($moduleModel->isPagingSupported()) {
 			$pagingModel->calculatePageRange($dataReader->count());
 		}
+		$dataReader->close();
 		return $listViewRecordModels;
 	}
 
