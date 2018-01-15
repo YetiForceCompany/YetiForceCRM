@@ -244,7 +244,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				}
 			}
 		}
-		$dataReader->close();
 		if ($sectors && $sectorValues) {
 			foreach ($sectors as $sectorId => $sectorValue) {
 				$displayValue = $this->groupFieldModel->getDisplayValue($sectorValue);
@@ -256,6 +255,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				$groupData[$displayValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . "&viewname=$filterId&search_params=" . App\Json::encode([$searchParams]);
 			}
 		}
+		$dataReader->close();
 		return $groupData;
 	}
 
@@ -349,7 +349,6 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				}
 			}
 		}
-		$dataReader->close();
 		foreach ($sectors as $sectorId => &$sectorValue) {
 			$displayValue = $groupFieldModel->getDisplayValue($sectorValue);
 			$displayValue .= ' - (' . (int) $count[$sectorId] . ')';
@@ -360,6 +359,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			}
 			$groupData[$displayValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . "&viewname=$filterId&search_params=" . App\Json::encode([$searchParams]);
 		}
+		$dataReader->close();
 		return $groupData;
 	}
 

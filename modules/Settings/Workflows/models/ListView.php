@@ -81,15 +81,13 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model
 			$record->setData($row);
 			$listViewRecordModels[$record->getId()] = $record;
 		}
-		$dataReader->close();
-
 		$pagingModel->calculatePageRange($dataReader->count());
 		if ($dataReader->count() > $pageLimit) {
 			$pagingModel->set('nextPageExists', true);
 		} else {
 			$pagingModel->set('nextPageExists', false);
 		}
-
+		$dataReader->close();
 		return $listViewRecordModels;
 	}
 	/*	 * *
