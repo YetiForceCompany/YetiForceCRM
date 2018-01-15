@@ -229,19 +229,6 @@ class Products_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get acive status of record
-	 */
-	public function getActiveStatusOfRecord()
-	{
-		$activeStatus = $this->get('discontinued');
-		if ($activeStatus) {
-			return $activeStatus;
-		}
-		$recordId = $this->getId();
-		return (new \App\Db\Query())->select(['discontinued'])->from('vtiger_products')->where(['productid' => $recordId])->scalar();
-	}
-
-	/**
 	 * Function updates ListPrice for Product/Service-PriceBook relation
 	 * @param <Integer> $relatedRecordId - PriceBook Id
 	 * @param <Integer> $price - listprice

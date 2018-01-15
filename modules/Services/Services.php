@@ -398,10 +398,7 @@ class Services extends CRMEntity
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-
 		require_once('include/utils/utils.php');
-		$adb = PearDatabase::getInstance();
-
 		if ($eventType === 'module.postinstall') {
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
 			$moduleInstance->allowSharing();
@@ -424,7 +421,7 @@ class Services extends CRMEntity
 			// Initialize module sequence for the module
 			\App\Fields\RecordNumber::setNumber($moduleName, 'SER', 1);
 			// Mark the module as Standard module
-			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', [$moduleName]);
+			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
 		} else if ($eventType === 'module.postupdate') {
 			$ServicesModule = vtlib\Module::getInstance('Services');
 			vtlib\Access::setDefaultSharing($ServicesModule);
