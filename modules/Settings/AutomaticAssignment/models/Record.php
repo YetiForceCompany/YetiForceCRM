@@ -12,13 +12,13 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 
 	/**
 	 * Raw data
-	 * @var type
+	 * @var array
 	 */
 	private $rawData = [];
 
 	/**
 	 * Variable determines the possibility of creating value duplicates
-	 * @var type
+	 * @var bool
 	 */
 	public $checkDuplicate = false;
 
