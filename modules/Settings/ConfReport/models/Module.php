@@ -303,7 +303,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'Header: X-Permitted-Cross-Domain-Policies' => ['prefer' => 'none', 'current' => '?'],
 			'Header: X-Powered-By' => ['prefer' => '', 'current' => '?'],
 			'Header: Server' => ['prefer' => '', 'current' => '?'],
-			'Header: Referrer-Policy' => ['prefer' => 'no-referrer', 'current' => '?'],
 			'Header: Expect-CT' => ['prefer' => 'enforce; max-age=3600', 'current' => '?'],
 			'Header: Referrer-Policy' => ['prefer' => 'same-origin', 'current' => '?'],
 			'Header: Strict-Transport-Security' => ['prefer' => 'max-age=31536000; includeSubDomains; preload', 'current' => '?'],
