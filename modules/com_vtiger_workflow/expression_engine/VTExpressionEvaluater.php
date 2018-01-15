@@ -156,7 +156,6 @@ class VTFieldExpressionEvaluater
 
 	public static function __vt_sub_days($arr)
 	{
-		var_dump($expression);
 		if (count($arr) > 1) {
 			$baseDate = $arr[0];
 			$noOfDays = $arr[1];
