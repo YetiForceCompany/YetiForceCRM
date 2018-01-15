@@ -309,10 +309,7 @@ class ServiceContracts extends CRMEntity
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-
 		require_once('include/utils/utils.php');
-		$adb = PearDatabase::getInstance();
-
 		if ($eventType === 'module.postinstall') {
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
 
@@ -327,11 +324,11 @@ class ServiceContracts extends CRMEntity
 
 			// Initialize module sequence for the module
 			\App\Fields\RecordNumber::setNumber($moduleName, 'SERCON', 1);
+			$dbCommand = \App\Db::getInstance()->createCommand();
 			// Make the picklist value 'Complete' for status as non-editable
-			$adb->query("UPDATE vtiger_contract_status SET presence=0 WHERE contract_status='Complete'");
-
+			$dbCommand->update('vtiger_contract_status', ['presence' => 0], ['contract_status' => 'Complete'])->execute();
 			// Mark the module as Standard module
-			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', [$moduleName]);
+			$dbCommand->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
 		} else if ($eventType === 'module.disabled') {
 			App\EventHandler::setInActive('ServiceContracts_ServiceContractsHandler_Handler');
 		} else if ($eventType === 'module.enabled') {

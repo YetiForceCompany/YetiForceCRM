@@ -223,18 +223,6 @@ class Products extends CRMEntity
 		return $relTables[$secmodule];
 	}
 
-	public function deleteProduct2ProductRelation($record, $return_id, $is_parent)
-	{
-		$adb = PearDatabase::getInstance();
-		if ($is_parent == 0) {
-			$sql = "delete from vtiger_seproductsrel WHERE crmid = ? && productid = ?";
-			$adb->pquery($sql, [$record, $return_id]);
-		} else {
-			$sql = "delete from vtiger_seproductsrel WHERE crmid = ? && productid = ?";
-			$adb->pquery($sql, [$return_id, $record]);
-		}
-	}
-
 	// Function to unlink an entity with given Id from another entity
 	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
 	{

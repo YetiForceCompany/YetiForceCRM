@@ -249,7 +249,7 @@ class Assets extends CRMEntity
 		require_once('include/utils/utils.php');
 		if ($eventType === 'module.postinstall') {
 			// Mark the module as Standard module
-			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName]);
+			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
 
 			//adds sharing accsess
 			$AssetsModule = vtlib\Module::getInstance('Assets');

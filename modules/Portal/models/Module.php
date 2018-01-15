@@ -46,16 +46,17 @@ class Portal_Module_Model extends Vtiger_Module_Model
 		return true;
 	}
 
-	public function getRecord($recordId)
+	/**
+	 * Function to get infomation about bookmark
+	 * @param int $recordId
+	 * @return array
+	 */
+	public static function getRecord($recordId)
 	{
-		$db = PearDatabase::getInstance();
-
-		$result = $db->pquery('SELECT portalname, portalurl FROM vtiger_portal WHERE portalid = ?', [$recordId]);
-
-		$data['bookmarkName'] = $db->queryResult($result, 0, 'portalname');
-		$data['bookmarkUrl'] = $db->queryResult($result, 0, 'portalurl');
-
-		return $data;
+		return (new App\Db\Query())->select(['bookmarkName' => 'portalname', 'bookmarkUrl' => 'portalurl'])
+				->from('vtiger_portal')
+				->where(['portalid' => $recordId])
+				->one();
 	}
 
 	public function deleteRecord($recordId)
