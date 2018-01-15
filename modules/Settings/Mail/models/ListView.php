@@ -54,7 +54,6 @@ class Settings_Mail_ListView_Model extends Settings_Vtiger_ListView_Model
 			$recordModel->setData($row);
 			$listViewRecordModels[$recordModel->getId()] = $recordModel;
 		}
-		$dataReader->close();
 		$pagingModel->calculatePageRange($dataReader->count());
 		if ($dataReader->count() > $pageLimit) {
 			array_pop($listViewRecordModels);
@@ -62,6 +61,7 @@ class Settings_Mail_ListView_Model extends Settings_Vtiger_ListView_Model
 		} else {
 			$pagingModel->set('nextPageExists', false);
 		}
+		$dataReader->close();
 		return $listViewRecordModels;
 	}
 
