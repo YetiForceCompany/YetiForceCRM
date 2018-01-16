@@ -207,7 +207,7 @@ class Vtiger_Util_Helper
 
 	public static function getActiveAdminCurrentDateTime()
 	{
-		$default_timezone = vglobal('default_timezone');
+		$default_timezone = \AppConfig::main('default_timezone');
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
 		date_default_timezone_set($adminTimeZone);
