@@ -42,6 +42,9 @@
 /public_html/libraries/datatables.net/
 /public_html/libraries/datatables.net-bs/
 /public_html/libraries/bootstrap-datepicker/
+/public_html/libraries/dompurify/
+/public_html/libraries/delegate/
+/public_html/libraries/lodash.debounce/
 /libraries/PHPExcel/
 /libraries/mPDF/
 /vendor/*/

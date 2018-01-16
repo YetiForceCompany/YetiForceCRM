@@ -439,7 +439,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/js/daterangepicker/daterangepicker.js',
 			'~libraries/js/jquery.ba-outside-events.js',
 			'~libraries/js/jquery.placeholder.js',
-			'~libraries/js/dompurify/purify.js',
+			'~libraries/dompurify/dist/purify.js',
 			'~libraries/footable/js/footable.js',
 			'~layouts/resources/jquery.additions.js',
 			'~layouts/resources/app.js',
