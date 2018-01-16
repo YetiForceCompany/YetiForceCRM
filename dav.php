@@ -4,7 +4,6 @@
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-chdir(__DIR__ . '/../');
 require('include/ConfigUtils.php');
 if (!in_array('dav', $enabledServices)) {
 	require('include/main/WebUI.php');

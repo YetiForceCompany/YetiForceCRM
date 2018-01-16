@@ -4,7 +4,7 @@
  * @package YetiForce.Language
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author skavenkf (K.Fink) 
+ * @author skavenkf (K.Fink)
  */
 $languageStrings = [
 	'LBL_DAV_KEYS' => 'DAV Anwendungen',
@@ -31,7 +31,7 @@ $languageStrings = [
 	'Dav' => 'DAV Schlüssel',
 	'LBL_DUPLICATE_USER_SERVICES' => 'Schlüssel für diese Applikation existiert bereits.',
 	'LBL_ALERT_DAV_CONFIG_TITLE' => 'Konfigurationsinformationen',
-	'LBL_ALERT_DAV_CONFIG_DESC' => 'Konfigurationsbeispiele für DAV Serververbindungen für unterschiedliche Apps und Systeme:<br /><b>DAVdroid</b><br />Address: https://gitdeveloper.yetiforce.com/api/dav.php<br />Preventive authorization NO<br /><b>Thunderbird CalDAV</b><br />Address: https://gitdeveloper.yetiforce.com/api/dav.php/calendars/demo/YFCalendar/<br /><b>iOS</b><br />Address: http://gitdeveloper.yetiforce.com/api/dav.php/principals/demo/<br /> Für SSL Verbindung: <br /> http://gitdeveloper.yetiforce.com:443/api/dav.php/principals/demo/',
+	'LBL_ALERT_DAV_CONFIG_DESC' => 'Konfigurationsbeispiele für DAV Serververbindungen für unterschiedliche Apps und Systeme:<br /><b>DAVdroid</b><br />Address: https://gitdeveloper.yetiforce.com/dav.php<br />Preventive authorization NO<br /><b>Thunderbird CalDAV</b><br />Address: https://gitdeveloper.yetiforce.com/dav.php/calendars/demo/YFCalendar/<br /><b>iOS</b><br />Address: http://gitdeveloper.yetiforce.com/dav.php/principals/demo/<br /> Für SSL Verbindung: <br /> http://gitdeveloper.yetiforce.com:443/dav.php/principals/demo/',
 ];
 $jsLanguageStrings = [
 	'Adding a Key' => 'Schlüssel hinzufügen',

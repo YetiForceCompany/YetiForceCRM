@@ -4,10 +4,7 @@
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-chdir(__DIR__ . '/../');
-
 require_once 'include/main/WebUI.php';
-
 AppConfig::iniSet('error_log', ROOT_DIRECTORY . '/cache/logs/webservice.log');
 \App\Config::$requestMode = 'API';
 try {
