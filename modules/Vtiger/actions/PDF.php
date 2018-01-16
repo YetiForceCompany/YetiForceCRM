@@ -116,7 +116,7 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 				$footers = '';
 				$classes = '';
 				$body = '';
-				$origLanguage = vglobal('default_language');
+				$origLanguage = \AppConfig::main('default_language');
 				foreach ($recordId as $index => $record) {
 					if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $record)) {
 						throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -181,7 +181,7 @@ class Vtiger_PDF_Action extends Vtiger_Action_Controller
 				$postfix = time() . '_' . mt_rand(0, 1000);
 
 				$pdfFiles = [];
-				$origLanguage = vglobal('default_language');
+				$origLanguage = \AppConfig::main('default_language');
 				foreach ($templateIds as $id) {
 					foreach ($recordId as $record) {
 						if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $record)) {
