@@ -1227,6 +1227,9 @@ class Base3 extends \App\Db\Importers\Base
 				'index' => [
 					['vtiger_module_dashboard_widgets_ibfk_1', 'templateid'],
 					['userid', ['userid', 'active', 'module']],
+					['vtiger_module_dashboard_widgets_linkid_idx', 'linkid'],
+					['vtiger_module_dashboard_widgets_dashboardid_idx', 'dashboardid'],
+					['vtiger_module_dashboard_widgets_module_idx', 'module'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -2214,6 +2217,7 @@ class Base3 extends \App\Db\Importers\Base
 					['profile2field_profileid_tabid_fieldname_idx', ['profileid', 'tabid']],
 					['profile2field_tabid_profileid_idx', ['tabid', 'profileid']],
 					['profile2field_visible_profileid_idx', ['visible', 'profileid']],
+					['profile2field_readonly_idx', 'readonly'],
 				],
 				'primaryKeys' => [
 					['profile2field_pk', ['profileid', 'fieldid']]

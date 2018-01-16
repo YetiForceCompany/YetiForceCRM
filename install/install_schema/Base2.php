@@ -545,6 +545,7 @@ class Base2 extends \App\Db\Importers\Base
 				],
 				'index' => [
 					['block_tabid_idx', 'tabid'],
+					['block_sequence_idx', 'sequence'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1031,6 +1032,8 @@ class Base2 extends \App\Db\Importers\Base
 				'index' => [
 					['name', 'name', true],
 					['handler_file', 'handler_file', true],
+					['vtiger_cron_task_status_idx', 'status'],
+					['vtiger_cron_task_sequence_idx', 'sequence'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1207,6 +1210,7 @@ class Base2 extends \App\Db\Importers\Base
 				'index' => [
 					['customview_entitytype_idx', 'entitytype'],
 					['setdefault', ['setdefault', 'entitytype']],
+					['customview_userid_idx', 'userid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1223,6 +1227,8 @@ class Base2 extends \App\Db\Importers\Base
 				],
 				'index' => [
 					['cvadvfilter_cvid_idx', 'cvid'],
+					['cvadvfilter_groupid_idx', 'groupid'],
+					['cvadvfilter_columnindex_idx', 'columnindex'],
 				],
 				'primaryKeys' => [
 					['cvadvfilter_pk', ['cvid', 'columnindex']]
@@ -2094,6 +2100,8 @@ class Base2 extends \App\Db\Importers\Base
 					['presence', 'presence'],
 					['tabid_2', ['tabid', 'fieldname']],
 					['tabid_3', ['tabid', 'block']],
+					['field_sequence_idx', 'sequence'],
+					['field_uitype_idx', 'uitype'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
