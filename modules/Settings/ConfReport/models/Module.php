@@ -413,15 +413,41 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				'max_allowed_packet' => ['prefer' => '10 MB'],
 				'datetime_format' => ['prefer' => '%Y-%m-%d %H:%i:%s'],
 				'log_error' => ['prefer' => false],
+				'max_connections' => ['prefer' => false],
+				'thread_cache_size' => ['prefer' => false],
+				'key_buffer_size' => ['prefer' => false],
+				'query_cache_size' => ['prefer' => false],
+				'tmp_table_size' => ['prefer' => false],
+				'max_heap_table_size' => ['prefer' => false],
+				'innodb_file_per_table' => ['prefer' => 'On'],
+				'innodb_stats_on_metadata' => ['prefer' => 'Off'],
+				'innodb_buffer_pool_instances' => ['prefer' => false],
+				'innodb_buffer_pool_size' => ['prefer' => false],
+				'innodb_log_file_size' => ['prefer' => false],
+				'innodb_io_capacity_max' => ['prefer' => false],
 			]);
 			$conf = $db->createCommand('SHOW VARIABLES')->queryAllByGroup(0);
+			//var_dump($conf);
 			$directiveValues['max_allowed_packet']['current'] = vtlib\Functions::showBytes($conf['max_allowed_packet']);
+			$directiveValues['innodb_log_file_size']['current'] = vtlib\Functions::showBytes($conf['innodb_log_file_size']);
+			$directiveValues['key_buffer_size']['current'] = vtlib\Functions::showBytes($conf['key_buffer_size']);
+			$directiveValues['query_cache_size']['current'] = vtlib\Functions::showBytes($conf['query_cache_size']);
+			$directiveValues['tmp_table_size']['current'] = vtlib\Functions::showBytes($conf['tmp_table_size']);
+			$directiveValues['max_heap_table_size']['current'] = vtlib\Functions::showBytes($conf['max_heap_table_size']);
+			$directiveValues['innodb_buffer_pool_size']['current'] = vtlib\Functions::showBytes($conf['innodb_buffer_pool_size']);
+			$directiveValues['innodb_log_file_size']['current'] = vtlib\Functions::showBytes($conf['innodb_log_file_size']);
 			$directiveValues['innodb_lock_wait_timeout']['current'] = $conf['innodb_lock_wait_timeout'];
 			$directiveValues['wait_timeout']['current'] = $conf['wait_timeout'];
 			$directiveValues['interactive_timeout']['current'] = $conf['interactive_timeout'];
 			$directiveValues['sql_mode']['current'] = $conf['sql_mode'];
 			$directiveValues['datetime_format']['current'] = $conf['datetime_format'];
 			$directiveValues['log_error']['current'] = $conf['log_error'];
+			$directiveValues['max_connections']['current'] = $conf['max_connections'];
+			$directiveValues['thread_cache_size']['current'] = $conf['thread_cache_size'];
+			$directiveValues['innodb_buffer_pool_instances']['current'] = $conf['innodb_buffer_pool_instances'];
+			$directiveValues['innodb_io_capacity_max']['current'] = $conf['innodb_io_capacity_max'];
+			$directiveValues['innodb_file_per_table']['current'] = $conf['innodb_file_per_table'];
+			$directiveValues['innodb_stats_on_metadata']['current'] = $conf['innodb_stats_on_metadata'];
 			if ($conf['max_allowed_packet'] < 16777216) {
 				$directiveValues['max_allowed_packet']['status'] = true;
 			}
