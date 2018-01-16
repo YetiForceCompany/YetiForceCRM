@@ -413,11 +413,8 @@ class Vtiger_Record_Model extends \App\Base
 		}
 		$eventHandler->trigger('EntityAfterSave');
 		if ($this->isNew()) {
-			$eventHandler->setSystemTrigger('EntitySystemAfterCreate');
 			\App\Cache::staticSave('RecordModel', $this->getId() . ':' . $this->getModuleName(), $this);
 			$this->isNew = false;
-		} else {
-			$eventHandler->setSystemTrigger('EntitySystemAfterEdit');
 		}
 		\App\Cache::delete('recordLabel', $this->getId());
 		\App\PrivilegeUpdater::updateOnRecordSave($this);

@@ -166,11 +166,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 			throw $e;
 		}
 		$eventHandler->trigger('UserAfterSave');
-		if ($this->isNew()) {
-			$eventHandler->setSystemTrigger('UserSystemAfterCreate');
-		} else {
-			$eventHandler->setSystemTrigger('UserSystemAfterEdit');
-		}
 		\App\Cache::clearOpcache();
 	}
 
