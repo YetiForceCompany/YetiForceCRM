@@ -212,7 +212,7 @@ class VTFieldExpressionEvaluater
 		return date('H:i:s', $endTime);
 	}
 
-	public static function __construct($expr)
+	public function __construct($expr)
 	{
 
 		$this->operators = [
@@ -241,13 +241,13 @@ class VTFieldExpressionEvaluater
 		$this->expr = $expr;
 	}
 
-	public static function evaluate($env)
+	public function evaluate($env)
 	{
 		$this->env = $env;
 		return $this->exec($this->expr);
 	}
 
-	public static function exec($expr)
+	public function exec($expr)
 	{
 		if ($expr instanceof VTExpressionSymbol) {
 			return $this->env($expr);
@@ -276,7 +276,7 @@ class VTFieldExpressionEvaluater
 	 * @param VTExpressionSymbol $sym
 	 * @return string
 	 */
-	public static function env(VTExpressionSymbol $sym)
+	public function env(VTExpressionSymbol $sym)
 	{
 		if ($this->env) {
 			return $this->env->get($sym->value);
