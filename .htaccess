@@ -5,9 +5,20 @@ RedirectMatch 403 (?i).*\.log$
 <IfModule mod_autoindex.c>
 	Options -Indexes -MultiViews
 </ifModule>
-########################
 <IfModule mod_rewrite.c>
 	Options +FollowSymLinks
+	RewriteEngine On
+	RewriteRule ^favicon.ico layouts/basic/skins/images/favicon.ico [L,NC]
+	RewriteRule ^webservice/(.*)/(.*)/(.*)$ webservice.php?module=$1&action=$2&record=$3 [QSA,NC,L]
+	RewriteRule ^webservice/(.*)/(.*)$ webservice.php?module=$1&action=$2 [QSA,NC,L]
+	RewriteRule ^webservice/(.*)$ webservice.php?action=$1 [QSA,NC,L]
+
+	RewriteRule ^\.well-known/carddav dav.php/addressbooks/ [R]
+	RewriteRule ^\.well-known/caldav dav.php/calendars/ [R]
+	RewriteRule /.well-known/carddav dav.php/addressbooks/ [R,L]
+	RewriteRule /.well-known/caldav dav.php/calendars/ [R,L]
+	RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
+	RewriteRule .* - [E=HTTP_CONTENT_TYPE:%{HTTP:Content-Type},L]
 </ifModule>
 <IfModule mod_headers.c>
 	Header unset Server
@@ -23,15 +34,6 @@ RedirectMatch 403 (?i).*\.log$
 	DirectoryIndex index.php
 </IfModule>
 <Files dav.php>
-	<IfModule mod_rewrite.c>
-		RewriteEngine On
-		RewriteRule ^\.well-known/carddav dav.php/addressbooks/ [R]
-		RewriteRule ^\.well-known/caldav dav.php/calendars/ [R]
-		RewriteRule /.well-known/carddav dav.php/addressbooks/ [R,L]
-		RewriteRule /.well-known/caldav dav.php/calendars/ [R,L]
-		RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
-		RewriteRule (.*) dav.php [L]
-	</IfModule>
 	<IfModule mod_expires.c>
 		ExpiresActive Off
 	</IfModule>
@@ -39,18 +41,6 @@ RedirectMatch 403 (?i).*\.log$
 		php_flag output_buffering On
 		php_flag always_populate_raw_post_data Off
 		php_flag mbstring.func_overload Off
-	</IfModule>
-</Files>
-<Files webservice.php>
-	<IfModule mod_rewrite.c>
-		RewriteEngine On
-		RewriteRule ^favicon.ico layouts/basic/skins/images/favicon.ico [L,NC]
-		RewriteRule ^webservice/(.*)/(.*)/(.*)$ webservice.php?module=$1&action=$2&record=$3 [QSA,NC,L]
-		RewriteRule ^webservice/(.*)/(.*)$ webservice.php?module=$1&action=$2 [QSA,NC,L]
-		RewriteRule ^webservice/(.*)$ webservice.php?action=$1 [QSA,NC,L]
-		RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
-		RewriteRule .* - [E=HTTP_CONTENT_TYPE:%{HTTP:Content-Type},L]
-		RewriteRule (.*) webservice.php [QSA,NC,L]
 	</IfModule>
 </Files>
 ########################
