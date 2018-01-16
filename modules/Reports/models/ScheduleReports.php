@@ -329,7 +329,7 @@ class Reports_ScheduleReports_Model extends \App\Base
 
 	public function getEmailContent($reportRecordModel)
 	{
-		$site_URL = vglobal('site_URL');
+		$site_URL = \AppConfig::main('site_URL');
 		$currentModule = vglobal('currentModule');
 
 		$logo = \App\Company::getInstanceById()->getLogo()->get('imageUrl', true);
