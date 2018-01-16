@@ -47,7 +47,7 @@ class Import_Utils_Helper
 
 	public static function getMaxUploadSize()
 	{
-		return vglobal('upload_maxsize');
+		return \AppConfig::main('upload_maxsize');
 	}
 
 	/**
