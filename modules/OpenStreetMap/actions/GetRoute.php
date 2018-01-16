@@ -57,7 +57,7 @@ class OpenStreetMap_GetRoute_Action extends Vtiger_BasicAjax_Action
 			'endLat' => $tlat,
 			'endLon' => $tlon
 		];
-		$language = vglobal('default_language');
+		$language = \AppConfig::main('default_language');
 		$coordinates = [];
 		$travel = 0;
 		$description = '';
