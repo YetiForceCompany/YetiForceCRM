@@ -6162,3 +6162,6 @@ border1px{
 .listViewSearchTd, .listSearchTd {
 	width: 80px;
 }
+.popupEntriesDiv .listSearchTd {
+	width: 57px;
+}
