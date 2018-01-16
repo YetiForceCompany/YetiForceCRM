@@ -21,7 +21,7 @@ class Methods extends \Api\Core\BaseAction
 	public function get()
 	{
 		$methods = [];
-		$src = 'api/webservice/Portal/';
+		$src = 'webservice/Portal/';
 		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			if (!$item->isDir()) {
 				$itemPathName = explode(DIRECTORY_SEPARATOR, $iterator->getSubPathName());
@@ -37,7 +37,7 @@ class Methods extends \Api\Core\BaseAction
 					default: $name = "$dir/$name";
 						break;
 				}
-				$methods[$dir]["api/webservice/$name"] = implode(',', $instance->allowedMethod);
+				$methods[$dir]["webservice/$name"] = implode(',', $instance->allowedMethod);
 				unset($instance);
 			}
 		}
