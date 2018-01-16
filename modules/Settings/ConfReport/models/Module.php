@@ -110,17 +110,9 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'session.gc_divisor' => ['prefer' => '500'],
 			'session.gc_probability' => ['prefer' => '1'],
 			'mbstring.func_overload' => ['prefer' => 'Off'], //Roundcube
-			'date.timezone' => ['prefer' => ''], //Roundcube
+			'date.timezone' => ['prefer' => false], //Roundcube
 			'allow_url_fopen' => ['prefer' => 'On'], //Roundcube
 		];
-		if (!$instalMode && App\Db::getInstance()->getDriverName() === 'mysql') {
-			$directiveValues['mysql.connect_timeout'] = ['prefer' => '600'];
-			$directiveValues['innodb_lock_wait_timeout'] = ['prefer' => '600']; // MySQL
-			$directiveValues['wait_timeout'] = ['prefer' => '600']; // MySQL
-			$directiveValues['interactive_timeout'] = ['prefer' => '600']; // MySQL
-			$directiveValues['sql_mode'] = ['prefer' => '']; // MySQL
-			$directiveValues['max_allowed_packet'] = ['prefer' => '10 MB']; // MySQL
-		}
 		if (extension_loaded('suhosin')) {
 			$directiveValues['suhosin.session.encrypt'] = ['prefer' => 'Off']; //Roundcube
 			$directiveValues['suhosin.request.max_vars'] = ['prefer' => '5000'];
@@ -242,36 +234,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				$directiveValues['suhosin.post.max_value_length']['status'] = true;
 			}
 			$directiveValues['suhosin.post.max_value_length']['current'] = ini_get('suhosin.post.max_value_length');
-		}
-		if (!$instalMode && App\Db::getInstance()->getDriverName() === 'mysql') {
-			if (ini_get('mysql.connect_timeout') != 0 && ini_get('mysql.connect_timeout') < 600)
-				$directiveValues['mysql.connect_timeout']['status'] = true;
-			$directiveValues['mysql.connect_timeout']['current'] = ini_get('mysql.connect_timeout');
-
-			$maxAllowedPacket = (new \App\Db\Query())->select(new yii\db\Expression('@@max_allowed_packet'))->scalar();
-			if ($maxAllowedPacket < 16777216) {
-				$directiveValues['max_allowed_packet']['status'] = true;
-			}
-			$directiveValues['max_allowed_packet']['current'] = vtlib\Functions::showBytes($maxAllowedPacket);
-			$innodbLockWaitTimeout = (new \App\Db\Query())->select(new yii\db\Expression('@@innodb_lock_wait_timeout'))->scalar();
-			if ($innodbLockWaitTimeout < 600) {
-				$directiveValues['innodb_lock_wait_timeout']['status'] = true;
-			}
-			$directiveValues['innodb_lock_wait_timeout']['current'] = $innodbLockWaitTimeout;
-
-			$waitTimeout = (new \App\Db\Query())->select(new yii\db\Expression('@@wait_timeout'))->scalar();
-			if ($waitTimeout < 600) {
-				$directiveValues['wait_timeout']['status'] = true;
-			}
-			$directiveValues['wait_timeout']['current'] = $waitTimeout;
-
-			$interactiveTimeout = (new \App\Db\Query())->select(new yii\db\Expression('@@interactive_timeout'))->scalar();
-			if ($interactiveTimeout < 600) {
-				$directiveValues['interactive_timeout']['status'] = true;
-			}
-			$directiveValues['interactive_timeout']['current'] = $interactiveTimeout;
-
-			$directiveValues['sql_mode']['current'] = (new \App\Db\Query())->select(new yii\db\Expression('@@sql_mode'))->scalar();
 		}
 		if ($onlyError) {
 			foreach ($directiveValues as $key => $value) {
@@ -425,12 +387,76 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
+	 *
+	 * @param type $onlyError
+	 * @return boolean
+	 */
+	public static function getDbConf($onlyError = false)
+	{
+		$db = \App\Db::getInstance();
+		$directiveValues = [
+			'LBL_DB_DRIVER' => ['prefer' => 'mysql', 'current' => $db->getDriverName()],
+			'LBL_DB_SERVER_VERSION' => ['prefer' => false, 'current' => $db->getSlavePdo()->getAttribute(PDO::ATTR_SERVER_VERSION)],
+			'LBL_DB_CLIENT_VERSION' => ['prefer' => false, 'current' => $db->getSlavePdo()->getAttribute(PDO::ATTR_CLIENT_VERSION)],
+			'LBL_DB_CONNECTION_STATUS' => ['prefer' => false, 'current' => $db->getSlavePdo()->getAttribute(PDO::ATTR_CONNECTION_STATUS)],
+			'LBL_DB_SERVER_INFO' => ['prefer' => false, 'current' => $db->getSlavePdo()->getAttribute(PDO::ATTR_SERVER_INFO)],
+		];
+		if (!in_array($db->getDriverName(), explode(',', $directiveValues['LBL_DB_DRIVER']['prefer']))) {
+			$directiveValues['wait_timeout']['status'] = true;
+		}
+		if ($db->getDriverName() === 'mysql') {
+			$directiveValues = array_merge($directiveValues, [
+				'innodb_lock_wait_timeout' => ['prefer' => '600'],
+				'wait_timeout' => ['prefer' => '600'],
+				'interactive_timeout' => ['prefer' => '600'],
+				'sql_mode' => ['prefer' => ''],
+				'max_allowed_packet' => ['prefer' => '10 MB'],
+				'datetime_format' => ['prefer' => '%Y-%m-%d %H:%i:%s'],
+				'log_error' => ['prefer' => false],
+			]);
+			$conf = $db->createCommand('SHOW VARIABLES')->queryAllByGroup(0);
+			$directiveValues['max_allowed_packet']['current'] = vtlib\Functions::showBytes($conf['max_allowed_packet']);
+			$directiveValues['innodb_lock_wait_timeout']['current'] = $conf['innodb_lock_wait_timeout'];
+			$directiveValues['wait_timeout']['current'] = $conf['wait_timeout'];
+			$directiveValues['interactive_timeout']['current'] = $conf['interactive_timeout'];
+			$directiveValues['sql_mode']['current'] = $conf['sql_mode'];
+			$directiveValues['datetime_format']['current'] = $conf['datetime_format'];
+			$directiveValues['log_error']['current'] = $conf['log_error'];
+			if ($conf['max_allowed_packet'] < 16777216) {
+				$directiveValues['max_allowed_packet']['status'] = true;
+			}
+			if ($conf['innodb_lock_wait_timeout'] < 600) {
+				$directiveValues['innodb_lock_wait_timeout']['status'] = true;
+			}
+			if ($conf['wait_timeout'] < 600) {
+				$directiveValues['wait_timeout']['status'] = true;
+			}
+			if ($conf['interactive_timeout'] < 600) {
+				$directiveValues['interactive_timeout']['status'] = true;
+			}
+			if (!empty($conf['sql_mode']) && (strpos($conf['sql_mode'], 'STRICT_TRANS_TABLE') !== false || strpos($conf['sql_mode'], 'ONLY_FULL_GROUP_BY') !== false)) {
+				$directiveValues['sql_mode']['status'] = true;
+			}
+			if ($conf['datetime_format'] !== '%Y-%m-%d %H:%i:%s') {
+				$directiveValues['datetime_format']['status'] = true;
+			}
+		}
+		if ($onlyError) {
+			foreach ($directiveValues as $key => $value) {
+				if (empty($value['status'])) {
+					unset($directiveValues[$key]);
+				}
+			}
+		}
+		return $directiveValues;
+	}
+
+	/**
 	 * Get system details
 	 * @return array
 	 */
 	public static function getSystemInfo()
 	{
-
 		$params = [
 			'LBL_OPERATING_SYSTEM' => \AppConfig::main('systemMode') === 'demo' ? php_uname('s') : php_uname(),
 			'LBL_PHP_SAPI' => PHP_SAPI,
