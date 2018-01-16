@@ -1,10 +1,9 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="sumaryRelatedTimeControl">
-		<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/js/flot/jquery.flot.min.js')}"></script>
-		<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/js/flot/jquery.flot.resize.js')}"></script>
-		<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/js/flot/jquery.flot.stack.min.js')}"></script>
-		<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/js/flot/jquery.flot.valuelabels.min.js')}"></script>
+		<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/flot/jquery.flot.min.js')}"></script>
+		<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/flot/jquery.flot.resize.js')}"></script>
+		<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/flot/jquery.flot.stack.min.js')}"></script>
 		<script type="text/javascript" src="{\App\Layout::getLayoutFile('modules/OSSTimeControl/resources/InRelation.js')}"></script>
 		<style type="text/css">
 		.legendContainer{

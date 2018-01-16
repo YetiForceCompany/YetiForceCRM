@@ -53,17 +53,6 @@ class Project_Detail_View extends Vtiger_Detail_View
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getHeaderCss(\App\Request $request)
-	{
-		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
-				'~libraries/gantt/skins/dhtmlxgantt_broadway.css',
-				'~libraries/js/flot/jquery.flot.valuelabels.css',
-		]));
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	public function getFooterScripts(\App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([

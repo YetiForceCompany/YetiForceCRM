@@ -137,9 +137,9 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$jsFileNames = [
 			'~libraries/js/gridster/jquery.gridster.js',
-			'~libraries/js/flot/jquery.flot.js',
-			'~libraries/js/flot/jquery.flot.pie.js',
-			'~libraries/js/flot/jquery.flot.stack.js',
+			'~libraries/flot/jquery.flot.js',
+			'~libraries/flot/jquery.flot.pie.js',
+			'~libraries/flot/jquery.flot.stack.js',
 			'~libraries/js/jqplot/jquery.jqplot.js',
 			'~libraries/js/jqplot/plugins/jqplot.canvasTextRenderer.js',
 			'~libraries/js/jqplot/plugins/jqplot.canvasAxisTickRenderer.js',

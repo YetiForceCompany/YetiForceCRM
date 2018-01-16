@@ -1,5 +1,6 @@
 /.gitignore
-/.yarn.lock
+/yarn.lock
+/.yarn-integrity
 /.settings
 /.project
 /.buildpath
@@ -47,6 +48,7 @@
 /public_html/libraries/dompurify/
 /public_html/libraries/delegate/
 /public_html/libraries/lodash.debounce/
+/public_html/libraries/flot/
 /libraries/PHPExcel/
 /libraries/mPDF/
 /vendor/*/
