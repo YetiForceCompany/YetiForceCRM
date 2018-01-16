@@ -1,4 +1,5 @@
 /.gitignore
+/.yarn.lock
 /.settings
 /.project
 /.buildpath
@@ -42,6 +43,7 @@
 /public_html/libraries/datatables.net/
 /public_html/libraries/datatables.net-bs/
 /public_html/libraries/bootstrap-datepicker/
+/public_html/libraries/bootstrap-daterangepicker/
 /public_html/libraries/dompurify/
 /public_html/libraries/delegate/
 /public_html/libraries/lodash.debounce/
