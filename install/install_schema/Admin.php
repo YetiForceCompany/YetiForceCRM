@@ -329,19 +329,6 @@ class Admin extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			's_#__handler_updater' => [
-				'columns' => [
-					'id' => $this->primaryKey(10),
-					'tabid' => $this->smallInteger(5)->unsigned()->notNull(),
-					'crmid' => $this->integer(10)->unsigned()->notNull(),
-					'userid' => $this->integer(10)->unsigned()->notNull(),
-					'handler_name' => $this->stringType(50)->notNull(),
-					'class' => $this->stringType(50)->notNull(),
-					'params' => $this->text()->notNull(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			's_#__mail_queue' => [
 				'columns' => [
 					'id' => $this->primaryKey(10)->unsigned(),
@@ -1062,7 +1049,7 @@ $(translate : IPreOrder|Attention)$: $(record : attention)$<br />
 			$(relatedRecord : storageid|addresslevel8a|IStorages)$ $(relatedRecord : storageid|buildingnumbera|IStorages)$ $(relatedRecord : storageid|localnumbera|IStorages)$<br />
 			$(relatedRecord : storageid|addresslevel7a|IStorages)$ $(relatedRecord : storageid|addresslevel5a|IStorages)$<br /><br />
 			 </td>
-		</tr></table><br /> 
+		</tr></table><br />
 $(custom : ProductsTableNew)$<br />
 $(translate : ISTDN|Description)$: $(record : description)$<br />
 $(translate : ISTDN|Attention)$: $(record : attention)$<br />
@@ -1146,9 +1133,9 @@ $(custom : ProductsTableHierarchy|IStorages)$', '<div style="text-align:center;"
 								Miejsce wystawienia: <b>$(organization : city)$</b><br />
 								Data wystawienia: <b>$(general : CurrentDate)$</b><br />
 								$(translate : FInvoice|FL_SALE_DATE)$: <b>$(record : saledate)$</b><br />
-								Faktura VAT:<b> $(record : number)$</b> 
+								Faktura VAT:<b> $(record : number)$</b>
 							</td>
-						</tr><tr><td height="130" width="100%"> 							
+						</tr><tr><td height="130" width="100%"> 
 							</td>
 						</tr></table></td>
 		</tr></table><table border="0" style="margin:0 auto;" width="100%"><tr><td height="140" width="40%" style="text-align:center;">

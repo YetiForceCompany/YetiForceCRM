@@ -877,19 +877,6 @@ CREATE TABLE `s_yf_companies` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `s_yf_handler_updater` */
-
-CREATE TABLE `s_yf_handler_updater` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `tabid` smallint(5) unsigned NOT NULL,
-  `crmid` int(10) unsigned NOT NULL,
-  `userid` int(10) unsigned NOT NULL,
-  `handler_name` varchar(50) NOT NULL,
-  `class` varchar(50) NOT NULL,
-  `params` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `s_yf_mail_queue` */
 
 CREATE TABLE `s_yf_mail_queue` (
