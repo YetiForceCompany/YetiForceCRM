@@ -131,7 +131,7 @@ class VTFieldExpressionEvaluater
 	 */
 	public static function __vt_time_diffdays($arr)
 	{
-		$timediff = __vt_time_diff($arr);
+		$timediff = static::__vt_time_diff($arr);
 		$days_diff = floor($timediff / (60 * 60 * 24));
 		return $days_diff;
 	}
