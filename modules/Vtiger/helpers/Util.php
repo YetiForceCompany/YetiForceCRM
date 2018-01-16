@@ -191,7 +191,7 @@ class Vtiger_Util_Helper
 	 */
 	public static function getMaxUploadSize()
 	{
-		$upload_maxsize = vglobal('upload_maxsize');
+		$upload_maxsize = \AppConfig::main('upload_maxsize');
 		return ceil($upload_maxsize / (1024 * 1024));
 	}
 
