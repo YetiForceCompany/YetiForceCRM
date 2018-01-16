@@ -46,7 +46,6 @@ abstract class OSSMailScanner_PrefixScannerAction_Model
 		if (!$this->prefix) {
 			return false;
 		}
-
 		return $this->add();
 	}
 

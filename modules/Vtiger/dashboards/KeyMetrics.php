@@ -48,7 +48,7 @@ class Vtiger_KeyMetrics_Dashboard extends Vtiger_IndexAjax_View
 	/**
 	 * To get the details of a customview entries
 	 * @returns  $metriclists Array in the following format
-	 * $customviewlist []= Array('id'=>custom view id, 
+	 * $customviewlist []= Array('id'=>custom view id,
 	 * 							'name'=>custom view name,
 	 * 							'module'=>modulename,
 	 * 							'count'=>''
@@ -85,6 +85,7 @@ class Vtiger_KeyMetrics_Dashboard extends Vtiger_IndexAjax_View
 				];
 			}
 		}
+		$dataReader->close();
 		return $metriclists;
 	}
 }

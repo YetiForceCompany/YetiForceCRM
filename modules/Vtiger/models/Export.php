@@ -114,6 +114,7 @@ class Vtiger_Export_Model extends \App\Base
 				$entries[] = $sanitizedRow;
 			}
 		}
+		$dataReader->close();
 		$this->output($request, $headers, $entries);
 	}
 

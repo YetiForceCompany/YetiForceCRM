@@ -42,6 +42,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 				$config[$param] = $value;
 			}
 		}
+		$dataReader->close();
 		return $config;
 	}
 

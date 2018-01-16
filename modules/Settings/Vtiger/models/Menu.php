@@ -93,6 +93,7 @@ class Settings_Vtiger_Menu_Model extends \App\Base
 			$blockId = $row[self::$menuId];
 			$menuModels[$blockId] = Settings_Vtiger_Menu_Model::getInstanceFromArray($row);
 		}
+		$dataReader->close();
 		self::$casheMenu = $menuModels;
 		return $menuModels;
 	}

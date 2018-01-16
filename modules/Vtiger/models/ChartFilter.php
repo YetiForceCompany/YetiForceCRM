@@ -255,6 +255,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				$groupData[$displayValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . "&viewname=$filterId&search_params=" . App\Json::encode([$searchParams]);
 			}
 		}
+		$dataReader->close();
 		return $groupData;
 	}
 
@@ -358,6 +359,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 			}
 			$groupData[$displayValue]['link'] = $this->getTargetModuleModel()->getListViewUrl() . "&viewname=$filterId&search_params=" . App\Json::encode([$searchParams]);
 		}
+		$dataReader->close();
 		return $groupData;
 	}
 
@@ -402,6 +404,7 @@ class Vtiger_ChartFilter_Model extends Vtiger_Widget_Model
 				}
 			}
 		}
+		$dataReader->close();
 		return ['data' => $data, 'group' => $groupFields, 'divided' => $dividedFields];
 	}
 

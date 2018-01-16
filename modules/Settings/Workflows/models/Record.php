@@ -473,7 +473,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 				unset($dependentFields[$tabModuleName]);
 			}
 		}
-
+		$dataReader->close();
 		return $dependentFields;
 	}
 

@@ -75,6 +75,7 @@ class Vtiger_Files_Model extends \App\Base
 				unlink($fileName);
 			}
 		}
+		$dataReader->close();
 	}
 
 	/**
