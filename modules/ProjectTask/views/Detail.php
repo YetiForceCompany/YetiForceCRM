@@ -19,14 +19,4 @@ class ProjectTask_Detail_View extends Vtiger_Detail_View
 				'~libraries/js/flot/jquery.flot.valuelabels.css',
 		]));
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public function getFooterScripts(\App\Request $request)
-	{
-		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
-				'~libraries/gantt/dhtmlxgantt.js',
-		]));
-	}
 }
