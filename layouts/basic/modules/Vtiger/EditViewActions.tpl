@@ -12,12 +12,12 @@
 {strip}
 	<div class="formActionsPanel">
 		{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
-		<button class="btn btn-success" type="submit">
-			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;
+		<button class="btn btn-success iconTextMargin" type="submit">
+			<span class="glyphicon glyphicon-ok iconTextMargin" aria-hidden="true"></span>
 			<strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong>
-		</button>&nbsp;&nbsp;
+		</button>
 		<button class="btn btn-warning" type="reset" onclick="javascript:window.history.back();">
-			<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;
+			<span class="glyphicon glyphicon-remove iconTextMargin"></span>
 			<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
 		</button>
 		{foreach item=LINK from=$EDITVIEW_LINKS['EDIT_VIEW_HEADER']}
