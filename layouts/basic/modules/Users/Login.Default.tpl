@@ -24,12 +24,12 @@
 							<div class='marginLeft0  marginRight0 row col-xs-10'>
 								<div class="form-group first-group has-feedback">
 									<label for="username" class="sr-only">{\App\Language::translate('LBL_USER',$MODULE)}</label>
-									<input name="username" type="text" id="username" class="form-control input-lg" {if vglobal('systemMode') == 'demo'}value="demo"{/if} placeholder="{\App\Language::translate('LBL_USER',$MODULE)}" required="" {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if} autofocus="">
+									<input name="username" type="text" id="username" class="form-control input-lg" {if \AppConfig::main('systemMode') === 'demo'}value="demo"{/if} placeholder="{\App\Language::translate('LBL_USER',$MODULE)}" required="" {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if} autofocus="">
 									<span class="adminIcon-user form-control-feedback" aria-hidden="true"></span>
 								</div>
 								<div class="form-group {if $LANGUAGE_SELECTION || $LAYOUT_SELECTION}first-group {/if} has-feedback">
 									<label for="password" class="sr-only">{\App\Language::translate('Password',$MODULE)}</label>
-									<input name="password" type="password" class="form-control input-lg" title="{\App\Language::translate('Password',$MODULE)}" id="password" name="password" {if vglobal('systemMode') == 'demo'}value="demo"{/if} {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if} placeholder="{\App\Language::translate('Password',$MODULE)}">
+									<input name="password" type="password" class="form-control input-lg" title="{\App\Language::translate('Password',$MODULE)}" id="password" name="password" {if \AppConfig::main('systemMode') === 'demo'}value="demo"{/if} {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if} placeholder="{\App\Language::translate('Password',$MODULE)}">
 									<span class="userIcon-OSSPasswords form-control-feedback" aria-hidden="true"></span>
 								</div>
 								{assign var=COUNTERFIELDS value=2}

@@ -19,7 +19,7 @@
 <input type='hidden' id='pageNumber' value="{$PAGE_NUMBER}" >
 <input type='hidden' id='pageLimit' value="{$PAGING_MODEL->getPageLimit()}">
 <input type="hidden" id="noOfEntries" value="{$LISTVIEW_ENTRIES_COUNT}">
-<input type="hidden" id="listMaxEntriesMassEdit" value="{vglobal('listMaxEntriesMassEdit')}" />
+<input type="hidden" id="listMaxEntriesMassEdit" value="{\AppConfig::main('listMaxEntriesMassEdit')}" />
 
 <div id="selectAllMsgDiv" class="alert-block msgDiv">
 	<strong><a id="selectAllMsg">{\App\Language::translate('LBL_SELECT_ALL',$MODULE)}&nbsp;{\App\Language::translate($MODULE ,$MODULE)}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
