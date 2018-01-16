@@ -33,6 +33,7 @@
 		"flot": "^0.8.0-alpha",
 		"font-awesome": ">=4.7.0",
 		"fullcalendar": "3.8.0",
+		"gridster": "^0.5.6",
 		"jquery": "<3.0.0",
 		"moment": ">=2.18.1",
 		"select2": "^4.0.6-rc.1",
