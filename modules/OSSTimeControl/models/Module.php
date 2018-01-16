@@ -114,9 +114,9 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 				$data[$i]['data'][0][1] = $row['time'];
 				++$i;
 			}
+			$dataReader->close();
 			$response['ticks'] = $ticks;
 			$response['chart'] = $data;
-			$dataReader->close();
 		}
 		return $response;
 	}
