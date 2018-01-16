@@ -7,13 +7,13 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ****************************************************************************** */
-chdir(__DIR__ . '/../');
+
 /**
  * Start the cron services configured.
  */
 include_once 'include/main/WebUI.php';
 \App\Config::$requestMode = 'Cron';
-file_put_contents('user_privileges/cron.php', '<?php $sapi=\'' . PHP_SAPI . '\';$ini=\'' . php_ini_loaded_file() . '\';$log=\'' . ini_get('error_log') . '\';$vphp=\'' . PHP_VERSION . '\';');
+file_put_contents(ROOT_DIRECTORY . '/user_privileges/cron.php', '<?php $sapi=\'' . PHP_SAPI . '\';$ini=\'' . php_ini_loaded_file() . '\';$log=\'' . ini_get('error_log') . '\';$vphp=\'' . PHP_VERSION . '\';');
 
 App\Session::init();
 $authenticatedUserId = App\Session::get('authenticated_user_id');
