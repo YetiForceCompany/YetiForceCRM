@@ -91,27 +91,27 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getStabilityConf($instalMode = false, $onlyError = false)
 	{
 		$directiveValues = [
-			'PHP' => ['prefer' => '7.0.x'],
-			'error_reporting' => ['prefer' => 'E_ALL & ~E_NOTICE'],
-			'output_buffering' => ['prefer' => 'On'],
-			'max_execution_time' => ['prefer' => '600'],
-			'max_input_time' => ['prefer' => '600'],
-			'default_socket_timeout' => ['prefer' => '600'],
-			'memory_limit' => ['prefer' => '512 MB'],
-			'log_errors' => ['prefer' => 'On'],
-			'file_uploads' => ['prefer' => 'On'],
-			'short_open_tag' => ['prefer' => 'On'],
-			'post_max_size' => ['prefer' => '50 MB'],
-			'upload_max_filesize' => ['prefer' => '100 MB'],
-			'max_input_vars' => ['prefer' => '10000'],
-			'zlib.output_compression' => ['prefer' => 'Off'],
-			'session.auto_start' => ['prefer' => 'Off'],
-			'session.gc_maxlifetime' => ['prefer' => '21600'],
-			'session.gc_divisor' => ['prefer' => '500'],
-			'session.gc_probability' => ['prefer' => '1'],
-			'mbstring.func_overload' => ['prefer' => 'Off'], //Roundcube
+			'PHP' => ['prefer' => '7.0.x', 'help' => 'PHP_HELP_TEXT'],
+			'error_reporting' => ['prefer' => 'E_ALL & ~E_NOTICE', 'help' => 'ERROR_REPORTING_HELP_TEXT'],
+			'output_buffering' => ['prefer' => 'On', 'help' => 'OUTPUT_BUFFERING_HELP_TEXT'],
+			'max_execution_time' => ['prefer' => '600', 'help' => 'MAX_EXECUTION_TIME_HELP_TEXT'],
+			'max_input_time' => ['prefer' => '600', 'help' => 'MAX_INPUT_TIME_HELP_TEXT'],
+			'default_socket_timeout' => ['prefer' => '600', 'help' => 'DEFAULT_SOCKET_TIMEOUT_HELP_TEXT'],
+			'memory_limit' => ['prefer' => '512 MB', 'help' => 'MEMORY_LIMIT_HELP_TEXT'],
+			'log_errors' => ['prefer' => 'On', 'help' => 'LOG_ERRORS_HELP_TEXT'],
+			'file_uploads' => ['prefer' => 'On', 'help' => 'FILE_UPLOADS_HELP_TEXT'],
+			'short_open_tag' => ['prefer' => 'On', 'help' => 'SHORT_OPEN_TAG_HELP_TEXT'],
+			'post_max_size' => ['prefer' => '50 MB', 'help' => 'POST_MAX_SIZE_HELP_TEXT'],
+			'upload_max_filesize' => ['prefer' => '100 MB', 'help' => 'UPLOAD_MAX_FILESIZE_HELP_TEXT'],
+			'max_input_vars' => ['prefer' => '10000', 'help' => 'MAX_INPUT_VARS_HELP_TEXT'],
+			'zlib.output_compression' => ['prefer' => 'Off', 'help' => 'ZLIB_OUTPUT_COMPRESSION_HELP_TEXT'],
+			'session.auto_start' => ['prefer' => 'Off', 'help' => 'SESSION_AUTO_START_HELP_TEXT'],
+			'session.gc_maxlifetime' => ['prefer' => '21600', 'help' => 'SESSION_GC_MAXLIFETIME_HELP_TEXT'],
+			'session.gc_divisor' => ['prefer' => '500', 'help' => 'SESSION_GC_DIVISOR_HELP_TEXT'],
+			'session.gc_probability' => ['prefer' => '1', 'help' => 'SESSION_GC_PROBABILITY_HELP_TEXT'],
+			'mbstring.func_overload' => ['prefer' => 'Off', 'help' => 'MBSTRING_FUNC_OVERLOAD_HELP_TEXT'], //Roundcube
 			'date.timezone' => ['prefer' => false], //Roundcube
-			'allow_url_fopen' => ['prefer' => 'On'], //Roundcube
+			'allow_url_fopen' => ['prefer' => 'On', 'help' => 'ALLOW_URL_FOPEN_HELP_TEXT'], //Roundcube
 		];
 		if (extension_loaded('suhosin')) {
 			$directiveValues['suhosin.session.encrypt'] = ['prefer' => 'Off']; //Roundcube
