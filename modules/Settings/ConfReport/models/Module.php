@@ -264,11 +264,13 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'public_html' => ['prefer' => 'On', 'help' => 'PUBLIC_HTML_HELP_TEXT'],
 			'session.use_strict_mode' => [
 				'prefer' => 'On',
+				'help' => 'SESSION_USE_STRICT_MODE_HELP_TEXT',
 				'current' => static::getFlag(ini_get('session.use_strict_mode')),
 				'status' => ini_get('session.use_strict_mode') != 1 && stripos(ini_get('session.use_strict_mode'), 'Off') !== false
 			],
 			'session.use_trans_sid' => [
 				'prefer' => 'Off',
+				'help' => 'SESSION_USE_TRANS_SID_HELP_TEXT',
 				'current' => static::getFlag(ini_get('session.use_trans_sid')),
 				'status' => ini_get('session.use_trans_sid') == 1 || stripos(ini_get('session.use_trans_sid'), 'On') !== false
 			],
@@ -296,16 +298,16 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				'current' => static::getFlag(AppConfig::main('session_regenerate_id')),
 				'status' => AppConfig::main('session_regenerate_id') !== null && !AppConfig::main('session_regenerate_id')
 			],
-			'Header: X-Frame-Options' => ['prefer' => 'SAMEORIGIN', 'current' => '?'],
-			'Header: X-XSS-Protection' => ['prefer' => '1; mode=block', 'current' => '?'],
-			'Header: X-Content-Type-Options' => ['prefer' => 'nosniff', 'current' => '?'],
-			'Header: X-Robots-Tag' => ['prefer' => 'none', 'current' => '?'],
-			'Header: X-Permitted-Cross-Domain-Policies' => ['prefer' => 'none', 'current' => '?'],
-			'Header: X-Powered-By' => ['prefer' => '', 'current' => '?'],
-			'Header: Server' => ['prefer' => '', 'current' => '?'],
-			'Header: Expect-CT' => ['prefer' => 'enforce; max-age=3600', 'current' => '?'],
-			'Header: Referrer-Policy' => ['prefer' => 'same-origin', 'current' => '?'],
-			'Header: Strict-Transport-Security' => ['prefer' => 'max-age=31536000; includeSubDomains; preload', 'current' => '?'],
+			'Header: X-Frame-Options' => ['prefer' => 'SAMEORIGIN', 'help' => 'HEADER_X_FRAME_OPTIONS_HELP_TEXT', 'current' => '?'],
+			'Header: X-XSS-Protection' => ['prefer' => '1; mode=block', 'help' => 'HEADER_X_XSS_PROTECTION_HELP_TEXT', 'current' => '?'],
+			'Header: X-Content-Type-Options' => ['prefer' => 'nosniff', 'help' => 'HEADER_X_CONTENT_TYPE_OPTIONS_HELP_TEXT', 'current' => '?'],
+			'Header: X-Robots-Tag' => ['prefer' => 'none', 'help' => 'HEADER_X_ROBOTS_TAG_HELP_TEXT', 'current' => '?'],
+			'Header: X-Permitted-Cross-Domain-Policies' => ['prefer' => 'none', 'help' => 'HEADER_X_PERMITTED_CROSS_DOMAIN_POLICIES_HELP_TEXT', 'current' => '?'],
+			'Header: X-Powered-By' => ['prefer' => '', 'help' => 'HEADER_X_POWERED_BY_HELP_TEXT', 'current' => '?'],
+			'Header: Server' => ['prefer' => '', 'help' => 'HEADER_SERVER_HELP_TEXT', 'current' => '?'],
+			'Header: Expect-CT' => ['prefer' => 'enforce; max-age=3600', 'help' => 'HEADER_EXPECT_CT_HELP_TEXT', 'current' => '?'],
+			'Header: Referrer-Policy' => ['prefer' => 'same-origin', 'help' => 'HEADER_REFERRER_POLICY_HELP_TEXT', 'current' => '?'],
+			'Header: Strict-Transport-Security' => ['prefer' => 'max-age=31536000; includeSubDomains; preload', 'help' => 'HEADER_STRICT_TRANSPORT_SECURITY_HELP_TEXT', 'current' => '?'],
 		];
 		if (IS_PUBLIC_DIR === true) {
 			$directiveValues['public_html']['current'] = static::getFlag(true);
