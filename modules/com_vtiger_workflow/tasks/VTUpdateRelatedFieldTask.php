@@ -67,11 +67,13 @@ class VTUpdateRelatedFieldTask extends VTTask
 					if ($recordId) {
 						$relRecordModel = Vtiger_Record_Model::getInstanceById($recordId, $relatedData[1]);
 						$fieldModel = $relRecordModel->getField($relatedData[2]);
-						if ($fieldModel->isWritable()) {
+						if ($fieldModel->isEditable()) {
 							$fieldModel->getUITypeModel()->validate($fieldValue);
 							$relRecordModel->setHandlerExceptions(['disableWorkflow' => true]);
 							$relRecordModel->set($relatedData[2], $fieldValue);
 							$relRecordModel->save();
+						} else {
+							\App\Log::warning('No permissions to edit field: ' . $fieldModel->getName());
 						}
 					}
 				}
@@ -100,11 +102,13 @@ class VTUpdateRelatedFieldTask extends VTTask
 		while ($recordId = $dataReader->readColumn(0)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $relatedModuleName);
 			$fieldModel = $recordModel->getField($relatedFieldName);
-			if ($fieldModel->isWritable()) {
+			if ($fieldModel->isEditable()) {
 				$fieldModel->getUITypeModel()->validate($fieldValue);
 				$recordModel->setHandlerExceptions(['disableWorkflow' => true]);
 				$recordModel->set($relatedFieldName, $fieldValue);
 				$recordModel->save();
+			} else {
+				\App\Log::warning('No permissions to edit field: ' . $fieldModel->getName());
 			}
 		}
 	}
