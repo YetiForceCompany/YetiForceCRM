@@ -21,6 +21,7 @@
 	"dependencies": {
 		"Flot": "https://github.com/flot/flot.git",
 		"bootstrap-chosen": "^1.4.2",
+		"bootstrap-colorpicker": "^2.5.2",
 		"bootstrap-datepicker": "^1.7.1",
 		"bootstrap-daterangepicker": "^2.1.30",
 		"chosen-js": "^1.8.2",
@@ -35,6 +36,7 @@
 		"font-awesome": ">=4.7.0",
 		"fullcalendar": "3.8.0",
 		"gridster": "^0.5.6",
+		"inputmask": "^3.3.11",
 		"jquery": "<3.0.0",
 		"moment": ">=2.18.1",
 		"select2": "^4.0.6-rc.1",
