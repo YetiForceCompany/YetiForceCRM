@@ -39,9 +39,9 @@ class Settings_LangManagement_Index_View extends Settings_Vtiger_Index_View
 			'~libraries/datatables.net/js/jquery.dataTables.js',
 			'~libraries/datatables.net-bs/js/dataTables.bootstrap.js',
 			'modules.Vtiger.resources.dashboards.Widget',
-			'~libraries/flot/jquery.flot.min.js',
-			'~libraries/flot/jquery.flot.stack.min.js',
-			'~libraries/flot/jquery.flot.valuelabels.min.js',
+			'~libraries/Flot/jquery.flot.js',
+			'~libraries/Flot/jquery.flot.stack.js',
+			'~libraries/flot-valuelabels/jquery.flot.valuelabels.js',
 		];
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
