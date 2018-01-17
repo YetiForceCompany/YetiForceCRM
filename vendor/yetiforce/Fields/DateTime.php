@@ -86,4 +86,19 @@ class DateTime
 		$formatedDate .= " ($dateDay)";
 		return $formatedDate;
 	}
+
+	/**
+	 * The function returns the decimal format of the time
+	 * @param int $decTime
+	 * @return array
+	 */
+	public static function decimalTimeFormat($decTime)
+	{
+		$hour = floor($decTime);
+		$min = round(60 * ($decTime - $hour));
+		return [
+			'short' => $hour . \App\Language::translate('LBL_H') . ' ' . $min . \App\Language::translate('LBL_M'),
+			'full' => $hour . \App\Language::translate('LBL_HOURS') . ' ' . $min . \App\Language::translate('LBL_MINUTES'),
+		];
+	}
 }
