@@ -181,14 +181,17 @@
 							</tr>
 						</thead>
 						<tbody>
-							{foreach from=Settings_ConfReport_Module_Model::getDbConf() key=key item=ITEM}
-								<tr {if $ITEM['status']}class="danger"{/if}>
-									<td><label>{App\Language::translate($key, $MODULE)}</label></td>
-									{if $ITEM['prefer'] === false}
-										<td colspan="2"><label>{$ITEM['current']}</label></td>
+							{foreach from=Settings_ConfReport_Module_Model::getDbConf() key=key item=item}
+								<tr {if $item['status']}class="danger"{/if}>
+									<td>
+										<label>{App\Language::translate($key, $MODULE)}</label>
+										{if isset($item.help) && $item.status}<a href="#" class="popoverTooltip pull-right" data-trigger="focus" data-placement="rigth" data-content="{\App\Purifier::encodeHtml(App\Language::translate($item.help, $MODULE))}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
+									</td>
+									{if $item['prefer'] === false}
+										<td colspan="2"><label>{$item['current']}</label></td>
 											{else}
-										<td><label>{$ITEM['prefer']}</label></td>
-										<td><label>{$ITEM['current']}</label></td>
+										<td><label>{$item['prefer']}</label></td>
+										<td><label>{$item['current']}</label></td>
 									{/if}
 								</tr>
 							{/foreach}
