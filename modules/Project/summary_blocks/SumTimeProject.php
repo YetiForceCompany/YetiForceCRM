@@ -21,7 +21,7 @@ class SumTimeProject
 	public function process(Vtiger_Record_Model $recordModel)
 	{
 		\App\Log::trace('Entering SumTimeProject::process() method ...');
-		$sum_time = vtlib\Functions::decimalTimeFormat($recordModel->get('sum_time'));
+		$sum_time = \App\Fields\DateTime::decimalTimeFormat($recordModel->get('sum_time'));
 		\App\Log::trace('Exiting SumTimeProject::process() method ...');
 		return $sum_time['short'];
 	}
