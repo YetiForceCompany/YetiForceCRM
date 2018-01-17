@@ -116,7 +116,7 @@
 								<tr {if $item.status}class="danger"{/if}>
 									<td>
 										<label>{$key}</label>
-										{if isset($item.help) && $item.status}<a href="#" class="popoverTooltip pull-right" data-trigger="focus" data-placement="rigth" data-content="{App\Language::translate($item.help, $MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
+										{if isset($item.help) && $item.status}<a href="#" class="popoverTooltip pull-right" data-trigger="focus" data-placement="rigth" data-content="{\App\Purifier::encodeHtml(\App\Language::translate($item.help, $MODULE))}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
 									</td>
 									{if $item['prefer'] === false}
 										<td colspan="2"><label>{$item['current']}</label></td>
