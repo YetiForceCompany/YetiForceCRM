@@ -166,7 +166,7 @@ class Reports extends CRMEntity
 		$this->module_list = [];
 
 		// Prefetch module info to check active or not and also get list of tabs
-		$modulerows = \VtlibUtils::vtlibPrefetchModuleActiveInfo(false);
+		$modulerows = vtlib\Functions::getAllModules(false, true);
 
 		$cachedInfo = VTCacheUtils::lookupReportListOfModuleInfos();
 
