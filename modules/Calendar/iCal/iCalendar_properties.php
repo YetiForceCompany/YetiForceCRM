@@ -186,22 +186,6 @@ class IcalendarProperty
 	}
 }
 
-class IcalendarPropertySummary extends IcalendarProperty
-{
-
-	public $name = 'SUMMARY';
-	public $val_type = RFC2445_TYPE_TEXT;
-
-	public function construct()
-	{
-		$this->valid_parameters = [
-			'ALTREP' => RFC2445_OPTIONAL | RFC2445_ONCE,
-			'LANGUAGE' => RFC2445_OPTIONAL | RFC2445_ONCE,
-			RFC2445_XNAME => RFC2445_OPTIONAL
-		];
-	}
-}
-
 // 4.8.2 Date and Time Component Properties
 // ----------------------------------------
 
