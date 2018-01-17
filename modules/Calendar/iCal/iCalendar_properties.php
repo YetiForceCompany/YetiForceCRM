@@ -186,22 +186,6 @@ class IcalendarProperty
 	}
 }
 
-class IcalendarPropertyCategories extends IcalendarProperty
-{
-
-	public $name = 'CATEGORIES';
-	public $val_type = RFC2445_TYPE_TEXT;
-	public $val_multi = true;
-
-	public function construct()
-	{
-		$this->valid_parameters = [
-			'LANGUAGE' => RFC2445_OPTIONAL | RFC2445_ONCE,
-			RFC2445_XNAME => RFC2445_OPTIONAL
-		];
-	}
-}
-
 class IcalendarPropertyClass extends IcalendarProperty
 {
 
