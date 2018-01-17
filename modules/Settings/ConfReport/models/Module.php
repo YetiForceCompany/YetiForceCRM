@@ -392,7 +392,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$db = \App\Db::getInstance();
 		$directiveValues = [
-			'LBL_DB_DRIVER' => ['prefer' => 'mysql', 'current' => $db->getDriverName()],
+			'LBL_DB_DRIVER' => ['prefer' => 'mysql', 'current' => $db->getDriverName(), 'help' => 'DB_DRIVER_HELP_TEXT'],
 			'LBL_DB_SERVER_VERSION' => ['prefer' => false, 'current' => $db->getSlavePdo()->getAttribute(PDO::ATTR_SERVER_VERSION)],
 			'LBL_DB_CLIENT_VERSION' => ['prefer' => false, 'current' => $db->getSlavePdo()->getAttribute(PDO::ATTR_CLIENT_VERSION)],
 			'LBL_DB_CONNECTION_STATUS' => ['prefer' => false, 'current' => $db->getSlavePdo()->getAttribute(PDO::ATTR_CONNECTION_STATUS)],
@@ -403,12 +403,12 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		if ($db->getDriverName() === 'mysql') {
 			$directiveValues = array_merge($directiveValues, [
-				'innodb_lock_wait_timeout' => ['prefer' => '600'],
-				'wait_timeout' => ['prefer' => '600'],
-				'interactive_timeout' => ['prefer' => '600'],
-				'sql_mode' => ['prefer' => ''],
-				'max_allowed_packet' => ['prefer' => '10 MB'],
-				'datetime_format' => ['prefer' => '%Y-%m-%d %H:%i:%s'],
+				'innodb_lock_wait_timeout' => ['prefer' => '600', 'help' => 'INNODB_LOCK_WAIT_TIMEOUT_HELP_TEXT'],
+				'wait_timeout' => ['prefer' => '600', 'help' => 'WAIT_TIMEOUT_HELP_TEXT'],
+				'interactive_timeout' => ['prefer' => '600', 'help' => 'INTERACTIVE_TIMEOUT_HELP_TEXT'],
+				'sql_mode' => ['prefer' => '', 'help' => 'SQL_MODE_HELP_TEXT'],
+				'max_allowed_packet' => ['prefer' => '10 MB', 'help' => 'MAX_ALLOWED_PACKET_HELP_TEXT'],
+				'datetime_format' => ['prefer' => '%Y-%m-%d %H:%i:%s', 'help' => 'DATETIME_FORMAT_HELP_TEXT'],
 				'log_error' => ['prefer' => false],
 				'max_connections' => ['prefer' => false],
 				'thread_cache_size' => ['prefer' => false],
@@ -416,8 +416,8 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				'query_cache_size' => ['prefer' => false],
 				'tmp_table_size' => ['prefer' => false],
 				'max_heap_table_size' => ['prefer' => false],
-				'innodb_file_per_table' => ['prefer' => 'On'],
-				'innodb_stats_on_metadata' => ['prefer' => 'Off'],
+				'innodb_file_per_table' => ['prefer' => 'On', 'help' => 'INNODB_FILE_PER_TABLE_HELP_TEXT'],
+				'innodb_stats_on_metadata' => ['prefer' => 'Off', 'help' => 'INNODB_STATS_ON_METADATA_HELP_TEXT'],
 				'innodb_buffer_pool_instances' => ['prefer' => false],
 				'innodb_buffer_pool_size' => ['prefer' => false],
 				'innodb_log_file_size' => ['prefer' => false],
