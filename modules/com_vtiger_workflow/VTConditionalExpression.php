@@ -7,6 +7,8 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
+Vtiger_Loader::includeOnce('~modules/com_vtiger_workflow/VTConditionalParser.php');
+Vtiger_Loader::includeOnce('~modules/com_vtiger_workflow/VTParseFailed.php');
 
 class VTConditionalExpression
 {
@@ -54,87 +56,5 @@ class VTConditionalExpression
 			case "num":
 				return $value;
 		}
-	}
-}
-
-class VTParseFailed extends Exception
-{
-
-}
-
-/**
- * This is a simple parser for conditional expressions used to trigger workflow actions.
- *
- */
-class VTConditionalParser
-{
-
-	public function __construct($expr)
-	{
-		$this->tokens = $this->getTokens($expr);
-		$this->pos = 0;
-	}
-
-	private function getTokens($expression)
-	{
-		preg_match_all('/and|or|\\d+|=|\\w+|\\(|\\)/', $expression, $matches, PREG_SET_ORDER);
-		$tokens = [];
-		foreach ($matches as $arr) {
-			$tokenVal = $arr[0];
-			if (in_array($tokenVal, ["and", "or", "=", "(", ")"])) {
-				$tokenType = "op";
-			} else if (is_numeric($tokenVal)) {
-				$tokenType = "num";
-			} else {
-				$tokenType = "sym";
-			}
-			$tokens[] = [$tokenType, $tokenVal];
-		}
-		return $tokens;
-	}
-
-	public function parse()
-	{
-		$op = [
-			"and" => ["op", "and"],
-			"or" => ["op", "or"],
-			"=" => ["op", "="],
-			"(" => ["op", "("],
-			")" => ["op", ")"]];
-
-		if ($this->peek() == $op['(']) {
-			$this->nextToken();
-			$left = $this->parse();
-			if ($this->nextToken() != $op[')']) {
-				throw new VTParseFailed();
-			}
-		} else {
-			$left = $this->cond();
-		}
-		if (sizeof($this->tokens) > $this->pos && in_array($this->peek(), [$op["and"], $op["or"]])) {
-			$nt = $this->nextToken();
-			return [$nt[1], $left, $this->parse()];
-		} else {
-			return $left;
-		}
-	}
-
-	private function cond()
-	{
-		$left = $this->nextToken();
-		$operator = $this->nextToken();
-		$right = $this->nextToken();
-		return [$operator[1], $left, $right];
-	}
-
-	private function peek()
-	{
-		return $this->tokens[$this->pos];
-	}
-
-	private function nextToken()
-	{
-		$this->pos += 1;
-		return $this->tokens[$this->pos - 1];
 	}
 }

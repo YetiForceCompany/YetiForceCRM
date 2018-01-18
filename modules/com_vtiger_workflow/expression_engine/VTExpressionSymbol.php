@@ -7,25 +7,17 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * **************************************************************************** */
-Vtiger_Loader::includeOnce('~modules/com_vtiger_workflow/expression_engine/VTExpressionSymbol.php');
-Vtiger_Loader::includeOnce('~modules/com_vtiger_workflow/expression_engine/VTExpressionParser.php');
 
-class VTExpressionTreeNode
+class VTExpressionSymbol
 {
 
-	public function __construct($arr)
+	public function __construct($value)
 	{
-		$this->arr = $arr;
+		$this->value = $value;
 	}
 
-	public function getParams()
+	public function __toString()
 	{
-		$arr = $this->arr;
-		return array_slice($arr, 1, sizeof($arr) - 1);
-	}
-
-	public function getName()
-	{
-		return $this->arr[0];
+		return "VTExpressionSymbol({$this->value})";
 	}
 }
