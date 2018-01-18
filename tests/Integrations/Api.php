@@ -107,6 +107,8 @@ class Api extends \Tests\Base
 	 */
 	public function testLogIn()
 	{
+		$request = \Requests::get(\AppConfig::main('site_URL') . 'webservice.php');
+		file_put_contents('cache/logs/request.log', $request->raw, FILE_APPEND);
 		$request = \Requests::get(\AppConfig::main('site_URL') . 'index.php');
 		file_put_contents('cache/logs/request.log', $request->raw, FILE_APPEND);
 		$request = \Requests::get(static::$url);
