@@ -8,7 +8,7 @@
 /**
  * Class for connection to Nation Bank of Romania currency exchange rates
  */
-class Settings_CurrencyUpdate_Models_NBR_BankModel extends Settings_CurrencyUpdate_AbstractBank_Model
+class Settings_CurrencyUpdate_models_NBR_BankModel extends Settings_CurrencyUpdate_AbstractBank_Model
 {
 	/*
 	 * Returns bank name

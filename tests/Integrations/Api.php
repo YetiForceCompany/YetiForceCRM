@@ -112,7 +112,7 @@ class Api extends \Tests\Base
 					'password' => 'demo'
 				]), static::$requestOptions);
 		$response = \App\Json::decode($request->body, 0);
-		$this->assertEquals($response->status, 1, $response->error->message);
+		$this->assertEquals($response->status, 1, $response->raw);
 		static::$authUserParams = $response->result;
 		static::$requestHeaders['X-TOKEN'] = static::$authUserParams->token;
 	}
