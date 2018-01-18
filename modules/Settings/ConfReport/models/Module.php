@@ -412,7 +412,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				'interactive_timeout' => ['prefer' => '600', 'help' => 'INTERACTIVE_TIMEOUT_HELP_TEXT'],
 				'sql_mode' => ['prefer' => '', 'help' => 'SQL_MODE_HELP_TEXT'],
 				'max_allowed_packet' => ['prefer' => '10 MB', 'help' => 'MAX_ALLOWED_PACKET_HELP_TEXT'],
-				'datetime_format' => ['prefer' => '%Y-%m-%d %H:%i:%s', 'help' => 'DATETIME_FORMAT_HELP_TEXT'],
 				'log_error' => ['prefer' => false],
 				'max_connections' => ['prefer' => false],
 				'thread_cache_size' => ['prefer' => false],
@@ -440,7 +439,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['wait_timeout']['current'] = $conf['wait_timeout'];
 			$directiveValues['interactive_timeout']['current'] = $conf['interactive_timeout'];
 			$directiveValues['sql_mode']['current'] = $conf['sql_mode'];
-			$directiveValues['datetime_format']['current'] = $conf['datetime_format'];
 			$directiveValues['log_error']['current'] = $conf['log_error'];
 			$directiveValues['max_connections']['current'] = $conf['max_connections'];
 			$directiveValues['thread_cache_size']['current'] = $conf['thread_cache_size'];
@@ -462,9 +460,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			}
 			if (!empty($conf['sql_mode']) && (strpos($conf['sql_mode'], 'STRICT_TRANS_TABLE') !== false || strpos($conf['sql_mode'], 'ONLY_FULL_GROUP_BY') !== false)) {
 				$directiveValues['sql_mode']['status'] = true;
-			}
-			if ($conf['datetime_format'] !== '%Y-%m-%d %H:%i:%s') {
-				$directiveValues['datetime_format']['status'] = true;
 			}
 		}
 		if ($onlyError) {
