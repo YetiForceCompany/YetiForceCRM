@@ -1166,15 +1166,13 @@ Vtiger_Base_Validator_Js("Vtiger_InputMask_Validator_Js", {
 	validate: function () {
 		var response = this._super();
 		if (response != true) {
-
 			return response;
 		}
 		var field = this.getElement();
-		var fieldValue = field.val();
-		if (field.inputmask("hasMaskedValue")) {
+		if (field.inputmask("hasMaskedValue") && field.attr('data-inputmask')) {
 			var unMaskedValue = field.inputmask('unmaskedvalue');
-			//var getmetadata = field.inputmask("getmetadata");
-			var maskLength = (fieldValue.match(/9/g) || []).length + (fieldValue.match(/A/g) || []).length + (fieldValue.match(/'*'/g) || []).length;
+			var getmetadata = field.inputmask("getmetadata");
+			var maskLength = (getmetadata.match(/9/g) || []).length + (getmetadata.match(/A/g) || []).length + (getmetadata.match(/'*'/g) || []).length;
 			if (unMaskedValue.length != 0 && maskLength > unMaskedValue.length) {
 				var errorInfo = app.vtranslate("JS_INVALID_LENGTH");
 				this.setError(errorInfo);

@@ -984,7 +984,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 
 			fieldElement.inputmask();
 			var hasMaskedValue = false;
-			if (fieldElement.inputmask("hasMaskedValue")) {
+			if (fieldElement.inputmask("hasMaskedValue") && fieldElement.attr('data-inputmask')) {
 				hasMaskedValue = true;
 			}
 			detailViewValue.addClass('hide');
