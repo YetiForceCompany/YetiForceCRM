@@ -1,6 +1,4 @@
 /.gitignore
-/yarn.lock
-/.yarn-integrity
 /.settings
 /.project
 /.buildpath
