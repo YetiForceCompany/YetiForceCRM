@@ -91,27 +91,27 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getStabilityConf($instalMode = false, $onlyError = false)
 	{
 		$directiveValues = [
-			'PHP' => ['prefer' => '7.0.x', 'help' => 'PHP_HELP_TEXT'],
-			'error_reporting' => ['prefer' => 'E_ALL & ~E_NOTICE', 'help' => 'ERROR_REPORTING_HELP_TEXT'],
-			'output_buffering' => ['prefer' => 'On', 'help' => 'OUTPUT_BUFFERING_HELP_TEXT'],
-			'max_execution_time' => ['prefer' => '600', 'help' => 'MAX_EXECUTION_TIME_HELP_TEXT'],
-			'max_input_time' => ['prefer' => '600', 'help' => 'MAX_INPUT_TIME_HELP_TEXT'],
-			'default_socket_timeout' => ['prefer' => '600', 'help' => 'DEFAULT_SOCKET_TIMEOUT_HELP_TEXT'],
-			'memory_limit' => ['prefer' => '512 MB', 'help' => 'MEMORY_LIMIT_HELP_TEXT'],
-			'log_errors' => ['prefer' => 'On', 'help' => 'LOG_ERRORS_HELP_TEXT'],
-			'file_uploads' => ['prefer' => 'On', 'help' => 'FILE_UPLOADS_HELP_TEXT'],
-			'short_open_tag' => ['prefer' => 'On', 'help' => 'SHORT_OPEN_TAG_HELP_TEXT'],
-			'post_max_size' => ['prefer' => '50 MB', 'help' => 'POST_MAX_SIZE_HELP_TEXT'],
-			'upload_max_filesize' => ['prefer' => '100 MB', 'help' => 'UPLOAD_MAX_FILESIZE_HELP_TEXT'],
-			'max_input_vars' => ['prefer' => '10000', 'help' => 'MAX_INPUT_VARS_HELP_TEXT'],
-			'zlib.output_compression' => ['prefer' => 'Off', 'help' => 'ZLIB_OUTPUT_COMPRESSION_HELP_TEXT'],
-			'session.auto_start' => ['prefer' => 'Off', 'help' => 'SESSION_AUTO_START_HELP_TEXT'],
-			'session.gc_maxlifetime' => ['prefer' => '21600', 'help' => 'SESSION_GC_MAXLIFETIME_HELP_TEXT'],
-			'session.gc_divisor' => ['prefer' => '500', 'help' => 'SESSION_GC_DIVISOR_HELP_TEXT'],
-			'session.gc_probability' => ['prefer' => '1', 'help' => 'SESSION_GC_PROBABILITY_HELP_TEXT'],
-			'mbstring.func_overload' => ['prefer' => 'Off', 'help' => 'MBSTRING_FUNC_OVERLOAD_HELP_TEXT'], //Roundcube
+			'PHP' => ['prefer' => '7.0.x', 'help' => 'LBL_PHP_HELP_TEXT'],
+			'error_reporting' => ['prefer' => 'E_ALL & ~E_NOTICE', 'help' => 'LBL_ERROR_REPORTING_HELP_TEXT'],
+			'output_buffering' => ['prefer' => 'On', 'help' => 'LBL_OUTPUT_BUFFERING_HELP_TEXT'],
+			'max_execution_time' => ['prefer' => '600', 'help' => 'LBL_MAX_EXECUTION_TIME_HELP_TEXT'],
+			'max_input_time' => ['prefer' => '600', 'help' => 'LBL_MAX_INPUT_TIME_HELP_TEXT'],
+			'default_socket_timeout' => ['prefer' => '600', 'help' => 'LBL_DEFAULT_SOCKET_TIMEOUT_HELP_TEXT'],
+			'memory_limit' => ['prefer' => '512 MB', 'help' => 'LBL_MEMORY_LIMIT_HELP_TEXT'],
+			'log_errors' => ['prefer' => 'On', 'help' => 'LBL_LOG_ERRORS_HELP_TEXT'],
+			'file_uploads' => ['prefer' => 'On', 'help' => 'LBL_FILE_UPLOADS_HELP_TEXT'],
+			'short_open_tag' => ['prefer' => 'On', 'help' => 'LBL_SHORT_OPEN_TAG_HELP_TEXT'],
+			'post_max_size' => ['prefer' => '50 MB', 'help' => 'LBL_POST_MAX_SIZE_HELP_TEXT'],
+			'upload_max_filesize' => ['prefer' => '100 MB', 'help' => 'LBL_UPLOAD_MAX_FILESIZE_HELP_TEXT'],
+			'max_input_vars' => ['prefer' => '10000', 'help' => 'LBL_MAX_INPUT_VARS_HELP_TEXT'],
+			'zlib.output_compression' => ['prefer' => 'Off', 'help' => 'LBL_ZLIB_OUTPUT_COMPRESSION_HELP_TEXT'],
+			'session.auto_start' => ['prefer' => 'Off', 'help' => 'LBL_SESSION_AUTO_START_HELP_TEXT'],
+			'session.gc_maxlifetime' => ['prefer' => '21600', 'help' => 'LBL_SESSION_GC_MAXLIFETIME_HELP_TEXT'],
+			'session.gc_divisor' => ['prefer' => '500', 'help' => 'LBL_SESSION_GC_DIVISOR_HELP_TEXT'],
+			'session.gc_probability' => ['prefer' => '1', 'help' => 'LBL_SESSION_GC_PROBABILITY_HELP_TEXT'],
+			'mbstring.func_overload' => ['prefer' => 'Off', 'help' => 'LBL_MBSTRING_FUNC_OVERLOAD_HELP_TEXT'], //Roundcube
 			'date.timezone' => ['prefer' => false], //Roundcube
-			'allow_url_fopen' => ['prefer' => 'On', 'help' => 'ALLOW_URL_FOPEN_HELP_TEXT'], //Roundcube
+			'allow_url_fopen' => ['prefer' => 'On', 'help' => 'LBL_ALLOW_URL_FOPEN_HELP_TEXT'], //Roundcube
 		];
 		if (extension_loaded('suhosin')) {
 			$directiveValues['suhosin.session.encrypt'] = ['prefer' => 'Off']; //Roundcube
@@ -255,59 +255,59 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		$directiveValues = [
 			'display_errors' => [
 				'prefer' => 'Off',
-				'help' => 'DISPLAY_ERRORS_HELP_TEXT',
+				'help' => 'LBL_DISPLAY_ERRORS_HELP_TEXT',
 				'current' => static::getFlag(ini_get('display_errors')),
 				'status' => \AppConfig::main('systemMode') !== 'demo' && (ini_get('display_errors') == 1 || stripos(ini_get('display_errors'), 'On') !== false)
 			],
-			'HTTPS' => ['prefer' => 'On', 'help' => 'HTTPS_HELP_TEXT'],
-			'.htaccess' => ['prefer' => 'On', 'help' => 'HTACCESS_HELP_TEXT'],
-			'public_html' => ['prefer' => 'On', 'help' => 'PUBLIC_HTML_HELP_TEXT'],
+			'HTTPS' => ['prefer' => 'On', 'help' => 'LBL_HTTPS_HELP_TEXT'],
+			'.htaccess' => ['prefer' => 'On', 'help' => 'LBL_HTACCESS_HELP_TEXT'],
+			'public_html' => ['prefer' => 'On', 'help' => 'LBL_PUBLIC_HTML_HELP_TEXT'],
 			'session.use_strict_mode' => [
 				'prefer' => 'On',
-				'help' => 'SESSION_USE_STRICT_MODE_HELP_TEXT',
+				'help' => 'LBL_SESSION_USE_STRICT_MODE_HELP_TEXT',
 				'current' => static::getFlag(ini_get('session.use_strict_mode')),
 				'status' => ini_get('session.use_strict_mode') != 1 && stripos(ini_get('session.use_strict_mode'), 'Off') !== false
 			],
 			'session.use_trans_sid' => [
 				'prefer' => 'Off',
-				'help' => 'SESSION_USE_TRANS_SID_HELP_TEXT',
+				'help' => 'LBL_SESSION_USE_TRANS_SID_HELP_TEXT',
 				'current' => static::getFlag(ini_get('session.use_trans_sid')),
 				'status' => ini_get('session.use_trans_sid') == 1 || stripos(ini_get('session.use_trans_sid'), 'On') !== false
 			],
 			'session.cookie_httponly' => [
 				'prefer' => 'On',
-				'help' => 'SESSION_COOKIE_HTTPONLY_HELP_TEXT',
+				'help' => 'LBL_SESSION_COOKIE_HTTPONLY_HELP_TEXT',
 				'current' => static::getFlag(ini_get('session.cookie_httponly')),
 				'status' => ini_get('session.cookie_httponly') != 1 && stripos(ini_get('session.cookie_httponly'), 'Off') !== false
 			],
 			'session.use_only_cookies' => [
 				'prefer' => 'On',
-				'help' => 'SESSION_USE_ONLY_COOKIES_HELP_TEXT',
+				'help' => 'LBL_SESSION_USE_ONLY_COOKIES_HELP_TEXT',
 				'current' => static::getFlag(ini_get('session.use_only_cookies')),
 				'status' => ini_get('session.use_only_cookies') != 1 && stripos(ini_get('session.use_only_cookies'), 'Off') !== false
 			],
 			'expose_php' => [
 				'prefer' => 'Off',
-				'help' => 'EXPOSE_PHP_HELP_TEXT',
+				'help' => 'LBL_EXPOSE_PHP_HELP_TEXT',
 				'current' => static::getFlag(ini_get('expose_php')),
 				'status' => ini_get('expose_php') == 1 || stripos(ini_get('expose_php'), 'On') !== false
 			],
 			'session_regenerate_id' => [
 				'prefer' => 'On',
-				'help' => 'SESSION_REGENERATE_HELP_TEXT',
+				'help' => 'LBL_SESSION_REGENERATE_HELP_TEXT',
 				'current' => static::getFlag(AppConfig::main('session_regenerate_id')),
 				'status' => AppConfig::main('session_regenerate_id') !== null && !AppConfig::main('session_regenerate_id')
 			],
-			'Header: X-Frame-Options' => ['prefer' => 'SAMEORIGIN', 'help' => 'HEADER_X_FRAME_OPTIONS_HELP_TEXT', 'current' => '?'],
-			'Header: X-XSS-Protection' => ['prefer' => '1; mode=block', 'help' => 'HEADER_X_XSS_PROTECTION_HELP_TEXT', 'current' => '?'],
-			'Header: X-Content-Type-Options' => ['prefer' => 'nosniff', 'help' => 'HEADER_X_CONTENT_TYPE_OPTIONS_HELP_TEXT', 'current' => '?'],
-			'Header: X-Robots-Tag' => ['prefer' => 'none', 'help' => 'HEADER_X_ROBOTS_TAG_HELP_TEXT', 'current' => '?'],
-			'Header: X-Permitted-Cross-Domain-Policies' => ['prefer' => 'none', 'help' => 'HEADER_X_PERMITTED_CROSS_DOMAIN_POLICIES_HELP_TEXT', 'current' => '?'],
-			'Header: X-Powered-By' => ['prefer' => '', 'help' => 'HEADER_X_POWERED_BY_HELP_TEXT', 'current' => '?'],
-			'Header: Server' => ['prefer' => '', 'help' => 'HEADER_SERVER_HELP_TEXT', 'current' => '?'],
-			'Header: Expect-CT' => ['prefer' => 'enforce; max-age=3600', 'help' => 'HEADER_EXPECT_CT_HELP_TEXT', 'current' => '?'],
-			'Header: Referrer-Policy' => ['prefer' => 'same-origin', 'help' => 'HEADER_REFERRER_POLICY_HELP_TEXT', 'current' => '?'],
-			'Header: Strict-Transport-Security' => ['prefer' => 'max-age=31536000; includeSubDomains; preload', 'help' => 'HEADER_STRICT_TRANSPORT_SECURITY_HELP_TEXT', 'current' => '?'],
+			'Header: X-Frame-Options' => ['prefer' => 'SAMEORIGIN', 'help' => 'LBL_HEADER_X_FRAME_OPTIONS_HELP_TEXT', 'current' => '?'],
+			'Header: X-XSS-Protection' => ['prefer' => '1; mode=block', 'help' => 'LBL_HEADER_X_XSS_PROTECTION_HELP_TEXT', 'current' => '?'],
+			'Header: X-Content-Type-Options' => ['prefer' => 'nosniff', 'help' => 'LBL_HEADER_X_CONTENT_TYPE_OPTIONS_HELP_TEXT', 'current' => '?'],
+			'Header: X-Robots-Tag' => ['prefer' => 'none', 'help' => 'LBL_HEADER_X_ROBOTS_TAG_HELP_TEXT', 'current' => '?'],
+			'Header: X-Permitted-Cross-Domain-Policies' => ['prefer' => 'none', 'help' => 'LBL_HEADER_X_PERMITTED_CROSS_DOMAIN_POLICIES_HELP_TEXT', 'current' => '?'],
+			'Header: X-Powered-By' => ['prefer' => '', 'help' => 'LBL_HEADER_X_POWERED_BY_HELP_TEXT', 'current' => '?'],
+			'Header: Server' => ['prefer' => '', 'help' => 'LBL_HEADER_SERVER_HELP_TEXT', 'current' => '?'],
+			'Header: Expect-CT' => ['prefer' => 'enforce; max-age=3600', 'help' => 'LBL_HEADER_EXPECT_CT_HELP_TEXT', 'current' => '?'],
+			'Header: Referrer-Policy' => ['prefer' => 'same-origin', 'help' => 'LBL_HEADER_REFERRER_POLICY_HELP_TEXT', 'current' => '?'],
+			'Header: Strict-Transport-Security' => ['prefer' => 'max-age=31536000; includeSubDomains; preload', 'help' => 'LBL_HEADER_STRICT_TRANSPORT_SECURITY_HELP_TEXT', 'current' => '?'],
 		];
 		if (IS_PUBLIC_DIR === true) {
 			$directiveValues['public_html']['current'] = static::getFlag(true);
@@ -392,7 +392,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$db = \App\Db::getInstance();
 		$directiveValues = [
-			'LBL_DB_DRIVER' => ['prefer' => 'mysql', 'current' => $db->getDriverName(), 'help' => 'DB_DRIVER_HELP_TEXT'],
+			'LBL_DB_DRIVER' => ['prefer' => 'mysql', 'current' => $db->getDriverName(), 'help' => 'LBL_DB_DRIVER_HELP_TEXT'],
 			'LBL_DB_SERVER_VERSION' => ['prefer' => false, 'current' => $db->getSlavePdo()->getAttribute(PDO::ATTR_SERVER_VERSION)],
 			'LBL_DB_CLIENT_VERSION' => ['prefer' => false, 'current' => $db->getSlavePdo()->getAttribute(PDO::ATTR_CLIENT_VERSION)],
 			'LBL_DB_CONNECTION_STATUS' => ['prefer' => false, 'current' => $db->getSlavePdo()->getAttribute(PDO::ATTR_CONNECTION_STATUS)],
@@ -403,11 +403,11 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		if ($db->getDriverName() === 'mysql') {
 			$directiveValues = array_merge($directiveValues, [
-				'innodb_lock_wait_timeout' => ['prefer' => '600', 'help' => 'INNODB_LOCK_WAIT_TIMEOUT_HELP_TEXT'],
-				'wait_timeout' => ['prefer' => '600', 'help' => 'WAIT_TIMEOUT_HELP_TEXT'],
-				'interactive_timeout' => ['prefer' => '600', 'help' => 'INTERACTIVE_TIMEOUT_HELP_TEXT'],
-				'sql_mode' => ['prefer' => '', 'help' => 'SQL_MODE_HELP_TEXT'],
-				'max_allowed_packet' => ['prefer' => '10 MB', 'help' => 'MAX_ALLOWED_PACKET_HELP_TEXT'],
+				'innodb_lock_wait_timeout' => ['prefer' => '600', 'help' => 'LBL_INNODB_LOCK_WAIT_TIMEOUT_HELP_TEXT'],
+				'wait_timeout' => ['prefer' => '600', 'help' => 'LBL_WAIT_TIMEOUT_HELP_TEXT'],
+				'interactive_timeout' => ['prefer' => '600', 'help' => 'LBL_INTERACTIVE_TIMEOUT_HELP_TEXT'],
+				'sql_mode' => ['prefer' => '', 'help' => 'LBL_SQL_MODE_HELP_TEXT'],
+				'max_allowed_packet' => ['prefer' => '10 MB', 'help' => 'LBL_MAX_ALLOWED_PACKET_HELP_TEXT'],
 				'log_error' => ['prefer' => false],
 				'max_connections' => ['prefer' => false],
 				'thread_cache_size' => ['prefer' => false],
@@ -415,8 +415,8 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				'query_cache_size' => ['prefer' => false],
 				'tmp_table_size' => ['prefer' => false],
 				'max_heap_table_size' => ['prefer' => false],
-				'innodb_file_per_table' => ['prefer' => 'On', 'help' => 'INNODB_FILE_PER_TABLE_HELP_TEXT'],
-				'innodb_stats_on_metadata' => ['prefer' => 'Off', 'help' => 'INNODB_STATS_ON_METADATA_HELP_TEXT'],
+				'innodb_file_per_table' => ['prefer' => 'On', 'help' => 'LBL_INNODB_FILE_PER_TABLE_HELP_TEXT'],
+				'innodb_stats_on_metadata' => ['prefer' => 'Off', 'help' => 'LBL_INNODB_STATS_ON_METADATA_HELP_TEXT'],
 				'innodb_buffer_pool_instances' => ['prefer' => false],
 				'innodb_buffer_pool_size' => ['prefer' => false],
 				'innodb_log_file_size' => ['prefer' => false],
