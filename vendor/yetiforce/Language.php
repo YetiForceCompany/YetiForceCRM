@@ -83,6 +83,17 @@ class Language
 	}
 
 	/**
+	 * Functions that gets translated string with encoding html
+	 * @param string $key - string which need to be translated
+	 * @param string $moduleName - module scope in which the translation need to be check
+	 * @return string - translated string with encoding html
+	 */
+	public static function translateEncodeHtml($key, $moduleName = 'Vtiger', $currentLanguage = false)
+	{
+		return \App\Purifier::encodeHtml(static::translate($key, $moduleName, $currentLanguage));
+	}
+
+	/**
 	 * Functions that gets translated string by $args
 	 * @param string $key - string which need to be translated
 	 * @param string $moduleName - module scope in which the translation need to be check
