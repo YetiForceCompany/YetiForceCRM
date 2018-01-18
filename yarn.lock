@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"Flot@https://github.com/flot/flot.git":
+  version "0.8.3"
+  resolved "https://github.com/flot/flot.git#958e5fd43c6dff4bab3e1fd5cb6109df5c1e8003"
+
 almond@~0.3.1:
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/almond/-/almond-0.3.3.tgz#a0e7c95ac7624d6417b4494b1e68bff693168a20"
@@ -10,11 +14,24 @@ bootstrap-chosen@^1.4.2:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/bootstrap-chosen/-/bootstrap-chosen-1.4.2.tgz#d7a184b21ecd952d586982339c60128f8827334d"
 
+bootstrap-colorpicker@^2.5.2:
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/bootstrap-colorpicker/-/bootstrap-colorpicker-2.5.2.tgz#33bfb2043485f12dcb3df0f60ad171762cc3c0e4"
+  dependencies:
+    jquery ">=1.10"
+
 bootstrap-datepicker@^1.7.1:
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/bootstrap-datepicker/-/bootstrap-datepicker-1.7.1.tgz#4ee7faf34888dbec7834fbf9dbe7c4277e01ddaf"
   dependencies:
     jquery ">=1.7.1 <4.0.0"
+
+bootstrap-daterangepicker@^2.1.30:
+  version "2.1.30"
+  resolved "https://registry.yarnpkg.com/bootstrap-daterangepicker/-/bootstrap-daterangepicker-2.1.30.tgz#f893dbfff5a4d7dfaab75460e8ea6969bb89689a"
+  dependencies:
+    jquery ">=1.10"
+    moment "^2.9.0"
 
 chosen-js@^1.8.2:
   version "1.8.2"
@@ -57,6 +74,14 @@ delegate@^3.1.2:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/delegate/-/delegate-3.2.0.tgz#b66b71c3158522e8ab5744f720d8ca0c2af59166"
 
+dompurify@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-1.0.3.tgz#3f2f6ecb6ecd27599a506b410ff47d6eb90fd05d"
+
+"flot-valuelabels@https://github.com/winne27/flot-valuelabels.git":
+  version "0.0.0"
+  resolved "https://github.com/winne27/flot-valuelabels.git#b326995a2988643f52c5ac688f0389e22c9bcd04"
+
 font-awesome@>=4.7.0:
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/font-awesome/-/font-awesome-4.7.0.tgz#8fa8cf0411a1a31afd07b06d2902bb9fc815a133"
@@ -74,17 +99,31 @@ good-listener@^1.2.2:
   dependencies:
     delegate "^3.1.2"
 
+gridster@^0.5.6:
+  version "0.5.6"
+  resolved "https://registry.yarnpkg.com/gridster/-/gridster-0.5.6.tgz#4024713aabd559093a72e9b713f1e41f9bded76f"
+  dependencies:
+    jquery "git+https://github.com/jquery/jquery.git#2.0.3"
+
+inputmask@^3.3.11:
+  version "3.3.11"
+  resolved "https://registry.yarnpkg.com/inputmask/-/inputmask-3.3.11.tgz#1421c94ae28c3dcd1b4d26337b508bb34998e2d8"
+
 jquery-mousewheel@~3.1.13:
   version "3.1.13"
   resolved "https://registry.yarnpkg.com/jquery-mousewheel/-/jquery-mousewheel-3.1.13.tgz#06f0335f16e353a695e7206bf50503cb523a6ee5"
 
-"jquery@2 - 3", jquery@>=1.7, "jquery@>=1.7.1 <4.0.0":
+"jquery@2 - 3", jquery@>=1.10, jquery@>=1.7, "jquery@>=1.7.1 <4.0.0":
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787"
 
 jquery@<3.0.0:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-2.2.4.tgz#2c89d6889b5eac522a7eea32c14521559c6cbf02"
+
+"jquery@git+https://github.com/jquery/jquery.git#2.0.3":
+  version "2.0.3"
+  resolved "git+https://github.com/jquery/jquery.git#f852e631ba85af7da4ad7594785e122504e7b233"
 
 lodash.debounce@^4.0.8:
   version "4.0.8"
@@ -137,3 +176,7 @@ split.js@^1.3.5:
 tiny-emitter@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/tiny-emitter/-/tiny-emitter-2.0.2.tgz#82d27468aca5ade8e5fd1e6d22b57dd43ebdfb7c"
+
+updated-jqplot@^1.0.9-2:
+  version "1.0.9-2"
+  resolved "https://registry.yarnpkg.com/updated-jqplot/-/updated-jqplot-1.0.9-2.tgz#d1ef20e40348f5a844d7bbad19117f05c6f98051"
