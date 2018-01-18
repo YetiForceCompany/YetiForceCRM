@@ -7,27 +7,55 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 		this.initEvants();
 	},
 	initEvants: function () {
+		var thisInstance = this;
 		var container = $('.UserColors');
-		container.find('.updateUserColor').click(this.updateUserColor);
+		container.find('.updateUserColor').click(function (e) {
+			thisInstance.updateUserColor(e, thisInstance);
+		});
 		container.find('.generateUserColor').click(this.generateUserColor);
 		container.find('.removeUserColor').click(this.removeUserColor);
-		container.find('.updateGroupColor').click(this.updateGroupColor);
+		container.find('.updateGroupColor').click(function (e) {
+			thisInstance.updateGroupColor(e, thisInstance);
+		});
 		container.find('.generateGroupColor').click(this.generateGroupColor);
 		container.find('.removeGroupColor').click(this.removeGroupColor);
-		container.find('.updateModuleColor').click(this.updateModuleColor);
+		container.find('.updateModuleColor').click(function (e) {
+			thisInstance.updateModuleColor(e, thisInstance);
+		});
 		container.find('.generateModuleColor').click(this.generateModuleColor);
 		container.find('.removeModuleColor').click(this.removeModuleColor);
 		container.find('.activeModuleColor').click(this.activeModuleColor);
 		container.find('.addPicklistColorColumn').click(this.addPicklistColorColumn);
-		container.find('.updatePicklistValueColor').click(this.updatePicklistValueColor);
+		container.find('.updatePicklistValueColor').click(function (e) {
+			thisInstance.updatePicklistValueColor(e, thisInstance);
+		});
 		container.find('.generatePicklistValueColor').click(this.generatePicklistValueColor);
 		container.find('.removePicklistValueColor').click(this.removePicklistValueColor);
-		container.find('.updateColor').click(this.updateCalendarColor);
+		container.find('.updateColor').click(function (e) {
+			thisInstance.updateCalendarColor(e, thisInstance);
+		});
 		container.find('#update_event').click(this.updateEvent);
 		container.find('.generateColor').click(this.generateCalendarColor);
 		container.find('.removeCalendarColor').click(this.removeCalendarColor);
 	},
-	updateUserColor: function (e) {
+	registerColorPicker: function (data, colorObject, selectedColor) {
+		var params = {
+			inline: true,
+			container: true,
+			color: colorObject.data('color')
+		};
+		if (typeof customParams != 'undefined') {
+			params = jQuery.extend(params, customParams);
+		}
+		data.find('.calendarColorPicker').colorpicker(params)
+				.on('changeColor', function (e) {
+					selectedColor.val(e.color.toHex());
+					if (!colorObject.contents().length) {
+						colorObject.data('color', e.color.toHex());
+					}
+				});
+	},
+	updateUserColor: function (e, thisInstance) {
 		var target = $(e.currentTarget);
 		var editColorModal = jQuery('.UserColors .editColorContainer');
 		var clonedContainer = editColorModal.clone(true, true);
@@ -37,19 +65,7 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			var selectedColor = data.find('.selectedColor');
 			selectedColor.val(colorPreview.data('color'));
 			//register color picker
-			var params = {
-				flat: true,
-				color: colorPreview.data('color'),
-				onChange: function (hsb, hex, rgb) {
-					selectedColor.val('#' + hex);
-					colorPreview.data('color', '#' + hex);
-				}
-			};
-			if (typeof customParams != 'undefined') {
-				params = jQuery.extend(params, customParams);
-			}
-			data.find('.calendarColorPicker').ColorPicker(params);
-			//save the user calendar with color
+			thisInstance.registerColorPicker(data, colorPreview, selectedColor);
 			data.find('[name="saveButton"]').click(function (e) {
 				var progress = $.progressIndicator({
 					'message': app.vtranslate('JS_LOADING_PLEASE_WAIT'),
@@ -128,7 +144,7 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 				}
 		);
 	},
-	updateGroupColor: function (e) {
+	updateGroupColor: function (e, thisInstance) {
 		var target = $(e.currentTarget);
 		var editColorModal = jQuery('.UserColors .editColorContainer');
 		var clonedContainer = editColorModal.clone(true, true);
@@ -138,18 +154,7 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			var selectedColor = data.find('.selectedColor');
 			selectedColor.val(colorPreview.data('color'));
 			//register color picker
-			var params = {
-				flat: true,
-				color: colorPreview.data('color'),
-				onChange: function (hsb, hex, rgb) {
-					selectedColor.val('#' + hex);
-					colorPreview.data('color', '#' + hex);
-				}
-			};
-			if (typeof customParams != 'undefined') {
-				params = jQuery.extend(params, customParams);
-			}
-			data.find('.calendarColorPicker').ColorPicker(params);
+			thisInstance.registerColorPicker(data, colorPreview, selectedColor);
 			//save the user calendar with color
 			data.find('[name="saveButton"]').click(function (e) {
 				var progress = $.progressIndicator({
@@ -229,7 +234,7 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 				}
 		);
 	},
-	updateModuleColor: function (e) {
+	updateModuleColor: function (e, thisInstance) {
 		var target = $(e.currentTarget);
 		var editColorModal = jQuery('.UserColors .editColorContainer');
 		var clonedContainer = editColorModal.clone(true, true);
@@ -239,18 +244,7 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			var selectedColor = data.find('.selectedColor');
 			selectedColor.val(colorPreview.data('color'));
 			//register color picker
-			var params = {
-				flat: true,
-				color: colorPreview.data('color'),
-				onChange: function (hsb, hex, rgb) {
-					selectedColor.val('#' + hex);
-					colorPreview.data('color', '#' + hex);
-				}
-			};
-			if (typeof customParams != 'undefined') {
-				params = jQuery.extend(params, customParams);
-			}
-			data.find('.calendarColorPicker').ColorPicker(params);
+			thisInstance.registerColorPicker(data, colorPreview, selectedColor);
 			//save the user calendar with color
 			data.find('[name="saveButton"]').click(function (e) {
 				var progress = $.progressIndicator({
@@ -374,7 +368,7 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 				}
 		);
 	},
-	updatePicklistValueColor: function (e) {
+	updatePicklistValueColor: function (e, thisInstance) {
 		var container = jQuery('.picklistViewContentDiv');
 		var target = $(e.currentTarget);
 		var editColorModal = jQuery('.UserColors .editColorContainer');
@@ -385,18 +379,7 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			var selectedColor = data.find('.selectedColor');
 			selectedColor.val(colorPreview.data('color'));
 			//register color picker
-			var params = {
-				flat: true,
-				color: colorPreview.data('color'),
-				onChange: function (hsb, hex, rgb) {
-					selectedColor.val('#' + hex);
-					colorPreview.data('color', '#' + hex);
-				}
-			};
-			if (typeof customParams != 'undefined') {
-				params = jQuery.extend(params, customParams);
-			}
-			data.find('.calendarColorPicker').ColorPicker(params);
+			thisInstance.registerColorPicker(data, colorPreview, selectedColor);
 			//save the user calendar with color
 			data.find('[name="saveButton"]').click(function (e) {
 				var progress = $.progressIndicator({
@@ -517,7 +500,7 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 				}
 		);
 	},
-	updateCalendarColor: function (e) {
+	updateCalendarColor: function (e, thisInstance) {
 		var target = $(e.currentTarget);
 		var closestTrElement = target.closest('tr');
 		var editColorModal = jQuery('.UserColors .editColorContainer');
@@ -528,18 +511,7 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 			var selectedColor = data.find('.selectedColor');
 			selectedColor.val(closestTrElement.data('color'));
 			//register color picker
-			var params = {
-				flat: true,
-				color: closestTrElement.data('color'),
-				onChange: function (hsb, hex, rgb) {
-					selectedColor.val('#' + hex);
-				}
-			};
-			if (typeof customParams != 'undefined') {
-				params = jQuery.extend(params, customParams);
-			}
-			data.find('.calendarColorPicker').ColorPicker(params);
-
+			thisInstance.registerColorPicker(data, closestTrElement, selectedColor);
 			//save the user calendar with color
 			data.find('[name="saveButton"]').click(function (e) {
 				var progress = $.progressIndicator({
@@ -689,7 +661,9 @@ Settings_Vtiger_Index_Js("Settings_Colors_Index_Js", {}, {
 				thisInstance.registerModuleChangeEvent();
 				thisInstance.registerModulePickListChangeEvent();
 				$('.UserColors .addPicklistColorColumn').click(thisInstance.addPicklistColorColumn);
-				$('.UserColors .updatePicklistValueColor').click(thisInstance.updatePicklistValueColor);
+				$('.UserColors .updatePicklistValueColor').click(function (e) {
+					thisInstance.updatePicklistValueColor(e, thisInstance);
+				});
 				$('.UserColors .generatePicklistValueColor').click(thisInstance.generatePicklistValueColor);
 				$('.UserColors .removePicklistValueColor').click(thisInstance.removePicklistValueColor);
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});

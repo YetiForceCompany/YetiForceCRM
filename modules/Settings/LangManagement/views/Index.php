@@ -39,9 +39,9 @@ class Settings_LangManagement_Index_View extends Settings_Vtiger_Index_View
 			'~libraries/datatables.net/js/jquery.dataTables.js',
 			'~libraries/datatables.net-bs/js/dataTables.bootstrap.js',
 			'modules.Vtiger.resources.dashboards.Widget',
-			'~libraries/js/flot/jquery.flot.min.js',
-			'~libraries/js/flot/jquery.flot.stack.min.js',
-			'~libraries/js/flot/jquery.flot.valuelabels.min.js',
+			'~libraries/Flot/jquery.flot.js',
+			'~libraries/Flot/jquery.flot.stack.js',
+			'~libraries/flot-valuelabels/jquery.flot.valuelabels.js',
 		];
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
 	}
@@ -56,7 +56,6 @@ class Settings_LangManagement_Index_View extends Settings_Vtiger_Index_View
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [
 			'~libraries/datatables.net-bs/css/dataTables.bootstrap.css',
-			'~libraries/js/flot/jquery.flot.valuelabels.css',
 			'modules.Settings.LangManagement.LangManagement',
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
