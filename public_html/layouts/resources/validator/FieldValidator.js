@@ -1169,7 +1169,7 @@ Vtiger_Base_Validator_Js("Vtiger_InputMask_Validator_Js", {
 			return response;
 		}
 		var field = this.getElement();
-		if (field.inputmask("hasMaskedValue") && field.attr('data-inputmask')) {
+		if (field.attr('data-inputmask') && field.inputmask("hasMaskedValue")) {
 			var unMaskedValue = field.inputmask('unmaskedvalue');
 			var getmetadata = field.inputmask("getmetadata");
 			var maskLength = (getmetadata.match(/9/g) || []).length + (getmetadata.match(/A/g) || []).length + (getmetadata.match(/'*'/g) || []).length;
