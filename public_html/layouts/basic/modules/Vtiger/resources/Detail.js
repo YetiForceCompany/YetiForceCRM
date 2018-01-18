@@ -973,7 +973,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			if (fieldElement.attr('disabled') == 'disabled') {
 				return;
 			}
-
 			if (editElement.length <= 0) {
 				return;
 			}
@@ -981,11 +980,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 			if (editElement.is(':visible')) {
 				return;
 			}
-
-			fieldElement.inputmask();
-			var hasMaskedValue = false;
-			if (fieldElement.inputmask("hasMaskedValue") && fieldElement.attr('data-inputmask')) {
-				hasMaskedValue = true;
+			if (!fieldElement.attr('data-inputmask')) {
+				fieldElement.inputmask();
 			}
 			detailViewValue.addClass('hide');
 			actionElement.addClass('hide');
