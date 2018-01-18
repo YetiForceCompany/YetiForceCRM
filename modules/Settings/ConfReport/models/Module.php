@@ -334,22 +334,18 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			$directiveValues['HTTPS']['status'] = true;
 			$directiveValues['HTTPS']['current'] = static::getFlag(false);
 		}
-		if (function_exists('apache_response_headers')) {
-			$headers = array_change_key_case(apache_response_headers(), CASE_UPPER);
-		} else {
-			stream_context_set_default([
-				'ssl' => [
-					'verify_peer' => false,
-					'verify_peer_name' => false,
-				],
-			]);
-			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
-			$rqheaders = get_headers($requestUrl, 1);
-			if ($rqheaders) {
-				$headers = array_change_key_case($rqheaders, CASE_UPPER);
-				if (stripos($headers[0], '200') === false) {
-					$headers = [];
-				}
+		stream_context_set_default([
+			'ssl' => [
+				'verify_peer' => false,
+				'verify_peer_name' => false,
+			],
+		]);
+		$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
+		$rqheaders = get_headers($requestUrl, 1);
+		if ($rqheaders) {
+			$headers = array_change_key_case($rqheaders, CASE_UPPER);
+			if (stripos($headers[0], '200') === false) {
+				$headers = [];
 			}
 		}
 		if ($headers) {
@@ -427,7 +423,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				'innodb_io_capacity_max' => ['prefer' => false],
 			]);
 			$conf = $db->createCommand('SHOW VARIABLES')->queryAllByGroup(0);
-			//var_dump($conf);
 			$directiveValues['max_allowed_packet']['current'] = vtlib\Functions::showBytes($conf['max_allowed_packet']);
 			$directiveValues['innodb_log_file_size']['current'] = vtlib\Functions::showBytes($conf['innodb_log_file_size']);
 			$directiveValues['key_buffer_size']['current'] = vtlib\Functions::showBytes($conf['key_buffer_size']);
