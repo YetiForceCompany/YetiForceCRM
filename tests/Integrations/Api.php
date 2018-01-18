@@ -107,10 +107,10 @@ class Api extends \Tests\Base
 	 */
 	public function testLogIn()
 	{
-		$request = \Requests::get(\AppConfig::main('site_URL').'index.php');
-		var_dump($request->raw);
+		$request = \Requests::get(\AppConfig::main('site_URL') . 'index.php');
+		file_put_contents('cache/logs/request.log', $request->raw, true);
 		$request = \Requests::get(static::$url);
-		var_dump($request->raw);
+		file_put_contents('cache/logs/request.log', $request->raw, true);
 		$request = \Requests::post(static::$url . 'Users/Login', static::$requestHeaders, \App\Json::encode([
 					'userName' => 'demo@yetiforce.com',
 					'password' => 'demo'
