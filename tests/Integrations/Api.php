@@ -107,7 +107,7 @@ class Api extends \Tests\Base
 	 */
 	public function testLogIn()
 	{
-		$request = \Requests::get(\AppConfig::main('site_URL'));
+		$request = \Requests::get(\AppConfig::main('site_URL').'index.php');
 		var_dump($request->raw);
 		$request = \Requests::get(static::$url);
 		var_dump($request->raw);
