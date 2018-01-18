@@ -197,6 +197,13 @@ class ComposerStaticInitYT
 				0 => __DIR__ . '/..' . '/simshaun/recurr/src',
 			],
 		],
+		'P' =>
+		[
+			'PHPExcel' =>
+			[
+				0 => __DIR__ . '/..' . '/phpoffice/phpexcel/Classes',
+			],
+		],
 		'H' =>
 		[
 			'HTMLPurifier' =>

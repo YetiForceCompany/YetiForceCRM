@@ -8,6 +8,7 @@ return [
 	'SensioLabs\\Security' => [$vendorDir . '/sensiolabs/security-checker'],
 	'Requests' => [$vendorDir . '/rmccue/requests/library'],
 	'Recurr' => [$vendorDir . '/simshaun/recurr/src'],
+	'PHPExcel' => [$vendorDir . '/phpoffice/phpexcel/Classes'],
 	'HTMLPurifier' => [$vendorDir . '/ezyang/htmlpurifier/library'],
 	'Doctrine\\Common\\Collections\\' => [$vendorDir . '/doctrine/collections/lib'],
 ];

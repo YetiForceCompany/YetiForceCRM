@@ -12,6 +12,8 @@
 *.ini text eol=lf
 *.json text eol=lf
 *.yml text eol=lf
+*.yarnclean text eol=lf
+*.lock text eol=lf
 
 .github/ export-ignore
 tests/ export-ignore
