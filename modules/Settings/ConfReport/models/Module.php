@@ -428,7 +428,6 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 				'innodb_io_capacity_max' => ['prefer' => false],
 			]);
 			$conf = $db->createCommand('SHOW VARIABLES')->queryAllByGroup(0);
-			//var_dump($conf);
 			$directiveValues['max_allowed_packet']['current'] = vtlib\Functions::showBytes($conf['max_allowed_packet']);
 			$directiveValues['innodb_log_file_size']['current'] = vtlib\Functions::showBytes($conf['innodb_log_file_size']);
 			$directiveValues['key_buffer_size']['current'] = vtlib\Functions::showBytes($conf['key_buffer_size']);
