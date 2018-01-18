@@ -277,7 +277,7 @@ class OSSMailView extends CRMEntity
 		}
 		$displayLabel = 'Mail View';
 		if ($registerLink) {
-			Settings_Vtiger_Module_Model::addSettingsField('LBL_MAIL', [
+			Settings_Vtiger_Module_Model::addSettingsField('LBL_MAIL_TOOLS', [
 				'name' => $displayLabel,
 				'iconpath' => 'adminIcon-oss_mailview',
 				'description' => 'LBL_MAIL_VIEW_DESCRIPTION',

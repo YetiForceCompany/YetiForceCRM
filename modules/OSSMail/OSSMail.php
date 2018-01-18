@@ -24,7 +24,7 @@ class OSSMail
 		if ($eventType === 'module.postinstall') {
 			$displayLabel = 'OSSMail';
 			$dbCommand->update('vtiger_tab', ['customized' => 0], ['name' => $displayLabel])->execute();
-			Settings_Vtiger_Module_Model::addSettingsField('LBL_MAIL', [
+			Settings_Vtiger_Module_Model::addSettingsField('LBL_MAIL_TOOLS', [
 				'name' => 'Mail',
 				'iconpath' => 'adminIcon-mail-download-history',
 				'description' => 'LBL_OSSMAIL_DESCRIPTION',
