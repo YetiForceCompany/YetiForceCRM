@@ -67,7 +67,7 @@ class OSSTimeControl_List_TextParser extends \App\TextParser\Base
 		foreach ($this->columnNames as $key => $column) {
 			$class = $content = '';
 			if ($column == 'sum_time') {
-				$time = \App\Fields\DateTime::decimalTimeFormat($summary['sum_time']);
+				$time = \App\Fields\DateTime::formatToHourText($summary['sum_time']);
 				$content = '<strong>' . $time['short'] . '</strong>';
 				$class = 'center';
 			} elseif ($column == 'name') {

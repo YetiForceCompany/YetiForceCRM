@@ -26,7 +26,7 @@ class TotalTimeWorked
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_osstimecontrol.osstimecontrolid')
 			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_osstimecontrol.link' => $recordModel->getId()])
 			->sum('vtiger_osstimecontrol.sum_time');
-		$decimalTimeFormat = \App\Fields\DateTime::decimalTimeFormat($timecontrol);
+		$decimalTimeFormat = \App\Fields\DateTime::formatToHourText($timecontrol);
 		\App\Log::trace('Exiting TotalTimeWorked::process() method ...');
 		return $decimalTimeFormat['short'];
 	}

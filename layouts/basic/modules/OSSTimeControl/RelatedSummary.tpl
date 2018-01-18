@@ -19,7 +19,7 @@
 			margin-right: 5px;
 		}
 		</style>
-		{assign var=TOTALTIME value=\App\Fields\DateTime::decimalTimeFormat($RELATED_SUMMARY['totalTime'])}
+		{assign var=TOTALTIME value=\App\Fields\DateTime::formatToHourText($RELATED_SUMMARY['totalTime'])}
 		{if count($RELATED_SUMMARY['userTime']) gt 0 }
 			<div class="row">
 				<div class="col-md-12">
