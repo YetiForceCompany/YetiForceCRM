@@ -1,6 +1,13 @@
 <?php
 // $Id: iCalendar_components.php,v 1.8 2005/07/21 22:31:44 defacer Exp $
 require_once('include/utils/utils.php');
+Vtiger_Loader::includeOnce('~modules/Calendar/iCal/Icalendar.php');
+Vtiger_Loader::includeOnce('~modules/Calendar/iCal/IcalendarAlarm.php');
+Vtiger_Loader::includeOnce('~modules/Calendar/iCal/IcalendarEvent.php');
+Vtiger_Loader::includeOnce('~modules/Calendar/iCal/IcalendarFreebusy.php');
+Vtiger_Loader::includeOnce('~modules/Calendar/iCal/IcalendarJournal.php');
+Vtiger_Loader::includeOnce('~modules/Calendar/iCal/IcalendarTimezone.php');
+Vtiger_Loader::includeOnce('~modules/Calendar/iCal/IcalendarTodo.php');
 
 class IcalendarComponent
 {
