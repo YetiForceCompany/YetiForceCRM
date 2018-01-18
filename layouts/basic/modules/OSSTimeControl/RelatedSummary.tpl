@@ -19,7 +19,6 @@
 			margin-right: 5px;
 		}
 		</style>
-		{assign var=TOTALTIME value=\App\Fields\DateTime::formatToHourText($RELATED_SUMMARY['totalTime'])}
 		{if count($RELATED_SUMMARY['userTime']) gt 0 }
 			<div class="row">
 				<div class="col-md-12">
@@ -33,7 +32,7 @@
 				<div class="col-md-12">
 					<input class="widgetData" type="hidden" value='{\App\Purifier::encodeHtml(\App\Json::encode($RELATED_SUMMARY['userTime']))}' />
 					<div class="legendContainer">
-						{\App\Language::translate('LBL_SUM', $RELATED_MODULE_NAME)}: {$TOTALTIME['full']}<br />
+						{\App\Language::translate('LBL_SUM', $RELATED_MODULE_NAME)}: {\App\Fields\DateTime::formatToHourText($RELATED_SUMMARY['totalTime'], 'full')}<br />
 					</div>
 					<div class="chartBlock" style="height: 200px;width:100%"></div>
 				</div>

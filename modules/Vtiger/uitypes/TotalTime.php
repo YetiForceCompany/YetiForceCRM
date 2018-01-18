@@ -15,7 +15,6 @@ class Vtiger_TotalTime_UIType extends Vtiger_Double_UIType
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$return = \App\Fields\DateTime::formatToHourText($value);
-		return $return['short'];
+		return \App\Fields\DateTime::formatToHourText($value, 'short');
 	}
 }
