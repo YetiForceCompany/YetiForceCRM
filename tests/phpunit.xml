@@ -52,8 +52,8 @@
 				<file>../modules/Settings/CurrencyUpdate/cron/CurrencyUpdateCron.php</file>
 				<file>../modules/SMSNotifier/cron/SMSNotifier.php</file>
 				<file>../modules/Leads/summary_blocks/TotalTimeWorked.php</file>
-				<file>../api/dav.php</file>
-				<file>../api/webservice.php</file>
+				<file>../dav.php</file>
+				<file>../webservice.php</file>
 				<directory suffix=".php">../modules/Vtiger/pdfs</directory>
 				<directory suffix=".php">../modules/OSSMail</directory>
 				<directory suffix=".php">../modules/PBXManager</directory>

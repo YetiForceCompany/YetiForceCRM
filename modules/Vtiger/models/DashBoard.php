@@ -84,6 +84,7 @@ class Vtiger_DashBoard_Model extends \App\Base
 			} else
 				$widgets[] = Vtiger_Widget_Model::getInstanceFromValues($row);
 		}
+		$dataReader->close();
 
 		foreach ($widgets as $index => $widget) {
 			$label = $widget->get('linklabel');
@@ -172,6 +173,7 @@ class Vtiger_DashBoard_Model extends \App\Base
 				])->execute();
 			}
 		}
+		$dataReader->close();
 		\App\Log::trace('Exiting ' . __METHOD__);
 	}
 
@@ -212,6 +214,7 @@ class Vtiger_DashBoard_Model extends \App\Base
 				$modules[$tabId] = \App\Module::getModuleName($tabId);
 			}
 		}
+		$dataReader->close();
 		ksort($modules);
 		if ($moduleName && ($tabId = \App\Module::getModuleId($moduleName))) {
 			unset($modules[$tabId]);

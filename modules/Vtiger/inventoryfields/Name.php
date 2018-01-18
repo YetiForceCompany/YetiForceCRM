@@ -32,7 +32,7 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 		if ($value && !\App\Privilege::isPermitted($moduleName, 'DetailView', $value)) {
 			return $name;
 		}
-		$name = vtlib\Functions::textLength($name, vglobal('href_max_length'));
+		$name = vtlib\Functions::textLength($name, \AppConfig::main('href_max_length'));
 		if (\App\Record::getState($value) !== 'Active') {
 			$name = '<s>' . $name . '</s>';
 		}
@@ -54,8 +54,8 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	public function limitValues()
 	{
 		return [
-				['id' => 0, 'name' => 'LBL_NO'],
-				['id' => 1, 'name' => 'LBL_YES']
+			['id' => 0, 'name' => 'LBL_NO'],
+			['id' => 1, 'name' => 'LBL_YES']
 		];
 	}
 

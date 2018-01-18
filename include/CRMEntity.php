@@ -355,11 +355,17 @@ class CRMEntity
 		$dataReader->close();
 	}
 
+	/**
+	 * Function to remove relation M2M - for relation many to many
+	 * @param string $module
+	 * @param integer $crmid
+	 * @param string $withModule
+	 * @param integer $withCrmid
+	 */
 	public function deleteRelatedM2M($module, $crmid, $withModule, $withCrmid)
 	{
-		$db = PearDatabase::getInstance();
 		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($module, $withModule);
-		$db->delete($referenceInfo['table'], $referenceInfo['base'] . ' = ? && ' . $referenceInfo['rel'] . ' = ?', [$withCrmid, $crmid]);
+		\App\Db::getInstance()->createCommand()->delete($referenceInfo['table'], [$referenceInfo['base'] => $withCrmid, $referenceInfo['rel'] => $crmid])->execute();
 	}
 
 	/**
@@ -530,20 +536,27 @@ class CRMEntity
 		}
 	}
 
+	/**
+	 * Function to save relation between records in relation many to many
+	 * @param string $module
+	 * @param integer $crmid
+	 * @param string $withModule
+	 * @param integer $withCrmid
+	 */
 	public function saveRelatedM2M($module, $crmid, $withModule, $withCrmid)
 	{
-		$db = PearDatabase::getInstance();
 		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($module, $withModule);
-
 		foreach ($withCrmid as $relcrmid) {
-			$check = $db->pquery(sprintf('SELECT 1 FROM `%s` WHERE %s = ? && %s = ?', $referenceInfo['table'], $referenceInfo['base'], $referenceInfo['rel']), [$relcrmid, $crmid]);
 			// Relation already exists? No need to add again
-			if ($check && $db->getRowCount($check))
+			if ((new App\Db\Query())->from($referenceInfo['table'])
+					->where([$referenceInfo['base'] => $relcrmid, $referenceInfo['rel'] => $crmid])
+					->exists()) {
 				continue;
-			$db->insert($referenceInfo['table'], [
+			}
+			\App\Db::getInstance()->createCommand()->insert($referenceInfo['table'], [
 				$referenceInfo['base'] => $relcrmid,
 				$referenceInfo['rel'] => $crmid
-			]);
+			])->execute();
 		}
 	}
 

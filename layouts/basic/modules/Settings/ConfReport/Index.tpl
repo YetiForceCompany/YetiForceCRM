@@ -22,8 +22,8 @@
     <div class="tab-content">
         <div id="Configuration" class="tab-pane fade in active">
 			<div class="row">
-				<div class="col-md-6">
-					<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
+				<div class="col-md-4">
+					<table class="table table-bordered table-condensed themeTableColor confTable">
 						<thead>
 							<tr class="blockHeader">
 								<th colspan="1" class="mediumWidthType">
@@ -57,8 +57,8 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="col-md-6">
-					<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
+				<div class="col-md-4">
+					<table class="table table-bordered table-condensed themeTableColor confTable">
 						<thead>
 							<tr class="blockHeader">
 								<th colspan="3" class="mediumWidthType">
@@ -91,11 +91,8 @@
 						</tbody>
 					</table>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-6">
-					<br />
-					<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
+				<div class="col-md-4">
+					<table class="table table-bordered table-condensed themeTableColor confTable">
 						<thead>
 							<tr class="blockHeader">
 								<th colspan="3" class="mediumWidthType">
@@ -121,16 +118,22 @@
 										<label>{$key}</label>
 										{if isset($item.help) && $item.status}<a href="#" class="popoverTooltip pull-right" data-trigger="focus" data-placement="rigth" data-content="{App\Language::translate($item.help, $MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
 									</td>
-									<td><label>{App\Language::translate($item.prefer, $MODULE)}</label></td>
-									<td><label>{App\Language::translate($item.current, $MODULE)}</label></td>
+									{if $item['prefer'] === false}
+										<td colspan="2"><label>{$item['current']}</label></td>
+											{else}
+										<td><label>{App\Language::translate($item.prefer, $MODULE)}</label></td>
+										<td><label>{App\Language::translate($item.current, $MODULE)}</label></td>
+									{/if}
 								</tr>
 							{/foreach}
 						</tbody>
 					</table>
 				</div>
-				<div class="col-md-6">
+			</div>
+			<div class="row">
+				<div class="col-md-4">
 					<br />
-					<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
+					<table class="table table-bordered table-condensed themeTableColor confTable">
 						<thead>
 							<tr class="blockHeader">
 								<th colspan="2" class="mediumWidthType">
@@ -156,10 +159,46 @@
 						</tbody>
 					</table>
 				</div>
+				<div class="col-md-8">
+					<br />
+					<table class="table table-bordered table-condensed themeTableColor confTable">
+						<thead>
+							<tr class="blockHeader">
+								<th colspan="3" class="mediumWidthType">
+									{App\Language::translate('LBL_DATABASE_INFORMATION', $MODULE)}
+								</th>
+							</tr>
+							<tr class="blockHeader">
+								<th colspan="1" class="mediumWidthType">
+									<span>{App\Language::translate('LBL_PARAMETER', $MODULE)}</span>
+								</th>
+								<th colspan="1" class="mediumWidthType">
+									<span>{App\Language::translate('LBL_RECOMMENDED', $MODULE)}</span>
+								</th>
+								<th colspan="1" class="mediumWidthType">
+									<span>{App\Language::translate('LBL_VALUE', $MODULE)}</span>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{foreach from=Settings_ConfReport_Module_Model::getDbConf() key=key item=ITEM}
+								<tr {if $ITEM['status']}class="danger"{/if}>
+									<td><label>{App\Language::translate($key, $MODULE)}</label></td>
+									{if $ITEM['prefer'] === false}
+										<td colspan="2"><label>{$ITEM['current']}</label></td>
+											{else}
+										<td><label>{$ITEM['prefer']}</label></td>
+										<td><label>{$ITEM['current']}</label></td>
+									{/if}
+								</tr>
+							{/foreach}
+						</tbody>
+					</table>
+				</div>
 			</div>
         </div>
         <div id="Permissions" class="tab-pane fade">
-			<table class="table tableRWD table-bordered table-condensed themeTableColor confTable">
+			<table class="table table-bordered table-condensed themeTableColor confTable">
 				<thead>
 					<tr class="blockHeader">
 						<th colspan="1" class="mediumWidthType">

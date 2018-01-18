@@ -166,11 +166,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 			throw $e;
 		}
 		$eventHandler->trigger('UserAfterSave');
-		if ($this->isNew()) {
-			$eventHandler->setSystemTrigger('UserSystemAfterCreate');
-		} else {
-			$eventHandler->setSystemTrigger('UserSystemAfterEdit');
-		}
 		\App\Cache::clearOpcache();
 	}
 
@@ -406,6 +401,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$userModel = self::getInstanceFromUserObject($focus);
 			$users[$userModel->getId()] = $userModel;
 		}
+		$dataReader->close();
 		return $users;
 	}
 
@@ -984,6 +980,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		while ($row = $dataReader->read()) {
 			$auth[$row['type']][$row['param']] = $row['value'];
 		}
+		$dataReader->close();
 		\App\Cache::save('getAuthMethods', 'config', $auth);
 		return $auth;
 	}

@@ -48,6 +48,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 				$recordInstance = new $modelClassName();
 				$matchingRecords['Users'][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($this);
 			}
+			$dataReader->close();
 			return $matchingRecords;
 		}
 	}
@@ -240,6 +241,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 				while ($row = $dataReader->read()) {
 					$users[$row['userid']]['roleName'] = $row['rolename'];
 				}
+				$dataReader->close();
 			}
 			if ($users) {
 				return $users;

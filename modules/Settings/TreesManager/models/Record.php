@@ -191,6 +191,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 				$lastId = $treeID;
 			}
 		}
+		$dataReader->close();
 		$this->set('lastId', $lastId);
 		return $tree;
 	}
@@ -276,6 +277,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 					->execute();
 			}
 		}
+		$dataReader->close();
 	}
 
 	/**
@@ -319,6 +321,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 				$values[] = $tree;
 			}
 		}
+		$dataReader->close();
 		return implode(',', $values);
 	}
 

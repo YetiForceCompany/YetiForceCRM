@@ -59,7 +59,7 @@ class Project_Detail_View extends Vtiger_Detail_View
 				'~libraries/gantt/skins/dhtmlxgantt_broadway.css'
 		]));
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -69,4 +69,5 @@ class Project_Detail_View extends Vtiger_Detail_View
 				'~libraries/gantt/dhtmlxgantt.js',
 		]));
 	}
+
 }

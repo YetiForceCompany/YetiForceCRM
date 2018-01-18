@@ -99,7 +99,7 @@ class ReportUtils
 	 */
 	public static function getReportFieldValue(ReportRun $report, $picklistArray, $dbField, $valueArray, $fieldName)
 	{
-		$defaultCharset = vglobal('default_charset');
+		$defaultCharset = \AppConfig::main('default_charset');
 
 		$value = $valueArray[$fieldName];
 		$fld_type = $dbField->type;

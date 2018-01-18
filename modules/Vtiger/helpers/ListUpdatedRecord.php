@@ -43,6 +43,7 @@ class ListUpdatedRecord
 		if (empty($recordList)) {
 			return false;
 		}
+		$dataReader->close();
 		return $recordList;
 	}
 }

@@ -81,6 +81,12 @@ $languageStrings = [
 	'SESSION_REGENERATE_HELP_TEXT' => 'Zalecamy aby regenerowanie identyfikatora sesji było włączone, opcja ta utrudnia przejęcie sesji użytkowników. Zmiany należy dokonać w głównym pliku konfiguracyjnym.',
 	'LBL_TMP_DIR' => 'Tymczasowy katalog',
 	'LBL_INVALID_TIME_ZONE' => 'Nieprawidłowa strefa czasowa: ',
+	'LBL_DATABASE_INFORMATION' => 'Informacje o bazie danych',
+	'LBL_DB_DRIVER' => 'Silnik',
+	'LBL_DB_CLIENT_VERSION' => 'Wersja klienta',
+	'LBL_DB_SERVER_VERSION' => 'Wersja silnika',
+	'LBL_DB_CONNECTION_STATUS' => 'Status połączenia',
+	'LBL_DB_SERVER_INFO' => 'Infomracje o serwerze',
 ];
 $jsLanguageStrings = [
 	'JS_SPEED_TEST_START' => 'Trwa sprawdzanie szybkości...',

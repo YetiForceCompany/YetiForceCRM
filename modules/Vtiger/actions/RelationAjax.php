@@ -340,7 +340,7 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 			$worksheet->getColumnDimension($cell->getColumn())->setAutoSize(true);
 			$col++;
 		}
-		$tmpDir = vglobal('tmp_dir');
+		$tmpDir = \AppConfig::main('tmp_dir');
 		$tempFileName = tempnam(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $tmpDir, 'xls');
 		$workbookWriter = PHPExcel_IOFactory::createWriter($workbook, 'Excel5');
 		$workbookWriter->save($tempFileName);

@@ -30,7 +30,7 @@ $languageStrings = [
 	'Dav' => 'Claves DAV',
 	'LBL_DUPLICATE_USER_SERVICES' => 'La clave para esta aplicación ya existe.',
 	'LBL_ALERT_DAV_CONFIG_TITLE' => 'Información de configuración',
-	'LBL_ALERT_DAV_CONFIG_DESC' => 'Ejemplos de configuración de conexión de servidor DAV para diferentes aplicaciones y sistemas:<br /><b>DAVdroid</b><br />Dirección: https://gitdeveloper.yetiforce.com/api/dav.php<br />Autorización preventiva NO<br /><b>Thunderbird CalDAV</b><br />Dirección: https://gitdeveloper.yetiforce.com/api/dav.php/calendars/demo/YFCalendar/<br /><b>iOS</b><br />Dirección: http://gitdeveloper.yetiforce.com/api/dav.php/principals/demo/ <br />Para conexiones SSL: <br /> https://gitdeveloper.yetiforce.com:443/api/dav.php/principals/demo/',
+	'LBL_ALERT_DAV_CONFIG_DESC' => 'Ejemplos de configuración de conexión de servidor DAV para diferentes aplicaciones y sistemas:<br /><b>DAVdroid</b><br />Dirección: https://gitdeveloper.yetiforce.com/dav.php<br />Autorización preventiva NO<br /><b>Thunderbird CalDAV</b><br />Dirección: https://gitdeveloper.yetiforce.com/dav.php/calendars/demo/YFCalendar/<br /><b>iOS</b><br />Dirección: http://gitdeveloper.yetiforce.com/dav.php/principals/demo/ <br />Para conexiones SSL: <br /> https://gitdeveloper.yetiforce.com:443/dav.php/principals/demo/',
 ];
 $jsLanguageStrings = [
 	'Adding a Key' => 'Añadir clave',

@@ -26,7 +26,7 @@
 							<strong>{\App\Language::translate('LBL_CREATE_MODULE', $QUALIFIED_MODULE)}</strong>
 						</button>
 					</span>
-					{if vglobal('systemMode') != 'demo'}
+					{if \AppConfig::main('systemMode') !== 'demo'}
 						<span class="btn-group">
 							<button class="btn btn-primary" type="button" onclick='window.location.href = "{$IMPORT_USER_MODULE_URL}"'>
 								<span class="glyphicon glyphicon-import" aria-hidden="true"></span>&nbsp;&nbsp;

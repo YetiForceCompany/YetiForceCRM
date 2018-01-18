@@ -49,9 +49,9 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td class="{$WIDTHTYPE} listSearchTd"><button class="btn btn-default" data-trigger="listSearch">{\App\Language::translate('LBL_SEARCH', $MODULE_NAME )}</button></td>
+						<td class="listSearchTd"><button class="btn btn-default" data-trigger="listSearch"><span class="glyphicon glyphicon-search"></span></button></td>
 							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-							<td class="{$WIDTHTYPE}">
+							<td>
 								{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
 								{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $MODULE_NAME) FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$USER_MODEL}
 							</td>

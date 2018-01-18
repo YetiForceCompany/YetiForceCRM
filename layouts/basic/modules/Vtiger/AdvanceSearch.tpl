@@ -43,15 +43,15 @@
 				</div>
 
 				<div class="actions modal-footer">
-					<a class="cancelLink pull-right btn btn-warning" type="reset" id="advanceSearchCancel" data-dismiss="modal">{\App\Language::translate('LBL_CANCEL', $MODULE)}</a>
-					<button class="btn btn-info pull-right" id="advanceSearchButton" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if}  type="submit"><strong>{\App\Language::translate('LBL_SEARCH', $MODULE)}</strong></button>
+					<a class="cancelLink pull-right btn btn-warning" type="reset" id="advanceSearchCancel" data-dismiss="modal"><span class="glyphicon glyphicon-remove margin-right5px"></span>{\App\Language::translate('LBL_CANCEL', $MODULE)}</a>
+					<button class="btn btn-info pull-right" id="advanceSearchButton" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if}  type="submit"><span class="glyphicon glyphicon-search margin-right5px"></span><strong>{\App\Language::translate('LBL_SEARCH', $MODULE)}</strong></button>
 					{if $SAVE_FILTER_PERMITTED}
 						<button class="btn hide btn-success pull-right" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceSave">
-							<strong>{\App\Language::translate('LBL_SAVE_FILTER', $MODULE)}</strong>
+							<span class="glyphicon glyphicon-ok margin-right5px"></span><strong>{\App\Language::translate('LBL_SAVE_FILTER', $MODULE)}</strong>
 						</button>
 						{if \App\Privilege::isPermitted($SOURCE_MODULE, 'CreateCustomFilter')}
 							<button class="btn btn-success pull-right" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceIntiateSave">
-								<strong>{\App\Language::translate('LBL_SAVE_AS_FILTER', $MODULE)}</strong>
+								<span class="glyphicon glyphicon-ok margin-right5px"></span><strong>{\App\Language::translate('LBL_SAVE_AS_FILTER', $MODULE)}</strong>
 							</button>
 						{/if}
 						<div class="col-xs-3 pull-right">

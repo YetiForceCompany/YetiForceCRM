@@ -2230,7 +2230,7 @@ th.htColHeader {
 	background: #f3f3f3;
 }
 .calendarPopover.popover{
-	max-width: 100%;
+	max-width: 30%;
 }
 .btn:focus {
 	outline: 0;
@@ -6161,4 +6161,10 @@ border1px{
 }
 .listViewSearchTd, .listSearchTd {
 	width: 80px;
+}
+.popupEntriesDiv .listSearchTd {
+	width: 57px;
+}
+.margin-right5px {
+	margin-right: 5px;
 }

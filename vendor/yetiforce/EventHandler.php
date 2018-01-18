@@ -13,7 +13,7 @@ class EventHandler
 
 	/**
 	 * Table name
-	 * @var string 
+	 * @var string
 	 */
 	protected static $baseTable = 'vtiger_eventhandlers';
 	private static $handlerByType;
@@ -111,8 +111,8 @@ class EventHandler
 
 	/**
 	 * Unregister a registered handler
-	 * @param string $className 
-	 * @param boolean|string $eventName 
+	 * @param string $className
+	 * @param boolean|string $eventName
 	 */
 	public static function deleteHandler($className, $eventName = false)
 	{
@@ -126,8 +126,8 @@ class EventHandler
 
 	/**
 	 * Set an event handler as inactive
-	 * @param string $className 
-	 * @param boolean|string $eventName 
+	 * @param string $className
+	 * @param boolean|string $eventName
 	 */
 	public static function setInActive($className, $eventName = false)
 	{
@@ -142,8 +142,8 @@ class EventHandler
 
 	/**
 	 * Set an event handler as active
-	 * @param string $className 
-	 * @param boolean|string $eventName 
+	 * @param string $className
+	 * @param boolean|string $eventName
 	 */
 	public static function setActive($className, $eventName = false)
 	{
@@ -238,7 +238,7 @@ class EventHandler
 	}
 
 	/**
-	 * 
+	 *
 	 * @param string $name Event name
 	 * @return array Handlers list
 	 */
@@ -289,32 +289,6 @@ class EventHandler
 				Log::error("Handler not found, class: {$handler['handler_class']} | $function");
 				throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
 			}
-		}
-	}
-
-	/**
-	 * Set system handler
-	 * @param string $name
-	 * @return boolean
-	 */
-	public function setSystemTrigger($name, $class = '', $params = [])
-	{
-		$handlers = static::getByType($name, $this->moduleName);
-		if (empty($handlers)) {
-			return false;
-		}
-		$db = \App\Db::getInstance('admin');
-		$isExists = (new \App\Db\Query())->from('s_#__handler_updater')->where(['crmid' => $this->getRecordModel()->getId()])->exists($db);
-		if (!$isExists) {
-			$db->createCommand()
-				->insert('s_#__handler_updater', [
-					'tabid' => Module::getModuleId($this->getModuleName()),
-					'crmid' => $this->getRecordModel()->getId(),
-					'userid' => User::getCurrentUserId(),
-					'handler_name' => $name,
-					'class' => $class,
-					'params' => Json::encode($params)
-				])->execute();
 		}
 	}
 }
