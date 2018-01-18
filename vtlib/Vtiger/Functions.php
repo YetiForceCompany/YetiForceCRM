@@ -397,16 +397,6 @@ class Functions
 		return $type_of_data;
 	}
 
-	public static function decimalTimeFormat($decTime)
-	{
-		$hour = floor($decTime);
-		$min = round(60 * ($decTime - $hour));
-		return [
-			'short' => $hour . \App\Language::translate('LBL_H') . ' ' . $min . \App\Language::translate('LBL_M'),
-			'full' => $hour . \App\Language::translate('LBL_HOURS') . ' ' . $min . \App\Language::translate('LBL_MINUTES'),
-		];
-	}
-
 	public static function getRangeTime($timeMinutesRange, $showEmptyValue = true)
 	{
 		$short = [];
