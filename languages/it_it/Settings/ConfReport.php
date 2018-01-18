@@ -68,18 +68,6 @@ $languageStrings = [
 	'HTTPS_HELP_TEXT' => 'SSL is the standard security technology for establishing an encrypted link between a web server and a browser',
 	'HTACCESS_HELP_TEXT' => '.htaccess files can be used to change the server software configuration to configure and enable / disable additional services. YetiForceCRM requires access to the file to some work functions properly.',
 	'PUBLIC_HTML_HELP_TEXT' => 'We suggest that you install the system so that only the public_html folder is used. This improves data security by not having access to unpublic directories and files directly from the address',
-	'SESSION_USE_STRICT_MODE_HELP_TEXT' => 'Determines if the server rejects an uninitialized session. Due to security concerns we recommend enabling this option.',
-	'SESSION_USE_TRANS_SID_HELP_TEXT' => 'Determines if the server transmits session ID in URL. Due to security concerns we recommend disabling this option.',
-	'HEADER_X_FRAME_OPTIONS_HELP_TEXT' => 'For "SAMEORIGIN" option it means the possibility to load the website in "frame" only from the same domain. This option protects from "clickjacking" attack.',
-	'HEADER_X_XSS_PROTECTION_HELP_TEXT' => 'Protects from XSS attack. For "1; mode=block" option in case XSS attack is detected page rendering will be stopped.',
-	'HEADER_X_CONTENT_TYPE_OPTIONS_HELP_TEXT' => 'This option means that MIME types transmitted in Content-Type headers should not be altered. This option protects from "MIME" attacks.',
-	'HEADER_X_ROBOTS_TAG_HELP_TEXT' => 'Determines the behavior of network robots. We recommend using "none", which means no page indexing and no tracking links by network robots.',
-	'HEADER_X_PERMITTED_CROSS_DOMAIN_POLICIES_HELP_TEXT' => 'Determines the way "strategy files" are handled on the server, eg. "crossdomain.xml" file. Recommended option is no handling of "strategy files".',
-	'HEADER_X_POWERED_BY_HELP_TEXT' => 'This header transmits information about the PHP server. Due to safety concerns we recommend leaving it empty.',
-	'HEADER_SERVER_HELP_TEXT' => 'This header transmits information about the server. Due to safety concerns we recommend leaving it empty.',
-	'HEADER_REFERRER_POLICY_HELP_TEXT' => 'Determines the control over data that appears in the Referer header. Default option is "same-origin", it means that the header will only appear from the same domain.',
-	'HEADER_EXPECT_CT_HELP_TEXT' => 'The header determines how the certificate is handled on the site. We recommend using "enforce; max-age=3600" which means enforcing the validity of the certificate and the validity lasts for 3600 seconds.',
-	'HEADER_STRICT_TRANSPORT_SECURITY_HELP_TEXT' => 'Means that the browser should communicate only using HTTPS protocol, and not using HTTP protocol. Recommended time for this HTTPS communication is 31536000 seconds.',
 ];
 $jsLanguageStrings = [
 	'JS_SPEED_TEST_START' => 'Checking speed...',
