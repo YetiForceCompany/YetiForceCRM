@@ -645,7 +645,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 					if ($fieldValue === null || $fieldValue === '0000-00-00') {
 						$fieldValue = '';
 					}
-					$fieldValue = getValidDBInsertDateValue($fieldValue);
+					$fieldValue = \App\Fields\Date::formatToDb($fieldValue, true);
 					if (preg_match("/^[0-9]{2,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2}$/", $fieldValue) == 0) {
 						$fieldValue = '';
 					}
