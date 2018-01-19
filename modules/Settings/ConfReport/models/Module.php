@@ -501,8 +501,8 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$baseUrl = \App\RequestUtil::getBaseUrl();
 		$denyPublicDirState = [
-			($dir = '/cache') => \App\Fields\File::isExistsUrl($baseUrl . $dir),
-			($dir = '/storage') => \App\Fields\File::isExistsUrl($baseUrl . $dir),
+			($dir = '/cache') => ['help' => 'LBL_DENY_PUBLIC_DIR_HELP_TEXT', 'status' => \App\Fields\File::isExistsUrl($baseUrl . $dir)],
+			($dir = '/storage') => ['help' => 'LBL_DENY_PUBLIC_DIR_HELP_TEXT', 'status' => \App\Fields\File::isExistsUrl($baseUrl . $dir)],
 		];
 		return $denyPublicDirState;
 	}

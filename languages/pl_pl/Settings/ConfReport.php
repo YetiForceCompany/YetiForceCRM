@@ -130,6 +130,7 @@ $languageStrings = [
 	'LBL_DENY_PUBLIC_DIR_TITLE' => 'Weryfikacja uprawnień do katalogów',
 	'LBL_PUBLIC_DIR' => 'Ścieżka do katalogu',
 	'LBL_DENY_PUBLIC_DIR_STATUS' => 'Czy zablokowany dostęp?',
+	'LBL_DENY_PUBLIC_DIR_HELP_TEXT' => 'Zalecamy zabronić dostęp do tego katalogu. Obecnie katalog jest dostępny publicznie i zawartość jego nie jest chroniona.',
 ];
 $jsLanguageStrings = [
 	'JS_SPEED_TEST_START' => 'Trwa sprawdzanie szybkości...',
