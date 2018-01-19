@@ -513,16 +513,16 @@ class ReportRun extends CRMEntity
 			}
 		}
 		if ($comparator == 's') {
-			$rtvalue = " like " . formatForSqlLike($value, 2, $is_field);
+			$rtvalue = " like " . $this->formatForSqlLike($value, 2, $is_field);
 		}
 		if ($comparator == 'ew') {
-			$rtvalue = ' like ' . formatForSqlLike($value, 1, $is_field);
+			$rtvalue = ' like ' . $this->formatForSqlLike($value, 1, $is_field);
 		}
 		if ($comparator == 'c') {
-			$rtvalue = ' like ' . formatForSqlLike($value, 0, $is_field);
+			$rtvalue = ' like ' . $this->formatForSqlLike($value, 0, $is_field);
 		}
 		if ($comparator == 'k') {
-			$rtvalue = ' not like ' . formatForSqlLike($value, 0, $is_field);
+			$rtvalue = ' not like ' . $this->formatForSqlLike($value, 0, $is_field);
 		}
 		if ($comparator == 'l') {
 			$rtvalue = ' < ' . $adb->quote($value);
@@ -3371,5 +3371,44 @@ class ReportRun extends CRMEntity
 			}
 		}
 		return $columnsSqlList;
+	}
+
+	/**
+	 * Function to format the input value for SQL like clause.
+	 * @param $str - Input string value to be formatted.
+	 * @param $flag - By default set to 0 (Will look for cases %string%).
+	 *                If set to 1 - Will look for cases %string.
+	 *                If set to 2 - Will look for cases string%.
+	 * @return String formatted as per the SQL like clause requirement
+	 */
+	public function formatForSqlLike($str, $flag = 0, $is_field = false)
+	{
+		$adb = PearDatabase::getInstance();
+		if (isset($str)) {
+			if ($is_field === false) {
+				$str = str_replace('%', '\%', $str);
+				$str = str_replace('_', '\_', $str);
+				if ($flag == 0) {
+					// If value what to search is null then we should not add % which will fail
+					if (empty($str))
+						$str = '' . $str . '';
+					else
+						$str = '%' . $str . '%';
+				} elseif ($flag == 1) {
+					$str = '%' . $str;
+				} elseif ($flag == 2) {
+					$str = $str . '%';
+				}
+			} else {
+				if ($flag == 0) {
+					$str = 'concat("%",' . $str . ',"%")';
+				} elseif ($flag == 1) {
+					$str = 'concat("%",' . $str . ')';
+				} elseif ($flag == 2) {
+					$str = 'concat(' . $str . ',"%")';
+				}
+			}
+		}
+		return $adb->sqlEscapeString($str);
 	}
 }
