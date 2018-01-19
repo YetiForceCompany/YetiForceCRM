@@ -6164,9 +6164,3 @@ border1px{
 .margin-right5px {
 	margin-right: 5px;
 }
-.badge.picklistCBg_Calendar_activitytype_Meeting {
-	background: #FFD500 !important;
-}
-.badge.picklistCBg_Calendar_activitytype_Call {
-	background: #00d4f5!important;
-}
