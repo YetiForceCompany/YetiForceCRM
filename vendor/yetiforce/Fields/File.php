@@ -756,13 +756,24 @@ class File
 	}
 
 	/**
-	 * Check if give URL is denied
+	 * Check if give URL exists
 	 * @param string $url
 	 * @return boolean
 	 */
-	public static function isDenyUrl($url)
+	public static function isExistsUrl($url)
 	{
-		$request = \Requests::get($url);
-		return $request->status_code !== 200;
+		try {
+			$response = \Requests::get($url);
+			if ($response->status_code === 200) {
+				return true;
+			} else {
+				\App\Log::error('Checked URL is not allowed: ' . $url . ' | Status code: ' . $response->status_code, __CLASS__);
+				return false;
+			}
+			$content = $response->body;
+		} catch (\Exception $exc) {
+			\App\Log::error('Checked URL is not allowed: ' . $url . ' | ' . $exc->getMessage(), __CLASS__);
+			return false;
+		}
 	}
 }
