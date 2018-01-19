@@ -177,11 +177,14 @@
 						</thead>
 						<tbody>
 							{foreach from=Settings_ConfReport_Module_Model::getDenyPublicDirState() key=key item=item}
-								<tr {if $item}class="danger"{/if}>
-									<td><label>{$key}</label></td>
+								<tr {if $item.status}class="danger"{/if}>
+									<td>
+										<label>{$key}</label>
+										{if isset($item.help) && $item.status}<a href="#" class="popoverTooltip pull-right" data-trigger="focus" data-placement="rigth" data-content="{\App\Language::translateEncodeHtml($item.help, $MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
+									</td>
 									<td>
 										<label>
-										{if $item}
+										{if $item.status}
 											{App\Language::translate('LBL_NO', $MODULE)}
 										{else}
 											{App\Language::translate('LBL_YES', $MODULE)}
