@@ -11,209 +11,11 @@
 require_once('modules/Reports/Reports.php');
 require_once 'modules/Reports/ReportUtils.php';
 require_once('modules/Vtiger/helpers/Util.php');
-
+Vtiger_Loader::includeOnce('~modules/Reports/ReportRunQueryDependencyMatrix.php');
+Vtiger_Loader::includeOnce('~modules/Reports/ReportRunQueryPlanner.php');
 /*
  * Helper class to determine the associative dependency between tables.
  */
-
-class ReportRunQueryDependencyMatrix
-{
-
-	protected $matrix = [];
-	protected $computedMatrix = null;
-
-	public function setDependency($table, array $dependents)
-	{
-		$this->matrix[$table] = $dependents;
-	}
-
-	public function addDependency($table, $dependent)
-	{
-		if (isset($this->matrix[$table]) && !in_array($dependent, $this->matrix[$table])) {
-			$this->matrix[$table][] = $dependent;
-		} else {
-			$this->setDependency($table, [$dependent]);
-		}
-	}
-
-	public function getDependents($table)
-	{
-		$this->computeDependencies();
-		return isset($this->computedMatrix[$table]) ? $this->computedMatrix[$table] : [];
-	}
-
-	protected function computeDependencies()
-	{
-		if ($this->computedMatrix !== null)
-			return;
-
-		$this->computedMatrix = [];
-		foreach ($this->matrix as $key => $values) {
-			$this->computedMatrix[$key] = $this->computeDependencyForKey($values);
-		}
-	}
-
-	protected function computeDependencyForKey($values)
-	{
-		$merged = [];
-		foreach ($values as $value) {
-			$merged[] = $value;
-			if (isset($this->matrix[$value])) {
-				$merged = array_merge($merged, $this->matrix[$value]);
-			}
-		}
-		return $merged;
-	}
-}
-
-class ReportRunQueryPlanner
-{
-
-	// Turn-off the query planning to revert back - backward compatiblity
-	protected $disablePlanner = false;
-	protected $tables = [];
-	protected $customTables = [];
-	protected $tempTables = [];
-	protected $tempTablesInitialized = false;
-	// Turn-off in case the query result turns-out to be wrong.
-	protected $allowTempTables = true;
-	protected $tempTablePrefix = 'vtiger_reptmptbl_';
-	protected static $tempTableCounter = 0;
-	protected $registeredCleanup = false;
-	public static $existTables = [];
-
-	public function addTable($table)
-	{
-		if (!empty($table))
-			$this->tables[$table] = $table;
-	}
-
-	public function addCustomTable($table)
-	{
-		if (!in_array($table, $this->customTables)) {
-			$this->customTables[] = $table;
-		}
-	}
-
-	public function requireTable($table, $dependencies = null)
-	{
-
-		if ($this->disablePlanner) {
-			return true;
-		}
-
-		if (isset($this->tables[$table])) {
-			return true;
-		}
-		if (is_array($dependencies)) {
-			foreach ($dependencies as $dependentTable) {
-				if (isset($this->tables[$dependentTable])) {
-					return true;
-				}
-			}
-		} else if ($dependencies instanceof ReportRunQueryDependencyMatrix) {
-			$dependents = $dependencies->getDependents($table);
-			if ($dependents) {
-				return count(array_intersect($this->tables, $dependents)) > 0;
-			}
-		}
-		return false;
-	}
-
-	public function getTables()
-	{
-		return $this->tables;
-	}
-
-	public function getCustomTables()
-	{
-		return $this->customTables;
-	}
-
-	public function newDependencyMatrix()
-	{
-		return new ReportRunQueryDependencyMatrix();
-	}
-
-	public function registerTempTable($query, $keyColumns)
-	{
-		if ($this->allowTempTables && !$this->disablePlanner) {
-			$current_user = vglobal('current_user');
-
-			$keyColumns = is_array($keyColumns) ? array_unique($keyColumns) : [$keyColumns];
-
-			// Minor optimization to avoid re-creating similar temporary table.
-			$uniqueName = NULL;
-			foreach ($this->tempTables as $tmpUniqueName => $tmpTableInfo) {
-				if (strcasecmp($query, $tmpTableInfo['query']) === 0) {
-					// Capture any additional key columns
-					$tmpTableInfo['keycolumns'] = array_unique(array_merge($tmpTableInfo['keycolumns'], $keyColumns));
-					$uniqueName = $tmpUniqueName;
-					break;
-				}
-			}
-
-			if ($uniqueName === NULL) {
-				$uniqueName = $this->tempTablePrefix .
-					str_replace('.', '', uniqid($current_user->id, true)) . (self::$tempTableCounter++);
-
-				$this->tempTables[$uniqueName] = [
-					'query' => $query,
-					'keycolumns' => is_array($keyColumns) ? array_unique($keyColumns) : [$keyColumns],
-				];
-			}
-
-			return $uniqueName;
-		}
-		return "($query)";
-	}
-
-	public function initializeTempTables()
-	{
-		$adb = PearDatabase::getInstance();
-		foreach ($this->tempTables as $uniqueName => $tempTableInfo) {
-			if (!in_array($uniqueName, self::$existTables)) {
-				$query1 = sprintf('CREATE TEMPORARY TABLE %s AS %s', $uniqueName, $tempTableInfo['query']);
-				$adb->query($query1);
-			}
-
-			$keyColumns = $tempTableInfo['keycolumns'];
-			foreach ($keyColumns as $keyColumn) {
-				if (!empty($keyColumn)) {
-					$result = $adb->query("SHOW COLUMNS FROM `$uniqueName` LIKE '$keyColumn';");
-					if ($result->rowCount() > 0) {
-						$query2 = sprintf('ALTER TABLE %s ADD INDEX (%s)', $uniqueName, $keyColumn);
-						$adb->query($query2);
-					}
-				}
-			}
-			self::$existTables[] = $uniqueName;
-		}
-
-		// Trigger cleanup of temporary tables when the execution of the request ends.
-		// NOTE: This works better than having in __destruct
-		// (as the reference to this object might end pre-maturely even before query is executed)
-		if (!$this->registeredCleanup) {
-			register_shutdown_function([$this, 'cleanup']);
-			// To avoid duplicate registration on this instance.
-			$this->registeredCleanup = true;
-		}
-	}
-
-	public function cleanup()
-	{
-		$adb = PearDatabase::getInstance();
-
-		$oldDieOnError = $adb->dieOnError;
-		$adb->dieOnError = false; // To avoid abnormal termination during shutdown...
-		foreach ($this->tempTables as $uniqueName => $tempTableInfo) {
-			$adb->pquery('DROP TABLE ' . $uniqueName, []);
-		}
-		$adb->dieOnError = $oldDieOnError;
-
-		$this->tempTables = [];
-	}
-}
 
 class ReportRun extends CRMEntity
 {
@@ -711,16 +513,16 @@ class ReportRun extends CRMEntity
 			}
 		}
 		if ($comparator == 's') {
-			$rtvalue = " like " . formatForSqlLike($value, 2, $is_field);
+			$rtvalue = " like " . $this->formatForSqlLike($value, 2, $is_field);
 		}
 		if ($comparator == 'ew') {
-			$rtvalue = ' like ' . formatForSqlLike($value, 1, $is_field);
+			$rtvalue = ' like ' . $this->formatForSqlLike($value, 1, $is_field);
 		}
 		if ($comparator == 'c') {
-			$rtvalue = ' like ' . formatForSqlLike($value, 0, $is_field);
+			$rtvalue = ' like ' . $this->formatForSqlLike($value, 0, $is_field);
 		}
 		if ($comparator == 'k') {
-			$rtvalue = ' not like ' . formatForSqlLike($value, 0, $is_field);
+			$rtvalue = ' not like ' . $this->formatForSqlLike($value, 0, $is_field);
 		}
 		if ($comparator == 'l') {
 			$rtvalue = ' < ' . $adb->quote($value);
@@ -897,14 +699,14 @@ class ReportRun extends CRMEntity
 									if ($type == 'DT') {
 										$userStartDate = $userStartDate . ' 00:00:00';
 									}
-									$startDateTime = getValidDBInsertDateTimeValue($userStartDate);
+									$startDateTime = \App\Fields\DateTime::formatToDb($userStartDate);
 
 									$endDateTime = new DateTimeField($endDate . ' ' . date('H:i:s'));
 									$userEndDate = $endDateTime->getDisplayDate();
 									if ($type == 'DT') {
 										$userEndDate = $userEndDate . ' 23:59:59';
 									}
-									$endDateTime = getValidDBInsertDateTimeValue($userEndDate);
+									$endDateTime = \App\Fields\DateTime::formatToDb($userEndDate);
 
 									if ($selectedFields[1] == 'birthday') {
 										$tableColumnSql = 'DATE_FORMAT(' . $selectedFields[0] . '.' . $selectedFields[1] . ', "%m%d")';
@@ -953,8 +755,8 @@ class ReportRun extends CRMEntity
 									$tempDate = strtotime($date2) - 1;
 									$date2 = date('Y-m-d H:i:s', $tempDate);
 
-									$start = getValidDBInsertDateTimeValue($date1);
-									$end = getValidDBInsertDateTimeValue($date2);
+									$start = \App\Fields\DateTime::formatToDb($date1);
+									$end = \App\Fields\DateTime::formatToDb($date2);
 									$start = "'$start'";
 									$end = "'$end'";
 									if ($comparator == 'e')
@@ -969,12 +771,12 @@ class ReportRun extends CRMEntity
 									$startDateTime = new DateTimeField($startDateTime[0] . ' ' . date('H:i:s'));
 									$userStartDate = $startDateTime->getDisplayDate();
 									$userStartDate = $userStartDate . ' 00:00:00';
-									$start = getValidDBInsertDateTimeValue($userStartDate);
+									$start = \App\Fields\DateTime::formatToDb($userStartDate);
 
 									$endDateTime = new DateTimeField($endDateTime[0] . ' ' . date('H:i:s'));
 									$userEndDate = $endDateTime->getDisplayDate();
 									$userEndDate = $userEndDate . ' 23:59:59';
-									$end = getValidDBInsertDateTimeValue($userEndDate);
+									$end = \App\Fields\DateTime::formatToDb($userEndDate);
 
 									$advfiltergroupsql .= "$tableColumnSql BETWEEN '$start' AND '$end'";
 								} else if ($comparator == 'a' || $comparator == 'b') {
@@ -985,13 +787,13 @@ class ReportRun extends CRMEntity
 										$nextday = $modifiedDate->format('Y-m-d H:i:s');
 										$temp = strtotime($nextday) - 1;
 										$date = date('Y-m-d H:i:s', $temp);
-										$value = getValidDBInsertDateTimeValue($date);
+										$value = \App\Fields\DateTime::formatToDb($date);
 										$advfiltergroupsql .= "$tableColumnSql > '$value'";
 									} else {
 										$prevday = $dateTime->format('Y-m-d H:i:s');
 										$temp = strtotime($prevday) - 1;
 										$date = date('Y-m-d H:i:s', $temp);
-										$value = getValidDBInsertDateTimeValue($date);
+										$value = \App\Fields\DateTime::formatToDb($date);
 										$advfiltergroupsql .= "$tableColumnSql < '$value'";
 									}
 								}
@@ -1310,14 +1112,14 @@ class ReportRun extends CRMEntity
 					if ($type == 'DT') {
 						$userStartDate = $userStartDate . ' 00:00:00';
 					}
-					$startDateTime = getValidDBInsertDateTimeValue($userStartDate);
+					$startDateTime = \App\Fields\DateTime::formatToDb($userStartDate);
 
 					$endDateTime = new DateTimeField($enddate . ' ' . date('H:i:s'));
 					$userEndDate = $endDateTime->getDisplayDate();
 					if ($type == 'DT') {
 						$userEndDate = $userEndDate . ' 23:59:00';
 					}
-					$endDateTime = getValidDBInsertDateTimeValue($userEndDate);
+					$endDateTime = \App\Fields\DateTime::formatToDb($userEndDate);
 
 					if ($selectedfields[1] == 'birthday') {
 						$tableColumnSql = "DATE_FORMAT(" . $selectedfields[0] . "." . $selectedfields[1] . ", '%m%d')";
@@ -3285,7 +3087,6 @@ class ReportRun extends CRMEntity
 
 	public function writeReportToExcelFile($fileName, $filterlist = '')
 	{
-		require_once("libraries/PHPExcel/PHPExcel.php");
 		$workbook = new PHPExcel();
 		$worksheet = $workbook->setActiveSheetIndex(0);
 		$reportData = $this->GenerateReport("PDF", $filterlist);
@@ -3570,5 +3371,44 @@ class ReportRun extends CRMEntity
 			}
 		}
 		return $columnsSqlList;
+	}
+
+	/**
+	 * Function to format the input value for SQL like clause.
+	 * @param $str - Input string value to be formatted.
+	 * @param $flag - By default set to 0 (Will look for cases %string%).
+	 *                If set to 1 - Will look for cases %string.
+	 *                If set to 2 - Will look for cases string%.
+	 * @return String formatted as per the SQL like clause requirement
+	 */
+	public function formatForSqlLike($str, $flag = 0, $is_field = false)
+	{
+		$adb = PearDatabase::getInstance();
+		if (isset($str)) {
+			if ($is_field === false) {
+				$str = str_replace('%', '\%', $str);
+				$str = str_replace('_', '\_', $str);
+				if ($flag == 0) {
+					// If value what to search is null then we should not add % which will fail
+					if (empty($str))
+						$str = '' . $str . '';
+					else
+						$str = '%' . $str . '%';
+				} elseif ($flag == 1) {
+					$str = '%' . $str;
+				} elseif ($flag == 2) {
+					$str = $str . '%';
+				}
+			} else {
+				if ($flag == 0) {
+					$str = 'concat("%",' . $str . ',"%")';
+				} elseif ($flag == 1) {
+					$str = 'concat("%",' . $str . ')';
+				} elseif ($flag == 2) {
+					$str = 'concat(' . $str . ',"%")';
+				}
+			}
+		}
+		return $adb->sqlEscapeString($str);
 	}
 }

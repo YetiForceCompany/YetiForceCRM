@@ -105,14 +105,14 @@ class IcalendarProperty
 				return false;
 			} else {
 				foreach ($value as $oneval) {
-					if (!rfc2445_is_valid_value($oneval, $this->val_type)) {
+					if (!\ICalendarRfc::rfc2445_is_valid_value($oneval, $this->val_type)) {
 						return false;
 					}
 				}
 			}
 			return true;
 		}
-		return rfc2445_is_valid_value($value, $this->val_type);
+		return \ICalendarRfc::rfc2445_is_valid_value($value, $this->val_type);
 	}
 
 	public function defaultValueICal()
@@ -136,11 +136,11 @@ class IcalendarProperty
 			// This transparently formats any value type according to the iCalendar specs
 			if (is_array($value)) {
 				foreach ($value as $key => $item) {
-					$value[$key] = rfc2445_do_value_formatting($item, $this->val_type);
+					$value[$key] = \ICalendarRfc::rfc2445_do_value_formatting($item, $this->val_type);
 				}
 				$this->value = implode(',', $value);
 			} else {
-				$this->value = rfc2445_do_value_formatting($value, $this->val_type);
+				$this->value = \ICalendarRfc::rfc2445_do_value_formatting($value, $this->val_type);
 			}
 
 			return true;
@@ -157,7 +157,7 @@ class IcalendarProperty
 		// Are we trying to add a valid parameter?
 		if (!isset($this->valid_parameters[$name])) {
 			// If not, is it an x-name as per RFC 2445?
-			if (!rfc2445_is_xname($name)) {
+			if (!\ICalendarRfc::rfc2445_is_xname($name)) {
 				return false;
 			}
 			// No more checks -- all components are supposed to allow x-name parameters
@@ -228,6 +228,6 @@ class IcalendarProperty
 
 		$string .= ':' . $this->value;
 
-		return rfc2445_fold($string) . RFC2445_CRLF;
+		return \ICalendarRfc::rfc2445_fold($string) . RFC2445_CRLF;
 	}
 }

@@ -12,7 +12,6 @@ class Vtiger_Rss_Dashboard extends Vtiger_IndexAjax_View
 
 	public function process(\App\Request $request, $widget = NULL)
 	{
-		Vtiger_Loader::includeOnce('~libraries/RSSFeeds/Feed.php');
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();

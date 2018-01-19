@@ -48,7 +48,7 @@ class IcalendarComponent
 		$xname = false;
 		if (!isset($this->valid_properties[$name])) {
 			// If not, is it an x-name as per RFC 2445?
-			if (!rfc2445_is_xname($name)) {
+			if (!\ICalendarRfc::rfc2445_is_xname($name)) {
 				return false;
 			}
 			// Since this is an xname, all components are supposed to allow this property
@@ -195,7 +195,7 @@ class IcalendarComponent
 		}
 
 		// Start tag
-		$string = rfc2445_fold('BEGIN:' . $this->name) . RFC2445_CRLF;
+		$string = \ICalendarRfc::rfc2445_fold('BEGIN:' . $this->name) . RFC2445_CRLF;
 		// List of properties
 		if (!empty($this->properties)) {
 			foreach ($this->properties as $name => $properties) {
@@ -214,7 +214,7 @@ class IcalendarComponent
 		}
 
 		// End tag
-		$string .= rfc2445_fold('END:' . $this->name) . RFC2445_CRLF;
+		$string .= \ICalendarRfc::rfc2445_fold('END:' . $this->name) . RFC2445_CRLF;
 
 		return $string;
 	}

@@ -34,3 +34,6 @@ rules:
     # Disable a rule
     php.duplicated_code:
         enabled: false
+    composer.warning:
+        enabled: false
+        

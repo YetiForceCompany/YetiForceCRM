@@ -44,7 +44,9 @@
 		"symfony/var-dumper": "v3.3.6",
 		"symfony/console": "v3.3.6",
 		"symfony/debug": "v3.3.6",
-		"giggsey/libphonenumber-for-php": "*"
+		"giggsey/libphonenumber-for-php": "*",
+		"phpoffice/phpexcel": "^1.8",
+		"dg/rss-php": "^1.2"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "6.*",

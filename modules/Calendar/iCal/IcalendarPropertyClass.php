@@ -18,6 +18,6 @@ class IcalendarPropertyClass extends IcalendarProperty
 	{
 		$value = strtoupper($value);
 		// If this is not an xname, it is case-sensitive
-		return ($value === 'PUBLIC' || $value === 'PRIVATE' || $value === 'CONFIDENTIAL' || rfc2445_is_xname(strtoupper($value)));
+		return ($value === 'PUBLIC' || $value === 'PRIVATE' || $value === 'CONFIDENTIAL' || \ICalendarRfc::rfc2445_is_xname(strtoupper($value)));
 	}
 }

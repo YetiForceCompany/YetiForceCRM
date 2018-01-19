@@ -7,7 +7,6 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * *********************************************************************************** */
-Vtiger_Loader::includeOnce('~libraries/RSSFeeds/Feed.php');
 
 // for rss caching
 Feed::$cacheDir = 'cache/rss_cache';

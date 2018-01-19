@@ -21,7 +21,7 @@ class Methods extends \Api\Core\BaseAction
 	public function get()
 	{
 		$methods = [];
-		$src = 'webservice/Portal/';
+		$src = 'api/webservice/Portal/';
 		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			if (!$item->isDir()) {
 				$itemPathName = explode(DIRECTORY_SEPARATOR, $iterator->getSubPathName());

@@ -31,7 +31,7 @@ class BaseAction
 	}
 
 	/**
-	 * @YTTODO New permission
+	 * Unfinished
 	 * @throws \Api\Core\Exception
 	 */
 	public function checkAction2()

@@ -108,8 +108,8 @@ class VTFieldExpressionEvaluater
 		if (empty($time_operand1) || empty($time_operand2))
 			return 0;
 
-		$time_operand1 = getValidDBInsertDateTimeValue($time_operand1);
-		$time_operand2 = getValidDBInsertDateTimeValue($time_operand2);
+		$time_operand1 = \App\Fields\DateTime::formatToDb($time_operand1, true);
+		$time_operand2 = \App\Fields\DateTime::formatToDb($time_operand2, true);
 
 		//to give the difference if it is only time field
 		if (empty($time_operand1) && empty($time_operand2)) {
