@@ -56,17 +56,17 @@ class IcalendarParameter
 			// These have enumerated legal values
 			case 'CUTYPE':
 				$value = strtoupper($value);
-				return ($value == 'INDIVIDUAL' || $value == 'GROUP' || $value == 'RESOURCE' || $value == 'ROOM' || $value == 'UNKNOWN' || rfc2445_is_xname($value));
+				return ($value == 'INDIVIDUAL' || $value == 'GROUP' || $value == 'RESOURCE' || $value == 'ROOM' || $value == 'UNKNOWN' || \ICalendarRfc::rfc2445_is_xname($value));
 				break;
 
 			case 'ENCODING':
 				$value = strtoupper($value);
-				return ($value == '8BIT' || $value == 'BASE64' || rfc2445_is_xname($value));
+				return ($value == '8BIT' || $value == 'BASE64' || \ICalendarRfc::rfc2445_is_xname($value));
 				break;
 
 			case 'FBTYPE':
 				$value = strtoupper($value);
-				return ($value == 'FREE' || $value == 'BUSY' || $value == 'BUSY-UNAVAILABLE' || $value == 'BUSY-TENTATIVE' || rfc2445_is_xname($value));
+				return ($value == 'FREE' || $value == 'BUSY' || $value == 'BUSY-UNAVAILABLE' || $value == 'BUSY-TENTATIVE' || \ICalendarRfc::rfc2445_is_xname($value));
 				break;
 
 			case 'FMTTYPE':
@@ -98,7 +98,7 @@ class IcalendarParameter
 					'VIDEO' => ['MPEG', 'QUICKTIME', 'VND.VIVO', 'VND.MOTOROLA.VIDEO', 'VND.MOTOROLA.VIDEOP']
 				];
 				$value = strtoupper($value);
-				if (rfc2445_is_xname($value)) {
+				if (\ICalendarRfc::rfc2445_is_xname($value)) {
 					return true;
 				}
 				list($type, $subtype) = explode('/', $value);
@@ -129,13 +129,13 @@ class IcalendarParameter
 				$value = strtoupper($value);
 				switch ($parent_property->parent_component) {
 					case 'VEVENT':
-						return ($value == 'NEEDS-ACTION' || $value == 'ACCEPTED' || $value == 'DECLINED' || $value == 'TENTATIVE' || $value == 'DELEGATED' || rfc2445_is_xname($value));
+						return ($value == 'NEEDS-ACTION' || $value == 'ACCEPTED' || $value == 'DECLINED' || $value == 'TENTATIVE' || $value == 'DELEGATED' || \ICalendarRfc::rfc2445_is_xname($value));
 						break;
 					case 'VTODO':
-						return ($value == 'NEEDS-ACTION' || $value == 'ACCEPTED' || $value == 'DECLINED' || $value == 'TENTATIVE' || $value == 'DELEGATED' || $value == 'COMPLETED' || $value == 'IN-PROCESS' || rfc2445_is_xname($value));
+						return ($value == 'NEEDS-ACTION' || $value == 'ACCEPTED' || $value == 'DECLINED' || $value == 'TENTATIVE' || $value == 'DELEGATED' || $value == 'COMPLETED' || $value == 'IN-PROCESS' || \ICalendarRfc::rfc2445_is_xname($value));
 						break;
 					case 'VJOURNAL':
-						return ($value == 'NEEDS-ACTION' || $value == 'ACCEPTED' || $value == 'DECLINED' || rfc2445_is_xname($value));
+						return ($value == 'NEEDS-ACTION' || $value == 'ACCEPTED' || $value == 'DECLINED' || \ICalendarRfc::rfc2445_is_xname($value));
 						break;
 				}
 				return false;
@@ -153,12 +153,12 @@ class IcalendarParameter
 
 			case 'RELTYPE':
 				$value = strtoupper($value);
-				return ($value == 'PARENT' || $value == 'CHILD' || $value == 'SIBLING' || rfc2445_is_xname($value));
+				return ($value == 'PARENT' || $value == 'CHILD' || $value == 'SIBLING' || \ICalendarRfc::rfc2445_is_xname($value));
 				break;
 
 			case 'ROLE':
 				$value = strtoupper($value);
-				return ($value == 'CHAIR' || $value == 'REQ-PARTICIPANT' || $value == 'OPT-PARTICIPANT' || $value == 'NON-PARTICIPANT' || rfc2445_is_xname($value));
+				return ($value == 'CHAIR' || $value == 'REQ-PARTICIPANT' || $value == 'OPT-PARTICIPANT' || $value == 'NON-PARTICIPANT' || \ICalendarRfc::rfc2445_is_xname($value));
 				break;
 
 			case 'RSVP':
@@ -178,7 +178,7 @@ class IcalendarParameter
 				return ($value == 'BINARY' || $value == 'BOOLEAN' || $value == 'CAL-ADDRESS' || $value == 'DATE' ||
 					$value == 'DATE-TIME' || $value == 'DURATION' || $value == 'FLOAT' || $value == 'INTEGER' ||
 					$value == 'PERIOD' || $value == 'RECUR' || $value == 'TEXT' || $value == 'TIME' ||
-					$value == 'URI' || $value == 'UTC-OFFSET' || rfc2445_is_xname($value));
+					$value == 'URI' || $value == 'UTC-OFFSET' || \ICalendarRfc::rfc2445_is_xname($value));
 				break;
 		}
 	}
