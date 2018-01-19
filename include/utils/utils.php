@@ -348,15 +348,3 @@ function getValidDBInsertDateTimeValue($value)
 		return getValidDBInsertDateValue($value);
 	}
 }
-
-//Get the User selected NumberOfCurrencyDecimals
-function getCurrencyDecimalPlaces()
-{
-	$current_user = vglobal('current_user');
-	$currency_decimal_places = $current_user->no_of_currency_decimals;
-	if (isset($currency_decimal_places)) {
-		return $currency_decimal_places;
-	} else {
-		return 2;
-	}
-}
