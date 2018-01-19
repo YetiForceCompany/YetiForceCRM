@@ -266,7 +266,7 @@ class OSSPasswords extends CRMEntity
 		$displayLabel = 'OSSPassword Configuration';
 
 		if ($registerLink) {
-			Settings_Vtiger_Module_Model::addSettingsField('LBL_OTHER_SETTINGS', [
+			Settings_Vtiger_Module_Model::addSettingsField('LBL_SECURITY_MANAGEMENT', [
 				'name' => $displayLabel,
 				'iconpath' => 'adminIcon-passwords-encryption',
 				'description' => 'LBL_OSSPASSWORD_CONFIGURATION_DESCRIPTION',
