@@ -497,14 +497,14 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	 * Get deny URLs
 	 * @return array
 	 */
-	public static function getDenyUrls()
+	public static function getDenyPublicDirState()
 	{
-		$webRoot = 'http://' . ($_SERVER["HTTP_HOST"] ?: $_SERVER['SERVER_NAME']) . '/';
-		$denyUrls = [
-			($url = $webRoot . 'cache') => !\App\Fields\File::isDenyUrl($url),
-			($url = $webRoot . 'storage') => !\App\Fields\File::isDenyUrl($url),
+		$baseUrl = \App\RequestUtil::getBaseUrl();
+		$denyPublicDirState = [
+			($dir = '/cache') => \App\Fields\File::isExistsUrl($baseUrl . $dir),
+			($dir = '/storage') => \App\Fields\File::isExistsUrl($baseUrl . $dir),
 		];
-		return $denyUrls;
+		return $denyPublicDirState;
 	}
 
 	/**

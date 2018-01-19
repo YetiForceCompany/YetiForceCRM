@@ -127,9 +127,9 @@ $languageStrings = [
 	'LBL_DB_SERVER_VERSION' => 'Wersja silnika',
 	'LBL_DB_CONNECTION_STATUS' => 'Status połączenia',
 	'LBL_DB_SERVER_INFO' => 'Informacje o serwerze',
-	'LBL_DENY_URL_TITLE' => 'Informacje o zablokowanych adresach URL',
-	'LBL_URL' => 'URL',
-	'LBL_DENY_URL_STATUS' => 'Czy zablokowany dostęp?',
+	'LBL_DENY_PUBLIC_DIR_TITLE' => 'Weryfikacja uprawnień do katalogów',
+	'LBL_PUBLIC_DIR' => 'Ścieżka do katalogu',
+	'LBL_DENY_PUBLIC_DIR_STATUS' => 'Czy zablokowany dostęp?',
 ];
 $jsLanguageStrings = [
 	'JS_SPEED_TEST_START' => 'Trwa sprawdzanie szybkości...',

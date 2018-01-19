@@ -163,20 +163,20 @@
 						<thead>
 							<tr class="blockHeader">
 								<th colspan="2" class="mediumWidthType">
-									{App\Language::translate('LBL_DENY_URL_TITLE', $MODULE)}
+									{App\Language::translate('LBL_DENY_PUBLIC_DIR_TITLE', $MODULE)}
 								</th>
 							</tr>
 							<tr class="blockHeader">
 								<th colspan="1" class="mediumWidthType">
-									<span>{App\Language::translate('LBL_URL', $MODULE)}</span>
+									<span>{App\Language::translate('LBL_PUBLIC_DIR', $MODULE)}</span>
 								</th>
 								<th colspan="1" class="mediumWidthType">
-									<span>{App\Language::translate('LBL_DENY_URL_STATUS', $MODULE)}</span>
+									<span>{App\Language::translate('LBL_DENY_PUBLIC_DIR_STATUS', $MODULE)}</span>
 								</th>
 							</tr>
 						</thead>
 						<tbody>
-							{foreach from=Settings_ConfReport_Module_Model::getDenyUrls() key=key item=item}
+							{foreach from=Settings_ConfReport_Module_Model::getDenyPublicDirState() key=key item=item}
 								<tr {if $item}class="danger"{/if}>
 									<td><label>{$key}</label></td>
 									<td>
