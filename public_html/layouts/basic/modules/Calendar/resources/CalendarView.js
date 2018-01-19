@@ -63,18 +63,8 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	weekDaysArray: {Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6},
 	renderCalendar: function () {
 		var thisInstance = this;
-
-		var eventLimit = app.getMainParams('eventLimit');
-		if (eventLimit == 'true') {
-			eventLimit = true;
-		} else if (eventLimit == 'false') {
-			eventLimit = false;
-		} else {
-			eventLimit = parseInt(eventLimit) + 1;
-		}
 		var weekView = app.getMainParams('weekView');
 		var dayView = app.getMainParams('dayView');
-
 		//User preferred default view
 		var userDefaultActivityView = app.getMainParams('activity_view');
 		if (userDefaultActivityView == 'Today') {
@@ -88,7 +78,6 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		if (defaultView != null) {
 			userDefaultActivityView = defaultView;
 		}
-
 		//Default time format
 		var userDefaultTimeFormat = app.getMainParams('time_format');
 		if (userDefaultTimeFormat == 24) {
@@ -96,11 +85,9 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		} else {
 			userDefaultTimeFormat = 'h:mmt';
 		}
-
 		//Default first day of the week
 		var defaultFirstDay = app.getMainParams('start_day');
 		var convertedFirstDay = thisInstance.weekDaysArray[defaultFirstDay];
-
 		//Default first hour of the day
 		var defaultFirstHour = app.getMainParams('start_hour') + ':00';
 		var hiddenDays = [];
@@ -123,11 +110,11 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			defaultEventMinutes: 0,
 			forceEventDuration: true,
 			defaultTimedEventDuration: '01:00:00',
-			eventLimit: eventLimit,
+			eventLimit: true,
 			selectable: true,
 			selectHelper: true,
 			hiddenDays: hiddenDays,
-			height: 'auto',
+			height: ($(window).height() - 220),
 			views: {
 				basic: {
 					eventLimit: false,
@@ -164,7 +151,6 @@ jQuery.Class("Calendar_CalendarView_Js", {
 							'<div><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> <label>' + app.vtranslate('JS_VISIBILITY') + '</label>: ' + app.vtranslate('JS_' + event.vis) + '</div>' +
 							(event.smownerid ? '<div><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
 				});
-
 			},
 			eventClick: function (calEvent, jsEvent, view) {
 				jsEvent.preventDefault();
