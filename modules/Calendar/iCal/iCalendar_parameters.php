@@ -37,7 +37,7 @@ class IcalendarParameter
 			// These must all be a URI
 			case 'ALTREP':
 			case 'DIR':
-				return rfc2445_is_valid_value($value, RFC2445_TYPE_URI);
+				return \ICalendarRfc::rfc2445_is_valid_value($value, RFC2445_TYPE_URI);
 				break;
 
 			// These must be CAL-ADDRESS, which is equivalent to URI
@@ -45,7 +45,7 @@ class IcalendarParameter
 			case 'DELEGATED-TO':
 			case 'MEMBER':
 			case 'SENT-BY':
-				return rfc2445_is_valid_value($value, RFC2445_TYPE_CAL_ADDRESS);
+				return \ICalendarRfc::rfc2445_is_valid_value($value, RFC2445_TYPE_CAL_ADDRESS);
 				break;
 
 			// These are textual parameters, so the MUST NOT contain double quotes
