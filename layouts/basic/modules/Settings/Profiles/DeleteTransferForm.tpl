@@ -10,9 +10,9 @@
 ********************************************************************************/
 -->*}
 {strip}
-<div class="modelContainer modal fade" tabindex="-1">
-	<div class="modal-dialog">
-		<div class="modal-content">
+	<div class="modelContainer modal fade" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
 				<div class="modal-header">
 					<button class="close vtButton" data-dismiss="modal">×</button>
 					<h3 class="modal-title">{\App\Language::translate('LBL_DELETE_PROFILE', $QUALIFIED_MODULE)} - {$RECORD_MODEL->getName()}</h3>
@@ -47,7 +47,7 @@
 						<button class="btn btn-success pull-right" type="submit">{\App\Language::translate('LBL_SAVE', $MODULE)}</button>
 					</div>
 				</form>
+			</div>				
 		</div>				
 	</div>				
-</div>				
 {/strip}

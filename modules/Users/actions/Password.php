@@ -69,6 +69,7 @@ class Users_Password_Action extends Vtiger_Action_Controller
 		$moduleName = $request->getModule();
 		$password = \App\Encryption::generateUserPassword();
 		$userRecordModel = Users_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
+		$userRecordModel->set('changeUserPassword', true);
 		$userRecordModel->set('user_password', $password);
 		$userRecordModel->set('date_password_change', date('Y-m-d H:i:s'));
 		$userRecordModel->set('force_password_change', 0);
@@ -103,7 +104,8 @@ class Users_Password_Action extends Vtiger_Action_Controller
 		} elseif (!$isOtherUser && !$userRecordModel->verifyPassword($request->getRaw('oldPassword'))) {
 			$response->setResult(['procesStop' => true, 'notify' => ['text' => \App\Language::translate('LBL_INCORRECT_OLD_PASSWORD', 'Users'), 'type' => 'error']]);
 		} else {
-			$userRecordModel->set('user_password', $request->getRaw('password'));
+			$userRecordModel->set('changeUserPassword', true);
+			$userRecordModel->set('user_password', $password);
 			$userRecordModel->set('date_password_change', date('Y-m-d H:i:s'));
 			$userRecordModel->set('force_password_change', $isOtherUser ? 1 : 0);
 			try {
@@ -130,6 +132,7 @@ class Users_Password_Action extends Vtiger_Action_Controller
 		foreach ($recordsList as $userId) {
 			$password = \App\Encryption::generateUserPassword();
 			$userRecordModel = Users_Record_Model::getInstanceById($userId, $moduleName);
+			$userRecordModel->set('changeUserPassword', true);
 			$userRecordModel->set('user_password', $password);
 			$userRecordModel->set('date_password_change', date('Y-m-d H:i:s'));
 			$userRecordModel->set('force_password_change', 0);

@@ -116,26 +116,6 @@ function generateQuestionMarks($items_list)
 	}
 }
 
-/** Function to get on clause criteria for duplicate check queries */
-function get_on_clause($field_list)
-{
-	$field_array = explode(',', $field_list);
-	$ret_str = '';
-	$i = 1;
-	foreach ($field_array as $fld) {
-		$sub_arr = explode('.', $fld);
-		$tbl_name = $sub_arr[0];
-		$col_name = $sub_arr[1];
-
-		$ret_str .= " ifnull($tbl_name.$col_name,'null') = ifnull(temp.$col_name,'null')";
-
-		if (count($field_array) != $i)
-			$ret_str .= " and ";
-		$i++;
-	}
-	return $ret_str;
-}
-
 //functions for asterisk integration end
 
 /* Function to get the related tables data
