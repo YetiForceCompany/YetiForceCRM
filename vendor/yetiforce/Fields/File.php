@@ -754,4 +754,15 @@ class File
 		}
 		return false;
 	}
+
+	/**
+	 * Check if give URL is denied
+	 * @param string $url
+	 * @return boolean
+	 */
+	public static function isDenyUrl($url)
+	{
+		$request = \Requests::get($url);
+		return $request->status_code !== 200;
+	}
 }
