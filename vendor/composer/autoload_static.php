@@ -221,6 +221,8 @@ class ComposerStaticInitYT
 	];
 	public static $classMap = [
 		'EasyPeasyICS' => __DIR__ . '/..' . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',
+		'Feed' => __DIR__ . '/..' . '/dg/rss-php/src/Feed.php',
+		'FeedException' => __DIR__ . '/..' . '/dg/rss-php/src/Feed.php',
 		'PHPMailer' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmailer.php',
 		'PHPMailerOAuth' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmaileroauth.php',
 		'PHPMailerOAuthGoogle' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmaileroauthgoogle.php',
