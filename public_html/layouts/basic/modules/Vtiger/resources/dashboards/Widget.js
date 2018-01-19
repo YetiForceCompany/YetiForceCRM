@@ -1445,15 +1445,15 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 			allDayText: app.vtranslate('JS_ALL_DAY'),
 			eventLimitText: app.vtranslate('JS_MORE'),
 			eventRender: function (event, element, view) {
-				var addHtml = '<div class="cell-calendar">';
+				element = '<div class="cell-calendar">';
 				for (var key in event.event) {
-					addHtml += '<a class="" href="javascript:;"' +
+					element += '<a class="" href="javascript:;"' +
 							' data-date="' + event.date + '"' + ' data-type="' + key + '" title="' + event.event[key].label + '">' +
 							'<span class="' + event.event[key].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge">' + event.event[key].count + '</span>' +
 							'</a>\n';
 				}
-				addHtml += '</div>';
-				return addHtml;
+				element += '</div>';
+				return element;
 			}
 		});
 		thisInstance.getCalendarView().find("td.fc-day-top")
@@ -1475,7 +1475,7 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		});
 		var switchBtn = container.find('.switchBtn');
 		app.showBtnSwitch(switchBtn);
-
+		
 		switchBtn.on('switchChange.bootstrapSwitch', function (e, state) {
 			if (state)
 				container.find('.widgetFilterSwitch').val('current');
@@ -1483,19 +1483,6 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				container.find('.widgetFilterSwitch').val('history');
 			thisInstance.refreshWidget();
 		})
-
-
-		if (event.type == 'widget') { //Calendar widget
-			var addHtml = '';
-			addHtml = '<div class="cell-calendar">';
-			for (var i in event.event) {
-				addHtml += '<a class="" href="javascript:;"' +
-						' data-date="' + event.date + '"' + ' data-type="' + i + '" title="' + event.event[i].label + '">' +
-						'<span class="' + event.event[i].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge">' + event.event[i].count + '</span>' +
-						'</a>\n';
-			}
-			addHtml += '</div>';
-		}
 	},
 	loadCalendarData: function (allEvents) {
 		var thisInstance = this;
