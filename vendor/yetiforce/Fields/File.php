@@ -770,7 +770,6 @@ class File
 				\App\Log::error('Checked URL is not allowed: ' . $url . ' | Status code: ' . $response->status_code, __CLASS__);
 				return false;
 			}
-			$content = $response->body;
 		} catch (\Exception $exc) {
 			\App\Log::error('Checked URL is not allowed: ' . $url . ' | ' . $exc->getMessage(), __CLASS__);
 			return false;
