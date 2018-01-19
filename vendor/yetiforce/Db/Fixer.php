@@ -45,12 +45,12 @@ class Fixer
 		\App\Log::trace('Entering ' . __METHOD__);
 		$profileIds = \vtlib\Profile::getAllIds();
 		$dbCommand = \App\Db::getInstance()->createCommand();
-		$subQuery = (new \App\Db\Query())->select(['fieldid'])->from('vtiger_profile2field');
-		$query = (new \App\Db\Query())->select(['tabid', 'fieldid'])->from('vtiger_field')->where(['not in', 'vtiger_field.fieldid', $subQuery]);
-		$data = $query->createCommand()->queryAllByGroup(2);
-		foreach ($data as $tabId => $fieldIds) {
-			foreach ($fieldIds as $fieldId) {
-				foreach ($profileIds as $profileId) {
+		foreach ($profileIds as $profileId) {
+			$subQuery = (new \App\Db\Query())->select(['fieldid'])->from('vtiger_profile2field')->where(['profileid' => $profileId]);
+			$query = (new \App\Db\Query())->select(['tabid', 'fieldid'])->from('vtiger_field')->where(['not in', 'vtiger_field.fieldid', $subQuery]);
+			$data = $query->createCommand()->queryAllByGroup(2);
+			foreach ($data as $tabId => $fieldIds) {
+				foreach ($fieldIds as $fieldId) {
 					$isExists = (new \App\Db\Query())->from('vtiger_profile2field')->where(['profileid' => $profileId, 'fieldid' => $fieldId])->exists();
 					if (!$isExists) {
 						$dbCommand->insert('vtiger_profile2field', ['profileid' => $profileId, 'tabid' => $tabId, 'fieldid' => $fieldId, 'visible' => 0, 'readonly' => 0])->execute();
