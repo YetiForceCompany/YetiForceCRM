@@ -136,11 +136,11 @@ class IcalendarProperty
 			// This transparently formats any value type according to the iCalendar specs
 			if (is_array($value)) {
 				foreach ($value as $key => $item) {
-					$value[$key] = rfc2445_do_value_formatting($item, $this->val_type);
+					$value[$key] = \ICalendarRfc::rfc2445_do_value_formatting($item, $this->val_type);
 				}
 				$this->value = implode(',', $value);
 			} else {
-				$this->value = rfc2445_do_value_formatting($value, $this->val_type);
+				$this->value = \ICalendarRfc::rfc2445_do_value_formatting($value, $this->val_type);
 			}
 
 			return true;
