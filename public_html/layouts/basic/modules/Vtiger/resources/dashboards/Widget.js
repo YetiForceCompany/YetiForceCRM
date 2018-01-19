@@ -790,7 +790,6 @@ Vtiger_Widget_Js('Vtiger_Bardivided_Widget_Js', {}, {
 			series[index] = {label: value};
 		});
 		if (data['chartData'].length > 0) {
-			console.log(data);
 			this.chartInstance = this.getPlotContainer(false).jqplot(data['chartData'], {
 				stackSeries: true,
 				captureRightClick: true,
@@ -1444,10 +1443,20 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				day: app.vtranslate('JS_DAY')
 			},
 			allDayText: app.vtranslate('JS_ALL_DAY'),
-			eventLimitText: app.vtranslate('JS_MORE')
+			eventLimitText: app.vtranslate('JS_MORE'),
+			eventRender: function (event, element, view) {
+				var addHtml = '<div class="cell-calendar">';
+				for (var key in event.event) {
+					addHtml += '<a class="" href="javascript:;"' +
+							' data-date="' + event.date + '"' + ' data-type="' + key + '" title="' + event.event[key].label + '">' +
+							'<span class="' + event.event[key].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge">' + event.event[key].count + '</span>' +
+							'</a>\n';
+				}
+				addHtml += '</div>';
+				return addHtml;
+			}
 		});
-
-		thisInstance.getCalendarView().find("td.fc-day-number")
+		thisInstance.getCalendarView().find("td.fc-day-top")
 				.mouseenter(function () {
 					jQuery('<span class="plus pull-left glyphicon glyphicon-plus"></span>')
 							.prependTo($(this))
@@ -1455,7 +1464,7 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 			$(this).find(".plus").remove();
 		});
 
-		thisInstance.getCalendarView().find("td.fc-day-number").click(function () {
+		thisInstance.getCalendarView().find("td.fc-day-top").click(function () {
 			var date = $(this).data('date');
 			var params = {noCache: true};
 			params.data = {date_start: date, due_date: date};
@@ -1474,6 +1483,19 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				container.find('.widgetFilterSwitch').val('history');
 			thisInstance.refreshWidget();
 		})
+
+
+		if (event.type == 'widget') { //Calendar widget
+			var addHtml = '';
+			addHtml = '<div class="cell-calendar">';
+			for (var i in event.event) {
+				addHtml += '<a class="" href="javascript:;"' +
+						' data-date="' + event.date + '"' + ' data-type="' + i + '" title="' + event.event[i].label + '">' +
+						'<span class="' + event.event[i].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge">' + event.event[i].count + '</span>' +
+						'</a>\n';
+			}
+			addHtml += '</div>';
+		}
 	},
 	loadCalendarData: function (allEvents) {
 		var thisInstance = this;
@@ -1509,7 +1531,6 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 			var paramCache = {owner: user, customFilter: customFilter, start: start_date};
 			thisInstance.setFilterToCache(url, paramCache);
 		}
-
 		AppConnector.request(params).then(function (events) {
 			var height = (thisInstance.getCalendarView().find('.fc-bg :first').height() - thisInstance.getCalendarView().find('.fc-day-number').height()) - 10;
 			var width = (thisInstance.getCalendarView().find('.fc-day-number').width() / 2) - 10;
@@ -1520,7 +1541,7 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 			thisInstance.getCalendarView().fullCalendar('addEventSource',
 					events.result
 					);
-			thisInstance.getCalendarView().find(".fc-event-container a").click(function () {
+			thisInstance.getCalendarView().find(".cell-calendar a").click(function () {
 				var container = thisInstance.getContainer();
 				var url = 'index.php?module=Calendar&view=List';
 				if (customFilter) {
