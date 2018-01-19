@@ -158,6 +158,40 @@
 							{/foreach}
 						</tbody>
 					</table>
+					<br>
+					<table class="table table-bordered table-condensed themeTableColor confTable">
+						<thead>
+							<tr class="blockHeader">
+								<th colspan="2" class="mediumWidthType">
+									{App\Language::translate('LBL_DENY_URL_TITLE', $MODULE)}
+								</th>
+							</tr>
+							<tr class="blockHeader">
+								<th colspan="1" class="mediumWidthType">
+									<span>{App\Language::translate('LBL_URL', $MODULE)}</span>
+								</th>
+								<th colspan="1" class="mediumWidthType">
+									<span>{App\Language::translate('LBL_DENY_URL_STATUS', $MODULE)}</span>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{foreach from=Settings_ConfReport_Module_Model::getDenyUrls() key=key item=item}
+								<tr {if $item}class="danger"{/if}>
+									<td><label>{$key}</label></td>
+									<td>
+										<label>
+										{if $item}
+											{App\Language::translate('LBL_NO', $MODULE)}
+										{else}
+											{App\Language::translate('LBL_YES', $MODULE)}
+										{/if}
+										</label>
+									</td>
+								</tr>
+							{/foreach}
+						</tbody>
+					</table>
 				</div>
 				<div class="col-md-8">
 					<br />
