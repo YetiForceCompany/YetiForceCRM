@@ -699,14 +699,14 @@ class ReportRun extends CRMEntity
 									if ($type == 'DT') {
 										$userStartDate = $userStartDate . ' 00:00:00';
 									}
-									$startDateTime = getValidDBInsertDateTimeValue($userStartDate);
+									$startDateTime = \App\Fields\DateTime::formatToDb($userStartDate);
 
 									$endDateTime = new DateTimeField($endDate . ' ' . date('H:i:s'));
 									$userEndDate = $endDateTime->getDisplayDate();
 									if ($type == 'DT') {
 										$userEndDate = $userEndDate . ' 23:59:59';
 									}
-									$endDateTime = getValidDBInsertDateTimeValue($userEndDate);
+									$endDateTime = \App\Fields\DateTime::formatToDb($userEndDate);
 
 									if ($selectedFields[1] == 'birthday') {
 										$tableColumnSql = 'DATE_FORMAT(' . $selectedFields[0] . '.' . $selectedFields[1] . ', "%m%d")';
@@ -755,8 +755,8 @@ class ReportRun extends CRMEntity
 									$tempDate = strtotime($date2) - 1;
 									$date2 = date('Y-m-d H:i:s', $tempDate);
 
-									$start = getValidDBInsertDateTimeValue($date1);
-									$end = getValidDBInsertDateTimeValue($date2);
+									$start = \App\Fields\DateTime::formatToDb($date1);
+									$end = \App\Fields\DateTime::formatToDb($date2);
 									$start = "'$start'";
 									$end = "'$end'";
 									if ($comparator == 'e')
@@ -771,12 +771,12 @@ class ReportRun extends CRMEntity
 									$startDateTime = new DateTimeField($startDateTime[0] . ' ' . date('H:i:s'));
 									$userStartDate = $startDateTime->getDisplayDate();
 									$userStartDate = $userStartDate . ' 00:00:00';
-									$start = getValidDBInsertDateTimeValue($userStartDate);
+									$start = \App\Fields\DateTime::formatToDb($userStartDate);
 
 									$endDateTime = new DateTimeField($endDateTime[0] . ' ' . date('H:i:s'));
 									$userEndDate = $endDateTime->getDisplayDate();
 									$userEndDate = $userEndDate . ' 23:59:59';
-									$end = getValidDBInsertDateTimeValue($userEndDate);
+									$end = \App\Fields\DateTime::formatToDb($userEndDate);
 
 									$advfiltergroupsql .= "$tableColumnSql BETWEEN '$start' AND '$end'";
 								} else if ($comparator == 'a' || $comparator == 'b') {
@@ -787,13 +787,13 @@ class ReportRun extends CRMEntity
 										$nextday = $modifiedDate->format('Y-m-d H:i:s');
 										$temp = strtotime($nextday) - 1;
 										$date = date('Y-m-d H:i:s', $temp);
-										$value = getValidDBInsertDateTimeValue($date);
+										$value = \App\Fields\DateTime::formatToDb($date);
 										$advfiltergroupsql .= "$tableColumnSql > '$value'";
 									} else {
 										$prevday = $dateTime->format('Y-m-d H:i:s');
 										$temp = strtotime($prevday) - 1;
 										$date = date('Y-m-d H:i:s', $temp);
-										$value = getValidDBInsertDateTimeValue($date);
+										$value = \App\Fields\DateTime::formatToDb($date);
 										$advfiltergroupsql .= "$tableColumnSql < '$value'";
 									}
 								}
@@ -1112,14 +1112,14 @@ class ReportRun extends CRMEntity
 					if ($type == 'DT') {
 						$userStartDate = $userStartDate . ' 00:00:00';
 					}
-					$startDateTime = getValidDBInsertDateTimeValue($userStartDate);
+					$startDateTime = \App\Fields\DateTime::formatToDb($userStartDate);
 
 					$endDateTime = new DateTimeField($enddate . ' ' . date('H:i:s'));
 					$userEndDate = $endDateTime->getDisplayDate();
 					if ($type == 'DT') {
 						$userEndDate = $userEndDate . ' 23:59:00';
 					}
-					$endDateTime = getValidDBInsertDateTimeValue($userEndDate);
+					$endDateTime = \App\Fields\DateTime::formatToDb($userEndDate);
 
 					if ($selectedfields[1] == 'birthday') {
 						$tableColumnSql = "DATE_FORMAT(" . $selectedfields[0] . "." . $selectedfields[1] . ", '%m%d')";
