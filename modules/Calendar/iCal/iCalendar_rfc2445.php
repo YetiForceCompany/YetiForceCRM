@@ -648,7 +648,7 @@ class ICalendarRfc
 				}
 
 				foreach ($vars as $name => $var) {
-					if (!rfc2445_is_xname($name)) {
+					if (!static::rfc2445_is_xname($name)) {
 						return false;
 					}
 				}

@@ -157,7 +157,7 @@ class IcalendarProperty
 		// Are we trying to add a valid parameter?
 		if (!isset($this->valid_parameters[$name])) {
 			// If not, is it an x-name as per RFC 2445?
-			if (!rfc2445_is_xname($name)) {
+			if (!\ICalendarRfc::rfc2445_is_xname($name)) {
 				return false;
 			}
 			// No more checks -- all components are supposed to allow x-name parameters

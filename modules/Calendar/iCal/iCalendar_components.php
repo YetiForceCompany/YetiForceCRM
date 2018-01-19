@@ -48,7 +48,7 @@ class IcalendarComponent
 		$xname = false;
 		if (!isset($this->valid_properties[$name])) {
 			// If not, is it an x-name as per RFC 2445?
-			if (!rfc2445_is_xname($name)) {
+			if (!\ICalendarRfc::rfc2445_is_xname($name)) {
 				return false;
 			}
 			// Since this is an xname, all components are supposed to allow this property
