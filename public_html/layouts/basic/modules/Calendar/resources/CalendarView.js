@@ -62,7 +62,15 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	calendarCreateView: false,
 	weekDaysArray: {Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6},
 	renderCalendar: function () {
-		var thisInstance = this;
+		var thisInstance = this;		
+ 		var eventLimit = app.getMainParams('eventLimit');		
+ 		if (eventLimit == 'true') {		
+ 			eventLimit = true;		
+ 		} else if (eventLimit == 'false') {		
+ 			eventLimit = false;		
+ 		} else {		
+ 			eventLimit = parseInt(eventLimit) + 1;		
+ 		}
 		var weekView = app.getMainParams('weekView');
 		var dayView = app.getMainParams('dayView');
 		//User preferred default view
@@ -110,11 +118,11 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			defaultEventMinutes: 0,
 			forceEventDuration: true,
 			defaultTimedEventDuration: '01:00:00',
-			eventLimit: true,
+			eventLimit: eventLimit,
 			selectable: true,
 			selectHelper: true,
 			hiddenDays: hiddenDays,
-			height: ($(window).height() - 220),
+			height: ($(window).height() - 150),
 			views: {
 				basic: {
 					eventLimit: false,
