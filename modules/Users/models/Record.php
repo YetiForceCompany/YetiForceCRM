@@ -212,6 +212,9 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$this->setId(\App\Db::getInstance()->getUniqueID('vtiger_users'));
 			$forSave['vtiger_users']['date_entered'] = date('Y-m-d H:i:s');
 		}
+		if ($this->has('changeUserPassword') || $this->isNew()) {
+			$saveFields[] = 'user_password';
+		}
 		foreach ($saveFields as $fieldName) {
 			$fieldModel = $moduleModel->getFieldByName($fieldName);
 			if ($fieldModel) {
