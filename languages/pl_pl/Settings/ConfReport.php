@@ -126,7 +126,10 @@ $languageStrings = [
 	'LBL_DB_CLIENT_VERSION' => 'Wersja klienta',
 	'LBL_DB_SERVER_VERSION' => 'Wersja silnika',
 	'LBL_DB_CONNECTION_STATUS' => 'Status połączenia',
-	'LBL_DB_SERVER_INFO' => 'Infomracje o serwerze',
+	'LBL_DB_SERVER_INFO' => 'Informacje o serwerze',
+	'LBL_DENY_URL_TITLE' => 'Informacje o zablokowanych adresach URL',
+	'LBL_URL' => 'URL',
+	'LBL_DENY_URL_STATUS' => 'Czy zablokowany dostęp?',
 ];
 $jsLanguageStrings = [
 	'JS_SPEED_TEST_START' => 'Trwa sprawdzanie szybkości...',
