@@ -499,10 +499,10 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public static function getDenyPublicDirState()
 	{
-		$baseUrl = trim(\AppConfig::main('site_URL'), '/');
+		$baseUrl = \AppConfig::main('site_URL');
 		$denyPublicDirState = [
-			('/cache') => ['help' => 'LBL_DENY_PUBLIC_DIR_HELP_TEXT', 'status' => \App\Fields\File::isExistsUrl($baseUrl . '/cache')],
-			('/storage') => ['help' => 'LBL_DENY_PUBLIC_DIR_HELP_TEXT', 'status' => \App\Fields\File::isExistsUrl($baseUrl . '/storage')],
+			'cache/' => ['help' => 'LBL_DENY_PUBLIC_DIR_HELP_TEXT', 'status' => \App\Fields\File::isExistsUrl($baseUrl . 'cache')],
+			'storage/' => ['help' => 'LBL_DENY_PUBLIC_DIR_HELP_TEXT', 'status' => \App\Fields\File::isExistsUrl($baseUrl . 'storage')],
 		];
 		return $denyPublicDirState;
 	}
