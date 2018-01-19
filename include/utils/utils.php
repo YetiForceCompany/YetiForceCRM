@@ -323,28 +323,3 @@ function getValidDBInsertDateValue($value)
 	\App\Log::trace("Exiting getValidDBInsertDateValue method ...");
 	return $insert_date;
 }
-
-function getValidDBInsertDateTimeValue($value)
-{
-	$value = trim($value);
-	$valueList = explode(' ', $value);
-	if (count($valueList) == 2) {
-		$dbDateValue = getValidDBInsertDateValue($valueList[0]);
-		$dbTimeValue = $valueList[1];
-		if (!empty($dbTimeValue) && strpos($dbTimeValue, ':') === false) {
-			$dbTimeValue = $dbTimeValue . ':';
-		}
-		$timeValueLength = strlen($dbTimeValue);
-		if (!empty($dbTimeValue) && strrpos($dbTimeValue, ':') == ($timeValueLength - 1)) {
-			$dbTimeValue = $dbTimeValue . '00';
-		}
-		try {
-			$dateTime = new DateTimeField($dbDateValue . ' ' . $dbTimeValue);
-			return $dateTime->getDBInsertDateTimeValue();
-		} catch (Exception $ex) {
-			return '';
-		}
-	} elseif (count($valueList == 1)) {
-		return getValidDBInsertDateValue($value);
-	}
-}
