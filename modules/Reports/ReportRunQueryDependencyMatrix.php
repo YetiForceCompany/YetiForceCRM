@@ -17,7 +17,6 @@ class ReportRunQueryDependencyMatrix
 
 	public function setDependency($table, array $dependents)
 	{
-		var_dump($table);
 		$this->matrix[$table] = $dependents;
 	}
 
