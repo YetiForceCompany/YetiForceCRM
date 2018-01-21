@@ -200,25 +200,6 @@ class Users_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * @return an array with the list of languages which are available in source
-	 */
-	public static function getLanguagesList()
-	{
-		$adb = PearDatabase::getInstance();
-
-		$language_query = 'SELECT prefix, label FROM vtiger_language';
-		$result = $adb->query($language_query);
-		$numRows = $adb->numRows($result);
-		for ($i = 0; $i < $numRows; $i++) {
-			$lang_prefix = App\Purifier::decodeHtml($adb->queryResult($result, $i, 'prefix'));
-			$label = App\Purifier::decodeHtml($adb->queryResult($result, $i, 'label'));
-			$languages[$lang_prefix] = $label;
-		}
-		asort($languages);
-		return $languages;
-	}
-
-	/**
 	 * Get switch users
 	 * @param boolean $showRole
 	 * @return array
