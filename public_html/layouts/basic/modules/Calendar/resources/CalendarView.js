@@ -375,10 +375,13 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		});
 	},
 	addCalendarEvent: function (calendarDetails) {
+		var thisInstance = this;
 		if ($.inArray(calendarDetails.assigned_user_id.value, $("#calendarUserList").val()) < 0 && $.inArray(calendarDetails.assigned_user_id.value, $("#calendarGroupList").val()) < 0) {
 			return;
-		}
-		if ($.inArray(calendarDetails.activitytype.value, $("#calendarActivityTypeList").val()) < 0) {
+		}		
+		var types = [];
+		types = thisInstance.getValuesFromSelect2($("#calendarActivityTypeList"), types);
+		if (types.length != 0 && $.inArray(calendarDetails.activitytype.value, $("#calendarActivityTypeList").val()) < 0) {
 			return;
 		}
 		var state = $('.fc-toolbar input.switchBtn').bootstrapSwitch('state');
