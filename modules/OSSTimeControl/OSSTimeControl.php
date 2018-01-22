@@ -93,7 +93,7 @@ class OSSTimeControl extends Vtiger_CRMEntity
 	public function moduleHandler($modulename, $eventType)
 	{
 		if ($eventType === 'module.postinstall') {
-			\App\Db::getInstance()->createCommand()->update('vtiger_field', ['summaryfield' => 1], ['tabid' => \App\Module::getModuleId($modulename), 'columnname' => ['name', 'osstimecontrol_no', 'osstimecontrol_status', 'smownerid', 'date_start', 'time_start', 'time_end', 'due_date', 'sum_time', 'platnosc']])->execute();
+			\App\Db::getInstance()->createCommand()->update('vtiger_field', ['summaryfield' => 1], ['tabid' => \App\Module::getModuleId($modulename), 'columnname' => ['name', 'osstimecontrol_no', 'osstimecontrol_status', 'smownerid', 'date_start', 'time_start', 'time_end', 'due_date', 'sum_time']])->execute();
 			\App\Fields\RecordNumber::setNumber($modulename, 'TC', '1');
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
