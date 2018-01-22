@@ -92,7 +92,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 			defaultTimedEventDuration: '01:00:00',
 			eventLimit: eventLimit,
 			allDaySlot: false,
-			height: 'auto',
+			height: ($(window).width() > 993) ? ($(window).height() - 135) : 'auto',
 			views: {
 				basic: {
 					eventLimit: false,
@@ -367,20 +367,11 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 			thisInstance.loadCalendarData();
 		});
 	},
-	registerCalendarScroll: function () {
-		var calendarContainer = $('.bodyContents');
-		app.showScrollBar(calendarContainer, {
-			railVisible: true,
-			alwaysVisible: true,
-			position: 'left'
-		});
-	},
 	registerEvents: function () {
 		this.registerCalendar();
 		this.loadCalendarData(true);
 		this.registerChangeView();
 		this.registerButtonSelectAll();
 		this.registerRefreshEvent();
-		this.registerCalendarScroll();
 	}
 });

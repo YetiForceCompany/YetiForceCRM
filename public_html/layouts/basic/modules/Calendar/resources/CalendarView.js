@@ -122,7 +122,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			selectable: true,
 			selectHelper: true,
 			hiddenDays: hiddenDays,
-			height: ($(window).width() > 993) ? ($(window).height() - 205) : 'auto',
+			height: ($(window).width() > 993) ? ($(window).height() - 135) : 'auto',
 			views: {
 				basic: {
 					eventLimit: false,
@@ -251,6 +251,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		if (types.length == 0) {
 			allEvents = true;
 		}
+		window.console.log(types);
 		var user = [];
 		user = thisInstance.getValuesFromSelect2($("#calendarUserList"), user);
 		if (user.length == 0) {
