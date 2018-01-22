@@ -186,18 +186,17 @@ class Products extends CRMEntity
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
+	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-
-		if (empty($return_module) || empty($return_id))
+		if (empty($returnModule) || empty($returnId)) {
 			return;
-		if ($return_module === 'Leads' || $return_module === 'Accounts') {
-			App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['productid' => $id, 'crmid' => $return_id])->execute();
-		} elseif ($return_module == 'Vendors') {
-			$sql = 'UPDATE vtiger_products SET vendor_id = ? WHERE productid = ?';
-			$this->db->pquery($sql, [null, $id]);
+		}
+		if ($returnModule === 'Leads' || $returnModule === 'Accounts') {
+			App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['productid' => $id, 'crmid' => $returnId])->execute();
+		} elseif ($returnModule === 'Vendors') {
+			App\Db::getInstance()->createCommand()->update('vtiger_products', ['vendor_id' => null], ['productid' => $id])->execute();
 		} else {
-			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
+			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
 		}
 	}
 
