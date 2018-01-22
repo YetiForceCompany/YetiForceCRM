@@ -595,7 +595,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 
 				var form = data.find('.createCustomFieldForm');
 				form.attr('id', 'createFieldForm');
-				var select2params = {tags: [], tokenSeparators: [","]}
+				var select2params = {tags: [], tokenSeparators: [",", " "]}
 				app.showSelect2ElementView(form.find('[name="pickListValues"]'), select2params);
 
 				thisInstance.registerFieldTypeChangeEvent(form);
