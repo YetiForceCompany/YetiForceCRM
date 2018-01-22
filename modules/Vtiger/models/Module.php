@@ -883,16 +883,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Function returns export query - deprecated
-	 * @param string $where
-	 * @return string export query
-	 */
-	public function getExportQuery($focus, $where)
-	{
-		return $this->getEntityInstance()->createExportQuery($where);
-	}
-
-	/**
 	 * Function returns latest comments for the module
 	 * @param <Vtiger_Paging_Model> $pagingModel
 	 * @return <Array>

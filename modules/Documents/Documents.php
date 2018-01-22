@@ -137,43 +137,6 @@ class Documents extends CRMEntity
 		}
 		return $order_by;
 	}
-
-	/** Function to export the notes in CSV Format
-	 * @param reference variable - where condition is passed when the query is executed
-	 * Returns Export Documents Query.
-	 */
-	public function createExportQuery($where)
-	{
-
-		$current_user = vglobal('current_user');
-		\App\Log::trace('Entering createExportQuery(' . $where . ') method ...');
-
-		include('include/utils/ExportUtils.php');
-		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery('Documents', 'detail_view');
-		$fields_list = getFieldsListFromQuery($sql);
-
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' =>
-				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
-		$query = "SELECT $fields_list, case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name" .
-			" FROM vtiger_notes
-				inner join vtiger_crmentity
-					on vtiger_crmentity.crmid=vtiger_notes.notesid
-				LEFT JOIN `vtiger_trees_templates_data` on vtiger_notes.folderid=`vtiger_trees_templates_data`.tree
-				LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid=vtiger_users.id " .
-			" LEFT JOIN vtiger_groups ON vtiger_crmentity.smownerid=vtiger_groups.groupid "
-		;
-		$query .= $this->getNonAdminAccessControlQuery('Documents', $current_user);
-		$where_auto = ' vtiger_crmentity.deleted=0';
-		if ($where != '')
-			$query .= "  WHERE ($where) && " . $where_auto;
-		else
-			$query .= '  WHERE %s';
-
-		$query = sprintf($query, $where_auto);
-		\App\Log::trace('Exiting create_export_query method ...');
-		return $query;
-	}
 	/*
 	 * Function to get the primary query part of a report
 	 * @param - $module Primary module name
