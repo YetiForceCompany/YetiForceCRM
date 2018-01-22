@@ -20,10 +20,12 @@
 	"license": "YetiForce Public License v3",
 	"dependencies": {
 		"Flot": "https://github.com/flot/flot.git",
+		"bootstrap": "<4.0.0",
 		"bootstrap-chosen": "^1.4.2",
 		"bootstrap-colorpicker": "^2.5.2",
 		"bootstrap-datepicker": "^1.7.1",
 		"bootstrap-daterangepicker": "^2.1.30",
+		"bootstrap-switch": "^3.3.4",
 		"chosen-js": "^1.8.2",
 		"ckeditor": "^4.8.0",
 		"clipboard": "^1.7.1",

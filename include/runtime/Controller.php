@@ -366,7 +366,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	public function getHeaderCss(\App\Request $request)
 	{
 		$cssFileNames = [
-			'~libraries/bootstrap3/css/bootstrap.css',
+			'~libraries/bootstrap/dist/css/bootstrap.css',
 			'~libraries/font-awesome/css/font-awesome.css',
 			'skins.icons.userIcons',
 			'skins.icons.adminIcons',
@@ -428,9 +428,9 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/simplebar/dist/simplebar.js',
 			'~libraries/js/pnotify/pnotify.custom.js',
 			'~libraries/js/jquery.hoverIntent.minified.js',
-			'~libraries/bootstrap3/js/bootstrap.js',
-			'~libraries/bootstrap3/js/bootstrap-switch.js',
-			'~libraries/bootstrap3/js/bootbox.js',
+			'~libraries/bootstrap/dist/js/bootstrap.js',
+			'~libraries/bootstrap-switch/dist/js/bootstrap-switch.js',
+			'~libraries/bootstrap/dist/js/bootbox.js',
 			'~libraries/js/selectize/js/selectize.js',
 			'~libraries/js/posabsolute-jQuery-Validation-Engine/js/jquery.validationEngine.js',
 			'~libraries/moment/min/moment.min.js',
