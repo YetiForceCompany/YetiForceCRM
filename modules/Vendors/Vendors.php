@@ -66,46 +66,6 @@ class Vendors extends CRMEntity
 	// For Alphabetical search
 	public $def_basicsearch_col = 'vendorname';
 
-	//Pavani: Function to create, export query for vendors module
-	/** Function to export the vendors in CSV Format
-	 * @param reference variable - where condition is passed when the query is executed
-	 * Returns Export Vendors Query.
-	 */
-	public function createExportQuery($where)
-	{
-
-		$current_user = vglobal('current_user');
-		\App\Log::trace('Entering createExportQuery(' . $where . ') method ...');
-
-		include('include/utils/ExportUtils.php');
-
-		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery('Vendors', 'detail_view');
-		$fields_list = getFieldsListFromQuery($sql);
-
-		$query = "SELECT $fields_list FROM " . $this->entity_table . "
-                                INNER JOIN vtiger_vendor
-                                        ON vtiger_crmentity.crmid = vtiger_vendor.vendorid
-                                LEFT JOIN vtiger_vendorcf
-                                        ON vtiger_vendorcf.vendorid=vtiger_vendor.vendorid
-                                LEFT JOIN vtiger_seattachmentsrel
-                                        ON vtiger_vendor.vendorid=vtiger_seattachmentsrel.crmid
-                                LEFT JOIN vtiger_attachments
-                                ON vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
-                                LEFT JOIN vtiger_users
-                                        ON vtiger_crmentity.smownerid = vtiger_users.id and vtiger_users.status='Active'
-                                ";
-		$where_auto = ' vtiger_crmentity.deleted = 0 ';
-
-		if ($where != '')
-			$query .= sprintf('  WHERE (%s) && %s', $where, $where_auto);
-		else
-			$query .= sprintf('  WHERE %s', $where_auto);
-
-		\App\Log::trace('Exiting createExportQuery method ...');
-		return $query;
-	}
-
 	/**
 	 * Move the related records of the specified list of id's to the given record.
 	 * @param String This module name

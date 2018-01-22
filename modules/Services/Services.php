@@ -137,41 +137,6 @@ class Services extends CRMEntity
 	}
 
 	/**
-	 * Create query to export the records.
-	 */
-	public function createExportQuery($where)
-	{
-		$current_user = vglobal('current_user');
-
-		include('include/utils/ExportUtils.php');
-
-		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery('Services', 'detail_view');
-
-		$fields_list = getFieldsListFromQuery($sql);
-
-		$query = "SELECT $fields_list
-					FROM vtiger_crmentity INNER JOIN $this->table_name ON vtiger_crmentity.crmid=$this->table_name.$this->table_index";
-
-		if (!empty($this->customFieldTable)) {
-			$query .= ' INNER JOIN ' . $this->customFieldTable[0] . ' ON ' . $this->customFieldTable[0] . '.' . $this->customFieldTable[1] .
-				" = $this->table_name.$this->table_index";
-		}
-
-		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
-		$query .= " LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id && vtiger_users.status='Active'";
-		$query .= $this->getNonAdminAccessControlQuery('Services', $current_user);
-		$where_auto = ' vtiger_crmentity.deleted=0';
-
-		if ($where != '')
-			$query .= " WHERE ($where) && $where_auto";
-		else
-			$query .= " WHERE $where_auto";
-
-		return $query;
-	}
-
-	/**
 	 * Transform the value while exporting
 	 */
 	public function transformExportValue($key, $value)
