@@ -291,30 +291,26 @@ class ServiceContracts extends CRMEntity
 	{
 		$this->id = $focusId;
 		$this->retrieveEntityInfo($focusId, 'ServiceContracts');
-
-		$contractTicketsResult = $this->db->pquery("SELECT relcrmid FROM vtiger_crmentityrel
-														WHERE module = 'ServiceContracts'
-														AND relmodule = 'HelpDesk' AND crmid = ?
-													UNION
-														SELECT crmid FROM vtiger_crmentityrel
-														WHERE relmodule = 'ServiceContracts'
-														AND module = 'HelpDesk' AND relcrmid = ?", [$focusId, $focusId]);
-
-		$noOfTickets = $this->db->numRows($contractTicketsResult);
-		$ticketFocus = CRMEntity::getInstance('HelpDesk');
+		$dataReader = (new App\Db\Query())->select(['relcrmid'])
+				->from('vtiger_crmentityrel')
+				->where(['module' => 'ServiceContracts', 'relmodule' => 'HelpDesk', 'crmid' => $focusId])
+				->union((new App\Db\Query())->select(['crmid'])
+					->from('vtiger_crmentityrel')
+					->where(['relmodule' => 'ServiceContracts', 'module' => 'HelpDesk', 'relcrmid' => $focusId]))
+				->createCommand()->query();
 		$totalUsedUnits = 0;
-		for ($i = 0; $i < $noOfTickets; ++$i) {
-			$ticketId = $this->db->queryResult($contractTicketsResult, $i, 'relcrmid');
+		$ticketFocus = CRMEntity::getInstance('HelpDesk');
+		while ($ticketId = $dataReader->readColumn(0)) {
 			$ticketFocus->id = $ticketId;
 			if (\App\Record::isExists($ticketId)) {
 				$ticketFocus->retrieveEntityInfo($ticketId, 'HelpDesk');
-				if (strtolower($ticketFocus->column_fields['ticketstatus']) == 'closed') {
+				if (strtolower($ticketFocus->column_fields['ticketstatus']) === 'Closed') {
 					$totalUsedUnits += $this->computeUsedUnits($ticketFocus->column_fields);
 				}
 			}
 		}
+		$dataReader->close();
 		$this->updateUsedUnits($totalUsedUnits);
-
 		$this->calculateProgress();
 	}
 

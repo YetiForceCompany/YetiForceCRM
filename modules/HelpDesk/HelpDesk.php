@@ -220,29 +220,21 @@ class HelpDesk extends CRMEntity
 	}
 
 	// Function to unlink an entity with given Id from another entity
-	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
+	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-
-		if (empty($return_module) || empty($return_id))
+		if (empty($returnModule) || empty($returnId)) {
 			return;
-
-		if ($return_module == 'Accounts') {
-			$sql = 'UPDATE vtiger_troubletickets SET parent_id=? WHERE ticketid=?';
-			$this->db->pquery($sql, [null, $id]);
-			$se_sql = 'DELETE FROM vtiger_seticketsrel WHERE ticketid=?';
-			$this->db->pquery($se_sql, [$id]);
-		} elseif ($return_module == 'Contacts') {
-			$sql = 'UPDATE vtiger_troubletickets SET contact_id=? WHERE ticketid=?';
-			$this->db->pquery($sql, [null, $id]);
-			$se_sql = 'DELETE FROM vtiger_seticketsrel WHERE ticketid=?';
-			$this->db->pquery($se_sql, [$id]);
-		} elseif ($return_module == 'Products') {
-			$sql = 'UPDATE vtiger_troubletickets SET product_id=? WHERE ticketid=?';
-			$this->db->pquery($sql, [null, $id]);
-		} elseif ($return_module == 'ServiceContracts' && $relatedName != 'getManyToMany') {
-			parent::unlinkRelationship($id, $return_module, $return_id);
+		}
+		if ($returnModule == 'Accounts' || $returnModule == 'Vendors') {
+			$dbCommand = App\Db::getInstance()->createCommand();
+			$dbCommand->update('vtiger_troubletickets', ['parent_id' => null], ['ticketid' => $id])->execute();
+			$dbCommand->delete('vtiger_seticketsrel', ['ticketid' => $id])->execute();
+		} elseif ($returnModule === 'Products') {
+			App\Db::getInstance()->createCommand()->update('vtiger_troubletickets', ['product_id' => null], ['ticketid' => $id])->execute();
+		} elseif ($returnModule === 'ServiceContracts' && $relatedName !== 'getManyToMany') {
+			parent::unlinkRelationship($id, $returnModule, $returnId);
 		} else {
-			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
+			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
 		}
 	}
 

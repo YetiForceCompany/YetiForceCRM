@@ -347,27 +347,28 @@ class Services extends CRMEntity
 	}
 
 	/** Function to unlink an entity with given Id from another entity */
-	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
+	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-
 		\App\Log::error('id:--' . $id);
-		\App\Log::error('return_module:--' . $return_module);
-		\App\Log::error('return_id:---' . $return_id);
-		if ($return_module == 'Accounts') {
-			$focus = CRMEntity::getInstance($return_module);
-			$entityIds = $focus->getRelatedContactsIds($return_id);
-			array_push($entityIds, $return_id);
-			$return_modules = ['Accounts', 'Contacts'];
+		\App\Log::error('return_module:--' . $returnModule);
+		\App\Log::error('return_id:---' . $returnId);
+		if ($returnModule === 'Accounts') {
+			$focus = CRMEntity::getInstance($returnModule);
+			$entityIds = $focus->getRelatedContactsIds($returnId);
+			array_push($entityIds, $returnId);
+			$returnModules = ['Accounts', 'Contacts'];
 		} else {
-			$entityIds = $return_id;
-			$return_modules = [$return_module];
+			$entityIds = $returnId;
+			$returnModules = [$returnModule];
 		}
-		if ($relatedName && $relatedName != 'getRelatedList') {
-			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
+		if ($relatedName && $relatedName !== 'getRelatedList') {
+			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
 		} else {
-			$where = '(relcrmid= ? AND module IN (' . generateQuestionMarks($return_modules) . ') AND crmid IN (' . generateQuestionMarks($entityIds) . ')) OR (crmid= ? AND relmodule IN (' . generateQuestionMarks($return_modules) . ') AND relcrmid IN (' . generateQuestionMarks($entityIds) . '))';
-			$params = [$id, $return_modules, $entityIds, $id, $return_modules, $entityIds];
-			$this->db->delete('vtiger_crmentityrel', $where, $params);
+			App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', [
+				'or',
+				['and', ['relcrmid' => $id], ['module' => $returnModules], ['crmid' => $entityIds]],
+				['and', ['crmid' => $id], ['relmodule' => $returnModules], ['relcrmid' => $entityIds]]
+			])->execute();
 		}
 	}
 }
