@@ -122,7 +122,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			selectable: true,
 			selectHelper: true,
 			hiddenDays: hiddenDays,
-			height: ($(window).height() - 150),
+			height: ($(window).width() > 993) ? ($(window).height() - 150) : 'auto',
 			views: {
 				basic: {
 					eventLimit: false,
@@ -207,15 +207,6 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		thisInstance.getCalendarView().fullCalendar('destroy');
 		thisInstance.getCalendarView().fullCalendar(options);
 		thisInstance.createAddSwitch();
-		thisInstance.registerCalendarScroll();
-	},
-	registerCalendarScroll: function () {
-		var calendarContainer = $('.bodyContents');
-		app.showScrollBar(calendarContainer, {
-			railVisible: true,
-			alwaysVisible: true,
-			position: 'left'
-		});
 	},
 	getValuesFromSelect2: function (element, data, text) {
 		if (element.hasClass('select2-hidden-accessible')) {
