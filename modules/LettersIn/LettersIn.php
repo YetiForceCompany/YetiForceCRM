@@ -134,57 +134,6 @@ class LettersIn extends CRMEntity
 	}
 
 	/**
-	 * Create query to export the records.
-	 */
-	public function createExportQuery($where)
-	{
-		$current_user = vglobal('current_user');
-
-		include("include/utils/ExportUtils.php");
-
-		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery('LettersIn', "detail_view");
-
-		$fields_list = getFieldsListFromQuery($sql);
-
-		$query = "SELECT $fields_list, vtiger_users.user_name AS user_name
-					FROM vtiger_crmentity INNER JOIN $this->table_name ON vtiger_crmentity.crmid=$this->table_name.$this->table_index";
-
-		if (!empty($this->customFieldTable)) {
-			$query .= " INNER JOIN " . $this->customFieldTable[0] . " ON " . $this->customFieldTable[0] . '.' . $this->customFieldTable[1] .
-				" = $this->table_name.$this->table_index";
-		}
-
-		$query .= " LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
-		$query .= " LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id and vtiger_users.status='Active'";
-
-		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
-			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", [$thismodule]);
-		$linkedFieldsCount = $this->db->numRows($linkedModulesQuery);
-
-		for ($i = 0; $i < $linkedFieldsCount; $i++) {
-			$related_module = $this->db->queryResult($linkedModulesQuery, $i, 'relmodule');
-			$columnname = $this->db->queryResult($linkedModulesQuery, $i, 'columnname');
-
-			$other = CRMEntity::getInstance($related_module);
-			\VtlibUtils::vtlibSetupModulevars($related_module, $other);
-
-			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";
-		}
-
-		$query .= $this->getNonAdminAccessControlQuery($thismodule, $current_user);
-		$where_auto = " vtiger_crmentity.deleted=0";
-
-		if ($where != '')
-			$query .= " WHERE ($where) && $where_auto";
-		else
-			$query .= " WHERE $where_auto";
-
-		return $query;
-	}
-
-	/**
 	 * Transform the value while exporting
 	 */
 	public function transformExportValue($key, $value)

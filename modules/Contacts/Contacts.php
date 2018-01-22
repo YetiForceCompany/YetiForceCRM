@@ -118,48 +118,6 @@ class Contacts extends CRMEntity
 	// For Alphabetical search
 	public $def_basicsearch_col = 'lastname';
 
-	/** Function to export the contact records in CSV Format
-	 * @param reference variable - where condition is passed when the query is executed
-	 * Returns Export Contacts Query.
-	 */
-	public function createExportQuery($where)
-	{
-
-		$current_user = vglobal('current_user');
-		\App\Log::trace('Entering createExportQuery(' . $where . ') method ...');
-
-		include('include/utils/ExportUtils.php');
-
-		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery("Contacts", "detail_view");
-		$fields_list = getFieldsListFromQuery($sql);
-
-		$query = "SELECT vtiger_contactdetails.salutation as 'Salutation',$fields_list,case when (vtiger_users.user_name not like '') then vtiger_users.user_name else vtiger_groups.groupname end as user_name
-                                FROM vtiger_contactdetails
-                                inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_contactdetails.contactid
-                                LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid=vtiger_users.id and vtiger_users.status='Active'
-                                LEFT JOIN vtiger_account on vtiger_contactdetails.parentid=vtiger_account.accountid
-				left join vtiger_contactaddress on vtiger_contactaddress.contactaddressid=vtiger_contactdetails.contactid
-				left join vtiger_contactsubdetails on vtiger_contactsubdetails.contactsubscriptionid=vtiger_contactdetails.contactid
-			        left join vtiger_contactscf on vtiger_contactscf.contactid=vtiger_contactdetails.contactid
-			        left join vtiger_customerdetails on vtiger_customerdetails.customerid=vtiger_contactdetails.contactid
-	                        LEFT JOIN vtiger_groups
-                        	        ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				LEFT JOIN vtiger_contactdetails vtiger_contactdetails2
-					ON vtiger_contactdetails2.contactid = vtiger_contactdetails.reportsto";
-		$query .= $this->getNonAdminAccessControlQuery('Contacts', $current_user);
-		$where_auto = " vtiger_crmentity.deleted = 0 ";
-
-		if ($where != '')
-			$query .= sprintf(' where (%s) && %s', $where, $where_auto);
-		else
-			$query .= sprintf(' where %s', $where_auto);
-
-		\App\Log::trace('Export Query Constructed Successfully');
-		\App\Log::trace('Exiting createExportQuery method ...');
-		return $query;
-	}
-
 	/**
 	 * Move the related records of the specified list of id's to the given record.
 	 * @param String This module name
