@@ -204,7 +204,16 @@ class Purifier
 	public static function loadHtmlDefinition(\HTMLPurifier_Config &$config)
 	{
 		$config->set('HTML.Allowed', implode(',', static::$allowedHtmlDefinition));
-		$config->set('URI.AllowedSchemes', ['data' => true]);
+		$config->set('URI.AllowedSchemes', [
+			'http' => true,
+			'https' => true,
+			'mailto' => true,
+			'ftp' => true,
+			'nntp' => true,
+			'news' => true,
+			'tel' => true,
+			'data' => true,
+		]);
 		if ($def = $config->getHTMLDefinition(true)) {
 			$def->addElement('section', 'Block', 'Flow', 'Common');
 			$def->addElement('nav', 'Block', 'Flow', 'Common');
