@@ -79,6 +79,17 @@ $languageStrings = [
 	'PUBLIC_HTML_HELP_TEXT' => 'Wir empfehlen das System so zu installieren, dass nur das öffentliche HTML Verzeichnis benutzt wird. Es erhöht die Datensicherheit, wenn auf nichtöffentliche Verzeichnisse und Dateien nicht direkt über die Adresse(URL) zugegriffen werden kann.',
 	'SESSION_REGENERATE_HELP_TEXT' => 'Wir empfehlen die Erneuerung von Session IDs zu aktivieren, da diese Option es schwerer macht die Benutzersitzung zu übernehmen. Änderungen sollten in der Hauptkonfigurationsdatei durchgeführt werden.',
 	'LBL_TMP_DIR' => 'Temporäres Verzeichnis',
+	'LBL_INVALID_TIME_ZONE' => 'Invalid time zone:',
+	'LBL_DATABASE_INFORMATION' => 'Database information',
+	'LBL_DB_DRIVER' => 'Engine',
+	'LBL_DB_CLIENT_VERSION' => 'Client version',
+	'LBL_DB_SERVER_VERSION' => 'Engine version',
+	'LBL_DB_CONNECTION_STATUS' => 'Connection status',
+	'LBL_DB_SERVER_INFO' => 'Server information',
+	'LBL_DENY_PUBLIC_DIR_TITLE' => 'Verification of permissions for directories',
+	'LBL_PUBLIC_DIR' => 'Directory path',
+	'LBL_DENY_PUBLIC_DIR_STATUS' => 'Is access denied?',
+	'LBL_DENY_PUBLIC_DIR_HELP_TEXT' => 'It is recommended to deny access to this directory. Currently, the directory is publicly accessible and its content is not protected.',
 ];
 $jsLanguageStrings = [
 	'JS_SPEED_TEST_START' => 'Performance wird gemessen ...',
