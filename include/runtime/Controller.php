@@ -379,7 +379,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/simplebar/dist/simplebar.css',
 			'~libraries/js/perfect-scrollbar/css/perfect-scrollbar.css',
 			'~libraries/select2-bootstrap-theme/dist/select2-bootstrap.css',
-			'~libraries/js/posabsolute-jQuery-Validation-Engine/css/validationEngine.jquery.css',
+			'~libraries/jQuery-Validation-Engine/css/validationEngine.jquery.css',
 			'~libraries/pnotify/dist/pnotify.css',
 			'~libraries/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
 			'~libraries/bootstrap-daterangepicker/daterangepicker.css',
@@ -432,7 +432,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/bootstrap-switch/dist/js/bootstrap-switch.js',
 			'~libraries/bootbox/bootbox.js',
 			'~libraries/js/selectize/js/selectize.js',
-			'~libraries/js/posabsolute-jQuery-Validation-Engine/js/jquery.validationEngine.js',
+			'~libraries/jQuery-Validation-Engine/js/jquery.validationEngine.js',
 			'~libraries/moment/min/moment.min.js',
 			'~libraries/bootstrap-datepicker/dist/js/bootstrap-datepicker.js',
 			'~libraries/bootstrap-datepicker/dist/locales/' . \App\Language::getLanguage() . '.min.js',
@@ -448,9 +448,9 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~layouts/resources/ProgressIndicator.js',
 		];
 		$languageHandlerShortName = \App\Language::getShortLanguageName();
-		$fileName = "~libraries/js/posabsolute-jQuery-Validation-Engine/js/languages/jquery.validationEngine-$languageHandlerShortName.js";
+		$fileName = "~libraries/jQuery-Validation-Engine/js/languages/jquery.validationEngine-$languageHandlerShortName.js";
 		if (!file_exists(Vtiger_Loader::resolveNameToPath($fileName, 'js'))) {
-			$fileName = "~libraries/js/posabsolute-jQuery-Validation-Engine/js/languages/jquery.validationEngine-en.js";
+			$fileName = "~libraries/jQuery-Validation-Engine/js/languages/jquery.validationEngine-en.js";
 		}
 		$jsFileNames[] = $fileName;
 		return $this->checkAndConvertJsScripts($jsFileNames);
