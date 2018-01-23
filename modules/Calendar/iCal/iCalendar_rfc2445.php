@@ -78,7 +78,7 @@ class ICalendarRfc
 		return substr($name, 0, 2) === 'X-';
 	}
 
-	public static function rfc2445_is_valid_value($value, $type)
+	public static function rfc2445IsValidValue($value, $type)
 	{
 
 		// This branch should only be taken with xname values
@@ -176,8 +176,8 @@ class ICalendarRfc
 				}
 
 				return($value{8} == 'T' &&
-					static::rfc2445_is_valid_value(substr($value, 0, 8), RFC2445_TYPE_DATE) &&
-					static::rfc2445_is_valid_value(substr($value, 9), RFC2445_TYPE_TIME));
+					static::rfc2445IsValidValue(substr($value, 0, 8), RFC2445_TYPE_DATE) &&
+					static::rfc2445IsValidValue(substr($value, 9), RFC2445_TYPE_TIME));
 				break;
 
 			case RFC2445_TYPE_DURATION:
@@ -336,15 +336,15 @@ class ICalendarRfc
 					return false;
 				}
 
-				if (!static::rfc2445_is_valid_value($parts[0], RFC2445_TYPE_DATE_TIME)) {
+				if (!static::rfc2445IsValidValue($parts[0], RFC2445_TYPE_DATE_TIME)) {
 					return false;
 				}
 
 				// Two legal cases for the second part:
-				if (static::rfc2445_is_valid_value($parts[1], RFC2445_TYPE_DATE_TIME)) {
+				if (static::rfc2445IsValidValue($parts[1], RFC2445_TYPE_DATE_TIME)) {
 					// It has to be after the start time, so
 					return ($parts[1] > $parts[0]);
-				} else if (static::rfc2445_is_valid_value($parts[1], RFC2445_TYPE_DURATION)) {
+				} else if (static::rfc2445IsValidValue($parts[1], RFC2445_TYPE_DURATION)) {
 					// The period MUST NOT be negative
 					return ($parts[1]{0} != '-');
 				}
@@ -426,12 +426,12 @@ class ICalendarRfc
 				$weekdays = explode(',', RFC2445_WEEKDAYS);
 
 				if (isset($vars['UNTIL'])) {
-					if (static::rfc2445_is_valid_value($vars['UNTIL'], RFC2445_TYPE_DATE_TIME)) {
+					if (static::rfc2445IsValidValue($vars['UNTIL'], RFC2445_TYPE_DATE_TIME)) {
 						// The time MUST be in UTC format
 						if (!(substr($vars['UNTIL'], -1) == 'Z')) {
 							return false;
 						}
-					} else if (!static::rfc2445_is_valid_value($vars['UNTIL'], RFC2445_TYPE_DATE_TIME)) {
+					} else if (!static::rfc2445IsValidValue($vars['UNTIL'], RFC2445_TYPE_DATE_TIME)) {
 						return false;
 					}
 				}
@@ -532,7 +532,7 @@ class ICalendarRfc
 
 						if (strlen($day) > 2) {
 							$intpart = substr($day, 0, strlen($day) - 2);
-							if (!static::rfc2445_is_valid_value($intpart, RFC2445_TYPE_INTEGER)) {
+							if (!static::rfc2445IsValidValue($intpart, RFC2445_TYPE_INTEGER)) {
 								return false;
 							}
 							if (intval($intpart) == 0) {
@@ -550,7 +550,7 @@ class ICalendarRfc
 					}
 					$mdays = explode(',', $vars['BYMONTHDAY']);
 					foreach ($mdays as $mday) {
-						if (!static::rfc2445_is_valid_value($mday, RFC2445_TYPE_INTEGER)) {
+						if (!static::rfc2445IsValidValue($mday, RFC2445_TYPE_INTEGER)) {
 							return false;
 						}
 						$mday = abs(intval($mday));
@@ -568,7 +568,7 @@ class ICalendarRfc
 					}
 					$ydays = explode(',', $vars['BYYEARDAY']);
 					foreach ($ydays as $yday) {
-						if (!static::rfc2445_is_valid_value($yday, RFC2445_TYPE_INTEGER)) {
+						if (!static::rfc2445IsValidValue($yday, RFC2445_TYPE_INTEGER)) {
 							return false;
 						}
 						$yday = abs(intval($yday));
@@ -586,7 +586,7 @@ class ICalendarRfc
 					}
 					$weeknos = explode(',', $vars['BYWEEKNO']);
 					foreach ($weeknos as $weekno) {
-						if (!static::rfc2445_is_valid_value($weekno, RFC2445_TYPE_INTEGER)) {
+						if (!static::rfc2445IsValidValue($weekno, RFC2445_TYPE_INTEGER)) {
 							return false;
 						}
 						$weekno = abs(intval($weekno));
@@ -622,7 +622,7 @@ class ICalendarRfc
 					}
 					$sets = explode(',', $vars['BYSETPOS']);
 					foreach ($sets as $set) {
-						if (!static::rfc2445_is_valid_value($set, RFC2445_TYPE_INTEGER)) {
+						if (!static::rfc2445IsValidValue($set, RFC2445_TYPE_INTEGER)) {
 							return false;
 						}
 						$set = abs(intval($set));
