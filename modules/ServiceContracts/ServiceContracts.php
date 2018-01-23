@@ -304,7 +304,7 @@ class ServiceContracts extends CRMEntity
 			$ticketFocus->id = $ticketId;
 			if (\App\Record::isExists($ticketId)) {
 				$ticketFocus->retrieveEntityInfo($ticketId, 'HelpDesk');
-				if (strtolower($ticketFocus->column_fields['ticketstatus']) === 'Closed') {
+				if (strtolower($ticketFocus->column_fields['ticketstatus']) === 'closed') {
 					$totalUsedUnits += $this->computeUsedUnits($ticketFocus->column_fields);
 				}
 			}
