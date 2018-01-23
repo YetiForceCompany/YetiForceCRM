@@ -22,7 +22,7 @@ class IcalendarPropertyX extends IcalendarProperty
 
 		$name = strtoupper($name);
 
-		if (\ICalendarRfc::rfc2445_is_xname($name)) {
+		if (\ICalendarRfc::rfc2445IsXname($name)) {
 			$this->name = $name;
 			return true;
 		}
