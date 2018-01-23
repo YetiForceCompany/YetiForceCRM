@@ -92,11 +92,11 @@
 											{/if}
 											<span class="pull-right">
 												{if $ROW['type'] eq 0}
-													<img src="{\App\Layout::getLayoutFile('modules/OSSMailView/outgoing.png')}" />
+													<span class="glyphicon glyphicon-arrow-up text-success" aria-hidden="true"></span>
 												{elseif $ROW['type'] eq 1}
-													<img src="{\App\Layout::getLayoutFile('modules/OSSMailView/incoming.png')}" />
+													<span class="glyphicon glyphicon-arrow-down text-danger" aria-hidden="true"></span>
 												{elseif $ROW['type'] eq 2}
-													<img src="{\App\Layout::getLayoutFile('modules/OSSMailView/internal.png')}" />
+													<span class="glyphicon glyphicon-retweet text-primary" aria-hidden="true"></span>
 												{/if}
 											</span>
 											<span class="pull-right smalSeparator"></span>
