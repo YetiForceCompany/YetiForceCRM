@@ -81,7 +81,7 @@ abstract class Vtiger_Basic_View extends Vtiger_Footer_View
 			'~libraries/js/timepicker/jquery.timepicker.min.js',
 			'~libraries/clockpicker/dist/jquery-clockpicker.js',
 			'~libraries//inputmask/dist/jquery.inputmask.bundle.js',
-			'~libraries/js/mousetrap/mousetrap.min.js',
+			'~libraries/mousetrap/mousetrap.js',
 			'modules.Vtiger.resources.Menu',
 			'modules.Vtiger.resources.Header',
 			'modules.Vtiger.resources.Edit',
