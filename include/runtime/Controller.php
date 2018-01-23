@@ -430,7 +430,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/js/jquery.hoverIntent.minified.js',
 			'~libraries/bootstrap/dist/js/bootstrap.js',
 			'~libraries/bootstrap-switch/dist/js/bootstrap-switch.js',
-			'~libraries/bootstrap/dist/js/bootbox.js',
+			'~libraries/bootbox/bootbox.js',
 			'~libraries/js/selectize/js/selectize.js',
 			'~libraries/js/posabsolute-jQuery-Validation-Engine/js/jquery.validationEngine.js',
 			'~libraries/moment/min/moment.min.js',

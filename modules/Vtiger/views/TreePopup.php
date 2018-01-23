@@ -81,10 +81,10 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
-		$jsFileNames = ['~libraries/js/jstree/jstree.js'];
+		$jsFileNames = ['~libraries/jstree/dist/jstree.js'];
 		if ($request->get('multiple')) {
-			$jsFileNames[] = '~libraries/js/jstree/jstree.category.js';
-			$jsFileNames[] = '~libraries/js/jstree/jstree.checkbox.js';
+			$jsFileNames[] = '~layouts/resources/libraries/jstree.category.js';
+			$jsFileNames[] = '~layouts/resources/libraries/jstree.checkbox.js';
 		}
 		$jsFileNames = array_merge($jsFileNames, [
 			'libraries.js.jquery_windowmsg',
@@ -102,7 +102,7 @@ class Vtiger_TreePopup_View extends Vtiger_Footer_View
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [
-			'~libraries/js/jstree/themes/proton/style.css',
+			'~libraries/jstree-bootstrap-theme/dist/themes/proton/style.css',
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($cssInstances, $headerCssInstances);
