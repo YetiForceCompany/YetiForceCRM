@@ -43,7 +43,7 @@ define('RFC2445_TYPE_UTC_OFFSET', 13);
 class ICalendarRfc
 {
 
-	public static function rfc2445_fold($string)
+	public static function rfc2445Fold($string)
 	{
 		if (strlen($string) <= RFC2445_FOLDED_LINE_LENGTH) {
 			return $string;
