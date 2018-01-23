@@ -194,7 +194,7 @@ class Purifier
 		'table[width|height|border|style|class]', 'th[width|height|border|style|class|colspan|rowspan]',
 		'tr[width|height|border|style|class]', 'td[width|height|border|style|class|colspan|rowspan]',
 		'blockquote[style]',
-		'hr',
+		'hr', 'small',
 	];
 
 	/**
