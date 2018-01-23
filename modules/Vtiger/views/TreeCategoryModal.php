@@ -62,14 +62,14 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 		$parentScriptInstances = parent::getModalScripts($request);
 
 		$scripts = [
-			'~libraries/js/jstree/jstree.js'
+			'~libraries/jstree/dist/jstree.js'
 		];
 		if (AppConfig::relation('SELECTABLE_CATEGORY')) {
-			$scripts[] = '~libraries/js/jstree/jstree.category.js';
-			$scripts[] = '~libraries/js/jstree/jstree.checkbox.js';
+			$scripts[] = '~layouts/resources/libraries/jstree.category.js';
+			$scripts[] = '~layouts/resources/libraries/jstree.checkbox.js';
 		}
 		if ($this->relationType == 1) {
-			$scripts[] = '~libraries/js/jstree/jstree.edit.js';
+			$scripts[] = '~layouts/resources/libraries/jstree.edit.js';
 		}
 		$scripts[] = 'modules.Vtiger.resources.TreeCategoryModal';
 
@@ -82,7 +82,7 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 	{
 		$parentCssInstances = parent::getModalCss($request);
 		$cssFileNames = [
-			'~libraries/js/jstree/themes/proton/style.css',
+			'~libraries/jstree-bootstrap-theme/dist/themes/proton/style.css',
 		];
 		$modalInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$cssInstances = array_merge($modalInstances, $parentCssInstances);

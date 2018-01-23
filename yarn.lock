@@ -10,6 +10,10 @@ almond@~0.3.1:
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/almond/-/almond-0.3.3.tgz#a0e7c95ac7624d6417b4494b1e68bff693168a20"
 
+bootbox@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/bootbox/-/bootbox-4.4.0.tgz#ff7f898fb87d4527e547feb64158f88450d1a0c9"
+
 bootstrap-chosen@^1.4.2:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/bootstrap-chosen/-/bootstrap-chosen-1.4.2.tgz#d7a184b21ecd952d586982339c60128f8827334d"
@@ -125,7 +129,7 @@ jquery-ui-dist@^1.12.1:
   version "1.12.1"
   resolved "https://registry.yarnpkg.com/jquery-ui-dist/-/jquery-ui-dist-1.12.1.tgz#5c0815d3cc6f90ff5faaf5b268a6e23b4ca904fa"
 
-"jquery@2 - 3", jquery@>=1.10, jquery@>=1.7, "jquery@>=1.7.1 <4.0.0":
+"jquery@2 - 3", jquery@>=1.10, jquery@>=1.7, "jquery@>=1.7.1 <4.0.0", jquery@>=1.9.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 
@@ -136,6 +140,18 @@ jquery@<3.0.0:
 "jquery@git+https://github.com/jquery/jquery.git#2.0.3":
   version "2.0.3"
   resolved "git+https://github.com/jquery/jquery.git#f852e631ba85af7da4ad7594785e122504e7b233"
+
+jstree-bootstrap-theme@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/jstree-bootstrap-theme/-/jstree-bootstrap-theme-1.0.1.tgz#7d5edc73a846e8da7f94f57a1cc5ddee9d9eab4b"
+  dependencies:
+    jquery ">=1.9.1"
+
+jstree@^3.3.5:
+  version "3.3.5"
+  resolved "https://registry.yarnpkg.com/jstree/-/jstree-3.3.5.tgz#9c578db32d0a643775cddd8020ad5992f4119c13"
+  dependencies:
+    jquery ">=1.9.1"
 
 lodash.debounce@^4.0.8:
   version "4.0.8"

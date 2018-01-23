@@ -20,6 +20,7 @@
 	"license": "YetiForce Public License v3",
 	"dependencies": {
 		"Flot": "https://github.com/flot/flot.git",
+		"bootbox": "^4.4.0",
 		"bootstrap": "<4.0.0",
 		"bootstrap-chosen": "^1.4.2",
 		"bootstrap-colorpicker": "^2.5.2",
@@ -41,6 +42,8 @@
 		"inputmask": "^3.3.11",
 		"jquery": "<3.0.0",
 		"jquery-ui-dist": "^1.12.1",
+		"jstree": "^3.3.5",
+		"jstree-bootstrap-theme": "^1.0.1",
 		"moment": ">=2.18.1",
 		"select2": "^4.0.6-rc.1",
 		"select2-bootstrap-theme": "^0.1.0-beta.10",

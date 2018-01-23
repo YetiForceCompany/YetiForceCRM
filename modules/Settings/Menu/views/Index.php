@@ -36,7 +36,7 @@ class Settings_Menu_Index_View extends Settings_Vtiger_Index_View
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = [
-			'~libraries/js/jstree/jstree.min.js',
+			'~libraries/jstree/dist/jstree.js',
 		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -49,7 +49,7 @@ class Settings_Menu_Index_View extends Settings_Vtiger_Index_View
 		$headerCssInstances = parent::getHeaderCss($request);
 		$moduleName = $request->getModule();
 		$cssFileNames = [
-			'~libraries/js/jstree/themes/default/style.css',
+			'~libraries/jstree/dist/themes/default/style.css',
 			"modules.Settings.$moduleName.Index",
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
