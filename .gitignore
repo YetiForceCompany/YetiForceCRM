@@ -58,6 +58,7 @@
 /public_html/libraries/jquery-ui-dist/
 /public_html/libraries/jstree/
 /public_html/libraries/jstree-bootstrap-theme/
+/public_html/libraries/malihu-custom-scrollbar-plugin/
 /libraries/mPDF/
 /vendor/*/
 !/vendor/yetiforce
