@@ -723,7 +723,7 @@ class ICalendarRfc
 		return false;
 	}
 
-	public static function rfc2445_do_value_formatting($value, $type)
+	public static function rfc2445DoValueFormatting($value, $type)
 	{
 		// Note: this does not only do formatting; it also does conversion to string!
 		switch ($type) {
