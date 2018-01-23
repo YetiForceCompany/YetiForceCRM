@@ -251,7 +251,6 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		if (types.length == 0) {
 			allEvents = true;
 		}
-		window.console.log(types);
 		var user = [];
 		user = thisInstance.getValuesFromSelect2($("#calendarUserList"), user);
 		if (user.length == 0) {
