@@ -228,6 +228,6 @@ class IcalendarProperty
 
 		$string .= ':' . $this->value;
 
-		return \ICalendarRfc::rfc2445_fold($string) . RFC2445_CRLF;
+		return \ICalendarRfc::rfc2445Fold($string) . RFC2445_CRLF;
 	}
 }

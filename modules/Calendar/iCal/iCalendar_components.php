@@ -195,7 +195,7 @@ class IcalendarComponent
 		}
 
 		// Start tag
-		$string = \ICalendarRfc::rfc2445_fold('BEGIN:' . $this->name) . RFC2445_CRLF;
+		$string = \ICalendarRfc::rfc2445Fold('BEGIN:' . $this->name) . RFC2445_CRLF;
 		// List of properties
 		if (!empty($this->properties)) {
 			foreach ($this->properties as $name => $properties) {
@@ -214,7 +214,7 @@ class IcalendarComponent
 		}
 
 		// End tag
-		$string .= \ICalendarRfc::rfc2445_fold('END:' . $this->name) . RFC2445_CRLF;
+		$string .= \ICalendarRfc::rfc2445Fold('END:' . $this->name) . RFC2445_CRLF;
 
 		return $string;
 	}
