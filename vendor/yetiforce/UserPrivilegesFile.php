@@ -472,15 +472,10 @@ class UserPrivilegesFile
 	 */
 	public static function recalculateAll()
 	{
-		\App\Log::trace("Entering recalculateAll() method ...");
-		$userIds = (new App\Db\Query())->select(['id'])
-			->from('vtiger_users')
-			->where(['deleted' => 0])
-			->column();
+		$userIds = (new Db\Query())->select(['id'])->from('vtiger_users')->where(['deleted' => 0])->column();
 		foreach ($userIds as $id) {
-			\App\UserPrivilegesFile::createUserPrivilegesfile($id);
-			\App\UserPrivilegesFile::createUserSharingPrivilegesfile($id);
+			static::createUserPrivilegesfile($id);
+			static::createUserSharingPrivilegesfile($id);
 		}
-		\App\Log::trace("Exiting recalculateAll method ...");
 	}
 }
