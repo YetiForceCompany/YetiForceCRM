@@ -105,14 +105,14 @@ class IcalendarProperty
 				return false;
 			} else {
 				foreach ($value as $oneval) {
-					if (!\ICalendarRfc::rfc2445_is_valid_value($oneval, $this->val_type)) {
+					if (!\ICalendarRfc::rfc2445IsValidValue($oneval, $this->val_type)) {
 						return false;
 					}
 				}
 			}
 			return true;
 		}
-		return \ICalendarRfc::rfc2445_is_valid_value($value, $this->val_type);
+		return \ICalendarRfc::rfc2445IsValidValue($value, $this->val_type);
 	}
 
 	public function defaultValueICal()

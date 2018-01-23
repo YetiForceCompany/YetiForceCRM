@@ -27,7 +27,7 @@ class IcalendarPropertyGeo extends IcalendarProperty
 			return false;
 		}
 
-		return \ICalendarRfc::rfc2445_is_valid_value($floats[0], RFC2445_TYPE_FLOAT) && \ICalendarRfc::rfc2445_is_valid_value($floats[1], RFC2445_TYPE_FLOAT);
+		return \ICalendarRfc::rfc2445IsValidValue($floats[0], RFC2445_TYPE_FLOAT) && \ICalendarRfc::rfc2445IsValidValue($floats[1], RFC2445_TYPE_FLOAT);
 	}
 
 	public function setValueICal($value)
