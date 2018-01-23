@@ -23,6 +23,9 @@ Vtiger_RelatedList_Js("PriceBooks_RelatedList_Js", {}, {
 	 * Function to handle the adding relations between parent and child window
 	 */
 	addRelations: function (idList) {
+		if(!(this.parentModuleName === 'PriceBooks' || this.moduleName === 'PriceBooks')) {
+			return	this._super(idList);
+		}
 		var aDeferred = jQuery.Deferred();
 		AppConnector.request({
 			module: this.parentModuleName,
@@ -88,7 +91,7 @@ Vtiger_RelatedList_Js("PriceBooks_RelatedList_Js", {}, {
 	},
 	registerEventForEditListPrice: function () {
 		var thisInstance = this;
-		this.content.on('click', 'button.editListPrice', function (e) {
+		this.content.on('click', '.editListPrice', function (e) {
 			e.stopPropagation();
 			var elem = jQuery(e.currentTarget);
 			var requestUrl = elem.data('url');
