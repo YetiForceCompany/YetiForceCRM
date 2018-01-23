@@ -203,29 +203,6 @@ function getDSTableNameForType($typeString)
 	return $tableName;
 }
 
-/** To retreive the subordinate vtiger_roles and vtiger_users of the specified parent vtiger_role
- * @param $roleid -- The Role Id:: Type varchar
- * @returns  subordinate vtiger_role array in the following format:
- *     $subordinateRoleUserArray=(roleid1=>Array(userid1,userid2,userid3),
-  vtiger_roleid2=>Array(userid1,userid2,userid3)
-  |
-  |
-  vtiger_roleidn=>Array(userid1,userid2,userid3));
- */
-function getSubordinateRoleAndUsers($roleId)
-{
-
-	\App\Log::trace("Entering getSubordinateRoleAndUsers(" . $roleId . ") method ...");
-	$subRoleAndUsers = [];
-	$subordinateRoles = \App\PrivilegeUtil::getRoleSubordinates($roleId);
-	foreach ($subordinateRoles as $subRoleId) {
-		$userArray = \App\PrivilegeUtil::getUsersNameByRole($subRoleId);
-		$subRoleAndUsers[$subRoleId] = $userArray;
-	}
-	\App\Log::trace("Exiting getSubordinateRoleAndUsers method ...");
-	return $subRoleAndUsers;
-}
-
 function getListViewSecurityParameter($module)
 {
 

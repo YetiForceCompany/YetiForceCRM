@@ -47,7 +47,10 @@ class UserPrivilegesFile
 				$userRoleInfo = PrivilegeUtil::getRoleDetail($userRole);
 				$userRoleParent = $userRoleInfo['parentrole'];
 				$subRoles = PrivilegeUtil::getRoleSubordinates($userRole);
-				$subRoleAndUsers = getSubordinateRoleAndUsers($userRole);
+				$subRoleAndUsers = [];
+				foreach ($subRoles as $subRoleId) {
+					$subRoleAndUsers[$subRoleId] = \App\PrivilegeUtil::getUsersNameByRole($subRoleId);
+				}
 				$parentRoles = PrivilegeUtil::getParentRole($userRole);
 				$newBuf .= "\$current_user_roles='" . $userRole . "';\n";
 				$newBuf .= "\$current_user_parent_role_seq='" . $userRoleParent . "';\n";
