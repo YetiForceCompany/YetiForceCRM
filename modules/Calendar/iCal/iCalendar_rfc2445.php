@@ -742,7 +742,7 @@ class ICalendarRfc
 
 // This is cheating: GUIDs have nothing to do with RFC 2445
 
-	public static function rfc2445_guid()
+	public static function rfc2445Guid()
 	{
 		// Implemented as per the Network Working Group draft on UUIDs and GUIDs
 		// These two octets get special treatment

@@ -15,6 +15,6 @@ class IcalendarPropertyUid extends IcalendarProperty
 		// The exception to the rule: this is not a static value, so we
 		// generate it on-the-fly here. Guaranteed to be different for
 		// each instance of this property, too. Nice.
-		$this->val_default = \ICalendarRfc::rfc2445_guid();
+		$this->val_default = \ICalendarRfc::rfc2445Guid();
 	}
 }
