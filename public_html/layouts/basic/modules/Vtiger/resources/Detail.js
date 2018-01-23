@@ -1354,7 +1354,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var filter = element.data('filter');
 				value = {};
 				if (selectedFilter != fieldlable) {
-					value[filter] = selectedFilter;
+					value = [[filter , 'e', selectedFilter]];
 				} else {
 					return;
 				}
