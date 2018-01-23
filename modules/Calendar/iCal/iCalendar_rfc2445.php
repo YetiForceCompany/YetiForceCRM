@@ -61,7 +61,7 @@ class ICalendarRfc
 		return $retval;
 	}
 
-	public static function rfc2445_is_xname($name)
+	public static function rfc2445IsXname($name)
 	{
 
 		// If it's less than 3 chars, it cannot be legal
@@ -648,7 +648,7 @@ class ICalendarRfc
 				}
 
 				foreach ($vars as $name => $var) {
-					if (!static::rfc2445_is_xname($name)) {
+					if (!static::rfc2445IsXname($name)) {
 						return false;
 					}
 				}
