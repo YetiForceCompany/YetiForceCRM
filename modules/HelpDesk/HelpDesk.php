@@ -225,7 +225,7 @@ class HelpDesk extends CRMEntity
 		if (empty($returnModule) || empty($returnId)) {
 			return;
 		}
-		if ($returnModule == 'Accounts' || $returnModule == 'Vendors') {
+		if ($returnModule === 'Accounts' || $returnModule === 'Vendors') {
 			$dbCommand = App\Db::getInstance()->createCommand();
 			$dbCommand->update('vtiger_troubletickets', ['parent_id' => null], ['ticketid' => $id])->execute();
 			$dbCommand->delete('vtiger_seticketsrel', ['ticketid' => $id])->execute();
