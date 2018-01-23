@@ -30,7 +30,7 @@ class Install_InitSchema_Model
 
 		// recalculate all sharing rules for users
 		Vtiger_Loader::includeOnce('~include/utils/UserInfoUtil.php');
-		RecalculateSharingRules();
+		\App\UserPrivilegesFile::recalculateAll();
 	}
 
 	public function initializeDatabase($location, $filesName = [])

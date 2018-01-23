@@ -465,4 +465,22 @@ class UserPrivilegesFile
 			}
 		}
 	}
+
+	/**
+	 * Function to recalculate the Sharing Rules for all the vtiger_users
+	 * This function will recalculate all the sharing rules for all the vtiger_users in the Organization and will write them in flat vtiger_files
+	 */
+	public static function recalculateAll()
+	{
+		\App\Log::trace("Entering recalculateAll() method ...");
+		$userIds = (new App\Db\Query())->select(['id'])
+			->from('vtiger_users')
+			->where(['deleted' => 0])
+			->column();
+		foreach ($userIds as $id) {
+			\App\UserPrivilegesFile::createUserPrivilegesfile($id);
+			\App\UserPrivilegesFile::createUserSharingPrivilegesfile($id);
+		}
+		\App\Log::trace("Exiting recalculateAll method ...");
+	}
 }
