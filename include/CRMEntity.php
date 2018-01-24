@@ -377,12 +377,12 @@ class CRMEntity
 	public function deleteRelatedFromDB($crmid, $withModule, $withCrmid)
 	{
 		App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', ['or',
-			[
+				[
 				'crmid' => $crmid,
 				'relmodule' => $withModule,
 				'relcrmid' => $withCrmid
 			],
-			[
+				[
 				'relcrmid' => $crmid,
 				'module' => $withModule,
 				'crmid' => $withCrmid
@@ -920,39 +920,6 @@ class CRMEntity
 		$query .= " " . $relquery;
 
 		return $query;
-	}
-	/*
-	 * Function to get the security query part of a report
-	 * @param - $module primary module name
-	 * returns the query string formed on fetching the related data for report for security of the module
-	 */
-
-	public function getListViewSecurityParameter($module)
-	{
-		$tabid = \App\Module::getModuleId($module);
-		$current_user = vglobal('current_user');
-		if ($current_user) {
-			$privileges = App\User::getPrivilegesFile($current_user->id);
-			$sharingPrivileges = App\User::getSharingFile($current_user->id);
-		} else {
-			return '';
-		}
-		$sec_query = '';
-		if ($privileges['is_admin'] === false && $privileges['profile_global_permission'][1] == 1 && $privileges['profile_global_permission'][2] == 1 && $sharingPrivileges['defOrgShare'][$tabid] == 3) {
-			$sec_query .= " and (vtiger_crmentity.smownerid in($current_user->id) or vtiger_crmentity.smownerid
-					in (select vtiger_user2role.userid from vtiger_user2role
-							inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid
-							inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid
-							where vtiger_role.parentrole like '" . $privileges['parent_role_seq'] . "::%') or vtiger_crmentity.smownerid
-					in(select shareduserid from vtiger_tmp_read_user_sharing_per
-						where userid=" . $current_user->id . " and tabid=" . $tabid . ") or (";
-			if (sizeof($privileges['groups']) > 0) {
-				$sec_query .= " vtiger_groups.groupid in (" . implode(",", $privileges['groups']) . ") or ";
-			}
-			$sec_query .= " vtiger_groups.groupid in(select vtiger_tmp_read_group_sharing_per.sharedgroupid
-						from vtiger_tmp_read_group_sharing_per where userid=" . $current_user->id . " and tabid=" . $tabid . "))) ";
-		}
-		return $sec_query;
 	}
 
 	/**
