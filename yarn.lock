@@ -166,6 +166,12 @@ inputmask@^3.3.11:
   version "0.0.0"
   resolved "https://github.com/posabsolute/jQuery-Validation-Engine#7ef5ea0e99a33c1d91c399ed67f8511f29313843"
 
+jquery-cycle@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/jquery-cycle/-/jquery-cycle-3.0.3.tgz#47fd5654aa93763f972cabda0b8de293e61dacca"
+  dependencies:
+    jquery ">=1.7"
+
 jquery-migrate@<3.0.0:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/jquery-migrate/-/jquery-migrate-1.4.1.tgz#85152f3ec99a95625f4f7d0bcf62e9b8638f5a76"

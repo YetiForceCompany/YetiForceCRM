@@ -83,6 +83,7 @@
 /public_html/libraries/jquery-outside-events/
 /public_html/libraries/jquery-migrate/
 /public_html/libraries/block-ui/
+/public_html/libraries/jquery-cycle/
 /libraries/mPDF/
 /vendor/*/
 !/vendor/yetiforce
