@@ -439,7 +439,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/bootstrap-datepicker/dist/js/bootstrap-datepicker.js',
 			'~libraries/bootstrap-datepicker/dist/locales/' . \App\Language::getLanguage() . '.min.js',
 			'~libraries/bootstrap-daterangepicker/daterangepicker.js',
-			'~libraries/js/jquery.ba-outside-events.js',
+			'~libraries/jquery-outside-events/jquery.ba-outside-events.js',
 			'~libraries/js/jquery.placeholder.js',
 			'~libraries/dompurify/dist/purify.js',
 			'~libraries/footable/dist/footable.js',

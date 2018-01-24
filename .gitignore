@@ -80,6 +80,7 @@
 /public_html/libraries/leaflet/
 /public_html/libraries/leaflet.awesome-markers/
 /public_html/libraries/leaflet.markercluster/
+/public_html/libraries/jquery-outside-events/
 /libraries/mPDF/
 /vendor/*/
 !/vendor/yetiforce
