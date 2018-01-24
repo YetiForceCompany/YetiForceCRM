@@ -103,12 +103,7 @@ class Products_Popup_View extends Vtiger_Popup_View
 		}
 		// Limit the choice of products/services only to the ones related to currently selected Opportunity - second step.
 		if (Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit($sourceModule)) {
-			if ($request->isEmpty('salesprocessid', true)) {
-				$salesProcessId = -1;
-			} else {
-				$salesProcessId = $request->getInteger('salesprocessid');
-			}
-			$listViewModel->set('salesprocessid', $salesProcessId);
+			$listViewModel->set('salesprocessid', $request->isEmpty('salesprocessid') ? 0 : $request->getInteger('salesprocessid'));
 			$viewer->assign('INVENTORY_LIMITED_FROM_POTENTIALS', true);
 		}
 		if (!empty($relatedParentModule) && !empty($relatedParentId)) {
