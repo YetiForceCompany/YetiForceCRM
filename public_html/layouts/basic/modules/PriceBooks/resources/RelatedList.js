@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  *************************************************************************************/
 
 Vtiger_RelatedList_Js("PriceBooks_RelatedList_Js", {}, {
@@ -19,10 +20,49 @@ Vtiger_RelatedList_Js("PriceBooks_RelatedList_Js", {}, {
 		}
 		return params;
 	},
+
 	/**
 	 * Function to handle the adding relations between parent and child window
+	 * @param {Object} extendParams
+	 * @returns {unresolved}
 	 */
-	addRelations: function (idList) {
+	showSelectRelationPopup: function (extendParams) {
+		var aDeferred = jQuery.Deferred();
+		var thisInstance = this;
+		var popupInstance = Vtiger_Popup_Js.getInstance();
+		var mainParams = this.getPopupParams();
+		$.extend(mainParams, extendParams);
+		popupInstance.show(mainParams, function (responseString) {
+			var responseData = JSON.parse(responseString);
+			if (thisInstance.moduleName === 'PriceBooks' || thisInstance.moduleName === 'Products') {
+				var funcName = 'addListPrice';
+				var sendData = responseData;
+			} else {
+				var sendData = Object.keys(responseData);
+				var funcName = 'addRelations';
+			}
+			thisInstance[funcName](sendData).then(function (data) {
+				var detail = Vtiger_Detail_Js.getInstance();
+				thisInstance.loadRelatedList().then(function (data) {
+					aDeferred.resolve(data);
+					detail.registerRelatedModulesRecordCount();
+				});
+				var selectedTab = thisInstance.getSelectedTabElement();
+				if (selectedTab.data('link-key') == 'LBL_RECORD_SUMMARY') {
+					detail.loadWidgets();
+					detail.registerRelatedModulesRecordCount();
+				}
+			});
+		});
+		return aDeferred.promise();
+	},
+
+	/**
+	 * Function to adding relations
+	 * @param {Object} idList
+	 * @returns {unresolved}
+	 */
+	addListPrice: function (idList) {
 		var aDeferred = jQuery.Deferred();
 		AppConnector.request({
 			module: this.parentModuleName,
@@ -38,6 +78,7 @@ Vtiger_RelatedList_Js("PriceBooks_RelatedList_Js", {}, {
 		});
 		return aDeferred.promise();
 	},
+
 	/**
 	 * Function to show listprice update form
 	 */
@@ -53,7 +94,7 @@ Vtiger_RelatedList_Js("PriceBooks_RelatedList_Js", {}, {
 				if (invalidFields.length == 0) {
 					var relid = container.find('input[name="relid"]').val();
 					var listPriceVal = container.find('input[name="currentPrice"]').val();
-					thisInstance.addRelations([{id: relid, price: listPriceVal}]).then(function (data) {
+					thisInstance.addListPrice([{id: relid, price: listPriceVal}]).then(function (data) {
 						thisInstance.loadRelatedList().then(function (data) {
 							detail.registerRelatedModulesRecordCount();
 						});
