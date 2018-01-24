@@ -9,10 +9,12 @@
  */
 class Products_Popup_View extends Vtiger_Popup_View
 {
-	/*
-	 * Function to initialize the required data in smarty to display the List View Contents
-	 */
 
+	/**
+	 * Function to initialize the required data in smarty to display the List View Contents
+	 * @param \App\Request $request
+	 * @param Vtiger_Viewer $viewer
+	 */
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $this->getModule($request);
@@ -101,9 +103,11 @@ class Products_Popup_View extends Vtiger_Popup_View
 		}
 		// Limit the choice of products/services only to the ones related to currently selected Opportunity - second step.
 		if (Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit($sourceModule)) {
-			$salesProcessId = $request->getInteger('salesprocessid');
-			if (empty($salesProcessId))
+			if ($request->isEmpty('salesprocessid', true)) {
 				$salesProcessId = -1;
+			} else {
+				$salesProcessId = $request->getInteger('salesprocessid');
+			}
 			$listViewModel->set('salesprocessid', $salesProcessId);
 			$viewer->assign('INVENTORY_LIMITED_FROM_POTENTIALS', true);
 		}
