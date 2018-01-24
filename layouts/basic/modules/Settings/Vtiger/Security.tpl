@@ -27,7 +27,7 @@
 							<label>{$key}</label>
 							{if isset($item.help) && $item.status}<a href="#" class="popoverTooltip pull-right" data-trigger="focus" data-placement="rigth" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
 						</td>
-						<td><label>{App\Language::translate($item.prefer, 'Settings::ConfReport')}</label></td>
+						<td><label>{App\Language::translate($item.recommended, 'Settings::ConfReport')}</label></td>
 						<td><label>{App\Language::translate($item.current, 'Settings::ConfReport')}</label></td>
 					</tr>
 				{/foreach}
