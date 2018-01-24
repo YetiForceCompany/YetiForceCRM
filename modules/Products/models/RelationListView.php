@@ -52,6 +52,9 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getHeaders()
 	{
 		$headerFields = parent::getHeaders();
@@ -82,6 +85,7 @@ class Products_RelationListView_Model extends Vtiger_RelationListView_Model
 			$field->set('name', 'listprice');
 			$field->set('column', 'listprice');
 			$field->set('label', 'List Price');
+			$field->set('typeofdata', 'N~O');
 			$field->set('fromOutsideList', true);
 
 			$headerFields['listprice'] = $field;

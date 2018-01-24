@@ -3071,29 +3071,29 @@ class ReportRun extends CRMEntity
 	 *
 	 * @param mixed $value any value
 	 *
-	 * @return string PhpExcel value type PHPExcel_Cell_DataType::TYPE_*
+	 * @return string PhpExcel value type \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_*
 	 */
 	private function getPhpExcelTypeFromValue($value)
 	{
 		if (is_integer($value) || is_float($value)) {
-			return PHPExcel_Cell_DataType::TYPE_NUMERIC;
+			return \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC;
 		} else if (is_null($value)) {
-			return PHPExcel_Cell_DataType::TYPE_NULL;
+			return \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NULL;
 		} else if (is_bool($value)) {
-			return PHPExcel_Cell_DataType::TYPE_BOOL;
+			return \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_BOOL;
 		}
-		return PHPExcel_Cell_DataType::TYPE_STRING;
+		return \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING;
 	}
 
 	public function writeReportToExcelFile($fileName, $filterlist = '')
 	{
-		$workbook = new PHPExcel();
+		$workbook = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
 		$worksheet = $workbook->setActiveSheetIndex(0);
 		$reportData = $this->GenerateReport("PDF", $filterlist);
 		$arrayValues = $reportData['data'];
 		$totalxls = $this->GenerateReport("TOTALXLS", $filterlist);
 		$header_styles = [
-			'fill' => ['type' => PHPExcel_Style_Fill::FILL_SOLID, 'color' => ['rgb' => 'E1E0F7']],
+			'fill' => ['type' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, 'color' => ['rgb' => 'E1E0F7']],
 		];
 		if (!empty($arrayValues)) {
 			$count = 0;
@@ -3154,7 +3154,7 @@ class ReportRun extends CRMEntity
 				}
 			}
 		}
-		$workbookWriter = PHPExcel_IOFactory::createWriter($workbook, 'Excel5');
+		$workbookWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($workbook, 'Xls');
 		$workbookWriter->save($fileName);
 	}
 
