@@ -404,7 +404,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	{
 		$headerScriptInstances = [
 			'libraries.js.jquery',
-			'libraries.js.jquery-migrate'
+			'libraries.jquery-migrate.dist.jquery-migrate'
 		];
 		return $this->checkAndConvertJsScripts($headerScriptInstances);
 	}

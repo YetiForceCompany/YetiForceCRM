@@ -43,6 +43,7 @@
 		"inputmask": "^3.3.11",
 		"jQuery-Validation-Engine": "https://github.com/posabsolute/jQuery-Validation-Engine",
 		"jquery": "<3.0.0",
+		"jquery-migrate": "<3.0.0",
 		"jquery-outside-events": "^1.0.0",
 		"jquery-ui-dist": "^1.12.1",
 		"jstree": "^3.3.5",

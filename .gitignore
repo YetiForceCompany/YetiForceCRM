@@ -81,6 +81,7 @@
 /public_html/libraries/leaflet.awesome-markers/
 /public_html/libraries/leaflet.markercluster/
 /public_html/libraries/jquery-outside-events/
+/public_html/libraries/jquery-migrate/
 /libraries/mPDF/
 /vendor/*/
 !/vendor/yetiforce

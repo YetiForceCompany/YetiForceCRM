@@ -160,15 +160,15 @@ inputmask@^3.3.11:
   version "0.0.0"
   resolved "https://github.com/posabsolute/jQuery-Validation-Engine#7ef5ea0e99a33c1d91c399ed67f8511f29313843"
 
-jquery-migrate@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/jquery-migrate/-/jquery-migrate-3.0.1.tgz#141de3abfe6d301baaa4130b0ec7b9a839845e72"
+jquery-migrate@<3.0.0:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/jquery-migrate/-/jquery-migrate-1.4.1.tgz#85152f3ec99a95625f4f7d0bcf62e9b8638f5a76"
 
 jquery-mousewheel@>=3.0.6, jquery-mousewheel@~3.1.13:
   version "3.1.13"
   resolved "https://registry.yarnpkg.com/jquery-mousewheel/-/jquery-mousewheel-3.1.13.tgz#06f0335f16e353a695e7206bf50503cb523a6ee5"
 
-jquery-outside-events@1.1:
+jquery-outside-events@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/jquery-outside-events/-/jquery-outside-events-1.0.0.tgz#da48d0c3d1df80de2f9ac8b112660d67d28a464b"
 
