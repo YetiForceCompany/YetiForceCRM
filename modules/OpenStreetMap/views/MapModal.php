@@ -64,9 +64,9 @@ class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View
 	public function getModalScripts(\App\Request $request)
 	{
 		$jsFileNames = [
-			'~libraries/leaflet/leaflet.js',
-			'~libraries/leaflet/plugins/markercluster/leaflet.markercluster.js',
-			'~libraries/leaflet/plugins/awesome-markers/leaflet.awesome-markers.js',
+			'~libraries/leaflet/dist/leaflet.js',
+			'~libraries/leaflet.markercluster/dist/leaflet.markercluster.js',
+			'~libraries/leaflet.awesome-markers/dist/leaflet.awesome-markers.js',
 			"modules.OpenStreetMap.resources.Map",
 		];
 		return $this->checkAndConvertJsScripts($jsFileNames);
@@ -75,10 +75,10 @@ class OpenStreetMap_MapModal_View extends Vtiger_BasicModal_View
 	public function getModalCss(\App\Request $request)
 	{
 		$cssFileNames = [
-			'~libraries/leaflet/leaflet.css',
-			'~libraries/leaflet/plugins/markercluster/MarkerCluster.Default.css',
-			'~libraries/leaflet/plugins/markercluster/MarkerCluster.css',
-			'~libraries/leaflet/plugins/awesome-markers/leaflet.awesome-markers.css',
+			'~libraries/leaflet/dist/leaflet.css',
+			'~libraries/leaflet.markercluster/dist/MarkerCluster.Default.css',
+			'~libraries/leaflet.markercluster/dist/MarkerCluster.css',
+			'~libraries/leaflet.awesome-markers/dist/leaflet.awesome-markers.css',
 		];
 		return $this->checkAndConvertCssStyles($cssFileNames);
 	}
