@@ -417,7 +417,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	public function getFooterScripts(\App\Request $request)
 	{
 		$jsFileNames = [
-			'~libraries/js/jquery.blockUI.js',
+			'~libraries/block-ui/jquery.blockUI.js',
 			'~libraries/chosen-js/chosen.jquery.js',
 			'~libraries/select2/dist/js/select2.full.js',
 			'~libraries/jquery-ui-dist/jquery-ui.js',

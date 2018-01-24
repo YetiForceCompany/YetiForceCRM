@@ -20,6 +20,12 @@ async@^2.6.0:
   dependencies:
     lodash "^4.14.0"
 
+block-ui@^2.70.1:
+  version "2.70.1"
+  resolved "https://registry.yarnpkg.com/block-ui/-/block-ui-2.70.1.tgz#c862d64ee6288fb78123377c6680bc7ab262103f"
+  dependencies:
+    jquery ">=1.7.x"
+
 bootbox@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/bootbox/-/bootbox-4.4.0.tgz#ff7f898fb87d4527e547feb64158f88450d1a0c9"
@@ -176,7 +182,7 @@ jquery-ui-dist@^1.12.1:
   version "1.12.1"
   resolved "https://registry.yarnpkg.com/jquery-ui-dist/-/jquery-ui-dist-1.12.1.tgz#5c0815d3cc6f90ff5faaf5b268a6e23b4ca904fa"
 
-"jquery@2 - 3", jquery@>=1.10, jquery@>=1.4.4, jquery@>=1.6.0, jquery@>=1.7, "jquery@>=1.7.1 <4.0.0", jquery@>=1.9.1:
+"jquery@2 - 3", jquery@>=1.10, jquery@>=1.4.4, jquery@>=1.6.0, jquery@>=1.7, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.x, jquery@>=1.9.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 
