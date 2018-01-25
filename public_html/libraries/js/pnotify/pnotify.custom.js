@@ -898,7 +898,7 @@ license GPL/LGPL/MPL
 		pin_down: "icon-play"
 	});
 	$.extend(PNotify.styling.bootstrap3, {
-		closer: "glyphicon glyphicon-remove",
+		closer: "fa fa-times",
 		pin_up: "glyphicon glyphicon-pause",
 		pin_down: "glyphicon glyphicon-play"
 	});

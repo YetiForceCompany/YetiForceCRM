@@ -24,7 +24,7 @@
 					</div>
 					<div class="pull-right">
 						<a class="btn btn-default {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" title="{\App\Language::translate('LBL_REMINDER')}" data-content="{\App\Language::translate('LBL_REMINDER')}">
-							<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+							<span class="fa fa-calendar" aria-hidden="true"></span>
 							<span class="badge bgDanger hide">0</span>
 						</a>
 					</div>
@@ -53,7 +53,7 @@
 					</div>
  					<div class="pull-right">
  						<a class="btn btn-default {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" title="{\App\Language::translate('LBL_NOTIFICATIONS')}" >
-							<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+							<span class="fa fa-bell" aria-hidden="true"></span>
 							<span class="badge hide">0</span>
 						</a>
 					</div>
@@ -67,7 +67,7 @@
 				</div>
 				<div class='pull-right'>
 					<a id="mobile_menubar_quickCreate" class="dropdown-toggle btn btn-default" data-toggle="dropdown" title="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
-						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+						<span class="fa fa-plus" aria-hidden="true"></span>
 					</a>
 					<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
 						<li class="quickCreateModules">
@@ -196,7 +196,7 @@
 				<div class="input-group-btn">
 					<div class="pull-right">
 						<button class="btn btn-default searchIcon" type="button">
-							<span class="glyphicon glyphicon-search"></span>
+							<span class="fa fa-search"></span>
 						</button>
 					</div>
 				</div>

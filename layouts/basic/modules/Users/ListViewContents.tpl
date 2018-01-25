@@ -65,10 +65,10 @@
 							<td class="listViewSearchTd" colspan="2">
 								<div class="flexWrapper">
 									<a class="btn btn-default" href="javascript:void(0);" data-trigger="listSearch">
-										<span class="glyphicon glyphicon-search"></span>
+										<span class="fa fa-search"></span>
 									</a>
 									<a class="btn btn-default pull-right listRemoveBtn" href="index.php?module={$MODULE}&parent=Settings&view=List" >
-										<span class="glyphicon glyphicon-remove"></span>
+										<span class="fa fa-times"></span>
 									</a>
 								</div>
 							</td>
@@ -119,7 +119,7 @@
 										<div class="actionImages flexWrapper">
 											<a href='{$LISTVIEW_ENTRY->getDuplicateRecordUrl()}'><span title="{\App\Language::translate('LBL_DUPLICATE', $MODULE)}" class="glyphicon glyphicon-retweet alignMiddle"></span></a>&nbsp;
 												{if $IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->get('status') eq 'Active'}
-												<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_EDIT" href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>&nbsp;
+												<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_EDIT" href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fa fa-pencil alignMiddle"></span></a>&nbsp;
 												{/if}
 												{if $IS_MODULE_DELETABLE && $LISTVIEW_ENTRY->getId() != $USER_MODEL->getId()}
 													{if $LISTVIEW_ENTRY->get('status') eq 'Active'}

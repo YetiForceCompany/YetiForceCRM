@@ -20,7 +20,7 @@ class OSSMailView_ListView_Model extends Vtiger_ListView_Model
 				'linklabel' => 'LBL_CREATEMAIL',
 				'linkurl' => "javascript:window.location='index.php?module=OSSMail&view=Compose'",
 				'linkclass' => 'modCT_' . $moduleModel->getName(),
-				'linkicon' => 'glyphicon glyphicon-plus',
+				'linkicon' => 'fa fa-plus',
 				'showLabel' => 1,
 			];
 		}
@@ -43,7 +43,7 @@ class OSSMailView_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_ChangeType',
 				'linkurl' => 'javascript:OSSMailView_List_Js.triggerChangeType("index.php?module=' . $moduleModel->get('name') . '&view=ChangeType")',
-				'linkicon' => 'glyphicon glyphicon-pencil'
+				'linkicon' => 'fa fa-pencil'
 			];
 		}
 		if ($moduleModel->isPermitted('MassActive')) {

@@ -14,7 +14,7 @@
 	<div class="row" >
 		<div class="col-sm-6">
 			<div class="input-group input-group-sm">
-				<span class=" input-group-addon"><span class="glyphicon glyphicon-calendar iconMiddle margintop3"></span></span>
+				<span class=" input-group-addon"><span class="fa fa-calendar iconMiddle margintop3"></span></span>
 				<input type="text" name="createdtime" title="{\App\Language::translate('Created Time', $MODULE_NAME)}" class="dateRangeField form-control widgetFilter width90" value="{implode(',', $DTIME)}" />
 			</div>
 		</div>

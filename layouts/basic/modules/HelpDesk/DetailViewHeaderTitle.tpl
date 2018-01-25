@@ -15,7 +15,7 @@
 			<strong>{\App\Language::translate('LBL_NO_ACCOUNTS_IN_HELPDESK',{$MODULE})}</strong>
 			<span class="text-right">
 				<a href="javascript:HelpDesk_Detail_Js.setAccountsReference();">
-					<strong> [ <span class="glyphicon glyphicon-search" aria-hidden="true"></span> ]</strong>
+					<strong> [ <span class="fa fa-search" aria-hidden="true"></span> ]</strong>
 				</a>
 			</span>
 		</div>

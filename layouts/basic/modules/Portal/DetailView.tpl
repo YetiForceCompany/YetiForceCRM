@@ -18,7 +18,7 @@
 	<div class="listViewPageDiv">
 		<div class="btn-toolbar col-md-4">
 			<span class="btn-group">
-				<button id="addBookmark" class="btn btn-default addButton"><i class="glyphicon glyphicon-plus"></i>&nbsp;<strong>{\App\Language::translate('LBL_ADD_BOOKMARK', $MODULE)}</strong></button>
+				<button id="addBookmark" class="btn btn-default addButton"><i class="fa fa-plus"></i>&nbsp;<strong>{\App\Language::translate('LBL_ADD_BOOKMARK', $MODULE)}</strong></button>
 			</span>
 		</div>
 		<div class="col-md-2">&nbsp;</div>

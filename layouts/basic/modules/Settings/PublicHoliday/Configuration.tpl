@@ -11,7 +11,7 @@
 		<div class="tab-content themeTableColor overflowVisible">
 		<div class="tab-pane active" id="layoutDashBoards">
 			<div class="btn-toolbar marginBottom10px">
-				<button type="button" class="btn btn-success addDateWindow"><span class="glyphicon glyphicon-plus"></span>&nbsp;{\App\Language::translate('LBL_ADD_HOLIDAY', $QUALIFIED_MODULE)}</button>
+				<button type="button" class="btn btn-success addDateWindow"><span class="fa fa-plus"></span>&nbsp;{\App\Language::translate('LBL_ADD_HOLIDAY', $QUALIFIED_MODULE)}</button>
 			</div>
 			<div id="moduleBlocks">
 				<div style="border-radius: 4px 4px 0px 0px;background: white;" class="editFieldsTable block_1 marginBottom10px border1px">
@@ -64,7 +64,7 @@
 								<td>
 									<div class='pull-right'>
 										<a data-holiday-id="{$HOLIDAY['id']}" data-toggle="dropdown" class="dropdown-toggle editHoliday" href="javascript:void(0)">
-											<span title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span>
+											<span title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}" class="fa fa-pencil alignMiddle"></span>
 										</a>
 										<a data-holiday-id="{$HOLIDAY['id']}" class="deleteHoliday" href="javascript:void(0)">
 											<span title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span>

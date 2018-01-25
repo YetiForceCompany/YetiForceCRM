@@ -83,7 +83,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerMassEdit("index.php?module=' . $moduleModel->get('name') . '&view=MassActionAjax&mode=showMassEditForm");',
-				'linkicon' => 'glyphicon glyphicon-pencil'
+				'linkicon' => 'fa fa-pencil'
 			];
 		}
 		if ($moduleModel->isPermitted('MassMoveDocuments')) {
@@ -107,7 +107,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ADD',
 				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
-				'linkicon' => 'glyphicon glyphicon-plus'
+				'linkicon' => 'fa fa-plus'
 			];
 		}
 		if ($moduleModel->isPermitted('MassActive')) {

@@ -33,7 +33,7 @@
 	<div class="row" >
 		<div class="col-sm-6">
 			<div class="input-group input-group-sm">
-				<span class=" input-group-addon"><span class="glyphicon glyphicon-calendar iconMiddle margintop3" title="{\App\Language::translate('Created Time', $MODULE_NAME)} &nbsp; {\App\Language::translate('LBL_BETWEEN', $MODULE_NAME)}"></span></span>
+				<span class=" input-group-addon"><span class="fa fa-calendar iconMiddle margintop3" title="{\App\Language::translate('Created Time', $MODULE_NAME)} &nbsp; {\App\Language::translate('LBL_BETWEEN', $MODULE_NAME)}"></span></span>
 				<input type="text" name="createdtime" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter form-control width90 textAlignCenter"  value="{implode(',', $DTIME)}" />
 			</div>
 		</div>

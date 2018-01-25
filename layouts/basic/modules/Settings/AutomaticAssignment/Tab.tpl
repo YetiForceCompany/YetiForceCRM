@@ -104,7 +104,7 @@
 											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getListSearchTemplateName(), $SOURCE_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$SOURCE_MODULE}
 											<div class="input-group-btn" id="basic-addon">
 												<button type="button" class="btn btn-success saveValue" id="saveValue" title="{\App\Language::translate('BTN_ADD', $QUALIFIED_MODULE)}">
-													<span class="glyphicon glyphicon-plus"></span>
+													<span class="fa fa-plus"></span>
 												</button>
 											</div>
 										</div>
@@ -118,7 +118,7 @@
 									<td><strong>{$MEMBER.name}</strong>
 										<span title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="glyphicon glyphicon-trash pull-right marginIcon marginTop2 delete cursorPointer" data-mode="addOrRemoveMembers"></span>
 										{if $FIELD_NAME eq 'roles'}
-											<span title="{\App\Language::translate('LBL_CHANGE_ROLE_TYPE', $QUALIFIED_MODULE)}" class="glyphicon glyphicon-transfer pull-right marginIcon marginTop2 changeRoleType cursorPointer" aria-hidden="true"></span>
+											<span title="{\App\Language::translate('LBL_CHANGE_ROLE_TYPE', $QUALIFIED_MODULE)}" class="fa fa-exchange pull-right marginIcon marginTop2 changeRoleType cursorPointer" aria-hidden="true"></span>
 										{/if}
 									</td>
 								</tr>

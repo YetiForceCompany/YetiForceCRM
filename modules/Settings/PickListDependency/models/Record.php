@@ -40,7 +40,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		$editLink = [
 			'linkurl' => "javascript:Settings_PickListDependency_Js.triggerEdit(event, '$soureModule', '$sourceField', '$targetField')",
 			'linklabel' => 'LBL_EDIT',
-			'linkicon' => 'glyphicon glyphicon-pencil'
+			'linkicon' => 'fa fa-pencil'
 		];
 		$editLinkInstance = Vtiger_Link_Model::getInstanceFromValues($editLink);
 

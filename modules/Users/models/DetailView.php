@@ -49,7 +49,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => $linkParams['VIEW'] === 'PreferenceDetail' ? $recordModel->getPreferenceEditViewUrl() : $recordModel->getEditViewUrl(),
 				'linkclass' => 'btn-success',
-				'linkicon' => 'glyphicon glyphicon-pencil',
+				'linkicon' => 'fa fa-pencil',
 				'showLabel' => true
 			];
 			$detailViewLinks[] = [

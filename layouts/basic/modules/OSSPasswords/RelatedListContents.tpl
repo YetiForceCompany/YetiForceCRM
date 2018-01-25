@@ -37,7 +37,7 @@
 				{if $RELATED_MODULE->isQuickSearchEnabled()}
 					<tr>
 						<td>
-							<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
+							<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="fa fa-search"></span></a>
 						</td>
 						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 							<td>
@@ -53,7 +53,7 @@
 						{/foreach}
 						<td>
 							<button type="button" class="btn btn-default removeSearchConditions">
-								<span class="glyphicon glyphicon-remove"></button>
+								<span class="fa fa-times"></button>
 							</a>
 						</td>
 					</tr>

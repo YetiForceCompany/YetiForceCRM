@@ -75,13 +75,13 @@
 						{/if}
 						{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 							<button type="button" class="btn btn-xs btn-success replyComment">
-								<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
+								<span class="fa fa-share" aria-hidden="true"></span>
 								&nbsp;{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}
 							</button>
 						{/if}
 						{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
 							<button type="button" class="btn btn-xs btn-primary editComment feedback marginLeft5">
-								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}
+								<span class="fa fa-pencil" aria-hidden="true"></span>&nbsp;{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}
 							</button>
 						{/if}
 						{assign var=LINKS value=$COMMENT->getCommentLinks()}
@@ -95,7 +95,7 @@
 							<span class="viewThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
 								<button type="button" class="btn btn-xs btn-info viewThread marginLeft5">
 									<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
-									<span class="glyphicon glyphicon-share-alt"></span>
+									<span class="fa fa-share"></span>
 								</button>
 							</span>
 							<span class="hide hideThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
@@ -108,7 +108,7 @@
 							<span class="viewThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
 								<button type="button" class="btn btn-xs btn-info viewThread marginLeft5">
 									<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
-									<span class="glyphicon glyphicon-share-alt"></span>
+									<span class="fa fa-share"></span>
 								</button>
 							</span>
 							<span class="hideThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">

@@ -11,7 +11,7 @@
 					<div class="col-xs-5">
 						<div class="pull-right">
 							<button type="button" class="btn btn-sm btn-default showMailsModal" data-url="index.php?module=OSSMailView&view=MailsPreview&smodule={$MODULE_NAME}&srecord={$RECORD->getId()}&mode=showEmailsList">
-								<span class="body-icon glyphicon glyphicon-search" title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAILS','OSSMailView')}"></span>
+								<span class="body-icon fa fa-search" title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAILS','OSSMailView')}"></span>
 							</button>
 							&nbsp;
 							{if AppConfig::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}

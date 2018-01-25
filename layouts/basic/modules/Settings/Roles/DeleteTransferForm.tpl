@@ -30,11 +30,11 @@
 								<input id="transfer_record" name="transfer_record" type="hidden" value="" class="sourceField">
 								<div class="input-group">
 									<span class="input-group-addon cursorPointer" id="clearRole">
-										<i class="glyphicon glyphicon-remove-sign"></i>
+										<i class="fa fa-times-circle"></i>
 									</span>
 									<input id="transfer_record_display" data-validation-engine='validate[required]' name="transfer_record_display" readonly type="text" class="input-medium form-control" required value="">
 									<span class="input-group-addon cursorPointer relatedPopup" data-field="transfer_record" data-action="popup" data-url="{$RECORD_MODEL->getPopupWindowUrl()}&type=Transfer">
-										<i class="glyphicon glyphicon-search"></i>
+										<i class="fa fa-search"></i>
 									</span>
 								</div>
 							</div>

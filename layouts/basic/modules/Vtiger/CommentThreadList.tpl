@@ -65,13 +65,13 @@
 						{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
 						{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 							<button type="button" class="btn btn-xs btn-success replyComment">
-								<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
+								<span class="fa fa-share" aria-hidden="true"></span>
 								&nbsp;{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}
 							</button>
 						{/if}
 						{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
 							<button type="button" class="btn btn-xs btn-primary editComment feedback marginLeft5">
-								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}
+								<span class="fa fa-pencil" aria-hidden="true"></span>&nbsp;{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}
 							</button>
 						{/if}
 						{assign var=LINKS value=$COMMENT->getCommentLinks()}

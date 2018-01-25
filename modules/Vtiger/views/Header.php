@@ -51,7 +51,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'SwitchUsers',
 				'linkurl' => '',
-				'glyphicon' => 'glyphicon glyphicon-transfer',
+				'glyphicon' => 'fa fa-exchange',
 				'nocaret' => true,
 				'linkdata' => ['url' => $userModel->getSwitchUsersUrl()],
 				'linkclass' => 'showModal',
@@ -62,7 +62,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'LBL_MY_PREFERENCES',
 				'linkurl' => $userModel->getPreferenceDetailViewUrl(),
-				'glyphicon' => 'glyphicon glyphicon-tasks',
+				'glyphicon' => 'fa fa-tasks',
 			];
 		}
 		if ($userModel->isAdminUser()) {
@@ -71,7 +71,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 					'linktype' => 'HEADERLINK',
 					'linklabel' => 'LBL_SYSTEM_SETTINGS',
 					'linkurl' => 'index.php?module=Vtiger&parent=Settings&view=Index',
-					'glyphicon' => 'glyphicon glyphicon-cog',
+					'glyphicon' => 'fa fa-cog',
 				];
 			} else {
 				$headerLinks[] = [
@@ -86,7 +86,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 			'linktype' => 'HEADERLINK',
 			'linklabel' => 'LBL_SIGN_OUT',
 			'linkurl' => 'index.php?module=Users&parent=Settings&action=Logout',
-			'glyphicon' => 'glyphicon glyphicon-off',
+			'glyphicon' => 'fa fa-power-off',
 			'linkclass' => 'btn-danger'
 		];
 		$headerLinkInstances = [];

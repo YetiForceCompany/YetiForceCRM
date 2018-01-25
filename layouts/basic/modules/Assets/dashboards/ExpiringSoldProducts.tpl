@@ -8,7 +8,7 @@
 			<div class="box pull-right">
 				{if \App\Privilege::isPermitted($MODULE_NAME, 'CreateView')}
 					<a class="btn btn-default btn-xs" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('{$MODULE_NAME}'); return false;">
-						<i class='glyphicon glyphicon-plus' border='0' title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}"></i>
+						<i class='fa fa-plus' border='0' title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}"></i>
 					</a>
 				{/if}
 				<a class="btn btn-default btn-xs" href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data">
@@ -16,7 +16,7 @@
 				</a>
 				{if !$WIDGET->isDefault()}
 					<a class="btn btn-default btn-xs" name="dclose" class="widget" data-url="{$WIDGET->getDeleteUrl()}">
-						<i class="glyphicon glyphicon-remove" hspace="2" border="0" align="absmiddle" title="{\App\Language::translate('LBL_CLOSE')}" alt="{\App\Language::translate('LBL_CLOSE')}"></i>
+						<i class="fa fa-times" hspace="2" border="0" align="absmiddle" title="{\App\Language::translate('LBL_CLOSE')}" alt="{\App\Language::translate('LBL_CLOSE')}"></i>
 					</a>
 				{/if}
 			</div>

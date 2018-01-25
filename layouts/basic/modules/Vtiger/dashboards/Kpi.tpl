@@ -34,7 +34,7 @@
 						</a>
 						{if !$WIDGET->isDefault()}
 							<a name="dclose" class="widget" data-url="{$WIDGET->getDeleteUrl()}">
-								<i class="glyphicon glyphicon-remove" hspace="2" border="0" align="absmiddle" title="{\App\Language::translate('LBL_REMOVE')}" alt="{\App\Language::translate('LBL_REMOVE')}"></i>
+								<i class="fa fa-times" hspace="2" border="0" align="absmiddle" title="{\App\Language::translate('LBL_REMOVE')}" alt="{\App\Language::translate('LBL_REMOVE')}"></i>
 							</a>
 						{/if}
 					</div>

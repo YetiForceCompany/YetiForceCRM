@@ -92,12 +92,12 @@
 											{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 												<span>
 													<button type="button" class="btn btn-xs btn-success replyComment feedback">
-														<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>&nbsp;
+														<span class="fa fa-share" aria-hidden="true"></span>&nbsp;
 														{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}
 													</button>
 													{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
 														<button type="button" class="btn btn-xs btn-primary editComment feedback marginLeft5">
-															<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;
+															<span class="fa fa-pencil" aria-hidden="true"></span>&nbsp;
 															{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}
 														</button>
 													{/if}
@@ -139,7 +139,7 @@
 							<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
 						</div>
 						<button class="cursorPointer closeCommentBlock marginTop10 btn btn-warning pull-right cancel" type="reset">
-							<span class="visible-xs-inline-block glyphicon glyphicon-remove"></span>
+							<span class="visible-xs-inline-block fa fa-times"></span>
 							<strong class="hidden-xs">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 						</button>
 						<button class="btn btn-success saveComment marginTop10 pull-right" type="button" data-mode="add">
@@ -165,7 +165,7 @@
 							<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" ></textarea>
 						</div>
 						<button class="cursorPointer closeCommentBlock marginTop10 btn btn-warning pull-right cancel" type="reset">
-							<span class="visible-xs-inline-block glyphicon glyphicon-remove"></span>
+							<span class="visible-xs-inline-block fa fa-times"></span>
 							<strong class="hidden-xs">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 						</button>
 						<button class="btn btn-success saveComment marginTop10 pull-right" type="button" data-mode="edit">

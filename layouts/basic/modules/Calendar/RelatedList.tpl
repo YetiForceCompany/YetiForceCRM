@@ -38,7 +38,7 @@
 								{if $BTN_ICON}
 									<span class="{$BTN_ICON}" aria-hidden="true"></span>
 								{else}	
-									<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+									<span class="fa fa-list" aria-hidden="true"></span>
 								{/if}
 								&nbsp;
 								<span class="textHolder">{\App\Language::translate($TEXT_HOLDER, $MODULE_NAME)}</span>
@@ -70,8 +70,8 @@
 											data-url="{$RELATED_LINK->getUrl()}"
 										{/if}
 										{if $IS_SELECT_BUTTON neq true}name="addButton"{/if}>
-									{if $IS_SELECT_BUTTON eq false}<span class="glyphicon glyphicon-plus"></span>{/if}
-									{if $IS_SELECT_BUTTON eq true}<span class="glyphicon glyphicon-search"></span>{/if}
+									{if $IS_SELECT_BUTTON eq false}<span class="fa fa-plus"></span>{/if}
+									{if $IS_SELECT_BUTTON eq true}<span class="fa fa-search"></span>{/if}
 									&nbsp;<strong>{$RELATED_LINK->getLabel()}</strong>
 								</button>
 							</div>

@@ -83,7 +83,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => '',
 					'linkurl' => 'javascript:Vtiger_Detail_Js.showWorkflowTriggerView(this)',
-					'linkicon' => 'glyphicon glyphicon-plus-sign',
+					'linkicon' => 'fa fa-plus-circle',
 					'linkhint' => 'BTN_WORKFLOW_TRIGGER',
 					'linkclass' => 'btn-warning',
 				];
@@ -137,7 +137,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linktype' => 'DETAIL_VIEW_BASIC',
 					'linklabel' => 'BTN_RECORD_EDIT',
 					'linkurl' => $recordModel->getEditViewUrl(),
-					'linkicon' => 'glyphicon glyphicon-pencil',
+					'linkicon' => 'fa fa-pencil',
 					'linkclass' => 'btn',
 					'linkhint' => 'BTN_RECORD_EDIT',
 			]);

@@ -188,7 +188,7 @@ class Vtiger_ListView_Model extends \App\Base
 					'linktype' => 'LISTVIEW',
 					'linklabel' => 'LBL_GENERATE_RECORDS',
 					'linkurl' => 'javascript:Vtiger_List_Js.triggerGenerateRecords("index.php?module=' . $moduleModel->getName() . '&view=GenerateModal&fromview=List");',
-					'linkicon' => 'glyphicon glyphicon-plus-sign',
+					'linkicon' => 'fa fa-plus-circle',
 				];
 			}
 		}
@@ -211,7 +211,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_EDIT',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerMassEdit("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=showMassEditForm");',
-				'linkicon' => 'glyphicon glyphicon-pencil'
+				'linkicon' => 'fa fa-pencil'
 			];
 		}
 		if ($moduleModel->isPermitted('MassActive')) {
@@ -304,7 +304,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linklabel' => 'LBL_ADD_RECORD',
 				'linkurl' => $moduleModel->getCreateRecordUrl(),
 				'linkclass' => 'addButton modCT_' . $moduleModel->getName(),
-				'linkicon' => 'glyphicon glyphicon-plus',
+				'linkicon' => 'fa fa-plus',
 				'showLabel' => 1,
 				'linkhref' => true
 			];

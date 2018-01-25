@@ -854,13 +854,13 @@ class Vtiger_Module_Model extends \vtlib\Module
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),
-				'linkicon' => 'glyphicon glyphicon-list',
+				'linkicon' => 'fa fa-list',
 		]);
 		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_PREVIEW_LIST',
 				'linkurl' => 'index.php?module=' . $this->getName() . '&view=ListPreview',
-				'linkicon' => 'glyphicon glyphicon-list-alt',
+				'linkicon' => 'fa fa-list-alt',
 		]);
 		if ($userPrivilegesModel->hasModulePermission('Dashboard') && $userPrivilegesModel->hasModuleActionPermission($this->getId(), 'Dashboard')) {
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([

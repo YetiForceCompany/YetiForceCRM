@@ -41,7 +41,7 @@
 			<div class="col-md-4 btn-toolbar">
 				<button class="btn btn-success addButton" {if stripos($MODULE_MODEL->getCreateViewUrl(), 'javascript:')===0} onclick="{$MODULE_MODEL->getCreateViewUrl()|substr:strlen('javascript:')};"
                         {else} onclick='window.location.href="{$MODULE_MODEL->getCreateViewUrl()}"' {/if}>
-					<i class="glyphicon glyphicon-plus"></i>&nbsp;
+					<i class="fa fa-plus"></i>&nbsp;
 					<strong>{\App\Language::translate('LBL_NEW', $QUALIFIED_MODULE)} {\App\Language::translate('LBL_WORKFLOW',$QUALIFIED_MODULE)}</strong>
 				</button>
 				<button class="btn btn-default importButton" id="importButton" data-url="{Settings_Workflows_Module_Model::getImportViewUrl()}" title="{\App\Language::translate('LBL_IMPORT_TEMPLATE', $QUALIFIED_MODULE)}">

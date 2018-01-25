@@ -45,9 +45,9 @@
 					<tr>
 						<td class="listViewSearchTd">
 							<div class="flexWrapper">
-							<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
+							<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="fa fa-search"></span></a>
 							<button type="button" class="btn btn-default removeSearchConditions">
-								<span class="glyphicon glyphicon-remove">
+								<span class="fa fa-times">
 							</button>
 							</div>
 						</td>

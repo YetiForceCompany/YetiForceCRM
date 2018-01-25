@@ -214,7 +214,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DEACTIVATION_TASKS',
 				'linkurl' => 'javascript:Settings_Workflows_List_Js.setChangeStatusTasks(this,' . $this->getId() . ', false);',
-				'linkicon' => 'glyphicon glyphicon-remove',
+				'linkicon' => 'fa fa-times',
 				'class' => 'deactiveTasks'
 			],
 			[
@@ -227,7 +227,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'glyphicon glyphicon-pencil'
+				'linkicon' => 'fa fa-pencil'
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',

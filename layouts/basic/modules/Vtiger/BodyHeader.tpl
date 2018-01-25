@@ -8,7 +8,7 @@
 					{assign var=QUICKCREATE_MODULES value=Vtiger_Module_Model::getQuickCreateModules(true)}
 					{if !empty($QUICKCREATE_MODULES)}
 						<a class="btn btn-default btn-sm popoverTooltip dropdownMenu hidden-xs hidden-sm" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+							<span class="fa fa-plus" aria-hidden="true"></span>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
 							<li class="quickCreateModules">
@@ -47,7 +47,7 @@
 					{/if}
 					{if \App\Privilege::isPermitted('Notification', 'DetailView')}
 						<a class="btn btn-default btn-sm isBadge notificationsNotice popoverTooltip {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if} hidden-xs hidden-sm" data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}">
-							<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+							<span class="fa fa-bell" aria-hidden="true"></span>
 							<span class="badge hide">0</span>
 						</a>
 					{/if}
@@ -75,7 +75,7 @@
 					{/if}
 					{if $REMINDER_ACTIVE}
 						<a class="btn btn-default btn-sm isBadge remindersNotice popoverTooltip {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if} hidden-xs hidden-sm" data-content="{\App\Language::translate('LBL_REMINDER')}" href="#">
-							<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+							<span class="fa fa-calendar" aria-hidden="true"></span>
 							<span class="badge bgDanger hide">0</span>
 						</a>
 					{/if}
@@ -156,7 +156,7 @@
 							<input type="text" class="form-control globalSearchValue" title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10" data-operator="contains" />
 							<span class="input-group-btn">
 								<button class="btn btn-default searchIcon" type="button">
-									<span class="glyphicon glyphicon-search"></span>
+									<span class="fa fa-search"></span>
 								</button>
 								{if AppConfig::search('GLOBAL_SEARCH_OPERATOR')}
 									<div class="btn-group">
@@ -195,7 +195,7 @@
 					<div class="pull-left searchMenuBtn">
 						<div class="quickAction">
 							<a class="btn btn-default btn-sm" href="#">
-								<span aria-hidden="true" class="glyphicon glyphicon-search"></span>
+								<span aria-hidden="true" class="fa fa-search"></span>
 							</a>
 						</div>
 					</div>

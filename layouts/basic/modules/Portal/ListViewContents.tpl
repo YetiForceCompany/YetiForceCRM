@@ -79,7 +79,7 @@
 								<td nowrap class="{$WIDTHTYPE}">
 									<div class="actions pull-right">
 										<span class="actionImages">
-											<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle editRecord"></span>&nbsp;
+											<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fa fa-pencil alignMiddle editRecord"></span>&nbsp;
 											<span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle deleteRecord"></span>
 										</span>
 									</div>

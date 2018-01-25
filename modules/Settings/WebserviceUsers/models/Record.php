@@ -245,7 +245,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getModule()->getEditViewUrl() . '&record=' . $this->getId(),
-				'linkicon' => 'glyphicon glyphicon-pencil',
+				'linkicon' => 'fa fa-pencil',
 				'linkclass' => 'btn btn-sm btn-primary',
 				'modalView' => true
 			],

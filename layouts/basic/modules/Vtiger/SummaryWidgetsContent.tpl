@@ -59,7 +59,7 @@
 								{/if}&nbsp;&nbsp;
 								<span class="actionImages">
 									<a class="showModal" data-url="index.php?module={$PARENT_RECORD->getModuleName()}&view=RelatedCommentModal&record={$PARENT_RECORD->getId()}&relid={$RELATED_RECORD->getId()}&relmodule={$RELATED_MODULE->get('name')}">
-										<span class="glyphicon glyphicon-pencil alignMiddle" title="{\App\Language::translate('LBL_EDIT', $MODULE)}"></span>
+										<span class="fa fa-pencil alignMiddle" title="{\App\Language::translate('LBL_EDIT', $MODULE)}"></span>
 									</a>
 								</span>
 							</td>
@@ -105,14 +105,14 @@
 								{if $RELATED_RECORD->isViewable()}
 									<a class="addButton" href="{$RELATED_RECORD->getFullDetailViewUrl()}">
 										<button class="btn btn-sm btn-default popoverTooltip" type="button">
-											<span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list"></span>
+											<span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="fa fa-th-list"></span>
 										</button>
 									</a>
 								{/if}
 								{if $RELATED_RECORD->isEditable()}
 									<a class="addButton" href="{$RELATED_RECORD->getEditViewUrl()}">
 										<button class="btn btn-sm btn-default popoverTooltip" type="button">
-											<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil"></span>
+											<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fa fa-pencil"></span>
 										</button>
 									</a>
 								{/if}
