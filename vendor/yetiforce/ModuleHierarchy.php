@@ -67,7 +67,7 @@ class ModuleHierarchy
 		if (isset(static::$modulesByLevels[$level])) {
 			return static::$modulesByLevels[$level];
 		}
-		return false;
+		return [];
 	}
 
 	/**
