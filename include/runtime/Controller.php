@@ -427,7 +427,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/js/rochal-jQuery-slimScroll/jquery.slimscroll.js',
 			'~libraries/simplebar/dist/simplebar.js',
 			'~libraries/pnotify/dist/pnotify.js',
-			'~libraries/js/jquery.hoverIntent.minified.js',
+			'~libraries/jquery-hoverintent/jquery.hoverIntent.js',
 			'~libraries/bootstrap/dist/js/bootstrap.js',
 			'~libraries/bootstrap-switch/dist/js/bootstrap-switch.js',
 			'~libraries/bootbox/bootbox.js',

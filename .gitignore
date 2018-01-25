@@ -84,6 +84,11 @@
 /public_html/libraries/jquery-migrate/
 /public_html/libraries/block-ui/
 /public_html/libraries/jquery-cycle/
+/public_html/libraries/respond.js/
+/public_html/libraries/html5shiv/
+/public_html/libraries/jquery-hoverintent/
+/public_html/libraries/add/
+/public_html/libraries/yarn/
 /libraries/mPDF/
 /vendor/*/
 !/vendor/yetiforce
