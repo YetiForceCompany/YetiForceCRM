@@ -21,7 +21,7 @@
 	"dependencies": {
 		"Flot": "https://github.com/flot/flot.git",
 		"bootbox": "^4.4.0",
-		"bootstrap": "<4.0.0",
+		"bootstrap": "^4.0.0",
 		"bootstrap-chosen": "^1.4.2",
 		"bootstrap-colorpicker": "^2.5.2",
 		"bootstrap-datepicker": "^1.7.1",
