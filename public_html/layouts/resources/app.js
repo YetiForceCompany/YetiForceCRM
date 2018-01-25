@@ -1017,60 +1017,6 @@ window.app = {
 		return table.DataTable();
 	},
 	/**
-	 * Function which will register time fields
-	 *
-	 * @params : container - jquery object which contains time fields with class timepicker-default or itself can be time field
-	 *			 registerForAddon - boolean value to register the event for Addon or not
-	 *			 params  - params for the  plugin
-	 *
-	 * @return : container to support chaining
-	 */
-	registerEventForTimeFields: function (container, registerForAddon, params) {
-
-		if (typeof cotainer == 'undefined') {
-			container = jQuery('body');
-		}
-		if (typeof registerForAddon == 'undefined') {
-			registerForAddon = true;
-		}
-
-		container = jQuery(container);
-
-		if (container.hasClass('timepicker-default')) {
-			var element = container;
-		} else {
-			var element = container.find('.timepicker-default');
-		}
-
-		if (registerForAddon == true) {
-			var parentTimeElem = element.closest('.time');
-			jQuery('.input-group-addon', parentTimeElem).on('click', function (e) {
-				var elem = jQuery(e.currentTarget);
-				elem.closest('.time').find('.timepicker-default').focus();
-			});
-		}
-
-		if (typeof params == 'undefined') {
-			params = {};
-		}
-
-		var timeFormat = element.data('format');
-		if (timeFormat == '24') {
-			timeFormat = 'H:i';
-		} else {
-			timeFormat = 'h:i A';
-		}
-		var defaultsTimePickerParams = {
-			'timeFormat': timeFormat,
-			'className': 'timePicker'
-		};
-		var params = jQuery.extend(defaultsTimePickerParams, params);
-
-		element.timepicker(params);
-
-		return container;
-	},
-	/**
 	 * Function to destroy time fields
 	 */
 	destroyTimeFields: function (container) {
