@@ -29,7 +29,7 @@
 			</span>
 			<span class="input-group-btn">
 				<button class="btn btn-default inviteRemove" type="button">
-					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					<span class="fa fa-times" aria-hidden="true"></span>
 				</button>
 			</span>
 		</div>

@@ -16,7 +16,7 @@
 				{if $BTN_ICON}
 					<span class="{$BTN_ICON}" aria-hidden="true"></span>
 				{else}	
-					<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+					<span class="fa fa-list" aria-hidden="true"></span>
 				{/if}
 				&nbsp;
 				<span class="textHolder">{\App\Language::translate($TEXT_HOLDER, $MODULE_NAME)}</span>

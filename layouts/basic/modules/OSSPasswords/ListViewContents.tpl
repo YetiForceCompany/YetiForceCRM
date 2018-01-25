@@ -56,9 +56,9 @@
 					<tr>
 						<td class="listViewSearchTd">
 							<div class="flexWrapper">
-								<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
+								<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="fa fa-search"></span></a>
 								<a class="btn btn-default pull-right listRemoveBtn" href="index.php?view=List&module={$MODULE}" >
-									<span class="glyphicon glyphicon-remove"></span>
+									<span class="fa fa-times"></span>
 								</a>
 							</div>
 						</td>

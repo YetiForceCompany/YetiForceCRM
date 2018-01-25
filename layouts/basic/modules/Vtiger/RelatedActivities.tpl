@@ -49,12 +49,12 @@
 						{/if}&nbsp;
 					{if !$IS_READ_ONLY && $RECORD->isEditable()}
 						<a href="{$RECORD->getEditViewUrl()}" class="fieldValue">
-							<span class="glyphicon glyphicon-pencil summaryViewEdit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
+							<span class="fa fa-pencil summaryViewEdit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 						</a>
 					{/if}
 					{if $RECORD->isViewable()}&nbsp;
 						<a href="{$RECORD->getDetailViewUrl()}" class="fieldValue">
-							<span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}" class="glyphicon glyphicon-th-list summaryViewEdit"></span>
+							<span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}" class="fa fa-th-list summaryViewEdit"></span>
 						</a>
 					{/if}
 				</div>
@@ -101,7 +101,7 @@
 						</span>&nbsp;&nbsp;
 						{if !$IS_READ_ONLY}
 							<span class="editDescription cursorPointer">
-								<span class="glyphicon glyphicon-pencil" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
+								<span class="fa fa-pencil" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 							</span>
 						{/if}
 						{if $RECORD->get('location')}

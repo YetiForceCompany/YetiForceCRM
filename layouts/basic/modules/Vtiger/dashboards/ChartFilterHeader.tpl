@@ -31,7 +31,7 @@
 			{if $WIDGET_DATA['timeRange']}
 				<div class="col-md-6">
 					<div class="input-group input-group-sm">
-						<span class=" input-group-addon"><span class="glyphicon glyphicon-calendar iconMiddle "></span></span>
+						<span class=" input-group-addon"><span class="fa fa-calendar iconMiddle "></span></span>
 						<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" placeholder="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter width90 form-control" />
 					</div>	
 				</div>

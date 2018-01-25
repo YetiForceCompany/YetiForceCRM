@@ -103,7 +103,7 @@
 			<div class="row pushDown">
 				<span class="col-md-4">
 					<button id="addMapping" class="btn btn-info addButton" type="button">
-						<span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_ADD_MAPPING', $QUALIFIED_MODULE)}</strong>
+						<span class="fa fa-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_ADD_MAPPING', $QUALIFIED_MODULE)}</strong>
 					</button>
 				</span>
 				<span class="col-md-8">

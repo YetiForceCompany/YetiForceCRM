@@ -23,7 +23,7 @@
 					{if \App\Privilege::isPermitted('Calendar', 'CreateView')}
 						<a class="btn btn-xs btn-default" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
 								return false;">
-							<span class='glyphicon glyphicon-plus' border='0' title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
+							<span class='fa fa-plus' border='0' title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
 						</a>
 					{/if}&nbsp;
 					<button class="btn btn-default btn-xs changeRecordSort" title="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}" alt="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}" data-sort="{if $DATA['sortorder'] eq 'desc'}asc{else}desc{/if}" data-asc="{\App\Language::translate('LBL_SORT_ASCENDING', $MODULE_NAME)}" data-desc="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}">
@@ -31,7 +31,7 @@
 					</button>
 					{if $LISTVIEWLINKS}&nbsp;
 						<button class="btn btn-default btn-xs goToListView" title="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST', $MODULE_NAME)}" >
-							<span class="glyphicon glyphicon-th-list"></span>
+							<span class="fa fa-th-list"></span>
 						</button>
 					{/if}&nbsp;
 					{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
@@ -42,7 +42,7 @@
 		<div class="row" >
 			<div class="col-xs-6">
 				<div class="input-group input-group-sm">
-					<span class="input-group-addon"><span class="glyphicon glyphicon-filter iconMiddle margintop3" title="{\App\Language::translate('Assigned To', $MODULE_NAME)}"></span></span>
+					<span class="input-group-addon"><span class="fa fa-filter iconMiddle margintop3" title="{\App\Language::translate('Assigned To', $MODULE_NAME)}"></span></span>
 					<select class="widgetFilter select2 width90 form-control input-sm" name="activitytype" title="{\App\Language::translate('Activity Type',$SOURCE_MODULE)}">
 						<option value="all">{\App\Language::translate('LBL_ALL')}</option>
 						{foreach item=TYPE from=Calendar_Module_Model::getCalendarTypes()}

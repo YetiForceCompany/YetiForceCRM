@@ -11,7 +11,7 @@
 								<span class="body-icon glyphicon glyphicon-triangle-bottom"></span>
 							</a>&nbsp;
 							<button type="button" class="btn btn-sm btn-default showMailModal" data-url="{$ROW['url']}" title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL','OSSMailView')}">
-								<span class="body-icon glyphicon glyphicon-search"></span>
+								<span class="body-icon fa fa-search"></span>
 							</button>
 						</div>
 						<div class="pull-right">
@@ -25,7 +25,7 @@
 										<img width="14px" src="{\App\Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{\App\Language::translate('LBL_REPLYALLL','OSSMailView')}">
 									</button>
 									<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=forward" data-popup="{$POPUP}" title="{\App\Language::translate('LBL_FORWARD','OSSMailView')}">
-										<span class="glyphicon glyphicon-share-alt"></span>
+										<span class="fa fa-share"></span>
 									</button>
 								{else}
 									<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'reply',$SRECORD,$SMODULENAME)}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
@@ -35,7 +35,7 @@
 										<img width="14px" src="{\App\Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{\App\Language::translate('LBL_REPLYALLL','OSSMailView')}">
 									</a>
 									<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'forward',$SRECORD,$SMODULENAME)}" title="{\App\Language::translate('LBL_FORWARD', 'OSSMailView')}">
-										<span class="glyphicon glyphicon-share-alt"></span>
+										<span class="fa fa-share"></span>
 									</a>
 								{/if}
 							{/if}

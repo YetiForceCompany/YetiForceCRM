@@ -349,7 +349,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'glyphicon glyphicon-pencil'
+				'linkicon' => 'fa fa-pencil'
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',

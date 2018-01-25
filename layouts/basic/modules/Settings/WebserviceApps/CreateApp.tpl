@@ -91,11 +91,11 @@
 									   autocomplete="off">
 								<span class="input-group-btn cursorPointer">
 									<button class="btn btn-default clearReferenceSelection" type="button">
-										<span class="glyphicon glyphicon-remove-sign" 
+										<span class="fa fa-times-circle" 
 											  title="{\App\Language::translate('LBL_CLEAR', $QUALIFIED_MODULE)}"></span>
 									</button>
 									<button class="btn btn-default relatedPopup" type="button">
-										<span class="glyphicon glyphicon-search" 
+										<span class="fa fa-search" 
 											title="{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}"></span>
 									</button>
 								</span>

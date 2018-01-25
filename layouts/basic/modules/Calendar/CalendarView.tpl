@@ -23,7 +23,7 @@
 			</div>
 			<div class="pull-right col-xs-1 col-sm-1">
 				<button class="pull-right btn btn-default btn-sm addButton marginRight10">
-					<span class="glyphicon glyphicon-plus"></span>
+					<span class="fa fa-plus"></span>
 				</button>
 			</div>
 		</div>

@@ -75,7 +75,7 @@
 																		{/foreach}
 																	</select>
 																	<span class="filterImage">
-																		<span class="glyphicon glyphicon-filter"></span>
+																		<span class="fa fa-filter"></span>
 																	</span>
 																{else}
 																	<input type="hidden" value="0" id="customFilter" />
@@ -84,7 +84,7 @@
 														</div>
 														<div class="btn-group paddingRight10">
 															<button type="button" class="btn btn-default loadFormFilterButton popoverTooltip" data-content="{\App\Language::translate('LBL_LOAD_RECORDS_INFO',$MODULE)}">
-																<span class="glyphicon glyphicon-filter"></span>&nbsp;
+																<span class="fa fa-filter"></span>&nbsp;
 																<strong>{\App\Language::translate('LBL_LOAD_RECORDS',$MODULE)}</strong>
 															</button>
 														</div>
@@ -195,7 +195,7 @@
 														{if $RELATED_MODULE->isQuickSearchEnabled()}
 															<tr>
 																<td>
-																	<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
+																	<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="fa fa-search"></span></a>
 																</td>
 																{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 																	<td>
@@ -211,7 +211,7 @@
 																{/foreach}
 																<td>
 																	<button type="button" class="btn btn-default removeSearchConditions">
-																		<span class="glyphicon glyphicon-remove"></button>
+																		<span class="fa fa-times"></button>
 																	</a>
 																</td>
 															</tr>
@@ -262,9 +262,9 @@
 																<td nowrap class="{$WIDTHTYPE}">
 																	<div class="pull-right actions">
 																		<span class="actionImages">
-																			<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;
+																			<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="fa fa-th-list alignMiddle"></span></a>&nbsp;
 																				{if $IS_EDITABLE}
-																				<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>
+																				<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fa fa-pencil alignMiddle"></span></a>
 																				{/if}
 																				{if $IS_DELETABLE}
 																				<a class="relationDelete"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>

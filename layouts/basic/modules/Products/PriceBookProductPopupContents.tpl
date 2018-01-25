@@ -18,7 +18,7 @@
 	{if $LISTVIEW_ENTRIES_COUNT neq '0'}
 		<div class="clearfix form-actions">
 			<button class="cancelLink pull-right btn btn-warning" type="reset">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
-			<button class="btn btn-success addButton select pull-right"><i class="glyphicon glyphicon-plus"></i>&nbsp;<strong>{\App\Language::translate('LBL_ADD_TO_PRICEBOOKS',$MODULE)}</strong></button>
+			<button class="btn btn-success addButton select pull-right"><i class="fa fa-plus"></i>&nbsp;<strong>{\App\Language::translate('LBL_ADD_TO_PRICEBOOKS',$MODULE)}</strong></button>
 		</div>
 	{/if}
 	<div class="popupEntriesDiv relatedContents contents-bottomscroll">

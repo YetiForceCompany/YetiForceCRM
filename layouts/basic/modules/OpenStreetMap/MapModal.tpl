@@ -32,7 +32,7 @@
 						<input type="text" class="form-control searchCompany" />
 						<span class="input-group-btn">
 							<button class="btn btn-default addRecord" type="button">
-								<span class="glyphicon glyphicon-plus"></span>
+								<span class="fa fa-plus"></span>
 							</button>
 						</span>
 					</div>
@@ -86,7 +86,7 @@
 								<span class="fa fa-arrow-down"></span>
 							</button>
 							<button class="btn btn-danger btn-sm removeIndirect">
-								<span class="glyphicon glyphicon-remove"></span>
+								<span class="fa fa-times"></span>
 							</button>
 						</div>
 					</div>

@@ -31,10 +31,10 @@
 							<button id="makeDefaultButton" class="btn btn-info" title="{\App\Language::translate('LBL_SET_AS_DEFAULT', $MODULE)}">&nbsp;<strong>{\App\Language::translate('LBL_SET_AS_DEFAULT', $MODULE)}</strong></button>
 						</span>
 						<span class="btn-group pull-right">
-							<button id="rssAddButton" class="rssAddButton btn btn-success" title="{\App\Language::translate('LBL_ADD_FEED_SOURCE', $MODULE)}"><span class="glyphicon glyphicon-plus"></span>&nbsp;<span class="userIcon-Rss"></span></button>
+							<button id="rssAddButton" class="rssAddButton btn btn-success" title="{\App\Language::translate('LBL_ADD_FEED_SOURCE', $MODULE)}"><span class="fa fa-plus"></span>&nbsp;<span class="userIcon-Rss"></span></button>
 						</span>
 						<span class="btn-group pull-right">
-							<button id="changeFeedSource" class="changeFeedSource btn btn-primary" title="{\App\Language::translate('LBL_CHANGE_RSS_CHANNEL', $MODULE)}"><span class="glyphicon glyphicon-transfer"></span>&nbsp;<span class="userIcon-Rss"></span></button>
+							<button id="changeFeedSource" class="changeFeedSource btn btn-primary" title="{\App\Language::translate('LBL_CHANGE_RSS_CHANNEL', $MODULE)}"><span class="fa fa-exchange"></span>&nbsp;<span class="userIcon-Rss"></span></button>
 						</span>
 					</div>
 				</div>

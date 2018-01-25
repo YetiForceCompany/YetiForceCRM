@@ -26,7 +26,7 @@
 								{/if}
 								{$COUNT=$COUNT+1}
 								{if $RECENT_ACTIVITY->isCreate()}
-									<span class="glyphicon glyphicon-plus bgGreen"></span>
+									<span class="fa fa-plus bgGreen"></span>
 									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if} isCreate">
 										<div class="pull-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
@@ -65,7 +65,7 @@
 										</div>
 									</div>
 								{else if $RECENT_ACTIVITY->isUpdate()}
-									<span class="glyphicon glyphicon-pencil bgDarkBlue"></span>
+									<span class="fa fa-pencil bgDarkBlue"></span>
 									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if} isUpdate">
 										<div class="pull-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
@@ -195,7 +195,7 @@
 										</div>
 									</div>
 								{else if $RECENT_ACTIVITY->isConvertToAccount()}
-									<span class="glyphicon glyphicon-transfer bgAzure"></span>
+									<span class="fa fa-exchange bgAzure"></span>
 									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if} isConvertToAccount">
 										<div class="pull-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
@@ -215,7 +215,7 @@
 										</div>
 									</div>
 								{else if $RECENT_ACTIVITY->isDisplayed()}
-									<span class="glyphicon glyphicon-th-list bgAzure"></span>
+									<span class="fa fa-th-list bgAzure"></span>
 									<div class="timeline-item isDisplayed">
 										<div class="pull-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}

@@ -23,7 +23,7 @@
 			<h4>{\App\Language::translate('List of widgets for the module', $QUALIFIED_MODULE)}: {\App\Language::translate($SOURCEMODULE, $SOURCEMODULE)}</h4>
 		</div>
 		<div class="col-md-4 paddingLRZero">
-			<button class="btn btn-success addWidget pull-right" type="button"><i class="glyphicon glyphicon-plus"></i>&nbsp;<strong>{\App\Language::translate('Add widget', $QUALIFIED_MODULE)}</strong></button>
+			<button class="btn btn-success addWidget pull-right" type="button"><i class="fa fa-plus"></i>&nbsp;<strong>{\App\Language::translate('Add widget', $QUALIFIED_MODULE)}</strong></button>
 		</div>
 		<div class="clearfix"></div>
 	</div>
@@ -47,8 +47,8 @@
 								</div>
 								<div class="col-md-2">
 									<span class="pull-right">
-										<i class="cursorPointer glyphicon glyphicon-pencil editWidget" title="{\App\Language::translate('Edit', $QUALIFIED_MODULE)}"></i>
-										&nbsp;&nbsp;<i class="cursorPointer glyphicon glyphicon-remove removeWidget" title="{\App\Language::translate('Remove', $QUALIFIED_MODULE)}"></i>
+										<i class="cursorPointer fa fa-pencil editWidget" title="{\App\Language::translate('Edit', $QUALIFIED_MODULE)}"></i>
+										&nbsp;&nbsp;<i class="cursorPointer fa fa-times removeWidget" title="{\App\Language::translate('Remove', $QUALIFIED_MODULE)}"></i>
 									</span>
 								</div>
 							</div>

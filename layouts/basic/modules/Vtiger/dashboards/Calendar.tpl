@@ -13,7 +13,7 @@
 				{if \App\Privilege::isPermitted('Calendar', 'CreateView')}
 					<a class="btn btn-default btn-xs" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
 							return false;">
-						<span class='glyphicon glyphicon-plus' border='0' title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
+						<span class='fa fa-plus' border='0' title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
 					</a>
 				{/if}
 				{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
@@ -25,7 +25,7 @@
 		<div class="col-sm-6">
 			{if AppConfig::module('Calendar','DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE') == 'list'}
 				<div class="input-group input-group-sm">
-					<span class="input-group-addon"><span class="glyphicon glyphicon-filter iconMiddle margintop3"></span></span>
+					<span class="input-group-addon"><span class="fa fa-filter iconMiddle margintop3"></span></span>
 					<select class="widgetFilter form-control customFilter input-sm" name="customFilter" title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
 						{assign var=CUSTOM_VIEWS value=CustomView_Record_Model::getAllByGroup('Calendar')}
 						{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}

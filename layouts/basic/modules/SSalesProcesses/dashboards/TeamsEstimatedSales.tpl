@@ -14,7 +14,7 @@
 	<div class="row" >
 		<div class="col-sm-10 form-inline">
 			<div class="input-group input-group-sm">
-				<span class=" input-group-addon"><span class="glyphicon glyphicon-calendar iconMiddle "></span></span>
+				<span class=" input-group-addon"><span class="fa fa-calendar iconMiddle "></span></span>
 				<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter width90 form-control" value="{$DTIME}">
 				<span class="input-group-addon checkbox-addon">
 					<input name="compare" class="widgetFilter" type="checkbox" {if $COMPARE}checked{/if} title="{\App\Language::translate('LBL_COMPARE_TO_LAST_PERIOD', $MODULE_NAME)}">

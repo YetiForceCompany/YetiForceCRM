@@ -24,13 +24,13 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_CALENDAR_VIEW',
 				'linkurl' => $this->getCalendarViewUrl(),
-				'linkicon' => 'glyphicon glyphicon-calendar',
+				'linkicon' => 'fa fa-calendar',
 		]);
 		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),
-				'linkicon' => 'glyphicon glyphicon-list',
+				'linkicon' => 'fa fa-list',
 		]);
 		if ($linkParams['ACTION'] === 'Calendar') {
 			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([

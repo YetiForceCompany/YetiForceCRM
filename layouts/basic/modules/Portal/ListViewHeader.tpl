@@ -26,7 +26,7 @@
                         </ul>
 					</span>
                     <span class="btn-group">
-                        <button class="btn btn-default addButton addBookmark"><span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_ADD_BOOKMARK', $MODULE)}</strong></button>
+                        <button class="btn btn-default addButton addBookmark"><span class="fa fa-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_ADD_BOOKMARK', $MODULE)}</strong></button>
                     </span>
 				</div>
 				<div class="col-md-6 btn-toolbar row">

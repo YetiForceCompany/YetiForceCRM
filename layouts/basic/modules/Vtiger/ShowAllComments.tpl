@@ -37,7 +37,7 @@
 		<div class="col-md-4">
 			<div class="input-group">
 			  <span class="input-group-addon" id="commentSearchAddon">
-				  <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 
+				  <span class="fa fa-search" aria-hidden="true"></span> 
 			  </span>
 			  <input type="text" class="form-control commentSearch" placeholder="{\App\Language::translate('LBL_COMMENTS_SEARCH','ModComments')}" aria-describedby="commentSearchAddon">
 			</div>
@@ -65,7 +65,7 @@
 					<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
 				</div>
 				<button class="cursorPointer marginTop10 closeCommentBlock btn btn-warning pull-right cancel" type="reset">
-					<span class="visible-xs-inline-block glyphicon glyphicon-remove"></span>
+					<span class="visible-xs-inline-block fa fa-times"></span>
 					<strong class="hidden-xs">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 				</button>
 				<button class="btn btn-success marginTop10 saveComment pull-right" type="button" data-mode="add">
@@ -91,7 +91,7 @@
 					<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" ></textarea>
 				</div>
 				<button class="cursorPointer marginTop10 closeCommentBlock btn btn-warning pull-right cancel" type="reset">
-					<span class="visible-xs-inline-block glyphicon glyphicon-remove"></span>
+					<span class="visible-xs-inline-block fa fa-times"></span>
 					<strong class="hidden-xs">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 				</button>
 				<button class="btn btn-success marginTop10 saveComment pull-right" type="button" data-mode="edit">

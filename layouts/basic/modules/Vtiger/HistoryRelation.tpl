@@ -35,7 +35,7 @@
 								{if !$IS_READ_ONLY && $HISTORY['type'] eq 'OSSMailView'}
 									<div class="pull-right marginRight10 btn-group" role="group">
 										<button data-url="{$HISTORY['url']|cat:'&noloadlibs=1'}" type="button" title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL','OSSMailView')}" class="showModal btn btn-xs btn-default" data-cb="Vtiger_Index_Js.registerMailButtons">
-											<span class="body-icon glyphicon glyphicon-search"></span>
+											<span class="body-icon fa fa-search"></span>
 										</button>
 										{if AppConfig::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail') && $USER_MODEL->internal_mailer == 1}
 											{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($MODULE_NAME, $RECORD_ID, 'Detail')}
@@ -46,7 +46,7 @@
 												<img width="14px" src="{\App\Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{\App\Language::translate('LBL_REPLYALLL','OSSMailView')}">
 											</button>
 											<button type="button" class="btn btn-xs btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$HISTORY['id']}&type=forward" data-popup="{$POPUP}" title="{\App\Language::translate('LBL_FORWARD','OSSMailView')}">
-												<span class="glyphicon glyphicon-share-alt"></span>
+												<span class="fa fa-share"></span>
 											</button>
 										{/if}
 									</div>

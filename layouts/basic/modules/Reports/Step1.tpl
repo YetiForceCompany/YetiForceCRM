@@ -150,7 +150,7 @@
 								{assign var=specificDate value=\App\Json::decode($SCHEDULEDREPORTS->get('schdate'))}
 								{if $specificDate[0] neq ''} {assign var=specificDate1 value=DateTimeField::convertToUserFormat($specificDate[0])} {/if}
 								<input  type="text" class="dateField form-control input-sm col-md-6" id="schdate" name="schdate" value="{$specificDate1}" data-date-format="{$CURRENT_USER->date_format}" data-validation-engine="validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" />
-								<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 							</div>
 						</div>
 					</div>

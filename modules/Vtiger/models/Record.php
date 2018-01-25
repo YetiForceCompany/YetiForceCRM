@@ -1240,7 +1240,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_SHOW_QUICK_DETAILS',
 				'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $this->getId(),
-				'linkicon' => 'glyphicon glyphicon-expand',
+				'linkicon' => 'fa fa-caret-square-o-right',
 				'linkclass' => 'btn-sm btn-default',
 				'modalView' => true
 			];
@@ -1248,7 +1248,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_SHOW_COMPLETE_DETAILS',
 				'linkurl' => $this->getFullDetailViewUrl(),
-				'linkicon' => 'glyphicon glyphicon-th-list',
+				'linkicon' => 'fa fa-th-list',
 				'linkclass' => 'btn-sm btn-default',
 				'linkhref' => true
 			];
@@ -1258,7 +1258,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'glyphicon glyphicon-pencil',
+				'linkicon' => 'fa fa-pencil',
 				'linkclass' => 'btn-sm btn-default',
 				'linkhref' => true
 			];
@@ -1338,7 +1338,7 @@ class Vtiger_Record_Model extends \App\Base
 						'linklabel' => 'LBL_SHOW_QUICK_DETAILS',
 						'linkhref' => true,
 						'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $this->getId(),
-						'linkicon' => 'glyphicon glyphicon-expand',
+						'linkicon' => 'fa fa-caret-square-o-right',
 						'linkclass' => 'btn-xs btn-default',
 						'modalView' => true
 				]);
@@ -1347,7 +1347,7 @@ class Vtiger_Record_Model extends \App\Base
 					'linklabel' => 'LBL_SHOW_COMPLETE_DETAILS',
 					'linkurl' => $this->getFullDetailViewUrl(),
 					'linkhref' => true,
-					'linkicon' => 'glyphicon glyphicon-th-list',
+					'linkicon' => 'fa fa-th-list',
 					'linkclass' => 'btn-xs btn-default',
 			]);
 		}
@@ -1357,7 +1357,7 @@ class Vtiger_Record_Model extends \App\Base
 					'linklabel' => 'LBL_EDIT',
 					'linkhref' => true,
 					'linkurl' => $this->getEditViewUrl(),
-					'linkicon' => 'glyphicon glyphicon-pencil',
+					'linkicon' => 'fa fa-pencil',
 					'linkclass' => 'btn-xs btn-default',
 			]);
 		}

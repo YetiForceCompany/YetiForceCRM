@@ -18,7 +18,7 @@
 							{if $STATUS}
 								<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 							{else}
-								<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+								<span class="fa fa-times" aria-hidden="true"></span>
 							{/if}
 						</td>
 						<td class="text-center">
