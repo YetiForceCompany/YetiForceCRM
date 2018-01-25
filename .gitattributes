@@ -17,6 +17,7 @@
 *.yml text eol=lf
 *.yarnclean text eol=lf
 *.lock text eol=lf
+*.yarn-integrity text eol=lf
 
 .github/ export-ignore
 tests/ export-ignore
