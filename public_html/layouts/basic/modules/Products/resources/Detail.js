@@ -25,3 +25,7 @@ Vtiger_Detail_Js("Products_Detail_Js",{},{
 		 });
 	},
 });
+jQuery(document).ready(function () {
+	var productDetail = new Products_Detail_Js();
+	productDetail.registerEventForImageGraphics();
+});

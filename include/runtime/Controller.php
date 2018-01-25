@@ -374,13 +374,13 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/chosen-js/chosen.css',
 			'~libraries/bootstrap-chosen/bootstrap-chosen.css',
 			'~libraries/jquery-ui-dist/jquery-ui.css',
-			'~libraries/js/selectize/css/selectize.bootstrap3.css',
+			'~libraries/selectize/dist/css/selectize.bootstrap3.css',
 			'~libraries/select2/dist/css/select2.css',
 			'~libraries/simplebar/dist/simplebar.css',
 			'~libraries/js/perfect-scrollbar/css/perfect-scrollbar.css',
 			'~libraries/select2-bootstrap-theme/dist/select2-bootstrap.css',
-			'~libraries/js/posabsolute-jQuery-Validation-Engine/css/validationEngine.jquery.css',
-			'~libraries/js/pnotify/pnotify.custom.css',
+			'~libraries/jQuery-Validation-Engine/css/validationEngine.jquery.css',
+			'~libraries/pnotify/dist/pnotify.css',
 			'~libraries/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css',
 			'~libraries/bootstrap-daterangepicker/daterangepicker.css',
 			'~libraries/footable/css/footable.core.css',
@@ -404,7 +404,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	{
 		$headerScriptInstances = [
 			'libraries.js.jquery',
-			'libraries.js.jquery-migrate'
+			'libraries.jquery-migrate.dist.jquery-migrate'
 		];
 		return $this->checkAndConvertJsScripts($headerScriptInstances);
 	}
@@ -417,7 +417,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	public function getFooterScripts(\App\Request $request)
 	{
 		$jsFileNames = [
-			'~libraries/js/jquery.blockUI.js',
+			'~libraries/block-ui/jquery.blockUI.js',
 			'~libraries/chosen-js/chosen.jquery.js',
 			'~libraries/select2/dist/js/select2.full.js',
 			'~libraries/jquery-ui-dist/jquery-ui.js',
@@ -426,21 +426,23 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/js/perfect-scrollbar/js/perfect-scrollbar.jquery.js',
 			'~libraries/js/rochal-jQuery-slimScroll/jquery.slimscroll.js',
 			'~libraries/simplebar/dist/simplebar.js',
-			'~libraries/js/pnotify/pnotify.custom.js',
+			'~libraries/pnotify/dist/pnotify.js',
 			'~libraries/js/jquery.hoverIntent.minified.js',
 			'~libraries/bootstrap/dist/js/bootstrap.js',
 			'~libraries/bootstrap-switch/dist/js/bootstrap-switch.js',
 			'~libraries/bootbox/bootbox.js',
-			'~libraries/js/selectize/js/selectize.js',
-			'~libraries/js/posabsolute-jQuery-Validation-Engine/js/jquery.validationEngine.js',
+			'~libraries/microplugin/src/microplugin.js',
+			'~libraries/sifter/sifter.js',
+			'~libraries/selectize/dist/js/selectize.js',
+			'~libraries/jQuery-Validation-Engine/js/jquery.validationEngine.js',
 			'~libraries/moment/min/moment.min.js',
 			'~libraries/bootstrap-datepicker/dist/js/bootstrap-datepicker.js',
 			'~libraries/bootstrap-datepicker/dist/locales/' . \App\Language::getLanguage() . '.min.js',
 			'~libraries/bootstrap-daterangepicker/daterangepicker.js',
-			'~libraries/js/jquery.ba-outside-events.js',
+			'~libraries/jquery-outside-events/jquery.ba-outside-events.js',
 			'~libraries/js/jquery.placeholder.js',
 			'~libraries/dompurify/dist/purify.js',
-			'~libraries/footable/js/footable.js',
+			'~libraries/footable/dist/footable.js',
 			'~layouts/resources/jquery.additions.js',
 			'~layouts/resources/app.js',
 			'~layouts/resources/helper.js',
@@ -448,9 +450,9 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~layouts/resources/ProgressIndicator.js',
 		];
 		$languageHandlerShortName = \App\Language::getShortLanguageName();
-		$fileName = "~libraries/js/posabsolute-jQuery-Validation-Engine/js/languages/jquery.validationEngine-$languageHandlerShortName.js";
+		$fileName = "~libraries/jQuery-Validation-Engine/js/languages/jquery.validationEngine-$languageHandlerShortName.js";
 		if (!file_exists(Vtiger_Loader::resolveNameToPath($fileName, 'js'))) {
-			$fileName = "~libraries/js/posabsolute-jQuery-Validation-Engine/js/languages/jquery.validationEngine-en.js";
+			$fileName = "~libraries/jQuery-Validation-Engine/js/languages/jquery.validationEngine-en.js";
 		}
 		$jsFileNames[] = $fileName;
 		return $this->checkAndConvertJsScripts($jsFileNames);
