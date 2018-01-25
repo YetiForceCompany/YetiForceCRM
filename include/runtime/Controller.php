@@ -424,7 +424,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/js/jquery.class.js',
 			'~libraries/jstorage/jstorage.js',
 			'~libraries/js/perfect-scrollbar/js/perfect-scrollbar.jquery.js',
-			'~libraries/js/rochal-jQuery-slimScroll/jquery.slimscroll.js',
+			'~libraries/jquery-slimscroll/jquery.slimscroll.js',
 			'~libraries/simplebar/dist/simplebar.js',
 			'~libraries/pnotify/dist/pnotify.js',
 			'~libraries/jquery-hoverintent/jquery.hoverIntent.js',
