@@ -24,12 +24,12 @@
 							<div class='marginLeft0  marginRight0 row col-xs-10'>
 								<div class="form-group first-group has-feedback">
 									<label for="username" class="sr-only">{\App\Language::translate('LBL_USER',$MODULE)}</label>
-									<input name="username" type="text" id="username" class="form-control input-lg" {if \AppConfig::main('systemMode') === 'demo'}value="demo"{/if} placeholder="{\App\Language::translate('LBL_USER',$MODULE)}" required="" {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if} autofocus="">
+									<input name="username" type="text" id="username" class="form-control form-control-lg" {if \AppConfig::main('systemMode') === 'demo'}value="demo"{/if} placeholder="{\App\Language::translate('LBL_USER',$MODULE)}" required="" {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if} autofocus="">
 									<span class="adminIcon-user form-control-feedback" aria-hidden="true"></span>
 								</div>
 								<div class="form-group {if $LANGUAGE_SELECTION || $LAYOUT_SELECTION}first-group {/if} has-feedback">
 									<label for="password" class="sr-only">{\App\Language::translate('Password',$MODULE)}</label>
-									<input name="password" type="password" class="form-control input-lg" title="{\App\Language::translate('Password',$MODULE)}" id="password" name="password" {if \AppConfig::main('systemMode') === 'demo'}value="demo"{/if} {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if} placeholder="{\App\Language::translate('Password',$MODULE)}">
+									<input name="password" type="password" class="form-control form-control-lg" title="{\App\Language::translate('Password',$MODULE)}" id="password" name="password" {if \AppConfig::main('systemMode') === 'demo'}value="demo"{/if} {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if} placeholder="{\App\Language::translate('Password',$MODULE)}">
 									<span class="userIcon-OSSPasswords form-control-feedback" aria-hidden="true"></span>
 								</div>
 								{assign var=COUNTERFIELDS value=2}
@@ -37,7 +37,7 @@
 									{assign var=COUNTERFIELDS value=$COUNTERFIELDS+1}
 									{assign var=DEFAULT_LANGUAGE value=AppConfig::main('default_language')}
 									<div class="form-group {if $LAYOUT_SELECTION}first-group {/if}">
-										<select class="input-lg form-control" title="{\App\Language::translate('LBL_CHOOSE_LANGUAGE',$MODULE)}" name="loginLanguage">
+										<select class="form-control-lg form-control" title="{\App\Language::translate('LBL_CHOOSE_LANGUAGE',$MODULE)}" name="loginLanguage">
 											{foreach item=VALUE key=KEY from=\App\Language::getAll()}
 												<option {if $KEY eq $DEFAULT_LANGUAGE} selected {/if}  value="{\App\Purifier::encodeHtml($KEY)}">{$VALUE}</option>
 											{/foreach}
@@ -47,7 +47,7 @@
 								{if $LAYOUT_SELECTION}
 									{assign var=COUNTERFIELDS value=$COUNTERFIELDS+1}
 									<div class="form-group">
-										<select class="input-lg form-control" title="{\App\Language::translate('LBL_SELECT_LAYOUT',$MODULE)}" name="layout">
+										<select class="form-control-lg form-control" title="{\App\Language::translate('LBL_SELECT_LAYOUT',$MODULE)}" name="layout">
 											{foreach item=VALUE key=KEY from=\App\Layout::getAllLayouts()}
 												<option value="{\App\Purifier::encodeHtml($KEY)}">{$VALUE}</option>
 											{/foreach}
@@ -93,12 +93,12 @@
 							<div class='marginLeft0  marginRight0 row col-xs-10'>	
 								<div class="form-group first-group has-feedback">
 									<label for="usernameFp" class="sr-only">{\App\Language::translate('LBL_USER',$MODULE)}</label>
-									<input type="text" class="form-control input-lg" title="{\App\Language::translate('LBL_USER',$MODULE)}" id="usernameFp" name="user_name" placeholder="{\App\Language::translate('LBL_USER',$MODULE)}">
+									<input type="text" class="form-control form-control-lg" title="{\App\Language::translate('LBL_USER',$MODULE)}" id="usernameFp" name="user_name" placeholder="{\App\Language::translate('LBL_USER',$MODULE)}">
 									<span class="adminIcon-user form-control-feedback" aria-hidden="true"></span>
 								</div>
 								<div class="form-group has-feedback">
 									<label for="emailId" class="sr-only">{\App\Language::translate('LBL_EMAIL',$MODULE)}</label>
-									<input type="text" class="form-control input-lg" autocomplete="off" title="{\App\Language::translate('LBL_EMAIL',$MODULE)}" id="emailId" name="emailId" placeholder="Email">
+									<input type="text" class="form-control form-control-lg" autocomplete="off" title="{\App\Language::translate('LBL_EMAIL',$MODULE)}" id="emailId" name="emailId" placeholder="Email">
 									<span class="glyphicon glyphicon-envelope form-control-feedback" aria-hidden="true"></span>
 								</div>
 							</div>
