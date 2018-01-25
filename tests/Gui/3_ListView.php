@@ -61,7 +61,7 @@ class Gui_ListView extends \Tests\GuiBase
 			'args' => [],
 		]);
 		$this->execute([
-			'script' => '$(".bootbox-confirm  button.btn-success").click();',
+			'script' => '$(".bootbox-confirm  button.btn-primary").click();',
 			'args' => [],
 		]);
 
