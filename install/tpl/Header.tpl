@@ -29,6 +29,10 @@
 					.noprint { display:none; }
 				}
 			</style>
+			<!--[if IE]>	
+			<script type="text/javascript" src="public_html/libraries/html5shiv/html5shiv.js"></script>	
+			<script type="text/javascript" src="public_html/libraries/respond.js/dist/respond.min.js"></script>	
+			<![endif]-->
 			{* ends *}
 		</head>
 		<body data-language="{$LANGUAGE}">

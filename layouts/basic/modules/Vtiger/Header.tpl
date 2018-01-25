@@ -24,6 +24,10 @@
 			{foreach key=index item=jsModel from=$HEADER_SCRIPTS}
 				<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 			{/foreach}
+			<!--[if IE]>	
+			<script type="text/javascript" src="public_html/libraries/html5shiv/html5shiv.js"></script>	
+			<script type="text/javascript" src="public_html/libraries/respond.js/dist/respond.min.js"></script>	
+			<![endif]-->
 			{* ends *}
 			{* ADD <script> INCLUDES in JSResources.tpl - for better performance *}
 			{assign var="HEAD_LOCKS" value=$USER_MODEL->getHeadLocks()}
