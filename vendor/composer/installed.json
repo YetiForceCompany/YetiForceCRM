@@ -1241,135 +1241,6 @@
 		"description": "A security checker for your composer.lock"
 	},
 	{
-		"name": "giggsey/libphonenumber-for-php",
-		"version": "8.8.9",
-		"version_normalized": "8.8.9.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/giggsey/libphonenumber-for-php.git",
-			"reference": "44e2fb8ee3a62c3fd00fb8a37fe0bad394992c2e"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/44e2fb8ee3a62c3fd00fb8a37fe0bad394992c2e",
-			"reference": "44e2fb8ee3a62c3fd00fb8a37fe0bad394992c2e",
-			"shasum": ""
-		},
-		"require": {
-			"ext-mbstring": "*",
-			"giggsey/locale": "^1.2",
-			"php": ">=5.3.2"
-		},
-		"require-dev": {
-			"pear/pear-core-minimal": "^1.9",
-			"pear/pear_exception": "^1.0",
-			"pear/versioncontrol_git": "^0.5",
-			"phing/phing": "^2.7",
-			"phpunit/phpunit": "^4.8|^5.0",
-			"satooshi/php-coveralls": "^1.0",
-			"symfony/console": "^2.8|^3.0"
-		},
-		"time": "2018-01-09T19:14:30+00:00",
-		"type": "library",
-		"extra": {
-			"branch-alias": {
-				"dev-master": "8.x-dev"
-			}
-		},
-		"installation-source": "dist",
-		"autoload": {
-			"psr-4": {
-				"libphonenumber\\": "src/"
-			},
-			"exclude-from-classmap": [
-				"/src/data/",
-				"/src/carrier/data/",
-				"/src/geocoding/data/",
-				"/src/timezone/data/"
-			]
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"Apache-2.0"
-		],
-		"authors": [
-			{
-				"name": "Joshua Gigg",
-				"email": "giggsey@gmail.com",
-				"homepage": "https://giggsey.com/"
-			}
-		],
-		"description": "PHP Port of Google's libphonenumber",
-		"homepage": "https://github.com/giggsey/libphonenumber-for-php",
-		"keywords": [
-			"geocoding",
-			"geolocation",
-			"libphonenumber",
-			"mobile",
-			"phonenumber",
-			"validation"
-		]
-	},
-	{
-		"name": "phpoffice/phpexcel",
-		"version": "1.8.1",
-		"version_normalized": "1.8.1.0",
-		"source": {
-			"type": "git",
-			"url": "https://github.com/PHPOffice/PHPExcel.git",
-			"reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32"
-		},
-		"dist": {
-			"type": "zip",
-			"url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
-			"reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
-			"shasum": ""
-		},
-		"require": {
-			"ext-xml": "*",
-			"ext-xmlwriter": "*",
-			"php": ">=5.2.0"
-		},
-		"time": "2015-05-01T07:00:55+00:00",
-		"type": "library",
-		"installation-source": "dist",
-		"autoload": {
-			"psr-0": {
-				"PHPExcel": "Classes/"
-			}
-		},
-		"notification-url": "https://packagist.org/downloads/",
-		"license": [
-			"LGPL"
-		],
-		"authors": [
-			{
-				"name": "Maarten Balliauw",
-				"homepage": "http://blog.maartenballiauw.be"
-			},
-			{
-				"name": "Mark Baker"
-			},
-			{
-				"name": "Franck Lefevre",
-				"homepage": "http://blog.rootslabs.net"
-			},
-			{
-				"name": "Erik Tilt"
-			}
-		],
-		"description": "PHPExcel - OpenXML - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
-		"homepage": "http://phpexcel.codeplex.com",
-		"keywords": [
-			"OpenXML",
-			"excel",
-			"php",
-			"spreadsheet",
-			"xls",
-			"xlsx"
-		]
-	},
-	{
 		"name": "dg/rss-php",
 		"version": "v1.2",
 		"version_normalized": "1.2.0.0",
@@ -1411,6 +1282,216 @@
 			"atom",
 			"feed",
 			"rss"
+		]
+	},
+	{
+		"name": "giggsey/libphonenumber-for-php",
+		"version": "8.8.10",
+		"version_normalized": "8.8.10.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/giggsey/libphonenumber-for-php.git",
+			"reference": "df46f26492f88fb6d226929cadf60d3111f868ce"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/df46f26492f88fb6d226929cadf60d3111f868ce",
+			"reference": "df46f26492f88fb6d226929cadf60d3111f868ce",
+			"shasum": ""
+		},
+		"require": {
+			"ext-mbstring": "*",
+			"giggsey/locale": "^1.2",
+			"php": ">=5.3.2"
+		},
+		"require-dev": {
+			"pear/pear-core-minimal": "^1.9",
+			"pear/pear_exception": "^1.0",
+			"pear/versioncontrol_git": "^0.5",
+			"phing/phing": "^2.7",
+			"phpunit/phpunit": "^4.8|^5.0",
+			"satooshi/php-coveralls": "^1.0",
+			"symfony/console": "^2.8|^3.0"
+		},
+		"time": "2018-01-24T14:12:25+00:00",
+		"type": "library",
+		"extra": {
+			"branch-alias": {
+				"dev-master": "8.x-dev"
+			}
+		},
+		"installation-source": "dist",
+		"autoload": {
+			"psr-4": {
+				"libphonenumber\\": "src/"
+			},
+			"exclude-from-classmap": [
+				"/src/data/",
+				"/src/carrier/data/",
+				"/src/geocoding/data/",
+				"/src/timezone/data/"
+			]
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"Apache-2.0"
+		],
+		"authors": [
+			{
+				"name": "Joshua Gigg",
+				"email": "giggsey@gmail.com",
+				"homepage": "https://giggsey.com/"
+			}
+		],
+		"description": "PHP Port of Google's libphonenumber",
+		"homepage": "https://github.com/giggsey/libphonenumber-for-php",
+		"keywords": [
+			"geocoding",
+			"geolocation",
+			"libphonenumber",
+			"mobile",
+			"phonenumber",
+			"validation"
+		]
+	},
+	{
+		"name": "psr/simple-cache",
+		"version": "1.0.0",
+		"version_normalized": "1.0.0.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/php-fig/simple-cache.git",
+			"reference": "753fa598e8f3b9966c886fe13f370baa45ef0e24"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/php-fig/simple-cache/zipball/753fa598e8f3b9966c886fe13f370baa45ef0e24",
+			"reference": "753fa598e8f3b9966c886fe13f370baa45ef0e24",
+			"shasum": ""
+		},
+		"require": {
+			"php": ">=5.3.0"
+		},
+		"time": "2017-01-02T13:31:39+00:00",
+		"type": "library",
+		"extra": {
+			"branch-alias": {
+				"dev-master": "1.0.x-dev"
+			}
+		},
+		"installation-source": "dist",
+		"autoload": {
+			"psr-4": {
+				"Psr\\SimpleCache\\": "src/"
+			}
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"MIT"
+		],
+		"authors": [
+			{
+				"name": "PHP-FIG",
+				"homepage": "http://www.php-fig.org/"
+			}
+		],
+		"description": "Common interfaces for simple caching",
+		"keywords": [
+			"cache",
+			"caching",
+			"psr",
+			"psr-16",
+			"simple-cache"
+		]
+	},
+	{
+		"name": "phpoffice/phpspreadsheet",
+		"version": "1.0.0",
+		"version_normalized": "1.0.0.0",
+		"source": {
+			"type": "git",
+			"url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
+			"reference": "691b68de9b87cf6e398df46482741a4f667a9391"
+		},
+		"dist": {
+			"type": "zip",
+			"url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/691b68de9b87cf6e398df46482741a4f667a9391",
+			"reference": "691b68de9b87cf6e398df46482741a4f667a9391",
+			"shasum": ""
+		},
+		"require": {
+			"ext-ctype": "*",
+			"ext-dom": "*",
+			"ext-gd": "*",
+			"ext-iconv": "*",
+			"ext-libxml": "*",
+			"ext-mbstring": "*",
+			"ext-simplexml": "*",
+			"ext-xml": "*",
+			"ext-xmlreader": "*",
+			"ext-xmlwriter": "*",
+			"ext-zip": "*",
+			"ext-zlib": "*",
+			"php": "^5.6|^7.0",
+			"psr/simple-cache": "^1.0"
+		},
+		"require-dev": {
+			"dompdf/dompdf": "^0.8.0",
+			"friendsofphp/php-cs-fixer": "^2.7",
+			"jpgraph/jpgraph": "^4.0",
+			"mpdf/mpdf": "^7.0.0",
+			"phpunit/phpunit": "^5.7",
+			"squizlabs/php_codesniffer": "^2.7",
+			"tecnickcom/tcpdf": "^6.2"
+		},
+		"suggest": {
+			"dompdf/dompdf": "Option for rendering PDF with PDF Writer",
+			"ext-dom": "Option to read and write HTML files",
+			"ext-gd": "Required for exact column width autocalculation",
+			"jpgraph/jpgraph": "Option for rendering charts, or including charts with PDF or HTML Writers",
+			"mpdf/mpdf": "Option for rendering PDF with PDF Writer",
+			"tecnick.com/tcpdf": "Option for rendering PDF with PDF Writer"
+		},
+		"time": "2017-12-25T01:53:53+00:00",
+		"type": "library",
+		"installation-source": "dist",
+		"autoload": {
+			"psr-4": {
+				"PhpOffice\\PhpSpreadsheet\\": "src/PhpSpreadsheet"
+			}
+		},
+		"notification-url": "https://packagist.org/downloads/",
+		"license": [
+			"LGPL-2.1"
+		],
+		"authors": [
+			{
+				"name": "Maarten Balliauw",
+				"homepage": "http://blog.maartenballiauw.be"
+			},
+			{
+				"name": "Erik Tilt"
+			},
+			{
+				"name": "Franck Lefevre",
+				"homepage": "http://rootslabs.net"
+			},
+			{
+				"name": "Mark Baker",
+				"homepage": "http://markbakeruk.net"
+			}
+		],
+		"description": "PHPSpreadsheet - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
+		"homepage": "https://github.com/PHPOffice/PhpSpreadsheet",
+		"keywords": [
+			"OpenXML",
+			"excel",
+			"gnumeric",
+			"ods",
+			"php",
+			"spreadsheet",
+			"xls",
+			"xlsx"
 		]
 	}
 ]

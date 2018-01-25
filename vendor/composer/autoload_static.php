@@ -51,7 +51,9 @@ class ComposerStaticInitYT
 		],
 		'P' =>
 		[
+			'Psr\\SimpleCache\\' => 16,
 			'Psr\\Log\\' => 8,
+			'PhpOffice\\PhpSpreadsheet\\' => 25,
 		],
 		'G' =>
 		[
@@ -145,9 +147,17 @@ class ComposerStaticInitYT
 		[
 			0 => __DIR__ . '/..' . '/sabre/dav/lib/CalDAV',
 		],
+		'Psr\\SimpleCache\\' =>
+		[
+			0 => __DIR__ . '/..' . '/psr/simple-cache/src',
+		],
 		'Psr\\Log\\' =>
 		[
 			0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+		],
+		'PhpOffice\\PhpSpreadsheet\\' =>
+		[
+			0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
 		],
 		'Giggsey\\Locale\\' =>
 		[
@@ -195,13 +205,6 @@ class ComposerStaticInitYT
 			'Recurr' =>
 			[
 				0 => __DIR__ . '/..' . '/simshaun/recurr/src',
-			],
-		],
-		'P' =>
-		[
-			'PHPExcel' =>
-			[
-				0 => __DIR__ . '/..' . '/phpoffice/phpexcel/Classes',
 			],
 		],
 		'H' =>
