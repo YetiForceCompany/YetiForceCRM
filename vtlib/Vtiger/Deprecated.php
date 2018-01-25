@@ -16,20 +16,6 @@ namespace vtlib;
 class Deprecated
 {
 
-	public static function getFullNameFromQResult($result, $row_count, $module)
-	{
-		$adb = \PearDatabase::getInstance();
-		$rowdata = $adb->queryResultRowData($result, $row_count);
-		$entity_field_info = \App\Module::getEntityInfo($module);
-		$fieldsName = $entity_field_info['fieldname'];
-		$name = '';
-		if ($rowdata != '' && count($rowdata) > 0) {
-			$name = self::getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $rowdata);
-		}
-		$name = Functions::textLength($name);
-		return $name;
-	}
-
 	public static function getFullNameFromArray($module, $fieldValues)
 	{
 		$entityInfo = \App\Module::getEntityInfo($module);
@@ -63,20 +49,6 @@ class Deprecated
 		return '';
 	}
 
-	public static function getBlockId($tabId, $label)
-	{
-		$adb = \PearDatabase::getInstance();
-		$query = "select blockid from vtiger_blocks where tabid=? and blocklabel = ?";
-		$result = $adb->pquery($query, [$tabId, $label]);
-		$noOfRows = $adb->numRows($result);
-
-		$blockId = '';
-		if ($noOfRows == 1) {
-			$blockId = $adb->queryResult($result, 0, "blockid");
-		}
-		return $blockId;
-	}
-
 	public static function getModuleTranslationStrings($language, $module)
 	{
 		static $cachedModuleStrings = [];
@@ -89,8 +61,6 @@ class Deprecated
 
 		return $cachedModuleStrings[$module];
 	}
-
-
 
 	/** Function to check the file access is made within web root directory and whether it is not from unsafe directories */
 	public static function checkFileAccessForInclusion($filepath)

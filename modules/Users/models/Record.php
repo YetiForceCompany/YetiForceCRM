@@ -759,17 +759,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
-	public function isAccountOwner()
-	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT is_owner FROM vtiger_users WHERE id = ?', [$this->getId()]);
-		$isOwner = $db->getSingleValue($result);
-		if ($isOwner == 1) {
-			return true;
-		}
-		return false;
-	}
-
 	public function getActiveAdminUsers()
 	{
 		$db = PearDatabase::getInstance();

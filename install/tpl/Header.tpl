@@ -29,9 +29,9 @@
 					.noprint { display:none; }
 				}
 			</style>
-			<!--[if IE]>
-			<script type="text/javascript" src="public_html/libraries/html5shim/html5shiv.min.js"></script>
-			<script type="text/javascript" src="public_html/libraries/html5shim/respond.min.js"></script>
+			<!--[if IE]>	
+			<script type="text/javascript" src="public_html/libraries/html5shiv/html5shiv.js"></script>	
+			<script type="text/javascript" src="public_html/libraries/respond.js/dist/respond.min.js"></script>	
 			<![endif]-->
 			{* ends *}
 		</head>

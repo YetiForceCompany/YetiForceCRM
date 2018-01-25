@@ -124,42 +124,6 @@ class Users_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * @return an array with the list of currencies which are available in source
-	 */
-	public function getCurrenciesList()
-	{
-		$adb = PearDatabase::getInstance();
-
-		$currency_query = 'SELECT currency_name, currency_code, currency_symbol FROM vtiger_currencies ORDER BY currency_name';
-		$result = $adb->pquery($currency_query, []);
-		$numRows = $adb->numRows($result);
-		for ($i = 0; $i < $numRows; $i++) {
-			$currencyname = App\Purifier::decodeHtml($adb->queryResult($result, $i, 'currency_name'));
-			$currencycode = App\Purifier::decodeHtml($adb->queryResult($result, $i, 'currency_code'));
-			$currencysymbol = App\Purifier::decodeHtml($adb->queryResult($result, $i, 'currency_symbol'));
-			$currencies[$currencyname] = [$currencycode, $currencysymbol];
-		}
-		return $currencies;
-	}
-
-	/**
-	 * @return an array with the list of time zones which are availables in source
-	 */
-	public function getTimeZonesList()
-	{
-		$adb = PearDatabase::getInstance();
-
-		$timezone_query = 'SELECT time_zone FROM vtiger_time_zone';
-		$result = $adb->pquery($timezone_query, []);
-		$numRows = $adb->numRows($result);
-		for ($i = 0; $i < $numRows; $i++) {
-			$time_zone = App\Purifier::decodeHtml($adb->queryResult($result, $i, 'time_zone'));
-			$time_zones_list[$time_zone] = $time_zone;
-		}
-		return $time_zones_list;
-	}
-
-	/**
 	 * Check mail exist
 	 * @param string $email
 	 * @param int|false $userId
