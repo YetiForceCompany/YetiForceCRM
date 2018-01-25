@@ -91,6 +91,7 @@
 /public_html/libraries/yarn/
 /public_html/libraries/jstorage/
 /public_html/libraries/jquery-slimscroll/
+/public_html/libraries/popper.js/
 /libraries/mPDF/
 /vendor/*/
 !/vendor/yetiforce
