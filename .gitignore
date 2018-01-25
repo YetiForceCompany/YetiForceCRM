@@ -89,6 +89,7 @@
 /public_html/libraries/jquery-hoverintent/
 /public_html/libraries/add/
 /public_html/libraries/yarn/
+/public_html/libraries/jstorage/
 /libraries/mPDF/
 /vendor/*/
 !/vendor/yetiforce
