@@ -125,7 +125,7 @@ class FileTarget extends \yii\log\FileTarget
 			chdir(ROOT_DIRECTORY);
 		}
 		$context = \yii\helpers\ArrayHelper::filter($GLOBALS, $this->logVars);
-		$library = \Settings_ConfReport_Module_Model::getConfigurationLibrary();
+		$library = \Settings_ConfReport_Module_Model::getLibrary();
 		$directiveValues = \Settings_ConfReport_Module_Model::getStabilityConf(true);
 		$permissionsFiles = \Settings_ConfReport_Module_Model::getPermissionsFiles(true);
 		foreach ($library as $key => $value) {

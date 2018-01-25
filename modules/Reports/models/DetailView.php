@@ -58,13 +58,11 @@ class Reports_DetailView_Model extends Vtiger_DetailView_Model
 				'linkicon' => 'fa fa-file-text-o'
 			];
 
-			if (!Settings_ModuleManager_Library_Model::checkLibrary('PHPExcel')) {
-				$detailViewLinks[] = [
-					'linklabel' => \App\Language::translate('LBL_REPORT_EXPORT_EXCEL', $moduleName),
-					'linkurl' => $recordModel->getReportExcelURL(),
-					'linkicon' => 'fa fa-file-excel-o'
-				];
-			}
+			$detailViewLinks[] = [
+				'linklabel' => \App\Language::translate('LBL_REPORT_EXPORT_EXCEL', $moduleName),
+				'linkurl' => $recordModel->getReportExcelURL(),
+				'linkicon' => 'fa fa-file-excel-o'
+			];
 		}
 
 		$linkModelList = [];

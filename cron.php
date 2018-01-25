@@ -13,7 +13,7 @@
  */
 include_once 'include/main/WebUI.php';
 \App\Config::$requestMode = 'Cron';
-file_put_contents(ROOT_DIRECTORY . '/user_privileges/cron.php', '<?php $sapi=\'' . PHP_SAPI . '\';$ini=\'' . php_ini_loaded_file() . '\';$log=\'' . ini_get('error_log') . '\';$vphp=\'' . PHP_VERSION . '\';');
+file_put_contents(ROOT_DIRECTORY . '/user_privileges/cron.php', '<?php return ' . App\Utils::varExport(Settings_ConfReport_Module_Model::getPhpIniConf()) . ';');
 
 App\Session::init();
 $authenticatedUserId = App\Session::get('authenticated_user_id');

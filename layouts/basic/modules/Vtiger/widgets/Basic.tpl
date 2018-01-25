@@ -69,14 +69,13 @@
 					{/if}
 					{if isset($WIDGET['data']['filter']) && $WIDGET['data']['filter'] neq '-'}
 						<div class="{$span} form-group-sm">
-							{assign var=filter value=$WIDGET['data']['filter']}
-							{*<input type="hidden" name="filter_data" value="{$filter}" />*}
+							{assign var=FILTER value=$WIDGET['data']['filter']}
 							{assign var=RELATED_MODULE_MODEL value=Vtiger_Module_Model::getInstance($RELATED_MODULE_NAME)}
-							{assign var=FIELD_MODEL value=$RELATED_MODULE_MODEL->getField($filter)}
+							{assign var=FIELD_MODEL value=$RELATED_MODULE_MODEL->getField($FILTER)}
 							{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 							{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 							{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
-							<select class="select2 filterField form-control input-sm" name="{$FIELD_MODEL->getName()}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO|escape}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if} data-fieldlable='{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$RELATED_MODULE_NAME)}' data-filter="{$FIELD_MODEL->get('table')|cat:'.'|cat:$filter}" data-urlparams="whereCondition">
+							<select class="select2 filterField form-control input-sm" name="{$FIELD_MODEL->getName()}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO|escape}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if} data-fieldlable='{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$RELATED_MODULE_NAME)}' data-filter="{$FILTER}" data-urlparams="search_params">
 								<option>{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$RELATED_MODULE_NAME)}</option>
 								{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
 									<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" {if $FIELD_MODEL->get('fieldvalue') eq $PICKLIST_NAME} selected {/if}>{\App\Purifier::encodeHtml($PICKLIST_VALUE)}</option>

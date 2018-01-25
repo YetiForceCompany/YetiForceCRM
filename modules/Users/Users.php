@@ -154,27 +154,6 @@ class Users extends CRMEntity
 		return (isset($this->is_admin) && $this->is_admin === 'on');
 	}
 
-	/** gives the user id for the specified user name
-	 * @param $user_name -- user name:: Type varchar
-	 * @returns user id
-	 */
-	public function retrieveUserId($userName)
-	{
-		if (AppConfig::performance('ENABLE_CACHING_USERS')) {
-			$users = \App\PrivilegeFile::getUser('userName');
-			if (isset($users[$userName]) && $users[$userName]['deleted'] == '0') {
-				return $users[$userName]['id'];
-			}
-		}
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery('SELECT id,deleted from vtiger_users where user_name=?', [$userName]);
-		$row = $adb->getRow($result);
-		if ($row && $row['deleted'] == '0') {
-			return $row['id'];
-		}
-		return false;
-	}
-
 	/** Function to get the current user information from the user_privileges file
 	 * @param $userid -- user id:: Type integer
 	 * @returns user info in $this->column_fields array:: Type array

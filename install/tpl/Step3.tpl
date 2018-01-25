@@ -36,7 +36,7 @@
 					<div class="clearfix"></div>
 					<div class="offset2">
 						<div>
-							{assign var="LIBRARY" value=Settings_ConfReport_Module_Model::getConfigurationLibrary()}
+							{assign var="LIBRARY" value=Settings_ConfReport_Module_Model::getLibrary()}
 							<table class="config-table table">
 								<thead>
 									<tr>
@@ -78,7 +78,7 @@
 												<label>{$key}</label>
 												{if isset($item.help)}<a href="#" class="popoverTooltip pull-right" data-placement="rigth" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
 											</td>
-											<td><label>{App\Language::translate($item.prefer, 'Settings::ConfReport')}</label></td>
+											<td><label>{App\Language::translate($item.recommended, 'Settings::ConfReport')}</label></td>
 											<td><label>{App\Language::translate($item.current, 'Settings::ConfReport')}</label></td>
 										</tr>
 									{/foreach}
@@ -101,7 +101,7 @@
 												<label>{$key}</label>
 												{if isset($item.help)}<a href="#" class="popoverTooltip pull-right" data-placement="rigth" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
 											</td>
-											<td><label>{App\Language::translate($item.prefer, 'Settings::ConfReport')}</label></td>
+											<td><label>{App\Language::translate($item.recommended, 'Settings::ConfReport')}</label></td>
 											<td><label>{App\Language::translate($item.current, 'Settings::ConfReport')}</label></td>
 										</tr>
 									{/foreach}
