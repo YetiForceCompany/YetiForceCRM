@@ -88,7 +88,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerTransferOwnership("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=transferOwnership")',
-				'linkicon' => 'glyphicon glyphicon-user'
+				'linkicon' => 'fa fa-user'
 			];
 		}
 		if ($moduleModel->isPermitted('MassActive')) {
