@@ -1997,6 +1997,28 @@ jQuery.Class("Vtiger_List_Js", {
 			});
 		});
 	},
+	registerScroll: function (container) {
+//		var mainBodyScrollbarInit = new PerfectScrollbar(container.closest('.mainBody')[0], {
+//			suppressScrollX: true
+//		});
+		var scrollbarTopInit = new PerfectScrollbar(container[0], {
+			suppressScrollY: true,
+			wheelPropagation: true
+		});
+		var scrollbarBottomInit = new PerfectScrollbar(container[0], {
+			suppressScrollY: true,
+			wheelPropagation: true
+		});
+		var scrollbarTopElement = container.find('.ps__rail-x').first();
+		scrollbarTopElement.css({
+			top: 0,
+			bottom: 'auto'
+		})
+		scrollbarTopElement.find('.ps__thumb-x').css({
+			top: 2,
+			bottom: 'auto'
+		});
+	},
 	registerEvents: function () {
 		this.breadCrumbsFilter();
 		this.registerRowClickEvent();
@@ -2034,6 +2056,7 @@ jQuery.Class("Vtiger_List_Js", {
 		this.registerFeaturedElementsEvent();
 		this.registerUnreviewedCountEvent();
 		this.registerLastRelationsEvent();
+		this.registerScroll(listViewContainer);
 		Vtiger_Index_Js.registerMailButtons(listViewContainer);
 	},
 	registerListViewSpecialOptiopn: function () {

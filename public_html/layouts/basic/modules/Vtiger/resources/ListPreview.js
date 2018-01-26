@@ -76,7 +76,40 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 	 * Registers list events.
 	 * @param {jQuery} container - current container for reference.
 	 */
-	registerListEvents: function (container) {
+	registerScrollbar: function (container) {
+		var scrollbarXContainer = container.find('.fixedListContent');
+		var scrollbarYContainer = container.find('.fixedListInitial');
+		var scrollbarTopInit = new PerfectScrollbar(scrollbarXContainer[0], {
+			wheelPropagation: true,
+			suppressScrollY: true
+		});
+		var scrollbarBottomInit = new PerfectScrollbar(scrollbarXContainer[0], {
+			wheelPropagation: true,
+			suppressScrollY: true
+		});
+		var scrollbarLeftInit = new PerfectScrollbar(scrollbarYContainer[0], {
+			wheelPropagation: true,
+		});
+		var scrollbarTopElement = scrollbarXContainer.find('.ps__rail-x').first();
+		scrollbarTopElement.css({
+			top: 0,
+			bottom: 'auto'
+		})
+		scrollbarTopElement.find('.ps__thumb-x').css({
+			top: 2,
+			bottom: 'auto'
+		});
+		var scrollbarLeftElement = scrollbarYContainer.children('.ps__rail-y').first();
+		scrollbarLeftElement.css({
+			left: 0,
+			right: 'auto'
+		})
+		scrollbarLeftElement.find('.ps__thumb-y').css({
+			left: 2,
+			right: 'auto'
+		})
+	},
+	registerListEvents: function (container) {	
 		var fixedList = container.find('.fixedListInitial');
 		var listPreview = container.find('.listPreview');
 		var mainBody = container.closest('.mainBody');
@@ -85,8 +118,6 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		var commActHeight = $('.commonActionsContainer').height();
 		var paddingTop = 6;
 		var offset = fixedList.offset().top - commActHeight - paddingTop;
-		fixedList.find('.fixedListContent').perfectScrollbar();
-		listViewEntriesDiv.perfectScrollbar();
 		$(window).resize(function () {
 			if (mainBody.scrollTop() >= (fixedList.offset().top + commActHeight)) {
 				container.find('.gutter').css('left', listPreview.offset().left - 8);
@@ -94,9 +125,10 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		});
 		mainBody.scroll(function () {
 			var gutter = container.find('.gutter');
-			var gutterHeight = {height: $(window).height() - (gutter.offset().top + 33)};
-			gutter.css(gutterHeight);
-			wrappedPanels.css(gutterHeight);
+			var mainWindowHeightCss = {height: $(window).height() - (gutter.offset().top + 33)};
+			gutter.css(mainWindowHeightCss);
+			fixedList.css(mainWindowHeightCss);
+			wrappedPanels.css(mainWindowHeightCss);
 			if ($(this).scrollTop() >= (fixedList.offset().top + commActHeight - paddingTop)) {
 				if (listPreview.height() + listPreview.offset().top + 33 > $(window).height()) {
 					fixedList.css('top', $(this).scrollTop() - offset);
@@ -161,10 +193,11 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 			}
 		});
 		var gutter = container.find('.gutter');
-		var gutterHeight = {height: $(window).height() - (gutter.offset().top + 33)};
+		var mainWindowHeightCss = {height: $(window).height() - (gutter.offset().top + 33)};
 		var rotatedText = container.find('.rotatedText');
-		gutter.css(gutterHeight);
-		wrappedPanel.css(gutterHeight);
+		gutter.css(mainWindowHeightCss);
+		fixedList.css(mainWindowHeightCss)
+		wrappedPanel.css(mainWindowHeightCss);
 		thisInstance.registerSplitEvents(container, split);
 		rotatedText.first().find('.textCenter').append($('.breadcrumbsContainer .separator').nextAll().text());
 		rotatedText.css({
@@ -283,6 +316,7 @@ Vtiger_List_Js("Vtiger_ListPreview_Js", {}, {
 		this.registerPreviewEvent();
 		this.toggleSplit(listViewContainer);
 		if ($(window).width() > 993) {
+			this.registerScrollbar(listViewContainer);
 			this.registerListEvents(listViewContainer);
 		}
 	},
