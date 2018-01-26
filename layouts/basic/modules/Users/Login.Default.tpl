@@ -92,28 +92,32 @@
 			</div>	
 			{if AppConfig::security('RESET_LOGIN_PASSWORD') && App\Mail::getDefaultSmtp()}
 				<div class="hide" id="forgotPasswordDiv">
-					<div class='fieldContainer marginLeft0 marginRight0 row col-md-12'>
-						<form class="forgot-form" action="index.php?module=Users&action=ForgotPassword" method="POST">
-							<div class='marginLeft0  marginRight0 row col-xs-10'>	
-								<div class="form-group first-group has-feedback">
-									<label for="usernameFp" class="sr-only">{\App\Language::translate('LBL_USER',$MODULE)}</label>
+					<form class="forgot-form" action="index.php?module=Users&action=ForgotPassword" method="POST">
+						<div class='fieldContainer marginLeft0 marginRight0 row col-md-12'>
+							<div class='marginLeft0  marginRight0 row col-sm-10'>	
+								<label for="usernameFp" class="sr-only">{\App\Language::translate('LBL_USER',$MODULE)}</label>
+								<div class="input-group form-group first-group">
 									<input type="text" class="form-control form-control-lg" title="{\App\Language::translate('LBL_USER',$MODULE)}" id="usernameFp" name="user_name" placeholder="{\App\Language::translate('LBL_USER',$MODULE)}">
-									<span class="adminIcon-user form-control-feedback" aria-hidden="true"></span>
+									<div class="input-group-append">
+										<div class="input-group-text adminIcon-user"></div>
+									</div>
 								</div>
-								<div class="form-group has-feedback">
-									<label for="emailId" class="sr-only">{\App\Language::translate('LBL_EMAIL',$MODULE)}</label>
+								<label for="emailId" class="sr-only">{\App\Language::translate('LBL_EMAIL',$MODULE)}</label>
+								<div class="input-group form-group">
 									<input type="text" class="form-control form-control-lg" autocomplete="off" title="{\App\Language::translate('LBL_EMAIL',$MODULE)}" id="emailId" name="emailId" placeholder="Email">
-									<span class="glyphicon glyphicon-envelope form-control-feedback" aria-hidden="true"></span>
+									<div class="input-group-append">
+										<div class="input-group-text glyphicon glyphicon-envelope"></div>
+									</div>
 								</div>
 							</div>
-							<div class='col-xs-2 marginRight0' >
+							<div class='col-sm-2 marginRight0' >
 								<button type="submit" style='height:102px' id="retrievePassword" class="btn btn-lg btn-primary btn-block sbutton" title="Retrieve Password">
 									{*\App\Language::translate('LBL_SEND',$MODULE)*}
 									<strong>></strong>
 								</button>
 							</div>
-						</form>
-					</div>
+						</div>
+					</form>
 					<div class="login-text form-group">
 						<a href="#" id="backButton" >{\App\Language::translate('LBL_TO_CRM',$MODULE)}</a>
 					</div>
