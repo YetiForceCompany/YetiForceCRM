@@ -1729,9 +1729,9 @@ th.htColHeader {
 	width: 130px;
 	float: right;
 }
-.extensionWidgetContainer .extension_contents .slimScrollDiv {
+/*.extensionWidgetContainer .extension_contents .slimScrollDiv {
 	padding-right: 10px;
-}
+}*/
 .extensionWidgetContainer .extension_header .font-x-x-large {
 	font-size: 1.5em;
 	padding-left: 3px;
@@ -3507,12 +3507,11 @@ span[name=existingImages] img{
 	position: relative;
 	top: 2px;
 }
-.leftPanel li.menuLabel .slimScrollDiv{
+.leftPanel li.menuLabel .perfectScroll{
 	position: static !important;
 }
-.leftPanel  .slimScrollDiv{
-	overflow: visible !important;
-	height: calc(100% - 50px) ! important;
+.subMenu .menuLabel a {
+	padding: 0 !important;
 }
 .baseContainer .leftPanel:after {
 	content: "";
@@ -3574,34 +3573,29 @@ span[name=existingImages] img{
 }
 .subMenu{
 	display: none;
-	position: relative;
 }
 .nav li{
 	position: static;
 }
-.nav li:hover > .slimScrollDiv >.subMenu{
+.nav li:hover > .subMenu{
 	display: block;
-	position: absolute;
+	position: fixed;
 	left: 230px;
-	top: 0px;
+	top: 50px;
 	height: calc(100% - 50px);
-}
-.nav li:hover > .slimScrollDiv >.subMenu > li > .slimScrollDiv >.subMenu{
-	left: 300px;
-	top: 0;
 }
 .nav li:hover .subMenu a{
 	color: #000;
 }
-
 .leftPanel .nav .subMenu:after {
 	content: "";
 	display: block;
-	position: fixed;
+	position: absolute;
 	bottom: 33px;
-	top: 50px;
+	top: 0;
 	z-index: -1;
 	width: 300px;
+	min-height: 830px;
 	background: #f0f1f1;
 	border-right: 1px solid #dddddd;
 }
@@ -3732,6 +3726,7 @@ html,body,.baseContainer
 	overflow-x:hidden !important;
 	height:calc(100% - 50px);
 	width: 100%;
+	position: relative;
 }
 .globalSearchInput .chosen-container-single .chosen-single span{
 	min-width: 130px;
@@ -5976,11 +5971,11 @@ border1px{
 }
 .fixedListInitial {
 	padding-right: 10px;
-	max-height: max-content;
+	height: 600px;
 	padding-left: 0;
+	overflow: hidden;
 }
 .fixedListContent {
-	overflow: hidden;
 	position: relative;
 	margin-top: 2px;
 	height: max-content;
@@ -6163,4 +6158,7 @@ border1px{
 }
 .margin-right5px {
 	margin-right: 5px;
+}
+.ps__rail-x, .ps__rail-y, .ps__thumb-x {
+	z-index: 10000;
 }

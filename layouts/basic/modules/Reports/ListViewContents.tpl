@@ -28,7 +28,6 @@
 	<strong><a id="deSelectAllMsg">{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
 </div>
 <div class="listViewEntriesDiv">
- <div data-simplebar>
 	<input type="hidden" value="{$ORDER_BY}" id="orderBy" />
 	<input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
 	<p class="listViewLoadingMsg hide">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS', $MODULE)}........</p>
@@ -90,7 +89,6 @@
 		</tbody>
 	</table>
 {/if}
-</div>
 </div>
 
 </div>
