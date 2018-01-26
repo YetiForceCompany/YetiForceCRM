@@ -34,7 +34,7 @@ class Notification_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LIST_VIEW_HEADER',
 				'linkhint' => 'LBL_SEND_NOTIFICATION',
 				'linkurl' => 'javascript:Vtiger_Index_Js.sendNotification(this)',
-				'linkicon' => 'glyphicon glyphicon-send'
+				'linkicon' => 'fa fa-paper-plane'
 			];
 		}
 		foreach ($headerLinks as $headerLink) {
