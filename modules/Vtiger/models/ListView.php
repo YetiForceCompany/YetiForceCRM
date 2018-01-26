@@ -264,7 +264,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ADD_COMMENT',
 				'linkurl' => 'index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=showAddCommentForm',
-				'linkicon' => 'glyphicon glyphicon-comment'
+				'linkicon' => 'fa fa-comments'
 			];
 		}
 		if ($moduleModel->isPermitted('MassTransferOwnership')) {
