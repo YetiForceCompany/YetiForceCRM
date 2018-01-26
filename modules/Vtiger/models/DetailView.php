@@ -113,7 +113,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linklabel' => '',
 				'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
-				'linkicon' => 'glyphicon glyphicon-eye-open',
+				'linkicon' => 'fa fa-eye',
 				'linkhint' => 'BTN_WATCHING_RECORD',
 				'linkclass' => $class,
 				'linkdata' => ['off' => 'btn-default', 'on' => 'btn-info', 'value' => $watchdog->isWatchingRecord() ? 0 : 1, 'record' => $recordId],
