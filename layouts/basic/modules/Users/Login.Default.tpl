@@ -26,14 +26,14 @@
 								<div class="input-group form-group first-group">
 									<input name="username" type="text" id="username" class="form-control form-control-lg" {if \AppConfig::main('systemMode') === 'demo'}value="demo"{/if} placeholder="{\App\Language::translate('LBL_USER',$MODULE)}" required="" {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if} autofocus="">
 									<div class="input-group-append">
-										<div class="input-group-text adminIcon-user"></div>
+										<div class="input-group-text"><i class="fa fa-user" aria-hidden="true"></i></div>
 									</div>
 								</div>
 								<label for="password" class="sr-only">{\App\Language::translate('Password',$MODULE)}</label>
 								<div class="input-group form-group {if $LANGUAGE_SELECTION || $LAYOUT_SELECTION}first-group {/if}">
 									<input name="password" type="password" class="form-control form-control-lg" title="{\App\Language::translate('Password',$MODULE)}" id="password" name="password" {if \AppConfig::main('systemMode') === 'demo'}value="demo"{/if} {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if} placeholder="{\App\Language::translate('Password',$MODULE)}">
 									<div class="input-group-append">
-										<div class="input-group-text userIcon-OSSPasswords"></div>
+										<div class="input-group-text"><i class="fa fa-briefcase" aria-hidden="true"></i></div>
 									</div>
 								</div>
 								{assign var=COUNTERFIELDS value=2}
@@ -45,7 +45,10 @@
 											{foreach item=VALUE key=KEY from=\App\Language::getAll()}
 												<option {if $KEY eq $DEFAULT_LANGUAGE} selected {/if}  value="{\App\Purifier::encodeHtml($KEY)}">{$VALUE}</option>
 											{/foreach}
-										</select>	
+										</select>
+										<div class="input-group-append">
+											<div class="input-group-text"><i class="fa fa-language" aria-hidden="true"></i></div>
+										</div>
 									</div>
 								{/if}
 								{if $LAYOUT_SELECTION}
