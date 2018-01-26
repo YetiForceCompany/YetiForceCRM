@@ -56,7 +56,7 @@ class Settings_MappedFields_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EXPORT_RECORD',
 				'linkurl' => 'index.php?module=MappedFields&parent=Settings&action=ExportTemplate&id=' . $this->getId(),
-				'linkicon' => 'glyphicon glyphicon-export'
+				'linkicon' => 'fa fa-arrow-up'
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
