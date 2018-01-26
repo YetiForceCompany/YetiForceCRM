@@ -15,7 +15,7 @@
 			{/if}
 			{if \App\Privilege::isPermitted('ModComments','CreateView')}
 				<button class="addRelatedRecord" data-module="ModComments" title="{\App\Language::translate('LBL_ADD_MODCOMMENTS',$MODULE_NAME)}">
-					<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+					<span class="fa fa-comments" aria-hidden="true"></span>
 				</button>
 			{/if}
 			{if in_array($RELATED['module'], ['HelpDesk','Project']) &&  \App\Privilege::isPermitted('HelpDesk','CreateView')}
