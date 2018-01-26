@@ -420,51 +420,6 @@ class Accounts extends CRMEntity
 			}
 		}
 	}
-
-	public function createDependentQuery($other, $row, $id)
-	{
-		$dependentColumn = $row['columnname'];
-		$joinTables = [];
-		$join = '';
-		$tables = '';
-		foreach ($other->tab_name_index as $table => $index) {
-			if ($table == $other->table_name) {
-				continue;
-			}
-			$joinTables[] = $table;
-			$join .= ' INNER JOIN ' . $table . ' ON ' . $table . '.' . $index . ' = ' . $other->table_name . '.' . $other->table_index;
-		}
-
-		if (!empty($other->related_tables)) {
-			foreach ($other->related_tables as $tname => $relmap) {
-				$tables .= ", $tname.*";
-				if (in_array($tname, $joinTables)) {
-					continue;
-				}
-				// Setup the default JOIN conditions if not specified
-				if (empty($relmap[1]))
-					$relmap[1] = $other->table_name;
-				if (empty($relmap[2]))
-					$relmap[2] = $relmap[0];
-				$join .= " LEFT JOIN $tname ON $tname.$relmap[0] = $relmap[1].$relmap[2]";
-			}
-		}
-		$entityIds = $this->getRelatedContactsIds();
-		$entityIds[] = $id;
-		$entityIds = implode(',', $entityIds);
-
-		$query = "SELECT vtiger_crmentity.*, $other->table_name.*";
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_users.first_name',
-				'last_name' => 'vtiger_users.last_name'], 'Users');
-		$query .= $tables;
-		$query .= ", CASE WHEN (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END AS user_name";
-		$query .= sprintf(' FROM %s', $other->table_name);
-		$query .= $join;
-		$query .= ' LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid';
-		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
-		$query .= " WHERE vtiger_crmentity.deleted = 0 AND $other->table_name.$dependentColumn IN ($entityIds)";
-		return $query;
-	}
 	/* Function to get related contact ids for an account record */
 
 	public function getRelatedContactsIds($id = null)

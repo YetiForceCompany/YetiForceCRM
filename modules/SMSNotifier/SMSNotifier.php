@@ -86,29 +86,6 @@ class SMSNotifier extends Vtiger_CRMEntity
 		$this->db = PearDatabase::getInstance();
 	}
 
-	public function getSortOrder()
-	{
-		$currentModule = vglobal('currentModule');
-
-		$sortorder = $this->default_sort_order;
-		if (!\App\Request::_isEmpty('sorder'))
-			$sortorder = \App\Request::_get('sorder');
-		else if ($_SESSION[$currentModule . '_Sort_Order'])
-			$sortorder = $_SESSION[$currentModule . '_Sort_Order'];
-
-		return $sortorder;
-	}
-
-	public function getOrderBy()
-	{
-		$orderby = $this->default_order_by;
-		if (!\App\Request::_isEmpty('order_by'))
-			$orderby = \App\Request::_get('order_by');
-		else if ($_SESSION[$currentModule . '_Order_By'])
-			$orderby = $_SESSION[$currentModule . '_Order_By'];
-		return $orderby;
-	}
-
 	/**
 	 * Transform the value while exporting (if required)
 	 */

@@ -138,17 +138,4 @@ class ProjectTask extends CRMEntity
 			\App\Fields\RecordNumber::setNumber($moduleName, 'PT', 1);
 		}
 	}
-
-	/**
-	 * Function to check the module active and user action permissions before showing as link in other modules
-	 * like in more actions of detail view(Projects).
-	 */
-	public static function isLinkPermitted($linkData)
-	{
-		$moduleName = "ProjectTask";
-		if (\App\Module::isModuleActive($moduleName) && isPermitted($moduleName, 'EditView') == 'yes') {
-			return true;
-		}
-		return false;
-	}
 }
