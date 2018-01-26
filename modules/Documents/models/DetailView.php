@@ -50,7 +50,7 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model
 					'linkhref' => true,
 					'linktarget' => '_blank',
 					'linkurl' => 'index.php?module=OSSMail&view=Compose&type=new&crmModule=Documents&crmRecord=' . $recordModel->getId(),
-					'linkicon' => 'glyphicon glyphicon-envelope'
+					'linkicon' => 'fa fa-envelope'
 				];
 				$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 			}
