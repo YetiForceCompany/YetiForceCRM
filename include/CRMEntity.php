@@ -1215,15 +1215,6 @@ class CRMEntity
 	}
 
 	/**
-	 * Function to clear the fields which needs to be saved only once during the Save of the record
-	 * For eg: Comments of HelpDesk should be saved only once during one save of a Trouble Ticket
-	 */
-	public function clearSingletonSaveFields()
-	{
-		return;
-	}
-
-	/**
 	 * Function to track when a new record is linked to a given record
 	 */
 	public static function trackLinkedInfo($crmId)
@@ -1232,47 +1223,6 @@ class CRMEntity
 		$currentTime = date('Y-m-d H:i:s');
 		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => $current_user->id], ['crmid' => $crmId])->execute();
 	}
-
-	/**
-	 * Function to get sort order
-	 * return string  $sorder    - sortorder string either 'ASC' or 'DESC'
-	 */
-	public function getSortOrder()
-	{
-
-		$currentModule = vglobal('currentModule');
-		\App\Log::trace("Entering getSortOrder() method ...");
-		if (\App\Request::_has('sorder'))
-			$sorder = $this->db->sqlEscapeString(App\Request::_getForSql('sorder'));
-		else
-			$sorder = (($_SESSION[$currentModule . '_Sort_Order'] != '') ? ($_SESSION[$currentModule . '_Sort_Order']) : ($this->default_sort_order));
-		\App\Log::trace("Exiting getSortOrder() method ...");
-		return $sorder;
-	}
-
-	/**
-	 * Function to get order by
-	 * return string  $order_by    - fieldname(eg: 'accountname')
-	 */
-	public function getOrderBy()
-	{
-		$currentModule = vglobal('currentModule');
-
-		\App\Log::trace("Entering getOrderBy() method ...");
-
-		$use_default_order_by = '';
-		if (AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
-			$use_default_order_by = $this->default_order_by;
-		}
-
-		if (\App\Request::_has('order_by'))
-			$order_by = $this->db->sqlEscapeString(App\Request::_getForSql('order_by'));
-		else
-			$order_by = (($_SESSION[$currentModule . '_Order_By'] != '') ? ($_SESSION[$currentModule . '_Order_By']) : ($use_default_order_by));
-		\App\Log::trace("Exiting getOrderBy method ...");
-		return $order_by;
-	}
-	// Mike Crowe Mod --------------------------------------------------------
 
 	/**
 	 * Function to track when a record is unlinked to a given record
