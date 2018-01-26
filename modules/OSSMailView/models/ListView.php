@@ -37,7 +37,7 @@ class OSSMailView_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_BindMails',
 				'linkurl' => 'javascript:OSSMailView_List_Js.bindMails("index.php?module=' . $moduleModel->get('name') . '&action=BindMails")',
-				'linkicon' => 'glyphicon glyphicon-repeat'
+				'linkicon' => 'fa fa-repeat'
 			];
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
