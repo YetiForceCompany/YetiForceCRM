@@ -161,7 +161,7 @@
 						</form>
 					</div>&nbsp;
 					<a href="javascript:void(0)" class="deleteCustomField" data-field-id="{$WIDGET_MODEL->get('id')}">
-						<span class="glyphicon glyphicon-trash alignMiddle" title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
+						<span class="fa fa-trash-o alignMiddle" title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 					</a>
 				</span>
 			</div>

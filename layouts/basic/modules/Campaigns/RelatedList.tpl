@@ -120,7 +120,7 @@
 																			{if $VIEW_MODEL->get('entityState') === 'Archived'}
 																				<span class="fa fa-archive"></span>
 																			{elseif $VIEW_MODEL->get('entityState') === 'Trash'}
-																				<span class="glyphicon glyphicon-trash"></span>
+																				<span class="fa fa-trash-o"></span>
 																			{elseif $VIEW_MODEL->get('entityState') === 'All'}
 																				<span class="glyphicon glyphicon-menu-hamburger"></span>
 																			{else}
@@ -135,7 +135,7 @@
 																				<a href="#" data-value="Archived"><span class="fa fa-archive"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}</a>
 																			</li>
 																			<li {if $COLOR['Trash']}style="border-color: {$COLOR['Trash']};"{/if}>
-																				<a href="#" data-value="Trash"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}</a>
+																				<a href="#" data-value="Trash"><span class="fa fa-trash-o"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}</a>
 																			</li>
 																			<li>
 																				<a href="#" data-value="All"><span class="glyphicon glyphicon-menu-hamburger"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ALL')}</a>
@@ -267,7 +267,7 @@
 																				<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fa fa-pencil alignMiddle"></span></a>
 																				{/if}
 																				{if $IS_DELETABLE}
-																				<a class="relationDelete"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
+																				<a class="relationDelete"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fa fa-trash-o alignMiddle"></span></a>
 																				{/if}
 																		</span>
 																	</div>

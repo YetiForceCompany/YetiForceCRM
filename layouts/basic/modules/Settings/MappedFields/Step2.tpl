@@ -82,7 +82,7 @@
 												</td>
 												<td class="textAlignCenter">
 													<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-default deleteMapping">
-														<i class="glyphicon glyphicon-trash"></i>
+														<i class="fa fa-trash-o"></i>
 													</button>
 												</td>
 											</tr>
@@ -121,7 +121,7 @@
 											</td>
 											<td class="textAlignCenter">
 												<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-default deleteMapping">
-													<i class="glyphicon glyphicon-trash"></i>
+													<i class="fa fa-trash-o"></i>
 												</button>
 											</td>
 										</tr>

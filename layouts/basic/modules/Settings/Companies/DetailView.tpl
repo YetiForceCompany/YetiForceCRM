@@ -14,7 +14,7 @@
 			</a>
 			{if $RECORD_MODEL->get('default') eq 0}
 				<a href="{$RECORD_MODEL->getDeleteActionUrl()}" class="btn btn-danger pull-right">
-					<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;
+					<span class="fa fa-trash-o" aria-hidden="true"></span>&nbsp;
 					<strong>{App\Language::translate('LBL_DELETE_RECORD', $QUALIFIED_MODULE)}</strong>
 				</a>
 			{/if}

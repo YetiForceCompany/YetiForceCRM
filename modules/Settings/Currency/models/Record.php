@@ -61,7 +61,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 			'linkurl' => "javascript:Settings_Currency_Js.triggerDelete(event,'" . $this->getId() . "')",
 			'linklabel' => 'LBL_DELETE',
 			'linkclass' => 'btn-sm btn-danger',
-			'linkicon' => 'glyphicon glyphicon-trash'
+			'linkicon' => 'fa fa-trash-o'
 		];
 		$deleteLinkInstance = Vtiger_Link_Model::getInstanceFromValues($deleteLink);
 		return [$editLinkInstance, $deleteLinkInstance];

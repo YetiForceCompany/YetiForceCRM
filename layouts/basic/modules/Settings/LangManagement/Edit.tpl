@@ -75,7 +75,7 @@
 						{/foreach}
 						<td>
 							<a href="#" class="pull-right marginRight10px delete_translation" title="{\App\Language::translate('LBL_DELETE')}">
-								<i class="glyphicon glyphicon-trash alignMiddle"></i>
+								<i class="fa fa-trash-o alignMiddle"></i>
 							</a>
 						</td>
 					</tr>
@@ -109,7 +109,7 @@
 						{/foreach}
 						<td>
 							<a href="#" class="pull-right marginRight10px delete_translation">
-								<i class="glyphicon glyphicon-trash alignMiddle"></i>
+								<i class="fa fa-trash-o alignMiddle"></i>
 							</a>
 						</td>
 					</tr>

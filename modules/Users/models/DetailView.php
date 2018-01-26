@@ -56,7 +56,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linklabel' => 'LBL_DELETE',
 				'linkurl' => 'javascript:Users_Detail_Js.triggerDeleteUser("' . $recordModel->getDeleteUrl() . '")',
-				'linkicon' => 'glyphicon glyphicon-trash',
+				'linkicon' => 'fa fa-trash-o',
 				'linkclass' => 'btn-warning',
 				'showLabel' => true
 			];
