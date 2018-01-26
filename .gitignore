@@ -22,7 +22,6 @@
 /public_html/libraries/moment/
 /public_html/libraries/fullcalendar/
 /public_html/libraries/split.js/
-/public_html/libraries/simplebar/
 /public_html/libraries/almond/
 /public_html/libraries/jquery-mousewheel/
 /public_html/libraries/resize-observer-polyfill/
@@ -91,6 +90,7 @@
 /public_html/libraries/yarn/
 /public_html/libraries/jstorage/
 /public_html/libraries/jquery-slimscroll/
+/public_html/libraries/perfect-scrollbar/
 /public_html/libraries/popper.js/
 /libraries/mPDF/
 /vendor/*/

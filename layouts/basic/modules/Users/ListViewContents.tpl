@@ -36,7 +36,6 @@
 		<strong><a id="deSelectAllMsg">{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
 	</div>
 	<div class="listViewEntriesDiv" >
-		<div data-simplebar>
 			<input type="hidden" value="{$ORDER_BY}" id="orderBy" />
 			<input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
 			<span class="listViewLoadingImageBlock hide modal" id="loadingListViewModal">
@@ -164,6 +163,5 @@
 					</tbody>
 				</table>
 			{/if}
-		</div>
 	</div>
 {/strip}
