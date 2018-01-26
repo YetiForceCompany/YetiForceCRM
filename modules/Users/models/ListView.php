@@ -142,7 +142,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_IMPORT',
 				'linkurl' => $moduleModel->getImportUrl(),
-				'linkicon' => 'glyphicon glyphicon-import'
+				'linkicon' => 'fa fa-arrow-down'
 			];
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEW',
