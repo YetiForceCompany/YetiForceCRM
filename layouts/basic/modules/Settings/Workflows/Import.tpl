@@ -10,7 +10,7 @@
 		{if isset($UPLOAD)}
 			{if $UPLOAD eq true}
 				<p class="bgMessage bgOK">
-					<i class="glyphicon glyphicon-ok-sign"></i> {\App\Language::translate('LBL_UPLOAD_OK', $QUALIFIED_MODULE)} <a href="index.php?module=Workflows&parent=Settings&view=Edit&record={$RECORDID}">{\App\Language::translate('LBL_GO_TO_TEMPLATE', $QUALIFIED_MODULE)}</a>
+					<i class="fa fa-check-circle"></i> {\App\Language::translate('LBL_UPLOAD_OK', $QUALIFIED_MODULE)} <a href="index.php?module=Workflows&parent=Settings&view=Edit&record={$RECORDID}">{\App\Language::translate('LBL_GO_TO_TEMPLATE', $QUALIFIED_MODULE)}</a>
 				</p>
 				{foreach from=$MESSAGES['error'] item=msg}
 					<p class="bgMessage bgWARNING"><i class="glyphicon glyphicon-info-sign"></i> {$msg}</p>
