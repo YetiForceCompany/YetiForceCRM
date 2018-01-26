@@ -41,7 +41,7 @@
 								{if $ITEM->getStatus() == 2}
 									<span class="fa fa-plus-circle" aria-hidden="true"></span>
 								{else}
-									<span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
+									<span class="fa fa-minus-circle" aria-hidden="true"></span>
 								{/if}
 							</button>&nbsp;&nbsp;
 						{/if}
