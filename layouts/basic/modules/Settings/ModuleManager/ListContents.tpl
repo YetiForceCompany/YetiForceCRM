@@ -68,7 +68,7 @@
 								{if $LIBRARY['status'] == 1}
 									<span class="label label-success bigLabel">
 										{\App\Language::translate('LBL_LIBRARY_DOWNLOADED', $QUALIFIED_MODULE)}&nbsp;&nbsp;
-										<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+										<span class="fa fa-check-circle-o" aria-hidden="true"></span>
 									</span>
 								{elseif $LIBRARY['status'] == 2}
 									<span class="label label-warning bigLabel">
