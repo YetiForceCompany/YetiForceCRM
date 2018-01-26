@@ -49,12 +49,12 @@ class Gui_ListView extends \Tests\GuiBase
 			'args' => [],
 		]);
 
-//		$this->assertEquals('Accounts', $this->byId('module')->value());
-//		$this->assertEquals('Edit', $this->byId('view')->value());
-//
-//		$this->byCssSelector('.formActionsPanel button.btn-success')->click();
-//		$this->assertEquals('Accounts', $this->byId('module')->value());
-//		$this->assertEquals('Detail', $this->byId('view')->value());
+		$this->assertEquals('Accounts', $this->byId('module')->value());
+		$this->assertEquals('Edit', $this->byId('view')->value());
+
+		$this->byCssSelector('.formActionsPanel button.btn-success')->click();
+		$this->assertEquals('Accounts', $this->byId('module')->value());
+		$this->assertEquals('Detail', $this->byId('view')->value());
 //
 //		$this->execute([
 //			'script' => '$(".Accounts_detailViewExtended_action_LBL_ARCHIVE_RECORD").click();',
