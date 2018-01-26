@@ -37,7 +37,7 @@
 											<div class="pull-right">
 												{if $ITEM->getStatus() != 1 && $ITEM->getPriority() < 8}
 													<button type="button" class="btn btn-warning ajaxBtn" data-params="{$ITEM->getStatus()}">
-														<span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
+														<span class="fa fa-minus-circle" aria-hidden="true"></span>
 														&nbsp;&nbsp;{App\Language::translate('BTN_SET_IGNORE','Settings:SystemWarnings')}
 													</button>&nbsp;&nbsp;
 												{/if}
