@@ -91,7 +91,7 @@
 										</a>
 									{else}
 										<a class="btn btn-primary btn-sm" href="index.php?module=ModuleManager&parent=Settings&action=Library&mode=update&name={$NAME}">
-											<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>&nbsp;&nbsp;
+											<span class="fa fa-repeat" aria-hidden="true"></span>&nbsp;&nbsp;
 											<strong>{\App\Language::translate('BTN_LIBRARY_UPDATE', $QUALIFIED_MODULE)}</strong>
 										</a>
 									{/if}
