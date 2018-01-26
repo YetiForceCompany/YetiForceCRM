@@ -1998,9 +1998,6 @@ jQuery.Class("Vtiger_List_Js", {
 		});
 	},
 	registerScroll: function (container) {
-//		var mainBodyScrollbarInit = new PerfectScrollbar(container.closest('.mainBody')[0], {
-//			suppressScrollX: true
-//		});
 		var scrollbarTopInit = new PerfectScrollbar(container[0], {
 			suppressScrollY: true,
 			wheelPropagation: true
