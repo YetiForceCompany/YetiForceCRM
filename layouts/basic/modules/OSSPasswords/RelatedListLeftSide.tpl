@@ -5,7 +5,7 @@
 		<div>
 			<a class="favorites btn btn-default btn-xs" data-state="{$RECORD_IS_FAVORITE}">
 				<span title="{\App\Language::translate('LBL_REMOVE_FROM_FAVORITES', $MODULE)}" class="glyphicon glyphicon-star {if !$RECORD_IS_FAVORITE}hide{/if}"></span>
-				<span title="{\App\Language::translate('LBL_ADD_TO_FAVORITES', $MODULE)}" class="glyphicon glyphicon-star-empty {if $RECORD_IS_FAVORITE}hide{/if}"></span>
+				<span title="{\App\Language::translate('LBL_ADD_TO_FAVORITES', $MODULE)}" class="fa fa-star-o {if $RECORD_IS_FAVORITE}hide{/if}"></span>
 			</a>
 		</div>
 	{/if}
