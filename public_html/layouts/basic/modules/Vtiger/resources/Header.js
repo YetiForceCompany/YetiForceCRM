@@ -694,7 +694,6 @@ jQuery.Class("Vtiger_Header_Js", {
 	},
 	registerScrollForMenu: function (container) {
 		if (!container.length) return;
-		window.console.log(container);
 		var menuContainer = container.find('.leftPanel .menuContainer');
 		var menuScrollInit = new PerfectScrollbar(menuContainer[0], {
 			suppressScrollX: true,
