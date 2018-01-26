@@ -52,7 +52,7 @@
 						{/if}
 						{if $ITEM->getDescription()}
 							<button class="btn btn-primary btn-xs showDescription">
-								<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+								<span class="fa fa-info-circle" aria-hidden="true"></span>
 							</button>
 							<span class="hide showDescriptionContent">
 								<div class="modal fade">

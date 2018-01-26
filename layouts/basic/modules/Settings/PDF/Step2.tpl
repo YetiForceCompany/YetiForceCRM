@@ -135,7 +135,7 @@
 						{\App\Language::translate('LBL_GENERATE_ONE_PDF', $QUALIFIED_MODULE)}
 						<span class="popoverTooltip delay0"  data-placement="top"
 							  data-content="{\App\Language::translate('LBL_GENERATE_ONE_PDF_INFO',$QUALIFIED_MODULE)}">
-							<span class="glyphicon glyphicon-info-sign"></span>
+							<span class="fa fa-info-circle"></span>
 						</span>
 					</label>
 					<div class="col-sm-6">
