@@ -24,7 +24,7 @@ class Vtiger_Quantity_InventoryField extends Vtiger_Basic_InventoryField
 	 * @param type $value
 	 * @return type
 	 */
-	public function getDisplayValue($value)
+	public function getDisplayValue($value, $rawText = false)
 	{
 		return \App\Purifier::encodeHtml(vtlib\Functions::formatDecimal($value));
 	}

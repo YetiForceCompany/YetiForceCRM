@@ -21,7 +21,7 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getDisplayValue($value)
+	public function getDisplayValue($value, $rawText = false)
 	{
 		return \App\Purifier::purifyHtml($value);
 	}

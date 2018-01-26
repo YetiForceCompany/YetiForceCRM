@@ -24,7 +24,7 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 	 * @param int $value
 	 * @return string
 	 */
-	public function getDisplayValue($value)
+	public function getDisplayValue($value, $rawText = false)
 	{
 		return vtlib\Functions::getCurrencyName($value, false);
 	}
