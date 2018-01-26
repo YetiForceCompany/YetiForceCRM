@@ -97,7 +97,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => '',
 					'linkdata' => ['url' => 'index.php?module=' . $moduleName . '&view=GenerateModal&fromview=Detail&record=' . $recordId],
-					'linkicon' => 'glyphicon glyphicon-new-window',
+					'linkicon' => 'fa fa-external-link',
 					'linkclass' => 'btn showModal',
 					'linkhint' => 'BTN_GENERATE_RECORD',
 				];
