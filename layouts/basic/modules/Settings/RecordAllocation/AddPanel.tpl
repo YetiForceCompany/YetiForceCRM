@@ -50,7 +50,7 @@
 					</div>
 					<div class="col-xs-12 col-sm-2">
 						<div class="textAlignCenter font-x-x-large betweenDragDrop">
-							<span class="glyphicon glyphicon-resize-horizontal"></span>
+							<span class="fa fa-arrows-h"></span>
 						</div>
 					</div>
 					<div class="col-xs-12 col-sm-5 paddingLRZero">
