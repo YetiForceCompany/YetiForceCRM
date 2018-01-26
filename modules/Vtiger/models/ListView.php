@@ -244,7 +244,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Trash&sourceView=List',
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')],
 				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'glyphicon glyphicon-trash'
+				'linkicon' => 'fa fa-trash-o'
 			];
 		}
 		if ($moduleModel->isPermitted('MassDelete')) {

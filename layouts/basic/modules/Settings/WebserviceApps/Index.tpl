@@ -35,7 +35,7 @@
 											<span class="fa fa-pencil cursorPointer"></span>
 										</button>
 										<button class="btn btn-danger btn-xs marginLeft5 remove">
-											<span class="glyphicon glyphicon-trash cursorPointer"></span>
+											<span class="fa fa-trash-o cursorPointer"></span>
 										</button>
 									</div>
 								</div>

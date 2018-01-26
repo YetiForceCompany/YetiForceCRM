@@ -114,7 +114,7 @@ class SMSNotifier_ListView_Model extends Vtiger_ListView_Model
 				'linkurl' => 'javascript:',
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Trash&sourceView=List',
 				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'glyphicon glyphicon-trash'
+				'linkicon' => 'fa fa-trash-o'
 			];
 		}
 		if ($moduleModel->isPermitted('MassDelete')) {

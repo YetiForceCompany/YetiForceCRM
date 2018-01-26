@@ -19,7 +19,7 @@
 								<a class="edit cursorPointer" data-url="{$RECORD->getEditUrl()}">
 									<span class="fa fa-pencil alignBottom" title="Edycja"></span>
 								</a>
-								<a class="remove cursorPointer"><span title="" class="glyphicon glyphicon-trash alignBottom"></span>
+								<a class="remove cursorPointer"><span title="" class="fa fa-trash-o alignBottom"></span>
 								</a>
 							</div>
 						{/if}

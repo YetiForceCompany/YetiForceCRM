@@ -355,7 +355,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => "javascript:Settings_Vtiger_List_Js.triggerDelete(event,'" . $this->getDeleteActionUrl() . "')",
-				'linkicon' => 'glyphicon glyphicon-trash'
+				'linkicon' => 'fa fa-trash-o'
 			]
 		];
 		foreach ($recordLinks as $recordLink) {

@@ -67,7 +67,7 @@
 											<span title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}" class="fa fa-pencil alignMiddle"></span>
 										</a>
 										<a data-holiday-id="{$HOLIDAY['id']}" class="deleteHoliday" href="javascript:void(0)">
-											<span title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span>
+											<span title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fa fa-trash-o alignMiddle"></span>
 										</a>
 									</div>
 								</td>

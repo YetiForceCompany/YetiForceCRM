@@ -202,7 +202,7 @@ class Settings_AdvancedPermission_Record_Model extends Settings_Vtiger_Record_Mo
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => $this->getDeleteActionUrl(),
-				'linkicon' => 'glyphicon glyphicon-trash'
+				'linkicon' => 'fa fa-trash-o'
 			]
 		];
 		foreach ($recordLinks as $recordLink) {

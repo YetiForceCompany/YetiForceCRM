@@ -80,7 +80,7 @@
 									<div class="actions pull-right">
 										<span class="actionImages">
 											<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fa fa-pencil alignMiddle editRecord"></span>&nbsp;
-											<span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle deleteRecord"></span>
+											<span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fa fa-trash-o alignMiddle deleteRecord"></span>
 										</span>
 									</div>
 								</td>

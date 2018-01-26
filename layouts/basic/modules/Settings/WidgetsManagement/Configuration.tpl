@@ -24,7 +24,7 @@
 					<strong>{\App\Language::translate($DASHBOARD['name'])}</strong>					
 					<button class="btn btn-primary btn-xs fa fa-pencil marginLeft10 editDashboard"></button>
 					{if $DASHBOARD['system'] neq 1}
-						<button class="btn btn-danger btn-xs glyphicon glyphicon-trash marginLeft10 deleteDashboard"></button>
+						<button class="btn btn-danger btn-xs fa fa-trash-o marginLeft10 deleteDashboard"></button>
 					{/if}
 				</a>
 			</li>
@@ -104,7 +104,7 @@
 										{/if}
 										<div class="btn-group actions">
 											<a href="javascript:void(0)" class="deleteCustomBlock btn btn-xs btn-danger" >
-												<span class="glyphicon glyphicon-trash alignMiddle" title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
+												<span class="fa fa-trash-o alignMiddle" title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 											</a>
 										</div>
 									</div>
@@ -219,7 +219,7 @@
 								{/if}
 								<div class="btn-group actions">
 									<a href="javascript:void(0)" class="deleteCustomBlock btn btn-xs btn-danger" >
-										<span class="glyphicon glyphicon-trash alignMiddle" title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
+										<span class="fa fa-trash-o alignMiddle" title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 									</a>
 								</div>
 							</div>
@@ -438,7 +438,7 @@
 										</div>
 									</form>
 								</div>&nbsp;
-								<a href="javascript:void(0)" class="deleteCustomField" data-field-id=""><span class="glyphicon glyphicon-trash alignMiddle" title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span></a>
+								<a href="javascript:void(0)" class="deleteCustomField" data-field-id=""><span class="fa fa-trash-o alignMiddle" title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span></a>
 							</span>
 						</div>
 					</div>

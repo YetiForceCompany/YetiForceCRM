@@ -123,7 +123,7 @@
 												<span class="hide filterActionImages pull-right">
 													<span title="{\App\Language::translate('LBL_DENY', $MODULE)}" data-value="deny" class="glyphicon glyphicon-exclamation-sign alignMiddle denyFilter filterActionImage pull-right"></span>
 													<span title="{\App\Language::translate('LBL_APPROVE', $MODULE)}" data-value="approve" class="glyphicon glyphicon-ok alignMiddle approveFilter filterActionImage pull-right"></span>
-													<span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" data-value="delete" class="glyphicon glyphicon-trash alignMiddle deleteFilter filterActionImage pull-right"></span>
+													<span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" data-value="delete" class="fa fa-trash-o alignMiddle deleteFilter filterActionImage pull-right"></span>
 													<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" data-value="edit" class="fa fa-pencil alignMiddle editFilter filterActionImage pull-right"></span>
 													<span title="{\App\Language::translate('LBL_DUPLICATE', $MODULE)}" data-value="duplicate" class="glyphicon glyphicon-retweet alignMiddle duplicateFilter filterActionImage pull-right"></span>
 												</span>
