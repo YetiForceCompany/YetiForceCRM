@@ -186,7 +186,7 @@
 				<div class="input-group-btn">
 					<div class="pull-right">
 						<button class="btn btn-default globalSearch " title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">
-							<span class="glyphicon glyphicon-th-large"></span>
+							<span class="fa fa-th-large"></span>
 						</button>
 					</div>
 				</div>
