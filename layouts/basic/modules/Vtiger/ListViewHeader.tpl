@@ -82,7 +82,7 @@
 												<div class="btn-toolbar col-md-3 col-sm-5 col-xs-12 pull-right-sm pull-left-xs">
 													<div class="customFilterMainSpan btn-group">
 														{if $CUSTOM_VIEWS|@count gt 0}
-															<select id="customFilter" title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
+															<select id="customFilter" class="form-control" title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
 																{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 																	<optgroup label='{\App\Language::translate('LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL))}' >
 																		{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS} 

@@ -1297,13 +1297,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 		return $orderByField->get('table') . '.' . $orderBy;
 	}
 
-	public function getDefaultSearchField()
-	{
-		$nameFields = $this->getNameFields();
-		//To make the first field as the name field
-		return $nameFields[0];
-	}
-
 	/**
 	 * Function to get popup view fields
 	 * @param string|boolean $sourceModule
