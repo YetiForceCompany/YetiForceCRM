@@ -713,6 +713,7 @@ class QueryGenerator
 		if ($this->fieldsSearchForDuplicates) {
 			$duplicateCheckClause = [];
 			$queryGenerator = new self($this->moduleName, $this->user->getId());
+			$queryGenerator->permissions = $this->permissions;
 			$queryGenerator->setFields(array_keys($this->fieldsSearchForDuplicates));
 			foreach ($this->fieldsSearchForDuplicates as $fieldName => $ignoreEmptyValue) {
 				if ($ignoreEmptyValue) {
