@@ -898,6 +898,7 @@ $languageStrings = [
 	'LBL_CURRENTLY_LOGGED_USER' => 'Aktualnie zalogowany użytkownik',
 	'LBL_IS_WATCHING_RECORD' => 'Obserwowany rekord',
 	'LBL_IS_NOT_WATCHING_RECORD' => 'Nieobserwowany rekord',
+	'LBL_DUPLICATES' => 'Duplikaty',
 	'LBL_TO_REALIZE' => 'Do realizacji',
 	'LBL_HISTORY' => 'Historia',
 	'LBL_WORKFLOWS_TRIGGER' => 'Wyzwalacz obiegów informacji',
@@ -1625,4 +1626,5 @@ $jsLanguageStrings = [
 	'JS_CUSTOM' => 'Własny zakres dat',
 	'JS_CALCULATING_IN_PROGRESS' => 'Trwa obliczanie',
 	'JS_FRAME_IN_PROGRESS' => 'Trwa ładowanie podglądu...',
+	'JS_IGNORE_EMPTY_VALUES' => 'Ignoruj puste wartości',
 ];

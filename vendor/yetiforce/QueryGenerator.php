@@ -46,6 +46,9 @@ class QueryGenerator
 	private $stdFilterList;
 	private $advFilterList;
 
+	/** @var array  */
+	private $fieldsSearchForDuplicates = [];
+
 	/** @var array Joins */
 	private $joins = [];
 
@@ -303,10 +306,11 @@ class QueryGenerator
 	 */
 	public function addJoin($join)
 	{
-		if (isset($this->joins[$join[1]])) {
+		$tableName = is_array($join[1]) ? key($join[1]) : $join[1];
+		if (isset($this->joins[$tableName])) {
 			return false;
 		}
-		$this->joins[$join[1]] = $join;
+		$this->joins[$tableName] = $join;
 	}
 
 	/**
@@ -374,6 +378,16 @@ class QueryGenerator
 		} else {
 			$this->group[] = $groups;
 		}
+	}
+
+	/**
+	 * Function sets the field for which the duplicated values will be searched
+	 * @param string $fieldName
+	 * @param int|bool $ignoreEmptyValue
+	 */
+	public function setFieldSearchForDuplicates($fieldName, $ignoreEmptyValue = true)
+	{
+		$this->fieldsSearchForDuplicates[$fieldName] = $ignoreEmptyValue;
 	}
 
 	/**
@@ -695,6 +709,22 @@ class QueryGenerator
 			} else {
 				$this->addJoin([$joinType, $tableName, "$baseTable.$baseTableIndex = $tableName.$moduleTableIndexList[$tableName]"]);
 			}
+		}
+		if ($this->fieldsSearchForDuplicates) {
+			$duplicateCheckClause = [];
+			$queryGenerator = new self($this->moduleName, $this->user->getId());
+			$queryGenerator->setFields(array_keys($this->fieldsSearchForDuplicates));
+			foreach ($this->fieldsSearchForDuplicates as $fieldName => $ignoreEmptyValue) {
+				if ($ignoreEmptyValue) {
+					$queryGenerator->addCondition($fieldName, '', 'ny');
+				}
+				$queryGenerator->setGroup($fieldName);
+				$fieldModel = $this->getModuleField($fieldName);
+				$duplicateCheckClause[] = $fieldModel->getTableName() . '.' . $fieldModel->getColumnName() . ' = duplicates.' . $fieldModel->getFieldName();
+			}
+			$subQuery = $queryGenerator->createQuery();
+			$subQuery->andHaving((new \yii\db\Expression('COUNT(1) > 1')));
+			$this->addJoin(['INNER JOIN', ['duplicates' => $subQuery], implode(' AND ', $duplicateCheckClause)]);
 		}
 		foreach ($this->joins as $join) {
 			$on = isset($join[2]) ? $join[2] : '';
