@@ -14,12 +14,12 @@ class BaseField
 {
 
 	/**
-	 * @var QueryGenerator 
+	 * @var QueryGenerator
 	 */
 	protected $queryGenerator;
 
 	/**
-	 * @var \Vtiger_Field_Model 
+	 * @var \Vtiger_Field_Model
 	 */
 	protected $fieldModel;
 
@@ -34,17 +34,17 @@ class BaseField
 	protected $tableName;
 
 	/**
-	 * @var string|array 
+	 * @var string|array
 	 */
 	protected $value;
 
 	/**
-	 * @var string 
+	 * @var string
 	 */
 	protected $operator;
 
 	/**
-	 * @var array Related detail 
+	 * @var array Related detail
 	 */
 	protected $related = false;
 
@@ -229,8 +229,8 @@ class BaseField
 	public function operatorY()
 	{
 		return ['or',
-			[$this->getColumnName() => null],
-			['=', $this->getColumnName(), '']
+				[$this->getColumnName() => null],
+				['=', $this->getColumnName(), '']
 		];
 	}
 
@@ -241,8 +241,8 @@ class BaseField
 	public function operatorNy()
 	{
 		return ['and',
-			['not', [$this->getColumnName() => null]],
-			['<>', $this->getColumnName(), '']
+				['not', [$this->getColumnName() => null]],
+				['<>', $this->getColumnName(), '']
 		];
 	}
 
@@ -262,5 +262,13 @@ class BaseField
 	public function operatorK()
 	{
 		return ['not like', $this->getColumnName(), $this->getValue()];
+	}
+
+	/**
+	 * Duplicates
+	 */
+	public function operatorD()
+	{
+		$this->queryGenerator->setFieldSearchForDuplicates($this->getField()->getName(), $this->getValue());
 	}
 }
