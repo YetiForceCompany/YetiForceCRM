@@ -1240,7 +1240,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_SHOW_QUICK_DETAILS',
 				'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $this->getId(),
-				'linkicon' => 'fa fa-caret-square-o-right',
+				'linkicon' => 'far fa-caret-square-right',
 				'linkclass' => 'btn-sm btn-default',
 				'modalView' => true
 			];
@@ -1338,7 +1338,7 @@ class Vtiger_Record_Model extends \App\Base
 						'linklabel' => 'LBL_SHOW_QUICK_DETAILS',
 						'linkhref' => true,
 						'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $this->getId(),
-						'linkicon' => 'fa fa-caret-square-o-right',
+						'linkicon' => 'far fa-caret-square-right',
 						'linkclass' => 'btn-xs btn-default',
 						'modalView' => true
 				]);
