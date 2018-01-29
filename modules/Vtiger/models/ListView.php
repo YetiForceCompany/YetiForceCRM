@@ -94,7 +94,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkhint' => 'BTN_WATCHING_MODULE',
 				'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
 				'linkclass' => $class,
-				'linkicon' => 'fa fa-eye',
+				'linkicon' => 'fas fa-eye',
 				'linkdata' => ['off' => 'btn-default', 'on' => 'btn-info', 'value' => $watchdog->isWatchingModule() ? 0 : 1],
 				'active' => !$watchdog->isLock()
 			];
