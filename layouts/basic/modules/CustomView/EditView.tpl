@@ -53,7 +53,7 @@
 					</label>
 					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->get('setmetrics')} active btn-primary{/if}" title="{\App\Language::translate('LBL_LIST_IN_METRICS',$MODULE)}">
 						<input id="setmetrics" name="setmetrics" type="checkbox" {if $CUSTOMVIEW_MODEL->get('setmetrics') eq '1'}checked="checked"{/if} value="1" />
-						<span class="glyphicon glyphicon-blackboard" data-check="glyphicon-heart" data-unchecked="glyphicon-heart-empty"></span>
+						<span class="fas fa-desktop" data-check="glyphicon-heart" data-unchecked="glyphicon-heart-empty"></span>
 					</label>
 				</div>
 			</div>
