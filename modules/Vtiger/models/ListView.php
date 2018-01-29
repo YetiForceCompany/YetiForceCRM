@@ -211,7 +211,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_EDIT',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerMassEdit("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=showMassEditForm");',
-				'linkicon' => 'fa fa-pencil'
+				'linkicon' => 'fas fa-pencil-alt'
 			];
 		}
 		if ($moduleModel->isPermitted('MassActive')) {

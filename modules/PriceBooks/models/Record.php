@@ -109,7 +109,7 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 		if ($viewModel->getRelationModel()->isEditable() && $this->isEditable()) {
 			$links['LBL_EDIT'] = Vtiger_Link_Model::getInstanceFromValues([
 					'linklabel' => 'LBL_EDIT',
-					'linkicon' => 'fa fa-pencil',
+					'linkicon' => 'fas fa-pencil-alt',
 					'linkclass' => 'btn-xs btn-default editListPrice cursorPointer',
 					'linkdata' => ['url' => 'index.php?module=PriceBooks&view=ListPriceUpdate&record=' . $viewModel->getParentRecordModel()->getId() . '&relid=' . $this->getId() . '&currentPrice=' . $this->get('listprice'), 'related-recordid' => $this->getId(), 'list-price' => $this->get('listprice')]
 			]);

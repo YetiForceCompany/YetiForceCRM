@@ -20,7 +20,7 @@
 					{if $REPORT_MODEL->isEditable() eq true}
 						<div class="btn-group">
 							<button onclick='window.location.href = "{$REPORT_MODEL->getEditViewUrl()}"' type="button" class="cursorPointer btn btn-success">
-								<span class="fa fa-pencil"></span>&nbsp;&nbsp;
+								<span class="fas fa-pencil-alt"></span>&nbsp;&nbsp;
 								<strong>{\App\Language::translate('LBL_CUSTOMIZE',$MODULE)}</strong>&nbsp;
 							</button>
 						</div>

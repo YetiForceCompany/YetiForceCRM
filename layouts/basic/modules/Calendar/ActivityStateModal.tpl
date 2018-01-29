@@ -25,7 +25,7 @@
 							{/if}
 						{/if}
 						{if $RECORD->isEditable()}
-							<a href="{$RECORD->getEditViewUrl()}" class="btn btn-default"><span class="fa fa-pencil summaryViewEdit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span></a>
+							<a href="{$RECORD->getEditViewUrl()}" class="btn btn-default"><span class="fas fa-pencil-alt summaryViewEdit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span></a>
 							{/if}
 							{if $RECORD->isViewable()}
 							<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-default"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}" class="fa fa-th-list summaryViewEdit"></span></a>

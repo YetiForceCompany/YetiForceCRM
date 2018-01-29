@@ -22,7 +22,7 @@
 						<div class="btn-group">
 							<button onclick='window.location.href = "{$REPORT_MODEL->getEditViewUrl()}"' type="button" class="cursorPointer btn btn-primary">
 								<strong>{\App\Language::translate('LBL_CUSTOMIZE',$MODULE)}</strong>&nbsp;
-								<span class="fa fa-pencil"></span>
+								<span class="fas fa-pencil-alt"></span>
 							</button>
 						</div>
 					{/if}

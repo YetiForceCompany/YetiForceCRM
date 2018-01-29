@@ -135,7 +135,7 @@
 																	</button>
 																	{if $FIELD_MODEL->isEditable()}
 																		<button class="btn btn-success btn-xs editFieldDetails marginLeft5">
-																			<span class="fa fa-pencil" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
+																			<span class="fas fa-pencil-alt" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 																		</button>
 																	{/if}
 																	{if $FIELD_MODEL->isCustomField() eq 'true'}
@@ -178,7 +178,7 @@
 																	<input type="hidden" value="{$FIELD_MODEL->getName()}" id="relatedFieldValue{$FIELD_MODEL->get('id')}" />
 																	{if $FIELD_MODEL->isEditable()}
 																		<button class="btn btn-success btn-xs editFieldDetails marginLeft5">
-																			<span class="fa fa-pencil" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
+																			<span class="fas fa-pencil-alt" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 																		</button>
 																	{/if}
 																	{if $FIELD_MODEL->isCustomField() eq 'true'}

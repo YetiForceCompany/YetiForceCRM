@@ -285,7 +285,7 @@ jQuery.Class('Settings_Currency_Js', {
       var thisInstance = this;
       jQuery('#listViewContents').on('click','.listViewEntries',function(e) {
           var currentRow = jQuery(e.currentTarget);
-          if(currentRow.find('.fa fa-pencil ').length <= 0) {
+          if(currentRow.find('.fas fa-pencil-alt ').length <= 0) {
               return;
           } 
           thisInstance.showEditView(currentRow.data('id'));

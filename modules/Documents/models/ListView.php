@@ -83,7 +83,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerMassEdit("index.php?module=' . $moduleModel->get('name') . '&view=MassActionAjax&mode=showMassEditForm");',
-				'linkicon' => 'fa fa-pencil'
+				'linkicon' => 'fas fa-pencil-alt'
 			];
 		}
 		if ($moduleModel->isPermitted('MassMoveDocuments')) {

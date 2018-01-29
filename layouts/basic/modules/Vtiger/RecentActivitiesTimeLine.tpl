@@ -65,7 +65,7 @@
 										</div>
 									</div>
 								{else if $RECENT_ACTIVITY->isUpdate()}
-									<span class="fa fa-pencil bgDarkBlue"></span>
+									<span class="fas fa-pencil-alt bgDarkBlue"></span>
 									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if} isUpdate">
 										<div class="pull-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}

@@ -53,7 +53,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 			'linkurl' => "javascript:Settings_Currency_Js.triggerEdit(event, '" . $this->getId() . "')",
 			'linklabel' => 'LBL_EDIT',
 			'linkclass' => 'btn-info btn-sm',
-			'linkicon' => 'fa fa-pencil'
+			'linkicon' => 'fas fa-pencil-alt'
 		];
 		$editLinkInstance = Vtiger_Link_Model::getInstanceFromValues($editLink);
 

@@ -26,7 +26,7 @@
 							<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}</span>
 							<span class="btn-group pull-right actions">
 								<a href="#" class="editInventoryField">
-									<span class="fa fa-pencil alignMiddle" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
+									<span class="fas fa-pencil-alt alignMiddle" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 								</a>
 								<a class="deleteInventoryField"><span title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fa fa-trash-o alignMiddle"></span></a>
 							</span>
@@ -63,7 +63,7 @@
 							<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}</span>
 							<span class="btn-group pull-right actions">
 								<a href="#" class="editInventoryField">
-									<span class="fa fa-pencil alignMiddle" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
+									<span class="fas fa-pencil-alt alignMiddle" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 								</a>
 								<a class="deleteInventoryField"><span title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fa fa-trash-o alignMiddle"></span></a>
 							</span>
@@ -100,7 +100,7 @@
 							<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}</span>
 							<span class="btn-group pull-right actions">
 								<a href="#" class="editInventoryField">
-									<span class="fa fa-pencil alignMiddle" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
+									<span class="fas fa-pencil-alt alignMiddle" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 								</a>
 								<a class="deleteInventoryField"><span title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fa fa-trash-o alignMiddle"></span></a>
 							</span>
@@ -119,7 +119,7 @@
 		<span class="fieldLabel"></span>
 		<span class="btn-group pull-right actions">
 			<a href="#" class="editInventoryField">
-				<span class="fa fa-pencil alignMiddle" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
+				<span class="fas fa-pencil-alt alignMiddle" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 			</a>
 			<a class="deleteInventoryField"><span title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fa fa-trash-o alignMiddle"></span></a>
 		</span>

@@ -227,7 +227,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'fa fa-pencil'
+				'linkicon' => 'fas fa-pencil-alt'
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',

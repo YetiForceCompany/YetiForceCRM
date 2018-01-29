@@ -264,7 +264,7 @@
 																		<span class="actionImages">
 																			<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="fa fa-th-list alignMiddle"></span></a>&nbsp;
 																				{if $IS_EDITABLE}
-																				<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fa fa-pencil alignMiddle"></span></a>
+																				<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fas fa-pencil-alt alignMiddle"></span></a>
 																				{/if}
 																				{if $IS_DELETABLE}
 																				<a class="relationDelete"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fa fa-trash-o alignMiddle"></span></a>

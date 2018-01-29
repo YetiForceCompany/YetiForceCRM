@@ -64,7 +64,7 @@
 								<td>
 									<div class='pull-right'>
 										<a data-holiday-id="{$HOLIDAY['id']}" data-toggle="dropdown" class="dropdown-toggle editHoliday" href="javascript:void(0)">
-											<span title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}" class="fa fa-pencil alignMiddle"></span>
+											<span title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}" class="fas fa-pencil-alt alignMiddle"></span>
 										</a>
 										<a data-holiday-id="{$HOLIDAY['id']}" class="deleteHoliday" href="javascript:void(0)">
 											<span title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fa fa-trash-o alignMiddle"></span>
