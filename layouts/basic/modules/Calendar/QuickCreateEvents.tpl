@@ -23,7 +23,7 @@
 						<td colspan="{if $smarty.foreach.iteration.last || $smarty.foreach.iteration.first}2{else}{/if}">
 							<a target="_blank" href="{$EVENT['url']}">
 								<div class="cut-string">
-									<span class="fa fa-calendar"></span>
+									<span class="fas fa-calendar-alt"></span>
 									<span class="paddingLR5"><strong>{$EVENT['hour_start']}</strong></span>
 									<span>{vtlib\Functions::textLength($EVENT['title'], 16)}</span>
 									<span class="HelpInfoPopover" title="" data-placement="top" data-content="
