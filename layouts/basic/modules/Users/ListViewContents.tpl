@@ -64,7 +64,7 @@
 							<td class="listViewSearchTd" colspan="2">
 								<div class="flexWrapper">
 									<a class="btn btn-default" href="javascript:void(0);" data-trigger="listSearch">
-										<span class="fa fa-search"></span>
+										<span class="fas fa-search"></span>
 									</a>
 									<a class="btn btn-default pull-right listRemoveBtn" href="index.php?module={$MODULE}&parent=Settings&view=List" >
 										<span class="fa fa-times"></span>

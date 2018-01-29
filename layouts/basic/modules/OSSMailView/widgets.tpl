@@ -11,7 +11,7 @@
 								<span class="body-icon glyphicon glyphicon-triangle-bottom"></span>
 							</a>&nbsp;
 							<button type="button" class="btn btn-sm btn-default showMailModal" data-url="{$ROW['url']}" title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL','OSSMailView')}">
-								<span class="body-icon fa fa-search"></span>
+								<span class="body-icon fas fa-search"></span>
 							</button>
 						</div>
 						<div class="pull-right">

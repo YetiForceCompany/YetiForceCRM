@@ -195,7 +195,7 @@
 														{if $RELATED_MODULE->isQuickSearchEnabled()}
 															<tr>
 																<td>
-																	<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="fa fa-search"></span></a>
+																	<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="fas fa-search"></span></a>
 																</td>
 																{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 																	<td>

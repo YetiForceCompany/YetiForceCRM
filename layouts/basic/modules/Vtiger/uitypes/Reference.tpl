@@ -54,7 +54,7 @@
 				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_clear" class="fa fa-times-circle" title="{\App\Language::translate('LBL_CLEAR', $MODULE)}"></span>
 			</button>
 			<button class="btn btn-default relatedPopup" type="button" {if $REFERENCE_MODULE_MODEL == false || $FIELD_MODEL->isEditableReadOnly()}disabled{/if}>
-				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="fa fa-search" title="{\App\Language::translate('LBL_SELECT', $MODULE)}" ></span>
+				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="fas fa-search" title="{\App\Language::translate('LBL_SELECT', $MODULE)}" ></span>
 			</button>
 			<!-- Show the add button only if it is edit view  -->
 			{if (($VIEW eq 'Edit') ) && $REFERENCE_MODULE_MODEL && $REFERENCE_MODULE_MODEL->isQuickCreateSupported()}
