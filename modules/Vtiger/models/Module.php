@@ -860,7 +860,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_PREVIEW_LIST',
 				'linkurl' => 'index.php?module=' . $this->getName() . '&view=ListPreview',
-				'linkicon' => 'fa fa-list-alt',
+				'linkicon' => 'far fa-list-alt',
 		]);
 		if ($userPrivilegesModel->hasModulePermission('Dashboard') && $userPrivilegesModel->hasModuleActionPermission($this->getId(), 'Dashboard')) {
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([

@@ -425,7 +425,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 				'linktype' => 'RELATEDLIST_VIEWS',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'view' => 'List',
-				'linkicon' => 'fa fa-list-alt',
+				'linkicon' => 'far fa-list-alt',
 		]);
 		$relatedLink['RELATEDLIST_VIEWS'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'RELATEDLIST_VIEWS',
