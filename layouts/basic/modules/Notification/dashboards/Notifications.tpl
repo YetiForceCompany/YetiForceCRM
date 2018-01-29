@@ -24,7 +24,7 @@
 				<div class="btn-toolbar pull-right">
 					{if \App\Privilege::isPermitted('Notification', 'CreateView')}
 						<button type="button" class="btn btn-default" onclick="Vtiger_Index_Js.sendNotification()">
-							<span class="fa fa-plus" title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
+							<span class="fas fa-plus" title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
 						</button>
 					{/if}
 					<button type="button"  class="btn btn-default" href="index.php?module=Notification&view=List">

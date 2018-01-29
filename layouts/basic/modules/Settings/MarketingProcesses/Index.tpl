@@ -40,7 +40,7 @@
 					<input class="configField" type="hidden" data-type="conversion" name="mapping" value="">
 					<div class="paddingBottom10">
 						<button id="addMapping" class="btn btn-success addButton" type="button">
-							<span class="fa fa-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_CONDITION', $QUALIFIED_MODULE)}</strong>
+							<span class="fas fa-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_CONDITION', $QUALIFIED_MODULE)}</strong>
 						</button>
 						<button id="addMapping" class="pull-right btn btn-success saveMapping" type="button">
 							{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong>

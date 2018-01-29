@@ -107,7 +107,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ADD',
 				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
-				'linkicon' => 'fa fa-plus'
+				'linkicon' => 'fas fa-plus'
 			];
 		}
 		if ($moduleModel->isPermitted('MassActive')) {

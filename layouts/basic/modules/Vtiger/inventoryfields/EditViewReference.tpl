@@ -47,7 +47,7 @@
 		<!-- Show the add button only if it is edit view  -->
 		{if $VIEW eq 'Edit' && $REFERENCE_MODULE_MODEL->isQuickCreateSupported() && $FIELD->get('displaytype') != 10}
 			<span class="input-group-addon cursorPointer createReferenceRecord">
-				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_create" class="fa fa-plus" title="{\App\Language::translate('LBL_CREATE', $MODULE)}"></span>
+				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_create" class="fas fa-plus" title="{\App\Language::translate('LBL_CREATE', $MODULE)}"></span>
 			</span>
 		{/if}
 	</div>

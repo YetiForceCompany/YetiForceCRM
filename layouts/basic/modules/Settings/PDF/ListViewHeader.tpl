@@ -19,7 +19,7 @@
 			<div class="row">
 				<div class="col-md-4 btn-toolbar">
 					<button class="btn btn-default addButton" id="addButton" data-url="{Settings_PDF_Module_Model::getCreateRecordUrl()}">
-						<i class="fa fa-plus"></i>&nbsp;
+						<i class="fas fa-plus"></i>&nbsp;
 						<strong>{\App\Language::translate('LBL_NEW', $QUALIFIED_MODULE)} {\App\Language::translate('LBL_PDF_TEMPLATE',$QUALIFIED_MODULE)}</strong>
 					</button>
 					<button class="btn btn-default importButton" id="importButton" data-url="{Settings_PDF_Module_Model::getImportViewUrl()}" title="{\App\Language::translate('LBL_IMPORT_TEMPLATE', $QUALIFIED_MODULE)}">

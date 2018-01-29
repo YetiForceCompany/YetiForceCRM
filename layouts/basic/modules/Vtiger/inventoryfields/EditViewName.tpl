@@ -27,7 +27,7 @@
 			{assign var=REFERENCE_MODULE_MODEL value=Vtiger_Module_Model::getInstance($REFERENCE_MODULE)}
 			{if $REFERENCE_MODULE_MODEL->isQuickCreateSupported() && $FIELD->get('displaytype') != 10}
 				<span class="input-group-addon cursorPointer createReferenceRecord popoverTooltip" data-content="{\App\Language::translate('LBL_CREATE',$MODULE)}">
-					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_create" class="fa fa-plus"></span>
+					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_create" class="fas fa-plus"></span>
 				</span>
 			{/if}
 		</div>

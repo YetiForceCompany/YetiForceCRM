@@ -19,7 +19,7 @@
 		<div class="col-xs-2">
 			<button class="btn btn-sm btn-default pull-right addButton createActivity" data-url="sourceModule={$RECORD->getModuleName()}&sourceRecord={$RECORD->getId()}&relationOperation=true" type="button"
 					 title="{App\Language::translate('LBL_ADD',$MODULE_NAME)}">
-				<span class="fa fa-plus"></span>
+				<span class="fas fa-plus"></span>
 			</button>
 		</div>
 	</div>

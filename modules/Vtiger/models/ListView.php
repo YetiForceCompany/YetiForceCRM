@@ -304,7 +304,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linklabel' => 'LBL_ADD_RECORD',
 				'linkurl' => $moduleModel->getCreateRecordUrl(),
 				'linkclass' => 'addButton modCT_' . $moduleModel->getName(),
-				'linkicon' => 'fa fa-plus',
+				'linkicon' => 'fas fa-plus',
 				'showLabel' => 1,
 				'linkhref' => true
 			];
