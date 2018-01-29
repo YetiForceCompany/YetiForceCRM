@@ -161,7 +161,7 @@
 								{if AppConfig::search('GLOBAL_SEARCH_OPERATOR')}
 									<div class="btn-group">
 										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											<span class="fa fa-crosshairs"></span>
+											<span class="fas fa-crosshairs"></span>
 										</button>
 										<ul class="dropdown-menu globalSearchOperator">
 											<li class="active"><a href="#" data-operator="contains">{\App\Language::translate('contains')}</a></li>
