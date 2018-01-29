@@ -49,7 +49,7 @@
                     {if $IS_SORTABLE}
                         <div class="btn-toolbar" id="layoutEditorButtons">
                             <button class="btn btn-success addButton addCustomBlock" type="button">
-                                <span class="fa fa-plus"></span>&nbsp;
+                                <span class="fas fa-plus"></span>&nbsp;
                                 <strong>{App\Language::translate('LBL_ADD_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</strong>
                             </button>
                             <span class="pull-right">

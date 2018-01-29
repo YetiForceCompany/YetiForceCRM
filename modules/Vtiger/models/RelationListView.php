@@ -499,14 +499,14 @@ class Vtiger_RelationListView_Model extends \App\Base
 				'linklabel' => App\Language::translate('LBL_ADD_EVENT'),
 				'linkurl' => $this->getCreateEventRecordUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),
-				'linkicon' => 'fa fa-plus'
+				'linkicon' => 'fas fa-plus'
 			];
 			$addLinkList[] = [
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => App\Language::translate('LBL_ADD_TASK'),
 				'linkurl' => $this->getCreateTaskRecordUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),
-				'linkicon' => 'fa fa-plus'
+				'linkicon' => 'fas fa-plus'
 			];
 		} else {
 			$addLinkList = [[
@@ -516,7 +516,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 				'linklabel' => App\Language::translate('LBL_ADD_RELATION'),
 				'linkurl' => $this->getCreateViewUrl(),
 				'linkqcs' => $relatedModel->isQuickCreateSupported(),
-				'linkicon' => 'fa fa-plus'
+				'linkicon' => 'fas fa-plus'
 			]];
 		}
 		if ($relatedModel->get('label') === 'Documents') {
@@ -524,7 +524,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => App\Language::translate('LBL_MASS_ADD', 'Documents'),
 				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
-				'linkicon' => 'fa fa-plus',
+				'linkicon' => 'fas fa-plus',
 			];
 		}
 		foreach ($addLinkList as &$addLink) {

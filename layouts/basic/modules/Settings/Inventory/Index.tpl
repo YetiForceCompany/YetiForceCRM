@@ -20,7 +20,7 @@
 		<div class="col-md-12">
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 			<div class="marginBottom10px">
-				<button type="button" class="btn btn-success addInventory addButton" data-url="{$RECORD_MODEL->getCreateUrl()}" data-type="0"><i class="fa fa-plus"></i>&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_ADD', $QUALIFIED_MODULE)} {\App\Language::translate($PAGE_LABELS.title_single, $QUALIFIED_MODULE)}</strong></button>
+				<button type="button" class="btn btn-success addInventory addButton" data-url="{$RECORD_MODEL->getCreateUrl()}" data-type="0"><i class="fas fa-plus"></i>&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_ADD', $QUALIFIED_MODULE)} {\App\Language::translate($PAGE_LABELS.title_single, $QUALIFIED_MODULE)}</strong></button>
 			</div>
 			<table class="table tableRWD table-bordered inventoryTable themeTableColor">
 				<thead>

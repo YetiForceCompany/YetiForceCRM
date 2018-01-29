@@ -8,7 +8,7 @@
 					{assign var=QUICKCREATE_MODULES value=Vtiger_Module_Model::getQuickCreateModules(true)}
 					{if !empty($QUICKCREATE_MODULES)}
 						<a class="btn btn-default btn-sm popoverTooltip dropdownMenu hidden-xs hidden-sm" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
-							<span class="fa fa-plus" aria-hidden="true"></span>
+							<span class="fas fa-plus" aria-hidden="true"></span>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
 							<li class="quickCreateModules">

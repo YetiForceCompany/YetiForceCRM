@@ -59,7 +59,7 @@
 			<!-- Show the add button only if it is edit view  -->
 			{if (($VIEW eq 'Edit') ) && $REFERENCE_MODULE_MODEL && $REFERENCE_MODULE_MODEL->isQuickCreateSupported()}
 				<button class="btn btn-default createReferenceRecord" type="button" {if $FIELD_MODEL->isEditableReadOnly()}disabled{/if}>
-					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_create" class="fa fa-plus" title="{\App\Language::translate('LBL_CREATE', $MODULE)}"></span>
+					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_create" class="fas fa-plus" title="{\App\Language::translate('LBL_CREATE', $MODULE)}"></span>
 				</button>
 			{/if}
 		</span>

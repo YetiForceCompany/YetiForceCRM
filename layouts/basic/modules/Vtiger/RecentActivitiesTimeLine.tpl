@@ -26,7 +26,7 @@
 								{/if}
 								{$COUNT=$COUNT+1}
 								{if $RECENT_ACTIVITY->isCreate()}
-									<span class="fa fa-plus bgGreen"></span>
+									<span class="fas fa-plus bgGreen"></span>
 									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if} isCreate">
 										<div class="pull-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}

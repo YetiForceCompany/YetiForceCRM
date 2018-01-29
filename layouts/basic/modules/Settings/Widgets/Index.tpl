@@ -23,7 +23,7 @@
 			<h4>{\App\Language::translate('List of widgets for the module', $QUALIFIED_MODULE)}: {\App\Language::translate($SOURCEMODULE, $SOURCEMODULE)}</h4>
 		</div>
 		<div class="col-md-4 paddingLRZero">
-			<button class="btn btn-success addWidget pull-right" type="button"><i class="fa fa-plus"></i>&nbsp;<strong>{\App\Language::translate('Add widget', $QUALIFIED_MODULE)}</strong></button>
+			<button class="btn btn-success addWidget pull-right" type="button"><i class="fas fa-plus"></i>&nbsp;<strong>{\App\Language::translate('Add widget', $QUALIFIED_MODULE)}</strong></button>
 		</div>
 		<div class="clearfix"></div>
 	</div>

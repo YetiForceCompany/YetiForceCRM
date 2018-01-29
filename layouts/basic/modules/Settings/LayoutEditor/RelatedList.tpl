@@ -28,7 +28,7 @@
 						</div>
 						{if AppConfig::developer('CHANGE_RELATIONS')}
 							<button class="btn btn-primary pull-right addRelation" type="button">
-								<span class="fa fa-plus" aria-hidden="true"></span>&nbsp;&nbsp;
+								<span class="fas fa-plus" aria-hidden="true"></span>&nbsp;&nbsp;
 								{\App\Language::translate('LBL_ADD_RELATION', $QUALIFIED_MODULE)}
 							</button>
 						{/if}	

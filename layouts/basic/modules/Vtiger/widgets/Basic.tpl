@@ -49,7 +49,7 @@
 										{assign var=AUTOCOMPLETE_FIELD value=$RELATIONMODEL->getAutoCompleteField($VRM)}
 										<button class="btn btn-sm btn-default createRecordFromFilter" type="button" data-url="{$WIDGET['actionURL']}"
 												{if $RELATION_FIELD} data-prf="{$RELATION_FIELD->getName()}" {/if} {if $AUTOCOMPLETE_FIELD} data-acf='{\App\Json::encode($AUTOCOMPLETE_FIELD)}'{/if} title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)}" alt="{\App\Language::translate('LBL_ADD',$MODULE_NAME)}">
-											<span class="fa fa-plus"></span>
+											<span class="fas fa-plus"></span>
 										</button>
 									{/if}
 									{foreach from=$WIDGET['buttonHeader'] item=$LINK}

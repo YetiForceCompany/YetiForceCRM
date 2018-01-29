@@ -32,7 +32,7 @@
 						<input type="text" class="form-control searchCompany" />
 						<span class="input-group-btn">
 							<button class="btn btn-default addRecord" type="button">
-								<span class="fa fa-plus"></span>
+								<span class="fas fa-plus"></span>
 							</button>
 						</span>
 					</div>

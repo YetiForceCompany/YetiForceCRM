@@ -19,7 +19,7 @@
 					<div class="panel-body">
 						<div class="btn-toolbar">
 							<button id="addMapping" class="btn btn-default addButton marginBottom10px" type="button">
-								<span class="fa fa-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_ADD_CONDITION', $QUALIFIED_MODULE)}</strong>
+								<span class="fas fa-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_ADD_CONDITION', $QUALIFIED_MODULE)}</strong>
 							</button>
 							<div class="checkbox col-md-8">
 								<label>

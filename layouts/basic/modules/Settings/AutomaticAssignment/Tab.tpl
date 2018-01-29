@@ -104,7 +104,7 @@
 											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getListSearchTemplateName(), $SOURCE_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$SOURCE_MODULE}
 											<div class="input-group-btn" id="basic-addon">
 												<button type="button" class="btn btn-success saveValue" id="saveValue" title="{\App\Language::translate('BTN_ADD', $QUALIFIED_MODULE)}">
-													<span class="fa fa-plus"></span>
+													<span class="fas fa-plus"></span>
 												</button>
 											</div>
 										</div>

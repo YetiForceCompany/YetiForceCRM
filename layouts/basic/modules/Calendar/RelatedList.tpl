@@ -70,7 +70,7 @@
 											data-url="{$RELATED_LINK->getUrl()}"
 										{/if}
 										{if $IS_SELECT_BUTTON neq true}name="addButton"{/if}>
-									{if $IS_SELECT_BUTTON eq false}<span class="fa fa-plus"></span>{/if}
+									{if $IS_SELECT_BUTTON eq false}<span class="fas fa-plus"></span>{/if}
 									{if $IS_SELECT_BUTTON eq true}<span class="fa fa-search"></span>{/if}
 									&nbsp;<strong>{$RELATED_LINK->getLabel()}</strong>
 								</button>
