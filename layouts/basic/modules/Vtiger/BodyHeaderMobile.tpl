@@ -39,7 +39,7 @@
 					</div>
 					<div class="pull-right">
 						<a class="btn btn-default ChatIcon " title="{\App\Language::translate('LBL_CHAT')}" href="#">
-							<span class="fa fa-comments" aria-hidden="true"></span>
+							<span class="fas fa-comments" aria-hidden="true"></span>
 						</a>
 					</div>
 				</div>
