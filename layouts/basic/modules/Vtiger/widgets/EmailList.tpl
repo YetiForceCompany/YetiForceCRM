@@ -31,7 +31,7 @@
 							{/if}
 							{if \App\Privilege::isPermitted('OSSMailView', 'ReloadRelationRecord')}
 								<button type="button" class="btn btn-sm btn-default resetRelationsEmail">
-									<span class="body-icon fa fa-retweet" title="{\App\Language::translate('BTN_RESET_RELATED_MAILS', 'OSSMailView')}"></span>
+									<span class="body-icon fas fa-retweet" title="{\App\Language::translate('BTN_RESET_RELATED_MAILS', 'OSSMailView')}"></span>
 								</button>
 							{/if}
 						</div>

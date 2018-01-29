@@ -75,7 +75,7 @@
 							{elseif $ROW['type'] eq 1}
 								<span class="glyphicon glyphicon-arrow-down text-danger" aria-hidden="true"></span>
 							{elseif $ROW['type'] eq 2}
-								<span class="fa fa-retweet text-primary" aria-hidden="true"></span>
+								<span class="fas fa-retweet text-primary" aria-hidden="true"></span>
 							{/if}
 						</span>
 						<span class="pull-right smalSeparator"></span>

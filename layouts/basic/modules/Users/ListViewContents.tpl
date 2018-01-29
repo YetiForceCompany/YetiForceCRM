@@ -116,7 +116,7 @@
 								{if $LISTVIEW_HEADER@last}
 									<div class="pull-right actions">
 										<div class="actionImages flexWrapper">
-											<a href='{$LISTVIEW_ENTRY->getDuplicateRecordUrl()}'><span title="{\App\Language::translate('LBL_DUPLICATE', $MODULE)}" class="fa fa-retweet alignMiddle"></span></a>&nbsp;
+											<a href='{$LISTVIEW_ENTRY->getDuplicateRecordUrl()}'><span title="{\App\Language::translate('LBL_DUPLICATE', $MODULE)}" class="fas fa-retweet alignMiddle"></span></a>&nbsp;
 												{if $IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->get('status') eq 'Active'}
 												<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_EDIT" href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fas fa-pencil-alt alignMiddle"></span></a>&nbsp;
 												{/if}
