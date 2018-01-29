@@ -71,7 +71,7 @@
 				</td>
 				<td class="fieldValue" >
 					<div class="input-group">
-						<span class="input-group-addon" id="basic-addon1"><span class="fa fa-calendar"></span></span>
+						<span class="input-group-addon" id="basic-addon1"><span class="fas fa-calendar-alt"></span></span>
 						<input id="datepicker" type="text" class="form-control dateField" name="duedate" data-date-format="{$USER_MODEL->get('date_format')}" value="{$DATE}" />
 						<span class="input-group-btn">
 							<button class="btn btn-success" name="download" value="download" type="submit">{\App\Language::translate('LBL_SHOW', $QUALIFIED_MODULE)}</button>

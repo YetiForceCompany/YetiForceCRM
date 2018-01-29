@@ -10,7 +10,7 @@
 			</span>
 			<span class="summary-detail">
 				<span>
-					<span style="margin-top:6px; vertical-align:top;" class="fa fa-calendar " title="{\App\Language::translate('LBL_WORKDAYS_INFO', $MODULE_NAME)}"></span>
+					<span style="margin-top:6px; vertical-align:top;" class="fas fa-calendar-alt " title="{\App\Language::translate('LBL_WORKDAYS_INFO', $MODULE_NAME)}"></span>
 				</span>
 				<span class="summary-text">{$WORKDAYS}</span>
 			</span>
