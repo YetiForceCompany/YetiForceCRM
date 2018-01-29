@@ -62,7 +62,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'LBL_MY_PREFERENCES',
 				'linkurl' => $userModel->getPreferenceDetailViewUrl(),
-				'glyphicon' => 'fa fa-tasks',
+				'glyphicon' => 'fas fa-tasks',
 			];
 		}
 		if ($userModel->isAdminUser()) {
