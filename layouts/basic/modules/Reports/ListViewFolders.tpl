@@ -22,6 +22,6 @@
 </span>
 <span class="hide filterActionImages pull-right">
 	<span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" data-value="delete" class="fa fa-trash-o alignMiddle deleteFilter filterActionImage pull-right"></span>
-	<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" data-value="edit" class="fa fa-pencil alignMiddle editFilter filterActionImage pull-right"></span>
+	<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" data-value="edit" class="fas fa-pencil-alt alignMiddle editFilter filterActionImage pull-right"></span>
 </span>
 {/strip}

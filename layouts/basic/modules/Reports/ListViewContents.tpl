@@ -61,7 +61,7 @@
 						<div class="pull-right actions">
 							<span class="actionImages">
 								{if $REPORT_MODEL->isEditable()}
-									<a href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fa fa-pencil alignMiddle"></span></a>&nbsp;
+									<a href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fas fa-pencil-alt alignMiddle"></span></a>&nbsp;
 									{if $LISTVIEW_ENTRY->isDefault() eq false}
 										<a class="deleteRecordButton"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fa fa-trash-o alignMiddle"></span></a>
 									{/if}

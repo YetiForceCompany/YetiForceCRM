@@ -10,7 +10,7 @@
 				</div>
 				<span class="btn-group pull-right marginRight20 actions">
 					<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
-						<span class="fa fa-pencil alignMiddle" title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
+						<span class="fas fa-pencil-alt alignMiddle" title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 					</a>
 					<div class="basicFieldOperations hide pull-right" style="width : 375px;">
 						<form class="form-horizontal fieldDetailsForm" method="POST">

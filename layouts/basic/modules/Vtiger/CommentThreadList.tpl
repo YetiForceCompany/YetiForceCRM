@@ -71,7 +71,7 @@
 						{/if}
 						{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
 							<button type="button" class="btn btn-xs btn-primary editComment feedback marginLeft5">
-								<span class="fa fa-pencil" aria-hidden="true"></span>&nbsp;{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}
+								<span class="fas fa-pencil-alt" aria-hidden="true"></span>&nbsp;{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}
 							</button>
 						{/if}
 						{assign var=LINKS value=$COMMENT->getCommentLinks()}

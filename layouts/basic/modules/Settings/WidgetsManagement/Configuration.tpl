@@ -22,7 +22,7 @@
 			<li {if $CURRENT_DASHBOARD eq $DASHBOARD['dashboard_id']}class="active"{/if} data-id="{$DASHBOARD['dashboard_id']}">
 				<a data-toggle="tab">
 					<strong>{\App\Language::translate($DASHBOARD['name'])}</strong>					
-					<button class="btn btn-primary btn-xs fa fa-pencil marginLeft10 editDashboard"></button>
+					<button class="btn btn-primary btn-xs fas fa-pencil-alt marginLeft10 editDashboard"></button>
 					{if $DASHBOARD['system'] neq 1}
 						<button class="btn btn-danger btn-xs fa fa-trash-o marginLeft10 deleteDashboard"></button>
 					{/if}
@@ -336,7 +336,7 @@
 							</div>
 							<span class="btn-group pull-right marginRight20 actions">
 								<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
-									<span class="fa fa-pencil alignMiddle" title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
+									<span class="fas fa-pencil-alt alignMiddle" title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 								</a>
 								<div class="basicFieldOperations hide pull-right" style="width: 375px;">
 									<form class="form-horizontal fieldDetailsForm" method="POST">

@@ -317,7 +317,7 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => 'javascript:app.showModalWindow(null, "' . $this->getEditViewUrl() . '");',
-				'linkicon' => 'fa fa-pencil'
+				'linkicon' => 'fas fa-pencil-alt'
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
