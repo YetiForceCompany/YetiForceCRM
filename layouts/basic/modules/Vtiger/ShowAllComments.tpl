@@ -19,7 +19,7 @@
 			<div class="addCommentBlock">
 				<div class="input-group">
 					<span class="input-group-addon">
-						<span class="fa fa-comments"></span>
+						<span class="fas fa-comments"></span>
 					</span>
 					<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" name="commentcontent" class="commentcontent form-control" title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
 				</div>
@@ -60,7 +60,7 @@
 			<div class="col-md-12">
 				<div class="input-group">
 					<span class="input-group-addon" >
-						<span class="fa fa-comments"></span>
+						<span class="fas fa-comments"></span>
 					</span>
 					<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
 				</div>
@@ -86,7 +86,7 @@
 			<div class="col-md-12 marginBottom10px">
 				<div class="input-group">
 					<span class="input-group-addon" >
-						<span class="fa fa-comments"></span>
+						<span class="fas fa-comments"></span>
 					</span>
 					<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" ></textarea>
 				</div>
