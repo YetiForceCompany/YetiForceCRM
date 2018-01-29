@@ -23,7 +23,7 @@ class Project_DetailView_Model extends Vtiger_DetailView_Model
 				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'Add Project Task',
 				'linkurl' => 'index.php?module=ProjectTask&action=EditView&projectid=' . $recordId . '&return_module=Project&return_action=DetailView&return_id=' . $recordId,
-				'linkicon' => 'fa fa-tasks',
+				'linkicon' => 'fas fa-tasks',
 				'linkhint' => 'Add Project Task',
 			];
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($viewLinks);
