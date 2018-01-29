@@ -103,7 +103,7 @@ class Vtiger_Theme extends Vtiger_Viewer
 	 */
 	public static function getBaseThemePath()
 	{
-		return 'layouts/' . self::getLayoutName() . '/skins';
+		return 'layouts/' . self::getLayoutName() . '/styles';
 	}
 
 	/**
@@ -111,7 +111,7 @@ class Vtiger_Theme extends Vtiger_Viewer
 	 */
 	public static function getBaseStylePath()
 	{
-		return self::getBaseThemePath() . '/style.css';
+		return self::getBaseThemePath() . '/main.css';
 	}
 
 	/**
