@@ -58,7 +58,7 @@ html, body {
   font-size: 24px; }
 
 .fieldContainer input {
-  background-color: blue !important;
+  background-color: #fff !important;
   color: #4a5364 !important; }
 
 .fieldContainer button {
@@ -93,5 +93,3 @@ select.form-control {
   padding-right: 0;
   padding-top: 0;
   padding-bottom: 0; }
-
-/*# sourceMappingURL=login.css.map */

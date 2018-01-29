@@ -4955,4 +4955,36 @@ border1px {
 .ps__rail-x, .ps__rail-y, .ps__thumb-x {
   z-index: 10000; }
 
-/*# sourceMappingURL=main.css.map */
+/*
+
+*/
+/* 
+    Created on : 2018-01-29, 16:22:22
+    Author     : Tomasz Poradzewski
+*/
+.footerContainer {
+  background: #404952;
+  height: 33px;
+  color: #fff;
+  font-size: 0.9em; }
+  .footerContainer a {
+    color: inherit; }
+  .footerContainer p {
+    font-size: 0.9em; }
+  .footerContainer .page-item:last-child .page-link, .footerContainer .page-item:first-child .page-link {
+    border-radius: initial; }
+  .footerContainer .page-link {
+    color: inherit;
+    background: inherit;
+    padding: 0.4rem 0.3rem;
+    border: none; }
+    .footerContainer .page-link:hover {
+      background: #fff;
+      color: #404952; }
+
+@media only screen and (max-width: 768px) {
+  .footerContainer {
+    height: 17px; }
+    .footerContainer .page-link {
+      font-size: 0.6em;
+      padding: 0.1rem 0.2rem; } }
