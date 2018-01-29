@@ -219,7 +219,7 @@ class Vtiger_DetailView_Model extends \App\Base
 						'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 						'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
 						'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleName . '&view=PDF&fromview=Detail&record=' . $recordId . '");',
-						'linkicon' => 'glyphicon glyphicon-save-file',
+						'linkicon' => 'fas fa-file-excel',
 						'title' => \App\Language::translate('LBL_EXPORT_PDF')
 				]);
 			}

@@ -2529,7 +2529,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						var btnGroup = btnToolbar.find('.btn-group:eq(1)');
 						var btn = btnToolbar.find('.btn-group:eq(1) [href*="showPdfModal"]');
 						if (btn.length == 0) {
-							btnGroup.append('<a class="btn btn-default popoverTooltip" href=\'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' + app.getModuleName() + '&view=PDF&fromview=Detail&record=' + app.getRecordId() + '");\' data-content="' + app.vtranslate('LBL_EXPORT_PDF') + '" data-original-title="" title=""><span class="glyphicon glyphicon-save-file icon-in-button"></span></a>');
+							btnGroup.append('<a class="btn btn-default popoverTooltip" href=\'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' + app.getModuleName() + '&view=PDF&fromview=Detail&record=' + app.getRecordId() + '");\' data-content="' + app.vtranslate('LBL_EXPORT_PDF') + '" data-original-title="" title=""><span class="fas fa-file-excel icon-in-button"></span></a>');
 						}
 					}
 				},
