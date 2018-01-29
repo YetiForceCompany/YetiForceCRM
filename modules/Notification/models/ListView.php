@@ -25,7 +25,7 @@ class Notification_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LIST_VIEW_HEADER',
 				'linkhint' => 'LBL_NOTIFICATION_SETTINGS',
 				'linkurl' => 'index.php?module=Notification&view=NotificationConfig',
-				'linkicon' => 'fa fa-cog',
+				'linkicon' => 'fas fa-cog',
 				'modalView' => true
 			];
 		}
