@@ -83,7 +83,7 @@
 								<span class="fa fa-arrow-up"></span>
 							</button>
 							<button class="btn btn-success  btn-sm moveDown">
-								<span class="fa fa-arrow-down"></span>
+								<span class="fas fa-download"></span>
 							</button>
 							<button class="btn btn-danger btn-sm removeIndirect">
 								<span class="fa fa-times"></span>

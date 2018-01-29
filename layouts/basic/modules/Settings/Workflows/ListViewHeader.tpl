@@ -45,7 +45,7 @@
 					<strong>{\App\Language::translate('LBL_NEW', $QUALIFIED_MODULE)} {\App\Language::translate('LBL_WORKFLOW',$QUALIFIED_MODULE)}</strong>
 				</button>
 				<button class="btn btn-default importButton" id="importButton" data-url="{Settings_Workflows_Module_Model::getImportViewUrl()}" title="{\App\Language::translate('LBL_IMPORT_TEMPLATE', $QUALIFIED_MODULE)}">
-					<i class="fa fa-arrow-down"></i>
+					<i class="fas fa-download"></i>
 				</button>
 			</div>
 			<div class="col-md-3 btn-toolbar marginLeftZero">
