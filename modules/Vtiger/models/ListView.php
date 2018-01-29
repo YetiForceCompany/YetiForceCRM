@@ -114,7 +114,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_HEADER',
 				'linkhint' => 'LBL_SHOW_MAP',
 				'linkurl' => 'javascript:Vtiger_List_Js.showMap()',
-				'linkicon' => 'fa fa-globe'
+				'linkicon' => 'fas fa-globe'
 			];
 		}
 		foreach ($headerLinks as $headerLink) {
