@@ -30,7 +30,7 @@ class Reservations_Module_Model extends Vtiger_Module_Model
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),
-				'linkicon' => 'fa fa-list',
+				'linkicon' => 'fas fa-list',
 		]);
 		if ($linkParams['ACTION'] === 'Calendar') {
 			$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
