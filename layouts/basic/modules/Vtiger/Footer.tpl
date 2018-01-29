@@ -36,7 +36,7 @@
 			<ul class="float-left pagination border-0">
 				<li class="page-item">
 					<a class="page-link" href="https://www.linkedin.com/groups/8177576" rel="noreferrer">
-						<span class="fab fa-linkedin fa-2x"></span>
+						<span class="fab fa-linkedin fa-2x" title="Linkedin"></span>
 					</a>
 				</li>
 				<li class="page-item">
