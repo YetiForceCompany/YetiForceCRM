@@ -79,7 +79,7 @@
 	<ul class="headerLinksContainer nav navbar-nav navbar-right">
 		<li>
 			<div class="remindersNotice">
-				<span class="fa fa-bell" aria-hidden="true"></span>
+				<span class="fas fa-bell" aria-hidden="true"></span>
 				<span class="badge hide">0</span>
 			</div>
 		</li>
