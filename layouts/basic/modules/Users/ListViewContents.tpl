@@ -67,7 +67,7 @@
 										<span class="fas fa-search"></span>
 									</a>
 									<a class="btn btn-default pull-right listRemoveBtn" href="index.php?module={$MODULE}&parent=Settings&view=List" >
-										<span class="fa fa-times"></span>
+										<span class="fas fa-times"></span>
 									</a>
 								</div>
 							</td>

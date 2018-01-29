@@ -211,7 +211,7 @@
 																{/foreach}
 																<td>
 																	<button type="button" class="btn btn-default removeSearchConditions">
-																		<span class="fa fa-times"></button>
+																		<span class="fas fa-times"></button>
 																	</a>
 																</td>
 															</tr>

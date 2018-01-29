@@ -47,7 +47,7 @@
 							<div class="flexWrapper">
 							<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="fas fa-search"></span></a>
 							<button type="button" class="btn btn-default removeSearchConditions">
-								<span class="fa fa-times">
+								<span class="fas fa-times">
 							</button>
 							</div>
 						</td>

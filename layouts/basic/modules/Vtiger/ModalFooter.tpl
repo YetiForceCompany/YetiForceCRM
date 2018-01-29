@@ -12,6 +12,6 @@
 {strip}
 	<div class="modal-footer">
 		<button class="btn btn-success" type="submit" name="saveButton"><span class="glyphicon glyphicon-ok"></span>&nbsp;<strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
-		<button class="btn btn-warning" type="reset" data-dismiss="modal"><span class="fa fa-times"></span>&nbsp;<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong></button>
+		<button class="btn btn-warning" type="reset" data-dismiss="modal"><span class="fas fa-times"></span>&nbsp;<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong></button>
 	</div>
 {/strip}

@@ -214,7 +214,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DEACTIVATION_TASKS',
 				'linkurl' => 'javascript:Settings_Workflows_List_Js.setChangeStatusTasks(this,' . $this->getId() . ', false);',
-				'linkicon' => 'fa fa-times',
+				'linkicon' => 'fas fa-times',
 				'class' => 'deactiveTasks'
 			],
 			[

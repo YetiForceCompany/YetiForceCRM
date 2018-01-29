@@ -16,7 +16,7 @@
 				</a>
 				{if !$WIDGET->isDefault()}
 					<a class="btn btn-default btn-xs" name="dclose" class="widget" data-url="{$WIDGET->getDeleteUrl()}">
-						<i class="fa fa-times" hspace="2" border="0" align="absmiddle" title="{\App\Language::translate('LBL_CLOSE')}" alt="{\App\Language::translate('LBL_CLOSE')}"></i>
+						<i class="fas fa-times" hspace="2" border="0" align="absmiddle" title="{\App\Language::translate('LBL_CLOSE')}" alt="{\App\Language::translate('LBL_CLOSE')}"></i>
 					</a>
 				{/if}
 			</div>
