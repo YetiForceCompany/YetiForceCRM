@@ -1124,7 +1124,7 @@ window.app = {
 	 * @return <string>
 	 */
 	vimage_path: function (img) {
-		return app.getLayoutPath() + '/skins/images/' + img;
+		return app.getLayoutPath() + '../resources/images/' + img;
 	},
 	/*
 	 * Cache API on client-side
