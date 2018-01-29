@@ -123,12 +123,12 @@ class Vtiger_Theme extends Vtiger_Viewer
 		if (empty($theme)) {
 			$theme = self::getDefaultThemeName();
 		}
-		$selectedThemePath = self::getBaseThemePath() . '/' . $theme;
+		$selectedThemePath = self::getBaseThemePath() . '/themes/' . $theme;
 		$completeSelectedThemePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $selectedThemePath);
 		if (file_exists($completeSelectedThemePath)) {
 			return $selectedThemePath;
 		}
-		$fallBackThemePath = self::getBaseThemePath() . '/' . self::getDefaultThemeName();
+		$fallBackThemePath = self::getBaseThemePath() . '/themes/' . self::getDefaultThemeName();
 		$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $fallBackThemePath);
 		if (file_exists($completeFallBackThemePath)) {
 			return $fallBackThemePath;
