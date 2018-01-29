@@ -188,7 +188,7 @@ class Vtiger_ListView_Model extends \App\Base
 					'linktype' => 'LISTVIEW',
 					'linklabel' => 'LBL_GENERATE_RECORDS',
 					'linkurl' => 'javascript:Vtiger_List_Js.triggerGenerateRecords("index.php?module=' . $moduleModel->getName() . '&view=GenerateModal&fromview=List");',
-					'linkicon' => 'fa fa-plus-circle',
+					'linkicon' => 'fas fa-plus-circle',
 				];
 			}
 		}

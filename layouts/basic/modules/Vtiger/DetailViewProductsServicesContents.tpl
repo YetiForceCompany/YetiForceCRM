@@ -76,7 +76,7 @@
 						{if {\App\Privilege::isPermitted('Assets', 'CreateView')} }
 							<span class="pull-right">
 								<button class="btn btn-default createRecord" type="button" data-url="index.php?module=Assets&view=QuickCreateAjax">
-									<span class="fa fa-plus-circle" title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)}"></span>
+									<span class="fas fa-plus-circle" title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)}"></span>
 								</button>
 							</span>
 						{/if}
@@ -151,7 +151,7 @@
 						{if {\App\Privilege::isPermitted('OSSSoldServices', 'CreateView')} }
 							<span class="pull-right">
 								<button class="btn btn-default createRecord" type="button" data-url="index.php?module=OSSSoldServices&view=QuickCreateAjax">
-									<span class="fa fa-plus-circle" title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)}"></span>
+									<span class="fas fa-plus-circle" title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)}"></span>
 								</button>
 							</span>
 						{/if}

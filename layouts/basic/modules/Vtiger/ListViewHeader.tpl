@@ -107,7 +107,7 @@
 																<div class="filterActionsDiv hide">
 																	<hr>
 																	<ul class="filterActions">
-																		<li data-value="create" id="createFilter" data-createurl="{$CUSTOM_VIEW->getCreateUrl()}"><span class="fa fa-plus-circle"></span> {\App\Language::translate('LBL_CREATE_NEW_FILTER')}</li>
+																		<li data-value="create" id="createFilter" data-createurl="{$CUSTOM_VIEW->getCreateUrl()}"><span class="fas fa-plus-circle"></span> {\App\Language::translate('LBL_CREATE_NEW_FILTER')}</li>
 																	</ul>
 																</div>
 															{/if}
