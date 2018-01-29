@@ -174,7 +174,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 												data += 'class="removeWidgetFromList btn btn-xs btn-danger pull-left" '
 												data += 'style="width:25px;height:25px;margin:2px;" '
 												data += '>'
-												data += '<span class="fa fa-trash-o"></span>';
+												data += '<span class="fas fa-trash-alt"></span>';
 												data += '</button>';
 											}
 											data += '<a onclick="Vtiger_DashBoard_Js.addWidget(this, \'' + response.result.url + '\')" ';

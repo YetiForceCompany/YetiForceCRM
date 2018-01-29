@@ -68,7 +68,7 @@
 		<input type="hidden" name="column_condition" value="{$CONDITION}" />
 	</span>
 	 <span class="col-md-1">
-		<i class="deleteCondition fa fa-trash-o alignMiddle" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></i>
+		<i class="deleteCondition fas fa-trash-alt alignMiddle" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"></i>
 	</span>
 </div>
 {/strip}

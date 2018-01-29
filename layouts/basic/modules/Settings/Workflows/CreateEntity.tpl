@@ -53,7 +53,7 @@
 				</div>
 				{if $MANDATORY_FIELD neq true || $MAPPING_PANEL}
 					<div class="cursorPointer btn span">
-						<span class="alignMiddle deleteCondition fa fa-trash-o"></span>
+						<span class="alignMiddle deleteCondition fas fa-trash-alt"></span>
 					</div>
 				{/if}
 			</div>
@@ -132,7 +132,7 @@
 			<input type="hidden" name="valuetype" value="rawtext" />
 		</div>
 		<div class="cursorPointer btn span">
-			<span class="alignMiddle deleteCondition fa fa-trash-o"></span>
+			<span class="alignMiddle deleteCondition fas fa-trash-alt"></span>
 		</div>
 	</div>
 {/if}

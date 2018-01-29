@@ -24,7 +24,7 @@
 			{if $VIEW != 'Popup'}
 			<div class="toolbar">
 				&nbsp;<a href="{$CHILD_ROLE->getCreateChildUrl()}" data-url="{$CHILD_ROLE->getCreateChildUrl()}" title="{\App\Language::translate('LBL_ADD_RECORD', $QUALIFIED_MODULE)}"><span class="fas fa-plus-circle"></span></a>
-				&nbsp;<a data-id="{$CHILD_ROLE->getId()}" href="javascript:;" data-url="{$CHILD_ROLE->getDeleteActionUrl()}" data-action="modal" title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"><span class="fa fa-trash-o"></span></a>
+				&nbsp;<a data-id="{$CHILD_ROLE->getId()}" href="javascript:;" data-url="{$CHILD_ROLE->getDeleteActionUrl()}" data-action="modal" title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"><span class="fas fa-trash-alt"></span></a>
 			</div>
 			{/if}
 		</div>

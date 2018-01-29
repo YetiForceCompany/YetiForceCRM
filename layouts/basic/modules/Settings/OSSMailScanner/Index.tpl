@@ -108,7 +108,7 @@
 											<span class="glyphicon glyphicon-folder-open"></span>
 										</button>
 										<button title="{\App\Language::translate('LBL_DELETE_ACCOUNT', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-default delate_accont">
-											<span class="fa fa-trash-o"></span>
+											<span class="fas fa-trash-alt"></span>
 										</button>
 									</div>
 								</div>

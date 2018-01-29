@@ -19,7 +19,7 @@
 							</button>
 						{/if}
 						<a class="btn btn-danger marginLeft5 deleteButton" href="{$RECORD_MODEL->getDeleteActionUrl()}">
-							<span class="fa fa-trash-o" aria-hidden="true"></span>&nbsp;
+							<span class="fas fa-trash-alt" aria-hidden="true"></span>&nbsp;
 							<strong>{App\Language::translate('LBL_DELETE_RECORD', $QUALIFIED_MODULE)}</strong>
 						</a>
 				</div>

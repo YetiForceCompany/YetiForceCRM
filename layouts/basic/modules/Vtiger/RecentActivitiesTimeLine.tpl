@@ -169,7 +169,7 @@
 									</div>
 								{else if $RECENT_ACTIVITY->isChangeState()}
 									{if $RECENT_ACTIVITY->get('status') == 1}
-										<span class="fa fa-trash-o entityStateIcon" {if $LIST_ENTITY_STATE_COLOR['Trash']}style="background: {$LIST_ENTITY_STATE_COLOR['Trash']};"{/if}></span>
+										<span class="fas fa-trash-alt entityStateIcon" {if $LIST_ENTITY_STATE_COLOR['Trash']}style="background: {$LIST_ENTITY_STATE_COLOR['Trash']};"{/if}></span>
 									{else if $RECENT_ACTIVITY->get('status') == 3}
 										<span class="fa glyphicon fa-refresh entityStateIcon" {if $LIST_ENTITY_STATE_COLOR['Active']}style="background: {$LIST_ENTITY_STATE_COLOR['Active']};"{/if}></span>
 									{else if $RECENT_ACTIVITY->get('status') == 8}

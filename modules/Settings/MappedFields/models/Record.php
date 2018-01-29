@@ -62,7 +62,7 @@ class Settings_MappedFields_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'class' => 'deleteMap',
-				'linkicon' => 'fa fa-trash-o'
+				'linkicon' => 'fas fa-trash-alt'
 			]
 		];
 		foreach ($recordLinks as $recordLink) {

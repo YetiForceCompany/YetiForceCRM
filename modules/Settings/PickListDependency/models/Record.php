@@ -47,7 +47,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		$deleteLink = [
 			'linkurl' => "javascript:Settings_PickListDependency_Js.triggerDelete(event, '$soureModule','$sourceField', '$targetField')",
 			'linklabel' => 'LBL_DELETE',
-			'linkicon' => 'fa fa-trash-o'
+			'linkicon' => 'fas fa-trash-alt'
 		];
 		$deleteLinkInstance = Vtiger_Link_Model::getInstanceFromValues($deleteLink);
 		return [$editLinkInstance, $deleteLinkInstance];

@@ -30,7 +30,7 @@
 		</td>
 		<td class="textAlignCenter">
 			<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-default delate">
-				<i class="fa fa-trash-o"></i>
+				<i class="fas fa-trash-alt"></i>
 			</button>
 		</td>
 	</tr>

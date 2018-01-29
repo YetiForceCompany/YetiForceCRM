@@ -93,7 +93,7 @@
 										{if $VIEW_MODEL->get('entityState') === 'Archived'}
 											<span class="fas fa-archive"></span>
 										{elseif $VIEW_MODEL->get('entityState') === 'Trash'}
-											<span class="fa fa-trash-o"></span>
+											<span class="fas fa-trash-alt"></span>
 										{elseif $VIEW_MODEL->get('entityState') === 'All'}
 											<span class="glyphicon glyphicon-menu-hamburger"></span>
 										{else}
@@ -108,7 +108,7 @@
 											<a href="#" data-value="Archived"><span class="fas fa-archive"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}</a>
 										</li>
 										<li {if $COLOR['Trash']}style="border-color: {$COLOR['Trash']};"{/if}>
-											<a href="#" data-value="Trash"><span class="fa fa-trash-o"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}</a>
+											<a href="#" data-value="Trash"><span class="fas fa-trash-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}</a>
 										</li>
 										<li>
 											<a href="#" data-value="All"><span class="glyphicon glyphicon-menu-hamburger"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ALL')}</a>

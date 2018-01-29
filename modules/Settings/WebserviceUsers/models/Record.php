@@ -253,7 +253,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => 'javascript:Settings_WebserviceUsers_List_Js.deleteById(' . $this->getId() . ');',
-				'linkicon' => 'fa fa-trash-o',
+				'linkicon' => 'fas fa-trash-alt',
 				'linkclass' => 'btn btn-sm btn-danger'
 			]
 		];

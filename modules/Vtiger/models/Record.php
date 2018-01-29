@@ -1302,7 +1302,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_MOVE_TO_TRASH',
 				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash',
-				'linkicon' => 'fa fa-trash-o',
+				'linkicon' => 'fas fa-trash-alt',
 				'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')],
 				'linkclass' => 'btn-sm btn-default recordEvent entityStateBtn'
@@ -1374,7 +1374,7 @@ class Vtiger_Record_Model extends \App\Base
 		if ($relationModel->privilegeToDelete() && $this->privilegeToMoveToTrash()) {
 			$links['LBL_DELETE'] = Vtiger_Link_Model::getInstanceFromValues([
 					'linklabel' => 'LBL_DELETE',
-					'linkicon' => 'fa fa-trash-o',
+					'linkicon' => 'fas fa-trash-alt',
 					'linkclass' => 'btn-xs btn-default relationDelete entityStateBtn',
 					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};"
 			]);
