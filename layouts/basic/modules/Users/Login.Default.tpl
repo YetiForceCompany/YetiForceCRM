@@ -109,7 +109,7 @@
 								<div class="input-group form-group">
 									<input type="text" class="form-control form-control-lg" autocomplete="off" title="{\App\Language::translate('LBL_EMAIL',$MODULE)}" id="emailId" name="emailId" placeholder="Email">
 									<div class="input-group-append">
-										<div class="input-group-text fa fa-envelope"></div>
+										<div class="input-group-text fas fa-envelope"></div>
 									</div>
 								</div>
 							</div>

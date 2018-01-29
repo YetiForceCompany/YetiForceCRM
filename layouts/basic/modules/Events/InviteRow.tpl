@@ -12,7 +12,7 @@
 					<span class="userIcon-{$INVITIE_RECORD['setype']}" aria-hidden="true"></span>
 				{else}
 					{assign var=LABEL value=$INVITIE['email']}
-					<span class="fa fa-envelope" aria-hidden="true"></span>
+					<span class="fas fa-envelope" aria-hidden="true"></span>
 				{/if}
 			</span>
 			<span class="input-group-addon inviteName {if $TITLE}popoverTooltip{/if}" data-content="{$TITLE}" style="width: 100px;">{$LABEL}</span>

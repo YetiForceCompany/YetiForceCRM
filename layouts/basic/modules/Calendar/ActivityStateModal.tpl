@@ -13,13 +13,13 @@
 							{if $USER_MODEL->get('internal_mailer') == 1}
 								{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(\App\Record::getType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
 								<a target="_blank" class="btn btn-default" href="{$COMPOSE_URL}" title="{\App\Language::translate('LBL_SEND_EMAIL')}">
-									<span class="fa fa-envelope" aria-hidden="true"></span>
+									<span class="fas fa-envelope" aria-hidden="true"></span>
 								</a>
 							{else}
 								{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl(\App\Record::getType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
 								{if $URLDATA && $URLDATA != 'mailto:?'}
 									<a class="btn btn-default" href="{$URLDATA}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
-										<span class="fa fa-envelope" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
+										<span class="fas fa-envelope" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
 									</a>
 								{/if}
 							{/if}

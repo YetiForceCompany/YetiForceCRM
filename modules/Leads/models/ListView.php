@@ -29,7 +29,7 @@ class Leads_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_SEND_EMAIL',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerSendEmail();',
-				'linkicon' => 'fa fa-envelope'
+				'linkicon' => 'fas fa-envelope'
 			];
 		}
 
@@ -38,7 +38,7 @@ class Leads_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_SEND_SMS',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerSendSms("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=showSendSMSForm","SMSNotifier");',
-				'linkicon' => 'fa fa-envelope'
+				'linkicon' => 'fas fa-envelope'
 			];
 		}
 

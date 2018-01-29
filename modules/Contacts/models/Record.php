@@ -185,7 +185,7 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 						'linklabel' => 'LBL_SEND_EMAIL',
 						'linkhref' => true,
 						'linkurl' => OSSMail_Module_Model::getComposeUrl($this->getModuleName(), $this->getId(), 'Detail', 'new'),
-						'linkicon' => 'fa fa-envelope',
+						'linkicon' => 'fas fa-envelope',
 						'linkclass' => 'btn-xs btn-default',
 						'linktarget' => "_blank"
 				]);
@@ -196,7 +196,7 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 							'linklabel' => 'LBL_CREATEMAIL',
 							'linkhref' => true,
 							'linkurl' => $urldata,
-							'linkicon' => 'fa fa-envelope',
+							'linkicon' => 'fas fa-envelope',
 							'linkclass' => 'btn-xs btn-default',
 							'relatedModuleName' => 'OSSMailView'
 					]);
