@@ -27,7 +27,7 @@
 					{/if}
 					<div class="btn-group">
 						<button onclick='window.location.href = "{$REPORT_MODEL->getDuplicateRecordUrl()}"' type="button" class="cursorPointer btn btn-primary">
-							<span class="fa fa-files-o"></span>&nbsp;&nbsp;
+							<span class="fas fa-clone"></span>&nbsp;&nbsp;
 							<strong>{\App\Language::translate('LBL_DUPLICATE',$MODULE)}</strong>
 						</button>
 					</div>

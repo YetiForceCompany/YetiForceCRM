@@ -207,7 +207,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => 'LBL_DUPLICATE',
 					'linkurl' => $recordModel->getDuplicateRecordUrl(),
-					'linkicon' => 'fa fa-files-o',
+					'linkicon' => 'fas fa-clone',
 					'title' => \App\Language::translate('LBL_DUPLICATE_RECORD')
 			]);
 		}

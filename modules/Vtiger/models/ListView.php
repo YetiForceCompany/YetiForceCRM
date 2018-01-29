@@ -168,7 +168,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linklabel' => 'LBL_FIND_DUPLICATES',
 				'linkurl' => 'Javascript:Vtiger_List_Js.showDuplicateSearchForm("index.php?module=' . $moduleModel->getName() .
 				'&view=MassActionAjax&mode=showDuplicatesSearchForm")',
-				'linkicon' => 'fa fa-files-o'
+				'linkicon' => 'fas fa-clone'
 			];
 		}
 		if ($moduleModel->isPermitted('QuickExportToExcel')) {
