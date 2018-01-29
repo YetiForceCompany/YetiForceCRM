@@ -431,7 +431,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 				'linktype' => 'RELATEDLIST_VIEWS',
 				'linklabel' => 'LBL_RECORDS_PREVIEW_LIST',
 				'view' => 'ListPreview',
-				'linkicon' => 'glyphicon glyphicon-blackboard',
+				'linkicon' => 'fas fa-desktop',
 		]);
 		$relatedLink['LISTVIEWBASIC'] = array_merge($selectLinks, $this->getAddRelationLinks());
 		$relatedLink['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([

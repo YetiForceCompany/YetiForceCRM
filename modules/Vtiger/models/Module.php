@@ -867,7 +867,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 					'linktype' => 'SIDEBARLINK',
 					'linklabel' => 'LBL_DASHBOARD',
 					'linkurl' => $this->getDashBoardUrl(),
-					'linkicon' => 'glyphicon glyphicon-blackboard',
+					'linkicon' => 'fas fa-desktop',
 			]);
 		}
 		$treeViewModel = Vtiger_TreeView_Model::getInstance($this);

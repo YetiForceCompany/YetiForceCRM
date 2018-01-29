@@ -22,7 +22,7 @@
 				<span class="btn-toolbar pull-right margin0px">
 					<span class="btn-group">
 						<button class="btn btn-success createModule" type="button">
-							<span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span>&nbsp;&nbsp;
+							<span class="fas fa-desktop" aria-hidden="true"></span>&nbsp;&nbsp;
 							<strong>{\App\Language::translate('LBL_CREATE_MODULE', $QUALIFIED_MODULE)}</strong>
 						</button>
 					</span>
