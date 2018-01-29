@@ -28,7 +28,7 @@ class Contacts_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_SEND_EMAIL',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerSendEmail();',
-				'linkicon' => 'fa fa-envelope'
+				'linkicon' => 'fas fa-envelope'
 			];
 		}
 		if ($currentUserModel->hasModulePermission('SMSNotifier') && $moduleModel->isPermitted('MassSendSMS') && SMSNotifier_Module_Model::checkServer()) {
@@ -36,7 +36,7 @@ class Contacts_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_SEND_SMS',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerSendSms("index.php?module=' . $this->getModule()->getName() . '&view=MassActionAjax&mode=showSendSMSForm","SMSNotifier");',
-				'linkicon' => 'fa fa-envelope'
+				'linkicon' => 'fas fa-envelope'
 			];
 		}
 		foreach ($massActionLinks as $massActionLink) {

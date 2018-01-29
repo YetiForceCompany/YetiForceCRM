@@ -27,7 +27,7 @@ class Campaigns_RelationListView_Model extends Vtiger_RelationListView_Model
 						'linktype' => 'LISTVIEWBASIC',
 						'linklabel' => \App\Language::translate('LBL_SEND_EMAIL', $relatedModuleName),
 						'linkurl' => "javascript:Campaigns_RelatedList_Js.triggerSendEmail();",
-						'linkicon' => 'fa fa-envelope'
+						'linkicon' => 'fas fa-envelope'
 				]);
 				$emailLink->set('_sendEmail', true);
 				$relatedLinks['LISTVIEWBASIC'][] = $emailLink;

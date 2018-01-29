@@ -18,13 +18,13 @@
 								{if $USER_MODEL->get('internal_mailer') == 1}
 									{assign var=URLDATA value=OSSMail_Module_Model::getComposeUrl($MODULE_NAME, $RECORD->getId(), 'Detail', 'new')}
 									<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$URLDATA}" data-module="{$MODULE_NAME}" data-record="{$RECORD->getId()}" data-popup="{$CONFIG['popup']}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
-										<span class="fa fa-envelope" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
+										<span class="fas fa-envelope" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
 									</button>&nbsp;
 								{else}
 									{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl($MODULE_NAME, $RECORD->getId(), 'Detail', 'new')}
 									{if $URLDATA}
 										<a class="btn btn-sm btn-default" href="{$URLDATA}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
-											<span class="fa fa-envelope" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
+											<span class="fas fa-envelope" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
 										</a>&nbsp;
 									{/if}
 								{/if}

@@ -39,7 +39,7 @@
 									{assign var=ICON value='<span class="userIcon-'|cat:$INVITIE_RECORD['setype']|cat:'" aria-hidden="true"></span>'}
 								{else}
 									{assign var=LABEL value=$INVITIE['email']}
-									{assign var=ICON value='<span class="fa fa-envelope" aria-hidden="true"></span>'}
+									{assign var=ICON value='<span class="fas fa-envelope" aria-hidden="true"></span>'}
 								{/if}
 								<div>
 									{assign var=STATUS_LABEL value=Events_Record_Model::getInvitionStatus($INVITIE['status'])}
