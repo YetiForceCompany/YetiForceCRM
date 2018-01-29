@@ -1291,7 +1291,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_ARCHIVE_RECORD',
 				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Archived',
-				'linkicon' => 'fa fa-archive',
+				'linkicon' => 'fas fa-archive',
 				'style' => empty($stateColors['Archived']) ? '' : "background: {$stateColors['Archived']};",
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC')],
 				'linkclass' => 'btn-sm btn-default recordEvent entityStateBtn'

@@ -118,7 +118,7 @@
 																	<div class="dropdown dropdownEntityState">
 																		<button class="btn btn-default dropdown-toggle" type="button" id="dropdownEntityState" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 																			{if $VIEW_MODEL->get('entityState') === 'Archived'}
-																				<span class="fa fa-archive"></span>
+																				<span class="fas fa-archive"></span>
 																			{elseif $VIEW_MODEL->get('entityState') === 'Trash'}
 																				<span class="fa fa-trash-o"></span>
 																			{elseif $VIEW_MODEL->get('entityState') === 'All'}
@@ -132,7 +132,7 @@
 																				<a href="#" data-value="Active"><span class="fas fa-undo"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}</a>
 																			</li>
 																			<li {if $COLOR['Archived']}style="border-color: {$COLOR['Archived']};"{/if}>
-																				<a href="#" data-value="Archived"><span class="fa fa-archive"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}</a>
+																				<a href="#" data-value="Archived"><span class="fas fa-archive"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}</a>
 																			</li>
 																			<li {if $COLOR['Trash']}style="border-color: {$COLOR['Trash']};"{/if}>
 																				<a href="#" data-value="Trash"><span class="fa fa-trash-o"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}</a>
