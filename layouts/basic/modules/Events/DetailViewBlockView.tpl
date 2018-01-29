@@ -44,7 +44,7 @@
 								<div>
 									{assign var=STATUS_LABEL value=Events_Record_Model::getInvitionStatus($INVITIE['status'])}
 									{if $INVITIE['status'] == '1'}
-										<span class="fa fa-check-circle popoverTooltip" data-placement="top" data-content="{\App\Language::translate($STATUS_LABEL,$MODULE_NAME)} {if $INVITIE['time']}({DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}" aria-hidden="true"></span>
+										<span class="fas fa-check-circle popoverTooltip" data-placement="top" data-content="{\App\Language::translate($STATUS_LABEL,$MODULE_NAME)} {if $INVITIE['time']}({DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}" aria-hidden="true"></span>
 									{elseif $INVITIE['status'] == '2'}
 										<span class="fa fa-minus-circle popoverTooltip" data-placement="top" data-content="{\App\Language::translate($STATUS_LABEL,$MODULE_NAME)} {if $INVITIE['time']}({DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}" aria-hidden="true"></span>
 									{else}

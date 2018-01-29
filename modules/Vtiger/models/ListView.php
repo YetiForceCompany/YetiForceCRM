@@ -280,7 +280,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_REVIEW_CHANGES',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerReviewChanges("index.php?module=ModTracker&sourceModule=' . $moduleModel->getName() . '&action=ChangesReviewedOn&mode=reviewChanges")',
-				'linkicon' => 'fa fa-check-circle'
+				'linkicon' => 'fas fa-check-circle'
 			];
 		}
 		foreach ($massActionLinks as $massActionLink) {
