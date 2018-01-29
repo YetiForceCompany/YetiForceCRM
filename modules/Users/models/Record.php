@@ -799,7 +799,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		//update comments details in vtiger_modcomments
 		$db->createCommand()->update('vtiger_modcomments', ['userid' => $newOwnerId], ['userid' => $userId])->execute();
 		$db->createCommand()->delete('vtiger_users', ['id' => $userId])->execute();
-		deleteUserRelatedSharingRules($userId);
+		\App\PrivilegeUtil::deleteRelatedSharingRules($userId, 'Users');
 		$fileName = "user_privileges/sharing_privileges_{$userId}.php";
 		if (file_exists($fileName)) {
 			unlink($fileName);

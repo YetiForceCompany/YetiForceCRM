@@ -317,15 +317,11 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$db = App\Db::getInstance();
 		$groupId = $this->getId();
-
 		$eventHandler = new App\EventHandler();
 		$eventHandler->setParams(['groupId' => $groupId, 'transferToGroup' => $transferToGroup]);
 		$eventHandler->trigger('GroupBeforeDelete');
-
 		$this->transferOwnership($transferToGroup);
-
-		deleteGroupRelatedSharingRules($groupId);
-
+		\App\PrivilegeUtil::deleteRelatedSharingRules($groupId, 'Groups');
 		$db->createCommand()->delete('vtiger_group2grouprel', ['groupid' => $groupId])->execute();
 		$db->createCommand()->delete('vtiger_group2role', ['groupid' => $groupId])->execute();
 		$db->createCommand()->delete('vtiger_group2rs', ['groupid' => $groupId])->execute();
