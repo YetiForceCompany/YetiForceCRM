@@ -39,7 +39,7 @@
 									{/if}
 									">
 								{if $ITEM->getStatus() == 2}
-									<span class="fa fa-plus-circle" aria-hidden="true"></span>
+									<span class="fas fa-plus-circle" aria-hidden="true"></span>
 								{else}
 									<span class="fa fa-minus-circle" aria-hidden="true"></span>
 								{/if}
