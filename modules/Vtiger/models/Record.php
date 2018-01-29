@@ -1206,7 +1206,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_RIGHT_SIDE',
 				'linklabel' => 'BTN_ASSIGN_TO_ME',
 				'linkurl' => 'javascript:Vtiger_Index_Js.assignToOwner(this)',
-				'linkicon' => 'fa fa-user',
+				'linkicon' => 'fas fa-user',
 				'linkclass' => 'btn-sm btn-success',
 				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId()],
 			];

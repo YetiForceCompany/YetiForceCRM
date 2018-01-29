@@ -78,7 +78,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 					'linktype' => 'HEADERLINK',
 					'linklabel' => 'LBL_USER_PANEL',
 					'linkurl' => 'index.php',
-					'glyphicon' => 'fa fa-user',
+					'glyphicon' => 'fas fa-user',
 				];
 			}
 		}

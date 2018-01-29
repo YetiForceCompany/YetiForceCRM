@@ -39,7 +39,7 @@
 			{if $WIDGET_DATA['showOwnerFilter']}
 				<div class="col-md-6 ownersFilter">
 					<div class="input-group input-group-sm">
-						<span class="input-group-addon"><span class="fa fa-user iconMiddle" title="{\App\Language::translate('Assigned To')}"></span></span>
+						<span class="input-group-addon"><span class="fas fa-user iconMiddle" title="{\App\Language::translate('Assigned To')}"></span></span>
 						<select class="widgetFilter select2 width90 owner form-control input-sm" name="owner" title="{\App\Language::translate('LBL_OWNER')}">
 							<option value="0">{\App\Language::translate('LBL_ALL_OWNERS','Home')}</option>
 						</select>

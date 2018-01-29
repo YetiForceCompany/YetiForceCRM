@@ -52,7 +52,7 @@
 									</td>
 									<td>
 										<a href="#" onclick="Vtiger_Index_Js.assignToOwner(this,{$USER_ID})" data-module="{$RECORD->getModuleName()}" data-record="{$RECORD->getid()}" id="user_{$USER_ID}" class="btn btn-xs btn-success" title="{\App\Language::translate('LBL_ASSIGN', $MODULE_NAME)}">
-											<span class="fa fa-user"></span>
+											<span class="fas fa-user"></span>
 										</a>
 									</td>
 								</tr>
@@ -64,7 +64,7 @@
 				<div class="col-md-12 text-center">
 					<label>{\App\Language::translate('LBL_SET_DEFAULT_RECORD_OWNER', $MODULE_NAME)}&nbsp;</label>
 					<a href="#" onclick="Vtiger_Index_Js.assignToOwner(this,{$DEFAULT_OWNER})" data-module="{$RECORD->getModuleName()}" data-record="{$RECORD->getid()}" id="user_{$DEFAULT_OWNER}" class="btn btn-xs btn-success" title="{\App\Language::translate('LBL_ASSIGN', $MODULE_NAME)}">
-					<span class="fa fa-user">&nbsp;{\App\Fields\Owner::getLabel($DEFAULT_OWNER)}</span>
+					<span class="fas fa-user">&nbsp;{\App\Fields\Owner::getLabel($DEFAULT_OWNER)}</span>
 				</a>
 				</div>
 			{else}
