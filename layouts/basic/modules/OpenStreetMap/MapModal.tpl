@@ -80,7 +80,7 @@
 								<span class="fa fa-flag"></span>
 							</button>
 							<button class="btn btn-success btn-sm moveUp">
-								<span class="fa fa-arrow-up"></span>
+								<span class="fas fa-upload"></span>
 							</button>
 							<button class="btn btn-success  btn-sm moveDown">
 								<span class="fas fa-download"></span>

@@ -221,7 +221,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EXPORT_RECORD',
 				'linkurl' => 'index.php?module=Workflows&parent=Settings&action=ExportWorkflow&id=' . $this->getId(),
-				'linkicon' => 'fa fa-arrow-up'
+				'linkicon' => 'fas fa-upload'
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
