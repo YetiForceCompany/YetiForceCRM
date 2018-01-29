@@ -19,7 +19,7 @@
 					{if $IMAGE_PATH}
 						<img class="userImage pull-left" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_PATH))}" >
 					{else}	
-						<span class="fa fa-user userImage pull-left" aria-hidden="true"></span>
+						<span class="fas fa-user userImage pull-left" aria-hidden="true"></span>
 					{/if}
 				</div>
 				<div class="commentTitle row no-margin" id="{$COMMENT->getId()}">

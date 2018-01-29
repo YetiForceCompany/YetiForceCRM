@@ -26,7 +26,7 @@
 								<div class="input-group form-group first-group">
 									<input name="username" type="text" id="username" class="form-control form-control-lg" {if \AppConfig::main('systemMode') === 'demo'}value="demo"{/if} placeholder="{\App\Language::translate('LBL_USER',$MODULE)}" required="" {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if} autofocus="">
 									<div class="input-group-append">
-										<div class="input-group-text"><i class="fa fa-user" aria-hidden="true"></i></div>
+										<div class="input-group-text"><i class="fas fa-user" aria-hidden="true"></i></div>
 									</div>
 								</div>
 								<label for="password" class="sr-only">{\App\Language::translate('Password',$MODULE)}</label>
