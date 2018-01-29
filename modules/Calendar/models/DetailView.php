@@ -109,7 +109,7 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 					'linktype' => 'DETAIL_VIEW_EXTENDED',
 					'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
 					'linkurl' => 'javascript:Calendar_Detail_Js.deleteRecord("index.php?module=' . $recordModel->getModuleName() . '&action=Delete&record=' . $recordModel->getId() . '")',
-					'linkicon' => 'fa fa-eraser',
+					'linkicon' => 'fas fa-eraser',
 					'title' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY')
 			]);
 		}

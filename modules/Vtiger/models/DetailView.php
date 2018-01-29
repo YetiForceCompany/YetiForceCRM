@@ -198,7 +198,7 @@ class Vtiger_DetailView_Model extends \App\Base
 						'url' => 'index.php?module=' . $recordModel->getModuleName() . '&action=Delete&record=' . $recordModel->getId(),
 						'confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')
 					],
-					'linkicon' => 'fa fa-eraser',
+					'linkicon' => 'fas fa-eraser',
 					'linkclass' => 'btn-black'
 			]);
 		}

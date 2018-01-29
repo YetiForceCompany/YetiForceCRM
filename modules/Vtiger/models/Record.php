@@ -1312,7 +1312,7 @@ class Vtiger_Record_Model extends \App\Base
 			$recordLinks[] = [
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
-				'linkicon' => 'fa fa-eraser',
+				'linkicon' => 'fas fa-eraser',
 				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=Delete',
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
 				'linkclass' => 'btn-sm btn-black recordEvent'
