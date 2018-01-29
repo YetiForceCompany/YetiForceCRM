@@ -255,7 +255,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassDelete&sourceView=List',
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
 				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'fa fa-eraser'
+				'linkicon' => 'fas fa-eraser'
 			];
 		}
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
