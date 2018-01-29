@@ -67,7 +67,7 @@
 										<div class="btn-toolbar btn-group-xs pull-right">
 											{if AppConfig::developer('CHANGE_RELATIONS')}
 												<button type="button" class="btn btn-danger removeRelation pull-right" title="{\App\Language::translate('LBL_REMOVE_RELATION', $QUALIFIED_MODULE)}">
-												<span class="fa fa-times" aria-hidden="true"></span>
+												<span class="fas fa-times" aria-hidden="true"></span>
 												</button>
 											{/if}
 											{assign var=FAVORITES value=$MODULE_MODEL->isFavorites()}
@@ -76,7 +76,7 @@
 												<span class="fa fa-star-o {if $FAVORITES}hide{/if}" title="{\App\Language::translate('LBL_ACTIVATE_FAVORITES', $QUALIFIED_MODULE)}"></span>	
 											</button>
 											<button type="button" class="btn btn-success inActiveRelationModule{if !$MODULE_MODEL->isActive()} hide{/if}"><span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_VISIBLE', $QUALIFIED_MODULE)}</strong></button>
-											<button type="button" class="btn btn-warning activeRelationModule{if $MODULE_MODEL->isActive()} hide{/if}"><span class="fa fa-times"></span>&nbsp;<strong>{\App\Language::translate('LBL_HIDDEN', $QUALIFIED_MODULE)}</strong></button>
+											<button type="button" class="btn btn-warning activeRelationModule{if $MODULE_MODEL->isActive()} hide{/if}"><span class="fas fa-times"></span>&nbsp;<strong>{\App\Language::translate('LBL_HIDDEN', $QUALIFIED_MODULE)}</strong></button>
 										</div>
 										<h4 class="panel-title">
 											<div class="relatedModuleLabel mainBlockTableLabel">

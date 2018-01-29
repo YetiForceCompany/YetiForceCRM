@@ -86,7 +86,7 @@
 								<span class="fas fa-download"></span>
 							</button>
 							<button class="btn btn-danger btn-sm removeIndirect">
-								<span class="fa fa-times"></span>
+								<span class="fas fa-times"></span>
 							</button>
 						</div>
 					</div>

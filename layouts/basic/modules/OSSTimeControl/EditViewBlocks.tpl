@@ -14,7 +14,7 @@
 								<strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE_NAME)}</strong>
 							</button>&nbsp;&nbsp;
 							<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">
-								<span class="fa fa-times"></span>&nbsp;&nbsp;
+								<span class="fas fa-times"></span>&nbsp;&nbsp;
 								<strong>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE_NAME)}</strong>
 							</button>
 						</span>

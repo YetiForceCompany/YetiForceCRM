@@ -43,7 +43,7 @@
 				</div>
 
 				<div class="actions modal-footer">
-					<a class="cancelLink pull-right btn btn-warning" type="reset" id="advanceSearchCancel" data-dismiss="modal"><span class="fa fa-times margin-right5px"></span>{\App\Language::translate('LBL_CANCEL', $MODULE)}</a>
+					<a class="cancelLink pull-right btn btn-warning" type="reset" id="advanceSearchCancel" data-dismiss="modal"><span class="fas fa-times margin-right5px"></span>{\App\Language::translate('LBL_CANCEL', $MODULE)}</a>
 					<button class="btn btn-info pull-right" id="advanceSearchButton" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if}  type="submit"><span class="fas fa-search margin-right5px"></span><strong>{\App\Language::translate('LBL_SEARCH', $MODULE)}</strong></button>
 					{if $SAVE_FILTER_PERMITTED}
 						<button class="btn hide btn-success pull-right" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceSave">

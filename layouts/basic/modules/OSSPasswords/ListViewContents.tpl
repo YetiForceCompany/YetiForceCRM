@@ -57,7 +57,7 @@
 							<div class="flexWrapper">
 								<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="fas fa-search"></span></a>
 								<a class="btn btn-default pull-right listRemoveBtn" href="index.php?view=List&module={$MODULE}" >
-									<span class="fa fa-times"></span>
+									<span class="fas fa-times"></span>
 								</a>
 							</div>
 						</td>

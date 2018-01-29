@@ -16,7 +16,7 @@
 					<td>{App\Language::translate($ITEM->getTitle(),'Settings:SystemWarnings')}</td>
 					<td class="text-center {if $ITEM->getStatus() == 0}danger{elseif $ITEM->getStatus() == 1}success{/if}">
 						{if $ITEM->getStatus() == 0}
-							<span class="fa fa-times" aria-hidden="true"></span>
+							<span class="fas fa-times" aria-hidden="true"></span>
 						{elseif $ITEM->getStatus() == 1}
 							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 						{elseif $ITEM->getStatus() == 2}

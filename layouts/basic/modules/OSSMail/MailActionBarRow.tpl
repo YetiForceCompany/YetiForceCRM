@@ -34,7 +34,7 @@
 				</button>
 			{/if}
 			<button class="removeRecord " title="{\App\Language::translate('LBL_REMOVE_RELATION',$MODULE_NAME)} {$RELATED['label']}">
-				<span class="fa fa-times" aria-hidden="true"></span>
+				<span class="fas fa-times" aria-hidden="true"></span>
 			</button>
 		</div>
 	</div>

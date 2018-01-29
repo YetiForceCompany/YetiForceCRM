@@ -48,7 +48,7 @@
 								<div class="col-md-2">
 									<span class="pull-right">
 										<i class="cursorPointer fas fa-pencil-alt editWidget" title="{\App\Language::translate('Edit', $QUALIFIED_MODULE)}"></i>
-										&nbsp;&nbsp;<i class="cursorPointer fa fa-times removeWidget" title="{\App\Language::translate('Remove', $QUALIFIED_MODULE)}"></i>
+										&nbsp;&nbsp;<i class="cursorPointer fas fa-times removeWidget" title="{\App\Language::translate('Remove', $QUALIFIED_MODULE)}"></i>
 									</span>
 								</div>
 							</div>

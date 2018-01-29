@@ -29,7 +29,7 @@
 			</span>
 			<span class="input-group-btn">
 				<button class="btn btn-default inviteRemove" type="button">
-					<span class="fa fa-times" aria-hidden="true"></span>
+					<span class="fas fa-times" aria-hidden="true"></span>
 				</button>
 			</span>
 		</div>

@@ -84,7 +84,7 @@
 			{/if}
 			{if !$LOCK_EXIT}
 				<button class="btn btn-warning" type="reset" data-dismiss="modal">
-					<span class="fa fa-times"></span>&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
+					<span class="fas fa-times"></span>&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 				</button>
 			{/if}
 		</div>

@@ -17,7 +17,7 @@
 			<strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong>
 		</button>
 		<button class="btn btn-warning" type="reset" onclick="javascript:window.history.back();">
-			<span class="fa fa-times margin-right5px"></span>
+			<span class="fas fa-times margin-right5px"></span>
 			<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
 		</button>
 		{foreach item=LINK from=$EDITVIEW_LINKS['EDIT_VIEW_HEADER']}

@@ -13,7 +13,7 @@
 	<div id="listPriceUpdateContainer">
 		<div class="modal-header">
 			<button class="btn btn-warning pull-right" data-dismiss="modal" class="pull-right">
-				<span class="fa fa-times alignMiddle"></span>
+				<span class="fas fa-times alignMiddle"></span>
 			</button>
 			<h3 class="modal-title">{\App\Language::translate('LBL_EDIT_LIST_PRICE', $MODULE)}</h3>
 		</div>	
