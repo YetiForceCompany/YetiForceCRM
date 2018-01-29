@@ -29,7 +29,7 @@
 					{if \AppConfig::main('systemMode') !== 'demo'}
 						<span class="btn-group">
 							<button class="btn btn-primary" type="button" onclick='window.location.href = "{$IMPORT_USER_MODULE_URL}"'>
-								<span class="fa fa-arrow-down" aria-hidden="true"></span>&nbsp;&nbsp;
+								<span class="fas fa-download" aria-hidden="true"></span>&nbsp;&nbsp;
 								<strong>{\App\Language::translate('LBL_IMPORT_ZIP', $QUALIFIED_MODULE)}</strong>
 							</button>
 						</span>

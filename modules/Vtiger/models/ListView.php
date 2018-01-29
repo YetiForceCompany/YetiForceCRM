@@ -137,7 +137,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_IMPORT',
 				'linkurl' => $moduleModel->getImportUrl(),
-				'linkicon' => 'fa fa-arrow-down'
+				'linkicon' => 'fas fa-download'
 			];
 		}
 		if ($moduleModel->isPermitted('Export')) {

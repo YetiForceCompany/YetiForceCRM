@@ -15,7 +15,7 @@
 						<strong>{\App\Language::translate('LBL_ADD_TEMPLATE',$QUALIFIED_MODULE)}</strong>
 					</button>
 					<button class="btn btn-default importButton" id="importButton" data-url="{$MODULE_MODEL->getImportViewUrl()}" title="{\App\Language::translate('LBL_IMPORT_TEMPLATE', $QUALIFIED_MODULE)}">
-						<i class="fa fa-arrow-down"></i>
+						<i class="fas fa-download"></i>
 					</button>
 				</div>
 				<div class="col-md-4 btn-toolbar">
