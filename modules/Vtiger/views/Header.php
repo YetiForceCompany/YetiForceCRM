@@ -71,7 +71,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 					'linktype' => 'HEADERLINK',
 					'linklabel' => 'LBL_SYSTEM_SETTINGS',
 					'linkurl' => 'index.php?module=Vtiger&parent=Settings&view=Index',
-					'glyphicon' => 'fa fa-cog',
+					'glyphicon' => 'fas fa-cog',
 				];
 			} else {
 				$headerLinks[] = [
