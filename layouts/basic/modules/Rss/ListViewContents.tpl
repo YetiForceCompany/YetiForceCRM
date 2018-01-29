@@ -25,7 +25,7 @@
 					</div>
 					<div class="btn-toolbar col-md-4">
 						<span class="btn-group pull-right">
-							<button id="deleteButton" class="btn btn-danger" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"><span class="fa fa-trash-o"></span></button>
+							<button id="deleteButton" class="btn btn-danger" title="{\App\Language::translate('LBL_DELETE', $MODULE)}"><span class="fas fa-trash-alt"></span></button>
 						</span>
 						<span class="btn-group pull-right">
 							<button id="makeDefaultButton" class="btn btn-info" title="{\App\Language::translate('LBL_SET_AS_DEFAULT', $MODULE)}">&nbsp;<strong>{\App\Language::translate('LBL_SET_AS_DEFAULT', $MODULE)}</strong></button>

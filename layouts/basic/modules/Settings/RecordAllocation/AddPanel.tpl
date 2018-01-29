@@ -24,7 +24,7 @@
 							</div>
 							<div class="col-xs-2 paddingLefttZero">
 								<div class="pull-right">
-									<button type="button" class="removePanel btn btn-danger"><span class="fa fa-trash-o"></span></button>	
+									<button type="button" class="removePanel btn btn-danger"><span class="fas fa-trash-alt"></span></button>	
 								</div>
 							</div>
 						</div>

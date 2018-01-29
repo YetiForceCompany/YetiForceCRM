@@ -53,7 +53,7 @@
 					<input type="hidden" name="valuetype" value="{$FIELD_MAP['valuetype']}" />
 				</span>
 				<p class="cursorPointer form-control-static">
-					<i class="alignMiddle deleteCondition fa fa-trash-o"></i>
+					<i class="alignMiddle deleteCondition fas fa-trash-alt"></i>
 				</p>
 			</div>
 		{/foreach}
@@ -102,7 +102,7 @@
 			<input type="hidden" name="valuetype" class="form-control" value="rawtext" />
 		</span>
 		<p class="cursorPointer form-control-static">
-			<span class="alignMiddle deleteCondition fa fa-trash-o"></span>
+			<span class="alignMiddle deleteCondition fas fa-trash-alt"></span>
 		</p>
 	</div>
 {/strip}

@@ -29,7 +29,7 @@
 							{foreach from=$WATCHDOG_MODULE->getWatchingMembers(true) key=KEY item=MEMBER}
 								<tr class="{$MEMBER.type}" data-value="{$MEMBER.member}" data-lock="{$MEMBER.lock}">
 									<td><strong>{$MEMBER.name}</strong>
-										<span title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fa fa-trash-o pull-right marginIcon marginTop2 delete cursorPointer" data-mode="addOrRemoveMembers"></span>
+										<span title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fas fa-trash-alt pull-right marginIcon marginTop2 delete cursorPointer" data-mode="addOrRemoveMembers"></span>
 										<span title="{\App\Language::translate('LBL_LOCK', $QUALIFIED_MODULE)}" class="fa {if $MEMBER.lock}fa-lock{else}fa-unlock-alt{/if} fa-lg pull-right marginTB3 lock cursorPointer" aria-hidden="true"  data-mode="lock"></span>
 										{if $MEMBER.type neq 'Users'}
 											<span title="{\App\Language::translate('LBL_EXCEPTIONS', $QUALIFIED_MODULE)}" class="glyphicon glyphicon-exclamation-sign pull-right marginIcon marginTop2 exceptions cursorPointer" aria-hidden="true" data-mode="exceptions"></span>

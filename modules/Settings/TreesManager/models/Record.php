@@ -90,7 +90,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE',
 				'linkurl' => "javascript:Settings_Vtiger_List_Js.triggerDelete(event,'" . $this->getDeleteUrl() . "');",
-				'linkicon' => 'fa fa-trash-o'
+				'linkicon' => 'fas fa-trash-alt'
 			]
 		];
 		foreach ($recordLinks as $recordLink) {

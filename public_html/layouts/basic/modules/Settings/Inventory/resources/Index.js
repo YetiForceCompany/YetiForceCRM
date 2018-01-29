@@ -124,7 +124,7 @@ jQuery.Class("Settings_Inventory_Index_Js", {}, {
 							<a class="editInventory cursorPointer" data-url="' + details._editurl + '">\n\
 								<span class="fas fa-pencil-alt alignBottom" title="' + app.vtranslate('JS_EDIT') + '"></span>\n\
 							</a>\n\
-							<a class="removeInventory cursorPointer" data-url="{$RECORD->getEditUrl()}"><span title="' + app.vtranslate('JS_DELETE') + '" class="fa fa-trash-o alignBottom"></span>\n\
+							<a class="removeInventory cursorPointer" data-url="{$RECORD->getEditUrl()}"><span title="' + app.vtranslate('JS_DELETE') + '" class="fas fa-trash-alt alignBottom"></span>\n\
 						</div>\n\
 					</td></tr>');
 		table.append(trElement);

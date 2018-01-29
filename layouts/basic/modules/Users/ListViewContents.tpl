@@ -122,10 +122,10 @@
 												{/if}
 												{if $IS_MODULE_DELETABLE && $LISTVIEW_ENTRY->getId() != $USER_MODEL->getId()}
 													{if $LISTVIEW_ENTRY->get('status') eq 'Active'}
-													<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_DELETE" class="deleteRecordButton"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fa fa-trash-o alignMiddle"></span></a>
+													<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_DELETE" class="deleteRecordButton"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignMiddle"></span></a>
 													{else}
 													<a onclick="Settings_Users_List_Js.restoreUser({$LISTVIEW_ENTRY->getId()}, event);"><span title="{\App\Language::translate('LBL_RESTORE', $MODULE)}" class="glyphicon glyphicon-refresh alignMiddle"></span></a>&nbsp;
-													<a onclick="Settings_Users_List_Js.deleteUserPermanently({$LISTVIEW_ENTRY->getId()}, event);"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fa fa-trash-o alignMiddle"></span></a>
+													<a onclick="Settings_Users_List_Js.deleteUserPermanently({$LISTVIEW_ENTRY->getId()}, event);"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignMiddle"></span></a>
 													{/if}
 												{/if}
 										</div>

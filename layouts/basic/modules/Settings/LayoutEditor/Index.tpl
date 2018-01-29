@@ -140,7 +140,7 @@
 																	{/if}
 																	{if $FIELD_MODEL->isCustomField() eq 'true'}
 																		<button class="btn btn-danger btn-xs deleteCustomField marginLeft5" data-field-id="{$FIELD_MODEL->get('id')}">
-																			<span class="fa fa-trash-o" title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
+																			<span class="fas fa-trash-alt" title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 																		</button>
 																	{/if}
 																</span>
@@ -183,7 +183,7 @@
 																	{/if}
 																	{if $FIELD_MODEL->isCustomField() eq 'true'}
 																		<button class="btn btn-danger btn-xs deleteCustomField marginLeft5" data-field-id="{$FIELD_MODEL->get('id')}">
-																			<span class="fa fa-trash-o" title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
+																			<span class="fas fa-trash-alt" title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 																		</button>
 																	{/if}
 																</span>

@@ -35,7 +35,7 @@
 									<li>
 										{if $WIDGET->get('deleteFromList')}
 											<button data-widget-id="{$WIDGET->get('widgetid')}" class="removeWidgetFromList btn btn-xs btn-danger pull-left" style="height:25px;margin:2px;">
-												<span class='fa fa-trash-o'></span>
+												<span class='fas fa-trash-alt'></span>
 											</button>
 										{/if}
 										<a class="pull-left" onclick="Vtiger_DashBoard_Js.addWidget(this, '{$WIDGET->getUrl()}')" href="javascript:void(0);"
@@ -71,7 +71,7 @@
 									<li>
 										{if $WIDGET->get('deleteFromList')}
 											<button data-widget-id="{$WIDGET->get('widgetid')}" class="removeWidgetFromList btn btn-xs btn-danger pull-left" style="height:25px;margin:2px;">
-												<span class='fa fa-trash-o'></span>
+												<span class='fas fa-trash-alt'></span>
 											</button>
 										{/if}
 										<a class="pull-left" onclick="Vtiger_DashBoard_Js.addWidget(this, '{$WIDGET->getUrl()}')" href="javascript:void(0);"

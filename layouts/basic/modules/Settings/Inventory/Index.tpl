@@ -38,7 +38,7 @@
 							<td class="textAlignCenter {$WIDTHTYPE}"><input type="checkbox" class="status" {if !$RECORD->getStatus()}checked{/if} />
 								<div class="pull-right actions">
 									<a class="editInventory cursorPointer" data-url="{$RECORD->getEditUrl()}"><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fas fa-pencil-alt alignBottom"></span></a>&nbsp;
-									<a class="removeInventory cursorPointer" data-url="{$RECORD->getEditUrl()}"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fa fa-trash-o alignBottom"></span></a>&nbsp;
+									<a class="removeInventory cursorPointer" data-url="{$RECORD->getEditUrl()}"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignBottom"></span></a>&nbsp;
 								</div>
 							</td>
 						</tr>

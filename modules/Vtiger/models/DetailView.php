@@ -183,7 +183,7 @@ class Vtiger_DetailView_Model extends \App\Base
 						'url' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Trash&record=' . $recordModel->getId(),
 						'confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')
 					],
-					'linkicon' => 'fa fa-trash-o',
+					'linkicon' => 'fas fa-trash-alt',
 					'linkclass' => 'entityStateBtn',
 					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};"
 			]);

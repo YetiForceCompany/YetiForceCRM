@@ -35,7 +35,7 @@
 											<span class="fas fa-pencil-alt cursorPointer"></span>
 										</button>
 										<button class="btn btn-danger btn-xs marginLeft5 remove">
-											<span class="fa fa-trash-o cursorPointer"></span>
+											<span class="fas fa-trash-alt cursorPointer"></span>
 										</button>
 									</div>
 								</div>

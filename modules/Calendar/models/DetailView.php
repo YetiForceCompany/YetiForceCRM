@@ -93,7 +93,7 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 					'linktype' => 'DETAIL_VIEW_EXTENDED',
 					'linklabel' => 'LBL_MOVE_TO_TRASH',
 					'linkurl' => 'javascript:Calendar_Detail_Js.deleteRecord("index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Trash&record=' . $recordModel->getId() . '")',
-					'linkicon' => 'fa fa-trash-o',
+					'linkicon' => 'fas fa-trash-alt',
 					'linkclass' => 'entityStateBtn',
 					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
 					'title' => \App\Language::translate('LBL_MOVE_TO_TRASH')

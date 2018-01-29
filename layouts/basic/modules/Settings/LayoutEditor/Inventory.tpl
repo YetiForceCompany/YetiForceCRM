@@ -28,7 +28,7 @@
 								<a href="#" class="editInventoryField">
 									<span class="fas fa-pencil-alt alignMiddle" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 								</a>
-								<a class="deleteInventoryField"><span title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fa fa-trash-o alignMiddle"></span></a>
+								<a class="deleteInventoryField"><span title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fas fa-trash-alt alignMiddle"></span></a>
 							</span>
 						</div>
 					</li>
@@ -65,7 +65,7 @@
 								<a href="#" class="editInventoryField">
 									<span class="fas fa-pencil-alt alignMiddle" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 								</a>
-								<a class="deleteInventoryField"><span title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fa fa-trash-o alignMiddle"></span></a>
+								<a class="deleteInventoryField"><span title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fas fa-trash-alt alignMiddle"></span></a>
 							</span>
 						</div>
 					</li>
@@ -102,7 +102,7 @@
 								<a href="#" class="editInventoryField">
 									<span class="fas fa-pencil-alt alignMiddle" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 								</a>
-								<a class="deleteInventoryField"><span title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fa fa-trash-o alignMiddle"></span></a>
+								<a class="deleteInventoryField"><span title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fas fa-trash-alt alignMiddle"></span></a>
 							</span>
 						</div>
 					</li>
@@ -121,7 +121,7 @@
 			<a href="#" class="editInventoryField">
 				<span class="fas fa-pencil-alt alignMiddle" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 			</a>
-			<a class="deleteInventoryField"><span title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fa fa-trash-o alignMiddle"></span></a>
+			<a class="deleteInventoryField"><span title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fas fa-trash-alt alignMiddle"></span></a>
 		</span>
 	</div>
 </li>

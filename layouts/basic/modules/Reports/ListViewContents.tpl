@@ -63,7 +63,7 @@
 								{if $REPORT_MODEL->isEditable()}
 									<a href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fas fa-pencil-alt alignMiddle"></span></a>&nbsp;
 									{if $LISTVIEW_ENTRY->isDefault() eq false}
-										<a class="deleteRecordButton"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fa fa-trash-o alignMiddle"></span></a>
+										<a class="deleteRecordButton"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignMiddle"></span></a>
 									{/if}
 								{/if}
 							</span>
