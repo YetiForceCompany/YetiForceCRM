@@ -168,7 +168,7 @@ class Vtiger_DetailView_Model extends \App\Base
 						'url' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Archived&record=' . $recordModel->getId(),
 						'confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC')
 					],
-					'linkicon' => 'fa fa-archive',
+					'linkicon' => 'fas fa-archive',
 					'linkclass' => 'entityStateBtn',
 					'style' => empty($stateColors['Archived']) ? '' : "background: {$stateColors['Archived']};"
 			]);
