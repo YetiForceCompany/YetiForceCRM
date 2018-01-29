@@ -48,7 +48,7 @@
 					{if \App\Privilege::isPermitted('Notification', 'DetailView')}
 						<a class="btn btn-light btn-sm isBadge notificationsNotice popoverTooltip {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if} hidden-xs hidden-sm" data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}">
 							<span class="fas fa-bell" aria-hidden="true"></span>
-							<span class="badge hide">0</span>
+							<span hidden class="badge">0</span>
 						</a>
 					{/if}
 					{if isset($CHAT_ENTRIES)}
@@ -76,7 +76,7 @@
 					{if $REMINDER_ACTIVE}
 						<a class="btn btn-light btn-sm isBadge remindersNotice popoverTooltip {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if} hidden-xs hidden-sm" data-content="{\App\Language::translate('LBL_REMINDER')}" href="#">
 							<span class="fas fa-calendar-alt" aria-hidden="true"></span>
-							<span class="badge bgDanger hide">0</span>
+							<span hidden class="badge bgDanger">0</span>
 						</a>
 					{/if}
 					{if AppConfig::performance('BROWSING_HISTORY_WORKING')}
