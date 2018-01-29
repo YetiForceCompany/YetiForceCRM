@@ -47,7 +47,7 @@
 					{/if}
 					{if \App\Privilege::isPermitted('Notification', 'DetailView')}
 						<a class="btn btn-default btn-sm isBadge notificationsNotice popoverTooltip {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if} hidden-xs hidden-sm" data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}">
-							<span class="fa fa-bell" aria-hidden="true"></span>
+							<span class="fas fa-bell" aria-hidden="true"></span>
 							<span class="badge hide">0</span>
 						</a>
 					{/if}
