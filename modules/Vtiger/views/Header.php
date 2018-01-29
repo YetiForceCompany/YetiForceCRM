@@ -86,7 +86,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 			'linktype' => 'HEADERLINK',
 			'linklabel' => 'LBL_SIGN_OUT',
 			'linkurl' => 'index.php?module=Users&parent=Settings&action=Logout',
-			'glyphicon' => 'fa fa-power-off',
+			'glyphicon' => 'fas fa-power-off',
 			'linkclass' => 'btn-danger'
 		];
 		$headerLinkInstances = [];
