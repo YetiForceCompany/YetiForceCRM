@@ -131,7 +131,7 @@
 																<span class="pull-right actions">
 																	<input type="hidden" value="{$FIELD_MODEL->getName()}" id="relatedFieldValue{$FIELD_MODEL->get('id')}" />
 																	<button class="btn btn-primary btn-xs copyFieldLabel pull-right marginLeft5" data-target="relatedFieldValue{$FIELD_MODEL->get('id')}">
-																		<span class="glyphicon glyphicon-copy" title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
+																		<span class="fas fa-copy" title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
 																	</button>
 																	{if $FIELD_MODEL->isEditable()}
 																		<button class="btn btn-success btn-xs editFieldDetails marginLeft5">
@@ -173,7 +173,7 @@
 																</span>
 																<span class="pull-right actions">
 																	<button class="btn btn-primary btn-xs copyFieldLabel pull-right marginLeft5" data-target="relatedFieldValue{$FIELD_MODEL->get('id')}">
-																		<span class="glyphicon glyphicon-copy" title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
+																		<span class="fas fa-copy" title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
 																	</button>
 																	<input type="hidden" value="{$FIELD_MODEL->getName()}" id="relatedFieldValue{$FIELD_MODEL->get('id')}" />
 																	{if $FIELD_MODEL->isEditable()}

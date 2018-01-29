@@ -118,7 +118,7 @@
 								<div class="col-md-1">
 									<input type="hidden" value="" id="customVariable" />
 									<button class="btn btn-sm btn-info pull-right" id="customVariableCopy" title="{\App\Language::translate('LBL_COPY_CV', $QUALIFIED_MODULE)}">
-										<span class="glyphicon glyphicon-copy"></span>
+										<span class="fas fa-copy"></span>
 									</button>
 								</div>
 							</div>
