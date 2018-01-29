@@ -95,7 +95,7 @@
 											  title="{\App\Language::translate('LBL_CLEAR', $QUALIFIED_MODULE)}"></span>
 									</button>
 									<button class="btn btn-default relatedPopup" type="button">
-										<span class="fa fa-search" 
+										<span class="fas fa-search" 
 											title="{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}"></span>
 									</button>
 								</span>

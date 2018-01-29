@@ -196,7 +196,7 @@
 				<div class="input-group-btn">
 					<div class="pull-right">
 						<button class="btn btn-default searchIcon" type="button">
-							<span class="fa fa-search"></span>
+							<span class="fas fa-search"></span>
 						</button>
 					</div>
 				</div>

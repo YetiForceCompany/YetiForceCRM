@@ -156,7 +156,7 @@
 							<input type="text" class="form-control globalSearchValue" title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10" data-operator="contains" />
 							<span class="input-group-btn">
 								<button class="btn btn-default searchIcon" type="button">
-									<span class="fa fa-search"></span>
+									<span class="fas fa-search"></span>
 								</button>
 								{if AppConfig::search('GLOBAL_SEARCH_OPERATOR')}
 									<div class="btn-group">
@@ -195,7 +195,7 @@
 					<div class="pull-left searchMenuBtn">
 						<div class="quickAction">
 							<a class="btn btn-default btn-sm" href="#">
-								<span aria-hidden="true" class="fa fa-search"></span>
+								<span aria-hidden="true" class="fas fa-search"></span>
 							</a>
 						</div>
 					</div>

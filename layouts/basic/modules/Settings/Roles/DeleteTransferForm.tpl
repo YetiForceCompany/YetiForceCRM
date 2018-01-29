@@ -34,7 +34,7 @@
 									</span>
 									<input id="transfer_record_display" data-validation-engine='validate[required]' name="transfer_record_display" readonly type="text" class="input-medium form-control" required value="">
 									<span class="input-group-addon cursorPointer relatedPopup" data-field="transfer_record" data-action="popup" data-url="{$RECORD_MODEL->getPopupWindowUrl()}&type=Transfer">
-										<i class="fa fa-search"></i>
+										<i class="fas fa-search"></i>
 									</span>
 								</div>
 							</div>
