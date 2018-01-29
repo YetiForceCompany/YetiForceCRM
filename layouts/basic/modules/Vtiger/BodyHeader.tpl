@@ -81,7 +81,7 @@
 					{/if}
 					{if AppConfig::performance('BROWSING_HISTORY_WORKING')}
 						<a class="btn btn-default btn-sm showHistoryBtn popoverTooltip dropdownMenu hidden-xs hidden-sm" data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#">
-							<i class="fa fa-history" aria-hidden="true"></i>
+							<i class="fas fa-history" aria-hidden="true"></i>
 						</a>
 						{include file=\App\Layout::getTemplatePath('BrowsingHistory.tpl', $MODULE)}
 					{/if}
