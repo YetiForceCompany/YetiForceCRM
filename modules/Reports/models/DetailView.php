@@ -55,7 +55,7 @@ class Reports_DetailView_Model extends Vtiger_DetailView_Model
 			$detailViewLinks[] = [
 				'linklabel' => \App\Language::translate('LBL_REPORT_CSV', $moduleName),
 				'linkurl' => $recordModel->getReportCSVURL(),
-				'linkicon' => 'fa fa-file-text-o'
+				'linkicon' => 'far fa-file-alt'
 			];
 
 			$detailViewLinks[] = [
