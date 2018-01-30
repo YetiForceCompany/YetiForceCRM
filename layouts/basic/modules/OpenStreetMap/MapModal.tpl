@@ -69,7 +69,7 @@
 						<input type="text" readonly="readonly" class="form-control start" />
 						<div class="input-group-btn">
 							<button class="btn btn-success btn-sm setView">
-								<span class="fa fa-truck"></span>
+								<span class="fas  fa-truck"></span>
 							</button>
 						</div>
 					</div>
