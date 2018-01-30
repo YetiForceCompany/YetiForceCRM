@@ -128,7 +128,7 @@
 						</div>
 					{/foreach}
 					<div class="col-xs-12">
-						<button class="btn btn-success btn-sm copyToClipboard pull-right"><span class="fa fa-clipboard"></span>&nbsp;{\App\Language::translate('LBL_COPY_TO_CLIPBOARD', $MODULE_NAME)}</button>
+						<button class="btn btn-success btn-sm copyToClipboard pull-right"><span class="fas fa-paste"></span>&nbsp;{\App\Language::translate('LBL_COPY_TO_CLIPBOARD', $MODULE_NAME)}</button>
 					</div>
 				</div>
 			</div>
