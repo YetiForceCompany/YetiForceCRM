@@ -35,7 +35,7 @@ class ThemeExport extends Package
 	public function __initExport($layoutName, $themeName)
 	{
 		// Security check to ensure file is withing the web folder.
-		Utils::checkFileAccessForInclusion("layouts/$layoutName/skins/$themeName/style.less");
+		Utils::checkFileAccessForInclusion("layouts/$layoutName/styles/skins/$themeName/style.less");
 
 		$this->_export_modulexml_file = fopen($this->__getManifestFilePath(), 'w');
 		$this->__write("<?xml version='1.0'?>\n");
