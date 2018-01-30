@@ -20,7 +20,7 @@
 		{foreach key=ITER item=IMAGE_INFO from=$IMAGES}
 			<div class="multiImageContenDiv pull-left" title="{$IMAGE_INFO.name}">
 				<div class="contentImage">
-					<button type="button" class="btn btn-sm btn-default imageFullModal hide"><span class="glyphicon glyphicon-fullscreen"></span></button>
+					<button type="button" class="btn btn-sm btn-light imageFullModal hide"><span class="glyphicon glyphicon-fullscreen"></span></button>
 					<img src="{$FIELD_MODEL->getUITypeModel()->getImagePath($IMAGE_INFO.attachmentid, $RECORD_ID)}" class="multiImageListIcon"></div>
 				<span class="btn btn-danger btn-xs multiImageDelete fas fa-trash-alt" data-id="{$IMAGE_INFO.attachmentid}"></span>&nbsp;
 			</div>

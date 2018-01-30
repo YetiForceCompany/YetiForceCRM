@@ -18,11 +18,11 @@
 			{/if}
 			<div class="row">
 				<div class="col-md-4 btn-toolbar">
-					<button class="btn btn-default addButton" id="addButton" data-url="{Settings_PDF_Module_Model::getCreateRecordUrl()}">
+					<button class="btn btn-light addButton" id="addButton" data-url="{Settings_PDF_Module_Model::getCreateRecordUrl()}">
 						<i class="fas fa-plus"></i>&nbsp;
 						<strong>{\App\Language::translate('LBL_NEW', $QUALIFIED_MODULE)} {\App\Language::translate('LBL_PDF_TEMPLATE',$QUALIFIED_MODULE)}</strong>
 					</button>
-					<button class="btn btn-default importButton" id="importButton" data-url="{Settings_PDF_Module_Model::getImportViewUrl()}" title="{\App\Language::translate('LBL_IMPORT_TEMPLATE', $QUALIFIED_MODULE)}">
+					<button class="btn btn-light importButton" id="importButton" data-url="{Settings_PDF_Module_Model::getImportViewUrl()}" title="{\App\Language::translate('LBL_IMPORT_TEMPLATE', $QUALIFIED_MODULE)}">
 						<i class="fas fa-download"></i>
 					</button>
 				</div>

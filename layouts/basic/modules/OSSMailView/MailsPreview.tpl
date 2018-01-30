@@ -10,11 +10,11 @@
 							<h4 class="modal-title">{\App\Language::translate('LBL_RECORDS_LIST','OSSMailView')}</h4>
 						</div>
 						<div class="col-md-3">
-							<button type="button" class="btn btn-default expandAllMails">
+							<button type="button" class="btn btn-light expandAllMails">
 								{\App\Language::translate('LBL_EXPAND_ALL','OSSMailView')}
 							</button>
 							&nbsp;&nbsp;
-							<button type="button" class="btn btn-default collapseAllMails">
+							<button type="button" class="btn btn-light collapseAllMails">
 								{\App\Language::translate('LBL_COLLAPSE_ALL','OSSMailView')}
 							</button>
 						</div>
@@ -34,10 +34,10 @@
 									{if \App\Privilege::isPermitted('OSSMailView', 'DetailView', $ROW['id'])}
 										<div class="col-md-12 mailActions">
 											<div class="pull-left">
-												<a title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL','OSSMailView')}" class="showMailBody btn btn-sm btn-default" >
+												<a title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL','OSSMailView')}" class="showMailBody btn btn-sm btn-light" >
 													<span class="body-icon glyphicon glyphicon-triangle-bottom"></span>
 												</a>&nbsp;
-												<button type="button" class="btn btn-sm btn-default showMailModal" data-url="{$ROW['url']}" title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL','OSSMailView')}">
+												<button type="button" class="btn btn-sm btn-light showMailModal" data-url="{$ROW['url']}" title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL','OSSMailView')}">
 													<span class="body-icon fas fa-search"></span>
 												</button>
 											</div>
@@ -45,23 +45,23 @@
 												{if AppConfig::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}
 													{if $USER_MODEL->get('internal_mailer') == 1}
 														{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($SMODULENAME, $SRECORD, 'Detail')}
-														<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=reply" data-popup="{$POPUP}" title="{\App\Language::translate('LBL_REPLY','OSSMailView')}">
+														<button type="button" class="btn btn-sm btn-light sendMailBtn" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=reply" data-popup="{$POPUP}" title="{\App\Language::translate('LBL_REPLY','OSSMailView')}">
 															<img width="14px" src="{\App\Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{\App\Language::translate('LBL_REPLY','OSSMailView')}">
 														</button>
-														<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=replyAll" data-popup="{$POPUP}" title="{\App\Language::translate('LBL_REPLYALLL','OSSMailView')}">
+														<button type="button" class="btn btn-sm btn-light sendMailBtn" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=replyAll" data-popup="{$POPUP}" title="{\App\Language::translate('LBL_REPLYALLL','OSSMailView')}">
 															<img width="14px" src="{\App\Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{\App\Language::translate('LBL_REPLYALLL','OSSMailView')}">
 														</button>
-														<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=forward" data-popup="{$POPUP}" title="{\App\Language::translate('LBL_FORWARD','OSSMailView')}">
+														<button type="button" class="btn btn-sm btn-light sendMailBtn" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=forward" data-popup="{$POPUP}" title="{\App\Language::translate('LBL_FORWARD','OSSMailView')}">
 															<span class="fa fa-share"></span>
 														</button>
 													{else}
-														<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'reply')}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
+														<a class="btn btn-sm btn-light" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'reply')}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
 															<img width="14px" src="{\App\Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{\App\Language::translate('LBL_REPLY','OSSMailView')}">
 														</a>
-														<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'replyAll')}" title="{\App\Language::translate('LBL_REPLYALLL', 'OSSMailView')}">
+														<a class="btn btn-sm btn-light" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'replyAll')}" title="{\App\Language::translate('LBL_REPLYALLL', 'OSSMailView')}">
 															<img width="14px" src="{\App\Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{\App\Language::translate('LBL_REPLYALLL','OSSMailView')}">
 														</a>
-														<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'forward')}" title="{\App\Language::translate('LBL_FORWARD', 'OSSMailView')}">
+														<a class="btn btn-sm btn-light" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'forward')}" title="{\App\Language::translate('LBL_FORWARD', 'OSSMailView')}">
 															<span class="fa fa-share"></span>
 														</a>
 													{/if}

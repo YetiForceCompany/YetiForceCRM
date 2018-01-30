@@ -4,7 +4,7 @@
 		<div class="col-md-2"><strong>{\App\Language::translate('LBL_SET_FIELD_VALUES',$QUALIFIED_MODULE)}</strong></div>
 	</div><br />
 	<div>
-		<button type="button" class="btn btn-default" id="addFieldBtn">{\App\Language::translate('LBL_ADD_FIELD',$QUALIFIED_MODULE)}</button>
+		<button type="button" class="btn btn-light" id="addFieldBtn">{\App\Language::translate('LBL_ADD_FIELD',$QUALIFIED_MODULE)}</button>
 	</div><br />
 	<div class="row conditionsContainer" id="save_fieldvaluemapping">
 		{assign var=FIELD_VALUE_MAPPING value=\App\Json::decode($TASK_OBJECT->field_value_mapping)}

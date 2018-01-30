@@ -104,14 +104,14 @@
 							<div class="pull-right marginBottom5">
 								{if $RELATED_RECORD->isViewable()}
 									<a class="addButton" href="{$RELATED_RECORD->getFullDetailViewUrl()}">
-										<button class="btn btn-sm btn-default popoverTooltip" type="button">
+										<button class="btn btn-sm btn-light popoverTooltip" type="button">
 											<span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="fa fa-th-list"></span>
 										</button>
 									</a>
 								{/if}
 								{if $RELATED_RECORD->isEditable()}
 									<a class="addButton" href="{$RELATED_RECORD->getEditViewUrl()}">
-										<button class="btn btn-sm btn-default popoverTooltip" type="button">
+										<button class="btn btn-sm btn-light popoverTooltip" type="button">
 											<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fas fa-pencil-alt"></span>
 										</button>
 									</a>

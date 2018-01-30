@@ -77,7 +77,7 @@
 						<input type="text" class="fieldValue col-md-4 addNewElement form-control">
 					</div>
 					<div class="col-xs-6 paddingLeft5px">
-						<a class="btn btn-default addNewElementBtn"><strong>{\App\Language::translate('LBL_ADD_TO_TREES', $QUALIFIED_MODULE)}</strong></a>
+						<a class="btn btn-light addNewElementBtn"><strong>{\App\Language::translate('LBL_ADD_TO_TREES', $QUALIFIED_MODULE)}</strong></a>
 					</div>
 				</div>
 			</div>

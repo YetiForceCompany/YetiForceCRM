@@ -21,7 +21,7 @@
 				value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}"
 				data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if}>
 		<span class="input-group-btn">
-			<button class="btn btn-default" type="button" onmousedown="{$FIELD_NAME}.type='text';" onmouseup="{$FIELD_NAME}.type='password';" onmouseout="{$FIELD_NAME}.type='password';">
+			<button class="btn btn-light" type="button" onmousedown="{$FIELD_NAME}.type='text';" onmouseup="{$FIELD_NAME}.type='password';" onmouseout="{$FIELD_NAME}.type='password';">
 				<span class="fas fa-eye"></span>
 			</button>
 		</span>

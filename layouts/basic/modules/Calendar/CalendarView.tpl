@@ -22,7 +22,7 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 			<div class="pull-right col-xs-1 col-sm-1">
-				<button class="pull-right btn btn-default btn-sm addButton marginRight10">
+				<button class="pull-right btn btn-light btn-sm addButton marginRight10">
 					<span class="fas fa-plus"></span>
 				</button>
 			</div>

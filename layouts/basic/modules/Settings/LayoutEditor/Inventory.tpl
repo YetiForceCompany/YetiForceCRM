@@ -7,7 +7,7 @@
 				<button class="btn btn-success saveFieldSequence invisible inventorySequence"  type="button">
 					<strong>{App\Language::translate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
 				</button>
-				<button class="btn btn-default addInventoryField" type="button">
+				<button class="btn btn-light addInventoryField" type="button">
 					<strong>{App\Language::translate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
 				</button>
 			</div>
@@ -44,7 +44,7 @@
 				<button class="btn btn-success saveFieldSequence invisible inventorySequence"  type="button">
 					<strong>{App\Language::translate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
 				</button>
-				<button class="btn btn-default addInventoryField" type="button">
+				<button class="btn btn-light addInventoryField" type="button">
 					<strong>{App\Language::translate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
 				</button>
 			</div>
@@ -81,7 +81,7 @@
 				<button class="btn btn-success saveFieldSequence invisible inventorySequence"  type="button">
 					<strong>{App\Language::translate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
 				</button>
-				<button class="btn btn-default addInventoryField" type="button">
+				<button class="btn btn-light addInventoryField" type="button">
 					<strong>{App\Language::translate('LBL_ADD_CUSTOM_FIELD', $QUALIFIED_MODULE)}</strong>
 				</button>
 			</div>

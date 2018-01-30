@@ -29,7 +29,7 @@
 			</select>
 		</td>
 		<td class="textAlignCenter">
-			<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-default delate">
+			<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-light delate">
 				<i class="fas fa-trash-alt"></i>
 			</button>
 		</td>

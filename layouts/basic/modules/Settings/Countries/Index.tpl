@@ -20,7 +20,7 @@
 								{\App\Purifier::encodeHtml(\App\Language::translate('LBL_ACTIONS',$QUALIFIED_MODULE))}
 							</span>
 							<span>
-								<button class="all-statuses btn btn-default btn-xs popoverTooltip" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_COUNTRY_TOGGLE_ALL_STATUSES', $QUALIFIED_MODULE))}">
+								<button class="all-statuses btn btn-light btn-xs popoverTooltip" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_COUNTRY_TOGGLE_ALL_STATUSES', $QUALIFIED_MODULE))}">
 									<span class="glyphicon glyphicon-check"></span>
 								</button>
 							</span>
@@ -41,12 +41,12 @@
 							</td>
 							<td nowrap class="{$WIDTHTYPE} actionImages">
 								<span class="pull-right actions">
-									<button class="to-bottom btn btn-default btn-xs popoverTooltip" data-placement="left" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_ROW_TO_BOTTOM', $QUALIFIED_MODULE))}">
+									<button class="to-bottom btn btn-light btn-xs popoverTooltip" data-placement="left" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_ROW_TO_BOTTOM', $QUALIFIED_MODULE))}">
 										<span class="glyphicon glyphicon-arrow-down"></span>
 									</button>
 								</span>
 								<span class="pull-right actions">
-									<button class="to-top btn btn-default btn-xs marginLeft20 popoverTooltip" data-placement="left" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_ROW_TO_TOP', $QUALIFIED_MODULE))}">
+									<button class="to-top btn btn-light btn-xs marginLeft20 popoverTooltip" data-placement="left" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_ROW_TO_TOP', $QUALIFIED_MODULE))}">
 										<span class="glyphicon glyphicon-arrow-up"></span>
 									</button>
 								</span>

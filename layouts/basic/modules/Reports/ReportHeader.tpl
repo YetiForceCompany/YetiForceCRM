@@ -55,7 +55,7 @@
 								{foreach item=DETAILVIEW_LINK from=$DETAILVIEW_LINKS}
 									{assign var=LINKNAME value=$DETAILVIEW_LINK->getLabel()}
 									<div class="btn-group">
-										<button class="btn reportActions btn-default" name="{$LINKNAME}" data-href="{$DETAILVIEW_LINK->getUrl()}">
+										<button class="btn reportActions btn-light" name="{$LINKNAME}" data-href="{$DETAILVIEW_LINK->getUrl()}">
 											{if $DETAILVIEW_LINK->getIcon()}<span class="{$DETAILVIEW_LINK->getIcon()}"></span>{/if}&nbsp;&nbsp;
 											<strong>{$LINKNAME}</strong>
 										</button>

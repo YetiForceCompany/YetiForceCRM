@@ -95,7 +95,7 @@
 											{if $PROFILE_MODULE->getFields() || $PROFILE_MODULE->isUtilityActionEnabled()}
 												<div class="row">
 													<span class="col-md-4">&nbsp;</span>
-													<span class="col-md-4"><button type="button" data-handlerfor="fields" data-togglehandler="{$TABID}-fields" class="btn btn-xs btn-default" style="padding-right: 20px; padding-left: 20px;">
+													<span class="col-md-4"><button type="button" data-handlerfor="fields" data-togglehandler="{$TABID}-fields" class="btn btn-xs btn-light" style="padding-right: 20px; padding-left: 20px;">
 															<i class="glyphicon glyphicon-chevron-down"></i>
 														</button></span>
 												</div>

@@ -29,7 +29,7 @@
 								<div class="input-group">
 									<input type="text" class="form-control channelRss" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator='[ { "name":"Url" } ]'  />
 									<span class="input-group-btn">
-										<button class="removeChannel btn btn-default" type="button"><span class="fas fa-times"></span></button>
+										<button class="removeChannel btn btn-light" type="button"><span class="fas fa-times"></span></button>
 									</span>
 								</div>
 							</div>
@@ -40,7 +40,7 @@
 								<div class="input-group">
 									<input type="text" disabled="disabled" class="form-control channelRss" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator='[ { "name":"Url" } ]' />
 									<span class="input-group-btn">
-										<button class="removeChannel btn btn-default" type="button"><span class="fas fa-times"></span></button>
+										<button class="removeChannel btn btn-light" type="button"><span class="fas fa-times"></span></button>
 									</span>
 								</div>
 							</div>

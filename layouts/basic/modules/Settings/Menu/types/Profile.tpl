@@ -12,7 +12,7 @@
 		<div class="input-group">
 			<input name="icon" class="form-control" type="text" value="{if $RECORD}{$RECORD->get('icon')}{/if}" />
 			<span class="input-group-btn">
-				<button id="selectIconButton" class="btn btn-default" title="{\App\Language::translate('LBL_SELECT_ICON',$QUALIFIED_MODULE)}" type="button"><span class="fa fa-info-circle"></span></button>
+				<button id="selectIconButton" class="btn btn-light" title="{\App\Language::translate('LBL_SELECT_ICON',$QUALIFIED_MODULE)}" type="button"><span class="fa fa-info-circle"></span></button>
 			</span>
 		</div>
 	</div>

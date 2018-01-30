@@ -71,7 +71,7 @@
 												</button>
 											{/if}
 											{assign var=FAVORITES value=$MODULE_MODEL->isFavorites()}
-											<button type="button" class="btn btn-default addToFavorites" data-state="{$MODULE_MODEL->get('favorites')}">
+											<button type="button" class="btn btn-light addToFavorites" data-state="{$MODULE_MODEL->get('favorites')}">
 												<span class="fa fa-star {if !$FAVORITES}hide{/if}" title="{\App\Language::translate('LBL_DEACTIVATE_FAVORITES', $QUALIFIED_MODULE)}"></span>
 												<span class="fa fa-star-o {if $FAVORITES}hide{/if}" title="{\App\Language::translate('LBL_ACTIVATE_FAVORITES', $QUALIFIED_MODULE)}"></span>	
 											</button>

@@ -33,7 +33,7 @@
 		<div class="btn-elements text-center">
 			{foreach item=TEMPLATE from=$TEMPLATES}
 				{assign var=RELATED_MODEL value=$TEMPLATE->getRelatedModule()}
-				<button class="btn btn-default genetateButton" data-id="{$TEMPLATE->getId()}" data-name="{$RELATED_MODEL->getName()}" data-url="{$RELATED_MODEL->getCreateRecordUrl()|cat:"&reference_id=$RECORD"}">
+				<button class="btn btn-light genetateButton" data-id="{$TEMPLATE->getId()}" data-name="{$RELATED_MODEL->getName()}" data-url="{$RELATED_MODEL->getCreateRecordUrl()|cat:"&reference_id=$RECORD"}">
 					<span class="userIcon-{$TEMPLATE->getRelatedName()}"></span>
 					&nbsp;{\App\Language::translate($TEMPLATE->getRelatedName(), $TEMPLATE->getRelatedName())}
 				</button>

@@ -42,8 +42,8 @@
 								<div class="btn-group alignTop margin0px">
 									<span class="pull-right">
 										<span class="btn-group" role="group">
-											<button class="btn btn-default" role="group" id="listViewPreviousPageButton" {if !$PAGING_MODEL->isPrevPageExists()} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-left"></span></button>
-											<button class="btn btn-default dropdown-toggle" role="group" type="button" id="listViewPageJump" data-toggle="dropdown" {if $PAGE_COUNT eq 1} disabled {/if}>
+											<button class="btn btn-light" role="group" id="listViewPreviousPageButton" {if !$PAGING_MODEL->isPrevPageExists()} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-left"></span></button>
+											<button class="btn btn-light dropdown-toggle" role="group" type="button" id="listViewPageJump" data-toggle="dropdown" {if $PAGE_COUNT eq 1} disabled {/if}>
 												<span class="vtGlyph vticon-pageJump" title="{\App\Language::translate('LBL_LISTVIEW_PAGE_JUMP',$moduleName)}"></span>
 											</button>
 											<ul class="listViewBasicAction dropdown-menu" id="listViewPageJumpDropDown">
@@ -60,7 +60,7 @@
 													</div>
 												</li>
 											</ul>
-											<button class="btn btn-default" id="listViewNextPageButton" {if (!$PAGING_MODEL->isNextPageExists()) or ($PAGE_COUNT eq 1)} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-right"></span></button>
+											<button class="btn btn-light" id="listViewNextPageButton" {if (!$PAGING_MODEL->isNextPageExists()) or ($PAGE_COUNT eq 1)} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-right"></span></button>
 										</span>
 									</span>	
 								</div>

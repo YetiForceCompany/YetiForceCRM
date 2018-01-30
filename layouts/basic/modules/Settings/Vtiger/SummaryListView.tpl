@@ -9,7 +9,7 @@
 				<div class="pull-right">
 					<div class="btn-toolbar">
 						<span class="btn-group">
-							<a class="btn btn-xs vtButton btn-default" href="javascript:window.history.back();">Back ...</a>
+							<a class="btn btn-xs vtButton btn-light" href="javascript:window.history.back();">Back ...</a>
 						</span>
 					</div>
 				</div>

@@ -38,7 +38,7 @@
 			<tbody>
 				<tr>
 					<td>
-						<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="fas fa-search"></span></a>
+						<a class="btn btn-light" data-trigger="listSearch" href="javascript:void(0);"><span class="fas fa-search"></span></a>
 					</td>
 					{assign var="FILTER_FIELDS" value=$MODULE_MODEL->getFilterFields()}
 					{assign var="SMTP_NAMES" value=Settings_MailSmtp_Module_Model::getSmtpNames()}

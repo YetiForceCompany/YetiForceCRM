@@ -38,7 +38,7 @@
 									{assign var="CRMENTITY" value=CRMEntity::getInstance($MAIN_MODULE)}
 									<span class="btn-group">
 										<button type="button" data-module="{$MAIN_MODULE}" data-field="{$CRMENTITY->table_index}" 
-												data-wysiwyg="{$INVENTORY_FIELD->isWysiwygType($MAIN_MODULE)}" class="btn btn-default addItem">
+												data-wysiwyg="{$INVENTORY_FIELD->isWysiwygType($MAIN_MODULE)}" class="btn btn-light addItem">
 											<span class="fas fa-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_ADD',$MODULE)} {\App\Language::translate('SINGLE_'|cat:$MAIN_MODULE,$MAIN_MODULE)}</strong>
 										</button>
 									</span>

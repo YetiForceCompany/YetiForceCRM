@@ -16,10 +16,10 @@
 				{if strpos($CHILD_ROLE->getParentRoleString(), $SOURCE_ROLE_SUBPATTERN) !== false}
 					<a href="{$CHILD_ROLE->getEditViewUrl()}" data-url="{$CHILD_ROLE->getEditViewUrl()}" class="btn btn-info" rel="tooltip" >{\App\Language::translate($CHILD_ROLE->getName(),$QUALIFIED_MODULE)}</a>
 				{else}
-					<a href="{$CHILD_ROLE->getEditViewUrl()}" data-url="{$CHILD_ROLE->getEditViewUrl()}" class="btn btn-default roleEle" rel="tooltip" >{\App\Language::translate($CHILD_ROLE->getName(),$QUALIFIED_MODULE)}</a>
+					<a href="{$CHILD_ROLE->getEditViewUrl()}" data-url="{$CHILD_ROLE->getEditViewUrl()}" class="btn btn-light roleEle" rel="tooltip" >{\App\Language::translate($CHILD_ROLE->getName(),$QUALIFIED_MODULE)}</a>
 				{/if}
 			{else}
-					<a href="{$CHILD_ROLE->getEditViewUrl()}" data-url="{$CHILD_ROLE->getEditViewUrl()}" class="btn btn-default draggable droppable" rel="tooltip" title="{\App\Language::translate('LBL_CLICK_TO_EDIT_OR_DRAG_TO_MOVE',$QUALIFIED_MODULE)}">{\App\Language::translate($CHILD_ROLE->getName(),$QUALIFIED_MODULE)}</a>
+					<a href="{$CHILD_ROLE->getEditViewUrl()}" data-url="{$CHILD_ROLE->getEditViewUrl()}" class="btn btn-light draggable droppable" rel="tooltip" title="{\App\Language::translate('LBL_CLICK_TO_EDIT_OR_DRAG_TO_MOVE',$QUALIFIED_MODULE)}">{\App\Language::translate($CHILD_ROLE->getName(),$QUALIFIED_MODULE)}</a>
 			{/if}
 			{if $VIEW != 'Popup'}
 			<div class="toolbar">

@@ -14,7 +14,7 @@
 		<div class="col-md-4">
 			<div class="box pull-right">
 				{if !$WIDGET->isDefault()}
-					<a name="dclose" class="btn btn-xs btn-default widget" data-url="{$WIDGET->getDeleteUrl()}">
+					<a name="dclose" class="btn btn-xs btn-light widget" data-url="{$WIDGET->getDeleteUrl()}">
 						<span class="fas fa-times" hspace="2" border="0" align="absmiddle" title="{\App\Language::translate('LBL_CLOSE')}" alt="{\App\Language::translate('LBL_CLOSE')}"></span>
 					</a>
 				{/if}

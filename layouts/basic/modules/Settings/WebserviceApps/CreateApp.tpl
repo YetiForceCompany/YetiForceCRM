@@ -90,11 +90,11 @@
 									   placeholder="{\App\Language::translate('LBL_TYPE_SEARCH', $QUALIFIED_MODULE)}" 
 									   autocomplete="off">
 								<span class="input-group-btn cursorPointer">
-									<button class="btn btn-default clearReferenceSelection" type="button">
+									<button class="btn btn-light clearReferenceSelection" type="button">
 										<span class="fa fa-times-circle" 
 											  title="{\App\Language::translate('LBL_CLEAR', $QUALIFIED_MODULE)}"></span>
 									</button>
-									<button class="btn btn-default relatedPopup" type="button">
+									<button class="btn btn-light relatedPopup" type="button">
 										<span class="fas fa-search" 
 											title="{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}"></span>
 									</button>

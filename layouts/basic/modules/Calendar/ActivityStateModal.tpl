@@ -12,23 +12,23 @@
 						{if $RECORD->get('link') neq '' && $PERMISSION_TO_SENDE_MAIL}
 							{if $USER_MODEL->get('internal_mailer') == 1}
 								{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(\App\Record::getType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
-								<a target="_blank" class="btn btn-default" href="{$COMPOSE_URL}" title="{\App\Language::translate('LBL_SEND_EMAIL')}">
+								<a target="_blank" class="btn btn-light" href="{$COMPOSE_URL}" title="{\App\Language::translate('LBL_SEND_EMAIL')}">
 									<span class="fas fa-envelope" aria-hidden="true"></span>
 								</a>
 							{else}
 								{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl(\App\Record::getType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
 								{if $URLDATA && $URLDATA != 'mailto:?'}
-									<a class="btn btn-default" href="{$URLDATA}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
+									<a class="btn btn-light" href="{$URLDATA}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
 										<span class="fas fa-envelope" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
 									</a>
 								{/if}
 							{/if}
 						{/if}
 						{if $RECORD->isEditable()}
-							<a href="{$RECORD->getEditViewUrl()}" class="btn btn-default"><span class="fas fa-pencil-alt summaryViewEdit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span></a>
+							<a href="{$RECORD->getEditViewUrl()}" class="btn btn-light"><span class="fas fa-pencil-alt summaryViewEdit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span></a>
 							{/if}
 							{if $RECORD->isViewable()}
-							<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-default"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}" class="fa fa-th-list summaryViewEdit"></span></a>
+							<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-light"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}" class="fa fa-th-list summaryViewEdit"></span></a>
 							{/if}
 							{*<a target="_blank" href="index.php?module=Calendar&view=Detail&record={$RECORD->getId()}"></a>*}
 					</div>

@@ -20,7 +20,7 @@
 		<ul>
 			<li data-role="{$ROOT_ROLE->getParentRoleString()}" data-roleid="{$ROOT_ROLE->getId()}">
 				<div class="toolbar-handle">
-					<a href="javascript:;" class="btn btn-default draggable droppable">{\App\Language::translate($ROOT_ROLE->getName(), $QUALIFIED_MODULE)}</a>
+					<a href="javascript:;" class="btn btn-light draggable droppable">{\App\Language::translate($ROOT_ROLE->getName(), $QUALIFIED_MODULE)}</a>
 					<div class="toolbar" title="{\App\Language::translate('LBL_ADD_RECORD', $QUALIFIED_MODULE)}">
 						&nbsp;<a href="{$ROOT_ROLE->getCreateChildUrl()}" data-url="{$ROOT_ROLE->getCreateChildUrl()}" data-action="modal"><span class="fas fa-plus-circle"></span></a>
 					</div>

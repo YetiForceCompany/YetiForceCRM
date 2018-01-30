@@ -21,16 +21,16 @@
 			<div class="col-md-4">
 				<div class="box pull-right">
 					{if \App\Privilege::isPermitted('Calendar', 'CreateView')}
-						<a class="btn btn-xs btn-default" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
+						<a class="btn btn-xs btn-light" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
 								return false;">
 							<span class='fas fa-plus' border='0' title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
 						</a>
 					{/if}&nbsp;
-					<button class="btn btn-default btn-xs changeRecordSort" title="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}" alt="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}" data-sort="{if $DATA['sortorder'] eq 'desc'}asc{else}desc{/if}" data-asc="{\App\Language::translate('LBL_SORT_ASCENDING', $MODULE_NAME)}" data-desc="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}">
+					<button class="btn btn-light btn-xs changeRecordSort" title="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}" alt="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}" data-sort="{if $DATA['sortorder'] eq 'desc'}asc{else}desc{/if}" data-asc="{\App\Language::translate('LBL_SORT_ASCENDING', $MODULE_NAME)}" data-desc="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}">
 						<span class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true" ></span>
 					</button>
 					{if $LISTVIEWLINKS}&nbsp;
-						<button class="btn btn-default btn-xs goToListView" title="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST', $MODULE_NAME)}" >
+						<button class="btn btn-light btn-xs goToListView" title="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST', $MODULE_NAME)}" >
 							<span class="fa fa-th-list"></span>
 						</button>
 					{/if}&nbsp;

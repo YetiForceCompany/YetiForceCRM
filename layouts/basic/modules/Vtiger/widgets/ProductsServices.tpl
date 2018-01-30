@@ -2,32 +2,32 @@
 {strip}
 	<div class="addRelatedRecordBtn">
 		{if $RELATED_MODULE eq 'Products' && \App\Privilege::isPermitted('Assets')}
-			<button class="btn btn-xs btn-default showModal" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}" type="button" data-url="index.php?module=Products&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
+			<button class="btn btn-xs btn-light showModal" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}" type="button" data-url="index.php?module=Products&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
 				<span class="glyphicon glyphicon-zoom-in"></span>
 			</button>
 		{/if}
 		{if $RELATED_MODULE eq 'OutsourcedProducts' && \App\Privilege::isPermitted('Assets')}
-			<button class="btn btn-xs btn-default showModal" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}" type="button" data-module="OutsourcedProducts" data-url="index.php?module=OutsourcedProducts&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
+			<button class="btn btn-xs btn-light showModal" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}" type="button" data-module="OutsourcedProducts" data-url="index.php?module=OutsourcedProducts&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
 				<span class="glyphicon glyphicon-zoom-in" ></span>
 			</button>
 		{/if}
 		{if $RELATED_MODULE eq 'Assets' && \App\Privilege::isPermitted('Assets', 'CreateView')}
-			<button class="btn btn-xs btn-default" type="button" title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)}" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Assets')">
+			<button class="btn btn-xs btn-light" type="button" title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)}" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Assets')">
 				<span class="fas fa-plus-circle" ></span>
 			</button>
 		{/if}
 		{if $RELATED_MODULE eq 'Services' && \App\Privilege::isPermitted('Assets')}
-			<button class="btn btn-xs btn-default showModal" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}" type="button" data-url="index.php?module=Services&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
+			<button class="btn btn-xs btn-light showModal" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}" type="button" data-url="index.php?module=Services&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
 				<span class="glyphicon glyphicon-zoom-in"></span>
 			</button>
 		{/if}
 		{if $RELATED_MODULE eq 'OSSOutsourcedServices' && \App\Privilege::isPermitted('Assets')}
-			<button class="btn btn-xs btn-default showModal" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}" type="button" data-module="OSSOutsourcedServices" data-url="index.php?module=OSSOutsourcedServices&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
+			<button class="btn btn-xs btn-light showModal" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}" type="button" data-module="OSSOutsourcedServices" data-url="index.php?module=OSSOutsourcedServices&view=TreeCategoryModal&src_module={$SOURCE_MODULE}&src_record={$RECORDID}">
 				<span class="glyphicon glyphicon-zoom-in" ></span>
 			</button>
 		{/if}
 		{if $RELATED_MODULE eq 'OSSSoldServices' && \App\Privilege::isPermitted('OSSSoldServices', 'CreateView')}
-			<button class="btn btn-xs btn-default" type="button" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('OSSSoldServices')">
+			<button class="btn btn-xs btn-light" type="button" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('OSSSoldServices')">
 				<span class="fas fa-plus-circle" ></span>
 			</button>
 		{/if}
