@@ -21,7 +21,7 @@
 						</select>
 					</div>
 					<div class="col-md-8 col-sm-8 col-xs-6">
-						<button class="btn btn-success pull-right createFilter" type="button" data-editurl="{$MODULE_MODEL->getCreateFilterUrl($SOURCE_MODULE_ID)}"><span class="fas fa-plus"></span> {App\Language::translate('LBL_ADD_FILTER',$QUALIFIED_MODULE)}</button>
+						<button class="btn btn-success float-right createFilter" type="button" data-editurl="{$MODULE_MODEL->getCreateFilterUrl($SOURCE_MODULE_ID)}"><span class="fas fa-plus"></span> {App\Language::translate('LBL_ADD_FILTER',$QUALIFIED_MODULE)}</button>
 					</div>
 					
 				</div>

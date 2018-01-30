@@ -17,7 +17,7 @@
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				</div> 
 				<div class="col-md-4 btn-toolbar">
-					<div class="pull-right"> 
+					<div class="float-right"> 
 						<button class="btn btn-success" type="submit">{\App\Language::translate('LBL_SAVE',$QUALIFIED_MODULE)}</button>
 						<a class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="reset" title="{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</a> 
 					</div>
@@ -109,7 +109,7 @@
 												<div class="row" data-togglecontent="{$TABID}-fields">
 													<div class="col-md-12">
 														<label class="themeTextColor font-x-large float-left"><strong>{\App\Language::translate('LBL_FIELDS',$QUALIFIED_MODULE)}{if $MODULE_NAME eq 'Calendar'} {\App\Language::translate('LBL_OF', $MODULE_NAME)} {\App\Language::translate('LBL_TASKS', $MODULE_NAME)}{/if}</strong></label>
-														<div class="pull-right">
+														<div class="float-right">
 															<span class="mini-slider-control ui-slider" data-value="0">
 																<a style="margin-top: 3px;" class="ui-slider-handle"></a>
 															</span>
@@ -224,7 +224,7 @@
 													</div>
 												</div>
 												<br />
-												<div class="pull-right">
+												<div class="float-right">
 													<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_SAVE',$MODULE)}</strong></button>
 													<a class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="reset" title="{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 													<br /><br />

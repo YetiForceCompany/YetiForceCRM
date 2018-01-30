@@ -27,12 +27,12 @@
 			</form>
 		</div>
 		{include file=\App\Layout::getTemplatePath('PopupSearchActions.tpl', $MODULE_NAME)}
-		<div class="col-md-4 form-group pull-right">
+		<div class="col-md-4 form-group float-right">
 			{if $SOURCE_MODULE neq 'PriceBooks' && $SOURCE_FIELD neq 'productsRelatedList'}
 				<div class="popupPaging">
 					<div class="row">
 						<div class="col-md-12">
-							<div class="pull-right">
+							<div class="float-right">
 								<div class="pageNumbers">
 									<span class="pageNumbersText">{if !empty($LISTVIEW_ENTRIES)}{$PAGING_MODEL->getRecordStartRange()} {\App\Language::translate('LBL_TO_LC', $MODULE)} {$PAGING_MODEL->getRecordEndRange()}{else}<span>&nbsp;</span>{/if}</span>
 									<span class="alignBottom">
@@ -40,7 +40,7 @@
 									</span>
 								</div>
 								<div class="btn-group alignTop margin0px">
-									<span class="pull-right">
+									<span class="float-right">
 										<span class="btn-group" role="group">
 											<button class="btn btn-light" role="group" id="listViewPreviousPageButton" {if !$PAGING_MODEL->isPrevPageExists()} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-left"></span></button>
 											<button class="btn btn-light dropdown-toggle" role="group" type="button" id="listViewPageJump" data-toggle="dropdown" {if $PAGE_COUNT eq 1} disabled {/if}>

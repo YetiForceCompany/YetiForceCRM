@@ -86,7 +86,7 @@
 				<div id="treeContents"></div>
 			</div>
 			<br />
-			<div class="pull-right">
+			<div class="float-right">
 				<button class="btn btn-success saveTree">
 					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;
 					<strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong>

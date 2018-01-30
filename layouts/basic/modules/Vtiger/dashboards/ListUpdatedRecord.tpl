@@ -16,14 +16,14 @@
 			<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(),$MODULE_NAME)}</strong></div>
 		</div>
 		<div class="col-md-4">
-			<div class="box pull-right">
+			<div class="box float-right">
 				{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
 			</div>
 		</div>
 	</div>
 	<hr class="widgetHr" />
 	<div class="row" >
-		<div class="col-md-6 pull-right">
+		<div class="col-md-6 float-right">
 			<select class="widgetFilter form-control input-sm" id="listUpdatedRecordLimit" title="{\App\Language::translate('LBL_RECORDS_LIMIT')}" name="number" >
 				<option title="{\App\Language::translate('LBL_ALL')}" value="all" >{\App\Language::translate('LBL_ALL')}</option>
 				<option title="20" value="10" >10</option>

@@ -38,7 +38,7 @@
 													{assign var=SINGLE_MODULE_NAME value="SINGLE_$MODULE_NAME"}
 													<span class="panel-title">&nbsp;{App\Language::translate('LBL_CREATING_NEW', $MODULE_NAME)}&nbsp;{App\Language::translate($SINGLE_MODULE_NAME, $MODULE_NAME)}</span>
 												</label>
-												<span class="pull-right"><i class="iconArrow{if $CONVERT_LEAD_FIELDS['Accounts'] && $MODULE_NAME == "Accounts"} glyphicon glyphicon-chevron-up {else} glyphicon glyphicon-chevron-down {/if}alignBottom"></i></span>
+												<span class="float-right"><i class="iconArrow{if $CONVERT_LEAD_FIELDS['Accounts'] && $MODULE_NAME == "Accounts"} glyphicon glyphicon-chevron-up {else} glyphicon glyphicon-chevron-down {/if}alignBottom"></i></span>
 											</div>
 										</div>
 									</div>
@@ -47,7 +47,7 @@
 											{foreach item=FIELD_MODEL from=$MODULE_FIELD_MODEL}
 												<tr>
 													<td class="fieldLabel col-xs-5">
-														<label class='muted pull-right marginRight10px'>
+														<label class='muted float-right marginRight10px'>
 															{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}
 															{App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
 
@@ -67,7 +67,7 @@
 									{assign var=FIELD_MODEL value=$ASSIGN_TO}
 									<tr>
 										<td class="fieldLabel col-xs-5">
-											<label class='muted pull-right'>
+											<label class='muted float-right'>
 												<span class="redColor">*</span> {App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
 												{if $FIELD_MODEL->isMandatory() eq true} {/if}
 											</label>

@@ -16,7 +16,7 @@
 			</button>
 			{/foreach}
 		</div>
-		<div class="pull-right btn-toolbar">
+		<div class="float-right btn-toolbar">
 			{include file=\App\Layout::getTemplatePath('ListViewActions.tpl', $QUALIFIED_MODULE)}
 		</div>
 		<div class="clearfix"></div>

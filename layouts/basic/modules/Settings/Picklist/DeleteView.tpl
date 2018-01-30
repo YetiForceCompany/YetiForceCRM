@@ -67,7 +67,7 @@
 						{/if}
 					</div>	
 					<div class="modal-footer">
-						<div class=" pull-right cancelLinkContainer">
+						<div class="float-right cancelLinkContainer">
 							<button class="cancelLink btn btn-warning" type="reset" data-dismiss="modal">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
 						</div>
 						<button class="btn btn-danger" type="submit" name="saveButton"><strong>{\App\Language::translate('LBL_DELETE', $MODULE)}</strong></button>

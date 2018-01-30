@@ -16,7 +16,7 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
 			<div class="col-sm-6">
-				<div class="btn-toolbar pull-right">
+				<div class="btn-toolbar float-right">
 					{if $REPORT_MODEL->isEditable() eq true}
 						<div class="btn-group">
 							<button onclick='window.location.href = "{$REPORT_MODEL->getEditViewUrl()}"' type="button" class="cursorPointer btn btn-success">
@@ -50,7 +50,7 @@
 						</div>
 					</div>
 					<div class="col-md-4">
-						<span class="pull-right">
+						<span class="float-right">
 							<div class="btn-toolbar">
 								{foreach item=DETAILVIEW_LINK from=$DETAILVIEW_LINKS}
 									{assign var=LINKNAME value=$DETAILVIEW_LINK->getLabel()}

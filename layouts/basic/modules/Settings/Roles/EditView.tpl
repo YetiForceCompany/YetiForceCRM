@@ -178,7 +178,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="pull-right marginRight10px paddingTop20">
+			<div class="float-right marginRight10px paddingTop20">
 				<button class="btn btn-success" type="submit">{\App\Language::translate('LBL_SAVE',$MODULE)}</button>
 				<button class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="reset">{\App\Language::translate('LBL_CANCEL',$MODULE)}</button>
 			</div>

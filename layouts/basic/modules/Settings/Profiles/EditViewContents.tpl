@@ -119,7 +119,7 @@
 								{if $PROFILE_MODULE->getFields()}
 									<div class="col-md-12">
 										<label class="themeTextColor font-x-large float-left"><strong>{\App\Language::translate('LBL_FIELDS',$QUALIFIED_MODULE)}{if $MODULE_NAME eq 'Calendar'} {\App\Language::translate('LBL_OF', $MODULE_NAME)} {\App\Language::translate('LBL_TASKS', $MODULE_NAME)}{/if}</strong></label>
-										<div class="pull-right">
+										<div class="float-right">
 											<span class="mini-slider-control ui-slider" data-value="0">
 												<a style="margin-top: 3px" class="ui-slider-handle"></a>
 											</span>

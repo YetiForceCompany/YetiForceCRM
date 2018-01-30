@@ -83,9 +83,9 @@
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-6 col-md-6">
-					<div class="pull-right">
+					<div class="float-right">
 						{if $VIEW_MODEL}
-							<div class="pull-right paddingLeft5px">
+							<div class="float-right paddingLeft5px">
 								{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
 								<input type="hidden" class="entityState" value="{if $VIEW_MODEL->has('entityState')}{$VIEW_MODEL->get('entityState')}{else}Active{/if}" />
 								<div class="dropdown dropdownEntityState">
@@ -118,7 +118,7 @@
 							</div>
 						{/if}
 					</div>
-					<div class="paginationDiv pull-right">
+					<div class="paginationDiv float-right">
 						{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE) VIEWNAME='related'}
 					</div>
 				</div>

@@ -19,7 +19,7 @@
 			<span>{\App\Language::translate('LBL_IMPORT_STEP_4_DESCRIPTION', $MODULE)}</span>
 		</td>
 		<td>
-            <div id="savedMapsContainer" class="textAlignRight pull-right">
+            <div id="savedMapsContainer" class="textAlignRight float-right">
 				{include file=\App\Layout::getTemplatePath('Import_Saved_Maps.tpl', 'Import')}
 			</div>
         </td>

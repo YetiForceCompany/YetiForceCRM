@@ -23,7 +23,7 @@
 					</span>
 					<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" name="commentcontent" class="commentcontent form-control" title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
 				</div>
-				<button class="btn btn-success marginTop10 saveComment pull-right" type="button" data-mode="add">
+				<button class="btn btn-success marginTop10 saveComment float-right" type="button" data-mode="add">
 					<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
 					<strong class="hidden-xs">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
 				</button>
@@ -64,11 +64,11 @@
 					</span>
 					<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
 				</div>
-				<button class="cursorPointer marginTop10 closeCommentBlock btn btn-warning pull-right cancel" type="reset">
+				<button class="cursorPointer marginTop10 closeCommentBlock btn btn-warning float-right cancel" type="reset">
 					<span class="visible-xs-inline-block fas fa-times"></span>
 					<strong class="hidden-xs">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 				</button>
-				<button class="btn btn-success marginTop10 saveComment pull-right" type="button" data-mode="add">
+				<button class="btn btn-success marginTop10 saveComment float-right" type="button" data-mode="add">
 					<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
 					<strong class="hidden-xs">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
 				</button>
@@ -90,11 +90,11 @@
 					</span>
 					<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" ></textarea>
 				</div>
-				<button class="cursorPointer marginTop10 closeCommentBlock btn btn-warning pull-right cancel" type="reset">
+				<button class="cursorPointer marginTop10 closeCommentBlock btn btn-warning float-right cancel" type="reset">
 					<span class="visible-xs-inline-block fas fa-times"></span>
 					<strong class="hidden-xs">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 				</button>
-				<button class="btn btn-success marginTop10 saveComment pull-right" type="button" data-mode="edit">
+				<button class="btn btn-success marginTop10 saveComment float-right" type="button" data-mode="edit">
 					<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
 					<strong class="hidden-xs">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
 				</button>

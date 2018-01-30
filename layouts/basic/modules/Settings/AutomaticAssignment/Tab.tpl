@@ -84,7 +84,7 @@
 							</div>
 						</div>
 						<div class="panel-footer clearfix">
-							<div class="btn-toolbar pull-right">
+							<div class="btn-toolbar float-right">
 								<button class="btn btn-success saveValue" type="button">{\App\Language::translate('BTN_SAVE', $QUALIFIED_MODULE)}</button>
 							</div>
 						</div>
@@ -99,7 +99,7 @@
 							<tr>
 								<th>
 									<strong>{\App\Language::translate($LABEL, $QUALIFIED_MODULE)}</strong>
-									<div class="col-xs-8 pull-right controls">
+									<div class="col-xs-8 float-right controls">
 										<div class="input-group col-xs-12 fieldContainer" data-name="{$FIELD_MODEL->getName()}" data-dbname="{$FIELD_NAME}">
 											{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getListSearchTemplateName(), $SOURCE_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$SOURCE_MODULE}
 											<div class="input-group-btn" id="basic-addon">
@@ -116,9 +116,9 @@
 							{foreach from=$RECORD_MODEL->getEditValue($FIELD_NAME) key=KEY item=MEMBER}
 								<tr class="{$MEMBER.type}" data-value="{$MEMBER.id}" data-name="{$FIELD_NAME}">
 									<td><strong>{$MEMBER.name}</strong>
-										<span title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fas fa-trash-alt pull-right marginIcon marginTop2 delete cursorPointer" data-mode="addOrRemoveMembers"></span>
+										<span title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fas fa-trash-alt float-right marginIcon marginTop2 delete cursorPointer" data-mode="addOrRemoveMembers"></span>
 										{if $FIELD_NAME eq 'roles'}
-											<span title="{\App\Language::translate('LBL_CHANGE_ROLE_TYPE', $QUALIFIED_MODULE)}" class="fa fa-exchange pull-right marginIcon marginTop2 changeRoleType cursorPointer" aria-hidden="true"></span>
+											<span title="{\App\Language::translate('LBL_CHANGE_ROLE_TYPE', $QUALIFIED_MODULE)}" class="fa fa-exchange float-right marginIcon marginTop2 changeRoleType cursorPointer" aria-hidden="true"></span>
 										{/if}
 									</td>
 								</tr>

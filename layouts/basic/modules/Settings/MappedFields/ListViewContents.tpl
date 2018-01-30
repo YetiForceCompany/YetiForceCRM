@@ -39,7 +39,7 @@
 								&nbsp;{\App\Language::translate($LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME), $QUALIFIED_MODULE)}
 								{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
 								</td><td nowrap class="{$WIDTHTYPE} tdActions">
-									<div class="pull-right actions">
+									<div class="float-right actions">
 										<span class="actionImages">
 											{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
 												{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}

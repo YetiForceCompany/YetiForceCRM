@@ -20,7 +20,7 @@
 					{/foreach}
 				</div>
 				<div class="modal-footer">
-					<div class="pull-right cancelLinkContainer">
+					<div class="float-right cancelLinkContainer">
 						<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_EXECUTE', $MODULE)}</strong></button>
 						<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong></button>
 					</div>

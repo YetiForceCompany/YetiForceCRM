@@ -19,15 +19,15 @@
 					{App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
 				{/if}
 			</div>
-			<div class="pull-right col-md-6 form-inline">
-				<div class="form-group pull-right col-md-6">
+			<div class="float-right col-md-6 form-inline">
+				<div class="form-group float-right col-md-6">
 					<select class="select2 form-control" name="layoutEditorModules">
 						{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
 							<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{App\Language::translate($MODULE_NAME, $MODULE_NAME)}</option>
 						{/foreach}
 					</select>
 				</div>
-				<div class="form-group pull-right">
+				<div class="form-group float-right">
 					<input id="inventorySwitch" title="{App\Language::translate('LBL_CHANGE_BLOCK_ADVANCED', $QUALIFIED_MODULE)}" class="switchBtn" type="checkbox" data-label-width="5" data-handle-width="100" data-on-text="{App\Language::translate('LBL_BASIC_MODULE',$QUALIFIED_MODULE)}" data-off-text="{App\Language::translate('LBL_ADVANCED_MODULE',$QUALIFIED_MODULE)}" {if !$IS_INVENTORY}checked{/if} >
 				</div>
 			</div>
@@ -52,7 +52,7 @@
                                 <span class="fas fa-plus"></span>&nbsp;
                                 <strong>{App\Language::translate('LBL_ADD_CUSTOM_BLOCK', $QUALIFIED_MODULE)}</strong>
                             </button>
-                            <span class="pull-right">
+                            <span class="float-right">
                                 <button class="btn btn-success saveFieldSequence hide" type="button">
                                     <strong>{App\Language::translate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
                                 </button>
@@ -73,7 +73,7 @@
                                         <strong>{App\Language::translate($BLOCK_LABEL_KEY, $SELECTED_MODULE_NAME)}</strong>
                                     </div>
                                     <div class="col-md-6 col-sm-6 marginLeftZero">
-										<div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
+										<div class="float-right btn-toolbar blockActions" style="margin: 4px;">
                                             {if $BLOCK_MODEL->isAddCustomFieldEnabled()}
                                                 <div class="btn-group">
                                                     <button class="btn btn-success addCustomField" type="button">
@@ -86,7 +86,7 @@
                                                         <strong>{App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</strong>&nbsp;&nbsp;
                                                         <span class="caret"></span>
                                                     </button>
-                                                    <ul class="dropdown-menu pull-right">
+                                                    <ul class="dropdown-menu float-right">
                                                         <li class="blockVisibility" data-visible="{if !$BLOCK_MODEL->isHidden()}1{else}0{/if}" data-block-id="{$BLOCK_MODEL->get('id')}">
                                                             <a href="javascript:void(0)">
                                                                 <span class="glyphicon glyphicon-ok {if $BLOCK_MODEL->isHidden()} hide {/if}"></span>&nbsp;
@@ -128,9 +128,9 @@
 																		<span class="redColor">*</span>
 																	{/if}
 																</span>
-																<span class="pull-right actions">
+																<span class="float-right actions">
 																	<input type="hidden" value="{$FIELD_MODEL->getName()}" id="relatedFieldValue{$FIELD_MODEL->get('id')}" />
-																	<button class="btn btn-primary btn-xs copyFieldLabel pull-right marginLeft5" data-target="relatedFieldValue{$FIELD_MODEL->get('id')}">
+																	<button class="btn btn-primary btn-xs copyFieldLabel float-right marginLeft5" data-target="relatedFieldValue{$FIELD_MODEL->get('id')}">
 																		<span class="fas fa-copy" title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
 																	</button>
 																	{if $FIELD_MODEL->isEditable()}
@@ -171,8 +171,8 @@
 																		<span class="redColor">*</span>
 																	{/if}
 																</span>
-																<span class="pull-right actions">
-																	<button class="btn btn-primary btn-xs copyFieldLabel pull-right marginLeft5" data-target="relatedFieldValue{$FIELD_MODEL->get('id')}">
+																<span class="float-right actions">
+																	<button class="btn btn-primary btn-xs copyFieldLabel float-right marginLeft5" data-target="relatedFieldValue{$FIELD_MODEL->get('id')}">
 																		<span class="fas fa-copy" title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
 																	</button>
 																	<input type="hidden" value="{$FIELD_MODEL->getName()}" id="relatedFieldValue{$FIELD_MODEL->get('id')}" />

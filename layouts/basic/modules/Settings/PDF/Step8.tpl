@@ -71,12 +71,12 @@
 						<button id="deleteWM" class="btn btn-danger {if $PDF_MODEL->get('watermark_image') eq ''}hide{/if}">{\App\Language::translate('LBL_DELETE_WM', $QUALIFIED_MODULE)}</button>
 					</div>
 					<div class="col-sm-3 controls">
-						<button id="uploadWM" class="btn btn-success pull-right">{\App\Language::translate('LBL_UPLOAD_WM', $QUALIFIED_MODULE)}</button>
+						<button id="uploadWM" class="btn btn-success float-right">{\App\Language::translate('LBL_UPLOAD_WM', $QUALIFIED_MODULE)}</button>
 					</div>
 				</div>
 			</div>
 			<br />
-			<div class="pull-right">
+			<div class="float-right">
 				<button class="btn btn-danger backStep" type="button"><strong>{\App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
 				<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></button>
 			</div>

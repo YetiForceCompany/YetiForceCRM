@@ -18,7 +18,7 @@
 			</div>
 		</div>
 		<div class="col-xs-1">
-			<button type="button" class="btn btn-warning pull-right marginLeft10" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<button type="button" class="btn btn-warning float-right marginLeft10" data-dismiss="modal" aria-hidden="true">&times;</button>
 		</div>
 	</div>
 	<div class="modal-body container-fluid openStreetMapModalBody">
@@ -98,7 +98,7 @@
 							</button>
 						</div>
 					</div>
-					<div class="form-group pull-right">
+					<div class="form-group float-right">
 						<button class="btn btn-primary hide calculateTrack">{\App\Language::translate('LBL_CALCULATE_TRACK', $MODULE_NAME)}</button>
 					</div>
 				</div>
@@ -122,13 +122,13 @@
 								</label>
 							</div>
 							<div class="col-xs-4">
-								<button class="btn btn-xs btn-success addAllRecords pull-right" data-module="{$ALLOWED_MODULE_NAME}"><span class="glyphicon glyphicon-download-alt"></span></button>
-								<button class="btn btn-xs btn-danger deleteClipBoard pull-right marginRight10 {if empty($CACHE_GROUP_RECORDS[$ALLOWED_MODULE_NAME])}hide{/if}" data-module="{$ALLOWED_MODULE_NAME}"><span class="fa fa-trash"></span></button>
+								<button class="btn btn-xs btn-success addAllRecords float-right" data-module="{$ALLOWED_MODULE_NAME}"><span class="glyphicon glyphicon-download-alt"></span></button>
+								<button class="btn btn-xs btn-danger deleteClipBoard float-right marginRight10 {if empty($CACHE_GROUP_RECORDS[$ALLOWED_MODULE_NAME])}hide{/if}" data-module="{$ALLOWED_MODULE_NAME}"><span class="fa fa-trash"></span></button>
 							</div>
 						</div>
 					{/foreach}
 					<div class="col-xs-12">
-						<button class="btn btn-success btn-sm copyToClipboard pull-right"><span class="fa fa-clipboard"></span>&nbsp;{\App\Language::translate('LBL_COPY_TO_CLIPBOARD', $MODULE_NAME)}</button>
+						<button class="btn btn-success btn-sm copyToClipboard float-right"><span class="fa fa-clipboard"></span>&nbsp;{\App\Language::translate('LBL_COPY_TO_CLIPBOARD', $MODULE_NAME)}</button>
 					</div>
 				</div>
 			</div>

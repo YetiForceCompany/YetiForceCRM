@@ -17,7 +17,7 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
             </div>
             <div class="col-md-6">
-                <b class="pull-right paddingTop10">
+                <b class="float-right paddingTop10">
                 {if $CRON_RECORD_MODEL->isDisabled() }{\App\Language::translate('LBL_DISABLED',$QUALIFIED_MODULE)}{/if}
                     {if $CRON_RECORD_MODEL->isRunning() }{\App\Language::translate('LBL_RUNNING',$QUALIFIED_MODULE)}{/if}
                     {if $CRON_RECORD_MODEL->isEnabled()}

@@ -14,7 +14,7 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td width="30%"><label class="muted pull-right marginRight10px control-label">{\App\Language::translate('Minimum password length', $QUALIFIED_MODULE)}</label></td>
+							<td width="30%"><label class="muted float-right marginRight10px control-label">{\App\Language::translate('Minimum password length', $QUALIFIED_MODULE)}</label></td>
 							<td style="border-left: none;">
 								<div class="col-xs-5">
 									<input class="form-control" type="text" name="min_length" id="min_length"  title="{\App\Language::translate('Minimum password length', $QUALIFIED_MODULE)}" value="{$DETAIL['min_length']}" />
@@ -22,7 +22,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td width="30%"><label class="muted pull-right marginRight10px control-label">{\App\Language::translate('Maximum password length', $QUALIFIED_MODULE)}</label></td>
+							<td width="30%"><label class="muted float-right marginRight10px control-label">{\App\Language::translate('Maximum password length', $QUALIFIED_MODULE)}</label></td>
 							<td style="border-left: none;">
 								<div class="col-xs-5">
 									<input class="form-control" type="text" name="max_length" id="max_length" title="{\App\Language::translate('Maximum password length', $QUALIFIED_MODULE)}" value="{$DETAIL['max_length']}" />
@@ -30,7 +30,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td width="30%"><label class="muted pull-right marginRight10px">{\App\Language::translate('Uppercase letters from A to Z', $QUALIFIED_MODULE)}</label></td>
+							<td width="30%"><label class="muted float-right marginRight10px">{\App\Language::translate('Uppercase letters from A to Z', $QUALIFIED_MODULE)}</label></td>
 							<td style="border-left: none;">
 								<div class="col-xs-5">	
 									<input type="checkbox" name="big_letters" title="{\App\Language::translate('Uppercase letters from A to Z', $QUALIFIED_MODULE)}" id="big_letters" {if $DETAIL['big_letters'] == 'true' }checked{/if} />
@@ -38,7 +38,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td width="30%"><label class="muted pull-right marginRight10px">{\App\Language::translate('Lowercase letters a to z', $QUALIFIED_MODULE)}</label></td>
+							<td width="30%"><label class="muted float-right marginRight10px">{\App\Language::translate('Lowercase letters a to z', $QUALIFIED_MODULE)}</label></td>
 							<td style="border-left: none;">
 								<div class="col-xs-5">
 									<input type="checkbox" name="small_letters" title="{\App\Language::translate('Lowercase letters a to z', $QUALIFIED_MODULE)}" id="small_letters" {if $DETAIL['small_letters'] == 'true'}checked{/if} />
@@ -46,7 +46,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td width="30%"><label class="muted pull-right marginRight10px">{\App\Language::translate('Password should contain numbers', $QUALIFIED_MODULE)}</label></td>
+							<td width="30%"><label class="muted float-right marginRight10px">{\App\Language::translate('Password should contain numbers', $QUALIFIED_MODULE)}</label></td>
 							<td style="border-left: none;">
 								<div class="col-xs-5">
 									<input type="checkbox" name="numbers" title="{\App\Language::translate('Password should contain numbers', $QUALIFIED_MODULE)}" id="numbers" {if $DETAIL['numbers'] == 'true'}checked{/if} />
@@ -54,7 +54,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td width="30%"><label class="muted pull-right marginRight10px">{\App\Language::translate('Password should contain special characters', $QUALIFIED_MODULE)}</label></td>
+							<td width="30%"><label class="muted float-right marginRight10px">{\App\Language::translate('Password should contain special characters', $QUALIFIED_MODULE)}</label></td>
 							<td style="border-left: none;">
 								<div class="col-xs-5">
 									<input type="checkbox" name="special" title="{\App\Language::translate('Password should contain special characters', $QUALIFIED_MODULE)}" id="special"  {if $DETAIL['special'] == 'true'}checked{/if} />
@@ -63,7 +63,7 @@
 						</tr>
 						<tr>
 							<td width="30%">
-								<label class="muted pull-right marginRight10px control-label">{\App\Language::translate('LBL_PASSWORD_CHANGE_TIME', $QUALIFIED_MODULE)}</label>
+								<label class="muted float-right marginRight10px control-label">{\App\Language::translate('LBL_PASSWORD_CHANGE_TIME', $QUALIFIED_MODULE)}</label>
 							</td>
 							<td style="border-left: none;">
 								<div class="col-xs-5">
@@ -76,7 +76,7 @@
 						</tr>
 						<tr>
 							<td width="30%">
-								<label class="muted pull-right marginRight10px control-label">{\App\Language::translate('LBL_TIME_TO_CHANGE_PASSWORD', $QUALIFIED_MODULE)}</label>
+								<label class="muted float-right marginRight10px control-label">{\App\Language::translate('LBL_TIME_TO_CHANGE_PASSWORD', $QUALIFIED_MODULE)}</label>
 							</td>
 							<td style="border-left: none;">
 								<div class="col-xs-5">

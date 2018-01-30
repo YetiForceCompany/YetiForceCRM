@@ -18,7 +18,7 @@
 						{\App\Language::translate('LBL_CONFIG_DESCRIPTION', $QUALIFIED_MODULE)}
 					</div>
 					<div class="col-md-4 btn-toolbar no-margin">
-						<div class="pull-right">
+						<div class="float-right">
 							<button class="btn btn-success saveButton" type="submit" title="{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 							<button type="reset" class="cancelLink btn btn-warning" title="{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 						</div>
@@ -42,7 +42,7 @@
 					<tbody>
 						{assign var=FIELD_DATA value=$MODEL->getViewableData()}
 						{foreach key=FIELD_NAME item=FIELD_DETAILS from=$MODEL->getEditableFields()}
-							<tr><td width="30%" class="{$WIDTHTYPE}"><label class="muted pull-right marginRight10px">{\App\Language::translate($FIELD_DETAILS['label'], $QUALIFIED_MODULE)}</label></td>
+							<tr><td width="30%" class="{$WIDTHTYPE}"><label class="muted float-right marginRight10px">{\App\Language::translate($FIELD_DETAILS['label'], $QUALIFIED_MODULE)}</label></td>
 								<td style="border-left: none;" class="row {$WIDTHTYPE}">
 									{if $FIELD_DETAILS['fieldType'] == 'picklist'}
 										<div class="col-md-4">

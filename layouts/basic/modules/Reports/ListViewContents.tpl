@@ -58,7 +58,7 @@
 					<a href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADER_KEY)}</a>
 					{if $LISTVIEW_HEADER@last}
 						</td><td nowrap class="{$WIDTHTYPE}">
-						<div class="pull-right actions">
+						<div class="float-right actions">
 							<span class="actionImages">
 								{if $REPORT_MODEL->isEditable()}
 									<a href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fas fa-pencil-alt alignMiddle"></span></a>&nbsp;

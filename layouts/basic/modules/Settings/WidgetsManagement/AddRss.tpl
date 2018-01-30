@@ -5,7 +5,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button data-dismiss="modal" class="close" title="{\App\Language::translate('LBL_CLOSE')}">&times;</button>
-					<button type="button" class="btn btn-primary addChannel pull-right marginRight10">{\App\Language::translate('LBL_ADD_CHANNEL', $MODULE)}</button>
+					<button type="button" class="btn btn-primary addChannel float-right marginRight10">{\App\Language::translate('LBL_ADD_CHANNEL', $MODULE)}</button>
 					<h3 id="massEditHeader" class="modal-title">{\App\Language::translate('LBL_ADD_RSS', $MODULE)}</h3>
 				</div>
 				<form class="form-horizontal validateForm" >

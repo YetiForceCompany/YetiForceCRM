@@ -11,7 +11,7 @@
 					<div class="col-lg-6 col-md-12 paddingLRZero float-left">
 						<h5 class="noSpaces">{\App\Language::translate('LBL_INFO_REFRESH', $MODULE)}</h5>
 					</div>
-					<div class="col-lg-6 col-md-12 col-xs-5 paddingTop10-md paddingLRZero pull-right">
+					<div class="col-lg-6 col-md-12 col-xs-5 paddingTop10-md paddingLRZero float-right">
 						<button name="drefresh" class="btn btn-danger btn-xs pull-left-md pull-right-lg pull-right-xs pull-right-sm refreshCalendar cursorPointer">
 							<span class="glyphicon glyphicon-refresh icon-white" hspace="0" border="0" title="{\App\Language::translate('LBL_REFRESH')}" alt="{\App\Language::translate('LBL_REFRESH')}"></span>
 							&nbsp;{\App\Language::translate('LBL_REFRESH')}
@@ -26,7 +26,7 @@
 					<h4 class="panel-title col-lg-6 col-md-12 col-xs-5 paddingLRZero float-left" title="{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}">
 						{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}
 					</h4>
-					<div class="col-lg-6 col-md-12 col-xs-5 paddingTop10-md paddingLRZero pull-right ">
+					<div class="col-lg-6 col-md-12 col-xs-5 paddingTop10-md paddingLRZero float-right">
 						<button class="selectAllBtn btn btn-light btn-xs  pull-left-md pull-right-lg pull-right-sm">
 							<div class="selectAll hide">{\App\Language::translate('LBL_SELECT_ALL', $MODULE)}</div>
 							<div class="deselectAll">{\App\Language::translate('LBL_DESELECT_ALL', $MODULE)}</div>

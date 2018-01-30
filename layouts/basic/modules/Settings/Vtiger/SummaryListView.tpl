@@ -6,7 +6,7 @@
 				<p>&nbsp;</p>
 			</div>
 			<div class="col-md-4">
-				<div class="pull-right">
+				<div class="float-right">
 					<div class="btn-toolbar">
 						<span class="btn-group">
 							<a class="btn btn-xs vtButton btn-light" href="javascript:window.history.back();">Back ...</a>

@@ -52,7 +52,7 @@
 					{/if}
 				</a>
 				{if !empty($CHILDLINKS)}
-					<ul class="dropdown-menu pull-right">
+					<ul class="dropdown-menu float-right">
 						{foreach item=CHILDLINK from=$CHILDLINKS}
 							{if $CHILDLINK->getLabel() eq NULL}
 								<li class="divider"></li>
@@ -129,7 +129,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</a>
-			<ul class="dropdown-menu pull-right">
+			<ul class="dropdown-menu float-right">
 				{foreach key=index item=obj from=$MENU_HEADER_LINKS name="compactIndex"}
 					{assign var="src" value=$obj->getIconPath()}
 					{assign var="icon" value=$obj->getIcon()}

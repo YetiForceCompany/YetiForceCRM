@@ -128,7 +128,7 @@
 		</div>
 	</div>
 	<div class="padding1per">
-		<div class="btn-toolbar  pull-right">
+		<div class="btn-toolbar  float-right">
 			<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 			<a type="reset" class="cancelLink cancelDependency btn btn-warning" title="{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 		</div>

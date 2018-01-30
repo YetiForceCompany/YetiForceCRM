@@ -21,7 +21,7 @@
 
 		</div>
 		<div class="modal-footer">
-			<div class="pull-right">
+			<div class="float-right">
 				<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_UPLOAD_TEMPLATE', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
 				<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}</button>
 			</div>

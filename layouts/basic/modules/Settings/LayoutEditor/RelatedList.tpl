@@ -19,7 +19,7 @@
 				</div>
 				<div class="col-md-5">
 					<div class="btn-toolbar">
-						<div class="btn-group col-xs-5 pull-right paddingLRZero">
+						<div class="btn-group col-xs-5 float-right paddingLRZero">
 							<select class="select2 form-control layoutEditorRelModules" name="layoutEditorRelModules">
 								{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
 									<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</option>
@@ -27,7 +27,7 @@
 							</select>
 						</div>
 						{if AppConfig::developer('CHANGE_RELATIONS')}
-							<button class="btn btn-primary pull-right addRelation" type="button">
+							<button class="btn btn-primary float-right addRelation" type="button">
 								<span class="fas fa-plus" aria-hidden="true"></span>&nbsp;&nbsp;
 								{\App\Language::translate('LBL_ADD_RELATION', $QUALIFIED_MODULE)}
 							</button>
@@ -64,9 +64,9 @@
 								{assign var=SELECTED_FIELDS value=Settings_LayoutEditor_Module_Model::getRelationFields($MODULE_MODEL->getId())}
 								<div class="relatedModule mainBlockTable panel panel-default" data-relation-id="{$MODULE_MODEL->getId()}" data-status="{$STATUS}">
 									<div class="mainBlockTableHeader panel-heading">
-										<div class="btn-toolbar btn-group-xs pull-right">
+										<div class="btn-toolbar btn-group-xs float-right">
 											{if AppConfig::developer('CHANGE_RELATIONS')}
-												<button type="button" class="btn btn-danger removeRelation pull-right" title="{\App\Language::translate('LBL_REMOVE_RELATION', $QUALIFIED_MODULE)}">
+												<button type="button" class="btn btn-danger removeRelation float-right" title="{\App\Language::translate('LBL_REMOVE_RELATION', $QUALIFIED_MODULE)}">
 												<span class="fas fa-times" aria-hidden="true"></span>
 												</button>
 											{/if}

@@ -19,7 +19,7 @@
 				{/if}
 			</div>
 			<div class="col-md-5">
-				<span class="btn-toolbar pull-right margin0px">
+				<span class="btn-toolbar float-right margin0px">
 					<span class="btn-group">
 						<button class="btn btn-success createModule" type="button">
 							<span class="fas fa-desktop" aria-hidden="true"></span>&nbsp;&nbsp;
@@ -125,18 +125,18 @@
 								</div>
 								<div class="col-md-6 col-xs-12">
 									{if $MODULE_MODEL->get('customized')}
-										<button class="deleteModule btn btn-danger btn-xs pull-right marginLeft10" name="{$MODULE_NAME}">{\App\Language::translate('LBL_DELETE')}</button>
+										<button class="deleteModule btn btn-danger btn-xs float-right marginLeft10" name="{$MODULE_NAME}">{\App\Language::translate('LBL_DELETE')}</button>
 									{/if}
 									{if $MODULE_MODEL->isExportable()}
-										<a class="btn btn-primary btn-xs pull-right marginLeft10" href="index.php?module=ModuleManager&parent=Settings&action=ModuleExport&mode=exportModule&forModule={$MODULE_NAME}"><i class="glyphicon glyphicon-download"></i></a>
+										<a class="btn btn-primary btn-xs float-right marginLeft10" href="index.php?module=ModuleManager&parent=Settings&action=ModuleExport&mode=exportModule&forModule={$MODULE_NAME}"><i class="glyphicon glyphicon-download"></i></a>
 									{/if}
 									{assign var=SETTINGS_LINKS value=$MODULE_MODEL->getSettingLinks()}
 									{if !in_array($MODULE_NAME, $RESTRICTED_MODULES_LIST) && (count($SETTINGS_LINKS) > 0)}
-										<div class="btn-group pull-right actions {if !$MODULE_ACTIVE}hide{/if}">
+										<div class="btn-group float-right actions {if !$MODULE_ACTIVE}hide{/if}">
 											<button class="btn dropdown-toggle btn-light" data-toggle="dropdown">
 												<strong>{\App\Language::translate('LBL_SETTINGS', $QUALIFIED_MODULE)}</strong>&nbsp;<i class="caret"></i>
 											</button>
-											<ul class="dropdown-menu pull-right">
+											<ul class="dropdown-menu float-right">
 												{foreach item=SETTINGS_LINK from=$SETTINGS_LINKS}
 													<li>
 														<a {if stripos($SETTINGS_LINK['linkurl'], 'javascript:')===0} onclick='{$SETTINGS_LINK['linkurl']|substr:strlen("javascript:")};'{else} onclick='window.location.href = "{$SETTINGS_LINK['linkurl']}"'{/if}>{\App\Language::translate($SETTINGS_LINK['linklabel'], $MODULE_NAME)}</a>

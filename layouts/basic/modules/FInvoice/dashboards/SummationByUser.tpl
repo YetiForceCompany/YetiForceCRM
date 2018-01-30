@@ -63,7 +63,7 @@
 			</div>
 		</div>
 		<div class="col-md-4">
-			<div class="box pull-right">
+			<div class="box float-right">
 				{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
 			</div>
 		</div>

@@ -35,7 +35,7 @@
 						</div>
 					</div>
 					<div class="panel-footer clearfix">
-						<div class="btn-toolbar pull-right">
+						<div class="btn-toolbar float-right">
 							<button class="btn btn-danger backStep" type="button"><strong>{\App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}</strong></button>
 							<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></button>
 						</div>

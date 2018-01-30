@@ -15,7 +15,7 @@
 					<td>
 						{\App\Language::translate($RECORD->getName(), $QUALIFIED_MODULE)}
 						{if $RECORD->get('presence') == 1}
-							<div class="pull-right actions">
+							<div class="float-right actions">
 								<a class="edit cursorPointer" data-url="{$RECORD->getEditUrl()}">
 									<span class="fas fa-pencil-alt alignBottom" title="Edycja"></span>
 								</a>

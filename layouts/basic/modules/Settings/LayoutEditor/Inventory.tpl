@@ -3,7 +3,7 @@
 <div class="moduleBlocks inventoryBlock" data-block-id="0">
 	<div class="editFieldsTable block panel panel-default">
 		<div class="panel-heading">
-			<div class="btn-toolbar btn-group-xs pull-right">
+			<div class="btn-toolbar btn-group-xs float-right">
 				<button class="btn btn-success saveFieldSequence invisible inventorySequence"  type="button">
 					<strong>{App\Language::translate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
 				</button>
@@ -24,7 +24,7 @@
 								<img src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
 							</a>&nbsp;&nbsp;
 							<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}</span>
-							<span class="btn-group pull-right actions">
+							<span class="btn-group float-right actions">
 								<a href="#" class="editInventoryField">
 									<span class="fas fa-pencil-alt alignMiddle" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 								</a>
@@ -40,7 +40,7 @@
 <div class="moduleBlocks inventoryBlock" data-block-id="1">
 	<div class="editFieldsTable block panel panel-default">
 		<div class="panel-heading">
-			<div class="btn-toolbar btn-group-xs pull-right">
+			<div class="btn-toolbar btn-group-xs float-right">
 				<button class="btn btn-success saveFieldSequence invisible inventorySequence"  type="button">
 					<strong>{App\Language::translate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
 				</button>
@@ -61,7 +61,7 @@
 								<img src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
 							</a>&nbsp;&nbsp;
 							<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}</span>
-							<span class="btn-group pull-right actions">
+							<span class="btn-group float-right actions">
 								<a href="#" class="editInventoryField">
 									<span class="fas fa-pencil-alt alignMiddle" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 								</a>
@@ -77,7 +77,7 @@
 <div class="moduleBlocks inventoryBlock" data-block-id="2">
 	<div class="editFieldsTable block panel panel-default">
 		<div class="panel-heading">
-			<div class="btn-toolbar btn-group-xs pull-right">
+			<div class="btn-toolbar btn-group-xs float-right">
 				<button class="btn btn-success saveFieldSequence invisible inventorySequence"  type="button">
 					<strong>{App\Language::translate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
 				</button>
@@ -98,7 +98,7 @@
 								<img src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
 							</a>&nbsp;&nbsp;
 							<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}</span>
-							<span class="btn-group pull-right actions">
+							<span class="btn-group float-right actions">
 								<a href="#" class="editInventoryField">
 									<span class="fas fa-pencil-alt alignMiddle" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 								</a>
@@ -117,7 +117,7 @@
 			<img src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
 		</a>&nbsp;&nbsp;
 		<span class="fieldLabel"></span>
-		<span class="btn-group pull-right actions">
+		<span class="btn-group float-right actions">
 			<a href="#" class="editInventoryField">
 				<span class="fas fa-pencil-alt alignMiddle" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 			</a>

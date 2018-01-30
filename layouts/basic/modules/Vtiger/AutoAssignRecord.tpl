@@ -4,7 +4,7 @@
 		<div class="col-xs-10">
 			<h3 class="modal-title">{\App\Language::translate('LBL_AUTOMATIC_ASSIGNMENT', $MODULE_NAME)}</h3>
 		</div>
-		<div class="pull-right btn-group">
+		<div class="float-right btn-group">
 			{if $RECORD->isEditable()}
 				<a href="{$RECORD->getEditViewUrl()}" class="btn btn-light" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"><span class="fas fa-pencil-alt summaryViewEdit"></span></a>
 				{/if}

@@ -21,8 +21,8 @@
 							<input class="switchBtn switchBtnReload filterField" type="checkbox" checked="" data-size="small" data-label-width="5" data-on-text="{$WIDGET['switchHeaderLables']['on']}" data-off-text="{$WIDGET['switchHeaderLables']['off']}" data-urlparams="search_params" data-on-val='{\App\Purifier::encodeHtml($WIDGET['switchHeader']['on'])}' data-off-val='{\App\Purifier::encodeHtml($WIDGET['switchHeader']['off'])}'>
 						</div>
 					{/if}
-					<div class="col-md-3 col-sm-3 pull-right paddingBottom10">
-						<div class="pull-right">
+					<div class="col-md-3 col-sm-3 float-right paddingBottom10">
+						<div class="float-right">
 							<div class="btn-group">
 								{if $WIDGET['data']['viewtype'] eq 'Summary'}
 									<div class="btn-group control-widget">
@@ -87,7 +87,7 @@
 						<div class="{$span} small-select">
 							{assign var=checkbox value=$WIDGET['data']['checkbox']}
 							<input type="hidden" name="checkbox_data" value="{$checkbox}" />
-							<div class="pull-right">
+							<div class="float-right">
 								<input class="switchBtn switchBtnReload filterField" type="checkbox" checked="" data-size="mini" data-label-width="5" data-on-text="{$WIDGET['checkboxLables']['on']}" data-off-text="{$WIDGET['checkboxLables']['off']}" data-urlparams="search_params" data-on-val='{$WIDGET['checkbox']['on']}' data-off-val='{$WIDGET['checkbox']['off']}'>
 							</div>
 						</div>

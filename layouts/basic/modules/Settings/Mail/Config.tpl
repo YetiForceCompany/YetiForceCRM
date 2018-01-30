@@ -56,7 +56,7 @@
 			<br />
 			<div class="row">
 				<div class="col-md-12">
-					<button class="btn btn-success pull-right"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+					<button class="btn btn-success float-right"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 				</div>
 			</div>
 		</div>

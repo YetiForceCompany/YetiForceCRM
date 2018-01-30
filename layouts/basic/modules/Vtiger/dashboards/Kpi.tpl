@@ -20,7 +20,7 @@
 					<span style="position:relative;">&nbsp;</span>
 				</td>
 				<td class="widgeticons col-md-5" align="right">
-					<div class="box pull-right">
+					<div class="box float-right">
 						<a name="dfilter">
 							<i class='icon-cog' border='0' align="absmiddle" title="{\App\Language::translate('LBL_FILTER')}" alt="{\App\Language::translate('LBL_FILTER')}" />
 						</a>
@@ -48,7 +48,7 @@
 	<div class="row filterContainer hide" style="position:absolute;z-index:100001">
 		<div class="row">
 			<span class="col-md-4">
-				<span class="pull-right">
+				<span class="float-right">
 					{\App\Language::translate('LBL_TIME', $MODULE_NAME)}
 				</span>
 			</span>
@@ -58,7 +58,7 @@
 		</div>
 		<div class="row">
 			<span class="col-md-4">
-				<span class="pull-right">
+				<span class="float-right">
 					{\App\Language::translate('Services', $MODULE_NAME)}
 				</span>
 			</span>
@@ -73,7 +73,7 @@
 		</div>
 		<div class="row">
 			<span class="col-md-4">
-				<span class="pull-right">
+				<span class="float-right">
 					{\App\Language::translate('Types', $MODULE_NAME)}
 				</span>
 			</span>

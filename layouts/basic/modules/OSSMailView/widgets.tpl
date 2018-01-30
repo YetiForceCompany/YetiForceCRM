@@ -14,7 +14,7 @@
 								<span class="body-icon fas fa-search"></span>
 							</button>
 						</div>
-						<div class="pull-right">
+						<div class="float-right">
 							{if AppConfig::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}
 								{if $PRIVILEGESMODEL->internal_mailer == 1}
 									{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($SMODULENAME, $SRECORD, 'Detail')}
@@ -57,7 +57,7 @@
 							{$ROW['firstLetter']}
 						</span>
 					</div>
-					<div class="pull-right muted">
+					<div class="float-right muted">
 						<small>
 							{\App\Fields\DateTime::formatToViewDate($ROW['date'])}
 						</small>   
@@ -65,11 +65,11 @@
 					<h5 class="textOverflowEllipsis mailTitle mainFrom">
 						{$ROW['from']}
 					</h5>
-					<div class="pull-right">
+					<div class="float-right">
 						{if $ROW['attachments'] eq 1}
-							<img class="pull-right" src="{\App\Layout::getLayoutFile('modules/OSSMailView/attachment.png')}" />
+							<img class="float-right" src="{\App\Layout::getLayoutFile('modules/OSSMailView/attachment.png')}" />
 						{/if}
-						<span class="pull-right">
+						<span class="float-right">
 							{if $ROW['type'] eq 0}
 								<span class="glyphicon glyphicon-arrow-up text-success" aria-hidden="true"></span>
 							{elseif $ROW['type'] eq 1}
@@ -78,7 +78,7 @@
 								<span class="fas fa-retweet text-primary" aria-hidden="true"></span>
 							{/if}
 						</span>
-						<span class="pull-right smalSeparator"></span>
+						<span class="float-right smalSeparator"></span>
 					</div>
 					<h5 class="textOverflowEllipsis mailTitle mainSubject">
 						{$ROW['subject']}

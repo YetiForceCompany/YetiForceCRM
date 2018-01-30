@@ -26,7 +26,7 @@
 								{/if}
                             </div>
                             <div class="summaryViewEdit col-xs-2 cursorPointer">
-								<div class="pull-right">
+								<div class="float-right">
 									<span class="fas fa-pencil-alt" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 								</div>
                             </div>
@@ -48,7 +48,7 @@
 		<input type="hidden" name="viewMode" value="{$CURRENT_VIEW}" data-nextviewname="full" data-currentviewlabel="{$CURRENT_MODE_LABEL}" data-full-url="{$FULL_MODE_URL}"  />
 	</div>
 	<div class="col-md-8">
-		<div class="pull-right">
+		<div class="float-right">
 			<div>
 				<p>
 					<small>

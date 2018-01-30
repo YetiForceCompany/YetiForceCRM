@@ -22,7 +22,7 @@
 						<div class="float-left divQuickCreate">
 							<h3 class="modal-title quickCreateTitle">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:&nbsp;<p class="textTransform"><b>{\App\Language::translate($SINGLE_MODULE, $MODULE)}<b></p></h3>
 						</div>
-						<div class="pull-right quickCreateActions pullRight">
+						<div class="float-right quickCreateActions pullRight">
 							{assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
 							{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
 								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader'}
@@ -63,7 +63,7 @@
 												<label class="muted pull-left-xs pull-right-sm pull-right-lg">
 													{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span>{/if}
 													{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-														<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}'><span class="fa fa-info-circle"></span></a>{/if}
+														<a href="#" class="HelpInfoPopover float-right" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}'><span class="fa fa-info-circle"></span></a>{/if}
 															{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
 													</label>
 												</div>

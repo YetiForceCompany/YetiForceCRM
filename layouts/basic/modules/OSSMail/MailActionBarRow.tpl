@@ -7,7 +7,7 @@
 				{vtlib\Functions::textLength($RELATED['label'],38)}
 			</span>
 		</a>
-		<div class="pull-right rowActions">
+		<div class="float-right rowActions">
 			{if \App\Privilege::isPermitted('Calendar','CreateView')}
 				<button class="addRelatedRecord" data-module="Calendar" title="{\App\Language::translate('LBL_ADD_CALENDAR',$MODULE_NAME)}">
 					<span class="userIcon-Calendar" aria-hidden="true"></span>

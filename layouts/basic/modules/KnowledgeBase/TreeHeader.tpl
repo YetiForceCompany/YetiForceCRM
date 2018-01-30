@@ -8,7 +8,7 @@
 			</div>
 		</div>
 		<div class="col-sm-4 col-xs-12">
-			<div class="pull-right">
+			<div class="float-right">
 				<button class="btn btn-success addRecord">{\App\Language::translate('LBL_ADD', $MODULE_NAME)}</button>
 			</div>
 		</div>

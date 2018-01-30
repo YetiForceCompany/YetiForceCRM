@@ -8,7 +8,7 @@
 			{\App\Language::translate('LBL_WIDGETS_MANAGEMENT_DESCRIPTION', $QUALIFIED_MODULE)}
 		</div>
 		<div class="col-md-3">
-			<div class="pull-right col-xs-6 col-md-6 paddingLRZero">
+			<div class="float-right col-xs-6 col-md-6 paddingLRZero">
 				<select class="chzn-select form-control" name="widgetsManagementEditorModules">
 					{foreach item=SUPPORTED_MODULE from=$SUPPORTED_MODULES}
 						<option value="{$SUPPORTED_MODULE}" {if $SUPPORTED_MODULE eq $SELECTED_MODULE_NAME} selected {/if}>{\App\Language::translate($SUPPORTED_MODULE, $SUPPORTED_MODULE)}</option>
@@ -55,8 +55,8 @@
 										<strong>{\App\Language::translate($AUTHORIZATION_NAME, $SELECTED_MODULE_NAME)}</strong>
 									</span>
 								</div>
-								<div class="col-sm-7 marginLeftZero pull-right">
-									<div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
+								<div class="col-sm-7 marginLeftZero float-right">
+									<div class="float-right btn-toolbar blockActions" style="margin: 4px;">
 										<div class="btn-group">
 											<button class="btn btn-success btn-xs addCustomField" type="button"><span class="fas fa-plus"></span>&nbsp;
 												<strong>{\App\Language::translate('LBL_ADD_WIDGET', $QUALIFIED_MODULE)}</strong>
@@ -171,7 +171,7 @@
 						</div>
 						<div class="col-md-6 marginLeftZero" style="float:right !important;">
 
-							<div class="pull-right btn-toolbar blockActions" style="margin: 4px;">
+							<div class="float-right btn-toolbar blockActions" style="margin: 4px;">
 								<div class="btn-group">
 									<button class="btn btn-success btn-xs addCustomField hide" type="button"><span class="fas fa-plus"></span>&nbsp;
 										<strong>{\App\Language::translate('LBL_ADD_WIDGET', $QUALIFIED_MODULE)}</strong>
@@ -334,11 +334,11 @@
 							<div class="float-left" style="word-wrap: break-word;">
 								<span class="fieldLabel marginLeft20"></span>
 							</div>
-							<span class="btn-group pull-right marginRight20 actions">
+							<span class="btn-group float-right marginRight20 actions">
 								<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
 									<span class="fas fa-pencil-alt alignMiddle" title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 								</a>
-								<div class="basicFieldOperations hide pull-right" style="width: 375px;">
+								<div class="basicFieldOperations hide float-right" style="width: 375px;">
 									<form class="form-horizontal fieldDetailsForm" method="POST">
 										<div class="modal-header contentsBackground">
 										</div>
@@ -431,8 +431,8 @@
 											</div>
 										</div>
 										<div class="modal-footer">
-											<span class="pull-right">
-												<div class="pull-right"><button class='cancel btn btn-warning' type="reset">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button></div>
+											<span class="float-right">
+												<div class="float-right"><button class='cancel btn btn-warning' type="reset">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button></div>
 												<button class="btn btn-success saveFieldDetails" data-field-id="" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 											</span>
 										</div>

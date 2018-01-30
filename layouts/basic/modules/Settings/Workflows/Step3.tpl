@@ -26,7 +26,7 @@
 			{include file=\App\Layout::getTemplatePath('TasksList.tpl', $QUALIFIED_MODULE)}
         </div>
         <br />
-        <div class="pull-right">
+        <div class="float-right">
             <button class="btn btn-danger backStep" type="button"><strong>{\App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
             <button class="btn btn-success" type="button" onclick="javascript:window.history.back();"><strong>{\App\Language::translate('LBL_FINISH', $QUALIFIED_MODULE)}</strong></button>
         </div>

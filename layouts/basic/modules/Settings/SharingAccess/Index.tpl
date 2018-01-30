@@ -13,7 +13,7 @@
 						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 					</div>
 					<div class="col-md-4">
-						<button class="btn btn-success pull-right hide" type="submit" name="saveButton"><strong>{\App\Language::translate('LBL_APPLY_NEW_SHARING_RULES', $QUALIFIED_MODULE)}</strong></button>
+						<button class="btn btn-success float-right hide" type="submit" name="saveButton"><strong>{\App\Language::translate('LBL_APPLY_NEW_SHARING_RULES', $QUALIFIED_MODULE)}</strong></button>
 					</div>
 				</div>
 				<table class="table tableRWD table-bordered table-condensed sharingAccessDetails">
@@ -70,7 +70,7 @@
 					</tbody>
 				</table>
 			<div>
-				<div class="pull-right">
+				<div class="float-right">
 					<button class="btn btn-success hide" type="submit" name="saveButton"><strong>{\App\Language::translate('LBL_APPLY_NEW_SHARING_RULES', $QUALIFIED_MODULE)}</strong></button>
 				</div>
 			</div>

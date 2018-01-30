@@ -23,7 +23,7 @@
 				<input type="text" name="email" class="form-control" placeholder="{App\Language::translate('LBL_EMAIL_ADRESS')}" data-validation-engine="validate[required,custom[email]]">
 			</div>
 		</div>
-		<div class="pull-right">
+		<div class="float-right">
 			<button type="button" class="btn btn-success ajaxBtn">
 				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 				&nbsp;&nbsp;{App\Language::translate('LBL_SAVE','Settings:SystemWarnings')}

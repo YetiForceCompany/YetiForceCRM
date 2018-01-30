@@ -34,7 +34,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<div class="pull-right cancelLinkContainer">
+					<div class="float-right cancelLinkContainer">
 						<button class="btn btn-success nextButton" type="submit"><strong>{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}</strong></button>
 						<button class="btn cancelLink btn-warning" type="reset" data-dismiss="modal">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					</div>

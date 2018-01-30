@@ -12,7 +12,7 @@
 					<div class="">
 						<div class="blockHeader emailPreviewHeader">
 							<h3 class='col-md-4 pushDown'>{\App\Language::translate('emailPreviewHeader',$MODULENAME)}</h3>
-							<div class='pull-right'>
+							<div class='float-right'>
 								<div class="btn-toolbar" >
 									{if AppConfig::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}
 										{if $USER_MODEL->get('internal_mailer') == 1}
@@ -69,7 +69,7 @@
 						<form class="form-horizontal emailPreview">
 							<div class="row padding-bottom1per">
 								<span class="col-md-2">
-									<span class="pull-right muted">{\App\Language::translate('From',$MODULENAME)}</span>
+									<span class="float-right muted">{\App\Language::translate('From',$MODULENAME)}</span>
 								</span>
 								<span class="col-md-9">
 									<span id="emailPreview_From" class="">{$FROM}</span>
@@ -77,7 +77,7 @@
 							</div>
 							<div class="row padding-bottom1per">
 								<span class="col-md-2">
-									<span class="pull-right muted">{\App\Language::translate('To',$MODULENAME)}</span>
+									<span class="float-right muted">{\App\Language::translate('To',$MODULENAME)}</span>
 								</span>
 								<span class="col-md-9">
 									<span id="emailPreview_To" class="">{assign var=TO_EMAILS value=","|implode:$TO}{$TO_EMAILS}</span>
@@ -86,7 +86,7 @@
 							{if !empty($CC)}
 								<div class="row padding-bottom1per">
 									<span class="col-md-2">
-										<span class="pull-right muted">{\App\Language::translate('CC',$MODULENAME)}</span>
+										<span class="float-right muted">{\App\Language::translate('CC',$MODULENAME)}</span>
 									</span>
 									<span class="col-md-9">
 										<span id="emailPreview_Cc" class="">
@@ -98,7 +98,7 @@
 							{if !empty($BCC)}
 								<div class="row padding-bottom1per">
 									<span class="col-md-2">
-										<span class="pull-right muted">{\App\Language::translate('BCC',$MODULENAME)}</span>
+										<span class="float-right muted">{\App\Language::translate('BCC',$MODULENAME)}</span>
 									</span>
 									<span class="col-md-9">
 										<span id="emailPreview_Bcc" class="">
@@ -109,7 +109,7 @@
 							{/if}
 							<div class="row padding-bottom1per">
 								<span class="col-md-2">
-									<span class="pull-right muted">{\App\Language::translate('Subject',$MODULENAME)}</span>
+									<span class="float-right muted">{\App\Language::translate('Subject',$MODULENAME)}</span>
 								</span>
 								<span class="col-md-9">
 									<span id="emailPreview_Subject" class="">
@@ -120,7 +120,7 @@
 							{if !empty($ATTACHMENTS)}
 								<div class="row padding-bottom1per">
 									<span class="col-md-2">
-										<span class="pull-right muted">{\App\Language::translate('Attachments_Exist',$MODULENAME)}</span>
+										<span class="float-right muted">{\App\Language::translate('Attachments_Exist',$MODULENAME)}</span>
 									</span>
 									<span class="col-md-9">
 										<span id="emailPreview_attachment" class="">
@@ -135,7 +135,7 @@
 							{/if}
 							<div class="row padding-bottom1per content">
 								<span class="col-md-2">
-									<span class="pull-right muted">{\App\Language::translate('Content',$MODULENAME)}</span>
+									<span class="float-right muted">{\App\Language::translate('Content',$MODULENAME)}</span>
 								</span>
 								<span class="col-md-10 row">
 									<iframe id="emailPreview_Content" class="col-md-12" src="{$URL}" frameborder="0"></iframe>

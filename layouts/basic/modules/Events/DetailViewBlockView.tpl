@@ -26,7 +26,7 @@
 				<div class="col-xs-12 paddingLRZero fieldRow">
 					<div class="col-md-6 col-xs-12 fieldsLabelValue paddingLRZero">
 						<div class="fieldLabel col-sm-5 col-xs-12 {$WIDTHTYPE}">
-							<label class="muted pull-right marginRight10px">{\App\Language::translate('LBL_INVITE_RECORDS',$MODULE_NAME)}</label></td>
+							<label class="muted float-right marginRight10px">{\App\Language::translate('LBL_INVITE_RECORDS',$MODULE_NAME)}</label></td>
 						</div>
 						<div class="fieldValue col-sm-7 col-xs-12 {$WIDTHTYPE}">
 							{foreach key=KEY item=INVITIE from=$INVITIES_SELECTED}

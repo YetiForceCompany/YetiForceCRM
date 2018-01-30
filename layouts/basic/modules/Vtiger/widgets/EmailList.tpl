@@ -9,7 +9,7 @@
 						<h4 class="modCT_{$WIDGET['label']}">{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}</h4>
 					</div>
 					<div class="col-xs-5">
-						<div class="pull-right">
+						<div class="float-right">
 							<button type="button" class="btn btn-sm btn-light showMailsModal" data-url="index.php?module=OSSMailView&view=MailsPreview&smodule={$MODULE_NAME}&srecord={$RECORD->getId()}&mode=showEmailsList">
 								<span class="body-icon fas fa-search" title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAILS','OSSMailView')}"></span>
 							</button>

@@ -19,7 +19,7 @@
 				</form>
 			</div>
 			<div class="modal-footer">
-				<div class="pull-right cancelLinkContainer" style="margin-top:0px;">
+				<div class="float-right cancelLinkContainer" style="margin-top:0px;">
 					<button class="btn cancelLink btn-warning" type="reset" data-dismiss="modal">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					<button class="btn btn-success saveButton"><strong>{\App\Language::translate('LBL_ADD_NEW_MENU', $QUALIFIED_MODULE)}</strong></button>
 				</div>

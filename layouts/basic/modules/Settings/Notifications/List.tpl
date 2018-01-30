@@ -6,7 +6,7 @@
 	</div>
 	<div class="col-md-6">
 		<div class="col-md-6">
-			<button class="btn btn-success pull-right createNotification">{\App\Language::translate('LBL_ADD',$QUALIFIED_MODULE)}</button>
+			<button class="btn btn-success float-right createNotification">{\App\Language::translate('LBL_ADD',$QUALIFIED_MODULE)}</button>
 		</div>
 		<div class="col-md-6">
 			<select class="select2 form-control" name="roleMenu">

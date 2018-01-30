@@ -5,7 +5,7 @@
 			<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}"><b>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</b></div>
 		</div>
 		<div class="col-md-4">
-			<div class="box pull-right">
+			<div class="box float-right">
 				{if \App\Privilege::isPermitted($MODULE_NAME, 'CreateView')}
 					<a class="btn btn-light btn-xs" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('{$MODULE_NAME}'); return false;">
 						<i class='fas fa-plus' border='0' title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}"></i>
@@ -25,7 +25,7 @@
 	<hr class="widgetHr" />
 	<div class="row" >
 		<div class="col-md-12">
-			<div class="pull-right">
+			<div class="float-right">
 				<input class="switchBtn calculationsSwitch" type="checkbox" checked="" data-size="mini" data-label-width="5" data-handle-width="75" data-on-text="{\App\Language::translate('LBL_OWNER',$MODULE_NAME)}" data-off-text="{\App\Language::translate('LBL_COMMON',$MODULE_NAME)}" data-on-val="owner" data-off-val="common" data-urlparams="showtype">
 			</div>
 		</div>

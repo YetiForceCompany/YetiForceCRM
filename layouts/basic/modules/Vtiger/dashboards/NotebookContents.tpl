@@ -15,8 +15,8 @@
 					<i>{\App\Language::translate('LBL_LAST_SAVED_ON', $MODULE)}</i> {\App\Fields\DateTime::formatToDay($WIDGET->getLastSavedDate())}
 				</span>
 				<span class="col-md-2">
-					<span class="pull-right">
-						<button class="btn btn-xs btn-light pull-right dashboard_notebookWidget_edit">
+					<span class="float-right">
+						<button class="btn btn-xs btn-light float-right dashboard_notebookWidget_edit">
 							<strong>{\App\Language::translate('LBL_EDIT', $MODULE)}</strong>
 						</button>
 					</span>
@@ -34,8 +34,8 @@
 					<i>{\App\Language::translate('LBL_LAST_SAVED_ON', $MODULE)}</i> {\App\Fields\DateTime::formatToDay($WIDGET->getLastSavedDate())}
 				</span>
 				<span class="col-md-2">
-					<span class="pull-right">
-						<button class="btn btn-xs btn-success pull-right dashboard_notebookWidget_save">
+					<span class="float-right">
+						<button class="btn btn-xs btn-success float-right dashboard_notebookWidget_save">
 							<strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong>
 						</button>
 					</span>

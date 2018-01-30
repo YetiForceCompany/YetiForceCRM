@@ -15,7 +15,7 @@
 	<div class="row filterContainer hide" style="position:absolute;z-index:100001">
 		<div class="row">
 			<span class="col-md-5">
-				<span class="pull-right">
+				<span class="float-right">
 					{\App\Language::translate('Created Time', $MODULE_NAME)} &nbsp; {\App\Language::translate('LBL_BETWEEN', $MODULE_NAME)}
 				</span>
 			</span>
@@ -25,7 +25,7 @@
 		</div>
 		<div class="row">
 			<span class="col-md-5">
-				<span class="pull-right">
+				<span class="float-right">
 					{\App\Language::translate('Assigned To', $MODULE_NAME)}
 				</span>
 			</span>

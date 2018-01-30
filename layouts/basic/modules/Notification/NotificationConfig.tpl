@@ -7,7 +7,7 @@
 			<div class="col-xs-8 paddingLRZero">
 				<h4>{\App\Language::translate('LBL_WATCHING_MODULES', $MODULE)}</h4>
 			</div>
-			<div class="pull-right">
+			<div class="float-right">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>
 			</div>
 		</div>
@@ -22,11 +22,11 @@
 								<tr>
 									<th>
 										<strong>{\App\Language::translate('LBL_MODULES', $MODULE)}</strong>
-										<div class="pull-right">
+										<div class="float-right">
 											{if $CRON_ACTIVE && $IS_PERMITTED}
 												<span title="{\App\Language::translate('LBL_SELECT_ALL')}" class="fa {if $IS_ALL_EMAIL_NOTICE}fa-envelope sandNoticeOn{else}fa-envelope-o sandNoticeOff{/if} fa-lg marginTB3 cursorPointer sentNotice"></span>
 											{/if}
-											<span class="pull-right marginIcon">
+											<span class="float-right marginIcon">
 												<input type="checkbox" {if $SELECT_ALL_MODULES} checked {/if} class="selectAllModules" title="{\App\Language::translate('LBL_SELECT_ALL')}" />
 											</span>
 										</div>
@@ -38,11 +38,11 @@
 									{assign var="INDEX" value=$smarty.foreach.modules.iteration}
 									<tr data-id="{$MODULE_ID}">
 										<td><strong>{\App\Language::translate($MODULE_INFO->getName(), $MODULE_INFO->getName())}</strong>
-											<span class="pull-right marginIcon">
+											<span class="float-right marginIcon">
 												<input type="checkbox" {if in_array($MODULE_ID, $WATCHING_MODULES)}checked {/if} name="modules" class="watchingModule" {if $WATCHING_MODEL->isLock($MODULE_ID)}disabled{/if} value="{$MODULE_ID}" />
 											</span>
 											{if $CRON_ACTIVE && $IS_PERMITTED}
-												<span title="{\App\Language::translate('LBL_SENT_NOTIFICATIONS', $MODULE)}" class="fa {if in_array($MODULE_ID, $SCHEDULE_DATA.modules)}fa-envelope sandNoticeOn{else}fa-envelope-o sandNoticeOff{/if} fa-lg pull-right marginTB3 cursorPointer" data-val=""></span>
+												<span title="{\App\Language::translate('LBL_SENT_NOTIFICATIONS', $MODULE)}" class="fa {if in_array($MODULE_ID, $SCHEDULE_DATA.modules)}fa-envelope sandNoticeOn{else}fa-envelope-o sandNoticeOff{/if} fa-lg float-right marginTB3 cursorPointer" data-val=""></span>
 											{/if}
 										</td>
 									</tr>
@@ -72,7 +72,7 @@
 				<a href="#" class="infoPopover float-left" title="" data-placement="top" data-original-title="{\App\Language::translate('LBL_RECEIVING_MAIL_NOTIFICATIONS', $MODULE)}" data-content="{\App\Purifier::encodeHtml($POPOVER_CONTENT)}">&nbsp;<span class="fa fa-info-circle"></span></a>
 			</div>
 		{/if}
-		<div class="col-md-6 col-sm-6 pull-right">
+		<div class="col-md-6 col-sm-6 float-right">
 			<button type="button" name="saveButton" class="btn btn-success">{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}</button>
 			<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}</button>
 		</div>
