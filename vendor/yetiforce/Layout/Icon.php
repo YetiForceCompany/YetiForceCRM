@@ -13,7 +13,7 @@ class Icon
 {
 
 	private static $extensionIcon = [
-		'application/pdf' => 'fa fa-file-pdf-o',
+		'application/pdf' => 'far fa-file-pdf',
 		'application/msword' => 'far fa-file-word',
 		'application/vnd.openxmlformats-officedocument.word' => 'far fa-file-word',
 		'application/vnd.oasis.opendocument.text' => 'far fa-file-word',
