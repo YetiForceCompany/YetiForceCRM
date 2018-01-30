@@ -72,7 +72,7 @@
 											{/if}
 											{assign var=FAVORITES value=$MODULE_MODEL->isFavorites()}
 											<button type="button" class="btn btn-default addToFavorites" data-state="{$MODULE_MODEL->get('favorites')}">
-												<span class="fa fa-star {if !$FAVORITES}hide{/if}" title="{\App\Language::translate('LBL_DEACTIVATE_FAVORITES', $QUALIFIED_MODULE)}"></span>
+												<span class="fas fa-star {if !$FAVORITES}hide{/if}" title="{\App\Language::translate('LBL_DEACTIVATE_FAVORITES', $QUALIFIED_MODULE)}"></span>
 												<span class="fa fa-star-o {if $FAVORITES}hide{/if}" title="{\App\Language::translate('LBL_ACTIVATE_FAVORITES', $QUALIFIED_MODULE)}"></span>	
 											</button>
 											<button type="button" class="btn btn-success inActiveRelationModule{if !$MODULE_MODEL->isActive()} hide{/if}"><span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_VISIBLE', $QUALIFIED_MODULE)}</strong></button>
