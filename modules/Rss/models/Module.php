@@ -23,7 +23,7 @@ class Rss_Module_Model extends Vtiger_Module_Model
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_ADD_FEED_SOURCE',
 				'linkurl' => $this->getDefaultUrl(),
-				'linkicon' => 'fa fa-rss',
+				'linkicon' => 'fas fa-rss',
 		]);
 		$links['SIDEBARWIDGET'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARWIDGET',
