@@ -125,7 +125,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linklabel' => '',
 				'linkurl' => 'javascript:Vtiger_Index_Js.sendNotification(this)',
-				'linkicon' => 'fa fa-paper-plane',
+				'linkicon' => 'fas fa-paper-plane',
 				'linkhint' => 'LBL_SEND_NOTIFICATION'
 			];
 		}

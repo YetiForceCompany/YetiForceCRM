@@ -9,7 +9,7 @@
 			{if $RECORD_MODEL}
 				<div class="pull-right btn-toolbar"><span class="actionImages">
 						<button class="btn btn-info sendManually">
-							<span class="fa fa-paper-plane"></span>
+							<span class="fas fa-paper-plane"></span>
 							<strong class="marginLeft5">{App\Language::translate('LBL_MANUAL_SENDING', $QUALIFIED_MODULE)}</strong>
 						</button>
 						{if $RECORD_MODEL->get('status') eq 0}

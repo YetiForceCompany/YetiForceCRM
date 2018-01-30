@@ -105,7 +105,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_HEADER',
 				'linkhint' => 'LBL_SEND_NOTIFICATION',
 				'linkurl' => 'javascript:Vtiger_Index_Js.sendNotification(this)',
-				'linkicon' => 'fa fa-paper-plane'
+				'linkicon' => 'fas fa-paper-plane'
 			];
 		}
 		$openStreetMapModuleModel = Vtiger_Module_Model::getInstance('OpenStreetMap');
