@@ -25,7 +25,7 @@
 										<img width="14px" src="{\App\Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{\App\Language::translate('LBL_REPLYALLL','OSSMailView')}">
 									</button>
 									<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=forward" data-popup="{$POPUP}" title="{\App\Language::translate('LBL_FORWARD','OSSMailView')}">
-										<span class="fa fa-share"></span>
+										<span class="fas fa-share"></span>
 									</button>
 								{else}
 									<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'reply',$SRECORD,$SMODULENAME)}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
@@ -35,7 +35,7 @@
 										<img width="14px" src="{\App\Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{\App\Language::translate('LBL_REPLYALLL','OSSMailView')}">
 									</a>
 									<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($ROW, 'forward',$SRECORD,$SMODULENAME)}" title="{\App\Language::translate('LBL_FORWARD', 'OSSMailView')}">
-										<span class="fa fa-share"></span>
+										<span class="fas fa-share"></span>
 									</a>
 								{/if}
 							{/if}

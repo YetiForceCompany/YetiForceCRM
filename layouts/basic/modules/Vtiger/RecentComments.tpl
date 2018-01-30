@@ -92,7 +92,7 @@
 											{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 												<span>
 													<button type="button" class="btn btn-xs btn-success replyComment feedback">
-														<span class="fa fa-share" aria-hidden="true"></span>&nbsp;
+														<span class="fas fa-share" aria-hidden="true"></span>&nbsp;
 														{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}
 													</button>
 													{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}

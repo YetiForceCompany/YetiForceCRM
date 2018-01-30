@@ -65,7 +65,7 @@
 						{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
 						{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 							<button type="button" class="btn btn-xs btn-success replyComment">
-								<span class="fa fa-share" aria-hidden="true"></span>
+								<span class="fas fa-share" aria-hidden="true"></span>
 								&nbsp;{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}
 							</button>
 						{/if}
