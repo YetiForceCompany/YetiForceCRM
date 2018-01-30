@@ -33,17 +33,17 @@ class Icon
 		'application/vnd.oasis.opendocument.presentation' => 'far fa-file-powerpoint',
 		'image' => 'far fa-file-image',
 		'text/html' => 'fa fa-html5',
-		'text/json' => 'fa fa-file-code-o',
+		'text/json' => 'far fa-file-code',
 		'text/css' => 'fab fa-css3',
-		'application/javascript' => 'fa fa-file-code-o',
-		'text/xml' => 'fa fa-file-code-o',
+		'application/javascript' => 'far fa-file-code',
+		'text/xml' => 'far fa-file-code',
 		'application/x-shockwave-flash' => 'far fa-file-image',
 		'video' => 'fa fa-file-video-o',
 		'audio' => 'fa fa-file-audio-o',
 		'application/vnd.oasis.opendocument.text' => 'fa fa-file-word-o',
 		'text/vcard' => 'fa fa-calendar',
 		'text/calendar' => 'fa fa-calendar',
-		'application/x-javascript' => 'fa fa-file-code-o',
+		'application/x-javascript' => 'far fa-file-code',
 	];
 
 	public static function getIconByFileType($exntension)
