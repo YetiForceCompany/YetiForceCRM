@@ -14,9 +14,9 @@ class Icon
 
 	private static $extensionIcon = [
 		'application/pdf' => 'fa fa-file-pdf-o',
-		'application/msword' => 'fa fa-file-word-o',
-		'application/vnd.openxmlformats-officedocument.word' => 'fa fa-file-word-o',
-		'application/vnd.oasis.opendocument.text' => 'fa fa-file-word-o',
+		'application/msword' => 'far fa-file-word',
+		'application/vnd.openxmlformats-officedocument.word' => 'far fa-file-word',
+		'application/vnd.oasis.opendocument.text' => 'far fa-file-word',
 		'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'fa fa-file-excel-o',
 		'application/vnd.oasis.opendocument.spreadsheet' => 'fa fa-file-excel-o',
 		'application/vnd.ms-excel' => 'fa fa-file-excel-o',
@@ -40,7 +40,7 @@ class Icon
 		'application/x-shockwave-flash' => 'far fa-file-image',
 		'video' => 'far fa-file-video',
 		'audio' => 'far fa-file-audio',
-		'application/vnd.oasis.opendocument.text' => 'fa fa-file-word-o',
+		'application/vnd.oasis.opendocument.text' => 'far fa-file-word',
 		'text/vcard' => 'fa fa-calendar',
 		'text/calendar' => 'fa fa-calendar',
 		'application/x-javascript' => 'far fa-file-code',
