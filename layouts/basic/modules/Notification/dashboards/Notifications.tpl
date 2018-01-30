@@ -13,14 +13,14 @@
 		</div>
 		<hr class="widgetHr" />
 		<div class="row" >
-			<div class="col-xs-6">
+			<div class="col-6">
 				<select class="widgetFilter select2" name="type">
 					{foreach from=$TYPES_NOTIFICATION key=KEY item=TYPE}
 						<option value="{$KEY}">{$TYPE}</option>
 					{/foreach}
 				</select>
 			</div>
-			<div class="col-xs-6">
+			<div class="col-6">
 				<div class="btn-toolbar float-right">
 					{if \App\Privilege::isPermitted('Notification', 'CreateView')}
 						<button type="button" class="btn btn-light" onclick="Vtiger_Index_Js.sendNotification()">
