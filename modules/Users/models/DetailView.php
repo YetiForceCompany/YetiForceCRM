@@ -31,7 +31,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 				'linklabel' => 'LBL_CHANGE_PASSWORD',
 				'linkdata' => ['url' => 'index.php?module=Users&view=PasswordModal&mode=change&record=' . $recordId],
 				'linkclass' => 'btn-info showModal',
-				'linkicon' => 'fa fa-key',
+				'linkicon' => 'fas fa-key',
 				'showLabel' => true
 			];
 			if ($currentUserModel->isAdminUser() === true) {

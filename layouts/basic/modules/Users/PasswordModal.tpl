@@ -8,7 +8,7 @@
 			{if $MODE === 'reset' || $MODE === 'massReset'}
 				<span class="fas fa-redo-alt"></span>&nbsp;&nbsp;
 			{elseif $MODE === 'change'}
-				<span class="fa fa-key"></span>&nbsp;&nbsp;
+				<span class="fas fa-key"></span>&nbsp;&nbsp;
 			{/if}
 			{\App\Language::translate($MODE_TITLE, $MODULE_NAME)}{if $RECORD} - {App\Fields\Owner::getUserLabel($RECORD)}{/if}
 		</h4>
