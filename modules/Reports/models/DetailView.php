@@ -61,7 +61,7 @@ class Reports_DetailView_Model extends Vtiger_DetailView_Model
 			$detailViewLinks[] = [
 				'linklabel' => \App\Language::translate('LBL_REPORT_EXPORT_EXCEL', $moduleName),
 				'linkurl' => $recordModel->getReportExcelURL(),
-				'linkicon' => 'fa fa-file-excel-o'
+				'linkicon' => 'far fa-file-excel'
 			];
 		}
 
