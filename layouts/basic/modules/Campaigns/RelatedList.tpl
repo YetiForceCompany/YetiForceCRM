@@ -75,7 +75,7 @@
 																		{/foreach}
 																	</select>
 																	<span class="filterImage">
-																		<span class="fa fa-filter"></span>
+																		<span class="fas fa-filter"></span>
 																	</span>
 																{else}
 																	<input type="hidden" value="0" id="customFilter" />
@@ -84,7 +84,7 @@
 														</div>
 														<div class="btn-group paddingRight10">
 															<button type="button" class="btn btn-default loadFormFilterButton popoverTooltip" data-content="{\App\Language::translate('LBL_LOAD_RECORDS_INFO',$MODULE)}">
-																<span class="fa fa-filter"></span>&nbsp;
+																<span class="fas fa-filter"></span>&nbsp;
 																<strong>{\App\Language::translate('LBL_LOAD_RECORDS',$MODULE)}</strong>
 															</button>
 														</div>

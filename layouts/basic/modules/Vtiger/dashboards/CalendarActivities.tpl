@@ -42,7 +42,7 @@
 		<div class="row" >
 			<div class="col-xs-6">
 				<div class="input-group input-group-sm">
-					<span class="input-group-addon"><span class="fa fa-filter iconMiddle margintop3" title="{\App\Language::translate('Assigned To', $MODULE_NAME)}"></span></span>
+					<span class="input-group-addon"><span class="fas fa-filter iconMiddle margintop3" title="{\App\Language::translate('Assigned To', $MODULE_NAME)}"></span></span>
 					<select class="widgetFilter select2 width90 form-control input-sm" name="activitytype" title="{\App\Language::translate('Activity Type',$SOURCE_MODULE)}">
 						<option value="all">{\App\Language::translate('LBL_ALL')}</option>
 						{foreach item=TYPE from=Calendar_Module_Model::getCalendarTypes()}

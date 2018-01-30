@@ -25,7 +25,7 @@
 		<div class="col-sm-6">
 			{if AppConfig::module('Calendar','DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE') == 'list'}
 				<div class="input-group input-group-sm">
-					<span class="input-group-addon"><span class="fa fa-filter iconMiddle margintop3"></span></span>
+					<span class="input-group-addon"><span class="fas fa-filter iconMiddle margintop3"></span></span>
 					<select class="widgetFilter form-control customFilter input-sm" name="customFilter" title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
 						{assign var=CUSTOM_VIEWS value=CustomView_Record_Model::getAllByGroup('Calendar')}
 						{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}

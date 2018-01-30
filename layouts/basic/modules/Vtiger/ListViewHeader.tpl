@@ -111,7 +111,7 @@
 																	</ul>
 																</div>
 															{/if}
-															<span class="fa fa-filter filterImage" style="display:none;margin-right:2px"></span>
+															<span class="fas fa-filter filterImage" style="display:none;margin-right:2px"></span>
 														{else}
 															<input type="hidden" value="0" id="customFilter" />
 														{/if}
