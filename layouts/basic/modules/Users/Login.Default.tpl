@@ -47,7 +47,7 @@
 											{/foreach}
 										</select>
 										<div class="input-group-append">
-											<div class="input-group-text"><i class="fa fa-language" aria-hidden="true"></i></div>
+											<div class="input-group-text"><i class="fas fa-language" aria-hidden="true"></i></div>
 										</div>
 									</div>
 								{/if}
