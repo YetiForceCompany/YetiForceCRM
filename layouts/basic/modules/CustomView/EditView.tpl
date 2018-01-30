@@ -49,7 +49,7 @@
 					</label>
 					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->isFeatured(true)} active btn-primary{/if}" title="{\App\Language::translate('LBL_FEATURED',$MODULE)}">
 						<input id="featured" name="featured" type="checkbox"  {if $CUSTOMVIEW_MODEL->isFeatured(true)} checked="checked"{/if} value="1" />
-						<span class="fa fa-star-o" data-check="glyphicon-star" data-unchecked="glyphicon-star-empty"></span>
+						<span class="fal fa-star" data-check="glyphicon-star" data-unchecked="glyphicon-star-empty"></span>
 					</label>
 					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->get('setmetrics')} active btn-primary{/if}" title="{\App\Language::translate('LBL_LIST_IN_METRICS',$MODULE)}">
 						<input id="setmetrics" name="setmetrics" type="checkbox" {if $CUSTOMVIEW_MODEL->get('setmetrics') eq '1'}checked="checked"{/if} value="1" />
