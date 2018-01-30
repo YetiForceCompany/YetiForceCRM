@@ -77,7 +77,7 @@
 						<input type="text" readonly="readonly" class="form-control indirect " />
 						<div class="input-group-btn">
 							<button class="btn btn-warning btn-sm setView">
-								<span class="fa fa-flag"></span>
+								<span class="fas fa-flag"></span>
 							</button>
 							<button class="btn btn-success btn-sm moveUp">
 								<span class="fas fa-upload"></span>
