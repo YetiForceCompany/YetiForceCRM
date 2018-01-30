@@ -86,7 +86,7 @@
 					{if $IS_BLOCKED_IP}
 						<div class="alert alert-danger">
 							<div class="row">
-								<div class="col-md-2"><span style="font-size: 60px;" class="fa fa-minus-circle" aria-hidden="true"></span></div>
+								<div class="col-md-2"><span style="font-size: 60px;" class="fas fa-minus-circle" aria-hidden="true"></span></div>
 								<div class="col-md-10"><p>{\App\Language::translate('LBL_IP_IS_BLOCKED',$MODULE_NAME)}</p></div>
 							</div>
 						</div>
