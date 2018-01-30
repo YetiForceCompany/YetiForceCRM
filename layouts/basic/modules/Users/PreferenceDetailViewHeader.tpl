@@ -42,7 +42,7 @@
 								{/foreach}
 								{if $DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']|@count gt 0}
 									<span class="btn-group">
-										<button class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
+										<button class="btn btn-light dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
 											<strong>{\App\Language::translate('LBL_MORE', $MODULE_NAME)}</strong>&nbsp;&nbsp;<i class="caret"></i>
 										</button>
 										<ul class="dropdown-menu pull-right">

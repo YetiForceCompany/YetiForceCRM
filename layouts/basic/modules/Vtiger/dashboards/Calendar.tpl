@@ -11,7 +11,7 @@
 		<div class="col-xs-4">
 			<div class="box pull-right">
 				{if \App\Privilege::isPermitted('Calendar', 'CreateView')}
-					<a class="btn btn-default btn-xs" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
+					<a class="btn btn-light btn-xs" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
 							return false;">
 						<span class='fas fa-plus' border='0' title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
 					</a>
@@ -53,11 +53,11 @@
 		<div class="col-sm-12">
 			<div class="headerCalendar pinUnpinShortCut row" >
 				<div class="col-xs-2">
-					<button class="btn btn-default btn-sm" data-type="fc-prev-button"><span class="glyphicon glyphicon-chevron-left"></span></button>
+					<button class="btn btn-light btn-sm" data-type="fc-prev-button"><span class="glyphicon glyphicon-chevron-left"></span></button>
 				</div>
 				<div class="col-xs-8 month textAlignCenter paddingRightZero"> </div>
 				<div class="col-xs-2">
-					<button class="btn btn-default btn-sm  pull-right" data-type="fc-next-button"><span class="glyphicon glyphicon-chevron-right"></span></button>
+					<button class="btn btn-light btn-sm  pull-right" data-type="fc-next-button"><span class="glyphicon glyphicon-chevron-right"></span></button>
 				</div>
 			</div>
 		</div>

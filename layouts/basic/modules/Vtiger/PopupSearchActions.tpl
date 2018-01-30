@@ -2,7 +2,7 @@
 {strip}
 	<div class="col-md-2 form-group pull-left">
 		{if $MULTI_SELECT}
-			{if !empty($LISTVIEW_ENTRIES)}<button class="select btn btn-default"><strong>{\App\Language::translate('LBL_SELECT', $MODULE)}</strong></button>&nbsp;{/if}
+			{if !empty($LISTVIEW_ENTRIES)}<button class="select btn btn-light"><strong>{\App\Language::translate('LBL_SELECT', $MODULE)}</strong></button>&nbsp;{/if}
 		{/if}
 	</div>
 	{if $SWITCH && !empty($LISTVIEW_ENTRIES)}

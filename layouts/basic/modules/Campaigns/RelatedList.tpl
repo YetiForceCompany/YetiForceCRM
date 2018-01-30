@@ -31,7 +31,7 @@
 					<div class="col-md-9">
 						<div class="btn-group listViewMassActions btn-group paddingRight10">
 							{if $RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS']|@count gt 0}
-								<button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><strong>{\App\Language::translate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
+								<button class="btn btn-light dropdown-toggle" data-toggle="dropdown"><strong>{\App\Language::translate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
 								<ul class="dropdown-menu">
 									{foreach item="LISTVIEW_MASSACTION" from=$RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'] name=actionCount}
 										<li id="{$MODULE}_listView_massAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_MASSACTION->getLabel())}"><a href="javascript:void(0);" {if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick="Vtiger_List_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"{/if} >{\App\Language::translate($LISTVIEW_MASSACTION->getLabel(), $MODULE)}</a></li>
@@ -83,7 +83,7 @@
 															</span>
 														</div>
 														<div class="btn-group paddingRight10">
-															<button type="button" class="btn btn-default loadFormFilterButton popoverTooltip" data-content="{\App\Language::translate('LBL_LOAD_RECORDS_INFO',$MODULE)}">
+															<button type="button" class="btn btn-light loadFormFilterButton popoverTooltip" data-content="{\App\Language::translate('LBL_LOAD_RECORDS_INFO',$MODULE)}">
 																<span class="fa fa-filter"></span>&nbsp;
 																<strong>{\App\Language::translate('LBL_LOAD_RECORDS',$MODULE)}</strong>
 															</button>
@@ -92,7 +92,7 @@
 															<div class="btn-group paddingRight10">
 																{assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
 																{assign var=IS_SEND_EMAIL_BUTTON value={$RELATED_LINK->get('_sendEmail')}}
-																<button type="button" class="btn btn-default addButton
+																<button type="button" class="btn btn-light addButton
 																		{if $IS_SELECT_BUTTON eq true} selectRelation {/if} modCT_{$RELATED_MODULE->get('name')} {if $RELATED_LINK->linkqcs eq true}quickCreateSupported{/if}"
 																		{if $IS_SELECT_BUTTON eq true} data-moduleName='{$RELATED_LINK->get('_module')->get('name')}'{/if}
 																		{if $RELATION_FIELD} data-name="{$RELATION_FIELD->getName()}" {/if}
@@ -116,7 +116,7 @@
 																	{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
 																	<input type="hidden" class="entityState" value="{if $VIEW_MODEL->has('entityState')}{$VIEW_MODEL->get('entityState')}{else}Active{/if}" />
 																	<div class="dropdown dropdownEntityState">
-																		<button class="btn btn-default dropdown-toggle" type="button" id="dropdownEntityState" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+																		<button class="btn btn-light dropdown-toggle" type="button" id="dropdownEntityState" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 																			{if $VIEW_MODEL->get('entityState') === 'Archived'}
 																				<span class="fas fa-archive"></span>
 																			{elseif $VIEW_MODEL->get('entityState') === 'Trash'}
@@ -195,7 +195,7 @@
 														{if $RELATED_MODULE->isQuickSearchEnabled()}
 															<tr>
 																<td>
-																	<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="fas fa-search"></span></a>
+																	<a class="btn btn-light" data-trigger="listSearch" href="javascript:void(0);"><span class="fas fa-search"></span></a>
 																</td>
 																{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 																	<td>
@@ -210,7 +210,7 @@
 																	</td>
 																{/foreach}
 																<td>
-																	<button type="button" class="btn btn-default removeSearchConditions">
+																	<button type="button" class="btn btn-light removeSearchConditions">
 																		<span class="fas fa-times"></button>
 																	</a>
 																</td>

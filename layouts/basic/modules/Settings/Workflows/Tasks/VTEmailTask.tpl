@@ -125,8 +125,8 @@
 				<span class="col-md-8 row">
 					<span class="col-md-3">&nbsp;</span>
 					<span class="col-md-9">
-						<a class="btn btn-default {if (!empty($TASK_OBJECT->emailcc))}hide{/if}" id="ccLink">{\App\Language::translate('LBL_ADD_CC',$QUALIFIED_MODULE)}</a>&nbsp;&nbsp;
-						<a class="btn btn-default {if (!empty($TASK_OBJECT->emailbcc))}hide{/if}" id="bccLink">{\App\Language::translate('LBL_ADD_BCC',$QUALIFIED_MODULE)}</a>
+						<a class="btn btn-light {if (!empty($TASK_OBJECT->emailcc))}hide{/if}" id="ccLink">{\App\Language::translate('LBL_ADD_CC',$QUALIFIED_MODULE)}</a>&nbsp;&nbsp;
+						<a class="btn btn-light {if (!empty($TASK_OBJECT->emailbcc))}hide{/if}" id="bccLink">{\App\Language::translate('LBL_ADD_BCC',$QUALIFIED_MODULE)}</a>
 					</span>
 				</span>
 			</div>

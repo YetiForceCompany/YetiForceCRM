@@ -65,7 +65,7 @@
 										</td>
 										<td>
 											<div>
-												<button {$disable_value} type="button" class="btn btn-default currencyReset resetButton" id="cur_reset{$price.curid}" value="{\App\Language::translate('LBL_RESET',$MODULE)}">{\App\Language::translate('LBL_RESET',$MODULE)}</button>
+												<button {$disable_value} type="button" class="btn btn-light currencyReset resetButton" id="cur_reset{$price.curid}" value="{\App\Language::translate('LBL_RESET',$MODULE)}">{\App\Language::translate('LBL_RESET',$MODULE)}</button>
 											</div>
 										</td>
 										<td>

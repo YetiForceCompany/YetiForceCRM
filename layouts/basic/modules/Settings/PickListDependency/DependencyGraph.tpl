@@ -23,8 +23,8 @@
     </div>
     <div class="">
         <span class="btn-toolbar">
-            <button class="btn sourceValues btn-default" type="button"><strong>{\App\Language::translate('LBL_SELECT_SOURCE_VALUES', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
-			<button class="btn unmarkAll btn-default" type="button"><strong>{\App\Language::translate('LBL_UNMARK_ALL', $QUALIFIED_MODULE)}</strong></button>
+            <button class="btn sourceValues btn-light" type="button"><strong>{\App\Language::translate('LBL_SELECT_SOURCE_VALUES', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
+			<button class="btn unmarkAll btn-light" type="button"><strong>{\App\Language::translate('LBL_UNMARK_ALL', $QUALIFIED_MODULE)}</strong></button>
         </span>
     </div>
 	<br />

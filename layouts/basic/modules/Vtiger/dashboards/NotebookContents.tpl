@@ -16,7 +16,7 @@
 				</span>
 				<span class="col-md-2">
 					<span class="pull-right">
-						<button class="btn btn-xs btn-default pull-right dashboard_notebookWidget_edit">
+						<button class="btn btn-xs btn-light pull-right dashboard_notebookWidget_edit">
 							<strong>{\App\Language::translate('LBL_EDIT', $MODULE)}</strong>
 						</button>
 					</span>

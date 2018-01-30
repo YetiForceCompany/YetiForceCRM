@@ -8,7 +8,7 @@
 						{\App\Language::translate('LBL_PAGES_HISTORY')}
 					</div>
 					<div class="pull-right">
-						<a data-placement="left" data-toggle="dropdown" class="btn btn-default btn-sm showHistoryBtn" title="{\App\Language::translate('LBL_PAGES_HISTORY')}" aria-expanded="false" href="#">
+						<a data-placement="left" data-toggle="dropdown" class="btn btn-light btn-sm showHistoryBtn" title="{\App\Language::translate('LBL_PAGES_HISTORY')}" aria-expanded="false" href="#">
 							<span class="fas fa-history" aria-hidden="true"></span>
 						</a>
 						{include file=\App\Layout::getTemplatePath('BrowsingHistory.tpl', $MODULE)}
@@ -23,7 +23,7 @@
 						{\App\Language::translate('LBL_REMINDER')}
 					</div>
 					<div class="pull-right">
-						<a class="btn btn-default {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" title="{\App\Language::translate('LBL_REMINDER')}" data-content="{\App\Language::translate('LBL_REMINDER')}">
+						<a class="btn btn-light {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" title="{\App\Language::translate('LBL_REMINDER')}" data-content="{\App\Language::translate('LBL_REMINDER')}">
 							<span class="fas fa-calendar-alt" aria-hidden="true"></span>
 							<span class="badge bgDanger hide">0</span>
 						</a>
@@ -38,7 +38,7 @@
 						{\App\Language::translate('LBL_CHAT')}
 					</div>
 					<div class="pull-right">
-						<a class="btn btn-default ChatIcon " title="{\App\Language::translate('LBL_CHAT')}" href="#">
+						<a class="btn btn-light ChatIcon " title="{\App\Language::translate('LBL_CHAT')}" href="#">
 							<span class="fas fa-comments" aria-hidden="true"></span>
 						</a>
 					</div>
@@ -52,7 +52,7 @@
 						{\App\Language::translate('LBL_NOTIFICATIONS')}
 					</div>
  					<div class="pull-right">
- 						<a class="btn btn-default {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" title="{\App\Language::translate('LBL_NOTIFICATIONS')}" >
+ 						<a class="btn btn-light {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" title="{\App\Language::translate('LBL_NOTIFICATIONS')}" >
 							<span class="fas fa-bell" aria-hidden="true"></span>
 							<span class="badge hide">0</span>
 						</a>
@@ -66,7 +66,7 @@
 					{\App\Language::translate('LBL_QUICK_CREATE')}
 				</div>
 				<div class='pull-right'>
-					<a id="mobile_menubar_quickCreate" class="dropdown-toggle btn btn-default" data-toggle="dropdown" title="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
+					<a id="mobile_menubar_quickCreate" class="dropdown-toggle btn btn-light" data-toggle="dropdown" title="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
 						<span class="fas fa-plus" aria-hidden="true"></span>
 					</a>
 					<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
@@ -125,7 +125,7 @@
 							{\App\Language::translate($TITLE,$MODULE)}
 						</div>
 						<div class="pull-right">
-							<a class="btn btn-sm popoverTooltip {if $obj->getClassName()|strpos:"btn-" === false}btn-default {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if} " href="{$HREF}"
+							<a class="btn btn-sm popoverTooltip {if $obj->getClassName()|strpos:"btn-" === false}btn-light {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if} " href="{$HREF}"
 								{if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
 									{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
 										data-{$DATA_NAME}="{$DATA_VALUE}"
@@ -185,7 +185,7 @@
 				</select>
 				<div class="input-group-btn">
 					<div class="pull-right">
-						<button class="btn btn-default globalSearch " title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">
+						<button class="btn btn-light globalSearch " title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">
 							<span class="fas fa-th-large"></span>
 						</button>
 					</div>
@@ -195,7 +195,7 @@
 				<input type="text" class="form-control globalSearchValue" title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10" />
 				<div class="input-group-btn">
 					<div class="pull-right">
-						<button class="btn btn-default searchIcon" type="button">
+						<button class="btn btn-light searchIcon" type="button">
 							<span class="fas fa-search"></span>
 						</button>
 					</div>

@@ -75,7 +75,7 @@
 								</div>
 							</td>
 							<td class="alignMiddle widthMin">
-								<button class="btn editLabels btn-default" data-tabid="{$KEY}">{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
+								<button class="btn editLabels btn-light" data-tabid="{$KEY}">{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
 							</td>
 							<td class="alignMiddle widthMin">
 								<button class="btn updateLabels btn-info noWrap" data-tabid="{$KEY}">{\App\Language::translate('Update labels',$QUALIFIED_MODULE)}</button>

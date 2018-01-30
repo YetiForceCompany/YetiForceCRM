@@ -16,7 +16,7 @@
 							</div>
 							<div class="pull-right">
 								<div class="pull-right">
-									<button class="btn btn-default close" type="button" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>
+									<button class="btn btn-light close" type="button" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>
 								</div>
 							</div>
 						</div>
@@ -27,7 +27,7 @@
 							<div class="alphabetContents alphabet_{$COUNT_ALPHABETS} row ">
 								{foreach item=ALPHABET from=$ALPHABETS}
 									<div class="alphabetSearch cursorPointer">
-										<a class="btn {if isset($ALPHABET_VALUE) && $ALPHABET_VALUE == $ALPHABET}btn-primary{else}btn-default{/if}" id="{$ALPHABET}" href="#">{$ALPHABET}</a>
+										<a class="btn {if isset($ALPHABET_VALUE) && $ALPHABET_VALUE == $ALPHABET}btn-primary{else}btn-light{/if}" id="{$ALPHABET}" href="#">{$ALPHABET}</a>
 									</div>
 								{/foreach}
 							</div>

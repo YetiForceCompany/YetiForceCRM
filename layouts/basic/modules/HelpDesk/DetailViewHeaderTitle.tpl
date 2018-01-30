@@ -25,7 +25,7 @@
 			{if $SERVICE_CONTRACTS}
 				<ul class="nav nav-pills pull-right relative top10" role="tablist">
 					{foreach item=ROW from=$SERVICE_CONTRACTS}
-						<li role="presentation" class="btn btn-default popoverTooltip" data-id="{$ROW['servicecontractsid']}" title="{$ROW['subject']}" data-content="{\App\Language::translate('LBL_SET_SERVICE_CONTRACTS_REFERENCE_DESC',$MODULE)}">
+						<li role="presentation" class="btn btn-light popoverTooltip" data-id="{$ROW['servicecontractsid']}" title="{$ROW['subject']}" data-content="{\App\Language::translate('LBL_SET_SERVICE_CONTRACTS_REFERENCE_DESC',$MODULE)}">
 							<span class="glyphicon glyphicon-link" aria-hidden="true"></span> {$ROW['subject']} {if $ROW['due_date']}({$ROW['due_date']}){/if}
 						</li>
 					{/foreach}

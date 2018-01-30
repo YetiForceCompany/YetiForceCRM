@@ -28,7 +28,7 @@
 					<div class="btn-toolbar">
 						{foreach item=DEVAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAIL_VIEW_ADDITIONAL']}
 						<span class="btn-group">
-							<button class="btn btn-default"
+							<button class="btn btn-light"
 								{if $DEVAIL_VIEW_BASIC_LINK->isPageLoadLink()} onclick="window.location.href='{$DEVAIL_VIEW_BASIC_LINK->getUrl()}'"{/if}>
 								<strong>{\App\Language::translate($DEVAIL_VIEW_BASIC_LINK->getLabel(), $MODULE_NAME)}</strong>
 							</button>
@@ -36,7 +36,7 @@
 						{/foreach}
 						{if $DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']|@count gt 0}
 						<span class="btn-group">
-							<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
+							<a class="btn btn-light dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
 								<strong>{\App\Language::translate('LBL_MORE',{$MODULE_NAME})}</strong>
 								<span class="caret"></span>
 							</a>

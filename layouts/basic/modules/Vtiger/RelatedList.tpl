@@ -36,7 +36,7 @@
 									{/if}
 								{/if} 
 							{/foreach}
-							<button class="btn btn-default dropdown-toggle relatedViewBtn" data-toggle="dropdown">
+							<button class="btn btn-light dropdown-toggle relatedViewBtn" data-toggle="dropdown">
 								{if $BTN_ICON}
 									<span class="{$BTN_ICON}" aria-hidden="true"></span>
 								{else}	
@@ -64,7 +64,7 @@
 						{if {\App\Privilege::isPermitted($RELATED_MODULE_NAME, 'CreateView')} }
 							<div class="btn-group paddingRight10">
 								{assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
-								<button type="button" class="btn btn-default addButton
+								<button type="button" class="btn btn-light addButton
 										{if $IS_SELECT_BUTTON eq true} selectRelation {/if} modCT_{$RELATED_MODULE_NAME} {if $RELATED_LINK->linkqcs eq true}quickCreateSupported{/if}"
 										{if $IS_SELECT_BUTTON eq true} data-moduleName={$RELATED_LINK->get('_module')->get('name')} {/if}
 										{if ($RELATED_LINK->isPageLoadLink())}
@@ -90,7 +90,7 @@
 								{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
 								<input type="hidden" class="entityState" value="{if $VIEW_MODEL->has('entityState')}{$VIEW_MODEL->get('entityState')}{else}Active{/if}">
 								<div class="dropdown dropdownEntityState">
-									<button class="btn btn-default dropdown-toggle" type="button" id="dropdownEntityState" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+									<button class="btn btn-light dropdown-toggle" type="button" id="dropdownEntityState" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 										{if $VIEW_MODEL->get('entityState') === 'Archived'}
 											<span class="fas fa-archive"></span>
 										{elseif $VIEW_MODEL->get('entityState') === 'Trash'}

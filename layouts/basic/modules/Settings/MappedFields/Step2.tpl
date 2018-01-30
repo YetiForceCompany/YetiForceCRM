@@ -18,7 +18,7 @@
 					</div>
 					<div class="panel-body">
 						<div class="btn-toolbar">
-							<button id="addMapping" class="btn btn-default addButton marginBottom10px" type="button">
+							<button id="addMapping" class="btn btn-light addButton marginBottom10px" type="button">
 								<span class="fas fa-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_ADD_CONDITION', $QUALIFIED_MODULE)}</strong>
 							</button>
 							<div class="checkbox col-md-8">
@@ -81,7 +81,7 @@
 													{/if}
 												</td>
 												<td class="textAlignCenter">
-													<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-default deleteMapping">
+													<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-light deleteMapping">
 														<i class="fas fa-trash-alt"></i>
 													</button>
 												</td>
@@ -120,7 +120,7 @@
 											<td class="">
 											</td>
 											<td class="textAlignCenter">
-												<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-default deleteMapping">
+												<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button" class="btn btn-light deleteMapping">
 													<i class="fas fa-trash-alt"></i>
 												</button>
 											</td>

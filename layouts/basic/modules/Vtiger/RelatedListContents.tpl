@@ -45,8 +45,8 @@
 					<tr>
 						<td class="listViewSearchTd">
 							<div class="flexWrapper">
-							<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="fas fa-search"></span></a>
-							<button type="button" class="btn btn-default removeSearchConditions">
+							<a class="btn btn-light" data-trigger="listSearch" href="javascript:void(0);"><span class="fas fa-search"></span></a>
+							<button type="button" class="btn btn-light removeSearchConditions">
 								<span class="fas fa-times">
 							</button>
 							</div>
@@ -156,7 +156,7 @@
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 						<td {if $HEADER_FIELD@last} colspan="2" {/if} class="noWrap {if !empty($HEADER_FIELD->isCalculateField())}border{/if}" >
 							{if !empty($HEADER_FIELD->isCalculateField())}
-								<button class="btn btn-xs btn-default popoverTooltip" type="button" data-operator="sum" data-field="{$HEADER_FIELD->getName()}" data-content="{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}">
+								<button class="btn btn-xs btn-light popoverTooltip" type="button" data-operator="sum" data-field="{$HEADER_FIELD->getName()}" data-content="{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}">
 									<span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span>
 								</button>
 								<span class="calculateValue"></span>

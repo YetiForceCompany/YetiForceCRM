@@ -8,7 +8,7 @@
 					<div class="btn-group">
 						{assign var="SPECIAL_WIDGETS" value=Settings_WidgetsManagement_Module_Model::getSpecialWidgets('Home')}
 						{if $WIDGETS|count gt 0}
-							<button class="btn btn-default addButton dropdown-toggle" style="padding:7px 8px;" data-toggle="dropdown">
+							<button class="btn btn-light addButton dropdown-toggle" style="padding:7px 8px;" data-toggle="dropdown">
 								<p class="hidden-xs no-margin">
 									<strong>{\App\Language::translate('LBL_ADD_WIDGET')}</strong>
 									<span class="caret"></span>
@@ -46,7 +46,7 @@
 								{/foreach}
 							</ul>
 						{else if $MODULE_PERMISSION}
-							<button class="btn btn-default addButton dropdown-toggle" data-toggle="dropdown">
+							<button class="btn btn-light addButton dropdown-toggle" data-toggle="dropdown">
 								<strong class="hidden-xs">{\App\Language::translate('LBL_ADD_WIDGET')}</strong>
 								<span class="hidden-xs caret"></span>
 								<span class="glyphicon glyphicon-th visible-xs-block"></span>
@@ -90,14 +90,14 @@
 					</div>
 					{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardFilter')}
 						<div class="btn-group hidden-xs">
-							<a class="btn btn-default addFilter" data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="4">
+							<a class="btn btn-light addFilter" data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="4">
 								<strong>{\App\Language::translate('LBL_ADD_FILTER')}</strong>
 							</a>
 						</div>
 					{/if}
 					{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardChartFilter')}
 						<div class="btn-group hidden-xs">
-							<a class="btn btn-default addChartFilter" data-linkid="{$SPECIAL_WIDGETS['ChartFilter']->get('linkid')}" data-block-id="0" data-width="4" data-height="4">
+							<a class="btn btn-light addChartFilter" data-linkid="{$SPECIAL_WIDGETS['ChartFilter']->get('linkid')}" data-block-id="0" data-width="4" data-height="4">
 								<strong>{\App\Language::translate('LBL_ADD_CHART_FILTER')}</strong>
 							</a>
 						</div>

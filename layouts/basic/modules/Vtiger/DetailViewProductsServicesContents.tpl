@@ -20,7 +20,7 @@
 					<div class="col-xs-10 col-sm-10 col-md-9 margin0px"><h4>{\App\Language::translate('Interested products',$MODULE_NAME)}</h4></div>
 					<div class="col-xs-1 col-md-3 summaryWidgetIcon">
 						<div class="pull-right">
-							<button class="btn btn-default showModal" type="button" data-modalid="ProductsModal" data-url="index.php?module=Products&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
+							<button class="btn btn-light showModal" type="button" data-modalid="ProductsModal" data-url="index.php?module=Products&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
 								<span class="glyphicon glyphicon-zoom-in" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"></span>
 							</button>
 						</div>
@@ -47,7 +47,7 @@
 					<div class="col-xs-10 col-sm-10 col-md-9 margin0px"><h4>{\App\Language::translate('LBL_RELATED_OP',$MODULE_NAME)}</h4></div>
 					<div class="col-xs-1 col-md-3 summaryWidgetIcon">
 						<div class="pull-right">
-							<button class="btn btn-default showModal" type="button" data-modalid="OutsourcedProductsModal" data-module="OutsourcedProducts" data-url="index.php?module=OutsourcedProducts&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
+							<button class="btn btn-light showModal" type="button" data-modalid="OutsourcedProductsModal" data-module="OutsourcedProducts" data-url="index.php?module=OutsourcedProducts&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
 								<span class="glyphicon glyphicon-zoom-in" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"></span>
 							</button>
 						</div>
@@ -75,7 +75,7 @@
 					<div class="col-xs-1 col-md-3 summaryWidgetIcon">
 						{if {\App\Privilege::isPermitted('Assets', 'CreateView')} }
 							<span class="pull-right">
-								<button class="btn btn-default createRecord" type="button" data-url="index.php?module=Assets&view=QuickCreateAjax">
+								<button class="btn btn-light createRecord" type="button" data-url="index.php?module=Assets&view=QuickCreateAjax">
 									<span class="fas fa-plus-circle" title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)}"></span>
 								</button>
 							</span>
@@ -96,7 +96,7 @@
 					<div class="col-xs-10 col-sm-10 col-md-9 margin0px"><h4>{\App\Language::translate('Interested services',$MODULE_NAME)}</h4></div>
 					<div class="col-xs-1 col-md-3 summaryWidgetIcon">
 						<span class="pull-right">
-							<button class="btn btn-default showModal" type="button" data-modalid="ServicesModal" data-url="index.php?module=Services&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
+							<button class="btn btn-light showModal" type="button" data-modalid="ServicesModal" data-url="index.php?module=Services&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
 								<span class="glyphicon glyphicon-zoom-in" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"></span>
 							</button>
 						</span>
@@ -123,7 +123,7 @@
 				<div class="col-xs-10 col-sm-10 col-md-9 margin0px"><h4>{\App\Language::translate('LBL_RELATED_OSSOS',$MODULE_NAME)}</h4></div>
 				<div class="col-xs-1 col-md-3 summaryWidgetIcon">
 					<div class="pull-right">
-						<button class="btn btn-default showModal" type="button" data-modalid="OSSOutsourcedServicesModal" data-module="OSSOutsourcedServices" data-url="index.php?module=OSSOutsourcedServices&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
+						<button class="btn btn-light showModal" type="button" data-modalid="OSSOutsourcedServicesModal" data-module="OSSOutsourcedServices" data-url="index.php?module=OSSOutsourcedServices&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
 							<span class="glyphicon glyphicon-zoom-in" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"></span>
 						</button>
 					</div>
@@ -150,7 +150,7 @@
 					<div class="col-xs-1 col-md-3 summaryWidgetIcon">
 						{if {\App\Privilege::isPermitted('OSSSoldServices', 'CreateView')} }
 							<span class="pull-right">
-								<button class="btn btn-default createRecord" type="button" data-url="index.php?module=OSSSoldServices&view=QuickCreateAjax">
+								<button class="btn btn-light createRecord" type="button" data-url="index.php?module=OSSSoldServices&view=QuickCreateAjax">
 									<span class="fas fa-plus-circle" title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)}"></span>
 								</button>
 							</span>

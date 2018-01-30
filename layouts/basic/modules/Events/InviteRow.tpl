@@ -28,7 +28,7 @@
 				{/if}
 			</span>
 			<span class="input-group-btn">
-				<button class="btn btn-default inviteRemove" type="button">
+				<button class="btn btn-light inviteRemove" type="button">
 					<span class="fas fa-times" aria-hidden="true"></span>
 				</button>
 			</span>

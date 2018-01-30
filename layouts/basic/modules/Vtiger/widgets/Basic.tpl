@@ -26,10 +26,10 @@
 							<div class="btn-group">
 								{if $WIDGET['data']['viewtype'] eq 'Summary'}
 									<div class="btn-group control-widget">
-										<button class="btn btn-sm btn-default prev disabled" type="button" title="{\App\Language::translate('LBL_PREV',$MODULE_NAME)}" >
+										<button class="btn btn-sm btn-light prev disabled" type="button" title="{\App\Language::translate('LBL_PREV',$MODULE_NAME)}" >
 											<span class="glyphicon glyphicon-menu-left"></span>
 										</button>
-										<button class="btn btn-sm btn-default next" type="button" title="{\App\Language::translate('LBL_NEXT',$MODULE_NAME)}">
+										<button class="btn btn-sm btn-light next" type="button" title="{\App\Language::translate('LBL_NEXT',$MODULE_NAME)}">
 											<span class="glyphicon glyphicon-menu-right"></span>
 										</button>
 									</div>
@@ -40,14 +40,14 @@
 									{assign var=RELATIONMODEL value=$VRMM->getRelationModel()}
 									{if $WIDGET['data']['actionSelect'] eq 1}
 										{assign var=RESTRICTIONS_FIELD value=$RELATIONMODEL->getRestrictionsPopupField($VRM)}
-										<button class="btn btn-sm btn-default selectRelation" type="button" data-modulename="{$RELATIONMODEL->getRelationModuleName()}" {if $RESTRICTIONS_FIELD}data-rf='{\App\Json::encode($RESTRICTIONS_FIELD)}'{/if} title="{\App\Language::translate('LBL_SELECT_OPTION',$MODULE_NAME)}" alt="{\App\Language::translate('LBL_SELECT_OPTION',$MODULE_NAME)}">
+										<button class="btn btn-sm btn-light selectRelation" type="button" data-modulename="{$RELATIONMODEL->getRelationModuleName()}" {if $RESTRICTIONS_FIELD}data-rf='{\App\Json::encode($RESTRICTIONS_FIELD)}'{/if} title="{\App\Language::translate('LBL_SELECT_OPTION',$MODULE_NAME)}" alt="{\App\Language::translate('LBL_SELECT_OPTION',$MODULE_NAME)}">
 											<span class="fas fa-search"></span>
 										</button>
 									{/if}
 									{if $WIDGET['data']['action'] eq 1 && \App\Privilege::isPermitted($RELATIONMODEL->getRelationModuleName(), 'CreateView')}
 										{assign var=RELATION_FIELD value=$RELATIONMODEL->getRelationField()}
 										{assign var=AUTOCOMPLETE_FIELD value=$RELATIONMODEL->getAutoCompleteField($VRM)}
-										<button class="btn btn-sm btn-default createRecordFromFilter" type="button" data-url="{$WIDGET['actionURL']}"
+										<button class="btn btn-sm btn-light createRecordFromFilter" type="button" data-url="{$WIDGET['actionURL']}"
 												{if $RELATION_FIELD} data-prf="{$RELATION_FIELD->getName()}" {/if} {if $AUTOCOMPLETE_FIELD} data-acf='{\App\Json::encode($AUTOCOMPLETE_FIELD)}'{/if} title="{\App\Language::translate('LBL_ADD',$MODULE_NAME)}" alt="{\App\Language::translate('LBL_ADD',$MODULE_NAME)}">
 											<span class="fas fa-plus"></span>
 										</button>

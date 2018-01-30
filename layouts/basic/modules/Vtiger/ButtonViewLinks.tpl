@@ -12,7 +12,7 @@
 			{/if} 
 		{/foreach}
 		{if isset($BTN_GROUP) && !$BTN_GROUP}<div class="btn-group buttonTextHolder {if isset($CLASS)}{$CLASS}{/if}">{/if} 
-			<button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+			<button class="btn btn-light dropdown-toggle" data-toggle="dropdown">
 				{if $BTN_ICON}
 					<span class="{$BTN_ICON}" aria-hidden="true"></span>
 				{else}	

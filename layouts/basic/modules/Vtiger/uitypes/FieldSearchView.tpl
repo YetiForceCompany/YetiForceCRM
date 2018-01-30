@@ -27,7 +27,7 @@
 						{$ALPHABET_VALUE}
 					</button>
 				{else}
-					<button class=" btn btn-default alphabetBtn" type="button">
+					<button class=" btn btn-light alphabetBtn" type="button">
 						<span class="fa fa-font"></span>
 					</button>
 				{/if}

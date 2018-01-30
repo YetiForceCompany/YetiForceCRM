@@ -28,7 +28,7 @@
 						<div class="pull-right">
 							<div class="button-container">
 								<a href ="#">
-									<input type="button" class="btn btn-default" value="{App\Language::translate('LBL_RECHECK', 'Install')}" id='recheck'/>
+									<input type="button" class="btn btn-light" value="{App\Language::translate('LBL_RECHECK', 'Install')}" id='recheck'/>
 								</a>
 							</div>
 						</div>
@@ -144,7 +144,7 @@
 				</div>
 				<div class="row">
 					<div class="button-container">
-						<a class="btn btn-sm btn-default" href="Install.php" >{App\Language::translate('LBL_BACK', 'Install')}</a>
+						<a class="btn btn-sm btn-light" href="Install.php" >{App\Language::translate('LBL_BACK', 'Install')}</a>
 						<input type="button" class="btn btn-sm btn-primary" value="{App\Language::translate('LBL_NEXT', 'Install')}" name="step4"/>
 					</div>
 				</div>

@@ -12,7 +12,7 @@
         <input type="hidden" name="record" value="{$RECORD}" />
         <input type="hidden" class="step" value="3" />
         <div class="btn-group">
-            <a class="btn dropdown-toggle btn-default addButton" data-toggle="dropdown" href="#">
+            <a class="btn dropdown-toggle btn-light addButton" data-toggle="dropdown" href="#">
                 <strong>{\App\Language::translate('LBL_ADD_TASK',$QUALIFIED_MODULE)}</strong>&nbsp;
                 <span><img class="imageElement" src="{\App\Layout::getImagePath('downArrowWhite.png')}" /></span>
             </a>

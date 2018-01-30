@@ -133,7 +133,7 @@
 									{assign var=SETTINGS_LINKS value=$MODULE_MODEL->getSettingLinks()}
 									{if !in_array($MODULE_NAME, $RESTRICTED_MODULES_LIST) && (count($SETTINGS_LINKS) > 0)}
 										<div class="btn-group pull-right actions {if !$MODULE_ACTIVE}hide{/if}">
-											<button class="btn dropdown-toggle btn-default" data-toggle="dropdown">
+											<button class="btn dropdown-toggle btn-light" data-toggle="dropdown">
 												<strong>{\App\Language::translate('LBL_SETTINGS', $QUALIFIED_MODULE)}</strong>&nbsp;<i class="caret"></i>
 											</button>
 											<ul class="dropdown-menu pull-right">

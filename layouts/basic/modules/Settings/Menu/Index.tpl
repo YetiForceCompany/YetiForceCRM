@@ -7,7 +7,7 @@
 		</div>
 		<div class="col-md-5 row">
 			<div class="col-xs-6 paddingLRZero">
-				<button class="btn btn-default addMenu pull-right"><strong>{\App\Language::translate('LBL_ADD_MENU', $QUALIFIED_MODULE)}</strong></button>
+				<button class="btn btn-light addMenu pull-right"><strong>{\App\Language::translate('LBL_ADD_MENU', $QUALIFIED_MODULE)}</strong></button>
 			</div>
 			<div class="col-xs-6 pull-right ">
 				<select class="select2 form-control" name="roleMenu">
