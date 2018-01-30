@@ -34,7 +34,7 @@ class Icon
 		'image' => 'far fa-file-image',
 		'text/html' => 'fa fa-html5',
 		'text/json' => 'fa fa-file-code-o',
-		'text/css' => 'fa fa-css3',
+		'text/css' => 'fab fa-css3',
 		'application/javascript' => 'fa fa-file-code-o',
 		'text/xml' => 'fa fa-file-code-o',
 		'application/x-shockwave-flash' => 'far fa-file-image',
