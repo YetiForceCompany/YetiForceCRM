@@ -46,7 +46,7 @@
 
 	</div>
 	{*if $SHOWING_ICON.workingTime eq 'true'}
-		<div class="summary-right pull-right" style="text-align:center;">
+		<div class="summary-right float-right" style="text-align:center;">
 			<span class="summary-detail">
 				<img class=" summary-img" src="{\App\Layout::getImagePath('worked_days.png')}" alt="Worked days" title="{\App\Language::translate('LBL_WORKEDDAYS_INFO', $MODULE_NAME)}" />
 				<span class="summary-text">

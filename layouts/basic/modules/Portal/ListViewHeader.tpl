@@ -30,8 +30,8 @@
                     </span>
 				</div>
 				<div class="col-md-6 btn-toolbar row">
-					<div class="listViewActions pull-right">
-						<div class="paginationDiv pull-right">
+					<div class="listViewActions float-right">
+						<div class="paginationDiv float-right">
 							{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE)}
 						</div>
 					</div>

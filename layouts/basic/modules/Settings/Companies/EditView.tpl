@@ -63,7 +63,7 @@
 									<div class=''>
 										<input type="file" name="{$COLUMN}" id="{$COLUMN}" {if !$RECORD_ID }data-validation-engine="validate[required]"{/if}/>&nbsp;&nbsp;
 									</div>
-									<div class=" col-xs-12 alert alert-info pull-right">
+									<div class=" col-xs-12 alert alert-info float-right">
 										{App\Language::translate('LBL_PANELLOGO_RECOMMENDED_MESSAGE',$QUALIFIED_MODULE)}
 									</div>
 								</div>
@@ -73,8 +73,8 @@
 				{/foreach}
 			{/if}
 			<div class="row">
-				<div class="col-md-5 pull-right">
-					<span class="pull-right">
+				<div class="col-md-5 float-right">
+					<span class="float-right">
 						<button class="btn btn-success" type="submit"><strong>{App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					</span>

@@ -10,7 +10,7 @@
 			</div>
 		</div>
 		<div class="btn-toolbar">
-			<span class="pull-right group-desc ">
+			<span class="float-right group-desc ">
 				<button class="btn btn-success saveModuleSequence hide" type="button">
 					<strong>{\App\Language::translate('LBL_SAVE_MODULE_SEQUENCE', $QUALIFIED_MODULE)}</strong>
 				</button>

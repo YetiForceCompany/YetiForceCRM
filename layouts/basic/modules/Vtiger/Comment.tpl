@@ -44,7 +44,7 @@
 						</div>
 					</div>
 					<div class="inner">
-						<span class="pull-right paddingRight15">
+						<span class="float-right paddingRight15">
 							<p class="muted"><small>{\App\Fields\DateTime::formatToViewDate($COMMENT->getCommentedTime())}</small></p>
 						</span>
 						<div class="clearfix"></div>
@@ -60,7 +60,7 @@
 						</span>
 						{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
 							<span class="{if !empty($REASON_TO_EDIT)} col-xs-6{/if}">
-								<span class="pull-right">
+								<span class="float-right">
 									<p class="muted"><small><em>{\App\Language::translate('LBL_MODIFIED',$MODULE_NAME)}</em></small>&nbsp;<small class="commentModifiedTime">{\App\Fields\DateTime::formatToViewDate($COMMENT->getModifiedTime())}</small></p>
 								</span>
 							</span>
@@ -69,7 +69,7 @@
 				</div>
 				<div class="commentActionsDiv">
 					{assign var=COMMENTS_MODULE_MODEL value = Vtiger_Module_Model::getInstance('ModComments')}
-					<div class="pull-right commentActions">
+					<div class="float-right commentActions">
 						{if $CHILDS_ROOT_PARENT_MODEL}
 							{assign var=CHILDS_ROOT_PARENT_ID value=$CHILDS_ROOT_PARENT_MODEL->getId()}
 						{/if}

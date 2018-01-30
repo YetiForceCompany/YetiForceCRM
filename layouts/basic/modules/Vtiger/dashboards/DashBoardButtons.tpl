@@ -3,7 +3,7 @@
 	<div class="dashboardHeading col-xs-3 col-sm-8 col-md-6">
 		<input type="hidden" name="selectedModuleName" value="{$MODULE_NAME}">
 		<div class="marginLeftZero">
-			<div class="pull-right">
+			<div class="float-right">
 				<div class="btn-toolbar">
 					<div class="btn-group">
 						{assign var="SPECIAL_WIDGETS" value=Settings_WidgetsManagement_Module_Model::getSpecialWidgets('Home')}

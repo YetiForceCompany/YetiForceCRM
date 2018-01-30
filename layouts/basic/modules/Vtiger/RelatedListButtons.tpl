@@ -9,23 +9,23 @@
 							<a href="javascript:void(0);" class="textOverflowEllipsis" style="width:auto" title="{\App\Language::translate($RELATED_LINK->getLabel(),{$MODULE_NAME})}">
 								<strong class="float-left">{\App\Language::translate($RELATED_LINK->getLabel(),{$MODULE_NAME})}</strong>
 								{if $RELATED_LINK->get('countRelated')}
-									<span class="count badge pull-right {$RELATED_LINK->get('badgeClass')}">0</span>
+									<span class="count badge float-right {$RELATED_LINK->get('badgeClass')}">0</span>
 								{/if}
 							</a>
 						</li>
 					{/foreach}
 					<li class="spaceRelatedList hide"><li>
-					<li role="presentation" class="dropdown pull-right hide">
+					<li role="presentation" class="dropdown float-right hide">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" role="button" aria-haspopup="true" aria-expanded="true">
 							<strong>{\App\Language::translate('LBL_MORE',$MODULE)}</strong> <span class="caret"></span>
 						</a>
-						<ul class="dropdown-menu pull-right">
+						<ul class="dropdown-menu float-right">
 							{foreach item=RELATED_LINK key=ITERATION from=$DETAILVIEW_LINKS['DETAILVIEWTAB']}
 								<li class="mainNav{if $RELATED_LINK->getLabel()==$SELECTED_TAB_LABEL} active{/if}" data-iteration="{$ITERATION}" data-url="{$RELATED_LINK->getUrl()}&tab_label={$RELATED_LINK->getLabel()}" data-label-key="{$RELATED_LINK->getLabel()}" data-link-key="{$RELATED_LINK->get('linkKey')}"  data-reference='{$RELATED_LINK->get('related')}' {if $RELATED_LINK->get('countRelated')}data-count="{$RELATED_LINK->get('countRelated')|intval}"{/if}>
 									<a href="javascript:void(0);" class="textOverflowEllipsis" style="width:auto" title="{\App\Language::translate($RELATED_LINK->getLabel(),{$MODULE_NAME})}">
 										<strong class="float-left">{\App\Language::translate($RELATED_LINK->getLabel(),{$MODULE_NAME})}</strong>
 										{if $RELATED_LINK->get('countRelated')}
-											<span class="count badge pull-right {$RELATED_LINK->get('badgeClass')}">-</span>
+											<span class="count badge float-right {$RELATED_LINK->get('badgeClass')}">-</span>
 										{/if}
 									</a>
 								</li>
@@ -40,7 +40,7 @@
 										{/if}
 										<strong class="float-left">{$DETAILVIEWRELATEDLINKLBL}</strong>
 										{if AppConfig::relation('SHOW_RECORDS_COUNT')}
-											<span class="count badge pull-right">0</span>
+											<span class="count badge float-right">0</span>
 										{/if}
 									</a>
 								</li>
@@ -59,7 +59,7 @@
 									<strong class="float-left">{$DETAILVIEWRELATEDLINKLBL}</strong>
 								{/if}
 								{if AppConfig::relation('SHOW_RECORDS_COUNT')}
-									<span class="count badge pull-right">0</span>
+									<span class="count badge float-right">0</span>
 								{/if}
 							</a>
 						</li>

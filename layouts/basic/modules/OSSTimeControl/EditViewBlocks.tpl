@@ -8,7 +8,7 @@
 						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 					</div>
 					<div class=" col-md-4 contentHeader">
-						<span class="pull-right">
+						<span class="float-right">
 							<button class="btn btn-success" type="submit">
 								<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;
 								<strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE_NAME)}</strong>
@@ -84,7 +84,7 @@
 								{/if}
 								<div class="{if $FIELD_MODEL->getUIType() neq "300"}col-md-6{/if} fieldRow">
 									<div class="col-md-3 fieldLabel paddingLeft5px {$WIDTHTYPE}">
-										<label class="muted pull-right marginRight10px">
+										<label class="muted float-right marginRight10px">
 											{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span>{/if}
 											{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
 										</label>

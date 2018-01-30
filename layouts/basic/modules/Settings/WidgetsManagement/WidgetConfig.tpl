@@ -8,16 +8,16 @@
 				<div class="float-left " style="word-wrap: break-word;">
 					<span class="fieldLabel marginLeft20">{\App\Language::translate($WIDGET_MODEL->getTitle(), $SELECTED_MODULE_NAME)}</span>
 				</div>
-				<span class="btn-group pull-right marginRight20 actions">
+				<span class="btn-group float-right marginRight20 actions">
 					<a href="javascript:void(0)" class="dropdown-toggle editFieldDetails" data-toggle="dropdown">
 						<span class="fas fa-pencil-alt alignMiddle" title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 					</a>
-					<div class="basicFieldOperations hide pull-right" style="width : 375px;">
+					<div class="basicFieldOperations hide float-right" style="width : 375px;">
 						<form class="form-horizontal fieldDetailsForm" method="POST">
 							<input type="hidden" name="type" class="" value="{$WIDGET_MODEL->get('linklabel')}">
 							<div class="modal-header contentsBackground">
 								<strong>{\App\Language::translate($WIDGET_MODEL->getTitle(), $SELECTED_MODULE_NAME)}</strong>
-								<div class="pull-right"><a href="javascript:void(0)" class='cancel'>X</a></div>
+								<div class="float-right"><a href="javascript:void(0)" class='cancel'>X</a></div>
 							</div>
 							<div class="clearfix">
 								<div class="row">
@@ -151,8 +151,8 @@
 								</div>
 							{/if}
 							<div class="modal-footer">
-								<span class="pull-right">
-									<div class="pull-right"><button class='cancel btn btn-warning' type="reset">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button></div>
+								<span class="float-right">
+									<div class="float-right"><button class='cancel btn btn-warning' type="reset">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button></div>
 									<button class="btn btn-success saveFieldDetails" data-field-id="{$WIDGET_MODEL->get('id')}" type="submit">
 										<strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong>
 									</button>

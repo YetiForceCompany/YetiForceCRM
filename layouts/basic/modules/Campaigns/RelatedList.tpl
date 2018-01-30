@@ -110,9 +110,9 @@
 														{/foreach}&nbsp;
 													</div>
 													<div class="col-md-3">
-														<div class="pull-right">
+														<div class="float-right">
 															{if $VIEW_MODEL}
-																<div class="pull-right paddingLeft5px">
+																<div class="float-right paddingLeft5px">
 																	{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
 																	<input type="hidden" class="entityState" value="{if $VIEW_MODEL->has('entityState')}{$VIEW_MODEL->get('entityState')}{else}Active{/if}" />
 																	<div class="dropdown dropdownEntityState">
@@ -145,7 +145,7 @@
 																</div>
 															{/if}
 														</div>
-														<div class="paginationDiv pull-right">
+														<div class="paginationDiv float-right">
 															{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE) VIEWNAME='related'}
 														</div>
 													</div>
@@ -249,7 +249,7 @@
 																	<span class="currentStatus btn-group">
 																		<span class="statusValue dropdown-toggle" data-toggle="dropdown">{\App\Language::translate($RELATED_RECORD->get('status'),$MODULE)}</span>
 																		<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="icon-arrow-down alignMiddle editRelatedStatus"></span>
-																		<ul class="dropdown-menu pull-right" style="left: -2px; position: relative;">
+																		<ul class="dropdown-menu float-right" style="left: -2px; position: relative;">
 																	{foreach key=STATUS_ID item=STATUS from=$STATUS_VALUES}
 																		<li id="{$STATUS_ID}" data-status="{\App\Language::translate($STATUS, $MODULE)}">
 																			<a>{\App\Language::translate($STATUS, $MODULE)}</a>
@@ -260,7 +260,7 @@
 																	-->
 																</td>
 																<td nowrap class="{$WIDTHTYPE}">
-																	<div class="pull-right actions">
+																	<div class="float-right actions">
 																		<span class="actionImages">
 																			<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="fa fa-th-list alignMiddle"></span></a>&nbsp;
 																				{if $IS_EDITABLE}

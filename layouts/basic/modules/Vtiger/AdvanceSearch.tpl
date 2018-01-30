@@ -17,7 +17,7 @@
 					<div class="row no-margin">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>
 						<div class="col-md-5 pushDown">
-							<strong class="pull-right">{\App\Language::translate('LBL_SEARCH_IN',$MODULE)}</strong>
+							<strong class="float-right">{\App\Language::translate('LBL_SEARCH_IN',$MODULE)}</strong>
 						</div>
 						<div class="col-md-6">
 							<select class="chzn-select form-control" id="searchModuleList" title="{\App\Language::translate('LBL_SELECT_MODULE')}" data-placeholder="{\App\Language::translate('LBL_SELECT_MODULE')}">
@@ -43,18 +43,18 @@
 				</div>
 
 				<div class="actions modal-footer">
-					<a class="cancelLink pull-right btn btn-warning" type="reset" id="advanceSearchCancel" data-dismiss="modal"><span class="fas fa-times margin-right5px"></span>{\App\Language::translate('LBL_CANCEL', $MODULE)}</a>
-					<button class="btn btn-info pull-right" id="advanceSearchButton" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if}  type="submit"><span class="fas fa-search margin-right5px"></span><strong>{\App\Language::translate('LBL_SEARCH', $MODULE)}</strong></button>
+					<a class="cancelLink float-right btn btn-warning" type="reset" id="advanceSearchCancel" data-dismiss="modal"><span class="fas fa-times margin-right5px"></span>{\App\Language::translate('LBL_CANCEL', $MODULE)}</a>
+					<button class="btn btn-info float-right" id="advanceSearchButton" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if}  type="submit"><span class="fas fa-search margin-right5px"></span><strong>{\App\Language::translate('LBL_SEARCH', $MODULE)}</strong></button>
 					{if $SAVE_FILTER_PERMITTED}
-						<button class="btn hide btn-success pull-right" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceSave">
+						<button class="btn hide btn-success float-right" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceSave">
 							<span class="glyphicon glyphicon-ok margin-right5px"></span><strong>{\App\Language::translate('LBL_SAVE_FILTER', $MODULE)}</strong>
 						</button>
 						{if \App\Privilege::isPermitted($SOURCE_MODULE, 'CreateCustomFilter')}
-							<button class="btn btn-success pull-right" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceIntiateSave">
+							<button class="btn btn-success float-right" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceIntiateSave">
 								<span class="glyphicon glyphicon-ok margin-right5px"></span><strong>{\App\Language::translate('LBL_SAVE_AS_FILTER', $MODULE)}</strong>
 							</button>
 						{/if}
-						<div class="col-xs-3 pull-right">
+						<div class="col-xs-3 float-right">
 							<input class="zeroOpacity float-left form-control" type="text" title="{\App\Language::translate('LBL_FILTER_NAME')}" value="" name="viewname" placeholder="{\App\Language::translate('LBL_FILTER_NAME')}" />
 						</div>
 					{/if}

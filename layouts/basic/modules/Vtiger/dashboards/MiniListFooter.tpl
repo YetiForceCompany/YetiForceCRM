@@ -15,7 +15,7 @@
 			</div>
 			{if count($MINILIST_WIDGET_RECORDS) >= $MINILIST_WIDGET_MODEL->getRecordLimit()}
 				<div class="col-md-8">
-					<a class="btn btn-xs btn-primary pull-right" href="{\App\Purifier::encodeHtml($MINILIST_WIDGET_MODEL->getListViewURL($OWNER))}">
+					<a class="btn btn-xs btn-primary float-right" href="{\App\Purifier::encodeHtml($MINILIST_WIDGET_MODEL->getListViewURL($OWNER))}">
 						<span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>&nbsp;&nbsp;
 						{\App\Language::translate('LBL_MORE')}
 					</a>

@@ -30,7 +30,7 @@
 							<td>
 								<div class="action">
 									{$SERVER['api_key']}
-									<div class="pull-right">
+									<div class="float-right">
 										<button class="btn btn-primary btn-xs edit">
 											<span class="fas fa-pencil-alt cursorPointer"></span>
 										</button>

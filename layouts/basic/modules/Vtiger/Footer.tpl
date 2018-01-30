@@ -47,7 +47,7 @@
 					<span class="AdditionalIcon-Github" title="Github"></span>
 				</a>
 			</div>
-			<div class="pull-right">
+			<div class="float-right">
 				<button type="button" class="btn-link" data-toggle="modal" data-target="#yetiforceDetails">
 					<img class="logoFooter" src="{App\Layout::getPublicUrl('layouts/resources/Logo/white_logo_yetiforce.png')}" alt="YetiForceCRM" />
 				</button>

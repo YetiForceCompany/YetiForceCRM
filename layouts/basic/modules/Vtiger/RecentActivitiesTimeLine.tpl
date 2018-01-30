@@ -37,7 +37,7 @@
 											{/if}
 										</div>
 										<div class="timeline-body row no-margin">
-											<span class="time pull-right">
+											<span class="time float-right">
 												<span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getParent()->get('createdtime'))}</span>
 											</span>
 											<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong> 
@@ -76,7 +76,7 @@
 											{/if}
 										</div>
 										<div class="timeline-body row no-margin">
-											<span class="time pull-right">
+											<span class="time float-right">
 												<span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span>
 											</span>
 											<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()}&nbsp;</strong> {\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(),'ModTracker')}</span>
@@ -137,8 +137,8 @@
 											{/if}
 										</div>
 										<div class="timeline-body row no-margin">
-											<div class="pull-right">
-												<span class="time pull-right">
+											<div class="float-right">
+												<span class="time float-right">
 													<span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span>
 												</span>
 											</div>
@@ -185,7 +185,7 @@
 											{/if}
 										</div>
 										<div class="timeline-body row no-margin">
-											<span class="time pull-right">
+											<span class="time float-right">
 												<span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span>
 											</span>
 											<div class="float-left">
@@ -206,7 +206,7 @@
 											{/if}
 										</div>
 										<div class="timeline-body row no-margin">
-											<span class="time pull-right">
+											<span class="time float-right">
 												<span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span>
 											</span>
 											<div class="float-left">
@@ -226,7 +226,7 @@
 											{/if}
 										</div>
 										<div class="timeline-body row no-margin">
-											<span class="time pull-right">
+											<span class="time float-right">
 												<span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span>
 											</span>
 											<div class="float-left">
@@ -249,7 +249,7 @@
 		<input type="hidden" id="newChange" value="{$NEW_CHANGE}" />
 		<div id="moreLink">
 			{if !$IS_READ_ONLY && $PAGING_MODEL->isNextPageExists()}
-				<div class="pull-right">
+				<div class="float-right">
 					<button type="button" class="btn btn-primary btn-xs moreRecentUpdates">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button>
 				</div>
 			{/if}

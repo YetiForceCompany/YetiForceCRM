@@ -9,7 +9,7 @@
 			<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(),$MODULE_NAME)}</strong></div>
 		</div>
 		<div class="col-xs-4">
-			<div class="box pull-right">
+			<div class="box float-right">
 				{if \App\Privilege::isPermitted('Calendar', 'CreateView')}
 					<a class="btn btn-light btn-xs" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
 							return false;">
@@ -57,7 +57,7 @@
 				</div>
 				<div class="col-xs-8 month textAlignCenter paddingRightZero"> </div>
 				<div class="col-xs-2">
-					<button class="btn btn-light btn-sm  pull-right" data-type="fc-next-button"><span class="glyphicon glyphicon-chevron-right"></span></button>
+					<button class="btn btn-light btn-sm  float-right" data-type="fc-next-button"><span class="glyphicon glyphicon-chevron-right"></span></button>
 				</div>
 			</div>
 		</div>

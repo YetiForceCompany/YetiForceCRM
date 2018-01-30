@@ -35,7 +35,7 @@
 								{$COMMENT->getDisplayValue('commentcontent')}
 							</div>
 						</div>
-						<span class="pull-right paddingRight15">
+						<span class="float-right paddingRight15">
 							<p class="muted"><small class="commentModifiedTime">{\App\Fields\DateTime::formatToViewDate($COMMENT->getCommentedTime())}</small></p>
 						</span>
 					</div>
@@ -53,7 +53,7 @@
 					</p>
 					{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
 						<span class="{if empty($REASON_TO_EDIT)}row{else} col-xs-6 paddingRightZero{/if}">
-							<span class="pull-right">
+							<span class="float-right">
 								<p class="muted"><small>{\App\Fields\DateTime::formatToViewDate($COMMENT->getModifiedTime())}</small></p>
 							</span>
 						</span>
@@ -61,7 +61,7 @@
 				</div>
 				<div class="commentActionsDiv">
 					{assign var=COMMENTS_MODULE_MODEL value = Vtiger_Module_Model::getInstance('ModComments')}
-					<span class="pull-right commentActions">
+					<span class="float-right commentActions">
 						{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
 						{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 							<button type="button" class="btn btn-xs btn-success replyComment">

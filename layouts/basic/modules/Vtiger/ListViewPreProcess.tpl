@@ -19,7 +19,7 @@
 						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 					</div>
 					<div class="col-sm-6 col-xs-12">
-						<div class="pull-right">
+						<div class="float-right">
 							{foreach item=LINK from=$HEADER_LINKS['LIST_VIEW_HEADER']}
 								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewHeader'}
 							{/foreach}

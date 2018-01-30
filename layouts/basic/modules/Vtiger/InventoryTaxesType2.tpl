@@ -3,7 +3,7 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<strong>{\App\Language::translate('LBL_INDIVIDUAL_TAX', $MODULE)}</strong>
-			<div class="pull-right">
+			<div class="float-right">
 				<input type="{$AGGREGATION_INPUT_TYPE}" name="aggregationType" value="individual" class="activeCheckbox">
 			</div>
 		</div>

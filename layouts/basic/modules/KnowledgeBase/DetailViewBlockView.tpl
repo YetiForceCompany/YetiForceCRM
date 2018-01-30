@@ -69,7 +69,7 @@
 									{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 									{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
 									{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-										<a style="margin-left: 5px;margin-top: 2px;" href="#" class="HelpInfoPopover pull-right" title="" data-placement="top" data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'><i class="fa fa-info-circle"></i></a>
+										<a style="margin-left: 5px;margin-top: 2px;" href="#" class="HelpInfoPopover float-right" title="" data-placement="top" data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'><i class="fa fa-info-circle"></i></a>
 										{/if}
 									<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">
 										{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}
@@ -84,7 +84,7 @@
 										{assign var=EDIT value=true}
 									{/if}
 									{if $IS_AJAX_ENABLED && $FIELD_MODEL->isEditable() eq 'true' && $FIELD_MODEL->isAjaxEditable() eq 'true' && !$EDIT}
-										<span class="summaryViewEdit cursorPointer pull-right ">
+										<span class="summaryViewEdit cursorPointer float-right">
 											&nbsp;<i class="fas fa-pencil-alt" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></i>
 										</span>
 										<span class="hide edit">

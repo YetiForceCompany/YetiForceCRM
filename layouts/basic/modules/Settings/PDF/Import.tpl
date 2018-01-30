@@ -32,7 +32,7 @@
 					</div>
 				</div>
 				<br />
-				<div class="pull-right">
+				<div class="float-right">
 					<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_UPLOAD_TEMPLATE', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
 					<a href="{Settings_PDF_Module_Model::getDefaultUrl()}" class="btn btn-warning" type="button">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 				</div>

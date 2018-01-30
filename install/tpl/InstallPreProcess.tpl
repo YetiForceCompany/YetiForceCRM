@@ -19,7 +19,7 @@
 				</div>
 			</div>
 			<div class="col-md-6">
-				<div class="head pull-right">
+				<div class="head float-right">
 					<h3>{\App\Language::translate('LBL_INSTALLATION_WIZARD', 'Install')}</h3>
 				</div>
 			</div>

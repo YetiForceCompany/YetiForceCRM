@@ -17,7 +17,7 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
 			<div class="col-sm-4">
-				<div class="btn-toolbar pull-right">
+				<div class="btn-toolbar float-right">
 					{if $REPORT_MODEL->isEditable() eq true}
 						<div class="btn-group">
 							<button onclick='window.location.href = "{$REPORT_MODEL->getEditViewUrl()}"' type="button" class="cursorPointer btn btn-primary">

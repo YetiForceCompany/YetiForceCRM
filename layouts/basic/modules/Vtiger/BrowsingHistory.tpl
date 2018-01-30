@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<ul class="dropdown-menu pull-right historyList" role="menu">
+<ul class="dropdown-menu float-right historyList" role="menu">
 	{foreach item=HISTORY from=$BROWSING_HISTORY}
 		{if isset($HISTORY['viewToday'])}
 			<li class="item selectorHistory">{\App\Language::translate('LBL_TODAY')}</li>

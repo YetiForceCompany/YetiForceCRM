@@ -76,7 +76,7 @@
 								</td>
 								<td class="listViewEntryValue {$WIDTHTYPE}" nowrap>{$LISTVIEW_ENTRY->get('createdtime')}</td>
 								<td nowrap class="{$WIDTHTYPE}">
-									<div class="actions pull-right">
+									<div class="actions float-right">
 										<span class="actionImages">
 											<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fas fa-pencil-alt alignMiddle editRecord"></span>&nbsp;
 											<span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignMiddle deleteRecord"></span>

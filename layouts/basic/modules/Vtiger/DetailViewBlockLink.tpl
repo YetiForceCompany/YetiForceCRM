@@ -12,11 +12,11 @@
 							<span class="moduleIcon userIcon-{$RELATED_MODULE_NAME}"></span>
 							{\App\Language::translate($BLOCK_MODEL->getLabel(),$RELATED_MODULE_NAME)}
 							{if AppConfig::relation('SHOW_RECORDS_COUNT')}
-								&nbsp;<span class="count badge pull-right">0</span>
+								&nbsp;<span class="count badge float-right">0</span>
 							{/if}
 						</h4>
-						<h4 class="pull-right">
-							<span class="glyphicon glyphicon-link pull-right popoverTooltip" data-content="{\App\Language::translate('LBL_RELATED_RECORDS_LIST')}" data-placement="left" aria-hidden="true"></span>
+						<h4 class="float-right">
+							<span class="glyphicon glyphicon-link float-right popoverTooltip" data-content="{\App\Language::translate('LBL_RELATED_RECORDS_LIST')}" data-placement="left" aria-hidden="true"></span>
 						</h4>
 					</div>
 				</div>

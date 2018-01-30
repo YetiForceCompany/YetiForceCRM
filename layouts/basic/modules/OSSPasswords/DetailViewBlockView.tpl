@@ -92,7 +92,7 @@
 	{/foreach}    
     
     <div class="contentHeader row no-margin">
-        <div class="pull-right">
+        <div class="float-right">
             <button class="btn btn-success hide" data-copy-target="detailPassword" id="copy-button" type="button" title="{\App\Language::translate('LBL_CopyToClipboardTitle', $MODULE_NAME)}"><span class="fas fa-copy"></span> {\App\Language::translate('LBL_CopyToClipboard', $MODULE_NAME)}</button>&nbsp;&nbsp;
             <button class="btn btn-warning" onclick="showDetailsPassword('{$smarty.get.record}');return false;" id="show-btn">{\App\Language::translate('LBL_ShowPassword', $MODULE_NAME)}</button>
         </div>

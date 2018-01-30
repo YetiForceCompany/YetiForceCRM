@@ -6,7 +6,7 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				{\App\Language::translate('LBL_DAV_KEYS_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
-			<div class="col-md-4"><button class="btn btn-primary addKey pull-right marginTop20">{\App\Language::translate('LBL_ADD_KEY',$QUALIFIED_MODULE)}</button></div>
+			<div class="col-md-4"><button class="btn btn-primary addKey float-right marginTop20">{\App\Language::translate('LBL_ADD_KEY',$QUALIFIED_MODULE)}</button></div>
 		</div>
 		<div class="contents">
 			{if $ENABLEDAV }

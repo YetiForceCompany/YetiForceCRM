@@ -97,7 +97,7 @@
 			</div>
 		</div>
 		<br />
-		<div class="pull-right block padding20px">
+		<div class="float-right block padding20px">
 			<button type="button" class="btn btn-danger backStep"><strong>{\App\Language::translate('LBL_BACK',$MODULE)}</strong></button>&nbsp;&nbsp;
 			<button type="submit" class="btn btn-success" id="generateReport"><strong>{\App\Language::translate('LBL_GENERATE_CHART',$MODULE)}</strong></button>&nbsp;&nbsp;
 			<button class="cancelLink btn btn-warning" onclick="window.history.back()">{\App\Language::translate('LBL_CANCEL',$MODULE)}</a>&nbsp;&nbsp;

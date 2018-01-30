@@ -22,7 +22,7 @@
 						</span>
 						<textarea name="commentcontent" rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="commentcontent form-control" title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" ></textarea>
 					</div>
-					<button class="btn btn-success detailViewSaveComment  marginTop10 pull-right" type="button" data-mode="add">
+					<button class="btn btn-success detailViewSaveComment  marginTop10 float-right" type="button" data-mode="add">
 						<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
 						<strong class="hidden-xs">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
 					</button>
@@ -58,7 +58,7 @@
 												</div>
 											</div>
 											<div class="inner">
-												<span class="pull-right paddingRight15">
+												<span class="float-right paddingRight15">
 													<p class="muted"><small>{\App\Fields\DateTime::formatToViewDate($COMMENT->getCommentedTime())}</small></p>
 												</span>
 												<div class="clearfix"></div>
@@ -81,14 +81,14 @@
 									{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
 										<div class="clearfix"></div>
 										<span class="float-left visible-lg-block">
-											<p class="muted pull-right">
+											<p class="muted float-right">
 												<small><em>{\App\Language::translate('LBL_MODIFIED',$MODULE_NAME)}</em></small>&nbsp;
 												<small class="commentModifiedTime">{\App\Fields\DateTime::formatToViewDate($COMMENT->getModifiedTime())}</small>
 											</p>
 										</span>
 									{/if}
 									{if !$IS_READ_ONLY}
-										<div class="pull-right commentActions">
+										<div class="float-right commentActions">
 											{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 												<span>
 													<button type="button" class="btn btn-xs btn-success replyComment feedback">
@@ -123,7 +123,7 @@
 		</div>
 		{if !$IS_READ_ONLY && $PAGING_MODEL->isNextPageExists()}
 			<div class="row">
-				<div class="pull-right">
+				<div class="float-right">
 					<a href="javascript:void(0)" class="moreRecentComments btn btn-xs btn-info marginTop5 marginRight15">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</a>
 				</div>
 			</div>
@@ -138,11 +138,11 @@
 							</span>
 							<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
 						</div>
-						<button class="cursorPointer closeCommentBlock marginTop10 btn btn-warning pull-right cancel" type="reset">
+						<button class="cursorPointer closeCommentBlock marginTop10 btn btn-warning float-right cancel" type="reset">
 							<span class="visible-xs-inline-block fas fa-times"></span>
 							<strong class="hidden-xs">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 						</button>
-						<button class="btn btn-success saveComment marginTop10 pull-right" type="button" data-mode="add">
+						<button class="btn btn-success saveComment marginTop10 float-right" type="button" data-mode="add">
 							<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
 							<strong class="hidden-xs">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
 						</button>
@@ -164,11 +164,11 @@
 							</span>
 							<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" ></textarea>
 						</div>
-						<button class="cursorPointer closeCommentBlock marginTop10 btn btn-warning pull-right cancel" type="reset">
+						<button class="cursorPointer closeCommentBlock marginTop10 btn btn-warning float-right cancel" type="reset">
 							<span class="visible-xs-inline-block fas fa-times"></span>
 							<strong class="hidden-xs">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 						</button>
-						<button class="btn btn-success saveComment marginTop10 pull-right" type="button" data-mode="edit">
+						<button class="btn btn-success saveComment marginTop10 float-right" type="button" data-mode="edit">
 							<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
 							<strong class="hidden-xs">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
 						</button>

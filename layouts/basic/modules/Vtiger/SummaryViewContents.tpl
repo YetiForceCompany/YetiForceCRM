@@ -21,7 +21,7 @@
 				{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 				{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
 				{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'><span class="fa fa-info-circle"></span></a>
+					<a href="#" class="HelpInfoPopover float-right" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'><span class="fa fa-info-circle"></span></a>
 				{/if}
 				</label>
 				<td class="fieldValue {$WIDTHTYPE}" style="width:65%">
@@ -43,7 +43,7 @@
 								{/if}
                             </div>
                             <div class="summaryViewEdit col-xs-2 cursorPointer">
-								<div class="pull-right">
+								<div class="float-right">
 									<span class="fas fa-pencil-alt" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 								</div>
                             </div>
@@ -67,7 +67,7 @@
 		{/if}
 	</div>
 	<div class="col-md-8">
-		<div class="pull-right">
+		<div class="float-right">
 			<div>
 				<p>
 					<small>

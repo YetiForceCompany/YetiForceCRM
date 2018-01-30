@@ -77,7 +77,7 @@
 		{/if}
 	</div>
 	<div class="clearfix form-actions pushDown">
-		<button class="cancelLink pull-right btn btn-warning" type="button">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</button>
-		<button class="btn btn-success addButton select pull-right"><i class="fas fa-plus"></i>&nbsp;<strong>{\App\Language::translate('LBL_ADD_TO',$MODULE_NAME)}&nbsp;{\App\Language::translate($SOURCE_MODULE, $SOURCE_MODULE)}</strong></button>
+		<button class="cancelLink float-right btn btn-warning" type="button">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</button>
+		<button class="btn btn-success addButton select float-right"><i class="fas fa-plus"></i>&nbsp;<strong>{\App\Language::translate('LBL_ADD_TO',$MODULE_NAME)}&nbsp;{\App\Language::translate($SOURCE_MODULE, $SOURCE_MODULE)}</strong></button>
 	</div>
 {/strip}

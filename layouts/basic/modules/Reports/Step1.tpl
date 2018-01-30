@@ -239,7 +239,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="row pull-right no-margin">
+			<div class="row float-right no-margin">
 				<button type="submit" class="btn btn-success nextStep"><strong>{\App\Language::translate('LBL_NEXT',$MODULE)}</strong></button>&nbsp;&nbsp;
 				<button onclick='window.history.back()' type="reset" class="cancelLink cursorPointer btn btn-warning">{\App\Language::translate('LBL_CANCEL',$MODULE)}</button>
 			</div>

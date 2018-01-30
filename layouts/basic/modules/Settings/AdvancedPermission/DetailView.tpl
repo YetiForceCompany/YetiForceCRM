@@ -8,7 +8,7 @@
 			{/if}
 		</div>
 		<div class="col-md-4 ">
-			<a href="{$RECORD_MODEL->getEditViewUrl()}" class="btn btn-info pull-right">
+			<a href="{$RECORD_MODEL->getEditViewUrl()}" class="btn btn-info float-right">
 				<strong>{\App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}</strong>
 			</a>
 		</div>

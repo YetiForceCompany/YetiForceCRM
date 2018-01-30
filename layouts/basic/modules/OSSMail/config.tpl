@@ -75,7 +75,7 @@
 							</div>
 						</div>
 					{/foreach}
-					<div class="pull-right">
+					<div class="float-right">
 						<button class="btn btn-success saveButton" style="margin-top:10px;" type="submit" title=""><strong>{\App\Language::translate('LBL_SAVE', 'OSSMail')}</strong></button>
 					</div>
 				</form>

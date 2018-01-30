@@ -52,7 +52,7 @@
 			</div>
 		</div>
 		<br />
-		<div class="pull-right block">
+		<div class="float-right block">
 			<button type="button" class="btn btn-danger backStep"><strong>{\App\Language::translate('LBL_BACK',$MODULE)}</strong></button>&nbsp;&nbsp;
 			<button type="submit" class="btn btn-success nextStep"><strong>{\App\Language::translate('LBL_NEXT',$MODULE)}</strong></button>&nbsp;&nbsp;
 			<button class="cancelLink btn btn-warning" onclick="window.history.back()">{\App\Language::translate('LBL_CANCEL',$MODULE)}</button>&nbsp;&nbsp;

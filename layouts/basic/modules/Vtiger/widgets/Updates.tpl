@@ -16,11 +16,11 @@
 							<input class="switchBtn switchBtnReload filterField" type="checkbox" checked="" data-size="small" data-label-width="5" data-on-text="{$WIDGET['switchHeaderLables']['on']}" data-off-text="{$WIDGET['switchHeaderLables']['off']}" data-urlparams="whereCondition" data-on-val='{$WIDGET['switchHeader']['on']}' data-off-val='{$WIDGET['switchHeader']['off']}'>
 						</div>
 					{/if}
-					<div class="col-md-3 col-sm-3 pull-right paddingBottom10">
-						<div class="pull-right">
+					<div class="col-md-3 col-sm-3 float-right paddingBottom10">
+						<div class="float-right">
 							<div class="btn-group">
 								{if $WIDGET['newChanege'] && $MODULE_MODEL->isPermitted('ReviewingUpdates') && $USER_MODEL->getId() eq $USER_MODEL->getRealId()}
-									<div class="pull-right btn-group">
+									<div class="float-right btn-group">
 										<button id="btnChangesReviewedOn" type="button" class="btn btn-success btn-sm btnChangesReviewedOn" title="{\App\Language::translate('BTN_CHANGES_REVIEWED_ON', $WIDGET['moduleBaseName'])}">
 											<span class="fa fa-check-circle-o"></span>
 										</button>

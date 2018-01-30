@@ -14,8 +14,8 @@
 							<div class="col-md-7 col-xs-10">
 								<h3 class="modal-title">{\App\Language::translate('LBL_ALPHABETIC_FILTERING', $MODULE_NAME)}</h3>
 							</div>
-							<div class="pull-right">
-								<div class="pull-right">
+							<div class="float-right">
+								<div class="float-right">
 									<button class="btn btn-light close" type="button" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>
 								</div>
 							</div>
@@ -34,7 +34,7 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<div class="pull-right">
+						<div class="float-right">
 							<button class="btn btn-danger removeAlfabetCondition" type="button" title="{\App\Language::translate('LBL_REMOVE_ALPH_SEARCH_INFO', $MODULE_NAME)}" >
 								{\App\Language::translate('LBL_REMOVE_FILTERING', $MODULE_NAME)}
 							</button >

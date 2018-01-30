@@ -16,8 +16,8 @@
 			<input type="hidden" name="conditions" id="advanced_filter" />
 			{include file=\App\Layout::getTemplatePath('AdvanceFilterExpressions.tpl')}
 			<div class="row">
-				<div class="col-md-5 pull-right">
-					<span class="pull-right">
+				<div class="col-md-5 float-right">
+					<span class="float-right">
 						<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					</span>

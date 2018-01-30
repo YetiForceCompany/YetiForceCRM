@@ -189,7 +189,7 @@
 
 			</div>
 			<br />
-			<div class="pull-right">
+			<div class="float-right">
 				<button class="btn btn-success" type="submit" disabled="disabled">
 					<strong>{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}</strong>
 				</button>&nbsp;&nbsp;

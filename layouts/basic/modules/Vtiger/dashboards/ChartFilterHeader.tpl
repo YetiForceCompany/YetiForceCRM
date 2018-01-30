@@ -6,7 +6,7 @@
 				<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
 			</div>
 			<div class="col-md-5">
-				<div class="box pull-right">
+				<div class="box float-right">
 					<button class="btn btn-xs btn-light downloadWidget hidden" data-widgetid="{$CHART_MODEL->get('widgetid')}">
 						<span class="glyphicon glyphicon-download" title="{\App\Language::translate('LBL_WIDGET_DOWNLOAD','Home')}"></span>
 					</button>&nbsp;

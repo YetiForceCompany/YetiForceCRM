@@ -22,8 +22,8 @@
 									<div class="col-xs-12 col-sm-6 col-md-6 paddingLRZero">
 										<h4>{\App\Language::translate('LBL_HOLIDAY_LIST', $QUALIFIED_MODULE)}:</h4>
 									</div>
-									<div class="pull-right col-xs-12 col-sm-6 col-md-6 paddingLRZero">
-										<div class="pull-right">
+									<div class="float-right col-xs-12 col-sm-6 col-md-6 paddingLRZero">
+										<div class="float-right">
 											<div class="col-xs-3 paddingTop10 paddingLRZero">
 												<strong>{\App\Language::translate('LBL_DATE_RANGE', $QUALIFIED_MODULE)}:</strong>
 											</div>
@@ -62,7 +62,7 @@
 									<span class="marginLeft20">{\App\Language::translate($HOLIDAY['type'], $QUALIFIED_MODULE)}</span>
 								</td>
 								<td>
-									<div class='pull-right'>
+									<div class='float-right'>
 										<a data-holiday-id="{$HOLIDAY['id']}" data-toggle="dropdown" class="dropdown-toggle editHoliday" href="javascript:void(0)">
 											<span title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}" class="fas fa-pencil-alt alignMiddle"></span>
 										</a>

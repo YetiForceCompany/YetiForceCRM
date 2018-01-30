@@ -14,7 +14,7 @@
 		<div class="widget_header row">
 			<div class="col-md-10">{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}</div>
 			<div class="col-md-2">
-				<button class="btn btn-info pull-right" type="button" onclick='window.location.href = "{$RECORD_MODEL->getEditViewUrl()}"'>{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
+				<button class="btn btn-info float-right" type="button" onclick='window.location.href = "{$RECORD_MODEL->getEditViewUrl()}"'>{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)}</button>
 			</div>
 		</div>
 		<div class="clearfix"></div>
@@ -116,7 +116,7 @@
 										{if $PROFILE_MODULE->getFields()}
 											<div class="col-md-12">
 												<label class="themeTextColor font-x-large float-left"><strong>{\App\Language::translate('LBL_FIELDS',$QUALIFIED_MODULE)}</strong></label>
-												<div class="pull-right">
+												<div class="float-right">
 													<span class="mini-slider-control ui-slider" data-value="0">
 														<a style="margin-top: 4px;" class="ui-slider-handle"></a>
 													</span>

@@ -23,7 +23,7 @@
 						<td><input type="checkbox" class="taskStatus" data-statusurl="{$TASK->getChangeStatusUrl()}" {if $TASK->isActive()} checked="" {/if} /></td>
 						<td>{\App\Language::translate($TASK->getTaskType()->getLabel(),$QUALIFIED_MODULE)}</td>
 						<td>{$TASK->getName()}
-							<div class="pull-right actions">
+							<div class="float-right actions">
 								<span class="actionImages">
 									<a data-url="{$TASK->getEditViewUrl()}">
 										<span class="fas fa-pencil-alt alignMiddle" title="{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)}"></span>

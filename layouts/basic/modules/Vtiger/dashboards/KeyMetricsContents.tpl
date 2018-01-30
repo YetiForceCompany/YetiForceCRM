@@ -10,7 +10,7 @@
 <div style='padding:5px'>
 	{foreach item=KEYMETRIC from=$KEYMETRICS}
 	<div style='padding:5px'>
-		<span class="pull-right">{$KEYMETRIC.count}</span>
+		<span class="float-right">{$KEYMETRIC.count}</span>
 		<a href="?module={$KEYMETRIC.module}&view=List&viewname={$KEYMETRIC.id}">{\App\Language::translate($KEYMETRIC.name,$KEYMETRIC.module)}</a>
 	</div>	
 	{/foreach}

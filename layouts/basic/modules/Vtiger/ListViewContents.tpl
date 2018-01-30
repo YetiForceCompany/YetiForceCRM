@@ -50,11 +50,11 @@
 									{if $LISTVIEW_HEADER->getFieldDataType() eq 'tree' || $LISTVIEW_HEADER->getFieldDataType() eq 'categoryMultipicklist'}
 										{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
 									<div class='float-left'>
-										<span class="pull-right popoverTooltip delay0"  data-placement="top" data-original-title="{\App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $MODULE)}"
+										<span class="float-right popoverTooltip delay0"  data-placement="top" data-original-title="{\App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $MODULE)}"
 											  data-content="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}">
 											<span class="fa fa-info-circle"></span>
 										</span>
-										<input type="checkbox" id="searchInSubcategories{$LISTVIEW_HEADER_NAME}" title="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}" name="searchInSubcategories" class="pull-right searchInSubcategories" value="1" data-columnname="{$LISTVIEW_HEADER->getColumnName()}" {if !empty($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME]['specialOption'])} checked {/if}>
+										<input type="checkbox" id="searchInSubcategories{$LISTVIEW_HEADER_NAME}" title="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}" name="searchInSubcategories" class="float-right searchInSubcategories" value="1" data-columnname="{$LISTVIEW_HEADER->getColumnName()}" {if !empty($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME]['specialOption'])} checked {/if}>
 									</div>
 								{/if}
 							</th>
@@ -67,7 +67,7 @@
 							<td class="listViewSearchTd">
 								<div class="flexWrapper">
 								<a class="btn btn-light" data-trigger="listSearch" href="javascript:void(0);"><span class="fas fa-search"></span></a>
-								<a class="btn btn-light pull-right listRemoveBtn" href="index.php?view=List&module={$MODULE}" >
+								<a class="btn btn-light float-right listRemoveBtn" href="index.php?view=List&module={$MODULE}" >
 									<span class="fas fa-times"></span>
 								</a>
 								</div>

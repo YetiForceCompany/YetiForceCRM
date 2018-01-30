@@ -66,7 +66,7 @@
 									<a class="btn btn-light" href="javascript:void(0);" data-trigger="listSearch">
 										<span class="fas fa-search"></span>
 									</a>
-									<a class="btn btn-light pull-right listRemoveBtn" href="index.php?module={$MODULE}&parent=Settings&view=List" >
+									<a class="btn btn-light float-right listRemoveBtn" href="index.php?module={$MODULE}&parent=Settings&view=List" >
 										<span class="fas fa-times"></span>
 									</a>
 								</div>
@@ -114,7 +114,7 @@
 							{/foreach}
 							<td>
 								{if $LISTVIEW_HEADER@last}
-									<div class="pull-right actions">
+									<div class="float-right actions">
 										<div class="actionImages flexWrapper">
 											<a href='{$LISTVIEW_ENTRY->getDuplicateRecordUrl()}'><span title="{\App\Language::translate('LBL_DUPLICATE', $MODULE)}" class="fas fa-retweet alignMiddle"></span></a>&nbsp;
 												{if $IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->get('status') eq 'Active'}

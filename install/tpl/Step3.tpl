@@ -16,7 +16,7 @@
 
 		<div class="row main-container">
 			<div class="inner-container">
-				<div class="pull-right">
+				<div class="float-right">
 					<a class="helpBtn" href="https://yetiforce.com/en/implementer/installation-updates/103-web-server-requirements.html" target="_blank" rel="noreferrer">
 						<span class="fa fa-info-circle" aria-hidden="true"></span>
 					</a>
@@ -25,7 +25,7 @@
 				<hr>
 				<div>
 					<div class="offset2">
-						<div class="pull-right">
+						<div class="float-right">
 							<div class="button-container">
 								<a href ="#">
 									<input type="button" class="btn btn-light" value="{App\Language::translate('LBL_RECHECK', 'Install')}" id='recheck'/>
@@ -76,7 +76,7 @@
 										<tr {if $item.status}class="danger"{/if}>
 											<td>
 												<label>{$key}</label>
-												{if isset($item.help)}<a href="#" class="popoverTooltip pull-right" data-placement="rigth" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><i class="fa fa-info-circle"></i></a>{/if}
+												{if isset($item.help)}<a href="#" class="popoverTooltip float-right" data-placement="rigth" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><i class="fa fa-info-circle"></i></a>{/if}
 											</td>
 											<td><label>{App\Language::translate($item.recommended, 'Settings::ConfReport')}</label></td>
 											<td><label>{App\Language::translate($item.current, 'Settings::ConfReport')}</label></td>
@@ -99,7 +99,7 @@
 										<tr {if $item.status}class="danger"{/if}>
 											<td>
 												<label>{$key}</label>
-												{if isset($item.help)}<a href="#" class="popoverTooltip pull-right" data-placement="rigth" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><i class="fa fa-info-circle"></i></a>{/if}
+												{if isset($item.help)}<a href="#" class="popoverTooltip float-right" data-placement="rigth" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><i class="fa fa-info-circle"></i></a>{/if}
 											</td>
 											<td><label>{App\Language::translate($item.recommended, 'Settings::ConfReport')}</label></td>
 											<td><label>{App\Language::translate($item.current, 'Settings::ConfReport')}</label></td>

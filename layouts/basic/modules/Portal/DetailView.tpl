@@ -23,15 +23,15 @@
 		</div>
 		<div class="col-md-2">&nbsp;</div>
 		<div class="col-md-6">
-			<div class="controls col-sm2 col-md-4 pull-right">
-				<select class="select2-container select2 pull-right customFilterMainSpan" id="bookmarksDropdown" name="bookmarksList">
+			<div class="controls col-sm2 col-md-4 float-right">
+				<select class="select2-container select2 float-right customFilterMainSpan" id="bookmarksDropdown" name="bookmarksList">
 					{foreach item=RECORD from=$RECORDS_LIST}
 						<option value="{$RECORD['id']}" {if $RECORD['id'] eq $RECORD_ID}selected{/if}>{$RECORD['portalname']}</option>
 					{/foreach}
 				</select>
 			</div>
 			<div class="control-label col-md-8">
-				<label class="textAlignRight pull-right" style="padding-top: 14px;">
+				<label class="textAlignRight float-right" style="padding-top: 14px;">
 					{\App\Language::translate('LBL_BOOKMARKS_LIST', $MODULE)}
 				</label>
 			</div>

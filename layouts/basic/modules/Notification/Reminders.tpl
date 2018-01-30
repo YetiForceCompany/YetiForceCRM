@@ -21,7 +21,7 @@
 							<strong class="float-left">{\App\Language::translate($RECORD->get('notification_type'),$MODULE_NAME)}</strong>
 						</div>
 						<div class="col-xs-6 paddingLRZero marginTB3 font-larger">
-							<strong class="pull-right">{$RECORD->getDisplayValue('createdtime')}</strong>
+							<strong class="float-right">{$RECORD->getDisplayValue('createdtime')}</strong>
 						</div>
 						<div class="col-xs-12 paddingLRZero marginBottom5">
 							{$RECORD->getTitle()}
@@ -65,7 +65,7 @@
 								<strong class="">{\App\Language::translate('Created By',$MODULE_NAME)}: {$RECORD->getCreatorUser()}</strong>
 							</div>
 							<div class="col-xs-2 paddingLRZero">
-								<button type="button" class="btn btn-success btn-xs pull-right setAsMarked" title="{\App\Language::translate('LBL_MARK_AS_READ',$MODULE_NAME)}">
+								<button type="button" class="btn btn-success btn-xs float-right setAsMarked" title="{\App\Language::translate('LBL_MARK_AS_READ',$MODULE_NAME)}">
 									<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 								</button>
 							</div>

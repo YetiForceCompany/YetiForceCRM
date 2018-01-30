@@ -32,13 +32,13 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
 			<div class="col-sm-7 col-xs-12 btn-toolbar" role="toolbar">
-				<div class="btn-group filterActions pull-right">
+				<div class="btn-group filterActions float-right">
 					<button class="btn btn-warning" type="reset" onClick="window.location.reload()">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
 				</div>
-				<div class="btn-group filterActions pull-right">
+				<div class="btn-group filterActions float-right">
 					<button class="btn btn-success" id="customViewSubmit" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
 				</div>
-				<div class="btn-group pull-right pull-left-xs iconPreferences marginRight10" data-toggle="buttons">
+				<div class="btn-group float-right pull-left-xs iconPreferences marginRight10" data-toggle="buttons">
 					<label class="btn btn-light{if $CUSTOMVIEW_MODEL->isDefault()} active  btn-primary{/if}" title="{\App\Language::translate('LBL_SET_AS_DEFAULT',$MODULE)}" >
 						<input id="setdefault" name="setdefault" type="checkbox"  {if $CUSTOMVIEW_MODEL->isDefault()}checked="checked"{/if} value="1" />
 						<span class="glyphicon glyphicon-heart-empty" data-check="glyphicon-heart" data-unchecked="glyphicon-heart-empty"></span>
@@ -155,8 +155,8 @@
 			</div>
 		</div>
 		<div class="filterActions">
-			<button class="cancelLink pull-right btn btn-warning" type="reset" onClick="window.location.reload()">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
-			<button class="btn btn-success pull-right" id="customViewSubmit" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
+			<button class="cancelLink float-right btn btn-warning" type="reset" onClick="window.location.reload()">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
+			<button class="btn btn-success float-right" id="customViewSubmit" type="submit"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
 		</div>
 	</form>
 {/strip}

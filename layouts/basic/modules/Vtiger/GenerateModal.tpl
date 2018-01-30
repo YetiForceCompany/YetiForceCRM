@@ -41,7 +41,7 @@
 		</div>
 	</div>
 	<div class="modal-footer">
-		<div class="pull-right">
+		<div class="float-right">
 			<button type="button" class="btn btn-warning dismiss" data-dismiss="modal">{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}</button>
 		</div>
 	</div>

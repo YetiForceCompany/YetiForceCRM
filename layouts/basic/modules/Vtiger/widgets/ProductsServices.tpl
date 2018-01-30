@@ -95,7 +95,7 @@
 	</div>
 	{if $RECORD_PAGING_MODEL->isNextPageExists()}
 		<div class="row">
-			<div class="pull-right">
+			<div class="float-right">
 				<button type="button" class="btn btn-primary btn-xs marginRight10 marginTop10 moreProductsService">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button>
 			</div>
 		</div>

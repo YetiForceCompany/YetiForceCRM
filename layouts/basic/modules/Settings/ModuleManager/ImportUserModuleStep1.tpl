@@ -53,7 +53,7 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<div class="col-md-1 pull-right cancelLinkContainer">
+						<div class="col-md-1 float-right cancelLinkContainer">
 							<a class="cancelLink btn btn-warning" href="index.php?module=ModuleManager&parent=Settings&view=List">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 						</div>
 						<button class="btn btn-success" type="submit" name="saveButton"><strong>{\App\Language::translate('LBL_IMPORT', $QUALIFIED_MODULE)}</strong></button>

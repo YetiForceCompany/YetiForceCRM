@@ -5,7 +5,7 @@
 			<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(),$MODULE_NAME)}</strong></div>
 		</div>
 		<div class="col-md-4">
-			<div class="box pull-right">
+			<div class="box float-right">
 				{if \App\Privilege::isPermitted('Accounts', 'CreateView')}
 					<a class="btn btn-xs btn-light" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Accounts'); return false;">
 						<span class='fas fa-plus' border='0' title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}"></span>

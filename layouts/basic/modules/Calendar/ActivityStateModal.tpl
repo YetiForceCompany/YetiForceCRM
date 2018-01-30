@@ -8,7 +8,7 @@
 					<div class="float-left">
 						<h3 class="modal-title">{\App\Language::translate('LBL_SET_RECORD_STATUS', $MODULE_NAME)}</h3>
 					</div>
-					<div class="pull-right">
+					<div class="float-right">
 						{if $RECORD->get('link') neq '' && $PERMISSION_TO_SENDE_MAIL}
 							{if $USER_MODEL->get('internal_mailer') == 1}
 								{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(\App\Record::getType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}

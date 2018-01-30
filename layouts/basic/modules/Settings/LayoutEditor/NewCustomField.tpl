@@ -23,8 +23,8 @@
 				<div class="col-md-10 marginLeftZero fieldContainer">
 					<span class="fieldLabel"></span>
 					<input type="hidden" value="" id="relatedFieldValue" />
-					<span class="pull-right actions">
-						<button class="btn btn-primary btn-xs copyFieldLabel pull-right marginLeft5" data-target="relatedFieldValue">
+					<span class="float-right actions">
+						<button class="btn btn-primary btn-xs copyFieldLabel float-right marginLeft5" data-target="relatedFieldValue">
 							<span class="fas fa-copy" title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
 						</button>
 						{if $IS_SORTABLE}

@@ -22,7 +22,7 @@
 								{/if}
 							</div>
 							<div class="timeline-body row no-margin">
-								<div class="pull-right">
+								<div class="float-right">
 									<span class="time">
 										<span>{\App\Fields\DateTime::formatToViewDate($HISTORY['time'])}</span>
 									</span>
@@ -33,7 +33,7 @@
 									&nbsp;<span class="body-icon glyphicon glyphicon-paperclip"></span>
 								{/if}
 								{if !$IS_READ_ONLY && $HISTORY['type'] eq 'OSSMailView'}
-									<div class="pull-right marginRight10 btn-group" role="group">
+									<div class="float-right marginRight10 btn-group" role="group">
 										<button data-url="{$HISTORY['url']|cat:'&noloadlibs=1'}" type="button" title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL','OSSMailView')}" class="showModal btn btn-xs btn-light" data-cb="Vtiger_Index_Js.registerMailButtons">
 											<span class="body-icon fas fa-search"></span>
 										</button>
@@ -59,7 +59,7 @@
 			</ul>
 			{if !$IS_READ_ONLY && count($HISTORIES) eq $PAGING_MODEL->getPageLimit() && !$NO_MORE}
 				<div id="moreRelatedUpdates">
-					<div class="pull-right">
+					<div class="float-right">
 						<button type="button" class="btn btn-primary btn-xs moreRelatedUpdates cursorPointer">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button>
 					</div>
 				</div>

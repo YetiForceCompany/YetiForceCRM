@@ -17,7 +17,7 @@
 				{/foreach}
 			</select>
 		</div>
-		<div class="col-md-10 pull-right">
+		<div class="col-md-10 float-right">
 			{include file=\App\Layout::getTemplatePath('ListViewActions.tpl', $QUALIFIED_MODULE)}
 		</div>
 	</div>

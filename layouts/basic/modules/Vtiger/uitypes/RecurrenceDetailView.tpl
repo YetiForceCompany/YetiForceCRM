@@ -19,7 +19,7 @@
 							<div class="col-xs-8 paddingLRZero">
 								<h4>{App\Language::translate('LBL_TITLE_TYPE_DELETE', $MODULE)}</h4>
 							</div>
-							<div class="pull-right">
+							<div class="float-right">
 								<button class="btn btn-warning marginLeft10" type="button" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>
 							</div>
 						</div>

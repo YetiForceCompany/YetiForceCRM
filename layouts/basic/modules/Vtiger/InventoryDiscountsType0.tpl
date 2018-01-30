@@ -4,7 +4,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<strong>{\App\Language::translate('LBL_GLOBAL_DISCOUNTS', $MODULE)}</strong>
-				<div class="pull-right">
+				<div class="float-right">
 					<input type="{$AGGREGATION_INPUT_TYPE}" name="aggregationType" value="global" class="activeCheckbox">
 				</div>
 			</div>

@@ -18,7 +18,7 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 				{\App\Language::translate('LBL_QUICK_CREATE_EDITOR_DESCRIPTION', $QUALIFIED_MODULE)}
 			</div>
-			<div class="pull-right col-md-4 h3">
+			<div class="float-right col-md-4 h3">
 				<select class="select2 form-control" name="quickCreateEditorModules">
 					{foreach key=mouleName item=moduleModel from=$SUPPORTED_MODULES}
 						{if $moduleModel->isPermitted('EditView')}
@@ -42,7 +42,7 @@
             <div class="tab-content layoutContent paddingNoTop20 themeTableColor overflowVisible">
                 <div class="tab-pane active" id="detailViewLayout">
 					<div class="btn-toolbar">
-						<span class="pull-right">
+						<span class="float-right">
 							<button class="btn btn-success saveFieldSequence visibility"  type="button">
 								<strong>{\App\Language::translate('LBL_SAVE_FIELD_SEQUENCE', $QUALIFIED_MODULE)}</strong>
 							</button>

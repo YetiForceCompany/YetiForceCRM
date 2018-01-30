@@ -14,7 +14,7 @@
 							{/if}&nbsp;&nbsp;
 						</div>
 					{/if}
-					<div class="pull-right">
+					<div class="float-right">
 						<small>
 							{\App\Fields\DateTime::formatToViewDate($ROW->get('createdtime'))}
 						</small>

@@ -7,7 +7,7 @@
 					<div class="float-left">
 						{\App\Language::translate('LBL_PAGES_HISTORY')}
 					</div>
-					<div class="pull-right">
+					<div class="float-right">
 						<a data-placement="left" data-toggle="dropdown" class="btn btn-light btn-sm showHistoryBtn" title="{\App\Language::translate('LBL_PAGES_HISTORY')}" aria-expanded="false" href="#">
 							<span class="fas fa-history" aria-hidden="true"></span>
 						</a>
@@ -22,7 +22,7 @@
 					<div class="float-left">
 						{\App\Language::translate('LBL_REMINDER')}
 					</div>
-					<div class="pull-right">
+					<div class="float-right">
 						<a class="btn btn-light {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" title="{\App\Language::translate('LBL_REMINDER')}" data-content="{\App\Language::translate('LBL_REMINDER')}">
 							<span class="fas fa-calendar-alt" aria-hidden="true"></span>
 							<span class="badge bgDanger hide">0</span>
@@ -37,7 +37,7 @@
 					<div class="float-left">
 						{\App\Language::translate('LBL_CHAT')}
 					</div>
-					<div class="pull-right">
+					<div class="float-right">
 						<a class="btn btn-light ChatIcon " title="{\App\Language::translate('LBL_CHAT')}" href="#">
 							<span class="fas fa-comments" aria-hidden="true"></span>
 						</a>
@@ -51,7 +51,7 @@
 					<div class="float-left">
 						{\App\Language::translate('LBL_NOTIFICATIONS')}
 					</div>
- 					<div class="pull-right">
+ 					<div class="float-right">
  						<a class="btn btn-light {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" title="{\App\Language::translate('LBL_NOTIFICATIONS')}" >
 							<span class="fas fa-bell" aria-hidden="true"></span>
 							<span class="badge hide">0</span>
@@ -65,7 +65,7 @@
 				<div class='float-left'>
 					{\App\Language::translate('LBL_QUICK_CREATE')}
 				</div>
-				<div class='pull-right'>
+				<div class='float-right'>
 					<a id="mobile_menubar_quickCreate" class="dropdown-toggle btn btn-light" data-toggle="dropdown" title="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
 						<span class="fas fa-plus" aria-hidden="true"></span>
 					</a>
@@ -124,7 +124,7 @@
 						<div class="float-left">
 							{\App\Language::translate($TITLE,$MODULE)}
 						</div>
-						<div class="pull-right">
+						<div class="float-right">
 							<a class="btn btn-sm popoverTooltip {if $obj->getClassName()|strpos:"btn-" === false}btn-light {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if} " href="{$HREF}"
 								{if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
 									{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
@@ -184,7 +184,7 @@
 					{/foreach}
 				</select>
 				<div class="input-group-btn">
-					<div class="pull-right">
+					<div class="float-right">
 						<button class="btn btn-light globalSearch " title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">
 							<span class="fas fa-th-large"></span>
 						</button>
@@ -194,7 +194,7 @@
 			<div class="input-group">
 				<input type="text" class="form-control globalSearchValue" title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10" />
 				<div class="input-group-btn">
-					<div class="pull-right">
+					<div class="float-right">
 						<button class="btn btn-light searchIcon" type="button">
 							<span class="fas fa-search"></span>
 						</button>

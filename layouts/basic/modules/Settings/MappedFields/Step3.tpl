@@ -15,7 +15,7 @@
 						{include file=\App\Layout::getTemplatePath('AdvanceFilterExpressions.tpl')}
 					</div>
 					<div class="panel-footer clearfix">
-						<div class="btn-toolbar pull-right">
+						<div class="btn-toolbar float-right">
 							<button class="btn btn-danger backStep" type="button">{\App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}</button>
 							<button class="btn btn-success" type="submit">{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}</button>
 							<button class="btn btn-warning cancelLink" type="reset">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
