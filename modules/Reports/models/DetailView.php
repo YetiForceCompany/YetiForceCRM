@@ -46,7 +46,7 @@ class Reports_DetailView_Model extends Vtiger_DetailView_Model
 			$detailViewLinks[] = [
 				'linklabel' => \App\Language::translate('LBL_REPORT_PRINT', $moduleName),
 				'linkurl' => $recordModel->getReportPrintURL(),
-				'linkicon' => 'fa fa-print'
+				'linkicon' => 'fas fa-print'
 			];
 		}
 
