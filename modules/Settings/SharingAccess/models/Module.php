@@ -135,6 +135,7 @@ class Settings_SharingAccess_Module_Model extends Vtiger_Module_Model
 			$instance->set('editstatus', $row['editstatus']);
 			$moduleModels[$row['tabid']] = $instance;
 		}
+		$dataReader->close();
 		return $moduleModels;
 	}
 

@@ -258,6 +258,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			$moduleName = \App\Module::getModuleName($row['tabid']);
 			$widgets[$moduleName][] = Vtiger_Widget_Model::getInstanceFromValues($row);
 		}
+		$dataReader->close();
 		\App\Log::trace("Exiting Settings_WidgetsManagement_Module_Model::getSelectableDashboard() method ...");
 		return $widgets;
 	}
@@ -408,6 +409,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			$data[$moduleName][$blockId]['name'] = $row['rolename'];
 			$data[$moduleName][$blockId]['code'] = $row['authorized'];
 		}
+		$dataReader->close();
 		\App\Log::trace("Exiting Settings_WidgetsManagement_Module_Model::getBlocksId() method ...");
 		return $data;
 	}
@@ -430,6 +432,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		while ($row = $dataReader->read()) {
 			$data[$row['authorized']] = $row['id'];
 		}
+		$dataReader->close();
 		return $data;
 	}
 
@@ -443,6 +446,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		while ($row = $dataReader->read()) {
 			$widgets[$row['linklabel']] = Vtiger_Widget_Model::getInstanceFromValues($row);
 		}
+		$dataReader->close();
 		\App\Log::trace('Exiting Settings_WidgetsManagement_Module_Model::getSpecialWidgets() method ...');
 		return $widgets;
 	}
@@ -483,6 +487,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			} else
 				$data[$row['blockid']][] = Vtiger_Widget_Model::getInstanceFromValues($row);
 		}
+		$dataReader->close();
 		\App\Log::trace("Exiting Settings_WidgetsManagement_Module_Model::getDashboardForModule() method ...");
 		return $data;
 	}

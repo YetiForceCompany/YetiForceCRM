@@ -11,209 +11,11 @@
 require_once('modules/Reports/Reports.php');
 require_once 'modules/Reports/ReportUtils.php';
 require_once('modules/Vtiger/helpers/Util.php');
-
+Vtiger_Loader::includeOnce('~modules/Reports/ReportRunQueryDependencyMatrix.php');
+Vtiger_Loader::includeOnce('~modules/Reports/ReportRunQueryPlanner.php');
 /*
  * Helper class to determine the associative dependency between tables.
  */
-
-class ReportRunQueryDependencyMatrix
-{
-
-	protected $matrix = [];
-	protected $computedMatrix = null;
-
-	public function setDependency($table, array $dependents)
-	{
-		$this->matrix[$table] = $dependents;
-	}
-
-	public function addDependency($table, $dependent)
-	{
-		if (isset($this->matrix[$table]) && !in_array($dependent, $this->matrix[$table])) {
-			$this->matrix[$table][] = $dependent;
-		} else {
-			$this->setDependency($table, [$dependent]);
-		}
-	}
-
-	public function getDependents($table)
-	{
-		$this->computeDependencies();
-		return isset($this->computedMatrix[$table]) ? $this->computedMatrix[$table] : [];
-	}
-
-	protected function computeDependencies()
-	{
-		if ($this->computedMatrix !== null)
-			return;
-
-		$this->computedMatrix = [];
-		foreach ($this->matrix as $key => $values) {
-			$this->computedMatrix[$key] = $this->computeDependencyForKey($values);
-		}
-	}
-
-	protected function computeDependencyForKey($values)
-	{
-		$merged = [];
-		foreach ($values as $value) {
-			$merged[] = $value;
-			if (isset($this->matrix[$value])) {
-				$merged = array_merge($merged, $this->matrix[$value]);
-			}
-		}
-		return $merged;
-	}
-}
-
-class ReportRunQueryPlanner
-{
-
-	// Turn-off the query planning to revert back - backward compatiblity
-	protected $disablePlanner = false;
-	protected $tables = [];
-	protected $customTables = [];
-	protected $tempTables = [];
-	protected $tempTablesInitialized = false;
-	// Turn-off in case the query result turns-out to be wrong.
-	protected $allowTempTables = true;
-	protected $tempTablePrefix = 'vtiger_reptmptbl_';
-	protected static $tempTableCounter = 0;
-	protected $registeredCleanup = false;
-	public static $existTables = [];
-
-	public function addTable($table)
-	{
-		if (!empty($table))
-			$this->tables[$table] = $table;
-	}
-
-	public function addCustomTable($table)
-	{
-		if (!in_array($table, $this->customTables)) {
-			$this->customTables[] = $table;
-		}
-	}
-
-	public function requireTable($table, $dependencies = null)
-	{
-
-		if ($this->disablePlanner) {
-			return true;
-		}
-
-		if (isset($this->tables[$table])) {
-			return true;
-		}
-		if (is_array($dependencies)) {
-			foreach ($dependencies as $dependentTable) {
-				if (isset($this->tables[$dependentTable])) {
-					return true;
-				}
-			}
-		} else if ($dependencies instanceof ReportRunQueryDependencyMatrix) {
-			$dependents = $dependencies->getDependents($table);
-			if ($dependents) {
-				return count(array_intersect($this->tables, $dependents)) > 0;
-			}
-		}
-		return false;
-	}
-
-	public function getTables()
-	{
-		return $this->tables;
-	}
-
-	public function getCustomTables()
-	{
-		return $this->customTables;
-	}
-
-	public function newDependencyMatrix()
-	{
-		return new ReportRunQueryDependencyMatrix();
-	}
-
-	public function registerTempTable($query, $keyColumns)
-	{
-		if ($this->allowTempTables && !$this->disablePlanner) {
-			$current_user = vglobal('current_user');
-
-			$keyColumns = is_array($keyColumns) ? array_unique($keyColumns) : [$keyColumns];
-
-			// Minor optimization to avoid re-creating similar temporary table.
-			$uniqueName = NULL;
-			foreach ($this->tempTables as $tmpUniqueName => $tmpTableInfo) {
-				if (strcasecmp($query, $tmpTableInfo['query']) === 0) {
-					// Capture any additional key columns
-					$tmpTableInfo['keycolumns'] = array_unique(array_merge($tmpTableInfo['keycolumns'], $keyColumns));
-					$uniqueName = $tmpUniqueName;
-					break;
-				}
-			}
-
-			if ($uniqueName === NULL) {
-				$uniqueName = $this->tempTablePrefix .
-					str_replace('.', '', uniqid($current_user->id, true)) . (self::$tempTableCounter++);
-
-				$this->tempTables[$uniqueName] = [
-					'query' => $query,
-					'keycolumns' => is_array($keyColumns) ? array_unique($keyColumns) : [$keyColumns],
-				];
-			}
-
-			return $uniqueName;
-		}
-		return "($query)";
-	}
-
-	public function initializeTempTables()
-	{
-		$adb = PearDatabase::getInstance();
-		foreach ($this->tempTables as $uniqueName => $tempTableInfo) {
-			if (!in_array($uniqueName, self::$existTables)) {
-				$query1 = sprintf('CREATE TEMPORARY TABLE %s AS %s', $uniqueName, $tempTableInfo['query']);
-				$adb->query($query1);
-			}
-
-			$keyColumns = $tempTableInfo['keycolumns'];
-			foreach ($keyColumns as $keyColumn) {
-				if (!empty($keyColumn)) {
-					$result = $adb->query("SHOW COLUMNS FROM `$uniqueName` LIKE '$keyColumn';");
-					if ($result->rowCount() > 0) {
-						$query2 = sprintf('ALTER TABLE %s ADD INDEX (%s)', $uniqueName, $keyColumn);
-						$adb->query($query2);
-					}
-				}
-			}
-			self::$existTables[] = $uniqueName;
-		}
-
-		// Trigger cleanup of temporary tables when the execution of the request ends.
-		// NOTE: This works better than having in __destruct
-		// (as the reference to this object might end pre-maturely even before query is executed)
-		if (!$this->registeredCleanup) {
-			register_shutdown_function([$this, 'cleanup']);
-			// To avoid duplicate registration on this instance.
-			$this->registeredCleanup = true;
-		}
-	}
-
-	public function cleanup()
-	{
-		$adb = PearDatabase::getInstance();
-
-		$oldDieOnError = $adb->dieOnError;
-		$adb->dieOnError = false; // To avoid abnormal termination during shutdown...
-		foreach ($this->tempTables as $uniqueName => $tempTableInfo) {
-			$adb->pquery('DROP TABLE ' . $uniqueName, []);
-		}
-		$adb->dieOnError = $oldDieOnError;
-
-		$this->tempTables = [];
-	}
-}
 
 class ReportRun extends CRMEntity
 {
@@ -593,7 +395,7 @@ class ReportRun extends CRMEntity
 		$fieldName = $selectedfields[3];
 		list($moduleName, $fieldLabel) = explode('__', $moduleFieldLabel, 2);
 		$fieldLabel = str_replace('__', '_', $fieldLabel);
-		$fieldInfo = getFieldByReportLabel($moduleName, $fieldLabel);
+		$fieldInfo = ReportUtils::getFieldByReportLabel($moduleName, $fieldLabel);
 
 		if ($moduleName == 'ModComments' && $fieldName == 'creator') {
 			$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => 'vtiger_usersModComments.first_name',
@@ -601,7 +403,7 @@ class ReportRun extends CRMEntity
 			$queryColumn = "trim(case when (vtiger_usersModComments.user_name not like '' and vtiger_crmentity.crmid!='') then $concatSql end) AS ModComments_Creator";
 			$this->queryPlanner->addTable('vtiger_usersModComments');
 			$this->queryPlanner->addTable("vtiger_usersModComments");
-		} elseif (($fieldInfo['uitype'] == '10' || isReferenceUIType($fieldInfo['uitype'])) && $fieldInfo['uitype'] != '52' && $fieldInfo['uitype'] != '53') {
+		} elseif (($fieldInfo['uitype'] == '10' || ReportUtils::isReferenceUIType($fieldInfo['uitype'])) && $fieldInfo['uitype'] != '52' && $fieldInfo['uitype'] != '53') {
 			$fieldSqlColumns = $this->getReferenceFieldColumnList($moduleName, $fieldInfo);
 			if (count($fieldSqlColumns) > 0) {
 				$queryColumn = "(CASE WHEN $tableName.$columnName NOT LIKE '' THEN (CASE";
@@ -711,16 +513,16 @@ class ReportRun extends CRMEntity
 			}
 		}
 		if ($comparator == 's') {
-			$rtvalue = " like " . formatForSqlLike($value, 2, $is_field);
+			$rtvalue = " like " . $this->formatForSqlLike($value, 2, $is_field);
 		}
 		if ($comparator == 'ew') {
-			$rtvalue = ' like ' . formatForSqlLike($value, 1, $is_field);
+			$rtvalue = ' like ' . $this->formatForSqlLike($value, 1, $is_field);
 		}
 		if ($comparator == 'c') {
-			$rtvalue = ' like ' . formatForSqlLike($value, 0, $is_field);
+			$rtvalue = ' like ' . $this->formatForSqlLike($value, 0, $is_field);
 		}
 		if ($comparator == 'k') {
-			$rtvalue = ' not like ' . formatForSqlLike($value, 0, $is_field);
+			$rtvalue = ' not like ' . $this->formatForSqlLike($value, 0, $is_field);
 		}
 		if ($comparator == 'l') {
 			$rtvalue = ' < ' . $adb->quote($value);
@@ -897,14 +699,14 @@ class ReportRun extends CRMEntity
 									if ($type == 'DT') {
 										$userStartDate = $userStartDate . ' 00:00:00';
 									}
-									$startDateTime = getValidDBInsertDateTimeValue($userStartDate);
+									$startDateTime = \App\Fields\DateTime::formatToDb($userStartDate);
 
 									$endDateTime = new DateTimeField($endDate . ' ' . date('H:i:s'));
 									$userEndDate = $endDateTime->getDisplayDate();
 									if ($type == 'DT') {
 										$userEndDate = $userEndDate . ' 23:59:59';
 									}
-									$endDateTime = getValidDBInsertDateTimeValue($userEndDate);
+									$endDateTime = \App\Fields\DateTime::formatToDb($userEndDate);
 
 									if ($selectedFields[1] == 'birthday') {
 										$tableColumnSql = 'DATE_FORMAT(' . $selectedFields[0] . '.' . $selectedFields[1] . ', "%m%d")';
@@ -953,8 +755,8 @@ class ReportRun extends CRMEntity
 									$tempDate = strtotime($date2) - 1;
 									$date2 = date('Y-m-d H:i:s', $tempDate);
 
-									$start = getValidDBInsertDateTimeValue($date1);
-									$end = getValidDBInsertDateTimeValue($date2);
+									$start = \App\Fields\DateTime::formatToDb($date1);
+									$end = \App\Fields\DateTime::formatToDb($date2);
 									$start = "'$start'";
 									$end = "'$end'";
 									if ($comparator == 'e')
@@ -969,12 +771,12 @@ class ReportRun extends CRMEntity
 									$startDateTime = new DateTimeField($startDateTime[0] . ' ' . date('H:i:s'));
 									$userStartDate = $startDateTime->getDisplayDate();
 									$userStartDate = $userStartDate . ' 00:00:00';
-									$start = getValidDBInsertDateTimeValue($userStartDate);
+									$start = \App\Fields\DateTime::formatToDb($userStartDate);
 
 									$endDateTime = new DateTimeField($endDateTime[0] . ' ' . date('H:i:s'));
 									$userEndDate = $endDateTime->getDisplayDate();
 									$userEndDate = $userEndDate . ' 23:59:59';
-									$end = getValidDBInsertDateTimeValue($userEndDate);
+									$end = \App\Fields\DateTime::formatToDb($userEndDate);
 
 									$advfiltergroupsql .= "$tableColumnSql BETWEEN '$start' AND '$end'";
 								} else if ($comparator == 'a' || $comparator == 'b') {
@@ -985,13 +787,13 @@ class ReportRun extends CRMEntity
 										$nextday = $modifiedDate->format('Y-m-d H:i:s');
 										$temp = strtotime($nextday) - 1;
 										$date = date('Y-m-d H:i:s', $temp);
-										$value = getValidDBInsertDateTimeValue($date);
+										$value = \App\Fields\DateTime::formatToDb($date);
 										$advfiltergroupsql .= "$tableColumnSql > '$value'";
 									} else {
 										$prevday = $dateTime->format('Y-m-d H:i:s');
 										$temp = strtotime($prevday) - 1;
 										$date = date('Y-m-d H:i:s', $temp);
-										$value = getValidDBInsertDateTimeValue($date);
+										$value = \App\Fields\DateTime::formatToDb($date);
 										$advfiltergroupsql .= "$tableColumnSql < '$value'";
 									}
 								}
@@ -1005,7 +807,7 @@ class ReportRun extends CRMEntity
 						$selectedfields = explode(":", $fieldcolname);
 						$moduleFieldLabel = $selectedfields[2];
 						list($moduleName, $fieldLabel) = explode('_', $moduleFieldLabel, 2);
-						$fieldInfo = getFieldByReportLabel($moduleName, $fieldLabel);
+						$fieldInfo = ReportUtils::getFieldByReportLabel($moduleName, $fieldLabel);
 						$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' => $selectedfields[0] . ".first_name", 'last_name' => $selectedfields[0] . ".last_name"], 'Users');
 						// Added to handle the crmentity table name for Primary module
 						if ($selectedfields[0] == "vtiger_crmentity" . $this->primarymodule) {
@@ -1175,7 +977,7 @@ class ReportRun extends CRMEntity
 								$fieldvalue = "vtiger_activity.status" . $this->getAdvComparator($comparator, trim($value), $datatype);
 							}
 						} else if ($comparator == 'ny') {
-							if ($fieldInfo['uitype'] == '10' || isReferenceUIType($fieldInfo['uitype']))
+							if ($fieldInfo['uitype'] == '10' || ReportUtils::isReferenceUIType($fieldInfo['uitype']))
 								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NOT NULL && " . $selectedfields[0] . "." . $selectedfields[1] . " != '' && " . $selectedfields[0] . "." . $selectedfields[1] . "  != '0')";
 							else
 								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NOT NULL && " . $selectedfields[0] . "." . $selectedfields[1] . " != '')";
@@ -1183,7 +985,7 @@ class ReportRun extends CRMEntity
 							if ($selectedfields[0] == 'vtiger_inventoryproductrel') {
 								$selectedfields[0] = 'vtiger_inventoryproductrel' . $moduleName;
 							}
-							if ($fieldInfo['uitype'] == '10' || isReferenceUIType($fieldInfo['uitype']))
+							if ($fieldInfo['uitype'] == '10' || ReportUtils::isReferenceUIType($fieldInfo['uitype']))
 								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NULL || " . $selectedfields[0] . "." . $selectedfields[1] . " = '' || " . $selectedfields[0] . "." . $selectedfields[1] . " = '0')";
 							else
 								$fieldvalue = "(" . $selectedfields[0] . "." . $selectedfields[1] . " IS NULL || " . $selectedfields[0] . "." . $selectedfields[1] . " = '')";
@@ -1199,7 +1001,7 @@ class ReportRun extends CRMEntity
 								$selectedfields[0] = 'vtiger_inventoryproductrel' . $moduleName;
 								$fieldvalue = $selectedfields[0] . "." . $selectedfields[1] . $this->getAdvComparator($comparator, $value, $datatype);
 							}
-						} elseif ($fieldInfo['uitype'] == '10' || isReferenceUIType($fieldInfo['uitype'])) {
+						} elseif ($fieldInfo['uitype'] == '10' || ReportUtils::isReferenceUIType($fieldInfo['uitype'])) {
 
 							$fieldSqlColumns = $this->getReferenceFieldColumnList($moduleName, $fieldInfo);
 							$comparatorValue = $this->getAdvComparator($comparator, trim($value), $datatype, $fieldSqlColumns[0]);
@@ -1293,7 +1095,7 @@ class ReportRun extends CRMEntity
 
 				$moduleFieldLabel = $selectedfields[3];
 				list($moduleName, $fieldLabel) = explode('__', $moduleFieldLabel, 2);
-				$fieldInfo = getFieldByReportLabel($moduleName, $fieldLabel);
+				$fieldInfo = ReportUtils::getFieldByReportLabel($moduleName, $fieldLabel);
 				$typeOfData = $fieldInfo['typeofdata'];
 				list($type) = explode('~', $typeOfData, 2);
 
@@ -1310,14 +1112,14 @@ class ReportRun extends CRMEntity
 					if ($type == 'DT') {
 						$userStartDate = $userStartDate . ' 00:00:00';
 					}
-					$startDateTime = getValidDBInsertDateTimeValue($userStartDate);
+					$startDateTime = \App\Fields\DateTime::formatToDb($userStartDate);
 
 					$endDateTime = new DateTimeField($enddate . ' ' . date('H:i:s'));
 					$userEndDate = $endDateTime->getDisplayDate();
 					if ($type == 'DT') {
 						$userEndDate = $userEndDate . ' 23:59:00';
 					}
-					$endDateTime = getValidDBInsertDateTimeValue($userEndDate);
+					$endDateTime = \App\Fields\DateTime::formatToDb($userEndDate);
 
 					if ($selectedfields[1] == 'birthday') {
 						$tableColumnSql = "DATE_FORMAT(" . $selectedfields[0] . "." . $selectedfields[1] . ", '%m%d')";
@@ -1372,7 +1174,7 @@ class ReportRun extends CRMEntity
 
 				$moduleFieldLabel = $column_info[2];
 				list($module, $fieldLabel) = explode('__', $moduleFieldLabel, 2);
-				$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
+				$fieldInfo = ReportUtils::getFieldByReportLabel($module, $fieldLabel);
 				$fieldType = null;
 				if (!empty($fieldInfo)) {
 					$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldInfo['fieldid']);
@@ -1667,7 +1469,7 @@ class ReportRun extends CRMEntity
 					if (count($secondarymodule) > 1) {
 						$query .= $focQuery . $this->getReportsNonAdminAccessControlQuery($value, $current_user, $value);
 					} else {
-						$query .= $focQuery . getNonAdminAccessControlQuery($value, $current_user, $value);
+						$query .= $focQuery . CRMEntity::getInstance($value)->getNonAdminAccessControlQuery($value, $current_user, $value);
 						;
 					}
 				}
@@ -1785,7 +1587,7 @@ class ReportRun extends CRMEntity
 				$query .= ' left join ' . $customTable['refTable'] . ' as ' . $customTable['reference'] . ' on ' . $customTable['reference'] . '.' . $customTable['refIndex'] . ' = ' . $customTable['table'] . '.' . $customTable['field'];
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				' WHERE vtiger_crmentity.deleted=0 and vtiger_leaddetails.converted=0';
 		} else if ($module == 'Accounts') {
 			$query = 'from vtiger_account
@@ -1829,7 +1631,7 @@ class ReportRun extends CRMEntity
 				$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				' WHERE vtiger_crmentity.deleted=0 ';
 		} else if ($module == 'Contacts') {
 			$query = 'from vtiger_contactdetails
@@ -1881,7 +1683,7 @@ class ReportRun extends CRMEntity
 				$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				' WHERE vtiger_crmentity.deleted=0';
 		}
 
@@ -1929,8 +1731,8 @@ class ReportRun extends CRMEntity
 				$query .= ' left join ' . $customTable['refTable'] . ' as ' . $customTable['reference'] . ' on ' . $customTable['reference'] . '.' . $customTable['refIndex'] . ' = ' . $customTable['table'] . '.' . $customTable['field'];
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) . '
-				WHERE vtiger_crmentity.deleted=0';
+				CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				' WHERE vtiger_crmentity.deleted=0';
 		} else if ($module == 'HelpDesk') {
 			$matrix = $this->queryPlanner->newDependencyMatrix();
 
@@ -1985,7 +1787,7 @@ class ReportRun extends CRMEntity
 				$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				' WHERE vtiger_crmentity.deleted=0 ';
 		} else if ($module == 'Calendar') {
 
@@ -2040,7 +1842,7 @@ class ReportRun extends CRMEntity
 				$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				' WHERE vtiger_crmentity.deleted=0 ';
 		} else if ($module == 'Campaigns') {
 			$query = 'from vtiger_campaign
@@ -2080,7 +1882,7 @@ class ReportRun extends CRMEntity
 				$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				' WHERE vtiger_crmentity.deleted=0';
 		} else if ($module == 'OSSTimeControl') {
 			$query = 'FROM vtiger_osstimecontrol
@@ -2106,7 +1908,7 @@ class ReportRun extends CRMEntity
 
 				$query = $focus->generateReportsQuery($module, $this->queryPlanner) .
 					$this->getRelatedModulesQuery($module, $this->secondarymodule) .
-					getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+					CRMEntity::getInstance($this->primarymodule)->getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 					' WHERE vtiger_crmentity.deleted=0';
 			}
 		}
@@ -2223,7 +2025,7 @@ class ReportRun extends CRMEntity
 	public function getHeaderToRaport($adb, $fld, $modules_selected)
 	{
 		list($module, $fieldLabel) = explode('__', $fld->name, 2);
-		$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
+		$fieldInfo = ReportUtils::getFieldByReportLabel($module, $fieldLabel);
 		if (!empty($fieldInfo)) {
 			$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldInfo['fieldid']);
 			$translatedLabel = \App\Language::translate($fieldModel->getFieldLabel(), $module);
@@ -2406,7 +2208,7 @@ class ReportRun extends CRMEntity
 
 					for ($i = 0; $i < $y; $i++) {
 						$fld = $adb->columnMeta($result, $i);
-						$fieldvalue = getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $fld->name);
+						$fieldvalue = ReportUtils::getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $fld->name);
 
 						//check for Roll based pick list
 						$temp_val = $fld->name;
@@ -2534,7 +2336,7 @@ class ReportRun extends CRMEntity
 
 						// Check for role based pick list
 						$temp_val = $fld->name;
-						$fieldvalue = getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $temp_val);
+						$fieldvalue = ReportUtils::getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $temp_val);
 
 						if ($fld->name == $this->primarymodule . '__LBL_ACTION' && $fieldvalue != '-') {
 							$fieldvalue = "<a href='index.php?module={$this->primarymodule}&view=Detail&record={$fieldvalue}' target='_blank'>" . \App\Language::translate('LBL_VIEW_DETAILS', 'Reports') . "</a>";
@@ -2826,7 +2628,7 @@ class ReportRun extends CRMEntity
 
 					for ($i = 0; $i < $y - 1; $i++) {
 						$fld = $adb->columnMeta($result, $i);
-						$fieldvalue = getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $fld->name);
+						$fieldvalue = ReportUtils::getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $fld->name);
 						if (($lastvalue == $fieldvalue) && $this->reporttype == "summary") {
 							if ($this->reporttype == "summary") {
 								$valtemplate .= "<td style='border-top:1px dotted #FFFFFF;'>&nbsp;</td>";
@@ -3186,7 +2988,7 @@ class ReportRun extends CRMEntity
 		}
 		$curr_symb = "";
 		$fieldLabel = ltrim(str_replace($rep_module, '', $rep_header), '__');
-		$fieldInfo = getFieldByReportLabel($rep_module, $fieldLabel);
+		$fieldInfo = ReportUtils::getFieldByReportLabel($rep_module, $fieldLabel);
 		if ($fieldInfo['uitype'] == '71') {
 			$curr_symb = " (" . \App\Language::translate('LBL_IN') . " " . $current_user->currency_symbol . ")";
 		}
@@ -3269,30 +3071,29 @@ class ReportRun extends CRMEntity
 	 *
 	 * @param mixed $value any value
 	 *
-	 * @return string PhpExcel value type PHPExcel_Cell_DataType::TYPE_*
+	 * @return string PhpExcel value type \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_*
 	 */
 	private function getPhpExcelTypeFromValue($value)
 	{
 		if (is_integer($value) || is_float($value)) {
-			return PHPExcel_Cell_DataType::TYPE_NUMERIC;
+			return \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC;
 		} else if (is_null($value)) {
-			return PHPExcel_Cell_DataType::TYPE_NULL;
+			return \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NULL;
 		} else if (is_bool($value)) {
-			return PHPExcel_Cell_DataType::TYPE_BOOL;
+			return \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_BOOL;
 		}
-		return PHPExcel_Cell_DataType::TYPE_STRING;
+		return \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING;
 	}
 
 	public function writeReportToExcelFile($fileName, $filterlist = '')
 	{
-		require_once("libraries/PHPExcel/PHPExcel.php");
-		$workbook = new PHPExcel();
+		$workbook = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
 		$worksheet = $workbook->setActiveSheetIndex(0);
 		$reportData = $this->GenerateReport("PDF", $filterlist);
 		$arrayValues = $reportData['data'];
 		$totalxls = $this->GenerateReport("TOTALXLS", $filterlist);
 		$header_styles = [
-			'fill' => ['type' => PHPExcel_Style_Fill::FILL_SOLID, 'color' => ['rgb' => 'E1E0F7']],
+			'fill' => ['type' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, 'color' => ['rgb' => 'E1E0F7']],
 		];
 		if (!empty($arrayValues)) {
 			$count = 0;
@@ -3353,7 +3154,7 @@ class ReportRun extends CRMEntity
 				}
 			}
 		}
-		$workbookWriter = PHPExcel_IOFactory::createWriter($workbook, 'Excel5');
+		$workbookWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($workbook, 'Xls');
 		$workbookWriter->save($fileName);
 	}
 
@@ -3570,5 +3371,44 @@ class ReportRun extends CRMEntity
 			}
 		}
 		return $columnsSqlList;
+	}
+
+	/**
+	 * Function to format the input value for SQL like clause.
+	 * @param $str - Input string value to be formatted.
+	 * @param $flag - By default set to 0 (Will look for cases %string%).
+	 *                If set to 1 - Will look for cases %string.
+	 *                If set to 2 - Will look for cases string%.
+	 * @return String formatted as per the SQL like clause requirement
+	 */
+	public function formatForSqlLike($str, $flag = 0, $is_field = false)
+	{
+		$adb = PearDatabase::getInstance();
+		if (isset($str)) {
+			if ($is_field === false) {
+				$str = str_replace('%', '\%', $str);
+				$str = str_replace('_', '\_', $str);
+				if ($flag == 0) {
+					// If value what to search is null then we should not add % which will fail
+					if (empty($str))
+						$str = '' . $str . '';
+					else
+						$str = '%' . $str . '%';
+				} elseif ($flag == 1) {
+					$str = '%' . $str;
+				} elseif ($flag == 2) {
+					$str = $str . '%';
+				}
+			} else {
+				if ($flag == 0) {
+					$str = 'concat("%",' . $str . ',"%")';
+				} elseif ($flag == 1) {
+					$str = 'concat("%",' . $str . ')';
+				} elseif ($flag == 2) {
+					$str = 'concat(' . $str . ',"%")';
+				}
+			}
+		}
+		return $adb->sqlEscapeString($str);
 	}
 }

@@ -20,3 +20,4 @@ while ($rowQueue = $dataReader->read()) {
 		$db->createCommand()->update('s_#__mail_queue', ['status' => 2], ['id' => $rowQueue['id']])->execute();
 	}
 }
+$dataReader->close();

@@ -92,7 +92,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 			defaultTimedEventDuration: '01:00:00',
 			eventLimit: eventLimit,
 			allDaySlot: false,
-			height: 'auto',
+			height: ($(window).width() > 993) ? ($(window).height() - 135) : 'auto',
 			views: {
 				basic: {
 					eventLimit: false,
@@ -113,7 +113,7 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 					title: event.title + '<a href="index.php?module=OSSTimeControl&view=Edit&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-pencil"></span></a>' + '<a href="index.php?module=OSSTimeControl&view=Detail&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-th-list"></span></a>',
 					container: 'body',
 					html: true,
-					placement: 'auto right',
+					placement: 'auto',
 					template: '<div class="popover calendarPopover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
 					content: '<div><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start.format('YYYY-MM-DD ' + popoverTimeFormat) + '</div>' +
 							'<div><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end.format('YYYY-MM-DD ' + popoverTimeFormat) + '</div>' +
@@ -126,10 +126,6 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 							(event.procl ? '<div><span class="userIcon-' + event.procm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_PROCESS') + '</label>: <a target="_blank" href="index.php?module=' + event.procm + '&view=Detail&record=' + event.process + '">' + event.procl + '</a></div>' : '') +
 							(event.subprocl ? '<div><span class="userIcon-' + event.subprocm + '" aria-hidden="true"></span> <label>' + app.vtranslate('JS_SUB_PROCESS') + '</label>: <a target="_blank" href="index.php?module=' + event.subprocm + '&view=Detail&record=' + event.subprocess + '">' + event.subprocl + '</a></div>' : '') +
 							(event.smownerid ? '<div><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
-				});
-				element.find('.fc-content, .fc-info').click(function () {
-					var event = $(this).closest('.fc-event');
-					window.location.href = event.attr('href');
 				});
 			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
@@ -371,20 +367,11 @@ jQuery.Class("OSSTimeControl_Calendar_Js", {
 			thisInstance.loadCalendarData();
 		});
 	},
-	registerCalendarScroll: function () {
-		var calendarContainer = $('.bodyContents');
-		app.showScrollBar(calendarContainer, {
-			railVisible: true,
-			alwaysVisible: true,
-			position: 'left'
-		});
-	},
 	registerEvents: function () {
 		this.registerCalendar();
 		this.loadCalendarData(true);
 		this.registerChangeView();
 		this.registerButtonSelectAll();
 		this.registerRefreshEvent();
-		this.registerCalendarScroll();
 	}
 });

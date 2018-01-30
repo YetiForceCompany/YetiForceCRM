@@ -105,16 +105,6 @@ class OSSOutsourcedServices extends Vtiger_CRMEntity
 	{
 		if ($event_type == 'module.postinstall') {
 			\App\Fields\RecordNumber::setNumber($modulename, 'UO', '1');
-		} else if ($event_type == 'module.disabled') {
-
-		} else if ($event_type == 'module.enabled') {
-
-		} else if ($event_type == 'module.preuninstall') {
-
-		} else if ($event_type == 'module.preupdate') {
-
-		} else if ($event_type == 'module.postupdate') {
-
 		}
 	}
 }

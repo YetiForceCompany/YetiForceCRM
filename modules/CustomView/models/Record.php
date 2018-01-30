@@ -706,6 +706,7 @@ class CustomView_Record_Model extends \App\Base
 			}
 			$i++;
 		}
+		$dataReader->close();
 		// Clear the condition (and/or) for last group, if any.
 		if (!empty($advFtCriteria[$i - 1]['condition']))
 			$advFtCriteria[$i - 1]['condition'] = '';
@@ -819,34 +820,35 @@ class CustomView_Record_Model extends \App\Base
 		if (App\Cache::has('getAllFilters', $cacheName)) {
 			return App\Cache::get('getAllFilters', $cacheName);
 		}
-		$db = PearDatabase::getInstance();
-		$sql = 'SELECT * FROM vtiger_customview';
-		$params = [];
+		$query = (new App\Db\Query())->from('vtiger_customview');
 		if (!empty($moduleName)) {
-			$sql .= ' WHERE entitytype=?';
-			$params[] = $moduleName;
+			$query->where(['entitytype' => $moduleName]);
 		}
 		if (!$currentUser->isAdminUser()) {
 			$userParentRoleSeq = $currentUser->getParentRoleSequence();
-			$sql .= " AND ( vtiger_customview.userid = ? OR vtiger_customview.status = 0 OR vtiger_customview.status = 3
-							OR vtiger_customview.userid IN (
-								SELECT vtiger_user2role.userid FROM vtiger_user2role
-									INNER JOIN vtiger_users ON vtiger_users.id = vtiger_user2role.userid
-									INNER JOIN vtiger_role ON vtiger_role.roleid = vtiger_user2role.roleid
-								WHERE vtiger_role.parentrole LIKE '" . $userParentRoleSeq . "::%')
-						)";
-			$params[] = $currentUser->getId();
+			$query->andWhere([
+				'or',
+				['userid' => $currentUser->getId()],
+				['status' => 0],
+				['status' => 3],
+				['userid' => (new App\Db\Query())->select(['vtiger_user2role.userid'])
+						->from('vtiger_user2role')
+						->innerJoin('vtiger_users', 'vtiger_users.id = vtiger_user2role.userid')
+						->innerJoin('vtiger_role', 'vtiger_role.roleid = vtiger_user2role.roleid')
+						->where(['like', 'vtiger_role.parentrole', "{$userParentRoleSeq}::%", false])
+				],
+			]);
 		}
-		$sql .= ' ORDER BY sequence ASC';
-		$result = $db->pquery($sql, $params);
+		$dataReader = $query->orderBy(['sequence' => SORT_ASC])->createCommand()->query();
 		$customViews = [];
-		while ($row = $db->fetchArray($result)) {
+		while ($row = $dataReader->read()) {
 			$customView = new self();
 			if (strlen(App\Purifier::decodeHtml($row['viewname'])) > 40) {
 				$row['viewname'] = substr(App\Purifier::decodeHtml($row['viewname']), 0, 36) . '...';
 			}
 			$customViews[$row['cvid']] = $customView->setData($row)->setModule($row['entitytype']);
 		}
+		$dataReader->close();
 
 		$filterDir = 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'filters';
 		if ($moduleName && file_exists($filterDir)) {

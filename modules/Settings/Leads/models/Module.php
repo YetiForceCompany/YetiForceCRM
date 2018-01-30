@@ -56,6 +56,7 @@ class Settings_Leads_Module_Model extends Vtiger_Module_Model
 			while ($field = $dataReader->readColumn(0)) {
 				$this->supportedFieldIdsList [] = $field;
 			}
+			$dataReader->close();
 		}
 		return $this->supportedFieldIdsList;
 	}

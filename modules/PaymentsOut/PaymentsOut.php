@@ -105,16 +105,6 @@ class PaymentsOut extends Vtiger_CRMEntity
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
 			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\App\Module::getModuleId($moduleName));
 			$this->addWorkflow($moduleName);
-		} else if ($eventType === 'module.disabled') {
-
-		} else if ($eventType === 'module.enabled') {
-
-		} else if ($eventType === 'module.preuninstall') {
-
-		} else if ($eventType === 'module.preupdate') {
-
-		} else if ($eventType === 'module.postupdate') {
-
 		}
 	}
 

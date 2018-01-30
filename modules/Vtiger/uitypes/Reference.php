@@ -72,7 +72,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		if (is_int($length)) {
 			$name = \vtlib\Functions::textLength($name, $length);
 		} elseif ($length !== true) {
-			$name = vtlib\Functions::textLength($name, vglobal('href_max_length'));
+			$name = vtlib\Functions::textLength($name, \AppConfig::main('href_max_length'));
 		}
 		if ($rawText || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
 			return $name;

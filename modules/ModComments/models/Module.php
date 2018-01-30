@@ -64,7 +64,6 @@ class ModComments_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function deleteForModule(vtlib\ModuleBasic $moduleInstance)
 	{
-		$db = PearDatabase::getInstance();
-		$db->delete('vtiger_modcomments', 'related_to IN(SELECT crmid FROM vtiger_crmentity WHERE setype=?)', [$moduleInstance->name]);
+		\App\Db::getInstance()->createCommand()->delete('vtiger_modcomments', ['related_to' => (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['setype' => $moduleInstance->name])])->execute();
 	}
 }

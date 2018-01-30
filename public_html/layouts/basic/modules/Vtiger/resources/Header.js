@@ -31,7 +31,7 @@ jQuery.Class("Vtiger_Header_Js", {
 	contentContainer: false,
 	quickCreateCallBacks: [],
 	init: function () {
-		this.setContentsContainer('.bodyContent');
+		this.setContentsContainer('.baseContainer');
 	},
 	setContentsContainer: function (element) {
 		if (element instanceof jQuery) {
@@ -692,23 +692,27 @@ jQuery.Class("Vtiger_Header_Js", {
 		buttonImage.removeClass('glyphicon-chevron-left').addClass("glyphicon-chevron-right");
 		toogleButton.removeClass('hideToggleSiteBarRightButton');
 	},
-	registerScrollForMenu: function () {
-		$(".slimScrollMenu").perfectScrollbar({
-			useBothWheelAxes: true,
+	registerScrollForMenu: function (container) {
+		if (!container.length) return;
+		var menuContainer = container.find('.leftPanel .menuContainer');
+		var menuScrollInit = new PerfectScrollbar(menuContainer[0], {
+			suppressScrollX: true,
+			wheelPropagation: true
 		});
-		app.showScrollBar($(".slimScrollMenu"), {
-			height: '100%',
-			width: '100%',
-			position: 'left',
-			railVisible: true,
-			railOpacity: 0.5,
+		var subMenuScrollInit = new PerfectScrollbar(menuContainer.find('.subMenu').last()[0], {
+			suppressScrollX: true,
 		});
-		app.showScrollBar($(".slimScrollSubMenu"), {
-			height: '100%',
+		var mobileMenuScrollInit = new PerfectScrollbar(container.find('.mobileLeftPanel .menuContainer')[0], {
+			suppressScrollX: true,
 		});
-		$(".slimScrollSubMenu .slimScrollDiv").each(function () {
-			$(this).closest(' .slimScrollSubMenu').css('overflow', 'initial');
-		});
+		menuContainer.find('.ps__rail-y').css({
+			left: 0,
+			right: 'auto'
+		})
+		menuContainer.find('.ps__thumb-y').css({
+			left: 2,
+			right: 'auto'
+		})
 	},
 	registerToggleButton: function () {
 		$(".buttonTextHolder .dropdown-menu li a").click(function () {
@@ -738,7 +742,7 @@ jQuery.Class("Vtiger_Header_Js", {
 		var thisInstance = this;
 		thisInstance.listenTextAreaChange();
 		thisInstance.registerFooTable(); //Enable footable
-		thisInstance.registerScrollForMenu();
+		thisInstance.registerScrollForMenu(thisInstance.getContentsContainer());
 		thisInstance.registerShowHideRightPanelEvent($('#centerPanel'));
 		jQuery('.globalSearch').click(function () {
 			var currentTarget = $(this);

@@ -48,7 +48,7 @@ class PrivilegeFile
 	}
 
 	/**
-	 * Creates a file with all the user, user-role,user-profile, user-groups informations 
+	 * Creates a file with all the user, user-role,user-profile, user-groups informations
 	 * @param $userId -- user id:: Type integer
 	 */
 	public static function createUserPrivilegesFile($userId)
@@ -60,7 +60,7 @@ class PrivilegeFile
 		$userInstance->column_fields['is_admin'] = $userInstance->is_admin === 'on';
 		foreach ($userInstance->column_fields as $field => $value) {
 			if ($field !== 'currency_symbol') {
-				$userInstance->column_fields[$field] = \App\Purifier::encodeHtml($value);
+				$userInstance->column_fields[$field] = is_numeric($value) ? $value : \App\Purifier::encodeHtml($value);
 			}
 		}
 		$entityData = Module::getEntityInfo('Users');
@@ -75,6 +75,6 @@ class PrivilegeFile
 		$user['groups'] = PrivilegeUtil::getUserGroups($userId);
 		$user['parent_roles'] = $userRoleInfo['parentRoles'];
 		$user['parent_role_seq'] = $userRoleInfo['parentrole'];
-		file_put_contents($file, 'return ' . Utils::varExport($user) . ';', FILE_APPEND);
+		file_put_contents($file, 'return ' . Utils::varExport($user) . ';' . PHP_EOL, FILE_APPEND);
 	}
 }

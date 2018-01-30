@@ -15,7 +15,7 @@
 	<input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
 	<input type="hidden" id="nextPageExist" value="{$PAGING_MODEL->isNextPageExists()}" />
 	<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
-	<input type="hidden" id="listMaxEntriesMassEdit" value="{vglobal('listMaxEntriesMassEdit')}" />
+	<input type="hidden" id="listMaxEntriesMassEdit" value="{\AppConfig::main('listMaxEntriesMassEdit')}" />
 	<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}" />
 	<input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber'>
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
@@ -29,11 +29,7 @@
 	<div id="deSelectAllMsgDiv" class="alert-block msgDiv noprint">
 		<strong><a id="deSelectAllMsg">{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
 	</div>
-	<div class="contents-topscroll noprint">
-		<div class="topscroll-div"></div>
-	</div>
-	<div class="listViewEntriesDiv contents-bottomscroll">
-		<div class="bottomscroll-div">
+	<div class="listViewEntriesDiv">
 			<input type="hidden" value="{$ORDER_BY}" id="orderBy" />
 			<input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
 			<div class="listViewLoadingImageBlock hide modal noprint" id="loadingListViewModal">
@@ -69,7 +65,12 @@
 					{if $MODULE_MODEL->isQuickSearchEnabled()}
 						<tr>
 							<td class="listViewSearchTd">
+								<div class="flexWrapper">
 								<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
+								<a class="btn btn-default pull-right listRemoveBtn" href="index.php?view=List&module={$MODULE}" >
+									<span class="glyphicon glyphicon-remove"></span>
+								</a>
+								</div>
 							</td>
 							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 								<td>
@@ -84,11 +85,7 @@
                     FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL}
 								</td>
 							{/foreach}
-							<td>
-								<a class="btn btn-default" href="index.php?view=List&module={$MODULE}" >
-									<span class="glyphicon glyphicon-remove"></span>
-								</a>
-							</td>
+							<td class="reducePadding"></td>
 						</tr>
 					{/if}
 					{assign var="LISTVIEW_HEADER_COUNT" value=count($LISTVIEW_HEADERS)}
@@ -111,7 +108,7 @@
 									{/if}
 								</td>
 							{/foreach}
-							<td class="{$WIDTHTYPE} noWrap rightRecordActions">
+							<td class="noWrap rightRecordActions reducePadding">
 								{include file=\App\Layout::getTemplatePath('ListViewRightSide.tpl', $MODULE_NAME)}
 							</td>
 						</tr>
@@ -145,7 +142,6 @@
 					</tbody>
 				</table>
 			{/if}
-		</div>
 	</div>
 {/strip}
 

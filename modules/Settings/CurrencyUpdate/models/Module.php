@@ -59,7 +59,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 		$numToConvert = $dataReader->count();
 		if ($numToConvert >= 1) {
 			$selectBankId = $this->getActiveBankId();
-			$activeBankName = 'Settings_CurrencyUpdate_Models_' . $this->getActiveBankName() . '_BankModel';
+			$activeBankName = 'Settings_CurrencyUpdate_models_' . $this->getActiveBankName() . '_BankModel';
 			$currIds = [];
 			$otherCurrencyCode = [];
 			while ($row = $dataReader->read()) {
@@ -68,6 +68,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 				$currIds[] = $id;
 				$otherCurrencyCode[$code] = $id;
 			}
+			$dataReader->close();
 			$currNum = (new \App\Db\Query())->from('yetiforce_currencyupdate')
 				->where(['exchange_date' => $dateCur, 'currency_id' => $currIds, 'bank_id' => $selectBankId])
 				->count(1);
@@ -99,6 +100,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 				$db->createCommand()->delete('yetiforce_currencyupdate_banks', ['id' => $id])->execute();
 			}
 		}
+		$dataReader->close();
 		foreach (new DirectoryIterator(__DIR__ . '/bankmodels/') as $fileInfo) {
 			$fileName = $fileInfo->getFilename();
 			$extension = end(explode('.', $fileName));
@@ -199,7 +201,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 	public function getSupportedCurrencies($bankName = null)
 	{
 		if (!$bankName) {
-			$bankName = 'Settings_CurrencyUpdate_Models_' . $this->getActiveBankName() . '_BankModel';
+			$bankName = 'Settings_CurrencyUpdate_models_' . $this->getActiveBankName() . '_BankModel';
 		}
 		$bank = new $bankName();
 
@@ -214,7 +216,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 	public function getUnSupportedCurrencies($bankName = null)
 	{
 		if (!$bankName) {
-			$bankName = 'Settings_CurrencyUpdate_Models_' . $this->getActiveBankName() . '_BankModel';
+			$bankName = 'Settings_CurrencyUpdate_models_' . $this->getActiveBankName() . '_BankModel';
 		}
 		$bank = new $bankName();
 		$supported = $bank->getSupportedCurrencies($bankName);
@@ -227,6 +229,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 			$code = $row['currency_code'];
 			$unsupported[$name] = $code;
 		}
+		$dataReader->close();
 		return array_diff($unsupported, $supported);
 	}
 	/*

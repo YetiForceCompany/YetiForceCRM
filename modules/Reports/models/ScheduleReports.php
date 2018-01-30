@@ -283,7 +283,7 @@ class Reports_ScheduleReports_Model extends \App\Base
 
 	public static function getScheduledReports()
 	{
-		$default_timezone = vglobal('default_timezone');
+		$default_timezone = \AppConfig::main('default_timezone');
 		// set the time zone to the admin's time zone, this is needed so that the scheduled reprots will be triggered
 		// at admin's time zone rather than the systems time zone. This is specially needed for Hourly and Daily scheduled reports
 		$admin = Users::getActiveAdminUser();
@@ -298,6 +298,7 @@ class Reports_ScheduleReports_Model extends \App\Base
 		while ($recordId = $dataReader->readColumn(0)) {
 			$scheduledReports[] = self::getInstanceById($recordId);
 		}
+		$dataReader->close();
 		return $scheduledReports;
 	}
 
@@ -328,7 +329,7 @@ class Reports_ScheduleReports_Model extends \App\Base
 
 	public function getEmailContent($reportRecordModel)
 	{
-		$site_URL = vglobal('site_URL');
+		$site_URL = \AppConfig::main('site_URL');
 		$currentModule = vglobal('currentModule');
 
 		$logo = \App\Company::getInstanceById()->getLogo()->get('imageUrl', true);

@@ -6,22 +6,26 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  *************************************************************************************/
-Vtiger_Detail_Js("Products_Detail_Js",{},{
+Vtiger_Detail_Js("Products_Detail_Js", {}, {
 	/**
 	 * Function to register event for image graphics
 	 */
-	registerEventForImageGraphics : function(){
+	registerEventForImageGraphics: function () {
 		var imageContainer = jQuery('#imageContainer');
-		imageContainer.cycle({ 
-			fx:    'curtainX', 
-			sync:  false, 
-			speed:1000,
-			timeout:20
-		 });
-		 imageContainer.find('img').on('mouseenter',function(){
-			 imageContainer.cycle('pause');
-		 }).on('mouseout',function(){
-			 imageContainer.cycle('resume');
-		 });
+		imageContainer.cycle({
+			fx: 'curtainX',
+			sync: false,
+			speed: 1000,
+			timeout: 20
+		});
+		imageContainer.find('img').on('mouseenter', function () {
+			imageContainer.cycle('pause');
+		}).on('mouseout', function () {
+			imageContainer.cycle('resume');
+		});
 	},
+	registerEvents: function () {
+		this._super();
+		this.registerEventForImageGraphics();
+	}
 });

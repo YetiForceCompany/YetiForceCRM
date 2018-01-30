@@ -70,10 +70,11 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 			$defaultValue = $request->get('fieldDefaultValue');
 			if ($fieldInstance->getFieldDataType() === 'date' && \App\TextParser::isVaribleToParse($defaultValue)) {
 				$fieldInstance->set('defaultvalue', $defaultValue);
-			} else {
+			} else if ($defaultValue) {
 				$uitypeModel->validate($defaultValue, true);
-				$fieldInstance->set('defaultvalue', $uitypeModel->getDBValue($defaultValue));
+				$defaultValue = $uitypeModel->getDBValue($defaultValue);
 			}
+			$fieldInstance->set('defaultvalue', trim($defaultValue));
 			$fieldInstance->save();
 			$response->setResult([
 				'success' => true,

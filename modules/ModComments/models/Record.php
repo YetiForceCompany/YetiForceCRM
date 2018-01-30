@@ -172,6 +172,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			$recordInstance->setData($row)->setModuleFromInstance($queryGenerator->getModuleModel());
 			$recordInstances[] = $recordInstance;
 		}
+		$dataReader->close();
 		return $recordInstances;
 	}
 
@@ -205,6 +206,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 			$recordInstance->setData($row)->setModuleFromInstance($queryGenerator->getModuleModel());
 			$recordInstances[] = $recordInstance;
 		}
+		$dataReader->close();
 		return $recordInstances;
 	}
 
@@ -245,17 +247,18 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	public function getChildComments()
 	{
 		$parentCommentId = $this->getId();
-		if (empty($parentCommentId))
+		if (empty($parentCommentId)) {
 			return;
+		}
 		$queryGenerator = new \App\QueryGenerator('ModComments');
 		$queryGenerator->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
 			'assigned_user_id', 'commentcontent', 'creator', 'reasontoedit', 'userid']);
 		//Condition are directly added as query_generator transforms the
 		//reference field and searches their entity names
 		$queryGenerator->addNativeCondition(['parent_comments' => $parentCommentId, 'related_to' => $this->get('related_to')]);
-		$datareader = $queryGenerator->createQuery()->createCommand()->query();
+		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		$recordInstances = [];
-		while ($row = $datareader->read()) {
+		while ($row = $dataReader->read()) {
 			$recordInstance = new self();
 			$recordInstance->setData($row)->setModuleFromInstance($queryGenerator->getModuleModel());
 			$recordInstances[] = $recordInstance;

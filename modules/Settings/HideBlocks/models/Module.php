@@ -65,6 +65,7 @@ class Settings_HideBlocks_Module_Model extends Settings_Vtiger_Module_Model
 				'blocklabel' => $row['blocklabel']
 			];
 		}
+		$dataReader->close();
 		return $rows;
 	}
 }

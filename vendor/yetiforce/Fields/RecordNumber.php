@@ -19,7 +19,6 @@ class RecordNumber
 	 */
 	public static function isModuleSequenceConfigured($tabId)
 	{
-		$db = \PearDatabase::getInstance();
 		if (!is_numeric($tabId)) {
 			$tabId = \App\Module::getModuleId($tabId);
 		}

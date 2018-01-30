@@ -115,9 +115,4 @@ class Faq extends CRMEntity
 		}
 		return $relTables[$secmodule];
 	}
-
-	public function clearSingletonSaveFields()
-	{
-		$this->column_fields['comments'] = '';
-	}
 }

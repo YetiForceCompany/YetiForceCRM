@@ -9,6 +9,7 @@
 	.weekend{ background: #f4f7f4 !important;}
 </style>
 <div class="gantt_task_scale" style="width: 100%; padding:5px 0px 5px 0px;">
+	<script type="text/javascript" src="{\App\Layout::getPublicUrl('libraries/gantt/dhtmlxgantt.js')}"></script>
 	<table>
 		<tr style="run-in">
 		<fieldset>

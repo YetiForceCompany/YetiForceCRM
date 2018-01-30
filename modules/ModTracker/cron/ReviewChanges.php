@@ -18,6 +18,7 @@ while ($row = $dataReader->read()) {
 		break;
 	}
 }
+$dataReader->close();
 
 class CronReviewed
 {
@@ -125,6 +126,7 @@ class CronReviewed
 						break;
 					}
 				}
+				$dataReader->close();
 				$this->counter++;
 				$this->done[] = $crmId;
 			}

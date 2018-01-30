@@ -92,12 +92,14 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 	private function getTreeList()
 	{
 		$trees = [];
-		$db = PearDatabase::getInstance();
 		$isDeletable = $this->isDeletable();
 		$lastId = 0;
-		$result = $db->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', [$this->getTemplate()]);
+		$dataReader = (new App\Db\Query())
+				->from('vtiger_trees_templates_data')
+				->where(['templateid' => $this->getTemplate()])
+				->createCommand()->query();
 		$selected = $this->getSelectedTreeList();
-		while ($row = $db->getRow($result)) {
+		while ($row = $dataReader->read()) {
 			$treeID = (int) ltrim($row['tree'], 'T');
 			$pieces = explode('::', $row['parenttrre']);
 			end($pieces);
@@ -128,11 +130,15 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 		return $trees;
 	}
 
+	/**
+	 * Function to get selected item in the tree
+	 * @return array
+	 */
 	private function getSelectedTreeList()
 	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT tree FROM u_yf_crmentity_rel_tree WHERE crmid = ? AND relmodule = ?', [$this->get('srcRecord'), $this->get('module')->getId()]);
-		return $db->getArrayColumn($result);
+		return (new App\Db\Query())->select(['tree'])->from('u_#__crmentity_rel_tree')
+				->where(['crmid' => $this->get('srcRecord'), 'relmodule' => $this->get('module')->getId()])
+				->column();
 	}
 
 	private function getSelectedRecords($onlyKeys = true)

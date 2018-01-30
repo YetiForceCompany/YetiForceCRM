@@ -69,7 +69,7 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 		$moduleName = $request->getModule();
 		$field = $request->getByType('field');
 		$template = $request->getInteger('template');
-		$sourceModule = $request->getByType('sourceModule',2);
+		$sourceModule = $request->getByType('sourceModule', 2);
 		$sourceRecord = $request->getInteger('sourceRecord');
 		$result = false;
 		if (!empty($template) && !empty($field)) {
@@ -98,6 +98,7 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 					break;
 				}
 			}
+			$dataReader->close();
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);
@@ -112,7 +113,7 @@ class Vtiger_Mail_Action extends Vtiger_Action_Controller
 	public function getQuery(\App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$sourceModule = $request->getByType('sourceModule',2);
+		$sourceModule = $request->getByType('sourceModule', 2);
 		if ($sourceModule) {
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $sourceModule);
 			$listView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $moduleName);

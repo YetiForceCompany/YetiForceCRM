@@ -3,8 +3,8 @@
 </div>
 </div>
 </div>
-<div class="col-md-9" id="listPreview">
-	<iframe class="border1px" id="listPreviewframe" frameborder="0"></iframe>
+<div class="listPreview col-md-9">
+	<iframe class="listPreviewframe border1px" frameborder="0"></iframe>
 </div>
 <div class="wrappedPanel">
 	<div class="rotatedText">

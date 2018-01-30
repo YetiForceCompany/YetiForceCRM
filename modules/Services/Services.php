@@ -92,168 +92,11 @@ class Services extends CRMEntity
 	public $unit_price;
 
 	/**
-	 * Get list view query.
-	 */
-	public function getListQuery($module, $where = '')
-	{
-		$query = "SELECT vtiger_crmentity.*, $this->table_name.*";
-
-		// Select Custom Field Table Columns if present
-		if (!empty($this->customFieldTable))
-			$query .= ', ' . $this->customFieldTable[0] . '.* ';
-
-		$query .= " FROM $this->table_name";
-
-		$query .= "	INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $this->table_name.$this->table_index";
-
-		// Consider custom table join as well.
-		if (!empty($this->customFieldTable)) {
-			$query .= " INNER JOIN " . $this->customFieldTable[0] . " ON " . $this->customFieldTable[0] . '.' . $this->customFieldTable[1] .
-				" = $this->table_name.$this->table_index";
-		}
-		$query .= " LEFT JOIN vtiger_groups
-						ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-					LEFT JOIN vtiger_users
-						ON vtiger_users.id = vtiger_crmentity.smownerid ";
-		$current_user = vglobal('current_user');
-		$query .= $this->getNonAdminAccessControlQuery($module, $current_user);
-		$query .= sprintf('WHERE vtiger_crmentity.deleted = 0 %s', $where);
-		return $query;
-	}
-
-	/**
-	 * Apply security restriction (sharing privilege) query part for List view.
-	 */
-	public function getListViewSecurityParameter($module)
-	{
-		$current_user = vglobal('current_user');
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
-		require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
-
-		$sec_query = '';
-		$tabid = \App\Module::getModuleId($module);
-
-		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
-
-			$sec_query .= " && (vtiger_crmentity.smownerid in($current_user->id) || vtiger_crmentity.smownerid IN
-					(
-						SELECT vtiger_user2role.userid FROM vtiger_user2role
-						INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid
-						INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid
-						WHERE vtiger_role.parentrole LIKE '" . $current_user_parent_role_seq . "::%'
-					)
-					OR vtiger_crmentity.smownerid IN
-					(
-						SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per
-						WHERE userid=" . $current_user->id . " && tabid=" . $tabid . "
-					)
-					OR
-						(";
-
-			// Build the query based on the group association of current user.
-			if (sizeof($current_user_groups) > 0) {
-				$sec_query .= ' vtiger_groups.groupid IN (' . implode(',', $current_user_groups) . ') || ';
-			}
-			$sec_query .= ' vtiger_groups.groupid IN
-						(
-							SELECT vtiger_tmp_read_group_sharing_per.sharedgroupid
-							FROM vtiger_tmp_read_group_sharing_per
-							WHERE userid=' . $current_user->id . ' and tabid=' . $tabid . '
-						)';
-			$sec_query .= ')
-				)';
-		}
-		return $sec_query;
-	}
-
-	/**
-	 * Create query to export the records.
-	 */
-	public function createExportQuery($where)
-	{
-		$current_user = vglobal('current_user');
-
-		include('include/utils/ExportUtils.php');
-
-		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery('Services', 'detail_view');
-
-		$fields_list = getFieldsListFromQuery($sql);
-
-		$query = "SELECT $fields_list
-					FROM vtiger_crmentity INNER JOIN $this->table_name ON vtiger_crmentity.crmid=$this->table_name.$this->table_index";
-
-		if (!empty($this->customFieldTable)) {
-			$query .= ' INNER JOIN ' . $this->customFieldTable[0] . ' ON ' . $this->customFieldTable[0] . '.' . $this->customFieldTable[1] .
-				" = $this->table_name.$this->table_index";
-		}
-
-		$query .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid';
-		$query .= " LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id && vtiger_users.status='Active'";
-		$query .= $this->getNonAdminAccessControlQuery('Services', $current_user);
-		$where_auto = ' vtiger_crmentity.deleted=0';
-
-		if ($where != '')
-			$query .= " WHERE ($where) && $where_auto";
-		else
-			$query .= " WHERE $where_auto";
-
-		return $query;
-	}
-
-	/**
 	 * Transform the value while exporting
 	 */
 	public function transformExportValue($key, $value)
 	{
 		return parent::transformExportValue($key, $value);
-	}
-
-	/**
-	 * Function which will give the basic query to find duplicates
-	 */
-	public function getDuplicatesQuery($module, $table_cols, $field_values, $ui_type_arr, $select_cols = '')
-	{
-		$select_clause = sprintf("SELECT %s.%s AS recordid, vtiger_users_last_import.deleted,%s", $this->table_name, $this->table_index, $table_cols);
-
-		// Select Custom Field Table Columns if present
-		if (isset($this->customFieldTable))
-			$query .= ", " . $this->customFieldTable[0] . ".* ";
-
-		$from_clause = " FROM $this->table_name";
-
-		$from_clause .= "	INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $this->table_name.$this->table_index";
-
-		// Consider custom table join as well.
-		if (isset($this->customFieldTable)) {
-			$from_clause .= ' INNER JOIN ' . $this->customFieldTable[0] . ' ON ' . $this->customFieldTable[0] . '.' . $this->customFieldTable[1] .
-				" = $this->table_name.$this->table_index";
-		}
-		$from_clause .= ' LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-							LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid';
-		$where_clause = '	WHERE vtiger_crmentity.deleted = 0';
-		$where_clause .= $this->getListViewSecurityParameter($module);
-
-		if (isset($select_cols) && trim($select_cols) != '') {
-			$sub_query = "SELECT $select_cols FROM  $this->table_name AS t " .
-				" INNER JOIN vtiger_crmentity AS crm ON crm.crmid = t." . $this->table_index;
-			// Consider custom table join as well.
-			if (isset($this->customFieldTable)) {
-				$sub_query .= ' INNER JOIN ' . $this->customFieldTable[0] . ' tcf ON tcf.' . $this->customFieldTable[1] . " = t.$this->table_index";
-			}
-			$sub_query .= " WHERE crm.deleted=0 GROUP BY $select_cols HAVING COUNT(*)>1";
-		} else {
-			$sub_query = "SELECT $table_cols $from_clause $where_clause GROUP BY $table_cols HAVING COUNT(*)>1";
-		}
-
-
-		$query = $select_clause . $from_clause .
-			' LEFT JOIN vtiger_users_last_import ON vtiger_users_last_import.bean_id=' . $this->table_name . '.' . $this->table_index .
-			' INNER JOIN (' . $sub_query . ') AS temp ON ' . get_on_clause($field_values) .
-			$where_clause .
-			" ORDER BY $table_cols," . $this->table_name . '.' . $this->table_index . ' ASC';
-
-		return $query;
 	}
 
 	/**
@@ -428,10 +271,7 @@ class Services extends CRMEntity
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-
 		require_once('include/utils/utils.php');
-		$adb = PearDatabase::getInstance();
-
 		if ($eventType === 'module.postinstall') {
 			$moduleInstance = vtlib\Module::getInstance($moduleName);
 			$moduleInstance->allowSharing();
@@ -454,15 +294,7 @@ class Services extends CRMEntity
 			// Initialize module sequence for the module
 			\App\Fields\RecordNumber::setNumber($moduleName, 'SER', 1);
 			// Mark the module as Standard module
-			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', [$moduleName]);
-		} else if ($eventType === 'module.disabled') {
-			
-		} else if ($eventType === 'module.enabled') {
-			
-		} else if ($eventType === 'module.preuninstall') {
-			
-		} else if ($eventType === 'module.preupdate') {
-			
+			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
 		} else if ($eventType === 'module.postupdate') {
 			$ServicesModule = vtlib\Module::getInstance('Services');
 			vtlib\Access::setDefaultSharing($ServicesModule);
@@ -470,27 +302,25 @@ class Services extends CRMEntity
 	}
 
 	/** Function to unlink an entity with given Id from another entity */
-	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
+	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-
-		\App\Log::error('id:--' . $id);
-		\App\Log::error('return_module:--' . $return_module);
-		\App\Log::error('return_id:---' . $return_id);
-		if ($return_module == 'Accounts') {
-			$focus = CRMEntity::getInstance($return_module);
-			$entityIds = $focus->getRelatedContactsIds($return_id);
-			array_push($entityIds, $return_id);
-			$return_modules = ['Accounts', 'Contacts'];
+		if ($returnModule === 'Accounts') {
+			$focus = CRMEntity::getInstance($returnModule);
+			$entityIds = $focus->getRelatedContactsIds($returnId);
+			array_push($entityIds, $returnId);
+			$returnModules = ['Accounts', 'Contacts'];
 		} else {
-			$entityIds = $return_id;
-			$return_modules = [$return_module];
+			$entityIds = $returnId;
+			$returnModules = [$returnModule];
 		}
-		if ($relatedName && $relatedName != 'getRelatedList') {
-			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
+		if ($relatedName && $relatedName !== 'getRelatedList') {
+			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
 		} else {
-			$where = '(relcrmid= ? AND module IN (' . generateQuestionMarks($return_modules) . ') AND crmid IN (' . generateQuestionMarks($entityIds) . ')) OR (crmid= ? AND relmodule IN (' . generateQuestionMarks($return_modules) . ') AND relcrmid IN (' . generateQuestionMarks($entityIds) . '))';
-			$params = [$id, $return_modules, $entityIds, $id, $return_modules, $entityIds];
-			$this->db->delete('vtiger_crmentityrel', $where, $params);
+			App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', [
+				'or',
+					['and', ['relcrmid' => $id], ['module' => $returnModules], ['crmid' => $entityIds]],
+					['and', ['crmid' => $id], ['relmodule' => $returnModules], ['relcrmid' => $entityIds]]
+			])->execute();
 		}
 	}
 }

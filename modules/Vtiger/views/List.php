@@ -173,7 +173,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$jsFileNames = [
 			'modules.Vtiger.resources.List',
 			"modules.$moduleName.resources.List",
-			'~libraries/jquery/colorpicker/js/colorpicker.js',
+			'~libraries/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js',
 			'modules.CustomView.resources.CustomView',
 			"modules.$moduleName.resources.CustomView",
 			'modules.Vtiger.resources.CkEditor',
@@ -191,7 +191,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 	public function getHeaderCss(\App\Request $request)
 	{
 		$cssFileNames = [
-			'~libraries/jquery/colorpicker/css/colorpicker.css'
+			'~libraries/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css'
 		];
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($cssFileNames));
 	}

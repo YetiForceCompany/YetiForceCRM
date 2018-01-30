@@ -186,7 +186,7 @@ window.app = {
 		});
 
 		// Improve the display of default text (placeholder)
-		var chosenSelectConainer = jQuery('.chosen-container-multi .default').css('width', '100%');
+		var chosenSelectConainer = jQuery('.chosen-container-multi .default, .chosen-container').css('width', '100%');
 		return chosenSelectConainer;
 	},
 	/**
@@ -572,7 +572,7 @@ window.app = {
 			if (container.find('.modal').hasClass('static')) {
 				params.backdrop = 'static';
 			}
-			// In a modal dialog elements can be specified which can receive focus even though they are not descendants of the modal dialog. 
+			// In a modal dialog elements can be specified which can receive focus even though they are not descendants of the modal dialog.
 			$.fn.modal.Constructor.prototype.enforceFocus = function (e) {
 				$(document).off('focusin.bs.modal') // guard against infinite focus loop
 						.on('focusin.bs.modal', $.proxy(function (e) {
@@ -838,23 +838,6 @@ window.app = {
 
 		return year + '-' + month + '-' + day;
 	},
-	registerEventForTextAreaFields: function (parentElement) {
-		if (typeof parentElement == 'undefined') {
-			parentElement = jQuery('body');
-		}
-
-		parentElement = jQuery(parentElement);
-
-		if (parentElement.is('textarea')) {
-			var element = parentElement;
-		} else {
-			var element = jQuery('textarea', parentElement);
-		}
-		if (element.length == 0) {
-			return;
-		}
-		element.autosize();
-	},
 	registerEventForDatePickerFields: function (parentElement, registerForAddon, customParams) {
 		if (typeof parentElement == 'undefined') {
 			parentElement = jQuery('body');
@@ -1034,60 +1017,6 @@ window.app = {
 		return table.DataTable();
 	},
 	/**
-	 * Function which will register time fields
-	 *
-	 * @params : container - jquery object which contains time fields with class timepicker-default or itself can be time field
-	 *			 registerForAddon - boolean value to register the event for Addon or not
-	 *			 params  - params for the  plugin
-	 *
-	 * @return : container to support chaining
-	 */
-	registerEventForTimeFields: function (container, registerForAddon, params) {
-
-		if (typeof cotainer == 'undefined') {
-			container = jQuery('body');
-		}
-		if (typeof registerForAddon == 'undefined') {
-			registerForAddon = true;
-		}
-
-		container = jQuery(container);
-
-		if (container.hasClass('timepicker-default')) {
-			var element = container;
-		} else {
-			var element = container.find('.timepicker-default');
-		}
-
-		if (registerForAddon == true) {
-			var parentTimeElem = element.closest('.time');
-			jQuery('.input-group-addon', parentTimeElem).on('click', function (e) {
-				var elem = jQuery(e.currentTarget);
-				elem.closest('.time').find('.timepicker-default').focus();
-			});
-		}
-
-		if (typeof params == 'undefined') {
-			params = {};
-		}
-
-		var timeFormat = element.data('format');
-		if (timeFormat == '24') {
-			timeFormat = 'H:i';
-		} else {
-			timeFormat = 'h:i A';
-		}
-		var defaultsTimePickerParams = {
-			'timeFormat': timeFormat,
-			'className': 'timePicker'
-		};
-		var params = jQuery.extend(defaultsTimePickerParams, params);
-
-		element.timepicker(params);
-
-		return container;
-	},
-	/**
 	 * Function to destroy time fields
 	 */
 	destroyTimeFields: function (container) {
@@ -1145,8 +1074,6 @@ window.app = {
 			var parentWidth = jQuery(element).parent().width();
 			jQuery(element).width(parentWidth);
 		});
-	},
-	initGuiders: function (list) {
 	},
 	showScrollBar: function (element, options) {
 		if (typeof options == 'undefined') {

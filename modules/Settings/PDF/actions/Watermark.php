@@ -44,7 +44,7 @@ class Settings_PDF_Watermark_Action extends Settings_Vtiger_Index_Action
 		}
 
 		// Check allowed upload file size
-		if ($uploadOk && $_FILES['watermark']['size'][0] > vglobal('upload_maxsize')) {
+		if ($uploadOk && $_FILES['watermark']['size'][0] > \AppConfig::main('upload_maxsize')) {
 			$uploadOk = 0;
 		}
 		// Check if $uploadOk is set to 0 by an error

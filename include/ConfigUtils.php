@@ -179,7 +179,7 @@ class AppConfig
 
 	public static function iniSet($key, $value)
 	{
-		@ini_set($key, $value);
+		ini_set($key, $value);
 	}
 }
 

@@ -190,11 +190,11 @@ class Module extends ModuleBasic
 					file_put_contents($targetPath, $fileContent);
 				}
 			}
-			$languages = \Users_Module_Model::getLanguagesList();
+			$languages = \App\Language::getAll(false);
 			$langFile = 'languages/en_us/' . $this->name . '.php';
-			foreach ($languages as $key => $language) {
-				if ($key !== 'en_us') {
-					copy($langFile, 'languages/' . $key . '/' . $this->name . '.php');
+			foreach ($languages as $prefix => $language) {
+				if ($prefix !== 'en_us') {
+					copy($langFile, 'languages/' . $prefix . '/' . $this->name . '.php');
 				}
 			}
 		}
@@ -272,8 +272,7 @@ class Module extends ModuleBasic
 		$fire = self::fireEvent($moduleName, $eventType);
 		if ($fire) {
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['presence' => $enableDisable], ['name' => $moduleName])->execute();
-			\App\Cache::delete('moduleTabs', 'all');
-			Deprecated::createModuleMetaFile();
+			\App\Module::createModuleMetaFile();
 			\Settings_GlobalPermission_Record_Model::recalculate();
 			$menuRecordModel = new \Settings_Menu_Record_Model();
 			$menuRecordModel->refreshMenuFiles();

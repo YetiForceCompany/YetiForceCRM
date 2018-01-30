@@ -9,23 +9,6 @@
 class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 {
 
-	public static function getUserColors()
-	{
-		$instance = new \App\Fields\Owner();
-		$users = $instance->initUsers();
-
-		$calendarViewTypes = [];
-		foreach ($users as $id => &$user) {
-			$calendarViewTypes[] = [
-				'id' => $id,
-				'first' => $user['first_name'],
-				'last' => $user['last_name'],
-				'color' => $user['cal_color']
-			];
-		}
-		return $calendarViewTypes;
-	}
-
 	public static function getCalendarConfig($type)
 	{
 		$query = (new \App\Db\Query())
@@ -40,6 +23,7 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 				'value' => $row['value']
 			];
 		}
+		$dataReader->close();
 		if ($type == 'colors') {
 			$calendarConfig = array_merge($calendarConfig, self::getPicklistValue());
 		}

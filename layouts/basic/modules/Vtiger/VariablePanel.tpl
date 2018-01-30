@@ -43,7 +43,7 @@
 				</div>
 				<div class="medium col-md-9 fieldValue">
 					<div class="row">
-						<div class="input-group">
+						<div class="input-group"> 
 							<select class="select2" id="relatedVariable">
 								{foreach item=FIELDS from=$RELATED_VARIABLE}
 									{foreach item=RELATED_FIELDS key=BLOCK_NAME from=$FIELDS}
@@ -144,13 +144,13 @@
 			<div class="medium col-md-9 fieldValue">
 				<div class="row">
 					<div class="input-group">
-						<select class="select2" id="relatedLists">
+						<select class="select2" id="recordList">
 							{foreach item=MODULE_LIST from=$BASE_LISTS}
 								<option value="{$MODULE_LIST['key']}">{$MODULE_LIST['label']}</option>
 							{/foreach}
 						</select>
 						<div class="input-group-btn">
-							<button type="button" class="btn btn-primary clipboard" data-copy-target="#relatedLists" title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD')} - {\App\Language::translate('LBL_COPY_VALUE')}">
+							<button type="button" class="btn btn-primary clipboard" data-copy-target="#recordList" title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD')} - {\App\Language::translate('LBL_COPY_VALUE')}">
 								<span class="glyphicon glyphicon-copy"></span>
 							</button>
 						</div>

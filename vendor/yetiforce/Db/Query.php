@@ -75,4 +75,29 @@ class Query extends \yii\db\Query
 				'each' => true,
 		]);
 	}
+
+	/**
+	 * Executes the query and returns a single row of result.
+	 * @param Connection $db the database connection used to generate the SQL statement.
+	 * If this parameter is not given, the `db` application component will be used.
+	 * @return array|boolean the first row (in terms of an array) of the query result. False is returned if the query
+	 * results in nothing.
+	 */
+	public function one($db = null)
+	{
+		return $this->limit(1)->createCommand($db)->queryOne();
+	}
+
+	/**
+	 * Returns the query result as a scalar value.
+	 * The value returned will be the first column in the first row of the query results.
+	 * @param Connection $db the database connection used to generate the SQL statement.
+	 * If this parameter is not given, the `db` application component will be used.
+	 * @return string|null|false the value of the first column in the first row of the query result.
+	 * False is returned if the query result is empty.
+	 */
+	public function scalar($db = null)
+	{
+		return $this->limit(1)->createCommand($db)->queryScalar();
+	}
 }

@@ -280,14 +280,14 @@ class PackageImport extends PackageExport
 				}
 			}
 			// Language file present in en_us folder
-			$pattern = '/languages\/' . vglobal('default_language') . '\/([^\/]+)\.php/';
+			$pattern = '/languages\/' . \AppConfig::main('default_language') . '\/([^\/]+)\.php/';
 			preg_match($pattern, $fileName, $matches);
 			if (count($matches)) {
 				$language_modulename = $matches[1];
 			}
 
 			// or Language file may be present in en_us/Settings folder
-			$settingsPattern = '/languages\/' . vglobal('default_language') . '\/Settings\/([^\/]+)\.php/';
+			$settingsPattern = '/languages\/' . \AppConfig::main('default_language') . '\/Settings\/([^\/]+)\.php/';
 			preg_match($settingsPattern, $fileName, $matches);
 			if (count($matches)) {
 				$language_modulename = $matches[1];
@@ -299,7 +299,7 @@ class PackageImport extends PackageExport
 			$languagefile_found = true;
 		} elseif (!$updatefile_found && !$layoutfile_found && !$languagefile_found) {
 			$_errorText = \App\Language::translate('LBL_ERROR_NO_DEFAULT_LANGUAGE', 'Settings:ModuleManager');
-			$_errorText = str_replace('__DEFAULTLANGUAGE__', vglobal('default_language'), $_errorText);
+			$_errorText = str_replace('__DEFAULTLANGUAGE__', \AppConfig::main('default_language'), $_errorText);
 			$this->_errorText = $_errorText;
 		}
 
@@ -1031,7 +1031,7 @@ class PackageImport extends PackageExport
 		Functions::recurseDelete('cache/templates_c');
 
 		\vtlib\Access::syncSharingAccess();
-		\vtlib\Deprecated::createModuleMetaFile();
+		\App\Module::createModuleMetaFile();
 		\App\Cache::clear();
 		\App\Cache::clearOpcache();
 		file_put_contents('cache/logs/update.log', ob_get_contents(), FILE_APPEND);

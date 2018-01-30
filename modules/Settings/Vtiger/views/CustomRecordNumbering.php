@@ -45,7 +45,7 @@ class Settings_Vtiger_CustomRecordNumbering_View extends Settings_Vtiger_Index_V
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = [
 			'modules.Settings.Vtiger.resources.CustomRecordNumbering',
-			'libraries.jquery.clipboardjs.clipboard',
+			'libraries.clipboard.dist.clipboard',
 			'modules.Settings.Vtiger.resources.Edit',
 		];
 

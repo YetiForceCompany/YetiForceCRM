@@ -33,6 +33,7 @@ class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 			$row['userModel'] = Users_Privileges_Model::getInstanceById($row['assigned_user_id']);
 			$newAccounts[$row['id']] = $row;
 		}
+		$dataReader->close();
 		return $newAccounts;
 	}
 

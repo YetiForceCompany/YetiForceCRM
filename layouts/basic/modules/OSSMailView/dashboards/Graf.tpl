@@ -10,7 +10,6 @@
 *************************************************************************************************************************************/
 -->*}
 <script type="text/javascript">
-
 	Vtiger_Widget_Js('Vtiger_Graf_Widget_Js',{}, {
 		postLoadWidget: function () {
 			this._super();
@@ -46,7 +45,7 @@
 				//animate: !$.jqplot.use_excanvas,
 				seriesDefaults: {
 					renderer: jQuery.jqplot.BarRenderer,
-					pointLabels: {show: true, formatString: '%d'}
+					pointLabels: { show: true, formatString : '%d' }
 
 				},
 				axes: {
@@ -63,7 +62,7 @@
 						pad: 1.2
 					}
 				},
-				highlighter: {show: true}
+				highlighter: { show : true }
 			});
 		},
 		registerSectionClick: function () {

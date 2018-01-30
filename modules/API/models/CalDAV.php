@@ -77,6 +77,7 @@ class API_CalDAV_Model
 			$this->record = $row;
 			$this->davSync();
 		}
+		$dataReader->close();
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
 
@@ -171,13 +172,13 @@ class API_CalDAV_Model
 			$record['visibility'] = AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV');
 		}
 		$component->add($vcalendar->createProperty('CLASS', $record['visibility'] == 'Private' ? 'PRIVATE' : 'PUBLIC'));
-		$component->add($vcalendar->createProperty('PRIORITY', $this->getPriority($record['priority'], false)));
+		$component->add($vcalendar->createProperty('PRIORITY', $this->getPriorityFromCrm($record['priority'])));
 
-		$status = $this->getStatus($record['status'], false, $calType);
+		$status = $this->getStatusFromCrm($record['status'], $calType);
 		if ($status) {
 			$component->add($vcalendar->createProperty('STATUS', $status));
 		}
-		$state = $this->getState($record['state'], false);
+		$state = $this->getStateFromCrm($record['state']);
 		if ($state) {
 			$component->add($vcalendar->createProperty('TRANSP', $state));
 		}
@@ -250,11 +251,11 @@ class API_CalDAV_Model
 				$component->LOCATION = $record['location'];
 				$component->DESCRIPTION = $record['description'];
 				$component->CLASS = $record['visibility'] == 'Private' ? 'PRIVATE' : 'PUBLIC';
-				$component->PRIORITY = $this->getPriority($record['priority'], false);
-				$status = $this->getStatus($record['status'], false, $calType);
+				$component->PRIORITY = $this->getPriorityFromCrm($record['priority']);
+				$status = $this->getStatusFromCrm($record['status'], $calType);
 				if ($status)
 					$component->STATUS = $status;
-				$state = $this->getState($record['state'], false);
+				$state = $this->getStateFromCrm($record['state']);
 				if ($state)
 					$component->TRANSP = $state;
 				if (isset($component->SEQUENCE)) {
@@ -341,6 +342,7 @@ class API_CalDAV_Model
 				}
 			}
 		}
+		$dataReader->close();
 		\App\Log::trace("calDav2Crm | create: $create | deletes: $deletes | updates: $updates | skipped: $skipped");
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
@@ -369,15 +371,15 @@ class API_CalDAV_Model
 				$record->set('due_date', $dates['due_date']);
 				$record->set('time_start', $dates['time_start']);
 				$record->set('time_end', $dates['time_end']);
-				$record->set('activitystatus', $this->getStatus($component, true, $type));
+				$record->set('activitystatus', $this->getStatusFromDav($component, $type));
 				if ($type === 'VTODO') {
 					$record->set('activitytype', 'Task');
 				} else {
 					$record->set('activitytype', 'Meeting');
 				}
-				$record->set('taskpriority', $this->getPriority($component));
+				$record->set('taskpriority', $this->getPriorityFromDav($component));
 				$record->set('visibility', $this->getVisibility($component));
-				$record->set('state', $this->getState($component));
+				$record->set('state', $this->getStateFromDav($component));
 
 				$exclusion = AppConfig::module('API', 'CALDAV_EXCLUSION_FROM_DAV');
 				if ($exclusion !== false) {
@@ -436,15 +438,15 @@ class API_CalDAV_Model
 				$record->set('due_date', $dates['due_date']);
 				$record->set('time_start', $dates['time_start']);
 				$record->set('time_end', $dates['time_end']);
-				$record->set('activitystatus', $this->getStatus($component, true, $type));
+				$record->set('activitystatus', $this->getStatusFromDav($component, $type));
 				if ($type === 'VTODO') {
 					$record->set('activitytype', 'Task');
 				} else {
 					$record->set('activitytype', 'Meeting');
 				}
-				$record->set('taskpriority', $this->getPriority($component));
+				$record->set('taskpriority', $this->getPriorityFromDav($component));
 				$record->set('visibility', $this->getVisibility($component));
-				$record->set('state', $this->getState($component));
+				$record->set('state', $this->getStateFromDav($component));
 
 				$exclusion = AppConfig::module('API', 'CALDAV_EXCLUSION_FROM_DAV');
 				if ($exclusion !== false) {
@@ -533,34 +535,41 @@ class API_CalDAV_Model
 	}
 
 	/**
-	 * Get state
-	 * @param string|Sabre\VObject\Component $component
-	 * @param boolean $toCrm
+	 * Get state from dav
+	 * @param Sabre\VObject\Component $component
 	 * @return string
 	 */
-	public function getState($component, $toCrm = true)
+	public function getStateFromDav(\Sabre\VObject\Component $component)
 	{
 		$state = '';
-		if ($toCrm) {
-			if (isset($component->TRANSP)) {
-				switch ($component->TRANSP->getValue()) {
-					case 'OPAQUE':
-						$state = 'PLL_OPAQUE';
-						break;
-					case 'TRANSPARENT':
-						$state = 'PLL_TRANSPARENT';
-						break;
-				}
-			}
-		} else {
-			switch ($component) {
-				case 'PLL_OPAQUE':
-					$state = 'OPAQUE';
+		if (isset($component->TRANSP)) {
+			switch ($component->TRANSP->getValue()) {
+				case 'OPAQUE':
+					$state = 'PLL_OPAQUE';
 					break;
-				case 'PLL_TRANSPARENT':
-					$state = 'TRANSPARENT';
+				case 'TRANSPARENT':
+					$state = 'PLL_TRANSPARENT';
 					break;
 			}
+		}
+		return $state;
+	}
+
+	/**
+	 * Get state from crm
+	 * @param string $component
+	 * @return string
+	 */
+	public function getStateFromCrm($component)
+	{
+		$state = '';
+		switch ($component) {
+			case 'PLL_OPAQUE':
+				$state = 'OPAQUE';
+				break;
+			case 'PLL_TRANSPARENT':
+				$state = 'TRANSPARENT';
+				break;
 		}
 		return $state;
 	}
@@ -587,26 +596,19 @@ class API_CalDAV_Model
 	}
 
 	/**
-	 * Get priority
-	 * @param string|Sabre\VObject\Component $component
-	 * @param boolean $toCrm
-	 * @return int|string
+	 * Get priority from dav
+	 * @param Sabre\VObject\Component $component
+	 * @return string
 	 */
-	public function getPriority($component, $toCrm = true)
+	public function getPriorityFromDav(\Sabre\VObject\Component $component)
 	{
 		$values = [
 			1 => 'High',
 			5 => 'Medium',
 			9 => 'Low'
 		];
-		if ($toCrm) {
-			$return = 'Medium';
-			$value = isset($component->PRIORITY) ? \App\Purifier::purify($component->PRIORITY->getValue()) : false;
-		} else {
-			$return = 5;
-			$values = array_flip($values);
-			$value = $component;
-		}
+		$return = 'Medium';
+		$value = isset($component->PRIORITY) ? \App\Purifier::purify($component->PRIORITY->getValue()) : false;
 		if ($value && isset($values[$value])) {
 			$return = $values[$value];
 		}
@@ -614,13 +616,68 @@ class API_CalDAV_Model
 	}
 
 	/**
-	 * Get status
-	 * @param string|Sabre\VObject\Component $component
-	 * @param boolean $toCrm
+	 * Get priority from crm
+	 * @param string $component
+	 * @return int
+	 */
+	public function getPriorityFromCrm($component)
+	{
+		$values = [
+			'High' => 1,
+			'Medium' => 5,
+			'Low' => 9
+		];
+		$return = 5;
+		$value = $component;
+		if ($value && isset($values[$value])) {
+			$return = $values[$value];
+		}
+		return $return;
+	}
+
+	/**
+	 * Get status from dav
+	 * @param Sabre\VObject\Component $component
 	 * @param string $calType
 	 * @return array
 	 */
-	public function getStatus($component, $toCrm = true, $calType)
+	public function getStatusFromDav(\Sabre\VObject\Component $component, $calType)
+	{
+		if ($calType === 'VEVENT') {
+			$values = [
+				'TENTATIVE' => 'PLL_PLANNED',
+				'CANCELLED' => 'PLL_OVERDUE',
+				'CANCELLED' => 'PLL_POSTPONED',
+				'CANCELLED' => 'PLL_CANCELLED',
+				'CONFIRMED' => 'PLL_COMPLETED'
+			];
+		} else {
+			$values = [
+				'NEEDS-ACTION' => 'PLL_PLANNED',
+				'IN-PROCESS' => 'PLL_IN_REALIZATION',
+				'CANCELLED' => 'PLL_OVERDUE',
+				'CANCELLED' => 'PLL_POSTPONED',
+				'CANCELLED' => 'PLL_CANCELLED',
+				'COMPLETED' => 'PLL_COMPLETED'
+			];
+		}
+		if (isset($component->STATUS)) {
+			$value = strtoupper(\App\Purifier::purify($component->STATUS->getValue()));
+		}
+		$return = reset($values);
+		if ($value && isset($values[$value])) {
+			$return = $values[$value];
+		}
+		return $return;
+	}
+
+	/**
+	 * Get status from crm
+	 * @param string $component
+	 * @param string $calType
+	 * @return array
+	 */
+	public function getStatusFromCrm($component, $calType)
 	{
 		if ($calType === 'VEVENT') {
 			$values = [
@@ -640,15 +697,7 @@ class API_CalDAV_Model
 				'PLL_COMPLETED' => 'COMPLETED'
 			];
 		}
-		$value = false;
-		if ($toCrm) {
-			$values = array_flip($values);
-			if (isset($component->STATUS)) {
-				$value = strtoupper(\App\Purifier::purify($component->STATUS->getValue()));
-			}
-		} else {
-			$value = $component;
-		}
+		$value = $component;
 		$return = reset($values);
 		if ($value && isset($values[$value])) {
 			$return = $values[$value];
@@ -888,6 +937,7 @@ class API_CalDAV_Model
 				$invities[$row['email']] = $row;
 			}
 		}
+		$dataReader->close();
 		$time = Sabre\VObject\DateTimeParser::parse($component->DTSTAMP);
 		$timeFormated = $time->format('Y-m-d H:i:s');
 		$db = \App\Db::getInstance();
@@ -954,6 +1004,7 @@ class API_CalDAV_Model
 				$invities[$row['email']] = $row;
 			}
 		}
+		$dataReader->close();
 		$attendees = $component->select('ATTENDEE');
 		if (empty($attendees)) {
 			if (!empty($invities)) {

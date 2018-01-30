@@ -194,6 +194,7 @@ class Vtiger_Action_Model extends \App\Base
 		while ($row = $dataReader->read()) {
 			$actionModels[] = self::getInstanceFromRow($row);
 		}
+		$dataReader->close();
 		return $actionModels;
 	}
 
@@ -214,6 +215,7 @@ class Vtiger_Action_Model extends \App\Base
 		while ($row = $dataReader->read()) {
 			$actionModels[] = self::getInstanceFromRow($row);
 		}
+		$dataReader->close();
 		return $actionModels;
 	}
 }

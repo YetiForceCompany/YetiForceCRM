@@ -166,6 +166,7 @@ class Calendar_Export_Model extends Vtiger_Export_Model
 			}
 			$myiCal->addComponent($iCalTask);
 		}
+		$dataReader->close();
 		if ($toFile) {
 			return $myiCal->serialize();
 		} else {

@@ -159,14 +159,6 @@ class Competition extends Vtiger_CRMEntity
 					ModComments::addWidgetTo(['Competition']);
 			}
 			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\App\Module::getModuleId('Competition'));
-		} else if ($eventType === 'module.disabled') {
-
-		} else if ($eventType === 'module.preuninstall') {
-
-		} else if ($eventType === 'module.preupdate') {
-
-		} else if ($eventType === 'module.postupdate') {
-
 		}
 	}
 

@@ -6,15 +6,15 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce.com
+ * Contributor(s): YetiForce Sp. z o.o.
  * ********************************************************************************** */
 
 class PriceBooks_Popup_View extends Vtiger_Popup_View
 {
-	/*
-	 * Function to initialize the required data in smarty to display the List View Contents
-	 */
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function initializeListViewContents(\App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $this->getModule($request);
@@ -90,6 +90,8 @@ class PriceBooks_Popup_View extends Vtiger_Popup_View
 		$field->set('name', 'listprice');
 		$field->set('column', 'listprice');
 		$field->set('label', 'List Price');
+		$field->set('typeofdata', 'N~O');
+		$field->set('fromOutsideList', true);
 
 		$this->listViewHeaders['listprice'] = $field;
 

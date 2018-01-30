@@ -24,7 +24,9 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+			if ($request->isEmpty('parent', true) || $request->getByType('parent', 2) !== 'Settings' || !$currentUserPrivilegesModel->isAdminUser()) {
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+			}
 		}
 		if (!$request->isEmpty('searchModule') && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('searchModule', 2))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
@@ -57,23 +59,23 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 	 */
 	public function showAdvancedSearch(\App\Request $request)
 	{
-		$excludedModuleForSearch = ['Vtiger', 'Reports'];
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		if (!$request->isEmpty('searchModule')) {
 			$moduleName = $request->getByType('searchModule', 2);
+		} elseif (\App\Module::getModuleId($moduleName) === false || (!$request->isEmpty('parent', true) && $request->getByType('parent', 2) === 'Settings')) {
+			//See if it is an excluded module, If so search in home module
+			$moduleName = 'Home';
 		}
 		$saveFilterPermitted = true;
-		$saveFilterexcludedModules = ['ModComments', 'RSS', 'Portal', 'Integration', 'PBXManager', 'DashBoard'];
-		if (in_array($moduleName, $saveFilterexcludedModules)) {
+		if (in_array($moduleName, ['ModComments', 'RSS', 'Portal', 'Integration', 'PBXManager', 'DashBoard'])) {
 			$saveFilterPermitted = false;
 		}
 		//See if it is an excluded module, If so search in home module
-		if (in_array($moduleName, $excludedModuleForSearch)) {
+		if (in_array($moduleName, ['Vtiger', 'Reports'])) {
 			$moduleName = 'Home';
 		}
 		$module = $request->getModule();
-
 		$customViewModel = new CustomView_Record_Model();
 		$customViewModel->setModule($moduleName);
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);

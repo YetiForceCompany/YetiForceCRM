@@ -64,44 +64,6 @@ class Products extends CRMEntity
 	// Josh added for importing and exporting -added in patch2
 	public $unit_price;
 
-	/** 	function used to get the export query for product
-	 * 	@param reference $where - reference of the where variable which will be added with the query
-	 * 	@return string $query - return the query which will give the list of products to export
-	 */
-	public function createExportQuery($where)
-	{
-
-		$current_user = vglobal('current_user');
-		\App\Log::trace('Entering createExportQuery(' . $where . ') method ...');
-
-		include('include/utils/ExportUtils.php');
-
-		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery("Products", "detail_view");
-		$fields_list = getFieldsListFromQuery($sql);
-
-		$query = "SELECT $fields_list FROM " . $this->table_name . "
-			INNER JOIN vtiger_crmentity
-				ON vtiger_crmentity.crmid = vtiger_products.productid
-			LEFT JOIN vtiger_productcf
-				ON vtiger_products.productid = vtiger_productcf.productid
-			LEFT JOIN vtiger_vendor
-				ON vtiger_vendor.vendorid = vtiger_products.vendor_id";
-
-		$query .= " LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
-		$query .= " LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid = vtiger_users.id && vtiger_users.status='Active'";
-		$query .= $this->getNonAdminAccessControlQuery('Products', $current_user);
-		$where_auto = " vtiger_crmentity.deleted=0";
-
-		if ($where != '')
-			$query .= " WHERE ($where) && $where_auto";
-		else
-			$query .= " WHERE $where_auto";
-
-		\App\Log::trace("Exiting create_export_query method ...");
-		return $query;
-	}
-
 	/**
 	 * Move the related records of the specified list of id's to the given record.
 	 * @param String This module name
@@ -223,31 +185,18 @@ class Products extends CRMEntity
 		return $relTables[$secmodule];
 	}
 
-	public function deleteProduct2ProductRelation($record, $return_id, $is_parent)
-	{
-		$adb = PearDatabase::getInstance();
-		if ($is_parent == 0) {
-			$sql = "delete from vtiger_seproductsrel WHERE crmid = ? && productid = ?";
-			$adb->pquery($sql, [$record, $return_id]);
-		} else {
-			$sql = "delete from vtiger_seproductsrel WHERE crmid = ? && productid = ?";
-			$adb->pquery($sql, [$return_id, $record]);
-		}
-	}
-
 	// Function to unlink an entity with given Id from another entity
-	public function unlinkRelationship($id, $return_module, $return_id, $relatedName = false)
+	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-
-		if (empty($return_module) || empty($return_id))
+		if (empty($returnModule) || empty($returnId)) {
 			return;
-		if ($return_module === 'Leads' || $return_module === 'Accounts') {
-			App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['productid' => $id, 'crmid' => $return_id])->execute();
-		} elseif ($return_module == 'Vendors') {
-			$sql = 'UPDATE vtiger_products SET vendor_id = ? WHERE productid = ?';
-			$this->db->pquery($sql, [null, $id]);
+		}
+		if ($returnModule === 'Leads' || $returnModule === 'Accounts') {
+			App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['productid' => $id, 'crmid' => $returnId])->execute();
+		} elseif ($returnModule === 'Vendors') {
+			App\Db::getInstance()->createCommand()->update('vtiger_products', ['vendor_id' => null], ['productid' => $id])->execute();
 		} else {
-			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
+			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
 		}
 	}
 

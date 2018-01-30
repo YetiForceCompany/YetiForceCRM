@@ -7,15 +7,15 @@
  */
 $languageStrings = [
 	// Basic Strings
-	'LettersOut' => 'Letters outgoing',
-	'SINGLE_LettersOut' => 'Letters outgoing',
-	'LBL_ADD_RECORD' => 'Add letters outgoing',
-	'LBL_RECORDS_LIST' => 'Letters outgoing',
+	'LettersOut' => 'Lettere in uscita',
+	'SINGLE_LettersOut' => 'Lettere in uscita',
+	'LBL_ADD_RECORD' => 'Aggiungi lettere in uscita',
+	'LBL_RECORDS_LIST' => 'Lettere in uscita',
 	// Blocks
 	'LBL_MAIN_INFORMATION' => 'Letters Information',
 	//Field Labels
-	'Number' => 'Number',
-	'Title' => 'Subject',
+	'Number' => 'Numero',
+	'Title' => 'Oggetto',
 	'Date of adoption' => 'Date of receiving',
 	'Type of shipping' => 'Shipment type',
 	'Person receiving' => 'Person receiving',

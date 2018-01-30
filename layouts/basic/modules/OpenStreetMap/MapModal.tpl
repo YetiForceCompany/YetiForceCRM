@@ -12,7 +12,7 @@
 				<div class="input-group group-btn">
 					<input type="text" class="form-control radius" placeholder="{\App\Language::translate('LBL_IN_RADIUS', $MODULE_NAME)}" />
 					<div class="input-group-btn">
-						<button class="btn btn-primary searchBtn">{\App\Language::translate('LBL_SEARCH', $MODULE_NAME)}</button>
+						<button class="btn btn-primary searchBtn">{\App\Language::translate('LBL_SEARCH', $MODULE_NAME)}</span></button>
 					</div>
 				</div>
 			</div>

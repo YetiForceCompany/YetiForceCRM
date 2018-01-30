@@ -219,35 +219,17 @@ class PackageExport
 
 	/**
 	 * Function copies language files to zip
-	 * @param <vtlib\Zip> $zip
+	 * @param \vtlib\Zip $zip
 	 * @param string $module
 	 */
 	public function __copyLanguageFiles(Zip $zip, $module)
 	{
-		$languageFolder = 'languages';
-		if ($dir = @opendir($languageFolder)) {  // open languages folder
-			while (($langName = readdir($dir)) !== false) {
-				if ($langName != '..' && $langName != '.' && is_dir($languageFolder . "/" . $langName)) {
-					$langDir = @opendir($languageFolder . '/' . $langName);  //open languages/en_us folder
-					while (($moduleLangFile = readdir($langDir)) !== false) {
-						$langFilePath = $languageFolder . '/' . $langName . '/' . $moduleLangFile;
-						if (is_file($langFilePath) && $moduleLangFile === $module . '.php') { //check if languages/en_us/module.php file exists
-							$zip->copyFileFromDisk($languageFolder . '/' . $langName . '/', $languageFolder . '/' . $langName . '/', $moduleLangFile);
-						} else if (is_dir($langFilePath) && $moduleLangFile == 'Settings') {
-							$settingsLangDir = @opendir($langFilePath);
-							while ($settingLangFileName = readdir($settingsLangDir)) {
-								$settingsLangFilePath = $languageFolder . '/' . $langName . '/' . $moduleLangFile . '/' . $settingLangFileName;
-								if (is_file($settingsLangFilePath) && $settingLangFileName === $module . '.php') {  //check if languages/en_us/Settings/module.php file exists
-									$zip->copyFileFromDisk($languageFolder . '/' . $langName . '/' . $moduleLangFile . '/', $languageFolder . '/' . $langName . '/' . $moduleLangFile . '/', $settingLangFileName);
-								}
-							}
-							closedir($settingsLangDir);
-						}
-					}
-					closedir($langDir);
-				}
+		foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator('languages', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
+			/* @var $item \SplFileInfo */
+			if ($item->isFile() && $item->getFilename() === $module . '.php') {
+				$path = $item->getPath() . DIRECTORY_SEPARATOR;
+				$zip->copyFileFromDisk($path, $path, $item->getFilename());
 			}
-			closedir($dir);
 		}
 	}
 
@@ -365,7 +347,7 @@ class PackageExport
 			$focus = \CRMEntity::getInstance($modulename);
 
 			// Setup required module variables which is need for vtlib API's
-			vtlib_setup_modulevars($modulename, $focus);
+			\VtlibUtils::vtlibSetupModulevars($modulename, $focus);
 			$tables = $focus->tab_name;
 			if (($key = array_search('vtiger_crmentity', $tables)) !== false) {
 				unset($tables[$key]);
@@ -493,13 +475,8 @@ class PackageExport
 
 			// Export picklist values for picklist fields
 			if ($uitype == '15' || $uitype == '16' || $uitype == '111' || $uitype == '33' || $uitype == '55') {
-				if ($uitype == '16') {
-					$picklistvalues = \App\Fields\Picklist::getValuesName($fieldname);
-				} else {
-					$picklistvalues = vtlib_getPicklistValues_AccessibleToAll($fieldname);
-				}
 				$this->openNode('picklistvalues');
-				foreach ($picklistvalues as $picklistvalue) {
+				foreach (\App\Fields\Picklist::getValuesName($fieldname) as $picklistvalue) {
 					$this->outputNode($picklistvalue, 'picklistvalue');
 				}
 				$this->closeNode('picklistvalues');

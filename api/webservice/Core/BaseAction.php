@@ -27,13 +27,19 @@ class BaseAction
 		}
 		$this->checkPermission();
 		$this->checkPermissionToModule();
-		/*
-		  $acceptableUrl = $this->controller->app['acceptable_url'];
-		  if ($acceptableUrl && rtrim($this->controller->app['acceptable_url'], '/') != rtrim($params['fromUrl'], '/')) {
-		  throw new \Api\Core\Exception('LBL_INVALID_SERVER_URL', 401);
-		  }
-		 */
 		return true;
+	}
+
+	/**
+	 * Unfinished
+	 * @throws \Api\Core\Exception
+	 */
+	public function checkAction2()
+	{
+		$acceptableUrl = $this->controller->app['acceptable_url'];
+		if ($acceptableUrl && rtrim($this->controller->app['acceptable_url'], '/') != rtrim($params['fromUrl'], '/')) {
+			throw new \Api\Core\Exception('LBL_INVALID_SERVER_URL', 401);
+		}
 	}
 
 	/**

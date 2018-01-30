@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o.
  * *********************************************************************************** */
 
 class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
@@ -153,7 +154,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 				} else {
 					$fieldLabel = 'LBL_INACTIVE';
 				}
-				$fieldValue = \App\Language::translate($fieldLabel, $moduleModel->getParentName() . ':' . $moduleModel->getName());
+				$fieldValue = \App\Language::translate($fieldLabel, $moduleModel->getName(true));
 				break;
 			case 'laststart' :
 			case 'lastend' :
@@ -163,6 +164,9 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 				} else {
 					$fieldValue = '';
 				}
+				break;
+			case 'name' :
+				$fieldValue = \App\Language::translate($fieldValue, $this->getModule()->getName(true));
 				break;
 		}
 		return $fieldValue;
@@ -235,7 +239,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 		$links = [];
 
 		$recordLinks = [
-			[
+				[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => "javascript:Settings_CronTasks_List_Js.triggerEditEvent('" . $this->getEditViewUrl() . "')",

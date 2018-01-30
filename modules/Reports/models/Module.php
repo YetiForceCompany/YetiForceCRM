@@ -55,26 +55,6 @@ class Reports_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Function returns the recent created reports
-	 * @param <Number> $limit
-	 * @return <Array of Reports_Record_Model>
-	 */
-	public function getRecentRecords($limit = 10)
-	{
-		$db = PearDatabase::getInstance();
-
-		$result = $db->pquery('SELECT * FROM vtiger_report ORDER BY reportid DESC LIMIT ?', [$limit]);
-		$rows = $db->numRows($result);
-
-		$recentRecords = [];
-		for ($i = 0; $i < $rows; ++$i) {
-			$row = $db->queryResultRowData($result, $i);
-			$recentRecords[$row['reportid']] = $this->getRecordFromArray($row);
-		}
-		return $recentRecords;
-	}
-
-	/**
 	 * Function returns the report folders
 	 * @return <Array of Reports_Folder_Model>
 	 */

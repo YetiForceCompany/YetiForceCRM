@@ -49,7 +49,7 @@ class Vtiger_FindDuplicate_Model extends \App\Base
 
 	/**
 	 * Function to get query which searching duplicate records
-	 * @return App\Db\Query $query 
+	 * @return App\Db\Query $query
 	 */
 	public function getQuery()
 	{
@@ -173,6 +173,7 @@ class Vtiger_FindDuplicate_Model extends \App\Base
 		while ($record = $dataReader->read()) {
 			$recordIds [] = $record['id'];
 		}
+		$dataReader->close();
 		return array_diff($recordIds, $request->get('excluded_ids'));
 	}
 }

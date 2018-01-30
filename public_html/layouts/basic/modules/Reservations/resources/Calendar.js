@@ -114,7 +114,7 @@ jQuery.Class("Reservations_Calendar_Js", {
 					title: event.title + '<a href="index.php?module=Reservations&view=Edit&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-pencil"></span></a>' + '<a href="index.php?module=Reservations&view=Detail&record=' + event.id + '" class="btn btn-default btn-xs pull-right"><span class="glyphicon glyphicon-th-list"></span></a>',
 					container: 'body',
 					html: true,
-					placement: 'auto right',
+					placement: 'auto',
 					template: '<div class="popover calendarPopover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
 					content: '<div><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_START_DATE') + '</label>: ' + event.start.format('YYYY-MM-DD ' + popoverTimeFormat) + '</div>' +
 							'<div><span class="glyphicon glyphicon-time" aria-hidden="true"></span> <label>' + app.vtranslate('JS_END_DATE') + '</label>: ' + event.end.format('YYYY-MM-DD ' + popoverTimeFormat) + '</div>' +
@@ -124,10 +124,6 @@ jQuery.Class("Reservations_Calendar_Js", {
 							(event.company ? '<div><span class="userIcon-Accounts" aria-hidden="true"></span> <label>' + app.vtranslate('JS_COMPANY') + '</label>: ' + event.company + '</div>' : '') +
 							(event.process ? '<div><span class="userIcon-' + event.processType + '" aria-hidden="true"></span> <label>' + event.processLabel + '</label>: <a target="_blank" href="index.php?module=' + event.processType + '&view=Detail&record=' + event.processId + '">' + event.process + '</a></div>' : '') +
 							(event.smownerid ? '<div><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
-				});
-				element.find('.fc-content, .fc-info').click(function () {
-					var event = $(this).closest('.fc-event');
-					window.location.href = event.attr('href');
 				});
 			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),

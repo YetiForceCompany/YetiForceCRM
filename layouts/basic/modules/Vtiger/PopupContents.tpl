@@ -31,33 +31,31 @@
 		<div class="bottomscroll-div">
 			<table class="table table-bordered listViewEntriesTable">
 				<thead>
-					<tr class="listViewHeaders">
+					<tr class="listViewHeaders">		
 						{if $MULTI_SELECT}
 							<th class="{$WIDTHTYPE}">
 								<input type="checkbox" title="{\App\Language::translate('LBL_SELECT_ALL_CURRENTPAGE')}" class="selectAllInCurrentPage" />
 							</th>
-						{/if}
-						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
+						{else}
+							<th class="{$WIDTHTYPE}"></th>
+							{/if}
+							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							<th class="{$WIDTHTYPE}">
 								<a href="javascript:void(0);" class="listViewHeaderValues {if $LISTVIEW_HEADER->getFieldName() eq 'listprice' || !$LISTVIEW_HEADER->isListviewSortable()} noSorting {/if}" data-nextsortorderval="{if $ORDER_BY eq $LISTVIEW_HEADER->getColumnName()}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->getColumnName()}">{\App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $MODULE_NAME)}
 									{if $ORDER_BY eq $LISTVIEW_HEADER->getColumnName()}<img class="sortImage" alt="{\App\Language::translate('LBL_SORT_ASCENDING')}" src="{\App\Layout::getImagePath( $SORT_IMAGE, $MODULE_NAME)}">{else}<img class="hide sortingImage" alt="{\App\Language::translate('LBL_SORT_DESCENDING')}" src="{\App\Layout::getImagePath( 'downArrowSmall.png', $MODULE_NAME)}">{/if}</a>
 							</th>
 						{/foreach}
-						<th class="{$WIDTHTYPE}"></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						{if $MULTI_SELECT}
-							<td class="{$WIDTHTYPE}"></td>
-						{/if}
-						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-							<td class="{$WIDTHTYPE}">
+						<td class="listSearchTd"><button class="btn btn-default" data-trigger="listSearch"><span class="glyphicon glyphicon-search"></span></button></td>
+							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
+							<td>
 								{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
 								{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $MODULE_NAME) FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$USER_MODEL}
 							</td>
 						{/foreach}
-						<td class="{$WIDTHTYPE}"><button class="btn btn-default" data-trigger="listSearch">{\App\Language::translate('LBL_SEARCH', $MODULE_NAME )}</button></td>
 					</tr>
 
 					{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=popupListView}
@@ -67,6 +65,8 @@
 								<td class="{$WIDTHTYPE}">
 									<input class="entryCheckBox" title="{\App\Language::translate('LBL_SELECT_RECORD')}" type="checkbox" />
 								</td>
+							{else}
+								<td class="{$WIDTHTYPE}"></td>
 							{/if}
 							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 								{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->getFieldName()}
@@ -75,15 +75,13 @@
 										<a {if $LISTVIEW_HEADER->isNameField() eq true}class="modCT_{$MODULE}"{/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
 											{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)}
 										</a>
-									{else if $LISTVIEW_HEADERNAME eq 'listprice'}
-										{CurrencyField::convertToUserFormat($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME), null, true, true)}
+									{elseif $LISTVIEW_HEADER->get('fromOutsideList') eq true}
+										{$LISTVIEW_HEADER->getDisplayValue($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}
 									{else}
 										{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADERNAME)}
 									{/if}
 								</td>
 							{/foreach}
-							<td class="{$WIDTHTYPE}"></td>
-
 						</tr>
 					{/foreach}
 				</tbody>

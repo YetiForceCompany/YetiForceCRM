@@ -19,11 +19,9 @@ $PERFORMANCE_CONFIG = [
 	// Should the caller information be captured in SQL Logging?
 	// It adds little overhead for performance but will be useful to debug. All data can be found in the table "l_yf_sqltime"
 	'SQL_LOG_INCLUDE_CALLER' => false,
-	// If database default charset is UTF-8, set this to true 
+	// If database default charset is UTF-8, set this to true
 	// This avoids executing the SET NAMES SQL for each query!
 	'DB_DEFAULT_CHARSET_UTF8' => true,
-	// Turn-off default sorting in ListView, could eat up time as data grows
-	'LISTVIEW_DEFAULT_SORTING' => false,
 	// Compute list view record count while loading listview everytime.
 	// Recommended value false
 	'LISTVIEW_COMPUTE_PAGE_COUNT' => false,
@@ -59,9 +57,9 @@ $PERFORMANCE_CONFIG = [
 	'CRON_MAX_NUMBERS_SENDING_SMS' => 10,
 	// In how many atachments should the delete in cron.
 	'CRON_MAX_ATACHMENTS_DELETE' => 1000,
-	// Parameter that allows to disable file overwriting. After 
+	// Parameter that allows to disable file overwriting. After
 	// enabling it the system will additionally check whether the file exists in the custom directory.
-	// Ex. custom/modules/Assets/Assets.php 
+	// Ex. custom/modules/Assets/Assets.php
 	'LOAD_CUSTOM_FILES' => false,
 	'LOAD_CUSTOM_LANGUAGE' => true,
 	//Parameter that determines whether admin panel should be available to admin by default

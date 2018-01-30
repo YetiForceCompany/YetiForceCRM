@@ -482,7 +482,7 @@ CREATE TABLE `l_yf_profile` (
   `log_time` varchar(20) NOT NULL,
   `trace` text DEFAULT NULL,
   `level` varchar(255) DEFAULT NULL,
-  `duration` decimal(3,3) NOT NULL,
+  `duration` decimal(7,3) NOT NULL,
   KEY `id` (`id`),
   KEY `category` (`category`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -876,19 +876,6 @@ CREATE TABLE `s_yf_companies` (
   `logo_mail_height` tinyint(3) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `s_yf_handler_updater` */
-
-CREATE TABLE `s_yf_handler_updater` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `tabid` smallint(5) unsigned NOT NULL,
-  `crmid` int(10) unsigned NOT NULL,
-  `userid` int(10) unsigned NOT NULL,
-  `handler_name` varchar(50) NOT NULL,
-  `class` varchar(50) NOT NULL,
-  `params` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `s_yf_mail_queue` */
 
@@ -3835,6 +3822,7 @@ CREATE TABLE `vtiger_blocks` (
   `iscustom` int(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`blockid`),
   KEY `block_tabid_idx` (`tabid`),
+  KEY `block_sequence_idx` (`sequence`),
   CONSTRAINT `fk_1_vtiger_blocks` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=410 DEFAULT CHARSET=utf8;
 
@@ -4254,7 +4242,9 @@ CREATE TABLE `vtiger_cron_task` (
   `description` text DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
-  UNIQUE KEY `handler_file` (`handler_file`)
+  UNIQUE KEY `handler_file` (`handler_file`),
+  KEY `vtiger_cron_task_status_idx` (`status`),
+  KEY `vtiger_cron_task_sequence_idx` (`sequence`)
 ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_currencies` */
@@ -4405,6 +4395,7 @@ CREATE TABLE `vtiger_customview` (
   PRIMARY KEY (`cvid`),
   KEY `customview_entitytype_idx` (`entitytype`),
   KEY `setdefault` (`setdefault`,`entitytype`),
+  KEY `customview_userid_idx` (`userid`),
   CONSTRAINT `fk_1_vtiger_customview` FOREIGN KEY (`entitytype`) REFERENCES `vtiger_tab` (`name`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8;
 
@@ -4420,6 +4411,8 @@ CREATE TABLE `vtiger_cvadvfilter` (
   `column_condition` varchar(255) DEFAULT 'and',
   PRIMARY KEY (`cvid`,`columnindex`),
   KEY `cvadvfilter_cvid_idx` (`cvid`),
+  KEY `cvadvfilter_groupid_idx` (`groupid`),
+  KEY `cvadvfilter_columnindex_idx` (`columnindex`),
   CONSTRAINT `fk_1_vtiger_cvadvfilter` FOREIGN KEY (`cvid`) REFERENCES `vtiger_customview` (`cvid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -5135,6 +5128,8 @@ CREATE TABLE `vtiger_field` (
   KEY `presence` (`presence`),
   KEY `tabid_2` (`tabid`,`fieldname`),
   KEY `tabid_3` (`tabid`,`block`),
+  KEY `field_sequence_idx` (`sequence`),
+  KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2677 DEFAULT CHARSET=utf8;
 
@@ -6368,6 +6363,9 @@ CREATE TABLE `vtiger_module_dashboard_widgets` (
   PRIMARY KEY (`id`),
   KEY `vtiger_module_dashboard_widgets_ibfk_1` (`templateid`),
   KEY `userid` (`userid`,`active`,`module`),
+  KEY `vtiger_module_dashboard_widgets_linkid_idx` (`linkid`),
+  KEY `vtiger_module_dashboard_widgets_dashboardid_idx` (`dashboardid`),
+  KEY `vtiger_module_dashboard_widgets_module_idx` (`module`),
   CONSTRAINT `vtiger_module_dashboard_widgets_ibfk_1` FOREIGN KEY (`templateid`) REFERENCES `vtiger_module_dashboard` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -7236,6 +7234,7 @@ CREATE TABLE `vtiger_profile2field` (
   KEY `profile2field_profileid_tabid_fieldname_idx` (`profileid`,`tabid`),
   KEY `profile2field_tabid_profileid_idx` (`tabid`,`profileid`),
   KEY `profile2field_visible_profileid_idx` (`visible`,`profileid`),
+  KEY `profile2field_readonly_idx` (`readonly`),
   CONSTRAINT `vtiger_profile2field_ibfk_1` FOREIGN KEY (`profileid`) REFERENCES `vtiger_profile` (`profileid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

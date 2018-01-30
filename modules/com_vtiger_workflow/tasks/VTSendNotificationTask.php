@@ -43,7 +43,7 @@ class VTSendNotificationTask extends VTTask
 					->from('vtiger_activity')
 					->innerJoin('vtiger_crmentity', 'vtiger_activity.activityid = vtiger_crmentity.crmid')
 					->leftJoin('vtiger_activity_reminder', 'vtiger_activity_reminder.activity_id = vtiger_activity.activityid')
-					->where(['vtiger_crmentity.deleted' => 0, 'tiger_activity.activityid' => $entityId])->all();
+					->where(['vtiger_crmentity.deleted' => 0, 'vtiger_activity.activityid' => $entityId])->all();
 
 			$moduleModel = $recordModel->getModule();
 			$moduleModel->setEventFieldsForExport();

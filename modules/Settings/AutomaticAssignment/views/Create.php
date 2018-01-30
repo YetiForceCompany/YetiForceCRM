@@ -29,7 +29,7 @@ class Settings_AutomaticAssignment_Create_View extends Settings_Vtiger_BasicModa
 		$moduleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		if ($request->has('tabid')) {
-			$sourceModule = \App\Module::getModuleName($request->get('tabid'));
+			$sourceModule = \App\Module::getModuleName($request->getInteger('tabid'));
 			$viewer->assign('SUPPORTED_FIELDS', Settings_AutomaticAssignment_Module_Model::getFieldsByModule($sourceModule));
 			$viewer->assign('SELECTED_MODULE', $sourceModule);
 			$viewer->view('Create.tpl', $moduleName);

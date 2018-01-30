@@ -48,6 +48,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 				$recordInstance = new $modelClassName();
 				$matchingRecords['Users'][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($this);
 			}
+			$dataReader->close();
 			return $matchingRecords;
 		}
 	}
@@ -123,42 +124,6 @@ class Users_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * @return an array with the list of currencies which are available in source
-	 */
-	public function getCurrenciesList()
-	{
-		$adb = PearDatabase::getInstance();
-
-		$currency_query = 'SELECT currency_name, currency_code, currency_symbol FROM vtiger_currencies ORDER BY currency_name';
-		$result = $adb->pquery($currency_query, []);
-		$numRows = $adb->numRows($result);
-		for ($i = 0; $i < $numRows; $i++) {
-			$currencyname = App\Purifier::decodeHtml($adb->queryResult($result, $i, 'currency_name'));
-			$currencycode = App\Purifier::decodeHtml($adb->queryResult($result, $i, 'currency_code'));
-			$currencysymbol = App\Purifier::decodeHtml($adb->queryResult($result, $i, 'currency_symbol'));
-			$currencies[$currencyname] = [$currencycode, $currencysymbol];
-		}
-		return $currencies;
-	}
-
-	/**
-	 * @return an array with the list of time zones which are availables in source
-	 */
-	public function getTimeZonesList()
-	{
-		$adb = PearDatabase::getInstance();
-
-		$timezone_query = 'SELECT time_zone FROM vtiger_time_zone';
-		$result = $adb->pquery($timezone_query, []);
-		$numRows = $adb->numRows($result);
-		for ($i = 0; $i < $numRows; $i++) {
-			$time_zone = App\Purifier::decodeHtml($adb->queryResult($result, $i, 'time_zone'));
-			$time_zones_list[$time_zone] = $time_zone;
-		}
-		return $time_zones_list;
-	}
-
-	/**
 	 * Check mail exist
 	 * @param string $email
 	 * @param int|false $userId
@@ -199,25 +164,6 @@ class Users_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * @return an array with the list of languages which are available in source
-	 */
-	public static function getLanguagesList()
-	{
-		$adb = PearDatabase::getInstance();
-
-		$language_query = 'SELECT prefix, label FROM vtiger_language';
-		$result = $adb->query($language_query);
-		$numRows = $adb->numRows($result);
-		for ($i = 0; $i < $numRows; $i++) {
-			$lang_prefix = App\Purifier::decodeHtml($adb->queryResult($result, $i, 'prefix'));
-			$label = App\Purifier::decodeHtml($adb->queryResult($result, $i, 'label'));
-			$languages[$lang_prefix] = $label;
-		}
-		asort($languages);
-		return $languages;
-	}
-
-	/**
 	 * Get switch users
 	 * @param boolean $showRole
 	 * @return array
@@ -240,6 +186,7 @@ class Users_Module_Model extends Vtiger_Module_Model
 				while ($row = $dataReader->read()) {
 					$users[$row['userid']]['roleName'] = $row['rolename'];
 				}
+				$dataReader->close();
 			}
 			if ($users) {
 				return $users;

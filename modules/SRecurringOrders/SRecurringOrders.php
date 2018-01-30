@@ -87,12 +87,9 @@ class SRecurringOrders extends Vtiger_CRMEntity
 	 */
 	public function moduleHandler($moduleName, $eventType)
 	{
-		$adb = PearDatabase::getInstance();
 		if ($eventType === 'module.postinstall') {
-			$moduleInstance = CRMEntity::getInstance('SRecurringOrders');
 			\App\Fields\RecordNumber::setNumber($moduleName, 'S-RO', '1');
-			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['SRecurringOrders']);
-
+			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
 				include_once 'modules/ModComments/ModComments.php';
@@ -100,14 +97,6 @@ class SRecurringOrders extends Vtiger_CRMEntity
 					ModComments::addWidgetTo(['SRecurringOrders']);
 			}
 			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\App\Module::getModuleId($moduleName));
-		} else if ($eventType === 'module.disabled') {
-
-		} else if ($eventType === 'module.preuninstall') {
-
-		} else if ($eventType === 'module.preupdate') {
-
-		} else if ($eventType === 'module.postupdate') {
-
 		}
 	}
 

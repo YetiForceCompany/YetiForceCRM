@@ -47,6 +47,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 		'LBL_BUSINESSPHONE' => ['ossemployees', 'business_phone'],
 		'LBL_BUSINESSMAIL' => ['ossemployees', 'business_mail'],
 		'Assigned To' => ['crmentity', 'smownerid'],
+		'FL_POSITION' => Array('crmentity', 'position'),
 	];
 	public $list_fields_name = [
 		/* Format: Field Label => fieldname */
@@ -55,6 +56,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 		'LBL_BUSINESSPHONE' => 'business_phone',
 		'LBL_BUSINESSMAIL' => 'business_mail',
 		'Assigned To' => 'assigned_user_id',
+		'FL_POSITION' => 'position',
 	];
 
 	/**
@@ -70,6 +72,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 		'LBL_BUSINESSPHONE' => ['ossemployees', 'business_phone'],
 		'LBL_BUSINESSMAIL' => ['ossemployees', 'business_mail'],
 		'Assigned To' => ['crmentity', 'smownerid'],
+		'FL_POSITION' => Array('crmentity', 'position'),
 	];
 	public $search_fields_name = [
 		'LBL_LASTNAME' => 'last_name',
@@ -77,6 +80,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 		'LBL_BUSINESSPHONE' => 'business_phone',
 		'LBL_BUSINESSMAIL' => 'business_mail',
 		'Assigned To' => 'assigned_user_id',
+		'FL_POSITION' => 'position',
 	];
 	// For Popup window record selection
 	public $popup_fields = ['last_name'];
@@ -247,12 +251,11 @@ class OSSEmployees extends Vtiger_CRMEntity
 
 	public function moduleHandler($modulename, $event_type)
 	{
-		$adb = PearDatabase::getInstance();
 		if ($event_type == 'module.postinstall') {
 			//block with fields in summary
 			$tabid = \App\Module::getModuleId($modulename);
-			$adb->query("UPDATE `vtiger_field` SET `summaryfield` = '1' WHERE `tabid` = $tabid && `columnname` IN ('ossemployees_no','employee_status','name','last_name','pesel','id_card','employee_education','parentid','business_mail');", true);
-
+			\App\Db::getInstance()->createCommand()->update('vtiger_field', ['summaryfield' => 1], ['and', ['tabid' => $tabid],
+				['columnname' => ['ossemployees_no', 'employee_status', 'name', 'last_name', 'pesel', 'id_card', 'employee_education', 'parentid', 'business_mail']]])->execute();
 			\App\Fields\RecordNumber::setNumber($modulename, 'P', '1');
 			// block with comments
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
@@ -261,16 +264,6 @@ class OSSEmployees extends Vtiger_CRMEntity
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(['OSSEmployees']);
 			}
-		} else if ($event_type == 'module.disabled') {
-
-		} else if ($event_type == 'module.enabled') {
-
-		} else if ($event_type == 'module.preuninstall') {
-
-		} else if ($event_type == 'module.preupdate') {
-
-		} else if ($event_type == 'module.postupdate') {
-
 		}
 	}
 }

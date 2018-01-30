@@ -55,7 +55,7 @@ class Api extends \Tests\Base
 	public function setUp()
 	{
 		parent::setUp();
-		static::$url = \AppConfig::main('site_URL') . 'api/webservice/';
+		static::$url = \AppConfig::main('site_URL') . 'webservice/';
 	}
 
 	/**
@@ -112,6 +112,7 @@ class Api extends \Tests\Base
 					'password' => 'demo'
 				]), static::$requestOptions);
 		$response = \App\Json::decode($request->body, 0);
+		$this->logs = $request->raw;
 		$this->assertEquals($response->status, 1, $response->error->message);
 		static::$authUserParams = $response->result;
 		static::$requestHeaders['X-TOKEN'] = static::$authUserParams->token;
@@ -132,6 +133,7 @@ class Api extends \Tests\Base
 			'legal_form' => 'PLL_GENERAL_PARTNERSHIP',
 		];
 		$request = \Requests::post(static::$url . 'Accounts/Record/', static::$requestHeaders, \App\Json::encode($recordData), static::$requestOptions);
+		$this->logs = $request->raw;
 		$response = \App\Json::decode($request->body, 1);
 		$this->assertEquals($response['status'], 1, $response['error']['message']);
 		static::$recordId = $response['result']['id'];
@@ -147,6 +149,7 @@ class Api extends \Tests\Base
 			'buildingnumbera' => 222,
 		];
 		$request = \Requests::put(static::$url . 'Accounts/Record/' . static::$recordId, static::$requestHeaders, \App\Json::encode($recordData), static::$requestOptions);
+		$this->logs = $request->raw;
 		$response = \App\Json::decode($request->body, 1);
 		$this->assertEquals($response['status'], 1, $response['error']['message']);
 	}
@@ -157,6 +160,7 @@ class Api extends \Tests\Base
 	public function testRecordList()
 	{
 		$request = \Requests::get(static::$url . 'Accounts/RecordsList', static::$requestHeaders, static::$requestOptions);
+		$this->logs = $request->raw;
 		$response = \App\Json::decode($request->body, 1);
 		$this->assertEquals($response['status'], 1, $response['error']['message']);
 	}
@@ -167,6 +171,7 @@ class Api extends \Tests\Base
 	public function testGetFields()
 	{
 		$request = \Requests::get(static::$url . 'Accounts/Fields', static::$requestHeaders, static::$requestOptions);
+		$this->logs = $request->raw;
 		$response = \App\Json::decode($request->body, 1);
 		$this->assertEquals($response['status'], 1, $response['error']['message']);
 		$this->assertTrue(!empty($response['result']['fields']));
@@ -179,6 +184,7 @@ class Api extends \Tests\Base
 	public function testGetPrivileges()
 	{
 		$request = \Requests::get(static::$url . 'Accounts/Privileges', static::$requestHeaders, static::$requestOptions);
+		$this->logs = $request->raw;
 		$response = \App\Json::decode($request->body, 1);
 		$this->assertEquals($response['status'], 1, $response['error']['message']);
 		$this->assertTrue(!empty($response['result']['standardActions']));
@@ -190,6 +196,7 @@ class Api extends \Tests\Base
 	public function testGetModules()
 	{
 		$request = \Requests::get(static::$url . 'Modules', static::$requestHeaders, static::$requestOptions);
+		$this->logs = $request->raw;
 		$response = \App\Json::decode($request->body, 1);
 		$this->assertEquals($response['status'], 1, $response['error']['message']);
 		$this->assertTrue(!empty($response['result']['Accounts']));
@@ -201,6 +208,7 @@ class Api extends \Tests\Base
 	public function testGetMethods()
 	{
 		$request = \Requests::get(static::$url . 'Methods', static::$requestHeaders, static::$requestOptions);
+		$this->logs = $request->raw;
 		$response = \App\Json::decode($request->body, 1);
 		$this->assertEquals($response['status'], 1, $response['error']['message']);
 		$this->assertTrue(!empty($response['result']['BaseAction']));

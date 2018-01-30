@@ -1997,14 +1997,23 @@ jQuery.Class("Vtiger_List_Js", {
 			});
 		});
 	},
-	registerPerfectScroll: function (container) {
-		container.find('.listViewEntriesDiv').perfectScrollbar();
-		container.find('.contents-topscroll').removeClass('contents-topscroll');
-		container.find('.contents-bottomscroll').removeClass('contents-bottomscroll');
-		app.event.on("RecordListView.AfterLoad", function () {
-			container.find('.listViewEntriesDiv').perfectScrollbar();
-			container.find('.contents-topscroll').removeClass('contents-topscroll');
-			container.find('.contents-bottomscroll').removeClass('contents-bottomscroll');
+	registerScroll: function (container) {
+		var scrollbarTopInit = new PerfectScrollbar(container[0], {
+			suppressScrollY: true,
+			wheelPropagation: true
+		});
+		var scrollbarBottomInit = new PerfectScrollbar(container[0], {
+			suppressScrollY: true,
+			wheelPropagation: true
+		});
+		var scrollbarTopElement = container.find('.ps__rail-x').first();
+		scrollbarTopElement.css({
+			top: 0,
+			bottom: 'auto'
+		})
+		scrollbarTopElement.find('.ps__thumb-x').css({
+			top: 2,
+			bottom: 'auto'
 		});
 	},
 	registerEvents: function () {
@@ -2044,8 +2053,8 @@ jQuery.Class("Vtiger_List_Js", {
 		this.registerFeaturedElementsEvent();
 		this.registerUnreviewedCountEvent();
 		this.registerLastRelationsEvent();
+		this.registerScroll(listViewContainer);
 		Vtiger_Index_Js.registerMailButtons(listViewContainer);
-		this.registerPerfectScroll(listViewContainer);
 	},
 	registerListViewSpecialOptiopn: function () {
 		var thisInstance = this;

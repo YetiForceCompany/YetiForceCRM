@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Widget showing ticket which have closed. We can filter by date 
+ * Widget showing ticket which have closed. We can filter by date
  * @package YetiForce.Dashboard
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -14,7 +14,7 @@ class HelpDesk_ClosedTicketsByUser_Dashboard extends Vtiger_IndexAjax_View
 	 * Return search params (use to in building address URL to listview)
 	 * @param int $owner numer id of user
 	 * @param <Array> $time contain start date and end time
-	 * @return string 
+	 * @return string
 	 */
 	public function getSearchParams($owner, $time)
 	{
@@ -72,12 +72,13 @@ class HelpDesk_ClosedTicketsByUser_Dashboard extends Vtiger_IndexAjax_View
 				$listViewUrl . $this->getSearchParams($row['smownerid'], $time),
 			];
 		}
+		$dataReader->close();
 		return $response;
 	}
 
 	/**
-	 * Main function 
-	 * @param \App\Request $request 
+	 * Main function
+	 * @param \App\Request $request
 	 */
 	public function process(\App\Request $request)
 	{

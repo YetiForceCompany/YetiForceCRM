@@ -101,6 +101,7 @@ class API_DAV_Model
 		while ($row = $dataReader->read()) {
 			$users[$row['userid']] = $row;
 		}
+		$dataReader->close();
 		return $users;
 	}
 }

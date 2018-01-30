@@ -111,7 +111,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Request $request
-	 * @return <Array> - List of Vtiger_JsScript_Model instances
+	 * @return Vtiger_JsScript_Model[]
 	 */
 	public function getFooterScripts(\App\Request $request)
 	{

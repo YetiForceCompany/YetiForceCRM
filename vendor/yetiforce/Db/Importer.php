@@ -16,25 +16,25 @@ class Importer
 
 	/**
 	 * End of line character
-	 * @var string 
+	 * @var string
 	 */
 	public $logs = "\n";
 
 	/**
 	 * Path to the directory with files to import
-	 * @var string 
+	 * @var string
 	 */
 	public $path = 'install/install_schema';
 
 	/**
 	 * Stop import if an error occurs
-	 * @var bool 
+	 * @var bool
 	 */
 	public $dieOnError = false;
 
 	/**
 	 * Check redundant tables
-	 * @var bool 
+	 * @var bool
 	 */
 	public $redundantTables = false;
 
@@ -250,10 +250,18 @@ class Importer
 			$this->logs .= "  > add data to table: $tableName ... ";
 			try {
 				$keys = $table['columns'];
-				foreach ($table['values'] as $values) {
-					$importer->db->createCommand()->insert($tableName, array_combine($keys, $values))->execute();
+				if (is_array($table['values']) && isset($table['values'][0])) {
+					if ((new \App\Db\Query())->from($tableName)->where(array_combine($keys, $table['values'][0]))->exists($importer->db)) {
+						$this->logs .= "| Error: skipped because it exist first row\n";
+					} else {
+						foreach ($table['values'] as $values) {
+							$importer->db->createCommand()->insert($tableName, array_combine($keys, $values))->execute();
+						}
+						$this->logs .= "done\n";
+					}
+				} else {
+					$this->logs .= "| Error: No values\n";
 				}
-				$this->logs .= "done\n";
 			} catch (\Exception $e) {
 				$this->logs .= " | Error(5) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 				if ($this->dieOnError) {
@@ -296,7 +304,7 @@ class Importer
 
 	/**
 	 * Rename tables
-	 * 
+	 *
 	 * $tables = [
 	 * 		['oldName', 'newName']
 	 * 		['u_#__mail_address_boock', 'u_#__mail_address_book']
@@ -353,7 +361,7 @@ class Importer
 
 	/**
 	 * Rename columns
-	 * 
+	 *
 	 * $columns = [
 	 * 		['TableName', 'oldName', 'newName'],
 	 * 		['vtiger_smsnotifier', 'status', 'smsnotifier_status'],
@@ -385,7 +393,7 @@ class Importer
 
 	/**
 	 * Drop columns
-	 * 
+	 *
 	 * $columns = [
 	 * 		['TableName', 'columnName'],
 	 * 		['vtiger_smsnotifier', 'status'],

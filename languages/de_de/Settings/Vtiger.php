@@ -14,7 +14,6 @@ $languageStrings = [
 	'Configuration Editor' => 'Konfigurationseditor',
 	'EmailTemplate' => 'E-Mail Vorlage',
 	'EMAILTEMPLATES' => 'E-Mail Vorlagen',
-	'LBL_TERMS_AND_CONDITIONS' => 'Allgemeine Geschäftsbedingungen',
 	'LBL_ACCESS_MANAGEMENT' => 'Zugriffsverwaltung',
 	'LBL_ACTIVE' => 'Aktiv',
 	'LBL_ACTIVE_USERS' => 'Benutzer',

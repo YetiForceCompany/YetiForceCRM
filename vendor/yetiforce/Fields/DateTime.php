@@ -30,10 +30,40 @@ class DateTime
 	/**
 	 * Function to get date and time value for db format
 	 * @param string $value Date time
+	 * @param bool $leadingZeros
 	 * @return string
 	 */
-	public static function formatToDb($value)
+	public static function formatToDb($value, $leadingZeros = false)
 	{
+		if ($leadingZeros) {
+			$delim = ['/', '.'];
+			foreach ($delim as $delimiter) {
+				$x = strpos($value, $delimiter);
+				if ($x === false)
+					continue;
+				else {
+					$value = str_replace($delimiter, '-', $value);
+					break;
+				}
+			}
+			list($y, $m, $d) = explode('-', $value);
+			if (strlen($y) == 1)
+				$y = '0' . $y;
+			if (strlen($m) == 1)
+				$m = '0' . $m;
+			if (strlen($d) == 1)
+				$d = '0' . $d;
+			$value = implode('-', [$y, $m, $d]);
+			$valueList = explode(' ', $value);
+			$dbTimeValue = $valueList[1];
+			if (!empty($dbTimeValue) && strpos($dbTimeValue, ':') === false) {
+				$dbTimeValue = $dbTimeValue . ':';
+			}
+			if (!empty($dbTimeValue) && strrpos($dbTimeValue, ':') == (strlen($dbTimeValue) - 1)) {
+				$dbTimeValue = $dbTimeValue . '00';
+			}
+			return (new \DateTimeField($valueList[0] . ' ' . $dbTimeValue))->getDBInsertDateTimeValue();
+		}
 		return (new \DateTimeField($value))->getDBInsertDateTimeValue();
 	}
 
@@ -85,5 +115,27 @@ class DateTime
 		}
 		$formatedDate .= " ($dateDay)";
 		return $formatedDate;
+	}
+
+	/**
+	 * The function returns the decimal format of the time
+	 * @param int $decTime
+	 * @param bool|string $type Values: short, full
+	 * @return array
+	 */
+	public static function formatToHourText($decTime, $type = false)
+	{
+		$hour = floor($decTime);
+		$min = round(60 * ($decTime - $hour));
+		switch ($type) {
+			case 'short':
+				return $hour . \App\Language::translate('LBL_H') . ' ' . $min . \App\Language::translate('LBL_M');
+			case 'full':
+				return $hour . ' ' . \App\Language::translate('LBL_HOURS') . ' ' . $min . ' ' . \App\Language::translate('LBL_MINUTES');
+		}
+		return [
+			'short' => $hour . \App\Language::translate('LBL_H') . ' ' . $min . \App\Language::translate('LBL_M'),
+			'full' => $hour . ' ' . \App\Language::translate('LBL_HOURS') . ' ' . $min . ' ' . \App\Language::translate('LBL_MINUTES'),
+		];
 	}
 }

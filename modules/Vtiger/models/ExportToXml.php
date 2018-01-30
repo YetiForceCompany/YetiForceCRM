@@ -63,6 +63,7 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 		while ($inventoryRow = $dataReader->read()) {
 			$entries[] = $inventoryRow;
 		}
+		$dataReader->close();
 		return $entries;
 	}
 
@@ -213,6 +214,6 @@ class Vtiger_ExportToXml_Model extends Vtiger_Export_Model
 
 	public function createXmlFromTemplate($entries, $entriesInventory)
 	{
-		
+
 	}
 }

@@ -331,11 +331,12 @@ Vtiger_List_Js("Rss_List_Js",{},
     },
     
     registerEvents : function() {
-        this._super();
+	    this._super();
         var container = this.getListViewContainer();
         this.registerRssButtonClickEvent(container);
         this.registerFeedClickEvent(container);
         this.registerMakeDefaultClickEvent(container);
         this.setFeedContainerHeight(container);
+		this.registerDeleteRecordClickEvent();
     }
 });

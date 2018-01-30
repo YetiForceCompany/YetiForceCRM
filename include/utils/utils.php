@@ -20,10 +20,7 @@
  * Contributor(s): YetiForce.com.
  * ****************************************************************************** */
 require_once 'include/database/PearDatabase.php';
-require_once 'include/utils/ListViewUtils.php';
 require_once 'include/utils/CommonUtils.php';
-require_once 'include/utils/InventoryUtils.php';
-require_once 'include/utils/SearchUtils.php';
 require_once 'include/fields/DateTimeField.php';
 require_once 'include/fields/DateTimeRange.php';
 require_once 'include/fields/CurrencyField.php';
@@ -116,65 +113,6 @@ function generateQuestionMarks($items_list)
 	} else {
 		return implode(',', array_map('_questionify', explode(',', $items_list)));
 	}
-}
-
-/**
- * Function to format the input value for SQL like clause.
- * @param $str - Input string value to be formatted.
- * @param $flag - By default set to 0 (Will look for cases %string%).
- *                If set to 1 - Will look for cases %string.
- *                If set to 2 - Will look for cases string%.
- * @return String formatted as per the SQL like clause requirement
- */
-function formatForSqlLike($str, $flag = 0, $is_field = false)
-{
-	$adb = PearDatabase::getInstance();
-	if (isset($str)) {
-		if ($is_field === false) {
-			$str = str_replace('%', '\%', $str);
-			$str = str_replace('_', '\_', $str);
-			if ($flag == 0) {
-				// If value what to search is null then we should not add % which will fail
-				if (empty($str))
-					$str = '' . $str . '';
-				else
-					$str = '%' . $str . '%';
-			} elseif ($flag == 1) {
-				$str = '%' . $str;
-			} elseif ($flag == 2) {
-				$str = $str . '%';
-			}
-		} else {
-			if ($flag == 0) {
-				$str = 'concat("%",' . $str . ',"%")';
-			} elseif ($flag == 1) {
-				$str = 'concat("%",' . $str . ')';
-			} elseif ($flag == 2) {
-				$str = 'concat(' . $str . ',"%")';
-			}
-		}
-	}
-	return $adb->sqlEscapeString($str);
-}
-
-/** Function to get on clause criteria for duplicate check queries */
-function get_on_clause($field_list)
-{
-	$field_array = explode(',', $field_list);
-	$ret_str = '';
-	$i = 1;
-	foreach ($field_array as $fld) {
-		$sub_arr = explode('.', $fld);
-		$tbl_name = $sub_arr[0];
-		$col_name = $sub_arr[1];
-
-		$ret_str .= " ifnull($tbl_name.$col_name,'null') = ifnull(temp.$col_name,'null')";
-
-		if (count($field_array) != $i)
-			$ret_str .= " and ";
-		$i++;
-	}
-	return $ret_str;
 }
 
 //functions for asterisk integration end
@@ -282,83 +220,4 @@ function relateEntities(CRMEntity $focus, $sourceModule, $sourceRecordId, $desti
 		$eventHandler->trigger('EntityAfterLink');
 	}
 	\App\Log::trace("Exiting relateEntities method ...");
-}
-
-/** Function to set date values compatible to database (YY_MM_DD)
- * @param $value -- value :: Type string
- * @returns $insert_date -- insert_date :: Type string
- */
-function getValidDBInsertDateValue($value)
-{
-
-	\App\Log::trace("Entering getValidDBInsertDateValue(" . $value . ") method ...");
-	$value = trim($value);
-	$delim = ['/', '.'];
-	foreach ($delim as $delimiter) {
-		$x = strpos($value, $delimiter);
-		if ($x === false)
-			continue;
-		else {
-			$value = str_replace($delimiter, '-', $value);
-			break;
-		}
-	}
-	list($y, $m, $d) = explode('-', $value);
-	if (strlen($y) == 1)
-		$y = '0' . $y;
-	if (strlen($m) == 1)
-		$m = '0' . $m;
-	if (strlen($d) == 1)
-		$d = '0' . $d;
-	$value = implode('-', [$y, $m, $d]);
-
-	if (strlen($y) < 4) {
-		$insert_date = DateTimeField::convertToDBFormat($value);
-	} else {
-		$insert_date = $value;
-	}
-
-	if (preg_match("/^[0-9]{2,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2}$/", $insert_date) == 0) {
-		return '';
-	}
-
-	\App\Log::trace("Exiting getValidDBInsertDateValue method ...");
-	return $insert_date;
-}
-
-function getValidDBInsertDateTimeValue($value)
-{
-	$value = trim($value);
-	$valueList = explode(' ', $value);
-	if (count($valueList) == 2) {
-		$dbDateValue = getValidDBInsertDateValue($valueList[0]);
-		$dbTimeValue = $valueList[1];
-		if (!empty($dbTimeValue) && strpos($dbTimeValue, ':') === false) {
-			$dbTimeValue = $dbTimeValue . ':';
-		}
-		$timeValueLength = strlen($dbTimeValue);
-		if (!empty($dbTimeValue) && strrpos($dbTimeValue, ':') == ($timeValueLength - 1)) {
-			$dbTimeValue = $dbTimeValue . '00';
-		}
-		try {
-			$dateTime = new DateTimeField($dbDateValue . ' ' . $dbTimeValue);
-			return $dateTime->getDBInsertDateTimeValue();
-		} catch (Exception $ex) {
-			return '';
-		}
-	} elseif (count($valueList == 1)) {
-		return getValidDBInsertDateValue($value);
-	}
-}
-
-//Get the User selected NumberOfCurrencyDecimals
-function getCurrencyDecimalPlaces()
-{
-	$current_user = vglobal('current_user');
-	$currency_decimal_places = $current_user->no_of_currency_decimals;
-	if (isset($currency_decimal_places)) {
-		return $currency_decimal_places;
-	} else {
-		return 2;
-	}
 }

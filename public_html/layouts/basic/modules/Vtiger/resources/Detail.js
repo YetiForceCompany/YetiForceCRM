@@ -135,7 +135,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		);
 	},
 	/*
-	 * Function to get the related module container 
+	 * Function to get the related module container
 	 */
 	getRelatedModuleContainer: function () {
 		if (this.getRelatedModulesContainer == false) {
@@ -603,7 +603,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			if (commentMode == 'add') {
 				thisInstance.addRelationBetweenRecords('ModComments', data.result.id, thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel))
 			}
-			app.event.trigger("DetailView.SaveComment.AfterLoad", commentInfoBlock, postData, data);
+			app.event.trigger("DetailView.SaveComment.AfterAjax", commentInfoBlock, postData, data);
 			aDeferred.resolve(data);
 		}, function (textStatus, errorThrown) {
 			progressIndicatorElement.progressIndicator({'mode': 'hide'});
@@ -973,7 +973,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			if (fieldElement.attr('disabled') == 'disabled') {
 				return;
 			}
-
 			if (editElement.length <= 0) {
 				return;
 			}
@@ -981,11 +980,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 			if (editElement.is(':visible')) {
 				return;
 			}
-
-			fieldElement.inputmask();
-			var hasMaskedValue = false;
-			if (fieldElement.inputmask("hasMaskedValue")) {
-				hasMaskedValue = true;
+			if (!fieldElement.attr('data-inputmask')) {
+				fieldElement.inputmask();
 			}
 			detailViewValue.addClass('hide');
 			actionElement.addClass('hide');
@@ -1082,7 +1078,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						fieldElement.trigger(thisInstance.fieldUpdatedEvent, {'old': previousValue, 'new': fieldValue});
 						elementTarget.data('prevValue', ajaxEditNewValue);
 						fieldElement.data('selectedValue', ajaxEditNewValue);
-						//After saving source field value, If Target field value need to change by user, show the edit view of target field. 
+						//After saving source field value, If Target field value need to change by user, show the edit view of target field.
 						if (thisInstance.targetPicklistChange) {
 							if (jQuery('.summaryView', thisInstance.getForm()).length > 0) {
 								thisInstance.targetPicklist.find('.summaryViewEdit').trigger('click');
@@ -1277,7 +1273,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			if (Object.keys(relatedParams).length > 0) {
 				quickCreateParams['data'] = relatedParams;
 			}
-
 			quickCreateParams['noCache'] = true;
 			quickCreateParams['callbackFunction'] = postQuickCreateSave;
 			var progress = jQuery.progressIndicator();
@@ -1286,7 +1281,24 @@ jQuery.Class("Vtiger_Detail_Js", {
 				headerInstance.handleQuickCreateData(data, quickCreateParams);
 				progress.progressIndicator({'mode': 'hide'});
 			});
-		})
+		});
+		jQuery('button.selectRelation').on('click', function (e) {
+			var currentElement = jQuery(e.currentTarget);
+			var summaryWidgetContainer = currentElement.closest('.summaryWidgetContainer');
+			var referenceModuleName = summaryWidgetContainer.find('.widget_contents [name="relatedModule"]').val();
+			var popupInstance = Vtiger_Popup_Js.getInstance();
+			popupInstance.show({
+				module: referenceModuleName,
+				src_module: app.getModuleName(),
+				src_record: thisInstance.getRecordId(),
+				multi_select: true
+			}, function (responseString) {
+				var responseData = JSON.parse(responseString);
+				thisInstance.addRelationBetweenRecords(referenceModuleName, Object.keys(responseData)).then(function (data) {
+					thisInstance.loadWidget(summaryWidgetContainer.find('.widgetContentBlock'));
+				});
+			});
+		});
 	},
 	registerEmailEvent: function () {
 		var thisInstance = this;
@@ -1342,7 +1354,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var filter = element.data('filter');
 				value = {};
 				if (selectedFilter != fieldlable) {
-					value[filter] = selectedFilter;
+					value = [[filter , 'e', selectedFilter]];
 				} else {
 					return;
 				}
@@ -1478,7 +1490,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					currentTarget.show();
 				} else {
 					var errorExists = fieldElement.validationEngine('validate');
-					//If validation fails  
+					//If validation fails
 					if (errorExists) {
 						Vtiger_Helper_Js.addClickOutSideEvent(currentDiv, callbackFunction);
 						return;
@@ -1652,9 +1664,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 			}
 		});
 	},
-	/** 
-	 * Function to register event for setting up picklistdependency 
-	 * for a module if exist on change of picklist value 
+	/**
+	 * Function to register event for setting up picklistdependency
+	 * for a module if exist on change of picklist value
 	 */
 	registerEventForPicklistDependencySetup: function (container) {
 		var thisInstance = this;
@@ -1696,7 +1708,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					return;
 				}
 
-				//On change of SourceField value, If TargetField value is not there in mapping, make user to select the new target value also. 
+				//On change of SourceField value, If TargetField value is not there in mapping, make user to select the new target value also.
 				var selectedValue = targetPickList.data('selectedValue');
 				if (jQuery.inArray(selectedValue, targetPickListMap) == -1) {
 					thisInstance.targetPicklistChange = true;
@@ -1728,13 +1740,13 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var targetPickListSelectedValue = '';
 				targetPickListSelectedValue = targetOptions.filter('[selected]').val();
 				if (targetPickListMap.length == 1) {
-					targetPickListSelectedValue = targetPickListMap[0]; // to automatically select picklist if only one picklistmap is present. 
+					targetPickListSelectedValue = targetPickListMap[0]; // to automatically select picklist if only one picklistmap is present.
 				}
 				targetPickList.html(targetOptions).val(targetPickListSelectedValue).trigger("chosen:updated");
 			})
 
 		});
-		//To Trigger the change on load 
+		//To Trigger the change on load
 		sourcePickListElements.trigger('change');
 	},
 	/**
@@ -1929,6 +1941,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 					jQuery('<ul class="liStyleNone"><li class="commentDetails">' + data + '</li></ul>').prependTo(closestAddCommentBlock.closest('.contents').find('.commentsList'));
 				}
 				commentInfoBlock.find('.commentActionsContainer').show();
+				app.event.trigger("DetailView.SaveComment.AfterLoad", commentInfoBlock, data);
 			});
 		} else if (mode == "edit") {
 			var modifiedTime = commentInfoBlock.find('.commentModifiedTime');
@@ -1948,6 +1961,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			commentInfoContent.show();
 			commentInfoBlock.find('.commentActionsContainer').show();
 			closestAddCommentBlock.remove();
+			app.event.trigger("DetailView.SaveComment.AfterUpdate", commentInfoBlock, data);
 		}
 	},
 	registerCommentEvents: function (detailContentsHolder) {
@@ -2092,17 +2106,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 			container.find('.mailBody').addClass('hide');
 			container.find('.mailTeaser').removeClass('hide');
 			container.find('.showMailBody .glyphicon').removeClass("glyphicon-triangle-top").addClass("glyphicon-triangle-bottom");
-		});
-		app.event.on("DetailView.Widget.AfterLoad", function (e, widgetContent, relatedModuleName, instance, widgetContainer) {
-			Vtiger_Index_Js.registerMailButtons(container);
-			container.find('.showMailModal').click(function (e) {
-				var progressIndicatorElement = jQuery.progressIndicator();
-				var url = $(e.currentTarget).data('url') + '&noloadlibs=1';
-				app.showModalWindow("", url, function (data) {
-					Vtiger_Index_Js.registerMailButtons(data);
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-				});
-			});
 		});
 	},
 	loadMailPreviewWidget: function (widgetContent) {
@@ -2303,6 +2306,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 						container.find('#moreLink').html(dataContainer.find('#moreLink').html());
 						container.find('#updates ul').append(dataContainer.find('#updates ul').html());
 						app.registerMoreContent(container.find('button.moreBtn'));
+						app.event.trigger("DetailView.UpdatesWidget.AddMore", data, thisInstance);
 					}
 			);
 		});
@@ -2386,6 +2390,19 @@ jQuery.Class("Vtiger_Detail_Js", {
 		thisInstance.registerBlockAnimationEvent();
 		thisInstance.registerMailPreviewWidget(detailContentsHolder.find('.widgetContentBlock[data-type="EmailList"]'));
 		thisInstance.registerMailPreviewWidget(detailContentsHolder.find('.widgetContentBlock[data-type="HistoryRelation"]'));
+		app.event.on("DetailView.Widget.AfterLoad", function (e, widgetContent, relatedModuleName, instance, widgetContainer) {
+			if (relatedModuleName == 'Emails') {
+				Vtiger_Index_Js.registerMailButtons(widgetContent);
+				widgetContent.find('.showMailModal').click(function (e) {
+					var progressIndicatorElement = jQuery.progressIndicator();
+					var url = $(e.currentTarget).data('url') + '&noloadlibs=1';
+					app.showModalWindow("", url, function (data) {
+						Vtiger_Index_Js.registerMailButtons(data);
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					});
+				});
+			}
+		});
 		detailContentsHolder.on('switchChange.bootstrapSwitch', '.recentActivitiesSwitch.switchBtn', function (e, state) {
 			var currentTarget = jQuery(e.currentTarget);
 			var tabElement = thisInstance.getTabByLabel(thisInstance.detailViewRecentUpdatesTabLabel);
@@ -2520,6 +2537,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 					app.errorLog(data, err);
 				}
 		);
+	},
+	updateWindowHeight: function (currentHeight, frame) {
+		frame.height(currentHeight);
 	},
 	registerEvents: function () {
 		var thisInstance = this;

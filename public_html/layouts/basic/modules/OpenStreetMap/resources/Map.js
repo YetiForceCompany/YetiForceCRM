@@ -684,14 +684,23 @@ jQuery.Class("OpenStreetMap_Map_Js", {}, {
 		coordinates = JSON.parse(coordinates);
 		var startCoordinate = [0, 0];
 		var startZoom = 2;
+		var $map = container.find('#mapid');
 		if (coordinates.length) {
 			startCoordinate = coordinates[0];
 			startZoom = 6;
 		}
-		if($('.mainBody').length){
-			$('#mapid').height($('.mainBody').height() - ($('.detailViewTitle').height() + $('.detailViewContainer .related').height()+ 25));
-		}else{
-			$('#mapid').height($('.bodyContents').height() - ($('.detailViewTitle').height() + $('.detailViewContainer .related').height()+ 25));
+		if ($('.mainBody').length) {
+			if ($('.mainBody').height() < 1000) {
+				$map.height($('.mainBody').height() - ($('.detailViewTitle').height() + $('.detailViewContainer .related').height() + 25));
+			} else {
+				$map.height(1000);
+			}
+		} else {
+			if ($('.bodyContents').height() < 1000) {
+				$map.height($('.bodyContents').height() - ($('.detailViewTitle').height() + $('.detailViewContainer .related').height() + 25));
+			} else {
+				$map.height(1000);
+			}
 		}
 		
 		var myMap = this.registerMap(startCoordinate, startZoom);

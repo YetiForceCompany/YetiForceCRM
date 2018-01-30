@@ -166,7 +166,7 @@ class Reports extends CRMEntity
 		$this->module_list = [];
 
 		// Prefetch module info to check active or not and also get list of tabs
-		$modulerows = vtlib_prefetchModuleActiveInfo(false);
+		$modulerows = vtlib\Functions::getAllModules(false, true);
 
 		$cachedInfo = VTCacheUtils::lookupReportListOfModuleInfos();
 
@@ -267,55 +267,6 @@ class Reports extends CRMEntity
 		}
 	}
 	// END
-
-	/** Function to get the Listview of Reports
-	 *  This function accepts no argument
-	 *  This generate the Reports view page and returns a string
-	 *  contains HTML
-	 */
-	public function sgetRptFldr($mode = '')
-	{
-
-		$mod_strings = vglobal('mod_strings');
-		$adb = PearDatabase::getInstance();
-
-		$returndata = [];
-		$sql = "select * from vtiger_reportfolder order by folderid";
-		$result = $adb->pquery($sql, []);
-		$reportfldrow = $adb->fetchArray($result);
-		if ($mode != '') {
-			// Fetch detials of all reports of folder at once
-			$reportsInAllFolders = $this->sgetRptsforFldr(false);
-
-			do {
-				if ($reportfldrow["state"] == $mode) {
-					$details = [];
-					$details['state'] = $reportfldrow["state"];
-					$details['id'] = $reportfldrow["folderid"];
-					$details['name'] = ($mod_strings[$reportfldrow["foldername"]] == '' ) ? $reportfldrow["foldername"] : $mod_strings[$reportfldrow["foldername"]];
-					$details['description'] = $reportfldrow["description"];
-					$details['fname'] = popup_decode_html($details['name']);
-					$details['fdescription'] = popup_decode_html($reportfldrow["description"]);
-					$details['details'] = $reportsInAllFolders[$reportfldrow["folderid"]];
-					$returndata[] = $details;
-				}
-			} while ($reportfldrow = $adb->fetchArray($result));
-		} else {
-			do {
-				$details = [];
-				$details['state'] = $reportfldrow["state"];
-				$details['id'] = $reportfldrow["folderid"];
-				$details['name'] = ($mod_strings[$reportfldrow["foldername"]] == '' ) ? $reportfldrow["foldername"] : $mod_strings[$reportfldrow["foldername"]];
-				$details['description'] = $reportfldrow["description"];
-				$details['fname'] = popup_decode_html($details['name']);
-				$details['fdescription'] = popup_decode_html($reportfldrow["description"]);
-				$returndata[] = $details;
-			} while ($reportfldrow = $adb->fetchArray($result));
-		}
-
-		\App\Log::trace("Reports :: ListView->Successfully returned vtiger_report folder HTML");
-		return $returndata;
-	}
 
 	/** Function to get all Reports when in list view
 	 *  This function accepts the folderid,paramslist
@@ -873,7 +824,7 @@ class Reports extends CRMEntity
 				$moduleFieldLabel = $col[2];
 
 				list($module, $fieldLabel) = explode('__', $moduleFieldLabel, 2);
-				$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
+				$fieldInfo = ReportUtils::getFieldByReportLabel($module, $fieldLabel);
 				$fieldType = null;
 				if (!empty($fieldInfo)) {
 					$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldInfo['fieldid']);
@@ -1110,91 +1061,5 @@ class Reports extends CRMEntity
 
 		\App\Log::trace("Reports :: Successfully returned sgetColumnstoTotalHTML");
 		return $options_list;
-	}
-}
-
-function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_groups)
-{
-
-	$adb = PearDatabase::getInstance();
-	$idelrelcriteriasql = 'delete from vtiger_relcriteria where queryid=?';
-	$adb->pquery($idelrelcriteriasql, [$reportid]);
-	$idelrelcriteriagroupsql = 'delete from vtiger_relcriteria_grouping where queryid=?';
-	$adb->pquery($idelrelcriteriagroupsql, [$reportid]);
-
-	if (empty($advft_criteria))
-		return;
-
-	foreach ($advft_criteria as $column_index => $column_condition) {
-
-		if (empty($column_condition))
-			continue;
-
-		$adv_filter_column = $column_condition["columnname"];
-		$adv_filter_comparator = $column_condition["comparator"];
-		$adv_filter_value = $column_condition["value"];
-		$adv_filter_column_condition = $column_condition["columncondition"];
-		$adv_filter_groupid = $column_condition["groupid"];
-
-		$column_info = explode(":", $adv_filter_column);
-		$moduleFieldLabel = $column_info[2];
-
-		list($module, $fieldLabel) = explode('__', $moduleFieldLabel, 2);
-		$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
-		$fieldType = null;
-		if (!empty($fieldInfo)) {
-			$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldInfo['fieldid']);
-			$fieldType = $fieldModel->getFieldDataType();
-		}
-		if ($fieldType == 'currency') {
-			// Some of the currency fields like Unit Price, Total, Sub-total etc of Inventory modules, do not need currency conversion
-			if ($fieldModel->getUIType() == '72') {
-				$adv_filter_value = CurrencyField::convertToDBFormat($adv_filter_value, null, true);
-			} else {
-				$adv_filter_value = CurrencyField::convertToDBFormat($adv_filter_value);
-			}
-		}
-
-		$temp_val = explode(",", $adv_filter_value);
-		if (($column_info[4] == 'D' || ($column_info[4] == 'T' && $column_info[1] != 'time_start' && $column_info[1] != 'time_end') || ($column_info[4] == 'DT')) && ($column_info[4] != '' && $adv_filter_value != '' )) {
-			$val = [];
-			$countTempVal = count($temp_val);
-			for ($x = 0; $x < $countTempVal; $x++) {
-				if (trim($temp_val[$x]) != '') {
-					$date = new DateTimeField(trim($temp_val[$x]));
-					if ($column_info[4] == 'D') {
-						$val[$x] = DateTimeField::convertToUserFormat(
-								trim($temp_val[$x]));
-					} elseif ($column_info[4] == 'DT') {
-						$val[$x] = $date->getDBInsertDateTimeValue();
-					} else {
-						$val[$x] = $date->getDBInsertTimeValue();
-					}
-				}
-			}
-			$adv_filter_value = implode(",", $val);
-		}
-
-		$irelcriteriasql = "insert into vtiger_relcriteria(QUERYID,COLUMNINDEX,COLUMNNAME,COMPARATOR,VALUE,GROUPID,COLUMN_CONDITION) values (?,?,?,?,?,?,?)";
-		$adb->pquery($irelcriteriasql, [$reportid, $column_index, $adv_filter_column, $adv_filter_comparator, $adv_filter_value, $adv_filter_groupid, $adv_filter_column_condition]);
-
-		// Update the condition expression for the group to which the condition column belongs
-		$groupConditionExpression = '';
-		if (!empty($advft_criteria_groups[$adv_filter_groupid]["conditionexpression"])) {
-			$groupConditionExpression = $advft_criteria_groups[$adv_filter_groupid]["conditionexpression"];
-		}
-		$groupConditionExpression = $groupConditionExpression . ' ' . $column_index . ' ' . $adv_filter_column_condition;
-		$advft_criteria_groups[$adv_filter_groupid]["conditionexpression"] = $groupConditionExpression;
-	}
-
-	foreach ($advft_criteria_groups as $group_index => $group_condition_info) {
-
-		if (empty($group_condition_info))
-			continue;
-		if (empty($group_condition_info["conditionexpression"]))
-			continue; // Case when the group doesn't have any column criteria
-
-		$irelcriteriagroupsql = "insert into vtiger_relcriteria_grouping(GROUPID,QUERYID,GROUP_CONDITION,CONDITION_EXPRESSION) values (?,?,?,?)";
-		$adb->pquery($irelcriteriagroupsql, [$group_index, $reportid, $group_condition_info["groupcondition"], $group_condition_info["conditionexpression"]]);
 	}
 }

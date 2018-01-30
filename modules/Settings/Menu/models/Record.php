@@ -43,6 +43,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				'icon' => 'menu-icon-' . $settingsModel->getMenuTypes($row['type'])
 			];
 		}
+		$dataReader->close();
 		return $menu;
 	}
 
@@ -162,6 +163,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 			while ($childId = $dataReader->readColumn(0)) {
 				$this->removeMenu($childId);
 			}
+			$dataReader->close();
 			$db->createCommand()->delete('yetiforce_menu', ['id' => $id])->execute();
 			$this->generateFileMenu($recordModel->get('role'));
 		}
@@ -197,6 +199,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				'childs' => $this->getChildMenu($roleId, $row['id'])
 			];
 		}
+		$dataReader->close();
 		return $menu;
 	}
 
@@ -216,7 +219,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		foreach ($menu as $item) {
 			$content .= $this->createFilterList($item);
 		}
-		$content .= '];';
+		$content .= '];' . PHP_EOL;
 		$file = ROOT_DIRECTORY . '/user_privileges/menu_' . $roleId . '.php';
 		file_put_contents($file, $content);
 	}
@@ -285,8 +288,9 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 		$this->generateFileMenu(0);
 		foreach ($allRoles as $role) {
 			$roleId = str_replace('H', '', $role->getId());
-			if (file_exists('user_privileges/menu_' . $roleId . '.php'))
+			if (file_exists('user_privileges/menu_' . $roleId . '.php')) {
 				$this->generateFileMenu($roleId);
+			}
 		}
 	}
 

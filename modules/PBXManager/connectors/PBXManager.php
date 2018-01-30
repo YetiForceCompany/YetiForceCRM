@@ -45,7 +45,7 @@ class PBXManager_PBXManager_Connector
 
 	public function getPicklistValues($field)
 	{
-
+		
 	}
 
 	public function getServer()
@@ -80,9 +80,9 @@ class PBXManager_PBXManager_Connector
 
 	/**
 	 * Function to set server parameters
-	 * @param <array>  authdetails
+	 * @param \PBXManager_Server_Model  $serverModel
 	 */
-	public function setServerParameters($serverModel)
+	public function setServerParameters(\PBXManager_Server_Model $serverModel)
 	{
 		$this->webappurl = $serverModel->get('webappurl');
 		$this->outboundcontext = $serverModel->get('outboundcontext');

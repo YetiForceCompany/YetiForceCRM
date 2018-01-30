@@ -47,7 +47,7 @@ class Settings_Mail_SaveAjax_Action extends Settings_Vtiger_IndexAjax_View
 
 	public function updateSignature(\App\Request $request)
 	{
-		$val = $request->get('val');
+		$val = $request->getForHtml('val');
 		Settings_Mail_Config_Model::updateConfig('signature', $val, 'signature');
 		$response = new Vtiger_Response();
 		$response->setResult([

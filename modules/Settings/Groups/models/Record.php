@@ -110,6 +110,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 			while ($row = $dataReader->read()) {
 				$modules[$row['tabid']] = $row['name'];
 			}
+			$dataReader->close();
 			$this->modules = $modules;
 		}
 		return $this->modules;
@@ -206,7 +207,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function recalculate($oldUsersList)
 	{
-		$php_max_execution_time = vglobal('php_max_execution_time');
+		$php_max_execution_time = \AppConfig::main('php_max_execution_time');
 		set_time_limit($php_max_execution_time);
 
 		$userIdsList = [];
@@ -377,6 +378,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 			$group->setData($row);
 			$groups[$group->getId()] = $group;
 		}
+		$dataReader->close();
 		return $groups;
 	}
 

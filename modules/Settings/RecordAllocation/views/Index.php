@@ -71,8 +71,8 @@ class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = [
-			'~libraries/jquery/datatables/media/js/jquery.dataTables.min.js',
-			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.min.js'
+			'~libraries/datatables.net/js/jquery.dataTables.js',
+			'~libraries/datatables.net-bs/js/dataTables.bootstrap.js'
 		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
@@ -83,8 +83,7 @@ class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [
-			'~libraries/jquery/datatables/media/css/jquery.dataTables_themeroller.css',
-			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.css',
+			'~libraries/datatables.net-bs/css/dataTables.bootstrap.css'
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);

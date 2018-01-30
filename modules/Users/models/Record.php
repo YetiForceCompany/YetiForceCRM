@@ -166,11 +166,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 			throw $e;
 		}
 		$eventHandler->trigger('UserAfterSave');
-		if ($this->isNew()) {
-			$eventHandler->setSystemTrigger('UserSystemAfterCreate');
-		} else {
-			$eventHandler->setSystemTrigger('UserSystemAfterEdit');
-		}
 		\App\Cache::clearOpcache();
 	}
 
@@ -216,6 +211,9 @@ class Users_Record_Model extends Vtiger_Record_Model
 		if ($this->isNew()) {
 			$this->setId(\App\Db::getInstance()->getUniqueID('vtiger_users'));
 			$forSave['vtiger_users']['date_entered'] = date('Y-m-d H:i:s');
+		}
+		if ($this->has('changeUserPassword') || $this->isNew()) {
+			$saveFields[] = 'user_password';
 		}
 		foreach ($saveFields as $fieldName) {
 			$fieldModel = $moduleModel->getFieldByName($fieldName);
@@ -406,6 +404,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$userModel = self::getInstanceFromUserObject($focus);
 			$users[$userModel->getId()] = $userModel;
 		}
+		$dataReader->close();
 		return $users;
 	}
 
@@ -598,18 +597,18 @@ class Users_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to delete corresponding image
-	 * @param <type> $imageId
+	 * @param int $imageId
 	 */
 	public function deleteImage($imageId)
 	{
-		$db = PearDatabase::getInstance();
-
-		$checkResult = $db->pquery('SELECT smid FROM vtiger_salesmanattachmentsrel WHERE attachmentsid = ?', [$imageId]);
-		$smId = $db->queryResult($checkResult, 0, 'smid');
-
+		$smId = (int) (new App\Db\Query())->select(['smid'])
+				->from('vtiger_salesmanattachmentsrel')
+				->where(['attachmentsid' => $imageId])
+				->scalar();
 		if ($this->getId() === $smId) {
-			$db->pquery('DELETE FROM vtiger_attachments WHERE attachmentsid = ?', [$imageId]);
-			$db->pquery('DELETE FROM vtiger_salesmanattachmentsrel WHERE attachmentsid = ?', [$imageId]);
+			$dbCommand = App\Db::getInstance()->createCommand();
+			$dbCommand->delete('vtiger_attachments', ['attachmentsid' => $imageId])->execute();
+			$dbCommand->delete('vtiger_salesmanattachmentsrel', ['attachmentsid' => $imageId])->execute();
 			return true;
 		}
 		return false;
@@ -758,17 +757,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$transaction->rollBack();
 			throw $e;
 		}
-	}
-
-	public function isAccountOwner()
-	{
-		$db = PearDatabase::getInstance();
-		$result = $db->pquery('SELECT is_owner FROM vtiger_users WHERE id = ?', [$this->getId()]);
-		$isOwner = $db->getSingleValue($result);
-		if ($isOwner == 1) {
-			return true;
-		}
-		return false;
 	}
 
 	public function getActiveAdminUsers()
@@ -984,6 +972,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		while ($row = $dataReader->read()) {
 			$auth[$row['type']][$row['param']] = $row['value'];
 		}
+		$dataReader->close();
 		\App\Cache::save('getAuthMethods', 'config', $auth);
 		return $auth;
 	}

@@ -16,20 +16,6 @@ namespace vtlib;
 class Deprecated
 {
 
-	public static function getFullNameFromQResult($result, $row_count, $module)
-	{
-		$adb = \PearDatabase::getInstance();
-		$rowdata = $adb->queryResultRowData($result, $row_count);
-		$entity_field_info = \App\Module::getEntityInfo($module);
-		$fieldsName = $entity_field_info['fieldname'];
-		$name = '';
-		if ($rowdata != '' && count($rowdata) > 0) {
-			$name = self::getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $rowdata);
-		}
-		$name = Functions::textLength($name);
-		return $name;
-	}
-
 	public static function getFullNameFromArray($module, $fieldValues)
 	{
 		$entityInfo = \App\Module::getEntityInfo($module);
@@ -63,81 +49,6 @@ class Deprecated
 		return '';
 	}
 
-	public static function getBlockId($tabId, $label)
-	{
-		$adb = \PearDatabase::getInstance();
-		$query = "select blockid from vtiger_blocks where tabid=? and blocklabel = ?";
-		$result = $adb->pquery($query, [$tabId, $label]);
-		$noOfRows = $adb->numRows($result);
-
-		$blockId = '';
-		if ($noOfRows == 1) {
-			$blockId = $adb->queryResult($result, 0, "blockid");
-		}
-		return $blockId;
-	}
-
-	public static function createModuleMetaFile()
-	{
-		$adb = \PearDatabase::getInstance();
-		$result = $adb->pquery('select * from vtiger_tab');
-		$result_array = $seq_array = $ownedby_array = [];
-
-		while ($row = $adb->getRow($result)) {
-			$tabid = (int) $row['tabid'];
-			$tabname = $row['name'];
-			$presence = (int) $row['presence'];
-			$ownedby = (int) $row['ownedby'];
-			$result_array[$tabname] = $tabid;
-			$seq_array[$tabid] = $presence;
-			$ownedby_array[$tabid] = $ownedby;
-		}
-		//Constructing the actionname=>actionid array
-		$actionid_array = [];
-		$result = $adb->pquery('select * from vtiger_actionmapping');
-		while ($row = $adb->getRow($result)) {
-			$actionname = $row['actionname'];
-			$actionid = (int) $row['actionid'];
-			$actionid_array[$actionname] = $actionid;
-		}
-
-		//Constructing the actionid=>actionname array with securitycheck=0
-		$actionname_array = [];
-		$result = $adb->pquery('select * from vtiger_actionmapping where securitycheck=0');
-		while ($row = $adb->getRow($result)) {
-			$actionname = $row['actionname'];
-			$actionid = (int) $row['actionid'];
-			$actionname_array[$actionid] = $actionname;
-		}
-
-		$filename = 'user_privileges/tabdata.php';
-
-		if (file_exists($filename)) {
-			if (is_writable($filename)) {
-				if (!$handle = fopen($filename, 'w+')) {
-					throw new \App\Exceptions\NoPermitted("Cannot open file ($filename)");
-				}
-				$newbuf = "<?php\n";
-				$newbuf .= "\$tab_seq_array=" . \App\Utils::varExport($seq_array) . ";\n";
-				$tabdata = [
-					'tabId' => $result_array,
-					'tabPresence' => $seq_array,
-					'tabOwnedby' => $ownedby_array,
-					'actionId' => $actionid_array,
-					'actionName' => $actionname_array,
-				];
-				$newbuf .= 'return ' . \App\Utils::varExport($tabdata) . ";\n";
-				fputs($handle, $newbuf);
-				fclose($handle);
-			} else {
-				\App\Log::error("The file $filename is not writable");
-			}
-		} else {
-			\App\Log::error("The file $filename does not exist");
-		}
-		\App\Module::init();
-	}
-
 	public static function getModuleTranslationStrings($language, $module)
 	{
 		static $cachedModuleStrings = [];
@@ -149,47 +60,6 @@ class Deprecated
 		$cachedModuleStrings[$module] = $newStrings['languageStrings'];
 
 		return $cachedModuleStrings[$module];
-	}
-
-	/**
-	 * This function is used to get cvid of default "all" view for any module.
-	 * @return a cvid of a module
-	 */
-	public static function getIdOfCustomViewByNameAll($module)
-	{
-		$adb = \PearDatabase::getInstance();
-
-		static $cvidCache = [];
-		if (!isset($cvidCache[$module])) {
-			$qry_res = $adb->pquery("select cvid from vtiger_customview where viewname='All' and entitytype=?", [$module]);
-			$cvid = $adb->queryResult($qry_res, 0, "cvid");
-			$cvidCache[$module] = $cvid;
-		}
-		return isset($cvidCache[$module]) ? $cvidCache[$module] : '0';
-	}
-
-	public static function getSmartyCompiledTemplateFile($template_file, $path = null)
-	{
-		if ($path === null) {
-			$path = ROOT_DIRECTORY . '/cache/templates_c/';
-		}
-		$mydir = @opendir($path);
-		$compiled_file = null;
-		while (false !== ($file = readdir($mydir)) && $compiled_file === null) {
-			if ($file != '.' && $file != '..' && $file != '.svn') {
-				if (is_dir($path . $file)) {
-					chdir('.');
-					$compiled_file = self::getSmartyCompiledTemplateFile($template_file, $path . $file . '/');
-				} else {
-					// Check if the file name matches the required template fiel name
-					if (strripos($file, $template_file . '.php') == (strlen($file) - strlen($template_file . '.php'))) {
-						$compiled_file = $path . $file;
-					}
-				}
-			}
-		}
-		@closedir($mydir);
-		return $compiled_file;
 	}
 
 	/** Function to check the file access is made within web root directory and whether it is not from unsafe directories */
@@ -274,19 +144,20 @@ class Deprecated
 
 	/**
 	 * This function is used to get the blockid of the settings block for a given label.
-	 * @param string $label - settings label
-	 * @return string type value
+	 * @param string $label
+	 * @return int
 	 */
 	public static function getSettingsBlockId($label)
 	{
-		$adb = \PearDatabase::getInstance();
-		$blockId = '';
-		$query = "select blockid from vtiger_settings_blocks where label = ?";
-		$result = $adb->pquery($query, [$label]);
-		$noOfRows = $adb->numRows($result);
-		if ($noOfRows == 1) {
-			$blockId = $adb->queryResult($result, 0, "blockid");
+		$blockId = 0;
+		$dataReader = (new \App\Db\Query())->select(['blockid'])
+				->from('vtiger_settings_blocks')
+				->where(['label' => $label])
+				->createCommand()->query();
+		if ($dataReader->count() === 1) {
+			$blockId = $dataReader->readColumn(0);
 		}
+		$dataReader->close();
 		return $blockId;
 	}
 

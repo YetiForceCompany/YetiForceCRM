@@ -29,6 +29,7 @@ class Settings_ModTracker_Module_Model extends Settings_Vtiger_Module_Model
 				'active' => $row['visible'] == 1 ? true : false,
 			];
 		}
+		$dataReader->close();
 		return $modules;
 	}
 

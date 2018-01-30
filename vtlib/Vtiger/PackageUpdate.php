@@ -123,14 +123,6 @@ class PackageUpdate extends PackageImport
 	{
 		$tablabel = $this->_modulexml->label;
 		$tabversion = $this->_modulexml->version;
-
-		$isextension = false;
-		if (!empty($this->_modulexml->type)) {
-			$type = strtolower($this->_modulexml->type);
-			if ($type == 'extension' || $type == 'language')
-				$isextension = true;
-		}
-
 		Module::fireEvent($moduleInstance->name, Module::EVENT_MODULE_PREUPDATE);
 		$moduleInstance->label = $tablabel;
 		$moduleInstance->save();
@@ -301,7 +293,7 @@ class PackageUpdate extends PackageImport
 	public function updateField($blocknode, $blockInstance, $moduleInstance, $fieldnode, $fieldInstance)
 	{
 
-		// strval used because in $fieldnode there is a SimpleXMLElement object 
+		// strval used because in $fieldnode there is a SimpleXMLElement object
 		$fieldInstance->name = strval($fieldnode->fieldname);
 		$fieldInstance->label = strval($fieldnode->fieldlabel);
 		$fieldInstance->table = strval($fieldnode->tablename);
@@ -447,7 +439,7 @@ class PackageUpdate extends PackageImport
 	 */
 	public function updateAction($modulenode, $moduleInstance, $actionnode)
 	{
-		
+
 	}
 
 	/**

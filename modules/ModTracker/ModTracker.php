@@ -61,12 +61,6 @@ class ModTracker
 			\App\EventHandler::setInActive('ModTracker_ModTrackerHandler_Handler');
 		} else if ($eventType === 'module.enabled') {
 			\App\EventHandler::setActive('ModTracker_ModTrackerHandler_Handler');
-		} else if ($eventType === 'module.preuninstall') {
-			
-		} else if ($eventType === 'module.preupdate') {
-			
-		} else if ($eventType === 'module.postupdate') {
-			
 		}
 	}
 

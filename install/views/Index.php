@@ -17,7 +17,7 @@ class Install_Index_View extends Vtiger_View_Controller
 
 	public function checkPermission(\App\Request $request)
 	{
-		
+
 	}
 
 	public function loginRequired()
@@ -74,7 +74,7 @@ class Install_Index_View extends Vtiger_View_Controller
 
 		$configFileName = 'config/config.inc.php';
 		if ($request->getMode() !== 'step7' && is_file($configFileName) && filesize($configFileName) > 10) {
-			$defaultModule = vglobal('default_module');
+			$defaultModule = \AppConfig::main('default_module');
 			$defaultModuleInstance = Vtiger_Module_Model::getInstance($defaultModule);
 			$defaultView = $defaultModuleInstance->getDefaultViewName();
 			header('Location:../index.php?module=' . $defaultModule . '&view=' . $defaultView);
@@ -260,7 +260,7 @@ class Install_Index_View extends Vtiger_View_Controller
 
 	protected function preProcessDisplay(\App\Request $request)
 	{
-		
+
 	}
 
 	public function validateRequest(\App\Request $request)
@@ -270,12 +270,8 @@ class Install_Index_View extends Vtiger_View_Controller
 
 	public function cleanInstallationFiles()
 	{
-		$languagesList = Users_Module_Model::getLanguagesList();
-		foreach ($languagesList as $key => $value) {
-			$langPath = "languages/$key/Install.php";
-			if (file_exists($langPath)) {
-				unlink($langPath);
-			}
+		foreach (glob('languages/*/Install.php') as $path) {
+			unlink($path);
 		}
 		\vtlib\Functions::recurseDelete('install');
 		\vtlib\Functions::recurseDelete('public_html/install');

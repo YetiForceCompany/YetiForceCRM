@@ -69,7 +69,7 @@ class Reservations_Calendar_Model extends \App\Base
 			$item['title'] = \App\Purifier::encodeHtml($record['title']);
 			$item['type'] = $fieldType->getDisplayValue($record['type']);
 			$item['status'] = \App\Purifier::encodeHtml($record['reservations_status']);
-			$item['totalTime'] = vtlib\Functions::decimalTimeFormat($record['sum_time'])['short'];
+			$item['totalTime'] = \App\Fields\DateTime::formatToHourText($record['sum_time'], 'short');
 			$item['smownerid'] = \App\Fields\Owner::getLabel($record['smownerid']);
 			if ($record['relatedida']) {
 				$item['company'] = \App\Record::getLabel($record['relatedida']);
@@ -98,6 +98,7 @@ class Reservations_Calendar_Model extends \App\Base
 			$item['className'] = ' ownerCBg_' . $record['smownerid'];
 			$result[] = $item;
 		}
+		$dataReader->close();
 		return $result;
 	}
 

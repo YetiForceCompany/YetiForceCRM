@@ -33,6 +33,7 @@ class Users_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
 			if ($fieldModelList) {
 				$values[$blockLabel] = [];
 				foreach ($fieldModelList as $fieldName => $fieldModel) {
+					$fieldModel->set('rocordId', $recordId);
 					if (empty($recordId) && ($fieldModel->get('uitype') == 99 || $fieldModel->get('uitype') == 106)) {
 						$fieldModel->set('editable', true);
 					}
@@ -55,7 +56,7 @@ class Users_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Model
 						} else {
 							$defaultValue = $fieldModel->getDefaultFieldValue();
 							if ($fieldName === 'time_zone' && empty($defaultValue))
-								$defaultValue = vglobal('default_timezone');
+								$defaultValue = \AppConfig::main('default_timezone');
 							if ($defaultValue !== '' && !$recordId) {
 								$fieldModel->set('fieldvalue', $defaultValue);
 							}

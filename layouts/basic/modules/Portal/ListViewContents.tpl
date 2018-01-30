@@ -29,12 +29,8 @@
 	<div id="deSelectAllMsgDiv" class="alert-block msgDiv noprint">
 		<strong><a id="deSelectAllMsg">{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE)}</a></strong>
 	</div>
-	<div class="contents-topscroll noprint stick" data-position="top">
-		<div class="topscroll-div"></div>
-	</div>
 	<div class="listViewContentDiv" id="listViewContents">
-		<div class="listViewEntriesDiv contents-bottomscroll">
-			<div class="bottomscroll-div">
+		<div class="listViewEntriesDiv">
 				<input type="hidden" value="{$COLUMN_NAME}" id="orderBy" />
 				<input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
 				<span class="listViewLoadingImageBlock hide modal noprint" id="loadingListViewModal">
@@ -102,7 +98,6 @@
 						</tbody>
 					</table>
 				{/if}
-			</div>
 		</div>
 	</div>
 </div>

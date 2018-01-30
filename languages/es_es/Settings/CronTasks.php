@@ -54,7 +54,6 @@ $languageStrings = [
 	'LBL_PRIVILEGES_UPDATER' => 'Actualizar permisos',
 	'LBL_RECORD_LABEL_UPDATER' => 'Actualizar etiquetas',
 	'LBL_ACTIVITY_STATE' => 'Estados del calendario',
-	'LBL_HANDLER_UPDATER' => 'Guardado rápido',
 	'LBL_MAILER' => 'Remitente del correo',
 	'LBL_CARD_DAV' => 'Integración CardDav',
 	'LBL_CAL_DAV' => 'Integración CalDav',

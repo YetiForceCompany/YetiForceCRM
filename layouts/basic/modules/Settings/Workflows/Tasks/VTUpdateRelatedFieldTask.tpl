@@ -19,11 +19,12 @@
 								<optgroup label="{\App\Language::translate($RELATION_MODULE_NAME, $RELATION_MODULE_NAME)} - {\App\Language::translate('LBL_RELATIONSHIPS_BASED_ON_FIELDS')}">
 									{assign var=RELATION_MODULE_MODEL value=Vtiger_Module_Model::getInstance($RELATION_MODULE_NAME)}
 									{foreach from=$RELATION_MODULE_MODEL->getFields() item=FIELD_MODEL}
-										{if !$FIELD_MODEL->isWritable() or ($MODULE_MODEL->get('name')=="Documents" and in_array($FIELD_MODEL->getName(),$RESTRICTFIELDS))} 
+										{if !$FIELD_MODEL->isEditable() or ($MODULE_MODEL->get('name')=="Documents" and in_array($FIELD_MODEL->getName(),$RESTRICTFIELDS))} 
 											{continue}
 										{/if}
 										{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
-										<option value="{$REFERENCE_FIELD->get('name')}::{$RELATION_MODULE_NAME}::{$FIELD_MODEL->getName()}" {if $FIELD_MAP['fieldname'] eq $RELATION_MODULE_NAME|cat:'::'|cat:$FIELD_MODEL->getName()}selected=""{/if}data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_MODEL->getName()}" data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}" >
+										{assign var=VALUE value=$REFERENCE_FIELD->get('name')|cat:'::'|cat:$RELATION_MODULE_NAME|cat:'::'|cat:$FIELD_MODEL->getName()}
+										<option value="{$VALUE}" {if $FIELD_MAP['fieldname'] eq $VALUE} selected=""{/if} data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_MODEL->getName()}" data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}" >
 											{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATION_MODULE_NAME)}
 										</option>
 									{/foreach}
@@ -35,7 +36,7 @@
 							{assign var=RELATION_MODULE_MODEL value=$RELATION_MODEL->getRelationModuleModel()}
 							<optgroup label="{\App\Language::translate($RELATION_MODULE_NAME, $RELATION_MODULE_NAME)} - {\App\Language::translate('LBL_RELATIONSHIPS_BASED_ON_MODULES')}">
 								{foreach from=$RELATION_MODULE_MODEL->getFields() item=FIELD_MODEL}
-									{if !$FIELD_MODEL->isWritable() or ($MODULE_MODEL->get('name')=="Documents" and in_array($FIELD_MODEL->getName(),$RESTRICTFIELDS))} 
+									{if !$FIELD_MODEL->isEditable() or ($MODULE_MODEL->get('name')=="Documents" and in_array($FIELD_MODEL->getName(),$RESTRICTFIELDS))} 
 										{continue}
 									{/if}
 									{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
@@ -67,11 +68,12 @@
 						<optgroup label="{\App\Language::translate($RELATION_MODULE_NAME, $RELATION_MODULE_NAME)} - {\App\Language::translate('LBL_RELATIONSHIPS_BASED_ON_FIELDS')}">
 							{assign var=RELATION_MODULE_MODEL value=Vtiger_Module_Model::getInstance($RELATION_MODULE_NAME)}
 							{foreach from=$RELATION_MODULE_MODEL->getFields() item=FIELD_MODEL}
-								{if !$FIELD_MODEL->isWritable() or ($MODULE_MODEL->get('name')=="Documents" and in_array($FIELD_MODEL->getName(),$RESTRICTFIELDS))} 
+								{if !$FIELD_MODEL->isEditable() or ($MODULE_MODEL->get('name')=="Documents" and in_array($FIELD_MODEL->getName(),$RESTRICTFIELDS))} 
 									{continue}
 								{/if}
 								{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
-								<option value="{$REFERENCE_FIELD->get('name')}::{$RELATION_MODULE_NAME}::{$FIELD_MODEL->getName()}" {if $FIELD_MAP['fieldname'] eq $RELATION_MODULE_NAME|cat:'::'|cat:$FIELD_MODEL->getName()}selected=""{/if}data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_MODEL->getName()}" data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}" >
+								{assign var=VALUE value=$REFERENCE_FIELD->get('name')|cat:'::'|cat:$RELATION_MODULE_NAME|cat:'::'|cat:$FIELD_MODEL->getName()}
+								<option value="{$VALUE}" data-fieldtype="{$FIELD_MODEL->getFieldType()}" data-field-name="{$FIELD_MODEL->getName()}" data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}" >
 									{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATION_MODULE_NAME)}
 								</option>
 							{/foreach}
@@ -83,7 +85,7 @@
 					{assign var=RELATION_MODULE_MODEL value=$RELATION_MODEL->getRelationModuleModel()}
 					<optgroup label="{\App\Language::translate($RELATION_MODULE_NAME, $RELATION_MODULE_NAME)} - {\App\Language::translate('LBL_RELATIONSHIPS_BASED_ON_MODULES')}">
 						{foreach from=$RELATION_MODULE_MODEL->getFields() item=FIELD_MODEL}
-							{if !$FIELD_MODEL->isWritable() or ($MODULE_MODEL->get('name')=="Documents" and in_array($FIELD_MODEL->getName(),$RESTRICTFIELDS))} 
+							{if !$FIELD_MODEL->isEditable() or ($MODULE_MODEL->get('name')=="Documents" and in_array($FIELD_MODEL->getName(),$RESTRICTFIELDS))} 
 								{continue}
 							{/if}
 							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}

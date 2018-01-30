@@ -62,6 +62,7 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 			$name[] = $row['leadsourcevalue'];
 			$i++;
 		}
+		$dataReader->close();
 		if ($data) {
 			$response['chart'] = $data;
 			$response['ticks'] = $ticks;

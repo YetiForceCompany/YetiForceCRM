@@ -43,13 +43,13 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		}
 		$fieldName = $this->getName();
 		$tableName = 'vtiger_' . $fieldName;
-		$query = (new App\Db\Query())->select([$fieldName]);
+		$query = (new App\Db\Query())->select(["{$tableName}.{$fieldName}"]);
 		if ($intersectionMode) {
 			$query->addSelect(['rolecount' => new yii\db\Expression('COUNT(roleid)')]);
 		}
 		$query->from('vtiger_role2picklist')
 			->innerJoin($tableName, "vtiger_role2picklist.picklistvalueid = {$tableName}.picklist_valueid")
-			->where(['roleid' => $roleIdList])->orderBy(['sortid' => SORT_ASC]);
+			->where(['vtiger_role2picklist.roleid' => $roleIdList])->orderBy(['vtiger_role2picklist.sortid' => SORT_ASC]);
 		if ($intersectionMode) {
 			$query->groupBy(['picklistvalueid']);
 		}
@@ -58,13 +58,14 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		while ($row = $dataReader->read()) {
 			if ($intersectionMode) {
 				//not equal if specify that the picklistvalue is not present for all the roles
-				if ($row['rolecount'] != count($roleIdList)) {
+				if ((int) $row['rolecount'] !== count($roleIdList)) {
 					continue;
 				}
 			}
 			//Need to decode the picklist values twice which are saved from old ui
 			$pickListValues[] = \App\Purifier::decodeHtml(\App\Purifier::decodeHtml($row[$fieldName]));
 		}
+		$dataReader->close();
 		return $pickListValues;
 	}
 

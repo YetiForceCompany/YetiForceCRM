@@ -62,19 +62,17 @@ jQuery.Class("Calendar_CalendarView_Js", {
 	calendarCreateView: false,
 	weekDaysArray: {Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6},
 	renderCalendar: function () {
-		var thisInstance = this;
-
-		var eventLimit = app.getMainParams('eventLimit');
-		if (eventLimit == 'true') {
-			eventLimit = true;
-		} else if (eventLimit == 'false') {
-			eventLimit = false;
-		} else {
-			eventLimit = parseInt(eventLimit) + 1;
-		}
+		var thisInstance = this;		
+ 		var eventLimit = app.getMainParams('eventLimit');		
+ 		if (eventLimit == 'true') {		
+ 			eventLimit = true;		
+ 		} else if (eventLimit == 'false') {		
+ 			eventLimit = false;		
+ 		} else {		
+ 			eventLimit = parseInt(eventLimit) + 1;		
+ 		}
 		var weekView = app.getMainParams('weekView');
 		var dayView = app.getMainParams('dayView');
-
 		//User preferred default view
 		var userDefaultActivityView = app.getMainParams('activity_view');
 		if (userDefaultActivityView == 'Today') {
@@ -88,7 +86,6 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		if (defaultView != null) {
 			userDefaultActivityView = defaultView;
 		}
-
 		//Default time format
 		var userDefaultTimeFormat = app.getMainParams('time_format');
 		if (userDefaultTimeFormat == 24) {
@@ -96,11 +93,9 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		} else {
 			userDefaultTimeFormat = 'h:mmt';
 		}
-
 		//Default first day of the week
 		var defaultFirstDay = app.getMainParams('start_day');
 		var convertedFirstDay = thisInstance.weekDaysArray[defaultFirstDay];
-
 		//Default first hour of the day
 		var defaultFirstHour = app.getMainParams('start_hour') + ':00';
 		var hiddenDays = [];
@@ -127,7 +122,7 @@ jQuery.Class("Calendar_CalendarView_Js", {
 			selectable: true,
 			selectHelper: true,
 			hiddenDays: hiddenDays,
-			height: 'auto',
+			height: ($(window).width() > 993) ? ($(window).height() - 135) : 'auto',
 			views: {
 				basic: {
 					eventLimit: false,
@@ -164,19 +159,20 @@ jQuery.Class("Calendar_CalendarView_Js", {
 							'<div><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> <label>' + app.vtranslate('JS_VISIBILITY') + '</label>: ' + app.vtranslate('JS_' + event.vis) + '</div>' +
 							(event.smownerid ? '<div><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <label>' + app.vtranslate('JS_ASSIGNED_TO') + '</label>: ' + event.smownerid + '</div>' : '')
 				});
-				element.find('.fc-content, .fc-info').click(function () {
-					var progressInstance = jQuery.progressIndicator({blockInfo: {enabled: true}});
-					var event = $(this).closest('.fc-event');
-					var url = 'index.php?module=Calendar&view=ActivityStateModal&record=' + event.data('id');
-					var callbackFunction = function (data) {
-						progressInstance.progressIndicator({mode: 'hide'});
-					};
-					var modalWindowParams = {
-						url: url,
-						cb: callbackFunction
-					};
-					app.showModalWindow(modalWindowParams);
-				});
+			},
+			eventClick: function (calEvent, jsEvent, view) {
+				jsEvent.preventDefault();
+				var link = new URL($(this).context.href);
+				var progressInstance = jQuery.progressIndicator({blockInfo: {enabled: true}});
+				var url = 'index.php?module=Calendar&view=ActivityStateModal&record=' + link.searchParams.get("record");
+				var callbackFunction = function (data) {
+					progressInstance.progressIndicator({mode: 'hide'});
+				};
+				var modalWindowParams = {
+					url: url,
+					cb: callbackFunction
+				};
+				app.showModalWindow(modalWindowParams);
 			},
 			monthNames: [app.vtranslate('JS_JANUARY'), app.vtranslate('JS_FEBRUARY'), app.vtranslate('JS_MARCH'),
 				app.vtranslate('JS_APRIL'), app.vtranslate('JS_MAY'), app.vtranslate('JS_JUNE'), app.vtranslate('JS_JULY'),
@@ -211,15 +207,6 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		thisInstance.getCalendarView().fullCalendar('destroy');
 		thisInstance.getCalendarView().fullCalendar(options);
 		thisInstance.createAddSwitch();
-		thisInstance.registerCalendarScroll();
-	},
-	registerCalendarScroll: function () {
-		var calendarContainer = $('.bodyContents');
-		app.showScrollBar(calendarContainer, {
-			railVisible: true,
-			alwaysVisible: true,
-			position: 'left'
-		});
 	},
 	getValuesFromSelect2: function (element, data, text) {
 		if (element.hasClass('select2-hidden-accessible')) {
@@ -387,10 +374,13 @@ jQuery.Class("Calendar_CalendarView_Js", {
 		});
 	},
 	addCalendarEvent: function (calendarDetails) {
-		if($.inArray(calendarDetails.assigned_user_id.value, $("#calendarUserList").val()) < 0 && $.inArray(calendarDetails.assigned_user_id.value, $("#calendarGroupList").val()) < 0){
+		var thisInstance = this;
+		if ($.inArray(calendarDetails.assigned_user_id.value, $("#calendarUserList").val()) < 0 && $.inArray(calendarDetails.assigned_user_id.value, $("#calendarGroupList").val()) < 0) {
 			return;
-		}
-		if($.inArray(calendarDetails.activitytype.value, $("#calendarActivityTypeList").val()) < 0){
+		}		
+		var types = [];
+		types = thisInstance.getValuesFromSelect2($("#calendarActivityTypeList"), types);
+		if (types.length != 0 && $.inArray(calendarDetails.activitytype.value, $("#calendarActivityTypeList").val()) < 0) {
 			return;
 		}
 		var state = $('.fc-toolbar input.switchBtn').bootstrapSwitch('state');

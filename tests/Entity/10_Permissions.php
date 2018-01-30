@@ -23,7 +23,7 @@ class Permissions extends \Tests\Base
 	 */
 	public function testRecalculateSharingRules()
 	{
-		RecalculateSharingRules();
+		\App\UserPrivilegesFile::recalculateAll();
 		$this->assertTrue(true);
 	}
 
@@ -32,7 +32,7 @@ class Permissions extends \Tests\Base
 	 */
 	public function testCreateModuleMetaFile()
 	{
-		\vtlib\Deprecated::createModuleMetaFile();
+		\App\Module::createModuleMetaFile();
 		$this->assertTrue(true);
 	}
 }

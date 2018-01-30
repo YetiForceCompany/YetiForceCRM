@@ -51,6 +51,7 @@ class Notification_Module_Model extends Vtiger_Module_Model
 			$recordModel->setData($row);
 			$entries[$row['id']] = $recordModel;
 		}
+		$dataReader->close();
 		return $entries;
 	}
 
@@ -86,6 +87,7 @@ class Notification_Module_Model extends Vtiger_Module_Model
 			$recordModel->setData($row);
 			$entries[$row['notification_type']][$row['notificationid']] = $recordModel;
 		}
+		$dataReader->close();
 		return $entries;
 	}
 

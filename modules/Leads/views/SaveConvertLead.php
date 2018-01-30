@@ -96,7 +96,7 @@ class Leads_SaveConvertLead_View extends Vtiger_View_Controller
 			throw new \App\Exceptions\AppException($e->getMessage());
 		}
 		try {
-			$result = vtws_convertlead($entityValues, $currentUser);
+			$result = \WebservicesConvertLead::vtwsConvertlead($entityValues, $currentUser);
 		} catch (Exception $e) {
 			$this->showError($request, $e);
 			throw new \App\Exceptions\AppException($e->getMessage());

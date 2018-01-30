@@ -54,6 +54,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			$record->set($defaultFieldName, $newValue);
 			$record->save();
 		}
+		$dataReader->close();
 	}
 
 	public function add(\App\Request $request)

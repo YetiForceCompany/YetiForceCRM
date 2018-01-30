@@ -69,52 +69,6 @@ class Leads extends CRMEntity
 	// For Alphabetical search
 	public $def_basicsearch_col = 'company';
 
-	/** Function to export the lead records in CSV Format
-	 * @param reference variable - where condition is passed when the query is executed
-	 * Returns Export Leads Query.
-	 */
-	public function createExportQuery($where)
-	{
-
-		$current_user = vglobal('current_user');
-		\App\Log::trace('Entering createExportQuery(' . $where . ') method ...');
-
-		include('include/utils/ExportUtils.php');
-
-		//To get the Permitted fields query and the permitted fields list
-		$sql = getPermittedFieldsQuery("Leads", "detail_view");
-		$fields_list = getFieldsListFromQuery($sql);
-
-		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(['first_name' =>
-				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'], 'Users');
-		$query = "SELECT $fields_list,case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name
-	      			FROM " . $this->entity_table . "
-				INNER JOIN vtiger_leaddetails
-					ON vtiger_crmentity.crmid=vtiger_leaddetails.leadid
-				LEFT JOIN vtiger_leadsubdetails
-					ON vtiger_leaddetails.leadid = vtiger_leadsubdetails.leadsubscriptionid
-				LEFT JOIN vtiger_leadaddress
-					ON vtiger_leaddetails.leadid=vtiger_leadaddress.leadaddressid
-				LEFT JOIN vtiger_leadscf
-					ON vtiger_leadscf.leadid=vtiger_leaddetails.leadid
-	                        LEFT JOIN vtiger_groups
-                        	        ON vtiger_groups.groupid = vtiger_crmentity.smownerid
-				LEFT JOIN vtiger_users
-					ON vtiger_crmentity.smownerid = vtiger_users.id and vtiger_users.status='Active'
-				";
-
-		$query .= $this->getNonAdminAccessControlQuery('Leads', $current_user);
-		$where_auto = " vtiger_crmentity.deleted=0 && vtiger_leaddetails.converted =0";
-
-		if ($where != '')
-			$query .= sprintf(' where (%s) && %s', $where, $where_auto);
-		else
-			$query .= sprintf(' where %s', $where_auto);
-
-		\App\Log::trace("Exiting create_export_query method ...");
-		return $query;
-	}
-
 	/**
 	 * Move the related records of the specified list of id's to the given record.
 	 * @param String This module name

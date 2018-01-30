@@ -99,28 +99,6 @@ class CRMEntity
 		}
 	}
 
-	/** Function to attachment filename of the given entity
-	 * @param $notesid -- crmid:: Type Integer
-	 * The function will get the attachmentsid for the given entityid from vtiger_seattachmentsrel table and get the attachmentsname from vtiger_attachments table
-	 * returns the 'filename'
-	 */
-	public function getOldFileName($notesId)
-	{
-
-		\App\Log::trace("in getOldFileName  " . $notesId);
-		$adb = PearDatabase::getInstance();
-		$query1 = "select * from vtiger_seattachmentsrel where crmid=?";
-		$result = $adb->pquery($query1, [$notesId]);
-		$noOfRows = $adb->numRows($result);
-		if ($noOfRows != 0)
-			$attachmentId = $adb->queryResult($result, 0, 'attachmentsid');
-		if ($attachmentId != '') {
-			$query2 = "select * from vtiger_attachments where attachmentsid=?";
-			$fileName = $adb->queryResult($adb->pquery($query2, [$attachmentId]), 0, 'name');
-		}
-		return $fileName;
-	}
-
 	/**
 	 * Function returns the column alias for a field
 	 * @param <Array> $fieldinfo - field information
@@ -184,6 +162,7 @@ class CRMEntity
 				// Get only active field information
 				$cachedModuleFields = VTCacheUtils::lookupFieldInfoModule($module);
 			}
+			$dataReader->close();
 		}
 
 		if ($cachedModuleFields) {
@@ -240,52 +219,6 @@ class CRMEntity
 		}
 		$this->column_fields['record_id'] = $record;
 		$this->column_fields['record_module'] = $module;
-	}
-
-	/**
-	 * Function to check if the custom vtiger_field vtiger_table exists
-	 * return true or false
-	 */
-	public function checkIfCustomTableExists($tablename)
-	{
-		$adb = PearDatabase::getInstance();
-		$query = sprintf("SELECT * FROM %s", $adb->sqlEscapeString($tablename));
-		$result = $this->db->pquery($query, []);
-		$testrow = $this->db->getFieldsCount($result);
-		if ($testrow > 1) {
-			$exists = true;
-		} else {
-			$exists = false;
-		}
-		return $exists;
-	}
-
-	/**
-	 * function to construct the query to fetch the custom vtiger_fields
-	 * return the query to fetch the custom vtiger_fields
-	 */
-	public function constructCustomQueryAddendum($tableName, $module)
-	{
-		$adb = PearDatabase::getInstance();
-		$tabId = \App\Module::getModuleId($module);
-		$sql1 = "select columnname,fieldlabel from vtiger_field where generatedtype=2 and tabid=? and vtiger_field.presence in (0,2)";
-		$result = $adb->pquery($sql1, [$tabId]);
-		$numRows = $adb->numRows($result);
-		$sql3 = "select ";
-		for ($i = 0; $i < $numRows; $i++) {
-			$columnName = $adb->queryResult($result, $i, "columnname");
-			$fieldLabel = $adb->queryResult($result, $i, "fieldlabel");
-			//construct query as below
-			if ($i == 0) {
-				$sql3 .= $tableName . "." . $columnName . " '" . $fieldLabel . "'";
-			} else {
-				$sql3 .= ", " . $tableName . "." . $columnName . " '" . $fieldLabel . "'";
-			}
-		}
-		if ($numRows > 0) {
-			$sql3 = $sql3 . ',';
-		}
-		return $sql3;
 	}
 
 	/**
@@ -351,13 +284,20 @@ class CRMEntity
 			App\Db::getInstance()->createCommand()
 				->update($row['tablename'], [$row['columnname'] => 0], [$row['columnname'] => $withCrmid, CRMEntity::getInstance($row['name'])->table_index => $crmid])->execute();
 		}
+		$dataReader->close();
 	}
 
+	/**
+	 * Function to remove relation M2M - for relation many to many
+	 * @param string $module
+	 * @param integer $crmid
+	 * @param string $withModule
+	 * @param integer $withCrmid
+	 */
 	public function deleteRelatedM2M($module, $crmid, $withModule, $withCrmid)
 	{
-		$db = PearDatabase::getInstance();
 		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($module, $withModule);
-		$db->delete($referenceInfo['table'], $referenceInfo['base'] . ' = ? && ' . $referenceInfo['rel'] . ' = ?', [$withCrmid, $crmid]);
+		\App\Db::getInstance()->createCommand()->delete($referenceInfo['table'], [$referenceInfo['base'] => $withCrmid, $referenceInfo['rel'] => $crmid])->execute();
 	}
 
 	/**
@@ -369,37 +309,23 @@ class CRMEntity
 	public function deleteRelatedFromDB($crmid, $withModule, $withCrmid)
 	{
 		App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', ['or',
-			[
+				[
 				'crmid' => $crmid,
 				'relmodule' => $withModule,
 				'relcrmid' => $withCrmid
 			],
-			[
+				[
 				'relcrmid' => $crmid,
 				'module' => $withModule,
 				'crmid' => $withCrmid
 			]
 		])->execute();
 	}
-	/* Function to check if the mod number already exits */
-
-	public function checkModuleSeqNumber($table, $column, $no)
-	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery(sprintf("SELECT %s FROM *s WHERE %s = ?", $adb->sqlEscapeString($column), $adb->sqlEscapeString($table), $adb->sqlEscapeString($column)), [$no]);
-		$numRows = $adb->numRows($result);
-		if ($numRows > 0)
-			return true;
-		else
-			return false;
-	}
-
-	// END
 
 	public function updateMissingSeqNumber($module)
 	{
 		\App\Log::trace("Entered updateMissingSeqNumber function");
-		vtlib_setup_modulevars($module, $this);
+		\VtlibUtils::vtlibSetupModulevars($module, $this);
 		$tabid = \App\Module::getModuleId($module);
 		if (!\App\Fields\RecordNumber::isModuleSequenceConfigured($tabid))
 			return;
@@ -433,6 +359,7 @@ class CRMEntity
 						$sequenceNumber += 1;
 						$returninfo['updatedrecords'] = $returninfo['updatedrecords'] + 1;
 					}
+					$dataReader->close();
 					if ($oldNumber != $sequenceNumber) {
 						\App\Fields\RecordNumber::updateNumber($sequenceNumber, $tabid);
 					}
@@ -442,65 +369,6 @@ class CRMEntity
 			}
 		}
 		return $returninfo;
-	}
-
-	/**
-	 * For Record View Notification
-	 */
-	public function isViewed($crmid = false)
-	{
-		if (!$crmid) {
-			$crmid = $this->id;
-		}
-		if ($crmid) {
-			$adb = PearDatabase::getInstance();
-			$result = $adb->pquery("SELECT viewedtime,modifiedtime,smcreatorid,smownerid,modifiedby FROM vtiger_crmentity WHERE crmid=?", [$crmid]);
-			$resinfo = $adb->fetchArray($result);
-
-			$lastviewed = $resinfo['viewedtime'];
-			$modifiedon = $resinfo['modifiedtime'];
-			$smownerid = $resinfo['smownerid'];
-			$smcreatorid = $resinfo['smcreatorid'];
-			$modifiedby = $resinfo['modifiedby'];
-
-			if ($modifiedby == '0' && ($smownerid == $smcreatorid)) {
-				/** When module record is created * */
-				return true;
-			} else if ($smownerid == $modifiedby) {
-				/** Owner and Modifier as same. * */
-				return true;
-			} else if ($lastviewed && $modifiedon) {
-				/** Lastviewed and Modified time is available. */
-				if ($this->__timediff($modifiedon, $lastviewed) > 0)
-					return true;
-			}
-		}
-		return false;
-	}
-
-	public function __timediff($d1, $d2)
-	{
-		list($t1_1, $t1_2) = explode(' ', $d1);
-		list($t1_y, $t1_m, $t1_d) = explode('-', $t1_1);
-		list($t1_h, $t1_i, $t1_s) = explode(':', $t1_2);
-
-		$t1 = mktime($t1_h, $t1_i, $t1_s, $t1_m, $t1_d, $t1_y);
-
-		list($t2_1, $t2_2) = explode(' ', $d2);
-		list($t2_y, $t2_m, $t2_d) = explode('-', $t2_1);
-		list($t2_h, $t2_i, $t2_s) = explode(':', $t2_2);
-
-		$t2 = mktime($t2_h, $t2_i, $t2_s, $t2_m, $t2_d, $t2_y);
-
-		if ($t1 == $t2)
-			return 0;
-		return $t2 - $t1;
-	}
-
-	public function markAsViewed($userid)
-	{
-		$adb = PearDatabase::getInstance();
-		$adb->update('vtiger_crmentity', ['viewedtime' => date('Y-m-d H:i:s')], 'crmid = ? && smownerid = ?', [$this->id, $userid]);
 	}
 
 	/**
@@ -527,20 +395,27 @@ class CRMEntity
 		}
 	}
 
+	/**
+	 * Function to save relation between records in relation many to many
+	 * @param string $module
+	 * @param integer $crmid
+	 * @param string $withModule
+	 * @param integer $withCrmid
+	 */
 	public function saveRelatedM2M($module, $crmid, $withModule, $withCrmid)
 	{
-		$db = PearDatabase::getInstance();
 		$referenceInfo = Vtiger_Relation_Model::getReferenceTableInfo($module, $withModule);
-
 		foreach ($withCrmid as $relcrmid) {
-			$check = $db->pquery(sprintf('SELECT 1 FROM `%s` WHERE %s = ? && %s = ?', $referenceInfo['table'], $referenceInfo['base'], $referenceInfo['rel']), [$relcrmid, $crmid]);
 			// Relation already exists? No need to add again
-			if ($check && $db->getRowCount($check))
+			if ((new App\Db\Query())->from($referenceInfo['table'])
+					->where([$referenceInfo['base'] => $relcrmid, $referenceInfo['rel'] => $crmid])
+					->exists()) {
 				continue;
-			$db->insert($referenceInfo['table'], [
+			}
+			\App\Db::getInstance()->createCommand()->insert($referenceInfo['table'], [
 				$referenceInfo['base'] => $relcrmid,
 				$referenceInfo['rel'] => $crmid
-			]);
+			])->execute();
 		}
 	}
 
@@ -576,29 +451,6 @@ class CRMEntity
 					'rel_created_user' => \App\User::getCurrentUserId(),
 					'rel_created_time' => date('Y-m-d H:i:s')
 				])->execute();
-			}
-		}
-	}
-
-	/**
-	 * Delete the related module record information. Triggered from updateRelations.php
-	 * @param String This module name
-	 * @param Integer This module record number
-	 * @param String Related module name
-	 * @param mixed Integer or Array of related module record number
-	 */
-	public function deleteRelatedModule($module, $crmid, $withModule, $withCrmid)
-	{
-		$db = PearDatabase::getInstance();
-		if (!is_array($withCrmid))
-			$withCrmid = [$withCrmid];
-		foreach ($withCrmid as $relcrmid) {
-
-			if ($withModule == 'Documents') {
-				$db->delete('vtiger_senotesrel', 'crmid=? && notesid=?', [$crmid, $relcrmid]);
-			} else {
-				$db->delete('vtiger_crmentityrel', '(crmid=? && module=? && relcrmid=? && relmodule=?) || (relcrmid=? && relmodule=? && crmid=? && module=?)', [$crmid, $module, $relcrmid, $withModule, $crmid, $module, $relcrmid, $withModule]
-				);
 			}
 		}
 	}
@@ -678,7 +530,7 @@ class CRMEntity
 		$adb = PearDatabase::getInstance();
 		$primary = CRMEntity::getInstance($module);
 
-		vtlib_setup_modulevars($module, $primary);
+		\VtlibUtils::vtlibSetupModulevars($module, $primary);
 		$moduletable = $primary->table_name;
 		$moduleindex = $primary->table_index;
 		$modulecftable = $primary->customFieldTable[0];
@@ -722,7 +574,7 @@ class CRMEntity
 					for ($j = 0; $j < $countNumRows; $j++) {
 						$rel_mod = $adb->queryResult($ui10_modules_query, $j, 'relmodule');
 						$rel_obj = CRMEntity::getInstance($rel_mod);
-						vtlib_setup_modulevars($rel_mod, $rel_obj);
+						\VtlibUtils::vtlibSetupModulevars($rel_mod, $rel_obj);
 
 						$rel_tab_name = $rel_obj->table_name;
 						$rel_tab_index = $rel_obj->table_index;
@@ -740,7 +592,7 @@ class CRMEntity
 					for ($j = 0; $j < $countNumRows; $j++) {
 						$rel_mod = $adb->queryResult($ui10_modules_query, $j, 'relmodule');
 						$rel_obj = CRMEntity::getInstance($rel_mod);
-						vtlib_setup_modulevars($rel_mod, $rel_obj);
+						\VtlibUtils::vtlibSetupModulevars($rel_mod, $rel_obj);
 
 						$rel_tab_name = $rel_obj->table_name;
 						$rel_tab_index = $rel_obj->table_index;
@@ -803,7 +655,7 @@ class CRMEntity
 		$adb = PearDatabase::getInstance();
 		$secondary = CRMEntity::getInstance($secmodule);
 
-		vtlib_setup_modulevars($secmodule, $secondary);
+		\VtlibUtils::vtlibSetupModulevars($secmodule, $secondary);
 
 		$tablename = $secondary->table_name;
 		$tableindex = $secondary->table_index;
@@ -838,7 +690,7 @@ class CRMEntity
 					for ($j = 0; $j < $rows_ui10_modules_query; $j++) {
 						$rel_mod = $adb->queryResult($ui10_modules_query, $j, 'relmodule');
 						$rel_obj = CRMEntity::getInstance($rel_mod);
-						vtlib_setup_modulevars($rel_mod, $rel_obj);
+						\VtlibUtils::vtlibSetupModulevars($rel_mod, $rel_obj);
 
 						$rel_tab_name = $rel_obj->table_name;
 						$rel_tab_index = $rel_obj->table_index;
@@ -855,7 +707,7 @@ class CRMEntity
 					for ($j = 0; $j < $countNumRows; $j++) {
 						$rel_mod = $adb->queryResult($ui10_modules_query, $j, 'relmodule');
 						$rel_obj = CRMEntity::getInstance($rel_mod);
-						vtlib_setup_modulevars($rel_mod, $rel_obj);
+						\VtlibUtils::vtlibSetupModulevars($rel_mod, $rel_obj);
 
 						$rel_tab_name = $rel_obj->table_name;
 						$rel_tab_index = $rel_obj->table_index;
@@ -904,39 +756,6 @@ class CRMEntity
 		$query .= " " . $relquery;
 
 		return $query;
-	}
-	/*
-	 * Function to get the security query part of a report
-	 * @param - $module primary module name
-	 * returns the query string formed on fetching the related data for report for security of the module
-	 */
-
-	public function getListViewSecurityParameter($module)
-	{
-		$tabid = \App\Module::getModuleId($module);
-		$current_user = vglobal('current_user');
-		if ($current_user) {
-			$privileges = App\User::getPrivilegesFile($current_user->id);
-			$sharingPrivileges = App\User::getSharingFile($current_user->id);
-		} else {
-			return '';
-		}
-		$sec_query = '';
-		if ($privileges['is_admin'] === false && $privileges['profile_global_permission'][1] == 1 && $privileges['profile_global_permission'][2] == 1 && $sharingPrivileges['defOrgShare'][$tabid] == 3) {
-			$sec_query .= " and (vtiger_crmentity.smownerid in($current_user->id) or vtiger_crmentity.smownerid
-					in (select vtiger_user2role.userid from vtiger_user2role
-							inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid
-							inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid
-							where vtiger_role.parentrole like '" . $privileges['parent_role_seq'] . "::%') or vtiger_crmentity.smownerid
-					in(select shareduserid from vtiger_tmp_read_user_sharing_per
-						where userid=" . $current_user->id . " and tabid=" . $tabid . ") or (";
-			if (sizeof($privileges['groups']) > 0) {
-				$sec_query .= " vtiger_groups.groupid in (" . implode(",", $privileges['groups']) . ") or ";
-			}
-			$sec_query .= " vtiger_groups.groupid in(select vtiger_tmp_read_group_sharing_per.sharedgroupid
-						from vtiger_tmp_read_group_sharing_per where userid=" . $current_user->id . " and tabid=" . $tabid . "))) ";
-		}
-		return $sec_query;
 	}
 
 	/**
@@ -1201,7 +1020,7 @@ class CRMEntity
 		//as mysql query optimizer puts crmentity on the left side and considerably slow down
 		$query = preg_replace('/\s+/', ' ', $query);
 		if (strripos($query, ' WHERE ') !== false) {
-			vtlib_setup_modulevars($this->moduleName, $this);
+			\VtlibUtils::vtlibSetupModulevars($this->moduleName, $this);
 			$query = str_ireplace(' WHERE ', " WHERE $this->table_name.$this->table_index > 0  AND ", $query);
 		}
 		return $query;
@@ -1232,15 +1051,6 @@ class CRMEntity
 	}
 
 	/**
-	 * Function to clear the fields which needs to be saved only once during the Save of the record
-	 * For eg: Comments of HelpDesk should be saved only once during one save of a Trouble Ticket
-	 */
-	public function clearSingletonSaveFields()
-	{
-		return;
-	}
-
-	/**
 	 * Function to track when a new record is linked to a given record
 	 */
 	public static function trackLinkedInfo($crmId)
@@ -1249,47 +1059,6 @@ class CRMEntity
 		$currentTime = date('Y-m-d H:i:s');
 		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => $current_user->id], ['crmid' => $crmId])->execute();
 	}
-
-	/**
-	 * Function to get sort order
-	 * return string  $sorder    - sortorder string either 'ASC' or 'DESC'
-	 */
-	public function getSortOrder()
-	{
-
-		$currentModule = vglobal('currentModule');
-		\App\Log::trace("Entering getSortOrder() method ...");
-		if (\App\Request::_has('sorder'))
-			$sorder = $this->db->sqlEscapeString(App\Request::_getForSql('sorder'));
-		else
-			$sorder = (($_SESSION[$currentModule . '_Sort_Order'] != '') ? ($_SESSION[$currentModule . '_Sort_Order']) : ($this->default_sort_order));
-		\App\Log::trace("Exiting getSortOrder() method ...");
-		return $sorder;
-	}
-
-	/**
-	 * Function to get order by
-	 * return string  $order_by    - fieldname(eg: 'accountname')
-	 */
-	public function getOrderBy()
-	{
-		$currentModule = vglobal('currentModule');
-
-		\App\Log::trace("Entering getOrderBy() method ...");
-
-		$use_default_order_by = '';
-		if (AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
-			$use_default_order_by = $this->default_order_by;
-		}
-
-		if (\App\Request::_has('order_by'))
-			$order_by = $this->db->sqlEscapeString(App\Request::_getForSql('order_by'));
-		else
-			$order_by = (($_SESSION[$currentModule . '_Order_By'] != '') ? ($_SESSION[$currentModule . '_Order_By']) : ($use_default_order_by));
-		\App\Log::trace("Exiting getOrderBy method ...");
-		return $order_by;
-	}
-	// Mike Crowe Mod --------------------------------------------------------
 
 	/**
 	 * Function to track when a record is unlinked to a given record
@@ -1318,15 +1087,15 @@ class CRMEntity
 	public function moduleHandler($moduleName, $eventType)
 	{
 		if ($moduleName && $eventType === 'module.postinstall') {
-			
+
 		} else if ($eventType === 'module.disabled') {
-			
+
 		} else if ($eventType === 'module.preuninstall') {
-			
+
 		} else if ($eventType === 'module.preupdate') {
-			
+
 		} else if ($eventType === 'module.postupdate') {
-			
+
 		}
 	}
 }

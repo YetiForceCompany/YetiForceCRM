@@ -48,10 +48,6 @@ class OSSMailScanner
 			$this->turnOn();
 			$userId = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_EnabledModule', 'info' => $moduleName, 'user' => $userId, 'start_time' => date('Y-m-d H:i:s')])->execute();
-		} else if ($eventType === 'module.preuninstall') {
-			
-		} else if ($eventType === 'module.preupdate') {
-			
 		} else if ($eventType === 'module.postupdate') {
 			$Module = vtlib\Module::getInstance($moduleName);
 			if (version_compare($Module->version, '1.21', '>')) {
@@ -66,7 +62,7 @@ class OSSMailScanner
 	 */
 	public function turnOn()
 	{
-		Settings_Vtiger_Module_Model::addSettingsField('LBL_MAIL', [
+		Settings_Vtiger_Module_Model::addSettingsField('LBL_MAIL_TOOLS', [
 			'name' => 'Mail Scanner',
 			'iconpath' => 'adminIcon-mail-scanner',
 			'description' => 'LBL_MAIL_SCANNER_DESCRIPTION',

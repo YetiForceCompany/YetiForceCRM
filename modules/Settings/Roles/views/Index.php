@@ -40,7 +40,7 @@ class Settings_Roles_Index_View extends Settings_Vtiger_Index_View
 			"modules.Settings.$moduleName.resources.Index",
 			'modules.Settings.Vtiger.resources.Popup',
 			"modules.Settings.$moduleName.resources.Popup",
-			'libraries.jquery.jquery_windowmsg',
+			'libraries.js.jquery_windowmsg',
 		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -57,7 +57,7 @@ class Settings_Roles_Index_View extends Settings_Vtiger_Index_View
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [
-			'libraries.jquery.jqTree.jqtree'
+			'libraries.js.jqTree.jqtree'
 		];
 
 		$cssStyleInstances = $this->checkAndConvertCssStyles($cssFileNames);

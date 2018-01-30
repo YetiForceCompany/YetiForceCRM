@@ -111,6 +111,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 					$mappingFields['Accounts'][$accountFieldInstance->getName()] = $leadFieldName;
 				}
 			}
+			$dataReader->close();
 			$this->set('mappingFields', $mappingFields);
 		}
 		return $mappingFields[$moduleName][$fieldName];

@@ -36,64 +36,62 @@ class Field extends FieldBasic
 		// Non-Role based picklist values
 		if ($this->uitype === 16) {
 			$this->setNoRolePicklistValues($values);
-		} elseif ($this->uitype === 15) {
-			$db = \App\Db::getInstance();
-			$picklistTable = 'vtiger_' . $this->name;
-			$picklistIdCol = $this->name . 'id';
-			if (!$db->isTableExists($picklistTable)) {
-				$importer = new \App\Db\Importers\Base();
-				$db->createTable($picklistTable, [
-					$picklistIdCol => 'pk',
-					$this->name => 'string',
-					'presence' => $importer->boolean()->defaultValue(true),
-					'picklist_valueid' => $importer->integer(10)->defaultValue(0),
-					'sortorderid' => $importer->smallInteger(5)->defaultValue(0)
-				]);
-				$db->createCommand()->insert('vtiger_picklist', ['name' => $this->name])->execute();
-				$newPicklistId = $db->getLastInsertID('vtiger_picklist_picklistid_seq');
-				self::log("Creating table $picklistTable ... DONE");
-			} else {
-				$newPicklistId = (new \App\Db\Query())->select(['picklistid'])->from('vtiger_picklist')->where(['name' => $this->name])->scalar();
-			}
-			$specialNameSpacedPicklists = [
-				'opportunity_type' => 'opptypeid',
-				'duration_minutes' => 'minutesid',
-			];
-			// Fix Table ID column names
-			$fieldName = (string) $this->name;
-			if ($db->getTableSchema($picklistTable, true)->getColumn($fieldName . '_id')) {
-				$picklistIdCol = $fieldName . '_id';
-			} elseif (array_key_exists($fieldName, $specialNameSpacedPicklists)) {
-				$picklistIdCol = $specialNameSpacedPicklists[$fieldName];
-			}
-			// END
-			// Add value to picklist now
-			$picklistValues = self::getPicklistValues();
-			$sortid = 0;
-			foreach ($values as $value) {
-				if (in_array($value, $picklistValues)) {
-					continue;
-				}
-				$newPicklistValueId = $db->getUniqueID('vtiger_picklistvalues');
-				$presence = 1; // 0 - readonly, Refer function in include/ComboUtil.php
-				++$sortid;
-				$db->createCommand()->insert($picklistTable, [$this->name => $value, 'presence' => $presence,
-					'picklist_valueid' => $newPicklistValueId, 'sortorderid' => $sortid
-				])->execute();
-
-				// Associate picklist values to all the role
-				$query = (new \App\Db\Query)->select('roleid')->from('vtiger_role');
-				$roleIds = $query->column();
-				$insertedData = [];
-				foreach ($roleIds as $value) {
-					$insertedData [] = [$value, $newPicklistValueId, $newPicklistId, $sortid];
-				}
-				$db->createCommand()
-					->batchInsert('vtiger_role2picklist', ['roleid', 'picklistvalueid', 'picklistid', 'sortid'], $insertedData)
-					->execute();
-			}
+			return true;
+		}
+		$db = \App\Db::getInstance();
+		$picklistTable = 'vtiger_' . $this->name;
+		$picklistIdCol = $this->name . 'id';
+		if (!$db->isTableExists($picklistTable)) {
+			$importer = new \App\Db\Importers\Base();
+			$db->createTable($picklistTable, [
+				$picklistIdCol => 'pk',
+				$this->name => 'string',
+				'presence' => $importer->boolean()->defaultValue(true),
+				'picklist_valueid' => $importer->integer(10)->defaultValue(0),
+				'sortorderid' => $importer->smallInteger(5)->defaultValue(0)
+			]);
+			$db->createCommand()->insert('vtiger_picklist', ['name' => $this->name])->execute();
+			$newPicklistId = $db->getLastInsertID('vtiger_picklist_picklistid_seq');
+			self::log("Creating table $picklistTable ... DONE");
 		} else {
-			\App\Log::error('Incorrect UITYPE: ' . $this->uitype . ' | Field name: ' . $this->name);
+			$newPicklistId = (new \App\Db\Query())->select(['picklistid'])->from('vtiger_picklist')->where(['name' => $this->name])->scalar();
+		}
+		$specialNameSpacedPicklists = [
+			'opportunity_type' => 'opptypeid',
+			'duration_minutes' => 'minutesid',
+		];
+		// Fix Table ID column names
+		$fieldName = (string) $this->name;
+		if ($db->getTableSchema($picklistTable, true)->getColumn($fieldName . '_id')) {
+			$picklistIdCol = $fieldName . '_id';
+		} elseif (array_key_exists($fieldName, $specialNameSpacedPicklists)) {
+			$picklistIdCol = $specialNameSpacedPicklists[$fieldName];
+		}
+		// END
+		// Add value to picklist now
+		$picklistValues = self::getPicklistValues();
+		$sortid = 0;
+		foreach ($values as $value) {
+			if (in_array($value, $picklistValues)) {
+				continue;
+			}
+			$newPicklistValueId = $db->getUniqueID('vtiger_picklistvalues');
+			$presence = 1; // 0 - readonly, Refer function in include/ComboUtil.php
+			++$sortid;
+			$db->createCommand()->insert($picklistTable, [$this->name => $value, 'presence' => $presence,
+				'picklist_valueid' => $newPicklistValueId, 'sortorderid' => $sortid
+			])->execute();
+
+			// Associate picklist values to all the role
+			$query = (new \App\Db\Query)->select('roleid')->from('vtiger_role');
+			$roleIds = $query->column();
+			$insertedData = [];
+			foreach ($roleIds as $value) {
+				$insertedData [] = [$value, $newPicklistValueId, $newPicklistId, $sortid];
+			}
+			$db->createCommand()
+				->batchInsert('vtiger_role2picklist', ['roleid', 'picklistvalueid', 'picklistid', 'sortid'], $insertedData)
+				->execute();
 		}
 	}
 

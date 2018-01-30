@@ -7,25 +7,26 @@ namespace App\Fields;
  * @copyright YetiForce Sp. z o.o.
  * @license YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class File
 {
 
 	/**
 	 * Allowed formats
-	 * @var string[] 
+	 * @var string[]
 	 */
 	private static $allowedFormats = ['image' => ['jpeg', 'png', 'jpg', 'pjpeg', 'x-png', 'gif', 'bmp', 'x-ms-bmp']];
 
 	/**
 	 * Mime types
-	 * @var string[] 
+	 * @var string[]
 	 */
 	private static $mimeTypes;
 
 	/**
 	 * What file types to validate by php injection
-	 * @var string[]  
+	 * @var string[]
 	 */
 	private static $phpInjection = ['image'];
 
@@ -37,7 +38,7 @@ class File
 
 	/**
 	 * File path
-	 * @var string 
+	 * @var string
 	 */
 	private $path;
 
@@ -49,37 +50,37 @@ class File
 
 	/**
 	 * File mime type
-	 * @var string 
+	 * @var string
 	 */
 	private $mimeType;
 
 	/**
 	 * File short mime type
-	 * @var string 
+	 * @var string
 	 */
 	private $mimeShortType;
 
 	/**
 	 * Size
-	 * @var int 
+	 * @var int
 	 */
 	private $size;
 
 	/**
 	 * File content
-	 * @var string 
+	 * @var string
 	 */
 	private $content;
 
 	/**
 	 * Error code
-	 * @var int|bool 
+	 * @var int|bool
 	 */
 	private $error = false;
 
 	/**
 	 * Validate all files by code injection
-	 * @var bool 
+	 * @var bool
 	 */
 	private $validateAllCodeInjection = false;
 
@@ -128,8 +129,10 @@ class File
 
 	/**
 	 * Load file instance from content
-	 * @param array $fileInfo
-	 * @return \self
+	 * @param string $content
+	 * @param string $name
+	 * @param string[] $param
+	 * @return boolean|\self
 	 */
 	public static function loadFromContent($content, $name = false, $param = [])
 	{
@@ -165,24 +168,29 @@ class File
 
 	/**
 	 * Load file instance from url
-	 * @param type $url
-	 * @param type $param
+	 * @param string $url
+	 * @param string[] $param
 	 * @return boolean
 	 */
 	public static function loadFromUrl($url, $param = [])
 	{
 		if (empty($url)) {
-			\App\Log::error('No url: ' . $url , __CLASS__);
+			\App\Log::error('No url: ' . $url, __CLASS__);
 			return false;
 		}
-		$arrHeader = get_headers($url, 1);
-		if (strpos($arrHeader[0], '200 OK') === false) {
-			\App\Log::error('Error when downloading content: ' . $url . ' | ' . print_r ($arrHeader, true), __CLASS__);
+		try {
+			$responsse = \Requests::get($url);
+			if ($responsse->status_code !== 200) {
+				\App\Log::error('Error when downloading content: ' . $url . ' | Status code: ' . $responsse->status_code, __CLASS__);
+				return false;
+			}
+			$content = $responsse->body;
+		} catch (\Exception $exc) {
+			\App\Log::error('Error when downloading content: ' . $url . ' | ' . $exc->getMessage(), __CLASS__);
 			return false;
 		}
-		$content = file_get_contents($url);
 		if (empty($content)) {
-			\App\Log::error('Url does not contain content: ' . $url , __CLASS__);
+			\App\Log::error('Url does not contain content: ' . $url, __CLASS__);
 			return false;
 		}
 		return static::loadFromContent($content, basename($url));
@@ -220,7 +228,7 @@ class File
 
 	/**
 	 * Get mime type
-	 * @return string 
+	 * @return string
 	 */
 	public function getMimeType()
 	{
@@ -281,7 +289,7 @@ class File
 	}
 
 	/**
-	 * Validate whether the file is safe 
+	 * Validate whether the file is safe
 	 * @param boolean|string $type
 	 * @return boolean
 	 * @throws \Exception
@@ -551,7 +559,7 @@ class File
 		$data = rawurldecode($data);
 		$rawData = $isBase64 ? base64_decode($data) : $data;
 		if (strlen($rawData) < 12) {
-			\App\Log::error('Incorrect content value: ' . $content , __CLASS__);
+			\App\Log::error('Incorrect content value: ' . $content, __CLASS__);
 			return false;
 		}
 		$fileInstance = static::loadFromContent($rawData, false, ['mimeShortType' => $contentType]);
@@ -571,7 +579,7 @@ class File
 	{
 		$fileInstance = static::loadFromUrl($url);
 		if (empty($url) || !$fileInstance) {
-			\App\Log::error('Invalid url: ' . $url , __CLASS__);
+			\App\Log::error('Invalid url: ' . $url, __CLASS__);
 			return false;
 		}
 		if ($fileInstance->validate() && ($id = static::saveFromContent($fileInstance, $params))) {
@@ -689,5 +697,82 @@ class File
 				break;
 		}
 		return $message;
+	}
+
+	/**
+	 * Get image base data
+	 * @param string $path
+	 * @return string
+	 */
+	public static function getImageBaseData($path)
+	{
+		$mime = static::getMimeContentType($path);
+		$mimeParts = explode('/', $mime);
+		if ($mime && file_exists($path) && isset(static::$allowedFormats[$mimeParts[0]]) && in_array($mimeParts[1], static::$allowedFormats[$mimeParts[0]])) {
+			return "data:$mime;base64," . base64_encode(file_get_contents($path));
+		}
+		return '';
+	}
+
+	/**
+	 * Check if give path is writeable.
+	 * @param string $path
+	 * @return boolean
+	 */
+	public static function isWriteable($path)
+	{
+		$path = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $path;
+		if (is_dir($path)) {
+			return static::isDirWriteable($path);
+		} else {
+			return is_writable($path);
+		}
+	}
+
+	/**
+	 * Check if given directory is writeable.
+	 * NOTE: The check is made by trying to create a random file in the directory.
+	 * @param string $dirPath
+	 * @return boolean
+	 */
+	public static function isDirWriteable($dirPath)
+	{
+		if (is_dir($dirPath)) {
+			do {
+				$tmpFile = 'tmpfile' . time() . '-' . rand(1, 1000) . '.tmp';
+				// Continue the loop unless we find a name that does not exists already.
+				$useFilename = "$dirPath/$tmpFile";
+				if (!file_exists($useFilename))
+					break;
+			} while (true);
+			$fh = fopen($useFilename, 'a');
+			if ($fh) {
+				fclose($fh);
+				unlink($useFilename);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Check if give URL exists
+	 * @param string $url
+	 * @return boolean
+	 */
+	public static function isExistsUrl($url)
+	{
+		try {
+			$response = \Requests::get($url);
+			if ($response->status_code === 200) {
+				return true;
+			} else {
+				\App\Log::error('Checked URL is not allowed: ' . $url . ' | Status code: ' . $response->status_code, __CLASS__);
+				return false;
+			}
+		} catch (\Exception $exc) {
+			\App\Log::error('Checked URL is not allowed: ' . $url . ' | ' . $exc->getMessage(), __CLASS__);
+			return false;
+		}
 	}
 }

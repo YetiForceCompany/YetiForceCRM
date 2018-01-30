@@ -166,17 +166,6 @@ class Users_Privileges_Model extends Users_Record_Model
 		return vglobal('isPermittedLog');
 	}
 
-	/**
-	 * Function returns non admin access control check query
-	 * @param string $module
-	 * @return string
-	 */
-	public static function getNonAdminAccessControlQuery($module)
-	{
-		$currentUser = vglobal('current_user');
-		return getNonAdminAccessControlQuery($module, $currentUser);
-	}
-
 	protected static $lockEditCache = [];
 
 	public static function checkLockEdit($moduleName, Vtiger_Record_Model $recordModel)
@@ -268,8 +257,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	public static function getSharedRecordsRecursively($recordId, $moduleName)
 	{
 		\App\Log::trace('Entering Into getSharedRecordsRecursively( ' . $recordId . ', ' . $moduleName . ')');
-
-		$db = PearDatabase::getInstance();
+		$db = \App\Db::getInstance();
 		$modulesSchema = [];
 		$modulesSchema[$moduleName] = [];
 		$modulesSchema['Accounts'] = [
@@ -285,22 +273,28 @@ class Users_Privileges_Model extends Users_Record_Model
 		$modulesSchema['HelpDesk'] = [
 			'OSSTimeControl' => ['key' => 'osstimecontrolid', 'table' => 'vtiger_osstimecontrol', 'relfield' => 'link']
 		];
-		$sql = '';
-		$params = [];
-		$array = [];
+		$data = [];
+		$query = null;
 		foreach ($modulesSchema[$moduleName] as $key => $module) {
-			$sql .= " UNION SELECT " . $module['key'] . " AS id , '" . $key . "' AS module FROM " . $module['table'] . " WHERE " . $module['relfield'] . " = ?";
-			$params[] = $recordId;
-		}
-		if ($sql != '' && $params) {
-			$result = $db->pquery(substr($sql, 6), $params);
-			while ($row = $db->getRow($result)) {
-				$array = array_merge($array, self::getSharedRecordsRecursively($row['id'], $row['module']));
-				$array[$row['module']][] = $row['id'];
+			$subQuery = (new \App\Db\Query())->select(['id' => $module['key'], 'module' => new yii\db\Expression($db->quoteValue($key))])
+				->from($module['table'])
+				->where([$module['relfield'] => $recordId]);
+			if ($query) {
+				$query->union($subQuery);
+			} else {
+				$query = $subQuery;
 			}
 		}
+		if ($query) {
+			$dataReader = $query->createCommand()->query();
+			while ($row = $dataReader->read()) {
+				$data = array_merge($data, self::getSharedRecordsRecursively($row['id'], $row['module']));
+				$data[$row['module']][] = $row['id'];
+			}
+			$dataReader->close();
+		}
 		\App\Log::trace('Exiting getSharedRecordsRecursively()');
-		return $array;
+		return $data;
 	}
 
 	/**
@@ -352,10 +346,12 @@ class Users_Privileges_Model extends Users_Record_Model
 			}
 			$parentRecord = $record != $parentRecord ? $parentRecord : false;
 		} else if (in_array($moduleName, \App\ModuleHierarchy::getModulesMapMMBase())) {
-			$db = PearDatabase::getInstance();
 			$role = $userModel->getRoleInstance();
-			$result = $db->pquery('SELECT * FROM vtiger_crmentityrel WHERE crmid=? || relcrmid =?', [$record, $record]);
-			while ($row = $db->getRow($result)) {
+			$dataReader = (new \App\Db\Query())->select(['relcrmid', 'crmid'])
+					->from('vtiger_crmentityrel')
+					->where(['or', ['crmid' => $record], ['relcrmid' => $record]])
+					->createCommand()->query();
+			while ($row = $dataReader->read()) {
 				$id = $row['crmid'] == $record ? $row['relcrmid'] : $row['crmid'];
 				$recordMetaData = vtlib\Functions::getCRMRecordMetadata($id);
 				$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');
@@ -371,12 +367,10 @@ class Users_Privileges_Model extends Users_Record_Model
 								$relatedPermission = in_array($currentUserId, Vtiger_SharedOwner_UIType::getSharedOwners($id, $recordMetaData['setype']));
 								break;
 							case 2:
-								$permission = \App\Privilege::isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id, $currentUserId);
-								$relatedPermission = $permission == 'yes' ? true : false;
+								$relatedPermission = \App\Privilege::isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id, $currentUserId);
 								break;
 							case 3:
-								$permission = static::isPermitted($recordMetaData['setype'], 'DetailView', $id);
-								$relatedPermission = $permission == 'yes' ? true : false;
+								$relatedPermission = \App\Privilege::isPermitted($recordMetaData['setype'], 'DetailView', $id);
 								break;
 						}
 					}
@@ -391,14 +385,13 @@ class Users_Privileges_Model extends Users_Record_Model
 					}
 				}
 			}
+			$dataReader->close();
 		} else if ($relationInfo = \App\ModuleHierarchy::getModulesMapMMCustom($moduleName)) {
-			$db = PearDatabase::getInstance();
 			$role = $userModel->getRoleInstance();
-			$query = 'SELECT %s AS crmid FROM `%s` WHERE %s = ?';
-			$query = sprintf($query, $relationInfo['rel'], $relationInfo['table'], $relationInfo['base']);
-			$result = $db->pquery($query, [$record]);
-			while ($row = $db->getRow($result)) {
-				$id = $row['crmid'];
+			$dataReader = (new \App\Db\Query())->select(['crmid' => $relationInfo['rel']])->from($relationInfo['table'])
+					->where([$relationInfo['base'] => $record])
+					->createCommand()->query();
+			while ($id = $dataReader->readColumn(0)) {
 				$recordMetaData = vtlib\Functions::getCRMRecordMetadata($id);
 				$permissionsRelatedField = $role->get('permissionsrelatedfield') == '' ? [] : explode(',', $role->get('permissionsrelatedfield'));
 				$relatedPermission = false;
@@ -412,12 +405,10 @@ class Users_Privileges_Model extends Users_Record_Model
 								$relatedPermission = in_array($currentUserId, Vtiger_SharedOwner_UIType::getSharedOwners($id, $recordMetaData['setype']));
 								break;
 							case 2:
-								$permission = \App\Privilege::isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id, $currentUserId);
-								$relatedPermission = $permission == 'yes' ? true : false;
+								$relatedPermission = \App\Privilege::isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id, $currentUserId);
 								break;
 							case 3:
-								$permission = static::isPermitted($recordMetaData['setype'], 'DetailView', $id);
-								$relatedPermission = $permission == 'yes' ? true : false;
+								$relatedPermission = \App\Privilege::isPermitted($recordMetaData['setype'], 'DetailView', $id);
 								break;
 						}
 					}
@@ -432,6 +423,7 @@ class Users_Privileges_Model extends Users_Record_Model
 					}
 				}
 			}
+			$dataReader->close();
 		}
 		\App\Cache::staticSave('PrivilegesParentRecord', $cacheKey, $parentRecord);
 		return $parentRecord;

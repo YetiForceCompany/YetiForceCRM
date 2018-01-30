@@ -42,7 +42,7 @@ class OSSTimeControl_Calendar_View extends Vtiger_Index_View
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 		$jsFileNames = [
-			'~libraries/fullcalendar/fullcalendar.js',
+			'~libraries/fullcalendar/dist/fullcalendar.js',
 			'modules.' . $moduleName . '.resources.Calendar',
 		];
 
@@ -58,8 +58,7 @@ class OSSTimeControl_Calendar_View extends Vtiger_Index_View
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [
-			'~libraries/fullcalendar/fullcalendar.min.css',
-			'~libraries/fullcalendar/fullcalendarCRM.css',
+			'~libraries/fullcalendar/dist/fullcalendar.css'
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);

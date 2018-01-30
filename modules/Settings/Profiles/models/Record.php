@@ -361,6 +361,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 					$profile2TabFieldPermissions[$fieldId]['visible'] = $visible;
 					$profile2TabFieldPermissions[$fieldId]['readonly'] = $readOnly;
 				}
+				$dataReader->close();
 			}
 			$this->profile_tab_field_permissions[$tabId] = $profile2TabFieldPermissions;
 		}
@@ -383,6 +384,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 				while ($row = $dataReader->read()) {
 					$profile2ActionPermissions[$row['tabid']][$row['operation']] = $row['permissions'];
 				}
+				$dataReader->close();
 			}
 			$this->profile_action_permissions = $profile2ActionPermissions;
 		}
@@ -405,6 +407,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 				while ($row = $dataReader->read()) {
 					$profile2UtilityPermissions[$row['tabid']][$row['activityid']] = $row['permission'];
 				}
+				$dataReader->close();
 			}
 			$this->profile_utility_permissions = $profile2UtilityPermissions;
 		}
@@ -493,6 +496,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 				$dbCommand->update('vtiger_role2profile', ['profileid' => $transferProfileId], ['roleid' => $roleId, 'profileid' => $profileId])->execute();
 			}
 		}
+		$dataReader->close();
 		$dbCommand->delete('vtiger_profile', ['profileid' => $profileId])->execute();
 		vtlib\Access::syncSharingAccess();
 	}
@@ -794,6 +798,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			$profile->setData($row);
 			$profiles[$profile->getId()] = $profile;
 		}
+		$dataReader->close();
 		return $profiles;
 	}
 
@@ -811,6 +816,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 			$profile->setData($row);
 			$profiles[$profile->getId()] = $profile;
 		}
+		$dataReader->close();
 		return $profiles;
 	}
 
@@ -889,7 +895,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function recalculate()
 	{
-		$php_max_execution_time = vglobal('php_max_execution_time');
+		$php_max_execution_time = \AppConfig::main('php_max_execution_time');
 		set_time_limit($php_max_execution_time);
 
 		$userIdsList = self::getUsersList($this->getId());

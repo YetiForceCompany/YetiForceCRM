@@ -127,7 +127,7 @@
 		</div>
 		{if $RELATED_VIEW === 'ListPreview'}
 			<div class="relatedContents">
-				<div id="recordsListPreview">
+				<div class="recordsListPreview">
 					<input type="hidden" id="defaultDetailViewName" value="{AppConfig::module($MODULE, 'defaultDetailViewName')}" />
 					<div class="wrappedPanel">
 						<div class="rotatedText">
@@ -141,8 +141,8 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-9" id="listPreview">
-						<iframe class="border1px" id="listPreviewframe" frameborder="0"></iframe>
+					<div class="listPreview col-md-9">
+						<iframe class="border1px listPreviewframe" frameborder="0"></iframe>
 					</div>
 					<div class="wrappedPanel">
 						<div class="rotatedText">

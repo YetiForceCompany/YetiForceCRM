@@ -178,6 +178,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		while ($row = $dataReader->read()) {
 			$invities[$row['inviteesid']] = $row;
 		}
+		$dataReader->close();
 		if (!empty($inviteesRequest)) {
 			foreach ($inviteesRequest as &$invitation) {
 				if (isset($invities[$invitation[2]])) {
@@ -204,7 +205,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	{
 		$cbrecord = $this->getId();
 		if (!empty($cbrecord)) {
-			$cbdate = getValidDBInsertDateValue($this->get('date_start'));
+			$cbdate = \App\Fields\Date::formatToDb($this->get('date_start'));
 			$cbtime = $this->get('time_start');
 			$reminderid = (new \App\Db\Query())->select(['reminderid'])->from('vtiger_activity_reminder_popup')
 				->where(['recordid' => $cbrecord])

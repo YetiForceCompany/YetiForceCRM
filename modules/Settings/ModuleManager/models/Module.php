@@ -153,6 +153,7 @@ class Settings_ModuleManager_Module_Model extends Vtiger_Module_Model
 		while ($row = $dataReader->read()) {
 			$moduleModels[$row['name']] = self::getInstanceFromArray($row);
 		}
+		$dataReader->close();
 		return $moduleModels;
 	}
 

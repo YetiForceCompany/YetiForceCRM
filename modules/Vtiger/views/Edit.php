@@ -14,7 +14,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 
 	/**
 	 * Record model instance
-	 * @var Vtiger_Record_Model 
+	 * @var Vtiger_Record_Model
 	 */
 	protected $record;
 
@@ -137,7 +137,7 @@ Class Vtiger_Edit_View extends Vtiger_Index_View
 		$viewer->assign('APIADDRESS', Settings_ApiAddress_Module_Model::getInstance('Settings:ApiAddress')->getConfig());
 		$viewer->assign('APIADDRESS_ACTIVE', Settings_ApiAddress_Module_Model::isActive());
 		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Vtiger_Util_Helper::getMaxUploadSize());
-		$viewer->assign('MAX_UPLOAD_LIMIT', vglobal('upload_maxsize'));
+		$viewer->assign('MAX_UPLOAD_LIMIT', \AppConfig::main('upload_maxsize'));
 		$viewer->view('EditView.tpl', $moduleName);
 	}
 

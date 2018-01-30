@@ -75,6 +75,9 @@ Vtiger_BasicSearch_Js("Vtiger_AdvanceSearch_Js", {
 			view: "BasicAjax",
 			mode: "showAdvancedSearch",
 		};
+		if(app.getParentModuleName()){
+			searchableModulesParams.parent = app.getParentModuleName()
+		}
 		var progressInstance = jQuery.progressIndicator();
 		AppConnector.request(searchableModulesParams).then(
 				function (data) {

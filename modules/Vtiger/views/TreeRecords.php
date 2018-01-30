@@ -85,11 +85,11 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 		$parentScriptInstances = parent::getFooterScripts($request);
 
 		$scripts = [
-			'~libraries/jquery/jstree/jstree.js',
-			'~libraries/jquery/jstree/jstree.category.js',
-			'~libraries/jquery/jstree/jstree.checkbox.js',
-			'~libraries/jquery/datatables/media/js/jquery.dataTables.js',
-			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.js',
+			'~libraries/jstree/dist/jstree.js',
+			'~layouts/resources/libraries/jstree.category.js',
+			'~layouts/resources/libraries/jstree.checkbox.js',
+			'~libraries/datatables.net/js/jquery.dataTables.js',
+			'~libraries/datatables.net-bs/js/dataTables.bootstrap.js'
 		];
 		$viewInstances = $this->checkAndConvertJsScripts($scripts);
 		$scriptInstances = array_merge($parentScriptInstances, $viewInstances);
@@ -100,9 +100,8 @@ class Vtiger_TreeRecords_View extends Vtiger_Index_View
 	{
 		$parentCssInstances = parent::getHeaderCss($request);
 		$cssFileNames = [
-			'~libraries/jquery/jstree/themes/proton/style.css',
-			'~libraries/jquery/datatables/media/css/jquery.dataTables_themeroller.css',
-			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.css',
+			'~libraries/jstree-bootstrap-theme/dist/themes/proton/style.css',
+			'~libraries/datatables.net-bs/css/dataTables.bootstrap.css'
 		];
 		$modalInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$cssInstances = array_merge($parentCssInstances, $modalInstances);

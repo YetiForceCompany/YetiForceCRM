@@ -430,17 +430,15 @@ class Vtiger_InventoryField_Model extends App\Base
 	 */
 	public function saveField($type, $param)
 	{
-		$db = PearDatabase::getInstance();
 		$columns = ['label', 'invtype', 'defaultValue', 'sequence', 'block', 'displayType', 'params', 'colSpan'];
-		$set = [];
+		$updates = [];
 		foreach ($columns AS $columnName) {
 			if (isset($param[$columnName])) {
-				$set[strtolower($columnName)] = \App\Purifier::decodeHtml($param[$columnName]);
+				$updates[strtolower($columnName)] = \App\Purifier::decodeHtml($param[$columnName]);
 			}
 		}
-		$id = $param['id'];
-		if (!empty($set)) {
-			$return = $db->update($this->getTableName('fields'), $set, '`id` = ?', [$id]);
+		if (!empty($updates)) {
+			$return = \App\Db::getInstance()->createCommand()->update($this->getTableName('fields'), $updates, ['id' => $param['id']])->execute();
 		}
 		return $return;
 	}
@@ -488,10 +486,8 @@ class Vtiger_InventoryField_Model extends App\Base
 	 */
 	public function getUniqueID($instance)
 	{
-		$adb = PearDatabase::getInstance();
-		$query = sprintf('SELECT MAX(id) AS max FROM `%s` WHERE `invtype` = ? ', $this->getTableName('fields'));
-		$result = $adb->pquery($query, [$instance->getName()]);
-		return (int) $adb->getSingleValue($result) + 1;
+		return (int) (new \App\Db\Query())->from($this->getTableName('fields'))->where(['invtype' => $instance->getName()])
+				->max('id') + 1;
 	}
 
 	/**

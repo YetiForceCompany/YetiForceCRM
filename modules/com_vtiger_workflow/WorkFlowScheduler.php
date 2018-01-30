@@ -36,10 +36,10 @@ class WorkFlowScheduler
 
 	/**
 	 * Get workflow query
-	 * @param Workflow $workflow
+	 * @param \Workflow $workflow
 	 * @return \App\Db\Query
 	 */
-	public function getWorkflowQuery($workflow)
+	public function getWorkflowQuery(\Workflow $workflow)
 	{
 		$conditions = \App\Json::decode(App\Purifier::decodeHtml($workflow->test));
 
@@ -219,7 +219,7 @@ class WorkFlowScheduler
 		$operation = $condition['operation'];
 
 		// based on the admin users time zone, since query generator expects datetime at user timezone
-		$default_timezone = vglobal('default_timezone');
+		$default_timezone = \AppConfig::main('default_timezone');
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
 		date_default_timezone_set($adminTimeZone);

@@ -70,7 +70,7 @@ class ProductsTableNew extends Base
 						$html .= '<td class="' . (in_array($field->getName(), $fieldsTextAlignRight) ? 'textAlignRight ' : '') . 'tBorder">';
 						switch ($field->getTemplateName('DetailView', $this->textParser->moduleName)) {
 							case 'DetailViewName.tpl':
-								$html .= '<strong>' . $field->getDisplayValue($itemValue) . '</strong>';
+								$html .= '<strong>' . $field->getDisplayValue($itemValue, true) . '</strong>';
 								foreach ($fields[2] as $commentKey => $value) {
 									$COMMENT_FIELD = $fields[2][$commentKey];
 									$html .= '<br />' . $COMMENT_FIELD->getDisplayValue($inventoryRow[$COMMENT_FIELD->get('columnname')]);
@@ -78,7 +78,7 @@ class ProductsTableNew extends Base
 								break;
 
 							case 'DetailViewBase.tpl':
-								$html .= $field->getDisplayValue($itemValue);
+								$html .= $field->getDisplayValue($itemValue, true);
 								break;
 						}
 						$html .= '</td>';

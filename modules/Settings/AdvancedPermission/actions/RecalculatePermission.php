@@ -12,7 +12,7 @@ class Settings_AdvancedPermission_RecalculatePermission_Action extends Settings_
 
 	public function process(\App\Request $request)
 	{
-		\App\PrivilegeUpdater::setUpdater($request->get('moduleName'));
+		\App\PrivilegeUpdater::setUpdater($request->getByType('moduleName', 2));
 		$response = new Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();

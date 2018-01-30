@@ -14,7 +14,6 @@ class Vtiger_IndexAjax_View extends Vtiger_Index_View
 	public function __construct()
 	{
 		parent::__construct();
-		//$this->exposeMethod('showActiveRecords');
 	}
 
 	public function preProcess(\App\Request $request, $display = true)
@@ -34,23 +33,6 @@ class Vtiger_IndexAjax_View extends Vtiger_Index_View
 			$this->invokeExposedMethod($mode, $request);
 			return;
 		}
-	}
-	/*
-	 * Function to show the recently modified or active records for the given module
-	 */
-
-	public function showActiveRecords(\App\Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$recentRecords = $moduleModel->getRecentRecords();
-
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('RECORDS', $recentRecords);
-
-		echo $viewer->view('RecordNamesList.tpl', $moduleName, true);
 	}
 
 	public function getRecordsListFromRequest(\App\Request $request)

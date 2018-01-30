@@ -395,13 +395,13 @@ class Cron
 
 	/**
 	 * Get instance of cron
-	 * @param string $module
+	 * @param string $moduleName
 	 * @return \self[]
 	 */
-	public static function listAllInstancesByModule($module)
+	public static function listAllInstancesByModule($moduleName)
 	{
 		$instances = [];
-		$dataReader = (new \App\Db\Query())->from(self::$baseTable)->where(['module' => $moduleInstance->id])->createCommand()->query();
+		$dataReader = (new \App\Db\Query())->from(self::$baseTable)->where(['module' => $moduleName])->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$instances[] = new self($row);
 		}

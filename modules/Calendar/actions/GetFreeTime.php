@@ -74,6 +74,7 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 				$startTime = $row['time_end'];
 			}
 		}
+		$dataReader->close();
 		$date = new DateTime($day . ' ' . $startTime);
 		$startTime = new DateTimeField($startTime);
 		$date->add(new DateInterval('PT' . $durationEvent . 'M0S'));

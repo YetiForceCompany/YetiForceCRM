@@ -545,6 +545,7 @@ class Base2 extends \App\Db\Importers\Base
 				],
 				'index' => [
 					['block_tabid_idx', 'tabid'],
+					['block_sequence_idx', 'sequence'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1031,6 +1032,8 @@ class Base2 extends \App\Db\Importers\Base
 				'index' => [
 					['name', 'name', true],
 					['handler_file', 'handler_file', true],
+					['vtiger_cron_task_status_idx', 'status'],
+					['vtiger_cron_task_sequence_idx', 'sequence'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1207,6 +1210,7 @@ class Base2 extends \App\Db\Importers\Base
 				'index' => [
 					['customview_entitytype_idx', 'entitytype'],
 					['setdefault', ['setdefault', 'entitytype']],
+					['customview_userid_idx', 'userid'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -1223,6 +1227,8 @@ class Base2 extends \App\Db\Importers\Base
 				],
 				'index' => [
 					['cvadvfilter_cvid_idx', 'cvid'],
+					['cvadvfilter_groupid_idx', 'groupid'],
+					['cvadvfilter_columnindex_idx', 'columnindex'],
 				],
 				'primaryKeys' => [
 					['cvadvfilter_pk', ['cvid', 'columnindex']]
@@ -2094,6 +2100,8 @@ class Base2 extends \App\Db\Importers\Base
 					['presence', 'presence'],
 					['tabid_2', ['tabid', 'fieldname']],
 					['tabid_3', ['tabid', 'block']],
+					['field_sequence_idx', 'sequence'],
+					['field_uitype_idx', 'uitype'],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
@@ -3033,7 +3041,6 @@ class Base2 extends \App\Db\Importers\Base
 					[3, 'LBL_SEND_REMINDER', 'cron/SendReminder.php', 900, NULL, NULL, 1, 'Calendar', 12, 'Recommended frequency for SendReminder is 15 mins'],
 					[4, 'LBL_CURRENCY_UPDATE', 'modules/Settings/CurrencyUpdate/cron/CurrencyUpdateCron.php', 86400, NULL, NULL, 1, 'CurrencyUpdate', 3, 'Recommended frequency for Currency Update is 24 hours'],
 					[5, 'LBL_MAILER', 'cron/Mailer.php', 300, NULL, NULL, 1, 'Vtiger', 8, NULL],
-					[6, 'LBL_HANDLER_UPDATER', 'cron/HandlerUpdater.php', 60, NULL, NULL, 0, 'Vtiger', 2, NULL],
 					[7, 'LBL_BROWSING_HISTORY', 'cron/BrowsingHistory.php', 86400, NULL, NULL, 1, 'Vtiger', 29, NULL],
 					[8, 'LBL_SCHEDULED_IMPORT', 'cron/modules/Import/ScheduledImport.php', 900, NULL, NULL, 1, 'Import', 4, 'Recommended frequency for MailScanner is 15 mins'],
 					[9, 'LBL_SCHEDULE_REPORTS', 'cron/modules/Reports/ScheduleReports.php', 900, NULL, NULL, 1, 'Reports', 24, 'Recommended frequency for ScheduleReports is 15 mins'],
@@ -6103,7 +6110,7 @@ class Base2 extends \App\Db\Importers\Base
 					[29, 479, 'last_name', 'vtiger_users', 1, 2, 'last_name', 'Last Name', 1, 0, '', 30, 4, 77, 1, 'V~M', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 480, 'roleid', 'vtiger_user2role', 1, 98, 'roleid', 'Role', 1, 0, '', 200, 8, 77, 1, 'V~M', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 481, 'email1', 'vtiger_users', 1, 104, 'email1', 'Email', 1, 0, '', 100, 2, 77, 1, 'E~M', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[29, 482, 'status', 'vtiger_users', 1, 115, 'status', 'Status', 1, 0, 'Active', 100, 10, 77, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[29, 482, 'status', 'vtiger_users', 1, 115, 'status', 'Status', 1, 0, 'Active', 100, 10, 77, 1, 'V~M', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 483, 'activity_view', 'vtiger_users', 1, 16, 'activity_view', 'Default Activity View', 1, 0, 'This Month', 100, 6, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 484, 'lead_view', 'vtiger_users', 1, 16, 'lead_view', 'Default Lead View', 1, 0, '', 100, 9, 77, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 485, 'hour_format', 'vtiger_users', 1, 16, 'hour_format', 'Calendar Hour Format', 1, 0, '24', 100, 3, 118, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],

@@ -191,7 +191,7 @@ class Vtiger_Util_Helper
 	 */
 	public static function getMaxUploadSize()
 	{
-		$upload_maxsize = vglobal('upload_maxsize');
+		$upload_maxsize = \AppConfig::main('upload_maxsize');
 		return ceil($upload_maxsize / (1024 * 1024));
 	}
 
@@ -207,7 +207,7 @@ class Vtiger_Util_Helper
 
 	public static function getActiveAdminCurrentDateTime()
 	{
-		$default_timezone = vglobal('default_timezone');
+		$default_timezone = \AppConfig::main('default_timezone');
 		$admin = Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
 		date_default_timezone_set($adminTimeZone);
@@ -237,19 +237,6 @@ class Vtiger_Util_Helper
 		}
 
 		return $time;
-	}
-
-	/**
-	 * Function gets the CRM's base Currency information according to user preference
-	 * @return Array
-	 */
-	public static function getCurrentInfoOfUser()
-	{
-		$db = PearDatabase::getInstance();
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$result = $db->pquery('SELECT * FROM vtiger_currency_info WHERE id = ?', [$currentUser->get('currency_id')]);
-		if ($db->numRows($result))
-			return $db->queryResultRowData($result, 0);
 	}
 
 	public static function transferListSearchParamsToFilterCondition($searchParams, $moduleModel)

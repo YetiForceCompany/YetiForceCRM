@@ -67,24 +67,24 @@ class PBXManager_Record_Model extends Vtiger_Record_Model
 
 	/**
 	 * Function to save PBXManager record with array of params
-	 * @param array $values
+	 * @param array $params
 	 * return string $recordid
 	 */
 	public function saveRecordWithArrray($params)
 	{
-		$moduleModel = Vtiger_Module_Model::getInstance('PBXManager');
 		$recordModel = Vtiger_Record_Model::getCleanInstance('PBXManager');
 		$details = array_change_key_case($params, CASE_LOWER);
-		$fieldModelList = $moduleModel->getFields();
-		if (!isset($details["assigned_user_id"]))
-			$details["assigned_user_id"] = Users::getActiveAdminId();
-		if (!isset($details["created_user_id"]))
-			$details["created_user_id"] = Users::getActiveAdminId();
-		foreach ($fieldModelList as $fieldName => $fieldModel) {
+		if (!isset($details['assigned_user_id'])) {
+			$details['assigned_user_id'] = Users::getActiveAdminId();
+		}
+		if (!isset($details['created_user_id'])) {
+			$details['created_user_id'] = Users::getActiveAdminId();
+		}
+		foreach (Vtiger_Module_Model::getInstance('PBXManager')->getFields() as $fieldName => $fieldModel) {
 			$fieldValue = $details[$fieldName];
 			$recordModel->set($fieldName, $fieldValue);
 		}
-		return $moduleModel->saveRecord($recordModel);
+		return $recordModel->save();
 	}
 
 	/**

@@ -194,7 +194,7 @@ class Purifier
 		'table[width|height|border|style|class]', 'th[width|height|border|style|class|colspan|rowspan]',
 		'tr[width|height|border|style|class]', 'td[width|height|border|style|class|colspan|rowspan]',
 		'blockquote[style]',
-		'hr',
+		'hr', 'small',
 	];
 
 	/**
@@ -204,6 +204,16 @@ class Purifier
 	public static function loadHtmlDefinition(\HTMLPurifier_Config &$config)
 	{
 		$config->set('HTML.Allowed', implode(',', static::$allowedHtmlDefinition));
+		$config->set('URI.AllowedSchemes', [
+			'http' => true,
+			'https' => true,
+			'mailto' => true,
+			'ftp' => true,
+			'nntp' => true,
+			'news' => true,
+			'tel' => true,
+			'data' => true,
+		]);
 		if ($def = $config->getHTMLDefinition(true)) {
 			$def->addElement('section', 'Block', 'Flow', 'Common');
 			$def->addElement('nav', 'Block', 'Flow', 'Common');
@@ -330,8 +340,11 @@ class Purifier
 						$value = $input;
 					}
 					break;
-				case 'Text': // 
+				case 'Text': //
 					$value = is_numeric($input) || (is_string($input) && $input === strip_tags($input)) ? $input : false;
+					break;
+				case 'Color': // colors
+					$value = preg_match('/^(#[0-9a-fA-F]{6})$/', $input) ? $input : false;
 					break;
 				default:
 					$value = Purifier::purify($value);

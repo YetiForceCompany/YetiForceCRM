@@ -36,7 +36,7 @@ class Access
 	public static function syncSharingAccess()
 	{
 		self::log("Recalculating sharing rules ... ", false);
-		RecalculateSharingRules();
+		\App\UserPrivilegesFile::recalculateAll();
 		self::log("DONE");
 	}
 

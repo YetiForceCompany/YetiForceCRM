@@ -103,7 +103,7 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 
 		$jsFileNames = [
-			'libraries.jquery.clipboardjs.clipboard',
+			'libraries.clipboard.dist.clipboard',
 			'modules.Settings.Vtiger.resources.Edit',
 			"modules.Settings.$moduleName.resources.Edit",
 			"modules.Settings.$moduleName.resources.Edit1",

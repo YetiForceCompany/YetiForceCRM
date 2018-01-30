@@ -71,7 +71,7 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		$response['chart'] = $data;
 		$response['ticks'] = $ticks;
 		$response['name'] = $name;
-
+		$dataReader->close();
 		return $response;
 	}
 

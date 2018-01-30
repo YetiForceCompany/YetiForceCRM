@@ -249,7 +249,6 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 	 */
 	public function exportToExcel(\App\Request $request)
 	{
-		Vtiger_Loader::includeOnce('libraries.PHPExcel.PHPExcel');
 		$sourceModule = $request->getModule();
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		$sourceRecordId = $request->getInteger('src_record');
@@ -278,17 +277,17 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 		} else {
 			$rows = $request->getRaw('selected_ids') === '[]' ? [] : $request->getArray('selected_ids');
 		}
-		$workbook = new PHPExcel();
+		$workbook = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
 		$worksheet = $workbook->setActiveSheetIndex(0);
 		$header_styles = [
-			'fill' => ['type' => PHPExcel_Style_Fill::FILL_SOLID, 'color' => ['rgb' => 'E1E0F7']],
+			'fill' => ['type' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID, 'color' => ['rgb' => 'E1E0F7']],
 			'font' => ['bold' => true]
 		];
 		$row = 1;
 		$col = 0;
 		$headers = $relationListView->getHeaders();
 		foreach ($headers as $fieldsModel) {
-			$worksheet->setCellValueExplicitByColumnAndRow($col, $row, App\Purifier::decodeHtml(App\Language::translate($fieldsModel->getFieldLabel(), $relatedModuleName)), PHPExcel_Cell_DataType::TYPE_STRING);
+			$worksheet->setCellValueExplicitByColumnAndRow($col, $row, App\Purifier::decodeHtml(App\Language::translate($fieldsModel->getFieldLabel(), $relatedModuleName)), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 			$col++;
 		}
 		$row++;
@@ -308,23 +307,23 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 						case 25:
 						case 7:
 							if ($fieldsModel->getFieldName() === 'sum_time') {
-								$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, PHPExcel_Cell_DataType::TYPE_STRING);
+								$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 							} else {
-								$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, PHPExcel_Cell_DataType::TYPE_NUMERIC);
+								$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $value, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
 							}
 							break;
 						case 71:
 						case 72:
-							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $record->get($fieldsModel->getFieldName()), PHPExcel_Cell_DataType::TYPE_NUMERIC);
+							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, $record->get($fieldsModel->getFieldName()), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
 							break;
 						case 6://datetimes
 						case 23:
 						case 70:
-							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, PHPExcel_Shared_Date::PHPToExcel(strtotime($record->get($fieldsModel->getFieldName()))), PHPExcel_Cell_DataType::TYPE_NUMERIC);
+							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel(strtotime($record->get($fieldsModel->getFieldName()))), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
 							$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY HH:MM:SS'); //format the date to the users preference
 							break;
 						default:
-							$worksheet->setCellValueExplicitByColumnAndRow($col, $row, App\Purifier::decodeHtml($value), PHPExcel_Cell_DataType::TYPE_STRING);
+							$worksheet->setCellValueExplicitByColumnAndRow($col, $row, App\Purifier::decodeHtml($value), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 					}
 					$col++;
 				}
@@ -340,9 +339,9 @@ class Vtiger_RelationAjax_Action extends Vtiger_Action_Controller
 			$worksheet->getColumnDimension($cell->getColumn())->setAutoSize(true);
 			$col++;
 		}
-		$tmpDir = vglobal('tmp_dir');
+		$tmpDir = \AppConfig::main('tmp_dir');
 		$tempFileName = tempnam(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $tmpDir, 'xls');
-		$workbookWriter = PHPExcel_IOFactory::createWriter($workbook, 'Excel5');
+		$workbookWriter = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($workbook, 'Xls');
 		$workbookWriter->save($tempFileName);
 		if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
 			header('Pragma: public');

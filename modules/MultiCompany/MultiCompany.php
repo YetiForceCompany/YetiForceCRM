@@ -92,26 +92,6 @@ class MultiCompany extends Vtiger_CRMEntity
 	public $default_sort_order = 'ASC';
 
 	/**
-	 * Invoked when special actions are performed on the module.
-	 * @param String Module name
-	 * @param String Event Type
-	 */
-	public function moduleHandler($moduleName, $eventType)
-	{
-		if ($eventType === 'module.postinstall') {
-			
-		} else if ($eventType === 'module.disabled') {
-			
-		} else if ($eventType === 'module.preuninstall') {
-			
-		} else if ($eventType === 'module.preupdate') {
-			
-		} else if ($eventType === 'module.postupdate') {
-			
-		}
-	}
-
-	/**
 	 * Function to get sales hierarchy of the given Sale
 	 * @param integer $id
 	 * returns hierarchy in array format
@@ -195,7 +175,7 @@ class MultiCompany extends Vtiger_CRMEntity
 	}
 
 	/**
-	 * Function to Recursively get all the upper sales of a given 
+	 * Function to Recursively get all the upper sales of a given
 	 * @param integer $id - multicompanyid
 	 * @param array $parent - Array of all the parent sales
 	 * returns All the parent  f the given multicompanyid in array format
@@ -297,6 +277,7 @@ class MultiCompany extends Vtiger_CRMEntity
 				$childRow[$childAccId] = $childSalesProcessesInfo;
 				$this->getChild($childAccId, $childRow[$childAccId], $depth);
 			}
+			$dataReader->close();
 		}
 		\App\Log::trace('Exiting getChild method ...');
 		return $childRow;

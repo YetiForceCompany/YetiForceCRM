@@ -10,7 +10,6 @@ $languageStrings = [
 	'Configuration Editor' => 'Ustawienia',
 	'EmailTemplate' => 'Szablony mailowe',
 	'EMAILTEMPLATES' => 'Szablony mailowe',
-	'LBL_TERMS_AND_CONDITIONS' => 'Warunki i ustalenia',
 	'LBL_ACCESS_MANAGEMENT' => 'Zasady dostępu',
 	'LBL_ACTIVE' => 'Aktywne',
 	'LBL_ADD_MENU_ITEM' => 'Dodaj pozycje menu',

@@ -1,6 +1,9 @@
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
-	registerLinkEvent: function (container) {
+	/**
+	 * Redirects to the clicked link from the iframe.
+	 */
+	registerLinkEvent: function () {
 		$('#page').on('click', 'a', function (e) {
 			e.preventDefault();
 			var target = $(this);
@@ -12,72 +15,41 @@ Vtiger_Detail_Js("Vtiger_DetailPreview_Js", {}, {
 		});
 	},
 	/**
-	 * Function updates iframes' size with widgets
+	 * Redirects to the current iframe parent.
 	 */
-	updateWidgetEvent: function (iframe, bodyContents) {
-		app.event.on("DetailView.Widget.AfterLoad", function (e, widgetContent, relatedModuleName, instance) {
-			iframe.height(bodyContents.height() - 10);
+	updateParentFrame: function () {
+		parent.app.getPageController().updateWindowHeight($(".mainContainer").height(), $(window.frameElement));
+	},
+	/**
+	 * Function sets the correct iframe size.
+	 * @param {jQuery} currentHeight - ifrmae body height to be set.
+	 * @param {jQuery} frame - ifrmae height to be changed.
+	 */
+	updateWindowHeight: function (currentHeight, frame) {
+		var thisInstance = this;
+		var relatedContents = frame.closest('.relatedContents');
+		var fixedListHeight = relatedContents.find(".fixedListContent").height();
+		frame.height(currentHeight);
+		if (fixedListHeight > currentHeight) {
+			currentHeight = fixedListHeight;
+		}
+		relatedContents.find(".gutter,.wrappedPanel,.fixedListInitial,.listPreview,.recordsListPreview").height(currentHeight);
+		if (window.frameElement) {
+			thisInstance.updateParentFrame();
+		}
+	},
+	/**
+	 * Creates ResizeSensor, which detects size changes.
+	 */
+	registerSizeEvent: function () {
+		var thisInstance = this;
+		new ResizeSensor($('.mainContainer'), function () {
+			thisInstance.updateParentFrame();
 		});
 	},
 	/**
-	 * Function changes iframes' size
+	 * Registers DetailPreview events.
 	 */
-	registerSizeEvent: function (container) {
-		var thisInstance = this;
-		var iframe = $(top.document).find("#listPreviewframe");
-		var inifr = iframe.contents().find("#listPreviewframe");
-		var mainContainer = $(".mainContainer");
-		var panelBody = inifr.closest(".panel-body");
-		//event for iframe in document record
-		inifr.contents().find("body").on("DetailView.BlockToggle.PostLoad", function (e, data) {
-			if (inifr.closest(".panel-body").length) {
-				inifr.height(inifr.contents().find(".mainContainer").height() - 10);
-				panelBody.height(inifr.height() + 100);
-				iframe.height(iframe.contents().find(".detailViewContainer").height());
-			}
-		});
-		//event on loading content in tab, adding records
-		app.event.on('RelatedList.AfterLoad', function (event, instance) {
-			iframe.height(iframe.contents().find(".detailViewContainer").height());
-		});
-		//event for toggle list's records
-		app.event.on("DetailView.BlockToggle.PostLoad", function (e, contentContainer, data, instance) {
-			if (inifr.length) {
-				inifr.height(mainContainer.height() - 10);
-				iframe.height(inifr.height() + inifr.offset().top + 10);
-			} else {
-				iframe.height(mainContainer.height() - 10);
-			}
-		});
-		app.event.on("DetailView.SaveComment.AfterLoad", function (e, commentBlock, postData, response) {
-			if (inifr.length) {
-				inifr.height(mainContainer.height() - 10);
-				iframe.height(inifr.height() + inifr.offset().top + 10);
-			} else {
-				iframe.height(mainContainer.height() - 10);
-			}
-		});
-		//widgets loader
-		thisInstance.updateWidgetEvent(iframe, mainContainer);
-		//tabs loader
-		app.event.on('DetailView.Tab.AfterLoad', function (event, container, instance) {
-			//check if tab has listpreview
-			if (iframe.contents().find("#listPreviewframe").length) {
-				var inifr = iframe.contents().find("#listPreviewframe");
-				inifr.height($(".detailViewContainer").height());
-				iframe.height(inifr.height() + inifr.offset().top + 10);
-				var currentIf = $("#listPreviewframe");
-				$("#listPreviewframe").load(function () {
-					currentIf.height(currentIf.contents().find(".detailViewContainer").height());
-					iframe.height(currentIf.height() + currentIf.offset().top + 15);
-				});
-				thisInstance.updateWidgetEvent(currentIf, mainContainer);
-			} else {
-				iframe.height(mainContainer.height() - 10);
-				thisInstance.updateWidgetEvent(iframe, mainContainer);
-			}
-		});
-	},
 	registerEvents: function () {
 		this._super();
 		this.registerLinkEvent();

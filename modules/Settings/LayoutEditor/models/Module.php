@@ -479,6 +479,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$moduleName = $moduleName['name'];
 			$modulesList[$moduleName] = $moduleName;
 		}
+		$dataReader->close();
 		// If calendar is disabled we should not show events module too
 		// in layout editor
 		if (!array_key_exists('Calendar', $modulesList)) {
@@ -571,6 +572,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		while ($row = $dataReader->read()) {
 			$treeList[$row['templateid']] = $row['name'];
 		}
+		$dataReader->close();
 		return $treeList;
 	}
 
@@ -604,6 +606,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		while ($row = $dataReader->read()) {
 			$fields[] = $row['fieldname'];
 		}
+		$dataReader->close();
 		return $fields;
 	}
 

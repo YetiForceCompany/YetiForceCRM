@@ -35,11 +35,9 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 				$stateActivityLabels['in_realization']
 			]
 		];
-		$conditions = [
-			'condition' => [
-				'vtiger_activity.status' => $params['status']
-			]
-		];
+		if (!$request->isEmpty('activitytype') && $request->getByType('activitytype') !== 'all') {
+			$params['activitytype'] = $request->getByType('activitytype');
+		}
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Calendar', $request->getByType('owner', 2));
 
@@ -58,15 +56,13 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('ACTIVITIES', $calendarActivities);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('CURRENTUSER', $currentUser);
-		$title_max_length = vglobal('title_max_length');
-		$href_max_length = vglobal('href_max_length');
-		$viewer->assign('NAMELENGTH', $title_max_length);
+		$viewer->assign('HREFNAMELENGTH', \AppConfig::main('href_max_length'));
+		$viewer->assign('NAMELENGTH', \AppConfig::main('title_max_length'));
 		$viewer->assign('OWNER', $owner);
-		$viewer->assign('HREFNAMELENGTH', $href_max_length);
 		$viewer->assign('NODATAMSGLABLE', $msgLabel);
 		$viewer->assign('LISTVIEWLINKS', true);
 		$viewer->assign('DATA', $data);
-		$viewer->assign('USER_CONDITIONS', $conditions);
+		$viewer->assign('USER_CONDITIONS', ['condition' => ['vtiger_activity.status' => $params['status']]]);
 		if ($request->has('content')) {
 			$viewer->view('dashboards/CalendarActivitiesContents.tpl', $moduleName);
 		} else {

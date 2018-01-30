@@ -24,9 +24,9 @@
 			{foreach key=index item=jsModel from=$HEADER_SCRIPTS}
 				<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 			{/foreach}
-			<!--[if IE]>
-				<script type="text/javascript" src="libraries/html5shim/html5.js"></script>
-				<script type="text/javascript" src="libraries/html5shim/respond.js"></script>
+			<!--[if IE]>	
+			<script type="text/javascript" src="public_html/libraries/html5shiv/html5shiv.js"></script>	
+			<script type="text/javascript" src="public_html/libraries/respond.js/dist/respond.min.js"></script>	
 			<![endif]-->
 			{* ends *}
 			{* ADD <script> INCLUDES in JSResources.tpl - for better performance *}
@@ -51,7 +51,7 @@
 				<input type="hidden" id="currencyDecimalSeparator" value="{$USER_MODEL->get('currency_decimal_separator')}" />
 				<input type="hidden" id="currencyGroupingPattern" value="{$USER_MODEL->get('currency_grouping_pattern')}" />
 				<input type="hidden" id="truncateTrailingZeros" value="{$USER_MODEL->get('truncate_trailing_zeros')}" />
-				<input type="hidden" id="backgroundClosingModal" value="{vglobal('backgroundClosingModal')}" />
+				<input type="hidden" id="backgroundClosingModal" value="{\AppConfig::main('backgroundClosingModal')}" />
 				<input type="hidden" id="gsAutocomplete" value="{AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE')}" />
 				<input type="hidden" id="gsMinLength" value="{AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH')}" />
 				<input type="hidden" id="gsAmountResponse" value="{AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT')}" />

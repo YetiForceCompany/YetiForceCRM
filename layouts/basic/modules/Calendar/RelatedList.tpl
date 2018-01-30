@@ -131,13 +131,13 @@
 		</div>
 		{if $RELATED_VIEW === 'ListPreview'}
 			<div class="relatedContents">
-				<div id="recordsListPreview">
+				<div class="recordsListPreview">
 					<input type="hidden" id="defaultDetailViewName" value="{AppConfig::module($MODULE, 'defaultDetailViewName')}" />
 					<div class="col-md-3" id="recordsList">
 						{include file=\App\Layout::getTemplatePath("RelatedListContents.tpl", $RELATED_MODULE->get('name'))}
 					</div>
-					<div class="col-md-9" id="listPreview">
-						<iframe class="border1px" id="listPreviewframe" frameborder="0"></iframe>
+					<div class="listPreview col-md-9">
+						<iframe class="listPreviewframe border1px" frameborder="0"></iframe>
 					</div>
 
 				</div>

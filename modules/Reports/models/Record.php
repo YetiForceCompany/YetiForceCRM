@@ -479,21 +479,19 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	 */
 	public function saveSortFields()
 	{
-		$db = PearDatabase::getInstance();
-
+		$db = \App\Db::getInstance();
 		$sortFields = $this->get('sortFields');
-
 		if (!empty($sortFields)) {
 			$i = 0;
+			$dbCommand = $db->createCommand();
 			foreach ($sortFields as $fieldInfo) {
 				$columnName = App\Purifier::decodeHtml($fieldInfo[0]);
-				$db->pquery('INSERT INTO vtiger_reportsortcol(sortcolid, reportid, columnname, sortorder) VALUES (?,?,?,?)', [$i, $this->getId(), $columnname, $fieldInfo[1]]);
-				if (IsDateField($columnName)) {
+				$dbCommand->insert('vtiger_reportsortcol', ['sortcolid' => $i, 'reportid' => $this->getId(), 'columnname' => $columnName, 'sortorder' => $fieldInfo[1]])->execute();
+				if (ReportUtils::isDateField($columnName)) {
 					if (empty($fieldInfo[2])) {
 						$fieldInfo[2] = 'None';
 					}
-					$db->pquery('INSERT INTO vtiger_reportgroupbycolumn(reportid, sortid, sortcolname, dategroupbycriteria)
-                        VALUES(?,?,?,?)', [$this->getId(), $i, $columnName, $fieldInfo[2]]);
+					$dbCommand->insert('vtiger_reportgroupbycolumn', ['reportid' => $this->getId(), 'sortid' => $i, 'sortcolname' => $columnName, 'dategroupbycriteria' => $fieldInfo[2]])->execute();
 				}
 				$i++;
 			}
@@ -600,7 +598,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 					$moduleFieldLabel = $columnInfo[2];
 
 					list($module, $fieldLabel) = explode('__', $moduleFieldLabel, 2);
-					$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
+					$fieldInfo = ReportUtils::getFieldByReportLabel($module, $fieldLabel);
 					$fieldType = null;
 					if (!empty($fieldInfo)) {
 						$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldInfo['fieldid']);
@@ -757,7 +755,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	{
 		$reportRun = ReportRun::getInstance($this->getId());
 		$advanceFilterSql = $this->getAdvancedFilterSQL();
-		$tmpDir = vglobal('tmp_dir');
+		$tmpDir = \AppConfig::main('tmp_dir');
 
 		$tempFileName = tempnam(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $tmpDir, 'xls');
 		$fileName = App\Purifier::decodeHtml($this->getName()) . '.xls';
@@ -783,7 +781,7 @@ class Reports_Record_Model extends Vtiger_Record_Model
 	{
 		$reportRun = ReportRun::getInstance($this->getId());
 		$advanceFilterSql = $this->getAdvancedFilterSQL();
-		$tmpDir = vglobal('tmp_dir');
+		$tmpDir = \AppConfig::main('tmp_dir');
 
 		$tempFileName = tempnam(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $tmpDir, 'csv');
 		$reportRun->writeReportToCSVFile($tempFileName, $advanceFilterSql);

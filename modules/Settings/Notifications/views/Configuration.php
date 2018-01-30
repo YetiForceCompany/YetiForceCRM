@@ -41,8 +41,8 @@ class Settings_Notifications_Configuration_View extends Settings_Vtiger_Index_Vi
 		$moduleName = $request->getModule();
 		$jsFileNames = [
 			"modules.Settings.$moduleName.resources.Configuration",
-			'~libraries/jquery/datatables/media/js/jquery.dataTables.min.js',
-			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.min.js'
+			'~libraries/datatables.net/js/jquery.dataTables.js',
+			'~libraries/datatables.net-bs/js/dataTables.bootstrap.js',
 		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);

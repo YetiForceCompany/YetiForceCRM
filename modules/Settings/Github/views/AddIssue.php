@@ -24,7 +24,7 @@ class Settings_Github_AddIssue_View extends Vtiger_BasicModal_View
 		$viewer = $this->getViewer($request);
 		$clientModel = Settings_Github_Client_Model::getInstance();
 		$configuration = Settings_ConfReport_Module_Model::getStabilityConf();
-		$libraries = Settings_ConfReport_Module_Model::getConfigurationLibrary();
+		$libraries = Settings_ConfReport_Module_Model::getLibrary();
 		$errorLibraries = [];
 		foreach ($libraries as $key => $value) {
 			if ($value['status'] == 'LBL_NO') {

@@ -21,17 +21,17 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	 * @param type $value
 	 * @return type
 	 */
-	public function getDisplayValue($value)
+	public function getDisplayValue($value, $rawText = false)
 	{
 		if (empty($value)) {
 			return '';
 		}
 		$name = \App\Record::getLabel($value);
 		$moduleName = \App\Record::getType($value);
-		if ($value && !\App\Privilege::isPermitted($moduleName, 'DetailView', $value)) {
+		if ($rawText || ($value && !\App\Privilege::isPermitted($moduleName, 'DetailView', $value))) {
 			return $name;
 		}
-		$name = vtlib\Functions::textLength($name, vglobal('href_max_length'));
+		$name = vtlib\Functions::textLength($name, \AppConfig::main('href_max_length'));
 		if (\App\Record::getState($value) !== 'Active') {
 			$name = '<s>' . $name . '</s>';
 		}

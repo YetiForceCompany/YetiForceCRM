@@ -72,8 +72,12 @@ tools:
     sensiolabs_security_checker: true
     
 build:
+    tests:
+        stop_on_failure: false
+        override:
+            command: "php -v"
     nodes:
-        tests: true
+        tests: false
         analysis:
             tests:
                 override:

@@ -294,6 +294,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 			$this->importedRecordInfo[$rowId] = $entityInfo;
 			$this->updateImportStatus($rowId, $entityInfo);
 		}
+		$dataReader->close();
 		return true;
 	}
 
@@ -634,7 +635,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 					$valuesList = explode(' ', $fieldValue);
 					if (count($valuesList) === 1)
 						$fieldValue = '';
-					$fieldValue = getValidDBInsertDateTimeValue($fieldValue);
+					$fieldValue = \App\Fields\DateTime::formatToDb($fieldValue, true);
 					if (preg_match("/^[0-9]{2,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2} ([0-1][0-9]|[2][0-3])([:][0-5][0-9]){1,2}$/", $fieldValue) == 0) {
 						$fieldValue = '';
 					}
@@ -644,7 +645,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 					if ($fieldValue === null || $fieldValue === '0000-00-00') {
 						$fieldValue = '';
 					}
-					$fieldValue = getValidDBInsertDateValue($fieldValue);
+					$fieldValue = \App\Fields\Date::formatToDb($fieldValue, true);
 					if (preg_match("/^[0-9]{2,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2}$/", $fieldValue) == 0) {
 						$fieldValue = '';
 					}
@@ -745,6 +746,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 					break;
 			}
 		}
+		$dataReader->close();
 		return $statusCount;
 	}
 
@@ -832,6 +834,7 @@ class Import_Data_Action extends Vtiger_Action_Controller
 					$importRecords['failed'][] = $record;
 				}
 			}
+			$dataReader->close();
 		}
 		return $importRecords;
 	}

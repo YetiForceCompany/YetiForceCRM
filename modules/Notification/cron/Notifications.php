@@ -15,6 +15,7 @@ $dataReader = $query->createCommand()->query();
 while ($row = $dataReader->read()) {
 	$notifications->executeScheduled($row);
 }
+$dataReader->close();
 if (\AppConfig::module('Notification', 'AUTO_MARK_NOTIFICATIONS_READ_AFTER_EMAIL_SEND')) {
 	$notifications->markAsRead();
 }

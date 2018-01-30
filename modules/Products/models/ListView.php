@@ -33,28 +33,28 @@ class Products_ListView_Model extends Vtiger_ListView_Model
 	{
 		$moduleModel = $this->getModule();
 		$moduleName = $moduleModel->get('name');
-		$this->loadListViewCondition();
-		$this->loadListViewOrderBy();
 		$queryGenerator = $this->get('query_generator');
-		$query = $queryGenerator->createQuery();
 		// Limit the choice of products/services only to the ones related to currently selected Opportunity - last step.
 		if (Settings_SalesProcesses_Module_Model::checkRelatedToPotentialsLimit($this->get('src_module'))) {
-			$salesProcessId = $this->get('salesprocessid');
-			if (empty($salesProcessId)) {
-				$salesProcessId = -1;
+			if ($this->isEmpty('salesprocessid')) {
+				$pagingModel->calculatePageRange(0);
+				return [];
 			}
-			if ($moduleName == 'Products') {
-				$query->innerJoin('vtiger_crmentityrel', 'vtiger_crmentityrel.relcrmid = vtiger_products.productid OR vtiger_crmentityrel.crmid = vtiger_products.productid');
-			} elseif ($moduleName == 'Services') {
-				$query->innerJoin('vtiger_crmentityrel', 'vtiger_crmentityrel.relcrmid = vtiger_service.serviceid OR vtiger_crmentityrel.crmid = vtiger_service.serviceid');
+			if ($moduleName === 'Products') {
+				$queryGenerator->addJoin(['INNER JOIN', 'vtiger_crmentityrel', 'vtiger_crmentityrel.relcrmid = vtiger_products.productid OR vtiger_crmentityrel.crmid = vtiger_products.productid']);
+			} elseif ($moduleName === 'Services') {
+				$queryGenerator->addJoin(['INNER JOIN', 'vtiger_crmentityrel', 'vtiger_crmentityrel.relcrmid = vtiger_service.serviceid OR vtiger_crmentityrel.crmid = vtiger_service.serviceid']);
 			}
 			if (in_array($moduleName, ['Products', 'Services'])) {
-				$query->andWhere(['or',
-					['vtiger_crmentityrel.crmid' => $salesProcessId, 'module' => 'SSalesProcesses'],
-					['vtiger_crmentityrel.relcrmid' => $salesProcessId, 'relmodule' => 'SSalesProcesses']
+				$queryGenerator->addNativeCondition(['or',
+						['vtiger_crmentityrel.crmid' => $this->get('salesprocessid'), 'module' => 'SSalesProcesses'],
+						['vtiger_crmentityrel.relcrmid' => $this->get('salesprocessid'), 'relmodule' => 'SSalesProcesses']
 				]);
 			}
 		}
+		$this->loadListViewCondition();
+		$this->loadListViewOrderBy();
+		$query = $queryGenerator->createQuery();
 		if ($this->get('subProductsPopup')) {
 			$this->addSubProductsQuery($query);
 		}

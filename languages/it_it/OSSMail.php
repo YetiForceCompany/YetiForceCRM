@@ -7,6 +7,7 @@
  */
 $languageStrings = [
 	'OSSMail' => 'La mia posta',
+	'LBL_RELATIONS_EXTEND' => 'Contatti',
 	'OSSMail_manual' => 'Mail module',
 	'Roundcube config' => 'Roundcube configuration',
 	'Uninstall' => 'Disinstalla',

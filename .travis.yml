@@ -30,9 +30,6 @@ mysql:
   encoding: utf8
   
 before_script:
-- sudo wget https://phar.phpunit.de/phpunit-6.2.phar
-- sudo chmod +x phpunit-6.2.phar
-- sudo mv phpunit-6.2.phar /usr/local/bin/phpunit
 - sudo chmod -R 777 tests/setup/
 - ./tests/setup/before_script.sh
 - ./tests/setup/apache.sh

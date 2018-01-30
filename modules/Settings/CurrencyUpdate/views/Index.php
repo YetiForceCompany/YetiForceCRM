@@ -11,8 +11,6 @@ class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 
 	public function process(\App\Request $request)
 	{
-
-		\App\Log::trace('Start ' . __METHOD__);
 		$qualifiedModule = $request->getModule(false);
 		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -20,8 +18,8 @@ class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 		// synchronise bank list
 		$moduleModel->refreshBanks();
 
-		$downloadBtn = !$request->isEmpty('download') ? $request->get('download') : false;
-		$date = !$request->isEmpty('duedate') ? Vtiger_Datetime_UIType::getDBInsertedValue($request->get('duedate')) : false;
+		$downloadBtn = !$request->isEmpty('download') ? $request->getByType('download') : false;
+		$date = !$request->isEmpty('duedate') ? Vtiger_Datetime_UIType::getDBInsertedValue($request->getByType('duedate', 'DateInUserFormat')) : false;
 
 		$dateCur = '';
 		if ($date) {
@@ -63,7 +61,7 @@ class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 			$bankTab[$i]['active'] = $row['active'];
 			$i++;
 		}
-
+		$dataReader->close();
 		// number of currencies
 		$curr_num = $moduleModel->getCurrencyNum();
 		// get info about main currency

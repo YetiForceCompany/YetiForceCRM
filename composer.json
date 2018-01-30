@@ -11,7 +11,7 @@
 	},
 	"authors": [
 		{
-			"name": "YetiForce team",
+			"name": "YetiForceCompany",
 			"email": "info@yetiforce.com",
 			"homepage": "https://yetiforce.com/"
 		}
@@ -33,20 +33,20 @@
 		"ext-soap": "*",
 		"ext-zip": "*",
 		"ext-xml": "*",
-		"mnsami/composer-custom-directory-installer": "1.*",
 		"sabre/dav": "3.1.3",
 		"rmccue/requests": "v1.7.0",
 		"smarty/smarty": "3.1.31",
 		"phpmailer/phpmailer": "v5.2.25",
 		"ezyang/htmlpurifier": "v4.9.3",
 		"simshaun/recurr": "v3.0.2",
-		"sensiolabs/security-checker": "v4.1.5",
+		"sensiolabs/security-checker": "*",
 		"doctrine/collections": "v1.4.0",
 		"symfony/var-dumper": "v3.3.6",
 		"symfony/console": "v3.3.6",
 		"symfony/debug": "v3.3.6",
-		"giggsey/libphonenumber-for-php": "8.8.2",
-		"fortawesome/font-awesome": "*"
+		"giggsey/libphonenumber-for-php": "*",
+		"dg/rss-php": "^1.2",
+		"phpoffice/phpspreadsheet": "^1.0"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "6.*",
@@ -71,11 +71,6 @@
 			"Tests\\": "tests/",
 			"Exception\\": "include/exceptions/",
 			"DebugBar\\": "vendor/php-debugbar/src/DebugBar/"
-		}
-	},
-	"extra": {
-		"installer-paths": {
-			"public_html/libraries/font-awesome/": ["fortawesome/font-awesome"]
 		}
 	}
 }

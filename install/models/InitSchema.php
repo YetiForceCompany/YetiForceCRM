@@ -30,7 +30,7 @@ class Install_InitSchema_Model
 
 		// recalculate all sharing rules for users
 		Vtiger_Loader::includeOnce('~include/utils/UserInfoUtil.php');
-		RecalculateSharingRules();
+		\App\UserPrivilegesFile::recalculateAll();
 	}
 
 	public function initializeDatabase($location, $filesName = [])
@@ -167,7 +167,7 @@ class Install_InitSchema_Model
 		$migrationObject->process();
 		$return = $migrationObject->postProcess();
 		vtlib\Access::syncSharingAccess();
-		vtlib\Deprecated::createModuleMetaFile();
+		\App\Module::createModuleMetaFile();
 		return $return;
 	}
 

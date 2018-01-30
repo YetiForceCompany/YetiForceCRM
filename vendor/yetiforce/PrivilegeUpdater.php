@@ -161,7 +161,7 @@ class PrivilegeUpdater
 		}
 		$insert = $update = $row = false;
 		$query = new \App\Db\Query();
-		$row = $query->from('s_#__privileges_updater')->where(['module' => $moduleName, 'type' => 1])->one();
+		$row = $query->from('s_#__privileges_updater')->where(['module' => $moduleName, 'type' => 1])->limit(1)->one();
 		if ($row) {
 			if ($record === false) {
 				if ($row['crmid'] != 0) {
@@ -174,7 +174,7 @@ class PrivilegeUpdater
 		} elseif ($record === false) {
 			$insert = true;
 		} else {
-			$row = $query->from('s_#__privileges_updater')->where(['module' => $moduleName, 'type' => 0, 'crmid' => $record])->one();
+			$row = $query->from('s_#__privileges_updater')->where(['module' => $moduleName, 'type' => 0, 'crmid' => $record])->limit(1)->one();
 			if ($row === false) {
 				$insert = true;
 				$params['type'] = 0;
@@ -195,7 +195,7 @@ class PrivilegeUpdater
 	public static function setAllUpdater()
 	{
 		$modules = \vtlib\Functions::getAllModules();
-		foreach ($modules as &$module) {
+		foreach ($modules as $module) {
 			static::setUpdater($module['name']);
 		}
 		PrivilegeAdvanced::reloadCache();

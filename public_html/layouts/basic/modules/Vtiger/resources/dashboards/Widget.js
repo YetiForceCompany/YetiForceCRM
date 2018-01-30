@@ -92,8 +92,7 @@ jQuery.Class('Vtiger_Widget_Js', {
 			adjustedHeight -= footer.outerHeight();
 		}
 		content.css('height', adjustedHeight + 'px');
-		content.css('overflow', 'auto');
-		content.perfectScrollbar();
+		var scrollbarInit = new PerfectScrollbar(content[0]);
 	},
 	restrictContentDrag: function () {
 		this.getContainer().on('mousedown.draggable', function (e) {
@@ -305,6 +304,11 @@ jQuery.Class('Vtiger_Widget_Js', {
 	getFilterData: function () {
 		return {};
 	},
+
+	/**
+	 * Refresh widget
+	 * @returns {undefined}
+	 */
 	refreshWidget: function () {
 		var thisInstance = this;
 		var parent = this.getContainer();
@@ -320,27 +324,14 @@ jQuery.Class('Vtiger_Widget_Js', {
 			params.data = {};
 			widgetFilters.each(function (index, domElement) {
 				var widgetFilter = jQuery(domElement);
-				if (widgetFilter.is('.dateRange')) {
-					var dateRangeVal = widgetFilter.val();
-					//If not value exists for date field then dont send the value
-					if (dateRangeVal.length <= 0) {
-						return true;
-					}
-					var name = widgetFilter.attr('name');
-					var dateRangeValComponents = dateRangeVal.split(',');
-					params.data[name] = {};
-					params.data[name].start = dateRangeValComponents[0];
-					params.data[name].end = dateRangeValComponents[1];
+				var filterType = widgetFilter.attr('type');
+				var filterName = widgetFilter.attr('name');
+				if ('checkbox' == filterType) {
+					var filterValue = widgetFilter.is(':checked');
+					params.data[filterName] = filterValue;
 				} else {
-					var filterType = widgetFilter.attr('type');
-					var filterName = widgetFilter.attr('name');
-					if ('checkbox' == filterType) {
-						var filterValue = widgetFilter.is(':checked');
-						params.data[filterName] = filterValue;
-					} else {
-						var filterValue = widgetFilter.val();
-						params.data[filterName] = filterValue;
-					}
+					var filterValue = widgetFilter.val();
+					params.data[filterName] = filterValue;
 				}
 			});
 		}
@@ -798,7 +789,6 @@ Vtiger_Widget_Js('Vtiger_Bardivided_Widget_Js', {}, {
 			series[index] = {label: value};
 		});
 		if (data['chartData'].length > 0) {
-			console.log(data);
 			this.chartInstance = this.getPlotContainer(false).jqplot(data['chartData'], {
 				stackSeries: true,
 				captureRightClick: true,
@@ -1452,10 +1442,20 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 				day: app.vtranslate('JS_DAY')
 			},
 			allDayText: app.vtranslate('JS_ALL_DAY'),
-			eventLimitText: app.vtranslate('JS_MORE')
+			eventLimitText: app.vtranslate('JS_MORE'),
+			eventRender: function (event, element, view) {
+				element = '<div class="cell-calendar">';
+				for (var key in event.event) {
+					element += '<a class="" href="javascript:;"' +
+							' data-date="' + event.date + '"' + ' data-type="' + key + '" title="' + event.event[key].label + '">' +
+							'<span class="' + event.event[key].className + ((event.width <= 20) ? ' small-badge' : '') + ((event.width >= 24) ? ' big-badge' : '') + ' badge">' + event.event[key].count + '</span>' +
+							'</a>\n';
+				}
+				element += '</div>';
+				return element;
+			}
 		});
-
-		thisInstance.getCalendarView().find("td.fc-day-number")
+		thisInstance.getCalendarView().find("td.fc-day-top")
 				.mouseenter(function () {
 					jQuery('<span class="plus pull-left glyphicon glyphicon-plus"></span>')
 							.prependTo($(this))
@@ -1463,7 +1463,7 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 			$(this).find(".plus").remove();
 		});
 
-		thisInstance.getCalendarView().find("td.fc-day-number").click(function () {
+		thisInstance.getCalendarView().find("td.fc-day-top").click(function () {
 			var date = $(this).data('date');
 			var params = {noCache: true};
 			params.data = {date_start: date, due_date: date};
@@ -1474,7 +1474,7 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 		});
 		var switchBtn = container.find('.switchBtn');
 		app.showBtnSwitch(switchBtn);
-
+		
 		switchBtn.on('switchChange.bootstrapSwitch', function (e, state) {
 			if (state)
 				container.find('.widgetFilterSwitch').val('current');
@@ -1517,7 +1517,6 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 			var paramCache = {owner: user, customFilter: customFilter, start: start_date};
 			thisInstance.setFilterToCache(url, paramCache);
 		}
-
 		AppConnector.request(params).then(function (events) {
 			var height = (thisInstance.getCalendarView().find('.fc-bg :first').height() - thisInstance.getCalendarView().find('.fc-day-number').height()) - 10;
 			var width = (thisInstance.getCalendarView().find('.fc-day-number').width() / 2) - 10;
@@ -1528,7 +1527,7 @@ Vtiger_Widget_Js('YetiForce_Calendar_Widget_Js', {}, {
 			thisInstance.getCalendarView().fullCalendar('addEventSource',
 					events.result
 					);
-			thisInstance.getCalendarView().find(".fc-event-container a").click(function () {
+			thisInstance.getCalendarView().find(".cell-calendar a").click(function () {
 				var container = thisInstance.getContainer();
 				var url = 'index.php?module=Calendar&view=List';
 				if (customFilter) {

@@ -44,6 +44,7 @@ class OSSMail_AddressBook_Model
 				}
 			}
 		}
+		$dataReader->close();
 		$fstart = '<?php $bookMails = [';
 		$fend = '];';
 

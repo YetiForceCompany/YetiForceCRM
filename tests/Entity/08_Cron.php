@@ -21,7 +21,7 @@ class Cron extends \Tests\Base
 				], ['module' => 'OpenStreetMap'])
 			->execute();
 		echo PHP_EOL;
-		require 'cron/vtigercron.php';
+		require_once 'cron.php';
 		$rows = (new \App\Db\Query())->select(['modue' => 'setype', 'rows' => 'count(*)'])->from('vtiger_crmentity')->groupBy('setype')->orderBy(['rows' => SORT_DESC])->all();
 		$c = '';
 		foreach ($rows as $value) {

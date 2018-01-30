@@ -37,7 +37,7 @@ class Vtiger_Language_Handler
 
 		// label not found in users language pack, then check in the default language pack(config.inc.php)
 		if ($translatedString === null) {
-			$defaultLanguage = vglobal('default_language');
+			$defaultLanguage = \AppConfig::main('default_language');
 			if (!empty($defaultLanguage) && strcasecmp($defaultLanguage, $currentLanguage) !== 0) {
 				$translatedString = self::getLanguageTranslatedString($defaultLanguage, $key, $module);
 			}
