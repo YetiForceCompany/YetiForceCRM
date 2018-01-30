@@ -82,7 +82,7 @@
 									class="{if $IS_SELECTED}selectedCell {else}unselectedCell {/if} targetValue picklistValueMapping cursorPointer"
 									{if !empty($MAPPED_VALUES) && !in_array($SOURCE_PICKLIST_VALUE, array_map('App\Purifier::decodeHtml', $MAPPED_SOURCE_PICKLIST_VALUES))}style="display: none;" {/if}>
 									{if $IS_SELECTED}
-										<i class="glyphicon glyphicon-ok pull-left"></i>
+										<i class="glyphicon glyphicon-ok float-left"></i>
 									{/if}
 									{\App\Language::translate($TARGET_VALUE, $SELECTED_MODULE)}
 								</td>

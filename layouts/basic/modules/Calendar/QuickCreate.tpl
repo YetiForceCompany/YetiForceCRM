@@ -19,7 +19,7 @@
             <div class="modal-content">
 				<form class="form-horizontal recordEditView" id="quickCreate" name="QuickCreate" method="post" action="index.php">
 					<div class="modal-header">
-						<div class="pull-left">
+						<div class="float-left">
 							<h3 class="modal-title quickCreateTitle">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:&nbsp;<p class="textTransform"><b> {\App\Language::translate('LBL_EVENT_OR_TASK', $MODULE)}</b></p></h3>
 						</div>
 						{assign var="CALENDAR_MODULE_MODEL" value=$QUICK_CREATE_CONTENTS['Calendar']['moduleModel']}

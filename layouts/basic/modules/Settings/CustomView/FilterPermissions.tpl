@@ -6,7 +6,7 @@
 	<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}" />
 	<input type="hidden" id="type" value="{$TYPE}" />
 	<div class="modal-header">
-		<div class="pull-left">
+		<div class="float-left">
 			<h3 class="modal-title">{\App\Language::translate('LBL_MANAGE_PERMISSIONS', $MODULE_NAME)}</h3>
 		</div>
 		<div class="clearfix"></div>

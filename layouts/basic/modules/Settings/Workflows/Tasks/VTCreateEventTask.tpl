@@ -90,7 +90,7 @@
 				<input class="form-control" type="text" value="{$TASK_OBJECT->startDays}" name="startDays"
 					   data-validation-engine="validate[funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]">
 			</div>
-			<span class="control-label pull-left alignMiddle">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
+			<span class="control-label float-left alignMiddle">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
 			<span class="span marginLeftZero col-md-3">
 				<select class="chzn-select form-control" name="startDirection">
 					<option  {if $TASK_OBJECT->startDirection eq 'after'}selected{/if} value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
@@ -129,7 +129,7 @@
 				<input class="form-control" type="text" value="{$TASK_OBJECT->endDays}" name="endDays"
 					   data-validation-engine="validate[funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]">
 			</span>
-			<span class="control-label pull-left alignMiddle">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
+			<span class="control-label float-left alignMiddle">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
 			<span class="col-md-3 marginLeftZero">
 				<select class="chzn-select form-control" name="endDirection">
 					<option  {if $TASK_OBJECT->endDirection eq 'after'}selected{/if} value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>

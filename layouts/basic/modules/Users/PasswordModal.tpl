@@ -33,7 +33,7 @@
 			{elseif $MODE === 'change'}
 				{if $WARNING}
 					<div class="alert alert-danger" role="alert">
-						<span class="glyphicon glyphicon-warning-sign fs30 pull-left marginRight10" aria-hidden="true"></span>
+						<span class="glyphicon glyphicon-warning-sign fs30 float-left marginRight10" aria-hidden="true"></span>
 						{$WARNING}
 					</div>
 				{/if}

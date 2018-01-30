@@ -3,7 +3,7 @@
 	{if isset($WIZARD_BASE)}
 		<form class="form-horizontal" action="{$MODULE_MODEL->getEditViewUrl()}" id="createForm">
 			<div class="modal-header">
-				<div class="pull-left">
+				<div class="float-left">
 					<h3 class="modal-title">{\App\Language::translate('LBL_CREATE_RECORD', $QUALIFIED_MODULE)}</h3>
 				</div>
 				<div class="clearfix"></div>

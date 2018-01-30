@@ -17,7 +17,7 @@
 		{if $FIELD_MODEL->getName() neq 'modifiedtime' && $FIELD_MODEL->getName() neq 'createdtime'}
 			<tr class="summaryViewEntries">
 				<td class="fieldLabel {$WIDTHTYPE}" style="width:35%">
-				<label class="muted pull-left">{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$MODULE_NAME)}
+				<label class="muted float-left">{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$MODULE_NAME)}
 				{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 				{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
 				{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}

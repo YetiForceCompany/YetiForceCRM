@@ -20,15 +20,15 @@
 						<div class="">
 							{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
 							{if $IMAGE_PATH}
-								<img class="userImage pull-left" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_PATH))}" >
+								<img class="userImage float-left" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_PATH))}" >
 							{else}	
-								<span class="fas fa-user userImage pull-left" aria-hidden="true"></span>
+								<span class="fas fa-user userImage float-left" aria-hidden="true"></span>
 							{/if}
 						</div>
 						<div class="col-xs-8 commentorInfo">
 							{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
 							<div class="inner">
-								<span class="commentorName pull-left"><strong>{$COMMENTOR->getName()}</strong></span>
+								<span class="commentorName float-left"><strong>{$COMMENTOR->getName()}</strong></span>
 								<div class="clearfix"></div>
 							</div>
 							<div class="commentInfoContent">

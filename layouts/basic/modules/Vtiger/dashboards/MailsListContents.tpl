@@ -16,7 +16,7 @@
 					<span class="body-icon glyphicon glyphicon-chevron-down"></span>&nbsp;&nbsp;&nbsp;&nbsp;
 				</a>
 			</div>
-			<span class="pull-left" style="margin-left:2%;">{\App\Language::translate('From', 'OSSMailView')}: {\App\Purifier::encodeHtml($item->get('fromaddress'))}</span>
+			<span class="float-left" style="margin-left:2%;">{\App\Language::translate('From', 'OSSMailView')}: {\App\Purifier::encodeHtml($item->get('fromaddress'))}</span>
 		</div>
 		<div class="col-md-12 mailBody marginLeftZero" style="display: none;border: 1px solid #ddd;">
 			{\App\Purifier::encodeHtml($item->get('body'))}

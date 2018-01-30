@@ -26,11 +26,11 @@
 			<div class="" data-toggle="buttons">
 				<label class="btn {if $GENERAL_FIELDS.oneDay eq 'true'}btn-success active{else}btn-light{/if} btn-block">
 					<input autocomplete="off" type="checkbox" name="oneDay" {if $GENERAL_FIELDS.oneDay eq 'true'}checked{/if}>{\App\Language::translate('LBL_ONEDAY_VALID', $QUALIFIED_MODULE)}
-					<span class="glyphicon {if $GENERAL_FIELDS.oneDay eq 'true'}glyphicon-check{else}glyphicon-unchecked{/if} pull-left"></span>
+					<span class="glyphicon {if $GENERAL_FIELDS.oneDay eq 'true'}glyphicon-check{else}glyphicon-unchecked{/if} float-left"></span>
 				</label>
 				<label class="btn {if $GENERAL_FIELDS.timeOverlap eq 'true'}btn-success active{else}btn-light{/if} btn-block">
 					<input autocomplete="off" type="checkbox" name="timeOverlap" {if $GENERAL_FIELDS.timeOverlap eq 'true'}checked{/if}>{\App\Language::translate('LBL_TIMEOVERLAP_VALID', $QUALIFIED_MODULE)}
-					<span class="glyphicon {if $GENERAL_FIELDS.timeOverlap eq 'true'}glyphicon-check{else}glyphicon-unchecked{/if} pull-left"></span>
+					<span class="glyphicon {if $GENERAL_FIELDS.timeOverlap eq 'true'}glyphicon-check{else}glyphicon-unchecked{/if} float-left"></span>
 				</label>
 			</div>
 		</div>
@@ -40,15 +40,15 @@
 			<div class="" data-toggle="buttons">
 				<label class="btn {if $TCW_FIELDS.holidays eq 'true'}btn-success active{else}btn-light{/if} btn-block">
 					<input autocomplete="off" type="checkbox" name="holidays" {if $TCW_FIELDS.holidays eq 'true'}checked{/if}> {\App\Language::translate('LBL_HOLIDAYS', $QUALIFIED_MODULE)}
-					<span class="glyphicon {if $TCW_FIELDS.holidays eq 'true'}glyphicon-check{else}glyphicon-unchecked{/if} pull-left"></span>
+					<span class="glyphicon {if $TCW_FIELDS.holidays eq 'true'}glyphicon-check{else}glyphicon-unchecked{/if} float-left"></span>
 				</label>
 				<label class="btn {if $TCW_FIELDS.workingDays eq 'true'}btn-success active{else}btn-light{/if} btn-block">
 					<input autocomplete="off" type="checkbox" name="workingDays" {if $TCW_FIELDS.workingDays eq 'true'}checked{/if}> {\App\Language::translate('LBL_WORKING_DAYS', $QUALIFIED_MODULE)}
-					<span class="glyphicon {if $TCW_FIELDS.workingDays eq 'true'}glyphicon-check{else}glyphicon-unchecked{/if} pull-left"></span>
+					<span class="glyphicon {if $TCW_FIELDS.workingDays eq 'true'}glyphicon-check{else}glyphicon-unchecked{/if} float-left"></span>
 				</label>
 				<label class="btn {if $TCW_FIELDS.workingTime eq 'true'}btn-success active{else}btn-light{/if} btn-block">
 					<input autocomplete="off" type="checkbox" name="workingTime" {if $TCW_FIELDS.workingTime eq 'true'}checked{/if}> {\App\Language::translate('LBL_WORKING_TIME', $QUALIFIED_MODULE)}
-					<span class="glyphicon {if $TCW_FIELDS.workingTime eq 'true'}glyphicon-check{else}glyphicon-unchecked{/if} pull-left"></span>
+					<span class="glyphicon {if $TCW_FIELDS.workingTime eq 'true'}glyphicon-check{else}glyphicon-unchecked{/if} float-left"></span>
 				</label>
 			</div>
 		

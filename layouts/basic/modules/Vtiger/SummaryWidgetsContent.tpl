@@ -79,7 +79,7 @@
 									{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 										<tr class="summaryViewEntries">
 											<td class="fieldLabel {$WIDTHTYPE}">
-												<label class="muted pull-left">
+												<label class="muted float-left">
 													{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}
 												</label>
 											</td>

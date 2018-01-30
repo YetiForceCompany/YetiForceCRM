@@ -19,7 +19,7 @@
 							</button>
 						</div>
 						<div class="col-md-3">
-							<h4 class="modal-title pull-left">{\App\Language::translate('LBL_COUNT_ALL_MAILS','OSSMailView')}: {$COUNT}</h4>
+							<h4 class="modal-title float-left">{\App\Language::translate('LBL_COUNT_ALL_MAILS','OSSMailView')}: {$COUNT}</h4>
 							<button type="button" class="btn btn-warning pull-right" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
@@ -33,7 +33,7 @@
 								<div class="row{if $KEY%2 != 0} even{/if}">
 									{if \App\Privilege::isPermitted('OSSMailView', 'DetailView', $ROW['id'])}
 										<div class="col-md-12 mailActions">
-											<div class="pull-left">
+											<div class="float-left">
 												<a title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL','OSSMailView')}" class="showMailBody btn btn-sm btn-light" >
 													<span class="body-icon glyphicon glyphicon-triangle-bottom"></span>
 												</a>&nbsp;
@@ -73,7 +73,7 @@
 										</div>
 									{/if}
 									<div class="col-md-12">
-										<div class="pull-left">
+										<div class="float-left">
 											<span class="firstLetter">
 												{$ROW['firstLetter']}
 											</span>

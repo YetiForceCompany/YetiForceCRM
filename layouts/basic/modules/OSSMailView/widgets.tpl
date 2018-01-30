@@ -6,7 +6,7 @@
 			<div class="row{if $KEY%2 != 0} even{/if}">
 				{if \App\Privilege::isPermitted('OSSMailView', 'DetailView', $ROW['id'])}
 					<div class="col-md-12 mailActions">
-						<div class="pull-left">
+						<div class="float-left">
 							<a title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL','OSSMailView')}" class="showMailBody btn btn-sm btn-light" >
 								<span class="body-icon glyphicon glyphicon-triangle-bottom"></span>
 							</a>&nbsp;
@@ -45,7 +45,7 @@
 					</div>
 				{/if}
 				<div class="col-md-12">
-					<div class="pull-left">
+					<div class="float-left">
 						{if $ROW['type'] eq 0}
 							{assign var=FIRST_LETTER_CLASS value='bgGreen'}
 						{elseif $ROW['type'] eq 1}

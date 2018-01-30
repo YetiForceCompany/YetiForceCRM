@@ -32,7 +32,7 @@
 			{/if}
 		</div>
 		<div class="subProductsContainer">
-			<ul class="pull-left">
+			<ul class="float-left">
 			</ul>
 		</div>
 	</div>

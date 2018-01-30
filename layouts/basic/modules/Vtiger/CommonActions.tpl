@@ -67,13 +67,13 @@
 	</div>
 	<div role="search" class="navbar-form navbar-left">
 		<div class="form-group">
-			<div class="input-group pull-left globalSearchInput">
+			<div class="input-group float-left globalSearchInput">
 				<input type="text"  class="form-control" title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" id="globalSearchValue" placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10" />
 				<span id="searchIcon" class="input-group-addon cursorPointer"><span class="fas fa-search "></span></span>
 			</div>
 			{assign var="ROLE_DETAIL" value=Users_Record_Model::getCurrentUserModel()->getRoleDetail()}
 			{if $ROLE_DETAIL->get('globalsearchadv') == 1}
-				<div class="pull-left">
+				<div class="float-left">
 					<span class="adv-search navbar-form">
 						<button class="alignMiddle btn btn-info" id="globalSearch">{\App\Language::translate('LBL_ADVANCE_SEARCH')}</button>
 					</span>

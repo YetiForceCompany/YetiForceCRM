@@ -66,7 +66,7 @@
 	{/if}
 	{if $GITHUB_ISSUES !== false}
 		{if $GITHUB_CLIENT_MODEL->isAuthorized()}
-			<div class="pull-left">
+			<div class="float-left">
 				<button class="btn btn-primary addIssuesBtn marginRight10">
 					{\App\Language::translate('LBL_ADD_ISSUES', $QUALIFIED_MODULE)}
 				</button>

@@ -9,7 +9,7 @@
 					<li>
 						<span class="glyphicon {$HISTORY['class']} userIcon-{$HISTORY['type']}" aria-hidden="true"></span>
 						<div class="timeline-item">
-							<div class="pull-left paddingRight15 imageContainer">
+							<div class="float-left paddingRight15 imageContainer">
 								{if !$HISTORY['isGroup']}
 									{assign var=IMAGE value=$HISTORY['userModel']->getImagePath()}
 									{if $IMAGE}

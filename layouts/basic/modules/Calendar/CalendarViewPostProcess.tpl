@@ -18,7 +18,7 @@
 			{if $CALENDAR_FILTERS->isActive()}
 				<div class="panel panel-primary calendarFilters">
 					<div class="panel-heading quickWidgetHeader calendarRightPanel clearfix ">
-						<h4 class="panel-title col-lg-6 col-md-12 col-xs-5 paddingLRZero pull-left" title="{\App\Language::translate('LBL_CALENDAR_FILTERS', $MODULE)}">
+						<h4 class="panel-title col-lg-6 col-md-12 col-xs-5 paddingLRZero float-left" title="{\App\Language::translate('LBL_CALENDAR_FILTERS', $MODULE)}">
 							{\App\Language::translate('LBL_CALENDAR_FILTERS', $MODULE)}
 						</h4>
 					</div>
@@ -40,7 +40,7 @@
 			{foreach item=SIDEBARWIDGET key=index from=$QUICK_LINKS['SIDEBARWIDGETRIGHT']}
 				<div class="panel panel-primary quickWidget">
 					<div class="panel-heading quickWidgetHeader calendarRightPanel clearfix ">
-						<h4 class="panel-title col-lg-6 col-md-12 col-xs-5 paddingLRZero pull-left" title="{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}">
+						<h4 class="panel-title col-lg-6 col-md-12 col-xs-5 paddingLRZero float-left" title="{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}">
 							{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}
 						</h4>
 						<div class="col-lg-6 col-md-12 col-xs-5 paddingTop10-md paddingLRZero pull-right ">

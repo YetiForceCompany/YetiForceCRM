@@ -12,7 +12,7 @@
 {strip}
 	<div class="widget_header row">
 		<div class="col-xs-9 col-sm-4 col-md-6">
-			<div class="btn-group listViewMassActions modOn_{$MODULE} pull-left paddingRight10">
+			<div class="btn-group listViewMassActions modOn_{$MODULE} float-left paddingRight10">
 				{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] BTN_GROUP=false}
 			</div>
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}

@@ -4,7 +4,7 @@
 		{if AppConfig::performance('BROWSING_HISTORY_WORKING')}
 			<div class="row">
 				<div class="dropdown quickAction historyBtn">
-					<div class="pull-left">
+					<div class="float-left">
 						{\App\Language::translate('LBL_PAGES_HISTORY')}
 					</div>
 					<div class="pull-right">
@@ -19,7 +19,7 @@
 		{if $REMINDER_ACTIVE}
 			<div class="row">
 				<div class="remindersNotice popoverTooltip quickAction{if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
-					<div class="pull-left">
+					<div class="float-left">
 						{\App\Language::translate('LBL_REMINDER')}
 					</div>
 					<div class="pull-right">
@@ -34,7 +34,7 @@
 		{if isset($CHAT_ENTRIES)}
 			<div class="row">
 				<div class="headerLinkChat quickAction">
-					<div class="pull-left">
+					<div class="float-left">
 						{\App\Language::translate('LBL_CHAT')}
 					</div>
 					<div class="pull-right">
@@ -48,7 +48,7 @@
 		{if \App\Privilege::isPermitted('Notification', 'DetailView')}
 			<div class="row">
 				<div class="isBadge notificationsNotice popoverTooltip quickAction{if AppConfig::module('Home', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
-					<div class="pull-left">
+					<div class="float-left">
 						{\App\Language::translate('LBL_NOTIFICATIONS')}
 					</div>
  					<div class="pull-right">
@@ -62,7 +62,7 @@
 		{/if}
 		<div class='row'>
 			<div class="dropdown quickAction">
-				<div class='pull-left'>
+				<div class='float-left'>
 					{\App\Language::translate('LBL_QUICK_CREATE')}
 				</div>
 				<div class='pull-right'>
@@ -121,7 +121,7 @@
 				{/if}
 				<div class="row">
 					<div class="quickAction">
-						<div class="pull-left">
+						<div class="float-left">
 							{\App\Language::translate($TITLE,$MODULE)}
 						</div>
 						<div class="pull-right">

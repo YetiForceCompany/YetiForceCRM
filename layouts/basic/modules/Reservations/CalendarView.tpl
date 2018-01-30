@@ -11,7 +11,7 @@
 <input type="hidden" id="dayView" value="{$DAY_VIEW}" />
 <div class="rowContent paddingLRZero col-xs-12">
 	<div class="widget_header row marginbottomZero marginRightMinus20">
-		<div class="pull-left paddingLeftMd">
+		<div class="float-left paddingLeftMd">
 			{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions pull-left paddingLeftMd'}
 		</div>
 		<div class="col-xs-10">

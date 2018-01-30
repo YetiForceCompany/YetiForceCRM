@@ -8,7 +8,7 @@
 		</div>
 	</div>
 	<div class="widget_header row">
-		<div class="col-md-2 pull-left">
+		<div class="col-md-2 float-left">
 			<select class="chzn-select form-control" id="usersFilter" >
 				<option value="">{\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}</option>
 				<option value="other" name="other" value="">{\App\Language::translate('LBL_OTHER', $QUALIFIED_MODULE)}</option>
