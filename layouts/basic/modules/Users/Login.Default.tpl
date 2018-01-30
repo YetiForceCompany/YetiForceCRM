@@ -33,7 +33,7 @@
 								<div class="input-group form-group {if $LANGUAGE_SELECTION || $LAYOUT_SELECTION}first-group {/if}">
 									<input name="password" type="password" class="form-control form-control-lg" title="{\App\Language::translate('Password',$MODULE)}" id="password" name="password" {if \AppConfig::main('systemMode') === 'demo'}value="demo"{/if} {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if} placeholder="{\App\Language::translate('Password',$MODULE)}">
 									<div class="input-group-append">
-										<div class="input-group-text"><i class="fa fa-briefcase" aria-hidden="true"></i></div>
+										<div class="input-group-text"><i class="fas fa-briefcase" aria-hidden="true"></i></div>
 									</div>
 								</div>
 								{assign var=COUNTERFIELDS value=2}
