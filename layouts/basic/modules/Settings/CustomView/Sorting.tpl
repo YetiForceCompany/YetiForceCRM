@@ -11,7 +11,7 @@
 		<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}" />
 		<input type="hidden" id="sortOrder" name="sortOrder" value="{$SORT_ORDER}" />
 		<div class="modal-header">
-			<div class="pull-left">
+			<div class="float-left">
 				<h3 class="modal-title">{\App\Language::translate('LBL_SORTING_SETTINGS', $MODULE_NAME)}</h3>
 			</div>
 			<div class="clearfix"></div>

@@ -2,7 +2,7 @@
 {strip}
 {if count($DATA) gt 0 }
 	{assign var=SHOWING_ICON value=$TCPMODULE_MODEL->get('timeControlWidget')}
-	<div class="summary-left pull-left" style="text-align:center;margin-left:2%;">
+	<div class="summary-left float-left" style="text-align:center;margin-left:2%;">
 		{*if $SHOWING_ICON.workingDays eq 'true'}
 			<span class="summary-detail">
 				<img class=" summary-img" src="{\App\Layout::getImagePath('all_days.png')}" alt="All days" title="{\App\Language::translate('LBL_ALLDAYS_INFO', $MODULE_NAME)}" />

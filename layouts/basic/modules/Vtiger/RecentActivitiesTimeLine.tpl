@@ -28,7 +28,7 @@
 								{if $RECENT_ACTIVITY->isCreate()}
 									<span class="fas fa-plus bgGreen"></span>
 									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if} isCreate">
-										<div class="pull-left paddingRight15 imageContainer">
+										<div class="float-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
 											{if $IMAGE}
 												<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
@@ -67,7 +67,7 @@
 								{else if $RECENT_ACTIVITY->isUpdate()}
 									<span class="fas fa-pencil-alt bgDarkBlue"></span>
 									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if} isUpdate">
-										<div class="pull-left paddingRight15 imageContainer">
+										<div class="float-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
 											{if $IMAGE}
 												<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
@@ -128,7 +128,7 @@
 								{else if ($RECENT_ACTIVITY->isRelationLink() || $RECENT_ACTIVITY->isRelationUnLink())}
 									<span class="glyphicon glyphicon-link bgOrange"></span>
 									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if} isRelationLink isRelationUnLink">
-										<div class="pull-left paddingRight15 imageContainer">
+										<div class="float-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
 											{if $IMAGE}
 												<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
@@ -176,7 +176,7 @@
 										<span class="fa glyphicon fa-archive entityStateIcon" {if $LIST_ENTITY_STATE_COLOR['Archived']}style="background: {$LIST_ENTITY_STATE_COLOR['Archived']};"{/if}></span>
 									{/if}
 									<div class="timeline-item isDisplayed">
-										<div class="pull-left paddingRight15 imageContainer">
+										<div class="float-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
 											{if $IMAGE}
 												<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
@@ -188,7 +188,7 @@
 											<span class="time pull-right">
 												<span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span>
 											</span>
-											<div class="pull-left">
+											<div class="float-left">
 												<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>
 												&nbsp;{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}
 											</div>
@@ -197,7 +197,7 @@
 								{else if $RECENT_ACTIVITY->isConvertToAccount()}
 									<span class="fa fa-exchange bgAzure"></span>
 									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if} isConvertToAccount">
-										<div class="pull-left paddingRight15 imageContainer">
+										<div class="float-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
 											{if $IMAGE}
 												<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
@@ -209,7 +209,7 @@
 											<span class="time pull-right">
 												<span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span>
 											</span>
-											<div class="pull-left">
+											<div class="float-left">
 												<strong>{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}</strong> 
 											</div>
 										</div>
@@ -217,7 +217,7 @@
 								{else if $RECENT_ACTIVITY->isDisplayed()}
 									<span class="fa fa-th-list bgAzure"></span>
 									<div class="timeline-item isDisplayed">
-										<div class="pull-left paddingRight15 imageContainer">
+										<div class="float-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
 											{if $IMAGE}
 												<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
@@ -229,7 +229,7 @@
 											<span class="time pull-right">
 												<span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span>
 											</span>
-											<div class="pull-left">
+											<div class="float-left">
 												<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>
 												&nbsp;{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}
 											</div>

@@ -60,7 +60,7 @@
 														<div class="form-group">
 															<div class="col-md-offset-1 rowElements">
 																<label class="marginLeft15 control-label col-md-4 fieldLabel btn btn-sm btn-light">
-																	<span class="pull-left">
+																	<span class="float-left">
 																		<input data-toggle="button" aria-pressed="false" autocomplete="off" type="checkbox" id="selectRow{$FIELD_MODEL->getName()}" title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}" data-field-name="{$FIELD_MODEL->getName()}" class="selectRow" {if $FIELD_MODEL->isEditableReadOnly()} disabled{/if}>&nbsp;
 																	</span>
 																	{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}

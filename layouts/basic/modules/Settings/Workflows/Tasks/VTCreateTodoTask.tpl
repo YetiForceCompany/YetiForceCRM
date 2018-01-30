@@ -89,7 +89,7 @@
 			<div class="col-xs-2">
 				<input class="form-control" type="text" name="days_start" value="{$TASK_OBJECT->days_start}">&nbsp;
 			</div>
-			<span class="control-label pull-left alignMiddle">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
+			<span class="control-label float-left alignMiddle">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
 			<div class="col-xs-3 marginLeftZero">
 				<select class="chzn-select form-control" name="direction_start">
 					<option {if $TASK_OBJECT->direction_start eq 'after'}selected=""{/if} value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
@@ -114,7 +114,7 @@
 			<span class="col-xs-2">
 				<input class="form-control" type="text" name="days_end" value="{$TASK_OBJECT->days_end}">&nbsp;
 			</span>
-			<span class="control-label pull-left alignMiddle">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
+			<span class="control-label float-left alignMiddle">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
 			<span class="col-xs-3 marginLeftZero">
 				<select class="chzn-select" name="direction_end" style="width: 100px">
 					<option {if $TASK_OBJECT->direction_end eq 'after'}selected=""{/if} value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>

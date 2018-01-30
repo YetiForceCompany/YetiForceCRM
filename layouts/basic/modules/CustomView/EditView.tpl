@@ -67,7 +67,7 @@
 				<div class="panel-body">
 					<div class="form-group">
 						<div class="row col-md-5">
-							<label class="pull-left control-label paddingLeftMd"><span class="redColor">*</span> {\App\Language::translate('LBL_VIEW_NAME',$MODULE)}:</label>
+							<label class="float-left control-label paddingLeftMd"><span class="redColor">*</span> {\App\Language::translate('LBL_VIEW_NAME',$MODULE)}:</label>
 							<div class="col-md-7">
 								<input type="text" id="viewname" class="form-control" data-validation-engine="validate[required]" name="viewname" value="{$CUSTOMVIEW_MODEL->get('viewname')}" />
 							</div>
@@ -120,7 +120,7 @@
 					</div>
 					<div class="form-group marginbottomZero">
 						<div class="row col-md-5">
-							<label class="pull-left control-label paddingLeftMd">{\App\Language::translate('LBL_COLOR_VIEW',$MODULE)}:</label>
+							<label class="float-left control-label paddingLeftMd">{\App\Language::translate('LBL_COLOR_VIEW',$MODULE)}:</label>
 							<div class="col-md-7">
 								<div class="input-group">
 									<input type="text" class="form-control colorPicker" name="color" value="{$CUSTOMVIEW_MODEL->get('color')}" />

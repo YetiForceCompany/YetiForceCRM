@@ -5,7 +5,7 @@
 	<li class="col-md-12">
 		<div class="opacity editFieldsWidget marginLeftZero border1px" data-block-id="{$AUTHORIZATION_KEY}" data-field-id="{$WIDGET_MODEL->get('id')}" data-linkid="{$LINKID}" data-sequence="">
 			<div class="row padding1per">
-				<div class="pull-left " style="word-wrap: break-word;">
+				<div class="float-left " style="word-wrap: break-word;">
 					<span class="fieldLabel marginLeft20">{\App\Language::translate($WIDGET_MODEL->getTitle(), $SELECTED_MODULE_NAME)}</span>
 				</div>
 				<span class="btn-group pull-right marginRight20 actions">
@@ -24,7 +24,7 @@
 									<div class="col-md-3 text-center checkboxForm">
 										<input type="checkbox" name="isdefault" class="" {if $WIDGET_MODEL->get('isdefault') eq 1} checked {/if}>
 									</div>	
-									<label class="col-md-9 form-control-static pull-left" >
+									<label class="col-md-9 form-control-static float-left" >
 										&nbsp;&nbsp;{\App\Language::translate('LBL_MANDATORY_WIDGET', $QUALIFIED_MODULE)}&nbsp;
 									</label>
 								</div>
@@ -32,32 +32,32 @@
 									<div class="col-md-3 text-center checkboxForm">
 										<input type="checkbox" name="cache" class="" {if $WIDGET_MODEL->get('cache') eq 1} checked {/if}>
 									</div>	
-									<label class="col-md-9 form-control-static pull-left" >
+									<label class="col-md-9 form-control-static float-left" >
 										&nbsp;&nbsp;{\App\Language::translate('LBL_CACHE_WIDGET', $QUALIFIED_MODULE)}&nbsp;
 									</label>
 								</div>
 								{assign var=WIDGET_SIZE value=\App\Json::decode(html_entity_decode($WIDGET_MODEL->get('size')))}
 								<div class="row padding1per">
 									<div class="col-md-3 text-center">
-										<select class="width col-md-1 pull-left form-control" name="width" >
+										<select class="width col-md-1 float-left form-control" name="width" >
 											{foreach from=$SIZE.width item=item}
 												<option value="{$item}" {if $WIDGET_SIZE.width eq $item} selected {/if}>{$item}</option>
 											{/foreach}
 										</select>
 									</div>	
-									<label  class="col-md-9 marginTop5 pull-left" >
+									<label  class="col-md-9 marginTop5 float-left" >
 										&nbsp;{\App\Language::translate('LBL_WIDTH', $QUALIFIED_MODULE)}&nbsp;
 									</label>
 								</div>
 								<div class="row padding1per">
 									<div class="col-md-3 text-center">
-										<select class="height col-md-1 pull-left form-control" name="height">
+										<select class="height col-md-1 float-left form-control" name="height">
 											{foreach from=$SIZE.height item=item}
 												<option value="{$item}" {if $WIDGET_SIZE.height eq $item} selected {/if}>{$item}</option>
 											{/foreach}
 										</select>
 									</div>
-									<label class="col-md-9 marginTop5 pull-left" >
+									<label class="col-md-9 marginTop5 float-left" >
 										&nbsp;{\App\Language::translate('LBL_HEIGHT', $QUALIFIED_MODULE)}&nbsp;
 									</label>	
 								</div>
@@ -66,7 +66,7 @@
 										<div class="col-md-3 text-center">
 											<input type="text" name="limit" class="col-md-1 form-control" value="{$WIDGET_MODEL->get('limit')}" >
 										</div>
-										<label class="col-md-9 marginTop5 pull-left" >
+										<label class="col-md-9 marginTop5 float-left" >
 											&nbsp;{\App\Language::translate('LBL_NUMBER_OF_RECORDS_DISPLAYED', $QUALIFIED_MODULE)}&nbsp;
 										</label>
 									</div>
@@ -76,7 +76,7 @@
 										<div class="col-md-3 text-center">
 											<input type="text" name="plotTickSize" class="col-md-1 form-control" value="{$WIDGET_INFO['plotTickSize']}" >
 										</div>
-										<label class="col-md-9 marginTop5 pull-left" >
+										<label class="col-md-9 marginTop5 float-left" >
 											&nbsp;{\App\Language::translate('LBL_TICK_SIZE', $QUALIFIED_MODULE)}&nbsp;
 										</label>
 									</div>
@@ -84,7 +84,7 @@
 										<div class="col-md-3 text-center">
 											<input type="text" name="plotLimit" class="col-md-1 form-control" value="{$WIDGET_INFO['plotLimit']}" >
 										</div>
-										<label class="col-md-9 marginTop5 pull-left" >
+										<label class="col-md-9 marginTop5 float-left" >
 											&nbsp;{\App\Language::translate('LBL_MAXIMUM_VALUE', $QUALIFIED_MODULE)}&nbsp;
 										</label>
 									</div>
@@ -94,7 +94,7 @@
 										<div class="col-md-3 text-center checkboxForm">
 											<input type="checkbox" name="showUsers" class="" {if $WIDGET_INFO['showUsers'] eq 1} checked {/if}>
 										</div>	
-										<label class="col-md-9 form-control-static pull-left" >
+										<label class="col-md-9 form-control-static float-left" >
 											&nbsp;&nbsp;{\App\Language::translate('LBL_SHOW_USERS', $QUALIFIED_MODULE)}
 										</label>
 									</div>

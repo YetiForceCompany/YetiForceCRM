@@ -45,10 +45,10 @@
 		</div>
 		<div role="tabpanel" class="tab-pane" id="configurationTab">
 			{assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('autologin')}
-			<div class="pull-left pagination-centered ">
+			<div class="float-left pagination-centered ">
 				<input class="configCheckbox" type="checkbox" name="autologinActive" id="autologinActive" value="1" {if $CONFIG['autologinActive']=='true'}checked=""{/if}>
 			</div>
-			<div class="col-xs-10 pull-left">
+			<div class="col-xs-10 float-left">
 				<label for="autologinActive">{\App\Language::translate('LBL_AUTOLOGIN_ACTIVE', $QUALIFIED_MODULE)}</label>
 			</div>
 		</div>

@@ -55,7 +55,7 @@
 							</button>
 						{/if}
 						<div class="col-xs-3 pull-right">
-							<input class="zeroOpacity pull-left form-control" type="text" title="{\App\Language::translate('LBL_FILTER_NAME')}" value="" name="viewname" placeholder="{\App\Language::translate('LBL_FILTER_NAME')}" />
+							<input class="zeroOpacity float-left form-control" type="text" title="{\App\Language::translate('LBL_FILTER_NAME')}" value="" name="viewname" placeholder="{\App\Language::translate('LBL_FILTER_NAME')}" />
 						</div>
 					{/if}
 				</div>

@@ -36,7 +36,7 @@
 									<td class="col-md-3"><p style="padding-top:10px;">{\App\Language::translate('LBL_NOTWORKEDDAYS_INFO', $QUALIFIED_MODULE)}</p></td>
 									<td class="col-md-9">
 										<div class="col-md-4">
-											<select class="chzn-select workignDaysField pull-left" multiple id="update_workingdays" name="notworkingdays" data-metod="updateNotWorkingDays">
+											<select class="chzn-select workignDaysField float-left" multiple id="update_workingdays" name="notworkingdays" data-metod="updateNotWorkingDays">
 												<option value="1" {if in_array(1, $NOTWORKINGDAYS)} selected {/if} >{\App\Language::translate(PLL_MONDAY,$QUALIFIED_MODULE)}</option>
 												<option value="2" {if in_array(2, $NOTWORKINGDAYS)} selected {/if} >{\App\Language::translate(PLL_TUESDAY,$QUALIFIED_MODULE)}</option>
 												<option value="3" {if in_array(3, $NOTWORKINGDAYS)} selected {/if} >{\App\Language::translate(PLL_WEDNESDAY,$QUALIFIED_MODULE)}</option>

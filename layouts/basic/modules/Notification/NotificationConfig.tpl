@@ -56,7 +56,7 @@
 	</div>
 	<div class="modal-footer">
 		{if $CRON_ACTIVE && \App\Privilege::isPermitted($MODULE, 'ReceivingMailNotifications')}
-			<div class="col-md-3 col-sm-4 schedule pull-left paddingRightZero">
+			<div class="col-md-3 col-sm-4 schedule float-left paddingRightZero">
 				{assign var="POPOVER_CONTENT" value=\App\Language::translate('LBL_CRON_LAUNCHING_FREQUENCY', $MODULE)|cat:': '|cat:$CRON_INFO->getFrequency()/60|cat:\App\Language::translate('LBL_MINUTES')}
 				<select class="select2 form-control" name="frequency" title="{\App\Language::translate('LBL_SCHEDULE', $MODULE)}">
 					<option value="5" {if $FREQUENCY eq 5} selected{/if}>{\App\Language::translate('PLL_5_MIN',$MODULE)}</option>
@@ -68,8 +68,8 @@
 					<option value="1440" {if $FREQUENCY eq '1440'} selected{/if}>{\App\Language::translate('PLL_24_H',$MODULE)}</option>
 				</select>
 			</div>
-			<div class="pull-left col-xs-1 paddingLRZero">
-				<a href="#" class="infoPopover pull-left" title="" data-placement="top" data-original-title="{\App\Language::translate('LBL_RECEIVING_MAIL_NOTIFICATIONS', $MODULE)}" data-content="{\App\Purifier::encodeHtml($POPOVER_CONTENT)}">&nbsp;<span class="fa fa-info-circle"></span></a>
+			<div class="float-left col-xs-1 paddingLRZero">
+				<a href="#" class="infoPopover float-left" title="" data-placement="top" data-original-title="{\App\Language::translate('LBL_RECEIVING_MAIL_NOTIFICATIONS', $MODULE)}" data-content="{\App\Purifier::encodeHtml($POPOVER_CONTENT)}">&nbsp;<span class="fa fa-info-circle"></span></a>
 			</div>
 		{/if}
 		<div class="col-md-6 col-sm-6 pull-right">

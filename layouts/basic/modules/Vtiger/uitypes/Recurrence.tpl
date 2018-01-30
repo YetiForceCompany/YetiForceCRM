@@ -69,7 +69,7 @@
 		{assign var="RECURRING_INFORMATION" value=Vtiger_Recurrence_UIType::getRecurringInfo($FIELD_MODEL->get('fieldvalue'))}
 		<div class="clearfix">
 			<div class="col-xs-4 paddingLRZero marginBottom10px">
-				<span class="control-label pull-left alignMiddle">{\App\Language::translate('LBL_RECURRING_TYPE', $MODULE)}</span>
+				<span class="control-label float-left alignMiddle">{\App\Language::translate('LBL_RECURRING_TYPE', $MODULE)}</span>
 			</div>
 			<div class="col-xs-8 paddingLRZero marginBottom10px">
 				<select class="select2 form-control recurringType" title="{\App\Language::translate('LBL_RECURRING_TYPE', $MODULE)} {$MODULE}">
@@ -80,7 +80,7 @@
 				</select>
 			</div>
 			<div class="col-xs-4 paddingLRZero marginBottom10px">
-				<span class="control-label pull-left alignMiddle">{\App\Language::translate('LBL_REPEAT_INTERVAL', $MODULE)}</span>
+				<span class="control-label float-left alignMiddle">{\App\Language::translate('LBL_REPEAT_INTERVAL', $MODULE)}</span>
 			</div>
 			<div class="col-xs-8 paddingLRZero marginBottom10px">
 				<select class="select2 form-control repeatFrequency" title="{\App\Language::translate('LBL_REPEAT_FOR', $MODULE)}">
@@ -147,7 +147,7 @@
 				</span>
 			</div>
 			<div class="col-xs-4 paddingLRZero marginBottom10px">
-				<span class="control-label pull-left alignMiddle">{\App\Language::translate('LBL_REPEAT_END', $MODULE)}</span>
+				<span class="control-label float-left alignMiddle">{\App\Language::translate('LBL_REPEAT_END', $MODULE)}</span>
 			</div>
 			<div class="col-xs-8 paddingLRZero marginBottom10px">
 				<div class="input-group marginBottom10px">

@@ -203,7 +203,7 @@
 						<div class="fieldRow col-md-8 col-xs-12">
 							<div class="fieldLabel"> </div>
 							<div align="center" class="fieldValue col-xs-7 col-sm-10">
-								<div class="row pull-left">
+								<div class="row float-left">
 									<input id="register_changes" type="checkbox" class="nameField" name="register_changes" {$REGISTER} value="1" /> 
 										{\App\Language::translate('LBL_START_REGISTER', $MODULENAME)}
 								</div>

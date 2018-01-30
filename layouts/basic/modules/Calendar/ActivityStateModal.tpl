@@ -5,7 +5,7 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<div class="pull-left">
+					<div class="float-left">
 						<h3 class="modal-title">{\App\Language::translate('LBL_SET_RECORD_STATUS', $MODULE_NAME)}</h3>
 					</div>
 					<div class="pull-right">
@@ -131,7 +131,7 @@
 				</div>
 				<div class="modal-footer">
 					{if $RECORD->isEditable()}
-						<div class="pull-left">
+						<div class="float-left">
 							{assign var=SHOW_QUICK_CREATE value=AppConfig::module('Calendar','SHOW_QUICK_CREATE_BY_STATUS')}
 							{if $ACTIVITYCANCEL eq 'yes' && $EMPTY}
 								<button type="button" class="btn btn-danger {if in_array($ACTIVITY_STATE_LABEL.cancelled,$SHOW_QUICK_CREATE)}showQuickCreate{/if}" data-state="{$ACTIVITY_STATE_LABEL.cancelled}" data-id="{$ID}" data-type="1">{\App\Language::translate($ACTIVITY_STATE_LABEL.cancelled, $MODULE_NAME)}</button>

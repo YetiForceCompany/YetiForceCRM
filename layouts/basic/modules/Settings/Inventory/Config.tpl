@@ -18,7 +18,7 @@
 			<div class="col-md-6" data-toggle="buttons">
 				<label class="btn {if $CONFIG.active}btn-success active{else}btn-light{/if}">
 					<input autocomplete="off" type="checkbox" name="active" {if $CONFIG.active}checked{/if}><span class="text">&nbsp;&nbsp;{\App\Language::translate($LABEL_CHECKBOX, $QUALIFIED_MODULE)}</span>
-					<span class="glyphicon {if $CONFIG.active}glyphicon-check{else}glyphicon-unchecked{/if} pull-left"></span>
+					<span class="glyphicon {if $CONFIG.active}glyphicon-check{else}glyphicon-unchecked{/if} float-left"></span>
 				</label>	
 			</div>
 		</div>

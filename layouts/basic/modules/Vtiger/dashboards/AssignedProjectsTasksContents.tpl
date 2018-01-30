@@ -8,11 +8,11 @@ font-size: 75%;
 <div>
 	{foreach from=$PROJECTSTASKS key=INDEX item=TASKS}
 	<div>
-		<div class='pull-left'>
+		<div class='float-left'>
 			<image style="margin-left: 4px;" alt="{\App\Language::translate('ProjectTask')}" src="{\App\Layout::getImagePath('ProjectTask.png')}" width="24px" />&nbsp;&nbsp;
 		</div>
 		<div>
-			<div class='pull-left'>
+			<div class='float-left'>
 				{assign var=PROJECT_ID value=$TASKS->get('projectid')}
 				{assign var=ACCOUNT value=$TASKS->get('account')}
 				<a href="{$TASKS->getDetailViewUrl()}">{$TASKS->get('projecttaskname')|html_entity_decode:$smarty.const.ENT_QUOTES:'utf-8'|truncate:$NAMELENGTH:'...'}</a>

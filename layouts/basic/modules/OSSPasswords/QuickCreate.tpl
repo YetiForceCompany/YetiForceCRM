@@ -12,7 +12,7 @@
 		<div class="modal-content">
 			<form class="form-horizontal recordEditView" name="QuickCreate" method="post" action="index.php">
 				<div class="modal-header">
-					<div class="pull-left">
+					<div class="float-left">
 						<h3 class="modal-title quickCreateTitle">{\App\Language::translate('LBL_QUICK_CREATE', $MODULE)}:&nbsp;<p class="textTransform"><b>{\App\Language::translate($SINGLE_MODULE, $MODULE)}<b></p></h3>
 					</div>
 					<div class="pull-right quickCreateActions pullRight">

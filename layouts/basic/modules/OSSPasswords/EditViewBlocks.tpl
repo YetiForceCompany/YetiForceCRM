@@ -36,7 +36,7 @@
 				<div class="widget_header row">
 					<div class="col-xs-12">
 						{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
-						<span class="pull-left">
+						<span class="float-left">
 							{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 						</span>
 					</div>

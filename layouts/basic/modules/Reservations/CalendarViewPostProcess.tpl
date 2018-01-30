@@ -8,7 +8,7 @@
 		<div class="alert alert-danger refreshHeader hide" role="alert">
 			<div class="quickWidgetHeader calendarRightPanel clearfix">
 				<div class="col-xs-12 paddingLRZero">
-					<div class="col-lg-6 col-md-12 paddingLRZero pull-left">
+					<div class="col-lg-6 col-md-12 paddingLRZero float-left">
 						<h5 class="noSpaces">{\App\Language::translate('LBL_INFO_REFRESH', $MODULE)}</h5>
 					</div>
 					<div class="col-lg-6 col-md-12 col-xs-5 paddingTop10-md paddingLRZero pull-right">
@@ -23,7 +23,7 @@
 		{foreach item=SIDEBARWIDGET key=index from=$QUICK_LINKS['SIDEBARWIDGET']}
 			<div class="panel panel-primary quickWidget">
 				<div class="panel-heading quickWidgetHeader calendarRightPanel clearfix">
-					<h4 class="panel-title col-lg-6 col-md-12 col-xs-5 paddingLRZero pull-left" title="{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}">
+					<h4 class="panel-title col-lg-6 col-md-12 col-xs-5 paddingLRZero float-left" title="{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}">
 						{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}
 					</h4>
 					<div class="col-lg-6 col-md-12 col-xs-5 paddingTop10-md paddingLRZero pull-right ">

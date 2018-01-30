@@ -18,7 +18,7 @@
 					</div>
 					<div class="col-xs-10 paddingLR5 notiContent">
 						<div class="col-xs-6 paddingLRZero marginTB3 font-larger">
-							<strong class="pull-left">{\App\Language::translate($RECORD->get('notification_type'),$MODULE_NAME)}</strong>
+							<strong class="float-left">{\App\Language::translate($RECORD->get('notification_type'),$MODULE_NAME)}</strong>
 						</div>
 						<div class="col-xs-6 paddingLRZero marginTB3 font-larger">
 							<strong class="pull-right">{$RECORD->getDisplayValue('createdtime')}</strong>

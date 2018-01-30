@@ -20,7 +20,7 @@ font-size: 75%;
 		<div class="changeActivity cursorPointer" data-url="{$ACTIVITY->getActivityStateModalUrl()}" accesskey="">
 			<div class="rowActivities">
 			<div>
-				<div class="pull-left marginLeft5 marginTop5">
+				<div class="float-left marginLeft5 marginTop5">
 					{assign var=ACTIVITY_TYPE value=$ACTIVITY->get('activitytype')}
 					{assign var=ACTIVITY_UPPERCASE value=$ACTIVITY_TYPE|upper}
 					<image src="{Vtiger_Theme::getOrignOrDefaultImgPath($ACTIVITY_TYPE, 'Calendar')}" alt="{\App\Language::translate("LBL_$ACTIVITY_UPPERCASE")}" width="24px" />&nbsp;&nbsp;

@@ -45,9 +45,9 @@
 											<div class="paddingLeftMd">
 												{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
 												{if $IMAGE_PATH}
-													<img class="userImage pull-left" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_PATH))}" >
+													<img class="userImage float-left" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_PATH))}" >
 												{else}	
-													<span class="fas fa-user userImage pull-left" aria-hidden="true"></span>
+													<span class="fas fa-user userImage float-left" aria-hidden="true"></span>
 												{/if}
 											</div>
 											<div class="col-xs-8 commentorInfo">
@@ -68,8 +68,8 @@
 								</div>
 								<div class="commentActionsContainer">
 									{assign var="REASON_TO_EDIT" value=$COMMENT->getDisplayValue('reasontoedit')}
-									<div class="pull-left {if empty($REASON_TO_EDIT)}hide {/if}editStatus"  name="editStatus">
-										<span class="pull-left paddingRight10 visible-lg-block">
+									<div class="float-left {if empty($REASON_TO_EDIT)}hide {/if}editStatus"  name="editStatus">
+										<span class="float-left paddingRight10 visible-lg-block">
 											<p class="muted">
 												<small>
 													[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)} ] :
@@ -80,7 +80,7 @@
 									</div>
 									{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
 										<div class="clearfix"></div>
-										<span class="pull-left visible-lg-block">
+										<span class="float-left visible-lg-block">
 											<p class="muted pull-right">
 												<small><em>{\App\Language::translate('LBL_MODIFIED',$MODULE_NAME)}</em></small>&nbsp;
 												<small class="commentModifiedTime">{\App\Fields\DateTime::formatToViewDate($COMMENT->getModifiedTime())}</small>

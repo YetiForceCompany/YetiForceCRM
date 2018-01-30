@@ -17,7 +17,7 @@
 			<div id="assignToRolepickListValuesTable" class="fontBold textAlignCenter">
 				{foreach key=PICKLIST_KEY item=PICKLIST_VALUE from=$ALL_PICKLIST_VALUES}
 					<div data-value="{$PICKLIST_VALUE}" data-id="{$PICKLIST_KEY}" class="valuesAssignedToRole cursorPointer assignToRolePickListValue {if in_array($PICKLIST_VALUE,$ROLE_PICKLIST_VALUES)}selectedCell{else}unselectedCell{/if}">
-						{if in_array($PICKLIST_VALUE,$ROLE_PICKLIST_VALUES)}<i class="glyphicon glyphicon-ok pull-left"></i>{/if}{\App\Language::translate($PICKLIST_VALUE,$SELECTED_MODULE_NAME)}
+						{if in_array($PICKLIST_VALUE,$ROLE_PICKLIST_VALUES)}<i class="glyphicon glyphicon-ok float-left"></i>{/if}{\App\Language::translate($PICKLIST_VALUE,$SELECTED_MODULE_NAME)}
 					</div>
 				{/foreach}
 			</div>

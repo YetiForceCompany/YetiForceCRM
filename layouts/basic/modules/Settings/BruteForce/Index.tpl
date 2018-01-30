@@ -51,7 +51,7 @@
 								</div>
 						</div>
 						<div class="panel-footer clearfix">
-							<div class="pull-left">
+							<div class="float-left">
 								<button class="btn btn-success saveButton" type="submit" id="saveConfig" title="{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button></div>
 							</form>
 						</div>

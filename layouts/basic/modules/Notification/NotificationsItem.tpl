@@ -6,7 +6,7 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					{if $ICON}
-						<div class="pull-left">
+						<div class="float-left">
 							{if $ICON['type'] == 'image'}
 								<img width="22px" class="top2px {$ICON['class']}" title="{$ICON['title']}" alt="{$ICON['title']}" src="{$ICON['src']}" />
 							{else}

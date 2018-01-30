@@ -33,7 +33,7 @@
 	{/if}
 	<footer class="footerContainer navbar-default navbar-fixed-bottom noprint">
 		<div class="vtFooter">
-			<div class="pull-left">
+			<div class="float-left">
 				<a class="iconsInFooter" href="https://www.linkedin.com/groups/8177576" rel="noreferrer">
 					<span class="AdditionalIcon-Linkedin" title="Linkendin"></span>
 				</a>

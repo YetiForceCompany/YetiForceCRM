@@ -19,7 +19,7 @@
 	<input type="hidden" id="relatedParentModule" value="{$RELATED_PARENT_MODULE}" />
 	<input type="hidden" id="relatedParentId" value="{$RELATED_PARENT_ID}" />
 	<div class="popupContainer row">
-		<div class="paddingLeftMd form-group pull-left">
+		<div class="paddingLeftMd form-group float-left">
 			<h3 class="popupModuleName">{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</h3>
 			<form class="popupSearchContainer form-inline" onsubmit="return false;" method="POST">
 				<input class="col-md-2" type="hidden" id="searchfield" />
