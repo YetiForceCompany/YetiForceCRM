@@ -38,7 +38,7 @@
 					</div>
 					<div class='col-sm-8 col-md-8'>
 						<span style="margin-left:0px">
-							<i class="fa fa-info-circle"></i>
+							<i class="fas fa-info-circle"></i>
 							<span style="margin-left:2px">{\App\Language::translate('LBL_VIEW_ALL_DESC',$QUALIFIED_MODULE)}</span>
 						</span>
 					</div>
@@ -53,7 +53,7 @@
 					</div>
 					<div class='col-sm-8 col-md-8'>
 						<span style="margin-left:0px">
-							<i class="fa fa-info-circle"></i>
+							<i class="fas fa-info-circle"></i>
 							<span style="margin-left:2px">{\App\Language::translate('LBL_EDIT_ALL_DESC',$QUALIFIED_MODULE)}</span>
 						</span>
 					</div>

@@ -138,7 +138,7 @@
 																		<span class="label label-default btn-success featuredLabel" data-cvid="{$CUSTOM_VIEW->getId()}" {if $CUSTOM_VIEW->get('color')}style="background-color: {$CUSTOM_VIEW->get('color')};"{/if}>
 																			{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
 																			{if $CUSTOM_VIEW->get('description')}
-																				&nbsp;<span class="popoverTooltip fa fa-info-circle"  data-placement="auto right" data-content="{\App\Purifier::encodeHtml($CUSTOM_VIEW->get('description'))}"></span>
+																				&nbsp;<span class="popoverTooltip fas fa-info-circle"  data-placement="auto right" data-content="{\App\Purifier::encodeHtml($CUSTOM_VIEW->get('description'))}"></span>
 																			{/if}
 																		</span>
 																	</h5>

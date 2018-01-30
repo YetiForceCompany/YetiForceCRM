@@ -11,7 +11,7 @@
 				<input class="switchPopup switchBtn" type="checkbox"{if $RELATED_PARENT_ID} checked{else} disabled{/if} title="{\App\Language::translate('LBL_POPUP_SWITCH_BUTTON',$MODULE)}" data-size="normal" data-label-width="5" data-on-text="{$POPUP_SWITCH_ON_TEXT}" data-off-text="{\App\Language::translate('LBL_ALL',$MODULE)}" data-on-val="{$RELATED_PARENT_ID}" data-off-val="0" data-field="relatedParentId">
 			</div>
 			<div class="btn-group">
-				&nbsp;<a href="#" class="popoverTooltip pull-right-xs pull-right-sm pull-right" title="" data-placement="auto bottom" data-content="{\App\Language::translate('LBL_POPUP_NARROW_DOWN_RECORDS_LIST',$MODULE)}" data-original-title="{\App\Language::translate('LBL_POPUP_SWITCH_BUTTON',$MODULE)}"><span class="fa fa-info-circle"></span></a>
+				&nbsp;<a href="#" class="popoverTooltip pull-right-xs pull-right-sm pull-right" title="" data-placement="auto bottom" data-content="{\App\Language::translate('LBL_POPUP_NARROW_DOWN_RECORDS_LIST',$MODULE)}" data-original-title="{\App\Language::translate('LBL_POPUP_SWITCH_BUTTON',$MODULE)}"><span class="fas fa-info-circle"></span></a>
 			</div>
 		</div>
 	{/if}

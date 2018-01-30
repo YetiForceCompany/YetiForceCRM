@@ -9,7 +9,7 @@
 	</div>
 	<div class="modal-body">
 		<div class="alert alert-info" role="alert">
-			<span class="fa fa-info-circle" aria-hidden="true"></span>&nbsp;&nbsp;
+			<span class="fas fa-info-circle" aria-hidden="true"></span>&nbsp;&nbsp;
 			{\App\Language::translate('LBL_MASS_SEND_EMAIL_INFO', $MODULE)}
 		</div>
 		<form class="form-horizontal validateForm">

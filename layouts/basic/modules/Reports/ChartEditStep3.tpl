@@ -80,7 +80,7 @@
 								<div class='row alert-info well' style="position: relative; top: 50px;width:95%">
 									<span class='span alert-info'>
 										<div>
-											<span class="fa fa-info-circle"></span>&nbsp;&nbsp;
+											<span class="fas fa-info-circle"></span>&nbsp;&nbsp;
 											{\App\Language::translate('LBL_PLEASE_SELECT_ATLEAST_ONE_GROUP_FIELD_AND_DATA_FIELD', $MODULE)}
 										</div>
 										<br />

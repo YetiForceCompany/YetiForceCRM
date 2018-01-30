@@ -33,7 +33,7 @@
 						<div class="col-md-7 btn-toolbar">
 							{*<button class="btn btn-success pull-right" name="save" type="submit"><strong>{\App\Language::translate('LBL_SET_DEFAULT_BANK', $QUALIFIED_MODULE)}</strong></button>*}
 							<button class="btn btn-danger pull-right {if count($UNSUPPORTED_CURRENCIES) eq 0}hide{/if}" id="unsupportedCurrencies" title="{\App\Language::translate('LBL_CURRENCIES_UNSUPPORTED', $QUALIFIED_MODULE)}" type="button"><span class="glyphicon glyphicon-alert"></span></button>
-							<button class="btn btn-info pull-right" id="supportedCurrencies" title="{\App\Language::translate('LBL_CURRENCIES_SUPPORTED', $QUALIFIED_MODULE)}" type="button"><span class="fa fa-info-circle"></span></button>
+							<button class="btn btn-info pull-right" id="supportedCurrencies" title="{\App\Language::translate('LBL_CURRENCIES_SUPPORTED', $QUALIFIED_MODULE)}" type="button"><span class="fas fa-info-circle"></span></button>
 						</div>
 					</div>
 				</td>

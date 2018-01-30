@@ -73,7 +73,7 @@
 								{elseif $LIBRARY['status'] == 2}
 									<span class="label label-warning bigLabel">
 										{\App\Language::translate('LBL_LIBRARY_NEEDS_UPDATING', $QUALIFIED_MODULE)}&nbsp;&nbsp;
-										<span class="fa fa-info-circle" aria-hidden="true"></span>
+										<span class="fas fa-info-circle" aria-hidden="true"></span>
 									</span>
 								{else}
 									<span class="label label-danger bigLabel">

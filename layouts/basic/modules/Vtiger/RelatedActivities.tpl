@@ -135,7 +135,7 @@
 								  {/foreach}
 							  {/if}
 						{/if}">
-						<span class="fa fa-info-circle"></span>
+						<span class="fas fa-info-circle"></span>
 					</span>
 					{if !$IS_READ_ONLY && $RECORD->isEditable()}
 						<span class="2 edit hide row">

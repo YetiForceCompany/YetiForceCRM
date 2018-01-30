@@ -43,7 +43,7 @@
 												<div><label class='paddingLR5'>{App\Language::translate('FL_SUB_PROCESS', $MODULE_NAME)}:</label>{\App\Purifier::encodeHtml($EVENT['subprocl'])}</div>
 											{/if}
 										">
-										<i class="pull-right fa fa-info-circle"></i>
+										<i class="pull-right fas fa-info-circle"></i>
 									</span>
 								</div>
 							</a>

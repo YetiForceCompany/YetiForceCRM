@@ -28,7 +28,7 @@
 				<hr>
 				<div class="pull-right">
 					<a class="helpBtn" href="https://yetiforce.com/en/implementer/installation-updates.html" target="_blank" rel="noreferrer">
-						<span class="fa fa-info-circle" aria-hidden="true"></span>
+						<span class="fas fa-info-circle" aria-hidden="true"></span>
 					</a>
 				</div>
 				<input type="hidden" name="mode" value="step2" />

@@ -23,8 +23,8 @@
 			</div>
 		</div>
 		<div class="col-md-6">
-			<div><span class="fa fa-info-circle"></span>&nbsp;&nbsp;<span class="selectedCell padding1per">{\App\Language::translate('LBL_SELECTED_VALUES',$QUALIFIED_MODULE)}</span>&nbsp;<span>{\App\Language::translate('LBL_SELECTED_VALUES_MESSGAE',$QUALIFIED_MODULE)}</span></div><br />
-			<div><span class="fa fa-info-circle"></span>&nbsp;&nbsp;<span>{\App\Language::translate('LBL_ENABLE/DISABLE_MESSGAE',$QUALIFIED_MODULE)}</span></div><br />
+			<div><span class="fas fa-info-circle"></span>&nbsp;&nbsp;<span class="selectedCell padding1per">{\App\Language::translate('LBL_SELECTED_VALUES',$QUALIFIED_MODULE)}</span>&nbsp;<span>{\App\Language::translate('LBL_SELECTED_VALUES_MESSGAE',$QUALIFIED_MODULE)}</span></div><br />
+			<div><span class="fas fa-info-circle"></span>&nbsp;&nbsp;<span>{\App\Language::translate('LBL_ENABLE/DISABLE_MESSGAE',$QUALIFIED_MODULE)}</span></div><br />
 			&nbsp;&nbsp;<button id="saveOrder" disabled="" class="btn btn-success">{\App\Language::translate('LBL_SAVE',$QUALIFIED_MODULE)}</button>
 		</div>		
 	</div>				

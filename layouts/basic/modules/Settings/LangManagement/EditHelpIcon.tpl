@@ -65,7 +65,7 @@
 								<td class="showText">
 								<div>
 								<button class="btn btn-default editButton">{\App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}</button>
-								<a href="#" class="HelpInfoPopover pull-left padding10" title="" data-placement="left" data-content="{htmlspecialchars(App\Purifier::decodeHtml($item))}" data-original-title='{$langs.label}'><i class="fa fa-info-circle"></i></a>
+								<a href="#" class="HelpInfoPopover pull-left padding10" title="" data-placement="left" data-content="{htmlspecialchars(App\Purifier::decodeHtml($item))}" data-original-title='{$langs.label}'><i class="fas fa-info-circle"></i></a>
 								</div>
 								<textarea id="{$key}_{$lang_key}"
 									data-lang="{$key}"

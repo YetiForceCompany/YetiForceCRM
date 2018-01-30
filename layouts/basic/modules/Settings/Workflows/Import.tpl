@@ -13,7 +13,7 @@
 					<i class="fas fa-check-circle"></i> {\App\Language::translate('LBL_UPLOAD_OK', $QUALIFIED_MODULE)} <a href="index.php?module=Workflows&parent=Settings&view=Edit&record={$RECORDID}">{\App\Language::translate('LBL_GO_TO_TEMPLATE', $QUALIFIED_MODULE)}</a>
 				</p>
 				{foreach from=$MESSAGES['error'] item=msg}
-					<p class="bgMessage bgWARNING"><i class="fa fa-info-circle"></i> {$msg}</p>
+					<p class="bgMessage bgWARNING"><i class="fas fa-info-circle"></i> {$msg}</p>
 				{/foreach}
 			{elseif $UPLOAD eq false}
 				<p class="bgMessage bgERROR">

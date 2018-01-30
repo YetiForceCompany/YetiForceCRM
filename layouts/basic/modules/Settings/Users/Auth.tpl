@@ -49,7 +49,7 @@
 								<div class="input-group">
 									<input class="configField form-control" title="{\App\Language::translate('LBL_LDAP_DOMAIN', $QUALIFIED_MODULE)}" type="text" name="domain" data-type="ldap" value="{$CONFIG['domain']}">
 									<span class="input-group-addon popoverTooltip" data-content="@testlab.local (DC=testlab,DC=local)" id="basic-addon2">
-										<span class="fa fa-info-circle" aria-hidden="true"></span>
+										<span class="fas fa-info-circle" aria-hidden="true"></span>
 									</span>
 								</div>
 							</div>
