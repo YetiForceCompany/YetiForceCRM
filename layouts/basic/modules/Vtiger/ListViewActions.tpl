@@ -23,12 +23,12 @@
 					{elseif $VIEW_MODEL->get('entityState') == 'All'}
 						<span class="glyphicon glyphicon-menu-hamburger"></span>
 					{else}
-						<span class="fas fa-undo"></span>
+						<span class="fas fa-undo-alt"></span>
 					{/if}
 				</button>
 				<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownEntityState">
 					<li {if $COLOR['Active']}style="border-color: {$COLOR['Active']};"{/if}>
-						<a href="#" data-value="Active"><span class="fas fa-undo"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}</a>
+						<a href="#" data-value="Active"><span class="fas fa-undo-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}</a>
 					</li>
 					<li {if $COLOR['Archived']}style="border-color: {$COLOR['Archived']};"{/if}>
 						<a href="#" data-value="Archived"><span class="fas fa-archive"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}</a>

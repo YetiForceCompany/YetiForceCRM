@@ -1280,7 +1280,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_ACTIVATE_RECORD',
 				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Active',
-				'linkicon' => 'fas fa-undo',
+				'linkicon' => 'fas fa-undo-alt',
 				'style' => empty($stateColors['Active']) ? '' : "background: {$stateColors['Active']};",
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC')],
 				'linkclass' => 'btn-sm btn-default recordEvent entityStateBtn'

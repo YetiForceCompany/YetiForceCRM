@@ -222,7 +222,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Active&sourceView=List',
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC')],
 				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'fas fa-undo'
+				'linkicon' => 'fas fa-undo-alt'
 			];
 		}
 		if ($moduleModel->isPermitted('MassArchived') && $moduleModel->getName() !== 'Users') {

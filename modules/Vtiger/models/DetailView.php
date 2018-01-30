@@ -153,7 +153,7 @@ class Vtiger_DetailView_Model extends \App\Base
 						'url' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Active&record=' . $recordModel->getId(),
 						'confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC')
 					],
-					'linkicon' => 'fas fa-undo',
+					'linkicon' => 'fas fa-undo-alt',
 					'linkclass' => 'entityStateBtn',
 					'style' => empty($stateColors['Active']) ? '' : "background: {$stateColors['Active']};"
 			]);
