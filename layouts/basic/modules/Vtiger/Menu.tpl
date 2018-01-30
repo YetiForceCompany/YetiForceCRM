@@ -5,7 +5,7 @@
 			<ul class='paddingLRZero' role='menubar'>
 			{else}
 				<nav>
-					<ul class="nav flex-column" role="menubar">
+					<ul class="nav modulesList" role="menubar">
 					{/if}	
 					{assign var=PRIVILEGESMODEL value=Users_Privileges_Model::getCurrentUserPrivilegesModel()}
 					{assign var=TABINDEX value=0}
