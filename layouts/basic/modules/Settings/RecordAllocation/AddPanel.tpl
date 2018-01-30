@@ -50,7 +50,7 @@
 					</div>
 					<div class="col-xs-12 col-sm-2">
 						<div class="textAlignCenter font-x-x-large betweenDragDrop">
-							<span class="fa fa-arrows-h"></span>
+							<span class="fas fa-arrows-alt-h"></span>
 						</div>
 					</div>
 					<div class="col-xs-12 col-sm-5 paddingLRZero">
