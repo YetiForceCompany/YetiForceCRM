@@ -1248,7 +1248,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_SHOW_COMPLETE_DETAILS',
 				'linkurl' => $this->getFullDetailViewUrl(),
-				'linkicon' => 'fa fa-th-list',
+				'linkicon' => 'fas fa-th-list',
 				'linkclass' => 'btn-sm btn-default',
 				'linkhref' => true
 			];
@@ -1347,7 +1347,7 @@ class Vtiger_Record_Model extends \App\Base
 					'linklabel' => 'LBL_SHOW_COMPLETE_DETAILS',
 					'linkurl' => $this->getFullDetailViewUrl(),
 					'linkhref' => true,
-					'linkicon' => 'fa fa-th-list',
+					'linkicon' => 'fas fa-th-list',
 					'linkclass' => 'btn-xs btn-default',
 			]);
 		}

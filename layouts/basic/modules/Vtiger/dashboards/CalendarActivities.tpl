@@ -31,7 +31,7 @@
 					</button>
 					{if $LISTVIEWLINKS}&nbsp;
 						<button class="btn btn-default btn-xs goToListView" title="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST', $MODULE_NAME)}" >
-							<span class="fa fa-th-list"></span>
+							<span class="fas fa-th-list"></span>
 						</button>
 					{/if}&nbsp;
 					{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}

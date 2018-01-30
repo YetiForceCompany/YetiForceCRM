@@ -49,7 +49,7 @@
 						<input type="hidden" id="recordList" name="searchResult" value="{\App\Json::encode(array_keys($searchRecords))}" />
 						<div class="clearfix">
 							<span onclick="form_{$module}.submit()"><i class="fas fa-list" style="margin-top: 2px;"></i> <strong>{\App\Language::translate($module)}&nbsp;({$modulesCount})</strong></span>
-							<!-- &nbsp;&nbsp;<i title="" class="fa fa-th-list alignMiddle"></i> -->
+							<!-- &nbsp;&nbsp;<i title="" class="fas fa-th-list alignMiddle"></i> -->
 							{if {$smarty.foreach.matchingRecords.index+1} eq 1}
 								<div class="pull-right"><p class="muted">{\App\Language::translate('LBL_CREATED_ON', $MODULE)}</small></p></div>
 							{/if}

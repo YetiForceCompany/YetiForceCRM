@@ -72,7 +72,7 @@
 					{/foreach}
 					<td style='border-bottom:1px solid #DDD;'>
 						<a class="btn btn-default" TARGET="_blank" href="{$MODULE_MODEL->getDetailViewUrl($RECORD.id)}" title="{\App\Language::translate('LBL_GO_TO_PREVIEW', $MODULE)}">
-							<span class="fa fa-th-list" aria-hidden="true"></span>
+							<span class="fas fa-th-list" aria-hidden="true"></span>
 						</a>
 					</td>
 					<td style='border-bottom:1px solid #DDD;'>

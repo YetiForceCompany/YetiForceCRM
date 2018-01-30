@@ -20,7 +20,7 @@
 			{if $LISTVIEWLINKS}
 				<div class="pull-right">&nbsp;
 					<button class="btn btn-default btn-sm goToListView" data-url="{$WIDGET_MODEL->getTargetModuleModel()->getListViewUrl()}" title="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST', $MODULE_NAME)}" >
-						<span class="fa fa-th-list"></span>
+						<span class="fas fa-th-list"></span>
 					</button>
 				</div>
 			{/if}

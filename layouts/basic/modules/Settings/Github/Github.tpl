@@ -112,7 +112,7 @@
 							<div class="pull-right actions">
 								<span class="actionImages">
 									<a href="{$ISSUE->get('html_url')}" target="_blank" rel="noreferrer">
-										<span title="" class="fa fa-th-list alignMiddle"></span>
+										<span title="" class="fas fa-th-list alignMiddle"></span>
 									</a>
 								</span>
 							</div>

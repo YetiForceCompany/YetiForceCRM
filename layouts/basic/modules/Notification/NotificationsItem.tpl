@@ -34,7 +34,7 @@
 						</button>&nbsp;&nbsp;
 						{assign var=RELATED_RECORD value=$ROW->getRelatedRecord()}
 						{if $RELATED_RECORD['id'] && \App\Record::isExists($RELATED_RECORD['id'])}
-							<a class="btn btn-info btn-xs fa fa-th-list" title="{\App\Language::translate('LBL_GO_TO_PREVIEW')}" href="index.php?module={$RELATED_RECORD['module']}&view=Detail&record={$RELATED_RECORD['id']}"></a>
+							<a class="btn btn-info btn-xs fas fa-th-list" title="{\App\Language::translate('LBL_GO_TO_PREVIEW')}" href="index.php?module={$RELATED_RECORD['module']}&view=Detail&record={$RELATED_RECORD['id']}"></a>
 						{/if}
 					</div>
 				</div>

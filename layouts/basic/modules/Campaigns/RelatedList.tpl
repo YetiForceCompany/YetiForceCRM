@@ -262,7 +262,7 @@
 																<td nowrap class="{$WIDTHTYPE}">
 																	<div class="pull-right actions">
 																		<span class="actionImages">
-																			<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="fa fa-th-list alignMiddle"></span></a>&nbsp;
+																			<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="fas fa-th-list alignMiddle"></span></a>&nbsp;
 																				{if $IS_EDITABLE}
 																				<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fas fa-pencil-alt alignMiddle"></span></a>
 																				{/if}

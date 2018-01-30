@@ -28,7 +28,7 @@
 						</button>
 					{/if}
 					<button type="button"  class="btn btn-default" href="index.php?module=Notification&view=List">
-						<span class="fa fa-th-list" title="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST')}" alt="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST')}"></span>
+						<span class="fas fa-th-list" title="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST')}" alt="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST')}"></span>
 					</button>
 				</div>
 			</div>

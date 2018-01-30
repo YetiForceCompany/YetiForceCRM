@@ -105,7 +105,7 @@
 								{if $RELATED_RECORD->isViewable()}
 									<a class="addButton" href="{$RELATED_RECORD->getFullDetailViewUrl()}">
 										<button class="btn btn-sm btn-default popoverTooltip" type="button">
-											<span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="fa fa-th-list"></span>
+											<span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="fas fa-th-list"></span>
 										</button>
 									</a>
 								{/if}
