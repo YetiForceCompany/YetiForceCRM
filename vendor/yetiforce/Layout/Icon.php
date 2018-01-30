@@ -38,7 +38,7 @@ class Icon
 		'application/javascript' => 'far fa-file-code',
 		'text/xml' => 'far fa-file-code',
 		'application/x-shockwave-flash' => 'far fa-file-image',
-		'video' => 'fa fa-file-video-o',
+		'video' => 'far fa-file-video',
 		'audio' => 'fa fa-file-audio-o',
 		'application/vnd.oasis.opendocument.text' => 'fa fa-file-word-o',
 		'text/vcard' => 'fa fa-calendar',
