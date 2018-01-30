@@ -43,7 +43,7 @@
 					{if !empty($SRC)}
 						<img src="{$SRC}" alt="{\App\Language::translate($TITLE,$MODULE)}" title="{\App\Language::translate($TITLE,$MODULE)}" />
 					{elseif !empty($ICON)}
-						<span class="fa fa-exchange" aria-hidden="true"></span>
+						<span class="fas fa-exchange-alt" aria-hidden="true"></span>
 					{else}
 						<strong>{$TITLE}</strong>
 					{/if}

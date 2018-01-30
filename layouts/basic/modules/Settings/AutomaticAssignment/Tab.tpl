@@ -118,7 +118,7 @@
 									<td><strong>{$MEMBER.name}</strong>
 										<span title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fas fa-trash-alt pull-right marginIcon marginTop2 delete cursorPointer" data-mode="addOrRemoveMembers"></span>
 										{if $FIELD_NAME eq 'roles'}
-											<span title="{\App\Language::translate('LBL_CHANGE_ROLE_TYPE', $QUALIFIED_MODULE)}" class="fa fa-exchange pull-right marginIcon marginTop2 changeRoleType cursorPointer" aria-hidden="true"></span>
+											<span title="{\App\Language::translate('LBL_CHANGE_ROLE_TYPE', $QUALIFIED_MODULE)}" class="fas fa-exchange-alt pull-right marginIcon marginTop2 changeRoleType cursorPointer" aria-hidden="true"></span>
 										{/if}
 									</td>
 								</tr>
