@@ -94,7 +94,7 @@
 						<input type="text" readonly="readonly" class="form-control end" />
 						<div class="input-group-btn">
 							<button class="btn btn-danger btn-sm setView">
-								<span class="fa fa-flag-checkered"></span>
+								<span class="fas fa-flag-checkered"></span>
 							</button>
 						</div>
 					</div>
