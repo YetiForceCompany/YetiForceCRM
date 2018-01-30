@@ -57,7 +57,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'BTN_MASS_RESET_PASSWORD',
 				'linkurl' => 'index.php?module=Users&view=PasswordModal&mode=massReset',
-				'linkicon' => 'fa fa-repeat'
+				'linkicon' => 'fas fa-redo-alt'
 			];
 		}
 		foreach ($massActionLinks as $massActionLink) {

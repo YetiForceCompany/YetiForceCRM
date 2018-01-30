@@ -40,7 +40,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 					'linklabel' => 'BTN_RESET_PASSWORD',
 					'linkdata' => ['url' => 'index.php?module=Users&view=PasswordModal&mode=reset&record=' . $recordId],
 					'linkclass' => 'btn-info showModal',
-					'linkicon' => 'fa fa-repeat',
+					'linkicon' => 'fas fa-redo-alt',
 					'showLabel' => true
 				];
 			}

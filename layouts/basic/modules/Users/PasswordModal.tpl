@@ -6,7 +6,7 @@
 		{/if}
 		<h4 class="modal-title">
 			{if $MODE === 'reset' || $MODE === 'massReset'}
-				<span class="fa fa-repeat"></span>&nbsp;&nbsp;
+				<span class="fas fa-redo-alt"></span>&nbsp;&nbsp;
 			{elseif $MODE === 'change'}
 				<span class="fa fa-key"></span>&nbsp;&nbsp;
 			{/if}
@@ -74,12 +74,12 @@
 		<div class="modal-footer">
 			{if ($MODE === 'massReset' || $MODE === 'reset') &&  $ACTIVE_SMTP}
 				<button class="btn btn-success" type="submit" name="saveButton" {if AppConfig::main('systemMode') === 'demo'}disabled="disabled"{/if}>
-					<span class="fa fa-repeat"></span>&nbsp;&nbsp;<strong>{\App\Language::translate('BTN_RESET_PASSWORD', $MODULE_NAME)}</strong>
+					<span class="fas fa-redo-alt"></span>&nbsp;&nbsp;<strong>{\App\Language::translate('BTN_RESET_PASSWORD', $MODULE_NAME)}</strong>
 				</button>
 			{/if}
 			{if $MODE === 'change'}
 				<button class="btn btn-success" type="submit" name="saveButton" {if AppConfig::main('systemMode') === 'demo'}disabled="disabled"{/if}>
-					<span class="fa fa-repeat"></span>&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_CHANGE_PASSWORD', $MODULE_NAME)}</strong>
+					<span class="fas fa-redo-alt"></span>&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_CHANGE_PASSWORD', $MODULE_NAME)}</strong>
 				</button>
 			{/if}
 			{if !$LOCK_EXIT}
