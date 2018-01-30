@@ -2784,9 +2784,6 @@ span[name=existingImages] img {
 	-webkit-transition: left ease-in-out 0.35s;
 	transition: left ease-in-out 0.35s;
 }
-.footerContainer {
-	height: 33px;
-}
 .subMenu {
 	display: none;
 }
@@ -3759,9 +3756,6 @@ html,body,.baseContainer {
 	.relatedContainer .paginationDiv.pull-right {
 		margin-top: 5px;
 	}
-	.footerContainer {
-		height: 17px;
-	}
 	.infoUser {
 		bottom: 17px !important;
 	}
@@ -4437,14 +4431,6 @@ select.form-control {
 	position: absolute;
 	top: 3px;
 	right: 0;
-}
-.iconsInFooter {
-	margin: 7px 5px 0 5px;
-	float: left;
-}
-.iconsInFooter span {
-	color: #fff;
-	font-size: 20px;
 }
 .infoUser {
 	padding: 0 5px;
