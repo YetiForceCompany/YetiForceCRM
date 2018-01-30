@@ -39,7 +39,7 @@ class Icon
 		'text/xml' => 'far fa-file-code',
 		'application/x-shockwave-flash' => 'far fa-file-image',
 		'video' => 'far fa-file-video',
-		'audio' => 'fa fa-file-audio-o',
+		'audio' => 'far fa-file-audio',
 		'application/vnd.oasis.opendocument.text' => 'fa fa-file-word-o',
 		'text/vcard' => 'fa fa-calendar',
 		'text/calendar' => 'fa fa-calendar',
