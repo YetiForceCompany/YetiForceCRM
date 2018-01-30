@@ -1,8 +1,9 @@
 @charset 'UTF-8';
+
 @import '_style';
 
 //base
-@import 'base/_variables';
+@import 'components/_variables';
 
 //layout
 @import 'layout/_footer';

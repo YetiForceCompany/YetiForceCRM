@@ -123,12 +123,12 @@ class Vtiger_Theme extends Vtiger_Viewer
 		if (empty($theme)) {
 			$theme = self::getDefaultThemeName();
 		}
-		$selectedThemePath = self::getBaseThemePath() . '/skins/' . $theme;
+		$selectedThemePath = 'layouts/' . self::getLayoutName() . '/skins/' . $theme;
 		$completeSelectedThemePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $selectedThemePath);
 		if (file_exists($completeSelectedThemePath)) {
 			return $selectedThemePath;
 		}
-		$fallBackThemePath = self::getBaseThemePath() . '/skins/' . self::getDefaultThemeName();
+		$fallBackThemePath = 'layouts/' . self::getLayoutName() . '/skins/' . self::getDefaultThemeName();
 		$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $fallBackThemePath);
 		if (file_exists($completeFallBackThemePath)) {
 			return $fallBackThemePath;
@@ -161,7 +161,6 @@ class Vtiger_Theme extends Vtiger_Viewer
 	public static function getCurrentUserThemePath()
 	{
 		$themeName = self::getDefaultThemeName();
-		$baseLayoutPath = self::getBaseThemePath();
-		return $baseLayoutPath . '/skins/' . $themeName;
+		return 'layouts/' . self::getLayoutName() . '/skins/' . $themeName;
 	}
 }

@@ -34,7 +34,7 @@ class PackageUpdate extends PackageImport
 		if ($module !== null) {
 			$zip = new \App\Zip($zipfile, ['checkFiles' => false]);
 			if ($zip->statName("$module.png")) {
-				$zip->unzipFile("$module.png", 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png");
+				$zip->unzipFile("$module.png", 'layouts/resources/images/$module.png');
 			}
 			$zip->unzip([
 				// Templates folder
@@ -439,7 +439,7 @@ class PackageUpdate extends PackageImport
 	 */
 	public function updateAction($modulenode, $moduleInstance, $actionnode)
 	{
-
+		
 	}
 
 	/**
