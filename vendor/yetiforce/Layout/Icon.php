@@ -41,8 +41,8 @@ class Icon
 		'video' => 'far fa-file-video',
 		'audio' => 'far fa-file-audio',
 		'application/vnd.oasis.opendocument.text' => 'far fa-file-word',
-		'text/vcard' => 'fa fa-calendar',
-		'text/calendar' => 'fa fa-calendar',
+		'text/vcard' => 'fas fa-calendar-alt',
+		'text/calendar' => 'fas fa-calendar-alt',
 		'application/x-javascript' => 'far fa-file-code',
 	];
 
