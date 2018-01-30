@@ -31,7 +31,7 @@
 		{assign var="displayId" value=$ITEM_VALUE}
 		{if $FIELD->get('displaytype') != 10}
 			<span class="input-group-addon clearReferenceSelection cursorPointer">
-				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_clear" class="fa fa-times-circle" title="{\App\Language::translate('LBL_CLEAR', $MODULE)}"></span>
+				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_clear" class="fas fa-times-circle" title="{\App\Language::translate('LBL_CLEAR', $MODULE)}"></span>
 			</span>
 		{/if}
 		<input id="{$FIELD_NAME}_display" name="{$FIELD_NAME}_display" type="text" title="{\App\Purifier::encodeHtml($FIELD->getEditValue($ITEM_VALUE))}" class="marginLeftZero form-control autoComplete" {if !empty($ITEM_VALUE)}readonly="true"{/if}

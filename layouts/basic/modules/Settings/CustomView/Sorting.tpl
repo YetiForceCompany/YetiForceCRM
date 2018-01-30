@@ -32,7 +32,7 @@
 						<div class="input-group">
 							<div class="input-group-btn" id="basic-addon1">
 								<button type="button" class="btn btn-danger clear" title="{\App\Language::translate('LBL_CLEAR', $MODULE_NAME)}">
-									<span class="fa fa-times-circle"></span>
+									<span class="fas fa-times-circle"></span>
 								</button>
 							</div>
 							<select class="select2 form-control" name="defaultOrderBy" id="defaultOrderBy">
