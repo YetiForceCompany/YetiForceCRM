@@ -78,7 +78,7 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 				'linklabel' => 'LBL_SHOW_LOCATION',
 				'linkurl' => 'javascript:Vtiger_Index_Js.showLocation(this)',
 				'linkdata' => ['location' => $recordModel->getDisplayValue('location')],
-				'linkicon' => 'glyphicon glyphicon-map-marker',
+				'linkicon' => 'fas fa-map-marker-alt',
 			];
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}

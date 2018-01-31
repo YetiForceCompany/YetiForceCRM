@@ -87,7 +87,7 @@
 							</strong>
 							{if App\Privilege::isPermitted('OpenStreetMap')}
 								<a class="pull-right btn btn-default btn-xs actionIcon" data-location="{$RECORD->getDisplayValue('location')}" onclick="Vtiger_Index_Js.showLocation(this)">
-									<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+									<span class="fas fa-map-marker-alt" aria-hidden="true"></span>
 								</a>
 							{/if}
 						</div>

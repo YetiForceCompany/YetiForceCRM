@@ -106,7 +106,7 @@
 						{/if}
 						{if $RECORD->get('location')}
 							<a target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/{urlencode ($RECORD->getDisplayValue('location'))}" class="pull-right popoverTooltip delay0" data-original-title="{\App\Language::translate('Location', 'Calendar')}" data-content="{$RECORD->getDisplayValue('location')}">
-								<span class="glyphicon glyphicon-map-marker"></span>&nbsp
+								<span class="fas fa-map-marker-alt"></span>&nbsp
 							</a>
 						{/if}
 						<span class="pull-right popoverTooltip delay0" data-placement="left" data-class="activities" data-original-title="{\App\Purifier::encodeHtml($RECORD->getDisplayValue('activitytype',false, true,true))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('subject',false,false,40))}"
