@@ -32,7 +32,7 @@ class Icon
 		'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'far fa-file-powerpoint',
 		'application/vnd.oasis.opendocument.presentation' => 'far fa-file-powerpoint',
 		'image' => 'far fa-file-image',
-		'text/html' => 'fa fa-html5',
+		'text/html' => 'fab fa-html5',
 		'text/json' => 'far fa-file-code',
 		'text/css' => 'fab fa-css3',
 		'application/javascript' => 'far fa-file-code',
