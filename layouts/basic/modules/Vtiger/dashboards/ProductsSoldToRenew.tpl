@@ -20,13 +20,13 @@
 			{if $LISTVIEWLINKS}
 				<div class="float-right">&nbsp;
 					<button class="btn btn-light btn-sm goToListView" data-url="{$WIDGET_MODEL->getTargetModuleModel()->getListViewUrl()}" title="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST', $MODULE_NAME)}" >
-						<span class="fa fa-th-list"></span>
+						<span class="fas fa-th-list"></span>
 					</button>
 				</div>
 			{/if}
 			<div class="float-right">&nbsp;
 				<button class="btn btn-light btn-sm changeRecordSort" title="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}" alt="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}" data-sort="{if $DATA['sortorder'] eq 'desc'}asc{else}desc{/if}" data-asc="{\App\Language::translate('LBL_SORT_ASCENDING', $MODULE_NAME)}" data-desc="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}">
-					<span class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true" ></span>
+					<span class="fas fa-sort-amount-up" aria-hidden="true" ></span>
 				</button>
 			</div>
 			<div class="float-right">

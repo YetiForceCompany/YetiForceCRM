@@ -34,7 +34,7 @@
 							<button id="rssAddButton" class="rssAddButton btn btn-success" title="{\App\Language::translate('LBL_ADD_FEED_SOURCE', $MODULE)}"><span class="fas fa-plus"></span>&nbsp;<span class="userIcon-Rss"></span></button>
 						</span>
 						<span class="btn-group float-right">
-							<button id="changeFeedSource" class="changeFeedSource btn btn-primary" title="{\App\Language::translate('LBL_CHANGE_RSS_CHANNEL', $MODULE)}"><span class="fa fa-exchange"></span>&nbsp;<span class="userIcon-Rss"></span></button>
+							<button id="changeFeedSource" class="changeFeedSource btn btn-primary" title="{\App\Language::translate('LBL_CHANGE_RSS_CHANNEL', $MODULE)}"><span class="fas fa-exchange"></span>&nbsp;<span class="userIcon-Rss"></span></button>
 						</span>
 					</div>
 				</div>

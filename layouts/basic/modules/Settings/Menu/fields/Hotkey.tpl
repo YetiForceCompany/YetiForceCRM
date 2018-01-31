@@ -8,7 +8,7 @@
 			<a class="input-group-addon testBtn">{\App\Language::translate('LBL_TEST_IT', $QUALIFIED_MODULE)}</a>
 			<a class="input-group-addon popoverTooltip" target="_blank" href="https://github.com/ccampbell/mousetrap" rel="noreferrer" data-toggle="popover" 
 				data-content="{\App\Language::translate('LBL_MORE_INFO', $QUALIFIED_MODULE)}">
-				<i class="fa fa-info-circle"></i>
+				<i class="fas fa-info-circle"></i>
 			</a>
 		</div>
 	</div>

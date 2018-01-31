@@ -28,7 +28,7 @@
 												&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_REPLYALLL','OSSMailView')}</strong>
 											</button>
 											<button type="button" class="btn btn-sm btn-light sendMailBtn" data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=forward" data-popup="{$POPUP}" title="{\App\Language::translate('LBL_FORWARD','OSSMailView')}">
-												<span class="fa fa-share"></span>
+												<span class="fas fa-share"></span>
 												&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_FORWARD','OSSMailView')}</strong>
 											</button>
 										{else}
@@ -41,7 +41,7 @@
 												&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_REPLYALLL','OSSMailView')}</strong>
 											</a>
 											<a class="btn btn-sm btn-light" href="{OSSMail_Module_Model::getExternalUrlForWidget($RECORD_MODEL, 'forward')}" title="{\App\Language::translate('LBL_FORWARD', 'OSSMailView')}">
-												<span class="fa fa-share"></span>
+												<span class="fas fa-share"></span>
 												&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_FORWARD','OSSMailView')}</strong>
 											</a>
 										{/if}

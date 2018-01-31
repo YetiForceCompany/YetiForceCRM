@@ -91,7 +91,7 @@
 									   autocomplete="off">
 								<span class="input-group-btn cursorPointer">
 									<button class="btn btn-light clearReferenceSelection" type="button">
-										<span class="fa fa-times-circle" 
+										<span class="fas fa-times-circle" 
 											  title="{\App\Language::translate('LBL_CLEAR', $QUALIFIED_MODULE)}"></span>
 									</button>
 									<button class="btn btn-light relatedPopup" type="button">

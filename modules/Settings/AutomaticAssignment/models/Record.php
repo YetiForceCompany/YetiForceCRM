@@ -379,7 +379,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_CHANGE_RECORD_STATE',
 				'linkurl' => 'javascript:Settings_AutomaticAssignment_List_Js.changeRecordState(' . $this->getId() . ', ' . (int) !$this->isActive() . ');',
-				'linkicon' => 'fa fa-exchange'
+				'linkicon' => 'fas fa-exchange-alt'
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',

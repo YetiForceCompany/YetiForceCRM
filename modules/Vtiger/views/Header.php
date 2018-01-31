@@ -51,7 +51,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'SwitchUsers',
 				'linkurl' => '',
-				'glyphicon' => 'fa fa-exchange',
+				'glyphicon' => 'fas fa-exchange-alt',
 				'nocaret' => true,
 				'linkdata' => ['url' => $userModel->getSwitchUsersUrl()],
 				'linkclass' => 'showModal',

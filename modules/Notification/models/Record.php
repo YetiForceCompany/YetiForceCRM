@@ -224,7 +224,7 @@ class Notification_Record_Model extends Vtiger_Record_Model
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_MARK_AS_READ',
 				'linkurl' => 'javascript:Notification_List_Js.setAsMarked(' . $this->getId() . ')',
-				'linkicon' => 'glyphicon glyphicon-ok',
+				'linkicon' => 'fas fa-check',
 				'linkclass' => 'btn-sm btn-default'
 			];
 		}

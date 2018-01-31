@@ -68,12 +68,12 @@
 								{if $LIBRARY['status'] == 1}
 									<span class="label label-success bigLabel">
 										{\App\Language::translate('LBL_LIBRARY_DOWNLOADED', $QUALIFIED_MODULE)}&nbsp;&nbsp;
-										<span class="fa fa-check-circle-o" aria-hidden="true"></span>
+										<span class="far fa-check-circle" aria-hidden="true"></span>
 									</span>
 								{elseif $LIBRARY['status'] == 2}
 									<span class="label label-warning bigLabel">
 										{\App\Language::translate('LBL_LIBRARY_NEEDS_UPDATING', $QUALIFIED_MODULE)}&nbsp;&nbsp;
-										<span class="fa fa-info-circle" aria-hidden="true"></span>
+										<span class="fas fa-info-circle" aria-hidden="true"></span>
 									</span>
 								{else}
 									<span class="label label-danger bigLabel">
@@ -91,7 +91,7 @@
 										</a>
 									{else}
 										<a class="btn btn-primary btn-sm" href="index.php?module=ModuleManager&parent=Settings&action=Library&mode=update&name={$NAME}">
-											<span class="fa fa-repeat" aria-hidden="true"></span>&nbsp;&nbsp;
+											<span class="fas fa-redo-alt" aria-hidden="true"></span>&nbsp;&nbsp;
 											<strong>{\App\Language::translate('BTN_LIBRARY_UPDATE', $QUALIFIED_MODULE)}</strong>
 										</a>
 									{/if}

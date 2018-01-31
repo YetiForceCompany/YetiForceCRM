@@ -21,7 +21,7 @@
 				{if $INVITIE['status'] == '1'}
 					<span class="fas fa-check-circle popoverTooltip" data-placement="top" data-content="{\App\Language::translate($STATUS_LABEL,$MODULE)} {if $INVITIE['time']}({DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}" aria-hidden="true"></span>
 				{elseif $INVITIE['status'] == '2'}
-					<span class="fa fa-minus-circle popoverTooltip" data-placement="top" data-content="{\App\Language::translate($STATUS_LABEL,$MODULE)} {if $INVITIE['time']}({DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}" aria-hidden="true"></span>
+					<span class="fas fa-minus-circle popoverTooltip" data-placement="top" data-content="{\App\Language::translate($STATUS_LABEL,$MODULE)} {if $INVITIE['time']}({DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}" aria-hidden="true"></span>
 				{else}
 					{assign var=LABEL value=$INVITIE['email']}
 					<span class="glyphicon glyphicon-question-sign popoverTooltip" data-placement="top" data-content="{\App\Language::translate($STATUS_LABEL,$MODULE)}" aria-hidden="true"></span>

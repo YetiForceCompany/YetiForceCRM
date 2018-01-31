@@ -69,7 +69,7 @@
 						<input type="text" readonly="readonly" class="form-control start" />
 						<div class="input-group-btn">
 							<button class="btn btn-success btn-sm setView">
-								<span class="fa fa-truck"></span>
+								<span class="fas  fa-truck"></span>
 							</button>
 						</div>
 					</div>
@@ -77,7 +77,7 @@
 						<input type="text" readonly="readonly" class="form-control indirect " />
 						<div class="input-group-btn">
 							<button class="btn btn-warning btn-sm setView">
-								<span class="fa fa-flag"></span>
+								<span class="fas fa-flag"></span>
 							</button>
 							<button class="btn btn-success btn-sm moveUp">
 								<span class="fas fa-upload"></span>
@@ -94,7 +94,7 @@
 						<input type="text" readonly="readonly" class="form-control end" />
 						<div class="input-group-btn">
 							<button class="btn btn-danger btn-sm setView">
-								<span class="fa fa-flag-checkered"></span>
+								<span class="fas fa-flag-checkered"></span>
 							</button>
 						</div>
 					</div>
@@ -123,12 +123,12 @@
 							</div>
 							<div class="col-xs-4">
 								<button class="btn btn-xs btn-success addAllRecords float-right" data-module="{$ALLOWED_MODULE_NAME}"><span class="glyphicon glyphicon-download-alt"></span></button>
-								<button class="btn btn-xs btn-danger deleteClipBoard float-right marginRight10 {if empty($CACHE_GROUP_RECORDS[$ALLOWED_MODULE_NAME])}hide{/if}" data-module="{$ALLOWED_MODULE_NAME}"><span class="fa fa-trash"></span></button>
+								<button class="btn btn-xs btn-danger deleteClipBoard float-right marginRight10 {if empty($CACHE_GROUP_RECORDS[$ALLOWED_MODULE_NAME])}hide{/if}" data-module="{$ALLOWED_MODULE_NAME}"><span class="fas fa-trash-alt"></span></button>
 							</div>
 						</div>
 					{/foreach}
 					<div class="col-xs-12">
-						<button class="btn btn-success btn-sm copyToClipboard float-right"><span class="fa fa-clipboard"></span>&nbsp;{\App\Language::translate('LBL_COPY_TO_CLIPBOARD', $MODULE_NAME)}</button>
+						<button class="btn btn-success btn-sm copyToClipboard float-right"><span class="fas fa-paste"></span>&nbsp;{\App\Language::translate('LBL_COPY_TO_CLIPBOARD', $MODULE_NAME)}</button>
 					</div>
 				</div>
 			</div>

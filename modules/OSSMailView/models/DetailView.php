@@ -45,7 +45,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linklabel' => '',
 					'linkhint' => 'LBL_FORWARD',
 					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=forward', 'popup' => $config['popup']],
-					'linkicon' => 'fa fa-share',
+					'linkicon' => 'fas fa-share',
 					'linkclass' => 'sendMailBtn'
 				];
 			} else {
@@ -73,7 +73,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linklabel' => '',
 					'linkhint' => 'LBL_FORWARD',
 					'linkurl' => OSSMail_Module_Model::getExternalUrlForWidget($recordModel, 'forward'),
-					'linkicon' => 'fa fa-share',
+					'linkicon' => 'fas fa-share',
 					'linkclass' => 'sendMailBtn'
 				];
 			}

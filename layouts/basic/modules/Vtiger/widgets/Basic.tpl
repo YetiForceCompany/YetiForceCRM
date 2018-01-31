@@ -27,10 +27,10 @@
 								{if $WIDGET['data']['viewtype'] eq 'Summary'}
 									<div class="btn-group control-widget">
 										<button class="btn btn-sm btn-light prev disabled" type="button" title="{\App\Language::translate('LBL_PREV',$MODULE_NAME)}" >
-											<span class="glyphicon glyphicon-menu-left"></span>
+											<span class="fas fa-angle-left"></span>
 										</button>
 										<button class="btn btn-sm btn-light next" type="button" title="{\App\Language::translate('LBL_NEXT',$MODULE_NAME)}">
-											<span class="glyphicon glyphicon-menu-right"></span>
+											<span class="fas fa-angle-right"></span>
 										</button>
 									</div>
 								{/if}

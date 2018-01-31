@@ -36,7 +36,7 @@
 										</td>
 										<td>
 											<button type="button" class="btn btn-success" title="{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}">
-												<span class="glyphicon glyphicon-ok"></span>
+												<span class="fas fa-check"></span>
 											</button>
 										</td>
 									{else}

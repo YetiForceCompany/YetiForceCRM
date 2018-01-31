@@ -75,7 +75,7 @@
 																		{/foreach}
 																	</select>
 																	<span class="filterImage">
-																		<span class="fa fa-filter"></span>
+																		<span class="fas fa-filter"></span>
 																	</span>
 																{else}
 																	<input type="hidden" value="0" id="customFilter" />
@@ -84,7 +84,7 @@
 														</div>
 														<div class="btn-group paddingRight10">
 															<button type="button" class="btn btn-light loadFormFilterButton popoverTooltip" data-content="{\App\Language::translate('LBL_LOAD_RECORDS_INFO',$MODULE)}">
-																<span class="fa fa-filter"></span>&nbsp;
+																<span class="fas fa-filter"></span>&nbsp;
 																<strong>{\App\Language::translate('LBL_LOAD_RECORDS',$MODULE)}</strong>
 															</button>
 														</div>
@@ -122,14 +122,14 @@
 																			{elseif $VIEW_MODEL->get('entityState') === 'Trash'}
 																				<span class="fas fa-trash-alt"></span>
 																			{elseif $VIEW_MODEL->get('entityState') === 'All'}
-																				<span class="glyphicon glyphicon-menu-hamburger"></span>
+																				<span class="fas fa-bars"></span>
 																			{else}
-																				<span class="fas fa-undo"></span>
+																				<span class="fas fa-undo-alt"></span>
 																			{/if}
 																		</button>
 																		<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownEntityState">
 																			<li {if $COLOR['Active']}style="border-color: {$COLOR['Active']};"{/if}>
-																				<a href="#" data-value="Active"><span class="fas fa-undo"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}</a>
+																				<a href="#" data-value="Active"><span class="fas fa-undo-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}</a>
 																			</li>
 																			<li {if $COLOR['Archived']}style="border-color: {$COLOR['Archived']};"{/if}>
 																				<a href="#" data-value="Archived"><span class="fas fa-archive"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}</a>
@@ -138,7 +138,7 @@
 																				<a href="#" data-value="Trash"><span class="fas fa-trash-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}</a>
 																			</li>
 																			<li>
-																				<a href="#" data-value="All"><span class="glyphicon glyphicon-menu-hamburger"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ALL')}</a>
+																				<a href="#" data-value="All"><span class="fas fa-bars"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ALL')}</a>
 																			</li>
 																		</ul>
 																	</div>
@@ -226,8 +226,8 @@
 																	<td class="{$WIDTHTYPE} text-center text-center font-larger">
 																		{assign var=RECORD_IS_FAVORITE value=(int)in_array($RELATED_RECORD->getId(),$FAVORITES)}
 																		<a class="favorites" data-state="{$RECORD_IS_FAVORITE}">
-																			<span title="{\App\Language::translate('LBL_REMOVE_FROM_FAVORITES', $MODULE)}" class="fa fa-star alignMiddle {if !$RECORD_IS_FAVORITE}hide{/if}"></span>
-																			<span title="{\App\Language::translate('LBL_ADD_TO_FAVORITES', $MODULE)}" class="fa fa-star-o alignMiddle {if $RECORD_IS_FAVORITE}hide{/if}"></span>
+																			<span title="{\App\Language::translate('LBL_REMOVE_FROM_FAVORITES', $MODULE)}" class="fas fa-star alignMiddle {if !$RECORD_IS_FAVORITE}hide{/if}"></span>
+																			<span title="{\App\Language::translate('LBL_ADD_TO_FAVORITES', $MODULE)}" class="fal fa-star alignMiddle {if $RECORD_IS_FAVORITE}hide{/if}"></span>
 																		</a>
 																	</td>
 																{/if}
@@ -262,7 +262,7 @@
 																<td nowrap class="{$WIDTHTYPE}">
 																	<div class="float-right actions">
 																		<span class="actionImages">
-																			<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="fa fa-th-list alignMiddle"></span></a>&nbsp;
+																			<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="fas fa-th-list alignMiddle"></span></a>&nbsp;
 																				{if $IS_EDITABLE}
 																				<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fas fa-pencil-alt alignMiddle"></span></a>
 																				{/if}

@@ -34,7 +34,7 @@ class Products_TreeView_Model extends Vtiger_TreeView_Model
 				'text' => $item->getName(),
 				'isrecord' => true,
 				'state' => [],
-				'icon' => 'glyphicon glyphicon-file'
+				'icon' => 'fas fa-file'
 			];
 		}
 		return $tree;

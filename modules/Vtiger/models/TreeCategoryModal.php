@@ -202,7 +202,7 @@ class Vtiger_TreeCategoryModal_Model extends \App\Base
 				'parent' => $parent == 0 ? '#' : $parent,
 				'text' => $item->getName(),
 				'state' => $state,
-				'icon' => 'glyphicon glyphicon-file'
+				'icon' => 'fas fa-file'
 			];
 		}
 		return $tree;

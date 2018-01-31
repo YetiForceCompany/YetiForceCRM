@@ -32,7 +32,7 @@
                 <td nowrap class="{$WIDTHTYPE}">
                     <span class="actions">
                         <span class="actionImages float-right">
-                            <a href="{$LISTVIEW_ENTRY->link}" target="_blank" rel="noreferrer"><i title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="fa fa-th-list alignMiddle"></i></a>&nbsp;
+                            <a href="{$LISTVIEW_ENTRY->link}" target="_blank" rel="noreferrer"><i title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="fas fa-th-list alignMiddle"></i></a>&nbsp;
                         </span>
                     </span>
                 </td>

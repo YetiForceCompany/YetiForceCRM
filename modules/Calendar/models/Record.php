@@ -360,7 +360,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_SET_RECORD_STATUS',
 				'linkurl' => $this->getActivityStateModalUrl(),
-				'linkicon' => 'glyphicon glyphicon-ok',
+				'linkicon' => 'fas fa-check',
 				'linkclass' => 'btn-sm btn-default',
 				'modalView' => true
 			];
@@ -383,7 +383,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 						'linklabel' => 'LBL_SET_RECORD_STATUS',
 						'linkhref' => true,
 						'linkurl' => $this->getActivityStateModalUrl(),
-						'linkicon' => 'glyphicon glyphicon-ok',
+						'linkicon' => 'fas fa-check',
 						'linkclass' => 'btn-xs btn-default',
 						'modalView' => true
 				]);

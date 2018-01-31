@@ -94,7 +94,7 @@
 					{\App\Language::translate('LBL_INDIVIDUAL_DELIVERY', $QUALIFIED_MODULE)}&nbsp;
 					<span class="popoverTooltip"  data-placement="top"
 						  data-content="{\App\Language::translate('LBL_INDIVIDUAL_DELIVERY_INFO',$QUALIFIED_MODULE)}">
-						<span class="fa fa-info-circle"></span>
+						<span class="fas fa-info-circle"></span>
 					</span>
 				</label>
 				<div class="controls col-md-8">
@@ -142,7 +142,7 @@
 					{\App\Language::translate('LBL_OPTIONS', $QUALIFIED_MODULE)}&nbsp;
 					<span class="popoverTooltip delay0"  data-placement="top"
 						  data-content="{\App\Language::translate('LBL_OPTIONS_INFO',$QUALIFIED_MODULE)}">
-						<span class="fa fa-info-circle"></span>
+						<span class="fas fa-info-circle"></span>
 					</span>
 				</label>
 				<div class="controls col-md-8">
@@ -154,7 +154,7 @@
 					{\App\Language::translate('LBL_SAVE_SEND_MAIL', $QUALIFIED_MODULE)}&nbsp;
 					<span class="popoverTooltip"  data-placement="top"
 						  data-content="{\App\Language::translate('LBL_SAVE_SEND_MAIL_INFO',$QUALIFIED_MODULE)}">
-						<span class="fa fa-info-circle"></span>
+						<span class="fas fa-info-circle"></span>
 					</span>
 				</label>
 				<div class="controls col-md-8">
@@ -222,7 +222,7 @@
 			<div class="row">
 				<div class="col-md-5 float-right">
 					<span class="float-right">
-						<button class="btn btn-success" type="submit"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;<strong>{App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+						<button class="btn btn-success" type="submit"><span class="fas fa-check" aria-hidden="true"></span>&nbsp;<strong>{App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();"><span class="fas fa-times" aria-hidden="true"></span>&nbsp;{App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					</span>
 				</div>

@@ -101,7 +101,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 					'linktype' => 'SIDEBARLINK',
 					'linklabel' => 'LBL_CALENDAR_LIST',
 					'linkurl' => 'javascript:Calendar_CalendarView_Js.getInstanceByView().goToRecordsList("' . $this->getListViewUrl() . '&viewname=All");',
-					'linkicon' => 'fa fa-calendar-minus-o',
+					'linkicon' => 'far fa-calendar-minus',
 			]);
 		}
 		if ($linkParams['ACTION'] === 'Calendar') {
@@ -268,7 +268,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			if (in_array($fieldType, $type)) {
 				$fieldName = $field->getName();
 				if ($fieldType == 'picklist' && in_array($fieldName, $restrictedField[$fieldType])) {
-					
+
 				} else {
 					$fieldList[$fieldName] = $field;
 				}

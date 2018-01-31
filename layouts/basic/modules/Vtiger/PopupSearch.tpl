@@ -36,13 +36,13 @@
 								<div class="pageNumbers">
 									<span class="pageNumbersText">{if !empty($LISTVIEW_ENTRIES)}{$PAGING_MODEL->getRecordStartRange()} {\App\Language::translate('LBL_TO_LC', $MODULE)} {$PAGING_MODEL->getRecordEndRange()}{else}<span>&nbsp;</span>{/if}</span>
 									<span class="alignBottom">
-										<span class="glyphicon glyphicon-refresh totalNumberOfRecords cursorPointer{if empty($LISTVIEW_ENTRIES)} hide{/if}" style="margin-left:5px"></span>
+										<span class="fas fa-sync-alt totalNumberOfRecords cursorPointer{if empty($LISTVIEW_ENTRIES)} hide{/if}" style="margin-left:5px"></span>
 									</span>
 								</div>
 								<div class="btn-group alignTop margin0px">
 									<span class="float-right">
 										<span class="btn-group" role="group">
-											<button class="btn btn-light" role="group" id="listViewPreviousPageButton" {if !$PAGING_MODEL->isPrevPageExists()} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-left"></span></button>
+											<button class="btn btn-light" role="group" id="listViewPreviousPageButton" {if !$PAGING_MODEL->isPrevPageExists()} disabled {/if} type="button"><span class="fas fa-chevron-left"></span></button>
 											<button class="btn btn-light dropdown-toggle" role="group" type="button" id="listViewPageJump" data-toggle="dropdown" {if $PAGE_COUNT eq 1} disabled {/if}>
 												<span class="vtGlyph vticon-pageJump" title="{\App\Language::translate('LBL_LISTVIEW_PAGE_JUMP',$moduleName)}"></span>
 											</button>

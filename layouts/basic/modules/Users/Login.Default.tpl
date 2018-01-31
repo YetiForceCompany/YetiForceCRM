@@ -33,7 +33,7 @@
 								<div class="input-group form-group {if $LANGUAGE_SELECTION || $LAYOUT_SELECTION}first-group {/if}">
 									<input name="password" type="password" class="form-control form-control-lg" title="{\App\Language::translate('Password',$MODULE)}" id="password" name="password" {if \AppConfig::main('systemMode') === 'demo'}value="demo"{/if} {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if} placeholder="{\App\Language::translate('Password',$MODULE)}">
 									<div class="input-group-append">
-										<div class="input-group-text"><i class="fa fa-briefcase" aria-hidden="true"></i></div>
+										<div class="input-group-text"><i class="fas fa-briefcase" aria-hidden="true"></i></div>
 									</div>
 								</div>
 								{assign var=COUNTERFIELDS value=2}
@@ -47,7 +47,7 @@
 											{/foreach}
 										</select>
 										<div class="input-group-append">
-											<div class="input-group-text"><i class="fa fa-language" aria-hidden="true"></i></div>
+											<div class="input-group-text"><i class="fas fa-language" aria-hidden="true"></i></div>
 										</div>
 									</div>
 								{/if}
@@ -86,7 +86,7 @@
 					{if $IS_BLOCKED_IP}
 						<div class="alert alert-danger">
 							<div class="row">
-								<div class="col-md-2"><span style="font-size: 60px;" class="fa fa-minus-circle" aria-hidden="true"></span></div>
+								<div class="col-md-2"><span style="font-size: 60px;" class="fas fa-minus-circle" aria-hidden="true"></span></div>
 								<div class="col-md-10"><p>{\App\Language::translate('LBL_IP_IS_BLOCKED',$MODULE_NAME)}</p></div>
 							</div>
 						</div>

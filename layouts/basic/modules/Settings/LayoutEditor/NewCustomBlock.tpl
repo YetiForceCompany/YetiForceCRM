@@ -30,7 +30,7 @@
 						<ul class="dropdown-menu float-right">
 							<li class="blockVisibility" data-visible="1" data-block-id="">
 								<a href="javascript:void(0)">
-									<span class="glyphicon glyphicon-ok"></span>&nbsp;{App\Language::translate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}
+									<span class="fas fa-check"></span>&nbsp;{App\Language::translate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}
 								</a>
 							</li>
 							<li class="inActiveFields">

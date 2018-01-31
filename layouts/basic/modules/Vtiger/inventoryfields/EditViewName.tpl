@@ -11,7 +11,7 @@
 			{assign var="displayId" value=$ITEM_VALUE}
 			{if $FIELD->get('displaytype') != 10}
 				<span class="input-group-addon clearReferenceSelection cursorPointer popoverTooltip" data-content="{\App\Language::translate('LBL_CLEAR',$MODULE)}">
-					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_clear" class="fa fa-times-circle"></span>
+					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_clear" class="fas fa-times-circle"></span>
 				</span>
 			{/if}
 			<input id="{$FIELD_NAME}_display" name="{$FIELD_NAME}_display" type="text" title="{$FIELD->getEditValue($ITEM_VALUE)}" class="marginLeftZero input-sm form-control autoComplete recordLabel" {if !empty($ITEM_VALUE)}readonly="true"{/if}
