@@ -216,7 +216,7 @@
 													<span class="mail_user_name">{$MAIN_MAIL.username}</span>
 													<span data-id="{$MAIN_MAIL.rcuser_id}" class="noMails"></span>
 												</div>
-												<div class="visible-xs-block">
+												<div class="d-none d-block d-sm-block d-md-none">
 													<span class="glyphicon glyphicon-inbox"></span>
 												</div>
 											</a>
