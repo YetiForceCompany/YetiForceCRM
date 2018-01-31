@@ -89,7 +89,7 @@
 									<div class="relatedModuleFieldsList mainBlockTableContent panel-body">
 										<div class="form-horizontal">
 											<div class="form-group">
-												<label class="col-sm-2 control-label">{\App\Language::translate('LBL_RELATED_VIEW_TYPE',$QUALIFIED_MODULE)}:</label>
+												<label class="col-sm-2 col-form-label">{\App\Language::translate('LBL_RELATED_VIEW_TYPE',$QUALIFIED_MODULE)}:</label>
 												<div class="col-sm-10">
 													<select data-placeholder="{\App\Language::translate('LBL_RELATED_VIEW_TYPE_DESC',$MODULE)}" multiple data-prompt-position="topLeft" class="form-control select2_container relatedViewType validate[required]">
 														{foreach key=KEY item=NAME from=Settings_LayoutEditor_Module_Model::getRelatedViewTypes()}
@@ -103,7 +103,7 @@
 										</div>
 										<div class="form-horizontal">
 											<div class="form-group">
-												<label class="col-sm-2 control-label">{\App\Language::translate('LBL_STANDARD_FIELDS',$QUALIFIED_MODULE)}:</label>
+												<label class="col-sm-2 col-form-label">{\App\Language::translate('LBL_STANDARD_FIELDS',$QUALIFIED_MODULE)}:</label>
 												<div class="col-sm-10">
 													<select data-placeholder="{\App\Language::translate('LBL_ADD_MORE_COLUMNS',$MODULE)}" multiple class="form-control select2_container columnsSelect relatedColumnsList">
 														<optgroup label=''>
@@ -135,7 +135,7 @@
 											{assign var=INVENTORY_FIELDS value=$INVENTORY_FIELD_MODEL->getFields()}
 											<div class="form-horizontal">
 												<div class="form-group">
-													<label class="col-sm-2 control-label">{\App\Language::translate('LBL_ADVANCED_BLOCK_FIELDS',$QUALIFIED_MODULE)}:</label>
+													<label class="col-sm-2 col-form-label">{\App\Language::translate('LBL_ADVANCED_BLOCK_FIELDS',$QUALIFIED_MODULE)}:</label>
 													<div class="col-sm-10">
 														<select data-placeholder="{\App\Language::translate('LBL_ADD_ADVANCED_BLOCK_FIELDS', $QUALIFIED_MODULE)}" multiple class="select2_container relatedColumnsList" data-type="inventory">
 															{foreach item=NAME key=SELECTED_FIELD from=$SELECTED_INVENTORY_FIELDS}
@@ -177,7 +177,7 @@
 						<form class="modal-Fields">
 							<div class="row form-horizontal">
 								<div class="form-group">
-									<label class="col-md-4 control-label">{\App\Language::translate('LBL_RELATION_TYPE', $QUALIFIED_MODULE)}:</label>
+									<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_RELATION_TYPE', $QUALIFIED_MODULE)}:</label>
 									<div class="col-md-7">
 										<select name="type" class="form-control">
 											{foreach from=Settings_LayoutEditor_Module_Model::getRelationsTypes() item=ITEM key=KEY}
@@ -187,7 +187,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-md-4 control-label">{\App\Language::translate('LBL_RELATION_ACTIONS', $QUALIFIED_MODULE)}:</label>
+									<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_RELATION_ACTIONS', $QUALIFIED_MODULE)}:</label>
 									<div class="col-md-7 marginTop">
 										<select multiple name="actions" class="form-control">
 											{foreach from=Settings_LayoutEditor_Module_Model::getRelationsActions() item=ITEM key=KEY}
@@ -197,7 +197,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-md-4 control-label">{\App\Language::translate('LBL_SOURCE_MODULE', $QUALIFIED_MODULE)}:</label>
+									<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_SOURCE_MODULE', $QUALIFIED_MODULE)}:</label>
 									<div class="col-md-7 marginTop">
 										<select name="source" class="form-control">
 											{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
@@ -207,7 +207,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-md-4 control-label">{\App\Language::translate('LBL_TARGET_MODULE', $QUALIFIED_MODULE)}:</label>
+									<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_TARGET_MODULE', $QUALIFIED_MODULE)}:</label>
 									<div class="col-md-7 marginTop">
 										<select name="target" class="target form-control">
 											{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
@@ -217,7 +217,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-md-4 control-label">{\App\Language::translate('LBL_RELATION_LABLE', $QUALIFIED_MODULE)}:</label>
+									<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_RELATION_LABLE', $QUALIFIED_MODULE)}:</label>
 									<div class="col-md-7">
 										<input name="label"  type="text" class="relLabel form-control" />
 									</div>

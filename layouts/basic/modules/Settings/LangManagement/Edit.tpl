@@ -2,7 +2,7 @@
 <div class="">
 	<div class="form-horizontal">
 		<div class="form-group row">
-			<label for="langs_list" class="control-label col-md-1" >{\App\Language::translate('Language',$QUALIFIED_MODULE)}:</label>
+			<label for="langs_list" class="col-form-label col-md-1" >{\App\Language::translate('Language',$QUALIFIED_MODULE)}:</label>
 			<div class="col-md-3">
 				<select multiple="multiple" class="form-control" id="langs_list">
 					{foreach from=$LANGS item=LABEL key=PREFIX}
@@ -10,7 +10,7 @@
 					{/foreach}
 				</select>
 			</div>
-			<label class="col-md-1 control-label">{\App\Language::translate('Module',$QUALIFIED_MODULE)}:</label>
+			<label class="col-md-1 col-form-label">{\App\Language::translate('Module',$QUALIFIED_MODULE)}:</label>
 			<div class="col-md-3">
 				<select class="form-control mods_list" id="mods_list">
 					<optgroup label="{\App\Language::translate('Modules',$QUALIFIED_MODULE)}">

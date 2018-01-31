@@ -143,7 +143,7 @@
 								<input type="hidden" name="dashboardId" value="{$CURRENT_DASHBOARD}">
 								<div class="modal-body">
 									<div class="form-group">
-										<div class="col-sm-4 control-label">
+										<div class="col-sm-4 col-form-label">
 											<span>{\App\Language::translate('LBL_CHOISE_AUTHORIZED', $QUALIFIED_MODULE)}</span>
 											<span class="redColor">*</span>
 										</div>
@@ -241,7 +241,7 @@
 							<form class="form-horizontal createCustomFieldForm"  method="POST">
 								<div class="modal-body">
 									<div class="form-group">
-										<div class="col-md-3 control-label">
+										<div class="col-md-3 col-form-label">
 											{\App\Language::translate('LBL_SELECT_WIDGET', $QUALIFIED_MODULE)}
 										</div>
 										<div class="col-md-8 controls">
@@ -256,7 +256,7 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<div class="col-sm-3 control-label">
+										<div class="col-sm-3 col-form-label">
 											{\App\Language::translate('LBL_WIDTH', $QUALIFIED_MODULE)}
 										</div>
 										<div class="col-sm-2">
@@ -266,7 +266,7 @@
 												{/foreach}
 											</select>
 										</div>
-										<div class="col-sm-3 control-label" style="width:135px">
+										<div class="col-sm-3 col-form-label" style="width:135px">
 											{\App\Language::translate('LBL_HEIGHT', $QUALIFIED_MODULE)}
 										</div>	
 										<div class="col-sm-2">
@@ -278,7 +278,7 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<div class="col-sm-3 control-label">
+										<div class="col-sm-3 col-form-label">
 											{\App\Language::translate('LBL_MANDATORY_WIDGET', $QUALIFIED_MODULE)}
 										</div>
 										<div class="col-sm-2 controls">
@@ -286,7 +286,7 @@
 										</div>
 									</div>
 									<div class="form-group widgetFilter hide">
-										<div class="col-sm-3 control-label">
+										<div class="col-sm-3 col-form-label">
 											{\App\Language::translate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}
 										</div>
 										<div class="col-sm-8 controls">
@@ -298,7 +298,7 @@
 										</div>	
 									</div>	
 									<div class="form-group widgetFilter hide">
-										<div class="col-sm-3 control-label">
+										<div class="col-sm-3 col-form-label">
 											{\App\Language::translate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
 										</div>
 										<div class="col-sm-8 controls">
@@ -310,7 +310,7 @@
 										</div>	
 									</div>
 									<div class="form-group widgetFilterDate hide">
-										<div class="col-sm-3 control-label">
+										<div class="col-sm-3 col-form-label">
 											{\App\Language::translate('LBL_DEFAULT_DATE', $QUALIFIED_MODULE)}
 										</div>
 										<div class="col-sm-8 controls">
@@ -418,7 +418,7 @@
 												</label>
 											</div>	
 											<div class="form-group hide">
-												<div class="col-sm-3 control-label">
+												<div class="col-sm-3 col-form-label">
 													{\App\Language::translate('LBL_DEFAULT_DATE', $QUALIFIED_MODULE)}
 												</div>
 												<div class="col-sm-8 controls">

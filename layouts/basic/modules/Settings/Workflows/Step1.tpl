@@ -23,7 +23,7 @@
                 </label>
                 <br />
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">
+                    <label class="col-sm-3 col-form-label">
                         {\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}
                     </label>
                     <div class="col-sm-6 controls">
@@ -46,7 +46,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">
+                    <label class="col-sm-3 col-form-label">
                         {\App\Language::translate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}<span class="redColor">*</span>
                     </label>
                     <div class="col-sm-6 controls">
@@ -55,7 +55,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">
+                    <label class="col-sm-3 col-form-label">
                         {\App\Language::translate('LBL_SPECIFY_WHEN_TO_EXECUTE', $QUALIFIED_MODULE)}
                     </label>
                     <div class="col-sm-6 controls">

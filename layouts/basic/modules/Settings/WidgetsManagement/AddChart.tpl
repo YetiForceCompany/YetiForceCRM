@@ -17,13 +17,13 @@
 					<input type="hidden" name="width" value="4" />
 					<input type="hidden" name="height" value="3" />
 					<div class="form-group margin0px padding1per">
-						<label class="col-sm-3 control-label">{\App\Language::translate('LBL_NAME_CHART', $MODULE)}<span class="redColor">*</span> </label>
+						<label class="col-sm-3 col-form-label">{\App\Language::translate('LBL_NAME_CHART', $MODULE)}<span class="redColor">*</span> </label>
 						<div class="col-sm-8 controls">
 							<input type="text" name="chartName" class="form-control" data-validation-engine="validate[required]" />
 						</div>
 					</div>
 					<div class="form-group margin0px padding1per">
-						<label class="col-sm-3 control-label">{\App\Language::translate('LBL_REPORT', $MODULE)}<span class="redColor">*</span></label>
+						<label class="col-sm-3 col-form-label">{\App\Language::translate('LBL_REPORT', $MODULE)}<span class="redColor">*</span></label>
 						<div class="col-sm-8 controls">
 							<select class="select2 widgetFilter width90 form-control" title="{\App\Language::translate('LBL_REPORT', $MODULE)}" name="reportId" data-validation-engine="validate[required]">
 								{foreach item=REPORT_NAME key=REPORT_ID from=$LIST_REPORTS}

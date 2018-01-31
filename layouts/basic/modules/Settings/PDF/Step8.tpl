@@ -15,7 +15,7 @@
 				</label>
 				<br />
 				<div class="form-group">
-					<label class="col-sm-3 control-label">
+					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_WATERMARK_TYPE', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
@@ -29,7 +29,7 @@
 					</div>
 				</div>
 				<div class="form-group watertext {if $PDF_MODEL->get('watermark_type') neq $WATERMARK_TEXT}hide{/if}">
-					<label class="col-sm-3 control-label">
+					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_WATERMARK_TEXT', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
@@ -37,7 +37,7 @@
 					</div>
 				</div>
 				<div class="form-group watertext {if $PDF_MODEL->get('watermark_type') neq $WATERMARK_TEXT}hide{/if}">
-					<label class="col-sm-3 control-label">
+					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_WATERMARK_SIZE', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
@@ -45,7 +45,7 @@
 					</div>
 				</div>
 				<div class="form-group watertext {if $PDF_MODEL->get('watermark_type') neq $WATERMARK_TEXT}hide{/if}">
-					<label class="col-sm-3 control-label">
+					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_WATERMARK_ANGLE', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
@@ -53,7 +53,7 @@
 					</div>
 				</div>
 				<div class="form-group waterimage {if $PDF_MODEL->get('watermark_type') eq $WATERMARK_TEXT}hide{/if}">
-					<label class="col-sm-3 control-label">
+					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_WATERMARK_IMAGE', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
@@ -66,7 +66,7 @@
 					</div>
 				</div>
 				<div class="form-group waterimage {if $PDF_MODEL->get('watermark_type') eq $WATERMARK_TEXT}hide{/if}">
-					<label class="col-sm-3 control-label"></label>
+					<label class="col-sm-3 col-form-label"></label>
 					<div class="col-sm-3 controls">
 						<button id="deleteWM" class="btn btn-danger {if $PDF_MODEL->get('watermark_image') eq ''}hide{/if}">{\App\Language::translate('LBL_DELETE_WM', $QUALIFIED_MODULE)}</button>
 					</div>

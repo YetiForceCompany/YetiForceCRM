@@ -138,7 +138,7 @@
 							{/if}
 							{if in_array($WIDGET_MODEL->get('linklabel'), $WIDGETS_WITH_FILTER_DATE)}
 								<div class="form-group ">
-									<div class="col-sm-3 control-label">
+									<div class="col-sm-3 col-form-label">
 										{\App\Language::translate('LBL_DEFAULT_DATE', $QUALIFIED_MODULE)}
 									</div>
 									<div class="col-sm-8 controls">

@@ -89,7 +89,7 @@
 							<input type="hidden" name="holidayId" value="" />
 							<div class="modal-body">
 								<div class="form-group">
-									<div class="col-sm-3 control-label">
+									<div class="col-sm-3 col-form-label">
 										<span>{\App\Language::translate('LBL_DATE', $QUALIFIED_MODULE)}</span>
 										<span class="redColor">*</span>
 									</div>
@@ -99,7 +99,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<div class="col-sm-3 control-label">
+									<div class="col-sm-3 col-form-label">
 										<span>{\App\Language::translate('LBL_HOLIDAY_TYPE', $QUALIFIED_MODULE)}</span>
 										<span class="redColor">*</span>
 									</div>
@@ -111,7 +111,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<div class="col-sm-3 control-label">
+									<div class="col-sm-3 col-form-label">
 										<span>{\App\Language::translate('LBL_DAY_NAME', $QUALIFIED_MODULE)}</span>
 										<span class="redColor">*</span>
 									</div>

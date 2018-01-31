@@ -17,7 +17,7 @@
 						<input type="hidden" name="id" id="id" value="{$ID}" />
 						<input type="hidden" name="name" id="name" value="{$FIELD_INSTANCE->getName()}" />
 						<div class="form-group">
-							<label class="col-md-4 control-label">{\App\Language::translate('LBL_NAME_FIELD', $QUALIFIED_MODULE)}:</label>
+							<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_NAME_FIELD', $QUALIFIED_MODULE)}:</label>
 							<div class="col-md-7 form-control-plaintext">{\App\Language::translate($FIELD_INSTANCE->getName(), $QUALIFIED_MODULE)}</div>
 						</div>
 						{include file=\App\Layout::getTemplatePath('inventoryTypes/'|cat:{$FIELD_INSTANCE->getName()}|cat:'.tpl', $QUALIFIED_MODULE)}

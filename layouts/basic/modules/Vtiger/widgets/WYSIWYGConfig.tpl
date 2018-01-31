@@ -20,18 +20,18 @@
 							</div>
 							</div>
 							<div class="form-group">
-								<div class="col-md-4"><label class="control-label">{\App\Language::translate('Label', $QUALIFIED_MODULE)}:</label></div>
+								<div class="col-md-4"><label class="col-form-label">{\App\Language::translate('Label', $QUALIFIED_MODULE)}:</label></div>
 								<div class="col-md-7"><input name="label" class="form-control" type="text" value="{$WIDGETINFO['label']}" /></div>
 							</div>
 							<div class="form-group">
-								<div class="col-md-4"><label class="control-label">{\App\Language::translate('No left margin', $QUALIFIED_MODULE)}:</label></div>
+								<div class="col-md-4"><label class="col-form-label">{\App\Language::translate('No left margin', $QUALIFIED_MODULE)}:</label></div>
 								<div class="col-md-7">
 									<input name="nomargin" class="" type="checkbox" value="1" {if $WIDGETINFO['nomargin'] == 1}checked{/if}/>
 									<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{\App\Language::translate('No left margin info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('No left margin', $QUALIFIED_MODULE)}"><i class="fas fa-info-circle"></i></a>
 								</div>
 							</div>
 							<div class="form-group">
-								<div class="col-md-4"><label class="control-label">{\App\Language::translate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}:</label></div>
+								<div class="col-md-4"><label class="col-form-label">{\App\Language::translate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}:</label></div>
 								<div class="col-md-7">
 									<select name="field_name" class="select2 form-control">
 										{foreach from=$MODULE_MODEL->getWYSIWYGFields($SOURCE,$SOURCEMODULE) item=item key=key}

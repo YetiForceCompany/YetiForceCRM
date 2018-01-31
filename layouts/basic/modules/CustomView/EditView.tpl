@@ -67,14 +67,14 @@
 				<div class="panel-body">
 					<div class="form-group">
 						<div class="row col-md-5">
-							<label class="float-left control-label paddingLeftMd"><span class="redColor">*</span> {\App\Language::translate('LBL_VIEW_NAME',$MODULE)}:</label>
+							<label class="float-left col-form-label paddingLeftMd"><span class="redColor">*</span> {\App\Language::translate('LBL_VIEW_NAME',$MODULE)}:</label>
 							<div class="col-md-7">
 								<input type="text" id="viewname" class="form-control" data-validation-engine="validate[required]" name="viewname" value="{$CUSTOMVIEW_MODEL->get('viewname')}" />
 							</div>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="paddingLeftMd control-label"><span class="redColor">*</span> {\App\Language::translate('LBL_CHOOSE_COLUMNS',$MODULE)} ({\App\Language::translate('LBL_MAX_NUMBER_FILTER_COLUMNS')}):</label>
+						<label class="paddingLeftMd col-form-label"><span class="redColor">*</span> {\App\Language::translate('LBL_CHOOSE_COLUMNS',$MODULE)} ({\App\Language::translate('LBL_MAX_NUMBER_FILTER_COLUMNS')}):</label>
 						<div class="columnsSelectDiv col-md-12">
 							{assign var=MANDATORY_FIELDS value=[]}
 							<div class="">
@@ -120,7 +120,7 @@
 					</div>
 					<div class="form-group marginbottomZero">
 						<div class="row col-md-5">
-							<label class="float-left control-label paddingLeftMd">{\App\Language::translate('LBL_COLOR_VIEW',$MODULE)}:</label>
+							<label class="float-left col-form-label paddingLeftMd">{\App\Language::translate('LBL_COLOR_VIEW',$MODULE)}:</label>
 							<div class="col-md-7">
 								<div class="input-group">
 									<input type="text" class="form-control colorPicker" name="color" value="{$CUSTOMVIEW_MODEL->get('color')}" />

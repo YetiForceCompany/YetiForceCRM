@@ -10,7 +10,7 @@
 				<form class="form-horizontal AddTranslationForm">	
 					<input type="hidden" name="langs" value="" />
 					<div class="form-group">
-						<label for="translation_type" class="col-sm-4 control-label">{\App\Language::translate('LBL_TranslationType', $QUALIFIED_MODULE)}:</label>
+						<label for="translation_type" class="col-sm-4 col-form-label">{\App\Language::translate('LBL_TranslationType', $QUALIFIED_MODULE)}:</label>
 						<div class="col-sm-8">
 							<select name="type" class="form-control" id="translation_type">
 								<option value="php">{\App\Language::translate('LBL_LangPHP', $QUALIFIED_MODULE)}</option>
@@ -19,7 +19,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="variable" class="col-sm-4 control-label">{\App\Language::translate('LBL_variable', $QUALIFIED_MODULE)}:</label>
+						<label for="variable" class="col-sm-4 col-form-label">{\App\Language::translate('LBL_variable', $QUALIFIED_MODULE)}:</label>
 						<div class="col-sm-8">
 							<input id="variable" name="variable" class="form-control" type="text" placeholder="{\App\Language::translate('LBL_variable', $QUALIFIED_MODULE)}" />
 						</div>

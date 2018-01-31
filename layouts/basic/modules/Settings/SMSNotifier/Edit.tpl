@@ -12,7 +12,7 @@
 		{foreach from=$RECORD_MODEL->getEditFields() item=LABEL key=FIELD_NAME name=fields}
 			{assign var="FIELD_MODEL" value=$RECORD_MODEL->getFieldInstanceByName($FIELD_NAME)->set('fieldvalue',$RECORD_MODEL->get($FIELD_NAME))}
 			<div class="form-group">
-				<label class="control-label col-md-3">
+				<label class="col-form-label col-md-3">
 					{\App\Language::translate($LABEL, $QUALIFIED_MODULE)}
 					{if $FIELD_MODEL->isMandatory()}<span class="redColor"> *</span>{/if}
 				</label>
@@ -26,7 +26,7 @@
 			{foreach from=$PROVIDER->getSettingsEditFieldsModel() item=FIELD_MODEL name=fields}
 				{assign var="FIELD_MODEL" value=$FIELD_MODEL->set('fieldvalue',$RECORD_MODEL->get($FIELD_NAME))}
 				<div class="form-group" data-provider="{$PROVIDER->getName()}">
-					<label class="control-label col-md-3">
+					<label class="col-form-label col-md-3">
 						{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE)}
 						{if $FIELD_MODEL->isMandatory()}<span class="redColor"> *</span>{/if}
 					</label>
@@ -48,7 +48,7 @@
 	{foreach from=$PROVIDERS item=PROVIDER}
 		{foreach from=$PROVIDER->getSettingsEditFieldsModel() item=FIELD_MODEL name=fields}
 			<div class="form-group" data-provider="{$PROVIDER->getName()}">
-				<label class="control-label col-md-3">
+				<label class="col-form-label col-md-3">
 					{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE)}
 					{if $FIELD_MODEL->isMandatory()}<span class="redColor"> *</span>{/if}:
 				</label>

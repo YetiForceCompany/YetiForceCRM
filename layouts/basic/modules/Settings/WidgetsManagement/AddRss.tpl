@@ -18,13 +18,13 @@
 					<input type="hidden" name="height" value="4" />
 					<div class="formContainer">
 						<div class="form-group margin0px padding1per">
-							<label class="col-sm-4 control-label">{\App\Language::translate('LBL_TITLE_WIDGET', $MODULE)}<span class="redColor">*</span> </label>
+							<label class="col-sm-4 col-form-label">{\App\Language::translate('LBL_TITLE_WIDGET', $MODULE)}<span class="redColor">*</span> </label>
 							<div class="col-sm-8 controls">
 								<input type="text" name="title" class="form-control" data-validation-engine="validate[required]" />
 							</div>
 						</div>
 						<div class="form-group margin0px padding1per">
-							<label class="col-sm-4 control-label">{\App\Language::translate('LBL_ADDRESS_RSS', $MODULE)}<span class="redColor">*</span> </label>
+							<label class="col-sm-4 col-form-label">{\App\Language::translate('LBL_ADDRESS_RSS', $MODULE)}<span class="redColor">*</span> </label>
 							<div class="col-sm-8 controls">
 								<div class="input-group">
 									<input type="text" class="form-control channelRss" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator='[ { "name":"Url" } ]'  />
@@ -35,7 +35,7 @@
 							</div>
 						</div>
 						<div class="form-group margin0px padding1per newChannel hide">
-							<label class="col-sm-4 control-label">{\App\Language::translate('LBL_ADDRESS_RSS', $MODULE)}<span class="redColor">*</span> </label>
+							<label class="col-sm-4 col-form-label">{\App\Language::translate('LBL_ADDRESS_RSS', $MODULE)}<span class="redColor">*</span> </label>
 							<div class="col-sm-8 controls">
 								<div class="input-group">
 									<input type="text" disabled="disabled" class="form-control channelRss" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator='[ { "name":"Url" } ]' />

@@ -4,7 +4,7 @@
 		<div class="editModalContent">
 			{foreach from=$RECORD_MODEL->getConnectorFieldsModel() item=FIELD_MODEL key=FIELD_NAME}
 				<div class="form-group">
-					<label class="control-label col-md-3">
+					<label class="col-form-label col-md-3">
 						{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE)}
 						{if $FIELD_MODEL->isMandatory()}<span class="redColor"> *</span>{/if}:
 					</label>
@@ -29,7 +29,7 @@
 				<div class="formGroups">
 					{foreach from=$RECORD_MODEL->getEditFieldsModel() item=FIELD_MODEL key=FIELD_NAME}
 						<div class="form-group">
-							<label class="control-label col-md-3">
+							<label class="col-form-label col-md-3">
 								{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE)}
 								{if $FIELD_MODEL->isMandatory()}<span class="redColor"> *</span>{/if}:
 							</label>
@@ -41,7 +41,7 @@
 					{if $RECORD_ID}
 						{foreach from=$RECORD_MODEL->getConnectorFieldsModel() item=FIELD_MODEL key=FIELD_NAME}
 							<div class="form-group">
-								<label class="control-label col-md-3">
+								<label class="col-form-label col-md-3">
 									{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE)}
 									{if $FIELD_MODEL->isMandatory()}<span class="redColor"> *</span>{/if}:
 								</label>

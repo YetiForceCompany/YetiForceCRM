@@ -20,7 +20,7 @@
 				<form class="form-horizontal createCustomFieldForm"  method="POST">
 					<div class="modal-body">
 						<div class="form-group">
-							<div class="col-md-3 control-label">
+							<div class="col-md-3 col-form-label">
 								{App\Language::translate('LBL_SELECT_FIELD_TYPE', $QUALIFIED_MODULE)}
 							</div>
 							<div class="col-md-8 controls">
@@ -37,7 +37,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<div class="col-md-3 control-label fieldLabelForm">
+							<div class="col-md-3 col-form-label fieldLabelForm">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_LABEL_NAME', $QUALIFIED_MODULE)}
 							</div>
@@ -47,7 +47,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<div class="col-md-3 control-label fieldNameForm">
+							<div class="col-md-3 col-form-label fieldNameForm">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_FIELD_NAME', $QUALIFIED_MODULE)}
 							</div>
@@ -57,7 +57,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<div class="col-md-3 control-label">
+							<div class="col-md-3 col-form-label">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_FIELD_TYPE', $QUALIFIED_MODULE)}
 							</div>
@@ -69,7 +69,7 @@
 							</div>
 						</div>
 						<div class="form-group supportedType lengthsupported">
-							<div class="col-md-3 control-label">
+							<div class="col-md-3 col-form-label">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_LENGTH', $QUALIFIED_MODULE)}
 							</div>
@@ -78,7 +78,7 @@
 							</div>
 						</div>
 						<div class="form-group supportedType decimalsupported hide">
-							<div class="col-md-3 control-label">
+							<div class="col-md-3 col-form-label">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_DECIMALS', $QUALIFIED_MODULE)}
 							</div>
@@ -87,7 +87,7 @@
 							</div>
 						</div>
 						<div class="form-group supportedType preDefinedValueExists hide">
-							<div class="col-md-3 control-label">
+							<div class="col-md-3 col-form-label">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_PICKLIST_VALUES', $QUALIFIED_MODULE)}
 							</div>
@@ -98,7 +98,7 @@
 							</div>
 						</div>
 						<div class="form-group supportedType preDefinedModuleList hide">
-							<div class="col-md-3 control-label">
+							<div class="col-md-3 col-form-label">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_RELATION_VALUES', $QUALIFIED_MODULE)}
 							</div>
@@ -111,7 +111,7 @@
 							</div>
 						</div>
 						<div class="form-group supportedType preMultiReferenceValue hide">
-							<div class="col-md-3 control-label">
+							<div class="col-md-3 col-form-label">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_MULTI_REFERENCE_VALUE_MODULES', $QUALIFIED_MODULE)}
 							</div>
@@ -124,7 +124,7 @@
 							</div>
 						</div>
 						<div class="form-group supportedType preMultiReferenceValue hide">
-							<div class="col-md-3 control-label">
+							<div class="col-md-3 col-form-label">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_MULTI_REFERENCE_VALUE_FIELDS', $QUALIFIED_MODULE)}
 							</div>
@@ -147,7 +147,7 @@
 							</div>
 						</div>
 						<div class="form-group supportedType preMultiReferenceValue hide">
-							<div class="col-md-3 control-label">
+							<div class="col-md-3 col-form-label">
 								{App\Language::translate('LBL_MULTI_REFERENCE_VALUE_FILTER_FIELD', $QUALIFIED_MODULE)}
 							</div>
 							<div class="col-md-8 controls">
@@ -162,7 +162,7 @@
 							</div>
 						</div>
 						<div class="form-group supportedType preMultiReferenceValue hide">
-							<div class="col-md-3 control-label">
+							<div class="col-md-3 col-form-label">
 								{App\Language::translate('LBL_MULTI_REFERENCE_VALUE_FILTER_VALUE', $QUALIFIED_MODULE)}
 							</div>
 							<div class="col-md-8 controls">
@@ -171,7 +171,7 @@
 							</div>
 						</div>
 						<div class="form-group supportedType picklistOption hide">
-							<div class="col-md-3 control-label">
+							<div class="col-md-3 col-form-label">
 								&nbsp;
 							</div>
 							<div class="col-md-8 controls">
@@ -181,7 +181,7 @@
 							</div>
 						</div>
 						<div class="form-group supportedType preDefinedTreeList hide">
-							<div class="col-md-3 control-label">
+							<div class="col-md-3 col-form-label">
 								<span class="redColor">*</span>&nbsp;
 								{App\Language::translate('LBL_TREE_TEMPLATE', $QUALIFIED_MODULE)}
 							</div>

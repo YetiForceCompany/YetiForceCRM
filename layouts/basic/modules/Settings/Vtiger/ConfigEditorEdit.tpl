@@ -78,7 +78,7 @@
 													<div class="input-group-addon">{\App\Language::translate('LBL_MB', $QUALIFIED_MODULE)}</div>
 												</div>
 											</div>
-											<label class="control-label">
+											<label class="col-form-label">
 												(upload_max_filesize: {vtlib\Functions::showBytes($MAXUPLOADSIZE)})
 											</label>
 										{else}

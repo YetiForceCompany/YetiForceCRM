@@ -30,7 +30,7 @@
 					{/foreach}
 				</select>
 			</div>
-			<div class="control-label col-md-8">
+			<div class="col-form-label col-md-8">
 				<label class="textAlignRight float-right" style="padding-top: 14px;">
 					{\App\Language::translate('LBL_BOOKMARKS_LIST', $MODULE)}
 				</label>

@@ -9,11 +9,11 @@
 		<form>
 			<table>
 				<tr>
-					<td><label class="control-label">{\App\Language::translate('Widget list limit', 'OSSMailView')}</label></td>
+					<td><label class="col-form-label">{\App\Language::translate('Widget list limit', 'OSSMailView')}</label></td>
 					<td><input id="tab_email_view_widget_limit" class="form-control validate[custom[integer]]" value="{$WIDGET_CFG['email_list']['widget_limit']}" /></td>
 				</tr>
 				<tr>
-					<td><label class="control-label">{\App\Language::translate('List open email', 'OSSMailView')}</label>&nbsp;</td>
+					<td><label class="col-form-label">{\App\Language::translate('List open email', 'OSSMailView')}</label>&nbsp;</td>
 					<td>
 						<select id="tab_email_view_open_window" class="form-control">
 							<option value="_self" {if $WIDGET_CFG['email_list']['target'] eq '_self'}selected{/if}>{\App\Language::translate('_self', 'OSSMailView')}</option>
