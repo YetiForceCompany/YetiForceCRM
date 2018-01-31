@@ -9,7 +9,7 @@
 						{assign var="SPECIAL_WIDGETS" value=Settings_WidgetsManagement_Module_Model::getSpecialWidgets('Home')}
 						{if $WIDGETS|count gt 0}
 							<button class="btn btn-light addButton dropdown-toggle" style="padding:7px 8px;" data-toggle="dropdown">
-								<p class="hidden-xs no-margin">
+								<p class="d-none d-sm-none d-md-block no-margin">
 									<strong>{\App\Language::translate('LBL_ADD_WIDGET')}</strong>
 									<span class="caret"></span>
 								</p>
@@ -47,8 +47,8 @@
 							</ul>
 						{else if $MODULE_PERMISSION}
 							<button class="btn btn-light addButton dropdown-toggle" data-toggle="dropdown">
-								<strong class="hidden-xs">{\App\Language::translate('LBL_ADD_WIDGET')}</strong>
-								<span class="hidden-xs caret"></span>
+								<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_ADD_WIDGET')}</strong>
+								<span class="d-none d-sm-none d-md-block caret"></span>
 								<span class="glyphicon glyphicon-th d-none d-block d-sm-block d-md-none"></span>
 							</button>
 							<ul class="dropdown-menu widgetsList float-left addWidgetDropDown">
@@ -80,7 +80,7 @@
 										</a>
 									</li>
 								{/foreach}
-								<li class="hidden-xs">
+								<li class="d-none d-sm-none d-md-block">
 									<a href="#">
 										{\App\Language::translate('LBL_NONE')}
 									</a>
@@ -89,14 +89,14 @@
 						{/if}
 					</div>
 					{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardFilter')}
-						<div class="btn-group hidden-xs">
+						<div class="btn-group d-none d-sm-none d-md-block">
 							<a class="btn btn-light addFilter" data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="4">
 								<strong>{\App\Language::translate('LBL_ADD_FILTER')}</strong>
 							</a>
 						</div>
 					{/if}
 					{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardChartFilter')}
-						<div class="btn-group hidden-xs">
+						<div class="btn-group d-none d-sm-none d-md-block">
 							<a class="btn btn-light addChartFilter" data-linkid="{$SPECIAL_WIDGETS['ChartFilter']->get('linkid')}" data-block-id="0" data-width="4" data-height="4">
 								<strong>{\App\Language::translate('LBL_ADD_CHART_FILTER')}</strong>
 							</a>
