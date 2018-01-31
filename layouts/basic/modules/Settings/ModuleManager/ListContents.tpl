@@ -86,7 +86,7 @@
 								<span class="btn-group">
 									{if $LIBRARY['status'] === 0}
 										<a class="btn btn-primary btn-sm" href="index.php?module=ModuleManager&parent=Settings&action=Library&mode=download&name={$NAME}">
-											<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp;&nbsp;
+											<span class="fas fa-download" aria-hidden="true"></span>&nbsp;&nbsp;
 											<strong>{\App\Language::translate('BTN_LIBRARY_DOWNLOAD', $QUALIFIED_MODULE)}</strong>
 										</a>
 									{else}
