@@ -21,7 +21,7 @@
 						<div class="col-xs-1 col-md-3 summaryWidgetIcon">
 							<div class="float-right">
 								<button class="btn btn-light showModal" type="button" data-modalid="ProductsModal" data-url="index.php?module=Products&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
-									<span class="glyphicon glyphicon-zoom-in" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"></span>
+									<span class="fas fa-search-plus" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"></span>
 								</button>
 							</div>
 						</div>
@@ -48,7 +48,7 @@
 						<div class="col-xs-1 col-md-3 summaryWidgetIcon">
 							<span class="float-right">
 								<button class="btn btn-light showModal" type="button" data-modalid="AssetsModal" data-url="index.php?module=Assets&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
-									<span class="glyphicon glyphicon-zoom-in" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"></span>
+									<span class="fas fa-search-plus" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"></span>
 								</button>
 							</span>
 						</div>
@@ -68,7 +68,7 @@
 						<div class="col-xs-1 col-md-3 summaryWidgetIcon">
 							<span class="float-right">
 								<button class="btn btn-light showModal" type="button" data-modalid="ServicesModal" data-url="index.php?module=Services&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
-									<span class="glyphicon glyphicon-zoom-in" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"></span>
+									<span class="fas fa-search-plus" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"></span>
 								</button>
 							</span>
 						</div>
@@ -94,7 +94,7 @@
 						<div class="col-xs-1 col-md-3 summaryWidgetIcon">
 							<span class="float-right">
 								<button class="btn btn-light showModal" type="button" data-modalid="OSSSoldServicesModal" data-url="index.php?module=OSSSoldServices&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
-									<span class="glyphicon glyphicon-zoom-in" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"></span>
+									<span class="fas fa-search-plus" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"></span>
 								</button>
 							</span>
 						</div>
