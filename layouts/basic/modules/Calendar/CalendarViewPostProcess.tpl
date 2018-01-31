@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<div class="{if $USER_MODEL->get('leftpanelhide')}leftPanelOpen {/if}siteBarRight calendarRightPanel col-xs-12 hideSiteBar" data-showPanel="{if !AppConfig::module($MODULE, 'SHOW_RIGHT_PANEL')}0{else}1{/if}" id="rightPanel">
-		<div class="btn btn-block toggleSiteBarRightButton hideToggleSiteBarRightButton hidden-xs hidden-sm" title="{\App\Language::translate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}">
+		<div class="btn btn-block toggleSiteBarRightButton hideToggleSiteBarRightButton d-none d-sm-none d-md-block hidden-sm" title="{\App\Language::translate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}">
 			<span class="fas fa-chevron-left"></span>
 		</div>
 		<div class="siteBarContent paddingTop10">

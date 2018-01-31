@@ -7,7 +7,7 @@
 				<div class="float-right rightHeaderBtn">
 					{assign var=QUICKCREATE_MODULES value=Vtiger_Module_Model::getQuickCreateModules(true)}
 					{if !empty($QUICKCREATE_MODULES)}
-						<a class="btn btn-light btn-sm popoverTooltip dropdownMenu hidden-xs hidden-sm" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
+						<a class="btn btn-light btn-sm popoverTooltip dropdownMenu d-none d-sm-none d-md-block hidden-sm" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
 							<span class="fas fa-plus" aria-hidden="true"></span>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
@@ -46,13 +46,13 @@
 						</ul>
 					{/if}
 					{if \App\Privilege::isPermitted('Notification', 'DetailView')}
-						<a class="btn btn-light btn-sm isBadge notificationsNotice popoverTooltip {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if} hidden-xs hidden-sm" data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}">
+						<a class="btn btn-light btn-sm isBadge notificationsNotice popoverTooltip {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if} d-none d-sm-none d-md-block hidden-sm" data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}">
 							<span class="fas fa-bell" aria-hidden="true"></span>
 							<span hidden class="badge">0</span>
 						</a>
 					{/if}
 					{if isset($CHAT_ENTRIES)}
-						<a class="btn btn-light btn-sm headerLinkChat popoverTooltip hidden-xs hidden-sm" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
+						<a class="btn btn-light btn-sm headerLinkChat popoverTooltip d-none d-sm-none d-md-block hidden-sm" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
 							<span class="fas fa-comments" aria-hidden="true"></span>
 						</a>
 						<div class="chatModal modal fade" tabindex="-1" role="dialog" aria-labelledby="chatLabel" data-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}000">
@@ -74,13 +74,13 @@
 						</div>
 					{/if}
 					{if $REMINDER_ACTIVE}
-						<a class="btn btn-light btn-sm isBadge remindersNotice popoverTooltip {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if} hidden-xs hidden-sm" data-content="{\App\Language::translate('LBL_REMINDER')}" href="#">
+						<a class="btn btn-light btn-sm isBadge remindersNotice popoverTooltip {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if} d-none d-sm-none d-md-block hidden-sm" data-content="{\App\Language::translate('LBL_REMINDER')}" href="#">
 							<span class="fas fa-calendar-alt" aria-hidden="true"></span>
 							<span hidden class="badge bgDanger">0</span>
 						</a>
 					{/if}
 					{if AppConfig::performance('BROWSING_HISTORY_WORKING')}
-						<a class="btn btn-light btn-sm showHistoryBtn popoverTooltip dropdownMenu hidden-xs hidden-sm" data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#">
+						<a class="btn btn-light btn-sm showHistoryBtn popoverTooltip dropdownMenu d-none d-sm-none d-md-block hidden-sm" data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#">
 							<i class="fas fa-history" aria-hidden="true"></i>
 						</a>
 						{include file=\App\Layout::getTemplatePath('BrowsingHistory.tpl', $MODULE)}
@@ -96,7 +96,7 @@
 							{if !empty($LINK)}
 								{assign var="HREF" value=$LINK}
 							{/if}
-							<a class="btn btn-sm popoverTooltip {if $obj->getClassName()|strrpos:"btn-" === false}btn-light {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if} hidden-xs hidden-sm" data-content="{\App\Language::translate($TITLE)}" href="{$HREF}"
+							<a class="btn btn-sm popoverTooltip {if $obj->getClassName()|strrpos:"btn-" === false}btn-light {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if} d-none d-sm-none d-md-block hidden-sm" data-content="{\App\Language::translate($TITLE)}" href="{$HREF}"
 							    {if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
 								    {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
 									    data-{$DATA_NAME}="{$DATA_VALUE}"
@@ -211,7 +211,7 @@
 									<div class="btn-group">
 										{if count($AUTOLOGINUSERS) eq 1}
 											<a type="button" class="btn btn-sm btn-light" title="{$MAIN_MAIL.username}" href="index.php?module=OSSMail&view=Index">
-												<div class="hidden-xs">
+												<div class="d-none d-sm-none d-md-block">
 													{$ITEM.username}
 													<span class="mail_user_name">{$MAIN_MAIL.username}</span>
 													<span data-id="{$MAIN_MAIL.rcuser_id}" class="noMails"></span>
