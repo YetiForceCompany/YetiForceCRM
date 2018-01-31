@@ -47,7 +47,7 @@ class QueryGenerator
 	private $advFilterList;
 
 	/** @var array  */
-	private $fieldsSearchForDuplicates = [];
+	private $searchFieldsForDuplicates = [];
 
 	/** @var array Joins */
 	private $joins = [];
@@ -387,7 +387,7 @@ class QueryGenerator
 	 */
 	public function setFieldSearchForDuplicates($fieldName, $ignoreEmptyValue = true)
 	{
-		$this->fieldsSearchForDuplicates[$fieldName] = $ignoreEmptyValue;
+		$this->searchFieldsForDuplicates[$fieldName] = $ignoreEmptyValue;
 	}
 
 	/**
@@ -710,12 +710,12 @@ class QueryGenerator
 				$this->addJoin([$joinType, $tableName, "$baseTable.$baseTableIndex = $tableName.$moduleTableIndexList[$tableName]"]);
 			}
 		}
-		if ($this->fieldsSearchForDuplicates) {
+		if ($this->searchFieldsForDuplicates) {
 			$duplicateCheckClause = [];
 			$queryGenerator = new self($this->moduleName, $this->user->getId());
 			$queryGenerator->permissions = $this->permissions;
-			$queryGenerator->setFields(array_keys($this->fieldsSearchForDuplicates));
-			foreach ($this->fieldsSearchForDuplicates as $fieldName => $ignoreEmptyValue) {
+			$queryGenerator->setFields(array_keys($this->searchFieldsForDuplicates));
+			foreach ($this->searchFieldsForDuplicates as $fieldName => $ignoreEmptyValue) {
 				if ($ignoreEmptyValue) {
 					$queryGenerator->addCondition($fieldName, '', 'ny');
 				}
