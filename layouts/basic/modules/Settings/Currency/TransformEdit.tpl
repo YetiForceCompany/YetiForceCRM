@@ -23,7 +23,7 @@
 					<div class="modal-body">
 						<div class="form-group">
 							<label class="muted control-label col-md-4">{\App\Language::translate('LBL_CURRENT_CURRENCY', $QUALIFIED_MODULE)}</label>
-							<div class="controls col-md-7 form-control-static">
+							<div class="controls col-md-7 form-control-plaintext">
 								<span>{\App\Language::translate($RECORD_MODEL->get('currency_name'), $QUALIFIED_MODULE)}</span>
 							</div>	
 						</div>

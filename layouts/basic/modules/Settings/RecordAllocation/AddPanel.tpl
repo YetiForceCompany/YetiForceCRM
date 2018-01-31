@@ -9,7 +9,7 @@
 		<div class="panel panel-default" data-index="{$INDEX}" data-moduleid="{$MODULE_ID}" data-modulename="{$MODULE_NAME}">
 			<div class="panel-heading">
 				<div class="row">
-					<div class="col-md-4 col-sm-5 col-xs-5 form-control-static">
+					<div class="col-md-4 col-sm-5 col-xs-5 form-control-plaintext">
 						<h4 class="no-margin">{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</h4>
 					</div>
 					<div class="float-right col-md-4 col-sm-7 col-xs-7">

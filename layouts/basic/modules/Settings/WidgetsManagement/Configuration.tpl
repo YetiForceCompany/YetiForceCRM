@@ -347,7 +347,7 @@
 												<div class="col-md-3 text-center checkboxForm">
 													<input type="checkbox" name="isdefault" >
 												</div>	
-												<label class="col-md-9 form-control-static float-left" >
+												<label class="col-md-9 form-control-plaintext float-left" >
 													&nbsp;&nbsp;{\App\Language::translate('LBL_MANDATORY_WIDGET', $QUALIFIED_MODULE)}
 												</label>
 											</div>
@@ -355,7 +355,7 @@
 												<div class="col-md-3 text-center checkboxForm">
 													<input type="checkbox" name="cache" >
 												</div>	
-												<label class="col-md-9 form-control-static float-left" >
+												<label class="col-md-9 form-control-plaintext float-left" >
 													&nbsp;&nbsp;{\App\Language::translate('LBL_CACHE_WIDGET', $QUALIFIED_MODULE)}
 												</label>
 											</div>
@@ -367,7 +367,7 @@
 														{/foreach}
 													</select>
 												</div>	
-												<label  class="col-md-9 form-control-static float-left" >
+												<label  class="col-md-9 form-control-plaintext float-left" >
 													&nbsp;{\App\Language::translate('LBL_WIDTH', $QUALIFIED_MODULE)}&nbsp;
 												</label>
 											</div>
@@ -379,7 +379,7 @@
 														{/foreach}
 													</select>
 												</div>
-												<label class="col-md-9 form-control-static float-left" >
+												<label class="col-md-9 form-control-plaintext float-left" >
 													&nbsp;{\App\Language::translate('LBL_HEIGHT', $QUALIFIED_MODULE)}&nbsp;
 												</label>	
 											</div>
@@ -387,7 +387,7 @@
 												<div class="col-md-3 text-center" >
 													<input type="text" name="limit" class="col-md-1 form-control" value="10" >
 												</div>
-												<label class="col-md-9 form-control-static float-left" >
+												<label class="col-md-9 form-control-plaintext float-left" >
 													&nbsp;{\App\Language::translate('LBL_NUMBER_OF_RECORDS_DISPLAYED', $QUALIFIED_MODULE)}&nbsp;
 												</label>
 											</div>
@@ -401,7 +401,7 @@
 														{/foreach}
 													</select>
 												</div>
-												<label class="col-md-6 form-control-static float-left" >
+												<label class="col-md-6 form-control-plaintext float-left" >
 													{\App\Language::translate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}
 												</label>
 											</div>	
@@ -413,7 +413,7 @@
 														{/foreach}
 													</select>
 												</div>
-												<label class="col-md-3 form-control-static float-left" >
+												<label class="col-md-3 form-control-plaintext float-left" >
 													{\App\Language::translate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
 												</label>
 											</div>	

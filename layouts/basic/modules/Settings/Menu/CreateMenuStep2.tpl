@@ -13,7 +13,7 @@
 					<input type="hidden" name="type" id="menuType" value="{$MENU_TYPE}" />
 					<div class="form-group">
 						<label class="col-md-4 control-label">{\App\Language::translate('LBL_TYPE_OF_MENU', $QUALIFIED_MODULE)}:</label>
-						<div class="col-md-7 form-control-static">{\App\Language::translate('LBL_'|cat:strtoupper($MENU_TYPE), $QUALIFIED_MODULE)}</div>
+						<div class="col-md-7 form-control-plaintext">{\App\Language::translate('LBL_'|cat:strtoupper($MENU_TYPE), $QUALIFIED_MODULE)}</div>
 					</div>
 					{include file=\App\Layout::getTemplatePath('types/'|cat:$MENU_TYPE|cat:'.tpl', $QUALIFIED_MODULE)}
 				</form>

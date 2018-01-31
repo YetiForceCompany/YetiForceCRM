@@ -18,7 +18,7 @@
 					{\App\Language::translate('LBL_NUMBER_OF_SELECTED_RECORDS', $MODULE)}:
 				</label>
 				<div class="col-sm-6">
-					<p class="form-control-static">{$RECORDS['all']}</p>
+					<p class="form-control-plaintext">{$RECORDS['all']}</p>
 				</div>
 			</div>
 			<div class="form-group">
@@ -26,7 +26,7 @@
 					{\App\Language::translate('LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES', $MODULE)}:
 				</label>
 				<div class="col-sm-6">
-					<div class="form-control-static">{$RECORDS['emails']}</div>
+					<div class="form-control-plaintext">{$RECORDS['emails']}</div>
 				</div>
 			</div>
 			<div class="form-group">

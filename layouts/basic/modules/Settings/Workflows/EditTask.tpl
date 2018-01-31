@@ -32,7 +32,7 @@
 									<div class="float-left control-label">{\App\Language::translate('LBL_TASK_TITLE',$QUALIFIED_MODULE)}<span class="redColor">*</span></div>
 									<div class="col-md-9"><input name="summary" class="form-control" data-validation-engine='validate[required]' type="text" value="{$TASK_MODEL->get('summary')}" /></div>
 								</div>
-								<div class="col-md-4 form-control-static">
+								<div class="col-md-4 form-control-plaintext">
 									<div class="float-left">{\App\Language::translate('LBL_STATUS',$QUALIFIED_MODULE)}</div>
 									<div class="float-left" id="taskStatus">
 										<input type="radio" name="active" class="alignTop" {if $TASK_MODEL->get('status') eq 1} checked="" {/if} value="true">&nbsp;{\App\Language::translate('LBL_ACTIVE',$QUALIFIED_MODULE)}&nbsp;&nbsp;
