@@ -11,7 +11,7 @@
 						<span class="glyphicon glyphicon-download" title="{\App\Language::translate('LBL_WIDGET_DOWNLOAD','Home')}"></span>
 					</button>&nbsp;
 					<button class="btn btn-xs btn-light printWidget hidden" data-widgetid="{$CHART_MODEL->get('widgetid')}">
-						<span class="glyphicon glyphicon-print" title="{\App\Language::translate('LBL_WIDGET_PRINT','Home')}"></span>
+						<span class="fas fa-print" title="{\App\Language::translate('LBL_WIDGET_PRINT','Home')}"></span>
 					</button>&nbsp;
 					<button class="btn btn-xs btn-light recordCount" data-url="{\App\Purifier::encodeHtml($CHART_MODEL->getTotalCountURL())}">
 						<span class="glyphicon glyphicon-equalizer" title="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}"></span>
