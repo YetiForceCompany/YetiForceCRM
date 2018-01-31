@@ -41,7 +41,7 @@
 				<div class="btn-group pull-right pull-left-xs iconPreferences marginRight10" data-toggle="buttons">
 					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->isDefault()} active  btn-primary{/if}" title="{\App\Language::translate('LBL_SET_AS_DEFAULT',$MODULE)}" >
 						<input id="setdefault" name="setdefault" type="checkbox"  {if $CUSTOMVIEW_MODEL->isDefault()}checked="checked"{/if} value="1" />
-						<span class="glyphicon glyphicon-heart-empty" data-check="glyphicon-heart" data-unchecked="glyphicon-heart-empty"></span>
+						<span class="far fa-heart" data-check="glyphicon-heart" data-unchecked="glyphicon-heart-empty"></span>
 					</label>
 					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->isSetPublic()} active  btn-primary{/if}" title="{\App\Language::translate('LBL_SET_AS_PUBLIC',$MODULE)}">
 						<input id="status" name="status" type="checkbox" {if $CUSTOMVIEW_MODEL->isSetPublic()} value="{$CUSTOMVIEW_MODEL->get('status')}" checked="checked" {else} value="{$CV_PENDING_VALUE}" {/if} />
