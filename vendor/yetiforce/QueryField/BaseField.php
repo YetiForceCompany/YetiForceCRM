@@ -229,8 +229,8 @@ class BaseField
 	public function operatorY()
 	{
 		return ['or',
-				[$this->getColumnName() => null],
-				['=', $this->getColumnName(), '']
+			[$this->getColumnName() => null],
+			['=', $this->getColumnName(), '']
 		];
 	}
 
@@ -241,8 +241,8 @@ class BaseField
 	public function operatorNy()
 	{
 		return ['and',
-				['not', [$this->getColumnName() => null]],
-				['<>', $this->getColumnName(), '']
+			['not', [$this->getColumnName() => null]],
+			['<>', $this->getColumnName(), '']
 		];
 	}
 
@@ -269,6 +269,6 @@ class BaseField
 	 */
 	public function operatorD()
 	{
-		$this->queryGenerator->setFieldSearchForDuplicates($this->getField()->getName(), $this->getValue());
+		$this->queryGenerator->setSearchFieldsForDuplicates($this->getField()->getName(), $this->getValue());
 	}
 }

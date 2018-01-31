@@ -46,7 +46,10 @@ class QueryGenerator
 	private $stdFilterList;
 	private $advFilterList;
 
-	/** @var array  */
+	/**
+	 * Search fields for duplicates
+	 * @var array
+	 */
 	private $searchFieldsForDuplicates = [];
 
 	/** @var array Joins */
@@ -306,11 +309,10 @@ class QueryGenerator
 	 */
 	public function addJoin($join)
 	{
-		$tableName = is_array($join[1]) ? key($join[1]) : $join[1];
-		if (isset($this->joins[$tableName])) {
+		if (isset($this->joins[$join[1]])) {
 			return false;
 		}
-		$this->joins[$tableName] = $join;
+		$this->joins[$join[1]] = $join;
 	}
 
 	/**
@@ -385,7 +387,7 @@ class QueryGenerator
 	 * @param string $fieldName
 	 * @param int|bool $ignoreEmptyValue
 	 */
-	public function setFieldSearchForDuplicates($fieldName, $ignoreEmptyValue = true)
+	public function setSearchFieldsForDuplicates($fieldName, $ignoreEmptyValue = true)
 	{
 		$this->searchFieldsForDuplicates[$fieldName] = $ignoreEmptyValue;
 	}
@@ -725,7 +727,7 @@ class QueryGenerator
 			}
 			$subQuery = $queryGenerator->createQuery();
 			$subQuery->andHaving((new \yii\db\Expression('COUNT(1) > 1')));
-			$this->addJoin(['INNER JOIN', ['duplicates' => $subQuery], implode(' AND ', $duplicateCheckClause)]);
+			$this->joins['duplicates'] = ['INNER JOIN', ['duplicates' => $subQuery], implode(' AND ', $duplicateCheckClause)];
 		}
 		foreach ($this->joins as $join) {
 			$on = isset($join[2]) ? $join[2] : '';
