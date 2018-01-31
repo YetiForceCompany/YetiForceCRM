@@ -386,6 +386,7 @@ Vtiger_Edit_Js("Products_Edit_Js", {
 				return false;
 			} else {
 				var module = jQuery(e.currentTarget).find('[name="module"]').val();
+				window.console.log(editViewForm);
 				if (editViewForm.validationEngine('validate')) {
 					//Once the form is submiting add data attribute to that form element
 					editViewForm.data('submit', 'true');

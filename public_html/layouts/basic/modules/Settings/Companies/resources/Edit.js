@@ -33,7 +33,7 @@ Settings_Vtiger_Edit_Js('Settings_Companies_Edit_Js', {}, {
 		var form = this.getForm()
 		if (form.length) {
 			form.validationEngine(app.validationEngineOptions);
-			form.find(":input").inputmask();
+			form.find("[data-inputmask]").inputmask();
 		}
 		this.registerSubmitForm();
 	}
