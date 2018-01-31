@@ -19,13 +19,13 @@
 				</div>
 				<form class="form-horizontal" method="POST">
 					 <div class="form-group margin0px padding1per">
-						<label class="col-sm-3 control-label">{\App\Language::translate('LBL_NOTEPAD_NAME', $MODULE)}<span class="redColor">*</span> </label>
+						<label class="col-sm-3 col-form-label">{\App\Language::translate('LBL_NOTEPAD_NAME', $MODULE)}<span class="redColor">*</span> </label>
 						<div class="col-sm-8 controls">
 							<input type="text" name="notePadName" class="form-control" data-validation-engine="validate[required]" />
 						</div>
 					</div>
 					<div class="form-group margin0px padding1per">
-						<label class="col-sm-3 control-label">{\App\Language::translate('LBL_NOTEPAD_CONTENT', $MODULE)}</label>
+						<label class="col-sm-3 col-form-label">{\App\Language::translate('LBL_NOTEPAD_CONTENT', $MODULE)}</label>
 						<div class="col-sm-8 controls">
 							<textarea type="text" name="notePadContent" class="form-control" style="resize: none;" />
 						</div>

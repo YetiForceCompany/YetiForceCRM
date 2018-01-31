@@ -27,7 +27,7 @@
 				<input type="hidden" name="pickListValues" value='{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_PICKLISTFIELD_EDITABLE_VALUES))}' />
 				<div class="modal-body tabbable">
 					<div class="form-group">
-						<div class="col-md-3 control-label">{\App\Language::translate('LBL_ITEM_TO_RENAME',$QUALIFIED_MODULE)}</div>
+						<div class="col-md-3 col-form-label">{\App\Language::translate('LBL_ITEM_TO_RENAME',$QUALIFIED_MODULE)}</div>
 						<div class="col-md-9 controls">
 							{assign var=PICKLIST_VALUES value=$SELECTED_PICKLISTFIELD_EDITABLE_VALUES}
 							<select class="chzn-select form-control" name="oldValue">
@@ -40,12 +40,12 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<div class="col-md-3 control-label"><span class="redColor">*</span>{\App\Language::translate('LBL_ENTER_NEW_NAME',$QUALIFIED_MODULE)}</div>
+						<div class="col-md-3 col-form-label"><span class="redColor">*</span>{\App\Language::translate('LBL_ENTER_NEW_NAME',$QUALIFIED_MODULE)}</div>
 						<div class="col-md-9 controls"><input type="text" class="form-control" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={\App\Json::encode([['name'=>'FieldLabel']])} name="newValue"></div>
 					</div>
 					{if $SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES}
 					<div class="form-group">
-						<div class="col-md-3 control-label">{\App\Language::translate('LBL_NON_EDITABLE_PICKLIST_VALUES',$QUALIFIED_MODULE)}</div>
+						<div class="col-md-3 col-form-label">{\App\Language::translate('LBL_NON_EDITABLE_PICKLIST_VALUES',$QUALIFIED_MODULE)}</div>
 						<div class="col-md-9 controls nonEditableValuesDiv">
 							<ul class="nonEditablePicklistValues list-unstyled">
 							{foreach from=$SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES key=NON_EDITABLE_VALUE_KEY item=NON_EDITABLE_VALUE}

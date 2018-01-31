@@ -14,7 +14,7 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td width="30%"><label class="muted float-right marginRight10px control-label">{\App\Language::translate('Minimum password length', $QUALIFIED_MODULE)}</label></td>
+							<td width="30%"><label class="muted float-right marginRight10px col-form-label">{\App\Language::translate('Minimum password length', $QUALIFIED_MODULE)}</label></td>
 							<td style="border-left: none;">
 								<div class="col-xs-5">
 									<input class="form-control" type="text" name="min_length" id="min_length"  title="{\App\Language::translate('Minimum password length', $QUALIFIED_MODULE)}" value="{$DETAIL['min_length']}" />
@@ -22,7 +22,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td width="30%"><label class="muted float-right marginRight10px control-label">{\App\Language::translate('Maximum password length', $QUALIFIED_MODULE)}</label></td>
+							<td width="30%"><label class="muted float-right marginRight10px col-form-label">{\App\Language::translate('Maximum password length', $QUALIFIED_MODULE)}</label></td>
 							<td style="border-left: none;">
 								<div class="col-xs-5">
 									<input class="form-control" type="text" name="max_length" id="max_length" title="{\App\Language::translate('Maximum password length', $QUALIFIED_MODULE)}" value="{$DETAIL['max_length']}" />
@@ -63,7 +63,7 @@
 						</tr>
 						<tr>
 							<td width="30%">
-								<label class="muted float-right marginRight10px control-label">{\App\Language::translate('LBL_PASSWORD_CHANGE_TIME', $QUALIFIED_MODULE)}</label>
+								<label class="muted float-right marginRight10px col-form-label">{\App\Language::translate('LBL_PASSWORD_CHANGE_TIME', $QUALIFIED_MODULE)}</label>
 							</td>
 							<td style="border-left: none;">
 								<div class="col-xs-5">
@@ -76,7 +76,7 @@
 						</tr>
 						<tr>
 							<td width="30%">
-								<label class="muted float-right marginRight10px control-label">{\App\Language::translate('LBL_TIME_TO_CHANGE_PASSWORD', $QUALIFIED_MODULE)}</label>
+								<label class="muted float-right marginRight10px col-form-label">{\App\Language::translate('LBL_TIME_TO_CHANGE_PASSWORD', $QUALIFIED_MODULE)}</label>
 							</td>
 							<td style="border-left: none;">
 								<div class="col-xs-5">

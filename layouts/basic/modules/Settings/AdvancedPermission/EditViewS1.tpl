@@ -14,7 +14,7 @@
 			<input type="hidden" name="record" value="{$RECORD_ID}" />
 			<input type="hidden" name="mode" value="step1" />
 			<div class="form-group">
-				<label class="col-sm-2 control-label">
+				<label class="col-sm-2 col-form-label">
 					<span class="redColor">*</span> {\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}
 				</label>
 				<div class="col-sm-10">
@@ -22,7 +22,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-2 control-label">
+				<label class="col-sm-2 col-form-label">
 					<span class="redColor">*</span> {\App\Language::translate('LBL_ACTION', $QUALIFIED_MODULE)}
 				</label>
 				<div class="col-sm-10">
@@ -34,7 +34,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-2 control-label">
+				<label class="col-sm-2 col-form-label">
 					<span class="redColor">*</span> {\App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}
 				</label>
 				<div class="col-sm-10">
@@ -46,7 +46,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-2 control-label">
+				<label class="col-sm-2 col-form-label">
 					<span class="redColor">*</span> {\App\Language::translate('LBL_PRIORITY', $QUALIFIED_MODULE)}
 				</label>
 				<div class="col-sm-10">
@@ -58,7 +58,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-2 control-label">
+				<label class="col-sm-2 col-form-label">
 					<span class="redColor">*</span> {\App\Language::translate('LBL_MODULE', $QUALIFIED_MODULE)}
 				</label>
 				<div class="col-sm-10">
@@ -79,7 +79,7 @@
 						<li class="RoleAndSubordinates padding5per textAlignCenter"><strong>{\App\Language::translate('RoleAndSubordinates', $QUALIFIED_MODULE)}</strong></li>
 					</ul>
 				</div>
-				<label class="col-sm-2 control-label">
+				<label class="col-sm-2 col-form-label">
 					<span class="redColor">*</span> {\App\Language::translate('LBL_MEMBERS', $QUALIFIED_MODULE)}
 				</label>
 				<div class="col-sm-10">

@@ -12,7 +12,7 @@
 		<div class="modal-body">
 			<div class="form-group">
 				<div class="col-xs-12">
-					<label class="control-label">
+					<label class="col-form-label">
 						{\App\Language::translate('LBL_SELECT_MEMBERS', $QUALIFIED_MODULE)}
 					</label>
 					<select id="members" class="select2 form-control"  multiple="true" name="members[]">

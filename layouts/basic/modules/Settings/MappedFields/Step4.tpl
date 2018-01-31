@@ -17,7 +17,7 @@
 					</div>
 					<div class="panel-body">
 						<div class="form-group">
-								<label class="col-md-3 control-label">
+								<label class="col-md-3 col-form-label">
 									{\App\Language::translate('LBL_GROUP_MEMBERS', 'Settings:Groups')}
 								</label>
 							<div class="col-md-8">

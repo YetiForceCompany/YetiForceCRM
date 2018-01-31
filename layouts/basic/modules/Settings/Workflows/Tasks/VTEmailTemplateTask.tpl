@@ -3,7 +3,7 @@
 	<div id="VtVTEmailTemplateTaskContainer">
 		<div class="">
 			<div class="row padding-bottom1per">
-				<span class="col-md-4 control-label">{\App\Language::translate('LBL_SMTP', $QUALIFIED_MODULE)}</span>
+				<span class="col-md-4 col-form-label">{\App\Language::translate('LBL_SMTP', $QUALIFIED_MODULE)}</span>
 				<div class="col-md-4">
 					<select id="task_timefields" name="smtp" class="chzn-select form-control" data-validation-engine="validate[required]" data-placeholder="{\App\Language::translate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
 						<option value="">{\App\Language::translate('LBL_DEFAULT')}</option>
@@ -14,7 +14,7 @@
 				</div>
 			</div>
 			<div class="row padding-bottom1per">
-				<span class="col-md-4 control-label">{\App\Language::translate('EmailTempleteList', $QUALIFIED_MODULE)}</span>
+				<span class="col-md-4 col-form-label">{\App\Language::translate('EmailTempleteList', $QUALIFIED_MODULE)}</span>
 				<div class="col-md-4">
 					<select class="chzn-select form-control" name="template" data-validation-engine="validate[required]">
 						<option value="">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
@@ -32,7 +32,7 @@
 			</div>
 			<div class="row padding-bottom1per">
 				{assign var=EMAIL value=settype($TASK_OBJECT->email, 'array')}
-				<span class="col-md-4 control-label">{\App\Language::translate('Select e-mail address', $QUALIFIED_MODULE)}</span>
+				<span class="col-md-4 col-form-label">{\App\Language::translate('Select e-mail address', $QUALIFIED_MODULE)}</span>
 				<div class="col-md-4">
 					<select class="chzn-select form-control" name="email" data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}" multiple  data-validation-engine="validate[required]">
 						<option value="none"></option>
@@ -61,7 +61,7 @@
 				</div>
 			</div>
 			<div class="row padding-bottom1per">
-				<span class="col-md-4 control-label">{\App\Language::translate('LBL_BCC')}</span>
+				<span class="col-md-4 col-form-label">{\App\Language::translate('LBL_BCC')}</span>
 				<div class="col-md-4">
 					<input class="form-control" data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" name="copy_email" value="{$TASK_OBJECT->copy_email}">
 				</div>

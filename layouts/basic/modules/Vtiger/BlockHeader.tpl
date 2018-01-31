@@ -1,5 +1,5 @@
 {strip}
-	<span class="copyAddressLabel control-label">{\App\Language::translate('COPY_ADRESS_FROM')}</span>	
+	<span class="copyAddressLabel col-form-label">{\App\Language::translate('COPY_ADRESS_FROM')}</span>	
 	<button class="btn btn-sm btn-primary copyAddressFromAccount" type="button" data-label="{$BLOCK_LABEL}">
 		<strong>{\App\Language::translate('SINGLE_Accounts', $MODULE)}</strong>
 	</button>

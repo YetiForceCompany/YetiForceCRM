@@ -24,7 +24,7 @@
 				<input type="hidden" name="view" value="Import" />
 				<input type="hidden" name="upload" value="true" />
 				<div class="form-group">
-					<label class="col-sm-3 control-label">
+					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_TEMPLATE_XML', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">

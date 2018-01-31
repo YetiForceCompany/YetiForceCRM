@@ -21,7 +21,7 @@
 			<input type="hidden" name="mode" value="save" />
 			<input type="hidden" name="record" value="{$RECORD_ID}" />
 			<div class="form-group">
-				<label class="control-label col-md-3">
+				<label class="col-form-label col-md-3">
 					{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)} <span class="redColor"> *
 				</label>
 				<div class="controls col-md-8">
@@ -29,7 +29,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-md-3">
+				<label class="col-form-label col-md-3">
 					{\App\Language::translate('LBL_MAILER_TYPE', $QUALIFIED_MODULE)}
 				</label>
 				<div class="controls col-md-8">
@@ -42,7 +42,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-md-3">
+				<label class="col-form-label col-md-3">
 					{\App\Language::translate('LBL_DEFAULT', $QUALIFIED_MODULE)}
 				</label>
 				<div class="controls col-md-8">
@@ -50,7 +50,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-md-3">
+				<label class="col-form-label col-md-3">
 					{\App\Language::translate('LBL_HOST', $QUALIFIED_MODULE)}
 				</label>
 				<div class="controls col-md-8">
@@ -58,7 +58,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-md-3">
+				<label class="col-form-label col-md-3">
 					{\App\Language::translate('LBL_PORT', $QUALIFIED_MODULE)}
 				</label>
 				<div class="controls col-md-8">
@@ -66,7 +66,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-md-3">
+				<label class="col-form-label col-md-3">
 					{\App\Language::translate('LBL_AUTHENTICATION', $QUALIFIED_MODULE)}
 				</label>
 				<div class="controls col-md-8">
@@ -74,7 +74,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-md-3">
+				<label class="col-form-label col-md-3">
 					{\App\Language::translate('LBL_USERNAME', $QUALIFIED_MODULE)}
 				</label>
 				<div class="controls col-md-8">
@@ -82,7 +82,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-md-3">
+				<label class="col-form-label col-md-3">
 					{\App\Language::translate('LBL_PASSWORD', $QUALIFIED_MODULE)}
 				</label>
 				<div class="controls col-md-8">
@@ -90,7 +90,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-md-3">
+				<label class="col-form-label col-md-3">
 					{\App\Language::translate('LBL_INDIVIDUAL_DELIVERY', $QUALIFIED_MODULE)}&nbsp;
 					<span class="popoverTooltip"  data-placement="top"
 						  data-content="{\App\Language::translate('LBL_INDIVIDUAL_DELIVERY_INFO',$QUALIFIED_MODULE)}">
@@ -102,7 +102,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-md-3">
+				<label class="col-form-label col-md-3">
 					{\App\Language::translate('LBL_SECURE', $QUALIFIED_MODULE)}
 				</label>
 				<div class="controls col-md-8">
@@ -114,7 +114,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-md-3">
+				<label class="col-form-label col-md-3">
 					{\App\Language::translate('LBL_FROM_NAME', $QUALIFIED_MODULE)}
 				</label>
 				<div class="controls col-md-8">
@@ -122,7 +122,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-md-3">
+				<label class="col-form-label col-md-3">
 					{\App\Language::translate('LBL_FROM_EMAIL', $QUALIFIED_MODULE)}
 				</label>
 				<div class="controls col-md-8">
@@ -130,7 +130,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-md-3">
+				<label class="col-form-label col-md-3">
 					{\App\Language::translate('LBL_REPLY_TO', $QUALIFIED_MODULE)}
 				</label>
 				<div class="controls col-md-8">
@@ -138,7 +138,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-md-3">
+				<label class="col-form-label col-md-3">
 					{\App\Language::translate('LBL_OPTIONS', $QUALIFIED_MODULE)}&nbsp;
 					<span class="popoverTooltip delay0"  data-placement="top"
 						  data-content="{\App\Language::translate('LBL_OPTIONS_INFO',$QUALIFIED_MODULE)}">
@@ -150,7 +150,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-md-3">
+				<label class="col-form-label col-md-3">
 					{\App\Language::translate('LBL_SAVE_SEND_MAIL', $QUALIFIED_MODULE)}&nbsp;
 					<span class="popoverTooltip"  data-placement="top"
 						  data-content="{\App\Language::translate('LBL_SAVE_SEND_MAIL_INFO',$QUALIFIED_MODULE)}">
@@ -171,7 +171,7 @@
 					</label>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-md-3">
+					<label class="col-form-label col-md-3">
 						{\App\Language::translate('LBL_HOST', $QUALIFIED_MODULE)} <span class="redColor"> *
 					</label>
 					<div class="controls col-md-8">
@@ -179,7 +179,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-md-3">
+					<label class="col-form-label col-md-3">
 						{\App\Language::translate('LBL_PORT', $QUALIFIED_MODULE)} <span class="redColor"> *
 					</label>
 					<div class="controls col-md-8">
@@ -187,7 +187,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-md-3">
+					<label class="col-form-label col-md-3">
 						{\App\Language::translate('LBL_USERNAME', $QUALIFIED_MODULE)} <span class="redColor"> *
 					</label>
 					<div class="controls col-md-8">
@@ -195,7 +195,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-md-3">
+					<label class="col-form-label col-md-3">
 						{\App\Language::translate('LBL_PASSWORD', $QUALIFIED_MODULE)} <span class="redColor"> *
 					</label>
 					<div class="controls col-md-8">
@@ -203,7 +203,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-md-3">
+					<label class="col-form-label col-md-3">
 						{\App\Language::translate('LBL_SEND_FOLDER', $QUALIFIED_MODULE)} <span class="redColor"> *
 					</label>
 					<div class="controls col-md-8">
@@ -211,7 +211,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label col-md-3">
+					<label class="col-form-label col-md-3">
 						{\App\Language::translate('LBL_VALIDATE_CERT', $QUALIFIED_MODULE)}
 					</label>
 					<div class="controls col-md-8">

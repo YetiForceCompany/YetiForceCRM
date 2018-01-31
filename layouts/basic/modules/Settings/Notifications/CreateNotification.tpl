@@ -14,7 +14,7 @@
 		<div class="modal-body row">
 			<div class="col-xs-12 form-horizontal">
 				<div class="form-group">
-					<div class="col-sm-3 control-label">
+					<div class="col-sm-3 col-form-label">
 						<label>{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}</label>
 					</div>
 					<div class="col-sm-8">

@@ -6,19 +6,19 @@
 	<p>{App\Language::translate('LBL_NEWSLETTER_DESC','Settings:SystemWarnings')}</p>
 	<form class="form-horizontal row validateForm" method="post" action="index.php">
 		<div class="form-group">
-			<label class="col-sm-3 control-label"><span class="redColor">*</span>{App\Language::translate('First Name')}</label>
+			<label class="col-sm-3 col-form-label"><span class="redColor">*</span>{App\Language::translate('First Name')}</label>
 			<div class="col-sm-9">
 				<input type="text" name="first_name" class="form-control" placeholder="{App\Language::translate('First Name')}" data-validation-engine="validate[required]">
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-sm-3 control-label">{App\Language::translate('Last Name')}</label>
+			<label class="col-sm-3 col-form-label">{App\Language::translate('Last Name')}</label>
 			<div class="col-sm-9">
 				<input type="text" name="last_name" class="form-control" placeholder="{App\Language::translate('Last Name')}">
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-sm-3 control-label"><span class="redColor">*</span>{App\Language::translate('LBL_EMAIL_ADRESS')}</label>
+			<label class="col-sm-3 col-form-label"><span class="redColor">*</span>{App\Language::translate('LBL_EMAIL_ADRESS')}</label>
 			<div class="col-sm-9">
 				<input type="text" name="email" class="form-control" placeholder="{App\Language::translate('LBL_EMAIL_ADRESS')}" data-validation-engine="validate[required,custom[email]]">
 			</div>
