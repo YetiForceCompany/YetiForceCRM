@@ -79,7 +79,7 @@
 				<div class="input-group time input-group-sm">
 					<input  type="text" class="clockPicker form-control" data-format="{$timeFormat}" value="{$START_TIME}" name="startTime" />
 					<span class="input-group-addon cursorPointer">
-						<i class="glyphicon glyphicon-time"></i>
+						<i class="far fa-clock"></i>
 					</span>
 				</div>
 			</div>
@@ -118,7 +118,7 @@
 				<div class="input-group time input-group-sm">
 					<input  type="text" class="clockPicker form-control" value="{$END_TIME}" name="endTime" />
 					<span class="input-group-addon cursorPointer">
-						<i class="glyphicon glyphicon-time"></i>
+						<i class="far fa-clock"></i>
 					</span>
 				</div>
 			</div>

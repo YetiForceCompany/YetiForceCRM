@@ -184,7 +184,7 @@
 						<div class='col-md-4' id='schtime'>
 							<div class="input-group time">
 								<input type='text' class='clockPicker input-sm form-control' data-format='24' name='schtime' value="{$SCHEDULEDREPORTS->get('schtime')}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" />
-								<span class="input-group-addon cursorPointer"><i class="glyphicon glyphicon-time"></i></span>
+								<span class="input-group-addon cursorPointer"><i class="far fa-clock"></i></span>
 							</div>
 						</div>
 					</div>
