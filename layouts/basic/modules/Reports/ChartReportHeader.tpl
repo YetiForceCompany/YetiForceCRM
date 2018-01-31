@@ -99,7 +99,7 @@
 								{assign var=filterConditionNotExists value=(count($SELECTED_ADVANCED_FILTER_FIELDS[1]['columns']) eq 0 and count($SELECTED_ADVANCED_FILTER_FIELDS[2]['columns']) eq 0)}
 								<button type="button" class="btn btn-light" name="modify_condition" data-val="{$filterConditionNotExists}">
 									<strong>{\App\Language::translate('LBL_MODIFY_CONDITION', $MODULE)}</strong>&nbsp;&nbsp;
-									<span class="{if $filterConditionNotExists eq true} glyphicon glyphicon-chevron-right {else} glyphicon glyphicon-chevron-down {/if}"></span>
+									<span class="{if $filterConditionNotExists eq true} fas fa-chevron-right {else} glyphicon glyphicon-chevron-down {/if}"></span>
 								</button>
 							</div>
 							<div id='filterContainer' class='form-group '{if $filterConditionNotExists eq true} style="display: none"{/if}>
