@@ -11,5 +11,5 @@
 -->*}
 {strip}
 	<div id="toggleButton" class="toggleButton"> <i class="fas fa-chevron-left"></i></div>&nbsp
-	<div id="hideToggle" class="toggleButton hide"> <i class="glyphicon glyphicon-chevron-right"></i></div>&nbsp
+	<div id="hideToggle" class="toggleButton hide"> <i class="fas fa-chevron-right"></i></div>&nbsp
 {/strip}

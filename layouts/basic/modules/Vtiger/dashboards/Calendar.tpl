@@ -57,7 +57,7 @@
 				</div>
 				<div class="col-xs-8 month textAlignCenter paddingRightZero"> </div>
 				<div class="col-xs-2">
-					<button class="btn btn-light btn-sm  float-right" data-type="fc-next-button"><span class="glyphicon glyphicon-chevron-right"></span></button>
+					<button class="btn btn-light btn-sm  float-right" data-type="fc-next-button"><span class="fas fa-chevron-right"></span></button>
 				</div>
 			</div>
 		</div>

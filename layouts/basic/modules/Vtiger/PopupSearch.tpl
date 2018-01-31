@@ -60,7 +60,7 @@
 													</div>
 												</li>
 											</ul>
-											<button class="btn btn-light" id="listViewNextPageButton" {if (!$PAGING_MODEL->isNextPageExists()) or ($PAGE_COUNT eq 1)} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-right"></span></button>
+											<button class="btn btn-light" id="listViewNextPageButton" {if (!$PAGING_MODEL->isNextPageExists()) or ($PAGE_COUNT eq 1)} disabled {/if} type="button"><span class="fas fa-chevron-right"></span></button>
 										</span>
 									</span>	
 								</div>

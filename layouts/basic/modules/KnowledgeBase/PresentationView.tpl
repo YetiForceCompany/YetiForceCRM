@@ -26,7 +26,7 @@
 				<span class="sr-only">{\App\Language::translate('LBL_PREVIOUS',$MODULE_NAME)}</span>
 			</a>
 			<a class="right carousel-control knowledgePresentationControl" href="#carouselPresentation" role="button" data-slide="next">
-				<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+				<span class="fas fa-chevron-right" aria-hidden="true"></span>
 				<span class="sr-only">{\App\Language::translate('LBL_NEXT',$MODULE_NAME)}</span>
 			</a>
 		</div>
