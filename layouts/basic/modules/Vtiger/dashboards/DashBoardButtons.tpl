@@ -13,18 +13,18 @@
 									<strong>{\App\Language::translate('LBL_ADD_WIDGET')}</strong>
 									<span class="caret"></span>
 								</p>
-								<span class="glyphicon glyphicon-th visible-xs-block"></span>
+								<span class="glyphicon glyphicon-th d-none d-block d-sm-block d-md-none"></span>
 							</button>
 							<ul class="dropdown-menu widgetsList float-left addWidgetDropDown">
 								{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardFilter')}
-									<li class="visible-xs-block">
+									<li class="d-none d-block d-sm-block d-md-none">
 										<a href="#" class="addFilter float-left" data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="4" style="height:30px;width:100%;margin:0;padding:5px;">
 											{\App\Language::translate('LBL_ADD_FILTER')}
 										</a>
 									</li>
 								{/if}
 								{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardChartFilter')}
-									<li class="visible-xs-block">
+									<li class="d-none d-block d-sm-block d-md-none">
 										<a class="addChartFilter float-left" data-linkid="{$SPECIAL_WIDGETS['ChartFilter']->get('linkid')}" data-block-id="0" data-width="4" data-height="4" style="height:30px;width:100%;margin:0;padding:5px;">
 											{\App\Language::translate('LBL_ADD_CHART_FILTER')}
 										</a>
@@ -49,18 +49,18 @@
 							<button class="btn btn-light addButton dropdown-toggle" data-toggle="dropdown">
 								<strong class="hidden-xs">{\App\Language::translate('LBL_ADD_WIDGET')}</strong>
 								<span class="hidden-xs caret"></span>
-								<span class="glyphicon glyphicon-th visible-xs-block"></span>
+								<span class="glyphicon glyphicon-th d-none d-block d-sm-block d-md-none"></span>
 							</button>
 							<ul class="dropdown-menu widgetsList float-left addWidgetDropDown">
 								{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardFilter')}
-									<li class="visible-xs-block">
+									<li class="d-none d-block d-sm-block d-md-none">
 										<a href="#" class="addFilter float-left" data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="4" style="height:30px;width:100%;margin:0;padding:5px;">
 											{\App\Language::translate('LBL_ADD_FILTER')}
 										</a>
 									</li>
 								{/if}
 								{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardChartFilter')}
-									<li class="visible-xs-block">
+									<li class="d-none d-block d-sm-block d-md-none">
 										<a class="addChartFilter float-left" data-linkid="{$SPECIAL_WIDGETS['ChartFilter']->get('linkid')}" data-block-id="0" data-width="4" data-height="4" style="height:30px;width:100%;margin:0;padding:5px;">
 											{\App\Language::translate('LBL_ADD_CHART_FILTER')}
 										</a>
