@@ -121,7 +121,7 @@
 								<div class="input-group {if !$IS_CUSTOM_DEFAULT_VALUE} hide{/if}">
 									<input type="text" class="form-control" name="fieldDefaultValue" {if !$FIELD_MODEL->hasDefaultValue() || !$IS_CUSTOM_DEFAULT_VALUE} disabled{/if} value="{if $IS_CUSTOM_DEFAULT_VALUE}{$FIELD_MODEL->get('defaultvalue')}{/if}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo="{\App\Purifier::encodeHtml('{"type":"textParser"}')}"/>
 									<span class="input-group-btn">
-										<button class="btn btn-light varibleToParsers" type="button"><span class="glyphicon glyphicon-edit"></span></button>
+										<button class="btn btn-light varibleToParsers" type="button"><span class="fas fa-edit"></span></button>
 										<button class="btn btn-light active configButton" type="button" title="{\App\Purifier::encodeHtml(App\Language::translate('LBL_CUSTOM_CONFIGURATION', $QUALIFIED_MODULE))}"><span class="fas fa-cog"></span></button>
 									</span>
 								</div>
