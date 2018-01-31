@@ -15,7 +15,7 @@
 				</label>
 				<br />
 				<div class="form-group">
-					<label class="col-sm-3 control-label">
+					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_PAGE_FORMAT', $QUALIFIED_MODULE)}<span class="redColor">*</span>
 					</label>
 					<div class="col-sm-6 controls">
@@ -30,7 +30,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-3 control-label">
+					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_MAIN_MARGIN', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 row">
@@ -57,7 +57,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-3 control-label">&nbsp;</label>
+					<label class="col-sm-3 col-form-label">&nbsp;</label>
 					<div class="col-sm-9 row">
 						<div class="col-sm-offset-1 col-sm-2">
 							<input type="text" class="form-control margin_inputs {if $MARGIN_CHECKED eq 'true'}hide{/if}" name="header_height" id="header_height" value="{$PDF_MODEL->get('header_height')}" placeholder="{\App\Language::translate('LBL_HEADER_HEIGHT', $QUALIFIED_MODULE)}" title="{\App\Language::translate('LBL_HEADER_IN_MILIMETERS', $QUALIFIED_MODULE)}" />
@@ -68,7 +68,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-3 control-label">
+					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_PAGE_ORIENTATION', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
@@ -83,7 +83,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-3 control-label">
+					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_LANGUAGE_CHOICE', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
@@ -98,7 +98,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-3 control-label">
+					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_FILENAME', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6 controls">
@@ -106,7 +106,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-3 control-label">
+					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_VISIBILITY', $QUALIFIED_MODULE)}<span class="redColor">*</span>
 					</label>
 					<div class="col-sm-6 controls">
@@ -118,7 +118,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-3 control-label">
+					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_DEFAULT_TPL', $QUALIFIED_MODULE)}
 					</label>
 					<div class="col-sm-6">
@@ -131,7 +131,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-3 control-label">
+					<label class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_GENERATE_ONE_PDF', $QUALIFIED_MODULE)}
 						<span class="popoverTooltip delay0"  data-placement="top"
 							  data-content="{\App\Language::translate('LBL_GENERATE_ONE_PDF_INFO',$QUALIFIED_MODULE)}">

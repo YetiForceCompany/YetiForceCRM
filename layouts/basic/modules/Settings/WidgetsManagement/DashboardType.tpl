@@ -15,7 +15,7 @@
 					<input type="hidden" name="dashboardId" value="{$DASHBOARD_ID}">
 					<div class="formContainer">
 						<div class="form-group margin0px padding1per">
-							<label class="col-sm-4 control-label">{\App\Language::translate('LBL_NAME_DASHBOARD', $MODULE)}<span class="redColor">*</span> </label>
+							<label class="col-sm-4 col-form-label">{\App\Language::translate('LBL_NAME_DASHBOARD', $MODULE)}<span class="redColor">*</span> </label>
 							<div class="col-sm-8 controls">
 								<input type="text" name="name" class="form-control" data-validation-engine="validate[required]" value="{$DASHBOARD_NAME}" />
 							</div>

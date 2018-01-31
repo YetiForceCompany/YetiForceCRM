@@ -20,7 +20,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<div class="col-md-3"><label class="control-label">{\App\Language::translate('Label', $QUALIFIED_MODULE)}:</label></div>
+								<div class="col-md-3"><label class="col-form-label">{\App\Language::translate('Label', $QUALIFIED_MODULE)}:</label></div>
 								<div class="col-md-7"><input name="label" class="form-control" type="text" value="{$WIDGETINFO['label']}" /></div>
 							</div>
 							<div class="form-group">
@@ -31,7 +31,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<div class="col-md-3"><label class="control-label">{\App\Language::translate('Limit entries', $QUALIFIED_MODULE)}:</label></div>
+								<div class="col-md-3"><label class="col-form-label">{\App\Language::translate('Limit entries', $QUALIFIED_MODULE)}:</label></div>
 								<div class="col-md-7">
 									<div class="col-xs-3 paddingLRZero">
 										<input name="limit" class="form-control" type="text" value="{$WIDGETINFO['data']['limit']}" />

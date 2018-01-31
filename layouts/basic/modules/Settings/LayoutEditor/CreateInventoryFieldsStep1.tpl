@@ -11,7 +11,7 @@
 					<input type="hidden" id="mode" value="step1" />
 					<div class="form-horizontal">
 						<div class="form-group">
-							<label class="col-md-5 control-label">{\App\Language::translate('LBL_SELECT_TYPE_OF_INVENTORY', $QUALIFIED_MODULE)}:</label>
+							<label class="col-md-5 col-form-label">{\App\Language::translate('LBL_SELECT_TYPE_OF_INVENTORY', $QUALIFIED_MODULE)}:</label>
 							<div class="col-md-7">
 								<select name="type" class="select2 form-control type">
 									{foreach from=$MODULE_MODELS item=ITEM key=KEY}

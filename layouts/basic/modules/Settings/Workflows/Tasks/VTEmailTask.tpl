@@ -14,7 +14,7 @@
 		<div class="">
 			<div class="row padding-bottom1per">
 				<span class="col-md-12 row">
-					<span class="col-md-2 control-label">{\App\Language::translate('LBL_SMTP', $QUALIFIED_MODULE)}</span>
+					<span class="col-md-2 col-form-label">{\App\Language::translate('LBL_SMTP', $QUALIFIED_MODULE)}</span>
 					<div class="col-md-10 paddingLRZero">
 						<select id="task_timefields" name="smtp" class="chzn-select form-control " data-placeholder="{\App\Language::translate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
 							<option value="">{\App\Language::translate('LBL_DEFAULT')}</option>
@@ -35,7 +35,7 @@
 			</div>
 			<div class="row padding-bottom1per">
 				<span class="col-md-7 row">
-					<span class="col-md-3 control-label">{\App\Language::translate('LBL_FROM', $QUALIFIED_MODULE)}</span>
+					<span class="col-md-3 col-form-label">{\App\Language::translate('LBL_FROM', $QUALIFIED_MODULE)}</span>
 					<div class="col-md-9">
 						<input data-validation-engine='validate[]' name="fromEmail" class="fields form-control" type="text" value="{$TASK_OBJECT->fromEmail}" />
 					</div>
@@ -57,7 +57,7 @@
 			</div>
 			<div class="row padding-bottom1per">
 				<span class="col-md-7 row">
-					<span class="col-md-3 control-label">{\App\Language::translate('LBL_TO',$QUALIFIED_MODULE)}<span class="redColor">*</span></span>
+					<span class="col-md-3 col-form-label">{\App\Language::translate('LBL_TO',$QUALIFIED_MODULE)}<span class="redColor">*</span></span>
 					<div class="col-md-9">
 						<input data-validation-engine='validate[required]' name="recepient" class="fields form-control" type="text" value="{$TASK_OBJECT->recepient}" />
 					</div>
@@ -79,7 +79,7 @@
 			</div>
 			<div class="row padding-bottom1per {if empty($TASK_OBJECT->emailcc)}hide {/if}" id="ccContainer">
 				<span class="col-md-7 row">
-					<span class="col-md-3 control-label">{\App\Language::translate('LBL_CC',$QUALIFIED_MODULE)}</span>
+					<span class="col-md-3 col-form-label">{\App\Language::translate('LBL_CC',$QUALIFIED_MODULE)}</span>
 					<div class="col-md-9">
 						<input class="fields form-control" type="text" name="emailcc" value="{$TASK_OBJECT->emailcc}" />
 					</div>
@@ -101,7 +101,7 @@
 			</div>
 			<div class="row padding-bottom1per {if empty($TASK_OBJECT->emailbcc)}hide {/if}" id="bccContainer">
 				<span class="col-md-7 row">
-					<span class="col-md-3 control-label">{\App\Language::translate('LBL_BCC',$QUALIFIED_MODULE)}</span>
+					<span class="col-md-3 col-form-label">{\App\Language::translate('LBL_BCC',$QUALIFIED_MODULE)}</span>
 					<div class="col-md-9">
 						<input class="fields form-control" type="text" name="emailbcc" value="{$TASK_OBJECT->emailbcc}" />
 					</div>
@@ -137,7 +137,7 @@
 			<hr/>
 			<div class="row padding-bottom1per">
 				<span class="col-md-7 row">
-					<span class="col-md-3 control-label">{\App\Language::translate('LBL_SUBJECT',$QUALIFIED_MODULE)}<span class="redColor">*</span></span>
+					<span class="col-md-3 col-form-label">{\App\Language::translate('LBL_SUBJECT',$QUALIFIED_MODULE)}<span class="redColor">*</span></span>
 					<div class="col-md-9">
 						<input data-validation-engine='validate[required]' name="subject" class="fields form-control" type="text" name="subject" value="{$TASK_OBJECT->subject|escape}" id="subject" spellcheck="true" />
 					</div>

@@ -29,7 +29,7 @@
 					<input type="hidden" name="action" value="SaveAjax" />
 					<div class="modal-body tabbable">
 						
-						<div class="control-label col-md-4">
+						<div class="col-form-label col-md-4">
 							<label>
 								<span class="redColor">*</span>&nbsp;{\App\Language::translate('LBL_BOOKMARK_NAME',$MODULE)}
 							</label>
@@ -39,7 +39,7 @@
 						</div>
 				
 						<br />
-						<div class="control-label col-md-4">
+						<div class="col-form-label col-md-4">
 							<label>
 								<span class="redColor">*</span>&nbsp;{\App\Language::translate('LBL_BOOKMARK_URL',$MODULE)}
 							</label>

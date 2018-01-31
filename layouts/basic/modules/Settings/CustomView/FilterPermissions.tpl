@@ -14,7 +14,7 @@
 	<div class="modal-body">
 		<div class="">
 			<div class="form-group">
-				<label class="col-xs-12 control-label">
+				<label class="col-xs-12 col-form-label">
 					{\App\Language::translate('LBL_ALL_GROUP_LIST', $MODULE_NAME)}
 				</label>
 				<div class="col-xs-10">
@@ -32,7 +32,7 @@
 			<button type="button" class="btn btn-success moveItem" data-source="add" data-target="remove" data-action="add" title="{\App\Language::translate('LBL_ADD_PERMISSIONS', $MODULE_NAME)}" {if $IS_DEFAULT} disabled="disabled"{/if}><span class="glyphicon glyphicon-arrow-down"></span></button>
 		</div>
 		<div class="form-group">
-			<label class="col-xs-12 control-label">
+			<label class="col-xs-12 col-form-label">
 				{\App\Language::translate('LBL_GROUP_MEMBERS', $MODULE_NAME)}
 			</label>
 			<div class="col-xs-10">

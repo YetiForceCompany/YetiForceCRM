@@ -25,7 +25,7 @@
 					</div>
 				</div>
 				<div class="col-xs-12 form-group">
-					<label class="col-xs-12 control-label">
+					<label class="col-xs-12 col-form-label">
 						{\App\Language::translate('LBL_SELECT_FIELD_TO_SORT_RECORDS', $MODULE_NAME)}
 					</label>
 					<div class="col-md-9 col-sm-10 col-xs-12">

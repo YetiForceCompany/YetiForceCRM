@@ -27,7 +27,7 @@
 		<div class="">
 			<form id="detailView" class="form-horizontal" method="POST">
 				<div class="form-group">
-					<div class="col-md-2 control-label">
+					<div class="col-md-2 col-form-label">
 						<span class="redColor">*</span>{\App\Language::translate('LBL_GROUP_NAME', $QUALIFIED_MODULE)} 
 					</div>
 					<div class="controls pushDown">
@@ -35,7 +35,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="col-md-2 control-label">
+					<div class="col-md-2 col-form-label">
 						{\App\Language::translate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}  
 					</div>
 					<div class="controls pushDown">
@@ -43,7 +43,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="col-md-2 control-label">
+					<div class="col-md-2 col-form-label">
 						 <span class="redColor">*</span>{\App\Language::translate('LBL_MODULES', $QUALIFIED_MODULE)} 
 					</div>
 					<div class="controls pushDown">
@@ -61,7 +61,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="col-md-2 control-label">
+					<div class="col-md-2 col-form-label">
 						<span class="redColor">*</span>{\App\Language::translate('LBL_GROUP_MEMBERS', $QUALIFIED_MODULE)} 
 					</div>
 					<div class="col-md-5 controls pushDown">

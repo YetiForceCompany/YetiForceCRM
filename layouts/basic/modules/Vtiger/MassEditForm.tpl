@@ -59,7 +59,7 @@
 													{if $FIELD_MODEL->getUIType() neq 104 && $FIELD_MODEL->isEditable()}
 														<div class="form-group">
 															<div class="col-md-offset-1 rowElements">
-																<label class="marginLeft15 control-label col-md-4 fieldLabel btn btn-sm btn-light">
+																<label class="marginLeft15 col-form-label col-md-4 fieldLabel btn btn-sm btn-light">
 																	<span class="float-left">
 																		<input data-toggle="button" aria-pressed="false" autocomplete="off" type="checkbox" id="selectRow{$FIELD_MODEL->getName()}" title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}" data-field-name="{$FIELD_MODEL->getName()}" class="selectRow" {if $FIELD_MODEL->isEditableReadOnly()} disabled{/if}>&nbsp;
 																	</span>

@@ -47,28 +47,28 @@
 					{assign var=END_TIME value=$RECORD->get('time_end')}
 					<div class="form-horizontal modalSummaryValues">
 						<div class="form-group">
-							<label class="col-sm-4 control-label">{\App\Language::translate('Subject',$MODULE_NAME)}:</label>
+							<label class="col-sm-4 col-form-label">{\App\Language::translate('Subject',$MODULE_NAME)}:</label>
 							<div class="col-sm-8 textOverflowEllipsis fieldVal" data-subject="{$RECORD->getDisplayValue('subject',false,false,true)}">
 								{$RECORD->getDisplayValue('subject',false,false,100)}
 							</div>
 						</div>
 						<div class="">
 							<div class="form-group">
-								<label class="col-sm-4 control-label">{\App\Language::translate('Start Date & Time',$MODULE_NAME)}:</label>
+								<label class="col-sm-4 col-form-label">{\App\Language::translate('Start Date & Time',$MODULE_NAME)}:</label>
 								<div class="col-sm-8">
 									{\App\Fields\DateTime::formatToDay("$START_DATE $START_TIME",$RECORD->get('allday'))}
 								</div>
 
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">{\App\Language::translate('Due Date',$MODULE_NAME)}:</label>
+								<label class="col-sm-4 col-form-label">{\App\Language::translate('Due Date',$MODULE_NAME)}:</label>
 								<div class="col-sm-8">
 									{\App\Fields\DateTime::formatToDay("$END_DATE $END_TIME",$RECORD->get('allday'))}
 								</div>	
 							</div>
 							{if $RECORD->get('activitystatus') neq '' }
 								<div class="form-group">
-									<label class="col-sm-4 control-label">{\App\Language::translate('Status',$MODULE_NAME)}: </label>
+									<label class="col-sm-4 col-form-label">{\App\Language::translate('Status',$MODULE_NAME)}: </label>
 									<div class="col-sm-8">
 										{$RECORD->getDisplayValue('activitystatus',false,false,true)}
 									</div>
@@ -76,7 +76,7 @@
 							{/if}
 							{if $RECORD->get('linkextend') neq '' }
 								<div class="form-group">
-									<label class="col-sm-4 control-label">{\App\Language::translate('FL_RELATION_EXTEND',$MODULE_NAME)}: </label>
+									<label class="col-sm-4 col-form-label">{\App\Language::translate('FL_RELATION_EXTEND',$MODULE_NAME)}: </label>
 									<div class="col-sm-8 textOverflowEllipsis">
 										{$RECORD->getDisplayValue('linkextend',false,false,true)}
 									</div>
@@ -84,7 +84,7 @@
 							{/if}
 							{if $RECORD->get('link') neq '' }
 								<div class="form-group">
-									<label class="col-sm-4 control-label">{\App\Language::translate('FL_RELATION',$MODULE_NAME)}: </label>
+									<label class="col-sm-4 col-form-label">{\App\Language::translate('FL_RELATION',$MODULE_NAME)}: </label>
 									<div class="col-sm-8 textOverflowEllipsis">
 										{$RECORD->getDisplayValue('link',false,false,true)}
 									</div>
@@ -92,7 +92,7 @@
 							{/if}
 							{if $RECORD->get('process') neq '' }
 								<div class="form-group">
-									<label class="col-sm-4 control-label">{\App\Language::translate('Process',$MODULE_NAME)}: </label>
+									<label class="col-sm-4 col-form-label">{\App\Language::translate('Process',$MODULE_NAME)}: </label>
 									<div class="col-sm-8 textOverflowEllipsis">
 										{$RECORD->getDisplayValue('process',false,false,true)}
 									</div>
@@ -100,7 +100,7 @@
 							{/if}
 							<hr />
 							<div class="form-group">
-								<label class="col-sm-4 control-label">{\App\Language::translate('Description',$MODULE_NAME)}: </label>
+								<label class="col-sm-4 col-form-label">{\App\Language::translate('Description',$MODULE_NAME)}: </label>
 								<div class="col-sm-8">
 									{if $RECORD->get('description') neq ''}
 										{$RECORD->getDisplayValue('description',false,false,200)}
@@ -111,18 +111,18 @@
 							</div>
 							<hr />
 							<div class="form-group">
-								<label class="col-sm-4 control-label">{\App\Language::translate('Created By',$MODULE_NAME)}: </label>
+								<label class="col-sm-4 col-form-label">{\App\Language::translate('Created By',$MODULE_NAME)}: </label>
 								<div class="col-sm-8 textOverflowEllipsis">
 									{$RECORD->getDisplayValue('created_user_id',false,false,true)}
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label">{\App\Language::translate('Assigned To',$MODULE_NAME)}: </label>
+								<label class="col-sm-4 col-form-label">{\App\Language::translate('Assigned To',$MODULE_NAME)}: </label>
 								<div class="col-sm-8 textOverflowEllipsis">{$RECORD->getDisplayValue('assigned_user_id',false,false,true)}</div>
 							</div>
 							{if $RECORD->get('shownerid')}
 								<div class="form-group">
-									<label class="col-sm-4 control-label">{\App\Language::translate('Share with users',$MODULE_NAME)}: </label>
+									<label class="col-sm-4 col-form-label">{\App\Language::translate('Share with users',$MODULE_NAME)}: </label>
 									<div class="col-sm-8">{$RECORD->getDisplayValue('shownerid',false,false,true)}</div>
 								</div>
 							{/if}

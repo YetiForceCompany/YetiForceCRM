@@ -39,20 +39,20 @@
 				{/if}
 				{if App\User::getCurrentUserId() == $RECORD}
 					<div class="form-group">
-						<label class="control-label col-sm-4">{\App\Language::translate('LBL_OLD_PASSWORD', $MODULE_NAME)}</label>
+						<label class="col-form-label col-sm-4">{\App\Language::translate('LBL_OLD_PASSWORD', $MODULE_NAME)}</label>
 						<div class="controls col-sm-6">
 							<input type="password" name="oldPassword" class="form-control" data-validation-engine="validate[required]" autocomplete="off" />
 						</div>
 					</div>
 				{/if}
 				<div class="form-group">
-					<label class="col-sm-4 control-label">{\App\Language::translate('LBL_NEW_PASSWORD', $MODULE_NAME)}</label>
+					<label class="col-sm-4 col-form-label">{\App\Language::translate('LBL_NEW_PASSWORD', $MODULE_NAME)}</label>
 					<div class="col-sm-6 controls">
 						<input type="password" name="password" id="passwordUsersFormPassword" title="{\App\Language::translate('LBL_NEW_PASSWORD', $MODULE_NAME)}" class="form-control" data-validation-engine="validate[required]]" autocomplete="off" />
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-4 control-label">{\App\Language::translate('LBL_CONFIRM_PASSWORD', $MODULE_NAME)}</label>
+					<label class="col-sm-4 col-form-label">{\App\Language::translate('LBL_CONFIRM_PASSWORD', $MODULE_NAME)}</label>
 					<div class="col-sm-6 controls">
 						<input type="password" name="confirmPassword" id="confirmPasswordUsersFormPassword" title="{\App\Language::translate('LBL_CONFIRM_PASSWORD', $MODULE_NAME)}" class="form-control" data-validation-engine="validate[required,equals[passwordUsersFormPassword]]" autocomplete="off" />
 					</div>

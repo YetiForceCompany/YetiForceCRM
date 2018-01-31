@@ -27,7 +27,7 @@
 
 				<div class="modal-body tabbable">
 					<div class="form-group">
-						<label class="col-sm-3 control-label">{\App\Language::translate('LBL_STATUS',$QUALIFIED_MODULE)}</label>
+						<label class="col-sm-3 col-form-label">{\App\Language::translate('LBL_STATUS',$QUALIFIED_MODULE)}</label>
 						<div class="col-sm-8 controls">
 							<select class="chzn-select form-control" name="status">
 								<optgroup>
@@ -38,7 +38,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-3 control-label">
+						<label class="col-sm-3 col-form-label">
 							{\App\Language::translate('Frequency',$QUALIFIED_MODULE)}
 						</label>
 						<div class="controls col-sm-8">

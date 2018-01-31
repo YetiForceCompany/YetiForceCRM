@@ -14,7 +14,7 @@
 		</div>
 		<form class="form-horizontal validateForm">
 			<div class="form-group">
-				<label class="col-sm-6 control-label">
+				<label class="col-sm-6 col-form-label">
 					{\App\Language::translate('LBL_NUMBER_OF_SELECTED_RECORDS', $MODULE)}:
 				</label>
 				<div class="col-sm-6">
@@ -22,7 +22,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-6 control-label">
+				<label class="col-sm-6 col-form-label">
 					{\App\Language::translate('LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES', $MODULE)}:
 				</label>
 				<div class="col-sm-6">
@@ -30,7 +30,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-4 control-label">{\App\Language::translate('LBL_EMAIL_ADRESS')}</label>
+				<label class="col-sm-4 col-form-label">{\App\Language::translate('LBL_EMAIL_ADRESS')}</label>
 				<div class="col-sm-8">
 					<select class="select2" id="field" data-validation-engine="validate[required]">
 						{foreach item=COUNT key=NAME from=$RECORDS}
@@ -43,7 +43,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-4 control-label">{\App\Language::translate('LBL_EMAIL_TEMPLATE')}</label>
+				<label class="col-sm-4 col-form-label">{\App\Language::translate('LBL_EMAIL_TEMPLATE')}</label>
 				<div class="col-sm-8">
 					<select class="select2" id="template" data-validation-engine="validate[required]">
 						{foreach item=ROW from=$TEMPLETE_LIST}

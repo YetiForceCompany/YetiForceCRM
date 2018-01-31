@@ -11,7 +11,7 @@
 			<input type="hidden" name="action" value="SaveAjax" />
 			<input type="hidden" name="mode" value="import" />
 			<div class="form-group">
-				<label class="col-sm-3 control-label">
+				<label class="col-sm-3 col-form-label">
 					{\App\Language::translate('LBL_TEMPLATE_XML', $QUALIFIED_MODULE)}
 				</label>
 				<div class="col-sm-8 controls">

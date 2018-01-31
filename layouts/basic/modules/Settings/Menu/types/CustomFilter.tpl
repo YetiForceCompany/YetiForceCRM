@@ -2,7 +2,7 @@
 
 <input type="hidden" name="module" value="">
 <div class="form-group">
-	<label class="col-md-4 control-label">{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}:</label>
+	<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}:</label>
 	<div class="col-md-7">
 		<select name="dataurl" class="select2 form-control type">
 			{foreach from=$MODULE_MODEL->getCustomViewList() item=ITEM}
@@ -14,7 +14,7 @@
 {include file=\App\Layout::getTemplatePath('fields/Newwindow.tpl', $QUALIFIED_MODULE)}
 {include file=\App\Layout::getTemplatePath('fields/Hotkey.tpl', $QUALIFIED_MODULE)}
 <div class="form-group">
-	<label class="col-md-4 control-label">{\App\Language::translate('LBL_ICON_NAME', $QUALIFIED_MODULE)}:</label>
+	<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_ICON_NAME', $QUALIFIED_MODULE)}:</label>
 	<div class="col-md-7">
 		<div class="input-group">
 			<input name="icon" class="form-control" type="text" value="{if $RECORD}{$RECORD->get('icon')}{/if}" />

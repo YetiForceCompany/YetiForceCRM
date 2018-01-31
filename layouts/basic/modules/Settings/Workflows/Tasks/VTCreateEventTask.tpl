@@ -12,19 +12,19 @@
 {strip}
 	<div class="row">
 		<div class="row padding-bottom1per">
-			<span class="col-md-2 control-label">{\App\Language::translate('LBL_EVENT_NAME',$QUALIFIED_MODULE)}<span class="redColor">*</span></span>
+			<span class="col-md-2 col-form-label">{\App\Language::translate('LBL_EVENT_NAME',$QUALIFIED_MODULE)}<span class="redColor">*</span></span>
 			<div class="col-md-9">
 				<input data-validation-engine='validate[required]' class="form-control" name="eventName" type="text" value="{$TASK_OBJECT->eventName}" />
 			</div>
 		</div>
 		<div class="row padding-bottom1per">
-			<span class="col-md-2 control-label">{\App\Language::translate('LBL_DESCRIPTION',$QUALIFIED_MODULE)}</span>
+			<span class="col-md-2 col-form-label">{\App\Language::translate('LBL_DESCRIPTION',$QUALIFIED_MODULE)}</span>
 			<div class="col-md-9">
 				<textarea class="form-control" name="description">{$TASK_OBJECT->description}</textarea>
 			</div>
 		</div>
 		<div class="row padding-bottom1per">
-			<span class="col-md-2 control-label">{\App\Language::translate('LBL_STATUS',$QUALIFIED_MODULE)}</span>
+			<span class="col-md-2 col-form-label">{\App\Language::translate('LBL_STATUS',$QUALIFIED_MODULE)}</span>
 			<span class="col-md-5">
 				{assign var=STATUS_PICKLIST_VALUES value=$TASK_TYPE_MODEL->getTaskBaseModule()->getField('activitystatus')->getPickListValues()}
 				<select name="status" class="chzn-select form-control">
@@ -36,7 +36,7 @@
 			</span>
 		</div>
 		<div class="row padding-bottom1per">
-			<span class="col-md-2 control-label">{\App\Language::translate('LBL_TYPE',$QUALIFIED_MODULE)}</span>
+			<span class="col-md-2 col-form-label">{\App\Language::translate('LBL_TYPE',$QUALIFIED_MODULE)}</span>
 			<span class="col-md-5">
 				{assign var=EVENTTYPE_PICKLIST_VALUES value=$TASK_TYPE_MODEL->getTaskBaseModule()->getField('activitytype')->getPickListValues()}
 				<select name="eventType" class="chzn-select form-control">
@@ -47,7 +47,7 @@
 			</span>
 		</div>
 		<div class="row padding-bottom1per">
-			<span class="col-md-2 control-label">{\App\Language::translate('LBL_ASSIGNED_TO',$QUALIFIED_MODULE)}</span>
+			<span class="col-md-2 col-form-label">{\App\Language::translate('LBL_ASSIGNED_TO',$QUALIFIED_MODULE)}</span>
 			<span class="col-md-5">
 				<select name="assigned_user_id" class="chzn-select form-control">
 					<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>
@@ -74,7 +74,7 @@
 				{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_VALUE)}
 				{assign var=START_TIME value=implode(' ',array($DATE_TIME_COMPONENTS[1],$DATE_TIME_COMPONENTS[2]))}
 			{/if}
-			<span class="col-md-2 control-label">{\App\Language::translate('LBL_START_TIME',$QUALIFIED_MODULE)}</span>
+			<span class="col-md-2 col-form-label">{\App\Language::translate('LBL_START_TIME',$QUALIFIED_MODULE)}</span>
 			<div class="col-md-2">
 				<div class="input-group time input-group-sm">
 					<input  type="text" class="clockPicker form-control" data-format="{$timeFormat}" value="{$START_TIME}" name="startTime" />
@@ -85,12 +85,12 @@
 			</div>
 		</div>
 		<div class="row padding-bottom1per">
-			<span class="col-md-2 control-label">{\App\Language::translate('LBL_START_DATE',$QUALIFIED_MODULE)}</span>
+			<span class="col-md-2 col-form-label">{\App\Language::translate('LBL_START_DATE',$QUALIFIED_MODULE)}</span>
 			<div class="col-md-2">
 				<input class="form-control" type="text" value="{$TASK_OBJECT->startDays}" name="startDays"
 					   data-validation-engine="validate[funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]">
 			</div>
-			<span class="control-label float-left alignMiddle">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
+			<span class="col-form-label float-left alignMiddle">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
 			<span class="span marginLeftZero col-md-3">
 				<select class="chzn-select form-control" name="startDirection">
 					<option  {if $TASK_OBJECT->startDirection eq 'after'}selected{/if} value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
@@ -113,7 +113,7 @@
 				{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_VALUE)}
 				{assign var=END_TIME value=implode(' ',array($DATE_TIME_COMPONENTS[1],$DATE_TIME_COMPONENTS[2]))}
 			{/if}
-			<span class="col-md-2 control-label">{\App\Language::translate('LBL_END_TIME',$QUALIFIED_MODULE)}</span>
+			<span class="col-md-2 col-form-label">{\App\Language::translate('LBL_END_TIME',$QUALIFIED_MODULE)}</span>
 			<div class="col-md-2">
 				<div class="input-group time input-group-sm">
 					<input  type="text" class="clockPicker form-control" value="{$END_TIME}" name="endTime" />
@@ -124,12 +124,12 @@
 			</div>
 		</div>
 		<div class="row padding-bottom1per">
-			<span class="col-md-2 control-label">{\App\Language::translate('LBL_END_DATE',$QUALIFIED_MODULE)}</span>
+			<span class="col-md-2 col-form-label">{\App\Language::translate('LBL_END_DATE',$QUALIFIED_MODULE)}</span>
 			<span class="col-md-2">
 				<input class="form-control" type="text" value="{$TASK_OBJECT->endDays}" name="endDays"
 					   data-validation-engine="validate[funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]">
 			</span>
-			<span class="control-label float-left alignMiddle">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
+			<span class="col-form-label float-left alignMiddle">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</span>
 			<span class="col-md-3 marginLeftZero">
 				<select class="chzn-select form-control" name="endDirection">
 					<option  {if $TASK_OBJECT->endDirection eq 'after'}selected{/if} value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>

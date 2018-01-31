@@ -22,7 +22,7 @@
 				<input type='hidden' name='view' value='FindDuplicates' />
 				<br />
 				<div class="form-group">
-					<div class="col-sm-3 control-label">
+					<div class="col-sm-3 col-form-label">
 						{\App\Language::translate('LBL_AVAILABLE_FIELDS', $MODULE)}
 					</div>
 					<div class="col-sm-6 controls">

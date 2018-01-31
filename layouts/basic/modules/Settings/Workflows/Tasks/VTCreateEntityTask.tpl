@@ -32,7 +32,7 @@
 	<hr><br />
 	<div class="createOwnMapp{if $MAPPING_PANEL} hide{/if}">
 		<div class="row">
-			<label class="col-md-4 control-label">
+			<label class="col-md-4 col-form-label">
 				<strong>{\App\Language::translate('LBL_MODULES_TO_CREATE_RECORD',$QUALIFIED_MODULE)}
 					<span class="redColor">*</span>
 				</strong>
@@ -52,7 +52,7 @@
 	</div>
 	<div class="getFromPanelMapp{if !$MAPPING_PANEL} hide{/if}">
 		<div class="row">
-			<label class="col-md-4 control-label">
+			<label class="col-md-4 col-form-label">
 				<strong>{\App\Language::translate('LBL_SELECT_TEMPLATE_FOR_MODULE',$QUALIFIED_MODULE)}
 					<span class="redColor">*</span>
 				</strong>

@@ -18,7 +18,7 @@
 					<div class="form-group">
 						{if $COLUMN eq 'default'}
 							{if $RECORD_MODEL->get($COLUMN) eq 0}
-								<label class="col-sm-2 control-label">
+								<label class="col-sm-2 col-form-label">
 									{App\Language::translate('LBL_'|cat:$COLUMN|upper, $QUALIFIED_MODULE)}
 								</label>
 								<div class="col-sm-10">
@@ -26,7 +26,7 @@
 								</div>
 							{/if}
 						{elseif $COLUMN eq 'industry'}
-							<label class="col-sm-2 control-label">
+							<label class="col-sm-2 col-form-label">
 								{App\Language::translate('LBL_INDUSTRY', $QUALIFIED_MODULE)}
 							</label>
 							<div class="col-sm-10">
@@ -37,7 +37,7 @@
 								</select>
 							</div>
 						{elseif $COLUMN eq 'country'}
-							<label class="col-sm-2 control-label">
+							<label class="col-sm-2 col-form-label">
 								{App\Language::translate('LBL_COUNTRY', $QUALIFIED_MODULE)}
 							</label>
 							<div class="col-sm-10">
@@ -48,7 +48,7 @@
 								</select>
 							</div>
 						{elseif $COLUMN neq 'logo_login' && $COLUMN neq 'logo_main' && $COLUMN neq 'logo_mail'}
-							<label class="col-sm-2 control-label">
+							<label class="col-sm-2 col-form-label">
 								{App\Language::translate('LBL_'|cat:$COLUMN|upper, $QUALIFIED_MODULE)}
 							</label>
 							<div class="col-sm-10">

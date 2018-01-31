@@ -14,7 +14,7 @@
 				<form class="form-horizontal" id="ChangeType" name="ChangeType" method="post" action="index.php">
 					<div class="modal-body tabbable">
 						<div class="form-group">
-							<label class="col-md-3 control-label">{\App\Language::translate('LBL_SELECT_TYPE',$MODULE)}</label>
+							<label class="col-md-3 col-form-label">{\App\Language::translate('LBL_SELECT_TYPE',$MODULE)}</label>
 							<div class="col-md-6 controls">
 								<select class="select2-container columnsSelect form-control" id="mail_type" name="mail_type">
 									{foreach key=key item=item from=$TYPE_LIST}

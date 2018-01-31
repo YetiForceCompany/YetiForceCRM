@@ -2,7 +2,7 @@
 <div class="">
 	<div class="form-horizontal">
 		<div class="form-group row">
-			<label class="control-label col-md-1" >{\App\Language::translate('Language',$QUALIFIED_MODULE)}:</label>
+			<label class="col-form-label col-md-1" >{\App\Language::translate('Language',$QUALIFIED_MODULE)}:</label>
 			<div class="col-md-3">
 				<select multiple="multiple" class="form-control" id="langs_list">
 					{foreach from=$LANGS item=LABEL key=PREFIX}
@@ -10,7 +10,7 @@
 					{/foreach}
 				</select>
 			</div>
-			<label class="control-label col-md-1" >{\App\Language::translate('Modules',$QUALIFIED_MODULE)}:</label>
+			<label class="col-form-label col-md-1" >{\App\Language::translate('Modules',$QUALIFIED_MODULE)}:</label>
 			<div class="col-md-3">
 				<select class="form-control mods_list" name="mods_list" id="mods_list" data-target="HelpInfo">
 					{foreach item=MODULE_INFO from=\vtlib\Functions::getAllModules(true, false, 0)}

@@ -66,7 +66,7 @@
 						<form class="form-horizontal">
 							<input type="hidden" class="selectedColor" value="" />
 							<div class="form-group">
-								<label class=" col-sm-3 control-label">{\App\Language::translate('LBL_SELECT_COLOR', $QUALIFIED_MODULE)}</label>
+								<label class=" col-sm-3 col-form-label">{\App\Language::translate('LBL_SELECT_COLOR', $QUALIFIED_MODULE)}</label>
 								<div class=" col-sm-8 controls">
 									<p class="calendarColorPicker"></p>
 								</div>

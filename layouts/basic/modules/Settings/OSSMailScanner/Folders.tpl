@@ -26,7 +26,7 @@
 				{\App\Language::translate('LBL_ALERT_EDIT_FOLDER', $MODULE_NAME)}
 			</div>
 			<div class="row marginBottom5">
-				<label class="col-sm-3 control-label">{\App\Language::translate('Received', 'OSSMailScanner')}</label>
+				<label class="col-sm-3 col-form-label">{\App\Language::translate('Received', 'OSSMailScanner')}</label>
 				<div class="col-sm-6 controls">
 					<select multiple name="Received" class="select2 form-control">
 						{foreach key=FOLDER item=NAME from=$FOLDERS}
@@ -38,7 +38,7 @@
 				</div>
 			</div>
 			<div class="row marginBottom5">
-				<label class="col-sm-3 control-label">{\App\Language::translate('Sent', 'OSSMailScanner')}</label>
+				<label class="col-sm-3 col-form-label">{\App\Language::translate('Sent', 'OSSMailScanner')}</label>
 				<div class="controls col-sm-6">
 					<select multiple name="Sent" class="select2 form-control">
 						{foreach key=FOLDER item=NAME from=$FOLDERS}
@@ -50,7 +50,7 @@
 				</div>
 			</div>
 			<div class="row marginBottom5">
-				<label class="col-sm-3 control-label" >{\App\Language::translate('Spam', 'OSSMailScanner')}</label>
+				<label class="col-sm-3 col-form-label" >{\App\Language::translate('Spam', 'OSSMailScanner')}</label>
 				<div class="col-sm-6 controls">
 					<select multiple name="Spam" class="select2 form-control">
 						{foreach key=FOLDER item=NAME from=$FOLDERS}
@@ -62,7 +62,7 @@
 				</div>
 			</div>
 			<div class="row marginBottom5">
-				<label class="col-sm-3 control-label" >{\App\Language::translate('Trash', 'OSSMailScanner')}</label>
+				<label class="col-sm-3 col-form-label" >{\App\Language::translate('Trash', 'OSSMailScanner')}</label>
 				<div class="col-sm-6 controls">
 					<select multiple name="Trash" class="select2 form-control">
 						{foreach key=FOLDER item=NAME from=$FOLDERS}
@@ -74,7 +74,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<label class="col-sm-3 control-label" >{\App\Language::translate('All_folder', 'OSSMailScanner')}</label>
+				<label class="col-sm-3 col-form-label" >{\App\Language::translate('All_folder', 'OSSMailScanner')}</label>
 				<div class="col-sm-6 controls">
 					<select multiple name="All" class="select2 form-control">
 						{foreach key=FOLDER item=NAME from=$FOLDERS}

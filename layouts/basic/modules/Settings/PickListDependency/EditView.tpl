@@ -28,7 +28,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="row col-md-6 ">
-							<label class="col-md-4 muted control-label">{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</label>
+							<label class="col-md-4 muted col-form-label">{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</label>
 							<div class="col-md-8 controls">
 								<select name="sourceModule" title="{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}" class="select2 form-control marginLeftZero">
 									{foreach item=MODULE_MODEL from=$PICKLIST_MODULES_LIST}
@@ -52,7 +52,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="row col-md-6 ">
-							<label class="col-md-4 muted control-label">{\App\Language::translate('LBL_SOURCE_FIELD', $QUALIFIED_MODULE)}</label>
+							<label class="col-md-4 muted col-form-label">{\App\Language::translate('LBL_SOURCE_FIELD', $QUALIFIED_MODULE)}</label>
 							<div class="col-md-8 controls">
 								<select id="sourceField" name="sourceField" class="select2 form-control" data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}"  title="{\App\Language::translate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}">
 									<option value=''></option>
@@ -63,7 +63,7 @@
 							</div>
 						</div>
 						<div class="row col-md-6">
-							<label class="col-md-4 muted control-label">{\App\Language::translate('LBL_TARGET_FIELD', $QUALIFIED_MODULE)}</label>
+							<label class="col-md-4 muted col-form-label">{\App\Language::translate('LBL_TARGET_FIELD', $QUALIFIED_MODULE)}</label>
 							<div class="col-md-8 controls">
 								<select id="targetField" name="targetField" class="select2 form-control" data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}" title="{\App\Language::translate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}">
 									<option value=''></option>
