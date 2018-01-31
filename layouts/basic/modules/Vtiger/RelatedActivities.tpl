@@ -32,10 +32,10 @@
 				<input type="hidden" class="activityId" value="{$RECORD->get('activityid')}" />
 				<div class="row">
 					<span class="col-md-6">
-						<strong title='{\App\Fields\DateTime::formatToDay("$START_DATE $START_TIME")}'><span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;{Vtiger_Util_Helper::formatDateIntoStrings($START_DATE, $START_TIME)}</strong>
+						<strong title='{\App\Fields\DateTime::formatToDay("$START_DATE $START_TIME")}'><span class="far fa-clock"></span>&nbsp;&nbsp;{Vtiger_Util_Helper::formatDateIntoStrings($START_DATE, $START_TIME)}</strong>
 					</span>
 					<span class="col-md-6 rightText">
-						<strong title='{\App\Fields\DateTime::formatToDay("$END_DATE $END_TIME")}'><span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;{Vtiger_Util_Helper::formatDateIntoStrings($END_DATE, $END_TIME)}</strong>
+						<strong title='{\App\Fields\DateTime::formatToDay("$END_DATE $END_TIME")}'><span class="far fa-clock"></span>&nbsp;&nbsp;{Vtiger_Util_Helper::formatDateIntoStrings($END_DATE, $END_TIME)}</strong>
 					</span>
 				</div>
 				<div class="summaryViewEntries">

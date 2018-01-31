@@ -16,7 +16,7 @@
 							<div class="modal-footer">
 								{if !$ANNOUNCEMENT->get('is_mandatory')}
 									<button type="button" class="btn btn-danger" data-type="0">
-										<span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;
+										<span class="far fa-clock" aria-hidden="true"></span>&nbsp;
 										{\App\Language::translate('LBL_REMIND_ME_LATER',$AMODULE)}
 									</button>
 								{/if}

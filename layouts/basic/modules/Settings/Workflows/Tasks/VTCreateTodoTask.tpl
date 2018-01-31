@@ -79,7 +79,7 @@
 					{/if}
 					<input  type="text" class="clockPicker form-control" value="{$TIME}" name="time" />
 					<span class="input-group-addon cursorPointer">
-						<i class="glyphicon glyphicon-time"></i>
+						<i class="far fa-clock"></i>
 					</span>
 				</div>
 			</div>
