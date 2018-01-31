@@ -23,7 +23,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<button class="btn btn-sm float-left btn-light switchChartContainer" type="button">
-						<span class="glyphicon glyphicon-chevron-up"></span>
+						<span class="fas fa-chevron-up"></span>
 					</button>
 					<h5>{\App\Language::translate('LBL_SUM_OF_WORKING_TIME_DIVIDED_INTO_USERS', $RELATED_MODULE_NAME)}:</h5>
 				</div>
