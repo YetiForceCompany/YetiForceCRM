@@ -7,7 +7,10 @@ and open the template in the editor.
     Created on : 2018-01-30, 14:23:39
     Author     : rafan
 */
-
+//chosen corrections for bootstrap 4
 .chosen-single {
 	height: 37px !important;
+}
+.chzn-selectWithButtonWidth {
+	width: calc(100% - #{$iconButtonWidth});
 }

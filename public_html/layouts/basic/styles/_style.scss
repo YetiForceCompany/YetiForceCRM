@@ -75,8 +75,8 @@
 	font-family: 'Open Sans';
 	font-style: normal;
 	font-weight: 400;
-	src: url('../../../layouts/basic/fonts/OpenSans-Regular-webfont.eot');
-	src: url('../../../layouts/basic/fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'), url('../../../layouts/basic/fonts/OpenSans-Regular-webfont.woff') format('woff'), url('../../../layouts/basic/fonts/OpenSans-Regular-webfont.ttf') format('truetype'), url('../../../layouts/basic/fonts/OpenSans-Regular-webfont.svg#open_sansregular') format('svg');
+	src: url('../../../layouts/resources/fonts/OpenSans-Regular-webfont.eot');
+	src: url('../../../layouts/resources/fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'), url('../../../layouts/resources/fonts/OpenSans-Regular-webfont.woff') format('woff'), url('../../../layouts/resources/fonts/OpenSans-Regular-webfont.ttf') format('truetype'), url('../../../layouts/resources/fonts/OpenSans-Regular-webfont.svg#open_sansregular') format('svg');
 }
 body {
 	width: 100%;
@@ -333,9 +333,7 @@ hr {
 	white-space: nowrap;
 	margin-right: 5px;
 }
-.bodyHeader .rightHeaderBtn a.quickCreateModule {
-	margin: 0;
-}
+
 .mainContainer .contentsDiv {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -2824,19 +2822,6 @@ span[name=existingImages] img {
 	font-size: 24px;
 	height: 100%;
 }
-.bodyHeader {
-	background-color: #4a5364;
-	color: #fff;
-	height: 50px;
-	position: fixed;
-	top: 0;
-	right: 0;
-	left: 50px;
-	z-index: 1031;
-	-webkit-transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
-	transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
-	transition-delay: 0.5s;
-}
 .noSpaces {
 	padding: 0 !important;
 	margin: 0 !important;
@@ -2886,10 +2871,6 @@ html,body,.baseContainer {
 	display: block;
 	width: 48px;
 	padding: 5px;
-}
-.bodyHeader .moduleIcon {
-	width: 34px;
-	margin: 5px;
 }
 .userDetails ul.headerLink li {
 	list-style-type: none;
@@ -3384,9 +3365,6 @@ html,body,.baseContainer {
 	.selectSearch {
 		display: block;
 	}
-	.searchMenuBtn {
-		display: none;
-	}
 	.detailViewTable  .fieldValue  .summaryViewEdit {
 		display: none;
 	}
@@ -3414,9 +3392,6 @@ html,body,.baseContainer {
 	}
 	.selectSearch {
 		display: none;
-	}
-	.searchMenuBtn {
-		display: block;
 	}
 	.listViewEntriesTable tr td .actions .actionImages {
 		opacity: 1;
@@ -4305,18 +4280,7 @@ select.form-control {
 	border: 2px solid #d2d6de;
 	font-size: 32px;
 }
-.bodyHeader .rightHeaderBtn {
-	margin-top: 7px;
-}
-.bodyHeader .rightHeaderBtn .glyphicon {
-	font-size: 18px;
-}
-.bodyHeader .rightHeaderBtn .fa,.actionMenu .showHistoryBtn .fa {
-	font-size: 21px;
-}
-.bodyHeader .rightHeaderBtn a {
-	margin-left: 5px;
-}
+
 .columnSorted {
 	background: #EAEAEA !important;
 }

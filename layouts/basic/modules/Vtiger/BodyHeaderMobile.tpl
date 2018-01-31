@@ -172,8 +172,9 @@
 	</div>
 	{if AppConfig::performance('GLOBAL_SEARCH')}
 		<div class="searchMenu globalSearchInput">
-			<div class="input-group">
-				<select class="chzn-select basicSearchModulesList form-control col-md-5" title="{\App\Language::translate('LBL_SEARCH_MODULE')}">
+			<div class="input-group mb-1">
+				<div class ="chzn-selectWithButtonWidth">
+				<select class="chzn-select basicSearchModulesList form-control" title="{\App\Language::translate('LBL_SEARCH_MODULE')}">
 					<option value="" class="globalSearch_module_All">{\App\Language::translate('LBL_ALL_RECORDS')}</option>
 					{foreach key=MODULE_NAME item=fieldObject from=$SEARCHABLE_MODULES}
 						{if isset($SEARCHED_MODULE) && $SEARCHED_MODULE eq $MODULE_NAME && $SEARCHED_MODULE !== 'All'}
@@ -183,9 +184,10 @@
 						{/if}
 					{/foreach}
 				</select>
-				<div class="input-group-btn">
-					<div class="pull-right">
-						<button class="btn btn-default globalSearch " title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">
+				</div>
+				<div class="input-group-append">
+					<div class="">
+						<button class="btn btn-outline-dark globalSearch " title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">
 							<span class="fa fa-th-large"></span>
 						</button>
 					</div>
@@ -195,7 +197,7 @@
 				<input type="text" class="form-control globalSearchValue" title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10" />
 				<div class="input-group-btn">
 					<div class="pull-right">
-						<button class="btn btn-default searchIcon" type="button">
+						<button class="btn btn-outline-dark searchIcon" type="button">
 							<span class="fa fa-search"></span>
 						</button>
 					</div>

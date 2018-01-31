@@ -1,241 +1,86 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
     {assign var='count' value=0}
-	<div class="container-fluid bodyHeader noSpaces commonActionsContainer{if $LEFTPANELHIDE} menuOpen{/if}">
-		<div class="row noSpaces">
-			<div class="rightHeader paddingRight10">
-				<div class="pull-right rightHeaderBtn">
-					{assign var=QUICKCREATE_MODULES value=Vtiger_Module_Model::getQuickCreateModules(true)}
-					{if !empty($QUICKCREATE_MODULES)}
-						<a class="btn btn-default btn-sm popoverTooltip dropdownMenu hidden-xs hidden-sm" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
-							<span class="fa fa-plus" aria-hidden="true"></span>
-						</a>
-						<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
-							<li class="quickCreateModules">
-								<div class="panel-default">
-									<div class="panel-heading">
-										<h4 class="panel-title"><strong>{\App\Language::translate('LBL_QUICK_CREATE')}</strong></h4>
-									</div>
-									<div class="panel-body paddingLRZero">
-										{foreach key=NAME item=MODULEMODEL from=$QUICKCREATE_MODULES}
-											{assign var='quickCreateModule' value=$MODULEMODEL->isQuickCreateSupported()}
-											{assign var='singularLabel' value=$MODULEMODEL->getSingularLabelKey()}
-											{if $singularLabel == 'SINGLE_Calendar'}
-												{assign var='singularLabel' value='LBL_EVENT_OR_TASK'}
-											{/if}
-											{if $quickCreateModule == '1'}
-												{if $count % 3 == 0}
-													<div class="">
-													{/if}
-													<div class="col-xs-4{if $count % 3 != 2} paddingRightZero{/if}">
-														<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{\App\Language::translate($singularLabel,$NAME)}">
-															<span class="modCT_{$NAME} userIcon-{$NAME}"></span><span>{\App\Language::translate($singularLabel,$NAME)}</span>
-														</a>
-													</div>
-													{if $count % 3 == 2}
-													</div>
-												{/if}
-												{assign var='count' value=$count+1}
-											{/if}
-										{/foreach}
-										{if $count % 3 >= 1}
-										</div>
-									{/if}
-								</div>
-							</li>
+	<nav class="navbar navbar-expand-md navbar-dark fixed-top px-2 bodyHeader{if $LEFTPANELHIDE} menuOpen{/if}">
+		{if AppConfig::performance('GLOBAL_SEARCH')}
+		<div class="searchMenuBtn d-xl-none">
+			<div class="quickAction">
+				<a class="btn btn-light" href="#">
+					<span aria-hidden="true" class="fas fa-search"></span>
+				</a>
+			</div>
+		</div>
+		<div class="input-group input-group-sm mb-2 d-none d-xl-flex globalSearchInput">
+			<div class="input-group-prepend">
+				<select class="chzn-select basicSearchModulesList form-control" title="{\App\Language::translate('LBL_SEARCH_MODULE')}">
+					<option value="">{\App\Language::translate('LBL_ALL_RECORDS')}</option>
+					{foreach key=SEARCHABLE_MODULE item=fieldObject from=$SEARCHABLE_MODULES}
+						{if isset($SEARCHED_MODULE) && $SEARCHED_MODULE eq $SEARCHABLE_MODULE && $SEARCHED_MODULE !== 'All'}
+							<option value="{$SEARCHABLE_MODULE}" selected>{\App\Language::translate($SEARCHABLE_MODULE,$SEARCHABLE_MODULE)}</option>
+						{else}
+							<option value="{$SEARCHABLE_MODULE}">{\App\Language::translate($SEARCHABLE_MODULE,$SEARCHABLE_MODULE)}</option>
+						{/if}
+					{/foreach}
+				</select>
+			</div>
+			<input type="text" class="form-control globalSearchValue" title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10" data-operator="contains" />
+			<div class="input-group-append bg-white rounded-right">
+				<button class="btn btn-outline-dark border-0 searchIcon" type="button">
+					<span class="fas fa-search"></span>
+				</button>
+				{if AppConfig::search('GLOBAL_SEARCH_OPERATOR')}
+					<div class="btn-group">
+						<button type="button" class="btn btn-outline-dark border-bottom-0 border-top-0 dropdown-toggle rounded-0 border-left border-right" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<span class="fas fa-crosshairs"></span>
+						</button>
+						<ul class="dropdown-menu globalSearchOperator">
+							<li class="active"><a href="#" data-operator="contains">{\App\Language::translate('contains')}</a></li>
+							<li><a href="#" data-operator="starts">{\App\Language::translate('starts with')}</a></li>
+							<li><a href="#" data-operator="ends">{\App\Language::translate('ends with')}</a></li>
 						</ul>
-					{/if}
-					{if \App\Privilege::isPermitted('Notification', 'DetailView')}
-						<a class="btn btn-default btn-sm isBadge notificationsNotice popoverTooltip {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if} hidden-xs hidden-sm" data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}">
-							<span class="fa fa-bell" aria-hidden="true"></span>
-							<span class="badge hide">0</span>
-						</a>
-					{/if}
-					{if isset($CHAT_ENTRIES)}
-						<a class="btn btn-default btn-sm headerLinkChat popoverTooltip hidden-xs hidden-sm" data-content="{\App\Language::translate('LBL_CHAT')}" href="#">
-							<span class="fa fa-comments" aria-hidden="true"></span>
-						</a>
-						<div class="chatModal modal fade" tabindex="-1" role="dialog" aria-labelledby="chatLabel" data-timer="{AppConfig::module('Chat', 'REFRESH_TIME')}000">
-							<div class="modal-dialog modalRightSiteBar" role="document">
-								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="btn btn-warning pull-right marginLeft10" data-dismiss="modal" aria-hidden="true">&times;</button>
-										<h4 class="modal-title" id="myModalLabel"><span class="fa fa-comments" aria-hidden="true"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_CHAT')}</h4>
-									</div>
-									<div class="modal-body">
-										{include file=\App\Layout::getTemplatePath('Items.tpl', 'Chat')}
-									</div>
-									<div class="modal-footer pinToDown">
-                                        <input type="text" class="form-control message" /><br />
-										<button type="button" class="btn btn-primary addMsg">{\App\Language::translate('LBL_SEND_MESSAGE')}</button>
-									</div>
-								</div>
+					</div>
+				{/if}
+				<button class="btn btn-outline-dark border-0 globalSearch" title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">
+					<span class="fas fa-th-large"></span>
+				</button>
+			</div>
+		</div>
+		{/if}
+		{if !Settings_ModuleManager_Library_Model::checkLibrary('roundcube')}
+			<div class="float-right">
+				{assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('mailIcon')}
+				{if $CONFIG['showMailIcon']=='true' && App\Privilege::isPermitted('OSSMail')}
+					{assign var=AUTOLOGINUSERS value=OSSMail_Autologin_Model::getAutologinUsers()}
+					{if count($AUTOLOGINUSERS) > 0}
+						{assign var=MAIN_MAIL value=OSSMail_Module_Model::getDefaultMailAccount($AUTOLOGINUSERS)}
+						<div class="headerLinksMails" id="OSSMailBoxInfo" {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true" data-interval="{$CONFIG['timeCheckingMail']}"{/if}>
+							<div class="btn-group">
+								{if count($AUTOLOGINUSERS) eq 1}
+									<a type="button" class="btn btn-sm btn-light" title="{$MAIN_MAIL.username}" href="index.php?module=OSSMail&view=Index">
+										<div class="d-none d-sm-none d-md-block">
+											{$ITEM.username}
+											<span class="mail_user_name">{$MAIN_MAIL.username}</span>
+											<span data-id="{$MAIN_MAIL.rcuser_id}" class="noMails"></span>
+										</div>
+										<div class="d-none d-block d-sm-block d-md-none">
+											<span class="fas fa-inbox"></span>
+										</div>
+									</a>
+								{elseif $CONFIG['showMailAccounts']=='true'}
+									<select class="form-control" title="{\App\Language::translate('LBL_SEARCH_MODULE', $MODULE_NAME)}">
+										{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
+											<option value="{$KEY}" {if $ITEM.active}selected{/if} data-id="{$KEY}" data-nomail="" class="noMails">
+												{$ITEM.username}
+											</option>
+										{/foreach}
+									</select>
+								{/if}
 							</div>
 						</div>
 					{/if}
-					{if $REMINDER_ACTIVE}
-						<a class="btn btn-default btn-sm isBadge remindersNotice popoverTooltip {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if} hidden-xs hidden-sm" data-content="{\App\Language::translate('LBL_REMINDER')}" href="#">
-							<span class="fa fa-calendar" aria-hidden="true"></span>
-							<span class="badge bgDanger hide">0</span>
-						</a>
-					{/if}
-					{if AppConfig::performance('BROWSING_HISTORY_WORKING')}
-						<a class="btn btn-default btn-sm showHistoryBtn popoverTooltip dropdownMenu hidden-xs hidden-sm" data-content="{\App\Language::translate('LBL_PAGES_HISTORY')}" href="#">
-							<i class="fa fa-history" aria-hidden="true"></i>
-						</a>
-						{include file=\App\Layout::getTemplatePath('BrowsingHistory.tpl', $MODULE)}
-					{/if}
-					{foreach key=index item=obj from=$MENU_HEADER_LINKS}
-						{if $obj->linktype == 'HEADERLINK'}
-							{assign var="HREF" value='#'}
-							{assign var="ICON_PATH" value=$obj->getIconPath()}
-							{assign var="LINK" value=$obj->convertToNativeLink()}
-							{assign var="GLYPHICON" value=$obj->getGlyphiconIcon()}
-							{assign var="TITLE" value=$obj->getLabel()}
-							{assign var="CHILD_LINKS" value=$obj->getChildLinks()}
-							{if !empty($LINK)}
-								{assign var="HREF" value=$LINK}
-							{/if}
-							<a class="btn btn-sm popoverTooltip {if $obj->getClassName()|strrpos:"btn-" === false}btn-default {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if} hidden-xs hidden-sm" data-content="{\App\Language::translate($TITLE)}" href="{$HREF}"
-							    {if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
-								    {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
-									    data-{$DATA_NAME}="{$DATA_VALUE}"
-								    {/foreach}
-							    {/if}>
-								{if $GLYPHICON}
-									<span class="{$GLYPHICON}" aria-hidden="true"></span>
-								{/if}
-								{if $ICON_PATH}
-									<img src="{$ICON_PATH}" alt="{\App\Language::translate($TITLE,$MODULE)}" title="{\App\Language::translate($TITLE,$MODULE)}" />
-								{/if}
-							</a>
-							{if !empty($CHILD_LINKS)}
-								<ul class="dropdown-menu">
-									{foreach key=index item=obj from=$CHILD_LINKS}
-										{if $obj->getLabel() eq NULL}
-											<li class="divider"></li>
-										{else}
-											{assign var="id" value=$obj->getId()}
-											{assign var="href" value=$obj->getUrl()}
-											{assign var="label" value=$obj->getLabel()}
-											{assign var="onclick" value=""}
-											{if stripos($obj->getUrl(), 'javascript:') === 0}
-												{assign var="onclick" value="onclick="|cat:$href}
-												{assign var="href" value="javascript:;"}
-											{/if}
-											<li>
-												<a target="{$obj->target}" id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}
-												{if $obj->linkdata && is_array($obj->linkdata)}
-													{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
-														data-{$DATA_NAME}="{$DATA_VALUE}"
-													{/foreach}
-												{/if}>{\App\Language::translate($label,$MODULE)}</a>
-											</li>
-										{/if}
-									{/foreach}
-								</ul>
-							{/if}
-						{/if}
-					{/foreach}
-				</div>
-				{if AppConfig::performance('GLOBAL_SEARCH')}
-					<div class="pull-left selectSearch">
-						<div class="input-group globalSearchInput">
-							<span class="input-group-btn">
-								<select class="chzn-select basicSearchModulesList form-control col-md-5" title="{\App\Language::translate('LBL_SEARCH_MODULE')}">
-									<option value="">{\App\Language::translate('LBL_ALL_RECORDS')}</option>
-									{foreach key=SEARCHABLE_MODULE item=fieldObject from=$SEARCHABLE_MODULES}
-										{if isset($SEARCHED_MODULE) && $SEARCHED_MODULE eq $SEARCHABLE_MODULE && $SEARCHED_MODULE !== 'All'}
-											<option value="{$SEARCHABLE_MODULE}" selected>{\App\Language::translate($SEARCHABLE_MODULE,$SEARCHABLE_MODULE)}</option>
-										{else}
-											<option value="{$SEARCHABLE_MODULE}">{\App\Language::translate($SEARCHABLE_MODULE,$SEARCHABLE_MODULE)}</option>
-										{/if}
-									{/foreach}
-								</select>
-							</span>
-							<input type="text" class="form-control globalSearchValue" title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10" data-operator="contains" />
-							<span class="input-group-btn">
-								<button class="btn btn-default searchIcon" type="button">
-									<span class="fa fa-search"></span>
-								</button>
-								{if AppConfig::search('GLOBAL_SEARCH_OPERATOR')}
-									<div class="btn-group">
-										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											<span class="fa fa-crosshairs"></span>
-										</button>
-										<ul class="dropdown-menu globalSearchOperator">
-											<li class="active"><a href="#" data-operator="contains">{\App\Language::translate('contains')}</a></li>
-											<li><a href="#" data-operator="starts">{\App\Language::translate('starts with')}</a></li>
-											<li><a href="#" data-operator="ends">{\App\Language::translate('ends with')}</a></li>
-										</ul>
-									</div>
-								{/if}
-								<button class="btn btn-default globalSearch" title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">
-									<span class="fa fa-th-large"></span>
-								</button>
-							</span>
-						</div>
-					</div>
-				{/if}
-				<div class="pull-right rightHeaderBtnMenu">
-					<div class="quickAction">
-						<a class="btn btn-default btn-sm" href="#">
-							<span aria-hidden="true" class="glyphicon glyphicon-menu-hamburger"></span>
-						</a>
-					</div>
-				</div>
-				<div class="pull-right actionMenuBtn">
-					<div class="quickAction">
-						<a class="btn btn-default btn-sm" href="#">
-							<span aria-hidden="true" class="glyphicon glyphicon-certificate"></span>
-						</a>
-					</div>
-				</div>
-				{if AppConfig::performance('GLOBAL_SEARCH')}
-					<div class="pull-left searchMenuBtn">
-						<div class="quickAction">
-							<a class="btn btn-default btn-sm" href="#">
-								<span aria-hidden="true" class="fa fa-search"></span>
-							</a>
-						</div>
-					</div>
-				{/if}
-				{if !Settings_ModuleManager_Library_Model::checkLibrary('roundcube')}
-					<div class="pull-right">
-						{assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('mailIcon')}
-						{if $CONFIG['showMailIcon']=='true' && App\Privilege::isPermitted('OSSMail')}
-							{assign var=AUTOLOGINUSERS value=OSSMail_Autologin_Model::getAutologinUsers()}
-							{if count($AUTOLOGINUSERS) > 0}
-								{assign var=MAIN_MAIL value=OSSMail_Module_Model::getDefaultMailAccount($AUTOLOGINUSERS)}
-								<div class="headerLinksMails" id="OSSMailBoxInfo" {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true" data-interval="{$CONFIG['timeCheckingMail']}"{/if}>
-									<div class="btn-group">
-										{if count($AUTOLOGINUSERS) eq 1}
-											<a type="button" class="btn btn-sm btn-default" title="{$MAIN_MAIL.username}" href="index.php?module=OSSMail&view=Index">
-												<div class="hidden-xs">
-													{$ITEM.username}
-													<span class="mail_user_name">{$MAIN_MAIL.username}</span>
-													<span data-id="{$MAIN_MAIL.rcuser_id}" class="noMails"></span>
-												</div>
-												<div class="visible-xs-block">
-													<span class="glyphicon glyphicon-inbox"></span>
-												</div>
-											</a>
-										{elseif $CONFIG['showMailAccounts']=='true'}
-											<select class="form-control" title="{\App\Language::translate('LBL_SEARCH_MODULE', $MODULE_NAME)}">
-												{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
-													<option value="{$KEY}" {if $ITEM.active}selected{/if} data-id="{$KEY}" data-nomail="" class="noMails">
-														{$ITEM.username}
-													</option>
-												{/foreach}
-											</select>
-										{/if}
-									</div>
-								</div>
-							{/if}
-						{/if}
-					</div>
 				{/if}
 			</div>
-		</div>
-	</div>
+		{/if}
+
+	</nav>
 {/strip}
