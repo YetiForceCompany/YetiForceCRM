@@ -46,7 +46,7 @@
 				</div>
 			</div>
 		{/if}
-		<div class="ml-auto">
+		<div class="ml-auto d-inline-flex">
 			{if !Settings_ModuleManager_Library_Model::checkLibrary('roundcube')}
 				{assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('mailIcon')}
 				{if $CONFIG['showMailIcon']=='true' && App\Privilege::isPermitted('OSSMail')}
