@@ -35,7 +35,7 @@
 										<div class="col-md-12 mailActions">
 											<div class="float-left">
 												<a title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL','OSSMailView')}" class="showMailBody btn btn-sm btn-light" >
-													<span class="body-icon glyphicon glyphicon-triangle-bottom"></span>
+													<span class="body-icon fas fa-caret-down"></span>
 												</a>&nbsp;
 												<button type="button" class="btn btn-sm btn-light showMailModal" data-url="{$ROW['url']}" title="{\App\Language::translate('LBL_SHOW_PREVIEW_EMAIL','OSSMailView')}">
 													<span class="body-icon fas fa-search"></span>
