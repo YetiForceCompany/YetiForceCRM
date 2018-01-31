@@ -7,7 +7,7 @@
 [![codecov](https://codecov.io/gh/YetiForceCompany/YetiForceCRM/branch/developer/graph/badge.svg)](https://codecov.io/gh/YetiForceCompany/YetiForceCRM)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/161d09ea3c824405b762a0c9edc2845e)](https://www.codacy.com/app/mariuszkrzaczkowski/YetiForceCRM?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=YetiForceCompany/YetiForceCRM&amp;utm_campaign=Badge_Grade)
 [![Dependency Status](https://gemnasium.com/badges/github.com/YetiForceCompany/YetiForceCRM.svg)](https://gemnasium.com/github.com/YetiForceCompany/YetiForceCRM)
-
+[![Maintainability](https://api.codeclimate.com/v1/badges/2e9276651b48a905f0ee/maintainability)](https://codeclimate.com/github/YetiForceCompany/YetiForceCRM/maintainability)
 
 <a href='http://www.capterra.com/customer-relationship-management-software/reviews/159123/Yetiforce%20/YetiForce?utm_source=vendor&utm_medium=badge&utm_campaign=capterra_reviews_badge'>  <img border='0' src='https://assets.capterra.com/badge/470cd214b89233aa4e89972fa49c3253.png?v=2111411&p=159123' /></a>
 <a href='https://www.capterra.com/customer-relationship-management-software/#affordable' width="50"><img border='0' src='https://public.yetiforce.com/img/CRM-AF-2017.png' width="150" /></a>
