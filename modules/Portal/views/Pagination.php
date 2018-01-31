@@ -30,7 +30,7 @@ class Portal_Pagination_View extends Vtiger_IndexAjax_View
 			$sortImage = "glyphicon glyphicon-chevron-down";
 		} else {
 			$nextSortOrder = "ASC";
-			$sortImage = "glyphicon glyphicon-chevron-up";
+			$sortImage = "fas fa-chevron-up";
 		}
 
 		if (empty($pageNumber)) {

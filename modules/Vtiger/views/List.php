@@ -220,7 +220,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$sortImage = 'glyphicon glyphicon-chevron-down';
 		} else {
 			$nextSortOrder = 'ASC';
-			$sortImage = 'glyphicon glyphicon-chevron-up';
+			$sortImage = 'fas fa-chevron-up';
 		}
 		if (empty($pageNumber)) {
 			$pageNumber = App\CustomView::getCurrentPage($moduleName, $this->viewName);

@@ -631,7 +631,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			$sortImage = 'glyphicon glyphicon-chevron-down';
 		} else {
 			$nextSortOrder = 'ASC';
-			$sortImage = 'glyphicon glyphicon-chevron-up';
+			$sortImage = 'fas fa-chevron-up';
 		}
 		if (is_numeric($relatedModuleName)) {
 			$relatedModuleName = \App\Module::getModuleName($relatedModuleName);

@@ -64,7 +64,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 			$sortImage = 'glyphicon glyphicon-chevron-down';
 		} else {
 			$nextSortOrder = 'ASC';
-			$sortImage = 'glyphicon glyphicon-chevron-up';
+			$sortImage = 'fas fa-chevron-up';
 		}
 		if (empty($orderBy) && empty($sortOrder)) {
 			$relatedInstance = CRMEntity::getInstance($relatedModuleName);
