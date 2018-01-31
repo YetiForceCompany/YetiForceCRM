@@ -30,7 +30,7 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model
 				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'LBL_DOWNLOAD_FILE',
 				'linkurl' => $recordModel->getDownloadFileURL(),
-				'linkicon' => 'glyphicon glyphicon-download-alt'
+				'linkicon' => 'fas fa-download'
 			];
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}

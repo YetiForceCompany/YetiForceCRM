@@ -122,7 +122,7 @@
 								</label>
 							</div>
 							<div class="col-xs-4">
-								<button class="btn btn-xs btn-success addAllRecords float-right" data-module="{$ALLOWED_MODULE_NAME}"><span class="glyphicon glyphicon-download-alt"></span></button>
+								<button class="btn btn-xs btn-success addAllRecords float-right" data-module="{$ALLOWED_MODULE_NAME}"><span class="fas fa-download"></span></button>
 								<button class="btn btn-xs btn-danger deleteClipBoard float-right marginRight10 {if empty($CACHE_GROUP_RECORDS[$ALLOWED_MODULE_NAME])}hide{/if}" data-module="{$ALLOWED_MODULE_NAME}"><span class="fas fa-trash-alt"></span></button>
 							</div>
 						</div>
