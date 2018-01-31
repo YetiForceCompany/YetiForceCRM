@@ -385,6 +385,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$ini = static::getPhpIniConf();
 		$cliConf = static::getPhpIniConfCron();
+		$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
 		$params = [
 			'LBL_OPERATING_SYSTEM' => \AppConfig::main('systemMode') === 'demo' ? php_uname('s') : php_uname(),
 			'LBL_TMP_DIR' => App\Fields\File::getTmpPath(),
@@ -392,6 +393,7 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 			'LBL_PHP_SAPI' => ['www' => $ini['SAPI'], 'cli' => $cliConf ? $cliConf['SAPI'] : ''],
 			'LBL_LOG_FILE' => ['www' => $ini['LOG_FILE'], 'cli' => $cliConf ? $cliConf['LOG_FILE'] : ''],
 			'LBL_PHPINI' => ['www' => $ini['INI_FILE'], 'cli' => $cliConf ? $cliConf['INI_FILE'] : ''],
+			'LBL_SPACE' => App\Language::translateSingleMod('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ' . \vtlib\Functions::showBytes(disk_free_space($dir)) . ', ' . App\Language::translateSingleMod('LBL_SPACE_USED', 'Settings::ConfReport') . ': ' . \vtlib\Functions::showBytes(disk_total_space($dir) - disk_free_space($dir)),
 		];
 		if (!empty($ini['INI_FILES']) || !empty($cliConf['INI_FILES'])) {
 			$params['LBL_PHPINIS'] = ['www' => $ini['INI_FILES'], 'cli' => $cliConf ? $cliConf['INI_FILES'] : ''];
@@ -407,8 +409,10 @@ class Settings_ConfReport_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$baseUrl = \AppConfig::main('site_URL');
 		$denyPublicDirState = [
+			'config/' => ['help' => 'LBL_DENY_PUBLIC_DIR_HELP_TEXT', 'status' => \App\Fields\File::isExistsUrl($baseUrl . 'config')],
 			'cache/' => ['help' => 'LBL_DENY_PUBLIC_DIR_HELP_TEXT', 'status' => \App\Fields\File::isExistsUrl($baseUrl . 'cache')],
 			'storage/' => ['help' => 'LBL_DENY_PUBLIC_DIR_HELP_TEXT', 'status' => \App\Fields\File::isExistsUrl($baseUrl . 'storage')],
+			'user_privileges/' => ['help' => 'LBL_DENY_PUBLIC_DIR_HELP_TEXT', 'status' => \App\Fields\File::isExistsUrl($baseUrl . 'user_privileges')],
 		];
 		return $denyPublicDirState;
 	}

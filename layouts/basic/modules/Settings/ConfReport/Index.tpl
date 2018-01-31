@@ -56,6 +56,43 @@
 							{/foreach}
 						</tbody>
 					</table>
+					<br />
+					<table class="table table-bordered table-condensed themeTableColor confTable">
+						<thead>
+							<tr class="blockHeader">
+								<th colspan="3" class="mediumWidthType">
+									{App\Language::translate('LBL_DATABASE_INFORMATION', $MODULE)}
+								</th>
+							</tr>
+							<tr class="blockHeader">
+								<th colspan="1" class="mediumWidthType">
+									<span>{App\Language::translate('LBL_PARAMETER', $MODULE)}</span>
+								</th>
+								<th colspan="1" class="mediumWidthType">
+									<span>{App\Language::translate('LBL_RECOMMENDED', $MODULE)}</span>
+								</th>
+								<th colspan="1" class="mediumWidthType">
+									<span>{App\Language::translate('LBL_VALUE', $MODULE)}</span>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{foreach from=Settings_ConfReport_Module_Model::getDbConf() key=key item=item}
+								<tr {if $item['status']}class="danger"{/if}>
+									<td>
+										<label>{App\Language::translate($key, $MODULE)}</label>
+										{if isset($item.help) && $item.status}<a href="#" class="popoverTooltip pull-right" data-trigger="focus" data-placement="rigth" data-content="{\App\Language::translateEncodeHtml($item.help, $MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
+									</td>
+									{if $item['recommended'] === false}
+										<td colspan="2"><label>{$item['current']}</label></td>
+											{else}
+										<td><label>{$item['recommended']}</label></td>
+										<td><label>{$item['current']}</label></td>
+									{/if}
+								</tr>
+							{/foreach}
+						</tbody>
+					</table>
 				</div>
 				<div class="col-md-4">
 					<table class="table table-bordered table-condensed themeTableColor confTable">
@@ -86,6 +123,41 @@
 									</td>
 									<td><label>{App\Language::translate($item.recommended, $MODULE)}</label></td>
 									<td><label>{App\Language::translate($item.current, $MODULE)}</label></td>
+								</tr>
+							{/foreach}
+						</tbody>
+					</table>
+					<br />
+					<table class="table table-bordered table-condensed themeTableColor confTable">
+						<thead>
+							<tr class="blockHeader">
+								<th colspan="3" class="mediumWidthType">
+									{App\Language::translate('LBL_ENVIRONMENTAL_INFORMATION', $MODULE)}
+								</th>
+							</tr>
+							<tr class="blockHeader">
+								<th colspan="1" class="mediumWidthType">
+									<span>{App\Language::translate('LBL_PARAMETER', $MODULE)}</span>
+								</th>
+								<th colspan="1" class="mediumWidthType">
+									<span>{App\Language::translate('LBL_WWW_VALUE', $MODULE)}</span>
+								</th>
+								<th colspan="1" class="mediumWidthType">
+									<span>{App\Language::translate('LBL_CLI_VALUE', $MODULE)}</span>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{foreach from=Settings_ConfReport_Module_Model::getSystemInfo() key=key item=item}
+								<tr>
+									<td><label>{App\Language::translate($key, $MODULE)}</label></td>
+									{if is_array($item)}
+										<td><label>{App\Language::translate($item['www'], $MODULE)}</label></td>
+										<td><label>{App\Language::translate($item['cli'], $MODULE)}</label></td>
+									{else}
+										<td colspan="2"><label>{$item}</label></td>
+											{/if}
+
 								</tr>
 							{/foreach}
 						</tbody>
@@ -132,45 +204,6 @@
 							{/foreach}
 						</tbody>
 					</table>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-4">
-					<br />
-					<table class="table table-bordered table-condensed themeTableColor confTable">
-						<thead>
-							<tr class="blockHeader">
-								<th colspan="3" class="mediumWidthType">
-									{App\Language::translate('LBL_ENVIRONMENTAL_INFORMATION', $MODULE)}
-								</th>
-							</tr>
-							<tr class="blockHeader">
-								<th colspan="1" class="mediumWidthType">
-									<span>{App\Language::translate('LBL_PARAMETER', $MODULE)}</span>
-								</th>
-								<th colspan="1" class="mediumWidthType">
-									<span>{App\Language::translate('LBL_WWW_VALUE', $MODULE)}</span>
-								</th>
-								<th colspan="1" class="mediumWidthType">
-									<span>{App\Language::translate('LBL_CLI_VALUE', $MODULE)}</span>
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							{foreach from=Settings_ConfReport_Module_Model::getSystemInfo() key=key item=item}
-								<tr>
-									<td><label>{App\Language::translate($key, $MODULE)}</label></td>
-									{if is_array($item)}
-										<td><label>{App\Language::translate($item['www'], $MODULE)}</label></td>
-										<td><label>{App\Language::translate($item['cli'], $MODULE)}</label></td>
-									{else}
-										<td colspan="2"><label>{$item}</label></td>
-									{/if}
-
-								</tr>
-							{/foreach}
-						</tbody>
-					</table>
 					<br>
 					<table class="table table-bordered table-condensed themeTableColor confTable">
 						<thead>
@@ -204,45 +237,6 @@
 											{/if}
 										</label>
 									</td>
-								</tr>
-							{/foreach}
-						</tbody>
-					</table>
-				</div>
-				<div class="col-md-8">
-					<br />
-					<table class="table table-bordered table-condensed themeTableColor confTable">
-						<thead>
-							<tr class="blockHeader">
-								<th colspan="3" class="mediumWidthType">
-									{App\Language::translate('LBL_DATABASE_INFORMATION', $MODULE)}
-								</th>
-							</tr>
-							<tr class="blockHeader">
-								<th colspan="1" class="mediumWidthType">
-									<span>{App\Language::translate('LBL_PARAMETER', $MODULE)}</span>
-								</th>
-								<th colspan="1" class="mediumWidthType">
-									<span>{App\Language::translate('LBL_RECOMMENDED', $MODULE)}</span>
-								</th>
-								<th colspan="1" class="mediumWidthType">
-									<span>{App\Language::translate('LBL_VALUE', $MODULE)}</span>
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							{foreach from=Settings_ConfReport_Module_Model::getDbConf() key=key item=item}
-								<tr {if $item['status']}class="danger"{/if}>
-									<td>
-										<label>{App\Language::translate($key, $MODULE)}</label>
-										{if isset($item.help) && $item.status}<a href="#" class="popoverTooltip pull-right" data-trigger="focus" data-placement="rigth" data-content="{\App\Language::translateEncodeHtml($item.help, $MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>{/if}
-									</td>
-									{if $item['recommended'] === false}
-										<td colspan="2"><label>{$item['current']}</label></td>
-											{else}
-										<td><label>{$item['recommended']}</label></td>
-										<td><label>{$item['current']}</label></td>
-									{/if}
 								</tr>
 							{/foreach}
 						</tbody>
