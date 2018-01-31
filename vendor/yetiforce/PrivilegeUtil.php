@@ -1308,8 +1308,7 @@ class PrivilegeUtil
 		Log::trace("Entering deleteSharingRule(" . $shareid . ") method ...");
 		$dbCommand = Db::getInstance()->createCommand();
 		$typestr = (new Db\Query())->select(['relationtype'])->from('vtiger_datashare_module_rel')->where(['shareid' => $shareid])->scalar();
-		$tableName = static::$shareRulesTables[$typestr];
-		$dbCommand->delete($tableName, ['shareid' => $shareid])->execute();
+		$dbCommand->delete(static::$shareRulesTables[$typestr], ['shareid' => $shareid])->execute();
 		$dbCommand->delete('vtiger_datashare_module_rel', ['shareid' => $shareid])->execute();
 		$dbCommand->delete('vtiger_datashare_relatedmodule_permission', ['shareid' => $shareid])->execute();
 		Log::trace("Exiting deleteSharingRule method ...");
