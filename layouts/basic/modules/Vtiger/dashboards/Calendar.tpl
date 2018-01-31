@@ -53,7 +53,7 @@
 		<div class="col-sm-12">
 			<div class="headerCalendar pinUnpinShortCut row" >
 				<div class="col-xs-2">
-					<button class="btn btn-default btn-sm" data-type="fc-prev-button"><span class="glyphicon glyphicon-chevron-left"></span></button>
+					<button class="btn btn-default btn-sm" data-type="fc-prev-button"><span class="fas fa-chevron-left"></span></button>
 				</div>
 				<div class="col-xs-8 month textAlignCenter paddingRightZero"> </div>
 				<div class="col-xs-2">

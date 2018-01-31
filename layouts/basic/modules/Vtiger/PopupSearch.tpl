@@ -42,7 +42,7 @@
 								<div class="btn-group alignTop margin0px">
 									<span class="pull-right">
 										<span class="btn-group" role="group">
-											<button class="btn btn-default" role="group" id="listViewPreviousPageButton" {if !$PAGING_MODEL->isPrevPageExists()} disabled {/if} type="button"><span class="glyphicon glyphicon-chevron-left"></span></button>
+											<button class="btn btn-default" role="group" id="listViewPreviousPageButton" {if !$PAGING_MODEL->isPrevPageExists()} disabled {/if} type="button"><span class="fas fa-chevron-left"></span></button>
 											<button class="btn btn-default dropdown-toggle" role="group" type="button" id="listViewPageJump" data-toggle="dropdown" {if $PAGE_COUNT eq 1} disabled {/if}>
 												<span class="vtGlyph vticon-pageJump" title="{\App\Language::translate('LBL_LISTVIEW_PAGE_JUMP',$moduleName)}"></span>
 											</button>
