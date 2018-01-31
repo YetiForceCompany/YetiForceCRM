@@ -41,15 +41,15 @@
 				<div class="btn-group pull-right pull-left-xs iconPreferences marginRight10" data-toggle="buttons">
 					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->isDefault()} active  btn-primary{/if}" title="{\App\Language::translate('LBL_SET_AS_DEFAULT',$MODULE)}" >
 						<input id="setdefault" name="setdefault" type="checkbox"  {if $CUSTOMVIEW_MODEL->isDefault()}checked="checked"{/if} value="1" />
-						<span class="far fa-heart" data-check="glyphicon-heart" data-unchecked="glyphicon-heart-empty"></span>
+						<span class="far fa-heart" data-check="fas fa-heart" data-unchecked="far fa-heart"></span>
 					</label>
 					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->isSetPublic()} active  btn-primary{/if}" title="{\App\Language::translate('LBL_SET_AS_PUBLIC',$MODULE)}">
 						<input id="status" name="status" type="checkbox" {if $CUSTOMVIEW_MODEL->isSetPublic()} value="{$CUSTOMVIEW_MODEL->get('status')}" checked="checked" {else} value="{$CV_PENDING_VALUE}" {/if} />
-						<span class="glyphicon glyphicon-eye-close" data-check="glyphicon-eye-open" data-unchecked="glyphicon-eye-close"></span>
+						<span class="far fa-eye-slash" data-check="fas fa-eye" data-unchecked="fa-eye-slash"></span>
 					</label>
 					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->isFeatured(true)} active btn-primary{/if}" title="{\App\Language::translate('LBL_FEATURED',$MODULE)}">
 						<input id="featured" name="featured" type="checkbox"  {if $CUSTOMVIEW_MODEL->isFeatured(true)} checked="checked"{/if} value="1" />
-						<span class="fal fa-star" data-check="glyphicon-star" data-unchecked="glyphicon-star-empty"></span>
+						<span class="fal fa-star" data-check="fas fa-star" data-unchecked="fal fa-star"></span>
 					</label>
 					<label class="btn btn-default{if $CUSTOMVIEW_MODEL->get('setmetrics')} active btn-primary{/if}" title="{\App\Language::translate('LBL_LIST_IN_METRICS',$MODULE)}">
 						<input id="setmetrics" name="setmetrics" type="checkbox" {if $CUSTOMVIEW_MODEL->get('setmetrics') eq '1'}checked="checked"{/if} value="1" />
