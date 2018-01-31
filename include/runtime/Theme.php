@@ -111,7 +111,7 @@ class Vtiger_Theme extends Vtiger_Viewer
 	 */
 	public static function getBaseStylePath()
 	{
-		return self::getBaseThemePath() . '/style.css';
+		return 'layouts/' . self::getLayoutName() . '/styles/Main.css';
 	}
 
 	/**

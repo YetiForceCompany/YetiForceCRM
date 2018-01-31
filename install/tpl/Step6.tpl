@@ -140,7 +140,7 @@
 				<div class="row">
 					<div class="span12 welcome-div alignCenter">
 						<h3>{\App\Language::translate('LBL_INSTALLATION_IN_PROGRESS','Install')}...</h3><br />
-						<img src="../{\App\Layout::getPublicUrl('layouts/basic/skins/images/install_loading.gif')}" alt="Install loading"/>
+						<img src="../{\App\Layout::getPublicUrl('layouts/basic/images/install_loading.gif')}" alt="Install loading"/>
 						<h6>{\App\Language::translate('LBL_PLEASE_WAIT','Install')}.... </h6>
 					</div>
 				</div>

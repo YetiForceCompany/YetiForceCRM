@@ -367,9 +367,9 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	{
 		$cssFileNames = [
 			'~libraries/bootstrap/dist/css/bootstrap.css',
-			'skins.icons.userIcons',
-			'skins.icons.adminIcons',
-			'skins.icons.additionalIcons',
+			'~layouts/resources/icons/userIcons.css',
+			'~layouts/resources/icons/adminIcons.css',
+			'~layouts/resources/icons/additionalIcons.css',
 			'~libraries/chosen-js/chosen.css',
 			'~libraries/bootstrap-chosen/bootstrap-chosen.css',
 			'~libraries/jquery-ui-dist/jquery-ui.css',
