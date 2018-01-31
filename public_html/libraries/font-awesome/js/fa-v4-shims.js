@@ -1,5 +1,5 @@
 /*!
- * Font Awesome Free 5.0.4 by @fontawesome - http://fontawesome.com
+ * Font Awesome Free 5.0.6 by @fontawesome - http://fontawesome.com
  * License - http://fontawesome.com/license (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  */
 (function (global, factory) {
@@ -19,6 +19,7 @@ var _ref$userAgent = _ref.userAgent;
 var userAgent = _ref$userAgent === undefined ? '' : _ref$userAgent;
 
 var WINDOW = _WINDOW;
+
 
 
 
