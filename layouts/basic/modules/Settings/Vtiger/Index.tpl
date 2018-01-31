@@ -43,7 +43,7 @@
 												{/if}
 												{if $ITEM->getLink()}
 													<a class="btn btn-success" href="{$ITEM->getLink()}" target="_blank">
-														<span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+														<span class="fas fa-link" aria-hidden="true"></span>
 														&nbsp;&nbsp;{$ITEM->linkTitle}
 													</a>&nbsp;&nbsp;
 												{/if}

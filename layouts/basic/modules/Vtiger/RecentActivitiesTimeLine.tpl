@@ -126,7 +126,7 @@
 										</div>
 									</div>
 								{else if ($RECENT_ACTIVITY->isRelationLink() || $RECENT_ACTIVITY->isRelationUnLink())}
-									<span class="glyphicon glyphicon-link bgOrange"></span>
+									<span class="fas fa-link bgOrange"></span>
 									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if} isRelationLink isRelationUnLink">
 										<div class="float-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}

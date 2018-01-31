@@ -47,7 +47,7 @@
 						{/if}
 						{if $ITEM->getLink()}
 							<a class="btn btn-success btn-xs {if isset($ITEM->linkTitle)}popoverTooltip{/if}" href="{$ITEM->getLink()}" {if isset($ITEM->linkTitle)}data-placement="top" data-content="{$ITEM->linkTitle}"{/if} target="_blank">
-								<span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+								<span class="fas fa-link" aria-hidden="true"></span>
 							</a>&nbsp;&nbsp;
 						{/if}
 						{if $ITEM->getDescription()}
