@@ -1,5 +1,5 @@
 /*!
- * Font Awesome Free 5.0.4 by @fontawesome - http://fontawesome.com
+ * Font Awesome Free 5.0.6 by @fontawesome - http://fontawesome.com
  * License - http://fontawesome.com/license (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  */
 (function () {
@@ -28,13 +28,14 @@ var DOCUMENT = _DOCUMENT;
 var MUTATION_OBSERVER = _MUTATION_OBSERVER$1;
 var PERFORMANCE = _PERFORMANCE;
 var IS_BROWSER = !!WINDOW.document;
+var IS_DOM = !!DOCUMENT.documentElement && !!DOCUMENT.head && typeof DOCUMENT.addEventListener === 'function' && typeof DOCUMENT.createElement === 'function';
 var IS_IE = ~userAgent.indexOf('MSIE') || ~userAgent.indexOf('Trident/');
 
 var NAMESPACE_IDENTIFIER = '___FONT_AWESOME___';
 var UNITS_IN_GRID = 16;
 var DEFAULT_FAMILY_PREFIX = 'fa';
 var DEFAULT_REPLACEMENT_CLASS = 'svg-inline--fa';
-var DATA_FA_PROCESSED = 'data-fa-processed';
+var DATA_FA_I2SVG = 'data-fa-i2svg';
 var DATA_FA_PSEUDO_ELEMENT = 'data-fa-pseudo-element';
 var HTML_CLASS_I2SVG_BASE_CLASS = 'fontawesome-i2svg';
 
@@ -81,20 +82,7 @@ var createClass = function () {
   };
 }();
 
-var defineProperty = function (obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
 
-  return obj;
-};
 
 var _extends = Object.assign || function (target) {
   for (var i = 1; i < arguments.length; i++) {
@@ -188,14 +176,14 @@ var listener = function listener() {
 
 var loaded = false;
 
-if (IS_BROWSER) {
+if (IS_DOM) {
   loaded = (DOCUMENT.documentElement.doScroll ? /^loaded|^c/ : /^loaded|^i|^c/).test(DOCUMENT.readyState);
 
   if (!loaded) DOCUMENT.addEventListener('DOMContentLoaded', listener);
 }
 
 var domready = function (fn) {
-  if (!DOCUMENT) return;
+  if (!IS_DOM) return;
   loaded ? setTimeout(fn, 0) : functions.push(fn);
 };
 
@@ -225,11 +213,7 @@ function bunker(fn) {
 }
 
 function insertCss(css) {
-  if (!css) {
-    return;
-  }
-
-  if (typeof DOCUMENT.createElement === 'undefined') {
+  if (!css || !IS_DOM) {
     return;
   }
 
@@ -512,8 +496,6 @@ var asSymbol = function (_ref) {
 };
 
 function makeInlineSvgAbstract(params) {
-  var _babelHelpers$extends;
-
   var _params$icons = params.icons,
       main = _params$icons.main,
       mask = _params$icons.mask,
@@ -522,7 +504,9 @@ function makeInlineSvgAbstract(params) {
       transform = params.transform,
       symbol = params.symbol,
       title = params.title,
-      extra = params.extra;
+      extra = params.extra,
+      _params$watchable = params.watchable,
+      watchable = _params$watchable === undefined ? false : _params$watchable;
 
   var _ref = mask.found ? mask : main,
       width = _ref.width,
@@ -533,8 +517,19 @@ function makeInlineSvgAbstract(params) {
 
   var content = {
     children: [],
-    attributes: _extends({}, extra.attributes, (_babelHelpers$extends = {}, defineProperty(_babelHelpers$extends, DATA_FA_PROCESSED, ''), defineProperty(_babelHelpers$extends, 'data-prefix', prefix), defineProperty(_babelHelpers$extends, 'data-icon', iconName), defineProperty(_babelHelpers$extends, 'class', attrClass), defineProperty(_babelHelpers$extends, 'role', 'img'), defineProperty(_babelHelpers$extends, 'xmlns', 'http://www.w3.org/2000/svg'), defineProperty(_babelHelpers$extends, 'viewBox', '0 0 ' + width + ' ' + height), _babelHelpers$extends))
+    attributes: _extends({}, extra.attributes, {
+      'data-prefix': prefix,
+      'data-icon': iconName,
+      'class': attrClass,
+      'role': 'img',
+      'xmlns': 'http://www.w3.org/2000/svg',
+      'viewBox': '0 0 ' + width + ' ' + height
+    })
   };
+
+  if (watchable) {
+    content.attributes[DATA_FA_I2SVG] = '';
+  }
 
   if (title) content.children.push({ tag: 'title', attributes: { id: content.attributes['aria-labelledby'] || 'title-' + nextUniqueId() }, children: [title] });
 
@@ -563,17 +558,23 @@ function makeInlineSvgAbstract(params) {
 }
 
 function makeLayersTextAbstract(params) {
-  var _babelHelpers$extends2;
-
   var content = params.content,
       width = params.width,
       height = params.height,
       transform = params.transform,
       title = params.title,
-      extra = params.extra;
+      extra = params.extra,
+      _params$watchable2 = params.watchable,
+      watchable = _params$watchable2 === undefined ? false : _params$watchable2;
 
 
-  var attributes = _extends({}, extra.attributes, title ? { 'title': title } : {}, (_babelHelpers$extends2 = {}, defineProperty(_babelHelpers$extends2, DATA_FA_PROCESSED, ''), defineProperty(_babelHelpers$extends2, 'class', extra.classes.join(' ')), _babelHelpers$extends2));
+  var attributes = _extends({}, extra.attributes, title ? { 'title': title } : {}, {
+    'class': extra.classes.join(' ')
+  });
+
+  if (watchable) {
+    attributes[DATA_FA_I2SVG] = '';
+  }
 
   var styles = _extends({}, extra.styles);
 
@@ -605,7 +606,7 @@ function makeLayersTextAbstract(params) {
 
 var noop$2 = function noop() {};
 var p = config.measurePerformance && PERFORMANCE && PERFORMANCE.mark && PERFORMANCE.measure ? PERFORMANCE : { mark: noop$2, measure: noop$2 };
-var preamble = 'FA "5.0.4"';
+var preamble = 'FA "5.0.6"';
 
 var begin = function begin(name) {
   p.mark(preamble + ' ' + name + ' begins');
@@ -789,14 +790,10 @@ function toHtml(abstractNodes) {
 
 var noop$1 = function noop() {};
 
-function isReplaced(node) {
-  var nodeClass = node.getAttribute ? node.getAttribute('class') : null;
+function isWatched(node) {
+  var i2svg = node.getAttribute ? node.getAttribute(DATA_FA_I2SVG) : null;
 
-  if (nodeClass) {
-    return !!~nodeClass.toString().indexOf(config.replacementClass) || ~nodeClass.toString().indexOf('fa-layers-text');
-  } else {
-    return false;
-  }
+  return typeof i2svg === 'string';
 }
 
 function getMutator() {
@@ -855,7 +852,7 @@ var mutators = {
       return toHtml(a);
     }).join('\n');
     node.setAttribute('class', splitClasses.toNode.join(' '));
-    node.setAttribute(DATA_FA_PROCESSED, '');
+    node.setAttribute(DATA_FA_I2SVG, '');
     node.innerHTML = newInnerHTML;
   }
 };
@@ -898,11 +895,12 @@ function observe(options) {
       nodeCallback = options.nodeCallback,
       pseudoElementsCallback = options.pseudoElementsCallback;
 
+
   var mo = new MUTATION_OBSERVER(function (objects) {
     if (disabled) return;
 
     toArray(objects).forEach(function (mutationRecord) {
-      if (mutationRecord.type === 'childList' && mutationRecord.addedNodes.length > 0 && !isReplaced(mutationRecord.addedNodes[0])) {
+      if (mutationRecord.type === 'childList' && mutationRecord.addedNodes.length > 0 && !isWatched(mutationRecord.addedNodes[0])) {
         if (config.searchPseudoElements) {
           pseudoElementsCallback(mutationRecord.target);
         }
@@ -914,7 +912,7 @@ function observe(options) {
         pseudoElementsCallback(mutationRecord.target.parentNode);
       }
 
-      if (mutationRecord.type === 'attributes' && isReplaced(mutationRecord.target) && ~ATTRIBUTES_WATCHED_FOR_MUTATION.indexOf(mutationRecord.attributeName)) {
+      if (mutationRecord.type === 'attributes' && isWatched(mutationRecord.target) && ~ATTRIBUTES_WATCHED_FOR_MUTATION.indexOf(mutationRecord.attributeName)) {
         if (mutationRecord.attributeName === 'class') {
           var _getCanonicalIcon = getCanonicalIcon(classArray(mutationRecord.target)),
               prefix = _getCanonicalIcon.prefix,
@@ -929,7 +927,7 @@ function observe(options) {
     });
   });
 
-  if (!DOCUMENT.getElementsByTagName) return;
+  if (!IS_DOM) return;
 
   mo.observe(DOCUMENT.getElementsByTagName('body')[0], {
     childList: true, attributes: true, characterData: true, subtree: true
@@ -1234,7 +1232,8 @@ function generateSvgReplacementMutation(node, nodeMeta) {
     symbol: symbol,
     mask: mask,
     title: title,
-    extra: extra
+    extra: extra,
+    watchable: true
   })];
 }
 
@@ -1264,7 +1263,8 @@ function generateLayersText(node, nodeMeta) {
     height: height,
     transform: transform,
     title: title,
-    extra: extra
+    extra: extra,
+    watchable: true
   })];
 }
 
@@ -1287,6 +1287,8 @@ function remove(node) {
 }
 
 function searchPseudoElements(root) {
+  if (!IS_DOM) return;
+
   var end = perf.begin('searchPseudoElements');
 
   disableObservation(function () {
@@ -1329,6 +1331,8 @@ function searchPseudoElements(root) {
 function onTree(root) {
   var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
+  if (!IS_DOM) return;
+
   var htmlClassList = DOCUMENT.documentElement.classList;
   var hclAdd = function hclAdd(suffix) {
     return htmlClassList.add(HTML_CLASS_I2SVG_BASE_CLASS + '-' + suffix);
@@ -1337,8 +1341,8 @@ function onTree(root) {
     return htmlClassList.remove(HTML_CLASS_I2SVG_BASE_CLASS + '-' + suffix);
   };
   var prefixes = Object.keys(styles);
-  var prefixesDomQuery = ['.' + LAYERS_TEXT_CLASSNAME + ':not([' + DATA_FA_PROCESSED + '])'].concat(prefixes.map(function (p) {
-    return '.' + p + ':not([' + DATA_FA_PROCESSED + '])';
+  var prefixesDomQuery = ['.' + LAYERS_TEXT_CLASSNAME + ':not([' + DATA_FA_I2SVG + '])'].concat(prefixes.map(function (p) {
+    return '.' + p + ':not([' + DATA_FA_I2SVG + '])';
   })).join(', ');
 
   if (prefixesDomQuery.length === 0) {
@@ -1537,7 +1541,7 @@ function apiObject(val, abstractCreator) {
 
   Object.defineProperty(val, 'node', {
     get: function get() {
-      if (!DOCUMENT.createElement) return;
+      if (!IS_DOM) return;
 
       var container = DOCUMENT.createElement('div');
       container.innerHTML = val.html;
@@ -1585,19 +1589,21 @@ var dom = {
   i2svg: function i2svg() {
     var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-    ensureCss();
+    if (IS_DOM) {
+      ensureCss();
 
-    var _params$node = params.node,
-        node = _params$node === undefined ? DOCUMENT : _params$node,
-        _params$callback = params.callback,
-        callback = _params$callback === undefined ? function () {} : _params$callback;
+      var _params$node = params.node,
+          node = _params$node === undefined ? DOCUMENT : _params$node,
+          _params$callback = params.callback,
+          callback = _params$callback === undefined ? function () {} : _params$callback;
 
 
-    if (config.searchPseudoElements) {
-      searchPseudoElements(node);
+      if (config.searchPseudoElements) {
+        searchPseudoElements(node);
+      }
+
+      onTree(node, callback);
     }
-
-    onTree(node, callback);
   },
 
   css: css,
@@ -1730,7 +1736,7 @@ var api = {
 };
 
 var autoReplace = function autoReplace() {
-  if (config.autoReplaceSvg) api.dom.i2svg({ node: DOCUMENT });
+  if (IS_DOM && config.autoReplaceSvg) api.dom.i2svg({ node: DOCUMENT });
 };
 
 function bootstrap() {
