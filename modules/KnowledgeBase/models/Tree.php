@@ -113,7 +113,7 @@ class KnowledgeBase_Tree_Model extends \App\Base
 				'record_id' => $item['id'],
 				'parent' => $parent == 0 ? '#' : $parent,
 				'text' => $item['subject'],
-				'icon' => 'glyphicon glyphicon-file'
+				'icon' => 'fas fa-file'
 			];
 		};
 		return $tree;
