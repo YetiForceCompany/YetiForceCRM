@@ -9,7 +9,7 @@
 			{/if}
 			<div class="col-md-4">
 				<button class="btn btn-xs btn-light recordCount" data-url="{\App\Purifier::encodeHtml($MINILIST_WIDGET_MODEL->getTotalCountURL($OWNER))}">
-					<span class="glyphicon glyphicon-equalizer" title="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}"></span>
+					<span class="fab fa-gitter" title="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}"></span>
 					<a class="float-left hide" href="{\App\Purifier::encodeHtml($MINILIST_WIDGET_MODEL->getListViewURL($OWNER))}"><span class="count badge float-left"></span></a>
 				</button>
 			</div>

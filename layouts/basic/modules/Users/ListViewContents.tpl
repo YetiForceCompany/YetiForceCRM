@@ -142,7 +142,7 @@
 							<td {if !empty($LISTVIEW_HEADER->get('maxwidthcolumn'))}style="width:{$LISTVIEW_HEADER->get('maxwidthcolumn')}%"{/if} {if $LISTVIEW_HEADER@last}colspan="2"{/if} class="noWrap {if !empty($LISTVIEW_HEADER->isCalculateField())}border{/if}" >
 								{if !empty($LISTVIEW_HEADER->isCalculateField())}
 									<button class="btn btn-xs btn-light popoverTooltip" data-operator="sum" data-field="{$LISTVIEW_HEADER->getName()}" data-content="{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}">
-										<span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span>
+										<span class="fab fa-gitter" aria-hidden="true"></span>
 									</button>
 									<span class="calculateValue"></span>
 								{/if}
