@@ -49,7 +49,7 @@
 					{/foreach}
 				</select>
 			</div>
-			<button type="button" class="btn btn-danger moveItem" data-source="remove" data-target="add" data-action="remove" title="{\App\Language::translate('LBL_RECEIVE_PERMISSION', $MODULE_NAME)}"><span class="glyphicon glyphicon-arrow-up"></span></button>
+			<button type="button" class="btn btn-danger moveItem" data-source="remove" data-target="add" data-action="remove" title="{\App\Language::translate('LBL_RECEIVE_PERMISSION', $MODULE_NAME)}"><span class="fas fa-arrow-up"></span></button>
 		</div>
 	</div>
 </div>

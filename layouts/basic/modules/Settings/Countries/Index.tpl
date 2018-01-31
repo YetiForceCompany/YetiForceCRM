@@ -47,7 +47,7 @@
 								</span>
 								<span class="float-right actions">
 									<button class="to-top btn btn-light btn-xs marginLeft20 popoverTooltip" data-placement="left" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_ROW_TO_TOP', $QUALIFIED_MODULE))}">
-										<span class="glyphicon glyphicon-arrow-up"></span>
+										<span class="fas fa-arrow-up"></span>
 									</button>
 								</span>
 
