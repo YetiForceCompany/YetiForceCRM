@@ -821,12 +821,12 @@ class QueryGenerator
 		}
 		$field = $this->getModuleField($fieldName);
 		if (empty($field)) {
-			Log::error('Not found field model');
+			Log::error('Not found field model | Field name: ' . $fieldName);
 			throw new \App\Exceptions\AppException('LBL_NOT_FOUND_FIELD_MODEL');
 		}
 		$className = '\App\QueryField\\' . ucfirst($field->getFieldDataType()) . 'Field';
 		if (!class_exists($className)) {
-			Log::error('Not found query field condition');
+			Log::error('Not found query field condition | FieldDataType: ' . ucfirst($field->getFieldDataType()));
 			throw new \App\Exceptions\AppException('LBL_NOT_FOUND_QUERY_FIELD_CONDITION');
 		}
 		$queryField = new $className($this, $field);
