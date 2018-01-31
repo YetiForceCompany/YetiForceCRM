@@ -195,7 +195,7 @@
 										</div>
 									</div>
 								{else if $RECENT_ACTIVITY->isConvertToAccount()}
-									<span class="fa fa-exchange bgAzure"></span>
+									<span class="fas fa-exchange-alt bgAzure"></span>
 									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if} isConvertToAccount">
 										<div class="float-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
@@ -215,7 +215,7 @@
 										</div>
 									</div>
 								{else if $RECENT_ACTIVITY->isDisplayed()}
-									<span class="fa fa-th-list bgAzure"></span>
+									<span class="fas fa-th-list bgAzure"></span>
 									<div class="timeline-item isDisplayed">
 										<div class="float-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}

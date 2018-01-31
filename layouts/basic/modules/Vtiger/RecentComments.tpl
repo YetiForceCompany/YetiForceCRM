@@ -23,7 +23,7 @@
 						<textarea name="commentcontent" rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="commentcontent form-control" title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" ></textarea>
 					</div>
 					<button class="btn btn-success detailViewSaveComment  marginTop10 float-right" type="button" data-mode="add">
-						<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
+						<span class="visible-xs-inline-block fas fa-check"></span>
 						<strong class="hidden-xs">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
 					</button>
 					<div class="clearfix"></div>
@@ -92,7 +92,7 @@
 											{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 												<span>
 													<button type="button" class="btn btn-xs btn-success replyComment feedback">
-														<span class="fa fa-share" aria-hidden="true"></span>&nbsp;
+														<span class="fas fa-share" aria-hidden="true"></span>&nbsp;
 														{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}
 													</button>
 													{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
@@ -143,7 +143,7 @@
 							<strong class="hidden-xs">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 						</button>
 						<button class="btn btn-success saveComment marginTop10 float-right" type="button" data-mode="add">
-							<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
+							<span class="visible-xs-inline-block fas fa-check"></span>
 							<strong class="hidden-xs">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
 						</button>
 					</div>
@@ -169,7 +169,7 @@
 							<strong class="hidden-xs">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 						</button>
 						<button class="btn btn-success saveComment marginTop10 float-right" type="button" data-mode="edit">
-							<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
+							<span class="visible-xs-inline-block fas fa-check"></span>
 							<strong class="hidden-xs">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
 						</button>
 					</div>

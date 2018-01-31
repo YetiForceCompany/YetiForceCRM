@@ -66,7 +66,7 @@
 							</div>
 							<div class="col-xs-2 paddingLRZero">
 								<button type="button" class="btn btn-success btn-xs float-right setAsMarked" title="{\App\Language::translate('LBL_MARK_AS_READ',$MODULE_NAME)}">
-									<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+									<span class="fas fa-check" aria-hidden="true"></span>
 								</button>
 							</div>
 						</div>

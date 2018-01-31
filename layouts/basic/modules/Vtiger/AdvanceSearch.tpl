@@ -47,11 +47,11 @@
 					<button class="btn btn-info float-right" id="advanceSearchButton" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if}  type="submit"><span class="fas fa-search margin-right5px"></span><strong>{\App\Language::translate('LBL_SEARCH', $MODULE)}</strong></button>
 					{if $SAVE_FILTER_PERMITTED}
 						<button class="btn hide btn-success float-right" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceSave">
-							<span class="glyphicon glyphicon-ok margin-right5px"></span><strong>{\App\Language::translate('LBL_SAVE_FILTER', $MODULE)}</strong>
+							<span class="fas fa-check margin-right5px"></span><strong>{\App\Language::translate('LBL_SAVE_FILTER', $MODULE)}</strong>
 						</button>
 						{if \App\Privilege::isPermitted($SOURCE_MODULE, 'CreateCustomFilter')}
 							<button class="btn btn-success float-right" {if $SOURCE_MODULE eq 'Home'} disabled="" {/if} id="advanceIntiateSave">
-								<span class="glyphicon glyphicon-ok margin-right5px"></span><strong>{\App\Language::translate('LBL_SAVE_AS_FILTER', $MODULE)}</strong>
+								<span class="fas fa-check margin-right5px"></span><strong>{\App\Language::translate('LBL_SAVE_AS_FILTER', $MODULE)}</strong>
 							</button>
 						{/if}
 						<div class="col-xs-3 float-right">

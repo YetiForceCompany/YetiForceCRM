@@ -24,7 +24,7 @@
 					<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" name="commentcontent" class="commentcontent form-control" title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
 				</div>
 				<button class="btn btn-success marginTop10 saveComment float-right" type="button" data-mode="add">
-					<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
+					<span class="visible-xs-inline-block fas fa-check"></span>
 					<strong class="hidden-xs">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
 				</button>
 			</div>
@@ -69,7 +69,7 @@
 					<strong class="hidden-xs">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 				</button>
 				<button class="btn btn-success marginTop10 saveComment float-right" type="button" data-mode="add">
-					<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
+					<span class="visible-xs-inline-block fas fa-check"></span>
 					<strong class="hidden-xs">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
 				</button>
 			</div>
@@ -95,7 +95,7 @@
 					<strong class="hidden-xs">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 				</button>
 				<button class="btn btn-success marginTop10 saveComment float-right" type="button" data-mode="edit">
-					<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
+					<span class="visible-xs-inline-block fas fa-check"></span>
 					<strong class="hidden-xs">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
 				</button>
 			</div>

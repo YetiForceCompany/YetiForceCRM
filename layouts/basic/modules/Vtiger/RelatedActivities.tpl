@@ -54,7 +54,7 @@
 					{/if}
 					{if $RECORD->isViewable()}&nbsp;
 						<a href="{$RECORD->getDetailViewUrl()}" class="fieldValue">
-							<span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}" class="fa fa-th-list summaryViewEdit"></span>
+							<span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}" class="fas fa-th-list summaryViewEdit"></span>
 						</a>
 					{/if}
 				</div>
@@ -71,7 +71,7 @@
 									</strong>&nbsp;&nbsp;
 									{if $DATA_TYPE != 'history'}
 										<span class="editDefaultStatus float-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{\App\Language::translate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}">
-											<span class="glyphicon glyphicon-ok"></span>
+											<span class="fas fa-check"></span>
 										</span>
 									{/if}
 								</div>
@@ -83,7 +83,7 @@
 								<div>
 									<strong><span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;<span class="value">{$RECORD->getDisplayValue('status')}</span></strong>&nbsp;&nbsp;
 										{if $DATA_TYPE != 'history'}
-										<span class="editDefaultStatus float-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{\App\Language::translate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}"><span class="glyphicon glyphicon-ok"></span></span>
+										<span class="editDefaultStatus float-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{\App\Language::translate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}"><span class="fas fa-check"></span></span>
 										{/if}
 								</div>
 							{/if}
@@ -106,7 +106,7 @@
 						{/if}
 						{if $RECORD->get('location')}
 							<a target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/{urlencode ($RECORD->getDisplayValue('location'))}" class="float-right popoverTooltip delay0" data-original-title="{\App\Language::translate('Location', 'Calendar')}" data-content="{$RECORD->getDisplayValue('location')}">
-								<span class="glyphicon glyphicon-map-marker"></span>&nbsp
+								<span class="fas fa-map-marker-alt"></span>&nbsp
 							</a>
 						{/if}
 						<span class="float-right popoverTooltip delay0" data-placement="left" data-class="activities" data-original-title="{\App\Purifier::encodeHtml($RECORD->getDisplayValue('activitytype',false, true,true))}: {\App\Purifier::encodeHtml($RECORD->getDisplayValue('subject',false,false,40))}"
@@ -135,7 +135,7 @@
 								  {/foreach}
 							  {/if}
 						{/if}">
-						<span class="fa fa-info-circle"></span>
+						<span class="fas fa-info-circle"></span>
 					</span>
 					{if !$IS_READ_ONLY && $RECORD->isEditable()}
 						<span class="2 edit hide row">

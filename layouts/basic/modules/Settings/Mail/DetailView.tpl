@@ -9,12 +9,12 @@
 			{if $RECORD_MODEL}
 				<div class="float-right btn-toolbar"><span class="actionImages">
 						<button class="btn btn-info sendManually">
-							<span class="fa fa-paper-plane"></span>
+							<span class="fas fa-paper-plane"></span>
 							<strong class="marginLeft5">{App\Language::translate('LBL_MANUAL_SENDING', $QUALIFIED_MODULE)}</strong>
 						</button>
 						{if $RECORD_MODEL->get('status') eq 0}
 							<button class="btn btn-success acceptanceRecord marginLeft5">
-								<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;
+								<span class="fas fa-check" aria-hidden="true"></span>&nbsp;
 								<strong>{App\Language::translate('LBL_ACCEPTANCE_RECORD', $QUALIFIED_MODULE)}</strong>
 							</button>
 						{/if}

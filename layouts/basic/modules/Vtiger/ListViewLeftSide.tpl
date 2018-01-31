@@ -14,7 +14,7 @@
 			</div>
 			{if !$ONLY_ONE}
 				<button type="button" class="btn btn-sm btn-light toolsAction">
-					<span class="fa fa-wrench"></span>
+					<span class="fas fa-wrench"></span>
 				</button>
 			{/if}
 		</div>

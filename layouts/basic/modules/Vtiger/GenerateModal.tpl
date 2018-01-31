@@ -15,7 +15,7 @@
 					</label>
 					<span class="popoverTooltip delay0"  data-placement="top"
 						  data-content="{\App\Language::translate('LBL_AUTOGENERATE_INFO',$BASE_MODULE_NAME)}">
-						<span class="fa fa-info-circle"></span>
+						<span class="fas fa-info-circle"></span>
 					</span>
 				</div>
 				<div class="radio-inline">
@@ -25,7 +25,7 @@
 					</label>
 					<span class="popoverTooltip delay0"  data-placement="top"
 						  data-content="{\App\Language::translate('LBL_OPEN_NEW_WINDOWS_INFO',$BASE_MODULE_NAME)}">
-						<span class="fa fa-info-circle"></span>
+						<span class="fas fa-info-circle"></span>
 					</span>
 				</div>
 			</div>

@@ -55,7 +55,7 @@
 									<td>
 										<button data-fieldId="{$SELECTED_PICKLIST_FIELD_ID}" data-fieldValueId="{$PICKLIST_VALUE['picklistValueId']}" data-type="PicklistItem" class="btn btn-sm btn-danger marginLeft10 removePicklistValueColor"><span class="fas fa-trash-alt" aria-hidden="true"></span> {\App\Language::translate('LBL_REMOVE_COLOR',$QUALIFIED_MODULE)}</button>
 										<button data-fieldId="{$SELECTED_PICKLIST_FIELD_ID}" data-fieldValueId="{$PICKLIST_VALUE['picklistValueId']}" data-type="PicklistItem" class="btn btn-sm btn-primary marginLeft10 updatePicklistValueColor"><span class="fas fa-pencil-alt" aria-hidden="true"></span> {\App\Language::translate('LBL_UPDATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
-										<button data-fieldId="{$SELECTED_PICKLIST_FIELD_ID}" data-fieldValueId="{$PICKLIST_VALUE['picklistValueId']}" data-type="PicklistItem" class="btn btn-sm btn-warning generatePicklistValueColor"><span class="fa fa-repeat" aria-hidden="true"></span> {\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
+										<button data-fieldId="{$SELECTED_PICKLIST_FIELD_ID}" data-fieldValueId="{$PICKLIST_VALUE['picklistValueId']}" data-type="PicklistItem" class="btn btn-sm btn-warning generatePicklistValueColor"><span class="fas fa-redo-alt" aria-hidden="true"></span> {\App\Language::translate('LBL_GENERATE_COLOR',$QUALIFIED_MODULE)}</button>&ensp;
 									</td>
 								</tr>
 							{/foreach}

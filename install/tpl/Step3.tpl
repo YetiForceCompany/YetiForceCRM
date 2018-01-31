@@ -16,19 +16,19 @@
 
 		<div class="row main-container">
 			<div class="inner-container">
-				<div class="float-right">
+				<div class="pull-right">
 					<a class="helpBtn" href="https://yetiforce.com/en/implementer/installation-updates/103-web-server-requirements.html" target="_blank" rel="noreferrer">
-						<span class="fa fa-info-circle" aria-hidden="true"></span>
+						<span class="fas fa-info-circle" aria-hidden="true"></span>
 					</a>
 				</div>
 				<h4>{App\Language::translate('LBL_INSTALL_PREREQUISITES', 'Install')}</h4>
 				<hr>
 				<div>
 					<div class="offset2">
-						<div class="float-right">
+						<div class="pull-right">
 							<div class="button-container">
 								<a href ="#">
-									<input type="button" class="btn btn-light" value="{App\Language::translate('LBL_RECHECK', 'Install')}" id='recheck'/>
+									<input type="button" class="btn btn-default" value="{App\Language::translate('LBL_RECHECK', 'Install')}" id='recheck'/>
 								</a>
 							</div>
 						</div>
@@ -76,7 +76,7 @@
 										<tr {if $item.status}class="danger"{/if}>
 											<td>
 												<label>{$key}</label>
-												{if isset($item.help)}<a href="#" class="popoverTooltip float-right" data-placement="rigth" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><i class="fa fa-info-circle"></i></a>{/if}
+												{if isset($item.help)}<a href="#" class="popoverTooltip float-right" data-placement="rigth" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><i class="fas fa-info-circle"></i></a>{/if}
 											</td>
 											<td><label>{App\Language::translate($item.recommended, 'Settings::ConfReport')}</label></td>
 											<td><label>{App\Language::translate($item.current, 'Settings::ConfReport')}</label></td>
@@ -99,7 +99,7 @@
 										<tr {if $item.status}class="danger"{/if}>
 											<td>
 												<label>{$key}</label>
-												{if isset($item.help)}<a href="#" class="popoverTooltip float-right" data-placement="rigth" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><i class="fa fa-info-circle"></i></a>{/if}
+												{if isset($item.help)}<a href="#" class="popoverTooltip float-right" data-placement="rigth" data-content="{App\Language::translate($item.help, 'Settings::ConfReport')}"><i class="fas fa-info-circle"></i></a>{/if}
 											</td>
 											<td><label>{App\Language::translate($item.recommended, 'Settings::ConfReport')}</label></td>
 											<td><label>{App\Language::translate($item.current, 'Settings::ConfReport')}</label></td>
@@ -144,7 +144,7 @@
 				</div>
 				<div class="row">
 					<div class="button-container">
-						<a class="btn btn-sm btn-light" href="Install.php" >{App\Language::translate('LBL_BACK', 'Install')}</a>
+						<a class="btn btn-sm btn-default" href="Install.php" >{App\Language::translate('LBL_BACK', 'Install')}</a>
 						<input type="button" class="btn btn-sm btn-primary" value="{App\Language::translate('LBL_NEXT', 'Install')}" name="step4"/>
 					</div>
 				</div>

@@ -23,7 +23,7 @@
 			<div class='row alert alert-info'>
 				<span class='col-md-3'></span>
 				<span class='span alert-info'>
-					<span class="fa fa-info-circle"></span>
+					<span class="fas fa-info-circle"></span>
 					{\App\Language::translate('LBL_CLICK_THROUGH_NOT_AVAILABLE', $MODULE)}
 				</span>
 			</div>

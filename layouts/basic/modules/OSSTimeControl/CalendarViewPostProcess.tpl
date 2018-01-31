@@ -2,7 +2,7 @@
 {strip}
 <div class="{if $USER_MODEL->get('leftpanelhide')}leftPanelOpen {/if}siteBarRight calendarRightPanel hideSiteBar col-xs-12" data-showPanel="{if !AppConfig::module($MODULE, 'SHOW_RIGHT_PANEL')}0{else}1{/if}" id="rightPanel">
 	<div class="btn btn-block toggleSiteBarRightButton hideToggleSiteBarRightButton hidden-xs hidden-sm" title="{\App\Language::translate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}">
-		<span class="glyphicon glyphicon-chevron-left"></span>
+		<span class="fas fa-chevron-left"></span>
 	</div>
 	<div class="siteBarContent paddingTop10">
 		<div class="alert alert-danger refreshHeader hide" role="alert">
@@ -13,7 +13,7 @@
 					</div>
 					<div class="col-lg-6 col-md-12 col-xs-5 paddingTop10-md paddingLRZero float-right">
 						<button name="drefresh" class="btn btn-danger btn-xs pull-left-md pull-right-lg pull-right-xs pull-right-sm refreshCalendar cursorPointer">
-							<span class="glyphicon glyphicon-refresh icon-white" hspace="0" border="0" title="{\App\Language::translate('LBL_REFRESH')}" alt="{\App\Language::translate('LBL_REFRESH')}"></span>
+							<span class="fas fa-sync-alt icon-white" hspace="0" border="0" title="{\App\Language::translate('LBL_REFRESH')}" alt="{\App\Language::translate('LBL_REFRESH')}"></span>
 							&nbsp;{\App\Language::translate('LBL_REFRESH')}
 						</button>
 					</div>

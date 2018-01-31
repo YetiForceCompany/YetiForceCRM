@@ -46,7 +46,7 @@ class Reports_DetailView_Model extends Vtiger_DetailView_Model
 			$detailViewLinks[] = [
 				'linklabel' => \App\Language::translate('LBL_REPORT_PRINT', $moduleName),
 				'linkurl' => $recordModel->getReportPrintURL(),
-				'linkicon' => 'fa fa-print'
+				'linkicon' => 'fas fa-print'
 			];
 		}
 
@@ -55,13 +55,13 @@ class Reports_DetailView_Model extends Vtiger_DetailView_Model
 			$detailViewLinks[] = [
 				'linklabel' => \App\Language::translate('LBL_REPORT_CSV', $moduleName),
 				'linkurl' => $recordModel->getReportCSVURL(),
-				'linkicon' => 'fa fa-file-text-o'
+				'linkicon' => 'far fa-file-alt'
 			];
 
 			$detailViewLinks[] = [
 				'linklabel' => \App\Language::translate('LBL_REPORT_EXPORT_EXCEL', $moduleName),
 				'linkurl' => $recordModel->getReportExcelURL(),
-				'linkicon' => 'fa fa-file-excel-o'
+				'linkicon' => 'far fa-file-excel'
 			];
 		}
 

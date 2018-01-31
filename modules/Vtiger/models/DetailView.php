@@ -125,7 +125,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 				'linklabel' => '',
 				'linkurl' => 'javascript:Vtiger_Index_Js.sendNotification(this)',
-				'linkicon' => 'fa fa-paper-plane',
+				'linkicon' => 'fas fa-paper-plane',
 				'linkhint' => 'LBL_SEND_NOTIFICATION'
 			];
 		}
@@ -153,7 +153,7 @@ class Vtiger_DetailView_Model extends \App\Base
 						'url' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Active&record=' . $recordModel->getId(),
 						'confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC')
 					],
-					'linkicon' => 'fas fa-undo',
+					'linkicon' => 'fas fa-undo-alt',
 					'linkclass' => 'entityStateBtn',
 					'style' => empty($stateColors['Active']) ? '' : "background: {$stateColors['Active']};"
 			]);

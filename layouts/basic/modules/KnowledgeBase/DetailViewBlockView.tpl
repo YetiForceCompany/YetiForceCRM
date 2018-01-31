@@ -12,7 +12,7 @@
 		<div class="panel panel-default row no-margin" data-label="{$BLOCK_LABEL}">					
 			<div class="row blockHeader panel-heading no-margin">
 				<div class="iconCollapse">
-					<span class="cursorPointer blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
+					<span class="cursorPointer blockToggle fas fa-angle-right {if !($IS_HIDDEN)}hide{/if}" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
 					<span class="cursorPointer blockToggle glyphicon glyphicon glyphicon-menu-down {if $IS_HIDDEN}hide{/if}" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}></span>
 					<h4>{\App\Language::translate({$BLOCK_LABEL_KEY},{$MODULE_NAME})}</h4>
 				</div>
@@ -39,7 +39,7 @@
 							{/if}
 							<div class="col-md-6 col-xs-12 fieldsLabelValue paddingLRZero">
 								<div class="fieldLabel col-sm-5 col-xs-12 {$WIDTHTYPE}">
-									<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}</label>
+									<label class="muted pull-left-xs float-right-sm float-right-md float-right-lg">{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}</label>
 								</div>
 								<div class="fieldValue col-sm-7 col-xs-12 {$WIDTHTYPE}">
 									<div id="imageContainer">
@@ -69,9 +69,9 @@
 									{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 									{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
 									{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-										<a style="margin-left: 5px;margin-top: 2px;" href="#" class="HelpInfoPopover float-right" title="" data-placement="top" data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'><i class="fa fa-info-circle"></i></a>
+										<a style="margin-left: 5px;margin-top: 2px;" href="#" class="HelpInfoPopover float-right" title="" data-placement="top" data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'><i class="fas fa-info-circle"></i></a>
 										{/if}
-									<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">
+									<label class="muted pull-left-xs float-right-sm float-right-md float-right-lg">
 										{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}
 									</label>
 								</div>
@@ -84,7 +84,7 @@
 										{assign var=EDIT value=true}
 									{/if}
 									{if $IS_AJAX_ENABLED && $FIELD_MODEL->isEditable() eq 'true' && $FIELD_MODEL->isAjaxEditable() eq 'true' && !$EDIT}
-										<span class="summaryViewEdit cursorPointer float-right">
+										<span class="summaryViewEdit cursorPointer float-right ">
 											&nbsp;<i class="fas fa-pencil-alt" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></i>
 										</span>
 										<span class="hide edit">

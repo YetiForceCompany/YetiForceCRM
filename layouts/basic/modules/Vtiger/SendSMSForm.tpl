@@ -30,7 +30,7 @@
 					<input type="hidden" name="search_params" value='{\App\Json::encode($SEARCH_PARAMS)}' />
 					<div class="modal-body">
 						<div class="alert alert-info" role="alert">
-							<span class="fa fa-info-circle" aria-hidden="true"></span>&nbsp;&nbsp;
+							<span class="fas fa-info-circle" aria-hidden="true"></span>&nbsp;&nbsp;
 							{\App\Language::translate('LBL_MASS_SEND_SMS_INFO', $MODULE)}
 						</div>
 						<div class="col-xs-12">
@@ -62,7 +62,7 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button class="btn btn-success" type="submit" name="saveButton"><span class="glyphicon glyphicon-ok"></span>&nbsp;<strong>{\App\Language::translate('LBL_SEND', $MODULE)}</strong></button>
+						<button class="btn btn-success" type="submit" name="saveButton"><span class="fas fa-check"></span>&nbsp;<strong>{\App\Language::translate('LBL_SEND', $MODULE)}</strong></button>
 						<button class="btn btn-warning" type="reset" data-dismiss="modal"><span class="fas fa-times"></span>&nbsp;<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong></button>
 					</div>
 				</form>

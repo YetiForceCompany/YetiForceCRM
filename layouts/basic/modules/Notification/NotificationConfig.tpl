@@ -69,7 +69,7 @@
 				</select>
 			</div>
 			<div class="float-left col-xs-1 paddingLRZero">
-				<a href="#" class="infoPopover float-left" title="" data-placement="top" data-original-title="{\App\Language::translate('LBL_RECEIVING_MAIL_NOTIFICATIONS', $MODULE)}" data-content="{\App\Purifier::encodeHtml($POPOVER_CONTENT)}">&nbsp;<span class="fa fa-info-circle"></span></a>
+				<a href="#" class="infoPopover float-left" title="" data-placement="top" data-original-title="{\App\Language::translate('LBL_RECEIVING_MAIL_NOTIFICATIONS', $MODULE)}" data-content="{\App\Purifier::encodeHtml($POPOVER_CONTENT)}">&nbsp;<span class="fas fa-info-circle"></span></a>
 			</div>
 		{/if}
 		<div class="col-md-6 col-sm-6 float-right">

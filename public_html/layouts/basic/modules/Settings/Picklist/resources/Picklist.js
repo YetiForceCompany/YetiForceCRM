@@ -164,7 +164,7 @@ var Settings_Picklist_Js = {
 				pickListVaue.find('.glyphicon-ok').remove();
 			} else {
 				pickListVaue.removeClass('unselectedCell').addClass('selectedCell');
-				pickListVaue.prepend('<span class="glyphicon glyphicon-ok pull-left"></span>');
+				pickListVaue.prepend('<span class="fas fa-check pull-left"></span>');
 			}
 		});
 	},

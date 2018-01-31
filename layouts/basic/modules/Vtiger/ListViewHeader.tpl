@@ -111,7 +111,7 @@
 																	</ul>
 																</div>
 															{/if}
-															<span class="fa fa-filter filterImage" style="display:none;margin-right:2px"></span>
+															<span class="fas fa-filter filterImage" style="display:none;margin-right:2px"></span>
 														{else}
 															<input type="hidden" value="0" id="customFilter" />
 														{/if}
@@ -122,7 +122,7 @@
 												</div>
 												<span class="hide filterActionImages float-right">
 													<span title="{\App\Language::translate('LBL_DENY', $MODULE)}" data-value="deny" class="glyphicon glyphicon-exclamation-sign alignMiddle denyFilter filterActionImage float-right"></span>
-													<span title="{\App\Language::translate('LBL_APPROVE', $MODULE)}" data-value="approve" class="glyphicon glyphicon-ok alignMiddle approveFilter filterActionImage float-right"></span>
+													<span title="{\App\Language::translate('LBL_APPROVE', $MODULE)}" data-value="approve" class="fas fa-check alignMiddle approveFilter filterActionImage float-right"></span>
 													<span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" data-value="delete" class="fas fa-trash-alt alignMiddle deleteFilter filterActionImage float-right"></span>
 													<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" data-value="edit" class="fas fa-pencil-alt alignMiddle editFilter filterActionImage float-right"></span>
 													<span title="{\App\Language::translate('LBL_DUPLICATE', $MODULE)}" data-value="duplicate" class="fas fa-retweet alignMiddle duplicateFilter filterActionImage float-right"></span>
@@ -138,7 +138,7 @@
 																		<span class="label label-default btn-success featuredLabel" data-cvid="{$CUSTOM_VIEW->getId()}" {if $CUSTOM_VIEW->get('color')}style="background-color: {$CUSTOM_VIEW->get('color')};"{/if}>
 																			{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
 																			{if $CUSTOM_VIEW->get('description')}
-																				&nbsp;<span class="popoverTooltip fa fa-info-circle"  data-placement="auto right" data-content="{\App\Purifier::encodeHtml($CUSTOM_VIEW->get('description'))}"></span>
+																				&nbsp;<span class="popoverTooltip fas fa-info-circle"  data-placement="auto right" data-content="{\App\Purifier::encodeHtml($CUSTOM_VIEW->get('description'))}"></span>
 																			{/if}
 																		</span>
 																	</h5>
