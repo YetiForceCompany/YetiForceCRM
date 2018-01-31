@@ -237,9 +237,4 @@ class HelpDesk extends CRMEntity
 			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
 		}
 	}
-
-	public function clearSingletonSaveFields()
-	{
-		$this->column_fields['comments'] = '';
-	}
 }

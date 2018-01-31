@@ -146,11 +146,6 @@ class Leads_Module_Model extends Vtiger_Module_Model
 		}
 	}
 
-	public function getDefaultSearchField()
-	{
-		return "company";
-	}
-
 	/**
 	 * Function to search accounts
 	 * @param Vtiger_Record_Model $recordModel

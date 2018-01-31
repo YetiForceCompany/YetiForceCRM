@@ -109,42 +109,6 @@ class Users extends CRMEntity
 		$this->column_fields['conv_rate'] = '';
 	}
 
-	// Mike Crowe Mod --------------------------------------------------------Default ordering for us
-	/**
-	 * Function to get sort order
-	 * return string  $sorder    - sortorder string either 'ASC' or 'DESC'
-	 */
-	public function getSortOrder()
-	{
-
-		\App\Log::trace("Entering getSortOrder() method ...");
-		if (\App\Request::_has('sorder')) {
-			$sorder = \App\Request::_getForSql('sorder');
-		} else {
-			$sorder = (($_SESSION['USERS_SORT_ORDER'] != '') ? ($_SESSION['USERS_SORT_ORDER']) : ($this->default_sort_order));
-		}
-		\App\Log::trace("Exiting getSortOrder method ...");
-		return $sorder;
-	}
-
-	/**
-	 * Function to get order by
-	 * return string  $order_by    - fieldname(eg: 'subject')
-	 */
-	public function getOrderBy()
-	{
-		$use_default_order_by = '';
-		if (AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
-			$use_default_order_by = $this->default_order_by;
-		}
-		if (\App\Request::_has('order_by')) {
-			$orderBy = \App\Request::_getForSql('order_by');
-		} else {
-			$orderBy = (($_SESSION['USERS_ORDER_BY'] != '') ? ($_SESSION['USERS_ORDER_BY']) : ($use_default_order_by));
-		}
-		return $orderBy;
-	}
-
 	/**
 	 * Function to check whether the user is an Admin user
 	 * @return boolean true/false

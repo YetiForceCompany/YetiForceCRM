@@ -162,11 +162,11 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 				$result = (new \App\Db\Query())->from('yetiforce_mail_quantities')->where(['userid' => $user])->count();
 				$mbox = self::imapConnect($account['username'], $account['password'], $account['mail_host'], 'INBOX', false);
 				if ($mbox) {
-					$info = imap_mailboxmsginfo($mbox);
+					$info = imap_status($mbox, static::$imapConnectMailbox, SA_UNSEEN);
 					if ($result > 0) {
-						$dbCommand->update('yetiforce_mail_quantities', ['num' => $info->Unread, 'status' => 0], ['userid' => $user])->execute();
+						$dbCommand->update('yetiforce_mail_quantities', ['num' => $info->unseen, 'status' => 0], ['userid' => $user])->execute();
 					} else {
-						$dbCommand->insert('yetiforce_mail_quantities', ['num' => $info->Unread, 'userid' => $user])->execute();
+						$dbCommand->insert('yetiforce_mail_quantities', ['num' => $info->unseen, 'userid' => $user])->execute();
 					}
 				}
 			}

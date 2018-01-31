@@ -21,7 +21,7 @@
 
 			{if $FIELD->get('displaytype') != 10}
 				<span class="input-group-addon relatedPopup cursorPointer popoverTooltip" data-content="{\App\Language::translate('LBL_SELECT',$MODULE)}">
-					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="fas fa-search relatedPopup"></span>
+					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="fas fa-search"></span>
 				</span>
 			{/if}
 			{assign var=REFERENCE_MODULE_MODEL value=Vtiger_Module_Model::getInstance($REFERENCE_MODULE)}

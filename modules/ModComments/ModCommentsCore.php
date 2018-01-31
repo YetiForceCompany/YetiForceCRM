@@ -84,36 +84,6 @@ class ModCommentsCore extends CRMEntity
 		$this->db = PearDatabase::getInstance();
 	}
 
-	public function getSortOrder()
-	{
-		$currentModule = vglobal('currentModule');
-
-		$sortorder = $this->default_sort_order;
-		if (!\App\Request::_isEmpty('sorder'))
-			$sortorder = $this->db->sqlEscapeString(\App\Request::_get('sorder'));
-		else if ($_SESSION[$currentModule . '_Sort_Order'])
-			$sortorder = $_SESSION[$currentModule . '_Sort_Order'];
-
-		return $sortorder;
-	}
-
-	public function getOrderBy()
-	{
-		$currentModule = vglobal('currentModule');
-
-		$use_default_order_by = '';
-		if (AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
-			$use_default_order_by = $this->default_order_by;
-		}
-
-		$orderby = $use_default_order_by;
-		if (!\App\Request::_isEmpty('order_by'))
-			$orderby = $this->db->sqlEscapeString(\App\Request::_get('order_by'));
-		else if ($_SESSION[$currentModule . '_Order_By'])
-			$orderby = $_SESSION[$currentModule . '_Order_By'];
-		return $orderby;
-	}
-
 	/**
 	 * Transform the value while exporting (if required)
 	 */

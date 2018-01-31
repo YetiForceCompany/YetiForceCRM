@@ -99,28 +99,6 @@ class CRMEntity
 		}
 	}
 
-	/** Function to attachment filename of the given entity
-	 * @param $notesid -- crmid:: Type Integer
-	 * The function will get the attachmentsid for the given entityid from vtiger_seattachmentsrel table and get the attachmentsname from vtiger_attachments table
-	 * returns the 'filename'
-	 */
-	public function getOldFileName($notesId)
-	{
-
-		\App\Log::trace("in getOldFileName  " . $notesId);
-		$adb = PearDatabase::getInstance();
-		$query1 = "select * from vtiger_seattachmentsrel where crmid=?";
-		$result = $adb->pquery($query1, [$notesId]);
-		$noOfRows = $adb->numRows($result);
-		if ($noOfRows != 0)
-			$attachmentId = $adb->queryResult($result, 0, 'attachmentsid');
-		if ($attachmentId != '') {
-			$query2 = "select * from vtiger_attachments where attachmentsid=?";
-			$fileName = $adb->queryResult($adb->pquery($query2, [$attachmentId]), 0, 'name');
-		}
-		return $fileName;
-	}
-
 	/**
 	 * Function returns the column alias for a field
 	 * @param <Array> $fieldinfo - field information
@@ -244,52 +222,6 @@ class CRMEntity
 	}
 
 	/**
-	 * Function to check if the custom vtiger_field vtiger_table exists
-	 * return true or false
-	 */
-	public function checkIfCustomTableExists($tablename)
-	{
-		$adb = PearDatabase::getInstance();
-		$query = sprintf("SELECT * FROM %s", $adb->sqlEscapeString($tablename));
-		$result = $this->db->pquery($query, []);
-		$testrow = $this->db->getFieldsCount($result);
-		if ($testrow > 1) {
-			$exists = true;
-		} else {
-			$exists = false;
-		}
-		return $exists;
-	}
-
-	/**
-	 * function to construct the query to fetch the custom vtiger_fields
-	 * return the query to fetch the custom vtiger_fields
-	 */
-	public function constructCustomQueryAddendum($tableName, $module)
-	{
-		$adb = PearDatabase::getInstance();
-		$tabId = \App\Module::getModuleId($module);
-		$sql1 = "select columnname,fieldlabel from vtiger_field where generatedtype=2 and tabid=? and vtiger_field.presence in (0,2)";
-		$result = $adb->pquery($sql1, [$tabId]);
-		$numRows = $adb->numRows($result);
-		$sql3 = "select ";
-		for ($i = 0; $i < $numRows; $i++) {
-			$columnName = $adb->queryResult($result, $i, "columnname");
-			$fieldLabel = $adb->queryResult($result, $i, "fieldlabel");
-			//construct query as below
-			if ($i == 0) {
-				$sql3 .= $tableName . "." . $columnName . " '" . $fieldLabel . "'";
-			} else {
-				$sql3 .= ", " . $tableName . "." . $columnName . " '" . $fieldLabel . "'";
-			}
-		}
-		if ($numRows > 0) {
-			$sql3 = $sql3 . ',';
-		}
-		return $sql3;
-	}
-
-	/**
 	 * Function invoked during export of module record value.
 	 */
 	public function transformExportValue($key, $value)
@@ -389,20 +321,6 @@ class CRMEntity
 			]
 		])->execute();
 	}
-	/* Function to check if the mod number already exits */
-
-	public function checkModuleSeqNumber($table, $column, $no)
-	{
-		$adb = PearDatabase::getInstance();
-		$result = $adb->pquery(sprintf("SELECT %s FROM *s WHERE %s = ?", $adb->sqlEscapeString($column), $adb->sqlEscapeString($table), $adb->sqlEscapeString($column)), [$no]);
-		$numRows = $adb->numRows($result);
-		if ($numRows > 0)
-			return true;
-		else
-			return false;
-	}
-
-	// END
 
 	public function updateMissingSeqNumber($module)
 	{
@@ -451,65 +369,6 @@ class CRMEntity
 			}
 		}
 		return $returninfo;
-	}
-
-	/**
-	 * For Record View Notification
-	 */
-	public function isViewed($crmid = false)
-	{
-		if (!$crmid) {
-			$crmid = $this->id;
-		}
-		if ($crmid) {
-			$adb = PearDatabase::getInstance();
-			$result = $adb->pquery("SELECT viewedtime,modifiedtime,smcreatorid,smownerid,modifiedby FROM vtiger_crmentity WHERE crmid=?", [$crmid]);
-			$resinfo = $adb->fetchArray($result);
-
-			$lastviewed = $resinfo['viewedtime'];
-			$modifiedon = $resinfo['modifiedtime'];
-			$smownerid = $resinfo['smownerid'];
-			$smcreatorid = $resinfo['smcreatorid'];
-			$modifiedby = $resinfo['modifiedby'];
-
-			if ($modifiedby == '0' && ($smownerid == $smcreatorid)) {
-				/** When module record is created * */
-				return true;
-			} else if ($smownerid == $modifiedby) {
-				/** Owner and Modifier as same. * */
-				return true;
-			} else if ($lastviewed && $modifiedon) {
-				/** Lastviewed and Modified time is available. */
-				if ($this->__timediff($modifiedon, $lastviewed) > 0)
-					return true;
-			}
-		}
-		return false;
-	}
-
-	public function __timediff($d1, $d2)
-	{
-		list($t1_1, $t1_2) = explode(' ', $d1);
-		list($t1_y, $t1_m, $t1_d) = explode('-', $t1_1);
-		list($t1_h, $t1_i, $t1_s) = explode(':', $t1_2);
-
-		$t1 = mktime($t1_h, $t1_i, $t1_s, $t1_m, $t1_d, $t1_y);
-
-		list($t2_1, $t2_2) = explode(' ', $d2);
-		list($t2_y, $t2_m, $t2_d) = explode('-', $t2_1);
-		list($t2_h, $t2_i, $t2_s) = explode(':', $t2_2);
-
-		$t2 = mktime($t2_h, $t2_i, $t2_s, $t2_m, $t2_d, $t2_y);
-
-		if ($t1 == $t2)
-			return 0;
-		return $t2 - $t1;
-	}
-
-	public function markAsViewed($userid)
-	{
-		$adb = PearDatabase::getInstance();
-		$adb->update('vtiger_crmentity', ['viewedtime' => date('Y-m-d H:i:s')], 'crmid = ? && smownerid = ?', [$this->id, $userid]);
 	}
 
 	/**
@@ -592,29 +451,6 @@ class CRMEntity
 					'rel_created_user' => \App\User::getCurrentUserId(),
 					'rel_created_time' => date('Y-m-d H:i:s')
 				])->execute();
-			}
-		}
-	}
-
-	/**
-	 * Delete the related module record information. Triggered from updateRelations.php
-	 * @param String This module name
-	 * @param Integer This module record number
-	 * @param String Related module name
-	 * @param mixed Integer or Array of related module record number
-	 */
-	public function deleteRelatedModule($module, $crmid, $withModule, $withCrmid)
-	{
-		$db = PearDatabase::getInstance();
-		if (!is_array($withCrmid))
-			$withCrmid = [$withCrmid];
-		foreach ($withCrmid as $relcrmid) {
-
-			if ($withModule == 'Documents') {
-				$db->delete('vtiger_senotesrel', 'crmid=? && notesid=?', [$crmid, $relcrmid]);
-			} else {
-				$db->delete('vtiger_crmentityrel', '(crmid=? && module=? && relcrmid=? && relmodule=?) || (relcrmid=? && relmodule=? && crmid=? && module=?)', [$crmid, $module, $relcrmid, $withModule, $crmid, $module, $relcrmid, $withModule]
-				);
 			}
 		}
 	}
@@ -1215,15 +1051,6 @@ class CRMEntity
 	}
 
 	/**
-	 * Function to clear the fields which needs to be saved only once during the Save of the record
-	 * For eg: Comments of HelpDesk should be saved only once during one save of a Trouble Ticket
-	 */
-	public function clearSingletonSaveFields()
-	{
-		return;
-	}
-
-	/**
 	 * Function to track when a new record is linked to a given record
 	 */
 	public static function trackLinkedInfo($crmId)
@@ -1232,47 +1059,6 @@ class CRMEntity
 		$currentTime = date('Y-m-d H:i:s');
 		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => $current_user->id], ['crmid' => $crmId])->execute();
 	}
-
-	/**
-	 * Function to get sort order
-	 * return string  $sorder    - sortorder string either 'ASC' or 'DESC'
-	 */
-	public function getSortOrder()
-	{
-
-		$currentModule = vglobal('currentModule');
-		\App\Log::trace("Entering getSortOrder() method ...");
-		if (\App\Request::_has('sorder'))
-			$sorder = $this->db->sqlEscapeString(App\Request::_getForSql('sorder'));
-		else
-			$sorder = (($_SESSION[$currentModule . '_Sort_Order'] != '') ? ($_SESSION[$currentModule . '_Sort_Order']) : ($this->default_sort_order));
-		\App\Log::trace("Exiting getSortOrder() method ...");
-		return $sorder;
-	}
-
-	/**
-	 * Function to get order by
-	 * return string  $order_by    - fieldname(eg: 'accountname')
-	 */
-	public function getOrderBy()
-	{
-		$currentModule = vglobal('currentModule');
-
-		\App\Log::trace("Entering getOrderBy() method ...");
-
-		$use_default_order_by = '';
-		if (AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
-			$use_default_order_by = $this->default_order_by;
-		}
-
-		if (\App\Request::_has('order_by'))
-			$order_by = $this->db->sqlEscapeString(App\Request::_getForSql('order_by'));
-		else
-			$order_by = (($_SESSION[$currentModule . '_Order_By'] != '') ? ($_SESSION[$currentModule . '_Order_By']) : ($use_default_order_by));
-		\App\Log::trace("Exiting getOrderBy method ...");
-		return $order_by;
-	}
-	// Mike Crowe Mod --------------------------------------------------------
 
 	/**
 	 * Function to track when a record is unlinked to a given record

@@ -372,12 +372,13 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		$db = App\Db::getInstance();
 		$roleId = $this->getId();
 		$transferRoleId = $transferToRole->getId();
+		$usersInRole = $this->getUsersIds();
 		$db->createCommand()->update('vtiger_user2role', ['roleid' => $transferRoleId], ['roleid' => $roleId])->execute();
 		$db->createCommand()->delete('vtiger_role2profile', ['roleid' => $roleId])->execute();
 		$db->createCommand()->delete('vtiger_group2role', ['roleid' => $roleId])->execute();
 		$db->createCommand()->delete('vtiger_group2rs', ['roleandsubid' => $roleId])->execute();
 		//delete handling for sharing rules
-		deleteRoleRelatedSharingRules($roleId);
+		\App\PrivilegeUtil::deleteRelatedSharingRules($roleId, 'Roles');
 		$db->createCommand()->delete('vtiger_role', ['roleid' => $roleId])->execute();
 		$allChildren = $this->getAllChildren();
 		$transferParentRoleSequence = $transferToRole->getParentRoleString();
@@ -390,8 +391,8 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			$roleModel->set('parentrole', $newChildParentRoleString);
 			$roleModel->save();
 		}
-		if (is_array($array_users)) {
-			foreach ($array_users as $userid) {
+		if (is_array($usersInRole)) {
+			foreach ($usersInRole as $userid) {
 				\App\UserPrivilegesFile::createUserPrivilegesfile($userid);
 				\App\UserPrivilegesFile::createUserSharingPrivilegesfile($userid);
 			}
@@ -510,15 +511,24 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
+	 * Function to get ids users in this role
+	 * @return int[]
+	 */
+	public function getUsersIds()
+	{
+		return (new App\Db\Query())->select(['userid'])
+				->from('vtiger_user2role')
+				->where(['roleid' => $this->getId()])
+				->column();
+	}
+
+	/**
 	 * Function to get Users who are from this role
 	 * @return Users_Record_Model[] User record models list Users_Record_Model
 	 */
 	public function getUsers()
 	{
-		$userIds = (new App\Db\Query())->select(['userid'])
-			->from('vtiger_user2role')
-			->where(['roleid' => $this->getId()])
-			->column();
+		$userIds = $this->getUsersIds();
 		$usersList = [];
 		foreach ($userIds as $userId) {
 			$usersList[$userId] = Users_Record_Model::getInstanceById($userId, 'Users');

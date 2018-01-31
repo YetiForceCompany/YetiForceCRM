@@ -356,19 +356,6 @@ class ServiceContracts extends CRMEntity
 	}
 
 	/**
-	 * Handle deleting related module information.
-	 * NOTE: This function has been added to CRMEntity (base class).
-	 * You can override the behavior by re-defining it here.
-	 */
-	public function deleteRelatedModule($module, $crmid, $with_module, $with_crmid)
-	{
-		parent::deleteRelatedModule($module, $crmid, $with_module, $with_crmid);
-		if ($with_module == 'HelpDesk') {
-			$this->updateServiceContractState($crmid);
-		}
-	}
-
-	/**
 	 * Function to unlink an entity with given Id from another entity
 	 * @param int $id
 	 * @param string $returnModule

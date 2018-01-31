@@ -23,7 +23,7 @@ class Vtiger_TaxMode_InventoryField extends Vtiger_Basic_InventoryField
 	 * @param int $value
 	 * @return string
 	 */
-	public function getDisplayValue($value)
+	public function getDisplayValue($value, $rawText = false)
 	{
 		if ($value === '') {
 			return '';

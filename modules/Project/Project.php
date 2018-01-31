@@ -161,41 +161,6 @@ class Project extends CRMEntity
 
 	}
 	/**
-	 * Here we override the parent's method,
-	 * This is done because the related lists for this module use a custom query
-	 * that queries the child module's table (column of the uitype10 field)
-	 *
-	 * @see data/CRMEntity#saveRelatedModule($module, $crmid, $with_module, $with_crmid)
-	 */
-
-	/**
-	 * Here we override the parent's method
-	 * This is done because the related lists for this module use a custom query
-	 * that queries the child module's table (column of the uitype10 field)
-	 *
-	 * @see data/CRMEntity#deleteRelatedModule($module, $crmid, $with_module, $with_crmid)
-	 */
-	public function deleteRelatedModule($module, $crmid, $with_module, $with_crmid)
-	{
-		if (!in_array($with_module, ['ProjectMilestone', 'ProjectTask'])) {
-			parent::deleteRelatedModule($module, $crmid, $with_module, $with_crmid);
-			return;
-		}
-		$destinationModule = \App\Request::_get('destination_module');
-		if (empty($destinationModule))
-			$destinationModule = $with_module;
-		if (!is_array($with_crmid))
-			$with_crmid = [$with_crmid];
-		foreach ($with_crmid as $relcrmid) {
-			$child = CRMEntity::getInstance($destinationModule);
-			$child->retrieveEntityInfo($relcrmid, $destinationModule);
-			$child->mode = 'edit';
-			$child->column_fields['projectid'] = '';
-			$child->save($destinationModule, $relcrmid);
-		}
-	}
-
-	/**
 	 * Function to unlink an entity with given Id from another entity
 	 * @param int $id
 	 * @param string $returnModule

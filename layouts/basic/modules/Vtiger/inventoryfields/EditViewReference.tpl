@@ -40,7 +40,7 @@
 			   {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}/>
 		{if $FIELD->get('displaytype') != 10}
 			<span class="input-group-addon relatedPopup cursorPointer">
-				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="fas fa-search relatedPopup" title="{\App\Language::translate('LBL_SELECT', $MODULE)}" ></span>
+				<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="fas fa-search" title="{\App\Language::translate('LBL_SELECT', $MODULE)}" ></span>
 			</span>
 		{/if}
 		{assign var=REFERENCE_MODULE_MODEL value=Vtiger_Module_Model::getInstance($REFERENCED_MODULE_NAME)}

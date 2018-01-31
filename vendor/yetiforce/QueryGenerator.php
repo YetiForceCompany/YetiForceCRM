@@ -46,6 +46,12 @@ class QueryGenerator
 	private $stdFilterList;
 	private $advFilterList;
 
+	/**
+	 * Search fields for duplicates
+	 * @var array
+	 */
+	private $searchFieldsForDuplicates = [];
+
 	/** @var array Joins */
 	private $joins = [];
 
@@ -377,6 +383,16 @@ class QueryGenerator
 	}
 
 	/**
+	 * Function sets the field for which the duplicated values will be searched
+	 * @param string $fieldName
+	 * @param int|bool $ignoreEmptyValue
+	 */
+	public function setSearchFieldsForDuplicates($fieldName, $ignoreEmptyValue = true)
+	{
+		$this->searchFieldsForDuplicates[$fieldName] = $ignoreEmptyValue;
+	}
+
+	/**
 	 * Get fields module
 	 * @return array
 	 */
@@ -696,6 +712,23 @@ class QueryGenerator
 				$this->addJoin([$joinType, $tableName, "$baseTable.$baseTableIndex = $tableName.$moduleTableIndexList[$tableName]"]);
 			}
 		}
+		if ($this->searchFieldsForDuplicates) {
+			$duplicateCheckClause = [];
+			$queryGenerator = new self($this->moduleName, $this->user->getId());
+			$queryGenerator->permissions = $this->permissions;
+			$queryGenerator->setFields(array_keys($this->searchFieldsForDuplicates));
+			foreach ($this->searchFieldsForDuplicates as $fieldName => $ignoreEmptyValue) {
+				if ($ignoreEmptyValue) {
+					$queryGenerator->addCondition($fieldName, '', 'ny');
+				}
+				$queryGenerator->setGroup($fieldName);
+				$fieldModel = $this->getModuleField($fieldName);
+				$duplicateCheckClause[] = $fieldModel->getTableName() . '.' . $fieldModel->getColumnName() . ' = duplicates.' . $fieldModel->getFieldName();
+			}
+			$subQuery = $queryGenerator->createQuery();
+			$subQuery->andHaving((new \yii\db\Expression('COUNT(1) > 1')));
+			$this->joins['duplicates'] = ['INNER JOIN', ['duplicates' => $subQuery], implode(' AND ', $duplicateCheckClause)];
+		}
 		foreach ($this->joins as $join) {
 			$on = isset($join[2]) ? $join[2] : '';
 			$params = isset($join[3]) ? $join[3] : [];
@@ -821,12 +854,12 @@ class QueryGenerator
 		}
 		$field = $this->getModuleField($fieldName);
 		if (empty($field)) {
-			Log::error('Not found field model');
+			Log::error('Not found field model | Field name: ' . $fieldName);
 			throw new \App\Exceptions\AppException('LBL_NOT_FOUND_FIELD_MODEL');
 		}
 		$className = '\App\QueryField\\' . ucfirst($field->getFieldDataType()) . 'Field';
 		if (!class_exists($className)) {
-			Log::error('Not found query field condition');
+			Log::error('Not found query field condition | FieldDataType: ' . ucfirst($field->getFieldDataType()));
 			throw new \App\Exceptions\AppException('LBL_NOT_FOUND_QUERY_FIELD_CONDITION');
 		}
 		$queryField = new $className($this, $field);

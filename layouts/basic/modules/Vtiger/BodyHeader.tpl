@@ -35,7 +35,7 @@
 							</button>
 							<ul class="dropdown-menu globalSearchOperator">
 								<li class="active"><a href="#" data-operator="contains">{\App\Language::translate('contains')}</a></li>
-								<li><a href="#" data-operator="starts">{\App\Language::translate('starts with')}</a></li>
+								<li><a href="#" data-operator="begin">{\App\Language::translate('starts with')}</a></li>
 								<li><a href="#" data-operator="ends">{\App\Language::translate('ends with')}</a></li>
 							</ul>
 						</div>
