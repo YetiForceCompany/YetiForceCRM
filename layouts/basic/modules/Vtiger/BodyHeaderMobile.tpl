@@ -4,12 +4,12 @@
 		{if AppConfig::performance('BROWSING_HISTORY_WORKING')}
 			<div class="row">
 				<div class="dropdown quickAction historyBtn">
-					<div class="float-left">
+					<div class="pull-left">
 						{\App\Language::translate('LBL_PAGES_HISTORY')}
 					</div>
-					<div class="float-right">
-						<a data-placement="left" data-toggle="dropdown" class="btn btn-light btn-sm showHistoryBtn" title="{\App\Language::translate('LBL_PAGES_HISTORY')}" aria-expanded="false" href="#">
-							<span class="fas fa-history" aria-hidden="true"></span>
+					<div class="pull-right">
+						<a data-placement="left" data-toggle="dropdown" class="btn btn-default btn-sm showHistoryBtn" title="{\App\Language::translate('LBL_PAGES_HISTORY')}" aria-expanded="false" href="#">
+							<span class="fa fa-history" aria-hidden="true"></span>
 						</a>
 						{include file=\App\Layout::getTemplatePath('BrowsingHistory.tpl', $MODULE)}
 					</div>
@@ -19,12 +19,12 @@
 		{if $REMINDER_ACTIVE}
 			<div class="row">
 				<div class="remindersNotice popoverTooltip quickAction{if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
-					<div class="float-left">
+					<div class="pull-left">
 						{\App\Language::translate('LBL_REMINDER')}
 					</div>
-					<div class="float-right">
-						<a class="btn btn-light {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" title="{\App\Language::translate('LBL_REMINDER')}" data-content="{\App\Language::translate('LBL_REMINDER')}">
-							<span class="fas fa-calendar-alt" aria-hidden="true"></span>
+					<div class="pull-right">
+						<a class="btn btn-default {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" title="{\App\Language::translate('LBL_REMINDER')}" data-content="{\App\Language::translate('LBL_REMINDER')}">
+							<span class="fa fa-calendar" aria-hidden="true"></span>
 							<span class="badge bgDanger hide">0</span>
 						</a>
 					</div>
@@ -34,12 +34,12 @@
 		{if isset($CHAT_ENTRIES)}
 			<div class="row">
 				<div class="headerLinkChat quickAction">
-					<div class="float-left">
+					<div class="pull-left">
 						{\App\Language::translate('LBL_CHAT')}
 					</div>
-					<div class="float-right">
-						<a class="btn btn-light ChatIcon " title="{\App\Language::translate('LBL_CHAT')}" href="#">
-							<span class="fas fa-comments" aria-hidden="true"></span>
+					<div class="pull-right">
+						<a class="btn btn-default ChatIcon " title="{\App\Language::translate('LBL_CHAT')}" href="#">
+							<span class="fa fa-comments" aria-hidden="true"></span>
 						</a>
 					</div>
 				</div>
@@ -48,12 +48,12 @@
 		{if \App\Privilege::isPermitted('Notification', 'DetailView')}
 			<div class="row">
 				<div class="isBadge notificationsNotice popoverTooltip quickAction{if AppConfig::module('Home', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
-					<div class="float-left">
+					<div class="pull-left">
 						{\App\Language::translate('LBL_NOTIFICATIONS')}
 					</div>
- 					<div class="float-right">
- 						<a class="btn btn-light {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" title="{\App\Language::translate('LBL_NOTIFICATIONS')}" >
-							<span class="fas fa-bell" aria-hidden="true"></span>
+ 					<div class="pull-right">
+ 						<a class="btn btn-default {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" title="{\App\Language::translate('LBL_NOTIFICATIONS')}" >
+							<span class="fa fa-bell" aria-hidden="true"></span>
 							<span class="badge hide">0</span>
 						</a>
 					</div>
@@ -62,12 +62,12 @@
 		{/if}
 		<div class='row'>
 			<div class="dropdown quickAction">
-				<div class='float-left'>
+				<div class='pull-left'>
 					{\App\Language::translate('LBL_QUICK_CREATE')}
 				</div>
-				<div class='float-right'>
-					<a id="mobile_menubar_quickCreate" class="dropdown-toggle btn btn-light" data-toggle="dropdown" title="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
-						<span class="fas fa-plus" aria-hidden="true"></span>
+				<div class='pull-right'>
+					<a id="mobile_menubar_quickCreate" class="dropdown-toggle btn btn-default" data-toggle="dropdown" title="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
+						<span class="fa fa-plus" aria-hidden="true"></span>
 					</a>
 					<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
 						<li class="quickCreateModules">
@@ -121,11 +121,11 @@
 				{/if}
 				<div class="row">
 					<div class="quickAction">
-						<div class="float-left">
+						<div class="pull-left">
 							{\App\Language::translate($TITLE,$MODULE)}
 						</div>
-						<div class="float-right">
-							<a class="btn btn-sm popoverTooltip {if $obj->getClassName()|strpos:"btn-" === false}btn-light {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if} " href="{$HREF}"
+						<div class="pull-right">
+							<a class="btn btn-sm popoverTooltip {if $obj->getClassName()|strpos:"btn-" === false}btn-default {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if} " href="{$HREF}"
 								{if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
 									{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
 										data-{$DATA_NAME}="{$DATA_VALUE}"
@@ -172,8 +172,9 @@
 	</div>
 	{if AppConfig::performance('GLOBAL_SEARCH')}
 		<div class="searchMenu globalSearchInput">
-			<div class="input-group">
-				<select class="chzn-select basicSearchModulesList form-control col-md-5" title="{\App\Language::translate('LBL_SEARCH_MODULE')}">
+			<div class="input-group mb-1">
+				<div class ="chzn-selectWithButtonWidth">
+				<select class="chzn-select basicSearchModulesList form-control" title="{\App\Language::translate('LBL_SEARCH_MODULE')}">
 					<option value="" class="globalSearch_module_All">{\App\Language::translate('LBL_ALL_RECORDS')}</option>
 					{foreach key=MODULE_NAME item=fieldObject from=$SEARCHABLE_MODULES}
 						{if isset($SEARCHED_MODULE) && $SEARCHED_MODULE eq $MODULE_NAME && $SEARCHED_MODULE !== 'All'}
@@ -183,10 +184,11 @@
 						{/if}
 					{/foreach}
 				</select>
-				<div class="input-group-btn">
-					<div class="float-right">
-						<button class="btn btn-light globalSearch " title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">
-							<span class="fas fa-th-large"></span>
+				</div>
+				<div class="input-group-append">
+					<div class="">
+						<button class="btn btn-outline-dark globalSearch " title="{\App\Language::translate('LBL_ADVANCE_SEARCH')}" type="button">
+							<span class="fa fa-th-large"></span>
 						</button>
 					</div>
 				</div>
@@ -194,9 +196,9 @@
 			<div class="input-group">
 				<input type="text" class="form-control globalSearchValue" title="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" placeholder="{\App\Language::translate('LBL_GLOBAL_SEARCH')}" results="10" />
 				<div class="input-group-btn">
-					<div class="float-right">
-						<button class="btn btn-light searchIcon" type="button">
-							<span class="fas fa-search"></span>
+					<div class="pull-right">
+						<button class="btn btn-outline-dark searchIcon" type="button">
+							<span class="fa fa-search"></span>
 						</button>
 					</div>
 				</div>
