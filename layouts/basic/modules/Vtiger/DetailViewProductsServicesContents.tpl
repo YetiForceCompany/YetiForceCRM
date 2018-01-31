@@ -21,7 +21,7 @@
 					<div class="col-xs-1 col-md-3 summaryWidgetIcon">
 						<div class="float-right">
 							<button class="btn btn-light showModal" type="button" data-modalid="ProductsModal" data-url="index.php?module=Products&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
-								<span class="glyphicon glyphicon-zoom-in" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"></span>
+								<span class="fas fa-search-plus" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"></span>
 							</button>
 						</div>
 					</div>
@@ -48,7 +48,7 @@
 					<div class="col-xs-1 col-md-3 summaryWidgetIcon">
 						<div class="float-right">
 							<button class="btn btn-light showModal" type="button" data-modalid="OutsourcedProductsModal" data-module="OutsourcedProducts" data-url="index.php?module=OutsourcedProducts&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
-								<span class="glyphicon glyphicon-zoom-in" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"></span>
+								<span class="fas fa-search-plus" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"></span>
 							</button>
 						</div>
 					</div>
@@ -97,7 +97,7 @@
 					<div class="col-xs-1 col-md-3 summaryWidgetIcon">
 						<span class="float-right">
 							<button class="btn btn-light showModal" type="button" data-modalid="ServicesModal" data-url="index.php?module=Services&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
-								<span class="glyphicon glyphicon-zoom-in" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"></span>
+								<span class="fas fa-search-plus" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"></span>
 							</button>
 						</span>
 					</div>
@@ -124,7 +124,7 @@
 				<div class="col-xs-1 col-md-3 summaryWidgetIcon">
 					<div class="float-right">
 						<button class="btn btn-light showModal" type="button" data-modalid="OSSOutsourcedServicesModal" data-module="OSSOutsourcedServices" data-url="index.php?module=OSSOutsourcedServices&view=TreeCategoryModal&src_module={$MODULE_NAME}&src_record={$RECORDID}">
-							<span class="glyphicon glyphicon-zoom-in" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"></span>
+							<span class="fas fa-search-plus" title="{\App\Language::translate('LBL_SELECT',$MODULE_NAME)}"></span>
 						</button>
 					</div>
 				</div>
