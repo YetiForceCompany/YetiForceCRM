@@ -42,7 +42,7 @@
 							<td nowrap class="{$WIDTHTYPE} actionImages">
 								<span class="float-right actions">
 									<button class="to-bottom btn btn-light btn-xs popoverTooltip" data-placement="left" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_ROW_TO_BOTTOM', $QUALIFIED_MODULE))}">
-										<span class="glyphicon glyphicon-arrow-down"></span>
+										<span class="fas fa-arrow-down"></span>
 									</button>
 								</span>
 								<span class="float-right actions">

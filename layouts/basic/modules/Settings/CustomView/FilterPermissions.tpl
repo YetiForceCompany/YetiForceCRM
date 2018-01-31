@@ -29,7 +29,7 @@
 					{/foreach}
 				</select>
 			</div>
-			<button type="button" class="btn btn-success moveItem" data-source="add" data-target="remove" data-action="add" title="{\App\Language::translate('LBL_ADD_PERMISSIONS', $MODULE_NAME)}" {if $IS_DEFAULT} disabled="disabled"{/if}><span class="glyphicon glyphicon-arrow-down"></span></button>
+			<button type="button" class="btn btn-success moveItem" data-source="add" data-target="remove" data-action="add" title="{\App\Language::translate('LBL_ADD_PERMISSIONS', $MODULE_NAME)}" {if $IS_DEFAULT} disabled="disabled"{/if}><span class="fas fa-arrow-down"></span></button>
 		</div>
 		<div class="form-group">
 			<label class="col-xs-12 col-form-label">
