@@ -155,7 +155,7 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_ACCEPTANCE_RECORD',
 				'linkurl' => '#',
-				'linkicon' => 'glyphicon glyphicon-ok',
+				'linkicon' => 'fas fa-check',
 				'linkclass' => 'btn btn-xs btn-success acceptanceRecord'
 			];
 		}

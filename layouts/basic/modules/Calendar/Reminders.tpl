@@ -10,7 +10,7 @@
 			<div class="panel picklistCBr_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}" data-record="{$RECORD_ID}">
 				<div class="panel-heading picklistCBg_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}">
 					 <button class="btn btn-success btn-xs pull-right showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						<span class="fas fa-check" aria-hidden="true"></span>
 					</button>
 					<img class="activityTypeIcon" src="{\App\Layout::getImagePath($RECORD->getActivityTypeIcon())}" />&nbsp;
 					<a target="_blank" href="index.php?module=Calendar&view=Detail&record={$RECORD_ID}">
@@ -94,7 +94,7 @@
 					{/if}
 					<hr />
 					<div class="actionRow text-center">
-						<a class="btn btn-default btn-sm btn-success showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
+						<a class="btn btn-default btn-sm btn-success showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}"><span class="fas fa-check" aria-hidden="true"></span></a>
 						<a class="btn btn-default btn-sm btn-primary reminderPostpone" data-time="15m">15{\App\Language::translate('LBL_M',$MODULE_NAME)}</a>
 						<a class="btn btn-default btn-sm btn-primary reminderPostpone" data-time="30m">30{\App\Language::translate('LBL_M',$MODULE_NAME)}</a>
 						<a class="btn btn-default btn-sm btn-primary reminderPostpone" data-time="1h">1{\App\Language::translate('LBL_H',$MODULE_NAME)}</a>

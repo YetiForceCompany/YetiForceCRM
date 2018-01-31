@@ -25,7 +25,7 @@
 		</div>
 		<div class="pull-right">
 			<button type="button" class="btn btn-success ajaxBtn">
-				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+				<span class="fas fa-check" aria-hidden="true"></span>
 				&nbsp;&nbsp;{App\Language::translate('LBL_SAVE','Settings:SystemWarnings')}
 			</button>&nbsp;&nbsp;
 			<button type="button" class="btn btn-danger cancel">

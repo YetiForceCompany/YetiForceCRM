@@ -30,7 +30,7 @@
 					<div class="text-right ">
 						<b>{\App\Language::translate('Created By')}:</b>&nbsp;{$ROW->getCreatorUser()}&nbsp;
 						<button type="button" class="btn btn-success btn-xs" onclick="Vtiger_Index_Js.markNotifications({$ROW->getId()});" title="{\App\Language::translate('LBL_MARK_AS_READ', $MODULE_NAME)}">
-							<span class="glyphicon glyphicon-ok"></span>
+							<span class="fas fa-check"></span>
 						</button>&nbsp;&nbsp;
 						{assign var=RELATED_RECORD value=$ROW->getRelatedRecord()}
 						{if $RELATED_RECORD['id'] && \App\Record::isExists($RELATED_RECORD['id'])}

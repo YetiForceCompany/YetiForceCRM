@@ -18,7 +18,7 @@
 						{if $ITEM->getStatus() == 0}
 							<span class="fas fa-times" aria-hidden="true"></span>
 						{elseif $ITEM->getStatus() == 1}
-							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+							<span class="fas fa-check" aria-hidden="true"></span>
 						{elseif $ITEM->getStatus() == 2}
 							<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
 						{/if}&nbsp;

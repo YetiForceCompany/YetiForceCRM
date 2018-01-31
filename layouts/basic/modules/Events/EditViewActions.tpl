@@ -12,11 +12,11 @@
 {strip}
 <div class="formActionsPanel">
 	<button class="btn btn-primary saveAndComplete" type="button">
-		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;
+		<span class="fas fa-check" aria-hidden="true"></span>&nbsp;&nbsp;
 		<strong>{\App\Language::translate('LBL_SAVE_AND_CLOSE', $MODULE)}</strong>
 	</button> 
 	<button class="btn btn-success" type="submit">
-		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;
+		<span class="fas fa-check" aria-hidden="true"></span>&nbsp;&nbsp;
 		<strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong>
 	</button>&nbsp;&nbsp;
 	<button class="btn btn-warning" type="reset" onclick="javascript:window.history.back();">

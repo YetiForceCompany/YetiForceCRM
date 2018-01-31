@@ -348,7 +348,7 @@ jQuery.Class('Settings_PickListDependency_Js', {
 			if (currentTarget.hasClass('selectedCell')) {
 				currentTarget.addClass('unselectedCell').removeClass('selectedCell').find('i.glyphicon-ok').remove();
 			} else {
-				currentTarget.addClass('selectedCell').removeClass('unselectedCell').prepend('<i class="glyphicon glyphicon-ok pull-left"></i>');
+				currentTarget.addClass('selectedCell').removeClass('unselectedCell').prepend('<i class="fas fa-check pull-left"></i>');
 			}
 		});
 	},

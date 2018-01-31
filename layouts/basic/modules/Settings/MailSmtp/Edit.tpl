@@ -222,7 +222,7 @@
 			<div class="row">
 				<div class="col-md-5 pull-right">
 					<span class="pull-right">
-						<button class="btn btn-success" type="submit"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;<strong>{App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+						<button class="btn btn-success" type="submit"><span class="fas fa-check" aria-hidden="true"></span>&nbsp;<strong>{App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();"><span class="fas fa-times" aria-hidden="true"></span>&nbsp;{App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					</span>
 				</div>

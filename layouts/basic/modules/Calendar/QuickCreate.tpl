@@ -34,7 +34,7 @@
 								{assign var="EDIT_VIEW_URL" value=$CALENDAR_MODULE_MODEL->getCreateEventRecordUrl()}
 							{/if}
 							<button class="btn btn-default goToFullFormOne" id="goToFullForm" data-edit-view-url="{$EDIT_VIEW_URL}" type="button"><strong>{\App\Language::translate('LBL_GO_TO_FULL_FORM', $MODULE)}</strong></button>&nbsp;
-							<button class="btn btn-success" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="glyphicon glyphicon-ok"></span></strong></button>
+							<button class="btn btn-success" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="fas fa-check"></span></strong></button>
 							<button class="cancelLink btn btn-warning" type="reset" aria-hidden="true" data-dismiss="modal"	type="button" title="{\App\Language::translate('LBL_CLOSE')}"><span class="fas fa-times"></span></button>
 						</div>
 						<div class="clearfix"></div>
@@ -104,7 +104,7 @@
 										</div>
 										<div class="pull-right marginTB10">
 											<button class="btn btn-primary saveAndComplete" type="button">{\App\Language::translate('LBL_SAVE_AND_CLOSE', $MODULE)}</button>
-											<button class="btn btn-success" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="glyphicon glyphicon-ok"></span></strong></button>
+											<button class="btn btn-success" type="submit" title="{\App\Language::translate('LBL_SAVE', $MODULE)}"><strong><span class="fas fa-check"></span></strong></button>
 										</div>
 										{if AppConfig::module($MODULE, 'SHOW_DAYS_QUICKCREATE')}
 											<div class="row noSpaces col-xs-12 eventsTable"></div>

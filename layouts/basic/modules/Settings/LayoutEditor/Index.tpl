@@ -89,7 +89,7 @@
                                                     <ul class="dropdown-menu pull-right">
                                                         <li class="blockVisibility" data-visible="{if !$BLOCK_MODEL->isHidden()}1{else}0{/if}" data-block-id="{$BLOCK_MODEL->get('id')}">
                                                             <a href="javascript:void(0)">
-                                                                <span class="glyphicon glyphicon-ok {if $BLOCK_MODEL->isHidden()} hide {/if}"></span>&nbsp;
+                                                                <span class="fas fa-check {if $BLOCK_MODEL->isHidden()} hide {/if}"></span>&nbsp;
                                                                 {App\Language::translate('LBL_ALWAYS_SHOW', $QUALIFIED_MODULE)}
                                                             </a>
                                                         </li>
