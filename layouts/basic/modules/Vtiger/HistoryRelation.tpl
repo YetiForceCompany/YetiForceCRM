@@ -30,7 +30,7 @@
 								<strong>{$HISTORY['userModel']->getName()}&nbsp;</strong>
 								<a href="{$HISTORY['url']}" target="_blank">{\App\Purifier::encodeHtml($HISTORY['content'])}</a>
 								{if $HISTORY['attachments_exist'] eq 1}
-									&nbsp;<span class="body-icon glyphicon glyphicon-paperclip"></span>
+									&nbsp;<span class="body-icon fas fa-paperclip"></span>
 								{/if}
 								{if !$IS_READ_ONLY && $HISTORY['type'] eq 'OSSMailView'}
 									<div class="float-right marginRight10 btn-group" role="group">
