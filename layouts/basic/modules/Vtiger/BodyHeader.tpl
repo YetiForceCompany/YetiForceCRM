@@ -180,7 +180,7 @@
 				<div class="float-right rightHeaderBtnMenu">
 					<div class="quickAction">
 						<a class="btn btn-light btn-sm" href="#">
-							<span aria-hidden="true" class="glyphicon glyphicon-menu-hamburger"></span>
+							<span aria-hidden="true" class="fas fa-bars"></span>
 						</a>
 					</div>
 				</div>
