@@ -4927,7 +4927,7 @@ and open the template in the editor.
   width: 35px; }
 .bodyHeader .dropdown-toggle::after {
   display: none; }
-.bodyHeader .btn {
+.bodyHeader .globalSearchInput .btn {
   width: 40px; }
 
 .bodyHeader .rightHeaderBtn {

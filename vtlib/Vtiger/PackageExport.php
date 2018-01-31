@@ -195,8 +195,8 @@ class PackageExport
 		$this->__copyLanguageFiles($zip, $module);
 
 		//Copy image file
-		if (file_exists('layouts/resources/images/$module.png')) {
-			$zip->copyFileFromDisk('layouts/resources/images', '', "$module.png");
+		if (file_exists('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png")) {
+			$zip->copyFileFromDisk('layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . '/images', '', "$module.png");
 		}
 
 		// Copty config files

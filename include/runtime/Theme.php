@@ -103,7 +103,7 @@ class Vtiger_Theme extends Vtiger_Viewer
 	 */
 	public static function getBaseThemePath()
 	{
-		return 'layouts/' . self::getLayoutName() . '/styles';
+		return 'layouts/' . self::getLayoutName() . '/skins';
 	}
 
 	/**
@@ -111,7 +111,7 @@ class Vtiger_Theme extends Vtiger_Viewer
 	 */
 	public static function getBaseStylePath()
 	{
-		return self::getBaseThemePath() . '/main.css';
+		return 'layouts/' . self::getLayoutName() . '/styles/Main.css';
 	}
 
 	/**
@@ -123,12 +123,12 @@ class Vtiger_Theme extends Vtiger_Viewer
 		if (empty($theme)) {
 			$theme = self::getDefaultThemeName();
 		}
-		$selectedThemePath = 'layouts/' . self::getLayoutName() . '/skins/' . $theme;
+		$selectedThemePath = self::getBaseThemePath() . '/' . $theme;
 		$completeSelectedThemePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $selectedThemePath);
 		if (file_exists($completeSelectedThemePath)) {
 			return $selectedThemePath;
 		}
-		$fallBackThemePath = 'layouts/' . self::getLayoutName() . '/skins/' . self::getDefaultThemeName();
+		$fallBackThemePath = self::getBaseThemePath() . '/' . self::getDefaultThemeName();
 		$completeFallBackThemePath = Vtiger_Loader::resolveNameToPath('~public_html/' . $fallBackThemePath);
 		if (file_exists($completeFallBackThemePath)) {
 			return $fallBackThemePath;
@@ -161,6 +161,7 @@ class Vtiger_Theme extends Vtiger_Viewer
 	public static function getCurrentUserThemePath()
 	{
 		$themeName = self::getDefaultThemeName();
-		return 'layouts/' . self::getLayoutName() . '/skins/' . $themeName;
+		$baseLayoutPath = self::getBaseThemePath();
+		return $baseLayoutPath . '/' . $themeName;
 	}
 }
