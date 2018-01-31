@@ -84,7 +84,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linklabel' => '',
 					'linkhint' => 'LBL_PRINT',
 					'linkurl' => 'javascript:OSSMailView_Detail_Js.printMail();',
-					'linkicon' => 'glyphicon glyphicon-print'
+					'linkicon' => 'fas fa-print'
 				];
 			}
 			foreach ($detailViewLinks as $detailViewLink) {

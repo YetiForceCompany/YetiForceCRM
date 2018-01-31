@@ -49,7 +49,7 @@
 									{if \App\Privilege::isPermitted($MODULENAME, 'PrintMail')}
 										<span class="btn-group">
 											<button id="previewPrint" onclick="OSSMailView_preview_Js.printMail();" type="button" name="previewPrint" class="btn btn-sm btn-light" data-mode="previewPrint">
-												<span class="glyphicon glyphicon-print" aria-hidden="true"></span>&nbsp;&nbsp;
+												<span class="fas fa-print" aria-hidden="true"></span>&nbsp;&nbsp;
 												<strong>{\App\Language::translate('LBL_PRINT',$MODULENAME)}</strong>
 											</button>
 										</span>
