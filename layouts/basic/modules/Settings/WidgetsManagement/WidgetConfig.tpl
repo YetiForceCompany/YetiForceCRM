@@ -24,7 +24,7 @@
 									<div class="col-md-3 text-center checkboxForm">
 										<input type="checkbox" name="isdefault" class="" {if $WIDGET_MODEL->get('isdefault') eq 1} checked {/if}>
 									</div>	
-									<label class="col-md-9 form-control-static float-left" >
+									<label class="col-md-9 form-control-plaintext float-left" >
 										&nbsp;&nbsp;{\App\Language::translate('LBL_MANDATORY_WIDGET', $QUALIFIED_MODULE)}&nbsp;
 									</label>
 								</div>
@@ -32,7 +32,7 @@
 									<div class="col-md-3 text-center checkboxForm">
 										<input type="checkbox" name="cache" class="" {if $WIDGET_MODEL->get('cache') eq 1} checked {/if}>
 									</div>	
-									<label class="col-md-9 form-control-static float-left" >
+									<label class="col-md-9 form-control-plaintext float-left" >
 										&nbsp;&nbsp;{\App\Language::translate('LBL_CACHE_WIDGET', $QUALIFIED_MODULE)}&nbsp;
 									</label>
 								</div>
@@ -94,7 +94,7 @@
 										<div class="col-md-3 text-center checkboxForm">
 											<input type="checkbox" name="showUsers" class="" {if $WIDGET_INFO['showUsers'] eq 1} checked {/if}>
 										</div>	
-										<label class="col-md-9 form-control-static float-left" >
+										<label class="col-md-9 form-control-plaintext float-left" >
 											&nbsp;&nbsp;{\App\Language::translate('LBL_SHOW_USERS', $QUALIFIED_MODULE)}
 										</label>
 									</div>
@@ -113,7 +113,7 @@
 												{/foreach}
 											</select>
 										</div>
-										<label class="col-md-6 form-control-static" >
+										<label class="col-md-6 form-control-plaintext" >
 											{\App\Language::translate('LBL_DEFAULT_FILTER', $QUALIFIED_MODULE)}
 										</label>
 									</div>
@@ -130,7 +130,7 @@
 												{/foreach}
 											</select>
 										</div>
-										<label class="col-md-3 form-control-static" >
+										<label class="col-md-3 form-control-plaintext" >
 											{\App\Language::translate('LBL_FILTERS_AVAILABLE', $QUALIFIED_MODULE)}
 										</label>
 									</div>	

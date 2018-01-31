@@ -14,7 +14,7 @@
 						<div class="form-container-sm">
 							<div class="form-group form-group-sm">
 								<label class="col-md-4 control-label">{\App\Language::translate('Type widget', $QUALIFIED_MODULE)}:</label>
-								<div class="col-md-7 form-control-static">
+								<div class="col-md-7 form-control-plaintext">
 									{\App\Language::translate($TYPE, $QUALIFIED_MODULE)}
 								</div>
 							</div>

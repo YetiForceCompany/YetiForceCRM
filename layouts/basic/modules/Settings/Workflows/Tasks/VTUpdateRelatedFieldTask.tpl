@@ -52,7 +52,7 @@
 					<input type="text" class="getPopupUi form-control" readonly="" name="fieldValue" value="{$FIELD_MAP['value']}" />
 					<input type="hidden" name="valuetype" value="{$FIELD_MAP['valuetype']}" />
 				</span>
-				<p class="cursorPointer form-control-static">
+				<p class="cursorPointer form-control-plaintext">
 					<i class="alignMiddle deleteCondition fas fa-trash-alt"></i>
 				</p>
 			</div>
@@ -101,7 +101,7 @@
 			<input type="text" class="form-control" readonly="" name="fieldValue" value="" />
 			<input type="hidden" name="valuetype" class="form-control" value="rawtext" />
 		</span>
-		<p class="cursorPointer form-control-static">
+		<p class="cursorPointer form-control-plaintext">
 			<span class="alignMiddle deleteCondition fas fa-trash-alt"></span>
 		</p>
 	</div>

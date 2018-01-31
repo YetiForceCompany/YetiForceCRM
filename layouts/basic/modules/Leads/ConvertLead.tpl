@@ -32,7 +32,7 @@
 								<div class="accordion-group convertLeadModules">
 									<div class="header accordion-heading">
 										<div data-parent="#leadAccordion" data-toggle="collapse" class="panel-heading paddingTBZero accordion-toggle table-bordered moduleSelection" href="#{$MODULE_NAME}_FieldInfo">
-											<div class="form-control-static checkbox">
+											<div class="form-control-plaintext checkbox">
 												<label>
 													<input id="{$MODULE_NAME}Module" class="convertLeadModuleSelection alignBottom{if $MODULE_NAME == 'Accounts'} hide{/if}" data-module="{App\Language::translate($MODULE_NAME,$MODULE_NAME)}" value="{$MODULE_NAME}" type="checkbox" checked="" />
 													{assign var=SINGLE_MODULE_NAME value="SINGLE_$MODULE_NAME"}
