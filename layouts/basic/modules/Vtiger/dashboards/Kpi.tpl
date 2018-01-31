@@ -30,7 +30,7 @@
 						</a>
 						-->
 						<a href="javascript:void(0);" name="drefresh" data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data">
-							<i class="glyphicon glyphicon-refresh" hspace="2" border="0" align="absmiddle" title="{\App\Language::translate('LBL_REFRESH')}" alt="{\App\Language::translate('LBL_REFRESH')}"></i>
+							<i class="fas fa-sync-alt" hspace="2" border="0" align="absmiddle" title="{\App\Language::translate('LBL_REFRESH')}" alt="{\App\Language::translate('LBL_REFRESH')}"></i>
 						</a>
 						{if !$WIDGET->isDefault()}
 							<a name="dclose" class="widget" data-url="{$WIDGET->getDeleteUrl()}">
