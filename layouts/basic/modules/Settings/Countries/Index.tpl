@@ -58,7 +58,7 @@
 								</span>
 								<span class="float-right actions">
 									<button class="phone btn {if !$ROW['phone']}btn-success{else}btn-danger{/if} btn-xs popoverTooltip" data-phone="{$ROW['phone']}" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_VISIBLE_IN_PHONE', $QUALIFIED_MODULE))}">
-										<span class="fas fa-mobile"></span>
+										<span class="fas fa-mobile-alt"></span>
 									</button>
 								</span>
 								<span class="float-right actions">
