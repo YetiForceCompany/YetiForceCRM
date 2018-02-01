@@ -223,7 +223,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 	 */
 	public function getEntryExtend(Vtiger_Record_Model $recordModel)
 	{
-		
+
 	}
 
 	/**
@@ -470,7 +470,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => \App\Language::translate('LBL_SELECT_RELATION', $relatedModel->getName()),
 				'linkurl' => '',
-				'linkicon' => 'glyphicon glyphicon-open',
+				'linkicon' => 'fas fa-level-up-alt',
 			]
 		];
 
