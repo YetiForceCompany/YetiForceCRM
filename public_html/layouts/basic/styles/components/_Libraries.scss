@@ -9,8 +9,19 @@ and open the template in the editor.
 */
 //chosen corrections for bootstrap 4
 .chosen-single {
-	height: 37px !important;
+	height: $inputHeight !important;
 }
 .chzn-selectWithButtonWidth {
 	width: calc(100% - #{$iconButtonWidth});
+}
+.select2-selection {
+	@extend .py-2;
+	height: 38px !important;
+}
+.headerLinksMails .select2-selection:hover {
+	background: $darkblue !important;
+	.select2-selection__rendered {
+		color: $white !important;
+	}
+
 }

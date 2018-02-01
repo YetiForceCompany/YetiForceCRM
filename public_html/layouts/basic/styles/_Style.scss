@@ -2575,10 +2575,6 @@ span[name=existingImages] img {
 .widgetHr {
   margin-top: 0;
 }
-.headerLinksMails .btn-group {
-  margin-top: 8px;
-  margin-right: 5px;
-}
 .globalSearchInput {
   width: 450px;
   margin-top: 8px;
@@ -3378,22 +3374,6 @@ html, body, .baseContainer {
   padding-top: 0px;
   padding-left: 0px;
   padding-bottom: 0px;
-}
-.headerLinksMails {
-  .btn-group {
-    a {
-      padding-top: 7px;
-      height: 34px;
-    }
-    > .btn + .dropdown-toggle {
-      padding-top: 7px;
-      padding-bottom: 7px;
-    }
-  }
-  .dropdown-menu {
-    left: auto;
-    right: 0;
-  }
 }
 .rows {
   width: 100%;
@@ -4778,9 +4758,7 @@ select.form-control {
     display: inline;
   }
 }
-.headerLinksMails .select2-selection__rendered:hover {
-  background: #f5f5f5 !important;
-}
+
 .leegendIcon {
   margin: 0 5px 0 15px;
   height: 15px;
