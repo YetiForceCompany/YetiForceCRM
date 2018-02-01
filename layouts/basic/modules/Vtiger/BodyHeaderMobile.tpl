@@ -67,7 +67,7 @@
 				</div>
 				<div class='pull-right'>
 					<a id="mobile_menubar_quickCreate" class="dropdown-toggle btn btn-default" data-toggle="dropdown" title="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
-						<span class="fa fa-plus" aria-hidden="true"></span>
+						<span class="fas fa-plus" aria-hidden="true"></span>
 					</a>
 					<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
 						<li class="quickCreateModules">
