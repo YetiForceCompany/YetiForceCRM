@@ -13,8 +13,8 @@
 				<input name="seq{$ROW_NO}" type="hidden" value="{$ROW_NO}" class="sequence" />
 				{if $COUNT_FIELDS2 > 0}
 					<br /><br />
-					<span class="btn btn-light btn-xs toggleVisibility" data-status="0" href="#">
-						<span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>	
+					<span class="btn btn-light btn-sm toggleVisibility" data-status="0" href="#">
+						<span class="fas fa-angle-down" aria-hidden="true"></span>	
 					</span>
 				{/if}
 			</td>

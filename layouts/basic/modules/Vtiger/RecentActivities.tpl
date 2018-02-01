@@ -142,7 +142,7 @@
 		<div id="moreLink">
 			{if $PAGING_MODEL->isNextPageExists()}
 				<div class="float-right">
-					<button type="button" class="btn btn-primary btn-xs moreRecentUpdates">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button>
+					<button type="button" class="btn btn-primary btn-sm moreRecentUpdates">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button>
 				</div>
 			{/if}
 		</div>

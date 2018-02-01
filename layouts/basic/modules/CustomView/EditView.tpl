@@ -62,7 +62,7 @@
 		<div class="">
 			<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
 				<div class="row blockHeader panel-heading marginLeftZero marginRightZero"><div class="iconCollapse">
-						<span class="cursorPointer iconToggle glyphicon glyphicon glyphicon-menu-down" data-hide="glyphicon-menu-right" data-show="glyphicon-menu-down"></span>
+						<span class="cursorPointer iconToggle fas fa-chevron-down" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
 						<h4 class="">{\App\Language::translate('LBL_BASIC_DETAILS',$MODULE)}</h4></div></div>
 				<div class="panel-body">
 					<div class="form-group">
@@ -133,7 +133,7 @@
 			</div>
 			<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
 				<div class="row blockHeader panel-heading marginLeftZero marginRightZero"><div class="iconCollapse">
-						<span class="cursorPointer iconToggle glyphicon glyphicon glyphicon-menu-right" data-hide="glyphicon-menu-right" data-show="glyphicon-menu-down"></span>
+						<span class="cursorPointer iconToggle fas fa-chevron-right" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
 						<h4 class="">{\App\Language::translate('LBL_DESCRIPTION_INFORMATION',$MODULE)}</h4></div></div>
 				<div class="panel-body padding5 hide">
 					<textarea name="description" id="description" class="ckEditorSource">{$CUSTOMVIEW_MODEL->get('description')}</textarea>
@@ -141,7 +141,7 @@
 			</div>
 			<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
 				<div class="row blockHeader panel-heading marginLeftZero marginRightZero"><div class="iconCollapse">
-						<span class="cursorPointer iconToggle glyphicon glyphicon glyphicon-menu-down" data-hide="glyphicon-menu-right" data-show="glyphicon-menu-down"></span>
+						<span class="cursorPointer iconToggle fas fa-chevron-down" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
 						<h4 class="">{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS', $MODULE)}:</h4></div></div>
 				<div class="panel-body">
 					<div class="filterConditionsDiv">

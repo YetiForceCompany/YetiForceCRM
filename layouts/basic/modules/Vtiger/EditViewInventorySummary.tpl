@@ -8,7 +8,7 @@
 						<img src="{\App\Layout::getImagePath('Discount24.png')}" alt="{\App\Language::translate('LBL_DISCOUNT', $MODULE)}" />&nbsp;&nbsp;
 						<strong>{\App\Language::translate('LBL_DISCOUNTS_SUMMARY',$MODULE)}</strong>
 						<span class="float-right groupDiscount changeDiscount {if isset($INVENTORY_ROWS[0]) && $INVENTORY_ROWS[0]['discountmode'] == '1'}hide{/if}">
-							<button type="button" class="btn btn-primary btn-xs">{\App\Language::translate('LBL_SET_GLOBAL_DISCOUNT', $MODULE)}</button>
+							<button type="button" class="btn btn-primary btn-sm">{\App\Language::translate('LBL_SET_GLOBAL_DISCOUNT', $MODULE)}</button>
 						</span>
 					</div>
 					<div class="panel-body">
@@ -31,7 +31,7 @@
 						<img src="{\App\Layout::getImagePath('Tax24.png')}" alt="{\App\Language::translate('LBL_TAX', $MODULE)}" />&nbsp;&nbsp;
 						<strong>{\App\Language::translate('LBL_TAX_SUMMARY',$MODULE)}</strong>
 						<span class="float-right groupTax changeTax {if isset($INVENTORY_ROWS[0]) && $INVENTORY_ROWS[0]['taxmode'] == '1'}hide{/if}">
-							<button type="button" class="btn btn-primary btn-xs">{\App\Language::translate('LBL_SET_GLOBAL_TAX', $MODULE)}</button>
+							<button type="button" class="btn btn-primary btn-sm">{\App\Language::translate('LBL_SET_GLOBAL_TAX', $MODULE)}</button>
 						</span>
 					</div>
 					<div class="panel-body"></div>

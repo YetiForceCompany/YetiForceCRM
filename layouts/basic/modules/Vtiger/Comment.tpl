@@ -74,13 +74,13 @@
 							{assign var=CHILDS_ROOT_PARENT_ID value=$CHILDS_ROOT_PARENT_MODEL->getId()}
 						{/if}
 						{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
-							<button type="button" class="btn btn-xs btn-success replyComment">
+							<button type="button" class="btn btn-sm btn-success replyComment">
 								<span class="fas fa-share" aria-hidden="true"></span>
 								&nbsp;{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}
 							</button>
 						{/if}
 						{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
-							<button type="button" class="btn btn-xs btn-primary editComment feedback marginLeft5">
+							<button type="button" class="btn btn-sm btn-primary editComment feedback marginLeft5">
 								<span class="fas fa-pencil-alt" aria-hidden="true"></span>&nbsp;{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}
 							</button>
 						{/if}
@@ -93,7 +93,7 @@
 						{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
 						{if $CHILD_COMMENTS_MODEL neq null and ($CHILDS_ROOT_PARENT_ID neq $PARENT_COMMENT_ID)}
 							<span class="viewThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
-								<button type="button" class="btn btn-xs btn-info viewThread marginLeft5">
+								<button type="button" class="btn btn-sm btn-info viewThread marginLeft5">
 									<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
 									<span class="fas fa-share"></span>
 								</button>
@@ -106,7 +106,7 @@
 							</span>
 						{elseif $CHILD_COMMENTS neq null and ($CHILDS_ROOT_PARENT_ID eq $PARENT_COMMENT_ID)}
 							<span class="viewThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
-								<button type="button" class="btn btn-xs btn-info viewThread marginLeft5">
+								<button type="button" class="btn btn-sm btn-info viewThread marginLeft5">
 									<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
 									<span class="fas fa-share"></span>
 								</button>

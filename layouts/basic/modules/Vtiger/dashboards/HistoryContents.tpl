@@ -70,7 +70,7 @@
 													</div>
 												{/if}
 											{else}
-												<a class="btn btn-info btn-xs moreBtn" href="{$PARENT->getUpdatesUrl()}">{\App\Language::translate('LBL_MORE')}</a>
+												<a class="btn btn-info btn-sm moreBtn" href="{$PARENT->getUpdatesUrl()}">{\App\Language::translate('LBL_MORE')}</a>
 												{break}
 											{/if}
 										{/foreach}
@@ -132,7 +132,7 @@
 							{if $NEXTPAGE}
 								<div class="row">
 									<div class="col-md-12">
-										<button class="load-more btn btn-xs btn-info" data-page="{$PAGE}" data-nextpage="{$NEXTPAGE}">{\App\Language::translate('LBL_MORE')}</button>
+										<button class="load-more btn btn-sm btn-info" data-page="{$PAGE}" data-nextpage="{$NEXTPAGE}">{\App\Language::translate('LBL_MORE')}</button>
 									</div>
 								</div>
 							{/if}

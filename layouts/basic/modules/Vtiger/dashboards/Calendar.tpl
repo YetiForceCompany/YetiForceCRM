@@ -5,13 +5,13 @@
 {assign var=CURRENTUSERID value=$CURRENTUSER->getId()}
 <div class="dashboardWidgetHeader">
 	<div class="row">
-		<div class="col-xs-8">
+		<div class="col-sm-8">
 			<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(),$MODULE_NAME)}</strong></div>
 		</div>
-		<div class="col-xs-4">
+		<div class="col-sm-4">
 			<div class="box float-right">
 				{if \App\Privilege::isPermitted('Calendar', 'CreateView')}
-					<a class="btn btn-light btn-xs" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
+					<a class="btn btn-light btn-sm" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
 							return false;">
 						<span class='fas fa-plus' border='0' title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
 					</a>
@@ -25,7 +25,11 @@
 		<div class="col-sm-6">
 			{if AppConfig::module('Calendar','DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE') == 'list'}
 				<div class="input-group input-group-sm">
-					<span class="input-group-addon"><span class="fas fa-filter iconMiddle margintop3"></span></span>
+					<span class="input-group-prepend">
+						<span class="input-group-text">
+							<span class="fas fa-filter iconMiddle margintop3"></span>
+						</span>
+					</span>
 					<select class="widgetFilter form-control customFilter input-sm" name="customFilter" title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
 						{assign var=CUSTOM_VIEWS value=CustomView_Record_Model::getAllByGroup('Calendar')}
 						{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}

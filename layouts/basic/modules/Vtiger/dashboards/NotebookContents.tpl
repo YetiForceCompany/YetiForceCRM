@@ -16,7 +16,7 @@
 				</span>
 				<span class="col-md-2">
 					<span class="float-right">
-						<button class="btn btn-xs btn-light float-right dashboard_notebookWidget_edit">
+						<button class="btn btn-sm btn-light float-right dashboard_notebookWidget_edit">
 							<strong>{\App\Language::translate('LBL_EDIT', $MODULE)}</strong>
 						</button>
 					</span>
@@ -35,7 +35,7 @@
 				</span>
 				<span class="col-md-2">
 					<span class="float-right">
-						<button class="btn btn-xs btn-success float-right dashboard_notebookWidget_save">
+						<button class="btn btn-sm btn-success float-right dashboard_notebookWidget_save">
 							<strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong>
 						</button>
 					</span>

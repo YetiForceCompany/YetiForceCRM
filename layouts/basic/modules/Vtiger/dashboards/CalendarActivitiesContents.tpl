@@ -71,7 +71,7 @@ font-size: 75%;
 	{/foreach}
 	{if $PAGING_MODEL->get('nextPageExists') eq 'true'}
 		<div class="float-right padding5">
-			<button type="button" class="btn btn-xs btn-primary showMoreHistory" data-url="{$WIDGET->getUrl()}&page={$PAGING_MODEL->getNextPage()}">
+			<button type="button" class="btn btn-sm btn-primary showMoreHistory" data-url="{$WIDGET->getUrl()}&page={$PAGING_MODEL->getNextPage()}">
 				{\App\Language::translate('LBL_MORE')}
 			</button>
 		</div>

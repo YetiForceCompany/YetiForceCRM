@@ -31,10 +31,10 @@
 								<div class="action">
 									{$SERVER['api_key']}
 									<div class="float-right">
-										<button class="btn btn-primary btn-xs edit">
+										<button class="btn btn-primary btn-sm edit">
 											<span class="fas fa-pencil-alt cursorPointer"></span>
 										</button>
-										<button class="btn btn-danger btn-xs marginLeft5 remove">
+										<button class="btn btn-danger btn-sm marginLeft5 remove">
 											<span class="fas fa-trash-alt cursorPointer"></span>
 										</button>
 									</div>
