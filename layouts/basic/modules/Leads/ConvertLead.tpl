@@ -38,7 +38,7 @@
 													{assign var=SINGLE_MODULE_NAME value="SINGLE_$MODULE_NAME"}
 													<span class="panel-title">&nbsp;{App\Language::translate('LBL_CREATING_NEW', $MODULE_NAME)}&nbsp;{App\Language::translate($SINGLE_MODULE_NAME, $MODULE_NAME)}</span>
 												</label>
-												<span class="float-right"><i class="iconArrow{if $CONVERT_LEAD_FIELDS['Accounts'] && $MODULE_NAME == "Accounts"} fas fa-chevron-up {else} glyphicon glyphicon-chevron-down {/if}alignBottom"></i></span>
+												<span class="float-right"><i class="iconArrow{if $CONVERT_LEAD_FIELDS['Accounts'] && $MODULE_NAME == "Accounts"} fas fa-chevron-up {else} fas fa-chevron-down {/if}alignBottom"></i></span>
 											</div>
 										</div>
 									</div>

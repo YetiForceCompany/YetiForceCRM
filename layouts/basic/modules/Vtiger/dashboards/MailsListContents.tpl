@@ -13,7 +13,7 @@
 		<div class="col-md-12 marginLeftZero">
 			<div class="float-right" >
 				<a class="showMailBody" >
-					<span class="body-icon glyphicon glyphicon-chevron-down"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+					<span class="body-icon fas fa-chevron-down"></span>&nbsp;&nbsp;&nbsp;&nbsp;
 				</a>
 			</div>
 			<span class="float-left" style="margin-left:2%;">{\App\Language::translate('From', 'OSSMailView')}: {\App\Purifier::encodeHtml($item->get('fromaddress'))}</span>
