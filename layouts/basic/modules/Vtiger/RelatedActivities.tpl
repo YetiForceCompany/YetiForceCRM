@@ -92,7 +92,7 @@
 				</div>
 				<div class="activityDescription">
 					<div>
-						<span class="value"><span class="glyphicon glyphicon-align-justify"></span>&nbsp;&nbsp;
+						<span class="value"><span class="fas fa-align-justify"></span>&nbsp;&nbsp;
 							{if $RECORD->get('description') neq ''}
 								{$RECORD->getDisplayValue('description')|truncate:120:'...'}
 							{else}
