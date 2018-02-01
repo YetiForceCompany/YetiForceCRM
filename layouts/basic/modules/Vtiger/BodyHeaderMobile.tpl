@@ -24,7 +24,7 @@
 					</div>
 					<div class="pull-right">
 						<a class="btn btn-default {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" title="{\App\Language::translate('LBL_REMINDER')}" data-content="{\App\Language::translate('LBL_REMINDER')}">
-							<span class="fa fa-calendar" aria-hidden="true"></span>
+							<span class="fas fa-calendar-alt" aria-hidden="true"></span>
 							<span class="badge bgDanger hide">0</span>
 						</a>
 					</div>
