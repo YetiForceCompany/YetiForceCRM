@@ -108,7 +108,7 @@
 						{if $IS_INVENTORY}
 							{$COUNT = $COUNT+1}
 							<td class="medium" nowrap>
-								<button type="button" class="btn btn-sm btn-info popoverTooltip showInventoryRow" data-placement="left" data-content="{\App\Language::translate('LBL_SHOW_INVENTORY_ROW')}"><span class="glyphicon glyphicon-resize-vertical"></span></button>
+								<button type="button" class="btn btn-sm btn-info popoverTooltip showInventoryRow" data-placement="left" data-content="{\App\Language::translate('LBL_SHOW_INVENTORY_ROW')}"><span class="fas fa-arrows-alt-v"></span></button>
 							</td>
 						{/if}
 					</tr>
