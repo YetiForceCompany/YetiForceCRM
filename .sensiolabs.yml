@@ -36,4 +36,6 @@ rules:
         enabled: false
     composer.warning:
         enabled: false
+    web.apache_config:
+        enabled: false
         
