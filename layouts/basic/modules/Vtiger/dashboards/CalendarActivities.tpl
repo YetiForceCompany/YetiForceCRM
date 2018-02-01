@@ -15,10 +15,10 @@
 	{assign var=CURRENTUSERID value=$CURRENTUSER->getId()}
 	<div class="dashboardWidgetHeader">
 		<div class="row">
-			<div class="col-md-8">
+			<div class="col-md-6">
 				<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-6">
 				<div class="box float-right">
 					{if \App\Privilege::isPermitted('Calendar', 'CreateView')}
 						<a class="btn btn-sm btn-light" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
@@ -40,9 +40,13 @@
 		</div>
 		<hr class="widgetHr" />
 		<div class="row" >
-			<div class="col-xs-6">
+			<div class="col-md-6">
 				<div class="input-group input-group-sm">
-					<span class="input-group-addon"><span class="fas fa-filter iconMiddle margintop3" title="{\App\Language::translate('Assigned To', $MODULE_NAME)}"></span></span>
+					<span class="input-group-prepend">
+						<span class="input-group-text">
+							<span class="fas fa-filter iconMiddle margintop3" title="{\App\Language::translate('Assigned To', $MODULE_NAME)}"></span>
+						</span>
+					</span>
 					<select class="widgetFilter select2 width90 form-control input-sm" name="activitytype" title="{\App\Language::translate('Activity Type',$SOURCE_MODULE)}">
 						<option value="all">{\App\Language::translate('LBL_ALL')}</option>
 						{foreach item=TYPE from=Calendar_Module_Model::getCalendarTypes()}
@@ -51,7 +55,7 @@
 					</select>
 				</div>
 			</div>
-			<div class="col-xs-6">
+			<div class="col-md-6">
 				{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
 			</div>
 		</div>
