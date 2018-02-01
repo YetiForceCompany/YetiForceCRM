@@ -8,12 +8,8 @@
 					<div class="btn-group">
 						{assign var="SPECIAL_WIDGETS" value=Settings_WidgetsManagement_Module_Model::getSpecialWidgets('Home')}
 						{if $WIDGETS|count gt 0}
-							<button class="btn btn-light addButton dropdown-toggle" style="padding:7px 8px;" data-toggle="dropdown">
-								<p class="d-none d-sm-none d-md-block no-margin">
-									<strong>{\App\Language::translate('LBL_ADD_WIDGET')}</strong>
-									<span class="caret"></span>
-								</p>
-								<span class="fas fa-th d-none d-block d-sm-block d-md-none"></span>
+							<button class="btn btn-outline-secondary addButton dropdown-toggle" style="padding:7px 8px;" data-toggle="dropdown">
+								<strong>{\App\Language::translate('LBL_ADD_WIDGET')}</strong>
 							</button>
 							<ul class="dropdown-menu widgetsList float-left addWidgetDropDown">
 								{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardFilter')}
@@ -46,10 +42,8 @@
 								{/foreach}
 							</ul>
 						{else if $MODULE_PERMISSION}
-							<button class="btn btn-light addButton dropdown-toggle" data-toggle="dropdown">
-								<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_ADD_WIDGET')}</strong>
-								<span class="d-none d-sm-none d-md-block caret"></span>
-								<span class="fas fa-th d-none d-block d-sm-block d-md-none"></span>
+							<button class="btn btn-outline-secondary addButton dropdown-toggle" data-toggle="dropdown">
+								<strong>{\App\Language::translate('LBL_ADD_WIDGET')}</strong>
 							</button>
 							<ul class="dropdown-menu widgetsList float-left addWidgetDropDown">
 								{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardFilter')}
@@ -89,15 +83,15 @@
 						{/if}
 					</div>
 					{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardFilter')}
-						<div class="btn-group d-none d-sm-none d-md-block">
-							<a class="btn btn-light addFilter" data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="4">
+						<div class="btn-group d-none d-sm-none d-md-block ml-1">
+							<a class="btn btn-outline-secondary addFilter" data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="4">
 								<strong>{\App\Language::translate('LBL_ADD_FILTER')}</strong>
 							</a>
 						</div>
 					{/if}
 					{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardChartFilter')}
-						<div class="btn-group d-none d-sm-none d-md-block">
-							<a class="btn btn-light addChartFilter" data-linkid="{$SPECIAL_WIDGETS['ChartFilter']->get('linkid')}" data-block-id="0" data-width="4" data-height="4">
+						<div class="btn-group d-none d-sm-none d-md-block ml-1">
+							<a class="btn btn-outline-secondary addChartFilter" data-linkid="{$SPECIAL_WIDGETS['ChartFilter']->get('linkid')}" data-block-id="0" data-width="4" data-height="4">
 								<strong>{\App\Language::translate('LBL_ADD_CHART_FILTER')}</strong>
 							</a>
 						</div>
