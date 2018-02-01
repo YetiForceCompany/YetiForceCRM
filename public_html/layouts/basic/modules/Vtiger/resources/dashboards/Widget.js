@@ -88,9 +88,8 @@ jQuery.Class('Vtiger_Widget_Js', {
 		var header = widget.find('.dashboardWidgetHeader');
 		var headerHeight = header.outerHeight();
 		var adjustedHeight = widget.height() - headerHeight;
-		if (footer.length) {
-			adjustedHeight -= footer.outerHeight();
-		}
+		if (footer.length) adjustedHeight -= footer.outerHeight();
+		if (!content.length) return;
 		content.css('height', adjustedHeight + 'px');
 		var scrollbarInit = new PerfectScrollbar(content[0]);
 	},
