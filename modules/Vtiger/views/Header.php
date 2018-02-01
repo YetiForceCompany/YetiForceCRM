@@ -137,7 +137,7 @@ abstract class Vtiger_Header_View extends Vtiger_View_Controller
 	 */
 	public function getHeaderCss(\App\Request $request)
 	{
-		$headerCssInstances = array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles(['~' . Vtiger_Theme::getBaseStylePath()]));
+		$headerCssInstances = parent::getHeaderCss($request);
 		$headerCss = Vtiger_Link_Model::getAllByType(vtlib\Link::IGNORE_MODULE, ['HEADERCSS']);
 		$selectedThemeCssPath = Vtiger_Theme::getThemeStyle();
 		$cssScriptModel = new Vtiger_CssScript_Model();
