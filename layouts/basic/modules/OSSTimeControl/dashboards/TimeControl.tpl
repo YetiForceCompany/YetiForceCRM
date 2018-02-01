@@ -72,7 +72,10 @@
 	<div class="row" >
 		<div class="col-md-6">
 			<div class="input-group input-group-sm">
-				<span class=" input-group-addon"><span class="fas fa-calendar-alt iconMiddle "></span></span>
+				<span class=" input-group-prepend">
+					<span class="input-group-text">
+						<span class="fas fa-calendar-alt iconMiddle "></span></span>
+					</span>
 				<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter width90 form-control" value="{implode(',',$DTIME)}" />
 			</div>	
 		</div>
@@ -84,7 +87,10 @@
 				{assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 			{/if}
 			<div class="input-group input-group-sm">
-				<span class="input-group-addon"><span class="fas fa-user iconMiddle"></span></span>
+				<span class="input-group-append">
+					<span class="input-group-text">
+						<span class="fas fa-user iconMiddle"></span></span>
+					</span>
 				<select class="widgetFilter width90 form-control select2" title="{\App\Language::translate('LBL_SELECT_USER')}" name="user" style="margin-bottom:0;" 
 					{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 						data-ajax-search="1" data-ajax-url="index.php?module={$MODULE_NAME}&action=Fields&mode=getOwners&fieldName=assigned_user_id&result[]=users" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
