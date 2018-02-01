@@ -27,7 +27,7 @@
 						</a>
 					{/if}&nbsp;
 					<button class="btn btn-light btn-sm changeRecordSort" title="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}" alt="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}" data-sort="{if $DATA['sortorder'] eq 'desc'}asc{else}desc{/if}" data-asc="{\App\Language::translate('LBL_SORT_ASCENDING', $MODULE_NAME)}" data-desc="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}">
-						<span class="fas fa-sort-amount-up" aria-hidden="true" ></span>
+						<span class="fas fa-sort-amount-down" aria-hidden="true" ></span>
 					</button>
 					{if $LISTVIEWLINKS}&nbsp;
 						<button class="btn btn-light btn-sm goToListView" title="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST', $MODULE_NAME)}" >

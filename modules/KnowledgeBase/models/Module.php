@@ -30,7 +30,7 @@ class KnowledgeBase_Module_Model extends Vtiger_Module_Model
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_VIEW_TREE',
 				'linkurl' => $this->getTreeViewUrl(),
-				'linkicon' => 'glyphicon glyphicon-tree-deciduous',
+				'linkicon' => 'fas fa-tree',
 		]);
 		return $links;
 	}

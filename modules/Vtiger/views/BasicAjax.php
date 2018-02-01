@@ -172,7 +172,7 @@ class Vtiger_BasicAjax_View extends Vtiger_Basic_View
 					$label = $recordModel->getName();
 					$label .= ' (' . \App\Fields\Owner::getLabel($recordModel->get('smownerid')) . ')';
 					if (!$recordModel->get('permitted')) {
-						$label .= ' <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>';
+						$label .= ' <span class="fas fa-exclamation-circle" aria-hidden="true"></span>';
 					}
 					$recordsList[] = [
 						'id' => $recordID,

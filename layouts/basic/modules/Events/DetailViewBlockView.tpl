@@ -18,7 +18,7 @@
 			<div class="row blockHeader panel-heading no-margin">
 				<div class="iconCollapse">
 					<span class="cursorPointer blockToggle fas fa-angle-right {if !($IS_HIDDEN)}hide{/if}" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id='INVITE_USER_BLOCK_ID'></span>
-					<span class="cursorPointer blockToggle glyphicon glyphicon glyphicon-menu-down {if $IS_HIDDEN}hide{/if}" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id='INVITE_USER_BLOCK_ID'></span>
+					<span class="cursorPointer blockToggle fas fa-angle-down {if $IS_HIDDEN}hide{/if}" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id='INVITE_USER_BLOCK_ID'></span>
 					<h4>{\App\Language::translate('LBL_INVITE_RECORDS',$MODULE_NAME)}</h4>
 				</div>
 			</div>
@@ -48,7 +48,7 @@
 									{elseif $INVITIE['status'] == '2'}
 										<span class="fas fa-minus-circle popoverTooltip" data-placement="top" data-content="{\App\Language::translate($STATUS_LABEL,$MODULE_NAME)} {if $INVITIE['time']}({DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}" aria-hidden="true"></span>
 									{else}
-										<span class="glyphicon glyphicon-question-sign popoverTooltip" data-placement="top" data-content="{\App\Language::translate($STATUS_LABEL,$MODULE_NAME)}" aria-hidden="true"></span>
+										<span class="fas fa-question-circle popoverTooltip" data-placement="top" data-content="{\App\Language::translate($STATUS_LABEL,$MODULE_NAME)}" aria-hidden="true"></span>
 									{/if}&nbsp;
 									<span class="inviteName {if $TITLE}popoverTooltip{/if}" data-content="{htmlentities($ICON)}&nbsp;{$TITLE}">{$LABEL}</span>
 								</div>

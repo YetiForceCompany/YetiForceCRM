@@ -40,7 +40,7 @@
 							<button type="button" class="btn btn-light btn-sm showModal" data-url="{$MODULE_MODEL->getFeaturedFilterUrl($SOURCE_MODULE_ID,$key)}"><span class="fas fa-user"></span></button>
 						</td>
 						<td>
-							<button type="button" id="sort" name="sort" class="btn btn-light btn-sm showModal" data-url="{$MODULE_MODEL->getSortingFilterUrl($SOURCE_MODULE_ID,$key)}"><span class="glyphicon glyphicon-sort"></span></button>
+							<button type="button" id="sort" name="sort" class="btn btn-light btn-sm showModal" data-url="{$MODULE_MODEL->getSortingFilterUrl($SOURCE_MODULE_ID,$key)}"><span class="fas fa-sort"></span></button>
 						</td>
 						<td>{\App\Fields\Owner::getLabel($item['userid'])}</td>
 						<td>

@@ -8,7 +8,7 @@
 			<div class="col-md-5">
 				<div class="box float-right">
 					<button class="btn btn-sm btn-light downloadWidget hidden" data-widgetid="{$CHART_MODEL->get('widgetid')}">
-						<span class="glyphicon glyphicon-download" title="{\App\Language::translate('LBL_WIDGET_DOWNLOAD','Home')}"></span>
+						<span class="far fa-arrow-alt-circle-down" title="{\App\Language::translate('LBL_WIDGET_DOWNLOAD','Home')}"></span>
 					</button>&nbsp;
 					<button class="btn btn-sm btn-light printWidget hidden" data-widgetid="{$CHART_MODEL->get('widgetid')}">
 						<span class="fas fa-print" title="{\App\Language::translate('LBL_WIDGET_PRINT','Home')}"></span>

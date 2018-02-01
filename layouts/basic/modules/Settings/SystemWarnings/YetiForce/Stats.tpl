@@ -52,7 +52,7 @@
 				&nbsp;&nbsp;{App\Language::translate('LBL_SEND','Settings:SystemWarnings')}
 			</button>&nbsp;&nbsp;
 			<button type="button" class="btn btn-danger cancel">
-				<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+				<span class="fas fa-ban" aria-hidden="true"></span>
 				&nbsp;&nbsp;{App\Language::translate('LBL_REMIND_LATER','Settings:SystemWarnings')}
 			</button>
 		</div>

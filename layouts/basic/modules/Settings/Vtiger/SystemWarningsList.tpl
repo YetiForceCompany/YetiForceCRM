@@ -20,7 +20,7 @@
 						{elseif $ITEM->getStatus() == 1}
 							<span class="fas fa-check" aria-hidden="true"></span>
 						{elseif $ITEM->getStatus() == 2}
-							<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+							<span class="fas fa-minus" aria-hidden="true"></span>
 						{/if}&nbsp;
 					</td>
 					<td data-order="{$ITEM->getPriority()}" class="text-center">{$ITEM->getPriority()}</td>

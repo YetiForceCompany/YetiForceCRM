@@ -38,7 +38,7 @@ class Documents_DetailView_Model extends Vtiger_DetailView_Model
 			'linktype' => 'DETAIL_VIEW_BASIC',
 			'linklabel' => 'LBL_CHECK_FILE_INTEGRITY',
 			'linkurl' => $recordModel->checkFileIntegrityURL(),
-			'linkicon' => 'glyphicon glyphicon-saved'
+			'linkicon' => 'fas fa-check'
 		];
 		$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 

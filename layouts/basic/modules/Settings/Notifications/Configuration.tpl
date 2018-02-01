@@ -32,7 +32,7 @@
 										<span title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fas fa-trash-alt float-right marginIcon marginTop2 delete cursorPointer" data-mode="addOrRemoveMembers"></span>
 										<span title="{\App\Language::translate('LBL_LOCK', $QUALIFIED_MODULE)}" class="fa {if $MEMBER.lock}fa-lock{else}fa-unlock-alt{/if} fa-lg float-right marginTB3 lock cursorPointer" aria-hidden="true"  data-mode="lock"></span>
 										{if $MEMBER.type neq 'Users'}
-											<span title="{\App\Language::translate('LBL_EXCEPTIONS', $QUALIFIED_MODULE)}" class="glyphicon glyphicon-exclamation-sign float-right marginIcon marginTop2 exceptions cursorPointer" aria-hidden="true" data-mode="exceptions"></span>
+											<span title="{\App\Language::translate('LBL_EXCEPTIONS', $QUALIFIED_MODULE)}" class="fas fa-exclamation-circle float-right marginIcon marginTop2 exceptions cursorPointer" aria-hidden="true" data-mode="exceptions"></span>
 										{/if}
 									</td>
 								</tr>
