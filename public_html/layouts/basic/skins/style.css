@@ -76,8 +76,8 @@
 	font-family: 'Open Sans';
 	font-style: normal;
 	font-weight: 400;
-	src: url('../../../layouts/resources/fonts/OpenSans-Regular-webfont.eot');
-	src: url('../../../layouts/resources/fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'), url('../../../layouts/resources/fonts/OpenSans-Regular-webfont.woff') format('woff'), url('../../../layouts/resources/fonts/OpenSans-Regular-webfont.ttf') format('truetype'), url('../../../layouts/resources/fonts/OpenSans-Regular-webfont.svg#open_sansregular') format('svg');
+	src: url('../../../layouts/basic/fonts/OpenSans-Regular-webfont.eot');
+	src: url('../../../layouts/basic/fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'), url('../../../layouts/basic/fonts/OpenSans-Regular-webfont.woff') format('woff'), url('../../../layouts/basic/fonts/OpenSans-Regular-webfont.ttf') format('truetype'), url('../../../layouts/basic/fonts/OpenSans-Regular-webfont.svg#open_sansregular') format('svg');
 }
 
 body {
