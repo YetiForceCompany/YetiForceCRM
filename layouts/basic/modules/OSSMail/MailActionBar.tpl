@@ -46,7 +46,7 @@
 									{/if}
 									{if \App\ModuleHierarchy::accessModulesByLevel(0,'DetailView')}
 										<button class="selectRecord" data-type="0" title="{\App\Language::translate('LBL_SELECT_RECORD',$MODULE_NAME)}">
-											<span class="glyphicon glyphicon-resize-small" aria-hidden="true"></span>
+											<span class="fas fa-search" aria-hidden="true"></span>
 										</button>
 									{/if}
 								</div>
@@ -90,7 +90,7 @@
 									{/if}
 									{if \App\ModuleHierarchy::accessModulesByLevel(3,'DetailView')}
 										<button class="selectRecord" data-type="0" title="{\App\Language::translate('LBL_SELECT_RECORD',$MODULE_NAME)}">
-											<span class="glyphicon glyphicon-resize-small" aria-hidden="true"></span>
+											<span class="fas fa-search" aria-hidden="true"></span>
 										</button>
 									{/if}
 								</div>
@@ -134,7 +134,7 @@
 									{/if}
 									{if \App\ModuleHierarchy::accessModulesByLevel(1,'DetailView')}
 										<button class="selectRecord" data-type="0" title="{\App\Language::translate('LBL_SELECT_RECORD',$MODULE_NAME)}">
-											<span class="glyphicon glyphicon-resize-small" aria-hidden="true"></span>
+											<span class="fas fa-search" aria-hidden="true"></span>
 										</button>
 									{/if}
 								</div>
@@ -185,7 +185,7 @@
 									{/if}
 									{if \App\ModuleHierarchy::accessModulesByLevel(2, 'DetailView')}
 										<button class="selectRecord" data-type="0" title="{\App\Language::translate('LBL_SELECT_RECORD',$MODULE_NAME)}">
-											<span class="glyphicon glyphicon-resize-small" aria-hidden="true"></span>
+											<span class="fas fa-search" aria-hidden="true"></span>
 										</button>
 									{/if}
 								</div>
