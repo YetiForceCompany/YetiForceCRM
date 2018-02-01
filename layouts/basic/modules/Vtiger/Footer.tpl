@@ -92,16 +92,16 @@
 					<p><span class="label label-warning">Issues:</span> <a href="https://github.com/YetiForceCompany/YetiForceCRM/issues" target="_blank" rel="noreferrer"><strong>https://github.com/YetiForceCompany/YetiForceCRM/issues</strong></a></p>
 					<p class="text-center">
 						<a class="yetiforceDetailsLink" rel="noreferrer" href="https://www.linkedin.com/groups/8177576">
-							<span class="fa fa-linkedin-square" title="LinkendIn"></span>
+							<span class="fab fa-linkedin" title="LinkendIn"></span>
 						</a>
 						<a class="yetiforceDetailsLink" rel="noreferrer" href="https://twitter.com/YetiForceEN">
-							<span class="fa fa-twitter-square" title="Twitter"></span>
+							<span class="fab fa-twitter-square" title="Twitter"></span>
 						</a>
 						<a class="yetiforceDetailsLink" rel="noreferrer" href="https://www.facebook.com/YetiForce-CRM-158646854306054/">
-							<span class="fa fa-facebook-square" title="Facebook"></span>
+							<span class="fab fa-facebook-square" title="Facebook"></span>
 						</a>
 						<a class="yetiforceDetailsLink" rel="noreferrer" href="https://github.com/YetiForceCompany/YetiForceCRM">
-							<span class="fa fa-github-square" title="Github"></span>
+							<span class="fab fa-github-square" title="Github"></span>
 						</a>
 					</p>
 				</div>
