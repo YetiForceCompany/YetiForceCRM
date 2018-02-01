@@ -128,7 +128,7 @@
 										<button class="deleteModule btn btn-danger btn-xs float-right marginLeft10" name="{$MODULE_NAME}">{\App\Language::translate('LBL_DELETE')}</button>
 									{/if}
 									{if $MODULE_MODEL->isExportable()}
-										<a class="btn btn-primary btn-xs float-right marginLeft10" href="index.php?module=ModuleManager&parent=Settings&action=ModuleExport&mode=exportModule&forModule={$MODULE_NAME}"><i class="glyphicon glyphicon-download"></i></a>
+										<a class="btn btn-primary btn-xs float-right marginLeft10" href="index.php?module=ModuleManager&parent=Settings&action=ModuleExport&mode=exportModule&forModule={$MODULE_NAME}"><i class="far fa-arrow-alt-circle-down"></i></a>
 									{/if}
 									{assign var=SETTINGS_LINKS value=$MODULE_MODEL->getSettingLinks()}
 									{if !in_array($MODULE_NAME, $RESTRICTED_MODULES_LIST) && (count($SETTINGS_LINKS) > 0)}
