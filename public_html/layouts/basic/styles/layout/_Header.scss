@@ -16,21 +16,6 @@
 		width: 40px;
 	}
 }
-.bodyHeader .rightHeaderBtn {
-	margin-top: 7px;
-}
-.bodyHeader .rightHeaderBtn .glyphicon {
-	font-size: 18px;
-}
-.bodyHeader .rightHeaderBtn .fa,.actionMenu .showHistoryBtn .fa {
-	font-size: 21px;
-}
-.bodyHeader .rightHeaderBtn a {
-	margin-left: 5px;
-	}
-	.bodyHeader .rightHeaderBtn a.quickCreateModule {
-	margin: 0;
-}
 .bodyHeader {
 	background-color: $darkblue;
 	//color: #fff;
@@ -59,4 +44,13 @@
     left: auto;
     right: 0;
   }
+}
+.headerRightWrapper {
+	.btn {
+	@extend .ml-2;
+	}
+	.headerLinksMails .btn {
+		@extend .m-0;
+		font-size: $font-md;
+	}
 }
