@@ -67,7 +67,7 @@
 							{if !$IS_READ_ONLY && $RECORD->isEditable()}
 								<div>
 									<strong>
-										<span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;<span class="value">{$RECORD->getDisplayValue('status')}</span>
+										<span class="fas fa-tags"></span>&nbsp;&nbsp;<span class="value">{$RECORD->getDisplayValue('status')}</span>
 									</strong>&nbsp;&nbsp;
 									{if $DATA_TYPE != 'history'}
 										<span class="editDefaultStatus float-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{\App\Language::translate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}">
@@ -81,7 +81,7 @@
 							<input type="hidden" class="activityModule" value="Events" />
 							{if !$IS_READ_ONLY && $RECORD->isEditable()}
 								<div>
-									<strong><span class="glyphicon glyphicon-tags"></span>&nbsp;&nbsp;<span class="value">{$RECORD->getDisplayValue('status')}</span></strong>&nbsp;&nbsp;
+									<strong><span class="fas fa-tags"></span>&nbsp;&nbsp;<span class="value">{$RECORD->getDisplayValue('status')}</span></strong>&nbsp;&nbsp;
 										{if $DATA_TYPE != 'history'}
 										<span class="editDefaultStatus float-right cursorPointer popoverTooltip delay0" data-url="{$RECORD->getActivityStateModalUrl()}" data-content="{\App\Language::translate('LBL_SET_RECORD_STATUS',$MODULE_NAME)}"><span class="fas fa-check"></span></span>
 										{/if}
