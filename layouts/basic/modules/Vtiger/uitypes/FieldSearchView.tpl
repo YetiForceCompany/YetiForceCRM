@@ -28,7 +28,7 @@
 					</button>
 				{else}
 					<button class=" btn btn-light alphabetBtn" type="button">
-						<span class="fa fa-font"></span>
+						<span class="fas fa-font"></span>
 					</button>
 				{/if}
 				
