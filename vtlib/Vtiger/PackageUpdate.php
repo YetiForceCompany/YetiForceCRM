@@ -374,7 +374,7 @@ class PackageUpdate extends PackageImport
 		if (empty($modulenode->customviews) || empty($modulenode->customviews->customview))
 			return;
 		foreach ($modulenode->customviews->customview as $customviewnode) {
-			$filterInstance = Filter::getInstance($customviewnode->viewname, $moduleInstance);
+			$filterInstance = Filter::getInstance($customviewnode->viewname, $moduleInstance->id);
 			if (!$filterInstance) {
 				$filterInstance = $this->importCustomView($modulenode, $moduleInstance, $customviewnode);
 			} else {
