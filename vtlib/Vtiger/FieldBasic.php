@@ -77,7 +77,7 @@ class FieldBasic
 		$this->quicksequence = (int) $valuemap['quickcreatesequence'];
 		$this->summaryfield = (int) $valuemap['summaryfield'];
 		$this->fieldparams = $valuemap['fieldparams'];
-		$this->block = $blockInstance ? $blockInstance : Block::getInstance($valuemap['block'], $moduleInstance);
+		$this->block = $blockInstance ? $blockInstance : Block::getInstance($valuemap['block'], $moduleInstance ? $moduleInstance->id : false);
 	}
 
 	/** Cache (Record) the schema changes to improve performance */
