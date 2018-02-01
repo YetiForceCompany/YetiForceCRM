@@ -31,7 +31,7 @@
 					{foreach item=ROW  from=Settings_Countries_Record_Model::getAll()}
 						<tr class="listViewEntries" data-id="{$ROW['id']}">
 							<td width="1%" nowrap class="{$WIDTHTYPE}">
-								<span class="glyphicon glyphicon-option-vertical" title="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE))}"></span>
+								<span class="fas fa-ellipsis-v" title="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE))}"></span>
 							</td>
 							<td nowrap class="{$WIDTHTYPE}">
 								{\App\Purifier::encodeHtml(\App\Language::translateSingleMod($ROW['name'],'Other.Country'))}
