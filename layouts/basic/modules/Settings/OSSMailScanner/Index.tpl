@@ -102,7 +102,7 @@
 								<div class="btn-toolbar">
 									<div class="btn-group">
 										<button title="{\App\Language::translate('LBL_SHOW_ACCOUNT_DETAILS', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-light expand-hide">
-											<span class="glyphicon glyphicon-chevron-down"></span>
+											<span class="fas fa-chevron-down"></span>
 										</button>
 										<button title="{\App\Language::translate('LBL_EDIT_FOLDER_ACCOUNT', 'OSSMailScanner')}" type="button" data-user="{$row['user_id']}" class="btn btn-light editFolders">
 											<span class="fas fa-folder-open"></span>

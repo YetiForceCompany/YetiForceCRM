@@ -104,7 +104,7 @@
 										<div class="row">
 											<span class="col-md-4">&nbsp;</span>
 											<span class="col-md-4"><button type="button" data-handlerfor="fields" data-togglehandler="{$TABID}-fields" class="btn btn-sm btn-light" style="padding-right: 20px; padding-left: 20px;">
-													<i class="glyphicon glyphicon-chevron-down"></i>
+													<i class="fas fa-chevron-down"></i>
 												</button></span>
 										</div>
 									{/if}

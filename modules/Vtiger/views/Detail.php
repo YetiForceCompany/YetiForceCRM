@@ -628,7 +628,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		if ($sortOrder === 'ASC') {
 			$nextSortOrder = 'DESC';
-			$sortImage = 'glyphicon glyphicon-chevron-down';
+			$sortImage = 'fas fa-chevron-down';
 		} else {
 			$nextSortOrder = 'ASC';
 			$sortImage = 'fas fa-chevron-up';
