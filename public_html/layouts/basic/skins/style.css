@@ -2330,7 +2330,6 @@ th.htColHeader {
 	margin: 0;
 	padding: 0 20px 0 0;
 	display: inline-block;
-	font-family: sans-serif;
 }
 .crumbs li:after {
 	content: '\0000a0';
