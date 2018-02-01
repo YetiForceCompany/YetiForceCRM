@@ -25,7 +25,7 @@
 							{/foreach}
 						</ul>
 					{/if}
-					<div class="col-xs-12 paddingLRZero">
+					<div class="col-sm-12 paddingLRZero">
 						{if count($MODULES_WITH_WIDGET) > 1}
 							<ul class="nav nav-tabs massEditTabs selectDashboradView">
 								{foreach from=$MODULES_WITH_WIDGET item=MODULE_WIDGET}
@@ -35,5 +35,5 @@
 						{/if}
 					</div>
 					{include file=\App\Layout::getTemplatePath('dashboards/DashBoardButtons.tpl', $MODULE)}
-					<div class="col-xs-12 paddingLRZero">
+					<div class="col-sm-12 paddingLRZero">
 {/strip}
