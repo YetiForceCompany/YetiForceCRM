@@ -24,7 +24,7 @@
 					<span class="fas fa-minus-circle popoverTooltip" data-placement="top" data-content="{\App\Language::translate($STATUS_LABEL,$MODULE)} {if $INVITIE['time']}({DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}" aria-hidden="true"></span>
 				{else}
 					{assign var=LABEL value=$INVITIE['email']}
-					<span class="glyphicon glyphicon-question-sign popoverTooltip" data-placement="top" data-content="{\App\Language::translate($STATUS_LABEL,$MODULE)}" aria-hidden="true"></span>
+					<span class="fas fa-question-circle popoverTooltip" data-placement="top" data-content="{\App\Language::translate($STATUS_LABEL,$MODULE)}" aria-hidden="true"></span>
 				{/if}
 			</span>
 			<span class="input-group-btn">

@@ -91,7 +91,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MOVE',
 				'linkurl' => 'javascript:Documents_List_Js.massMove("index.php?module=' . $moduleModel->getName() . '&view=MoveDocuments");',
-				'linkicon' => 'glyphicon glyphicon-folder-open'
+				'linkicon' => 'fas fa-folder-open'
 			];
 		}
 		if ($moduleModel->isPermitted('MassTransferOwnership')) {

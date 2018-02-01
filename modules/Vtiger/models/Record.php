@@ -1216,7 +1216,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_RIGHT_SIDE',
 				'linklabel' => 'BTN_ASSIGN_TO',
 				'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=AutoAssignRecord&record=' . $this->getId(),
-				'linkicon' => 'glyphicon glyphicon-random',
+				'linkicon' => 'fas fa-random',
 				'linkclass' => 'btn-sm btn-primary',
 				'modalView' => true
 			];
