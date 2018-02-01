@@ -53,7 +53,7 @@
 
 								<span class="float-right actions">
 									<button class="uitype btn {if !$ROW['uitype']}btn-success{else}btn-danger{/if} btn-xs popoverTooltip" data-uitype="{$ROW['uitype']}" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_VISIBLE_IN_COUNTRY', $QUALIFIED_MODULE))}">
-										<span class="glyphicon glyphicon-picture"></span>
+										<span class="far fa-image"></span>
 									</button>
 								</span>
 								<span class="float-right actions">
