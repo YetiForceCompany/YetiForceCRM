@@ -22,7 +22,7 @@
 		</div>
 	</div>
 	<hr class="widgetHr" />
-	<div class="row" >
+	<div class="row justify-content-end" >
 		<div class="col-md-6 float-right">
 			<select class="widgetFilter form-control input-sm" id="historyType" title="{\App\Language::translate('LBL_HISTORY_TYPE')}" name="type">
 				<option title="{\App\Language::translate('LBL_ALL')}" value="all" {if $DATA['type'] eq 'all'}selected{/if}>{\App\Language::translate('LBL_ALL')}</option>
