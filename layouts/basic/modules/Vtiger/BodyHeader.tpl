@@ -90,7 +90,7 @@
 			<div class="float-right actionMenuBtn">
 				<div class="quickAction">
 					<a class="btn btn-light btn-sm" href="#">
-						<span aria-hidden="true" class="glyphicon glyphicon-certificate"></span>
+						<span aria-hidden="true" class="fas fa-certificate"></span>
 					</a>
 				</div>
 			</div>
