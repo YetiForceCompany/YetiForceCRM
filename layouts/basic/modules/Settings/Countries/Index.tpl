@@ -21,7 +21,7 @@
 							</span>
 							<span>
 								<button class="all-statuses btn btn-light btn-xs popoverTooltip" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_COUNTRY_TOGGLE_ALL_STATUSES', $QUALIFIED_MODULE))}">
-									<span class="glyphicon glyphicon-check"></span>
+									<span class="far fa-check-square"></span>
 								</button>
 							</span>
 						</th>
@@ -63,7 +63,7 @@
 								</span>
 								<span class="float-right actions">
 									<button class="status btn {if !$ROW['status']}btn-success{else}btn-danger{/if} btn-xs popoverTooltip" data-status="{$ROW['status']}" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_COUNTRY_TOGGLE_STATUS', $QUALIFIED_MODULE))}">
-										<span class="glyphicon glyphicon-check"></span>
+										<span class="far fa-check-square"></span>
 									</button>
 								</span>
 							</td>
