@@ -13,7 +13,7 @@
 									<strong>{\App\Language::translate('LBL_ADD_WIDGET')}</strong>
 									<span class="caret"></span>
 								</p>
-								<span class="glyphicon glyphicon-th d-none d-block d-sm-block d-md-none"></span>
+								<span class="fas fa-th d-none d-block d-sm-block d-md-none"></span>
 							</button>
 							<ul class="dropdown-menu widgetsList float-left addWidgetDropDown">
 								{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardFilter')}
@@ -49,7 +49,7 @@
 							<button class="btn btn-light addButton dropdown-toggle" data-toggle="dropdown">
 								<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_ADD_WIDGET')}</strong>
 								<span class="d-none d-sm-none d-md-block caret"></span>
-								<span class="glyphicon glyphicon-th d-none d-block d-sm-block d-md-none"></span>
+								<span class="fas fa-th d-none d-block d-sm-block d-md-none"></span>
 							</button>
 							<ul class="dropdown-menu widgetsList float-left addWidgetDropDown">
 								{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardFilter')}
