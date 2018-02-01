@@ -31,22 +31,22 @@ abstract class Vtiger_Controller
 
 	public function validateRequest(\App\Request $request)
 	{
-		
+
 	}
 
 	public function preProcessAjax(\App\Request $request)
 	{
-		
+
 	}
 
 	public function preProcess(\App\Request $request)
 	{
-		
+
 	}
 
 	public function postProcess(\App\Request $request)
 	{
-		
+
 	}
 
 	// Control the exposure of methods to be invoked from client (kind-of RPC)
@@ -166,7 +166,7 @@ abstract class Vtiger_Action_Controller extends Vtiger_Controller
 
 	protected function preProcessDisplay(\App\Request $request)
 	{
-		
+
 	}
 
 	protected function preProcessTplName(\App\Request $request)
@@ -403,7 +403,8 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	{
 		$headerScriptInstances = [
 			'libraries.js.jquery',
-			'libraries.jquery-migrate.dist.jquery-migrate'
+			'libraries.jquery-migrate.dist.jquery-migrate',
+			'~libraries/font-awesome/js/fontawesome-all.js',
 		];
 		return $this->checkAndConvertJsScripts($headerScriptInstances);
 	}
@@ -416,7 +417,6 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	public function getFooterScripts(\App\Request $request)
 	{
 		$jsFileNames = [
-			'~libraries/font-awesome/js/fontawesome-all.js',
 			'~libraries/block-ui/jquery.blockUI.js',
 			'~libraries/chosen-js/chosen.jquery.js',
 			'~libraries/select2/dist/js/select2.full.js',
