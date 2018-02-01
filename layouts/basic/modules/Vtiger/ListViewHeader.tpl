@@ -121,7 +121,7 @@
 													{include file=\App\Layout::getTemplatePath('ListViewActions.tpl')}
 												</div>
 												<span class="hide filterActionImages float-right">
-													<span title="{\App\Language::translate('LBL_DENY', $MODULE)}" data-value="deny" class="glyphicon glyphicon-exclamation-sign alignMiddle denyFilter filterActionImage float-right"></span>
+													<span title="{\App\Language::translate('LBL_DENY', $MODULE)}" data-value="deny" class="fas fa-exclamation-circle alignMiddle denyFilter filterActionImage float-right"></span>
 													<span title="{\App\Language::translate('LBL_APPROVE', $MODULE)}" data-value="approve" class="fas fa-check alignMiddle approveFilter filterActionImage float-right"></span>
 													<span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" data-value="delete" class="fas fa-trash-alt alignMiddle deleteFilter filterActionImage float-right"></span>
 													<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" data-value="edit" class="fas fa-pencil-alt alignMiddle editFilter filterActionImage float-right"></span>
