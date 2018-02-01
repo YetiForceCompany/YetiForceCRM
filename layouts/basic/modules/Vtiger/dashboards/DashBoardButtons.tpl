@@ -34,7 +34,7 @@
 								{foreach from=$WIDGETS item=WIDGET}
 									<li>
 										{if $WIDGET->get('deleteFromList')}
-											<button data-widget-id="{$WIDGET->get('widgetid')}" class="removeWidgetFromList btn btn-xs btn-danger float-left" style="height:25px;margin:2px;">
+											<button data-widget-id="{$WIDGET->get('widgetid')}" class="removeWidgetFromList btn btn-sm btn-danger float-left" style="height:25px;margin:2px;">
 												<span class='fas fa-trash-alt'></span>
 											</button>
 										{/if}
@@ -70,7 +70,7 @@
 								{foreach from=$WIDGETS item=WIDGET}
 									<li>
 										{if $WIDGET->get('deleteFromList')}
-											<button data-widget-id="{$WIDGET->get('widgetid')}" class="removeWidgetFromList btn btn-xs btn-danger float-left" style="height:25px;margin:2px;">
+											<button data-widget-id="{$WIDGET->get('widgetid')}" class="removeWidgetFromList btn btn-sm btn-danger float-left" style="height:25px;margin:2px;">
 												<span class='fas fa-trash-alt'></span>
 											</button>
 										{/if}

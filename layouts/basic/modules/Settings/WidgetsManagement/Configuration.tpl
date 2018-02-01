@@ -22,9 +22,9 @@
 			<li {if $CURRENT_DASHBOARD eq $DASHBOARD['dashboard_id']}class="active"{/if} data-id="{$DASHBOARD['dashboard_id']}">
 				<a data-toggle="tab">
 					<strong>{\App\Language::translate($DASHBOARD['name'])}</strong>					
-					<button class="btn btn-primary btn-xs fas fa-pencil-alt marginLeft10 editDashboard"></button>
+					<button class="btn btn-primary btn-sm fas fa-pencil-alt marginLeft10 editDashboard"></button>
 					{if $DASHBOARD['system'] neq 1}
-						<button class="btn btn-danger btn-xs fas fa-trash-alt marginLeft10 deleteDashboard"></button>
+						<button class="btn btn-danger btn-sm fas fa-trash-alt marginLeft10 deleteDashboard"></button>
 					{/if}
 				</a>
 			</li>
@@ -39,7 +39,7 @@
 
 			<div class="tab-pane active" id="layoutDashBoards">
 				<div class="btn-toolbar marginBottom10px">
-					<button type="button" class="btn btn-success addBlockDashBoard btn-xs"><span class="fas fa-plus"></span>&nbsp;{\App\Language::translate('LBL_ADD_CONDITION', $QUALIFIED_MODULE)}</button>
+					<button type="button" class="btn btn-success addBlockDashBoard btn-sm"><span class="fas fa-plus"></span>&nbsp;{\App\Language::translate('LBL_ADD_CONDITION', $QUALIFIED_MODULE)}</button>
 				</div>
 
 				<div id="moduleBlocks">
@@ -58,14 +58,14 @@
 								<div class="col-sm-7 marginLeftZero float-right">
 									<div class="float-right btn-toolbar blockActions" style="margin: 4px;">
 										<div class="btn-group">
-											<button class="btn btn-success btn-xs addCustomField" type="button"><span class="fas fa-plus"></span>&nbsp;
+											<button class="btn btn-success btn-sm addCustomField" type="button"><span class="fas fa-plus"></span>&nbsp;
 												<strong>{\App\Language::translate('LBL_ADD_WIDGET', $QUALIFIED_MODULE)}</strong>
 											</button>
 										</div>
 										{if $SPECIAL_WIDGETS['Rss']}
 											{assign var=RSS_WIDGET value=$SPECIAL_WIDGETS['Rss']}
 											<div class="btn-group">
-												<button class="btn btn-success btn-xs addRss" type="button"  data-url="{$RSS_WIDGET->getUrl()}" data-linkid="{$RSS_WIDGET->get('linkid')}" data-name="{$RSS_WIDGET->getName()}" data-width="{$RSS_WIDGET->getWidth()}" data-height="{$RSS_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="fas fa-plus"></span>
+												<button class="btn btn-success btn-sm addRss" type="button"  data-url="{$RSS_WIDGET->getUrl()}" data-linkid="{$RSS_WIDGET->get('linkid')}" data-name="{$RSS_WIDGET->getName()}" data-width="{$RSS_WIDGET->getWidth()}" data-height="{$RSS_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="fas fa-plus"></span>
 													<strong>{\App\Language::translate('LBL_ADD_RSS', $QUALIFIED_MODULE)}</strong>
 												</button>
 											</div>
@@ -73,7 +73,7 @@
 										{if $SPECIAL_WIDGETS['Mini List']}
 											{assign var=MINILISTWIDGET value=$SPECIAL_WIDGETS['Mini List']}
 											<div class="btn-group">
-												<button class="btn btn-success btn-xs addMiniList" type="button"  data-url="{$MINILISTWIDGET->getUrl()}" data-linkid="{$MINILISTWIDGET->get('linkid')}" data-name="{$MINILISTWIDGET->getName()}" data-width="{$MINILISTWIDGET->getWidth()}" data-height="{$MINILISTWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="fas fa-plus"></span>
+												<button class="btn btn-success btn-sm addMiniList" type="button"  data-url="{$MINILISTWIDGET->getUrl()}" data-linkid="{$MINILISTWIDGET->get('linkid')}" data-name="{$MINILISTWIDGET->getName()}" data-width="{$MINILISTWIDGET->getWidth()}" data-height="{$MINILISTWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="fas fa-plus"></span>
 													<strong>{\App\Language::translate('LBL_ADD_MINILIST', $QUALIFIED_MODULE)}</strong>
 												</button>
 											</div>
@@ -81,7 +81,7 @@
 										{if $SPECIAL_WIDGETS['ChartFilter']}
 											{assign var=CHART_FILTER_WIDGET value=$SPECIAL_WIDGETS['ChartFilter']}
 											<div class="btn-group">
-												<button class="btn btn-success btn-xs addChartFilter" type="button"  data-url="{$CHART_FILTER_WIDGET->getUrl()}" data-linkid="{$CHART_FILTER_WIDGET->get('linkid')}" data-name="{$CHART_FILTER_WIDGET->getName()}" data-width="{$CHART_FILTER_WIDGET->getWidth()}" data-height="{$CHART_FILTER_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="fas fa-plus"></span>&nbsp;
+												<button class="btn btn-success btn-sm addChartFilter" type="button"  data-url="{$CHART_FILTER_WIDGET->getUrl()}" data-linkid="{$CHART_FILTER_WIDGET->get('linkid')}" data-name="{$CHART_FILTER_WIDGET->getName()}" data-width="{$CHART_FILTER_WIDGET->getWidth()}" data-height="{$CHART_FILTER_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="fas fa-plus"></span>&nbsp;
 													<strong>{\App\Language::translate('LBL_ADD_CHART_FILTER', $QUALIFIED_MODULE)}</strong>
 												</button>
 											</div>
@@ -89,7 +89,7 @@
 										{if $SPECIAL_WIDGETS['Notebook']}
 											{assign var=NOTEBOOKWIDGET value=$SPECIAL_WIDGETS['Notebook']}
 											<div class="btn-group">
-												<button class="btn btn-success btn-xs addNotebook" type="button" data-url="{$NOTEBOOKWIDGET->getUrl()}" data-linkid="{$NOTEBOOKWIDGET->get('linkid')}" data-name="{$NOTEBOOKWIDGET->getName()}" data-width="{$NOTEBOOKWIDGET->getWidth()}" data-height="{$NOTEBOOKWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="fas fa-plus"></span>
+												<button class="btn btn-success btn-sm addNotebook" type="button" data-url="{$NOTEBOOKWIDGET->getUrl()}" data-linkid="{$NOTEBOOKWIDGET->get('linkid')}" data-name="{$NOTEBOOKWIDGET->getName()}" data-width="{$NOTEBOOKWIDGET->getWidth()}" data-height="{$NOTEBOOKWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="fas fa-plus"></span>
 													<strong>{\App\Language::translate('LBL_ADD_NOTEBOOK', $QUALIFIED_MODULE)}</strong>
 												</button>
 											</div>
@@ -97,13 +97,13 @@
 										{if $SPECIAL_WIDGETS['Chart']}
 											{assign var=CHART_WIDGET value=$SPECIAL_WIDGETS['Chart']}
 											<div class="btn-group">
-												<button class="btn btn-success btn-xs addCharts" type="button" data-url="{$CHART_WIDGET->getUrl()}" data-linkid="{$CHART_WIDGET->get('linkid')}" data-name="{$CHART_WIDGET->getName()}" data-width="{$CHART_WIDGET->getWidth()}" data-height="{$CHART_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="fas fa-plus"></span>
+												<button class="btn btn-success btn-sm addCharts" type="button" data-url="{$CHART_WIDGET->getUrl()}" data-linkid="{$CHART_WIDGET->get('linkid')}" data-name="{$CHART_WIDGET->getName()}" data-width="{$CHART_WIDGET->getWidth()}" data-height="{$CHART_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="fas fa-plus"></span>
 													<strong>{\App\Language::translate('LBL_ADD_WIDGET_CHARTS', $QUALIFIED_MODULE)}</strong>
 												</button>
 											</div>
 										{/if}
 										<div class="btn-group actions">
-											<a href="javascript:void(0)" class="deleteCustomBlock btn btn-xs btn-danger" >
+											<a href="javascript:void(0)" class="deleteCustomBlock btn btn-sm btn-danger" >
 												<span class="fas fa-trash-alt alignMiddle" title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 											</a>
 										</div>
@@ -173,14 +173,14 @@
 
 							<div class="float-right btn-toolbar blockActions" style="margin: 4px;">
 								<div class="btn-group">
-									<button class="btn btn-success btn-xs addCustomField hide" type="button"><span class="fas fa-plus"></span>&nbsp;
+									<button class="btn btn-success btn-sm addCustomField hide" type="button"><span class="fas fa-plus"></span>&nbsp;
 										<strong>{\App\Language::translate('LBL_ADD_WIDGET', $QUALIFIED_MODULE)}</strong>
 									</button>
 								</div>
 								{if $SPECIAL_WIDGETS['Rss']}
 									{assign var=RSS_WIDGET value=$SPECIAL_WIDGETS['Rss']}
 									<div class="btn-group">
-										<button class="btn btn-success btn-xs addRss specialWidget" type="button"  data-url="{$RSS_WIDGET->getUrl()}" data-linkid="{$RSS_WIDGET->get('linkid')}" data-name="{$RSS_WIDGET->getName()}" data-width="{$RSS_WIDGET->getWidth()}" data-height="{$RSS_WIDGET->getHeight()}" data-block-id=""><span class="fas fa-plus"></span>
+										<button class="btn btn-success btn-sm addRss specialWidget" type="button"  data-url="{$RSS_WIDGET->getUrl()}" data-linkid="{$RSS_WIDGET->get('linkid')}" data-name="{$RSS_WIDGET->getName()}" data-width="{$RSS_WIDGET->getWidth()}" data-height="{$RSS_WIDGET->getHeight()}" data-block-id=""><span class="fas fa-plus"></span>
 											<strong>{\App\Language::translate('LBL_ADD_RSS', $QUALIFIED_MODULE)}</strong>
 										</button>
 									</div>
@@ -188,7 +188,7 @@
 								{if $SPECIAL_WIDGETS['Mini List']}
 									{assign var=MINILISTWIDGET value=$SPECIAL_WIDGETS['Mini List']}
 									<div class="btn-group">
-										<button class="btn btn-success btn-xs addMiniList specialWidget" type="button"  data-url="{$MINILISTWIDGET->getUrl()}" data-linkid="{$MINILISTWIDGET->get('linkid')}" data-name="{$MINILISTWIDGET->getName()}" data-width="{$MINILISTWIDGET->getWidth()}" data-height="{$MINILISTWIDGET->getHeight()}" data-block-id=""><span class="fas fa-plus"></span>&nbsp;
+										<button class="btn btn-success btn-sm addMiniList specialWidget" type="button"  data-url="{$MINILISTWIDGET->getUrl()}" data-linkid="{$MINILISTWIDGET->get('linkid')}" data-name="{$MINILISTWIDGET->getName()}" data-width="{$MINILISTWIDGET->getWidth()}" data-height="{$MINILISTWIDGET->getHeight()}" data-block-id=""><span class="fas fa-plus"></span>&nbsp;
 											<strong>{\App\Language::translate('LBL_ADD_MINILIST', $QUALIFIED_MODULE)}</strong>
 										</button>
 									</div>
@@ -196,7 +196,7 @@
 								{if $SPECIAL_WIDGETS['ChartFilter']}
 									{assign var=CHART_FILTER_WIDGET value=$SPECIAL_WIDGETS['ChartFilter']}
 									<div class="btn-group">
-										<button class="btn btn-success btn-xs addChartFilter specialWidget" type="button"  data-url="{$CHART_FILTER_WIDGET->getUrl()}" data-linkid="{$CHART_FILTER_WIDGET->get('linkid')}" data-name="{$CHART_FILTER_WIDGET->getName()}" data-width="{$CHART_FILTER_WIDGET->getWidth()}" data-height="{$CHART_FILTER_WIDGET->getHeight()}" data-block-id=""><span class="fas fa-plus"></span>&nbsp;
+										<button class="btn btn-success btn-sm addChartFilter specialWidget" type="button"  data-url="{$CHART_FILTER_WIDGET->getUrl()}" data-linkid="{$CHART_FILTER_WIDGET->get('linkid')}" data-name="{$CHART_FILTER_WIDGET->getName()}" data-width="{$CHART_FILTER_WIDGET->getWidth()}" data-height="{$CHART_FILTER_WIDGET->getHeight()}" data-block-id=""><span class="fas fa-plus"></span>&nbsp;
 											<strong>{\App\Language::translate('LBL_ADD_CHART_FILTER', $QUALIFIED_MODULE)}</strong>
 										</button>
 									</div>
@@ -204,7 +204,7 @@
 								{if $SPECIAL_WIDGETS['Notebook']}
 									{assign var=NOTEBOOKWIDGET value=$SPECIAL_WIDGETS['Notebook']}
 									<div class="btn-group">
-										<button class="btn btn-success btn-xs addNotebook specialWidget" type="button" data-url="{$NOTEBOOKWIDGET->getUrl()}" data-linkid="{$NOTEBOOKWIDGET->get('linkid')}" data-name="{$NOTEBOOKWIDGET->getName()}" data-width="{$NOTEBOOKWIDGET->getWidth()}" data-height="{$NOTEBOOKWIDGET->getHeight()}" data-block-id=""><span class="fas fa-plus"></span>&nbsp;
+										<button class="btn btn-success btn-sm addNotebook specialWidget" type="button" data-url="{$NOTEBOOKWIDGET->getUrl()}" data-linkid="{$NOTEBOOKWIDGET->get('linkid')}" data-name="{$NOTEBOOKWIDGET->getName()}" data-width="{$NOTEBOOKWIDGET->getWidth()}" data-height="{$NOTEBOOKWIDGET->getHeight()}" data-block-id=""><span class="fas fa-plus"></span>&nbsp;
 											<strong>{\App\Language::translate('LBL_ADD_NOTEBOOK', $QUALIFIED_MODULE)}</strong>
 										</button>
 									</div>
@@ -212,13 +212,13 @@
 								{if $SPECIAL_WIDGETS['Chart']}
 									{assign var=CHART_WIDGET value=$SPECIAL_WIDGETS['Chart']}
 									<div class="btn-group">
-										<button class="btn btn-success btn-xs addCharts specialWidget" type="button" data-url="{$CHART_WIDGET->getUrl()}" data-linkid="{$CHART_WIDGET->get('linkid')}" data-name="{$CHART_WIDGET->getName()}" data-width="{$CHART_WIDGET->getWidth()}" data-height="{$CHART_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="fas fa-plus"></span>
+										<button class="btn btn-success btn-sm addCharts specialWidget" type="button" data-url="{$CHART_WIDGET->getUrl()}" data-linkid="{$CHART_WIDGET->get('linkid')}" data-name="{$CHART_WIDGET->getName()}" data-width="{$CHART_WIDGET->getWidth()}" data-height="{$CHART_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="fas fa-plus"></span>
 											<strong>{\App\Language::translate('LBL_ADD_WIDGET_CHARTS', $QUALIFIED_MODULE)}</strong>
 										</button>
 									</div>
 								{/if}
 								<div class="btn-group actions">
-									<a href="javascript:void(0)" class="deleteCustomBlock btn btn-xs btn-danger" >
+									<a href="javascript:void(0)" class="deleteCustomBlock btn btn-sm btn-danger" >
 										<span class="fas fa-trash-alt alignMiddle" title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 									</a>
 								</div>

@@ -11,7 +11,7 @@
 		<div class="col-xs-4">
 			<div class="box float-right">
 				{if \App\Privilege::isPermitted('Calendar', 'CreateView')}
-					<a class="btn btn-light btn-xs" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
+					<a class="btn btn-light btn-sm" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
 							return false;">
 						<span class='fas fa-plus' border='0' title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
 					</a>

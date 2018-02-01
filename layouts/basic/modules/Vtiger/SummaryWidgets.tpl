@@ -31,7 +31,7 @@
 	{if !$IS_READ_ONLY && $LIMIT neq 0 && $NUMBER_OF_RECORDS >= $LIMIT}
 		<div class="container-fluid">
 			<div class="float-right">
-				<button type="button" class="btn btn-primary btn-xs moreRecentRecords" data-label-key="{$RELATED_MODULE_NAME}" >{\App\Language::translate('LBL_MORE',$MODULE_NAME)}</button>
+				<button type="button" class="btn btn-primary btn-sm moreRecentRecords" data-label-key="{$RELATED_MODULE_NAME}" >{\App\Language::translate('LBL_MORE',$MODULE_NAME)}</button>
 			</div>
 		</div>
 	{/if}

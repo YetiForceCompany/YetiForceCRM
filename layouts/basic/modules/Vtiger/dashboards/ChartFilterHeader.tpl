@@ -7,13 +7,13 @@
 			</div>
 			<div class="col-md-5">
 				<div class="box float-right">
-					<button class="btn btn-xs btn-light downloadWidget hidden" data-widgetid="{$CHART_MODEL->get('widgetid')}">
+					<button class="btn btn-sm btn-light downloadWidget hidden" data-widgetid="{$CHART_MODEL->get('widgetid')}">
 						<span class="glyphicon glyphicon-download" title="{\App\Language::translate('LBL_WIDGET_DOWNLOAD','Home')}"></span>
 					</button>&nbsp;
-					<button class="btn btn-xs btn-light printWidget hidden" data-widgetid="{$CHART_MODEL->get('widgetid')}">
+					<button class="btn btn-sm btn-light printWidget hidden" data-widgetid="{$CHART_MODEL->get('widgetid')}">
 						<span class="fas fa-print" title="{\App\Language::translate('LBL_WIDGET_PRINT','Home')}"></span>
 					</button>&nbsp;
-					<button class="btn btn-xs btn-light recordCount" data-url="{\App\Purifier::encodeHtml($CHART_MODEL->getTotalCountURL())}">
+					<button class="btn btn-sm btn-light recordCount" data-url="{\App\Purifier::encodeHtml($CHART_MODEL->getTotalCountURL())}">
 						<span class="fab fa-gitter" title="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}"></span>
 						<a class="float-left hide" href="{\App\Purifier::encodeHtml($CHART_MODEL->getListViewURL())}">
 							<span class="count badge float-left"></span>
