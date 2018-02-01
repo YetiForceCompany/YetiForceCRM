@@ -55,7 +55,7 @@
 																	<span class="fullContent hide">
 																		{$FIELDMODEL->get('fullPostValue')}
 																	</span>
-																	<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
+																	<button type="button" class="btn btn-info btn-sm moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
 																{/if}
 															</strong>
 														{/if}
@@ -94,7 +94,7 @@
 																	<span class="fullContent hide">
 																		{$FIELDMODEL->get('fullPreValue')}
 																	</span>
-																	<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
+																	<button type="button" class="btn btn-info btn-sm moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
 																{/if}
 															</strong>
 														{else if $FIELDMODEL->get('postvalue') eq '' || ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
@@ -116,7 +116,7 @@
 																	<span class="fullContent hide">
 																		{$FIELDMODEL->get('fullPostValue')}
 																	</span>
-																	<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
+																	<button type="button" class="btn btn-info btn-sm moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
 																{/if}
 															</strong>
 														{/if}
@@ -159,7 +159,7 @@
 															<span class="fullContent hide">
 																{$RELATION->get('fullValue')}
 															</span>
-															<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
+															<button type="button" class="btn btn-info btn-sm moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
 														{/if}
 													</strong>
 												{/if}
@@ -250,7 +250,7 @@
 		<div id="moreLink">
 			{if !$IS_READ_ONLY && $PAGING_MODEL->isNextPageExists()}
 				<div class="float-right">
-					<button type="button" class="btn btn-primary btn-xs moreRecentUpdates">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button>
+					<button type="button" class="btn btn-primary btn-sm moreRecentUpdates">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button>
 				</div>
 			{/if}
 		</div>

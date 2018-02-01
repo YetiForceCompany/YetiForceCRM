@@ -130,16 +130,16 @@
 																</span>
 																<span class="float-right actions">
 																	<input type="hidden" value="{$FIELD_MODEL->getName()}" id="relatedFieldValue{$FIELD_MODEL->get('id')}" />
-																	<button class="btn btn-primary btn-xs copyFieldLabel float-right marginLeft5" data-target="relatedFieldValue{$FIELD_MODEL->get('id')}">
+																	<button class="btn btn-primary btn-sm copyFieldLabel float-right marginLeft5" data-target="relatedFieldValue{$FIELD_MODEL->get('id')}">
 																		<span class="fas fa-copy" title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
 																	</button>
 																	{if $FIELD_MODEL->isEditable()}
-																		<button class="btn btn-success btn-xs editFieldDetails marginLeft5">
+																		<button class="btn btn-success btn-sm editFieldDetails marginLeft5">
 																			<span class="fas fa-pencil-alt" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 																		</button>
 																	{/if}
 																	{if $FIELD_MODEL->isCustomField() eq 'true'}
-																		<button class="btn btn-danger btn-xs deleteCustomField marginLeft5" data-field-id="{$FIELD_MODEL->get('id')}">
+																		<button class="btn btn-danger btn-sm deleteCustomField marginLeft5" data-field-id="{$FIELD_MODEL->get('id')}">
 																			<span class="fas fa-trash-alt" title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 																		</button>
 																	{/if}
@@ -172,17 +172,17 @@
 																	{/if}
 																</span>
 																<span class="float-right actions">
-																	<button class="btn btn-primary btn-xs copyFieldLabel float-right marginLeft5" data-target="relatedFieldValue{$FIELD_MODEL->get('id')}">
+																	<button class="btn btn-primary btn-sm copyFieldLabel float-right marginLeft5" data-target="relatedFieldValue{$FIELD_MODEL->get('id')}">
 																		<span class="fas fa-copy" title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
 																	</button>
 																	<input type="hidden" value="{$FIELD_MODEL->getName()}" id="relatedFieldValue{$FIELD_MODEL->get('id')}" />
 																	{if $FIELD_MODEL->isEditable()}
-																		<button class="btn btn-success btn-xs editFieldDetails marginLeft5">
+																		<button class="btn btn-success btn-sm editFieldDetails marginLeft5">
 																			<span class="fas fa-pencil-alt" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 																		</button>
 																	{/if}
 																	{if $FIELD_MODEL->isCustomField() eq 'true'}
-																		<button class="btn btn-danger btn-xs deleteCustomField marginLeft5" data-field-id="{$FIELD_MODEL->get('id')}">
+																		<button class="btn btn-danger btn-sm deleteCustomField marginLeft5" data-field-id="{$FIELD_MODEL->get('id')}">
 																			<span class="fas fa-trash-alt" title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 																		</button>
 																	{/if}

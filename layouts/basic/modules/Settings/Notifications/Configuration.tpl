@@ -21,7 +21,7 @@
 							<tr>
 								<th>
 									<strong>{\App\Language::translate('LBL_MEMBERS',$QUALIFIED_MODULE)}</strong>
-									<button class="btn btn-xs btn-success float-right addUser" type="button" data-editurl=""><span class="fas fa-plus"></span> {\App\Language::translate('LBL_ADD',$QUALIFIED_MODULE)}</button>
+									<button class="btn btn-sm btn-success float-right addUser" type="button" data-editurl=""><span class="fas fa-plus"></span> {\App\Language::translate('LBL_ADD',$QUALIFIED_MODULE)}</button>
 								</th>
 							</tr>
 						</thead>

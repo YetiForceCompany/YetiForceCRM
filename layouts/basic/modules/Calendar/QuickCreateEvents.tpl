@@ -6,7 +6,7 @@
 				<tr>
 					{if $smarty.foreach.iteration.first}
 						<th class="padding5 d-none d-sm-none d-md-block">
-							<button type="button" class="btn btn-xs btn-primary previousDayBtn"><</button>
+							<button type="button" class="btn btn-sm btn-primary previousDayBtn"><</button>
 						</th>
 					{/if}
 					<th class="text-center taskPrevTwoDaysAgo">
@@ -14,7 +14,7 @@
 					</th>
 					{if $smarty.foreach.iteration.last}
 						<th class="padding5 d-none d-sm-none d-md-block">
-							<button type="button" class="btn btn-xs btn-primary nextDayBtn">></button>
+							<button type="button" class="btn btn-sm btn-primary nextDayBtn">></button>
 						</th>
 					{/if}
 				</tr>

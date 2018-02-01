@@ -24,15 +24,15 @@
 					<span class="fieldLabel"></span>
 					<input type="hidden" value="" id="relatedFieldValue" />
 					<span class="float-right actions">
-						<button class="btn btn-primary btn-xs copyFieldLabel float-right marginLeft5" data-target="relatedFieldValue">
+						<button class="btn btn-primary btn-sm copyFieldLabel float-right marginLeft5" data-target="relatedFieldValue">
 							<span class="fas fa-copy" title="{App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}"></span>
 						</button>
 						{if $IS_SORTABLE}
-							<button class="btn btn-success btn-xs editFieldDetails marginLeft5">
+							<button class="btn btn-success btn-sm editFieldDetails marginLeft5">
 								<span class="fas fa-pencil-alt" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"></span>
 							</button>
 						{/if}
-						<button type="button" class="btn btn-danger btn-xs deleteCustomField marginLeft5" data-field-id="">
+						<button type="button" class="btn btn-danger btn-sm deleteCustomField marginLeft5" data-field-id="">
 							<span class="fas fa-trash-alt" title="{App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 						</button>
 					</span>

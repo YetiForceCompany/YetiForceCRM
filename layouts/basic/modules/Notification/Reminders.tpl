@@ -40,7 +40,7 @@
 									<span class="fullContent hide">
 										{$FULL_TEXT}
 									</span>
-									&nbsp;<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
+									&nbsp;<button type="button" class="btn btn-info btn-sm moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
 								{/if}
 							</div>
 						</div>
@@ -65,7 +65,7 @@
 								<strong class="">{\App\Language::translate('Created By',$MODULE_NAME)}: {$RECORD->getCreatorUser()}</strong>
 							</div>
 							<div class="col-xs-2 paddingLRZero">
-								<button type="button" class="btn btn-success btn-xs float-right setAsMarked" title="{\App\Language::translate('LBL_MARK_AS_READ',$MODULE_NAME)}">
+								<button type="button" class="btn btn-success btn-sm float-right setAsMarked" title="{\App\Language::translate('LBL_MARK_AS_READ',$MODULE_NAME)}">
 									<span class="fas fa-check" aria-hidden="true"></span>
 								</button>
 							</div>

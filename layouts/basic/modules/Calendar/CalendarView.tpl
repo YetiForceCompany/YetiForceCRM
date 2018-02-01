@@ -32,7 +32,7 @@
 				<span aria-hidden="true">&times;</span>
 			</button>
 			{\App\Language::translate('LBL_CACHE_SELECTED_FILTERS', $MODULE_NAME)}&nbsp;
-			<button type="button" class="float-right btn btn-warning btn-xs marginRight10 cacheClear">{\App\Language::translate('LBL_CACHE_CLEAR', $MODULE_NAME)}</button>
+			<button type="button" class="float-right btn btn-warning btn-sm marginRight10 cacheClear">{\App\Language::translate('LBL_CACHE_CLEAR', $MODULE_NAME)}</button>
 		</div>
 		<div class="bottom_margin">
 			<p><!-- Divider --></p>

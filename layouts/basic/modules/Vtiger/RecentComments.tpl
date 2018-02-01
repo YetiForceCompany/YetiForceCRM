@@ -91,12 +91,12 @@
 										<div class="float-right commentActions">
 											{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 												<span>
-													<button type="button" class="btn btn-xs btn-success replyComment feedback">
+													<button type="button" class="btn btn-sm btn-success replyComment feedback">
 														<span class="fas fa-share" aria-hidden="true"></span>&nbsp;
 														{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}
 													</button>
 													{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
-														<button type="button" class="btn btn-xs btn-primary editComment feedback marginLeft5">
+														<button type="button" class="btn btn-sm btn-primary editComment feedback marginLeft5">
 															<span class="fas fa-pencil-alt" aria-hidden="true"></span>&nbsp;
 															{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}
 														</button>
@@ -105,7 +105,7 @@
 											{/if}
 											<span>
 												{if $PARENT_COMMENT_MODEL neq false or $CHILD_COMMENTS_MODEL neq null}
-													<button type="button" class="btn btn-xs btn-info detailViewThread marginLeft5">{\App\Language::translate('LBL_VIEW_THREAD',$MODULE_NAME)}</button>
+													<button type="button" class="btn btn-sm btn-info detailViewThread marginLeft5">{\App\Language::translate('LBL_VIEW_THREAD',$MODULE_NAME)}</button>
 												{/if}
 											</span>
 										</div>
@@ -124,7 +124,7 @@
 		{if !$IS_READ_ONLY && $PAGING_MODEL->isNextPageExists()}
 			<div class="row">
 				<div class="float-right">
-					<a href="javascript:void(0)" class="moreRecentComments btn btn-xs btn-info marginTop5 marginRight15">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</a>
+					<a href="javascript:void(0)" class="moreRecentComments btn btn-sm btn-info marginTop5 marginRight15">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</a>
 				</div>
 			</div>
 		{/if}

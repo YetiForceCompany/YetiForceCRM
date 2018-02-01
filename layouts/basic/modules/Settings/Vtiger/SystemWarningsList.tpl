@@ -31,7 +31,7 @@
 					</td>
 					<td class="text-center">
 						{if $ITEM->getStatus() != 1 && $ITEM->getPriority() < 8}
-							<button class="btn btn-warning btn-xs setIgnore popoverTooltip" data-placement="top" data-content="
+							<button class="btn btn-warning btn-sm setIgnore popoverTooltip" data-placement="top" data-content="
 									{if $ITEM->getStatus() == 2}
 										{App\Language::translate('BTN_REMOVE_IGNORE','Settings:SystemWarnings')}
 									{else}
@@ -46,12 +46,12 @@
 							</button>&nbsp;&nbsp;
 						{/if}
 						{if $ITEM->getLink()}
-							<a class="btn btn-success btn-xs {if isset($ITEM->linkTitle)}popoverTooltip{/if}" href="{$ITEM->getLink()}" {if isset($ITEM->linkTitle)}data-placement="top" data-content="{$ITEM->linkTitle}"{/if} target="_blank">
+							<a class="btn btn-success btn-sm {if isset($ITEM->linkTitle)}popoverTooltip{/if}" href="{$ITEM->getLink()}" {if isset($ITEM->linkTitle)}data-placement="top" data-content="{$ITEM->linkTitle}"{/if} target="_blank">
 								<span class="fas fa-link" aria-hidden="true"></span>
 							</a>&nbsp;&nbsp;
 						{/if}
 						{if $ITEM->getDescription()}
-							<button class="btn btn-primary btn-xs showDescription">
+							<button class="btn btn-primary btn-sm showDescription">
 								<span class="fas fa-info-circle" aria-hidden="true"></span>
 							</button>
 							<span class="hide showDescriptionContent">
