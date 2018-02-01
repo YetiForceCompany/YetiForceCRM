@@ -105,7 +105,7 @@
 											<span class="glyphicon glyphicon-chevron-down"></span>
 										</button>
 										<button title="{\App\Language::translate('LBL_EDIT_FOLDER_ACCOUNT', 'OSSMailScanner')}" type="button" data-user="{$row['user_id']}" class="btn btn-light editFolders">
-											<span class="glyphicon glyphicon-folder-open"></span>
+											<span class="fas fa-folder-open"></span>
 										</button>
 										<button title="{\App\Language::translate('LBL_DELETE_ACCOUNT', 'OSSMailScanner')}" type="button" data-user-id="{$row['user_id']}" class="btn btn-light delate_accont">
 											<span class="fas fa-trash-alt"></span>
