@@ -159,7 +159,7 @@ class SSalesProcesses extends Vtiger_CRMEntity
 								if ($hasRecordViewAccess) {
 									$data = '<a href="index.php?module=SSalesProcesses&action=DetailView&record=' . $salesProcessesId . '">' . $data . '</a>';
 								} else {
-									$data = '<span>' . $data . '&nbsp;<span class="glyphicon glyphicon-warning-sign"></span></span>';
+									$data = '<span>' . $data . '&nbsp;<span class="fas fa-exclamation-circle"></span></span>';
 								}
 							}
 						} else {

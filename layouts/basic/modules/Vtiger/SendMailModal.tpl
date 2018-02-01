@@ -55,7 +55,7 @@
 		</form>
 		{if !$DEFAULT_SMTP}
 			<div class="alert alert-danger" role="alert">
-				<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>&nbsp;&nbsp;
+				<span class="fas fa-exclamation-circle" aria-hidden="true"></span>&nbsp;&nbsp;
 				{\App\Language::translate('ERR_NO_DEFAULT_SMTP')}
 			</div>
 		{/if}

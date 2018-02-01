@@ -19,7 +19,7 @@
 							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
 							</button>
 							<p>
-								<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>&nbsp;&nbsp;
+								<span class="fas fa-exclamation-circle" aria-hidden="true"></span>&nbsp;&nbsp;
 								{\App\Language::translate('LBL_LDAP_RECOMMENDED_INFO', $QUALIFIED_MODULE)}
 							</p>
 						</div>

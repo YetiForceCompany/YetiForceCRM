@@ -17,7 +17,7 @@
 					<div class="modal-content">
 						<div class="modal-header">
 							<h4 class="modal-title" id="myModalLabel">
-								<span class="glyphicon glyphicon-warning-sign redColor" aria-hidden="true"></span>&nbsp;&nbsp;
+								<span class="fas fa-exclamation-circle redColor" aria-hidden="true"></span>&nbsp;&nbsp;
 								{App\Language::translate('LBL_SYSTEM_WARNINGS','Settings:Vtiger')}
 							</h4>
 						</div>
