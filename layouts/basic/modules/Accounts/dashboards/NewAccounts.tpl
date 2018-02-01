@@ -26,7 +26,10 @@
 	<div class="row" >
 		<div class="col-sm-6">
 			<div class="input-group input-group-sm">
-				<span class=" input-group-addon"><span class="fas fa-calendar-alt iconMiddle "></span></span>
+				<span class=" input-group-prepend">
+					<span class="input-group-text">
+						<span class="fas fa-calendar-alt iconMiddle "></span></span>
+					</span>
 				<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}" class="dateRangeField widgetFilter width90 form-control" value="{implode(',',$DTIME)}" />
 			</div>	
 		</div>
