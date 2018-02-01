@@ -14,7 +14,7 @@
 				{if $COUNT_FIELDS2 > 0}
 					<br /><br />
 					<span class="btn btn-light btn-xs toggleVisibility" data-status="0" href="#">
-						<span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>	
+						<span class="fas fa-angle-down" aria-hidden="true"></span>	
 					</span>
 				{/if}
 			</td>
