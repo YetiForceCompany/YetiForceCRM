@@ -261,11 +261,11 @@ class Filter
 	public static function getInstance($value, $module = false)
 	{
 		$instance = false;
-		$tabId - is_numeric($module) ? $module : \App\Module::getModuleId($module);
+		$moduleName = is_numeric($module) ? \App\Module::getModuleName($module) : $module;
 		if (Utils::isNumber($value)) {
 			$query = (new \App\Db\Query())->from('vtiger_customview')->where(['cvid' => $value]);
 		} else {
-			$query = (new \App\Db\Query())->from('vtiger_customview')->where(['viewname' => $value, 'entitytype' => $tabId]);
+			$query = (new \App\Db\Query())->from('vtiger_customview')->where(['viewname' => $value, 'entitytype' => $moduleName]);
 		}
 		$result = $query->one();
 		if ($result) {
