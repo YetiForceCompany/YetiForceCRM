@@ -49,4 +49,14 @@
 .bodyHeader.menuOpen {
 	left: 230px;
 }
-
+.headerLinksMails {
+	height: fit-content;
+    > .btn + .dropdown-toggle {
+      padding-top: 7px;
+      padding-bottom: 7px;
+    }
+  .dropdown-menu {
+    left: auto;
+    right: 0;
+  }
+}
