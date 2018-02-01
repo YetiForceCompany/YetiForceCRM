@@ -34,7 +34,7 @@ class Block
 
 	/**
 	 * Basic table name
-	 * @var string 
+	 * @var string
 	 */
 	public static $baseTable = 'vtiger_blocks';
 
@@ -50,17 +50,16 @@ class Block
 	/**
 	 * Initialize this block instance
 	 * @param array Map of column name and value
-	 * @param \Module Module Instance of module to which this block is associated
+	 * @param mixed $module Mixed id or name of the module
 	 */
-	public function initialize($valuemap, $moduleInstance = false)
+	public function initialize($valuemap, $module = false)
 	{
 		$this->id = isset($valuemap['blockid']) ? $valuemap['blockid'] : null;
 		$this->label = isset($valuemap['blocklabel']) ? $valuemap['blocklabel'] : null;
 		$this->display_status = isset($valuemap['display_status']) ? $valuemap['display_status'] : null;
 		$this->sequence = isset($valuemap['sequence']) ? $valuemap['sequence'] : null;
 		$this->iscustom = isset($valuemap['iscustom']) ? $valuemap['iscustom'] : null;
-		$tabid = isset($valuemap['tabid']) ? $valuemap['tabid'] : null;
-		$this->module = $moduleInstance ? $moduleInstance : Module::getInstance($tabid);
+		$this->module = Module::getInstance($module ? $module : $valuemap['tabid']);
 	}
 
 	/**
@@ -161,12 +160,13 @@ class Block
 	/**
 	 * Get instance of block
 	 * @param int|string block id or block label
-	 * @param \Module Module Instance of the module if block label is passed
+	 * @param mixed $module Mixed id or name of the module
 	 * @return \self
 	 */
-	public static function getInstance($value, $moduleInstance = false)
+	public static function getInstance($value, $module = false)
 	{
-		$cacheName = $value . '|' . ($moduleInstance ? $moduleInstance->id : '');
+		$tabId - is_numeric($module) ? $module : \App\Module::getModuleId($module);
+		$cacheName = $value . '|' . $tabId;
 		if (\App\Cache::has('BlockInstance', $cacheName)) {
 			$data = \App\Cache::get('BlockInstance', $cacheName);
 		} else {
@@ -174,7 +174,7 @@ class Block
 			if (Utils::isNumber($value)) {
 				$query->where(['blockid' => $value]);
 			} else {
-				$query->where(['blocklabel' => $value, 'tabid' => $moduleInstance->id]);
+				$query->where(['blocklabel' => $value, 'tabid' => $tabId]);
 			}
 			$data = $query->one();
 			\App\Cache::save('BlockInstance', $cacheName, $data);
@@ -182,7 +182,7 @@ class Block
 		$instance = false;
 		if ($data) {
 			$instance = new self();
-			$instance->initialize($data, $moduleInstance);
+			$instance->initialize($data, $tabId);
 		}
 		return $instance;
 	}
@@ -206,7 +206,7 @@ class Block
 		$instances = false;
 		foreach ($blocks as $row) {
 			$instance = new self();
-			$instance->initialize($row, $moduleInstance);
+			$instance->initialize($row, $moduleInstance->id);
 			$instances[] = $instance;
 		}
 		return $instances;

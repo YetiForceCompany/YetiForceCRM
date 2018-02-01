@@ -98,7 +98,6 @@ class PaymentsIn extends Vtiger_CRMEntity
 	public function moduleHandler($moduleName, $eventType)
 	{
 		if ($eventType === 'module.postinstall') {
-			$ModuleInstance = CRMEntity::getInstance($moduleName);
 			\App\Fields\RecordNumber::setNumber($moduleName, '', '1');
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('modules/ModComments/ModComments.php')) {
@@ -109,8 +108,7 @@ class PaymentsIn extends Vtiger_CRMEntity
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['customized' => 0], ['name' => $moduleName])->execute();
 			CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\App\Module::getModuleId($moduleName));
 
-			$moduleInstance = vtlib\Module::getInstance('Accounts');
-			$blockInstance = vtlib\Block::getInstance('LBL_ACCOUNT_INFORMATION', $moduleInstance);
+			$blockInstance = vtlib\Block::getInstance('LBL_ACCOUNT_INFORMATION', \App\Module::getModuleId('Accounts'));
 			$fieldInstance = new vtlib\Field();
 			$fieldInstance->name = 'payment_balance';
 			$fieldInstance->table = 'vtiger_account';

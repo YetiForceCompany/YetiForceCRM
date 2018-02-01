@@ -216,7 +216,7 @@ class PackageUpdate extends PackageImport
 
 		foreach ($modulenode->blocks->block as $blocknode) {
 			$this->listBlocks[] = strval($blocknode->label);
-			$blockInstance = Block::getInstance((string) $blocknode->label, $moduleInstance);
+			$blockInstance = Block::getInstance((string) $blocknode->label, $moduleInstance->id);
 			if (!$blockInstance) {
 				$blockInstance = $this->importBlock($modulenode, $moduleInstance, $blocknode);
 			} else {
