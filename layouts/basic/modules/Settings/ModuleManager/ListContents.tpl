@@ -78,7 +78,7 @@
 								{else}
 									<span class="label label-danger bigLabel">
 										{\App\Language::translate('LBL_LIBRARY_NO_DOWNLOAD', $QUALIFIED_MODULE)}&nbsp;&nbsp;
-										<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+										<span class="fas fa-ban" aria-hidden="true"></span>
 									</span>
 								{/if}
 							</td>
