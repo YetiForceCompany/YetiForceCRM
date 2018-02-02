@@ -19,7 +19,7 @@
 					{if $IMAGE_PATH}
 						<img class="userImage float-left" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_PATH))}" >
 					{else}	
-						<span class="fas fa-user userImage float-left" aria-hidden="true"></span>
+						<span class="fas fa-user userImage float-left"></span>
 					{/if}
 				</div>
 				<div class="commentTitle row no-margin" id="{$COMMENT->getId()}">
@@ -75,13 +75,13 @@
 						{/if}
 						{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 							<button type="button" class="btn btn-sm btn-success replyComment">
-								<span class="fas fa-share" aria-hidden="true"></span>
+								<span class="fas fa-share"></span>
 								&nbsp;{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}
 							</button>
 						{/if}
 						{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
 							<button type="button" class="btn btn-sm btn-primary editComment feedback marginLeft5">
-								<span class="fas fa-edit" aria-hidden="true"></span>&nbsp;{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}
+								<span class="fas fa-edit"></span>&nbsp;{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}
 							</button>
 						{/if}
 						{assign var=LINKS value=$COMMENT->getCommentLinks()}
