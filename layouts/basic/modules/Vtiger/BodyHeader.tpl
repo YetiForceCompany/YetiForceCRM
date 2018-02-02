@@ -96,43 +96,45 @@
 				<div class="rightHeader">
 					{assign var=QUICKCREATE_MODULES value=Vtiger_Module_Model::getQuickCreateModules(true)}
 					{if !empty($QUICKCREATE_MODULES)}
-						<a class="btn-light p-1 btn popoverTooltip dropdownMenu d-none d-lg-inline-block" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
-							<span class="fas fa-plus fa-fw fa-lg" aria-hidden="true"></span>
-						</a>
-						<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
-							<li class="quickCreateModules">
-								<div class="card">
-									<div class="card-header">
-										<h4 class="card-title"><strong>{\App\Language::translate('LBL_QUICK_CREATE')}</strong></h4>
-									</div>
-									<div class="card-body paddingLRZero">
-										{foreach key=NAME item=MODULEMODEL from=$QUICKCREATE_MODULES}
-											{assign var='quickCreateModule' value=$MODULEMODEL->isQuickCreateSupported()}
-											{assign var='singularLabel' value=$MODULEMODEL->getSingularLabelKey()}
-											{if $singularLabel == 'SINGLE_Calendar'}
-												{assign var='singularLabel' value='LBL_EVENT_OR_TASK'}
-											{/if}
-											{if $quickCreateModule == '1'}
-												{if $count % 3 == 0}
-													<div class="">
-													{/if}
-													<div class="col-sm-4{if $count % 3 != 2} paddingRightZero{/if}">
-														<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{\App\Language::translate($singularLabel,$NAME)}">
-															<span class="modCT_{$NAME} userIcon-{$NAME}"></span><span>{\App\Language::translate($singularLabel,$NAME)}</span>
-														</a>
-													</div>
-													{if $count % 3 == 2}
-													</div>
-												{/if}
-												{assign var='count' value=$count+1}
-											{/if}
-										{/foreach}
-										{if $count % 3 >= 1}
+						<span class="commonActionsContainer">
+							<a class="btn-light p-1 btn popoverTooltip dropdownMenu d-none d-lg-inline-block" data-content="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
+								<span class="fas fa-plus fa-fw fa-lg" aria-hidden="true"></span>
+							</a>
+							<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
+								<li class="quickCreateModules">
+									<div class="card">
+										<div class="card-header">
+											<span class="card-title"><strong>{\App\Language::translate('LBL_QUICK_CREATE')}</strong></span>
 										</div>
-									{/if}
-								</div>
-							</li>
-						</ul>
+										<div class="card-body paddingLRZero">
+											{foreach key=NAME item=MODULEMODEL from=$QUICKCREATE_MODULES}
+												{assign var='quickCreateModule' value=$MODULEMODEL->isQuickCreateSupported()}
+												{assign var='singularLabel' value=$MODULEMODEL->getSingularLabelKey()}
+												{if $singularLabel == 'SINGLE_Calendar'}
+													{assign var='singularLabel' value='LBL_EVENT_OR_TASK'}
+												{/if}
+												{if $quickCreateModule == '1'}
+													{if $count % 3 == 0}
+														<div class="row small">
+														{/if}
+														<div class="col-4{if $count % 3 != 2} paddingRightZero{/if}">
+															<a id="menubar_quickCreate_{$NAME}" class="quickCreateModule list-group-item" data-name="{$NAME}" data-url="{$MODULEMODEL->getQuickCreateUrl()}" href="javascript:void(0)" title="{\App\Language::translate($singularLabel,$NAME)}">
+																<span class="modCT_{$NAME} userIcon-{$NAME}"></span><span>{\App\Language::translate($singularLabel,$NAME)}</span>
+															</a>
+														</div>
+														{if $count % 3 == 2}
+														</div>
+													{/if}
+													{assign var='count' value=$count+1}
+												{/if}
+											{/foreach}
+											{if $count % 3 >= 1}
+											</div>
+										{/if}
+									</div>
+								</li>
+							</ul>
+						</span>
 					{/if}
 					{if \App\Privilege::isPermitted('Notification', 'DetailView')}
 						<a class="btn btn-light p-1 btn isBadge notificationsNotice popoverTooltip {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if} d-none d-lg-inline-block" data-content="{\App\Language::translate('LBL_NOTIFICATIONS')}">
