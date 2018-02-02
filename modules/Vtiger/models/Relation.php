@@ -546,7 +546,7 @@ class Vtiger_Relation_Model extends \App\Base
 		$sourceModuleName = $sourceModule->get('name');
 		$destinationModuleName = $this->getRelationModuleModel()->get('name');
 		$sourceModuleFocus = CRMEntity::getInstance($sourceModuleName);
-		relateEntities($sourceModuleFocus, $sourceModuleName, $sourceRecordId, $destinationModuleName, $destinationRecordId, $this->get('name'));
+		vtlib\Deprecated::relateEntities($sourceModuleFocus, $sourceModuleName, $sourceRecordId, $destinationModuleName, $destinationRecordId, $this->get('name'));
 	}
 
 	/**
@@ -600,7 +600,7 @@ class Vtiger_Relation_Model extends \App\Base
 				return false;
 			}
 			$destinationModuleFocus = CRMEntity::getInstance($destinationModuleName);
-			DeleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId, $this->get('name'));
+			vtlib\Deprecated::deleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId, $this->get('name'));
 			return true;
 		}
 	}
@@ -736,7 +736,7 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Removes relation between modules 
+	 * Removes relation between modules
 	 * @param integer $relationId
 	 */
 	public static function removeRelationById($relationId)
@@ -749,6 +749,7 @@ class Vtiger_Relation_Model extends \App\Base
 		}
 		\App\Cache::clear();
 	}
+
 	/**
 	 * Function to save sequence of relation
 	 * @param array $modules

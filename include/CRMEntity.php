@@ -309,12 +309,12 @@ class CRMEntity
 	public function deleteRelatedFromDB($crmid, $withModule, $withCrmid)
 	{
 		App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', ['or',
-				[
+			[
 				'crmid' => $crmid,
 				'relmodule' => $withModule,
 				'relcrmid' => $withCrmid
 			],
-				[
+			[
 				'relcrmid' => $crmid,
 				'module' => $withModule,
 				'crmid' => $withCrmid
@@ -769,7 +769,7 @@ class CRMEntity
 	 */
 	public function getRelationQuery($module, $secmodule, $table_name, $column_name, ReportRunQueryPlanner $queryPlanner)
 	{
-		$tab = getRelationTables($module, $secmodule);
+		$tab = vtlib\Deprecated::getRelationTables($module, $secmodule);
 
 		foreach ($tab as $key => $value) {
 			$tables[] = $key;

@@ -176,4 +176,109 @@ class Deprecated
 		$sqlString = "CONCAT(" . $formattedNameListString . ")";
 		return $sqlString;
 	}
+	/* Function to get the related tables data
+	 * @param - $module - Primary module name
+	 * @param - $secmodule - Secondary module name
+	 * return Array $rel_array tables and fields to be compared are sent
+	 * */
+
+	public static function getRelationTables($module, $secmodule)
+	{
+		$adb = PearDatabase::getInstance();
+		$primary_obj = CRMEntity::getInstance($module);
+		$secondary_obj = CRMEntity::getInstance($secmodule);
+
+		$ui10_query = $adb->pquery("SELECT vtiger_field.tabid AS tabid,vtiger_field.tablename AS tablename, vtiger_field.columnname AS columnname FROM vtiger_field INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid WHERE (vtiger_fieldmodulerel.module=? && vtiger_fieldmodulerel.relmodule=?) || (vtiger_fieldmodulerel.module=? && vtiger_fieldmodulerel.relmodule=?)", [$module, $secmodule, $secmodule, $module]);
+		if ($adb->numRows($ui10_query) > 0) {
+			$ui10_tablename = $adb->queryResult($ui10_query, 0, 'tablename');
+			$ui10_columnname = $adb->queryResult($ui10_query, 0, 'columnname');
+
+			if ($primary_obj->table_name == $ui10_tablename) {
+				$reltables = [$ui10_tablename => ["" . $primary_obj->table_index . "", "$ui10_columnname"]];
+			} else if ($secondary_obj->table_name == $ui10_tablename) {
+				$reltables = [$ui10_tablename => ["$ui10_columnname", "" . $secondary_obj->table_index . ""], "" . $primary_obj->table_name . "" => "" . $primary_obj->table_index . ""];
+			} else {
+				if (isset($secondary_obj->tab_name_index[$ui10_tablename])) {
+					$rel_field = $secondary_obj->tab_name_index[$ui10_tablename];
+					$reltables = [$ui10_tablename => ["$ui10_columnname", "$rel_field"], "" . $primary_obj->table_name . "" => "" . $primary_obj->table_index . ""];
+				} else {
+					$rel_field = $primary_obj->tab_name_index[$ui10_tablename];
+					$reltables = [$ui10_tablename => ["$rel_field", "$ui10_columnname"], "" . $primary_obj->table_name . "" => "" . $primary_obj->table_index . ""];
+				}
+			}
+		} else {
+			if (method_exists($primary_obj, setRelationTables)) {
+				$reltables = $primary_obj->setRelationTables($secmodule);
+			} else {
+				$reltables = '';
+			}
+		}
+		if (is_array($reltables) && !empty($reltables)) {
+			$rel_array = $reltables;
+		} else {
+			$rel_array = ["vtiger_crmentityrel" => ["crmid", "relcrmid"], "" . $primary_obj->table_name . "" => "" . $primary_obj->table_index . ""];
+		}
+		return $rel_array;
+	}
+
+	/**
+	 * This function returns no value but handles the delete functionality of each entity.
+	 * Input Parameter are $module - module name, $return_module - return module name, $focus - module object, $record - entity id, $return_id - return entity id.
+	 */
+	public static function deleteEntity($destinationModule, $sourceModule, CRMEntity $focus, $destinationRecordId, $sourceRecordId, $relatedName = false)
+	{
+		\App\Log::trace("Entering deleteEntity method ($destinationModule, $sourceModule, $destinationRecordId, $sourceRecordId)");
+		if ($destinationModule != $sourceModule && !empty($sourceModule) && !empty($sourceRecordId)) {
+			$eventHandler = new App\EventHandler();
+			$eventHandler->setModuleName($sourceModule);
+			$eventHandler->setParams([
+				'CRMEntity' => $focus,
+				'sourceModule' => $sourceModule,
+				'sourceRecordId' => $sourceRecordId,
+				'destinationModule' => $destinationModule,
+				'destinationRecordId' => $destinationRecordId,
+			]);
+			$eventHandler->trigger('EntityBeforeUnLink');
+
+			$focus->unlinkRelationship($destinationRecordId, $sourceModule, $sourceRecordId, $relatedName);
+			$focus->trackUnLinkedInfo($sourceRecordId);
+
+			$eventHandler->trigger('EntityAfterUnLink');
+		} else {
+			$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+			if (!$currentUserPrivilegesModel->isPermitted($destinationModule, 'Delete', $destinationRecordId)) {
+				throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
+			}
+			$focus->trash($destinationModule, $destinationRecordId);
+		}
+		\App\Log::trace('Exiting deleteEntity method ...');
+	}
+
+	/**
+	 * Function to related two records of different entity types
+	 */
+	public static function relateEntities(CRMEntity $focus, $sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds, $relatedName = false)
+	{
+		\App\Log::trace("Entering relateEntities method ($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds)");
+		if (!is_array($destinationRecordIds))
+			$destinationRecordIds = [$destinationRecordIds];
+
+		$data = [
+			'CRMEntity' => $focus,
+			'sourceModule' => $sourceModule,
+			'sourceRecordId' => $sourceRecordId,
+			'destinationModule' => $destinationModule,
+		];
+		$eventHandler = new App\EventHandler();
+		$eventHandler->setModuleName($sourceModule);
+		foreach ($destinationRecordIds as &$destinationRecordId) {
+			$data['destinationRecordId'] = $destinationRecordId;
+			$eventHandler->setParams($data);
+			$eventHandler->trigger('EntityBeforeLink');
+			$focus->saveRelatedModule($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId, $relatedName);
+			CRMEntity::trackLinkedInfo($sourceRecordId);
+			$eventHandler->trigger('EntityAfterLink');
+		}
+		\App\Log::trace("Exiting relateEntities method ...");
+	}
 }

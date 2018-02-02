@@ -84,7 +84,7 @@ class VTCreateEntityTask extends VTTask
 			$newRecordModel->set($this->reference_field, $recordId);
 			// To handle cyclic process
 			$newRecordModel->save();
-			relateEntities($recordModel->getEntity(), $moduleName, $recordId, $entityType, $newRecordModel->getId());
+			vtlib\Deprecated::relateEntities($recordModel->getEntity(), $moduleName, $recordId, $entityType, $newRecordModel->getId());
 		} elseif ($entityType && $this->mappingPanel) {
 			$saveContinue = true;
 			$newRecordModel = Vtiger_Record_Model::getCleanInstance($entityType);

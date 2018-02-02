@@ -67,7 +67,7 @@ class Campaigns extends CRMEntity
 
 	public function getRelationQuery($module, $secmodule, $table_name, $column_name, ReportRunQueryPlanner $queryPlanner)
 	{
-		$tab = getRelationTables($module, $secmodule);
+		$tab = vtlib\Deprecated::getRelationTables($module, $secmodule);
 
 		foreach ($tab as $key => $value) {
 			$tables[] = $key;
