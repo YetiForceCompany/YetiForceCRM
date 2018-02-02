@@ -9,7 +9,7 @@
 	</div>
 	<div class="modal-body">
 		<div class="alert alert-info" role="alert">
-			<span class="fas fa-info-circle" aria-hidden="true"></span>&nbsp;&nbsp;
+			<span class="fas fa-info-circle"></span>&nbsp;&nbsp;
 			{\App\Language::translate('LBL_MASS_SEND_EMAIL_INFO', $MODULE)}
 		</div>
 		<form class="form-horizontal validateForm">
@@ -55,7 +55,7 @@
 		</form>
 		{if !$DEFAULT_SMTP}
 			<div class="alert alert-danger" role="alert">
-				<span class="fas fa-exclamation-circle" aria-hidden="true"></span>&nbsp;&nbsp;
+				<span class="fas fa-exclamation-circle"></span>&nbsp;&nbsp;
 				{\App\Language::translate('ERR_NO_DEFAULT_SMTP')}
 			</div>
 		{/if}

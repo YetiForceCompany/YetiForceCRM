@@ -1258,7 +1258,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'fas fa-pencil-alt',
+				'linkicon' => 'fas fa-edit',
 				'linkclass' => 'btn-sm btn-default',
 				'linkhref' => true
 			];
@@ -1357,7 +1357,7 @@ class Vtiger_Record_Model extends \App\Base
 					'linklabel' => 'LBL_EDIT',
 					'linkhref' => true,
 					'linkurl' => $this->getEditViewUrl(),
-					'linkicon' => 'fas fa-pencil-alt',
+					'linkicon' => 'fas fa-edit',
 					'linkclass' => 'btn-xs btn-default',
 			]);
 		}

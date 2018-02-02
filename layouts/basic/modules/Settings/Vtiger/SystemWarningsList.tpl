@@ -16,11 +16,11 @@
 					<td>{App\Language::translate($ITEM->getTitle(),'Settings:SystemWarnings')}</td>
 					<td class="text-center {if $ITEM->getStatus() == 0}danger{elseif $ITEM->getStatus() == 1}success{/if}">
 						{if $ITEM->getStatus() == 0}
-							<span class="fas fa-times" aria-hidden="true"></span>
+							<span class="fas fa-times"></span>
 						{elseif $ITEM->getStatus() == 1}
-							<span class="fas fa-check" aria-hidden="true"></span>
+							<span class="fas fa-check"></span>
 						{elseif $ITEM->getStatus() == 2}
-							<span class="fas fa-minus" aria-hidden="true"></span>
+							<span class="fas fa-minus"></span>
 						{/if}&nbsp;
 					</td>
 					<td data-order="{$ITEM->getPriority()}" class="text-center">{$ITEM->getPriority()}</td>
@@ -39,20 +39,20 @@
 									{/if}
 									">
 								{if $ITEM->getStatus() == 2}
-									<span class="fas fa-plus-circle" aria-hidden="true"></span>
+									<span class="fas fa-plus-circle"></span>
 								{else}
-									<span class="fas fa-minus-circle" aria-hidden="true"></span>
+									<span class="fas fa-minus-circle"></span>
 								{/if}
 							</button>&nbsp;&nbsp;
 						{/if}
 						{if $ITEM->getLink()}
 							<a class="btn btn-success btn-sm {if isset($ITEM->linkTitle)}popoverTooltip{/if}" href="{$ITEM->getLink()}" {if isset($ITEM->linkTitle)}data-placement="top" data-content="{$ITEM->linkTitle}"{/if} target="_blank">
-								<span class="fas fa-link" aria-hidden="true"></span>
+								<span class="fas fa-link"></span>
 							</a>&nbsp;&nbsp;
 						{/if}
 						{if $ITEM->getDescription()}
 							<button class="btn btn-primary btn-sm showDescription">
-								<span class="fas fa-info-circle" aria-hidden="true"></span>
+								<span class="fas fa-info-circle"></span>
 							</button>
 							<span class="hide showDescriptionContent">
 								<div class="modal fade">

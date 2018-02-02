@@ -758,7 +758,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'fas fa-pencil-alt'
+				'linkicon' => 'fas fa-edit'
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',

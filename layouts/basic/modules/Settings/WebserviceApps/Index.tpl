@@ -32,7 +32,7 @@
 									{$SERVER['api_key']}
 									<div class="float-right">
 										<button class="btn btn-primary btn-sm edit">
-											<span class="fas fa-pencil-alt cursorPointer"></span>
+											<span class="fas fa-edit cursorPointer"></span>
 										</button>
 										<button class="btn btn-danger btn-sm marginLeft5 remove">
 											<span class="fas fa-trash-alt cursorPointer"></span>

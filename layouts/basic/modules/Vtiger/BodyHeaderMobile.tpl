@@ -9,7 +9,7 @@
 					</div>
 					<div class="pull-right">
 						<a data-placement="left" data-toggle="dropdown" class="btn btn-default btn-sm showHistoryBtn" title="{\App\Language::translate('LBL_PAGES_HISTORY')}" aria-expanded="false" href="#">
-							<span class="fas fa-history" aria-hidden="true"></span>
+							<span class="fas fa-history"></span>
 						</a>
 						{include file=\App\Layout::getTemplatePath('BrowsingHistory.tpl', $MODULE)}
 					</div>
@@ -24,7 +24,7 @@
 					</div>
 					<div class="pull-right">
 						<a class="btn btn-default {if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" title="{\App\Language::translate('LBL_REMINDER')}" data-content="{\App\Language::translate('LBL_REMINDER')}">
-							<span class="fas fa-calendar-alt" aria-hidden="true"></span>
+							<span class="fas fa-calendar-alt"></span>
 							<span class="badge bgDanger hide">0</span>
 						</a>
 					</div>
@@ -39,7 +39,7 @@
 					</div>
 					<div class="pull-right">
 						<a class="btn btn-default ChatIcon " title="{\App\Language::translate('LBL_CHAT')}" href="#">
-							<span class="fas fa-comments" aria-hidden="true"></span>
+							<span class="fas fa-comments"></span>
 						</a>
 					</div>
 				</div>
@@ -53,7 +53,7 @@
 					</div>
  					<div class="pull-right">
  						<a class="btn btn-default {if AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')}autoRefreshing{/if}" title="{\App\Language::translate('LBL_NOTIFICATIONS')}" >
-							<span class="fas fa-bell" aria-hidden="true"></span>
+							<span class="fas fa-bell"></span>
 							<span class="badge hide">0</span>
 						</a>
 					</div>
@@ -67,7 +67,7 @@
 				</div>
 				<div class='pull-right'>
 					<a id="mobile_menubar_quickCreate" class="dropdown-toggle btn btn-default" data-toggle="dropdown" title="{\App\Language::translate('LBL_QUICK_CREATE')}" href="#">
-						<span class="fas fa-plus" aria-hidden="true"></span>
+						<span class="fas fa-plus"></span>
 					</a>
 					<ul class="dropdown-menu dropdown-menu-right commonActionsButtonDropDown">
 						<li class="quickCreateModules">
@@ -132,7 +132,7 @@
 									{/foreach}
 								{/if}>
 								{if $GLYPHICON}
-									<span class="{$GLYPHICON}" aria-hidden="true" style="width:18px;height:20px;font-size:18px"></span>
+									<span class="{$GLYPHICON}" style="width:18px;height:20px;font-size:18px"></span>
 								{/if}
 								{if $ICON_PATH}
 									<img src="{$ICON_PATH}" alt="{\App\Language::translate($TITLE,$MODULE)}" title="{\App\Language::translate($TITLE,$MODULE)}" />

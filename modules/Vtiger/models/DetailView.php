@@ -137,7 +137,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linktype' => 'DETAIL_VIEW_BASIC',
 					'linklabel' => 'BTN_RECORD_EDIT',
 					'linkurl' => $recordModel->getEditViewUrl(),
-					'linkicon' => 'fas fa-pencil-alt',
+					'linkicon' => 'fas fa-edit',
 					'linkclass' => 'btn',
 					'linkhint' => 'BTN_RECORD_EDIT',
 			]);

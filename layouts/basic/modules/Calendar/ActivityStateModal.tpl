@@ -13,7 +13,7 @@
 							{if $USER_MODEL->get('internal_mailer') == 1}
 								{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(\App\Record::getType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
 								<a target="_blank" class="btn btn-light" href="{$COMPOSE_URL}" title="{\App\Language::translate('LBL_SEND_EMAIL')}">
-									<span class="fas fa-envelope" aria-hidden="true"></span>
+									<span class="fas fa-envelope"></span>
 								</a>
 							{else}
 								{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl(\App\Record::getType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
@@ -25,7 +25,7 @@
 							{/if}
 						{/if}
 						{if $RECORD->isEditable()}
-							<a href="{$RECORD->getEditViewUrl()}" class="btn btn-light"><span class="fas fa-pencil-alt summaryViewEdit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span></a>
+							<a href="{$RECORD->getEditViewUrl()}" class="btn btn-light"><span class="fas fa-edit summaryViewEdit" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span></a>
 							{/if}
 							{if $RECORD->isViewable()}
 							<a href="{$RECORD->getDetailViewUrl()}" class="btn btn-light"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}" class="fas fa-th-list summaryViewEdit"></span></a>

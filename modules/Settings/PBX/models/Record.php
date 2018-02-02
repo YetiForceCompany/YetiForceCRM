@@ -112,7 +112,7 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => 'index.php?module=PBX&parent=Settings&view=EditModal&record=' . $this->getId(),
-				'linkicon' => 'fas fa-pencil-alt',
+				'linkicon' => 'fas fa-edit',
 				'linkclass' => 'btn btn-sm btn-primary',
 				'modalView' => true
 			],
