@@ -84,16 +84,16 @@
 					</div>
 					{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardFilter')}
 						<div class="btn-group d-none d-sm-none d-md-block ml-1">
-							<a class="btn btn-outline-secondary addFilter" data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="4">
+							<button class="btn btn-outline-secondary addFilter" data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="4">
 								<strong>{\App\Language::translate('LBL_ADD_FILTER')}</strong>
-							</a>
+							</button>
 						</div>
 					{/if}
 					{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardChartFilter')}
 						<div class="btn-group d-none d-sm-none d-md-block ml-1">
-							<a class="btn btn-outline-secondary addChartFilter" data-linkid="{$SPECIAL_WIDGETS['ChartFilter']->get('linkid')}" data-block-id="0" data-width="4" data-height="4">
+							<button class="btn btn-outline-secondary addChartFilter" data-linkid="{$SPECIAL_WIDGETS['ChartFilter']->get('linkid')}" data-block-id="0" data-width="4" data-height="4">
 								<strong>{\App\Language::translate('LBL_ADD_CHART_FILTER')}</strong>
-							</a>
+							</button>
 						</div>
 					{/if}
 				</div>
