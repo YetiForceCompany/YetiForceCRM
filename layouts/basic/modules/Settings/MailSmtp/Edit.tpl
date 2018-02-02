@@ -222,8 +222,8 @@
 			<div class="row">
 				<div class="col-md-5 float-right">
 					<span class="float-right">
-						<button class="btn btn-success" type="submit"><span class="fas fa-check" aria-hidden="true"></span>&nbsp;<strong>{App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
-						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();"><span class="fas fa-times" aria-hidden="true"></span>&nbsp;{App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+						<button class="btn btn-success" type="submit"><span class="fas fa-check"></span>&nbsp;<strong>{App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();"><span class="fas fa-times"></span>&nbsp;{App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					</span>
 				</div>
 			</div>

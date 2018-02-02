@@ -8,11 +8,11 @@
 		<div class="col-md-4 marginbottomZero">
 			<div class="float-right btn-toolbar"><span class="actionImages">
 					<a class="btn btn-info" href="{$RECORD_MODEL->getEditViewUrl()}">
-						<span class="fas fa-edit" aria-hidden="true"></span>&nbsp;
+						<span class="fas fa-edit"></span>&nbsp;
 						<strong>{App\Language::translate('LBL_EDIT_RECORD', $QUALIFIED_MODULE)}</strong>
 					</a>
 					<a class="btn btn-danger marginLeft5" href="{$RECORD_MODEL->getDeleteActionUrl()}">
-						<span class="fas fa-trash-alt" aria-hidden="true"></span>&nbsp;
+						<span class="fas fa-trash-alt"></span>&nbsp;
 						<strong>{App\Language::translate('LBL_DELETE_RECORD', $QUALIFIED_MODULE)}</strong>
 					</a>
 			</div>

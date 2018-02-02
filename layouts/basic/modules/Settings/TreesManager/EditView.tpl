@@ -88,7 +88,7 @@
 			<br />
 			<div class="float-right">
 				<button class="btn btn-success saveTree">
-					<span class="fas fa-check" aria-hidden="true"></span>&nbsp;&nbsp;
+					<span class="fas fa-check"></span>&nbsp;&nbsp;
 					<strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong>
 				</button>&nbsp;&nbsp;
 				<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">
