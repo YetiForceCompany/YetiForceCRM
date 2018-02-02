@@ -29,7 +29,7 @@
 						<span class="fas fa-filter"></span>
 					</span>
 				</div>
-			<select class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="listUpdatedRecordLimit" title="{\App\Language::translate('LBL_RECORDS_LIMIT')}" name="number" >
+			<select class="widgetFilter form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="listUpdatedRecordLimit" title="{\App\Language::translate('LBL_RECORDS_LIMIT')}" name="number" >
 				<option title="{\App\Language::translate('LBL_ALL')}" value="all" >{\App\Language::translate('LBL_ALL')}</option>
 				<option title="20" value="10" >10</option>
 				<option title="25" value="25" >25</option>

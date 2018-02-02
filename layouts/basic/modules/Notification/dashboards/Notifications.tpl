@@ -19,7 +19,7 @@
 						<span class="fas fa-bell"></span>
 					</span>
 			</div>
-				<select class="form-control select2" aria-label="Small" aria-describedby="inputGroup-sizing-sm" name="type">
+				<select class="widgetFilter form-control select2" aria-label="Small" aria-describedby="inputGroup-sizing-sm" name="type">
 					{foreach from=$TYPES_NOTIFICATION key=KEY item=TYPE}
 						<option value="{$KEY}">{$TYPE}</option>
 					{/foreach}
