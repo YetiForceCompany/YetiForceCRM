@@ -354,7 +354,7 @@ class ReportRun extends CRMEntity
 		if ($module == "Calendar") {
 			if (count($profileList) > 0) {
 				$query .= " vtiger_field.tabid in (9,16) and vtiger_field.displaytype <> 4 and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0
-								and vtiger_field.presence IN (0,2) and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ") group by vtiger_field.fieldid order by block,sequence";
+								and vtiger_field.presence IN (0,2) and vtiger_profile2field.profileid in (" . $adb->generateQuestionMarks($profileList) . ") group by vtiger_field.fieldid order by block,sequence";
 				array_push($params, $profileList);
 			} else {
 				$query .= " vtiger_field.tabid in (9,16) and vtiger_field.displaytype <> 4 and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0
@@ -364,7 +364,7 @@ class ReportRun extends CRMEntity
 			array_push($params, $module);
 			if (count($profileList) > 0) {
 				$query .= " vtiger_field.tabid in (select tabid from vtiger_tab where vtiger_tab.name in (?)) and vtiger_field.displaytype <> 4 and vtiger_profile2field.visible=0
-								and vtiger_field.presence IN (0,2) and vtiger_def_org_field.visible=0 and vtiger_profile2field.profileid in (" . generateQuestionMarks($profileList) . ") group by vtiger_field.fieldid order by block,sequence";
+								and vtiger_field.presence IN (0,2) and vtiger_def_org_field.visible=0 and vtiger_profile2field.profileid in (" . $adb->generateQuestionMarks($profileList) . ") group by vtiger_field.fieldid order by block,sequence";
 				array_push($params, $profileList);
 			} else {
 				$query .= " vtiger_field.tabid in (select tabid from vtiger_tab where vtiger_tab.name in (?)) and vtiger_field.displaytype <> 4 and vtiger_profile2field.visible=0
@@ -3008,7 +3008,7 @@ class ReportRun extends CRMEntity
 		if ($this->secondarymodule != '')
 			array_push($id, \App\Module::getModuleId($this->secondarymodule));
 
-		$query = sprintf('select fieldname,columnname,fieldid,fieldlabel,tabid,uitype from vtiger_field where tabid in(%s) and uitype in (15,33,55)', generateQuestionMarks($id)); //and columnname in (?)';
+		$query = sprintf('select fieldname,columnname,fieldid,fieldlabel,tabid,uitype from vtiger_field where tabid in(%s) and uitype in (15,33,55)', $adb->generateQuestionMarks($id)); //and columnname in (?)';
 		$result = $adb->pquery($query, $id); //,$select_column));
 		$roleid = $current_user->roleid;
 		$subrole = \App\PrivilegeUtil::getRoleSubordinates($roleid);

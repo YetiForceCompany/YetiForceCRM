@@ -7,8 +7,20 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * **************************************************************************** */
-require_once 'VTExpressionToken.php';
-require_once 'VTExpressionSpaceFilter.php';
-require_once 'VTTokenizer.php';
-require_once 'VTParser.php';
-require_once 'VTExpressionEvaluater.php';
+
+class VTExpressionSpaceFilter
+{
+
+	public function __construct($tokens)
+	{
+		$this->tokens = $tokens;
+	}
+
+	public function nextToken()
+	{
+		do {
+			$token = $this->tokens->nextToken();
+		} while ($token->label == 'SPACE');
+		return $token;
+	}
+}

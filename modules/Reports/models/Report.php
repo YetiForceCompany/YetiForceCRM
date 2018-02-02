@@ -40,7 +40,7 @@ class Vtiger_Report_Model extends Reports
 
 				$userGroupsList = App\PrivilegeUtil::getAllGroupsByUser($userId);
 				if (!empty($userGroupsList) && $currentUser->isAdminUser() === false) {
-					$userGroupsQuery = " (shareid IN (" . generateQuestionMarks($userGroupsList) . ") && setype='groups') OR";
+					$userGroupsQuery = " (shareid IN (" . $db->generateQuestionMarks($userGroupsList) . ") && setype='groups') OR";
 					array_push($params, $userGroupsList);
 				}
 

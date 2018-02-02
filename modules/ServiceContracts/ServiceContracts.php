@@ -219,7 +219,7 @@ class ServiceContracts extends CRMEntity
 			$entityIds = [$entityIds];
 		$selectTicketsQuery = sprintf('SELECT ticketid FROM vtiger_troubletickets
 								WHERE (parent_id IS NULL || parent_id = 0)
-									AND ticketid IN (%s)', generateQuestionMarks($entityIds));
+									AND ticketid IN (%s)', $this->db->generateQuestionMarks($entityIds));
 		$selectTicketsResult = $this->db->pquery($selectTicketsQuery, [$entityIds]);
 		$noOfTickets = $this->db->numRows($selectTicketsResult);
 		for ($i = 0; $i < $noOfTickets; ++$i) {

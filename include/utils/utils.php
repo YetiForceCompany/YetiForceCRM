@@ -96,25 +96,6 @@ function getColumnFields($module)
 	return $column_fld;
 }
 
-// Return Question mark
-function _questionify($v)
-{
-	return '?';
-}
-
-/**
- * Function to generate question marks for a given list of items
- */
-function generateQuestionMarks($items_list)
-{
-	// array_map will call the function specified in the first parameter for every element of the list in second parameter
-	if (is_array($items_list)) {
-		return implode(',', array_map('_questionify', $items_list));
-	} else {
-		return implode(',', array_map('_questionify', explode(',', $items_list)));
-	}
-}
-
 //functions for asterisk integration end
 
 /* Function to get the related tables data

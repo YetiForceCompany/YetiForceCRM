@@ -8,25 +8,6 @@
  * All Rights Reserved.
  * **************************************************************************** */
 
-class VTExpressionToken
-{
-
-	public function __construct($label)
-	{
-		$this->label = $label;
-	}
-}
-
-function _vt_processtoken_id($token)
-{
-	return $token;
-}
-
-function _vt_processtoken_symbol($token)
-{
-	return new VTEXpressionSymbol($token);
-}
-
 class VTExpressionTokenizer
 {
 
@@ -82,25 +63,22 @@ class VTExpressionTokenizer
 			}
 			$tokenName = $this->tokenNames[$i - 1];
 			$token = new VTExpressionToken($tokenName);
-			$token->value = $this->tokenTypes[$tokenName][1]($match[$i]);
+			if (method_exists($this, $this->tokenTypes[$tokenName][1])) {
+				$token->value = call_user_func([$this, $this->tokenTypes[$tokenName][1]], $match[$i]);
+			} else {
+				$token->value = $this->tokenTypes[$tokenName][1]($match[$i]);
+			}
 			return $token;
 		}
 	}
-}
 
-class VTExpressionSpaceFilter
-{
-
-	public function __construct($tokens)
+	private function _vt_processtoken_id($token)
 	{
-		$this->tokens = $tokens;
+		return $token;
 	}
 
-	public function nextToken()
+	private function _vt_processtoken_symbol($token)
 	{
-		do {
-			$token = $this->tokens->nextToken();
-		} while ($token->label == "SPACE");
-		return $token;
+		return new VTEXpressionSymbol($token);
 	}
 }
