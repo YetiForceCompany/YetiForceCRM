@@ -104,10 +104,10 @@ class Reports_List_View extends Vtiger_Index_View
 		$sortOrder = $request->getForSql('sortorder');
 		if ($sortOrder == "ASC") {
 			$nextSortOrder = "DESC";
-			$sortImage = "glyphicon glyphicon-chevron-down";
+			$sortImage = "fas fa-chevron-down";
 		} else {
 			$nextSortOrder = "ASC";
-			$sortImage = "glyphicon glyphicon-chevron-up";
+			$sortImage = "fas fa-chevron-up";
 		}
 
 		$listViewModel = new Reports_ListView_Model();

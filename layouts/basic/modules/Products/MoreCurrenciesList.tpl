@@ -46,10 +46,10 @@
 										<td>
 											<span>
 												<span class="col-md-8 alignBottom">
-													<span class="pull-left currencyName">{\App\Language::translate($price.currencylabel, 'Currency')} ({$price.currencysymbol})</span>
+													<span class="float-left currencyName">{\App\Language::translate($price.currencylabel, 'Currency')} ({$price.currencysymbol})</span>
 												</span>
 												<span class="col-md-2">
-													<input type="checkbox" name="cur_{$price.curid}_check" id="cur_{$price.curid}_check" class="small pull-right enableCurrency" {if $check_value} title="{\App\Language::translate('LBL_ENABLE_CURRENCY')}" {else} title="{\App\Language::translate('LBL_DISABLE_CURRENCY')}" {/if} {$check_value}>
+													<input type="checkbox" name="cur_{$price.curid}_check" id="cur_{$price.curid}_check" class="small float-right enableCurrency" {if $check_value} title="{\App\Language::translate('LBL_ENABLE_CURRENCY')}" {else} title="{\App\Language::translate('LBL_DISABLE_CURRENCY')}" {/if} {$check_value}>
 												</span>
 											</span>
 										</td>
@@ -65,7 +65,7 @@
 										</td>
 										<td>
 											<div>
-												<button {$disable_value} type="button" class="btn btn-default currencyReset resetButton" id="cur_reset{$price.curid}" value="{\App\Language::translate('LBL_RESET',$MODULE)}">{\App\Language::translate('LBL_RESET',$MODULE)}</button>
+												<button {$disable_value} type="button" class="btn btn-light currencyReset resetButton" id="cur_reset{$price.curid}" value="{\App\Language::translate('LBL_RESET',$MODULE)}">{\App\Language::translate('LBL_RESET',$MODULE)}</button>
 											</div>
 										</td>
 										<td>

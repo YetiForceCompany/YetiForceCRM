@@ -19,17 +19,17 @@
 				{/if}
 			</div>
 			<div class="col-md-5">
-				<span class="btn-toolbar pull-right margin0px">
+				<span class="btn-toolbar float-right margin0px">
 					<span class="btn-group">
 						<button class="btn btn-success createModule" type="button">
-							<span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span>&nbsp;&nbsp;
+							<span class="fas fa-desktop" aria-hidden="true"></span>&nbsp;&nbsp;
 							<strong>{\App\Language::translate('LBL_CREATE_MODULE', $QUALIFIED_MODULE)}</strong>
 						</button>
 					</span>
 					{if \AppConfig::main('systemMode') !== 'demo'}
 						<span class="btn-group">
 							<button class="btn btn-primary" type="button" onclick='window.location.href = "{$IMPORT_USER_MODULE_URL}"'>
-								<span class="glyphicon glyphicon-import" aria-hidden="true"></span>&nbsp;&nbsp;
+								<span class="fas fa-download" aria-hidden="true"></span>&nbsp;&nbsp;
 								<strong>{\App\Language::translate('LBL_IMPORT_ZIP', $QUALIFIED_MODULE)}</strong>
 							</button>
 						</span>
@@ -68,17 +68,17 @@
 								{if $LIBRARY['status'] == 1}
 									<span class="label label-success bigLabel">
 										{\App\Language::translate('LBL_LIBRARY_DOWNLOADED', $QUALIFIED_MODULE)}&nbsp;&nbsp;
-										<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+										<span class="far fa-check-circle" aria-hidden="true"></span>
 									</span>
 								{elseif $LIBRARY['status'] == 2}
 									<span class="label label-warning bigLabel">
 										{\App\Language::translate('LBL_LIBRARY_NEEDS_UPDATING', $QUALIFIED_MODULE)}&nbsp;&nbsp;
-										<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+										<span class="fas fa-info-circle" aria-hidden="true"></span>
 									</span>
 								{else}
 									<span class="label label-danger bigLabel">
 										{\App\Language::translate('LBL_LIBRARY_NO_DOWNLOAD', $QUALIFIED_MODULE)}&nbsp;&nbsp;
-										<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+										<span class="fas fa-ban" aria-hidden="true"></span>
 									</span>
 								{/if}
 							</td>
@@ -86,12 +86,12 @@
 								<span class="btn-group">
 									{if $LIBRARY['status'] === 0}
 										<a class="btn btn-primary btn-sm" href="index.php?module=ModuleManager&parent=Settings&action=Library&mode=download&name={$NAME}">
-											<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>&nbsp;&nbsp;
+											<span class="fas fa-download" aria-hidden="true"></span>&nbsp;&nbsp;
 											<strong>{\App\Language::translate('BTN_LIBRARY_DOWNLOAD', $QUALIFIED_MODULE)}</strong>
 										</a>
 									{else}
 										<a class="btn btn-primary btn-sm" href="index.php?module=ModuleManager&parent=Settings&action=Library&mode=update&name={$NAME}">
-											<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>&nbsp;&nbsp;
+											<span class="fas fa-redo-alt" aria-hidden="true"></span>&nbsp;&nbsp;
 											<strong>{\App\Language::translate('BTN_LIBRARY_UPDATE', $QUALIFIED_MODULE)}</strong>
 										</a>
 									{/if}
@@ -125,18 +125,18 @@
 								</div>
 								<div class="col-md-6 col-xs-12">
 									{if $MODULE_MODEL->get('customized')}
-										<button class="deleteModule btn btn-danger btn-xs pull-right marginLeft10" name="{$MODULE_NAME}">{\App\Language::translate('LBL_DELETE')}</button>
+										<button class="deleteModule btn btn-danger btn-sm float-right marginLeft10" name="{$MODULE_NAME}">{\App\Language::translate('LBL_DELETE')}</button>
 									{/if}
 									{if $MODULE_MODEL->isExportable()}
-										<a class="btn btn-primary btn-xs pull-right marginLeft10" href="index.php?module=ModuleManager&parent=Settings&action=ModuleExport&mode=exportModule&forModule={$MODULE_NAME}"><i class="glyphicon glyphicon-download"></i></a>
+										<a class="btn btn-primary btn-sm float-right marginLeft10" href="index.php?module=ModuleManager&parent=Settings&action=ModuleExport&mode=exportModule&forModule={$MODULE_NAME}"><i class="far fa-arrow-alt-circle-down"></i></a>
 									{/if}
 									{assign var=SETTINGS_LINKS value=$MODULE_MODEL->getSettingLinks()}
 									{if !in_array($MODULE_NAME, $RESTRICTED_MODULES_LIST) && (count($SETTINGS_LINKS) > 0)}
-										<div class="btn-group pull-right actions {if !$MODULE_ACTIVE}hide{/if}">
-											<button class="btn dropdown-toggle btn-default" data-toggle="dropdown">
+										<div class="btn-group float-right actions {if !$MODULE_ACTIVE}hide{/if}">
+											<button class="btn dropdown-toggle btn-light" data-toggle="dropdown">
 												<strong>{\App\Language::translate('LBL_SETTINGS', $QUALIFIED_MODULE)}</strong>&nbsp;<i class="caret"></i>
 											</button>
-											<ul class="dropdown-menu pull-right">
+											<ul class="dropdown-menu float-right">
 												{foreach item=SETTINGS_LINK from=$SETTINGS_LINKS}
 													<li>
 														<a {if stripos($SETTINGS_LINK['linkurl'], 'javascript:')===0} onclick='{$SETTINGS_LINK['linkurl']|substr:strlen("javascript:")};'{else} onclick='window.location.href = "{$SETTINGS_LINK['linkurl']}"'{/if}>{\App\Language::translate($SETTINGS_LINK['linklabel'], $MODULE_NAME)}</a>

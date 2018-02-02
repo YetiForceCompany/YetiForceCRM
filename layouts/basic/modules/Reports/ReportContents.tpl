@@ -138,7 +138,7 @@
                 {/if}
 			</table>
 			{if $LIMIT_EXCEEDED}
-				<center>{\App\Language::translate('LBL_LIMIT_EXCEEDED',$MODULE)} <span class="pull-right"><a href="#top" >{\App\Language::translate('LBL_TOP',$MODULE)}</a></span></center>
+				<center>{\App\Language::translate('LBL_LIMIT_EXCEEDED',$MODULE)} <span class="float-right"><a href="#top" >{\App\Language::translate('LBL_TOP',$MODULE)}</a></span></center>
 			{/if}
 		{else}
 			{\App\Language::translate('LBL_NO_DATA_AVAILABLE',$MODULE)}

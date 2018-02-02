@@ -15,23 +15,23 @@
 	{assign var=CURRENTUSERID value=$CURRENTUSER->getId()}
 	<div class="dashboardWidgetHeader">
 		<div class="row">
-			<div class="col-md-8">
+			<div class="col-md-6">
 				<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
 			</div>
-			<div class="col-md-4">
-				<div class="box pull-right">
+			<div class="col-md-6">
+				<div class="box float-right">
 					{if \App\Privilege::isPermitted('Calendar', 'CreateView')}
-						<a class="btn btn-xs btn-default" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
+						<a class="btn btn-sm btn-light" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
 								return false;">
-							<span class='glyphicon glyphicon-plus' border='0' title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
+							<span class='fas fa-plus' border='0' title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
 						</a>
 					{/if}&nbsp;
-					<button class="btn btn-default btn-xs changeRecordSort" title="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}" alt="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}" data-sort="{if $DATA['sortorder'] eq 'desc'}asc{else}desc{/if}" data-asc="{\App\Language::translate('LBL_SORT_ASCENDING', $MODULE_NAME)}" data-desc="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}">
-						<span class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true" ></span>
+					<button class="btn btn-light btn-sm changeRecordSort" title="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}" alt="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}" data-sort="{if $DATA['sortorder'] eq 'desc'}asc{else}desc{/if}" data-asc="{\App\Language::translate('LBL_SORT_ASCENDING', $MODULE_NAME)}" data-desc="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}">
+						<span class="fas fa-sort-amount-down" aria-hidden="true" ></span>
 					</button>
 					{if $LISTVIEWLINKS}&nbsp;
-						<button class="btn btn-default btn-xs goToListView" title="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST', $MODULE_NAME)}" >
-							<span class="glyphicon glyphicon-th-list"></span>
+						<button class="btn btn-light btn-sm goToListView" title="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST', $MODULE_NAME)}" >
+							<span class="fas fa-th-list"></span>
 						</button>
 					{/if}&nbsp;
 					{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
@@ -40,9 +40,13 @@
 		</div>
 		<hr class="widgetHr" />
 		<div class="row" >
-			<div class="col-xs-6">
+			<div class="col-md-6">
 				<div class="input-group input-group-sm">
-					<span class="input-group-addon"><span class="glyphicon glyphicon-filter iconMiddle margintop3" title="{\App\Language::translate('Assigned To', $MODULE_NAME)}"></span></span>
+					<span class="input-group-prepend">
+						<span class="input-group-text">
+							<span class="fas fa-filter iconMiddle margintop3" title="{\App\Language::translate('Assigned To', $MODULE_NAME)}"></span>
+						</span>
+					</span>
 					<select class="widgetFilter select2 width90 form-control input-sm" name="activitytype" title="{\App\Language::translate('Activity Type',$SOURCE_MODULE)}">
 						<option value="all">{\App\Language::translate('LBL_ALL')}</option>
 						{foreach item=TYPE from=Calendar_Module_Model::getCalendarTypes()}
@@ -51,7 +55,7 @@
 					</select>
 				</div>
 			</div>
-			<div class="col-xs-6">
+			<div class="col-md-6">
 				{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
 			</div>
 		</div>

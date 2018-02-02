@@ -51,7 +51,7 @@
 								<div class="col-md-12 paddingLRZero panel-body blockContent">									
 									<div class="fieldRow col-md-8 col-xs-12">
 										<div class="fieldLabel col-xs-5 col-sm-2">
-											<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('Old Key', $MODULENAME)}:</label>
+											<label class="muted float-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('Old Key', $MODULENAME)}:</label>
 										</div>
 										<div class="fieldValue col-xs-7 col-sm-10" >
 											<div class="row">
@@ -61,7 +61,7 @@
 									</div>
 									<div class="fieldRow col-md-8 col-xs-12">
 										<div class="fieldLabel col-xs-5 col-sm-2">
-											<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('New Key', $MODULENAME)}:</label>
+											<label class="muted float-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('New Key', $MODULENAME)}:</label>
 										</div>
 										<div class="fieldValue col-xs-7 col-sm-10" >
 											<div class="row">
@@ -72,7 +72,7 @@
 								</div>
 							</div>
 							<div class="contentHeader">
-								<span class="pull-right">
+								<span class="float-right">
 									<button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong>{\App\Language::translate('Save', $MODULENAME)}</strong></button>
 									<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('Cancel', $MODULENAME)}</a>
 								</span>
@@ -93,7 +93,7 @@
 								<div class="col-md-12 paddingLRZero panel-body blockContent">									
 									<div class="fieldRow col-md-8 col-xs-12">
 										<div class="fieldLabel col-xs-5 col-sm-2">
-											<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('Encryption Password', $MODULENAME)}:</label>
+											<label class="muted float-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('Encryption Password', $MODULENAME)}:</label>
 										</div>
 										<div class="fieldValue col-xs-7 col-sm-10" >
 											<div class="row">
@@ -104,7 +104,7 @@
 								</div>
 							</div>
 							<div class="contentHeader">
-								<span class="pull-right">
+								<span class="float-right">
 									<button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong>{\App\Language::translate('Save', $MODULENAME)}</strong></button>
 									<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('Cancel', $MODULENAME)}</a>
 								</span>
@@ -126,7 +126,7 @@
 						<div class="col-md-12 paddingLRZero panel-body blockContent">
 							<div class="fieldRow col-md-8 col-xs-12">
 								<div class="fieldLabel col-xs-5 col-sm-2">
-									<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('Encryption password', $MODULENAME)}:</label>
+									<label class="muted float-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('Encryption password', $MODULENAME)}:</label>
 								</div>
 								<div class="fieldValue col-xs-7 col-sm-10">
 									<div class="row">
@@ -137,7 +137,7 @@
 						</div>
 					</div>
 					<div class="contentHeader">
-						<span class="pull-right">
+						<span class="float-right">
 							<button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong>{\App\Language::translate('Save', $MODULENAME)}</strong></button>
 							<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('Cancel', $MODULENAME)}</a>
 						</span>
@@ -160,7 +160,7 @@
 					<div class="col-md-12 paddingLRZero panel-body blockContent">
 						<div class="fieldRow col-md-8 col-xs-12">
 							<div class="fieldLabel col-xs-5 col-sm-2">
-								<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('Minimum Length', $MODULENAME)}:</label>
+								<label class="muted float-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('Minimum Length', $MODULENAME)}:</label>
 							</div>
 							<div class="fieldValue col-xs-7 col-sm-10">
 								<div class="row">
@@ -170,7 +170,7 @@
 						</div>
 						<div class="fieldRow col-md-8 col-xs-12">
 							<div class="fieldLabel col-xs-5 col-sm-2">
-								<label class="muted pull-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('Maximum Length', $MODULENAME)}:</label>
+								<label class="muted float-right marginRight10px"> <span class="redColor">*</span> {\App\Language::translate('Maximum Length', $MODULENAME)}:</label>
 							</div>
 							<div class="fieldValue col-xs-7 col-sm-10">
 								<div class="row">
@@ -203,7 +203,7 @@
 						<div class="fieldRow col-md-8 col-xs-12">
 							<div class="fieldLabel"> </div>
 							<div align="center" class="fieldValue col-xs-7 col-sm-10">
-								<div class="row pull-left">
+								<div class="row float-left">
 									<input id="register_changes" type="checkbox" class="nameField" name="register_changes" {$REGISTER} value="1" /> 
 										{\App\Language::translate('LBL_START_REGISTER', $MODULENAME)}
 								</div>
@@ -212,7 +212,7 @@
 					</div>
 				</div>
 				<div class="contentHeader">
-					<span class="pull-right">
+					<span class="float-right">
 						<button class="btn btn-success" name="save" value="save" type="submit"><strong>{\App\Language::translate('Save', $MODULENAME)}</strong></button>
 						<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('Cancel', $MODULENAME)}</a>
 					</span>

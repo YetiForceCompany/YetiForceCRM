@@ -15,7 +15,7 @@
 			<strong>{\App\Language::translate('Title','Documents')}</strong>
 		</span>
 		<span class="col-md-4 horizontalLeftSpacingForSummaryWidgetHeader">
-			<span class="pull-right">
+			<span class="float-right">
 				<strong>{\App\Language::translate('File Name', 'Documents')}</strong>
 			</span>
 		</span>
@@ -47,7 +47,7 @@
 	{assign var=NUMBER_OF_RECORDS value=count($RELATED_RECORDS)}
 	{if $NUMBER_OF_RECORDS eq 5}
 		<div class="row">
-			<div class="pull-right">
+			<div class="float-right">
 				<a class="moreRecentDocuments cursorPointer">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}</a>
 			</div>
 		</div>

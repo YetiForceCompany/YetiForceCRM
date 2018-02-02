@@ -78,7 +78,7 @@
 							{/if}				
 						</div>
                     </div>
-                    <div class="pull-left">
+                    <div class="float-left">
                         <button class="btn btn-success saveButton" type="submit"><strong>{\App\Language::translate($MODULE, $MODULE)}</strong></button>
                         <button class="btn btn-warning" type="reset" onclick='window.history.back()'>{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
                     </div>

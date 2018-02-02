@@ -94,7 +94,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkhint' => 'BTN_WATCHING_MODULE',
 				'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
 				'linkclass' => $class,
-				'linkicon' => 'glyphicon glyphicon-eye-open',
+				'linkicon' => 'fas fa-eye',
 				'linkdata' => ['off' => 'btn-default', 'on' => 'btn-info', 'value' => $watchdog->isWatchingModule() ? 0 : 1],
 				'active' => !$watchdog->isLock()
 			];
@@ -105,7 +105,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_HEADER',
 				'linkhint' => 'LBL_SEND_NOTIFICATION',
 				'linkurl' => 'javascript:Vtiger_Index_Js.sendNotification(this)',
-				'linkicon' => 'glyphicon glyphicon-send'
+				'linkicon' => 'fas fa-paper-plane'
 			];
 		}
 		$openStreetMapModuleModel = Vtiger_Module_Model::getInstance('OpenStreetMap');
@@ -114,7 +114,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_HEADER',
 				'linkhint' => 'LBL_SHOW_MAP',
 				'linkurl' => 'javascript:Vtiger_List_Js.showMap()',
-				'linkicon' => 'fa fa-globe'
+				'linkicon' => 'fas fa-globe'
 			];
 		}
 		foreach ($headerLinks as $headerLink) {
@@ -137,7 +137,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_IMPORT',
 				'linkurl' => $moduleModel->getImportUrl(),
-				'linkicon' => 'glyphicon glyphicon-import'
+				'linkicon' => 'fas fa-download'
 			];
 		}
 		if ($moduleModel->isPermitted('Export')) {
@@ -145,7 +145,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_EXPORT',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerExportAction("' . $this->getModule()->getExportUrl() . '")',
-				'linkicon' => 'glyphicon glyphicon-export'
+				'linkicon' => 'fas fa-upload'
 			];
 		}
 		if (!Settings_ModuleManager_Library_Model::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
@@ -157,7 +157,7 @@ class Vtiger_ListView_Model extends \App\Base
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => \App\Language::translate('LBL_EXPORT_PDF'),
 					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
-					'linkicon' => 'glyphicon glyphicon-save-file',
+					'linkicon' => 'fas fa-file-excel',
 					'title' => \App\Language::translate('LBL_EXPORT_PDF')
 				];
 			}
@@ -168,7 +168,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linklabel' => 'LBL_FIND_DUPLICATES',
 				'linkurl' => 'Javascript:Vtiger_List_Js.showDuplicateSearchForm("index.php?module=' . $moduleModel->getName() .
 				'&view=MassActionAjax&mode=showDuplicatesSearchForm")',
-				'linkicon' => 'glyphicon glyphicon-duplicate'
+				'linkicon' => 'fas fa-clone'
 			];
 		}
 		if ($moduleModel->isPermitted('QuickExportToExcel')) {
@@ -176,7 +176,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerQuickExportToExcel("' . $moduleModel->getName() . '")',
-				'linkicon' => 'glyphicon glyphicon-save-file',
+				'linkicon' => 'fas fa-file-excel',
 			];
 		}
 		if ($moduleModel->isPermitted('RecordMappingList')) {
@@ -188,7 +188,7 @@ class Vtiger_ListView_Model extends \App\Base
 					'linktype' => 'LISTVIEW',
 					'linklabel' => 'LBL_GENERATE_RECORDS',
 					'linkurl' => 'javascript:Vtiger_List_Js.triggerGenerateRecords("index.php?module=' . $moduleModel->getName() . '&view=GenerateModal&fromview=List");',
-					'linkicon' => 'glyphicon glyphicon-plus-sign',
+					'linkicon' => 'fas fa-plus-circle',
 				];
 			}
 		}
@@ -211,7 +211,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_EDIT',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerMassEdit("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=showMassEditForm");',
-				'linkicon' => 'glyphicon glyphicon-pencil'
+				'linkicon' => 'fas fa-pencil-alt'
 			];
 		}
 		if ($moduleModel->isPermitted('MassActive')) {
@@ -222,7 +222,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Active&sourceView=List',
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC')],
 				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'fa fa-undo'
+				'linkicon' => 'fas fa-undo-alt'
 			];
 		}
 		if ($moduleModel->isPermitted('MassArchived') && $moduleModel->getName() !== 'Users') {
@@ -233,7 +233,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Archived&sourceView=List',
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC')],
 				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'fa fa-archive'
+				'linkicon' => 'fas fa-archive'
 			];
 		}
 		if ($moduleModel->isPermitted('MassTrash') && $moduleModel->getName() !== 'Users') {
@@ -244,7 +244,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassState&state=Trash&sourceView=List',
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')],
 				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'glyphicon glyphicon-trash'
+				'linkicon' => 'fas fa-trash-alt'
 			];
 		}
 		if ($moduleModel->isPermitted('MassDelete')) {
@@ -255,7 +255,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'dataUrl' => 'index.php?module=' . $moduleModel->getName() . '&action=MassDelete&sourceView=List',
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
 				'linkclass' => 'massRecordEvent',
-				'linkicon' => 'glyphicon glyphicon-erase'
+				'linkicon' => 'fas fa-eraser'
 			];
 		}
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
@@ -264,7 +264,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ADD_COMMENT',
 				'linkurl' => 'index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=showAddCommentForm',
-				'linkicon' => 'glyphicon glyphicon-comment'
+				'linkicon' => 'fas fa-comments'
 			];
 		}
 		if ($moduleModel->isPermitted('MassTransferOwnership')) {
@@ -272,7 +272,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerTransferOwnership("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=transferOwnership")',
-				'linkicon' => 'glyphicon glyphicon-user'
+				'linkicon' => 'fas fa-user'
 			];
 		}
 		if ($moduleModel->isTrackingEnabled() && AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $moduleModel->isPermitted('ReviewingUpdates') && $currentUser->getId() === $currentUser->getRealId()) {
@@ -280,7 +280,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_REVIEW_CHANGES',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerReviewChanges("index.php?module=ModTracker&sourceModule=' . $moduleModel->getName() . '&action=ChangesReviewedOn&mode=reviewChanges")',
-				'linkicon' => 'glyphicon glyphicon-ok-sign'
+				'linkicon' => 'fas fa-check-circle'
 			];
 		}
 		foreach ($massActionLinks as $massActionLink) {
@@ -304,7 +304,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linklabel' => 'LBL_ADD_RECORD',
 				'linkurl' => $moduleModel->getCreateRecordUrl(),
 				'linkclass' => 'addButton modCT_' . $moduleModel->getName(),
-				'linkicon' => 'glyphicon glyphicon-plus',
+				'linkicon' => 'fas fa-plus',
 				'showLabel' => 1,
 				'linkhref' => true
 			];
@@ -318,7 +318,7 @@ class Vtiger_ListView_Model extends \App\Base
 				$basicLinks[] = [
 					'linktype' => 'LISTVIEWBASIC',
 					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
-					'linkicon' => 'glyphicon glyphicon-save-file',
+					'linkicon' => 'fas fa-file-excel',
 					'linkhint' => \App\Language::translate('LBL_EXPORT_PDF')
 				];
 			}

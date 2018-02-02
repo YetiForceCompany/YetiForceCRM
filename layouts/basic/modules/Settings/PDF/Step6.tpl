@@ -12,7 +12,7 @@
 
 			{include file=\App\Layout::getTemplatePath('AdvanceFilterExpressions.tpl')}
 			<br />
-			<div class="pull-right">
+			<div class="float-right">
 				<button class="btn btn-danger backStep" type="button"><strong>{\App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
 				<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
 				<button class="btn btn-warning cancelLink" type="reset">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>

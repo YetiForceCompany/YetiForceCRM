@@ -67,8 +67,8 @@
 								{assign var=APIADDRESFIELD value=FALSE}
 							{/if}
 							<div class="iconCollapse">
-								<span class="cursorPointer blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
-								<span class="cursorPointer blockToggle glyphicon glyphicon glyphicon-menu-down {if ($IS_HIDDEN)}hide{/if}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
+								<span class="cursorPointer blockToggle fas fa-angle-right {if !($IS_HIDDEN)}hide{/if}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
+								<span class="cursorPointer blockToggle fas fa-angle-down {if ($IS_HIDDEN)}hide{/if}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
 								<h4>{\App\Language::translate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}</h4>
 							</div>
 						</div>
@@ -77,7 +77,7 @@
 								<div class="col-md-12 adressAction">
 									{if $APIADDRESFIELD}
 										<div class="col-md-4">
-											<input value="" title="{\App\Language::translate('LBL_ADDRESS_INFORMATION')}" type="text" class="api_address_autocomplete form-control pull-right input " placeholder="{\App\Language::translate('LBL_ENTER_SEARCHED_ADDRESS')}" />
+											<input value="" title="{\App\Language::translate('LBL_ADDRESS_INFORMATION')}" type="text" class="api_address_autocomplete form-control float-right input " placeholder="{\App\Language::translate('LBL_ENTER_SEARCHED_ADDRESS')}" />
 										</div>
 									{/if}
 									<div class="{if $APIADDRESFIELD}col-md-8{else}col-md-12{/if} text-center">
@@ -109,7 +109,7 @@
 											<label class="muted">
 												{if $FIELD_MODEL->isMandatory() eq true}<span class="redColor">*</span>{/if}
 												{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-													<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}'><span class="glyphicon glyphicon-info-sign"></span></a>
+													<a href="#" class="HelpInfoPopover float-right" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}'><span class="fas fa-info-circle"></span></a>
 													{/if}
 													{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE_NAME)}
 											</label>

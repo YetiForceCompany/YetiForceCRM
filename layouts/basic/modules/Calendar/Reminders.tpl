@@ -9,8 +9,8 @@
 			{assign var=RECORD_ID value=$RECORD->getId()}
 			<div class="panel picklistCBr_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}" data-record="{$RECORD_ID}">
 				<div class="panel-heading picklistCBg_Calendar_activitytype_{\App\Purifier::encodeHtml($RECORD->get('activitytype'))}">
-					 <button class="btn btn-success btn-xs pull-right showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					 <button class="btn btn-success btn-sm float-right showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}">
+						<span class="fas fa-check" aria-hidden="true"></span>
 					</button>
 					<img class="activityTypeIcon" src="{\App\Layout::getImagePath($RECORD->getActivityTypeIcon())}" />&nbsp;
 					<a target="_blank" href="index.php?module=Calendar&view=Detail&record={$RECORD_ID}">
@@ -35,14 +35,14 @@
 							{if $PERMISSION_TO_SENDE_MAIL}
 								{if $USER_MODEL->get('internal_mailer') == 1}
 									{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(\App\Record::getType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
-									<a target="_blank" class="pull-right btn btn-default btn-xs actionIcon" href="{$COMPOSE_URL}" title="{\App\Language::translate('LBL_SEND_EMAIL')}">
-										<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+									<a target="_blank" class="float-right btn btn-light btn-sm actionIcon" href="{$COMPOSE_URL}" title="{\App\Language::translate('LBL_SEND_EMAIL')}">
+										<span class="fas fa-envelope" aria-hidden="true"></span>
 									</a>
 								{else}
 									{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl(\App\Record::getType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
 									{if $URLDATA && $URLDATA != 'mailto:?'}
-										<a class="pull-right btn btn-default btn-xs actionIcon" href="{$URLDATA}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
-											<span class="glyphicon glyphicon-envelope" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
+										<a class="float-right btn btn-light btn-sm actionIcon" href="{$URLDATA}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
+											<span class="fas fa-envelope" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
 										</a>
 									{/if}
 								{/if}
@@ -60,14 +60,14 @@
 							{if $PERMISSION_TO_SENDE_MAIL}
 								{if $USER_MODEL->get('internal_mailer') == 1}
 									{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(\App\Record::getType($RECORD->get('linkextend')), $RECORD->get('linkextend'), 'Detail', 'new')}
-									<a target="_blank" class="pull-right btn btn-default btn-xs actionIcon" href="{$COMPOSE_URL}" title="{\App\Language::translate('LBL_SEND_EMAIL')}">
-										<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+									<a target="_blank" class="float-right btn btn-light btn-sm actionIcon" href="{$COMPOSE_URL}" title="{\App\Language::translate('LBL_SEND_EMAIL')}">
+										<span class="fas fa-envelope" aria-hidden="true"></span>
 									</a>
 								{else}
 									{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl(\App\Record::getType($RECORD->get('linkextend')), $RECORD->get('linkextend'), 'Detail', 'new')}
 									{if $URLDATA && $URLDATA != 'mailto:?'}
-										<a class="pull-right btn btn-default btn-xs actionIcon" href="{$URLDATA}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
-											<span class="glyphicon glyphicon-envelope" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
+										<a class="float-right btn btn-light btn-sm actionIcon" href="{$URLDATA}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
+											<span class="fas fa-envelope" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}"></span>
 										</a>
 									{/if}
 								{/if}
@@ -86,21 +86,21 @@
 								{$RECORD->getDisplayValue('location')}
 							</strong>
 							{if App\Privilege::isPermitted('OpenStreetMap')}
-								<a class="pull-right btn btn-default btn-xs actionIcon" data-location="{$RECORD->getDisplayValue('location')}" onclick="Vtiger_Index_Js.showLocation(this)">
-									<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+								<a class="float-right btn btn-light btn-sm actionIcon" data-location="{$RECORD->getDisplayValue('location')}" onclick="Vtiger_Index_Js.showLocation(this)">
+									<span class="fas fa-map-marker-alt" aria-hidden="true"></span>
 								</a>
 							{/if}
 						</div>
 					{/if}
 					<hr />
 					<div class="actionRow text-center">
-						<a class="btn btn-default btn-sm btn-success showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
-						<a class="btn btn-default btn-sm btn-primary reminderPostpone" data-time="15m">15{\App\Language::translate('LBL_M',$MODULE_NAME)}</a>
-						<a class="btn btn-default btn-sm btn-primary reminderPostpone" data-time="30m">30{\App\Language::translate('LBL_M',$MODULE_NAME)}</a>
-						<a class="btn btn-default btn-sm btn-primary reminderPostpone" data-time="1h">1{\App\Language::translate('LBL_H',$MODULE_NAME)}</a>
-						<a class="btn btn-default btn-sm btn-primary reminderPostpone" data-time="2h">2{\App\Language::translate('LBL_H',$MODULE_NAME)}</a>
-						<a class="btn btn-default btn-sm btn-primary reminderPostpone" data-time="6h">6{\App\Language::translate('LBL_H',$MODULE_NAME)}</a>
-						<a class="btn btn-default btn-sm btn-primary reminderPostpone" data-time="1d">1{\App\Language::translate('LBL_D',$MODULE_NAME)}</a>
+						<a class="btn btn-light btn-sm btn-success showModal" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}"><span class="fas fa-check" aria-hidden="true"></span></a>
+						<a class="btn btn-light btn-sm btn-primary reminderPostpone" data-time="15m">15{\App\Language::translate('LBL_M',$MODULE_NAME)}</a>
+						<a class="btn btn-light btn-sm btn-primary reminderPostpone" data-time="30m">30{\App\Language::translate('LBL_M',$MODULE_NAME)}</a>
+						<a class="btn btn-light btn-sm btn-primary reminderPostpone" data-time="1h">1{\App\Language::translate('LBL_H',$MODULE_NAME)}</a>
+						<a class="btn btn-light btn-sm btn-primary reminderPostpone" data-time="2h">2{\App\Language::translate('LBL_H',$MODULE_NAME)}</a>
+						<a class="btn btn-light btn-sm btn-primary reminderPostpone" data-time="6h">6{\App\Language::translate('LBL_H',$MODULE_NAME)}</a>
+						<a class="btn btn-light btn-sm btn-primary reminderPostpone" data-time="1d">1{\App\Language::translate('LBL_D',$MODULE_NAME)}</a>
 					</div>
 				</div>
 			</div>

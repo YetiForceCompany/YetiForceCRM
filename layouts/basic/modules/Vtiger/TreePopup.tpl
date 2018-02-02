@@ -21,7 +21,7 @@
 		</div>
 	</div>
 	{if $IS_MULTIPLE}
-	<div class="pull-right">
+	<div class="float-right">
 		<button class="btn btn-success" type="submit" name="saveButton"><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></button>
 	</div>
 	{/if}

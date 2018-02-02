@@ -15,15 +15,15 @@
 	<input type="hidden" id="activityStateLabels" value="{\App\Purifier::encodeHtml($ACTIVITY_STATE_LABELS)}" />
 	<div class="calendarViewContainer rowContent col-md-12 paddingLefttZero col-xs-12">
 		<div class="widget_header row marginbottomZero marginRightMinus20">
-			<div class="pull-left paddingLeftMd">
+			<div class="float-left paddingLeftMd">
 				{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions pull-left paddingLeftMd'}
 			</div>
 			<div class="col-xs-9 col-sm-6">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
-			<div class="pull-right col-xs-1 col-sm-1">
-				<button class="pull-right btn btn-default btn-sm addButton marginRight10">
-					<span class="glyphicon glyphicon-plus"></span>
+			<div class="float-right col-xs-1 col-sm-1">
+				<button class="float-right btn btn-light btn-sm addButton marginRight10">
+					<span class="fas fa-plus"></span>
 				</button>
 			</div>
 		</div>
@@ -32,7 +32,7 @@
 				<span aria-hidden="true">&times;</span>
 			</button>
 			{\App\Language::translate('LBL_CACHE_SELECTED_FILTERS', $MODULE_NAME)}&nbsp;
-			<button type="button" class="pull-right btn btn-warning btn-xs marginRight10 cacheClear">{\App\Language::translate('LBL_CACHE_CLEAR', $MODULE_NAME)}</button>
+			<button type="button" class="float-right btn btn-warning btn-sm marginRight10 cacheClear">{\App\Language::translate('LBL_CACHE_CLEAR', $MODULE_NAME)}</button>
 		</div>
 		<div class="bottom_margin">
 			<p><!-- Divider --></p>

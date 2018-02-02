@@ -2,7 +2,7 @@
 <div class="statsContainer">
 	<div class="form-horizontal">
 		<div class="form-group">
-			<label for="langs_list" class="control-label col-md-2" >{\App\Language::translate('LBL_BASE_LANGUAGE',$QUALIFIED_MODULE)}:</label>
+			<label for="langs_list" class="col-form-label col-md-2" >{\App\Language::translate('LBL_BASE_LANGUAGE',$QUALIFIED_MODULE)}:</label>
 			<div class="col-md-3">
 				<select class="form-control selectize" name="langs_basic">
 					{foreach from=$LANGS item=LABEL key=PREFIX}
@@ -10,7 +10,7 @@
 					{/foreach}
 				</select>
 			</div>
-			<label class="col-md-2 control-label">{\App\Language::translate('LBL_LANGUAGE',$QUALIFIED_MODULE)}:</label>
+			<label class="col-md-2 col-form-label">{\App\Language::translate('LBL_LANGUAGE',$QUALIFIED_MODULE)}:</label>
 			<div class="col-md-3">
 				<select multiple="multiple" class="form-control selectize" name="langs" placeholder="{\App\Language::translate('LBL_SELECT_SOME_OPTIONS',$QUALIFIED_MODULE)}" >
 					{foreach from=$LANGS item=LABEL key=PREFIX}

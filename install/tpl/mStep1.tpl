@@ -11,7 +11,7 @@
 						<div class="col-md-10 inner-container">
 							<p>{\App\Language::translate('LBL_DESCRIPTION_CONDITIONS', 'Install')}</p>
 						</div>
-						<div class="pull-right col-md-2">
+						<div class="float-right col-md-2">
 							<input type="checkbox" id="checkBox3" name="checkBox3"  required /><div class="chkbox"></div> {\App\Language::translate('LBL_ACCEPT', 'Install')}</a>
 						</div>
 						<div class="clearfix"></div><hr /><br />

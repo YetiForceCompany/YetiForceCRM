@@ -19,7 +19,7 @@
 				</div>
 				<div class="col-md-5">
 					<div class="btn-toolbar">
-						<div class="btn-group col-xs-5 pull-right paddingLRZero">
+						<div class="btn-group col-xs-5 float-right paddingLRZero">
 							<select class="select2 form-control layoutEditorRelModules" name="layoutEditorRelModules">
 								{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
 									<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</option>
@@ -27,8 +27,8 @@
 							</select>
 						</div>
 						{if AppConfig::developer('CHANGE_RELATIONS')}
-							<button class="btn btn-primary pull-right addRelation" type="button">
-								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;&nbsp;
+							<button class="btn btn-primary float-right addRelation" type="button">
+								<span class="fas fa-plus" aria-hidden="true"></span>&nbsp;&nbsp;
 								{\App\Language::translate('LBL_ADD_RELATION', $QUALIFIED_MODULE)}
 							</button>
 						{/if}	
@@ -64,19 +64,19 @@
 								{assign var=SELECTED_FIELDS value=Settings_LayoutEditor_Module_Model::getRelationFields($MODULE_MODEL->getId())}
 								<div class="relatedModule mainBlockTable panel panel-default" data-relation-id="{$MODULE_MODEL->getId()}" data-status="{$STATUS}">
 									<div class="mainBlockTableHeader panel-heading">
-										<div class="btn-toolbar btn-group-xs pull-right">
+										<div class="btn-toolbar btn-group-xs float-right">
 											{if AppConfig::developer('CHANGE_RELATIONS')}
-												<button type="button" class="btn btn-danger removeRelation pull-right" title="{\App\Language::translate('LBL_REMOVE_RELATION', $QUALIFIED_MODULE)}">
-												<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+												<button type="button" class="btn btn-danger removeRelation float-right" title="{\App\Language::translate('LBL_REMOVE_RELATION', $QUALIFIED_MODULE)}">
+												<span class="fas fa-times" aria-hidden="true"></span>
 												</button>
 											{/if}
 											{assign var=FAVORITES value=$MODULE_MODEL->isFavorites()}
-											<button type="button" class="btn btn-default addToFavorites" data-state="{$MODULE_MODEL->get('favorites')}">
-												<span class="glyphicon glyphicon-star {if !$FAVORITES}hide{/if}" title="{\App\Language::translate('LBL_DEACTIVATE_FAVORITES', $QUALIFIED_MODULE)}"></span>
-												<span class="glyphicon glyphicon-star-empty {if $FAVORITES}hide{/if}" title="{\App\Language::translate('LBL_ACTIVATE_FAVORITES', $QUALIFIED_MODULE)}"></span>	
+											<button type="button" class="btn btn-light addToFavorites" data-state="{$MODULE_MODEL->get('favorites')}">
+												<span class="fas fa-star {if !$FAVORITES}hide{/if}" title="{\App\Language::translate('LBL_DEACTIVATE_FAVORITES', $QUALIFIED_MODULE)}"></span>
+												<span class="fal fa-star-o {if $FAVORITES}hide{/if}" title="{\App\Language::translate('LBL_ACTIVATE_FAVORITES', $QUALIFIED_MODULE)}"></span>	
 											</button>
-											<button type="button" class="btn btn-success inActiveRelationModule{if !$MODULE_MODEL->isActive()} hide{/if}"><span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_VISIBLE', $QUALIFIED_MODULE)}</strong></button>
-											<button type="button" class="btn btn-warning activeRelationModule{if $MODULE_MODEL->isActive()} hide{/if}"><span class="glyphicon glyphicon-remove"></span>&nbsp;<strong>{\App\Language::translate('LBL_HIDDEN', $QUALIFIED_MODULE)}</strong></button>
+											<button type="button" class="btn btn-success inActiveRelationModule{if !$MODULE_MODEL->isActive()} hide{/if}"><span class="fas fa-check"></span>&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_VISIBLE', $QUALIFIED_MODULE)}</strong></button>
+											<button type="button" class="btn btn-warning activeRelationModule{if $MODULE_MODEL->isActive()} hide{/if}"><span class="fas fa-times"></span>&nbsp;<strong>{\App\Language::translate('LBL_HIDDEN', $QUALIFIED_MODULE)}</strong></button>
 										</div>
 										<h4 class="panel-title">
 											<div class="relatedModuleLabel mainBlockTableLabel">
@@ -89,7 +89,7 @@
 									<div class="relatedModuleFieldsList mainBlockTableContent panel-body">
 										<div class="form-horizontal">
 											<div class="form-group">
-												<label class="col-sm-2 control-label">{\App\Language::translate('LBL_RELATED_VIEW_TYPE',$QUALIFIED_MODULE)}:</label>
+												<label class="col-sm-2 col-form-label">{\App\Language::translate('LBL_RELATED_VIEW_TYPE',$QUALIFIED_MODULE)}:</label>
 												<div class="col-sm-10">
 													<select data-placeholder="{\App\Language::translate('LBL_RELATED_VIEW_TYPE_DESC',$MODULE)}" multiple data-prompt-position="topLeft" class="form-control select2_container relatedViewType validate[required]">
 														{foreach key=KEY item=NAME from=Settings_LayoutEditor_Module_Model::getRelatedViewTypes()}
@@ -103,7 +103,7 @@
 										</div>
 										<div class="form-horizontal">
 											<div class="form-group">
-												<label class="col-sm-2 control-label">{\App\Language::translate('LBL_STANDARD_FIELDS',$QUALIFIED_MODULE)}:</label>
+												<label class="col-sm-2 col-form-label">{\App\Language::translate('LBL_STANDARD_FIELDS',$QUALIFIED_MODULE)}:</label>
 												<div class="col-sm-10">
 													<select data-placeholder="{\App\Language::translate('LBL_ADD_MORE_COLUMNS',$MODULE)}" multiple class="form-control select2_container columnsSelect relatedColumnsList">
 														<optgroup label=''>
@@ -135,7 +135,7 @@
 											{assign var=INVENTORY_FIELDS value=$INVENTORY_FIELD_MODEL->getFields()}
 											<div class="form-horizontal">
 												<div class="form-group">
-													<label class="col-sm-2 control-label">{\App\Language::translate('LBL_ADVANCED_BLOCK_FIELDS',$QUALIFIED_MODULE)}:</label>
+													<label class="col-sm-2 col-form-label">{\App\Language::translate('LBL_ADVANCED_BLOCK_FIELDS',$QUALIFIED_MODULE)}:</label>
 													<div class="col-sm-10">
 														<select data-placeholder="{\App\Language::translate('LBL_ADD_ADVANCED_BLOCK_FIELDS', $QUALIFIED_MODULE)}" multiple class="select2_container relatedColumnsList" data-type="inventory">
 															{foreach item=NAME key=SELECTED_FIELD from=$SELECTED_INVENTORY_FIELDS}
@@ -177,7 +177,7 @@
 						<form class="modal-Fields">
 							<div class="row form-horizontal">
 								<div class="form-group">
-									<label class="col-md-4 control-label">{\App\Language::translate('LBL_RELATION_TYPE', $QUALIFIED_MODULE)}:</label>
+									<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_RELATION_TYPE', $QUALIFIED_MODULE)}:</label>
 									<div class="col-md-7">
 										<select name="type" class="form-control">
 											{foreach from=Settings_LayoutEditor_Module_Model::getRelationsTypes() item=ITEM key=KEY}
@@ -187,7 +187,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-md-4 control-label">{\App\Language::translate('LBL_RELATION_ACTIONS', $QUALIFIED_MODULE)}:</label>
+									<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_RELATION_ACTIONS', $QUALIFIED_MODULE)}:</label>
 									<div class="col-md-7 marginTop">
 										<select multiple name="actions" class="form-control">
 											{foreach from=Settings_LayoutEditor_Module_Model::getRelationsActions() item=ITEM key=KEY}
@@ -197,7 +197,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-md-4 control-label">{\App\Language::translate('LBL_SOURCE_MODULE', $QUALIFIED_MODULE)}:</label>
+									<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_SOURCE_MODULE', $QUALIFIED_MODULE)}:</label>
 									<div class="col-md-7 marginTop">
 										<select name="source" class="form-control">
 											{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
@@ -207,7 +207,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-md-4 control-label">{\App\Language::translate('LBL_TARGET_MODULE', $QUALIFIED_MODULE)}:</label>
+									<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_TARGET_MODULE', $QUALIFIED_MODULE)}:</label>
 									<div class="col-md-7 marginTop">
 										<select name="target" class="target form-control">
 											{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
@@ -217,7 +217,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-md-4 control-label">{\App\Language::translate('LBL_RELATION_LABLE', $QUALIFIED_MODULE)}:</label>
+									<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_RELATION_LABLE', $QUALIFIED_MODULE)}:</label>
 									<div class="col-md-7">
 										<input name="label"  type="text" class="relLabel form-control" />
 									</div>

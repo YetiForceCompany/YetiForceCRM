@@ -25,10 +25,10 @@
 						</select>
 						<div class="input-group-btn">
 							<button type="button" class="btn btn-primary clipboard" data-copy-target="#recordVariable" title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD')} - {\App\Language::translate('LBL_COPY_VALUE')}">
-								<span class="glyphicon glyphicon-copy"></span>
+								<span class="fas fa-copy"></span>
 							</button>
 							<button type="button" class="btn btn-success clipboard" data-copy-target="#recordVariable" data-copy-type="label" title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD')}  - {\App\Language::translate('LBL_COPY_LABEL')}">
-								<span class="glyphicon glyphicon-copy"></span>
+								<span class="fas fa-copy"></span>
 							</button>
 						</div>
 					</div>
@@ -57,10 +57,10 @@
 							</select>
 							<div class="input-group-btn">
 								<button type="button" class="btn btn-primary clipboard" data-copy-target="#relatedVariable" title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD')} - {\App\Language::translate('LBL_COPY_VALUE')}">
-									<span class="glyphicon glyphicon-copy"></span>
+									<span class="fas fa-copy"></span>
 								</button>
 								<button type="button" class="btn btn-success clipboard" data-copy-target="#relatedVariable" data-copy-type="label" title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD')}  - {\App\Language::translate('LBL_COPY_LABEL')}">
-									<span class="glyphicon glyphicon-copy"></span>
+									<span class="fas fa-copy"></span>
 								</button>
 							</div>
 						</div>
@@ -99,10 +99,10 @@
 							</select>
 							<div class="input-group-btn">
 								<button type="button" class="btn btn-primary clipboard" data-copy-target="#sourceVariable" title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD')} - {\App\Language::translate('LBL_COPY_VALUE')}">
-									<span class="glyphicon glyphicon-copy"></span>
+									<span class="fas fa-copy"></span>
 								</button>
 								<button type="button" class="btn btn-success clipboard" data-copy-target="#sourceVariable" data-copy-type="label" title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD')}  - {\App\Language::translate('LBL_COPY_LABEL')}">
-									<span class="glyphicon glyphicon-copy"></span>
+									<span class="fas fa-copy"></span>
 								</button>
 							</div>
 						</div>
@@ -126,7 +126,7 @@
 							</select>
 							<div class="input-group-btn">
 								<button type="button" class="btn btn-primary clipboard" data-copy-target="#relatedLists" title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD')} - {\App\Language::translate('LBL_COPY_VALUE')}">
-									<span class="glyphicon glyphicon-copy"></span>
+									<span class="fas fa-copy"></span>
 								</button>
 							</div>
 						</div>
@@ -151,7 +151,7 @@
 						</select>
 						<div class="input-group-btn">
 							<button type="button" class="btn btn-primary clipboard" data-copy-target="#recordList" title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD')} - {\App\Language::translate('LBL_COPY_VALUE')}">
-								<span class="glyphicon glyphicon-copy"></span>
+								<span class="fas fa-copy"></span>
 							</button>
 						</div>
 					</div>
@@ -177,7 +177,7 @@
 					</select>
 					<div class="input-group-btn">
 						<button type="button" class="btn btn-primary clipboard" data-copy-target="#generalVariable" title="{\App\Language::translate('LBL_COPY_TO_CLIPBOARD')}">
-							<span class="glyphicon glyphicon-copy"></span>
+							<span class="fas fa-copy"></span>
 						</button>
 					</div>
 				</div>

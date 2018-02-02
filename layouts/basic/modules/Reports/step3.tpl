@@ -63,7 +63,7 @@
 					{include file=\App\Layout::getTemplatePath('AdvanceFilter.tpl') RECORD_STRUCTURE=$RECORD_STRUCTURE ADVANCE_CRITERIA=$SELECTED_ADVANCED_FILTER_FIELDS COLUMNNAME_API=getReportFilterColumnName}
 				</div>
 				<div class="col-md-10">
-					<div class="pull-right">
+					<div class="float-right">
 						<button type="button" class="btn btn-danger backStep"><strong>{\App\Language::translate('LBL_BACK',$MODULE)}</strong></button>&nbsp;&nbsp;
 						<button type="submit" class="btn btn-success" id="generateReport"><strong>{\App\Language::translate('LBL_GENERATE_REPORT',$MODULE)}</strong></button>&nbsp;&nbsp;
 						<button class="cancelLink btn btn-warning" onclick="window.history.back()">{\App\Language::translate('LBL_CANCEL',$MODULE)}</a>&nbsp;&nbsp;

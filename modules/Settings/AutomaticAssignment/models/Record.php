@@ -379,19 +379,19 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_CHANGE_RECORD_STATE',
 				'linkurl' => 'javascript:Settings_AutomaticAssignment_List_Js.changeRecordState(' . $this->getId() . ', ' . (int) !$this->isActive() . ');',
-				'linkicon' => 'glyphicon glyphicon-transfer'
+				'linkicon' => 'fas fa-exchange-alt'
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'glyphicon glyphicon-pencil'
+				'linkicon' => 'fas fa-pencil-alt'
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => 'javascript:Settings_AutomaticAssignment_List_Js.deleteById(' . $this->getId() . ');',
-				'linkicon' => 'glyphicon glyphicon-trash'
+				'linkicon' => 'fas fa-trash-alt'
 			]
 		];
 		foreach ($recordLinks as $recordLink) {

@@ -34,11 +34,11 @@
 									{/if}
 								{/if} 
 							{/foreach}
-							<button class="btn btn-default dropdown-toggle relatedViewBtn" data-toggle="dropdown">
+							<button class="btn btn-light dropdown-toggle relatedViewBtn" data-toggle="dropdown">
 								{if $BTN_ICON}
 									<span class="{$BTN_ICON}" aria-hidden="true"></span>
 								{else}	
-									<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+									<span class="fas fa-list" aria-hidden="true"></span>
 								{/if}
 								&nbsp;
 								<span class="textHolder">{\App\Language::translate($TEXT_HOLDER, $MODULE_NAME)}</span>
@@ -62,7 +62,7 @@
 						{if {\App\Privilege::isPermitted($RELATED_MODULE_NAME, 'CreateView')} }
 							<div class="btn-group paddingRight10">
 								{assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
-								<button type="button" class="btn btn-default addButton
+								<button type="button" class="btn btn-light addButton
 										{if $IS_SELECT_BUTTON eq true} selectRelation {/if} modCT_{$RELATED_MODULE_NAME} {if $RELATED_LINK->linkqcs eq true}quickCreateSupported{/if}"
 										{if $IS_SELECT_BUTTON eq true} data-moduleName={$RELATED_LINK->get('_module')->get('name')} {/if}
 										{if ($RELATED_LINK->isPageLoadLink())}
@@ -70,8 +70,8 @@
 											data-url="{$RELATED_LINK->getUrl()}"
 										{/if}
 										{if $IS_SELECT_BUTTON neq true}name="addButton"{/if}>
-									{if $IS_SELECT_BUTTON eq false}<span class="glyphicon glyphicon-plus"></span>{/if}
-									{if $IS_SELECT_BUTTON eq true}<span class="glyphicon glyphicon-search"></span>{/if}
+									{if $IS_SELECT_BUTTON eq false}<span class="fas fa-plus"></span>{/if}
+									{if $IS_SELECT_BUTTON eq true}<span class="fas fa-search"></span>{/if}
 									&nbsp;<strong>{$RELATED_LINK->getLabel()}</strong>
 								</button>
 							</div>
@@ -83,42 +83,42 @@
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-6 col-md-6">
-					<div class="pull-right">
+					<div class="float-right">
 						{if $VIEW_MODEL}
-							<div class="pull-right paddingLeft5px">
+							<div class="float-right paddingLeft5px">
 								{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
 								<input type="hidden" class="entityState" value="{if $VIEW_MODEL->has('entityState')}{$VIEW_MODEL->get('entityState')}{else}Active{/if}" />
 								<div class="dropdown dropdownEntityState">
-									<button class="btn btn-default dropdown-toggle" type="button" id="dropdownEntityState" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+									<button class="btn btn-light dropdown-toggle" type="button" id="dropdownEntityState" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 										{if $VIEW_MODEL->get('entityState') === 'Archived'}
-											<span class="fa fa-archive"></span>
+											<span class="fas fa-archive"></span>
 										{elseif $VIEW_MODEL->get('entityState') === 'Trash'}
-											<span class="glyphicon glyphicon-trash"></span>
+											<span class="fas fa-trash-alt"></span>
 										{elseif $VIEW_MODEL->get('entityState') === 'All'}
-											<span class="glyphicon glyphicon-menu-hamburger"></span>
+											<span class="fas fa-bars"></span>
 										{else}
-											<span class="fa fa-undo"></span>
+											<span class="fas fa-undo-alt"></span>
 										{/if}
 									</button>
 									<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownEntityState">
 										<li {if $COLOR['Active']}style="border-color: {$COLOR['Active']};"{/if}>
-											<a href="#" data-value="Active"><span class="fa fa-undo"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}</a>
+											<a href="#" data-value="Active"><span class="fas fa-undo-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}</a>
 										</li>
 										<li {if $COLOR['Archived']}style="border-color: {$COLOR['Archived']};"{/if}>
-											<a href="#" data-value="Archived"><span class="fa fa-archive"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}</a>
+											<a href="#" data-value="Archived"><span class="fas fa-archive"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}</a>
 										</li>
 										<li {if $COLOR['Trash']}style="border-color: {$COLOR['Trash']};"{/if}>
-											<a href="#" data-value="Trash"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}</a>
+											<a href="#" data-value="Trash"><span class="fas fa-trash-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}</a>
 										</li>
 										<li>
-											<a href="#" data-value="All"><span class="glyphicon glyphicon-menu-hamburger"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ALL')}</a>
+											<a href="#" data-value="All"><span class="fas fa-bars"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ALL')}</a>
 										</li>
 									</ul>
 								</div>
 							</div>
 						{/if}
 					</div>
-					<div class="paginationDiv pull-right">
+					<div class="paginationDiv float-right">
 						{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE) VIEWNAME='related'}
 					</div>
 				</div>

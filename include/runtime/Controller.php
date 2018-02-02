@@ -366,11 +366,9 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	public function getHeaderCss(\App\Request $request)
 	{
 		$cssFileNames = [
-			'~libraries/bootstrap/dist/css/bootstrap.css',
-			'~libraries/font-awesome/css/font-awesome.css',
-			'skins.icons.userIcons',
-			'skins.icons.adminIcons',
-			'skins.icons.additionalIcons',
+			'~layouts/resources/icons/userIcons.css',
+			'~layouts/resources/icons/adminIcons.css',
+			'~layouts/resources/icons/additionalIcons.css',
 			'~libraries/chosen-js/chosen.css',
 			'~libraries/bootstrap-chosen/bootstrap-chosen.css',
 			'~libraries/jquery-ui-dist/jquery-ui.css',
@@ -391,6 +389,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~layouts/resources/colors/modules.css',
 			'~layouts/resources/colors/picklists.css',
 			'~layouts/resources/styleTemplate.css',
+			'~' . Vtiger_Theme::getBaseStylePath()
 		];
 		return $this->checkAndConvertCssStyles($cssFileNames);
 	}
@@ -404,7 +403,8 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 	{
 		$headerScriptInstances = [
 			'libraries.js.jquery',
-			'libraries.jquery-migrate.dist.jquery-migrate'
+			'libraries.jquery-migrate.dist.jquery-migrate',
+			'~libraries/font-awesome/js/fontawesome-all.js',
 		];
 		return $this->checkAndConvertJsScripts($headerScriptInstances);
 	}
@@ -427,6 +427,7 @@ abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
 			'~libraries/jquery-slimscroll/jquery.slimscroll.js',
 			'~libraries/pnotify/dist/pnotify.js',
 			'~libraries/jquery-hoverintent/jquery.hoverIntent.js',
+			'~libraries/popper.js/dist/umd/popper.js',
 			'~libraries/bootstrap/dist/js/bootstrap.js',
 			'~libraries/bootstrap-switch/dist/js/bootstrap-switch.js',
 			'~libraries/bootbox/bootbox.js',

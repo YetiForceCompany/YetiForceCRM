@@ -12,44 +12,44 @@
 					<div class="">
 						<div class="blockHeader emailPreviewHeader">
 							<h3 class='col-md-4 pushDown'>{\App\Language::translate('emailPreviewHeader',$MODULENAME)}</h3>
-							<div class='pull-right'>
+							<div class='float-right'>
 								<div class="btn-toolbar" >
 									{if AppConfig::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}
 										{if $USER_MODEL->get('internal_mailer') == 1}
 											{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}	
 											{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($SMODULENAME, $SRECORD, 'Detail')}
 											{assign var=POPUP value=$CONFIG['popup']}
-											<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=reply" data-popup="{$POPUP}" title="{\App\Language::translate('LBL_REPLY','OSSMailView')}">
+											<button type="button" class="btn btn-sm btn-light sendMailBtn" data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=reply" data-popup="{$POPUP}" title="{\App\Language::translate('LBL_REPLY','OSSMailView')}">
 												<img width="14px" src="{\App\Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{\App\Language::translate('LBL_REPLY','OSSMailView')}">
 												&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_REPLY','OSSMailView')}</strong>
 											</button>
-											<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=replyAll" data-popup="{$POPUP}" title="{\App\Language::translate('LBL_REPLYALLL','OSSMailView')}">
+											<button type="button" class="btn btn-sm btn-light sendMailBtn" data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=replyAll" data-popup="{$POPUP}" title="{\App\Language::translate('LBL_REPLYALLL','OSSMailView')}">
 												<img width="14px" src="{\App\Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{\App\Language::translate('LBL_REPLYALLL','OSSMailView')}">
 												&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_REPLYALLL','OSSMailView')}</strong>
 											</button>
-											<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=forward" data-popup="{$POPUP}" title="{\App\Language::translate('LBL_FORWARD','OSSMailView')}">
-												<span class="glyphicon glyphicon-share-alt"></span>
+											<button type="button" class="btn btn-sm btn-light sendMailBtn" data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=forward" data-popup="{$POPUP}" title="{\App\Language::translate('LBL_FORWARD','OSSMailView')}">
+												<span class="fas fa-share"></span>
 												&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_FORWARD','OSSMailView')}</strong>
 											</button>
 										{else}
-											<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($RECORD_MODEL, 'reply')}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
+											<a class="btn btn-sm btn-light" href="{OSSMail_Module_Model::getExternalUrlForWidget($RECORD_MODEL, 'reply')}" title="{\App\Language::translate('LBL_CREATEMAIL', 'OSSMailView')}">
 												<img width="14px" src="{\App\Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{\App\Language::translate('LBL_REPLY','OSSMailView')}">
 												&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_REPLY','OSSMailView')}</strong>
 											</a>
-											<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($RECORD_MODEL, 'replyAll')}" title="{\App\Language::translate('LBL_REPLYALLL', 'OSSMailView')}">
+											<a class="btn btn-sm btn-light" href="{OSSMail_Module_Model::getExternalUrlForWidget($RECORD_MODEL, 'replyAll')}" title="{\App\Language::translate('LBL_REPLYALLL', 'OSSMailView')}">
 												<img width="14px" src="{\App\Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{\App\Language::translate('LBL_REPLYALLL','OSSMailView')}">
 												&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_REPLYALLL','OSSMailView')}</strong>
 											</a>
-											<a class="btn btn-sm btn-default" href="{OSSMail_Module_Model::getExternalUrlForWidget($RECORD_MODEL, 'forward')}" title="{\App\Language::translate('LBL_FORWARD', 'OSSMailView')}">
-												<span class="glyphicon glyphicon-share-alt"></span>
+											<a class="btn btn-sm btn-light" href="{OSSMail_Module_Model::getExternalUrlForWidget($RECORD_MODEL, 'forward')}" title="{\App\Language::translate('LBL_FORWARD', 'OSSMailView')}">
+												<span class="fas fa-share"></span>
 												&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_FORWARD','OSSMailView')}</strong>
 											</a>
 										{/if}
 									{/if}
 									{if \App\Privilege::isPermitted($MODULENAME, 'PrintMail')}
 										<span class="btn-group">
-											<button id="previewPrint" onclick="OSSMailView_preview_Js.printMail();" type="button" name="previewPrint" class="btn btn-sm btn-default" data-mode="previewPrint">
-												<span class="glyphicon glyphicon-print" aria-hidden="true"></span>&nbsp;&nbsp;
+											<button id="previewPrint" onclick="OSSMailView_preview_Js.printMail();" type="button" name="previewPrint" class="btn btn-sm btn-light" data-mode="previewPrint">
+												<span class="fas fa-print" aria-hidden="true"></span>&nbsp;&nbsp;
 												<strong>{\App\Language::translate('LBL_PRINT',$MODULENAME)}</strong>
 											</button>
 										</span>
@@ -69,7 +69,7 @@
 						<form class="form-horizontal emailPreview">
 							<div class="row padding-bottom1per">
 								<span class="col-md-2">
-									<span class="pull-right muted">{\App\Language::translate('From',$MODULENAME)}</span>
+									<span class="float-right muted">{\App\Language::translate('From',$MODULENAME)}</span>
 								</span>
 								<span class="col-md-9">
 									<span id="emailPreview_From" class="">{$FROM}</span>
@@ -77,7 +77,7 @@
 							</div>
 							<div class="row padding-bottom1per">
 								<span class="col-md-2">
-									<span class="pull-right muted">{\App\Language::translate('To',$MODULENAME)}</span>
+									<span class="float-right muted">{\App\Language::translate('To',$MODULENAME)}</span>
 								</span>
 								<span class="col-md-9">
 									<span id="emailPreview_To" class="">{assign var=TO_EMAILS value=","|implode:$TO}{$TO_EMAILS}</span>
@@ -86,7 +86,7 @@
 							{if !empty($CC)}
 								<div class="row padding-bottom1per">
 									<span class="col-md-2">
-										<span class="pull-right muted">{\App\Language::translate('CC',$MODULENAME)}</span>
+										<span class="float-right muted">{\App\Language::translate('CC',$MODULENAME)}</span>
 									</span>
 									<span class="col-md-9">
 										<span id="emailPreview_Cc" class="">
@@ -98,7 +98,7 @@
 							{if !empty($BCC)}
 								<div class="row padding-bottom1per">
 									<span class="col-md-2">
-										<span class="pull-right muted">{\App\Language::translate('BCC',$MODULENAME)}</span>
+										<span class="float-right muted">{\App\Language::translate('BCC',$MODULENAME)}</span>
 									</span>
 									<span class="col-md-9">
 										<span id="emailPreview_Bcc" class="">
@@ -109,7 +109,7 @@
 							{/if}
 							<div class="row padding-bottom1per">
 								<span class="col-md-2">
-									<span class="pull-right muted">{\App\Language::translate('Subject',$MODULENAME)}</span>
+									<span class="float-right muted">{\App\Language::translate('Subject',$MODULENAME)}</span>
 								</span>
 								<span class="col-md-9">
 									<span id="emailPreview_Subject" class="">
@@ -120,14 +120,14 @@
 							{if !empty($ATTACHMENTS)}
 								<div class="row padding-bottom1per">
 									<span class="col-md-2">
-										<span class="pull-right muted">{\App\Language::translate('Attachments_Exist',$MODULENAME)}</span>
+										<span class="float-right muted">{\App\Language::translate('Attachments_Exist',$MODULENAME)}</span>
 									</span>
 									<span class="col-md-9">
 										<span id="emailPreview_attachment" class="">
 											{foreach item=ATTACHMENT from=$ATTACHMENTS}
-												<a class="btn btn-xs btn-primary" title="{$ATTACHMENT['name']}" 
+												<a class="btn btn-sm btn-primary" title="{$ATTACHMENT['name']}" 
 												   href="file.php?module=Documents&action=DownloadFile&record={$ATTACHMENT['id']}">
-													<span class="glyphicon glyphicon-paperclip"></span>&nbsp;&nbsp;{$ATTACHMENT['file']}</a>&nbsp;&nbsp;
+													<span class="fas fa-paperclip"></span>&nbsp;&nbsp;{$ATTACHMENT['file']}</a>&nbsp;&nbsp;
 											{/foreach}
 										</span>
 									</span>
@@ -135,7 +135,7 @@
 							{/if}
 							<div class="row padding-bottom1per content">
 								<span class="col-md-2">
-									<span class="pull-right muted">{\App\Language::translate('Content',$MODULENAME)}</span>
+									<span class="float-right muted">{\App\Language::translate('Content',$MODULENAME)}</span>
 								</span>
 								<span class="col-md-10 row">
 									<iframe id="emailPreview_Content" class="col-md-12" src="{$URL}" frameborder="0"></iframe>

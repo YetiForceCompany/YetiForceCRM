@@ -4,7 +4,7 @@
 		<div class="col-md-2"><strong>{\App\Language::translate('LBL_SET_FIELD_VALUES',$QUALIFIED_MODULE)}</strong></div>
 	</div><br />
 	<div>
-		<button type="button" class="btn btn-default" id="addFieldBtn">{\App\Language::translate('LBL_ADD_FIELD',$QUALIFIED_MODULE)}</button>
+		<button type="button" class="btn btn-light" id="addFieldBtn">{\App\Language::translate('LBL_ADD_FIELD',$QUALIFIED_MODULE)}</button>
 	</div><br />
 	<div class="row conditionsContainer" id="save_fieldvaluemapping">
 		{assign var=FIELD_VALUE_MAPPING value=\App\Json::decode($TASK_OBJECT->field_value_mapping)}
@@ -52,8 +52,8 @@
 					<input type="text" class="getPopupUi form-control" readonly="" name="fieldValue" value="{$FIELD_MAP['value']}" />
 					<input type="hidden" name="valuetype" value="{$FIELD_MAP['valuetype']}" />
 				</span>
-				<p class="cursorPointer form-control-static">
-					<i class="alignMiddle deleteCondition glyphicon glyphicon-trash"></i>
+				<p class="cursorPointer form-control-plaintext">
+					<i class="alignMiddle deleteCondition fas fa-trash-alt"></i>
 				</p>
 			</div>
 		{/foreach}
@@ -101,8 +101,8 @@
 			<input type="text" class="form-control" readonly="" name="fieldValue" value="" />
 			<input type="hidden" name="valuetype" class="form-control" value="rawtext" />
 		</span>
-		<p class="cursorPointer form-control-static">
-			<span class="alignMiddle deleteCondition glyphicon glyphicon-trash"></span>
+		<p class="cursorPointer form-control-plaintext">
+			<span class="alignMiddle deleteCondition fas fa-trash-alt"></span>
 		</p>
 	</div>
 {/strip}

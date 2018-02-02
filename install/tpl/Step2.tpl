@@ -28,7 +28,7 @@
 				<div class="row">
 					<div class="span12">
 						<div class="button-container">
-							<input name="back" type="button" class="btn btn-sm btn-default" value="{\App\Language::translate('LBL_DISAGREE', 'Install')}"/>
+							<input name="back" type="button" class="btn btn-sm btn-light" value="{\App\Language::translate('LBL_DISAGREE', 'Install')}"/>
 							<input id="agree" type="submit" class="btn btn-sm btn-primary" value="{\App\Language::translate('LBL_I_AGREE', 'Install')}"/>
 						</div>
 					</div>

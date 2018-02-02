@@ -46,13 +46,13 @@
 			</span>
 			<input type="text" name="company_email" class="form-control" placeholder="{App\Language::translate('LBL_EMAIL','Settings:Companies')}" value="{$COMPANY->get('email')}">
 		</div><br />
-		<div class="pull-right">
+		<div class="float-right">
 			<button type="button" class="btn btn-success ajaxBtn">
-				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+				<span class="fas fa-check" aria-hidden="true"></span>
 				&nbsp;&nbsp;{App\Language::translate('LBL_SEND','Settings:SystemWarnings')}
 			</button>&nbsp;&nbsp;
 			<button type="button" class="btn btn-danger cancel">
-				<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+				<span class="fas fa-ban" aria-hidden="true"></span>
 				&nbsp;&nbsp;{App\Language::translate('LBL_REMIND_LATER','Settings:SystemWarnings')}
 			</button>
 		</div>

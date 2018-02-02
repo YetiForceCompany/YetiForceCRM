@@ -20,7 +20,7 @@
 		<div class="col-md-12">
 			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
 			<div class="marginBottom10px">
-				<button type="button" class="btn btn-success addInventory addButton" data-url="{$RECORD_MODEL->getCreateUrl()}" data-type="0"><i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_ADD', $QUALIFIED_MODULE)} {\App\Language::translate($PAGE_LABELS.title_single, $QUALIFIED_MODULE)}</strong></button>
+				<button type="button" class="btn btn-success addInventory addButton" data-url="{$RECORD_MODEL->getCreateUrl()}" data-type="0"><i class="fas fa-plus"></i>&nbsp;&nbsp;<strong>{\App\Language::translate('LBL_ADD', $QUALIFIED_MODULE)} {\App\Language::translate($PAGE_LABELS.title_single, $QUALIFIED_MODULE)}</strong></button>
 			</div>
 			<table class="table tableRWD table-bordered inventoryTable themeTableColor">
 				<thead>
@@ -36,9 +36,9 @@
 							<td class="textAlignCenter {$WIDTHTYPE}"><label class="name">{$RECORD->getName()}</label></td>
 							<td class="textAlignCenter {$WIDTHTYPE}"><span class="value">{$RECORD->getValue()} {if !$CURRENCY_BOOL}%{else}{$CURRENCY.currency_symbol}{/if}</span></td>
 							<td class="textAlignCenter {$WIDTHTYPE}"><input type="checkbox" class="status" {if !$RECORD->getStatus()}checked{/if} />
-								<div class="pull-right actions">
-									<a class="editInventory cursorPointer" data-url="{$RECORD->getEditUrl()}"><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignBottom"></span></a>&nbsp;
-									<a class="removeInventory cursorPointer" data-url="{$RECORD->getEditUrl()}"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignBottom"></span></a>&nbsp;
+								<div class="float-right actions">
+									<a class="editInventory cursorPointer" data-url="{$RECORD->getEditUrl()}"><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fas fa-pencil-alt alignBottom"></span></a>&nbsp;
+									<a class="removeInventory cursorPointer" data-url="{$RECORD->getEditUrl()}"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignBottom"></span></a>&nbsp;
 								</div>
 							</td>
 						</tr>

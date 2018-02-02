@@ -17,7 +17,7 @@
 					<div class="modal-content">
 						<div class="modal-header">
 							<h4 class="modal-title" id="myModalLabel">
-								<span class="glyphicon glyphicon-warning-sign redColor" aria-hidden="true"></span>&nbsp;&nbsp;
+								<span class="fas fa-exclamation-circle redColor" aria-hidden="true"></span>&nbsp;&nbsp;
 								{App\Language::translate('LBL_SYSTEM_WARNINGS','Settings:Vtiger')}
 							</h4>
 						</div>
@@ -34,21 +34,21 @@
 											<p>
 												{$ITEM->getDescription()}
 											</p>
-											<div class="pull-right">
+											<div class="float-right">
 												{if $ITEM->getStatus() != 1 && $ITEM->getPriority() < 8}
 													<button type="button" class="btn btn-warning ajaxBtn" data-params="{$ITEM->getStatus()}">
-														<span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
+														<span class="fas fa-minus-circle" aria-hidden="true"></span>
 														&nbsp;&nbsp;{App\Language::translate('BTN_SET_IGNORE','Settings:SystemWarnings')}
 													</button>&nbsp;&nbsp;
 												{/if}
 												{if $ITEM->getLink()}
 													<a class="btn btn-success" href="{$ITEM->getLink()}" target="_blank">
-														<span class="glyphicon glyphicon-link" aria-hidden="true"></span>
+														<span class="fas fa-link" aria-hidden="true"></span>
 														&nbsp;&nbsp;{$ITEM->linkTitle}
 													</a>&nbsp;&nbsp;
 												{/if}
 												<button type="button" class="btn btn-danger cancel">
-													<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+													<span class="fas fa-ban" aria-hidden="true"></span>
 													&nbsp;&nbsp;{App\Language::translate('LBL_REMIND_LATER','Settings:SystemWarnings')}
 												</button>
 											</div>

@@ -45,7 +45,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linklabel' => '',
 					'linkhint' => 'LBL_FORWARD',
 					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=forward', 'popup' => $config['popup']],
-					'linkicon' => 'glyphicon glyphicon-share-alt',
+					'linkicon' => 'fas fa-share',
 					'linkclass' => 'sendMailBtn'
 				];
 			} else {
@@ -73,7 +73,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linklabel' => '',
 					'linkhint' => 'LBL_FORWARD',
 					'linkurl' => OSSMail_Module_Model::getExternalUrlForWidget($recordModel, 'forward'),
-					'linkicon' => 'glyphicon glyphicon-share-alt',
+					'linkicon' => 'fas fa-share',
 					'linkclass' => 'sendMailBtn'
 				];
 			}
@@ -84,7 +84,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linklabel' => '',
 					'linkhint' => 'LBL_PRINT',
 					'linkurl' => 'javascript:OSSMailView_Detail_Js.printMail();',
-					'linkicon' => 'glyphicon glyphicon-print'
+					'linkicon' => 'fas fa-print'
 				];
 			}
 			foreach ($detailViewLinks as $detailViewLink) {

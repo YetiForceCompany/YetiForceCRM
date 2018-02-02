@@ -40,14 +40,14 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		$editLink = [
 			'linkurl' => "javascript:Settings_PickListDependency_Js.triggerEdit(event, '$soureModule', '$sourceField', '$targetField')",
 			'linklabel' => 'LBL_EDIT',
-			'linkicon' => 'glyphicon glyphicon-pencil'
+			'linkicon' => 'fas fa-pencil-alt'
 		];
 		$editLinkInstance = Vtiger_Link_Model::getInstanceFromValues($editLink);
 
 		$deleteLink = [
 			'linkurl' => "javascript:Settings_PickListDependency_Js.triggerDelete(event, '$soureModule','$sourceField', '$targetField')",
 			'linklabel' => 'LBL_DELETE',
-			'linkicon' => 'glyphicon glyphicon-trash'
+			'linkicon' => 'fas fa-trash-alt'
 		];
 		$deleteLinkInstance = Vtiger_Link_Model::getInstanceFromValues($deleteLink);
 		return [$editLinkInstance, $deleteLinkInstance];

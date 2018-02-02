@@ -27,7 +27,7 @@
 				<input type="hidden" name="pickListValues" value='{\App\Json::encode($SELECTED_PICKLISTFIELD_ALL_VALUES)}' />
 				<div class="modal-body tabbable">
 					<div class="form-group">
-						<div class="col-md-3 control-label"><span class="redColor">*</span>{\App\Language::translate('LBL_ITEM_VALUE',$QUALIFIED_MODULE)}</div>
+						<div class="col-md-3 col-form-label"><span class="redColor">*</span>{\App\Language::translate('LBL_ITEM_VALUE',$QUALIFIED_MODULE)}</div>
 						<div class="col-md-9 controls">
 							<select multiple class="select2 form-control" id="assignValues" name="assign_values[]">
 								{foreach key=PICKLIST_KEY item=PICKLIST_VALUE from=$SELECTED_PICKLISTFIELD_ALL_VALUES}
@@ -38,7 +38,7 @@
 					</div>		
 					{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
 						<div class="form-group">	
-							<div class="col-md-3 control-label"><span class="redColor">*</span>{\App\Language::translate('LBL_ASSIGN_TO_ROLE',$QUALIFIED_MODULE)}</div>
+							<div class="col-md-3 col-form-label"><span class="redColor">*</span>{\App\Language::translate('LBL_ASSIGN_TO_ROLE',$QUALIFIED_MODULE)}</div>
 							<div class="col-md-9 controls">
 								<select class="rolesList select2 form-control" id="rolesSelected" name="rolesSelected[]" multiple data-placeholder="{\App\Language::translate('LBL_CHOOSE_ROLES',$QUALIFIED_MODULE)}">
 									<option value="all" selected>{\App\Language::translate('LBL_ALL_ROLES',$QUALIFIED_MODULE)}</option>

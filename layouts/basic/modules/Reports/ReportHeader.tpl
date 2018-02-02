@@ -16,18 +16,18 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 			</div>
 			<div class="col-sm-6">
-				<div class="btn-toolbar pull-right">
+				<div class="btn-toolbar float-right">
 					{if $REPORT_MODEL->isEditable() eq true}
 						<div class="btn-group">
 							<button onclick='window.location.href = "{$REPORT_MODEL->getEditViewUrl()}"' type="button" class="cursorPointer btn btn-success">
-								<span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;
+								<span class="fas fa-pencil-alt"></span>&nbsp;&nbsp;
 								<strong>{\App\Language::translate('LBL_CUSTOMIZE',$MODULE)}</strong>&nbsp;
 							</button>
 						</div>
 					{/if}
 					<div class="btn-group">
 						<button onclick='window.location.href = "{$REPORT_MODEL->getDuplicateRecordUrl()}"' type="button" class="cursorPointer btn btn-primary">
-							<span class="fa fa-files-o"></span>&nbsp;&nbsp;
+							<span class="fas fa-clone"></span>&nbsp;&nbsp;
 							<strong>{\App\Language::translate('LBL_DUPLICATE',$MODULE)}</strong>
 						</button>
 					</div>
@@ -50,12 +50,12 @@
 						</div>
 					</div>
 					<div class="col-md-4">
-						<span class="pull-right">
+						<span class="float-right">
 							<div class="btn-toolbar">
 								{foreach item=DETAILVIEW_LINK from=$DETAILVIEW_LINKS}
 									{assign var=LINKNAME value=$DETAILVIEW_LINK->getLabel()}
 									<div class="btn-group">
-										<button class="btn reportActions btn-default" name="{$LINKNAME}" data-href="{$DETAILVIEW_LINK->getUrl()}">
+										<button class="btn reportActions btn-light" name="{$LINKNAME}" data-href="{$DETAILVIEW_LINK->getUrl()}">
 											{if $DETAILVIEW_LINK->getIcon()}<span class="{$DETAILVIEW_LINK->getIcon()}"></span>{/if}&nbsp;&nbsp;
 											<strong>{$LINKNAME}</strong>
 										</button>

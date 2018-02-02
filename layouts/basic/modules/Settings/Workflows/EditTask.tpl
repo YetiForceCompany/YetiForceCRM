@@ -29,12 +29,12 @@
 						<div class="modal-body tabbable">
 							<div class="row padding-bottom1per">
 								<div class="col-md-7">
-									<div class="pull-left control-label">{\App\Language::translate('LBL_TASK_TITLE',$QUALIFIED_MODULE)}<span class="redColor">*</span></div>
+									<div class="float-left col-form-label">{\App\Language::translate('LBL_TASK_TITLE',$QUALIFIED_MODULE)}<span class="redColor">*</span></div>
 									<div class="col-md-9"><input name="summary" class="form-control" data-validation-engine='validate[required]' type="text" value="{$TASK_MODEL->get('summary')}" /></div>
 								</div>
-								<div class="col-md-4 form-control-static">
-									<div class="pull-left">{\App\Language::translate('LBL_STATUS',$QUALIFIED_MODULE)}</div>
-									<div class="pull-left" id="taskStatus">
+								<div class="col-md-4 form-control-plaintext">
+									<div class="float-left">{\App\Language::translate('LBL_STATUS',$QUALIFIED_MODULE)}</div>
+									<div class="float-left" id="taskStatus">
 										<input type="radio" name="active" class="alignTop" {if $TASK_MODEL->get('status') eq 1} checked="" {/if} value="true">&nbsp;{\App\Language::translate('LBL_ACTIVE',$QUALIFIED_MODULE)}&nbsp;&nbsp;
 										<input type="radio" name="active" class="alignTop" {if $TASK_MODEL->get('status') neq 1} checked="" {/if} value="false" />&nbsp;{\App\Language::translate('LBL_IN_ACTIVE',$QUALIFIED_MODULE)}
 									</div>
@@ -58,7 +58,7 @@
 										<input class="form-control" type="text" name="select_date_days" value="{$days}" data-validation-engine="validate[funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]" >
 
 									</div>
-									<div class="control-label pull-left alignMiddle">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</div>
+									<div class="col-form-label float-left alignMiddle">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</div>
 									<div class="col-md-2 marginLeftZero">
 										<select class="chzn-select form-control" name="select_date_direction">
 											<option {if $direction eq 'after'} selected="" {/if} value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>

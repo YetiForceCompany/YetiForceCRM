@@ -3,7 +3,7 @@
 	{if isset($WIZARD_BASE)}
 		<form class="form-horizontal" action="{$MODULE_MODEL->getEditViewUrl()}" id="createForm">
 			<div class="modal-header">
-				<div class="pull-left">
+				<div class="float-left">
 					<h3 class="modal-title">{\App\Language::translate('LBL_CREATE_RECORD', $QUALIFIED_MODULE)}</h3>
 				</div>
 				<div class="clearfix"></div>
@@ -11,7 +11,7 @@
 			<div class="modal-body">
 				<div class="">
 					<div class="verticalBottomSpacing">
-						<label class="control-label">
+						<label class="col-form-label">
 							{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}<span class="redColor"> *</span>
 						</label>
 						<select class="select2 form-control sourceModule" name="tabid" id="supportedModules">
@@ -31,7 +31,7 @@
 			</div>
 		</form>
 	{else}
-		<label class="control-label">
+		<label class="col-form-label">
 			{\App\Language::translate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}<span class="redColor"> *</span>
 		</label>
 		<div class="controls">

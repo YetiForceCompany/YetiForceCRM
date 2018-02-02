@@ -67,7 +67,7 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 				'linklabel' => 'LBL_SET_RECORD_STATUS',
 				'linkurl' => '#',
 				'linkdata' => ['url' => $recordModel->getActivityStateModalUrl()],
-				'linkicon' => 'glyphicon glyphicon-ok',
+				'linkicon' => 'fas fa-check',
 				'linkclass' => 'showModal closeCalendarRekord'
 			];
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
@@ -78,7 +78,7 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 				'linklabel' => 'LBL_SHOW_LOCATION',
 				'linkurl' => 'javascript:Vtiger_Index_Js.showLocation(this)',
 				'linkdata' => ['location' => $recordModel->getDisplayValue('location')],
-				'linkicon' => 'glyphicon glyphicon-map-marker',
+				'linkicon' => 'fas fa-map-marker-alt',
 			];
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}
@@ -93,7 +93,7 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 					'linktype' => 'DETAIL_VIEW_EXTENDED',
 					'linklabel' => 'LBL_MOVE_TO_TRASH',
 					'linkurl' => 'javascript:Calendar_Detail_Js.deleteRecord("index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Trash&record=' . $recordModel->getId() . '")',
-					'linkicon' => 'glyphicon glyphicon-trash',
+					'linkicon' => 'fas fa-trash-alt',
 					'linkclass' => 'entityStateBtn',
 					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
 					'title' => \App\Language::translate('LBL_MOVE_TO_TRASH')
@@ -109,7 +109,7 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 					'linktype' => 'DETAIL_VIEW_EXTENDED',
 					'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
 					'linkurl' => 'javascript:Calendar_Detail_Js.deleteRecord("index.php?module=' . $recordModel->getModuleName() . '&action=Delete&record=' . $recordModel->getId() . '")',
-					'linkicon' => 'glyphicon glyphicon-erase',
+					'linkicon' => 'fas fa-eraser',
 					'title' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY')
 			]);
 		}

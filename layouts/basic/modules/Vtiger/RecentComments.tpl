@@ -18,13 +18,13 @@
 				<div class="addCommentBlock">
 					<div class="input-group">
 						<span class="input-group-addon" >
-							<span class="glyphicon glyphicon-comment"></span>
+							<span class="fas fa-comments"></span>
 						</span>
 						<textarea name="commentcontent" rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="commentcontent form-control" title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" ></textarea>
 					</div>
-					<button class="btn btn-success detailViewSaveComment  marginTop10 pull-right" type="button" data-mode="add">
-						<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
-						<strong class="hidden-xs">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
+					<button class="btn btn-success detailViewSaveComment  marginTop10 float-right" type="button" data-mode="add">
+						<span class="visible-xs-inline-block fas fa-check"></span>
+						<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
 					</button>
 					<div class="clearfix"></div>
 				</div>
@@ -45,9 +45,9 @@
 											<div class="paddingLeftMd">
 												{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
 												{if $IMAGE_PATH}
-													<img class="userImage pull-left" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_PATH))}" >
+													<img class="userImage float-left" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_PATH))}" >
 												{else}	
-													<span class="glyphicon glyphicon-user userImage pull-left" aria-hidden="true"></span>
+													<span class="fas fa-user userImage float-left" aria-hidden="true"></span>
 												{/if}
 											</div>
 											<div class="col-xs-8 commentorInfo">
@@ -58,7 +58,7 @@
 												</div>
 											</div>
 											<div class="inner">
-												<span class="pull-right paddingRight15">
+												<span class="float-right paddingRight15">
 													<p class="muted"><small>{\App\Fields\DateTime::formatToViewDate($COMMENT->getCommentedTime())}</small></p>
 												</span>
 												<div class="clearfix"></div>
@@ -68,8 +68,8 @@
 								</div>
 								<div class="commentActionsContainer">
 									{assign var="REASON_TO_EDIT" value=$COMMENT->getDisplayValue('reasontoedit')}
-									<div class="pull-left {if empty($REASON_TO_EDIT)}hide {/if}editStatus"  name="editStatus">
-										<span class="pull-left paddingRight10 visible-lg-block">
+									<div class="float-left {if empty($REASON_TO_EDIT)}hide {/if}editStatus"  name="editStatus">
+										<span class="float-left paddingRight10 visible-lg-block">
 											<p class="muted">
 												<small>
 													[ {\App\Language::translate('LBL_EDIT_REASON',$MODULE_NAME)} ] :
@@ -80,24 +80,24 @@
 									</div>
 									{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
 										<div class="clearfix"></div>
-										<span class="pull-left visible-lg-block">
-											<p class="muted pull-right">
+										<span class="float-left visible-lg-block">
+											<p class="muted float-right">
 												<small><em>{\App\Language::translate('LBL_MODIFIED',$MODULE_NAME)}</em></small>&nbsp;
 												<small class="commentModifiedTime">{\App\Fields\DateTime::formatToViewDate($COMMENT->getModifiedTime())}</small>
 											</p>
 										</span>
 									{/if}
 									{if !$IS_READ_ONLY}
-										<div class="pull-right commentActions">
+										<div class="float-right commentActions">
 											{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
 												<span>
-													<button type="button" class="btn btn-xs btn-success replyComment feedback">
-														<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>&nbsp;
+													<button type="button" class="btn btn-sm btn-success replyComment feedback">
+														<span class="fas fa-share" aria-hidden="true"></span>&nbsp;
 														{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}
 													</button>
 													{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
-														<button type="button" class="btn btn-xs btn-primary editComment feedback marginLeft5">
-															<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;
+														<button type="button" class="btn btn-sm btn-primary editComment feedback marginLeft5">
+															<span class="fas fa-pencil-alt" aria-hidden="true"></span>&nbsp;
 															{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}
 														</button>
 													{/if}
@@ -105,7 +105,7 @@
 											{/if}
 											<span>
 												{if $PARENT_COMMENT_MODEL neq false or $CHILD_COMMENTS_MODEL neq null}
-													<button type="button" class="btn btn-xs btn-info detailViewThread marginLeft5">{\App\Language::translate('LBL_VIEW_THREAD',$MODULE_NAME)}</button>
+													<button type="button" class="btn btn-sm btn-info detailViewThread marginLeft5">{\App\Language::translate('LBL_VIEW_THREAD',$MODULE_NAME)}</button>
 												{/if}
 											</span>
 										</div>
@@ -123,8 +123,8 @@
 		</div>
 		{if !$IS_READ_ONLY && $PAGING_MODEL->isNextPageExists()}
 			<div class="row">
-				<div class="pull-right">
-					<a href="javascript:void(0)" class="moreRecentComments btn btn-xs btn-info marginTop5 marginRight15">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</a>
+				<div class="float-right">
+					<a href="javascript:void(0)" class="moreRecentComments btn btn-sm btn-info marginTop5 marginRight15">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</a>
 				</div>
 			</div>
 		{/if}
@@ -134,17 +134,17 @@
 					<div class="col-md-12">
 						<div class="input-group">
 							<span class="input-group-addon" >
-								<span class="glyphicon glyphicon-comment"></span>
+								<span class="fas fa-comments"></span>
 							</span>
 							<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}"></textarea>
 						</div>
-						<button class="cursorPointer closeCommentBlock marginTop10 btn btn-warning pull-right cancel" type="reset">
-							<span class="visible-xs-inline-block glyphicon glyphicon-remove"></span>
-							<strong class="hidden-xs">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
+						<button class="cursorPointer closeCommentBlock marginTop10 btn btn-warning float-right cancel" type="reset">
+							<span class="visible-xs-inline-block fas fa-times"></span>
+							<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 						</button>
-						<button class="btn btn-success saveComment marginTop10 pull-right" type="button" data-mode="add">
-							<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
-							<strong class="hidden-xs">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
+						<button class="btn btn-success saveComment marginTop10 float-right" type="button" data-mode="add">
+							<span class="visible-xs-inline-block fas fa-check"></span>
+							<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
 						</button>
 					</div>
 				</div>
@@ -160,17 +160,17 @@
 					<div class="col-md-12 marginBottom10px">
 						<div class="input-group">
 							<span class="input-group-addon" >
-								<span class="glyphicon glyphicon-comment"></span>
+								<span class="fas fa-comments"></span>
 							</span>
 							<textarea rows="{$COMMENT_TEXTAREA_DEFAULT_ROWS}" class="form-control commentcontenthidden fullWidthAlways" name="commentcontent" title="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" placeholder="{\App\Language::translate('LBL_ADD_YOUR_COMMENT_HERE', $MODULE_NAME)}" ></textarea>
 						</div>
-						<button class="cursorPointer closeCommentBlock marginTop10 btn btn-warning pull-right cancel" type="reset">
-							<span class="visible-xs-inline-block glyphicon glyphicon-remove"></span>
-							<strong class="hidden-xs">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
+						<button class="cursorPointer closeCommentBlock marginTop10 btn btn-warning float-right cancel" type="reset">
+							<span class="visible-xs-inline-block fas fa-times"></span>
+							<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 						</button>
-						<button class="btn btn-success saveComment marginTop10 pull-right" type="button" data-mode="edit">
-							<span class="visible-xs-inline-block glyphicon glyphicon-ok"></span>
-							<strong class="hidden-xs">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
+						<button class="btn btn-success saveComment marginTop10 float-right" type="button" data-mode="edit">
+							<span class="visible-xs-inline-block fas fa-check"></span>
+							<strong class="d-none d-sm-none d-md-block">{\App\Language::translate('LBL_POST', $MODULE_NAME)}</strong>
 						</button>
 					</div>
 				</div>

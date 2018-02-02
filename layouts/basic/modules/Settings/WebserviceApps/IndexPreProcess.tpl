@@ -7,7 +7,7 @@
 			
 		</div>
 		<div class="col-md-6">
-			<button class="btn btn-primary pull-right createKey pull-right">{\App\Language::translate('LBL_ADD_APPLICATION',$QUALIFIED_MODULE)}</button>
+			<button class="btn btn-primary float-right createKey float-right">{\App\Language::translate('LBL_ADD_APPLICATION',$QUALIFIED_MODULE)}</button>
 		</div>
 	</div>
 	<div class="configContainer">

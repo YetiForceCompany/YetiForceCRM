@@ -18,10 +18,10 @@
 					</div>
 					<div class="col-xs-10 paddingLR5 notiContent">
 						<div class="col-xs-6 paddingLRZero marginTB3 font-larger">
-							<strong class="pull-left">{\App\Language::translate($RECORD->get('notification_type'),$MODULE_NAME)}</strong>
+							<strong class="float-left">{\App\Language::translate($RECORD->get('notification_type'),$MODULE_NAME)}</strong>
 						</div>
 						<div class="col-xs-6 paddingLRZero marginTB3 font-larger">
-							<strong class="pull-right">{$RECORD->getDisplayValue('createdtime')}</strong>
+							<strong class="float-right">{$RECORD->getDisplayValue('createdtime')}</strong>
 						</div>
 						<div class="col-xs-12 paddingLRZero marginBottom5">
 							{$RECORD->getTitle()}
@@ -40,7 +40,7 @@
 									<span class="fullContent hide">
 										{$FULL_TEXT}
 									</span>
-									&nbsp;<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
+									&nbsp;<button type="button" class="btn btn-info btn-sm moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
 								{/if}
 							</div>
 						</div>
@@ -65,8 +65,8 @@
 								<strong class="">{\App\Language::translate('Created By',$MODULE_NAME)}: {$RECORD->getCreatorUser()}</strong>
 							</div>
 							<div class="col-xs-2 paddingLRZero">
-								<button type="button" class="btn btn-success btn-xs pull-right setAsMarked" title="{\App\Language::translate('LBL_MARK_AS_READ',$MODULE_NAME)}">
-									<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+								<button type="button" class="btn btn-success btn-sm float-right setAsMarked" title="{\App\Language::translate('LBL_MARK_AS_READ',$MODULE_NAME)}">
+									<span class="fas fa-check" aria-hidden="true"></span>
 								</button>
 							</div>
 						</div>

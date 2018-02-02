@@ -63,11 +63,11 @@
 						<tr>
 							<td class="listViewSearchTd" colspan="2">
 								<div class="flexWrapper">
-									<a class="btn btn-default" href="javascript:void(0);" data-trigger="listSearch">
-										<span class="glyphicon glyphicon-search"></span>
+									<a class="btn btn-light" href="javascript:void(0);" data-trigger="listSearch">
+										<span class="fas fa-search"></span>
 									</a>
-									<a class="btn btn-default pull-right listRemoveBtn" href="index.php?module={$MODULE}&parent=Settings&view=List" >
-										<span class="glyphicon glyphicon-remove"></span>
+									<a class="btn btn-light float-right listRemoveBtn" href="index.php?module={$MODULE}&parent=Settings&view=List" >
+										<span class="fas fa-times"></span>
 									</a>
 								</div>
 							</td>
@@ -114,18 +114,18 @@
 							{/foreach}
 							<td>
 								{if $LISTVIEW_HEADER@last}
-									<div class="pull-right actions">
+									<div class="float-right actions">
 										<div class="actionImages flexWrapper">
-											<a href='{$LISTVIEW_ENTRY->getDuplicateRecordUrl()}'><span title="{\App\Language::translate('LBL_DUPLICATE', $MODULE)}" class="glyphicon glyphicon-retweet alignMiddle"></span></a>&nbsp;
+											<a href='{$LISTVIEW_ENTRY->getDuplicateRecordUrl()}'><span title="{\App\Language::translate('LBL_DUPLICATE', $MODULE)}" class="fas fa-retweet alignMiddle"></span></a>&nbsp;
 												{if $IS_MODULE_EDITABLE && $LISTVIEW_ENTRY->get('status') eq 'Active'}
-												<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_EDIT" href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>&nbsp;
+												<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_EDIT" href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fas fa-pencil-alt alignMiddle"></span></a>&nbsp;
 												{/if}
 												{if $IS_MODULE_DELETABLE && $LISTVIEW_ENTRY->getId() != $USER_MODEL->getId()}
 													{if $LISTVIEW_ENTRY->get('status') eq 'Active'}
-													<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_DELETE" class="deleteRecordButton"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
+													<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_DELETE" class="deleteRecordButton"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignMiddle"></span></a>
 													{else}
-													<a onclick="Settings_Users_List_Js.restoreUser({$LISTVIEW_ENTRY->getId()}, event);"><span title="{\App\Language::translate('LBL_RESTORE', $MODULE)}" class="glyphicon glyphicon-refresh alignMiddle"></span></a>&nbsp;
-													<a onclick="Settings_Users_List_Js.deleteUserPermanently({$LISTVIEW_ENTRY->getId()}, event);"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
+													<a onclick="Settings_Users_List_Js.restoreUser({$LISTVIEW_ENTRY->getId()}, event);"><span title="{\App\Language::translate('LBL_RESTORE', $MODULE)}" class="fas fa-sync-alt alignMiddle"></span></a>&nbsp;
+													<a onclick="Settings_Users_List_Js.deleteUserPermanently({$LISTVIEW_ENTRY->getId()}, event);"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignMiddle"></span></a>
 													{/if}
 												{/if}
 										</div>
@@ -141,8 +141,8 @@
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							<td {if !empty($LISTVIEW_HEADER->get('maxwidthcolumn'))}style="width:{$LISTVIEW_HEADER->get('maxwidthcolumn')}%"{/if} {if $LISTVIEW_HEADER@last}colspan="2"{/if} class="noWrap {if !empty($LISTVIEW_HEADER->isCalculateField())}border{/if}" >
 								{if !empty($LISTVIEW_HEADER->isCalculateField())}
-									<button class="btn btn-xs btn-default popoverTooltip" data-operator="sum" data-field="{$LISTVIEW_HEADER->getName()}" data-content="{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}">
-										<span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span>
+									<button class="btn btn-sm btn-light popoverTooltip" data-operator="sum" data-field="{$LISTVIEW_HEADER->getName()}" data-content="{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}">
+										<span class="fab fa-gitter" aria-hidden="true"></span>
 									</button>
 									<span class="calculateValue"></span>
 								{/if}

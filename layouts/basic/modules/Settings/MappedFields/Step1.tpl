@@ -22,7 +22,7 @@
 					</div>
 					<div class="panel-body">
 						<div class="form-group">
-							<label class="col-sm-3 control-label">
+							<label class="col-sm-3 col-form-label">
 								{\App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}<span class="redColor">*</span>
 							</label>
 							<div class="col-sm-8 controls">
@@ -37,7 +37,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-3 control-label">
+							<label class="col-sm-3 col-form-label">
 								{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}<span class="redColor">*</span>
 							</label>
 							<div class="col-sm-8 controls">
@@ -52,7 +52,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-3 control-label">
+							<label class="col-sm-3 col-form-label">
 								{\App\Language::translate('LBL_SELECT_REL_MODULE', $QUALIFIED_MODULE)}<span class="redColor">*</span>
 							</label>
 							<div class="col-sm-8 controls">
@@ -68,7 +68,7 @@
 						</div>
 					</div>
 					<div class="panel-footer clearfix">
-						<div class="btn-toolbar pull-right">
+						<div class="btn-toolbar float-right">
 							<button class="btn btn-success" type="submit" >{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}</button>
 							<button class="btn btn-warning cancelLink" type="reset">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 						</div>

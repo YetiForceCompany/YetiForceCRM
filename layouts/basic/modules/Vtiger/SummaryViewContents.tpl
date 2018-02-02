@@ -17,11 +17,11 @@
 		{if $FIELD_MODEL->getName() neq 'modifiedtime' && $FIELD_MODEL->getName() neq 'createdtime'}
 			<tr class="summaryViewEntries">
 				<td class="fieldLabel {$WIDTHTYPE}" style="width:35%">
-				<label class="muted pull-left">{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$MODULE_NAME)}
+				<label class="muted float-left">{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$MODULE_NAME)}
 				{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 				{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel()}
 				{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-					<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'><span class="glyphicon glyphicon-info-sign"></span></a>
+					<a href="#" class="HelpInfoPopover float-right" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'><span class="fas fa-info-circle"></span></a>
 				{/if}
 				</label>
 				<td class="fieldValue {$WIDTHTYPE}" style="width:65%">
@@ -43,8 +43,8 @@
 								{/if}
                             </div>
                             <div class="summaryViewEdit col-xs-2 cursorPointer">
-								<div class="pull-right">
-									<span class="glyphicon glyphicon-pencil" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
+								<div class="float-right">
+									<span class="fas fa-pencil-alt" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 								</div>
                             </div>
                         {/if}
@@ -61,13 +61,13 @@
 		{if !$IS_READ_ONLY}
 			{assign var="CURRENT_VIEW" value="full"}
 			{assign var="CURRENT_MODE_LABEL" value="{\App\Language::translate('LBL_COMPLETE_DETAILS',{$MODULE_NAME})}"}
-			<button type="button" class="btn btn-default btn-block changeDetailViewMode cursorPointer"><strong>{\App\Language::translate('LBL_SHOW_FULL_DETAILS',$MODULE_NAME)}</strong></button>
+			<button type="button" class="btn btn-light btn-block changeDetailViewMode cursorPointer"><strong>{\App\Language::translate('LBL_SHOW_FULL_DETAILS',$MODULE_NAME)}</strong></button>
 			{assign var="FULL_MODE_URL" value={$RECORD->getDetailViewUrl()|cat:'&mode=showDetailViewByMode&requestMode=full'} }
 			<input type="hidden" name="viewMode" value="{$CURRENT_VIEW}" data-nextviewname="full" data-currentviewlabel="{$CURRENT_MODE_LABEL}" data-full-url="{$FULL_MODE_URL}" />
 		{/if}
 	</div>
 	<div class="col-md-8">
-		<div class="pull-right">
+		<div class="float-right">
 			<div>
 				<p>
 					<small>

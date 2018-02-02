@@ -15,8 +15,8 @@
 				{/foreach}
 			</div>
 			{if !$ONLY_ONE}
-				<button type="button" class="btn btn-sm btn-default toolsAction">
-					<span class="glyphicon glyphicon-wrench"></span>
+				<button type="button" class="btn btn-sm btn-light toolsAction">
+					<span class="fas fa-wrench"></span>
 				</button>
 			{/if}
 		</div>

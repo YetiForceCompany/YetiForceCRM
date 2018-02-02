@@ -26,8 +26,8 @@
 								{/if}
                             </div>
                             <div class="summaryViewEdit col-xs-2 cursorPointer">
-								<div class="pull-right">
-									<span class="glyphicon glyphicon-pencil" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
+								<div class="float-right">
+									<span class="fas fa-pencil-alt" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></span>
 								</div>
                             </div>
                         {/if}
@@ -43,12 +43,12 @@
 	<div class="col-md-4 toggleViewByMode">
 		{assign var="CURRENT_VIEW" value="full"}
 		{assign var="CURRENT_MODE_LABEL" value="{\App\Language::translate('LBL_COMPLETE_DETAILS',{$MODULE_NAME})}"}
-		<button type="button" class="btn btn-default changeDetailViewMode cursorPointer"><strong>{\App\Language::translate('LBL_SHOW_FULL_DETAILS',$MODULE_NAME)}</strong></button>
+		<button type="button" class="btn btn-light changeDetailViewMode cursorPointer"><strong>{\App\Language::translate('LBL_SHOW_FULL_DETAILS',$MODULE_NAME)}</strong></button>
 		{assign var="FULL_MODE_URL" value={$RECORD->getDetailViewUrl()|cat:'&mode=showDetailViewByMode&requestMode=full'} }
 		<input type="hidden" name="viewMode" value="{$CURRENT_VIEW}" data-nextviewname="full" data-currentviewlabel="{$CURRENT_MODE_LABEL}" data-full-url="{$FULL_MODE_URL}"  />
 	</div>
 	<div class="col-md-8">
-		<div class="pull-right">
+		<div class="float-right">
 			<div>
 				<p>
 					<small>

@@ -9,7 +9,7 @@
 			<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle())}"><strong>{\App\Language::translate($WIDGET->getTitle())}</strong></div>
 		</div>
 		<div class="col-md-4">
-			<div class="box pull-right">
+			<div class="box float-right">
 				{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
 			</div>
 		</div>
@@ -18,18 +18,18 @@
 	<div class="row" >
 		<div class="col-md-12">
 			{if $LISTVIEWLINKS}
-				<div class="pull-right">&nbsp;
-					<button class="btn btn-default btn-sm goToListView" data-url="{$WIDGET_MODEL->getTargetModuleModel()->getListViewUrl()}" title="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST', $MODULE_NAME)}" >
-						<span class="glyphicon glyphicon-th-list"></span>
+				<div class="float-right">&nbsp;
+					<button class="btn btn-light btn-sm goToListView" data-url="{$WIDGET_MODEL->getTargetModuleModel()->getListViewUrl()}" title="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST', $MODULE_NAME)}" >
+						<span class="fas fa-th-list"></span>
 					</button>
 				</div>
 			{/if}
-			<div class="pull-right">&nbsp;
-				<button class="btn btn-default btn-sm changeRecordSort" title="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}" alt="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}" data-sort="{if $DATA['sortorder'] eq 'desc'}asc{else}desc{/if}" data-asc="{\App\Language::translate('LBL_SORT_ASCENDING', $MODULE_NAME)}" data-desc="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}">
-					<span class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true" ></span>
+			<div class="float-right">&nbsp;
+				<button class="btn btn-light btn-sm changeRecordSort" title="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}" alt="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}" data-sort="{if $DATA['sortorder'] eq 'desc'}asc{else}desc{/if}" data-asc="{\App\Language::translate('LBL_SORT_ASCENDING', $MODULE_NAME)}" data-desc="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}">
+					<span class="fas fa-sort-amount-down" aria-hidden="true" ></span>
 				</button>
 			</div>
-			<div class="pull-right">
+			<div class="float-right">
 				<select class="widgetFilter form-control orderby input-sm" name="orderby" title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
 					{foreach item=FIELD from=$WIDGET_MODEL->getHeaders()}
 						{assign var="FIELD_VALUE" value=$FIELD->get('name')}

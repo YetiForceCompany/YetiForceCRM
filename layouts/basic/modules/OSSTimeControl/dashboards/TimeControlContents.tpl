@@ -2,7 +2,7 @@
 {strip}
 {if count($DATA) gt 0 }
 	{assign var=SHOWING_ICON value=$TCPMODULE_MODEL->get('timeControlWidget')}
-	<div class="summary-left pull-left" style="text-align:center;margin-left:2%;">
+	<div class="summary-left float-left" style="text-align:center;margin-left:2%;">
 		{*if $SHOWING_ICON.workingDays eq 'true'}
 			<span class="summary-detail">
 				<img class=" summary-img" src="{\App\Layout::getImagePath('all_days.png')}" alt="All days" title="{\App\Language::translate('LBL_ALLDAYS_INFO', $MODULE_NAME)}" />
@@ -10,7 +10,7 @@
 			</span>
 			<span class="summary-detail">
 				<span>
-					<span style="margin-top:6px; vertical-align:top;" class="glyphicon glyphicon-calendar " title="{\App\Language::translate('LBL_WORKDAYS_INFO', $MODULE_NAME)}"></span>
+					<span style="margin-top:6px; vertical-align:top;" class="fas fa-calendar-alt " title="{\App\Language::translate('LBL_WORKDAYS_INFO', $MODULE_NAME)}"></span>
 				</span>
 				<span class="summary-text">{$WORKDAYS}</span>
 			</span>
@@ -46,7 +46,7 @@
 
 	</div>
 	{*if $SHOWING_ICON.workingTime eq 'true'}
-		<div class="summary-right pull-right" style="text-align:center;">
+		<div class="summary-right float-right" style="text-align:center;">
 			<span class="summary-detail">
 				<img class=" summary-img" src="{\App\Layout::getImagePath('worked_days.png')}" alt="Worked days" title="{\App\Language::translate('LBL_WORKEDDAYS_INFO', $MODULE_NAME)}" />
 				<span class="summary-text">

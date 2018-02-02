@@ -19,13 +19,13 @@
 					{if count($DASHBOARD_TYPES) > 1}
 						<ul class="nav nav-tabs massEditTabs selectDashboard">
 							{foreach from=$DASHBOARD_TYPES item=DASHBOARD}
-								<li {if $CURRENT_DASHBOARD eq $DASHBOARD['dashboard_id']}class="active"{/if} data-id="{$DASHBOARD['dashboard_id']}">
-									<a data-toggle="tab"><strong>{\App\Language::translate($DASHBOARD['name'])}</strong></a>
+								<li class="nav-item {if $CURRENT_DASHBOARD eq $DASHBOARD['dashboard_id']} active{/if}" data-id="{$DASHBOARD['dashboard_id']}">
+									<a class="nav-link" data-toggle="tab"><strong>{\App\Language::translate($DASHBOARD['name'])}</strong></a>
 								</li>
 							{/foreach}
 						</ul>
 					{/if}
-					<div class="col-xs-12 paddingLRZero">
+					<div class="col-sm-12 paddingLRZero">
 						{if count($MODULES_WITH_WIDGET) > 1}
 							<ul class="nav nav-tabs massEditTabs selectDashboradView">
 								{foreach from=$MODULES_WITH_WIDGET item=MODULE_WIDGET}
@@ -35,5 +35,5 @@
 						{/if}
 					</div>
 					{include file=\App\Layout::getTemplatePath('dashboards/DashBoardButtons.tpl', $MODULE)}
-					<div class="col-xs-12 paddingLRZero">
+					<div class="col-sm-12 paddingLRZero">
 {/strip}

@@ -21,7 +21,7 @@
 							<tr>
 								<th>
 									<strong>{\App\Language::translate('LBL_MEMBERS',$QUALIFIED_MODULE)}</strong>
-									<button class="btn btn-xs btn-success pull-right addUser" type="button" data-editurl=""><span class="glyphicon glyphicon-plus"></span> {\App\Language::translate('LBL_ADD',$QUALIFIED_MODULE)}</button>
+									<button class="btn btn-sm btn-success float-right addUser" type="button" data-editurl=""><span class="fas fa-plus"></span> {\App\Language::translate('LBL_ADD',$QUALIFIED_MODULE)}</button>
 								</th>
 							</tr>
 						</thead>
@@ -29,10 +29,10 @@
 							{foreach from=$WATCHDOG_MODULE->getWatchingMembers(true) key=KEY item=MEMBER}
 								<tr class="{$MEMBER.type}" data-value="{$MEMBER.member}" data-lock="{$MEMBER.lock}">
 									<td><strong>{$MEMBER.name}</strong>
-										<span title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="glyphicon glyphicon-trash pull-right marginIcon marginTop2 delete cursorPointer" data-mode="addOrRemoveMembers"></span>
-										<span title="{\App\Language::translate('LBL_LOCK', $QUALIFIED_MODULE)}" class="fa {if $MEMBER.lock}fa-lock{else}fa-unlock-alt{/if} fa-lg pull-right marginTB3 lock cursorPointer" aria-hidden="true"  data-mode="lock"></span>
+										<span title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fas fa-trash-alt float-right marginIcon marginTop2 delete cursorPointer" data-mode="addOrRemoveMembers"></span>
+										<span title="{\App\Language::translate('LBL_LOCK', $QUALIFIED_MODULE)}" class="fa {if $MEMBER.lock}fa-lock{else}fa-unlock-alt{/if} fa-lg float-right marginTB3 lock cursorPointer" aria-hidden="true"  data-mode="lock"></span>
 										{if $MEMBER.type neq 'Users'}
-											<span title="{\App\Language::translate('LBL_EXCEPTIONS', $QUALIFIED_MODULE)}" class="glyphicon glyphicon-exclamation-sign pull-right marginIcon marginTop2 exceptions cursorPointer" aria-hidden="true" data-mode="exceptions"></span>
+											<span title="{\App\Language::translate('LBL_EXCEPTIONS', $QUALIFIED_MODULE)}" class="fas fa-exclamation-circle float-right marginIcon marginTop2 exceptions cursorPointer" aria-hidden="true" data-mode="exceptions"></span>
 										{/if}
 									</td>
 								</tr>

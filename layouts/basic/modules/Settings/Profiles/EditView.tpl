@@ -17,7 +17,7 @@
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 				</div> 
 				<div class="col-md-4 btn-toolbar">
-					<div class="pull-right"> 
+					<div class="float-right"> 
 						<button class="btn btn-success" type="submit">{\App\Language::translate('LBL_SAVE',$QUALIFIED_MODULE)}</button>
 						<a class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="reset" title="{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</a> 
 					</div>
@@ -95,8 +95,8 @@
 											{if $PROFILE_MODULE->getFields() || $PROFILE_MODULE->isUtilityActionEnabled()}
 												<div class="row">
 													<span class="col-md-4">&nbsp;</span>
-													<span class="col-md-4"><button type="button" data-handlerfor="fields" data-togglehandler="{$TABID}-fields" class="btn btn-xs btn-default" style="padding-right: 20px; padding-left: 20px;">
-															<i class="glyphicon glyphicon-chevron-down"></i>
+													<span class="col-md-4"><button type="button" data-handlerfor="fields" data-togglehandler="{$TABID}-fields" class="btn btn-sm btn-light" style="padding-right: 20px; padding-left: 20px;">
+															<i class="fas fa-chevron-down"></i>
 														</button></span>
 												</div>
 											{/if}
@@ -108,8 +108,8 @@
 											<td colspan="6" data-toggle-visible="false" class="row" style="padding-left: 5%;padding-right: 5%">
 												<div class="row" data-togglecontent="{$TABID}-fields">
 													<div class="col-md-12">
-														<label class="themeTextColor font-x-large pull-left"><strong>{\App\Language::translate('LBL_FIELDS',$QUALIFIED_MODULE)}{if $MODULE_NAME eq 'Calendar'} {\App\Language::translate('LBL_OF', $MODULE_NAME)} {\App\Language::translate('LBL_TASKS', $MODULE_NAME)}{/if}</strong></label>
-														<div class="pull-right">
+														<label class="themeTextColor font-x-large float-left"><strong>{\App\Language::translate('LBL_FIELDS',$QUALIFIED_MODULE)}{if $MODULE_NAME eq 'Calendar'} {\App\Language::translate('LBL_OF', $MODULE_NAME)} {\App\Language::translate('LBL_TASKS', $MODULE_NAME)}{/if}</strong></label>
+														<div class="float-right">
 															<span class="mini-slider-control ui-slider" data-value="0">
 																<a style="margin-top: 3px;" class="ui-slider-handle"></a>
 															</span>
@@ -136,8 +136,8 @@
 																	<div class='col-md-4 col-sm-6 col-xs-12 div-bordered padding10' style="border-left: 1px solid #DDD !important;">
 																		{assign var="FIELD_LOCKED" value=$RECORD_MODEL->isModuleFieldLocked($PROFILE_MODULE, $FIELD_MODEL)}
 																		<input type="hidden" name="permissions[{$TABID}][fields][{$FIELD_ID}]" data-range-input="{$FIELD_ID}" value="{$RECORD_MODEL->getModuleFieldPermissionValue($PROFILE_MODULE, $FIELD_MODEL)}" readonly="true">
-																		<div class="mini-slider-control editViewMiniSlider pull-left" data-locked="{$FIELD_LOCKED}" data-range="{$FIELD_ID}" data-value="{$RECORD_MODEL->getModuleFieldPermissionValue($PROFILE_MODULE, $FIELD_MODEL)}"></div>
-																		<div class="pull-left">
+																		<div class="mini-slider-control editViewMiniSlider float-left" data-locked="{$FIELD_LOCKED}" data-range="{$FIELD_ID}" data-value="{$RECORD_MODEL->getModuleFieldPermissionValue($PROFILE_MODULE, $FIELD_MODEL)}"></div>
+																		<div class="float-left">
 																			{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if} {\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
 																		</div>
 																	</div>
@@ -151,7 +151,7 @@
 													{if $MODULE_NAME eq 'Calendar'}
 														{assign var=EVENT_MODULE value=$PROFILE_MODULES[16]}
 														{assign var=COUNTER value=0}
-														<label class="themeTextColor font-x-large pull-left"><strong>{\App\Language::translate('LBL_FIELDS',$QUALIFIED_MODULE)} {\App\Language::translate('LBL_OF', $EVENT_MODULE->getName())} {\App\Language::translate('LBL_EVENTS', $EVENT_MODULE->getName())}</strong></label>
+														<label class="themeTextColor font-x-large float-left"><strong>{\App\Language::translate('LBL_FIELDS',$QUALIFIED_MODULE)} {\App\Language::translate('LBL_OF', $EVENT_MODULE->getName())} {\App\Language::translate('LBL_EVENTS', $EVENT_MODULE->getName())}</strong></label>
 														<div class="col-xs-12 paddingLRZero marginBottom10px">
 															{foreach from=$EVENT_MODULE->getFields() key=FIELD_NAME item=FIELD_MODEL name="fields"}
 																{if $FIELD_MODEL->isActiveField()}
@@ -162,8 +162,8 @@
 																		<div class='col-md-4 col-sm-6 col-xs-12  padding10 div-bordered' style="border-left: 1px solid #DDD !important;">
 																			{assign var="FIELD_LOCKED" value=$RECORD_MODEL->isModuleFieldLocked($EVENT_MODULE, $FIELD_MODEL)}
 																			<input type="hidden" name="permissions[16][fields][{$FIELD_ID}]" data-range-input="{$FIELD_ID}" value="{$RECORD_MODEL->getModuleFieldPermissionValue($EVENT_MODULE, $FIELD_MODEL)}" readonly="true">
-																			<div class="mini-slider-control editViewMiniSlider pull-left" data-locked="{$FIELD_LOCKED}" data-range="{$FIELD_ID}" data-value="{$RECORD_MODEL->getModuleFieldPermissionValue($EVENT_MODULE, $FIELD_MODEL)}"></div>
-																			<div class="pull-left">
+																			<div class="mini-slider-control editViewMiniSlider float-left" data-locked="{$FIELD_LOCKED}" data-range="{$FIELD_ID}" data-value="{$RECORD_MODEL->getModuleFieldPermissionValue($EVENT_MODULE, $FIELD_MODEL)}"></div>
+																			<div class="float-left">
 																				{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if} {\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
 																			</div>
 																		</div>
@@ -194,7 +194,7 @@
 										<tr class="hide">
 											<td colspan="6" data-toggle-visible="false" class="row" style="padding-left: 5%;padding-right: 5%;background-image: none !important;">
 												<div class="row" data-togglecontent="{$TABID}-fields">
-													<div class="col-xs-12 paddingLRZero"><label class="themeTextColor font-x-large pull-left"><strong>{\App\Language::translate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label></div>
+													<div class="col-xs-12 paddingLRZero"><label class="themeTextColor font-x-large float-left"><strong>{\App\Language::translate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label></div>
 													<div class="col-md-12 paddingLRZero marginBottom10px">
 														{foreach from=$ALL_UTILITY_ACTIONS_ARRAY item=ACTION_MODEL name="actions"}
 															{if $smarty.foreach.actions.index % 3 == 0}
@@ -224,7 +224,7 @@
 													</div>
 												</div>
 												<br />
-												<div class="pull-right">
+												<div class="float-right">
 													<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_SAVE',$MODULE)}</strong></button>
 													<a class="cancelLink btn btn-warning" onclick="javascript:window.history.back();" type="reset" title="{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</a>
 													<br /><br />

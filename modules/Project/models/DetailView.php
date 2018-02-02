@@ -23,7 +23,7 @@ class Project_DetailView_Model extends Vtiger_DetailView_Model
 				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'Add Project Task',
 				'linkurl' => 'index.php?module=ProjectTask&action=EditView&projectid=' . $recordId . '&return_module=Project&return_action=DetailView&return_id=' . $recordId,
-				'linkicon' => 'glyphicon glyphicon-tasks',
+				'linkicon' => 'fas fa-tasks',
 				'linkhint' => 'Add Project Task',
 			];
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($viewLinks);
@@ -33,7 +33,7 @@ class Project_DetailView_Model extends Vtiger_DetailView_Model
 				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'Add Note',
 				'linkurl' => 'index.php?module=Documents&action=EditView&return_module=Project&return_action=DetailView&return_id=' . $recordId . '&parent_id=' . $recordId,
-				'linkicon' => 'glyphicon glyphicon-file',
+				'linkicon' => 'fas fa-file',
 				'linkhint' => 'Add Note',
 			];
 			$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues($viewLinks);

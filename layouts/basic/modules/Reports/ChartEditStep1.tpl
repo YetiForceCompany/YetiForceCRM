@@ -91,7 +91,7 @@
 					<div class="col-md-7 row"><textarea class="col-md-6 form-control" type="text" name="description" title="{\App\Language::translate('LBL_DESCRIPTION',$MODULE)}" >{$REPORT_MODEL->get('description')}</textarea></div>
 				</div>
 			</div>
-			<div class="pull-right">
+			<div class="float-right">
 				<button type="submit" class="btn btn-success nextStep"><strong>{\App\Language::translate('LBL_NEXT',$MODULE)}</strong></button>&nbsp;&nbsp;
 				<button onclick='window.history.back()' class="cancelLink cursorPointer btn btn-warning">{\App\Language::translate('LBL_CANCEL',$MODULE)}</button>
 			</div>

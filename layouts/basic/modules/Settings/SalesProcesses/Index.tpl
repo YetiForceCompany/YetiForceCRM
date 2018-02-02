@@ -15,8 +15,8 @@
 			<div class="tab-pane active" id="popup">
 				{assign var=POPUP value=$CONFIG['popup']}
 				<div data-toggle="buttons">
-					<label class="btn {if $POPUP['limit_product_service'] eq 'true'}btn-success active{else}btn-default{/if} btn-block">
-						<span class="glyphicon {if $POPUP['limit_product_service'] eq 'true'}glyphicon-check{else}glyphicon-unchecked{/if} pull-left"></span>
+					<label class="btn {if $POPUP['limit_product_service'] eq 'true'}btn-success active{else}btn-light{/if} btn-block">
+						<span class="glyphicon {if $POPUP['limit_product_service'] eq 'true'}glyphicon-check{else}glyphicon-unchecked{/if} float-left"></span>
 						<input id="limit_product_service" autocomplete="off" class="configField" type="checkbox" name="limit_product_service" data-type="popup" {if $POPUP['limit_product_service'] eq 'true'}checked=""{/if}>{\App\Language::translate('LBL_LIMIT_PRODUCT_AND_SERVICE', $QUALIFIED_MODULE)}
 					</label>
 				</div>

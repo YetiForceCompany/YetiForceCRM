@@ -17,7 +17,7 @@
 				<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
 			</div>
 			<div class="col-md-4">
-				<div class="box pull-right">
+				<div class="box float-right">
 					{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
 				</div>
 			</div>
@@ -31,7 +31,7 @@
 					</div>
 				{/if}
 			</div>
-			<div class="col-sm-6 pull-right">
+			<div class="col-sm-6 float-right">
 				{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
 			</div>
 		</div>

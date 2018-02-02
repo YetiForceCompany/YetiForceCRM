@@ -30,7 +30,7 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<div class=" pull-right cancelLinkContainer">
+				<div class="float-right cancelLinkContainer">
 					<button class="btn btn-primary" type="reset" data-dismiss="modal"><strong>{\App\Language::translate('LBL_CLOSE', $MODULE)}</strong></button>
 				</div>
 			</div>

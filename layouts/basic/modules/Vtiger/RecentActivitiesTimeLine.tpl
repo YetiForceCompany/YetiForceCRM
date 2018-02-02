@@ -26,18 +26,18 @@
 								{/if}
 								{$COUNT=$COUNT+1}
 								{if $RECENT_ACTIVITY->isCreate()}
-									<span class="glyphicon glyphicon-plus bgGreen"></span>
+									<span class="fas fa-plus bgGreen"></span>
 									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if} isCreate">
-										<div class="pull-left paddingRight15 imageContainer">
+										<div class="float-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
 											{if $IMAGE}
 												<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
 											{else}	
-												<span class="glyphicon glyphicon-user userImage" aria-hidden="true"></span>
+												<span class="fas fa-user userImage" aria-hidden="true"></span>
 											{/if}
 										</div>
 										<div class="timeline-body row no-margin">
-											<span class="time pull-right">
+											<span class="time float-right">
 												<span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getParent()->get('createdtime'))}</span>
 											</span>
 											<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong> 
@@ -55,7 +55,7 @@
 																	<span class="fullContent hide">
 																		{$FIELDMODEL->get('fullPostValue')}
 																	</span>
-																	<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
+																	<button type="button" class="btn btn-info btn-sm moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
 																{/if}
 															</strong>
 														{/if}
@@ -65,18 +65,18 @@
 										</div>
 									</div>
 								{else if $RECENT_ACTIVITY->isUpdate()}
-									<span class="glyphicon glyphicon-pencil bgDarkBlue"></span>
+									<span class="fas fa-pencil-alt bgDarkBlue"></span>
 									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if} isUpdate">
-										<div class="pull-left paddingRight15 imageContainer">
+										<div class="float-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
 											{if $IMAGE}
 												<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
 											{else}	
-												<span class="glyphicon glyphicon-user userImage" aria-hidden="true"></span>
+												<span class="fas fa-user userImage" aria-hidden="true"></span>
 											{/if}
 										</div>
 										<div class="timeline-body row no-margin">
-											<span class="time pull-right">
+											<span class="time float-right">
 												<span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span>
 											</span>
 											<span><strong>{$RECENT_ACTIVITY->getModifiedBy()->getDisplayName()}&nbsp;</strong> {\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(),'ModTracker')}</span>
@@ -94,7 +94,7 @@
 																	<span class="fullContent hide">
 																		{$FIELDMODEL->get('fullPreValue')}
 																	</span>
-																	<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
+																	<button type="button" class="btn btn-info btn-sm moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
 																{/if}
 															</strong>
 														{else if $FIELDMODEL->get('postvalue') eq '' || ($FIELDMODEL->getFieldInstance()->getFieldDataType() eq 'reference' && $FIELDMODEL->get('postvalue') eq '0')}
@@ -116,7 +116,7 @@
 																	<span class="fullContent hide">
 																		{$FIELDMODEL->get('fullPostValue')}
 																	</span>
-																	<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
+																	<button type="button" class="btn btn-info btn-sm moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
 																{/if}
 															</strong>
 														{/if}
@@ -126,19 +126,19 @@
 										</div>
 									</div>
 								{else if ($RECENT_ACTIVITY->isRelationLink() || $RECENT_ACTIVITY->isRelationUnLink())}
-									<span class="glyphicon glyphicon-link bgOrange"></span>
+									<span class="fas fa-link bgOrange"></span>
 									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if} isRelationLink isRelationUnLink">
-										<div class="pull-left paddingRight15 imageContainer">
+										<div class="float-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
 											{if $IMAGE}
 												<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
 											{else}	
-												<span class="glyphicon glyphicon-user userImage" aria-hidden="true"></span>
+												<span class="fas fa-user userImage" aria-hidden="true"></span>
 											{/if}
 										</div>
 										<div class="timeline-body row no-margin">
-											<div class="pull-right">
-												<span class="time pull-right">
+											<div class="float-right">
+												<span class="time float-right">
 													<span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span>
 												</span>
 											</div>
@@ -159,7 +159,7 @@
 															<span class="fullContent hide">
 																{$RELATION->get('fullValue')}
 															</span>
-															<button type="button" class="btn btn-info btn-xs moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
+															<button type="button" class="btn btn-info btn-sm moreBtn" data-on="{\App\Language::translate('LBL_MORE_BTN')}" data-off="{\App\Language::translate('LBL_HIDE_BTN')}">{\App\Language::translate('LBL_MORE_BTN')}</button>
 														{/if}
 													</strong>
 												{/if}
@@ -169,67 +169,67 @@
 									</div>
 								{else if $RECENT_ACTIVITY->isChangeState()}
 									{if $RECENT_ACTIVITY->get('status') == 1}
-										<span class="glyphicon glyphicon-trash entityStateIcon" {if $LIST_ENTITY_STATE_COLOR['Trash']}style="background: {$LIST_ENTITY_STATE_COLOR['Trash']};"{/if}></span>
+										<span class="fas fa-trash-alt entityStateIcon" {if $LIST_ENTITY_STATE_COLOR['Trash']}style="background: {$LIST_ENTITY_STATE_COLOR['Trash']};"{/if}></span>
 									{else if $RECENT_ACTIVITY->get('status') == 3}
 										<span class="fa glyphicon fa-refresh entityStateIcon" {if $LIST_ENTITY_STATE_COLOR['Active']}style="background: {$LIST_ENTITY_STATE_COLOR['Active']};"{/if}></span>
 									{else if $RECENT_ACTIVITY->get('status') == 8}
 										<span class="fa glyphicon fa-archive entityStateIcon" {if $LIST_ENTITY_STATE_COLOR['Archived']}style="background: {$LIST_ENTITY_STATE_COLOR['Archived']};"{/if}></span>
 									{/if}
 									<div class="timeline-item isDisplayed">
-										<div class="pull-left paddingRight15 imageContainer">
+										<div class="float-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
 											{if $IMAGE}
 												<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
 											{else}	
-												<span class="glyphicon glyphicon-user userImage" aria-hidden="true"></span>
+												<span class="fas fa-user userImage" aria-hidden="true"></span>
 											{/if}
 										</div>
 										<div class="timeline-body row no-margin">
-											<span class="time pull-right">
+											<span class="time float-right">
 												<span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span>
 											</span>
-											<div class="pull-left">
+											<div class="float-left">
 												<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>
 												&nbsp;{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}
 											</div>
 										</div>
 									</div>
 								{else if $RECENT_ACTIVITY->isConvertToAccount()}
-									<span class="glyphicon glyphicon-transfer bgAzure"></span>
+									<span class="fas fa-exchange-alt bgAzure"></span>
 									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if} isConvertToAccount">
-										<div class="pull-left paddingRight15 imageContainer">
+										<div class="float-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
 											{if $IMAGE}
 												<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
 											{else}	
-												<span class="glyphicon glyphicon-user userImage" aria-hidden="true"></span>
+												<span class="fas fa-user userImage" aria-hidden="true"></span>
 											{/if}
 										</div>
 										<div class="timeline-body row no-margin">
-											<span class="time pull-right">
+											<span class="time float-right">
 												<span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span>
 											</span>
-											<div class="pull-left">
+											<div class="float-left">
 												<strong>{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}</strong> 
 											</div>
 										</div>
 									</div>
 								{else if $RECENT_ACTIVITY->isDisplayed()}
-									<span class="glyphicon glyphicon-th-list bgAzure"></span>
+									<span class="fas fa-th-list bgAzure"></span>
 									<div class="timeline-item isDisplayed">
-										<div class="pull-left paddingRight15 imageContainer">
+										<div class="float-left paddingRight15 imageContainer">
 											{assign var=IMAGE value=$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}
 											{if $IMAGE}
 												<img class="userImage" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE))}" >
 											{else}	
-												<span class="glyphicon glyphicon-user userImage" aria-hidden="true"></span>
+												<span class="fas fa-user userImage" aria-hidden="true"></span>
 											{/if}
 										</div>
 										<div class="timeline-body row no-margin">
-											<span class="time pull-right">
+											<span class="time float-right">
 												<span>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</span>
 											</span>
-											<div class="pull-left">
+											<div class="float-left">
 												<strong>{$RECENT_ACTIVITY->getModifiedBy()->getName()}</strong>
 												&nbsp;{\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}
 											</div>
@@ -249,8 +249,8 @@
 		<input type="hidden" id="newChange" value="{$NEW_CHANGE}" />
 		<div id="moreLink">
 			{if !$IS_READ_ONLY && $PAGING_MODEL->isNextPageExists()}
-				<div class="pull-right">
-					<button type="button" class="btn btn-primary btn-xs moreRecentUpdates">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button>
+				<div class="float-right">
+					<button type="button" class="btn btn-primary btn-sm moreRecentUpdates">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}..</button>
 				</div>
 			{/if}
 		</div>

@@ -38,7 +38,7 @@
 			<tbody>
 				<tr>
 					<td>
-						<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
+						<a class="btn btn-light" data-trigger="listSearch" href="javascript:void(0);"><span class="fas fa-search"></span></a>
 					</td>
 					{assign var="FILTER_FIELDS" value=$MODULE_MODEL->getFilterFields()}
 					{assign var="SMTP_NAMES" value=Settings_MailSmtp_Module_Model::getSmtpNames()}
@@ -104,7 +104,7 @@
 									&nbsp;{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
 									{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
 									</td><td nowrap class="{$WIDTHTYPE}">
-										<div class="pull-right actions">
+										<div class="float-right actions">
 											<span class="actionImages">
 												{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
 													{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}

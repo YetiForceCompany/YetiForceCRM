@@ -11,8 +11,8 @@
 				{include file=\App\Layout::getTemplatePath('DetailViewBlockView.tpl', $MODULE_NAME) RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
 			</div>
 			<div class="modal-footer">
-				<div class="pull-right cancelLinkContainer" style="margin-top:0px;">
-					<button type="button" class="btn btn-default" data-dismiss="modal">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
+				<div class="float-right cancelLinkContainer" style="margin-top:0px;">
+					<button type="button" class="btn btn-light" data-dismiss="modal">{\App\Language::translate('LBL_CANCEL', $MODULE)}</button>
 				</div>
 			</div>
 		</div>

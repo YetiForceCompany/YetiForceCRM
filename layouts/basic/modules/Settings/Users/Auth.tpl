@@ -19,7 +19,7 @@
 							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
 							</button>
 							<p>
-								<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>&nbsp;&nbsp;
+								<span class="fas fa-exclamation-circle" aria-hidden="true"></span>&nbsp;&nbsp;
 								{\App\Language::translate('LBL_LDAP_RECOMMENDED_INFO', $QUALIFIED_MODULE)}
 							</p>
 						</div>
@@ -49,7 +49,7 @@
 								<div class="input-group">
 									<input class="configField form-control" title="{\App\Language::translate('LBL_LDAP_DOMAIN', $QUALIFIED_MODULE)}" type="text" name="domain" data-type="ldap" value="{$CONFIG['domain']}">
 									<span class="input-group-addon popoverTooltip" data-content="@testlab.local (DC=testlab,DC=local)" id="basic-addon2">
-										<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+										<span class="fas fa-info-circle" aria-hidden="true"></span>
 									</span>
 								</div>
 							</div>

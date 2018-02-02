@@ -47,7 +47,7 @@ class Leads_DetailView_Model extends Accounts_DetailView_Model
 				'linkclass' => 'btn-info btn-convertLead ' . $convert,
 				'linkhint' => \App\Language::translate('LBL_CONVERT_LEAD', $moduleName),
 				'linkurl' => 'javascript:Leads_Detail_Js.convertLead("' . $recordModel->getConvertLeadUrl() . '",this);',
-				'linkicon' => 'glyphicon glyphicon-transfer',
+				'linkicon' => 'fas fa-exchange-alt',
 			];
 			$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues($basicActionLink);
 		}

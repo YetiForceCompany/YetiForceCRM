@@ -5,15 +5,15 @@
 {assign var=CURRENTUSERID value=$CURRENTUSER->getId()}
 <div class="dashboardWidgetHeader">
 	<div class="row">
-		<div class="col-xs-8">
+		<div class="col-sm-8">
 			<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(),$MODULE_NAME)}</strong></div>
 		</div>
-		<div class="col-xs-4">
-			<div class="box pull-right">
+		<div class="col-sm-4">
+			<div class="box float-right">
 				{if \App\Privilege::isPermitted('Calendar', 'CreateView')}
-					<a class="btn btn-default btn-xs" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
+					<a class="btn btn-light btn-sm" onclick="Vtiger_Header_Js.getInstance().quickCreateModule('Calendar');
 							return false;">
-						<span class='glyphicon glyphicon-plus' border='0' title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
+						<span class='fas fa-plus' border='0' title="{\App\Language::translate('LBL_ADD_RECORD')}" alt="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
 					</a>
 				{/if}
 				{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
@@ -25,7 +25,11 @@
 		<div class="col-sm-6">
 			{if AppConfig::module('Calendar','DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE') == 'list'}
 				<div class="input-group input-group-sm">
-					<span class="input-group-addon"><span class="glyphicon glyphicon-filter iconMiddle margintop3"></span></span>
+					<span class="input-group-prepend">
+						<span class="input-group-text">
+							<span class="fas fa-filter iconMiddle margintop3"></span>
+						</span>
+					</span>
 					<select class="widgetFilter form-control customFilter input-sm" name="customFilter" title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
 						{assign var=CUSTOM_VIEWS value=CustomView_Record_Model::getAllByGroup('Calendar')}
 						{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
@@ -53,11 +57,11 @@
 		<div class="col-sm-12">
 			<div class="headerCalendar pinUnpinShortCut row" >
 				<div class="col-xs-2">
-					<button class="btn btn-default btn-sm" data-type="fc-prev-button"><span class="glyphicon glyphicon-chevron-left"></span></button>
+					<button class="btn btn-light btn-sm" data-type="fc-prev-button"><span class="fas fa-chevron-left"></span></button>
 				</div>
 				<div class="col-xs-8 month textAlignCenter paddingRightZero"> </div>
 				<div class="col-xs-2">
-					<button class="btn btn-default btn-sm  pull-right" data-type="fc-next-button"><span class="glyphicon glyphicon-chevron-right"></span></button>
+					<button class="btn btn-light btn-sm  float-right" data-type="fc-next-button"><span class="fas fa-chevron-right"></span></button>
 				</div>
 			</div>
 		</div>

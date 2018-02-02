@@ -22,8 +22,8 @@
 				<div class="panel panel-default row no-margin" data-label="{$BLOCK_LABEL_KEY}">
 					<div class="row blockHeader panel-heading no-margin">
 						<div class="iconCollapse">
-							<span class="cursorPointer blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id="{$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}"></span>
-							<span class="cursorPointer blockToggle glyphicon glyphicon glyphicon-menu-down {if $IS_HIDDEN}hide{/if}" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id="{$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}"></span>
+							<span class="cursorPointer blockToggle fas fa-angle-right {if !($IS_HIDDEN)}hide{/if}" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide" data-id="{$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}"></span>
+							<span class="cursorPointer blockToggle fas fa-angle-down {if $IS_HIDDEN}hide{/if}" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show" data-id="{$BLOCK_LIST[$BLOCK_LABEL_KEY]->get('id')}"></span>
 							<h4>{\App\Language::translate($BLOCK_LABEL_KEY,$MODULE_NAME)}</h4>
 						</div>
 					</div>
@@ -75,7 +75,7 @@
 											<label class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">
 												{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}
 												{if in_array($VIEW,$HELPINFO) && \App\Language::translate($HELPINFO_LABEL, 'HelpInfo') neq $HELPINFO_LABEL}
-													<a href="#" class="HelpInfoPopover pull-right cursorPointer" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'><span class="glyphicon glyphicon-info-sign"></span></a>
+													<a href="#" class="HelpInfoPopover float-right cursorPointer" title="" data-placement="auto top" data-content="{htmlspecialchars(\App\Language::translate($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->getFieldLabel(), 'HelpInfo'))}" data-original-title='{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}'><span class="fas fa-info-circle"></span></a>
 													{/if}
 											</label>
 										</div>
@@ -88,8 +88,8 @@
 												{assign var=EDIT value=true}
 											{/if}
 											{if $IS_AJAX_ENABLED && $FIELD_MODEL->isEditable() eq 'true' && $FIELD_MODEL->isAjaxEditable() eq 'true' && !$EDIT}
-												<span class="summaryViewEdit cursorPointer pull-right ">
-													&nbsp;<i class="glyphicon glyphicon-pencil" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></i>
+												<span class="summaryViewEdit cursorPointer float-right ">
+													&nbsp;<i class="fas fa-pencil-alt" title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}"></i>
 												</span>
 												<span class="hide edit">
 													{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}

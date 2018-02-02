@@ -31,8 +31,8 @@
             </td>
                 <td nowrap class="{$WIDTHTYPE}">
                     <span class="actions">
-                        <span class="actionImages pull-right">
-                            <a href="{$LISTVIEW_ENTRY->link}" target="_blank" rel="noreferrer"><i title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></i></a>&nbsp;
+                        <span class="actionImages float-right">
+                            <a href="{$LISTVIEW_ENTRY->link}" target="_blank" rel="noreferrer"><i title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="fas fa-th-list alignMiddle"></i></a>&nbsp;
                         </span>
                     </span>
                 </td>

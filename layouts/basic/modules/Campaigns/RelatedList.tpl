@@ -31,7 +31,7 @@
 					<div class="col-md-9">
 						<div class="btn-group listViewMassActions btn-group paddingRight10">
 							{if $RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS']|@count gt 0}
-								<button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><strong>{\App\Language::translate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
+								<button class="btn btn-light dropdown-toggle" data-toggle="dropdown"><strong>{\App\Language::translate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
 								<ul class="dropdown-menu">
 									{foreach item="LISTVIEW_MASSACTION" from=$RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'] name=actionCount}
 										<li id="{$MODULE}_listView_massAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_MASSACTION->getLabel())}"><a href="javascript:void(0);" {if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick="Vtiger_List_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"{/if} >{\App\Language::translate($LISTVIEW_MASSACTION->getLabel(), $MODULE)}</a></li>
@@ -75,7 +75,7 @@
 																		{/foreach}
 																	</select>
 																	<span class="filterImage">
-																		<span class="glyphicon glyphicon-filter"></span>
+																		<span class="fas fa-filter"></span>
 																	</span>
 																{else}
 																	<input type="hidden" value="0" id="customFilter" />
@@ -83,8 +83,8 @@
 															</span>
 														</div>
 														<div class="btn-group paddingRight10">
-															<button type="button" class="btn btn-default loadFormFilterButton popoverTooltip" data-content="{\App\Language::translate('LBL_LOAD_RECORDS_INFO',$MODULE)}">
-																<span class="glyphicon glyphicon-filter"></span>&nbsp;
+															<button type="button" class="btn btn-light loadFormFilterButton popoverTooltip" data-content="{\App\Language::translate('LBL_LOAD_RECORDS_INFO',$MODULE)}">
+																<span class="fas fa-filter"></span>&nbsp;
 																<strong>{\App\Language::translate('LBL_LOAD_RECORDS',$MODULE)}</strong>
 															</button>
 														</div>
@@ -92,7 +92,7 @@
 															<div class="btn-group paddingRight10">
 																{assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
 																{assign var=IS_SEND_EMAIL_BUTTON value={$RELATED_LINK->get('_sendEmail')}}
-																<button type="button" class="btn btn-default addButton
+																<button type="button" class="btn btn-light addButton
 																		{if $IS_SELECT_BUTTON eq true} selectRelation {/if} modCT_{$RELATED_MODULE->get('name')} {if $RELATED_LINK->linkqcs eq true}quickCreateSupported{/if}"
 																		{if $IS_SELECT_BUTTON eq true} data-moduleName='{$RELATED_LINK->get('_module')->get('name')}'{/if}
 																		{if $RELATION_FIELD} data-name="{$RELATION_FIELD->getName()}" {/if}
@@ -110,42 +110,42 @@
 														{/foreach}&nbsp;
 													</div>
 													<div class="col-md-3">
-														<div class="pull-right">
+														<div class="float-right">
 															{if $VIEW_MODEL}
-																<div class="pull-right paddingLeft5px">
+																<div class="float-right paddingLeft5px">
 																	{assign var=COLOR value=AppConfig::search('LIST_ENTITY_STATE_COLOR')}
 																	<input type="hidden" class="entityState" value="{if $VIEW_MODEL->has('entityState')}{$VIEW_MODEL->get('entityState')}{else}Active{/if}" />
 																	<div class="dropdown dropdownEntityState">
-																		<button class="btn btn-default dropdown-toggle" type="button" id="dropdownEntityState" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+																		<button class="btn btn-light dropdown-toggle" type="button" id="dropdownEntityState" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 																			{if $VIEW_MODEL->get('entityState') === 'Archived'}
-																				<span class="fa fa-archive"></span>
+																				<span class="fas fa-archive"></span>
 																			{elseif $VIEW_MODEL->get('entityState') === 'Trash'}
-																				<span class="glyphicon glyphicon-trash"></span>
+																				<span class="fas fa-trash-alt"></span>
 																			{elseif $VIEW_MODEL->get('entityState') === 'All'}
-																				<span class="glyphicon glyphicon-menu-hamburger"></span>
+																				<span class="fas fa-bars"></span>
 																			{else}
-																				<span class="fa fa-undo"></span>
+																				<span class="fas fa-undo-alt"></span>
 																			{/if}
 																		</button>
 																		<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownEntityState">
 																			<li {if $COLOR['Active']}style="border-color: {$COLOR['Active']};"{/if}>
-																				<a href="#" data-value="Active"><span class="fa fa-undo"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}</a>
+																				<a href="#" data-value="Active"><span class="fas fa-undo-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}</a>
 																			</li>
 																			<li {if $COLOR['Archived']}style="border-color: {$COLOR['Archived']};"{/if}>
-																				<a href="#" data-value="Archived"><span class="fa fa-archive"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}</a>
+																				<a href="#" data-value="Archived"><span class="fas fa-archive"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}</a>
 																			</li>
 																			<li {if $COLOR['Trash']}style="border-color: {$COLOR['Trash']};"{/if}>
-																				<a href="#" data-value="Trash"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}</a>
+																				<a href="#" data-value="Trash"><span class="fas fa-trash-alt"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}</a>
 																			</li>
 																			<li>
-																				<a href="#" data-value="All"><span class="glyphicon glyphicon-menu-hamburger"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ALL')}</a>
+																				<a href="#" data-value="All"><span class="fas fa-bars"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_ALL')}</a>
 																			</li>
 																		</ul>
 																	</div>
 																</div>
 															{/if}
 														</div>
-														<div class="paginationDiv pull-right">
+														<div class="paginationDiv float-right">
 															{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE) VIEWNAME='related'}
 														</div>
 													</div>
@@ -195,7 +195,7 @@
 														{if $RELATED_MODULE->isQuickSearchEnabled()}
 															<tr>
 																<td>
-																	<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
+																	<a class="btn btn-light" data-trigger="listSearch" href="javascript:void(0);"><span class="fas fa-search"></span></a>
 																</td>
 																{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 																	<td>
@@ -210,8 +210,8 @@
 																	</td>
 																{/foreach}
 																<td>
-																	<button type="button" class="btn btn-default removeSearchConditions">
-																		<span class="glyphicon glyphicon-remove"></button>
+																	<button type="button" class="btn btn-light removeSearchConditions">
+																		<span class="fas fa-times"></button>
 																	</a>
 																</td>
 															</tr>
@@ -226,8 +226,8 @@
 																	<td class="{$WIDTHTYPE} text-center text-center font-larger">
 																		{assign var=RECORD_IS_FAVORITE value=(int)in_array($RELATED_RECORD->getId(),$FAVORITES)}
 																		<a class="favorites" data-state="{$RECORD_IS_FAVORITE}">
-																			<span title="{\App\Language::translate('LBL_REMOVE_FROM_FAVORITES', $MODULE)}" class="glyphicon glyphicon-star alignMiddle {if !$RECORD_IS_FAVORITE}hide{/if}"></span>
-																			<span title="{\App\Language::translate('LBL_ADD_TO_FAVORITES', $MODULE)}" class="glyphicon glyphicon-star-empty alignMiddle {if $RECORD_IS_FAVORITE}hide{/if}"></span>
+																			<span title="{\App\Language::translate('LBL_REMOVE_FROM_FAVORITES', $MODULE)}" class="fas fa-star alignMiddle {if !$RECORD_IS_FAVORITE}hide{/if}"></span>
+																			<span title="{\App\Language::translate('LBL_ADD_TO_FAVORITES', $MODULE)}" class="fal fa-star alignMiddle {if $RECORD_IS_FAVORITE}hide{/if}"></span>
 																		</a>
 																	</td>
 																{/if}
@@ -249,7 +249,7 @@
 																	<span class="currentStatus btn-group">
 																		<span class="statusValue dropdown-toggle" data-toggle="dropdown">{\App\Language::translate($RELATED_RECORD->get('status'),$MODULE)}</span>
 																		<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="icon-arrow-down alignMiddle editRelatedStatus"></span>
-																		<ul class="dropdown-menu pull-right" style="left: -2px; position: relative;">
+																		<ul class="dropdown-menu float-right" style="left: -2px; position: relative;">
 																	{foreach key=STATUS_ID item=STATUS from=$STATUS_VALUES}
 																		<li id="{$STATUS_ID}" data-status="{\App\Language::translate($STATUS, $MODULE)}">
 																			<a>{\App\Language::translate($STATUS, $MODULE)}</a>
@@ -260,14 +260,14 @@
 																	-->
 																</td>
 																<td nowrap class="{$WIDTHTYPE}">
-																	<div class="pull-right actions">
+																	<div class="float-right actions">
 																		<span class="actionImages">
-																			<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="glyphicon glyphicon-th-list alignMiddle"></span></a>&nbsp;
+																			<a href="{$RELATED_RECORD->getFullDetailViewUrl()}"><span title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="fas fa-th-list alignMiddle"></span></a>&nbsp;
 																				{if $IS_EDITABLE}
-																				<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>
+																				<a href='{$RELATED_RECORD->getEditViewUrl()}'><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fas fa-pencil-alt alignMiddle"></span></a>
 																				{/if}
 																				{if $IS_DELETABLE}
-																				<a class="relationDelete"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
+																				<a class="relationDelete"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignMiddle"></span></a>
 																				{/if}
 																		</span>
 																	</div>

@@ -57,7 +57,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'BTN_MASS_RESET_PASSWORD',
 				'linkurl' => 'index.php?module=Users&view=PasswordModal&mode=massReset',
-				'linkicon' => 'glyphicon glyphicon-repeat'
+				'linkicon' => 'fas fa-redo-alt'
 			];
 		}
 		foreach ($massActionLinks as $massActionLink) {
@@ -142,13 +142,13 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_IMPORT',
 				'linkurl' => $moduleModel->getImportUrl(),
-				'linkicon' => 'glyphicon glyphicon-import'
+				'linkicon' => 'fas fa-download'
 			];
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_EXPORT',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerExportAction("' . $moduleModel->getExportUrl() . '")',
-				'linkicon' => 'glyphicon glyphicon-export'
+				'linkicon' => 'fas fa-upload'
 			];
 		}
 

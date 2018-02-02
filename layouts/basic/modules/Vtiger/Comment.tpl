@@ -14,20 +14,20 @@
 	<div class="commentDiv">
 		<div class="singleComment">
 			<div class="commentInfoHeader row no-margin" data-commentid="{$COMMENT->getId()}" data-parentcommentid="{$COMMENT->get('parent_comments')}">
-				<div class="pull-left">
+				<div class="float-left">
 					{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
 					{if $IMAGE_PATH}
-						<img class="userImage pull-left" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_PATH))}" >
+						<img class="userImage float-left" src="data:image/jpg;base64,{base64_encode(file_get_contents($IMAGE_PATH))}" >
 					{else}	
-						<span class="glyphicon glyphicon-user userImage pull-left" aria-hidden="true"></span>
+						<span class="fas fa-user userImage float-left" aria-hidden="true"></span>
 					{/if}
 				</div>
 				<div class="commentTitle row no-margin" id="{$COMMENT->getId()}">
 					{assign var=PARENT_COMMENT_MODEL value=$COMMENT->getParentCommentModel()}
 					{assign var=CHILD_COMMENTS_MODEL value=$COMMENT->getChildComments()}
-					<div class="col-xs-8 pull-left commentorInfo">
+					<div class="col-xs-8 float-left commentorInfo">
 						{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
-						<span class="commentorName pull-left">
+						<span class="commentorName float-left">
 							<strong>{$COMMENTOR->getName()}</strong>
 						</span><br />
 						{if $HIERARCHY}
@@ -44,7 +44,7 @@
 						</div>
 					</div>
 					<div class="inner">
-						<span class="pull-right paddingRight15">
+						<span class="float-right paddingRight15">
 							<p class="muted"><small>{\App\Fields\DateTime::formatToViewDate($COMMENT->getCommentedTime())}</small></p>
 						</span>
 						<div class="clearfix"></div>
@@ -60,7 +60,7 @@
 						</span>
 						{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
 							<span class="{if !empty($REASON_TO_EDIT)} col-xs-6{/if}">
-								<span class="pull-right">
+								<span class="float-right">
 									<p class="muted"><small><em>{\App\Language::translate('LBL_MODIFIED',$MODULE_NAME)}</em></small>&nbsp;<small class="commentModifiedTime">{\App\Fields\DateTime::formatToViewDate($COMMENT->getModifiedTime())}</small></p>
 								</span>
 							</span>
@@ -69,19 +69,19 @@
 				</div>
 				<div class="commentActionsDiv">
 					{assign var=COMMENTS_MODULE_MODEL value = Vtiger_Module_Model::getInstance('ModComments')}
-					<div class="pull-right commentActions">
+					<div class="float-right commentActions">
 						{if $CHILDS_ROOT_PARENT_MODEL}
 							{assign var=CHILDS_ROOT_PARENT_ID value=$CHILDS_ROOT_PARENT_MODEL->getId()}
 						{/if}
 						{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
-							<button type="button" class="btn btn-xs btn-success replyComment">
-								<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
+							<button type="button" class="btn btn-sm btn-success replyComment">
+								<span class="fas fa-share" aria-hidden="true"></span>
 								&nbsp;{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}
 							</button>
 						{/if}
 						{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
-							<button type="button" class="btn btn-xs btn-primary editComment feedback marginLeft5">
-								<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}
+							<button type="button" class="btn btn-sm btn-primary editComment feedback marginLeft5">
+								<span class="fas fa-pencil-alt" aria-hidden="true"></span>&nbsp;{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}
 							</button>
 						{/if}
 						{assign var=LINKS value=$COMMENT->getCommentLinks()}
@@ -93,9 +93,9 @@
 						{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}
 						{if $CHILD_COMMENTS_MODEL neq null and ($CHILDS_ROOT_PARENT_ID neq $PARENT_COMMENT_ID)}
 							<span class="viewThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
-								<button type="button" class="btn btn-xs btn-info viewThread marginLeft5">
+								<button type="button" class="btn btn-sm btn-info viewThread marginLeft5">
 									<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
-									<span class="glyphicon glyphicon-share-alt"></span>
+									<span class="fas fa-share"></span>
 								</button>
 							</span>
 							<span class="hide hideThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
@@ -106,9 +106,9 @@
 							</span>
 						{elseif $CHILD_COMMENTS neq null and ($CHILDS_ROOT_PARENT_ID eq $PARENT_COMMENT_ID)}
 							<span class="viewThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
-								<button type="button" class="btn btn-xs btn-info viewThread marginLeft5">
+								<button type="button" class="btn btn-sm btn-info viewThread marginLeft5">
 									<span class="childCommentsCount">{$CHILD_COMMENTS_COUNT}</span>&nbsp;{if $CHILD_COMMENTS_COUNT eq 1}{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}{else}{\App\Language::translate('LBL_REPLIES',$MODULE_NAME)}{/if}&nbsp;
-									<span class="glyphicon glyphicon-share-alt"></span>
+									<span class="fas fa-share"></span>
 								</button>
 							</span>
 							<span class="hideThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">

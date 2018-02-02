@@ -72,18 +72,9 @@
 	-ms-box-sizing: border-box;
 	box-sizing: border-box;
 }
-@font-face {
-	font-family: 'Open Sans';
-	font-style: normal;
-	font-weight: 400;
-	src: url('../../../layouts/resources/fonts/OpenSans-Regular-webfont.eot');
-	src: url('../../../layouts/resources/fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'), url('../../../layouts/resources/fonts/OpenSans-Regular-webfont.woff') format('woff'), url('../../../layouts/resources/fonts/OpenSans-Regular-webfont.ttf') format('truetype'), url('../../../layouts/resources/fonts/OpenSans-Regular-webfont.svg#open_sansregular') format('svg');
-}
-
 body {
 	width: 100%;
 	height: 100%;
-	font-family: 'Open Sans', 'Lucida Grande', Verdana, Tahoma, Arial, sans-serif !important;
 	font-size: 12px !important;
 	background: #ffffff;
 	color: #2b2b2b;
@@ -2339,7 +2330,6 @@ th.htColHeader {
 	margin: 0;
 	padding: 0 20px 0 0;
 	display: inline-block;
-	font-family: sans-serif;
 }
 .crumbs li:after {
 	content: '\0000a0';
@@ -3441,7 +3431,8 @@ span[name=existingImages] img{
 .baseContainer .leftPanel .menuContainer a:hover,
 .baseContainer .leftPanel .menuContainer a:focus
 {
-	color:#4a5364;
+	background: #f0f1f1;
+	color: #4a5364;
 }
 .baseContainer .leftPanel .menuContainer a.hasIcon {
 	padding: 5px 12px;

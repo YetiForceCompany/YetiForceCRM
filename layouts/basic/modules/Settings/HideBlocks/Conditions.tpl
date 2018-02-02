@@ -12,7 +12,7 @@
 			{\App\Language::translate('LBL_MANDATORY_FIELDS_EXIST', $QUALIFIED_MODULE)}
 		</div>
 		<br />	
-		<div class="pull-right">
+		<div class="float-right">
 			<a class="btn btn-danger" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_BACK', $MODULE)}</a>
 		</div>
 		<div class="clearfix"></div>
@@ -33,7 +33,7 @@
 			</div>
 			<br />	
 			<div class="">
-				<div class="pull-right">
+				<div class="float-right">
 					<a class="saveLink btn btn-success" ><strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong></a>
 					<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_BACK', $MODULE)}</a>
 				</div>

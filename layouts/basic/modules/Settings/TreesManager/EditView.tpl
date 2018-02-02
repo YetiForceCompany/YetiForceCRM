@@ -77,7 +77,7 @@
 						<input type="text" class="fieldValue col-md-4 addNewElement form-control">
 					</div>
 					<div class="col-xs-6 paddingLeft5px">
-						<a class="btn btn-default addNewElementBtn"><strong>{\App\Language::translate('LBL_ADD_TO_TREES', $QUALIFIED_MODULE)}</strong></a>
+						<a class="btn btn-light addNewElementBtn"><strong>{\App\Language::translate('LBL_ADD_TO_TREES', $QUALIFIED_MODULE)}</strong></a>
 					</div>
 				</div>
 			</div>
@@ -86,13 +86,13 @@
 				<div id="treeContents"></div>
 			</div>
 			<br />
-			<div class="pull-right">
+			<div class="float-right">
 				<button class="btn btn-success saveTree">
-					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;
+					<span class="fas fa-check" aria-hidden="true"></span>&nbsp;&nbsp;
 					<strong>{\App\Language::translate('LBL_SAVE', $MODULE)}</strong>
 				</button>&nbsp;&nbsp;
 				<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">
-					<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;
+					<span class="fas fa-times"></span>&nbsp;&nbsp;
 					<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
 				</button>
 			</div>

@@ -1,0 +1,56 @@
+/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.searchMenu {
+	.chosen-container  {
+		width: 35px;
+	}
+}
+.bodyHeader {
+	.basicSearchModulesList {
+		width: 35px;
+	}
+	
+	.dropdown-toggle::after {
+		display: none;
+	}
+	.globalSearchInput .btn {
+		width: 40px;
+	}
+}
+.bodyHeader {
+	background-color: $darkblue;
+	//color: #fff;
+	height: 50px;
+	top: 0;
+	right: 0;
+	z-index: 1031;
+	-webkit-transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
+	transition: left ease-in-out 0.3s, z-index 0.3s 0.3s;
+	transition-delay: 0.5s;
+}
+.bodyHeader .moduleIcon {
+	width: 34px;
+	margin: 5px;
+}
+.bodyHeader.menuOpen {
+	left: 230px;
+}
+.headerLinksMails {
+	height: fit-content;
+    > .btn + .dropdown-toggle {
+      padding-top: 7px;
+      padding-bottom: 7px;
+    }
+  .dropdown-menu {
+    left: auto;
+    right: 0;
+  }
+}
+.headerRightWrapper {
+	.btn {
+	@extend .ml-2;
+	}
+	.headerLinksMails .btn {
+		@extend .m-0;
+		font-size: $font-md;
+	}
+}

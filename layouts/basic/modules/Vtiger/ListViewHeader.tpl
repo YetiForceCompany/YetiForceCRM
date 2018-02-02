@@ -17,8 +17,8 @@
 					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK']}
 					<div class="btn-group listViewMassActions">
 						{if count($LISTVIEW_MASSACTIONS) gt 0 || $LISTVIEW_LINKS['LISTVIEW']|@count gt 0}
-							<button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-								<span class="glyphicon glyphicon-share" aria-hidden="true"></span>&nbsp;&nbsp;
+							<button class="btn btn-light dropdown-toggle" data-toggle="dropdown">
+								<span class="fas fa-share-square" aria-hidden="true"></span>&nbsp;&nbsp;
 								<strong>{\App\Language::translate('LBL_ACTIONS', $MODULE)}</strong>&nbsp;&nbsp;<span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu">
@@ -107,11 +107,11 @@
 																<div class="filterActionsDiv hide">
 																	<hr>
 																	<ul class="filterActions">
-																		<li data-value="create" id="createFilter" data-createurl="{$CUSTOM_VIEW->getCreateUrl()}"><span class="glyphicon glyphicon-plus-sign"></span> {\App\Language::translate('LBL_CREATE_NEW_FILTER')}</li>
+																		<li data-value="create" id="createFilter" data-createurl="{$CUSTOM_VIEW->getCreateUrl()}"><span class="fas fa-plus-circle"></span> {\App\Language::translate('LBL_CREATE_NEW_FILTER')}</li>
 																	</ul>
 																</div>
 															{/if}
-															<span class="glyphicon glyphicon-filter filterImage" style="display:none;margin-right:2px"></span>
+															<span class="fas fa-filter filterImage" style="display:none;margin-right:2px"></span>
 														{else}
 															<input type="hidden" value="0" id="customFilter" />
 														{/if}
@@ -120,12 +120,12 @@
 												<div class="col-xs-12 col-md-5 btn-toolbar paddingRightZero">
 													{include file=\App\Layout::getTemplatePath('ListViewActions.tpl')}
 												</div>
-												<span class="hide filterActionImages pull-right">
-													<span title="{\App\Language::translate('LBL_DENY', $MODULE)}" data-value="deny" class="glyphicon glyphicon-exclamation-sign alignMiddle denyFilter filterActionImage pull-right"></span>
-													<span title="{\App\Language::translate('LBL_APPROVE', $MODULE)}" data-value="approve" class="glyphicon glyphicon-ok alignMiddle approveFilter filterActionImage pull-right"></span>
-													<span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" data-value="delete" class="glyphicon glyphicon-trash alignMiddle deleteFilter filterActionImage pull-right"></span>
-													<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" data-value="edit" class="glyphicon glyphicon-pencil alignMiddle editFilter filterActionImage pull-right"></span>
-													<span title="{\App\Language::translate('LBL_DUPLICATE', $MODULE)}" data-value="duplicate" class="glyphicon glyphicon-retweet alignMiddle duplicateFilter filterActionImage pull-right"></span>
+												<span class="hide filterActionImages float-right">
+													<span title="{\App\Language::translate('LBL_DENY', $MODULE)}" data-value="deny" class="fas fa-exclamation-circle alignMiddle denyFilter filterActionImage float-right"></span>
+													<span title="{\App\Language::translate('LBL_APPROVE', $MODULE)}" data-value="approve" class="fas fa-check alignMiddle approveFilter filterActionImage float-right"></span>
+													<span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" data-value="delete" class="fas fa-trash-alt alignMiddle deleteFilter filterActionImage float-right"></span>
+													<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" data-value="edit" class="fas fa-pencil-alt alignMiddle editFilter filterActionImage float-right"></span>
+													<span title="{\App\Language::translate('LBL_DUPLICATE', $MODULE)}" data-value="duplicate" class="fas fa-retweet alignMiddle duplicateFilter filterActionImage float-right"></span>
 												</span>
 											</div>
 											{if $CUSTOM_VIEWS|@count gt 0}
@@ -138,7 +138,7 @@
 																		<span class="label label-default btn-success featuredLabel" data-cvid="{$CUSTOM_VIEW->getId()}" {if $CUSTOM_VIEW->get('color')}style="background-color: {$CUSTOM_VIEW->get('color')};"{/if}>
 																			{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
 																			{if $CUSTOM_VIEW->get('description')}
-																				&nbsp;<span class="popoverTooltip glyphicon glyphicon-info-sign"  data-placement="auto right" data-content="{\App\Purifier::encodeHtml($CUSTOM_VIEW->get('description'))}"></span>
+																				&nbsp;<span class="popoverTooltip fas fa-info-circle"  data-placement="auto right" data-content="{\App\Purifier::encodeHtml($CUSTOM_VIEW->get('description'))}"></span>
 																			{/if}
 																		</span>
 																	</h5>

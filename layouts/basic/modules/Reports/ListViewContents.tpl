@@ -58,12 +58,12 @@
 					<a href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADER_KEY)}</a>
 					{if $LISTVIEW_HEADER@last}
 						</td><td nowrap class="{$WIDTHTYPE}">
-						<div class="pull-right actions">
+						<div class="float-right actions">
 							<span class="actionImages">
 								{if $REPORT_MODEL->isEditable()}
-									<a href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>&nbsp;
+									<a href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{\App\Language::translate('LBL_EDIT', $MODULE)}" class="fas fa-pencil-alt alignMiddle"></span></a>&nbsp;
 									{if $LISTVIEW_ENTRY->isDefault() eq false}
-										<a class="deleteRecordButton"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
+										<a class="deleteRecordButton"><span title="{\App\Language::translate('LBL_DELETE', $MODULE)}" class="fas fa-trash-alt alignMiddle"></span></a>
 									{/if}
 								{/if}
 							</span>

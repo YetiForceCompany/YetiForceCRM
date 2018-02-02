@@ -53,7 +53,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 			'linkurl' => "javascript:Settings_Currency_Js.triggerEdit(event, '" . $this->getId() . "')",
 			'linklabel' => 'LBL_EDIT',
 			'linkclass' => 'btn-info btn-sm',
-			'linkicon' => 'glyphicon glyphicon-pencil'
+			'linkicon' => 'fas fa-pencil-alt'
 		];
 		$editLinkInstance = Vtiger_Link_Model::getInstanceFromValues($editLink);
 
@@ -61,7 +61,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 			'linkurl' => "javascript:Settings_Currency_Js.triggerDelete(event,'" . $this->getId() . "')",
 			'linklabel' => 'LBL_DELETE',
 			'linkclass' => 'btn-sm btn-danger',
-			'linkicon' => 'glyphicon glyphicon-trash'
+			'linkicon' => 'fas fa-trash-alt'
 		];
 		$deleteLinkInstance = Vtiger_Link_Model::getInstanceFromValues($deleteLink);
 		return [$editLinkInstance, $deleteLinkInstance];

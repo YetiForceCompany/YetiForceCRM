@@ -102,7 +102,7 @@
 								<div class="input-group time">
 									<input type="text" class="input-sm form-control clockPicker" data-format="{$USER_MODEL->get('hour_format')}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue()} disabled="" {/if} data-toregister="time" value="{$FIELD_MODEL->get('defaultvalue')}" name="fieldDefaultValue" data-fieldinfo='{\App\Json::encode($FIELD_INFO)}'/>
 									<span class="input-group-addon cursorPointer">
-										<span class="glyphicon glyphicon-time"></span>
+										<span class="far fa-clock"></span>
 									</span>
 								</div>
 							{elseif $FIELD_MODEL->getFieldDataType() eq "date"}
@@ -112,17 +112,17 @@
 									<input type="text" class="form-control dateField" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if !$FIELD_MODEL->hasDefaultValue() || $IS_CUSTOM_DEFAULT_VALUE} disabled="" {/if} name="fieldDefaultValue" data-toregister="date" data-date-format="{$USER_MODEL->get('date_format')}" data-fieldinfo='{\App\Json::encode($FIELD_INFO)}'{strip} {/strip}
 										   value="{if !$IS_CUSTOM_DEFAULT_VALUE}{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('defaultvalue'))}{/if}" />
 									<span class="input-group-addon">
-										<span class="glyphicon glyphicon-calendar"></span>
+										<span class="fas fa-calendar-alt"></span>
 									</span>
 									<span class="input-group-btn" title="{\App\Purifier::encodeHtml(App\Language::translate('LBL_CUSTOM_CONFIGURATION', $QUALIFIED_MODULE))}">
-										<button class="btn btn-default configButton" type="button"><span class="glyphicon glyphicon-cog"></span></button>
+										<button class="btn btn-light configButton" type="button"><span class="fas fa-cog"></span></button>
 									</span>
 								</div>
 								<div class="input-group {if !$IS_CUSTOM_DEFAULT_VALUE} hide{/if}">
 									<input type="text" class="form-control" name="fieldDefaultValue" {if !$FIELD_MODEL->hasDefaultValue() || !$IS_CUSTOM_DEFAULT_VALUE} disabled{/if} value="{if $IS_CUSTOM_DEFAULT_VALUE}{$FIELD_MODEL->get('defaultvalue')}{/if}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo="{\App\Purifier::encodeHtml('{"type":"textParser"}')}"/>
 									<span class="input-group-btn">
-										<button class="btn btn-default varibleToParsers" type="button"><span class="glyphicon glyphicon-edit"></span></button>
-										<button class="btn btn-default active configButton" type="button" title="{\App\Purifier::encodeHtml(App\Language::translate('LBL_CUSTOM_CONFIGURATION', $QUALIFIED_MODULE))}"><span class="glyphicon glyphicon-cog"></span></button>
+										<button class="btn btn-light varibleToParsers" type="button"><span class="fas fa-edit"></span></button>
+										<button class="btn btn-light active configButton" type="button" title="{\App\Purifier::encodeHtml(App\Language::translate('LBL_CUSTOM_CONFIGURATION', $QUALIFIED_MODULE))}"><span class="fas fa-cog"></span></button>
 									</span>
 								</div>
 							{elseif $FIELD_MODEL->getFieldDataType() eq "percentage"}
@@ -151,7 +151,7 @@
 						<strong>{App\Language::translate('LBL_FIELD_MASK', $QUALIFIED_MODULE)}</strong>&nbsp;
 						<div class="marginLeft20 input-group marginBottom10px">
 							<input type="text" class="form-control" name="fieldMask" value="{$FIELD_MODEL->get('fieldparams')}" />
-							<span class="input-group-addon"><span class="glyphicon glyphicon-info-sign popoverTooltip" data-placement="top" data-content="{App\Language::translate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></span></span>
+							<span class="input-group-addon"><span class="fas fa-info-circle popoverTooltip" data-placement="top" data-content="{App\Language::translate('LBL_FIELD_MASK_INFO', $QUALIFIED_MODULE)}"></span></span>
 						</div>
 					</div>
 				{/if}

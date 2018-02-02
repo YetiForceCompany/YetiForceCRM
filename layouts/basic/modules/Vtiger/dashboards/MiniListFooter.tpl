@@ -8,15 +8,15 @@
 				{assign var="MINILIST_WIDGET_RECORDS" value=$MINILIST_WIDGET_MODEL->getRecords($OWNER)}
 			{/if}
 			<div class="col-md-4">
-				<button class="btn btn-xs btn-default recordCount" data-url="{\App\Purifier::encodeHtml($MINILIST_WIDGET_MODEL->getTotalCountURL($OWNER))}">
-					<span class="glyphicon glyphicon-equalizer" title="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}"></span>
-					<a class="pull-left hide" href="{\App\Purifier::encodeHtml($MINILIST_WIDGET_MODEL->getListViewURL($OWNER))}"><span class="count badge pull-left"></span></a>
+				<button class="btn btn-sm btn-light recordCount" data-url="{\App\Purifier::encodeHtml($MINILIST_WIDGET_MODEL->getTotalCountURL($OWNER))}">
+					<span class="fab fa-gitter" title="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}"></span>
+					<a class="float-left hide" href="{\App\Purifier::encodeHtml($MINILIST_WIDGET_MODEL->getListViewURL($OWNER))}"><span class="count badge float-left"></span></a>
 				</button>
 			</div>
 			{if count($MINILIST_WIDGET_RECORDS) >= $MINILIST_WIDGET_MODEL->getRecordLimit()}
 				<div class="col-md-8">
-					<a class="btn btn-xs btn-primary pull-right" href="{\App\Purifier::encodeHtml($MINILIST_WIDGET_MODEL->getListViewURL($OWNER))}">
-						<span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>&nbsp;&nbsp;
+					<a class="btn btn-sm btn-primary float-right" href="{\App\Purifier::encodeHtml($MINILIST_WIDGET_MODEL->getListViewURL($OWNER))}">
+						<span class="fas fa-align-justify" aria-hidden="true"></span>&nbsp;&nbsp;
 						{\App\Language::translate('LBL_MORE')}
 					</a>
 				</div>

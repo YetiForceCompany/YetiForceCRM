@@ -49,7 +49,7 @@
 				</div>
 
 				<div class="modal-footer">
-					<div class=" pull-right cancelLinkContainer"><a class="cancelLink btn btn-warning" type="reset" data-dismiss="modal">{\App\Language::translate('LBL_CANCEL', $MODULE)}</a></div>
+					<div class="float-right cancelLinkContainer"><a class="cancelLink btn btn-warning" type="reset" data-dismiss="modal">{\App\Language::translate('LBL_CANCEL', $MODULE)}</a></div>
 					<button class="btn btn-success" type="submit">{\App\Language::translate('LBL_SAVE', $MODULE)}</button>
 				</div>
 			</form>

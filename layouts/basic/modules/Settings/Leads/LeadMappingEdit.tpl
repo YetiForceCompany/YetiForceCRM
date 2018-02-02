@@ -17,7 +17,7 @@
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 				</span>
 				<span class="col-xs-12 col-sm-12 col-md-4 ">
-					<span class="pull-right">
+					<span class="float-right">
 						<button type="submit" class="btn btn-success"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					</span>
@@ -103,11 +103,11 @@
 			<div class="row pushDown">
 				<span class="col-md-4">
 					<button id="addMapping" class="btn btn-info addButton" type="button">
-						<span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_ADD_MAPPING', $QUALIFIED_MODULE)}</strong>
+						<span class="fas fa-plus"></span>&nbsp;<strong>{\App\Language::translate('LBL_ADD_MAPPING', $QUALIFIED_MODULE)}</strong>
 					</button>
 				</span>
 				<span class="col-md-8">
-					<span class="pull-right">
+					<span class="float-right">
 						<button type="submit" class="btn btn-success"><strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					</span>

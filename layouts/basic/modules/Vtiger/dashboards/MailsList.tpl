@@ -12,10 +12,10 @@
 			<div class="dashboardTitle" title="{\App\Language::translate($WIDGET->getTitle(), 'OSSMail')}"><strong>&nbsp;&nbsp;{\App\Language::translate($WIDGET->getTitle(),'OSSMail')}</strong></div>
 		</div>
 		<div class="col-md-4">
-			<div class="box pull-right">
+			<div class="box float-right">
 				{if !$WIDGET->isDefault()}
-					<a name="dclose" class="btn btn-xs btn-default widget" data-url="{$WIDGET->getDeleteUrl()}">
-						<span class="glyphicon glyphicon-remove" hspace="2" border="0" align="absmiddle" title="{\App\Language::translate('LBL_CLOSE')}" alt="{\App\Language::translate('LBL_CLOSE')}"></span>
+					<a name="dclose" class="btn btn-sm btn-light widget" data-url="{$WIDGET->getDeleteUrl()}">
+						<span class="fas fa-times" hspace="2" border="0" align="absmiddle" title="{\App\Language::translate('LBL_CLOSE')}" alt="{\App\Language::translate('LBL_CLOSE')}"></span>
 					</a>
 				{/if}
 			</div>
@@ -23,7 +23,7 @@
 	</div>
 	<hr class="widgetHr" />
 	<div class="row" >
-		<div class="col-md-6 pull-right">
+		<div class="col-md-6 float-right">
 			<select class="mailUserList form-control input-sm select2" id="mailUserList" title="{\App\Language::translate('LBL_MAIL_USERS_LIST')}" name="type">
 				{if count($ACCOUNTSLIST) eq 0}
 					<option value="-">{\App\Language::translate('--None--', $MODULE_NAME)}</option>

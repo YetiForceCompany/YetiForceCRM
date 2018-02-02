@@ -8,13 +8,13 @@
 						{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE)}
 					</div>
 					<div class=" col-md-4 contentHeader">
-						<span class="pull-right">
+						<span class="float-right">
 							<button class="btn btn-success" type="submit">
-								<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;&nbsp;
+								<span class="fas fa-check" aria-hidden="true"></span>&nbsp;&nbsp;
 								<strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE_NAME)}</strong>
 							</button>&nbsp;&nbsp;
 							<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">
-								<span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;
+								<span class="fas fa-times"></span>&nbsp;&nbsp;
 								<strong>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE_NAME)}</strong>
 							</button>
 						</span>
@@ -59,8 +59,8 @@
 					<div class="panel panel-default row marginLeftZero marginRightZero blockContainer" data-label="{$BLOCK_LABEL}">
 						<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
 							<div class="iconCollapse">
-								<span class="cursorPointer blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
-								<span class="cursorPointer blockToggle glyphicon glyphicon glyphicon-menu-down {if ($IS_HIDDEN)}hide{/if}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
+								<span class="cursorPointer blockToggle fas fa-angle-right {if !($IS_HIDDEN)}hide{/if}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
+								<span class="cursorPointer blockToggle fas fa-angle-down {if ($IS_HIDDEN)}hide{/if}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
 								<h4>{\App\Language::translate($BLOCK_LABEL, $QUALIFIED_MODULE_NAME)}</h4>
 							</div>
 						</div>
@@ -84,7 +84,7 @@
 								{/if}
 								<div class="{if $FIELD_MODEL->getUIType() neq "300"}col-md-6{/if} fieldRow">
 									<div class="col-md-3 fieldLabel paddingLeft5px {$WIDTHTYPE}">
-										<label class="muted pull-right marginRight10px">
+										<label class="muted float-right marginRight10px">
 											{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span>{/if}
 											{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
 										</label>

@@ -54,7 +54,7 @@
 		</tr>
 		<tr>
 			<td align="right" colspan="1">
-				<div class="pull-right">
+				<div class="float-right">
 					<a href="index.php?module={$MODULE}&view=Import&mode=undoImport" name="next" class="marginLeft10 delete btn btn-danger">
 						<strong>{\App\Language::translate('LBL_UNDO_LAST_IMPORT', $MODULE)}</strong>
 					<a/>

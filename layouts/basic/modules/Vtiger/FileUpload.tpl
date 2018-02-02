@@ -20,7 +20,7 @@
 				<div class="fileItem marginBottom5">
 					<div class="input-group input-group-sm">
 						<input type="text" name="nameFile[]" class="form-control" readonly>
-						<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-file"></span></span>
+						<span class="input-group-addon" id="basic-addon1"><span class="fas fa-file"></span></span>
 					</div>
 				</div>
 			</div>

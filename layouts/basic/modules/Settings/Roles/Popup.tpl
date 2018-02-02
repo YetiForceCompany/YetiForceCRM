@@ -25,7 +25,7 @@
 				<li data-role="{$ROOT_ROLE->getParentRoleString()}" data-roleid="{$ROOT_ROLE->getId()}">
 					<div class="toolbar-handle">
 						<div>
-							<a href="javascript:;" class="btn btn-default">{$ROOT_ROLE->getName()}</a>
+							<a href="javascript:;" class="btn btn-light">{$ROOT_ROLE->getName()}</a>
 						</div>
 					</div>
 					{assign var="ROLE" value=$ROOT_ROLE}

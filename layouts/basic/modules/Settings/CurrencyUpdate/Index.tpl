@@ -19,7 +19,7 @@
 			</tr>
 			<tr>
 				<td class="fieldLabel">
-					<span class="pull-right"><strong>{\App\Language::translate('LBL_BANK', $QUALIFIED_MODULE)}:</strong></span>
+					<span class="float-right"><strong>{\App\Language::translate('LBL_BANK', $QUALIFIED_MODULE)}:</strong></span>
 				</td>
 				<td class="fieldValue">
 					<div class="row">
@@ -31,9 +31,9 @@
 							</select>
 						</div>
 						<div class="col-md-7 btn-toolbar">
-							{*<button class="btn btn-success pull-right" name="save" type="submit"><strong>{\App\Language::translate('LBL_SET_DEFAULT_BANK', $QUALIFIED_MODULE)}</strong></button>*}
-							<button class="btn btn-danger pull-right {if count($UNSUPPORTED_CURRENCIES) eq 0}hide{/if}" id="unsupportedCurrencies" title="{\App\Language::translate('LBL_CURRENCIES_UNSUPPORTED', $QUALIFIED_MODULE)}" type="button"><span class="glyphicon glyphicon-alert"></span></button>
-							<button class="btn btn-info pull-right" id="supportedCurrencies" title="{\App\Language::translate('LBL_CURRENCIES_SUPPORTED', $QUALIFIED_MODULE)}" type="button"><span class="glyphicon glyphicon-info-sign"></span></button>
+							{*<button class="btn btn-success float-right" name="save" type="submit"><strong>{\App\Language::translate('LBL_SET_DEFAULT_BANK', $QUALIFIED_MODULE)}</strong></button>*}
+							<button class="btn btn-danger float-right {if count($UNSUPPORTED_CURRENCIES) eq 0}hide{/if}" id="unsupportedCurrencies" title="{\App\Language::translate('LBL_CURRENCIES_UNSUPPORTED', $QUALIFIED_MODULE)}" type="button"><span class="fas fa-exclamation-triangle"></span></button>
+							<button class="btn btn-info float-right" id="supportedCurrencies" title="{\App\Language::translate('LBL_CURRENCIES_SUPPORTED', $QUALIFIED_MODULE)}" type="button"><span class="fas fa-info-circle"></span></button>
 						</div>
 					</div>
 				</td>
@@ -67,11 +67,11 @@
 			</tr>
 			<tr>
 				<td class="fieldLabel">
-					<span class="pull-right"><strong>{\App\Language::translate('LBL_CAL_DATE', $QUALIFIED_MODULE)}:</strong></label>
+					<span class="float-right"><strong>{\App\Language::translate('LBL_CAL_DATE', $QUALIFIED_MODULE)}:</strong></label>
 				</td>
 				<td class="fieldValue" >
 					<div class="input-group">
-						<span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-calendar"></span></span>
+						<span class="input-group-addon" id="basic-addon1"><span class="fas fa-calendar-alt"></span></span>
 						<input id="datepicker" type="text" class="form-control dateField" name="duedate" data-date-format="{$USER_MODEL->get('date_format')}" value="{$DATE}" />
 						<span class="input-group-btn">
 							<button class="btn btn-success" name="download" value="download" type="submit">{\App\Language::translate('LBL_SHOW', $QUALIFIED_MODULE)}</button>

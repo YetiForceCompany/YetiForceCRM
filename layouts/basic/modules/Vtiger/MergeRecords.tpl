@@ -58,7 +58,7 @@
 						</table>
 					</div>
 					<div>
-						<div class="pull-right marginTB10">
+						<div class="float-right marginTB10">
 							<button type=submit class='btn btn-success'>{\App\Language::translate('LBL_MERGE', $MODULE)}</button>
 						</div>
 					</div>

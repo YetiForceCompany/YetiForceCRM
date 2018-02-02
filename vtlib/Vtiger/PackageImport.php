@@ -405,7 +405,7 @@ class PackageImport extends PackageExport
 			$defaultLayout = \Vtiger_Viewer::getDefaultLayoutName();
 			$zip = new \App\Zip($zipfile, ['checkFiles' => false]);
 			if ($zip->statName("$module.png")) {
-				$zip->unzipFile("$module.png", "layouts/$defaultLayout/skins/images/$module.png");
+				$zip->unzipFile("$module.png", "layouts/$defaultLayout/images/$module.png");
 			}
 			$zip->unzip([
 				// Templates folder
@@ -424,7 +424,7 @@ class PackageImport extends PackageExport
 				// Settings templates folder
 				'settings/templates' => "layouts/$defaultLayout/modules/Settings/$module",
 				//module images
-				'images' => "layouts/$defaultLayout/skins/images/$module",
+				'images' => "layouts/$defaultLayout/images/$module",
 				'updates' => 'cache/updates',
 				'layouts' => 'layouts',
 				'languages' => 'languages'

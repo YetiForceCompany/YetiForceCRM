@@ -88,20 +88,20 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_CALENDAR_VIEW',
 				'linkurl' => $this->getCalendarViewUrl(),
-				'linkicon' => 'fa fa-calendar',
+				'linkicon' => 'fas fa-calendar-alt',
 		]);
 		$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_RECORDS_LIST',
 				'linkurl' => $this->getListViewUrl(),
-				'linkicon' => 'glyphicon glyphicon-list',
+				'linkicon' => 'fas fa-list',
 		]);
 		if (isset($linkParams['ACTION']) && $linkParams['ACTION'] === 'Calendar' && AppConfig::module('Calendar', 'SHOW_LIST_BUTTON')) {
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'SIDEBARLINK',
 					'linklabel' => 'LBL_CALENDAR_LIST',
 					'linkurl' => 'javascript:Calendar_CalendarView_Js.getInstanceByView().goToRecordsList("' . $this->getListViewUrl() . '&viewname=All");',
-					'linkicon' => 'fa fa-calendar-minus-o',
+					'linkicon' => 'far fa-calendar-minus',
 			]);
 		}
 		if ($linkParams['ACTION'] === 'Calendar') {
@@ -241,7 +241,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 				$link = $recordModel->get('link');
 				if ($link && $permissionToSendEmail) {
 					$url = 'index.php?module=OSSMail&view=Compose&mod=' . \App\Record::getType($link) . "&record=$link";
-					$recordModel->set('mailUrl', "<a href='$url' class='btn btn-info' target='_blank'><span class='glyphicon glyphicon-envelope icon-white'></span>&nbsp;&nbsp;" . \App\Language::translate('LBL_SEND_MAIL') . "</a>");
+					$recordModel->set('mailUrl', "<a href='$url' class='btn btn-info' target='_blank'><span class='fas fa-envelope icon-white'></span>&nbsp;&nbsp;" . \App\Language::translate('LBL_SEND_MAIL') . "</a>");
 				}
 				$recordModels[] = $recordModel;
 			}
@@ -268,7 +268,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			if (in_array($fieldType, $type)) {
 				$fieldName = $field->getName();
 				if ($fieldType == 'picklist' && in_array($fieldName, $restrictedField[$fieldType])) {
-					
+
 				} else {
 					$fieldList[$fieldName] = $field;
 				}

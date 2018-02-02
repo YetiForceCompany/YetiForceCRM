@@ -19,7 +19,7 @@
 			{foreach item=FIELD from=$WIDGET_MODEL->getHeaders()}
 				<div class="col-sm-{$SPANSIZE} textOverflowEllipsis" title="{\App\Purifier::encodeHtml($RECORD->get($FIELD->get('name')))}">
 					{if $RECORD->get($FIELD->get('name'))}
-						<span class="pull-left">{$RECORD->getListViewDisplayValue($FIELD->get('name'))}</span>
+						<span class="float-left">{$RECORD->getListViewDisplayValue($FIELD->get('name'))}</span>
 					{else}
 						&nbsp;
 					{/if}
@@ -30,7 +30,7 @@
 
 	{if count($WIDGET_RECORDS) >= $WIDGET_MODEL->getRecordLimit()}
 		<div class="">
-			<a class="pull-right" href="index.php?module={$WIDGET_MODEL->getTargetModule()}&view=List&mode=showListViewRecords&viewname={$WIDGET->get('filterid')}">{\App\Language::translate('LBL_MORE')}</a>
+			<a class="float-right" href="index.php?module={$WIDGET_MODEL->getTargetModule()}&view=List&mode=showListViewRecords&viewname={$WIDGET->get('filterid')}">{\App\Language::translate('LBL_MORE')}</a>
 		</div>
 	{/if}
 

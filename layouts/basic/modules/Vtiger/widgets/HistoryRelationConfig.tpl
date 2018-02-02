@@ -22,7 +22,7 @@
 							<div class="col-md-3 marginLeftZero"><label class="">{\App\Language::translate('No left margin', $QUALIFIED_MODULE)}:</label></div>
 							<div class="col-md-7">
 								<input name="nomargin" class="" type="checkbox" value="1" {if $WIDGETINFO['nomargin'] == 1}checked{/if}/>
-								<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{\App\Language::translate('No left margin info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('No left margin', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>
+								<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{\App\Language::translate('No left margin info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('No left margin', $QUALIFIED_MODULE)}"><i class="fas fa-info-circle"></i></a>
 							</div>
 							<div class="clearfix"></div>
 							<div class="col-md-3 marginLeftZero"><label class="">{\App\Language::translate('Limit entries', $QUALIFIED_MODULE)}:</label></div>
@@ -30,7 +30,7 @@
 								<div class="col-xs-3 paddingLRZero">
 								<input name="limit" class="form-control" type="text" value="{$WIDGETINFO['data']['limit']}" />
 								</div>
-								<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{\App\Language::translate('Limit entries info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('Limit entries', $QUALIFIED_MODULE)}"><i class="glyphicon glyphicon-info-sign"></i></a>
+								<a href="#" class="HelpInfoPopover" title="" data-placement="top" data-content="{\App\Language::translate('Limit entries info', $QUALIFIED_MODULE)}" data-original-title="{\App\Language::translate('Limit entries', $QUALIFIED_MODULE)}"><i class="fas fa-info-circle"></i></a>
 							</div>
 						</div>
 					</div>

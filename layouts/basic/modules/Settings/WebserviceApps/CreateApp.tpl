@@ -13,7 +13,7 @@
 							<h4>{\App\Language::translate('LBL_TITLE_ADDED', $QUALIFIED_MODULE)}</h4>
 						{/if}
 					</div>
-					<div class="pull-right">
+					<div class="float-right">
 						<button class="btn btn-warning marginLeft10" type="button" data-dismiss="modal" aria-label="Close" aria-hidden="true">&times;</button>
 					</div>
 				</div>
@@ -90,12 +90,12 @@
 									   placeholder="{\App\Language::translate('LBL_TYPE_SEARCH', $QUALIFIED_MODULE)}" 
 									   autocomplete="off">
 								<span class="input-group-btn cursorPointer">
-									<button class="btn btn-default clearReferenceSelection" type="button">
-										<span class="glyphicon glyphicon-remove-sign" 
+									<button class="btn btn-light clearReferenceSelection" type="button">
+										<span class="fas fa-times-circle" 
 											  title="{\App\Language::translate('LBL_CLEAR', $QUALIFIED_MODULE)}"></span>
 									</button>
-									<button class="btn btn-default relatedPopup" type="button">
-										<span class="glyphicon glyphicon-search" 
+									<button class="btn btn-light relatedPopup" type="button">
+										<span class="fas fa-search" 
 											title="{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}"></span>
 									</button>
 								</span>

@@ -63,7 +63,7 @@
 	</div>
 	<br />	
 	<div class="">
-		<div class="pull-right">
+		<div class="float-right">
 			<button class="btn btn-success" type="submit"><strong>{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}</strong></button>
 			<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 		</div>

@@ -11,7 +11,7 @@
 		<div class="tab-content themeTableColor overflowVisible">
 		<div class="tab-pane active" id="layoutDashBoards">
 			<div class="btn-toolbar marginBottom10px">
-				<button type="button" class="btn btn-success addDateWindow"><span class="glyphicon glyphicon-plus"></span>&nbsp;{\App\Language::translate('LBL_ADD_HOLIDAY', $QUALIFIED_MODULE)}</button>
+				<button type="button" class="btn btn-success addDateWindow"><span class="fas fa-plus"></span>&nbsp;{\App\Language::translate('LBL_ADD_HOLIDAY', $QUALIFIED_MODULE)}</button>
 			</div>
 			<div id="moduleBlocks">
 				<div style="border-radius: 4px 4px 0px 0px;background: white;" class="editFieldsTable block_1 marginBottom10px border1px">
@@ -22,8 +22,8 @@
 									<div class="col-xs-12 col-sm-6 col-md-6 paddingLRZero">
 										<h4>{\App\Language::translate('LBL_HOLIDAY_LIST', $QUALIFIED_MODULE)}:</h4>
 									</div>
-									<div class="pull-right col-xs-12 col-sm-6 col-md-6 paddingLRZero">
-										<div class="pull-right">
+									<div class="float-right col-xs-12 col-sm-6 col-md-6 paddingLRZero">
+										<div class="float-right">
 											<div class="col-xs-3 paddingTop10 paddingLRZero">
 												<strong>{\App\Language::translate('LBL_DATE_RANGE', $QUALIFIED_MODULE)}:</strong>
 											</div>
@@ -62,12 +62,12 @@
 									<span class="marginLeft20">{\App\Language::translate($HOLIDAY['type'], $QUALIFIED_MODULE)}</span>
 								</td>
 								<td>
-									<div class='pull-right'>
+									<div class='float-right'>
 										<a data-holiday-id="{$HOLIDAY['id']}" data-toggle="dropdown" class="dropdown-toggle editHoliday" href="javascript:void(0)">
-											<span title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}" class="glyphicon glyphicon-pencil alignMiddle"></span>
+											<span title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}" class="fas fa-pencil-alt alignMiddle"></span>
 										</a>
 										<a data-holiday-id="{$HOLIDAY['id']}" class="deleteHoliday" href="javascript:void(0)">
-											<span title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="glyphicon glyphicon-trash alignMiddle"></span>
+											<span title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" class="fas fa-trash-alt alignMiddle"></span>
 										</a>
 									</div>
 								</td>
@@ -89,7 +89,7 @@
 							<input type="hidden" name="holidayId" value="" />
 							<div class="modal-body">
 								<div class="form-group">
-									<div class="col-sm-3 control-label">
+									<div class="col-sm-3 col-form-label">
 										<span>{\App\Language::translate('LBL_DATE', $QUALIFIED_MODULE)}</span>
 										<span class="redColor">*</span>
 									</div>
@@ -99,7 +99,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<div class="col-sm-3 control-label">
+									<div class="col-sm-3 col-form-label">
 										<span>{\App\Language::translate('LBL_HOLIDAY_TYPE', $QUALIFIED_MODULE)}</span>
 										<span class="redColor">*</span>
 									</div>
@@ -111,7 +111,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<div class="col-sm-3 control-label">
+									<div class="col-sm-3 col-form-label">
 										<span>{\App\Language::translate('LBL_DAY_NAME', $QUALIFIED_MODULE)}</span>
 										<span class="redColor">*</span>
 									</div>

@@ -16,14 +16,14 @@
 			<div class="dashboardTitle textOverflowEllipsis" title="{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}"><strong>{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME)}</strong></div>
 		</div>
 		<div class="col-md-4">
-			<div class="box pull-right">
+			<div class="box float-right">
 				{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
 			</div>
 		</div>
 	</div>
 	<hr class="widgetHr" />
-	<div class="row" >
-		<div class="col-md-6 pull-right">
+	<div class="row justify-content-end" >
+		<div class="col-md-6 float-right">
 			<select class="widgetFilter form-control input-sm" id="historyType" title="{\App\Language::translate('LBL_HISTORY_TYPE')}" name="type">
 				<option title="{\App\Language::translate('LBL_ALL')}" value="all" {if $DATA['type'] eq 'all'}selected{/if}>{\App\Language::translate('LBL_ALL')}</option>
 				{if $COMMENTS_MODULE_MODEL->isPermitted('DetailView')}
