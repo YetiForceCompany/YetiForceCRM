@@ -12,9 +12,14 @@
 			</div>
 		</div>
 		<hr class="widgetHr" />
-		<div class="row" >
-			<div class="col-6">
-				<select class="widgetFilter select2" name="type">
+		<div class="row justify-content-end">
+		<div class="col-md-6 input-group input-group-sm py-1">
+			<div class="input-group-prepend">
+					<span class="input-group-text" id="inputGroup-sizing-sm">
+						<span class="fas fa-bell"></span>
+					</span>
+			</div>
+				<select class="form-control select2" aria-label="Small" aria-describedby="inputGroup-sizing-sm" name="type">
 					{foreach from=$TYPES_NOTIFICATION key=KEY item=TYPE}
 						<option value="{$KEY}">{$TYPE}</option>
 					{/foreach}

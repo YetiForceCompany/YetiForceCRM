@@ -113,7 +113,7 @@ jQuery.Class("Vtiger_DashBoard_Js", {
 			}
 			AppConnector.request(urlParams).then(function (data) {
 				widgetContainer.html(data);
-				app.showSelect2ElementView(widgetContainer.find('.select2'));
+				app.showSelect2ElementView(widgetContainer.find('.select2'), {width: '88%'});
 				thisInstance.getWidgetInstance(widgetContainer);
 				widgetContainer.trigger(Vtiger_Widget_Js.widgetPostLoadEvent);
 				var headerHeight = widgetContainer.find('.dashboardWidgetHeader').outerHeight();

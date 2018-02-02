@@ -22,9 +22,14 @@
 		</div>
 	</div>
 	<hr class="widgetHr" />
-	<div class="row" >
-		<div class="col-md-6 float-right">
-			<select class="mailUserList form-control input-sm select2" id="mailUserList" title="{\App\Language::translate('LBL_MAIL_USERS_LIST')}" name="type">
+	<div class="row justify-content-end">
+		<div class="col-md-6 input-group input-group-sm">
+			<div class="input-group-prepend">
+					<span class="input-group-text" id="inputGroup-sizing-sm">
+						<span class="fas fa-envelope"></span>
+					</span>
+			</div>
+			<select class="mailUserList form-control select2" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="mailUserList" title="{\App\Language::translate('LBL_MAIL_USERS_LIST')}" name="type">
 				{if count($ACCOUNTSLIST) eq 0}
 					<option value="-">{\App\Language::translate('--None--', $MODULE_NAME)}</option>
 				{else}

@@ -5183,7 +5183,7 @@ button.bg-dark:focus {
 .px-0 {
   padding-left: 0 !important; }
 
-.p-1 {
+.p-1, .select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option, .select2-container--bootstrap4 select2-results__group {
   padding: 0.25rem !important; }
 
 .pt-1,
@@ -5194,7 +5194,7 @@ button.bg-dark:focus {
 .px-1 {
   padding-right: 0.25rem !important; }
 
-.pb-1,
+.pb-1, .select2-container--bootstrap4 .select2-selection__rendered,
 .py-1 {
   padding-bottom: 0.25rem !important; }
 
@@ -11066,13 +11066,16 @@ and open the template in the editor.
 .chzn-selectWithButtonWidth {
   width: calc(100% - 42px); }
 
-.select2-selection {
-  height: 38px !important; }
-
 .headerLinksMails .select2-selection:hover {
   background: #404952 !important; }
   .headerLinksMails .select2-selection:hover .select2-selection__rendered {
     color: #fff !important; }
+
+.dashboardWidgetHeader .select2-container--bootstrap4 {
+  font-size: 16px !important; }
+
+.select2-container--bootstrap4 .select2-results__option, .select2-container--bootstrap4 .select2-results__option .select2-results__option, .select2-container--bootstrap4 select2-results__group {
+  font-size: inherit; }
 
 /* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .searchMenu .chosen-container {

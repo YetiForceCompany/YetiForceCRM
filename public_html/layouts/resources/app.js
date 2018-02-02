@@ -239,8 +239,8 @@ window.app = {
 			params = jQuery.extend(data, params);
 		}
 		params.language = {};
-		params.theme = "bootstrap";
-		params.width = "100%";
+		params.theme = "bootstrap4";
+		if (typeof params.width === 'undefined') params.width = "100%";
 		params.language.noResults = function (msn) {
 			return app.vtranslate('JS_NO_RESULTS_FOUND');
 		};
