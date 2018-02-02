@@ -23,8 +23,13 @@
 	</div>
 	<hr class="widgetHr" />
 	<div class="row justify-content-end" >
-		<div class="col-md-6 float-right">
-			<select class="widgetFilter form-control input-sm" id="listUpdatedRecordLimit" title="{\App\Language::translate('LBL_RECORDS_LIMIT')}" name="number" >
+		<div class="col-md-6 input-group input-group-sm">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="inputGroup-sizing-sm">
+						<span class="fas fa-filter"></span>
+					</span>
+				</div>
+			<select class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="listUpdatedRecordLimit" title="{\App\Language::translate('LBL_RECORDS_LIMIT')}" name="number" >
 				<option title="{\App\Language::translate('LBL_ALL')}" value="all" >{\App\Language::translate('LBL_ALL')}</option>
 				<option title="20" value="10" >10</option>
 				<option title="25" value="25" >25</option>
