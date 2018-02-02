@@ -257,7 +257,7 @@ class Deprecated
 	/**
 	 * Function to related two records of different entity types
 	 */
-	public static function relateEntities(CRMEntity $focus, $sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds, $relatedName = false)
+	public static function relateEntities(\CRMEntity $focus, $sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds, $relatedName = false)
 	{
 		\App\Log::trace("Entering relateEntities method ($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds)");
 		if (!is_array($destinationRecordIds))
