@@ -90,7 +90,7 @@ class Vtiger_Language_Handler
 		if (!empty($commonStrings['languageStrings'][$key])) {
 			return stripslashes($commonStrings['languageStrings'][$key]);
 		}
-		\App\Log::warning("cannot translate this: '$key' for module '$module' (or base or Vtiger), lang: $language");
+		\App\Log::info("cannot translate this: '$key' for module '$module' (or base or Vtiger), lang: $language");
 		return null;
 	}
 
@@ -122,7 +122,7 @@ class Vtiger_Language_Handler
 		if (!empty($commonStrings['jsLanguageStrings'][$key])) {
 			return $commonStrings['jsLanguageStrings'][$key];
 		}
-		\App\Log::warning("cannot translate this: '$key' for module '$module' (or base or Vtiger), lang: $language");
+		\App\Log::info("cannot translate this: '$key' for module '$module' (or base or Vtiger), lang: $language");
 		return $key;
 	}
 
