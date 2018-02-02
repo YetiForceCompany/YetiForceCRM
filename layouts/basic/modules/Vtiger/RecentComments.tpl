@@ -97,7 +97,7 @@
 													</button>
 													{if \App\Privilege::isPermitted('ModComments','EditableComments') && $CURRENTUSER->getId() eq $COMMENT->get('userid')}
 														<button type="button" class="btn btn-sm btn-primary editComment feedback marginLeft5">
-															<span class="fas fa-pencil-alt" aria-hidden="true"></span>&nbsp;
+															<span class="fas fa-edit" aria-hidden="true"></span>&nbsp;
 															{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}
 														</button>
 													{/if}

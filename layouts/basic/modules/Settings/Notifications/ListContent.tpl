@@ -17,7 +17,7 @@
 						{if $RECORD->get('presence') == 1}
 							<div class="float-right actions">
 								<a class="edit cursorPointer" data-url="{$RECORD->getEditUrl()}">
-									<span class="fas fa-pencil-alt alignBottom" title="Edycja"></span>
+									<span class="fas fa-edit alignBottom" title="Edycja"></span>
 								</a>
 								<a class="remove cursorPointer"><span title="" class="fas fa-trash-alt alignBottom"></span>
 								</a>
